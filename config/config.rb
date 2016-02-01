@@ -10,22 +10,7 @@ class BaseController < Sinatra::Base
 
   set root: File.join(File.dirname(__FILE__), '..')
 
-  set :assets_precompile, %w(
-    vendor.css
-    vendor.js
-    ours.css
-    ours.js
-    jquery.js
-    wait.svg
-    cabinsketch_regular.ttf
-    cabinsketch_bold.ttf
-    glyphicons-halflings-regular.eot
-    glyphicons-halflings-regular.svg
-    glyphicons-halflings-regular.ttf
-    glyphicons-halflings-regular.woff
-    og.png
-    icon.png
-  )
+  set :assets_precompile, %w(ours.js jquery.js)
 
   set :assets_prefix, %w(assets vendor/assets)
   set :assets_css_compressor, :sass
