@@ -1,5 +1,5 @@
 'use strict';
 
 Pard.Welcome = function(){
-  console.log('Hola Pietro');
-}
+  var _projectContainer = $('.project_container').text('New Project');
+};

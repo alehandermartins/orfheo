@@ -1,2 +1,1 @@
-//= require pietro
-//= require otro
+//= require zepto
