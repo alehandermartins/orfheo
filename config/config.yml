@@ -1,0 +1,13 @@
+development:
+  expiration: 30
+  dbname: cg_dev
+test:
+  expiration: 30
+  dbname: cg_test
+production:
+  expiration: 15
+  dbname: heroku_b92bzmgf
+  dbhost: ds061298.mongolab.com
+  dbport: 61298
+  dbuser: heroku_b92bzmgf
+  dbpass: 14tjlgvb1rlt2vemcf5pns547l
