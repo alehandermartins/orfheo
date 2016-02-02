@@ -30,13 +30,13 @@ class BaseController < Sinatra::Base
     enable :sessions
   end
 
-  before '/secure/*' do
-    if !session[:identity] then
-      session[:previous_url] = request.path
-      @error = 'Sorry guacamole, you need to be logged in to visit ' + request.path
-      halt erb(:welcome)
-    end
-  end
+  # before '/secure/*' do
+  #   if !session[:identity] then
+  #     session[:previous_url] = request.path
+  #     @error = 'Sorry guacamole, you need to be logged in to visit ' + request.path
+  #     halt erb(:welcome)
+  #   end
+  # end
 
   configure :development, :test do
     DB = Mongo::Connection.new
@@ -58,10 +58,6 @@ class BaseController < Sinatra::Base
     puts 'configured for pdd'
   end
   # :nocov:
-
-  # configure do
-  #   Repos::Games.for @@db
-  # end
 
   configure do
     set :dump_errors, false

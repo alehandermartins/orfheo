@@ -7,7 +7,6 @@ gem 'thin'
 gem 'sinatra', require: false
 gem 'sinatra-contrib', require: false
 gem 'json'
-gem 'faker'
 gem 'awesome_print'
 gem 'sass'
 gem 'mongo'
@@ -21,8 +20,6 @@ group :development, :test do
   gem 'shotgun'
   gem 'rspec'
   gem 'rack-test'
-  gem 'uuid'
-  gem 'simplecov'
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-rack'
