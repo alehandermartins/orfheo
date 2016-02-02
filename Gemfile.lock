@@ -61,7 +61,10 @@ GEM
     lumberjack (1.0.10)
     macaddr (1.7.1)
       systemu (~> 2.6.2)
+    mail (2.6.3)
+      mime-types (>= 1.16, < 3)
     method_source (0.8.2)
+    mime-types (2.99)
     mongo (1.12.5)
       bson (= 1.12.5)
     multi_json (1.11.2)
@@ -176,6 +179,7 @@ DEPENDENCIES
   guard-rack
   guard-rspec
   json
+  mail
   mongo
   parser (~> 2.2.0.0)
   psych

@@ -1,6 +1,9 @@
 require 'sinatra/config_file'
 require 'sinatra/asset_pipeline'
 require 'mongo'
+require 'mail'
+
+require_relative '../services/mails'
 
 class BaseController < Sinatra::Base
   set :environment, (ENV['RACK_ENV'].to_sym || :production) rescue :production
@@ -27,9 +30,20 @@ class BaseController < Sinatra::Base
     enable :sessions
   end
 
+  before '/secure/*' do
+    if !session[:identity] then
+      session[:previous_url] = request.path
+      @error = 'Sorry guacamole, you need to be logged in to visit ' + request.path
+      halt erb(:welcome)
+    end
+  end
+
   configure :development, :test do
     DB = Mongo::Connection.new
     @@db = DB[settings.dbname]
+    Mail.defaults do
+      delivery_method :test
+    end
     puts 'configured for dt'
     Sprockets::Helpers.configure do |config|
       config.debug = true

@@ -2,12 +2,17 @@ require 'rack/test'
 require 'sinatra'
 require 'rspec'
 require 'awesome_print'
+require 'json'
 require File.join File.dirname(__FILE__), './rack_session_helper'
 
 ENV['RACK_ENV'] = 'test'
 
 require File.join(File.dirname(__FILE__), '..', 'config', 'config')
 require File.join(File.dirname(__FILE__), '..', 'controllers', 'welcome')
+require File.join(File.dirname(__FILE__), '..', 'controllers', 'base')
+require File.join(File.dirname(__FILE__), '..', 'controllers', 'users')
+require File.join(File.dirname(__FILE__), '..', 'services', 'mails')
+
 
 def app
   Rack::Builder.parse_file(File.expand_path('../../config.ru', __FILE__)).first

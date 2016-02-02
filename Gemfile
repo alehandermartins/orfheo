@@ -15,6 +15,7 @@ gem 'bson_ext'
 gem 'psych'
 gem 'sinatra-asset-pipeline'
 gem 'uglifier'
+gem 'mail'
 
 group :development, :test do
   gem 'shotgun'

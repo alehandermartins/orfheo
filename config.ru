@@ -12,3 +12,7 @@ use Rack::Deflater
 map '/' do
   run WelcomeController
 end
+
+map '/users' do
+  run UsersController
+end
