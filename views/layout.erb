@@ -2,12 +2,14 @@
 <html>
 <head>
     <title>Pard</title>
-    <%= stylesheet_tag 'ours' %>
+    <%= javascript_tag 'jquery' %>
+  	<%= javascript_tag 'ours' %>
+  	<%= stylesheet_tag 'ours' %>	
 </head>
 <body>
-  <div class="project_container"></div>
-  <%= javascript_tag 'jquery' %>
-  <%= javascript_tag 'ours' %>
-  <%= yield %>
+	<section id="section_layout">
+   <%= yield %>
+	</section id="footer_layout">
 </body>
 </html>
+	
