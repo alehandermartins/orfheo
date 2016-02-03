@@ -4,6 +4,7 @@ require 'rspec'
 require 'awesome_print'
 require 'json'
 require File.join File.dirname(__FILE__), './rack_session_helper'
+require_relative './support/db_tools'
 
 ENV['RACK_ENV'] = 'test'
 
@@ -29,6 +30,15 @@ set :environment, :test
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  config.include Pard::Test::DbTools
+
+  config.before(:all){
+    prepare_db
+  }
+
+  config.before(:each){
+    drop_collections
+  }
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

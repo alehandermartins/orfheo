@@ -3,17 +3,17 @@ module Services
   class Mails
     class << self
 
-      def deliver_mail email
-        mail = welcome_mail email
+      def deliver_welcome_mail_to user
+        mail = welcome_mail_to user
         deliver mail
       end
 
-      def welcome_mail email
+      def welcome_mail_to user
         mail = Mail.new do
-          to email
-          from 'alehander.marti@gmail.com'
+          to user[:email]
+          from 'pard.project@gmail.com'
           subject 'This is a test email'
-          body 'Not much to say here'
+          body user[:validation_code]
         end
       end
 
