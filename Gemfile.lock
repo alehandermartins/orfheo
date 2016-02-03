@@ -55,6 +55,8 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.10)
+    macaddr (1.7.1)
+      systemu (~> 2.6.2)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
@@ -68,6 +70,8 @@ GEM
       shellany (~> 0.0)
     parser (2.2.0.4)
       ast (>= 1.1, < 3.0)
+    pony (1.11)
+      mail (>= 2.0)
     powerpack (0.1.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -142,6 +146,7 @@ GEM
     sprockets-sass (1.3.1)
       sprockets (~> 2.0)
       tilt (~> 1.1)
+    systemu (2.6.5)
     thin (1.6.4)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -151,6 +156,8 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    uuid (2.3.8)
+      macaddr (~> 1.0)
 
 PLATFORMS
   ruby
@@ -164,9 +171,9 @@ DEPENDENCIES
   guard-rack
   guard-rspec
   json
-  mail
   mongo
   parser (~> 2.2.0.0)
+  pony
   psych
   rack-livereload
   rack-test
@@ -179,3 +186,4 @@ DEPENDENCIES
   sinatra-contrib
   thin
   uglifier
+  uuid

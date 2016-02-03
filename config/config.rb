@@ -1,9 +1,12 @@
 require 'sinatra/config_file'
 require 'sinatra/asset_pipeline'
-require 'mongo'
 require 'mail'
+require 'mongo'
 
 require_relative '../services/mails'
+require_relative '../services/users'
+
+require_relative '../repos/users'
 
 class BaseController < Sinatra::Base
   set :environment, (ENV['RACK_ENV'].to_sym || :production) rescue :production
@@ -26,17 +29,15 @@ class BaseController < Sinatra::Base
 
   register Sinatra::AssetPipeline
 
-  configure do
-    enable :sessions
-  end
-
-  # before '/secure/*' do
-  #   if !session[:identity] then
-  #     session[:previous_url] = request.path
-  #     @error = 'Sorry guacamole, you need to be logged in to visit ' + request.path
-  #     halt erb(:welcome)
-  #   end
-  # end
+  options = {
+    :address => 'smtp.gmail.com',
+    :port => 587,
+    :domain => 'localhost',
+    :user_name => 'pard.project@gmail.com',
+    :password => 'le0pard0',
+    :authentication => 'plain',
+    :enable_starttls_auto => true
+  }
 
   configure :development, :test do
     DB = Mongo::Connection.new
@@ -45,19 +46,7 @@ class BaseController < Sinatra::Base
       delivery_method :test
     end
     puts 'configured for dt'
-    Sprockets::Helpers.configure do |config|
-      config.debug = true
-    end
   end
-
-  # :nocov:
-  configure :production, :deployment do
-    DB = Mongo::Connection.new settings.dbhost, settings.dbport
-    DB[settings.dbname].authenticate settings.dbuser, settings.dbpass
-    @@db = DB[settings.dbname]
-    puts 'configured for pdd'
-  end
-  # :nocov:
 
   configure do
     set :dump_errors, false
