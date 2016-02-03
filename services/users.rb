@@ -7,7 +7,6 @@ module Services
         user.merge! validation: false
         user.merge! validation_code: SecureRandom.uuid
         deliver_welcome_mail_to user
-
         Repos::Users.add user
       end
 

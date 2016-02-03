@@ -15,19 +15,19 @@ describe Services::Mails do
 
       @mail_hash = {
         from: ['pard.project@gmail.com'],
-        subject: 'This is a test email',
+        subject: 'Welcome to pard',
         body: @validation_code
       }
 
-      @mail = Services::Mails.welcome_mail_to @unvalidated_user_hash
+      @mail = Services::Mails.deliver_welcome_mail_to @unvalidated_user_hash
     }
 
     it 'renders the receiver email' do
       expect(@mail.to).to eq(['email@test.com'])
     end
 
-    it 'renders the sender email' do
-       expect(@mail.from).to eq(@mail_hash[:from])
+    it 'renders the sender' do
+      expect(@mail.from).to eql(@mail_hash[:from])
     end
 
     it 'renders the subject' do
@@ -36,15 +36,6 @@ describe Services::Mails do
 
     it 'assigns the validation code to the body' do
       expect(@mail.body).to match(@mail_hash[:body])
-    end
-
-    it 'composes the mail' do
-      expect(Services::Mails.deliver_welcome_mail_to @unvalidated_user_hash).to eq(@mail)
-    end
-
-    it 'delivers the mail' do
-      expect(@mail).to receive(:deliver!)
-      Services::Mails.deliver @mail
     end
   end
 end

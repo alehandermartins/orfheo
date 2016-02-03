@@ -1,6 +1,6 @@
 require 'sinatra/config_file'
 require 'sinatra/asset_pipeline'
-require 'mail'
+require 'pony'
 require 'mongo'
 
 require_relative '../services/mails'
@@ -29,22 +29,11 @@ class BaseController < Sinatra::Base
 
   register Sinatra::AssetPipeline
 
-  options = {
-    :address => 'smtp.gmail.com',
-    :port => 587,
-    :domain => 'localhost',
-    :user_name => 'pard.project@gmail.com',
-    :password => 'le0pard0',
-    :authentication => 'plain',
-    :enable_starttls_auto => true
-  }
-
   configure :development, :test do
     DB = Mongo::Connection.new
     @@db = DB[settings.dbname]
-    Mail.defaults do
-      delivery_method :test
-    end
+    Pony.override_options = { :via => :test }
+
     puts 'configured for dt'
   end
 
@@ -52,9 +41,6 @@ class BaseController < Sinatra::Base
     DB = Mongo::Connection.new settings.dbhost, settings.dbport
     DB[settings.dbname].authenticate settings.dbuser, settings.dbpass
     @@db = DB[settings.dbname]
-    Mail.defaults do
-      delivery_method :test
-    end
     puts 'configured for pdd'
   end
 
