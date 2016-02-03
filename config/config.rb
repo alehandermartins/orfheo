@@ -48,6 +48,20 @@ class BaseController < Sinatra::Base
     puts 'configured for dt'
   end
 
+  configure :production, :deployment do
+    DB = Mongo::Connection.new settings.dbhost, settings.dbport
+    DB[settings.dbname].authenticate settings.dbuser, settings.dbpass
+    @@db = DB[settings.dbname]
+    Mail.defaults do
+      delivery_method :test
+    end
+    puts 'configured for pdd'
+  end
+
+  configure do
+    Repos::Users.for @@db
+  end
+
   configure do
     set :dump_errors, false
     set :raise_errors, true

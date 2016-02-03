@@ -3,6 +3,7 @@ require 'bundler'
 Bundler.setup
 
 require './config/config'
+require './controllers/base'
 require './controllers/welcome'
 require './controllers/users'
 
