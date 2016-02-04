@@ -3,6 +3,8 @@ require 'sinatra/asset_pipeline'
 require 'pony'
 require 'mongo'
 
+require_relative '../exceptions'
+
 require_relative '../services/mails'
 require_relative '../services/users'
 

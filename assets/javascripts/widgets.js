@@ -13,13 +13,13 @@
 		var _submit = $('<input>').attr({type:'submit',name:'submit',value:'join the community'});
 
 		function CheckEmail(_obj){
-			var _emailDot=[];
-			var _emailArray =_obj.val().split('@');
-			if (_emailArray.length === 2){
-			var _emailDot = _emailArray[1].split('.')};
-			if(_emailDot.length === 2){
-				_obj.removeClass('warning');}
-				else{_obj.addClass('warning');};
+			// var _emailDot=[];
+			// var _emailArray =_obj.val().split('@');
+			// if (_emailArray.length === 2){
+			// var _emailDot = _emailArray[1].split('.')};
+			// if(_emailDot.length === 2){
+			// 	_obj.removeClass('warning');}
+			// 	else{_obj.addClass('warning');};
 		};
 
 

@@ -3,6 +3,8 @@ module Services
   class Mails
     class << self
 
+      #erb(:welcome_mail),
+
       def deliver_welcome_mail_to user
         Pony.mail({
           :to => user[:email],
