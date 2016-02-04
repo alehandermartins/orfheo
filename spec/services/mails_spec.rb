@@ -3,22 +3,21 @@ describe Services::Mails do
   describe 'Welcome mail' do
 
     before(:each){
-      @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
 
+      @validation_url = "<a href=\"http://pard.herokuapp.com/users/activate/3c61cf77-32b0-4df2-9376-0960e64a654a\">Activate</a>"
 
       @unvalidated_user_hash = {
         email: 'email@test.com',
         password: 'password',
         validation: false,
-        validation_code: @validation_code
+        validation_code: '3c61cf77-32b0-4df2-9376-0960e64a654a'
       }
 
       @mail_hash = {
         from: ['pard.project@gmail.com'],
         subject: 'Welcome to pard',
-        body: @validation_code
+        body: @validation_url
       }
-
       @mail = Services::Mails.deliver_welcome_mail_to @unvalidated_user_hash
     }
 

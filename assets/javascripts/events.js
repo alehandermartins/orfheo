@@ -8,10 +8,7 @@
       console.log('success');
     }
     else {
-      bootbox.alert({
-        title: 'error',
-        message: data.reason
-      });
+      alert(data.reason);
     }
   };
 }(Pard || {}));
