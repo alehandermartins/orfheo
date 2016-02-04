@@ -22,7 +22,7 @@
 
 		var _inputEmail2 = $('<input>').attr({type:'email',  placeholder:'Confirma tu email', required:''});
 		var _inputPasswd = $('<input>').attr({type:'password', placeholder:'Mínimo 8 caracteres', required:''});
-		var _submit = $('<input>').attr({type:'submit',value:'join the community'});
+		var _submit = $('<button>').attr({type:'button'}).text('join the community');
 
 
 	 function CheckEmail(_obj){
@@ -82,7 +82,7 @@
  		var _registerForm = $('<form>').attr({id:'registerForm'});
  		_registerForm = _registerForm.append(_fieldset,_submit);
 
- 		_registerForm.on('submit',function(event){
+ 		_submit.on('click',function(){
 			if(CheckEqualValue(_inputEmail1,_inputEmail2) && CheckEmail(_inputEmail1) &&  CheckPasswd(_inputPasswd)){
 				Pard.Backend.register(_inputEmail1.val(), _inputPasswd.val(), function(data){
 					console.log(data.status);

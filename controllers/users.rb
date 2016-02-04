@@ -7,6 +7,13 @@ class UsersController < BaseController
     success
   end
 
+  get '/validation/:uuid' do
+    redirect to 'localhost:3000' unless check_validation_code params['uuid']
+    validate_user params['uuid']
+    redirect to  'localhost:3000/users'
+  end
+
+  private
   def check_params email, password
     check_invalid_email email, 'invalid_email'
     check_invalid_password password, 'invalid_password'
@@ -38,5 +45,13 @@ class UsersController < BaseController
       password: password,
     }
     Services::Users.register user
+  end
+
+  def check_validation_code code
+    Services::Users.check_validation_code code
+  end
+
+  def validate_user code
+    Services::Users.validate_user code
   end
 end

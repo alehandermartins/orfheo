@@ -55,4 +55,34 @@ describe Services::Users do
       expect(Services::Users.exists? 'otter@test.com').to eq(false)
     end
   end
+
+  describe 'Validation' do
+
+    before(:each){
+      @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
+
+      @user_hash = {
+        email: 'email@test.com',
+        password: 'password'
+      }
+
+      Services::Users.register @user_hash
+      @validation_code = @user_hash[:validation_code]
+    }
+
+    it 'checks if the validation code is a valid uuid' do
+      expect(Services::Users.check_validation_code @validation_code).to eq(true)
+      expect(Services::Users.check_validation_code 'otter_validation_code').to eq(false)
+    end
+
+    it 'checks if the validation_code exists in the repo' do
+      expect(Services::Users.check_validation_code @validation_code).to eq(true)
+      expect(Services::Users.check_validation_code '3c61cf77-32b0-4df2-9376-0960e64a654b').to eq(false)
+    end
+
+    it 'validates a user with a validation code' do
+      Services::Users.validate_user @validation_code
+      expect(Repos::Users.validated?({email: 'email@test.com'})).to eq(true)
+    end
+  end
 end
