@@ -1,6 +1,17 @@
 (function(ns){
 	ns.Widgets = ns.Widgets || {};
 
+  ns.Widgets.Button = function(label, callback, size){
+    size = size || 6;
+    var _createdButton = $('<div>').addClass('btn btn-default col-xs-' + size).text(label).click(callback);
+
+    return {
+      render: function(){
+        return _createdButton;
+      }
+    };
+  };
+
 	ns.Widgets.Register = function(){
 
 
@@ -13,7 +24,7 @@
 		var _inputPasswd = $('<input>').attr({type:'password', placeholder:'Mínimo 8 caracteres', required:''});
 		var _submit = $('<input>').attr({type:'submit',value:'join the community'});
 
-		
+
 	 function CheckEmail(_obj){
      var patt=/[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
      if (patt.test(_obj.val())){
@@ -92,7 +103,7 @@
 				if (!CheckPasswd(_inputPasswd)) {
 					text += 'La contraseña debe tener al menos 8 caracteres.';};
 			alert(text);
-			}			
+			}
 	});
 
 		return _registerForm;
@@ -102,7 +113,7 @@
 
 
 ns.Widgets.Login = function(){
-	
+
 	var _emailLabel = $('<label>').text('Email');
 	var _passwdLabel = $('<label>').text('Contraseña');
 	var _inputEmail = $('<input>').attr({type:'email', name:'email', required:''});
@@ -114,7 +125,7 @@ ns.Widgets.Login = function(){
 	var _submit = $('<input>').attr({type:'submit',value:'Log in'});
 
  	_fieldset =$('<fieldset>').append(_email,_passwd);
- 
+
 	var _loginForm = $('<form>').attr({id:'loginForm'});
 	_loginForm =_loginForm.append(_fieldset,_submit);
 

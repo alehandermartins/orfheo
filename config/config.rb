@@ -20,7 +20,9 @@ class BaseController < Sinatra::Base
   set root: File.join(File.dirname(__FILE__), '..')
 
   set :assets_precompile, %w(
+    vendor.css
     ours.css
+    vendor.js
     ours.js
     jquery.js
   )
