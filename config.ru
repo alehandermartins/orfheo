@@ -11,6 +11,9 @@ require './controllers/users'
 # use Rack::LiveReload, no_swf: true , min_delay: 2000, max_delay: 5000 if ENV['RACK_ENV'] == 'development'
 use Rack::Deflater
 
+require './handling'
+use MyExceptionHandling
+
 map '/' do
   run WelcomeController
 end

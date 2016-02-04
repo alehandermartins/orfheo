@@ -1,14 +1,23 @@
 class UsersController < BaseController
 
   post '/register_attempt' do
-    fail! if invalid_params? params['email'], params['password']
+    check_params params['email'], params['password']
     fail! if user_exists? params['email']
     register_user params['email'], params['password']
     success
   end
 
-  def invalid_params? email, password
-    (invalid_email? email) || (invalid_password? password)
+  def check_params email, password
+    check_invalid_email email, 'invalid_email'
+    check_invalid_password password, 'invalid_password'
+  end
+
+  def check_invalid_email email, message
+    raise Pard::Invalid.new message if invalid_email? email
+  end
+
+  def check_invalid_password password, message
+    raise Pard::Invalid.new message if invalid_password? password
   end
 
   def invalid_email? email
