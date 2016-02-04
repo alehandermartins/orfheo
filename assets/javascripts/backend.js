@@ -31,8 +31,20 @@
       );
     };
 
+    var _login = function(email, password, callback){
+      _send(
+        '/users/login_attempt',
+        {
+          email: email,
+          password: password
+        },
+        callback
+      );
+    };
+
     return {
       register: _register,
+      login: _login
     };
   }());
 
