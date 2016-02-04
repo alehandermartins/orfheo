@@ -7,25 +7,22 @@
 		var _emailLabel = $('<label>').text('Email');
 		var _passwdLabel = $('<label>').text('Contraseña');
 
-		var _inputEmail1 = $('<input>').attr({type:'email', id:'emailRegister1', placeholder:'Tu email', required:''});
+		var _inputEmail1 = $('<input>').attr({type:'email', 	placeholder:'Tu email', required:''});
 
-		var _inputEmail2 = $('<input>').attr({type:'email', id:'emailRegister2', placeholder:'Confirma tu email', required:''});
-		var _inputPasswd = $('<input>').attr({type:'password', id:'passwdRegister', placeholder:'Mínimo 8 caracteres', required:''});
-		var _submit = $('<input>').attr({type:'submit',id:'submitRegister',value:'join the community'});
+		var _inputEmail2 = $('<input>').attr({type:'email',  placeholder:'Confirma tu email', required:''});
+		var _inputPasswd = $('<input>').attr({type:'password', placeholder:'Mínimo 8 caracteres', required:''});
+		var _submit = $('<input>').attr({type:'submit',value:'join the community'});
 
 		
-		function CheckEmail(_obj){
-			var _emailDot=[];
-			var _emailArray =_obj.val().split('@');
-			if (_emailArray.length === 2){
-			var _emailDot = _emailArray[1].split('.')};
-			if(_emailDot.length === 2){
-		 		_obj.removeClass('warning');
-		 		return true;}
-				else{
-					_obj.addClass('warning');
-					return false;	};
-		};
+	 function CheckEmail(_obj){
+     var patt=/[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
+     if (patt.test(_obj.val())){
+       _obj.removeClass('warning');
+       return true;}
+     else{
+       _obj.addClass('warning');
+       return false; };
+  	 };
 
 
 		function CheckEqualValue(_obj1,_obj2){
@@ -71,7 +68,7 @@
 		var _passwd = _passwdLabel.append(_inputPasswd);
 
  		_fieldset =$('<fieldset>').append(_email,_passwd);
- 		var _registerForm = $('<form>').attr('id', 'registerForm');
+ 		var _registerForm = $('<form>').attr({id:'registerForm'});
  		_registerForm = _registerForm.append(_fieldset,_submit);
 
  		_registerForm.on('submit',function(event){
@@ -114,21 +111,22 @@ ns.Widgets.Login = function(){
 
 	var _email = _emailLabel.append(_inputEmail);
 	var _passwd = _passwdLabel.append(_inputPasswd);
+	var _submit = $('<input>').attr({type:'submit',value:'Log in'});
 
  	_fieldset =$('<fieldset>').append(_email,_passwd);
  
-	var _loginForm = $('<form>').attr('id','loginForm');
-	_loginForm =_loginForm.append(_fieldset);
+	var _loginForm = $('<form>').attr({id:'loginForm'});
+	_loginForm =_loginForm.append(_fieldset,_submit);
 
-	console.log(_loginForm);
 
 	_loginForm.on('submit',function(){
-		Pard.Backend.login(_inputEmail.val(),inputPasswd.val(),function(data){
+			Pard.Backend.login(_inputEmail.val(),_inputPasswd.val(),function(){
 			if (data.status === "success"){
 				console.log('redirect to user page');
 			}
 			else{alert('el correo no existe');}
 		})
+
 	});
 
 	return _loginForm;

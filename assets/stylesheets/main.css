@@ -108,6 +108,11 @@ textarea {
 	display:block; 
 }
 
+#registerForm .warning {
+	border: 2px solid red;
+}
+
+
 #loginForm label {
 display: inline-block; 
 }
@@ -116,9 +121,6 @@ display: inline-block;
 	display: block;
 }
 
-.warning{
-	border: 2px solid red;
-}
 
 
 
