@@ -11,7 +11,7 @@ ENV['RACK_ENV'] = 'test'
 require File.join(File.dirname(__FILE__), '..', 'config', 'config')
 require File.join(File.dirname(__FILE__), '..', 'controllers', 'welcome')
 require File.join(File.dirname(__FILE__), '..', 'controllers', 'base')
-require File.join(File.dirname(__FILE__), '..', 'controllers', 'users')
+require File.join(File.dirname(__FILE__), '..', 'controllers', 'login')
 
 
 def app

@@ -17,5 +17,15 @@ class BaseController < Sinatra::Base
       message = {status: :fail}
       halt message.to_json
     end
+
+    before '/users/*' do
+      if !session[:identity] then
+        halt erb(:welcome)
+      end
+    end
+
+    get '/users/place' do
+      erb(:users)
+    end
   end
 end

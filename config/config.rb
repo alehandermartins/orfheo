@@ -31,6 +31,10 @@ class BaseController < Sinatra::Base
 
   register Sinatra::AssetPipeline
 
+  configure do
+    enable :sessions
+  end
+
   configure :development, :test do
     DB = Mongo::Connection.new
     @@db = DB[settings.dbname]
