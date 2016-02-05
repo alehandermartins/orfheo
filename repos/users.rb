@@ -19,8 +19,12 @@ module Repos
         delete_field query, :validation_code
       end
 
-      def validated? query
-        grab(query)['validation'] == true
+      def grab query
+        @@users_collection.find(query).map{ |cursor|
+          cursor.each{ |k,v|
+            {k.to_s => v}
+          }
+        }.first
       end
 
       private
@@ -34,14 +38,6 @@ module Repos
         @@users_collection.update(query,{
           "$set": new_field
         })
-      end
-
-      def grab query
-        @@users_collection.find(query).map{ |cursor|
-          cursor.each{ |k,v|
-            {k.to_s => v}
-          }
-        }.first
       end
     end
   end

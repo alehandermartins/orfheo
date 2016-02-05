@@ -80,9 +80,28 @@ describe Services::Users do
       expect(Services::Users.check_validation_code '3c61cf77-32b0-4df2-9376-0960e64a654b').to eq(false)
     end
 
-    it 'validates a user with a validation code' do
+    it 'checks if a user is validated' do
+      expect(Services::Users.validated? 'email@test.com').to eq(false)
       Services::Users.validate_user @validation_code
-      expect(Repos::Users.validated?({email: 'email@test.com'})).to eq(true)
+      expect(Services::Users.validated? 'email@test.com').to eq(true)
+    end
+  end
+
+  describe 'LogIn' do
+
+    before(:each){
+      @user_hash = {
+        email: 'email@test.com',
+        password: 'password',
+      }
+
+      Services::Users.register @user_hash
+      Services::Users.validate_user @user_hash[:validation_code]
+    }
+
+    it 'checks if the user and password match' do
+      expect(Services::Users.correct_password? 'email@test.com', 'password').to eq(true)
+      expect(Services::Users.correct_password? 'email@test.com', 'otterpassword').to eq(false)
     end
   end
 end

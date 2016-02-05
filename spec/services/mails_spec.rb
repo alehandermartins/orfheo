@@ -4,7 +4,7 @@ describe Services::Mails do
 
     before(:each){
 
-      @validation_url = "<a href=\"http://pard.herokuapp.com/users/activate/3c61cf77-32b0-4df2-9376-0960e64a654a\">Activate</a>"
+      @validation_url = "<a href=\"http://pard.herokuapp.com/users/activate/3c61cf77-32b0-4df2-9376-0960e64a654a\">Activate Account</a>"
 
       @unvalidated_user_hash = {
         email: 'email@test.com',

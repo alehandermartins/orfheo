@@ -7,11 +7,23 @@ class UsersController < BaseController
     success
   end
 
+  post '/login' do
+    fail! unless user_exists? params['email']
+    fail! unless validated? params['email']
+    fail! unless correct_password? params['email'], params['password']
+    success
+  end
+
   get '/validation/:uuid' do
     redirect to 'localhost:3000' unless check_validation_code params['uuid']
     validate_user params['uuid']
     redirect to  'localhost:3000/users'
   end
+
+  get '/' do
+    erb :users
+  end
+
 
   private
   def check_params email, password
@@ -53,5 +65,13 @@ class UsersController < BaseController
 
   def validate_user code
     Services::Users.validate_user code
+  end
+
+  def validated? email
+    Services::Users.validated? email
+  end
+
+  def correct_password? email, password
+    Services::Users.correct_password? email, password
   end
 end

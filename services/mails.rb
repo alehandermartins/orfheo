@@ -27,7 +27,7 @@ module Services
     class MailBody
       class << self
         def render url
-          "<a href=\"http://pard.herokuapp.com/users/activate/#{url}\">Activate</a>"
+          "<a href=\"http://pard.herokuapp.com/users/activate/#{url}\">Activate Account</a>"
         end
       end
     end

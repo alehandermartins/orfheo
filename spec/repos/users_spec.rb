@@ -30,13 +30,12 @@ describe Repos::Users do
   describe 'Exists?' do
 
     before(:each){
-      @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
 
       @unvalidated_user_hash = {
         email: 'email@test.com',
         password: 'password',
         validation: false,
-        validation_code: @validation_code
+        validation_code: '3c61cf77-32b0-4df2-9376-0960e64a654a'
       }
     }
 
@@ -81,11 +80,29 @@ describe Repos::Users do
         'validation_code' => @validation_code
       })
     end
+  end
 
-    it 'checks whether a player is validated or not' do
-      expect(Repos::Users.validated?({email: 'email@test.com'})).to eq(false)
+  describe 'Grab' do
+
+    before(:each){
+
+      @unvalidated_user_hash = {
+        email: 'email@test.com',
+        password: 'password',
+        validation: false,
+        validation_code: @validation_code
+      }
+
+      Repos::Users.add @unvalidated_user_hash
       Repos::Users.validate({validation_code: @validation_code})
-      expect(Repos::Users.validated?({email: 'email@test.com'})).to eq(true)
+    }
+
+    it 'returns the desired document' do
+      expect(Repos::Users.grab({email:'email@test.com'})).to include({
+        'email' => 'email@test.com',
+        'password' => 'password',
+        'validation' => true,
+      })
     end
   end
 end

@@ -24,6 +24,16 @@ module Services
         Repos::Users.validate({validation_code: code})
       end
 
+      def validated? email
+        user = Repos::Users.grab({email: email})
+        user['validation'] == true
+      end
+
+      def correct_password? email, password
+        user = Repos::Users.grab({email: email})
+        user['email'] == email && user['password'] == password
+      end
+
       private
       def deliver_welcome_mail_to user
         Services::Mails.deliver_welcome_mail_to user

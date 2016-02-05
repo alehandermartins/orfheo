@@ -82,8 +82,53 @@ describe UsersController do
       validation_route = '/users/validation/' + validation_code
       get validation_route
 
-      expect(Repos::Users.validated?({email: 'email@test.com'})).to eq(true)
+      expect(Services::Users.validated? 'email@test.com').to eq(true)
       expect(last_response.location).to eq('localhost:3000/users')
+    end
+  end
+
+  describe 'LogIn' do
+    before(:each){
+
+      @login_route = '/users/login'
+
+      @user_hash = {
+        email: 'email@test.com',
+        password: 'password'
+      }
+    }
+
+    it 'fails if the user does not exist' do
+      post @login_route, @user_hash
+      expect(parsed_response['status']).to eq('fail')
+    end
+
+    it 'fails if the user is not validated' do
+      Services::Users.register @user_hash
+      post @login_route, @user_hash
+
+      expect(parsed_response['status']).to eq('fail')
+    end
+
+    it 'fails if the user and the password do not match' do
+      Services::Users.register @user_hash
+      validation_code = @user_hash[:validation_code]
+      Services::Users.validate_user validation_code
+      post @login_route, {
+        email: 'email@test.com',
+        password: 'otter_password'
+      }
+
+      expect(parsed_response['status']).to eq('fail')
+    end
+
+    it 'is successful otherwise' do
+      Services::Users.register @user_hash
+      validation_code = @user_hash[:validation_code]
+      Services::Users.validate_user validation_code
+      post @login_route, @user_hash
+
+      expect(parsed_response['status']).to eq('success')
     end
   end
 end
