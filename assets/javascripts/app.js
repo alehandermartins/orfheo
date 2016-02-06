@@ -2,13 +2,10 @@
 
 Pard.Welcome = function(){
 
-	var _header = document.createElement('header');
-	$('body').prepend(_header);
-	var _login = Pard.Widgets.Login();
-	$('header').append(_login);
+	
+	Pard.Widgets.Login();
+	
 
-
-	var _register = Pard.Widgets.Register();
-	$('#section_layout').append(_register);
+	Pard.Widgets.Register();
 
 };
