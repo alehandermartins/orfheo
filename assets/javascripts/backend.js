@@ -22,7 +22,7 @@
 
     var _register = function(email, password, callback){
       _send(
-        '/users/register_attempt',
+        '/login/register_attempt',
         {
           email: email,
           password: password
@@ -33,7 +33,7 @@
 
     var _login = function(email, password, callback){
       _send(
-        '/users/login_attempt',
+        '/login/login_attempt',
         {
           email: email,
           password: password

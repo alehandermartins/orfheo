@@ -1,3 +1,5 @@
-//= require jquery-1.12.0.min.js
-//= require jquery-ui.js
-//= bootbox.min.js
+//= require jquery-1.12.0.min
+//= require jquery-ui
+//= require bootstrap.min
+//= require bootbox.min
+

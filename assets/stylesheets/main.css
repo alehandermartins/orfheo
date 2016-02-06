@@ -96,31 +96,21 @@ textarea {
 	font: 300 16px/22px "Lato", "Open Sans", "Helvetiva Neue", Helvetica, Arial
 }
 
-#registerForm label {
+ label {
 	display:block;
 	padding-bottom: 20px;
 }
 
-#registerForm input {
+input {
 	margin-bottom: 5px;
 	border: 1px solid #000;
 	border-radius: 2px;
 	display:block; 
 }
 
-#registerForm .warning {
+ .warning {
 	border: 2px solid red;
 }
-
-
-#loginForm label {
-display: inline-block; 
-}
-
-#loginForm input {
-	display: block;
-}
-
 
 
 

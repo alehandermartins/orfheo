@@ -3,9 +3,9 @@
 
   ns.Events = ns.Events || {};
 
-  ns.Events.LogIn = function(data){
+  ns.Events.Register = function(data){
     if (data['status'] == 'success'){
-      console.log('success');
+      alert('Te hemos enviado un correo.');
     }
     else {
       alert(data.reason);
