@@ -18,6 +18,9 @@ use MyExceptionHandling
 require './controllers/users'
 use UsersController
 
+require './controllers/profiles'
+use ProfilesController
+
 map '/' do
   run WelcomeController
 end

@@ -7,8 +7,10 @@ require_relative '../exceptions'
 
 require_relative '../services/mails'
 require_relative '../services/users'
+require_relative '../services/profiles'
 
 require_relative '../repos/users'
+require_relative '../repos/profiles'
 
 class BaseController < Sinatra::Base
   set :environment, (ENV['RACK_ENV'].to_sym || :production) rescue :production
@@ -66,6 +68,7 @@ class BaseController < Sinatra::Base
 
   configure do
     Repos::Users.for @@db
+    Repos::Profiles.for @@db
   end
 
   configure do
