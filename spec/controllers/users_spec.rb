@@ -1,18 +1,21 @@
 describe UsersController do
 
+  before(:each){
+    @login_route = '/login/login_attempt'
+
+    @user_hash = {
+      email: 'email@test.com',
+      password: 'password'
+    }
+
+    Services::Users.register @user_hash
+    Services::Users.validated_user @user_hash[:validation_code]
+  }
+
   describe 'Access' do
 
     before(:each){
       @users_route = '/users/'
-      @login_route = '/login/login_attempt'
-
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
-
-      Services::Users.register @user_hash
-      Services::Users.validated_user @user_hash[:validation_code]
     }
 
     it 'redirects the user to the welcome page if not logged in' do
@@ -30,16 +33,7 @@ describe UsersController do
   describe 'Modify password' do
 
     before(:each){
-      @login_route = '/login/login_attempt'
       @modify_password_route = '/users/modify_password'
-
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
-
-      Services::Users.register @user_hash
-      Services::Users.validated_user @user_hash[:validation_code]
       post @login_route, @user_hash
     }
 

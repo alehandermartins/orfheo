@@ -1,13 +1,18 @@
 describe Services::Users do
 
+  before(:each){
+
+    @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
+
+    @user_hash = {
+      email: 'email@test.com',
+      password: 'password'
+    }
+  }
+
   describe 'Registration' do
 
     before(:each){
-
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
 
       @mail = Mail.new do
         to 'email'
@@ -41,14 +46,6 @@ describe Services::Users do
 
   describe 'Exists?' do
 
-    before(:each){
-
-     @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
-    }
-
     it 'checks if an email is already employed by other user' do
       Services::Users.register @user_hash
       expect(Services::Users.exists? 'email@test.com').to eq(true)
@@ -59,14 +56,6 @@ describe Services::Users do
   describe 'Validation' do
 
     before(:each){
-      @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
-      @email = 'email@test.com'
-
-      @user_hash = {
-        email: @email,
-        password: 'password'
-      }
-
       Services::Users.register @user_hash
       @validation_code = @user_hash[:validation_code]
     }
@@ -80,7 +69,7 @@ describe Services::Users do
     end
 
     it 'returns the email of the user' do
-      expect(Services::Users.validated_user @validation_code).to eq(@email)
+      expect(Services::Users.validated_user @validation_code).to eq('email@test.com')
     end
 
     it 'checks if a user is validated' do
@@ -93,11 +82,6 @@ describe Services::Users do
   describe 'LogIn' do
 
     before(:each){
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password',
-      }
-
       Services::Users.register @user_hash
       Services::Users.validated_user @user_hash[:validation_code]
     }
@@ -111,11 +95,6 @@ describe Services::Users do
   describe 'Forgotten password' do
 
     before(:each){
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
-
       Services::Users.register @user_hash
     }
 
@@ -148,16 +127,9 @@ describe Services::Users do
   end
 
   describe 'Modify password' do
-    before(:each){
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
-
-      Services::Users.register @user_hash
-    }
 
     it 'changes the old password for the new one' do
+      Services::Users.register @user_hash
       Services::Users.modify_password 'email@test.com', 'new_password'
       expect(Repos::Users.grab({email: 'email@test.com'})[:password]).to eq('new_password')
     end

@@ -1,19 +1,20 @@
 describe Services::Mails do
 
-  describe 'Delivers mail' do
-    before(:each){
+  before(:each){
 
-      @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
+    @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
 
-      @unvalidated_user_hash = {
-        email: 'email@test.com',
-        password: 'password',
-        validation: false,
-        validation_code: @validation_code
-      }
-
-      @mail = Services::Mails.deliver_mail_to @unvalidated_user_hash, :welcome
+    @unvalidated_user_hash = {
+      email: 'email@test.com',
+      password: 'password',
+      validation: false,
+      validation_code: @validation_code
     }
+
+    @mail = Services::Mails.deliver_mail_to @unvalidated_user_hash, :welcome
+  }
+
+  describe 'Delivers mail' do
 
     it 'renders the receiver email' do
       expect(@mail.to).to eq(['email@test.com'])
@@ -25,20 +26,6 @@ describe Services::Mails do
   end
 
   describe 'Welcome mail' do
-
-    before(:each){
-
-      @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
-
-      @unvalidated_user_hash = {
-        email: 'email@test.com',
-        password: 'password',
-        validation: false,
-        validation_code: @validation_code
-      }
-
-      @mail = Services::Mails.deliver_mail_to @unvalidated_user_hash, :welcome
-    }
 
     it 'renders the subject' do
       expect(@mail.subject).to eq('Welcome to pard')
@@ -52,8 +39,6 @@ describe Services::Mails do
   describe 'Password mail' do
 
     before(:each){
-
-      @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
 
       @validated_user_hash = {
         email: 'email@test.com',

@@ -1,15 +1,16 @@
 describe LoginController do
 
-  describe 'Registration attempt' do
+  before(:each){
+    @register_route = '/login/register_attempt'
+    @login_route = '/login/login_attempt'
 
-    before(:each){
-      @register_route = '/login/register_attempt'
-
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
+    @user_hash = {
+      email: 'email@test.com',
+      password: 'password'
     }
+  }
+
+  describe 'Registration attempt' do
 
     it 'cannot register a user with no email' do
       post @register_route, {
@@ -70,15 +71,8 @@ describe LoginController do
 
   describe 'Validation' do
 
-    let(:welcome_view){double 'Welcome View'}
     before(:each){
-      @register_route = '/users/register_attempt'
       @validation_route = '/login/validation/3c61cf77-32b0-4df2-9376-0960e64a654a'
-
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
     }
 
     it 'redirects to registration if the validation code does not exist' do
@@ -107,15 +101,6 @@ describe LoginController do
   end
 
   describe 'LogIn' do
-    before(:each){
-
-      @login_route = '/login/login_attempt'
-
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
-    }
 
     it 'fails if the email is not valid' do
       post @login_route, {
@@ -174,14 +159,9 @@ describe LoginController do
   describe 'Logout' do
 
     before(:each){
-      @login_route = '/login/login_attempt'
       @logout_route = '/login/logout'
-
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
     }
+
     it 'ends the session' do
       Services::Users.register @user_hash
       Services::Users.validated_user @user_hash[:validation_code]
@@ -196,11 +176,6 @@ describe LoginController do
 
     before(:each){
       @forgotten_password_route = '/login/forgotten_password'
-
-      @user_hash = {
-        email: 'email@test.com',
-        password: 'password'
-      }
     }
 
     it 'fails if the email is not valid' do
