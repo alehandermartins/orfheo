@@ -11,4 +11,22 @@
       alert(data.reason);
     }
   };
+
+  ns.Events.Login = function(data){
+    if (data['status'] == 'success'){
+      document.location = '/users/';
+    }
+    else {
+      alert(data.reason);
+    }
+  };
+
+  ns.Events.Logout = function(data){
+    if (data['status'] == 'success'){
+      document.location = '/';
+    }
+    else {
+      alert(data.reason);
+    }
+  };
 }(Pard || {}));

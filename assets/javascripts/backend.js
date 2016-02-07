@@ -42,9 +42,18 @@
       );
     };
 
+    var _logout = function(callback){
+      _send(
+        '/login/logout',
+        {},
+        callback
+      );
+    };
+
     return {
       register: _register,
-      login: _login
+      login: _login,
+      logout: _logout
     };
   }());
 
