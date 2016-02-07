@@ -13,12 +13,12 @@
   };
 
 
-  ns.Widgets.EmailInput = function(title, comment, id, id2, callback){
+  ns.Widgets.EmailInput = function(title, comment, callback){
 
     var _createdWidget = $('<label>');
     var _title = $('<h4>').text(title);
     var _comment = $('<p>').text(comment);
-    var _input = $('<input>').attr('type':'email'});
+    var _input = $('<input>').attr('type','email');
 
     _createdWidget.append(_title, _comment, _input);
 
@@ -26,7 +26,7 @@
       var regEx=/[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
       if(!regEx.test(_input.val())) _input.addClass('warning');
       if(regEx.test(_input.val())) _input.removeClass('warning');
-      if (callback) callback(id, id2);
+      if (callback) callback();
     });
 
     return {
@@ -53,7 +53,7 @@
     var _createdWidget = $('<label>')
     var _title = $('<h4>').text(title);
     var _comment = $('<p>').text(comment);
-    var _input = $('<input>').attr('type':'password');
+    var _input = $('<input>').attr('type','password');
 
     _createdWidget.append(_title, _comment, _input);
 
@@ -83,9 +83,9 @@
     var _labels = ['Tu email', 'Confirma tu email'];
 
     ['email', 'emailConf'].forEach(function(id, index){
-      _emails[id] = Pard.Widgets.EmailInput('Email', _labels[index], 'email', 'emailConf', function(id, id2){
-        if(_emails[id].getVal() != _emails[id2].getVal()) _emails[id2].addWarning();
-        if(_emails[id].getVal() == _emails[id2].getVal()) _emails[id2].removeWarning();
+      _emails[id] = Pard.Widgets.EmailInput('Email', _labels[index], function(){
+        if(_emails['email'].getVal() != _emails['emailConf'].getVal()) _emails['emailConf'].addWarning();
+        if(_emails['email'].getVal() == _emails['emailConf'].getVal()) _emails['emailConf'].removeWarning();
       });
     });
 
