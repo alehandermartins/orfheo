@@ -158,6 +158,7 @@ describe LoginController do
       }
 
       expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('incorrect_password')
     end
 
     it 'it is successful and stores the user identity' do

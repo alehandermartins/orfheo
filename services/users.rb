@@ -36,6 +36,10 @@ module Services
         Services::Mails.deliver_mail_to user, :forgotten_password
       end
 
+      def modify_password email, new_password
+        Repos::Users.modify({email: email}, {password: new_password})
+      end
+
       private
       def validate code
         user = Repos::Users.grab({validation_code: code})

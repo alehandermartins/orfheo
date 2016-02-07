@@ -146,4 +146,20 @@ describe Services::Users do
       Services::Users.forgotten_password 'email@test.com'
     end
   end
+
+  describe 'Modify password' do
+    before(:each){
+      @user_hash = {
+        email: 'email@test.com',
+        password: 'password'
+      }
+
+      Services::Users.register @user_hash
+    }
+
+    it 'changes the old password for the new one' do
+      Services::Users.modify_password 'email@test.com', 'new_password'
+      expect(Repos::Users.grab({email: 'email@test.com'})[:password]).to eq('new_password')
+    end
+  end
 end

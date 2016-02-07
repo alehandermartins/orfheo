@@ -18,7 +18,7 @@ class LoginController < BaseController
     check_params params['email'], params['password']
     check_existing_user params['email']
     is_validated? params['email']
-    fail! unless correct_password? params['email'], params['password']
+    correct_password? params['email'], params['password']
     session[:identity] = params['email']
     success
   end
@@ -70,7 +70,7 @@ class LoginController < BaseController
   end
 
   def correct_password? email, password
-    Services::Users.correct_password? email, password
+    raise Pard::Invalid.new 'incorrect_password' unless Services::Users.correct_password? email, password
   end
 
   def send_new_validation_code_to email

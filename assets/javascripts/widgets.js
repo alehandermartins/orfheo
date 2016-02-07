@@ -1,7 +1,6 @@
 (function(ns){
 	ns.Widgets = ns.Widgets || {};
 
-  
   ns.Widgets.Button = function(label, callback){
 
     var _createdButton = $('<button>').attr({type:'button'}).text(label).click(callback);
@@ -14,245 +13,107 @@
   };
 
 
+  ns.Widgets.EmailInput = function(title, comment, id, id2, callback){
 
-  ns.Widgets.TextfieldFormGenerator = function(obj){
-    
-    var _fieldset = $('<fieldset>');
-    
-    for (key in obj){
+    var _createdWidget = $('<label>');
+    var _title = $('<h4>').text(title);
+    var _comment = $('<p>').text(comment);
+    var _input = $('<input>').attr('type':'email'});
 
-    	var _h = $('<h4>').text(obj[key].label_h);
-    	var _p = $('<p>').text(obj[key].label_p);
-    	var _input = $('<input>').attr({type:obj[key].type_input, name:obj[key].name_input, placeholder:obj[key].placeholder}).change(obj[key].check);
+    _createdWidget.append(_title, _comment, _input);
 
-	   	var _label = $('<label>').attr({id:obj[key].label_id}).append(_h,_p,_input); 
-     
-	     _fieldset.append(_label)
-  
-    };
+    _input.on('input',function(){
+      var regEx=/[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
+      if(!regEx.test(_input.val())) _input.addClass('warning');
+      if(regEx.test(_input.val())) _input.removeClass('warning');
+      if (callback) callback(id, id2);
+    });
 
     return {
-    	render: function ()	{
-    		return _fieldset;
-    	}
-    };
-  };
-	
-
-
-
-	ns.Widgets.EmailInputObj = function(title,comment,placeholder,id){
-     var email = { 
-          label_h:title,
-          label_p:comment,
-          type_input:"email",
-          name_input:"email",
-          placeholder:placeholder,
-          label_id: id,
-          check: function(){
-              if($(this).val()){
-                  var patt=/[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-                  if (patt.test($(this).val())){
-                  $(this).removeClass('warning');
-                  return true;}
-                  else{
-                  $(this).addClass('warning');
-                  return false; };
-                  }
-              else{
-                  $(this).removeClass('warning');
-                  return false;
-              } 
-          }
-      }
-
-      return{
-          render: function(){
-              return email;
-          },
-          checking: function() {
-          	return email.check;
-          }
-      }
-  };
-
-  
-
-  ns.Widgets.PasswdInputObj = function(title,comment,placeholder,id){
-   var passwd = { 
-        label_h:title,
-        label_p:comment,
-        type_input:"password",
-        name_input:"password",
-        placeholder:placeholder,
-        label_id: id,
-        check: function(){
-        	if($(this).val()){
-            if($(this).val().length < 8){
-                $(this).addClass('warning');
-                 return false;
-            }
-            else{$(this).removeClass('warning');
-                return true;   
-            }
-          }
-          else{
-               $(this).removeClass('warning');
-               return false;
-          } 
-        }
-		}
-
-  	return{
-     render: function(){
-        return passwd;
+      render: function(){
+        return _createdWidget;
       },
-      checking: function(){
-      	return passwd.check
+      getVal: function(){
+        return _input.val();
+      },
+      addWarning: function(){
+        _input.addClass('warning')
+      },
+      removeWarning: function(){
+        _input.removeClass('warning')
+      },
+      notReady: function(){
+        return (_input.hasClass('warning') || _input.val().length == 0);
       }
+    }
+  }
 
-  	}
-  };	
+  ns.Widgets.PasswordInput = function(title,comment,id){
 
+    var _createdWidget = $('<label>')
+    var _title = $('<h4>').text(title);
+    var _comment = $('<p>').text(comment);
+    var _input = $('<input>').attr('type':'password');
 
-	ns.Widgets.Login = function(){
+    _createdWidget.append(_title, _comment, _input);
 
-		var registerFormContent = {
-	        email: Pard.Widgets.EmailInputObj("Email", "", "", "emailLogin").render(),
-	        passwd: Pard.Widgets.PasswdInputObj("Contraseña", "", "", "passwdLogin").render()
-		   };
-		   	
-		var _fieldset = Pard.Widgets.TextfieldFormGenerator(registerFormContent).render();
+    _input.on('input',function(){
+      if(_input.val().length < 8) _input.addClass('warning');
+      if(_input.val().length >= 8) _input.removeClass('warning');
+    });
 
-		var _invalidInput = $("<div>").html('No te acuerdas la contraseña? <a>Te enviamos otra</a>');
+    return{
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _input.val();
+      },
+      notReady: function(){
+        return (_input.hasClass('warning') || _input.val().length == 0);
+      }
+    }
+  };
 
-		var _form = $('<form>').append(_fieldset);
+  ns.Widgets.Registration = function(){
 
-	 	$("#header_layout").append(_form);
-	        
-		var _inputEmail = $('#emailLogin').attr('required', '');
-		var _inputPasswd = $('#passwdLogin').attr('required', '');
-		
-		var _sendNewPasswd=$('<div>').attr({id:'sNp'}).html('Te has olvidado la contraseña? <a>Te enviamos otra</a>');
+    var _createdWidget = $('<form>');
+    var _emails = {};
 
-		var Onsubmit = function(){
-				Pard.Backend.login(_inputEmail.val(),_inputPasswd.val(),function(){
-				if (data.status === "success"){
-					console.log('redirect to user page');
-				}
-				else{alert('el correo no existe');}
-			})
+    var _labels = ['Tu email', 'Confirma tu email'];
 
-	  };
+    ['email', 'emailConf'].forEach(function(id, index){
+      _emails[id] = Pard.Widgets.EmailInput('Email', _labels[index], 'email', 'emailConf', function(id, id2){
+        if(_emails[id].getVal() != _emails[id2].getVal()) _emails[id2].addWarning();
+        if(_emails[id].getVal() == _emails[id2].getVal()) _emails[id2].removeWarning();
+      });
+    });
 
-		var _submit = $('<button>').attr({type:'button'}).text('Log In');
-		
-		var _submit = Pard.Widgets.Button('Log In', Onsubmit).render();
-	       
-	  _form.append(_submit, _invalidInput);
+    var _password = Pard.Widgets.PasswordInput('Contraseña', 'Mínimo 8 caracteres', 'password');
+    var _invalidInput = $('<div>');
 
-	  _form.find('a').on('click',function(){
-			bootbox.alert('New Passwd');
-		});
-		
-		return true;
+    var Onsubmit = function(){
+      if(_emails['email'].notReady()) return _invalidInput.text('El correo no es valido.');
+      if(_emails['email'].getVal() != _emails['emailConf'].getVal()) return _invalidInput.text('Los campos de correo no coinciden.');
+      if(_password.notReady()) return _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
+      Pard.Backend.register(_emails['email'].getVal(), _emails['emailConf'].getVal(), Pard.Events.Register);
+    }
 
-	};
+    var _submit = Pard.Widgets.Button('join the community', Onsubmit);
 
+    _createdWidget.append(
+      _emails['email'].render(),
+      _emails['emailConf'].render(),
+      _password.render(),
+      _invalidInput,
+      _submit.render()
+    );
 
-
-	ns.Widgets.Register = function(){	
-
-		var registerFormContent = {
-        email: Pard.Widgets.EmailInputObj("Email", "", "Tu email", "emailRegister").render(),
-        email_confirmation: Pard.Widgets.EmailInputObj ("Email", "", "Confirma tu email","emailRegisterConf").render(),
-        passwd: Pard.Widgets.PasswdInputObj("Contraseña", "", "Mínimo 8 caracteres", "passwdRegister").render()
-	    
-	   };
-
-	   	
-		var _fieldset = Pard.Widgets.TextfieldFormGenerator(registerFormContent).render();
-
-		var _form = $('<form>').append(_fieldset);
-        
-  	$("#section_layout").append(_form);
-
-  	var _inputEmail1 = $('#emailRegister input');
-		var _inputEmail2 = $('#emailRegisterConf input');
-		var _inputPasswd = $('#passwdRegister input');
-
-		$(_inputEmail2).appendTo("#emailRegister");
-   	$('#emailRegisterConf').remove();
- 
-		var _invalidInput = $('<div>');
-
-		_inputEmail1.check = Pard.Widgets.EmailInputObj().checking();
-		_inputPasswd.check = Pard.Widgets.PasswdInputObj().checking();
-
-   var CheckEqualValue = function (_obj1,_obj2){
-			if(_obj1.val() !== _obj2.val()){
-				_obj2.addClass('warning');
-				return false;
-			}
-			else{_obj2.removeClass('warning');
-				return true;
-			}
-		};
-
-
-		_inputEmail1.on('change',function(){
-			if($(this).val()){
-				if (_inputEmail2.val()){CheckEqualValue($(this),_inputEmail2);}
-			}
-			else{
-				$(this).removeClass('warning');
-			}
-		});
-
-		_inputEmail2.on("change",function(){
-			if($(this).val()){
-				if(_inputEmail2.check){CheckEqualValue(_inputEmail1,$(this));}
-			}
-			else{$(this).removeClass('warning');
-			}
-		});
-
-
-		var Onsubmit = function(){
-				var text = '';
-				if (!_inputEmail1.check()){
-					text += 'El correo no es valido.' + '<br>';
-					_inputEmail1.addClass('warning');
-					};
-					if (!CheckEqualValue(_inputEmail1,_inputEmail2)){
-					text += 'Los campos de correo no coinciden.' + '<br>';};
-				if (!_inputPasswd.check()) {
-					text += 'La contraseña debe tener al menos 8 caracteres.';
-					_inputPasswd.addClass('warning');
-				};
-				if (text.length === 0){
-					_invalidInput.html(text);
-					Pard.Backend.register(_inputEmail1.val(), _inputPasswd.val(), Pard.Events.Register());
-				}
-				else{_invalidInput.html(text);
-				}
-			};
-
-  	
-  	var _submit = Pard.Widgets.Button('join the community', Onsubmit).render();
-         
-  	_form.append(_submit, _invalidInput);
-
-  	return true;
- 		
-	};
-
-
-
-
-
-
-
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
 
 }(Pard || {}));
-

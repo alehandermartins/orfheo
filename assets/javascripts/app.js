@@ -1,11 +1,6 @@
 'use strict';
 
 Pard.Welcome = function(){
-
-	
-	Pard.Widgets.Login();
-	
-
-	Pard.Widgets.Register();
-
+  var _createdWidget = Pard.Widgets.Registration().render();
+	$("#section_layout").append(_createdWidget);
 };

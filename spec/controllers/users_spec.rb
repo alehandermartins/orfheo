@@ -46,6 +46,7 @@ describe UsersController do
     it 'fails if the password is not valid' do
       post @modify_password_route, {password: 'miau'}
       expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_password')
     end
 
     it 'changes the old password for the new one' do
