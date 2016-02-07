@@ -3,22 +3,10 @@ module Services
   class Mails
     class << self
 
-      def deliver_welcome_mail_to user
+      def deliver_mail_to user, type
+        MailBody.render(type, user)
         Pony.mail({
-          :to => user[:email],
-          :from => 'pard.project@gmail.com',
-          :subject => 'Welcome to pard',
-          :body => MailBody.render(user[:validation_code]),
-          :via => :smtp,
-          :via_options => {
-            :address => 'smtp.sendgrid.net',
-            :port => '587',
-            :domain => 'heroku.com',
-            :user_name => 'app47085092@heroku.com',
-            :password => 'a9awf3mj5410',
-            :authentication => :plain,
-            :enable_starttls_auto => true
-          }
+          to: user[:email]
         })
       end
     end
@@ -26,8 +14,24 @@ module Services
     private
     class MailBody
       class << self
-        def render url
-          "<a href=\"http://pard.herokuapp.com/users/activate/#{url}\">Activate Account</a>"
+
+        def render mail_type, user
+          MailBody.send(mail_type, user)
+        end
+
+        private
+        def welcome user
+          Pony.options = {
+            subject: 'Welcome to pard',
+            body: "<a href=\"http://pard.herokuapp.com/users/activate/#{user[:validation_code]}\">Activate Account</a>"
+          }
+        end
+
+        def forgotten_password user
+          Pony.options = {
+            subject: 'Forgotten Password',
+            body: "<a href=\"http://pard.herokuapp.com/users/activate/#{user[:validation_code]}\">Proceed to your page</a>"
+          }
         end
       end
     end

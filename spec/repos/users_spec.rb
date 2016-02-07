@@ -99,9 +99,9 @@ describe Repos::Users do
 
     it 'returns the desired document' do
       expect(Repos::Users.grab({email:'email@test.com'})).to include({
-        'email' => 'email@test.com',
-        'password' => 'password',
-        'validation' => true,
+        email: 'email@test.com',
+        password: 'password',
+        validation: true,
       })
     end
   end

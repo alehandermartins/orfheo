@@ -35,11 +35,24 @@ class BaseController < Sinatra::Base
     enable :sessions
   end
 
+  options = {
+    :from => 'pard.project@gmail.com',
+    :via => :smtp,
+    :via_options => {
+      :address => 'smtp.sendgrid.net',
+      :port => '587',
+      :domain => 'heroku.com',
+      :user_name => 'app47085092@heroku.com',
+      :password => 'a9awf3mj5410',
+      :authentication => :plain,
+      :enable_starttls_auto => true
+    }
+  }
+
   configure :development, :test do
     DB = Mongo::Connection.new
     @@db = DB[settings.dbname]
-    Pony.override_options = { :via => :test }
-
+    Pony.override_options = {:from => 'pard.project@gmail.com', :via => :test }
     puts 'configured for dt'
   end
 
@@ -47,6 +60,7 @@ class BaseController < Sinatra::Base
     DB = Mongo::Connection.new settings.dbhost, settings.dbport
     DB[settings.dbname].authenticate settings.dbuser, settings.dbpass
     @@db = DB[settings.dbname]
+    Pony.override_options = options
     puts 'configured for pdd'
   end
 

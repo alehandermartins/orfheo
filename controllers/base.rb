@@ -18,14 +18,21 @@ class BaseController < Sinatra::Base
       halt message.to_json
     end
 
-    before '/users/*' do
-      if !session[:identity] then
-        halt erb(:welcome)
-      end
+    def check_invalid_email email
+      raise Pard::Invalid.new 'invalid_email' if invalid_email? email
     end
 
-    get '/users/place' do
-      erb(:users)
+    def check_invalid_password password
+      raise Pard::Invalid.new 'invalid_password' if invalid_password? password
+    end
+
+    private
+    def invalid_email? email
+      (email =~ /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i).nil?
+    end
+
+    def invalid_password? password
+      password.nil? || password.empty? || password.size < 8
     end
   end
 end

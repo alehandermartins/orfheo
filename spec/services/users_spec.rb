@@ -33,7 +33,7 @@ describe Services::Users do
     end
 
     it 'delivers welcome email' do
-      expect(Services::Mails).to receive(:deliver_welcome_mail_to).with(@user_hash)
+      expect(Services::Mails).to receive(:deliver_mail_to).with(@user_hash, :welcome)
 
       Services::Users.register @user_hash
     end
@@ -105,6 +105,45 @@ describe Services::Users do
     it 'checks if the user and password match' do
       expect(Services::Users.correct_password? 'email@test.com', 'password').to eq(true)
       expect(Services::Users.correct_password? 'email@test.com', 'otterpassword').to eq(false)
+    end
+  end
+
+  describe 'Forgotten password' do
+
+    before(:each){
+      @user_hash = {
+        email: 'email@test.com',
+        password: 'password'
+      }
+
+      Services::Users.register @user_hash
+    }
+
+    it 'adds a new validation_code to the user' do
+      Services::Users.forgotten_password 'email@test.com'
+      user = Repos::Users.grab({email: 'email@test.com'})
+
+      expect(UUID.validate user[:validation_code]).to eq(true)
+      expect(user[:validation_code]).not_to eq(@user_hash[:validation_code])
+    end
+
+    it 'even if already validated' do
+      Services::Users.validated_user @user_hash[:validation_code]
+      Services::Users.forgotten_password 'email@test.com'
+      user = Repos::Users.grab({email: 'email@test.com'})
+
+      expect(UUID.validate user[:validation_code]).to eq(true)
+      expect(user[:validation_code]).not_to eq(@user_hash[:validation_code])
+    end
+
+    it 'delivers forgotten_password email' do
+      user = {
+        email: 'email@test.com',
+        password: 'password'
+      }
+      expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(user), :forgotten_password)
+
+      Services::Users.forgotten_password 'email@test.com'
     end
   end
 end

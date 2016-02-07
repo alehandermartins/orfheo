@@ -6,7 +6,7 @@ module Services
       def register user
         user.merge! validation: false
         user.merge! validation_code: SecureRandom.uuid
-        deliver_welcome_mail_to user
+        Services::Mails.deliver_mail_to user, :welcome
         Repos::Users.add user
       end
 
@@ -22,23 +22,25 @@ module Services
 
       def validated? email
         user = Repos::Users.grab({email: email})
-        user['validation'] == true
+        user[:validation] == true
       end
 
       def correct_password? email, password
         user = Repos::Users.grab({email: email})
-        user['email'] == email && user['password'] == password
+        user[:email] == email && user[:password] == password
+      end
+
+      def forgotten_password email
+        Repos::Users.modify({email: email}, {validation_code: SecureRandom.uuid})
+        user = Repos::Users.grab({email: email})
+        Services::Mails.deliver_mail_to user, :forgotten_password
       end
 
       private
-      def deliver_welcome_mail_to user
-        Services::Mails.deliver_welcome_mail_to user
-      end
-
       def validate code
         user = Repos::Users.grab({validation_code: code})
         Repos::Users.validate({validation_code: code})
-        user['email']
+        user[:email]
       end
     end
   end

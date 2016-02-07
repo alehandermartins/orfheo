@@ -2,16 +2,8 @@ class LoginController < BaseController
 
   post '/register_attempt' do
     check_params params['email'], params['password']
-    fail! if user_exists? params['email']
+    check_non_existing_user params['email']
     register_user params['email'], params['password']
-    success
-  end
-
-  post '/login_attempt' do
-    fail! unless user_exists? params['email']
-    fail! unless validated? params['email']
-    fail! unless correct_password? params['email'], params['password']
-    session[:identity] = params['email']
     success
   end
 
@@ -22,26 +14,39 @@ class LoginController < BaseController
     redirect to 'localhost:3000/users/place'
   end
 
+  post '/login_attempt' do
+    check_params params['email'], params['password']
+    check_existing_user params['email']
+    is_validated? params['email']
+    fail! unless correct_password? params['email'], params['password']
+    session[:identity] = params['email']
+    success
+  end
+
+  post '/logout' do
+    session.delete(:identity)
+    success
+  end
+
+  post '/forgotten_password' do
+    check_invalid_email params['email']
+    check_existing_user params['email']
+    send_new_validation_code_to params['email']
+    success
+  end
+
   private
   def check_params email, password
-    check_invalid_email email, 'invalid_email'
-    check_invalid_password password, 'invalid_password'
+    check_invalid_email email
+    check_invalid_password password
   end
 
-  def check_invalid_email email, message
-    raise Pard::Invalid.new message if invalid_email? email
+  def check_non_existing_user email
+    raise Pard::Invalid.new 'already_registered' if user_exists? email
   end
 
-  def check_invalid_password password, message
-    raise Pard::Invalid.new message if invalid_password? password
-  end
-
-  def invalid_email? email
-    (email =~ /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i).nil?
-  end
-
-  def invalid_password? password
-    password.nil? || password.empty? || password.size < 8
+  def check_existing_user email
+    raise Pard::Invalid.new 'non_existing_user' unless user_exists? email
   end
 
   def user_exists? email
@@ -56,19 +61,19 @@ class LoginController < BaseController
     Services::Users.register user
   end
 
-  def get_user_by code
-    Services::Users.get_user_by code
-  end
-
   def validated_user code
     Services::Users.validated_user code
   end
 
-  def validated? email
-    Services::Users.validated? email
+  def is_validated? email
+    raise Pard::Invalid.new 'not_validated_user' unless Services::Users.validated? email
   end
 
   def correct_password? email, password
     Services::Users.correct_password? email, password
+  end
+
+  def send_new_validation_code_to email
+    Services::Users.forgotten_password email
   end
 end

@@ -20,23 +20,25 @@ module Repos
       end
 
       def grab query
+        result = {}
         @@users_collection.find(query).map{ |cursor|
           cursor.each{ |k,v|
-            {k.to_s => v}
+            result[k.to_sym] = v
           }
-        }.first
+        }
+        result
+      end
+
+      def modify query, new_field
+        @@users_collection.update(query,{
+          "$set": new_field
+        })
       end
 
       private
       def delete_field query, field
         @@users_collection.update(query,{
           "$unset": {"#{field}" => ""}
-        })
-      end
-
-      def modify query, new_field
-        @@users_collection.update(query,{
-          "$set": new_field
         })
       end
     end

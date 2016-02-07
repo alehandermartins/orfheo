@@ -17,6 +17,7 @@ describe LoginController do
         password: 'password'
       }
       expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_email')
     end
 
     it 'cannot register a user with no valid email' do
@@ -25,28 +26,38 @@ describe LoginController do
         password: 'password'
       }
       expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_email')
     end
 
     it 'cannot register a user with no password' do
       post @register_route, {
-        email: 'email',
+        email: 'email@test.com',
         password: nil
       }
       expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_password')
     end
 
     it 'cannot register a user with a password less than 8 characters' do
       post @register_route, {
-        email: 'email',
+        email: 'email@test.com',
         password: 'pass'
       }
       expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_password')
     end
 
     it 'registers an unactivated user' do
       post @register_route, @user_hash
 
       expect(Repos::Users.exists?({email:'email@test.com'})).to eq(true)
+      expect(parsed_response['status']).to eq('success')
+    end
+
+    it 'delivers a welcome mail to the user' do
+      expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(@user_hash), :welcome)
+
+      post @register_route, @user_hash
       expect(parsed_response['status']).to eq('success')
     end
 
@@ -70,17 +81,16 @@ describe LoginController do
       }
     }
 
-    xit 'redirects to registration if the validation code does not exist' do
+    it 'redirects to registration if the validation code does not exist' do
       validation_route = '/login/validation/otter'
       get validation_route
 
-      expect(last_response).to eq('welcome')
+      expect(last_response.body).to include('Pard.Welcome()')
     end
 
     it 'validates the user' do
       Services::Users.register @user_hash
-      validation_code = @user_hash[:validation_code]
-      validation_route = '/login/validation/' + validation_code
+      validation_route = '/login/validation/' + @user_hash[:validation_code]
       get validation_route
 
       expect(Services::Users.validated? 'email@test.com').to eq(true)
@@ -88,8 +98,7 @@ describe LoginController do
 
     it 'stores the user identity and redirects to users' do
       Services::Users.register @user_hash
-      validation_code = @user_hash[:validation_code]
-      validation_route = '/login/validation/' + validation_code
+      validation_route = '/login/validation/' + @user_hash[:validation_code]
       get validation_route
 
       expect(session[:identity]).to eq('email@test.com')
@@ -108,9 +117,28 @@ describe LoginController do
       }
     }
 
+    it 'fails if the email is not valid' do
+      post @login_route, {
+        email: 'email',
+        password: 'password'
+      }
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_email')
+    end
+
+    it 'fails if the password is not valid' do
+      post @login_route, {
+        email: 'email@test.com',
+        password: 'miau'
+      }
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_password')
+    end
+
     it 'fails if the user does not exist' do
       post @login_route, @user_hash
       expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_user')
     end
 
     it 'fails if the user is not validated' do
@@ -118,12 +146,12 @@ describe LoginController do
       post @login_route, @user_hash
 
       expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('not_validated_user')
     end
 
     it 'fails if the user and the password do not match' do
       Services::Users.register @user_hash
-      validation_code = @user_hash[:validation_code]
-      Services::Users.validated_user validation_code
+      Services::Users.validated_user @user_hash[:validation_code]
       post @login_route, {
         email: 'email@test.com',
         password: 'otter_password'
@@ -134,11 +162,79 @@ describe LoginController do
 
     it 'it is successful and stores the user identity' do
       Services::Users.register @user_hash
-      validation_code = @user_hash[:validation_code]
-      Services::Users.validated_user validation_code
+      Services::Users.validated_user @user_hash[:validation_code]
       post @login_route, @user_hash
 
       expect(session[:identity]).to eq('email@test.com')
+      expect(parsed_response['status']).to eq('success')
+    end
+  end
+
+  describe 'Logout' do
+
+    before(:each){
+      @login_route = '/login/login_attempt'
+      @logout_route = '/login/logout'
+
+      @user_hash = {
+        email: 'email@test.com',
+        password: 'password'
+      }
+    }
+    it 'ends the session' do
+      Services::Users.register @user_hash
+      Services::Users.validated_user @user_hash[:validation_code]
+      post @login_route, @user_hash
+      post @logout_route
+      expect(session[:identity]).to eq(nil)
+      expect(parsed_response['status']).to eq('success')
+    end
+  end
+
+  describe 'Forgotten password' do
+
+    before(:each){
+      @forgotten_password_route = '/login/forgotten_password'
+
+      @user_hash = {
+        email: 'email@test.com',
+        password: 'password'
+      }
+    }
+
+    it 'fails if the email is not valid' do
+      post @forgotten_password_route, {email:'email@testcom'}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_email')
+    end
+
+    it 'fails if the email does not exist' do
+      post @forgotten_password_route, {email:'email@test.com'}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_user')
+    end
+
+    it 'generates a new validation_code for the user' do
+      Services::Users.register @user_hash
+      Services::Users.validated_user @user_hash[:validation_code]
+      post @forgotten_password_route, {email:'email@test.com'}
+
+      user = Repos::Users.grab({email: 'email@test.com'})
+      expect(UUID.validate user[:validation_code]).to eq(true)
+      expect(user[:validation_code]).not_to eq(@user_hash[:validation_code])
+    end
+
+    it 'delivers a password mail to the user' do
+      Services::Users.register @user_hash
+      Services::Users.validated_user @user_hash[:validation_code]
+      user = {
+        email: 'email@test.com',
+        password: 'password'
+      }
+
+      expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(user), :forgotten_password)
+
+      post @forgotten_password_route, {email:'email@test.com'}
       expect(parsed_response['status']).to eq('success')
     end
   end

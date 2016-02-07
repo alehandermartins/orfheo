@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
+
+	<head>
     <title>Pard</title>
     <%= javascript_tag 'jquery' %>
    	<%= javascript_tag 'ours' %>
   	<%= stylesheet_tag 'ours' %>
-</head>
-<body>
-	<section id="section_layout">
-   <%= yield %>
-	</section>
-</body>
+	</head>
+	
+	<body>
+		<header id="header_layout">
+		</header>
+		<section id="section_layout">
+	   <%= yield %>
+		</section>
+		<footer id_"header_layout">
+		</footer>
+	</body>
+
 </html>
 
