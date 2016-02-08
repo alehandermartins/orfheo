@@ -44,7 +44,6 @@
 
      _fields['button'] = Pard.Widgets.Button('Cambiar contraseña', function(){
       if((_fields['password'].getVal() == _fields['passwordConf'].getVal()) && _fields['password'].getVal().length >= 8){
-        console.log('miau');
         Pard.Backend.modifyPassword(_fields['password'].getVal(), function(data){
           if (data['status'] == 'success'){
             _invalidInput.text('Contraseña cambiada.');
@@ -110,7 +109,7 @@
       var _location = Pard.Widgets.Input(_locations[index], 'text');
       _fields[type].append(_name.render(), _location.render());
 
-    })
+    });
 
     _artistButton = Pard.Widgets.Button('Artista', function(){
       _content.empty();
@@ -126,7 +125,7 @@
 
     bootbox.alert({
       title: 'Crea un nuevo perfil',
-      message: _createdWidget,
+      message: _createdWidget
     });
   }
 

@@ -10,8 +10,8 @@
     else {
       bootbox.alert({
         title: 'error',
-        message: data.reason,
-      })
+        message: data.reason
+      });
     }
   };
 
@@ -22,8 +22,8 @@
     else {
       bootbox.alert({
         title: 'error',
-        message: data.reason,
-      })
+        message: data.reason
+      });
     }
   };
 
@@ -34,8 +34,8 @@
     else {
       bootbox.alert({
         title: 'error',
-        message: data.reason,
-      })
+        message: data.reason
+      });
     }
   };
 
@@ -46,8 +46,8 @@
     else {
       bootbox.alert({
         title: 'error',
-        message: data.reason,
-      })
+        message: data.reason
+      });
     }
   };
 }(Pard || {}));

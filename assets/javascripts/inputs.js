@@ -37,10 +37,10 @@
         _input.val(value);
       },
       addWarning: function(){
-        _input.addClass('warning')
+        _input.addClass('warning');
       },
       removeWarning: function(){
-        _input.removeClass('warning')
+        _input.removeClass('warning');
       }
     }
   };

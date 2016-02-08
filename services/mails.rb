@@ -23,14 +23,14 @@ module Services
         def welcome user
           Pony.options = {
             subject: 'Welcome to pard',
-            body: "<a href=\"http://pard.herokuapp.com/users/activate/#{user[:validation_code]}\">Activate Account</a>"
+            body: "<a href='http://pard.herokuapp.com/users/activate/#{user[:validation_code]}'>Activate Account</a>"
           }
         end
 
         def forgotten_password user
           Pony.options = {
             subject: 'Forgotten Password',
-            body: "<a href=\"http://pard.herokuapp.com/users/activate/#{user[:validation_code]}\">Proceed to your page</a>"
+            body: "<a href='http://pard.herokuapp.com/users/activate/#{user[:validation_code]}'>Proceed to your page</a>"
           }
         end
       end
