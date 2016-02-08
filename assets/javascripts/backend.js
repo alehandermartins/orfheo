@@ -60,11 +60,22 @@
       );
     };
 
+    var _modifyPassword = function(password, callback){
+      _send(
+        '/users/modify_password',
+        {
+          password: password
+        },
+        callback
+      );
+    };
+
     return {
       register: _register,
       login: _login,
       passwordRecovery: _passwordRecovery,
-      logout: _logout
+      logout: _logout,
+      modifyPassword: _modifyPassword
     };
   }());
 

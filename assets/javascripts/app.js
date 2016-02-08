@@ -10,9 +10,11 @@ Pard.Welcome = function(){
 
 Pard.Users = function(){
 
-  Pard.Widgets.CreateProfile();
+  //Pard.Widgets.CreateProfile();
 
   var _logoutWidget = Pard.Widgets.Logout().render();
+  var _modifyPasswordWidget = Pard.Widgets.ModifyPassword().render();
 
-  $("#section_layout").append(_logoutWidget);
+
+  $("#section_layout").append(_logoutWidget, _modifyPasswordWidget);
 };
