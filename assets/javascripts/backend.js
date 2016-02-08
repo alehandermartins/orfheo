@@ -42,6 +42,16 @@
       );
     };
 
+    var _passwordRecovery = function(email, callback){
+      _send(
+        '/login/forgotten_password',
+        {
+          email: email
+        },
+        callback
+      );
+    };
+
     var _logout = function(callback){
       _send(
         '/login/logout',
@@ -53,6 +63,7 @@
     return {
       register: _register,
       login: _login,
+      passwordRecovery: _passwordRecovery,
       logout: _logout
     };
   }());

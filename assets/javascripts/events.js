@@ -8,7 +8,10 @@
       alert('Te hemos enviado un correo.');
     }
     else {
-      alert(data.reason);
+      bootbox.alert({
+        title: 'error',
+        message: data.reason,
+      })
     }
   };
 
@@ -17,7 +20,10 @@
       document.location = '/users/';
     }
     else {
-      alert(data.reason);
+      bootbox.alert({
+        title: 'error',
+        message: data.reason,
+      })
     }
   };
 
@@ -26,7 +32,10 @@
       document.location = '/';
     }
     else {
-      alert(data.reason);
+      bootbox.alert({
+        title: 'error',
+        message: data.reason,
+      })
     }
   };
 }(Pard || {}));

@@ -10,6 +10,8 @@ Pard.Welcome = function(){
 
 Pard.Users = function(){
 
+  Pard.Widgets.CreateProfile();
+
   var _logoutWidget = Pard.Widgets.Logout().render();
 
   $("#section_layout").append(_logoutWidget);
