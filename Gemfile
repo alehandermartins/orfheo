@@ -15,12 +15,12 @@ gem 'sinatra-asset-pipeline'
 gem 'uglifier'
 gem 'pony'
 gem 'mongo'
+gem 'uuid'
 
 group :development, :test do
   gem 'shotgun'
   gem 'rspec'
   gem 'rack-test'
-  gem 'uuid'
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-rack'
