@@ -77,41 +77,4 @@ class BaseController < Sinatra::Base
     set :raise_errors, true
     set :show_exceptions, false
   end
-
-  # assets do
-  #   serve '/js', from: 'assets/javascritps'
-  #   js :ours, [
-  #     '/js/*.js'
-  #   ]
-
-  #   serve '/js', from: 'vendor/assets/javascritps'
-
-  #   js :jquery, [
-  #     '/js/*.js'
-  #   ]
-
-  #   serve '/vendor', from: 'public/vendor'
-  #   js :vendor, [
-  #     "/vendor/qrcode.min.js",
-  #     "/vendor/dragdealer.min.js",
-  #     "/vendor/bootstrap/js/bootstrap.min.js",
-  #     "/vendor/bootbox.min.js",
-  #     "/vendor/fingerprint2.js",
-  #     "/vendor/bootstrap-maxlength.js",
-  #     "/vendor/flipclock.js",
-  #   ]
-
-  #   css_compression :sass
-  #   serve '/css', from: 'public/stylesheets'
-  #   css :ours, [
-  #     '/css/main.css'
-  #   ]
-
-  #   css :vendor, [
-  #     "/vendor/dragdealer.css",
-  #     "/vendor/bootstrap/css/bootstrap.min.css",
-  #     "/vendor/flipclock.css",
-  #     # "/vendor/bootsketch/css/bootsketch.css"
-  #   ]
-
 end
