@@ -1,104 +1,6 @@
 (function(ns){
-	ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.Button = function(label, callback){
-
-    var _createdWidget = $('<button>').attr({type:'button'}).text(label).click(callback);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      disable: function(){
-        _createdWidget.attr('disabled',true);
-      },
-      enable: function(){
-        _createdWidget.attr('disabled',false);
-      }
-    };
-  };
-
-  ns.Widgets.Input = function(label, type, callback){
-
-    var _input = $('<input>').attr({'type':type, 'placeholder': label});
-
-    _input.on('input',function(){
-      if(callback) callback();
-    });
-
-    return{
-      render: function(){
-        return _input;
-      },
-      getVal: function(){
-        return _input.val();
-      },
-      setVal: function(value){
-        _input.val(value);
-      },
-      addWarning: function(){
-        _input.addClass('warning')
-      },
-      removeWarning: function(){
-        _input.removeClass('warning')
-      }
-    }
-  };
-
-  ns.Widgets.RecoveryMessage = function(){
-    var _createdWidget = $('<div>');
-    var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-
-    var _email = Pard.Widgets.Input('Tu email', 'email');
-    var _result = $('<div>');
-    var _sendButton = Pard.Widgets.Button('Enviar', function(){
-      _result.empty();
-      if(!regEx.test(_email.getVal())) _result.text('El email no es valido');
-      else {
-        Pard.Backend.passwordRecovery(_email.getVal(), function(data){
-          if (data['status'] == 'success'){
-            _result.text('Te hemos enviado un correo.');
-          }
-          else {
-            _result.text('El usuario no existe.');
-          }
-        });
-      }
-    });
-
-    _createdWidget.append(_email.render(), _sendButton.render(), _result);
-
-    return {
-      render: function(){
-        return _createdWidget
-      },
-      resetValues: function(){
-        _result.empty();
-        _email.setVal('');
-      }
-    }
-  }
-
-
-  ns.Widgets.PasswordRecovery = function(){
-    var _createdWidget = $('<div>');
-    var _message = Pard.Widgets.RecoveryMessage();
-
-    var _emailLink = $('<a>').text('Olvidaste tu contraseña?').click(function(){
-      _message.resetValues();
-      bootbox.alert({
-        title: 'Fogotten Password',
-        message: _message.render()
-        });
-    });
-    _createdWidget.append(_emailLink);
-
-    return {
-      render: function(){
-        return _createdWidget
-      }
-    }
-  }
+  ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.Registration = function(){
 
@@ -230,39 +132,57 @@
     }
   }
 
-  ns.Widgets.Logout = function(){
+  ns.Widgets.PasswordRecovery = function(){
+    var _createdWidget = $('<div>');
+    var _message = Pard.Widgets.RecoveryMessage();
 
-    var _createdWidget = Pard.Widgets.Button('log out', function(){
-      Pard.Backend.logout(
-        Pard.Events.Logout
-      );
-    }).render();
+    var _emailLink = $('<a>').text('Olvidaste tu contraseña?').click(function(){
+      _message.resetValues();
+      bootbox.alert({
+        title: 'Fogotten Password',
+        message: _message.render()
+        });
+    });
+    _createdWidget.append(_emailLink);
 
     return {
       render: function(){
-        return _createdWidget;
+        return _createdWidget
       }
     }
   }
 
-  ns.Widgets.CreateProfile = function(){
+  ns.Widgets.RecoveryMessage = function(){
+    var _createdWidget = $('<div>');
+    var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
 
-    _createdWidget = $('<div>');
-
-    _artistButton = Pard.Widgets.Button('Artista', function(){
-      console.log('Artista');
+    var _email = Pard.Widgets.Input('Tu email', 'email');
+    var _result = $('<div>');
+    var _sendButton = Pard.Widgets.Button('Enviar', function(){
+      _result.empty();
+      if(!regEx.test(_email.getVal())) _result.text('El email no es valido');
+      else {
+        Pard.Backend.passwordRecovery(_email.getVal(), function(data){
+          if (data['status'] == 'success'){
+            _result.text('Te hemos enviado un correo.');
+          }
+          else {
+            _result.text('El usuario no existe.');
+          }
+        });
+      }
     });
 
-    _spaceButton = Pard.Widgets.Button('Espacio', function(){
-      console.log('Espacio');
-    });
+    _createdWidget.append(_email.render(), _sendButton.render(), _result);
 
-    _createdWidget.append(_artistButton.render(), _spaceButton.render());
-
-    bootbox.alert({
-      title: 'Crea un nuevo perfil',
-      message: _createdWidget,
-    });
+    return {
+      render: function(){
+        return _createdWidget
+      },
+      resetValues: function(){
+        _result.empty();
+        _email.setVal('');
+      }
+    }
   }
-
 }(Pard || {}));
