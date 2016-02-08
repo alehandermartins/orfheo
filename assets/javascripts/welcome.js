@@ -94,7 +94,7 @@
       _fields[id] = Pard.Widgets.Input(_labels[index], _types[index], function(){
 
         var _checkPassword = function(){
-          if(_fields['password'].getVal().length >= 8) return true
+          if(_fields['password'].getVal().length >= 8) return true;
         }
 
         var _checkInput = function(){
@@ -141,13 +141,13 @@
       bootbox.alert({
         title: 'Fogotten Password',
         message: _message.render()
-        });
+      });
     });
     _createdWidget.append(_emailLink);
 
     return {
       render: function(){
-        return _createdWidget
+        return _createdWidget;
       }
     }
   }
@@ -177,7 +177,7 @@
 
     return {
       render: function(){
-        return _createdWidget
+        return _createdWidget;
       },
       resetValues: function(){
         _result.empty();

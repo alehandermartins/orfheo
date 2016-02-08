@@ -73,7 +73,7 @@
 
     return {
       render: function(){
-        return _createdWidget
+        return _createdWidget;
       }
     }
   }
