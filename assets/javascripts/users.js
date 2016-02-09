@@ -124,18 +124,35 @@
   ns.Widgets.CreateProfileMessage = function(){
     _createdWidget = $('<div>');
 
+
     var _content = $('<div>');
     var _fields = {};
 
     var _names = ['Nombre artistico', 'Nombre espacio'];
     var _locations = ['Codigo postal', 'Direccion'];
 
+
     ['artist', 'space'].forEach(function(type, index){
        _fields[type] = $('<div>');
+      var _invalidInput = $('<div>');
       var _name = Pard.Widgets.Input(_names[index], 'text');
       var _location = Pard.Widgets.Input(_locations[index], 'text');
-      _fields[type].append(_name.render(), _location.render());
+      var _createButton = Pard.Widgets.Button('Crear!', function(){
+        if(_name.getVal().length != 0 && _location.getVal().length != 0){
+          Pard.Backend.createProfile(type, _name.getVal(), _location.getVal(), function(data){
+            if (data['status'] == 'success'){
+              _invalidInput.text('Perfil creado!');
+            }
+            else {
+              _invalidInput.text(data.reason);
+            }
+          });
+        }else{
+          _invalidInput.text('Rellena ambos campos.');
+        }
+      });
 
+      _fields[type].append(_name.render(), _location.render(), _createButton.render(), _invalidInput);
     });
 
     _artistButton = Pard.Widgets.Button('Artista', function(){

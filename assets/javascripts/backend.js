@@ -70,12 +70,25 @@
       );
     };
 
+    var _createProfile = function(type, name, location, callback){
+      _send(
+        '/profiles/create',
+        {
+          type: type,
+          name: name,
+          location: location
+        },
+        callback
+      );
+    };
+
     return {
       register: _register,
       login: _login,
       passwordRecovery: _passwordRecovery,
       logout: _logout,
-      modifyPassword: _modifyPassword
+      modifyPassword: _modifyPassword,
+      createProfile: _createProfile
     };
   }());
 
