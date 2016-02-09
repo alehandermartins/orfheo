@@ -71,12 +71,8 @@ describe LoginController do
 
   describe 'Validation' do
 
-    before(:each){
-      @validation_route = '/login/validation/3c61cf77-32b0-4df2-9376-0960e64a654a'
-    }
-
     it 'redirects to registration if the validation code does not exist' do
-      validation_route = '/login/validation/otter'
+      validation_route = '/login/validate/otter'
       get validation_route
 
       expect(last_response.body).to include('Pard.Welcome()')
@@ -84,7 +80,7 @@ describe LoginController do
 
     it 'validates the user' do
       Services::Users.register @user_hash
-      validation_route = '/login/validation/' + @user_hash[:validation_code]
+      validation_route = '/login/validate/' + @user_hash[:validation_code]
       get validation_route
 
       expect(Services::Users.validated? 'email@test.com').to eq(true)
@@ -92,11 +88,11 @@ describe LoginController do
 
     it 'stores the user identity and redirects to users' do
       Services::Users.register @user_hash
-      validation_route = '/login/validation/' + @user_hash[:validation_code]
+      validation_route = '/login/validate/' + @user_hash[:validation_code]
       get validation_route
 
       expect(session[:identity]).to eq('email@test.com')
-      expect(last_response.location).to eq('localhost:3000/users/place')
+      expect(last_response.location).to eq('http://pard.herokuapp.com/users/')
     end
   end
 

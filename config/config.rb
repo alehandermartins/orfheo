@@ -40,6 +40,7 @@ class BaseController < Sinatra::Base
 
   options = {
     :from => 'pard.project@gmail.com',
+    :headers => { 'Content-Type' => 'text/html' },
     :via => :smtp,
     :via_options => {
       :address => 'smtp.sendgrid.net',

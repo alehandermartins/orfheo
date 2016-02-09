@@ -7,11 +7,11 @@ class LoginController < BaseController
     success
   end
 
-  get '/validation/:uuid' do
+  get '/validate/:uuid' do
     username = validated_user params['uuid']
-    halt erb(:welcome) unless username
+    halt erb(:welcome) if username == false
     session[:identity] = username
-    redirect to 'localhost:3000/users/place'
+    redirect 'http://pard.herokuapp.com/users/'
   end
 
   post '/login_attempt' do
