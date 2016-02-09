@@ -45,4 +45,11 @@
     }
   };
 
+  ns.Widgets.BootboxAlert = function(label, message){
+    bootbox.alert({
+      title: label,
+      message: message.render()
+    });
+  }
+
 }(Pard || {}));

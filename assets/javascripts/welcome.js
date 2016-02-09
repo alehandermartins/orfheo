@@ -81,7 +81,12 @@
   ns.Widgets.Login = function(){
 
     var _createdWidget = $('<form>');
-    var _emailRecovery = Pard.Widgets.PasswordRecovery().render();
+    var _emailRecovery = $('<div>');
+    var _emailLink = $('<a>').text('Olvidaste tu contraseña?').click(function(){
+      Pard.Widgets.BootboxAlert('Introduce tu email', Pard.Widgets.RecoveryMessage());
+    });
+
+    _emailRecovery.append(_emailLink);
 
     var _fields = {};
 
@@ -132,26 +137,6 @@
     }
   }
 
-  ns.Widgets.PasswordRecovery = function(){
-    var _createdWidget = $('<div>');
-    var _message = Pard.Widgets.RecoveryMessage();
-
-    var _emailLink = $('<a>').text('Olvidaste tu contraseña?').click(function(){
-      _message.resetValues();
-      bootbox.alert({
-        title: 'Fogotten Password',
-        message: _message.render()
-      });
-    });
-    _createdWidget.append(_emailLink);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
   ns.Widgets.RecoveryMessage = function(){
     var _createdWidget = $('<div>');
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
@@ -178,10 +163,6 @@
     return {
       render: function(){
         return _createdWidget;
-      },
-      resetValues: function(){
-        _result.empty();
-        _email.setVal('');
       }
     }
   }

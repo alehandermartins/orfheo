@@ -14,7 +14,7 @@ Pard.Users = function(){
 
   var _logoutWidget = Pard.Widgets.Logout().render();
   var _modifyPasswordWidget = Pard.Widgets.ModifyPassword().render();
+  var _createProfile = Pard.Widgets.CreateProfile().render();
 
-
-  $("#section_layout").append(_logoutWidget, _modifyPasswordWidget);
+  $("#section_layout").append(_logoutWidget, _modifyPasswordWidget, _createProfile);
 };

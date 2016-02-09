@@ -1,8 +1,59 @@
 (function(ns){
 
+  ns.Widgets.Logout = function(){
+
+    _createdWidget = $('<div>');
+
+    var _createdButton = Pard.Widgets.Button('Log out', function(){
+      Pard.Backend.logout(
+        Pard.Events.Logout
+      );
+    });
+
+     _createdWidget.append(_createdButton.render());
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
   ns.Widgets.ModifyPassword = function(){
 
-    var _message = $('<div>');
+    _createdWidget = $('<div>');
+
+    var _createdButton = Pard.Widgets.Button('Modify password', function(){
+      Pard.Widgets.BootboxAlert('Introduce tu nueva contraseña', Pard.Widgets.ModifyPasswordMessage());
+    });
+
+    _createdWidget.append(_createdButton.render());
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.CreateProfile = function(){
+    var _createdWidget = $('<div>');
+
+    var _createdButton = Pard.Widgets.Button('Create Profile', function(){
+      Pard.Widgets.BootboxAlert('Crea tu nuevo perfil', Pard.Widgets.CreateProfileMessage());
+    });
+
+    _createdWidget.append(_createdButton.render());
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.ModifyPasswordMessage = function(){
+    var _createdWidget = $('<div>');
     var _invalidInput = $('<div>');
 
     var _fields = {};
@@ -42,7 +93,7 @@
       });
     });
 
-     _fields['button'] = Pard.Widgets.Button('Cambiar contraseña', function(){
+    _fields['button'] = Pard.Widgets.Button('Cambiar contraseña', function(){
       if((_fields['password'].getVal() == _fields['passwordConf'].getVal()) && _fields['password'].getVal().length >= 8){
         Pard.Backend.modifyPassword(_fields['password'].getVal(), function(data){
           if (data['status'] == 'success'){
@@ -58,18 +109,10 @@
      _fields['button'].disable();
 
     Object.keys(_fields).map(function(field){
-      _message.append(_fields[field].render());
+      _createdWidget.append(_fields[field].render());
     });
 
-    _message.append(_invalidInput);
-
-    var _createdWidget = Pard.Widgets.Button('Modify password', function(){
-      bootbox.alert({
-        title: 'Introduce una nueva contraseña',
-        message: _message
-      });
-    }).render();
-
+    _createdWidget.append(_invalidInput);
 
     return {
       render: function(){
@@ -78,23 +121,7 @@
     }
   }
 
-  ns.Widgets.Logout = function(){
-
-    var _createdWidget = Pard.Widgets.Button('Log out', function(){
-      Pard.Backend.logout(
-        Pard.Events.Logout
-      );
-    }).render();
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-  ns.Widgets.CreateProfile = function(){
-
+  ns.Widgets.CreateProfileMessage = function(){
     _createdWidget = $('<div>');
 
     var _content = $('<div>');
@@ -123,10 +150,11 @@
 
     _createdWidget.append(_artistButton.render(), _spaceButton.render(), _content);
 
-    bootbox.alert({
-      title: 'Crea un nuevo perfil',
-      message: _createdWidget
-    });
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
   }
 
 }(Pard || {}));
