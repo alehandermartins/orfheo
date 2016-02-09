@@ -121,55 +121,109 @@
     }
   }
 
-  ns.Widgets.CreateProfileMessage = function(){
-    _createdWidget = $('<div>');
 
+  ns.Widgets.ProfileForm = function(){
 
-    var _content = $('<div>');
-    var _fields = {};
+    var _form = {};
+    var _selected = 'artist';
 
-    var _names = ['Nombre artistico', 'Nombre espacio'];
-    var _locations = ['Codigo postal', 'Direccion'];
+    _form['artist'] = Pard.Widgets.ArtistForm();
+    _form['space'] = Pard.Widgets.SpaceForm();
 
+    return {
+      getForm: function(type){
+        _selected = type;
+        return _form[type].render();
+      },
+      getVal: function(){
+        return _form[_selected].getVal();
+      },
+      filled: function(){
+        var _event = true;
+        var _formValue = _form[_selected].getVal();
+        Object.keys(_formValue).forEach(function(key){
+          if(_formValue[key] == '') _event = false;
+        });
+        return _event;
+      }
+    }
+  }
 
-    ['artist', 'space'].forEach(function(type, index){
-       _fields[type] = $('<div>');
-      var _invalidInput = $('<div>');
-      var _name = Pard.Widgets.Input(_names[index], 'text');
-      var _location = Pard.Widgets.Input(_locations[index], 'text');
-      var _createButton = Pard.Widgets.Button('Crear!', function(){
-        if(_name.getVal().length != 0 && _location.getVal().length != 0){
-          Pard.Backend.createProfile(type, _name.getVal(), _location.getVal(), function(data){
-            if (data['status'] == 'success'){
-              _invalidInput.text('Perfil creado!');
-            }
-            else {
-              _invalidInput.text(data.reason);
-            }
-          });
-        }else{
-          _invalidInput.text('Rellena ambos campos.');
-        }
-      });
+  ns.Widgets.ArtistForm = function(){
 
-      _fields[type].append(_name.render(), _location.render(), _createButton.render(), _invalidInput);
-    });
+    var _createdWidget = $('<div>');
+    var _name = Pard.Widgets.Input('Nombre artistico', 'text');
+    var _location = Pard.Widgets.Input('Codigo postal', 'text');
 
-    _artistButton = Pard.Widgets.Button('Artista', function(){
-      _content.empty();
-      _content.append(_fields['artist']);
-    });
-
-    _spaceButton = Pard.Widgets.Button('Espacio', function(){
-      _content.empty();
-      _content.append(_fields['space']);
-    });
-
-    _createdWidget.append(_artistButton.render(), _spaceButton.render(), _content);
+    _createdWidget.append(_name.render(), _location.render());
 
     return {
       render: function(){
         return _createdWidget;
+      },
+      getVal: function(){
+        return {
+          type: 'artist',
+          name: _name.getVal(),
+          location: _location.getVal()
+        }
+      }
+    }
+  }
+
+  ns.Widgets.SpaceForm = function(){
+
+    var _createdWidget = $('<div>');
+    var _name = Pard.Widgets.Input('Nombre espacio', 'text');
+    var _location = Pard.Widgets.Input('Direccion', 'text');
+
+    _createdWidget.append(_name.render(), _location.render());
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return {
+          type: 'space',
+          name: _name.getVal(),
+          location: _location.getVal()
+        }
+      }
+    }
+  }
+
+
+  ns.Widgets.CreateProfileMessage = function(){
+    _createdWidget = $('<div>');
+
+    var _content = $('<div>');
+    var _invalidInput = $('<div>');
+    var _fields = {};
+
+    var _profileForm = Pard.Widgets.ProfileForm();
+
+    _artistButton = Pard.Widgets.Button('Artista', function(){
+      _content.empty();
+      _content.append(_profileForm.getForm('artist'));
+    });
+
+    _spaceButton = Pard.Widgets.Button('Espacio', function(){
+      _content.empty();
+      _content.append(_profileForm.getForm('space'));
+    });
+
+    _createdWidget.append(_artistButton.render(), _spaceButton.render(), _content, _invalidInput);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      callback: function(){
+        if(_profileForm.filled() == true) Pard.Backend.createProfile(_profileForm.getVal(), console.log('added'));
+        else{
+          return false;
+        }
       }
     }
   }

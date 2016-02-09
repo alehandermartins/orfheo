@@ -48,7 +48,12 @@
   ns.Widgets.BootboxAlert = function(label, message){
     bootbox.alert({
       title: label,
-      message: message.render()
+      message: message.render(),
+      callback: function(){
+        if(message.callback){
+          if(message.callback() == false) return false;
+        }
+      }
     });
   }
 

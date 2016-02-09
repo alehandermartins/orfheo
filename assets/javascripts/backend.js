@@ -70,14 +70,10 @@
       );
     };
 
-    var _createProfile = function(type, name, location, callback){
+    var _createProfile = function(form, callback){
       _send(
         '/profiles/create',
-        {
-          type: type,
-          name: name,
-          location: location
-        },
+        form,
         callback
       );
     };
