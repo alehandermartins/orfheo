@@ -6,8 +6,8 @@ test:
   dbname: cg_test
 production:
   expiration: 15
-  dbname: heroku_b92bzmgf
-  dbhost: ds061298.mongolab.com
+  dbname: heroku_1qqrwjjv
+  dbhost: ds055535.mongolab.com
   dbport: 61298
-  dbuser: heroku_b92bzmgf
-  dbpass: 14tjlgvb1rlt2vemcf5pns547l
+  dbuser: heroku_1qqrwjjv
+  dbpass: 6j1mh19jfgfn4up520imdbh3g8
