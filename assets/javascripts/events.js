@@ -39,15 +39,4 @@
     }
   };
 
-  ns.Events.Logout = function(data){
-    if (data['status'] == 'success'){
-      document.location = '/';
-    }
-    else {
-      bootbox.alert({
-        title: 'error',
-        message: data.reason
-      });
-    }
-  };
 }(Pard || {}));

@@ -8,6 +8,6 @@ production:
   expiration: 15
   dbname: heroku_1qqrwjjv
   dbhost: ds055535.mongolab.com
-  dbport: 61298
+  dbport: 55535
   dbuser: heroku_1qqrwjjv
   dbpass: 6j1mh19jfgfn4up520imdbh3g8
