@@ -19,8 +19,8 @@ describe ArtistProfile do
     end
 
     it 'checks if the values of a profile are correct' do
-      expect(ArtistProfile.correct_values?({'type' => 'artist', 'name' => ''})).to eq(false)
-      expect(ArtistProfile.correct_keys? @profile_params).to eq(true)
+      expect(ArtistProfile.correct_params?({'type' => 'artist', 'name' => ''})).to eq(false)
+      expect(ArtistProfile.correct_params? @profile_params).to eq(true)
     end
   end
 end

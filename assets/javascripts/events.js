@@ -39,4 +39,16 @@
     }
   };
 
+  ns.Events.CreateProfile = function(data){
+    if (data['status'] == 'success'){
+      document.location = '/users/profiles/' + data['name'];
+    }
+    else{
+      bootbox.alert({
+        title: 'error',
+        message: data.reason
+      });
+    }
+  };
+
 }(Pard || {}));

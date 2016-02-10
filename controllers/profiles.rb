@@ -1,22 +1,21 @@
-class ProfilesController < BaseController
+class ProfilesController < UsersController
 
-  post '/profiles/create' do
-    check_logged_in
+  post '/users/create_profile' do
     check_type params['type']
     is_possible? params, session[:identity]
     create_profile params, session[:identity]
-    success
+    success({name: params['name']})
   end
 
-  get '/profiles/:name' do
+  get '/users/profiles/:name' do
+    puts params[:name]
+    puts exists? params[:name]
+    puts session[:identity]
+    halt erb(:users) unless exists? params[:name]
     erb(:profile)
   end
 
   private
-  def check_logged_in
-    raise Pard::Invalid.new 'not_logged_in' unless session[:identity]
-  end
-
   def check_type type
     raise Pard::Invalid.new 'invalid_type' unless invalid_type? type
   end
@@ -31,5 +30,9 @@ class ProfilesController < BaseController
 
   def create_profile params, user_id
     Services::Profiles.create params, user_id
+  end
+
+  def exists? name
+    Services::Profiles.exists? name, session[:identity]
   end
 end

@@ -72,7 +72,7 @@
 
     var _createProfile = function(form, callback){
       _send(
-        '/profiles/create',
+        '/users/create_profile',
         form,
         callback
       );

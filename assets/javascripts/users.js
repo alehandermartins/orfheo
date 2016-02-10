@@ -222,7 +222,7 @@
         return _createdWidget;
       },
       callback: function(){
-        if(_profileForm.filled() == true) Pard.Backend.createProfile(_profileForm.getVal(), console.log('added'));
+        if(_profileForm.filled() == true) Pard.Backend.createProfile(_profileForm.getVal(), Pard.Events.CreateProfile);
         else{
           return false;
         }

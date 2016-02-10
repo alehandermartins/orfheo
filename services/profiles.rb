@@ -21,14 +21,15 @@ module Services
 
       def check profile, params, user_id
         raise Pard::Invalid.new 'invalid_fields' unless profile.correct_keys? params
-        raise Pard::Invalid.new 'invalid_value' unless profile.correct_values? params
+        raise Pard::Invalid.new 'invalid_value' unless profile.correct_params? params
         raise Pard::Invalid.new 'existing_profile' if exists? params['name'], user_id
       end
 
-      private
       def exists? name, user_id
-        profile = Repos::Profiles.grab({user_id: user_id})
-        profile[:name] == name
+        profiles = Repos::Profiles.grab({user_id: user_id})
+        profiles.any?{ |profile|
+          profile[:name] == name
+        }
       end
     end
   end

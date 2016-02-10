@@ -6,16 +6,10 @@ class BaseController < Sinatra::Base
       content_type :json
     end
 
-    def success
+    def success payload = {}
       respond_with_json
-      message = {status: :success}
+      message = build_message(payload)
       message.to_json
-    end
-
-    def fail! reason = nil
-      respond_with_json
-      message = {status: :fail}
-      halt message.to_json
     end
 
     def check_invalid_email email
@@ -27,6 +21,11 @@ class BaseController < Sinatra::Base
     end
 
     private
+    def build_message payload
+      message = {status: :success}
+      message = message.merge payload
+    end
+
     def invalid_email? email
       (email =~ /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i).nil?
     end

@@ -35,9 +35,32 @@ describe Repos::Profiles do
   describe 'Grab' do
 
     it 'returns the desired document' do
-      expect(Repos::Profiles.grab({user_id:@user_id})).to include({
+      expect(Repos::Profiles.grab({user_id:@user_id}).first).to include({
         type: 'artist',
         name: 'artist_name',
+        location: 'location',
+        user_id: @user_id
+      })
+    end
+
+     it 'returns an array with all the profiles' do
+      Repos::Profiles.add({
+        type: 'artist',
+        name: 'otter_name',
+        location: 'location',
+        user_id: @user_id
+      })
+
+      expect(Repos::Profiles.grab({user_id:@user_id}).first).to include({
+        type: 'artist',
+        name: 'artist_name',
+        location: 'location',
+        user_id: @user_id
+      })
+
+      expect(Repos::Profiles.grab({user_id:@user_id})[1]).to include({
+        type: 'artist',
+        name: 'otter_name',
         location: 'location',
         user_id: @user_id
       })

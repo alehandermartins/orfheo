@@ -15,13 +15,16 @@ module Repos
       end
 
       def grab query
-        result = {}
-        @@profiles_collection.find(query).map{ |cursor|
-          cursor.each{ |key,value|
-            result[key.to_sym] = value unless key == "_id"
-          }
+        results = @@profiles_collection.find(query)
+        return [] unless results.count > 0
+
+        results.map { |profile|
+          profile.map do |k,v|
+            next [k,v] unless k.is_a? String
+            next [k.to_sym, string_keyed_hash_to_symbolized(v)] if v.is_a? Hash
+            [k.to_sym, v]
+          end.to_h
         }
-        result
       end
     end
   end

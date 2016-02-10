@@ -2,43 +2,33 @@ describe ProfilesController do
 
   before(:each){
     @login_route = '/login/login_attempt'
+    @create_profile_route = '/users/create_profile'
 
     @user_hash = {
       email: 'email@test.com',
       password: 'password'
     }
 
+   @profile_params = {
+      type: 'artist',
+      name: 'artist_name',
+      zip_code: 'zip_code'
+    }
+
     Services::Users.register @user_hash
     Services::Users.validated_user @user_hash[:validation_code]
+    post @login_route, @user_hash
   }
 
   describe 'Create' do
 
-    before(:each){
-      @create_profile_route = '/profiles/create'
-
-      @profile_params = {
-        type: 'artist',
-        name: 'artist_name',
-        zip_code: 'zip_code'
-      }
-    }
-
-    it 'fails if the user is not logged in' do
-      post @create_profile_route, @profile_params
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('not_logged_in')
-    end
-
     it 'fails if the type does not exist' do
-      post @login_route, @user_hash
       post @create_profile_route, {}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_type')
     end
 
     it 'fails if the type does not do not correspond with expected types' do
-      post @login_route, @user_hash
       post @create_profile_route, {
         type: 'otter',
         name: 'otter_name,',
@@ -49,7 +39,6 @@ describe ProfilesController do
     end
 
     it 'fails when one of the field values is empty' do
-      post @login_route, @user_hash
       post @create_profile_route, {
         type: 'artist',
         name: nil,
@@ -60,14 +49,13 @@ describe ProfilesController do
     end
 
     it 'creates the profile otherwise' do
-      post @login_route, @user_hash
       post @create_profile_route, @profile_params
       expect(Repos::Profiles.exists?({user_id:'email@test.com'})).to eq(true)
       expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['name']).to eq('artist_name')
     end
 
     it 'fails if the profile already exists for that user' do
-      post @login_route, @user_hash
       post @create_profile_route, @profile_params
       post @create_profile_route, @profile_params
       expect(parsed_response['status']).to eq('fail')
@@ -77,8 +65,14 @@ describe ProfilesController do
 
   describe 'Access' do
 
-    it 'redirects visitor to profile page' do
-      get '/profiles/artist_name'
+    it 'redirects user to user page if profile does not exist' do
+      get '/users/profiles/artist_name'
+      expect(last_response.body).to include('Pard.Users()')
+    end
+
+    it 'redirects user to profile page otherwise' do
+      post @create_profile_route, @profile_params
+      get '/users/profiles/artist_name'
       expect(last_response.body).to include('Pard.Profile()')
     end
   end
