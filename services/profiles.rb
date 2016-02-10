@@ -31,6 +31,10 @@ module Services
           profile[:name] == name
         }
       end
+
+      def get_profiles_for user_id
+        profiles = Repos::Profiles.grab({user_id: user_id})
+      end
     end
   end
 end

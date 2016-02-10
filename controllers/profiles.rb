@@ -8,11 +8,13 @@ class ProfilesController < UsersController
   end
 
   get '/users/profiles/:name' do
-    puts params[:name]
-    puts exists? params[:name]
-    puts session[:identity]
     halt erb(:users) unless exists? params[:name]
     erb(:profile)
+  end
+
+  post '/users/profiles/get_profiles' do
+    profiles = Services::Profiles.get_profiles_for session[:identity]
+    success({profiles: profiles})
   end
 
   private

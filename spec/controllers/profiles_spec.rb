@@ -76,4 +76,51 @@ describe ProfilesController do
       expect(last_response.body).to include('Pard.Profile()')
     end
   end
+
+  describe 'get_profiles' do
+
+    before(:each){
+      @get_profiles_route = '/users/profiles/get_profiles'
+
+      @otter_params = {
+        type: 'artist',
+        name: 'otter_name',
+        zip_code: 'zip_code'
+      }
+
+      @space_params = {
+        type: 'space',
+        name: 'space_name',
+        address: 'address',
+        zip_code: 'zip_code',
+        category: 'home'
+      }
+    }
+
+    it 'returns and empty array if no profiles for a given user' do
+      post @get_profiles_route
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profiles']).to eq([])
+    end
+
+    it 'returns all the profiles for a given user' do
+      post @create_profile_route, @profile_params
+      post @create_profile_route, @space_params
+      post @get_profiles_route
+
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profiles'][0]).to include({
+        'type' => 'artist',
+        'name' => 'artist_name',
+        'zip_code' => 'zip_code'
+      })
+      expect(parsed_response['profiles'][1]).to include({
+        'type' => 'space',
+        'name' => 'space_name',
+        'address' => 'address',
+        'zip_code' => 'zip_code',
+        'category' => 'home'
+      })
+    end
+  end
 end

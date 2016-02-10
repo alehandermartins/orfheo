@@ -177,8 +177,16 @@
     var _name = Pard.Widgets.Input('Nombre espacio', 'text');
     var _address = Pard.Widgets.Input('Direccion', 'text');
     var _zipCode = Pard.Widgets.Input('Codigo postal', 'text');
+    var _category = $('<select>');
 
-    _createdWidget.append(_name.render(), _address.render(), _zipCode.render());
+    var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
+    var _values = ['cultural_ass', 'commercial', 'home'];
+
+    _values.forEach(function(value, index){
+    _category.append($('<option>').text(_labels[index]).val(value));
+    });
+
+    _createdWidget.append(_name.render(), _address.render(), _zipCode.render(), _category);
 
     return {
       render: function(){
@@ -189,7 +197,8 @@
           type: 'space',
           name: _name.getVal(),
           address: _address.getVal(),
-          zip_code: _zipCode.getVal()
+          zip_code: _zipCode.getVal(),
+          category: _category.val()
         }
       }
     }
