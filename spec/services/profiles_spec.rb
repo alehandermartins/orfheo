@@ -5,9 +5,9 @@ describe Services::Profiles do
     @user_id = '3c61cf77-32b0-4df2-9376-0960e64a654a'
 
     @profile_params = {
-      type: 'artist',
-      name: 'artist_name',
-      location: 'location',
+      'type' => 'artist',
+      'name' => 'artist_name',
+      'location' => 'location',
     }
   }
 

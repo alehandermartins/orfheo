@@ -2,7 +2,8 @@ class ProfilesController < BaseController
 
   post '/profiles/create' do
     check_logged_in
-    check_params params
+    check_type params['type']
+    is_possible? params, session[:identity]
     create_profile params, session[:identity]
     success
   end
@@ -12,20 +13,16 @@ class ProfilesController < BaseController
     raise Pard::Invalid.new 'not_logged_in' unless session[:identity]
   end
 
-  def check_params params
-    raise Pard::Invalid.new 'invalid_fields' unless correct_params? params
+  def check_type type
+    raise Pard::Invalid.new 'invalid_type' unless invalid_type? type
   end
 
-  def correct_params? params
-    correct_keys?(params) && correct_type?(params['type'])
+  def invalid_type? type
+    !invalid_param?(type) && ['artist', 'space'].include?(type)
   end
 
-  def correct_keys? params
-    params.keys == ['type', 'name', 'location']
-  end
-
-  def correct_type? type
-    ['artist', 'space'].include? type
+  def is_possible? params, user_id
+    Services::Profiles.is_possible? params, session[:identity]
   end
 
   def create_profile params, user_id

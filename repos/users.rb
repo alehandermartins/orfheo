@@ -22,8 +22,8 @@ module Repos
       def grab query
         result = {}
         @@users_collection.find(query).map{ |cursor|
-          cursor.each{ |k,v|
-            result[k.to_sym] = v
+          cursor.each{ |key,value|
+            result[key.to_sym] = value unless key == "_id"
           }
         }
         result

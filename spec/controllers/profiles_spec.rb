@@ -20,7 +20,7 @@ describe ProfilesController do
       @profile_params = {
         type: 'artist',
         name: 'artist_name',
-        location: 'location'
+        zip_code: 'zip_code'
       }
     }
 
@@ -30,11 +30,11 @@ describe ProfilesController do
       expect(parsed_response['reason']).to eq('not_logged_in')
     end
 
-    it 'fails if the fields do not correspond with expected fields' do
+    it 'fails if the type does not exist' do
       post @login_route, @user_hash
       post @create_profile_route, {}
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_fields')
+      expect(parsed_response['reason']).to eq('invalid_type')
     end
 
     it 'fails if the type does not do not correspond with expected types' do
@@ -42,17 +42,36 @@ describe ProfilesController do
       post @create_profile_route, {
         type: 'otter',
         name: 'otter_name,',
-        location: 'otter_location'
+        zip_code: 'otter_zip'
       }
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_fields')
+      expect(parsed_response['reason']).to eq('invalid_type')
     end
 
-    it 'is creates the profile otherwise' do
+    it 'fails when one of the field values is empty' do
+      post @login_route, @user_hash
+      post @create_profile_route, {
+        type: 'artist',
+        name: nil,
+        zip_code: 'otter_zip'
+      }
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_value')
+    end
+
+    it 'creates the profile otherwise' do
       post @login_route, @user_hash
       post @create_profile_route, @profile_params
       expect(Repos::Profiles.exists?({user_id:'email@test.com'})).to eq(true)
       expect(parsed_response['status']).to eq('success')
+    end
+
+    it 'fails if the profile already exists for that user' do
+      post @login_route, @user_hash
+      post @create_profile_route, @profile_params
+      post @create_profile_route, @profile_params
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('existing_profile')
     end
   end
 end

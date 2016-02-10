@@ -153,9 +153,9 @@
 
     var _createdWidget = $('<div>');
     var _name = Pard.Widgets.Input('Nombre artistico', 'text');
-    var _location = Pard.Widgets.Input('Codigo postal', 'text');
+    var _zipCode = Pard.Widgets.Input('Codigo postal', 'text');
 
-    _createdWidget.append(_name.render(), _location.render());
+    _createdWidget.append(_name.render(), _zipCode.render());
 
     return {
       render: function(){
@@ -165,7 +165,7 @@
         return {
           type: 'artist',
           name: _name.getVal(),
-          location: _location.getVal()
+          zip_code: _zipCode.getVal()
         }
       }
     }
@@ -175,9 +175,10 @@
 
     var _createdWidget = $('<div>');
     var _name = Pard.Widgets.Input('Nombre espacio', 'text');
-    var _location = Pard.Widgets.Input('Direccion', 'text');
+    var _address = Pard.Widgets.Input('Direccion', 'text');
+    var _zipCode = Pard.Widgets.Input('Codigo postal', 'text');
 
-    _createdWidget.append(_name.render(), _location.render());
+    _createdWidget.append(_name.render(), _address.render(), _zipCode.render());
 
     return {
       render: function(){
@@ -187,7 +188,8 @@
         return {
           type: 'space',
           name: _name.getVal(),
-          location: _location.getVal()
+          address: _address.getVal(),
+          zip_code: _zipCode.getVal()
         }
       }
     }

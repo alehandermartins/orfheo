@@ -1,10 +1,34 @@
+require_relative './profiles/artist_profile'
+require_relative './profiles/space_profile'
 module Services
   class Profiles
     class << self
 
+      PROFILES_MAP = {
+        'artist' => ArtistProfile,
+        'space' => SpaceProfile
+      }
+
       def create profile, user_id
         profile.merge! user_id: user_id
         Repos::Profiles.add profile
+      end
+
+      def is_possible? params, user_id
+        profile = PROFILES_MAP[params['type']]
+        check profile, params, user_id
+      end
+
+      def check profile, params, user_id
+        raise Pard::Invalid.new 'invalid_fields' unless profile.correct_keys? params
+        raise Pard::Invalid.new 'invalid_value' unless profile.correct_values? params
+        raise Pard::Invalid.new 'existing_profile' if exists? params['name'], user_id
+      end
+
+      private
+      def exists? name, user_id
+        profile = Repos::Profiles.grab({user_id: user_id})
+        profile[:name] == name
       end
     end
   end

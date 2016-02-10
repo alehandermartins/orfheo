@@ -31,4 +31,16 @@ describe Repos::Profiles do
       expect(Repos::Profiles.exists?({user_id:'otter_user_id'})).to eq(false)
     end
   end
+
+  describe 'Grab' do
+
+    it 'returns the desired document' do
+      expect(Repos::Profiles.grab({user_id:@user_id})).to include({
+        type: 'artist',
+        name: 'artist_name',
+        location: 'location',
+        user_id: @user_id
+      })
+    end
+  end
 end
