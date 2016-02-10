@@ -74,4 +74,12 @@ describe ProfilesController do
       expect(parsed_response['reason']).to eq('existing_profile')
     end
   end
+
+  describe 'Access' do
+
+    it 'redirects visitor to profile page' do
+      get '/profiles/artist_name'
+      expect(last_response.body).to include('Pard.Profile()')
+    end
+  end
 end

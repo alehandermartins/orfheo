@@ -8,6 +8,10 @@ class ProfilesController < BaseController
     success
   end
 
+  get '/profiles/:name' do
+    erb(:profile)
+  end
+
   private
   def check_logged_in
     raise Pard::Invalid.new 'not_logged_in' unless session[:identity]
