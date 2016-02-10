@@ -239,4 +239,29 @@
     }
   }
 
+  ns.Widgets.MyProfiles = function(){
+
+    var _createdWidget = $('<div>');
+    Pard.Backend.getProfiles(function(data){
+      if (data.profiles.length == 0){
+        Pard.Widgets.BootboxAlert('Crea tu nuevo perfil', Pard.Widgets.CreateProfileMessage());}
+      else {
+        data.profiles.forEach(function(profile){
+          _createdWidget.append(Pard.Widgets.Button(profile['name'], function(){
+            document.location = '/users/profiles/' + profile['name'];
+          }).render());
+        });
+      }
+    });
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+
+  }
+
+
+
 }(Pard || {}));

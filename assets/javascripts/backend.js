@@ -78,13 +78,22 @@
       );
     };
 
+    var _getProfiles = function(callback){
+      _send(
+        '/users/profiles/get_profiles',
+        {},
+        callback
+      );
+    };
+
     return {
       register: _register,
       login: _login,
       passwordRecovery: _passwordRecovery,
       logout: _logout,
       modifyPassword: _modifyPassword,
-      createProfile: _createProfile
+      createProfile: _createProfile,
+      getProfiles: _getProfiles
     };
   }());
 
