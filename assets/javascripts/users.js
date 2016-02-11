@@ -252,7 +252,7 @@
       else {
         data.profiles.forEach(function(profile){
           _createdWidget.append(Pard.Widgets.Button(profile['name'], function(){
-            document.location = '/users/profiles/' + profile['name'];
+            document.location = '/users/profiles/' + profile['profile_id'];
           }).render());
         });
       }

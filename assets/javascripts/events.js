@@ -41,7 +41,7 @@
 
   ns.Events.CreateProfile = function(data){
     if (data['status'] == 'success'){
-      document.location = '/users/profiles/' + data['name'];
+      document.location = '/users/profiles/' + data['profile_id'];
     }
     else{
       bootbox.alert({

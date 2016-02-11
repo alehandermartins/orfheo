@@ -3,12 +3,12 @@ class ProfilesController < UsersController
   post '/users/create_profile' do
     check_type params['type']
     is_possible? params, session[:identity]
-    create_profile params, session[:identity]
-    success({name: params['name']})
+    profile_id = create_profile params, session[:identity]
+    success({profile_id: profile_id})
   end
 
-  get '/users/profiles/:name' do
-    halt erb(:users) unless exists? params[:name]
+  get '/users/profiles/:uuid' do
+    halt erb(:users) unless exists? params[:uuid]
     erb(:profile)
   end
 
@@ -34,7 +34,7 @@ class ProfilesController < UsersController
     Services::Profiles.create params, user_id
   end
 
-  def exists? name
-    Services::Profiles.exists? name, session[:identity]
+  def exists? uuid
+    Services::Profiles.exists? :profile_id, uuid, session[:identity]
   end
 end

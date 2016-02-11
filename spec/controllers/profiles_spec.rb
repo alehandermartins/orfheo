@@ -54,7 +54,7 @@ describe ProfilesController do
       post @create_profile_route, @profile_params
       expect(Repos::Profiles.exists?({user_id:'email@test.com'})).to eq(true)
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['name']).to eq('artist_name')
+      expect(UUID.validate parsed_response['profile_id']).to eq(true)
     end
 
     it 'fails if the profile already exists for that user' do
@@ -73,8 +73,9 @@ describe ProfilesController do
     end
 
     it 'redirects user to profile page otherwise' do
-      post @create_profile_route, @profile_params
-      get '/users/profiles/artist_name'
+      Services::Profiles.create @profile_params, 'email@test.com'
+
+      get '/users/profiles/' + @profile_params[:profile_id]
       expect(last_response.body).to include('Pard.Profile()')
     end
   end
@@ -131,11 +132,11 @@ describe ProfilesController do
     end
 
     xit 'returns the specified profile' do
-      post @create_profile_route, @profile_params
-      post @create_profile_route, @space_params
+      Services::Profiles.create @profile_params, 'email@test.com'
+      Services::Profiles.create @space_params, 'email@test.com'
 
       post '/users/profile/get_profile', {
-        name: 'space_name'
+        uuid: @space_params[:profile_id]
       }
       expect(parsed_response)
     end
