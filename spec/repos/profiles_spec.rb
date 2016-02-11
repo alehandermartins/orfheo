@@ -66,4 +66,19 @@ describe Repos::Profiles do
       })
     end
   end
+
+  describe 'Modify' do
+
+    it 'modifies a parameter' do
+      Repos::Profiles.modify({profile_id: @profile_params[:profile_id]}, {name: 'otter_name'})
+      saved_entry = @db['profiles'].find_one()
+      expect(saved_entry).to include({'name' => 'otter_name'})
+    end
+
+    it 'adds a field if it does not exist' do
+      Repos::Profiles.modify({profile_id: @profile_params[:profile_id]}, {bio: 'bio'})
+      saved_entry = @db['profiles'].find_one()
+      expect(saved_entry).to include({'bio' => 'bio'})
+    end
+  end
 end

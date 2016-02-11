@@ -3,6 +3,7 @@ describe ProfilesController do
   before(:each){
     @login_route = '/login/login_attempt'
     @create_profile_route = '/users/create_profile'
+    @user_id = 'email@test.com'
 
     @user_hash = {
       email: 'email@test.com',
@@ -73,7 +74,7 @@ describe ProfilesController do
     end
 
     it 'redirects user to profile page otherwise' do
-      Services::Profiles.create @profile_params, 'email@test.com'
+      Services::Profiles.create @profile_params, @user_id
 
       get '/users/profiles/' + @profile_params[:profile_id]
       expect(last_response.body).to include('"type":"artist","name":"artist_name')
@@ -82,10 +83,46 @@ describe ProfilesController do
 
   describe 'Modify' do
 
-    xit 'fails if the expected fields do not match' do
-      get '/users/profiles/artist_name'
+    before(:each){
+      @modify_route = '/users/profiles/modify'
+
+      Services::Profiles.create @profile_params, 'email@test.com'
+
+      @modified_params = {
+        profile_id: @profile_params[:profile_id],
+        type: 'artist',
+        name: 'otter_artist_name',
+        city: 'otter_city',
+        zip_code: 'zip_code',
+        profile_picture: 'picture.jpg',
+        bio: 'bio',
+        personal_web: 'my_web'
+      }
+    }
+
+
+    it 'fails if the profile does not exist' do
+      @modified_params[:profile_id] = 'otter'
+      post @modify_route, @modified_params
+
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_fields')
+      expect(parsed_response['reason']).to eq('unexisting_profile')
+    end
+
+    it 'fails if the values are not correct' do
+      @modified_params[:name] = ''
+      post @modify_route, @modified_params
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_value')
+    end
+
+    it 'modifies the desired parameters' do
+      post @modify_route, @modified_params
+
+      expect(Repos::Profiles.grab({user_id: @user_id}).first[:name]).to eq('otter_artist_name')
+      expect(Repos::Profiles.grab({user_id: @user_id}).first[:city]).to eq('otter_city')
+      expect(parsed_response['status']).to eq('success')
     end
   end
 end

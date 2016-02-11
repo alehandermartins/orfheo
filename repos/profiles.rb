@@ -26,6 +26,12 @@ module Repos
           end.to_h
         }
       end
+
+      def modify query, new_field
+        @@profiles_collection.update(query,{
+          "$set": new_field
+        })
+      end
     end
   end
 end

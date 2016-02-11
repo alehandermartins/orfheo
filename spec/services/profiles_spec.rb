@@ -59,7 +59,7 @@ describe Services::Profiles do
     end
   end
 
-  describe 'get_profiles' do
+  describe 'Get Profiles' do
 
     it 'returns and empty array if no profiles for a given user' do
       expect(Services::Profiles.get_profiles_for @user_id).to eq([])
@@ -75,6 +75,17 @@ describe Services::Profiles do
       Services::Profiles.create @profile_params, @user_id
       Services::Profiles.create @otter_params, @user_id
       expect(Services::Profiles.get_profiles_for @user_id).to eq([@profile_params, @otter_params])
+    end
+  end
+
+  describe 'Modify' do
+
+    it 'modifies the desired parameters' do
+      Services::Profiles.create @profile_params, @user_id
+      Services::Profiles.modify({'name' => 'otter_artist_name', 'city' => 'otter_city', 'profile_id' => @profile_params[:profile_id]}, @user_id)
+
+      expect(Repos::Profiles.grab({user_id: @user_id}).first[:name]).to eq('otter_artist_name')
+      expect(Repos::Profiles.grab({user_id: @user_id}).first[:city]).to eq('otter_city')
     end
   end
 end
