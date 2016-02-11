@@ -2,7 +2,7 @@ class SpaceProfile
   class << self
 
     def correct_keys? params
-      params.keys == ['type', 'name', 'address', 'zip_code', 'category']
+      params.keys == ['type', 'name', 'city', 'address', 'zip_code', 'category']
     end
 
     def correct_params? params

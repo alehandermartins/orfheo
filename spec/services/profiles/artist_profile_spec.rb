@@ -7,6 +7,7 @@ describe ArtistProfile do
     @profile_params = {
       'type' => 'artist',
       'name' => 'artist_name',
+      'city' => 'city',
       'zip_code' => 'zip_code',
     }
   }

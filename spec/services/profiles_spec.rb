@@ -7,12 +7,14 @@ describe Services::Profiles do
     @profile_params = {
       type: 'artist',
       name: 'artist_name',
+      location: 'location',
       zip_code: 'zip_code',
     }
 
     @otter_params = {
       type: 'artist',
       name: 'otter_name',
+      location: 'location',
       zip_code: 'zip_code',
     }
   }
@@ -22,6 +24,11 @@ describe Services::Profiles do
     it 'creates a profile with the id of the user' do
       Services::Profiles.create @profile_params, @user_id
       expect(@profile_params[:user_id]).to eq(@user_id)
+    end
+
+    it 'adds a profile id' do
+      Services::Profiles.create @profile_params, @user_hash
+      expect(UUID.validate @profile_params[:profile_id]).to eq(true)
     end
 
     it 'stores the profile in the repo' do

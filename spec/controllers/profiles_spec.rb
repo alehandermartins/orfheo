@@ -12,6 +12,7 @@ describe ProfilesController do
    @profile_params = {
       type: 'artist',
       name: 'artist_name',
+      city: 'city',
       zip_code: 'zip_code'
     }
 
@@ -42,6 +43,7 @@ describe ProfilesController do
       post @create_profile_route, {
         type: 'artist',
         name: nil,
+        city: 'city',
         zip_code: 'otter_zip'
       }
       expect(parsed_response['status']).to eq('fail')
@@ -77,7 +79,7 @@ describe ProfilesController do
     end
   end
 
-  describe 'get_profiles' do
+  describe 'Get Profiles' do
 
     before(:each){
       @get_profiles_route = '/users/profiles/get_profiles'
@@ -85,12 +87,14 @@ describe ProfilesController do
       @otter_params = {
         type: 'artist',
         name: 'otter_name',
+        city: 'city',
         zip_code: 'zip_code'
       }
 
       @space_params = {
         type: 'space',
         name: 'space_name',
+        city: 'city',
         address: 'address',
         zip_code: 'zip_code',
         category: 'home'
@@ -112,15 +116,28 @@ describe ProfilesController do
       expect(parsed_response['profiles'][0]).to include({
         'type' => 'artist',
         'name' => 'artist_name',
+        'city' => 'city',
         'zip_code' => 'zip_code'
       })
       expect(parsed_response['profiles'][1]).to include({
         'type' => 'space',
         'name' => 'space_name',
+        'city' => 'city',
         'address' => 'address',
         'zip_code' => 'zip_code',
         'category' => 'home'
       })
+
+    end
+
+    xit 'returns the specified profile' do
+      post @create_profile_route, @profile_params
+      post @create_profile_route, @space_params
+
+      post '/users/profile/get_profile', {
+        name: 'space_name'
+      }
+      expect(parsed_response)
     end
   end
 end

@@ -153,9 +153,10 @@
 
     var _createdWidget = $('<div>');
     var _name = Pard.Widgets.Input('Nombre artistico', 'text');
+    var _city = Pard.Widgets.Input('Ciudad', 'text');
     var _zipCode = Pard.Widgets.Input('Codigo postal', 'text');
 
-    _createdWidget.append(_name.render(), _zipCode.render());
+    _createdWidget.append(_name.render(), _city.render(), _zipCode.render());
 
     return {
       render: function(){
@@ -165,6 +166,7 @@
         return {
           type: 'artist',
           name: _name.getVal(),
+          city: _city.getVal(),
           zip_code: _zipCode.getVal()
         }
       }
@@ -175,6 +177,7 @@
 
     var _createdWidget = $('<div>');
     var _name = Pard.Widgets.Input('Nombre espacio', 'text');
+    var _city = Pard.Widgets.Input('Ciudad', 'text');
     var _address = Pard.Widgets.Input('Direccion', 'text');
     var _zipCode = Pard.Widgets.Input('Codigo postal', 'text');
     var _category = $('<select>');
@@ -186,7 +189,7 @@
     _category.append($('<option>').text(_labels[index]).val(value));
     });
 
-    _createdWidget.append(_name.render(), _address.render(), _zipCode.render(), _category);
+    _createdWidget.append(_name.render(), _city.render(), _address.render(), _zipCode.render(), _category);
 
     return {
       render: function(){
@@ -196,6 +199,7 @@
         return {
           type: 'space',
           name: _name.getVal(),
+          city: _city.getVal(),
           address: _address.getVal(),
           zip_code: _zipCode.getVal(),
           category: _category.val()

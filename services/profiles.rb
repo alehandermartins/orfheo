@@ -11,6 +11,7 @@ module Services
 
       def create profile, user_id
         profile.merge! user_id: user_id
+        profile.merge! profile_id: SecureRandom.uuid
         Repos::Profiles.add profile
       end
 

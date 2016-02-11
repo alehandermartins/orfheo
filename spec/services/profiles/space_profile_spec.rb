@@ -7,6 +7,7 @@ describe SpaceProfile do
     @profile_params = {
       'type' => 'space',
       'name' => 'space_name',
+      'city' => 'city',
       'address' => 'space_address',
       'zip_code' => 'zip_code',
       'category' => 'home'
