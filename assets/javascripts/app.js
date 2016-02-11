@@ -8,7 +8,8 @@ Pard.Welcome = function(){
   $("#section_layout").append(_registrationWidget, _loginWidget);
 };
 
-Pard.Users = function(){
+Pard.Users = function(name){
+  console.log(name);
 
   var _logoutWidget = Pard.Widgets.Logout().render();
   var _modifyPasswordWidget = Pard.Widgets.ModifyPassword().render();

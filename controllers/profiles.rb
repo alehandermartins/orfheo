@@ -8,13 +8,9 @@ class ProfilesController < UsersController
   end
 
   get '/users/profiles/:uuid' do
-    halt erb(:users) unless exists? params[:uuid]
-    erb(:profile)
-  end
-
-  post '/users/profiles/get_profiles' do
-    profiles = Services::Profiles.get_profiles_for session[:identity]
-    success({profiles: profiles})
+    halt erb(:not_found) unless exists? params[:uuid]
+    profile = Services::Profiles.get_profile_for session[:identity], params[:uuid]
+    erb :profile, :locals => {:profile => profile.to_json}
   end
 
   private

@@ -67,78 +67,16 @@ describe ProfilesController do
 
   describe 'Access' do
 
-    it 'redirects user to user page if profile does not exist' do
+    it 'redirects user to not found page if profile does not exist' do
       get '/users/profiles/artist_name'
-      expect(last_response.body).to include('Pard.Users()')
+      expect(last_response.body).to include('Not Found')
     end
 
     it 'redirects user to profile page otherwise' do
       Services::Profiles.create @profile_params, 'email@test.com'
 
       get '/users/profiles/' + @profile_params[:profile_id]
-      expect(last_response.body).to include('Pard.Profile()')
-    end
-  end
-
-  describe 'Get Profiles' do
-
-    before(:each){
-      @get_profiles_route = '/users/profiles/get_profiles'
-
-      @otter_params = {
-        type: 'artist',
-        name: 'otter_name',
-        city: 'city',
-        zip_code: 'zip_code'
-      }
-
-      @space_params = {
-        type: 'space',
-        name: 'space_name',
-        city: 'city',
-        address: 'address',
-        zip_code: 'zip_code',
-        category: 'home'
-      }
-    }
-
-    it 'returns and empty array if no profiles for a given user' do
-      post @get_profiles_route
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profiles']).to eq([])
-    end
-
-    it 'returns all the profiles for a given user' do
-      post @create_profile_route, @profile_params
-      post @create_profile_route, @space_params
-      post @get_profiles_route
-
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profiles'][0]).to include({
-        'type' => 'artist',
-        'name' => 'artist_name',
-        'city' => 'city',
-        'zip_code' => 'zip_code'
-      })
-      expect(parsed_response['profiles'][1]).to include({
-        'type' => 'space',
-        'name' => 'space_name',
-        'city' => 'city',
-        'address' => 'address',
-        'zip_code' => 'zip_code',
-        'category' => 'home'
-      })
-
-    end
-
-    xit 'returns the specified profile' do
-      Services::Profiles.create @profile_params, 'email@test.com'
-      Services::Profiles.create @space_params, 'email@test.com'
-
-      post '/users/profile/get_profile', {
-        uuid: @space_params[:profile_id]
-      }
-      expect(parsed_response)
+      expect(last_response.body).to include('"type":"artist","name":"artist_name')
     end
   end
 end

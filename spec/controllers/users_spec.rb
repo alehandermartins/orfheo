@@ -2,6 +2,7 @@ describe UsersController do
 
   before(:each){
     @login_route = '/login/login_attempt'
+    @create_profile_route = '/users/create_profile'
 
     @user_hash = {
       email: 'email@test.com',
@@ -16,6 +17,22 @@ describe UsersController do
 
     before(:each){
       @users_route = '/users/'
+
+      @profile_params = {
+        type: 'artist',
+        name: 'artist_name',
+        city: 'city',
+        zip_code: 'zip_code'
+      }
+
+      @space_params = {
+        type: 'space',
+        name: 'space_name',
+        city: 'city',
+        address: 'address',
+        zip_code: 'zip_code',
+        category: 'home'
+      }
     }
 
     it 'redirects the user to the welcome page if not logged in' do
@@ -26,7 +43,18 @@ describe UsersController do
     it 'redirects the user to the users page if logged in' do
       post @login_route, @user_hash
       get @users_route
-      expect(last_response.body).to include('Pard.Users()')
+      expect(last_response.body).to include('Pard.Users([])')
+    end
+
+    it 'returns all the profiles for a given user' do
+      post @login_route, @user_hash
+      post @create_profile_route, @profile_params
+      post @create_profile_route, @space_params
+
+      get @users_route
+
+      expect(last_response.body).to include('"type":"artist","name":"artist_name')
+      expect(last_response.body).to include('"type":"space","name":"space_name"')
     end
   end
 

@@ -7,7 +7,8 @@ class UsersController < BaseController
   end
 
   get '/users/' do
-    erb(:users)
+    profiles = Services::Profiles.get_profiles_for session[:identity]
+    erb :users, :locals => {:profiles => profiles.to_json}
   end
 
   post '/users/modify_password' do

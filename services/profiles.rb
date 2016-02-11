@@ -37,6 +37,13 @@ module Services
       def get_profiles_for user_id
         profiles = Repos::Profiles.grab({user_id: user_id})
       end
+
+      def get_profile_for user_id, profile_id
+        profiles = Repos::Profiles.grab({user_id: user_id})
+        profiles.select{ |profile|
+          profile[:profile_id] == profile_id
+        }.first
+      end
     end
   end
 end

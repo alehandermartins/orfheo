@@ -65,6 +65,12 @@ describe Services::Profiles do
       expect(Services::Profiles.get_profiles_for @user_id).to eq([])
     end
 
+    it 'returns the specified profiles for a given user' do
+      Services::Profiles.create @profile_params, @user_id
+      Services::Profiles.create @otter_params, @user_id
+      expect(Services::Profiles.get_profile_for @user_id, @otter_params[:profile_id]).to eq(@otter_params)
+    end
+
     it 'returns all the profiles for a given user' do
       Services::Profiles.create @profile_params, @user_id
       Services::Profiles.create @otter_params, @user_id
