@@ -243,27 +243,23 @@
     }
   }
 
-  ns.Widgets.MyProfiles = function(){
+  ns.Widgets.MyProfiles = function(profiles){
 
     var _createdWidget = $('<div>');
-    Pard.Backend.getProfiles(function(data){
-      if (data.profiles.length == 0){
-        Pard.Widgets.BootboxAlert('Crea tu nuevo perfil', Pard.Widgets.CreateProfileMessage());}
-      else {
-        data.profiles.forEach(function(profile){
-          _createdWidget.append(Pard.Widgets.Button(profile['name'], function(){
-            document.location = '/users/profiles/' + profile['profile_id'];
-          }).render());
-        });
-      }
-    });
+    if (profiles.length == 0) Pard.Widgets.BootboxAlert('Crea tu nuevo perfil', Pard.Widgets.CreateProfileMessage());
+    else {
+      profiles.forEach(function(profile){
+        _createdWidget.append(Pard.Widgets.Button(profile['name'], function(){
+          document.location = '/users/profiles/' + profile['profile_id'];
+        }).render());
+      });
+    }
 
     return {
       render: function(){
         return _createdWidget;
       }
     }
-
   }
 
 

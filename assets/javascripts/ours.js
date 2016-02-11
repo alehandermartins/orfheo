@@ -5,3 +5,4 @@
 // = require welcome
 // = require users
 // = require widgets
+// = require profile

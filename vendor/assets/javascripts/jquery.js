@@ -2,4 +2,3 @@
 //= require jquery-ui
 //= require bootstrap.min
 //= require bootbox.min
-

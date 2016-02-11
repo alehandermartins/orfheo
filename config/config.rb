@@ -2,6 +2,7 @@ require 'sinatra/config_file'
 require 'sinatra/asset_pipeline'
 require 'pony'
 require 'mongo'
+require 'cloudinary'
 
 require_relative '../exceptions'
 
@@ -57,6 +58,13 @@ class BaseController < Sinatra::Base
     DB = Mongo::Connection.new
     @@db = DB[settings.dbname]
     Pony.override_options = {:from => 'pard.project@gmail.com', :via => :test }
+    Cloudinary.config do |config|
+      config.cloud_name = 'dtet8jax5'
+      config.api_key = '613355472667488'
+      config.api_secret = 'JMI6dnwZNOjH1vPJN-hyrMY8xZA'
+      config.cdn_subdomain = true
+      CLOUDINARY_URL = 'cloudinary://613355472667488:JMI6dnwZNOjH1vPJN-hyrMY8xZA@dtet8jax5'
+    end
     puts 'configured for dt'
   end
 

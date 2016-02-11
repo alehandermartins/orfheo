@@ -79,4 +79,13 @@ describe ProfilesController do
       expect(last_response.body).to include('"type":"artist","name":"artist_name')
     end
   end
+
+  describe 'Modify' do
+
+    xit 'fails if the expected fields do not match' do
+      get '/users/profiles/artist_name'
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_fields')
+    end
+  end
 end

@@ -16,6 +16,7 @@ gem 'uglifier'
 gem 'pony'
 gem 'mongo'
 gem 'uuid'
+gem 'cloudinary'
 
 group :development, :test do
   gem 'shotgun'
