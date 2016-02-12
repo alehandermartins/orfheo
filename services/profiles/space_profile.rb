@@ -6,10 +6,15 @@ class SpaceProfile
     end
 
     def correct_params? params
-      correct_values?(params) && correct_categories?(params['category'])
+      correct_fields?(params) && correct_values?(params)
     end
 
     private
+    def correct_fields? params
+      return true unless params.has_key? 'category'
+      correct_categories? params['category']
+    end
+
     def correct_values? params
       params.all?{ |key, value|
         !(value.nil? || value.empty?)

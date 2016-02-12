@@ -84,7 +84,7 @@ describe ProfilesController do
   describe 'Modify' do
 
     before(:each){
-      @modify_route = '/users/profiles/modify'
+      @modify_route = '/users/modify_profile'
 
       Services::Profiles.create @profile_params, 'email@test.com'
 

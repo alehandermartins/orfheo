@@ -8,7 +8,10 @@ require_relative '../exceptions'
 
 require_relative '../services/mails'
 require_relative '../services/users'
+require_relative '../services/profiles/artist_profile'
+require_relative '../services/profiles/space_profile'
 require_relative '../services/profiles'
+
 
 require_relative '../repos/users'
 require_relative '../repos/profiles'

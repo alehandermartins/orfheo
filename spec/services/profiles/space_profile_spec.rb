@@ -25,6 +25,10 @@ describe SpaceProfile do
       expect(SpaceProfile.correct_params?({'type' => 'space', 'name' => ''})).to eq(false)
     end
 
+    it 'depending on the fields' do
+      expect(SpaceProfile.correct_params?({'type' => 'space'})).to eq(true)
+    end
+
     it 'only allows the specified categories for a space' do
       otter_params = {
         'type' => 'space',
