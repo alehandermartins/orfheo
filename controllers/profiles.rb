@@ -14,10 +14,10 @@ class ProfilesController < UsersController
   end
 
   post '/users/modify_profile' do
-    check_exists params[:profile_id]
+    check_exists params['profile_id']
     check_params params
     modify params
-    success
+    success({profile_id: params['profile_id']})
   end
 
 

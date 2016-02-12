@@ -1,44 +1,10 @@
 (function(ns){
-  ns.Widgets = ns.Widgets || {};
-
-  ns.Widgets.ToUserPage = function(){
-
-    _createdWidget = $('<div>');
-
-      var _createdButton = Pard.Widgets.Button('Pagina de usuario', function(){
-        document.location = '/users/'
-      }).render()
   
-     _createdWidget.append(_createdButton);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-  ns.Widgets.HeaderProfile = function(){
-  
-    var _createdWidget = $('<div>');
-
-    var _logoutWidget = Pard.Widgets.Logout().render();
-    var _toUserPageWidget = Pard.Widgets.ToUserPage().render();
-
-    _createdWidget.append(_logoutWidget, _toUserPageWidget);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-
-    }
-  }
 
   ns.Widgets.ArtistProfile = function(profile){
     var _createdWidget = $('<div>');
 
-    ['name','city'].forEach( function(element, index) {
+    ['name','city'].forEach( function(element) {
       var _newField = $('<div>').text(profile[element]);
       _createdWidget.append(_newField)
     });
@@ -55,7 +21,7 @@
     var _createdWidget = $('<div>');
     var _info = $('<div>');
 
-        ['name','city', 'address', 'category'].forEach( function(element, index) {
+        ['name','city', 'address', 'category'].forEach( function(element) {
       var _newField = $('<div>').text(profile[element]);
       _info.append(_newField)
     });
@@ -164,20 +130,25 @@
       return _check;
     }
 
+    var _getVal = function(){
+      var _submitForm = {};
+      _submitForm['profile_id'] = profile.profile_id;
+      _submitForm['type'] = profile.type;    
+      _fields.forEach(function(field){
+        if(profile[field] != _form[field].getVal()) _submitForm[field] = _form[field].getVal();
+      });
+     
+      return _submitForm;
+    }  
+
     return {
       render: function(){
         return _createdWidget;
       },
-      getVal: function(){
-        var _submitForm = {};
-        _fields.forEach(function(field){
-          if(profile[field] != _form[field].getVal()) _submitForm[field] = _form[field].getVal();
-        })
-       
-        return _submitForm; 
-      },
        callback: function(){
-        if(_filled() == true) Pard.Backend.modifyProfile(_submitForm, console.log('changed'));
+        var _submitForm = _getVal();
+        console.log(_submitForm);
+        if(_filled() == true) Pard.Backend.modifyProfile(_submitForm, Pard.Events.CreateProfile);
         else{
           return false;
         }

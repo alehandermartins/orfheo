@@ -6,3 +6,4 @@
 // = require users
 // = require widgets
 // = require profile
+// = require header

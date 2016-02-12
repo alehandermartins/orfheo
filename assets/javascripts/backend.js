@@ -79,6 +79,7 @@
     };
 
     var _modifyProfile = function(form, callback){
+      console.log(form)
       _send(
         '/users/modify_profile',
         form,
@@ -93,6 +94,7 @@
       logout: _logout,
       modifyPassword: _modifyPassword,
       createProfile: _createProfile,
+      modifyProfile: _modifyProfile
     };
   }());
 
