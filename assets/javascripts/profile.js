@@ -67,7 +67,9 @@
     var _createdWidget = $('<div>');
 
     var _form = _forms[profile.type];
+    _form['web_page'] = Pard.Widgets.Input('Web personal', 'text');
     _form['bio'] = Pard.Widgets.TextArea('Bio');
+    
     
     for(field in _form){
       if(profile[field]) _form[field].setVal(profile[field]);
@@ -79,7 +81,7 @@
 
     var _filled = function(){
       for (field in _form){
-        if (field != 'bio'){
+        if (!(field == 'bio' || field == 'web_page')){
           if(_form[field].getVal().length == 0) return false; 
         }
       }
