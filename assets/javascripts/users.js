@@ -211,7 +211,7 @@
         }
       },
       setVal: function(values){
-        _name.setVal(values.name);
+        _name = _name.setVal(values.name);
         _city.setVal(values.city);
         _address.setVal(values.address);
         _zipCode.setVal(values.zip_code);

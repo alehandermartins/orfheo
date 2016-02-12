@@ -55,12 +55,7 @@
     var _createdWidget = $('<div>');
     var _info = $('<div>');
 
-    // var _name = $('<h3>').text(profile.name);
-    // var _city = $('<h5>').text(profile.city);
-    // var _address = $('<p>').text(profile.address);
-    // var _category = $('<h5>').text(profile.category)
-
-     ['name','city', 'address', 'category'].forEach( function(element, index) {
+        ['name','city', 'address', 'category'].forEach( function(element, index) {
       var _newField = $('<div>').text(profile[element]);
       _info.append(_newField)
     });
@@ -82,8 +77,6 @@
 
     var _createdButton = Pard.Widgets.Button('Modifica tu perfil', function(){
       Pard.Widgets.BootboxAlert('Modifica tus datos', Pard.Widgets.ModifyProfileMessage(profile));
-          console.log('pippa');
-
     });
 
     _createdWidget.append(_createdButton.render());
@@ -96,43 +89,100 @@
 
   }
 
-  ns.Widgets.ModifyProfileMessage = function(profile){
-
-    var _createdWidget = $('<div>');
-    var _invalidInput = $('<div>');
-
-    var _fields = {};
-
-    /*var _labels = ['Nombre del espacio', 'Dirección','Ciudad', 'Codigo postal'];*/
-    
-    /*var _types = ['text','test','text','number']
-    
-    _labels.forEach(function(id, index){
-      _colpulsoryImput[id] = Pard.Widgets.Input(_labels[index], 'text', function(){
-         var _checkInput = function(){
-          if(_fields['password'].getVal().length < 8){
-            _fields['password'].addWarning();
-            _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
-          }else{
-            _fields['password'].removeWarning();
-            return _checkEqual();
-          }
-        }
-      });*/
-  
-    var _spaceOriginalForm = Pard.Widgets.SpaceForm();
-
-    _createdWidget.append(_spaceOriginalForm.setVal(profile));
-  
-
-    _createdWidget.append(_invalidInput);
+  ns.Widgets.Selector = function(labels, values){
+    var _createdWidget = $('<select>');
+    values.forEach(function(value, index){
+      _createdWidget.append($('<option>').text(labels[index]).val(value));
+    });
 
     return {
       render: function(){
         return _createdWidget;
+      },
+      getVal: function(){
+        return _createdWidget.val();
+      },
+      setVal: function(value){
+        _createdWidget.val(value);
       }
     }
+  }
 
+  ns.Widgets.TextArea = function(label){
+    var _createdWidget = $('<div>'); 
+    var _textarea = $('<textarea>').attr({placeholder: label});
+
+    _createdWidget.append(_textarea);
+    
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _textarea.val();
+      },
+      setVal: function(value){
+        _textarea.val(value);
+      }
+    }
+  }  
+
+
+
+  ns.Widgets.ModifyProfileMessage = function(profile){
+
+    var _createdWidget = $('<div>');
+    
+    var _form = {};
+    var _fields = ['name', 'city', 'address', 'zip_code', 'category', 'bio'];
+    var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
+    var _values = ['cultural_ass', 'commercial', 'home'];
+
+
+    _form['name'] = Pard.Widgets.Input('Nombre espacio', 'text');
+    _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
+    _form['address'] = Pard.Widgets.Input('Direccion', 'text');
+    _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
+    _form['category'] = Pard.Widgets.Selector(_labels, _values);
+    _form['bio'] = Pard.Widgets.TextArea('Bio');
+    
+    _fields.forEach(function(field){
+      if(profile[field]) _form[field].setVal(profile[field]);
+    });
+
+    Object.keys(_form).forEach(function(field){
+      _createdWidget.append(_form[field].render());
+    });
+
+    var _filled = function(){
+      var _check = true;
+      Object.keys(_form).forEach(function(field){
+        if (field != 'bio'){
+         if(_form[field].getVal().length == 0) _check = false;
+        }
+      });
+      return _check;
+    }
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        var _submitForm = {};
+        _fields.forEach(function(field){
+          if(profile[field] != _form[field].getVal()) _submitForm[field] = _form[field].getVal();
+        })
+       
+        return _submitForm; 
+      },
+       callback: function(){
+        if(_filled() == true) Pard.Backend.modifyProfile(_submitForm, console.log('changed'));
+        else{
+          return false;
+        }
+      }
+    }
   }
 
 

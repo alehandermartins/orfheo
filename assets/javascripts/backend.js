@@ -78,10 +78,10 @@
       );
     };
 
-    var _getProfiles = function(callback){
+    var _modifyProfile = function(form, callback){
       _send(
-        '/users/profiles/get_profiles',
-        {},
+        '/users/modify_profile',
+        form,
         callback
       );
     };
@@ -93,7 +93,6 @@
       logout: _logout,
       modifyPassword: _modifyPassword,
       createProfile: _createProfile,
-      getProfiles: _getProfiles
     };
   }());
 
