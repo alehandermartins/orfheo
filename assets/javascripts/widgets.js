@@ -18,6 +18,44 @@
     };
   };
 
+   ns.Widgets.Selector = function(labels, values){
+    var _createdWidget = $('<select>');
+    values.forEach(function(value, index){
+      _createdWidget.append($('<option>').text(labels[index]).val(value));
+    });
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _createdWidget.val();
+      },
+      setVal: function(value){
+        _createdWidget.val(value);
+      }
+    }
+  }
+
+  ns.Widgets.TextArea = function(label){
+    var _createdWidget = $('<div>'); 
+    var _textarea = $('<textarea>').attr({placeholder: label});
+
+    _createdWidget.append(_textarea);
+    
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _textarea.val();
+      },
+      setVal: function(value){
+        _textarea.val(value);
+      }
+    }
+  }  
+
   ns.Widgets.Input = function(label, type, callback){
 
     var _input = $('<input>').attr({'type':type, 'placeholder': label});

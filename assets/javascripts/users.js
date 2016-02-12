@@ -1,23 +1,6 @@
 (function(ns){
 
-  ns.Widgets.Logout = function(){
-
-    _createdWidget = $('<div>');
-
-    var _createdButton = Pard.Widgets.Button('Log out', function(){
-      Pard.Backend.logout(
-        Pard.Events.Logout
-      );
-    });
-
-     _createdWidget.append(_createdButton.render());
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
+ 
 
   ns.Widgets.ModifyPassword = function(){
 
@@ -152,78 +135,74 @@
   ns.Widgets.ArtistForm = function(){
 
     var _createdWidget = $('<div>');
-    var _name = Pard.Widgets.Input('Nombre artistico', 'text');
-    var _city = Pard.Widgets.Input('Ciudad', 'text');
-    var _zipCode = Pard.Widgets.Input('Codigo postal', 'text');
+    
+    var _form = {};
 
-    _createdWidget.append(_name.render(), _city.render(), _zipCode.render());
+    _form['name'] = Pard.Widgets.Input('Nombre espacio', 'text');
+    _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
+    _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
+   
+    for(field in _form){
+      _createdWidget.append(_form[field].render());
+    }
 
     return {
       render: function(){
         return _createdWidget;
       },
       getVal: function(){
-        return {
-          type: 'artist',
-          name: _name.getVal(),
-          city: _city.getVal(),
-          zip_code: _zipCode.getVal()
+        var _submitForm = {};
+        _submitForm['type'] = 'artist';
+        for(field in _form){
+          console.log(_submitForm);
+          _submitForm[field] = _form[field].getVal();
         }
+        return _submitForm;
       },
-      setVal: function(values){
-        _name.setVal(values.name);
-        _city.setVal(values.city);
-        _zipCode.setVal(values.zip_code);
+      objectForm: function(){
+        return _form;
       }
     }
   }
+
 
   ns.Widgets.SpaceForm = function(){
 
     var _createdWidget = $('<div>');
-    var _name = Pard.Widgets.Input('Nombre espacio', 'text');
-    var _city = Pard.Widgets.Input('Ciudad', 'text');
-    var _address = Pard.Widgets.Input('Direccion', 'text');
-    var _zipCode = Pard.Widgets.Input('Codigo postal', 'text');
-    var _category = $('<select>');
-
+    
+    var _form = {};
     var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
     var _values = ['cultural_ass', 'commercial', 'home'];
 
-    _values.forEach(function(value, index){
-    _category.append($('<option>').text(_labels[index]).val(value));
-    });
-
-    _createdWidget.append(_name.render(), _city.render(), _address.render(), _zipCode.render(), _category);
+    _form['name'] = Pard.Widgets.Input('Nombre espacio', 'text');
+    _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
+    _form['address'] = Pard.Widgets.Input('Direccion', 'text');
+    _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
+    _form['category'] = Pard.Widgets.Selector(_labels, _values);
+   
+    for(field in _form){
+      _createdWidget.append(_form[field].render());
+    }
 
     return {
       render: function(){
         return _createdWidget;
       },
       getVal: function(){
-        return {
-          type: 'space',
-          name: _name.getVal(),
-          city: _city.getVal(),
-          address: _address.getVal(),
-          zip_code: _zipCode.getVal(),
-          category: _category.val()
+        var _submitForm = {};
+        _submitForm['type'] = 'space';
+        for(field in _form){
+          console.log(_submitForm);
+          _submitForm[field] = _form[field].getVal();
         }
+        return _submitForm;
       },
-      setVal: function(values){
-        _name = _name.setVal(values.name);
-        _city.setVal(values.city);
-        _address.setVal(values.address);
-        _zipCode.setVal(values.zip_code);
-        /*for(var i, j = 0; i = _category.options[j]; j++) {
-          if(i.value == values.category) {
-            _category.selectedIndex = j;
-            break;
-          }
-        }*/
+      objectForm: function(){
+        return _form;
       }
     }
   }
+
 
 
   ns.Widgets.CreateProfileMessage = function(){

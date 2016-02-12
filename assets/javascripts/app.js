@@ -10,12 +10,13 @@ Pard.Welcome = function(){
 
 Pard.Users = function(profiles){
 
-  var _logoutWidget = Pard.Widgets.Logout().render();
+  var _header = Pard.Widgets.UserHeader().render();
   var _modifyPasswordWidget = Pard.Widgets.ModifyPassword().render();
   var _createProfile = Pard.Widgets.CreateProfile().render();
   var _myProfiles = Pard.Widgets.MyProfiles(profiles).render();
 
-  $("#section_layout").append(_logoutWidget, _modifyPasswordWidget, _createProfile, _myProfiles);
+  $('#header_layout').append(_header);
+  $('#section_layout').append(_modifyPasswordWidget, _createProfile, _myProfiles);
 };
 
 Pard.Profile = function(profile){
@@ -26,8 +27,8 @@ Pard.Profile = function(profile){
   };
 
   var _myProfile = PROFILES_MAP[profile.type];
-  var _header = Pard.Widgets.HeaderProfile().render();
+  var _header = Pard.Widgets.ProfileHeader().render();
 
-  $("#header_layout").append(_header);
-  $("#section_layout").append(_myProfile);
+  $('#header_layout').append(_header);
+  $('#section_layout').append(_myProfile);
 };

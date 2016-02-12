@@ -3,13 +3,17 @@
 
   ns.Widgets.ArtistProfile = function(profile){
     var _createdWidget = $('<div>');
+    var _info = $('<div>');
 
     ['name','city'].forEach( function(element) {
       var _newField = $('<div>').text(profile[element]);
-      _createdWidget.append(_newField)
+      _info.append(_newField)
     });
 
-  
+     _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
+
+    _createdWidget.append(_info, _modifyProfile);
+    
     return {
       render: function(){
         return _createdWidget;
@@ -21,14 +25,14 @@
     var _createdWidget = $('<div>');
     var _info = $('<div>');
 
-        ['name','city', 'address', 'category'].forEach( function(element) {
+    ['name','city', 'address', 'category'].forEach( function(element) {
       var _newField = $('<div>').text(profile[element]);
       _info.append(_newField)
     });
 
     _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
 
-    _createdWidget.append(_info, _modifyProfile)
+    _createdWidget.append(_info, _modifyProfile);
 
     return {
       render: function(){
@@ -52,91 +56,43 @@
         return _createdWidget;
       }
     }
-
   }
-
-  ns.Widgets.Selector = function(labels, values){
-    var _createdWidget = $('<select>');
-    values.forEach(function(value, index){
-      _createdWidget.append($('<option>').text(labels[index]).val(value));
-    });
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      getVal: function(){
-        return _createdWidget.val();
-      },
-      setVal: function(value){
-        _createdWidget.val(value);
-      }
-    }
-  }
-
-  ns.Widgets.TextArea = function(label){
-    var _createdWidget = $('<div>'); 
-    var _textarea = $('<textarea>').attr({placeholder: label});
-
-    _createdWidget.append(_textarea);
-    
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      getVal: function(){
-        return _textarea.val();
-      },
-      setVal: function(value){
-        _textarea.val(value);
-      }
-    }
-  }  
-
-
 
   ns.Widgets.ModifyProfileMessage = function(profile){
 
-    var _createdWidget = $('<div>');
+    _forms = {};
+    _forms['artist'] = Pard.Widgets.ArtistForm().objectForm();
+    _forms['space'] = Pard.Widgets.SpaceForm().objectForm();
     
-    var _form = {};
-    var _fields = ['name', 'city', 'address', 'zip_code', 'category', 'bio'];
-    var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
-    var _values = ['cultural_ass', 'commercial', 'home'];
+    var _createdWidget = $('<div>');
 
-
-    _form['name'] = Pard.Widgets.Input('Nombre espacio', 'text');
-    _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
-    _form['address'] = Pard.Widgets.Input('Direccion', 'text');
-    _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
-    _form['category'] = Pard.Widgets.Selector(_labels, _values);
+    var _form = _forms[profile.type];
     _form['bio'] = Pard.Widgets.TextArea('Bio');
     
-    _fields.forEach(function(field){
+    for(field in _form){
       if(profile[field]) _form[field].setVal(profile[field]);
-    });
+    };
 
-    Object.keys(_form).forEach(function(field){
+    for(field in _form){
       _createdWidget.append(_form[field].render());
-    });
+    };
 
     var _filled = function(){
-      var _check = true;
-      Object.keys(_form).forEach(function(field){
+      for (field in _form){
         if (field != 'bio'){
-         if(_form[field].getVal().length == 0) _check = false;
+          if(_form[field].getVal().length == 0) return false; 
         }
-      });
-      return _check;
-    }
+      }
+      return true;
+    };
 
     var _getVal = function(){
       var _submitForm = {};
       _submitForm['profile_id'] = profile.profile_id;
       _submitForm['type'] = profile.type;    
-      _fields.forEach(function(field){
+      for(field in _form){
         if(profile[field] != _form[field].getVal()) _submitForm[field] = _form[field].getVal();
-      });
+      };
      
       return _submitForm;
     }  
@@ -145,16 +101,14 @@
       render: function(){
         return _createdWidget;
       },
-       callback: function(){
+      callback: function(){
         var _submitForm = _getVal();
-        console.log(_submitForm);
         if(_filled() == true) Pard.Backend.modifyProfile(_submitForm, Pard.Events.CreateProfile);
-        else{
-          return false;
-        }
+        else{return false; }
       }
     }
   }
 
+ 
 
 }(Pard || {}));
