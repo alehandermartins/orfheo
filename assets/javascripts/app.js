@@ -22,10 +22,12 @@ Pard.Profile = function(profile){
 
   PROFILES_MAP = {
     'artist': Pard.Widgets.ArtistProfile(profile).render(),
-    'space': Pard.Widgets.ArtistProfile(profile).render()
+    'space': Pard.Widgets.SpaceProfile(profile).render()
   };
 
   var _myProfile = PROFILES_MAP[profile.type];
+  var _header = Pard.Widgets.HeaderProfile().render();
 
+  $("#header_layout").append(_header);
   $("#section_layout").append(_myProfile);
 };

@@ -169,6 +169,11 @@
           city: _city.getVal(),
           zip_code: _zipCode.getVal()
         }
+      },
+      setVal: function(values){
+        _name.setVal(values.name);
+        _city.setVal(values.city);
+        _zipCode.setVal(values.zip_code);
       }
     }
   }
@@ -204,6 +209,18 @@
           zip_code: _zipCode.getVal(),
           category: _category.val()
         }
+      },
+      setVal: function(values){
+        _name.setVal(values.name);
+        _city.setVal(values.city);
+        _address.setVal(values.address);
+        _zipCode.setVal(values.zip_code);
+        /*for(var i, j = 0; i = _category.options[j]; j++) {
+          if(i.value == values.category) {
+            _category.selectedIndex = j;
+            break;
+          }
+        }*/
       }
     }
   }
