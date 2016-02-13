@@ -1,61 +1,30 @@
 describe Services::Profiles do
 
   before(:each){
-
     @user_id = '3c61cf77-32b0-4df2-9376-0960e64a654a'
+    @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
 
     @profile_params = {
-      type: 'artist',
-      name: 'artist_name',
-      location: 'location',
-      zip_code: 'zip_code',
+      'user_id' => @user_id,
+      'profile_id' => @profile_id,
+      'type' => 'artist',
+      'name' => 'artist_name',
+      'city' => 'city',
+      'zip_code' => 'zip_code',
+      'profile_picture' => 'picture.jpg',
+      'bio' => 'bio',
+      'personal_we' => 'my_web'
     }
 
-    @otter_params = {
-      type: 'artist',
-      name: 'otter_name',
-      location: 'location',
-      zip_code: 'zip_code',
-    }
+    @profile = ArtistProfile.new @profile_params, @user_id
   }
-
-  describe 'Creation' do
-
-    it 'creates a profile with the id of the user' do
-      Services::Profiles.create @profile_params, @user_id
-      expect(@profile_params[:user_id]).to eq(@user_id)
-    end
-
-    it 'adds a profile id' do
-      Services::Profiles.create @profile_params, @user_hash
-      expect(UUID.validate @profile_params[:profile_id]).to eq(true)
-    end
-
-    it 'stores the profile in the repo' do
-      Services::Profiles.create @profile_params, @user_id
-      expect(Repos::Profiles.exists?({user_id: @user_id})).to eq(true)
-    end
-  end
 
   describe 'Exists' do
 
-    it 'checks if a profile with a given name exists for a given user' do
-      expect(Services::Profiles.exists? :name, 'artist_name', @user_id).to eq(false)
-      Services::Profiles.create @profile_params, @user_id
-      expect(Services::Profiles.exists? :name, 'artist_name', @user_id).to eq(true)
-    end
-
     it 'checks if a profile with a given profile_id exists for a given user' do
-      expect(Services::Profiles.exists? :profile_id, 'artist_name', @user_id).to eq(false)
-      Services::Profiles.create @profile_params, @user_id
-      expect(Services::Profiles.exists? :profile_id, @profile_params[:profile_id], @user_id).to eq(true)
-    end
-
-    it 'checks if a profile exists for a given user with many profiles' do
-      Services::Profiles.create @profile_params, @user_id
-      Services::Profiles.create @otter_params, @user_id
-      expect(Services::Profiles.exists? :name, 'artist_name', @user_id).to eq(true)
-      expect(Services::Profiles.exists? :name, 'otter_name', @user_id).to eq(true)
+      expect(Services::Profiles.exists? :profile_id, @profile_id, @user_id).to eq(false)
+      @profile.update
+      expect(Services::Profiles.exists? :profile_id, @profile_id, @user_id).to eq(true)
     end
   end
 
@@ -66,26 +35,30 @@ describe Services::Profiles do
     end
 
     it 'returns the specified profiles for a given user' do
-      Services::Profiles.create @profile_params, @user_id
-      Services::Profiles.create @otter_params, @user_id
-      expect(Services::Profiles.get_profile_for @user_id, @otter_params[:profile_id]).to eq(@otter_params)
+      @profile.update
+      @profile_params.delete('profile_id')
+      @profile_params['name'] = 'otter_name'
+      expect(Services::Profiles.get_profile_for @user_id, @profile_id).to include(
+        user_id: @user_id,
+        profile_id: @profile_id
+      )
     end
 
     it 'returns all the profiles for a given user' do
-      Services::Profiles.create @profile_params, @user_id
-      Services::Profiles.create @otter_params, @user_id
-      expect(Services::Profiles.get_profiles_for @user_id).to eq([@profile_params, @otter_params])
-    end
-  end
+      @profile.update
+      @profile_params.delete('profile_id')
+      @profile_params['name'] = 'otter_name'
+      profile = ArtistProfile.new @profile_params, @user_id
+      profile.update
 
-  describe 'Modify' do
-
-    it 'modifies the desired parameters' do
-      Services::Profiles.create @profile_params, @user_id
-      Services::Profiles.modify({'name' => 'otter_artist_name', 'city' => 'otter_city', 'profile_id' => @profile_params[:profile_id]}, @user_id)
-
-      expect(Repos::Profiles.grab({user_id: @user_id}).first[:name]).to eq('otter_artist_name')
-      expect(Repos::Profiles.grab({user_id: @user_id}).first[:city]).to eq('otter_city')
+      expect(Services::Profiles.get_profiles_for(@user_id).first).to include(
+        user_id: @user_id,
+        profile_id: @profile_id
+      )
+      expect(Services::Profiles.get_profiles_for(@user_id)[1]).to include(
+        user_id: @user_id,
+        name: 'otter_name'
+      )
     end
   end
 end

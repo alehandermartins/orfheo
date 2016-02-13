@@ -1,44 +1,75 @@
 describe SpaceProfile do
 
   before(:each){
-
     @user_id = '3c61cf77-32b0-4df2-9376-0960e64a654a'
+    @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
 
     @profile_params = {
+      'user_id' => @user_id,
+      'profile_id' => @profile_id,
       'type' => 'space',
       'name' => 'space_name',
       'city' => 'city',
-      'address' => 'space_address',
+      'address' => 'address',
       'zip_code' => 'zip_code',
-      'category' => 'home'
+      'profile_picture' => 'picture.jpg',
+      'bio' => 'bio',
+      'personal_web' => 'my_web'
     }
+    @profile = ArtistProfile.new @profile_params, @user_id
+    @profile.update
   }
+
+  describe 'Initialize' do
+
+    it 'assigns a new profile_id if the params do not specify any' do
+      @profile_params.delete('profile_id')
+      profile = SpaceProfile.new @profile_params, @user_id
+
+      expect(UUID.validate profile.uuid).to eq(true)
+    end
+
+    it 'assigns the old profile_id if specified' do
+      expect(@profile.uuid).to eq(@profile_id)
+    end
+  end
 
   describe 'Checks' do
 
-    it 'checks if the keys of a profile are correct' do
-      expect(SpaceProfile.correct_keys?({'type' => 'space'})).to eq(false)
-      expect(SpaceProfile.correct_keys? @profile_params).to eq(true)
+    it 'if the fundamental fields are not empty' do
+      @profile_params['name'] = ''
+      profile = SpaceProfile.new @profile_params, @user_id
+
+      expect(profile.wrong_params?).to eq(true)
+      expect(@profile.wrong_params?).to eq(false)
     end
 
-    it 'checks if the values of a profile are correct' do
-      expect(SpaceProfile.correct_params?({'type' => 'space', 'name' => ''})).to eq(false)
+    it 'if the name of a given profile is already in use' do
+      @profile_params.delete('profile_id')
+      profile = SpaceProfile.new @profile_params, @user_id
+      expect(profile.exists?).to eq(true)
+    end
+  end
+
+  describe 'Update' do
+
+    it 'creates a new profile' do
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include(
+        user_id: @user_id,
+        profile_id: @profile_id
+      )
     end
 
-    it 'depending on the fields' do
-      expect(SpaceProfile.correct_params?({'type' => 'space'})).to eq(true)
-    end
+    it 'modifies an existing profile' do
+      @profile_params['name'] = 'otter_name'
+      profile = SpaceProfile.new @profile_params, @user_id
+      profile.update
 
-    it 'only allows the specified categories for a space' do
-      otter_params = {
-        'type' => 'space',
-        'name' => 'space_name',
-        'address' => 'space_address',
-        'zip_code' => 'zip_code',
-        'category' => 'otter'
-      }
-      expect(SpaceProfile.correct_params? otter_params).to eq(false)
-      expect(SpaceProfile.correct_params? @profile_params).to eq(true)
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include(
+        user_id: @user_id,
+        profile_id: @profile_id,
+        name: 'otter_name'
+      )
     end
   end
 end

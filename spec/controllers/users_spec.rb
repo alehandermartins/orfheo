@@ -2,7 +2,7 @@ describe UsersController do
 
   before(:each){
     @login_route = '/login/login_attempt'
-    @create_profile_route = '/users/create_profile'
+    @update_profile_route = '/users/update_profile'
 
     @user_hash = {
       email: 'email@test.com',
@@ -13,17 +13,24 @@ describe UsersController do
     Services::Users.validated_user @user_hash[:validation_code]
   }
 
-  describe 'Access' do
+  xdescribe 'Access' do
 
     before(:each){
       @users_route = '/users/'
+      @user_id = 'email@test.com'
+      @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
 
       @profile_params = {
+        user_id: @user_id,
+        profile_id: @profile_id,
         type: 'artist',
         name: 'artist_name',
         city: 'city',
-        zip_code: 'zip_code'
-      }
+        zip_code: 'zip_code',
+        profile_picture: 'picture.jpg',
+        bio: 'bio',
+        personal_web: 'my_web'
+     }
 
       @space_params = {
         type: 'space',
@@ -48,8 +55,7 @@ describe UsersController do
 
     it 'returns all the profiles for a given user' do
       post @login_route, @user_hash
-      post @create_profile_route, @profile_params
-      post @create_profile_route, @space_params
+      post @update_profile_route, @profile_params
 
       get @users_route
 

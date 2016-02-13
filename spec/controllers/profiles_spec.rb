@@ -2,8 +2,9 @@ describe ProfilesController do
 
   before(:each){
     @login_route = '/login/login_attempt'
-    @create_profile_route = '/users/create_profile'
+    @update_profile_route = '/users/update_profile'
     @user_id = 'email@test.com'
+    @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
 
     @user_hash = {
       email: 'email@test.com',
@@ -11,10 +12,15 @@ describe ProfilesController do
     }
 
    @profile_params = {
+      user_id: @user_id,
+      profile_id: @profile_id,
       type: 'artist',
       name: 'artist_name',
       city: 'city',
-      zip_code: 'zip_code'
+      zip_code: 'zip_code',
+      profile_picture: 'picture.jpg',
+      bio: 'bio',
+      personal_web: 'my_web'
     }
 
     Services::Users.register @user_hash
@@ -22,16 +28,16 @@ describe ProfilesController do
     post @login_route, @user_hash
   }
 
-  describe 'Create' do
+  describe 'Update' do
 
     it 'fails if the type does not exist' do
-      post @create_profile_route, {}
+      post @update_profile_route, {}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_type')
     end
 
     it 'fails if the type does not do not correspond with expected types' do
-      post @create_profile_route, {
+      post @update_profile_route, {
         type: 'otter',
         name: 'otter_name,',
         zip_code: 'otter_zip'
@@ -40,29 +46,39 @@ describe ProfilesController do
       expect(parsed_response['reason']).to eq('invalid_type')
     end
 
-    it 'fails when one of the field values is empty' do
-      post @create_profile_route, {
+    it 'fails when one of the fundamental values is empty' do
+      post @update_profile_route, {
         type: 'artist',
         name: nil,
         city: 'city',
         zip_code: 'otter_zip'
       }
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_value')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
     end
 
-    it 'creates the profile otherwise' do
-      post @create_profile_route, @profile_params
-      expect(Repos::Profiles.exists?({user_id:'email@test.com'})).to eq(true)
+    it 'creates a profile' do
+      post @update_profile_route, @profile_params
+      expect(Repos::Profiles.exists?({profile_id: @profile_id})).to eq(true)
       expect(parsed_response['status']).to eq('success')
-      expect(UUID.validate parsed_response['profile_id']).to eq(true)
+      expect(parsed_response['profile_id']).to eq(@profile_id)
     end
 
-    it 'fails if the profile already exists for that user' do
-      post @create_profile_route, @profile_params
-      post @create_profile_route, @profile_params
+    it 'fails if a profile with the same name already exists for that user' do
+      post @update_profile_route, @profile_params
+      @profile_params[:profile_id] = 'otter_profil_id'
+      post @update_profile_route, @profile_params
+
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('existing_profile')
+    end
+
+    it 'modifies the desired parameters' do
+      @profile_params['name'] = 'otter_name'
+      post @update_profile_route, @profile_params
+
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:name]).to eq('otter_name')
+      expect(parsed_response['status']).to eq('success')
     end
   end
 
@@ -74,55 +90,10 @@ describe ProfilesController do
     end
 
     it 'redirects user to profile page otherwise' do
-      Services::Profiles.create @profile_params, @user_id
+      post @update_profile_route, @profile_params
 
-      get '/users/profiles/' + @profile_params[:profile_id]
+      get '/users/profiles/' + @profile_id
       expect(last_response.body).to include('"type":"artist","name":"artist_name')
-    end
-  end
-
-  describe 'Modify' do
-
-    before(:each){
-      @modify_route = '/users/modify_profile'
-
-      Services::Profiles.create @profile_params, 'email@test.com'
-
-      @modified_params = {
-        profile_id: @profile_params[:profile_id],
-        type: 'artist',
-        name: 'otter_artist_name',
-        city: 'otter_city',
-        zip_code: 'zip_code',
-        profile_picture: 'picture.jpg',
-        bio: 'bio',
-        personal_web: 'my_web'
-      }
-    }
-
-
-    it 'fails if the profile does not exist' do
-      @modified_params[:profile_id] = 'otter'
-      post @modify_route, @modified_params
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('unexisting_profile')
-    end
-
-    it 'fails if the values are not correct' do
-      @modified_params[:name] = ''
-      post @modify_route, @modified_params
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_value')
-    end
-
-    it 'modifies the desired parameters' do
-      post @modify_route, @modified_params
-
-      expect(Repos::Profiles.grab({user_id: @user_id}).first[:name]).to eq('otter_artist_name')
-      expect(Repos::Profiles.grab({user_id: @user_id}).first[:city]).to eq('otter_city')
-      expect(parsed_response['status']).to eq('success')
     end
   end
 end

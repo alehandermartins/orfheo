@@ -2,26 +2,39 @@ describe Repos::Profiles do
 
   before(:each){
     @user_id = '3c61cf77-32b0-4df2-9376-0960e64a654a'
+    @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
 
     @profile_params = {
+      user_id: @user_id,
+      profile_id: @profile_id,
       type: 'artist',
       name: 'artist_name',
-      location: 'location',
-      user_id: @user_id
+      city: 'city',
+      zip_code: 'zip_code',
+      profile_picture: 'picture.jpg',
+      bio: 'bio',
+      personal_web: 'my_web'
     }
-    Repos::Profiles.add @profile_params
+
+    Repos::Profiles.update(@profile_id, @profile_params)
   }
 
-  describe 'Add' do
+  describe 'Update' do
 
     it 'registers a new profile' do
       saved_entry = @db['profiles'].find_one()
       expect(saved_entry).to include({
+        'user_id' => @user_id,
+        'profile_id' => @profile_id,
         'type' => 'artist',
         'name' => 'artist_name',
-        'location' => 'location',
-        'user_id' => @user_id
       })
+    end
+
+    it 'modifies a parameter' do
+      Repos::Profiles.update(@profile_id, {name: 'otter_name'})
+      saved_entry = @db['profiles'].find_one()
+      expect(saved_entry).to include({'name' => 'otter_name'})
     end
   end
 
@@ -36,49 +49,34 @@ describe Repos::Profiles do
 
     it 'returns the desired document' do
       expect(Repos::Profiles.grab({user_id:@user_id}).first).to include({
+        user_id: @user_id,
+        profile_id: @profile_id,
         type: 'artist',
         name: 'artist_name',
-        location: 'location',
-        user_id: @user_id
       })
     end
 
      it 'returns an array with all the profiles' do
-      Repos::Profiles.add({
-        type: 'artist',
+      Repos::Profiles.update('otter_profile_id', {
+        user_id: @user_id,
+        profile_id: 'otter_profile_id',
+        type: 'space',
         name: 'otter_name',
-        location: 'location',
-        user_id: @user_id
       })
 
       expect(Repos::Profiles.grab({user_id:@user_id}).first).to include({
+        user_id: @user_id,
+        profile_id: @profile_id,
         type: 'artist',
         name: 'artist_name',
-        location: 'location',
-        user_id: @user_id
       })
 
       expect(Repos::Profiles.grab({user_id:@user_id})[1]).to include({
-        type: 'artist',
+        user_id: @user_id,
+        profile_id: 'otter_profile_id',
+        type: 'space',
         name: 'otter_name',
-        location: 'location',
-        user_id: @user_id
       })
-    end
-  end
-
-  describe 'Modify' do
-
-    it 'modifies a parameter' do
-      Repos::Profiles.modify({profile_id: @profile_params[:profile_id]}, {name: 'otter_name'})
-      saved_entry = @db['profiles'].find_one()
-      expect(saved_entry).to include({'name' => 'otter_name'})
-    end
-
-    it 'adds a field if it does not exist' do
-      Repos::Profiles.modify({profile_id: @profile_params[:profile_id]}, {bio: 'bio'})
-      saved_entry = @db['profiles'].find_one()
-      expect(saved_entry).to include({'bio' => 'bio'})
     end
   end
 end

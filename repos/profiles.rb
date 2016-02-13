@@ -27,10 +27,11 @@ module Repos
         }
       end
 
-      def modify query, new_field
-        @@profiles_collection.update(query,{
-          "$set": new_field
-        })
+      def update profile_id, new_fields
+        @@profiles_collection.update({profile_id: profile_id},{
+          "$set": new_fields
+        },
+        {upsert: true})
       end
     end
   end
