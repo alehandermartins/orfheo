@@ -31,7 +31,7 @@
     });
 
     _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
-    _callButton = Pard.Widgets.CallButton().render();
+    _callButton = Pard.Widgets.CallButton(profile.profile_id).render();
 
     _createdWidget.append(_info, _modifyProfile, _callButton);
 
@@ -114,12 +114,12 @@
     }
   }
 
-  ns.Widgets.CallButton = function(){
+  ns.Widgets.CallButton = function(profile_id){
 
     var _createdWidget = $('<div>');
 
     var _createdButton = Pard.Widgets.Button('Iscribe otra propuesta', function(){
-      Pard.Widgets.BootboxAlert('conFusion', Pard.Widgets.CallMessageSpace());
+      Pard.Widgets.BootboxAlert('conFusion', Pard.Widgets.CallMessageSpace(profile_id));
     });
 
     _createdWidget.append(_createdButton.render());
@@ -131,10 +131,12 @@
     }
   }
 
-  ns.Widgets.CallMessageSpace= function(){
+  ns.Widgets.CallMessageSpace= function(profile_id){
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
+    _submitForm['profile_id'] = profile_id;
+    _submitForm['type'] = 'space';
 
     var _form = {};
     var _labels = ['Sabado', 'Domingo', 'Ambos dias'];
