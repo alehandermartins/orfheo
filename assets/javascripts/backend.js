@@ -72,16 +72,15 @@
 
     var _createProfile = function(form, callback){
       _send(
-        '/users/create_profile',
+        '/users/update_profile',
         form,
         callback
       );
     };
 
-    var _modifyProfile = function(form, callback){
-      console.log(form)
+    var _createProposal = function(form, callback){
       _send(
-        '/users/modify_profile',
+        '/users/proposals/create_proposal',
         form,
         callback
       );
@@ -94,7 +93,7 @@
       logout: _logout,
       modifyPassword: _modifyPassword,
       createProfile: _createProfile,
-      modifyProfile: _modifyProfile
+      createProposal: _createProposal
     };
   }());
 

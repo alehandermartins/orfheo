@@ -1,6 +1,6 @@
 (function(ns){
 
- 
+
 
   ns.Widgets.ModifyPassword = function(){
 
@@ -135,13 +135,13 @@
   ns.Widgets.ArtistForm = function(){
 
     var _createdWidget = $('<div>');
-    
+
     var _form = {};
 
     _form['name'] = Pard.Widgets.Input('Nombre espacio', 'text');
     _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
     _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
-   
+
     for(field in _form){
       _createdWidget.append(_form[field].render());
     }
@@ -154,7 +154,6 @@
         var _submitForm = {};
         _submitForm['type'] = 'artist';
         for(field in _form){
-          console.log(_submitForm);
           _submitForm[field] = _form[field].getVal();
         }
         return _submitForm;
@@ -169,7 +168,7 @@
   ns.Widgets.SpaceForm = function(){
 
     var _createdWidget = $('<div>');
-    
+
     var _form = {};
     var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
     var _values = ['cultural_ass', 'commercial', 'home'];
@@ -179,7 +178,7 @@
     _form['address'] = Pard.Widgets.Input('Direccion', 'text');
     _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
     _form['category'] = Pard.Widgets.Selector(_labels, _values);
-   
+
     for(field in _form){
       _createdWidget.append(_form[field].render());
     }
@@ -192,7 +191,6 @@
         var _submitForm = {};
         _submitForm['type'] = 'space';
         for(field in _form){
-          console.log(_submitForm);
           _submitForm[field] = _form[field].getVal();
         }
         return _submitForm;
