@@ -13,7 +13,7 @@ describe UsersController do
     Services::Users.validated_user @user_hash[:validation_code]
   }
 
-  xdescribe 'Access' do
+  describe 'Access' do
 
     before(:each){
       @users_route = '/users/'
@@ -56,6 +56,7 @@ describe UsersController do
     it 'returns all the profiles for a given user' do
       post @login_route, @user_hash
       post @update_profile_route, @profile_params
+      post @update_profile_route, @space_params
 
       get @users_route
 

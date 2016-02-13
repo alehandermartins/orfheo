@@ -49,7 +49,7 @@ class SpaceProfile
   end
 
   def incorrect_categories?
-    !['cultural_ass', 'home', 'commercial'].include? profile['category']
+    (!['cultural_ass', 'home', 'commercial'].include? profile[:category])
   end
 
   def [] key
