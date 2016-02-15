@@ -26,4 +26,13 @@ describe Services::Calls do
       Services::Calls.register @call_hash, @user_id
     end
   end
+
+  describe 'Exists?' do
+
+    it 'checks if a call_id is already employed' do
+      Services::Calls.register @call_hash, @user_id
+      expect(Services::Calls.exists? @call_id).to eq(true)
+      expect(Services::Calls.exists? 'otter').to eq(false)
+    end
+  end
 end

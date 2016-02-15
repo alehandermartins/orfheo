@@ -10,6 +10,10 @@ module Repos
         @@calls_collection.insert(call)
       end
 
+      def exists? query
+        !@@calls_collection.find(query).limit(1).to_a.empty?
+      end
+
       def grab query
         results = @@calls_collection.find(query)
         return [] unless results.count > 0

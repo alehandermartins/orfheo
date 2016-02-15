@@ -8,13 +8,13 @@ describe Repos::Calls do
       user_id: @user_id,
       call_id: @call_id,
     }
-    Repos::Profiles.add(@call_params)
+    Repos::Calls.add(@call_params)
   }
 
   describe 'Add' do
 
     it 'registers a new call' do
-      saved_entry = @db['profiles'].find_one()
+      saved_entry = @db['calls'].find_one()
       expect(saved_entry).to include({
         'user_id' => @user_id,
         'call_id' => @call_id,
@@ -22,10 +22,17 @@ describe Repos::Calls do
     end
   end
 
+  describe 'Exists?' do
+    it 'checks if matched element is already in any document' do
+      expect(Repos::Calls.exists?({call_id: @call_id})).to eq(true)
+      expect(Repos::Calls.exists?({call_id:'otter'})).to eq(false)
+    end
+  end
+
   describe 'Grab' do
 
     it 'returns the desired document' do
-      expect(Repos::Profiles.grab({call_id:@call_id}).first).to include({
+      expect(Repos::Calls.grab({call_id:@call_id}).first).to include({
         user_id: @user_id,
         call_id: @call_id,
       })

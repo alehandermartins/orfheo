@@ -14,6 +14,7 @@ require File.join(File.dirname(__FILE__), '..', 'controllers', 'base')
 require File.join(File.dirname(__FILE__), '..', 'controllers', 'login')
 require File.join(File.dirname(__FILE__), '..', 'controllers', 'users')
 require File.join(File.dirname(__FILE__), '..', 'controllers', 'profiles')
+require File.join(File.dirname(__FILE__), '..', 'controllers', 'calls')
 
 def app
   Rack::Builder.parse_file(File.expand_path('../../config.ru', __FILE__)).first

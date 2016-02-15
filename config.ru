@@ -21,6 +21,9 @@ use UsersController
 require './controllers/profiles'
 use ProfilesController
 
+require './controllers/calls'
+use CallsController
+
 map '/' do
   run WelcomeController
 end
