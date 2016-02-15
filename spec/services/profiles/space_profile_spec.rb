@@ -71,5 +71,18 @@ describe SpaceProfile do
         name: 'otter_name'
       )
     end
+
+    it 'only updates filled fields' do
+      @profile_params.delete('personal_web')
+      profile = SpaceProfile.new @profile_params, @user_id
+      profile.update
+
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).not_to include(
+        personal_web: ''
+      )
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include(
+        bio: 'bio'
+      )
+    end
   end
 end

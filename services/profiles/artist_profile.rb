@@ -16,6 +16,9 @@ class ArtistProfile
   end
 
   def update
+    profile.each{ |field, value|
+      profile.delete(field) if (value.nil? || value.empty?)
+    }
     Repos::Profiles.update(uuid, profile)
   end
 

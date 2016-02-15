@@ -16,7 +16,7 @@ class SpaceProfile
   end
 
   def update
-    Repos::Profiles.update(uuid, @profile)
+    Repos::Profiles.update(uuid, profile)
   end
 
   def uuid
