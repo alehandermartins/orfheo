@@ -7,3 +7,4 @@
 // = require widgets
 // = require profile
 // = require header
+// = require forms

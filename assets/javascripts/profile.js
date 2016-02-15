@@ -62,8 +62,8 @@
   ns.Widgets.ModifyProfileMessage = function(profile){
 
     var _forms = {
-      'artist': Pard.Widgets.ArtistForm(),
-      'space': Pard.Widgets.SpaceForm()
+      'artist': Pard.Forms.BasicArtistForm(),
+      'space': Pard.Forms.BasicSpaceForm()
     }
 
     var _createdWidget = $('<div>');
@@ -72,7 +72,9 @@
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
 
-    var _form = _forms[profile.type].objectForm();
+    var _form = _forms[profile.type].render();
+    var _basicFields = _forms[profile.type].formFields();
+    
     _form['personal_web'] = Pard.Widgets.Input('Web personal', 'text');
     _form['bio'] = Pard.Widgets.TextArea('Bio');
 
@@ -87,7 +89,7 @@
 
     var _filled = function(){
       for (field in _form){
-        if (!(field == 'bio' || field == 'personal_web')){
+        if ($.inArray(field, _basicFields) >= 0){
           if(_form[field].getVal().length == 0) return false;
         }
       }

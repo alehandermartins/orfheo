@@ -15,8 +15,12 @@ Pard.Users = function(profiles){
   var _createProfile = Pard.Widgets.CreateProfile().render();
   var _myProfiles = Pard.Widgets.MyProfiles(profiles).render();
 
+  var _callGenerator = Pard.Widgets.Button('crea convocatoria', function(){
+    Pard.Backend.createCall(console.log('created'));
+  });
+
   $('#header_layout').append(_header);
-  $('#section_layout').append(_modifyPasswordWidget, _createProfile, _myProfiles);
+  $('#section_layout').append(_modifyPasswordWidget, _createProfile, _myProfiles, _callGenerator.render());
 };
 
 Pard.Profile = function(profile){
