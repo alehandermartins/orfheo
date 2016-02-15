@@ -165,5 +165,18 @@ class ArtistForm
         }
       ]
     end
+
+    def categories
+      [
+        'music',
+        'arts',
+        'other',
+        'street_art',
+        'poetry',
+        'workshop',
+        'audiovisual',
+        'expo'
+      ]
+    end
   end
 end
