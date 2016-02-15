@@ -17,7 +17,7 @@ class ArtistProfile
 
   def update
     profile.each{ |field, value|
-      profile.delete(field) if (value.nil? || value.empty?)
+      profile.delete(field) if value.nil?
     }
     Repos::Profiles.update(uuid, profile)
   end
@@ -45,7 +45,7 @@ class ArtistProfile
 
   def check_fundamentals
     [:name, :city, :zip_code].any?{ |field|
-      (profile[field].nil? || profile[field].empty?)
+      profile[field].blank?
     }
   end
 
