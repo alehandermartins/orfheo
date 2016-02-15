@@ -4,9 +4,16 @@ describe Services::Calls do
 
     @user_id = 'email@test.com'
     @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
+    @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+    @proposal_id = 'b11000e7-8f02-4542-a1c9-7f7aa18752ce'
 
     @call_hash = {}
 
+    @proposal_params = {
+      profile_id: @profile_id,
+      proposal_id: @proposal_id,
+      call_id: @call_id
+    }
   }
 
   describe 'Registration' do
@@ -33,6 +40,29 @@ describe Services::Calls do
       Services::Calls.register @call_hash, @user_id
       expect(Services::Calls.exists? @call_id).to eq(true)
       expect(Services::Calls.exists? 'otter').to eq(false)
+    end
+  end
+
+  describe 'Add proposal' do
+
+    it 'adds the user_id to the proposal parameters' do
+      Services::Calls.add_proposal @proposal_params, @user_id
+      expect(@proposal_params[:user_id]).to eq(@user_id)
+    end
+
+    it 'adds an id to the proposal if it does not haave any' do
+      Services::Calls.add_proposal @proposal_params, @user_id
+      expect(@proposal_params[:proposal_id]).to eq(@proposal_id)
+
+      @proposal_params.delete(:proposal_id)
+      Services::Calls.add_proposal @proposal_params, @user_id
+      expect(@proposal_params[:proposal_id]).not_to eq(@proposal_id)
+      expect(UUID.validate @proposal_params[:proposal_id]).to eq(true)
+    end
+
+    it 'adds a proposal to the call' do
+      expect(Repos::Calls).to receive(:push).with({call_id: @proposal_params[:call_id]}, @proposal_params)
+      Services::Calls.add_proposal @proposal_params, @user_id
     end
   end
 end

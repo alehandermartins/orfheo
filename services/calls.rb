@@ -11,6 +11,12 @@ module Services
       def exists? call_id
         Repos::Calls.exists?({call_id: call_id})
       end
+
+      def add_proposal proposal, user_id
+        proposal.merge! user_id: user_id
+        proposal.merge! proposal_id: SecureRandom.uuid if proposal[:proposal_id].blank?
+        Repos::Calls.push({call_id: proposal[:call_id]}, proposal)
+      end
     end
   end
 end
