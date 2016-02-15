@@ -61,23 +61,15 @@
 
   ns.Widgets.ModifyProfileMessage = function(profile){
 
-    var _forms = {
-      'artist': Pard.Forms.BasicArtistForm(),
-      'space': Pard.Forms.BasicSpaceForm()
-    }
-
     var _createdWidget = $('<div>');
     var _submitForm = {};
 
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
 
-    var _form = _forms[profile.type].render();
-    var _basicFields = _forms[profile.type].formFields();
-    
-    _form['personal_web'] = Pard.Widgets.Input('Web personal', 'text');
-    _form['bio'] = Pard.Widgets.TextArea('Bio');
-
+    var _form = Pard.Forms.ProfileForms(profile.type).render();
+    var _requiredFields = _form.requiredFields();
+    _form = _form.render();
 
     for(field in _form){
       if(profile[field]) _form[field].setVal(profile[field]);
@@ -89,7 +81,7 @@
 
     var _filled = function(){
       for (field in _form){
-        if ($.inArray(field, _basicFields) >= 0){
+        if ($.inArray(field, _requiredFields) >= 0){
           if(_form[field].getVal().length == 0) return false;
         }
       }
@@ -137,28 +129,23 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
+    _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
 
-    var _form = {};
-    var _labels = ['Sabado', 'Domingo', 'Ambos dias'];
-    var _values = ['sat', 'sun', 'both'];
-
-    _form['phone'] = Pard.Widgets.Input('Telefono de contacto', 'text');
-    _form['description'] = Pard.Widgets.TextArea('Descripcion del espacio disponible');
-    _form['availability'] = Pard.Widgets.Selector(_labels, _values);
-    //_form['fotos'] = Pard.Widgets.Input('Codigo postal', 'file');
-    _form['links'] = Pard.Widgets.Input('Link', 'text');
-    _form['own'] = Pard.Widgets.TextArea('Programacion propia');
-    _form['sharing'] = Pard.Widgets.TextArea('Materiales a compartir');
+    var _form = Pard.Forms.SpaceCallConfusion().render();
+    var _requiredFields = Pard.Forms.SpaceCallConfusion().requiredFields();
 
     for(field in _form){
       _createdWidget.append(_form[field].render());
     }
 
     var _filled = function(){
-      if(_form['phone'].getVal().length == 0) return false;
-      if(_form['description'].getVal().length == 0) return false;
+      for (field in _form){
+        if ($.inArray(field, _requiredFields) >= 0){
+          if(_form[field].getVal().length == 0) return false;
+        }
+      }
       return true;
     };
 
