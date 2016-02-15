@@ -51,7 +51,6 @@ describe Repos::Calls do
 
     it 'adds a proposal to the array of proposals' do
 
-
       @otter_params = {
         user_id: 'otter_user',
         profile_id: 'otter_profile',
