@@ -78,6 +78,14 @@
       );
     };
 
+    var _createCall = function(callback){
+      _send(
+        '/users/create_call',
+        {},
+        callback
+      );
+    };
+
     var _createProposal = function(form, callback){
       _send(
         '/users/proposals/create_proposal',
@@ -93,6 +101,7 @@
       logout: _logout,
       modifyPassword: _modifyPassword,
       createProfile: _createProfile,
+      createCall: _createCall,
       createProposal: _createProposal
     };
   }());
