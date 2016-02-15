@@ -9,14 +9,15 @@ require_relative '../exceptions'
 
 require_relative '../services/mails'
 require_relative '../services/users'
-require_relative '../services/profiles/artist_profile'
-require_relative '../services/profiles/space_profile'
 require_relative '../services/profiles'
 require_relative '../services/calls'
 
 require_relative '../repos/users'
 require_relative '../repos/profiles'
 require_relative '../repos/calls'
+
+require_relative '../lib/profiles/artist_profile'
+require_relative '../lib/profiles/space_profile'
 
 class BaseController < Sinatra::Base
   set :environment, (ENV['RACK_ENV'].to_sym || :production) rescue :production

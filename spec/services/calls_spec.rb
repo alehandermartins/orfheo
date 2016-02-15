@@ -10,9 +10,20 @@ describe Services::Calls do
     @call_hash = {}
 
     @proposal_params = {
-      profile_id: @profile_id,
-      proposal_id: @proposal_id,
-      call_id: @call_id
+      'profile_id' => @profile_id,
+      'proposal_id' => @proposal_id,
+      'call_id' => @call_id,
+      'type' => 'artist',
+      'category' => 'music',
+      'title' => 'title',
+      'description' => 'description',
+      'short_description' => 'short_description',
+      'phone' => '666999666',
+      'conditions' => true,
+      'duration' => '15',
+      'availability' => 'sun',
+      'components' => 3,
+      'repeat' => true
     }
   }
 
@@ -50,12 +61,13 @@ describe Services::Calls do
       expect(@proposal_params[:user_id]).to eq(@user_id)
     end
 
-    it 'adds an id to the proposal if it does not haave any' do
+    it 'adds an id to the proposal if it does not have any' do
       Services::Calls.add_proposal @proposal_params, @user_id
-      expect(@proposal_params[:proposal_id]).to eq(@proposal_id)
+      expect(@proposal_params['proposal_id']).to eq(@proposal_id)
 
-      @proposal_params.delete(:proposal_id)
+      @proposal_params.delete('proposal_id')
       Services::Calls.add_proposal @proposal_params, @user_id
+
       expect(@proposal_params[:proposal_id]).not_to eq(@proposal_id)
       expect(UUID.validate @proposal_params[:proposal_id]).to eq(true)
     end
@@ -63,6 +75,19 @@ describe Services::Calls do
     it 'adds a proposal to the call' do
       expect(Repos::Calls).to receive(:push).with({call_id: @proposal_params[:call_id]}, @proposal_params)
       Services::Calls.add_proposal @proposal_params, @user_id
+    end
+  end
+
+  describe 'Wrong form?' do
+
+    it 'fails if the fundamental parameters of a proposal are not filled' do
+      expect(Services::Calls.wrong_form? @proposal_params).to eq(false)
+
+      @proposal_params.delete('repeat')
+      expect(Services::Calls.wrong_form? @proposal_params).to eq(false)
+
+      @proposal_params.delete('phone')
+      expect(Services::Calls.wrong_form? @proposal_params).to eq(true)
     end
   end
 end

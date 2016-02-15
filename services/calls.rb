@@ -1,6 +1,13 @@
+require_relative '../lib/forms/artist_form'
+require_relative '../lib/forms/space_form'
 module Services
   class Calls
     class << self
+
+      FORMS_MAP = {
+        'artist' => ArtistForm,
+        'space' => SpaceForm
+      }
 
       def register call, user_id
         call.merge! user_id: user_id
@@ -16,6 +23,23 @@ module Services
         proposal.merge! user_id: user_id
         proposal.merge! proposal_id: SecureRandom.uuid if proposal[:proposal_id].blank?
         Repos::Calls.push({call_id: proposal[:call_id]}, proposal)
+      end
+
+      def wrong_form? params
+        form_fundamentals(params['type'], params['category']).any?{ |field|
+          params[field].blank?
+        }
+      end
+
+      private
+      def form_fundamentals type, category
+        FORMS_MAP[type].fields.map{ |field|
+          field[:name] if fundamental?(field, category)
+        }.compact
+      end
+
+      def fundamental? field, category
+        (field[:category] == category || field[:category] == 'all') && field[:type] == 'mandatory'
       end
     end
   end

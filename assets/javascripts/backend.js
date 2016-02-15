@@ -88,7 +88,7 @@
 
     var _createProposal = function(form, callback){
       _send(
-        '/users/proposals/create_proposal',
+        '/users/send_proposal',
         form,
         callback
       );
