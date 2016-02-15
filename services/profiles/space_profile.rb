@@ -16,6 +16,9 @@ class SpaceProfile
   end
 
   def update
+    profile.each{ |field, value|
+      profile.delete(field) if value.nil?
+    }
     Repos::Profiles.update(uuid, profile)
   end
 

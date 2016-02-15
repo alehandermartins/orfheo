@@ -72,16 +72,13 @@ describe SpaceProfile do
       )
     end
 
-    it 'only updates filled fields' do
+   it 'does not modify unexisting fields' do
       @profile_params.delete('personal_web')
+      @profile_params['bio']
       profile = SpaceProfile.new @profile_params, @user_id
       profile.update
-
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).not_to include(
-        personal_web: ''
-      )
       expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include(
-        bio: 'bio'
+        personal_web: 'my_web'
       )
     end
   end
