@@ -19,7 +19,7 @@ class SpaceForm
           category: 'all'
         },
         {
-          name: 'link',
+          name: 'links',
           type: 'optional',
           category: 'all'
         },

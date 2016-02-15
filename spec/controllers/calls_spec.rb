@@ -42,12 +42,39 @@ describe CallsController do
       @proposal_id = 'b11000e7-8f02-4542-a1c9-7f7aa18752ce'
 
       @proposal_params = {
-        profile_id: @profile_id,
-        proposal_id: @proposal_id,
-        call_id: @call_id
+        'profile_id' => @profile_id,
+        'proposal_id' => @proposal_id,
+        'call_id' => @call_id,
+        'type' => 'artist',
+        'category' => 'music',
+        'title' => 'title',
+        'description' => 'description',
+        'short_description' => 'short_description',
+        'phone' => '666999666',
+        'conditions' => true,
+        'duration' => '15',
+        'availability' => 'sun',
+        'components' => 3,
+        'repeat' => true
       }
       post @create_call_route, {}
     }
+
+    it 'fails if the proposal does not have type and category' do
+      @proposal_params.delete('type')
+      post @send_proposal_route, @proposal_params
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_type')
+    end
+
+    it 'fails if the proposal does not have the mandatory fields' do
+      @proposal_params.delete('title')
+      post @send_proposal_route, @proposal_params
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_form')
+    end
 
     it 'adds the proposal to the specified call' do
       post @send_proposal_route, @proposal_params
