@@ -1,5 +1,6 @@
 require 'sinatra/config_file'
 require 'sinatra/asset_pipeline'
+require 'uuid'
 require 'pony'
 require 'mongo'
 require 'cloudinary'
@@ -11,10 +12,11 @@ require_relative '../services/users'
 require_relative '../services/profiles/artist_profile'
 require_relative '../services/profiles/space_profile'
 require_relative '../services/profiles'
-
+require_relative '../services/calls'
 
 require_relative '../repos/users'
 require_relative '../repos/profiles'
+require_relative '../repos/calls'
 
 class BaseController < Sinatra::Base
   set :environment, (ENV['RACK_ENV'].to_sym || :production) rescue :production
@@ -82,6 +84,7 @@ class BaseController < Sinatra::Base
   configure do
     Repos::Users.for @@db
     Repos::Profiles.for @@db
+    Repos::Calls.for @@db
   end
 
   configure do

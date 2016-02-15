@@ -1,4 +1,3 @@
-require 'uuid'
 module Services
   class Users
     class << self
