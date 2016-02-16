@@ -61,4 +61,32 @@ describe Services::Profiles do
       )
     end
   end
+
+  describe 'Add proposal' do
+
+    before(:each){
+      @profile.update
+      @proposal_params = {
+        profile_id: @profile_id,
+        proposal_id: @proposal_id,
+        type: 'artist',
+        category: 'music',
+        title: 'title',
+        description: 'description',
+        short_description: 'short_description',
+        phone: '666999666',
+        conditions: true,
+        duration: '15',
+        availability: 'sun',
+        components: 3,
+        repeat: true
+      }
+      @proposal = ArtistProposal.new @profile_params, @user_id
+      @proposal.add
+    }
+
+    it 'adds a proposal to the profile' do
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to eq(@proposal.to_h)
+    end
+  end
 end
