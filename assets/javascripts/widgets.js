@@ -102,7 +102,7 @@
         return _input.is(":checked");
       },
       setVal: function(_val){
-        _input.val(_val);
+        _input.attr('checked', _val);;
       }
     }
   }

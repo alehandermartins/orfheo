@@ -104,7 +104,7 @@
   }
 
 
-  ns.Forms.SpaceCallConfusion = function() {
+  ns.Forms.SpaceCall = function() {
 
 		var _form = {};
     var _labels = ['Sabado', 'Domingo', 'Ambos dias'];
@@ -117,8 +117,9 @@
     _form['links'] = Pard.Widgets.Input('Link', 'text');
     _form['own'] = Pard.Widgets.TextArea('Programacion propia');
     _form['sharing'] = Pard.Widgets.TextArea('Materiales a compartir');
+    _form['conditions'] = Pard.Widgets.CheckBox('Acepto las bases', 'yes_conditions');
 
-    var _requiredFields = ['phone', 'description']
+    var _requiredFields = ['phone', 'description', 'conditions']
 
     return {
       render: function(){
@@ -130,6 +131,61 @@
     }	
   }
 
+
+
+    ns.Forms.ArtistCall = function() {
+
+		var _form = {};
+    
+    var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
+    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
+    var _labelsDays = ['Sabado', 'Domingo', 'Ambos dias'];
+    var _valuesDays = ['sat', 'sun', 'both'];
+    var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30 min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
+    var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
+           
+    _form['category'] = Pard.Widgets.Selector(_labelsCategories, _valuesCategories);
+    _form['title'] = Pard.Widgets.Input('Titulo', 'text');
+    _form['description'] = Pard.Widgets.TextArea('Descripción');
+    _form['short_description']= Pard.Widgets.Input('Breve descripción para el programa', 'text');
+   	_form['duration'] = Pard.Widgets.Selector(_labelsTime, _valuesTime); 
+    _form['components'] = Pard.Widgets.Input('Numero de integrantes', 'number'); 
+    _form['meters'] = Pard.Widgets.Input('Espacio necesario para la expo', 'text');
+    _form['availability'] = Pard.Widgets.Selector(_labelsDays, _valuesDays); 
+    _form['children'] = Pard.Widgets.CheckBox('Actividad para un publico infantil', 'yes_children');
+    //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
+    _form['links'] = Pard.Widgets.Input('Links', 'text');
+    _form['sharing'] = Pard.Widgets.TextArea('Materiales a compartir');
+    _form['needs'] = Pard.Widgets.TextArea('Necesidades');
+    _form['repeat'] = Pard.Widgets.CheckBox('Si posible, quiero repetir mi actuacción', 'yes_repeat');
+    _form['waiting_list'] = Pard.Widgets.CheckBox('En la eventualidad, quiero quedarme en la lista de espera', 'yes_waitig_list');
+    _form['phone'] = Pard.Widgets.Input('Telefono de contacto', 'text');
+    _form['conditions'] = Pard.Widgets.CheckBox('Acepto las bases', 'yes_conditions');
+
+    return {
+      render: function(){
+        return _form;
+      }
+    }	
+  }
+
+  ns.Forms.ArtistCallByCategory = function(){
+  	var _callBycategory = {
+      'music': Pard.Forms.MusicArtsOtherCall(),
+      'arts': Pard.Forms.MusicArtsOtherCall(),
+      'other': Pard.Forms.MusicArtsOtherCall(),
+      'poetry': Pard.Forms.PoetryWorkshopCall(),
+      'expo': Pard.Forms.ExpoCall(),
+      'street_art': Pard.Forms.StreetArtCall(),
+      'workshop': Pard.Forms.PoetryWorkshopCall(),
+      'audiovisual': Pard.Forms.AudiovisualCall()
+    }
+    return {
+    	render: function(){ 
+    		return _callBycategory;
+    	}
+    }
+  };
 
   ns.Forms.MusicArtsOtherCall = function(){
 
@@ -262,41 +318,6 @@
   };
 
 
-  ns.Forms.ArtistCall = function() {
-
-		var _form = {};
-    
-    var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
-    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
-    var _labelsDays = ['Sabado', 'Domingo', 'Ambos dias'];
-    var _valuesDays = ['sat', 'sun', 'both'];
-    var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30 min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
-    var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
-           
-    _form['category'] = Pard.Widgets.Selector(_labelsCategories, _valuesCategories);
-    _form['title'] = Pard.Widgets.Input('Titulo', 'text');
-    _form['description'] = Pard.Widgets.TextArea('Descripción');
-    _form['short_description']= Pard.Widgets.Input('Breve descripción para el programa', 'text');
-   	_form['duration'] = Pard.Widgets.Selector(_labelsTime, _valuesTime); 
-    _form['components'] = Pard.Widgets.Input('Numero de integrantes', 'number'); 
-    _form['meters'] = Pard.Widgets.Input('Espacio necesario para la expo', 'text');
-    _form['availability'] = Pard.Widgets.Selector(_labelsDays, _valuesDays); 
-    _form['children'] = Pard.Widgets.CheckBox('Actividad para un publico infantil', 'yes_children');
-    //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
-    _form['links'] = Pard.Widgets.Input('Links', 'text');
-    _form['sharing'] = Pard.Widgets.TextArea('Materiales a compartir');
-    _form['needs'] = Pard.Widgets.TextArea('Necesidades');
-    _form['repeat'] = Pard.Widgets.CheckBox('Si posible, quiero repetir mi actuacción', 'yes_repeat');
-    _form['waiting_list'] = Pard.Widgets.CheckBox('En la eventualidad, quiero quedarme en la lista de espera', 'yes_waitig_list');
-    _form['phone'] = Pard.Widgets.Input('Telefono de contacto', 'text');
-    _form['conditions'] = Pard.Widgets.CheckBox('Acepto las bases', 'yes_conditions');
-
-    return {
-      render: function(){
-        return _form;
-      }
-    }	
-  }
 
 
   }(Pard || {}));
