@@ -241,7 +241,7 @@
 
   	var _form = {};
 
-    var _fields = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'children', 'links', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
+    var _fields = ['title', 'description', 'short_description', 'duration', 'availability', 'children', 'links', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
 
     var _artistCall = Pard.Forms.ArtistCall().render();
 

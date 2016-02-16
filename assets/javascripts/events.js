@@ -53,8 +53,9 @@
 
 
   ns.Events.CreateProposal = function(data){
+    console.log(data);
     if (data['status'] == 'success'){
-      console.log('success');
+      document.location = '/users/profiles/' + data['profile_id'];
     }
     else{
       bootbox.alert({

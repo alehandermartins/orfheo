@@ -12,9 +12,9 @@
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
     var _callButton = Pard.Widgets.CallButtonArtist(profile).render();
-    // var _myCallProposals = Pard.Widgets.MyArtistCallProposals.render();
+    var _myProductions = Pard.Widgets.MyArtistProductions(profile).render();
 
-    _createdWidget.append(_info, _modifyProfile, _callButton);
+    _createdWidget.append(_info, _modifyProfile, _callButton, _myProductions);
 
     return {
       render: function(){
@@ -112,7 +112,7 @@
   }
 
 
-  ns.Widgets.MyArtistCallProposals = function(profile){
+/*  ns.Widgets.MyArtistCallProposals = function(profile){
     var _createdWidget = $('<div>');
     var _proposals = profile.proposals;
 
@@ -152,9 +152,54 @@
       }
     }
 
+  }*/
+
+  ns.Widgets.MyArtistProductions = function(profile){
+    var _createdWidget = $('<div>');
+    var _content = $('<div>');
+    var _proposals = profile.proposals;
+    
+    if (_proposals){
+      _proposals.forEach(function(proposal){
+        _createdWidget.append(Pard.Widgets.Button(proposal['title'], function(){
+          _content.empty();
+          _content.append(Pard.Widgets.MyArtistProductionsContent(proposal).render());
+       }).render());
+      });
+    }
+
+    _createdWidget.append(_content);
+   
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  };
+
+
+  ns.Widgets.MyArtistProductionsContent = function(proposal){
+    
+    var _createdWidget = $('<div>');
+    var _infoField = $('<div>');
+    
+
+    for(field in proposal){
+      if(proposal[field] != null){
+        if(proposal[field].length != 0 && field != 'proposal_id') {
+          var _newField = $('<div>').text(field+': '+proposal[field]);
+          _createdWidget.append(_newField);
+        }
+      }
+    };
+   
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+
   }
-
-
 
 
 }(Pard || {}));
