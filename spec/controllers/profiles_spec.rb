@@ -11,7 +11,7 @@ describe ProfilesController do
       password: 'password'
     }
 
-   @profile_params = {
+    @profile_params = {
       user_id: @user_id,
       profile_id: @profile_id,
       type: 'artist',
@@ -21,6 +21,23 @@ describe ProfilesController do
       profile_picture: 'picture.jpg',
       bio: 'bio',
       personal_web: 'my_web'
+    }
+
+    @proposal_params = {
+      profile_id: @profile_id,
+      proposal_id: @proposal_id,
+      call_id: @call_id,
+      type: 'artist',
+      category: 'music',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      phone: '666999666',
+      conditions: true,
+      duration: '15',
+      availability: 'sun',
+      components: 3,
+      repeat: true
     }
 
     Services::Users.register @user_hash
@@ -91,9 +108,12 @@ describe ProfilesController do
 
     it 'redirects user to profile page otherwise' do
       post @update_profile_route, @profile_params
+      post '/users/create_call', {}
+      post '/users/send_proposal', @proposal_params
 
       get '/users/profiles/' + @profile_id
-      expect(last_response.body).to include('"type":"artist","name":"artist_name')
+      expect(last_response.body).to include('"type":"artist","name":"artist_name"')
+      expect(last_response.body).to include('"category":"music","title":"title"')
     end
   end
 end

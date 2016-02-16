@@ -97,11 +97,21 @@ describe Services::Calls do
     it 'fails if the fundamental parameters of a proposal are not filled' do
       expect(Services::Calls.wrong_form? @proposal_params).to eq(false)
 
-      # @proposal_params.delete(:repeat)
-      # expect(Services::Calls.wrong_form? @proposal_params).to eq(false)
+      @proposal_params.delete(:repeat)
+      expect(Services::Calls.wrong_form? @proposal_params).to eq(false)
 
-      # @proposal_params.delete(:phone)
-      # expect(Services::Calls.wrong_form? @proposal_params).to eq(true)
+      @proposal_params.delete(:phone)
+      expect(Services::Calls.wrong_form? @proposal_params).to eq(true)
+    end
+  end
+
+  describe 'Get proposal' do
+
+    it 'retrieves the proposals for a given profile' do
+      Services::Calls.register @call_hash, @user_id
+      Services::Calls.add_proposal @proposal_params, @user_id
+
+      expect(Services::Calls.get_proposals_for(@profile_id).first).to eq(@proposal_params)
     end
   end
 end

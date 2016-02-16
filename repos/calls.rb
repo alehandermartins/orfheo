@@ -29,6 +29,13 @@ module Repos
         })
       end
 
+      def get_proposals_for profile_id
+        results = @@calls_collection.find({ proposals: { "$elemMatch": { profile_id: profile_id }}})
+        return [] unless results.count > 0
+
+        get_my_proposals_from(results.map{ |call| call['proposals']}.flatten, profile_id)
+      end
+
       private
       def string_keyed_hash_to_symbolized hash
         hash.map do |k,v|
@@ -48,6 +55,10 @@ module Repos
           new_array.push(new_proposal)
         }
         new_array
+      end
+
+      def get_my_proposals_from proposals, profile_id
+        symbolize_array(proposals.select{ |proposal| proposal['profile_id'] == profile_id })
       end
     end
   end

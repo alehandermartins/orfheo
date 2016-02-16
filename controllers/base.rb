@@ -31,11 +31,7 @@ class BaseController < Sinatra::Base
     end
 
     def invalid_password? password
-      password.nil? || password.empty? || password.size < 8
-    end
-
-    def invalid_param? param
-      param.nil? || param.empty?
+      password.blank? || password.size < 8
     end
   end
 end

@@ -16,6 +16,13 @@ describe Repos::Calls do
       profile_id: @profile_id,
       proposal_id: @proposal_id
     }
+
+    @otter_params = {
+      user_id: 'otter_user',
+      profile_id: 'otter_profile',
+      proposal_id: 'otter_proposal'
+    }
+
     Repos::Calls.add(@call_params)
   }
 
@@ -33,14 +40,14 @@ describe Repos::Calls do
   describe 'Exists?' do
     it 'checks if matched element is already in any document' do
       expect(Repos::Calls.exists?({call_id: @call_id})).to eq(true)
-      expect(Repos::Calls.exists?({call_id:'otter'})).to eq(false)
+      expect(Repos::Calls.exists?({call_id: 'otter'})).to eq(false)
     end
   end
 
   describe 'Grab' do
 
     it 'returns the desired document' do
-      expect(Repos::Calls.grab({call_id:@call_id}).first).to include({
+      expect(Repos::Calls.grab({call_id: @call_id}).first).to include({
         user_id: @user_id,
         call_id: @call_id,
       })
@@ -51,18 +58,30 @@ describe Repos::Calls do
 
     it 'adds a proposal to the array of proposals' do
 
-      @otter_params = {
-        user_id: 'otter_user',
-        profile_id: 'otter_profile',
-        proposal_id: 'otter_proposal'
-      }
+      Repos::Calls.push({call_id: @call_id}, @proposal_params)
+      Repos::Calls.push({call_id: @call_id}, @otter_params)
 
-      Repos::Calls.push({call_id:@call_id}, @proposal_params)
-      Repos::Calls.push({call_id:@call_id}, @otter_params)
-
-      expect(Repos::Calls.grab({call_id:@call_id}).first).to include(
+      expect(Repos::Calls.grab({call_id: @call_id}).first).to include(
         proposals: [@proposal_params, @otter_params]
       )
+    end
+  end
+
+  describe 'Find proposals' do
+
+    it 'returns all the proposals for a given profile' do
+      Repos::Calls.push({call_id: @call_id}, @proposal_params)
+      Repos::Calls.push({call_id: @call_id}, @otter_params)
+
+      Repos::Calls.add({
+        user_id: @user_id,
+        call_id: 'otter'
+      })
+
+      Repos::Calls.push({call_id: 'otter'}, @proposal_params)
+      Repos::Calls.push({call_id: 'otter'}, @otter_params)
+
+      expect(Repos::Calls.get_proposals_for @profile_id).to eq([@proposal_params, @proposal_params])
     end
   end
 end

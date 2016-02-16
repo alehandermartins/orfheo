@@ -35,6 +35,10 @@ module Services
         Repos::Calls.push({call_id: params[:call_id]}, params)
       end
 
+      def get_proposals_for profile_id
+        Repos::Calls.get_proposals_for profile_id
+      end
+
       private
       def form_categories type, category
         (!FORMS_MAP[type].categories.include?('other') && !FORMS_MAP[type].categories.include?(category))
