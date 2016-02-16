@@ -193,7 +193,7 @@
     var _createdWidget = $('<div>');
 
     var _category = Pard.Forms.ArtistCallCategory().render();
-    
+
     _createdWidget.append(_category.render());
 
 
@@ -238,9 +238,9 @@
 
     var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
-           
+
     var _category = Pard.Widgets.Selector(_labelsCategories, _valuesCategories).render();
-    
+
     _createdWidget.append(_category, _content);
 
     _category.on('change', function(){
