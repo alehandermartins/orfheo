@@ -7,7 +7,7 @@ class CallsController < BaseController
   end
 
   post '/users/send_proposal' do
-    check_type_and_category params['type']
+    check_type_and_category params[:type]
     check_category params
     check_form params
     Services::Calls.add_proposal params, session[:identity]

@@ -1,8 +1,8 @@
 class ProfilesController < UsersController
 
   post '/users/update_profile' do
-    check_type params['type']
-    profile = PROFILES_MAP[params['type']].new params, session[:identity]
+    check_type params[:type]
+    profile = PROFILES_MAP[params[:type]].new params, session[:identity]
 
     raise Pard::Invalid.new 'existing_profile' if profile.exists?
     raise Pard::Invalid.new 'invalid_parameters' if profile.wrong_params?

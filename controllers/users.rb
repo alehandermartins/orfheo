@@ -12,8 +12,8 @@ class UsersController < BaseController
   end
 
   post '/users/modify_password' do
-    check_invalid_password params['password']
-    modify_password params['password']
+    check_invalid_password params[:password]
+    modify_password params[:password]
     success
   end
 

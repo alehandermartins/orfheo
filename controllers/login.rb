@@ -1,14 +1,14 @@
 class LoginController < BaseController
 
   post '/register_attempt' do
-    check_params params['email'], params['password']
-    check_non_existing_user params['email']
-    register_user params['email'], params['password']
+    check_params params[:email], params[:password]
+    check_non_existing_user params[:email]
+    register_user params[:email], params[:password]
     success
   end
 
   get '/validate/:uuid' do
-    username = validated_user params['uuid']
+    username = validated_user params[:uuid]
     halt erb(:welcome) if username == false
     session[:identity] = username
     redirect 'http://pard.herokuapp.com/users/'
@@ -16,10 +16,10 @@ class LoginController < BaseController
 
   post '/login_attempt' do
     check_params params[:email], params[:password]
-    check_existing_user params['email']
-    is_validated? params['email']
-    correct_password? params['email'], params['password']
-    session[:identity] = params['email']
+    check_existing_user params[:email]
+    is_validated? params[:email]
+    correct_password? params[:email], params[:password]
+    session[:identity] = params[:email]
     success
   end
 
@@ -29,9 +29,9 @@ class LoginController < BaseController
   end
 
   post '/forgotten_password' do
-    check_invalid_email params['email']
-    check_existing_user params['email']
-    send_new_validation_code_to params['email']
+    check_invalid_email params[:email]
+    check_existing_user params[:email]
+    send_new_validation_code_to params[:email]
     success
   end
 
