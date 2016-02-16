@@ -5,15 +5,15 @@ describe Services::Profiles do
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
 
     @profile_params = {
-      'user_id' => @user_id,
-      'profile_id' => @profile_id,
-      'type' => 'artist',
-      'name' => 'artist_name',
-      'city' => 'city',
-      'zip_code' => 'zip_code',
-      'profile_picture' => 'picture.jpg',
-      'bio' => 'bio',
-      'personal_we' => 'my_web'
+      user_id: @user_id,
+      profile_id: @profile_id,
+      type: 'artist',
+      name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      profile_picture: 'picture.jpg',
+      bio: 'bio',
+      personal_we: 'my_web'
     }
 
     @profile = ArtistProfile.new @profile_params, @user_id
@@ -36,8 +36,8 @@ describe Services::Profiles do
 
     it 'returns the specified profiles for a given user' do
       @profile.update
-      @profile_params.delete('profile_id')
-      @profile_params['name'] = 'otter_name'
+      @profile_params.delete(:profile_id)
+      @profile_params[:name] = 'otter_name'
       expect(Services::Profiles.get_profile_for @user_id, @profile_id).to include(
         user_id: @user_id,
         profile_id: @profile_id
@@ -46,8 +46,8 @@ describe Services::Profiles do
 
     it 'returns all the profiles for a given user' do
       @profile.update
-      @profile_params.delete('profile_id')
-      @profile_params['name'] = 'otter_name'
+      @profile_params.delete(:profile_id)
+      @profile_params[:name] = 'otter_name'
       profile = ArtistProfile.new @profile_params, @user_id
       profile.update
 

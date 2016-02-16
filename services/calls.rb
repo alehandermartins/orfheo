@@ -20,19 +20,19 @@ module Services
       end
 
       def wrong_category? params
-        form_categories(params['type'], params['category'])
+        form_categories(params[:type], params[:category]) || params[:category].blank?
       end
 
       def wrong_form? params
-        form_fundamentals(params['type'], params['category']).any?{ |field|
+        form_fundamentals(params[:type], params[:category]).any?{ |field|
           params[field].blank?
         }
       end
 
-      def add_proposal proposal, user_id
-        proposal.merge! user_id: user_id
-        proposal.merge! proposal_id: SecureRandom.uuid if proposal[:proposal_id].blank?
-        Repos::Calls.push({call_id: proposal[:call_id]}, proposal)
+      def add_proposal params, user_id
+        params.merge! user_id: user_id
+        params.merge! proposal_id: SecureRandom.uuid if params[:proposal_id].blank?
+        Repos::Calls.push({call_id: params[:call_id]}, params)
       end
 
       private
@@ -42,7 +42,7 @@ module Services
 
       def form_fundamentals type, category
         FORMS_MAP[type].fields.map{ |field|
-          field[:name] if fundamental?(field, category)
+          field[:name].to_sym if fundamental?(field, category)
         }.compact
       end
 

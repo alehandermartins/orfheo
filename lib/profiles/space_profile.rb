@@ -1,7 +1,9 @@
 class SpaceProfile
 
   def initialize params, user_id
-    @profile = new_profile params, user_id
+    params.merge! user_id: user_id
+    params.merge! profile_id: (params[:profile_id] || SecureRandom.uuid)
+    @profile = params
   end
 
   def wrong_params?
@@ -26,22 +28,26 @@ class SpaceProfile
     profile[:profile_id]
   end
 
+  def to_h
+    profile.to_h
+  end
+
   private
   attr_reader :profile
 
   def new_profile params, user_id
     {
       user_id: user_id,
-      profile_id: params['profile_id'] || SecureRandom.uuid,
-      type: params['type'],
-      name: params['name'],
-      city: params['city'],
-      address: params['address'],
-      zip_code: params['zip_code'],
-      category: params['category'],
-      profile_picture: params['profile_picture'],
-      bio: params['bio'],
-      personal_web: params['personal_web']
+      profile_id: params[:profile_id] || SecureRandom.uuid,
+      type: params[:type],
+      name: params[:name],
+      city: params[:city],
+      address: params[:address],
+      zip_code: params[:zip_code],
+      category: params[:category],
+      profile_picture: params[:profile_picture],
+      bio: params[:bio],
+      personal_web: params[:personal_web]
     }
   end
 

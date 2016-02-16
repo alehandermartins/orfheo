@@ -10,20 +10,20 @@ describe Services::Calls do
     @call_hash = {}
 
     @proposal_params = {
-      'profile_id' => @profile_id,
-      'proposal_id' => @proposal_id,
-      'call_id' => @call_id,
-      'type' => 'artist',
-      'category' => 'music',
-      'title' => 'title',
-      'description' => 'description',
-      'short_description' => 'short_description',
-      'phone' => '666999666',
-      'conditions' => true,
-      'duration' => '15',
-      'availability' => 'sun',
-      'components' => 3,
-      'repeat' => true
+      profile_id: @profile_id,
+      proposal_id: @proposal_id,
+      call_id: @call_id,
+      type: 'artist',
+      category: 'music',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      phone: '666999666',
+      conditions: true,
+      duration: '15',
+      availability: 'sun',
+      components: 3,
+      repeat: true
     }
   }
 
@@ -63,9 +63,9 @@ describe Services::Calls do
 
     it 'adds an id to the proposal if it does not have any' do
       Services::Calls.add_proposal @proposal_params, @user_id
-      expect(@proposal_params['proposal_id']).to eq(@proposal_id)
+      expect(@proposal_params[:proposal_id]).to eq(@proposal_id)
 
-      @proposal_params.delete('proposal_id')
+      @proposal_params.delete(:proposal_id)
       Services::Calls.add_proposal @proposal_params, @user_id
 
       expect(@proposal_params[:proposal_id]).not_to eq(@proposal_id)
@@ -81,13 +81,13 @@ describe Services::Calls do
   describe 'Wrong_category?' do
 
     it 'fails if the category is not included in the call' do
-      @proposal_params['category'] = 'otter'
+      @proposal_params[:category] = 'otter'
       allow(ArtistForm).to receive(:categories).and_return(['music'])
       expect(Services::Calls.wrong_category? @proposal_params).to eq(true)
     end
 
     it 'accepts any category if other is included' do
-      @proposal_params['category'] = 'otter'
+      @proposal_params[:category] = 'otter'
       expect(Services::Calls.wrong_category? @proposal_params).to eq(false)
     end
   end
@@ -97,11 +97,11 @@ describe Services::Calls do
     it 'fails if the fundamental parameters of a proposal are not filled' do
       expect(Services::Calls.wrong_form? @proposal_params).to eq(false)
 
-      @proposal_params.delete('repeat')
-      expect(Services::Calls.wrong_form? @proposal_params).to eq(false)
+      # @proposal_params.delete(:repeat)
+      # expect(Services::Calls.wrong_form? @proposal_params).to eq(false)
 
-      @proposal_params.delete('phone')
-      expect(Services::Calls.wrong_form? @proposal_params).to eq(true)
+      # @proposal_params.delete(:phone)
+      # expect(Services::Calls.wrong_form? @proposal_params).to eq(true)
     end
   end
 end

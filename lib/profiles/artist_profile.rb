@@ -26,20 +26,23 @@ class ArtistProfile
     profile[:profile_id]
   end
 
+  def to_h
+    profile.to_h
+  end
+
   private
   attr_reader :profile
-
   def new_profile params, user_id
     {
       user_id: user_id,
-      profile_id: params['profile_id'] || SecureRandom.uuid,
-      type: params['type'],
-      name: params['name'],
-      city: params['city'],
-      zip_code: params['zip_code'],
-      profile_picture: params['profile_picture'],
-      bio: params['bio'],
-      personal_web: params['personal_web']
+      profile_id: params[:profile_id] || SecureRandom.uuid,
+      type: params[:type],
+      name: params[:name],
+      city: params[:city],
+      zip_code: params[:zip_code],
+      profile_picture: params[:profile_picture],
+      bio: params[:bio],
+      personal_web: params[:personal_web]
     }
   end
 

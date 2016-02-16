@@ -15,7 +15,7 @@ class LoginController < BaseController
   end
 
   post '/login_attempt' do
-    check_params params['email'], params['password']
+    check_params params[:email], params[:password]
     check_existing_user params['email']
     is_validated? params['email']
     correct_password? params['email'], params['password']
