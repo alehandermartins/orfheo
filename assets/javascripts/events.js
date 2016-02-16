@@ -52,4 +52,17 @@
   };
 
 
+  ns.Events.CreateProposal = function(data){
+    if (data['status'] == 'success'){
+      console.log('success');
+    }
+    else{
+      bootbox.alert({
+        title: 'error',
+        message: data.reason
+      });
+    }
+  };
+
+
 }(Pard || {}));

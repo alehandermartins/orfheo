@@ -18,10 +18,13 @@
     };
   };
 
-   ns.Widgets.Selector = function(labels, values){
+  ns.Widgets.Selector = function(labels, values, callback){
     var _createdWidget = $('<select>');
     values.forEach(function(value, index){
       _createdWidget.append($('<option>').text(labels[index]).val(value));
+    });
+     _createdWidget.on('input',function(){
+      if(callback) callback();
     });
 
     return {
@@ -36,6 +39,7 @@
       }
     }
   }
+
 
   ns.Widgets.TextArea = function(label){
     var _createdWidget = $('<div>'); 
@@ -82,6 +86,26 @@
       }
     }
   };
+
+
+  ns.Widgets.CheckBox = function(label, value){
+    
+    var _input = $('<input />').attr({ type: 'checkbox', 'value': value});
+    var _label = $('<label>').text(label);
+    _label.append(_input);
+
+    return {
+      render: function(){
+        return _label;
+      },
+      getVal: function(){
+        return _input.is(":checked");
+      },
+      setVal: function(_val){
+        _input.val(_val);
+      }
+    }
+  }
 
   ns.Widgets.BootboxAlert = function(label, message){
     bootbox.alert({
