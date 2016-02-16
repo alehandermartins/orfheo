@@ -25,6 +25,10 @@ module Services
         Repos::Calls.push({call_id: proposal[:call_id]}, proposal)
       end
 
+      def wrong_category? params
+        form_categories(params['type'], params['category'])
+      end
+
       def wrong_form? params
         form_fundamentals(params['type'], params['category']).any?{ |field|
           params[field].blank?
@@ -32,6 +36,10 @@ module Services
       end
 
       private
+      def form_categories type, category
+        (!FORMS_MAP[type].categories.include?('other') && !FORMS_MAP[type].categories.include?(category))
+      end
+
       def form_fundamentals type, category
         FORMS_MAP[type].fields.map{ |field|
           field[:name] if fundamental?(field, category)

@@ -7,7 +7,8 @@ class CallsController < BaseController
   end
 
   post '/users/send_proposal' do
-    check_type_and_category params['type'], params['category']
+    check_type_and_category params['type']
+    check_category params
     check_form params
     Services::Calls.add_proposal params, session[:identity]
     success
@@ -18,8 +19,12 @@ class CallsController < BaseController
     raise Pard::Invalid.new 'existing_call' if Services::Calls.exists? 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
   end
 
-  def check_type_and_category type, category
-    raise Pard::Invalid.new 'invalid_type' if (type.blank? || category.blank?)
+  def check_type_and_category type
+    raise Pard::Invalid.new 'invalid_type' unless ['artist', 'space'].include? type
+  end
+
+  def check_category params
+    raise Pard::Invalid.new 'invalid_category' if Services::Calls.wrong_category? params
   end
 
   def check_form params

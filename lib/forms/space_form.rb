@@ -35,5 +35,11 @@ class SpaceForm
         }
       ]
     end
+
+    def categories
+      [
+        'other'
+      ]
+    end
   end
 end

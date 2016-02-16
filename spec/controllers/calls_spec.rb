@@ -60,12 +60,22 @@ describe CallsController do
       post @create_call_route, {}
     }
 
-    it 'fails if the proposal does not have type and category' do
-      @proposal_params.delete('type')
+    it 'fails if the proposal has the wrong type' do
+      @proposal_params['type'] = 'otter'
       post @send_proposal_route, @proposal_params
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_type')
+    end
+
+    it 'fails if the proposal category does not match' do
+      @proposal_params['category'] = 'otter'
+      allow(ArtistForm).to receive(:categories).and_return(['music'])
+
+      post @send_proposal_route, @proposal_params
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_category')
     end
 
     it 'fails if the proposal does not have the mandatory fields' do

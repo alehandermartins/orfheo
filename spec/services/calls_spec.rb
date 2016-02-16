@@ -78,6 +78,20 @@ describe Services::Calls do
     end
   end
 
+  describe 'Wrong_category?' do
+
+    it 'fails if the category is not included in the call' do
+      @proposal_params['category'] = 'otter'
+      allow(ArtistForm).to receive(:categories).and_return(['music'])
+      expect(Services::Calls.wrong_category? @proposal_params).to eq(true)
+    end
+
+    it 'accepts any category if other is included' do
+      @proposal_params['category'] = 'otter'
+      expect(Services::Calls.wrong_category? @proposal_params).to eq(false)
+    end
+  end
+
   describe 'Wrong form?' do
 
     it 'fails if the fundamental parameters of a proposal are not filled' do
