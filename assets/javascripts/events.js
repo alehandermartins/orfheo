@@ -53,7 +53,6 @@
 
 
   ns.Events.CreateProposal = function(data){
-    console.log(data);
     if (data['status'] == 'success'){
       document.location = '/users/profiles/' + data['profile_id'];
     }

@@ -133,7 +133,7 @@
 
 
 
-    ns.Forms.ArtistCall = function() {
+    ns.Forms.ArtistCallForm = function() {
 
 		var _form = {};
     
@@ -169,155 +169,63 @@
     }	
   }
 
-  ns.Forms.ArtistCallByCategory = function(){
-  	var _callBycategory = {
-      'music': Pard.Forms.MusicArtsOtherCall(),
-      'arts': Pard.Forms.MusicArtsOtherCall(),
-      'other': Pard.Forms.MusicArtsOtherCall(),
-      'poetry': Pard.Forms.PoetryWorkshopCall(),
-      'expo': Pard.Forms.ExpoCall(),
-      'street_art': Pard.Forms.StreetArtCall(),
-      'workshop': Pard.Forms.PoetryWorkshopCall(),
-      'audiovisual': Pard.Forms.AudiovisualCall()
+
+  ns.Forms.ArtistCall = function(artistCategory){
+
+    var _musicArtsOtherFields = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'children', 'links', 'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
+    var _poetryWorkshopFields = ['title', 'description', 'short_description', 'duration', 'availability', 'children', 'links', 'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
+    var _audiovisualFields = ['title', 'description', 'short_description', 'duration', 'availability', 'children', 'links', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
+    var _streetArtFields = ['title', 'description', 'short_description', 'availability', 'links', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
+    var _expoFields = ['title', 'description', 'short_description', 'meters', 'links', 'sharing', 'needs', 'waiting_list', 'phone', 'conditions'];
+
+
+    var _musicArtsOtherRequired = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'phone', 'conditions'];
+    var _poetryWorkshopRequired = ['title', 'description', 'short_description', 'duration', 'availability', 'phone', 'conditions'];
+    var _audiovisualRequired = ['title', 'description', 'short_description', 'duration','availability', 'phone', 'conditions'];
+    var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions'];
+    var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions'];
+
+
+    var _fields = {
+      'music': _musicArtsOtherFields,
+      'arts': _musicArtsOtherFields,
+      'other': _musicArtsOtherFields,
+      'poetry': _poetryWorkshopFields,
+      'expo': _expoFields,
+      'street_art': _streetArtFields,
+      'workshop': _poetryWorkshopFields,
+      'audiovisual': _audiovisualFields
     }
+
+    var _requiredFields = {
+      'music': _musicArtsOtherRequired,
+      'arts': _musicArtsOtherRequired,
+      'other': _musicArtsOtherRequired,
+      'poetry': _poetryWorkshopRequired,
+      'expo': _expoRequired,
+      'street_art': _streetArtRequired,
+      'workshop': _poetryWorkshopRequired,
+      'audiovisual': _audiovisualRequired
+    }
+
+    var _form = {};
+    var _callBycategory = Pard.Forms.ArtistCallForm().render();
+
+    _fields[artistCategory].forEach(function(_element){
+      _form[_element] = _callBycategory[_element];
+    });
+
+    var _required = _requiredFields[artistCategory];
+
+
     return {
-    	render: function(){ 
-    		return _callBycategory;
-    	}
+      render: function(){ 
+        return _form;
+      },
+      requiredFields: function(){
+        return _required;
+      }
     }
   };
 
-  ns.Forms.MusicArtsOtherCall = function(){
-
-  	var _form = {};
- 
-    var _fields = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'children', 'links', 'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
-
-     var _artistCall = Pard.Forms.ArtistCall().render();
-
-    _fields.forEach(function(_element){
-  		_form[_element] = _artistCall[_element];
-  	});
-
-    var _requiredFields = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'phone', 'conditions'];
-
-    return {
-      render: function(){
-        return _form;
-      },
-      requiredFields: function(){
-      	return _requiredFields;
-      }
-    }	
-  };
-
-
-  ns.Forms.PoetryWorkshopCall = function(){
-
-  	var _form = {};
- 
-    var _fields = ['title', 'description', 'short_description', 'duration', 'availability', 'children', 'links', 'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
-
-    var _artistCall = Pard.Forms.ArtistCall().render();
-
-    _fields.forEach(function(_element){
-  		_form[_element] = _artistCall[_element];
-  	});
-
-    var _requiredFields = ['title', 'description', 'short_description', 'duration', 'availability', 'phone', 'conditions'];
-
-    return {
-      render: function(){
-        return _form;
-      },
-      requiredFields: function(){
-      	return _requiredFields;
-      }
-    }	
-  };
-
-
-  ns.Forms.AudiovisualCall = function(){
-
-  	var _form = {};
-
-    var _fields = ['title', 'description', 'short_description', 'duration', 'availability', 'children', 'links', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
-
-    var _artistCall = Pard.Forms.ArtistCall().render();
-
-
-    _fields.forEach(function(_element){
-  		_form[_element] = _artistCall[_element];
-  	});
-
-    var _requiredFields = ['title', 'description', 'short_description', 'duration', 'phone'];
-
-    return {
-      render: function(){
-        return _form;
-      },
-      requiredFields: function(){
-      	return _requiredFields;
-      }
-    }	
-  };
-
-
-
-  ns.Forms.StreetArtCall = function(){
-
-  	var _form = {};
-
-    var _fields = ['title', 'description', 'short_description', 'availability', 'links', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
-
-    var _artistCall = Pard.Forms.ArtistCall().render();
-
-
-    _fields.forEach(function(_element){
-  		_form[_element] = _artistCall[_element];
-  	});
-
-
-    var _requiredFields = ['title', 'description', 'short_description', 'phone']
-
-    return {
-      render: function(){
-        return _form;
-      },
-      requiredFields: function(){
-      	return _requiredFields;
-      }
-    }	
-  };
-
-
-  ns.Forms.ExpoCall = function(){
-
-  	var _form = {};
-
-    var _fields = ['title', 'description', 'short_description', 'meters', 'links', 'sharing', 'needs', 'waiting_list', 'phone', 'conditions'];
-
-    var _artistCall = Pard.Forms.ArtistCall().render();
-
-
-    _fields.forEach(function(_element){
-  		_form[_element] = _artistCall[_element];
-  	});
-
-
-    var _requiredFields = ['title', 'description', 'short_description', 'meters', 'phone']
-
-    return {
-      render: function(){
-        return _form;
-      },
-      requiredFields: function(){
-      	return _requiredFields;
-      }
-    }	
-  };
-
-
-
-
-  }(Pard || {}));
+}(Pard || {}));

@@ -53,14 +53,13 @@
     _submitForm['type'] = profile.type;
     _submitForm['category'] = _selected;
 
-    var _callBycategory = Pard.Forms.ArtistCallByCategory().render();
-
     var _content = $('<div>');
-    var _form = _callBycategory[_selected].render();
+    var _form = Pard.Forms.ArtistCall(_selected).render();
+
     for(field in _form){
         _content.append(_form[field].render());
       };
-    var _requiredFields = _callBycategory[_selected].requiredFields();;
+    var _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();;
 
     var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
@@ -69,18 +68,20 @@
 
     _createdWidget.append(_category, _content);
 
-    _category.on('input', function(){
+    _category.on('change', function(){
       _selected = $(this).val();
       _content.empty();
-      _form = _callBycategory[_selected].render();
-      _requiredFields = _callBycategory[_selected].requiredFields();
+      _form = Pard.Forms.ArtistCall(_selected).render();
+      _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
       for(field in _form){
-      _content.append(_form[field].render());
+        _content.append(_form[field].render());
       };
       _submitForm['category'] = _selected;
+      _createdWidget.append(_category, _content);
     });
 
-    _createdWidget.append(_category, _content);
+
+
 
     var _filled = function(){
       for (field in _form){;
@@ -135,9 +136,8 @@
     var _createdWidget = $('<div>');
     
 
-    var _form = Pard.Forms.ArtistCallByCategory().render();
-    _form = _form[proposal.category].render();
-
+    var _form = Pard.Forms.ArtistCall(proposal.category).render();
+    
     for(field in _form){
       if(proposal[field]) _form[field].setVal(proposal[field]);
     };
