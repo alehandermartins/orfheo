@@ -1,7 +1,7 @@
 (function(ns){
 
 
-  ns.Widgets.ArtistProfile = function(profile){
+  ns.Widgets.ArtistProfile = function(profile, proposals){
     var _createdWidget = $('<div>');
     var _info = $('<div>');
 
@@ -13,8 +13,9 @@
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
     var _callButton = Pard.Widgets.CallButtonArtist(profile).render();
     var _myProductions = Pard.Widgets.MyArtistProductions(profile).render();
+    var _myCallProposals = Pard.Widgets.MyArtistCallProposals(proposals).render();
 
-    _createdWidget.append(_info, _modifyProfile, _callButton, _myProductions);
+    _createdWidget.append(_info, _modifyProfile, _callButton, _myProductions, _myCallProposals);
 
     return {
       render: function(){
@@ -22,7 +23,6 @@
       }
     }
   }
-
 
   ns.Widgets.CallButtonArtist = function(profile){
 
@@ -113,12 +113,11 @@
   }
 
 
-/*  ns.Widgets.MyArtistCallProposals = function(profile){
+  ns.Widgets.MyArtistCallProposals = function(proposals){
     var _createdWidget = $('<div>');
-    var _proposals = profile.proposals;
-
-    _proposals.forEach(function(proposal){
-      _createdWidget.append(Pard.Widgets.Button(proposal['title'], function(){
+    
+    proposals.forEach(function(proposal){
+      _createdWidget.append(Pard.Widgets.Button('conFusión - ' + proposal['title'], function(){
           Pard.Widgets.BootboxAlert('conFusión', Pard.Widgets.MyArtistCallProposalMessage(proposal));
        }).render());
     });
@@ -152,7 +151,8 @@
       }
     }
 
-  }*/
+  }
+
 
   ns.Widgets.MyArtistProductions = function(profile){
     var _createdWidget = $('<div>');

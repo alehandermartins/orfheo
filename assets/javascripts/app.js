@@ -23,13 +23,14 @@ Pard.Users = function(profiles){
   $('#section_layout').append(_modifyPasswordWidget, _createProfile, _myProfiles, _callGenerator.render());
 };
 
-Pard.Profile = function(profile){
+Pard.Profile = function(profile, proposals){
 
   PROFILES_MAP = {
-    'artist': Pard.Widgets.ArtistProfile(profile).render(),
-    'space': Pard.Widgets.SpaceProfile(profile).render()
+    'artist': Pard.Widgets.ArtistProfile(profile, proposals).render(),
+    'space': Pard.Widgets.SpaceProfile(profile, proposals).render()
   };
 
+  
   var _myProfile = PROFILES_MAP[profile.type];
   var _header = Pard.Widgets.ProfileHeader().render();
 

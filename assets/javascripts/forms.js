@@ -109,14 +109,14 @@
 		var _form = {};
     var _labels = ['Sabado', 'Domingo', 'Ambos dias'];
     var _values = ['sat', 'sun', 'both'];
-
-    _form['phone'] = Pard.Widgets.Input('Telefono de contacto', 'text');
+    
     _form['description'] = Pard.Widgets.TextArea('Descripcion del espacio disponible');
     _form['availability'] = Pard.Widgets.Selector(_labels, _values);
     //_form['fotos'] = Pard.Widgets.Input('Codigo postal', 'file');
     _form['links'] = Pard.Widgets.Input('Link', 'text');
     _form['own'] = Pard.Widgets.TextArea('Programacion propia');
     _form['sharing'] = Pard.Widgets.TextArea('Materiales a compartir');
+    _form['phone'] = Pard.Widgets.Input('Telefono de contacto', 'text');
     _form['conditions'] = Pard.Widgets.CheckBox('Acepto las bases', 'yes_conditions');
 
     var _requiredFields = ['phone', 'description', 'conditions']
