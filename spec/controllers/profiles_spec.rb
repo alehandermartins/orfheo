@@ -5,6 +5,7 @@ describe ProfilesController do
     @update_profile_route = '/users/update_profile'
     @user_id = 'email@test.com'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+    @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
 
     @user_hash = {
       email: 'email@test.com',
@@ -112,8 +113,9 @@ describe ProfilesController do
       post '/users/send_proposal', @proposal_params
 
       get '/users/profiles/' + @profile_id
+
       expect(last_response.body).to include('"type":"artist","name":"artist_name"')
-      expect(last_response.body).to include('"category":"music","title":"title"')
+      expect(last_response.body).to include('"call_id"')
     end
   end
 end
