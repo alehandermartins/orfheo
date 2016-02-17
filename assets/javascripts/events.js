@@ -54,7 +54,13 @@
 
   ns.Events.CreateProposal = function(data){
     if (data['status'] == 'success'){
-      document.location = '/users/profiles/' + data['profile_id'];
+      bootbox.alert({
+      title: 'conFusion festival 2016',
+      message: '¡Te has inscrito correctamente!',
+      callback: function(){
+         document.location = '/users/profiles/' + data['profile_id'];
+      }
+    });
     }
     else{
       bootbox.alert({
