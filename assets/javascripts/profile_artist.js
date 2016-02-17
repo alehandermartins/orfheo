@@ -10,6 +10,8 @@
       _info.append(_newField)
     });
 
+    if (proposals.length == 0) Pard.Widgets.BootboxAlert('conFusion', Pard.Widgets.CallMessageArtist(profile));
+
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
     var _callButton = Pard.Widgets.CallButtonArtist(profile).render();
     var _myProductions = Pard.Widgets.MyArtistProductions(profile).render();
@@ -80,9 +82,6 @@
       _createdWidget.append(_category, _content);
     });
 
-
-
-
     var _filled = function(){
       for (field in _form){;
         if ($.inArray(field, _requiredFields) >= 0 ){
@@ -115,12 +114,12 @@
 
   ns.Widgets.MyArtistCallProposals = function(proposals){
     var _createdWidget = $('<div>');
-    
-    proposals.forEach(function(proposal){
-      _createdWidget.append(Pard.Widgets.Button('conFusión - ' + proposal['title'], function(){
-          Pard.Widgets.BootboxAlert('conFusión', Pard.Widgets.MyArtistCallProposalMessage(proposal));
-       }).render());
-    });
+
+      proposals.forEach(function(proposal){
+        _createdWidget.append(Pard.Widgets.Button('conFusión - ' + proposal['title'], function(){
+            Pard.Widgets.BootboxAlert('conFusión', Pard.Widgets.MyArtistCallProposalMessage(proposal));
+         }).render());
+      });
    
     return {
       render: function(){

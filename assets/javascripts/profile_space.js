@@ -10,16 +10,14 @@
       _info.append(_newField)
     });
 
-    console.log(proposals);
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
     var _callButton = Pard.Widgets.CallSpaceButton(profile).render();
     var _myCallProposals = Pard.Widgets.MySpaceCallProposals(proposals).render();
 
-
-
-
     _createdWidget.append(_info, _modifyProfile, _callButton, _myCallProposals);
+
+    if (proposals.length == 0) Pard.Widgets.BootboxAlert('conFusion', Pard.Widgets.CallMessageSpace(profile));
 
     return {
       render: function(){
@@ -114,8 +112,7 @@
   ns.Widgets.MySpaceCallProposalMessage = function(proposal){
     
     var _createdWidget = $('<div>');
-    
-
+  
     var _form = Pard.Forms.SpaceCall().render();
 
     for(field in _form){

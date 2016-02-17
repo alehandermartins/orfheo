@@ -91,12 +91,12 @@
   ns.Widgets.CheckBox = function(label, value){
     
     var _input = $('<input />').attr({ type: 'checkbox', 'value': value});
-    var _label = $('<label>').text(label);
-    _label.append(_input);
+    var _label = $('<label>').html(label);
+    var _createdWidget = $('<div>').append(_input,_label);
 
     return {
       render: function(){
-        return _label;
+        return _createdWidget;
       },
       getVal: function(){
         return _input.is(":checked");

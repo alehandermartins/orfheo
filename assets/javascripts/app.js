@@ -26,12 +26,12 @@ Pard.Users = function(profiles){
 Pard.Profile = function(profile, proposals){
 
   PROFILES_MAP = {
-    'artist': Pard.Widgets.ArtistProfile(profile, proposals).render(),
-    'space': Pard.Widgets.SpaceProfile(profile, proposals).render()
+    'artist': Pard.Widgets.ArtistProfile,
+    'space': Pard.Widgets.SpaceProfile
   };
 
   
-  var _myProfile = PROFILES_MAP[profile.type];
+  var _myProfile = PROFILES_MAP[profile.type](profile, proposals).render();
   var _header = Pard.Widgets.ProfileHeader().render();
 
   $('#header_layout').append(_header);

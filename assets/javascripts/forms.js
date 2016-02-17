@@ -11,13 +11,11 @@
     _form['name'] = Pard.Widgets.Input('Nombre artistico', 'text');
     _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
     _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
+    _form['color'] = Pard.Widgets.Input('Color', 'color');
 
     return {
       render: function(){
         return _form;
-      },
-      requiredFields: function() {
-      	return Object.keys(_form);
       }
     }
   }
@@ -35,13 +33,12 @@
     _form['address'] = Pard.Widgets.Input('Direccion', 'text');
     _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
     _form['category'] = Pard.Widgets.Selector(_labels, _values);
-   
+    _form['personal_web'] = Pard.Widgets.Input('Web personal', 'url');
+    _form['color'] = Pard.Widgets.Input('Color', 'color');
+  
     return {
       render: function(){
         return _form;
-      },
-      requiredFields: function() {
-      	return Object.keys(_form);
       }
     }
   }
@@ -51,11 +48,11 @@
 
   	var _form = Pard.Forms.BasicArtistForm().render();
 
-  	_form['personal_web'] = Pard.Widgets.Input('Web personal', 'text');
+    _form['personal_web'] = Pard.Widgets.Input('Web personal', 'text');
     _form['bio'] = Pard.Widgets.TextArea('Bio');
-    _form['color'] = Pard.Widgets.Input('Color', 'color');
+    //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
-    var _requiredFields = Pard.Forms.BasicArtistForm().requiredFields();
+    var _requiredFields = ['name', 'city', 'address', 'zip_code'];
 
     return {
       render: function(){
@@ -72,11 +69,12 @@
 
   	var _form = Pard.Forms.BasicSpaceForm().render();
 
-  	_form['personal_web'] = Pard.Widgets.Input('Web personal', 'text');
+    _form['links'] = _form['personal_web'] = Pard.Widgets.Input('Web personal', 'url');
     _form['bio'] = Pard.Widgets.TextArea('Bio');
-    _form['color'] = Pard.Widgets.Input('Color', 'color');
+    //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
-    var _requiredFields = Pard.Forms.BasicSpaceForm().requiredFields();
+
+    var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category'];
 
     return {
       render: function(){
@@ -92,13 +90,13 @@
   ns.Forms.ProfileForms = function(type){
 
 	var _forms = { 
-		'artist': Pard.Forms.FullArtistForm(),
-		'space': Pard.Forms.FullSpaceForm()
+		'artist': Pard.Forms.FullArtistForm,
+		'space': Pard.Forms.FullSpaceForm
 	};
 
    return {
       render: function(){
-        return _forms[type];
+        return _forms[type]();
       }
     }	
   }
@@ -107,17 +105,18 @@
   ns.Forms.SpaceCall = function() {
 
 		var _form = {};
-    var _labels = ['Sabado', 'Domingo', 'Ambos dias'];
-    var _values = ['sat', 'sun', 'both'];
+    var _labels = ['Ambos dias', 'Sabado', 'Domingo'];
+    var _values = ['both', 'sat', 'sun'];
+
+    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación')
+    var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
     
     _form['description'] = Pard.Widgets.TextArea('Descripcion del espacio disponible');
     _form['availability'] = Pard.Widgets.Selector(_labels, _values);
-    //_form['fotos'] = Pard.Widgets.Input('Codigo postal', 'file');
-    _form['links'] = Pard.Widgets.Input('Link', 'text');
     _form['own'] = Pard.Widgets.TextArea('Programacion propia');
     _form['sharing'] = Pard.Widgets.TextArea('Materiales a compartir');
     _form['phone'] = Pard.Widgets.Input('Telefono de contacto', 'text');
-    _form['conditions'] = Pard.Widgets.CheckBox('Acepto las bases', 'yes_conditions');
+    _form['conditions'] = Pard.Widgets.CheckBox(_conditions, 'yes_conditions');
 
     var _requiredFields = ['phone', 'description', 'conditions']
 
@@ -143,6 +142,9 @@
     var _valuesDays = ['sat', 'sun', 'both'];
     var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30 min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
+
+    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación')
+    var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
            
     _form['category'] = Pard.Widgets.Selector(_labelsCategories, _valuesCategories);
     _form['title'] = Pard.Widgets.Input('Titulo', 'text');
@@ -160,7 +162,7 @@
     _form['repeat'] = Pard.Widgets.CheckBox('Si posible, quiero repetir mi actuacción', 'yes_repeat');
     _form['waiting_list'] = Pard.Widgets.CheckBox('En la eventualidad, quiero quedarme en la lista de espera', 'yes_waitig_list');
     _form['phone'] = Pard.Widgets.Input('Telefono de contacto', 'text');
-    _form['conditions'] = Pard.Widgets.CheckBox('Acepto las bases', 'yes_conditions');
+    _form['conditions'] = Pard.Widgets.CheckBox(_conditions, 'yes_conditions');
 
     return {
       render: function(){
