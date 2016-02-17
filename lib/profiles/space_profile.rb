@@ -1,9 +1,7 @@
 class SpaceProfile
 
   def initialize params, user_id
-    params.merge! user_id: user_id
-    params.merge! profile_id: (params[:profile_id] || SecureRandom.uuid)
-    @profile = params
+    @profile = new_profile params, user_id
   end
 
   def wrong_params?
