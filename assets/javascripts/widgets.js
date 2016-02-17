@@ -23,7 +23,7 @@
     values.forEach(function(value, index){
       _createdWidget.append($('<option>').text(labels[index]).val(value));
     });
-     _createdWidget.on('input',function(){
+     _createdWidget.on('change',function(){
       if(callback) callback();
     });
 
