@@ -12,7 +12,7 @@ class CallsController < BaseController
     check_form params
     Services::Calls.add_proposal params, session[:identity]
     Services::Profiles.add_proposal params, session[:identity] if params[:type] == 'artist'
-    success params[:profile_id]
+    success ({profile_id: params[:profile_id]})
   end
 
   private
