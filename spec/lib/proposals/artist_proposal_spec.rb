@@ -16,8 +16,7 @@ describe ArtistProposal do
       bio: 'bio',
       personal_web: 'my_web'
     }
-    @profile = ArtistProfile.new @profile_params, @user_id
-    @profile.update
+    Services::Profiles.create @profile_params, @user_id
 
     @proposal_params = {
       profile_id: @profile_id,

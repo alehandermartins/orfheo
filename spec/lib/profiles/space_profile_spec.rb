@@ -8,6 +8,7 @@ describe SpaceProfile do
       user_id: @user_id,
       profile_id: @profile_id,
       type: 'space',
+      category: 'home',
       name: 'space_name',
       city: 'city',
       address: 'address',
@@ -17,7 +18,7 @@ describe SpaceProfile do
       personal_web: 'my_web'
     }
     @profile = ArtistProfile.new @profile_params, @user_id
-    @profile.update
+    Services::Profiles.create @profile_params, @user_id
   }
 
   describe 'Initialize' do
@@ -43,35 +44,6 @@ describe SpaceProfile do
       profile = SpaceProfile.new @profile_params, @user_id
 
       expect(profile.wrong_params?).to eq(true)
-    end
-
-    it 'if the name of a given profile is already in use' do
-      @profile_params.delete(:profile_id)
-      profile = SpaceProfile.new @profile_params, @user_id
-      expect(profile.exists?).to eq(true)
-    end
-  end
-
-  describe 'Update' do
-
-    it 'creates a new profile' do
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include(@profile.to_h)
-    end
-
-    it 'modifies an existing profile' do
-      @profile_params[:name] = 'otter_name'
-      profile = SpaceProfile.new @profile_params, @user_id
-      profile.update
-
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include(profile.to_h)
-    end
-
-   it 'does not modify unexisting fields' do
-      @profile_params.delete(:personal_web)
-      @profile_params[:bio]
-      profile = SpaceProfile.new @profile_params, @user_id
-      profile.update
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include(profile.to_h)
     end
   end
 end

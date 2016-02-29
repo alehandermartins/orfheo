@@ -4,22 +4,12 @@ class SpaceProfile
     @profile = new_profile params, user_id
   end
 
+  def [] key
+    profile[key]
+  end
+
   def wrong_params?
     check_fundamentals || incorrect_categories?
-  end
-
-  def exists?
-    profiles = Repos::Profiles.grab({user_id: user_id})
-    profiles.any?{ |the_profile|
-      (the_profile[:name] == name && the_profile[:profile_id] != uuid)
-    }
-  end
-
-  def update
-    profile.each{ |field, value|
-      profile.delete(field) if value.nil?
-    }
-    Repos::Profiles.update(uuid, profile)
   end
 
   def uuid
@@ -57,17 +47,5 @@ class SpaceProfile
 
   def incorrect_categories?
     (!['cultural_ass', 'home', 'commercial'].include? profile[:category])
-  end
-
-  def [] key
-    profile[key]
-  end
-
-  def user_id
-    profile[:user_id]
-  end
-
-  def name
-    profile[:name]
   end
 end

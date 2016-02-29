@@ -4,22 +4,12 @@ class ArtistProfile
     @profile = new_profile params, user_id
   end
 
+  def [] key
+    profile[key]
+  end
+
   def wrong_params?
     check_fundamentals
-  end
-
-  def exists?
-    profiles = Repos::Profiles.grab({user_id: user_id})
-    profiles.any?{ |the_profile|
-      (the_profile[:name] == name && the_profile[:profile_id] != uuid)
-    }
-  end
-
-  def update
-    profile.each{ |field, value|
-      profile.delete(field) if value.nil?
-    }
-    Repos::Profiles.update(uuid, profile)
   end
 
   def uuid
@@ -50,17 +40,5 @@ class ArtistProfile
     [:name, :city, :zip_code].any?{ |field|
       profile[field].blank?
     }
-  end
-
-  def [] key
-    profile[key]
-  end
-
-  def user_id
-    profile[:user_id]
-  end
-
-  def name
-    profile[:name]
   end
 end

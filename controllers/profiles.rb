@@ -2,12 +2,8 @@ class ProfilesController < UsersController
 
   post '/users/update_profile' do
     check_type params[:type]
-    profile = PROFILES_MAP[params[:type]].new params, session[:identity]
-
-    raise Pard::Invalid.new 'existing_profile' if profile.exists?
-    raise Pard::Invalid.new 'invalid_parameters' if profile.wrong_params?
-    profile.update
-    success({profile_id: profile.uuid})
+    profile_id = Services::Profiles.create params, session[:identity]
+    success({profile_id: profile_id})
   end
 
   get '/users/profiles/:uuid' do

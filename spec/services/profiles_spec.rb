@@ -13,17 +13,46 @@ describe Services::Profiles do
       zip_code: 'zip_code',
       profile_picture: 'picture.jpg',
       bio: 'bio',
-      personal_we: 'my_web'
+      personal_web: 'my_web'
     }
 
     @profile = ArtistProfile.new @profile_params, @user_id
   }
 
+  describe 'Create' do
+
+    before(:each){
+      Services::Profiles.create @profile_params, @user_id
+    }
+
+    it 'creates a new profile' do
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include(@profile.to_h)
+    end
+
+    it 'checks if the name of a given profile is already in use' do
+      @profile_params.delete(:profile_id)
+      expect{Services::Profiles.create @profile_params, @user_id}.to raise_error(Pard::Invalid)
+    end
+
+    it 'modifies an existing profile' do
+      @profile_params[:name] = 'otter_name'
+      Services::Profiles.create @profile_params, @user_id
+
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include({name: 'otter_name'})
+    end
+
+    it 'does not modify unexisting fields' do
+      @profile_params.delete(:personal_web)
+      Services::Profiles.create @profile_params, @user_id
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include({personal_web: 'my_web'})
+    end
+  end
+
   describe 'Exists' do
 
     it 'checks if a profile with a given profile_id exists for a given user' do
       expect(Services::Profiles.exists? :profile_id, @profile_id, @user_id).to eq(false)
-      @profile.update
+      Services::Profiles.create @profile_params, @user_id
       expect(Services::Profiles.exists? :profile_id, @profile_id, @user_id).to eq(true)
     end
   end
@@ -35,9 +64,8 @@ describe Services::Profiles do
     end
 
     it 'returns the specified profiles for a given user' do
-      @profile.update
-      @profile_params.delete(:profile_id)
-      @profile_params[:name] = 'otter_name'
+      Services::Profiles.create @profile_params, @user_id
+
       expect(Services::Profiles.get_profile_for @user_id, @profile_id).to include(
         user_id: @user_id,
         profile_id: @profile_id
@@ -45,11 +73,10 @@ describe Services::Profiles do
     end
 
     it 'returns all the profiles for a given user' do
-      @profile.update
+      Services::Profiles.create @profile_params, @user_id
       @profile_params.delete(:profile_id)
       @profile_params[:name] = 'otter_name'
-      profile = ArtistProfile.new @profile_params, @user_id
-      profile.update
+      Services::Profiles.create @profile_params, @user_id
 
       expect(Services::Profiles.get_profiles_for(@user_id).first).to include(
         user_id: @user_id,
@@ -65,7 +92,7 @@ describe Services::Profiles do
   describe 'Add proposal' do
 
     before(:each){
-      @profile.update
+      Services::Profiles.create @profile_params, @user_id
       @proposal_params = {
         profile_id: @profile_id,
         proposal_id: @proposal_id,
