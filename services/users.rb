@@ -18,14 +18,10 @@ module Services
         validate code
       end
 
-      def validated? email
-        user = Repos::Users.grab({email: email})
-        user[:validation] == true
-      end
-
       def user_id_for email, password
         user = Repos::Users.grab({email: email})
-        return false unless (user[:email] == email && user[:password] == password)
+        raise Pard::Invalid.new 'incorrect_password' unless (user[:email] == email && user[:password] == password)
+        raise Pard::Invalid.new 'not_validated_user' unless user[:validation] == true
         user[:user_id]
       end
 

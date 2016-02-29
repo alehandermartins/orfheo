@@ -18,7 +18,6 @@ class LoginController < BaseController
   post '/login_attempt' do
     check_params params[:email], params[:password]
     check_existing_user params[:email]
-    is_validated? params[:email]
     user_id = user_id_for params[:email], params[:password]
     session[:identity] = user_id
     success
@@ -66,14 +65,8 @@ class LoginController < BaseController
     Services::Users.validated_user code
   end
 
-  def is_validated? email
-    raise Pard::Invalid.new 'not_validated_user' unless Services::Users.validated? email
-  end
-
   def user_id_for email, password
-    user_id = Services::Users.user_id_for email, password
-    raise Pard::Invalid.new 'incorrect_password' unless user_id
-    user_id
+    Services::Users.user_id_for email, password
   end
 
   def send_new_validation_code_to email

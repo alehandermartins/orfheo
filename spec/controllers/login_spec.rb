@@ -87,7 +87,7 @@ describe LoginController do
       validation_route = '/login/validate/' + @user[:validation_code]
       get validation_route
 
-      expect(Services::Users.validated? 'email@test.com').to eq(true)
+      expect(Repos::Users.grab({user_id: @user[:user_id]})[:validation]).to eq(true)
     end
 
     it 'stores the user identity and redirects to users' do
