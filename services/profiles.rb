@@ -25,8 +25,15 @@ module Services
         }
       end
 
+      def get_profiles
+        profiles = Repos::Profiles.grab({})
+        profiles.select{ |profile|
+          !profile[:proposals].blank?
+        }.shuffle
+      end
+
       def get_profiles_for user_id
-      profiles = Repos::Profiles.grab({user_id: user_id})
+        profiles = Repos::Profiles.grab({user_id: user_id})
       end
 
       def get_profile_for user_id, profile_id
