@@ -9,7 +9,7 @@ class LoginController < BaseController
 
   get '/validate/:uuid' do
     user_id = validated_user params[:uuid]
-    halt erb(:welcome) if user_id == false
+    redirect '/' if user_id == false
     session[:identity] = user_id
     #redirect 'http://' + request.host + '/users/'
     redirect 'http://pard.herokuapp.com/users/'

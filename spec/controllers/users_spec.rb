@@ -44,7 +44,7 @@ describe UsersController do
 
     it 'redirects the user to the welcome page if not logged in' do
       get @users_route
-      expect(last_response.body).to include('Pard.Welcome()')
+      expect(last_response.location).to eq('http://example.org/')
     end
 
     it 'redirects the user to the users page if logged in' do
@@ -60,7 +60,7 @@ describe UsersController do
 
       get @users_route
 
-      expect(last_response.body).to include('"type":"artist","name":"artist_name')
+      expect(last_response.body).to include('"type":"artist","name":"artist_name"')
       expect(last_response.body).to include('"type":"space","name":"space_name"')
     end
   end

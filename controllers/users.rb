@@ -2,7 +2,7 @@ class UsersController < BaseController
 
   before '/users/*' do
     if !session[:identity] then
-      halt erb(:welcome)
+      redirect '/'
     end
   end
 

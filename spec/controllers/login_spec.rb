@@ -80,7 +80,7 @@ describe LoginController do
       validation_route = '/login/validate/otter'
       get validation_route
 
-      expect(last_response.body).to include('Pard.Welcome()')
+      expect(last_response.location).to eq('http://example.org/')
     end
 
     it 'validates the user' do
