@@ -8,9 +8,10 @@ class LoginController < BaseController
   end
 
   get '/validate/:uuid' do
-    username = validated_user params[:uuid]
-    halt erb(:welcome) if username == false
-    session[:identity] = username
+    user_id = validated_user params[:uuid]
+    halt erb(:welcome) if user_id == false
+    session[:identity] = user_id
+    #redirect 'http://' + request.host + '/users/'
     redirect 'http://pard.herokuapp.com/users/'
   end
 
@@ -18,8 +19,8 @@ class LoginController < BaseController
     check_params params[:email], params[:password]
     check_existing_user params[:email]
     is_validated? params[:email]
-    correct_password? params[:email], params[:password]
-    session[:identity] = params[:email]
+    user_id = user_id_for params[:email], params[:password]
+    session[:identity] = user_id
     success
   end
 
@@ -69,8 +70,10 @@ class LoginController < BaseController
     raise Pard::Invalid.new 'not_validated_user' unless Services::Users.validated? email
   end
 
-  def correct_password? email, password
-    raise Pard::Invalid.new 'incorrect_password' unless Services::Users.correct_password? email, password
+  def user_id_for email, password
+    user_id = Services::Users.user_id_for email, password
+    raise Pard::Invalid.new 'incorrect_password' unless user_id
+    user_id
   end
 
   def send_new_validation_code_to email

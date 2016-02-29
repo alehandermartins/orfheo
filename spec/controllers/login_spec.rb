@@ -8,6 +8,7 @@ describe LoginController do
       email: 'email@test.com',
       password: 'password'
     }
+    @user = User.new @user_hash
   }
 
   describe 'Registration attempt' do
@@ -71,6 +72,10 @@ describe LoginController do
 
   describe 'Validation' do
 
+    before(:each){
+      Repos::Users.add @user.to_h
+    }
+
     it 'redirects to registration if the validation code does not exist' do
       validation_route = '/login/validate/otter'
       get validation_route
@@ -79,19 +84,17 @@ describe LoginController do
     end
 
     it 'validates the user' do
-      Services::Users.register @user_hash
-      validation_route = '/login/validate/' + @user_hash[:validation_code]
+      validation_route = '/login/validate/' + @user[:validation_code]
       get validation_route
 
       expect(Services::Users.validated? 'email@test.com').to eq(true)
     end
 
     it 'stores the user identity and redirects to users' do
-      Services::Users.register @user_hash
-      validation_route = '/login/validate/' + @user_hash[:validation_code]
+      validation_route = '/login/validate/' + @user[:validation_code]
       get validation_route
 
-      expect(session[:identity]).to eq('email@test.com')
+      expect(session[:identity]).to eq(@user[:user_id])
       expect(last_response.location).to eq('http://pard.herokuapp.com/users/')
     end
   end
@@ -123,7 +126,7 @@ describe LoginController do
     end
 
     it 'fails if the user is not validated' do
-      Services::Users.register @user_hash
+      Repos::Users.add @user.to_h
       post @login_route, @user_hash
 
       expect(parsed_response['status']).to eq('fail')
@@ -131,8 +134,8 @@ describe LoginController do
     end
 
     it 'fails if the user and the password do not match' do
-      Services::Users.register @user_hash
-      Services::Users.validated_user @user_hash[:validation_code]
+      Repos::Users.add @user.to_h
+      Services::Users.validated_user @user[:validation_code]
       post @login_route, {
         email: 'email@test.com',
         password: 'otter_password'
@@ -143,11 +146,11 @@ describe LoginController do
     end
 
     it 'it is successful and stores the user identity' do
-      Services::Users.register @user_hash
-      Services::Users.validated_user @user_hash[:validation_code]
+      Repos::Users.add @user.to_h
+      Services::Users.validated_user @user[:validation_code]
       post @login_route, @user_hash
 
-      expect(session[:identity]).to eq('email@test.com')
+      expect(session[:identity]).to eq(@user[:user_id])
       expect(parsed_response['status']).to eq('success')
     end
   end
@@ -159,8 +162,8 @@ describe LoginController do
     }
 
     it 'ends the session' do
-      Services::Users.register @user_hash
-      Services::Users.validated_user @user_hash[:validation_code]
+      Repos::Users.add @user.to_h
+      Services::Users.validated_user @user[:validation_code]
       post @login_route, @user_hash
       post @logout_route
       expect(session[:identity]).to eq(nil)
@@ -187,8 +190,8 @@ describe LoginController do
     end
 
     it 'generates a new validation_code for the user' do
-      Services::Users.register @user_hash
-      Services::Users.validated_user @user_hash[:validation_code]
+      Repos::Users.add @user.to_h
+      Services::Users.validated_user @user[:validation_code]
       post @forgotten_password_route, {email:'email@test.com'}
 
       user = Repos::Users.grab({email: 'email@test.com'})
@@ -197,14 +200,10 @@ describe LoginController do
     end
 
     it 'delivers a password mail to the user' do
-      Services::Users.register @user_hash
-      Services::Users.validated_user @user_hash[:validation_code]
-      user = {
-        email: 'email@test.com',
-        password: 'password'
-      }
+      Repos::Users.add @user.to_h
+      Services::Users.validated_user @user[:validation_code]
 
-      expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(user), :forgotten_password)
+      expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(@user_hash), :forgotten_password)
 
       post @forgotten_password_route, {email:'email@test.com'}
       expect(parsed_response['status']).to eq('success')

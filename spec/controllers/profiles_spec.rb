@@ -3,7 +3,6 @@ describe ProfilesController do
   before(:each){
     @login_route = '/login/login_attempt'
     @update_profile_route = '/users/update_profile'
-    @user_id = 'email@test.com'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
     @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
 
@@ -12,8 +11,10 @@ describe ProfilesController do
       password: 'password'
     }
 
+    @user = User.new @user_hash
+
     @profile_params = {
-      user_id: @user_id,
+      user_id: @user[:user_id],
       profile_id: @profile_id,
       type: 'artist',
       name: 'artist_name',
@@ -41,8 +42,8 @@ describe ProfilesController do
       repeat: true
     }
 
-    Services::Users.register @user_hash
-    Services::Users.validated_user @user_hash[:validation_code]
+    Repos::Users.add @user.to_h
+    Services::Users.validated_user @user[:validation_code]
     post @login_route, @user_hash
   }
 

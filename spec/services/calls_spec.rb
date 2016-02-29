@@ -2,7 +2,7 @@ describe Services::Calls do
 
   before(:each){
 
-    @user_id = 'email@test.com'
+    @user_id = '3c61cf77-32b0-4df2-9376-0960e64a654a'
     @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
     @proposal_id = 'b11000e7-8f02-4542-a1c9-7f7aa18752ce'

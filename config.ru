@@ -6,6 +6,9 @@ require './config/config'
 require './controllers/base'
 require './controllers/welcome'
 require './controllers/login'
+require './controllers/users'
+require './controllers/profiles'
+require './controllers/calls'
 
 
 # require 'rack-livereload' if ENV['RACK_ENV'] == 'development'
@@ -15,13 +18,8 @@ use Rack::Deflater
 require './handling'
 use MyExceptionHandling
 
-require './controllers/users'
 use UsersController
-
-require './controllers/profiles'
 use ProfilesController
-
-require './controllers/calls'
 use CallsController
 
 map '/' do

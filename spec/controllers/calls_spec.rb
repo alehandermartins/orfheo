@@ -13,8 +13,10 @@ describe CallsController do
 
     @call_hash = {}
 
-    Services::Users.register @user_hash
-    Services::Users.validated_user @user_hash[:validation_code]
+    @user = User.new @user_hash
+
+    Repos::Users.add @user.to_h
+    Services::Users.validated_user @user[:validation_code]
     post @login_route, @user_hash
   }
 

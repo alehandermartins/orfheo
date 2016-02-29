@@ -16,6 +16,7 @@ require_relative '../repos/users'
 require_relative '../repos/profiles'
 require_relative '../repos/calls'
 
+require_relative '../lib/users/user'
 require_relative '../lib/profiles/artist_profile'
 require_relative '../lib/profiles/space_profile'
 

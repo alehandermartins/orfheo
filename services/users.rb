@@ -2,11 +2,10 @@ module Services
   class Users
     class << self
 
-      def register user
-        user.merge! validation: false
-        user.merge! validation_code: SecureRandom.uuid
-        Services::Mails.deliver_mail_to user, :welcome
-        Repos::Users.add user
+      def register params
+        user = User.new params
+        Services::Mails.deliver_mail_to user.to_h, :welcome
+        Repos::Users.add user.to_h
       end
 
       def exists? email
@@ -24,9 +23,10 @@ module Services
         user[:validation] == true
       end
 
-      def correct_password? email, password
+      def user_id_for email, password
         user = Repos::Users.grab({email: email})
-        user[:email] == email && user[:password] == password
+        return false unless (user[:email] == email && user[:password] == password)
+        user[:user_id]
       end
 
       def forgotten_password email
@@ -35,15 +35,15 @@ module Services
         Services::Mails.deliver_mail_to user, :forgotten_password
       end
 
-      def modify_password email, new_password
-        Repos::Users.modify({email: email}, {password: new_password})
+      def modify_password user_id, new_password
+        Repos::Users.modify({user_id: user_id}, {password: new_password})
       end
 
       private
       def validate code
         user = Repos::Users.grab({validation_code: code})
         Repos::Users.validate({validation_code: code})
-        user[:email]
+        user[:user_id]
       end
     end
   end
