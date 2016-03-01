@@ -5,6 +5,7 @@ describe WelcomeController do
     @update_profile_route = '/users/update_profile'
     @create_call_route = '/users/create_call'
     @send_proposal_route = '/users/send_proposal'
+    @logout_route = '/login/logout'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
     @proposal_id = 'b11000e7-8f02-4542-a1c9-7f7aa18752ce'
     @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
@@ -50,7 +51,16 @@ describe WelcomeController do
     post @login_route, @user_hash
     post @update_profile_route, @profile_params
     post @create_call_route, {}
+    post @logout_route
   }
+
+  describe 'Access' do
+    it 'redirects to users page if already logged in' do
+      post @login_route, @user_hash
+      get '/'
+      expect(last_response.location).to eq('http://example.org/users/')
+    end
+  end
 
   describe 'Gets all profiles' do
 
@@ -60,7 +70,9 @@ describe WelcomeController do
     end
 
     it 'returns all profiles with at least one proposal' do
+      post @login_route, @user_hash
       post @send_proposal_route, @proposal_params
+      post @logout_route
       get '/'
       expect(last_response.body).to include('"type":"artist","name":"artist_name"')
       expect(last_response.body).to include('"title":"title","description":"description"')
