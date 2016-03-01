@@ -6,3 +6,6 @@
 //= require jquery.iframe-transport
 //= require jquery.fileupload
 //= require jquery.cloudinary
+//= require foundation.min
+//= require jquery.sticky
+

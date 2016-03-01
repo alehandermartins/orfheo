@@ -1,11 +1,15 @@
 'use strict';
 
-Pard.Welcome = function(){
+Pard.Welcome = function(profiles){
 
+  console.log(profiles);
+
+  var _header = Pard.Widgets.LoginHeader().render();
   var _registrationWidget = Pard.Widgets.Registration().render();
-  var _loginWidget = Pard.Widgets.Login().render();
+  // var _loginWidget = Pard.Widgets.Login().render();
 
-  $("#section_layout").append(_registrationWidget, _loginWidget);
+  $('body').prepend(_header);
+  $('body').append(_registrationWidget);
 };
 
 Pard.Users = function(profiles){
@@ -19,8 +23,8 @@ Pard.Users = function(profiles){
     Pard.Backend.createCall(console.log('created'));
   });
 
-  $('#header_layout').append(_header);
-  $('#section_layout').append(_modifyPasswordWidget, _createProfile, _myProfiles, _callGenerator.render());
+  $('body').prepend(_header);
+  $('body').append(_modifyPasswordWidget, _createProfile, _myProfiles, _callGenerator.render());
 };
 
 Pard.Profile = function(profile, proposals){
@@ -34,6 +38,5 @@ Pard.Profile = function(profile, proposals){
   var _myProfile = PROFILES_MAP[profile.type](profile, proposals).render();
   var _header = Pard.Widgets.ProfileHeader().render();
 
-  $('#header_layout').append(_header);
-  $('#section_layout').append(_myProfile);
+  $('body').append(_header, _myProfile);
 };

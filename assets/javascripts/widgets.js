@@ -14,6 +14,9 @@
       },
       enable: function(){
         _createdWidget.attr('disabled',false);
+      },
+      setClass: function(_class){
+        _createdWidget.addClass(_class);
       }
     };
   };
@@ -119,4 +122,95 @@
     });
   }
 
+
+
+   ns.Widgets.MboxCallA = function(a_text, box_content){
+    
+    var _createdWidget = $('<div>');
+    var _button =  $('<a>').text(a_text);
+    
+    var _message =  $('<div>').addClass('very_fast reveal');
+
+    var _popup = new Foundation.Reveal(_message);
+
+    _button.on('click', function(){
+      _popup.open();
+    });
+
+    _message.append(box_content);
+
+    _createdWidget.append(_button, _message);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.MboxCallButton = function(button_label, box_content){
+    
+    var _createdWidget = $('<div>');
+    var _button =  $('<button>').addClass('button').attr({type: 'button'}).text(button_label);
+    
+    var _message =  $('<div>').addClass('very_fast reveal');
+
+    var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+
+    _button.on('click', function(){
+      _popup.open();
+    });
+
+    _message.append(box_content);
+
+    _createdWidget.append(_button, _message);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.MboxContent = function(title, content){
+
+    var _createdWidget = $('<div>');
+    var _header = $('<div>').addClass('row');
+    var _title = $('<h3>').addClass('small-11 columns').text(title);
+    var _closeBtn = $('<button>').addClass('close-button columns').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
+
+    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
+
+    _header.append(_title, _closeBtn);
+
+    _createdWidget.append(_header, content);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+
+
+  ns.Widgets.MboxCloseButton = function(label, callback){
+
+    var _createdWidget = $('<button>').addClass('button').attr({'data-close': '', type: 'button'}).text(label).click(callback);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      disable: function(){
+        _createdWidget.attr('disabled',true);
+      },
+      enable: function(){
+        _createdWidget.attr('disabled',false);
+      }
+    };
+  }
+
+
+ 
 }(Pard || {}));
