@@ -6,9 +6,7 @@
 
     _createdWidget = $('<div>');
 
-    var _createdButton = Pard.Widgets.Button('Modify password', function(){
-      Pard.Widgets.BootboxAlert('Introduce tu nueva contraseña', Pard.Widgets.ModifyPasswordMessage());
-    });
+    var _createdButton = Pard.Widgets.MboxCallA('Modificar contraseña', Pard.Widgets.MboxContent('',Pard.Widgets.ModifyPasswordMessage().render()).render());
 
     _createdWidget.append(_createdButton.render());
 
@@ -23,9 +21,7 @@
   ns.Widgets.CreateProfile = function(){
     var _createdWidget = $('<div>');
 
-    var _createdButton = Pard.Widgets.Button('Create Profile', function(){
-      Pard.Widgets.BootboxAlert('Crea tu nuevo perfil', Pard.Widgets.CreateProfileMessage());
-    });
+    var _createdButton = Pard.Widgets.ProfileButton(Pard.Widgets.ProfileMessage(Pard.Widgets.CreateProfileMessage, Pard.Backend.createProfile));
 
     _createdWidget.append(_createdButton.render());
 
@@ -186,7 +182,7 @@
 
 
 
-  ns.Widgets.CreateProfileMessage = function(){
+  ns.Widgets.CreateProfileMessageOriginal = function(){
     _createdWidget = $('<div>');
 
     var _content = $('<div>');
@@ -216,6 +212,43 @@
         else{
           return false;
         }
+      }
+    }
+  }
+
+
+  ns.Widgets.CreateProfileMessage = function(submitButton){
+    _createdWidget = $('<div>');
+
+    var _content = $('<div>');
+    var _invalidInput = $('<div>');
+    var _fields = {};
+
+    var _profileForm = Pard.Widgets.ProfileForm();
+
+    _artistButton = Pard.Widgets.Button('Artista', function(){
+      _content.empty();
+      _content.append(_profileForm.getForm('artist'), submitButton);
+    });
+
+    _spaceButton = Pard.Widgets.Button('Espacio', function(){
+      _content.empty();
+      _content.append(_profileForm.getForm('space'), submitButton);
+    });
+
+
+    _createdWidget.append(_artistButton.render(), _spaceButton.render(), _content, _invalidInput);
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      filled: function(){
+        return _profileForm.filled();
+      },
+      getVal: function(){
+        return _profileForm.getVal();
       }
     }
   }

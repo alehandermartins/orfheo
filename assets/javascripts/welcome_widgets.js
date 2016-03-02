@@ -4,7 +4,7 @@
 
   ns.Widgets.LoginHeader = function(){
     
-    var _header = $('<header>').addClass('login-bar');
+    var _createdWidget = $('<header>').addClass('login-bar');
     var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
 
     
@@ -33,18 +33,141 @@
 
     
     _topBar.append(_topBarTitle, _responsiveMenu, _menuLogin);
-    _header.append(_topBar);
+    _createdWidget.append(_topBar);
 
 
   	return {
   		render: function(){
-  			return _header;
+  			return _createdWidget;
   		} 
   	}
   }
 
-  ns.Widgets.LoginSection = function(){
-  	console.log('pippa');
+  ns.Widgets.LoginSectionLargeScreen = function(profiles){
+  	var _createdWidget = $('<div>').addClass('pard-grid displayNone-for-mediumDown');
+    
+    var _aside = Pard.Widgets.LoginAside();
+    var _gridSpacing = $('<div>').addClass('grid-spacing');
+    var _section = Pard.Widgets.LoginSection(profiles);
+
+    _createdWidget.append(_aside.render(), _gridSpacing, _section.render());
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  
   }
+
+  ns.Widgets.LoginAside = function () {
+    var _createdWidget = $('<nav>').addClass('grid-aside');
+    
+    var _signUpMessage =  Pard.Widgets.MboxContent('',Pard.Widgets.Registration().render()).render();    
+    var _signUpBtn = Pard.Widgets.MboxCallButton('Regístrate', _signUpMessage);
+    _signUpBtn.setClass('circleSignUp');
+    
+    _createdWidget.append(_signUpBtn.render());
+
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.LoginSection = function (profiles) {
+    var _createdWidget = $('<section>').addClass('grid-section');
+    var _content = $('<div>').addClass('grid-element-content');
+    var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h4> Registrate y entra entra en</br> Benimaclet conFusión festival</h4>');
+    var _searchEngine = Pard.Widgets.SearchEngine(profiles);
+    var _profileCards;
+
+    _content.append(_title, _searchEngine.render())
+    _createdWidget.append(_content);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.SearchEngine = function (profiles) {
+
+    var _createdWidget = $('<div>').addClass('row lateral-content-padding');
+    var _filters = $('<div>').addClass('medium-7 columns');
+    var _searchByName = $('<div>').addClass('medium-5 columns');
+    
+    var _selectorsLabel = $('<label>').text('Filtros');
+    var _searchByNameLabel = $('<label>').text('Busqueda por nombre');
+
+    var _labelsTypes = ['-Tipo de perfil-', 'Artista', 'Espacio'];
+    var _valuesTypes = ['none', 'artist', 'space'];
+
+    var _catSelector = $('<span>');
+    var _catSelectorDefault = Pard.Widgets.Selector(['-Categoría-'], ['none']);
+    _catSelectorDefault.setClass('filter-select');
+    _catSelectorDefault.disable();
+    _catSelector.append(_catSelectorDefault.render());
+
+    var _labelsCat ={
+      artist: ['-Categoría-', 'Musica', 'Artes Escénicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'],
+      space: ['-Categoría-','Asociacion Cultural', 'Local Comercial', 'Espacio Particular']
+    }
+
+    var _valuesCat ={
+      artist: ['none', 'music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'],
+      space: ['none', 'cultural_ass', 'commercial', 'home']
+    }
+
+    var TypeCallback = function(){
+      var _type = $(this).val();
+      console.log(_type);
+      if (_type != 'none'){
+        var _catSelect = Pard.Widgets.Selector(_labelsCat[_type], _valuesCat[_type]);
+        _catSelect.setClass('filter-select');
+        _catSelector.html(_catSelect.render());
+      }
+      else{
+        _catSelector.html(_catSelectorDefault.render())
+      }
+    }
+
+    var _typesSelector = Pard.Widgets.Selector(_labelsTypes, _valuesTypes, TypeCallback);
+    _typesSelector.setClass('filter-select');
+
+    var _searchWidget = $('<div>').addClass('ui-widget');
+    var _textInput = Pard.Widgets.Input('', 'text');
+    _textInput.setClass('search-input');
+
+      console.log(profiles);
+
+
+    _availableTags = [];
+     _textInput = _textInput.render(); 
+    _textInput.autocomplete({
+      source: _availableTags,
+      minLength: 2
+    });
+
+    var _searchBtn = Pard.Widgets.Button('&#x0533;',console.log('clicked'));
+    _searchBtn.setClass('search-btn float-right');
+
+    _searchWidget.append(_textInput,_searchBtn.render());
+    _searchByName.append(_searchByNameLabel, _searchWidget);
+    _filters.append(_selectorsLabel,_typesSelector.render(), _catSelector);
+    _createdWidget.append(_filters, _searchByName);
+
+
+     return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+ 
 
 }(Pard || {}));

@@ -4,7 +4,7 @@
 
   ns.Widgets.Registration = function(){
 
-    var _createdWidget = $('<form>');
+    var _createdWidget = $('<form>').attr('autocomplete','on');
     var _invalidInput = $('<div>');
 
     var _fields = {};
@@ -173,9 +173,10 @@
 
   ns.Widgets.Login = function(){
 
-    var _createdWidget = $('<div>').addClass('input-login');
+    var _createdWidget = $('<form>').addClass('input-login').attr('autocomplete','on');
     var _emailRecovery = $('<div>').addClass('passwdRecovery');
-    var _emailLink =  Pard.Widgets.MboxCallA('Recuperar contraseña', Pard.Widgets.MboxContent('Introduce tu email',Pard.Widgets.RecoveryMessage().render()).render()).render();
+    var _recoveryPasswdMessage =  Pard.Widgets.MboxContent('Introduce tu email',Pard.Widgets.RecoveryMessage().render()).render();
+    var _emailLink =  Pard.Widgets.MboxCallA('Recuperar contraseña',_recoveryPasswdMessage).render();
 
     _emailRecovery.append(_emailLink);
 

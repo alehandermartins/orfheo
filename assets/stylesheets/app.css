@@ -4362,7 +4362,7 @@ body.is-reveal-open {
   left: 0;
   right: 0;
   z-index: 1005;
-  background-color: rgba(10, 10, 10, 0.45);
+  background-color: rgba(10, 10, 10, 0.25);
   overflow-y: scroll; }
 
 .reveal {
@@ -4372,7 +4372,7 @@ body.is-reveal-open {
   border: 1px solid #cacaca;
   margin: 6.25rem auto 0;
   background-color: #fefefe;
-  border-radius: 0;
+  border-radius: 0.3rem;
   position: absolute;
   overflow-y: auto; }
   [data-whatinput='mouse'] .reveal {
@@ -5191,6 +5191,9 @@ $tinySize: 7px
 small:80% -> 12.8px / 0.8rem
 
  */
+.very-fast {
+  transition-duration: 150ms !important; }
+
 /*===============================================
 GENERAL LAYOUT
 ================================================*/

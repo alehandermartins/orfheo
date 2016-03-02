@@ -2,14 +2,12 @@
 
 Pard.Welcome = function(profiles){
 
-  console.log(profiles);
-
   var _header = Pard.Widgets.LoginHeader().render();
-  var _registrationWidget = Pard.Widgets.Registration().render();
-  // var _loginWidget = Pard.Widgets.Login().render();
+  var _sectionLargeScreen = Pard.Widgets.LoginSectionLargeScreen(profiles).render();
+  // var _registrationWidget = Pard.Widgets.Registration().render();
 
   $('body').prepend(_header);
-  $('body').append(_registrationWidget);
+  $('body').append(_sectionLargeScreen);
 };
 
 Pard.Users = function(profiles){
