@@ -13,9 +13,14 @@
     _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
     _form['color'] = Pard.Widgets.Input('Color', 'color');
 
+    var _requiredFields = ['name', 'city', 'zip_code', 'color'];
+
     return {
       render: function(){
         return _form;
+      },
+      requiredFields: function(){
+        return _requiredFields;
       }
     }
   }
@@ -35,10 +40,16 @@
     _form['category'] = Pard.Widgets.Selector(_labels, _values);
     _form['personal_web'] = Pard.Widgets.Input('Web personal', 'url');
     _form['color'] = Pard.Widgets.Input('Color', 'color');
+
+    var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category', 'color'];
+
   
     return {
       render: function(){
         return _form;
+      },
+      requiredFields: function(){
+        return _requiredFields;
       }
     }
   }
@@ -52,7 +63,7 @@
     _form['bio'] = Pard.Widgets.TextArea('Bio');
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
-    var _requiredFields = ['name', 'city', 'address', 'zip_code'];
+    var _requiredFields = ['name', 'city', 'zip_code', 'color'];
 
     return {
       render: function(){

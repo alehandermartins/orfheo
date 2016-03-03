@@ -21,7 +21,7 @@
   ns.Widgets.CreateProfile = function(){
     var _createdWidget = $('<div>');
 
-    var _createdButton = Pard.Widgets.ProfileButton(Pard.Widgets.ProfileMessage(Pard.Widgets.CreateProfileMessage, Pard.Backend.createProfile));
+    var _createdButton = Pard.Widgets.Popup('Crear un nuevo perfil', 'Crea', Pard.Widgets.CreateProfileMessage);
 
     _createdWidget.append(_createdButton.render());
 
@@ -120,8 +120,9 @@
       },
       filled: function(){
         var _event = true;
+        var _requiredFields = _form[_selected].requiredFields();
         var _formValue = _form[_selected].getVal();
-        Object.keys(_formValue).forEach(function(key){
+        _requiredFields.forEach(function(key){
           if(_formValue[key] == '') _event = false;
         });
         return _event;
@@ -150,6 +151,9 @@
           _submitForm[field] = _form[field].getVal();
         }
         return _submitForm;
+      },
+      requiredFields: function(){
+        return  Pard.Forms.BasicArtistForm().requiredFields();
       }
     }
   }
@@ -176,6 +180,9 @@
           _submitForm[field] = _form[field].getVal();
         }
         return _submitForm;
+      },
+      requiredFields: function(){
+        return  Pard.Forms.BasicSpaceForm().requiredFields();
       }
     }
   }
@@ -221,6 +228,7 @@
     _createdWidget = $('<div>');
 
     var _content = $('<div>');
+    var _btnContainer = $('<div>');
     var _invalidInput = $('<div>');
     var _fields = {};
 
@@ -229,15 +237,17 @@
     _artistButton = Pard.Widgets.Button('Artista', function(){
       _content.empty();
       _content.append(_profileForm.getForm('artist'), submitButton);
+      if (_btnContainer.html() == '') _btnContainer.append(submitButton);
     });
 
     _spaceButton = Pard.Widgets.Button('Espacio', function(){
       _content.empty();
-      _content.append(_profileForm.getForm('space'), submitButton);
+      _content.append(_profileForm.getForm('space'))
+      if (_btnContainer.html() == '') _btnContainer.append(submitButton);
     });
 
 
-    _createdWidget.append(_artistButton.render(), _spaceButton.render(), _content, _invalidInput);
+    _createdWidget.append(_artistButton.render(), _spaceButton.render(), _content, _btnContainer, _invalidInput);
 
 
     return {
@@ -249,6 +259,15 @@
       },
       getVal: function(){
         return _profileForm.getVal();
+      },
+      setCallback: function(callback){
+        submitButton.on('click',function(){
+          console.log('clicked')
+          if(_profileForm.filled() == true){
+            Pard.Backend.createProfile(_profileForm.getVal(), Pard.Events.CreateProfile);
+            callback();
+          }
+        });
       }
     }
   }

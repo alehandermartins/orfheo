@@ -231,8 +231,116 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
   //   };
   // }
 
-  ns.Widgets.ProfileButton = function(message){
-    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Crea un perfil');   
+  // ns.Widgets.ProfileButton = function(message){
+  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Crea un perfil');   
+
+  //   var _popup = new Foundation.Reveal(message.render(), {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+
+  //   _createdWidget.on('click', function(){
+  //     _popup.open();
+  //   });
+
+  //   message.setCallback(_popup.close());
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     setClass: function(_class){
+  //       _createdWidget.addClass(_class);
+  //     }
+  //   }
+  // }
+
+  // ns.Widgets.ProfileMessage = function(content, callback){
+
+  //   var _message = $('<div>').addClass('very-fast reveal small');
+  //   var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('btn');
+  //   var _messageContent = content(_submitBtn);
+    
+  //   _message.append(_messageContent.render());
+
+  //   $('body').append(_message);
+
+  //   return {
+  //     render: function(){
+  //       return _message;
+  //     },
+  //     setCallback: function(popupclose){
+  //       _submitBtn.on('click',function(){
+  //         if(_messageContent.filled() == true) {
+  //           callback(_messageContent.getVal(), Pard.Events.CreateProfile);
+  //           popupclose();
+  //         }
+  //         else{console.log('No')}
+  //       });
+  //     }
+  //   }
+  // }
+
+
+  //   ns.Widgets.CreateProfilePopup = function(){
+  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Crea un perfil');   
+    
+  //   var _message = $('<div>').addClass('very-fast reveal small');
+
+  //   var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+
+  //   var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('crea');
+
+    
+  //   var _content = $('<div>');
+  //   var _btnContainer = $('<div>');
+  //   console.log(_btnContainer.html()=='');
+  //   var _invalidInput = $('<div>');
+  //   var _fields = {};
+
+  //   var _profileForm = Pard.Widgets.ProfileForm();
+
+    // _submitBtn.on('click',function(){
+    //     console.log('clicked')
+    //     if(_profileForm.filled() == true){
+    //       Pard.Backend.createProfile(_profileForm.getVal(), Pard.Events.CreateProfile);
+    //       _popup.close();
+    //     }
+    //     else{console.log('No')}      
+    //   });
+
+  //   _artistButton = Pard.Widgets.Button('Artista', function(){
+  //     _content.empty();
+  //     _content.append(_profileForm.getForm('artist')); 
+  //     if (_btnContainer.html() == '') _btnContainer.append(_submitBtn);
+  //   });
+
+  //   _spaceButton = Pard.Widgets.Button('Espacio', function(){
+  //     _content.empty();
+  //     _content.append(_profileForm.getForm('space'));
+  //     if (_btnContainer.html() == '') _btnContainer.append(_submitBtn);
+  //   });
+
+
+  //   _message.append(_artistButton.render(), _spaceButton.render(), _content, _btnContainer, _invalidInput);
+    
+  //   _createdWidget.on('click', function(){
+  //     _popup.open();
+  //   });
+
+  //   $('body').append(_message);
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     }
+  //   }
+  // }
+
+  
+
+
+
+  ns.Widgets.PopupButton = function(btn_label, message){
+
+    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text(btn_label);   
 
     var _popup = new Foundation.Reveal(message.render(), {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
 
@@ -252,13 +360,16 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
     }
   }
 
-  ns.Widgets.ProfileMessage = function(content, callback){
+  ns.Widgets.PopupMessage = function(btn_label, content){
 
     var _message = $('<div>').addClass('very-fast reveal small');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('btn');
+    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btn_label);
+
     var _messageContent = content(_submitBtn);
     
     _message.append(_messageContent.render());
+
+    // _message.append(content.render(), _submitBtn);
 
     $('body').append(_message);
 
@@ -266,16 +377,44 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
       render: function(){
         return _message;
       },
-      setCallback: function(popupclose){
-        _submitBtn.on('click',function(){
-          if(_messageContent.filled() == true) {
-            callback(_messageContent.getVal(), Pard.Events.CreateProfile);
-            popupclose();
-          }
-        });
+      setCallback: function(callback){
+        _messageContent.setCallback(callback);
       }
     }
   }
+
+  ns.Widgets.Popup = function(btnCall_label, submitBtn_label, content){
+
+    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btnCall_label); 
+    var _message = $('<div>').addClass('very-fast reveal small');
+    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(submitBtn_label);
+
+    var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+
+    _createdWidget.on('click', function(){
+      _popup.open();
+    });
+
+    var _messageContent = content(_submitBtn);
+
+    _messageContent.setCallback(_popup.close());
+    
+    _message.append(_messageContent.render());
+
+    $('body').append(_message);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _messageContent.setCallback(callback);
+      }
+    }
+
+  }
+
+
 
 
 
