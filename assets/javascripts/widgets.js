@@ -137,8 +137,6 @@
     });
   }
 
-
-
 ns.Widgets.MboxCallA = function(a_text, box_content){
     
     var _createdWidget =  $('<a>').text(a_text);
@@ -200,6 +198,82 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
     _header.append(_title, _closeBtn);
 
     _createdWidget.append(_header, content);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.PopupCreator = function(caller, message){
+
+    var _content = $('<div>').addClass('very-fast reveal small');
+
+    _content.append(message.render());
+
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+
+    var _popupCaller = caller;
+    _popupCaller.on('click', function(){
+      _popup.open();
+    });
+
+    message.setCallback(function(){_popup.close()});
+
+    $('body').append(_content);
+
+    return {
+      render: function(){
+        return _popupCaller;
+      }
+    }
+  }
+
+
+
+  ns.Widgets.PopupContent = function(title, content){
+
+    var _createdWidget = $('<div>');
+    var _header = $('<div>').addClass('row');
+    var _title = $('<h4>').addClass('small-11 columns').text(title);
+    var _closeBtn = $('<button>').addClass('close-button small-1 columns').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
+
+    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
+
+    _header.append(_title, _closeBtn);
+
+    _createdWidget.append(_header, content.render());
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        content.setCallback(callback);
+      }
+    }
+  }
+
+  ns.Widgets.BasicPopup = function(btnCall_label, submitBtn_label, content){
+
+    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btnCall_label); 
+    var _message = $('<div>').addClass('very-fast reveal small');
+    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(submitBtn_label);
+
+    var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+
+    _createdWidget.on('click', function(){
+      _popup.open();
+    });
+
+    var _messageContent = content(_submitBtn);
+
+    _messageContent.setCallback(function(){_popup.close()});
+    
+    _message.append(_messageContent.render());
+
+    $('body').append(_message);
 
     return {
       render: function(){
@@ -338,85 +412,51 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
 
 
 
-  ns.Widgets.PopupButton = function(btn_label, message){
 
-    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text(btn_label);   
+  // ns.Widgets.PopupButton = function(btn_label, message){
 
-    var _popup = new Foundation.Reveal(message.render(), {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text(btn_label);
 
-    _createdWidget.on('click', function(){
-      _popup.open();
-    });
+  //   var _popup = new Foundation.Reveal(message.render(), {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
 
-    message.setCallback(_popup.close());
+  //   _createdWidget.on('click', function(){
+  //     _popup.open();
+  //   });
 
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      setClass: function(_class){
-        _createdWidget.addClass(_class);
-      }
-    }
-  }
+  //   message.setCallback(_popup.close());
 
-  ns.Widgets.PopupMessage = function(btn_label, content){
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     setClass: function(_class){
+  //       _createdWidget.addClass(_class);
+  //     }
+  //   }
+  // }
 
-    var _message = $('<div>').addClass('very-fast reveal small');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btn_label);
+  // ns.Widgets.PopupMessage = function(btn_label, content){
 
-    var _messageContent = content(_submitBtn);
+  //   var _message = $('<div>').addClass('very-fast reveal small');
+  //   var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btn_label);
+
+  //   var _messageContent = content(_submitBtn);
     
-    _message.append(_messageContent.render());
+  //   _message.append(_messageContent.render());
 
-    // _message.append(content.render(), _submitBtn);
+  //   // _message.append(content.render(), _submitBtn);
 
-    $('body').append(_message);
+  //   $('body').append(_message);
 
-    return {
-      render: function(){
-        return _message;
-      },
-      setCallback: function(callback){
-        _messageContent.setCallback(callback);
-      }
-    }
-  }
-
-  ns.Widgets.Popup = function(btnCall_label, submitBtn_label, content){
-
-    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btnCall_label); 
-    var _message = $('<div>').addClass('very-fast reveal small');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(submitBtn_label);
-
-    var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
-
-    _createdWidget.on('click', function(){
-      _popup.open();
-    });
-
-    var _messageContent = content(_submitBtn);
-
-    _messageContent.setCallback(_popup.close());
-    
-    _message.append(_messageContent.render());
-
-    $('body').append(_message);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-        _messageContent.setCallback(callback);
-      }
-    }
-
-  }
-
-
-
-
+  //   return {
+  //     render: function(){
+  //       return _message;
+  //     },
+  //     setCallback: function(callback){
+  //       _messageContent.setCallback(callback);
+  //     }
+  //   }
+  // }
 
  
 }(Pard || {}));

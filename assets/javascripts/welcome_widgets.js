@@ -144,15 +144,20 @@
 
       console.log(profiles);
 
+    var _availableTags = [];
 
-    _availableTags = [];
-     _textInput = _textInput.render(); 
+    profiles.forEach(function(obj, index){
+      _availableTags[index] = profiles[index].name;
+    }
+    )
+
+    _textInput = _textInput.render(); 
     _textInput.autocomplete({
       source: _availableTags,
       minLength: 2
     });
 
-    var _searchBtn = Pard.Widgets.Button('&#x0533;',console.log('clicked'));
+    var _searchBtn = Pard.Widgets.Button('&#x0533;');
     _searchBtn.setClass('search-btn float-right');
 
     _searchWidget.append(_textInput,_searchBtn.render());

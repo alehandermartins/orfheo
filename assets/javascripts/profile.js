@@ -3,13 +3,11 @@
 
   ns.Widgets.ModifyProfile = function(profile){
 
-    var _createdWidget = $('<div>');
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica el perfil');
+    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('OK');
+    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Modifica tus datos', Pard.Widgets.ModifyProfileMessage(profile, _submitBtn)));
 
-    var _createdButton = Pard.Widgets.Button('Modifica tu perfil', function(){
-      Pard.Widgets.BootboxAlert('Modifica tus datos', Pard.Widgets.ModifyProfileMessage(profile));
-    });
-
-    _createdWidget.append(_createdButton.render());
+    var _createdWidget = _popup.render();
 
     return {
       render: function(){
@@ -18,7 +16,9 @@
     }
   }
 
-  ns.Widgets.ModifyProfileMessage = function(profile){
+
+
+  ns.Widgets.ModifyProfileMessage = function(profile, submitButton){
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
@@ -35,7 +35,7 @@
     };
 
     for(field in _form){
-      _createdWidget.append(_form[field].render());
+      _createdWidget.append(_form[field].render(), submitButton);
     };
 
     var _filled = function(){
@@ -58,11 +58,13 @@
       render: function(){
         return _createdWidget;
       },
-      callback: function(){
-        if(_filled() == true) Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
-        else{
-          return false;
-        }
+      setCallback: function(callback){
+        submitButton.on('click',function(){
+          if(_filled() == true){ 
+            Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+            callback();
+          }
+        });
       }
     }
   }

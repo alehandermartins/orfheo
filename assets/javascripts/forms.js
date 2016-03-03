@@ -98,7 +98,7 @@
   }
 
 
-  ns.Forms.ProfileForms = function(type){
+  ns.Forms.ProfileForms = function(selected){
 
 	var _forms = { 
 		'artist': Pard.Forms.FullArtistForm,
@@ -107,7 +107,7 @@
 
    return {
       render: function(){
-        return _forms[type]();
+        return _forms[selected]();
       }
     }	
   }

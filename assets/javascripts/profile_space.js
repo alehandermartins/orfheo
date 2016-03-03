@@ -29,13 +29,11 @@
 
   ns.Widgets.CallSpaceButton = function(profile){
 
-    var _createdWidget = $('<div>');
+     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
+    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia');
+    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('conFusión', Pard.Widgets.CallMessageSpace(profile, _submitBtn)));
 
-    var _createdButton = Pard.Widgets.Button('Iscribe otra propuesta', function(){
-      Pard.Widgets.BootboxAlert('conFusion', Pard.Widgets.CallMessageSpace(profile));
-    });
-
-    _createdWidget.append(_createdButton.render());
+    var _createdWidget = _popup.render();
 
     return {
       render: function(){
@@ -45,7 +43,8 @@
   }
 
 
-  ns.Widgets.CallMessageSpace= function(profile){
+
+  ns.Widgets.CallMessageSpace= function(profile, submitButton){
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
@@ -60,6 +59,8 @@
     for(field in _form){
       _createdWidget.append(_form[field].render());
     }
+
+    _createdWidget.append(submitButton);
 
     var _filled = function(){
       for (field in _form){;
@@ -81,11 +82,13 @@
       render: function(){
         return _createdWidget;
       },
-      callback: function(){
-        if(_filled() == true) Pard.Backend.createProposal(_getVal(), Pard.Events.CreateProposal);
-        else{
-          return false;
-        }
+      setCallback: function(callback){
+        submitButton.on('click',function(){
+          if(_filled() == true){ 
+            Pard.Backend.createProposal(_getVal(), Pard.Events.CreateProposal); 
+            callback();
+          }
+        })
       }
     }
   }
@@ -96,9 +99,8 @@
 
     
     proposals.forEach(function(proposal){
-      _createdWidget.append(Pard.Widgets.Button('conFusión', function(){
-          Pard.Widgets.BootboxAlert('conFusión', Pard.Widgets.MySpaceCallProposalMessage(proposal));
-      }).render());
+      _createdWidget.append(Pard.Widgets.MboxCallButton('conFusión', Pard.Widgets.MboxContent('conFusión', Pard.Widgets.MySpaceCallProposalMessage(proposal).render()).render()
+      ).render());
     });
    
     return {
