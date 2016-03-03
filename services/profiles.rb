@@ -28,7 +28,7 @@ module Services
       def get_profiles
         profiles = Repos::Profiles.grab({})
         profiles.select{ |profile|
-          !profile[:proposals].blank?
+          !profile[:proposals].blank? || profile[:type] == 'space'
         }.shuffle
       end
 

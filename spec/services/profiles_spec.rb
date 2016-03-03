@@ -17,6 +17,20 @@ describe Services::Profiles do
       personal_web: 'my_web'
     }
 
+    @space_params = {
+      user_id: @user_id,
+      profile_id: 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb85',
+      type: 'space',
+      name: 'space_name',
+      city: 'city',
+      address: 'address',
+      zip_code: 'zip_code',
+      category: 'home',
+      profile_picture: 'picture.jpg',
+      bio: 'bio',
+      personal_web: 'my_web'
+    }
+
     @proposal_params = {
         profile_id: @profile_id,
         proposal_id: @proposal_id,
@@ -34,6 +48,7 @@ describe Services::Profiles do
       }
 
     @profile = ArtistProfile.new @profile_params, @user_id
+    @space_profile = ArtistProfile.new @space_params, @user_id
   }
 
   describe 'Create' do
@@ -105,19 +120,16 @@ describe Services::Profiles do
       )
     end
 
-    it 'returns all available profiles with at least one proposal' do
+    it 'returns all available profiles with at least one proposal or space profile' do
       Services::Profiles.create @profile_params, @user_id
       @proposal = ArtistProposal.new @proposal_params, @user_id
       @proposal.add
       @profile_params.delete(:profile_id)
       @profile_params[:name] = 'otter_name'
       Services::Profiles.create @profile_params, @user_id
+      Services::Profiles.create @space_params, @user_id
 
-      expect(Services::Profiles.get_profiles.first).to include(
-        user_id: @user_id,
-        profile_id: @profile_id
-      )
-      expect(Services::Profiles.get_profiles.size).to eq(1)
+      expect(Services::Profiles.get_profiles.size).to eq(2)
     end
   end
 
