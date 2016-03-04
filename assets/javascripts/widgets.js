@@ -51,17 +51,17 @@
       },
       disable: function(){
         _createdWidget.attr('disabled',true);
-      } 
+      }
     }
   }
 
 
   ns.Widgets.TextArea = function(label){
-    var _createdWidget = $('<div>'); 
+    var _createdWidget = $('<div>');
     var _textarea = $('<textarea>').attr({placeholder: label});
 
     _createdWidget.append(_textarea);
-    
+
     return {
       render: function(){
         return _createdWidget;
@@ -73,7 +73,7 @@
         _textarea.val(value);
       }
     }
-  }  
+  }
 
   ns.Widgets.Input = function(label, type, callback){
 
@@ -107,7 +107,7 @@
 
 
   ns.Widgets.CheckBox = function(label, value){
-    
+
     var _input = $('<input />').attr({ type: 'checkbox', 'value': value});
     var _label = $('<label>').html(label);
     var _createdWidget = $('<div>').append(_input,_label);
@@ -138,9 +138,9 @@
   }
 
 ns.Widgets.MboxCallA = function(a_text, box_content){
-    
+
     var _createdWidget =  $('<a>').text(a_text);
-    
+
     var _message =  $('<div>').addClass('very-fast reveal small');
 
     var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up', multipleOpened:true});
@@ -161,9 +161,9 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
   }
 
   ns.Widgets.MboxCallButton = function(button_label, box_content){
-    
+
     var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text(button_label);
-    
+
     var _message =  $('<div>').addClass('very-fast reveal small');
 
     _message.append(box_content);
@@ -257,7 +257,7 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
 
   ns.Widgets.BasicPopup = function(btnCall_label, submitBtn_label, content){
 
-    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btnCall_label); 
+    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btnCall_label);
     var _message = $('<div>').addClass('very-fast reveal small');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(submitBtn_label);
 
@@ -270,7 +270,7 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
     var _messageContent = content(_submitBtn);
 
     _messageContent.setCallback(function(){_popup.close()});
-    
+
     _message.append(_messageContent.render());
 
     $('body').append(_message);
@@ -286,7 +286,7 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
 
   ns.Widgets.Dictionary = function(voice){
-    
+
     var _dictionary = {
       artist: 'Artista',
       space: 'Space',
@@ -306,7 +306,40 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
     return {
       render: function(){
         return _dictionary[voice];
-      }      
+      }
+    }
+  }
+
+  ns.Widgets.Cloudinary = function(){
+    var _createdWidget = $('<div>');
+    var _thumbnail = $('<span>').addClass('thumbnails');
+    var _url = '';
+
+    _createdWidget.append(_thumbnail);
+
+    _createdWidget.append($.cloudinary.unsigned_upload_tag("kqtqeksl",
+      { cloud_name: 'hxgvncv7u', folder: 'test'}
+      )).bind('cloudinarydone', function(e, data){
+      console.log(data['result']['public_id']);
+      _url = data['result']['public_id'];
+      $('.thumbnails').append($.cloudinary.image(data.result.public_id,
+        { format: 'jpg', width: 50, height: 50,
+          crop: 'thumb', gravity: 'face', effect: 'saturation:50' })
+      )});
+
+      //.bind('fileuploadchange', function() { $(this).hide()})
+
+      // .bind('cloudinaryprogress', function(e, data){
+      // $('.progress_bar').css('width',
+      //   Math.round((data.loaded * 100.0) / data.total) + '%');
+      // });
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      get_url: function(){
+        return _url;
+      }
     }
   }
 
@@ -334,7 +367,7 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
   // }
 
   // ns.Widgets.ProfileButton = function(message){
-  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Crea un perfil');   
+  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Crea un perfil');
 
   //   var _popup = new Foundation.Reveal(message.render(), {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
 
@@ -359,7 +392,7 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
   //   var _message = $('<div>').addClass('very-fast reveal small');
   //   var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('btn');
   //   var _messageContent = content(_submitBtn);
-    
+
   //   _message.append(_messageContent.render());
 
   //   $('body').append(_message);
@@ -382,15 +415,15 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
 
 
   //   ns.Widgets.CreateProfilePopup = function(){
-  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Crea un perfil');   
-    
+  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Crea un perfil');
+
   //   var _message = $('<div>').addClass('very-fast reveal small');
 
   //   var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
 
   //   var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('crea');
 
-    
+
   //   var _content = $('<div>');
   //   var _btnContainer = $('<div>');
   //   console.log(_btnContainer.html()=='');
@@ -405,12 +438,12 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
     //       Pard.Backend.createProfile(_profileForm.getVal(), Pard.Events.CreateProfile);
     //       _popup.close();
     //     }
-    //     else{console.log('No')}      
+    //     else{console.log('No')}
     //   });
 
   //   _artistButton = Pard.Widgets.Button('Artista', function(){
   //     _content.empty();
-  //     _content.append(_profileForm.getForm('artist')); 
+  //     _content.append(_profileForm.getForm('artist'));
   //     if (_btnContainer.html() == '') _btnContainer.append(_submitBtn);
   //   });
 
@@ -422,7 +455,7 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
 
 
   //   _message.append(_artistButton.render(), _spaceButton.render(), _content, _btnContainer, _invalidInput);
-    
+
   //   _createdWidget.on('click', function(){
   //     _popup.open();
   //   });
@@ -436,7 +469,7 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
   //   }
   // }
 
-  
+
 
 
 
@@ -469,7 +502,7 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
   //   var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btn_label);
 
   //   var _messageContent = content(_submitBtn);
-    
+
   //   _message.append(_messageContent.render());
 
   //   // _message.append(content.render(), _submitBtn);
@@ -486,5 +519,5 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
   //   }
   // }
 
- 
+
 }(Pard || {}));

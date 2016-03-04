@@ -16,12 +16,13 @@
     }
   }
 
-
-
   ns.Widgets.ModifyProfileMessage = function(profile, submitButton){
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
+    var _photo = Pard.Widgets.Cloudinary();
+
+    _createdWidget.append(_photo.render());
 
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
@@ -35,8 +36,10 @@
     };
 
     for(field in _form){
-      _createdWidget.append(_form[field].render(), submitButton);
+      _createdWidget.append(_form[field].render());
     };
+
+    _createdWidget.append(submitButton);
 
     var _filled = function(){
       for (field in _form){
@@ -51,6 +54,7 @@
       for(field in _form){
          _submitForm[field] = _form[field].getVal();
       };
+      _submitForm['photo'] = _photo.get_url();
       return _submitForm;
     }
 
@@ -60,7 +64,7 @@
       },
       setCallback: function(callback){
         submitButton.on('click',function(){
-          if(_filled() == true){ 
+          if(_filled() == true){
             Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
             callback();
           }

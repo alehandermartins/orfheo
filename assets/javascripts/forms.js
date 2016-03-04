@@ -43,7 +43,7 @@
 
     var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category', 'color'];
 
-  
+
     return {
       render: function(){
         return _form;
@@ -61,7 +61,8 @@
 
     _form['personal_web'] = Pard.Widgets.Input('Web personal', 'text');
     _form['bio'] = Pard.Widgets.TextArea('Bio');
-    _form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
+    //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
+
 
     var _requiredFields = ['name', 'city', 'zip_code', 'color'];
 
@@ -100,7 +101,7 @@
 
   ns.Forms.ProfileForms = function(selected){
 
-	var _forms = { 
+	var _forms = {
 		'artist': Pard.Forms.FullArtistForm,
 		'space': Pard.Forms.FullSpaceForm
 	};
@@ -109,7 +110,7 @@
       render: function(){
         return _forms[selected]();
       }
-    }	
+    }
   }
 
 
@@ -121,7 +122,7 @@
 
     var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación')
     var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
-    
+
     _form['description'] = Pard.Widgets.TextArea('Descripcion del espacio disponible');
     _form['availability'] = Pard.Widgets.Selector(_labels, _values);
     _form['own'] = Pard.Widgets.TextArea('Programacion propia');
@@ -138,7 +139,7 @@
       requiredFields: function(){
       	return _requiredFields;
       }
-    }	
+    }
   }
 
 
@@ -146,7 +147,7 @@
     ns.Forms.ArtistCallForm = function() {
 
 		var _form = {};
-    
+
     var _labelsCategories = ['Musica', 'Artes Escénicas', 'Exposición', 'Poesía',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
     var _labelsDays = ['Sabado', 'Domingo', 'Ambos dias'];
@@ -156,15 +157,15 @@
 
     var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación')
     var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
-           
+
     _form['category'] = Pard.Widgets.Selector(_labelsCategories, _valuesCategories);
     _form['title'] = Pard.Widgets.Input('Titulo', 'text');
     _form['description'] = Pard.Widgets.TextArea('Descripción');
     _form['short_description']= Pard.Widgets.Input('Breve descripción para el programa', 'text');
-   	_form['duration'] = Pard.Widgets.Selector(_labelsTime, _valuesTime); 
-    _form['components'] = Pard.Widgets.Input('Numero de integrantes', 'number'); 
+   	_form['duration'] = Pard.Widgets.Selector(_labelsTime, _valuesTime);
+    _form['components'] = Pard.Widgets.Input('Numero de integrantes', 'number');
     _form['meters'] = Pard.Widgets.Input('Espacio necesario para la expo', 'text');
-    _form['availability'] = Pard.Widgets.Selector(_labelsDays, _valuesDays); 
+    _form['availability'] = Pard.Widgets.Selector(_labelsDays, _valuesDays);
     _form['children'] = Pard.Widgets.CheckBox('Actividad para un publico infantil', 'yes_children');
     //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
     _form['links'] = Pard.Widgets.Input('Links', 'text');
@@ -179,7 +180,7 @@
       render: function(){
         return _form;
       }
-    }	
+    }
   }
 
 
@@ -232,7 +233,7 @@
 
 
     return {
-      render: function(){ 
+      render: function(){
         return _form;
       },
       requiredFields: function(){

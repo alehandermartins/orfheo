@@ -10,6 +10,13 @@
       _info.append(_newField)
     });
 
+    if('photo' in profile){
+      var _photo = $.cloudinary.image(profile['photo'],
+        { format: 'jpg', width: 50, height: 50,
+          crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+      _info.append(_photo);
+    }
+
     if (proposals.length == 0) Pard.Widgets.BootboxAlert('conFusion', Pard.Widgets.CallMessageArtist(profile));
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
@@ -101,8 +108,8 @@
       },
       setCallback: function(callback){
         submitButton.on('click',function(){
-          if(_filled() == true){ 
-            Pard.Backend.createProposal(_getVal(), Pard.Events.CreateProposal); 
+          if(_filled() == true){
+            Pard.Backend.createProposal(_getVal(), Pard.Events.CreateProposal);
             callback();
           }
         })
@@ -128,12 +135,12 @@
 
 
   ns.Widgets.MyArtistCallProposalMessage = function(proposal){
-    
+
     var _createdWidget = $('<div>');
-    
+
 
     var _form = Pard.Forms.ArtistCall(proposal.category).render();
-    
+
     for(field in _form){
       if(proposal[field]) _form[field].setVal(proposal[field]);
     };
@@ -155,7 +162,7 @@
     var _createdWidget = $('<div>');
     var _content = $('<div>');
     var _proposals = profile.proposals;
-    
+
     if (_proposals){
       _proposals.forEach(function(proposal){
         _createdWidget.append(Pard.Widgets.Button(proposal['title'], function(){
@@ -166,7 +173,7 @@
     }
 
     _createdWidget.append(_content);
-   
+
     return {
       render: function(){
         return _createdWidget;
@@ -176,10 +183,10 @@
 
 
   ns.Widgets.MyArtistProductionsContent = function(proposal){
-    
+
     var _createdWidget = $('<div>');
     var _infoField = $('<div>');
-    
+
 
     for(field in proposal){
       if(proposal[field] != null){
@@ -189,7 +196,7 @@
         }
       }
     };
-   
+
     return {
       render: function(){
         return _createdWidget;
