@@ -282,6 +282,34 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
     }
   }
 
+var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
+    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
+
+  ns.Widgets.Dictionary = function(voice){
+    
+    var _dictionary = {
+      artist: 'Artista',
+      space: 'Space',
+      cultural_ass: 'Asociación Cultural',
+      commercial: 'Local Comercial',
+      home: 'Espacio Particular',
+      music: 'Musica',
+      arts: 'Artes Escénicas',
+      expo: 'Exposición',
+      poetry: 'Poesía',
+      audiovisual: 'Audiovisual',
+      street_art: 'Street Art',
+      workshop: 'Taller',
+      other: 'Otros'
+    }
+
+    return {
+      render: function(){
+        return _dictionary[voice];
+      }      
+    }
+  }
+
 
 
   // ns.Widgets.MboxCloseButton = function(label, callback){

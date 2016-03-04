@@ -2,13 +2,32 @@
 
 Pard.Welcome = function(profiles){
 
-  var _header = Pard.Widgets.LoginHeader().render();
-  var _sectionLargeScreen = Pard.Widgets.LoginSectionLargeScreen(profiles).render();
-  // var _registrationWidget = Pard.Widgets.Registration().render();
+  var _header = Pard.Widgets.LoginHeader();
+  var _largeScreenSection = Pard.Widgets.LoginSectionLargeScreen(profiles);
+  var _mediumScreenSection = Pard.Widgets.LoginSectionMediumSmallScreen(profiles);
+  var _footer = Pard.Widgets.Footer()
+  
+  // if ($(window).width() > 1024) {
+  //     _section.append(Pard.Widgets.LoginSectionLargeScreen(profiles).render())
+  //   }
+  // else{_section.append('medium')};
 
-  $('body').prepend(_header);
-  $('body').append(_sectionLargeScreen);
-};
+  // $( window ).resize(function() {
+  //   if ($(window).width() > 1024) {
+  //     _section.empty();
+  //     _section.append(Pard.Widgets.LoginSectionLargeScreen(profiles).render());
+  //   }
+  //   else{
+  //     _section.empty();
+  //     _section.append('medium');
+  //   }
+  // });
+
+  $('body').append(_header.render(), _largeScreenSection.render(), _mediumScreenSection.render(), _footer.render());
+  
+  $('#signUpBtn').sticky({topSpacing:20, widthFromWrapper:true});
+
+}
 
 Pard.Users = function(profiles){
 

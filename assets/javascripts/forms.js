@@ -61,7 +61,7 @@
 
     _form['personal_web'] = Pard.Widgets.Input('Web personal', 'text');
     _form['bio'] = Pard.Widgets.TextArea('Bio');
-    //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
+    _form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
     var _requiredFields = ['name', 'city', 'zip_code', 'color'];
 
@@ -147,7 +147,7 @@
 
 		var _form = {};
     
-    var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
+    var _labelsCategories = ['Musica', 'Artes Escénicas', 'Exposición', 'Poesía',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
     var _labelsDays = ['Sabado', 'Domingo', 'Ambos dias'];
     var _valuesDays = ['sat', 'sun', 'both'];
