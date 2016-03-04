@@ -90,16 +90,23 @@
   
   }
 
+
+
   ns.Widgets.LoginAside = function () {
     var _createdWidget = $('<nav>').addClass('grid-aside');
-    
+    var _asideContent = $('<div>').addClass('grid-element-content signUp').attr('id','signUpBtn');
+
+    Pard.Widgets.Sticker(_asideContent, 100, 24);
+
     var _signUpMessage =  Pard.Widgets.MboxContent('',Pard.Widgets.Registration().render()).render();    
     var _signUpBtn = Pard.Widgets.MboxCallButton('Regístrate', _signUpMessage);
 
-    var _signUpButton = _signUpBtn.render()
-    _signUpButton.addClass('circleSignUp').attr('id','signUpBtn');
+    var _signUpButton = _signUpBtn.render();
+    _signUpButton.addClass('circleSignUp');
 
-    _createdWidget.append(_signUpButton);
+    _asideContent.append(_signUpButton);
+
+    _createdWidget.append(_asideContent);
 
     return{
       render: function(){
@@ -113,6 +120,9 @@
     var _content = $('<div>').addClass('grid-element-content');
     var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h4> Registrate y entra entra en</br> Benimaclet conFusión festival</h4>');
     var _searchEngine = Pard.Widgets.SearchEngine(profiles);
+
+
+
 
     _content.append(_title, _searchEngine.render())
     _createdWidget.append(_content);
@@ -241,7 +251,7 @@
     });
 
     var _searchBtn = Pard.Widgets.Button('&#x0533;',searchCallback);
-    _searchBtn.setClass('search-btn float-right');
+    _searchBtn.setClass('search-btn');
 
     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render());
 

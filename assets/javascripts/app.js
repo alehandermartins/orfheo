@@ -23,10 +23,17 @@ Pard.Welcome = function(profiles){
   //   }
   // });
 
+  
+
+
   $('body').append(_header.render(), _largeScreenSection.render(), _mediumScreenSection.render(), _footer.render());
   
-  $('#signUpBtn').sticky({topSpacing:20, widthFromWrapper:true});
+  // $('#signUpBtn').sticky({topSpacing:20, widthFromWrapper:true});
 
+
+ 
+    
+     
 }
 
 Pard.Users = function(profiles){
