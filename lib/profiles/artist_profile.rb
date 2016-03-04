@@ -30,6 +30,7 @@ class ArtistProfile
       name: params[:name],
       city: params[:city],
       zip_code: params[:zip_code],
+      color: params[:color],
       profile_picture: params[:profile_picture],
       bio: params[:bio],
       personal_web: params[:personal_web]

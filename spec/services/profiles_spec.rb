@@ -12,6 +12,7 @@ describe Services::Profiles do
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
+      color: 'color',
       profile_picture: 'picture.jpg',
       bio: 'bio',
       personal_web: 'my_web'

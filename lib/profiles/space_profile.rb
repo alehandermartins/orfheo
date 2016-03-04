@@ -33,6 +33,7 @@ class SpaceProfile
       address: params[:address],
       zip_code: params[:zip_code],
       category: params[:category],
+      color: params[:color],
       profile_picture: params[:profile_picture],
       bio: params[:bio],
       personal_web: params[:personal_web]
