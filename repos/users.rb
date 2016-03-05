@@ -11,7 +11,7 @@ module Repos
       end
 
       def exists? query
-        !@@users_collection.find(query).limit(1).to_a.empty?
+        @@users_collection.count(query: query) > 0
       end
 
       def validate query

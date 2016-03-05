@@ -11,7 +11,7 @@ module Repos
       end
 
       def exists? query
-        !@@profiles_collection.find(query).limit(1).to_a.empty?
+        @@profiles_collection.count(query: query) > 0
       end
 
       def grab query
