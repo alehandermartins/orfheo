@@ -344,6 +344,35 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
   }
 
 
+  ns.Widgets.Sticker = function (elem, distanceFromHeader, stickyDistanceTop) {
+ 
+  var _diffI = 1;
+  var _distanceFromHeader = distanceFromHeader*(-1);
+ 
+  $('body').scroll(function(){
+
+    var _windowTop = $(elem).offset().top;
+    var _headerTop = $('header').offset().top;
+    var _fixedPosition = stickyDistanceTop;
+    
+    var _distanceFromWindow = _windowTop -_fixedPosition;
+
+    console.log(_headerTop);
+    console.log(_distanceFromWindow);  
+ 
+    if (_distanceFromWindow*_diffI<0)   {
+        $(elem).css({position: 'fixed', 'margin-top':_distanceFromHeader+'px'});
+        _diffI = -1;
+      }
+    if (_headerTop>_distanceFromHeader){ 
+        $(elem).css({position: 'relative', 'margin-top':'0px'});
+        _diffI = +1;  
+      }
+  });
+
+  }
+
+
 
   // ns.Widgets.MboxCloseButton = function(label, callback){
 

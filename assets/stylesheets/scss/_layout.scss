@@ -14,38 +14,51 @@ small:80% -> 12.8px / 0.8rem
 
  */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
-}
+// html, body, div, span, applet, object, iframe,
+// h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+// a, abbr, acronym, address, big, cite, code,
+// del, dfn, em, img, ins, kbd, q, s, samp,
+// small, strike, strong, sub, sup, tt, var,
+// b, u, i, center,
+// dl, dt, dd, ol, ul, li,
+// fieldset, form, label, legend,
+// table, caption, tbody, tfoot, thead, tr, th, td,
+// article, aside, canvas, details, embed, 
+// figure, figcaption, footer, header, hgroup, 
+// menu, nav, output, ruby, section, summary,
+// time, mark, audio, video {
+//   margin: 0;
+//   padding: 0;
+//   border: 0;
+//   vertical-align: baseline;
+// }
 
-html, body {
-margin:0;
-width: 100%;
-min-height:100%;
-// overflow: auto;
-}
 
-html{
-  overflow: hidden;
+// html {
+//   min-height: 100%;
+//   overflow: hidden;
+// }
+
+// body {
+//   clear: both;
+//   overflow: auto;
+//   position:relative;
+//   }
+
+html, body{
+ min-height: 100%;
+ margin:0;
+ border:0;
+ padding:0;
 }
 
 body {
   overflow: auto;
+}
+
+
+html{
+  overflow: hidden;
 }
 
 .very-fast {
@@ -100,12 +113,12 @@ Grid and Bar
     z-index: 1;
     .left-bar-content{
       display: inline-block;
-      float: left;
+      // float: left;
       margin-left:-0.5rem;
     }
     .right-bar-content{
       display: inline-block;
-      float: right;
+      // float: right;
       margin-right: -0.1rem;
     }
   }
@@ -255,6 +268,9 @@ Aside content LogIn page
 
 .signUp{
   min-height:17rem;
+  max-width: $pard-aside-width;
+  // position:fixed;
+
 }
 
 /*------------------------------
@@ -487,16 +503,18 @@ FOOTER
 
 .footer-bar{
   @extend .pard-bar;
+  height:5rem;
+  // position:absolute;
   background: $content-background;
   padding-top:2rem;
-  padding-bottom:3rem;
-  position: relative;
-  bottom: 0;
+  padding-bottom:0rem;
+  // position: absolute;
+  bottom:0;
+  margin-bottom: 0;
   overflow: hidden;
   @include breakpoint(large) {
     margin-top: 1.8rem;
   }
-  overflow: auto;
 }
 
 .footer-right{
