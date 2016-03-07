@@ -327,29 +327,52 @@
     }
   }
 
-  ns.Widgets.Cloudinary = function(){
+  ns.Widgets.Cloudinary = function(maxAmount){
     var _createdWidget = $('<div>');
     var _thumbnail = $('<span>').addClass('thumbnails');
-    var _url = '';
+    var _url = [];
 
-    _createdWidget.append(_thumbnail);
+    _cloudinary = $.cloudinary.unsigned_upload_tag("kqtqeksl",{ cloud_name: 'hxgvncv7u', folder: 'test'});
+    _cloudinary.fileupload({
+      replaceFileInput: false,
+      add: function(e, data) {
+        var uploadErrors = [];
+        var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
 
-    _createdWidget.append($.cloudinary.unsigned_upload_tag("kqtqeksl",
-      { cloud_name: 'hxgvncv7u', folder: 'test'}
-      )).bind('cloudinarydone', function(e, data){
+        if (_url.length >= maxAmount){
+          uploadErrors.push('Only one image allowed');
+        }
+        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+            uploadErrors.push('Not an accepted file type');
+        }
+        if(data.originalFiles[0]['size'] > 100000) {
+            uploadErrors.push('Filesize is too big');
+        }
+        if(uploadErrors.length > 0) {
+            alert(uploadErrors.join("\n"));
+        } else {
+            data.submit();
+        }
+      }
+    });
+
+    _cloudinary.bind('cloudinarydone', function(e, data){
       console.log(data['result']['public_id']);
-      _url = data['result']['public_id'];
+      _url.push(data['result']['public_id']);
       $('.thumbnails').append($.cloudinary.image(data.result.public_id,
         { format: 'jpg', width: 50, height: 50,
-          crop: 'thumb', gravity: 'face', effect: 'saturation:50' })
-      )});
+        crop: 'thumb', gravity: 'face', effect: 'saturation:50' })
+      );
+    });
 
-      //.bind('fileuploadchange', function() { $(this).hide()})
+    _createdWidget.append(_cloudinary, _thumbnail);
 
-      // .bind('cloudinaryprogress', function(e, data){
-      // $('.progress_bar').css('width',
-      //   Math.round((data.loaded * 100.0) / data.total) + '%');
-      // });
+    //.bind('fileuploadchange', function() { $(this).hide()})
+
+    // .bind('cloudinaryprogress', function(e, data){
+    // $('.progress_bar').css('width',
+    //   Math.round((data.loaded * 100.0) / data.total) + '%');
+    // });
     return {
       render: function(){
         return _createdWidget;
@@ -362,32 +385,32 @@
 
 
   ns.Widgets.Sticker = function (elem, distanceFromHeader, stickyDistanceTop) {
- 
+
     var _diffI = 1;
     var _distanceFromHeader = distanceFromHeader*(-1);
-    
+
     $('body').scroll(function(){
       if ($(window).width() > 1024) {
         var _windowTop = $(elem).offset().top;
         var _headerTop = $('header').offset().top;
         var _fixedPosition = stickyDistanceTop;
-        
+
         var _distanceFromWindow = _windowTop -_fixedPosition;
-     
+
         if (_distanceFromWindow*_diffI<0)   {
             $(elem).css({position: 'fixed', 'margin-top':_distanceFromHeader+'px'});
             _diffI = -1;
           }
-        if (_headerTop>_distanceFromHeader){ 
+        if (_headerTop>_distanceFromHeader){
             $(elem).removeAttr('style');
-            _diffI = +1;  
+            _diffI = +1;
           }
-      }    
+      }
     });
     $( window ).resize(function() {
       $(elem).removeAttr('style');
     })
-  
+
   }
 
 
@@ -398,10 +421,10 @@
       }
 
       var _red = parseInt((cutHex(h)).substring(0,2),16);
-      var _green = parseInt ((cutHex(h)).substring(2,4),16); 
+      var _green = parseInt ((cutHex(h)).substring(2,4),16);
       var _blue = parseInt((cutHex(h)).substring(4,6),16);
       var _reg =[_red, _green, _blue];
-      var _lum = (_red / 255.0) * 0.3 + (_green / 255.0) * 0.59 + (_blue / 255.0) * 0.11; 
+      var _lum = (_red / 255.0) * 0.3 + (_green / 255.0) * 0.59 + (_blue / 255.0) * 0.11;
 
 
       return {
@@ -414,7 +437,7 @@
       }
     }
 
-    
+
 
   // ns.Widgets.MboxCloseButton = function(label, callback){
 

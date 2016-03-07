@@ -17,7 +17,6 @@
       _info.append(_photo);
     }
 
-   
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
     var _callButton = Pard.Widgets.CallButtonArtist(profile).render();
     var _myProductions = Pard.Widgets.MyArtistProductions(profile).render();
@@ -161,8 +160,8 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        _closeBtn.on('click', function(){ 
-          callback(); 
+        _closeBtn.on('click', function(){
+          callback();
         })
       }
     }
