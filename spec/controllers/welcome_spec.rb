@@ -2,7 +2,7 @@ describe WelcomeController do
 
   before(:each){
     @login_route = '/login/login_attempt'
-    @update_profile_route = '/users/update_profile'
+    @update_profile_route = '/users/create_profile'
     @create_call_route = '/users/create_call'
     @send_proposal_route = '/users/send_proposal'
     @logout_route = '/login/logout'

@@ -2,7 +2,7 @@ describe ProfilesController do
 
   before(:each){
     @login_route = '/login/login_attempt'
-    @update_profile_route = '/users/update_profile'
+    @update_profile_route = '/users/create_profile'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
     @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
 

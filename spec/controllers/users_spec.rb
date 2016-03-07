@@ -2,7 +2,7 @@ describe UsersController do
 
   before(:each){
     @login_route = '/login/login_attempt'
-    @update_profile_route = '/users/update_profile'
+    @update_profile_route = '/users/create_profile'
 
     @user_hash = {
       email: 'email@test.com',

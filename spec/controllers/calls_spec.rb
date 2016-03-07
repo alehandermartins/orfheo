@@ -106,7 +106,7 @@ describe CallsController do
     end
 
     it 'adds the proposal to the user profile' do
-      post '/users/update_profile', @profile_params
+      post '/users/create_profile', @profile_params
       post @send_proposal_route, @proposal_params
       expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(@proposal.to_h)
     end

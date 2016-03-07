@@ -1,8 +1,14 @@
 class ProfilesController < UsersController
 
-  post '/users/update_profile' do
+  post '/users/create_profile' do
     check_type params[:type]
     profile_id = Services::Profiles.create params, session[:identity]
+    success({profile_id: profile_id})
+  end
+
+  post '/users/modify_profile' do
+    check_type params[:type]
+    profile_id = Services::Profiles.modify params, session[:identity]
     success({profile_id: profile_id})
   end
 
