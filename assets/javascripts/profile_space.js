@@ -17,7 +17,9 @@
 
     _createdWidget.append(_info, _modifyProfile, _callButton, _myCallProposals);
 
-    if (proposals.length == 0) Pard.Widgets.BootboxAlert('conFusion', Pard.Widgets.CallMessageSpace(profile));
+     $(document).ready(function(){
+      if (proposals.length == 0) _callButton.trigger('click');
+    });
 
     return {
       render: function(){
@@ -99,8 +101,8 @@
 
     
     proposals.forEach(function(proposal){
-      _createdWidget.append(Pard.Widgets.MboxCallButton('conFusión', Pard.Widgets.MboxContent('conFusión', Pard.Widgets.MySpaceCallProposalMessage(proposal).render()).render()
-      ).render());
+     var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['title']);
+      _createdWidget.append(Pard.Widgets.PopupCreator(_proposalBtn.render(), Pard.Widgets.PopupContent('conFusión', Pard.Widgets.MySpaceCallProposalMessage(proposal))).render());
     });
    
     return {
@@ -125,9 +127,19 @@
       _createdWidget.append(_form[field].render());
     };
 
+    var _closeBtn = Pard.Widgets.Button('Cierra').render();
+
+    _createdWidget.append(_closeBtn);
+
+
     return {
       render: function(){
         return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closeBtn.on('click', function(){ 
+          callback(); 
+        })
       }
     }
   }

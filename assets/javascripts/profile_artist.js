@@ -17,14 +17,17 @@
       _info.append(_photo);
     }
 
-    if (proposals.length == 0) Pard.Widgets.BootboxAlert('conFusion', Pard.Widgets.CallMessageArtist(profile));
-
+   
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
     var _callButton = Pard.Widgets.CallButtonArtist(profile).render();
     var _myProductions = Pard.Widgets.MyArtistProductions(profile).render();
     var _myCallProposals = Pard.Widgets.MyArtistCallProposals(proposals).render();
 
     _createdWidget.append(_info, _modifyProfile, _callButton, _myProductions, _myCallProposals);
+
+     $(document).ready(function(){
+      if (proposals.length == 0) _callButton.trigger('click');
+    });
 
     return {
       render: function(){
@@ -122,8 +125,8 @@
     var _createdWidget = $('<div>');
 
     proposals.forEach(function(proposal){
-      _createdWidget.append(Pard.Widgets.MboxCallButton('conFusión -' + proposal['title'], Pard.Widgets.MboxContent('conFusión', Pard.Widgets.MyArtistCallProposalMessage(proposal).render()).render()
-      ).render());
+      var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['title']);
+      _createdWidget.append(Pard.Widgets.PopupCreator(_proposalBtn.render(), Pard.Widgets.PopupContent('conFusión', Pard.Widgets.MyArtistCallProposalMessage(proposal))).render());
     });
 
     return {
@@ -149,9 +152,18 @@
       _createdWidget.append(_form[field].render());
     };
 
+    var _closeBtn = Pard.Widgets.Button('Cierra').render();
+
+    _createdWidget.append(_closeBtn);
+
     return {
       render: function(){
         return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closeBtn.on('click', function(){ 
+          callback(); 
+        })
       }
     }
 

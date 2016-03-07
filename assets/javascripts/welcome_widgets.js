@@ -6,9 +6,10 @@
     
     var _createdWidget = $('<header>').addClass('login-bar');
     var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
+    var _container = $('<div>').addClass('pard-container-relative');
 
     
-    var _topBarTitle = $('<div>').addClass('top-bar-title block-for-medium left-bar-content');
+    var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content');
     _topBarTitle.html('<h3><strong>orfheo</strong></h3>');
    
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
@@ -31,8 +32,8 @@
     _topBarRight.append(_inputLogin);
     _menuLogin.append(_topBarRight);
 
-    
-    _topBar.append(_topBarTitle, _responsiveMenu, _menuLogin);
+    _container.append(_topBarTitle, _responsiveMenu, _menuLogin);
+    _topBar.append(_container);
     _createdWidget.append(_topBar);
 
 
@@ -94,14 +95,15 @@
 
   ns.Widgets.LoginAside = function () {
     var _createdWidget = $('<nav>').addClass('grid-aside');
-    var _asideContent = $('<div>').addClass('grid-element-content signUp').attr('id','signUpBtn');
+    var _asideContent = $('<div>').addClass('grid-element-content signUp');
 
     Pard.Widgets.Sticker(_asideContent, 100, 24);
 
-    var _signUpMessage =  Pard.Widgets.MboxContent('',Pard.Widgets.Registration().render()).render();    
-    var _signUpBtn = Pard.Widgets.MboxCallButton('Regístrate', _signUpMessage);
+    var _signUpMessage =  Pard.Widgets.Registration();    
+    var _caller = Pard.Widgets.Button('Regístrate');
+    var _popup = Pard.Widgets.PopupCreator(_caller.render(), Pard.Widgets.PopupContent('', _signUpMessage));
 
-    var _signUpButton = _signUpBtn.render();
+    var _signUpButton = _popup.render();
     _signUpButton.addClass('circleSignUp');
 
     _asideContent.append(_signUpButton);
@@ -270,14 +272,26 @@
 
 
   ns.Widgets.ProfileCards = function (profiles) {
+    console.log(profiles[0])
 
     var _createdWidget =  $('<div>').addClass('row lateral-content-padding search-results');
 
     var createCard = function(profile){
       var _cardContainer = $('<div>').addClass('columns large-4');
-      var _card = $('<div>').addClass('profileCard position-profileCard-login');    
-      var _circle = $('<div>').addClass('circleProfile position-circleProfile-card');
+      var _card = $('<div>').addClass('profileCard position-profileCard-login');
+      _card.hover(
+        function(){
+          $(this).css({'box-shadow': '0 0 6px 1px '+ profile.color});
+        },
+        function(){
+          $(this).removeAttr('style');
+        }
+      );
+      // if(profile.photo!='') {_card.css({'background-image': 'url('+profile.photo+')'})};    
+      var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: profile.color});
       var _icon = $('<div>').addClass('icon-profileCircle').html('P');
+      var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
+      _icon.css({color: _colorIcon}); 
       var _name = $('<div>').addClass('name-profileCard').html(profile.name);
       var _city = $('<div>').addClass('city-profileCard').html(profile.city);
       var _category = $('<div>').addClass('category-profileCard')
@@ -317,12 +331,14 @@
   ns.Widgets.Footer = function(){
 
     var _createdWidget = $('<footer>').addClass('footer-bar');
-    // var _contentContainer = $('<div>').addClass('pard-grid');
-    // var _leftContent = $('<div>').addClass('left-bar-content').html('left');
-    // var _rightContent = $('<div>').addClass('right-bar-content footer-right').html('right');
+    var _grid = $('<div>').addClass('pard-grid');
+    var _container= $('<div>').addClass('pard-container-relative');
+    var _leftContent = $('<div>').addClass('left-bar-content  footer-left').html('left');
+    var _rightContent = $('<div>').addClass('right-bar-content footer-right').html('right');
 
-    // _contentContainer.append(_leftContent,_rightContent);
-    // _createdWidget.append(_contentContainer);
+    _container.append(_leftContent,_rightContent);
+    _grid.append(_container);
+    _createdWidget.append(_grid);
 
 
     return{

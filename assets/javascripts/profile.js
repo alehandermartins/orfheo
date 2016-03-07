@@ -54,7 +54,7 @@
       for(field in _form){
          _submitForm[field] = _form[field].getVal();
       };
-      _submitForm['photo'] = _photo.get_url();
+      if(_photo.get_url().length != 0) _submitForm['photo'] = _photo.get_url();
       return _submitForm;
     }
 

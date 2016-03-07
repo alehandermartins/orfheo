@@ -112,14 +112,16 @@ Grid and Bar
     width: 100%;
     z-index: 1;
     .left-bar-content{
+      left:0;
       display: inline-block;
-      // float: left;
+      position: absolute;
       margin-left:-0.5rem;
     }
     .right-bar-content{
       display: inline-block;
-      // float: right;
-      margin-right: -0.1rem;
+      position: absolute;
+      margin-right: 0.4rem;
+      right:0;
     }
   }
 
@@ -130,14 +132,23 @@ Grid and Bar
 .grid-element-content,{
   width: 100%;
   background: $content-background;
-  padding-left:2rem;
+  @include breakpoint(medium){
+    padding-left:2rem;
   padding-right:2rem;
+  }
+
   padding-top:2rem;
   padding-bottom:2rem;
+  min-height: 100vh;
   @include border-radius($pard-border-radius);
   position:relative;
 }  
 
+
+.pard-container-relative {
+  position:relative;
+  width: 100%;
+}
 
 
 /*FOR MEDIUM AND SMALL: TRANSITION WHEN SCREEN <= 1024px*/
@@ -148,6 +159,9 @@ off-canvas
 
 @media only screen and #{breakpoint(medium down)} { 
 	.off-canvas-grid-aside {
+  @include breakpoint(medium){
+    padding-top:1.5rem;
+  }
   position: absolute;
   background: $content-background;
   z-index: -1;
@@ -165,6 +179,13 @@ off-canvas
 
   .displayNone-for-mediumDown{
     display:none;
+  }
+  .top-bar{
+    padding-bottom:1.2rem;
+    border-bottom: 1px solid white;
+  }
+  .off-canvas-wrapper{
+    margin-top: 4.7rem;
   }
 }
 
@@ -185,6 +206,11 @@ Header
   display: block;
   width: 100%;
   }
+.login-bar{
+  position:fixed;
+  width: 100%;
+  z-index: 2;
+}
   
 }
 
@@ -401,6 +427,7 @@ Profile Card
   margin-bottom: 1rem; 
   @include breakpoint(small down) {
   @include horizontal-center;
+  position:relative;
   }
 }
 
@@ -460,12 +487,12 @@ Profile Card
 	margin-top:13.2rem;
 }
 
-.circleProfile:hover, .line-profileCard:hover{
- 	    box-shadow: 0 0 6px 1px rgba(255, 0, 0, 0.5);  // Try to add some effect like these with on.mauseover profileCard with js
-}  
-.name-profileCard:hover{
-		text-shadow:0 0 3px rgba(255, 0, 0, 0.5);
-} 
+// .circleProfile:hover, .line-profileCard:hover{
+//  	    box-shadow: 0 0 6px 1px rgba(255, 0, 0, 0.5);  // Try to add some effect like these with on.mauseover profileCard with js
+// }  
+// .name-profileCard:hover{
+// 		text-shadow:0 0 3px rgba(255, 0, 0, 0.5);
+// } 
 
 
 
@@ -504,14 +531,12 @@ FOOTER
 .footer-bar{
   @extend .pard-bar;
   height:5rem;
-  // position:absolute;
+  position:relative;
   background: $content-background;
   padding-top:2rem;
   padding-bottom:0rem;
   // position: absolute;
   bottom:0;
-  margin-bottom: 0;
-  overflow: hidden;
   @include breakpoint(large) {
     margin-top: 1.8rem;
   }
@@ -520,6 +545,12 @@ FOOTER
 .footer-right{
   @include breakpoint(large){
     padding-right:0.6rem;
+  }
+}
+
+.footer-left{
+  @include breakpoint(large){
+    padding-left:0.7rem;
   }
 }
 

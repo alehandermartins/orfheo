@@ -3,7 +3,8 @@
 
   ns.Widgets.Button = function(label, callback){
 
-    var _createdWidget = $('<button>').addClass('pard-btn').attr({type:'button'}).html(label).click(callback);
+    var _createdWidget = $('<button>').addClass('pard-btn').attr({type:'button'}).html(label);
+    if (callback) _createdWidget.click(callback);
 
     return {
       render: function(){
@@ -20,6 +21,8 @@
       }
     };
   };
+
+
 
   ns.Widgets.Selector = function(labels, values, callback){
     var _createdWidget = $('<select>');
@@ -125,40 +128,40 @@
     }
   }
 
-  ns.Widgets.BootboxAlert = function(label, message){
-    bootbox.alert({
-      title: label,
-      message: message.render(),
-      callback: function(){
-        if(message.callback){
-          if(message.callback() == false) return false;
-        }
-      }
-    });
-  }
+  // ns.Widgets.BootboxAlert = function(label, message){
+  //   bootbox.alert({
+  //     title: label,
+  //     message: message.render(),
+  //     callback: function(){
+  //       if(message.callback){
+  //         if(message.callback() == false) return false;
+  //       }
+  //     }
+  //   });
+  // }
 
-ns.Widgets.MboxCallA = function(a_text, box_content){
+// ns.Widgets.MboxCallA = function(a_text, box_content){
 
-    var _createdWidget =  $('<a>').text(a_text);
+//     var _createdWidget =  $('<a>').text(a_text);
 
-    var _message =  $('<div>').addClass('very-fast reveal small');
+//     var _message =  $('<div>').addClass('very-fast reveal small');
 
-    var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up', multipleOpened:true});
+//     var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up', multipleOpened:true});
 
-    _createdWidget.on('click', function(){
-      _popup.open();
-    });
+//     _createdWidget.on('click', function(){
+//       _popup.open();
+//     });
 
-    _message.append(box_content);
+//     _message.append(box_content);
 
-    $('body').append(_message);
+//     $('body').append(_message);
 
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
+//     return {
+//       render: function(){
+//         return _createdWidget;
+//       }
+//     }
+//   }
 
   ns.Widgets.MboxCallButton = function(button_label, box_content){
 
@@ -206,6 +209,22 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
     }
   }
 
+  ns.Widgets.Alert = function(content){
+
+    var _content = $('<div>').addClass('very-fast reveal small');
+    var _closeBtn = $('<button>').addClass('close-button small-1 columns').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
+    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
+
+    _content.append(_closeBtn, content);
+
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+
+    $('body').append(_content);
+
+    _popup.open();
+  }
+
+
   ns.Widgets.PopupCreator = function(caller, message){
 
     var _content = $('<div>').addClass('very-fast reveal small');
@@ -221,7 +240,7 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
 
     message.setCallback(function(){_popup.close()});
 
-    $('body').append(_content);
+    $(document).ready($('body').append(_content));
 
     return {
       render: function(){
@@ -282,8 +301,6 @@ ns.Widgets.MboxCallA = function(a_text, box_content){
     }
   }
 
-var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
-    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
 
   ns.Widgets.Dictionary = function(voice){
 
@@ -346,33 +363,58 @@ var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  
 
   ns.Widgets.Sticker = function (elem, distanceFromHeader, stickyDistanceTop) {
  
-  var _diffI = 1;
-  var _distanceFromHeader = distanceFromHeader*(-1);
- 
-  $('body').scroll(function(){
-
-    var _windowTop = $(elem).offset().top;
-    var _headerTop = $('header').offset().top;
-    var _fixedPosition = stickyDistanceTop;
+    var _diffI = 1;
+    var _distanceFromHeader = distanceFromHeader*(-1);
     
-    var _distanceFromWindow = _windowTop -_fixedPosition;
-
-    console.log(_headerTop);
-    console.log(_distanceFromWindow);  
- 
-    if (_distanceFromWindow*_diffI<0)   {
-        $(elem).css({position: 'fixed', 'margin-top':_distanceFromHeader+'px'});
-        _diffI = -1;
-      }
-    if (_headerTop>_distanceFromHeader){ 
-        $(elem).css({position: 'relative', 'margin-top':'0px'});
-        _diffI = +1;  
-      }
-  });
-
+    $('body').scroll(function(){
+      if ($(window).width() > 1024) {
+        var _windowTop = $(elem).offset().top;
+        var _headerTop = $('header').offset().top;
+        var _fixedPosition = stickyDistanceTop;
+        
+        var _distanceFromWindow = _windowTop -_fixedPosition;
+     
+        if (_distanceFromWindow*_diffI<0)   {
+            $(elem).css({position: 'fixed', 'margin-top':_distanceFromHeader+'px'});
+            _diffI = -1;
+          }
+        if (_headerTop>_distanceFromHeader){ 
+            $(elem).removeAttr('style');
+            _diffI = +1;  
+          }
+      }    
+    });
+    $( window ).resize(function() {
+      $(elem).removeAttr('style');
+    })
+  
   }
 
 
+  ns.Widgets.IconColor = function(h){
+
+      var cutHex =function (h) {
+        return (h.charAt(0)=="#") ? h.substring(1,7):h
+      }
+
+      var _red = parseInt((cutHex(h)).substring(0,2),16);
+      var _green = parseInt ((cutHex(h)).substring(2,4),16); 
+      var _blue = parseInt((cutHex(h)).substring(4,6),16);
+      var _reg =[_red, _green, _blue];
+      var _lum = (_red / 255.0) * 0.3 + (_green / 255.0) * 0.59 + (_blue / 255.0) * 0.11; 
+
+
+      return {
+        render: function(){
+          return (_lum>0.35) ? 'black':'white';
+        },
+        rgb: function(){
+          return _rgb
+        }
+      }
+    }
+
+    
 
   // ns.Widgets.MboxCloseButton = function(label, callback){
 

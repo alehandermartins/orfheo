@@ -24,32 +24,30 @@ Pard.Welcome = function(profiles){
   // });
 
   
-
-
   $('body').append(_header.render(), _largeScreenSection.render(), _mediumScreenSection.render(), _footer.render());
   
   // $('#signUpBtn').sticky({topSpacing:20, widthFromWrapper:true});
-
-
- 
-    
-     
+         
 }
 
 Pard.Users = function(profiles){
 
-  var _header = Pard.Widgets.UserHeader().render();
-  var _modifyPasswordWidget = Pard.Widgets.ModifyPassword().render();
+  var _header = Pard.Widgets.UserHeader();
+  var _modifyPasswordWidget = Pard.Widgets.ModifyPassword();
   var _createProfile = Pard.Widgets.CreateProfile().render();
-  var _myProfiles = Pard.Widgets.MyProfiles(profiles).render();
+  var _myProfiles = Pard.Widgets.MyProfiles(profiles);
 
   var _callGenerator = Pard.Widgets.Button('crea convocatoria', function(){
     Pard.Backend.createCall(console.log('created'));
   });
 
-  $('body').prepend(_header);
-  $('body').append(_modifyPasswordWidget, _createProfile, _myProfiles, _callGenerator.render());
-};
+  $('body').prepend(_header.render());
+  $('body').append(_modifyPasswordWidget.render(), _createProfile, _myProfiles.render(), _callGenerator.render());
+
+  $(document).ready( function(){
+      if (profiles.length == 0) _createProfile.trigger('click');
+    });
+}
 
 Pard.Profile = function(profile, proposals){
 
