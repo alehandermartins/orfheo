@@ -6,9 +6,10 @@
 
     _createdWidget = $('<div>');
 
-    var _createdButton = Pard.Widgets.MboxCallA('Modificar contraseña', Pard.Widgets.MboxContent('',Pard.Widgets.ModifyPasswordMessage().render()).render());
+    var _createdButton = $('<a>').text('Modificar contraseña');
+    var _popup = Pard.Widgets.PopupCreator(_createdButton,  Pard.Widgets.PopupContent('',Pard.Widgets.ModifyPasswordMessage()));
 
-    _createdWidget.append(_createdButton.render());
+    _createdWidget.append(_popup.render());
 
     return {
       render: function(){
@@ -60,18 +61,7 @@
       });
     });
 
-    _fields['button'] = Pard.Widgets.Button('Cambiar contraseña', function(){
-      if((_fields['password'].getVal() == _fields['passwordConf'].getVal()) && _fields['password'].getVal().length >= 8){
-        Pard.Backend.modifyPassword(_fields['password'].getVal(), function(data){
-          if (data['status'] == 'success'){
-            _invalidInput.text('Contraseña cambiada.');
-          }
-          else {
-            _invalidInput.text(data.reason);
-          }
-        });
-      }
-    });
+    _fields['button'] = Pard.Widgets.Button('OK');
 
      _fields['button'].disable();
 
@@ -84,6 +74,21 @@
     return {
       render: function(){
         return _createdWidget;
+      },
+      setCallback: function(callback){
+        _fields['button'].render().on('click', function(){
+          if((_fields['password'].getVal() == _fields['passwordConf'].getVal()) && _fields['password'].getVal().length >= 8){
+            Pard.Backend.modifyPassword(_fields['password'].getVal(), function(data){
+              if (data['status'] == 'success'){
+                Pard.Widgets.Alert('Contraseña cambiada.');
+                callback();
+              }
+              else {
+                _invalidInput.text(data.reason);
+              }
+            });
+          }
+        });
       }
     }
   }
@@ -97,12 +102,31 @@
 
     var _createdWidget = _popup.render();
 
+    
     return {
       render: function(){
         return _createdWidget;
       }
     }
   }
+
+
+  ns.Widgets.MyProfiles = function(profiles){
+
+    var _createdWidget = $('<div>');
+    profiles.forEach(function(profile){
+      _createdWidget.append(Pard.Widgets.Button(profile['name'], function(){
+        document.location = '/users/profiles/' + profile['profile_id'];
+      }).render());
+    });
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
 
 
     ns.Widgets.CreateProfileMessage = function(submitButton){
@@ -238,25 +262,7 @@
   }
 
 
-  ns.Widgets.MyProfiles = function(profiles){
-
-    var _createdWidget = $('<div>');
-    if (profiles.length == 0) Pard.Widgets.BootboxAlert('Crea tu nuevo perfil', Pard.Widgets.CreateProfileMessage());
-    else {
-      profiles.forEach(function(profile){
-        _createdWidget.append(Pard.Widgets.Button(profile['name'], function(){
-          document.location = '/users/profiles/' + profile['profile_id'];
-        }).render());
-      });
-    }
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
+  
 
 
   

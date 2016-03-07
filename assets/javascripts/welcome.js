@@ -55,13 +55,7 @@
       });
     });
 
-    _fields['button'] = Pard.Widgets.Button('join the community', function(){
-      Pard.Backend.register(
-        _fields['email'].getVal(),
-        _fields['emailConf'].getVal(),
-        Pard.Events.Register
-      );
-    });
+    _fields['button'] = Pard.Widgets.Button('join the community')
 
     _fields['button'].disable();
 
@@ -74,68 +68,78 @@
     return {
       render: function(){
         return _createdWidget;
+      },
+      setCallback: function(callback){
+        _fields['button'].render().on('click', function(){
+          Pard.Backend.register(
+            _fields['email'].getVal(),
+            _fields['emailConf'].getVal(),
+            Pard.Events.Register
+          )
+        callback();
+        })
       }
     }
   }
 
-  ns.Widgets.LoginOriginal = function(){
+  // ns.Widgets.LoginOriginal = function(){
 
-    var _createdWidget = $('<div>');
-    var _emailRecovery = $('<div>');
-    var _emailLink = $('<a>').text('Olvidaste tu contraseña?').click(function(){
-      Pard.Widgets.BootboxAlert('Introduce tu email', Pard.Widgets.RecoveryMessage());
-    });
+  //   var _createdWidget = $('<div>');
+  //   var _emailRecovery = $('<div>');
+  //   var _emailLink = $('<a>').text('Olvidaste tu contraseña?').click(function(){
+  //     Pard.Widgets.BootboxAlert('Introduce tu email', Pard.Widgets.RecoveryMessage());
+  //   });
 
-    _emailRecovery.append(_emailLink);
+  //   _emailRecovery.append(_emailLink);
 
-    var _fields = {};
+  //   var _fields = {};
 
-    var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-    var _labels = ['Tu email', 'Contraseña'];
-    var _types = ['email', 'password'];
+  //   var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
+  //   var _labels = ['Tu email', 'Contraseña'];
+  //   var _types = ['email', 'password'];
 
 
-    _types.forEach(function(id, index){
-      _fields[id] = Pard.Widgets.Input(_labels[index], _types[index], function(){
+  //   _types.forEach(function(id, index){
+  //     _fields[id] = Pard.Widgets.Input(_labels[index], _types[index], function(){
 
-        var _checkPassword = function(){
-          if(_fields['password'].getVal().length >= 8) return true;
-        }
+  //       var _checkPassword = function(){
+  //         if(_fields['password'].getVal().length >= 8) return true;
+  //       }
 
-        var _checkInput = function(){
-          if(regEx.test(_fields['email'].getVal())) return _checkPassword();
-        }
+  //       var _checkInput = function(){
+  //         if(regEx.test(_fields['email'].getVal())) return _checkPassword();
+  //       }
 
-        if (_checkInput() == true){
-          _fields['button'].enable();
-        }else{
-          _fields['button'].disable();
-        }
-      });
-    });
+  //       if (_checkInput() == true){
+  //         _fields['button'].enable();
+  //       }else{
+  //         _fields['button'].disable();
+  //       }
+  //     });
+  //   });
 
-    _fields['button'] = Pard.Widgets.Button('log in', function(){
-      Pard.Backend.login(
-        _fields['email'].getVal(),
-        _fields['password'].getVal(),
-        Pard.Events.Login
-      );
-    });
+  //   _fields['button'] = Pard.Widgets.Button('log in', function(){
+  //     Pard.Backend.login(
+  //       _fields['email'].getVal(),
+  //       _fields['password'].getVal(),
+  //       Pard.Events.Login
+  //     );
+  //   });
 
-    _fields['button'].disable();
+  //   _fields['button'].disable();
 
-    Object.keys(_fields).map(function(field){
-      _createdWidget.append(_fields[field].render());
-    });
+  //   Object.keys(_fields).map(function(field){
+  //     _createdWidget.append(_fields[field].render());
+  //   });
 
-    _createdWidget.append(_emailRecovery);
+  //   _createdWidget.append(_emailRecovery);
 
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     }
+  //   }
+  // }
 
   ns.Widgets.RecoveryMessage = function(){
     var _createdWidget = $('<div>');
@@ -143,26 +147,30 @@
 
     var _email = Pard.Widgets.Input('Tu email', 'email');
     var _result = $('<div>');
-    var _sendButton = Pard.Widgets.Button('Enviar', function(){
-      _result.empty();
-      if(!regEx.test(_email.getVal())) _result.text('El email no es valido');
-      else {
-        Pard.Backend.passwordRecovery(_email.getVal(), function(data){
-          if (data['status'] == 'success'){
-            _result.text('Te hemos enviado un correo.');
-          }
-          else {
-            _result.text('El usuario no existe.');
-          }
-        });
-      }
-    });
-
+    var _sendButton = Pard.Widgets.Button('Enviar');         
+    
     _createdWidget.append(_email.render(), _sendButton.render(), _result);
 
     return {
       render: function(){
         return _createdWidget;
+      },
+      setCallback: function(callback){
+        _sendButton.render().on('click', function(){
+          _result.empty();
+          if(!regEx.test(_email.getVal())) _result.text('El email no es valido');
+          else {
+            Pard.Backend.passwordRecovery(_email.getVal(), function(data){
+              if (data['status'] == 'success'){
+                Pard.Widgets.Alert('Te hemos enviado un correo.');
+                callback();
+              }
+              else {
+                _result.text('El usuario no existe.');
+              }
+            });
+          }
+        })
       }
     }
   }
@@ -175,10 +183,12 @@
 
     var _createdWidget = $('<form>').addClass('input-login').attr('autocomplete','on');
     var _emailRecovery = $('<div>').addClass('passwdRecovery');
-    var _recoveryPasswdMessage =  Pard.Widgets.MboxContent('Introduce tu email',Pard.Widgets.RecoveryMessage().render()).render();
-    var _emailLink =  Pard.Widgets.MboxCallA('Recuperar contraseña',_recoveryPasswdMessage).render();
+    var _recoveryPasswdMessage =  Pard.Widgets.RecoveryMessage();
+    var _caller = $('<a>').text('Recuperar contraseña');
 
-    _emailRecovery.append(_emailLink);
+    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Recuperar contraseña', _recoveryPasswdMessage));
+
+    _emailRecovery.append(_popup.render());
 
     var _fields = {};
 
