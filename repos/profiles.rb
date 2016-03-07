@@ -39,22 +39,19 @@ module Repos
       private
       def string_keyed_hash_to_symbolized hash
         hash.map do |k,v|
-            next [k,v] unless k.is_a? String
-            next [k.to_sym, symbolize_array(v)] if v.is_a? Array
-            [k.to_sym, v]
+          next [k,v] unless k.is_a? String
+          next [k.to_sym, symbolize_array(v)] if v.is_a? Array
+          [k.to_sym, v]
         end.to_h
       end
 
       def symbolize_array array
-        new_array = []
-        array.each{ |proposal|
-          new_proposal = {}
+        return array unless array.all?{ |element| element.is_a? Hash}
+        array.map{ |proposal|
           proposal.map{ |key, value|
-            new_proposal[key.to_sym] = value
-          }
-          new_array.push(new_proposal)
+            [key.to_sym, value]
+          }.to_h
         }
-        new_array
       end
     end
   end

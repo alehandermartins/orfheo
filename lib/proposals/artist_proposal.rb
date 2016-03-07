@@ -22,6 +22,7 @@ class ArtistProposal
       category: params[:category],
       title: params[:title],
       description: params[:description],
+      photos: params[:photos],
       links: params[:links],
       short_description: params[:short_description],
       duration: params[:duration],

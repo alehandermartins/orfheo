@@ -12,7 +12,8 @@ describe Repos::Profiles do
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
-      profile_picture: 'picture.jpg',
+      profile_picture: ['profile.jpg'],
+      photos: ['picture.jpg', 'otter_picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -24,6 +25,7 @@ describe Repos::Profiles do
       category: 'categoty',
       title: 'title',
       description: 'description',
+      photos: ['picture.jpg', 'otter_picture.jpg'],
       links: 'links',
       duration: 'duration',
       children: 'children'

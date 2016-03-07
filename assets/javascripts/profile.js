@@ -20,7 +20,7 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
-    var _photo = Pard.Widgets.Cloudinary();
+    var _photo = Pard.Widgets.Cloudinary(1);
 
     _createdWidget.append(_photo.render());
 
@@ -54,7 +54,7 @@
       for(field in _form){
          _submitForm[field] = _form[field].getVal();
       };
-      if(_photo.get_url().length != 0) _submitForm['photo'] = _photo.get_url();
+      if(_photo.get_url().length != 0) _submitForm['profile_picture'] = _photo.get_url();
       return _submitForm;
     }
 

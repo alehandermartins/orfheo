@@ -12,7 +12,7 @@ describe ArtistProposal do
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
-      profile_picture: 'picture.jpg',
+      profile_picture: ['picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -25,6 +25,7 @@ describe ArtistProposal do
       title: 'title',
       description: 'description',
       short_description: 'short_descritpion',
+      photos: ['picture.jpg', 'otter_picture.jpg'],
       links: 'links',
       duration: 'duration',
       children: 'children'

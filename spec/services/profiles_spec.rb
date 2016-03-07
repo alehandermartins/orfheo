@@ -12,9 +12,9 @@ describe Services::Profiles do
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
-      photo: 'photo',
       color: 'color',
-      profile_picture: 'picture.jpg',
+      profile_picture: ['profile.jpg'],
+      photos: ['picture.jpg', 'otter_picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -28,7 +28,8 @@ describe Services::Profiles do
       address: 'address',
       zip_code: 'zip_code',
       category: 'home',
-      profile_picture: 'picture.jpg',
+      profile_picture: ['picture.jpg'],
+      photos: ['picture.jpg', 'otter_picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -41,6 +42,7 @@ describe Services::Profiles do
         title: 'title',
         description: 'description',
         short_description: 'short_description',
+        photos: ['picture.jpg', 'otter_picture.jpg'],
         phone: '666999666',
         conditions: true,
         duration: '15',

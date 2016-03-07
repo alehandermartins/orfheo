@@ -10,7 +10,8 @@ describe ArtistProfile do
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
-      profile_picture: 'picture.jpg',
+      profile_picture: ['profile.jpg'],
+      photos: ['picture.jpg', 'otter_picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
