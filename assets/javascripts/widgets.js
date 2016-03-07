@@ -128,40 +128,40 @@
     }
   }
 
-  ns.Widgets.BootboxAlert = function(label, message){
-    bootbox.alert({
-      title: label,
-      message: message.render(),
-      callback: function(){
-        if(message.callback){
-          if(message.callback() == false) return false;
-        }
-      }
-    });
-  }
+  // ns.Widgets.BootboxAlert = function(label, message){
+  //   bootbox.alert({
+  //     title: label,
+  //     message: message.render(),
+  //     callback: function(){
+  //       if(message.callback){
+  //         if(message.callback() == false) return false;
+  //       }
+  //     }
+  //   });
+  // }
 
-ns.Widgets.MboxCallA = function(a_text, box_content){
+// ns.Widgets.MboxCallA = function(a_text, box_content){
 
-    var _createdWidget =  $('<a>').text(a_text);
+//     var _createdWidget =  $('<a>').text(a_text);
 
-    var _message =  $('<div>').addClass('very-fast reveal small');
+//     var _message =  $('<div>').addClass('very-fast reveal small');
 
-    var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up', multipleOpened:true});
+//     var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up', multipleOpened:true});
 
-    _createdWidget.on('click', function(){
-      _popup.open();
-    });
+//     _createdWidget.on('click', function(){
+//       _popup.open();
+//     });
 
-    _message.append(box_content);
+//     _message.append(box_content);
 
-    $('body').append(_message);
+//     $('body').append(_message);
 
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
+//     return {
+//       render: function(){
+//         return _createdWidget;
+//       }
+//     }
+//   }
 
   ns.Widgets.MboxCallButton = function(button_label, box_content){
 
