@@ -162,8 +162,8 @@ describe Services::Profiles do
 
     it 'returns all available profiles with at least one proposal or space profile' do
       Services::Profiles.create @profile_params, @user_id
-      @proposal = ArtistProposal.new @proposal_params, @user_id
-      @proposal.add
+      Services::Profiles.add_proposal @proposal_params, @user_id
+
       @profile_params.delete(:profile_id)
       @profile_params[:name] = 'otter_name'
       Services::Profiles.create @profile_params, @user_id
@@ -174,8 +174,8 @@ describe Services::Profiles do
 
     it 'returns all available profiles with at least one proposal or space profile excluding those of the user' do
       Services::Profiles.create @profile_params, 'otter_user'
-      @proposal = ArtistProposal.new @proposal_params, 'otter_user'
-      @proposal.add
+      Services::Profiles.add_proposal @proposal_params, 'otter_user'
+
       @profile_params.delete(:profile_id)
       @profile_params[:name] = 'otter_name'
       Services::Profiles.create @profile_params, @user_id
@@ -190,12 +190,16 @@ describe Services::Profiles do
 
     before(:each){
       Services::Profiles.create @profile_params, @user_id
-      @proposal = ArtistProposal.new @proposal_params, @user_id
-      @proposal.add
     }
 
+    it 'fails if the parameters are wrong' do
+      @proposal_params[:title] = ''
+      expect{Services::Profiles.add_proposal @proposal_params, @user_id}.to raise_error(Pard::Invalid::Params)
+    end
+
     it 'adds a proposal to the profile' do
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to eq(@proposal.to_h)
+      Services::Profiles.add_proposal @proposal_params, @user_id
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(proposal_id: @proposal_params[:proposal_id])
     end
   end
 end

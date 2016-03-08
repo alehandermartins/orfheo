@@ -5,6 +5,7 @@ describe ProfilesController do
     @update_profile_route = '/users/create_profile'
     @modify_profile_route = '/users/modify_profile'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+    @proposal_id = 'b11000e7-8f02-4542-a1c9-7f7aa18752ce'
     @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
 
     @user_hash = {
@@ -21,7 +22,7 @@ describe ProfilesController do
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
-      profile_picture: 'picture.jpg',
+      profile_picture: ['picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -99,10 +100,44 @@ describe ProfilesController do
     it 'modifies the desired parameters' do
       post @update_profile_route, @profile_params
       @profile_params[:name] = 'otter_name'
+
+      cloudinary_params = {
+        type: 'upload',
+        prefix: @user[:user_id] + '/' + @profile_id + '/profile_picture'
+      }
+
+      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
       post @modify_profile_route, @profile_params
 
       expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:name]).to eq('otter_name')
       expect(parsed_response['status']).to eq('success')
+    end
+  end
+
+  describe 'Proposals' do
+
+    before(:each){
+      post @update_profile_route, @profile_params
+      @create_proposal_route = '/users/create_proposal'
+      @modify_proposal_route = '/users/modify_proposal'
+    }
+
+    it 'fails if the profile_id does not exist' do
+      @proposal_params[:profile_id] = ''
+      post @create_proposal_route, @proposal_params
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_profile')
+    end
+
+    it 'adds a proposal to the profile' do
+      post @create_proposal_route, @proposal_params
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(proposal_id: @proposal_id)
+    end
+
+    xit 'modifies a proposal' do
+      @proposal_params['title'] = 'otter_title'
+      post @modify_proposal_route, @proposal_params
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(title: 'otter_title')
     end
   end
 

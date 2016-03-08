@@ -11,7 +11,6 @@ class CallsController < BaseController
     check_category params
     check_form params
     Services::Calls.add_proposal params, session[:identity]
-    Services::Profiles.add_proposal params, session[:identity] if params[:type] == 'artist'
     success ({profile_id: params[:profile_id]})
   end
 

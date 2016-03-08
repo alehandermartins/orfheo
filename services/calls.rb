@@ -32,6 +32,7 @@ module Services
       def add_proposal params, user_id
         params.merge! user_id: user_id
         params.merge! proposal_id: SecureRandom.uuid if params[:proposal_id].blank?
+        Services::Profiles.add_proposal params, user_id if params[:type] == 'artist'
         Repos::Calls.push({call_id: params[:call_id]}, params)
       end
 
