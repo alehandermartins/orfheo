@@ -166,6 +166,19 @@ describe Services::Profiles do
 
       expect(Services::Profiles.get_profiles.size).to eq(2)
     end
+
+    it 'returns all available profiles with at least one proposal or space profile excluding those of the user' do
+      Services::Profiles.create @profile_params, 'otter_user'
+      @proposal = ArtistProposal.new @proposal_params, 'otter_user'
+      @proposal.add
+      @profile_params.delete(:profile_id)
+      @profile_params[:name] = 'otter_name'
+      Services::Profiles.create @profile_params, @user_id
+      Services::Profiles.create @space_params, @user_id
+
+      expect(Services::Profiles.get_profiles_reject_user(@user_id)[:my_profiles].first).to include({user_id: @user_id})
+      expect(Services::Profiles.get_profiles_reject_user(@user_id)[:profiles].first).not_to include({user_id: @user_id})
+    end
   end
 
   describe 'Add proposal' do

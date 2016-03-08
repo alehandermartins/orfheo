@@ -7,7 +7,7 @@ class UsersController < BaseController
   end
 
   get '/users/' do
-    profiles = Services::Profiles.get_profiles_for session[:identity]
+    profiles = Services::Profiles.get_profiles_reject_user session[:identity]
     erb :users, :locals => {:profiles => profiles.to_json}
   end
 

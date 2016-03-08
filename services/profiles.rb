@@ -39,15 +39,20 @@ module Services
         }.shuffle
       end
 
+      def get_profiles_reject_user user_id
+        profiles = get_profiles
+        {
+          my_profiles: get_profiles_for(user_id),
+          profiles: profiles.reject{ |profile| profile[:user_id] == user_id}
+        }
+      end
+
       def get_profiles_for user_id
         profiles = Repos::Profiles.grab({user_id: user_id})
       end
 
       def get_profile_for user_id, profile_id
-        profiles = get_profiles_for user_id
-        profiles.select{ |profile|
-          profile[:profile_id] == profile_id
-        }.first
+        profiles = Repos::Profiles.grab({user_id: user_id, profile_id: profile_id}).first
       end
 
       def add_proposal params, user_id

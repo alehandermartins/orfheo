@@ -39,10 +39,11 @@ module Repos
       private
       def string_keyed_hash_to_symbolized hash
         hash.map do |k,v|
+          next if k == '_id'
           next [k,v] unless k.is_a? String
           next [k.to_sym, symbolize_array(v)] if v.is_a? Array
           [k.to_sym, v]
-        end.to_h
+        end.compact.to_h
       end
 
       def symbolize_array array

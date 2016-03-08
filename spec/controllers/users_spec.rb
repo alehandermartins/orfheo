@@ -50,7 +50,7 @@ describe UsersController do
     it 'redirects the user to the users page if logged in' do
       post @login_route, @user_hash
       get @users_route
-      expect(last_response.body).to include('Pard.Users([])')
+      expect(last_response.body).to include('Pard.Users({"my_profiles":[],"profiles":[]})')
     end
 
     it 'returns all the profiles for a given user' do
