@@ -3,8 +3,8 @@
 Pard.Welcome = function(profiles){
 
   var _header = Pard.Widgets.LoginHeader();
-  var _largeScreenSection = Pard.Widgets.LoginSectionLargeScreen(profiles);
-  var _mediumScreenSection = Pard.Widgets.LoginSectionMediumSmallScreen(profiles);
+  var _largeScreenMain = Pard.Widgets.LoginMainLargeScreen(profiles);
+  var _mediumScreenMain = Pard.Widgets.LoginMainMediumSmallScreen(profiles);
   var _footer = Pard.Widgets.Footer()
   
   // if ($(window).width() > 1024) {
@@ -24,16 +24,21 @@ Pard.Welcome = function(profiles){
   // });
 
   
-  $('body').append(_header.render(), _largeScreenSection.render(), _mediumScreenSection.render(), _footer.render());
+  $('body').append(_header.render(), _largeScreenMain.render(), _mediumScreenMain.render(), _footer.render());
   
   // $('#signUpBtn').sticky({topSpacing:20, widthFromWrapper:true});
          
 }
 
-Pard.Users = function(profiles){
+Pard.Users = function(myprofiles, profiles){
 
   var _header = Pard.Widgets.UserHeader();
-  // var _modifyPasswordWidget = Pard.Widgets.ModifyPassword();
+  
+  var _largeScreenMain = Pard.Widgets.LoginMainLargeScreen(myprofiles, profiles);
+  var _mediumScreenMain = Pard.Widgets.LoginMainMediumSmallScreen(myprofiles, profiles);
+  var _footer = Pard.Widgets.Footer()
+
+
   var _createProfile = Pard.Widgets.CreateProfile().render();
   var _myProfiles = Pard.Widgets.MyProfiles(profiles);
 
@@ -41,8 +46,12 @@ Pard.Users = function(profiles){
     Pard.Backend.createCall(console.log('created'));
   });
 
+  _largeScreenMain.append(_callGenerator);
+
   $('body').prepend(_header.render());
   $('body').append(_createProfile, _myProfiles.render(), _callGenerator.render());
+
+  $('body').append(_header.render(), _largeScreenMain.render(), _mediumScreenMain.render(), _footer.render());
 
   $(document).ready( function(){
       if (profiles.length == 0) _createProfile.trigger('click');

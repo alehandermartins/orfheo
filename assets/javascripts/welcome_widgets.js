@@ -44,7 +44,7 @@
   	}
   }
 
-  ns.Widgets.LoginSectionMediumSmallScreen = function(profiles){
+  ns.Widgets.LoginMainMediumSmallScreen = function(profiles){
   	var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-large');
     
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
@@ -74,7 +74,7 @@
   
   }
 
-  ns.Widgets.LoginSectionLargeScreen= function(profiles){
+  ns.Widgets.LoginMainLargeScreen= function(profiles){
     var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-mediumDown');
     
     var _aside = Pard.Widgets.LoginAside();

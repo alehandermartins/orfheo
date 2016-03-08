@@ -7,7 +7,7 @@
     
     var _createdWidget = $('<header>').addClass('user-bar');
     var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
-    var _container = $('<div>').addClass('pard-container-relative');
+    var _container = $('<div>').addClass('pard-header-container');
 
     var _topContent = $('<div>').addClass('top-header-content');
 
@@ -16,19 +16,12 @@
    
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
 
-    // var _elemResponsive = $('<span>').addClass('float-right').attr({'data-responsive-toggle':'responsive-menu', 'data-hide-for': 'large'}); 
-    
-    // var _iconLogin = $('<span>').addClass('menu-icon dark');
-    // _iconLogin.attr('data-toggle','');
-    // _elemResponsive.append(_iconLogin,' Log In');
-
     var _elemOffCanvas = $('<span>').addClass('float-left');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true});
     _elemOffCanvas.append(_iconOffCanvas, ' Menu');
 
     _responsiveMenu.append(_elemOffCanvas);
 
-    // var _menuRightResponsive = $('<div>').attr('id','responsive-menu');
     var _topBarRight = $('<div>').addClass('right-user-header-content');
 
     var _menu = $('<ul>').addClass('menu');
@@ -43,20 +36,72 @@
     
     _topBarRight.append(_menuContainer);
 
-    // _menuRightResponsive.append(_topBarRight);
-
     _topContent.append(_topBarTitle, _topBarRight);
 
     _container.append(_topContent, _responsiveMenu);
     _topBar.append(_container);
     _createdWidget.append(_topBar);
 
-
   	return {
   		render: function(){
   			return _createdWidget;
   		} 
   	}
+  }
+
+
+  ns.Widgets.UserMainLargeScreen= function(profiles){
+    var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-mediumDown');
+    
+    var _aside = Pard.Widgets.LoginAside();
+    var _gridSpacing = $('<div>').addClass('grid-spacing');
+    var _section = Pard.Widgets.LoginSection(profiles);
+
+    _createdWidget.append(_aside.render(), _gridSpacing, _section.render());
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+
+  ns.Widgets.UserAside = function (myprofiles) {
+    var _createdWidget = $('<nav>').addClass('grid-aside');
+    var _asideContent = $('<div>').addClass('grid-aside-content');
+    var _info = $('<div>').addClass('info');
+    
+    var _createProfileBtn =  Pard.Widgets.CreateProfile();   
+
+    _info.append(Pard.Widgets.MyProfiles(myprofiles).render()) 
+    
+    _asideContent.append(_createProfileBtn.render(), _info);
+
+    _createdWidget.append(_asideContent);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+
+  ns.Widgets.UserSection = function (profiles) {
+    var _createdWidget = $('<section>').addClass('grid-section');
+    var _content = $('<div>').addClass('grid-element-content');
+   
+    var _searchEngine = Pard.Widgets.SearchEngine(profiles);
+
+    _content.append(_searchEngine.render())
+    _createdWidget.append(_content);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
   }
 
 
