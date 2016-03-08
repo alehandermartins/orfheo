@@ -2,7 +2,14 @@ class ArtistProposal
 
   def initialize params, user_id
     @proposal = new_proposal params, user_id
-    @profile_id = params[:profile_id]
+  end
+
+  def wrong_params?
+    check_fundamentals
+  end
+
+  def [] key
+    proposal[key]
   end
 
   def to_h
@@ -14,7 +21,7 @@ class ArtistProposal
 
   def new_proposal params, user_id
     {
-      proposal_id: params[:proposal_id],
+      proposal_id: params[:proposal_id] || SecureRandom.uuid,
       category: params[:category],
       title: params[:title],
       description: params[:description],
@@ -23,6 +30,12 @@ class ArtistProposal
       short_description: params[:short_description],
       duration: params[:duration],
       children: params[:children]
+    }
+  end
+
+  def check_fundamentals
+    [:category, :title, :description].any?{ |field|
+      proposal[field].blank?
     }
   end
 end

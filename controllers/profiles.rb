@@ -19,6 +19,12 @@ class ProfilesController < UsersController
     erb :profile, :locals => {:profile => profile.to_json, :proposals => proposals.to_json}
   end
 
+  post '/users/create_proposal' do
+    check_profile params[:profile_id]
+    Services::Profiles.add_proposal params, session[:identity]
+    success({profile_id: params[:profile_id]})
+  end
+
   PROFILES_MAP = {
     'artist' => ArtistProfile,
     'space' => SpaceProfile
@@ -27,6 +33,10 @@ class ProfilesController < UsersController
   private
   def check_type type
     raise Pard::Invalid.new 'invalid_type' unless ['artist', 'space'].include? type
+  end
+
+  def check_profile profile_id
+    raise Pard::Invalid.new 'non_existing_profile' unless profile_exists? profile_id
   end
 
   def profile_exists? profile_id

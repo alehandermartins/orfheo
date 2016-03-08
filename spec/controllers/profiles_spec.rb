@@ -5,6 +5,7 @@ describe ProfilesController do
     @update_profile_route = '/users/create_profile'
     @modify_profile_route = '/users/modify_profile'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+    @proposal_id = 'b11000e7-8f02-4542-a1c9-7f7aa18752ce'
     @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
 
     @user_hash = {
@@ -115,9 +116,21 @@ describe ProfilesController do
 
   describe 'Proposals' do
 
-    xit 'adds a proposal to the profile' do
-      @proposal = ArtistProposal.new @proposal_params, @user_id
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to eq(@proposal.to_h)
+    before(:each){
+      post @update_profile_route, @profile_params
+      @create_proposal_route = '/users/create_proposal'
+    }
+
+    it 'fails if the profile_id does not exist' do
+      @proposal_params[:profile_id] = ''
+      post @create_proposal_route, @proposal_params
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_profile')
+    end
+
+    it 'adds a proposal to the profile' do
+      post @create_proposal_route, @proposal_params
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(proposal_id: @proposal_id)
     end
   end
 

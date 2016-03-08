@@ -76,6 +76,11 @@ describe Services::Calls do
       expect(Repos::Calls).to receive(:push).with({call_id: @proposal_params[:call_id]}, @proposal_params)
       Services::Calls.add_proposal @proposal_params, @user_id
     end
+
+    it 'adds a proposal to the profile' do
+      expect(Services::Profiles).to receive(:add_proposal).with(@proposal_params, @user_id)
+      Services::Calls.add_proposal @proposal_params, @user_id
+    end
   end
 
   describe 'Wrong_category?' do

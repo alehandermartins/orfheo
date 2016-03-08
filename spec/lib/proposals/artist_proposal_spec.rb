@@ -35,10 +35,29 @@ describe ArtistProposal do
 
   }
 
-  describe 'Initializes' do
+  describe 'Initialize' do
 
-    it 'has the correct params' do
-      expect((ArtistProposal.new @proposal_params, @user_id).to_h).to include({proposal_id: @proposal_id})
+    it 'assigns a new proposal_id if the params do not specify any' do
+      @proposal_params.delete(:proposal_id)
+      proposal = ArtistProposal.new @proposal_params, @user_id
+
+      expect(UUID.validate proposal[:proposal_id]).to eq(true)
+    end
+
+    it 'assigns the old profile_id if specified' do
+      expect(@proposal[:proposal_id]).to eq(@proposal_id)
+    end
+  end
+
+  describe 'Checks' do
+
+    it 'if the fundamental fields are not empty' do
+      expect(@proposal.wrong_params?).to eq(false)
+
+      @proposal_params[:title] = ''
+      proposal = ArtistProposal.new @proposal_params, @user_id
+
+      expect(proposal.wrong_params?).to eq(true)
     end
   end
 end
