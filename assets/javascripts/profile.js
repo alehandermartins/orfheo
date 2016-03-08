@@ -65,7 +65,7 @@
       setCallback: function(callback){
         submitButton.on('click',function(){
           if(_filled() == true){
-            Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+            Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
             callback();
           }
         });
