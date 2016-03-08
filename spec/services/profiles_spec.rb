@@ -109,7 +109,12 @@ describe Services::Profiles do
     end
 
     it 'deletes old images if changed' do
-      allow(Cloudinary::Api).to receive(:resources).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
+      cloudinary_params = {
+        type: 'upload',
+        prefix: @user_id + '/' + @profile_id + '/profile_picture'
+      }
+
+      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
       expect(Cloudinary::Api).to receive(:delete_resources).with(['picture.jpg'])
       Services::Profiles.modify @modify_params, @user_id
     end

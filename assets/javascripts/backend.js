@@ -109,6 +109,7 @@
       logout: _logout,
       modifyPassword: _modifyPassword,
       createProfile: _createProfile,
+      modifyProfile: _modifyProfile,
       createCall: _createCall,
       createProposal: _createProposal
     };

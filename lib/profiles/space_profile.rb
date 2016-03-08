@@ -14,11 +14,11 @@ class SpaceProfile
 
   def image_folders
     [{
-      address: profile[:user_id] + uuid + 'profile_picture',
+      address: profile[:user_id] + '/' + uuid + '/profile_picture',
       field: :profile_picture
     },
     {
-      address: profile[:user_id] + uuid + 'photos',
+      address: profile[:user_id] + '/' + uuid + '/photos',
       field: :photos
     }]
   end
