@@ -12,4 +12,7 @@
 // = require profile_space
 // = require welcome_widgets
 // = require users_widgets
+// = require profile_widgets
+// = require search_widgets
+
 

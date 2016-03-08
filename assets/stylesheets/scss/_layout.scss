@@ -53,14 +53,22 @@ html, body{
 }
 
 body {
-  overflow: auto;
-  // overflow-x: hidden;
-  // @include breakpoint(medium down){overflow: hidden;}
+  // margin-right: 0!important;
+        // overflow: hidden;
+  overflow: hidden !important;
 }
 
 
-html{
-  overflow: hidden;
+// html{
+//   overflow: hidden;
+// }
+
+.whole-container {
+    overflow-y: scroll;
+    height: 100%;
+    max-height: 100%;
+    display: block;
+    position: relative;
 }
 
 .very-fast {
@@ -161,9 +169,12 @@ Grid and Bar
     padding-right:0.2rem;
     min-height: 6.5rem;
     background-color: $content-background;
-    max-width:97%; 
+    width: -moz-calc(100% - 16px);
+    width: -webkit-calc(100% - 16px);
+    width: calc(100% - 16px);
     z-index: 2;
     top:0;
+    left:0;
     padding-top:0.5rem;
     border-bottom:1px solid white;
   }
@@ -231,9 +242,7 @@ Header
   width: 100%;
   }
 .login-bar, .user-bar{
-  // position:fixed;
   width: 100%;
-  // z-index: 2;
   background: $content-background;
 }
   
@@ -320,6 +329,7 @@ Aside content LogIn page
   width: 100%;
   padding-top:2rem;
   padding-bottom:2rem;
+  margin-bottom: 1.5rem;
   @include border-radius($element-border-radius);
   font-size: $smallSize;
   @include linearGradient(#b9daad, #6cb252);
@@ -333,15 +343,10 @@ Aside content LogIn page
 // }
 
 .info{
-  margin-top: 1.5rem;
   min-height:10rem;
   width: 100%;
   background: $content-background;
   @include border-radius($layout-border-radius);
-
-
-  // position:fixed;
-
 }
 
 /*------------------------------
@@ -587,7 +592,7 @@ Buttons
   display: inline-block;
 }
 
-.pard-btn:hover, .circleSignup:hover{
+.pard-btn:hover:hover{
     @include linearGradient(#383737,$element-background);
   }
 button{

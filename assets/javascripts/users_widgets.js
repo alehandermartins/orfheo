@@ -50,14 +50,43 @@
   }
 
 
-  ns.Widgets.UserMainLargeScreen= function(profiles){
+  ns.Widgets.UserMainLargeScreen= function(myprofiles, profiles){
     var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-mediumDown');
     
-    var _aside = Pard.Widgets.LoginAside();
+    var _aside = Pard.Widgets.UserAside(myprofiles);
     var _gridSpacing = $('<div>').addClass('grid-spacing');
-    var _section = Pard.Widgets.LoginSection(profiles);
+    var _section = Pard.Widgets.UserSection(profiles);
 
     _createdWidget.append(_aside.render(), _gridSpacing, _section.render());
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.UserMainMediumSmallScreen = function(myprofiles,profiles){
+  	var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-large');
+    
+    var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
+    var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
+
+    var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
+
+    var _offCanvasSection = $('<div>').addClass('off-canvas-content').attr({'data-off-canvas-content': ''});
+
+    var _aside = Pard.Widgets.UserAside(myprofiles);
+
+    var _section = Pard.Widgets.UserSection(profiles);
+
+    _offCanvasAside.append(_aside.render());
+    _offCanvasSection.append(_section.render());
+     
+    _offCanvasInner.append(_offCanvasAside, _offCanvasSection);
+    _offCanvasWrapper.append(_offCanvasInner);
+
+    _createdWidget.append(_offCanvasWrapper);
 
     return{
       render: function(){
@@ -72,7 +101,11 @@
     var _asideContent = $('<div>').addClass('grid-aside-content');
     var _info = $('<div>').addClass('info');
     
-    var _createProfileBtn =  Pard.Widgets.CreateProfile();   
+    var _createProfileBtn =  Pard.Widgets.CreateProfile();  
+
+     $(document).ready( function(){
+      if (myprofiles.length == 0) _createProfileBtn.trigger('click');
+    }); 
 
     _info.append(Pard.Widgets.MyProfiles(myprofiles).render()) 
     

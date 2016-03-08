@@ -407,7 +407,10 @@
     var _diffI = 1;
     var _distanceFromHeader = distanceFromHeader*(-1);
 
-    $('body').scroll(function(){
+
+    $('.whole-container').scroll(function(){
+          console.log(_windowTop = $(elem).offset().top);
+
       if ($(window).width() > 1024) {
         var _windowTop = $(elem).offset().top;
         var _headerTop = $('header').offset().top;
