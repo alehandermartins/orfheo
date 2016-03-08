@@ -54,6 +54,7 @@ html, body{
 
 body {
   overflow: auto;
+  // overflow-x: hidden;
   // @include breakpoint(medium down){overflow: hidden;}
 }
 
@@ -152,10 +153,26 @@ Grid and Bar
 }
 
 
-.pard-container-relative {
+.pard-header-container{
   position:relative;
   width: 100%;
+   @include breakpoint(medium down){
+    position:fixed;
+    padding-right:0.2rem;
+    min-height: 6.5rem;
+    background-color: $content-background;
+    max-width:97%; 
+    z-index: 2;
+    top:0;
+    padding-top:0.5rem;
+    border-bottom:1px solid white;
+  }
 }
+
+.pard-container-relative{
+  position:relative;
+  width: 100%;
+  }
 
 
 /*FOR MEDIUM AND SMALL: TRANSITION WHEN SCREEN <= 1024px*/
@@ -188,11 +205,11 @@ off-canvas
     display:none;
   }
   .top-bar{
-    padding-bottom:1.2rem;
-    border-bottom: 1px solid white;
+    min-height: 6.5rem;
+    // border-bottom: 1px solid white;
   }
   .off-canvas-wrapper{
-    margin-top: 4.7rem;
+    margin-top: -1rem;
   }
 }
 
@@ -214,9 +231,9 @@ Header
   width: 100%;
   }
 .login-bar, .user-bar{
-  position:fixed;
+  // position:fixed;
   width: 100%;
-  z-index: 2;
+  // z-index: 2;
   background: $content-background;
 }
   
@@ -398,7 +415,7 @@ grid-section content LogIn page
 
 
 /*===============================================
-LOGIN PAGE
+USER PAGE
 ================================================*/
 
 /*------------------

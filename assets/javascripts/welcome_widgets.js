@@ -6,7 +6,7 @@
     
     var _createdWidget = $('<header>').addClass('login-bar');
     var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
-    var _container = $('<div>').addClass('pard-container-relative');
+    var _container = $('<div>').addClass('pard-header-container');
 
     
     var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content');
