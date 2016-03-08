@@ -13,7 +13,8 @@ describe SpaceProfile do
       city: 'city',
       address: 'address',
       zip_code: 'zip_code',
-      profile_picture: 'picture.jpg',
+      profile_picture: ['picture.jpg'],
+      photos: ['picture.jpg', 'otter_picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }

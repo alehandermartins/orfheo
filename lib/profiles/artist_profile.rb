@@ -12,6 +12,10 @@ class ArtistProfile
     check_fundamentals
   end
 
+  def old_pictures old_params
+    return old_params[:profile_picture] if(profile[:profile_picture] != old_params[:profile_picture])
+  end
+
   def uuid
     profile[:profile_id]
   end
@@ -31,8 +35,7 @@ class ArtistProfile
       city: params[:city],
       zip_code: params[:zip_code],
       color: params[:color],
-      profile_picture: (params[:profile_picture] unless params[:profile_picture].nil?),
-      photos: params[:photos],
+      profile_picture: params[:profile_picture],
       bio: params[:bio],
       personal_web: params[:personal_web]
     }

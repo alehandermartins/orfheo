@@ -34,7 +34,7 @@ class SpaceProfile
       zip_code: params[:zip_code],
       category: params[:category],
       color: params[:color],
-      profile_picture: (params[:profile_picture] unless params[:profile_picture].nil?),
+      profile_picture: params[:profile_picture],
       photos: params[:photos],
       bio: params[:bio],
       personal_web: params[:personal_web]

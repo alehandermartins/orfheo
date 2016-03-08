@@ -12,17 +12,24 @@ module Services
 
       def create params, user_id
         profile = PROFILES_MAP[params[:type]].new params, user_id
-        raise Pard::Invalid.new 'existing_profile' if profile_exists? profile
-        raise Pard::Invalid.new 'invalid_parameters' if profile.wrong_params?
+        raise Pard::Invalid::ExistingProfile if name_in_use? profile
+        raise Pard::Invalid::Params if profile.wrong_params?
         store profile.to_h
         profile.uuid
       end
 
-      def exists? key, value, user_id
-        profiles = Repos::Profiles.grab({user_id: user_id})
-        profiles.any?{ |profile|
-          profile[key] == value
-        }
+      def modify params, user_id
+        raise Pard::Invalid::UnexistingProfile unless exists?(params[:profile_id], user_id)
+        profile = PROFILES_MAP[params[:type]].new params, user_id
+        raise Pard::Invalid::ExistingProfile if name_in_use? profile
+        raise Pard::Invalid::Params if profile.wrong_params?
+        destroy_old_pictures profile
+        store profile.to_h
+        profile.uuid
+      end
+
+      def exists? profile_id, user_id
+        Repos::Profiles.exists?({user_id: user_id, profile_id: profile_id})
       end
 
       def get_profiles
@@ -49,7 +56,7 @@ module Services
       end
 
       private
-      def profile_exists? profile
+      def name_in_use? profile
         profiles = Repos::Profiles.grab({user_id: profile[:user_id]})
         profiles.any?{ |the_profile|
           (the_profile[:name] == profile[:name] && the_profile[:profile_id] != profile[:profile_id])
@@ -61,6 +68,13 @@ module Services
           profile.delete(field) if value.nil?
         }
         Repos::Profiles.update(profile[:profile_id], profile)
+      end
+
+      def destroy_old_pictures profile
+        prefix = profile[:user_id] + profile[:profile_id] + 'profile_picture'
+        prefix = '1a441f90-4e22-4d01-b8af-f968958c77b4/df8cf1d4-39ee-427c-b7b2-9e27085c207a/profile_picture'
+        images = Cloudinary::Api.resources(type: 'upload', prefix: prefix)['resources'].map{ |image| image['public_id']}
+        ap images
       end
     end
   end

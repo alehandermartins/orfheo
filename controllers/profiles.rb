@@ -30,6 +30,6 @@ class ProfilesController < UsersController
   end
 
   def profile_exists? profile_id
-    Services::Profiles.exists? :profile_id, profile_id , session[:identity]
+    Services::Profiles.exists? profile_id, session[:identity]
   end
 end

@@ -14,7 +14,6 @@ describe Services::Profiles do
       zip_code: 'zip_code',
       color: 'color',
       profile_picture: ['profile.jpg'],
-      photos: ['picture.jpg', 'otter_picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -67,29 +66,61 @@ describe Services::Profiles do
 
     it 'checks if the name of a given profile is already in use' do
       @profile_params.delete(:profile_id)
-      expect{Services::Profiles.create @profile_params, @user_id}.to raise_error(Pard::Invalid)
+      expect{Services::Profiles.create @profile_params, @user_id}.to raise_error(Pard::Invalid::ExistingProfile)
     end
 
-    it 'modifies an existing profile' do
+    it 'checks if the fundamental fields are ok' do
+      @profile_params[:name] = '';
+      expect{Services::Profiles.create @profile_params, @user_id}.to raise_error(Pard::Invalid::Params)
+    end
+  end
+
+  describe 'Modify' do
+
+    before(:each){
+      Services::Profiles.create @profile_params, @user_id
+
+      @modify_params = {
+        profile_id: @profile_id,
+        type: 'artist',
+        name: 'otter_name',
+        city: 'city',
+        zip_code: 'zip_code',
+        color: 'new_color',
+        profile_picture: ['otter.jpg'],
+      }
+    }
+
+    it 'checks if the profile exists' do
+      @modify_params.delete(:profile_id)
+      expect{Services::Profiles.modify @modify_params, @user_id}.to raise_error(Pard::Invalid::UnexistingProfile)
+    end
+
+    it 'checks if the name of a given profile is already in use' do
+      @profile_params.delete(:profile_id)
       @profile_params[:name] = 'otter_name'
       Services::Profiles.create @profile_params, @user_id
-
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include({name: 'otter_name'})
+      expect{Services::Profiles.modify @modify_params, @user_id}.to raise_error(Pard::Invalid)
     end
 
-    it 'does not modify unexisting fields' do
-      @profile_params.delete(:personal_web)
-      Services::Profiles.create @profile_params, @user_id
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include({personal_web: 'my_web'})
+    it 'checks if the new fundamental fields are ok' do
+      @modify_params[:name] = '';
+      expect{Services::Profiles.modify @modify_params, @user_id}.to raise_error(Pard::Invalid)
+    end
+
+    xit 'modifies an existing profile' do
+      Services::Profiles.modify @modify_params, @user_id
+
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include({name: 'otter_name', profile_picture: 'otter.jpg'})
     end
   end
 
   describe 'Exists' do
 
     it 'checks if a profile with a given profile_id exists for a given user' do
-      expect(Services::Profiles.exists? :profile_id, @profile_id, @user_id).to eq(false)
+      expect(Services::Profiles.exists? @profile_id, @user_id).to eq(false)
       Services::Profiles.create @profile_params, @user_id
-      expect(Services::Profiles.exists? :profile_id, @profile_id, @user_id).to eq(true)
+      expect(Services::Profiles.exists? @profile_id, @user_id).to eq(true)
     end
   end
 

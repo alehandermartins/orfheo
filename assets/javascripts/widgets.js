@@ -212,12 +212,12 @@
   ns.Widgets.Alert = function(title, content, callback){
 
     var _content = $('<div>').addClass('very-fast reveal tiny');
-    
+
     var _header = $('<div>').addClass('row');
     var _title = $('<h4>').addClass('small-11 columns').text(title);
     var _closeBtn = $('<button>').addClass('close-button small-1 columns').attr({type: 'button'});
     _closeBtn.append($('<span>').html('&times;'));
-    
+
     var _popup = new Foundation.Reveal(_content, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
 
     _closeBtn.click(function(){
@@ -338,12 +338,19 @@
     }
   }
 
-  ns.Widgets.Cloudinary = function(maxAmount){
+  ns.Widgets.Cloudinary = function(maxAmount, folder){
     var _createdWidget = $('<div>');
     var _thumbnail = $('<span>').addClass('thumbnails');
     var _url = [];
 
-    _cloudinary = $.cloudinary.unsigned_upload_tag("kqtqeksl",{ cloud_name: 'hxgvncv7u', folder: 'test'});
+    _cloudinary = $.cloudinary.unsigned_upload_tag(
+      "kqtqeksl",
+      {
+        cloud_name: 'hxgvncv7u',
+        folder: folder
+      }
+    );
+
     _cloudinary.fileupload({
       replaceFileInput: false,
       add: function(e, data) {

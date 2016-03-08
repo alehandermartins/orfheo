@@ -47,7 +47,7 @@ describe ProfilesController do
     post @login_route, @user_hash
   }
 
-  describe 'Update' do
+  describe 'Create' do
 
     it 'fails if the type does not exist' do
       post @update_profile_route, {}
@@ -91,6 +91,9 @@ describe ProfilesController do
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('existing_profile')
     end
+  end
+
+  describe 'Modify' do
 
     it 'modifies the desired parameters' do
       @profile_params['name'] = 'otter_name'

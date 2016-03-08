@@ -20,7 +20,7 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
-    var _photo = Pard.Widgets.Cloudinary(1);
+    var _photo = Pard.Widgets.Cloudinary(1, profile.user_id + '/' + profile.profile_id + '/profile_picture');
 
     _createdWidget.append(_photo.render());
 

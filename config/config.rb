@@ -66,11 +66,11 @@ class BaseController < Sinatra::Base
     @@db = DB[settings.dbname]
     Pony.override_options = {:from => 'pard.project@gmail.com', :via => :test }
     Cloudinary.config do |config|
-      config.cloud_name = 'dtet8jax5'
-      config.api_key = '613355472667488'
-      config.api_secret = 'JMI6dnwZNOjH1vPJN-hyrMY8xZA'
+      config.cloud_name = 'hxgvncv7u'
+      config.api_key = '844974134959653'
+      config.api_secret = '2scRx2fF3Vuw1qS6tu0FGli69Po'
       config.cdn_subdomain = true
-      CLOUDINARY_URL = 'cloudinary://613355472667488:JMI6dnwZNOjH1vPJN-hyrMY8xZA@dtet8jax5'
+      CLOUDINARY_URL = 'cloudinary://844974134959653:2scRx2fF3Vuw1qS6tu0FGli69Po@hxgvncv7u'
     end
     puts 'configured for dt'
   end
