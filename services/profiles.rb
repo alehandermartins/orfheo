@@ -76,10 +76,16 @@ module Services
       end
 
       def destroy_old_pictures profile
-        prefix = profile[:user_id] + profile[:profile_id] + 'profile_picture'
-        prefix = '1a441f90-4e22-4d01-b8af-f968958c77b4/df8cf1d4-39ee-427c-b7b2-9e27085c207a/profile_picture'
-        images = Cloudinary::Api.resources(type: 'upload', prefix: prefix)['resources'].map{ |image| image['public_id']}
-        ap images
+        folders = profile.image_folders
+        folders.each{ |folder|
+          unless profile[folder[:field]].blank?
+            public_ids = Cloudinary::Api.resources(type: 'upload', prefix: folder[:address])['resources'].map{ |image| image['public_id']}
+            old_images = public_ids.reject { |public_id|
+              profile[folder[:field]].include? public_id
+            }
+            Cloudinary::Api.delete_resources(old_images) unless old_images.blank?
+          end
+        }
       end
     end
   end

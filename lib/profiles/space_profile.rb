@@ -12,6 +12,17 @@ class SpaceProfile
     check_fundamentals || incorrect_categories?
   end
 
+  def image_folders
+    [{
+      address: profile[:user_id] + uuid + 'profile_picture',
+      field: :profile_picture
+    },
+    {
+      address: profile[:user_id] + uuid + 'photos',
+      field: :photos
+    }]
+  end
+
   def uuid
     profile[:profile_id]
   end

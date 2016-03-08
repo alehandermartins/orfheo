@@ -108,10 +108,10 @@ describe Services::Profiles do
       expect{Services::Profiles.modify @modify_params, @user_id}.to raise_error(Pard::Invalid)
     end
 
-    xit 'modifies an existing profile' do
+    it 'deletes old images if changed' do
+      allow(Cloudinary::Api).to receive(:resources).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
+      expect(Cloudinary::Api).to receive(:delete_resources).with(['picture.jpg'])
       Services::Profiles.modify @modify_params, @user_id
-
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first).to include({name: 'otter_name', profile_picture: 'otter.jpg'})
     end
   end
 

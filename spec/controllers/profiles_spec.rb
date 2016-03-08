@@ -3,6 +3,7 @@ describe ProfilesController do
   before(:each){
     @login_route = '/login/login_attempt'
     @update_profile_route = '/users/create_profile'
+    @modify_profile_route = '/users/modify_profile'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
     @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
 
@@ -96,8 +97,9 @@ describe ProfilesController do
   describe 'Modify' do
 
     it 'modifies the desired parameters' do
-      @profile_params['name'] = 'otter_name'
       post @update_profile_route, @profile_params
+      @profile_params[:name] = 'otter_name'
+      post @modify_profile_route, @profile_params
 
       expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:name]).to eq('otter_name')
       expect(parsed_response['status']).to eq('success')

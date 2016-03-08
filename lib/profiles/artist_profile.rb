@@ -12,8 +12,11 @@ class ArtistProfile
     check_fundamentals
   end
 
-  def old_pictures old_params
-    return old_params[:profile_picture] if(profile[:profile_picture] != old_params[:profile_picture])
+  def image_folders
+    [{
+      address: profile[:user_id] + uuid + 'profile_picture',
+      field: :profile_picture
+    }]
   end
 
   def uuid

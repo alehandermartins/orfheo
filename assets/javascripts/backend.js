@@ -78,6 +78,14 @@
       );
     };
 
+    var _modifyProfile = function(form, callback){
+      _send(
+        '/users/modify_profile',
+        form,
+        callback
+      );
+    };
+
     var _createCall = function(callback){
       _send(
         '/users/create_call',
