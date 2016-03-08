@@ -57,7 +57,7 @@ module Services
 
       def add_proposal params, user_id
         proposal = ArtistProposal.new params, user_id
-        proposal.add
+        Repos::Profiles.push({profile_id: params[:profile_id]}, proposal.to_h)
       end
 
       private

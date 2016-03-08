@@ -21,7 +21,7 @@ describe ProfilesController do
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
-      profile_picture: 'picture.jpg',
+      profile_picture: ['picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -99,10 +99,25 @@ describe ProfilesController do
     it 'modifies the desired parameters' do
       post @update_profile_route, @profile_params
       @profile_params[:name] = 'otter_name'
+
+      cloudinary_params = {
+        type: 'upload',
+        prefix: @user[:user_id] + '/' + @profile_id + '/profile_picture'
+      }
+
+      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
       post @modify_profile_route, @profile_params
 
       expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:name]).to eq('otter_name')
       expect(parsed_response['status']).to eq('success')
+    end
+  end
+
+  describe 'Proposals' do
+
+    xit 'adds a proposal to the profile' do
+      @proposal = ArtistProposal.new @proposal_params, @user_id
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to eq(@proposal.to_h)
     end
   end
 

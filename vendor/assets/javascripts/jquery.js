@@ -9,5 +9,3 @@
 //= require what-input.min
 //= require foundation.min
 //= require jquery.sticky
-
-

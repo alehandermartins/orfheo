@@ -35,11 +35,10 @@ describe ArtistProposal do
 
   }
 
-  describe 'Add' do
+  describe 'Initializes' do
 
-    it 'adds a proposal to the profile' do
-      @proposal.add
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to eq(@proposal.to_h)
+    it 'has the correct params' do
+      expect((ArtistProposal.new @proposal_params, @user_id).to_h).to include({proposal_id: @proposal_id})
     end
   end
 end

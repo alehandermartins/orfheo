@@ -5,16 +5,12 @@ class ArtistProposal
     @profile_id = params[:profile_id]
   end
 
-  def add
-    Repos::Profiles.push({profile_id: profile_id}, proposal)
-  end
-
   def to_h
     proposal.to_h
   end
 
   private
-  attr_reader :proposal, :profile_id
+  attr_reader :proposal
 
   def new_proposal params, user_id
     {
