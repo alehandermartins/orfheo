@@ -190,10 +190,15 @@ describe Services::Profiles do
 
     before(:each){
       Services::Profiles.create @profile_params, @user_id
-      Services::Profiles.add_proposal @proposal_params, @user_id
     }
 
+    it 'fails if the parameters are wrong' do
+      @proposal_params[:title] = ''
+      expect{Services::Profiles.add_proposal @proposal_params, @user_id}.to raise_error(Pard::Invalid::Params)
+    end
+
     it 'adds a proposal to the profile' do
+      Services::Profiles.add_proposal @proposal_params, @user_id
       expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(proposal_id: @proposal_params[:proposal_id])
     end
   end

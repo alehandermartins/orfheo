@@ -57,6 +57,7 @@ module Services
 
       def add_proposal params, user_id
         proposal = ArtistProposal.new params, user_id
+        raise Pard::Invalid::Params if proposal.wrong_params?
         Repos::Profiles.push({profile_id: params[:profile_id]}, proposal.to_h)
       end
 

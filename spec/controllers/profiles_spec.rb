@@ -119,6 +119,7 @@ describe ProfilesController do
     before(:each){
       post @update_profile_route, @profile_params
       @create_proposal_route = '/users/create_proposal'
+      @modify_proposal_route = '/users/modify_proposal'
     }
 
     it 'fails if the profile_id does not exist' do
@@ -131,6 +132,12 @@ describe ProfilesController do
     it 'adds a proposal to the profile' do
       post @create_proposal_route, @proposal_params
       expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(proposal_id: @proposal_id)
+    end
+
+    xit 'modifies a proposal' do
+      @proposal_params['title'] = 'otter_title'
+      post @modify_proposal_route, @proposal_params
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(title: 'otter_title')
     end
   end
 
