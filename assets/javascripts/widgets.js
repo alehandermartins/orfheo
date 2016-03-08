@@ -407,9 +407,8 @@
     var _diffI = 1;
     var _distanceFromHeader = distanceFromHeader*(-1);
 
-
+    $(document).ready(function(){
     $('.whole-container').scroll(function(){
-          console.log(_windowTop = $(elem).offset().top);
 
       if ($(window).width() > 1024) {
         var _windowTop = $(elem).offset().top;
@@ -428,6 +427,7 @@
           }
       }
     });
+  })
     $( window ).resize(function() {
       $(elem).removeAttr('style');
     })
@@ -437,26 +437,26 @@
 
   ns.Widgets.IconColor = function(h){
 
-      var cutHex =function (h) {
-        return (h.charAt(0)=="#") ? h.substring(1,7):h
-      }
+    var cutHex =function (h) {
+      return (h.charAt(0)=="#") ? h.substring(1,7):h
+    }
 
-      var _red = parseInt((cutHex(h)).substring(0,2),16);
-      var _green = parseInt ((cutHex(h)).substring(2,4),16);
-      var _blue = parseInt((cutHex(h)).substring(4,6),16);
-      var _reg =[_red, _green, _blue];
-      var _lum = (_red / 255.0) * 0.3 + (_green / 255.0) * 0.59 + (_blue / 255.0) * 0.11;
+    var _red = parseInt((cutHex(h)).substring(0,2),16);
+    var _green = parseInt ((cutHex(h)).substring(2,4),16);
+    var _blue = parseInt((cutHex(h)).substring(4,6),16);
+    var _reg =[_red, _green, _blue];
+    var _lum = (_red / 255.0) * 0.3 + (_green / 255.0) * 0.59 + (_blue / 255.0) * 0.11;
 
 
-      return {
-        render: function(){
-          return (_lum>0.35) ? 'black':'white';
-        },
-        rgb: function(){
-          return _rgb
-        }
+    return {
+      render: function(){
+        return (_lum>0.35) ? 'black':'white';
+      },
+      rgb: function(){
+        return _rgb
       }
     }
+  }
 
 
 

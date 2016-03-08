@@ -2,6 +2,8 @@
 
   ns.Widgets = ns.Widgets || {};
 
+
+
   ns.Widgets.SearchEngine = function (profiles) {
 
     var _createdWidget = $('<div>');
@@ -82,8 +84,8 @@
       }
     }
 
-    var searchCallback = function(){
-      var _input = _textInput.val();
+    var searchCallback = function(textInput){
+      var _input = textInput.val();
       if (_input != ''){
         _profiles = [];
         for (var i=0; i<profiles.length; i++) {
@@ -102,6 +104,24 @@
 
     var TypeCallbackBound = TypeCallback.bind(_typesSelector.render());
 
+    var _searchWidget = Pard.Widgets.SearchByName(profiles, searchCallback).render();
+
+    _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render());
+
+    _searchByName.append(_searchByNameLabel, _searchWidget);
+    _filters.append(_selectorsLabel,_typesSelector.render(), _catSelector);
+    _searchTools.append(_filters, _searchByName);
+    _createdWidget.append(_searchTools, _searchResult)
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+  
+
+  ns.Widgets.SearchByName = function(profiles, callback){
     var _searchWidget = $('<div>').addClass('ui-widget');
     var _textInput = Pard.Widgets.Input('', 'text');
     _textInput.setClass('search-input');
@@ -118,27 +138,20 @@
       minLength: 2
     });
 
-    var _searchBtn = Pard.Widgets.Button('&#x0533;',searchCallback);
-    _searchBtn.setClass('search-btn');
+    var _searchBtn = $('<button>').html('&#x0533;').attr({type: 'button'}).click(function(){callback(_textInput)});
+    _searchBtn.addClass('search-btn');
 
-    _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render());
+    _searchWidget.append(_textInput,_searchBtn);
 
-    _searchWidget.append(_textInput,_searchBtn.render());
-    _searchByName.append(_searchByNameLabel, _searchWidget);
-    _filters.append(_selectorsLabel,_typesSelector.render(), _catSelector);
-    _searchTools.append(_filters, _searchByName);
-    _createdWidget.append(_searchTools, _searchResult)
-
-    return{
+    return {
       render: function(){
-        return _createdWidget;
+        return _searchWidget;
       }
     }
   }
 
 
   ns.Widgets.ProfileCards = function (profiles) {
-    console.log(profiles[0])
 
     var _createdWidget =  $('<div>').addClass('row lateral-content-padding search-results');
 

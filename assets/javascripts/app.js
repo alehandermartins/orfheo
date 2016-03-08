@@ -29,20 +29,12 @@ Pard.Welcome = function(profiles){
   
   $('body').append(_whole);
 
-
-
-  
-  // $('body').append(_header.render(), _largeScreenMain.render(), _mediumScreenMain.render(), _footer.render());
-  
-  // $('#signUpBtn').sticky({topSpacing:20, widthFromWrapper:true});
-         
 }
 
 Pard.Users = function(profiles){
-  console.log(profiles);
 
+  var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.UserHeader();
-  
   var _largeScreenMain = Pard.Widgets.UserMainLargeScreen(profiles.my_profiles, profiles.profiles).render();
   var _mediumScreenMain = Pard.Widgets.UserMainMediumSmallScreen(profiles.my_profiles, profiles.profiles);
   var _footer = Pard.Widgets.Footer();
@@ -60,7 +52,9 @@ Pard.Users = function(profiles){
   // $('body').prepend(_header.render());
   // $('body').append(_createProfile, _myProfiles.render(), _callGenerator.render());
 
-  $('body').append(_header.render(), _largeScreenMain, _mediumScreenMain.render(), _footer.render());
+  $(_whole).append(_header.render(), _largeScreenMain, _mediumScreenMain.render(), _footer.render());
+
+  $('body').prepend(_whole);
 }
 
 Pard.Profile = function(profile, proposals){
