@@ -53,9 +53,15 @@ describe Repos::Profiles do
   end
 
   describe 'Exists?' do
-    it 'checks if matched element is already in any document' do
+    it 'checks if matched profile is already in any document' do
       expect(Repos::Profiles.exists?({user_id:@user_id})).to eq(true)
       expect(Repos::Profiles.exists?({user_id:'otter_user_id'})).to eq(false)
+    end
+
+    it 'checks if matched proposal is already in a profile' do
+      Repos::Profiles.push({profile_id:@profile_id}, @proposal_params)
+      expect(Repos::Profiles.proposal_exists?(@proposal_id)).to eq(true)
+      expect(Repos::Profiles.proposal_exists?('otter_proposal')).to eq(false)
     end
   end
 
