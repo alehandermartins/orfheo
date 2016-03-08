@@ -98,18 +98,21 @@
 
   ns.Widgets.UserAside = function (myprofiles) {
     var _createdWidget = $('<nav>').addClass('grid-aside');
-    var _asideContent = $('<div>').addClass('grid-aside-content');
-    var _info = $('<div>').addClass('info');
-    
-    var _createProfileBtn =  Pard.Widgets.CreateProfile();  
+    var _asideContent = $('<div>').addClass('aside-container');
+    var _myprofiles = $('<div>');
+    var _buttonContainer = $('<div>').addClass('create-profile-container');;
+    var _createProfileBtn =  Pard.Widgets.CreateProfile().render();
+
+    _createProfileBtn.addClass('create-profile-btn');  
 
      $(document).ready( function(){
       if (myprofiles.length == 0) _createProfileBtn.trigger('click');
     }); 
 
-    _info.append(Pard.Widgets.MyProfiles(myprofiles).render()) 
+    _myprofiles.append( Pard.Widgets.MyProfiles(myprofiles).render());
+    _buttonContainer.append(_createProfileBtn); 
     
-    _asideContent.append(_createProfileBtn.render(), _info);
+    _asideContent.append(_buttonContainer, _myprofiles);
 
     _createdWidget.append(_asideContent);
 
@@ -124,10 +127,12 @@
   ns.Widgets.UserSection = function (profiles) {
     var _createdWidget = $('<section>').addClass('grid-section');
     var _content = $('<div>').addClass('grid-element-content');
+
+    var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Explora los otros perfiles </h3>');
    
     var _searchEngine = Pard.Widgets.SearchEngine(profiles);
 
-    _content.append(_searchEngine.render())
+    _content.append(_title, _searchEngine.render())
     _createdWidget.append(_content);
 
     return{

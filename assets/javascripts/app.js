@@ -39,22 +39,15 @@ Pard.Users = function(profiles){
   var _mediumScreenMain = Pard.Widgets.UserMainMediumSmallScreen(profiles.my_profiles, profiles.profiles);
   var _footer = Pard.Widgets.Footer();
 
-
-  // var _createProfile = Pard.Widgets.CreateProfile().render();
-  // var _myProfiles = Pard.Widgets.MyProfiles(profiles);
-
   var _callGenerator = Pard.Widgets.Button('crea convocatoria', function(){
     Pard.Backend.createCall(console.log('created'));
   });
 
   _largeScreenMain.append(_callGenerator.render());
 
-  // $('body').prepend(_header.render());
-  // $('body').append(_createProfile, _myProfiles.render(), _callGenerator.render());
-
   $(_whole).append(_header.render(), _largeScreenMain, _mediumScreenMain.render(), _footer.render());
 
-  $('body').prepend(_whole);
+  $('body').append(_whole);
 }
 
 Pard.Profile = function(profile, proposals){

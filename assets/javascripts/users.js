@@ -22,9 +22,9 @@
 
     var _createdWidget = $('<div>');
     profiles.forEach(function(profile){
-      _createdWidget.append(Pard.Widgets.Button(profile['name'], function(){
+      _createdWidget.append(Pard.Widgets.CreateCard(profile, function(){
         document.location = '/users/profiles/' + profile['profile_id'];
-      }).render());
+      }).render().addClass('myprofile-card-position'));
     });
 
     return {

@@ -101,7 +101,7 @@ Grid and Bar
   }
 
   .grid-spacing{
-    width: 1.5rem;}
+    width: 1.8rem;}
 
   .grid-section {
     width: $pard-section-width;
@@ -155,10 +155,7 @@ Grid and Bar
 
 }
 
-.grid-aside-content{
-  width: $pard-aside-width;
-  position:relative;
-}
+
 
 
 .pard-header-container{
@@ -264,7 +261,8 @@ Header
     @extend .pard-bar;
     min-height: 4.5rem;
     padding-top: auto; 
-    margin-bottom: auto;
+    margin-bottom: 1.8rem;
+
   }
 }
 
@@ -343,11 +341,20 @@ Aside content LogIn page
 // }
 
 .info{
-  min-height:10rem;
   width: 100%;
   background: $content-background;
   @include border-radius($layout-border-radius);
 }
+
+.aside-container{
+  width: $pard-aside-width;
+  position:relative;
+}
+
+.grid-aside-content{
+  padding: 1rem 0.5rem 1rem 0.5rem;
+}
+
 
 /*------------------------------
 grid-section content LogIn page
@@ -448,6 +455,37 @@ Header
   display: block;
   width: 100%;
   min-height: 3.5rem;
+}
+
+
+
+/*-----------------------
+Aside content User page
+-------------------------*/
+
+
+
+.create-profile-container {
+  display: block;
+  position: relative;
+  // position: absolute;
+  width: 100%;
+  min-height: 8rem;
+  // margin-bottom: 1.5rem;
+}
+
+.create-profile-btn {
+  // display: block;
+  // position: relative;
+  // position: absolute;
+  @include horizontal-center;
+  margin-top: 3rem;
+  height:2rem;
+}
+
+.myprofile-card-position{
+  margin-top: 1.8rem;
+  background-color: $content-background;
 }
 
 

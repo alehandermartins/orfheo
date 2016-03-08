@@ -3,8 +3,6 @@
 
   ns.Widgets.ModifyPassword = function(){
 
-    // _createdWidget = $('<div>');
-
     var _createdButton = $('<a>').text('Modificar contraseña');
     var _popup = Pard.Widgets.PopupCreator(_createdButton,  Pard.Widgets.PopupContent('',Pard.Widgets.ModifyPasswordMessage()));
 
@@ -128,41 +126,5 @@
   }
 
   
-  // ns.Widgets.UserHeaderOld = function(){
   
-  //   var _createdWidget = $('<div>');
-
-  //   var _logoutWidget = Pard.Widgets.Logout().render();
-
-  //   _createdWidget.append(_logoutWidget);
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     }
-  //   }
-  // }
-
-  
-  // ns.Widgets.ProfileHeader = function(){
-  
-  //   var _createdWidget = $('<div>');
-
-  //   var _logoutWidget = Pard.Widgets.Logout().render();
-  //   var _toUserPageWidget = Pard.Widgets.ToUserPage().render();
-    
-  //   _createdWidget.append(_logoutWidget, _toUserPageWidget);
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     }
-  //   }
-  // }
-
-
-
-
-
-
 }(Pard || {}));

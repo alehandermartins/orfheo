@@ -96,10 +96,10 @@
 
   ns.Widgets.LoginAside = function () {
     var _createdWidget = $('<nav>').addClass('grid-aside');
-    var _asideContent = $('<div>').addClass('grid-aside-content');
-    var _info = $('<div>').addClass('info');
+    var _asideContainer = $('<div>').addClass('aside-container');
+    var _info = $('<div>').addClass('info grid-aside-content').text('orfheo es comunidad');
 
-    Pard.Widgets.Sticker(_asideContent, 100, 24);
+    Pard.Widgets.Sticker(_asideContainer, 100, 24);
 
     var _signUpMessage =  Pard.Widgets.Registration();    
     var _caller = $('<button>').attr({type:'button'}).html('Regístrate')
@@ -108,9 +108,9 @@
     var _signUpButton = _popup.render();
     _signUpButton.addClass('signupButton');
 
-    _asideContent.append(_signUpButton, _info);
+    _asideContainer.append(_signUpButton, _info);
 
-    _createdWidget.append(_asideContent);
+    _createdWidget.append(_asideContainer);
 
     return{
       render: function(){
@@ -122,7 +122,7 @@
   ns.Widgets.LoginSection = function (profiles) {
     var _createdWidget = $('<section>').addClass('grid-section');
     var _content = $('<div>').addClass('grid-element-content');
-    var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h4> Registrate y entra entra en</br> Benimaclet conFusión festival</h4>');
+    var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Descubre </h3> <h4>los participantes a la convocatoria del</h4><h3>Benimaclet conFusión festival</h3>');
     var _searchEngine = Pard.Widgets.SearchEngine(profiles);
 
 

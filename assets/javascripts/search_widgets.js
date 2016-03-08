@@ -155,9 +155,22 @@
 
     var _createdWidget =  $('<div>').addClass('row lateral-content-padding search-results');
 
-    var createCard = function(profile){
-      var _cardContainer = $('<div>').addClass('columns large-4');
-      var _card = $('<div>').addClass('profileCard position-profileCard-login');
+    for (var i=0; i<profiles.length; i++){
+      _createdWidget.append($('<div>').addClass('columns large-4').append(Pard.Widgets.CreateCard(profiles[i]).render().addClass('position-profileCard-login')));
+    }
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+
+
+  ns.Widgets.CreateCard = function(profile, callback){
+      // var _cardContainer = $('<div>').addClass('columns large-4');
+      var _card = $('<div>').addClass('profileCard');
       _card.hover(
         function(){
           $(this).css({'box-shadow': '0 0 6px 1px '+ profile.color});
@@ -186,22 +199,14 @@
       _category.html(_categories);
       _circle.append(_icon);
       _card.append(_circle, _name, _city, _category);
-      _cardContainer.append(_card);
 
-      _cardContainer.on('click', function(){
-        console.log('flag');
+      _card.on('click', function(){
+        if (callback) callback()
       });
 
-      return _cardContainer;
-    }
-
-    for (var i=0; i<profiles.length; i++){
-      _createdWidget.append(createCard(profiles[i]));
-    }
-
-    return{
-      render: function(){
-        return _createdWidget;
+      return {
+        render: function(){
+          return _card;
       }
     }
   }
