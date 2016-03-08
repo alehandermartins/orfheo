@@ -30,7 +30,7 @@ module Repos
       end
 
       def get_proposals_for profile_id
-        results = @@calls_collection.find({ proposals: { "$elemMatch": { profile_id: profile_id }}})
+        results = @@calls_collection.find({ "proposals.profile_id": profile_id })
         return [] unless results.count > 0
 
         get_my_proposals_from(results.map{ |call| call['proposals']}.flatten, profile_id)

@@ -19,7 +19,7 @@ module Services
       end
 
       def modify params, user_id
-        raise Pard::Invalid::UnexistingProfile unless exists?(params[:profile_id], user_id)
+        raise Pard::Invalid::UnexistingProfile unless exists?(params[:profile_id])
         profile = PROFILES_MAP[params[:type]].new params, user_id
         raise Pard::Invalid::ExistingProfile if name_in_use? profile
         raise Pard::Invalid::Params if profile.wrong_params?
@@ -28,8 +28,8 @@ module Services
         profile.uuid
       end
 
-      def exists? profile_id, user_id
-        Repos::Profiles.exists?({user_id: user_id, profile_id: profile_id})
+      def exists? profile_id
+        Repos::Profiles.exists?({profile_id: profile_id})
       end
 
       def get_profiles
@@ -61,6 +61,14 @@ module Services
         Repos::Profiles.push({profile_id: params[:profile_id]}, proposal.to_h)
       end
 
+      def modify_proposal params, user_id
+        raise Pard::Invalid::UnexistingProposal unless proposal_exists?(params[:profile_id], params[:proposal_id], user_id)
+        proposal = ArtistProposal.new params, user_id
+        raise Pard::Invalid::Params if proposal.wrong_params?
+        destroy_old_pictures proposal
+        Repos::Profiles.push({profile_id: params[:profile_id]}, proposal.to_h)
+      end
+
       private
       def name_in_use? profile
         profiles = Repos::Profiles.grab({user_id: profile[:user_id]})
@@ -76,13 +84,13 @@ module Services
         Repos::Profiles.update(profile[:profile_id], profile)
       end
 
-      def destroy_old_pictures profile
-        folders = profile.image_folders
+      def destroy_old_pictures element
+        folders = element.image_folders
         folders.each{ |folder|
-          unless profile[folder[:field]].blank?
+          unless element[folder[:field]].blank?
             public_ids = Cloudinary::Api.resources(type: 'upload', prefix: folder[:address])['resources'].map{ |image| image['public_id']}
             old_images = public_ids.reject { |public_id|
-              profile[folder[:field]].include? public_id
+              element[folder[:field]].include? public_id
             }
             Cloudinary::Api.delete_resources(old_images) unless old_images.blank?
           end

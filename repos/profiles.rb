@@ -14,6 +14,13 @@ module Repos
         @@profiles_collection.count(query: query) > 0
       end
 
+      def proposal_exists? proposal_id
+        results = @@profiles_collection.find({"proposals.proposal_id": proposal_id})
+        results.map { |profile|
+         string_keyed_hash_to_symbolized profile
+        }.count > 0
+      end
+
       def grab query
         results = @@profiles_collection.find(query)
         return [] unless results.count > 0
