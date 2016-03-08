@@ -11,3 +11,5 @@
 // = require profile_artist
 // = require profile_space
 // = require welcome_widgets
+// = require users_widgets
+

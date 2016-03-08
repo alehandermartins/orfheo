@@ -33,7 +33,7 @@ Pard.Welcome = function(profiles){
 Pard.Users = function(profiles){
 
   var _header = Pard.Widgets.UserHeader();
-  var _modifyPasswordWidget = Pard.Widgets.ModifyPassword();
+  // var _modifyPasswordWidget = Pard.Widgets.ModifyPassword();
   var _createProfile = Pard.Widgets.CreateProfile().render();
   var _myProfiles = Pard.Widgets.MyProfiles(profiles);
 
@@ -42,7 +42,7 @@ Pard.Users = function(profiles){
   });
 
   $('body').prepend(_header.render());
-  $('body').append(_modifyPasswordWidget.render(), _createProfile, _myProfiles.render(), _callGenerator.render());
+  $('body').append(_createProfile, _myProfiles.render(), _callGenerator.render());
 
   $(document).ready( function(){
       if (profiles.length == 0) _createProfile.trigger('click');

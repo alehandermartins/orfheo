@@ -45,7 +45,7 @@
   }
 
   ns.Widgets.LoginSectionMediumSmallScreen = function(profiles){
-  	var _createdWidget = $('<div>').addClass('pard-grid displayNone-for-large');
+  	var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-large');
     
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
@@ -75,7 +75,7 @@
   }
 
   ns.Widgets.LoginSectionLargeScreen= function(profiles){
-    var _createdWidget = $('<div>').addClass('pard-grid displayNone-for-mediumDown');
+    var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-mediumDown');
     
     var _aside = Pard.Widgets.LoginAside();
     var _gridSpacing = $('<div>').addClass('grid-spacing');
@@ -95,18 +95,19 @@
 
   ns.Widgets.LoginAside = function () {
     var _createdWidget = $('<nav>').addClass('grid-aside');
-    var _asideContent = $('<div>').addClass('grid-element-content signUp');
+    var _asideContent = $('<div>').addClass('grid-aside-content');
+    var _info = $('<div>').addClass('info');
 
     Pard.Widgets.Sticker(_asideContent, 100, 24);
 
     var _signUpMessage =  Pard.Widgets.Registration();    
-    var _caller = Pard.Widgets.Button('Regístrate');
-    var _popup = Pard.Widgets.PopupCreator(_caller.render(), Pard.Widgets.PopupContent('', _signUpMessage));
+    var _caller = $('<button>').attr({type:'button'}).html('Regístrate')
+    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('', _signUpMessage));
 
     var _signUpButton = _popup.render();
-    _signUpButton.addClass('circleSignUp');
+    _signUpButton.addClass('signupButton');
 
-    _asideContent.append(_signUpButton);
+    _asideContent.append(_signUpButton, _info);
 
     _createdWidget.append(_asideContent);
 
@@ -151,18 +152,18 @@
     var _selectorsLabel = $('<label>').text('Filtros');
     var _searchByNameLabel = $('<label>').text('Busqueda por nombre');
 
-    var _labelsTypes = ['-Tipo de perfil-', 'Artista', 'Espacio'];
+    var _labelsTypes = ['- Tipo de perfil -', 'Artista', 'Espacio'];
     var _valuesTypes = ['none', 'artist', 'space'];
 
     var _catSelector = $('<span>');
-    var _catSelectorDefault = Pard.Widgets.Selector(['-Categoría-'], ['none']);
+    var _catSelectorDefault = Pard.Widgets.Selector(['- Categoría -'], ['none']);
     _catSelectorDefault.setClass('filter-select');
     _catSelectorDefault.disable();
     _catSelector.append(_catSelectorDefault.render());
 
     var _labelsCat ={
-      artist: ['-Categoría-', 'Musica', 'Artes Escénicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'],
-      space: ['-Categoría-','Asociacion Cultural', 'Local Comercial', 'Espacio Particular']
+      artist: ['- Categoría -', 'Musica', 'Artes Escénicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'],
+      space: ['- Categoría -','Asociacion Cultural', 'Local Comercial', 'Espacio Particular']
     }
 
     var _valuesCat ={

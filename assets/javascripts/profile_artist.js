@@ -11,7 +11,7 @@
     });
 
     if('profile_picture' in profile){
-      var _photo = $.cloudinary.image(profile['profile_picture'][0,
+      var _photo = $.cloudinary.image(profile['profile_picture'][0],
         { format: 'jpg', width: 50, height: 50,
           crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
       _info.append(_photo);

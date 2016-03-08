@@ -4,12 +4,12 @@
 
   ns.Widgets.ModifyPassword = function(){
 
-    _createdWidget = $('<div>');
+    // _createdWidget = $('<div>');
 
     var _createdButton = $('<a>').text('Modificar contraseña');
     var _popup = Pard.Widgets.PopupCreator(_createdButton,  Pard.Widgets.PopupContent('',Pard.Widgets.ModifyPasswordMessage()));
 
-    _createdWidget.append(_popup.render());
+    var _createdWidget = _popup.render();
 
     return {
       render: function(){
@@ -80,7 +80,7 @@
           if((_fields['password'].getVal() == _fields['passwordConf'].getVal()) && _fields['password'].getVal().length >= 8){
             Pard.Backend.modifyPassword(_fields['password'].getVal(), function(data){
               if (data['status'] == 'success'){
-                Pard.Widgets.Alert('Contraseña cambiada.');
+                Pard.Widgets.Alert('', 'Contraseña cambiada.');
                 callback();
               }
               else {

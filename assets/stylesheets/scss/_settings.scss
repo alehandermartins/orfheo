@@ -57,7 +57,9 @@ $element-background: #000;
 $element-color:#fff;
 $title-color: #757373;
 $text-color: #A0A09F;
-$pard-border-radius: 0.3rem;
+$layout-border-radius: 0.3rem;
+$element-border-radius: 0.125rem;
+
 
 //fonts
 
@@ -329,7 +331,7 @@ $dropdown-sizes: (
 // 17. Dropdown Menu
 // -----------------
 
-$dropdownmenu-arrows: true;
+$dropdownmenu-arrows: false;
 $dropdownmenu-arrow-color: $anchor-color;
 $dropdownmenu-min-width: 200px;
 $dropdownmenu-background: $white;
@@ -377,7 +379,7 @@ $input-shadow-focus: 0 0 5px $medium-gray;
 $input-cursor-disabled: default;
 $input-transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
 $input-number-spinners: true;
-$input-radius: $pard-border-radius;
+$input-radius: $element-border-radius;
 
 // 20. Label
 // ---------
@@ -467,7 +469,7 @@ $reveal-max-width: $global-width;
 $reveal-offset: rem-calc(100);
 $reveal-padding: $global-padding;
 $reveal-border: 1px solid $medium-gray;
-$reveal-radius: $pard-border-radius;
+$reveal-radius: $layout-border-radius;
 $reveal-zindex: 1005;
 $reveal-overlay-background: rgba($black, 0.25);
 
@@ -573,7 +575,7 @@ $tooltip-radius: $global-radius;
 // -----------
 
 $topbar-padding: 0.5rem;
-$topbar-background: $content-background;
+$topbar-background: inehrit;
 $topbar-title-spacing: 1rem;
 $topbar-input-width: 200px;
 

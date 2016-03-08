@@ -184,7 +184,7 @@
     var _createdWidget = $('<form>').addClass('input-login').attr('autocomplete','on');
     var _emailRecovery = $('<div>').addClass('passwdRecovery');
     var _recoveryPasswdMessage =  Pard.Widgets.RecoveryMessage();
-    var _caller = $('<a>').text('Recuperar contraseña');
+    var _caller = $('<a>').attr('href','#').text('Recuperar contraseña');
 
     var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Recuperar contraseña', _recoveryPasswdMessage));
 

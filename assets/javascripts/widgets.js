@@ -209,20 +209,31 @@
     }
   }
 
-  ns.Widgets.Alert = function(content){
+  ns.Widgets.Alert = function(title, content, callback){
 
-    var _content = $('<div>').addClass('very-fast reveal small');
-    var _closeBtn = $('<button>').addClass('close-button small-1 columns').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
-    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
-
-    _content.append(_closeBtn, content);
-
+    var _content = $('<div>').addClass('very-fast reveal tiny');
+    
+    var _header = $('<div>').addClass('row');
+    var _title = $('<h4>').addClass('small-11 columns').text(title);
+    var _closeBtn = $('<button>').addClass('close-button small-1 columns').attr({type: 'button'});
+    _closeBtn.append($('<span>').html('&times;'));
+    
     var _popup = new Foundation.Reveal(_content, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+
+    _closeBtn.click(function(){
+      if (callback) callback();
+      _popup.close();
+    });
+
+    _header.append(_title, _closeBtn);
+
+    _content.append(_header, content);
 
     $('body').append(_content);
 
     _popup.open();
-  }
+
+  };
 
 
   ns.Widgets.PopupCreator = function(caller, message){

@@ -54,6 +54,7 @@ html, body{
 
 body {
   overflow: auto;
+  // @include breakpoint(medium down){overflow: hidden;}
 }
 
 
@@ -91,7 +92,7 @@ Grid and Bar
   }
 
   .grid-spacing{
-    width: 1.1rem;}
+    width: 1.5rem;}
 
   .grid-section {
     width: $pard-section-width;
@@ -140,9 +141,15 @@ Grid and Bar
   padding-top:2rem;
   padding-bottom:2rem;
   min-height: 100vh;
-  @include border-radius($pard-border-radius);
+  @include border-radius($layout-border-radius);
   position:relative;
-}  
+
+}
+
+.grid-aside-content{
+  width: $pard-aside-width;
+  position:relative;
+}
 
 
 .pard-container-relative {
@@ -206,10 +213,11 @@ Header
   display: block;
   width: 100%;
   }
-.login-bar{
+.login-bar, .user-bar{
   position:fixed;
   width: 100%;
   z-index: 2;
+  background: $content-background;
 }
   
 }
@@ -225,6 +233,12 @@ Header
     padding-top: 0.9rem; 
     margin-bottom: 1.8rem;
    // position: fixed;
+  }
+  .user-bar{
+    @extend .pard-bar;
+    min-height: 4.5rem;
+    padding-top: auto; 
+    margin-bottom: auto;
   }
 }
 
@@ -246,7 +260,8 @@ Header
     }
   }
   input{
-    height: 2rem;
+    height: auto;
+    font-size: $almostNormalSize;
   }
 }
 
@@ -270,31 +285,44 @@ Header
   }
 }
 
+.dropdown.menu:not(.vertical) .is-dropdown-submenu.first-sub {
+    top: 100%;
+    left: auto;
+    right: 0;
+}
+
 
 
 /*-----------------------
 Aside content LogIn page
 -------------------------*/
 
-.circleSignup{
-  background: $element-background;
+.signupButton{
   color: $element-color;
   font-weight: 600;
-  @include pardCircle(5.5rem);
-  @include horizontal-center;
-  margin-top: 1rem;
+  width: 100%;
+  padding-top:2rem;
+  padding-bottom:2rem;
+  @include border-radius($element-border-radius);
+  font-size: $smallSize;
+  @include linearGradient(#b9daad, #6cb252);
 }
 
-.signUp-aside-text{
-  position: horizontal-center;
-  margin-top: 8rem;
-  text-align: center;
-  color: $title-color;
-}
+// .signUp-aside-text{
+//   position: horizontal-center;
+//   margin-top: 8rem;
+//   text-align: center;
+//   color: $title-color;
+// }
 
-.signUp{
-  min-height:17rem;
-  max-width: $pard-aside-width;
+.info{
+  margin-top: 1.5rem;
+  min-height:10rem;
+  width: 100%;
+  background: $content-background;
+  @include border-radius($layout-border-radius);
+
+
   // position:fixed;
 
 }
@@ -336,9 +364,10 @@ grid-section content LogIn page
 }
 
 .search-input{
-  height: 2rem;
+  height: auto;
+  font-size: $almostNormalSize;
   display: inline-block;
-  width: 83%;
+  width: 84%;
   margin:0;
 }
 
@@ -349,10 +378,13 @@ grid-section content LogIn page
   font-size: $almostNormalSize;
   @extend .pard-btn;
   margin:0;
+  width:15%;
+
 }
 
 .ui-widget{
   display: inline-block;
+  width: 14.5rem
 }
 
 .display-inline{
@@ -364,6 +396,37 @@ grid-section content LogIn page
   margin-top: 2.5rem;
 }
 
+
+/*===============================================
+LOGIN PAGE
+================================================*/
+
+/*------------------
+Header
+-------------------*/
+
+//GENERAL
+
+
+.right-user-header-content{
+  display: inline-block;
+  position: absolute;
+  margin-right: 0.4rem;
+  right:0;
+}
+
+.left-user-header-content{
+  left:0;
+  display: inline-block;
+  position: absolute;
+  margin-left:-0.5rem;
+}
+
+.top-header-content{
+  display: block;
+  width: 100%;
+  min-height: 3.5rem;
+}
 
 
 /*===============================================
@@ -381,7 +444,7 @@ Profile Card
   display: block;
   line-height: 0;
   transition: box-shadow 200ms ease-out;
-	@include border-radius($pard-border-radius);
+	@include border-radius($element-border-radius);
 	position:relative;
   @include breakpoint(medium){
   	width: $pard-aside-width;
@@ -503,7 +566,7 @@ Buttons
 .pard-btn{
   background: $element-background;
   color: $element-color;
-  @include border-radius($pard-border-radius);
+  @include border-radius($element-border-radius);
   display: inline-block;
 }
 
@@ -520,7 +583,7 @@ Forms
 -----------------*/
 
 textarea, select {
-  @include border-radius($pard-border-radius);
+  @include border-radius($element-border-radius);
 }
 
 
@@ -530,16 +593,22 @@ FOOTER
 
 .footer-bar{
   @extend .pard-bar;
-  height:5rem;
   position:relative;
   background: $content-background;
-  padding-top:2rem;
   padding-bottom:0rem;
   // position: absolute;
   bottom:0;
-  @include breakpoint(large) {
+  @include breakpoint(large) {  
+    height:5rem;
     margin-top: 1.8rem;
+    padding-top:2rem;
   }
+  @include breakpoint(medium down){
+  padding-top:0.5rem;
+  padding-bottom:0.5rem;
+
+  }
+  border-top: 1px solid white;
 }
 
 .footer-right{

@@ -5,13 +5,10 @@
 
   ns.Events.Register = function(data){
     if (data['status'] == 'success'){
-      alert('Te hemos enviado un correo.');
+      Pard.Widgets.Alert('','Te hemos enviado un correo.');
     }
     else {
-      bootbox.alert({
-        title: 'error',
-        message: data.reason
-      });
+      Pard.Widgets.Alert('Error',data.reason);
     }
   };
 
@@ -20,10 +17,7 @@
       document.location = '/users/';
     }
     else {
-      bootbox.alert({
-        title: 'error',
-        message: data.reason
-      });
+      Pard.Widgets.Alert('Error', data.reason);
     }
   };
 
@@ -32,10 +26,8 @@
       document.location = '/';
     }
     else {
-      bootbox.alert({
-        title: 'error',
-        message: data.reason
-      });
+       Pard.Widgets.Alert('Error', data.reason);
+
     }
   };
 
@@ -44,29 +36,21 @@
       document.location = '/users/profiles/' + data['profile_id'];
     }
     else{
-      bootbox.alert({
-        title: 'error',
-        message: data.reason
-      });
+      Pard.Widgets.Alert('Error', data.reason);
     }
   };
 
 
   ns.Events.CreateProposal = function(data){
     if (data['status'] == 'success'){
-      bootbox.alert({
-      title: 'conFusion festival 2016',
-      message: '¡Te has inscrito correctamente!',
-      callback: function(){
+      Pard.Widgets.Alert('conFusion festival 2016', '¡Te has inscrito correctamente!', 
+        function(){
          document.location = '/users/profiles/' + data['profile_id'];
-      }
-    });
+        }
+      );
     }
     else{
-      bootbox.alert({
-        title: 'error',
-        message: data.reason
-      });
+      Pard.Widgets.Alert('Error', data.reason);
     }
   };
 

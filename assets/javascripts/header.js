@@ -4,15 +4,13 @@
   
    ns.Widgets.Logout = function(){
 
-    _createdWidget = $('<div>');
-
-    var _createdButton = Pard.Widgets.Button('Log out', function(){
+    var _logout = $('<a>').attr('href','#').text('Log out').click(function(){
       Pard.Backend.logout(
         Pard.Events.Logout
       );
     });
 
-     _createdWidget.append(_createdButton.render());
+    var _createdWidget =_logout;
 
     return {
       render: function(){
@@ -26,9 +24,9 @@
 
     _createdWidget = $('<div>');
 
-      var _createdButton = Pard.Widgets.Button('Pagina de usuario', function(){
+      var _createdButton = $('<a>').attr('href','#').text('Pagina de usuario').click(function(){
         document.location = '/users/'
-      }).render()
+      });
   
      _createdWidget.append(_createdButton);
 
@@ -40,7 +38,7 @@
   }
 
   
-  ns.Widgets.UserHeader = function(){
+  ns.Widgets.UserHeaderOld = function(){
   
     var _createdWidget = $('<div>');
 
