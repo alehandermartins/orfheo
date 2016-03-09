@@ -34,21 +34,21 @@ describe Services::Profiles do
     }
 
     @proposal_params = {
-        profile_id: @profile_id,
-        proposal_id: @proposal_id,
-        type: 'artist',
-        category: 'music',
-        title: 'title',
-        description: 'description',
-        short_description: 'short_description',
-        photos: ['picture.jpg', 'otter_picture.jpg'],
-        phone: '666999666',
-        conditions: true,
-        duration: '15',
-        availability: 'sun',
-        components: 3,
-        repeat: true
-      }
+      profile_id: @profile_id,
+      proposal_id: @proposal_id,
+      type: 'artist',
+      category: 'music',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      photos: ['picture.jpg', 'otter_picture.jpg', 'annoter_picture'],
+      phone: '666999666',
+      conditions: true,
+      duration: '15',
+      availability: 'sun',
+      components: 3,
+      repeat: true
+    }
 
     @profile = ArtistProfile.new @profile_params, @user_id
     @space_profile = ArtistProfile.new @space_params, @user_id
@@ -200,6 +200,52 @@ describe Services::Profiles do
     it 'adds a proposal to the profile' do
       Services::Profiles.add_proposal @proposal_params, @user_id
       expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(proposal_id: @proposal_params[:proposal_id])
+    end
+  end
+
+  describe 'Modify proposal' do
+
+    before(:each){
+      Services::Profiles.create @profile_params, @user_id
+
+      @modify_proposal = {
+        profile_id: @profile_id,
+        proposal_id: @proposal_id,
+        type: 'artist',
+        category: 'music',
+        title: 'title',
+        description: 'description',
+        short_description: 'short_description',
+        photos: ['picture.jpg'],
+        phone: '666999666',
+        conditions: true,
+        duration: '15',
+        availability: 'sun',
+        components: 3,
+        repeat: true
+      }
+    }
+
+    it 'fails if the proposal does not exist' do
+      expect{Services::Profiles.modify_proposal @modify_proposal, @user_id}.to raise_error(Pard::Invalid::UnexistingProposal)
+    end
+
+    it 'fails if the parameters are wrong' do
+      Services::Profiles.add_proposal @proposal_params, @user_id
+      @modify_proposal[:title] = ''
+      expect{Services::Profiles.modify_proposal @modify_proposal, @user_id}.to raise_error(Pard::Invalid::Params)
+    end
+
+    xit 'deletes old images if changed' do
+      Services::Profiles.add_proposal @proposal_params, @user_id
+      cloudinary_params = {
+        type: 'upload',
+        prefix: @user_id + '/' + @profile_id + '/' + @proposal_id + '/photos'
+      }
+
+      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
+      expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg', 'annoter_picture'])
+      Services::Profiles.modify_proposal @modify_proposal, @user_id
     end
   end
 end

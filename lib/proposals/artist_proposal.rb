@@ -2,10 +2,27 @@ class ArtistProposal
 
   def initialize params, user_id
     @proposal = new_proposal params, user_id
+    @user_id = user_id
+    @profile_id = params[:profile_id]
   end
 
   def wrong_params?
     check_fundamentals
+  end
+
+  def image_folders
+    [{
+      address: user + '/' + profile + '/' + proposal[:proposal_id] + '/photos',
+      field: :photos
+    }]
+  end
+
+  def user
+    @user_id
+  end
+
+  def profile
+    @profile_id
   end
 
   def [] key

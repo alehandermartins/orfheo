@@ -62,11 +62,11 @@ module Services
       end
 
       def modify_proposal params, user_id
-        raise Pard::Invalid::UnexistingProposal unless proposal_exists?(params[:profile_id], params[:proposal_id], user_id)
+        raise Pard::Invalid::UnexistingProposal unless proposal_exists?(params[:proposal_id])
         proposal = ArtistProposal.new params, user_id
         raise Pard::Invalid::Params if proposal.wrong_params?
         destroy_old_pictures proposal
-        Repos::Profiles.push({profile_id: params[:profile_id]}, proposal.to_h)
+        Repos::Profiles.modify_proposal(proposal.to_h)
       end
 
       private
@@ -75,6 +75,10 @@ module Services
         profiles.any?{ |the_profile|
           (the_profile[:name] == profile[:name] && the_profile[:profile_id] != profile[:profile_id])
         }
+      end
+
+      def proposal_exists? proposal_id
+        Repos::Profiles.proposal_exists? proposal_id
       end
 
       def store profile

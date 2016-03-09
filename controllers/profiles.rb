@@ -1,4 +1,4 @@
-class ProfilesController < UsersController
+class ProfilesController < BaseController
 
   post '/users/create_profile' do
     check_type params[:type]

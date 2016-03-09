@@ -37,6 +37,13 @@ module Repos
         {upsert: true})
       end
 
+      def modify_proposal new_fields
+        @@profiles_collection.update({"proposals.proposal_id": new_fields[:proposal_id]},{
+          "$set": new_fields
+        },
+        {upsert: true})
+      end
+
       def push query, proposal
         @@profiles_collection.update(query,{
           "$push": {proposals: proposal}

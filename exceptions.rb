@@ -19,6 +19,12 @@ module Pard
       'non_existing_profile'
     end
   end
+
+  class Invalid::UnexistingProposal < Invalid
+    def message
+      'non_existing_proposal'
+    end
+  end
 end
 
 
