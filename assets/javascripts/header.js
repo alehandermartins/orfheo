@@ -3,7 +3,7 @@
 
   ns.Widgets.ModifyPassword = function(){
 
-    var _createdButton = $('<a>').text('Modificar contraseña');
+    var _createdButton = $('<a>').attr('href','#').text('Modificar contraseña');
     var _popup = Pard.Widgets.PopupCreator(_createdButton,  Pard.Widgets.PopupContent('',Pard.Widgets.ModifyPasswordMessage()));
 
     var _createdWidget = _popup.render();
