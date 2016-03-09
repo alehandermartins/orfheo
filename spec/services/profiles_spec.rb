@@ -262,15 +262,15 @@ describe Services::Profiles do
       expect{Services::Profiles.modify_proposal @modify_proposal, @user_id}.to raise_error(Pard::Invalid::Params)
     end
 
-    xit 'deletes old images if changed' do
+    it 'deletes old images if changed' do
       Services::Profiles.add_proposal @proposal_params, @user_id
       cloudinary_params = {
         type: 'upload',
         prefix: @user_id + '/' + @profile_id + '/' + @proposal_id + '/photos'
       }
 
-      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
-      expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg', 'annoter_picture'])
+      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}, {'public_id' => 'otter_picture.jpg'}, {'public_id' => 'anotter_picture.jpg'}]})
+      expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg', 'anotter_picture.jpg'])
       Services::Profiles.modify_proposal @modify_proposal, @user_id
     end
   end
