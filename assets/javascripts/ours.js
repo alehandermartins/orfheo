@@ -14,4 +14,6 @@
 // = require users_widgets
 // = require search_widgets
 // = require artist_widgets
+// = require space_widgets
+
 

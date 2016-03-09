@@ -6,8 +6,8 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.ArtistProfileMain = function(profiles){
-  	var _createdWidget = $('<div>').append(Pard.Widgets.ArtistMainLargeScreen(profiles).render(), Pard.Widgets.ArtistMainMediumSmallScreen(profiles).render());
+  ns.Widgets.ProfileMain = function(profiles){
+  	var _createdWidget = $('<div>').append(Pard.Widgets.MainLargeScreen(profiles).render(), Pard.Widgets.MainMediumSmallScreen(profiles).render());
 
   	return{
       render: function(){
@@ -17,7 +17,7 @@
 
   }
 
-  ns.Widgets.ArtistMainLargeScreen= function(profiles){
+  ns.Widgets.MainLargeScreen= function(profiles){
     var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-mediumDown');   
     var _gridSpacing = $('<div>').addClass('grid-spacing');
     var _section = $('<section>').addClass('grid-section');
@@ -36,7 +36,7 @@
     }
   }
 
-  ns.Widgets.ArtistMainMediumSmallScreen = function(profiles){
+  ns.Widgets.MainMediumSmallScreen = function(profiles){
   	var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-large');
     
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
