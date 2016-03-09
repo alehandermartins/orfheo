@@ -100,7 +100,7 @@ describe Repos::Profiles do
     end
   end
 
-  describe 'Push' do
+  describe 'Proposals' do
 
     it 'adds a proposal to the array of proposals' do
 
@@ -116,6 +116,22 @@ describe Repos::Profiles do
       expect(Repos::Profiles.grab({profile_id:@profile_id}).first).to include(
         proposals: [@proposal_params, @otter_params]
       )
+    end
+
+    it 'modifies a proposal' do
+
+      @modify_params = {
+        user_id: @user_id,
+        profile_id: @profile_id,
+        proposal_id: @proposal_id,
+        title: 'otter_title'
+      }
+
+      Repos::Profiles.push({profile_id:@profile_id}, @proposal_params)
+      Repos::Profiles.modify_proposal(@modify_params)
+
+      expect(Repos::Profiles.grab({profile_id:@profile_id}).first[:proposals].first).to include(
+        title: 'otter_title')
     end
   end
 end

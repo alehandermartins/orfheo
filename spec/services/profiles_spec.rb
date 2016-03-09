@@ -239,7 +239,7 @@ describe Services::Profiles do
         proposal_id: @proposal_id,
         type: 'artist',
         category: 'music',
-        title: 'title',
+        title: 'otter_title',
         description: 'description',
         short_description: 'short_description',
         photos: ['picture.jpg'],
@@ -272,6 +272,14 @@ describe Services::Profiles do
       allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}, {'public_id' => 'otter_picture.jpg'}, {'public_id' => 'anotter_picture.jpg'}]})
       expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg', 'anotter_picture.jpg'])
       Services::Profiles.modify_proposal @modify_proposal, @user_id
+    end
+
+    it 'modifies the fields' do
+      Services::Profiles.add_proposal @proposal_params, @user_id
+      Services::Profiles.modify_proposal @modify_proposal, @user_id
+      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(
+        title: 'otter_title'
+      )
     end
   end
 end
