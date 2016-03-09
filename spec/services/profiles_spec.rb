@@ -4,6 +4,9 @@ describe Services::Profiles do
     @user_id = '3c61cf77-32b0-4df2-9376-0960e64a654a'
     @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
     @proposal_id = 'b11000e7-8f02-4542-a1c9-7f7aa18752ce'
+    @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
+
+    @call_hash = {}
 
     @profile_params = {
       user_id: @user_id,
@@ -36,6 +39,7 @@ describe Services::Profiles do
     @proposal_params = {
       profile_id: @profile_id,
       proposal_id: @proposal_id,
+      call_id: @call_id,
       type: 'artist',
       category: 'music',
       title: 'title',
@@ -50,6 +54,7 @@ describe Services::Profiles do
       repeat: true
     }
 
+    Services::Calls.register @call_hash, @user_id
     @profile = ArtistProfile.new @profile_params, @user_id
     @space_profile = ArtistProfile.new @space_params, @user_id
   }
@@ -137,6 +142,8 @@ describe Services::Profiles do
 
     it 'returns all the profiles for a given user' do
       Services::Profiles.create @profile_params, @user_id
+      Services::Calls.add_proposal @proposal_params, @user_id
+
       @profile_params[:profile_id] = 'otter_profile_id'
       @profile_params[:name] = 'otter_name'
       Services::Profiles.create @profile_params, @user_id
@@ -146,6 +153,10 @@ describe Services::Profiles do
         user_id: @user_id,
         profile_id: @profile_id,
         name: 'artist_name'
+      )
+      expect(profiles.first[:calls].first).to include(
+        proposal_id: @proposal_id,
+        call_id: @call_id
       )
       expect(profiles[1]).to include(
         user_id: @user_id,

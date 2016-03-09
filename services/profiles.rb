@@ -50,7 +50,9 @@ module Services
       def get_profiles_for user_id, profile_id = nil
         profiles = Repos::Profiles.grab({user_id: user_id})
         sort_profiles(profiles, profile_id) unless profile_id.nil?
-        profiles
+        profiles.each{ |profile|
+          profile.merge! calls: Services::Calls.get_proposals_for(profile[:profile_id])
+        }
       end
 
       def add_proposal params, user_id
