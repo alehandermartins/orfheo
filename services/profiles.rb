@@ -47,12 +47,10 @@ module Services
         }
       end
 
-      def get_profiles_for user_id
+      def get_profiles_for user_id, profile_id = nil
         profiles = Repos::Profiles.grab({user_id: user_id})
-      end
-
-      def get_profile_for user_id, profile_id
-        profiles = Repos::Profiles.grab({user_id: user_id, profile_id: profile_id}).first
+        sort_profiles(profiles, profile_id) unless profile_id.nil?
+        profiles
       end
 
       def add_proposal params, user_id
@@ -77,10 +75,6 @@ module Services
         }
       end
 
-      def proposal_exists? proposal_id
-        Repos::Profiles.proposal_exists? proposal_id
-      end
-
       def store profile
         profile.each{ |field, value|
           profile.delete(field) if value.nil?
@@ -91,14 +85,22 @@ module Services
       def destroy_old_pictures element
         folders = element.image_folders
         folders.each{ |folder|
-          unless element[folder[:field]].blank?
-            public_ids = Cloudinary::Api.resources(type: 'upload', prefix: folder[:address])['resources'].map{ |image| image['public_id']}
-            old_images = public_ids.reject { |public_id|
-              element[folder[:field]].include? public_id
-            }
-            Cloudinary::Api.delete_resources(old_images) unless old_images.blank?
-          end
+          next if element[folder[:field]].blank?
+          public_ids = Cloudinary::Api.resources(type: 'upload', prefix: folder[:address])['resources'].map{ |image| image['public_id']}
+          old_images = public_ids.reject { |public_id|
+            element[folder[:field]].include? public_id
+          }
+          Cloudinary::Api.delete_resources(old_images) unless old_images.blank?
         }
+      end
+
+      def sort_profiles profiles, profile_id
+        index = profiles.index{|profile| profile[:profile_id] == profile_id}
+        profiles.insert(0, profiles.delete_at(index))
+      end
+
+      def proposal_exists? proposal_id
+        Repos::Profiles.proposal_exists? proposal_id
       end
     end
   end

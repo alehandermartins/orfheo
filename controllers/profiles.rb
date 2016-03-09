@@ -14,9 +14,9 @@ class ProfilesController < BaseController
 
   get '/users/profiles/:uuid' do
     halt erb(:not_found) unless profile_exists? params[:uuid]
-    profile = Services::Profiles.get_profile_for session[:identity], params[:uuid]
+    profiles = Services::Profiles.get_profiles_for session[:identity], params[:uuid]
     proposals = Services::Calls.get_proposals_for params[:uuid]
-    erb :profile, :locals => {:profile => profile.to_json, :proposals => proposals.to_json}
+    erb :profile, :locals => {:profiles => profiles.to_json, :proposals => proposals.to_json}
   end
 
   post '/users/create_proposal' do

@@ -135,28 +135,43 @@ describe Services::Profiles do
       expect(Services::Profiles.get_profiles_for @user_id).to eq([])
     end
 
-    it 'returns the specified profiles for a given user' do
-      Services::Profiles.create @profile_params, @user_id
-
-      expect(Services::Profiles.get_profile_for @user_id, @profile_id).to include(
-        user_id: @user_id,
-        profile_id: @profile_id
-      )
-    end
-
     it 'returns all the profiles for a given user' do
       Services::Profiles.create @profile_params, @user_id
-      @profile_params.delete(:profile_id)
+      @profile_params[:profile_id] = 'otter_profile_id'
       @profile_params[:name] = 'otter_name'
       Services::Profiles.create @profile_params, @user_id
 
-      expect(Services::Profiles.get_profiles_for(@user_id).first).to include(
+      profiles = Services::Profiles.get_profiles_for(@user_id)
+      expect(profiles.first).to include(
         user_id: @user_id,
-        profile_id: @profile_id
+        profile_id: @profile_id,
+        name: 'artist_name'
       )
-      expect(Services::Profiles.get_profiles_for(@user_id)[1]).to include(
+      expect(profiles[1]).to include(
         user_id: @user_id,
+        profile_id: 'otter_profile_id',
         name: 'otter_name'
+      )
+    end
+
+
+    it 'returns all the profiles for a given user in a specific order' do
+      Services::Profiles.create @profile_params, @user_id
+      @profile_params[:profile_id] = 'otter_profile_id'
+      @profile_params[:name] = 'otter_name'
+      Services::Profiles.create @profile_params, @user_id
+
+      profiles = Services::Profiles.get_profiles_for(@user_id, 'otter_profile_id')
+
+      expect(profiles.first).to include(
+        user_id: @user_id,
+        profile_id: 'otter_profile_id',
+        name: 'otter_name'
+      )
+      expect(profiles[1]).to include(
+        user_id: @user_id,
+        profile_id: @profile_id,
+        name: 'artist_name'
       )
     end
 
