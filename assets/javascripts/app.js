@@ -47,19 +47,55 @@ Pard.Users = function(profiles){
 
   $(_whole).append(_header.render(), _largeScreenMain, _mediumScreenMain.render(), _footer.render());
 
+  $(document).ready( function(){
+    if (profiles.my_profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
+  }); 
+
   $('body').append(_whole);
 }
 
-Pard.Profile = function(profile, proposals){
+Pard.ProfileOld = function(profiles){
 
   PROFILES_MAP = {
     'artist': Pard.Widgets.ArtistProfile,
     'space': Pard.Widgets.SpaceProfile
   };
 
-  var _toUserPageWidget = Pard.Widgets.ToUserPage().render();
-  var _myProfile = PROFILES_MAP[profile.type](profile, proposals).render();
-  var _header = Pard.Widgets.UserHeader();
+  var _profile = profiles[0];
 
-  $('body').append(_header.render(), _toUserPageWidget, _myProfile);
+  var _toUserPageWidget = Pard.Widgets.ToUserPage().render();
+  var _myProfile = PROFILES_MAP[_profile.type](_profile, _profile.calls).render();
+  var _header = Pard.Widgets.UserHeader();
+  var _footer = Pard.Widgets.Footer();
+
+
+  $('body').append(_header.render(), _toUserPageWidget, _myProfile, _footer.render());
+
 };
+
+
+Pard.Profile = function(profiles){
+
+  PROFILES_MAP = {
+    'artist': Pard.Widgets.ArtistProfileMain,
+    // 'space': Pard.Widgets.SpaceProfile
+  };
+
+  var _whole = $('<div>').addClass('whole-container');
+
+  var _main = PROFILES_MAP[profiles[0].type](profiles).render();
+  // var _toUserPageWidget = Pard.Widgets.ToUserPage().render();
+  // var _myProfile = PROFILES_MAP[profile.type](profile, proposals).render();
+  var _header = Pard.Widgets.UserHeader();
+  var _footer = Pard.Widgets.Footer();
+
+  $(_whole).append(_header.render(), _main, _footer.render());
+
+  $(document).ready( function(){
+    if (!(profiles[0].proposals)) Pard.Widgets.CallButtonArtist(profiles[0]).render().trigger('click');
+  }); 
+
+  $('body').append(_whole);
+
+};
+

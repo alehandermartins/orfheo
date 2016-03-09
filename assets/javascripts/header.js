@@ -1,3 +1,6 @@
+'use strict';
+
+
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
@@ -108,22 +111,7 @@
   }
 
 
-  ns.Widgets.ToUserPage = function(){
-
-    _createdWidget = $('<div>');
-
-      var _createdButton = $('<a>').attr('href','#').text('Pagina de usuario').click(function(){
-        document.location = '/users/'
-      });
-  
-     _createdWidget.append(_createdButton);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
+ 
 
   
   

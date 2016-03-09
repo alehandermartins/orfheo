@@ -1,3 +1,5 @@
+'use strict';
+
 (function(ns){
 
 
@@ -72,6 +74,24 @@
       }
     }
   }
+
+
+   ns.Widgets.ToUserPage = function(){
+
+    // _createdWidget = $('<div>');
+
+      var _createdButton = $('<a>').attr('href','/users/').text('Pagina de usuario')
+
+     // _createdWidget.append(_createdButton);
+
+    return {
+      render: function(){
+        return _createdButton;
+      }
+    }
+  }
+
+
 
 
 

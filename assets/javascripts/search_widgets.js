@@ -170,7 +170,7 @@
 
   ns.Widgets.CreateCard = function(profile, callback){
       // var _cardContainer = $('<div>').addClass('columns large-4');
-      var _card =$('<div>').addClass('profileCard').append($('<a>').attr('href','#'));
+      var _card =$('<a>').addClass('profileCard');
       _card.hover(
         function(){
           $(this).css({'box-shadow': '0 0 6px 1px '+ profile.color});
