@@ -88,9 +88,9 @@
       var _input = textInput.val();
       if (_input != ''){
         _profiles = [];
-        for (var i=0; i<profiles.length; i++) {
-          if (profiles[i].name === _input) _profiles.push(profiles[i]);        
-        }
+        profiles.forEach(function(profile){
+          if (profile.name === _input) _profiles.push(profile);        
+        });
         _searchResult.empty();
         _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
       }
@@ -128,9 +128,9 @@
 
     var _availableTags = [];
 
-    for (var i=0; i<profiles.length; i++){
-      _availableTags[i] = profiles[i].name;
-    }
+    profiles.forEach(function(profile, index){
+      _availableTags[index] = profile.name;
+    });
 
     _textInput = _textInput.render(); 
     _textInput.autocomplete({
@@ -155,9 +155,9 @@
 
     var _createdWidget =  $('<div>').addClass('row lateral-content-padding search-results');
 
-    for (var i=0; i<profiles.length; i++){
-      _createdWidget.append($('<div>').addClass('columns large-4').append(Pard.Widgets.CreateCard(profiles[i]).render().addClass('position-profileCard-login')));
-    }
+    profiles.forEach(function(profile){
+      _createdWidget.append($('<div>').addClass('columns large-4').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')));
+    });
 
     return{
       render: function(){
@@ -169,7 +169,7 @@
 
 
   ns.Widgets.CreateCard = function(profile, callback){
-      // var _cardContainer = $('<div>').addClass('columns large-4');
+
       var _card =$('<a>').addClass('profileCard');
       _card.hover(
         function(){
@@ -179,7 +179,7 @@
           $(this).removeAttr('style');
         }
       );
-      // if(profile.photo!='') {_card.css({'background-image': 'url('+profile.photo+')'})};    
+      
       var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: profile.color});
       var _icon = $('<div>').addClass('icon-profileCircle').html('P');
       var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
@@ -190,9 +190,9 @@
       var _categories = '- ';
       var _keys = Object.keys(profile);
       if ($.inArray('proposals', _keys) >= 0 ){
-        for (var j=0; j<profile.proposals.length; j++){
-          _categories += Pard.Widgets.Dictionary(profile.proposals[j].category).render() + ' - ';
-        }
+        profile.proposals.forEach(function(proposal){
+          _categories += Pard.Widgets.Dictionary(proposal.category).render() + ' - ';
+        })
       }
       else{_categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
       if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
