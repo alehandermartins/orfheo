@@ -53,53 +53,9 @@
   }
 
 
-  ns.Widgets.UserMainLargeScreen= function(myprofiles, profiles){
-    var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-mediumDown');
-    
-    var _aside = Pard.Widgets.UserAside(myprofiles);
-    var _gridSpacing = $('<div>').addClass('grid-spacing');
-    var _section = Pard.Widgets.UserSection(profiles);
-
-    _createdWidget.append(_aside.render(), _gridSpacing, _section.render());
-
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-  ns.Widgets.UserMainMediumSmallScreen = function(myprofiles,profiles){
-  	var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-large');
-    
-    var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
-    var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
-
-    var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
-
-    var _offCanvasSection = $('<div>').addClass('off-canvas-content').attr({'data-off-canvas-content': ''});
-
-    var _aside = Pard.Widgets.UserAside(myprofiles);
-
-    var _section = Pard.Widgets.UserSection(profiles);
-
-    _offCanvasAside.append(_aside.render());
-    _offCanvasSection.append(_section.render());
-     
-    _offCanvasInner.append(_offCanvasAside, _offCanvasSection);
-    _offCanvasWrapper.append(_offCanvasInner);
-
-    _createdWidget.append(_offCanvasWrapper);
-
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-
-  ns.Widgets.UserAside = function (myprofiles) {
+  
+  ns.Widgets.UserAside = function (profiles) {
+    var myprofiles = profiles.my_profiles;
     var _createdWidget = $('<nav>').addClass('grid-aside');
     var _asideContent = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
@@ -123,20 +79,22 @@
   }
 
 
-  ns.Widgets.UserSection = function (profiles) {
-    var _createdWidget = $('<section>').addClass('grid-section');
-    var _content = $('<div>').addClass('grid-element-content');
+  ns.Widgets.UserSection = function (profiles, content) {
+
+    content.empty();
+
+    var profiles = profiles.profiles;
+    var _content = content.addClass('grid-element-content');
 
     var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Explora los otros perfiles </h3>');
    
     var _searchEngine = Pard.Widgets.SearchEngine(profiles);
 
     _content.append(_title, _searchEngine.render())
-    _createdWidget.append(_content);
-
+    
     return{
       render: function(){
-        return _createdWidget;
+        return _content;
       }
     }
   }

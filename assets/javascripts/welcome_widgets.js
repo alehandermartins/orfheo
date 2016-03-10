@@ -1,6 +1,69 @@
+'use strict';
+
+
+
 (function(ns){
 
   ns.Widgets = ns.Widgets || {};
+
+  ns.Widgets.MainLayout = function(asideContent, sectionContent, profiles){
+
+    var _main = $('<main>');
+
+    var _mainMediumDown = $('<section>').addClass('pard-grid displayNone-for-large');
+    var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
+    var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
+    var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
+
+    var _offCanvasSection = $('<div>').addClass('off-canvas-content').attr({'data-off-canvas-content': ''});
+
+    var _mainLarge = $('<section>').addClass('pard-grid displayNone-for-mediumDown');
+    var _gridSpacing = $('<div>').addClass('grid-spacing');
+
+
+    var _aside = $('<nav>').addClass('grid-aside');
+    var _section = $('<section>').addClass('grid-section');
+    var _sectionContent = $('<div>');
+    var _SectionContent = $('<div>');
+
+
+    var _Aside = $('<nav>').addClass('grid-aside');
+    var _Section = $('<section>').addClass('grid-section');;
+
+    _sectionContent = sectionContent(profiles, _sectionContent).render()
+
+    _section.append(sectionContent(profiles, _sectionContent).render());
+    _aside.append(asideContent(profiles, _sectionContent).render());
+    _Section.append(sectionContent(profiles, _SectionContent).render());
+    _Aside.append(asideContent(profiles, _SectionContent).render());
+    
+
+    _offCanvasAside.append(_aside);
+    _offCanvasSection.append(_section);    
+    _offCanvasInner.append(_offCanvasAside, _offCanvasSection);
+    _mainMediumDown.append(_offCanvasWrapper.append(_offCanvasInner));
+
+    _mainLarge.append(_Aside, _gridSpacing, _Section);
+
+    _main.append(_mainLarge, _mainMediumDown);
+
+    return {
+      render: function(){
+        return _main
+      }
+    }
+  }
+
+//   ns.Widgets.MainLogin = function(profiles){
+
+//     Pard.Widgets.MainLayout().appendAside(Pard.Widgets.LoginAside().render());
+
+//     return {
+//       render: function(){
+//         return Pard.Widgets.MainLayout();
+//       }
+//     }
+// }
 
   ns.Widgets.LoginHeader = function(){
     
@@ -45,58 +108,12 @@
   }
 
   
-  ns.Widgets.LoginMainLargeScreen= function(profiles){
-    var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-mediumDown');
-    
-    var _aside = Pard.Widgets.LoginAside();
-    var _gridSpacing = $('<div>').addClass('grid-spacing');
-    var _section = Pard.Widgets.LoginSection(profiles);
-
-    _createdWidget.append(_aside.render(), _gridSpacing, _section.render());
-
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  
-  }
-
-  ns.Widgets.LoginMainMediumSmallScreen = function(profiles){
-  	var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-large');
-    
-    var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
-    var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
-
-    var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
-
-    var _offCanvasSection = $('<div>').addClass('off-canvas-content').attr({'data-off-canvas-content': ''});
-
-    var _aside = Pard.Widgets.LoginAside();
-
-    var _section = Pard.Widgets.LoginSection(profiles);
-
-    _offCanvasAside.append(_aside.render());
-    _offCanvasSection.append(_section.render());
-     
-    _offCanvasInner.append(_offCanvasAside, _offCanvasSection);
-    _offCanvasWrapper.append(_offCanvasInner);
-
-    _createdWidget.append(_offCanvasWrapper);
-
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-
-
-
   ns.Widgets.LoginAside = function () {
-    var _createdWidget = $('<nav>').addClass('grid-aside');
+    // var _createdWidget = $('<nav>').addClass('grid-aside');
     var _asideContainer = $('<div>').addClass('aside-container');
+
+    
+
     var _info = $('<div>').addClass('info grid-aside-content').text('orfheo es comunidad');
 
     Pard.Widgets.Sticker(_asideContainer, 100, 24);
@@ -108,20 +125,20 @@
     var _signUpButton = _popup.render();
     _signUpButton.addClass('signupButton');
 
-    _asideContainer.append(_signUpButton, _info);
-
-    _createdWidget.append(_asideContainer);
+      _asideContainer.append(_signUpButton, _info);
 
     return{
       render: function(){
-        return _createdWidget;
+        return _asideContainer;
       }
     }
   }
 
-  ns.Widgets.LoginSection = function (profiles) {
-    var _createdWidget = $('<section>').addClass('grid-section');
-    var _content = $('<div>').addClass('grid-element-content');
+  ns.Widgets.LoginSection = function (profiles, content) {
+
+    content.empty();
+
+    var _content = content.addClass('grid-element-content');
     var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Descubre </h3> <h4>los participantes a la convocatoria del</h4><h3>Benimaclet conFusión festival</h3>');
     var _searchEngine = Pard.Widgets.SearchEngine(profiles);
 
@@ -129,11 +146,10 @@
 
 
     _content.append(_title, _searchEngine.render())
-    _createdWidget.append(_content);
 
     return{
       render: function(){
-        return _createdWidget;
+        return _content;
       }
     }
   }

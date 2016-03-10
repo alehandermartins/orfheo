@@ -25,7 +25,7 @@
 
     var _aside = Pard.Widgets.ArtistProfileAside(profiles, _sectionContent);
 
-    _section.append(Pard.Widgets.ArtistProfileSectionContent(profiles[0], _sectionContent).render());
+    _section.append(Pard.Widgets.ArtistProfileSectionContent(profiles, _sectionContent).render());
 
     _createdWidget.append(_aside.render(), _gridSpacing, _section);
 
@@ -99,25 +99,23 @@
     var profileNavList = function(_profiles, _index){
     	_createdWidget.empty();
 
-    	Pard.Widgets.ArtistProfileSectionContent(_profiles[_index], sectionContent);
+    	Pard.Widgets.ArtistProfileSectionContent(Pard.Widgets.ReorderArray(_profiles,_index).render(), sectionContent);
     	Pard.Widgets.ProductionsNavigation(_profiles[_index], sectionContent, productionContent);
 
-    	var _part = _profiles.slice(_index);
+      var _profiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
 
-    	var _rest = _profiles.slice(0, _index);
-    	_profiles = _part.concat(_rest);
     	_profiles.forEach(function(profile, index) {
     		if(index === 0) _createdWidget.append($('<div>').append($('<a>').text(profile.name)).click(function(){
-    				Pard.Widgets.ArtistProfileSectionContent(_profiles[_index], sectionContent)
-    				Pard.Widgets.ProductionsNavigation(_profiles[_index], sectionContent, productionContent);
+    				Pard.Widgets.ArtistProfileSectionContent(_profiles, sectionContent)
+    				Pard.Widgets.ProductionsNavigation(profile, sectionContent, productionContent);
     			}));
-	    	else {_createdWidget.append(Pard.Widgets.Button(profile.name, function(){profileNavList(_profiles, index)}).render());
+	    	else {_createdWidget.prepend(Pard.Widgets.Button(profile.name, function(){profileNavList(_profiles, index)}).render());
 	    	}
 	    });
     }
 
     profiles.forEach(function(profile, index) {
-    	if(index === 0) _createdWidget.append($('<div>').append($('<a>').text(profile.name).click(function(){Pard.Widgets.ArtistProfileSectionContent(profiles[index], sectionContent)})))	;
+    	if(index === 0) _createdWidget.append($('<div>').append($('<a>').text(profile.name).click(function(){Pard.Widgets.ArtistProfileSectionContent(profiles, sectionContent)})))	;
     	else {_createdWidget.prepend(Pard.Widgets.Button(profile.name, function(){profileNavList(profiles, index)}).render());
     	}
     });
@@ -148,8 +146,10 @@
   }
 
 
-  ns.Widgets.ArtistProfileSectionContent = function(profile, sectionContent) {
+  ns.Widgets.ArtistProfileSectionContent = function(profiles, sectionContent) {
     
+    var profile = profiles[0];
+
     sectionContent.empty();
 
   	['name','city', 'bio', 'personal_web'].forEach(function(element) {

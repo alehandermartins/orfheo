@@ -427,6 +427,15 @@
     }
   }
 
+  ns.Widgets.ReorderArray = function(array, index){
+    var _part = array.slice(index);
+    var _rest = array.slice(0, index);
+    return{
+      render: function(){
+        return _part.concat(_rest);
+      }
+    }
+  }
 
 
   
