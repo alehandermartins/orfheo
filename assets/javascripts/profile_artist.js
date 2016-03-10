@@ -1,42 +1,7 @@
 'use strict';
 
-
 (function(ns){
 
-
-  ns.Widgets.ArtistProfile = function(profile, proposals){
-    var _createdWidget = $('<div>');
-    var _info = $('<div>');
-
-    ['name','city', 'bio', 'personal_web'].forEach( function(element) {
-      var _newField = $('<div>').text(profile[element]);
-      _info.append(_newField)
-    });
-
-    if('profile_picture' in profile){
-      var _photo = $.cloudinary.image(profile['profile_picture'][0],
-        { format: 'jpg', width: 50, height: 50,
-          crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-      _info.append(_photo);
-    }
-
-    var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
-    var _callButton = Pard.Widgets.CallButtonArtist(profile).render();
-    var _myProductions = Pard.Widgets.MyArtistProductions(profile).render();
-    var _myCallProposals = Pard.Widgets.MyArtistCallProposals(proposals).render();
-
-    _createdWidget.append(_info, _modifyProfile, _callButton, _myProductions, _myCallProposals);
-
-    $(document).ready(function(){
-      if (proposals.length == 0) _callButton.trigger('click');
-    });
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
 
   ns.Widgets.CallButtonArtist = function(profile){
 
@@ -201,7 +166,6 @@
     var _createdWidget = $('<div>');
     var _infoField = $('<div>');
 
-
     for(field in proposal){
       if(proposal[field] != null){
         if(proposal[field].length != 0 && field != 'proposal_id') {
@@ -209,14 +173,13 @@
           _createdWidget.append(_newField);
         }
       }
-    };
+    }
 
     return {
       render: function(){
         return _createdWidget;
       }
     }
-
   }
 
 

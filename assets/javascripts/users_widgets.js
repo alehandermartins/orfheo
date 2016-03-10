@@ -30,7 +30,7 @@
     var _menu = $('<ul>').addClass('menu');
     var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#'));
     var _modifyPassword = $('<li>').append(Pard.Widgets.ModifyPassword().render().attr('href','#'));
-		_menu.append(_logout, _modifyPassword);
+		_menu.append(_modifyPassword, _logout);
 		var _menuContainer = $('<ul>').addClass('dropdown menu');
 		var _iconDropdownMenu = $('<li>').append($('<a>').attr('href','#').append($('<span>').html('&#xE8B8;').addClass('material-icons')),_menu);
 
@@ -56,8 +56,7 @@
   
   ns.Widgets.UserAside = function (profiles) {
     var myprofiles = profiles.my_profiles;
-    var _createdWidget = $('<nav>').addClass('grid-aside');
-    var _asideContent = $('<div>').addClass('aside-container');
+    var _createdWidget = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
     var _buttonContainer = $('<div>').addClass('create-profile-container');;
     var _createProfileBtn =  Pard.Widgets.CreateProfile().render();
@@ -67,10 +66,8 @@
     _myprofiles.append( Pard.Widgets.MyProfiles(myprofiles).render());
     _buttonContainer.append(_createProfileBtn); 
     
-    _asideContent.append(_buttonContainer, _myprofiles);
 
-    _createdWidget.append(_asideContent);
-
+    _createdWidget.append(_buttonContainer, _myprofiles);
     return{
       render: function(){
         return _createdWidget;

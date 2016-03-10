@@ -45,9 +45,9 @@
         _catSelect.setClass('filter-select');
         _catSelector.html(_catSelect.render());
         _profiles = [];
-        for (var i=0; i<profiles.length; i++) {
-          if (profiles[i].type == _type) _profiles.push(profiles[i]);
-        }
+        profiles.forEach(function(profile, index){
+          if (profile.type === _type) _profiles.push(profile);
+        });
         _searchResult.empty();
         _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
       }
@@ -65,17 +65,17 @@
       if (_cat != 'none'){
       _profiles = [];
       var _keys =[];
-      for (var i=0; i<profiles.length; i++) {
-        _keys = Object.keys(profiles[i])
+      profiles.forEach(function(profile, index){
+        _keys = Object.keys(profile)
         if ($.inArray('proposals', _keys) >= 0 ){        
-          for (var j=0; j<profiles[i].proposals.length; j++){
-            if (profiles[i].proposals[j].category == _cat) _profiles.push(profiles[i]);
-          }
+          profile.proposals.forEach(function(proposal){
+            if (proposal.category === _cat) _profiles.push(profile);
+          })
         }
         else{
-          if (profiles[i] .category == _cat) _profiles.push(profiles[i]);
+          if (profile.category === _cat) _profiles.push(profile);
         }
-      }
+      }); 
         _searchResult.empty();
         _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
       }
@@ -89,7 +89,7 @@
       if (_input != ''){
         _profiles = [];
         for (var i=0; i<profiles.length; i++) {
-          if (profiles[i].name == _input) _profiles.push(profiles[i]);        
+          if (profiles[i].name === _input) _profiles.push(profiles[i]);        
         }
         _searchResult.empty();
         _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 

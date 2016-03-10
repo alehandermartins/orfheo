@@ -101,7 +101,7 @@ Grid and Bar
   }
 
   .grid-spacing{
-    width: 1.8rem;}
+    width: $pard-grid-spacing;}
 
   .grid-section {
     width: $pard-section-width;
@@ -166,9 +166,9 @@ Grid and Bar
     padding-right:0.2rem;
     min-height: 6.5rem;
     background-color: $content-background;
-    width: -moz-calc(100% - 16px);
+    width: -moz-calc(100% - 15px);
     width: -webkit-calc(100% - 16px);
-    width: calc(100% - 16px);
+    width: calc(100% - 15px);
     z-index: 2;
     top:0;
     left:0;
@@ -189,10 +189,20 @@ Grid and Bar
 off-canvas
 -------------*/
 
+.off-canvas-wrapper{
+  overflow: hidden;
+}
+
 @media only screen and #{breakpoint(medium down)} { 
-	.off-canvas-grid-aside {
+	.off-canvas-content,
+  .#{$maincontent-class}{
+    box-shadow: 0 0 10px rgba($black, 0.5);
+  } 
+  .off-canvas-grid-aside {
   @include breakpoint(medium){
     padding-top:1.5rem;
+    overflow-x: hidden;
+
   }
   position: absolute;
   background: $content-background;

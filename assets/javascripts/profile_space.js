@@ -1,32 +1,7 @@
+'use strict';
+
 (function(ns){
 
-
-  ns.Widgets.SpaceProfile = function(profile, proposals){
-    var _createdWidget = $('<div>');
-    var _info = $('<div>');
-
-    ['name','city', 'address', 'category', 'bio', 'personal_web'].forEach( function(element) {
-      var _newField = $('<div>').text(profile[element]);
-      _info.append(_newField)
-    });
-
-
-    var _modifyProfile = Pard.Widgets.ModifyProfile(profile).render();
-    var _callButton = Pard.Widgets.CallSpaceButton(profile).render();
-    var _myCallProposals = Pard.Widgets.MySpaceCallProposals(proposals).render();
-
-    _createdWidget.append(_info, _modifyProfile, _callButton, _myCallProposals);
-
-     $(document).ready(function(){
-      if (proposals.length == 0) _callButton.trigger('click');
-    });
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
 
 
   ns.Widgets.CallSpaceButton = function(profile){
@@ -43,8 +18,6 @@
       }
     }
   }
-
-
 
   ns.Widgets.CallMessageSpace= function(profile, submitButton){
 

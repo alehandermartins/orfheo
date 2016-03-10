@@ -1,74 +1,12 @@
 'use strict';
 
-
-
 (function(ns){
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.ProfileMain = function(profiles){
-  	var _createdWidget = $('<div>').append(Pard.Widgets.MainLargeScreen(profiles).render(), Pard.Widgets.MainMediumSmallScreen(profiles).render());
+  ns.Widgets.ProfileAside = function (profiles, sectionContent) {
 
-  	return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
-
-  }
-
-  ns.Widgets.MainLargeScreen= function(profiles){
-    var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-mediumDown');   
-    var _gridSpacing = $('<div>').addClass('grid-spacing');
-    var _section = $('<section>').addClass('grid-section');
-    var _sectionContent = $('<div>').addClass('profile-section-content');
-
-    var _aside = Pard.Widgets.ArtistProfileAside(profiles, _sectionContent);
-
-    _section.append(Pard.Widgets.ArtistProfileSectionContent(profiles, _sectionContent).render());
-
-    _createdWidget.append(_aside.render(), _gridSpacing, _section);
-
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-  ns.Widgets.MainMediumSmallScreen = function(profiles){
-  	var _createdWidget = $('<main>').addClass('pard-grid displayNone-for-large');
-    
-    var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
-    var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
-
-    var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
-
-    var _offCanvasSection = $('<div>').addClass('off-canvas-content').attr({'data-off-canvas-content': ''});
-
-    // var _aside = Pard.Widgets.ArtistProfileAside(myprofiles);
-
-    // var _section = Pard.Widgets.ArtistProfileSection(profiles);
-
-    // _offCanvasAside.append(_aside.render());
-    // _offCanvasSection.append(_section.render());
-     
-    // _offCanvasInner.append(_offCanvasAside, _offCanvasSection);
-    // _offCanvasWrapper.append(_offCanvasInner);
-
-    // _createdWidget.append(_offCanvasWrapper);
-
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-
-  ns.Widgets.ArtistProfileAside = function (profiles, sectionContent) {
-    var _createdWidget = $('<nav>').addClass('grid-aside');
-    var _asideContent = $('<div>').addClass('aside-container');
+    var _createdWidget =  $('<div>').addClass('aside-container');
     var _buttonContainer = $('<div>');
     var _toUserPageBtn =  Pard.Widgets.ToUserPage().render();
     var _profilesNavigation = $('<div>');
@@ -82,9 +20,7 @@
 
     _myproductions.append(Pard.Widgets.ProductionsNavigation(profiles[0], sectionContent, _myproductionContent).render())
     
-    _asideContent.append(_buttonContainer, _profilesNavigation, _myproductions);
-
-    _createdWidget.append(_asideContent);
+    _createdWidget.append(_buttonContainer, _profilesNavigation, _myproductions);
 
     return{
       render: function(){
@@ -99,14 +35,14 @@
     var profileNavList = function(_profiles, _index){
     	_createdWidget.empty();
 
-    	Pard.Widgets.ArtistProfileSectionContent(Pard.Widgets.ReorderArray(_profiles,_index).render(), sectionContent);
+    	Pard.Widgets.ProfileSection(_profiles[_index]['type']).render()(Pard.Widgets.ReorderArray(_profiles,_index).render(), sectionContent);
     	Pard.Widgets.ProductionsNavigation(_profiles[_index], sectionContent, productionContent);
 
       var _profiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
 
     	_profiles.forEach(function(profile, index) {
-    		if(index === 0) _createdWidget.append($('<div>').append($('<a>').text(profile.name)).click(function(){
-    				Pard.Widgets.ArtistProfileSectionContent(_profiles, sectionContent)
+    		if(!(index)) _createdWidget.append($('<div>').append($('<a>').text(profile.name)).click(function(){
+    				Pard.Widgets.ProfileSection(profile['type']).render()(_profiles, sectionContent)
     				Pard.Widgets.ProductionsNavigation(profile, sectionContent, productionContent);
     			}));
 	    	else {_createdWidget.prepend(Pard.Widgets.Button(profile.name, function(){profileNavList(_profiles, index)}).render());
@@ -115,7 +51,7 @@
     }
 
     profiles.forEach(function(profile, index) {
-    	if(index === 0) _createdWidget.append($('<div>').append($('<a>').text(profile.name).click(function(){Pard.Widgets.ArtistProfileSectionContent(profiles, sectionContent)})))	;
+    	if(!(index)) _createdWidget.append($('<div>').append($('<a>').text(profile.name).click(function(){Pard.Widgets.ProfileSection(profile['type']).render()(profiles, sectionContent)})))	;
     	else {_createdWidget.prepend(Pard.Widgets.Button(profile.name, function(){profileNavList(profiles, index)}).render());
     	}
     });
@@ -146,35 +82,91 @@
   }
 
 
+  ns.Widgets.ProfileSection = function(type) {
+
+    var profiles_map = {
+      artist: Pard.Widgets.ArtistProfileSectionContent,
+      space: Pard.Widgets.SpaceProfileSectionContent
+    }
+
+    return {
+      render: function( ){
+        console.log(profiles_map[type])
+        return profiles_map[type];
+      }
+    }
+  }
+
+
   ns.Widgets.ArtistProfileSectionContent = function(profiles, sectionContent) {
     
+
     var profile = profiles[0];
 
     sectionContent.empty();
 
+    var _sectionContent = sectionContent.addClass('grid-element-content');
+
   	['name','city', 'bio', 'personal_web'].forEach(function(element) {
-      sectionContent.append( $('<div>').text(profile[element]));
+      _sectionContent.append( $('<div>').text(profile[element]));
     });
 
     if('profile_picture' in profile){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
         { format: 'jpg', width: 50, height: 50,
           crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-      sectionContent.append(_photo);
+      _sectionContent.append(_photo);
     }
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
     var _callButton = Pard.Widgets.CallButtonArtist(profile);
     var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
 
-    sectionContent.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
+    _sectionContent.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
 
     return{
       render: function(){
-        return sectionContent;
+        return _sectionContent;
       }
     }
   }
+
+  ns.Widgets.SpaceProfileSectionContent = function(profiles, sectionContent) {
+    
+    console.log('SpaceProfileSectionContent');
+
+    var profile = profiles[0];
+
+    sectionContent.empty();
+
+    var _sectionContent = sectionContent.addClass('grid-element-content');
+
+    ['name','city', 'address', 'category', 'bio', 'personal_web'].forEach(function(element) {
+      _sectionContent.append( $('<div>').text(profile[element]));
+    });
+
+    if('profile_picture' in profile){
+      var _photo = $.cloudinary.image(profile['profile_picture'][0],
+        { format: 'jpg', width: 50, height: 50,
+          crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+      _sectionContent.append(_photo);
+    }
+
+    var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
+    var _callButton = Pard.Widgets.CallSpaceButton(profile);
+    var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
+
+    _sectionContent.append(_modifyProfile.render(), _mySpaceCallProposals.render(), _callButton.render());
+
+
+    return{
+      render: function(){
+        return _sectionContent;
+      }
+    }
+
+  }
+
 
   ns.Widgets.ArtistProductionSectionContent = function(proposal, sectionContent) {
     

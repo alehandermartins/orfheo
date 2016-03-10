@@ -82,65 +82,7 @@
     }
   }
 
-  // ns.Widgets.LoginOriginal = function(){
-
-  //   var _createdWidget = $('<div>');
-  //   var _emailRecovery = $('<div>');
-  //   var _emailLink = $('<a>').text('Olvidaste tu contraseña?').click(function(){
-  //     Pard.Widgets.BootboxAlert('Introduce tu email', Pard.Widgets.RecoveryMessage());
-  //   });
-
-  //   _emailRecovery.append(_emailLink);
-
-  //   var _fields = {};
-
-  //   var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-  //   var _labels = ['Tu email', 'Contraseña'];
-  //   var _types = ['email', 'password'];
-
-
-  //   _types.forEach(function(id, index){
-  //     _fields[id] = Pard.Widgets.Input(_labels[index], _types[index], function(){
-
-  //       var _checkPassword = function(){
-  //         if(_fields['password'].getVal().length >= 8) return true;
-  //       }
-
-  //       var _checkInput = function(){
-  //         if(regEx.test(_fields['email'].getVal())) return _checkPassword();
-  //       }
-
-  //       if (_checkInput() == true){
-  //         _fields['button'].enable();
-  //       }else{
-  //         _fields['button'].disable();
-  //       }
-  //     });
-  //   });
-
-  //   _fields['button'] = Pard.Widgets.Button('log in', function(){
-  //     Pard.Backend.login(
-  //       _fields['email'].getVal(),
-  //       _fields['password'].getVal(),
-  //       Pard.Events.Login
-  //     );
-  //   });
-
-  //   _fields['button'].disable();
-
-  //   Object.keys(_fields).map(function(field){
-  //     _createdWidget.append(_fields[field].render());
-  //   });
-
-  //   _createdWidget.append(_emailRecovery);
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     }
-  //   }
-  // }
-
+ 
   ns.Widgets.RecoveryMessage = function(){
     var _createdWidget = $('<div>');
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
@@ -174,9 +116,6 @@
       }
     }
   }
-
-  // -----------------------------------------------------------------------------------
-
 
 
   ns.Widgets.Login = function(){
