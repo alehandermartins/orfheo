@@ -120,10 +120,19 @@
 
   ns.Widgets.Login = function(){
 
-    var _createdWidget = $('<form>').addClass('input-login').attr('autocomplete','on');
+    var _createdWidget = $('<form>').addClass('input-login') .attr({autocomplete:'on'}) ;
+    // .attr({autocomplete:'on',method: 'post', target: 'remember', action: '/content/blank'});
     var _emailRecovery = $('<div>').addClass('passwdRecovery');
     var _recoveryPasswdMessage =  Pard.Widgets.RecoveryMessage();
     var _caller = $('<a>').attr('href','#').text('Recuperar contraseña');
+
+    // var _iframe = $('iframe').attr({id: 'remember', name: 'remember', src: '/content/blank'}).css({display: 'none'});
+
+      _createdWidget.on('submit', function(){Pard.Backend.login(
+        _fields['email'].getVal(),
+        _fields['password'].getVal(),
+        Pard.Events.Login
+      )});
 
     var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Recuperar contraseña', _recoveryPasswdMessage));
 
@@ -155,19 +164,37 @@
       });
     });
 
+    // var _fakeSubmit = $('<button>').attr({type:'submit'}).css({display: 'none'}); 
+
     _fields['button'] = Pard.Widgets.Button('Log In', function(){
       Pard.Backend.login(
         _fields['email'].getVal(),
         _fields['password'].getVal(),
         Pard.Events.Login
       );
+      // _fakeSubmit.trigger('click');
     });
+
+
+// function forceAutoComplete() {
+// var $forms = document.getElementsByTagName("FORM");
+// for ( var i = 0; i < $forms.length; i++ ) {
+// var $form = $forms[i];
+// var $submit = document.createElement("INPUT");
+// $submit.type = "submit";
+// $form.appendChild($submit);
+// $form.onsubmit = function(){return false}
+// $submit.style.display = "none";
+// $submit.click();
+// }
+// }
+
 
     _fields['button'].setClass('login-btn');
     _fields['button'].disable();
 
     Object.keys(_fields).map(function(field){
-      _createdWidget.append(_fields[field].render());
+      _createdWidget.append(_fields[field].render().attr({name: field}));
     });
 
     _createdWidget.append(_emailRecovery);

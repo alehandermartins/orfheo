@@ -35,17 +35,19 @@
     var profileNavList = function(_profiles, _index){
     	_createdWidget.empty();
 
-    	Pard.Widgets.ProfileSection(_profiles[_index]['type']).render()(Pard.Widgets.ReorderArray(_profiles,_index).render(), sectionContent);
-    	Pard.Widgets.ProductionsNavigation(_profiles[_index], sectionContent, productionContent);
+      var _reorderedProfiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
+      
+    	Pard.Widgets.ProfileSection(_reorderedProfiles[0]['type']).render()(_reorderedProfiles, sectionContent);
+    	Pard.Widgets.ProductionsNavigation(_reorderedProfiles[0], sectionContent, productionContent);
 
-      var _profiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
+      history.pushState({},'',_reorderedProfiles[0].profile_id);
 
-    	_profiles.forEach(function(profile, index) {
+    	_reorderedProfiles.forEach(function(profile, index) {
     		if(!(index)) _createdWidget.append($('<div>').append($('<a>').text(profile.name)).click(function(){
-    				Pard.Widgets.ProfileSection(profile['type']).render()(_profiles, sectionContent)
+    				Pard.Widgets.ProfileSection(profile['type']).render()(_reorderedProfiles, sectionContent)
     				Pard.Widgets.ProductionsNavigation(profile, sectionContent, productionContent);
     			}));
-	    	else {_createdWidget.prepend(Pard.Widgets.Button(profile.name, function(){profileNavList(_profiles, index)}).render());
+	    	else {_createdWidget.prepend(Pard.Widgets.Button(profile.name, function(){profileNavList(_reorderedProfiles, index)}).render());
 	    	}
 	    });
     }
@@ -91,7 +93,6 @@
 
     return {
       render: function( ){
-        console.log(profiles_map[type])
         return profiles_map[type];
       }
     }
@@ -133,8 +134,6 @@
 
   ns.Widgets.SpaceProfileSectionContent = function(profiles, sectionContent) {
     
-    console.log('SpaceProfileSectionContent');
-
     var profile = profiles[0];
 
     sectionContent.empty();
@@ -164,7 +163,6 @@
         return _sectionContent;
       }
     }
-
   }
 
 

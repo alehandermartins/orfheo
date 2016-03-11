@@ -55,7 +55,6 @@ Pard.Profile = function(profiles){
   }
 
   $(document).ready( function(){
-        console.log(profiles[0]['type'])
 
   if (!(profiles[0].proposals)) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
   }); 
