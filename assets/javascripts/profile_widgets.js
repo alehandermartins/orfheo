@@ -170,7 +170,7 @@
     
     sectionContent.empty();
 
-    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal).render());
+    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal).render(), Pard.Widgets.ModifyProduction(proposal).render());
 
     // return{
     //   render: function(){

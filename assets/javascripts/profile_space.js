@@ -60,7 +60,7 @@
       setCallback: function(callback){
         submitButton.on('click',function(){
           if(_filled() == true){ 
-            Pard.Backend.createProposal(_getVal(), Pard.Events.CreateProposal); 
+            Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal); 
             callback();
           }
         })

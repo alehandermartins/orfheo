@@ -183,6 +183,27 @@
     }
   }
 
+  ns.Forms.ArtisticProduction = function(){
+    var _form = {};
+    var _productionForm = Pard.Forms.ArtistCallForm().render();
+    var _fields =['category', 'title', 'description', 'short_description', 'duration', 'children'];
+
+    _fields.forEach(function(_element){
+      _form[_element] = _productionForm[_element];
+    });
+
+    var _required = _fields;
+
+    return {
+      render: function(){
+        return _form;
+      },
+      requiredFields: function(){
+        return _required;
+      }
+    }
+  }
+
 
   ns.Forms.ArtistCall = function(artistCategory){
 

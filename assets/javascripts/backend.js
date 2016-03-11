@@ -94,9 +94,17 @@
       );
     };
 
-    var _createProposal = function(form, callback){
+    var _sendProposal = function(form, callback){
       _send(
         '/users/send_proposal',
+        form,
+        callback
+      );
+    };
+
+    var _modifyProduction = function(form, callback){
+      _send(
+        '/users/modify_proposal',
         form,
         callback
       );
@@ -111,7 +119,8 @@
       createProfile: _createProfile,
       modifyProfile: _modifyProfile,
       createCall: _createCall,
-      createProposal: _createProposal
+      sendProposal: _sendProposal,
+      modifyProduction: _modifyProduction
     };
   }());
 

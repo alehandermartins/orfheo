@@ -35,7 +35,7 @@
     for(field in _form){
         _content.append(_form[field].render());
       };
-    var _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();;
+    var _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
 
     var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
@@ -79,7 +79,7 @@
       setCallback: function(callback){
         submitButton.on('click',function(){
           if(_filled() == true){
-            Pard.Backend.createProposal(_getVal(), Pard.Events.CreateProposal);
+            Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
             callback();
           }
         })

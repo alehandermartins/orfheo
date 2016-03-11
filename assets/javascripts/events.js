@@ -41,7 +41,7 @@
   };
 
 
-  ns.Events.CreateProposal = function(data){
+  ns.Events.SendProposal = function(data){
     if (data['status'] == 'success'){
       Pard.Widgets.Alert('conFusion festival 2016', '¡Te has inscrito correctamente!', 
         function(){
@@ -54,5 +54,14 @@
     }
   };
 
+
+  ns.Events.ModifyProduction = function(data){
+    if (data['status'] == 'success'){
+         document.location = '/users/profiles/' + data['profile_id'];
+    }
+    else{
+      Pard.Widgets.Alert('Error', data.reason);
+    }
+  }
 
 }(Pard || {}));
