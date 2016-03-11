@@ -1,114 +1,123 @@
 describe CallsController do
 
-  before(:each){
-    @login_route = '/login/login_attempt'
-    @create_call_route = '/users/create_call'
-    @user_id = 'email@test.com'
-    @call_id = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
+  let(:login_route){'/login/login_attempt'}
+  let(:create_call_route){'/users/create_call'}
+  let(:send_proposal_route){'/users/send_proposal'}
 
-    @user_hash = {
+  let(:user_hash){
+    {
       email: 'email@test.com',
       password: 'password'
     }
+  }
 
-    @call_hash = {}
+  let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
 
-    @user = User.new @user_hash
+  let(:user){
+    {
+      user_id: user_id,
+      email: 'email@test.com',
+      password: 'password',
+      validation: false,
+      validation_code: validation_code
+    }
+  }
 
-    Repos::Users.add @user.to_h
-    Services::Users.validated_user @user[:validation_code]
-    post @login_route, @user_hash
+  let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+  let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
+
+  let(:profile){
+    {
+      profile_id: profile_id,
+      type: 'artist',
+      name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      profile_picture: ['profile.jpg'],
+      bio: 'bio',
+      personal_web: 'my_web'
+    }
+  }
+
+  let(:callproposal){
+    {
+      profile_id: profile_id,
+      proposal_id: proposal_id,
+      call_id: call_id,
+      type: 'artist',
+      category: 'music',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      photos: ['picture.jpg', 'otter_picture.jpg'],
+      links: 'links',
+      duration: '15',
+      children: 'children',
+      phone: '666999666',
+      conditions: 'true',
+      availability: 'sun',
+      components: '3',
+      repeat: 'true'
+    }
+  }
+
+  let(:call){
+    {
+      call_id: call_id
+    }
+  }
+
+  before(:each){
+    Repos::Users.add user
+    Services::Users.validated_user validation_code
+    post login_route, user_hash
   }
 
   describe 'Create' do
 
     it 'fails if the call already exists' do
-      post @create_call_route, {}
-      post @create_call_route, {}
+      post create_call_route, call
+      post create_call_route, call
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('existing_call')
     end
 
     it 'adds a new a call' do
-      post @create_call_route, {}
+      expect(Services::Calls).to receive(:register).with(Util.stringify_hash(call), user_id)
+      post create_call_route, call
       expect(parsed_response['status']).to eq('success')
-      expect(Repos::Calls.exists?({call_id: @call_id})).to eq(true)
     end
   end
 
   describe 'Send_proposal' do
+
     before(:each){
-      @send_proposal_route = '/users/send_proposal'
-
-      @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
-      @proposal_id = 'b11000e7-8f02-4542-a1c9-7f7aa18752ce'
-
-      @profile_params = {
-        user_id: @user_id,
-        profile_id: @profile_id,
-        type: 'artist',
-        name: 'artist_name',
-        city: 'city',
-        zip_code: 'zip_code',
-        profile_picture: 'picture.jpg',
-        bio: 'bio',
-        personal_web: 'my_web'
-      }
-
-      @proposal_params = {
-        profile_id: @profile_id,
-        proposal_id: @proposal_id,
-        call_id: @call_id,
-        type: 'artist',
-        category: 'music',
-        title: 'title',
-        description: 'description',
-        short_description: 'short_description',
-        phone: '666999666',
-        conditions: true,
-        duration: '15',
-        availability: 'sun',
-        components: 3,
-        repeat: true
-      }
-      post @create_call_route, {}
+      post create_call_route, call
     }
 
-    it 'fails if the proposal has the wrong type' do
-      @proposal_params[:type] = 'otter'
-      post @send_proposal_route, @proposal_params
+    it 'fails if the callproposal has the wrong type' do
+      callproposal[:type] = 'otter'
+      post send_proposal_route, callproposal
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_type')
     end
 
-    it 'fails if the proposal category does not match' do
-      @proposal_params[:category] = 'otter'
-      allow(ArtistForm).to receive(:categories).and_return(['music'])
-
-      post @send_proposal_route, @proposal_params
+    it 'fails if the call does not exist' do
+      callproposal[:call_id] = 'otter'
+      post send_proposal_route, callproposal
 
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_category')
+      expect(parsed_response['reason']).to eq('non_existing_call')
     end
 
-    it 'fails if the proposal does not have the mandatory fields' do
-      @proposal_params.delete(:title)
-      post @send_proposal_route, @proposal_params
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_form')
-    end
-
-    it 'adds the proposal to the specified call' do
-      post @send_proposal_route, @proposal_params
-      expect(Repos::Calls.grab({call_id: @call_id}).first[:proposals].first).to include(@proposal.to_h)
-    end
-
-    it 'adds the proposal to the user profile' do
-      post '/users/create_profile', @profile_params
-      post @send_proposal_route, @proposal_params
-      expect(Repos::Profiles.grab({profile_id: @profile_id}).first[:proposals].first).to include(@proposal.to_h)
+    it 'sends the proposal' do
+      expect(Services::Calls).to receive(:add_proposal).with(Util.stringify_hash(callproposal), user_id)
+      post send_proposal_route, callproposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profile_id']).to eq(profile_id)
     end
   end
 end

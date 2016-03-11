@@ -1,61 +1,52 @@
 describe Services::Mails do
 
-  before(:each){
+  let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
 
-    @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
-
-    @unvalidated_user_hash = {
+  let(:user){
+    {
+      user_id: user_id,
       email: 'email@test.com',
       password: 'password',
       validation: false,
-      validation_code: @validation_code
+      validation_code: validation_code
     }
-
-    @mail = Services::Mails.deliver_mail_to @unvalidated_user_hash, :welcome
   }
+
+  let(:welcome_mail){Services::Mails.deliver_mail_to user, :welcome}
 
   describe 'Delivers mail' do
 
     it 'renders the receiver email' do
-      expect(@mail.to).to eq(['email@test.com'])
+      expect(welcome_mail.to).to eq(['email@test.com'])
     end
 
     it 'renders the sender' do
-      expect(@mail.from).to eq(['pard.project@gmail.com'])
+      expect(welcome_mail.from).to eq(['pard.project@gmail.com'])
     end
   end
 
   describe 'Welcome mail' do
 
     it 'renders the subject' do
-      expect(@mail.subject).to eq('Welcome to pard')
+      expect(welcome_mail.subject).to eq('Welcome to pard')
     end
 
     it 'assigns the validation code to the body' do
-      expect(@mail.body).to include(@validation_code)
+      expect(welcome_mail.body).to include(validation_code)
     end
   end
 
   describe 'Password mail' do
 
-    before(:each){
-
-      @validated_user_hash = {
-        email: 'email@test.com',
-        password: 'password',
-        validation: true,
-        validation_code: @validation_code
-      }
-
-      @mail = Services::Mails.deliver_mail_to @validated_user_hash, :forgotten_password
-    }
+    let(:password_mail){ Services::Mails.deliver_mail_to user, :forgotten_password}
 
     it 'renders the subject' do
-      expect(@mail.subject).to eq('Forgotten Password')
+      expect(password_mail.subject).to eq('Forgotten Password')
     end
 
     it 'assigns the validation code to the body' do
-      expect(@mail.body).to include(@validation_code)
+      expect(password_mail.body).to include(validation_code)
     end
   end
 end

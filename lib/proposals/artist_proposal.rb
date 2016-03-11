@@ -12,17 +12,9 @@ class ArtistProposal
 
   def image_folders
     [{
-      address: user + '/' + profile + '/' + proposal[:proposal_id] + '/photos',
+      address: @user_id + '/' + @profile_id + '/' + proposal[:proposal_id] + '/photos',
       field: :photos
     }]
-  end
-
-  def user
-    @user_id
-  end
-
-  def profile
-    @profile_id
   end
 
   def [] key

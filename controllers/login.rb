@@ -3,15 +3,14 @@ class LoginController < BaseController
   post '/register_attempt' do
     check_params params[:email], params[:password]
     check_non_existing_user params[:email]
-    register_user params[:email], params[:password]
+    register_user params
     success
   end
 
   get '/validate/:uuid' do
     user_id = validated_user params[:uuid]
-    redirect '/' if user_id == false
+    redirect '/' unless user_id
     session[:identity] = user_id
-    #redirect 'http://' + request.host + '/users/'
     redirect 'http://pard.herokuapp.com/users/'
   end
 
@@ -42,23 +41,19 @@ class LoginController < BaseController
   end
 
   def check_non_existing_user email
-    raise Pard::Invalid.new 'already_registered' if user_exists? email
+    raise Pard::Invalid::ExistingUser if user_exists? email
   end
 
   def check_existing_user email
-    raise Pard::Invalid.new 'non_existing_user' unless user_exists? email
+    raise Pard::Invalid::UnexistingUser unless user_exists? email
   end
 
   def user_exists? email
     Services::Users.exists? email
   end
 
-  def register_user email, password
-    user = {
-      email: email,
-      password: password,
-    }
-    Services::Users.register user
+  def register_user params
+    Services::Users.register params
   end
 
   def validated_user code

@@ -4,6 +4,8 @@ module Pard
       def prepare_db
         @db = Mongo::Connection.new['cg_test']
         Repos::Users.for @db
+        Repos::Profiles.for @db
+        Repos::Calls.for @db
       end
 
       def drop_collections

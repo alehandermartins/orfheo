@@ -1,30 +1,48 @@
 describe Repos::Users do
 
-  before(:each){
-      @user_id = '5c41cf77-32b0-4df2-9376-0960e64a654a'
-      @validation_code = '3c61cf77-32b0-4df2-9376-0960e64a654a'
+  let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
 
-      @unvalidated_user_hash = {
-        user_id: @user_id,
-        email: 'email@test.com',
-        password: 'password',
-        validation: false,
-        validation_code: @validation_code
-      }
-
-      Repos::Users.add @unvalidated_user_hash
+  let(:unvalidated_user){
+    {
+      user_id: user_id,
+      email: 'email@test.com',
+      password: 'password',
+      validation: false,
+      validation_code: validation_code
     }
+  }
+
+  before(:each){
+    Repos::Users.add unvalidated_user
+    unvalidated_user.delete(:_id)
+  }
 
   describe 'Add' do
 
     it 'registers an unvalidated user' do
       saved_entry = @db['users'].find_one()
       expect(saved_entry).to include({
-        'user_id' => @user_id,
+        'user_id' => user_id,
         'email' => 'email@test.com',
         'password' => 'password',
         'validation' => false,
-        'validation_code' => @validation_code
+        'validation_code' => validation_code
+      })
+    end
+  end
+
+  describe 'Modify' do
+
+    it 'modifies a field' do
+      Repos::Users.modify({user_id: user_id}, {password: 'otter_password'})
+      saved_entry = @db['users'].find_one()
+      expect(saved_entry).to include({
+        'user_id' => user_id,
+        'email' => 'email@test.com',
+        'password' => 'otter_password',
+        'validation' => false,
+        'validation_code' => validation_code
       })
     end
   end
@@ -38,14 +56,11 @@ describe Repos::Users do
 
   describe 'Validate' do
 
-    before(:each){
-      Repos::Users.validate({validation_code: @validation_code})
-    }
-
     it 'validates a user' do
+      Repos::Users.validate(validation_code)
       saved_entry = @db['users'].find_one()
       expect(saved_entry).to include({
-        'user_id' => @user_id,
+        'user_id' => user_id,
         'email' => 'email@test.com',
         'password' => 'password',
         'validation' => true,
@@ -53,9 +68,33 @@ describe Repos::Users do
     end
 
     it 'deletes the validation_code from the saved_entry' do
+      Repos::Users.validate(validation_code)
       saved_entry = @db['users'].find_one()
       expect(saved_entry).not_to include({
-        'validation_code' => @validation_code
+        'validation_code' => validation_code
+      })
+    end
+
+    it 'returns the user_id' do
+      expect(Repos::Users.validate(validation_code)).to eq(user_id)
+    end
+  end
+
+  describe 'Reseted user' do
+
+    it 'adds a new validation code to the user' do
+      Repos::Users.validate(validation_code)
+      Repos::Users.reseted_user('email@test.com')
+      saved_entry = @db['users'].find_one()
+      expect(UUID.validate saved_entry['validation_code']).to eq(true)
+    end
+
+    it 'returns the user after the reset' do
+      expect(Repos::Users.reseted_user('email@test.com')).to include({
+        user_id: user_id,
+        email: 'email@test.com',
+        password: 'password',
+        validation: false,
       })
     end
   end
@@ -63,14 +102,7 @@ describe Repos::Users do
   describe 'Grab' do
 
     it 'returns the desired document' do
-      Repos::Users.validate({validation_code: @validation_code})
-
-      expect(Repos::Users.grab({email:'email@test.com'})).to include({
-        user_id: @user_id,
-        email: 'email@test.com',
-        password: 'password',
-        validation: true,
-      })
+      expect(Repos::Users.grab({email:'email@test.com'})).to eq(unvalidated_user)
     end
   end
 end

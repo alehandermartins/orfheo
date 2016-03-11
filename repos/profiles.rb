@@ -6,67 +6,92 @@ module Repos
         @@profiles_collection = db['profiles']
       end
 
-      def add profile
-        @@profiles_collection.insert(profile)
-      end
-
-      def exists? query
-        @@profiles_collection.count(query: query) > 0
-      end
-
-      def proposal_exists? proposal_id
-        results = @@profiles_collection.find({"proposals.proposal_id": proposal_id})
-        results.map { |profile|
-         string_keyed_hash_to_symbolized profile
-        }.count > 0
-      end
-
-      def grab query
-        results = @@profiles_collection.find(query)
-        return [] unless results.count > 0
-
-        results.map { |profile|
-         string_keyed_hash_to_symbolized profile
-        }
-      end
-
-      def update profile_id, new_fields
-        @@profiles_collection.update({profile_id: profile_id},{
-          "$set": new_fields
+      def update fields
+        @@profiles_collection.update({profile_id: fields[:profile_id]},{
+          "$set": fields
         },
         {upsert: true})
       end
 
-      def push query, proposal
-        @@profiles_collection.update(query,{
+      def name_available? name, profile_id
+        query = {profile_id: {"$ne": profile_id}, name: name}
+        @@profiles_collection.count(query: query) == 0
+      end
+
+      def add_proposal profile_id, proposal
+        @@profiles_collection.update({profile_id: profile_id},{
           "$push": {proposals: proposal}
         })
       end
 
-      def modify_proposal new_fields
-        @@profiles_collection.update({"proposals.proposal_id": new_fields[:proposal_id]},{
-          "$set": {"proposals.$": new_fields}
+      def modify_proposal fields
+        @@profiles_collection.update({"proposals.proposal_id": fields[:proposal_id]},{
+          "$set": {"proposals.$": fields}
         },
         {upsert: true})
       end
 
-      private
-      def string_keyed_hash_to_symbolized hash
-        hash.map do |k,v|
-          next if k == '_id'
-          next [k,v] unless k.is_a? String
-          next [k.to_sym, symbolize_array(v)] if v.is_a? Array
-          [k.to_sym, v]
-        end.compact.to_h
+      def exists? profile_id
+        @@profiles_collection.count(query: {profile_id: profile_id}) > 0
       end
 
-      def symbolize_array array
-        return array unless array.all?{ |element| element.is_a? Hash}
-        array.map{ |proposal|
-          proposal.map{ |key, value|
-            [key.to_sym, value]
-          }.to_h
-        }
+      def proposal_exists? proposal_id
+        @@profiles_collection.count(query: {"proposals.proposal_id": proposal_id}) > 0
+      end
+
+      def get_profiles method, args = nil
+        Scout.get(method, args)
+      end
+
+      private
+      class Scout < Profiles
+        class << self
+          def get method, args
+            Scout.send(method, args)
+          end
+
+          def all args
+            grab({}).select{ |profile|
+              non_empty_profile? profile
+            }.shuffle
+          end
+
+          def all_user_aside args
+            profiles = grab({})
+            {
+              my_profiles: profiles.select{ |profile| profile[:user_id] == args[:user_id]},
+              profiles: profiles.select{ |profile|
+                profile[:user_id] != args[:user_id] && non_empty_profile?(profile)
+              }.shuffle
+            }
+          end
+
+          def user_profiles args
+            profiles = grab({user_id: args[:user_id]})
+            sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
+            profiles.each{ |profile|
+              profile.merge! calls: Services::Calls.get_proposals_for(profile[:profile_id])
+            }
+          end
+
+          def non_empty_profile? profile
+            !profile[:proposals].blank? || profile[:type] == 'space'
+          end
+
+          def sort_profiles profiles, profile_id
+            index = profiles.index{|profile| profile[:profile_id] == profile_id}
+            profiles.insert(0, profiles.delete_at(index))
+          end
+
+          def grab query
+            results = @@profiles_collection.find(query)
+            return [] unless results.count > 0
+
+            results.map { |profile|
+             Util.string_keyed_hash_to_symbolized profile
+            }
+          end
+        end
       end
     end
   end

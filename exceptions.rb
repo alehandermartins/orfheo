@@ -2,9 +2,39 @@ module Pard
   class Invalid < StandardError
   end
 
+  class Invalid::ExistingUser < Invalid
+    def message
+      'already_registered'
+    end
+  end
+
+  class Invalid::UnexistingUser < Invalid
+    def message
+      'non_existing_user'
+    end
+  end
+
   class Invalid::Params < Invalid
     def message
       'invalid_parameters'
+    end
+  end
+
+  class Invalid::Password < Invalid
+    def message
+      'incorrect_password'
+    end
+  end
+
+  class Invalid::Unvalidated < Invalid
+    def message
+      'not_validated_user'
+    end
+  end
+
+  class Invalid::Type < Invalid
+    def message
+      'invalid_type'
     end
   end
 
@@ -23,6 +53,24 @@ module Pard
   class Invalid::UnexistingProposal < Invalid
     def message
       'non_existing_proposal'
+    end
+  end
+
+  class Invalid::Category < Invalid
+    def message
+      'invalid_category'
+    end
+  end
+
+  class Invalid::ExistingCall < Invalid
+    def message
+      'existing_call'
+    end
+  end
+
+  class Invalid::UnexistingCall < Invalid
+    def message
+      'non_existing_call'
     end
   end
 end

@@ -19,6 +19,9 @@ require_relative '../repos/calls'
 require_relative '../lib/users/user'
 require_relative '../lib/profiles/artist_profile'
 require_relative '../lib/profiles/space_profile'
+require_relative '../lib/calls/call'
+require_relative '../lib/calls/call_proposal'
+require_relative '../lib/util'
 
 class BaseController < Sinatra::Base
   set :environment, (ENV['RACK_ENV'].to_sym || :production) rescue :production

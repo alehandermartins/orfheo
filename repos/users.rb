@@ -10,29 +10,36 @@ module Repos
         @@users_collection.insert(user)
       end
 
-      def exists? query
-        @@users_collection.count(query: query) > 0
-      end
-
-      def validate query
-        modify query, {validation: true}
-        delete_field query, :validation_code
-      end
-
-      def grab query
-        result = {}
-        @@users_collection.find(query).map{ |cursor|
-          cursor.each{ |key,value|
-            result[key.to_sym] = value unless key == "_id"
-          }
-        }
-        result
-      end
-
       def modify query, new_field
         @@users_collection.update(query,{
           "$set": new_field
         })
+      end
+
+      def exists? query
+        @@users_collection.count(query: query) > 0
+      end
+
+      def validate validation_code
+        query = {validation_code: validation_code}
+        user = grab query
+        modify query, {validation: true}
+        delete_field query, :validation_code
+        user[:user_id]
+      end
+
+      def reseted_user email
+        modify({email: email}, {validation_code: SecureRandom.uuid})
+        grab({email: email})
+      end
+
+      def grab query
+        results = @@users_collection.find(query)
+        return {} unless results.count > 0
+
+        results.map { |user|
+         Util.string_keyed_hash_to_symbolized user
+        }.first
       end
 
       private

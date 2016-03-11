@@ -1,38 +1,54 @@
 describe UsersController do
 
-  before(:each){
-    @login_route = '/login/login_attempt'
-    @update_profile_route = '/users/create_profile'
+  let(:login_route){'/login/login_attempt'}
+  let(:create_profile_route){'/users/create_profile'}
 
-    @user_hash = {
+  let(:user_hash){
+    {
       email: 'email@test.com',
       password: 'password'
     }
+  }
 
-    @user = User.new @user_hash
-    Repos::Users.add @user.to_h
-    Services::Users.validated_user @user[:validation_code]
+  let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
+
+  let(:user){
+    {
+      user_id: user_id,
+      email: 'email@test.com',
+      password: 'password',
+      validation: false,
+      validation_code: validation_code
+    }
+  }
+
+  before(:each){
+    Repos::Users.add user
+    Services::Users.validated_user validation_code
   }
 
   describe 'Access' do
 
-    before(:each){
-      @users_route = '/users/'
-      @profile_id = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+    let(:users_route){'/users/'}
+    let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
 
-      @profile_params = {
-        user_id: @user[:user_id],
-        profile_id: @profile_id,
+    let(:profile){
+      {
+        profile_id: profile_id,
+        user_id: user_id,
         type: 'artist',
         name: 'artist_name',
         city: 'city',
         zip_code: 'zip_code',
-        profile_picture: 'picture.jpg',
+        profile_picture: ['profile.jpg'],
         bio: 'bio',
         personal_web: 'my_web'
-     }
+      }
+    }
 
-      @space_params = {
+    let(:space_profile){
+      {
         type: 'space',
         name: 'space_name',
         city: 'city',
@@ -43,44 +59,44 @@ describe UsersController do
     }
 
     it 'redirects the user to the welcome page if not logged in' do
-      get @users_route
+      get users_route
       expect(last_response.location).to eq('http://example.org/')
     end
 
-    it 'redirects the user to the users page if logged in' do
-      post @login_route, @user_hash
-      get @users_route
-      expect(last_response.body).to include('Pard.Users({"my_profiles":[],"profiles":[]})')
+    it 'gets the profiles of the user and other profiles' do
+      post login_route, user_hash
+      expect(Services::Profiles).to receive(:get_profiles).with(:all_user_aside, {user_id: user_id})
+      get users_route
     end
 
-    it 'returns all the profiles for a given user' do
-      post @login_route, @user_hash
-      post @update_profile_route, @profile_params
-      post @update_profile_route, @space_params
+    it 'redirects to user page' do
+      post login_route, user_hash
+      post create_profile_route, profile
+      post create_profile_route, space_profile
 
-      get @users_route
+      get users_route
 
-      expect(last_response.body).to include('"type":"artist","name":"artist_name"')
-      expect(last_response.body).to include('"type":"space","name":"space_name"')
+      expect(last_response.body).to include('Pard.Users')
     end
   end
 
   describe 'Modify password' do
 
+    let(:modify_password_route){'/users/modify_password'}
+
     before(:each){
-      @modify_password_route = '/users/modify_password'
-      post @login_route, @user_hash
+      post login_route, user_hash
     }
 
     it 'fails if the password is not valid' do
-      post @modify_password_route, {password: 'miau'}
+      post modify_password_route, {password: 'miau'}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_password')
     end
 
     it 'changes the old password for the new one' do
-      post @modify_password_route, {password: 'new_password'}
-      expect(Repos::Users.grab({user_id: @user[:user_id]})[:password]).to eq('new_password')
+      expect(Services::Users).to receive(:modify_password).with(user_id, 'new_password')
+      post modify_password_route, {password: 'new_password'}
       expect(parsed_response['status']).to eq('success')
     end
   end

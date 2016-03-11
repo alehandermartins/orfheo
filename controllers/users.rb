@@ -7,7 +7,7 @@ class UsersController < BaseController
   end
 
   get '/users/' do
-    profiles = Services::Profiles.get_profiles_reject_user session[:identity]
+    profiles = get_profiles :all_user_aside, {user_id: session[:identity]}
     erb :users, :locals => {:profiles => profiles.to_json}
   end
 
@@ -18,6 +18,10 @@ class UsersController < BaseController
   end
 
   private
+  def get_profiles method, args
+    Services::Profiles.get_profiles method, args
+  end
+
   def modify_password new_password
     Services::Users.modify_password session[:identity], new_password
   end

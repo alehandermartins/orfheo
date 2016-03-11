@@ -12,76 +12,56 @@ module Services
 
       def create params, user_id
         profile = PROFILES_MAP[params[:type]].new params, user_id
-        raise Pard::Invalid::ExistingProfile if name_in_use? profile
+        raise Pard::Invalid::ExistingProfile unless name_available? profile
         raise Pard::Invalid::Params if profile.wrong_params?
-        store profile.to_h
+        update profile.to_h
         profile.uuid
       end
 
       def modify params, user_id
-        raise Pard::Invalid::UnexistingProfile unless exists?(params[:profile_id])
         profile = PROFILES_MAP[params[:type]].new params, user_id
-        raise Pard::Invalid::ExistingProfile if name_in_use? profile
+        raise Pard::Invalid::ExistingProfile unless name_available? profile
         raise Pard::Invalid::Params if profile.wrong_params?
         destroy_old_pictures profile
-        store profile.to_h
+        update profile.to_h
         profile.uuid
-      end
-
-      def exists? profile_id
-        Repos::Profiles.exists?({profile_id: profile_id})
-      end
-
-      def get_profiles
-        profiles = Repos::Profiles.grab({})
-        profiles.select{ |profile|
-          !profile[:proposals].blank? || profile[:type] == 'space'
-        }.shuffle
-      end
-
-      def get_profiles_reject_user user_id
-        profiles = get_profiles
-        {
-          my_profiles: get_profiles_for(user_id),
-          profiles: profiles.reject{ |profile| profile[:user_id] == user_id}
-        }
-      end
-
-      def get_profiles_for user_id, profile_id = nil
-        profiles = Repos::Profiles.grab({user_id: user_id})
-        sort_profiles(profiles, profile_id) unless profile_id.nil?
-        profiles.each{ |profile|
-          profile.merge! calls: Services::Calls.get_proposals_for(profile[:profile_id])
-        }
       end
 
       def add_proposal params, user_id
         proposal = ArtistProposal.new params, user_id
         raise Pard::Invalid::Params if proposal.wrong_params?
-        Repos::Profiles.push({profile_id: params[:profile_id]}, proposal.to_h)
+        Repos::Profiles.add_proposal params[:profile_id], proposal.to_h
       end
 
       def modify_proposal params, user_id
-        raise Pard::Invalid::UnexistingProposal unless proposal_exists?(params[:proposal_id])
         proposal = ArtistProposal.new params, user_id
         raise Pard::Invalid::Params if proposal.wrong_params?
         destroy_old_pictures proposal
-        Repos::Profiles.modify_proposal(proposal.to_h)
+        Repos::Profiles.modify_proposal proposal.to_h
+      end
+
+      def exists? profile_id
+        Repos::Profiles.exists? profile_id
+      end
+
+      def proposal_exists? proposal_id
+        Repos::Profiles.proposal_exists? proposal_id
+      end
+
+      def get_profiles method, args = nil
+        Repos::Profiles.get_profiles method, args
       end
 
       private
-      def name_in_use? profile
-        profiles = Repos::Profiles.grab({user_id: profile[:user_id]})
-        profiles.any?{ |the_profile|
-          (the_profile[:name] == profile[:name] && the_profile[:profile_id] != profile[:profile_id])
-        }
+      def name_available? profile
+        Repos::Profiles.name_available? profile[:name], profile[:profile_id]
       end
 
-      def store profile
+      def update profile
         profile.each{ |field, value|
           profile.delete(field) if value.nil?
         }
-        Repos::Profiles.update(profile[:profile_id], profile)
+        Repos::Profiles.update(profile)
       end
 
       def destroy_old_pictures element
@@ -94,15 +74,6 @@ module Services
           }
           Cloudinary::Api.delete_resources(old_images) unless old_images.blank?
         }
-      end
-
-      def sort_profiles profiles, profile_id
-        index = profiles.index{|profile| profile[:profile_id] == profile_id}
-        profiles.insert(0, profiles.delete_at(index))
-      end
-
-      def proposal_exists? proposal_id
-        Repos::Profiles.proposal_exists? proposal_id
       end
     end
   end
