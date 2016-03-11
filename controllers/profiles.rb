@@ -15,7 +15,7 @@ class ProfilesController < BaseController
 
   get '/users/profiles/:uuid' do
     halt erb(:not_found) unless profile_exists? params[:uuid]
-    profiles = get_profiles :user_profiles, {user_id: session[:identity]}
+    profiles = get_profiles :user_profiles, {user_id: session[:identity], profile_id: params[:uuid]}
     erb :profile, :locals => {:profiles => profiles.to_json}
   end
 
@@ -31,6 +31,7 @@ class ProfilesController < BaseController
     success({profile_id: params[:profile_id]})
   end
 
+  #poner bangs en excepciones
   private
   def check_type type
     raise Pard::Invalid::Type unless ['artist', 'space'].include? type

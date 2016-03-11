@@ -23,6 +23,7 @@ module Services
         raise Pard::Invalid::ExistingProfile unless name_available? profile
         raise Pard::Invalid::Params if profile.wrong_params?
         destroy_old_pictures profile
+        # primero guardo y luego destruyo
         update profile.to_h
         profile.uuid
       end
@@ -37,6 +38,7 @@ module Services
         proposal = ArtistProposal.new params, user_id
         raise Pard::Invalid::Params if proposal.wrong_params?
         destroy_old_pictures proposal
+        # primero guardo y luego destruyo
         Repos::Profiles.modify_proposal proposal.to_h
       end
 
@@ -65,6 +67,7 @@ module Services
       end
 
       def destroy_old_pictures element
+        #clase element de la que derivan profile y proposal
         folders = element.image_folders
         folders.each{ |folder|
           next if element[folder[:field]].blank?
