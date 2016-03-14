@@ -129,7 +129,7 @@
         var _submitForm = {};
         _submitForm['type'] = 'artist';
         for(field in _form){
-          _submitForm[field] = _form[field].getVal();
+          _submitForm[field] = _form[field].input.getVal();
         }
         return _submitForm;
       },
@@ -162,7 +162,7 @@
         var _submitForm = {};
         _submitForm['type'] = 'space';
         for(field in _form){
-          _submitForm[field] = _form[field].getVal();
+          _submitForm[field] = _form[field].input.getVal();
         }
         return _submitForm;
       },

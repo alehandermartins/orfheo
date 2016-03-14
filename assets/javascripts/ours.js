@@ -14,5 +14,5 @@
 // = require users_widgets
 // = require search_widgets
 // = require profile_widgets
-
+// = require forms_widgets
 

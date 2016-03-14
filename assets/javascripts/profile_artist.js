@@ -108,7 +108,6 @@
 
     var _createdWidget = $('<div>');
 
-
     var _form = Pard.Forms.ArtistCall(callProposals.category).render();
 
     for(var field in _form){

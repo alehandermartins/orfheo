@@ -76,33 +76,40 @@
     };
 
     _form['address'] ={
-      label: Pard.Widgets.InputLabel('Dirección del espacio'),
-      input: Pard.Widgets.InputPlace(),
+      label: Pard.Widgets.InputLabel('Dirección'),
+      input: Pard.Widgets.InputAddressSpace('Ej: Carrer de la Murta 13, Valencia'),
       helptext: Pard.Widgets.HelpText('Tu dirección detallada es necesaria para poderte localizar en el mapa.')
     }
 
-    _form['city'] = {
-      label: Pard.Widgets.InputLabel('Ciudad'),
-      input: Pard.Widgets.Input('', 'text'),
+    _form['btn'] = {
+      label: Pard.Widgets.InputLabel(''),
+      input: Pard.Widgets.Button('getVal', function(){console.log(_form['address'].input.getVal())}),
       helptext: Pard.Widgets.HelpText('')
     };
 
-    _form['zip_code'] = {
-      label: Pard.Widgets.InputLabel('Código postal'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('')
-    };
+
+    // _form['city'] = {
+    //   label: Pard.Widgets.InputLabel('Ciudad'),
+    //   input: Pard.Widgets.Input('', 'text'),
+    //   helptext: Pard.Widgets.HelpText('')
+    // };
+
+    // _form['zip_code'] = {
+    //   label: Pard.Widgets.InputLabel('Código postal'),
+    //   input: Pard.Widgets.Input('', 'text'),
+    //   helptext: Pard.Widgets.HelpText('')
+    // };
 
     _form['category'] = {
-      label: Pard.Widgets.InputLabel('Categoría del espacio'),
+      label: Pard.Widgets.InputLabel('Categoría'),
       input: Pard.Widgets.Selector(_labels, _values),
       helptext: Pard.Widgets.HelpText('')
     };
 
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web del espacio'),
-      input: Pard.Widgets.Input('', 'url'),
-      helptext: Pard.Widgets.HelpText('Copia y pega un enlace a la web, al facebook, al blog, etc. del espacio.')
+      input: Pard.Widgets.InputWeb(),
+      helptext: Pard.Widgets.HelpText('Añade la web/facebook/blog/etc. de tu espacio y dale un titulo para darla a conocer.')
     };
 
     _form['color'] = {
@@ -111,8 +118,9 @@
       helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
     };
    
-    var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category', 'color'];
+    // var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category', 'color'];
 
+    var _requiredFields = ['name', 'city', 'address', 'category', 'color'];
 
     return {
       render: function(){
@@ -158,10 +166,17 @@
 
   	var _form = Pard.Forms.BasicArtistForm().render();
 
-    _form['personal_web'] = Pard.Widgets.Input('Web personal', 'text');
-    _form['bio'] = Pard.Widgets.TextArea('Bio');
+    _form['personal_web'] = {
+      label: Pard.Widgets.InputLabel('Web personal'),
+      input: Pard.Widgets.InputPersonalWeb(),
+      helptext: Pard.Widgets.HelpText('Añade un enlace a una web tuya (y dale un titulo) para darla a conocer.')
+    };
+    _form['bio'] = {
+      label: Pard.Widgets.InputLabel('Bio'),
+      input: Pard.Widgets.TextArea(''),
+      helptext: Pard.Widgets.HelpText('Cualquier cosa tu quiera compartir sobre tu vida artistica-cultural.')
+    };
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
-
 
     var _requiredFields = ['name', 'city', 'zip_code', 'color'];
 
