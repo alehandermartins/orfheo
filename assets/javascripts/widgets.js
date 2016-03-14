@@ -111,6 +111,35 @@
     }
   };
 
+  ns.Widgets.InputLabel = function(label){
+
+    var _label = $('<label>').text(label);
+
+    return{
+      render: function(){
+        return _label;
+      },
+      setClass: function(_class){
+        _label.addClass(_class);
+      }
+    }
+  };
+
+  ns.Widgets.HelpText = function(label){
+
+    var _helptext = $('<p>').addClass('help-text').text(label);
+
+    return{
+      render: function(){
+        return _helptext;
+      },
+      setClass: function(_class){
+        _helptext.addClass(_class);
+      }
+    }
+  };
+
+
 
   ns.Widgets.CheckBox = function(label, value){
 
@@ -427,6 +456,67 @@
   }
 
 
+  ns.Widgets.InputPlace = function(){
+   
+    var placeSearch, autocomplete;
+
+    var componentForm = {
+      route: 'long_name',
+      street_number: 'short_name',
+      locality: 'long_name',
+      country: 'long_name',
+      postal_code: 'short_name'
+    };
+
+    var _inputForm = {
+      route: Pard.Widgets.Input('Calle','text').render().attr({disabled: 'true', id: 'route'}),
+      street_number: Pard.Widgets.Input('Numero', 'text').render().attr({disabled: 'true',id: 'street_number'}),
+      locality: Pard.Widgets.Input('Ciudad','text').render().attr({disabled: 'true', id: 'locality'}),
+      country: Pard.Widgets.Input('País','text').render().attr({disabled: 'true', id: 'country'}),
+      postal_code: Pard.Widgets.Input('Código postal','text').render().attr({disabled: 'true', id:'postal_code'})
+    }
+
+    var _inputPlace = $('<input>').attr({type: 'text', id: 'place_address_autocomplete', placeholder:''});
+
+    _inputPlace.one('focus', function(){AutocompleteFunction()});
+
+    var AutocompleteFunction = function(){
+       autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('place_address_autocomplete')),
+        {types: ['address']});
+      autocomplete.addListener('place_changed', FillInAddress);
+    }
+
+
+    FillInAddress = function() {
+      var place = autocomplete.getPlace();
+
+      for (var component in componentForm) {
+        document.getElementById(component).value = '';
+        document.getElementById(component).disabled = false;
+      }
+
+
+      if (place.address_components){
+        for (var i = 0; i < place.address_components.length; i++) {
+          var addressType = place.address_components[i].types[0];
+          if (componentForm[addressType]) {
+            var val = place.address_components[i][componentForm[addressType]];
+            document.getElementById(addressType).value = val;
+          }
+        }
+      } 
+    } 
+
+    var _placeForm = $('<div>').append(_inputPlace);
+    for (var key in _inputForm){_placeForm.append(_inputForm[key])};
+
+    return {
+      render: function(){
+        return _placeForm;
+      }
+    }
+  }
 
   
 

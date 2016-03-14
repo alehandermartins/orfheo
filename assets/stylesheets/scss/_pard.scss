@@ -83,6 +83,10 @@ html{
 .very-fast {
   transition-duration: 150ms !important; }
 
+.pac-container{
+  z-index: 1100;
+}
+
 /*===============================================
 GENERAL LAYOUT
 ================================================*/

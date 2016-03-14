@@ -32,7 +32,7 @@
     var _content = $('<div>');
     var _form = Pard.Forms.ArtistCall(_selected).render();
 
-    for(field in _form){
+    for(var field in _form){
         _content.append(_form[field].render());
       };
     var _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
@@ -49,7 +49,7 @@
       _content.empty();
       _form = Pard.Forms.ArtistCall(_selected).render();
       _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
-      for(field in _form){
+      for(var field in _form){
         _content.append(_form[field].render());
       };
       _submitForm['category'] = _selected;
@@ -57,7 +57,7 @@
     });
 
     var _filled = function(){
-      for (field in _form){;
+      for(var field in _form){;
         if ($.inArray(field, _requiredFields) >= 0 ){
           if(_form[field].getVal().length == 0) return false;
         }
@@ -66,7 +66,7 @@
     };
 
     var _getVal = function(){
-      for(field in _form){
+      for(var field in _form){
          _submitForm[field] = _form[field].getVal();
       };
       return _submitForm;
@@ -111,11 +111,11 @@
 
     var _form = Pard.Forms.ArtistCall(callProposals.category).render();
 
-    for(field in _form){
+    for(var field in _form){
       if(callProposals[field]) _form[field].setVal(callProposals[field]);
     };
 
-    for(field in _form){
+    for(var field in _form){
       _createdWidget.append(_form[field].render());
     };
 
@@ -166,7 +166,7 @@
     var _createdWidget = $('<div>');
     var _infoField = $('<div>');
 
-    for(field in proposal){
+    for(var field in proposal){
       if(proposal[field] != null){
         if(proposal[field].length != 0 && field != 'proposal_id') {
           var _newField = $('<div>').text(field+': '+proposal[field]);

@@ -45,13 +45,13 @@
     _artistButton = Pard.Widgets.Button('Artista', function(){
       _content.empty();
       _content.append(_profileForm.getForm('artist'), submitButton);
-      if (_btnContainer.html() == '') _btnContainer.append(submitButton);
+      if (!(_btnContainer.html())) _btnContainer.append(submitButton);
     });
 
     _spaceButton = Pard.Widgets.Button('Espacio', function(){
       _content.empty();
       _content.append(_profileForm.getForm('space'))
-      if (_btnContainer.html() == '') _btnContainer.append(submitButton);
+      if (!(_btnContainer.html())) _btnContainer.append(submitButton);
     });
 
 
@@ -115,7 +115,10 @@
     var _form = Pard.Forms.BasicArtistForm().render();
 
     for(field in _form){
-      _createdWidget.append(_form[field].render());
+      _createdWidget.append(
+        _form[field].label.render().append(_form[field].input.render()),
+        _form[field].helptext.render()
+      )  
     }
 
     return {
@@ -144,8 +147,12 @@
     var _form = Pard.Forms.BasicSpaceForm().render();
 
     for(field in _form){
-      _createdWidget.append(_form[field].render());
+      _createdWidget.append(
+        _form[field].label.render().append(_form[field].input.render()),
+        _form[field].helptext.render()
+      )  
     }
+
 
     return {
       render: function(){

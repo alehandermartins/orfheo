@@ -3,15 +3,31 @@
   ns.Forms = ns.Forms || {};
 
 
-
   ns.Forms.BasicArtistForm = function(){
 
-  	var _form = {};
+    var _form = {};
 
-    _form['name'] = Pard.Widgets.Input('Nombre artistico', 'text');
-    _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
-    _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
-    _form['color'] = Pard.Widgets.Input('Color', 'color');
+    _form['name'] = {
+      label: Pard.Widgets.InputLabel('Nombre artistico'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con tu perfil de artista.')
+    };
+    _form['city'] = {
+      label: Pard.Widgets.InputLabel('Ciudad'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posibile contacto.')
+    };
+
+    _form['zip_code'] = {
+      label: Pard.Widgets.InputLabel('Código postal'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Para que aquellos de zona puedan situar tu proyecto en el mapa.')
+    };
+    _form['color'] = {
+      label: Pard.Widgets.InputLabel('Escoge un color'),
+      input: Pard.Widgets.Input('', 'color'),
+      helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
+    };
 
     var _requiredFields = ['name', 'city', 'zip_code', 'color'];
 
@@ -25,22 +41,76 @@
     }
   }
 
+  // ns.Forms.BasicArtistForm = function(){
 
-  ns.Forms.BasicSpaceForm = function(){
+  // 	var _form = {};
 
-  	var _form = {};
+  //   _form['name'] = Pard.Widgets.Input('Nombre artistico', 'text');
+  //   _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
+  //   _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
+  //   _form['color'] = Pard.Widgets.Input('Color', 'color');
+
+  //   var _requiredFields = ['name', 'city', 'zip_code', 'color'];
+
+  //   return {
+  //     render: function(){
+  //       return _form;
+  //     },
+  //     requiredFields: function(){
+  //       return _requiredFields;
+  //     }
+  //   }
+  // }
+
+    ns.Forms.BasicSpaceForm = function(){
+
+    var _form = {};
 
     var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
     var _values = ['cultural_ass', 'commercial', 'home'];
 
-    _form['name'] = Pard.Widgets.Input('Nombre espacio', 'text');
-    _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
-    _form['address'] = Pard.Widgets.Input('Direccion', 'text');
-    _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
-    _form['category'] = Pard.Widgets.Selector(_labels, _values);
-    _form['personal_web'] = Pard.Widgets.Input('Web personal', 'url');
-    _form['color'] = Pard.Widgets.Input('Color', 'color');
+     _form['name'] = {
+      label: Pard.Widgets.InputLabel('Nombre del espacio'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con tu perfil de espacio.')
+    };
 
+    _form['address'] ={
+      label: Pard.Widgets.InputLabel('Dirección del espacio'),
+      input: Pard.Widgets.InputPlace(),
+      helptext: Pard.Widgets.HelpText('Tu dirección detallada es necesaria para poderte localizar en el mapa.')
+    }
+
+    _form['city'] = {
+      label: Pard.Widgets.InputLabel('Ciudad'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('')
+    };
+
+    _form['zip_code'] = {
+      label: Pard.Widgets.InputLabel('Código postal'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('')
+    };
+
+    _form['category'] = {
+      label: Pard.Widgets.InputLabel('Categoría del espacio'),
+      input: Pard.Widgets.Selector(_labels, _values),
+      helptext: Pard.Widgets.HelpText('')
+    };
+
+    _form['personal_web'] = {
+      label: Pard.Widgets.InputLabel('Web del espacio'),
+      input: Pard.Widgets.Input('', 'url'),
+      helptext: Pard.Widgets.HelpText('Copia y pega un enlace a la web, al facebook, al blog, etc. del espacio.')
+    };
+
+    _form['color'] = {
+      label: Pard.Widgets.InputLabel('Escoge un color'),
+      input: Pard.Widgets.Input('', 'color'),
+      helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
+    };
+   
     var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category', 'color'];
 
 
@@ -53,6 +123,35 @@
       }
     }
   }
+
+
+  // ns.Forms.BasicSpaceForm = function(){
+
+  // 	var _form = {};
+
+  //   var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
+  //   var _values = ['cultural_ass', 'commercial', 'home'];
+
+  //   _form['name'] = Pard.Widgets.Input('Nombre espacio', 'text');
+  //   _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
+  //   _form['address'] = Pard.Widgets.Input('Direccion', 'text');
+  //   _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
+  //   _form['category'] = Pard.Widgets.Selector(_labels, _values);
+  //   _form['personal_web'] = Pard.Widgets.Input('Web personal', 'url');
+  //   _form['color'] = Pard.Widgets.Input('Color', 'color');
+
+  //   var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category', 'color'];
+
+
+  //   return {
+  //     render: function(){
+  //       return _form;
+  //     },
+  //     requiredFields: function(){
+  //       return _requiredFields;
+  //     }
+  //   }
+  // }
 
 
   ns.Forms.FullArtistForm = function(){

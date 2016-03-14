@@ -31,14 +31,14 @@
     var _form = Pard.Forms.SpaceCall().render();
     var _requiredFields = Pard.Forms.SpaceCall().requiredFields();
 
-    for(field in _form){
+    for(var field in _form){
       _createdWidget.append(_form[field].render());
     }
 
     _createdWidget.append(submitButton);
 
     var _filled = function(){
-      for (field in _form){;
+      for (var field in _form){;
         if ($.inArray(field, _requiredFields) >= 0 ){
           if(_form[field].getVal().length == 0) return false;
         }
@@ -47,7 +47,7 @@
     };
 
     var _getVal = function(){
-      for(field in _form){
+      for(var field in _form){
          _submitForm[field] = _form[field].getVal();
       };
       return _submitForm;
@@ -92,11 +92,11 @@
   
     var _form = Pard.Forms.SpaceCall().render();
 
-    for(field in _form){
+    for(var field in _form){
       if(proposal[field]) _form[field].setVal(proposal[field]);
     };
 
-    for(field in _form){
+    for(var field in _form){
       _createdWidget.append(_form[field].render());
     };
 
