@@ -1,3 +1,6 @@
+'use strict';
+
+
 (function(ns){
 
   ns.Widgets = ns.Widgets || {};
@@ -114,7 +117,7 @@
 
     var _form = Pard.Forms.BasicArtistForm().render();
 
-    for(field in _form){
+    for(var field in _form){
       _createdWidget.append(
         _form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render()
@@ -128,7 +131,7 @@
       getVal: function(){
         var _submitForm = {};
         _submitForm['type'] = 'artist';
-        for(field in _form){
+        for(var field in _form){
           _submitForm[field] = _form[field].input.getVal();
         }
         return _submitForm;
@@ -146,7 +149,7 @@
 
     var _form = Pard.Forms.BasicSpaceForm().render();
 
-    for(field in _form){
+    for(var field in _form){
       _createdWidget.append(
         _form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render()
@@ -161,7 +164,7 @@
       getVal: function(){
         var _submitForm = {};
         _submitForm['type'] = 'space';
-        for(field in _form){
+        for(var field in _form){
           _submitForm[field] = _form[field].input.getVal();
         }
         return _submitForm;

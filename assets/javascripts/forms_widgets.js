@@ -81,13 +81,17 @@
     }
   }
 
-  ns.Widgets.Input = function(label, type, callback){
+  ns.Widgets.Input = function(label, type, oninputcallback, onchangecallback){
 
     var _input = $('<input>').attr({'type':type, 'placeholder': label});
 
     _input.on('input',function(){
-      if(callback) callback();
+      if(oninputcallback) oninputcallback();
     });
+
+    _input.on('change', function(){
+    	if(onchangecallback) onchangecallback();
+    })
 
     return{
       render: function(){
@@ -144,6 +148,77 @@
       }
     }
   };
+
+  ns.Widgets.InputTel = function(placeholder){
+
+  	var checkPhone = function(){
+  		var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
+      var notPattern = new RegExp (/[a-z]/);
+        if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
+        return _inputTel.getVal();
+      }
+
+  	var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning();}, checkPhone)
+
+  	 return{
+      render: function(){
+        return _inputTel.render();
+      },
+      getVal: function(){
+        return checkPhone();
+      },
+      setVal: function(value){
+        _inputTel.setVal(value);
+      },
+      addWarning: function(){
+        _inputTel.addClass('warning');
+      },
+      removeWarning: function(){
+        _inputTel.removeClass('warning');
+      },
+      setClass: function(_class){
+        _inputTel.addClass(_class);
+      }
+    }
+  }
+
+   ns.Widgets.InputDate = function(placeholder){
+ 	
+  	var _inputDate = Pard.Widgets.Input(placeholder,'text');
+
+  	var _datePicker = _inputDate.render();
+  	_datePicker.datepick({
+  		firstDay: 1,
+  		minDate: new Date(2016, 10 - 1, 15),
+  		maxDate: new Date(2016, 10 - 1, 16),
+  		dateFormat: 'D dd M yyyy',
+  		multiSelect: 2,
+  		defaultStatus: placeholder,
+  		defaultDate: null,
+  		onSelect:  function(){_datePicker.removeClass('warning')}
+  	});
+
+  	 return{
+      render: function(){
+        return _datePicker;
+      },
+      getVal: function(){
+        return _datePicker.datepick('getDate');
+      },
+      setVal: function(dates){
+      	_datePicker.datepick('setDate', dates);
+      },
+      addWarning: function(){
+        _datePicker.addClass('warning');
+      },
+      removeWarning: function(){
+        _datePicker.removeClass('warning');
+      },
+      setClass: function(_class){
+        _datePicker.addClass(_class);
+      }
+    }
+  }
 
 
 
@@ -245,50 +320,85 @@
       },
       getVal: function(){
         return addressValue();
+      },
+      setVal: function(_val){
+        for(var field in _inputForm) _inputForm[field] = _val[field];
       }
     }
   }
 
+  // ns.Widgets.AddWebField = function(inputWeb, entries){
+  //   var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Sito Web, Facebook, Blog, etc.','text', function(){_webTitle.removeWarning();});
+  //   var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();});
+  //   var _inputsObj = {
+  //     web_title: _webTitle,
+  //     link: _link
+  //   };
+  //   var _check = true;
+  //   var _deleteBtn = Pard.Widgets.Button('-', function(){
+  //     _webFieldAdded.empty();
+  //     entries.pop();
+  //   });
+
+
+
+
+  //   var _webFieldAdded = $('<div>').append(_webTitle.render(), _link.render(),_deleteBtn.render());
+  //   inputWeb.append(_webFieldAdded);
+  //   return {
+  //     render: function(){
+  //       return { 
+  //         web_title: _webTitle,
+  //         link: _link
+  //       }
+  //     }
+  //   }
+  // }
+
   ns.Widgets.AddWebField = function(inputWeb, entries){
-    var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Sito Web, Facebook, Blog, etc.','text', function(){_webTitle.removeWarning();});
-    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();});
-    var _inputsObj = {
-      web_title: _webTitle,
-      link: _link
-    };
-    var _check = true;
+
+    var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Sito Web, Facebook, Blog, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+    
     var _deleteBtn = Pard.Widgets.Button('-', function(){
       _webFieldAdded.empty();
       entries.pop();
     });
-    var _webFieldAdded = $('<div>').append(_webTitle.render(), _link.render(),_deleteBtn.render());
-    inputWeb.append(_webFieldAdded);
+    
+    var _entryObj = {
+      web_title: _webTitle,
+      link: _link
+    };
+
+    entries.push(_entryObj);
+  
+    var _webField = $('<div>').append(entries[0]['web_title'].render(), entries[0]['link'].render());
+    inputWeb.append(_webField);
+
+    for (var i=1; i<entries.length; i++){
+    	var _webFieldAdded = $('<div>').append(entries[i]['web_title'].render(), entries[i]['link'].render(), _deleteBtn.render());
+    	inputWeb.append(_webFieldAdded);
+  	}
+
     return {
       render: function(){
-        return { 
-          web_title: _webTitle,
-          link: _link
-        }
+        return entries;
       }
     }
   }
 
   ns.Widgets.InputWebs = function(){
-    var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Facebook, etc.','text', function(){_webTitle.removeWarning();});
-    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();});
-    var _entries = [{
-            web_title: _webTitle,
-            link: _link
-          }];
+ 
+    var _entries = [];
+
+    var _inputWeb = $('<div>');
  
     var _addFieldBtn = Pard.Widgets.Button('+', function(){
-      var _newEntry = Pard.Widgets.AddWebField(_inputWeb, _entries);
-      _entries.push(_newEntry.render());
+     _entries = Pard.Widgets.AddWebField(_inputWeb, _entries).render();
+      // _entries.push(_newEntry.render());
     });
 
-    var _webField = $('<div>');
-    _webField.append(_webTitle.render(), _link.render());
-    var _inputWeb = $('<div>').append(_webField);
+    _entries = Pard.Widgets.AddWebField(_inputWeb, _entries).render();
 
     var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
 
@@ -303,9 +413,53 @@
           } 
         )
         return _values;
+      },
+      setVal: function(_val){
+        _val.forEach(function(entry){
+        	for(var field in entry) _entries[field] = entry[field];
+        })
       }
     }
   }
+
+  // ns.Widgets.InputWebs = function(){
+  //   var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Facebook, etc.','text', function(){_webTitle.removeWarning();});
+  //   var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();});
+  //   var _entries = [{
+  //           web_title: _webTitle,
+  //           link: _link
+  //         }];
+ 
+  //   var _addFieldBtn = Pard.Widgets.Button('+', function(){
+  //     var _newEntry = Pard.Widgets.AddWebField(_inputWeb, _entries);
+  //     _entries.push(_newEntry.render());
+  //   });
+
+  //   var _webField = $('<div>');
+  //   _webField.append(_webTitle.render(), _link.render());
+  //   var _inputWeb = $('<div>').append(_webField);
+
+  //   var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     getVal: function(){
+  //       var _values = [];
+  //       _entries.forEach(function(entry){
+  //         if (Pard.Widgets.WebFilled(entry)) _values.push(Pard.Widgets.WebFilled(entry));
+  //         } 
+  //       )
+  //       return _values;
+  //     },
+  //     setVal: function(_val){
+  //       _val.forEach(function(entry){
+  //       	for(var field in entry) _entries[field] = entry[field];
+  //       })
+  //     }
+  //   }
+  // }
 
 
   ns.Widgets.WebFilled = function(element){
@@ -320,13 +474,14 @@
         }
       }
       if (_val['web_title'] && _val['link']) return _val;
+      for (var key in element) {element[key].removeWarning()} 
       return '';
   } 
 
 
    ns.Widgets.InputPersonalWeb = function(){
-    var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Blog, Facebook, etc.','text', function(){_webTitle.removeWarning();});
-    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();});
+    var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Blog, Facebook, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _entries = [{
             web_title: _webTitle,
             link: _link
@@ -343,8 +498,12 @@
         return _createdWidget;
       },
       getVal: function(){
-        if (Pard.Widgets.WebFilled(entry)) return Pard.Widgets.WebFilled(entry);
+        return Pard.Widgets.WebFilled(entry);
+      },
+      setVal: function(_val){
+        for(var field in entry) {_entries[field] = entry[field];}
       }
+
     }
   }
 

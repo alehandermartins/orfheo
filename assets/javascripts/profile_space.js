@@ -32,7 +32,7 @@
     var _requiredFields = Pard.Forms.SpaceCall().requiredFields();
 
     for(var field in _form){
-      _createdWidget.append(_form[field].render());
+      _createdWidget.append(_form[field].label.render().append(_form[field].input.render()),_form[field].helptext.render());
     }
 
     _createdWidget.append(submitButton);
@@ -91,13 +91,13 @@
     var _createdWidget = $('<div>');
   
     var _form = Pard.Forms.SpaceCall().render();
-
+                                    
     for(var field in _form){
-      if(proposal[field]) _form[field].setVal(proposal[field]);
+      if(proposal[field]) _form[field].input.setVal(proposal[field]);
     };
 
     for(var field in _form){
-      _createdWidget.append(_form[field].render());
+      _createdWidget.append(_form[field].input.render());
     };
 
     var _closeBtn = Pard.Widgets.Button('Cierra').render();

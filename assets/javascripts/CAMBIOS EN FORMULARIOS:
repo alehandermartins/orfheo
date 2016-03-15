@@ -1,0 +1,8 @@
+CAMBIOS EN FORMULARIOS:
+Space:
+- Address con google API - ya no hay campo city y zip code sino solo campo address que recoge un objeto
+- personal_web remplezada por links ya en el formulario basico (desaparece distincion links-web_personal) - el campo links devuelve un array de objectos (cada objeto tiene 2 elementos: web_title y link)
+Space Call:
+-Añadido campo 'responsible' ---> responsable del espacio
+-Disponibilidad devuelve un vector da elementos Date
+-Añadido campo 'un_wanted'

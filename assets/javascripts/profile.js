@@ -22,6 +22,7 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
+    
     var _photo = Pard.Widgets.Cloudinary(1, profile.user_id + '/' + profile.profile_id + '/profile_picture');
 
     _createdWidget.append(_photo.render());
@@ -33,12 +34,12 @@
     var _requiredFields = _form.requiredFields();
     _form = _form.render();
 
-    for(field in _form){
-      if(profile[field]) _form[field].setVal(profile[field]);
+    for(var field in _form){
+      if(profile[field]) _form[field].input.setVal(profile[field]);
     };
 
-    for(field in _form){
-      _createdWidget.append(_form[field].render());
+    for(var field in _form){
+      _createdWidget.append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render());
     };
 
     _createdWidget.append(submitButton);
@@ -46,17 +47,18 @@
     var _filled = function(){
       for (field in _form){
         if ($.inArray(field, _requiredFields) >= 0){
-          if(_form[field].getVal().length == 0) return false;
+          if(!(_form[field].getVal())) return false;
         }
       }
       return true;
     };
 
     var _getVal = function(){
-      for(field in _form){
+      for(var field in _form){
          _submitForm[field] = _form[field].getVal();
       };
-      if(_photo.get_url().length != 0) _submitForm['profile_picture'] = _photo.get_url();
+      if(_photo.get_url()) _submitForm['profile_picture'] = _photo.get_url();
+      // .length != 0
       return _submitForm;
     }
 
@@ -107,8 +109,6 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
-    
-
 
     _submitForm['proposal_id'] = proposal.proposal_id;
 
@@ -117,27 +117,27 @@
     var _requiredFields = _form.requiredFields();
     _form = _form.render();
 
-    for(field in _form){
+    for(var field in _form){
       if(proposal[field]) _form[field].setVal(proposal[field]);
     };
 
-    for(field in _form){
+    for(var field in _form){
       _createdWidget.append(_form[field].render());
     };
 
     _createdWidget.append(submitButton);
 
     var _filled = function(){
-      for (field in _form){
+      for (var field in _form){
         if ($.inArray(field, _requiredFields) >= 0){
-          if(_form[field].getVal().length == 0) return false;
+          if(!(_form[field].getVal())) return false;
         }
       }
       return true;
     };
 
     var _getVal = function(){
-      for(field in _form){
+      for(var field in _form){
          _submitForm[field] = _form[field].getVal();
       };
       // if(_photo.get_url().length != 0) _submitForm['proposal_picture'] = _photo.get_url();

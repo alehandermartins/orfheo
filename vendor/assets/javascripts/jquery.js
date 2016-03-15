@@ -6,3 +6,8 @@
 //= require jquery.cloudinary
 //= require what-input.min
 //= require foundation.min
+//= require jquery.plugin.min
+//= require jquery.datepick.min
+//= require jquery.datepick-es
+
+
