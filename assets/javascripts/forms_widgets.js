@@ -365,15 +365,6 @@
 
     entries.push(_inputsObj);
 
-    var _deleteBtn = Pard.Widgets.Button('-', function(){
-      _webFieldAdded.empty();
-      entries.pop();
-    });
-
-
-    var _webFieldAdded = $('<div>').append(_webTitle.render(), _link.render(),_deleteBtn.render());
-    inputWeb.append(_webFieldAdded);
-    
     return {
       render: function(){
         return entries
@@ -457,6 +448,8 @@
             web_title: _webTitle,
             link: _link
           }];
+
+    var _inputWeb = $('<div>');
  
     var _addFieldBtn = Pard.Widgets.Button('+', function(){
       _entries = Pard.Widgets.AddWebField(_inputWeb, _entries).render();
@@ -464,19 +457,16 @@
 
      var _deleteBtn = Pard.Widgets.Button('-', function(){
       _webFieldAdded.empty();
-      entries.pop();
+      _entries.pop();
     });
   
-    var _webField = $('<div>').append(entries[0]['web_title'].render(), entries[0]['link'].render());
-    inputWeb.append(_webField);
+    var _webField = $('<div>').append(_entries[0]['web_title'].render(), _entries[0]['link'].render());
+    _inputWeb.append(_webField);
 
-    for (var i=1; i<entries.length; i++){
-    	var _webFieldAdded = $('<div>').append(entries[i]['web_title'].render(), entries[i]['link'].render(), _deleteBtn.render());
-    	inputWeb.append(_webFieldAdded);
+    for (var i=1; i<_entries.length; i++){
+    	var _webFieldAdded = $('<div>').append(_entries[i]['web_title'].render(), _entries[i]['link'].render(), _deleteBtn.render());
+    	_inputWeb.append(_webFieldAdded);
   	}
-
-    _webField.append(_webTitle.render(), _link.render());
-    var _inputWeb = $('<div>').append(_webField);
 
     var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
 
