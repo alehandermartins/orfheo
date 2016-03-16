@@ -7,7 +7,9 @@
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica el perfil');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('OK');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tus datos', function(){Pard.Widgets.ModifyProfileMessage(profile, _submitBtn)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tus datos', function(){
+      return Pard.Widgets.ModifyProfileMessage(profile, _submitBtn);
+    });
 
     var _createdWidget = _popup.render();
 
@@ -64,24 +66,27 @@
 
           reader.onloadend = function(){ // set image data as background of div
             var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
-            $('.thumbnails').empty().append(_img);
+            var _icon = $('<img>').addClass('material-icons').html('&#xE888').css({
+              'position': 'relative',
+              'bottom': '20px'
+            });
+
+            $('.thumbnails').empty().append(_img, _icon);
+
           }
           submitButton.off().on('click',function(){
             if(_filled() == true){
               data.submit();
               _callback();
               _photo.bind('cloudinarydone', function(e, data){
-                _url.push(data['result']['public_id']);
+                _url[0] = (data['result']['public_id']);
+                console.log(_url);
                 Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
               });
             }
           });
         }
       }
-    });
-
-    _photo.bind('cloudinarydone', function(e, data){
-      _url.push(data['result']['public_id']);
     });
 
     _createdWidget.append(_photo, _thumbnail);

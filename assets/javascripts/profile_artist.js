@@ -7,7 +7,9 @@
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia');
-    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('conFusión', Pard.Widgets.CallMessageArtist(profile, _submitBtn)));
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){
+      return Pard.Widgets.CallMessageArtist(profile, _submitBtn);
+    });
 
     var _createdWidget = _popup.render();
 
@@ -23,6 +25,85 @@
     var _createdWidget = $('<div>');
     var _submitForm = {};
     var _selected = 'music';
+    var _callback = {};
+    var _data = [];
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _callback();
+        Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
+      }
+    });
+
+    var _photo = $.cloudinary.unsigned_upload_tag(
+      "kqtqeksl",
+      {
+        cloud_name: 'hxgvncv7u',
+        folder: profile.user_id + '/' + profile.profile_id + '/photos'
+      }
+    );
+    var _thumbnail = $('<div>').addClass('thumbnails');
+    var _url = [];
+
+    _photo.fileupload({
+      multiple: true,
+      replaceFileInput: false,
+      add: function(e, data) {
+        var uploadErrors = [];
+        var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+
+        if (_data.length >= 3){
+          uploadErrors.push('Only three images allowed');
+        }
+        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+            uploadErrors.push('Not an accepted file type');
+        }
+        if(data.originalFiles[0]['size'] > 100000) {
+            uploadErrors.push('Filesize is too big');
+        }
+        if(uploadErrors.length > 0) {
+            alert(uploadErrors.join("\n"));
+        } else {
+          var reader = new FileReader(); // instance of the FileReader
+          reader.readAsDataURL(data.originalFiles[0]); // read the local file
+
+          _data.push(data);
+          reader.onloadend = function(){ // set image data as background of div
+            var _container = $('<span>');
+            var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
+            var _icon = $('<img>').addClass('material-icons').html('&#xE888').css({
+              'position': 'relative',
+              'bottom': '20px',
+              'cursor': 'pointer'
+            });
+
+            _icon.on('click', function(){
+              _data.splice(_data.indexOf(data), 1);
+              _container.empty();
+            });
+
+            _container.append(_img, _icon);
+            $('.thumbnails').append(_container);
+          }
+          submitButton.off().on('click',function(){
+            if(_filled() == true){
+              _callback();
+              _data.forEach(function(photo){
+                photo.submit();
+              });
+            }
+          });
+        }
+      }
+    });
+
+    _photo.bind('cloudinarydone', function(e, data){
+      console.log(data['result']);
+      _url.push(data['result']['public_id']);
+      if(_url.length == _data.length) Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
+    });
+
+    _createdWidget.append(_photo, _thumbnail);
 
     _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
     _submitForm['profile_id'] = profile.profile_id;
@@ -77,12 +158,7 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        submitButton.on('click',function(){
-          if(_filled() == true){
-            Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
-            callback();
-          }
-        })
+        _callback = callback;
       }
     }
   }
@@ -93,7 +169,9 @@
 
     callProposals.forEach(function(proposal){
       var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['title']);
-      _createdWidget.append(Pard.Widgets.PopupCreator(_proposalBtn.render(), Pard.Widgets.PopupContent('conFusión', Pard.Widgets.MyArtistCallProposalMessage(proposal))).render());
+      _createdWidget.append(
+        Pard.Widgets.PopupCreator(_proposalBtn.render(), 'conFusión', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal);
+        }).render());
     });
 
     return {
@@ -180,8 +258,5 @@
       }
     }
   }
-
-
-
 
 }(Pard || {}));
