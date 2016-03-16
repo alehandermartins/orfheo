@@ -21,6 +21,8 @@
 
   ns.Widgets.CallMessageSpace= function(profile, submitButton){
 
+    console.log(profile);
+
     var _createdWidget = $('<div>');
     var _submitForm = {};
     _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
@@ -40,15 +42,15 @@
     var _filled = function(){
       for (var field in _form){;
         if ($.inArray(field, _requiredFields) >= 0 ){
-          if(_form[field].getVal().length == 0) return false;
+          if(_form[field].input.getVal().length == 0) return false;
         }
       }
-      return _form['conditions'].getVal();
+      return _form['conditions'].input.getVal();
     };
 
     var _getVal = function(){
       for(var field in _form){
-         _submitForm[field] = _form[field].getVal();
+         _submitForm[field] = _form[field].input.getVal();
       };
       return _submitForm;
     }
