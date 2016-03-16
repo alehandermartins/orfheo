@@ -27,8 +27,8 @@ class ProfilesController < BaseController
 
   post '/users/modify_proposal' do
     check_proposal params[:proposal_id]
-    modify_proposal params
-    success({profile_id: params[:profile_id]})
+    proposal = modify_proposal params
+    success({proposal: proposal, profile_id: params[:profile_id]})
   end
 
   #poner bangs en excepciones

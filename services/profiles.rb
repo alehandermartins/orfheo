@@ -37,9 +37,9 @@ module Services
       def modify_proposal params, user_id
         proposal = ArtistProposal.new params, user_id
         raise Pard::Invalid::Params if proposal.wrong_params?
-        destroy_old_pictures proposal
-        # primero guardo y luego destruyo
         Repos::Profiles.modify_proposal proposal.to_h
+        destroy_old_pictures proposal
+        proposal.to_h
       end
 
       def exists? profile_id
