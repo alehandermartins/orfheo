@@ -8,7 +8,7 @@
 
      var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia');
-    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('conFusión', Pard.Widgets.CallMessageSpace(profile, _submitBtn)));
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){return Pard.Widgets.CallMessageSpace(profile, _submitBtn)});
 
     var _createdWidget = _popup.render();
 
@@ -75,7 +75,7 @@
     
     proposals.forEach(function(proposal){
      var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['title']);
-      _createdWidget.append(Pard.Widgets.PopupCreator(_proposalBtn.render(), Pard.Widgets.PopupContent('conFusión', Pard.Widgets.MySpaceCallProposalMessage(proposal))).render());
+      _createdWidget.append(Pard.Widgets.PopupCreator(_proposalBtn.render(), 'conFusión',  function(){return Pard.Widgets.MySpaceCallProposalMessage(proposal)}).render());
     });
    
     return {

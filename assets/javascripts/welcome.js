@@ -123,7 +123,6 @@
     var _createdWidget = $('<form>').addClass('input-login') .attr({autocomplete:'on'}) ;
     // .attr({autocomplete:'on',method: 'post', target: 'remember', action: '/content/blank'});
     var _emailRecovery = $('<div>').addClass('passwdRecovery');
-    var _recoveryPasswdMessage =  Pard.Widgets.RecoveryMessage();
     var _caller = $('<a>').attr('href','#').text('Recuperar contraseña');
 
     // var _iframe = $('iframe').attr({id: 'remember', name: 'remember', src: '/content/blank'}).css({display: 'none'});
@@ -134,7 +133,7 @@
         Pard.Events.Login
       )});
 
-    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Recuperar contraseña', _recoveryPasswdMessage));
+    var _popup = Pard.Widgets.PopupCreator(_caller,'Recuperar contraseña', function(){return _recoveryPasswdMessage()});
 
     _emailRecovery.append(_popup.render());
 

@@ -56,7 +56,7 @@
 
     var _signUpMessage =  Pard.Widgets.Registration();    
     var _caller = $('<button>').attr({type:'button'}).html('Regístrate')
-    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('', _signUpMessage));
+    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return _signUpMessage});
 
     var _signUpButton = _popup.render();
     _signUpButton.addClass('signupButton');

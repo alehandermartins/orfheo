@@ -7,7 +7,7 @@
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica el perfil');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('OK');
-    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Modifica tus datos', Pard.Widgets.ModifyProfileMessage(profile, _submitBtn)));
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tus datos', function(){Pard.Widgets.ModifyProfileMessage(profile, _submitBtn)});
 
     var _createdWidget = _popup.render();
 
@@ -147,7 +147,7 @@
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('OK');
-    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Modifica tu producción', Pard.Widgets.ModifyProductionMessage(proposal, profile_id, sectionContent, _submitBtn)));
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal, profile_id, sectionContent, _submitBtn)});
 
     var _createdWidget = _popup.render();
 
