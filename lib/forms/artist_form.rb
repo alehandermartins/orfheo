@@ -34,6 +34,11 @@ class ArtistForm
           category: 'all'
         },
         {
+          name: 'photos',
+          type: 'optional',
+          category: 'all'
+        },
+        {
           name: 'links',
           type: 'optional',
           category: 'all'

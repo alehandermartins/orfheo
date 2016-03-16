@@ -25,6 +25,7 @@
     var _createdWidget = $('<div>');
     var _submitForm = {};
     var _callback = {};
+    var _data = [];
 
     submitButton.on('click',function(){
       if(_filled() == true){
@@ -49,7 +50,7 @@
         var uploadErrors = [];
         var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
 
-        if (_url.length >= 1){
+        if (_data.length >= 1){
           uploadErrors.push('Only one image allowed');
         }
         if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
@@ -64,29 +65,41 @@
           var reader = new FileReader(); // instance of the FileReader
           reader.readAsDataURL(data.originalFiles[0]); // read the local file
 
+          _data.push(data);
           reader.onloadend = function(){ // set image data as background of div
+            var _container = $('<span>');
             var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
             var _icon = $('<img>').addClass('material-icons').html('&#xE888').css({
               'position': 'relative',
-              'bottom': '20px'
+              'bottom': '20px',
+              'cursor': 'pointer'
             });
 
-            $('.thumbnails').empty().append(_img, _icon);
+            _icon.on('click', function(){
+              _data.splice(_data.indexOf(data), 1);
+              _container.empty();
+            });
+
+            _container.append(_img, _icon);
+            $('.thumbnails').append(_container);
 
           }
           submitButton.off().on('click',function(){
             if(_filled() == true){
               data.submit();
               _callback();
-              _photo.bind('cloudinarydone', function(e, data){
-                _url[0] = (data['result']['public_id']);
-                console.log(_url);
-                Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
+              _data.forEach(function(photo){
+                photo.submit();
               });
             }
           });
         }
       }
+    });
+
+    _photo.bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+      Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
     });
 
     _createdWidget.append(_photo, _thumbnail);

@@ -98,7 +98,6 @@
     });
 
     _photo.bind('cloudinarydone', function(e, data){
-      console.log(data['result']);
       _url.push(data['result']['public_id']);
       if(_url.length == _data.length) Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
     });
@@ -150,6 +149,7 @@
       for(var field in _form){
          _submitForm[field] = _form[field].getVal();
       };
+      _submitForm['photos'] = _url;
       return _submitForm;
     }
 
@@ -245,11 +245,21 @@
 
     for(var field in proposal){
       if(proposal[field] != null){
-        if(proposal[field].length != 0 && field != 'proposal_id') {
+        if(proposal[field].length != 0 && field != 'proposal_id' && field != 'photos') {
           var _newField = $('<div>').text(field+': '+proposal[field]);
           _createdWidget.append(_newField);
         }
       }
+    }
+    console.log(proposal);
+
+    if('photos' in proposal && proposal.photos != null){
+      proposal.photos.forEach(function(photo){
+        var _photo = $.cloudinary.image(photo,
+          { format: 'jpg', width: 50, height: 50,
+            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+        _createdWidget.append(_photo);
+      });
     }
 
     return {
