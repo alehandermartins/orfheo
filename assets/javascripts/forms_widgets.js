@@ -273,10 +273,10 @@
        autocomplete = new google.maps.places.Autocomplete(
         (document.getElementById('place_address_autocomplete')),
         {types: ['address']});
-      autocomplete.addListener('place_changed', FillInAddress);
+      autocomplete.addListener('place_changed', function(){FillInAddress(autocomplete)});
     }
 
-    FillInAddress = function() {
+    FillInAddress = function(autocomplete) {
       var place = autocomplete.getPlace();
 
       for (var component in _inputForm) {
@@ -354,6 +354,7 @@
   //     }
   //   }
   // }
+
   ns.Widgets.AddWebField = function(inputWeb, entries){
     var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Sito Web, Facebook, Blog, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
@@ -365,6 +366,16 @@
 
     entries.push(_inputsObj);
 
+
+    var _deleteBtn = Pard.Widgets.Button('-', function(){
+      _webFieldAdded.empty();
+      entries.pop();
+    });
+
+  	var _webFieldAdded = $('<div>').append(_inputsObj['web_title'].render(), _inputsObj['link'].render(), _deleteBtn.render());
+
+  	inputWeb.append(_webFieldAdded);
+  	
     return {
       render: function(){
         return entries
@@ -455,7 +466,7 @@
       _entries = Pard.Widgets.AddWebField(_inputWeb, _entries).render();
     });
 
-     var _deleteBtn = Pard.Widgets.Button('-', function(){
+    var _deleteBtn = Pard.Widgets.Button('-', function(){
       _webFieldAdded.empty();
       _entries.pop();
     });
@@ -565,7 +576,7 @@
         return _createdWidget;
       },
       getVal: function(){
-        return Pard.Widgets.WebFilled(entry);
+        return Pard.Widgets.WebFilled(_entries);
       },
       setVal: function(_val){
         for(var field in _val) {_entries[field] = _val[field];}
