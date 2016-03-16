@@ -323,7 +323,11 @@
         return addressValue();
       },
       setVal: function(_val){
-        for(var field in _inputForm) _inputForm[field] = _val[field];
+        for(var field in _inputForm) {
+        	_inputForm[field].enable();
+        	_inputForm[field].setVal(_val[field]);
+        	$(document).ready(function(){AutocompleteFunction()});
+        }
       }
     }
   }
