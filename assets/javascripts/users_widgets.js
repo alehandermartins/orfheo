@@ -31,11 +31,17 @@
     var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#'));
     var _modifyPassword = $('<li>').append(Pard.Widgets.ModifyPassword().render().attr('href','#'));
 		_menu.append(_modifyPassword, _logout);
-		var _menuContainer = $('<ul>').addClass('dropdown menu');
-		var _iconDropdownMenu = $('<li>').append($('<a>').attr('href','#').append($('<span>').html('&#xE8B8;').addClass('material-icons')),_menu);
+		var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
+		var _iconDropdownMenu = $('<li>').append(
+      $('<a>').attr('href','#').append(
+        $('<span>').html('&#xE8B8;').addClass('material-icons')
+        )
+      ,_menu
+    );
 
     _menuContainer.append(_iconDropdownMenu);
-		new Foundation.DropdownMenu(_menuContainer,{disableHover:true,clickOpen:true});
+    
+		// new Foundation.DropdownMenu(_menuContainer,{disableHover:true,clickOpen:true});
     
     _topBarRight.append(_menuContainer);
 
