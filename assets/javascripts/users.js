@@ -12,7 +12,7 @@
 
     var _createdWidget = _popup.render();
 
-    
+
     return {
       render: function(){
         return _createdWidget;
@@ -26,7 +26,7 @@
     var _createdWidget = $('<div>');
     profiles.forEach(function(profile){
       _createdWidget.append(Pard.Widgets.CreateCard(profile).render().attr('href', '/users/profiles/' + profile['profile_id']).addClass('myprofile-card-position'))});
- 
+
     return {
       render: function(){
         return _createdWidget;
@@ -74,6 +74,7 @@
       setCallback: function(callback){
         submitButton.on('click',function(){
           if(_profileForm.filled() == true){
+            console.log(_profileForm.getVal());
             Pard.Backend.createProfile(_profileForm.getVal(), Pard.Events.CreateProfile);
             callback();
           }
@@ -121,7 +122,7 @@
       _createdWidget.append(
         _form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render()
-      )  
+      )
     }
 
     return {
@@ -153,7 +154,7 @@
       _createdWidget.append(
         _form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render()
-      )  
+      )
     }
 
 
@@ -176,10 +177,10 @@
   }
 
 
-  
 
 
-  
+
+
   // ns.Widgets.CreateProfileMessageOriginal = function(){
   //   _createdWidget = $('<div>');
 

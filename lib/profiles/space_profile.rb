@@ -40,20 +40,18 @@ class SpaceProfile
       profile_id: params[:profile_id] || SecureRandom.uuid,
       type: params[:type],
       name: params[:name],
-      city: params[:city],
       address: params[:address],
-      zip_code: params[:zip_code],
       category: params[:category],
       color: params[:color],
       profile_picture: params[:profile_picture],
       photos: params[:photos],
       bio: params[:bio],
-      personal_web: params[:personal_web]
+      links: params[:personal_web]
     }
   end
 
   def check_fundamentals
-    [:name, :city, :address, :zip_code].any?{ |field|
+    [:name, :address].any?{ |field|
       (profile[field].nil? || profile[field].empty?)
     }
   end
