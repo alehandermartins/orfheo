@@ -90,11 +90,11 @@
   }
 
 
-  ns.Widgets.ModifyProduction = function(proposal){
+  ns.Widgets.ModifyProduction = function(proposal, profile_id, sectionContent){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('OK');
-    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Modifica tu producción', Pard.Widgets.ModifyProductionMessage(proposal, _submitBtn)));
+    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Modifica tu producción', Pard.Widgets.ModifyProductionMessage(proposal, profile_id, sectionContent, _submitBtn)));
 
     var _createdWidget = _popup.render();
 
@@ -105,12 +105,13 @@
     }
   }
 
-  ns.Widgets.ModifyProductionMessage = function(proposal, submitButton){
+  ns.Widgets.ModifyProductionMessage = function(proposal, profile_id, sectionContent, submitButton){
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
 
     _submitForm['proposal_id'] = proposal.proposal_id;
+    _submitForm['profile_id'] = profile_id;
 
 
     var _form = Pard.Forms.ArtisticProduction();
@@ -151,7 +152,9 @@
       setCallback: function(callback){
         submitButton.on('click',function(){
           if(_filled() == true){
-            Pard.Backend.modifyProduction(_getVal(), Pard.Events.ModifyProduction);
+            Pard.Backend.modifyProduction(_getVal(), function(data){
+              Pard.Events.ModifyProduction(data, sectionContent);
+            });
             callback();
           }
         });

@@ -55,9 +55,10 @@
   };
 
 
-  ns.Events.ModifyProduction = function(data){
+  ns.Events.ModifyProduction = function(data, sectionContent){
     if (data['status'] == 'success'){
-         document.location = '/users/profiles/' + data['profile_id'];
+      console.log(data);
+         Pard.Widgets.ArtistProductionSectionContent(data.proposal, data.profile_id, sectionContent);
     }
     else{
       Pard.Widgets.Alert('Error', data.reason);

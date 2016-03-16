@@ -73,7 +73,7 @@
     var _proposals = [];
     if (profile.proposals) _proposals = profile.proposals;
     _proposals.forEach(function(proposal, index) {
-    	 productionContent.append($('<div>').append($('<a>').text(proposal['title']).click(function(){Pard.Widgets.ArtistProductionSectionContent(proposal, sectionContent)})));
+    	 productionContent.append($('<div>').append($('<a>').text(proposal['title']).click(function(){Pard.Widgets.ArtistProductionSectionContent(proposal, profile.profile_id, sectionContent)})));
     });
 
     return {
@@ -166,11 +166,11 @@
   }
 
 
-  ns.Widgets.ArtistProductionSectionContent = function(proposal, sectionContent) {
+  ns.Widgets.ArtistProductionSectionContent = function(proposal, profile_id, sectionContent) {
     
     sectionContent.empty();
 
-    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal).render(), Pard.Widgets.ModifyProduction(proposal).render());
+    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal).render(), Pard.Widgets.ModifyProduction(proposal, profile_id, sectionContent).render());
 
     // return{
     //   render: function(){
