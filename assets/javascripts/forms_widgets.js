@@ -273,10 +273,10 @@
        autocomplete = new google.maps.places.Autocomplete(
         (document.getElementById('place_address_autocomplete')),
         {types: ['address']});
-      autocomplete.addListener('place_changed', function(){FillInAddress(autocomplete)});
+      autocomplete.addListener('place_changed', function(){FillInAddress(autocomplete, _inputForm)});
     }
 
-    FillInAddress = function(autocomplete) {
+    FillInAddress = function(autocomplete, _inputForm) {
       var place = autocomplete.getPlace();
 
       for (var component in _inputForm) {
@@ -290,6 +290,7 @@
           if (componentForm[addressType]) {
             var val = place.address_components[i][componentForm[addressType]];
             _inputForm[addressType].setVal(val);
+            _inputForm[addressType].removeWarning();
           }
         }
       }
@@ -576,7 +577,7 @@
         return _createdWidget;
       },
       getVal: function(){
-        return Pard.Widgets.WebFilled(_entries);
+        return Pard.Widgets.WebFilled(_entries[0]);
       },
       setVal: function(_val){
         for(var field in _val) {_entries[field] = _val[field];}

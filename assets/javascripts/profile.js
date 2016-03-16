@@ -4,6 +4,7 @@
 
 
   ns.Widgets.ModifyProfile = function(profile){
+    console.log(profile);
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica el perfil');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('OK');
