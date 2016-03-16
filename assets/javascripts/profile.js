@@ -99,7 +99,7 @@
 
     _photo.bind('cloudinarydone', function(e, data){
       _url.push(data['result']['public_id']);
-      Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
+      Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
     });
 
     _createdWidget.append(_photo, _thumbnail);
