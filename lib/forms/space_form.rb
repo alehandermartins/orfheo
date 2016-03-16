@@ -4,6 +4,11 @@ class SpaceForm
     def fields
       [
         {
+          name: 'responsible',
+          type: 'mandatory',
+          category: 'all'
+        },
+        {
           name: 'phone',
           type: 'mandatory',
           category: 'all'
@@ -30,6 +35,11 @@ class SpaceForm
         },
         {
           name: 'sharing',
+          type: 'optional',
+          category: 'all'
+        },
+        {
+          name: 'un_wanted',
           type: 'optional',
           category: 'all'
         }
