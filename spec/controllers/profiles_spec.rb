@@ -178,11 +178,12 @@ describe ProfilesController do
 
     it 'modifies a proposal' do
       post create_proposal_route, proposal
-      expect(Services::Profiles).to receive(:modify_proposal).with(Util.stringify_hash(proposal), user_id)
+      expect(Services::Profiles).to receive(:modify_proposal).with(Util.stringify_hash(proposal), user_id).and_return(proposal)
 
       post modify_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
+      expect(parsed_response['proposal']).to eq(Util.stringify_hash(proposal))
     end
   end
 
