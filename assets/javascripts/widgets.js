@@ -4,7 +4,7 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
-  
+
   ns.Widgets.Alert = function(title, content, callback){
 
     var _content = $('<div>').addClass('very-fast reveal tiny');
@@ -134,70 +134,6 @@
     }
   }
 
-  ns.Widgets.Cloudinary = function(maxAmount, folder){
-    var _createdWidget = $('<div>');
-    var _thumbnail = $('<span>').addClass('thumbnails');
-    var _url = [];
-
-    _cloudinary = $.cloudinary.unsigned_upload_tag(
-      "kqtqeksl",
-      {
-        cloud_name: 'hxgvncv7u',
-        folder: folder
-      }
-    );
-
-    _cloudinary.fileupload({
-      replaceFileInput: false,
-      add: function(e, data) {
-        var uploadErrors = [];
-        var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
-
-        if (_url.length >= maxAmount){
-          uploadErrors.push('Only one image allowed');
-        }
-        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
-            uploadErrors.push('Not an accepted file type');
-        }
-        if(data.originalFiles[0]['size'] > 100000) {
-            uploadErrors.push('Filesize is too big');
-        }
-        if(uploadErrors.length > 0) {
-            alert(uploadErrors.join("\n"));
-        } else {
-            data.submit();
-        }
-      }
-    });
-
-    _cloudinary.bind('cloudinarydone', function(e, data){
-      console.log(data['result']['public_id']);
-      _url.push(data['result']['public_id']);
-      $('.thumbnails').append($.cloudinary.image(data.result.public_id,
-        { format: 'jpg', width: 50, height: 50,
-        crop: 'thumb', gravity: 'face', effect: 'saturation:50' })
-      );
-    });
-
-    _createdWidget.append(_cloudinary, _thumbnail);
-
-    //.bind('fileuploadchange', function() { $(this).hide()})
-
-    // .bind('cloudinaryprogress', function(e, data){
-    // $('.progress_bar').css('width',
-    //   Math.round((data.loaded * 100.0) / data.total) + '%');
-    // });
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      get_url: function(){
-        return _url;
-      }
-    }
-  }
-
-
   ns.Widgets.Sticker = function (elem, distanceFromHeader, stickyDistanceTop) {
 
     var _diffI = 1;
@@ -284,9 +220,9 @@
     _offCanvasSection.append(sectionContent(profiles, _sectionContent).render());
 
     _offCanvasAside.append(asideContent(profiles, _sectionContent).render());
-   
+
     _aside.append(_offCanvasAside);
-    _section.append(_offCanvasSection);    
+    _section.append(_offCanvasSection);
     _offCanvasInner.append(_aside, _gridSpacing, _section);
 
     _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));

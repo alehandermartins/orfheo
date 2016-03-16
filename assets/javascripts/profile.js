@@ -22,10 +22,69 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
-    
-    var _photo = Pard.Widgets.Cloudinary(1, profile.user_id + '/' + profile.profile_id + '/profile_picture');
+    var _callback = {};
 
-    _createdWidget.append(_photo.render());
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _callback();
+        Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
+      }
+    });
+
+    var _photo = $.cloudinary.unsigned_upload_tag(
+      "kqtqeksl",
+      {
+        cloud_name: 'hxgvncv7u',
+        folder: profile.user_id + '/' + profile.profile_id + '/profile_picture'
+      }
+    );
+    var _thumbnail = $('<div>').addClass('thumbnails');
+    var _url = [];
+
+    _photo.fileupload({
+      replaceFileInput: false,
+      add: function(e, data) {
+        var uploadErrors = [];
+        var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+
+        if (_url.length >= 1){
+          uploadErrors.push('Only one image allowed');
+        }
+        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+            uploadErrors.push('Not an accepted file type');
+        }
+        if(data.originalFiles[0]['size'] > 100000) {
+            uploadErrors.push('Filesize is too big');
+        }
+        if(uploadErrors.length > 0) {
+            alert(uploadErrors.join("\n"));
+        } else {
+          var reader = new FileReader(); // instance of the FileReader
+          reader.readAsDataURL(data.originalFiles[0]); // read the local file
+
+          reader.onloadend = function(){ // set image data as background of div
+            var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
+            $('.thumbnails').empty().append(_img);
+          }
+          submitButton.off().on('click',function(){
+            if(_filled() == true){
+              data.submit();
+              _callback();
+              _photo.bind('cloudinarydone', function(e, data){
+                _url.push(data['result']['public_id']);
+                Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
+              });
+            }
+          });
+        }
+      }
+    });
+
+    _photo.bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+    });
+
+    _createdWidget.append(_photo, _thumbnail);
 
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
@@ -47,7 +106,7 @@
     var _filled = function(){
       for (field in _form){
         if ($.inArray(field, _requiredFields) >= 0){
-          if(!(_form[field].getVal())) return false;
+          if(!(_form[field].input.getVal())) return false;
         }
       }
       return true;
@@ -55,10 +114,9 @@
 
     var _getVal = function(){
       for(var field in _form){
-         _submitForm[field] = _form[field].getVal();
+         _submitForm[field] = _form[field].input.getVal();
       };
-      if(_photo.get_url()) _submitForm['profile_picture'] = _photo.get_url();
-      // .length != 0
+      _submitForm['profile_picture'] = _url;
       return _submitForm;
     }
 
@@ -67,12 +125,7 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        submitButton.on('click',function(){
-          if(_filled() == true){
-            Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
-            callback();
-          }
-        });
+        _callback = callback;
       }
     }
   }
