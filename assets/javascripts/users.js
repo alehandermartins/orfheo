@@ -8,7 +8,7 @@
   ns.Widgets.CreateProfile = function(){
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
     var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Crea');
-    var _popup = Pard.Widgets.PopupCreator(_caller, Pard.Widgets.PopupContent('Crea un nuevo perfil', Pard.Widgets.CreateProfileMessage(_submitBtn)));
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un nuevo perfil', function(){ return Pard.Widgets.CreateProfileMessage(_submitBtn)});
 
     var _createdWidget = _popup.render();
 

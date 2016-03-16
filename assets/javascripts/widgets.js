@@ -32,22 +32,26 @@
   };
 
 
-  ns.Widgets.PopupCreator = function(caller, message){
+  ns.Widgets.PopupCreator = function(caller, title, message){
 
     var _content = $('<div>').addClass('very-fast reveal small');
-
-    _content.append(message.render());
 
     var _popup = new Foundation.Reveal(_content, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
 
     var _popupCaller = caller;
-    _popupCaller.on('click', function(){
-      _popup.open();
+
+
+    _popupCaller.one('click', function(){
+      $('body').append(_content);
     });
 
-    message.setCallback(function(){_popup.close()});
-
-    $(document).ready($('body').append(_content));
+    _popupCaller.on('click', function(){
+      _content.empty()
+      var _message = Pard.Widgets.PopupContent(title, message())
+      _message.setCallback(function(){_popup.close()});
+      _content.append(_message.render());
+      _popup.open();
+    });
 
     return {
       render: function(){
