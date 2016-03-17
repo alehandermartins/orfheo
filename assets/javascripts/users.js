@@ -7,15 +7,12 @@
 
   ns.Widgets.CreateProfile = function(){
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Crea');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un nuevo perfil', function(){ return Pard.Widgets.CreateProfileMessage(_submitBtn)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage()});
 
-    var _createdWidget = _popup.render();
-
-
+   
     return {
       render: function(){
-        return _createdWidget;
+        return _caller;
       }
     }
   }
@@ -36,31 +33,66 @@
 
 
 
-    ns.Widgets.CreateProfileMessage = function(submitButton){
+  ns.Widgets.CreateTypeProfile = function(type){
+
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
+    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Crea');
+    var _title = {
+      artist: 'Perfil de artista',
+      space: 'Perfil de espacio'
+    }
+    var _popup = Pard.Widgets.PopupCreator(_caller, _title[type], function(){ return Pard.Widgets.CreateTypeProfileMessage(type, _submitBtn)});
+
+    var _createdWidget = _popup.render();
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.CreateProfileMessage = function(){
+
     var _createdWidget = $('<div>');
+
+    var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render().text('crea un perfil espacio');
+    var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().text('crea un perfil artista');
+
+    _createdWidget.append(_artistButton, _spaceButton);
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _spaceButton.on('click',function(){
+            callback();
+        });
+        _artistButton.on('click',function(){
+            callback();
+        });
+      }
+    }
+  }
+
+  ns.Widgets.CreateTypeProfileMessage = function(type, submitButton){
+
+    var _createdWidget = $('<div>');
+    
     var _content = $('<div>');
     var _btnContainer = $('<div>');
     var _invalidInput = $('<div>');
-    var _fields = {};
-
+   
     var _profileForm = Pard.Widgets.ProfileForm();
 
-    _artistButton = Pard.Widgets.Button('Artista', function(){
-      _content.empty();
-      _content.append(_profileForm.getForm('artist'), submitButton);
-      if (!(_btnContainer.html())) _btnContainer.append(submitButton);
-    });
+    _content.append(_profileForm.getForm(type))
+    _btnContainer.append(submitButton);
 
-    _spaceButton = Pard.Widgets.Button('Espacio', function(){
-      _content.empty();
-      _content.append(_profileForm.getForm('space'))
-      if (!(_btnContainer.html())) _btnContainer.append(submitButton);
-    });
+    _createdWidget.append(_content, _btnContainer, _invalidInput);
 
-
-    _createdWidget.append(_artistButton.render(), _spaceButton.render(), _content, _btnContainer, _invalidInput);
-
-
+    
     return {
       render: function(){
         return _createdWidget;
@@ -175,44 +207,5 @@
       }
     }
   }
-
-
-
-
-
-
-  // ns.Widgets.CreateProfileMessageOriginal = function(){
-  //   _createdWidget = $('<div>');
-
-  //   var _content = $('<div>');
-  //   var _invalidInput = $('<div>');
-  //   var _fields = {};
-
-  //   var _profileForm = Pard.Widgets.ProfileForm();
-
-  //   _artistButton = Pard.Widgets.Button('Artista', function(){
-  //     _content.empty();
-  //     _content.append(_profileForm.getForm('artist'));
-  //   });
-
-  //   _spaceButton = Pard.Widgets.Button('Espacio', function(){
-  //     _content.empty();
-  //     _content.append(_profileForm.getForm('space'));
-  //   });
-
-  //   _createdWidget.append(_artistButton.render(), _spaceButton.render(), _content, _invalidInput);
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     },
-  //     callback: function(){
-  //       if(_profileForm.filled() == true) Pard.Backend.createProfile(_profileForm.getVal(), Pard.Events.CreateProfile);
-  //       else{
-  //         return false;
-  //       }
-  //     }
-  //   }
-  // }
 
 }(Pard || {}));

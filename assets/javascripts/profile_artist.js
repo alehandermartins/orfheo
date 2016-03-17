@@ -112,7 +112,7 @@
     var _content = $('<div>');
     var _form = Pard.Forms.ArtistCall(_selected).render();
 
-    // _form['components']['input'] = _form['components']['input'].setAttr('min','1');
+    _form['components']['input'].setAttr('min','1');
 
     for(var field in _form){
       console.log(field)
