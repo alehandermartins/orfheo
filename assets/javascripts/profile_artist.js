@@ -113,7 +113,9 @@
     var _form = Pard.Forms.ArtistCall(_selected).render();
 
     for(var field in _form){
-        _content.append(_form[field].render());
+      console.log(field)
+      console.log(_form[field])
+        _content.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render());
       };
     var _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
 
@@ -189,11 +191,11 @@
     var _form = Pard.Forms.ArtistCall(callProposals.category).render();
 
     for(var field in _form){
-      if(callProposals[field]) _form[field].setVal(callProposals[field]);
+      if(callProposals[field]) _form[field]['input'].setVal(callProposals[field]);
     };
 
     for(var field in _form){
-      _createdWidget.append(_form[field].render());
+      _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()), _form[field]['helptext'].render());
     };
 
     var _closeBtn = Pard.Widgets.Button('Cierra').render();

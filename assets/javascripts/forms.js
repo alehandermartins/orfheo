@@ -422,7 +422,7 @@
     };
     _form['children'] = {
       label: Pard.Widgets.InputLabel(''),
-      input: Pard.Widgets.CheckBox('Actividad para un publico infantil', 'yes_children');
+      input: Pard.Widgets.CheckBox('Actividad para un publico infantil', 'yes_children'),
       helptext: Pard.Widgets.HelpText('')
     };
     //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
@@ -438,7 +438,7 @@
     };
     _form['needs'] = { 
       label: Pard.Widgets.InputLabel('Necesidades'),
-      input: Pard.Widgets.TextArea('');
+      input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Indicar si se tienen especiales necesidades técnicas y de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y que no podrá hacerse cargo del material necesario para cada actuacción.')
     };
     _form['repeat'] = {
