@@ -397,7 +397,8 @@
     };
     _form['short_description'] = { 
       label: Pard.Widgets.InputLabel('Decripción (muy) breve'),
-      input: Pard.Widgets.Input('', 'text').setAttr('maxlength','80'),
+      input: Pard.Widgets.Input('', 'text'),
+      // .setAttr('maxlength','80'),
       helptext: Pard.Widgets.HelpText('Máximo 80 caracteres! Es la descripción que aparecerá en el programa de mano del festival.')
     };
    	_form['duration'] = {
@@ -407,7 +408,8 @@
     };
     _form['components'] = {
       label: Pard.Widgets.InputLabel('Numero de integrantes'),
-      input: Pard.Widgets.Input('', 'number').setAttr('min','0'),
+      input: Pard.Widgets.Input('', 'number'),
+      // .setAttr('min','1'),
       helptext: Pard.Widgets.HelpText('Numero de personas que llevan la actividad/espectaculo.')
     };
     _form['meters'] = {

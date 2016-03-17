@@ -191,7 +191,6 @@
 
     for(var field in _form){
       if(proposal[field]) _form[field]['input'].setVal(proposal[field]);
-      console.log(_form[field]['input'].setVal(''));
     };
 
     for(var field in _form){
