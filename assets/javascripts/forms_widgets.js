@@ -112,11 +112,8 @@
       setClass: function(_class){
         _input.addClass(_class);
       },
-      disable: function(){
-        _input.attr('disabled',true);
-      },
-      enable: function(){
-        _input.attr('disabled',false);
+      setAttr: function(attribute, value){
+        _input.attr(attribute,value);
       }
     }
   };
@@ -281,7 +278,7 @@
 
       for (var component in _inputForm) {
         _inputForm[component].setVal('');
-        _inputForm[component].enable();
+        _inputForm[component].setAttr('disabled', false);
       }  
 
       if (place.address_components){
@@ -324,7 +321,7 @@
       },
       setVal: function(_val){
         for(var field in _inputForm) {
-        	_inputForm[field].enable();
+        	_inputForm[field].setAttr('disabled', false);
         	_inputForm[field].setVal(_val[field]);
         }
       }
