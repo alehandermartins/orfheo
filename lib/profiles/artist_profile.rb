@@ -12,11 +12,8 @@ class ArtistProfile
     check_fundamentals
   end
 
-  def image_folders
-    [{
-      address: profile[:user_id] + '/' + uuid + '/profile_picture',
-      field: :profile_picture
-    }]
+  def image_fields
+    [:profile_picture]
   end
 
   def uuid

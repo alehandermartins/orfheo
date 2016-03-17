@@ -122,6 +122,17 @@ describe Repos::Profiles do
     end
   end
 
+  describe 'Old pictures' do
+    it 'gives the stored pictures for profiles' do
+      expect(Repos::Profiles.profile_old_pictures profile_id, :profile_picture).to eq(['profile.jpg'])
+    end
+
+    it 'gives the stored pictures for proposals' do
+      Repos::Profiles.add_proposal(profile_id, proposal)
+      expect(Repos::Profiles.proposal_old_pictures proposal_id, :photos).to eq(['picture.jpg', 'otter_picture.jpg'])
+    end
+  end
+
   describe 'Get Profiles' do
 
     let(:my_otter_profile){

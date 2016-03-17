@@ -127,12 +127,6 @@ describe ProfilesController do
 
     it 'modifies the desired parameters' do
       post create_profile_route, profile
-      cloudinary_params = {
-        type: 'upload',
-        prefix: user_id + '/' + profile_id + '/profile_picture'
-      }
-      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
-
       expect(Services::Profiles).to receive(:modify).with(Util.stringify_hash(profile), user_id).and_return(profile_id)
       post modify_profile_route, profile
       expect(parsed_response['status']).to eq('success')

@@ -39,11 +39,33 @@ module Repos
         @@profiles_collection.count(query: {"proposals.proposal_id": proposal_id}) > 0
       end
 
+      def profile_old_pictures profile_id, field
+        profile = grab({profile_id: profile_id}).first
+        return [] unless profile.has_key? field
+        profile[field]
+      end
+
+      def proposal_old_pictures proposal_id, field
+        profile = grab({"proposals.proposal_id": proposal_id}).first
+        proposal = profile[:proposals].select{|proposal| proposal[:proposal_id] == proposal_id}.first
+        return [] unless proposal.has_key? field
+        proposal[field]
+      end
+
       def get_profiles method, args = nil
         Scout.get(method, args)
       end
 
       private
+      def grab query
+        results = @@profiles_collection.find(query)
+        return [] unless results.count > 0
+
+        results.map { |profile|
+         Util.string_keyed_hash_to_symbolized profile
+        }
+      end
+
       class Scout < Profiles
         class << self
           def get method, args
@@ -81,15 +103,6 @@ module Repos
           def sort_profiles profiles, profile_id
             index = profiles.index{|profile| profile[:profile_id] == profile_id}
             profiles.insert(0, profiles.delete_at(index))
-          end
-
-          def grab query
-            results = @@profiles_collection.find(query)
-            return [] unless results.count > 0
-
-            results.map { |profile|
-             Util.string_keyed_hash_to_symbolized profile
-            }
           end
         end
       end

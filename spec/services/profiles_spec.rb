@@ -27,7 +27,7 @@ describe Services::Profiles do
       zip_code: 'zip_code',
       category: 'home',
       profile_picture: ['picture.jpg'],
-      photos: ['picture.jpg', 'otter_picture.jpg'],
+      photos: ['space_picture.jpg', 'otter_picture.jpg'],
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -93,6 +93,22 @@ describe Services::Profiles do
       }
     }
 
+    let(:modified_space_profile){
+      {
+        profile_id: 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb85',
+        type: 'space',
+        name: 'space_name',
+        city: 'city',
+        address: 'address',
+        zip_code: 'zip_code',
+        category: 'home',
+        profile_picture: ['otter.jpg'],
+        photos: ['otter_space_picture.jpg', 'otter_picture.jpg'],
+        bio: 'bio',
+        personal_web: 'my_web'
+      }
+    }
+
     before(:each){
       Services::Profiles.create profile, user_id
     }
@@ -111,14 +127,10 @@ describe Services::Profiles do
     end
 
     it 'deletes old images if changed' do
-      cloudinary_params = {
-        type: 'upload',
-        prefix: user_id + '/' + profile_id + '/profile_picture'
-      }
+      Services::Profiles.create space_profile, user_id
 
-      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}]})
-      expect(Cloudinary::Api).to receive(:delete_resources).with(['picture.jpg'])
-      Services::Profiles.modify modified_profile, user_id
+      expect(Cloudinary::Api).to receive(:delete_resources).with(['picture.jpg', 'space_picture.jpg'])
+      Services::Profiles.modify modified_space_profile, user_id
     end
 
     it 'updates the profile' do
@@ -179,12 +191,6 @@ describe Services::Profiles do
 
     it 'deletes old images if changed' do
       Services::Profiles.add_proposal proposal_params, user_id
-      cloudinary_params = {
-        type: 'upload',
-        prefix: user_id + '/' + profile_id + '/' + proposal_id + '/photos'
-      }
-
-      allow(Cloudinary::Api).to receive(:resources).with(cloudinary_params).and_return({'resources' => [{'public_id' => 'picture.jpg'}, {'public_id' => 'otter_picture.jpg'}]})
       expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg'])
       Services::Profiles.modify_proposal modified_proposal_params, user_id
     end

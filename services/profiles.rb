@@ -22,9 +22,9 @@ module Services
         profile = PROFILES_MAP[params[:type]].new params, user_id
         raise Pard::Invalid::ExistingProfile unless name_available? profile
         raise Pard::Invalid::Params if profile.wrong_params?
-        destroy_old_pictures profile
-        # primero guardo y luego destruyo
+        old_pictures = profile_old_pictures profile
         update profile.to_h
+        destroy_old_pictures old_pictures, profile
         profile.uuid
       end
 
@@ -37,8 +37,9 @@ module Services
       def modify_proposal params, user_id
         proposal = ArtistProposal.new params, user_id
         raise Pard::Invalid::Params if proposal.wrong_params?
+        old_pictures = proposal_old_pictures proposal
         Repos::Profiles.modify_proposal proposal.to_h
-        destroy_old_pictures proposal
+        destroy_old_pictures old_pictures, proposal
         proposal.to_h
       end
 
@@ -66,17 +67,29 @@ module Services
         Repos::Profiles.update(profile)
       end
 
-      def destroy_old_pictures element
+      def profile_old_pictures profile
+        fields = profile.image_fields
+        fields.map{ |field|
+          [field, Repos::Profiles.profile_old_pictures(profile.uuid, field)]
+        }.to_h
+      end
+
+      def proposal_old_pictures proposal
+        fields = proposal.image_fields
+        fields.map{ |field|
+          [field, Repos::Profiles.proposal_old_pictures(proposal.uuid, field)]
+        }.to_h
+      end
+
+      def destroy_old_pictures old_pictures, element
         #clase element de la que derivan profile y proposal
-        folders = element.image_folders
-        folders.each{ |folder|
-          next if element[folder[:field]].blank?
-          public_ids = Cloudinary::Api.resources(type: 'upload', prefix: folder[:address])['resources'].map{ |image| image['public_id']}
-          old_images = public_ids.reject { |public_id|
-            element[folder[:field]].include? public_id
+        unused_pictures = old_pictures.keys.map{ |field|
+          next if element[field].blank?
+          old_pictures[field].reject{ |picture|
+            element[field].include? picture
           }
-          Cloudinary::Api.delete_resources(old_images) unless old_images.blank?
-        }
+        }.compact.flatten
+        Cloudinary::Api.delete_resources(unused_pictures) unless unused_pictures.blank?
       end
     end
   end

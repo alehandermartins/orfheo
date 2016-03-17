@@ -10,15 +10,16 @@ class ArtistProposal
     check_fundamentals
   end
 
-  def image_folders
-    [{
-      address: @user_id + '/' + @profile_id + '/' + proposal[:proposal_id] + '/photos',
-      field: :photos
-    }]
+  def image_fields
+    [:photos]
   end
 
   def [] key
     proposal[key]
+  end
+
+  def uuid
+    proposal[:proposal_id]
   end
 
   def to_h

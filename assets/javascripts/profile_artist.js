@@ -71,7 +71,7 @@
           reader.onloadend = function(){ // set image data as background of div
             var _container = $('<span>');
             var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
-            var _icon = $('<img>').addClass('material-icons').html('&#xE888').css({
+            var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
               'position': 'relative',
               'bottom': '20px',
               'cursor': 'pointer'
@@ -143,15 +143,15 @@
     var _filled = function(){
       for(var field in _form){;
         if ($.inArray(field, _requiredFields) >= 0 ){
-          if(_form[field].getVal().length == 0) return false;
+          if(_form[field].input.getVal().length == 0) return false;
         }
       }
-      return _form['conditions'].getVal();
+      return _form['conditions'].input.getVal();
     };
 
     var _getVal = function(){
       for(var field in _form){
-         _submitForm[field] = _form[field].getVal();
+         _submitForm[field] = _form[field].input.getVal();
       };
       _submitForm['photos'] = _url;
       return _submitForm;
