@@ -81,6 +81,36 @@
     }
   }
 
+  ns.Widgets.TextAreaCounter = function(label, max, message){
+    var _createdWidget = $('<div>');
+    var _textarea = $('<textarea>').attr({placeholder: label, maxlength:80});
+    var _remainingCar = $('<span>').text(80).css({display: 'inline', 'font-weight':600});
+    var _counter = $('<div>').append(message, _remainingCar,'.').addClass('help-text');
+    _textarea.on('input',(function(){_remainingCar.text(max - _textarea.val().length);}));
+
+    _createdWidget.append(_textarea, _counter);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _textarea.val();
+      },
+      setVal: function(value){
+        _textarea.val(value);
+      }, 
+      setAttr: function(attribute, value){
+        _textarea.attr(attribute,value);
+      }, 
+      setClass: function(_class){
+        _textarea.addClass(_class);
+      }
+    }
+  }
+
+
+
   ns.Widgets.Input = function(label, type, oninputcallback, onchangecallback){
 
     var _input = $('<input>').attr({'type':type, 'placeholder': label});

@@ -395,69 +395,81 @@
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Cuéntanos en detalle en que constiste tu propuesta.')
     };
+    
     _form['short_description'] = { 
       label: Pard.Widgets.InputLabel('Decripción (muy) breve'),
-      input: Pard.Widgets.Input('', 'text'),
-      // .setAttr('maxlength','80'),
-      helptext: Pard.Widgets.HelpText('Máximo 80 caracteres! Es la descripción que aparecerá en el programa de mano del festival.')
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: '),
+      helptext: Pard.Widgets.HelpText('')
     };
-   	_form['duration'] = {
+   	
+    _form['duration'] = {
       label: Pard.Widgets.InputLabel('Duracción del espectaculo'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
       helptext: Pard.Widgets.HelpText('')
     };
+    
     _form['components'] = {
       label: Pard.Widgets.InputLabel('Numero de integrantes'),
       input: Pard.Widgets.Input('', 'number'),
-      // .setAttr('min','1'),
       helptext: Pard.Widgets.HelpText('Numero de personas que llevan la actividad/espectaculo.')
     };
+    _form['components']['input'].setAttr('min','1');
+
     _form['meters'] = {
       label: Pard.Widgets.InputLabel('Espacio necesario para la expo'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Indicar cuantos metros cuadrados (y precisar si verticales o horizontales) se piensan necesitar para exponer.')
     };
+    
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad'),
       input: Pard.Widgets.InputDate(''),
       helptext: Pard.Widgets.HelpText('Selecciona los días que estás disponible para tu participación en el festival.')
     };
+    
     _form['children'] = {
       label: Pard.Widgets.InputLabel(''),
       input: Pard.Widgets.CheckBox('Actividad para un publico infantil', 'yes_children'),
       helptext: Pard.Widgets.HelpText('')
     };
     //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
+    
     _form['links'] = {
       label: Pard.Widgets.InputLabel('Links a materiales online'),
       input: Pard.Widgets.InputWebs(),
       helptext: Pard.Widgets.HelpText('Añade enlaces a webs/videos/galerías de fotos/blogs/ect. relacionados con tu propuesta y da un titulo cada uno. Este material permitirá dar a conocer tu arte mejor.')
     };
+    
     _form['sharing'] = {
       label: Pard.Widgets.InputLabel('Materiales a compartir'), 
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte platica, focos de luz, etc.')
     };
+    
     _form['needs'] = { 
       label: Pard.Widgets.InputLabel('Necesidades'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Indicar si se tienen especiales necesidades técnicas y de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y que no podrá hacerse cargo del material necesario para cada actuacción.')
     };
+    
     _form['repeat'] = {
       label: Pard.Widgets.InputLabel(''),
       input: Pard.Widgets.CheckBox('Si posible, quiero repetir mi actuacción', 'yes_repeat'),
       helptext: Pard.Widgets.HelpText('')
     };
+    
     _form['waiting_list'] = {
       label: Pard.Widgets.InputLabel(''),
       input: Pard.Widgets.CheckBox('En la eventualidad, quiero quedarme en la lista de espera', 'yes_waitig_list'),
       helptext: Pard.Widgets.HelpText('')
     };
+    
     _form['phone'] = {
       label: Pard.Widgets.InputLabel('Telefono de contacto'), 
       input: Pard.Widgets.InputTel(''),
       helptext:Pard.Widgets.HelpText('Este información en ningún momento será publica. Es necesaria para que en caso de necesidad la organización del festival pueda contactar rapidamente contigo.')
     };
+    
     _form['conditions'] = {
       label: Pard.Widgets.InputLabel(''), 
       input: Pard.Widgets.CheckBox(_conditions, 'yes_conditions'),
