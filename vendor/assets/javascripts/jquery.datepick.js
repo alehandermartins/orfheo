@@ -398,7 +398,7 @@
 			rangeSelect: false,
 			rangeSeparator: ' - ',
 			multiSelect: 0,
-			multiSeparator: ',',
+			multiSeparator: ' - ',
 			onDate: null,
 			onShow: null,
 			onChangeMonthYear: null,

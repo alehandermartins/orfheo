@@ -6,7 +6,7 @@
   ns.Widgets.CallButtonArtist = function(profile){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia');
+    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envia');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){
       return Pard.Widgets.CallMessageArtist(profile, _submitBtn);
     });

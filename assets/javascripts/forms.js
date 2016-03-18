@@ -41,28 +41,7 @@
     }
   }
 
-  // ns.Forms.BasicArtistForm = function(){
-
-  // 	var _form = {};
-
-  //   _form['name'] = Pard.Widgets.Input('Nombre artistico', 'text');
-  //   _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
-  //   _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
-  //   _form['color'] = Pard.Widgets.Input('Color', 'color');
-
-  //   var _requiredFields = ['name', 'city', 'zip_code', 'color'];
-
-  //   return {
-  //     render: function(){
-  //       return _form;
-  //     },
-  //     requiredFields: function(){
-  //       return _requiredFields;
-  //     }
-  //   }
-  // }
-
-    ns.Forms.BasicSpaceForm = function(){
+  ns.Forms.BasicSpaceForm = function(){
 
     var _form = {};
 
@@ -80,25 +59,6 @@
       input: Pard.Widgets.InputAddressSpace('Ej: Carrer de la Murta 13, Valencia'),
       helptext: Pard.Widgets.HelpText('Tu dirección detallada es necesaria para poderte localizar en el mapa.')
     }
-
-    // _form['btn'] = {
-    //   label: Pard.Widgets.InputLabel(''),
-    //   input: Pard.Widgets.Button('getVal', function(){console.log(_form['address'].input.getVal())}),
-    //   helptext: Pard.Widgets.HelpText('')
-    // };
-
-
-    // _form['city'] = {
-    //   label: Pard.Widgets.InputLabel('Ciudad'),
-    //   input: Pard.Widgets.Input('', 'text'),
-    //   helptext: Pard.Widgets.HelpText('')
-    // };
-
-    // _form['zip_code'] = {
-    //   label: Pard.Widgets.InputLabel('Código postal'),
-    //   input: Pard.Widgets.Input('', 'text'),
-    //   helptext: Pard.Widgets.HelpText('')
-    // };
 
     _form['category'] = {
       label: Pard.Widgets.InputLabel('Categoría'),
@@ -118,10 +78,7 @@
       helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
     };
    
-    // var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category', 'color'];
-
     var _requiredFields = ['name', 'address', 'category', 'color'];
-
 
     return {
       render: function(){
@@ -132,36 +89,6 @@
       }
     }
   }
-
-
-  // ns.Forms.BasicSpaceForm = function(){
-
-  // 	var _form = {};
-
-  //   var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
-  //   var _values = ['cultural_ass', 'commercial', 'home'];
-
-  //   _form['name'] = Pard.Widgets.Input('Nombre espacio', 'text');
-  //   _form['city'] = Pard.Widgets.Input('Ciudad', 'text');
-  //   _form['address'] = Pard.Widgets.Input('Direccion', 'text');
-  //   _form['zip_code'] = Pard.Widgets.Input('Codigo postal', 'text');
-  //   _form['category'] = Pard.Widgets.Selector(_labels, _values);
-  //   _form['personal_web'] = Pard.Widgets.Input('Web personal', 'url');
-  //   _form['color'] = Pard.Widgets.Input('Color', 'color');
-
-  //   var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category', 'color'];
-
-
-  //   return {
-  //     render: function(){
-  //       return _form;
-  //     },
-  //     requiredFields: function(){
-  //       return _requiredFields;
-  //     }
-  //   }
-  // }
-
 
   ns.Forms.FullArtistForm = function(){
 
@@ -197,14 +124,6 @@
 
   	var _form = Pard.Forms.BasicSpaceForm().render();
 
-    // _form['links'] = {
-    //   label: Pard.Widgets.InputLabel('Links del espacio'),
-    //   input: Pard.Widgets.InputWebs(),
-    //   helptext: Pard.Widgets.HelpText('Añade la web/facebook/blog/etc. de tu espacio y dale un titulo para darla a conocer.')
-    // };
-
-    // _form['bio'] = Pard.Widgets.TextArea('Bio');
-
     _form['bio'] = {
       label: Pard.Widgets.InputLabel('Bio'),
       input: Pard.Widgets.TextArea(''),
@@ -226,28 +145,6 @@
     }
   }
 
-  // ns.Forms.FullSpaceForm = function(){
-
-  //   var _form = Pard.Forms.BasicSpaceForm().render();
-
-  //   _form['links'] = _form['personal_web'] = Pard.Widgets.Input('Web personal', 'url');
-  //   _form['bio'] = Pard.Widgets.TextArea('Bio');
-  //   //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
-
-
-  //   var _requiredFields = ['name', 'city', 'address', 'zip_code', 'category'];
-
-  //   return {
-  //     render: function(){
-  //       return _form;
-  //     },
-  //     requiredFields: function(){
-  //       return _requiredFields;
-  //     }
-  //   }
-  // }
-
-
   ns.Forms.ProfileForms = function(selected){
 
 	var _forms = {
@@ -261,7 +158,6 @@
       }
     }
   }
-
 
   ns.Forms.SpaceCall = function() {
 
@@ -284,11 +180,9 @@
       helptext: Pard.Widgets.HelpText('Numero de habitaciones, dimensiones aproximativas, paredes o persianas para intervenciones de arte urbana, etc.')
     };
 
-    // _form['description'] = Pard.Widgets.TextArea('Descripcion del espacio disponible');
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad'),
       input: Pard.Widgets.InputDate(''),
-      // input: Pard.Widgets.Selector(_labels, _values),
       helptext: Pard.Widgets.HelpText('Selecciona los días que quieres compartir tu espacio.')
     }
     
@@ -335,38 +229,7 @@
   }
 
 
-  // ns.Forms.SpaceCall = function() {
-
-  //   var _form = {};
-  //   var _labels = ['Ambos dias', 'Sabado', 'Domingo'];
-  //   var _values = ['both', 'sat', 'sun'];
-
-  //   var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación')
-  //   var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
-
-  //   _form['description'] = Pard.Widgets.TextArea('Descripcion del espacio disponible');
-  //   _form['availability'] = Pard.Widgets.Selector(_labels, _values);
-  //   _form['own'] = Pard.Widgets.TextArea('Programacion propia');
-  //   _form['sharing'] = Pard.Widgets.TextArea('Materiales a compartir');
-  //   _form['phone'] = Pard.Widgets.Input('Telefono de contacto', 'text');
-  //   _form['conditions'] = Pard.Widgets.CheckBox(_conditions, 'yes_conditions');
-
-  //   var _requiredFields = ['phone', 'description', 'conditions']
-
-  //   return {
-  //     render: function(){
-  //       return _form;
-  //     },
-  //     requiredFields: function(){
-  //       return _requiredFields;
-  //     }
-  //   }
-  // }
-
-
-
-
-    ns.Forms.ArtistCallForm = function() {
+  ns.Forms.ArtistCallForm = function() {
 
 		var _form = {};
 
@@ -385,28 +248,42 @@
       input: Pard.Widgets.Selector(_labelsCategories, _valuesCategories),
       helptext:Pard.Widgets.HelpText('')
     };
+    _form['category']['input'].setClass('category-input medium-5');
+
     _form['title'] = {
       label: Pard.Widgets.InputLabel('Título de la propuesta artística'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('')
     };
+    _form['title']['input'].setClass('title-input');
+
     _form['description'] = {
-      label: Pard.Widgets.InputLabel('Decripción'),
+      label: Pard.Widgets.InputLabel('Descripción'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Cuéntanos en detalle en que constiste tu propuesta.')
     };
+    _form['description']['input'].setClass('description-input');
+    _form['description']['input'].setAttr('rows', 4);
+
+
+
     
     _form['short_description'] = { 
-      label: Pard.Widgets.InputLabel('Decripción (muy) breve'),
+      label: Pard.Widgets.InputLabel('Descripción (muy) breve'),
       input: Pard.Widgets.TextAreaCounter('', 80, 'Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: '),
       helptext: Pard.Widgets.HelpText('')
     };
+    _form['short_description']['input'].setClass('short_description-input');
+    _form['short_description']['input'].setAttr('rows',1);
+
    	
     _form['duration'] = {
       label: Pard.Widgets.InputLabel('Duracción del espectaculo'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
       helptext: Pard.Widgets.HelpText('')
     };
+    _form['duration']['input'].setClass('duration-input');
+
     
     _form['components'] = {
       label: Pard.Widgets.InputLabel('Numero de integrantes'),
@@ -414,24 +291,31 @@
       helptext: Pard.Widgets.HelpText('Numero de personas que llevan la actividad/espectaculo.')
     };
     _form['components']['input'].setAttr('min','1');
+    _form['components']['input'].setClass('components-input');
+
 
     _form['meters'] = {
       label: Pard.Widgets.InputLabel('Espacio necesario para la expo'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Indicar cuantos metros cuadrados (y precisar si verticales o horizontales) se piensan necesitar para exponer.')
     };
+    _form['meters']['input'].setClass('meters-input');
+
     
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad'),
       input: Pard.Widgets.InputDate(''),
       helptext: Pard.Widgets.HelpText('Selecciona los días que estás disponible para tu participación en el festival.')
     };
+    _form['availability']['input'].setClass('availability-input');
+
     
     _form['children'] = {
       label: Pard.Widgets.InputLabel(''),
       input: Pard.Widgets.CheckBox('Actividad para un publico infantil', 'yes_children'),
       helptext: Pard.Widgets.HelpText('')
     };
+    
     //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
     
     _form['links'] = {
@@ -440,17 +324,22 @@
       helptext: Pard.Widgets.HelpText('Añade enlaces a webs/videos/galerías de fotos/blogs/ect. relacionados con tu propuesta y da un titulo cada uno. Este material permitirá dar a conocer tu arte mejor.')
     };
     
+    
     _form['sharing'] = {
       label: Pard.Widgets.InputLabel('Materiales a compartir'), 
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte platica, focos de luz, etc.')
     };
+    _form['sharing']['input'].setClass('sharing-input');
+
     
     _form['needs'] = { 
       label: Pard.Widgets.InputLabel('Necesidades'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Indicar si se tienen especiales necesidades técnicas y de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y que no podrá hacerse cargo del material necesario para cada actuacción.')
     };
+    _form['needs']['input'].setClass('needs-input');
+
     
     _form['repeat'] = {
       label: Pard.Widgets.InputLabel(''),
@@ -469,6 +358,8 @@
       input: Pard.Widgets.InputTel(''),
       helptext:Pard.Widgets.HelpText('Este información en ningún momento será publica. Es necesaria para que en caso de necesidad la organización del festival pueda contactar rapidamente contigo.')
     };
+    _form['phone']['input'].setClass('phone-input');
+
     
     _form['conditions'] = {
       label: Pard.Widgets.InputLabel(''), 

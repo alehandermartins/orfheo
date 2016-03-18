@@ -25,8 +25,6 @@
     };
   };
 
-
-
   ns.Widgets.Selector = function(labels, values, callback){
     var _createdWidget = $('<select>');
     values.forEach(function(value, index){
@@ -66,6 +64,8 @@
     var _createdWidget = $('<div>');
     var _textarea = $('<textarea>').attr({placeholder: label});
 
+    _textarea.on('input',function(){_textarea.removeClass('warning')});
+
     _createdWidget.append(_textarea);
 
     return {
@@ -77,6 +77,18 @@
       },
       setVal: function(value){
         _textarea.val(value);
+      },
+      addWarning: function(){
+        _textarea.addClass('warning');
+      },
+      removeWarning: function(){
+        _textarea.removeClass('warning');
+      },
+      setClass: function(_class){
+        _textarea.addClass(_class);
+      }, 
+      setAttr: function(attribute, value){
+        _textarea.attr(attribute,value);
       }
     }
   }
@@ -86,7 +98,10 @@
     var _textarea = $('<textarea>').attr({placeholder: label, maxlength:80});
     var _remainingCar = $('<span>').text(80).css({display: 'inline', 'font-weight':600});
     var _counter = $('<div>').append(message, _remainingCar,'.').addClass('help-text');
-    _textarea.on('input',(function(){_remainingCar.text(max - _textarea.val().length);}));
+    _textarea.on('input',(function(){
+    	_textarea.removeClass('warning');
+    	_remainingCar.text(max - _textarea.val().length);
+    }));
 
     _createdWidget.append(_textarea, _counter);
 
@@ -95,7 +110,7 @@
         return _createdWidget;
       },
       getVal: function(){
-        return _textarea.val();
+      	return _textarea.val();
       },
       setVal: function(value){
         _textarea.val(value);
@@ -105,7 +120,13 @@
       }, 
       setClass: function(_class){
         _textarea.addClass(_class);
-      }
+      },
+      addWarning: function(){
+        _textarea.addClass('warning');
+      },
+      removeWarning: function(){
+        _textarea.removeClass('warning');
+      },
     }
   }
 
@@ -116,6 +137,7 @@
     var _input = $('<input>').attr({'type':type, 'placeholder': label});
 
     _input.on('input',function(){
+      _input.removeClass('warning');
       if(oninputcallback) oninputcallback();
     });
 
@@ -204,7 +226,7 @@
         _inputTel.removeClass('warning');
       },
       setClass: function(_class){
-        _inputTel.addClass(_class);
+        _inputTel.setClass(_class);
       }
     }
   }
@@ -218,7 +240,8 @@
   		firstDay: 1,
   		minDate: new Date(2016, 10 - 1, 15),
   		maxDate: new Date(2016, 10 - 1, 16),
-  		dateFormat: 'D dd M yyyy',
+  		dateFormat: 'DD, dd M yyyy',
+			multiSeparator: ' - ',
   		multiSelect: 2,
   		defaultStatus: placeholder,
   		defaultDate: null,
@@ -363,6 +386,9 @@
   ns.Widgets.AddWebField = function(inputWeb, entries){
     var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Sito Web, Facebook, Blog, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+
+    _webTitle.setClass('links-input');
+    _link.setClass('links-input');
     
     var _inputsObj = {
       web_title: _webTitle,
@@ -394,6 +420,9 @@
 
     var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Facebook, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+
+    _webTitle.setClass('links-input');
+    _link.setClass('links-input');
 
     var _entries = [{
             web_title: _webTitle,
@@ -463,6 +492,10 @@
    ns.Widgets.InputPersonalWeb = function(){
     var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Blog, Facebook, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+
+    _webTitle.setClass('links-input');
+    _link.setClass('links-input');
+
     var _entries = [{
             web_title: _webTitle,
             link: _link

@@ -161,7 +161,7 @@ Grid and Bar
   background: $content-background;
   @include breakpoint(medium){
     padding-left:2rem;
-  padding-right:2rem;
+    padding-right:2rem;
   }
 
   padding-top:2rem;
@@ -249,6 +249,44 @@ off-canvas
 }
 
 
+/*====================
+BUTTONS
+======================*/
+
+.pard-btn{
+  background: $element-background;
+  color: $element-color;
+  @include border-radius($element-border-radius);
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  font-weight: 600;
+}
+
+.pard-btn:hover{
+    @include linearGradient(#383737,$element-background);
+  }
+button{
+   outline: none;
+}
+
+.submit-button{
+  @extend .pard-btn;
+  position: relative;
+  float: right;
+  margin-bottom: 2rem;
+  font-size: $almostNormalSize;
+}
+
+
+.recoveryPasswd-popup-button{
+  @extend .pard-btn;
+  position: relative;
+  float: right;
+  font-size: $almostNormalSize;
+  margin-top:-0.5rem;
+}
+
+
 
 /*===============================================
 LOGIN PAGE
@@ -312,13 +350,13 @@ Header
   }
   input{
     height: auto;
-    font-size: $almostNormalSize;
+    font-size: $smallSize;
   }
 }
 
 .login-btn{
   @extend .pard-btn;
-  padding: 0.3rem;
+  padding: 0.3rem 0.65rem;
   font-weight: 600;
   font-size: $almostNormalSize;
   // @include breakpoint(large){
@@ -645,35 +683,6 @@ Profile Card
 // } 
 
 
-
-/*--------------
-Buttons
-----------------*/
-
-.pard-btn{
-  background: $element-background;
-  color: $element-color;
-  @include border-radius($element-border-radius);
-  display: inline-block;
-}
-
-.pard-btn:hover:hover{
-    @include linearGradient(#383737,$element-background);
-  }
-button{
-   outline: none;
-}
-
-
-/*---------------
-Forms
------------------*/
-
-textarea, select {
-  @include border-radius($element-border-radius);
-}
-
-
 /*==============================================
 FOOTER
 ===============================================*/
@@ -709,4 +718,92 @@ FOOTER
     padding-left:0.7rem;
   }
 }
+
+
+/*==============================================
+FORMS
+===============================================*/
+
+textarea, select {
+  @include border-radius($element-border-radius);
+}
+
+
+.help-text{
+  line-height: 0.9rem;
+  margin-top: -0.5rem;
+}
+
+.form-input{
+  height: auto;
+  font-size: $almostNormalSize;
+  // line-height: 1.5rem;
+}
+
+.category-input, .title-input, .description-input, .short_description-input, .duration-input, .components-input, .meters-input, .availability-input, .links-input, .sharing-input, .needs-input, .phone-input {
+  @extend .form-input;
+}
+
+//textareas
+.description-input, .short_description-input, .needs-input, .sharing-input{
+  line-height: 1.2rem;
+}
+
+.components-input, .duration-input{
+  display: inline-block;
+  margin-left: 1rem;
+}
+
+.components-input{
+    width: 5rem; 
+}
+
+.duration-input{
+  width: 6.5rem;
+}
+
+.error-text{
+  color: red;
+  font-size: $almostNormalSize;
+  min-height: 1.5rem;
+}
+
+.signup-form-btn{
+  @include horizontal-center;
+  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+  position:relative;
+  margin-top: 1rem;
+}
+
+
+/*==============================================
+POPUP
+===============================================*/
+
+ // .reveal-design{
+ //   padding-bottom: 1.2rem;
+ // }
+
+.popup-content, .popup-header{
+  padding-left: 0.75rem; 
+  padding-right: 0.75rem;
+}
+
+// .popup-close-btn{
+
+// }
+
+// .pupup-title{
+
+// }
+
+.popup-header{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.popup-content{
+  margin-bottom: 2rem; 
+}
+
 

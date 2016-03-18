@@ -5,45 +5,65 @@
   ns.Widgets.Registration = function(){
 
     var _createdWidget = $('<form>').attr('autocomplete','on');
-    var _invalidInput = $('<div>');
+    var _invalidInput = $('<div>').addClass('error-text');
 
     var _fields = {};
 
+    var _emailLabel = Pard.Widgets.InputLabel('Email').render();
+    var _passwdLabel = Pard.Widgets.InputLabel('Contraseña').render();    
+
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-    var _labels = ['Tu email', 'Confirma tu email', 'Contraseña'];
+    var _labels = ['Tu correo', 'Confirma tu correo', 'Minimo 8 caracteres'];
     var _types = ['email', 'email', 'password'];
 
+    // var _message = $('<h4>').text('Regístrate para continuar');
+
+    // _fields['email'] = Pard.Widgets.Input(_labels[index], _types[index], '', _checkInput);
+    // _fields['emailConf'] = Pard.Widgets.Input(_labels[index], _types[index], '', _checkInput);
+    // _fields['password'] = ;
+
     ['email', 'emailConf', 'password'].forEach(function(id, index){
-      _fields[id] = Pard.Widgets.Input(_labels[index], _types[index], function(){
+      _fields[id] = Pard.Widgets.Input(_labels[index], _types[index], '', function(){
 
         var _checkPassword = function(){
-          if(_fields['password'].getVal().length < 8){
-            _fields['password'].addWarning();
-            _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
-          }else{
-            _fields['password'].removeWarning();
-            return true;
+          if (_fields['password'].getVal()){    
+            if(_fields['password'].getVal().length < 8){
+              _fields['password'].addWarning();
+              _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
+            }else{
+              _fields['password'].removeWarning();
+              return true;
+            }
           }
         }
 
-        var _checkEqual = function(){
-          if(_fields['email'].getVal() != _fields['emailConf'].getVal()){
-            _fields['emailConf'].addWarning();
-            _invalidInput.text('Los campos de correo no coinciden.');
-          }else{
-            _fields['emailConf'].removeWarning();
-            return _checkPassword();
+        var _checkEqual = function(){ 
+          if (_fields['emailConf'].getVal()){
+            if (_fields['email'].getVal() != _fields['emailConf'].getVal()){
+              _fields['emailConf'].addWarning();
+              _invalidInput.text('Los campos de correo no coinciden.');
+            }
+            else{
+              _fields['emailConf'].removeWarning();
+              return _checkPassword();
+            }
           }
-        }
+        };
 
         var _checkInput = function(){
-          if(!regEx.test(_fields['email'].getVal())){
-            _fields['email'].addWarning();
-            _invalidInput.text('El correo debe tener un formato valido.');
-          }else{
+          if(_fields['email'].getVal()){
+            if(!regEx.test(_fields['email'].getVal())){
+              _fields['email'].addWarning();
+              _invalidInput.text('El correo debe tener un formato valido.');
+            }else{
+              _fields['email'].removeWarning();
+              _invalidInput.text('');
+              return _checkEqual();
+            }
+          }
+          else{
             _fields['email'].removeWarning();
-            _invalidInput.text('');
-            return _checkEqual();
+            _invalidInput.empty();
           }
         }
 
@@ -55,7 +75,8 @@
       });
     });
 
-    _fields['button'] = Pard.Widgets.Button('join the community')
+    _fields['button'] = Pard.Widgets.Button('Crea un cuenta');
+    _fields['button'].setClass('signup-form-btn');
 
     _fields['button'].disable();
 
@@ -63,7 +84,10 @@
       _createdWidget.append(_fields[field].render());
     });
 
-    _createdWidget.append(_invalidInput);
+    _emailLabel.append(_fields['email'].render(), _fields['emailConf'].render());
+    _passwdLabel.append(_fields['password'].render());
+
+    _createdWidget.append(_emailLabel, _passwdLabel, _invalidInput, _fields['button'].render());
 
     return {
       render: function(){
@@ -87,11 +111,15 @@
     var _createdWidget = $('<div>');
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
 
-    var _email = Pard.Widgets.Input('Tu email', 'email');
-    var _result = $('<div>');
-    var _sendButton = Pard.Widgets.Button('Enviar');         
+    var _emailLabel = Pard.Widgets.InputLabel('Email').render();
+    var _email = Pard.Widgets.Input('', 'email');
+    var _result = $('<div>').addClass('error-text');
+    var _sendButton = Pard.Widgets.Button('Enviar');
+    _sendButton.setClass('recoveryPasswd-popup-button');
+
+    _emailLabel.append(_email.render());         
     
-    _createdWidget.append(_email.render(), _sendButton.render(), _result);
+    _createdWidget.append(_emailLabel, _result, _sendButton.render());
 
     return {
       render: function(){
@@ -100,11 +128,14 @@
       setCallback: function(callback){
         _sendButton.render().on('click', function(){
           _result.empty();
-          if(!regEx.test(_email.getVal())) _result.text('El email no es valido');
+          if(!regEx.test(_email.getVal())) {
+            _result.text('El email no es valido');
+            _email.addWarning();
+          }
           else {
             Pard.Backend.passwordRecovery(_email.getVal(), function(data){
               if (data['status'] == 'success'){
-                Pard.Widgets.Alert('Te hemos enviado un correo.');
+                Pard.Widgets.Alert('Te hemos enviado un correo de confirma. Sigue su instricciones y accede a la convocatoria del conFusión.');
                 callback();
               }
               else {
@@ -123,7 +154,7 @@
     var _createdWidget = $('<form>').addClass('input-login') .attr({autocomplete:'on'}) ;
     // .attr({autocomplete:'on',method: 'post', target: 'remember', action: '/content/blank'});
     var _emailRecovery = $('<div>').addClass('passwdRecovery');
-    var _caller = $('<a>').attr('href','#').text('Recuperar contraseña');
+    var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
 
     // var _iframe = $('iframe').attr({id: 'remember', name: 'remember', src: '/content/blank'}).css({display: 'none'});
 
@@ -133,7 +164,7 @@
         Pard.Events.Login
       )});
 
-    var _popup = Pard.Widgets.PopupCreator(_caller,'Recuperar contraseña', function(){return _recoveryPasswdMessage()});
+    var _popup = Pard.Widgets.PopupCreator(_caller,'Recupera tu cuenta', function(){return Pard.Widgets.RecoveryMessage()});
 
     _emailRecovery.append(_popup.render());
 
