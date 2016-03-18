@@ -12,14 +12,14 @@
     var _profilesNavigation = $('<div>');
     var _myproductions = $('<div>');
     var _myproductionContent = $('<div>');
-    
+
     _toUserPageBtn.addClass('toUserPage-btn');
-    _buttonContainer.append(_toUserPageBtn); 
+    _buttonContainer.append(_toUserPageBtn);
 
     _profilesNavigation.append(Pard.Widgets.ProfilesNavigation(profiles, sectionContent, _myproductionContent).render());
 
     _myproductions.append(Pard.Widgets.ProductionsNavigation(profiles[0], sectionContent, _myproductionContent).render())
-    
+
     _createdWidget.append(_buttonContainer, _profilesNavigation, _myproductions);
 
     return{
@@ -31,12 +31,12 @@
 
   ns.Widgets.ProfilesNavigation = function(profiles, sectionContent, productionContent){
     var _createdWidget = $('<div>');
- 
+
     var profileNavList = function(_profiles, _index){
     	_createdWidget.empty();
 
       var _reorderedProfiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
-      
+
     	Pard.Widgets.ProfileSection(_reorderedProfiles[0]['type']).render()(_reorderedProfiles, sectionContent);
     	Pard.Widgets.ProductionsNavigation(_reorderedProfiles[0], sectionContent, productionContent);
 
@@ -67,13 +67,13 @@
 
 
   ns.Widgets.ProductionsNavigation = function(profile, sectionContent, productionContent){
-    
+
     productionContent.empty();
 
     var _proposals = [];
     if (profile.proposals) _proposals = profile.proposals;
     _proposals.forEach(function(proposal, index) {
-    	 productionContent.append($('<div>').append($('<a>').text(proposal['title']).click(function(){Pard.Widgets.ArtistProductionSectionContent(proposal, profile.profile_id, sectionContent)})));
+    	 productionContent.append($('<div>').append($('<a>').text(proposal['title']).click(function(){Pard.Widgets.ArtistProductionSectionContent(proposal, profile.profile_id, profile.user_id, sectionContent)})));
     });
 
     return {
@@ -100,7 +100,7 @@
 
 
   ns.Widgets.ArtistProfileSectionContent = function(profiles, sectionContent) {
-    
+
 
     var profile = profiles[0];
 
@@ -133,7 +133,7 @@
   }
 
   ns.Widgets.SpaceProfileSectionContent = function(profiles, sectionContent) {
-    
+
     var profile = profiles[0];
 
     sectionContent.empty();
@@ -166,11 +166,10 @@
   }
 
 
-  ns.Widgets.ArtistProductionSectionContent = function(proposal, profile_id, sectionContent) {
-    
-    sectionContent.empty();
+  ns.Widgets.ArtistProductionSectionContent = function(proposal, profile_id, user_id, sectionContent) {
 
-    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal).render(), Pard.Widgets.ModifyProduction(proposal, profile_id, sectionContent).render());
+    sectionContent.empty();
+    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal).render(), Pard.Widgets.ModifyProduction(proposal, profile_id, user_id, sectionContent).render());
 
     // return{
     //   render: function(){
@@ -180,5 +179,5 @@
   }
 
 
-  
+
 }(Pard || {}));

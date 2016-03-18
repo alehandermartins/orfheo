@@ -84,7 +84,7 @@ module Services
       def destroy_old_pictures old_pictures, element
         #clase element de la que derivan profile y proposal
         unused_pictures = old_pictures.keys.map{ |field|
-          next if element[field].blank?
+          next if element[field].blank? || old_pictures[field].blank?
           old_pictures[field].reject{ |picture|
             element[field].include? picture
           }

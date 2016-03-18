@@ -43,7 +43,7 @@
 
   ns.Events.SendProposal = function(data){
     if (data['status'] == 'success'){
-      Pard.Widgets.Alert('conFusion festival 2016', '¡Te has inscrito correctamente!', 
+      Pard.Widgets.Alert('conFusion festival 2016', '¡Te has inscrito correctamente!',
         function(){
          document.location = '/users/profiles/' + data['profile_id'];
         }
@@ -58,7 +58,7 @@
   ns.Events.ModifyProduction = function(data, sectionContent){
     if (data['status'] == 'success'){
       console.log(data);
-         Pard.Widgets.ArtistProductionSectionContent(data.proposal, data.profile_id, sectionContent);
+         Pard.Widgets.ArtistProductionSectionContent(data.proposal, data.profile_id, data.user_id, sectionContent);
     }
     else{
       Pard.Widgets.Alert('Error', data.reason);
