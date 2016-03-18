@@ -7,6 +7,10 @@
 
   ns.Widgets.Alert = function(title, content, callback){
 
+    var _createdWidget = $('<div>').addClass('popup-container-full')
+    var _inner = $('<div>').addClass('vcenter-inner');
+    var _outer = $('<div>').addClass('vcenter-outer');
+
     var _content = $('<div>').addClass('very-fast reveal tiny reveal-design');
 
     var _header = $('<div>').addClass('row popup-header');
@@ -40,8 +44,7 @@
 
     var _content = $('<div>').addClass('very-fast reveal full');
 
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up', vOffset: 70,
-});
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
 
     var _popupCaller = caller;
 
@@ -69,8 +72,9 @@
 
   ns.Widgets.PopupContent = function(title, content){
 
-    var _createdWidget = $('<div>').addClass('popup-container-full')
-    var _inner = $('<div>').addClass('popup-inner-container');
+    var _createdWidget = $('<div>').addClass('vcenter-outer');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>').addClass('popup-container-full')
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
     var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
@@ -79,13 +83,12 @@
 
     _header.append(_title, _closeBtn);
 
-    var _contentContainer = $('<div>').addClass('popup-content');
+    var _sectionContainer = $('<section>').addClass('popup-content');
 
-    _contentContainer.append(content.render());
-
-    _inner.append(_header, _contentContainer);
-    _createdWidget.append(_inner);
-
+    _sectionContainer.append(content.render());
+    _popupContent.append(_header, _sectionContainer);
+    _createdWidget.append(_container.append(_popupContent));
+    
     return {
       render: function(){
         return _createdWidget;

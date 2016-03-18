@@ -470,7 +470,7 @@ $reveal-max-width: $global-width;
 $reveal-offset: rem-calc(100);
 $reveal-padding: $global-padding;
 $reveal-border: 1px solid $medium-gray;
-$reveal-radius: $layout-border-radius;
+$reveal-radius: 0;
 $reveal-zindex: 1005;
 $reveal-overlay-background: rgba($black, 0.25);
 

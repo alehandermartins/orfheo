@@ -784,10 +784,10 @@ POPUP
  //   padding-bottom: 1.2rem;
  // }
 
-.popup-content, .popup-header{
-  padding-left: 0.75rem; 
-  padding-right: 0.75rem;
-}
+// .popup-content, .popup-header{
+//   padding-left: 0.75rem; 
+//   padding-right: 0.75rem;
+// }
 
 // .popup-close-btn{
 
@@ -808,18 +808,29 @@ POPUP
 
 .full{
   background: rgba(0,0,0,0.6);
+  overflow-x:hidden;
 }
 
 .popup-container-full{
-  max-width: 37.5rem; //600px
+  max-width: 40rem; //600px
   position: relative;
-  margin:0 auto;
+  margin: 0 auto;
   clear: both;
   background: $content-background;
   display: block;
+  padding: 1rem 1.5rem 0.01rem 1.5rem;
+  border-radius: $layout-border-radius;
 }
 
-.popup-inner-container{
-  padding-bottom: 2rem; //sirve????
+.vcenter-outer{
+  display: table;
+    position: absolute;
+    height: 90%;
+    width: 100%;
+}
+
+.vcenter-inner{
+  display: table-cell;
+  vertical-align: middle;
 }
 
