@@ -176,32 +176,18 @@
     }
   }
 
-  ns.Widgets.ModifyProductionMessage = function(proposal, profile_id, user_id, sectionContent, submitButton){
+  ns.Widgets.CloudinaryModifyProposal = function(proposal, folder, submitButton, filled, sendproposal){
 
     var _createdWidget = $('<div>');
-    var _submitForm = {};
-
-    _submitForm['proposal_id'] = proposal.proposal_id;
-    _submitForm['profile_id'] = profile_id;
-
-    var _callback = {};
     var _data = [];
     var _url = [];
-
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        _callback();
-        Pard.Backend.modifyProduction(_getVal(), function(data){
-          Pard.Events.ModifyProduction(data, sectionContent);
-        });
-      }
-    });
+    var _closepopup = {};
 
     var _photo = $.cloudinary.unsigned_upload_tag(
       "kqtqeksl",
       {
         cloud_name: 'hxgvncv7u',
-        folder: user_id + '/' + profile_id + '/photos'
+        folder: folder
       }
     );
 
@@ -249,8 +235,8 @@
             $('.thumbnails').append(_container);
           }
           submitButton.off().on('click',function(){
-            if(_filled() == true){
-              _callback();
+            if(filled() == true){
+              _closepopup();
               _data.forEach(function(photo){
                 photo.submit();
               });
@@ -263,10 +249,7 @@
     _photo.bind('cloudinarydone', function(e, data){
       _url.push(data['result']['public_id']);
       if(_url.length >= _data.length){
-        console.log(_getVal());
-        Pard.Backend.modifyProduction(_getVal(), function(data){
-          Pard.Events.ModifyProduction(data, sectionContent);
-        });
+        sendproposal(_url);
       }
     });
 
@@ -294,7 +277,33 @@
       });
     }
 
+     submitButton.on('click',function(){
+      if(filled() == true){
+        console.log(_url);
+        _closepopup();
+       sendproposal(_url);
+      }
+    });
+
     _createdWidget.append(_photo, _thumbnail);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closepopup = callback;
+      }
+    }
+  }
+
+  ns.Widgets.ModifyProductionMessage = function(proposal, profile_id, user_id, sectionContent, submitButton){
+
+    var _createdWidget = $('<div>');
+    var _submitForm = {};
+
+    _submitForm['proposal_id'] = proposal.proposal_id;
+    _submitForm['profile_id'] = profile_id;
 
     var _form = Pard.Forms.ArtisticProduction();
     var _requiredFields = _form.requiredFields();
@@ -303,12 +312,6 @@
     for(var field in _form){
       if(proposal[field]) _form[field]['input'].setVal(proposal[field]);
     };
-
-    for(var field in _form){
-      _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()));
-    };
-
-    _createdWidget.append(submitButton);
 
     var _filled = function(){
       for (var field in _form){
@@ -319,21 +322,36 @@
       return true;
     };
 
-    var _getVal = function(){
+    var _getVal = function(url){
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      // if(_photo.get_url().length != 0) _submitForm['proposal_picture'] = _photo.get_url();
-      _submitForm['photos'] = _url;
+      _submitForm['photos'] = url;
       return _submitForm;
     }
+
+    var _send = function(url){
+      Pard.Backend.modifyProduction(_getVal(url), function(data){
+        Pard.Events.ModifyProduction(data, sectionContent);
+      });
+    }
+
+    var _folder = user_id + '/' + profile_id + '/photos';
+    var _photos = Pard.Widgets.CloudinaryModifyProposal(proposal, _folder, submitButton, _filled, _send);
+    _createdWidget.append(_photos.render());
+
+    for(var field in _form){
+      _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()));
+    };
+
+    _createdWidget.append(submitButton);
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
-        _callback = callback;
+        _photos.setCallback(callback);
       }
     }
   }
