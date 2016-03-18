@@ -38,7 +38,7 @@
 
   ns.Widgets.PopupCreator = function(caller, title, message){
 
-    var _content = $('<div>').addClass('very-fast reveal small reveal-design');
+    var _content = $('<div>').addClass('very-fast reveal full');
 
     var _popup = new Foundation.Reveal(_content, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up', vOffset: 70,
 });
@@ -69,7 +69,8 @@
 
   ns.Widgets.PopupContent = function(title, content){
 
-    var _createdWidget = $('<div>');
+    var _createdWidget = $('<div>').addClass('popup-container-full')
+    var _inner = $('<div>').addClass('popup-inner-container');
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
     var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
@@ -82,7 +83,8 @@
 
     _contentContainer.append(content.render());
 
-    _createdWidget.append(_header, _contentContainer);
+    _inner.append(_header, _contentContainer);
+    _createdWidget.append(_inner);
 
     return {
       render: function(){

@@ -806,4 +806,20 @@ POPUP
   margin-bottom: 2rem; 
 }
 
+.full{
+  background: rgba(0,0,0,0.6);
+}
+
+.popup-container-full{
+  max-width: 37.5rem; //600px
+  position: relative;
+  margin:0 auto;
+  clear: both;
+  background: $content-background;
+  display: block;
+}
+
+.popup-inner-container{
+  padding-bottom: 2rem; //sirve????
+}
 
