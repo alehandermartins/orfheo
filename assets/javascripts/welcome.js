@@ -135,7 +135,7 @@
           else {
             Pard.Backend.passwordRecovery(_email.getVal(), function(data){
               if (data['status'] == 'success'){
-                Pard.Widgets.Alert('Te hemos enviado un correo de confirma. Sigue su instricciones y accede a la convocatoria del conFusión.');
+                Pard.Widgets.Alert('', 'Te hemos enviado un correo con las instricciones para acceder a tu cuenta.');
                 callback();
               }
               else {

@@ -7,33 +7,30 @@
 
   ns.Widgets.Alert = function(title, content, callback){
 
-    var _createdWidget = $('<div>').addClass('popup-container-full')
-    var _inner = $('<div>').addClass('vcenter-inner');
-    var _outer = $('<div>').addClass('vcenter-outer');
-
-    var _content = $('<div>').addClass('very-fast reveal tiny reveal-design');
-
+    var _createdWidget = $('<div>').addClass('fast reveal full');    
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _innerContainer = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>').addClass('alert-container-full');
+    var _sectionContainer = $('<section>').addClass('popup-content');
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
     _closeBtn.append($('<span>').html('&times;'));
 
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'slide-in-up', animationOut: 'slide-out-up'});
 
     _closeBtn.click(function(){
       if (callback) callback();
       _popup.close();
     });
-
+ 
     _header.append(_title, _closeBtn);
+    _sectionContainer.append(content);
+    _popupContent.append(_header, _sectionContainer);
+    _innerContainer.append(_popupContent);
+    _createdWidget.append(_outerContainer.append(_innerContainer));
 
-    var _contentContainer = $('<div>').addClass('popup-content');
-
-    _contentContainer.append(content);
-
-    _content.append(_header, _contentContainer);
-
-    $('body').append(_content);
+    $('body').append(_createdWidget);
 
     _popup.open();
 
@@ -54,8 +51,8 @@
     });
 
     _popupCaller.on('click', function(){
-      _content.empty()
-      var _message = Pard.Widgets.PopupContent(title, message())
+      _content.empty();
+      var _message = Pard.Widgets.PopupContent(title, message());
       _message.setCallback(function(){_popup.close()});
       _content.append(_message.render());
       _popup.open();
@@ -75,6 +72,7 @@
     var _createdWidget = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>').addClass('popup-container-full')
+    var _sectionContainer = $('<section>').addClass('popup-content');
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
     var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
@@ -83,7 +81,6 @@
 
     _header.append(_title, _closeBtn);
 
-    var _sectionContainer = $('<section>').addClass('popup-content');
 
     _sectionContainer.append(content.render());
     _popupContent.append(_header, _sectionContainer);

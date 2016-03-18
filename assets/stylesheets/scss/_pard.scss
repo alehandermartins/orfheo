@@ -811,8 +811,7 @@ POPUP
   overflow-x:hidden;
 }
 
-.popup-container-full{
-  max-width: 40rem; //600px
+.popup-container-full,.alert-container-full{
   position: relative;
   margin: 0 auto;
   clear: both;
@@ -820,6 +819,14 @@ POPUP
   display: block;
   padding: 1rem 1.5rem 0.01rem 1.5rem;
   border-radius: $layout-border-radius;
+}
+
+.popup-container-full{
+    max-width: 40rem; //640px
+}
+
+.alert-container-full{
+    max-width: 22rem; //352px
 }
 
 .vcenter-outer{
