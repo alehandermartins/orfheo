@@ -42,7 +42,9 @@
     	Pard.Widgets.ProductionsNavigation(_reorderedProfiles[0], sectionContent, productionContent);
 
       history.pushState({},'',_reorderedProfiles[0].profile_id);
-      $('#main-profile-page').css({'background-color': _reorderedProfiles[0]['color']});
+      var _rgb = Pard.Widgets.IconColor((_reorderedProfiles[0]['color'])).rgb();
+      var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.3+')';
+      $('#main-profile-page').css({'background': _backColor});
       
     	_reorderedProfiles.forEach(function(profile, index) {
     		if(!(index)) _createdWidget.append(
@@ -59,7 +61,8 @@
 
     $(document).ready(function(){
       var _rgb = Pard.Widgets.IconColor((profiles[0]['color'])).rgb();
-        $('#main-profile-page').css({'background-color': "'rgba ('+_rgb[0]+','+_rgb[1]','+_rgb[2]+','.3')'"});
+      var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.3+')';
+      $('#main-profile-page').css({'background': _backColor});
       });
 
 
