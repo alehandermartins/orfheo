@@ -247,8 +247,9 @@
   };
 
 
-  ns.Widgets.MyArtistProductionsContent = function(proposal){
+  ns.Widgets.MyArtistProductionsContent = function(proposal_id){
 
+    var proposal = Pard.ProfileManager.getProposal(proposal_id);
     var _createdWidget = $('<div>');
     var _infoField = $('<div>');
 
@@ -260,7 +261,6 @@
         }
       }
     }
-    console.log(proposal);
 
     if('photos' in proposal && proposal.photos != null){
       proposal.photos.forEach(function(photo){

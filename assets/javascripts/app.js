@@ -8,6 +8,48 @@ Pard.ProfileManager = {
       if(profile.profile_id == profile_id) _profile = profile;
     });
     return _profile;
+  },
+  getProposal: function(proposal_id){
+    var _proposal = {};
+    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+      if('proposals' in profile){
+        profile.proposals.forEach(function(proposal){
+          if(proposal.proposal_id == proposal_id) _proposal = proposal;
+        });
+      }
+    });
+    return _proposal;
+  },
+  getProfileId: function(proposal_id){
+    var _profile_id = '';
+    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+      if('proposals' in profile){
+        profile.proposals.forEach(function(proposal){
+          if(proposal.proposal_id == proposal_id) _profile_id = profile.profile_id;
+        });
+      }
+    });
+    return _profile_id;
+  },
+  getUserId: function(proposal_id){
+    var _user_id = '';
+    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+      if('proposals' in profile){
+        profile.proposals.forEach(function(proposal){
+          if(proposal.proposal_id == proposal_id) _user_id = profile.user_id;
+        });
+      }
+    });
+    return _user_id;
+  },
+  modifyProduction: function(production){
+    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+      if('proposals' in profile){
+        profile.proposals.forEach(function(proposal, index){
+          if(proposal.proposal_id == production.proposal_id) profile.proposals[index] = production;
+        });
+      }
+    });
   }
 }
 

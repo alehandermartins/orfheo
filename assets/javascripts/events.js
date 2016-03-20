@@ -57,8 +57,8 @@
 
   ns.Events.ModifyProduction = function(data, sectionContent){
     if (data['status'] == 'success'){
-      console.log(data);
-         Pard.Widgets.ArtistProductionSectionContent(data.proposal, data.profile_id, data.user_id, sectionContent);
+      Pard.ProfileManager.modifyProduction(data.proposal);
+      Pard.Widgets.ArtistProductionSectionContent(data.proposal.proposal_id, sectionContent);
     }
     else{
       Pard.Widgets.Alert('Error', data.reason);

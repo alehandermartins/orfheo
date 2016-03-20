@@ -169,11 +169,11 @@
   }
 
 
-  ns.Widgets.ModifyProduction = function(proposal, profile_id, user_id, sectionContent){
+  ns.Widgets.ModifyProduction = function(proposal_id, sectionContent){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
     var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal, profile_id, user_id, sectionContent, _submitBtn)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal_id, sectionContent, _submitBtn)});
 
     var _createdWidget = _popup.render();
 
@@ -305,12 +305,16 @@
     }
   }
 
-  ns.Widgets.ModifyProductionMessage = function(proposal, profile_id, user_id, sectionContent, submitButton){
+  ns.Widgets.ModifyProductionMessage = function(proposal_id, sectionContent, submitButton){
 
+    var proposal = Pard.ProfileManager.getProposal(proposal_id);
     var _createdWidget = $('<div>');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
+
+    var user_id = Pard.ProfileManager.getUserId();
+    var profile_id = Pard.ProfileManager.getProfileId(proposal_id);
 
     _submitForm['proposal_id'] = proposal.proposal_id;
     _submitForm['profile_id'] = profile_id;
