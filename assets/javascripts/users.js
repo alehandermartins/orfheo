@@ -82,32 +82,28 @@
     var _createdWidget = $('<div>');
     
     var _content = $('<div>');
-    var _btnContainer = $('<div>');
-    var _invalidInput = $('<div>');
+    // var _btnContainer = $('<div>');
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-
+    var _invalidInput = $('<div>').addClass('not-filled-text');
    
     var _profileForm = Pard.Widgets.ProfileForm();
 
     _content.append(_profileForm.getForm(type))
-    _btnContainer.append(_submitBtnContainer.append(submitButton));
+    _submitBtnContainer.append(submitButton);
 
-    _createdWidget.append(_content, _btnContainer, _invalidInput);
+    _createdWidget.append(_content,  _invalidInput, _submitBtnContainer);
 
     
     return {
       render: function(){
         return _createdWidget;
       },
-      filled: function(){
-        return _profileForm.filled();
-      },
       getVal: function(){
         return _profileForm.getVal();
       },
       setCallback: function(callback){
         submitButton.on('click',function(){
-          if(_profileForm.filled() == true){
+          if(_profileForm.filled(_invalidInput)){
             console.log(_profileForm.getVal());
             Pard.Backend.createProfile(_profileForm.getVal(), Pard.Events.CreateProfile);
             callback();
@@ -134,14 +130,8 @@
       getVal: function(){
         return _form[_selected].getVal();
       },
-      filled: function(){
-        var _event = true;
-        var _requiredFields = _form[_selected].requiredFields();
-        var _formValue = _form[_selected].getVal();
-        _requiredFields.forEach(function(key){
-          if(_formValue[key].length == 0) _event = false;
-        });
-        return _event;
+      filled: function(_invalidInput){
+        return _form[_selected].filled(_invalidInput);
       }
     }
   }
@@ -171,8 +161,18 @@
         }
         return _submitForm;
       },
-      requiredFields: function(){
-        return  Pard.Forms.BasicArtistForm().requiredFields();
+      filled: function(_invalidInput){
+        var _check = true;
+        var _requiredFields = Pard.Forms.BasicArtistForm().requiredFields();
+        _requiredFields.forEach(function(field){
+          if(!(_form[field].input.getVal())){
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;
+          } 
+        });
+        if(_check) _invalidInput.empty();
+        return _check;
       }
     }
   }
@@ -204,8 +204,19 @@
         }
         return _submitForm;
       },
-      requiredFields: function(){
-        return  Pard.Forms.BasicSpaceForm().requiredFields();
+      filled: function(_invalidInput){
+        var _check = true;
+        var _requiredFields = Pard.Forms.BasicSpaceForm().requiredFields();
+        _requiredFields.forEach(function(field){
+          if(!(_form[field].input.getVal())){
+            console.log(_form[field].input);
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;
+          } 
+        });
+        if (_check) _invalidInput.empty();
+        return _check;
       }
     }
   }

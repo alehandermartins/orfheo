@@ -6,3 +6,6 @@ Space Call:
 -Añadido campo 'responsible' ---> responsable del espacio
 -Disponibilidad devuelve un vector da elementos Date
 -Añadido campo 'un_wanted'
+
+ATT!: BACKEND!!
+No se guardan los links en create space profile!!

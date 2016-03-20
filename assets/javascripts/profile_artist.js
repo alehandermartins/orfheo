@@ -25,6 +25,7 @@
     var _createdWidget = $('<div>');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
     var _selected = 'music';
     var _callback = {};
     var _data = [];
@@ -116,8 +117,6 @@
     _form['components']['input'].setAttr('min','1');
 
     for(var field in _form){
-      console.log(field)
-      console.log(_form[field])
         _content.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render());
       };
     var _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
@@ -127,7 +126,7 @@
 
     var _category = Pard.Widgets.Selector(_labelsCategories, _valuesCategories).render();
 
-    _createdWidget.append(_category, _content, _submitBtnContainer.append(submitButton));
+    _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
 
     _category.on('change', function(){
       _selected = $(this).val();
@@ -142,12 +141,17 @@
     });
 
     var _filled = function(){
-      for(var field in _form){;
+      var check = _form['conditions'].input.getVal();
+      for(var field in _form){
         if ($.inArray(field, _requiredFields) >= 0 ){
-          if(_form[field].input.getVal().length == 0) return false;
+          if(!(_form[field].input.getVal())) {
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;}
         }
       }
-      return _form['conditions'].input.getVal();
+      if (_check) _invalidInput.empty();
+      return _check;    
     };
 
     var _getVal = function(){

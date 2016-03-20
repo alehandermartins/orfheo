@@ -24,6 +24,8 @@
   ns.Widgets.ModifyProfileMessage = function(profile, submitButton){
 
     var _createdWidget = $('<div>');
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
     var _submitForm = {};
     var _callback = {};
     var _data = [];
@@ -120,16 +122,20 @@
       _createdWidget.append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render());
     };
 
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    _createdWidget.append(_submitBtnContainer.append(submitButton));
+    _createdWidget.append(_invalidInput, _submitBtnContainer.append(submitButton));
 
     var _filled = function(){
+      var _check = true;
       for (field in _form){
         if ($.inArray(field, _requiredFields) >= 0){
-          if(!(_form[field].input.getVal())) return false;
+          if(!(_form[field].input.getVal())) {
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;}
         }
       }
-      return true;
+      if (_check) _invalidInput.empty();
+      return _check;    
     };
 
     var _getVal = function(){
@@ -304,7 +310,7 @@
     var _createdWidget = $('<div>');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-
+    var _invalidInput = $('<div>').addClass('not-filled-text');
 
     _submitForm['proposal_id'] = proposal.proposal_id;
     _submitForm['profile_id'] = profile_id;
@@ -318,12 +324,17 @@
     };
 
     var _filled = function(){
-      for (var field in _form){
+      var _check = true;
+      for (field in _form){
         if ($.inArray(field, _requiredFields) >= 0){
-          if(!(_form[field].input.getVal())) return false;
+          if(!(_form[field].input.getVal())) {
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;}
         }
       }
-      return true;
+      if (_check) _invalidInput.empty();
+      return _check;    
     };
 
     var _getVal = function(url){
@@ -348,7 +359,7 @@
       _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()));
     };
 
-    _createdWidget.append(_submitBtnContainer.append(submitButton));
+    _createdWidget.append(_invalidInput, _submitBtnContainer.append(submitButton));
 
     return {
       render: function(){

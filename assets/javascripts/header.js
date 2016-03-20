@@ -7,7 +7,7 @@
   ns.Widgets.ModifyPassword = function(){
 
     var _createdButton = $('<a>').attr('href','#').text('Modificar contraseña');
-    var _popup = Pard.Widgets.PopupCreator(_createdButton,  '', function(){return Pard.Widgets.ModifyPasswordMessage()});
+    var _popup = Pard.Widgets.PopupCreator(_createdButton,  'Introduce una nueva contraseña', function(){return Pard.Widgets.ModifyPasswordMessage()});
 
     var _createdWidget = _popup.render();
 
@@ -21,7 +21,7 @@
 
   ns.Widgets.ModifyPasswordMessage = function(){
     var _createdWidget = $('<div>');
-    var _invalidInput = $('<div>');
+    var _invalidInput = $('<div>').addClass('error-text');
 
     var _fields = {};
 
@@ -29,46 +29,55 @@
     var _types = ['password', 'passwordConf'];
 
     _types.forEach(function(id, index){
-      _fields[id] = Pard.Widgets.Input(_labels[index], 'password', function(){
+      _fields[id] = Pard.Widgets.Input(_labels[index], 'password', '', function(){
 
         var _checkEqual = function(){
-          if(_fields['password'].getVal() != _fields['passwordConf'].getVal()){
-            _fields['passwordConf'].addWarning();
-            _invalidInput.text('Las contraseñas no coinciden.');
-          }else{
-            _fields['passwordConf'].removeWarning();
-            _invalidInput.empty();
-            return true;
-          }
+          if (_fields['passwordConf'].getVal()){
+            if(_fields['password'].getVal() != _fields['passwordConf'].getVal()){
+              _fields['passwordConf'].addWarning();
+              _invalidInput.text('Las contraseñas no coinciden.');
+            }
+            else{
+              _fields['passwordConf'].removeWarning();
+              _invalidInput.empty();
+              return true;
+            }
+          }  
         }
 
         var _checkInput = function(){
           if(_fields['password'].getVal().length < 8){
             _fields['password'].addWarning();
             _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
-          }else{
+          }
+          else{
             _fields['password'].removeWarning();
+            _invalidInput.empty();
             return _checkEqual();
           }
         }
 
-        if (_checkInput() == true){
+        if (_checkInput()){
           _fields['button'].enable();
-        }else{
+        }
+        else{
           _fields['button'].disable();
         }
+
       });
     });
 
     _fields['button'] = Pard.Widgets.Button('OK');
+    _fields['button'].setClass('recoveryPasswd-popup-button');
 
      _fields['button'].disable();
 
-    Object.keys(_fields).map(function(field){
+
+    _types.forEach(function(field){
       _createdWidget.append(_fields[field].render());
     });
 
-    _createdWidget.append(_invalidInput);
+    _createdWidget.append(_invalidInput, _fields['button'].render());
 
     return {
       render: function(){

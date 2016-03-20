@@ -216,7 +216,7 @@
       helptext:Pard.Widgets.HelpText('')
     }
 
-    var _requiredFields = ['phone', 'description', 'conditions']
+    var _requiredFields = ['phone', 'description', 'conditions', 'responsible']
 
     return {
       render: function(){

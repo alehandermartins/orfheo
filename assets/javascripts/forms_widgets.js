@@ -220,10 +220,10 @@
         _inputTel.setVal(value);
       },
       addWarning: function(){
-        _inputTel.addClass('warning');
+        _inputTel.addWarning();
       },
       removeWarning: function(){
-        _inputTel.removeClass('warning');
+        _inputTel.removeWarning();
       },
       setClass: function(_class){
         _inputTel.setClass(_class);
@@ -278,6 +278,8 @@
     var _label = $('<label>').html(label);
     var _createdWidget = $('<div>').append(_input,_label);
 
+    _input.on('change', function(){(_input.is(":checked")) ? _input.removeClass('checkBox-warning') : _input.addClass('checkBox-warning') })
+
     return {
       render: function(){
         return _createdWidget;
@@ -287,6 +289,12 @@
       },
       setVal: function(_val){
         _input.attr('checked', _val);;
+      },
+      addWarning: function(){
+        _input.addClass('checkBox-warning');
+      },
+      removeWarning: function(){
+        _input.removeClass('checkBox-warning');
       }
     }
   }
@@ -377,6 +385,9 @@
         	_inputForm[field].setAttr('disabled', false);
         	_inputForm[field].setVal(_val[field]);
         }
+      },
+      addWarning: function(){
+        addressValue();
       }
     }
   }

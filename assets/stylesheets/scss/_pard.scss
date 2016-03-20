@@ -91,6 +91,10 @@ html{
   border:1px solid red;
 }
 
+.checkBox-warning{
+  outline: 1px solid red;
+}
+
 /*===============================================
 GENERAL LAYOUT
 ================================================*/
@@ -273,14 +277,12 @@ button{
   @extend .pard-btn;
   position: relative;
   float: right;
-  margin-bottom: 2rem;
   font-size: $almostNormalSize;
 }
 
 .submit-btn-container{
-  display: block;
   min-height: 2rem;
-  margin-bottom: -0.5rem;
+  margin-bottom: -0.8rem;
   width: 100%;  
 }
 
@@ -290,7 +292,8 @@ button{
   position: relative;
   float: right;
   font-size: $almostNormalSize;
-  margin-top:-0.5rem;
+  margin-top:-0.9rem;
+  margin-left:1.5rem;
 }
 
 .signup-form-btn{
@@ -801,10 +804,14 @@ textarea, select {
   width: 6.5rem;
 }
 
-.error-text{
+.error-text, .not-filled-text{
   color: red;
   font-size: $almostNormalSize;
   min-height: 1.5rem;
+}
+
+.not-filled-text{
+  margin-bottom: -0.5rem;
 }
 
 
