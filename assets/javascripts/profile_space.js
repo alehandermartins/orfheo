@@ -25,6 +25,7 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
@@ -37,7 +38,7 @@
       _createdWidget.append(_form[field].label.render().append(_form[field].input.render()),_form[field].helptext.render());
     }
 
-    _createdWidget.append(submitButton);
+    _createdWidget.append(_submitBtnContainer.append(submitButton));
 
     var _filled = function(){
       for (var field in _form){;

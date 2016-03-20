@@ -402,6 +402,7 @@
       _webFieldAdded.empty();
       entries.pop();
     });
+    _deleteBtn.setClass('minus-inform-btn');
 
   	var _webFieldAdded = $('<div>').append(_inputsObj['web_title'].render(), _inputsObj['link'].render(), _deleteBtn.render());
 
@@ -435,10 +436,14 @@
       _entries = Pard.Widgets.AddWebField(_inputWeb, _entries).render();
     });
 
+    _addFieldBtn.setClass('plus-inform-btn');
+
     var _deleteBtn = Pard.Widgets.Button('-', function(){
       _webFieldAdded.empty();
       _entries.pop();
     });
+
+    _deleteBtn.setClass('minus-inform-btn')
   
     var _webField = $('<div>').append(_entries[0]['web_title'].render(), _entries[0]['link'].render());
     _inputWeb.append(_webField);

@@ -24,6 +24,7 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _selected = 'music';
     var _callback = {};
     var _data = [];
@@ -126,7 +127,7 @@
 
     var _category = Pard.Widgets.Selector(_labelsCategories, _valuesCategories).render();
 
-    _createdWidget.append(_category, _content, submitButton);
+    _createdWidget.append(_category, _content, _submitBtnContainer.append(submitButton));
 
     _category.on('change', function(){
       _selected = $(this).val();
@@ -134,10 +135,10 @@
       _form = Pard.Forms.ArtistCall(_selected).render();
       _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
       for(var field in _form){
-        _content.append(_form[field].render());
+        _content.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render());
       };
       _submitForm['category'] = _selected;
-      _createdWidget.append(_category, _content, submitButton);
+      _createdWidget.append(_category, _content, _submitBtnContainer.append(submitButton));
     });
 
     var _filled = function(){

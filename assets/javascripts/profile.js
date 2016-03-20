@@ -6,7 +6,8 @@
   ns.Widgets.ModifyProfile = function(profile){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica el perfil');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('OK');
+    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
+
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tus datos', function(){
       return Pard.Widgets.ModifyProfileMessage(profile, _submitBtn);
     });
@@ -119,7 +120,8 @@
       _createdWidget.append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render());
     };
 
-    _createdWidget.append(submitButton);
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    _createdWidget.append(_submitBtnContainer.append(submitButton));
 
     var _filled = function(){
       for (field in _form){
@@ -164,7 +166,7 @@
   ns.Widgets.ModifyProduction = function(proposal, profile_id, user_id, sectionContent){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('OK');
+    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal, profile_id, user_id, sectionContent, _submitBtn)});
 
     var _createdWidget = _popup.render();
@@ -301,6 +303,8 @@
 
     var _createdWidget = $('<div>');
     var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+
 
     _submitForm['proposal_id'] = proposal.proposal_id;
     _submitForm['profile_id'] = profile_id;
@@ -344,7 +348,7 @@
       _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()));
     };
 
-    _createdWidget.append(submitButton);
+    _createdWidget.append(_submitBtnContainer.append(submitButton));
 
     return {
       render: function(){

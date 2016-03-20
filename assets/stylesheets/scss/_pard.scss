@@ -277,6 +277,13 @@ button{
   font-size: $almostNormalSize;
 }
 
+.submit-btn-container{
+  display: block;
+  min-height: 2rem;
+  margin-bottom: -0.5rem;
+  width: 100%;  
+}
+
 
 .recoveryPasswd-popup-button{
   @extend .pard-btn;
@@ -285,6 +292,66 @@ button{
   font-size: $almostNormalSize;
   margin-top:-0.5rem;
 }
+
+.signup-form-btn{
+  @include horizontal-center;
+  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+  position:relative;
+  margin-top: 1rem;
+}
+
+.plus-inform-btn, .minus-inform-btn{
+  @extend .pard-btn;
+  @include pardCircle(1.5rem);
+  float: right;
+  padding:0;
+  
+  // @include border-radius($element-border-radius);
+}
+
+.plus-inform-btn{
+  margin-left:1rem;
+  margin-top: -0.6rem;
+} 
+
+.minus-inform-btn{
+  // margin-top: -4.4rem;
+  margin-top: -0.6rem;
+  margin-left:0.5rem;
+}
+
+.create-profile-btn {
+  @include horizontal-center;
+  margin-top: 3rem;
+  height:2rem;
+}
+
+.login-btn{
+  @extend .pard-btn;
+  padding: 0.3rem 0.65rem;
+  font-weight: 600;
+  font-size: $almostNormalSize;
+  // @include breakpoint(large){
+  // margin-right: -0.1rem;}
+  @include breakpoint(medium down){
+    float: right;
+    margin-right: 1rem;
+  }
+}
+
+.signupButton{
+  color: $element-color;
+  font-weight: 600;
+  width: 100%;
+  padding-top:2rem;
+  padding-bottom:2rem;
+  margin-bottom: 1.5rem;
+  @include border-radius($element-border-radius);
+  font-size: $smallSize;
+  @include linearGradient(#b9daad, #6cb252);
+}
+
+
 
 
 
@@ -354,18 +421,7 @@ Header
   }
 }
 
-.login-btn{
-  @extend .pard-btn;
-  padding: 0.3rem 0.65rem;
-  font-weight: 600;
-  font-size: $almostNormalSize;
-  // @include breakpoint(large){
-  // margin-right: -0.1rem;}
-  @include breakpoint(medium down){
-    float: right;
-    margin-right: 1rem;
-  }
-}
+
 
 .passwdRecovery{
   font-size: $smallSize;
@@ -386,17 +442,7 @@ Header
 Aside content LogIn page
 -------------------------*/
 
-.signupButton{
-  color: $element-color;
-  font-weight: 600;
-  width: 100%;
-  padding-top:2rem;
-  padding-bottom:2rem;
-  margin-bottom: 1.5rem;
-  @include border-radius($element-border-radius);
-  font-size: $smallSize;
-  @include linearGradient(#b9daad, #6cb252);
-}
+
 
 // .signUp-aside-text{
 //   position: horizontal-center;
@@ -539,14 +585,7 @@ Aside content User page
   // margin-bottom: 1.5rem;
 }
 
-.create-profile-btn {
-  // display: block;
-  // position: relative;
-  // position: absolute;
-  @include horizontal-center;
-  margin-top: 3rem;
-  height:2rem;
-}
+
 
 .myprofile-card-position{
   margin-top: 1.8rem;
@@ -621,7 +660,7 @@ Profile Card
 
 .circleProfile{
   @include pardCircle(5rem);
-  background: red;
+  // background: red;
 }
 
 .position-circleProfile-card {
@@ -768,12 +807,7 @@ textarea, select {
   min-height: 1.5rem;
 }
 
-.signup-form-btn{
-  @include horizontal-center;
-  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
-  position:relative;
-  margin-top: 1rem;
-}
+
 
 
 /*==============================================
@@ -823,6 +857,11 @@ POPUP
 
 .popup-container-full{
     max-width: 40rem; //640px
+    margin-bottom: 0.6rem;
+    // @include absolute-center;
+    @include breakpoint(medium down){
+      margin-right: 2rem;
+    }
 }
 
 .alert-container-full{

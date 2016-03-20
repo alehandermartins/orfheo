@@ -36,7 +36,7 @@
   ns.Widgets.CreateTypeProfile = function(type){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Crea');
+    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
     var _title = {
       artist: 'Perfil de artista',
       space: 'Perfil de espacio'
@@ -84,11 +84,13 @@
     var _content = $('<div>');
     var _btnContainer = $('<div>');
     var _invalidInput = $('<div>');
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+
    
     var _profileForm = Pard.Widgets.ProfileForm();
 
     _content.append(_profileForm.getForm(type))
-    _btnContainer.append(submitButton);
+    _btnContainer.append(_submitBtnContainer.append(submitButton));
 
     _createdWidget.append(_content, _btnContainer, _invalidInput);
 
