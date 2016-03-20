@@ -1,6 +1,15 @@
 'use strict';
 
 Pard.CachedProfiles = {};
+Pard.ProfileManager = {
+  getProfile: function(profile_id){
+    var _profile = {};
+    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+      if(profile.profile_id == profile_id) _profile = profile;
+    });
+    return _profile;
+  }
+}
 
 Pard.Welcome = function(profiles){
 

@@ -19,7 +19,7 @@
     _toUserPageBtn.setClass('toUserPage-btn');
     _buttonContainer.append(_toUserPageBtn.render());
 
-    _profilesNavigation.append(Pard.Widgets.ProfilesNavigation(profiles, sectionContent, _myproductionContent).render());
+    _profilesNavigation.append(Pard.Widgets.ProfilesNavigation(sectionContent, _myproductionContent).render());
 
     _myproductions.append(Pard.Widgets.ProductionsNavigation(profiles[0], sectionContent, _myproductionContent).render())
 
@@ -32,15 +32,16 @@
     }
   }
 
-  ns.Widgets.ProfilesNavigation = function(profiles, sectionContent, productionContent){
+  ns.Widgets.ProfilesNavigation = function(sectionContent, productionContent){
     var _createdWidget = $('<div>');
+    var profiles = Pard.CachedProfiles['my_profiles'];
 
     var profileNavList = function(_profiles, _index){
     	_createdWidget.empty();
 
       var _reorderedProfiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
 
-    	Pard.Widgets.ProfileSection(_reorderedProfiles[0]['type']).render()(_reorderedProfiles, sectionContent);
+    	Pard.Widgets.ProfileSection(_reorderedProfiles[0]['type']).render()(sectionContent, _reorderedProfiles[0].profile_id);
     	Pard.Widgets.ProductionsNavigation(_reorderedProfiles[0], sectionContent, productionContent);
 
       history.pushState({},'',_reorderedProfiles[0].profile_id);
@@ -52,7 +53,7 @@
     		if(!(index)) _createdWidget.append(
         Pard.Widgets.ProfilesNavigationSelected(
           profile,function(){
-            Pard.Widgets.ProfileSection(profile['type']).render()(_reorderedProfiles, sectionContent)
+            Pard.Widgets.ProfileSection(profile['type']).render()(sectionContent, _reorderedProfiles[0].profile_id)
     				Pard.Widgets.ProductionsNavigation(profile, sectionContent, productionContent);
     			}
         ).render());
@@ -67,6 +68,7 @@
       $('#main-profile-page').css({'background': _backColor});
       });
 
+    console.log(profiles);
 
     profiles.forEach(function(profile, index) {
     	if(!(index)) _createdWidget.append(Pard.Widgets.ProfilesNavigationSelected(profile, function(){Pard.Widgets.ProfileSection(profile['type']).render()(profiles, sectionContent)}).render())	;
@@ -154,10 +156,10 @@
   }
 
 
-  ns.Widgets.ArtistProfileSectionContent = function(sectionContent) {
+  ns.Widgets.ArtistProfileSectionContent = function(sectionContent, profile_id) {
 
-
-    var profile = Pard.CachedProfiles['my_profiles'][0];
+    profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
+    var profile = Pard.ProfileManager.getProfile(profile_id);
 
     sectionContent.empty();
 
@@ -187,9 +189,10 @@
     }
   }
 
-  ns.Widgets.SpaceProfileSectionContent = function(sectionContent) {
+  ns.Widgets.SpaceProfileSectionContent = function(sectionContent, profile_id) {
 
-    var profile = Pard.CachedProfiles['my_profiles'][0];
+    profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
+    var profile = Pard.ProfileManager.getProfile(profile_id);
 
     sectionContent.empty();
 
