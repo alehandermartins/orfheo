@@ -59,7 +59,7 @@
         if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
             uploadErrors.push('Not an accepted file type');
         }
-        if(data.originalFiles[0]['size'] > 100000) {
+        if(data.originalFiles[0]['size'] > 500000) {
             uploadErrors.push('Filesize is too big');
         }
         if(uploadErrors.length > 0) {
@@ -157,7 +157,7 @@
   }
 
 
-   ns.Widgets.ToUserPage = function(){
+  ns.Widgets.ToUserPageLink = function(){
 
       var _createdButton = $('<a>').attr('href','/users/').text('Pagina de usuario')
 

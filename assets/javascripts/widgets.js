@@ -191,7 +191,7 @@
     var _red = parseInt((cutHex(hex)).substring(0,2),16);
     var _green = parseInt ((cutHex(hex)).substring(2,4),16);
     var _blue = parseInt((cutHex(hex)).substring(4,6),16);
-    var _reg =[_red, _green, _blue];
+    var _rgb =[_red, _green, _blue];
     var _lum = (_red / 255.0) * 0.3 + (_green / 255.0) * 0.59 + (_blue / 255.0) * 0.11;
 
     return {

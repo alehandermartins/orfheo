@@ -7,14 +7,15 @@
   ns.Widgets.ProfileAside = function (profiles, sectionContent) {
 
     var _createdWidget =  $('<div>').addClass('aside-container');
-    var _buttonContainer = $('<div>');
-    var _toUserPageBtn =  Pard.Widgets.ToUserPage().render();
-    var _profilesNavigation = $('<div>');
+    var _buttonContainer = $('<div>').addClass('toUserPage-btn-container');
+    var _toUserPageBtn =  Pard.Widgets.Button('Página de usuario', function(){
+      location.href = /users/});
+    var _profilesNavigation = $('<div>').addClass('profile-nav-container');
     var _myproductions = $('<div>');
     var _myproductionContent = $('<div>');
 
-    _toUserPageBtn.addClass('toUserPage-btn');
-    _buttonContainer.append(_toUserPageBtn);
+    _toUserPageBtn.setClass('toUserPage-btn');
+    _buttonContainer.append(_toUserPageBtn.render());
 
     _profilesNavigation.append(Pard.Widgets.ProfilesNavigation(profiles, sectionContent, _myproductionContent).render());
 
@@ -41,20 +42,30 @@
     	Pard.Widgets.ProductionsNavigation(_reorderedProfiles[0], sectionContent, productionContent);
 
       history.pushState({},'',_reorderedProfiles[0].profile_id);
-
+      $('#main-profile-page').css({'background-color': _reorderedProfiles[0]['color']});
+      
     	_reorderedProfiles.forEach(function(profile, index) {
-    		if(!(index)) _createdWidget.append($('<div>').append($('<a>').text(profile.name)).click(function(){
-    				Pard.Widgets.ProfileSection(profile['type']).render()(_reorderedProfiles, sectionContent)
+    		if(!(index)) _createdWidget.append(
+        Pard.Widgets.ProfilesNavigationSelected(
+          profile,function(){
+            Pard.Widgets.ProfileSection(profile['type']).render()(_reorderedProfiles, sectionContent)
     				Pard.Widgets.ProductionsNavigation(profile, sectionContent, productionContent);
-    			}));
-	    	else {_createdWidget.prepend(Pard.Widgets.Button(profile.name, function(){profileNavList(_reorderedProfiles, index)}).render());
+    			}
+        ).render());
+	    	else {_createdWidget.prepend(Pard.Widgets.ProfilesNavigationElement(profile, function(){profileNavList(_reorderedProfiles, index)}).render());
 	    	}
 	    });
     }
 
+    $(document).ready(function(){
+      var _rgb = Pard.Widgets.IconColor((profiles[0]['color'])).rgb();
+        $('#main-profile-page').css({'background-color': "'rgba ('+_rgb[0]+','+_rgb[1]','+_rgb[2]+','.3')'"});
+      });
+
+
     profiles.forEach(function(profile, index) {
-    	if(!(index)) _createdWidget.append($('<div>').append($('<a>').text(profile.name).click(function(){Pard.Widgets.ProfileSection(profile['type']).render()(profiles, sectionContent)})))	;
-    	else {_createdWidget.prepend(Pard.Widgets.Button(profile.name, function(){profileNavList(profiles, index)}).render());
+    	if(!(index)) _createdWidget.append(Pard.Widgets.ProfilesNavigationSelected(profile, function(){Pard.Widgets.ProfileSection(profile['type']).render()(profiles, sectionContent)}).render())	;
+    	else {_createdWidget.prepend(Pard.Widgets.ProfilesNavigationElement(profile, function(){profileNavList(profiles, index)}).render());
     	}
     });
 
@@ -63,6 +74,45 @@
         return _createdWidget;
       }
     }
+  }
+
+
+  ns.Widgets.ProfilesNavigationSelected = function(profile, callback){
+    var _createdWidget = $('<div>').addClass('profile-selected-container');
+    var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': profile['color']});
+    _profileCircle.click(function(){callback()});
+    var _name = $('<h6>').addClass('profile-nav-name-selected').text(profile['name']);
+    var _icon = $('<div>').addClass('profile-nav-element-icon').html('P');
+    var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
+    _icon.css({color: _colorIcon}); 
+    
+    _createdWidget.append(_profileCircle.append(_icon), _name)
+
+    return {
+      render: function() {
+        return _createdWidget;
+      }
+    } 
+  }
+
+
+
+  ns.Widgets.ProfilesNavigationElement = function(profile, callback){
+    var _createdWidget = $('<div>').addClass('profile-nav-element-container');
+    var _profileCircle = $('<div>').addClass('profile-nav-circle').css({'background-color': profile['color']});
+    _profileCircle.click(function(){callback()});
+    var _name = $('<p>').addClass('profile-nav-element-name').text(profile['name']);
+    var _icon = $('<div>').addClass('profile-nav-element-icon').html('P');
+    var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
+    _icon.css({color: _colorIcon}); 
+    
+    _createdWidget.append(_profileCircle.append(_icon), _name)
+
+    return {
+      render: function() {
+        return _createdWidget;
+      }
+    } 
   }
 
 

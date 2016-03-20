@@ -47,7 +47,7 @@ Pard.Profile = function(profiles){
   var _header = Pard.Widgets.UserHeader();
   var _footer = Pard.Widgets.Footer();
 
-  $(_whole).append(_header.render(), _main.render(), _footer.render());
+  $(_whole).append(_header.render(), _main.render().attr({id: 'main-profile-page'}) , _footer.render());
 
   var callButton = {
     artist: Pard.Widgets.CallButtonArtist,
@@ -58,6 +58,7 @@ Pard.Profile = function(profiles){
 
   if (!(profiles[0].proposals)) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
   }); 
+
 
   $('body').append(_whole);
 

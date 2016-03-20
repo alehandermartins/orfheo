@@ -354,7 +354,11 @@ button{
   @include linearGradient(#b9daad, #6cb252);
 }
 
-
+.toUserPage-btn{
+  height:3rem;
+  width: 100%;
+  font-weight: normal;
+}
 
 
 
@@ -594,6 +598,68 @@ Aside content User page
   margin-top: 1.8rem;
   background-color: $content-background;
 }
+
+
+/*===============================================
+PROFILE PAGE
+================================================*/
+
+/*--------
+Aside
+---------*/
+.toUserPage-btn-container{
+  margin-bottom:$pard-grid-spacing;
+}
+
+.profile-nav-container{
+  margin-bottom:$pard-grid-spacing;
+  @include border-radius($layout-border-radius);
+  display: block;
+}
+
+.profile-nav-element-container, .profile-selected-container{
+  position: relative;
+  width: 100%;
+}
+
+.profile-selected-container{
+  margin-top: $pard-grid-spacing;
+}
+
+.profile-nav-circle, 
+.profile-nav-circle-selected{
+  @include pardCircle(2.2rem);
+  cursor: pointer; 
+  position: relative;
+  margin: 0 auto;
+}
+
+.profile-nav-circle{
+    @include pardCircle(2.2rem);
+}
+
+.profile-nav-circle-selected{
+    @include pardCircle(4.4rem);
+}
+
+.profile-nav-element-icon{
+  @include absolute-center;
+}
+
+.profile-nav-element-name, .profile-nav-name-selected{
+  text-align: center;
+   margin-top: 0.2rem;
+}
+
+.profile-nav-element-name{
+  line-height: 1.1rem;
+  color: #6f6f6f;  
+}
+
+.profile-nav-name-selected{
+  line-height: 1.3rem;
+}
+
 
 
 /*===============================================
@@ -859,7 +925,7 @@ POPUP
   background: $content-background;
   display: block;
   padding: 1rem 1.5rem 0.01rem 1.5rem;
-  border-radius: $layout-border-radius;
+  @include border-radius($layout-border-radius);
 }
 
 .popup-container-full{
