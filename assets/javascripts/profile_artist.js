@@ -150,8 +150,8 @@
             _check = false;}
         }
       }
-      if (_check) _invalidInput.empty();
-      return _check;    
+      if (check) _invalidInput.empty();
+      return check;    
     };
 
     var _getVal = function(){

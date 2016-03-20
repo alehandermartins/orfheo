@@ -4,7 +4,9 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.ProfileAside = function (profiles, sectionContent) {
+  ns.Widgets.ProfileAside = function (sectionContent) {
+
+    var profiles = Pard.CachedProfiles['my_profiles'];
 
     var _createdWidget =  $('<div>').addClass('aside-container');
     var _buttonContainer = $('<div>').addClass('toUserPage-btn-container');
@@ -149,10 +151,10 @@
   }
 
 
-  ns.Widgets.ArtistProfileSectionContent = function(profiles, sectionContent) {
+  ns.Widgets.ArtistProfileSectionContent = function(sectionContent) {
 
 
-    var profile = profiles[0];
+    var profile = Pard.CachedProfiles['my_profiles'][0];
 
     sectionContent.empty();
 
@@ -182,9 +184,9 @@
     }
   }
 
-  ns.Widgets.SpaceProfileSectionContent = function(profiles, sectionContent) {
+  ns.Widgets.SpaceProfileSectionContent = function(sectionContent) {
 
-    var profile = profiles[0];
+    var profile = Pard.CachedProfiles['my_profiles'][0];
 
     sectionContent.empty();
 

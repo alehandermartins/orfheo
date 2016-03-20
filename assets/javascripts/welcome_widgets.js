@@ -70,13 +70,13 @@
     }
   }
 
-  ns.Widgets.LoginSection = function (profiles, content) {
+  ns.Widgets.LoginSection = function (content) {
 
     content.empty();
 
     var _content = content.addClass('grid-element-content');
     var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Descubre </h3> <h4>los participantes a la convocatoria del</h4><h3>Benimaclet conFusión festival</h3>');
-    var _searchEngine = Pard.Widgets.SearchEngine(profiles);
+    var _searchEngine = Pard.Widgets.SearchEngine();
 
     _content.append(_title, _searchEngine.render())
 

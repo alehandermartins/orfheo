@@ -2,13 +2,11 @@
 
   ns.Widgets = ns.Widgets || {};
 
-
-
-  ns.Widgets.SearchEngine = function (profiles) {
+  ns.Widgets.SearchEngine = function () {
 
     var _createdWidget = $('<div>');
 
-    var _profiles = profiles;
+    var _profiles = Pard.CachedProfiles['profiles'];
 
     var _searchTools = $('<div>').addClass('row lateral-content-padding');
     var _searchResult = $('<div>');
@@ -104,7 +102,7 @@
 
     var TypeCallbackBound = TypeCallback.bind(_typesSelector.render());
 
-    var _searchWidget = Pard.Widgets.SearchByName(profiles, searchCallback).render();
+    var _searchWidget = Pard.Widgets.SearchByName(_profiles, searchCallback).render();
 
     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render());
 

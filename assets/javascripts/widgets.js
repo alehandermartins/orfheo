@@ -214,7 +214,7 @@
     }
   }
 
-  ns.Widgets.MainLayout = function(asideContent, sectionContent, profiles){
+  ns.Widgets.MainLayout = function(asideContent, sectionContent){
 
     var _main = $('<main>');
 
@@ -230,11 +230,11 @@
 
     var _aside = $('<nav>').addClass('grid-aside');
     var _section = $('<section>').addClass('grid-section');
-    var _sectionContent = $('<div>');
+    var _sectionContainer = $('<div>');
 
-    _offCanvasSection.append(sectionContent(profiles, _sectionContent).render());
+    _offCanvasSection.append(sectionContent(_sectionContainer).render());
 
-    _offCanvasAside.append(asideContent(profiles, _sectionContent).render());
+    _offCanvasAside.append(asideContent(_sectionContainer).render());
 
     _aside.append(_offCanvasAside);
     _section.append(_offCanvasSection);

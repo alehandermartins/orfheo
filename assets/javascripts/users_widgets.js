@@ -5,7 +5,6 @@
 
   ns.Widgets = ns.Widgets || {};
 
-
   ns.Widgets.UserHeader = function(){
     
     var _createdWidget = $('<header>').addClass('user-bar');
@@ -57,11 +56,9 @@
   		} 
   	}
   }
-
-
   
-  ns.Widgets.UserAside = function (profiles) {
-    var myprofiles = profiles.my_profiles;
+  ns.Widgets.UserAside = function () {
+    var myprofiles = Pard.CachedProfiles['my_profiles'];
     var _createdWidget = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
     var _buttonContainer = $('<div>').addClass('create-profile-container');;
@@ -82,11 +79,11 @@
   }
 
 
-  ns.Widgets.UserSection = function (profiles, content) {
+  ns.Widgets.UserSection = function (content) {
 
     content.empty();
 
-    var profiles = profiles.profiles;
+    var profiles = Pard.CachedProfiles['profiles'];
     var _content = content.addClass('grid-element-content');
 
     var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Explora los otros perfiles </h3>');

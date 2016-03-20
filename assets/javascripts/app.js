@@ -1,13 +1,14 @@
 'use strict';
 
+Pard.CachedProfiles = {};
+
 Pard.Welcome = function(profiles){
 
+  Pard.CachedProfiles['profiles'] = profiles;
+
   var _header = Pard.Widgets.LoginHeader();
-  
-  var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection, profiles);
-
+  var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
   var _footer = Pard.Widgets.Footer();
-
   var _whole = $('<div>').addClass('whole-container');
   
   _whole.append(_header.render(), _main.render(), _footer.render());
@@ -18,10 +19,13 @@ Pard.Welcome = function(profiles){
 
 Pard.Users = function(profiles){
 
+  Pard.CachedProfiles['profiles'] = profiles.profiles;
+  Pard.CachedProfiles['my_profiles'] = profiles.my_profiles;
+
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.UserHeader();
 
-  var _main = Pard.Widgets.MainLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection,profiles);
+  var _main = Pard.Widgets.MainLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
 
   var _footer = Pard.Widgets.Footer();
 
@@ -40,9 +44,11 @@ Pard.Users = function(profiles){
 
 Pard.Profile = function(profiles){
 
+  Pard.CachedProfiles['my_profiles'] = profiles;
+
   var _whole = $('<div>').addClass('whole-container');
 
-  var _main = Pard.Widgets.MainLayout(Pard.Widgets.ProfileAside, Pard.Widgets.ProfileSection(profiles[0]['type']).render(), profiles);
+  var _main = Pard.Widgets.MainLayout(Pard.Widgets.ProfileAside, Pard.Widgets.ProfileSection(profiles[0]['type']).render());
 
   var _header = Pard.Widgets.UserHeader();
   var _footer = Pard.Widgets.Footer();
