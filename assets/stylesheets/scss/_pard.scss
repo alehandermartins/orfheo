@@ -342,8 +342,7 @@ button{
   // @include breakpoint(large){
   // margin-right: -0.1rem;}
   @include breakpoint(medium down){
-    float: right;
-    margin-right: 1rem;
+    margin-right: 2rem;
   }
 }
 
@@ -392,7 +391,6 @@ Header
 /*LARGE*/
 
 
-
 @media only screen and #{breakpoint(large)} {
   .login-bar{
     @extend .pard-bar;
@@ -413,28 +411,21 @@ Header
     display: block;
     float: right; 
     padding-top: 0.5rem;
-    input {
+    .input-login-field {
       margin-bottom: 0.1rem;
     }
   }
   @include breakpoint(large){
-    input {
+    margin-right:-0.75rem;
+    .input-login-field {
       display:inline-block;
       margin-right:0.4rem;
     }
   }
-  input{
+  .input-login-field{
     height: auto;
     font-size: $smallSize;
-  }
-}
-
-
-
-.passwdRecovery{
-  font-size: $smallSize;
-  @include breakpoint(large){
-    margin-left: 13.3rem;
+    width: 200px;
   }
 }
 
@@ -442,6 +433,49 @@ Header
     top: 100%;
     left: auto;
     right: 0;
+}
+
+// .login-header-tools, .login-header-tools label{
+//   font-size: $smallSize;
+// }
+
+.rememberMe-ckb input{
+  width:auto;
+  margin-right:0;
+  margin-top: 0.2rem;
+}
+
+.rememberMe-ckb{
+  @include breakpoint(medium down){
+    float: right;
+  }
+}
+
+.passwdRecovery{
+  @include breakpoint(medium down){
+    display: block;
+    margin-top: 0.2rem;
+  }
+}
+
+.rememberMe-ckb {
+  @include breakpoint(large){
+    width: 10rem;
+    display: block;
+    margin-left: 0.1rem;
+  }
+}
+
+.passwdRecovery, .rememberMe-ckb label{
+   font-size: $smallSize;
+}
+
+.passwdRecovery{
+  @include breakpoint(large){
+    float: right;
+    margin-top: -1.3rem;
+    margin-right: 6.7rem;
+  } 
 }
 
 

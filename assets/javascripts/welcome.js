@@ -149,20 +149,11 @@
   }
 
 
-  ns.Widgets.Login = function(){
+ ns.Widgets.Login = function(){
 
-    var _createdWidget = $('<form>').addClass('input-login') .attr({autocomplete:'on'}) ;
-    // .attr({autocomplete:'on',method: 'post', target: 'remember', action: '/content/blank'});
-    var _emailRecovery = $('<div>').addClass('passwdRecovery');
+    var _createdWidget = $('<form>').addClass('input-login').attr({autocomplete:'on'}) ;
+    var _emailRecovery = $('<span>').addClass('passwdRecovery');
     var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
-
-    // var _iframe = $('iframe').attr({id: 'remember', name: 'remember', src: '/content/blank'}).css({display: 'none'});
-
-      _createdWidget.on('submit', function(){Pard.Backend.login(
-        _fields['email'].getVal(),
-        _fields['password'].getVal(),
-        Pard.Events.Login
-      )});
 
     var _popup = Pard.Widgets.PopupCreator(_caller,'Recupera tu cuenta', function(){return Pard.Widgets.RecoveryMessage()});
 
@@ -194,40 +185,28 @@
       });
     });
 
-    // var _fakeSubmit = $('<button>').attr({type:'submit'}).css({display: 'none'}); 
-
     _fields['button'] = Pard.Widgets.Button('Log In', function(){
       Pard.Backend.login(
         _fields['email'].getVal(),
         _fields['password'].getVal(),
         Pard.Events.Login
       );
-      // _fakeSubmit.trigger('click');
     });
 
-
-// function forceAutoComplete() {
-// var $forms = document.getElementsByTagName("FORM");
-// for ( var i = 0; i < $forms.length; i++ ) {
-// var $form = $forms[i];
-// var $submit = document.createElement("INPUT");
-// $submit.type = "submit";
-// $form.appendChild($submit);
-// $form.onsubmit = function(){return false}
-// $submit.style.display = "none";
-// $submit.click();
-// }
-// }
-
-
     _fields['button'].setClass('login-btn');
-    _fields['button'].disable();
+    _fields['email'].setClass('input-login-field');
+    _fields['password'].setClass('input-login-field');
+
+    var _rememberMe = Pard.Widgets.RememberMe(_fields['email'], _fields['password'], _fields['button']);
 
     Object.keys(_fields).map(function(field){
       _createdWidget.append(_fields[field].render().attr({name: field}));
     });
 
-    _createdWidget.append(_emailRecovery);
+    // var _tools = $('<div>').addClass('login-header-tools');
+    // _tools.append(_rememberMe.render(),_emailRecovery);
+
+    _createdWidget.append(_rememberMe.render(),_emailRecovery);
 
     return {
       render: function(){
@@ -235,6 +214,52 @@
       }
     }
   }
+
+  ns.Widgets.RememberMe = function(emailField, passwdField, button){
+
+    var _ckb = $('<input>').attr({type:'checkbox', value:'remember-me'}); 
+    var _label = $('<label>').text('Recuérdame');
+    var _createdWidget = $('<span>').append(_ckb,_label);
+    _createdWidget.addClass('rememberMe-ckb');
+
+
+
+    $(function() {
+   
+      if (localStorage.chkbx && localStorage.chkbx != '') {
+          _ckb.attr('checked', 'checked');
+          emailField.setVal(localStorage.usrname);
+          passwdField.setVal(localStorage.pass);
+          button.enable();
+      } else {
+          _ckb.removeAttr('checked');
+          emailField.setVal('');
+          passwdField.setVal('');
+          button.disable();
+      }
+    });
+
+    _ckb.click(function() {
+
+        if (_ckb.is(':checked')) {
+            // save username and password
+            localStorage.usrname = emailField.getVal();
+            localStorage.pass = passwdField.getVal();
+            localStorage.chkbx = _ckb.val();
+        } else {
+            localStorage.usrname = '';
+            localStorage.pass = '';
+            localStorage.chkbx = '';
+        }
+    });
+
+    return {
+      render: function(){
+        return _createdWidget;      }
+    }
+
+  }
+
 
 }(Pard || {}));
 
