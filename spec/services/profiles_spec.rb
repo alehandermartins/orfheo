@@ -6,12 +6,14 @@ describe Services::Profiles do
 
   let(:profile){
     {
+      user_id: user_id,
       profile_id: profile_id,
       type: 'artist',
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
       profile_picture: ['profile.jpg'],
+      color: 'color',
       bio: 'bio',
       personal_web: 'my_web'
     }
@@ -90,6 +92,8 @@ describe Services::Profiles do
         zip_code: 'zip_code',
         color: 'new_color',
         profile_picture: ['otter.jpg'],
+        bio: 'bio',
+        personal_web: 'my_web'
       }
     }
 

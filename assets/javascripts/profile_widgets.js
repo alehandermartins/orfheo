@@ -224,7 +224,6 @@
 
     _sectionContent.append(_modifyProfile.render(), _mySpaceCallProposals.render(), _callButton.render());
 
-
     return{
       render: function(){
         return _sectionContent;
