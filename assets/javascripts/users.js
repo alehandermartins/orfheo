@@ -8,7 +8,6 @@
   ns.Widgets.CreateProfile = function(){
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage()});
-
    
     return {
       render: function(){
@@ -16,7 +15,6 @@
       }
     }
   }
-
 
   ns.Widgets.MyProfiles = function(profiles){
 
@@ -34,12 +32,11 @@
   ns.Widgets.CreateTypeProfile = function(type){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
-    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
     var _title = {
       artist: 'Perfil de artista',
       space: 'Perfil de espacio'
     }
-    var _popup = Pard.Widgets.PopupCreator(_caller, _title[type], function(){ return Pard.Widgets.CreateTypeProfileMessage(type, _submitBtn)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, _title[type], function(){ return Pard.Widgets.CreateTypeProfileMessage(type)});
 
     var _createdWidget = _popup.render();
 
@@ -75,61 +72,23 @@
     }
   }
 
-  ns.Widgets.CreateTypeProfileMessage = function(type, submitButton){
+  ns.Widgets.CreateTypeProfileMessage = function(type){
 
     var _createdWidget = $('<div>');
+
+    var _form = {};
     
-    var _content = $('<div>');
-    // var _btnContainer = $('<div>');
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var _invalidInput = $('<div>').addClass('not-filled-text');
+    _form['artist'] = Pard.Widgets.ArtistForm();
+    _form['space'] = Pard.Widgets.SpaceForm();
    
-    var _profileForm = Pard.Widgets.ProfileForm();
-
-    _content.append(_profileForm.getForm(type))
-    _submitBtnContainer.append(submitButton);
-
-    _createdWidget.append(_content,  _invalidInput, _submitBtnContainer);
-
-    
+    _createdWidget.append(_form[type].render());
+       
     return {
       render: function(){
         return _createdWidget;
       },
-      getVal: function(){
-        return _profileForm.getVal();
-      },
       setCallback: function(callback){
-        submitButton.on('click',function(){
-          if(_profileForm.filled(_invalidInput)){
-            console.log(_profileForm.getVal());
-            Pard.Backend.createProfile(_profileForm.getVal(), Pard.Events.CreateProfile);
-            callback();
-          }
-        });
-      }
-    }
-  }
-
-
-  ns.Widgets.ProfileForm = function(){
-
-    var _form = {};
-    var _selected = 'artist';
-
-    _form['artist'] = Pard.Widgets.ArtistForm();
-    _form['space'] = Pard.Widgets.SpaceForm();
-
-    return {
-      getForm: function(type){
-        _selected = type;
-        return _form[type].render();
-      },
-      getVal: function(){
-        return _form[_selected].getVal();
-      },
-      filled: function(_invalidInput){
-        return _form[_selected].filled(_invalidInput);
+        _form[type].setCallback(callback);
       }
     }
   }
@@ -137,6 +96,11 @@
   ns.Widgets.ArtistForm = function(){
 
     var _createdWidget = $('<div>');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
+
+    var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
 
     var _form = Pard.Forms.BasicArtistForm().render();
 
@@ -147,30 +111,49 @@
       )
     }
 
+    var _filled = function(){
+      var _check = true;
+      var _requiredFields = Pard.Forms.BasicArtistForm().requiredFields();
+      _requiredFields.forEach(function(field){
+        if(!(_form[field].input.getVal())){
+          _form[field].input.addWarning();
+          _invalidInput.text('Por favor, revisa los campos obligatorios.');
+          _check = false;
+        } 
+      });
+      return _check;
+    }
+
+    var _getVal = function(){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      };
+      _submitForm['type'] = 'artist';
+      return _submitForm;
+    }
+
+    var _send = function(){
+      Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+    }
+
+    var _closepopup = {};
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _closepopup();
+        _send();
+      }
+    });
+
+    _submitBtnContainer.append(submitButton);
+    _createdWidget.append(_invalidInput, _submitBtnContainer);
+
     return {
       render: function(){
         return _createdWidget;
       },
-      getVal: function(){
-        var _submitForm = {};
-        _submitForm['type'] = 'artist';
-        for(var field in _form){
-          _submitForm[field] = _form[field].input.getVal();
-        }
-        return _submitForm;
-      },
-      filled: function(_invalidInput){
-        var _check = true;
-        var _requiredFields = Pard.Forms.BasicArtistForm().requiredFields();
-        _requiredFields.forEach(function(field){
-          if(!(_form[field].input.getVal())){
-            _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
-            _check = false;
-          } 
-        });
-        if(_check) _invalidInput.empty();
-        return _check;
+      setCallback: function(callback){
+        _closepopup = callback;
       }
     }
   }
@@ -179,6 +162,20 @@
   ns.Widgets.SpaceForm = function(){
 
     var _createdWidget = $('<div>');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
+
+    var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+    var user_id = Pard.ProfileManager.getUserId();
+
+    var _thumbnail = $('<div>');
+    var _url = [];
+
+    var _folder = user_id + '/photos';
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
+
+    _createdWidget.append(_photos.render(), _thumbnail);
 
     var _form = Pard.Forms.BasicSpaceForm().render();
 
@@ -189,32 +186,58 @@
       )
     }
 
+    var _filled = function(){
+      var _check = true;
+      var _requiredFields = Pard.Forms.BasicSpaceForm().requiredFields();
+      _requiredFields.forEach(function(field){
+        if(!(_form[field].input.getVal())){
+          _form[field].input.addWarning();
+          _invalidInput.text('Por favor, revisa los campos obligatorios.');
+          _check = false;
+        } 
+      });
+      return _check;
+    }
+
+    var _getVal = function(url){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      };
+      _submitForm['photos'] = url;
+      _submitForm['type'] = 'space';
+      return _submitForm;
+    }
+
+    var _send = function(url){
+      Pard.Backend.createProfile(_getVal(url), Pard.Events.CreateProfile);
+    }
+
+    var _closepopup = {};
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _closepopup();
+        if(_photos.dataLength() == false) _send(_url);
+        else{
+          _photos.submit();
+        }
+      }
+    });
+
+    _photos.render().bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+      if(_url.length >= _photos.dataLength()) _send(_url);
+    });
+
+    _submitBtnContainer.append(submitButton);
+    _createdWidget.append(_invalidInput, _submitBtnContainer);
 
     return {
       render: function(){
         return _createdWidget;
       },
-      getVal: function(){
-        var _submitForm = {};
-        _submitForm['type'] = 'space';
-        for(var field in _form){
-          _submitForm[field] = _form[field].input.getVal();
-        }
-        return _submitForm;
-      },
-      filled: function(_invalidInput){
-        var _check = true;
-        var _requiredFields = Pard.Forms.BasicSpaceForm().requiredFields();
-        _requiredFields.forEach(function(field){
-          if(!(_form[field].input.getVal())){
-            console.log(_form[field].input);
-            _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
-            _check = false;
-          } 
-        });
-        if (_check) _invalidInput.empty();
-        return _check;
+      setCallback: function(callback){
+        _closepopup = callback;
       }
     }
   }

@@ -100,7 +100,6 @@
          _submitForm[field] = _form[field].input.getVal();
       };
       _submitForm['profile_picture'] = url;
-      console.log(_submitForm);
       return _submitForm;
     }
 

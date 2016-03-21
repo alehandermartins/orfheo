@@ -165,16 +165,16 @@
 
     var _sectionContent = sectionContent.addClass('grid-element-content');
 
-  	['name','city', 'bio', 'personal_web'].forEach(function(element) {
-      _sectionContent.append( $('<div>').text(profile[element]));
-    });
-
-    if('profile_picture' in profile && profile.profile_picture != null){
+     if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
         { format: 'jpg', width: 50, height: 50,
           crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
       _sectionContent.append(_photo);
     }
+
+  	['name','city', 'bio', 'personal_web'].forEach(function(element) {
+      if(profile[element] != null) _sectionContent.append( $('<div>').text(profile[element]));
+    });
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
     var _callButton = Pard.Widgets.CallButtonArtist(profile);
@@ -198,15 +198,24 @@
 
     var _sectionContent = sectionContent.addClass('grid-element-content');
 
-    ['name','city', 'address', 'category', 'bio', 'personal_web'].forEach(function(element) {
-      _sectionContent.append( $('<div>').text(profile[element]));
-    });
-
     if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
         { format: 'jpg', width: 50, height: 50,
           crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
       _sectionContent.append(_photo);
+    }
+
+    ['name','city', 'address', 'category', 'bio', 'personal_web'].forEach(function(element) {
+      if(profile[element] != null) _sectionContent.append( $('<div>').text(profile[element]));
+    });
+
+    if('photos' in profile && profile.photos != null){
+      profile.photos.forEach(function(photo){
+        var _photo = $.cloudinary.image(photo,
+          { format: 'jpg', width: 50, height: 50,
+            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+        _sectionContent.append(_photo);
+      });
     }
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);

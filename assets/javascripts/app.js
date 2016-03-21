@@ -31,16 +31,8 @@ Pard.ProfileManager = {
     });
     return _profile_id;
   },
-  getUserId: function(proposal_id){
-    var _user_id = '';
-    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
-      if('proposals' in profile){
-        profile.proposals.forEach(function(proposal){
-          if(proposal.proposal_id == proposal_id) _user_id = profile.user_id;
-        });
-      }
-    });
-    return _user_id;
+  getUserId: function(){
+    return Pard.CachedProfiles['my_profiles'][0].user_id;
   },
   modifyProduction: function(production){
     Pard.CachedProfiles['my_profiles'].forEach(function(profile){
@@ -94,7 +86,6 @@ Pard.Users = function(profiles){
 }
 
 Pard.Profile = function(profiles){
-  console.log(profiles);
 
   Pard.CachedProfiles['my_profiles'] = profiles;
 
