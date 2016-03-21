@@ -6,9 +6,8 @@
   ns.Widgets.CallButtonArtist = function(profile){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
-    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envia');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){
-      return Pard.Widgets.CallMessageArtist(profile, _submitBtn);
+      return Pard.Widgets.CallMessageArtist(profile);
     });
 
     var _createdWidget = _popup.render();
@@ -20,9 +19,9 @@
     }
   }
 
-  ns.Widgets.CallMessageArtist = function(profile, submitButton){
-
+  ns.Widgets.CallMessageArtist = function(profile){
     var _createdWidget = $('<div>');
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envia');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');

@@ -31,8 +31,6 @@
     }
   }
 
-
-
   ns.Widgets.CreateTypeProfile = function(type){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
