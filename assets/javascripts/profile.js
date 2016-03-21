@@ -27,85 +27,42 @@
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
     var _submitForm = {};
-    var _callback = {};
-    var _data = [];
 
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        _callback();
-        Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
-      }
-    });
+    var user_id = Pard.ProfileManager.getUserId();
+    var profile_id = profile.profile_id;
 
-    var _photo = $.cloudinary.unsigned_upload_tag(
-      "kqtqeksl",
-      {
-        cloud_name: 'hxgvncv7u',
-        folder: profile.user_id + '/' + profile.profile_id + '/profile_picture'
-      }
-    );
-    var _thumbnail = $('<div>').addClass('thumbnails');
+    var _thumbnail = $('<div>');
     var _url = [];
 
-    _photo.fileupload({
-      replaceFileInput: false,
-      add: function(e, data) {
-        var uploadErrors = [];
-        var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+    if('profile_picture' in profile && profile.profile_picture != null){
+      profile.profile_picture.forEach(function(photo){
+        _url.push(photo);
+        var _container = $('<span>');
+        var _previousPhoto = $.cloudinary.image(photo,
+          { format: 'jpg', width: 50, height: 50,
+            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+        _createdWidget.append(_previousPhoto);
+        var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+          'position': 'relative',
+          'bottom': '20px',
+          'cursor': 'pointer'
+        });
 
-        if (_data.length >= 1){
-          uploadErrors.push('Only one image allowed');
-        }
-        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
-            uploadErrors.push('Not an accepted file type');
-        }
-        if(data.originalFiles[0]['size'] > 500000) {
-            uploadErrors.push('Filesize is too big');
-        }
-        if(uploadErrors.length > 0) {
-            alert(uploadErrors.join("\n"));
-        } else {
-          var reader = new FileReader(); // instance of the FileReader
-          reader.readAsDataURL(data.originalFiles[0]); // read the local file
+        _icon.on('click', function(){
+          _url.splice(_url.indexOf(photo), 1);
+          _photos.setUrl(_url);
+          _container.empty();
+        });
 
-          _data.push(data);
-          reader.onloadend = function(){ // set image data as background of div
-            var _container = $('<span>');
-            var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
-            var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-              'position': 'relative',
-              'bottom': '20px',
-              'cursor': 'pointer'
-            });
+        _container.append(_previousPhoto, _icon);
+        _thumbnail.append(_container);
+      });
+    }
 
-            _icon.on('click', function(){
-              _data.splice(_data.indexOf(data), 1);
-              _container.empty();
-            });
+    var _folder = user_id + '/' + profile_id + '/profile_picture';
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 1);
 
-            _container.append(_img, _icon);
-            $('.thumbnails').append(_container);
-
-          }
-          submitButton.off().on('click',function(){
-            if(_filled() == true){
-              data.submit();
-              _callback();
-              _data.forEach(function(photo){
-                photo.submit();
-              });
-            }
-          });
-        }
-      }
-    });
-
-    _photo.bind('cloudinarydone', function(e, data){
-      _url.push(data['result']['public_id']);
-      Pard.Backend.modifyProfile(_getVal(), Pard.Events.CreateProfile);
-    });
-
-    _createdWidget.append(_photo, _thumbnail);
+    _createdWidget.append(_photos.render(), _thumbnail);
 
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
@@ -138,20 +95,42 @@
       return _check;    
     };
 
-    var _getVal = function(){
+    var _getVal = function(url){
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['profile_picture'] = _url;
+      _submitForm['profile_picture'] = url;
+      console.log(_submitForm);
       return _submitForm;
     }
+
+    var _send = function(url){
+      Pard.Backend.modifyProfile(_getVal(url), Pard.Events.CreateProfile);
+    }
+
+    var _closepopup = {};
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _closepopup();
+        if(_photos.dataLength() == false) _send(_url);
+        else{
+          _photos.submit();
+        }
+      }
+    });
+
+    _photos.render().bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+      if(_url.length >= _photos.dataLength()) _send(_url);
+    });
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
-        _callback = callback;
+        _closepopup = callback;
       }
     }
   }
@@ -235,7 +214,7 @@
       });
     }
 
-    var _thumbnail = $('<div>').addClass('thumbnails');
+    var _thumbnail = $('<div>');
     var _url = [];
     
     if('photos' in proposal && proposal.photos != null){

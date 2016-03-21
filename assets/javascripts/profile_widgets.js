@@ -169,7 +169,7 @@
       _sectionContent.append( $('<div>').text(profile[element]));
     });
 
-    if('profile_picture' in profile){
+    if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
         { format: 'jpg', width: 50, height: 50,
           crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
@@ -202,7 +202,7 @@
       _sectionContent.append( $('<div>').text(profile[element]));
     });
 
-    if('profile_picture' in profile){
+    if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
         { format: 'jpg', width: 50, height: 50,
           crop: 'thumb', gravity: 'face', effect: 'saturation:50' });

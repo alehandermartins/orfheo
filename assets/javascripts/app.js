@@ -94,6 +94,7 @@ Pard.Users = function(profiles){
 }
 
 Pard.Profile = function(profiles){
+  console.log(profiles);
 
   Pard.CachedProfiles['my_profiles'] = profiles;
 

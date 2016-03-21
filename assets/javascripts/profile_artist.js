@@ -30,7 +30,7 @@
     
     var user_id = Pard.ProfileManager.getUserId();
     var profile_id = profile.profile_id;
-    var _thumbnail = $('<div>').addClass('thumbnails');
+    var _thumbnail = $('<div>');
     var _url = [];
 
     var _folder = user_id + '/' + profile_id + '/photos';

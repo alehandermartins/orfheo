@@ -14,7 +14,7 @@ module Services
         profile = PROFILES_MAP[params[:type]].new params, user_id
         raise Pard::Invalid::ExistingProfile unless name_available? profile
         raise Pard::Invalid::Params if profile.wrong_params?
-        update profile.to_h
+        Repos::Profiles.update profile.to_h
         profile.uuid
       end
 
@@ -23,7 +23,7 @@ module Services
         raise Pard::Invalid::ExistingProfile unless name_available? profile
         raise Pard::Invalid::Params if profile.wrong_params?
         old_pictures = profile_old_pictures profile
-        update profile.to_h
+        Repos::Profiles.update profile.to_h
         destroy_old_pictures old_pictures, profile
         profile.uuid
       end
