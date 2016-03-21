@@ -9,5 +9,3 @@
 //= require jquery.plugin.min
 //= require jquery.datepick.min
 //= require jquery.datepick-es
-
-

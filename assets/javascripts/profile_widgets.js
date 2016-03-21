@@ -68,8 +68,6 @@
       $('#main-profile-page').css({'background': _backColor});
       });
 
-    console.log(profiles);
-
     profiles.forEach(function(profile, index) {
     	if(!(index)) _createdWidget.append(Pard.Widgets.ProfilesNavigationSelected(profile, function(){Pard.Widgets.ProfileSection(profile['type']).render()(profiles, sectionContent)}).render())	;
     	else {_createdWidget.prepend(Pard.Widgets.ProfilesNavigationElement(profile, function(){profileNavList(profiles, index)}).render());
@@ -216,6 +214,12 @@
             crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
         _sectionContent.append(_photo);
       });
+    }
+
+    if('links' in profile && profile.links != null){
+      var _id = profile.links[0].link.split('=').pop();
+      var _video = $('<iframe>').attr({'src': 'https://www.youtube.com/embed/' + _id});
+      _sectionContent.append(_video);
     }
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
