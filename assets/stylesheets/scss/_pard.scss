@@ -75,6 +75,7 @@ html{
 main {
   padding-top:1.8rem;
   padding-bottom:1.8rem;
+  background-color: $grey-1;
 }
 
 .whole-container {
@@ -160,19 +161,21 @@ Grid and Bar
       right:0;
     }
   }
+  .off-canvas-content{
+    @include border-radius($layout-border-radius);
 
+  }
 }
 
 /*ALL SCREEN*/
 
-.grid-element-content,{
+.grid-element-content{
   width: 100%;
   background: $content-background;
   @include breakpoint(medium){
     padding-left:2rem;
     padding-right:2rem;
   }
-
   padding-top:2rem;
   padding-bottom:2rem;
   min-height: 100vh;
@@ -650,6 +653,7 @@ Aside
   margin-bottom:$pard-grid-spacing;
   @include border-radius($layout-border-radius);
   display: block;
+  background: $content-background;
 }
 
 .profile-nav-element-container, .profile-selected-container{
