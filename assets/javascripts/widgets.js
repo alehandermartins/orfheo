@@ -250,5 +250,80 @@
     }
   }
 
+  ns.Widgets.Cloudinary = function(folder, thumbnail, _url, maxAmount){
+
+    var _data = [];
+
+    var _photo = $.cloudinary.unsigned_upload_tag(
+      "kqtqeksl",
+      {
+        cloud_name: 'hxgvncv7u',
+        folder: folder
+      }
+    );
+
+    _photo.fileupload({
+      multiple: true,
+      replaceFileInput: false,
+      add: function(e, data) {
+        var uploadErrors = [];
+        var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+        _photo.val(null);
+
+        if (_data.length + _url.length >= maxAmount){
+          uploadErrors.push('Only three images allowed');
+        }
+        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+            uploadErrors.push('Not an accepted file type');
+        }
+        if(data.originalFiles[0]['size'] > 1000000) {
+            uploadErrors.push('Filesize is too big');
+        }
+        if(uploadErrors.length > 0) {
+            alert(uploadErrors.join("\n"));
+        } else {
+          var reader = new FileReader(); // instance of the FileReader
+          reader.readAsDataURL(data.originalFiles[0]); // read the local file
+
+          _data.push(data);
+          reader.onloadend = function(){ // set image data as background of div
+            var _container = $('<span>');
+            var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
+            var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+              'position': 'relative',
+              'bottom': '20px',
+              'cursor': 'pointer'
+            });
+
+            _icon.on('click', function(){
+              _data.splice(_data.indexOf(data), 1);
+              _container.empty();
+            });
+
+            _container.append(_img, _icon);
+            thumbnail.append(_container);
+          }
+        }
+      }
+    });
+
+    return {
+      render: function(){
+        return _photo;
+      },
+      setUrl: function(url){
+        _url = url;
+      },
+      submit: function(){
+        _data.forEach(function(photo){
+          photo.submit();
+        });
+      },
+      dataLength: function(){
+        return _data.length;
+      }
+    }
+  }
+
 
 }(Pard || {}));

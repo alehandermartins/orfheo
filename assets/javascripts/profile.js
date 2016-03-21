@@ -172,8 +172,7 @@
   ns.Widgets.ModifyProduction = function(proposal_id, sectionContent){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
-    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal_id, sectionContent, _submitBtn)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal_id, sectionContent)});
 
     var _createdWidget = _popup.render();
 
@@ -184,131 +183,12 @@
     }
   }
 
-  ns.Widgets.CloudinaryModifyProposal = function(proposal, folder, submitButton, filled, sendproposal){
-
-    var _createdWidget = $('<div>');
-    var _data = [];
-    var _url = [];
-    var _closepopup = {};
-
-    var _photo = $.cloudinary.unsigned_upload_tag(
-      "kqtqeksl",
-      {
-        cloud_name: 'hxgvncv7u',
-        folder: folder
-      }
-    );
-
-    var _thumbnail = $('<div>').addClass('thumbnails');
-
-    _photo.fileupload({
-      multiple: true,
-      replaceFileInput: false,
-      add: function(e, data) {
-        var uploadErrors = [];
-        var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
-        _photo.val(null);
-
-        if (_data.length + _url.length >=3){
-          uploadErrors.push('Only three images allowed');
-        }
-        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
-            uploadErrors.push('Not an accepted file type');
-        }
-        if(data.originalFiles[0]['size'] > 100000) {
-            uploadErrors.push('Filesize is too big');
-        }
-        if(uploadErrors.length > 0) {
-            alert(uploadErrors.join("\n"));
-        } else {
-          var reader = new FileReader(); // instance of the FileReader
-          reader.readAsDataURL(data.originalFiles[0]); // read the local file
-
-          _data.push(data);
-          reader.onloadend = function(){ // set image data as background of div
-            var _container = $('<span>');
-            var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
-            var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-              'position': 'relative',
-              'bottom': '20px',
-              'cursor': 'pointer'
-            });
-
-            _icon.on('click', function(){
-              _data.splice(_data.indexOf(data), 1);
-              _container.empty();
-            });
-
-            _container.append(_img, _icon);
-            $('.thumbnails').append(_container);
-          }
-          submitButton.off().on('click',function(){
-            if(filled() == true){
-              _closepopup();
-              _data.forEach(function(photo){
-                photo.submit();
-              });
-            }
-          });
-        }
-      }
-    });
-
-    _photo.bind('cloudinarydone', function(e, data){
-      _url.push(data['result']['public_id']);
-      if(_url.length >= _data.length){
-        sendproposal(_url);
-      }
-    });
-
-    if('photos' in proposal && proposal.photos != null){
-      proposal.photos.forEach(function(photo){
-        _url.push(photo);
-        var _container = $('<span>');
-        var _previousPhoto = $.cloudinary.image(photo,
-          { format: 'jpg', width: 50, height: 50,
-            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-        _createdWidget.append(_previousPhoto);
-        var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-          'position': 'relative',
-          'bottom': '20px',
-          'cursor': 'pointer'
-        });
-
-        _icon.on('click', function(){
-          _url.splice(_url.indexOf(photo), 1);
-          _container.empty();
-        });
-
-        _container.append(_previousPhoto, _icon);
-        _thumbnail.append(_container);
-      });
-    }
-
-     submitButton.on('click',function(){
-      if(filled() == true){
-        console.log(_url);
-        _closepopup();
-       sendproposal(_url);
-      }
-    });
-
-    _createdWidget.append(_photo, _thumbnail);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-        _closepopup = callback;
-      }
-    }
-  }
-
-  ns.Widgets.ModifyProductionMessage = function(proposal_id, sectionContent, submitButton){
+  ns.Widgets.ModifyProductionMessage = function(proposal_id, sectionContent){
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
     var _createdWidget = $('<div>');
+
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
@@ -355,13 +235,59 @@
       });
     }
 
+    var _thumbnail = $('<div>').addClass('thumbnails');
+    var _url = [];
+    
+    if('photos' in proposal && proposal.photos != null){
+      proposal.photos.forEach(function(photo){
+        _url.push(photo);
+        var _container = $('<span>');
+        var _previousPhoto = $.cloudinary.image(photo,
+          { format: 'jpg', width: 50, height: 50,
+            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+        _createdWidget.append(_previousPhoto);
+        var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+          'position': 'relative',
+          'bottom': '20px',
+          'cursor': 'pointer'
+        });
+
+        _icon.on('click', function(){
+          _url.splice(_url.indexOf(photo), 1);
+          _photos.setUrl(_url);
+          _container.empty();
+        });
+
+        _container.append(_previousPhoto, _icon);
+        _thumbnail.append(_container);
+      });
+    }
+
     var _folder = user_id + '/' + profile_id + '/photos';
-    var _photos = Pard.Widgets.CloudinaryModifyProposal(proposal, _folder, submitButton, _filled, _send);
-    _createdWidget.append(_photos.render());
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
+
+    _createdWidget.append(_photos.render(), _thumbnail);
 
     for(var field in _form){
       _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()));
     };
+
+    var _closepopup = {};
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _closepopup();
+        if(_photos.dataLength() == false) _send(_url);
+        else{
+          _photos.submit();
+        }
+      }
+    });
+
+    _photos.render().bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+      if(_url.length >= _photos.dataLength()) _send(_url);
+    });
 
     _createdWidget.append(_invalidInput, _submitBtnContainer.append(submitButton));
 
@@ -370,7 +296,7 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        _photos.setCallback(callback);
+        _closepopup = callback;
       }
     }
   }
