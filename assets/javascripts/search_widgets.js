@@ -168,43 +168,52 @@
 
   ns.Widgets.CreateCard = function(profile, callback){
 
-      var _card =$('<a>').addClass('profileCard');
-      _card.hover(
-        function(){
-          $(this).css({'box-shadow': '0 0 6px 1px '+ profile.color});
-        },
-        function(){
-          $(this).removeAttr('style');
-        }
-      );
-      
-      var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: profile.color});
-      var _icon = $('<div>').addClass('icon-profileCircle').html('P');
-      var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
-      _icon.css({color: _colorIcon}); 
-      var _name = $('<div>').addClass('name-profileCard').html(profile.name);
-      var _city = $('<div>').addClass('city-profileCard').html(profile.city);
-      var _category = $('<div>').addClass('category-profileCard')
-      var _categories = '- ';
-      var _keys = Object.keys(profile);
-      if ($.inArray('proposals', _keys) >= 0 ){
-        profile.proposals.forEach(function(proposal){
-          _categories += Pard.Widgets.Dictionary(proposal.category).render() + ' - ';
-        })
+    var _card =$('<div>').addClass('profileCard');
+    _card.css({border: 'solid 3px'+profile.color})
+    _card.hover(
+      function(){
+        $(this).css({'box-shadow': '0 0 6px 1px '+ profile.color});
+      },
+      function(){
+        $(this).css({'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'});
       }
-      else{_categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
-      if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
-      _category.html(_categories);
-      _circle.append(_icon);
-      _card.append(_circle, _name, _city, _category);
+    );
+    
+    var _photoContainer = $('<div>').addClass('photo-container-card');
+    _photoContainer.css({background: profile.color});  
+    var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: profile.color});
+    var _icon = $('<div>').addClass('icon-profileCircle').html('P');
+    var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
+    _icon.css({color: _colorIcon});
+    var _profilename = profile.name;
+    if (_profilename.length>38) _profilename = _profilename.substring(0,35)+'...';
+    var _name = $('<div>').addClass('name-profileCard').html(_profilename);
+    var _profilecity;
+    if (profile.city) _profilecity = profile.city;
+    else _profilecity = profile.address.locality; 
+    if (_profilecity.length>24) _profilecity = _profilecity.substring(0,21)+'...';
+    var _city = $('<div>').addClass('city-profileCard').html(_profilecity);
+    var _category = $('<div>').addClass('category-profileCard')
+    var _categories = '- ';
+    var _keys = Object.keys(profile);
+    if ($.inArray('proposals', _keys) >= 0 ){
+      profile.proposals.forEach(function(proposal){
+        _categories += Pard.Widgets.Dictionary(proposal.category).render() + ' - ';
+      })
+    }
+    else{_categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
+    if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
+    _category.html(_categories);
+    _circle.append(_icon);
+    _card.append(_photoContainer, _circle, _name, _city, _category);
 
-      _card.on('click', function(){
-        if (callback) callback()
-      });
+    _card.on('click', function(){
+      if (callback) callback()
+    });
 
-      return {
-        render: function(){
-          return _card;
+    return {
+      render: function(){
+        return _card;
       }
     }
   }
