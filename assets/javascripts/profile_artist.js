@@ -26,84 +26,17 @@
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
     var _selected = 'music';
-    var _callback = {};
-    var _data = [];
-
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        _callback();
-        Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
-      }
-    });
-
-    var _photo = $.cloudinary.unsigned_upload_tag(
-      "kqtqeksl",
-      {
-        cloud_name: 'hxgvncv7u',
-        folder: profile.user_id + '/' + profile.profile_id + '/photos'
-      }
-    );
+    var _closepopup = {};
+    
+    var user_id = Pard.ProfileManager.getUserId();
+    var profile_id = profile.profile_id;
     var _thumbnail = $('<div>').addClass('thumbnails');
     var _url = [];
 
-    _photo.fileupload({
-      multiple: true,
-      replaceFileInput: false,
-      add: function(e, data) {
-        var uploadErrors = [];
-        var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+    var _folder = user_id + '/' + profile_id + '/photos';
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
 
-        if (_data.length >= 3){
-          uploadErrors.push('Only three images allowed');
-        }
-        if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
-            uploadErrors.push('Not an accepted file type');
-        }
-        if(data.originalFiles[0]['size'] > 100000) {
-            uploadErrors.push('Filesize is too big');
-        }
-        if(uploadErrors.length > 0) {
-            alert(uploadErrors.join("\n"));
-        } else {
-          var reader = new FileReader(); // instance of the FileReader
-          reader.readAsDataURL(data.originalFiles[0]); // read the local file
-
-          _data.push(data);
-          reader.onloadend = function(){ // set image data as background of div
-            var _container = $('<span>');
-            var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
-            var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-              'position': 'relative',
-              'bottom': '20px',
-              'cursor': 'pointer'
-            });
-
-            _icon.on('click', function(){
-              _data.splice(_data.indexOf(data), 1);
-              _container.empty();
-            });
-
-            _container.append(_img, _icon);
-            $('.thumbnails').append(_container);
-          }
-          submitButton.off().on('click',function(){
-            if(_filled() == true){
-              _callback();
-              _data.forEach(function(photo){
-                photo.submit();
-              });
-            }
-          });
-        }
-      }
-    });
-
-    _photo.bind('cloudinarydone', function(e, data){
-      _url.push(data['result']['public_id']);
-      if(_url.length == _data.length) Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal);
-    });
-
-    _createdWidget.append(_photo, _thumbnail);
+    _createdWidget.append(_photos.render(), _thumbnail);
 
     _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
     _submitForm['profile_id'] = profile.profile_id;
@@ -153,20 +86,39 @@
       return check;    
     };
 
-    var _getVal = function(){
+    var _getVal = function(url){
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['photos'] = _url;
+      _submitForm['photos'] = url;
       return _submitForm;
     }
+
+    var _send = function(url){
+      Pard.Backend.sendProposal(_getVal(url), Pard.Events.SendProposal);
+    }
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _closepopup();
+        if(_photos.dataLength() == false) _send(_url);
+        else{
+          _photos.submit();
+        }
+      }
+    });
+
+    _photos.render().bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+      if(_url.length >= _photos.dataLength()) _send(_url);
+    });
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
-        _callback = callback;
+        _closepopup = callback;
       }
     }
   }
