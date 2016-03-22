@@ -1017,6 +1017,11 @@ select, textarea{
   margin-left:1rem;
 }
 
+.message-form{
+    margin-bottom: 1rem;
+}
+
+
 /*LARGE*/
 
 @media only screen and #{breakpoint(large)} {

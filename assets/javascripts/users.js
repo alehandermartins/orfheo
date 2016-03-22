@@ -54,7 +54,10 @@
     var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render().text('crea un perfil espacio');
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().text('crea un perfil artista');
 
-    _createdWidget.append(_artistButton, _spaceButton);
+    var _message = $('<div>').addClass('message-form');
+    _message.html('Puedes apuntarte a la convocatoría del conFusión 2016 enviado una o más propuestas como artista o también ofreciendo un tu espacio.<br/> Empieza creando un perfil!');
+
+    _createdWidget.append(_message, _artistButton, _spaceButton);
 
 
     return {
@@ -95,7 +98,9 @@
 
   ns.Widgets.ArtistForm = function(){
 
-    var _createdWidget = $('<form>').addClass('popup-form');
+    var _createdWidget = $('<div>');
+    var _message = $('<div>').text('Las informaciones del perfil serán públicas y podrás modificarlas en todo momento.').addClass('message-form');
+    var _formContainer = $('<form>').addClass('popup-form');  
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _submitForm = {};
@@ -105,7 +110,7 @@
     var _form = Pard.Forms.BasicArtistForm().render();
 
     for(var field in _form){
-      _createdWidget.append(
+      _formContainer.append(
         $('<div>').addClass(field+'-ArtistForm').append(_form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render())
       );
@@ -146,7 +151,8 @@
     });
 
     _submitBtnContainer.append(submitButton);
-    _createdWidget.append(_invalidInput, _submitBtnContainer);
+    _formContainer.append(_invalidInput, _submitBtnContainer);
+    _createdWidget.append(_message, _formContainer);
 
     return {
       render: function(){
@@ -161,7 +167,9 @@
 
   ns.Widgets.SpaceForm = function(){
 
-    var _createdWidget = $('<form>').addClass('popup-form');
+    var _createdWidget = $('<div>');
+    var _formContainer = $('<form>').addClass('popup-form');
+    var _message = $('<div>').text('Las informaciones del perfil serán públicas y podrás modificarlas en todo momento.').addClass('message-form');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _submitForm = {};
@@ -174,15 +182,15 @@
     var _folder = '/photos';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
 
-    // _createdWidget.append(_photos.render(), _thumbnail);
+    // _formContainer.append(_photos.render(), _thumbnail);
 
     var _form = Pard.Forms.BasicSpaceForm().render();
     var _photosLabel = $('<label>').text('Fotos del espacio');
     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail);
 
     for(var field in _form){
-      if (field === 'color') _createdWidget.append(_photosContainer); 
-      _createdWidget.append(  $('<div>').addClass(field+'-SpaceForm').append(_form[field].label.render().append(_form[field].input.render()),
+      if (field === 'color') _formContainer.append(_photosContainer); 
+      _formContainer.append(  $('<div>').addClass(field+'-SpaceForm').append(_form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render())
       );
     }
@@ -232,7 +240,8 @@
 
     _submitBtnContainer.append(submitButton);
 
-    _createdWidget.append(_invalidInput, _submitBtnContainer);
+    _formContainer.append(_invalidInput, _submitBtnContainer);
+    _createdWidget.append(_message, _formContainer)
 
     return {
       render: function(){
