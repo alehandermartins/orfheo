@@ -321,13 +321,13 @@ button{
 }
 
 .plus-inform-btn{
-  margin-left:1rem;
+  margin-left:2rem;
   margin-top: -0.6rem;
 } 
 
 .minus-inform-btn{
-  // margin-top: -4.4rem;
-  margin-top: -0.6rem;
+  margin-top: -4rem;
+  // margin-top: -0.6rem;
   margin-left:0.5rem;
 }
 
@@ -928,9 +928,46 @@ FOOTER
 FORMS
 ===============================================*/
 
-textarea, select {
-  @include border-radius($element-border-radius);
+
+// select:-moz-focusring {
+//     color: transparent;
+//     text-shadow: 0 0 0 #000;
+// }
+select, textarea{
+    @include border-radius($element-border-radius);
+    outline: none;
 }
+
+.popup-form input, select, textarea{
+    @include border-radius($element-border-radius);
+    outline: none;
+    height: auto;
+    font-size: $almostNormalSize;
+}
+
+.popup-form .route-addressForm, .popup-form .street_number-addressForm,.popup-form .door-addressForm, .popup-form .locality-addressForm, .popup-form .country-addressForm, .popup-form .postal_code-addressForm {
+  font-size: $smallSize;
+  margin-bottom: 0.5rem;
+  display: inline-block; 
+}
+
+.popup-form .postal_code-addressForm {
+  font-size: $smallSize;
+  margin-bottom: 1.1rem;
+  display: inline-block; 
+}
+
+
+
+// .popup-form 
+//   .route-addressForm, 
+//   .street_number-addressForm, 
+//   .door-addressForm, 
+//   .locality-addressForm, 
+//   .country-addressForm, 
+//   .postal_code-addressForm{
+//     font-size: $smallSize; 
+//   }
 
 
 .help-text{
@@ -938,32 +975,23 @@ textarea, select {
   margin-top: -0.5rem;
 }
 
-.form-input{
-  height: auto;
-  font-size: $almostNormalSize;
-  // line-height: 1.5rem;
-}
+// .form-input{
+ 
+//   // line-height: 1.5rem;
+// }
 
-.category-input, .title-input, .description-input, .short_description-input, .duration-input, .components-input, .meters-input, .availability-input, .links-input, .sharing-input, .needs-input, .phone-input {
-  @extend .form-input;
-}
+// .category-input, .title-input, .description-input, .short_description-input, .duration-input, .components-input, .meters-input, .availability-input, .links-input, .sharing-input, .needs-input, .phone-input, .city {
+//   @extend .form-input;
+// }
 
 //textareas
 .description-input, .short_description-input, .needs-input, .sharing-input{
   line-height: 1.2rem;
 }
 
-.components-input, .duration-input{
+.components-input, .duration-input, .phone-input, .category-input{
   display: inline-block;
   margin-left: 1rem;
-}
-
-.components-input{
-    width: 5rem; 
-}
-
-.duration-input{
-  width: 6.5rem;
 }
 
 .error-text, .not-filled-text{
@@ -976,8 +1004,80 @@ textarea, select {
   margin-bottom: -0.5rem;
 }
 
+.popup-form .color-input{
+  height: 2.5rem;
+}
 
+.webTitle-input{
+  margin-bottom: 0.5rem;
+}
 
+.photo-form{
+  margin-bottom: 1rem;
+  margin-left:1rem;
+}
+
+/*LARGE*/
+
+@media only screen and #{breakpoint(large)} {
+
+  .components-input{
+      width: 5rem; 
+  }
+
+  .duration-input{
+    width: 6.5rem;
+  }
+
+  .category-input{
+    width: 12rem;
+  }
+
+  .phone-input{
+    width: 12rem;
+  }
+
+  .city-ArtistForm{
+    width: 17rem;
+    display: inline-block;
+    margin-right: 3rem;   
+  }
+
+  .zip_code-ArtistForm{
+    width: 13rem;
+    display: inline-block;  
+    // float: right;
+  }
+
+  .route-addressForm{
+    width: 17rem;
+  }
+
+  .street_number-addressForm, .door-addressForm{
+    width: 5rem;
+    margin-left:1rem;
+  }
+
+  .locality-addressForm{
+    width: 13rem;
+  }
+
+  .country-addressForm{
+    width: 13rem;
+    margin-left:1rem;
+  }
+
+  .postal_code-addressForm{
+    width: 8rem;
+    margin-left:1rem;
+  }
+
+  .category-SpaceForm{
+    margin-top: 1.8rem;
+    margin-bottom: -0.8rem;
+  }
+
+}
 
 /*==============================================
 POPUP

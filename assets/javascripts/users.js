@@ -95,7 +95,7 @@
 
   ns.Widgets.ArtistForm = function(){
 
-    var _createdWidget = $('<div>');
+    var _createdWidget = $('<form>').addClass('popup-form');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _submitForm = {};
@@ -106,8 +106,8 @@
 
     for(var field in _form){
       _createdWidget.append(
-        _form[field].label.render().append(_form[field].input.render()),
-        _form[field].helptext.render()
+        $('<div>').addClass(field+'-ArtistForm').append(_form[field].label.render().append(_form[field].input.render()),
+        _form[field].helptext.render())
       );
     }
 
@@ -161,7 +161,7 @@
 
   ns.Widgets.SpaceForm = function(){
 
-    var _createdWidget = $('<div>');
+    var _createdWidget = $('<form>').addClass('popup-form');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _submitForm = {};
@@ -174,14 +174,16 @@
     var _folder = '/photos';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
 
-    _createdWidget.append(_photos.render(), _thumbnail);
+    // _createdWidget.append(_photos.render(), _thumbnail);
 
     var _form = Pard.Forms.BasicSpaceForm().render();
+    var _photosLabel = $('<label>').text('Fotos del espacio');
+    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail);
 
     for(var field in _form){
-      _createdWidget.append(
-        _form[field].label.render().append(_form[field].input.render()),
-        _form[field].helptext.render()
+      if (field === 'color') _createdWidget.append(_photosContainer); 
+      _createdWidget.append(  $('<div>').addClass(field+'-SpaceForm').append(_form[field].label.render().append(_form[field].input.render()),
+        _form[field].helptext.render())
       );
     }
 
@@ -229,6 +231,7 @@
     });
 
     _submitBtnContainer.append(submitButton);
+
     _createdWidget.append(_invalidInput, _submitBtnContainer);
 
     return {

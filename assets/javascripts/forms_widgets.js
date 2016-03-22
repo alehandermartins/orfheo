@@ -278,7 +278,7 @@
     var _label = $('<label>').html(label);
     var _createdWidget = $('<div>').append(_input,_label);
 
-    _input.on('change', function(){(_input.is(":checked")) ? _input.removeClass('checkBox-warning') : _input.addClass('checkBox-warning') });
+    _input.on('change', function(){(_input.removeClass('checkBox-warning'))});
 
     return {
       render: function(){
@@ -320,6 +320,8 @@
       country: Pard.Widgets.Input('País','text', function(){_inputForm.country.removeWarning();}),
       postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();})
     }
+
+    for (var field in _inputForm) _inputForm[field].setClass(field+'-addressForm');
 
     var _inputPlace = $('<input>').attr({type: 'text', id: 'place_address_autocomplete', placeholder:label});
 
@@ -396,8 +398,8 @@
     var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Sito Web, Facebook, Blog, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
 
-    _webTitle.setClass('links-input');
-    _link.setClass('links-input');
+    _webTitle.setClass('webTitle-input');
+    // _link.setClass('links-input');
     
     var _inputsObj = {
       web_title: _webTitle,
@@ -431,8 +433,8 @@
     var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Facebook, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
 
-    _webTitle.setClass('links-input');
-    _link.setClass('links-input');
+    _webTitle.setClass('webTitle-input');
+    // _link.setClass('links-input');
 
     var _entries = [{
             web_title: _webTitle,

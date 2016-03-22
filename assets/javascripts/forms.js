@@ -8,26 +8,28 @@
     var _form = {};
 
     _form['name'] = {
-      label: Pard.Widgets.InputLabel('Nombre artistico'),
+      label: Pard.Widgets.InputLabel('Nombre artistico *'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con tu perfil de artista.')
     };
     _form['city'] = {
-      label: Pard.Widgets.InputLabel('Ciudad'),
+      label: Pard.Widgets.InputLabel('Ciudad *'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posibile contacto.')
     };
 
     _form['zip_code'] = {
-      label: Pard.Widgets.InputLabel('Código postal'),
+      label: Pard.Widgets.InputLabel('Código postal *'),
       input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Para que aquellos de zona puedan situar tu proyecto en el mapa.')
+      helptext: Pard.Widgets.HelpText('Para situar tu proyecto artístico en el mapa.')
     };
     _form['color'] = {
       label: Pard.Widgets.InputLabel('Escoge un color'),
       input: Pard.Widgets.Input('', 'color'),
       helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
     };
+    _form['color'].input.setClass('color-input');
+   
 
     var _requiredFields = ['name', 'city', 'zip_code', 'color'];
 
@@ -49,22 +51,24 @@
     var _values = ['cultural_ass', 'commercial', 'home'];
 
     _form['name'] = {
-      label: Pard.Widgets.InputLabel('Nombre del espacio'),
+      label: Pard.Widgets.InputLabel('Nombre del espacio *'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con tu perfil de espacio.')
     };
 
     _form['address'] ={
-      label: Pard.Widgets.InputLabel('Dirección'),
+      label: Pard.Widgets.InputLabel('Dirección *'),
       input: Pard.Widgets.InputAddressSpace('Ej: Carrer de la Murta 13, Valencia'),
       helptext: Pard.Widgets.HelpText('Tu dirección detallada es necesaria para poderte localizar en el mapa.')
     }
 
     _form['category'] = {
-      label: Pard.Widgets.InputLabel('Categoría'),
+      label: Pard.Widgets.InputLabel('Categoría *'),
       input: Pard.Widgets.Selector(_labels, _values),
       helptext: Pard.Widgets.HelpText('')
     };
+    _form['category']['input'].setClass('category-input');
+
 
     _form['links'] = {
       label: Pard.Widgets.InputLabel('Web del espacio'),
@@ -77,6 +81,7 @@
       input: Pard.Widgets.Input('', 'color'),
       helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
     };
+    _form['color'].input.setClass('color-input');
    
     var _requiredFields = ['name', 'address', 'category', 'color'];
 
@@ -166,16 +171,16 @@
     var _values = ['both', 'sat', 'sun'];
 
     var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación');
-    var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
+    var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions,' *');
 
     _form['responsible'] = {
-      label: Pard.Widgets.InputLabel('Nombre del responsable del espacio'),
+      label: Pard.Widgets.InputLabel('Nombre del responsable del espacio *'),
       input: Pard.Widgets.Input('','text'),
       helptext: Pard.Widgets.HelpText('La persona que se responsabiliza de la colaboración con el festival por la programación y gestión del espacio.')
     };
 
     _form['description'] = {
-      label: Pard.Widgets.InputLabel('Descripcion del espacio disponible y superficies para murales'),
+      label: Pard.Widgets.InputLabel('Descripcion del espacio disponible y superficies para murales *'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Numero de habitaciones, dimensiones aproximativas, paredes o persianas para intervenciones de arte urbana, etc.')
     };
@@ -205,7 +210,7 @@
     }
 
     _form['phone'] = {
-      label: Pard.Widgets.InputLabel('Telefono de contacto'), 
+      label: Pard.Widgets.InputLabel('Telefono de contacto *'), 
       input: Pard.Widgets.InputTel(''),
       helptext:Pard.Widgets.HelpText('Este información en ningún momento será publica. Es necesaria para que en caso de necesidad la organización del festival pueda contactar rapidamente contigo.')
     }

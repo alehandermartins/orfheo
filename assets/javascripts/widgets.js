@@ -288,11 +288,11 @@
           _data.push(data);
           reader.onloadend = function(){ // set image data as background of div
             var _container = $('<span>');
-            var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'});
+            var _img = $('<img>').attr('src', this.result).css({'width':'50px', 'height': '50px'}).addClass('photo-form');
             var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-              'position': 'relative',
-              'bottom': '20px',
-              'cursor': 'pointer'
+                position: 'relative',
+                bottom: '20px',
+                cursor: 'pointer'
             });
 
             _icon.on('click', function(){

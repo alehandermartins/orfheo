@@ -55,22 +55,26 @@
 
     var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
-
-    var _category = Pard.Widgets.Selector(_labelsCategories, _valuesCategories).render();
-
-    _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
-
-    _category.on('change', function(){
+     var categorySelectCallback = function(){
       _selected = $(this).val();
       _content.empty();
+      _invalidInput.empty();
       _form = Pard.Forms.ArtistCall(_selected).render();
       _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
       for(var field in _form){
         _content.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render());
       };
       _submitForm['category'] = _selected;
-      _createdWidget.append(_category, _content, _submitBtnContainer.append(submitButton));
-    });
+      _createdWidget.append(_category, _content.append(_invalidInput), _submitBtnContainer.append(submitButton));
+    };
+
+    var _category = Pard.Widgets.Selector(_labelsCategories, _valuesCategories, categorySelectCallback);
+
+    _category.setClass('category-input');
+
+    var _categoryLabel = $('<label>').text('Selecciona una categoría')
+
+    _createdWidget.append(_categoryLabel.append(_category.render()), _content.append(_invalidInput), _submitBtnContainer.append(submitButton));
 
     var _filled = function(){
       var check = _form['conditions'].input.getVal();
