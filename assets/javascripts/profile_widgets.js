@@ -54,7 +54,7 @@
             profile,function(){
               Pard.Widgets.ProfileSection(profile['type']).render()(sectionContent, _reorderedProfiles[0].profile_id)}).render(), 
           Pard.Widgets.ProductionsNavigation(profile, sectionContent, _productionContent).render()
-        )
+        );
         else {_myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){profileNav(_reorderedProfiles, index)}).render());
         }
       });
@@ -104,7 +104,7 @@
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
 
-    _createdWidget.append(_profileCircle.append(_icon), _name)
+    _createdWidget.append(_profileCircle.append(_icon), _name);
 
     return {
       render: function() {
@@ -131,7 +131,7 @@
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
     
-    _createdWidget.append(_profileCircle.append(_icon), _name)
+    _createdWidget.append(_profileCircle.append(_icon), _name);
 
     return {
       render: function() {
@@ -153,7 +153,7 @@
     _proposals.forEach(function(proposal, index) {
       var _productionItem = $('<span>');
       var _icon = $('<span>').addClass('material-icons').html('&#xE405;');
-      var _title = $('<span>').text(' '+proposal['title'])
+      var _title = $('<span>').text(' '+proposal['title']);
       _productionItem.append(_icon, _title).addClass('production-item').click(function(){ 
         $('.selected-element').removeClass('selected-element');
         _title.addClass('selected-element');
@@ -278,7 +278,5 @@
     //   }
     // }
   }
-
-
 
 }(Pard || {}));

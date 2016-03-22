@@ -185,7 +185,7 @@
   ns.Widgets.IconColor = function(hex){
 
     var cutHex =function (hex) {
-      return (hex.charAt(0)=="#") ? hex.substring(1,7):hex
+      return (hex.charAt(0)=="#") ? hex.substring(1,7):hex;
     }
 
     var _red = parseInt((cutHex(hex)).substring(0,2),16);
@@ -199,7 +199,7 @@
         return (_lum>0.35) ? 'black':'white';
       },
       rgb: function(){
-        return _rgb
+        return _rgb;
       }
     }
   }
@@ -245,7 +245,7 @@
 
     return {
       render: function(){
-        return _main
+        return _main;
       }
     }
   }

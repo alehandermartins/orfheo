@@ -50,7 +50,7 @@
         _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
       }
       else{
-        _catSelector.html(_catSelectorDefault.render())
+        _catSelector.html(_catSelectorDefault.render());
         _profiles = profiles;
         _searchResult.empty();
         _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
@@ -64,7 +64,7 @@
       _profiles = [];
       var _keys =[];
       profiles.forEach(function(profile, index){
-        _keys = Object.keys(profile)
+        _keys = Object.keys(profile);
         if ($.inArray('proposals', _keys) >= 0 ){        
           profile.proposals.forEach(function(proposal){
             if (proposal.category === _cat) _profiles.push(profile);
@@ -109,7 +109,7 @@
     _searchByName.append(_searchByNameLabel, _searchWidget);
     _filters.append(_selectorsLabel,_typesSelector.render(), _catSelector);
     _searchTools.append(_filters, _searchByName);
-    _createdWidget.append(_searchTools, _searchResult)
+    _createdWidget.append(_searchTools, _searchResult);
 
     return{
       render: function(){
@@ -169,7 +169,7 @@
   ns.Widgets.CreateCard = function(profile, callback){
 
     var _card =$('<div>').addClass('profileCard');
-    _card.css({border: 'solid 3px'+profile.color})
+    _card.css({border: 'solid 3px'+profile.color});
     _card.hover(
       function(){
         $(this).css({'box-shadow': '0 0 6px 1px '+ profile.color});
@@ -193,7 +193,7 @@
     else _profilecity = profile.address.locality; 
     if (_profilecity.length>24) _profilecity = _profilecity.substring(0,21)+'...';
     var _city = $('<div>').addClass('city-profileCard').html(_profilecity);
-    var _category = $('<div>').addClass('category-profileCard')
+    var _category = $('<div>').addClass('category-profileCard');
     var _categories = '- ';
     var _keys = Object.keys(profile);
     if ($.inArray('proposals', _keys) >= 0 ){
@@ -208,7 +208,7 @@
     _card.append(_photoContainer, _circle, _name, _city, _category);
 
     _card.on('click', function(){
-      if (callback) callback()
+      if (callback) callback();
     });
 
     return {

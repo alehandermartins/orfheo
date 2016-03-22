@@ -61,7 +61,7 @@
     var myprofiles = Pard.CachedProfiles['my_profiles'];
     var _createdWidget = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
-    var _buttonContainer = $('<div>').addClass('create-profile-container');;
+    var _buttonContainer = $('<div>').addClass('create-profile-container');
     var _createProfileBtn =  Pard.Widgets.CreateProfile().render();
 
     _createProfileBtn.addClass('create-profile-btn');  
@@ -90,7 +90,7 @@
    
     var _searchEngine = Pard.Widgets.SearchEngine(profiles);
 
-    _content.append(_title, _searchEngine.render())
+    _content.append(_title, _searchEngine.render());
     
     return{
       render: function(){

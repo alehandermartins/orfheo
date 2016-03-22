@@ -99,7 +99,7 @@
             _fields['email'].getVal(),
             _fields['emailConf'].getVal(),
             Pard.Events.Register
-          )
+          );
         callback();
         })
       }
@@ -151,7 +151,7 @@
 
  ns.Widgets.Login = function(){
 
-    var _createdWidget = $('<form>').addClass('input-login').attr({autocomplete:'on'}) ;
+    var _createdWidget = $('<form>').addClass('input-login').attr({autocomplete:'on'});
     var _emailRecovery = $('<span>').addClass('passwdRecovery');
     var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
 
@@ -255,9 +255,9 @@
 
     return {
       render: function(){
-        return _createdWidget;      }
+        return _createdWidget;      
+      }
     }
-
   }
 
 

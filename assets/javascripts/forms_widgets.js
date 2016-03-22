@@ -207,7 +207,7 @@
         return _inputTel.getVal();
       }
 
-  	var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning();}, checkPhone)
+  	var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning();}, checkPhone);
 
   	 return{
       render: function(){
@@ -278,7 +278,7 @@
     var _label = $('<label>').html(label);
     var _createdWidget = $('<div>').append(_input,_label);
 
-    _input.on('change', function(){(_input.is(":checked")) ? _input.removeClass('checkBox-warning') : _input.addClass('checkBox-warning') })
+    _input.on('change', function(){(_input.is(":checked")) ? _input.removeClass('checkBox-warning') : _input.addClass('checkBox-warning') });
 
     return {
       render: function(){
@@ -288,7 +288,7 @@
         return _input.is(":checked");
       },
       setVal: function(_val){
-        _input.attr('checked', _val);;
+        _input.attr('checked', _val);
       },
       addWarning: function(){
         _input.addClass('checkBox-warning');
@@ -322,8 +322,6 @@
     }
 
     var _inputPlace = $('<input>').attr({type: 'text', id: 'place_address_autocomplete', placeholder:label});
-
-
 
     _inputPlace.one('focus', function(){AutocompleteFunction()});
 
@@ -454,7 +452,7 @@
       _entries.pop();
     });
 
-    _deleteBtn.setClass('minus-inform-btn')
+    _deleteBtn.setClass('minus-inform-btn');
   
     var _webField = $('<div>').append(_entries[0]['web_title'].render(), _entries[0]['link'].render());
     _inputWeb.append(_webField);
@@ -536,7 +534,5 @@
 
     }
   }
-
-
 
 }(Pard || {}));

@@ -108,7 +108,7 @@
       _createdWidget.append(
         _form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render()
-      )
+      );
     }
 
     var _filled = function(){
@@ -183,7 +183,7 @@
       _createdWidget.append(
         _form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render()
-      )
+      );
     }
 
     var _filled = function(){

@@ -165,7 +165,7 @@
     var _labels = ['Ambos dias', 'Sabado', 'Domingo'];
     var _values = ['both', 'sat', 'sun'];
 
-    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación')
+    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación');
     var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
 
     _form['responsible'] = {
@@ -216,7 +216,7 @@
       helptext:Pard.Widgets.HelpText('')
     }
 
-    var _requiredFields = ['phone', 'description', 'conditions', 'responsible']
+    var _requiredFields = ['phone', 'description', 'conditions', 'responsible'];
 
     return {
       render: function(){
@@ -240,7 +240,7 @@
     var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30 min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 
-    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación')
+    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación');
     var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
 
     _form['category'] = {
