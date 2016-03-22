@@ -27,9 +27,9 @@
 
   ns.Widgets.ProfileNav = function(sectionContent){
     var _createdWidget = $('<div>');
-    var _profileNav = $('<div>').addClass('profile-nav-container');;
-    var _productionContent = $('<div>');
-    var _myOtherProfiles = $('<div>').addClass('profile-nav-container');
+    var _profileNav = $('<div>').addClass('profile-nav-container');
+    var _productionContent = $('<div>').addClass('productions-content');
+    var _myOtherProfiles = $('<div>').addClass('other-profiles-nav-container');
 
     var profiles = Pard.CachedProfiles['my_profiles'];
 
@@ -58,6 +58,7 @@
         else {_myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){profileNav(_reorderedProfiles, index)}).render());
         }
       });
+      // if (!(_reorderedProfiles[0].proposal)) _productionContent.removeClass('productions-content');
       _createdWidget.append(_profileNav, _myOtherProfiles);
 
     }
@@ -69,7 +70,10 @@
       });
 
     profiles.forEach(function(profile, index) {
-      if(!(index)) _profileNav.append(Pard.Widgets.ProfilesNavigationSelected(profile, function(){Pard.Widgets.ProfileSection(profile['type']).render()(profiles, sectionContent)}).render(), Pard.Widgets.ProductionsNavigation(profile, sectionContent, _productionContent).render());
+      if(!(index)) _profileNav.append(Pard.Widgets.ProfilesNavigationSelected(profile, function(){
+          Pard.Widgets.ProfileSection(profile['type']).render()(sectionContent, profiles[0].profile_id)
+        }).render(), 
+        Pard.Widgets.ProductionsNavigation(profile, sectionContent, _productionContent).render());
       else {_myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){profileNav(profiles, index)}).render());
       }
     });
@@ -87,12 +91,19 @@
   ns.Widgets.ProfilesNavigationSelected = function(profile, callback){
     var _createdWidget = $('<div>').addClass('profile-selected-container');
     var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': profile['color']});
-    _profileCircle.click(function(){callback()});
-    var _name = $('<h6>').addClass('profile-nav-name-selected').text(profile['name']);
+    var _name = $('<h6>').addClass('profile-nav-name-selected selected-element').text(profile['name']);
+    _name.hover(function(){$(this).addClass('text-link')},function(){$(this).removeClass('text-link')});
+    _profileCircle.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
+    _name.click(function(){_profileCircle.trigger('click')});
+    _profileCircle.click(function(){
+      $('.selected-element').removeClass('selected-element');
+      _name.addClass('selected-element');
+      callback();      
+    });
     var _icon = $('<div>').addClass('profile-nav-element-icon').html('P');
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
-    
+
     _createdWidget.append(_profileCircle.append(_icon), _name)
 
     return {
@@ -107,8 +118,15 @@
   ns.Widgets.ProfilesNavigationElement = function(profile, callback){
     var _createdWidget = $('<div>').addClass('profile-nav-element-container');
     var _profileCircle = $('<div>').addClass('profile-nav-circle').css({'background-color': profile['color']});
-    _profileCircle.click(function(){callback()});
     var _name = $('<p>').addClass('profile-nav-element-name').text(profile['name']);
+    _name.hover(function(){$(this).addClass('text-link')},function(){$(this).removeClass('text-link')});
+    _profileCircle.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
+    _name.click(function(){_profileCircle.trigger('click')});
+    _profileCircle.click(function(){
+      $('.selected-element').removeClass('selected-element');
+      _name.addClass('selected-element');
+      callback();      
+    });
     var _icon = $('<div>').addClass('profile-nav-element-icon').html('P');
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
@@ -127,14 +145,20 @@
 
     productionContent.empty();
 
+
     var _proposals = [];
+
+    (profile.proposals) ? productionContent.addClass('productions-content') : productionContent.removeClass('productions-content');
     if (profile.proposals) _proposals = profile.proposals;
     _proposals.forEach(function(proposal, index) {
       var _productionItem = $('<span>');
       var _icon = $('<span>').addClass('material-icons').html('&#xE405;');
       var _title = $('<span>').text(' '+proposal['title'])
-      _productionItem.append(_icon, _title).addClass('production-item').click(function(){Pard.Widgets.ArtistProductionSectionContent(proposal.proposal_id, sectionContent)});
-      _productionItem.hover(function(){_title.addClass('text-link')}, function(){_title.removeClass('text-link  ')});
+      _productionItem.append(_icon, _title).addClass('production-item').click(function(){ 
+        $('.selected-element').removeClass('selected-element');
+        _title.addClass('selected-element');
+        Pard.Widgets.ArtistProductionSectionContent(proposal.proposal_id, sectionContent)});
+      _productionItem.hover(function(){_title.addClass('text-link')}, function(){_title.removeClass('text-link ')});
     	 productionContent.append($('<div>').addClass('row productions-list-item').append(_productionItem));
     });
 

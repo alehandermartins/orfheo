@@ -654,18 +654,35 @@ Aside
   display: block;
   background: $content-background;
   margin-top: $pard-grid-spacing;
-  padding: 1.4rem 0.3rem 1rem 0.3rem;
+  padding: 1.5rem 0.3rem 1.1rem 0.3rem;
 }
+
+.other-profiles-nav-container{
+  display: block;  
+}
+
 
 .profile-nav-element-container, .profile-selected-container{
   position: relative;
   width: 100%;
 }
 
-.profile-selected-container{
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid;
-  padding-bottom: 1rem;
+
+.profile-nav-element-container{
+  @include border-radius($layout-border-radius);
+  padding: 0.9rem 0.3rem 0.01rem 0.3rem;
+  margin-top: $pard-grid-spacing;
+  background: $content-background;
+ }
+
+// .profile-selected-container{
+//   padding-bottom: 1.5rem;
+// }
+
+.productions-content{
+  padding-top: 0.4rem;
+  border-top: 1px solid $grey-4; 
+  margin-top: 1.8rem;
 }
 
 .profile-nav-circle, 
@@ -676,7 +693,7 @@ Aside
 }
 
 .profile-nav-circle{
-    @include pardCircle(3rem);
+    @include pardCircle(2.2rem);
 }
 
 .profile-nav-circle-selected{
@@ -689,7 +706,8 @@ Aside
 
 .profile-nav-element-name, .profile-nav-name-selected{
   text-align: center;
-   margin-top: 0.2rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
 }
 
 .profile-nav-element-name{
@@ -712,8 +730,12 @@ Aside
 }
 
 .text-link{
-    text-decoration: underline;
-  }
+  text-decoration: underline;
+}
+
+.selected-element{
+  text-decoration: underline;
+}
 
 
 
