@@ -167,12 +167,11 @@
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
-    var user_id = Pard.ProfileManager.getUserId();
 
     var _thumbnail = $('<div>');
     var _url = [];
 
-    var _folder = user_id + '/photos';
+    var _folder = '/photos';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
 
     _createdWidget.append(_photos.render(), _thumbnail);
