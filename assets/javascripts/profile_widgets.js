@@ -27,7 +27,7 @@
 
   ns.Widgets.ProfileNav = function(sectionContent){
     var _createdWidget = $('<div>');
-    var _profileNav = $('<div>');
+    var _profileNav = $('<div>').addClass('profile-nav-container');;
     var _productionContent = $('<div>');
     var _myOtherProfiles = $('<div>').addClass('profile-nav-container');
 
@@ -130,7 +130,12 @@
     var _proposals = [];
     if (profile.proposals) _proposals = profile.proposals;
     _proposals.forEach(function(proposal, index) {
-    	 productionContent.append($('<div>').append($('<a>').text(proposal['title']).click(function(){Pard.Widgets.ArtistProductionSectionContent(proposal.proposal_id, sectionContent)})));
+      var _productionItem = $('<span>');
+      var _icon = $('<span>').addClass('material-icons').html('&#xE405;');
+      var _title = $('<span>').text(' '+proposal['title'])
+      _productionItem.append(_icon, _title).addClass('production-item').click(function(){Pard.Widgets.ArtistProductionSectionContent(proposal.proposal_id, sectionContent)});
+      _productionItem.hover(function(){_title.addClass('text-link')}, function(){_title.removeClass('text-link  ')});
+    	 productionContent.append($('<div>').addClass('row productions-list-item').append(_productionItem));
     });
 
     return {

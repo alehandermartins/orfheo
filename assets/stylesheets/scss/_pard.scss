@@ -650,10 +650,11 @@ Aside
 }
 
 .profile-nav-container{
-  margin-bottom:$pard-grid-spacing;
   @include border-radius($layout-border-radius);
   display: block;
   background: $content-background;
+  margin-top: $pard-grid-spacing;
+  padding: 1.4rem 0.3rem 1rem 0.3rem;
 }
 
 .profile-nav-element-container, .profile-selected-container{
@@ -662,7 +663,9 @@ Aside
 }
 
 .profile-selected-container{
-  margin-top: $pard-grid-spacing;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid;
+  padding-bottom: 1rem;
 }
 
 .profile-nav-circle, 
@@ -673,11 +676,11 @@ Aside
 }
 
 .profile-nav-circle{
-    @include pardCircle(2.2rem);
+    @include pardCircle(3rem);
 }
 
 .profile-nav-circle-selected{
-    @include pardCircle(4.4rem);
+    @include pardCircle(3rem);
 }
 
 .profile-nav-element-icon{
@@ -696,7 +699,22 @@ Aside
 
 .profile-nav-name-selected{
   line-height: 1.3rem;
+  margin-top: 1rem;
 }
+
+.productions-list-item{
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.production-item{
+  cursor:pointer;
+}
+
+.text-link{
+    text-decoration: underline;
+  }
+
 
 
 
