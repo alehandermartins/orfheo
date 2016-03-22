@@ -20,7 +20,7 @@
 
     var _createdWidget = $('<div>');
     profiles.forEach(function(profile){
-      _createdWidget.append(Pard.Widgets.CreateCard(profile, function(){location.href='/users/profiles/' + profile['profile_id']}).render().addClass('myprofile-card-position'))});
+      _createdWidget.append($('<div>').addClass('myprofile-card-position').append(Pard.Widgets.CreateCard(profile).render()))});
 
     return {
       render: function(){

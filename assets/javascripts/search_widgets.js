@@ -166,9 +166,9 @@
 
 
 
-  ns.Widgets.CreateCard = function(profile, callback){
+  ns.Widgets.CreateCard = function(profile){
 
-    var _card =$('<div>').addClass('profileCard');
+    var _card =$('<a>').attr({href: '/users/profiles/' + profile['profile_id']}).addClass('profileCard');
     _card.css({border: 'solid 3px'+profile.color});
     _card.hover(
       function(){
@@ -206,11 +206,7 @@
     _category.html(_categories);
     _circle.append(_icon);
     _card.append(_photoContainer, _circle, _name, _city, _category);
-
-    _card.on('click', function(){
-      if (callback) callback();
-    });
-
+    
     return {
       render: function(){
         return _card;

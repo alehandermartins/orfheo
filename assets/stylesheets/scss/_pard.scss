@@ -755,18 +755,22 @@ Profile Card
   display: block;
   line-height: 0;
   transition: box-shadow 200ms ease-out;
-	@include border-radius($element-border-radius);
+  color: black;
+  outline:none;
+  @include border-radius($element-border-radius);
 	position:relative;
+  margin:0 auto;
+  
   @include breakpoint(medium){
   	width: 11rem;
   	height: 14.25rem;
     padding: 3px;
   }
-	@include breakpoint(small down) {
+	
+  @include breakpoint(small down) {
     width: 31vw;
     height: 39vw;
     padding: 1px;
-
   	.circleProfile {
 			height:6vw;
 			width: 6vw;
@@ -839,6 +843,7 @@ Profile Card
     padding-left: 1px;
     padding-right:1px;
   }
+  color: black;
 	margin-top: 2.1rem;
 	text-align:center;
 	width:100%;
