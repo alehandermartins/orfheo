@@ -244,9 +244,17 @@ off-canvas
   .off-canvas-grid-aside.position-left-grid-aside {
     left: -$pard-aside-width;
     top: 0;
-    width: $pard-aside-width; }
+    width: $pard-aside-width; 
+    @include breakpoint(medium){
+      width:13rem;
+      left: -13rem;
+    }}
     .is-open-left {
-      transform: translateX($pard-aside-width); }
+      transform: translateX($pard-aside-width); 
+      @include breakpoint(medium){
+      transform: translateX(13rem); 
+      }
+    }
 
   .displayNone-for-mediumDown{
     display:none;
@@ -1033,6 +1041,15 @@ select, textarea{
 
 .links-ArtistCall{
   margin-top:0.5rem;
+}  
+
+.category-input{
+  font-size: 14px;
+  height: auto;
+}
+
+.photos-modifyProduction{
+  margin-bottom: 1rem;
 }
 
 /*LARGE*/
@@ -1056,13 +1073,13 @@ select, textarea{
   //   width: 12rem;
   // }
 
-  .city-ArtistForm{
+  .city-ArtistForm, .city-modifyProfile{
     width: 17rem;
     display: inline-block;
     margin-right: 3rem;   
   }
 
-  .zip_code-ArtistForm{
+  .zip_code-ArtistForm, .zip_code-modifyProfile{
     width: 13rem;
     display: inline-block;  
     // float: right;
@@ -1091,7 +1108,7 @@ select, textarea{
     margin-left:1rem;
   }
 
-  .category-SpaceForm{
+  .category-SpaceForm, .category-modifyProfile{
     margin-top: 1.8rem;
     margin-bottom: -0.8rem;
   }
@@ -1144,12 +1161,12 @@ select, textarea{
     margin-left: 1.5rem;
   }
 
-  .children-ArtistCall{
+  .children-ArtistCall, .children-modifyProduction{
     display: inline-block;
     margin-left: 3.8rem
   }
 
-  .duration-ArtistCall{
+  .duration-ArtistCall, .duration-modifyProduction{
     display: inline-block;
     margin-top: 1.7rem;
     margin-bottom: -0.5rem;
@@ -1164,6 +1181,19 @@ select, textarea{
   .t-artistCall{
     border-bottom: 1px solid;
   }  
+
+  .profilePhoto-modifyProfile{
+    display: inline-block;
+    margin-left: 4rem;
+    position: absolute;
+    margin-top: -0.4rem;  
+  }
+
+  .name-modifyProfile{
+    width: 17rem;
+    display: inline-block;
+  }
+
 }
 
 

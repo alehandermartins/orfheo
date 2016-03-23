@@ -24,6 +24,7 @@
   ns.Widgets.ModifyProfileMessage = function(profile, submitButton){
 
     var _createdWidget = $('<div>');
+    var _formContainer = $('<form>').addClass('popup-form');
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
     var _submitForm = {};
@@ -41,7 +42,7 @@
         var _previousPhoto = $.cloudinary.image(photo,
           { format: 'jpg', width: 50, height: 50,
             crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-        _createdWidget.append(_previousPhoto);
+        _formContainer.append(_previousPhoto);
         var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
           'position': 'relative',
           'bottom': '20px',
@@ -62,7 +63,10 @@
     var _folder = user_id + '/' + profile_id + '/profile_picture';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 1);
 
-    _createdWidget.append(_photos.render(), _thumbnail);
+    var _photosLabel = $('<label>').text('Foto de perfil').css({
+      'padding-top': '0.5rem'
+    });
+    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).addClass('profilePhoto-modifyProfile');
 
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
@@ -76,10 +80,12 @@
     };
 
     for(var field in _form){
-      _createdWidget.append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render());
+      if (profile.type === 'space'&& field === 'address') _formContainer.append(_photosContainer);
+      if (profile.type === 'artist'&& field === 'bio') _formContainer.append(_photosContainer);
+      _formContainer.append($('<div>').addClass(field+'-modifyProfile').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
     };
 
-    _createdWidget.append(_invalidInput, _submitBtnContainer.append(submitButton));
+    _createdWidget.append(_formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
 
     var _filled = function(){
       var _check = true;

@@ -278,6 +278,7 @@
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal_id, sectionContent)});
 
+
     var _createdWidget = _popup.render();
 
     return {
@@ -291,6 +292,11 @@
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
     var _createdWidget = $('<div>');
+    var _formContainer = $('<form>').addClass('popup-form');
+    var _message = $('<div>').html(
+      'No se modificará ninguno de los datos que has enviado a la convocatoria del conFusión.'
+      ).addClass('message-form');
+
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
@@ -370,11 +376,16 @@
     var _folder = user_id + '/' + profile_id + '/photos';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
 
-    _createdWidget.append(_photos.render(), _thumbnail);
+    var _photosLabel = $('<label>').text('Fotos de tu arte').css({
+      'padding-top': '0.5rem'
+    });
+    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).addClass('photos-modifyProduction');
 
     for(var field in _form){
-      _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()));
+      _formContainer.append($('<div>').addClass(field+'-modifyProduction').append(_form[field]['label'].render().append(_form[field]['input'].render())));
     };
+
+    _formContainer.append(_photosContainer);
 
     var _closepopup = {};
 
@@ -393,7 +404,7 @@
       if(_url.length >= _photos.dataLength()) _send(_url);
     });
 
-    _createdWidget.append(_invalidInput, _submitBtnContainer.append(submitButton));
+    _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
 
     return {
       render: function(){

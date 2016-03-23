@@ -71,9 +71,9 @@
 
 
     _form['links'] = {
-      label: Pard.Widgets.InputLabel('Web del espacio'),
+      label: Pard.Widgets.InputLabel('Web y material audiovisual del espacio'),
       input: Pard.Widgets.InputWebs(),
-      helptext: Pard.Widgets.HelpText('Añade la web/facebook/blog/etc. de tu espacio y dale un titulo para darla a conocer.')
+      helptext: Pard.Widgets.HelpText('Añade un enlace a la web/facebook/blog/video/etc. de tu espacio y dale un título para darla a conocer.')
     };
 
     _form['color'] = {
@@ -103,20 +103,27 @@
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal'),
       input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Añade un enlace a una web tuya (y dale un titulo) para darla a conocer.')
+      helptext: Pard.Widgets.HelpText('Añade un enlace a tu pagina web personal y dale un título.')
     };
     _form['bio'] = {
       label: Pard.Widgets.InputLabel('Bio'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu vida artistica-cultural.')
     };
+    _form['bio']['input'].setAttr('rows', 4);
+
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
     var _requiredFields = ['name', 'city', 'zip_code', 'color'];
+    var  _reorderedForm = {};
+
+    ['name', 'bio', 'personal_web', 'city', 'zip_code', 'color'].forEach(function(field){
+      _reorderedForm[field] = _form[field]; 
+    });
 
     return {
       render: function(){
-        return _form;
+        return _reorderedForm;
       },
       requiredFields: function(){
       	return _requiredFields;
@@ -134,6 +141,8 @@
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu espacio.')
     };
+    _form['bio']['input'].setAttr('rows', 4);
+
 
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
@@ -256,11 +265,11 @@
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 
     _form['category'] = {
-      label: Pard.Widgets.InputLabel('Categoría *'), 
+      label: Pard.Widgets.InputLabel('Selecciona una categoría *'), 
       input: Pard.Widgets.Selector(_labelsCategories, _valuesCategories),
       helptext:Pard.Widgets.HelpText('')
     };
-    _form['category']['input'].setClass('category-input medium-5');
+    _form['category']['input'].setClass('category-input');
 
     _form['title'] = {
       label: Pard.Widgets.InputLabel('Título de la propuesta artística *'),
@@ -333,7 +342,7 @@
     _form['links'] = {
       label: Pard.Widgets.InputLabel('Links a materiales online'),
       input: Pard.Widgets.InputWebs(),
-      helptext: Pard.Widgets.HelpText('Añade enlaces a webs/videos/galerías de fotos/blogs/ect. relacionados con tu propuesta y da un titulo cada uno. Este material permitirá dar a conocer tu arte mejor.')
+      helptext: Pard.Widgets.HelpText('Añade enlaces a videos/galerías de fotos/contenidos de redes sociales/ect. relacionados con tu propuesta y da un titulo cada uno. Este material permitirá dar a conocer tu arte mejor.')
     };
     
     
