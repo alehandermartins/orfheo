@@ -58,7 +58,9 @@
   ns.Events.ModifyProduction = function(data, sectionContent){
     if (data['status'] == 'success'){
       Pard.ProfileManager.modifyProduction(data.proposal);
+      var _profile = Pard.ProfileManager.getProfileFromProposal(data.proposal.proposal_id);
       Pard.Widgets.ArtistProductionSectionContent(data.proposal.proposal_id, sectionContent);
+      Pard.Widgets.ProductionsNavigation(_profile, sectionContent, $('#productions-content_id'));
     }
     else{
       Pard.Widgets.Alert('Error', data.reason);
