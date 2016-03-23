@@ -36,7 +36,7 @@
       
       var _profileNav = $('<div>').addClass('profile-nav-container');
       var _myOtherProfiles = $('<div>').addClass('other-profiles-nav-container');
-      var _productionContent = $('<div>').attr('id','productions-content_id');
+      var _productionContent = $('<div>').attr('id','_productionsContent');
   
       var _reorderedProfiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
 
