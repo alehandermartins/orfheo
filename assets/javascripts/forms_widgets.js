@@ -248,12 +248,14 @@
   		onSelect:  function(){_datePicker.removeClass('warning')}
   	});
 
+    // _datePicker.addClass('warning');
+
   	 return{
       render: function(){
         return _datePicker;
       },
       getVal: function(){
-        return _datePicker.datepick('getDate');
+        if (_inputDate.getVal()) return _datePicker.datepick('getDate'); return false;
       },
       setVal: function(dates){
       	_datePicker.datepick('setDate', dates);

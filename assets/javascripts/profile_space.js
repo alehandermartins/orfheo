@@ -8,7 +8,7 @@
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
     var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envia');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){return Pard.Widgets.CallMessageSpace(profile, _submitBtn)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile, _submitBtn)});
 
     var _createdWidget = _popup.render();
 
@@ -22,7 +22,9 @@
   ns.Widgets.CallMessageSpace= function(profile, submitButton){
 
     var _createdWidget = $('<div>');
-    var _message = $('<div>').text('Textos..').addClass('message-form');;
+    var _message = $('<div>').html(
+      '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Los datos de este formulario nunca serán públicos y podrán ser consutados solo por parte de la organización del festival.'
+      ).addClass('message-form');
     var _formContainer = $('<form>').addClass('popup-form');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');

@@ -242,11 +242,11 @@ off-canvas
   [data-whatinput='mouse'] .off-canvas-grid-aside {
     outline: 0; }
   .off-canvas-grid-aside.position-left-grid-aside {
-    left: -11.25rem;
+    left: -$pard-aside-width;
     top: 0;
-    width: 11.25rem; }
+    width: $pard-aside-width; }
     .is-open-left {
-      transform: translateX(11.25rem); }
+      transform: translateX($pard-aside-width); }
 
   .displayNone-for-mediumDown{
     display:none;
@@ -938,9 +938,12 @@ select, textarea{
     outline: none;
 }
 
-.popup-form input, select, textarea{
+.popup-form button {
+  autline: none;
+}
+
+.popup-form input, .popup-form textarea, .popup-form select{
     @include border-radius($element-border-radius);
-    outline: none;
     height: auto;
     font-size: $almostNormalSize;
 }
@@ -1017,6 +1020,20 @@ select, textarea{
     margin-bottom: 1rem;
 }
 
+.title-part{
+  @include breakpoint(large){
+    margin-top: 1.3rem;
+    margin-bottom: 3rem;
+  }
+  @include breakpoint(medium down){
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.links-ArtistCall{
+  margin-top:0.5rem;
+}
 
 /*LARGE*/
 
@@ -1090,9 +1107,20 @@ select, textarea{
     }
   }
 
-  .availability-SpaceCall, .availability-ArtistCall{
+  .availability-SpaceCall{
     margin-bottom: 1.5rem;
     margin-top: 1.2rem; 
+    // width: 24rem;
+    input{
+      width: 21rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  }
+
+  .availability-ArtistCall{
+    margin-bottom: 1.5rem;
+    // margin-top: 1.2rem; 
     // width: 24rem;
     input{
       width: 21rem;
@@ -1127,7 +1155,17 @@ select, textarea{
     margin-bottom: -0.5rem;
   }
 
+  .m-artistCall{
+    font-size: 14px;
+    float: right;
+    margin-top: -0.5rem;
+  }
+  
+  .t-artistCall{
+    border-bottom: 1px solid;
+  }  
 }
+
 
 /*==============================================
 POPUP

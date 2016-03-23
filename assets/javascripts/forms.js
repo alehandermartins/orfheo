@@ -170,9 +170,6 @@
     var _labels = ['Ambos dias', 'Sabado', 'Domingo'];
     var _values = ['both', 'sat', 'sun'];
 
-    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación');
-    var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions,' *');
-
     _form['responsible'] = {
       label: Pard.Widgets.InputLabel('Nombre del responsable del espacio *'),
       input: Pard.Widgets.Input('','text'),
@@ -195,7 +192,7 @@
     _form['own'] = {
       label: Pard.Widgets.InputLabel('Programacion propia'), 
       input: Pard.Widgets.TextArea(''),
-      helptext:Pard.Widgets.HelpText('Indicar el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán.')
+      helptext:Pard.Widgets.HelpText('Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán.')
     }
 
     _form['un_wanted'] = {
@@ -207,22 +204,22 @@
     _form['sharing'] = {
       label: Pard.Widgets.InputLabel('Materiales a compartir'), 
       input: Pard.Widgets.TextArea(''),
-      helptext:Pard.Widgets.HelpText('Material que puedes compartir durante el festival como equipo de sonido, altavoces, material de arte platica, focos de luz...')
+      helptext:Pard.Widgets.HelpText('Material que puedes compartir durante el festival como equipo de sonido, altavoces, material de arte plastica, focos de luz...')
     }
 
     _form['phone'] = {
-      label: Pard.Widgets.InputLabel('Telefono de contacto *'), 
+      label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
       input: Pard.Widgets.InputTel(''),
       helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización del festival.')
     }
     
     _form['conditions'] = {
       label: Pard.Widgets.InputLabel(''), 
-      input: Pard.Widgets.CheckBox(_conditions, 'yes_conditions'),
+      input: Pard.Widgets.CheckBox(Pard.Forms.Conditions().render(), 'yes_conditions'),
       helptext:Pard.Widgets.HelpText('')
     }
 
-    var _requiredFields = ['phone', 'description', 'conditions', 'responsible'];
+    var _requiredFields = ['phone', 'description', 'conditions', 'responsible', 'availability'];
 
     return {
       render: function(){
@@ -230,6 +227,18 @@
       },
       requiredFields: function(){
       	return _requiredFields;
+      }
+    }
+  }
+
+  ns.Forms.Conditions = function() {
+
+    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación');
+    var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions,' del Benimaclet conFusión festival 2016 *');
+
+    return{
+      render: function(){
+        return _conditions;
       }
     }
   }
@@ -245,9 +254,6 @@
     var _valuesDays = ['sat', 'sun', 'both'];
     var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
-
-    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación');
-    var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
 
     _form['category'] = {
       label: Pard.Widgets.InputLabel('Categoría *'), 
@@ -284,7 +290,7 @@
 
    	
     _form['duration'] = {
-      label: Pard.Widgets.InputLabel('Duracción del espectaculo *'), 
+      label: Pard.Widgets.InputLabel('Duracción del espectacúlo *'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
       helptext: Pard.Widgets.HelpText('')
     };
@@ -301,7 +307,7 @@
 
 
     _form['meters'] = {
-      label: Pard.Widgets.InputLabel('Espacio necesario para la expo *'),
+      label: Pard.Widgets.InputLabel('Espacio necesario para la exposición *'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Indicar cuantos metros cuadrados (y precisar si verticales o horizontales) se piensan necesitar para exponer.')
     };
@@ -334,7 +340,7 @@
     _form['sharing'] = {
       label: Pard.Widgets.InputLabel('Materiales a compartir'), 
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte platica, focos de luz, etc.')
+      helptext: Pard.Widgets.HelpText('Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plastica, focos de luz, etc.')
     };
     _form['sharing']['input'].setClass('sharing-input');
 
@@ -360,7 +366,7 @@
     };
     
     _form['phone'] = {
-      label: Pard.Widgets.InputLabel('Telefono de contacto *'), 
+      label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
       input: Pard.Widgets.InputTel(''),
       helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización del festival.')
     };
@@ -369,7 +375,7 @@
     
     _form['conditions'] = {
       label: Pard.Widgets.InputLabel(''), 
-      input: Pard.Widgets.CheckBox(_conditions, 'yes_conditions'),
+      input: Pard.Widgets.CheckBox(Pard.Forms.Conditions().render(), 'yes_conditions'),
       helptext:Pard.Widgets.HelpText('')
     };
 
@@ -417,12 +423,11 @@
     var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions'];
     var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions'];
 
-    ['category', 'title', 'description', 'short_description', 'duration', 'children']
 
     var _performanceProduction = ['title', 'description', 'short_description', 'duration', 'children', 'links'];
     var _expoStreetArtProduction = ['title', 'description', 'short_description', 'links'];
    
-    var _musicArtsOtherSpecificCall = ['components', 'availability', 'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
+    var _musicArtsOtherSpecificCall = ['availability', 'components',  'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
     var _poetryWorkshopSpecificCall = ['availability', 'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
     var _audiovisualSpecificCall = ['availability', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
     var _streetArtSpecificCall = ['availability', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
