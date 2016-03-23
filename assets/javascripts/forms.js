@@ -176,7 +176,7 @@
     _form['responsible'] = {
       label: Pard.Widgets.InputLabel('Nombre del responsable del espacio *'),
       input: Pard.Widgets.Input('','text'),
-      helptext: Pard.Widgets.HelpText('La persona que se responsabiliza de la colaboración con el festival por la programación y gestión del espacio.')
+      helptext: Pard.Widgets.HelpText('Indicar la persona que se compromete con el festival para la programación y gestión del espacio.')
     };
 
     _form['description'] = {
@@ -186,10 +186,11 @@
     };
 
     _form['availability'] = {
-      label: Pard.Widgets.InputLabel('Disponibilidad'),
+      label: Pard.Widgets.InputLabel('Disponibilidad *'),
       input: Pard.Widgets.InputDate(''),
       helptext: Pard.Widgets.HelpText('Selecciona los días que quieres compartir tu espacio.')
     }
+
     
     _form['own'] = {
       label: Pard.Widgets.InputLabel('Programacion propia'), 
@@ -212,7 +213,7 @@
     _form['phone'] = {
       label: Pard.Widgets.InputLabel('Telefono de contacto *'), 
       input: Pard.Widgets.InputTel(''),
-      helptext:Pard.Widgets.HelpText('Este información en ningún momento será publica. Es necesaria para que en caso de necesidad la organización del festival pueda contactar rapidamente contigo.')
+      helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización del festival.')
     }
     
     _form['conditions'] = {
@@ -242,28 +243,28 @@
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
     var _labelsDays = ['Sabado', 'Domingo', 'Ambos dias'];
     var _valuesDays = ['sat', 'sun', 'both'];
-    var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30 min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
+    var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 
     var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación');
     var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions);
 
     _form['category'] = {
-      label: Pard.Widgets.InputLabel('Categoría'), 
+      label: Pard.Widgets.InputLabel('Categoría *'), 
       input: Pard.Widgets.Selector(_labelsCategories, _valuesCategories),
       helptext:Pard.Widgets.HelpText('')
     };
     _form['category']['input'].setClass('category-input medium-5');
 
     _form['title'] = {
-      label: Pard.Widgets.InputLabel('Título de la propuesta artística'),
+      label: Pard.Widgets.InputLabel('Título de la propuesta artística *'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('')
     };
     _form['title']['input'].setClass('title-input');
 
     _form['description'] = {
-      label: Pard.Widgets.InputLabel('Descripción'),
+      label: Pard.Widgets.InputLabel('Descripción *'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Cuéntanos en detalle en que constiste tu propuesta.')
     };
@@ -274,7 +275,7 @@
 
     
     _form['short_description'] = { 
-      label: Pard.Widgets.InputLabel('Descripción (muy) breve'),
+      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
       input: Pard.Widgets.TextAreaCounter('', 80, 'Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: '),
       helptext: Pard.Widgets.HelpText('')
     };
@@ -283,7 +284,7 @@
 
    	
     _form['duration'] = {
-      label: Pard.Widgets.InputLabel('Duracción del espectaculo'), 
+      label: Pard.Widgets.InputLabel('Duracción del espectaculo *'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
       helptext: Pard.Widgets.HelpText('')
     };
@@ -291,7 +292,7 @@
 
     
     _form['components'] = {
-      label: Pard.Widgets.InputLabel('Numero de integrantes'),
+      label: Pard.Widgets.InputLabel('Numero de integrantes *'),
       input: Pard.Widgets.Input('', 'number'),
       helptext: Pard.Widgets.HelpText('Numero de personas que llevan la actividad/espectaculo.')
     };
@@ -300,7 +301,7 @@
 
 
     _form['meters'] = {
-      label: Pard.Widgets.InputLabel('Espacio necesario para la expo'),
+      label: Pard.Widgets.InputLabel('Espacio necesario para la expo *'),
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Indicar cuantos metros cuadrados (y precisar si verticales o horizontales) se piensan necesitar para exponer.')
     };
@@ -308,11 +309,11 @@
 
     
     _form['availability'] = {
-      label: Pard.Widgets.InputLabel('Disponibilidad'),
+      label: Pard.Widgets.InputLabel('Disponibilidad *'),
       input: Pard.Widgets.InputDate(''),
       helptext: Pard.Widgets.HelpText('Selecciona los días que estás disponible para tu participación en el festival.')
     };
-    _form['availability']['input'].setClass('availability-input');
+    // _form['availability']['input'].setClass('availability-input');
 
     
     _form['children'] = {
@@ -359,11 +360,11 @@
     };
     
     _form['phone'] = {
-      label: Pard.Widgets.InputLabel('Telefono de contacto'), 
+      label: Pard.Widgets.InputLabel('Telefono de contacto *'), 
       input: Pard.Widgets.InputTel(''),
-      helptext:Pard.Widgets.HelpText('Este información en ningún momento será publica. Es necesaria para que en caso de necesidad la organización del festival pueda contactar rapidamente contigo.')
+      helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización del festival.')
     };
-    _form['phone']['input'].setClass('phone-input');
+    // _form['phone']['input'].setClass('phone-input');
 
     
     _form['conditions'] = {
@@ -382,7 +383,7 @@
   ns.Forms.ArtisticProduction = function(){
     var _form = {};
     var _productionForm = Pard.Forms.ArtistCallForm().render();
-    var _fields =['category', 'title', 'description', 'short_description', 'duration', 'children'];
+    var _fields = ['category', 'title', 'description', 'short_description', 'duration', 'children'];
 
     _fields.forEach(function(_element){
       _form[_element] = _productionForm[_element];
@@ -416,6 +417,18 @@
     var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions'];
     var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions'];
 
+    ['category', 'title', 'description', 'short_description', 'duration', 'children']
+
+    var _performanceProduction = ['title', 'description', 'short_description', 'duration', 'children', 'links'];
+    var _expoStreetArtProduction = ['title', 'description', 'short_description', 'links'];
+   
+    var _musicArtsOtherSpecificCall = ['components', 'availability', 'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
+    var _poetryWorkshopSpecificCall = ['availability', 'sharing', 'needs', 'repeat', 'waiting_list', 'phone', 'conditions'];
+    var _audiovisualSpecificCall = ['availability', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
+    var _streetArtSpecificCall = ['availability', 'sharing', 'needs', 'waiting_list', 'phone',  'conditions'];
+    var _expoSpecificCall = ['meters', 'sharing', 'needs', 'waiting_list', 'phone', 'conditions'];
+
+
 
     var _fields = {
       'music': _musicArtsOtherFields,
@@ -426,7 +439,7 @@
       'street_art': _streetArtFields,
       'workshop': _poetryWorkshopFields,
       'audiovisual': _audiovisualFields
-    }
+    };
 
     var _requiredFields = {
       'music': _musicArtsOtherRequired,
@@ -437,7 +450,29 @@
       'street_art': _streetArtRequired,
       'workshop': _poetryWorkshopRequired,
       'audiovisual': _audiovisualRequired
-    }
+    };
+
+    var _productionFields={
+      'music': _performanceProduction,
+      'arts': _performanceProduction,
+      'other': _performanceProduction,
+      'poetry': _performanceProduction,
+      'expo': _expoStreetArtProduction,
+      'street_art': _expoStreetArtProduction,
+      'workshop': _performanceProduction,
+      'audiovisual': _performanceProduction
+    };
+
+     var _specificCallFields ={
+      'music': _musicArtsOtherSpecificCall,
+      'arts': _musicArtsOtherSpecificCall,
+      'other': _musicArtsOtherSpecificCall,
+      'poetry': _poetryWorkshopSpecificCall,
+      'expo': _expoSpecificCall,
+      'street_art': _streetArtSpecificCall,
+      'workshop': _poetryWorkshopSpecificCall,
+      'audiovisual': _audiovisualSpecificCall
+    };
 
     var _form = {};
     var _callBycategory = Pard.Forms.ArtistCallForm().render();
@@ -447,6 +482,8 @@
     });
 
     var _required = _requiredFields[artistCategory];
+    var _production = _productionFields[artistCategory];
+    var _specificCall = _specificCallFields[artistCategory];
 
 
     return {
@@ -455,6 +492,12 @@
       },
       requiredFields: function(){
         return _required;
+      }, 
+      productionFields: function(){
+        return _production;
+      },
+      specificCallFields: function(){
+        return _specificCall;
       }
     }
   };

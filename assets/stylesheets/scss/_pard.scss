@@ -989,10 +989,6 @@ select, textarea{
   line-height: 1.2rem;
 }
 
-.components-input, .duration-input, .phone-input, .category-input{
-  display: inline-block;
-  margin-left: 1rem;
-}
 
 .error-text, .not-filled-text{
   color: red;
@@ -1031,16 +1027,17 @@ select, textarea{
   }
 
   .duration-input{
-    width: 6.5rem;
+    width: 6rem;
+    margin-left: 1rem;
   }
 
   .category-input{
     width: 12rem;
   }
 
-  .phone-input{
-    width: 12rem;
-  }
+  // .phone-input{
+  //   width: 12rem;
+  // }
 
   .city-ArtistForm{
     width: 17rem;
@@ -1080,6 +1077,54 @@ select, textarea{
   .category-SpaceForm{
     margin-top: 1.8rem;
     margin-bottom: -0.8rem;
+  }
+
+  .phone-SpaceCall, .phone-ArtistCall{
+    margin-bottom: 1.5rem;
+    margin-top: 1.2rem; 
+    width: 24rem;
+    input{
+      width: 13rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  }
+
+  .availability-SpaceCall, .availability-ArtistCall{
+    margin-bottom: 1.5rem;
+    margin-top: 1.2rem; 
+    // width: 24rem;
+    input{
+      width: 21rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  }
+
+  .responsible-SpaceCall{
+    margin-bottom: 1.5rem;
+    margin-top: 1.2rem; 
+    input{
+      width: 19rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  }
+
+  .components-input, .category-input{
+    display: inline-block;
+    margin-left: 1.5rem;
+  }
+
+  .children-ArtistCall{
+    display: inline-block;
+    margin-left: 3.8rem
+  }
+
+  .duration-ArtistCall{
+    display: inline-block;
+    margin-top: 1.7rem;
+    margin-bottom: -0.5rem;
   }
 
 }

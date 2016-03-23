@@ -6,7 +6,7 @@
 
   ns.Widgets.CallSpaceButton = function(profile){
 
-     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
     var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envia');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){return Pard.Widgets.CallMessageSpace(profile, _submitBtn)});
 
@@ -21,9 +21,9 @@
 
   ns.Widgets.CallMessageSpace= function(profile, submitButton){
 
-    console.log(profile);
-
     var _createdWidget = $('<div>');
+    var _message = $('<div>').text('Textos..').addClass('message-form');;
+    var _formContainer = $('<form>').addClass('popup-form');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
@@ -37,10 +37,10 @@
     var _requiredFields = Pard.Forms.SpaceCall().requiredFields();
 
     for(var field in _form){
-      _createdWidget.append(_form[field].label.render().append(_form[field].input.render()),_form[field].helptext.render());
+      _formContainer.append($('<div>').addClass(field+'-SpaceCall').append(_form[field].label.render().append(_form[field].input.render()),_form[field].helptext.render()));
     }
 
-    _createdWidget.append(_invalidInput, _submitBtnContainer.append(submitButton));
+    _formContainer.append(_invalidInput, _submitBtnContainer.append(submitButton));
 
     var _filled = function(){
       var check = _form['conditions'].input.getVal();
@@ -62,6 +62,8 @@
       };
       return _submitForm;
     }
+
+    _createdWidget.append(_message, _formContainer);
 
     return {
       render: function(){

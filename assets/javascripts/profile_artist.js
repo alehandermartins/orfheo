@@ -48,22 +48,42 @@
 
     _form['components']['input'].setAttr('min','1');
 
-    for(var field in _form){
-        _content.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render());
-      };
-    var _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
+    var _fieldsetProduction = $('<fieldset>');
+    var _fieldsetSpecificCall = $('<fieldset>');
 
-    var _labelsCategories = ['Musica', 'Artes Escenicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
+    var _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
+    var _productionFields = Pard.Forms.ArtistCall(_selected).productionFields();
+    var _specificCallFields = Pard.Forms.ArtistCall(_selected).specificCallFields();
+
+    _productionFields.forEach(function(field){
+      _fieldsetProduction.append($('<div>').addClass(field+'-ArtistCall').append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+    });
+
+    _specificCallFields.forEach(function(field){
+      _fieldsetSpecificCall.append($('<div>').addClass(field+'-ArtistCall').append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+    });
+
+    _content.append(_fieldsetProduction, _fieldsetSpecificCall);
+
+    var _labelsCategories = ['Musica', 'Artes Escénicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
-     var categorySelectCallback = function(){
+     
+    var categorySelectCallback = function(){
       _selected = $(this).val();
-      _content.empty();
+      _fieldsetProduction.empty();
+      _fieldsetSpecificCall.empty();
       _invalidInput.empty();
       _form = Pard.Forms.ArtistCall(_selected).render();
       _requiredFields = Pard.Forms.ArtistCall(_selected).requiredFields();
-      for(var field in _form){
-        _content.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render());
-      };
+      _productionFields = Pard.Forms.ArtistCall(_selected).productionFields();
+      _specificCallFields = Pard.Forms.ArtistCall(_selected).specificCallFields();
+      _productionFields.forEach(function(field){
+      _fieldsetProduction.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render());
+      });
+      _specificCallFields.forEach(function(field){
+        _fieldsetSpecificCall.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render());
+      });
+      _content.append(_fieldsetProduction, _fieldsetSpecificCall);
       _submitForm['category'] = _selected;
       _createdWidget.append(_category, _content.append(_invalidInput), _submitBtnContainer.append(submitButton));
     };
@@ -72,7 +92,7 @@
 
     _category.setClass('category-input');
 
-    var _categoryLabel = $('<label>').text('Selecciona una categoría')
+    var _categoryLabel = $('<label>').text('Selecciona una categoría *')
 
     _createdWidget.append(_categoryLabel.append(_category.render()), _content.append(_invalidInput), _submitBtnContainer.append(submitButton));
 
@@ -232,5 +252,138 @@
       }
     }
   }
+
+    ns.Widgets.ModifyProduction = function(proposal_id, sectionContent){
+
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal_id, sectionContent)});
+
+    var _createdWidget = _popup.render();
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.ModifyProductionMessage = function(proposal_id, sectionContent){
+
+    var proposal = Pard.ProfileManager.getProposal(proposal_id);
+    var _createdWidget = $('<div>');
+
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
+    var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
+
+    var user_id = Pard.ProfileManager.getUserId();
+    var profile_id = Pard.ProfileManager.getProfileId(proposal_id);
+
+    _submitForm['proposal_id'] = proposal.proposal_id;
+    _submitForm['profile_id'] = profile_id;
+
+    var _form = Pard.Forms.ArtisticProduction();
+    var _requiredFields = _form.requiredFields();
+    _form = _form.render();
+
+    for(var field in _form){
+      if(proposal[field]) _form[field]['input'].setVal(proposal[field]);
+    };
+
+    var _filled = function(){
+      var _check = true;
+      for (field in _form){
+        if ($.inArray(field, _requiredFields) >= 0){
+          if(!(_form[field].input.getVal())) {
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;}
+        }
+      }
+      if (_check) _invalidInput.empty();
+      return _check;    
+    };
+
+    var _getVal = function(url){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      };
+      _submitForm['photos'] = url;
+      return _submitForm;
+    }
+
+    var _send = function(url){
+      Pard.Backend.modifyProduction(_getVal(url), function(data){
+        Pard.Events.ModifyProduction(data, sectionContent);
+      });
+    }
+
+    var _thumbnail = $('<div>');
+    var _url = [];
+    
+    if('photos' in proposal && proposal.photos != null){
+      proposal.photos.forEach(function(photo){
+        _url.push(photo);
+        var _container = $('<span>');
+        var _previousPhoto = $.cloudinary.image(photo,
+          { format: 'jpg', width: 50, height: 50,
+            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+        _createdWidget.append(_previousPhoto);
+        var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+          'position': 'relative',
+          'bottom': '20px',
+          'cursor': 'pointer'
+        });
+
+        _icon.on('click', function(){
+          _url.splice(_url.indexOf(photo), 1);
+          _photos.setUrl(_url);
+          _container.empty();
+        });
+
+        _container.append(_previousPhoto, _icon);
+        _thumbnail.append(_container);
+      });
+    }
+
+    var _folder = user_id + '/' + profile_id + '/photos';
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
+
+    _createdWidget.append(_photos.render(), _thumbnail);
+
+    for(var field in _form){
+      _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()));
+    };
+
+    var _closepopup = {};
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _closepopup();
+        if(_photos.dataLength() == false) _send(_url);
+        else{
+          _photos.submit();
+        }
+      }
+    });
+
+    _photos.render().bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+      if(_url.length >= _photos.dataLength()) _send(_url);
+    });
+
+    _createdWidget.append(_invalidInput, _submitBtnContainer.append(submitButton));
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closepopup = callback;
+      }
+    }
+  }
+
 
 }(Pard || {}));
