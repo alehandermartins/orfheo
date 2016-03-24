@@ -134,6 +134,7 @@
         'font-size': '18px',
         'margin-bottom':'1rem'
       });
+
       
       var _emailRecovery = $('<div>');
       var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
@@ -145,7 +146,7 @@
       _messageContainer.append(_message, _emailRecovery);
 
       return {
-        render: function(){
+        render: function(){    
           return _messageContainer;
         },
         setCallback: function(callback){
@@ -196,22 +197,22 @@
       street_art: 'Street Art',
       workshop: 'Taller',
       other: 'Otros',
-      already_registered: _recoverPasswd('¡Usuario ya registrado!'),
-      non_existing_user: _noExistingUser(),
+      already_registered: function(){return _recoverPasswd('¡Usuario ya registrado!')},
+      non_existing_user: function(){return _noExistingUser()},
       invalid_parameters: '<div>Los parámetros insertados no son validos!<br/> Por favor, revísalos.</div>',
       invalid_email: '<div>¡El correo no es correcto!<br/> Por favor, vuelve a intentar.</div>',
-      incorrect_password: _recoverPasswd('¡Contraseña equivocada!'),
+      incorrect_password: function(){return _recoverPasswd('¡Contraseña equivocada!')},
       not_validated_user:'Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam.'
-    }
-
-    
+    }   
 
     return {
       render: function(){
+        if (typeof _dictionary[voice] == 'function') return _dictionary[voice]();
         return _dictionary[voice];
       }
     }
   }
+
 
   ns.Widgets.Sticker = function (elem, distanceFromHeader, stickyDistanceTop) {
 

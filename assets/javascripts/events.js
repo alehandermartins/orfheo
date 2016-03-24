@@ -8,7 +8,7 @@
       Pard.Widgets.Alert('','Te hemos enviado por correo un enlace para confirmar tu cuenta y acceder a orfheo.');
     }
     else {
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'function'){
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
         var _caller = $('<button>');
         var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
         _caller.trigger('click');
@@ -25,14 +25,14 @@
       document.location = '/users/';
     }
     else {
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'function'){
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
         var _caller = $('<button>');
         var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
         _caller.trigger('click');
       }
       else{
         console.log(data.reason);
-        Pard.Widgets.Alert('Usuario no validado', Pard.Widgets.Dictionary(data.reason).render());
+        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
       }
     };
   };
@@ -42,7 +42,7 @@
       document.location = '/';
     }
     else {
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'function'){
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
         var _caller = $('<button>');
         var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
         _caller.trigger('click');
@@ -59,7 +59,7 @@
       document.location = '/users/profiles/' + data['profile_id'];
     }
     else{
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'function'){
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
         var _caller = $('<button>');
         var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
         _caller.trigger('click');
@@ -81,7 +81,7 @@
       );
     }
     else{
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'function'){
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
         var _caller = $('<button>');
         var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
         _caller.trigger('click');
@@ -102,7 +102,7 @@
       Pard.Widgets.ProductionsNavigation(_profile, sectionContent, $('#_productionsContent'));
     }
     else{
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'function'){
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
         var _caller = $('<button>');
         var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
         _caller.trigger('click');

@@ -427,7 +427,7 @@
 
   
 
-  ns.Widgets.InputWebs = function(){
+  ns.Widgets.InputWebs = function(label1, label2){
 
     var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Facebook, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
@@ -511,10 +511,10 @@
     _webTitle.setClass('links-input');
     _link.setClass('links-input');
 
-    var _entries = [{
+    var _entries = {
             web_title: _webTitle,
             link: _link
-          }];
+          };
  
     var _webField = $('<div>');
     _webField.append(_webTitle.render(), _link.render());
@@ -527,7 +527,7 @@
         return _createdWidget;
       },
       getVal: function(){
-        return Pard.Widgets.WebFilled(_entries[0]);
+        return Pard.Widgets.WebFilled(_entries);
       },
       setVal: function(_val){
         for(var field in _val) {_entries[field] = _val[field];}
