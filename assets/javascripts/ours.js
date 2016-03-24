@@ -15,4 +15,4 @@
 // = require search_widgets
 // = require profile_widgets
 // = require forms_widgets
-
+// = require artistic_production_widgets

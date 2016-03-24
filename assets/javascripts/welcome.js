@@ -13,72 +13,53 @@
     var _passwdLabel = Pard.Widgets.InputLabel('Contraseña').render();    
 
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-    var _labels = ['Tu correo', 'Confirma tu correo', 'Minimo 8 caracteres'];
+    var _labels = ['Tu correo', 'Confirma tu correo', 'Mínimo 8 caracteres'];
     var _types = ['email', 'email', 'password'];
 
-    // var _message = $('<h4>').text('Regístrate para continuar');
-
-    // _fields['email'] = Pard.Widgets.Input(_labels[index], _types[index], '', _checkInput);
-    // _fields['emailConf'] = Pard.Widgets.Input(_labels[index], _types[index], '', _checkInput);
-    // _fields['password'] = ;
-
     ['email', 'emailConf', 'password'].forEach(function(id, index){
-      _fields[id] = Pard.Widgets.Input(_labels[index], _types[index], '', function(){
-
-        var _checkPassword = function(){
-          if (_fields['password'].getVal()){    
-            if(_fields['password'].getVal().length < 8){
-              _fields['password'].addWarning();
-              _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
-            }else{
-              _fields['password'].removeWarning();
-              return true;
-            }
-          }
+      _fields[id] = Pard.Widgets.Input(_labels[index], _types[index]
+      , function(){
+        if (_invalidInput.text()) _checkInput();
+        // _invalidInput.text('');
         }
+      )}
+    );
 
-        var _checkEqual = function(){ 
-          if (_fields['emailConf'].getVal()){
-            if (_fields['email'].getVal() != _fields['emailConf'].getVal()){
-              _fields['emailConf'].addWarning();
-              _invalidInput.text('Los campos de correo no coinciden.');
-            }
-            else{
-              _fields['emailConf'].removeWarning();
-              return _checkPassword();
-            }
-          }
-        };
-
-        var _checkInput = function(){
-          if(_fields['email'].getVal()){
-            if(!regEx.test(_fields['email'].getVal())){
-              _fields['email'].addWarning();
-              _invalidInput.text('El correo debe tener un formato valido.');
-            }else{
-              _fields['email'].removeWarning();
-              _invalidInput.text('');
-              return _checkEqual();
-            }
-          }
-          else{
-            _fields['email'].removeWarning();
-            _invalidInput.empty();
-          }
+   var _checkPassword = function(){
+        if(_fields['password'].getVal().length < 8){
+          _fields['password'].addWarning();
+          _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
         }
-
-        if (_checkInput() == true){
-          _fields['button'].enable();
-        }else{
-          _fields['button'].disable();
+        else{
+          _fields['password'].removeWarning();
+          return true;
         }
-      });
-    });
+    }
+
+    var _checkEqual = function(){ 
+        if (_fields['email'].getVal() != _fields['emailConf'].getVal()){
+          _fields['emailConf'].addWarning();
+          _invalidInput.text('Los campos de correo no coinciden.');
+        }
+        else{
+          _fields['emailConf'].removeWarning();
+          return _checkPassword(_invalidInput);
+        }
+    };
+
+    var _checkInput = function(){
+      if(!regEx.test(_fields['email'].getVal())){
+        _fields['email'].addWarning();
+        _invalidInput.text('El correo debe tener un formato valido.');
+      }else{
+        _fields['email'].removeWarning();
+        _invalidInput.text('');
+        return _checkEqual();
+      }
+    }
 
     _fields['button'] = Pard.Widgets.Button('Crea un cuenta');
     _fields['button'].setClass('signup-form-btn');
-
-    _fields['button'].disable();
 
     Object.keys(_fields).map(function(field){
       _createdWidget.append(_fields[field].render());
@@ -95,12 +76,15 @@
       },
       setCallback: function(callback){
         _fields['button'].render().on('click', function(){
-          Pard.Backend.register(
-            _fields['email'].getVal(),
-            _fields['emailConf'].getVal(),
-            Pard.Events.Register
-          );
-        callback();
+          if (_checkInput()){
+            Pard.Backend.register(
+              _fields['email'].getVal(),
+              _fields['emailConf'].getVal(),
+              Pard.Events.Register
+            );
+          callback();
+          }
+          else {return false};
         })
       }
     }
@@ -135,7 +119,7 @@
           else {
             Pard.Backend.passwordRecovery(_email.getVal(), function(data){
               if (data['status'] == 'success'){
-                Pard.Widgets.Alert('', 'Te hemos enviado un correo con las instricciones para acceder a tu cuenta.');
+                Pard.Widgets.Alert('', 'Te hemos enviado un correo con las instrucciones para acceder a tu cuenta.');
                 callback();
               }
               else {

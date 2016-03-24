@@ -2,6 +2,8 @@
 
 (function(ns){
 
+  ns.Widgets = ns.Widgets || {};
+
 
   ns.Widgets.CallButtonArtist = function(profile){
 
@@ -217,32 +219,34 @@
   }
 
 
-  ns.Widgets.MyArtistProductions = function(profile){
-    var _createdWidget = $('<div>');
-    var _content = $('<div>');
-    var _proposals = profile.proposals;
+  // ns.Widgets.MyArtistProductions = function(profile){
+  //   var _createdWidget = $('<div>');
+  //   var _content = $('<div>');
+  //   var _proposals = profile.proposals;
 
-    if (_proposals){
-      _proposals.forEach(function(proposal){
-        _createdWidget.append(Pard.Widgets.Button(proposal['title'], function(){
-          _content.empty();
-          _content.append(Pard.Widgets.MyArtistProductionsContent(proposal).render());
-       }).render());
-      });
-    }
 
-    _createdWidget.append(_content);
+  //   if (_proposals){
+  //     _proposals.forEach(function(proposal){
+  //       _createdWidget.append(Pard.Widgets.Button(proposal['title'], function(){
+  //         _content.empty();
+  //         _content.append(Pard.Widgets.MyArtistProductionsContent(proposal).render());
+  //      }).render());
+  //     });
+  //   }
 
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  };
+  //   _createdWidget.append(_content);
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     }
+  //   }
+  // };
 
   ns.Widgets.MyArtistProductionsContent = function(proposal_id){
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
+    console.log(proposal);
     var _createdWidget = $('<div>');
     var _infoField = $('<div>');
 
@@ -271,7 +275,7 @@
     }
   }
 
-    ns.Widgets.ModifyProduction = function(proposal_id, sectionContent){
+  ns.Widgets.ModifyProduction = function(proposal_id, sectionContent){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal_id, sectionContent)});

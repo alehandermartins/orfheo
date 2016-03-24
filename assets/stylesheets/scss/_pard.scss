@@ -369,6 +369,20 @@ button{
   @include linearGradient(#b9daad, #6cb252);
 }
 
+.signupButton-alert{
+  color: $element-color;
+  font-weight: 600;
+  width:13rem;
+  padding-top:1rem;
+  padding-bottom:1rem;
+  // margin-bottom: 1.5rem;
+  @include border-radius($element-border-radius);
+  font-size: $almostNormalSize;
+  @include linearGradient(#b9daad, #6cb252);
+  position: relative;
+  margin-left:3rem;
+}
+
 .toUserPage-btn{
   height:3rem;
   width: 100%;
@@ -1246,7 +1260,7 @@ POPUP
     max-width: 40rem; //640px
     margin-bottom: 0.6rem;
     // @include absolute-center;
-    @include breakpoint(medium down){
+    @include breakpoint(small down){
       margin-right: 2rem;
     }
 }

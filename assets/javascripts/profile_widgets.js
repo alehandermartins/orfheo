@@ -281,7 +281,7 @@
   ns.Widgets.ArtistProductionSectionContent = function(proposal_id, sectionContent) {
 
     sectionContent.empty();
-    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal_id).render(), Pard.Widgets.ModifyProduction(proposal_id, sectionContent).render());
+    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal_id).render(), Pard.Widgets.ModifyProduction(proposal_id, sectionContent).render(), Pard.Widgets.MultimediaManager(proposal_id, sectionContent).render());
 
     // return{
     //   render: function(){

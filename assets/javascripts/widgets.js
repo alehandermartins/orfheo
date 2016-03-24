@@ -11,13 +11,13 @@
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _innerContainer = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>').addClass('alert-container-full');
-    var _sectionContainer = $('<section>').addClass('popup-content');
+    var _sectionContainer = $('<section>').addClass('popup-content').css('font-size','18px');
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
     _closeBtn.append($('<span>').html('&times;'));
 
-    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'slide-in-up', animationOut: 'slide-out-up'});
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
 
     _closeBtn.click(function(){
       if (callback) callback();
@@ -37,7 +37,7 @@
   };
 
 
-  ns.Widgets.PopupCreator = function(caller, title, message){
+  ns.Widgets.PopupCreator = function(caller, title, message, contentClass){
 
     var _content = $('<div>').addClass('very-fast reveal full');
 
@@ -52,7 +52,7 @@
 
     _popupCaller.on('click', function(){
       _content.empty();
-      var _message = Pard.Widgets.PopupContent(title, message());
+      var _message = Pard.Widgets.PopupContent(title, message(), contentClass);
       _message.setCallback(function(){_popup.close()});
       _content.append(_message.render());
       _popup.open();
@@ -67,11 +67,13 @@
 
 
 
-  ns.Widgets.PopupContent = function(title, content){
+  ns.Widgets.PopupContent = function(title, content, contentClass){
 
     var _createdWidget = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
-    var _popupContent = $('<div>').addClass('popup-container-full')
+    var _popupContent = $('<div>');
+    if (contentClass){_popupContent.addClass(contentClass);}
+    else{_popupContent.addClass('popup-container-full');}
     var _sectionContainer = $('<section>').addClass('popup-content');
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
@@ -96,35 +98,89 @@
     }
   }
 
-  ns.Widgets.BasicPopup = function(btnCall_label, submitBtn_label, content){
+  // ns.Widgets.BasicPopup = function(btnCall_label, submitBtn_label, content){
 
-    var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btnCall_label);
-    var _message = $('<div>').addClass('very-fast reveal small');
-    var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(submitBtn_label);
+  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btnCall_label);
+  //   var _message = $('<div>').addClass('very-fast reveal small');
+  //   var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(submitBtn_label);
 
-    var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
+  //   var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
 
-    _createdWidget.on('click', function(){
-      _popup.open();
-    });
+  //   _createdWidget.on('click', function(){
+  //     _popup.open();
+  //   });
 
-    var _messageContent = content(_submitBtn);
+  //   var _messageContent = content(_submitBtn);
 
-    _messageContent.setCallback(function(){_popup.close()});
+  //   _messageContent.setCallback(function(){_popup.close()});
 
-    _message.append(_messageContent.render());
+  //   _message.append(_messageContent.render());
 
-    $('body').append(_message);
+  //   $('body').append(_message);
 
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     }
+  //   }
+  // }
 
 
   ns.Widgets.Dictionary = function(voice){
+
+    var _recoverPasswd = function(text){
+      var _messageContainer = $('<div>').append()
+      var _message  = $('<div>').text(text).css({
+        'font-size': '18px',
+        'margin-bottom':'1rem'
+      });
+      
+      var _emailRecovery = $('<div>');
+      var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
+
+      var _popup = Pard.Widgets.PopupCreator(_caller,'Recupera tu cuenta', function(){return Pard.Widgets.RecoveryMessage()});
+
+      _emailRecovery.append(_popup.render());
+
+      _messageContainer.append(_message, _emailRecovery);
+
+      return {
+        render: function(){
+          return _messageContainer;
+        },
+        setCallback: function(callback){
+          _caller.on('click',function(){callback()});
+        }
+      }
+    }
+
+    var _noExistingUser = function(){
+      var _messageContainer = $('<div>').append()
+      var _message  = $('<div>').text('¡No existe ningun usuario asociado con este correo!').css({
+        'font-size': '18px',
+        'margin-bottom':'1rem'
+      });
+      
+      var _register = $('<div>');
+      var _caller = $('<button>').attr({type:'button'}).html('Regístrate')
+
+      
+      var _popup = Pard.Widgets.PopupCreator(_caller, 'Regístrate para continuar', function(){return Pard.Widgets.Registration()});
+
+      var _signUpButton = _popup.render();
+      _signUpButton.addClass('signupButton-alert');
+    
+      _messageContainer.append(_message, _signUpButton);
+
+      return {
+        render: function(){
+          return _messageContainer;
+        },
+        setCallback: function(callback){
+          _caller.on('click',function(){callback()});
+        }
+      }
+    }
 
     var _dictionary = {
       artist: 'Artista',
@@ -139,8 +195,16 @@
       audiovisual: 'Audiovisual',
       street_art: 'Street Art',
       workshop: 'Taller',
-      other: 'Otros'
+      other: 'Otros',
+      already_registered: _recoverPasswd('¡Usuario ya registrado!'),
+      non_existing_user: _noExistingUser(),
+      invalid_parameters: '<div>Los parámetros insertados no son validos!<br/> Por favor, revísalos.</div>',
+      invalid_email: '<div>¡El correo no es correcto!<br/> Por favor, vuelve a intentar.</div>',
+      incorrect_password: _recoverPasswd('¡Contraseña equivocada!'),
+      not_validated_user:'Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam.'
     }
+
+    
 
     return {
       render: function(){

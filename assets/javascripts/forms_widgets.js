@@ -539,4 +539,36 @@
     }
   }
 
+  ns.Widgets.InputMultimedia = function(){
+    var _webTitle = Pard.Widgets.Input('Título del enlace.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+
+    _webTitle.setClass('links-input');
+    _link.setClass('links-input');
+
+    var _entries = {
+            web_title: _webTitle,
+            link: _link
+          };
+ 
+    var _webField = $('<div>');
+    _webField.append(_webTitle.render(), _link.render());
+    var _inputWeb = $('<div>').append(_webField);
+
+    var _createdWidget = $('<div>').append(_inputWeb);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return Pard.Widgets.WebFilled(_entries);
+      },
+      setVal: function(_val){
+        for(var field in _val) {_entries[field] = _val[field];}
+      }
+
+    }
+  }
+
 }(Pard || {}));
