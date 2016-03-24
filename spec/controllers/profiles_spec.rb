@@ -3,7 +3,8 @@ describe ProfilesController do
   let(:login_route){'/login/login_attempt'}
   let(:create_profile_route){'/users/create_profile'}
   let(:create_proposal_route){'/users/create_proposal'}
-
+  let(:create_call_route){'/users/create_call'}
+  let(:send_proposal_route){'/users/send_proposal'}
 
   let(:user_hash){
     {
@@ -28,6 +29,7 @@ describe ProfilesController do
 
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
   let(:profile){
     {
@@ -51,10 +53,36 @@ describe ProfilesController do
       description: 'description',
       short_description: 'short_description',
       photos: ['picture.jpg', 'otter_picture.jpg'],
-      links: 'links',
+      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       duration: 'duration',
       children: 'children'
     }
+  }
+
+  let(:callproposal){
+    {
+      profile_id: profile_id,
+      proposal_id: proposal_id,
+      call_id: call_id,
+      type: 'artist',
+      category: 'music',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      photos: ['picture.jpg', 'otter_picture.jpg'],
+      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
+      duration: '15',
+      children: 'children',
+      phone: '666999666',
+      conditions: 'true',
+      availability: 'sun',
+      components: '3',
+      repeat: 'true'
+    }
+  }
+
+  let(:call){
+    {}
   }
 
   before(:each){
@@ -186,6 +214,8 @@ describe ProfilesController do
 
     before(:each){
       post create_profile_route, profile
+      post create_call_route, call
+      post send_proposal_route, callproposal
     }
 
     it 'redirects user to not found page if profile does not exist' do
@@ -200,7 +230,6 @@ describe ProfilesController do
 
     it 'redirects user to profile page otherwise' do
       get profiles_route
-
       expect(last_response.body).to include('Pard.Profile')
     end
   end

@@ -12,16 +12,25 @@ module Util
     def symbolize_array array
       return array unless array.all?{ |element| element.is_a? Hash}
       array.map{ |proposal|
-        proposal.map{ |key, value|
-          [key.to_sym, value]
+        proposal.map{ |k, v|
+          next [k.to_sym, symbolize_array(v)] if v.is_a? Array
+          [k.to_sym, v]
         }.to_h
       }
     end
 
     def stringify_hash hash
       hash.map do |k, v|
+        next [k.to_s, stringify_array(v)] if v.is_a? Array
         [k.to_s, v]
       end.to_h
+    end
+
+    def stringify_array array
+      return array unless array.all?{ |element| element.is_a? Hash}
+      array.map do |v|
+        stringify_hash(v)
+      end
     end
   end
 end

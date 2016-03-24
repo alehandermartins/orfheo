@@ -15,6 +15,7 @@ describe Services::Calls do
       title: 'title',
       description: 'description',
       short_description: 'short_description',
+      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       phone: '666999666',
       conditions: true,
       duration: '15',

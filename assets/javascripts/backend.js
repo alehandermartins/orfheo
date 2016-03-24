@@ -95,7 +95,6 @@
     };
 
     var _sendProposal = function(form, callback){
-        console.log(form);
       _send(
         '/users/send_proposal',
         form,

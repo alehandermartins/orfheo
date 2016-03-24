@@ -43,7 +43,7 @@ describe Services::Profiles do
       description: 'description',
       short_description: 'short_description',
       photos: ['picture.jpg', 'otter_picture.jpg'],
-      links: 'links',
+      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       duration: 'duration',
       children: 'children'
     }
