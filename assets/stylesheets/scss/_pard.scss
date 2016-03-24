@@ -242,11 +242,19 @@ off-canvas
   [data-whatinput='mouse'] .off-canvas-grid-aside {
     outline: 0; }
   .off-canvas-grid-aside.position-left-grid-aside {
-    left: -11.25rem;
+    left: -$pard-aside-width;
     top: 0;
-    width: 11.25rem; }
+    width: $pard-aside-width; 
+    @include breakpoint(medium){
+      width:13rem;
+      left: -13rem;
+    }}
     .is-open-left {
-      transform: translateX(11.25rem); }
+      transform: translateX($pard-aside-width); 
+      @include breakpoint(medium){
+      transform: translateX(13rem); 
+      }
+    }
 
   .displayNone-for-mediumDown{
     display:none;
@@ -321,13 +329,13 @@ button{
 }
 
 .plus-inform-btn{
-  margin-left:1rem;
+  margin-left:2rem;
   margin-top: -0.6rem;
 } 
 
 .minus-inform-btn{
-  // margin-top: -4.4rem;
-  margin-top: -0.6rem;
+  margin-top: -4rem;
+  // margin-top: -0.6rem;
   margin-left:0.5rem;
 }
 
@@ -928,9 +936,49 @@ FOOTER
 FORMS
 ===============================================*/
 
-textarea, select {
-  @include border-radius($element-border-radius);
+
+// select:-moz-focusring {
+//     color: transparent;
+//     text-shadow: 0 0 0 #000;
+// }
+select, textarea{
+    @include border-radius($element-border-radius);
+    outline: none;
 }
+
+.popup-form button {
+  autline: none;
+}
+
+.popup-form input, .popup-form textarea, .popup-form select{
+    @include border-radius($element-border-radius);
+    height: auto;
+    font-size: $almostNormalSize;
+}
+
+.popup-form .route-addressForm, .popup-form .street_number-addressForm,.popup-form .door-addressForm, .popup-form .locality-addressForm, .popup-form .country-addressForm, .popup-form .postal_code-addressForm {
+  font-size: $smallSize;
+  margin-bottom: 0.5rem;
+  display: inline-block; 
+}
+
+.popup-form .postal_code-addressForm {
+  font-size: $smallSize;
+  margin-bottom: 1.1rem;
+  display: inline-block; 
+}
+
+
+
+// .popup-form 
+//   .route-addressForm, 
+//   .street_number-addressForm, 
+//   .door-addressForm, 
+//   .locality-addressForm, 
+//   .country-addressForm, 
+//   .postal_code-addressForm{
+//     font-size: $smallSize; 
+//   }
 
 
 .help-text{
@@ -938,33 +986,20 @@ textarea, select {
   margin-top: -0.5rem;
 }
 
-.form-input{
-  height: auto;
-  font-size: $almostNormalSize;
-  // line-height: 1.5rem;
-}
+// .form-input{
+ 
+//   // line-height: 1.5rem;
+// }
 
-.category-input, .title-input, .description-input, .short_description-input, .duration-input, .components-input, .meters-input, .availability-input, .links-input, .sharing-input, .needs-input, .phone-input {
-  @extend .form-input;
-}
+// .category-input, .title-input, .description-input, .short_description-input, .duration-input, .components-input, .meters-input, .availability-input, .links-input, .sharing-input, .needs-input, .phone-input, .city {
+//   @extend .form-input;
+// }
 
 //textareas
 .description-input, .short_description-input, .needs-input, .sharing-input{
   line-height: 1.2rem;
 }
 
-.components-input, .duration-input{
-  display: inline-block;
-  margin-left: 1rem;
-}
-
-.components-input{
-    width: 5rem; 
-}
-
-.duration-input{
-  width: 6.5rem;
-}
 
 .error-text, .not-filled-text{
   color: red;
@@ -976,7 +1011,190 @@ textarea, select {
   margin-bottom: -0.5rem;
 }
 
+.popup-form .color-input{
+  height: 2.5rem;
+}
 
+.webTitle-input{
+  margin-bottom: 0.5rem;
+}
+
+.photo-form{
+  margin-bottom: 1rem;
+  margin-left:1rem;
+}
+
+.message-form{
+    margin-bottom: 1rem;
+}
+
+.title-part{
+  @include breakpoint(large){
+    margin-top: 1.3rem;
+    margin-bottom: 3rem;
+  }
+  @include breakpoint(medium down){
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.links-ArtistCall{
+  margin-top:0.5rem;
+}  
+
+.category-input{
+  font-size: 14px;
+  height: auto;
+}
+
+.photos-modifyProduction{
+  margin-bottom: 1rem;
+}
+
+/*LARGE*/
+
+@media only screen and #{breakpoint(large)} {
+
+  .components-input{
+      width: 5rem; 
+  }
+
+  .duration-input{
+    width: 6rem;
+    margin-left: 1rem;
+  }
+
+  .category-input{
+    width: 12rem;
+  }
+
+  // .phone-input{
+  //   width: 12rem;
+  // }
+
+  .city-ArtistForm, .city-modifyProfile{
+    width: 17rem;
+    display: inline-block;
+    margin-right: 3rem;   
+  }
+
+  .zip_code-ArtistForm, .zip_code-modifyProfile{
+    width: 13rem;
+    display: inline-block;  
+    // float: right;
+  }
+
+  .route-addressForm{
+    width: 17rem;
+  }
+
+  .street_number-addressForm, .door-addressForm{
+    width: 5rem;
+    margin-left:1rem;
+  }
+
+  .locality-addressForm{
+    width: 13rem;
+  }
+
+  .country-addressForm{
+    width: 13rem;
+    margin-left:1rem;
+  }
+
+  .postal_code-addressForm{
+    width: 8rem;
+    margin-left:1rem;
+  }
+
+  .category-SpaceForm, .category-modifyProfile{
+    margin-top: 1.8rem;
+    margin-bottom: -0.8rem;
+  }
+
+  .phone-SpaceCall, .phone-ArtistCall{
+    margin-bottom: 1.5rem;
+    margin-top: 1.2rem; 
+    width: 24rem;
+    input{
+      width: 13rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  }
+
+  .availability-SpaceCall{
+    margin-bottom: 1.5rem;
+    margin-top: 1.2rem; 
+    // width: 24rem;
+    input{
+      width: 21rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  }
+
+  .availability-ArtistCall{
+    margin-bottom: 1.5rem;
+    // margin-top: 1.2rem; 
+    // width: 24rem;
+    input{
+      width: 21rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  }
+
+  .responsible-SpaceCall{
+    margin-bottom: 1.5rem;
+    margin-top: 1.2rem; 
+    input{
+      width: 19rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  }
+
+  .components-input, .category-input{
+    display: inline-block;
+    margin-left: 1.5rem;
+  }
+
+  .children-ArtistCall, .children-modifyProduction{
+    display: inline-block;
+    margin-left: 3.8rem
+  }
+
+  .duration-ArtistCall, .duration-modifyProduction{
+    display: inline-block;
+    margin-top: 1.7rem;
+    margin-bottom: -0.5rem;
+  }
+
+  .m-artistCall{
+    font-size: 14px;
+    float: right;
+    margin-top: -0.5rem;
+  }
+  
+  .t-artistCall{
+    border-bottom: 1px solid;
+  }  
+
+  .profilePhoto-modifyProfile{
+    display: inline-block;
+    margin-left: 4rem;
+    position: absolute;
+    margin-top: -0.4rem;  
+  }
+
+  .name-modifyProfile{
+    width: 17rem;
+    display: inline-block;
+  }
+
+}
 
 
 /*==============================================
