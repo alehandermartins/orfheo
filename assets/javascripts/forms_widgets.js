@@ -504,8 +504,8 @@
   } 
 
 
-   ns.Widgets.InputPersonalWeb = function(){
-    var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Blog, Facebook, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+   ns.Widgets.InputPersonalWeb = function(label1, label2){
+    var _webTitle = Pard.Widgets.Input(label1,'text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
     var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
 
     _webTitle.setClass('links-input');

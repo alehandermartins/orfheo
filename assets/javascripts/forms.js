@@ -72,7 +72,7 @@
 
     _form['links'] = {
       label: Pard.Widgets.InputLabel('Web y material audiovisual del espacio'),
-      input: Pard.Widgets.InputWebs(),
+      input: Pard.Widgets.InputWebs('Título del enlace. Ej: Web Personal, Facebook, etc.', 'Copia y pega aquí el enlace correspondiente'),
       helptext: Pard.Widgets.HelpText('Añade un enlace a la web/facebook/blog/video/etc. de tu espacio y dale un título para darla a conocer.')
     };
 
@@ -102,8 +102,8 @@
 
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal'),
-      input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Añade un enlace a tu pagina web personal y dale un título.')
+      input: Pard.Widgets.InputWebs('Título del enlace.', 'Copia y pega aquí el enlace correspondiente'),
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a un tus perfiles en redes sociales. Dale un título a cada uno.')
     };
     _form['bio'] = {
       label: Pard.Widgets.InputLabel('Bio'),
@@ -339,9 +339,9 @@
     
     //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
     
-    _form['links'] = {
+    form['links'] = {
       label: Pard.Widgets.InputLabel('Links a materiales online'),
-      input: Pard.Widgets.InputWebs(),
+      input: Pard.Widgets.InputWebs('',''),
       helptext: Pard.Widgets.HelpText('Añade enlaces a videos/galerías de fotos/contenidos de redes sociales/ect. relacionados con tu propuesta y da un titulo cada uno. Este material permitirá dar a conocer tu arte mejor.')
     };
     
