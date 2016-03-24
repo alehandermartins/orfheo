@@ -38,6 +38,11 @@ class BaseController < Sinatra::Base
     ours.css
     ours.js
     jquery.js
+    fb_icon.png
+    tw_icon.png
+    yt_icon.png
+    pt_icon.png
+    ig_icon.png
   )
 
   set :assets_prefix, %w(assets vendor/assets)

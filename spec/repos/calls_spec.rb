@@ -83,7 +83,8 @@ describe Repos::Calls do
       {
         profile_id: profile_id,
         proposal_id: 'otter_proposal',
-        title: 'otter_title'
+        title: 'otter_title',
+        links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}]
       }
     }
 

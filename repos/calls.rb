@@ -30,7 +30,10 @@ module Repos
       private
       def get_my_proposals_from results, profile_id
         proposals = results.map{ |call| call['proposals']}.flatten
-        Util.symbolize_array(proposals.select{ |proposal| proposal['profile_id'] == profile_id })
+        my_proposals = (proposals.select{ |proposal| proposal['profile_id'] == profile_id })
+        my_proposals.map{ |proposal|
+          Util.string_keyed_hash_to_symbolized proposal
+        }
       end
     end
   end

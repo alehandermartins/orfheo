@@ -272,8 +272,6 @@
     }
   }
 
-
-
   ns.Widgets.CheckBox = function(label, value){
 
     var _input = $('<input />').attr({ type: 'checkbox', 'value': value});
@@ -409,7 +407,6 @@
     };
 
     entries.push(_inputsObj);
-
 
     var _deleteBtn = Pard.Widgets.Button('-', function(){
       _webFieldAdded.empty();
