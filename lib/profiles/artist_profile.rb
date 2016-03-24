@@ -2,6 +2,7 @@ class ArtistProfile
 
   def initialize params, user_id
     @profile = new_profile params, user_id
+    #web_to_thumbnail 
   end
 
   def [] key
@@ -45,5 +46,14 @@ class ArtistProfile
     [:name, :city, :zip_code].any?{ |field|
       profile[field].blank?
     }
+  end
+
+  def web_to_thumbnail
+    unless profile[:personal_web].blank? || profile[:personal_web][:link].blank? 
+      kit = IMGKit.new('http://google.com')
+      kit.to_img
+      file = kit.to_file('file.jpg')
+      ap file.path
+    end
   end
 end

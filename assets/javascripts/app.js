@@ -87,6 +87,8 @@ Pard.Users = function(profiles){
 
 Pard.Profile = function(profiles){
 
+
+
   Pard.CachedProfiles['my_profiles'] = profiles;
 
   var _whole = $('<div>').addClass('whole-container');
@@ -104,6 +106,14 @@ Pard.Profile = function(profiles){
   }
 
   $(document).ready( function(){
+
+  window.fbAsyncInit = function() {
+    FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+  }
+  $.ajaxSetup({cache: true});
+  $.getScript(document.location.protocol + '//connect.facebook.net/en_US/all.js');
+  $.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js');
+  $.getScript(document.location.protocol + '//assets.pinterest.com/js/pinit.js');
 
   if (!(profiles[0].proposals)) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
   }); 

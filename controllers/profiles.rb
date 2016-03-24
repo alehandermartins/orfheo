@@ -16,6 +16,12 @@ class ProfilesController < BaseController
   get '/users/profiles/:uuid' do
     halt erb(:not_found) unless profile_exists? params[:uuid]
     profiles = get_profiles :user_profiles, {user_id: session[:identity], profile_id: params[:uuid]}
+    #kit = IMGKit.new('https://www.pinterest.com/pinterest/',{width: 1366, height: 768})
+    
+    #image = kit.to_img
+    #file = kit.to_file('thumbnail.jpg')
+    #Cloudinary::Uploader.upload(File.open('thumbnail.jpg'), width: 200, height: 200, crop: 'scale')
+    #File.delete('thumbnail.jpg')
     erb :profile, :locals => {:profiles => profiles.to_json}
   end
 

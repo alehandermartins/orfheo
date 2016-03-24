@@ -12,7 +12,10 @@ describe ArtistProfile do
       zip_code: 'zip_code',
       profile_picture: ['profile.jpg'],
       bio: 'bio',
-      personal_web: 'my_web'
+      personal_web: {
+        link: 'http://beniconfusionfest.es',
+        thumbnail: nil
+      }
     }
   }
 

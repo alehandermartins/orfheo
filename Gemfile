@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.2.1'
 #ruby-gemset=cg
 
 gem 'bundle'
@@ -17,6 +17,8 @@ gem 'pony'
 gem 'mongo'
 gem 'uuid'
 gem 'cloudinary'
+gem 'activesupport'
+
 
 group :development, :test do
   gem 'rspec'

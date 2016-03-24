@@ -4,6 +4,8 @@ require 'uuid'
 require 'pony'
 require 'mongo'
 require 'cloudinary'
+require 'active_support'
+require 'active_support/core_ext/object'
 
 require_relative '../exceptions'
 

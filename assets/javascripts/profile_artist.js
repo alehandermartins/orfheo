@@ -170,7 +170,6 @@
         })
       }
     }
-
   }
 
 
@@ -196,7 +195,6 @@
       }
     }
   };
-
 
   ns.Widgets.MyArtistProductionsContent = function(proposal_id){
 

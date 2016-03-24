@@ -204,6 +204,31 @@
   	['name','city', 'bio', 'personal_web'].forEach(function(element) {
       if(profile[element] != null) _sectionContent.append( $('<div>').text(profile[element]));
     });
+    
+    //Facebook posts and videos
+    var _facebook = $('<div>').addClass('fb-post').attr('data-href', 'https://www.facebook.com/sesiondemicrosabiertos/photos/a.1633591080199483.1073741827.1633590566866201/1997144280510826/?type=3&theater');
+    _facebook.css('width', '350'); //It won't go below 350
+    _sectionContent.append(_facebook);
+
+    //Instagram
+    var _instagramphoto = $('<a>').attr('href', 'https://www.instagram.com/p/BDR_nV-oVRq/?taken-by=natgeo');
+    var _instagram = $('<blockquote>').addClass('instagram-media').append(_instagramphoto);
+    _sectionContent.append(_instagram);
+
+    //Pinterest
+    var _pinterest = $('<a>').attr({'data-pin-do':"embedPin" ,'href': 'https://es.pinterest.com/pin/399764904401679797/'});
+    _sectionContent.append(_pinterest);
+
+    //Vine
+    var _vine = $('<iframe>').attr('src', 'https://vine.co/v/iHTTDHz6Z2v/embed/simple');
+    _sectionContent.append(_vine);
+
+    //Youtube, Vimeo, Flickr and Twitter
+    var url = "https://www.youtube.com/watch?v=Hq7Ml2Gz62E";
+    $.getJSON("https://noembed.com/embed?callback=?",
+      {"format": "json", "url": url}, function (data) {
+      _sectionContent.append(data.html);
+    });
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
     var _callButton = Pard.Widgets.CallButtonArtist(profile);
