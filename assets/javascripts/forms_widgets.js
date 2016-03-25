@@ -435,10 +435,12 @@
     _webTitle.setClass('webTitle-input');
     // _link.setClass('links-input');
 
-    var _entries = [{
+    var _entries= [{
             web_title: _webTitle,
             link: _link
-          }];
+          }];; 
+
+
 
     var _inputWeb = $('<div>');
  
@@ -454,20 +456,33 @@
     });
 
     _deleteBtn.setClass('minus-inform-btn');
-  
-    var _webField = $('<div>').append(_entries[0]['web_title'].render(), _entries[0]['link'].render());
-    _inputWeb.append(_webField);
 
-    for (var i=1; i<_entries.length; i++){
-    	var _webFieldAdded = $('<div>').append(_entries[i]['web_title'].render(), _entries[i]['link'].render(), _deleteBtn.render());
-    	_inputWeb.append(_webFieldAdded);
-  	}
+    // var _len = _entries.length+1;
 
-    var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
+    // for (var i=0; i<_len; i++){Pard.Widgets.AddWebField(_inputWeb, _entries);}
+
+   //  for (var i=1; i<_entries.length; i++){
+   //  	var _webFieldAdded = $('<div>').append(_entries[i]['web_title'].render(), _entries[i]['link'].render(), _deleteBtn.render());
+   //  	_inputWeb.append(_webFieldAdded);
+  	// }
+
+    // var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
 
     return {
       render: function(){
-        return _createdWidget;
+        for (var i=0; i<_entries.length; i++){
+          var _deleteBtn = Pard.Widgets.Button('-', function(){
+              _webFieldAdded.empty();
+              _entries.pop();
+          });
+              _deleteBtn.setClass('minus-inform-btn');
+
+          var _webFieldAdded = $('<div>').append(_entries[i]['web_title'].render(), _entries[i]['link'].render(), _deleteBtn.render());
+          _inputWeb.append(_webFieldAdded);
+        }
+
+      var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
+      return _createdWidget;
       },
       getVal: function(){
         var _values = [];
@@ -477,9 +492,19 @@
         )
         return _values;
       },
-      setVal: function(_val){
-        _val.forEach(function(entry){
-        	for(var field in entry) _entries[field] = entry[field];
+      setVal: function(_arrayOfObj){
+        _arrayOfObj.forEach(function(elem,index){
+          var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Facebook, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+          var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+
+        _webTitle.setClass('webTitle-input');
+  
+        _entries.push({
+          web_title: _webTitle,
+          link: _link
+        });
+
+        for(var field in elem) _entries[index][field].setVal(elem[field]);
         })
       }
     }

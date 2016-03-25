@@ -339,7 +339,7 @@
     
     //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
     
-    form['links'] = {
+    _form['links'] = {
       label: Pard.Widgets.InputLabel('Links a materiales online'),
       input: Pard.Widgets.InputWebs('',''),
       helptext: Pard.Widgets.HelpText('Añade enlaces a videos/galerías de fotos/contenidos de redes sociales/ect. relacionados con tu propuesta y da un titulo cada uno. Este material permitirá dar a conocer tu arte mejor.')
@@ -395,16 +395,33 @@
     }
   }
 
-  ns.Forms.ArtisticProduction = function(){
+  ns.Forms.ModifyProductionForm = function(category){
     var _form = {};
     var _productionForm = Pard.Forms.ArtistCallForm().render();
-    var _fields = ['category', 'title', 'description', 'short_description', 'duration', 'children'];
+    
+    var _productionFields = Pard.Forms.ArtistCall(category).productionFields();
 
-    _fields.forEach(function(_element){
+    _form['category'] = {
+      label: Pard.Widgets.InputLabel('Categoría *'), 
+      input: Pard.Widgets.Selector([Pard.Widgets.Dictionary(category).render()], [category]),
+      helptext:Pard.Widgets.HelpText('No se puede modificar')
+    };
+    _form['category']['input'].setClass('category-input');;
+
+    _productionFields.forEach(function(_element){
       _form[_element] = _productionForm[_element];
     });
 
-    var _required = _fields;
+
+    _form['short_description'] = { 
+      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Solo 80 caracteres permitidos. Quedan: '),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['short_description']['input'].setClass('short_description-input');
+    _form['short_description']['input'].setAttr('rows',1);
+
+    var _required = Pard.Forms.ArtistCall(category).productionRequired();
 
     return {
       render: function(){
@@ -432,6 +449,8 @@
     var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions'];
     var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions'];
 
+    var _performanceRequired = ['title', 'description', 'short_description', 'duration'];
+    var _expoStreetArtRequired = ['title', 'description', 'short_description'];
 
     var _performanceProduction = ['title', 'description', 'short_description', 'duration', 'children', 'links'];
     var _expoStreetArtProduction = ['title', 'description', 'short_description', 'links'];
@@ -477,6 +496,17 @@
       'audiovisual': _performanceProduction
     };
 
+    var _productionRequired={
+      'music': _performanceRequired,
+      'arts': _performanceRequired,
+      'other': _performanceRequired,
+      'poetry': _performanceRequired,
+      'expo': _expoStreetArtRequired,
+      'street_art': _expoStreetArtRequired,
+      'workshop': _performanceRequired,
+      'audiovisual': _performanceRequired
+    };    
+
      var _specificCallFields ={
       'music': _musicArtsOtherSpecificCall,
       'arts': _musicArtsOtherSpecificCall,
@@ -498,6 +528,7 @@
     var _required = _requiredFields[artistCategory];
     var _production = _productionFields[artistCategory];
     var _specificCall = _specificCallFields[artistCategory];
+    var _productionNecessary = _productionRequired[artistCategory];
 
 
     return {
@@ -512,6 +543,9 @@
       },
       specificCallFields: function(){
         return _specificCall;
+      },
+      productionRequired: function(){
+        return _productionNecessary;
       }
     }
   };
