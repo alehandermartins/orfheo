@@ -5,68 +5,6 @@
   ns.Widgets = ns.Widgets || {};
 
 
-
-  ns.Widgets.ArtistProductionSectionContent = function(proposal_id, sectionContent) {
-    sectionContent.empty();
-    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal_id).render(), Pard.Widgets.ModifyProduction(proposal_id, sectionContent).render(), Pard.Widgets.MultimediaManager(proposal_id, sectionContent).render());
-  }
-
-  ns.Widgets.MyArtistProductionsContent = function(proposal_id){
-
-    var proposal = Pard.ProfileManager.getProposal(proposal_id);
-    console.log(proposal);
-    var _createdWidget = $('<div>');
-
-    var _categoryFields = Pard.Forms.ArtistCall(proposal.category).productionFields();
-
-    var _title = $('<div>').text('titulo: ' + proposal.title);
-    var _description = $('<div>').text('descripción: ' + proposal.description);    
-    var _shortDescription = $('<div>').text('descripción breve: ' + proposal.short_description);
-
-    var _duration = $('<div>');
-    var _children = $('<div>');
-    var _multimediaContainer = $('<div>'); 
-
-    if (proposal.duration){
-      _duration.text('Duracción: ' + proposal.duration);
-    };
-    if (proposal.children){
-      _children.text('Niños: ' + proposal.children);
-    };
-    if (proposal.links){
-      var _linksArray = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
-      _linksArray.forEach(function(obj){
-        var _webTitle = $('<div>').text('Titulo link: ' + obj['web_title']);
-        var _link = $('<a>').attr({
-          href: obj['link'],
-          target: '_blank'
-        }).text(obj['link']);
-        var _multimediaElement = $('<div>').append(_webTitle, _link); 
-        _multimediaContainer.append(_multimediaElement);
-      }); 
-    };
-
-    if (proposal.photos){
-      if('photos' in proposal && proposal.photos != null){
-        proposal.photos.forEach(function(photo){
-          var _photo = $.cloudinary.image(photo,
-            { format: 'jpg', width: 50, height: 50,
-              crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-          _createdWidget.append(_photo);
-        });
-      }
-    }
-
-    _createdWidget.append(_title, _description, _shortDescription, _duration, _children, _multimediaContainer);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-
   ns.Widgets.ModifyProduction = function(proposal_id, sectionContent){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
