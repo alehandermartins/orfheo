@@ -83,7 +83,7 @@
     };
     _form['color'].input.setClass('color-input');
    
-    var _requiredFields = ['name', 'address', 'category', 'color'];
+    var _requiredFields = ['name', 'address', 'category', 'color','links'];
 
     return {
       render: function(){
@@ -114,7 +114,7 @@
 
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
-    var _requiredFields = ['name', 'city', 'zip_code', 'color'];
+    var _requiredFields = ['name', 'city', 'zip_code', 'color','personal_web'];
     var  _reorderedForm = {};
 
     ['name', 'bio', 'personal_web', 'city', 'zip_code', 'color'].forEach(function(field){
@@ -443,14 +443,14 @@
     var _expoFields = ['title', 'description', 'short_description', 'meters', 'links', 'sharing', 'needs', 'waiting_list', 'phone', 'conditions'];
 
 
-    var _musicArtsOtherRequired = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'phone', 'conditions'];
-    var _poetryWorkshopRequired = ['title', 'description', 'short_description', 'duration', 'availability', 'phone', 'conditions'];
-    var _audiovisualRequired = ['title', 'description', 'short_description', 'duration','availability', 'phone', 'conditions'];
-    var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions'];
-    var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions'];
+    var _musicArtsOtherRequired = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'phone', 'conditions','links'];
+    var _poetryWorkshopRequired = ['title', 'description', 'short_description', 'duration', 'availability', 'phone', 'conditions','links'];
+    var _audiovisualRequired = ['title', 'description', 'short_description', 'duration','availability', 'phone', 'conditions','links'];
+    var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions','links'];
+    var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions','links'];
 
-    var _performanceRequired = ['title', 'description', 'short_description', 'duration'];
-    var _expoStreetArtRequired = ['title', 'description', 'short_description'];
+    var _performanceRequired = ['title', 'description', 'short_description', 'duration','links'];
+    var _expoStreetArtRequired = ['title', 'description', 'short_description','links'];
 
     var _performanceProduction = ['title', 'description', 'short_description', 'duration', 'children', 'links'];
     var _expoStreetArtProduction = ['title', 'description', 'short_description', 'links'];

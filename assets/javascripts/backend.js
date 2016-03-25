@@ -103,7 +103,7 @@
     };
 
     var _modifyProduction = function(form, callback){
-      _send(
+      _send(       
         '/users/modify_proposal',
         form,
         callback

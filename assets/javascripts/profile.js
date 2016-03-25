@@ -92,7 +92,7 @@
       for (field in _form){
         if ($.inArray(field, _requiredFields) >= 0){
           if(!(_form[field].input.getVal())) {
-            _form[field].input.addWarning();
+            if(field != 'links' && field != 'personal_web') _form[field].input.addWarning();
             _invalidInput.text('Por favor, revisa los campos obligatorios.');
             _check = false;}
         }

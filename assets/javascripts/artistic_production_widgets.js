@@ -51,7 +51,6 @@
     _form = _form.render();
 
     for(var field in _form){
-      console.log(field);
       if(proposal[field]) _form[field]['input'].setVal(proposal[field]);
     };
     _form['category'].input.disable();
@@ -61,7 +60,7 @@
       for (field in _form){
         if ($.inArray(field, _requiredFields) >= 0){
           if(!(_form[field].input.getVal())) {
-            _form[field].input.addWarning();
+            if(field != 'links') _form[field].input.addWarning();
             _invalidInput.text('Por favor, revisa los campos obligatorios.');
             _check = false;}
         }
@@ -87,29 +86,31 @@
     var _thumbnail = $('<div>');
     var _url = [];
     
-    if('photos' in proposal && proposal.photos != null){
-      proposal.photos.forEach(function(photo){
-        _url.push(photo);
-        var _container = $('<span>');
-        var _previousPhoto = $.cloudinary.image(photo,
-          { format: 'jpg', width: 50, height: 50,
-            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-        _createdWidget.append(_previousPhoto);
-        var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-          'position': 'relative',
-          'bottom': '20px',
-          'cursor': 'pointer'
-        });
+    if (proposal.photos){
+      if('photos' in proposal && proposal.photos != null){
+        proposal.photos.forEach(function(photo){
+          _url.push(photo);
+          var _container = $('<span>');
+          var _previousPhoto = $.cloudinary.image(photo,
+            { format: 'jpg', width: 50, height: 50,
+              crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+          _createdWidget.append(_previousPhoto);
+          var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+            'position': 'relative',
+            'bottom': '20px',
+            'cursor': 'pointer'
+          });
 
-        _icon.on('click', function(){
-          _url.splice(_url.indexOf(photo), 1);
-          _photos.setUrl(_url);
-          _container.empty();
-        });
+          _icon.on('click', function(){
+            _url.splice(_url.indexOf(photo), 1);
+            _photos.setUrl(_url);
+            _container.empty();
+          });
 
-        _container.append(_previousPhoto, _icon);
-        _thumbnail.append(_container);
-      });
+          _container.append(_previousPhoto, _icon);
+          _thumbnail.append(_container);
+        });
+      }
     }
 
     var _folder = user_id + '/' + profile_id + '/photos';
@@ -175,13 +176,12 @@
   ns.Widgets.MultimediaManagerMessage = function(proposal_id, sectionContent){
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
-
+    
     if (typeof proposal['links'] === 'object') {
       var _array = [];
       for (var elem in proposal['links']) _array.push(proposal['links'][elem]);
       proposal['links'] = _array;
-      console.log(_array);
-    }; 
+    } 
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
@@ -194,21 +194,6 @@
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
-
-    // var user_id = Pard.ProfileManager.getUserId();
-    // var profile_id = Pard.ProfileManager.getProfileId(proposal_id);
-
-    
-    // _submitForm['proposal_id'] = proposal.proposal_id;
-    // _submitForm['profile_id'] = profile_id;
-
-    // var _form = Pard.Forms.ArtisticProduction();
-    // var _requiredFields = [];
-    // _form = _form.render();
-
-    // for(var field in _form){
-    //   if(proposal[field]) _form[field]['input'].setVal(proposal[field]);
-    // };
 
     var _filled = function(){
       var _check = true;
@@ -231,18 +216,19 @@
 
     var _getVal = function(){
       if (proposal['links']) {
-        proposal['links'].push(_inputMultimedia.getVal());
+        if (_inputMultimedia.getVal()){
+          proposal['links'].push(_inputMultimedia.getVal());
+        }
       }
       else {
-          var _linksArray = [];
-          _linksArray.push(_inputMultimedia.getVal());
-          proposal['links'] = _linksArray;
+        var _linksArray = [];
+        _linksArray.push(_inputMultimedia.getVal());
+        proposal['links'] = _linksArray;
       }  
       return proposal;
     }
 
     var _send = function(){
-      console.log(_getVal());
       Pard.Backend.modifyProduction(_getVal(), function(data){
         Pard.Events.ModifyProduction(data, sectionContent);
       });

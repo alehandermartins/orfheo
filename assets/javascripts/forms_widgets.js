@@ -425,6 +425,19 @@
     }
   }
 
+  ns.Widgets.PrintLinksFields = function(inputWeb, entry, _entries){
+    var _deleteBtn = Pard.Widgets.Button('-', function(){
+      _webFieldAdded.empty();
+      var index = _entries.indexOf(entry);
+      _entries.splice(index,1);
+    });
+    _deleteBtn.setClass('minus-inform-btn');
+
+    var _webFieldAdded = $('<div>').append(entry['web_title'].render(), entry['link'].render(), _deleteBtn.render());
+
+    inputWeb.append(_webFieldAdded);
+  }
+
   
 
   ns.Widgets.InputWebs = function(label1, label2){
@@ -440,9 +453,9 @@
             link: _link
           }];; 
 
-
-
-    var _inputWeb = $('<div>');
+    var _inputWeb = $('<div>').css({
+      'min-height': '1rem'
+    });
  
     var _addFieldBtn = Pard.Widgets.Button('+', function(){
       _entries = Pard.Widgets.AddWebField(_inputWeb, _entries).render();
@@ -470,27 +483,21 @@
 
     return {
       render: function(){
-        for (var i=0; i<_entries.length; i++){
-          var _deleteBtn = Pard.Widgets.Button('-', function(){
-              _webFieldAdded.empty();
-              _entries.pop();
-          });
-              _deleteBtn.setClass('minus-inform-btn');
-
-          var _webFieldAdded = $('<div>').append(_entries[i]['web_title'].render(), _entries[i]['link'].render(), _deleteBtn.render());
-          _inputWeb.append(_webFieldAdded);
+        for (var i=0; i<_entries.length;i++){
+          Pard.Widgets.PrintLinksFields(_inputWeb, _entries[i],_entries);
         }
 
-      var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
-      return _createdWidget;
+        var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
+        return _createdWidget;
       },
       getVal: function(){
         var _values = [];
+        var _check = true;
         _entries.forEach(function(entry){
-          if (Pard.Widgets.WebFilled(entry)) _values.push(Pard.Widgets.WebFilled(entry));
-          } 
-        )
-        return _values;
+          if (Pard.Widgets.WebFilled(entry).finalValue()) _values.push(Pard.Widgets.WebFilled(entry).finalValue());
+          if (!(Pard.Widgets.WebFilled(entry).check())) _check = false;
+        });
+        if (_check) return _values;
       },
       setVal: function(_arrayOfObj){
         _arrayOfObj.forEach(function(elem,index){
@@ -513,19 +520,37 @@
   
 
   ns.Widgets.WebFilled = function(element){
-      var _val = {}
-      for (var key in element) _val[key] = element[key].getVal();
-      if ((!(_val['web_title']) && _val['link'])||(_val['web_title'] && !(_val['link']))){
-        for (var key in element) {
-          if (!(_val[key])) {
-            element[key].addWarning();
-            return '';
-          }
+    var _finalValue, _check;
+    var _val = {}
+    for (var key in element) _val[key] = element[key].getVal();
+    if ((!(_val['web_title']) && _val['link'])||(_val['web_title'] && !(_val['link']))){
+      for (var key in element) {
+        if (!(_val[key])) {
+          element[key].addWarning();
+          _finalValue='';
+          _check = false
         }
       }
-      if (_val['web_title'] && _val['link']) return _val;
+    }
+    if (_val['web_title'] && _val['link'])  {
+      _finalValue = _val;
+      _check = true;
+    }
+    if (!(_val['web_title'])&& !(_val['link']) ){
       for (var key in element) {element[key].removeWarning()} 
-      return '';
+      _finalValue = '';
+      _check = true;
+    }
+
+    return{
+      finalValue: function(){
+        return _finalValue;
+      },
+      check: function(){
+        return _check;
+      }
+    }
+    
   } 
 
 
@@ -584,7 +609,9 @@
         return _createdWidget;
       },
       getVal: function(){
-        return Pard.Widgets.WebFilled(_entries);
+        var _check = true;
+        if (!(Pard.Widgets.WebFilled(_entries).check())) _check = false;
+        if (_check) return Pard.Widgets.WebFilled(_entries).finalValue();
       },
       setVal: function(_val){
         for(var field in _val) {_entries[field] = _val[field];}

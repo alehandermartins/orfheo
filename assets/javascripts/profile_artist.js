@@ -119,7 +119,7 @@
     _createdWidget.append(_message, _part1,  _categoryLabel.append(_category.render()), _content.append(_invalidInput), _submitBtnContainer.append(submitButton));
 
     var _filled = function(){
-      var check = _form['conditions'].input.getVal();
+      var _check = _form['conditions'].input.getVal();
       for(var field in _form){
         if ($.inArray(field, _requiredFields) >= 0 ){
           if(!(_form[field].input.getVal())) {
@@ -128,8 +128,8 @@
             _check = false;}
         }
       }
-      if (check) _invalidInput.empty();
-      return check;    
+      if (_check) _invalidInput.empty();
+      return _check;    
     };
 
     var _getVal = function(url){
@@ -259,13 +259,15 @@
       }
     }
 
-    if('photos' in proposal && proposal.photos != null){
-      proposal.photos.forEach(function(photo){
-        var _photo = $.cloudinary.image(photo,
-          { format: 'jpg', width: 50, height: 50,
-            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-        _createdWidget.append(_photo);
-      });
+    if (proposal.photos){
+      if('photos' in proposal && proposal.photos != null){
+        proposal.photos.forEach(function(photo){
+          var _photo = $.cloudinary.image(photo,
+            { format: 'jpg', width: 50, height: 50,
+              crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+          _createdWidget.append(_photo);
+        });
+      }
     }
 
     return {
