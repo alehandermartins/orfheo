@@ -185,6 +185,19 @@ Grid and Bar
 }
 
 
+.section-content{ 
+  width: 100%;
+  background: $content-background;
+  padding-left:0.75rem;
+  padding-right:0.75rem;
+  padding-top:0.75rem;
+  padding-bottom:2rem;
+  min-height: 100vh;
+  @include border-radius($layout-border-radius);
+  position:relative;
+}
+
+
 
 
 .pard-header-container{
@@ -759,8 +772,14 @@ Aside
   text-decoration: underline;
 }
 
+/*-----------------
+Profile Card
+-------------------*/
 
-
+.section-profilePhoto-container{
+  width:100%;
+  height: 13.75rem;
+}
 
 /*===============================================
 COMPONENTS

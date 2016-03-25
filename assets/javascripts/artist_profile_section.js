@@ -13,21 +13,25 @@
 
     sectionContent.empty();
 
-    var _sectionContent = sectionContent.addClass('grid-element-content');
+    var _sectionContent = sectionContent.addClass('section-content');
+
+    var _photoContainer = $('<div>').addClass('section-profilePhoto-container');
 
      if('profile_picture' in profile && profile.profile_picture != null){
-      var _photo = $.cloudinary.image(profile['profile_picture'][0],
-        { format: 'jpg', width: 50, height: 50,
-          crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-      _sectionContent.append(_photo);
-      console.log('photo '+_photo);
-    }
+        var _photo = $.cloudinary.image(profile['profile_picture'][0],
+          { format: 'jpg', width: 750, height: 220,
+          crop: 'fill', effect: 'saturation:50' });
+        _photoContainer.append(_photo);
+      }
+      else _photoContainer.css({'background-color': profile.color});
+
+    _sectionContent.append(_photoContainer);
 
   	['name','city', 'bio', 'personal_web'].forEach(function(element) {
       if(profile[element] != null) _sectionContent.append( $('<div>').text(profile[element]));
     });
 
-    
+
 
     // var _icon = $('<span>').addClass('fb_icon');
     // console.log(_icon);
