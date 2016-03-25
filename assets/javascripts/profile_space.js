@@ -45,7 +45,7 @@
     _formContainer.append(_invalidInput, _submitBtnContainer.append(submitButton));
 
     var _filled = function(){
-      var check = _form['conditions'].input.getVal();
+      var _check = _form['conditions'].input.getVal();
       for(var field in _form){
         if ($.inArray(field, _requiredFields) >= 0 ){
           if(!(_form[field].input.getVal())) {
@@ -88,7 +88,7 @@
 
     
     proposals.forEach(function(proposal){
-     var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['title']);
+     var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['type']);
       _createdWidget.append(Pard.Widgets.PopupCreator(_proposalBtn.render(), 'conFusión',  function(){return Pard.Widgets.MySpaceCallProposalMessage(proposal)}).render());
     });
    

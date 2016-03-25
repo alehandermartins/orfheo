@@ -4,13 +4,18 @@
 
   ns.Widgets = ns.Widgets || {};
 
+
+
+  ns.Widgets.ArtistProductionSectionContent = function(proposal_id, sectionContent) {
+    sectionContent.empty();
+    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal_id).render(), Pard.Widgets.ModifyProduction(proposal_id, sectionContent).render(), Pard.Widgets.MultimediaManager(proposal_id, sectionContent).render());
+  }
+
   ns.Widgets.MyArtistProductionsContent = function(proposal_id){
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
     console.log(proposal);
     var _createdWidget = $('<div>');
-
-    // var _productionFields = ['title', 'description', 'short_description', 'duration', 'children', 'links']; 
 
     var _categoryFields = Pard.Forms.ArtistCall(proposal.category).productionFields();
 
@@ -40,15 +45,6 @@
         _multimediaContainer.append(_multimediaElement);
       }); 
     };
-
-    // for(var field in proposal){
-    //   if(proposal[field]){
-    //     if(proposal[field].length != 0 && field != 'proposal_id' && field != 'photos') {
-    //       var _newField = $('<div>').text(field+': '+proposal[field]);
-    //       _createdWidget.append(_newField);
-    //     }
-    //   }
-    // }
 
     if (proposal.photos){
       if('photos' in proposal && proposal.photos != null){

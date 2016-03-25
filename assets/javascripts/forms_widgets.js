@@ -489,7 +489,8 @@
         if (_check) return _values;
         return _check;
       },
-      setVal: function(_arrayOfObj){
+      setVal: function(_savedValues){
+        var _arrayOfObj = Object.keys(_savedValues).map(function(key){return _savedValues[key]});
         _arrayOfObj.forEach(function(elem,index){
           var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Web Personal, Facebook, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
           var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});

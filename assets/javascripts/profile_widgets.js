@@ -260,6 +260,23 @@
     sectionContent.empty();
 
     var _sectionContent = sectionContent.addClass('grid-element-content');
+    
+    var _multimediaContainer = $('<div>');
+
+    console.log(profile); 
+
+    if (profile.links){
+      var _linksArray = Object.keys(profile['links']).map(function(key){return profile['links'][key]});
+      _linksArray.forEach(function(obj){
+        var _webTitle = $('<div>').text('Titulo link: ' + obj['web_title']);
+        var _link = $('<a>').attr({
+          href: obj['link'],
+          target: '_blank'
+        }).text(obj['link']);
+        var _multimediaElement = $('<div>').append(_webTitle, _link); 
+        _multimediaContainer.append(_multimediaElement);
+      }); 
+    };
 
     if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
@@ -268,9 +285,16 @@
       _sectionContent.append(_photo);
     }
 
-    ['name','city', 'address', 'category', 'bio', 'personal_web'].forEach(function(element) {
+    ['category', 'bio'].forEach(function(element) {
       if(profile[element] != null) _sectionContent.append( $('<div>').text(profile[element]));
     });
+
+    var _addressContainer = $('<div>');
+    for (var key in profile.address){
+      if (profile['address'][key]) _addressContainer.append($('<div>').text(key + ': '+ profile['address'][key]));
+    }
+
+    _sectionContent.append(_addressContainer, _multimediaContainer);
 
     if('photos' in profile && profile.photos != null){
       profile.photos.forEach(function(photo){
@@ -301,17 +325,5 @@
     }
   }
 
-
-  ns.Widgets.ArtistProductionSectionContent = function(proposal_id, sectionContent) {
-
-    sectionContent.empty();
-    sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal_id).render(), Pard.Widgets.ModifyProduction(proposal_id, sectionContent).render(), Pard.Widgets.MultimediaManager(proposal_id, sectionContent).render());
-
-    // return{
-    //   render: function(){
-    //     return sectionContent;
-    //   }
-    // }
-  }
 
 }(Pard || {}));
