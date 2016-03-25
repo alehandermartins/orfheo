@@ -9,6 +9,8 @@
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
 
+    console.log(profile);
+
     sectionContent.empty();
 
     var _sectionContent = sectionContent.addClass('grid-element-content');
@@ -18,11 +20,14 @@
         { format: 'jpg', width: 50, height: 50,
           crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
       _sectionContent.append(_photo);
+      console.log('photo '+_photo);
     }
 
   	['name','city', 'bio', 'personal_web'].forEach(function(element) {
       if(profile[element] != null) _sectionContent.append( $('<div>').text(profile[element]));
     });
+
+    
 
     // var _icon = $('<span>').addClass('fb_icon');
     // console.log(_icon);
