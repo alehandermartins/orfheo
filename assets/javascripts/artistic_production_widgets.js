@@ -22,11 +22,11 @@
   ns.Widgets.ModifyProductionMessage = function(proposal_id, sectionContent){
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
-    if (typeof proposal['links'] === 'object') {
-      var _array = [];
-      for (var elem in proposal['links']) _array.push(proposal['links'][elem]);
+   
+    if (proposal['links'] != false){
+      var _array = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
       proposal['links'] = _array;
-    } 
+    };
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
@@ -177,11 +177,10 @@
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
     
-    if (typeof proposal['links'] === 'object') {
-      var _array = [];
-      for (var elem in proposal['links']) _array.push(proposal['links'][elem]);
+    if (proposal['links'] != false){
+      var _array = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
       proposal['links'] = _array;
-    } 
+    };
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
@@ -195,35 +194,18 @@
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    var _filled = function(){
-      var _check = true;
-      //   if(!(_form['links'].input.getVal())) {
-      //     _form['links'].input.addWarning();
-      //     _invalidInput.text('Por favor, revisa los campos obligatorios.');
-      //     _check = false;
-      //   }
-      // if (_check) _invalidInput.empty();
-      return _check;    
-    };
-
-    // var _url = [];
-    
-    // if('photos' in proposal && proposal.photos != null){
-    //   proposal.photos.forEach(function(photo){
-    //     _url.push(photo);
-    //   });
-    // }
-
     var _getVal = function(){
-      if (proposal['links']) {
+      if (proposal['links'] != false) {
         if (_inputMultimedia.getVal()){
           proposal['links'].push(_inputMultimedia.getVal());
         }
       }
       else {
         var _linksArray = [];
-        _linksArray.push(_inputMultimedia.getVal());
-        proposal['links'] = _linksArray;
+        if (_inputMultimedia.getVal()) {
+          _linksArray.push(_inputMultimedia.getVal());
+          proposal['links'] = _linksArray;
+        }
       }  
       return proposal;
     }
@@ -240,7 +222,7 @@
     var _closepopup = {};
 
     submitButton.on('click',function(){
-      if(_filled() == true){
+      if(_inputMultimedia.filled() == true){
         _closepopup();
         _send();
       }

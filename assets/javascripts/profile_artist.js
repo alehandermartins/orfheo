@@ -123,7 +123,7 @@
       for(var field in _form){
         if ($.inArray(field, _requiredFields) >= 0 ){
           if(!(_form[field].input.getVal())) {
-            _form[field].input.addWarning();
+            if (field != 'links' && field != 'personal_web') _form[field].input.addWarning();
             _invalidInput.text('Por favor, revisa los campos obligatorios.');
             _check = false;}
         }
@@ -250,8 +250,32 @@
     var _createdWidget = $('<div>');
     var _infoField = $('<div>');
 
+    var _productionFields = ['title', 'description', 'short_description', 'duration', 'children', 'links']; 
+
+    var _categoryFields = Pard.Forms.ArtistCall(proposal.category).productionFields();
+
+    var _title = $('<div>').text(proposal.title);
+    var _description = $('<div>').text(proposal.description);    
+    var _shortDescription = $('<div>').text(proposal.short_description);
+
+    var _duration = $('<div>');
+    var _children = $('<div>');
+    // $.inArray('duration', _categoryFields) >= 0
+    if (proposal.duration){
+      _duration.text(proposal.duration);
+    };
+    if (proposal.children){
+      _children.text(proposal.children);
+    };
+    if (proposal.links != false){
+
+    };
+
+
+
+
     for(var field in proposal){
-      if(proposal[field] != null){
+      if(proposal[field]){
         if(proposal[field].length != 0 && field != 'proposal_id' && field != 'photos') {
           var _newField = $('<div>').text(field+': '+proposal[field]);
           _createdWidget.append(_newField);

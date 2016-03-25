@@ -98,32 +98,6 @@
     }
   }
 
-  // ns.Widgets.BasicPopup = function(btnCall_label, submitBtn_label, content){
-
-  //   var _createdWidget =  $('<button>').addClass('pard-btn').attr({type: 'button'}).html(btnCall_label);
-  //   var _message = $('<div>').addClass('very-fast reveal small');
-  //   var _submitBtn = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(submitBtn_label);
-
-  //   var _popup = new Foundation.Reveal(_message, {closeOnClick: false, animationIn: 'slide-in-down', animationOut: 'slide-out-up'});
-
-  //   _createdWidget.on('click', function(){
-  //     _popup.open();
-  //   });
-
-  //   var _messageContent = content(_submitBtn);
-
-  //   _messageContent.setCallback(function(){_popup.close()});
-
-  //   _message.append(_messageContent.render());
-
-  //   $('body').append(_message);
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     }
-  //   }
-  // }
 
 
   ns.Widgets.Dictionary = function(voice){

@@ -470,17 +470,6 @@
 
     _deleteBtn.setClass('minus-inform-btn');
 
-    // var _len = _entries.length+1;
-
-    // for (var i=0; i<_len; i++){Pard.Widgets.AddWebField(_inputWeb, _entries);}
-
-   //  for (var i=1; i<_entries.length; i++){
-   //  	var _webFieldAdded = $('<div>').append(_entries[i]['web_title'].render(), _entries[i]['link'].render(), _deleteBtn.render());
-   //  	_inputWeb.append(_webFieldAdded);
-  	// }
-
-    // var _createdWidget = $('<div>').append(_inputWeb,_addFieldBtn.render());
-
     return {
       render: function(){
         for (var i=0; i<_entries.length;i++){
@@ -498,6 +487,7 @@
           if (!(Pard.Widgets.WebFilled(entry).check())) _check = false;
         });
         if (_check) return _values;
+        return _check;
       },
       setVal: function(_arrayOfObj){
         _arrayOfObj.forEach(function(elem,index){
@@ -593,10 +583,10 @@
     _webTitle.setClass('links-input');
     _link.setClass('links-input');
 
-    var _entries = {
-            web_title: _webTitle,
-            link: _link
-          };
+    var _inputs = {
+          web_title: _webTitle,
+          link: _link
+        };
  
     var _webField = $('<div>');
     _webField.append(_webTitle.render(), _link.render());
@@ -610,11 +600,14 @@
       },
       getVal: function(){
         var _check = true;
-        if (!(Pard.Widgets.WebFilled(_entries).check())) _check = false;
-        if (_check) return Pard.Widgets.WebFilled(_entries).finalValue();
+        if (!(Pard.Widgets.WebFilled(_inputs).check())) _check = false;
+        if (_check) return Pard.Widgets.WebFilled(_inputs).finalValue();
+      },
+      filled: function(){
+        return Pard.Widgets.WebFilled(_inputs).check();
       },
       setVal: function(_val){
-        for(var field in _val) {_entries[field] = _val[field];}
+        for(var field in _val) {_inputs[field] = _val[field];}
       }
 
     }

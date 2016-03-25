@@ -449,7 +449,7 @@
     var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions','links'];
     var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions','links'];
 
-    var _performanceRequired = ['title', 'description', 'short_description', 'duration','links'];
+    var _performanceRequired = ['title', 'description', 'short_description', 'links'];
     var _expoStreetArtRequired = ['title', 'description', 'short_description','links'];
 
     var _performanceProduction = ['title', 'description', 'short_description', 'duration', 'children', 'links'];
@@ -485,7 +485,7 @@
       'audiovisual': _audiovisualRequired
     };
 
-    var _productionFields={
+    var _productionFields = {
       'music': _performanceProduction,
       'arts': _performanceProduction,
       'other': _performanceProduction,
