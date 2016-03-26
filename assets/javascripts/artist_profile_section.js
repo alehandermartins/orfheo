@@ -31,8 +31,6 @@
     
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
-
-    console.log(sectionContent.html());
    
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
     Pard.Widgets.ArtistSectionContent(sectionContent, profile); 
@@ -103,6 +101,8 @@
     var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
 
     sectionContent.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
+
+    $(document).ready(function(){if (!(profile.proposals)) _callButton.trigger('click')});
 
     // return{
     //   render: function(){

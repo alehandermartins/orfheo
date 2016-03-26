@@ -111,10 +111,10 @@ Pard.Profile = function(profiles){
 
   $(_whole).append(_header.render(), _main.render().attr({id: 'main-profile-page'}) , _footer.render());
 
-  var callButton = {
-    artist: Pard.Widgets.CallButtonArtist,
-    space: Pard.Widgets.CallSpaceButton
-  }
+    // var callButton = {
+    //   artist: Pard.Widgets.CallButtonArtist,
+    //   space: Pard.Widgets.CallSpaceButton
+    // }
 
   $(document).ready( function(){
 
@@ -126,7 +126,7 @@ Pard.Profile = function(profiles){
     $.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js');
     $.getScript(document.location.protocol + '//assets.pinterest.com/js/pinit.js');
 
-  if (!(profiles[0].proposals)) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
+ 
   });
 
     

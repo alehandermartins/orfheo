@@ -70,6 +70,9 @@
 
     _sectionContent.append(_modifyProfile.render(), _mySpaceCallProposals.render(), _callButton.render());
 
+         if (!(profile.proposals)) _callButton.trigger('click');
+
+
     return{
       render: function(){
         return _sectionContent;

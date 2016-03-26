@@ -28,8 +28,6 @@
     Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, _sectionContent);
     Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
 
-    console.log('flag'+_asideContent.html());
-
 
     _offCanvasSection.append(_sectionContainer.append(_sectionHeader, _sectionContent));
 
@@ -62,9 +60,11 @@
     _toUserPageBtn.setClass('toUserPage-btn');
     _buttonContainer.append(_toUserPageBtn.render());
 
-    asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent).render());
+    var _asideNavContent  = $('<div>');;
+
+    asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
     
-    console.log(asideContent.html());
+    // console.log(asideContent.html());
 
     // return{
     //   render: function(){
@@ -73,15 +73,15 @@
     // }
   }
 
-  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent){
+  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent){
 
-    var _profileNavContent = $('<div>');
+    asideNavContent.empty();
     
     var profiles = Pard.CachedProfiles['my_profiles'];
 
     ProfileNav = function(_profiles, _index, sectionHeader, sectionContent){
 
-      _profileNavContent.empty();
+      asideNavContent.empty();
       
       var _profileNav = $('<div>').addClass('profile-nav-container');
       var _myOtherProfiles = $('<div>').addClass('other-profiles-nav-container');
@@ -104,19 +104,20 @@
             }).render(), _productionContent);
         }
         else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
+            Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
             Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, sectionContent, profile.profile_id);
               ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
           }).render());
         }
       });
-      _profileNavContent.append(_profileNav, _myOtherProfiles);
+      asideNavContent.append(_profileNav, _myOtherProfiles);
     }
 
     ProfileNav(profiles,0,sectionHeader, sectionContent);
 
     return {
       render: function() {
-        return _profileNavContent;
+        return asideNavContent;
       }
     }
   }
