@@ -4,7 +4,7 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SpaceProfileSectionContent = function(sectionContent, profile_id) {
+  ns.Widgets.SpaceProfileSectionContent = function(sectionHeader, sectionContent, profile_id) {
 
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);

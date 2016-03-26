@@ -104,7 +104,7 @@ Pard.Profile = function(profiles){
 
   var _whole = $('<div>').addClass('whole-container');
 
-  var _main = Pard.Widgets.MainLayout(Pard.Widgets.ProfileAside, Pard.Widgets.ProfileSection(profiles[0]['type']).render());
+  var _main = Pard.Widgets.ProfileMainLayout(profiles);
 
   var _header = Pard.Widgets.UserHeader();
   var _footer = Pard.Widgets.Footer();

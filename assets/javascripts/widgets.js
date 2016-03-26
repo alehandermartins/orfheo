@@ -164,41 +164,8 @@
     }
   }
 
-  ns.Widgets.MainLayout = function(asideContent, sectionContent){
-
-    var _main = $('<main>');
-
-    var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
-    var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
-    var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
-
-    var _offCanvasSection = $('<div>').addClass('off-canvas-content').attr({'data-off-canvas-content': ''});
-
-    var _mainLarge = $('<section>').addClass('pard-grid');
-    var _gridSpacing = $('<div>').addClass('grid-spacing');
-
-
-    var _aside = $('<nav>').addClass('grid-aside');
-    var _section = $('<section>').addClass('grid-section');
-    var _sectionContainer = $('<div>');
-
-    _offCanvasSection.append(sectionContent(_sectionContainer).render());
-
-    _offCanvasAside.append(asideContent(_sectionContainer).render());
-
-    _aside.append(_offCanvasAside);
-    _section.append(_offCanvasSection);
-    _offCanvasInner.append(_aside, _gridSpacing, _section);
-
-    _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
-    _main.append(_mainLarge);
-
-    return {
-      render: function(){
-        return _main;
-      }
-    }
-  }
+  
+   
 
   ns.Widgets.Cloudinary = function(folder, thumbnail, _url, maxAmount){
 
