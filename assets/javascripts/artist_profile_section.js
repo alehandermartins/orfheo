@@ -20,26 +20,34 @@
 
     sectionHeader.append(_photoContainer);
   
-    // return {
-    //   render: function(){
-    //     return _headerProfileSection;
-    //   }
-    // }
+
   }
 
-  ns.Widgets.ArtistSection = function(sectionHeader, sectionContent, profile_id) {
+  ns.Widgets.ArtistSection = function(sectionHeader, _contents, profile_id) {
     
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
+
    
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
-    Pard.Widgets.ArtistSectionContent(sectionContent, profile); 
+    
+    Pard.Widgets.PrintSectionContent(_contents, 0);
 
   }
 
-  ns.Widgets.ArtistSectionContent = function(sectionContent, profile){
+  ns.Widgets.PrintSectionContent = function(contents, selectedIndex){
+    contents.forEach(function(content, index){
+      if (index == selectedIndex) content.show();
+      else content.hide();
+    });
+    // sectionContent.append(content);
+  }
 
-    sectionContent.empty();
+  ns.Widgets.ArtistSectionContent = function(profile){
+
+    console.log('flag');
+
+    var sectionContent = $('<div>');
 
 
     ['name','city', 'bio', 'personal_web'].forEach(function(element) {
@@ -104,17 +112,25 @@
 
     $(document).ready(function(){if (!(profile.proposals)) _callButton.trigger('click')});
 
-    // return{
-    //   render: function(){
-    //     return _sectionContainer;
-    //   }
-    // }
+    return{
+      render: function(){
+        return sectionContent;
+      }
+    }
   }
 
 
-  ns.Widgets.ArtistProductionSectionContent = function(proposal_id, sectionContent) {
-    sectionContent.empty();
+  ns.Widgets.ArtistProductionSectionContent = function(proposal_id) {
+    // sectionContent.empty();
+    var sectionContent = $('<div>');
     sectionContent.append(Pard.Widgets.MyArtistProductionsContent(proposal_id).render(), Pard.Widgets.ModifyProduction(proposal_id, sectionContent).render(), Pard.Widgets.MultimediaManager(proposal_id, sectionContent).render());
+
+    return{
+      render: function(){
+        return sectionContent;
+      }
+    }
+  
   }
 
   ns.Widgets.MyArtistProductionsContent = function(proposal_id){
