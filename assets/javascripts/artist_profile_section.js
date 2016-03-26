@@ -45,52 +45,50 @@
 
   ns.Widgets.ArtistSectionContent = function(profile){
 
-    console.log('flag');
-
-    var sectionContent = $('<div>');
+    var _sectionContent = $('<div>');
 
     ['name','city', 'bio', 'personal_web'].forEach(function(element) {
-      if(profile[element] != null) sectionContent.append( $('<div>').text(profile[element]));
+      if(profile[element] != null) _sectionContent.append( $('<div>').text(profile[element]));
     });
 
     // var _icon = $('<span>').addClass('fb_icon');
     // console.log(_icon);
-    // _sectionContent.append(_icon);
+    // __sectionContent.append(_icon);
     
     //Facebook posts and videos
     var _facebook = $('<div>').addClass('fb-post').attr('data-href', 'https://www.facebook.com/sesiondemicrosabiertos/photos/a.1633591080199483.1073741827.1633590566866201/1997144280510826/?type=3&theater');
     _facebook.css('width', '350'); //It won't go below 350
-    sectionContent.append(_facebook);
+    _sectionContent.append(_facebook);
     console.log(_facebook);
 
     //Instagram
     var _instagramphoto = $('<a>').attr('href', 'https://www.instagram.com/p/BDR_nV-oVRq/?taken-by=natgeo');
     var _instagram = $('<blockquote>').addClass('instagram-media').append(_instagramphoto);
-    sectionContent.append(_instagram);
+    _sectionContent.append(_instagram);
 
     //Pinterest
     var _pinterest = $('<a>').attr({'data-pin-do':"embedPin" ,'href': 'https://es.pinterest.com/pin/399764904401679797/'});
-    sectionContent.append(_pinterest);
+    _sectionContent.append(_pinterest);
 
     //Vine
     var _vine_url = 'https://vine.co/v/iHTTDHz6Z2v';
     if(_vine_url.split('/').pop() != 'simple') _vine_url += '/embed/simple';
     var _vine = $('<iframe>').attr('src', _vine_url);
-    sectionContent.append(_vine);
+    _sectionContent.append(_vine);
 
     //Youtube, Vimeo, Flickr and Twitter, SoundCloud
     var url = "https://www.youtube.com/watch?v=Hq7Ml2Gz62E";
     url = 'https://soundcloud.com/john-motherlesschild/mr-night-day';
     $.getJSON("https://noembed.com/embed?callback=?",
       {"format": "json", "url": url}, function (data) {
-      sectionContent.append(data.html);
+      _sectionContent.append(data.html);
     });
 
     //Spotify
     var spotify_url = 'http://open.spotify.com/track/2TpxZ7JUBn3uw46aR7qd6V';
     var id = spotify_url.split('/').pop();
     var _spotify = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + id, 'frameborder': '0', 'allowtransparency': 'true'});
-    sectionContent.append(_spotify);
+    _sectionContent.append(_spotify);
 
     //BandCamp
     var _bandCampiframe = '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1364804381/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/track=1928405551/transparent=true/" seamless><a href="http://6ixtoys.bandcamp.com/album/6ix-toys">6ix Toys by 6ix Toys</a></iframe>'
@@ -99,19 +97,22 @@
       if(string.match('EmbeddedPlayer')) _bandCamp_url = string; 
     });
     var _bandCamp = $('<iframe>').attr({'style': 'border: 0; width: 100%; height: 120px;', 'src': _bandCamp_url});
-    sectionContent.append(_bandCamp);
+    _sectionContent.append(_bandCamp);
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
     var _callButton = Pard.Widgets.CallButtonArtist(profile);
     var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
 
-    sectionContent.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
+    _sectionContent.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
 
-    $(document).ready(function(){if (!(profile.proposals)) _callButton.trigger('click')});
+    $(document).ready(function(){
+      if (!(profile.proposals)) 
+      _callButton.render().trigger('click')
+    });
 
     return{
       render: function(){
-        return sectionContent;
+        return _sectionContent;
       }
     }
   }

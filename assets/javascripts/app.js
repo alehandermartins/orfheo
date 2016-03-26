@@ -188,7 +188,7 @@ Pard.Profile = function(profiles){
     // });
     // var _bandCamp = $('<iframe>').attr({'style': 'border: 0; width: 100%; height: 120px;', 'src': _bandCamp_url});
     // _sectionContent.append(_bandCamp);
-  if (profiles[0].calls == false) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
+  // if (profiles[0].calls == false) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
  
 
   $('body').append(_whole);

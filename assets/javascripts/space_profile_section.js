@@ -4,14 +4,20 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SpaceProfileSectionContent = function(sectionHeader, sectionContent, profile_id) {
+  ns.Widgets.SpaceSection = function(sectionHeader, _contents, profile_id) {
 
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
 
-    sectionContent.empty();
+    Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
+    
+    Pard.Widgets.PrintSectionContent(_contents, 0);
 
-    var _sectionContent = sectionContent.addClass('grid-element-content');
+  }
+
+  ns.Widgets.SpaceSectionContent = function(profile){
+
+    var _sectionContent = $('<div>').addClass('grid-element-content');
     
     var _multimediaContainer = $('<div>');
 
@@ -70,7 +76,8 @@
 
     _sectionContent.append(_modifyProfile.render(), _mySpaceCallProposals.render(), _callButton.render());
 
-         if (!(profile.proposals)) _callButton.trigger('click');
+    
+    $(document).ready(function(){if (profile.calls == false) _callButton.render().trigger('click')});
 
 
     return{

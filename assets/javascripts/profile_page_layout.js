@@ -28,10 +28,13 @@
     var _profileContent = Pard.Widgets.ProfileSectionContent(profiles[0]['type']).render()
     var _contents = [];
     _contents.push(_profileContent(profiles[0]).render());
-    if (profiles[0].proposals) var _proposals = profiles[0].proposals;
+    
+    if (profiles[0].proposals){
+      var _proposals = profiles[0].proposals;
       _proposals.forEach(function(proposal, index) {
         _contents.push(Pard.Widgets.ArtistProductionSectionContent(proposal.proposal_id).render())
-    })
+      })
+    }
 
     Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, _contents);
     Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _contents, _asideContent);
@@ -112,17 +115,16 @@
             var _profileContent = Pard.Widgets.ProfileSectionContent(profile['type']).render()
             var _contents = [];
             _contents.push(_profileContent(profile).render());
-            if (profile.proposals) var _proposals = profile.proposals;
+            if (profile.proposals){ 
+              var _proposals = profile.proposals;
               _proposals.forEach(function(proposal, index) {
                 _contents.push(Pard.Widgets.ArtistProductionSectionContent(proposal.proposal_id).render())
-            })
-
+              })
+            }
             sectionContent.empty()
-
             _contents.forEach(function(content){
               sectionContent.append(content);
             });
-
             Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, _contents, profile.profile_id);
             ProfileNav(_reorderedProfiles, index, sectionHeader, sectionContent, _contents);
           }).render());
@@ -141,9 +143,7 @@
       }
     }
   }
-
-
-   
+ 
  
   ns.Widgets.ProfilesNavigationSelected = function(profile, callback){
 
@@ -232,7 +232,7 @@
 
     var profiles_map = {
       artist: Pard.Widgets.ArtistSection,
-      space: Pard.Widgets.SpaceProfileSectionContent
+      space: Pard.Widgets.SpaceSection
     }
 
     return {
@@ -246,7 +246,7 @@
 
     var profiles_map = {
       artist: Pard.Widgets.ArtistSectionContent,
-      space: Pard.Widgets.SpaceProfileSectionContent
+      space: Pard.Widgets.SpaceSectionContent
     }
 
     return {
@@ -255,7 +255,7 @@
       }
     }
   }
-  
+
   ns.Widgets.SpaceProfileSectionContent = function(sectionContent, profile_id) {
 
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
