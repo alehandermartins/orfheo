@@ -4,11 +4,55 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.ProfileAside = function (sectionContent) {
+  ns.Widgets.ProfileMainLayout = function(profiles){
+
+    var _main = $('<main>');
+
+    var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
+    var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
+    var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
+
+    var _offCanvasSection = $('<div>').addClass('off-canvas-content').attr({'data-off-canvas-content': ''});
+
+    var _mainLarge = $('<section>').addClass('pard-grid');
+    var _gridSpacing = $('<div>').addClass('grid-spacing');
+
+
+    var _aside = $('<nav>').addClass('grid-aside');
+    var _asideContent = $('<div>');
+    var _section = $('<section>').addClass('grid-section');
+    var _sectionContainer = $('<div>').addClass('section-content');
+    var _sectionContent = $('<div>');
+    var _sectionHeader = $('<div>');
+
+    Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, _sectionContent);
+    Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
+
+
+    _offCanvasSection.append(_sectionContainer.append(_sectionHeader, _sectionContent));
+
+    _offCanvasAside.append(_asideContent);
+
+    _aside.append(_offCanvasAside);
+    _section.append(_offCanvasSection);
+    _offCanvasInner.append(_aside, _gridSpacing, _section);
+
+    _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
+    _main.append(_mainLarge);
+
+    return {
+      render: function(){
+        return _main;
+      }
+    }
+  }
+
+
+  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent) {
 
     var profiles = Pard.CachedProfiles['my_profiles'];
 
-    var _createdWidget =  $('<div>').addClass('aside-container');
+    asideContent.addClass('aside-container');
     var _buttonContainer = $('<div>').addClass('toUserPage-btn-container');
     var _toUserPageBtn =  Pard.Widgets.Button('Página de usuario', function(){
       location.href = /users/});
@@ -16,23 +60,28 @@
     _toUserPageBtn.setClass('toUserPage-btn');
     _buttonContainer.append(_toUserPageBtn.render());
 
-    _createdWidget.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionContent).render());
+    var _asideNavContent  = $('<div>');;
 
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
+    asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
+    
+    // console.log(asideContent.html());
+
+    // return{
+    //   render: function(){
+    //     return _createdWidget;
+    //   }
+    // }
   }
 
-  ns.Widgets.ProfileAsideBar = function(sectionContent){
+  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent){
 
-    var _profileNavContent = $('<div>');
+    asideNavContent.empty();
     
     var profiles = Pard.CachedProfiles['my_profiles'];
 
-    ProfileNav = function(_profiles, _index, sectionContent){
-      _profileNavContent.empty();
+    ProfileNav = function(_profiles, _index, sectionHeader, sectionContent){
+
+      asideNavContent.empty();
       
       var _profileNav = $('<div>').addClass('profile-nav-container');
       var _myOtherProfiles = $('<div>').addClass('other-profiles-nav-container');
@@ -51,23 +100,24 @@
           _profileNav.append(
           Pard.Widgets.ProfilesNavigationSelected(
             profile,function(){
-              Pard.Widgets.ProfileSection(profile['type']).render()(sectionContent, profile.profile_id)
+              Pard.Widgets.ProfileSectionContent(profile['type']).render()(sectionContent, profile)
             }).render(), _productionContent);
         }
         else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
-            Pard.Widgets.ProfileSection(profile['type']).render()(sectionContent, profile.profile_id);
-              ProfileNav(_reorderedProfiles, index, sectionContent);
+            Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
+            Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, sectionContent, profile.profile_id);
+              ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
           }).render());
         }
       });
-      _profileNavContent.append(_profileNav, _myOtherProfiles);
+      asideNavContent.append(_profileNav, _myOtherProfiles);
     }
 
-    ProfileNav(profiles,0,sectionContent);
+    ProfileNav(profiles,0,sectionHeader, sectionContent);
 
     return {
       render: function() {
-        return _profileNavContent;
+        return asideNavContent;
       }
     }
   }
@@ -76,6 +126,7 @@
    
  
   ns.Widgets.ProfilesNavigationSelected = function(profile, callback){
+
     var _createdWidget = $('<div>').addClass('profile-selected-container');
     var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': profile['color']});
     var _name = $('<h6>').addClass('profile-nav-name-selected selected-element').text(profile['name']);
@@ -159,7 +210,21 @@
   ns.Widgets.ProfileSection = function(type) {
 
     var profiles_map = {
-      artist: Pard.Widgets.ArtistProfileSectionContent,
+      artist: Pard.Widgets.ArtistSection,
+      space: Pard.Widgets.SpaceProfileSectionContent
+    }
+
+    return {
+      render: function( ){
+        return profiles_map[type];
+      }
+    }
+  }
+
+  ns.Widgets.ProfileSectionContent = function(type) {
+
+    var profiles_map = {
+      artist: Pard.Widgets.ArtistSectionContent,
       space: Pard.Widgets.SpaceProfileSectionContent
     }
 

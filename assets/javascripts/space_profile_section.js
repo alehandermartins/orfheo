@@ -4,7 +4,7 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SpaceProfileSectionContent = function(sectionContent, profile_id) {
+  ns.Widgets.SpaceProfileSectionContent = function(sectionHeader, sectionContent, profile_id) {
 
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
@@ -69,6 +69,9 @@
     var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
 
     _sectionContent.append(_modifyProfile.render(), _mySpaceCallProposals.render(), _callButton.render());
+
+         if (!(profile.proposals)) _callButton.trigger('click');
+
 
     return{
       render: function(){
