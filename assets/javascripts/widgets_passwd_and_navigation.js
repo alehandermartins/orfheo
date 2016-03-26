@@ -119,6 +119,18 @@
     }
   }
 
+  
+  ns.Widgets.ToUserPageLink = function(){
+
+      var _createdButton = $('<a>').attr('href','/users/').text('Pagina de usuario');
+
+    return {
+      render: function(){
+        return _createdButton;
+      }
+    }
+  }
+
 
  
 

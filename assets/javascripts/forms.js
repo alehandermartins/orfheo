@@ -72,7 +72,7 @@
 
     _form['links'] = {
       label: Pard.Widgets.InputLabel('Web y material audiovisual del espacio'),
-      input: Pard.Widgets.InputWebs(),
+      input: Pard.Widgets.InputWebs('Título del enlace. Ej: Web Personal, Facebook, etc.', 'Copia y pega aquí el enlace correspondiente'),
       helptext: Pard.Widgets.HelpText('Añade un enlace a la web/facebook/blog/video/etc. de tu espacio y dale un título para darla a conocer.')
     };
 
@@ -83,7 +83,7 @@
     };
     _form['color'].input.setClass('color-input');
    
-    var _requiredFields = ['name', 'address', 'category', 'color'];
+    var _requiredFields = ['name', 'address', 'category', 'color','links'];
 
     return {
       render: function(){
@@ -102,8 +102,8 @@
 
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal'),
-      input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Añade un enlace a tu pagina web personal y dale un título.')
+      input: Pard.Widgets.InputWebs('Título del enlace.', 'Copia y pega aquí el enlace correspondiente'),
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a un tus perfiles en redes sociales. Dale un título a cada uno.')
     };
     _form['bio'] = {
       label: Pard.Widgets.InputLabel('Bio'),
@@ -114,7 +114,7 @@
 
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
-    var _requiredFields = ['name', 'city', 'zip_code', 'color'];
+    var _requiredFields = ['name', 'city', 'zip_code', 'color','personal_web'];
     var  _reorderedForm = {};
 
     ['name', 'bio', 'personal_web', 'city', 'zip_code', 'color'].forEach(function(field){
@@ -341,7 +341,7 @@
     
     _form['links'] = {
       label: Pard.Widgets.InputLabel('Links a materiales online'),
-      input: Pard.Widgets.InputWebs(),
+      input: Pard.Widgets.InputWebs('',''),
       helptext: Pard.Widgets.HelpText('Añade enlaces a videos/galerías de fotos/contenidos de redes sociales/ect. relacionados con tu propuesta y da un titulo cada uno. Este material permitirá dar a conocer tu arte mejor.')
     };
     
@@ -395,16 +395,33 @@
     }
   }
 
-  ns.Forms.ArtisticProduction = function(){
+  ns.Forms.ModifyProductionForm = function(category){
     var _form = {};
     var _productionForm = Pard.Forms.ArtistCallForm().render();
-    var _fields = ['category', 'title', 'description', 'short_description', 'duration', 'children'];
+    
+    var _productionFields = Pard.Forms.ArtistCall(category).productionFields();
 
-    _fields.forEach(function(_element){
+    _form['category'] = {
+      label: Pard.Widgets.InputLabel('Categoría *'), 
+      input: Pard.Widgets.Selector([Pard.Widgets.Dictionary(category).render()], [category]),
+      helptext:Pard.Widgets.HelpText('No se puede modificar')
+    };
+    _form['category']['input'].setClass('category-input');;
+
+    _productionFields.forEach(function(_element){
       _form[_element] = _productionForm[_element];
     });
 
-    var _required = _fields;
+
+    _form['short_description'] = { 
+      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Solo 80 caracteres permitidos. Quedan: '),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['short_description']['input'].setClass('short_description-input');
+    _form['short_description']['input'].setAttr('rows',1);
+
+    var _required = Pard.Forms.ArtistCall(category).productionRequired();
 
     return {
       render: function(){
@@ -426,12 +443,14 @@
     var _expoFields = ['title', 'description', 'short_description', 'meters', 'links', 'sharing', 'needs', 'waiting_list', 'phone', 'conditions'];
 
 
-    var _musicArtsOtherRequired = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'phone', 'conditions'];
-    var _poetryWorkshopRequired = ['title', 'description', 'short_description', 'duration', 'availability', 'phone', 'conditions'];
-    var _audiovisualRequired = ['title', 'description', 'short_description', 'duration','availability', 'phone', 'conditions'];
-    var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions'];
-    var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions'];
+    var _musicArtsOtherRequired = ['title', 'description', 'short_description', 'duration', 'components', 'availability', 'phone', 'conditions','links'];
+    var _poetryWorkshopRequired = ['title', 'description', 'short_description', 'duration', 'availability', 'phone', 'conditions','links'];
+    var _audiovisualRequired = ['title', 'description', 'short_description', 'duration','availability', 'phone', 'conditions','links'];
+    var _streetArtRequired = ['title', 'description', 'short_description', 'phone', 'conditions','links'];
+    var _expoRequired = ['title', 'description', 'short_description', 'meters', 'phone', 'conditions','links'];
 
+    var _performanceRequired = ['title', 'description', 'short_description', 'links'];
+    var _expoStreetArtRequired = ['title', 'description', 'short_description','links'];
 
     var _performanceProduction = ['title', 'description', 'short_description', 'duration', 'children', 'links'];
     var _expoStreetArtProduction = ['title', 'description', 'short_description', 'links'];
@@ -466,7 +485,7 @@
       'audiovisual': _audiovisualRequired
     };
 
-    var _productionFields={
+    var _productionFields = {
       'music': _performanceProduction,
       'arts': _performanceProduction,
       'other': _performanceProduction,
@@ -476,6 +495,17 @@
       'workshop': _performanceProduction,
       'audiovisual': _performanceProduction
     };
+
+    var _productionRequired={
+      'music': _performanceRequired,
+      'arts': _performanceRequired,
+      'other': _performanceRequired,
+      'poetry': _performanceRequired,
+      'expo': _expoStreetArtRequired,
+      'street_art': _expoStreetArtRequired,
+      'workshop': _performanceRequired,
+      'audiovisual': _performanceRequired
+    };    
 
      var _specificCallFields ={
       'music': _musicArtsOtherSpecificCall,
@@ -498,6 +528,7 @@
     var _required = _requiredFields[artistCategory];
     var _production = _productionFields[artistCategory];
     var _specificCall = _specificCallFields[artistCategory];
+    var _productionNecessary = _productionRequired[artistCategory];
 
 
     return {
@@ -512,6 +543,9 @@
       },
       specificCallFields: function(){
         return _specificCall;
+      },
+      productionRequired: function(){
+        return _productionNecessary;
       }
     }
   };

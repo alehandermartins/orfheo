@@ -171,6 +171,7 @@
   }
 
 
+<<<<<<< HEAD:assets/javascripts/profile_widgets.js
   ns.Widgets.ArtistProfileSectionContent = function(sectionContent, profile_id) {
 
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
@@ -322,5 +323,9 @@
     //   }
     // }
   }
+=======
+  
+>>>>>>> 04a36df418b3a80aadc275625b560ae03330cd39:assets/javascripts/profile_page_layout.js
 
+  
 }(Pard || {}));

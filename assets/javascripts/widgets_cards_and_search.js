@@ -181,6 +181,14 @@
     
     var _photoContainer = $('<div>').addClass('photo-container-card');
     _photoContainer.css({background: profile.color});  
+
+    if('profile_picture' in profile && profile.profile_picture != null){
+      var _photo = $.cloudinary.image(profile['profile_picture'][0],
+        { format: 'jpg', width: 164, height: 60,
+          crop: 'fill', effect: 'saturation:50' });
+      _photoContainer.append(_photo);
+    };
+
     var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: profile.color});
     var _icon = $('<div>').addClass('icon-profileCircle').html('P');
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();

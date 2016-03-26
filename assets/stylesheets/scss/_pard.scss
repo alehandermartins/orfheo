@@ -185,6 +185,19 @@ Grid and Bar
 }
 
 
+.section-content{ 
+  width: 100%;
+  background: $content-background;
+  padding-left:0.75rem;
+  padding-right:0.75rem;
+  padding-top:0.75rem;
+  padding-bottom:2rem;
+  min-height: 100vh;
+  @include border-radius($layout-border-radius);
+  position:relative;
+}
+
+
 
 
 .pard-header-container{
@@ -367,6 +380,20 @@ button{
   @include border-radius($element-border-radius);
   font-size: $smallSize;
   @include linearGradient(#b9daad, #6cb252);
+}
+
+.signupButton-alert{
+  color: $element-color;
+  font-weight: 600;
+  width:13rem;
+  padding-top:1rem;
+  padding-bottom:1rem;
+  // margin-bottom: 1.5rem;
+  @include border-radius($element-border-radius);
+  font-size: $almostNormalSize;
+  @include linearGradient(#b9daad, #6cb252);
+  position: relative;
+  margin-left:3rem;
 }
 
 .toUserPage-btn{
@@ -745,8 +772,14 @@ Aside
   text-decoration: underline;
 }
 
+/*-----------------
+Profile Card
+-------------------*/
 
-
+.section-profilePhoto-container{
+  width:100%;
+  height: 13.75rem;
+}
 
 /*===============================================
 COMPONENTS
@@ -1246,7 +1279,7 @@ POPUP
     max-width: 40rem; //640px
     margin-bottom: 0.6rem;
     // @include absolute-center;
-    @include breakpoint(medium down){
+    @include breakpoint(small down){
       margin-right: 2rem;
     }
 }

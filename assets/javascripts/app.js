@@ -126,6 +126,7 @@ Pard.Profile = function(profiles){
   $.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js');
   $.getScript(document.location.protocol + '//assets.pinterest.com/js/pinit.js');
 
+<<<<<<< HEAD
   if (!(profiles[0].proposals)) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
   });
 
@@ -186,6 +187,11 @@ Pard.Profile = function(profiles){
     // });
     // var _bandCamp = $('<iframe>').attr({'style': 'border: 0; width: 100%; height: 120px;', 'src': _bandCamp_url});
     // _sectionContent.append(_bandCamp);
+=======
+  if (profiles[0].calls == false)
+   callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
+  }); 
+>>>>>>> 04a36df418b3a80aadc275625b560ae03330cd39
 
 
   $('body').append(_whole);

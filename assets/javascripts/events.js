@@ -8,7 +8,15 @@
       Pard.Widgets.Alert('','Te hemos enviado por correo un enlace para confirmar tu cuenta y acceder a orfheo.');
     }
     else {
-      Pard.Widgets.Alert('Error',data.reason);
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+      }
     }
   };
 
@@ -17,8 +25,16 @@
       document.location = '/users/';
     }
     else {
-      Pard.Widgets.Alert('Error', data.reason);
-    }
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+      }
+    };
   };
 
   ns.Events.Logout = function(data){
@@ -26,8 +42,15 @@
       document.location = '/';
     }
     else {
-       Pard.Widgets.Alert('Error', data.reason);
-
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+      }
     }
   };
 
@@ -36,7 +59,15 @@
       document.location = '/users/profiles/' + data['profile_id'];
     }
     else{
-      Pard.Widgets.Alert('Error', data.reason);
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+      }
     }
   };
 
@@ -50,7 +81,15 @@
       );
     }
     else{
-      Pard.Widgets.Alert('Error', data.reason);
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+      }
     }
   };
 
@@ -63,7 +102,15 @@
       Pard.Widgets.ProductionsNavigation(_profile, sectionContent, $('#_productionsContent'));
     }
     else{
-      Pard.Widgets.Alert('Error', data.reason);
+      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+      }
     }
   }
 
