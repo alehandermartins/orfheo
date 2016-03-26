@@ -5,14 +5,7 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.ProfileSectionHeader = function(sectionHeader, profile){
-
-    profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
-    var profile = Pard.ProfileManager.getProfile(profile_id);
-
-    sectionContent.empty();
-
-    var _sectionContent = sectionContent.addClass('section-content');
-
+    var _sectionContent = sectionHeader.addClass('section-header');
     sectionHeader.empty();
 
     var _photoContainer = $('<div>').addClass('section-profilePhoto-container');
