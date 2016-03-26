@@ -191,20 +191,26 @@
       if(profile[element] != null) _sectionContent.append( $('<div>').text(profile[element]));
     });
 
-    // var _icon = $('<span>').addClass('fb_icon');
-    // console.log(_icon);
-    // _sectionContent.append(_icon);
+    var _icon = $('<span>').addClass('fb_icon');
+    _sectionContent.append(_icon);
+    //console.log(Pard.CachedEmbeds);
+
+    $(document).ready( function(){
+      _sectionContent.append(Pard.CachedEmbeds['facebook']);
+      console.log(_instagramphoto);
+    });
     
-    //Facebook posts and videos
-    var _facebook = $('<div>').addClass('fb-post').attr('data-href', 'https://www.facebook.com/sesiondemicrosabiertos/photos/a.1633591080199483.1073741827.1633590566866201/1997144280510826/?type=3&theater');
-    _facebook.css('width', '350'); //It won't go below 350
-    _sectionContent.append(_facebook);
-    console.log(_facebook);
+    // //Facebook posts and videos
+    // var _facebook = $('<div>').addClass('fb-post').attr('data-href', 'https://www.facebook.com/sesiondemicrosabiertos/photos/a.1633591080199483.1073741827.1633590566866201/1997144280510826/?type=3&theater');
+    // _facebook.css('width', '350'); //It won't go below 350
+    // _sectionContent.append(_facebook);
+    // console.log(_facebook);
 
     //Instagram
-    var _instagramphoto = $('<a>').attr('href', 'https://www.instagram.com/p/BDR_nV-oVRq/?taken-by=natgeo');
+    var _instagramphoto = $('<a>').attr('href', 'https://www.instagram.com/p/BDR_nV-oVR');
     var _instagram = $('<blockquote>').addClass('instagram-media').append(_instagramphoto);
     _sectionContent.append(_instagram);
+    
 
     //Pinterest
     var _pinterest = $('<a>').attr({'data-pin-do':"embedPin" ,'href': 'https://es.pinterest.com/pin/399764904401679797/'});
@@ -213,7 +219,10 @@
     //Vine
     var _vine_url = 'https://vine.co/v/iHTTDHz6Z2v';
     if(_vine_url.split('/').pop() != 'simple') _vine_url += '/embed/simple';
-    var _vine = $('<iframe>').attr('src', _vine_url);
+    var _vine = $('<iframe>').addClass('vineIfame').attr('src', _vine_url);
+    _vine.on('load', function(){
+    });
+
     _sectionContent.append(_vine);
 
     //Youtube, Vimeo, Flickr and Twitter, SoundCloud

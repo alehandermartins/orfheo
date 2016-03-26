@@ -189,6 +189,8 @@ Images
 
 .fb_icon:before {
   content: url(<%= image_path 'fb_icon.png' %>);
+  width: 400px;
+  z-index: -1 !important;
   position: relative;
   top: 3px;
   left: 3px;
