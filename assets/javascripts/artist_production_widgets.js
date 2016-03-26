@@ -178,7 +178,7 @@
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
     
-    if (proposal['links'] != false){
+    if (proposal['links'] != false && proposal['links'] != null){
       var _array = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
       proposal['links'] = _array;
     };
