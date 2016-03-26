@@ -24,7 +24,7 @@
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
    
-    if (proposal['links'] != false){
+    if (proposal['links'] != false && proposal['links'] != null){
       var _array = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
       proposal['links'] = _array;
     };
@@ -195,24 +195,9 @@
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    var _getVal = function(){
-      if (proposal['links'] != false) {
-        if (_inputMultimedia.getVal()){
-          proposal['links'].push(_inputMultimedia.getVal());
-        }
-      }
-      else {
-        var _linksArray = [];
-        if (_inputMultimedia.getVal()) {
-          _linksArray.push(_inputMultimedia.getVal());
-          proposal['links'] = _linksArray;
-        }
-      }  
-      return proposal;
-    }
-
-    var _send = function(){
-      Pard.Backend.modifyProduction(_getVal(), function(data){
+    var _send = function(links){
+      proposal['links'] = links;
+      Pard.Backend.modifyProduction(proposal, function(data){
         Pard.Events.ModifyProduction(data, sectionContent);
       });
     }
@@ -221,11 +206,30 @@
     _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimedia.render()));
 
     var _closepopup = {};
+    var _checkable = ['twitter', 'youtube', 'vimeo', 'flickr', 'soundcloud'];
 
     submitButton.on('click',function(){
-      if(_inputMultimedia.filled() == true){
-        _closepopup();
-        _send();
+      if(_inputMultimedia.filled()){
+        var input = _inputMultimedia.getInputs();
+        var links = _inputMultimedia.getVal(); 
+        var url = input.getVal();
+        
+        if($.inArray(links['provider'], _checkable) > -1){
+          $.getJSON("https://noembed.com/embed?callback=?",
+            {"format": "json", "url": url}, function (data) {
+              if (!('error' in data)){
+                _closepopup();
+                _send(links);
+              }
+              else{
+                input.addWarning();
+              }
+          });
+        }
+        else{
+          _closepopup();
+          _send(links);
+        }
       }
     });
 

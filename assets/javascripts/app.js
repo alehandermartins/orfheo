@@ -129,6 +129,8 @@ Pard.Profile = function(profiles){
   if (!(profiles[0].proposals)) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
   });
 
+  
+
     
   // url_address = {
   //   'https://www.facebook.'
