@@ -242,7 +242,6 @@
     }
   }
 
-
   ns.Widgets.ProfileSectionContent = function(type) {
 
     var profiles_map = {
@@ -256,8 +255,7 @@
       }
     }
   }
-
-
+  
   ns.Widgets.SpaceProfileSectionContent = function(sectionContent, profile_id) {
 
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;

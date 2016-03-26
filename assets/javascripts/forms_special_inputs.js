@@ -358,39 +358,72 @@
   }
 
   ns.Widgets.InputMultimedia = function(){
-    var _webTitle = Pard.Widgets.Input('Título del enlace.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
-    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
 
-    _webTitle.setClass('links-input');
-    _link.setClass('links-input');
+    var _createdWidget = $('<div>');    
+    var _results = [];
 
-    var _inputs = {
-          web_title: _webTitle,
-          link: _link
-        };
+    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+    _createdWidget.append(_input.render());
+
+
+    var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/photos\/.*/i;
+    var fb_videos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/videos\/.*/i;
+
+    var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;
+    var pt_url = /^(http|https)\:\/\/.*\.pinterest\.com\/pin\//i;
+    var vn_url = /^(http|https)\:\/\/vine\..*/i;
+    var sp_url = /^(http|https)\:\/\/open\.spotify\..*/i;
+    var bc_url = /^(http|https)\:\/\/bandcamp\..*/i;
+
+    var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
+    var yt_url = /^(http|https)\:\/\/www\.youtube\.*/i;
+    var vm_url = /^(http|https)\:\/\/vimeo\.*/i;
+    var fl_url = /^(http|https)\:\/\/flickr\.*/i;
+    var sc_url = /^(http|https)\:\/\/soundcloud\.*/i;
+
+    var _checkUrl = function(input){
+      input.removeWarning();
+      var url = input.getVal();
+
+      if(url.match(fb_photos_url)) return _composeResults(url, 'facebook', 'image');
+      if(url.match(fb_videos_url)) return _composeResults(url, 'facebook', 'video');
+      if(url.match(ig_url)) return _composeResults(url, 'instagram', 'image');
+      if(url.match(pt_url)) return _composeResults(url, 'pinterest', 'image');
+      if(url.match(vn_url)) return _composeResults(url, 'vine', 'video');
+      if(url.match(sp_url)) return _composeResults(url, 'spotify', 'audio');
+      if(url.match(bc_url)) return _composeResults(url, 'bandcamp', 'audio');
+      if(url.match(tw_url)) return _composeResults(url, 'twitter', 'image');
+      if(url.match(yt_url)) return _composeResults(url, 'youtube', 'video');
+      if(url.match(vm_url)) return _composeResults(url, 'vimeo', 'video');
+      if(url.match(fl_url)) return _composeResults(url, 'flickr', 'image');
+      if(url.match(sc_url)) return _composeResults(url, 'soundcloud', 'audio');
+      
+      input.addWarning();
+      return false;
+    }
+
+    var _composeResults = function(url, provider, type){
+      _results.push({url: url, provider: provider, type: type});
+      return _results;
+    }
  
-    var _webField = $('<div>');
-    _webField.append(_webTitle.render(), _link.render());
-    var _inputWeb = $('<div>').append(_webField);
-
-    var _createdWidget = $('<div>').append(_inputWeb);
-
     return {
       render: function(){
         return _createdWidget;
       },
-      getVal: function(){
-        var _check = true;
-        if (!(Pard.Widgets.WebFilled(_inputs).check())) _check = false;
-        if (_check) return Pard.Widgets.WebFilled(_inputs).finalValue();
-      },
       filled: function(){
-        return Pard.Widgets.WebFilled(_inputs).check();
+        return _checkUrl(_input);
       },
-      setVal: function(_val){
-        for(var field in _val) {_inputs[field] = _val[field];}
+      getInputs: function(){
+        return _input;
+      },
+      getVal: function(){
+        return _results;
       }
 
+      // setVal: function(_val){
+      //   for(var field in _val) {_inputs[field] = _val[field];}
+      // }
     }
   }
 

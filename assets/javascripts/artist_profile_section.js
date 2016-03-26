@@ -5,7 +5,7 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.ProfileSectionHeader = function(sectionHeader, profile){
-
+    var _sectionContent = sectionHeader.addClass('section-header');
     sectionHeader.empty();
 
     var _photoContainer = $('<div>').addClass('section-profilePhoto-container');
@@ -49,12 +49,9 @@
 
     var sectionContent = $('<div>');
 
-
     ['name','city', 'bio', 'personal_web'].forEach(function(element) {
       if(profile[element] != null) sectionContent.append( $('<div>').text(profile[element]));
     });
-
-
 
     // var _icon = $('<span>').addClass('fb_icon');
     // console.log(_icon);
@@ -136,7 +133,6 @@
   ns.Widgets.MyArtistProductionsContent = function(proposal_id){
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
-    console.log(proposal);
     var _createdWidget = $('<div>');
 
     var _categoryFields = Pard.Forms.ArtistCall(proposal.category).productionFields();
@@ -155,18 +151,18 @@
     if (proposal.children){
       _children.text('Niños: ' + proposal.children);
     };
-    if (proposal.links){
-      var _linksArray = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
-      _linksArray.forEach(function(obj){
-        var _webTitle = $('<div>').text('Titulo link: ' + obj['web_title']);
-        var _link = $('<a>').attr({
-          href: obj['link'],
-          target: '_blank'
-        }).text(obj['link']);
-        var _multimediaElement = $('<div>').append(_webTitle, _link); 
-        _multimediaContainer.append(_multimediaElement);
-      }); 
-    };
+    // if (proposal.links){
+    //   var _linksArray = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
+    //   _linksArray.forEach(function(obj){
+    //     var _webTitle = $('<div>').text('Titulo link: ' + obj['web_title']);
+    //     var _link = $('<a>').attr({
+    //       href: obj['link'],
+    //       target: '_blank'
+    //     }).text(obj['link']);
+    //     var _multimediaElement = $('<div>').append(_webTitle, _link); 
+    //     _multimediaContainer.append(_multimediaElement);
+    //   }); 
+    // };
 
     if (proposal.photos){
       if('photos' in proposal && proposal.photos != null){
