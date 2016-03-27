@@ -35,7 +35,6 @@
       'No se modificará ninguno de los datos que has enviado a la convocatoria del conFusión.'
       ).addClass('message-form');
 
-
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
@@ -123,7 +122,7 @@
     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).addClass('photos-modifyProduction');
 
     for(var field in _form){
-      _formContainer.append($('<div>').addClass(field+'-modifyProduction').append(_form[field]['label'].render().append(_form[field]['input'].render())));
+      if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProduction').append(_form[field]['label'].render().append(_form[field]['input'].render())));
     };
 
     _formContainer.append(_photosContainer);

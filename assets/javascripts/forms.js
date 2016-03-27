@@ -341,7 +341,7 @@
     
     _form['links'] = {
       label: Pard.Widgets.InputLabel('Links a materiales online'),
-      input: Pard.Widgets.InputWebs('',''),
+      input: Pard.Widgets.InputMultimedia(),
       helptext: Pard.Widgets.HelpText('Añade enlaces a videos/galerías de fotos/contenidos de redes sociales/ect. relacionados con tu propuesta y da un titulo cada uno. Este material permitirá dar a conocer tu arte mejor.')
     };
     

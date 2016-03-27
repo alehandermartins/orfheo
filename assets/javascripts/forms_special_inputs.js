@@ -454,11 +454,12 @@
       },
       getVal: function(){
         return _results;
+      },
+      setVal: function(values){
+        values.forEach(function(value){
+          _results.push(value);
+        });
       }
-
-      // setVal: function(_val){
-      //   for(var field in _val) {_inputs[field] = _val[field];}
-      // }
     }
   }
 
