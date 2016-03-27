@@ -16,19 +16,11 @@
 
     sectionHeader.append(_photoContainer);
 
-    ['name','city', 'bio', 'personal_web'].forEach(function(element) {
+    ['name','city'].forEach(function(element) {
       if(profile[element] != null) sectionHeader.append( $('<div>').text(profile[element]));
     });
 
-    // var _icon = $('<span>').addClass('fb_icon');
-    // console.log(_icon);
-    // _sectionContent.append(_icon);
     
-    var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
-    var _callButton = Pard.Widgets.CallButtonArtist(profile);
-    var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
-
-    sectionHeader.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
 
     $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});
   
@@ -45,6 +37,26 @@
     var profile = Pard.ProfileManager.getProfile(profile_id);
    
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
+  }
+
+  ns.Widgets.ArtistSectionContent = function(profile){
+    var _createdWidget = $('<div>');
+
+    ['bio', 'personal_web'].forEach(function(element) {
+      if(profile[element] != null) _createdWidget.append( $('<div>').text(profile[element]));
+    });
+
+    var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
+    var _callButton = Pard.Widgets.CallButtonArtist(profile);
+    var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
+
+    _createdWidget.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
+  
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
   }
 
   ns.Widgets.MyArtistProductionsContent = function(proposal_id){

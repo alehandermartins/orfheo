@@ -80,7 +80,7 @@
 
       asideNavContent.empty();
       
-      var _profileNav = $('<div>').addClass('profile-nav-container');
+      var _profileNav = $('<div>').addClass('profile-nav-container').attr('id','_profileNav');
       var _myOtherProfiles = $('<div>').addClass('other-profiles-nav-container');
       var _productionContent = $('<div>').attr('id','_productionsContent');
   
@@ -93,12 +93,8 @@
       
       _reorderedProfiles.forEach(function(profile, index) {
         if(!(index)){ 
-          Pard.Widgets.ProductionsNavigation(profile, sectionContent,_productionContent);
-          _profileNav.append(
-          Pard.Widgets.ProfilesNavigationSelected(
-            profile,function(){
-              Pard.Widgets.ProfileSectionContent(profile['type']).render()(sectionContent, profile)
-            }).render(), _productionContent);
+          Pard.Widgets.ProductionsNavigation(profile, _profileNav, sectionContent,_productionContent);
+          
         }
         else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
             Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
@@ -170,16 +166,29 @@
     } 
   }
 
-
-  ns.Widgets.ProductionsNavigation = function(profile, sectionContent, productionContent, selected){
+  ns.Widgets.ProductionsNavigation = function(profile, profileNav, sectionContent, productionContent, selected){
 
     sectionContent.empty();
     productionContent.empty();
+
+    var _lastselected = $('<div>');
+
+    var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile).render();
+    _lastselected = _profileSection;
+    sectionContent.append(_profileSection);
+
+    var _navigationSelected = Pard.Widgets.ProfilesNavigationSelected(profile, function(){
+      _lastselected.hide();
+      _lastselected = _profileSection;
+      _profileSection.show();
+    });
+
+    profileNav.append(_navigationSelected.render());
+
     var _proposals = [];
 
     (profile.proposals) ? productionContent.addClass('productions-content') : productionContent.removeClass('productions-content');
     if (profile.proposals) _proposals = profile.proposals;
-    var _lastselected = $('<div>');
     _proposals.forEach(function(proposal, index){
       var proposal_id = proposal.proposal_id;
       var _myProposal = $('<div>'); 
@@ -205,6 +214,8 @@
       _productionItem.hover(function(){_title.addClass('text-link')}, function(){_title.removeClass('text-link ')});
        productionContent.append($('<div>').addClass('row productions-list-item').append(_productionItem));
     });
+
+    profileNav.append(productionContent);
 
     return {
       render: function() {
