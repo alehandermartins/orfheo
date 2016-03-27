@@ -49,7 +49,11 @@ Pard.ProfileManager = {
     Pard.CachedProfiles['my_profiles'].forEach(function(profile){
       if('proposals' in profile){
         profile.proposals.forEach(function(proposal, index){
-          if(proposal.proposal_id == production.proposal_id) profile.proposals[index] = production;
+          if(proposal.proposal_id == production.proposal_id){
+            for(var field in production){
+              proposal[field] = production[field];
+            }
+          }
         });
       }
     });

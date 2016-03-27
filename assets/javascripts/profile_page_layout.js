@@ -171,7 +171,7 @@
   }
 
 
-  ns.Widgets.ProductionsNavigation = function(profile, sectionContent, productionContent){
+  ns.Widgets.ProductionsNavigation = function(profile, sectionContent, productionContent, selected){
 
     sectionContent.empty();
     productionContent.empty();
@@ -189,7 +189,8 @@
         Pard.Widgets.MultimediaManager(proposal_id, sectionContent).render()
       );
       sectionContent.append(_myProposal);
-      _myProposal.hide();
+      if(selected == proposal_id) _lastselected = _myProposal;
+      else{_myProposal.hide();}
 
       var _productionItem = $('<span>');
       var _icon = $('<span>').addClass('material-icons').html('&#xE405;');
