@@ -361,10 +361,38 @@
 
     var _createdWidget = $('<div>');    
     var _results = [];
+    var _inputs = [];
+    _inputs[0] = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+    _inputs[0].setClass('multiMedia');
+    var _addInputButton = $('<span>').addClass('material-icons').html('&#xE148').css({
+      position: 'relative',
+      top: '5px',
+      left: '5px',
+      cursor: 'pointer'
+    });
 
-    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
-    _createdWidget.append(_input.render());
+    _addInputButton.on('click', function(){
+      var _container = $('<div>');
+      var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+      _newInput.setClass('multiMedia');
+      _inputs.push(_newInput);
 
+      var _removeInputButton = $('<span>').addClass('material-icons').html('&#xE888').css({
+        position: 'relative',
+        top: '5px',
+        left: '5px',
+        cursor: 'pointer'
+      });
+
+      _container.append(_newInput.render().css('width', '550'), _removeInputButton);
+      _removeInputButton.on('click', function(){
+        _inputs.splice(_inputs.indexOf(_newInput), 1);
+        _container.empty();
+      });
+      _createdWidget.append(_container);
+    })
+
+    _createdWidget.append(_inputs[0].render().css('width', '550'), _addInputButton);
 
     var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/photos\/.*/i;
     var fb_posts_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/posts\/.*/i;
@@ -414,10 +442,15 @@
         return _createdWidget;
       },
       filled: function(){
-        return _checkUrl(_input);
+        var _check = true;
+        _results = [];
+        _inputs.forEach(function(input){
+          if(_checkUrl(input) == false) _check = false;
+        });
+        return _check;
       },
       getInputs: function(){
-        return _input;
+        return _inputs;
       },
       getVal: function(){
         return _results;

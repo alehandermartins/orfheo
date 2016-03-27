@@ -210,28 +210,40 @@
 
     submitButton.on('click',function(){
       if(_inputMultimedia.filled()){
-        var input = _inputMultimedia.getInputs();
-        var links = _inputMultimedia.getVal(); 
-        var url = input.getVal();
-        if($.inArray(links[0]['provider'], _checkable) > -1){
-          $.getJSON("https://noembed.com/embed?callback=?",
-            {"format": "json", "url": url}, function (data) {
-              if (!('error' in data)){
-                _closepopup();
-                _send(links);
-              }
-              else{
-                input.addWarning();
-              }
-          });
+        var _inputs = _inputMultimedia.getInputs();
+        var _links = _inputMultimedia.getVal();
+        var _checkableInputs = [];
+
+        _inputs.forEach(function(input, index){
+          if($.inArray(_links[index]['provider'], _checkable) > -1){
+            _inputs.splice(_inputs.indexOf(input), 1);
+            _checkableInputs.push(input);
+          }
+        });
+
+        if(_checkableInputs.length == 0){
+          _closepopup();
+          _send(_links);
         }
         else{
-          _closepopup();
-          _send(links);
+          _checkableInputs.forEach(function(input, index){
+            var _check = true;
+            var url = input.getVal();
+            $.getJSON("https://noembed.com/embed?callback=?",
+              {"format": "json", "url": url}, function (data) {
+                if ('error' in data){
+                  _check = false;
+                  input.addWarning();
+                }
+                if (_check == true && (index + 1) == _checkableInputs.length){
+                  _closepopup();
+                  _send(_links);
+                }
+            });
+          });
         }
       }
-    });
-
+    }); 
    
     _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
 

@@ -175,6 +175,7 @@ Pard.Profile = function(profiles){
       _display();      
     }
 
+    //Youtube, Vimeo, Flickr, Twitter, Soundcloud
     var _oembed = function(link, id){
       $.getJSON("https://noembed.com/embed?callback=?",
         {"format": "json", "url": link['url']}, function (data) {
@@ -185,7 +186,7 @@ Pard.Profile = function(profiles){
     }
 
     var _spotify = function(link, id){
-      // var spotify_url = 'http://open.spotify.com/track/2TpxZ7JUBn3uw46aR7qd6V';
+      //spotify_url = 'http://open.spotify.com/track/2TpxZ7JUBn3uw46aR7qd6V';
       var audio_id = link['url'].split('/').pop();
       var _spotifyMedia = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + audio_id, 'frameborder': '0', 'allowtransparency': 'true'});
       Pard.ProfileManager.addMultimedia(_spotifyMedia, link['type'], id);
@@ -225,7 +226,7 @@ Pard.Profile = function(profiles){
     }
 
     var _bandCamp = function(link, id){
-      var _bandCampiframe = '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1364804381/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/track=1928405551/transparent=true/" seamless><a href="http://6ixtoys.bandcamp.com/album/6ix-toys">6ix Toys by 6ix Toys</a></iframe>'
+      //_bandCampiframe = '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1364804381/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/track=1928405551/transparent=true/" seamless><a href="http://6ixtoys.bandcamp.com/album/6ix-toys">6ix Toys by 6ix Toys</a></iframe>'
       var _bandCamp_url = '';
       link['url'].split('"').forEach(function(string){
         if(string.match('EmbeddedPlayer')){
