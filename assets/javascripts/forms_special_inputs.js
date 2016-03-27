@@ -367,13 +367,14 @@
 
 
     var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/photos\/.*/i;
+    var fb_posts_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/posts\/.*/i;
     var fb_videos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/videos\/.*/i;
 
     var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;
     var pt_url = /^(http|https)\:\/\/.*\.pinterest\.com\/pin\//i;
     var vn_url = /^(http|https)\:\/\/vine\..*/i;
     var sp_url = /^(http|https)\:\/\/open\.spotify\..*/i;
-    var bc_url = /^(http|https)\:\/\/bandcamp\..*/i;
+    var bc_url = /.*src=\"https:\/\/bandcamp\.com\/EmbeddedPlayer\/.*/i;
 
     var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
     var yt_url = /^(http|https)\:\/\/www\.youtube\.*/i;
@@ -386,6 +387,7 @@
       var url = input.getVal();
 
       if(url.match(fb_photos_url)) return _composeResults(url, 'facebook', 'image');
+      if(url.match(fb_posts_url)) return _composeResults(url, 'facebook', 'image');
       if(url.match(fb_videos_url)) return _composeResults(url, 'facebook', 'video');
       if(url.match(ig_url)) return _composeResults(url, 'instagram', 'image');
       if(url.match(pt_url)) return _composeResults(url, 'pinterest', 'image');

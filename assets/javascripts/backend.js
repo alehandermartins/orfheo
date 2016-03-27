@@ -79,6 +79,7 @@
     };
 
     var _modifyProfile = function(form, callback){
+      if('profile_image' in form) delete(form['profile_image']);
       _send(
         '/users/modify_profile',
         form,
@@ -103,6 +104,9 @@
     };
 
     var _modifyProduction = function(form, callback){
+      if('video' in form) delete(form['video']);
+      if('image' in form) delete(form['image']);
+      if('audio' in form) delete(form['audio']);
       _send(       
         '/users/modify_proposal',
         form,
