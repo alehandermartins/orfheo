@@ -5,14 +5,11 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.SpaceSection = function(sectionHeader, sectionContent, profile_id) {
-
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
 
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
     Pard.Widgets.SpaceSectionContent(sectionContent, profile); 
-
-
   }
 
   ns.Widgets.SpaceSectionContent = function(sectionContent, profile) {  

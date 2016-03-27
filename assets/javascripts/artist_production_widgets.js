@@ -213,8 +213,7 @@
         var input = _inputMultimedia.getInputs();
         var links = _inputMultimedia.getVal(); 
         var url = input.getVal();
-        
-        if($.inArray(links['provider'], _checkable) > -1){
+        if($.inArray(links[0]['provider'], _checkable) > -1){
           $.getJSON("https://noembed.com/embed?callback=?",
             {"format": "json", "url": url}, function (data) {
               if (!('error' in data)){

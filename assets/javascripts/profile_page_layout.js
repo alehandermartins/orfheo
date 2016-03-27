@@ -17,7 +17,6 @@
     var _mainLarge = $('<section>').addClass('pard-grid');
     var _gridSpacing = $('<div>').addClass('grid-spacing');
 
-
     var _aside = $('<nav>').addClass('grid-aside');
     var _asideContent = $('<div>');
     var _section = $('<section>').addClass('grid-section');
@@ -27,7 +26,6 @@
 
     Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, _sectionContent);
     Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
-
 
     _offCanvasSection.append(_sectionContainer.append(_sectionHeader, _sectionContent));
 
@@ -54,7 +52,7 @@
 
     asideContent.addClass('aside-container');
     var _buttonContainer = $('<div>').addClass('toUserPage-btn-container');
-    var _toUserPageBtn =  Pard.Widgets.Button('Página de usuario', function(){
+    var _toUserPageBtn = Pard.Widgets.Button('Página de usuario', function(){
       location.href = /users/});
       
     _toUserPageBtn.setClass('toUserPage-btn');
@@ -76,7 +74,6 @@
   ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent){
 
     asideNavContent.empty();
-    
     var profiles = Pard.CachedProfiles['my_profiles'];
 
     ProfileNav = function(_profiles, _index, sectionHeader, sectionContent){
@@ -122,9 +119,6 @@
     }
   }
 
-
-   
- 
   ns.Widgets.ProfilesNavigationSelected = function(profile, callback){
 
     var _createdWidget = $('<div>').addClass('profile-selected-container');
@@ -150,8 +144,6 @@
       }
     } 
   }
-
-
 
   ns.Widgets.ProfilesNavigationElement = function(profile, callback){
     var _createdWidget = $('<div>').addClass('profile-nav-element-container');
@@ -181,20 +173,34 @@
 
   ns.Widgets.ProductionsNavigation = function(profile, sectionContent, productionContent){
 
+    sectionContent.empty();
     productionContent.empty();
-
     var _proposals = [];
 
     (profile.proposals) ? productionContent.addClass('productions-content') : productionContent.removeClass('productions-content');
     if (profile.proposals) _proposals = profile.proposals;
-    _proposals.forEach(function(proposal, index) {
+    var _lastselected = $('<div>');
+    _proposals.forEach(function(proposal, index){
+      var proposal_id = proposal.proposal_id;
+      var _myProposal = $('<div>'); 
+      _myProposal.append(
+        Pard.Widgets.MyArtistProductionsContent(proposal_id).render(),
+        Pard.Widgets.ModifyProduction(proposal_id, sectionContent).render(),
+        Pard.Widgets.MultimediaManager(proposal_id, sectionContent).render()
+      );
+      sectionContent.append(_myProposal);
+      _myProposal.hide();
+
       var _productionItem = $('<span>');
       var _icon = $('<span>').addClass('material-icons').html('&#xE405;');
       var _title = $('<span>').text(' '+proposal['title']);
       _productionItem.append(_icon, _title).addClass('production-item').click(function(){ 
         $('.selected-element').removeClass('selected-element');
         _title.addClass('selected-element');
-        Pard.Widgets.ArtistProductionSectionContent(proposal.proposal_id, sectionContent)});
+        _lastselected.hide();
+        _myProposal.show();
+        _lastselected = _myProposal;
+      });
       _productionItem.hover(function(){_title.addClass('text-link')}, function(){_title.removeClass('text-link ')});
        productionContent.append($('<div>').addClass('row productions-list-item').append(_productionItem));
     });

@@ -98,7 +98,6 @@
     if (data['status'] == 'success'){
       Pard.ProfileManager.modifyProduction(data.proposal);
       var _profile = Pard.ProfileManager.getProfileFromProposal(data.proposal.proposal_id);
-      Pard.Widgets.ArtistProductionSectionContent(data.proposal.proposal_id, sectionContent);
       Pard.Widgets.ProductionsNavigation(_profile, sectionContent, $('#_productionsContent'));
     }
     else{

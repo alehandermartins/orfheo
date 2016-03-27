@@ -53,6 +53,18 @@ Pard.ProfileManager = {
         });
       }
     });
+  },
+  addMultimedia: function(data, type, proposal_id){
+    var proposal = Pard.ProfileManager.getProposal(proposal_id);
+    proposal[type] = [] || proposal[type];
+    proposal[type].push(data);
+  },
+  addProfilePicture: function(data, type, profile_id){
+    console.log(profile_id);
+    var profile = Pard.ProfileManager.getProfile(profile_id);
+    console.log(profile);
+    profile[type] = data;
+    console.log(profile);
   }
 }
 
@@ -104,19 +116,10 @@ Pard.Profile = function(profiles){
 
   var _whole = $('<div>').addClass('whole-container');
 
-  var _main = Pard.Widgets.ProfileMainLayout(profiles);
-
-  var _header = Pard.Widgets.UserHeader();
-  var _footer = Pard.Widgets.Footer();
-
-  $(_whole).append(_header.render(), _main.render().attr({id: 'main-profile-page'}) , _footer.render());
-
     // var callButton = {
     //   artist: Pard.Widgets.CallButtonArtist,
     //   space: Pard.Widgets.CallSpaceButton
     // }
-
-  $(document).ready( function(){
 
     window.fbAsyncInit = function() {
       FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
@@ -125,27 +128,86 @@ Pard.Profile = function(profiles){
     $.getScript(document.location.protocol + '//connect.facebook.net/en_US/all.js');
     $.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js');
     $.getScript(document.location.protocol + '//assets.pinterest.com/js/pinit.js');
-
  
-  });
+    var _done = [];
+    var _links = [];
 
-  
+    profiles.forEach(function(profile){
+      if('proposals' in profile && profile.proposals != null){
+
+        if('profile_picture' in profile && profile.profile_picture != null){
+          _links.push({
+            media: {
+              url: profile.profile_picture[0],
+              provider: 'cloudinary',
+              type: 'profile_image'
+            },
+            id: profile.profile_id
+          });
+        }
+
+        profile.proposals.forEach(function(proposal){
+          if('links' in proposal && proposal.links != null){
+            Object.keys(proposal.links).map(function(index){
+              _links.push({
+                media: proposal.links[index],
+                id: proposal.proposal_id
+              });
+            });
+          }
+        });
+      }
+    });
+
+    var _oembed = function(link, id){
+      $.getJSON("https://noembed.com/embed?callback=?",
+        {"format": "json", "url": link['url']}, function (data) {
+        Pard.ProfileManager.addMultimedia(data.html, link['type'], id);
+        _done.push(link);
+        
+        if (_done.length == _links.length){
+          var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']);
+          var _header = Pard.Widgets.UserHeader();
+          var _footer = Pard.Widgets.Footer();
+          $(_whole).append(_header.render(), _main.render().attr({id: 'main-profile-page'}) , _footer.render());
+          $('body').append(_whole);
+        }
+      });
+    }
+
+    var _cloudinary = function(link, id){
+      var _img = $.cloudinary.image(link['url'],
+        { format: 'jpg', width: 750, height: 220,
+        crop: 'fill', effect: 'saturation:50' });
+      Pard.ProfileManager.addProfilePicture(_img, link['type'], id);
+      _done.push(link);
+
+      if (_done.length == _links.length){
+        var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']);
+        var _header = Pard.Widgets.UserHeader();
+        var _footer = Pard.Widgets.Footer();
+        $(_whole).append(_header.render(), _main.render().attr({id: 'main-profile-page'}) , _footer.render());
+        $('body').append(_whole);
+      }
+    }
 
     
-  // url_address = {
-  //   'https://www.facebook.'
-  //   'https://twitter.'
-  //   'https://www.instagram.'
-  //   'https://es.pinterest.com/pin/'
-  //   'https://www.flickr.'
-  //   'https://www.youtube.'
-  //   'https://vimeo.'
-  //   'https://vine.'
-  //   'http://open.spotify.'
-  //   'https://bandcamp.'
-  //   'https://soundcloud.'
-  // }
 
+    var _providers = {
+      'cloudinary': _cloudinary,
+      'youtube': _oembed,
+      'vimeo': _oembed,
+      'flickr': _oembed,
+      'twitter': _oembed,
+      'soundcloud': _oembed
+    }
+
+    _links.forEach(function(link){
+      _providers[link['media']['provider']](link['media'], link['id'])
+    });
+
+
+    
     //Facebook posts and videos
     var _facebook = $('<div>').addClass('fb-post').attr('data-href', 'https://www.facebook.com/sesiondemicrosabiertos/photos/a.1633591080199483.1073741827.1633590566866201/1997144280510826/?type=3&theater');
     _facebook.css('width', '350'); //It won't go below 350
@@ -191,6 +253,6 @@ Pard.Profile = function(profiles){
   // if (profiles[0].calls == false) callButton[profiles[0]['type']](profiles[0]).render().trigger('click');
  
 
-  $('body').append(_whole);
+  
 
 };
