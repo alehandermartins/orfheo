@@ -66,6 +66,11 @@ Pard.ProfileManager = {
   addProfilePicture: function(data, type, profile_id){
     var profile = Pard.ProfileManager.getProfile(profile_id);
     profile[type] = data;
+  },
+  addSpacePhotos: function(data, type, profile_id){
+    var profile = Pard.ProfileManager.getProfile(profile_id);
+    profile[type] = [] || profile[type];
+    profile[type].push(data);
   }
 }
 
@@ -134,20 +139,46 @@ Pard.Profile = function(profiles){
   var _links = [];
 
   profiles.forEach(function(profile){
-    if('proposals' in profile && profile.proposals != null){
+    if('profile_picture' in profile && profile.profile_picture != null){
+      _links.push({
+        media: {
+          url: profile.profile_picture[0],
+          provider: 'cloudinaryProfileImage',
+          type: 'profile_image'
+        },
+        id: profile.profile_id
+      });
+    }
 
-      if('profile_picture' in profile && profile.profile_picture != null){
+    if('photos' in profile && profile.photos != null){
+      profile.photos.forEach(function(photo){
         _links.push({
           media: {
-            url: profile.profile_picture[0],
-            provider: 'cloudinary',
-            type: 'profile_image'
+            url: photo,
+            provider: 'cloudinarySpacePhotos',
+            type: 'image'
           },
           id: profile.profile_id
         });
-      }
+      });
+    }
 
+    if('proposals' in profile && profile.proposals != null){
       profile.proposals.forEach(function(proposal){
+        console.log(proposal);
+        if('photos' in proposal && proposal.photos != null){
+          proposal.photos.forEach(function(photo){
+            _links.push({
+              media: {
+                url: photo,
+                provider: 'cloudinary',
+                type: 'image'
+              },
+              id: proposal.proposal_id
+            });
+          });
+        }
+
         if('links' in proposal && proposal.links != null){
           Object.keys(proposal.links).map(function(index){
             _links.push({
@@ -170,11 +201,29 @@ Pard.Profile = function(profiles){
     }
   }
 
-  var _cloudinary = function(link, id){
+  var _cloudinaryProfileImage = function(link, id){
     var _img = $.cloudinary.image(link['url'],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
     Pard.ProfileManager.addProfilePicture(_img, link['type'], id);
+    _done.push(link);
+    _display();      
+  }
+
+  var _cloudinarySpacePhotos = function(link, id){
+    var _img = $.cloudinary.image(link['url'],
+      { format: 'jpg', width: 750, height: 220,
+      crop: 'fill', effect: 'saturation:50' });
+    Pard.ProfileManager.addSpacePhotos(_img, link['type'], id);
+    _done.push(link);
+    _display();      
+  }
+
+  var _cloudinary = function(link, id){
+    var _img = $.cloudinary.image(link['url'],
+      { format: 'jpg', width: 750, height: 220,
+      crop: 'fill', effect: 'saturation:50' });
+    Pard.ProfileManager.addMultimedia(_img, link['type'], id);
     _done.push(link);
     _display();      
   }
@@ -244,6 +293,8 @@ Pard.Profile = function(profiles){
   }
 
   var _providers = {
+    'cloudinaryProfileImage': _cloudinaryProfileImage,
+    'cloudinarySpacePhotos': _cloudinarySpacePhotos,
     'cloudinary': _cloudinary,
     'youtube': _oembed,
     'vimeo': _oembed,
@@ -258,7 +309,9 @@ Pard.Profile = function(profiles){
     'bandcamp': _bandCamp
   }
 
+  if(_links.length == 0) _display();
+
   _links.forEach(function(link){
-    _providers[link['media']['provider']](link['media'], link['id'])
+    _providers[link['media']['provider']](link['media'], link['id']);
   });
 };

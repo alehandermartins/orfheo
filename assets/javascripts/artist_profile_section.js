@@ -96,16 +96,6 @@
       });
     }
 
-    if (proposal.photos){
-      if('photos' in proposal && proposal.photos != null){
-        proposal.photos.forEach(function(photo){
-          var _photo = $.cloudinary.image(photo,
-            { format: 'jpg', width: 50, height: 50,
-              crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-          _createdWidget.append(_photo);
-        });
-      }
-    }
     _createdWidget.append(_title, _description, _shortDescription, _duration, _children, _multimediaContainer);
 
     return {

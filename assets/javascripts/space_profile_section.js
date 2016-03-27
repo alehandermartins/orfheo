@@ -38,16 +38,13 @@
       if (profile['address'][key]) _addressContainer.append($('<div>').text(key + ': '+ profile['address'][key]));
     }
 
-    _createdWidget.append(_addressContainer, _multimediaContainer);
-
-    if('photos' in profile && profile.photos != null){
-      profile.photos.forEach(function(photo){
-        var _photo = $.cloudinary.image(photo,
-          { format: 'jpg', width: 50, height: 50,
-            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-        _createdWidget.append(_photo);
+    if(profile.image){
+      profile.image.forEach(function(image){
+        _multimediaContainer.append(image);
       });
     }
+
+    _createdWidget.append(_addressContainer, _multimediaContainer);
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
     var _callButton = Pard.Widgets.CallSpaceButton(profile);
