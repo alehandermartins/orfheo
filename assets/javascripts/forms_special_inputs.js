@@ -4,7 +4,6 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
-
  ns.Widgets.InputTel = function(placeholder){
 
   	var checkPhone = function(){

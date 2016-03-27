@@ -20,10 +20,6 @@
       if(profile[element] != null) sectionHeader.append( $('<div>').text(profile[element]));
     });
 
-    
-
-    $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});
-  
     // return {
     //   render: function(){
     //     return _headerProfileSection;
@@ -51,7 +47,8 @@
     var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
 
     _createdWidget.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
-  
+    $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});
+
     return {
       render: function(){
         return _createdWidget;

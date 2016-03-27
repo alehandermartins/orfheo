@@ -9,15 +9,12 @@
     var profile = Pard.ProfileManager.getProfile(profile_id);
 
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
-    Pard.Widgets.SpaceSectionContent(sectionContent, profile); 
   }
 
-  ns.Widgets.SpaceSectionContent = function(sectionContent, profile) {  
+  ns.Widgets.SpaceSectionContent = function(profile) {  
 
-    sectionContent.empty();
-  
+    var _createdWidget = $('<div>');
     var _multimediaContainer = $('<div>');
-
 
     if (profile.links){
       var _linksArray = Object.keys(profile['links']).map(function(key){return profile['links'][key]});
@@ -32,15 +29,8 @@
       }); 
     };
 
-    if('profile_picture' in profile && profile.profile_picture != null){
-      var _photo = $.cloudinary.image(profile['profile_picture'][0],
-        { format: 'jpg', width: 50, height: 50,
-          crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-      sectionContent.append(_photo);
-    }
-
     ['category', 'bio'].forEach(function(element) {
-      if(profile[element] != null) sectionContent.append( $('<div>').text(profile[element]));
+      if(profile[element] != null) _createdWidget.append( $('<div>').text(profile[element]));
     });
 
     var _addressContainer = $('<div>');
@@ -48,32 +38,30 @@
       if (profile['address'][key]) _addressContainer.append($('<div>').text(key + ': '+ profile['address'][key]));
     }
 
-    sectionContent.append(_addressContainer, _multimediaContainer);
+    _createdWidget.append(_addressContainer, _multimediaContainer);
 
     if('photos' in profile && profile.photos != null){
       profile.photos.forEach(function(photo){
         var _photo = $.cloudinary.image(photo,
           { format: 'jpg', width: 50, height: 50,
             crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-        sectionContent.append(_photo);
+        _createdWidget.append(_photo);
       });
-    }
-
-    console.log(profile.links);
-    if('links' in profile && profile.links != null){
-      var _id = profile.links[0].link.split('=').pop();
-      var _video = $('<iframe>').attr({'src': 'https://www.youtube.com/embed/' + _id});
-      sectionContent.append(_video);
     }
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
     var _callButton = Pard.Widgets.CallSpaceButton(profile);
     var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
 
-    sectionContent.append(_modifyProfile.render(), _mySpaceCallProposals.render(), _callButton.render());
+    _createdWidget.append(_modifyProfile.render(), _mySpaceCallProposals.render(), _callButton.render());
 
-         if ((profile.calls==false)) _callButton.render().trigger('click');
+    $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});
 
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
   }
 
 }(Pard || {}));
