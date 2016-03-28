@@ -122,6 +122,10 @@ Pard.Profile = function(profiles){
 
   var _whole = $('<div>').addClass('whole-container');
 
+
+  var _header = Pard.Widgets.UserHeader();
+  _whole.append(_header.render());
+
   // var callButton = {
   //   artist: Pard.Widgets.CallButtonArtist,
   //   space: Pard.Widgets.CallSpaceButton
@@ -191,16 +195,7 @@ Pard.Profile = function(profiles){
     }
   });
 
-  var _display = function(){
-    if (_done.length == _links.length){
-      var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']);
-      var _header = Pard.Widgets.UserHeader();
-      var _footer = Pard.Widgets.Footer();
-      $(_whole).append(_header.render(), _main.render().attr({id: 'main-profile-page'}) , _footer.render());
-      $('body').append(_whole);
-    }
-  }
-
+  
   var _cloudinaryProfileImage = function(link, id){
     var _img = $.cloudinary.image(link['url'],
       { format: 'jpg', width: 750, height: 220,
@@ -308,10 +303,26 @@ Pard.Profile = function(profiles){
     'vine': _vine,
     'bandcamp': _bandCamp
   }
+ 
+
+
+  var _display = function(){
+    if (_done.length == _links.length){
+      var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']);
+      var _footer = Pard.Widgets.Footer();
+      _whole.append(_main.render().attr({id: 'main-profile-page'}) , _footer.render());
+    }
+  }
+
 
   if(_links.length == 0) _display();
+
+
 
   _links.forEach(function(link){
     _providers[link['media']['provider']](link['media'], link['id']);
   });
+
+  $('body').append(_whole);
+
 };
