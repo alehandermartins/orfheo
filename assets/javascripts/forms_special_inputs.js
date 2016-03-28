@@ -329,19 +329,21 @@
     var _createdWidget = $('<div>');    
     var _results = [];
     var _inputs = [];
-    _inputs[0] = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
-    _inputs[0].setClass('multiMedia');
-    var _addInputButton = $('<span>').addClass('material-icons').html('&#xE148').css({
+    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+    _input.setClass('multiMedia');
+    var _addInputButton = $('<span>').addClass('material-icons').html('&#xE86C').css({
       position: 'relative',
       top: '5px',
       left: '5px',
       cursor: 'pointer'
     });
 
-    _addInputButton.on('click', function(){
+    var _addnewInput = function(url){
       var _container = $('<div>');
       var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
       _newInput.setClass('multiMedia');
+      _newInput.setVal(url);
+      _newInput.setAttr('disabled', true);
       _inputs.push(_newInput);
 
       var _removeInputButton = $('<span>').addClass('material-icons').html('&#xE888').css({
@@ -356,12 +358,19 @@
         _inputs.splice(_inputs.indexOf(_newInput), 1);
         _container.empty();
       });
-      _createdWidget.append(_container);
-    })
+      return _container;
+    }
 
-    _createdWidget.append(_inputs[0].render().css('width', '550'), _addInputButton);
+    _addInputButton.on('click', function(){
+      if(_checkUrl(_input)){
+        _createdWidget.append(_addnewInput(_input.getVal()));
+        _input.setVal('');
+      }
+    });
 
-    var fb_url = /^(http|https)\:\/\/www\.facebook\.com\/.*/i;
+    _createdWidget.append(_input.render().css('width', '550'), _addInputButton);
+
+    var fb_url = /.*facebook\.com\/.*/i;
     var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;
     var pt_url = /^(http|https)\:\/\/.*\.pinterest\.com\/.*/i;
     var vn_url = /^(http|https)\:\/\/vine\..*/i;
@@ -376,6 +385,7 @@
     var _checkUrl = function(input){
       input.removeWarning();
       var url = input.getVal();
+      if(url == false) return false;
 
       if(url.match(fb_url)) return _composeResults(url, 'facebook');
       if(url.match(ig_url)) return _composeResults(url, 'instagram');
@@ -388,9 +398,7 @@
       if(url.match(vm_url)) return _composeResults(url, 'vimeo');
       if(url.match(fl_url)) return _composeResults(url, 'flickr');
       if(url.match(sc_url)) return _composeResults(url, 'soundcloud');
-      
-      input.addWarning();
-      return false;
+      return _composeResults(url, 'my_web');
     }
 
     var _composeResults = function(url, provider, type){
@@ -415,13 +423,16 @@
         return _filled();
       },
       getVal: function(){
-        if(_inputs.length == 1 && _inputs[0].getVal() == false) return [];
         if(_filled() != false) return _results;
         return false;
       },
       setVal: function(values){
-        values.forEach(function(value){
-          _results.push(value);
+        var _personal_webs = []
+        Object.keys(values).forEach(function(key){
+          _personal_webs.push(values[key]);
+        });
+        _personal_webs.forEach(function(web, index){
+          _createdWidget.append(_addnewInput(web.url));
         });
       }
     }
@@ -441,7 +452,7 @@
       cursor: 'pointer'
     });
 
-    _addInputButton.on('click', function(){
+    var _addnewInput = function(){
       var _container = $('<div>');
       var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
       _newInput.setClass('multiMedia');
@@ -459,8 +470,12 @@
         _inputs.splice(_inputs.indexOf(_newInput), 1);
         _container.empty();
       });
-      _createdWidget.append(_container);
-    })
+      return _container;
+    }
+
+    _addInputButton.on('click', function(){
+      _createdWidget.append(_addnewInput);
+    });
 
     _createdWidget.append(_inputs[0].render().css('width', '550'), _addInputButton);
 

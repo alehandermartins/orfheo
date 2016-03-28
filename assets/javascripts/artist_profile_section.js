@@ -45,6 +45,16 @@
       if(profile[element] != null) _createdWidget.append( $('<div>').text(profile[element]));
     });
 
+    if('personal_web' in profile && profile.personal_web != null){
+      var _personal_webs = []
+      Object.keys(profile.personal_web).forEach(function(key){
+        _personal_webs.push(profile.personal_web[key]);
+      });
+      _personal_webs.forEach(function(web){
+        console.log(web);
+      });
+    }
+
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
     var _callButton = Pard.Widgets.CallButtonArtist(profile);
     var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);

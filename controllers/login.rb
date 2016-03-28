@@ -1,6 +1,7 @@
 class LoginController < BaseController
 
   post '/register_attempt' do
+    puts params
     check_params params[:email], params[:password]
     check_non_existing_user params[:email]
     register_user params
