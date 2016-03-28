@@ -168,6 +168,7 @@
 
   ns.Widgets.ProductionsNavigation = function(profile, profileNav, sectionContent, productionContent, selected){
 
+    profileNav.empty();
     sectionContent.empty();
     productionContent.empty();
 
