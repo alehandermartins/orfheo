@@ -188,7 +188,7 @@ Images
 
 
 .fb_icon:before {
-  content: url(<%= image_path 'fb_icon.png' %>);
+  content: url(<%= image_path 'fb_icon' %>);
   width: 400px;
   z-index: -1 !important;
   position: relative;
@@ -197,28 +197,28 @@ Images
 }
 
 .tw_icon:after {
-  content: url(<%= image_path 'tw_icon.png' %>);
+  content: url(<%= image_path 'tw_icon' %>);
   position: relative;
   top: 3px;
   left: 3px;
 }
 
 .yt_icon:after {
-  content: url(<%= image_path 'yt_icon.png' %>);
+  content: url(<%= image_path 'yt_icon' %>);
   position: relative;
   top: 3px;
   left: 3px;
 }
 
 .pt_icon:after {
-  content: url(<%= image_path 'pt_icon.png' %>);
+  content: url(<%= image_path 'pt_icon' %>);
   position: relative;
   top: 3px;
   left: 3px;
 }
 
 .ig_icon:after {
-  content: url(<%= image_path 'ig_icon.png' %>);
+  content: url(<%= image_path 'ig_icon' %>);
   position: relative;
   top: 3px;
   left: 3px;

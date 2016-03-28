@@ -79,7 +79,7 @@
           if (_checkInput()){
             Pard.Backend.register(
               _fields['email'].getVal(),
-              _fields['emailConf'].getVal(),
+              _fields['password'].getVal(),
               Pard.Events.Register
             );
           callback();
@@ -170,6 +170,7 @@
     });
 
     _fields['button'] = Pard.Widgets.Button('Log In', function(){
+      _rememberMe.rememberMe();
       Pard.Backend.login(
         _fields['email'].getVal(),
         _fields['password'].getVal(),
@@ -190,7 +191,9 @@
     // var _tools = $('<div>').addClass('login-header-tools');
     // _tools.append(_rememberMe.render(),_emailRecovery);
 
-    _createdWidget.append(_rememberMe.render(),_emailRecovery);
+    var _checkBox = _rememberMe.render();
+
+    _createdWidget.append(_checkBox,_emailRecovery);
 
     return {
       render: function(){
@@ -206,10 +209,7 @@
     var _createdWidget = $('<span>').append(_ckb,_label);
     _createdWidget.addClass('rememberMe-ckb');
 
-
-
     $(function() {
-   
       if (localStorage.chkbx && localStorage.chkbx != '') {
           _ckb.attr('checked', 'checked');
           emailField.setVal(localStorage.usrname);
@@ -223,23 +223,31 @@
       }
     });
 
-    _ckb.click(function() {
-
-        if (_ckb.is(':checked')) {
+    var _rememberMe = function(){
+      if (_ckb.is(':checked')) {
             // save username and password
             localStorage.usrname = emailField.getVal();
+            console.log(localStorage.usrname);
             localStorage.pass = passwdField.getVal();
             localStorage.chkbx = _ckb.val();
         } else {
             localStorage.usrname = '';
             localStorage.pass = '';
             localStorage.chkbx = '';
+            console.log('empty');
         }
+    }
+
+    _ckb.click(function() {
+      _rememberMe();
     });
 
     return {
       render: function(){
         return _createdWidget;      
+      },
+      rememberMe:function(){
+        _rememberMe();
       }
     }
   }
