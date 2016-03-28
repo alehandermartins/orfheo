@@ -60,12 +60,12 @@ Pard.ProfileManager = {
   },
   addMultimedia: function(data, type, proposal_id){
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
-    proposal[type] = [] || proposal[type];
+    proposal[type] = proposal[type] || [];
     proposal[type].push(data);
   },
   addSpacePhotos: function(data, type, profile_id){
     var profile = Pard.ProfileManager.getProfile(profile_id);
-    profile[type] = [] || profile[type];
+    profile[type] = profile[type] || [];
     profile[type].push(data);
   }
 }
@@ -154,7 +154,6 @@ Pard.Profile = function(profiles){
 
     if('proposals' in profile && profile.proposals != null){
       profile.proposals.forEach(function(proposal){
-        console.log(proposal);
         if('photos' in proposal && proposal.photos != null){
           proposal.photos.forEach(function(photo){
             _links.push({
@@ -193,7 +192,7 @@ Pard.Profile = function(profiles){
     var _img = $.cloudinary.image(link['url'],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
-    Pard.ProfileManager.addMultimedia(_img, link['type'], id);
+    Pard.ProfileManager.addMultimedia(_img[0], link['type'], id);
     _done.push(link);
     _display();      
   }
