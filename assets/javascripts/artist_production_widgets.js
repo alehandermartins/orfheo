@@ -202,46 +202,16 @@
     }
 
    var _inputMultimedia = Pard.Widgets.InputMultimedia();
+   _inputMultimedia.setVal(proposal['links']);
     _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimedia.render()));
 
     var _closepopup = {};
     var _checkable = ['twitter', 'youtube', 'vimeo', 'flickr', 'soundcloud'];
 
     submitButton.on('click',function(){
-      if(_inputMultimedia.filled()){
-        var _inputs = _inputMultimedia.getInputs();
-        var _links = _inputMultimedia.getVal();
-        var _checkableInputs = [];
-
-        _inputs.forEach(function(input, index){
-          if($.inArray(_links[index]['provider'], _checkable) > -1){
-            _inputs.splice(_inputs.indexOf(input), 1);
-            _checkableInputs.push(input);
-          }
-        });
-
-        if(_checkableInputs.length == 0){
-          _closepopup();
-          _send(_links);
-        }
-        else{
-          _checkableInputs.forEach(function(input, index){
-            var _check = true;
-            var url = input.getVal();
-            $.getJSON("https://noembed.com/embed?callback=?",
-              {"format": "json", "url": url}, function (data) {
-                if ('error' in data){
-                  _check = false;
-                  input.addWarning();
-                }
-                if (_check == true && (index + 1) == _checkableInputs.length){
-                  _closepopup();
-                  _send(_links);
-                }
-            });
-          });
-        }
-      }
+      var _links = _inputMultimedia.getVal();
+      _send(_links);
+      _closepopup();
     }); 
    
     _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));

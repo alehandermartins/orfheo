@@ -427,7 +427,7 @@
         return false;
       },
       setVal: function(values){
-        var _personal_webs = []
+        var _personal_webs = [];
         Object.keys(values).forEach(function(key){
           _personal_webs.push(values[key]);
         });
@@ -443,19 +443,21 @@
     var _createdWidget = $('<div>');    
     var _results = [];
     var _inputs = [];
-    _inputs[0] = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
-    _inputs[0].setClass('multiMedia');
-    var _addInputButton = $('<span>').addClass('material-icons').html('&#xE148').css({
+    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+    _input.setClass('multiMedia');
+    var _addInputButton = $('<span>').addClass('material-icons').html('&#xE86C').css({
       position: 'relative',
       top: '5px',
       left: '5px',
       cursor: 'pointer'
     });
 
-    var _addnewInput = function(){
+    var _addnewInput = function(url){
       var _container = $('<div>');
       var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
       _newInput.setClass('multiMedia');
+      _newInput.setVal(url);
+      _newInput.setAttr('disabled', true);
       _inputs.push(_newInput);
 
       var _removeInputButton = $('<span>').addClass('material-icons').html('&#xE888').css({
@@ -467,17 +469,22 @@
 
       _container.append(_newInput.render().css('width', '550'), _removeInputButton);
       _removeInputButton.on('click', function(){
-        _inputs.splice(_inputs.indexOf(_newInput), 1);
+        var _index = _inputs.indexOf(_newInput);
+        _inputs.splice(_index, 1);
+        _results.splice(_index, 1);
         _container.empty();
       });
       return _container;
     }
 
     _addInputButton.on('click', function(){
-      _createdWidget.append(_addnewInput);
+      _checkUrl(_input, function(){
+        _createdWidget.append(_addnewInput(_input.getVal()));
+        _input.setVal('');
+      });
     });
 
-    _createdWidget.append(_inputs[0].render().css('width', '550'), _addInputButton);
+    _createdWidget.append(_input.render().css('width', '550'), _addInputButton);
 
     var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/photos\/.*/i;
     var fb_posts_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/posts\/.*/i;
@@ -495,57 +502,60 @@
     var fl_url = /^(http|https)\:\/\/flickr\.*/i;
     var sc_url = /^(http|https)\:\/\/soundcloud\.*/i;
 
-    var _checkUrl = function(input){
+    var _checkUrl = function(input, callback){
       input.removeWarning();
       var url = input.getVal();
 
-      if(url.match(fb_photos_url)) return _composeResults(url, 'facebook', 'image');
-      if(url.match(fb_posts_url)) return _composeResults(url, 'facebook', 'image');
-      if(url.match(fb_videos_url)) return _composeResults(url, 'facebook', 'video');
-      if(url.match(ig_url)) return _composeResults(url, 'instagram', 'image');
-      if(url.match(pt_url)) return _composeResults(url, 'pinterest', 'image');
-      if(url.match(vn_url)) return _composeResults(url, 'vine', 'video');
-      if(url.match(sp_url)) return _composeResults(url, 'spotify', 'audio');
-      if(url.match(bc_url)) return _composeResults(url, 'bandcamp', 'audio');
-      if(url.match(tw_url)) return _composeResults(url, 'twitter', 'image');
-      if(url.match(yt_url)) return _composeResults(url, 'youtube', 'video');
-      if(url.match(vm_url)) return _composeResults(url, 'vimeo', 'video');
-      if(url.match(fl_url)) return _composeResults(url, 'flickr', 'image');
-      if(url.match(sc_url)) return _composeResults(url, 'soundcloud', 'audio');
+      var _composeResults = function(provider, type){
+        _results.push({url: url, provider: provider, type: type});
+        callback();
+        return _results;
+      }
+
+      var _callProvider = function(provider, type){
+        $.getJSON("https://noembed.com/embed?callback=?",
+        {"format": "json", "url": url}, function (data) {
+          console.log(data);
+          if ('error' in data) input.addWarning();
+          else{
+            _composeResults(provider, type);
+          }
+        });
+      }
+
+      if(url.match(fb_photos_url)) return _composeResults('facebook', 'image');
+      if(url.match(fb_posts_url)) return _composeResults('facebook', 'image');
+      if(url.match(fb_videos_url)) return _composeResults('facebook', 'video');
+      if(url.match(ig_url)) return _composeResults('instagram', 'image');
+      if(url.match(pt_url)) return _composeResults('pinterest', 'image');
+      if(url.match(vn_url)) return _composeResults('vine', 'video');
+      if(url.match(sp_url)) return _composeResults('spotify', 'audio');
+      if(url.match(bc_url)) return _composeResults('bandcamp', 'audio');
+      if(url.match(tw_url)) return _callProvider('twitter', 'image');
+      if(url.match(yt_url)) return _callProvider('youtube', 'video');
+      if(url.match(vm_url)) return _callProvider('vimeo', 'video');
+      if(url.match(fl_url)) return _callProvider('flickr', 'image');
+      if(url.match(sc_url)) return _callProvider('soundcloud', 'audio');
       
       input.addWarning();
       return false;
     }
 
-    var _composeResults = function(url, provider, type){
-      _results.push({url: url, provider: provider, type: type});
-      return _results;
-    }
-
-    var _filled = function(){
-      var _check = true;
-      _results = [];
-      _inputs.forEach(function(input){
-        if(_checkUrl(input) == false) _check = false;
-      });
-      return _check;
-    }
- 
     return {
       render: function(){
         return _createdWidget;
       },
-      filled: function(){
-        return _filled();
-      },
       getVal: function(){
-        if(_inputs.length == 1 && _inputs[0].getVal() == false) return [];
-        if(_filled() != false) return _results;
-        return false;
+        return _results;
       },
       setVal: function(values){
-        values.forEach(function(value){
-          _results.push(value);
+        var _links = [];
+        Object.keys(values).forEach(function(key){
+          _links.push(values[key]);
+        });
+        _links.forEach(function(web, index){
+          _results.push(web);
+          _createdWidget.append(_addnewInput(web.url));
         });
       }
     }
