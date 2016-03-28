@@ -524,6 +524,7 @@
         return _filled();
       },
       getVal: function(){
+        if(_inputs.length == 1 && _inputs[0].getVal() == false) return [];
         if(_filled() != false) return _results;
         return false;
       },

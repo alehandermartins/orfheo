@@ -200,7 +200,7 @@
       var _requiredFields = Pard.Forms.BasicSpaceForm().requiredFields();
       _requiredFields.forEach(function(field){
         if(!(_form[field].input.getVal())){
-          if(field != 'links') _form[field].input.addWarning();
+          if(field != 'links' && field != 'personal_web') _form[field].input.addWarning();
           _invalidInput.text('Por favor, revisa los campos obligatorios.');
           _check = false;
         } 

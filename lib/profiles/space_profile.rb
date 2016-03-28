@@ -39,6 +39,7 @@ class SpaceProfile
       profile_picture: params[:profile_picture],
       photos: params[:photos],
       bio: params[:bio],
+      personal_web: params[:personal_web],
       links: params[:links]
     }
   end
