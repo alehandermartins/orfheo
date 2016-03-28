@@ -101,9 +101,9 @@
   	var _form = Pard.Forms.BasicArtistForm().render();
 
     _form['personal_web'] = {
-      label: Pard.Widgets.InputLabel('Web personal'),
-      input: Pard.Widgets.InputWebs('Título del enlace.', 'Copia y pega aquí el enlace correspondiente'),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a un tus perfiles en redes sociales. Dale un título a cada uno.')
+      label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
+      input: Pard.Widgets.InputPersonalWeb(),
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a un tus perfiles en redes sociales')
     };
     _form['bio'] = {
       label: Pard.Widgets.InputLabel('Bio'),

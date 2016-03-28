@@ -324,35 +324,106 @@
     
   } 
 
-   ns.Widgets.InputPersonalWeb = function(label1, label2){
-    var _webTitle = Pard.Widgets.Input(label1,'text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
-    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+   ns.Widgets.InputPersonalWeb = function(){
 
-    _webTitle.setClass('links-input');
-    _link.setClass('links-input');
+    var _createdWidget = $('<div>');    
+    var _results = [];
+    var _inputs = [];
+    _inputs[0] = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+    _inputs[0].setClass('multiMedia');
+    var _addInputButton = $('<span>').addClass('material-icons').html('&#xE148').css({
+      position: 'relative',
+      top: '5px',
+      left: '5px',
+      cursor: 'pointer'
+    });
 
-    var _entries = {
-            web_title: _webTitle,
-            link: _link
-          };
- 
-    var _webField = $('<div>');
-    _webField.append(_webTitle.render(), _link.render());
-    var _inputWeb = $('<div>').append(_webField);
+    _addInputButton.on('click', function(){
+      var _container = $('<div>');
+      var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+      _newInput.setClass('multiMedia');
+      _inputs.push(_newInput);
 
-    var _createdWidget = $('<div>').append(_inputWeb);
+      var _removeInputButton = $('<span>').addClass('material-icons').html('&#xE888').css({
+        position: 'relative',
+        top: '5px',
+        left: '5px',
+        cursor: 'pointer'
+      });
+
+      _container.append(_newInput.render().css('width', '550'), _removeInputButton);
+      _removeInputButton.on('click', function(){
+        _inputs.splice(_inputs.indexOf(_newInput), 1);
+        _container.empty();
+      });
+      _createdWidget.append(_container);
+    })
+
+    _createdWidget.append(_inputs[0].render().css('width', '550'), _addInputButton);
+
+    var fb_url = /^(http|https)\:\/\/www\.facebook\.com\/.*/i;
+    var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;
+    var pt_url = /^(http|https)\:\/\/.*\.pinterest\.com\/.*/i;
+    var vn_url = /^(http|https)\:\/\/vine\..*/i;
+    var sp_url = /^(http|https)\:\/\/open\.spotify\..*/i;
+    var bc_url = /^(http|https)\:\/\/.*\.bandcamp\.com\/.*/i;
+    var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
+    var yt_url = /^(http|https)\:\/\/www\.youtube\.*/i;
+    var vm_url = /^(http|https)\:\/\/vimeo\.*/i;
+    var fl_url = /^(http|https)\:\/\/flickr\.*/i;
+    var sc_url = /^(http|https)\:\/\/soundcloud\.*/i;
+
+    var _checkUrl = function(input){
+      input.removeWarning();
+      var url = input.getVal();
+
+      if(url.match(fb_url)) return _composeResults(url, 'facebook');
+      if(url.match(ig_url)) return _composeResults(url, 'instagram');
+      if(url.match(pt_url)) return _composeResults(url, 'pinterest');
+      if(url.match(vn_url)) return _composeResults(url, 'vine');
+      if(url.match(sp_url)) return _composeResults(url, 'spotify');
+      if(url.match(bc_url)) return _composeResults(url, 'bandcamp');
+      if(url.match(tw_url)) return _composeResults(url, 'twitter');
+      if(url.match(yt_url)) return _composeResults(url, 'youtube');
+      if(url.match(vm_url)) return _composeResults(url, 'vimeo');
+      if(url.match(fl_url)) return _composeResults(url, 'flickr');
+      if(url.match(sc_url)) return _composeResults(url, 'soundcloud');
+      
+      input.addWarning();
+      return false;
+    }
+
+    var _composeResults = function(url, provider, type){
+      _results.push({url: url, provider: provider});
+      return _results;
+    }
+
+    var _filled = function(){
+      var _check = true;
+      _results = [];
+      _inputs.forEach(function(input){
+        if(_checkUrl(input) == false) _check = false;
+      });
+      return _check;
+    }
 
     return {
       render: function(){
         return _createdWidget;
       },
-      getVal: function(){
-        return Pard.Widgets.WebFilled(_entries);
+      filled: function(){
+        return _filled();
       },
-      setVal: function(_val){
-        for(var field in _val) {_entries[field] = _val[field];}
+      getVal: function(){
+        if(_inputs.length == 1 && _inputs[0].getVal() == false) return [];
+        if(_filled() != false) return _results;
+        return false;
+      },
+      setVal: function(values){
+        values.forEach(function(value){
+          _results.push(value);
+        });
       }
-
     }
   }
 
@@ -435,24 +506,26 @@
       _results.push({url: url, provider: provider, type: type});
       return _results;
     }
+
+    var _filled = function(){
+      var _check = true;
+      _results = [];
+      _inputs.forEach(function(input){
+        if(_checkUrl(input) == false) _check = false;
+      });
+      return _check;
+    }
  
     return {
       render: function(){
         return _createdWidget;
       },
       filled: function(){
-        var _check = true;
-        _results = [];
-        _inputs.forEach(function(input){
-          if(_checkUrl(input) == false) _check = false;
-        });
-        return _check;
-      },
-      getInputs: function(){
-        return _inputs;
+        return _filled();
       },
       getVal: function(){
-        return _results;
+        if(_filled() != false) return _results;
+        return false;
       },
       setVal: function(values){
         values.forEach(function(value){

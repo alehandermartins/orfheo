@@ -202,6 +202,7 @@ Pard.Profile = function(profiles){
     $.getJSON("https://noembed.com/embed?callback=?",
       {"format": "json", "url": link['url']}, function (data) {
       Pard.ProfileManager.addMultimedia(data.html, link['type'], id);
+      console.log(data);
       _done.push(link);
       _display();
     });
