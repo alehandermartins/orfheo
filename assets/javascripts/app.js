@@ -63,10 +63,6 @@ Pard.ProfileManager = {
     proposal[type] = [] || proposal[type];
     proposal[type].push(data);
   },
-  addProfilePicture: function(data, type, profile_id){
-    var profile = Pard.ProfileManager.getProfile(profile_id);
-    profile[type] = data;
-  },
   addSpacePhotos: function(data, type, profile_id){
     var profile = Pard.ProfileManager.getProfile(profile_id);
     profile[type] = [] || profile[type];
@@ -143,17 +139,6 @@ Pard.Profile = function(profiles){
   var _links = [];
 
   profiles.forEach(function(profile){
-    if('profile_picture' in profile && profile.profile_picture != null){
-      _links.push({
-        media: {
-          url: profile.profile_picture[0],
-          provider: 'cloudinaryProfileImage',
-          type: 'profile_image'
-        },
-        id: profile.profile_id
-      });
-    }
-
     if('photos' in profile && profile.photos != null){
       profile.photos.forEach(function(photo){
         _links.push({
@@ -194,16 +179,6 @@ Pard.Profile = function(profiles){
       });
     }
   });
-
-  
-  var _cloudinaryProfileImage = function(link, id){
-    var _img = $.cloudinary.image(link['url'],
-      { format: 'jpg', width: 750, height: 220,
-      crop: 'fill', effect: 'saturation:50' });
-    Pard.ProfileManager.addProfilePicture(_img, link['type'], id);
-    _done.push(link);
-    _display();      
-  }
 
   var _cloudinarySpacePhotos = function(link, id){
     var _img = $.cloudinary.image(link['url'],
@@ -288,7 +263,6 @@ Pard.Profile = function(profiles){
   }
 
   var _providers = {
-    'cloudinaryProfileImage': _cloudinaryProfileImage,
     'cloudinarySpacePhotos': _cloudinarySpacePhotos,
     'cloudinary': _cloudinary,
     'youtube': _oembed,

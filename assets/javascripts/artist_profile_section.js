@@ -9,8 +9,11 @@
 
     var _photoContainer = $('<div>').addClass('section-profilePhoto-container');
 
-    if('profile_image' in profile && profile['profile_image'] != null){
-      _photoContainer.append(profile['profile_image']);
+    if('profile_picture' in profile && profile['profile_picture'] != null){
+      var _img = $.cloudinary.image(profile['profile_picture'][0],
+      { format: 'jpg', width: 750, height: 220,
+      crop: 'fill', effect: 'saturation:50' });
+      _photoContainer.append(_img);
     }
     else _photoContainer.css({'background-color': profile.color});
 
