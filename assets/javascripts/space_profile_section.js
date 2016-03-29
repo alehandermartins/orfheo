@@ -57,8 +57,6 @@
       _multiMediaManager.render()
     );
 
-    $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});
-
     return {
       render: function(){
         return _createdWidget;
