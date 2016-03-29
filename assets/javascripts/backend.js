@@ -79,7 +79,9 @@
     };
 
     var _modifyProfile = function(form, callback){
-      if('profile_image' in form) delete(form['profile_image']);
+      if('video' in form) delete(form['video']);
+      if('image' in form) delete(form['image']);
+      if('audio' in form) delete(form['audio']);
       _send(
         '/users/modify_profile',
         form,
