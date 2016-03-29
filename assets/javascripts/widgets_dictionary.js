@@ -6,24 +6,35 @@
    ns.Widgets.IconManager = function(icon_name){
 
     var _iconDictionary = {
-      artist: 'A',
-      space:'S',
-      music:'M',
-      arts: 'AE',
-      expo: 'E',
-      poetry: 'P',
-      audiovisual: 'AV',
-      street_art: 'SA',
-      workshop: 'T',
-      other: 'O',
-      modify_section_content: 'MC',
-      informaciones: 'IN',
-      city_artist: 'CT',
-      my_web: 'MW',
-      icon_social: 'IS'
+      artist: {icon: 'A', className: 'material-icons'},
+      space: {icon: 'S', className: 'material-icons'},
+      music: {icon: 'M', className: 'material-icons'},
+      arts: {icon: 'AE', className: 'material-icons'},
+      expo: {icon: 'E', className: 'material-icons'},
+      poetry: {icon: 'PO', className: 'material-icons'},
+      audiovisual: {icon: 'AV', className: 'material-icons'},
+      street_art: {icon: 'SA', className: 'material-icons'},
+      workshop: {icon: 'T', className: 'material-icons'},
+      other: {icon: 'O', className: 'material-icons'},
+      modify_section_content: {icon: 'MC', className: 'material-icons'},
+      informaciones: {icon: 'IN', className: 'material-icons'},
+      city_artist: {icon: 'CT', className: 'material-icons'},
+      my_web: {icon: 'MW', className: 'material-icons'},
+      icon_social: {icon: 'IS', className: 'material-icons'},
+      youtube: {icon: 'IT', className: 'fa'},
+      vimeo: {icon: 'VI', className: 'fa'},
+      flickr: {icon: 'Fl', className: 'fa'},
+      twitter: {icon: '', className: 'fa fa-twitter'},
+      soundcloud: {icon: 'SO', className: 'fa'},
+      spotify: {icon: 'SP', className: 'fa'},
+      facebook: {icon: '', className: 'fa fa-facebook'},
+      instagram: {icon: 'I', className: 'fa'},
+      pinterest: {icon: 'PI', className: 'fa'},
+      vine: {icon: 'VI', className: 'fa'},
+      bandcamp: {icon: 'B', className: 'fa'},
     };
 
-    var _createdWidget = $('<span>').addClass('material-icons').html(_iconDictionary[icon_name]);
+    var _createdWidget = $('<span>').addClass(_iconDictionary[icon_name]['className']).html(_iconDictionary[icon_name]['icon']);
 
     return {
       render: function(){

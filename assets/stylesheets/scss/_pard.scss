@@ -54,6 +54,8 @@ small:80% -> 12.8px / 0.8rem
 // text-security: disc;
 
 
+
+
 html, body{
  height: 100%;
  margin:0;
@@ -902,6 +904,11 @@ Profile Section
 }
 
 .icon-in-box{
+  margin-right: 0.75rem;
+}
+
+.social-icon-fa{
+  font-size: 1.3rem;
   margin-right: 0.75rem;
 }
 

@@ -52,7 +52,8 @@
       if(profile['personal_web'] != null){
         
         var _webArray = Object.keys(profile['personal_web']).map(function(key){return profile['personal_web'][key]});
-        var _iconSocial;
+        var _socialIcons;
+        var _socials = $('<span>');
        
         _webArray.forEach(function(elem){
           if (elem['provider'] == 'my_web'){
@@ -64,7 +65,6 @@
             });
             ['http://', 'https://', 'www.'].forEach(function(string){
               if(_url.indexOf(string) > -1) {
-                console.log(_url.indexOf(string));
                 _url  = _url.substring(string.length);
               }
             })
@@ -74,16 +74,18 @@
           else{
             var _iconSocial = Pard.Widgets.IconManager('icon_social').render().addClass('icon-in-box');
             var _iconImg = Pard.Widgets.IconManager(elem['provider']).render();
-            var _url = elem['url'];
-            var _iconLink = $('<a>').attr({
+            _iconImg.addClass('social-icon-fa')
+            
+            var _iconA = $('<a>').attr({
               href: elem['url'],
               target: '_blanck'            
             }).append(_iconImg).addClass('icon-social-in-box');
-            _iconSocial.append(_iconLink);
+            _socials.append(_iconA);
+            _socialIcons = $('<div>').append(_iconSocial, _socials)
           }
         });
         
-        if (_iconSocial)  _contact.append(_iconSocial); 
+        if (_socialIcons)  _contact.append(_socialIcons); 
 
       };
 
