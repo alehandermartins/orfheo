@@ -135,7 +135,7 @@
       callback();      
     });
 
-    var _icon = $('<div>').addClass('profile-nav-element-icon').html('P');
+    var _icon = $('<div>').addClass('profile-nav-element-icon').append(Pard.Widgets.IconManager(profile['type']).render());
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
 
@@ -166,7 +166,7 @@
       _name.addClass('selected-element');
       callback();      
     });
-    var _icon = $('<div>').addClass('profile-nav-element-icon').html('P');
+    var _icon = $('<div>').addClass('profile-nav-element-icon').append(Pard.Widgets.IconManager(profile['type']).render());
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
     _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
@@ -217,7 +217,7 @@
       else{_myProposal.hide();}
 
       var _productionItem = $('<div>').addClass('production-nav-element-container');
-      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<span>').addClass('material-icons verticalAlign').html('&#xE405;')));
+      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('verticalAlign').append(Pard.Widgets.IconManager(proposal['category']).render().css({'text-align': 'center', display:'block'}))));
       var _nameColumn = $('<div>').addClass('name-column');
       var _name = $('<p>').text(' '+proposal['title']).addClass('profile-nav-production-name');
       _productionItem.append(_iconColumn, _nameColumn.append(_name));

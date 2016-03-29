@@ -188,9 +188,9 @@ Grid and Bar
 .section-content{ 
   width: 100%;
   background: $content-background;
-  padding-left:0.75rem;
-  padding-right:0.75rem;
-  padding-top:0.75rem;
+  padding-left:$padding-content;
+  padding-right:$padding-content;
+  padding-top:$padding-content;
   padding-bottom:2rem;
   min-height: 100vh;
   @include border-radius($layout-border-radius);
@@ -402,7 +402,27 @@ button{
   font-weight: normal;
 }
 
+.modify-section-content-button-container{
+  position: absolute;
+  top:0;
+  right:0;
+  width: 0;
+  height: 0;
+  border: 0 solid transparent;
+  border-left-width: 70px;
+  border-right-width: 0px;
+  border-top: 70px solid black;
+  width:0;
 
+}
+
+.modify-content-button{
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 50px;
+  height: 50px;
+}
 
 /*===============================================
 LOGIN PAGE
@@ -701,7 +721,7 @@ Aside
 .name-column{
   padding: 0rem 0.2rem 0rem 0.2rem;
   width: 8rem;
- 
+  font-size: $smallSize;
 }
 
 .icon-column{
@@ -824,12 +844,28 @@ Aside
 }
 
 /*-----------------
-Profile Card
+Profile Section
 -------------------*/
 
 .section-profilePhoto-container{
   width:100%;
   height: 13.75rem;
+}
+
+.title-profile-section-container{
+  width:100%;
+  height: 4rem;
+  background-color:$grey-1;
+  padding-left:$padding-content;
+  padding-right:$padding-content;
+  padding-top:0.6rem;
+  position:relative;
+  margin-top:-0.1rem;
+}
+
+.text-title-profile-section{
+  font-size: 1.875rem;
+  font-weight: bold;
 }
 
 /*===============================================

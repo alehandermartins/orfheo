@@ -19,10 +19,9 @@
 
     sectionHeader.append(_photoContainer);
 
-    ['name','city'].forEach(function(element) {
-      if(profile[element] != null) sectionHeader.append( $('<div>').text(profile[element]));
-    });
-
+    
+    if(profile['name'] != null) sectionHeader.append( $('<div>').addClass('title-profile-section-container').append($('<span>').text(profile['name']).addClass('text-title-profile-section')));
+    
     // return {
     //   render: function(){
     //     return _headerProfileSection;
@@ -59,7 +58,13 @@
     var _callButton = Pard.Widgets.CallButtonArtist(profile);
     var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
 
-    _createdWidget.append(_modifyProfile.render(), _myArtistCallProposals.render(), _callButton.render());
+    var _iconColor = Pard.Widgets.IconColor((profile['color'])).render();
+
+    var _triangle = $('<div>').addClass('modify-section-content-button-container');
+
+    // {'border-top:': '65px solid white'}
+
+    _createdWidget.append(_triangle.css({'border-top': '70px solid'+profile['color']}),_modifyProfile.render().css({color: _iconColor}), _myArtistCallProposals.render(), _callButton.render());
     $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});
 
     return {
