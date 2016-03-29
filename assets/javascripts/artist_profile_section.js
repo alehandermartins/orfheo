@@ -40,18 +40,62 @@
   ns.Widgets.ArtistSectionContent = function(profile){
     var _createdWidget = $('<div>');
 
+    console.log(profile); 
+
     if(profile['bio'] != null){
       var _boxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('informaciones').render()).render();
       var _contentBox = $('<div>').addClass('box-content');
       var _bio = $('<div>').addClass('informations-bio').text(profile['bio']);
       var _contact = $('<div>').addClass('informations-contact');
-
       var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('icon-in-box'), $('<span>').text(profile['city']));
+
+      if(profile['personal_web'] != null){
+        
+        var _webArray = Object.keys(profile['personal_web']).map(function(key){return profile['personal_web'][key]});
+        var _iconSocial;
+       
+        _webArray.forEach(function(elem){
+          if (elem['provider'] == 'my_web'){
+            var _iconLink = Pard.Widgets.IconManager('my_web').render().addClass('icon-in-box');
+            var _url = elem['url'];
+            var _link = $('<a>').attr({
+              href: elem['url'],
+              target: '_blanck'            
+            });
+            ['http://', 'https://', 'www.'].forEach(function(string){
+              if(_url.indexOf(string) > -1) {
+                console.log(_url.indexOf(string));
+                _url  = _url.substring(string.length);
+              }
+            })
+            _link.text(_url);
+            _contact.append($('<div>').append(_iconLink, _link));
+          }
+          else{
+            var _iconSocial = Pard.Widgets.IconManager('icon_social').render().addClass('icon-in-box');
+            var _iconImg = Pard.Widgets.IconManager(elem['provider']).render();
+            var _url = elem['url'];
+            var _iconLink = $('<a>').attr({
+              href: elem['url'],
+              target: '_blanck'            
+            }).append(_iconImg).addClass('icon-social-in-box');
+            _iconSocial.append(_iconLink);
+          }
+        });
+        
+        if (_iconSocial)  _contact.append(_iconSocial); 
+
+      };
+
       _contact.append(_city);
+
       _contentBox.append(_bio, _contact);
       _boxContainer.append(_contentBox);
       _createdWidget.append(_boxContainer);
+    
     }
+
+    var personalWebs;
 
     // if(profile['personal_web'] != null){
     //   var _boxContainer = Pard.Widgets.SectionBoxContainer('Informaciones').render();
