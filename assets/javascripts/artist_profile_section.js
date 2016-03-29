@@ -76,8 +76,12 @@
 
     var _triangle = $('<div>').addClass('modify-section-content-button-container');
 
-    _createdWidget.append(_triangle.css({'border-top': '70px solid'+profile['color']}),_modifyProfile.render().css({color: _iconColor}), _myArtistCallProposals.render(), _callButton.render());
-    $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});
+     _createdWidget.append(
+      _triangle.css({'border-top': '70px solid'+profile['color']}),
+      _modifyProfile.render().css({color: _iconColor}), 
+      _myArtistCallProposals.render(), 
+      _callButton.render()
+    );
 
     return {
       render: function(){

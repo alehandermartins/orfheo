@@ -183,7 +183,6 @@
   ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected){
 
     var profile = Pard.ProfileManager.getProfile(profile_id);
-    console.log(profile);
     profileNav.empty();
     sectionContent.empty();
     productionContent.empty();
@@ -191,7 +190,10 @@
     var _lastselected = $('<div>');
 
     var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile).render();
-    console.log(_profileSection);
+    if(!selected && !(profile.proposals)){
+      var _callButton = Pard.Widgets.CallSpaceButton(profile);
+      $(document).ready(function(){_callButton.render().trigger('click')});
+    }
     _lastselected = _profileSection;
     sectionContent.append(_profileSection);
 

@@ -47,12 +47,12 @@ Pard.ProfileManager = {
       }
     });
   },
-  addMultimedia: function(data, type, proposal_id){
+  addProposalMultimedia: function(data, type, proposal_id){
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
     proposal[type] = proposal[type] || [];
     proposal[type].push(data);
   },
-  addSpacePhotos: function(data, type, profile_id){
+  addProfileMultimedia: function(data, type, profile_id){
     var profile = Pard.ProfileManager.getProfile(profile_id);
     profile[type] = profile[type] || [];
     profile[type].push(data);
@@ -127,16 +127,32 @@ Pard.Profile = function(profiles){
   var _done = [];
   var _links = [];
 
+  var _managers = {
+    'profile': Pard.ProfileManager.addProfileMultimedia,
+    'proposal': Pard.ProfileManager.addProposalMultimedia
+  }
+
   profiles.forEach(function(profile){
     if('photos' in profile && profile.photos != null){
       profile.photos.forEach(function(photo){
         _links.push({
           media: {
             url: photo,
-            provider: 'cloudinarySpacePhotos',
+            provider: 'cloudinary',
             type: 'image'
           },
-          id: profile.profile_id
+          id: profile.profile_id,
+          elementClass: 'profile'
+        });
+      });
+    }
+
+    if('links' in profile && profile.links != null){
+      Object.keys(profile.links).map(function(index){
+        _links.push({
+          media: profile.links[index],
+          id: profile.profile_id,
+          elementClass: 'profile'
         });
       });
     }
@@ -151,7 +167,8 @@ Pard.Profile = function(profiles){
                 provider: 'cloudinary',
                 type: 'image'
               },
-              id: proposal.proposal_id
+              id: proposal.proposal_id,
+              elementClass: 'proposal'
             });
           });
         }
@@ -160,7 +177,8 @@ Pard.Profile = function(profiles){
           Object.keys(proposal.links).map(function(index){
             _links.push({
               media: proposal.links[index],
-              id: proposal.proposal_id
+              id: proposal.proposal_id,
+              elementClass: 'proposal'
             });
           });
         }
@@ -168,83 +186,75 @@ Pard.Profile = function(profiles){
     }
   });
 
-  var _cloudinarySpacePhotos = function(link, id){
-    var _img = $.cloudinary.image(link['url'],
-      { format: 'jpg', width: 750, height: 220,
-      crop: 'fill', effect: 'saturation:50' });
-    Pard.ProfileManager.addSpacePhotos(_img, link['type'], id);
-    _done.push(link);
-    _display();      
-  }
 
-  var _cloudinary = function(link, id){
+  var _cloudinary = function(link, id, elementClass){
     var _img = $.cloudinary.image(link['url'],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
-    Pard.ProfileManager.addMultimedia(_img[0], link['type'], id);
+    console.log(_managers);
+    _managers[elementClass](_img[0], link['type'], id);
     _done.push(link);
     _display();      
   }
 
   //Youtube, Vimeo, Flickr, Twitter, Soundcloud
-  var _oembed = function(link, id){
+  var _oembed = function(link, id, elementClass){
     $.getJSON("https://noembed.com/embed?callback=?",
       {"format": "json", "url": link['url']}, function (data) {
-      Pard.ProfileManager.addMultimedia(data.html, link['type'], id);
-      console.log(data);
+      _managers[elementClass](data.html, link['type'], id);
       _done.push(link);
       _display();
     });
   }
 
-  var _spotify = function(link, id){
+  var _spotify = function(link, id, elementClass){
     //spotify_url = 'http://open.spotify.com/track/2TpxZ7JUBn3uw46aR7qd6V';
     var audio_id = link['url'].split('/').pop();
     var _spotifyMedia = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + audio_id, 'frameborder': '0', 'allowtransparency': 'true'});
-    Pard.ProfileManager.addMultimedia(_spotifyMedia, link['type'], id);
+    _managers[elementClass](_spotifyMedia, link['type'], id);
     _done.push(link);
     _display();
   }
 
-  var _facebook = function(link, id){
+  var _facebook = function(link, id, elementClass){
     var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
     _facebookMedia.css('width', '350'); //It won't go below 350
-    Pard.ProfileManager.addMultimedia(_facebookMedia, link['type'], id);
+    _managers[elementClass](_facebookMedia, link['type'], id);
     _done.push(link);
     _display();
   }
 
-  var _instagram = function(link, id){
+  var _instagram = function(link, id, elementClass){
     var _instagramphoto = $('<a>').attr('href', link['url']);
     var _instagramMedia = $('<blockquote>').addClass('instagram-media').append(_instagramphoto);
-    Pard.ProfileManager.addMultimedia(_instagramMedia, link['type'], id);
+    _managers[elementClass](_instagramMedia, link['type'], id);
     _done.push(link);
     _display();
   }
 
-  var _pinterest = function(link, id){
+  var _pinterest = function(link, id, elementClass){
     var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url']});
-    Pard.ProfileManager.addMultimedia(_pinterestMedia, link['type'], id);
+    _managers[elementClass](_pinterestMedia, link['type'], id);
     _done.push(link);
     _display();
   }
 
-  var _vine = function(link, id){
+  var _vine = function(link, id, elementClass){
     if(link['url'].split('/').pop() != 'simple') link['url'] += '/embed/simple';
     var _vineMedia = $('<iframe>').attr('src', link['url']);
-    Pard.ProfileManager.addMultimedia(_vineMedia, link['type'], id);
+    _managers[elementClass](_vineMedia, link['type'], id);
     _done.push(link);
     _display();
   }
 
-  var _bandCamp = function(link, id){
+  var _bandCamp = function(link, id, elementClass){
     //_bandCampiframe = '<iframe style="border: 0; width: 100%; height: 120px;" src="https://bandcamp.com/EmbeddedPlayer/album=1364804381/size=large/bgcol=ffffff/linkcol=0687f5/tracklist=false/artwork=small/track=1928405551/transparent=true/" seamless><a href="http://6ixtoys.bandcamp.com/album/6ix-toys">6ix Toys by 6ix Toys</a></iframe>'
     var _bandCamp_url = '';
     link['url'].split('"').forEach(function(string){
       if(string.match('EmbeddedPlayer')){
         _bandCamp_url = string;
         var _bandCampMedia = $('<iframe>').attr({'style': 'border: 0; width: 100%; height: 120px;', 'src': _bandCamp_url});
-        Pard.ProfileManager.addMultimedia(_bandCampMedia, link['type'], id);
+        _managers[elementClass](_bandCampMedia, link['type'], id);
       }
     });
     _done.push(link);
@@ -252,7 +262,6 @@ Pard.Profile = function(profiles){
   }
 
   var _providers = {
-    'cloudinarySpacePhotos': _cloudinarySpacePhotos,
     'cloudinary': _cloudinary,
     'youtube': _oembed,
     'vimeo': _oembed,
@@ -277,13 +286,10 @@ Pard.Profile = function(profiles){
     }
   }
 
-
   if(_links.length == 0) _display();
 
-
-
   _links.forEach(function(link){
-    _providers[link['media']['provider']](link['media'], link['id']);
+    _providers[link['media']['provider']](link['media'], link['id'], link['elementClass']);
   });
 
   $('body').append(_whole);
