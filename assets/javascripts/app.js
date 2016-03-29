@@ -20,17 +20,6 @@ Pard.ProfileManager = {
     });
     return _proposal;
   },
-  getProfileFromProposal: function(proposal_id){
-    var _profile = '';
-    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
-      if (!(_profile) && 'proposals' in profile){
-        profile.proposals.forEach(function(proposal){
-          if(proposal.proposal_id == proposal_id) _profile = profile;
-        });
-      }
-    });
-    return _profile;
-  },
   getProfileId: function(proposal_id){
     var _profile_id = '';
     Pard.CachedProfiles['my_profiles'].forEach(function(profile){

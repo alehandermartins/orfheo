@@ -23,7 +23,7 @@
   ns.Widgets.ModifyProductionMessage = function(proposal_id, sectionContent){
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
-   
+
     if (proposal['links'] != false && proposal['links'] != null){
       var _array = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
       proposal['links'] = _array;
@@ -138,12 +138,14 @@
       'Puedes añadir contenidos multimedía en forma de videos o imagenes desde youtube, vimeo, vine, facebook, pintarest, instagram, flickr... Copia y pega el enlace correspondiente y dale un titúlo.'
       ).addClass('message-form');
 
-
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
+    var profile_id = Pard.ProfileManager.getProfileId(proposal_id);
 
+    _submitForm['proposal_id'] = proposal.proposal_id;
+    _submitForm['profile_id'] = profile_id;
 
     var _thumbnail = $('<div>');
     var _url = [];
@@ -173,6 +175,11 @@
       });
     }
 
+    Object.keys(proposal).forEach(function(key){
+      console.log(key);
+      _submitForm[key] = proposal[key];
+    });
+
     var _folder = 'photos';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
 
@@ -181,9 +188,11 @@
     _formContainer.append(_photosContainer);
 
     var _send = function(photos, links){
-      proposal['photos'] = photos;
-      proposal['links'] = links;
-      Pard.Backend.modifyProduction(proposal, function(data){
+      _submitForm['photos'] = photos;
+      _submitForm['links'] = links;
+      console.log(_submitForm);
+      console.log('remiau');
+      Pard.Backend.modifyProduction(_submitForm, function(data){
         Pard.Events.ModifyProduction(data, sectionContent);
       });
     }
@@ -192,21 +201,23 @@
    _inputMultimedia.setVal(proposal['links']);
     _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimedia.render()));
 
-    
     _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
 
     var _closepopup = {};
 
     submitButton.on('click',function(){
+      console.log(proposal);
+      console.log('miau');
       var _links = _inputMultimedia.getVal();
       _closepopup();
+
       if(_photos.dataLength() == false){
         _send(_url, _links);
       } 
       else{
         _photos.submit();
       }
-    }); 
+    });
    
     _photos.render().bind('cloudinarydone', function(e, data){
       _url.push(data['result']['public_id']);

@@ -93,7 +93,7 @@
       
       _reorderedProfiles.forEach(function(profile, index) {
         if(!(index)){ 
-          Pard.Widgets.ProductionsNavigation(profile, _profileNav, sectionContent,_productionContent);
+          Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent);
           
         }
         else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
@@ -180,8 +180,10 @@
     } 
   }
 
-  ns.Widgets.ProductionsNavigation = function(profile, profileNav, sectionContent, productionContent, selected){
+  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected){
 
+    var profile = Pard.ProfileManager.getProfile(profile_id);
+    console.log(profile);
     profileNav.empty();
     sectionContent.empty();
     productionContent.empty();
