@@ -689,79 +689,130 @@ Aside
   display: block;
   background: $content-background;
   margin-top: $pard-grid-spacing;
-  padding: 1.5rem 0.3rem 1.1rem 0.3rem;
+  padding: 0.2rem;
 }
+
+
+.name-column, .icon-column{
+  display: inline-block;
+  vertical-align: middle; 
+}
+
+.name-column{
+  padding: 0rem 0.2rem 0rem 0.2rem;
+  width: 8rem;
+ 
+}
+
+.icon-column{
+  padding: 0.4rem 0.2rem 0.4rem 0.2rem;
+  width:2.9rem;
+}
+
+// .name-column, .icon-column{
+//   display: inline-block;
+//   vertical-align: top; 
+// }
+
+// .name-column{
+//   padding: 0.7rem 0.2rem 0rem 0.2rem;
+//   width: 8.5rem;
+// }
+
+// .profile-name-column{ //cancelar de diseño inicial
+//   padding-bottom: 0.4rem;
+// }
+
+// .icon-column{
+//   padding: 0.4rem 0.2rem 0.4rem 0.2rem;
+//   width:2.4rem;
+// }
+
 
 .other-profiles-nav-container{
   display: block;  
+  margin-top: $pard-grid-spacing;
+  background: $content-background;
+  @include border-radius($layout-border-radius); 
+  padding:0.2rem;
 }
 
-
-.profile-nav-element-container, .profile-selected-container{
-  position: relative;
-  width: 100%;
+.verticalAlign{
+  @include vertical-align();
 }
 
 
 .profile-nav-element-container{
-  @include border-radius($layout-border-radius);
-  padding: 0.9rem 0.3rem 0.01rem 0.3rem;
-  margin-top: $pard-grid-spacing;
-  background: $content-background;
- }
-
-// .profile-selected-container{
-//   padding-bottom: 1.5rem;
-// }
-
-.productions-content{
-  padding-top: 0.4rem;
-  border-top: 1px solid $grey-4; 
-  margin-top: 1.8rem;
+  position: relative;
+  width: 100%;
 }
 
-.profile-nav-circle, 
-.profile-nav-circle-selected{
-  cursor: pointer; 
+.profile-selected-container{
+  background: $grey-1;
+  padding: 0.2rem 0.1rem;
   position: relative;
-  margin: 0 auto;
+  width: 100%;
+  cursor: pointer;
+  min-height: 3.75rem;
+  display: block;
+}
+
+.profile-nav-circle-selected{
+  @include pardCircle(2.5rem);
+  position:relative;
 }
 
 .profile-nav-circle{
-    @include pardCircle(2.2rem);
+  @include pardCircle(2.5rem);
+  position:relative;
 }
 
-.profile-nav-circle-selected{
-    @include pardCircle(3rem);
-}
+// .profile-nav-circle-selected,.profile-nav-circle{
+//   @include pardCircle(2rem);
+//   position:relative;
+// }
+
 
 .profile-nav-element-icon{
   @include absolute-center;
 }
 
-.profile-nav-element-name, .profile-nav-name-selected{
-  text-align: center;
-  margin-top: 0.5rem;
+.profile-nav-name-selected, .profile-nav-name-element, .profile-nav-production-name{
+  line-height: 1.3rem;
+  margin-bottom: 0;
   cursor: pointer;
 }
 
-.profile-nav-element-name{
-  line-height: 1.1rem;
-  color: #6f6f6f;  
+
+.nav-list-container{
+  margin-top: 0.2rem;
 }
 
-.profile-nav-name-selected{
-  line-height: 1.3rem;
-  margin-top: 1rem;
+// .nav-list-container{
+//   padding-bottom:0.4rem;
+// }
+
+.nav-icon-production-container{
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
-.productions-list-item{
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+// .nav-icon-production-container{
+//   height: 2rem;
+//   width: 2rem;
+// }
+
+.profile-nav-element-container, .production-nav-element-container{
+  padding: 0.2rem 0.1rem;
+  position: relative;
+  width: 100%;
+  min-height: 3.75rem;
+  display: block;
 }
 
-.production-item{
-  cursor:pointer;
+.profile-nav-element-container{
+  cursor: pointer;
+
 }
 
 .text-link{

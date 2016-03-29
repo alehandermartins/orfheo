@@ -93,7 +93,6 @@
     }
   };
 
-
   ns.Events.ModifyProduction = function(data, sectionContent){
     if (data['status'] == 'success'){
       Pard.ProfileManager.modifyProduction(data.proposal);

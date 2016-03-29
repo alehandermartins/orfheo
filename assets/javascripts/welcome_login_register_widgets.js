@@ -227,14 +227,12 @@
       if (_ckb.is(':checked')) {
             // save username and password
             localStorage.usrname = emailField.getVal();
-            console.log(localStorage.usrname);
             localStorage.pass = passwdField.getVal();
             localStorage.chkbx = _ckb.val();
         } else {
             localStorage.usrname = '';
             localStorage.pass = '';
             localStorage.chkbx = '';
-            console.log('empty');
         }
     }
 

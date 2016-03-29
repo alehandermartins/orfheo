@@ -118,21 +118,31 @@
   ns.Widgets.ProfilesNavigationSelected = function(profile, callback){
 
     var _createdWidget = $('<div>').addClass('profile-selected-container');
+    var _circleColumn = $('<div>').addClass('icon-column');
+
     var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': profile['color']});
-    var _name = $('<h6>').addClass('profile-nav-name-selected selected-element').text(profile['name']);
-    _name.hover(function(){$(this).addClass('text-link')},function(){$(this).removeClass('text-link')});
-    _profileCircle.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
-    _name.click(function(){_profileCircle.trigger('click')});
-    _profileCircle.click(function(){
+    var _nameColumn = $('<div>').addClass('name-column profile-name-column');
+    var _name = $('<p>').attr('href','/users/profiles/'+profile.profile_id).addClass('profile-nav-name-selected selected-element').text(profile['name']);
+    
+    _createdWidget.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
+
+    // _name.hover(function(){$(this).addClass('text-link')},function(){$(this).removeClass('text-link')});
+    // _profileCircle.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
+    // _name.click(function(){_profileCircle.trigger('click')});
+    _createdWidget.click(function(){
       $('.selected-element').removeClass('selected-element');
       _name.addClass('selected-element');
       callback();      
     });
+
     var _icon = $('<div>').addClass('profile-nav-element-icon').html('P');
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
 
-    _createdWidget.append(_profileCircle.append(_icon), _name);
+    _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
+    _nameColumn.append(_name);
+
+    _createdWidget.append(_circleColumn, _nameColumn);
 
     return {
       render: function() {
@@ -142,12 +152,15 @@
   }
 
   ns.Widgets.ProfilesNavigationElement = function(profile, callback){
-    var _createdWidget = $('<div>').addClass('profile-nav-element-container');
+    var _createdWidget = $('<div>').addClass('nav-list-container');
     var _profileCircle = $('<div>').addClass('profile-nav-circle').css({'background-color': profile['color']});
-    var _name = $('<p>').addClass('profile-nav-element-name').text(profile['name']);
-    _name.hover(function(){$(this).addClass('text-link')},function(){$(this).removeClass('text-link')});
+    var _circleColumn = $('<div>').addClass('icon-column');
+    var _nameColumn = $('<div>').addClass('name-column profile-name-column');
+    var _name = $('<p>').addClass('profile-nav-name-element').text(profile['name']);
+    var _elementContainer = $('<div>').addClass('profile-nav-element-container');
+    _elementContainer.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
     _profileCircle.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
-    _name.click(function(){_profileCircle.trigger('click')});
+    _elementContainer.click(function(){_profileCircle.trigger('click')});
     _profileCircle.click(function(){
       $('.selected-element').removeClass('selected-element');
       _name.addClass('selected-element');
@@ -156,8 +169,9 @@
     var _icon = $('<div>').addClass('profile-nav-element-icon').html('P');
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
-    
-    _createdWidget.append(_profileCircle.append(_icon), _name);
+    _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
+    _nameColumn.append(_name);
+    _createdWidget.append(_elementContainer.append(_circleColumn, _nameColumn));
 
     return {
       render: function() {
@@ -188,7 +202,7 @@
 
     var _proposals = [];
 
-    (profile.proposals) ? productionContent.addClass('productions-content') : productionContent.removeClass('productions-content');
+    (profile.proposals) ? productionContent.addClass('nav-list-container') : productionContent.removeClass('nav-list-container');
     if (profile.proposals) _proposals = profile.proposals;
     _proposals.forEach(function(proposal, index){
       var proposal_id = proposal.proposal_id;
@@ -202,18 +216,20 @@
       if(selected == proposal_id) _lastselected = _myProposal;
       else{_myProposal.hide();}
 
-      var _productionItem = $('<span>');
-      var _icon = $('<span>').addClass('material-icons').html('&#xE405;');
-      var _title = $('<span>').text(' '+proposal['title']);
-      _productionItem.append(_icon, _title).addClass('production-item').click(function(){ 
+      var _productionItem = $('<div>').addClass('production-nav-element-container');
+      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<span>').addClass('material-icons verticalAlign').html('&#xE405;')));
+      var _nameColumn = $('<div>').addClass('name-column');
+      var _name = $('<p>').text(' '+proposal['title']).addClass('profile-nav-production-name');
+      _productionItem.append(_iconColumn, _nameColumn.append(_name));
+      _name.click(function(){ 
         $('.selected-element').removeClass('selected-element');
-        _title.addClass('selected-element');
+        _name.addClass('selected-element');
         _lastselected.hide();
         _myProposal.show();
         _lastselected = _myProposal;
       });
-      _productionItem.hover(function(){_title.addClass('text-link')}, function(){_title.removeClass('text-link ')});
-       productionContent.append($('<div>').addClass('row productions-list-item').append(_productionItem));
+      _name.hover(function(){_name.addClass('text-link')}, function(){_name.removeClass('text-link ')});
+      productionContent.append(_productionItem);
     });
 
     profileNav.append(productionContent);
