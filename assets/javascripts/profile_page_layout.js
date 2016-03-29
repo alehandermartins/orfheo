@@ -122,7 +122,7 @@
 
     var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': profile['color']});
     var _nameColumn = $('<div>').addClass('name-column profile-name-column');
-    var _name = $('<p>').attr('href','/users/profiles/'+profile.profile_id).addClass('profile-nav-name-selected selected-element').text(profile['name']);
+    var _name = $('<p>').addClass('profile-nav-name-selected selected-element').text(profile['name']);
     
     _createdWidget.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
 
@@ -140,7 +140,7 @@
     _icon.css({color: _colorIcon}); 
 
     _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
-    _nameColumn.append(_name);
+    _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render());
 
     _createdWidget.append(_circleColumn, _nameColumn);
 
@@ -170,7 +170,7 @@
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
     _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
-    _nameColumn.append(_name);
+    _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render());
     _createdWidget.append(_elementContainer.append(_circleColumn, _nameColumn));
 
     return {
@@ -219,8 +219,8 @@
       var _productionItem = $('<div>').addClass('production-nav-element-container');
       var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('verticalAlign').append(Pard.Widgets.IconManager(proposal['category']).render().css({'text-align': 'center', display:'block'}))));
       var _nameColumn = $('<div>').addClass('name-column');
-      var _name = $('<p>').text(' '+proposal['title']).addClass('profile-nav-production-name');
-      _productionItem.append(_iconColumn, _nameColumn.append(_name));
+      var _name = $('<p>').text(proposal['title']).addClass('profile-nav-production-name');
+      _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render()));
       _name.click(function(){ 
         $('.selected-element').removeClass('selected-element');
         _name.addClass('selected-element');

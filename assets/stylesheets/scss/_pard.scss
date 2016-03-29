@@ -721,7 +721,7 @@ Aside
 .name-column{
   padding: 0rem 0.2rem 0rem 0.2rem;
   width: 8.2rem;
-  font-size: $smallSize;
+  // font-size: $smallSize;
 }
 
 .icon-column{
@@ -799,6 +799,7 @@ Aside
 
 .profile-nav-name-selected, .profile-nav-name-element, .profile-nav-production-name{
   line-height: 1.3rem;
+  font-size: $smallSize;
   margin-bottom: 0;
   cursor: pointer;
 }

@@ -242,27 +242,21 @@
     }
   }
 
-  ns.Widgets.IconManager = function(icon_name){
+  ns.Widgets.FitInBox = function(textBox, max_width, max_height){
+    var _container = $('<div>').css({
+      width: max_width+'px'
+    })
+    $('body').append(_container.append((textBox)));
+    while (textBox.height()>max_height){
+      var _text = textBox.text();
+      var _positionLastWord = _text.lastIndexOf(" ");
+      _text = _text.substring(0, _positionLastWord);
+      textBox.text(_text+'...');
+    }
 
-    var _iconDictionary = {
-      artist: 'A',
-      space:'S',
-      music:'M',
-      arts: 'AE',
-      expo: 'E',
-      poetry: 'P',
-      audiovisual: 'AV',
-      street_art: 'SA',
-      workshop: 'T',
-      other: 'O',
-      modify_section_content: 'MC'
-    };
-
-    var _createdWidget = $('<span>').addClass('material-icons').html(_iconDictionary[icon_name]);
-
-    return {
+    return{
       render: function(){
-        return _createdWidget;
+        return textBox
       }
     }
   }
