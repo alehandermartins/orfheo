@@ -21,7 +21,7 @@
     var _asideContent = $('<div>');
     var _section = $('<section>').addClass('grid-section');
     var _sectionContainer = $('<div>').addClass('section-content');
-    var _sectionContent = $('<div>');
+    var _sectionContent = $('<div>').attr('id','_sectionContent');
     var _sectionHeader = $('<div>');
 
     Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, _sectionContent);
@@ -93,7 +93,7 @@
       
       _reorderedProfiles.forEach(function(profile, index) {
         if(!(index)){ 
-          Pard.Widgets.ProductionsNavigation(profile, _profileNav, sectionContent,_productionContent);
+          Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent);
           
         }
         else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
@@ -180,8 +180,10 @@
     } 
   }
 
-  ns.Widgets.ProductionsNavigation = function(profile, profileNav, sectionContent, productionContent, selected){
+  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected){
 
+    var profile = Pard.ProfileManager.getProfile(profile_id);
+    console.log(profile);
     profileNav.empty();
     sectionContent.empty();
     productionContent.empty();
@@ -189,6 +191,7 @@
     var _lastselected = $('<div>');
 
     var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile).render();
+    console.log(_profileSection);
     _lastselected = _profileSection;
     sectionContent.append(_profileSection);
 
@@ -207,11 +210,7 @@
     _proposals.forEach(function(proposal, index){
       var proposal_id = proposal.proposal_id;
       var _myProposal = $('<div>'); 
-      _myProposal.append(
-        Pard.Widgets.MyArtistProductionsContent(proposal_id).render(),
-        Pard.Widgets.ModifyProduction(proposal_id, sectionContent).render(),
-        Pard.Widgets.MultimediaManager(proposal_id, sectionContent).render()
-      );
+      _myProposal.append(Pard.Widgets.MyArtistProductionsContent(proposal_id).render());
       sectionContent.append(_myProposal);
       if(selected == proposal_id) _lastselected = _myProposal;
       else{_myProposal.hide();}

@@ -93,11 +93,11 @@
     }
   };
 
-  ns.Events.ModifyProduction = function(data, sectionContent){
+  ns.Events.ModifyProduction = function(data){
     if (data['status'] == 'success'){
       Pard.ProfileManager.modifyProduction(data.proposal);
-      var _profile = Pard.ProfileManager.getProfileFromProposal(data.proposal.proposal_id);
-      Pard.Widgets.ProductionsNavigation(_profile, $('#_profileNav'), sectionContent, $('#_productionsContent'), data.proposal.proposal_id);
+      var _profile_id = Pard.ProfileManager.getProfileId(data.proposal.proposal_id);
+      Pard.Widgets.ProductionsNavigation(_profile_id, $('#_profileNav'), $('#_sectionContent'), $('#_productionsContent'), data.proposal.proposal_id);
     }
     else{
       if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){

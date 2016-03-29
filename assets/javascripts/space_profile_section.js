@@ -16,19 +16,6 @@
     var _createdWidget = $('<div>');
     var _multimediaContainer = $('<div>');
 
-    if (profile.links){
-      var _linksArray = Object.keys(profile['links']).map(function(key){return profile['links'][key]});
-      _linksArray.forEach(function(obj){
-        var _webTitle = $('<div>').text('Titulo link: ' + obj['web_title']);
-        var _link = $('<a>').attr({
-          href: obj['link'],
-          target: '_blank'
-        }).text(obj['link']);
-        var _multimediaElement = $('<div>').append(_webTitle, _link); 
-        _multimediaContainer.append(_multimediaElement);
-      }); 
-    };
-
     ['category', 'bio'].forEach(function(element) {
       if(profile[element] != null) _createdWidget.append( $('<div>').text(profile[element]));
     });
@@ -38,9 +25,21 @@
       if (profile['address'][key]) _addressContainer.append($('<div>').text(key + ': '+ profile['address'][key]));
     }
 
+    if(profile.video){
+      profile.video.forEach(function(video){
+        _multimediaContainer.append(video);
+      });
+    }
+
     if(profile.image){
       profile.image.forEach(function(image){
         _multimediaContainer.append(image);
+      });
+    }
+
+    if(profile.audio){
+      profile.audio.forEach(function(audio){
+        _multimediaContainer.append(audio);
       });
     }
 
@@ -49,8 +48,14 @@
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
     var _callButton = Pard.Widgets.CallSpaceButton(profile);
     var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
+    var _multiMediaManager = Pard.Widgets.MultimediaSpaceManager(profile);
 
-    _createdWidget.append(_modifyProfile.render(), _mySpaceCallProposals.render(), _callButton.render());
+    _createdWidget.append(
+      _modifyProfile.render(),
+      _mySpaceCallProposals.render(), 
+      _callButton.render(),
+      _multiMediaManager.render()
+    );
 
     $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});
 

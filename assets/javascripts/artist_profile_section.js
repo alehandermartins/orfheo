@@ -114,7 +114,19 @@
       });
     }
 
-    _createdWidget.append(_title, _description, _shortDescription, _duration, _children, _multimediaContainer);
+    var _modifyProduction = Pard.Widgets.ModifyProduction(proposal);
+    var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
+
+    _createdWidget.append(
+      _title, 
+      _description, 
+      _shortDescription, 
+      _duration, 
+      _children, 
+      _multimediaContainer, 
+      _modifyProduction.render(), 
+      _multiMediaManager.render()
+    );
 
     return {
       render: function(){
