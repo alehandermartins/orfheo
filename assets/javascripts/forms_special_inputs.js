@@ -322,9 +322,9 @@
       }
     }
     
-  } 
+  }
 
-   ns.Widgets.InputPersonalWeb = function(){
+  ns.Widgets.InputPersonalWeb = function(){
 
     var _createdWidget = $('<div>');    
     var _results = [];

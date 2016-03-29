@@ -51,7 +51,7 @@
     _form = _form.render();
 
     for(var field in _form){
-      if(proposal[field]) _form[field]['input'].setVal(proposal[field]);
+      if(proposal[field] && field != 'photos') _form[field]['input'].setVal(proposal[field]);
     };
     _form['category'].input.disable();
 
@@ -69,79 +69,29 @@
       return _check;    
     };
 
-    var _getVal = function(url){
+    var _getVal = function(){
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['photos'] = url;
+      _submitForm['photos'] = proposal['photos'];
       return _submitForm;
     }
 
-    var _send = function(url){
-      Pard.Backend.modifyProduction(_getVal(url), function(data){
+    var _send = function(){
+      Pard.Backend.modifyProduction(_getVal(), function(data){
         Pard.Events.ModifyProduction(data, sectionContent);
       });
     }
-
-    var _thumbnail = $('<div>');
-    var _url = [];
     
-    if (proposal.photos){
-      if('photos' in proposal && proposal.photos != null){
-        proposal.photos.forEach(function(photo){
-          _url.push(photo);
-          var _container = $('<span>');
-          var _previousPhoto = $.cloudinary.image(photo,
-            { format: 'jpg', width: 50, height: 50,
-              crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-          _createdWidget.append(_previousPhoto);
-          var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-            'position': 'relative',
-            'bottom': '20px',
-            'cursor': 'pointer'
-          });
-
-          _icon.on('click', function(){
-            _url.splice(_url.indexOf(photo), 1);
-            _photos.setUrl(_url);
-            _container.empty();
-          });
-
-          _container.append(_previousPhoto, _icon);
-          _thumbnail.append(_container);
-        });
-      }
-    }
-
-    var _folder = user_id + '/' + profile_id + '/photos';
-    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
-
-    var _photosLabel = $('<label>').text('Fotos de tu arte').css({
-      'padding-top': '0.5rem'
-    });
-    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).addClass('photos-modifyProduction');
-
     for(var field in _form){
       if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProduction').append(_form[field]['label'].render().append(_form[field]['input'].render())));
     };
 
-    _formContainer.append(_photosContainer);
-
     var _closepopup = {};
 
     submitButton.on('click',function(){
-      if(_filled() == true){
         _closepopup();
-        if(_photos.dataLength() == false) _send(_url);
-        else{
-          _photos.submit();
-        }
-      }
-    });
-
-    _photos.render().bind('cloudinarydone', function(e, data){
-      _url.push(data['result']['public_id']);
-      if(_url.length >= _photos.dataLength()) _send(_url);
+        _send();
     });
 
     _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
@@ -194,7 +144,44 @@
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    var _send = function(links){
+
+    var _thumbnail = $('<div>');
+    var _url = [];
+
+    if('photos' in proposal && proposal.photos != null){
+      proposal.photos.forEach(function(photo){
+        _url.push(photo);
+        var _container = $('<span>');
+        var _previousPhoto = $.cloudinary.image(photo,
+          { format: 'jpg', width: 50, height: 50,
+            crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+        console.log(_formContainer);
+        var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+          'position': 'relative',
+          'bottom': '20px',
+          'cursor': 'pointer'
+        });
+
+        _icon.on('click', function(){
+          _url.splice(_url.indexOf(photo), 1);
+          _photos.setUrl(_url);
+          _container.empty();
+        });
+
+        _container.append(_previousPhoto, _icon);
+        _thumbnail.append(_container);
+      });
+    }
+
+    var _folder = 'photos';
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
+
+    var _photosContainer = $('<div>').append(_photos.render(), _thumbnail);
+
+    _formContainer.append(_photosContainer);
+
+    var _send = function(photos, links){
+      proposal['photos'] = photos;
       proposal['links'] = links;
       Pard.Backend.modifyProduction(proposal, function(data){
         Pard.Events.ModifyProduction(data, sectionContent);
@@ -205,16 +192,29 @@
    _inputMultimedia.setVal(proposal['links']);
     _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimedia.render()));
 
+    
+    _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
+
     var _closepopup = {};
-    var _checkable = ['twitter', 'youtube', 'vimeo', 'flickr', 'soundcloud'];
 
     submitButton.on('click',function(){
       var _links = _inputMultimedia.getVal();
-      _send(_links);
       _closepopup();
+      if(_photos.dataLength() == false){
+        _send(_url, _links);
+      } 
+      else{
+        _photos.submit();
+      }
     }); 
    
-    _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
+    _photos.render().bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+      if(_url.length >= _photos.dataLength()){
+        var _links = _inputMultimedia.getVal();
+        _send(_url, _links);
+      } 
+    });
 
     return {
       render: function(){
