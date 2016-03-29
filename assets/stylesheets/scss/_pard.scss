@@ -761,6 +761,9 @@ Aside
   @include vertical-align();
 }
 
+.production-icon-container{
+  height:2.2rem;
+}
 
 .profile-nav-element-container{
   position: relative;
@@ -861,12 +864,45 @@ Profile Section
   padding-right:$padding-content;
   padding-top:0.6rem;
   position:relative;
-  margin-top:-0.1rem;
+  margin-top:-0.2rem;
 }
 
 .text-title-profile-section{
   font-size: 1.875rem;
   font-weight: bold;
+}
+
+.section-box-container{
+  border: 1px solid $grey-2;
+  @include border-radius($element-border-radius);
+  margin-top: 0.75rem;
+}
+
+.title-box-container{
+  height: 3rem;
+  background: $grey-1;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 0.4rem 0.75rem;
+}
+
+.informations-bio, .informations-contact{
+  display: inline-block;
+  vertical-align: top;
+}
+
+.informations-bio{
+  width: 60%;
+  padding: 0.75rem;
+}
+
+.informations-contact{
+  width: 40%;
+  padding: 0.75rem;
+}
+
+.icon-in-box{
+  margin-right: 0.75rem;
 }
 
 /*===============================================

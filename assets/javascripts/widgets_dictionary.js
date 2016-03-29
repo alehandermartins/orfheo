@@ -16,7 +16,9 @@
       street_art: 'SA',
       workshop: 'T',
       other: 'O',
-      modify_section_content: 'MC'
+      modify_section_content: 'MC',
+      informaciones: 'IN',
+      city_artist: 'CT'
     };
 
     var _createdWidget = $('<span>').addClass('material-icons').html(_iconDictionary[icon_name]);

@@ -40,9 +40,23 @@
   ns.Widgets.ArtistSectionContent = function(profile){
     var _createdWidget = $('<div>');
 
-    ['bio', 'personal_web'].forEach(function(element) {
-      if(profile[element] != null) _createdWidget.append( $('<div>').text(profile[element]));
-    });
+    if(profile['bio'] != null){
+      var _boxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('informaciones').render()).render();
+      var _contentBox = $('<div>').addClass('box-content');
+      var _bio = $('<div>').addClass('informations-bio').text(profile['bio']);
+      var _contact = $('<div>').addClass('informations-contact');
+
+      var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('icon-in-box'), $('<span>').text(profile['city']));
+      _contact.append(_city);
+      _contentBox.append(_bio, _contact);
+      _boxContainer.append(_contentBox);
+      _createdWidget.append(_boxContainer);
+    }
+
+    // if(profile['personal_web'] != null){
+    //   var _boxContainer = Pard.Widgets.SectionBoxContainer('Informaciones').render();
+    //   _createdWidget.append(profile[element]);
+    // }
 
     if('personal_web' in profile && profile.personal_web != null){
       var _personal_webs = []
@@ -61,8 +75,6 @@
     var _iconColor = Pard.Widgets.IconColor((profile['color'])).render();
 
     var _triangle = $('<div>').addClass('modify-section-content-button-container');
-
-    // {'border-top:': '65px solid white'}
 
     _createdWidget.append(_triangle.css({'border-top': '70px solid'+profile['color']}),_modifyProfile.render().css({color: _iconColor}), _myArtistCallProposals.render(), _callButton.render());
     $(document).ready(function(){if (!(profile.proposals)) _callButton.render().trigger('click')});

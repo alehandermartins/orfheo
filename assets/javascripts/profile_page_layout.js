@@ -216,7 +216,7 @@
       else{_myProposal.hide();}
 
       var _productionItem = $('<div>').addClass('production-nav-element-container');
-      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('verticalAlign').append(Pard.Widgets.IconManager(proposal['category']).render().css({'text-align': 'center', display:'block'}))));
+      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(proposal['category']).render().css({'text-align': 'center', display:'block'}))));
       var _nameColumn = $('<div>').addClass('name-column');
       var _name = $('<p>').text(proposal['title']).addClass('profile-nav-production-name');
       _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render()));
@@ -267,6 +267,20 @@
         return profiles_map[type];
       }
     }
+  }
+
+  ns.Widgets.SectionBoxContainer = function(title, icon){
+    var _boxContainer = $('<div>').addClass('section-box-container');
+    var _titleContainer = $('<div>').addClass('title-box-container');
+    _titleContainer.append($('<div>').append(icon.addClass('icon-in-box'), $('<span>').text(title)));
+    _boxContainer.append(_titleContainer);
+
+    return{
+      render: function(){
+        return _boxContainer;
+      }
+    }
+
   }
 
 
