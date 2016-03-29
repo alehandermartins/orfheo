@@ -242,5 +242,30 @@
     }
   }
 
+  ns.Widgets.IconManager = function(icon_name){
+
+    var _iconDictionary = {
+      artist: 'A',
+      space:'S',
+      music:'M',
+      arts: 'AE',
+      expo: 'E',
+      poetry: 'P',
+      audiovisual: 'AV',
+      street_art: 'SA',
+      workshop: 'T',
+      other: 'O',
+      modify_section_content: 'MC'
+    };
+
+    var _createdWidget = $('<span>').addClass('material-icons').html(_iconDictionary[icon_name]);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
 
 }(Pard || {}));

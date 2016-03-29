@@ -5,7 +5,7 @@
 
   ns.Widgets.ModifyProfile = function(profile){
 
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica el perfil');
+    var _caller = $('<button>').addClass('modify-content-button').attr({type: 'button'}).append(Pard.Widgets.IconManager('modify_section_content').render());
     var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tus datos', function(){
