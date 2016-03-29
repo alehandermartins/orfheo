@@ -720,13 +720,13 @@ Aside
 
 .name-column{
   padding: 0rem 0.2rem 0rem 0.2rem;
-  width: 8rem;
+  width: 8.2rem;
   font-size: $smallSize;
 }
 
 .icon-column{
   padding: 0.4rem 0.2rem 0.4rem 0.2rem;
-  width:2.9rem;
+  width:2.7rem;
 }
 
 // .name-column, .icon-column{
@@ -778,12 +778,12 @@ Aside
 }
 
 .profile-nav-circle-selected{
-  @include pardCircle(2.5rem);
+  @include pardCircle(2.2rem);
   position:relative;
 }
 
 .profile-nav-circle{
-  @include pardCircle(2.5rem);
+  @include pardCircle(2.2rem);
   position:relative;
 }
 
@@ -813,8 +813,8 @@ Aside
 // }
 
 .nav-icon-production-container{
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 2.2rem;
+  width: 2.2rem;
 }
 
 // .nav-icon-production-container{
