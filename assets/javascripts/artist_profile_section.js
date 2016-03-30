@@ -21,26 +21,30 @@
 
     
     if(profile['name'] != null) sectionHeader.append( $('<div>').addClass('title-profile-section-container').append($('<span>').text(profile['name']).addClass('text-title-profile-section')));
-    
-    // return {
-    //   render: function(){
-    //     return _headerProfileSection;
-    //   }
-    // }
+ 
   }
 
-  ns.Widgets.ArtistSection = function(sectionHeader, sectionContent, profile_id) {
+  ns.Widgets.ArtistSection = function(sectionHeader, profile_id) {
     
     profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
    
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
+
+    $(document).ready(function(){
+      if(profile.calls == false){
+        Pard.Widgets.CallArtistButton('', profile).render().trigger('click');
+      }
+    });
+
+    var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
+    var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+    $('#main-profile-page').css({'background': _backColor});
+
   }
 
   ns.Widgets.ArtistSectionContent = function(profile){
     var _createdWidget = $('<div>');
-
-    console.log(profile); 
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render();
     var _infoContentBox = $('<div>');
@@ -77,7 +81,7 @@
             }
           })
           _link.text(_url).addClass('informations-contact-text');
-          _contact.append($('<div>').append($('<div>').addClass('informations-contact-icon-column').append(_iconLink), $('<div>').addClass('informations-contact-text-column').append(_link)));
+          _contact.append($('<div>').append($('<div>').addClass('informations-contact-icon-column').append(_iconLink), $('<p>').addClass('informations-contact-text-column').append(_link)));
         }
         else{
           var _iconSocial = Pard.Widgets.IconManager('icon_social').render().addClass('icon-in-box');
@@ -89,7 +93,7 @@
             target: '_blank'            
           }).append(_iconImg).addClass('informations-contact-text');
           _socials.append(_iconA);
-          _socialIcons = $('<div>').append($('<div>').addClass('informations-contact-icon-column').append(_iconSocial), $('<div>').addClass('informations-contact-text-column').append(_socials))
+          _socialIcons = $('<div>').append($('<div>').addClass('informations-contact-icon-column').append(_iconSocial), $('<p>').addClass('informations-contact-text-column').append(_socials))
         }
       });
       
@@ -97,7 +101,7 @@
 
     };
 
-    var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('informations-contact-icon-column'), $('<div>').addClass('informations-contact-text-column').append($('<a>').attr({
+    var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('informations-contact-icon-column'), $('<p>').addClass('informations-contact-text-column').append($('<a>').attr({
       href: 'http://maps.google.com/maps?q='+profile['city']+' '+profile['zip_code'],
       target: '_blank'
       }).text(profile['city']).addClass('informations-contact-text')));
@@ -113,11 +117,11 @@
 
     if('calls' in profile && profile.calls != false){
       var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
-      var _callButton = Pard.Widgets.CallButtonArtist('Envía otra propuesta',profile).render().addClass('callButtonArtist-sendOther');
+      var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
       _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);
 
     }else{
-      var _callButton = Pard.Widgets.CallButtonArtist('Envía una propuesta al conFusión 2016',profile);
+      var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía una propuesta al conFusión 2016');
       _callsBoxContent.append(_callButton.render());
     }
 

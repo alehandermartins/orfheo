@@ -4,9 +4,9 @@
 
 
 
-  ns.Widgets.CallSpaceButton = function(profile){
+  ns.Widgets.CallSpaceButton = function(profile, label){
 
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
     var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envia');
     var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile, _submitBtn)});
 

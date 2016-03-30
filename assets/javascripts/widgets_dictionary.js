@@ -19,6 +19,7 @@
       modify_section_content: {icon: 'MC', className: 'material-icons'},
       information: {icon: 'IN', className: 'material-icons'},
       city_artist: {icon: 'CT', className: 'material-icons'},
+      address_space: {icon: 'CT', className: 'material-icons'},
       my_web: {icon: 'W', className: 'material-icons'},
       icon_social: {icon: 'IS', className: 'material-icons'},
       calls: {icon: 'C', className: 'material-icons'},

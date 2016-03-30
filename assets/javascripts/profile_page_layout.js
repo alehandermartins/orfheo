@@ -6,7 +6,7 @@
 
   ns.Widgets.ProfileMainLayout = function(profiles){
 
-    var _main = $('<main>');
+    var _main = $('<div>');
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
@@ -24,7 +24,7 @@
     var _sectionContent = $('<div>').attr('id','_sectionContent');
     var _sectionHeader = $('<div>');
 
-    Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, _sectionContent);
+    Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader);
     Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
 
     _offCanvasSection.append(_sectionContainer.append(_sectionHeader, _sectionContent));
@@ -87,9 +87,6 @@
       var _reorderedProfiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
 
       history.pushState({},'',_reorderedProfiles[0].profile_id);
-      var _rgb = Pard.Widgets.IconColor((_reorderedProfiles[0]['color'])).rgb();
-      var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
-      $('#main-profile-page').css({'background': _backColor});
       
       _reorderedProfiles.forEach(function(profile, index) {
         if(!(index)){ 
@@ -98,7 +95,7 @@
         }
         else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
             Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
-            Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, sectionContent, profile.profile_id);
+            Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id);
               ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
           }).render());
         }
@@ -125,6 +122,8 @@
     var _name = $('<p>').addClass('profile-nav-name-selected selected-element').text(profile['name']);
     
     _createdWidget.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
+
+
 
     // _name.hover(function(){$(this).addClass('text-link')},function(){$(this).removeClass('text-link')});
     // _profileCircle.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
@@ -190,10 +189,7 @@
     var _lastselected = $('<div>');
 
     var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile).render();
-    if(!selected && !(profile.proposals)){
-      var _callButton = Pard.Widgets.CallSpaceButton(profile);
-      $(document).ready(function(){_callButton.render().trigger('click')});
-    }
+
     _lastselected = _profileSection;
     sectionContent.append(_profileSection);
 
@@ -263,6 +259,7 @@
       artist: Pard.Widgets.ArtistSectionContent,
       space: Pard.Widgets.SpaceSectionContent
     }
+
 
     return {
       render: function( ){

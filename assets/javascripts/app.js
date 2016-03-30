@@ -109,7 +109,8 @@ Pard.Profile = function(profiles){
 
 
   var _header = Pard.Widgets.UserHeader();
-  _whole.append(_header.render());
+  var _main = $('<main>').attr({id: 'main-profile-page'});
+  _whole.append(_header.render(), _main);
 
   // var callButton = {
   //   artist: Pard.Widgets.CallButtonArtist,
@@ -284,9 +285,10 @@ Pard.Profile = function(profiles){
 
   var _display = function(){
     if (_done.length == _links.length){
-      var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']);
+      var _mainContent = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']);
       var _footer = Pard.Widgets.Footer();
-      _whole.append(_main.render().attr({id: 'main-profile-page'}) , _footer.render());
+      _main.append(_mainContent.render());
+      _whole.append( _footer.render());
     }
   }
 
