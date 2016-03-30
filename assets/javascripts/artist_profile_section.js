@@ -85,7 +85,7 @@
           _iconImg.addClass('social-icon-fa')
           
           var _iconA = $('<a>').attr({
-            href: elem['url'],
+            href: 'https://' + elem['url'],
             target: '_blank'            
           }).append(_iconImg).addClass('informations-contact-text');
           _socials.append(_iconA);

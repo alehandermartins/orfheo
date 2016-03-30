@@ -402,6 +402,7 @@
     }
 
     var _composeResults = function(url, provider, type){
+      if(!url.match(/^(http|https)\:\/\/.*/)) url = 'https://' + url;
       _results.push({url: url, provider: provider});
       return _results;
     }
