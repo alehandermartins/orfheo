@@ -83,14 +83,34 @@
   }
 
 
-  ns.Widgets.MySpaceCallProposals = function(proposals){
+  ns.Widgets.MySpaceCallProposals = function(callProposals){
+    
     var _createdWidget = $('<div>');
 
-    
-    proposals.forEach(function(proposal){
-     var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['type']);
-      _createdWidget.append(Pard.Widgets.PopupCreator(_proposalBtn.render(), 'conFusión',  function(){return Pard.Widgets.MySpaceCallProposalMessage(proposal)}).render());
+    var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
+
+    var _listProposals = $('<ul>');
+
+    callProposals.forEach(function(proposal){
+      var _caller = $('<a>').attr({href:'#'}).text(proposal['title']);
+      
+      var _proposalItem = $('<li>').append( Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){ return Pard.Widgets.MySpaceCallProposalMessage(proposal);
+        }).render());
+      _listProposals.append(_proposalItem);
+        
     });
+
+    _createdWidget.append(_callName, _listProposals);
+
+
+
+    // var _createdWidget = $('<div>');
+
+    
+    // proposals.forEach(function(proposal){
+    //  var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['type']);
+    //   _createdWidget.append(Pard.Widgets.PopupCreator(_proposalBtn.render(), 'conFusión',  function(){return Pard.Widgets.MySpaceCallProposalMessage(proposal)}).render());
+    // });
    
     return {
       render: function(){

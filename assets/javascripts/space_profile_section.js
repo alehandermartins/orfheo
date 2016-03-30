@@ -80,11 +80,11 @@
 
     var _address = $('<div>');
     var _addressIcon = Pard.Widgets.IconManager('address_space').render().addClass('informations-contact-icon-column');
-    var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+' ('+profile['address']['country']+')';
+    var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+' '+profile['address']['country'];
     var _addressText = $('<p>').addClass('informations-contact-text-column').append($('<a>').attr({
       href: 'http://maps.google.com/maps?q='+_aStr,
       target: '_blank'
-      }).text(_aStr).addClass('informations-contact-text'));
+      }).text(profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']).addClass('informations-contact-text'));
 
     _contact.append(_address.append(_addressIcon, _addressText));
 
@@ -96,12 +96,12 @@
     var _callsBoxContent = $('<div>').addClass('box-content');
 
     if('calls' in profile && profile.calls != false){
-      var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
-      var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
-      _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);
+      var _mySpaceProposals = ''
+      var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
+      _callsBoxContent.append(_mySpaceCallProposals.render(), _callButton);
 
     }else{
-      var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía una propuesta al conFusión 2016');
+      var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía una propuesta al conFusión 2016');
       _callsBoxContent.append(_callButton.render());
     }
 
@@ -149,14 +149,13 @@
     _createdWidget.append(_multimediaContainer);
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
-    var _callButton = Pard.Widgets.CallSpaceButton(profile, 'Envía otra propuesta');
+
     var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
     var _multiMediaManager = Pard.Widgets.MultimediaSpaceManager(profile);
 
     _createdWidget.append(
       _modifyProfile.render(),
       _mySpaceCallProposals.render(), 
-      _callButton.render(),
       _multiMediaManager.render()
     );
 
