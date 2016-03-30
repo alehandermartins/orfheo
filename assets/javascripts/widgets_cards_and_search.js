@@ -204,12 +204,12 @@
     var _category = $('<div>').addClass('category-profileCard');
     var _categories = '- ';
     var _keys = Object.keys(profile);
-    if ($.inArray('proposals', _keys) >= 0 ){
+    if ('proposals' in profile){
       profile.proposals.forEach(function(proposal){
-        _categories += Pard.Widgets.Dictionary(proposal.category).render() + ' - ';
+        if (proposal.category) _categories += Pard.Widgets.Dictionary(proposal.category).render() + ' - ';
       })
     }
-    else{_categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
+    else{ if (profile.category) _categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
     if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
     _category.html(_categories);
     _circle.append(_icon);

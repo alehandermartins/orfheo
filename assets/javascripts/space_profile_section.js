@@ -82,7 +82,7 @@
 
     var _address = $('<div>');
     var _addressIcon = Pard.Widgets.IconManager('address_space').render().addClass('informations-contact-icon-column');
-    var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+', '+profile['address']['country'];
+    var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+' ('+profile['address']['country']+')';
     var _addressText = $('<p>').addClass('informations-contact-text-column').append($('<a>').attr({
       href: 'http://maps.google.com/maps?q='+_aStr,
       target: '_blank'
