@@ -428,6 +428,7 @@
         return false;
       },
       setVal: function(values){
+        if(values == null || values == false) return true;
         var _personal_webs = [];
         Object.keys(values).forEach(function(key){
           _personal_webs.push(values[key]);
@@ -550,6 +551,7 @@
         return _results;
       },
       setVal: function(values){
+        if(values == null || values == false) return true;
         var _links = [];
         Object.keys(values).forEach(function(key){
           _links.push(values[key]);

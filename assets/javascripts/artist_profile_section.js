@@ -9,7 +9,7 @@
 
     var _photoContainer = $('<div>').addClass('section-profilePhoto-container');
 
-    if('profile_picture' in profile && profile['profile_picture'] != null){
+    if('profile_picture' in profile && profile['profile_picture'] != null && profile['profile_picture'] != false){
       var _img = $.cloudinary.image(profile['profile_picture'][0],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });

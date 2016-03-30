@@ -171,7 +171,7 @@
     }
 
     Object.keys(proposal).forEach(function(key){
-      _submitForm[key] = proposal[key];
+      if(proposal[key]) _submitForm[key] = proposal[key];
     });
 
     var _folder = 'photos';
@@ -290,7 +290,7 @@
     }
 
     Object.keys(profile).forEach(function(key){
-      _submitForm[key] = profile[key];
+      if(profile[key]) _submitForm[key] = profile[key];
     });
 
     var _folder = 'photos';

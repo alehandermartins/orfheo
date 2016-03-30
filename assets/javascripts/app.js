@@ -196,7 +196,6 @@ Pard.Profile = function(profiles){
     var _img = $.cloudinary.image(link['url'],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
-    console.log(_managers);
     _managers[elementClass](_img[0], link['type'], id);
     _done.push(link);
     _display();      
