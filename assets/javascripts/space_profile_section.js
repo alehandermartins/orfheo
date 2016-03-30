@@ -21,8 +21,6 @@
 
   ns.Widgets.SpaceSectionContent = function(profile) {  
 
-    console.log(profile); 
-
     var _createdWidget = $('<div>');
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render();

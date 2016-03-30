@@ -9,7 +9,7 @@
 
     var _photoContainer = $('<div>').addClass('section-profilePhoto-container');
 
-    if('profile_picture' in profile && profile['profile_picture'] != null){
+    if('profile_picture' in profile && profile['profile_picture'] != null && profile['profile_picture'] != false){
       var _img = $.cloudinary.image(profile['profile_picture'][0],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
@@ -89,7 +89,7 @@
           _iconImg.addClass('social-icon-fa')
           
           var _iconA = $('<a>').attr({
-            href: elem['url'],
+            href: 'https://' + elem['url'],
             target: '_blank'            
           }).append(_iconImg).addClass('informations-contact-text');
           _socials.append(_iconA);

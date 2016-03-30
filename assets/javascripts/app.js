@@ -118,7 +118,11 @@ Pard.Profile = function(profiles){
   // }
 
   window.fbAsyncInit = function() {
-    FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+    //Heroku
+    //FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+    
+    //Local
+    FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
   }
   $.ajaxSetup({cache: true});
   $.getScript(document.location.protocol + '//connect.facebook.net/en_US/all.js');
@@ -192,7 +196,6 @@ Pard.Profile = function(profiles){
     var _img = $.cloudinary.image(link['url'],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
-    console.log(_managers);
     _managers[elementClass](_img[0], link['type'], id);
     _done.push(link);
     _display();      

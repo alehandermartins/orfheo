@@ -9,7 +9,7 @@
         url: url,
         type: 'POST',
         dataType: 'json',
-        data: data
+        data: data,
       })
       .done(function(data) {
         if (callback)
