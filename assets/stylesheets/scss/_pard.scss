@@ -426,6 +426,11 @@ button{
   height: 50px;
 }
 
+.callButtonArtist-sendOther{
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+}
 /*===============================================
 LOGIN PAGE
 ================================================*/
@@ -878,6 +883,7 @@ Profile Section
   border: 1px solid $grey-2;
   @include border-radius($element-border-radius);
   margin-top: $inner-spacing;
+  position: relative;
 }
 
 .title-box-container{
@@ -886,6 +892,11 @@ Profile Section
   font-size: 18px;
   font-weight: bold;
   padding: 0.4rem $inner-spacing;
+}
+
+.box-content{
+  padding: $inner-spacing;
+  position: relative;
 }
 
 .informations-bio, .informations-contact{
@@ -929,6 +940,10 @@ Profile Section
   vertical-align: -0.3rem;
   line-height: 0rem;
   font-size: $almostNormalSize;
+}
+
+.activities-box-call-name{
+  margin-bottom: 0rem;
 }
 
 /*===============================================

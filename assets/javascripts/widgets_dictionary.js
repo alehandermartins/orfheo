@@ -17,10 +17,12 @@
       workshop: {icon: 'T', className: 'material-icons'},
       other: {icon: 'O', className: 'material-icons'},
       modify_section_content: {icon: 'MC', className: 'material-icons'},
-      informaciones: {icon: 'IN', className: 'material-icons'},
+      information: {icon: 'IN', className: 'material-icons'},
       city_artist: {icon: 'CT', className: 'material-icons'},
       my_web: {icon: 'W', className: 'material-icons'},
       icon_social: {icon: 'IS', className: 'material-icons'},
+      calls: {icon: 'C', className: 'material-icons'},
+
       youtube: {icon: 'IT', className: 'fa'},
       vimeo: {icon: 'VI', className: 'fa'},
       flickr: {icon: 'Fl', className: 'fa'},

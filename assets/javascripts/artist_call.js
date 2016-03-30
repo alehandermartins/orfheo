@@ -5,9 +5,9 @@
   ns.Widgets = ns.Widgets || {};
 
 
-  ns.Widgets.CallButtonArtist = function(profile){
+  ns.Widgets.CallButtonArtist = function(label,profile){
 
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Envia una propuesta al conFusión');
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
     var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){
       return Pard.Widgets.CallMessageArtist(profile);
     });
@@ -173,12 +173,20 @@
   ns.Widgets.MyArtistCallProposals = function(callProposals){
     var _createdWidget = $('<div>');
 
+    var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
+
+    var _listProposals = $('<ul>');
+
     callProposals.forEach(function(proposal){
-      var _proposalBtn = Pard.Widgets.Button('conFusión -' + proposal['title']);
-      _createdWidget.append(
-        Pard.Widgets.PopupCreator(_proposalBtn.render(), 'conFusión', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal);
+      var _caller = $('<a>').attr({href:'#'}).text(proposal['title']);
+      
+      var _proposalItem = $('<li>').append( Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal);
         }).render());
+      _listProposals.append(_proposalItem);
+        
     });
+
+    _createdWidget.append(_callName, _listProposals);
 
     return {
       render: function(){
