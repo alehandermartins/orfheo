@@ -1124,7 +1124,7 @@ FORMS
 //     color: transparent;
 //     text-shadow: 0 0 0 #000;
 // }
-select, textarea{
+select, textarea, a{
     @include border-radius($element-border-radius);
     outline: none;
 }
