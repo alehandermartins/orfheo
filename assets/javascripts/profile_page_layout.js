@@ -24,7 +24,7 @@
     var _sectionContent = $('<div>').attr('id','_sectionContent');
     var _sectionHeader = $('<div>');
 
-    Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, _sectionContent);
+    Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader);
     Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
 
     _offCanvasSection.append(_sectionContainer.append(_sectionHeader, _sectionContent));
@@ -95,7 +95,7 @@
         }
         else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
             Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
-            Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, sectionContent, profile.profile_id);
+            Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id);
               ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
           }).render());
         }
