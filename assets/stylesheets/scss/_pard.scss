@@ -190,9 +190,9 @@ Grid and Bar
 .section-content{ 
   width: 100%;
   background: $content-background;
-  padding-left:$padding-content;
-  padding-right:$padding-content;
-  padding-top:$padding-content;
+  padding-left:$inner-spacing;
+  padding-right:$inner-spacing;
+  padding-top:$inner-spacing;
   padding-bottom:2rem;
   min-height: 100vh;
   @include border-radius($layout-border-radius);
@@ -862,8 +862,8 @@ Profile Section
   width:100%;
   height: 4rem;
   background-color:$grey-1;
-  padding-left:$padding-content;
-  padding-right:$padding-content;
+  padding-left:$inner-spacing;
+  padding-right:$inner-spacing;
   padding-top:0.6rem;
   position:relative;
   margin-top:-0.2rem;
@@ -877,7 +877,7 @@ Profile Section
 .section-box-container{
   border: 1px solid $grey-2;
   @include border-radius($element-border-radius);
-  margin-top: 0.75rem;
+  margin-top: $inner-spacing;
 }
 
 .title-box-container{
@@ -885,7 +885,7 @@ Profile Section
   background: $grey-1;
   font-size: 18px;
   font-weight: bold;
-  padding: 0.4rem 0.75rem;
+  padding: 0.4rem $inner-spacing;
 }
 
 .informations-bio, .informations-contact{
@@ -895,21 +895,40 @@ Profile Section
 
 .informations-bio{
   width: 60%;
-  padding: 0.75rem;
+  padding: $inner-spacing;
 }
 
 .informations-contact{
   width: 40%;
-  padding: 0.75rem;
+  padding: $inner-spacing;
+}
+
+.informations-contact-icon-column, .informations-contact-text-column{
+  display: inline-block;
+  vertical-align: top; 
+}
+
+.informations-contact-text-column{
+  width: 14rem;
+}
+
+.informations-contact-icon-column{
+  width: 3rem;
 }
 
 .icon-in-box{
-  margin-right: 0.75rem;
+  margin-right: $inner-spacing;
 }
 
 .social-icon-fa{
   font-size: 1.3rem;
-  margin-right: 0.75rem;
+  margin-right: $inner-spacing;
+}
+
+.informations-contact-text, {
+  vertical-align: -0.3rem;
+  line-height: 0rem;
+  font-size: $almostNormalSize;
 }
 
 /*===============================================

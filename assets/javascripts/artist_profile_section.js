@@ -42,12 +42,16 @@
 
     console.log(profile); 
 
-    if(profile['bio'] != null){
-      var _boxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('informaciones').render()).render();
-      var _contentBox = $('<div>').addClass('box-content');
-      var _bio = $('<div>').addClass('informations-bio').text(profile['bio']);
-      var _contact = $('<div>').addClass('informations-contact');
-      var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('icon-in-box'), $('<span>').text(profile['city']));
+    var _boxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('informaciones').render()).render();
+    var _contentBox = $('<div>').addClass('box-content');
+    var _contact = $('<div>').addClass('informations-contact');
+    var _bio = $('<div>').addClass('informations-bio')
+  
+
+    if(profile['bio'] != null){     
+      _bio.text(profile['bio']);
+    }  
+     
 
       if(profile['personal_web'] != null){
         
@@ -57,19 +61,21 @@
        
         _webArray.forEach(function(elem){
           if (elem['provider'] == 'my_web'){
-            var _iconLink = Pard.Widgets.IconManager('my_web').render().addClass('icon-in-box');
+            var _iconLink = Pard.Widgets.IconManager('my_web').render();
             var _url = elem['url'];
             var _link = $('<a>').attr({
               href: elem['url'],
-              target: '_blanck'            
+              target: '_blank'            
+            }).css({
+              'word-wrap': 'break-word',
             });
             ['http://', 'https://', 'www.'].forEach(function(string){
               if(_url.indexOf(string) > -1) {
                 _url  = _url.substring(string.length);
               }
             })
-            _link.text(_url);
-            _contact.append($('<div>').append(_iconLink, _link));
+            _link.text(_url).addClass('informations-contact-text');
+            _contact.append($('<div>').append($('<div>').addClass('informations-contact-icon-column').append(_iconLink), $('<div>').addClass('informations-contact-text-column').append(_link)));
           }
           else{
             var _iconSocial = Pard.Widgets.IconManager('icon_social').render().addClass('icon-in-box');
@@ -78,10 +84,10 @@
             
             var _iconA = $('<a>').attr({
               href: elem['url'],
-              target: '_blanck'            
-            }).append(_iconImg).addClass('icon-social-in-box');
+              target: '_blank'            
+            }).append(_iconImg).addClass('informations-contact-text');
             _socials.append(_iconA);
-            _socialIcons = $('<div>').append(_iconSocial, _socials)
+            _socialIcons = $('<div>').append($('<div>').addClass('informations-contact-icon-column').append(_iconSocial), $('<div>').addClass('informations-contact-text-column').append(_socials))
           }
         });
         
@@ -89,13 +95,14 @@
 
       };
 
+      var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('informations-contact-icon-column'), $('<div>').addClass('informations-contact-text-column').append($('<span>').text(profile['city']).addClass('informations-contact-text')));
+
       _contact.append(_city);
 
       _contentBox.append(_bio, _contact);
       _boxContainer.append(_contentBox);
       _createdWidget.append(_boxContainer);
     
-    }
 
     var personalWebs;
 
