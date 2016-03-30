@@ -5,7 +5,7 @@
   ns.Widgets = ns.Widgets || {};
 
 
-  ns.Widgets.CallButtonArtist = function(label,profile){
+  ns.Widgets.CallArtistButton = function(profile, label){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
     var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){

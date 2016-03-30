@@ -9,6 +9,14 @@
     var profile = Pard.ProfileManager.getProfile(profile_id);
 
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
+
+    var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
+    var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+    $('#main-profile-page').css({'background': _backColor});
+
+    if(profile.calls == false){
+      $(document).ready(function(){Pard.Widgets.CallSpaceButton('',profile).render().trigger('click')});
+    }
   }
 
   ns.Widgets.SpaceSectionContent = function(profile) {  
@@ -46,7 +54,7 @@
     _createdWidget.append(_addressContainer, _multimediaContainer);
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
-    var _callButton = Pard.Widgets.CallSpaceButton(profile);
+    var _callButton = Pard.Widgets.CallSpaceButton(profile, 'Envía otra propuesta');
     var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
     var _multiMediaManager = Pard.Widgets.MultimediaSpaceManager(profile);
 
