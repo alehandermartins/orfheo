@@ -21,12 +21,7 @@
 
     
     if(profile['name'] != null) sectionHeader.append( $('<div>').addClass('title-profile-section-container').append($('<span>').text(profile['name']).addClass('text-title-profile-section')));
-    
-    // return {
-    //   render: function(){
-    //     return _headerProfileSection;
-    //   }
-    // }
+ 
   }
 
   ns.Widgets.ArtistSection = function(sectionHeader, profile_id) {
@@ -50,8 +45,6 @@
 
   ns.Widgets.ArtistSectionContent = function(profile){
     var _createdWidget = $('<div>');
-
-    console.log(profile); 
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render();
     var _infoContentBox = $('<div>');
