@@ -30,7 +30,7 @@
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio')  
 
-    if(profile['bio'] != null){     
+    if(profile['bio'] != false){     
       _bio.append($('<p>').text(profile['bio']));
     }
 
@@ -108,13 +108,9 @@
 
     _createdWidget.append(_multimediaContainer);
 
-    var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
-
-
     var _multiMediaManager = Pard.Widgets.MultimediaSpaceManager(profile);
 
-    _createdWidget.append(
-      _modifyProfile.render(),
+    _createdWidget.append(  
       _multiMediaManager.render()
     );
 

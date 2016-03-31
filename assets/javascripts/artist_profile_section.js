@@ -54,7 +54,7 @@
     var _bio = $('<div>').addClass('information-bio')
   
 
-    if(profile['bio'] != null){     
+    if(profile['bio'] != false){     
       _bio.append($('<p>').text(profile['bio']));
     }  
 
@@ -162,27 +162,61 @@
     } 
   } 
 
-  ns.Widgets.MyArtistProductionsContent = function(proposal_id){
+  ns.Widgets.MyArtistProductionsContent = function(proposal_id, profile_color){
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
-    var _createdWidget = $('<div>');
 
     var _categoryFields = Pard.Forms.ArtistCall(proposal.category).productionFields();
+   
+    var _createdWidget = $('<div>');
 
-    var _title = $('<div>').text('titulo: ' + proposal.title);
-    var _description = $('<div>').text('descripción: ' + proposal.description);    
-    var _shortDescription = $('<div>').text('descripción breve: ' + proposal.short_description);
+    var _title = $('<div>').addClass('production-title-box').append(
+      $('<h4>').text(proposal.title));
 
-    var _duration = $('<div>');
-    var _children = $('<div>');
+    _createdWidget.append(_title);
+
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render();
+
+    var _infoContentBox = $('<div>').addClass('box-content');  
+   
+    var _info = $('<div>').addClass('information-bio');  
+    var _addtionalInfo = $('<div>').addClass('information-contact');
+
+    var _shortDescription = $('<p>').text(proposal.short_description).addClass('short-description-text');  
+    _info.append(_shortDescription)
+ 
+    if(proposal['description'] != false){     
+      var _description = $('<p>').text(proposal['description']);
+      _info.append(_description);
+    }
+
+
+    var _category = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(proposal['category']).render()));
+    var _categoryIcon = Pard.Widgets.IconManager(proposal.category).render().addClass('information-contact-icon-column');
+
+    _addtionalInfo.append($('<div>').append(_categoryIcon, _category));
+
+        
+    if (proposal['duration']){
+      console.log(proposal.duration)
+      var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(proposal['duration']+' min'));
+      var _durationIcon = Pard.Widgets.IconManager('duration').render().addClass('information-contact-icon-column');
+      _addtionalInfo.append($('<div>').append(_durationIcon, _duration));
+    }
+
+
+
+    if (proposal['children']){        
+      var _children = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Para niños'));
+      var _childrenIcon = Pard.Widgets.IconManager('children').render().addClass('information-contact-icon-column');
+      _addtionalInfo.append(_childrenIcon, _children);
+    }
+    
+    _infoContentBox.append(_info, _addtionalInfo);
+    _infoBoxContainer.append(_infoContentBox);
+    _createdWidget.append(_infoBoxContainer);
+ 
     var _multimediaContainer = $('<div>'); 
-
-    if (proposal.duration){
-      _duration.text('Duracción: ' + proposal.duration);
-    };
-    if (proposal.children){
-      _children.text('Niños: ' + proposal.children);
-    };
 
     if(proposal.video){
       proposal.video.forEach(function(video){
@@ -203,16 +237,20 @@
     }
 
     var _modifyProduction = Pard.Widgets.ModifyProduction(proposal);
+
+    var _iconColor = Pard.Widgets.IconColor((profile_color)).render();
+
+    var _triangle = $('<div>').addClass('modify-section-content-button-container');
+
+     _createdWidget.append(
+      _triangle.css({'border-top': '70px solid'+profile_color}),
+      _modifyProduction.render().css({color: _iconColor})
+    );
+
     var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
 
     _createdWidget.append(
-      _title, 
-      _description, 
-      _shortDescription, 
-      _duration, 
-      _children, 
       _multimediaContainer, 
-      _modifyProduction.render(), 
       _multiMediaManager.render()
     );
 

@@ -427,7 +427,7 @@ Profile Section
 
 .section-profilePhoto-container{
   width:100%;
-  height: 13.75rem;
+  max-height: 13.75rem;
 }
 
 .title-profile-section-container{
@@ -519,3 +519,22 @@ Profile Section
 .activities-box-call-name{
   margin-bottom: 0rem;
 }
+
+/*-----------------
+Production Section
+-------------------*/
+
+.short-description-text{
+  font-weight: bold;
+}
+
+
+.production-title-box{
+  width: 100%;
+  background-color: $grey-1;
+  min-height: 1.5rem;
+  margin-top: -0.8rem;
+  padding: 0 $inner-spacing;
+  position: relative;
+}
+

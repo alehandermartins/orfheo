@@ -208,7 +208,7 @@
     _proposals.forEach(function(proposal, index){
       var proposal_id = proposal.proposal_id;
       var _myProposal = $('<div>'); 
-      _myProposal.append(Pard.Widgets.MyArtistProductionsContent(proposal_id).render());
+      _myProposal.append(Pard.Widgets.MyArtistProductionsContent(proposal_id, profile['color']).render());
       sectionContent.append(_myProposal);
       if(selected == proposal_id) _lastselected = _myProposal;
       else{_myProposal.hide();}

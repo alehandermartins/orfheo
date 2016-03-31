@@ -7,7 +7,7 @@
 
   ns.Widgets.ModifyProduction = function(proposal){
 
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica producción');
+    var _caller = $('<button>').addClass('modify-content-button').attr({type: 'button'}).html(Pard.Widgets.IconManager('modify_section_content').render());
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.ModifyProductionMessage(proposal)});
 
     var _createdWidget = _popup.render();

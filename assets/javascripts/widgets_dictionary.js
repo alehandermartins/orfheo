@@ -23,6 +23,8 @@
       my_web: {icon: 'W', className: 'material-icons'},
       icon_social: {icon: 'IS', className: 'material-icons'},
       calls: {icon: 'C', className: 'material-icons'},
+      children: {icon: 'Ch', className: 'material-icons'},
+      duration: {icon: 'D', className: 'material-icons'},
 
       youtube: {icon: 'IT', className: 'fa'},
       vimeo: {icon: 'VI', className: 'fa'},
