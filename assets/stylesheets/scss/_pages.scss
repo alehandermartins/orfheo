@@ -476,7 +476,7 @@ Profile Section
 .information-bio{
   @include breakpoint(large){
     width: 60%;
-    padding: $inner-spacing;
+    padding: 0 $inner-spacing 0 0;
   }
   p{
     font-size: $almostNormalSize;
@@ -486,7 +486,7 @@ Profile Section
 .information-contact{
   @include breakpoint(large){
     width: 40%;
-     padding: $inner-spacing;
+     padding: 0 0 0 $inner-spacing;
   }
 }
 

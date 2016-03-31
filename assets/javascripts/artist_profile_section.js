@@ -57,6 +57,11 @@
     if(profile['bio'] != null){     
       _bio.append($('<p>').text(profile['bio']));
     }  
+
+    var _type = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(profile['type']).render()));
+    var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column');
+
+    _contact.append($('<div>').append(_typeIcon, _type));
    
 
     if('personal_web' in profile && profile['personal_web'] != null){
@@ -89,7 +94,6 @@
 
     _callsBoxContainer.append(_callsBoxContent);
     _createdWidget.append(_callsBoxContainer);
-
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
   
