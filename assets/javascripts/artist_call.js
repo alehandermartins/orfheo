@@ -173,7 +173,7 @@
   ns.Widgets.MyArtistCallProposals = function(callProposals){
     var _createdWidget = $('<div>');
 
-    var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
+    var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
 
     var _listProposals = $('<ul>');
 

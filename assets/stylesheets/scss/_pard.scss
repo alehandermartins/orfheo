@@ -866,11 +866,11 @@ Profile Section
 
 .title-profile-section-container{
   width:100%;
-  height: 4rem;
+  height: 3.5rem;
   background-color:$grey-1;
   padding-left:$inner-spacing;
   padding-right:$inner-spacing;
-  padding-top:0.6rem;
+  padding-top:0.4rem;
   position:relative;
   margin-top:-0.2rem;
 }
@@ -900,31 +900,37 @@ Profile Section
   position: relative;
 }
 
-.informations-bio, .informations-contact{
+.information-bio, .information-contact{
   display: inline-block;
   vertical-align: top;
 }
 
-.informations-bio{
+.information-bio{
   width: 60%;
   padding: $inner-spacing;
+  p{
+    font-size: $almostNormalSize;
+  }
 }
 
-.informations-contact{
+.information-contact{
   width: 40%;
   padding: $inner-spacing;
 }
 
-.informations-contact-icon-column, .informations-contact-text-column{
+.information-contact-icon-column, .information-contact-text-column{
   display: inline-block;
   vertical-align: top; 
 }
 
-.informations-contact-text-column{
+.information-contact-text-column{
   width: 14rem;
+  line-height: 1.3rem;
+  vertical-align: -0.4rem;
+  font-size: $almostNormalSize;
 }
 
-.informations-contact-icon-column{
+.information-contact-icon-column{
   width: 3rem;
 }
 
@@ -937,11 +943,6 @@ Profile Section
   margin-right: $inner-spacing;
 }
 
-.informations-contact-text, {
-  vertical-align: -0.3rem;
-  line-height: 0rem;
-  font-size: $almostNormalSize;
-}
 
 .activities-box-call-name{
   margin-bottom: 0rem;

@@ -288,6 +288,7 @@ Pard.Profile = function(profiles){
       var _footer = Pard.Widgets.Footer();
       _main.append(_mainContent.render());
       _whole.append( _footer.render());
+      $(document).foundation();
     }
   }
 

@@ -27,64 +27,29 @@
     var _infoContentBox = $('<div>');
     
     
-    var _contact = $('<div>').addClass('informations-contact');
-    var _bio = $('<div>').addClass('informations-bio')
-  
+    var _contact = $('<div>').addClass('information-contact');
+    var _bio = $('<div>').addClass('information-bio')  
 
     if(profile['bio'] != null){     
       _bio.append($('<p>').text(profile['bio']));
-    }  
-   
+    }
+
+    var _type = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(profile['category']).render()));
+    var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column');
+
+    _contact.append($('<div>').append(_typeIcon, _type));
 
     if('personal_web' in profile && profile['personal_web'] != null){
-      
-      var _webArray = Object.keys(profile['personal_web']).map(function(key){return profile['personal_web'][key]});
-      var _socialIcons;
-      var _socials = $('<span>');
-     
-      _webArray.forEach(function(elem){
-        if (elem['provider'] == 'my_web'){
-          var _iconLink = Pard.Widgets.IconManager('my_web').render();
-          var _url = elem['url'];
-          var _link = $('<a>').attr({
-            href: elem['url'],
-            target: '_blank'            
-          }).css({
-            'word-wrap': 'break-word',
-          });
-          ['http://', 'https://', 'www.'].forEach(function(string){
-            if(_url.indexOf(string) > -1) {
-              _url  = _url.substring(string.length);
-            }
-          })
-          _link.text(_url).addClass('informations-contact-text');
-          _contact.append($('<div>').append($('<div>').addClass('informations-contact-icon-column').append(_iconLink), $('<p>').addClass('informations-contact-text-column').append(_link)));
-        }
-        else{
-          var _iconSocial = Pard.Widgets.IconManager('icon_social').render().addClass('icon-in-box');
-          var _iconImg = Pard.Widgets.IconManager(elem['provider']).render();
-          _iconImg.addClass('social-icon-fa')
-          
-          var _iconA = $('<a>').attr({
-            href: elem['url'],
-            target: '_blank'            
-          }).append(_iconImg).addClass('informations-contact-text');
-          _socials.append(_iconA);
-          _socialIcons = $('<div>').append($('<div>').addClass('informations-contact-icon-column').append(_iconSocial), $('<p>').addClass('informations-contact-text-column').append(_socials))
-        }
-      });
-      
-      if (_socialIcons)  _contact.append(_socialIcons); 
-
-    };
+      _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
+    }
 
     var _address = $('<div>');
-    var _addressIcon = Pard.Widgets.IconManager('address_space').render().addClass('informations-contact-icon-column');
+    var _addressIcon = Pard.Widgets.IconManager('address_space').render().addClass('information-contact-icon-column');
     var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+' '+profile['address']['country'];
-    var _addressText = $('<p>').addClass('informations-contact-text-column').append($('<a>').attr({
+    var _addressText = $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
       href: 'http://maps.google.com/maps?q='+_aStr,
       target: '_blank'
-      }).text(profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']).addClass('informations-contact-text'));
+      }).text(profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']));
 
     _contact.append(_address.append(_addressIcon, _addressText));
 
@@ -96,7 +61,7 @@
     var _callsBoxContent = $('<div>').addClass('box-content');
 
     if('calls' in profile && profile.calls != false){
-      var _mySpaceProposals = ''
+      var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
       var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
       _callsBoxContent.append(_mySpaceCallProposals.render(), _callButton);
 
@@ -111,7 +76,6 @@
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
   
-
     var _iconColor = Pard.Widgets.IconColor((profile['color'])).render();
 
     var _triangle = $('<div>').addClass('modify-section-content-button-container');
@@ -123,10 +87,6 @@
 
 
     var _multimediaContainer = $('<div>');
-
-    ['category'].forEach(function(element) {
-      if(profile[element] != null) _createdWidget.append( $('<div>').text(profile[element]));
-    });
 
     if(profile.video){
       profile.video.forEach(function(video){
@@ -150,12 +110,11 @@
 
     var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
 
-    var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
+
     var _multiMediaManager = Pard.Widgets.MultimediaSpaceManager(profile);
 
     _createdWidget.append(
       _modifyProfile.render(),
-      _mySpaceCallProposals.render(), 
       _multiMediaManager.render()
     );
 
@@ -165,6 +124,8 @@
       }
     }
   }
+
+ 
 
 }(Pard || {}));
 
