@@ -47,7 +47,7 @@
     var _createdWidget = $('<div>');
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render();
-    var _infoContentBox = $('<div>');
+    var _infoContentBox = $('<div>').addClass('box-content');
     
     
     var _contact = $('<div>').addClass('information-contact');

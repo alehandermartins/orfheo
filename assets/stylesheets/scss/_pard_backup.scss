@@ -125,20 +125,17 @@ Grid and Bar
   .pard-grid:after {
   clear: both;
   }
- 
+
+  .grid-aside{
+     width: $pard-aside-width;
+  }
+
   .grid-spacing{
     width: $pard-grid-spacing;}
 
   .grid-section {
     width: $pard-section-width;
     min-height:100%;
-  }
-  
-}
-
-@media only screen and #{breakpoint(medium)} {
-  .grid-aside{
-     width: $pard-aside-width;
   }
 
   .grid-spacing, .grid-section, .grid-aside{
@@ -149,20 +146,6 @@ Grid and Bar
   .displayNone-for-large {
       display: none;
   }
-
-  .off-canvas-content{
-    @include border-radius($layout-border-radius);
-  }
-
-  @include breakpoint(medium down){
-    .grid-section{
-      width: -moz-calc(100% - 12.5rem);
-      width: -webkit-calc(100% - 12.5rem);
-      width: calc(100% - 12.5rem);
-      margin-left:0.5rem;
-    }
-  }
-
 
   .pard-bar {
     background: $content-background;
@@ -181,12 +164,11 @@ Grid and Bar
       right:0;
     }
   }
+  .off-canvas-content{
+    @include border-radius($layout-border-radius);
 
+  }
 }
-
-
-
-
 
 /*ALL SCREEN*/
 
@@ -224,7 +206,7 @@ Grid and Bar
 .pard-header-container{
   position:relative;
   width: 100%;
-   @include breakpoint(small down){
+   @include breakpoint(medium down){
     position:fixed;
     padding-right:0.2rem;
     min-height: 6.5rem;
@@ -256,17 +238,17 @@ off-canvas
   overflow: hidden;
 }
 
-@media only screen and #{breakpoint(small down)} { 
+@media only screen and #{breakpoint(medium down)} { 
 	.off-canvas-content,
   .#{$maincontent-class}{
     box-shadow: 0 0 10px rgba($black, 0.5);
   } 
   .off-canvas-grid-aside {
-  // @include breakpoint(medium){
-  //   padding-top:1.5rem;
-  //   overflow-x: hidden;
+  @include breakpoint(medium){
+    padding-top:1.5rem;
+    overflow-x: hidden;
 
-  // }
+  }
   position: absolute;
   background: $content-background;
   z-index: -1;
@@ -279,16 +261,15 @@ off-canvas
     left: -$pard-aside-width;
     top: 0;
     width: $pard-aside-width; 
-    // @include breakpoint(medium){
-    //   width:13rem;
-    //   left: -13rem;
-    // }
-  }
+    @include breakpoint(medium){
+      width:13rem;
+      left: -13rem;
+    }}
     .is-open-left {
       transform: translateX($pard-aside-width); 
-      // @include breakpoint(medium){
-      // transform: translateX(13rem); 
-      // }
+      @include breakpoint(medium){
+      transform: translateX(13rem); 
+      }
     }
 
   .displayNone-for-mediumDown{
@@ -387,7 +368,7 @@ button{
   font-size: $almostNormalSize;
   // @include breakpoint(large){
   // margin-right: -0.1rem;}
-  @include breakpoint(small down){
+  @include breakpoint(medium down){
     margin-right: 2rem;
   }
 }
@@ -447,24 +428,9 @@ button{
 }
 
 .callButtonArtist-sendOther{
-  @include breakpoint(large){
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-  }
-}
-
-.add-multimedia-input-button{
-  position: relative;
-  top: 0.3rem;
-  left: 0.3rem;
-  cursor: pointer;
-}
-
-.add-multimedia-input-field{
-  width: -moz-calc(100% - 2rem);
-  width: -webkit-calc(100% - 2rem);
-  width: calc(100% - 2rem);
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
 }
 
 
@@ -627,11 +593,11 @@ FOOTER
   background: $content-background;
   padding-bottom:0rem;
   bottom:0;
-  @include breakpoint(medium) {  
+  @include breakpoint(large) {  
     height:5rem;
     padding-top:2rem;
   }
-  @include breakpoint(small){
+  @include breakpoint(medium down){
   padding-top:0.5rem;
   padding-bottom:0.5rem;
 
@@ -753,7 +719,7 @@ select, textarea, a{
     margin-top: 1.3rem;
     margin-bottom: 3rem;
   }
-  @include breakpoint(small down){
+  @include breakpoint(medium down){
     margin-top: 0.5rem;
     margin-bottom: 2rem;
   }

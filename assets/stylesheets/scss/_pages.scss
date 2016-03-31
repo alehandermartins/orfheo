@@ -1,0 +1,521 @@
+/*===============================================
+LOGIN PAGE
+================================================*/
+
+/*------------------
+Header
+-------------------*/
+
+/*FOR MEDIUM AND SMALL: TRANSITION WHEN SCREEN <= 1024px*/
+
+@media only screen and #{breakpoint(small down)} { 
+ .block-for-medium {
+  display: block;
+  width: 100%;
+  }
+.login-bar, .user-bar{
+  width: 100%;
+  background: $content-background;
+}
+  
+}
+
+/*LARGE*/
+
+
+@media only screen and #{breakpoint(medium)} {
+  .login-bar{
+    @extend .pard-bar;
+    min-height: 6rem;
+    padding-top: 0.9rem; 
+  }
+  .user-bar{
+    @extend .pard-bar;
+    min-height: 4.5rem;
+    padding-top: auto; 
+  }
+}
+
+/*GENERAL*/
+
+.input-login {
+ @include breakpoint(small down){
+    display: block;
+    float: right; 
+    padding-top: 0.5rem;
+    .input-login-field {
+      margin-bottom: 0.1rem;
+    }
+  }
+  @include breakpoint(medium){
+    margin-right:-0.75rem;
+    .input-login-field {
+      display:inline-block;
+      margin-right:0.4rem;
+    }
+  }
+  .input-login-field{
+    height: auto;
+    font-size: $smallSize;
+    width: 200px;
+  }
+}
+
+.dropdown.menu:not(.vertical) .is-dropdown-submenu.first-sub {
+    top: 100%;
+    left: auto;
+    right: 0;
+}
+
+// .login-header-tools, .login-header-tools label{
+//   font-size: $smallSize;
+// }
+
+.rememberMe-ckb input{
+  width:auto;
+  margin-right:0;
+  margin-top: 0.2rem;
+}
+
+.rememberMe-ckb{
+  @include breakpoint(small down){
+    float: right;
+  }
+}
+
+.passwdRecovery{
+  @include breakpoint(small down){
+    display: block;
+    margin-top: 0.2rem;
+  }
+}
+
+.rememberMe-ckb {
+  @include breakpoint(medium){
+    width: 10rem;
+    display: block;
+    margin-left: 0.1rem;
+  }
+}
+
+.passwdRecovery, .rememberMe-ckb label{
+   font-size: $smallSize;
+}
+
+.passwdRecovery{
+  @include breakpoint(medium){
+    float: right;
+    margin-top: -1.3rem;
+    margin-right: 6.7rem;
+  } 
+}
+
+
+
+/*-----------------------
+Aside content LogIn page
+-------------------------*/
+
+
+
+// .signUp-aside-text{
+//   position: horizontal-center;
+//   margin-top: 8rem;
+//   text-align: center;
+//   color: $title-color;
+// }
+
+.info{
+  width: 100%;
+  background: $content-background;
+  @include border-radius($layout-border-radius);
+}
+
+.aside-container{
+  width: $pard-aside-width;
+  position:relative;
+}
+
+.grid-aside-content{
+  padding: 1rem 0.5rem 1rem 0.5rem;
+}
+
+
+/*------------------------------
+grid-section content LogIn page
+--------------------------------*/
+
+.lateral-content-padding{
+  @include breakpoint(small down){
+    padding-left:1.5rem;
+    padding-right:1.5rem;
+  }
+  @include breakpoint(medium){
+    padding-left:2.2rem;
+    padding-right:2.2rem;
+  }
+}
+
+.grid-section-contentTitle{
+  display: block;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  color: $title-color;
+  @include breakpoint(medium){
+  margin-top: 2rem;
+  margin-bottom: 3rem;}
+  @include breakpoint(small down){
+  margin-bottom: 5vw;}
+} 
+
+.filter-select{
+  display: inline-block;
+  width:10.3rem;
+  text-align: center;
+  background-color: $content-background;
+  margin-right:0.3rem;
+}
+
+.search-input{
+  height: auto;
+  font-size: $almostNormalSize;
+  display: inline-block;
+  width: 84%;
+  margin:0;
+}
+
+.search-btn{
+  display: inline;
+  padding: 0.5rem;
+  font-weight: 600;
+  font-size: $almostNormalSize;
+  @extend .pard-btn;
+  margin:0;
+  width:15%;
+
+}
+
+.ui-widget{
+  display: inline-block;
+  width: 14.5rem
+}
+
+.display-inline{
+  display: inline-block;
+}
+
+
+.search-results{
+  margin-top: 2.5rem;
+}
+
+
+/*===============================================
+USER PAGE
+================================================*/
+
+/*------------------
+Header
+-------------------*/
+
+//GENERAL
+
+
+.right-user-header-content{
+  display: inline-block;
+  position: absolute;
+  margin-right: 0.4rem;
+  right:0;
+}
+
+.left-user-header-content{
+  left:0;
+  display: inline-block;
+  position: absolute;
+  margin-left:-0.5rem;
+}
+
+.top-header-content{
+  display: block;
+  width: 100%;
+  min-height: 3.5rem;
+}
+
+
+
+/*-----------------------
+Aside content User page
+-------------------------*/
+
+
+
+.create-profile-container {
+  display: block;
+  position: relative;
+  // position: absolute;
+  width: 100%;
+  min-height: 8rem;
+  // margin-bottom: 1.5rem;
+}
+
+
+
+.myprofile-card-position{
+  margin-top: 1.8rem;
+  background-color: $content-background;
+}
+
+
+/*===============================================
+PROFILE PAGE
+================================================*/
+
+/*--------
+Aside
+---------*/
+.toUserPage-btn-container{
+  margin-bottom:$pard-grid-spacing;
+}
+
+.profile-nav-container{
+  @include border-radius($layout-border-radius);
+  display: block;
+  background: $content-background;
+  margin-top: $pard-grid-spacing;
+  padding: 0.2rem;
+}
+
+
+.name-column, .icon-column{
+  display: inline-block;
+  vertical-align: middle; 
+}
+
+.name-column{
+  padding: 0rem 0.2rem 0rem 0.2rem;
+  width: 8.2rem;
+  // font-size: $smallSize;
+}
+
+.icon-column{
+  padding: 0.4rem 0.2rem 0.4rem 0.2rem;
+  width:2.7rem;
+}
+
+// .name-column, .icon-column{
+//   display: inline-block;
+//   vertical-align: top; 
+// }
+
+// .name-column{
+//   padding: 0.7rem 0.2rem 0rem 0.2rem;
+//   width: 8.5rem;
+// }
+
+// .profile-name-column{ //cancelar de diseño inicial
+//   padding-bottom: 0.4rem;
+// }
+
+// .icon-column{
+//   padding: 0.4rem 0.2rem 0.4rem 0.2rem;
+//   width:2.4rem;
+// }
+
+
+.other-profiles-nav-container{
+  display: block;  
+  margin-top: $pard-grid-spacing;
+  background: $content-background;
+  @include border-radius($layout-border-radius); 
+  padding:0.2rem;
+}
+
+.verticalAlign{
+  @include vertical-align();
+}
+
+.production-icon-container{
+  height:2.2rem;
+}
+
+.profile-nav-element-container{
+  position: relative;
+  width: 100%;
+}
+
+.profile-selected-container{
+  background: $grey-1;
+  padding: 0.2rem 0.1rem;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  min-height: 3.75rem;
+  display: block;
+}
+
+.profile-nav-circle-selected{
+  @include pardCircle(2.2rem);
+  position:relative;
+}
+
+.profile-nav-circle{
+  @include pardCircle(2.2rem);
+  position:relative;
+}
+
+// .profile-nav-circle-selected,.profile-nav-circle{
+//   @include pardCircle(2rem);
+//   position:relative;
+// }
+
+
+.profile-nav-element-icon{
+  @include absolute-center;
+}
+
+.profile-nav-name-selected, .profile-nav-name-element, .profile-nav-production-name{
+  line-height: 1.3rem;
+  font-size: $smallSize;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+
+.nav-list-container{
+  margin-top: 0.2rem;
+}
+
+// .nav-list-container{
+//   padding-bottom:0.4rem;
+// }
+
+.nav-icon-production-container{
+  height: 2.2rem;
+  width: 2.2rem;
+}
+
+// .nav-icon-production-container{
+//   height: 2rem;
+//   width: 2rem;
+// }
+
+.profile-nav-element-container, .production-nav-element-container{
+  padding: 0.2rem 0.1rem;
+  position: relative;
+  width: 100%;
+  min-height: 3.75rem;
+  display: block;
+}
+
+.profile-nav-element-container{
+  cursor: pointer;
+
+}
+
+.text-link{
+  text-decoration: underline;
+}
+
+.selected-element{
+  text-decoration: underline;
+}
+
+/*-----------------
+Profile Section
+-------------------*/
+
+.section-profilePhoto-container{
+  width:100%;
+  height: 13.75rem;
+}
+
+.title-profile-section-container{
+  width:100%;
+  height: 3.5rem;
+  background-color:$grey-1;
+  padding-left:$inner-spacing;
+  padding-right:$inner-spacing;
+  padding-top:0.4rem;
+  position:relative;
+  margin-top:-0.2rem;
+}
+
+.text-title-profile-section{
+  font-size: 1.875rem;
+  font-weight: bold;
+}
+
+.section-box-container{
+  border: 1px solid $grey-2;
+  @include border-radius($element-border-radius);
+  margin-top: $inner-spacing;
+  position: relative;
+}
+
+.title-box-container{
+  height: 3rem;
+  background: $grey-1;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 0.4rem $inner-spacing;
+}
+
+.box-content{
+  padding: $inner-spacing;
+  position: relative;
+}
+
+.information-bio, .information-contact{
+  @include breakpoint(large){
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.information-bio{
+  @include breakpoint(large){
+    width: 60%;
+    padding: $inner-spacing;
+  }
+  p{
+    font-size: $almostNormalSize;
+  }
+}
+
+.information-contact{
+  @include breakpoint(large){
+    width: 40%;
+     padding: $inner-spacing;
+  }
+}
+
+.information-contact-icon-column, .information-contact-text-column{
+  display: inline-block;
+  vertical-align: top; 
+}
+
+.information-contact-text-column{
+  @include breakpoint(large){width: 14rem};
+  line-height: 1.3rem;
+  vertical-align: -0.4rem;
+  font-size: $almostNormalSize;
+}
+
+.information-contact-icon-column{
+  width: 3rem;
+}
+
+.icon-in-box{
+  margin-right: $inner-spacing;
+}
+
+.social-icon-fa{
+  font-size: 1.3rem;
+  margin-right: $inner-spacing;
+}
+
+
+.activities-box-call-name{
+  margin-bottom: 0rem;
+}

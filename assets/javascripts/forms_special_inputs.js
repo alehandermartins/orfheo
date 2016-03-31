@@ -331,12 +331,7 @@
     var _inputs = [];
     var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
     _input.setClass('multiMedia');
-    var _addInputButton = $('<span>').addClass('material-icons').html('&#xE86C').css({
-      position: 'relative',
-      top: '5px',
-      left: '5px',
-      cursor: 'pointer'
-    });
+    var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
 
     var _addnewInput = function(url){
       var _container = $('<div>');
@@ -346,14 +341,9 @@
       _newInput.setAttr('disabled', true);
       _inputs.push(_newInput);
 
-      var _removeInputButton = $('<span>').addClass('material-icons').html('&#xE888').css({
-        position: 'relative',
-        top: '5px',
-        left: '5px',
-        cursor: 'pointer'
-      });
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE888');
 
-      _container.append(_newInput.render().css('width', '550'), _removeInputButton);
+      _container.append(_newInput.render().addClass('add-multimedia-input-field'), _removeInputButton);
       _removeInputButton.on('click', function(){
         _inputs.splice(_inputs.indexOf(_newInput), 1);
         _container.empty();
@@ -368,7 +358,7 @@
       }
     });
 
-    _createdWidget.append(_input.render().css('width', '550'), _addInputButton);
+    _createdWidget.append(_input.render().addClass('add-multimedia-input-field'), _addInputButton);
 
     var fb_url = /.*facebook\.com\/.*/i;
     var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;

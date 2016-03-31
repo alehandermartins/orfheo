@@ -6,7 +6,7 @@
 
   ns.Widgets.ProfileMainLayout = function(profiles){
 
-    var _main = $('<div>');
+    var _main = $('<main>');
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
