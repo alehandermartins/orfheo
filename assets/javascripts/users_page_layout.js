@@ -18,7 +18,7 @@
    
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
 
-    var _elemOffCanvas = $('<span>').addClass('float-left');
+    var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true});
     _elemOffCanvas.append(_iconOffCanvas, ' Menu');
 

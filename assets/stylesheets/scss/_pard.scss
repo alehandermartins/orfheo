@@ -172,7 +172,6 @@ Grid and Bar
       left:0;
       display: inline-block;
       position: absolute;
-      margin-left:-0.5rem;
     }
     .right-bar-content{
       display: inline-block;
@@ -184,6 +183,11 @@ Grid and Bar
 
 }
 
+@include breakpoint(large){
+  .left-bar-content{
+    margin-left:-0.5rem;
+  } 
+}
 
 
 

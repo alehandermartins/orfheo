@@ -58,7 +58,7 @@
     _iconLogin.attr('data-toggle','');
     _elemResponsive.append(_iconLogin,' Log In');
 
-    var _elemOffCanvas = $('<span>').addClass('float-left');
+    var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true});
     _elemOffCanvas.append(_iconOffCanvas, ' Menu');
 

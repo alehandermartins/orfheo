@@ -9,15 +9,19 @@ Header
 /*FOR MEDIUM AND SMALL: TRANSITION WHEN SCREEN <= 1024px*/
 
 @media only screen and #{breakpoint(small down)} { 
- .block-for-medium {
-  display: block;
-  width: 100%;
+  .block-for-medium {
+    display: block;
+    width: 100%;
+    padding-left: 0.5rem;
   }
-.login-bar, .user-bar{
-  width: 100%;
-  background: $content-background;
-}
-  
+  .login-bar, .user-bar{
+    width: 100%;
+    background: $content-background;
+  }
+  .menu-icon-header{
+    margin-left:0.5rem;
+  }
+
 }
 
 /*LARGE*/
@@ -48,12 +52,14 @@ Header
     }
   }
   @include breakpoint(medium){
-    margin-right:-0.75rem;
     .input-login-field {
       display:inline-block;
       margin-right:0.4rem;
     }
   }
+  @include breakpoint(large){
+    margin-right:-0.75rem;
+  }  
   .input-login-field{
     height: auto;
     font-size: $smallSize;
@@ -225,7 +231,9 @@ Header
 .right-user-header-content{
   display: inline-block;
   position: absolute;
-  margin-right: 0.4rem;
+  @include breakpoint(large){
+    margin-right: -1.5rem;
+  }
   right:0;
 }
 
@@ -233,7 +241,9 @@ Header
   left:0;
   display: inline-block;
   position: absolute;
-  margin-left:-0.5rem;
+  @include breakpoint(large){
+    margin-left:-0.5rem;
+  }
 }
 
 .top-header-content{
