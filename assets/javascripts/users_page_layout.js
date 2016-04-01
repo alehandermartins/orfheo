@@ -39,9 +39,7 @@
     );
 
     _menuContainer.append(_iconDropdownMenu);
-    
-		// new Foundation.DropdownMenu(_menuContainer,{disableHover:true,clickOpen:true});
-    
+     
     _topBarRight.append(_menuContainer);
 
     _topContent.append(_topBarTitle, _topBarRight);
@@ -62,6 +60,7 @@
     var _createdWidget = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
     var _buttonContainer = $('<div>').addClass('create-profile-container');
+
     var _createProfileBtn =  Pard.Widgets.CreateProfile().render();
 
     _createProfileBtn.addClass('create-profile-btn');  
