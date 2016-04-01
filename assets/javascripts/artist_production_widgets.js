@@ -185,7 +185,7 @@
       _submitForm['photos'] = photos;
       _submitForm['links'] = links;
       Pard.Backend.modifyProduction(_submitForm, function(data){
-        Pard.Events.ModifyProduction(data);
+        Pard.Events.ModifyMultimedia(data);
       });
     }
 

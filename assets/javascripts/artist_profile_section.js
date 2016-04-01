@@ -198,13 +198,10 @@
 
         
     if (proposal['duration']){
-      console.log(proposal.duration)
       var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(proposal['duration']+' min'));
       var _durationIcon = Pard.Widgets.IconManager('duration').render().addClass('information-contact-icon-column');
       _addtionalInfo.append($('<div>').append(_durationIcon, _duration));
     }
-
-
 
     if (proposal['children']){        
       var _children = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Para niños'));
