@@ -122,7 +122,7 @@
 
   ns.Widgets.MultimediaManagerMessage = function(proposal){
 
-    if (proposal['links'] != false && proposal['links'] != null){
+    if (proposal.links){
       var _array = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
       proposal['links'] = _array;
     };
@@ -145,7 +145,7 @@
     var _thumbnail = $('<div>');
     var _url = [];
 
-    if('photos' in proposal && proposal.photos != null){
+    if(proposal.photos){
       proposal.photos.forEach(function(photo){
         _url.push(photo);
         var _container = $('<span>');
@@ -243,7 +243,7 @@
 
   ns.Widgets.MultimediaSpaceManagerMessage = function(profile){
 
-    if (profile['links'] != false && profile['links'] != null){
+    if (profile.links){
       var _array = Object.keys(profile['links']).map(function(key){return profile['links'][key]});
       profile['links'] = _array;
     };
@@ -264,7 +264,7 @@
     var _thumbnail = $('<div>');
     var _url = [];
 
-    if('photos' in profile && profile.photos != null){
+    if(profile.photos){
       profile.photos.forEach(function(photo){
         _url.push(photo);
         var _container = $('<span>');
