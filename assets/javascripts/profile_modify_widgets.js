@@ -60,7 +60,7 @@
       });
     }
 
-    var _folder = user_id + '/' + profile_id + '/profile_picture';
+    var _folder = 'profile_picture';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 1);
 
     var _photosLabel = $('<label>').text('Foto de perfil').css({
@@ -82,7 +82,7 @@
     for(var field in _form){
       if (profile.type === 'space'&& field === 'address') _formContainer.append(_photosContainer);
       if (profile.type === 'artist'&& field === 'bio') _formContainer.append(_photosContainer);
-      _formContainer.append($('<div>').addClass(field+'-modifyProfile').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
+      if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProfile').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
     };
 
     _createdWidget.append(_formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
@@ -106,6 +106,9 @@
          _submitForm[field] = _form[field].input.getVal();
       };
       _submitForm['profile_picture'] = url;
+      if(profile.type == 'space'){
+        if(profile.photos) _submitForm['photos'] = profile.photos;
+      }
       return _submitForm;
     }
 
