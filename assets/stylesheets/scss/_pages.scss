@@ -42,6 +42,12 @@ Header
 
 /*GENERAL*/
 
+.login-bar, .user-bar{
+  border-bottom: 2px solid $grey-1;
+  // box-shadow: 0px 1px 2px 1px $grey-1;
+  box-shadow: 0 0 10px rgba($black, 0.5);
+}
+
 .input-login {
  @include breakpoint(small down){
     display: block;
@@ -122,14 +128,6 @@ Header
 Aside content LogIn page
 -------------------------*/
 
-
-
-// .signUp-aside-text{
-//   position: horizontal-center;
-//   margin-top: 8rem;
-//   text-align: center;
-//   color: $title-color;
-// }
 
 .info{
   width: 100%;

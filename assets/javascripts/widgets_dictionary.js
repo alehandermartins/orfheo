@@ -6,8 +6,8 @@
    ns.Widgets.IconManager = function(icon_name){
 
     var _iconDictionary = {
-      artist: {icon: 'A', className: 'material-icons'},
-      space: {icon: 'S', className: 'material-icons'},
+      settings: {icon: '&#xE8B8;', className:'materials-icon'},
+      space: {icon: '&#xE88A;', className: 'material-icons'},
       music: {icon: 'M', className: 'material-icons'},
       arts: {icon: 'AE', className: 'material-icons'},
       expo: {icon: 'E', className: 'material-icons'},
@@ -26,6 +26,7 @@
       children: {icon: 'Ch', className: 'material-icons'},
       duration: {icon: 'D', className: 'material-icons'},
 
+      artist: {icon: '', className: 'fa fa-star'},
       youtube: {icon: 'IT', className: 'fa'},
       vimeo: {icon: 'VI', className: 'fa'},
       flickr: {icon: 'Fl', className: 'fa'},

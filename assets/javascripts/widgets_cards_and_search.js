@@ -190,7 +190,7 @@
     };
 
     var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: profile.color});
-    var _icon = $('<div>').addClass('icon-profileCircle').html('P');
+    var _icon = $('<div>').addClass('icon-profileCircle').html(Pard.Widgets.IconManager(profile.type).render());
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon});
     var _profilename = profile.name;
