@@ -9,7 +9,7 @@
 
     var _photoContainer = $('<div>');
 
-    if('profile_picture' in profile && profile['profile_picture'] != null && profile['profile_picture'] != false){
+    if(profile.profile_picture){
       var _img = $.cloudinary.image(profile['profile_picture'][0],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
@@ -64,7 +64,7 @@
     _contact.append($('<div>').append(_typeIcon, _type));
    
 
-    if('personal_web' in profile && profile['personal_web'] != null){
+    if(profile.personal_web){
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     };
 
@@ -82,7 +82,7 @@
     var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Actividades', Pard.Widgets.IconManager('calls').render()).render();
     var _callsBoxContent = $('<div>').addClass('box-content');
 
-    if('calls' in profile && profile.calls != false){
+    if(profile.calls){
       var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
       var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
       _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);

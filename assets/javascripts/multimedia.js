@@ -29,7 +29,7 @@
 	  }
 
 	  profiles.forEach(function(profile){
-	    if('photos' in profile && profile.photos != null){
+	    if(profile.photos){
 	      profile.photos.forEach(function(photo){
 	        _links.push({
 	          media: {
@@ -43,7 +43,7 @@
 	      });
 	    }
 
-	    if('links' in profile && profile.links != null){
+	    if(profile.links){
 	      Object.keys(profile.links).map(function(index){
 	        _links.push({
 	          media: profile.links[index],
@@ -53,9 +53,9 @@
 	      });
 	    }
 
-	    if('proposals' in profile && profile.proposals != null){
+	    if(profile.proposals){
 	      profile.proposals.forEach(function(proposal){
-	        if('photos' in proposal && proposal.photos != null){
+	        if(proposal.photos){
 	          proposal.photos.forEach(function(photo){
 	            _links.push({
 	              media: {
@@ -69,7 +69,7 @@
 	          });
 	        }
 
-	        if('links' in proposal && proposal.links != null){
+	        if(proposal.links){
 	          Object.keys(proposal.links).map(function(index){
 	            _links.push({
 	              media: proposal.links[index],

@@ -39,7 +39,7 @@
 
     _contact.append($('<div>').append(_typeIcon, _type));
 
-    if('personal_web' in profile && profile['personal_web'] != null){
+    if(profile.personal_web){
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     }
 

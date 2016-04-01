@@ -35,7 +35,7 @@
     var _thumbnail = $('<div>');
     var _url = [];
 
-    if('profile_picture' in profile && profile.profile_picture != null){
+    if(profile.profile_picture){
       profile.profile_picture.forEach(function(photo){
         _url.push(photo);
         var _container = $('<span>');
