@@ -192,6 +192,7 @@
 
     _lastselected = _profileSection;
     sectionContent.append(_profileSection);
+    if(selected) _profileSection.hide();
 
     var _navigationSelected = Pard.Widgets.ProfilesNavigationSelected(profile, function(){
       _lastselected.hide();
