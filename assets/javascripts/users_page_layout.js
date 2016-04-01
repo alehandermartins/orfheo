@@ -60,13 +60,15 @@
     var _createdWidget = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
     var _buttonContainer = $('<div>').addClass('create-profile-container');
+    var _createProfileText = $('<p>').text('Crea un perfil').addClass('create-profile-text')
+    var _createArtistBtn =  Pard.Widgets.CreateTypeProfile('artist').render();
+    var _createSpaceBtn =  Pard.Widgets.CreateTypeProfile('space').render();
 
-    var _createProfileBtn =  Pard.Widgets.CreateProfile().render();
-
-    _createProfileBtn.addClass('create-profile-btn');  
+    _createArtistBtn.addClass('create-profile-btn');
+    _createSpaceBtn.addClass('create-profile-btn');  
 
     _myprofiles.append( Pard.Widgets.MyProfiles(myprofiles).render());
-    _buttonContainer.append(_createProfileBtn); 
+    _buttonContainer.append(_createProfileText,_createArtistBtn, _createSpaceBtn); 
     
 
     _createdWidget.append(_buttonContainer, _myprofiles);

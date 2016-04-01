@@ -263,16 +263,19 @@ Aside content User page
 .create-profile-container {
   display: block;
   position: relative;
-  // position: absolute;
   width: 100%;
-  min-height: 8rem;
-  // margin-bottom: 1.5rem;
+}
+
+.create-profile-text{
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  padding: $inner-spacing $inner-spacing 0 $inner-spacing;
 }
 
 
 
 .myprofile-card-position{
-  margin-top: 1.8rem;
+  margin-top: $pard-grid-spacing;
   background-color: $content-background;
 }
 

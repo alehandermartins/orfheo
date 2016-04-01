@@ -379,9 +379,48 @@ button{
 }
 
 .create-profile-btn {
-  @include horizontal-center;
-  margin-top: 3rem;
-  height:2rem;
+  cursor: pointer;
+  width: 100%;  
+  padding: 0.5rem $inner-spacing; 
+  border: 2px solid transparent;
+
+}
+
+.create-profile-btn:hover{
+  background-color: $grey-1;
+  border: 2px solid $grey-2;
+}
+
+.create-artist-btn-popup, .create-space-btn-popup{
+    border: 2px solid $grey-2;
+    @include breakpoint(medium){
+     display: inline-block; 
+     margin-left: 4.8rem; 
+    };
+    cursor: pointer;    
+    margin-bottom: 0.5rem;
+}
+
+.create-artist-btn-popup:hover, .create-space-btn-popup:hover{
+      background-color: $grey-1;
+    }
+
+.create-artist-btn-popup{
+    padding: 0.5rem 3rem;
+}
+
+.create-space-btn-popup{
+  padding: 0.5rem 2.7rem;
+}
+
+.create-profile-btn-text{
+  margin-left:$inner-spacing;
+  font-weight: bold;
+}
+
+.create-profile-btn-icon{
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .login-btn{
@@ -749,7 +788,7 @@ select, textarea, a{
 }
 
 .message-form{
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .title-part{

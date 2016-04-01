@@ -7,7 +7,7 @@
 
   ns.Widgets.CreateProfile = function(){
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage()});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Comparte tu Arte o tu Espacio', function(){ return Pard.Widgets.CreateProfileMessage()});
    
     return {
       render: function(){
@@ -31,12 +31,12 @@
 
   ns.Widgets.CreateTypeProfile = function(type){
 
-    var _artistIcon = Pard.Widgets.IconManager('artist').render();
-    var _spaceIcon = Pard.Widgets.IconManager('space').render();
+    var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('create-profile-btn-icon');
+    var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
 
-    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista'));
+    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista').addClass('create-profile-btn-text'));
 
-    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio'));
+    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio').addClass('create-profile-btn-text'));
 
     var _buttonDesign = {
       artist: _artistButtonHtml,
@@ -48,7 +48,7 @@
       space: 'Perfil de espacio'
     }
 
-    var _caller = $('<div>').addClass('pard-btn').html(_buttonDesign[type]);
+    var _caller = $('<div>').html(_buttonDesign[type]);
 
     var _popup = Pard.Widgets.PopupCreator(_caller, _popupTitle[type], function(){ return Pard.Widgets.CreateTypeProfileMessage(type)});
 
@@ -65,11 +65,11 @@
 
     var _createdWidget = $('<div>');
 
-    var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render();
-    var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render();
+    var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render().addClass('create-space-btn-popup');
+    var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
 
     var _message = $('<div>').addClass('message-form');
-    _message.html('Puedes apuntarte a la convocatoría del conFusión 2016 enviado una o más propuestas como artista o también ofreciendo un tu espacio.<br/> Empieza creando un perfil!');
+    _message.html('<p> Puedes apuntarte a la convocatoría del conFusión 2016 enviado una o más propuestas como artista o también ofreciendo un tu espacio.</p> <h6>Empieza creando un perfil: </h6>');
 
     _createdWidget.append(_message, _artistButton, _spaceButton);
 
