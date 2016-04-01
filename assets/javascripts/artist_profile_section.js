@@ -7,15 +7,15 @@
   ns.Widgets.ProfileSectionHeader = function(sectionHeader, profile){
     sectionHeader.empty();
 
-    var _photoContainer = $('<div>').addClass('section-profilePhoto-container');
+    var _photoContainer = $('<div>');
 
     if('profile_picture' in profile && profile['profile_picture'] != null && profile['profile_picture'] != false){
       var _img = $.cloudinary.image(profile['profile_picture'][0],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
-      _photoContainer.append(_img);
+      _photoContainer.addClass('section-profilePhoto-container').append(_img);
     }
-    else _photoContainer.css({'background-color': profile.color});
+    else _photoContainer.css({'background-color': profile.color}).addClass('section-profilePhoto-container-noPhoto');
 
     sectionHeader.append(_photoContainer);
 
