@@ -10,7 +10,7 @@
     _form['name'] = {
       label: Pard.Widgets.InputLabel('Nombre artistico *'),
       input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con tu perfil de artista.')
+      helptext: Pard.Widgets.HelpText('Es el nombre artístico de la persona o del colectivo que quiere participar en el festival.')
     };
     _form['city'] = {
       label: Pard.Widgets.InputLabel('Ciudad *'),
@@ -53,7 +53,7 @@
     _form['name'] = {
       label: Pard.Widgets.InputLabel('Nombre del espacio *'),
       input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con tu perfil de espacio.')
+      helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con tu espacio durante el festival.')
     };
 
     _form['address'] ={
