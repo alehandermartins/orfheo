@@ -56,7 +56,7 @@
 
   ns.Events.CreateProfile = function(data){
     if (data['status'] == 'success'){
-      document.location = '/users/profiles/' + data['profile_id'];
+      document.location = '/profiles/' + data['profile_id'];
     }
     else{
       if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
@@ -76,7 +76,7 @@
     if (data['status'] == 'success'){
       Pard.Widgets.Alert('conFusion festival 2016', '¡Te has inscrito correctamente!',
         function(){
-         document.location = '/users/profiles/' + data['profile_id'];
+         document.location = '/profiles/' + data['profile_id'];
         }
       );
     }

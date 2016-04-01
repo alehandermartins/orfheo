@@ -55,6 +55,10 @@ module Services
         Repos::Profiles.get_profiles method, args
       end
 
+      def get_profile_owner profile_id
+        Repos::Profiles.get_profile_owner profile_id
+      end
+
       private
       def name_available? profile
         Repos::Profiles.name_available? profile[:name], profile[:profile_id]

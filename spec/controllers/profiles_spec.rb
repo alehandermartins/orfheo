@@ -1,6 +1,7 @@
 describe ProfilesController do
 
   let(:login_route){'/login/login_attempt'}
+  let(:logout_route){'/login/logout'}
   let(:create_profile_route){'/users/create_profile'}
   let(:create_proposal_route){'/users/create_proposal'}
   let(:create_call_route){'/users/create_call'}
@@ -13,9 +14,17 @@ describe ProfilesController do
     }
   }
 
+  let(:otter_user_hash){
+    {
+      email: 'otter@otter.com',
+      password: 'otter_password'
+    }
+  }
+
   let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
   let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
-
+  let(:otter_user_id){'8c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:otter_validation_code){'8c61cf77-32b0-4df2-9376-0960e64a654a'}
 
   let(:user){
     {
@@ -24,6 +33,16 @@ describe ProfilesController do
       password: 'password',
       validation: false,
       validation_code: validation_code
+    }
+  }
+
+  let(:otter_user){
+    {
+      user_id: otter_user_id,
+      email: 'otter@otter.com',
+      password: 'otter_password',
+      validation: false,
+      validation_code: otter_validation_code
     }
   }
 
@@ -88,6 +107,8 @@ describe ProfilesController do
   before(:each){
     Repos::Users.add user
     Services::Users.validated_user validation_code
+    Repos::Users.add otter_user
+    Services::Users.validated_user otter_validation_code
     post login_route, user_hash
   }
 
@@ -160,6 +181,15 @@ describe ProfilesController do
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
     end
+
+    it 'does not allow to modify a profile you don"t own' do
+      post create_profile_route, profile
+      post logout_route
+      post login_route, otter_user_hash
+      post modify_profile_route, profile
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
   end
 
   describe 'Create Proposals' do
@@ -206,20 +236,30 @@ describe ProfilesController do
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['proposal']).to eq(Util.stringify_hash(proposal))
     end
+
+    it 'does not allow to modify a proposal you don"t own' do
+      post create_profile_route, profile
+      post logout_route
+      post login_route, otter_user_hash
+      post modify_proposal_route, proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
   end
 
   describe 'Access' do
 
-    let(:profiles_route){'/users/profiles/' + profile_id}
+    let(:profiles_route){'/profiles/' + profile_id}
 
     before(:each){
       post create_profile_route, profile
       post create_call_route, call
       post send_proposal_route, callproposal
+      
     }
 
     it 'redirects user to not found page if profile does not exist' do
-      get '/users/profiles/artist_name'
+      get '/profiles/artist_name'
       expect(last_response.body).to include('Not Found')
     end
 
@@ -231,6 +271,19 @@ describe ProfilesController do
     it 'redirects user to profile page otherwise' do
       get profiles_route
       expect(last_response.body).to include('Pard.Profile')
+    end
+
+    it 'redirects user to outsider page if not logged in' do
+      post logout_route
+      get profiles_route
+      expect(last_response.body).to include('Pard.Outsider')
+    end
+
+    it 'redirects user to outsider page if not logged in' do
+      post logout_route
+      post login_route, otter_user_hash
+      get profiles_route
+      expect(last_response.body).to include('Pard.Visitor')
     end
   end
 end

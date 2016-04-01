@@ -8,30 +8,28 @@ class ProfilesController < BaseController
 
   post '/users/modify_profile' do
     check_type params[:type]
-    check_profile params[:profile_id]
+    check_profile_ownership params[:profile_id]
     profile_id = modify_profile params
     success({profile_id: profile_id})
   end
 
-  get '/users/profiles/:uuid' do
+  get '/profiles/:uuid' do
     halt erb(:not_found) unless profile_exists? params[:uuid]
-    profiles = get_profiles :user_profiles, {user_id: session[:identity], profile_id: params[:uuid]}
-    #kit = IMGKit.new('https://www.pinterest.com/pinterest/',{width: 1366, height: 768})
-    
-    #image = kit.to_img
-    #file = kit.to_file('thumbnail.jpg')
-    #Cloudinary::Uploader.upload(File.open('thumbnail.jpg'), width: 200, height: 200, crop: 'scale')
-    #File.delete('thumbnail.jpg')
-    erb :profile, :locals => {:profiles => profiles.to_json}
+    owner = get_profile_owner params[:uuid]
+    profiles = get_profiles owner, params[:uuid]
+    halt erb :outsider, :locals => {:profiles => profiles.to_json} if !session[:identity]
+    halt erb :visitor, :locals => {:profiles => profiles.to_json} if owner != session[:identity]
+    erb :profile, :locals => {:profiles => profiles.to_json} if owner == session[:identity]
   end
 
   post '/users/create_proposal' do
-    check_profile params[:profile_id]
+    check_profile_ownership params[:profile_id]
     add_proposal params
     success({profile_id: params[:profile_id]})
   end
 
   post '/users/modify_proposal' do
+    check_profile_ownership params[:profile_id]
     check_proposal params[:proposal_id]
     proposal = modify_proposal params
     success({proposal: proposal})
@@ -51,8 +49,9 @@ class ProfilesController < BaseController
     Services::Profiles.modify params, session[:identity]
   end
 
-  def check_profile profile_id
+  def check_profile_ownership profile_id
     raise Pard::Invalid::UnexistingProfile unless profile_exists? profile_id
+    raise Pard::Invalid::ProfileOwnership unless get_profile_owner(profile_id) == session[:identity]
   end
 
   def add_proposal params
@@ -75,7 +74,20 @@ class ProfilesController < BaseController
     Services::Profiles.proposal_exists? proposal_id
   end
 
-  def get_profiles method, args
-    Services::Profiles.get_profiles method, args
+  def get_profiles owner, profile_id
+    method = :visit_profiles
+    method = :user_profiles if owner == session[:identity]
+    Services::Profiles.get_profiles method, {user_id: owner, profile_id: profile_id}
+  end
+
+  def get_profile_owner profile_id
+    Services::Profiles.get_profile_owner profile_id
   end
 end
+
+ #kit = IMGKit.new('https://www.pinterest.com/pinterest/',{width: 1366, height: 768})
+    
+    #image = kit.to_img
+    #file = kit.to_file('thumbnail.jpg')
+    #Cloudinary::Uploader.upload(File.open('thumbnail.jpg'), width: 200, height: 200, crop: 'scale')
+    #File.delete('thumbnail.jpg')

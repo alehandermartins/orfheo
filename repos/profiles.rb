@@ -56,6 +56,11 @@ module Repos
         Scout.get(method, args)
       end
 
+      def get_profile_owner profile_id
+        profile = grab({profile_id: profile_id}).first
+        profile[:user_id]
+      end
+
       private
       def grab query
         results = @@profiles_collection.find(query)
@@ -94,6 +99,11 @@ module Repos
             profiles.each{ |profile|
               profile.merge! calls: Services::Calls.get_proposals_for(profile[:profile_id])
             }
+          end
+
+          def visit_profiles args
+            profiles = grab({user_id: args[:user_id]})
+            sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
           end
 
           def non_empty_profile? profile
