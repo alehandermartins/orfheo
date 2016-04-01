@@ -123,18 +123,13 @@
     
     _createdWidget.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
 
-
-
-    // _name.hover(function(){$(this).addClass('text-link')},function(){$(this).removeClass('text-link')});
-    // _profileCircle.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
-    // _name.click(function(){_profileCircle.trigger('click')});
     _createdWidget.click(function(){
       $('.selected-element').removeClass('selected-element');
       _name.addClass('selected-element');
       callback();      
     });
 
-    var _icon = $('<div>').addClass('profile-nav-element-icon').append(Pard.Widgets.IconManager(profile['type']).render());
+    var _icon = $('<div>').append(Pard.Widgets.IconManager(profile['type']).render().addClass('profile-nav-element-icon'));
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
 
@@ -165,7 +160,7 @@
       _name.addClass('selected-element');
       callback();      
     });
-    var _icon = $('<div>').addClass('profile-nav-element-icon').append(Pard.Widgets.IconManager(profile['type']).render());
+    var _icon = $('<div>').append(Pard.Widgets.IconManager(profile['type']).render().addClass('profile-nav-element-icon'));
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon}); 
     _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
