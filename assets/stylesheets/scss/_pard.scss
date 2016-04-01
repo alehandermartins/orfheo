@@ -382,13 +382,13 @@ button{
   cursor: pointer;
   width: 100%;  
   padding: 0.5rem $inner-spacing; 
-  border: 1px solid transparent;
+  border: 2px solid transparent;
 
 }
 
 .create-profile-btn:hover{
    // background-color: $grey-1;
-  border: 1px solid $grey-1;
+  border: 2px solid $grey-1;
 }
 
 .create-artist-btn-popup, .create-space-btn-popup{
@@ -419,8 +419,9 @@ button{
 }
 
 .create-profile-btn-icon{
-  font-size: 1rem;
+  font-size: 1.8rem;
   font-weight: bold;
+  vertical-align: bottom;
 }
 
 .login-btn{
@@ -607,6 +608,7 @@ Profile Card
 
 .icon-profileCircle {
 	@include absolute-center;
+  font-size: 1.7rem;
 }
 
 .name-profileCard{

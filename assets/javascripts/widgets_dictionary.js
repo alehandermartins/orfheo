@@ -21,7 +21,7 @@
       information: {icon: '&#xE061;', className: 'material-icons'},
       city_artist: {icon: '&#xE55F;', className: 'material-icons'},
       address_space: {icon: '&#xE55F;', className: 'material-icons'},
-      my_web: {icon: '&#x80B;', className: 'material-icons'},
+      my_web: {icon: '&#xE80B;', className: 'material-icons'},
       icon_social: {icon: '&#xE315;', className: 'material-icons'},
       calls: {icon: '', className: 'fa fa-spinner'},
       children: {icon: '&#xEB41;', className: 'material-icons'},
