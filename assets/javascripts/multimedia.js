@@ -6,7 +6,6 @@
 
   ns.Widgets.Multimedia = function(callback){
   	var profiles = Pard.CachedProfiles['my_profiles'];
-  	console.log(profiles);
   	Pard.ProfileManager.deleteMultimedia();
 
   	window.fbAsyncInit = function() {

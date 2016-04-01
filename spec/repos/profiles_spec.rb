@@ -183,5 +183,16 @@ describe Repos::Profiles do
       result = Repos::Profiles.get_profiles :user_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end
+
+    it 'returns all profiles for a visitor' do
+      result = Repos::Profiles.get_profiles :visit_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
+      expect(result).to eq([my_otter_profile, profile])
+    end
+  end
+
+  describe 'Get_profile_owner' do
+    it 'retrieves the owner of the profile' do
+      expect(Repos::Profiles.get_profile_owner profile_id).to eq(user_id)
+    end
   end
 end

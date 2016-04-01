@@ -168,7 +168,7 @@
 
   ns.Widgets.CreateCard = function(profile){
 
-    var _card =$('<a>').attr({href: '/users/profiles/' + profile['profile_id']}).addClass('profileCard');
+    var _card =$('<a>').attr({href: '/profiles/' + profile['profile_id']}).addClass('profileCard');
     _card.css({border: 'solid 3px'+profile.color});
     _card.hover(
       function(){

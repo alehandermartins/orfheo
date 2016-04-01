@@ -33,7 +33,7 @@
 
     $(document).ready(function(){
       if(profile.calls == false){
-        Pard.Widgets.CallArtistButton('', profile).render().trigger('click');
+        Pard.Widgets.CallArtistButton(profile, '').render().trigger('click');
       }
     });
 

@@ -141,3 +141,13 @@ Pard.Profile = function(profiles){
   Pard.Widgets.Multimedia(_display);
   $('body').append(_whole);
 };
+
+Pard.Visitor = function(profiles){
+  var visitor = $('<div>').text('inside view');
+  $('body').append(visitor);
+};
+
+Pard.Outsider = function(profiles){
+  var outsider = $('<div>').text('outside view');
+  $('body').append(outsider);
+};

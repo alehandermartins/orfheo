@@ -229,4 +229,11 @@ describe Services::Profiles do
       Services::Profiles.get_profiles :all
     end
   end
+
+  describe 'Get_profile_owner' do
+    it 'retrieves the owner of the profile' do
+      expect(Repos::Profiles).to receive(:get_profile_owner).with(profile_id)
+      Services::Profiles.get_profile_owner profile_id
+    end
+  end
 end
