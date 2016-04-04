@@ -112,10 +112,29 @@
     content.empty();
 
     var _content = content.addClass('grid-element-content');
-    var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Descubre </h3> <h4>los participantes a la convocatoria del</h4><h3>Benimaclet conFusión festival</h3>');
+    var _photoContainer = $('<div>').addClass('section-profilePhoto-container').css({
+        background: "url(<%= image_path 'cartel_reunion2016'%>)",
+        width: '750px',
+        height: '220px'
+      });
+
+    // var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Descubre </h3> <h4>los participantes a la convocatoria del</h4><h3>Benimaclet conFusión festival</h3>');
+
+
+    var _title = $('<div>').addClass('title-profile-section-container').append($('<h3>').text('Benimaclet conFusión festival').addClass('text-title-profile-section'));
+
+    var _infoText = $('<h5>').text('Convocatoria 2016 abierta');
+    var _signUpMessage =  Pard.Widgets.Registration();    
+    var _caller = $('<button>').attr({type:'button'}).html('¡Apúntate!');
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Regístrate para continuar', function(){return _signUpMessage});
+    var _signUpButton = _popup.render().addClass('signUpButton-login-section');
+
+    var _info = $('<div>').append(_infoText, _signUpButton);
+
+
     var _searchEngine = Pard.Widgets.SearchEngine();
 
-    _content.append(_title, _searchEngine.render());
+    _content.append(_photoContainer,_title, _info, _searchEngine.render());
 
     return{
       render: function(){

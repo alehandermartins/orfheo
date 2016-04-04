@@ -68,7 +68,7 @@
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     };
 
-    var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
+    var _city = $('<div>').append(Pard.Widgets.IconManager('multimedia').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
       href: 'http://maps.google.com/maps?q='+profile['city']+' '+profile['zip_code'],
       target: '_blank'
       }).text(profile['city'])));

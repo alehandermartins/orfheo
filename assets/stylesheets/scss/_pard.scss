@@ -77,7 +77,7 @@ html{
 main {
   padding-top:1.8rem;
   padding-bottom:1.8rem;
-  background: $content-background;
+  // background: $content-background;
   min-height: 100vh;
 }
 
@@ -197,11 +197,11 @@ Grid and Bar
 .grid-element-content{
   width: 100%;
   background: $grey-1;
-  @include breakpoint(medium){
-    padding-left:2rem;
-    padding-right:2rem;
-  }
-  padding-top:2rem;
+  // @include breakpoint(medium){
+  //   padding: $inner-spacing;
+   
+  // }
+   padding: $inner-spacing;
   padding-bottom:2rem;
   min-height: 100vh;
   @include border-radius($layout-border-radius);
@@ -529,6 +529,7 @@ Profile Card
   transition: box-shadow 200ms ease-out;
   color: black;
   outline:none;
+  background: white;
   @include border-radius($element-border-radius);
 	position:relative;
   margin:0 auto;
@@ -606,7 +607,7 @@ Profile Card
 
 }
 
-.icon-profileCircle {
+.icon-profileCircle .material-icons{
 	@include absolute-center;
   font-size: 1.7rem;
 }
@@ -681,7 +682,7 @@ FOOTER
   padding-bottom:0.5rem;
 
   }
-  border-top: 1px solid white;
+  border-top: 2px solid $grey-1;
 }
 
 .footer-right{

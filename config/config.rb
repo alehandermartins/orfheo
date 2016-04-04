@@ -44,6 +44,7 @@ class BaseController < Sinatra::Base
     pt_icon.png
     ig_icon.png
     shit.jpg
+    cartel_reunion2016.jpg
   )
 
   set :assets_prefix, %w(assets vendor/assets)

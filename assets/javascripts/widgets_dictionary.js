@@ -9,12 +9,13 @@
       settings: {icon: '&#xE8B8;', className:'materials-icon'},
       space: {icon: '&#xE88A;', className: 'material-icons'},
       artist: {icon: '&#xE7FD;', className: 'material-icons'},
-      // music: {icon: '&#xE405;', className: 'material-icons'},
+      music: {icon: '&#xE405;', className: 'material-icons'},
       // arts: {icon: '&#xE903;', className: 'material-icons'},
-      music: {icon: '', className: 'icon-note'},
+      // music: {icon: '', className: 'icon-note'},
       arts: {icon: '', className: 'icon-theatre'},
       expo: {icon: '&#xE3F4;', className: 'material-icons'},
-      poetry: {icon: '&#xE244;', className: 'material-icons'},
+      // poetry: {icon: '&#xE244;', className: 'material-icons'},
+      poetry: {icon: '', className: 'icon-book-open'},
       audiovisual: {icon: '&#xE04B;', className: 'material-icons'},
       street_art: {icon: '&#xE243;', className: 'material-icons'},
       workshop: {icon: '', className: 'fa fa-cubes'},
@@ -25,10 +26,11 @@
       address_space: {icon: '&#xE55F;', className: 'material-icons'},
       my_web: {icon: '&#xE80B;', className: 'material-icons'},
       icon_social: {icon: '&#xE315;', className: 'material-icons'},
-      calls: {icon: '', className: 'icon-spinner'},
+      calls: {icon: '&#xE6DD;', className: 'material-icons'},
       children: {icon: '&#xEB41;', className: 'material-icons'},
       duration: {icon: '&#xE425;', className: 'material-icons'},
       multimedia: {icon: '&#xE6C4;', className: 'material-icons'},
+     
       youtube: {icon: '', className: 'fa fa-youtube'},
       vimeo: {icon: '', className: 'fa fa-vimeo'},
       flickr: {icon: '', className: 'fa fa-flickr'},
@@ -39,7 +41,7 @@
       instagram: {icon: '', className: 'fa fa-instagram'},
       pinterest: {icon: '', className: 'fa fa-pinterest-p'},
       vine: {icon: '', className: 'fa fa-vine'},
-      bandcamp: {icon: 'bc', className: 'fa'},
+      bandcamp: {icon: '', className: 'icon-bandcamp'},
     };
 
     var _createdWidget = $('<span>').addClass(_iconDictionary[icon_name]['className']).html(_iconDictionary[icon_name]['icon']);
