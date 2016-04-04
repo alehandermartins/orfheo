@@ -100,7 +100,9 @@
           }).render());
         }
       });
-      asideNavContent.append(_profileNav, _myOtherProfiles);
+      asideNavContent.append(_profileNav)
+      var _messageOther = $('<p>').text('otros perfiles').addClass('message-otherProfile-asideBar');
+      if  (_myOtherProfiles.html()) asideNavContent.append(_myOtherProfiles.prepend(_messageOther));
     }
 
     ProfileNav(profiles,0,sectionHeader, sectionContent);
@@ -200,7 +202,10 @@
     var _proposals = [];
 
     (profile.proposals) ? productionContent.addClass('nav-list-container') : productionContent.removeClass('nav-list-container');
-    if (profile.proposals) _proposals = profile.proposals;
+    if (profile.proposals) {
+      _proposals = profile.proposals;
+      productionContent.append($('<p>').addClass('message-productions-asideBar').text('Portfolio'))  
+    }
     _proposals.forEach(function(proposal, index){
       var proposal_id = proposal.proposal_id;
       var _myProposal = $('<div>'); 

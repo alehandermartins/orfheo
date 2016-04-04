@@ -58,22 +58,25 @@
       _bio.append($('<p>').text(profile['bio']));
     }  
 
-    var _type = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(profile['type']).render()));
-    var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column');
+
+    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['type']).render()));
+    var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
 
     _contact.append($('<div>').append(_typeIcon, _type));
+
+    var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
+      href: 'http://maps.google.com/maps?q='+profile['city']+' '+profile['zip_code'],
+      target: '_blank'
+      }).text(profile['city'])));
+
+    _contact.append(_city);
+
    
 
     if(profile.personal_web){
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     };
 
-    var _city = $('<div>').append(Pard.Widgets.IconManager('multimedia').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
-      href: 'http://maps.google.com/maps?q='+profile['city']+' '+profile['zip_code'],
-      target: '_blank'
-      }).text(profile['city'])));
-
-    _contact.append(_city);
 
     _infoContentBox.append(_bio, _contact);
     _infoBoxContainer.append(_infoContentBox);
@@ -119,9 +122,21 @@
     var _createdWidget = $('<div>');
     var _webArray = Object.keys(personal_webs_obj).map(function(key){return personal_webs_obj[key]});
     var _socialIcons;
+    var _personalWebs = $('<div>');
     var _socials = $('<span>');
    
     _webArray.forEach(function(elem){
+      if (elem['provider'] != 'my_web'){
+        var _iconSocial = Pard.Widgets.IconManager('icon_social').render().addClass('icon-in-box mySocials-icon-info-box');
+        var _iconImg = Pard.Widgets.IconManager(elem['provider']).render();
+        _iconImg.addClass('social-icon-fa')        
+        var _iconA = $('<a>').attr({
+          href: elem['url'],
+          target: '_blank'            
+        }).append(_iconImg);
+        _socials.append(_iconA);
+        _socialIcons = $('<div>').append($('<div>').addClass('information-contact-icon-column').append(_iconSocial), $('<p>').addClass('information-contact-text-column').append(_socials));
+      }
       if (elem['provider'] == 'my_web'){
         var _iconLink = Pard.Widgets.IconManager('my_web').render();
         var _url = elem['url'];
@@ -137,23 +152,12 @@
           }
         })
         _link.text(_url);
-        _createdWidget.append($('<div>').append($('<div>').addClass('information-contact-icon-column').append(_iconLink), $('<p>').addClass('information-contact-text-column').append(_link)));
-      }
-      else{
-        var _iconSocial = Pard.Widgets.IconManager('icon_social').render().addClass('icon-in-box');
-        var _iconImg = Pard.Widgets.IconManager(elem['provider']).render();
-        _iconImg.addClass('social-icon-fa')
-        
-        var _iconA = $('<a>').attr({
-          href: elem['url'],
-          target: '_blank'            
-        }).append(_iconImg);
-        _socials.append(_iconA);
-        _socialIcons = $('<div>').append($('<div>').addClass('information-contact-icon-column').append(_iconSocial), $('<p>').addClass('information-contact-text-column').append(_socials))
+       _personalWebs.append($('<div>').addClass('information-contact-icon-column').append(_iconLink), $('<p>').addClass('information-contact-text-column').append(_link));        
       }
     });
     
     if (_socialIcons)  _createdWidget.append(_socialIcons);
+    if (_personalWebs.html()) _createdWidget.append(_personalWebs);
 
     return{
       render: function(){

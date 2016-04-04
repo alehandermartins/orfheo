@@ -216,8 +216,8 @@ grid-section content LogIn page
     padding-right:1.5rem;
   }
   @include breakpoint(medium){
-    padding-left:3.5rem;
-    padding-right:3.5rem;
+    padding-left:2rem;
+    padding-right:2rem;
   }
   margin-top: 2.5rem;
 }
@@ -338,6 +338,7 @@ Aside
   margin-top: $pard-grid-spacing;
   background: $content-background;
   @include border-radius($layout-border-radius); 
+  padding: 0.2rem;
 }
 
 .verticalAlign{
@@ -415,6 +416,13 @@ Aside
 
 .selected-element{
   text-decoration: underline;
+}
+
+.message-otherProfile-asideBar, .message-productions-asideBar{
+  text-transform: uppercase;
+  font-size: $almostNormalSize;
+  padding:0.2rem;
+  margin-bottom: 0;
 }
 
 /*-----------------
@@ -504,25 +512,45 @@ Profile Section
 }
 
 .information-contact-text-column{
-  @include breakpoint(large){width: 14rem};
+  @include breakpoint(large){
+    width: -moz-calc(100% - 2.8rem);
+    width: -webkit-calc(100% - 2.8rem);
+    width: calc(100% - 2.8rem);
+    // width: 14.2rem
+  };
   line-height: 1.3rem;
-  vertical-align: -0.4rem;
+  vertical-align: -0.2rem;
   font-size: $almostNormalSize;
+  margin-bottom: 0.5rem;
 }
 
 .information-contact-icon-column{
-  width: 3rem;
+  width: 2.8rem;
+  color: $grey-3;
 }
 
 .icon-in-box{
   margin-right: $inner-spacing;
 }
 
+.type-icon-info-box{
+  color: $grey-4;
+  font-size: 1.8rem;
+}
+
+.type-text-info-box{
+ vertical-align: -0.4rem;
+}
+
+.mySocials-icon-info-box{
+  font-size: 2rem;
+}
+
 .social-icon-fa{
   font-size: 1.3rem;
   margin-right: $inner-spacing;
+  vertical-align: -0.2rem;
 }
-
 
 .activities-box-call-name{
   margin-bottom: 0rem;
@@ -545,4 +573,6 @@ Production Section
   padding: 0 $inner-spacing;
   position: relative;
 }
+
+
 

@@ -318,6 +318,9 @@ BUTTONS
   @include breakpoint(large){ height: 13.75rem; }
   @include breakpoint(medium down){ height: 22vw;}
   @include breakpoint(small down){ height: 30vw;}
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
 }
 
 
@@ -1060,5 +1063,15 @@ POPUP
 .vcenter-inner{
   display: table-cell;
   vertical-align: middle;
+}
+
+
+
+/*==============================================
+ICONS
+===============================================*/
+
+.icon-book-open, .icon-theatre{
+  font-size: 1.3rem;  
 }
 
