@@ -435,7 +435,7 @@
     var _createdWidget = $('<div>');    
     var _results = [];
     var _inputs = [];
-    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url');
     _input.setClass('multiMedia');
     var _addInputButton = $('<span>').addClass('material-icons').html('&#xE86C').css({
       position: 'relative',
@@ -446,20 +446,15 @@
 
     var _addnewInput = function(url){
       var _container = $('<div>');
-      var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
+      var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url');
       _newInput.setClass('multiMedia');
       _newInput.setVal(url);
       _newInput.setAttr('disabled', true);
       _inputs.push(_newInput);
 
-      var _removeInputButton = $('<span>').addClass('material-icons').html('&#xE888').css({
-        position: 'relative',
-        top: '5px',
-        left: '5px',
-        cursor: 'pointer'
-      });
+      var _removeInputButton = $('<span>').addClass('material-icons').html('&#xE888').addClass('class_name');
 
-      _container.append(_newInput.render().css('width', '550'), _removeInputButton);
+      _container.append(_newInput.render().addClass('add-multimedia-input-field'), _removeInputButton);
       _removeInputButton.on('click', function(){
         var _index = _inputs.indexOf(_newInput);
         _inputs.splice(_index, 1);

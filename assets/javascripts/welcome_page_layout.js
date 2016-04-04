@@ -112,11 +112,12 @@
     content.empty();
 
     var _content = content.addClass('grid-element-content');
-    var _photoContainer = $('<div>').addClass('section-profilePhoto-container').css({
-        background: "url(<%= image_path 'cartel_reunion2016'%>)",
-        width: '750px',
-        height: '220px'
-      });
+    var _photoContainer = $('<div>').addClass('section-profilePhoto-container').addClass('im');
+    // .css({
+    //     background: "url(<%= image_path 'cartel_reunion2016.jpg'%>)",
+    //     width: '750px',
+    //     height: '220px'
+    //   });
 
     // var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Descubre </h3> <h4>los participantes a la convocatoria del</h4><h3>Benimaclet conFusión festival</h3>');
 

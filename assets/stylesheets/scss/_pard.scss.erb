@@ -311,6 +311,17 @@ off-canvas
 /*====================
 BUTTONS
 ======================*/
+.im {
+  background-image: url(<%= image_path 'cartel_reunion2016.jpg' %>);
+  width: 100%;
+  height:220px;
+}
+// .im{
+//   background: url("<%= image_path 'cartel_reunion2016.jpg'%>");
+//         width: 750px;
+//         height: 220px;
+// }
+
 
 .pard-btn{
   background: $element-background;
@@ -358,14 +369,13 @@ button{
   margin-top: 1rem;
 }
 
-.plus-inform-btn, .minus-inform-btn{
-  @extend .pard-btn;
-  @include pardCircle(1.5rem);
-  float: right;
-  padding:0;
+// .plus-inform-btn, .minus-inform-btn{
+//   @extend .pard-btn;
+//   @include pardCircle(1.5rem);
+//   float: right;
+//   padding:0;
   
-  // @include border-radius($element-border-radius);
-}
+// }
 
 .plus-inform-btn{
   margin-left:2rem;
