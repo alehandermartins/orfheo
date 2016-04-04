@@ -4,112 +4,116 @@
 
   ns.Widgets.SearchEngine = function () {
 
-    var _createdWidget = $('<div>');
+    var _createdWidget = $('<div>').addClass('search-engine-container');
 
     var _profiles = Pard.CachedProfiles['profiles'];
 
-    var _searchTools = $('<div>').addClass('row lateral-content-padding');
-    var _searchResult = $('<div>');
+    var _searchTool = $('<div>').addClass('search-tool-container');
+    var _searchResult = $('<div>').addClass('search-results');
 
-    var _filters = $('<div>').addClass('medium-7 columns');
-    var _searchByName = $('<div>').addClass('medium-5 columns');
+    var _searchMessage = $('<div>').append($('<p>').text('Descubre los otros participantes'));
+
+    // var _filters = $('<div>').addClass('medium-7 columns');
+    // var _searchByName = $('<div>').addClass('medium-5 columns');
     
-    var _selectorsLabel = $('<label>').text('Filtros');
-    var _searchByNameLabel = $('<label>').text('Busqueda por nombre');
+    // var _selectorsLabel = $('<label>').text('Filtros');
+    // var _searchByNameLabel = $('<label>').text('Busqueda por nombre');
 
-    var _labelsTypes = ['- Tipo de perfil -', 'Artista', 'Espacio'];
-    var _valuesTypes = ['none', 'artist', 'space'];
+    // var _labelsTypes = ['- Tipo de perfil -', 'Artista', 'Espacio'];
+    // var _valuesTypes = ['none', 'artist', 'space'];
 
-    var _catSelector = $('<span>');
-    var _catSelectorDefault = Pard.Widgets.Selector(['- Categoría -'], ['none']);
-    _catSelectorDefault.setClass('filter-select');
-    _catSelectorDefault.disable();
-    _catSelector.append(_catSelectorDefault.render());
+    // var _catSelector = $('<span>');
+    // var _catSelectorDefault = Pard.Widgets.Selector(['- Categoría -'], ['none']);
+    // _catSelectorDefault.setClass('filter-select');
+    // _catSelectorDefault.disable();
+    // _catSelector.append(_catSelectorDefault.render());
 
-    var _labelsCat ={
-      artist: ['- Categoría -', 'Musica', 'Artes Escénicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'],
-      space: ['- Categoría -','Asociacion Cultural', 'Local Comercial', 'Espacio Particular']
-    }
+    // var _labelsCat ={
+    //   artist: ['- Categoría -', 'Musica', 'Artes Escénicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'],
+    //   space: ['- Categoría -','Asociacion Cultural', 'Local Comercial', 'Espacio Particular']
+    // }
 
-    var _valuesCat ={
-      artist: ['none', 'music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'],
-      space: ['none', 'cultural_ass', 'commercial', 'home']
-    }
+    // var _valuesCat ={
+    //   artist: ['none', 'music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'],
+    //   space: ['none', 'cultural_ass', 'commercial', 'home']
+    // }
 
-    var TypeCallback = function(){
-      var _type = $(this).val();
-      if (_type != 'none'){
-        var _catSelect = Pard.Widgets.Selector(_labelsCat[_type], _valuesCat[_type], CatCallback);
-        _catSelect.setClass('filter-select');
-        _catSelector.html(_catSelect.render());
-        _profiles = [];
-        profiles.forEach(function(profile, index){
-          if (profile.type === _type) _profiles.push(profile);
-        });
-        _searchResult.empty();
-        _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
-      }
-      else{
-        _catSelector.html(_catSelectorDefault.render());
-        _profiles = profiles;
-        _searchResult.empty();
-        _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
-        _createdWidget.append(_searchResult);
-      }
-    }
+    // var TypeCallback = function(){
+    //   var _type = $(this).val();
+    //   if (_type != 'none'){
+    //     var _catSelect = Pard.Widgets.Selector(_labelsCat[_type], _valuesCat[_type], CatCallback);
+    //     _catSelect.setClass('filter-select');
+    //     _catSelector.html(_catSelect.render());
+    //     _profiles = [];
+    //     profiles.forEach(function(profile, index){
+    //       if (profile.type === _type) _profiles.push(profile);
+    //     });
+    //     _searchResult.empty();
+    //     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
+    //   }
+    //   else{
+    //     _catSelector.html(_catSelectorDefault.render());
+    //     _profiles = profiles;
+    //     _searchResult.empty();
+    //     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
+    //     _createdWidget.append(_searchResult);
+    //   }
+    // }
 
-    var CatCallback = function(){
-      var _cat = $(this).val();
-      if (_cat != 'none'){
-      _profiles = [];
-      var _keys =[];
-      profiles.forEach(function(profile, index){
-        _keys = Object.keys(profile);
-        if ($.inArray('proposals', _keys) >= 0 ){        
-          profile.proposals.forEach(function(proposal){
-            if (proposal.category === _cat) _profiles.push(profile);
-          })
-        }
-        else{
-          if (profile.category === _cat) _profiles.push(profile);
-        }
-      }); 
-        _searchResult.empty();
-        _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
-      }
-      else{
-        TypeCallbackBound();
-      }
-    }
+    // var CatCallback = function(){
+    //   var _cat = $(this).val();
+    //   if (_cat != 'none'){
+    //   _profiles = [];
+    //   var _keys =[];
+    //   profiles.forEach(function(profile, index){
+    //     _keys = Object.keys(profile);
+    //     if ($.inArray('proposals', _keys) >= 0 ){        
+    //       profile.proposals.forEach(function(proposal){
+    //         if (proposal.category === _cat) _profiles.push(profile);
+    //       })
+    //     }
+    //     else{
+    //       if (profile.category === _cat) _profiles.push(profile);
+    //     }
+    //   }); 
+    //     _searchResult.empty();
+    //     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
+    //   }
+    //   else{
+    //     TypeCallbackBound();
+    //   }
+    // }
 
-    var searchCallback = function(textInput){
-      var _input = textInput.val();
-      if (_input != ''){
-        _profiles = [];
-        profiles.forEach(function(profile){
-          if (profile.name === _input) _profiles.push(profile);        
-        });
-        _searchResult.empty();
-        _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
-      }
-      else{
-        TypeCallbackBound();
-      }
-    } 
+    // var searchCallback = function(textInput){
+    //   var _input = textInput.val();
+    //   if (_input != ''){
+    //     _profiles = [];
+    //     profiles.forEach(function(profile){
+    //       if (profile.name === _input) _profiles.push(profile);        
+    //     });
+    //     _searchResult.empty();
+    //     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
+    //   }
+    //   else{
+    //     TypeCallbackBound();
+    //   }
+    // } 
 
-    var _typesSelector = Pard.Widgets.Selector(_labelsTypes, _valuesTypes, TypeCallback);
-    _typesSelector.setClass('filter-select');
+    // var _typesSelector = Pard.Widgets.Selector(_labelsTypes, _valuesTypes, TypeCallback);
+    // _typesSelector.setClass('filter-select');
 
-    var TypeCallbackBound = TypeCallback.bind(_typesSelector.render());
+    // var TypeCallbackBound = TypeCallback.bind(_typesSelector.render());
 
-    var _searchWidget = Pard.Widgets.SearchByName(_profiles, searchCallback).render();
+    // var _searchWidget = Pard.Widgets.SearchByName(_profiles, searchCallback).render();
 
     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render());
+    _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
 
-    _searchByName.append(_searchByNameLabel, _searchWidget);
-    _filters.append(_selectorsLabel,_typesSelector.render(), _catSelector);
-    _searchTools.append(_filters, _searchByName);
-    _createdWidget.append(_searchTools, _searchResult);
+    // _searchByName.append(_searchByNameLabel, _searchWidget);
+    // _filters.append(_selectorsLabel,_typesSelector.render(), _catSelector);
+    // _searchTools.append(_filters, _searchByName);
+
+    _createdWidget.append(_searchTool, _searchResult);
 
     return{
       render: function(){
@@ -151,7 +155,7 @@
 
   ns.Widgets.ProfileCards = function (profiles) {
 
-    var _createdWidget =  $('<div>').addClass('row lateral-content-padding search-results');
+    var _createdWidget =  $('<div>').addClass('row lateral-content-padding');
 
     profiles.forEach(function(profile){
       _createdWidget.append($('<div>').addClass('columns large-4').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')));

@@ -311,16 +311,14 @@ off-canvas
 /*====================
 BUTTONS
 ======================*/
-.im {
+.welcome-img-section-header {
   background-image: url(<%= image_path 'cartel_reunion2016.jpg' %>);
   width: 100%;
-  height:220px;
+  width:100%;
+  @include breakpoint(large){ height: 13.75rem; }
+  @include breakpoint(medium down){ height: 22vw;}
+  @include breakpoint(small down){ height: 30vw;}
 }
-// .im{
-//   background: url("<%= image_path 'cartel_reunion2016.jpg'%>");
-//         width: 750px;
-//         height: 220px;
-// }
 
 
 .pard-btn{
@@ -369,24 +367,6 @@ button{
   margin-top: 1rem;
 }
 
-// .plus-inform-btn, .minus-inform-btn{
-//   @extend .pard-btn;
-//   @include pardCircle(1.5rem);
-//   float: right;
-//   padding:0;
-  
-// }
-
-.plus-inform-btn{
-  margin-left:2rem;
-  margin-top: -0.6rem;
-} 
-
-.minus-inform-btn{
-  margin-top: -4rem;
-  // margin-top: -0.6rem;
-  margin-left:0.5rem;
-}
 
 .create-profile-btn {
   cursor: pointer;
@@ -446,16 +426,36 @@ button{
   }
 }
 
+// .signupButton{
+//   color: $element-color;
+//   font-weight: 600;
+//   width: 100%;
+//   padding-top:2rem;
+//   padding-bottom:2rem;
+//   margin-bottom: 1.5rem;
+//   @include border-radius($element-border-radius);
+//   font-size: $smallSize;
+//   @include linearGradient(#b9daad, #6cb252);
+// }
+
+
 .signupButton{
   color: $element-color;
-  font-weight: 600;
+  font-weight: bold;
   width: 100%;
-  padding-top:2rem;
-  padding-bottom:2rem;
-  margin-bottom: 1.5rem;
+  height: 3rem;
+  // padding-top:0.5rem;
+  // padding-bottom:0.5rem;
+  margin-bottom: $pard-grid-spacing;
   @include border-radius($element-border-radius);
-  font-size: $smallSize;
-  @include linearGradient(#b9daad, #6cb252);
+  // font-size: $smallSize;
+  // @include linearGradient(#b9daad, #6cb252);
+  background: rgb(68, 196, 35);
+}
+
+.signupButton:hover{
+    background: rgba(68, 196, 35,0.8);
+
 }
 
 .signupButton-alert{
@@ -470,6 +470,25 @@ button{
   @include linearGradient(#b9daad, #6cb252);
   position: relative;
   margin-left:3rem;
+}
+
+.signUp-button-welcome-section{
+  background: white;
+  font-weight: bold;
+  @include border-radius($element-border-radius);
+  padding: 1rem 3.5rem;
+  border: 2px solid $grey-2;
+  font-size: 21px;
+  // @include horizontal-center;
+  //margin-top: 2rem;
+  //margin-bottom: 2rem;
+  position: absolute;
+  left:17rem;
+  top: 0;
+}
+
+.signUp-button-welcome-section:hover{
+  box-shadow: 0px 1px 1px 1px rgba(10, 10, 10, 0.2);
 }
 
 .toUserPage-btn{
