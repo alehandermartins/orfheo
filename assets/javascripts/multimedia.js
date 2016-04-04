@@ -15,10 +15,7 @@
     //Local
     FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
 	  }
-	  $.ajaxSetup({cache: true});
-	  $.getScript(document.location.protocol + '//connect.facebook.net/en_US/all.js');
-	  $.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js');
-	  $.getScript(document.location.protocol + '//assets.pinterest.com/js/pinit.js');
+	  
 
 	  var _done = [];
 	  var _links = [];
@@ -173,7 +170,13 @@
 
 	  var _display = function(){
 	  	if (_done.length == _links.length){
-	  		callback();
+	  		$.ajaxSetup({cache: true});
+	  		$.getScript(document.location.protocol + '//connect.facebook.net/en_US/all.js');
+	  		$.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js');
+	  		$.getScript(document.location.protocol + '//assets.pinterest.com/js/pinit.js');
+	  		$(document).ready(function(){
+	  			callback();
+	  		});
 	  	}
 	  }
 
