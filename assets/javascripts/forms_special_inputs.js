@@ -502,7 +502,7 @@
       var _callProvider = function(provider, type){
         $.getJSON("https://noembed.com/embed?callback=?",
         {"format": "json", "url": url}, function (data) {
-          console.log(data);
+          console.log('flag'+data);
           if ('error' in data) input.addWarning();
           else{
             _composeResults(provider, type);

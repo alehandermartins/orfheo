@@ -152,7 +152,6 @@
         var _previousPhoto = $.cloudinary.image(photo,
           { format: 'jpg', width: 50, height: 50,
             crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-        console.log(_formContainer);
         var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
           'position': 'relative',
           'bottom': '20px',

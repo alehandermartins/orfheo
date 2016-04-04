@@ -170,6 +170,7 @@
 
     var proposal = Pard.ProfileManager.getProposal(proposal_id);
 
+
     var _categoryFields = Pard.Forms.ArtistCall(proposal.category).productionFields();
    
     var _createdWidget = $('<div>');
@@ -217,11 +218,15 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
  
-    var _multimediaContainer = $('<div>'); 
+    var _multimediaContainer = $('<div>').addClass('multimedia-container'); 
+
+
 
     if(proposal.video){
+      var _videoContainer = $('<div>').addClass('video-production-container')
+      _multimediaContainer.append(_videoContainer);
       proposal.video.forEach(function(video){
-        _multimediaContainer.append(video);
+        _videoContainer.append($('<div>').addClass('single-video-container').append(video));
       });
     }
 

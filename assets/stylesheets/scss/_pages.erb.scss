@@ -574,5 +574,30 @@ Production Section
   position: relative;
 }
 
+.video-production-container{
+  position: relative;
+}
 
+.multimedia-container .video-production-container iframe{
+max-width: 18.5rem;
+max-height: 10.5rem;
+@include horizontal-center;
+display:block;
+position: relative;
+
+}
+
+.fb-post span{
+    max-height: 10.5rem;
+    position: relative;
+    margin-left: 6rem;
+}
+
+
+.single-video-container{
+  width: 100%;
+  position:relative;
+  display: block;
+  margin-top: 2rem;
+}
 

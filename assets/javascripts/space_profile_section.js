@@ -34,16 +34,12 @@
       _bio.append($('<p>').text(profile['bio']));
     }
 
-    var _type = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(profile['category']).render()));
-    var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column');
+    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['category']).render()));
+    var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
 
     _contact.append($('<div>').append(_typeIcon, _type));
 
-    if(profile.personal_web){
-      _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
-    }
-
-    var _address = $('<div>');
+     var _address = $('<div>');
     var _addressIcon = Pard.Widgets.IconManager('address_space').render().addClass('information-contact-icon-column');
     var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+' '+profile['address']['country'];
     var _addressText = $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
@@ -52,6 +48,12 @@
       }).text(profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']));
 
     _contact.append(_address.append(_addressIcon, _addressText));
+
+    if(profile.personal_web){
+      _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
+    }
+
+   
 
     _infoContentBox.append(_bio, _contact);
     _infoBoxContainer.append(_infoContentBox);
