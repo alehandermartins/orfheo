@@ -590,8 +590,8 @@ Production Section
 
 .video-title-box{
   border: 1px solid $grey-2;
-  padding-top:2rem;
-  padding-bottom:2rem; 
+  padding-top:1rem;
+  padding-bottom:1rem; 
   width: 40rem;
   margin-left: 3.2rem;
   margin-top: 2rem;
@@ -608,7 +608,6 @@ Production Section
 
 
 .single-video-container{
-  // width: 100%;
   position:relative;
   display: block;
   margin-top: 3rem;
@@ -616,12 +615,9 @@ Production Section
 }
 
 .single-image-container {
-  // @include horizontal-center;
   position:relative;
-  // margin-top: 2rem;
   display: inline-block;
   width: 22.7rem;
-  // vertical-align: middle;  
 }
 
 .single-image-content{
@@ -658,6 +654,7 @@ Production Section
 
 .images-title-box h6, .video-title-box h6{
   text-align: center;
+  margin-bottom:0;
 }
 
 .video-production-container, .image-production-container{
