@@ -432,7 +432,8 @@
 
   ns.Widgets.InputMultimedia = function(){
 
-    var _createdWidget = $('<div>');    
+    var _createdWidget = $('<div>'); 
+    var _websAdded = $('<div>');  
     var _results = [];
     var _inputs = [];
     var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url');
@@ -466,12 +467,12 @@
 
     _addInputButton.on('click', function(){
       _checkUrl(_input, function(){
-        _createdWidget.append(_addnewInput(_input.getVal()));
+        _websAdded.prepend(_addnewInput(_input.getVal()));
         _input.setVal('');
       });
     });
 
-    _createdWidget.append(_input.render().css('width', '550'), _addInputButton);
+    _createdWidget.append(_input.render().css('width', '550'), _addInputButton, _websAdded);
 
     var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/photos\/.*/i;
     var fb_posts_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/posts\/.*/i;

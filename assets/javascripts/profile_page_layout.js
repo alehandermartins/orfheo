@@ -6,7 +6,9 @@
 
   ns.Widgets.ProfileMainLayout = function(profiles){
 
-    var _main = $('<main>');
+    var _rgb = Pard.Widgets.IconColor(profiles[0]['color']).rgb();
+    var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+    var _main = $('<main>').css({'background': _backColor});
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});

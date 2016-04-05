@@ -139,11 +139,11 @@ Pard.Profile = function(profiles){
   Pard.Widgets.Multimedia(_display);
   $('body').append(_whole);
 
-   $(window).load(function(){
-    var _rgb = Pard.Widgets.IconColor(Pard.CachedProfiles['my_profiles'][0]['color']).rgb();
-    var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
-    $('#main-profile-page').css({'background': _backColor});
-  });
+  //  $(window).load(function(){
+  //   var _rgb = Pard.Widgets.IconColor(Pard.CachedProfiles['my_profiles'][0]['color']).rgb();
+  //   var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+  //   $('#main-profile-page').css({'background': _backColor});
+  // });
 
 };
 

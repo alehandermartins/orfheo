@@ -225,7 +225,12 @@
     if(proposal.video){
       var _videoContainer = $('<div>').addClass('video-production-container')
       _multimediaContainer.append(_videoContainer);
-      proposal.video.forEach(function(video){
+      proposal.video.forEach(function(video, index){
+         if (typeof video == 'object'){
+           console.log(video['0']);
+           console.log(Object.keys(video));
+           console.log(video);
+         }
         _videoContainer.append($('<div>').addClass('single-video-container').append(video));
       });
     }
