@@ -218,22 +218,46 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
  
-    var _multimediaContainer = $('<div>').addClass('multimedia-container section-box-container'); 
+    var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimediales', Pard.Widgets.IconManager('multimedia').render()).render();
+    _multimediaContainer.addClass('multimedia-container section-box-container'); 
+
+    var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
+
+    _multimediaContainer.append(_multiMediaManager.render().addClass('manage-multimedia-btn'));
 
 
 
     if(proposal.video){
       var _videoContainer = $('<div>').addClass('video-production-container')
+
+      var _videoTitle = $('<div>').append($('<div>').addClass('video-title-box').append($('<h6>').text('Vídeos')));
+      _videoContainer.append(_videoTitle);
+
+      _videoContainer.append(_videoTitle);
       _multimediaContainer.append(_videoContainer);
       proposal.video.forEach(function(video){
         console.log(video);
         _videoContainer.append($('<div>').addClass('single-video-container')
         ).append(video)});
-      };
+    };
+
+
+    if(proposal.audio){
+      var _audioContainer = $('<div>').addClass('image-production-container');
+      var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
+      _audioContainer.append(_audioTitle);
+      _multimediaContainer.append(_audioContainer);
+      proposal.audio.forEach(function(audio){
+        _audioContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
+    });
+    }
     
 
     if(proposal.image){
-         var _imageContainer = $('<div>').addClass('image-production-container');
+      var _imageContainer = $('<div>').addClass('image-production-container');
+      // var _imageTitle = $('<ul>').append($('<li>').append($('<h6>').text('Imágenes'))).addClass('image-audio-title');
+      var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));
+      _imageContainer.append(_imageTitle);
       _multimediaContainer.append(_imageContainer);
       proposal.image.forEach(function(image){
         _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));
@@ -241,13 +265,7 @@
       });
     }
 
-    if(proposal.audio){
-      var _audioContainer = $('<div>').addClass('image-production-container');
-      _multimediaContainer.append(_audioContainer);
-      proposal.audio.forEach(function(audio){
-        _audioContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
-    });
-    }
+   
 
     var _modifyProduction = Pard.Widgets.ModifyProduction(proposal);
 
@@ -260,16 +278,15 @@
       _modifyProduction.render().css({color: _iconColor})
     );
 
-    var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
 
-    _createdWidget.append( _multiMediaManager.render());
+    _createdWidget.append(_multimediaContainer);
 
 
-    if (_multimediaContainer.html()){
-      _createdWidget.append(
-        _multimediaContainer
-      );
-    }
+    // if (_multimediaContainer.html()){
+    //   _createdWidget.append(
+    //     _multimediaContainer
+    //   );
+    // }
 
     return {
       render: function(){
