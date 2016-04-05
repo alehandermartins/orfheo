@@ -580,18 +580,24 @@ Production Section
 }
 
 .multimedia-container .video-production-container iframe{
-max-width: 18.5rem;
-max-height: 10.5rem;
-// @include horizontal-center;
-display:block;
-// position: relative;
-
+  height: 22.5rem;
+  width: 40rem;
+  display:block;
+  position: relative;
+margin-left: 3.2rem;
 }
 
-.video-production-container .fb-post span{
-    max-height: 10.5rem;
-    position: relative;
-    margin-left: 6rem;
+  .video-production-container .fb-post iframe, .video-production-container .fb-post span{
+  max-height: 22.5rem;
+    // margin: 0 auto;
+}  
+//     height: 10.5rem;
+//     position: relative;
+//     // margin-left: 6rem;
+// }
+
+.noembed-meta-info{
+  display: none;
 }
 
 
@@ -602,10 +608,18 @@ display:block;
   margin-top: 2rem;
 }
 
-.image-production-container ._4-u2{
-  width: 24rem;
-}
+// .image-production-container ._4-u2{
+//   width: 24rem;
+// }
 
 .image-production-container ._5x46{
   display: none;
+}
+
+#facebook body{
+  max-width: 20rem;
+}
+
+.userContentWrapper{
+  max-width: 20rem;
 }
