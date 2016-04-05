@@ -244,9 +244,12 @@
 
 
     if(proposal.image){
+         var _imageContainer = $('<div>').addClass('image-production-container');
+      _multimediaContainer.append(_imageContainer);
       proposal.image.forEach(function(image){
         console.log(image);
-        _multimediaContainer.append(image);
+        _imageContainer.append($('<div>').addClass('single-image-container').append(image));
+        // _multimediaContainer.append(image);
       });
     }
 

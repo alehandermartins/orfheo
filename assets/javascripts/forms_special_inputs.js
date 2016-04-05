@@ -487,7 +487,7 @@
     var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
     var yt_url = /^(http|https)\:\/\/www\.youtube\.*/i;
     var vm_url = /^(http|https)\:\/\/vimeo\.*/i;
-    var fl_url = /^(http|https)\:\/\/www\.flickr\.*/i;
+    var fl_url = /^(http|https)\:\/\/flickr\.*/i;
     var sc_url = /^(http|https)\:\/\/soundcloud\.*/i;
 
     var _checkUrl = function(input, callback){

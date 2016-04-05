@@ -588,17 +588,24 @@ display:block;
 
 }
 
-.fb-post span{
+.video-production-container .fb-post span{
     max-height: 10.5rem;
     position: relative;
     margin-left: 6rem;
 }
 
 
-.single-video-container{
+.single-video-container, .single-image-container{
   // width: 100%;
   position:relative;
   display: block;
   margin-top: 2rem;
 }
 
+.image-production-container ._4-u2{
+  width: 24rem;
+}
+
+.image-production-container ._5x46{
+  display: none;
+}
