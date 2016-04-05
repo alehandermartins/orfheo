@@ -584,7 +584,7 @@ Production Section
   width: 40rem;
   display:block;
   position: relative;
-margin-left: 3.2rem;
+  margin-left: 3.2rem;
 }
 
   .video-production-container .fb-post iframe, .video-production-container .fb-post span{
@@ -601,25 +601,41 @@ margin-left: 3.2rem;
 }
 
 
-.single-video-container, .single-image-container{
+.single-video-container{
   // width: 100%;
   position:relative;
   display: block;
   margin-top: 2rem;
 }
 
-// .image-production-container ._4-u2{
-//   width: 24rem;
+.single-image-container {
+  position:relative;
+  margin-top: 2rem;
+  display: inline-block;
+  width: 23.1rem;
+  vertical-align: middle;  
+}
+
+.single-image-content{
+  @include horizontal-center;
+  position: relative;
+  display: inline-block;  
+} 
+
+.multimedia-container{
+  padding-bottom: 2rem;
+}
+
+// .single-image-container .fb-post iframe{
+// max-height:233px;
 // }
 
-.image-production-container ._5x46{
-  display: none;
+.single-image-container .noembed-wrapper {
+  max-width: 350px;
+  padding: 8px;
+  border: 1px solid $grey-2;
 }
 
-#facebook body{
-  max-width: 20rem;
-}
-
-.userContentWrapper{
-  max-width: 20rem;
-}
+// .noembed-flickr {
+//   max-height: 350px;
+// }

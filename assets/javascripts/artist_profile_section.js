@@ -218,7 +218,7 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
  
-    var _multimediaContainer = $('<div>').addClass('multimedia-container'); 
+    var _multimediaContainer = $('<div>').addClass('multimedia-container section-box-container'); 
 
 
 
@@ -227,15 +227,6 @@
       _multimediaContainer.append(_videoContainer);
       proposal.video.forEach(function(video){
         _videoContainer.append($('<div>').addClass('single-video-container')
-        //   .one('mouseover',function(){
-        //   console.log('clicked'); 
-        //   console.log($('.single-video-container img')[0]);
-        //     // $('.single-video-container iframe')[1].unbind();
-        //             $('.single-video-container img')[0].addEventListener('click', console.log('flag'));
-        //             // removeEventListener('click');
-
-        //   $('.single-video-container img')[1].addEventListener('click',function(){console.log('flag')});
-        // 
         ).append(video)});
       };
     
@@ -248,7 +239,7 @@
       _multimediaContainer.append(_imageContainer);
       proposal.image.forEach(function(image){
         console.log(image);
-        _imageContainer.append($('<div>').addClass('single-image-container').append(image));
+        _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));
         // _multimediaContainer.append(image);
       });
     }

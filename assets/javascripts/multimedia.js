@@ -81,10 +81,44 @@
 
 
 	  var _cloudinary = function(link, id, elementClass){
+	  	// console.log(link.provider);
 	    var _img = $.cloudinary.image(link['url'],
-	      { format: 'jpg', width: 750, height: 220,
-	      crop: 'fill', effect: 'saturation:50' });
+	      { format: 'jpg', width: 350	, effect: 'saturation:50' });
 	    _managers[elementClass](_img[0], link['type'], id);
+	    console.log($.cloudinary.url(link['url']));
+
+	    if ($(window).width()>750){
+		    var _popupImg = $.cloudinary.image(link['url'],{ format: 'jpg',  width: 750, effect: 'saturation:50' });
+
+	    	var _createdWidget = $('<div>').addClass('fast reveal full');    
+		    var _outerContainer = $('<div>').addClass('vcenter-outer');
+		    var _innerContainer = $('<div>').addClass('vcenter-inner');
+		    
+
+		    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+		    _closeBtn.append($('<span>').html('&times;'));
+
+		    var _popup = new Foundation.Reveal(_createdWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
+
+		    _closeBtn.click(function(){
+		      _popup.close();
+		    });
+
+		    var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
+
+		    _innerContainer.append(_popupContent);
+		    _createdWidget.append(_outerContainer.append(_innerContainer));
+
+		    _img.one('mouseover', function(){
+		    	$('body').append(_createdWidget)
+		    });
+
+		    _img.click(function(){
+			    _popup.open();
+		    });
+
+		    _img.css({cursor:' pointer'});
+		  }
 	    _done.push(link);
 	    _display();      
 	  }

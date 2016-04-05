@@ -314,7 +314,6 @@ BUTTONS
 .welcome-img-section-header {
   background-image: url(<%= image_path 'cartel_reunion2016.jpg' %>);
   width: 100%;
-  width:100%;
   @include breakpoint(large){ height: 13.75rem; }
   @include breakpoint(medium down){ height: 22vw;}
   @include breakpoint(small down){ height: 30vw;}
@@ -1051,6 +1050,14 @@ POPUP
 
 .alert-container-full{
     max-width: 22rem; //352px
+}
+
+.popup-photo-container{
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  clear: both;
+  max-width: 750px;
 }
 
 .vcenter-outer{
