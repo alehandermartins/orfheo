@@ -225,18 +225,27 @@
     if(proposal.video){
       var _videoContainer = $('<div>').addClass('video-production-container')
       _multimediaContainer.append(_videoContainer);
-      proposal.video.forEach(function(video, index){
-         if (typeof video == 'object'){
-           console.log(video['0']);
-           console.log(Object.keys(video));
-           console.log(video);
-         }
-        _videoContainer.append($('<div>').addClass('single-video-container').append(video));
-      });
-    }
+      proposal.video.forEach(function(video){
+        _videoContainer.append($('<div>').addClass('single-video-container')
+        //   .one('mouseover',function(){
+        //   console.log('clicked'); 
+        //   console.log($('.single-video-container img')[0]);
+        //     // $('.single-video-container iframe')[1].unbind();
+        //             $('.single-video-container img')[0].addEventListener('click', console.log('flag'));
+        //             // removeEventListener('click');
+
+        //   $('.single-video-container img')[1].addEventListener('click',function(){console.log('flag')});
+        // 
+        ).append(video)});
+      };
+    
+
+    $(window).load(function(){$(window).load(function(){console.log($('.single-video-container')[0].innerHTML)})});
+
 
     if(proposal.image){
       proposal.image.forEach(function(image){
+        console.log(image);
         _multimediaContainer.append(image);
       });
     }

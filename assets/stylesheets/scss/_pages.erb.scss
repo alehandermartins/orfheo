@@ -576,14 +576,15 @@ Production Section
 
 .video-production-container{
   position: relative;
+  width: 100%;
 }
 
 .multimedia-container .video-production-container iframe{
 max-width: 18.5rem;
 max-height: 10.5rem;
-@include horizontal-center;
+// @include horizontal-center;
 display:block;
-position: relative;
+// position: relative;
 
 }
 
@@ -595,7 +596,7 @@ position: relative;
 
 
 .single-video-container{
-  width: 100%;
+  // width: 100%;
   position:relative;
   display: block;
   margin-top: 2rem;
