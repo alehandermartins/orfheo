@@ -226,28 +226,27 @@
       var _videoContainer = $('<div>').addClass('video-production-container')
       _multimediaContainer.append(_videoContainer);
       proposal.video.forEach(function(video){
+        console.log(video);
         _videoContainer.append($('<div>').addClass('single-video-container')
         ).append(video)});
       };
     
 
-    $(window).load(function(){$(window).load(function(){console.log($('.single-video-container')[0].innerHTML)})});
-
-
     if(proposal.image){
          var _imageContainer = $('<div>').addClass('image-production-container');
       _multimediaContainer.append(_imageContainer);
       proposal.image.forEach(function(image){
-        console.log(image);
         _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));
         // _multimediaContainer.append(image);
       });
     }
 
     if(proposal.audio){
+      var _audioContainer = $('<div>').addClass('image-production-container');
+      _multimediaContainer.append(_audioContainer);
       proposal.audio.forEach(function(audio){
-        _multimediaContainer.append(audio);
-      });
+        _audioContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
+    });
     }
 
     var _modifyProduction = Pard.Widgets.ModifyProduction(proposal);
@@ -263,10 +262,14 @@
 
     var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
 
-    _createdWidget.append(
-      _multimediaContainer, 
-      _multiMediaManager.render()
-    );
+    _createdWidget.append( _multiMediaManager.render());
+
+
+    if (_multimediaContainer.html()){
+      _createdWidget.append(
+        _multimediaContainer
+      );
+    }
 
     return {
       render: function(){
