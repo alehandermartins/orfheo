@@ -163,7 +163,7 @@
 
 	  var _pinterest = function(link, id, elementClass){
 	  	var _createdWidget = $('<div>');
-	    var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url']});
+	    var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'medium'});
 	    _createdWidget.append(_pinterestMedia);
 	    _managers[elementClass](_createdWidget, link['type'], id);
 	    _done.push(link);
