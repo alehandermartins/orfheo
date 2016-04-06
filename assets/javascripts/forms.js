@@ -23,6 +23,13 @@
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Para situar tu proyecto artístico en el mapa.')
     };
+
+    _form['personal_web'] = {
+      label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
+      input: Pard.Widgets.InputPersonalWeb(),
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a un tus perfiles en redes sociales (enlaces a videos y fotos podrás gestionarlos con el formulario dedicado a tu propuesta artística)')
+    };
+
     _form['color'] = {
       label: Pard.Widgets.InputLabel('Escoge un color'),
       input: Pard.Widgets.Input('', 'color'),
@@ -105,11 +112,7 @@
 
   	var _form = Pard.Forms.BasicArtistForm().render();
 
-    _form['personal_web'] = {
-      label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
-      input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a un tus perfiles en redes sociales')
-    };
+    
     _form['bio'] = {
       label: Pard.Widgets.InputLabel('Bio'),
       input: Pard.Widgets.TextArea(''),
@@ -122,7 +125,7 @@
     var _requiredFields = ['name', 'city', 'zip_code', 'color','personal_web'];
     var  _reorderedForm = {};
 
-    ['name', 'bio', 'personal_web', 'city', 'zip_code', 'color'].forEach(function(field){
+    ['name', 'bio',  'city', 'zip_code','personal_web', 'color'].forEach(function(field){
       _reorderedForm[field] = _form[field]; 
     });
 

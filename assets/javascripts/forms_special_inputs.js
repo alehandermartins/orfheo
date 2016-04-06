@@ -176,7 +176,7 @@
 
   ns.Widgets.AddWebField = function(inputWeb, entries){
     var _webTitle = Pard.Widgets.Input('Título del enlace. Ej: Sito Web, Facebook, Blog, etc.','text', function(){_webTitle.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
-    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
+    var _link = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url', function(){_link.removeWarning();}, function(){Pard.Widgets.WebFilled({web_title: _webTitle, link: _link})});
 
     _webTitle.setClass('webTitle-input');
     // _link.setClass('links-input');
@@ -329,14 +329,16 @@
     var _createdWidget = $('<div>');    
     var _results = [];
     var _inputs = [];
-    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
-    _input.setClass('multiMedia');
+    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url',function(){
+      _addInputButton.addClass('add-input-button-enlighted')
+    });
+    _input.setClass('add-multimedia-input-field');
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
 
     var _addnewInput = function(url){
       var _container = $('<div>');
-      var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente','url');
-      _newInput.setClass('multiMedia');
+      var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url');
+      _newInput.setClass('add-multimedia-input-field');
       _newInput.setVal(url);
       _newInput.setAttr('disabled', true);
       _inputs.push(_newInput);
@@ -351,14 +353,17 @@
       return _container;
     }
 
+    var _websAddedContainer = $('<div>');
+
     _addInputButton.on('click', function(){
+      $(this).removeClass('add-input-button-enlighted');
       if(_checkUrl(_input)){
-        _createdWidget.append(_addnewInput(_input.getVal()));
+        _websAddedContainer.prepend(_addnewInput(_input.getVal()));
         _input.setVal('');
       }
     });
 
-    _createdWidget.append(_input.render().addClass('add-multimedia-input-field'), _addInputButton);
+    _createdWidget.append(_input.render().addClass('add-multimedia-input-field'), _addInputButton, _websAddedContainer);
 
     var fb_url = /.*facebook\.com\/.*/i;
     var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;
@@ -424,7 +429,7 @@
           _personal_webs.push(values[key]);
         });
         _personal_webs.forEach(function(web, index){
-          _createdWidget.append(_addnewInput(web.url));
+          _websAddedContainer.prepend(_addnewInput(web.url));
         });
       }
     }
@@ -433,27 +438,23 @@
   ns.Widgets.InputMultimedia = function(){
 
     var _createdWidget = $('<div>'); 
-    var _websAdded = $('<div>');  
     var _results = [];
     var _inputs = [];
-    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url');
-    _input.setClass('multiMedia');
-    var _addInputButton = $('<span>').addClass('material-icons').html('&#xE86C').css({
-      position: 'relative',
-      top: '5px',
-      left: '5px',
-      cursor: 'pointer'
+    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url', function(){
+      _addInputButton.addClass('add-input-button-enlighted');
     });
+    _input.setClass('add-multimedia-input-field');
+    var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
 
     var _addnewInput = function(url){
       var _container = $('<div>');
       var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url');
-      _newInput.setClass('multiMedia');
+      _newInput.setClass('add-multimedia-input-field');
       _newInput.setVal(url);
       _newInput.setAttr('disabled', true);
       _inputs.push(_newInput);
 
-      var _removeInputButton = $('<span>').addClass('material-icons').html('&#xE888').addClass('class_name');
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE888');
 
       _container.append(_newInput.render().addClass('add-multimedia-input-field'), _removeInputButton);
       _removeInputButton.on('click', function(){
@@ -465,14 +466,17 @@
       return _container;
     }
 
+    var _websAddedContainer = $('<div>');
+
     _addInputButton.on('click', function(){
+      $(this).removeClass('add-input-button-enlighted');
       _checkUrl(_input, function(){
-        _websAdded.prepend(_addnewInput(_input.getVal()));
+        _websAddedContainer.prepend(_addnewInput(_input.getVal()));
         _input.setVal('');
       });
     });
 
-    _createdWidget.append(_input.render().css('width', '550'), _addInputButton, _websAdded);
+    _createdWidget.append(_input.render(), _addInputButton, _websAddedContainer);
 
     var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/photos\/.*/i;
     var fb_posts_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/posts\/.*/i;
@@ -544,7 +548,7 @@
         });
         _links.forEach(function(web, index){
           _results.push(web);
-          _createdWidget.append(_addnewInput(web.url));
+          _websAddedContainer.prepend(_addnewInput(web.url));
         });
       }
     }

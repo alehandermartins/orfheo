@@ -533,15 +533,21 @@ button{
 
 .add-multimedia-input-button{
   position: relative;
-  top: 0.3rem;
+  top: 0.4rem;
   left: 0.3rem;
   cursor: pointer;
 }
+
+.add-input-button-enlighted{
+  color: #E89220;
+}
+
 
 .add-multimedia-input-field{
   width: -moz-calc(100% - 2rem);
   width: -webkit-calc(100% - 2rem);
   width: calc(100% - 2rem);
+  display: inline-block;
 }
 
 .manage-multimedia-btn{
