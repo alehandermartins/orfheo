@@ -152,16 +152,20 @@
 	  }
 
 	  var _instagram = function(link, id, elementClass){
+	  	var _createdWidget = $('<div>');
 	    var _instagramphoto = $('<a>').attr('href', link['url']);
 	    var _instagramMedia = $('<blockquote>').addClass('instagram-media').append(_instagramphoto);
-	    _managers[elementClass](_instagramMedia, link['type'], id);
+	    _createdWidget.append(_instagramMedia);
+	    _managers[elementClass](_createdWidget, link['type'], id);
 	    _done.push(link);
 	    _display();
 	  }
 
 	  var _pinterest = function(link, id, elementClass){
+	  	var _createdWidget = $('<div>');
 	    var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url']});
-	    _managers[elementClass](_pinterestMedia, link['type'], id);
+	    _createdWidget.append(_pinterestMedia);
+	    _managers[elementClass](_createdWidget, link['type'], id);
 	    _done.push(link);
 	    _display();
 	  }

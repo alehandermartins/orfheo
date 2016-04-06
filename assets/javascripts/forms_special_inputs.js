@@ -478,9 +478,10 @@
 
     _createdWidget.append(_input.render(), _addInputButton, _websAddedContainer);
 
-    var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/photos\/.*/i;
+    var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/photo.*/i;
     var fb_posts_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/posts\/.*/i;
-    var fb_videos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/videos\/.*/i;
+    var fb_videos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/video.*/i;
+    var fb_videos_2url = /^(http|https)\:\/\/www\.facebook\.com\/video.*/i;
 
     var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;
     var pt_url = /^(http|https)\:\/\/.*\.pinterest\.com\/pin\//i;
@@ -489,10 +490,10 @@
     var bc_url = /.*src=\"https:\/\/bandcamp\.com\/EmbeddedPlayer\/.*/i;
 
     var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
-    var yt_url = /^(http|https)\:\/\/www\.youtube\.*/i;
-    var vm_url = /^(http|https)\:\/\/vimeo\.*/i;
-    var fl_url = /^(http|https)\:\/\/flickr\.*/i;
-    var sc_url = /^(http|https)\:\/\/soundcloud\.*/i;
+    var yt_url = /^(http|https)\:\/\/www\.youtube\..*/i;
+    var vm_url = /^(http|https)\:\/\/vimeo\..*/i;
+    var fl_url = /^(http|https)\:\/\/www\.flickr\..*/i;
+    var sc_url = /^(http|https)\:\/\/soundcloud\..*/i;
 
     var _checkUrl = function(input, callback){
       input.removeWarning();
@@ -507,7 +508,6 @@
       var _callProvider = function(provider, type){
         $.getJSON("https://noembed.com/embed?callback=?",
         {"format": "json", "url": url}, function (data) {
-          console.log('flag'+data);
           if ('error' in data) input.addWarning();
           else{
             _composeResults(provider, type);
@@ -517,7 +517,7 @@
 
       if(url.match(fb_photos_url)) return _composeResults('facebook', 'image');
       if(url.match(fb_posts_url)) return _composeResults('facebook', 'image');
-      if(url.match(fb_videos_url)) return _composeResults('facebook', 'video');
+      if(url.match(fb_videos_url) || url.match(fb_videos_2url)) return _composeResults('facebook', 'video');
       if(url.match(ig_url)) return _composeResults('instagram', 'image');
       if(url.match(pt_url)) return _composeResults('pinterest', 'image');
       if(url.match(vn_url)) return _composeResults('vine', 'video');
