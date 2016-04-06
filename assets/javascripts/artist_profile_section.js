@@ -180,7 +180,7 @@
 
     _createdWidget.append(_title);
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render().addClass('info-icon-title-box');
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
 
     var _infoContentBox = $('<div>').addClass('box-content');  
    

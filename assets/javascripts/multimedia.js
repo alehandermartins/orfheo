@@ -145,7 +145,7 @@
 	  var _facebook = function(link, id, elementClass){
 	    var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
  	    if (link['type'] == 'image') _facebookMedia.attr('data-width', '350');
-	    if (link['type'] == 'video') _facebookMedia.attr('data-width', '640'); //It won't go below 350
+	    if (link['type'] == 'video') _facebookMedia.attr('data-width', '718'); //It won't go below 350
 	    _managers[elementClass](_facebookMedia, link['type'], id);
 	    _done.push(link);
 	    _display();
