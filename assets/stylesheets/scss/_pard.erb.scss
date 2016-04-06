@@ -82,12 +82,18 @@ main {
 }
 
 a, a:active, a:visited, a:hover {
-  color: $grey-4;
+  color: #3885ff;
 }
 
 a:hover{
-  text-decoration: underline;
+  color: rgba(56, 133, 255,0.8);
+  // text-decoration: underline;
 }
+
+a.profileCard:hover{
+    text-decoration: none;
+
+} 
 
 
 .whole-container {
@@ -388,7 +394,6 @@ button{
 }
 
 .create-profile-btn:hover{
-   // background-color: $grey-1;
   border: 2px solid $grey-1;
 }
 
@@ -461,12 +466,11 @@ button{
   @include border-radius($element-border-radius);
   // font-size: $smallSize;
   // @include linearGradient(#b9daad, #6cb252);
-  background: rgb(68, 196, 35);
+  background: rgb(56, 133, 255);
 }
 
 .signupButton:hover, .signupButton-alert:hover{
-    background: rgba(68, 196, 35,0.8);
-
+    background: rgba(56, 133, 255,0.8);
 }
 
 .signupButton-alert{
@@ -478,7 +482,7 @@ button{
   // margin-bottom: 1.5rem;
   @include border-radius($element-border-radius);
   font-size: $almostNormalSize;
-  background: rgb(68, 196, 35);
+  background: rgb(56, 133, 255);
   position: relative;
   margin-left:3rem;
 }
@@ -490,9 +494,6 @@ button{
   padding: 1rem 3.5rem;
   border: 2px solid $grey-2;
   font-size: 21px;
-  // @include horizontal-center;
-  //margin-top: 2rem;
-  //margin-bottom: 2rem;
   position: absolute;
   left:17rem;
   top: 0;
@@ -531,14 +532,18 @@ button{
   height: 50px;
 }
 
+// .modify-section-content-button-container button:hover{
+//   font-weight: bold;
+// }
+
 .callButtonArtist-sendOther{
   @include breakpoint(large){
     position: absolute;
     // top: 0.75rem;
     top: -2.4rem;
-    right: 0.75rem;
+    right: 0.75rem;    
   }
-  font-size: 1rem;
+  font-size: $almostNormalSize;
 }
 
 .add-multimedia-input-button{
@@ -564,8 +569,7 @@ button{
   position: absolute;
   right: 0.75rem;
   top: 0.5rem;
-    font-size: 1rem;
-
+  font-size: $almostNormalSize;
 }
 
 
@@ -812,33 +816,12 @@ select, textarea, a{
 }
 
 
-
-// .popup-form 
-//   .route-addressForm, 
-//   .street_number-addressForm, 
-//   .door-addressForm, 
-//   .locality-addressForm, 
-//   .country-addressForm, 
-//   .postal_code-addressForm{
-//     font-size: $smallSize; 
-//   }
-
-
 .help-text{
   line-height: 0.9rem;
   margin-top: -0.5rem;
 }
 
-// .form-input{
- 
-//   // line-height: 1.5rem;
-// }
 
-// .category-input, .title-input, .description-input, .short_description-input, .duration-input, .components-input, .meters-input, .availability-input, .links-input, .sharing-input, .needs-input, .phone-input, .city {
-//   @extend .form-input;
-// }
-
-//textareas
 .description-input, .short_description-input, .needs-input, .sharing-input{
   line-height: 1.2rem;
 }
@@ -911,10 +894,6 @@ select, textarea, a{
   .category-input{
     width: 12rem;
   }
-
-  // .phone-input{
-  //   width: 12rem;
-  // }
 
   .city-ArtistForm, .city-modifyProfile{
     width: 17rem;
@@ -1044,23 +1023,7 @@ select, textarea, a{
 POPUP
 ===============================================*/
 
- // .reveal-design{
- //   padding-bottom: 1.2rem;
- // }
-
-// .popup-content, .popup-header{
-//   padding-left: 0.75rem; 
-//   padding-right: 0.75rem;
-// }
-
-// .popup-close-btn{
-
-// }
-
-// .pupup-title{
-
-// }
-
+ 
 .popup-header{
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;

@@ -270,23 +270,25 @@
     var _modifyProduction = Pard.Widgets.ModifyProduction(proposal);
 
     var _iconColor = Pard.Widgets.IconColor((profile_color)).render();
+   
+    // var _profileColorRgba = Pard.Widgets.IconColor((profile_color)).rgba(0.2);
 
     var _triangle = $('<div>').addClass('modify-section-content-button-container');
 
+    var _modifyProductionBtn = _modifyProduction.render();
+
+    // _modifyProductionBtn.on('mouseover',function(){
+    //   console.log(_profileColorRgba);
+    //   _triangle.css({'border-top': '70px solid rgb('+_profileColorRgba[0]+','+_profileColorRgba[1]+','+_profileColorRgba[2]+')'})
+    // });
+
      _createdWidget.append(
       _triangle.css({'border-top': '70px solid'+profile_color}),
-      _modifyProduction.render().css({color: _iconColor})
+      _modifyProductionBtn.css({color: _iconColor})
     );
 
 
     _createdWidget.append(_multimediaContainer);
-
-
-    // if (_multimediaContainer.html()){
-    //   _createdWidget.append(
-    //     _multimediaContainer
-    //   );
-    // }
 
     return {
       render: function(){

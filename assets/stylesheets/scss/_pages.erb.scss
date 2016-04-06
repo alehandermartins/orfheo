@@ -21,7 +21,6 @@ Header
   .menu-icon-header{
     margin-left:0.5rem;
   }
-
 }
 
 /*LARGE*/
@@ -78,6 +77,8 @@ Header
     left: auto;
     right: 0;
 }
+
+
 
 // .login-header-tools, .login-header-tools label{
 //   font-size: $smallSize;
@@ -270,7 +271,13 @@ Header
   min-height: 3.5rem;
 }
 
+.settings-icon-dropdown-menu{
+  color: black;
+}
 
+.settings-icon-dropdown-menu:hover{
+  color: rgba(0,0,0,0.8);
+}
 
 /*-----------------------
 Aside content User page

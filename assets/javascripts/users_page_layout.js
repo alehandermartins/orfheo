@@ -33,7 +33,7 @@
 		var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
 		var _iconDropdownMenu = $('<li>').append(
       $('<a>').attr('href','#').append(
-        $('<span>').html('&#xE8B8;').addClass('material-icons')
+        $('<span>').html('&#xE8B8;').addClass('material-icons settings-icon-dropdown-menu')
         )
       ,_menu
     );

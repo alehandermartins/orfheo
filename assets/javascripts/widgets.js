@@ -144,12 +144,19 @@
     var _rgb =[_red, _green, _blue];
     var _lum = (_red / 255.0) * 0.3 + (_green / 255.0) * 0.59 + (_blue / 255.0) * 0.11;
 
+
     return {
       render: function(){
         return (_lum>0.35) ? 'black':'white';
       },
       rgb: function(){
         return _rgb;
+      },
+      rgba: function(_a){
+        var _ra =  (1 - _a) * _rgb[0] + _a * 255;
+        var _ga =  (1 - _a) * _rgb[1] + _a * 255;
+        var _ba =  (1 - _a) * _rgb[2] + _a * 255;
+        return [_ra, _ga, _ba];
       }
     }
   }
