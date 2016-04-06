@@ -524,9 +524,11 @@ button{
 .callButtonArtist-sendOther{
   @include breakpoint(large){
     position: absolute;
-    top: 0.75rem;
+    // top: 0.75rem;
+    top: -2.4rem;
     right: 0.75rem;
   }
+  font-size: 1rem;
 }
 
 .add-multimedia-input-button{
@@ -546,6 +548,8 @@ button{
   position: absolute;
   right: 0.75rem;
   top: 0.5rem;
+    font-size: 1rem;
+
 }
 
 

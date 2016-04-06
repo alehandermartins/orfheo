@@ -328,6 +328,11 @@ Aside
   // font-size: $smallSize;
 }
 
+
+.name-column-production-nav{
+  vertical-align: 3px;
+}
+
 .icon-column{
   padding: 0.4rem 0.2rem 0.4rem 0.2rem;
   width:2.7rem;
@@ -349,14 +354,9 @@ Aside
   height:2.2rem;
 }
 
-.profile-nav-element-container{
-  position: relative;
-  width: 100%;
-}
-
 .profile-selected-container{
   background: $grey-1;
-  padding: 0.2rem 0.1rem;
+  padding: 0.4rem 0.1rem;
   position: relative;
   width: 100%;
   cursor: pointer;
@@ -387,6 +387,8 @@ Aside
   cursor: pointer;
 }
 
+// .profile-nav-production-name
+
 
 .nav-list-container{
   margin-top: 0.2rem;
@@ -407,16 +409,32 @@ Aside
 
 .profile-nav-element-container{
   cursor: pointer;
-
+  position: relative;
+  width: 100%;
+  padding-top: 0.4rem;
 }
 
-.text-link{
-  text-decoration: underline;
+.profile-nav-element-container:hover{
+  background: $grey-1;
 }
+
+
+// .text-link{
+//   text-decoration: underline;
+// }
+
+.text-link-profile-nav{
+  font-weight: bold;
+}
+
+
 
 .selected-element{
-  text-decoration: underline;
+  // text-decoration: underline;
+  font-weight: bold;
 }
+
+
 
 .message-otherProfile-asideBar, .message-productions-asideBar{
   text-transform: uppercase;
@@ -474,12 +492,18 @@ Profile Section
   background: $grey-1;
   font-size: 18px;
   font-weight: bold;
-  padding: 0.4rem $inner-spacing;
+  padding: 0.6rem $inner-spacing;
 }
 
 .box-content{
   padding: $inner-spacing;
   position: relative;
+  font-size: $almostNormalSize;
+}
+
+.info-icon-title-box {
+  font-size: 1.2rem;
+  // vertical-align: -0.2rem;
 }
 
 .information-bio, .information-contact{
@@ -531,6 +555,7 @@ Profile Section
 
 .icon-in-box{
   margin-right: $inner-spacing;
+  vertical-align: -0.2rem;
 }
 
 .type-icon-info-box{
@@ -572,6 +597,11 @@ Production Section
   @include breakpoint (medim) {margin-top: -0.5rem};
   padding: 0 $inner-spacing;
   position: relative;
+}
+
+.multimedia-icon-title-box{
+  font-size: 1.4rem;
+  // vertical-align: -0.2rem;
 }
 
 .video-production-container{

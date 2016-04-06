@@ -46,7 +46,7 @@
   ns.Widgets.ArtistSectionContent = function(profile){
     var _createdWidget = $('<div>');
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
     
     
@@ -180,7 +180,7 @@
 
     _createdWidget.append(_title);
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render()).render().addClass('info-icon-title-box');
 
     var _infoContentBox = $('<div>').addClass('box-content');  
    
@@ -218,7 +218,7 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
  
-    var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimediales', Pard.Widgets.IconManager('multimedia').render()).render();
+    var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimediales', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
     _multimediaContainer.addClass('multimedia-container section-box-container'); 
 
     var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);

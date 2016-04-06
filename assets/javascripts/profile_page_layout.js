@@ -125,7 +125,7 @@
     var _nameColumn = $('<div>').addClass('name-column profile-name-column');
     var _name = $('<p>').addClass('profile-nav-name-selected selected-element').text(profile['name']);
     
-    _createdWidget.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
+    _createdWidget.hover(function(){_name.addClass('text-link-profile-nav')},function(){_name.removeClass('text-link-profile-nav')});
 
     _createdWidget.click(function(){
       $('.selected-element').removeClass('selected-element');
@@ -156,8 +156,8 @@
     var _nameColumn = $('<div>').addClass('name-column profile-name-column');
     var _name = $('<p>').addClass('profile-nav-name-element').text(profile['name']);
     var _elementContainer = $('<div>').addClass('profile-nav-element-container');
-    _elementContainer.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
-    _profileCircle.hover(function(){_name.addClass('text-link')},function(){_name.removeClass('text-link')});
+    _elementContainer.hover(function(){_name.addClass('text-link-profile-nav')},function(){_name.removeClass('text-link-profile-nav')});
+    _profileCircle.hover(function(){_name.addClass('text-link-profile-nav')},function(){_name.removeClass('text-link-profile-nav')});
     _elementContainer.click(function(){_profileCircle.trigger('click')});
     _profileCircle.click(function(){
       $('.selected-element').removeClass('selected-element');
@@ -218,7 +218,7 @@
 
       var _productionItem = $('<div>').addClass('production-nav-element-container');
       var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(proposal['category']).render().css({'text-align': 'center', display:'block'}))));
-      var _nameColumn = $('<div>').addClass('name-column');
+      var _nameColumn = $('<div>').addClass('name-column name-column-production-nav');
       var _name = $('<p>').text(proposal['title']).addClass('profile-nav-production-name');
       _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render()));
       _name.click(function(){ 
@@ -228,7 +228,7 @@
         _myProposal.show();
         _lastselected = _myProposal;
       });
-      _name.hover(function(){_name.addClass('text-link')}, function(){_name.removeClass('text-link ')});
+      _name.hover(function(){_name.addClass('text-link-profile-nav')}, function(){_name.removeClass('text-link-profile-nav ')});
       productionContent.append(_productionItem);
     });
 
