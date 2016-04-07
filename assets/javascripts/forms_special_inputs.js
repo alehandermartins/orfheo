@@ -465,7 +465,7 @@
       });
       return _container;
     }
-
+    
     var _websAddedContainer = $('<div>');
 
     _addInputButton.on('click', function(){
@@ -476,7 +476,14 @@
       });
     });
 
-    _createdWidget.append(_input.render(), _addInputButton, _websAddedContainer);
+    var _linksPermitted = Pard.Widgets.MultimediaAccepted().render();
+
+    _linksPermitted.addClass('links-accepted-caller');
+
+    var _linksPermittedContainer = $('<div>').addClass('links-accepted-container');
+    _linksPermittedContainer.append(_linksPermitted); 
+
+    _createdWidget.append(_linksPermittedContainer, _input.render(), _addInputButton, _websAddedContainer);
 
     var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/photo.*/i;
     var fb_posts_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/posts\/.*/i;

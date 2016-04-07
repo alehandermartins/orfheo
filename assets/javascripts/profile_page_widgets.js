@@ -162,12 +162,12 @@
   }
 
 
-ns.Widgets.MultimediaManagerDictionary = function(proposal){
+// ns.Widgets.MultimediaManagerDictionary = function(proposal){
 
-  if (proposal.type == 'space') return Pard.Widgets.MultimediaSpaceManager(proposal);
-  return Pard.Widgets.MultimediaManager(proposal);
+//   if (proposal.type == 'space') return Pard.Widgets.MultimediaSpaceManager(proposal);
+//   return Pard.Widgets.MultimediaManager(proposal);
 
-}
+// }
 
 
  ns.Widgets.MultimediaManager = function(proposal){
@@ -236,9 +236,13 @@ ns.Widgets.MultimediaManagerDictionary = function(proposal){
 
     var _inputMultimedia = Pard.Widgets.InputMultimedia();
     _inputMultimedia.setVal(proposal['links']);
-    _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimedia.render(), Pard.Widgets.MultimediaAccepted().render()));
+    var _inputMultimediaLabel = $('<label>').addClass('multimedia-manager-input-label').text('Links a materiales online');
 
-    var _thumbnail = $('<div>');
+
+    _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimediaLabel,_inputMultimedia.render()));
+
+
+    var _thumbnail = $('<div>').addClass('file-upload-thumbnail');
     var _url = [];
 
     if(proposal.photos){
@@ -271,8 +275,9 @@ ns.Widgets.MultimediaManagerDictionary = function(proposal){
 
     var _folder = 'photos';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
+    var _photosLabel = $('<label>').addClass('multimedia-manager-input-label').text('Sube imágenes desde tu ordenador (maximo 3)');
 
-    var _photosContainer = $('<div>').append(_photos.render(), _thumbnail);
+     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail);
 
     _formContainer.append(_photosContainer);
 
@@ -330,7 +335,7 @@ ns.Widgets.MultimediaManagerDictionary = function(proposal){
   }
 
   ns.Widgets.MultimediaAccepted = function(){
-    var _caller = $('<a>').text('(Enlaces permitidos)');
+    var _caller = $('<a>').text('Enlaces permitidos');
     var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.MultimediaAcceptedMessage()});
 
     var _createdWidget = _popup.render();

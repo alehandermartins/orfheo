@@ -560,6 +560,19 @@ button{
   color: red;
 }
 
+.links-accepted-caller{
+  position: absolute;
+  right: 2rem;
+  font-size:$smallSize;
+}
+
+.links-accepted-container{
+  position:relative;
+  width: 100%;
+  margin-top: -1rem;
+  padding-bottom: 0.9rem;
+}
+
 
 .add-multimedia-input-field{
   width: -moz-calc(100% - 2rem);
