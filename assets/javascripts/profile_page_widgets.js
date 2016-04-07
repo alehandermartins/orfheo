@@ -149,7 +149,7 @@ ns.Widgets.MultimediaManagerDictionary = function(proposal){
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    
+
     var _invalidInput = $('<div>').addClass('not-filled-text');
     
     if (proposal['type'] == 'space'){
@@ -160,6 +160,10 @@ ns.Widgets.MultimediaManagerDictionary = function(proposal){
       _submitForm['proposal_id'] = proposal.proposal_id;
       _submitForm['profile_id'] = profile_id;
     }
+
+    var _inputMultimedia = Pard.Widgets.InputMultimedia();
+    _inputMultimedia.setVal(proposal['links']);
+    _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimedia.render(), Pard.Widgets.MultimediaAccepted().render()));
 
     var _thumbnail = $('<div>');
     var _url = [];
@@ -217,9 +221,6 @@ ns.Widgets.MultimediaManagerDictionary = function(proposal){
       }
     }
 
-   var _inputMultimedia = Pard.Widgets.InputMultimedia();
-   _inputMultimedia.setVal(proposal['links']);
-    _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimedia.render()));
 
     _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
 
@@ -251,6 +252,31 @@ ns.Widgets.MultimediaManagerDictionary = function(proposal){
       },
       setCallback: function(callback){
         _closepopup = callback;
+      }
+    }
+  }
+
+  ns.Widgets.MultimediaAccepted = function(){
+    var _caller = $('<a>').text('(Enlaces permitidos)');
+    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.MultimediaAcceptedMessage()});
+
+    var _createdWidget = _popup.render();
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    } 
+  }
+
+  ns.Widgets.MultimediaAcceptedMessage = function(){
+     var _createdWidget = $('<div>');
+
+     return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
       }
     }
   }
