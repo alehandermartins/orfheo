@@ -2,6 +2,17 @@
 LOGIN PAGE
 ================================================*/
 
+.main-welcome-page{
+  background: $grey-1;
+}
+
+
+.welcome-page-section{
+  background:white; 
+}
+
+
+
 /*------------------
 Header
 -------------------*/
@@ -41,6 +52,8 @@ Header
 
 /*GENERAL*/
 
+
+
 .login-bar, .user-bar{
   border-bottom: 2px solid $grey-1;
    // box-shadow: 0 1px 2px rgba($grey-2, 0.5);
@@ -78,11 +91,6 @@ Header
     right: 0;
 }
 
-
-
-// .login-header-tools, .login-header-tools label{
-//   font-size: $smallSize;
-// }
 
 .rememberMe-ckb input{
   width:auto;

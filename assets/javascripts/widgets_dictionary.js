@@ -9,6 +9,7 @@
       settings: {icon: '&#xE8B8;', className:'materials-icon'},
       space: {icon: '&#xE88A;', className: 'material-icons'},
       artist: {icon: '&#xE7FD;', className: 'material-icons'},
+      organization: {icon:'&#xE7EF', className:'material-icons'},
       music: {icon: '&#xE405;', className: 'material-icons'},
       // arts: {icon: '&#xE903;', className: 'material-icons'},
       // music: {icon: '', className: 'icon-note'},
@@ -58,6 +59,7 @@
     var _dictionary = {
       artist: 'Artista',
       space: 'Space',
+      organization: 'Organización',
       cultural_ass: 'Asociación Cultural',
       commercial: 'Local Comercial',
       home: 'Espacio Particular',
