@@ -730,3 +730,18 @@ Production Section
 //   max-width: 332px;
 //   height: auto;
 // }
+
+
+.multimedia-manager-message li{
+  // display: inline-block;
+  float: left;
+  margin-right: 2rem;
+}
+
+.multimedia-manager-message ul{
+  margin-bottom: 0.4rem;
+}
+
+.multimedia-manager-message p{
+  margin-bottom: 0.3rem;
+}

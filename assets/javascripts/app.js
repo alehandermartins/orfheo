@@ -133,20 +133,14 @@ Pard.Profile = function(profiles){
     var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']).render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){$(document).foundation()});
-        $(window).load(function(){console.log('flag');console.log($('.flickr-embed-frame'));});
-
-
   }
 
   Pard.Widgets.Multimedia(_display);
   $('body').append(_whole);
+   $(window).load(function(){console.log('flag');console.log($('.flickr-embed-frame'));});
 
-  //  $(window).load(function(){
-  //   var _rgb = Pard.Widgets.IconColor(Pard.CachedProfiles['my_profiles'][0]['color']).rgb();
-  //   var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
-  //   $('#main-profile-page').css({'background': _backColor});
-  // });
 
+ 
 };
 
 Pard.Visitor = function(profiles){
