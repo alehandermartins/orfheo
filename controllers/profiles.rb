@@ -13,10 +13,10 @@ class ProfilesController < BaseController
     success({profile_id: profile_id})
   end
 
-  get '/profiles/:uuid' do
-    halt erb(:not_found) unless profile_exists? params[:uuid]
-    owner = get_profile_owner params[:uuid]
-    profiles = get_profiles owner, params[:uuid]
+  get '/profile' do
+    halt erb(:not_found) unless profile_exists? params[:id]
+    owner = get_profile_owner params[:id]
+    profiles = get_profiles owner, params[:id]
     halt erb :outsider, :locals => {:profiles => profiles.to_json} if !session[:identity]
     halt erb :visitor, :locals => {:profiles => profiles.to_json} if owner != session[:identity]
     erb :profile, :locals => {:profiles => profiles.to_json} if owner == session[:identity]
