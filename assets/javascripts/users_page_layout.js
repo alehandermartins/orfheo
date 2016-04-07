@@ -89,7 +89,7 @@
 
     var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Explora los otros perfiles </h3>');
    
-    var _searchEngine = Pard.Widgets.SearchEngine(profiles);
+    var _searchEngine = Pard.Widgets.SearchEngine('');
 
     _content.append(_title, _searchEngine.render());
     

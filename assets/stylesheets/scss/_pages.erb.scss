@@ -144,13 +144,18 @@ Aside content LogIn page
   @include border-radius($layout-border-radius);
 }
 
+.info p{
+  font-size: $almostNormalSize;
+  margin-bottom: 0;
+}
+
 .aside-container{
   width: $pard-aside-width;
   position:relative;
 }
 
 .grid-aside-content{
-  padding: 1rem 0.5rem 1rem 0.5rem;
+  padding: $inner-spacing;
 }
 
 
@@ -212,7 +217,6 @@ grid-section content LogIn page
 }
 
 .search-engine-container{
-  padding: $inner-spacing;
   position: relative;
 }
 
@@ -230,17 +234,6 @@ grid-section content LogIn page
     padding-right:2rem;
   }
   margin-top: 2.5rem;
-}
-
-.info-welcome-section-container{
-  margin: 0 $inner-spacing;
-  position:relative;  
-  margin-bottom: 3rem;
-}
-
-.info-text-welcome-section{
-  position: absolute;
-  top: 0.5rem;
 }
 
 

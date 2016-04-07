@@ -2,7 +2,7 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SearchEngine = function () {
+  ns.Widgets.SearchEngine = function (label) {
 
     var _createdWidget = $('<div>').addClass('search-engine-container');
 
@@ -11,7 +11,7 @@
     var _searchTool = $('<div>').addClass('search-tool-container');
     var _searchResult = $('<div>').addClass('search-results');
 
-    var _searchMessage = $('<div>').append($('<p>').text('Descubre los otros participantes'));
+    var _searchMessage = $('<div>').append($('<p>').text(label));
 
     // var _filters = $('<div>').addClass('medium-7 columns');
     // var _searchByName = $('<div>').addClass('medium-5 columns');

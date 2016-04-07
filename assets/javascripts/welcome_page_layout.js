@@ -56,7 +56,7 @@
     var _elemResponsive = $('<span>').addClass('float-right').attr({'data-responsive-toggle':'responsive-menu', 'data-hide-for': 'medium'}); 
     var _iconLogin = $('<span>').addClass('menu-icon dark');
     _iconLogin.attr('data-toggle','');
-    _elemResponsive.append(_iconLogin,' Log In');
+    _elemResponsive.append(_iconLogin,'Entra');
 
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true});
@@ -87,7 +87,7 @@
   ns.Widgets.LoginAside = function () {
     var _asideContainer = $('<div>').addClass('aside-container');
 
-    var _info = $('<div>').addClass('info grid-aside-content').text('orfheo es comunidad');
+    var _info = $('<div>').addClass('info grid-aside-content').append($('<p>').text('Entra en orfheo para apuntarte a la convocatoria'));
 
     Pard.Widgets.Sticker(_asideContainer, 100, 24);
 
@@ -136,9 +136,6 @@
     var _description = $('<p>').text(_descriptionFestival);
     _info.append(_description);
   
-    // Se aceptan todo tipo de propuestas propias y originales de carácter artístico, con un fondo humano y que impulsen valores que fomenten la armonía y convivencia entre las personas
-
-
     var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary('organization').render()));
     var _typeIcon = Pard.Widgets.IconManager('organization').render().addClass('information-contact-icon-column type-icon-info-box');
 
@@ -187,18 +184,19 @@
     var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Actividades', Pard.Widgets.IconManager('calls').render()).render();
     var _callsBoxContent = $('<div>').addClass('box-content');
 
-    var _callsInfoText = $('<h5>').text('Convocatoria 2016 abierta').addClass('info-text-welcome-section');
+    var _callsInfoTitle = $('<h5>').text('¡Convocatoria 2016 abierta!');
+    var _callsInfoText = $('<p>').text('Se aceptan todo tipo de propuestas propias y originales de carácter artístico, con un fondo humano y que impulsen valores que fomenten la armonía y convivencia entre las personas');
     var _signUpMessage =  Pard.Widgets.Registration();    
-    var _caller = $('<button>').attr({type:'button'}).html('¡Apúntate!').addClass('signUp-button-welcome-section');
+    var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Regístrate para continuar', function(){return _signUpMessage});
     var _signUpButton = _popup.render().addClass('signUpButton-login-section');
 
-    var _callsInfo = $('<div>').addClass('info-welcome-section-container').append(_callsInfoText, _signUpButton);
+    var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
 
 
-    var _searchEngine = Pard.Widgets.SearchEngine();
+    var _searchEngine = Pard.Widgets.SearchEngine('Descubre los participantes');
 
-    _callsBoxContent.append(_callsInfo, _searchEngine.render());
+    _callsBoxContent.append(_callsInfo,_signUpButton, _searchEngine.render());
 
     _content.append(_callsBoxContainer.append(_callsBoxContent));
 
