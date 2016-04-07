@@ -98,17 +98,9 @@
     _callsBoxContainer.append(_callsBoxContent);
     _createdWidget.append(_callsBoxContainer);
 
-    var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
-  
+    var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
 
-    var _iconColor = Pard.Widgets.IconColor((profile['color'])).render();
-
-    var _triangle = $('<div>').addClass('modify-section-content-button-container');
-
-     _createdWidget.append(
-      _triangle.css({'border-top': '70px solid'+profile['color']}),
-      _modifyProfile.render().css({color: _iconColor})
-    );
+    _createdWidget.append(_modifyProfile.render());
 
     return {
       render: function(){
@@ -217,78 +209,12 @@
     _infoContentBox.append(_info, _addtionalInfo);
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
+
+    var _modifyProduction = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProduction(proposal).render(), profile_color);
+    _createdWidget.append(_modifyProduction.render());
  
-    var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimediales', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
-    _multimediaContainer.addClass('multimedia-container section-box-container'); 
-
-    var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
-
-    _multimediaContainer.append(_multiMediaManager.render().addClass('manage-multimedia-btn'));
-
-
-
-    if(proposal.video){
-      var _videoContainer = $('<div>').addClass('video-production-container')
-
-      var _videoTitle = $('<div>').append($('<div>').addClass('video-title-box').append($('<h6>').text('Vídeos')));
-      _videoContainer.append(_videoTitle);
-
-      _videoContainer.append(_videoTitle);
-      _multimediaContainer.append(_videoContainer);
-      proposal.video.forEach(function(video){
-        console.log(video);
-        _videoContainer.append($('<div>').addClass('single-video-container')
-        ).append(video)});
-    };
-
-
-    if(proposal.audio){
-      var _audioContainer = $('<div>').addClass('image-production-container');
-      var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
-      _audioContainer.append(_audioTitle);
-      _multimediaContainer.append(_audioContainer);
-      proposal.audio.forEach(function(audio){
-        _audioContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
-    });
-    }
-    
-
-    if(proposal.image){
-      var _imageContainer = $('<div>').addClass('image-production-container');
-      // var _imageTitle = $('<ul>').append($('<li>').append($('<h6>').text('Imágenes'))).addClass('image-audio-title');
-      var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));
-      _imageContainer.append(_imageTitle);
-      _multimediaContainer.append(_imageContainer);
-      proposal.image.forEach(function(image){
-        _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));
-        // _multimediaContainer.append(image);
-      });
-    }
-
-   
-
-    var _modifyProduction = Pard.Widgets.ModifyProduction(proposal);
-
-    var _iconColor = Pard.Widgets.IconColor((profile_color)).render();
-   
-    // var _profileColorRgba = Pard.Widgets.IconColor((profile_color)).rgba(0.2);
-
-    var _triangle = $('<div>').addClass('modify-section-content-button-container');
-
-    var _modifyProductionBtn = _modifyProduction.render();
-
-    // _modifyProductionBtn.on('mouseover',function(){
-    //   console.log(_profileColorRgba);
-    //   _triangle.css({'border-top': '70px solid rgb('+_profileColorRgba[0]+','+_profileColorRgba[1]+','+_profileColorRgba[2]+')'})
-    // });
-
-     _createdWidget.append(
-      _triangle.css({'border-top': '70px solid'+profile_color}),
-      _modifyProductionBtn.css({color: _iconColor})
-    );
-
-
-    _createdWidget.append(_multimediaContainer);
+    var _multimediaContainer = Pard.Widgets.MultimediaContent(proposal);
+    _createdWidget.append(_multimediaContainer.render());
 
     return {
       render: function(){

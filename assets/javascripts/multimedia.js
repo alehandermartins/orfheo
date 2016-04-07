@@ -171,7 +171,12 @@
 	  }
 
 	  var _vine = function(link, id, elementClass){
-	    if(link['url'].split('/').pop() != 'simple') link['url'] += '/embed/simple';
+	    if(link['url'].split('/').pop() != 'embed' && link['url'].split('/').pop() != 'simple') {
+	    	link['url'] += '/embed/simple';
+	    }
+	    if (link['url'].split('/').pop() != 'simple'){
+	    	link['url'] += '/simple';
+	    }
 	    var _vineMedia = $('<iframe>').attr('src', link['url']);
 	    _managers[elementClass](_vineMedia, link['type'], id);
 	    _done.push(link);

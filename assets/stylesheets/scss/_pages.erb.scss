@@ -648,9 +648,8 @@ Production Section
 .single-video-container{
   position:relative;
   display: block;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
+  margin-top: 2rem;
+  }
 
 .single-image-container {
   position:relative;
@@ -670,7 +669,6 @@ Production Section
 .multimedia-container{
   padding-bottom: 2rem;
 }
-
 
 .single-image-container .noembed-wrapper {
   max-width: 350px;
@@ -721,3 +719,14 @@ Production Section
 .single-image-content .instagram-media{
   width: 344px;
 }
+
+// .single-image-content .noembed-flickr{
+//   width: 332px;
+//   position:relative;
+//   display: block;
+// }
+
+// iframe.flickr-embed-frame{
+//   max-width: 332px;
+//   height: auto;
+// }

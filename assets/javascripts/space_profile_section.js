@@ -39,7 +39,7 @@
 
     _contact.append($('<div>').append(_typeIcon, _type));
 
-     var _address = $('<div>');
+    var _address = $('<div>');
     var _addressIcon = Pard.Widgets.IconManager('address_space').render().addClass('information-contact-icon-column');
     var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+' '+profile['address']['country'];
     var _addressText = $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
@@ -52,9 +52,7 @@
     if(profile.personal_web){
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     }
-
-   
-
+  
     _infoContentBox.append(_bio, _contact);
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
@@ -74,47 +72,15 @@
 
     _callsBoxContainer.append(_callsBoxContent);
     _createdWidget.append(_callsBoxContainer);
+   
+    var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
+
+    _createdWidget.append(_modifyProfile.render());
 
 
-    var _modifyProfile = Pard.Widgets.ModifyProfile(profile);
-  
-    var _iconColor = Pard.Widgets.IconColor((profile['color'])).render();
+    var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
+    _createdWidget.append(_multimediaContainer.render());
 
-    var _triangle = $('<div>').addClass('modify-section-content-button-container');
-
-     _createdWidget.append(
-      _triangle.css({'border-top': '70px solid'+profile['color']}),
-      _modifyProfile.render().css({color: _iconColor})
-    );
-
-
-    var _multimediaContainer = $('<div>');
-
-    if(profile.video){
-      profile.video.forEach(function(video){
-        _multimediaContainer.append(video);
-      });
-    }
-
-    if(profile.image){
-      profile.image.forEach(function(image){
-        _multimediaContainer.append(image);
-      });
-    }
-
-    if(profile.audio){
-      profile.audio.forEach(function(audio){
-        _multimediaContainer.append(audio);
-      });
-    }
-
-    _createdWidget.append(_multimediaContainer);
-
-    var _multiMediaManager = Pard.Widgets.MultimediaSpaceManager(profile);
-
-    _createdWidget.append(  
-      _multiMediaManager.render()
-    );
 
     return {
       render: function(){
@@ -123,7 +89,6 @@
     }
   }
 
- 
 
 }(Pard || {}));
 

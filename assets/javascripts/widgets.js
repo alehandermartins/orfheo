@@ -153,9 +153,9 @@
         return _rgb;
       },
       rgba: function(_a){
-        var _ra =  (1 - _a) * _rgb[0] + _a * 255;
-        var _ga =  (1 - _a) * _rgb[1] + _a * 255;
-        var _ba =  (1 - _a) * _rgb[2] + _a * 255;
+        var _ra =  parseInt((1 - _a) * _rgb[0] + _a * 255);
+        var _ga =  parseInt((1 - _a) * _rgb[1] + _a * 255);
+        var _ba =  parseInt((1 - _a) * _rgb[2] + _a * 255);
         return [_ra, _ga, _ba];
       }
     }

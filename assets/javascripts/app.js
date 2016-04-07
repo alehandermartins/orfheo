@@ -133,6 +133,8 @@ Pard.Profile = function(profiles){
     var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']).render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){$(document).foundation()});
+        $(window).load(function(){console.log('flag');console.log($('.flickr-embed-frame'));});
+
 
   }
 
