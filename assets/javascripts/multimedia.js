@@ -81,11 +81,9 @@
 
 
 	  var _cloudinary = function(link, id, elementClass){
-	  	// console.log(link.provider);
 	    var _img = $.cloudinary.image(link['url'],
 	      { format: 'jpg', width: 350	, effect: 'saturation:50' });
 	    _managers[elementClass](_img[0], link['type'], id);
-	    console.log($.cloudinary.url(link['url']));
 
 	    if ($(window).width()>750){
 		    var _popupImg = $.cloudinary.image(link['url'],{ format: 'jpg',  width: 750, effect: 'saturation:50' });

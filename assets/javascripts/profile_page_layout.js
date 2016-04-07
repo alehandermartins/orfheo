@@ -77,6 +77,8 @@
 
     asideNavContent.empty();
     var profiles = Pard.CachedProfiles['my_profiles'];
+    var selected = false;
+    if(window.location.href.match(/.*&sel=.*/)) selected = window.location.href.split("=").pop();
 
     ProfileNav = function(_profiles, _index, sectionHeader, sectionContent){
 
@@ -88,11 +90,11 @@
   
       var _reorderedProfiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
 
-      history.pushState({},'',_reorderedProfiles[0].profile_id);
+      history.pushState({},'','profile?id=' + _reorderedProfiles[0].profile_id);
       
       _reorderedProfiles.forEach(function(profile, index) {
         if(!(index)){ 
-          Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent);
+          Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected);
           
         }
         else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
