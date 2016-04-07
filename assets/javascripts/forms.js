@@ -207,7 +207,7 @@
 
     
     _form['own'] = {
-      label: Pard.Widgets.InputLabel('Programacion propia'), 
+      label: Pard.Widgets.InputLabel('Programación propia'), 
       input: Pard.Widgets.TextArea(''),
       helptext:Pard.Widgets.HelpText('Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán.')
     }
@@ -251,11 +251,14 @@
   ns.Forms.Conditions = function() {
 
     var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/?q=es/page/bases-de-participaci%C3%B3n', target: '_blank'}).text('bases de participación');
-    var _conditions = $('<p>').text('Acepto las ').append(_linkToConditions,' del Benimaclet conFusión festival 2016 *');
+    var _conditions = $('<p>').text('He leido y acepto las condiciones en las ').append(_linkToConditions,' del festival *');
 
     return{
       render: function(){
         return _conditions;
+      }, 
+      link: function(){
+        return _linkToConditions;
       }
     }
   }

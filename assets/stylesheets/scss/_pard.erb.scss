@@ -588,6 +588,17 @@ button{
   font-size: $almostNormalSize;
 }
 
+.send-post-data-btn{
+  @extend .pard-btn;
+  position: absolute;
+  right:0;
+  margin-top: -1rem;
+  font-size: $smallSize;
+}
+
+
+
+
 
 /*===============================================
 COMPONENTS

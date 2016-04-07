@@ -37,7 +37,7 @@
     var _part2 = $('<div>').addClass('title-part').append($('<span>').append(_t2, _m2));
   
 
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envia');
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envía');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
