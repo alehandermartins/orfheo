@@ -167,18 +167,7 @@ grid-section content LogIn page
   padding: 0 $inner-spacing; 
 }
 
-.grid-section-contentTitle{
-  display: block;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  color: $title-color;
-  @include breakpoint(medium){
-  margin-top: 2rem;
-  margin-bottom: 3rem;}
-  @include breakpoint(small down){
-  margin-bottom: 5vw;}
-} 
+
 
 .filter-select{
   display: inline-block;
@@ -223,6 +212,12 @@ grid-section content LogIn page
 .search-tool-container{
   margin-top: 1rem;
 }
+
+// .box-content input{
+//   @include horizontal-center;
+//   position: relative;
+//   max-width: 596px;
+// }
 
 .search-results{
    @include breakpoint(small down){
@@ -292,18 +287,41 @@ Aside content User page
   width: 100%;
 }
 
-.create-profile-text{
+.create-profile-text, .myProfile-text{
   text-transform: uppercase;
+  margin-top: 1.5rem;
+  padding: 0 $inner-spacing;
   margin-bottom: 0.5rem;
-  padding: $inner-spacing $inner-spacing 0 $inner-spacing;
 }
-
 
 
 .myprofile-card-position{
   margin-top: $pard-grid-spacing;
   background-color: $content-background;
 }
+
+/*------------
+User Section
+--------------*/
+
+.user-section-content{
+  padding: 1.5rem;
+}
+
+
+.grid-section-contentTitle{
+  display: block;
+  // width: 100%;
+  // text-align: center;
+  position: relative;
+  margin-bottom:2rem; 
+  // color: $title-color;
+  // @include breakpoint(medium){
+  // margin-top: 2rem;
+  // margin-bottom: 3rem;}
+  // @include breakpoint(small down){
+  // margin-bottom: 5vw;}
+} 
 
 
 /*===============================================

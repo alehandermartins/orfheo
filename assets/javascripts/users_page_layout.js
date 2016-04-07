@@ -64,6 +64,8 @@
     var _createArtistBtn =  Pard.Widgets.CreateTypeProfile('artist').render();
     var _createSpaceBtn =  Pard.Widgets.CreateTypeProfile('space').render();
 
+    var _myProfileText = $('<p>').text('Tus perfiles').addClass('myProfile-text');
+
     _createArtistBtn.addClass('create-profile-btn');
     _createSpaceBtn.addClass('create-profile-btn');  
 
@@ -71,7 +73,9 @@
     _buttonContainer.append(_createProfileText,_createArtistBtn, _createSpaceBtn); 
     
 
-    _createdWidget.append(_buttonContainer, _myprofiles);
+    _createdWidget.append(_buttonContainer, _myProfileText, _myprofiles);
+
+
     return{
       render: function(){
         return _createdWidget;
@@ -80,14 +84,14 @@
   }
 
 
-  ns.Widgets.UserSection = function (content) {
+  ns.Widgets.UserSection = function(content) {
 
     content.empty();
 
     var profiles = Pard.CachedProfiles['profiles'];
-    var _content = content.addClass('grid-element-content');
+    var _content = content.addClass('grid-element-content user-section-content  ');
 
-    var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h3> Explora los otros perfiles </h3>');
+    var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h4> Explora los otros perfiles </h4>');
    
     var _searchEngine = Pard.Widgets.SearchEngine('');
 
