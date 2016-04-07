@@ -58,7 +58,7 @@
 
   ns.Widgets.HelpText = function(label){
 
-    var _helptext = $('<p>').addClass('help-text').text(label);
+    var _helptext = $('<p>').addClass('help-text').html(label);
 
     return{
       render: function(){

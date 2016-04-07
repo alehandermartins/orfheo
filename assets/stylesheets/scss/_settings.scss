@@ -51,8 +51,11 @@ $pard-aside-width: 11.5rem;
 $pard-section-width: 48rem;
 $pard-grid-width: 61.5rem;
 $pard-grid-spacing: 1.8rem;
-
 $inner-spacing: 0.75rem;
+
+$layout-border-radius: 0.125rem;
+$element-border-radius: 0.125rem;
+
 
 
 //colors
@@ -65,8 +68,8 @@ $element-background: #000;
 $element-color:#fff;
 $title-color: #757373;
 $text-color: #A0A09F;
-$layout-border-radius: 0.125rem;
-$element-border-radius: 0.125rem;
+$blue-pard: rgb(56, 133, 255);
+$blue-pard-hover: rgba(56, 133, 255, 0.8);
 
 
 

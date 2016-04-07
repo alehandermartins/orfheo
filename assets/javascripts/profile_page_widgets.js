@@ -121,33 +121,35 @@ ns.Widgets.MultimediaManagerDictionary = function(proposal){
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
 
-    var _videoProviders = ['youtube', 'vimeo', 'vine', 'facebook'];
-    var _imageProviders = ['tu ordenador', 'instagram', 'flickr', 'pinterest', 'twitter', 'facebook'];
-    var _audioProviders = ['soundcloud', 'bandcamp', 'spotify'];
+    // var _videoProviders = ['youtube', 'vimeo', 'vine', 'facebook'];
+    // var _imageProviders = ['tu ordenador', 'instagram', 'flickr', 'pinterest', 'twitter', 'facebook'];
+    // var _audioProviders = ['soundcloud', 'bandcamp', 'spotify'];
 
     var _videoList = $('<ul>').addClass('clearfix');
-    _videoProviders.forEach(function(element) {
-      console.log(element);
-      _videoList.append($('<li>').text(element));
-    });
+    _videoList.append($('<li>').html('<strong>videos</strong> desde:  youtube, vimeo, vine, facebook'));
+    // _videoProviders.forEach(function(element) {
+    //   console.log(element);
+    //   _videoList.append($('<li>').text(element));
+    // });
 
     var _imageList = $('<ul>').addClass('clearfix');
-    _imageProviders.forEach(function(element) {
-      _imageList.append($('<li>').text(element));
-    });
+    _imageList.append($('<li>').html('<strong>imágenes</strong> desde: tu ordenador, instagram, flickr, pinterest, twitter, facebook'));
+    // _imageProviders.forEach(function(element) {
+    //   _imageList.append($('<li>').text(element));
+    // });
 
     var _audioList = $('<ul>').addClass('clearfix');
-    _audioProviders.forEach(function(element) {
-      _audioList.append($('<li>').text(element));
-    });
+    _audioList.append($('<li>').html('<strong>audios</strong> desde:soundcloud, bandcamp, spotify'));
+    // _audioProviders.forEach(function(element) {
+    //   _audioList.append($('<li>').text(element));
+    // });
     
-    var _message = $('<div>').append(
-      $('<p>').html('Puedes añadir <strong>videos</strong> desde:'),_videoList,$('<p>').html('<strong>imágenes</strong> desde:'),_imageList,$('<p>').html('<strong>audio</strong> desde:'),_audioList
-      ).addClass('message-form multimedia-manager-message');
+    var _message = $('<div>').append($('<p>').text('Puedes añadir:'),_videoList, _imageList, _audioList).addClass('message-form multimedia-manager-message');
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    
     var _invalidInput = $('<div>').addClass('not-filled-text');
     
     if (proposal['type'] == 'space'){
