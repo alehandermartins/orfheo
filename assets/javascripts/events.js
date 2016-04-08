@@ -56,7 +56,7 @@
 
   ns.Events.CreateProfile = function(data){
     if (data['status'] == 'success'){
-      document.location = '/profiles/' + data['profile_id'];
+      document.location = '/profile?id=' + data['profile_id'];
     }
     else{
       if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
