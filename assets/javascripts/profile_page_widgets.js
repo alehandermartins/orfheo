@@ -110,7 +110,7 @@
 
   ns.Widgets.MultimediaContent = function(proposal){
 
-     var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimediales', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
+     var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimedia', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
     _multimediaContainer.addClass('multimedia-container section-box-container'); 
 
     var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
@@ -173,7 +173,7 @@
  ns.Widgets.MultimediaManager = function(proposal){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica o crea nuovo');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Gestiona tus contenidos multimediales', function(){return Pard.Widgets.MultimediaManagerMessage(proposal)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Gestiona tus contenidos multimedia', function(){return Pard.Widgets.MultimediaManagerMessage(proposal)});
 
     var _createdWidget = _popup.render();
 

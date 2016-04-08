@@ -121,7 +121,7 @@
 
     _content.append(_photoContainer,_title);
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
     
 
@@ -181,10 +181,10 @@
     _infoBoxContainer.append(_infoContentBox);
     _content.append(_infoBoxContainer);
 
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Actividades', Pard.Widgets.IconManager('calls').render()).render();
+    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
     var _callsBoxContent = $('<div>').addClass('box-content');
 
-    var _callsInfoTitle = $('<h5>').text('¡Convocatoria 2016 abierta!');
+    var _callsInfoTitle = $('<p>').text('Abierta hasta el 15 de Junio.').css('font-weight','bold');
     var _callsInfoText = $('<p>').text('Se aceptan todo tipo de propuestas propias y originales de carácter artístico, con un fondo humano y que impulsen valores que fomenten la armonía y convivencia entre las personas');
     var _signUpMessage =  Pard.Widgets.Registration();    
     var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
@@ -193,10 +193,10 @@
 
     var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
 
+    var _searchEngineText = $('<h6>').text('Conoce a los artistas y espacios que ya se han registrado').addClass('serachEngine-text-welcome-page');
+    var _searchEngine = Pard.Widgets.SearchEngine('');
 
-    var _searchEngine = Pard.Widgets.SearchEngine('Descubre los participantes');
-
-    _callsBoxContent.append(_callsInfo,_signUpButton, _searchEngine.render());
+    _callsBoxContent.append(_callsInfo,_signUpButton, _searchEngineText, _searchEngine.render());
 
     _content.append(_callsBoxContainer.append(_callsBoxContent));
 

@@ -219,6 +219,11 @@ grid-section content LogIn page
 //   max-width: 596px;
 // }
 
+.serachEngine-text-welcome-page{
+  margin-top: 2.5rem;
+  font-size: 1rem;
+}
+
 .search-results{
    @include breakpoint(small down){
     padding-left:1.5rem;
@@ -230,6 +235,7 @@ grid-section content LogIn page
   }
   margin-top: 2.5rem;
 }
+
 
 
 /*===============================================
@@ -520,6 +526,11 @@ Profile Section
   font-size: 18px;
   font-weight: bold;
   padding: 0.6rem $inner-spacing;
+}
+
+.title-box-container .fa-bullhorn{
+  font-size: 1.2rem;
+  vertical-align: 0.2rem;
 }
 
 .box-content{
