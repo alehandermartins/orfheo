@@ -32,7 +32,7 @@
 
     _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
     _submitForm['profile_id'] = profile.profile_id;
-    _submitForm['type'] = profile.type;
+    _submitForm['type'] = profile['type'];
     _submitForm['category'] = profile.category;
 
     var _form = Pard.Forms.SpaceCall().render();
@@ -62,6 +62,7 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
+      console.log(_submitForm);
       return _submitForm;
     }
 

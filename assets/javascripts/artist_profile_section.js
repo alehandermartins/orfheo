@@ -29,7 +29,7 @@
     console.log(profile.personal_web)
     var _createdWidget = $('<div>');
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
     
     
@@ -65,7 +65,7 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Actividades', Pard.Widgets.IconManager('calls').render()).render();
+    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Partecipación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
     var _callsBoxContent = $('<div>').addClass('box-content');
 
     if(profile.calls){
@@ -107,7 +107,7 @@
 
     _createdWidget.append(_title);
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Informaciones', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
 
     var _infoContentBox = $('<div>').addClass('box-content');  
    

@@ -222,16 +222,18 @@
       return _check;
     }
 
+    _submitForm['type'] = 'space';
+
     var _getVal = function(url){
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['photos'] = url;
-      _submitForm['type'] = 'space';
+      _submitForm['photos'] = url;      
       return _submitForm;
     }
 
     var _send = function(url){
+      console.log(_submitForm['type']);
       Pard.Backend.createProfile(_getVal(url), Pard.Events.CreateProfile);
     }
 

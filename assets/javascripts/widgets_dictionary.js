@@ -31,7 +31,9 @@
       children: {icon: '&#xEB41;', className: 'material-icons'},
       duration: {icon: '&#xE425;', className: 'material-icons'},
       multimedia: {icon: '&#xE6C4;', className: 'material-icons'},
-     
+      
+      open_call: {icon:'', className: 'fa fa-bullhorn'},
+
       youtube: {icon: '', className: 'fa fa-youtube'},
       vimeo: {icon: '', className: 'fa fa-vimeo'},
       flickr: {icon: '', className: 'fa fa-flickr'},
