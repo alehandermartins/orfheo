@@ -13,10 +13,10 @@
 
     var _searchMessage = $('<div>').append($('<p>').text(label));
 
-    var _nameSelect2 = $('<select>');
+    var _nameSelect2 = $('<select>').attr('multiple', 'true');
 
       var _resources = _profiles.map(function(profile){
-        return { id: profile.uuid, text: profile.name, type: profile.type }
+        return { id: profile.profile_id, text: profile.name, type: profile.type }
       });
 
       if (!_profiles.length) {
@@ -29,13 +29,6 @@
         //if (profile.type == 'private') _label.append($('<i>').addClass('glyphicon glyphicon-lock').css({'position':'relative', 'left':'5px'}));
         return _label;
       };
-
-      _nameSelect2.select2({
-        minimumResultsForSearch: -1,
-        data: _resources,
-        templateResult: formatProfile,
-        templateSelection: formatProfile
-      });
 
     // var _filters = $('<div>').addClass('medium-7 columns');
     // var _searchByName = $('<div>').addClass('medium-5 columns');
@@ -138,6 +131,13 @@
     // _searchTools.append(_filters, _searchByName);
 
     _createdWidget.append(_searchTool, _searchResult, _nameSelect2);
+
+    _nameSelect2.select2({
+      minimumResultsForSearch: -1,
+      data: _resources,
+      templateResult: formatProfile,
+      templateSelection: formatProfile
+    });
 
     return{
       render: function(){
