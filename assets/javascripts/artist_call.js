@@ -200,27 +200,58 @@
 
     var _createdWidget = $('<div>');
   
-    var _form = Pard.Forms.ArtistCall(proposal.category).render();                             
-    // for(var field in _form){
-    //   if(proposal[field]) _form[field].input.setVal(proposal[field]);
-    // };
+    var _form = Pard.Forms.ArtistCall(proposal.category).render();     
 
-    var _message = $('<div>').append($('<p>').text('Propuesta enviada por '+profileName))
+    var _sentCall = Pard.Widgets.PrintSentCall(proposal, profileName, _form).render();
+
+    _createdWidget.append(_sentCall);
+
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        // _closeBtn.on('click', function(){ 
+        //   callback(); 
+        // })
+      }
+    }
+  }
+
+
+  ns.Widgets.PrintSentCall = function(proposal, profileName, _form){
+
+    var _createdWidget = $('<div>');
+
+    var _nameLabel = $('<span>').addClass('myProposals-field-label').text('Propuesta enviada por:');
+    var _nameText = $('<span>').text(' ' + profileName);
+    var _name = $('<div>').append($('<p>').append(_nameLabel, _nameText))
     // , $('<p>').text('Formulario enviado para la convocatoria del Benimaclet conFusión festival 2016'));
 
-    _createdWidget.append(_message);
+    _createdWidget.append(_name);
 
-    var _fieldFormLabel, _fieldForm, _textLabel, _proposalField;
+    var _fieldFormLabel, _fieldForm, _textLabel, _proposalField, _fieldFormText;
+
+  if(proposal['category']){
+    _textLabel = 'Categoría:';
+    _fieldFormLabel = $('<span>').text(_textLabel).addClass('myProposals-field-label');
+    _fieldFormText = $('<span>').text(' ' + Pard.Widgets.Dictionary(proposal['category']).render());
+    _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText));
+    _createdWidget.append(_fieldForm);
+  }
 
     for(var field in _form){
       if ($.inArray(field, ['conditions','availability', 'children', 'repeat', 'waiting_list', 'links']) == -1){
         console.log(field);
         _textLabel = _form[field]['label'].render().text();
         if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
-        _fieldFormLabel = $('<span>').text(_textLabel+': ')
-        _fieldFormLabel.addClass('myProposals-field-label');
         _proposalField = proposal[field];
-        if (field == 'duration') _proposalField += ' min';
+        _fieldFormLabel = $('<span>').text(_textLabel+':').addClass('myProposals-field-label');
+        if ($.inArray(field, ['duration', 'phone']) == -1) {_fieldFormLabel.css('display', 'block');}       
+        if (field == 'duration') _proposalField = ' '+_proposalField+ ' min';
+        if (field == 'phone') _proposalField = ' '+_proposalField;
         _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _proposalField));
         _createdWidget.append(_fieldForm);
       }
@@ -240,43 +271,37 @@
         _createdWidget.append(_fieldForm);
       }
       if (field == 'children'){
-        var _check = 'Sí';
-        if (proposal[field] == false) _check = 'No'; 
+        var _check = ' Sí';
+        if (proposal[field] == false) _check = ' No'; 
         _textLabel = 'Actividad para niños:';
         _fieldFormLabel = $('<span>').text(_textLabel)
         _fieldFormLabel.addClass('myProposals-field-label');
-        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, 'Sí'));
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _check));
         _createdWidget.append(_fieldForm);
       }
       if (field == 'repeat'){
-        var _check = 'Sí';
-        if (proposal[field] == false) _check = 'No'; 
+        var _check = ' Sí';
+        if (proposal[field] == false) _check = ' No'; 
         _textLabel = 'Si posible, quiero repetir mi actuacción:';
         _fieldFormLabel = $('<span>').text(_textLabel)
         _fieldFormLabel.addClass('myProposals-field-label');
-        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, 'Sí'));
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _check));
         _createdWidget.append(_fieldForm);
       }
       if (field == 'repeat'){
-         var _check = 'Sí';
-        if (proposal[field] == false) _check = 'No'; 
+         var _check = ' Sí';
+        if (proposal[field] == false) _check = ' No'; 
         _textLabel = 'En la eventualidad, quiero quedarme en la lista de espera:';
         _fieldFormLabel = $('<span>').text(_textLabel)
         _fieldFormLabel.addClass('myProposals-field-label');
-        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, 'Sí'));
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _check));
         _createdWidget.append(_fieldForm);
       }
 
 
     }
 
-    _createdWidget.append($('<p>').append('Has aceptado las condiciones en las ', Pard.Forms.Conditions().link(), ' del Benimaclet conFusión festival.')) 
-    
-
-      //  for(var field in _form){
-      //   _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()), _form[field]['helptext'].render());
-      // };
-
+    _createdWidget.append($('<p>').append('Has aceptado las condiciones en las ', Pard.Forms.Conditions().link(), ' del Benimaclet conFusión festival')) 
 
 
     var _postData = $('<div>').addClass('postData-container');
@@ -304,11 +329,6 @@
     return {
       render: function(){
         return _createdWidget;
-      },
-      setCallback: function(callback){
-        // _closeBtn.on('click', function(){ 
-        //   callback(); 
-        // })
       }
     }
   }

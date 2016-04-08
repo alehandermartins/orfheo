@@ -119,73 +119,10 @@
 
     var profile = Pard.ProfileManager.getProfile(proposal.profile_id);
                                     
-    // for(var field in _form){
-    //   if(proposal[field]) _form[field].input.setVal(proposal[field]);
-    // };
 
-    var _message = $('<div>').append($('<p>').text('Propuesta enviada por '+profile['name']))
-    // , $('<p>').text('Formulario enviado para la convocatoria del Benimaclet conFusión festival 2016'));
+    var _sentCall = Pard.Widgets.PrintSentCall(proposal, profile['name'], _form).render();
 
-    _createdWidget.append(_message);
-
-    var _fieldFormLabel, _fieldForm, _textLabel;
-
-    for(var field in _form){
-      if (field != 'conditions' && field!='availability'){
-        _textLabel = _form[field]['label'].render().text();
-        if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
-        _fieldFormLabel = $('<span>').text(_textLabel+': ')
-        _fieldFormLabel.addClass('myProposals-field-label');
-        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, proposal[field]));
-        _createdWidget.append(_fieldForm);
-      }
-      if (field == 'availability'){
-        _textLabel = _form[field]['label'].render().text();
-        if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
-        _fieldFormLabel = $('<span>').text(_textLabel+': ');
-        _fieldFormLabel.addClass('myProposals-field-label');
-        var _availability ='';
-        _fieldForm = $('<div>').append(_fieldFormLabel);
-        var _dayList = $('<ul>');
-        for (var day in proposal[field]) {
-          _availability = $('<li>').text(Pard.Widgets.AvailabilityDictionary(proposal[field][day]));
-          _dayList.append(_availability.addClass('avilability-info-text'));
-        }
-        _fieldForm.append(_dayList);
-        _createdWidget.append(_fieldForm);
-      }
-    }
-
-    _createdWidget.append($('<p>').append('Has aceptado las condiciones en las ', Pard.Forms.Conditions().link(), ' del Benimaclet conFusión festival.')) 
-    
-
-      //  for(var field in _form){
-      //   _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()), _form[field]['helptext'].render());
-      // };
-
-
-
-    var _postData = $('<div>').addClass('postData-container');
-    var _postDataLabel = $('<p>').addClass('myProposals-field-label').text('No se permite modificar el formulario enviado, pero, en caso lo necesites, puedes enviar una enmienda antes del cierre de la convocatoria.');
-    var _textArea = $('<textarea>').attr('rows', 4);
-    var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
-
-    _textArea.on('input', function(){$(this).removeClass('warning')});
-
-    _sendButton.click(function(){
-      if (_textArea.val()) console.log('send');
-      else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
-    });
-
-    var _finalMessage = $('<p>').append('Para cualquier duda o necesidad no te olvides que el equipo de organización del festival está siempre a tu disposición y puedes contactarlo escribiendo a <a href="mailto:contacta@beniconfusionfest.es" target="_top">contacta@beniconfusionfest.es</a>.').addClass('myproposal-final-message');
-
-    _postData.append(_postDataLabel, _textArea, _sendButton);
-
-    _createdWidget.append(_postData, _finalMessage);
-
-    // var _closeBtn = Pard.Widgets.Button('Cierra').render().addClass('pard-btn').css('font-size':'14px');
-    // _createdWidget.append(_closeBtn);
-
+    _createdWidget.append(_sentCall);
 
     return {
       render: function(){
