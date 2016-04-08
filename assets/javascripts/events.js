@@ -74,7 +74,7 @@
 
   ns.Events.SendProposal = function(data){
     if (data['status'] == 'success'){
-      Pard.Widgets.Alert('conFusion festival 2016', '¡Te has inscrito correctamente!',
+      Pard.Widgets.Alert('conFusión festival 2016', '¡Te has inscrito correctamente! <p style="font-size: 14px; margin-top:1rem"> Puedes enviar otra propuesta desde el mismo perfil (si artista) o crear y inscribir otros perfiles.</p>',
         function(){
          document.location = '/profile?id=' + data['profile_id'];
         }
@@ -131,3 +131,4 @@
   }
 
 }(Pard || {}));
+  
