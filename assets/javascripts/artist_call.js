@@ -170,7 +170,7 @@
   }
 
 
-  ns.Widgets.MyArtistCallProposals = function(callProposals){
+  ns.Widgets.MyArtistCallProposals = function(callProposals, profileName){
     var _createdWidget = $('<div>');
 
     var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
@@ -180,7 +180,7 @@
     callProposals.forEach(function(proposal){
       var _caller = $('<a>').attr({href:'#'}).text(proposal['title']);
       
-      var _proposalItem = $('<li>').append( Pard.Widgets.PopupCreator(_caller, 'conFusión', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal);
+      var _proposalItem = $('<li>').append( Pard.Widgets.PopupCreator(_caller, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal, profileName);
         }).render());
       _listProposals.append(_proposalItem);
         
@@ -196,35 +196,150 @@
   };
 
 
-  ns.Widgets.MyArtistCallProposalMessage = function(callProposals){
+  ns.Widgets.MyArtistCallProposalMessage = function(proposal, profileName){
 
     var _createdWidget = $('<div>');
+  
+    var _form = Pard.Forms.ArtistCall(proposal.category).render();                             
+    // for(var field in _form){
+    //   if(proposal[field]) _form[field].input.setVal(proposal[field]);
+    // };
 
-    var _form = Pard.Forms.ArtistCall(callProposals.category).render();
+    var _message = $('<div>').append($('<p>').text('Propuesta enviada por '+profileName))
+    // , $('<p>').text('Formulario enviado para la convocatoria del Benimaclet conFusión festival 2016'));
+
+    _createdWidget.append(_message);
+
+    var _fieldFormLabel, _fieldForm, _textLabel, _proposalField;
 
     for(var field in _form){
-      if(callProposals[field]) _form[field]['input'].setVal(callProposals[field]);
-    };
+      if ($.inArray(field, ['conditions','availability', 'children', 'repeat', 'waiting_list', 'links']) == -1){
+        console.log(field);
+        _textLabel = _form[field]['label'].render().text();
+        if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
+        _fieldFormLabel = $('<span>').text(_textLabel+': ')
+        _fieldFormLabel.addClass('myProposals-field-label');
+        _proposalField = proposal[field];
+        if (field == 'duration') _proposalField += ' min';
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _proposalField));
+        _createdWidget.append(_fieldForm);
+      }
+      if (field == 'availability'){
+        _textLabel = _form[field]['label'].render().text();
+        if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
+        _fieldFormLabel = $('<span>').text(_textLabel+': ');
+        _fieldFormLabel.addClass('myProposals-field-label');
+        var _availability ='';
+        _fieldForm = $('<div>').append(_fieldFormLabel);
+        var _dayList = $('<ul>');
+        for (var day in proposal[field]) {
+          _availability = $('<li>').text(Pard.Widgets.AvailabilityDictionary(proposal[field][day]));
+          _dayList.append(_availability.addClass('avilability-info-text'));
+        }
+        _fieldForm.append(_dayList);
+        _createdWidget.append(_fieldForm);
+      }
+      if (field == 'children'){
+        var _check = 'Sí';
+        if (proposal[field] == false) _check = 'No'; 
+        _textLabel = 'Actividad para niños:';
+        _fieldFormLabel = $('<span>').text(_textLabel)
+        _fieldFormLabel.addClass('myProposals-field-label');
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, 'Sí'));
+        _createdWidget.append(_fieldForm);
+      }
+      if (field == 'repeat'){
+        var _check = 'Sí';
+        if (proposal[field] == false) _check = 'No'; 
+        _textLabel = 'Si posible, quiero repetir mi actuacción:';
+        _fieldFormLabel = $('<span>').text(_textLabel)
+        _fieldFormLabel.addClass('myProposals-field-label');
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, 'Sí'));
+        _createdWidget.append(_fieldForm);
+      }
+      if (field == 'repeat'){
+         var _check = 'Sí';
+        if (proposal[field] == false) _check = 'No'; 
+        _textLabel = 'En la eventualidad, quiero quedarme en la lista de espera:';
+        _fieldFormLabel = $('<span>').text(_textLabel)
+        _fieldFormLabel.addClass('myProposals-field-label');
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, 'Sí'));
+        _createdWidget.append(_fieldForm);
+      }
 
-    for(var field in _form){
-      _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()), _form[field]['helptext'].render());
-    };
 
-    var _closeBtn = Pard.Widgets.Button('Cierra').render();
+    }
 
-    _createdWidget.append(_closeBtn);
+    _createdWidget.append($('<p>').append('Has aceptado las condiciones en las ', Pard.Forms.Conditions().link(), ' del Benimaclet conFusión festival.')) 
+    
+
+      //  for(var field in _form){
+      //   _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()), _form[field]['helptext'].render());
+      // };
+
+
+
+    var _postData = $('<div>').addClass('postData-container');
+    var _postDataLabel = $('<p>').addClass('myProposals-field-label').text('No se permite modificar el formulario enviado, pero, en caso lo necesites, puedes enviar una enmienda antes del cierre de la convocatoria.');
+    var _textArea = $('<textarea>').attr('rows', 4);
+    var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
+
+    _textArea.on('input', function(){$(this).removeClass('warning')});
+
+    _sendButton.click(function(){
+      if (_textArea.val()) console.log('send');
+      else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
+    });
+
+    var _finalMessage = $('<p>').append('Para cualquier duda o necesidad no te olvides que el equipo de organización del festival está siempre a tu disposición y puedes contactarlo escribiendo a <a href="mailto:contacta@beniconfusionfest.es" target="_top">contacta@beniconfusionfest.es</a>.').addClass('myproposal-final-message');
+
+    _postData.append(_postDataLabel, _textArea, _sendButton);
+
+    _createdWidget.append(_postData, _finalMessage);
+
+    // var _closeBtn = Pard.Widgets.Button('Cierra').render().addClass('pard-btn').css('font-size':'14px');
+    // _createdWidget.append(_closeBtn);
+
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
-        _closeBtn.on('click', function(){
-          callback();
-        })
+        // _closeBtn.on('click', function(){ 
+        //   callback(); 
+        // })
       }
     }
   }
+
+  //   var _createdWidget = $('<div>');
+
+  //   var _form = Pard.Forms.ArtistCall(callProposals.category).render();
+
+  //   for(var field in _form){
+  //     if(callProposals[field]) _form[field]['input'].setVal(callProposals[field]);
+  //   };
+
+  //   for(var field in _form){
+  //     _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()), _form[field]['helptext'].render());
+  //   };
+
+  //   var _closeBtn = Pard.Widgets.Button('Cierra').render();
+
+  //   _createdWidget.append(_closeBtn);
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     setCallback: function(callback){
+  //       _closeBtn.on('click', function(){
+  //         callback();
+  //       })
+  //     }
+  //   }
+  // }
 
 
 }(Pard || {}));

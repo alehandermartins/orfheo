@@ -123,7 +123,7 @@
     //   if(proposal[field]) _form[field].input.setVal(proposal[field]);
     // };
 
-    var _message = $('<div>').append($('<p>').text('Propuesta enviada por '+profile['name']+'.'))
+    var _message = $('<div>').append($('<p>').text('Propuesta enviada por '+profile['name']))
     // , $('<p>').text('Formulario enviado para la convocatoria del Benimaclet conFusión festival 2016'));
 
     _createdWidget.append(_message);
@@ -201,7 +201,6 @@
 
 
   ns.Widgets.AvailabilityDictionary = function(day){ 
-  console.log(day.indexOf('Sat')); 
     if (day.indexOf('Sat') == 0) return 'Sabado 15 de Octubre';
     if (day.indexOf('Sun') == 0) return 'Domingo 16 de Octubre';
   }

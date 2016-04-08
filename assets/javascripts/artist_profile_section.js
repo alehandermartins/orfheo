@@ -69,7 +69,7 @@
     var _callsBoxContent = $('<div>').addClass('box-content');
 
     if(profile.calls){
-      var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
+      var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls, profile['name']);
       var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
       _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);
 
