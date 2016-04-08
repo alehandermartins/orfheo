@@ -13,6 +13,30 @@
 
     var _searchMessage = $('<div>').append($('<p>').text(label));
 
+    var _nameSelect2 = $('<select>');
+
+      var _resources = _profiles.map(function(profile){
+        return { id: profile.uuid, text: profile.name, type: profile.type }
+      });
+
+      if (!_profiles.length) {
+        _resources = [{id: 0, text: 'No available games, create your own :)'}]
+      }
+
+      function formatProfile (profile) {
+        if(!profile.id) return profile.text
+        var _label = $('<span>').text(profile.text);
+        //if (profile.type == 'private') _label.append($('<i>').addClass('glyphicon glyphicon-lock').css({'position':'relative', 'left':'5px'}));
+        return _label;
+      };
+
+      _nameSelect2.select2({
+        minimumResultsForSearch: -1,
+        data: _resources,
+        templateResult: formatProfile,
+        templateSelection: formatProfile
+      });
+
     // var _filters = $('<div>').addClass('medium-7 columns');
     // var _searchByName = $('<div>').addClass('medium-5 columns');
     
@@ -113,7 +137,7 @@
     // _filters.append(_selectorsLabel,_typesSelector.render(), _catSelector);
     // _searchTools.append(_filters, _searchByName);
 
-    _createdWidget.append(_searchTool, _searchResult);
+    _createdWidget.append(_searchTool, _searchResult, _nameSelect2);
 
     return{
       render: function(){
