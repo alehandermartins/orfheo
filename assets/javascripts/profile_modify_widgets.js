@@ -8,7 +8,7 @@
     var _caller = $('<button>').addClass('modify-content-button').attr({type: 'button'}).append(Pard.Widgets.IconManager('modify_section_content').render());
     var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tus datos', function(){
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu perfil', function(){
       return Pard.Widgets.ModifyProfileMessage(profile, _submitBtn);
     });
 

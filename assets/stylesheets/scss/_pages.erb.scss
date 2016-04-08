@@ -622,8 +622,16 @@ Profile Section
 
 .myProposals-field-label{
   font-size: $almostNormalSize;
-  display: block;
+  display: inline-block;
 }
+
+// .myProposals-field-text{
+//   font-size: $almostNormalSize;
+//   display: block;
+// }
+
+
+
 
 
 .postData-container{
