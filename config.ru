@@ -9,6 +9,7 @@ require './controllers/login'
 require './controllers/users'
 require './controllers/profiles'
 require './controllers/calls'
+require './controllers/search'
 
 
 # require 'rack-livereload' if ENV['RACK_ENV'] == 'development'
@@ -28,4 +29,8 @@ end
 
 map '/login' do
   run LoginController
+end
+
+map '/search' do
+	run SearchController
 end

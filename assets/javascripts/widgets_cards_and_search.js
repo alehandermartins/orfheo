@@ -13,131 +13,85 @@
 
     var _searchMessage = $('<div>').append($('<p>').text(label));
 
-    var _nameSelect2 = $('<select>').attr('multiple', 'true');
+    var _searchWidget = $('<select>');
 
-      var _resources = _profiles.map(function(profile){
-        return { id: profile.profile_id, text: profile.name, type: profile.type }
-      });
+    var _resources = _profiles.map(function(profile){
+      return { id: profile.profile_id, text: profile.name, type: profile.type }
+    });
 
-      if (!_profiles.length) {
-        _resources = [{id: 0, text: 'No available games, create your own :)'}]
-      }
+    if (!_profiles.length) {
+      _resources = [{id: 0, text: 'No available games, create your own :)'}]
+    }
 
-      function formatProfile (profile) {
-        if(!profile.id) return profile.text
-        var _label = $('<span>').text(profile.text);
-        //if (profile.type == 'private') _label.append($('<i>').addClass('glyphicon glyphicon-lock').css({'position':'relative', 'left':'5px'}));
-        return _label;
-      };
-
-    // var _filters = $('<div>').addClass('medium-7 columns');
-    // var _searchByName = $('<div>').addClass('medium-5 columns');
-    
-    // var _selectorsLabel = $('<label>').text('Filtros');
-    // var _searchByNameLabel = $('<label>').text('Busqueda por nombre');
-
-    // var _labelsTypes = ['- Tipo de perfil -', 'Artista', 'Espacio'];
-    // var _valuesTypes = ['none', 'artist', 'space'];
-
-    // var _catSelector = $('<span>');
-    // var _catSelectorDefault = Pard.Widgets.Selector(['- Categoría -'], ['none']);
-    // _catSelectorDefault.setClass('filter-select');
-    // _catSelectorDefault.disable();
-    // _catSelector.append(_catSelectorDefault.render());
-
-    // var _labelsCat ={
-    //   artist: ['- Categoría -', 'Musica', 'Artes Escénicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'],
-    //   space: ['- Categoría -','Asociacion Cultural', 'Local Comercial', 'Espacio Particular']
-    // }
-
-    // var _valuesCat ={
-    //   artist: ['none', 'music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'],
-    //   space: ['none', 'cultural_ass', 'commercial', 'home']
-    // }
-
-    // var TypeCallback = function(){
-    //   var _type = $(this).val();
-    //   if (_type != 'none'){
-    //     var _catSelect = Pard.Widgets.Selector(_labelsCat[_type], _valuesCat[_type], CatCallback);
-    //     _catSelect.setClass('filter-select');
-    //     _catSelector.html(_catSelect.render());
-    //     _profiles = [];
-    //     profiles.forEach(function(profile, index){
-    //       if (profile.type === _type) _profiles.push(profile);
-    //     });
-    //     _searchResult.empty();
-    //     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
-    //   }
-    //   else{
-    //     _catSelector.html(_catSelectorDefault.render());
-    //     _profiles = profiles;
-    //     _searchResult.empty();
-    //     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
-    //     _createdWidget.append(_searchResult);
-    //   }
-    // }
-
-    // var CatCallback = function(){
-    //   var _cat = $(this).val();
-    //   if (_cat != 'none'){
-    //   _profiles = [];
-    //   var _keys =[];
-    //   profiles.forEach(function(profile, index){
-    //     _keys = Object.keys(profile);
-    //     if ($.inArray('proposals', _keys) >= 0 ){        
-    //       profile.proposals.forEach(function(proposal){
-    //         if (proposal.category === _cat) _profiles.push(profile);
-    //       })
-    //     }
-    //     else{
-    //       if (profile.category === _cat) _profiles.push(profile);
-    //     }
-    //   }); 
-    //     _searchResult.empty();
-    //     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
-    //   }
-    //   else{
-    //     TypeCallbackBound();
-    //   }
-    // }
-
-    // var searchCallback = function(textInput){
-    //   var _input = textInput.val();
-    //   if (_input != ''){
-    //     _profiles = [];
-    //     profiles.forEach(function(profile){
-    //       if (profile.name === _input) _profiles.push(profile);        
-    //     });
-    //     _searchResult.empty();
-    //     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render()); 
-    //   }
-    //   else{
-    //     TypeCallbackBound();
-    //   }
-    // } 
-
-    // var _typesSelector = Pard.Widgets.Selector(_labelsTypes, _valuesTypes, TypeCallback);
-    // _typesSelector.setClass('filter-select');
-
-    // var TypeCallbackBound = TypeCallback.bind(_typesSelector.render());
-
-    // var _searchWidget = Pard.Widgets.SearchByName(_profiles, searchCallback).render();
+    function formatProfile (profile) {
+      if(!profile.id) return profile.text;
+      var _label = $('<span>').text(profile.text);
+      //if (profile.type == 'private') _label.append($('<i>').addClass('glyphicon glyphicon-lock').css({'position':'relative', 'left':'5px'}));
+      return _label;
+    };
 
     _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render());
     _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
 
-    // _searchByName.append(_searchByNameLabel, _searchWidget);
-    // _filters.append(_selectorsLabel,_typesSelector.render(), _catSelector);
-    // _searchTools.append(_filters, _searchByName);
+    _searchWidget.css('width', '500');
 
-    _createdWidget.append(_searchTool, _searchResult, _nameSelect2);
 
-    _nameSelect2.select2({
-      minimumResultsForSearch: -1,
-      data: _resources,
+    _createdWidget.append(_searchWidget, _searchResult);
+
+    _searchWidget.select2({
+      placeholder: 'hello',
+      ajax: {
+        url: '/search/suggest',
+        type: 'POST',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          var _query = [];
+          _searchWidget.select2('data').forEach(function(element){
+            _query.push(element.text);
+          });
+          _query.push(params.term);
+          return {
+            query: _query,
+            page: params.page
+          };
+        },
+        processResults: function (data, params) {
+          // parse the results into the format expected by Select2
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data, except to indicate that infinite
+          // scrolling can be used
+          params.page = params.page || 1;
+
+          return {
+            results: data.items,
+            pagination: {
+              more: (params.page * 30) < data.total_count
+            }
+          };
+        }
+      },
+      multiple: true,
+      tags: true,
+      tokenSeparators: [',', ' '],   
+      // createTag: function (tag) {
+      //   return {
+      //       id: tag.term,
+      //       text: tag.term,
+      //       isNew : true
+      //   };
+      // },
       templateResult: formatProfile,
-      templateSelection: formatProfile
+      templateSelection: formatProfile,
+    }).on("select2:select", function(e) {
+      if(e.params.data.isNew){
+        $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
+      }
     });
+
+    // _searchWidget.on('change', function(){
+    //   console.log('miau');
+    // });
 
     return{
       render: function(){
@@ -146,7 +100,6 @@
     }
   }
   
-
   ns.Widgets.SearchByName = function(profiles, callback){
     var _searchWidget = $('<div>').addClass('ui-widget');
     var _textInput = Pard.Widgets.Input('', 'text');
