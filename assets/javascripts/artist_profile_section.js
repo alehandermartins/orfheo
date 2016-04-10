@@ -37,7 +37,8 @@
     var _bio = $('<div>').addClass('information-bio')
   
 
-    if(profile['bio'] != false){     
+    if(profile['bio']){ 
+    console.log(profile['bio']) ;   
       _bio.append($('<p>').text(profile['bio']));
     }  
 
@@ -65,17 +66,19 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Partecipación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
+    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
     var _callsBoxContent = $('<div>').addClass('box-content');
 
-    if(profile.calls){
+    if(profile.calls.length){
+            console.log(profile);
+
       var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls, profile['name']);
       var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
       _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);
 
     }else{
-      var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía una propuesta al conFusión 2016');
-      _callsBoxContent.append(_callButton.render());
+      var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía una propuesta al conFusión 2016').render().addClass('callButtonArtist-sendOther');
+      _callsBoxContent.append(_callButton);
     }
 
     _callsBoxContainer.append(_callsBoxContent);
@@ -117,7 +120,7 @@
     var _shortDescription = $('<p>').text(proposal.short_description).addClass('short-description-text');  
     _info.append(_shortDescription)
  
-    if(proposal['description'] != false){     
+    if(proposal['description']){     
       var _description = $('<p>').text(proposal['description']);
       _info.append(_description);
     }

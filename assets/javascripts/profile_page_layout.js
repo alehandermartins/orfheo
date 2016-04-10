@@ -136,7 +136,7 @@
     });
 
     var _icon = $('<div>').append(Pard.Widgets.IconManager(profile['type']).render().addClass('profile-nav-element-icon'));
-    var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
+    var _colorIcon = Pard.Widgets.IconColor(profile['color']).render();
     _icon.css({color: _colorIcon}); 
 
     _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
@@ -167,7 +167,7 @@
       callback();      
     });
     var _icon = $('<div>').append(Pard.Widgets.IconManager(profile['type']).render().addClass('profile-nav-element-icon'));
-    var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
+    var _colorIcon = Pard.Widgets.IconColor(profile['color']).render();
     _icon.css({color: _colorIcon}); 
     _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
     _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render());
