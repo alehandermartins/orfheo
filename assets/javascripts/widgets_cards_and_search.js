@@ -15,19 +15,11 @@
 
     var _searchWidget = $('<select>');
 
-    var _resources = _profiles.map(function(profile){
-      return { id: profile.profile_id, text: profile.name, type: profile.type }
-    });
-
-    if (!_profiles.length) {
-      _resources = [{id: 0, text: 'No available games, create your own :)'}]
-    }
-
     function formatResource (resource) {
       if(!resource.id) return resource.text;
       var _label = $('<span>').text(resource.text);
       if(resource.type == 'city') var _icon = Pard.Widgets.IconManager('city_artist').render();
-      else{ var _icon = Pard.Widgets.IconManager(resource.text).render();}
+      else { var _icon = Pard.Widgets.IconManager(resource.icon).render();}
       _label.append(_icon);
       _icon.css({
         position: 'relative',
@@ -55,7 +47,7 @@
         data: function (params) {
           var _query = [];
           _searchWidget.select2('data').forEach(function(element){
-            _query.push(element.text);
+            _query.push(element.id);
           });
           _query.push(params.term);
           return {

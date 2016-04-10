@@ -61,7 +61,7 @@
 
     var _dictionary = {
       artist: 'Artista',
-      space: 'Space',
+      space: 'Espacio',
       organization: 'Organización',
       cultural_ass: 'Asociación Cultural',
       commercial: 'Local Comercial',
@@ -92,13 +92,14 @@
 
     return {
       render: function(){
-        if (typeof _dictionary[voice] == 'function') return _dictionary[voice]();
-        return _dictionary[voice];
+        if (_dictionary[voice]){
+          if (typeof _dictionary[voice] == 'function') return _dictionary[voice]();
+          return _dictionary[voice];
+        }
+        else{return false;}
       }
     }
   }
-
-
 
   ns.Widgets.RecoverPasswdMessage = function(text){
       var _messageContainer = $('<div>').append()

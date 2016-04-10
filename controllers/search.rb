@@ -77,7 +77,8 @@ class SearchController < BaseController
     matchable_value = I18n.transliterate(value.downcase)
     words = matchable_value.split(/\W+/)
     words.any?{ |word|
-      word.start_with? tag  
+      translation = translate word
+      translation.start_with? tag  
     }
   end
 
@@ -139,7 +140,8 @@ class SearchController < BaseController
   end
 
   def add_suggestion suggestions, text, type
-    suggestions.push({id: text, text: I18n.transliterate(text), type: type}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(text.downcase)}
+    translation = I18n.transliterate(translate text)
+    suggestions.push({id: translation, text: translation, type: type, icon: text}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(translation.downcase)}
   end
 
   def sort_results results
@@ -150,5 +152,26 @@ class SearchController < BaseController
     sorted_results.push(results.select{ |result| result[:type] == 'name'})
     sorted_results.push(results.select{ |result| result[:type] == 'title'})
     sorted_results.flatten
+  end
+
+  def translate text
+    dictionary = {
+      artist: 'artista',
+      space: 'espacio',
+      organization: 'organizacion',
+      cultural_ass: 'asociacion cultural',
+      commercial: 'local comercial',
+      home: 'espacio particular',
+      music: 'musica',
+      arts: 'artes escenicas',
+      expo: 'exposicion',
+      poetry: 'poesia',
+      audiovisual: 'audiovisual',
+      street_art: 'street art',
+      workshop: 'taller',
+      other: 'otros',
+    }
+    return dictionary[text.to_sym] if dictionary.has_key? text.to_sym
+    text
   end
 end

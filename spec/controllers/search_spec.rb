@@ -117,14 +117,16 @@ describe SearchController do
       post suggest_route, {query: []}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([{
-        'id' => 'artist',
-        'text' => 'artist',
-        'type' => 'type'
+        'id' => 'artista',
+        'text' => 'artista',
+        'type' => 'type',
+        'icon' => 'artist'
       },
       {
-        'id' => 'space',
-        'text' => 'space',
-        'type' => 'type'
+        'id' => 'espacio',
+        'text' => 'espacio',
+        'type' => 'type',
+        'icon' => 'space'
       }])
     end
 
@@ -145,14 +147,16 @@ describe SearchController do
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([
         {
-          "id" => "music",
-          "text"=>"music",
-          "type"=>"category"
+          "id" => "musica",
+          "text"=>"musica",
+          "type"=>"category",
+          "icon"=>"music"
         }, 
         {
           "id"=>"music_title",
           "text"=>"music_title", 
-          "type"=>"title"
+          "type"=>"title",
+          "icon"=>"music_title"
         }
       ])
     end
@@ -164,7 +168,8 @@ describe SearchController do
         {
           "id"=>"title", 
           "text"=>"title", 
-          "type"=>"title"
+          "type"=>"title",
+          "icon"=>"title"
         }
       ])
     end
@@ -175,7 +180,8 @@ describe SearchController do
       expect(parsed_response['items']).to eq([{
         "id"=>"music_title", 
         "text"=>"music_title", 
-        "type"=>"title"
+        "type"=>"title",
+        "icon"=>"music_title"
       }])
     end
   end
