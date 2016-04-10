@@ -45,7 +45,7 @@ describe SearchController do
     }
   }
 
-  let(:otter_profile){
+  let(:space_profile){
     {
       profile_id: otter_profile_id,
       type: 'space',
@@ -96,27 +96,36 @@ describe SearchController do
     }
   }
 
+  let(:artist_profile){
+    profile.merge! proposals: [proposal, otter_proposal]
+  }
+
   before(:each){
     Repos::Users.add user
     Services::Users.validated_user validation_code
     post login_route, user_hash
     post create_profile_route, profile
-    post create_profile_route, otter_profile
+    post create_profile_route, space_profile
     post create_proposal_route, proposal
     post create_proposal_route, otter_proposal
+    allow(Services::Profiles).to receive(:get_profiles).with(:all, nil).and_return([artist_profile, space_profile])
   }
 
   describe 'Suggest' do
-    it 'fails if the query is not an array of strings' do
-      post suggest_route, {}
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_query')
-    end
 
-    it 'fails if the query is not an array of strings(2)' do
+    it 'returns default types if query is empty' do
       post suggest_route, {query: []}
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_query')
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['items']).to eq([{
+        'id' => 'artist',
+        'text' => 'artist',
+        'type' => 'type'
+      },
+      {
+        'id' => 'space',
+        'text' => 'space',
+        'type' => 'type'
+      }])
     end
 
     it 'returns empty array if last query is empty' do
@@ -125,64 +134,80 @@ describe SearchController do
       expect(parsed_response['items']).to eq([])
     end
 
+    it 'fails if a non-empty query is not an array of strings' do
+      post suggest_route, {query: [{id: 'id'}]}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_query')
+    end
+
     it 'suggests names, categories... of profiles' do
       post suggest_route, {query: ['valencia', 'm']}
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['items']).to eq([{
-        'id' => 1,
-        'text' => 'space_name',
-        'type' => 'name'
-      },
-      {
-        'id' => 2,
-        'text' => 'home',
-        'type' => 'category'
-      },
-      {
-        'id' => 3,
-        'text' => 'artist_name',
-        'type' => 'name'
-      }])
-    end
-
-    it 'suggests titles, categories... of proposals' do
-      post suggest_route, {query: ['Valencia', 'artist', 'poetr']}
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['items']).to eq([{
-        'id' => 1,
-        'text' => 'poetry',
-        'type' => 'category'
-      }])
+      expect(parsed_response['items']).to eq([
+        {
+          "id" => "music",
+          "text"=>"music",
+          "type"=>"category"
+        }, 
+        {
+          "id"=>"home", 
+          "text"=>"home", 
+          "type"=>"category"
+        }, 
+        {
+          "id"=>"artist_name", 
+          "text"=>"artist_name", 
+          "type"=>"name"
+        }, 
+        {
+          "id"=>"space_name", 
+          "text"=>"space_name", 
+          "type"=>"name"
+        }, 
+        {
+          "id"=>"music_title",
+          "text"=>"music_title", 
+          "type"=>"title"
+        }
+      ])
     end
 
     it 'allows query from proposal fields' do
       post suggest_route, {query: ['music', 'tit']}
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['items']).to eq([{
-        'id' => 1,
-        'text' => 'music_title',
-        'type' => 'title'
-      }])
+      expect(parsed_response['items']).to eq([
+        {
+          "id"=>"music_title",
+          "text"=>"music_title", 
+          "type"=>"title"
+        }, 
+        {
+          "id"=>"title", 
+          "text"=>"title", 
+          "type"=>"title"
+        }
+      ])
     end
   end
 
   describe 'Results' do
-    it 'fails if the query is not an array of strings' do
-      post results_route, {}
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_query')
-    end
 
-    it 'fails if the query is not an array of strings(2)' do
-      post results_route, {query: []}
+    it 'fails if the query is not an array of strings' do
+      post results_route, {query: {id: 'id'}}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_query')
     end
 
     it 'returns random profiles if query is empty' do
-      post results_route, {query: ['']}
+      post results_route, {query: []}
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profiles']).to eq([])
+      expect(parsed_response['profiles']).to eq([Util.stringify_hash(artist_profile), Util.stringify_hash(space_profile)])
+    end
+
+    it 'returns matching profiles' do
+      post results_route, {query: ['music']}
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profiles']).to eq([Util.stringify_hash(artist_profile)])
     end
   end
 end

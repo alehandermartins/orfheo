@@ -249,7 +249,7 @@ describe ProfilesController do
 
   describe 'Access' do
 
-    let(:profiles_route){'/profiles/' + profile_id}
+    let(:profiles_route){'/profile?id=' + profile_id}
 
     before(:each){
       post create_profile_route, profile
@@ -259,7 +259,7 @@ describe ProfilesController do
     }
 
     it 'redirects user to not found page if profile does not exist' do
-      get '/profiles/artist_name'
+      get '/profile?id=artist_name'
       expect(last_response.body).to include('Not Found')
     end
 

@@ -20,7 +20,7 @@ class SearchController < BaseController
   private
   def get_query params
     return [] if params.blank?
-    raise Pard::Invalid::QueryParams unless params.is_a?(Array) && params.each{ |param| param.is_a? String}
+    raise Pard::Invalid::QueryParams unless params.is_a?(Array) && params.all?{ |param| param.is_a? String}
     params.map{|param| I18n.transliterate(param.downcase)}
   end
 
@@ -126,7 +126,7 @@ class SearchController < BaseController
 
   def add_space_suggestions suggestions, profile, last
     add_suggestion(suggestions, profile[:category], 'category') if I18n.transliterate(profile[:category].downcase).include?(last)
-    add_suggestion(suggestions, profile[:address]['locality'], 'city') if I18n.transliterate(profile[:address]['locality'].downcase).include?(last)
+    add_suggestion(suggestions, profile[:address][:locality], 'city') if I18n.transliterate(profile[:address][:locality].downcase).include?(last)
   end
 
   def add_suggestion suggestions, text, type
