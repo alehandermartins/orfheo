@@ -58,17 +58,20 @@ class SearchController < BaseController
 
   def check_value value, tag
     return check_hash(value, tag) if value.is_a? Hash
-    check_string(value, tag) if value.is_a? String
+    matches?(value, tag) if value.is_a? String
   end
 
   def check_hash value, tag
     value.keys.any?{ |key|
-      check_string(value[key], tag) if value[key].is_a? String
+      matches?(value[key], tag) if value[key].is_a? String
     }
   end
 
-  def check_string value, tag
-    I18n.transliterate(value.downcase).include? tag
+  def matches? value, tag
+    words = value.split(/\W+/)
+    words.any?{ |word|
+      I18n.transliterate(word.downcase).start_with? tag  
+    }
   end
 
   def searcheable_fields
@@ -106,27 +109,27 @@ class SearchController < BaseController
   end
 
   def add_suggestions suggestions, profile, last
-    add_suggestion(suggestions, profile[:name], 'name') if I18n.transliterate(profile[:name].downcase).include? last
-    add_suggestion(suggestions, profile[:type], 'type') if I18n.transliterate(profile[:type].downcase).include? last
+    add_suggestion(suggestions, profile[:type], 'type') if matches? profile[:type], last
+    add_suggestion(suggestions, profile[:name], 'name') if matches? profile[:name], last
     add_artist_suggestions(suggestions, profile, last) if profile[:type] == 'artist'
     add_space_suggestions(suggestions, profile, last) if profile[:type] == 'space'
   end
 
   def add_artist_suggestions suggestions, profile, last
-    add_suggestion(suggestions, profile[:city], 'city') if I18n.transliterate(profile[:city].downcase).include?(last)
+    add_suggestion(suggestions, profile[:city], 'city') if matches? profile[:city], last
     add_proposal_suggestions(suggestions, profile[:proposals], last) if profile.has_key? :proposals
   end
 
   def add_proposal_suggestions suggestions, proposals, last
     proposals.each{ |proposal|
-      add_suggestion(suggestions, proposal[:title], 'title') if I18n.transliterate(proposal[:title].downcase).include? last
-      add_suggestion(suggestions, proposal[:category], 'category') if I18n.transliterate(proposal[:category].downcase).include?(last)
+      add_suggestion(suggestions, proposal[:title], 'title') if matches? proposal[:title], last
+      add_suggestion(suggestions, proposal[:category], 'category') if matches? proposal[:category], last
     }
   end
 
   def add_space_suggestions suggestions, profile, last
-    add_suggestion(suggestions, profile[:category], 'category') if I18n.transliterate(profile[:category].downcase).include?(last)
-    add_suggestion(suggestions, profile[:address][:locality], 'city') if I18n.transliterate(profile[:address][:locality].downcase).include?(last)
+    add_suggestion(suggestions, profile[:category], 'category') if matches? profile[:category], last
+    add_suggestion(suggestions, profile[:address]['locality'], 'city') if matches? profile[:address]['locality'], last
   end
 
   def add_suggestion suggestions, text, type

@@ -150,21 +150,6 @@ describe SearchController do
           "type"=>"category"
         }, 
         {
-          "id"=>"home", 
-          "text"=>"home", 
-          "type"=>"category"
-        }, 
-        {
-          "id"=>"artist_name", 
-          "text"=>"artist_name", 
-          "type"=>"name"
-        }, 
-        {
-          "id"=>"space_name", 
-          "text"=>"space_name", 
-          "type"=>"name"
-        }, 
-        {
           "id"=>"music_title",
           "text"=>"music_title", 
           "type"=>"title"
@@ -176,11 +161,6 @@ describe SearchController do
       post suggest_route, {query: ['music', 'tit']}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([
-        {
-          "id"=>"music_title",
-          "text"=>"music_title", 
-          "type"=>"title"
-        }, 
         {
           "id"=>"title", 
           "text"=>"title", 
