@@ -3,8 +3,7 @@ class SearchController < BaseController
   post '/suggest' do
     query = get_query params[:query]
     tags = query[0...-1]
-    all_profiles = get_profiles :all
-    matched_profiles = query_profiles all_profiles, tags
+    matched_profiles = query_profiles get_profiles, tags
     results = get_suggestions_for matched_profiles, query
     results = sort_results results
     success({items: results})
@@ -12,8 +11,7 @@ class SearchController < BaseController
 
   post '/results' do
     tags = get_query params[:query]
-    all_profiles = get_profiles :all
-    matched_profiles = query_profiles all_profiles, tags
+    matched_profiles = query_profiles get_profiles, tags
     success({profiles: matched_profiles})
   end
 
@@ -24,8 +22,12 @@ class SearchController < BaseController
     params.map{|param| I18n.transliterate(param.downcase)}
   end
 
-  def get_profiles method, args = nil
-    Services::Profiles.get_profiles method, args
+  def get_profiles
+    if session[:identity]
+      profiles = Services::Profiles.get_profiles :all_user_aside, {user_id: session[:identity]}
+      return profiles[:profiles]
+    end
+    profiles = Services::Profiles.get_profiles :all, nil
   end
 
   def query_profiles all_profiles, tags

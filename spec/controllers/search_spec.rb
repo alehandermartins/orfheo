@@ -103,11 +103,6 @@ describe SearchController do
   before(:each){
     Repos::Users.add user
     Services::Users.validated_user validation_code
-    post login_route, user_hash
-    post create_profile_route, profile
-    post create_profile_route, space_profile
-    post create_proposal_route, proposal
-    post create_proposal_route, otter_proposal
     allow(Services::Profiles).to receive(:get_profiles).with(:all, nil).and_return([artist_profile, space_profile])
   }
 
@@ -188,6 +183,8 @@ describe SearchController do
 
   describe 'Results' do
 
+
+
     it 'fails if the query is not an array of strings' do
       post results_route, {query: {id: 'id'}}
       expect(parsed_response['status']).to eq('fail')
@@ -198,6 +195,13 @@ describe SearchController do
       post results_route, {query: []}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(artist_profile), Util.stringify_hash(space_profile)])
+    end
+
+    it 'retrieves profiles form other users if logged in' do
+      allow(Services::Profiles).to receive(:get_profiles).with(:all_user_aside, {user_id: user_id}).and_return({profiles: []})
+      post login_route, user_hash
+      expect(Services::Profiles).to receive(:get_profiles).with(:all_user_aside, {user_id: user_id})
+      post results_route, {query: ['music']}
     end
 
     it 'returns matching profiles' do
