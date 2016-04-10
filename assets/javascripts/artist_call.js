@@ -244,7 +244,6 @@
 
     for(var field in _form){
       if ($.inArray(field, ['conditions','availability', 'children', 'repeat', 'waiting_list', 'links']) == -1){
-        console.log(field);
         _textLabel = _form[field]['label'].render().text();
         if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
         _proposalField = proposal[field];
@@ -272,7 +271,7 @@
       }
       if (field == 'children'){
         var _check = ' Sí';
-        if (proposal[field] == false) _check = ' No'; 
+        if (!(proposal[field]) || proposal[field] == 'false') _check = ' No'; 
         _textLabel = 'Actividad para niños:';
         _fieldFormLabel = $('<span>').text(_textLabel)
         _fieldFormLabel.addClass('myProposals-field-label');
@@ -281,16 +280,17 @@
       }
       if (field == 'repeat'){
         var _check = ' Sí';
-        if (proposal[field] == false) _check = ' No'; 
+        if (!(proposal[field]) || proposal[field] == 'false') _check = ' No'; 
         _textLabel = 'Si posible, quiero repetir mi actuacción:';
         _fieldFormLabel = $('<span>').text(_textLabel)
         _fieldFormLabel.addClass('myProposals-field-label');
         _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _check));
         _createdWidget.append(_fieldForm);
       }
-      if (field == 'repeat'){
+      if (field == 'waiting_list'){
+        // console.log(!(proposal[field]));
          var _check = ' Sí';
-        if (proposal[field] == false) _check = ' No'; 
+        if (!(proposal[field]) || proposal[field] == 'false') _check = ' No'; 
         _textLabel = 'En la eventualidad, quiero quedarme en la lista de espera:';
         _fieldFormLabel = $('<span>').text(_textLabel)
         _fieldFormLabel.addClass('myProposals-field-label');

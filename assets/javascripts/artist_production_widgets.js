@@ -28,9 +28,13 @@
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
-    var _message = $('<div>').html(
-      'No se modificará ninguno de los datos que has enviado a la convocatoria del conFusión.'
-      ).addClass('message-form');
+    var _initMex = $('<div>').append($('<p>').html(
+        'Con ese formularo puedes modificar el contenido de la página de tu proyecto artistico. Sin embargo, no se modificará ninguno de los datos que has enviado a la convocatoria del Benimaclet conFusión festival.'
+      )).addClass('init-message-form');
+
+    var _message = $('<div>').append($('<p>').html(
+      'IMPORTANTE: Los cambios que haces a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
+      )).addClass('final-message-form');
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
@@ -91,7 +95,7 @@
         _send();
     });
 
-    _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
+    _createdWidget.append(_initMex, _formContainer, _invalidInput, _message, _submitBtnContainer.append(submitButton));
 
     return {
       render: function(){

@@ -6,7 +6,7 @@
 
   ns.Widgets.ModifyPassword = function(){
 
-    var _createdButton = $('<a>').attr('href','#').text('Modificar contraseña');
+    var _createdButton = $('<a>').attr('href','#').text('Modifica contraseña');
     var _popup = Pard.Widgets.PopupCreator(_createdButton,  'Introduce una nueva contraseña', function(){return Pard.Widgets.ModifyPasswordMessage()});
 
     var _createdWidget = _popup.render();
@@ -104,7 +104,7 @@
 
   ns.Widgets.Logout = function(){
 
-    var _logout = $('<a>').attr('href','#').text('Log out').click(function(){
+    var _logout = $('<a>').attr('href','#').text('Cierra sesión').click(function(){
       Pard.Backend.logout(
         Pard.Events.Logout
       );

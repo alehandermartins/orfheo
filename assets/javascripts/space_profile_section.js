@@ -30,7 +30,7 @@
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio')  
 
-    if(profile['bio'] != false){     
+    if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
     }
 
@@ -57,7 +57,7 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Partecipación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
+    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
     var _callsBoxContent = $('<div>').addClass('box-content');
 
     if('calls' in profile && profile.calls != false){
@@ -66,8 +66,8 @@
       _callsBoxContent.append(_mySpaceCallProposals.render(), _callButton);
 
     }else{
-      var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía una propuesta al conFusión 2016');
-      _callsBoxContent.append(_callButton.render());
+      var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía una propuesta al conFusión 2016').render().addClass('callButtonArtist-sendOther');
+      _callsBoxContent.append(_callButton);
     }
 
     _callsBoxContainer.append(_callsBoxContent);

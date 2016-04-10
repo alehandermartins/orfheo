@@ -68,7 +68,13 @@
     _emailLabel.append(_fields['email'].render(), _fields['emailConf'].render());
     _passwdLabel.append(_fields['password'].render());
 
-    _createdWidget.append(_emailLabel, _passwdLabel, _invalidInput, _fields['button'].render());
+    var _initMex = $('<div>').append($('<p>').append('...por supuesto es libre y gratuito :)')).addClass('register-form-init-mex');
+
+    var _termsAndCondtions = $('<a>').attr('href','#').text('terminos y condiciones');
+    var _termsAndCondtionsPopup = Pard.Widgets.PopupCreator(_termsAndCondtions,'Terminos y Condiciones', function(){return Pard.Widgets.TermsAndConditionsMessage()});
+    var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestros ', _termsAndCondtionsPopup.render(), '.')).addClass('register-form-final-mex');
+
+    _createdWidget.append(_initMex, _emailLabel, _passwdLabel, _invalidInput, _fields['button'].render(), _finalMex);
 
     return {
       render: function(){
@@ -88,6 +94,20 @@
         })
       }
     }
+  }
+
+
+  ns.Widgets.TermsAndConditionsMessage = function(){
+    var _createdWidget = $('div');
+
+    return{
+      render: function(){
+        _createdWidget
+      },
+      setCallback: function(callback){
+      }
+    }
+  
   }
 
  
@@ -169,7 +189,7 @@
       });
     });
 
-    _fields['button'] = Pard.Widgets.Button('Log In', function(){
+    _fields['button'] = Pard.Widgets.Button('Entra', function(){
       _rememberMe.rememberMe();
       Pard.Backend.login(
         _fields['email'].getVal(),

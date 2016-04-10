@@ -98,7 +98,7 @@
     var _signUpButton = _popup.render();
     _signUpButton.addClass('signupButton');
 
-      _asideContainer.append(_signUpButton, _info);
+      _asideContainer.append(_info.append(_signUpButton));
 
     return{
       render: function(){

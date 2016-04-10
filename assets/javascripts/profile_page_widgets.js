@@ -27,14 +27,16 @@
 
   ns.Widgets.ModifySectionContent = function (_modifyBtn, profileColor){
     var _createdWidget = $('<div>');
-    _modifyBtn.css({color: _iconColor})
   
-    var _iconColor = Pard.Widgets.IconColor((profileColor)).render();
+    var _iconColor = Pard.Widgets.IconColor(profileColor).render();
+
+    _modifyBtn.css({color: _iconColor})
+
 
     var _triangle = $('<div>').addClass('modify-section-content-button-container');
 
 
-    var _profileColorRgba = Pard.Widgets.IconColor((profileColor)).rgba(0.2);
+    var _profileColorRgba = Pard.Widgets.IconColor(profileColor).rgba(0.2);
 
      _modifyBtn.hover(
       function(){
