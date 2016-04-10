@@ -116,6 +116,14 @@
       );
     };
 
+    var _searchProfiles = function(data, callback){
+      _send(       
+        '/search/results',
+        data,
+        callback
+      );
+    };
+
     return {
       register: _register,
       login: _login,
@@ -126,7 +134,8 @@
       modifyProfile: _modifyProfile,
       createCall: _createCall,
       sendProposal: _sendProposal,
-      modifyProduction: _modifyProduction
+      modifyProduction: _modifyProduction,
+      searchProfiles: _searchProfiles
     };
   }());
 

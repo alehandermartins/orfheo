@@ -79,6 +79,12 @@ module Pard
       'non_existing_call'
     end
   end
+
+  class Invalid::QueryParams < Invalid
+    def message
+      'invalid_query'
+    end
+  end
 end
 
 

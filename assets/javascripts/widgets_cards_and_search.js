@@ -23,10 +23,17 @@
       _resources = [{id: 0, text: 'No available games, create your own :)'}]
     }
 
-    function formatProfile (profile) {
-      if(!profile.id) return profile.text;
-      var _label = $('<span>').text(profile.text);
-      //if (profile.type == 'private') _label.append($('<i>').addClass('glyphicon glyphicon-lock').css({'position':'relative', 'left':'5px'}));
+    function formatResource (resource) {
+      if(!resource.id) return resource.text;
+      var _label = $('<span>').text(resource.text);
+      if(resource.type == 'city') var _icon = Pard.Widgets.IconManager('city_artist').render();
+      else{ var _icon = Pard.Widgets.IconManager(resource.text).render();}
+      _label.append(_icon);
+      _icon.css({
+        position: 'relative',
+        left: '5px',
+        top: '5px',
+      });
       return _label;
     };
 
@@ -39,7 +46,7 @@
     _createdWidget.append(_searchWidget, _searchResult);
 
     _searchWidget.select2({
-      placeholder: 'hello',
+      placeholder: 'Busca',
       ajax: {
         url: '/search/suggest',
         type: 'POST',
@@ -81,17 +88,27 @@
       //       isNew : true
       //   };
       // },
-      templateResult: formatProfile,
-      templateSelection: formatProfile,
+      templateResult: formatResource,
     }).on("select2:select", function(e) {
-      if(e.params.data.isNew){
-        $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
+      if(_searchWidget.select2('data') != false){
+        if(e.params.data.isNew){
+          $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
+        }
       }
     });
 
-    // _searchWidget.on('change', function(){
-    //   console.log('miau');
-    // });
+
+    _searchWidget.on('change', function(){
+      var tags = {};
+      tags['query'] = [];
+      _searchWidget.select2('data').forEach(function(tag){
+        tags['query'].push(tag.text);
+      });
+      Pard.Backend.searchProfiles(tags, function(data){
+        _searchResult.empty();
+        _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+      });
+    });
 
     return{
       render: function(){

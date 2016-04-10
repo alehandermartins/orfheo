@@ -47,7 +47,8 @@
       bandcamp: {icon: '', className: 'icon-bandcamp'},
     };
 
-    var _createdWidget = $('<span>').addClass(_iconDictionary[icon_name]['className']).html(_iconDictionary[icon_name]['icon']);
+    var _createdWidget = $('<span>');
+    if(_iconDictionary[icon_name]) _createdWidget.addClass(_iconDictionary[icon_name]['className']).html(_iconDictionary[icon_name]['icon']);
 
     return {
       render: function(){
