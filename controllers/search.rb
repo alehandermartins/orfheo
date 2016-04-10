@@ -67,6 +67,12 @@ class SearchController < BaseController
     }
   end
 
+  def queriable? value, query
+    tags = query[0...-1]
+    return false if tags.any? { |tag| tag == I18n.transliterate(value.downcase)}
+    matches? value, query.last
+  end
+
   def matches? value, tag
     matchable_value = I18n.transliterate(value.downcase)
     words = matchable_value.split(/\W+/)
@@ -101,36 +107,35 @@ class SearchController < BaseController
       add_suggestion suggestions, 'artist', 'type'
       add_suggestion suggestions, 'space', 'type'
     end
-    last = query.pop
-    return suggestions if last.blank?
+    return suggestions if query.last.blank?
     matched_profiles.each{ |profile|
-      add_suggestions suggestions, profile, last  
+      add_suggestions suggestions, profile, query  
     }
     suggestions
   end
 
-  def add_suggestions suggestions, profile, last
-    add_suggestion(suggestions, profile[:type], 'type') if matches? profile[:type], last
-    add_suggestion(suggestions, profile[:name], 'name') if matches? profile[:name], last
-    add_artist_suggestions(suggestions, profile, last) if profile[:type] == 'artist'
-    add_space_suggestions(suggestions, profile, last) if profile[:type] == 'space'
+  def add_suggestions suggestions, profile, query
+    add_suggestion(suggestions, profile[:type], 'type') if queriable? profile[:type], query
+    add_suggestion(suggestions, profile[:name], 'name') if queriable? profile[:name], query
+    add_artist_suggestions(suggestions, profile, query) if profile[:type] == 'artist'
+    add_space_suggestions(suggestions, profile, query) if profile[:type] == 'space'
   end
 
-  def add_artist_suggestions suggestions, profile, last
-    add_suggestion(suggestions, profile[:city], 'city') if matches? profile[:city], last
-    add_proposal_suggestions(suggestions, profile[:proposals], last) if profile.has_key? :proposals
+  def add_artist_suggestions suggestions, profile, query
+    add_suggestion(suggestions, profile[:city], 'city') if queriable? profile[:city], query
+    add_proposal_suggestions(suggestions, profile[:proposals], query) if profile.has_key? :proposals
   end
 
-  def add_proposal_suggestions suggestions, proposals, last
+  def add_proposal_suggestions suggestions, proposals, query
     proposals.each{ |proposal|
-      add_suggestion(suggestions, proposal[:title], 'title') if matches? proposal[:title], last
-      add_suggestion(suggestions, proposal[:category], 'category') if matches? proposal[:category], last
+      add_suggestion(suggestions, proposal[:title], 'title') if queriable? proposal[:title], query
+      add_suggestion(suggestions, proposal[:category], 'category') if queriable? proposal[:category], query
     }
   end
 
-  def add_space_suggestions suggestions, profile, last
-    add_suggestion(suggestions, profile[:category], 'category') if matches? profile[:category], last
-    add_suggestion(suggestions, profile[:address]['locality'], 'city') if matches? profile[:address]['locality'], last
+  def add_space_suggestions suggestions, profile, query
+    add_suggestion(suggestions, profile[:category], 'category') if queriable? profile[:category], query
+    add_suggestion(suggestions, profile[:address][:locality], 'city') if queriable? profile[:address][:locality], query
   end
 
   def add_suggestion suggestions, text, type
