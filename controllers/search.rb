@@ -19,7 +19,8 @@ class SearchController < BaseController
 
   private
   def get_query params
-    raise Pard::Invalid::QueryParams unless params.is_a?(Array) && params.each{ |param|  param.is_a? String}
+    return [] if params.blank?
+    raise Pard::Invalid::QueryParams unless params.is_a?(Array) && params.each{ |param| param.is_a? String}
     params.map{|param| I18n.transliterate(param.downcase)}
   end
 
@@ -129,7 +130,7 @@ class SearchController < BaseController
   end
 
   def add_suggestion suggestions, text, type
-    suggestions.push({id: text, text: I18n.transliterate(text), type: type}) unless suggestions.any?{ |suggestion| suggestion[:text] == I18n.transliterate(text)}
+    suggestions.push({id: text, text: I18n.transliterate(text), type: type}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(text.downcase)}
   end
 
   def sort_results results
