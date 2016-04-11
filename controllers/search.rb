@@ -78,7 +78,7 @@ class SearchController < BaseController
   def matches? value, tag
     matchable_value = I18n.transliterate(value.downcase)
     words = matchable_value.split(/\W+/)
-    words.any?{ |word|
+    matchable_value == tag || words.any?{ |word|
       translation = translate word
       translation.start_with? tag  
     }
