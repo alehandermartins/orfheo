@@ -132,13 +132,15 @@
     _addtionalInfo.append($('<div>').append(_categoryIcon, _category));
 
         
-    if (proposal['duration']){
+    if (proposal['duration'] != 'false' && proposal['duration']){
       var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(proposal['duration']+' min'));
       var _durationIcon = Pard.Widgets.IconManager('duration').render().addClass('information-contact-icon-column');
       _addtionalInfo.append($('<div>').append(_durationIcon, _duration));
     }
 
-    if (proposal['children']){        
+    console.log(proposal);
+
+    if (proposal['children'] != 'false' && proposal['children']){       
       var _children = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Para niños'));
       var _childrenIcon = Pard.Widgets.IconManager('children').render().addClass('information-contact-icon-column');
       _addtionalInfo.append(_childrenIcon, _children);
