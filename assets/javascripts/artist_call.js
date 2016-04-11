@@ -87,7 +87,7 @@
 
     _content.append(_fieldsetProduction, _part2, _fieldsetSpecificCall);
 
-    var _labelsCategories = ['Musica', 'Artes Escénicas', 'Exposición', 'Poesia',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
+    var _labelsCategories = ['Música', 'Artes Escénicas', 'Exposición', 'Poesía',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
      
     var categorySelectCallback = function(){
@@ -116,7 +116,10 @@
 
     var _categoryLabel = $('<label>').text('Selecciona una categoría *')
 
-    _createdWidget.append(_message, _part1,  _categoryLabel.append(_category.render()), _content.append(_invalidInput), _submitBtnContainer.append(submitButton));
+    var _beCarefullText = $('<p>').text('ATENCIÓN: Una vez enviado, no te será permitido modificar el contenido de este formulario (como mucho, para pequeñas correcciones, podrás enmendarlo). Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
+
+    _createdWidget.append(_message, _part1,  _categoryLabel.append(_category.render()), _content, _beCarefullText,
+     _submitBtnContainer.append(submitButton));
 
     var _filled = function(){
       var _check = _form['conditions'].input.getVal();
@@ -124,6 +127,7 @@
         if ($.inArray(field, _requiredFields) >= 0 ){
           if(!(_form[field].input.getVal())) {
             if (field != 'links' && field != 'personal_web') _form[field].input.addWarning();
+            _content.append(_invalidInput),
             _invalidInput.text('Por favor, revisa los campos obligatorios.');
             _check = false;}
         }
@@ -170,7 +174,7 @@
   }
 
 
-  ns.Widgets.MyArtistCallProposals = function(callProposals, profileName){
+  ns.Widgets.MyArtistCallProposals = function(callProposals){
     var _createdWidget = $('<div>');
 
     var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
@@ -180,7 +184,7 @@
     callProposals.forEach(function(proposal){
       var _caller = $('<a>').attr({href:'#'}).text(proposal['title']);
       
-      var _proposalItem = $('<li>').append( Pard.Widgets.PopupCreator(_caller, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal, profileName);
+      var _proposalItem = $('<li>').append( Pard.Widgets.PopupCreator(_caller, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal);
         }).render());
       _listProposals.append(_proposalItem);
         
@@ -196,13 +200,13 @@
   };
 
 
-  ns.Widgets.MyArtistCallProposalMessage = function(proposal, profileName){
+  ns.Widgets.MyArtistCallProposalMessage = function(proposal){
 
     var _createdWidget = $('<div>');
   
     var _form = Pard.Forms.ArtistCall(proposal.category).render();     
 
-    var _sentCall = Pard.Widgets.PrintSentCall(proposal, profileName, _form).render();
+    var _sentCall = Pard.Widgets.PrintSentCall(proposal, _form).render();
 
     _createdWidget.append(_sentCall);
 
@@ -221,12 +225,15 @@
   }
 
 
-  ns.Widgets.PrintSentCall = function(proposal, profileName, _form){
+  ns.Widgets.PrintSentCall = function(proposal, _form){
 
     var _createdWidget = $('<div>');
 
+    var profile = Pard.ProfileManager.getProfile(proposal.profile_id);
+
+
     var _nameLabel = $('<span>').addClass('myProposals-field-label').text('Propuesta enviada por:');
-    var _nameText = $('<span>').text(' ' + profileName);
+    var _nameText = $('<span>').text(' ' + profile['name']);
     var _name = $('<div>').append($('<p>').append(_nameLabel, _nameText))
     // , $('<p>').text('Formulario enviado para la convocatoria del Benimaclet conFusión festival 2016'));
 
@@ -234,13 +241,24 @@
 
     var _fieldFormLabel, _fieldForm, _textLabel, _proposalField, _fieldFormText;
 
-  if(proposal['category']){
-    _textLabel = 'Categoría:';
-    _fieldFormLabel = $('<span>').text(_textLabel).addClass('myProposals-field-label');
-    _fieldFormText = $('<span>').text(' ' + Pard.Widgets.Dictionary(proposal['category']).render());
-    _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText));
-    _createdWidget.append(_fieldForm);
-  }
+    if(proposal['category']){
+      _textLabel = 'Categoría:';
+      _fieldFormLabel = $('<span>').text(_textLabel).addClass('myProposals-field-label');
+      _fieldFormText = $('<span>').text(' ' + Pard.Widgets.Dictionary(proposal['category']).render());
+      _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText));
+      _createdWidget.append(_fieldForm);
+    }
+    // console.log(proposal);
+    if(profile['address']){
+      _textLabel = 'Dirección:';
+      _fieldFormLabel = $('<span>').text(_textLabel).addClass('myProposals-field-label');
+      var _fieldFormText = $('<span>').append(' ', profile['address']['route'],' ',profile['address']['street_number']);
+      if (profile['door']) _fieldFormText.append(', puerta/piso '+profile['door']);
+      _fieldFormText.append(', '+profile['address']['locality']);
+
+      _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText));
+      _createdWidget.append(_fieldForm);
+    }
 
     for(var field in _form){
       if ($.inArray(field, ['conditions','availability', 'children', 'repeat', 'waiting_list', 'links']) == -1){
