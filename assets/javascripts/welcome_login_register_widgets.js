@@ -58,7 +58,7 @@
       }
     }
 
-    _fields['button'] = Pard.Widgets.Button('Crea un cuenta');
+    _fields['button'] = Pard.Widgets.Button('Crea una cuenta');
     _fields['button'].setClass('signup-form-btn');
 
     Object.keys(_fields).map(function(field){

@@ -193,7 +193,9 @@
 
     _lastselected = _profileSection;
     sectionContent.append(_profileSection);
-    if(selected) _profileSection.hide();
+    if(selected) {
+      _profileSection.hide();
+    }
 
     var _navigationSelected = Pard.Widgets.ProfilesNavigationSelected(profile, function(){
       _lastselected.hide();
@@ -223,6 +225,10 @@
       var _nameColumn = $('<div>').addClass('name-column name-column-production-nav');
       var _name = $('<p>').text(proposal['title']).addClass('profile-nav-production-name');
       _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render()));
+      if(selected == proposal_id) {
+        $('.selected-element').removeClass('selected-element');
+        _name.addClass('selected-element');
+      }
       _name.click(function(){ 
         $('.selected-element').removeClass('selected-element');
         _name.addClass('selected-element');

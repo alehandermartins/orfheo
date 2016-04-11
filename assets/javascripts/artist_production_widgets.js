@@ -73,6 +73,8 @@
     var _getVal = function(){
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
+         console.log(field);
+         console.log(_submitForm[field]);
       };
       _submitForm['photos'] = proposal['photos'];
       return _submitForm;
