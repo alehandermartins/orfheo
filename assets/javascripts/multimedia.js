@@ -125,33 +125,24 @@
 	  var _oembed = function(link, id, elementClass){
 	    $.getJSON("https://noembed.com/embed?callback=?",
 	      {"format": "json", "url": link['url']}, function (data) {
-	       if(link['provider'] == 'flickr'){
-	      	var _src = '';
-	      	data.html.split('"').forEach(function(string){
-	      		if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
-	      	});
-        	var _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
-        	_media.addClass('flickr-embed-image-iframe');
-        	_managers[elementClass](_media, link['type'], id);
-	      }
-	      // if(link['provider'] == 'flickr'){
-	      // 	var _src = '';
-	      // 	data.html.split('"').forEach(function(string){
-	      // 		if(string.match('https://noembed.com/i/')) _src = string;
-	      // 	});
-       //  	var _media = $('<iframe>').attr('src',_src);
-       //  	console.log(_src);
-       //  	_media.addClass('flickr-embed-image-iframe');
-       //  	_managers[elementClass](_media, link['type'], id);
-	      // }
-	      else{_managers[elementClass](data.html, link['type'], id);}
-	      _done.push(link);
-	      _display();
+	      	if (!('error' in data)){
+	      		var _media = data.html;
+		       	if(link['provider'] == 'flickr'){
+			      	var _src = '';
+			      	data.html.split('"').forEach(function(string){
+			      		if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
+			      	});
+		        	_media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
+		        	_media.addClass('flickr-embed-image-iframe');
+			     	}
+		        _managers[elementClass](_media, link['type'], id);
+	      		_done.push(link);
+	      		_display();
+	      	}
 	    });
 	  }
 
 	  var _spotify = function(link, id, elementClass){
-	    //spotify_url = 'http://open.spotify.com/track/2TpxZ7JUBn3uw46aR7qd6V';
 	    var audio_id = link['url'].split('/').pop();
 	    var _spotifyMedia = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + audio_id, 'frameborder': '0', 'allowtransparency': 'true'});
 	    _managers[elementClass](_spotifyMedia, link['type'], id);

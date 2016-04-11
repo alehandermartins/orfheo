@@ -493,7 +493,9 @@
     var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;
     var pt_url = /^(http|https)\:\/\/.*\.pinterest\.com\/pin\//i;
     var vn_url = /^(http|https)\:\/\/vine\..*/i;
-    var sp_url = /^(http|https)\:\/\/open\.spotify\..*/i;
+    var sp_url = /^(http|https)\:\/\/open\.spotify\.com\/track\/.*/i;
+    var sp_2url = /^(http|https)\:\/\/play\.spotify\.com\/track\/.*/i;
+    var sp_3url = /^spotify:track:.*/i;
     var bc_url = /.*src=\"https:\/\/bandcamp\.com\/EmbeddedPlayer\/.*/i;
 
     var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
@@ -507,6 +509,10 @@
       var url = input.getVal();
 
       var _composeResults = function(provider, type){
+        if(provider == 'spotify'){
+          var _id = url.split('track').pop().substring(1);
+          url = 'https://open.spotify.com/track/' + _id;
+        }
         _results.push({url: url, provider: provider, type: type});
         callback();
         return _results;
@@ -528,7 +534,7 @@
       if(url.match(ig_url)) return _composeResults('instagram', 'image');
       if(url.match(pt_url)) return _composeResults('pinterest', 'image');
       if(url.match(vn_url)) return _composeResults('vine', 'video');
-      if(url.match(sp_url)) return _composeResults('spotify', 'audio');
+      if(url.match(sp_url) || url.match(sp_2url) || url.match(sp_3url)) return _composeResults('spotify', 'audio');
       if(url.match(bc_url)) return _composeResults('bandcamp', 'audio');
       if(url.match(tw_url)) return _callProvider('twitter', 'image');
       if(url.match(yt_url)) return _callProvider('youtube', 'video');
