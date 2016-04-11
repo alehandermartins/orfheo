@@ -310,7 +310,7 @@
 
    	
     _form['duration'] = {
-      label: Pard.Widgets.InputLabel('Duracción del espectacúlo *'), 
+      label: Pard.Widgets.InputLabel('Duracción del espectáculo *'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
       helptext: Pard.Widgets.HelpText('')
     };
@@ -320,7 +320,7 @@
     _form['components'] = {
       label: Pard.Widgets.InputLabel('Numero de integrantes *'),
       input: Pard.Widgets.Input('', 'number'),
-      helptext: Pard.Widgets.HelpText('Numero de personas que llevan la actividad/espectaculo.')
+      helptext: Pard.Widgets.HelpText('Numero de personas que llevan la actividad/espectáculo.')
     };
     _form['components']['input'].setAttr('min','1');
     _form['components']['input'].setClass('components-input');
@@ -368,7 +368,7 @@
     _form['needs'] = { 
       label: Pard.Widgets.InputLabel('Necesidades'),
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Indicar si se tienen especiales necesidades técnicas y de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y que no podrá hacerse cargo del material necesario para cada actuacción.')
+      helptext: Pard.Widgets.HelpText('Indicar si se tienen especiales necesidades técnicas y de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y no podrá hacerse cargo del material necesario para cada actuacción.')
     };
     _form['needs']['input'].setClass('needs-input');
 

@@ -72,7 +72,7 @@
     if(profile.calls.length){
             console.log(profile);
 
-      var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls, profile['name']);
+      var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
       var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
       _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);
 

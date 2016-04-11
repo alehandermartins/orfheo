@@ -58,11 +58,12 @@
 
     var _filled = function(){
       var _check = true;
-      for (field in _form){
+      for (var field in _form){
         if ($.inArray(field, _requiredFields) >= 0){
           if(!(_form[field].input.getVal())) {
             if(field != 'links') _form[field].input.addWarning();
             _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _message.css('color','black');
             _check = false;}
         }
       }
@@ -93,11 +94,12 @@
     var _closepopup = {};
 
     submitButton.on('click',function(){
+        if (_filled()){
         _closepopup();
-        _send();
+        _send();}
     });
 
-    _createdWidget.append(_initMex, _formContainer, _invalidInput, _message, _submitBtnContainer.append(submitButton));
+    _createdWidget.append(_initMex, _formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton));
 
     return {
       render: function(){

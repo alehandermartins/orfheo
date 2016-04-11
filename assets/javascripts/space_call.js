@@ -23,7 +23,7 @@
 
     var _createdWidget = $('<div>');
     var _message = $('<div>').html(
-      '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Los datos de este formulario nunca serán públicos y podrán ser consutados solo por parte de la organización del festival.'
+      '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Los datos de este formulario no serán públicos y podrán ser consutados solo por ti y la organización del festival.'
       ).addClass('message-form');
     var _formContainer = $('<form>').addClass('popup-form');
     var _submitForm = {};
@@ -42,7 +42,8 @@
       _formContainer.append($('<div>').addClass(field+'-SpaceCall').append(_form[field].label.render().append(_form[field].input.render()),_form[field].helptext.render()));
     }
 
-    _formContainer.append(_invalidInput, _submitBtnContainer.append(submitButton));
+    var _beCarefullText = $('<p>').text('ATENCIÓN: Una vez enviado, no te será permitido modificar el contenido de este formulario (como mucho, para pequeñas correcciones, podrás enmendarlo). Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
+
 
     var _filled = function(){
       var _check = _form['conditions'].input.getVal();
@@ -50,6 +51,7 @@
         if ($.inArray(field, _requiredFields) >= 0 ){
           if(!(_form[field].input.getVal())) {
             _form[field].input.addWarning();
+            _formContainer.append(_invalidInput);
             _invalidInput.text('Por favor, revisa los campos obligatorios.');
             _check = false;}
         }
@@ -66,7 +68,7 @@
       return _submitForm;
     }
 
-    _createdWidget.append(_message, _formContainer);
+    _createdWidget.append(_message, _formContainer, _beCarefullText, _submitBtnContainer.append(submitButton));
 
     return {
       render: function(){
@@ -115,12 +117,9 @@
     
     var _createdWidget = $('<div>');
   
-    var _form = Pard.Forms.SpaceCall().render();
+    var _form = Pard.Forms.SpaceCall().render();                                    
 
-    var profile = Pard.ProfileManager.getProfile(proposal.profile_id);
-                                    
-
-    var _sentCall = Pard.Widgets.PrintSentCall(proposal, profile['name'], _form).render();
+    var _sentCall = Pard.Widgets.PrintSentCall(proposal, _form).render();
 
     _createdWidget.append(_sentCall);
 

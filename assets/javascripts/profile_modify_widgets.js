@@ -85,7 +85,13 @@
       if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProfile').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
     };
 
-    _createdWidget.append(_formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
+    var _message = $('<div>').append($('<p>').html(
+      'IMPORTANTE: Los cambios que haces a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
+    )).addClass('final-message-form');
+
+
+
+    _createdWidget.append(_formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton));
 
     var _filled = function(){
       var _check = true;
@@ -93,7 +99,8 @@
         if ($.inArray(field, _requiredFields) >= 0){
           if(!(_form[field].input.getVal())) {
             if(field != 'personal_web') _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos.');
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _message.css('color','black')
             _check = false;}
         }
       }
@@ -111,6 +118,7 @@
       }
       return _submitForm;
     }
+
 
     var _send = function(url){
       Pard.Backend.modifyProfile(_getVal(url), Pard.Events.CreateProfile);
