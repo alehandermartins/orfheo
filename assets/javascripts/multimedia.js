@@ -125,15 +125,20 @@
 	  var _oembed = function(link, id, elementClass){
 	    $.getJSON("https://noembed.com/embed?callback=?",
 	      {"format": "json", "url": link['url']}, function (data) {
-	       if(link['provider'] == 'flickr'){
-	      	var _src = '';
-	      	data.html.split('"').forEach(function(string){
-	      		if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
-	      	});
-        	var _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
-        	_media.addClass('flickr-embed-image-iframe');
-        	_managers[elementClass](_media, link['type'], id);
-	      }
+	       	if(link['provider'] == 'flickr'){
+		      	var _src = '';
+		      	if (data.html){
+			      	data.html.split('"').forEach(function(string){
+			      		if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
+			      	});
+		        	var _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
+		        	_media.addClass('flickr-embed-image-iframe');	    
+		        }
+		        else{
+		        	_media = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de flickr')).css({'font-size':'12px', 'text-align': 'center'});
+		        }
+		        _managers[elementClass](_media, link['type'], id);
+	      	}
 	      // if(link['provider'] == 'flickr'){
 	      // 	var _src = '';
 	      // 	data.html.split('"').forEach(function(string){
@@ -160,10 +165,33 @@
 	  }
 
 	  var _facebook = function(link, id, elementClass){
-	    var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
- 	    if (link['type'] == 'image') _facebookMedia.attr('data-width', '350');
-	    if (link['type'] == 'video') _facebookMedia.attr('data-width', '718'); //It won't go below 350
-	    _managers[elementClass](_facebookMedia, link['type'], id);
+		    var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
+		    console.log(link);
+	 	    if (link['type'] == 'image'){
+	 	    	if ($(window).width() > 400) { 
+	 	    		_facebookMedia.attr('data-width', '350');
+	 	    	}
+	 	    	else{
+	 	    		_facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de facebook')).css({'font-size':'12px', 'text-align': 'center'});
+	 	    	}
+	 	    }
+		    if (link['type'] == 'video') {
+		    	if ($(window).width() > 1024) {
+			    	_facebookMedia.attr('data-width', '718'); //It won't go below 350
+		  		}
+		  		if ($(window).width() > 640) {
+		  			var _videoWidth = $(window).width()-254;
+		  			_facebookMedia.attr({'data-width': _videoWidth}); //It won't go below 350
+		  		}
+		  		if ($(window).width() > 400) { 
+		  			var _videoWidth = $(window).width()-52;
+	 	    		_facebookMedia.attr('data-width', _videoWidth);
+	 	    	}
+	 	    	else{
+	 	    		_facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Vídeo de facebook')).css({'font-size':'12px', 'text-align': 'center'});
+	 	    	}
+		  	}
+		  _managers[elementClass](_facebookMedia, link['type'], id);
 	    _done.push(link);
 	    _display();
 	  }
@@ -180,7 +208,12 @@
 
 	  var _pinterest = function(link, id, elementClass){
 	  	var _createdWidget = $('<div>');
-	    var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'medium'});
+	    if ($(window).width() > 290) {
+	    	var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'medium'});
+	    }
+	    else{
+	    	var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'small'});
+	    }
 	    _createdWidget.append(_pinterestMedia);
 	    _managers[elementClass](_createdWidget, link['type'], id);
 	    _done.push(link);
