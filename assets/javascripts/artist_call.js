@@ -248,7 +248,6 @@
       _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText));
       _createdWidget.append(_fieldForm);
     }
-    // console.log(proposal);
     if(profile['address']){
       _textLabel = 'Dirección:';
       _fieldFormLabel = $('<span>').text(_textLabel).addClass('myProposals-field-label');
@@ -306,8 +305,7 @@
         _createdWidget.append(_fieldForm);
       }
       if (field == 'waiting_list'){
-        // console.log(!(proposal[field]));
-         var _check = ' Sí';
+        var _check = ' Sí';
         if (!(proposal[field]) || proposal[field] == 'false') _check = ' No'; 
         _textLabel = 'En la eventualidad, quiero quedarme en la lista de espera:';
         _fieldFormLabel = $('<span>').text(_textLabel)

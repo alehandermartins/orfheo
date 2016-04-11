@@ -137,9 +137,6 @@ Pard.Profile = function(profiles){
 
   Pard.Widgets.Multimedia(_display);
   $('body').append(_whole);
-   $(window).load(function(){console.log('flag');console.log($('.flickr-embed-frame'));});
-
-
  
 };
 

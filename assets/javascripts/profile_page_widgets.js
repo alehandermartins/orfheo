@@ -143,6 +143,7 @@
 
     }
 
+
     if(proposal.image){
       var _imageContainer = $('<div>').addClass('image-production-container');
       // var _imageTitle = $('<ul>').append($('<li>').append($('<h6>').text('Imágenes'))).addClass('image-audio-title');
@@ -286,7 +287,6 @@
       var _send = function(photos, links){
       _submitForm['photos'] = photos;
       _submitForm['links'] = links;
-      console.log(_submitForm);
       Pard.Backend.modifyProfile(_submitForm, Pard.Events.CreateProfile);
     }
     } 

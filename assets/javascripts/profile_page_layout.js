@@ -64,13 +64,6 @@
 
     asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
     
-    // console.log(asideContent.html());
-
-    // return{
-    //   render: function(){
-    //     return _createdWidget;
-    //   }
-    // }
   }
 
   ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent){

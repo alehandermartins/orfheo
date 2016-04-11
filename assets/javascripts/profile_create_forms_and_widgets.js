@@ -233,7 +233,6 @@
     }
 
     var _send = function(url){
-      console.log(_submitForm['type']);
       Pard.Backend.createProfile(_getVal(url), Pard.Events.CreateProfile);
     }
 

@@ -64,7 +64,6 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      console.log(_submitForm);
       return _submitForm;
     }
 

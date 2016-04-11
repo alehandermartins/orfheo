@@ -125,14 +125,25 @@
 	  var _oembed = function(link, id, elementClass){
 	    $.getJSON("https://noembed.com/embed?callback=?",
 	      {"format": "json", "url": link['url']}, function (data) {
-	      if(link['provider'] == 'flickr'){
+	       if(link['provider'] == 'flickr'){
 	      	var _src = '';
 	      	data.html.split('"').forEach(function(string){
-	      		if(string.match('https://noembed.com/i/')) _src = string;
+	      		if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
 	      	});
-        	var _media = ($('<iframe>').attr('src',_src));
+        	var _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
+        	_media.addClass('flickr-embed-image-iframe');
         	_managers[elementClass](_media, link['type'], id);
 	      }
+	      // if(link['provider'] == 'flickr'){
+	      // 	var _src = '';
+	      // 	data.html.split('"').forEach(function(string){
+	      // 		if(string.match('https://noembed.com/i/')) _src = string;
+	      // 	});
+       //  	var _media = $('<iframe>').attr('src',_src);
+       //  	console.log(_src);
+       //  	_media.addClass('flickr-embed-image-iframe');
+       //  	_managers[elementClass](_media, link['type'], id);
+	      // }
 	      else{_managers[elementClass](data.html, link['type'], id);}
 	      _done.push(link);
 	      _display();

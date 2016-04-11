@@ -26,7 +26,6 @@
 
   ns.Widgets.ArtistSectionContent = function(profile){
 
-    console.log(profile.personal_web)
     var _createdWidget = $('<div>');
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
@@ -38,7 +37,6 @@
   
 
     if(profile['bio']){ 
-    console.log(profile['bio']) ;   
       _bio.append($('<p>').text(profile['bio']));
     }  
 
@@ -70,8 +68,6 @@
     var _callsBoxContent = $('<div>').addClass('box-content');
 
     if(profile.calls.length){
-            console.log(profile);
-
       var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
       var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
       _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);
