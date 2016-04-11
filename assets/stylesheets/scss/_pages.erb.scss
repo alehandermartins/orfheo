@@ -372,9 +372,9 @@ Aside
 }
 
 
-.name-column-production-nav{
-  vertical-align: 3px;
-}
+// .name-column-production-nav{
+//   vertical-align: 3px;
+// }
 
 .icon-column{
   padding: 0.4rem 0.2rem 0.4rem 0.2rem;
@@ -691,6 +691,7 @@ Production Section
   position: relative;
   width: 100%;
   padding: 0 $inner-spacing;
+  margin-bottom:2rem;
 }
 
 .multimedia-container .video-production-container iframe{
@@ -790,7 +791,7 @@ Production Section
    -moz-column-count: 2; /* Firefox */
    column-count: 2;}
   padding: 0 $inner-spacing;
-  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .single-image-content span{
@@ -838,6 +839,16 @@ width: 100%;
 height: 120px;
 }
 
+.info{
+  max-width: 100%;
+}
+
+.single-image-content iframe{
+  max-width: 100%;
+  min-width: 100%;
+ }
+
+
 /*------------
 SMALL!!!
 -------------*/
@@ -849,5 +860,7 @@ SMALL!!!
  .single-image-content{
   max-width: 100%;
  }
-
+ .images-title-box{
+  width: 100%;
+ }
 }

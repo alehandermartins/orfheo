@@ -231,7 +231,7 @@ Grid and Bar
   padding-right:$inner-spacing;
   padding-top:$inner-spacing;
   padding-bottom:2rem;
-  min-height: 100vh;
+  // min-height: 100vh;
   @include border-radius($layout-border-radius);
   position:relative;
 }

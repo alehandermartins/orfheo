@@ -164,7 +164,7 @@
 
 	  var _spotify = function(link, id, elementClass){
 	    var audio_id = link['url'].split('/').pop();
-	    var _spotifyMedia = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + audio_id, 'frameborder': '0', 'allowtransparency': 'true'});
+	    var _spotifyMedia = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + audio_id, 'frameborder': '0', 'allowtransparency': 'true'}).css('height','5rem');
 	    _managers[elementClass](_spotifyMedia, link['type'], id);
 	    _done.push(link);
 	    _display();

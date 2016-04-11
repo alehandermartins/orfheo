@@ -214,7 +214,7 @@
       else{_myProposal.hide();}
 
       var _productionItem = $('<div>').addClass('production-nav-element-container');
-      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(proposal['category']).render().css({'text-align': 'center', display:'block'}))));
+      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(proposal['category']).render().css({'text-align': 'center', display:'block', 'margin-top':'0.2rem'}))));
       var _nameColumn = $('<div>').addClass('name-column name-column-production-nav');
       var _name = $('<p>').text(proposal['title']).addClass('profile-nav-production-name');
       _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render()));
