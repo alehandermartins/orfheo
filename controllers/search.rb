@@ -71,13 +71,12 @@ class SearchController < BaseController
 
   def queriable? value, query
     tags = query[0...-1]
-    return false if tags.any? { |tag| tag == I18n.transliterate(value.downcase)}
+    return false if tags.any? { |tag| tag == translate(I18n.transliterate(value.downcase))}
     matches? value, query.last
   end
 
   def matches? value, tag
     matchable_value = translate(I18n.transliterate(value.downcase))
-    puts value if tag == 'cul'
     words = matchable_value.split(/\W+/).map{ |word| translate(word).split(/\W+/)}.flatten
     matchable_value == tag || words.any?{ |word|
       word.start_with? tag  
