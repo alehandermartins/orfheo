@@ -76,11 +76,11 @@ class SearchController < BaseController
   end
 
   def matches? value, tag
-    matchable_value = I18n.transliterate(value.downcase)
-    words = matchable_value.split(/\W+/)
-    words.any?{ |word|
-      translation = translate word
-      translation.start_with? tag  
+    matchable_value = translate(I18n.transliterate(value.downcase))
+    puts value if tag == 'cul'
+    words = matchable_value.split(/\W+/).map{ |word| translate(word).split(/\W+/)}.flatten
+    matchable_value == tag || words.any?{ |word|
+      word.start_with? tag  
     }
   end
 
