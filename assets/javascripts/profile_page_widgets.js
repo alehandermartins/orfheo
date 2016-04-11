@@ -142,7 +142,6 @@
       _audioContainer.prepend(_audioTitle);
 
     }
-    
 
     if(proposal.image){
       var _imageContainer = $('<div>').addClass('image-production-container');

@@ -125,7 +125,15 @@
 	  var _oembed = function(link, id, elementClass){
 	    $.getJSON("https://noembed.com/embed?callback=?",
 	      {"format": "json", "url": link['url']}, function (data) {
-	      _managers[elementClass](data.html, link['type'], id);
+	      if(link['provider'] == 'flickr'){
+	      	var _src = '';
+	      	data.html.split('"').forEach(function(string){
+	      		if(string.match('https://noembed.com/i/')) _src = string;
+	      	});
+        	var _media = ($('<iframe>').attr('src',_src));
+        	_managers[elementClass](_media, link['type'], id);
+	      }
+	      else{_managers[elementClass](data.html, link['type'], id);}
 	      _done.push(link);
 	      _display();
 	    });

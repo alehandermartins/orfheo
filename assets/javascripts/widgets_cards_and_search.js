@@ -88,13 +88,13 @@
       }
     });
 
-
     _searchWidget.on('change', function(){
       var tags = {};
       tags['query'] = [];
       _searchWidget.select2('data').forEach(function(tag){
         tags['query'].push(tag.text);
       });
+      console.log(_searchWidget.select2('data'));
       Pard.Backend.searchProfiles(tags, function(data){
         _searchResult.empty();
         _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());

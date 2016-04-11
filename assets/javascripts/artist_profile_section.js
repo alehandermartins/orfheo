@@ -138,8 +138,6 @@
       _addtionalInfo.append($('<div>').append(_durationIcon, _duration));
     }
 
-    console.log(proposal);
-
     if (proposal['children'] != 'false' && proposal['children']){       
       var _children = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Para niños'));
       var _childrenIcon = Pard.Widgets.IconManager('children').render().addClass('information-contact-icon-column');
