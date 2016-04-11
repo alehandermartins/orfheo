@@ -172,7 +172,6 @@
 
 	  var _facebook = function(link, id, elementClass){
 		    var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
-		    console.log(link);
 	 	    if (link['type'] == 'image'){
 	 	    	if ($(window).width() > 400) { 
 	 	    		_facebookMedia.attr('data-width', '350');
@@ -244,8 +243,9 @@
 	    var _bandCamp_url = '';
 	    link['url'].split('"').forEach(function(string){
 	      if(string.match('EmbeddedPlayer')){
+	      	console.log(link);
 	        _bandCamp_url = string;
-	        var _bandCampMedia = $('<iframe>').attr({'style': 'border: 0; width: 100%; height: 120px;', 'src': _bandCamp_url});
+	        var _bandCampMedia = $('<div>').html(link['url']);
 	        _managers[elementClass](_bandCampMedia, link['type'], id);
 	      }
 	    });

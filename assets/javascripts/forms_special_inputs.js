@@ -496,7 +496,7 @@
     var sp_url = /^(http|https)\:\/\/open\.spotify\.com\/track\/.*/i;
     var sp_2url = /^(http|https)\:\/\/play\.spotify\.com\/track\/.*/i;
     var sp_3url = /^spotify:track:.*/i;
-    var bc_url = /.*src=\"https:\/\/bandcamp\.com\/EmbeddedPlayer\/.*/i;
+    var bc_url = /.*src=\"(http|https)\:\/\/bandcamp\.com\/EmbeddedPlayer\/.*/i;
 
     var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
     var yt_url = /^(http|https)\:\/\/www\.youtube\..*/i;
