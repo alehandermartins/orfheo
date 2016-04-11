@@ -125,35 +125,26 @@
 	  var _oembed = function(link, id, elementClass){
 	    $.getJSON("https://noembed.com/embed?callback=?",
 	      {"format": "json", "url": link['url']}, function (data) {
-<<<<<<< HEAD
-	       	if(link['provider'] == 'flickr'){
-		      	var _src = '';
-		      	if (data.html){
-			      	data.html.split('"').forEach(function(string){
-			      		if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
-			      	});
-		        	var _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
-		        	_media.addClass('flickr-embed-image-iframe');	    
-		        }
-		        else{
-		        	_media = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de flickr')).css({'font-size':'12px', 'text-align': 'center'});
-		        }
-		        _managers[elementClass](_media, link['type'], id);
-	      	}
-	      // if(link['provider'] == 'flickr'){
-	      // 	var _src = '';
-	      // 	data.html.split('"').forEach(function(string){
-	      // 		if(string.match('https://noembed.com/i/')) _src = string;
-	      // 	});
-       //  	var _media = $('<iframe>').attr('src',_src);
-       //  	console.log(_src);
-       //  	_media.addClass('flickr-embed-image-iframe');
-       //  	_managers[elementClass](_media, link['type'], id);
-	      // }
-	      else{_managers[elementClass](data.html, link['type'], id);}
-	      _done.push(link);
-	      _display();
-=======
+	       	
+	      //  	if(link['provider'] == 'flickr'){
+		     //  	var _src = '';
+		     //  	if (data.html){
+			    //   	data.html.split('"').forEach(function(string){
+			    //   		if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
+			    //   	});
+		     //    	var _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
+		     //    	_media.addClass('flickr-embed-image-iframe');	    
+		     //    }
+		     //    else{
+		     //    	_media = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de flickr')).css({'font-size':'12px', 'text-align': 'center'});
+		     //    }
+		     //    _managers[elementClass](_media, link['type'], id);
+	      // 	}
+
+	      // else{_managers[elementClass](data.html, link['type'], id);}
+	      // _done.push(link);
+	      // _display();
+
 	      	if (!('error' in data)){
 	      		var _media = data.html;
 		       	if(link['provider'] == 'flickr'){
@@ -168,7 +159,6 @@
 	      		_done.push(link);
 	      		_display();
 	      	}
->>>>>>> 27b3d09cb849c86edd04b5bb22d1c192ec112aef
 	    });
 	  }
 
