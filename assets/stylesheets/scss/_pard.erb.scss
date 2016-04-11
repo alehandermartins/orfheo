@@ -117,13 +117,6 @@ a.profileCard:hover{
   outline: 1px solid red;
 }
 
-.select2-container {
-  min-width:100%;
-  }
-
-.select2-container .select2-selection--multiple{
-  border-radius: $element-border-radius;
-}
 
 /*===============================================
 GENERAL LAYOUT
@@ -251,12 +244,9 @@ Grid and Bar
   width: 100%;
    @include breakpoint(small down){
     position:fixed;
-    padding-right:0.2rem;
+    padding-right:0.6rem;
     min-height: 6.5rem;
     background-color: $content-background;
-    width: -moz-calc(100% - 15px);
-    width: -webkit-calc(100% - 16px);
-    width: calc(100% - 15px);
     z-index: 2;
     top:0;
     left:0;
@@ -509,9 +499,10 @@ button{
 
 .signUp-button-welcome-section{
   @extend .pard-btn;
+  @include breakpoint(large){
   position: absolute;
   top: -2.5rem;
-  right: 0.5rem;
+  right: 0.5rem;}
   font-size: 1rem;
   padding: 0.5rem 2rem;
 }
@@ -592,10 +583,17 @@ button{
 }
 
 .manage-multimedia-btn{
-  position: absolute;
-  right: 0.75rem;
-  top: 0.5rem;
+  @include breakpoint(large){
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+  }
   font-size: $almostNormalSize;
+  @include breakpoint(medium down){
+    margin-top: $inner-spacing;
+    margin-left: $inner-spacing;
+  }
+
 }
 
 .send-post-data-btn{
@@ -681,7 +679,7 @@ Profile Card
 	margin-top:0.8rem;
   margin-bottom: 1rem; 
   @include breakpoint(small down) {
-  @include horizontal-center;
+  // @include horizontal-center;
   position:relative;
   }
 }
@@ -1146,4 +1144,14 @@ SEARCH
 
 .select2-results__message {
   display: none !important;
+}
+
+
+.select2-container {
+  max-width: 100%;
+  min-width:100%;
+  }
+
+.select2-container .select2-selection--multiple{
+  border-radius: $element-border-radius;
 }

@@ -54,7 +54,7 @@
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
 
     var _elemResponsive = $('<span>').addClass('float-right').attr({'data-responsive-toggle':'responsive-menu', 'data-hide-for': 'medium'}); 
-    var _iconLogin = $('<span>').addClass('menu-icon dark');
+    var _iconLogin = $('<span>').addClass('menu-icon dark').css('margin-right','0.3rem');
     _iconLogin.attr('data-toggle','');
     _elemResponsive.append(_iconLogin,'Entra');
 

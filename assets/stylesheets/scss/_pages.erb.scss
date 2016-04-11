@@ -531,7 +531,7 @@ Profile Section
 }
 
 .title-box-container{
-  height: 3rem;
+  min-height: 3rem;
   background: $grey-1;
   font-size: 18px;
   font-weight: bold;
@@ -729,9 +729,11 @@ Production Section
 
 .single-image-container {
   position:relative;
-  display: inline-block;
   width: 22.7rem;
+  margin: 0 auto;
 }
+
+
 
 .single-image-content{
   width: 350px;
@@ -739,7 +741,6 @@ Production Section
   display: inline-block;  
   margin:0 auto;
   margin-top: 2rem;
-  text-align: center;
 } 
 
 .multimedia-container{
@@ -760,7 +761,7 @@ Production Section
   border: 1px solid $grey-2;
   padding-top:3rem;
   padding-bottom:3rem; 
-  width: 95%;
+  width: 96%;
 }
 
 
@@ -777,9 +778,10 @@ Production Section
 }
 
 .image-production-container{
+  @include breakpoint(large){  
   -webkit-column-count: 2; /* Chrome, Safari, Opera */
-  -moz-column-count: 2; /* Firefox */
-  column-count: 2;
+   -moz-column-count: 2; /* Firefox */
+   column-count: 2;}
   padding: 0 $inner-spacing;
   margin-top: 2rem;
 }
@@ -835,3 +837,16 @@ Production Section
   margin-bottom: 0.7rem;
 }
 
+/*------------
+SMALL!!!
+-------------*/
+
+@media only screen and (max-width : 400px) {
+ .single-image-container {
+  max-width: 100%;
+ }
+ .single-image-content{
+  max-width: 100%;
+ }
+
+}
