@@ -29,9 +29,13 @@
     
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio')  
+    console.log(profile['bio']);
+        console.log(profile.calls);
 
     if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
+    }else{
+      if(profile.calls[0]['description'])_bio.append($('<p>').text(profile.calls[0]['description']));
     }
 
     var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['category']).render()));
@@ -62,8 +66,9 @@
 
     if('calls' in profile && profile.calls != false){
       var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
-      var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
-      _callsBoxContent.append(_mySpaceCallProposals.render(), _callButton);
+      // var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
+      _callsBoxContent.append(_mySpaceCallProposals.render()); 
+      // _callsBoxContent.append(_callButton);
 
     }else{
       var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía una propuesta al conFusión 2016').render().addClass('callButtonArtist-sendOther');
