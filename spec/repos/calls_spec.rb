@@ -61,6 +61,12 @@ describe Repos::Calls do
       expect(Repos::Calls.exists? call_id).to eq(true)
       expect(Repos::Calls.exists? 'otter').to eq(false)
     end
+
+    it 'checks if matched proposal is already in a call' do
+      expect(Repos::Calls.proposal_exists?('otter_proposal')).to eq(false)
+      Repos::Calls.add_proposal(call_id, proposal)
+      expect(Repos::Calls.proposal_exists?(proposal_id)).to eq(true)
+    end
   end
 
   describe 'Push' do

@@ -3,6 +3,7 @@ describe CallsController do
   let(:login_route){'/login/login_attempt'}
   let(:create_call_route){'/users/create_call'}
   let(:send_proposal_route){'/users/send_proposal'}
+  let(:delete_proposal_route){'/users/delete_proposal'}
 
   let(:user_hash){
     {
@@ -118,6 +119,20 @@ describe CallsController do
       post send_proposal_route, callproposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
+    end
+  end
+
+  describe 'Delete_proposal' do
+
+    before(:each){
+      post create_call_route, call
+    }
+
+    it 'fails if the callproposal does not exist' do
+      post delete_proposal_route, callproposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
   end
 end

@@ -39,10 +39,19 @@ describe Services::Calls do
 
   describe 'Exists?' do
 
-    it 'checks if a call_id is already employed' do
+    before(:each){
       Services::Calls.register call, user_id
+    }
+
+    it 'checks if a call_id is already employed' do
       expect(Services::Calls.exists? call_id).to eq(true)
       expect(Services::Calls.exists? 'otter').to eq(false)
+    end
+
+    it 'checks if a proposal exists' do
+      expect(Services::Calls.proposal_exists? proposal_id).to eq(false)
+      Services::Calls.add_proposal(proposal, user_id)
+      expect(Services::Calls.proposal_exists? proposal_id).to eq(true)
     end
   end
 
