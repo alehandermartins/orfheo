@@ -251,7 +251,8 @@
 
   ns.Widgets.FitInBox = function(textBox, max_width, max_height){
     var _container = $('<div>').css({
-      width: max_width+'px'
+      'max-width': max_width+'px',
+      'word-wrap': ' break-word'
     })
     $('body').append(_container.append((textBox)));
     while (textBox.height()>max_height){

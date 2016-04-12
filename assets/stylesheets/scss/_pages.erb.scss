@@ -162,6 +162,7 @@ Aside content LogIn page
 .aside-container{
   width: $pard-aside-width;
   position:relative;
+  word-wrap: break-word;
 }
 
 .grid-aside-content{
@@ -372,13 +373,25 @@ Aside
 }
 
 
-// .name-column-production-nav{
-//   vertical-align: 3px;
-// }
+.name-column-production-nav{
+  min-height: 2.7px;
+}
 
 .icon-column{
   padding: 0.4rem 0.2rem 0.4rem 0.2rem;
   width:2.7rem;
+}
+
+.production-nav-element-container .icon-column{
+  height: 2.7rem;
+}
+
+.production-icon-container{
+  margin-top: 0.1rem;  
+}
+
+.production-icon-container .fa-cubes{
+    padding-top: 0.3rem;  
 }
 
 .other-profiles-nav-container{
@@ -451,7 +464,7 @@ Aside
 }
 
 .production-nav-element-container{
-  min-height: 2.75rem;
+  min-height: 2.7rem;
 }
 
 
