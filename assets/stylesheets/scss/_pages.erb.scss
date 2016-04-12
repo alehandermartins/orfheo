@@ -393,9 +393,9 @@ Aside
   @include vertical-align();
 }
 
-.production-icon-container{
-  height:2.2rem;
-}
+// .production-icon-container{
+//   // height:2.2rem;
+// }
 
 .profile-selected-container{
   background: $grey-1;
@@ -434,11 +434,12 @@ Aside
 
 
 .nav-list-container{
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
 }
 
 .nav-icon-production-container{
-  height: 2.2rem;
+  // height: 2.2rem;
   width: 2.2rem;
 }
 
@@ -446,15 +447,20 @@ Aside
   padding: 0.2rem 0.1rem;
   position: relative;
   width: 100%;
-  min-height: 3.75rem;
   display: block;
 }
+
+.production-nav-element-container{
+  min-height: 2.75rem;
+}
+
 
 .profile-nav-element-container{
   cursor: pointer;
   position: relative;
   width: 100%;
   padding-top: 0.4rem;
+    min-height: 3.75rem;
 }
 
 .profile-nav-element-container:hover{
@@ -484,6 +490,10 @@ Aside
   font-size: $almostNormalSize;
   padding:0.2rem;
   margin-bottom: 0;
+}
+
+.message-otherProfile-asideBar{
+  margin-top:0.2rem;
 }
 
 /*-----------------
@@ -863,10 +873,10 @@ SMALL!!!
  .images-title-box{
   width: 100%;
  }
- .large-bandcamp-audio-player iframe{
+ .large-bandcamp-audio-player iframe[style]{
     width: 100%;
-    height: -moz-calc(90vw*1.35);
-    height: -webkit-calc(90vw*1.35);
-    height: calc(90vw*1.35); 
+    max-height: -moz-calc(98vw*1.35);
+    max-height: -webkit-calc(98vw*1.35);
+    max-height: calc(98vw*1.35); 
  }
 }
