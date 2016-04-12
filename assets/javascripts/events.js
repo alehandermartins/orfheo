@@ -64,7 +64,7 @@
         var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
         _caller.trigger('click');
       }
-      else{
+      else{ 
         console.log(data.reason);
         Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
       }

@@ -478,7 +478,13 @@ button{
   font-size: $almostNormalSize;
   background: rgb(56, 133, 255);
   position: relative;
-  margin-left:3rem;
+  margin: auto;
+  display: block;
+}
+
+.signupButton-alert-container{
+  width: 100%;
+  display: block;
 }
 
 // .signUp-button-welcome-section{
@@ -1106,6 +1112,18 @@ POPUP
 
 .alert-container-full{
     max-width: 22rem; //352px
+    margin-bottom: 0.6rem;
+    // @include absolute-center;
+}
+
+
+@media only screen and (max-width : 400px) {
+  .alert-container-full{
+    margin-right: 2rem;
+  }
+  .signupButton-alert{
+    width:10rem;
+  }
 }
 
 .popup-photo-container{

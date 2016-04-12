@@ -68,7 +68,7 @@
 
 
   ns.Widgets.PopupContent = function(title, content, contentClass){
-
+    
     var _createdWidget = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>');

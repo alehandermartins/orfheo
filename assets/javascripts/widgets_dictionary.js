@@ -130,7 +130,7 @@
 
   ns.Widgets.NoExistingUserMessage = function(){
       var _messageContainer = $('<div>').append()
-      var _message  = $('<div>').text('¡No existe ningun usuario asociado con este correo!').css({
+      var _message  = $('<div>').text('¡No existe ningún usuario asociado con este correo!').css({
         'font-size': '18px',
         'margin-bottom':'1rem'
       });
@@ -143,8 +143,10 @@
 
       var _signUpButton = _popup.render();
       _signUpButton.addClass('signupButton-alert');
+
+      var _btnContainer = $('<div>').addClass('signupButton-alert-container');
     
-      _messageContainer.append(_message, _signUpButton);
+      _messageContainer.append(_message, _btnContainer.append(_signUpButton));
 
       return {
         render: function(){
