@@ -11,6 +11,10 @@ module Services
         Repos::Calls.exists? call_id
       end
 
+      def proposal_exists? proposal_id
+        Repos::Calls.proposal_exists? proposal_id
+      end
+
       def add_proposal params, user_id
         proposal = CallProposal.new params, user_id
         raise Pard::Invalid::Category if proposal.wrong_category?

@@ -62,6 +62,12 @@ module Pard
     end
   end
 
+  class Invalid::ProposalOwnership < Invalid
+    def message
+      'you_dont_have_permission'
+    end
+  end
+
   class Invalid::Category < Invalid
     def message
       'invalid_category'

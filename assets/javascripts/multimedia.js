@@ -243,8 +243,6 @@
 	    var _bandCamp_url = '';
 	    link['url'].split('"').forEach(function(string){
 	      if(string.match('EmbeddedPlayer')){
-	      	// console.log(link);
-	        //  _bandCamp_url = string;
 	        var _bandCampMedia = $('<div>').html(link['url']);
 	      	if(string.match('large') && !(string.match('small'))){
  						_bandCampMedia.addClass('large-bandcamp-audio-player')

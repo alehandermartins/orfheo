@@ -14,6 +14,10 @@ module Repos
         @@calls_collection.count(query: {call_id: call_id}) > 0
       end
 
+      def proposal_exists? proposal_id
+       @@calls_collection.count(query: {"proposals.proposal_id": proposal_id}) > 0
+      end
+
       def add_proposal call_id, proposal
         @@calls_collection.update({call_id: call_id},{
           "$push": {proposals: proposal}
