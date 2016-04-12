@@ -98,7 +98,11 @@
         _send();}
     });
 
-    _createdWidget.append(_initMex, _formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton));
+    var _deleteProductionCaller = $('<a>').attr('href','#').text('Elimina este proyecto artístico').addClass('deleteProfile-caller');
+
+    var _deleteProduction = Pard.Widgets.PopupCreator(_deleteProductionCaller, '', function(){return Pard.Widgets.DeleteProfileMessage()});
+
+    _createdWidget.append(_initMex, _formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton), _deleteProduction.render());
 
     return {
       render: function(){
@@ -106,6 +110,19 @@
       },
       setCallback: function(callback){
         _closepopup = callback;
+      }
+    }
+  }
+
+  ns.Widgets.DeleteProfileMessage = function(){  
+    
+    var _createdWidget = $('<div>');
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
       }
     }
   }

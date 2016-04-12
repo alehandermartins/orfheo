@@ -25,12 +25,9 @@
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
-    
-    
+       
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio')  
-    console.log(profile['bio']);
-        console.log(profile.calls);
 
     if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));

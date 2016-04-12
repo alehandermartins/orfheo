@@ -343,7 +343,7 @@
       _newInput.setAttr('disabled', true);
       _inputs.push(_newInput);
 
-      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE888');
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
       _container.append(_newInput.render().addClass('add-multimedia-input-field'), _removeInputButton);
       _removeInputButton.on('click', function(){
@@ -454,7 +454,7 @@
       _newInput.setAttr('disabled', true);
       _inputs.push(_newInput);
 
-      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE888');
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
       _container.append(_newInput.render().addClass('add-multimedia-input-field'), _removeInputButton);
       _removeInputButton.on('click', function(){

@@ -98,7 +98,7 @@ Pard.Users = function(profiles){
   Pard.CachedProfiles['my_profiles'] = profiles.my_profiles;
 
   var _whole = $('<div>').addClass('whole-container');
-  var _header = Pard.Widgets.UserHeader();
+  var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
 
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
 
@@ -129,7 +129,7 @@ Pard.Profile = function(profiles){
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();      
-    var _header = Pard.Widgets.UserHeader();
+    var _header = Pard.Widgets.ProfileHeader();
     var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']).render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){$(document).foundation()});

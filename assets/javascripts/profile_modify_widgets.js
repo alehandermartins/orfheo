@@ -92,9 +92,11 @@
       'IMPORTANTE: Los cambios que haces a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
     )).addClass('final-message-form');
 
+    var _deleteProfileCaller = $('<a>').attr('href','#').text('Elimina el perfil').addClass('deleteProfile-caller');
 
+    var _deleteProfile = Pard.Widgets.PopupCreator(_deleteProfileCaller, '', function(){return Pard.Widgets.DeleteProfileMessage()});
 
-    _createdWidget.append(_formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton));
+    _createdWidget.append(_formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton), _deleteProfile.render());
 
     var _filled = function(){
       var _check = true;
@@ -153,6 +155,20 @@
       }
     }
   }
+
+  ns.Widgets.DeleteProfileMessage = function(){  
+    
+    var _createdWidget = $('<div>');
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+      }
+    }
+  }
+  
 
 
 

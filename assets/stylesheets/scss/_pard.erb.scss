@@ -431,32 +431,16 @@ button{
   padding: 0.3rem 0.65rem;
   font-weight: 600;
   font-size: $almostNormalSize;
-  // @include breakpoint(large){
-  // margin-right: -0.1rem;}
   @include breakpoint(small down){
     margin-right: 2rem;
   }
 }
-
-// .signupButton{
-//   color: $element-color;
-//   font-weight: 600;
-//   width: 100%;
-//   padding-top:2rem;
-//   padding-bottom:2rem;
-//   margin-bottom: 1.5rem;
-//   @include border-radius($element-border-radius);
-//   font-size: $smallSize;
-//   @include linearGradient(#b9daad, #6cb252);
-// }
-
 
 .signupButton{
   color: $element-color;
   font-weight: bold;
   width: 100%;
   height: 3rem;
-  // margin-bottom: $pard-grid-spacing;
   margin-bottom: 0.8rem;
   margin-top:1rem;
   @include border-radius($element-border-radius);
@@ -473,7 +457,6 @@ button{
   width:13rem;
   padding-top:1rem;
   padding-bottom:1rem;
-  // margin-bottom: 1.5rem;
   @include border-radius($element-border-radius);
   font-size: $almostNormalSize;
   background: rgb(56, 133, 255);
@@ -486,22 +469,6 @@ button{
   width: 100%;
   display: block;
 }
-
-// .signUp-button-welcome-section{
-//   background: white;
-//   font-weight: bold;
-//   @include border-radius($element-border-radius);
-//   padding: 1rem 3.5rem;
-//   border: 2px solid $grey-2;
-//   font-size: 21px;
-//   position: absolute;
-//   left:17rem;
-//   top: 0;
-// }
-
-// .signUp-button-welcome-section:hover{
-//   box-shadow: 0px 1px 1px 1px rgba(10, 10, 10, 0.2);
-// }
 
 .signUp-button-welcome-section{
   @extend .pard-btn;
@@ -534,6 +501,8 @@ button{
 
 }
 
+
+
 .modify-content-button{
   position: absolute;
   top: -4px;
@@ -556,15 +525,20 @@ button{
   font-size: $almostNormalSize;
 }
 
-.add-multimedia-input-button{
+.add-multimedia-input-button, .add-multimedia-input-button-delete{
   position: relative;
   top: 0.4rem;
   left: 0.3rem;
-  cursor: pointer;
+  cursor: pointer;  
 }
 
+.add-multimedia-input-button{
+  color: $grey-3;
+}
+
+
 .add-input-button-enlighted{
-  color: red;
+  color: black;
 }
 
 .links-accepted-caller{
@@ -1069,6 +1043,10 @@ select, textarea, a{
     display: inline-block;
   }
 
+}
+
+.deleteProfile-caller{
+  font-size: $smallSize;
 }
 
 

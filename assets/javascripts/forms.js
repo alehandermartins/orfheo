@@ -27,7 +27,7 @@
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
       input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a un tus perfiles en redes sociales (enlaces a videos y fotos podrás gestionarlos con el formulario dedicado a tu propuesta artística)')
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a tus perfiles en redes sociales (enlaces a videos y fotos podrás gestionarlos juntos con tu propuesta artística).')
     };
 
     _form['color'] = {
@@ -79,7 +79,7 @@
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
       input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a un tus perfiles en redes sociales')
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a tus perfiles en redes sociales')
     };
 
     _form['links'] = {
@@ -368,7 +368,7 @@
     _form['needs'] = { 
       label: Pard.Widgets.InputLabel('Necesidades'),
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Indicar si se tienen especiales necesidades técnicas y de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y no podrá hacerse cargo del material necesario para cada actuacción.')
+      helptext: Pard.Widgets.HelpText('Indicar si se tienen especiales necesidades técnicas y/o de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y no podrá hacerse cargo del material necesario para cada actuacción.')
     };
     _form['needs']['input'].setClass('needs-input');
 

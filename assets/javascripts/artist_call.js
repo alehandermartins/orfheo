@@ -336,7 +336,11 @@
 
     _postData.append(_postDataLabel, _textArea, _sendButton);
 
-    _createdWidget.append(_postData, _finalMessage);
+    var _deleteProposalCaller = $('<a>').attr('href','#').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller');
+
+    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '', function(){return Pard.Widgets.DeleteProfileMessage()});
+
+    _createdWidget.append(_postData, _finalMessage, _deleteProposal.render());
 
     // var _closeBtn = Pard.Widgets.Button('Cierra').render().addClass('pard-btn').css('font-size':'14px');
     // _createdWidget.append(_closeBtn);
@@ -349,33 +353,20 @@
     }
   }
 
-  //   var _createdWidget = $('<div>');
+  ns.Widgets.DeleteProposalMessage = function(){  
+    
+    var _createdWidget = $('<div>');
 
-  //   var _form = Pard.Forms.ArtistCall(callProposals.category).render();
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+      }
+    }
+  }
 
-  //   for(var field in _form){
-  //     if(callProposals[field]) _form[field]['input'].setVal(callProposals[field]);
-  //   };
-
-  //   for(var field in _form){
-  //     _createdWidget.append(_form[field]['label'].render().append(_form[field]['input'].render()), _form[field]['helptext'].render());
-  //   };
-
-  //   var _closeBtn = Pard.Widgets.Button('Cierra').render();
-
-  //   _createdWidget.append(_closeBtn);
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     },
-  //     setCallback: function(callback){
-  //       _closeBtn.on('click', function(){
-  //         callback();
-  //       })
-  //     }
-  //   }
-  // }
+  
 
 
 }(Pard || {}));

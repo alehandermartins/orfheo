@@ -5,8 +5,7 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.UserHeader = function(){
-    
+  ns.Widgets.InsideHeader = function(menuContainer){
     var _createdWidget = $('<header>').addClass('user-bar');
     var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
     var _container = $('<div>').addClass('pard-header-container');
@@ -26,10 +25,35 @@
 
     var _topBarRight = $('<div>').addClass('right-user-header-content');
 
+    _topBarRight.append(menuContainer);
+
+    _topContent.append(_topBarTitle, _topBarRight);
+
+    _container.append(_topContent, _responsiveMenu);
+    _topBar.append(_container);
+    _createdWidget.append(_topBar);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      } 
+    }
+  }
+
+
+  ns.Widgets.UserDropdownMenu = function(){     
+
     var _menu = $('<ul>').addClass('menu');
+
     var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#'));
+
     var _modifyPassword = $('<li>').append(Pard.Widgets.ModifyPassword().render().attr('href','#'));
-		_menu.append(_modifyPassword, _logout);
+
+    var _dCaller = $('<a>').attr('href','#').text('Elimina mi cuenta');
+    var _deleteCaller = Pard.Widgets.PopupCreator(_dCaller, '', function(){return Pard.Widgets.DeleteUserMessage()});
+    var _deleteUser = $('<li>').append(_deleteCaller.render());
+
+		_menu.append(_deleteUser, _modifyPassword,  _logout);
 		var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
 		var _iconDropdownMenu = $('<li>').append(
       $('<a>').attr('href','#').append(
@@ -39,20 +63,26 @@
     );
 
     _menuContainer.append(_iconDropdownMenu);
-     
-    _topBarRight.append(_menuContainer);
-
-    _topContent.append(_topBarTitle, _topBarRight);
-
-    _container.append(_topContent, _responsiveMenu);
-    _topBar.append(_container);
-    _createdWidget.append(_topBar);
 
   	return {
   		render: function(){
-  			return _createdWidget;
+  			return _menuContainer;
   		} 
   	}
+  }
+
+
+  ns.Widgets.DeleteUserMessage = function(){  
+    
+    var _createdWidget = $('<div>');
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+      }
+    }
   }
   
   ns.Widgets.UserAside = function () {
@@ -64,17 +94,20 @@
     var _createArtistBtn =  Pard.Widgets.CreateTypeProfile('artist').render();
     var _createSpaceBtn =  Pard.Widgets.CreateTypeProfile('space').render();
 
-    var _myProfileText = $('<p>').text('Tus perfiles').addClass('myProfile-text');
-
     _createArtistBtn.addClass('create-profile-btn');
     _createSpaceBtn.addClass('create-profile-btn');  
 
-    _myprofiles.append( Pard.Widgets.MyProfiles(myprofiles).render());
+
     _buttonContainer.append(_createProfileText,_createArtistBtn, _createSpaceBtn); 
     
 
-    _createdWidget.append(_buttonContainer, _myProfileText, _myprofiles);
-
+    _createdWidget.append(_buttonContainer);
+    console.log(myprofiles)
+    if (myprofiles.length > 0){
+      var _myProfileText = $('<p>').text('Tus perfiles').addClass('myProfile-text');
+      _myprofiles.append(Pard.Widgets.MyProfiles(myprofiles).render());
+      _createdWidget.append(_myProfileText,_myprofiles);
+    }
 
     return{
       render: function(){
