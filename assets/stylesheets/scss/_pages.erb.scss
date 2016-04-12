@@ -865,6 +865,8 @@ SMALL!!!
  }
  .large-bandcamp-audio-player iframe{
     width: 100%;
-    height: 
+    height: -moz-calc(90vw*1.35);
+    height: -webkit-calc(90vw*1.35);
+    height: calc(90vw*1.35); 
  }
 }
