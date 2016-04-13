@@ -304,30 +304,30 @@
 
     profileNav.append(_navigationSelected.render());
 
-    var _proposals = [];
+    var _productions = [];
 
 
-    (profile.proposals) ? productionContent.addClass('nav-list-container') : productionContent.removeClass('nav-list-container');
-    if (profile.proposals) {
-      _proposals = profile.proposals;
+    (profile.productions) ? productionContent.addClass('nav-list-container') : productionContent.removeClass('nav-list-container');
+    if (profile.productions) {
+      _productions = profile.productions;
       productionContent.append($('<p>').addClass('message-productions-asideBar').text('Portfolio'))  
     }
-    _proposals.forEach(function(proposal, index){
-      var proposal_id = proposal.proposal_id;
-      var _myProposal = $('<div>'); 
+    _productions.forEach(function(production, index){
+      var production_id = production.production_id;
+      var _myProduction = $('<div>'); 
 
 
-      _myProposal.append(Pard.Widgets.MyArtistProductionsContent(proposal_id, profile, _out).render());
-      sectionContent.append(_myProposal);
-      if(selected == proposal_id) _lastselected = _myProposal;
-      else{_myProposal.hide();}
+      _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile, _out).render());
+      sectionContent.append(_myProduction);
+      if(selected == production_id) _lastselected = _myProduction;
+      else{_myProduction.hide();}
 
       var _productionItem = $('<div>').addClass('production-nav-element-container');
-      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(proposal['category']).render().css({'text-align': 'center', display:'block'}))));
+      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
       var _nameColumn = $('<div>').addClass('name-column name-column-production-nav');
-      var _name = $('<p>').text(proposal['title']).addClass('profile-nav-production-name');
+      var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
       _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
-      if(selected == proposal_id) {
+      if(selected == production_id) {
         $('.selected-element').removeClass('selected-element');
         _name.addClass('selected-element');
       }
@@ -335,8 +335,8 @@
         $('.selected-element').removeClass('selected-element');
         _name.addClass('selected-element');
         _lastselected.hide();
-        _myProposal.show();
-        _lastselected = _myProposal;
+        _myProduction.show();
+        _lastselected = _myProduction;
       });
       _name.hover(function(){_name.addClass('text-link-profile-nav')}, function(){_name.removeClass('text-link-profile-nav ')});
       productionContent.append(_productionItem);

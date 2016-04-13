@@ -118,7 +118,7 @@
 
     var _beCarefullText = $('<p>').text('ATENCIÓN: Una vez enviado, no te será permitido modificar el contenido de este formulario (como mucho, para pequeñas correcciones, podrás enmendarlo). Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
 
-    _createdWidget.append(_message, _part1,  _categoryLabel.append(_category.render()), _content, _beCarefullText,
+    _createdWidget.append(_message, _part1,  _categoryLabel.append(_category.render()), _content.append( _beCarefullText),
      _submitBtnContainer.append(submitButton));
 
     var _filled = function(){

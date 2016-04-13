@@ -67,22 +67,22 @@
     
 
     if (out){
-      if(profile.proposals){
+      if(profile.calls){
         var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
         var _callsBoxContent = $('<div>').addClass('box-content');
-        var _callProposals = profile.proposals;
+        var _calls = profile.calls;
         var _artistCallProposals = $('<div>');
         var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
 
-        var _listProposals = $('<ul>');
+        var _listcalls = $('<ul>');
 
-        _callProposals.forEach(function(proposal){
-          var _proposalItem = $('<li>').text(proposal['title']);
-          _listProposals.append(_proposalItem);
+        _calls.forEach(function(call){
+          var _callItem = $('<li>').text(call['title']);
+          _listcalls.append(_callItem);
           
         });
 
-        _artistCallProposals.append(_callName, _listProposals);
+        _artistCallProposals.append(_callName, _listcalls);
         _callsBoxContent.append(_artistCallProposals);
         _callsBoxContainer.append(_callsBoxContent);
         _createdWidget.append(_callsBoxContainer);
@@ -119,23 +119,23 @@
   }
 
 
-  ns.Widgets.MyArtistProductionsContent = function(proposal_id, profile, out){
+  ns.Widgets.MyArtistProductionsContent = function(production_id, profile, out){
 
     var profile_color = profile['color'];
 
     if (out){
-      var proposal = Pard.ProfileManager.getProposal(proposal_id, [profile]);
+      var production = Pard.ProfileManager.getProduction(production_id, [profile]);
     }
     else{
-      var proposal = Pard.ProfileManager.getProposal(proposal_id);
+      var production = Pard.ProfileManager.getProduction(production_id);
     }
 
-    var _categoryFields = Pard.Forms.ArtistCall(proposal.category).productionFields();
+    var _categoryFields = Pard.Forms.ArtistCall(production.category).productionFields();
    
     var _createdWidget = $('<div>');
 
     var _title = $('<div>').addClass('production-title-box').append(
-      $('<h4>').text(proposal.title));
+      $('<h4>').text(production.title));
 
     _createdWidget.append(_title);
 
@@ -146,28 +146,28 @@
     var _info = $('<div>').addClass('information-bio');  
     var _addtionalInfo = $('<div>').addClass('information-contact');
 
-    var _shortDescription = $('<p>').text(proposal.short_description).addClass('short-description-text');  
+    var _shortDescription = $('<p>').text(production.short_description).addClass('short-description-text');  
     _info.append(_shortDescription)
  
-    if(proposal['description']){     
-      var _description = $('<p>').text(proposal['description']);
+    if(production['description']){     
+      var _description = $('<p>').text(production['description']);
       _info.append(_description);
     }
 
 
-    var _category = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(proposal['category']).render()));
-    var _categoryIcon = Pard.Widgets.IconManager(proposal.category).render().addClass('information-contact-icon-column');
+    var _category = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(production['category']).render()));
+    var _categoryIcon = Pard.Widgets.IconManager(production.category).render().addClass('information-contact-icon-column');
 
     _addtionalInfo.append($('<div>').append(_categoryIcon, _category));
 
         
-    if (proposal['duration'] != 'false' && proposal['duration']){
-      var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(proposal['duration']+' min'));
+    if (production['duration'] != 'false' && production['duration']){
+      var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(production['duration']+' min'));
       var _durationIcon = Pard.Widgets.IconManager('duration').render().addClass('information-contact-icon-column');
       _addtionalInfo.append($('<div>').append(_durationIcon, _duration));
     }
 
-    if (proposal['children'] != 'false' && proposal['children']){       
+    if (production['children'] != 'false' && production['children']){       
       var _children = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Para niños'));
       var _childrenIcon = Pard.Widgets.IconManager('children').render().addClass('information-contact-icon-column');
       _addtionalInfo.append(_childrenIcon, _children);
@@ -178,18 +178,18 @@
     _createdWidget.append(_infoBoxContainer);
 
     if (!(out)){
-      var _modifyProduction = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProduction(proposal).render(), profile_color);
+      var _modifyProduction = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProduction(production).render(), profile_color);
       _createdWidget.append(_modifyProduction.render());
     }
 
     if (out){
-      if (proposal.video || proposal.audio || proposal.image){
-        var _multimediaContainer = Pard.Widgets.MultimediaContent(proposal, out);
+      if (production.video || production.audio || production.image){
+        var _multimediaContainer = Pard.Widgets.MultimediaContent(production, out);
         _createdWidget.append(_multimediaContainer.render());
       }
     }
     else{
-    var _multimediaContainer = Pard.Widgets.MultimediaContent(proposal, out);
+    var _multimediaContainer = Pard.Widgets.MultimediaContent(production, out);
     _createdWidget.append(_multimediaContainer.render());
     }
 

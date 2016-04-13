@@ -2,43 +2,49 @@
 
 Pard.CachedProfiles = {};
 Pard.ProfileManager = {
-  getProfile: function(profile_id, profiles){
+  getProfile: function(profile_id, profilesOut){
     var _profile = {};
-    if (!(profiles)) profiles = Pard.CachedProfiles['my_profiles'];
+    if (profilesOut){ profiles = profilesOut}
+    else{
+     profiles = Pard.CachedProfiles['my_profiles'];
+    }
     profiles.forEach(function(profile){
       if(profile.profile_id == profile_id) _profile = profile;
     });
     return _profile;
   },
-  // getProposal: function(proposal_id){
-  //   var _proposal = {};
+  // getProduction: function(production_id){
+  //   var _production = {};
   //   Pard.CachedProfiles['my_profiles'].forEach(function(profile){
-  //     if('proposals' in profile){
-  //       profile.proposals.forEach(function(proposal){
-  //         if(proposal.proposal_id == proposal_id) _proposal = proposal;
+  //     if('productions' in profile){
+  //       profile.productions.forEach(function(production){
+  //         if(production.production_id == production_id) _production = production;
   //       });
   //     }
   //   });
-  //   return _proposal;
+  //   return _production;
   // },
-  getProposal: function(proposal_id, profiles){
-    var _proposal = {};
-    if (!(profiles)) var profiles =  Pard.CachedProfiles['my_profiles'];
+  getProduction: function(production_id, profilesOut){
+    var _production = {};
+    if (profilesOut) var profiles = profilesOut;
+    else{
+     var profiles =  Pard.CachedProfiles['my_profiles'];
+    }
     profiles.forEach(function(profile){
-      if('proposals' in profile){
-        profile.proposals.forEach(function(proposal){
-          if(proposal.proposal_id == proposal_id) _proposal = proposal;
+      if('productions' in profile){
+        profile.productions.forEach(function(production){
+          if(production.production_id == production_id) _production = production;
         });
       }
     });
-    return _proposal;
+    return _production;
   },
-  getProfileId: function(proposal_id){
+  getProfileId: function(production_id){
     var _profile_id = '';
     Pard.CachedProfiles['my_profiles'].forEach(function(profile){
-      if('proposals' in profile){
-        profile.proposals.forEach(function(proposal){
-          if(proposal.proposal_id == proposal_id) _profile_id = profile.profile_id;
+      if('productions' in profile){
+        profile.productions.forEach(function(production){
+          if(production.production_id == production_id) _profile_id = profile.profile_id;
         });
       }
     });
@@ -49,34 +55,34 @@ Pard.ProfileManager = {
   },
   modifyProduction: function(production){
     Pard.CachedProfiles['my_profiles'].forEach(function(profile){
-      if('proposals' in profile){
-        profile.proposals.forEach(function(proposal, index){
-          if(proposal.proposal_id == production.proposal_id){
+      if('productions' in profile){
+        profile.productions.forEach(function(production, index){
+          if(production.production_id == production.production_id){
             for(var field in production){
-              proposal[field] = production[field];
+              production[field] = production[field];
             }
           }
         });
       }
     });
   },
-  // addProposalMultimedia: function(data, type, proposal_id){
-  //   var proposal = Pard.ProfileManager.getProposal(proposal_id);
-  //   proposal[type] = proposal[type] || [];
-  //   proposal[type].push(data);
+  // addproductionMultimedia: function(data, type, production_id){
+  //   var production = Pard.ProfileManager.getProduction(production_id);
+  //   production[type] = production[type] || [];
+  //   production[type].push(data);
   // },
   // addProfileMultimedia: function(data, type, profile_id){
   //   var profile = Pard.ProfileManager.getProfile(profile_id);
   //   profile[type] = profile[type] || [];
   //   profile[type].push(data);
   // },
-   addProposalMultimedia: function(data, type, proposal_id, profiles){
+   addProductionMultimedia: function(data, type, production_id, profiles){
     if (profiles) {
-      var proposal = Pard.ProfileManager.getProposal(proposal_id, profiles);}
+      var production = Pard.ProfileManager.getProduction(production_id, profiles);}
     else{
-      var proposal = Pard.ProfileManager.getProposal(proposal_id);}
-    proposal[type] = proposal[type] || [];
-    proposal[type].push(data);
+      var production = Pard.ProfileManager.getProduction(production_id);}
+    production[type] = production[type] || [];
+    production[type].push(data);
   },
   addProfileMultimedia: function(data, type, profile_id, profiles){
     if (profiles) var profile = Pard.ProfileManager.getProfile(profile_id, profiles);
@@ -92,11 +98,11 @@ Pard.ProfileManager = {
   //     if('video' in profile) delete(profile['video']);
   //     if('image' in profile) delete(profile['image']);
   //     if('audio' in profile) delete(profile['audio']);
-  //     if('proposals' in profile){
-  //       profile.proposals.forEach(function(proposal){
-  //         if('video' in proposal) delete(proposal['video']);
-  //         if('image' in proposal) delete(proposal['image']);
-  //         if('audio' in proposal) delete(proposal['audio']);
+  //     if('productions' in profile){
+  //       profile.productions.forEach(function(production){
+  //         if('video' in production) delete(production['video']);
+  //         if('image' in production) delete(production['image']);
+  //         if('audio' in production) delete(production['audio']);
   //       });
   //     }
   //   });
@@ -107,11 +113,11 @@ Pard.ProfileManager = {
       if('video' in profile) delete(profile['video']);
       if('image' in profile) delete(profile['image']);
       if('audio' in profile) delete(profile['audio']);
-      if('proposals' in profile){
-        profile.proposals.forEach(function(proposal){
-          if('video' in proposal) delete(proposal['video']);
-          if('image' in proposal) delete(proposal['image']);
-          if('audio' in proposal) delete(proposal['audio']);
+      if('productions' in profile){
+        profile.productions.forEach(function(production){
+          if('video' in production) delete(production['video']);
+          if('image' in production) delete(production['image']);
+          if('audio' in production) delete(production['audio']);
         });
       }
     });
@@ -121,6 +127,8 @@ Pard.ProfileManager = {
 Pard.Welcome = function(profiles){
 
   Pard.CachedProfiles['profiles'] = profiles;
+
+  console.log(profiles)
 
   var _header = Pard.Widgets.LoginHeader();
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
@@ -168,6 +176,8 @@ Pard.Users = function(profiles){
 
 Pard.Profile = function(profiles){
 
+  console.log(profiles);
+
   Pard.CachedProfiles['my_profiles'] = profiles;
 
   var _whole = $('<div>').addClass('whole-container');
@@ -209,6 +219,8 @@ Pard.Visitor = function(profilesOut){
 
 
 Pard.Outsider = function(profilesOut){
+
+  console.log(profilesOut)
 
   var _whole = $('<div>').addClass('whole-container');
 
