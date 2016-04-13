@@ -105,7 +105,7 @@
   }
 
 
-  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent, profiles) {
+  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent, profilesOut) {
 
     asideContent.addClass('aside-container');
     var _buttonContainer = $('<div>').addClass('toUserPage-btn-container');
@@ -117,20 +117,20 @@
 
     var _asideNavContent  = $('<div>');
 
-    if (profiles) asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent, profiles).render());
+    if (profilesOut) asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent, profilesOut).render());
     else{
       asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
     }
   }
 
-  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent, profiles){
+  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent, profilesOut){
 
     asideNavContent.empty();
 
-    if (!(profiles)) var _profiles = Pard.CachedProfiles['my_profiles'];
+    if (profilesOut) var _profiles = profilesOut;    
     else{
-      var _profiles = profiles;
-    }
+     var _profiles = Pard.CachedProfiles['my_profiles'];
+    }  
     var selected = false;
     if(window.location.href.match(/.*&sel=.*/)) selected = window.location.href.split("=").pop();
 
@@ -149,7 +149,7 @@
 
       _reorderedProfiles.forEach(function(profile, index) {
         if(!(index)){
-          if (profiles){ 
+          if (profilesOut){ 
             Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected, profile);
           }
           else{
@@ -157,9 +157,9 @@
           }                   
         }
         else { 
-          if (profiles){
+          if (profilesOut){
             _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
-                Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent, profiles);
+                Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent, profilesOut);
                 Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id, profile);
                 ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
               }).render()
@@ -252,11 +252,13 @@
     } 
   }
 
-  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected, profile){
+  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected, profileOut){
 
-    var _out = true;
-
-    if (!(profile)){
+    if (profileOut){
+      var profile = profileOut;
+      var _out = true;
+    }
+    else{
       var profile = Pard.ProfileManager.getProfile(profile_id);
       _out = false;
     }

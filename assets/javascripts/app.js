@@ -185,11 +185,11 @@ Pard.Profile = function(profiles){
  
 };
 
-Pard.Visitor = function(profiles){
+Pard.Visitor = function(profilesOut){
   // console.log(profiles);
   // Pard.CachedProfiles['my_profiles'] = profiles;
 
-  console.log(profiles);
+  console.log(profilesOut);
 
 
   var _whole = $('<div>').addClass('whole-container');
@@ -199,19 +199,25 @@ Pard.Visitor = function(profiles){
   var _display = function(){
     var _footer = Pard.Widgets.Footer();      
     var _header = Pard.Widgets.ProfileHeader();
-    var _main = Pard.Widgets.ProfileMainLayout(profiles, _out).render().attr({id: 'main-profile-page'});
+    var _main = Pard.Widgets.ProfileMainLayout(profilesOut, _out).render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
      $(document).ready(function(){$(document).foundation()});
   } 
 
-  // _display();
-
-  Pard.Widgets.Multimedia(_display, profiles);
+  Pard.Widgets.Multimedia(_display, profilesOut);
   $('body').append(_whole);
   // var visitor = $('<div>').text('inside view');
   // $('body').append(visitor);
 };
+
+// Pard.VisitorsProfiles = function(profiles){
+//   return{
+//     render: function(){
+//       return profiles;
+//     }
+//   }
+// }
 
 Pard.Outsider = function(profiles){
   var outsider = $('<div>').text('outside view');

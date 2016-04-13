@@ -5,9 +5,10 @@
   ns.Widgets = ns.Widgets || {};
 
  
-  ns.Widgets.ArtistSection = function(sectionHeader, profile_id, profile) {
+  ns.Widgets.ArtistSection = function(sectionHeader, profile_id, profileOut) {
 
-    if (!(profile)) {
+    if (profileOut) var profile = profileOut; 
+      else{
       profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
       var profile = Pard.ProfileManager.getProfile(profile_id);
     }

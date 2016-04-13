@@ -4,11 +4,14 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SpaceSection = function(sectionHeader,  profile_id, profile) {
+  ns.Widgets.SpaceSection = function(sectionHeader,  profile_id, profileOut) {
 
-    var _out = true;
 
-    if (!(profile)) {
+    if (profileOut){
+      var profile = profileOut;
+      var _out = true;
+    }
+    else {
       profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
       var profile = Pard.ProfileManager.getProfile(profile_id);
       _out = false;
@@ -110,7 +113,6 @@
     var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
     _createdWidget.append(_multimediaContainer.render());
     }
-
 
     return {
       render: function(){
