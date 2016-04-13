@@ -284,7 +284,6 @@
     sectionContent.empty();
     productionContent.empty();
 
-
     var _lastselected = $('<div>');
 
     var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile, _out).render();
@@ -316,9 +315,10 @@
       var production_id = production.production_id;
       var _myProduction = $('<div>'); 
 
-
       _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile, _out).render());
+
       sectionContent.append(_myProduction);
+
       if(selected == production_id) _lastselected = _myProduction;
       else{_myProduction.hide();}
 

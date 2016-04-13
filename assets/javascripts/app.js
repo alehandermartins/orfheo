@@ -13,17 +13,7 @@ Pard.ProfileManager = {
     });
     return _profile;
   },
-  // getProduction: function(production_id){
-  //   var _production = {};
-  //   Pard.CachedProfiles['my_profiles'].forEach(function(profile){
-  //     if('productions' in profile){
-  //       profile.productions.forEach(function(production){
-  //         if(production.production_id == production_id) _production = production;
-  //       });
-  //     }
-  //   });
-  //   return _production;
-  // },
+ 
   getProduction: function(production_id, profilesOut){
     var _production = {};
     if (profilesOut) var profiles = profilesOut;
@@ -56,59 +46,39 @@ Pard.ProfileManager = {
   modifyProduction: function(production){
     Pard.CachedProfiles['my_profiles'].forEach(function(profile){
       if('productions' in profile){
-        profile.productions.forEach(function(production, index){
-          if(production.production_id == production.production_id){
+        profile.productions.forEach(function(prod, index){
+          if(prod.production_id == production.production_id){
             for(var field in production){
-              production[field] = production[field];
+              prod[field] = production[field];
             }
           }
         });
       }
     });
-  },
-  // addproductionMultimedia: function(data, type, production_id){
-  //   var production = Pard.ProfileManager.getProduction(production_id);
-  //   production[type] = production[type] || [];
-  //   production[type].push(data);
-  // },
-  // addProfileMultimedia: function(data, type, profile_id){
-  //   var profile = Pard.ProfileManager.getProfile(profile_id);
-  //   profile[type] = profile[type] || [];
-  //   profile[type].push(data);
-  // },
-   addProductionMultimedia: function(data, type, production_id, profiles){
-    if (profiles) {
-      var production = Pard.ProfileManager.getProduction(production_id, profiles);}
+  },  
+  addProductionMultimedia: function(data, type, production_id, profilesOut){
+    if (profilesOut) {
+      var production = Pard.ProfileManager.getProduction(production_id, profilesOut);}
     else{
       var production = Pard.ProfileManager.getProduction(production_id);}
     production[type] = production[type] || [];
     production[type].push(data);
   },
-  addProfileMultimedia: function(data, type, profile_id, profiles){
-    if (profiles) var profile = Pard.ProfileManager.getProfile(profile_id, profiles);
+  addProfileMultimedia: function(data, type, profile_id, profilesOut){
+    if (profilesOut) var profile = Pard.ProfileManager.getProfile(profile_id, profilesOut);
     else{
-      var profile = Pard.ProfileManager.getProfile(profile_id, profiles);
+      var profile = Pard.ProfileManager.getProfile(profile_id);
     }
     profile[type] = profile[type] || [];
     profile[type].push(data);
   },
-  // deleteMultimedia: function(){
-  //  var profiles = Pard.CachedProfiles['my_profiles']
-  //   profiles.forEach(function(profile){
-  //     if('video' in profile) delete(profile['video']);
-  //     if('image' in profile) delete(profile['image']);
-  //     if('audio' in profile) delete(profile['audio']);
-  //     if('productions' in profile){
-  //       profile.productions.forEach(function(production){
-  //         if('video' in production) delete(production['video']);
-  //         if('image' in production) delete(production['image']);
-  //         if('audio' in production) delete(production['audio']);
-  //       });
-  //     }
-  //   });
-  // }
-  deleteMultimedia: function(profiles){
-    if (!(profiles)) var profiles = Pard.CachedProfiles['my_profiles']
+  
+  deleteMultimedia: function(profilesOut){
+
+    if (profilesOut) var profiles = profilesOut;
+      else{
+        var profiles = Pard.CachedProfiles['my_profiles']
+    }
     profiles.forEach(function(profile){
       if('video' in profile) delete(profile['video']);
       if('image' in profile) delete(profile['image']);
@@ -128,15 +98,12 @@ Pard.Welcome = function(profiles){
 
   Pard.CachedProfiles['profiles'] = profiles;
 
-  console.log(profiles)
-
   var _header = Pard.Widgets.LoginHeader();
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
   var _footer = Pard.Widgets.Footer();
   var _whole = $('<div>').addClass('whole-container');
   
   _whole.append(_header.render(), _main.render(), _footer.render());
-
   
   $('body').append(_whole);
 

@@ -23,7 +23,7 @@
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
     $('#main-profile-page').css({'background': _backColor});
 
-    if(profile.calls == false && _out == false){
+    if(profile.proposals == false && _out == false){
       $(document).ready(function(){Pard.Widgets.CallSpaceButton('',profile).render().trigger('click')});
     }
   }
@@ -41,8 +41,8 @@
     if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
     }else{
-      if(profile.calls){
-        if (profile.calls[0]['description']) _bio.append($('<p>').text(profile.calls[0]['description']));
+      if(profile.proposals && profile.proposals[0]){
+      _bio.append($('<p>').text(profile.proposals[0]['description']));
       }
     }
 
@@ -69,8 +69,8 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
     if (out){
-      if('calls' in profile && profile.calls != false){
-        var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
+      if('proposals' in profile && profile.proposals != false){
+        var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
         var _callsBoxContent = $('<div>').addClass('box-content');
         var _callProposals = profile.proposals;
         var _spaceCallProposals = $('<div>');
@@ -82,10 +82,10 @@
       }     
     }
     else{
-      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
+      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
       var _callsBoxContent = $('<div>').addClass('box-content');
-      if('calls' in profile && profile.calls != false){
-        var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.calls);
+      if('proposals' in profile && profile.proposals != false){
+        var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.proposals);
         // var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
         _callsBoxContent.append(_mySpaceCallProposals.render()); 
         // _callsBoxContent.append(_callButton);

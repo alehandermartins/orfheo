@@ -27,7 +27,7 @@
       address_space: {icon: '&#xE55F;', className: 'material-icons'},
       my_web: {icon: '&#xE80B;', className: 'material-icons'},
       icon_social: {icon: '&#xE315;', className: 'material-icons'},
-      calls: {icon: '&#xE6DD;', className: 'material-icons'},
+      proposals: {icon: '&#xE6DD;', className: 'material-icons'},
       children: {icon: '&#xEB41;', className: 'material-icons'},
       duration: {icon: '&#xE425;', className: 'material-icons'},
       multimedia: {icon: '&#xE6C4;', className: 'material-icons'},

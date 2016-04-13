@@ -95,9 +95,9 @@
 
   ns.Events.ModifyProduction = function(data){
     if (data['status'] == 'success'){
-      Pard.ProfileManager.modifyProduction(data.proposal);
-      var _profile_id = Pard.ProfileManager.getProfileId(data.proposal.proposal_id);
-      Pard.Widgets.ProductionsNavigation(_profile_id, $('#_profileNav'), $('#_sectionContent'), $('#_productionsContent'), data.proposal.proposal_id);
+      Pard.ProfileManager.modifyProduction(data.production);
+      var _profile_id = Pard.ProfileManager.getProfileId(data.production.production_id);
+      Pard.Widgets.ProductionsNavigation(_profile_id, $('#_profileNav'), $('#_sectionContent'), $('#_productionsContent'), data.production.production_id);
     }
     else{
       if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
@@ -114,8 +114,8 @@
 
   ns.Events.ModifyMultimedia = function(data){
     if (data['status'] == 'success'){
-      var profile_id = Pard.ProfileManager.getProfileId(data.proposal.proposal_id);
-      document.location = '/profile?id=' + profile_id + '&sel=' + data.proposal.proposal_id;
+      var profile_id = Pard.ProfileManager.getProfileId(data.production.production_id);
+      document.location = '/profile?id=' + profile_id + '&sel=' + data.production.production_id;
     }
     else{
       if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){

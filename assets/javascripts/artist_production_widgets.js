@@ -5,10 +5,10 @@
   ns.Widgets = ns.Widgets || {};
 
 
-  ns.Widgets.ModifyProduction = function(proposal){
+  ns.Widgets.ModifyProduction = function(production){
 
     var _caller = $('<button>').addClass('modify-content-button').attr({type: 'button'}).html(Pard.Widgets.IconManager('modify_section_content').render());
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu proyecto artístico', function(){return Pard.Widgets.ModifyProductionMessage(proposal)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu proyecto artístico', function(){return Pard.Widgets.ModifyProductionMessage(production)});
 
     var _createdWidget = _popup.render();
 
@@ -19,11 +19,11 @@
     }
   }
 
-  ns.Widgets.ModifyProductionMessage = function(proposal){
+  ns.Widgets.ModifyProductionMessage = function(production){
 
-    if (proposal['links'] != false && proposal['links'] != null){
-      var _array = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
-      proposal['links'] = _array;
+    if (production['links'] != false && production['links'] != null){
+      var _array = Object.keys(production['links']).map(function(key){return production['links'][key]});
+      production['links'] = _array;
     };
 
     var _createdWidget = $('<div>');
@@ -42,17 +42,17 @@
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var user_id = Pard.ProfileManager.getUserId();
-    var profile_id = Pard.ProfileManager.getProfileId(proposal.proposal_id);
+    var profile_id = Pard.ProfileManager.getProfileId(production.production_id);
 
-    _submitForm['proposal_id'] = proposal.proposal_id;
+    _submitForm['production_id'] = production.production_id;
     _submitForm['profile_id'] = profile_id;
 
-    var _form = Pard.Forms.ModifyProductionForm(proposal['category']);
+    var _form = Pard.Forms.ModifyProductionForm(production['category']);
     var _requiredFields = _form.requiredFields();
     _form = _form.render();
 
     for(var field in _form){
-      if(proposal[field] && field != 'photos') _form[field]['input'].setVal(proposal[field]);
+      if(production[field] && field != 'photos') _form[field]['input'].setVal(production[field]);
     };
     _form['category'].input.disable();
 
@@ -76,7 +76,7 @@
          _submitForm[field] = _form[field].input.getVal();
 
       };
-      _submitForm['photos'] = proposal['photos'];
+      _submitForm['photos'] = production['photos'];
       return _submitForm;
     }
 

@@ -108,45 +108,45 @@
     } 
   } 
 
-  ns.Widgets.MultimediaContent = function(proposal, out){
+  ns.Widgets.MultimediaContent = function(production, out){
 
     var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimedia', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
     _multimediaContainer.addClass('multimedia-container section-box-container'); 
 
     if (!(out)){
-      var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
+      var _multiMediaManager = Pard.Widgets.MultimediaManager(production);
       _multimediaContainer.append(_multiMediaManager.render().addClass('manage-multimedia-btn'));
     }
 
-    if(proposal.video){
+    if(production.video){
       var _videoContainer = $('<div>').addClass('video-production-container')
 
       var _videoTitle = $('<div>').append($('<div>').addClass('video-title-box').append($('<h6>').text('Vídeos')));
 
       _multimediaContainer.append(_videoContainer);
-      proposal.video.forEach(function(video){
+      production.video.forEach(function(video){
         _videoContainer.prepend($('<div>').addClass('single-video-container').append(video))
       });
       _videoContainer.prepend(_videoTitle);
     };
 
-    if(proposal.audio){
+    if(production.audio){
       var _audioContainer = $('<div>').addClass('image-production-container');
       var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
       _multimediaContainer.append(_audioContainer);
-      proposal.audio.forEach(function(audio){
+      production.audio.forEach(function(audio){
         _audioContainer.prepend($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
       });
       _audioContainer.prepend(_audioTitle);
 
     }
 
-    if(proposal.image){
+    if(production.image){
       var _imageContainer = $('<div>').addClass('image-production-container');
       // var _imageTitle = $('<ul>').append($('<li>').append($('<h6>').text('Imágenes'))).addClass('image-audio-title');
       var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));      
       _multimediaContainer.append(_imageContainer);
-      proposal.image.forEach(function(image){
+      production.image.forEach(function(image){
         _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));
       });
       _imageContainer.prepend(_imageTitle);
@@ -161,18 +161,18 @@
   }
 
 
-// ns.Widgets.MultimediaManagerDictionary = function(proposal){
+// ns.Widgets.MultimediaManagerDictionary = function(production){
 
-//   if (proposal.type == 'space') return Pard.Widgets.MultimediaSpaceManager(proposal);
-//   return Pard.Widgets.MultimediaManager(proposal);
+//   if (production.type == 'space') return Pard.Widgets.MultimediaSpaceManager(production);
+//   return Pard.Widgets.MultimediaManager(production);
 
 // }
 
 
- ns.Widgets.MultimediaManager = function(proposal){
+ ns.Widgets.MultimediaManager = function(production){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica o crea nuovo');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Gestiona tus contenidos multimedia', function(){return Pard.Widgets.MultimediaManagerMessage(proposal)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Gestiona tus contenidos multimedia', function(){return Pard.Widgets.MultimediaManagerMessage(production)});
 
     var _createdWidget = _popup.render();
 
@@ -183,11 +183,11 @@
     }
   }
 
-  ns.Widgets.MultimediaManagerMessage = function(proposal){
+  ns.Widgets.MultimediaManagerMessage = function(production){
 
-    if (proposal.links){
-      var _array = Object.keys(proposal['links']).map(function(key){return proposal['links'][key]});
-      proposal['links'] = _array;
+    if (production.links){
+      var _array = Object.keys(production['links']).map(function(key){return production['links'][key]});
+      production['links'] = _array;
     };
 
     var _createdWidget = $('<div>');
@@ -224,17 +224,17 @@
 
     var _invalidInput = $('<div>').addClass('not-filled-text');
     
-    if (proposal['type'] == 'space'){
-      _submitForm['profile_id'] = proposal.profile_id;
+    if (production['type'] == 'space'){
+      _submitForm['profile_id'] = production.profile_id;
     } 
     else{
-      var profile_id = Pard.ProfileManager.getProfileId(proposal.proposal_id);
-      _submitForm['proposal_id'] = proposal.proposal_id;
+      var profile_id = Pard.ProfileManager.getProfileId(production.production_id);
+      _submitForm['production_id'] = production.production_id;
       _submitForm['profile_id'] = profile_id;
     }
 
     var _inputMultimedia = Pard.Widgets.InputMultimedia();
-    _inputMultimedia.setVal(proposal['links']);
+    _inputMultimedia.setVal(production['links']);
     var _inputMultimediaLabel = $('<label>').addClass('multimedia-manager-input-label').text('Links a materiales online');
 
 
@@ -244,8 +244,8 @@
     var _thumbnail = $('<div>').addClass('file-upload-thumbnail');
     var _url = [];
 
-    if(proposal.photos){
-      proposal.photos.forEach(function(photo){
+    if(production.photos){
+      production.photos.forEach(function(photo){
         _url.push(photo);
         var _container = $('<span>');
         var _previousPhoto = $.cloudinary.image(photo,
@@ -268,8 +268,8 @@
       });
     }
 
-    Object.keys(proposal).forEach(function(key){
-      if(proposal[key]) _submitForm[key] = proposal[key];
+    Object.keys(production).forEach(function(key){
+      if(production[key]) _submitForm[key] = production[key];
     });
 
     var _folder = 'photos';
@@ -280,7 +280,7 @@
 
     _formContainer.append(_photosContainer);
 
-    if (proposal['type'] == 'space'){
+    if (production['type'] == 'space'){
       var _send = function(photos, links){
       _submitForm['photos'] = photos;
       _submitForm['links'] = links;
@@ -356,127 +356,6 @@
       }
     }
   }
-
-
-  // ns.Widgets.MultimediaSpaceManager = function(profile){
-
-  //   var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Añade un contenido multimedia');
-  //   var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu producción', function(){return Pard.Widgets.MultimediaSpaceManagerMessage(profile)});
-
-  //   var _createdWidget = _popup.render();
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     }
-  //   }
-  // }
-
-  // ns.Widgets.MultimediaSpaceManagerMessage = function(profile){
-
-  //   if (profile.links){
-  //     var _array = Object.keys(profile['links']).map(function(key){return profile['links'][key]});
-  //     profile['links'] = _array;
-  //   };
-
-  //   var _createdWidget = $('<div>');
-  //   var _formContainer = $('<form>').addClass('popup-form');
-  //   var _message = $('<div>').html(
-  //     'Puedes añadir contenidos multimedía en forma de videos o imagenes desde youtube, vimeo, vine, facebook, pintarest, instagram, flickr... Copia y pega el enlace correspondiente y dale un titúlo.'
-  //     ).addClass('message-form');
-
-  //   var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
-  //   var _submitForm = {};
-  //   var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-  //   var _invalidInput = $('<div>').addClass('not-filled-text');
-
-  //   _submitForm['profile_id'] = profile.profile_id;
-
-  //   var _thumbnail = $('<div>');
-  //   var _url = [];
-
-  //   if(profile.photos){
-  //     profile.photos.forEach(function(photo){
-  //       _url.push(photo);
-  //       var _container = $('<span>');
-  //       var _previousPhoto = $.cloudinary.image(photo,
-  //         { format: 'jpg', width: 50, height: 50,
-  //           crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-  //       console.log(_formContainer);
-  //       var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-  //         'position': 'relative',
-  //         'bottom': '20px',
-  //         'cursor': 'pointer'
-  //       });
-
-  //       _icon.on('click', function(){
-  //         _url.splice(_url.indexOf(photo), 1);
-  //         _photos.setUrl(_url);
-  //         _container.empty();
-  //       });
-
-  //       _container.append(_previousPhoto, _icon);
-  //       _thumbnail.append(_container);
-  //     });
-  //   }
-
-  //   Object.keys(profile).forEach(function(key){
-  //     if(profile[key]) _submitForm[key] = profile[key];
-  //   });
-
-  //   var _folder = 'photos';
-  //   var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
-
-  //   var _photosContainer = $('<div>').append(_photos.render(), _thumbnail);
-
-  //   _formContainer.append(_photosContainer);
-
-  //   var _send = function(photos, links){
-  //     _submitForm['photos'] = photos;
-  //     _submitForm['links'] = links;
-  //     console.log(_submitForm);
-  //     Pard.Backend.modifyProfile(_submitForm, Pard.Events.CreateProfile);
-  //   }
-
-  //  var _inputMultimedia = Pard.Widgets.InputMultimedia();
-  //  _inputMultimedia.setVal(profile['links']);
-  //   _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimedia.render()));
-
-  //   _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
-
-  //   var _closepopup = {};
-
-  //   submitButton.on('click',function(){
-  //     var _links = _inputMultimedia.getVal();
-  //     _closepopup();
-
-  //     if(_photos.dataLength() == false){
-  //       _send(_url, _links);
-  //     } 
-  //     else{
-  //       _photos.submit();
-  //     }
-  //   });
-   
-  //   _photos.render().bind('cloudinarydone', function(e, data){
-  //     _url.push(data['result']['public_id']);
-  //     if(_url.length >= _photos.dataLength()){
-  //       var _links = _inputMultimedia.getVal();
-  //       _send(_url, _links);
-  //     } 
-  //   });
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     },
-  //     setCallback: function(callback){
-  //       _closepopup = callback;
-  //     }
-  //   }
-  // }
-
- 
 
 
 }(Pard || {}));

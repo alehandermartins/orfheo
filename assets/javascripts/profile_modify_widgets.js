@@ -78,7 +78,7 @@
     for(var field in _form){
       if(profile[field]) _form[field].input.setVal(profile[field]);
       if (profile['type']=='space'){
-        if(field == 'bio' && profile['bio']==false) _form[field].input.setVal(profile.calls[0]['description']);
+        if(field == 'bio' && profile['bio']==false && profile.proposals[0]) _form[field].input.setVal(profile.proposals[0]['description']);
       }
     };
 

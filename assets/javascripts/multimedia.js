@@ -138,28 +138,8 @@
 	  //Youtube, Vimeo, Flickr, Twitter, Soundcloud
 	  var _oembed = function(link, id, elementClass, profiles){
 	    $.getJSON("https://noembed.com/embed?callback=?",
-	      {"format": "json", "url": link['url']}, function (data) {
-	       	
-	      //  	if(link['provider'] == 'flickr'){
-		     //  	var _src = '';
-		     //  	if (data.html){
-			    //   	data.html.split('"').forEach(function(string){
-			    //   		if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
-			    //   	});
-		     //    	var _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
-		     //    	_media.addClass('flickr-embed-image-iframe');	    
-		     //    }
-		     //    else{
-		     //    	_media = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de flickr')).css({'font-size':'12px', 'text-align': 'center'});
-		     //    }
-		     //    _managers[elementClass](_media, link['type'], id);
-	      // 	}
-
-	      // else{_managers[elementClass](data.html, link['type'], id);}
-	      // _done.push(link);
-	      // _display();
-
-	      	if (!('error' in data)){
+	      {"format": "json", "url": link['url']}, function (data) {      	      	
+	       	if (!('error' in data)){
 	      		var _media = data.html;
 		       	if(link['provider'] == 'flickr'){
 			      	var _src = '';
@@ -314,8 +294,6 @@
 	  	}
 	  }
 
-
-
 	  if(_links.length == 0) _display();
 
 	  _links.forEach(function(link){
@@ -328,8 +306,5 @@
 
 
   }
-
-
-
 
 }(Pard || {}));

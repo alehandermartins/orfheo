@@ -110,7 +110,7 @@
       if('image' in form) delete(form['image']);
       if('audio' in form) delete(form['audio']);
       _send(       
-        '/users/modify_proposal',
+        '/users/modify_production',
         form,
         callback
       );
