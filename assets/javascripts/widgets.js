@@ -115,14 +115,11 @@
         var _distanceFromWindow = _windowTop -_fixedPosition;
 
         if (_distanceFromWindow*_diffI<0)   {
-          console.log('yep')
             $(elem).css({position: 'fixed', 'top':stickyDistanceTop+'px'});
             _diffI = -1;
           }
-          console.log(_headerTop);
         if (_headerTop>_distanceFromHeader){
-          console.log('flag')
-            $(elem).removeAttr('style');
+            $(elem).css({'position':'', 'top':''});
             _diffI = +1;
           }
       }

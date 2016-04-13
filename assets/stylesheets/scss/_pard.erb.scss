@@ -450,20 +450,21 @@ button{
   margin-top:1rem;
 }
 
-.signupButton-Outsider{
-  margin-bottom: 1.8rem;
-}
+// .signupButton-Outsider{
+//   margin-bottom: 1.8rem;
+// }
 
 .signupButton-container-Outsider{
   width: $pard-aside-width;
   z-index: 20;
+  margin-bottom: -4.8rem;
+  padding-bottom:$pard-grid-spacing;
+
 }
 
 .outer-signupButton-container-Outsider{
-  // padding-bottom:$pard-grid-spacing;
   z-index: 20;
-  // margin-bottom: -$pard-grid-spacing; 
-
+  margin-bottom: 4.8rem;
 }
 
 .signupButton:hover, .signupButton-alert:hover, .signupButton-Outsider:hover{
