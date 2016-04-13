@@ -54,7 +54,7 @@
     }
   }
 
-  ns.Widgets.ProfileMainLayout = function(profiles){
+  ns.Widgets.ProfileMainLayout = function(profiles, out){
 
     var _rgb = Pard.Widgets.IconColor(profiles[0]['color']).rgb();
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
@@ -76,8 +76,15 @@
     var _sectionContent = $('<div>').attr('id','_sectionContent');
     var _sectionHeader = $('<div>');
 
-    Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader);
-    Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
+    if (out) Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, profiles[0].profile_id, profiles[0] );
+    else{
+      Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader);
+    }
+
+    if (out) Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent, profiles);
+    else{
+      Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
+    }
 
     _offCanvasSection.append(_sectionContainer.append(_sectionHeader, _sectionContent));
 
@@ -98,9 +105,7 @@
   }
 
 
-  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent) {
-
-    var profiles = Pard.CachedProfiles['my_profiles'];
+  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent, profiles) {
 
     asideContent.addClass('aside-container');
     var _buttonContainer = $('<div>').addClass('toUserPage-btn-container');
@@ -110,18 +115,25 @@
     _toUserPageBtn.setClass('toUserPage-btn');
     _buttonContainer.append(_toUserPageBtn.render());
 
-    var _asideNavContent  = $('<div>');;
+    var _asideNavContent  = $('<div>');
 
-    asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
-    
+    if (profiles) asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent, profiles).render());
+    else{
+      asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
+    }
   }
 
-  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent){
+  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent, profiles){
 
     asideNavContent.empty();
-    var profiles = Pard.CachedProfiles['my_profiles'];
+
+    if (!(profiles)) var _profiles = Pard.CachedProfiles['my_profiles'];
+    else{
+      var _profiles = profiles;
+    }
     var selected = false;
     if(window.location.href.match(/.*&sel=.*/)) selected = window.location.href.split("=").pop();
+
 
     ProfileNav = function(_profiles, _index, sectionHeader, sectionContent){
 
@@ -134,25 +146,42 @@
       var _reorderedProfiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
 
       history.pushState({},'','profile?id=' + _reorderedProfiles[0].profile_id);
-      
+
       _reorderedProfiles.forEach(function(profile, index) {
-        if(!(index)){ 
-          Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected);
-          
+        if(!(index)){
+          if (profiles){ 
+            Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected, profile);
+          }
+          else{
+             Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected);
+          }                   
         }
-        else { _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
-            Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
-            Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id);
-              ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
-          }).render());
+        else { 
+          if (profiles){
+            _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
+                Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent, profiles);
+                Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id, profile);
+                ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
+              }).render()
+            );
+          }
+          else{
+            _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
+                Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
+                Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id);
+                ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
+              }).render()
+            );
+          }
         }
       });
+
       asideNavContent.append(_profileNav)
       var _messageOther = $('<p>').text('otros perfiles').addClass('message-otherProfile-asideBar');
       if  (_myOtherProfiles.html()) asideNavContent.append(_myOtherProfiles.prepend(_messageOther));
     }
 
-    ProfileNav(profiles,0,sectionHeader, sectionContent);
+    ProfileNav(_profiles,0,sectionHeader, sectionContent);
 
     return {
       render: function() {
@@ -223,22 +252,30 @@
     } 
   }
 
-  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected){
+  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected, profile){
 
-    var profile = Pard.ProfileManager.getProfile(profile_id);
+    var _out = true;
+
+    if (!(profile)){
+      var profile = Pard.ProfileManager.getProfile(profile_id);
+      _out = false;
+    }
+
     profileNav.empty();
     sectionContent.empty();
     productionContent.empty();
 
+
     var _lastselected = $('<div>');
 
-    var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile).render();
+    var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile, _out).render();
 
     _lastselected = _profileSection;
     sectionContent.append(_profileSection);
     if(selected) {
       _profileSection.hide();
     }
+
 
     var _navigationSelected = Pard.Widgets.ProfilesNavigationSelected(profile, function(){
       _lastselected.hide();
@@ -250,6 +287,7 @@
 
     var _proposals = [];
 
+
     (profile.proposals) ? productionContent.addClass('nav-list-container') : productionContent.removeClass('nav-list-container');
     if (profile.proposals) {
       _proposals = profile.proposals;
@@ -258,7 +296,9 @@
     _proposals.forEach(function(proposal, index){
       var proposal_id = proposal.proposal_id;
       var _myProposal = $('<div>'); 
-      _myProposal.append(Pard.Widgets.MyArtistProductionsContent(proposal_id, profile['color']).render());
+
+
+      _myProposal.append(Pard.Widgets.MyArtistProductionsContent(proposal_id, profile, _out).render());
       sectionContent.append(_myProposal);
       if(selected == proposal_id) _lastselected = _myProposal;
       else{_myProposal.hide();}

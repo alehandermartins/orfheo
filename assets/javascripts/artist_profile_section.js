@@ -5,10 +5,12 @@
   ns.Widgets = ns.Widgets || {};
 
  
-  ns.Widgets.ArtistSection = function(sectionHeader, profile_id) {
-    
-    profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
-    var profile = Pard.ProfileManager.getProfile(profile_id);
+  ns.Widgets.ArtistSection = function(sectionHeader, profile_id, profile) {
+
+    if (!(profile)) {
+      profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
+      var profile = Pard.ProfileManager.getProfile(profile_id);
+    }
    
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
 
@@ -24,7 +26,7 @@
 
   }
 
-  ns.Widgets.ArtistSectionContent = function(profile){
+  ns.Widgets.ArtistSectionContent = function(profile, out){
 
     var _createdWidget = $('<div>');
 
@@ -34,12 +36,11 @@
     
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio')
-  
+
 
     if(profile['bio']){ 
       _bio.append($('<p>').text(profile['bio']));
     }  
-
 
     var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['type']).render()));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
@@ -53,8 +54,6 @@
 
     _contact.append(_city);
 
-   
-
     if(profile.personal_web){
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     };
@@ -64,25 +63,52 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
-    var _callsBoxContent = $('<div>').addClass('box-content');
+    
 
-    if(profile.calls.length){
-      var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
-      var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
-      _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);
+    if (out){
+      if(profile.proposals){
+        var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
+        var _callsBoxContent = $('<div>').addClass('box-content');
+        var _callProposals = profile.proposals;
+        var _artistCallProposals = $('<div>');
+        var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
 
-    }else{
-      var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía una propuesta al conFusión 2016').render().addClass('callButtonArtist-sendOther');
-      _callsBoxContent.append(_callButton);
+        var _listProposals = $('<ul>');
+
+        _callProposals.forEach(function(proposal){
+          var _proposalItem = $('<li>').text(proposal['title']);
+          _listProposals.append(_proposalItem);
+          
+        });
+
+        _artistCallProposals.append(_callName, _listProposals);
+        _callsBoxContent.append(_artistCallProposals);
+        _callsBoxContainer.append(_callsBoxContent);
+        _createdWidget.append(_callsBoxContainer);
+      }
+    }
+    else{
+      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('calls').render()).render();
+      var _callsBoxContent = $('<div>').addClass('box-content');
+      if(profile.calls && profile.calls.length){
+        var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.calls);
+        var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
+        _callsBoxContent.append(_myArtistCallProposals.render(), _callButton);
+  
+      }else{
+        var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía una propuesta al conFusión 2016').render().addClass('callButtonArtist-sendOther');
+        _callsBoxContent.append(_callButton);
+      }
+      _callsBoxContainer.append(_callsBoxContent);
+      _createdWidget.append(_callsBoxContainer);
     }
 
-    _callsBoxContainer.append(_callsBoxContent);
-    _createdWidget.append(_callsBoxContainer);
+  
 
-    var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
-
-    _createdWidget.append(_modifyProfile.render());
+    if (!(out)){
+      var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
+      _createdWidget.append(_modifyProfile.render());
+    }
 
     return {
       render: function(){
@@ -92,10 +118,16 @@
   }
 
 
-  ns.Widgets.MyArtistProductionsContent = function(proposal_id, profile_color){
+  ns.Widgets.MyArtistProductionsContent = function(proposal_id, profile, out){
 
-    var proposal = Pard.ProfileManager.getProposal(proposal_id);
+    var profile_color = profile['color'];
 
+    if (out){
+      var proposal = Pard.ProfileManager.getProposal(proposal_id, [profile]);
+    }
+    else{
+      var proposal = Pard.ProfileManager.getProposal(proposal_id);
+    }
 
     var _categoryFields = Pard.Forms.ArtistCall(proposal.category).productionFields();
    
@@ -144,11 +176,21 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    var _modifyProduction = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProduction(proposal).render(), profile_color);
-    _createdWidget.append(_modifyProduction.render());
- 
-    var _multimediaContainer = Pard.Widgets.MultimediaContent(proposal);
+    if (!(out)){
+      var _modifyProduction = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProduction(proposal).render(), profile_color);
+      _createdWidget.append(_modifyProduction.render());
+    }
+
+    if (out){
+      if (proposal.video || proposal.audio || proposal.image){
+        var _multimediaContainer = Pard.Widgets.MultimediaContent(proposal, out);
+        _createdWidget.append(_multimediaContainer.render());
+      }
+    }
+    else{
+    var _multimediaContainer = Pard.Widgets.MultimediaContent(proposal, out);
     _createdWidget.append(_multimediaContainer.render());
+    }
 
     return {
       render: function(){

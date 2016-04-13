@@ -108,16 +108,15 @@
     } 
   } 
 
+  ns.Widgets.MultimediaContent = function(proposal, out){
 
-
-  ns.Widgets.MultimediaContent = function(proposal){
-
-     var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimedia', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
+    var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimedia', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
     _multimediaContainer.addClass('multimedia-container section-box-container'); 
 
-    var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
-
-    _multimediaContainer.append(_multiMediaManager.render().addClass('manage-multimedia-btn'));
+    if (!(out)){
+      var _multiMediaManager = Pard.Widgets.MultimediaManager(proposal);
+      _multimediaContainer.append(_multiMediaManager.render().addClass('manage-multimedia-btn'));
+    }
 
     if(proposal.video){
       var _videoContainer = $('<div>').addClass('video-production-container')
@@ -131,7 +130,6 @@
       _videoContainer.prepend(_videoTitle);
     };
 
-
     if(proposal.audio){
       var _audioContainer = $('<div>').addClass('image-production-container');
       var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
@@ -142,7 +140,6 @@
       _audioContainer.prepend(_audioTitle);
 
     }
-
 
     if(proposal.image){
       var _imageContainer = $('<div>').addClass('image-production-container');

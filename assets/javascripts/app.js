@@ -2,16 +2,29 @@
 
 Pard.CachedProfiles = {};
 Pard.ProfileManager = {
-  getProfile: function(profile_id){
+  getProfile: function(profile_id, profiles){
     var _profile = {};
-    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+    if (!(profiles)) profiles = Pard.CachedProfiles['my_profiles'];
+    profiles.forEach(function(profile){
       if(profile.profile_id == profile_id) _profile = profile;
     });
     return _profile;
   },
-  getProposal: function(proposal_id){
+  // getProposal: function(proposal_id){
+  //   var _proposal = {};
+  //   Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+  //     if('proposals' in profile){
+  //       profile.proposals.forEach(function(proposal){
+  //         if(proposal.proposal_id == proposal_id) _proposal = proposal;
+  //       });
+  //     }
+  //   });
+  //   return _proposal;
+  // },
+  getProposal: function(proposal_id, profiles){
     var _proposal = {};
-    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+    if (!(profiles)) var profiles =  Pard.CachedProfiles['my_profiles'];
+    profiles.forEach(function(profile){
       if('proposals' in profile){
         profile.proposals.forEach(function(proposal){
           if(proposal.proposal_id == proposal_id) _proposal = proposal;
@@ -47,18 +60,50 @@ Pard.ProfileManager = {
       }
     });
   },
-  addProposalMultimedia: function(data, type, proposal_id){
-    var proposal = Pard.ProfileManager.getProposal(proposal_id);
+  // addProposalMultimedia: function(data, type, proposal_id){
+  //   var proposal = Pard.ProfileManager.getProposal(proposal_id);
+  //   proposal[type] = proposal[type] || [];
+  //   proposal[type].push(data);
+  // },
+  // addProfileMultimedia: function(data, type, profile_id){
+  //   var profile = Pard.ProfileManager.getProfile(profile_id);
+  //   profile[type] = profile[type] || [];
+  //   profile[type].push(data);
+  // },
+   addProposalMultimedia: function(data, type, proposal_id, profiles){
+    if (profiles) {
+      var proposal = Pard.ProfileManager.getProposal(proposal_id, profiles);}
+    else{
+      var proposal = Pard.ProfileManager.getProposal(proposal_id);}
     proposal[type] = proposal[type] || [];
     proposal[type].push(data);
   },
-  addProfileMultimedia: function(data, type, profile_id){
-    var profile = Pard.ProfileManager.getProfile(profile_id);
+  addProfileMultimedia: function(data, type, profile_id, profiles){
+    if (profiles) var profile = Pard.ProfileManager.getProfile(profile_id, profiles);
+    else{
+      var profile = Pard.ProfileManager.getProfile(profile_id, profiles);
+    }
     profile[type] = profile[type] || [];
     profile[type].push(data);
   },
-  deleteMultimedia: function(){
-    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+  // deleteMultimedia: function(){
+  //  var profiles = Pard.CachedProfiles['my_profiles']
+  //   profiles.forEach(function(profile){
+  //     if('video' in profile) delete(profile['video']);
+  //     if('image' in profile) delete(profile['image']);
+  //     if('audio' in profile) delete(profile['audio']);
+  //     if('proposals' in profile){
+  //       profile.proposals.forEach(function(proposal){
+  //         if('video' in proposal) delete(proposal['video']);
+  //         if('image' in proposal) delete(proposal['image']);
+  //         if('audio' in proposal) delete(proposal['audio']);
+  //       });
+  //     }
+  //   });
+  // }
+  deleteMultimedia: function(profiles){
+    if (!(profiles)) var profiles = Pard.CachedProfiles['my_profiles']
+    profiles.forEach(function(profile){
       if('video' in profile) delete(profile['video']);
       if('image' in profile) delete(profile['image']);
       if('audio' in profile) delete(profile['audio']);
@@ -141,8 +186,31 @@ Pard.Profile = function(profiles){
 };
 
 Pard.Visitor = function(profiles){
-  var visitor = $('<div>').text('inside view');
-  $('body').append(visitor);
+  // console.log(profiles);
+  // Pard.CachedProfiles['my_profiles'] = profiles;
+
+  console.log(profiles);
+
+
+  var _whole = $('<div>').addClass('whole-container');
+
+  var _out = true;
+
+  var _display = function(){
+    var _footer = Pard.Widgets.Footer();      
+    var _header = Pard.Widgets.ProfileHeader();
+    var _main = Pard.Widgets.ProfileMainLayout(profiles, _out).render().attr({id: 'main-profile-page'});
+
+    _whole.append(_header.render(), _main,  _footer.render());
+     $(document).ready(function(){$(document).foundation()});
+  } 
+
+  // _display();
+
+  Pard.Widgets.Multimedia(_display, profiles);
+  $('body').append(_whole);
+  // var visitor = $('<div>').text('inside view');
+  // $('body').append(visitor);
 };
 
 Pard.Outsider = function(profiles){
