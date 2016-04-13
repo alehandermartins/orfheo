@@ -436,18 +436,37 @@ button{
   }
 }
 
-.signupButton{
+.signupButton, .signupButton-Outsider{
   color: $element-color;
   font-weight: bold;
   width: 100%;
   height: 3rem;
-  margin-bottom: 0.8rem;
-  margin-top:1rem;
   @include border-radius($element-border-radius);
   background: rgb(56, 133, 255);
 }
 
-.signupButton:hover, .signupButton-alert:hover{
+.signupButton{
+  margin-bottom: 0.8rem;
+  margin-top:1rem;
+}
+
+.signupButton-Outsider{
+  margin-bottom: 1.8rem;
+}
+
+.signupButton-container-Outsider{
+  width: $pard-aside-width;
+  z-index: 20;
+}
+
+.outer-signupButton-container-Outsider{
+  // padding-bottom:$pard-grid-spacing;
+  z-index: 20;
+  // margin-bottom: -$pard-grid-spacing; 
+
+}
+
+.signupButton:hover, .signupButton-alert:hover, .signupButton-Outsider:hover{
     background: rgba(56, 133, 255,0.8);
 }
 

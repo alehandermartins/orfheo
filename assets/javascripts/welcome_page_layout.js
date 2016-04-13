@@ -89,7 +89,7 @@
 
     var _info = $('<div>').addClass('info grid-aside-content').append($('<p>').text('Entra en orfheo para apuntarte a la convocatoria'));
 
-    Pard.Widgets.Sticker(_asideContainer, 100, 24);
+    Pard.Widgets.Sticker(_asideContainer, 95, 29);
 
     var _signUpMessage =  Pard.Widgets.Registration();    
     var _caller = $('<button>').attr({type:'button'}).html('Regístrate')

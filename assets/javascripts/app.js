@@ -186,11 +186,8 @@ Pard.Profile = function(profiles){
 };
 
 Pard.Visitor = function(profilesOut){
-  // console.log(profiles);
-  // Pard.CachedProfiles['my_profiles'] = profiles;
-
+  
   console.log(profilesOut);
-
 
   var _whole = $('<div>').addClass('whole-container');
 
@@ -207,19 +204,26 @@ Pard.Visitor = function(profilesOut){
 
   Pard.Widgets.Multimedia(_display, profilesOut);
   $('body').append(_whole);
-  // var visitor = $('<div>').text('inside view');
-  // $('body').append(visitor);
+
 };
 
-// Pard.VisitorsProfiles = function(profiles){
-//   return{
-//     render: function(){
-//       return profiles;
-//     }
-//   }
-// }
 
-Pard.Outsider = function(profiles){
-  var outsider = $('<div>').text('outside view');
-  $('body').append(outsider);
+Pard.Outsider = function(profilesOut){
+
+  var _whole = $('<div>').addClass('whole-container');
+
+  var _out = true;
+  var _notLogged = true;
+
+  var _display = function(){
+    var _footer = Pard.Widgets.Footer();      
+    var _header = Pard.Widgets.LoginHeader();
+    var _main = Pard.Widgets.ProfileMainLayout(profilesOut, _out, _notLogged).render().attr({id: 'main-profile-page'});
+
+    _whole.append(_header.render(), _main,  _footer.render());
+     $(document).ready(function(){$(document).foundation()});
+  } 
+
+  Pard.Widgets.Multimedia(_display, profilesOut);
+  $('body').append(_whole);
 };

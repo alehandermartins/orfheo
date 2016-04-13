@@ -54,7 +54,7 @@
     }
   }
 
-  ns.Widgets.ProfileMainLayout = function(profiles, out){
+  ns.Widgets.ProfileMainLayout = function(profiles, out, notLogged){
 
     var _rgb = Pard.Widgets.IconColor(profiles[0]['color']).rgb();
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
@@ -81,7 +81,7 @@
       Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader);
     }
 
-    if (out) Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent, profiles);
+    if (out) Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent, profiles, notLogged);
     else{
       Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
     }
@@ -105,19 +105,36 @@
   }
 
 
-  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent, profilesOut) {
+  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent, profilesOut, notLogged) {
 
     asideContent.addClass('aside-container');
-    var _buttonContainer = $('<div>').addClass('toUserPage-btn-container');
-    var _toUserPageBtn = Pard.Widgets.Button('Inicio', function(){
-      location.href = /users/});
-      
-    _toUserPageBtn.setClass('toUserPage-btn');
-    _buttonContainer.append(_toUserPageBtn.render());
+
+    var _buttonContainer = $('<div>');
+
+    if (notLogged){
+      var _signUpMessage =  Pard.Widgets.Registration();    
+      var _caller = $('<button>').attr({type:'button'}).html('Regístrate')
+      var _popup = Pard.Widgets.PopupCreator(_caller, 'Regístrate para continuar', function(){return _signUpMessage});
+      var _signUpButton = _popup.render();
+      _signUpButton.addClass('signupButton-Outsider');
+      var _innerContainer = $('<div>');
+      _innerContainer.append(_signUpButton);
+      _innerContainer.addClass('signupButton-container-Outsider')
+      // 127
+      Pard.Widgets.Sticker(_innerContainer, 95, 29);
+      _buttonContainer.append(_innerContainer).addClass('outer-signupButton-container-Outsider');
+    }
+    else{      
+      var _toUserPageBtn = Pard.Widgets.Button('Inicio', function(){
+      location.href = /users/});      
+      _toUserPageBtn.setClass('toUserPage-btn');
+      _buttonContainer.append(_toUserPageBtn.render());
+      _buttonContainer.addClass('toUserPage-btn-container');
+    }
 
     var _asideNavContent  = $('<div>');
 
-    if (profilesOut) asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent, profilesOut).render());
+    if (profilesOut) asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent, profilesOut, notLogged).render());
     else{
       asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
     }
