@@ -97,7 +97,7 @@ module Repos
             profiles = grab({user_id: args[:user_id]})
             sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
             profiles.each{ |profile|
-              profile.merge! calls: Services::Calls.get_proposals_for(profile[:profile_id])
+              profile.merge! proposals: Services::Calls.get_proposals_for(profile[:profile_id])
             }
           end
 
