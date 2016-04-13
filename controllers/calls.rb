@@ -15,10 +15,11 @@ class CallsController < BaseController
 
   post '/users/delete_proposal' do
     check_proposal_ownership params[:proposal_id]
+    delete_proposal params[:proposal_id]
+    success
   end
 
   private
-
   def check_non_existing call_id
     raise Pard::Invalid::ExistingCall if Services::Calls.exists? call_id
   end
@@ -42,5 +43,13 @@ class CallsController < BaseController
 
   def send_proposal params
     Services::Calls.add_proposal params, session[:identity]
+  end
+
+  def get_proposal_owner proposal_id
+    Services::Calls.get_proposal_owner proposal_id
+  end
+
+  def delete_proposal proposal_id
+    Services::Calls.delete_proposal proposal_id
   end
 end

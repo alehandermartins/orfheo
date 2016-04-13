@@ -2,6 +2,7 @@ describe Repos::Calls do
 
   let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+  let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
@@ -21,7 +22,9 @@ describe Repos::Calls do
 
   let(:proposal){
     {
+      user_id: user_id,
       profile_id: profile_id,
+      production_id: production_id,
       proposal_id: proposal_id,
       category: 'categoty',
       title: 'title',
@@ -104,6 +107,20 @@ describe Repos::Calls do
       Repos::Calls.add_proposal 'otter', otter_proposal
 
       expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal, otter_proposal])
+    end
+  end
+
+  describe 'Get_proposal_owner' do
+    it 'retrieves the owner of the proposal' do
+      Repos::Calls.add_proposal call_id, proposal
+      expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)
+    end
+  end
+
+  describe 'Delete_proposal' do
+    it 'deletes the proposal' do
+      Repos::Calls.delete_proposal proposal
+      expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)
     end
   end
 end

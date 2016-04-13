@@ -1,7 +1,7 @@
-class ArtistProposal
+class ArtistProduction
 
   def initialize params, user_id
-    @proposal = new_proposal params, user_id
+    @production = new_production params, user_id
     @user_id = user_id
     @profile_id = params[:profile_id]
   end
@@ -15,23 +15,23 @@ class ArtistProposal
   end
 
   def [] key
-    proposal[key]
+    production[key]
   end
 
   def uuid
-    proposal[:proposal_id]
+    production[:production_id]
   end
 
   def to_h
-    proposal.to_h
+    production.to_h
   end
 
   private
-  attr_reader :proposal
+  attr_reader :production
 
-  def new_proposal params, user_id
+  def new_production params, user_id
     {
-      proposal_id: params[:proposal_id] || SecureRandom.uuid,
+      production_id: params[:production_id] || SecureRandom.uuid, 
       category: params[:category],
       title: params[:title],
       description: params[:description],
@@ -45,7 +45,7 @@ class ArtistProposal
 
   def check_fundamentals
     [:category, :title, :description].any?{ |field|
-      proposal[field].blank?
+      production[field].blank?
     }
   end
 end

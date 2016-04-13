@@ -2,7 +2,7 @@ describe Repos::Profiles do
 
   let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
-  let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:production_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
 
   let(:profile){
     {
@@ -18,9 +18,9 @@ describe Repos::Profiles do
     }
   }
 
-  let(:proposal){
+  let(:production){
     {
-      proposal_id: proposal_id,
+      production_id: production_id,
       category: 'categoty',
       title: 'title',
       description: 'description',
@@ -64,24 +64,24 @@ describe Repos::Profiles do
     end
   end
 
-  describe 'Proposals' do
+  describe 'productions' do
 
-    let(:otter_proposal){
+    let(:otter_production){
       {
-        proposal_id: 'otter_proposal',
+        production_id: 'otter_production',
         title: 'otter_title'
       }
     }
 
-    let(:modified_proposal){
+    let(:modified_production){
       {
-        proposal_id: proposal_id,
+        production_id: production_id,
         title: 'otter_title'
       }
     }
 
-    it 'adds a proposal to the array of proposals' do
-      Repos::Profiles.add_proposal(profile_id, proposal)
+    it 'adds a production to the array of productions' do
+      Repos::Profiles.add_production(profile_id, production)
 
       saved_entry = @db['profiles'].find_one()
       expect(saved_entry).to include({
@@ -89,14 +89,14 @@ describe Repos::Profiles do
         'profile_id' => profile_id,
         'type' => 'artist',
         'name' => 'artist_name',
-        'proposals' => [Util.stringify_hash(proposal)]
+        'productions' => [Util.stringify_hash(production)]
       })
     end
 
-    it 'modifies a proposal' do
-      Repos::Profiles.add_proposal(profile_id, proposal)
-      Repos::Profiles.add_proposal(profile_id, otter_proposal)
-      Repos::Profiles.modify_proposal(modified_proposal)
+    it 'modifies a production' do
+      Repos::Profiles.add_production(profile_id, production)
+      Repos::Profiles.add_production(profile_id, otter_production)
+      Repos::Profiles.modify_production(modified_production)
 
       saved_entry = @db['profiles'].find_one()
       expect(saved_entry).to include({
@@ -104,7 +104,7 @@ describe Repos::Profiles do
         'profile_id' => profile_id,
         'type' => 'artist',
         'name' => 'artist_name',
-        'proposals' => [Util.stringify_hash(modified_proposal), Util.stringify_hash(otter_proposal)]
+        'productions' => [Util.stringify_hash(modified_production), Util.stringify_hash(otter_production)]
       })
     end
   end
@@ -115,10 +115,10 @@ describe Repos::Profiles do
       expect(Repos::Profiles.exists? 'otter_profile_id').to eq(false)
     end
 
-    it 'checks if matched proposal is already in a profile' do
-      expect(Repos::Profiles.proposal_exists?('otter_proposal')).to eq(false)
-      Repos::Profiles.add_proposal(profile_id, proposal)
-      expect(Repos::Profiles.proposal_exists?(proposal_id)).to eq(true)
+    it 'checks if matched production is already in a profile' do
+      expect(Repos::Profiles.production_exists?('otter_production')).to eq(false)
+      Repos::Profiles.add_production(profile_id, production)
+      expect(Repos::Profiles.production_exists?(production_id)).to eq(true)
     end
   end
 
@@ -127,9 +127,9 @@ describe Repos::Profiles do
       expect(Repos::Profiles.profile_old_pictures profile_id, :profile_picture).to eq(['profile.jpg'])
     end
 
-    it 'gives the stored pictures for proposals' do
-      Repos::Profiles.add_proposal(profile_id, proposal)
-      expect(Repos::Profiles.proposal_old_pictures proposal_id, :photos).to eq(['picture.jpg', 'otter_picture.jpg'])
+    it 'gives the stored pictures for productions' do
+      Repos::Profiles.add_production(profile_id, production)
+      expect(Repos::Profiles.production_old_pictures production_id, :photos).to eq(['picture.jpg', 'otter_picture.jpg'])
     end
   end
 
@@ -154,15 +154,15 @@ describe Repos::Profiles do
     }
 
     before(:each){
-      Repos::Profiles.add_proposal(profile_id, proposal)
-      profile.merge! proposals: [proposal]
+      Repos::Profiles.add_production(profile_id, production)
+      profile.merge! productions: [production]
       Repos::Profiles.update(my_otter_profile)
       my_otter_profile.delete(:_id)
       Repos::Profiles.update(otter_user_profile)
       otter_user_profile.delete(:_id)
     }
 
-    it 'returns all the space profiles, and artist profiles with at least one proposal' do
+    it 'returns all the space profiles, and artist profiles with at least one production' do
       result = Repos::Profiles.get_profiles :all
       expect(result.include? profile).to eq(true)
       expect(result.include? otter_user_profile).to eq(true)

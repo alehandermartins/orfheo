@@ -1,6 +1,6 @@
 require_relative '../lib/profiles/artist_profile'
 require_relative '../lib/profiles/space_profile'
-require_relative '../lib/proposals/artist_proposal'
+require_relative '../lib/productions/artist_production'
 module Services
   class Profiles
     class << self
@@ -28,27 +28,27 @@ module Services
         profile.uuid
       end
 
-      def add_proposal params, user_id
-        proposal = ArtistProposal.new params, user_id
-        raise Pard::Invalid::Params if proposal.wrong_params?
-        Repos::Profiles.add_proposal params[:profile_id], proposal.to_h
+      def add_production params, user_id
+        production = ArtistProduction.new params, user_id
+        raise Pard::Invalid::Params if production.wrong_params?
+        Repos::Profiles.add_production params[:profile_id], production.to_h
       end
 
-      def modify_proposal params, user_id
-        proposal = ArtistProposal.new params, user_id
-        raise Pard::Invalid::Params if proposal.wrong_params?
-        old_pictures = proposal_old_pictures proposal
-        Repos::Profiles.modify_proposal proposal.to_h
-        destroy_old_pictures old_pictures, proposal
-        proposal.to_h
+      def modify_production params, user_id
+        production = ArtistProduction.new params, user_id
+        raise Pard::Invalid::Params if production.wrong_params?
+        old_pictures = production_old_pictures production
+        Repos::Profiles.modify_production production.to_h
+        destroy_old_pictures old_pictures, production
+        production.to_h
       end
 
       def exists? profile_id
         Repos::Profiles.exists? profile_id
       end
 
-      def proposal_exists? proposal_id
-        Repos::Profiles.proposal_exists? proposal_id
+      def production_exists? production_id
+        Repos::Profiles.production_exists? production_id
       end
 
       def get_profiles method, args = nil
@@ -78,15 +78,15 @@ module Services
         }.to_h
       end
 
-      def proposal_old_pictures proposal
-        fields = proposal.image_fields
+      def production_old_pictures production
+        fields = production.image_fields
         fields.map{ |field|
-          [field, Repos::Profiles.proposal_old_pictures(proposal.uuid, field)]
+          [field, Repos::Profiles.production_old_pictures(production.uuid, field)]
         }.to_h
       end
 
       def destroy_old_pictures old_pictures, element
-        #clase element de la que derivan profile y proposal
+        #clase element de la que derivan profile y production
         unused_pictures = old_pictures.keys.map{ |field|
           next if old_pictures[field].blank?
           next old_pictures[field] if element[field].blank?

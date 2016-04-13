@@ -170,7 +170,7 @@ describe SearchController do
     end
 
     it 'does not suggest already queried elements' do
-      post suggest_route, {query: ['music', 'mus']}
+      post suggest_route, {query: ['musica', 'mus']}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([{
         "id"=>"music_title", 

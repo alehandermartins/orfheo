@@ -50,6 +50,12 @@ module Pard
     end
   end
 
+  class Invalid::UnexistingProduction < Invalid
+    def message
+      'non_existing_production'
+    end
+  end
+
   class Invalid::UnexistingProposal < Invalid
     def message
       'non_existing_proposal'

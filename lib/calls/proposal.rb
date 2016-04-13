@@ -1,6 +1,6 @@
 require_relative '../forms/artist_form'
 require_relative '../forms/space_form'
-class CallProposal
+class Proposal
 
   FORMS_MAP = {
     'artist' => ArtistForm,
@@ -38,7 +38,8 @@ class CallProposal
     {
       user_id: user_id,
       profile_id: params[:profile_id],
-      proposal_id: params[:proposal_id] || SecureRandom.uuid,
+      production_id: params[:production_id] || SecureRandom.uuid,
+      proposal_id: SecureRandom.uuid,
       call_id: 'b5bc4203-9379-4de0-856a-55e1e5f3fac6',
       type: params[:type],
       category: params[:category]

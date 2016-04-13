@@ -22,17 +22,17 @@ class ProfilesController < BaseController
     erb :profile, :locals => {:profiles => profiles.to_json} if owner == session[:identity]
   end
 
-  post '/users/create_proposal' do
+  post '/users/create_production' do
     check_profile_ownership params[:profile_id]
-    add_proposal params
+    add_production params
     success({profile_id: params[:profile_id]})
   end
 
-  post '/users/modify_proposal' do
+  post '/users/modify_production' do
     check_profile_ownership params[:profile_id]
-    check_proposal params[:proposal_id]
-    proposal = modify_proposal params
-    success({proposal: proposal})
+    check_production params[:production_id]
+    production = modify_production params
+    success({production: production})
   end
 
   #poner bangs en excepciones
@@ -54,24 +54,24 @@ class ProfilesController < BaseController
     raise Pard::Invalid::ProfileOwnership unless get_profile_owner(profile_id) == session[:identity]
   end
 
-  def add_proposal params
-    Services::Profiles.add_proposal params, session[:identity]
+  def add_production params
+    Services::Profiles.add_production params, session[:identity]
   end
 
-  def check_proposal proposal_id
-    raise Pard::Invalid::UnexistingProposal unless proposal_exists? proposal_id
+  def check_production production_id
+    raise Pard::Invalid::UnexistingProduction unless production_exists? production_id
   end
 
-  def modify_proposal params
-    Services::Profiles.modify_proposal params, session[:identity]
+  def modify_production params
+    Services::Profiles.modify_production params, session[:identity]
   end
 
   def profile_exists? profile_id
     Services::Profiles.exists? profile_id
   end
 
-  def proposal_exists? proposal_id
-    Services::Profiles.proposal_exists? proposal_id
+  def production_exists? production_id
+    Services::Profiles.production_exists? production_id
   end
 
   def get_profiles owner, profile_id

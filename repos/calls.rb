@@ -31,13 +31,35 @@ module Repos
         get_my_proposals_from(results, profile_id)
       end
 
+      def get_proposal_owner proposal_id
+        results = @@calls_collection.find({ "proposals.proposal_id": proposal_id })
+        return [] unless results.count > 0
+
+        proposal = get_proposal_from(results, proposal_id)
+        proposal[:user_id]
+      end
+
+      def delete_proposal proposal_id
+        results = @@calls_collection.update({ "proposals.proposal_id": proposal_id },
+          {
+            "$pull": {'proposal_id' => proposal_id}
+          }
+        )
+      end
+
       private
       def get_my_proposals_from results, profile_id
         proposals = results.map{ |call| call['proposals']}.flatten
-        my_proposals = (proposals.select{ |proposal| proposal['profile_id'] == profile_id })
+        my_proposals = proposals.select{ |proposal| proposal['profile_id'] == profile_id }
         my_proposals.map{ |proposal|
           Util.string_keyed_hash_to_symbolized proposal
         }
+      end
+
+      def get_proposal_from results, proposal_id
+        proposals = results.map{ |call| call['proposals']}.flatten
+        proposal = proposals.select{ |proposal| proposal['proposal_id'] == proposal_id }.first
+        Util.string_keyed_hash_to_symbolized proposal
       end
     end
   end

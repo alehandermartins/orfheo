@@ -18,15 +18,15 @@ module Repos
         @@profiles_collection.count(query: query) == 0
       end
 
-      def add_proposal profile_id, proposal
+      def add_production profile_id, production
         @@profiles_collection.update({profile_id: profile_id},{
-          "$push": {proposals: proposal}
+          "$push": {productions: production}
         })
       end
 
-      def modify_proposal fields
-        @@profiles_collection.update({"proposals.proposal_id": fields[:proposal_id]},{
-          "$set": {"proposals.$": fields}
+      def modify_production fields
+        @@profiles_collection.update({"productions.production_id": fields[:production_id]},{
+          "$set": {"productions.$": fields}
         },
         {upsert: true})
       end
@@ -35,8 +35,8 @@ module Repos
         @@profiles_collection.count(query: {profile_id: profile_id}) > 0
       end
 
-      def proposal_exists? proposal_id
-        @@profiles_collection.count(query: {"proposals.proposal_id": proposal_id}) > 0
+      def production_exists? production_id
+        @@profiles_collection.count(query: {"productions.production_id": production_id}) > 0
       end
 
       def profile_old_pictures profile_id, field
@@ -45,11 +45,11 @@ module Repos
         profile[field]
       end
 
-      def proposal_old_pictures proposal_id, field
-        profile = grab({"proposals.proposal_id": proposal_id}).first
-        proposal = profile[:proposals].select{|proposal| proposal[:proposal_id] == proposal_id}.first
-        return [] unless proposal.has_key? field
-        proposal[field]
+      def production_old_pictures production_id, field
+        profile = grab({"productions.production_id": production_id}).first
+        production = profile[:productions].select{|production| production[:production_id] == production_id}.first
+        return [] unless production.has_key? field
+        production[field]
       end
 
       def get_profiles method, args = nil
@@ -107,7 +107,7 @@ module Repos
           end
 
           def non_empty_profile? profile
-            !profile[:proposals].blank? || profile[:type] == 'space'
+            !profile[:productions].blank? || profile[:type] == 'space'
           end
 
           def sort_profiles profiles, profile_id

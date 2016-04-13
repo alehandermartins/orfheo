@@ -134,5 +134,14 @@ describe CallsController do
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
+
+    it 'fails if the user does not own the callproposal' do
+      callproposal[:user_id] = 'otter'
+      Repos::Calls.add_proposal call_id, callproposal
+      post delete_proposal_route, callproposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
   end
 end

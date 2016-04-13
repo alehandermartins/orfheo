@@ -2,6 +2,7 @@ describe Services::Profiles do
 
   let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+  let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
 
   let(:profile){
@@ -35,9 +36,8 @@ describe Services::Profiles do
     }
   }
 
-  let(:proposal){
+  let(:production){
     {
-      proposal_id: proposal_id,
       category: 'categoty',
       title: 'title',
       description: 'description',
@@ -53,8 +53,8 @@ describe Services::Profiles do
     profile.merge user_id: user_id
   }
 
-  let(:proposal_params){
-    proposal.merge profile_id: profile_id
+  let(:production_params){
+    production.merge profile_id: profile_id
   }
 
   describe 'Create' do
@@ -147,28 +147,28 @@ describe Services::Profiles do
     end
   end
 
-  describe 'Add proposal' do
+  describe 'Add production' do
 
     before(:each){
       Services::Profiles.create profile, user_id
     }
 
     it 'fails if the parameters are wrong' do
-      proposal[:title] = ''
-      expect{Services::Profiles.add_proposal proposal_params, user_id}.to raise_error(Pard::Invalid::Params)
+      production[:title] = ''
+      expect{Services::Profiles.add_production production_params, user_id}.to raise_error(Pard::Invalid::Params)
     end
 
-    it 'adds a proposal to the profile' do
-      expect(Repos::Profiles).to receive(:add_proposal).with(profile_id, proposal)
-      Services::Profiles.add_proposal proposal_params, user_id
+    it 'adds a production to the profile' do
+      expect(Repos::Profiles).to receive(:add_production).with(profile_id, hash_including(production))
+      Services::Profiles.add_production production_params, user_id
     end
   end
 
-  describe 'Modify proposal' do
+  describe 'Modify production' do
 
-    let(:modified_proposal){
+    let(:modified_production){
       {
-        proposal_id: proposal_id,
+        production_id: production_id,
         category: 'categoty',
         title: 'otter_title',
         description: 'description',
@@ -180,29 +180,31 @@ describe Services::Profiles do
       }
     }
 
-    let(:modified_proposal_params){
-      modified_proposal.merge profile_id: profile_id
+    let(:modified_production_params){
+      modified_production.merge profile_id: profile_id
     }
 
     before(:each){
       Services::Profiles.create profile, user_id
+      production.merge! production_id: production_id
     }
 
     it 'fails if the parameters are wrong' do
-      modified_proposal[:title] = ''
-      expect{Services::Profiles.modify_proposal modified_proposal_params, user_id}.to raise_error(Pard::Invalid::Params)
+      modified_production[:title] = ''
+      expect{Services::Profiles.modify_production modified_production_params, user_id}.to raise_error(Pard::Invalid::Params)
     end
 
     it 'deletes old images if changed' do
-      Services::Profiles.add_proposal proposal_params, user_id
+      Repos::Profiles.add_production profile_id, production
       expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg'])
-      Services::Profiles.modify_proposal modified_proposal_params, user_id
+      Services::Profiles.modify_production modified_production_params, user_id
     end
 
     it 'modifies the fields' do
-      Services::Profiles.add_proposal proposal_params, user_id
-      expect(Repos::Profiles).to receive(:modify_proposal).with(modified_proposal)
-      Services::Profiles.modify_proposal modified_proposal_params, user_id
+      Repos::Profiles.add_production profile_id, production
+      Services::Profiles.add_production production_params, user_id
+      expect(Repos::Profiles).to receive(:modify_production).with(modified_production)
+      Services::Profiles.modify_production modified_production_params, user_id
     end
   end
 
@@ -214,11 +216,12 @@ describe Services::Profiles do
       expect(Services::Profiles.exists? profile_id).to eq(true)
     end
 
-    it 'checks if a proposal exists' do
-      expect(Services::Profiles.proposal_exists? proposal_id).to eq(false)
+    it 'checks if a production exists' do
+      expect(Services::Profiles.production_exists? production_id).to eq(false)
       Services::Profiles.create profile, user_id
-      Repos::Profiles.add_proposal(profile_id, proposal)
-      expect(Services::Profiles.proposal_exists? proposal_id).to eq(true)
+      production.merge! production_id: production_id
+      Repos::Profiles.add_production(profile_id, production)
+      expect(Services::Profiles.production_exists? production_id).to eq(true)
     end
   end
 

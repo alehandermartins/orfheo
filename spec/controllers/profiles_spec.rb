@@ -3,7 +3,7 @@ describe ProfilesController do
   let(:login_route){'/login/login_attempt'}
   let(:logout_route){'/login/logout'}
   let(:create_profile_route){'/users/create_profile'}
-  let(:create_proposal_route){'/users/create_proposal'}
+  let(:create_production_route){'/users/create_production'}
   let(:create_call_route){'/users/create_call'}
   let(:send_proposal_route){'/users/send_proposal'}
 
@@ -47,6 +47,7 @@ describe ProfilesController do
   }
 
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+  let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
@@ -63,10 +64,10 @@ describe ProfilesController do
     }
   }
 
-  let(:proposal){
+  let(:production){
     {
       profile_id: profile_id,
-      proposal_id: proposal_id,
+      production_id: production_id,
       category: 'categoty',
       title: 'title',
       description: 'description',
@@ -78,10 +79,10 @@ describe ProfilesController do
     }
   }
 
-  let(:callproposal){
+  let(:proposal){
     {
       profile_id: profile_id,
-      proposal_id: proposal_id,
+      production_id: production_id,
       call_id: call_id,
       type: 'artist',
       category: 'music',
@@ -192,56 +193,56 @@ describe ProfilesController do
     end
   end
 
-  describe 'Create Proposals' do
+  describe 'Create productions' do
 
     before(:each){
       post create_profile_route, profile
     }
 
     it 'fails if the profile does not exist' do
-      proposal[:profile_id] = ''
-      post create_proposal_route, proposal
+      production[:profile_id] = ''
+      post create_production_route, production
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_profile')
     end
 
-    it 'creates a proposal' do
-      expect(Services::Profiles).to receive(:add_proposal).with(Util.stringify_hash(proposal), user_id)
-      post create_proposal_route, proposal
+    it 'creates a production' do
+      expect(Services::Profiles).to receive(:add_production).with(Util.stringify_hash(production), user_id)
+      post create_production_route, production
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
     end
   end
 
 
-  describe 'Modify Proposals' do
+  describe 'Modify productions' do
 
-    let(:modify_proposal_route){'/users/modify_proposal'}
+    let(:modify_production_route){'/users/modify_production'}
 
     before(:each){
       post create_profile_route, profile
     }
 
-    it 'fails if the proposal does not exist' do
-      post modify_proposal_route, proposal
+    it 'fails if the production does not exist' do
+      post modify_production_route, production
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('non_existing_proposal')
+      expect(parsed_response['reason']).to eq('non_existing_production')
     end
 
-    it 'modifies a proposal' do
-      post create_proposal_route, proposal
-      expect(Services::Profiles).to receive(:modify_proposal).with(Util.stringify_hash(proposal), user_id).and_return(proposal)
+    it 'modifies a production' do
+      post create_production_route, production
+      expect(Services::Profiles).to receive(:modify_production).with(Util.stringify_hash(production), user_id).and_return(production)
 
-      post modify_proposal_route, proposal
+      post modify_production_route, production
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['proposal']).to eq(Util.stringify_hash(proposal))
+      expect(parsed_response['production']).to eq(Util.stringify_hash(production))
     end
 
-    it 'does not allow to modify a proposal you don"t own' do
+    it 'does not allow to modify a production you don"t own' do
       post create_profile_route, profile
       post logout_route
       post login_route, otter_user_hash
-      post modify_proposal_route, proposal
+      post modify_production_route, production
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
@@ -254,7 +255,7 @@ describe ProfilesController do
     before(:each){
       post create_profile_route, profile
       post create_call_route, call
-      post send_proposal_route, callproposal
+      post send_proposal_route, proposal
       
     }
 
