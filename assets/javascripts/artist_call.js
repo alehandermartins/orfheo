@@ -338,7 +338,7 @@
 
     var _deleteProposalCaller = $('<a>').attr('href','#').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller');
 
-    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '', function(){return Pard.Widgets.DeleteProfileMessage()});
+    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProposalMessage(proposal.proposal_id)});
 
     _createdWidget.append(_postData, _finalMessage, _deleteProposal.render());
 
@@ -353,15 +353,28 @@
     }
   }
 
-  ns.Widgets.DeleteProposalMessage = function(){  
+  ns.Widgets.DeleteProposalMessage = function(proposal_id){  
     
     var _createdWidget = $('<div>');
+    var _message = $('<p>').text('Confirmando, tu propuesta será retirada de la convocatoria del Benimaclet conFusión festival y no podrá ser parte del festival');
+    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('confirm-delete-btn').text('Confirma');
+    var _noBtn = $('<button>').attr({'type':'button'}).addClass('cancel-delete-btn').text('Anula');
+    console.log(proposal_id);
+
+    _yesBtn.click(function(){
+      Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteProposal)
+    });
+
+    _createdWidget.append(_message, _noBtn, _yesBtn)
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
+        _noBtn.click(function(){
+          callback();
+        });
       }
     }
   }

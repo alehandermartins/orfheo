@@ -76,7 +76,7 @@ main {
   padding-top:1.8rem;
   padding-bottom:1.8rem;
   // background: $content-background;
-  min-height: 100vh;
+  min-height: 75vh;
 }
 
 a, a:active, a:visited, a:hover {
@@ -145,7 +145,7 @@ Grid and Bar
 
   .grid-section {
     width: $pard-section-width;
-    min-height:100%;
+    min-height:75vh;
   }
   
 }

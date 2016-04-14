@@ -149,7 +149,7 @@
       _innerContainer.append(_signUpButton);
       _innerContainer.addClass('signupButton-container-Outsider');
       // _innerContainer.css('background', profilesOut[0]['color']);
-      Pard.Widgets.Sticker(_innerContainer, 95, 29);
+      // Pard.Widgets.Sticker(_innerContainer, 95, 29);
       _buttonContainer.append(_innerContainer).addClass('outer-signupButton-container-Outsider');
     }
     else{      

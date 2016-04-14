@@ -132,7 +132,7 @@
         },
         callback
       );
-    };
+    }; 
 
     var _deleteProduction = function(production_id, callback){
       _send(       

@@ -130,5 +130,19 @@
     }
   }
 
+  ns.Events.DeleteProposal = function(data){
+    if (data['status'] == 'success'){
+      console.log(data);
+        // Pard.Widgets.Alert('', 'Tu propuesta ha sido retirada del Benimaclet conFusión festival 2016.'),
+        // function(){
+        //  document.location = '/profile?id=' + data['profile_id'];
+        // }
+    }
+     else{
+        console.log(data.reason);
+    }
+  }
+
+
 }(Pard || {}));
   
