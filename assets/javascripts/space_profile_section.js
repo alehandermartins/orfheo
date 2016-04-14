@@ -24,7 +24,7 @@
     $('#main-profile-page').css({'background': _backColor});
 
     if(profile.proposals == false && _out == false){
-      $(document).ready(function(){Pard.Widgets.CallSpaceButton('',profile).render().trigger('click')});
+      $(document).ready(function(){Pard.Widgets.CallSpaceButton(profile,'').render().trigger('click')});
     }
   }
 

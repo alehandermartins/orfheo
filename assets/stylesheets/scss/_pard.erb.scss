@@ -315,6 +315,7 @@ off-canvas
   }
   .off-canvas-wrapper{
     margin-top: -1rem;
+    margin-bottom: -1rem;
   }
 }
 
@@ -572,6 +573,9 @@ button{
   width: 100%;
   margin-top: -1rem;
   padding-bottom: 0.9rem;
+  @include breakpoint(small down){
+    margin-top: -0.5rem;
+  }
 }
 
 

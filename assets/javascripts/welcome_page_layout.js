@@ -51,7 +51,7 @@
     var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content').css('cursor','pointer');
     _topBarTitle.html('<h3><strong>orfheo</strong></h3>');
     _topBarTitle.click(function(){
-      location.href = /users/;
+      location.href = '/';
     });
    
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');

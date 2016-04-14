@@ -7,8 +7,7 @@
   ns.Widgets.CallSpaceButton = function(profile, label){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
-    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envía');
-    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile, _submitBtn)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile)});
 
     var _createdWidget = _popup.render();
 
@@ -19,7 +18,7 @@
     }
   }
 
-  ns.Widgets.CallMessageSpace= function(profile, submitButton){
+  ns.Widgets.CallMessageSpace= function(profile){
 
     var _createdWidget = $('<div>');
     var _message = $('<div>').html(
@@ -31,6 +30,8 @@
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
+    console.log('space Call')
+    console.log(profile);
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile['type'];
     _submitForm['category'] = profile.category;
@@ -67,14 +68,16 @@
       return _submitForm;
     }
 
-    _createdWidget.append(_message, _formContainer, _beCarefullText, _submitBtnContainer.append(submitButton));
+    var _submitBtn = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envía');
+
+    _createdWidget.append(_message, _formContainer, _beCarefullText, _submitBtnContainer.append(_submitBtn));
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
-        submitButton.on('click',function(){
+        _submitBtn.on('click',function(){
           if(_filled() == true){ 
             Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal); 
             callback();
