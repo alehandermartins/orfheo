@@ -48,8 +48,11 @@
     var _container = $('<div>').addClass('pard-header-container');
 
     
-    var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content');
+    var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content').css('cursor','pointer');
     _topBarTitle.html('<h3><strong>orfheo</strong></h3>');
+    _topBarTitle.click(function(){
+      location.href = /users/;
+    });
    
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
 

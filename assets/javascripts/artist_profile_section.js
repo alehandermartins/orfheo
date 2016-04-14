@@ -76,9 +76,9 @@
 
         var _listproposals = $('<ul>');
 
-        _proposals.forEach(function(call){
-          var _callItem = $('<li>').text(call['title']);
-          _listproposals.append(_callItem);
+        _proposals.forEach(function(proposal){
+          var _proposalItem = $('<li>').text(proposal);
+          _listproposals.append(_proposalItem);
           
         });
 
