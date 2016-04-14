@@ -68,6 +68,12 @@ module Pard
     end
   end
 
+  class Invalid::ProductionOwnership < Invalid
+    def message
+      'you_dont_have_permission'
+    end
+  end
+
   class Invalid::ProposalOwnership < Invalid
     def message
       'you_dont_have_permission'

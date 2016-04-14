@@ -29,10 +29,15 @@ class ProfilesController < BaseController
   end
 
   post '/users/modify_production' do
-    check_profile_ownership params[:profile_id]
-    check_production params[:production_id]
+    check_production_ownership params[:production_id]
     production = modify_production params
     success({production: production})
+  end
+
+  post '/users/delete_production' do
+    check_production_ownership params[:production_id]
+    delete_production params[:production_id]
+    success
   end
 
   #poner bangs en excepciones
@@ -54,12 +59,13 @@ class ProfilesController < BaseController
     raise Pard::Invalid::ProfileOwnership unless get_profile_owner(profile_id) == session[:identity]
   end
 
-  def add_production params
-    Services::Profiles.add_production params, session[:identity]
+  def check_production_ownership production_id
+    raise Pard::Invalid::UnexistingProduction unless production_exists? production_id
+    raise Pard::Invalid::ProductionOwnership unless get_production_owner(production_id) == session[:identity]
   end
 
-  def check_production production_id
-    raise Pard::Invalid::UnexistingProduction unless production_exists? production_id
+  def add_production params
+    Services::Profiles.add_production params, session[:identity]
   end
 
   def modify_production params
@@ -82,6 +88,14 @@ class ProfilesController < BaseController
 
   def get_profile_owner profile_id
     Services::Profiles.get_profile_owner profile_id
+  end
+
+  def get_production_owner production_id
+    Services::Profiles.get_production_owner production_id
+  end
+
+  def delete_production production_id
+    Services::Profiles.delete_production production_id
   end
 end
 

@@ -233,10 +233,23 @@ describe Services::Profiles do
     end
   end
 
-  describe 'Get_profile_owner' do
+  describe 'Get_owner' do
     it 'retrieves the owner of the profile' do
       expect(Repos::Profiles).to receive(:get_profile_owner).with(profile_id)
       Services::Profiles.get_profile_owner profile_id
+    end
+
+    it 'retrieves the owner of the production' do
+      expect(Repos::Profiles).to receive(:get_production_owner).with(production_id)
+      Services::Profiles.get_production_owner production_id
+    end
+  end
+
+  describe 'Delete' do
+
+    it 'deletes a production' do
+      expect(Repos::Profiles).to receive(:delete_production).with(production_id)
+      Services::Profiles.delete_production production_id
     end
   end
 end

@@ -192,9 +192,23 @@ describe Repos::Profiles do
     end
   end
 
-  describe 'Get_profile_owner' do
+  describe 'Get_owner' do
     it 'retrieves the owner of the profile' do
       expect(Repos::Profiles.get_profile_owner profile_id).to eq(user_id)
+    end
+
+    it 'retrieves the owner of the production' do
+      Repos::Profiles.add_production(profile_id, production)
+      expect(Repos::Profiles.get_production_owner production_id).to eq(user_id)
+    end
+  end
+
+  describe 'Delete production' do
+    it 'deletes the production' do
+      Repos::Profiles.add_production(profile_id, production)
+      expect(Repos::Profiles.production_exists?(production_id)).to eq(true)
+      Repos::Profiles.delete_production(production_id)
+      expect(Repos::Profiles.production_exists?(production_id)).to eq(false)
     end
   end
 end

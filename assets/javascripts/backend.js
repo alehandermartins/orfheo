@@ -134,6 +134,16 @@
       );
     };
 
+    var _deleteProduction = function(production_id, callback){
+      _send(       
+        '/users/delete_production',
+        {
+          production_id: production_id
+        },
+        callback
+      );
+    };
+
     return {
       register: _register,
       login: _login,
@@ -146,7 +156,8 @@
       sendProposal: _sendProposal,
       modifyProduction: _modifyProduction,
       searchProfiles: _searchProfiles,
-      deleteProposal: _deleteProposal
+      deleteProposal: _deleteProposal,
+      deleteProduction: _deleteProduction
     };
   }());
 

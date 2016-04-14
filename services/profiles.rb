@@ -59,6 +59,14 @@ module Services
         Repos::Profiles.get_profile_owner profile_id
       end
 
+      def get_production_owner production_id
+        Repos::Profiles.get_production_owner production_id
+      end
+
+      def delete_production production_id
+        Repos::Profiles.delete_production production_id
+      end
+
       private
       def name_available? profile
         Repos::Profiles.name_available? profile[:name], profile[:profile_id]

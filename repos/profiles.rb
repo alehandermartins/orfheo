@@ -61,6 +61,19 @@ module Repos
         profile[:user_id]
       end
 
+      def get_production_owner production_id
+        profile = grab({"productions.production_id": production_id}).first
+        profile[:user_id]
+      end
+
+      def delete_production production_id
+        @@profiles_collection.update({ "productions.production_id": production_id },
+          {
+            "$pull": {'productions': {'production_id' => production_id}}
+          }
+        )
+      end
+
       private
       def grab query
         results = @@profiles_collection.find(query)

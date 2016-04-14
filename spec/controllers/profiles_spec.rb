@@ -6,6 +6,7 @@ describe ProfilesController do
   let(:create_production_route){'/users/create_production'}
   let(:create_call_route){'/users/create_call'}
   let(:send_proposal_route){'/users/send_proposal'}
+  let(:delete_production_route){'/users/delete_production'}
 
   let(:user_hash){
     {
@@ -240,6 +241,7 @@ describe ProfilesController do
 
     it 'does not allow to modify a production you don"t own' do
       post create_profile_route, profile
+      post create_production_route, production
       post logout_route
       post login_route, otter_user_hash
       post modify_production_route, production
@@ -285,6 +287,37 @@ describe ProfilesController do
       post login_route, otter_user_hash
       get profiles_route
       expect(last_response.body).to include('Pard.Visitor')
+    end
+  end
+
+  describe 'Delete' do
+
+    before(:each){
+      post create_profile_route, profile
+    }
+
+    it 'fails if the production does not exist' do
+      post delete_production_route, {production_id: production_id}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_production')
+    end
+
+    it 'fails if user does not own the production' do
+      post create_production_route, production
+      post logout_route
+      post login_route, otter_user_hash
+      post delete_production_route, production
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'deletes the production' do
+      post create_production_route, production
+      post delete_production_route, production
+      expect(parsed_response['status']).to eq('success')
+      post delete_production_route, production
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_production')
     end
   end
 end
