@@ -203,12 +203,18 @@ describe Repos::Profiles do
     end
   end
 
-  describe 'Delete production' do
-    it 'deletes the production' do
+  describe 'Delete' do
+    it 'deletes a production' do
       Repos::Profiles.add_production(profile_id, production)
       expect(Repos::Profiles.production_exists?(production_id)).to eq(true)
       Repos::Profiles.delete_production(production_id)
       expect(Repos::Profiles.production_exists?(production_id)).to eq(false)
+    end
+
+    it 'deletes a profile' do
+      expect(Repos::Profiles.exists?(profile_id)).to eq(true)
+      Repos::Profiles.delete_profile(profile_id)
+      expect(Repos::Profiles.exists?(profile_id)).to eq(false)
     end
   end
 end
