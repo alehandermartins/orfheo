@@ -154,6 +154,14 @@
       );
     };
 
+    var _deleteUser = function(callback){
+      _send(       
+        '/users/delete_user',
+        {},
+        callback
+      );
+    };
+
     return {
       register: _register,
       login: _login,
@@ -168,7 +176,8 @@
       searchProfiles: _searchProfiles,
       deleteProposal: _deleteProposal,
       deleteProduction: _deleteProduction,
-      deleteProfile: _deleteProfile
+      deleteProfile: _deleteProfile,
+      deleteUser: _deleteUser
     };
   }());
 

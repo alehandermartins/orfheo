@@ -102,4 +102,13 @@ describe Services::Users do
       expect(Repos::Users.grab({user_id: user[:user_id]})[:password]).to eq('new_password')
     end
   end
+
+  describe 'Delete' do
+    it 'deletes a user' do
+      expect(Services::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id}).and_return([{profile_id: 'user_profile'}])
+      expect(Services::Profiles).to receive(:delete_profile).with('user_profile').and_return(true)
+      expect(Repos::Users).to receive(:delete_user).with(user_id)
+      Services::Users.delete_user user_id
+    end
+  end
 end
