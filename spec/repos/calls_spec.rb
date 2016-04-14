@@ -131,8 +131,10 @@ describe Repos::Calls do
 
   describe 'Delete_proposal' do
     it 'deletes the proposal' do
-      Repos::Calls.delete_proposal proposal
-      expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)
+      Repos::Calls.add_proposal call_id, proposal
+      expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal])
+      Repos::Calls.delete_proposal proposal_id
+      expect(Repos::Calls.get_proposals_for profile_id).to eq([])
     end
   end
 end

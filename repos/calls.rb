@@ -50,9 +50,9 @@ module Repos
       end
 
       def delete_proposal proposal_id
-        results = @@calls_collection.update({ "proposals.proposal_id": proposal_id },
+        @@calls_collection.update({ "proposals.proposal_id": proposal_id },
           {
-            "$pull": {'proposal_id' => proposal_id}
+            "$pull": {'proposals': {'proposal_id' => proposal_id}}
           }
         )
       end

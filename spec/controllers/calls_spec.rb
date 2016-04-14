@@ -42,7 +42,7 @@ describe CallsController do
     }
   }
 
-  let(:callproposal){
+  let(:proposal){
     {
       profile_id: profile_id,
       proposal_id: proposal_id,
@@ -98,25 +98,25 @@ describe CallsController do
       post create_call_route, call
     }
 
-    it 'fails if the callproposal has the wrong type' do
-      callproposal[:type] = 'otter'
-      post send_proposal_route, callproposal
+    it 'fails if the proposal has the wrong type' do
+      proposal[:type] = 'otter'
+      post send_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_type')
     end
 
     it 'fails if the call does not exist' do
-      callproposal[:call_id] = 'otter'
-      post send_proposal_route, callproposal
+      proposal[:call_id] = 'otter'
+      post send_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_call')
     end
 
     it 'sends the proposal' do
-      expect(Services::Calls).to receive(:add_proposal).with(Util.stringify_hash(callproposal), user_id)
-      post send_proposal_route, callproposal
+      expect(Services::Calls).to receive(:add_proposal).with(Util.stringify_hash(proposal), user_id)
+      post send_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
     end
@@ -128,20 +128,32 @@ describe CallsController do
       post create_call_route, call
     }
 
-    it 'fails if the callproposal does not exist' do
-      post delete_proposal_route, callproposal
+    it 'fails if the proposal does not exist' do
+      post delete_proposal_route, {proposal_id: proposal_id}
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
 
-    it 'fails if the user does not own the callproposal' do
-      callproposal[:user_id] = 'otter'
-      Repos::Calls.add_proposal call_id, callproposal
-      post delete_proposal_route, callproposal
+    it 'fails if the user does not own the proposal' do
+      proposal[:user_id] = 'otter'
+      Repos::Calls.add_proposal call_id, proposal
+      post delete_proposal_route, {proposal_id: proposal_id}
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'deletes the proposal' do
+      proposal[:user_id] = user_id
+      Repos::Calls.add_proposal call_id, proposal
+      post delete_proposal_route, {proposal_id: proposal_id}
+
+      expect(parsed_response['status']).to eq('success')
+      post delete_proposal_route, proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
   end
 end

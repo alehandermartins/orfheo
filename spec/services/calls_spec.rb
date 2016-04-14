@@ -84,18 +84,30 @@ describe Services::Calls do
     end
   end
 
+  describe 'Get_proposal_owner' do
+    it 'retrieves the owner of the proposal' do
+      expect(Repos::Calls).to receive(:get_proposal_owner).with(proposal_id)
+      Services::Calls.get_proposal_owner proposal_id
+    end
+  end
+
   describe 'Get proposal' do
 
     it 'retrieves the proposals for a given profile' do
       expect(Repos::Calls).to receive(:get_proposals_for).with(profile_id)
       Services::Calls.get_proposals_for profile_id
     end
+
+    it 'retrieves the proposals for a profile when visiting' do
+      expect(Repos::Calls).to receive(:get_otter_proposals_for).with(profile_id, 'artist')
+      Services::Calls.get_otter_proposals_for profile_id, 'artist'
+    end
   end
 
-  describe 'Get_proposal_owner' do
-    it 'retrieves the owner of the proposal' do
-      expect(Repos::Calls).to receive(:get_proposal_owner).with(proposal_id)
-      Services::Calls.get_proposal_owner proposal_id
+  describe 'Delete_proposal' do
+    it 'deletes the proposal' do
+      expect(Repos::Calls).to receive(:delete_proposal).with(proposal_id)
+      Services::Calls.delete_proposal proposal_id
     end
   end
 end
