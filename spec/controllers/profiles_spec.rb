@@ -6,6 +6,7 @@ describe ProfilesController do
   let(:create_production_route){'/users/create_production'}
   let(:create_call_route){'/users/create_call'}
   let(:send_proposal_route){'/users/send_proposal'}
+  let(:delete_profile_route){'/users/delete_profile'}
   let(:delete_production_route){'/users/delete_production'}
 
   let(:user_hash){
@@ -292,30 +293,53 @@ describe ProfilesController do
 
   describe 'Delete' do
 
-    before(:each){
-      post create_profile_route, profile
-    }
+    it 'fails if the profile does not exist' do
+      post delete_profile_route, {profile_id: profile_id}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_profile')
+    end
 
     it 'fails if the production does not exist' do
+      post create_profile_route, profile
       post delete_production_route, {production_id: production_id}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_production')
     end
 
-    it 'fails if user does not own the production' do
-      post create_production_route, production
+    it 'fails if user does not own the profile' do
+      post create_profile_route, profile
       post logout_route
       post login_route, otter_user_hash
-      post delete_production_route, production
+      post delete_profile_route, {profile_id: profile_id}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
+    it 'fails if user does not own the production' do
+      post create_profile_route, profile
+      post create_production_route, production
+      post logout_route
+      post login_route, otter_user_hash
+      post delete_production_route, {production_id: production_id}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'deletes the profile' do
+      post create_profile_route, profile
+      post delete_profile_route, {profile_id: profile_id}
+      expect(parsed_response['status']).to eq('success')
+      post delete_profile_route, {profile_id: profile_id}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_profile')
+    end
+
     it 'deletes the production' do
+      post create_profile_route, profile
       post create_production_route, production
       post delete_production_route, production
       expect(parsed_response['status']).to eq('success')
-      post delete_production_route, production
+      post delete_production_route, {production_id: production_id}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_production')
     end

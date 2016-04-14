@@ -105,4 +105,13 @@ describe Repos::Users do
       expect(Repos::Users.grab({email:'email@test.com'})).to eq(unvalidated_user)
     end
   end
+
+  describe 'Delete' do
+
+    it 'deletes a user' do
+      expect(Repos::Users.exists?({user_id: user_id})).to eq(true)
+      Repos::Users.delete_user(user_id)
+      expect(Repos::Users.exists?({user_id: user_id})).to eq(false)
+    end
+  end
 end

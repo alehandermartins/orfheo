@@ -251,5 +251,11 @@ describe Services::Profiles do
       expect(Repos::Profiles).to receive(:delete_production).with(production_id)
       Services::Profiles.delete_production production_id
     end
+
+    it 'deletes a profile and its proposals' do
+      expect(Repos::Calls).to receive(:delete_profile_proposals).with(profile_id)
+      expect(Repos::Profiles).to receive(:delete_profile).with(profile_id)
+      Services::Profiles.delete_profile profile_id
+    end
   end
 end

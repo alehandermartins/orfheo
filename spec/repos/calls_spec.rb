@@ -37,6 +37,15 @@ describe Repos::Calls do
     }
   }
 
+  let(:otter_proposal){
+      {
+        profile_id: profile_id,
+        proposal_id: 'otter_proposal',
+        title: 'otter_title',
+        links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}]
+      }
+    }
+
   let(:call){
     {
       user_id: user_id,
@@ -129,11 +138,24 @@ describe Repos::Calls do
     end
   end
 
-  describe 'Delete_proposal' do
-    it 'deletes the proposal' do
+  describe 'Delete' do
+    it 'deletes a proposal' do
       Repos::Calls.add_proposal call_id, proposal
       expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal])
       Repos::Calls.delete_proposal proposal_id
+      expect(Repos::Calls.get_proposals_for profile_id).to eq([])
+    end
+
+    it 'deletes all proposals for a profile' do
+      Repos::Calls.add({
+        user_id: user_id,
+        call_id: 'otter'
+      })
+
+      Repos::Calls.add_proposal call_id, proposal
+      Repos::Calls.add_proposal 'otter', otter_proposal
+      expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal, otter_proposal])
+      Repos::Calls.delete_profile_proposals profile_id
       expect(Repos::Calls.get_proposals_for profile_id).to eq([])
     end
   end

@@ -74,6 +74,10 @@ module Repos
         )
       end
 
+      def delete_profile profile_id
+        @@profiles_collection.remove({profile_id: profile_id})
+      end
+
       private
       def grab query
         results = @@profiles_collection.find(query)

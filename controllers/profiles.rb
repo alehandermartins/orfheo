@@ -40,6 +40,12 @@ class ProfilesController < BaseController
     success
   end
 
+  post '/users/delete_profile' do
+    check_profile_ownership params[:profile_id]
+    delete_profile params[:profile_id]
+    success
+  end
+
   #poner bangs en excepciones
   private
   def check_type type
@@ -96,6 +102,10 @@ class ProfilesController < BaseController
 
   def delete_production production_id
     Services::Profiles.delete_production production_id
+  end
+
+  def delete_profile profile_id
+    Services::Profiles.delete_profile profile_id
   end
 end
 

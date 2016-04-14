@@ -2,6 +2,7 @@ describe UsersController do
 
   let(:login_route){'/login/login_attempt'}
   let(:create_profile_route){'/users/create_profile'}
+  let(:delete_user_route){'/users/delete_user'}
 
   let(:user_hash){
     {
@@ -98,6 +99,18 @@ describe UsersController do
       expect(Services::Users).to receive(:modify_password).with(user_id, 'new_password')
       post modify_password_route, {password: 'new_password'}
       expect(parsed_response['status']).to eq('success')
+    end
+  end
+
+  describe 'Delete' do
+    it 'deletes a user and terminates the session' do
+      post login_route, user_hash
+      post delete_user_route
+      expect(session[:identity]).to eq(nil)
+      expect(parsed_response['status']).to eq('success')
+      post login_route, user_hash
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_user')
     end
   end
 end

@@ -67,6 +67,11 @@ module Services
         Repos::Profiles.delete_production production_id
       end
 
+      def delete_profile profile_id
+        Repos::Calls.delete_profile_proposals profile_id
+        Repos::Profiles.delete_profile profile_id
+      end
+
       private
       def name_available? profile
         Repos::Profiles.name_available? profile[:name], profile[:profile_id]

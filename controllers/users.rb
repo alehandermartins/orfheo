@@ -17,6 +17,12 @@ class UsersController < BaseController
     success
   end
 
+  post '/users/delete_user' do
+    delete_user
+    session.delete(:identity)
+    success
+  end
+
   private
   def get_profiles method, args
     Services::Profiles.get_profiles method, args
@@ -24,5 +30,9 @@ class UsersController < BaseController
 
   def modify_password new_password
     Services::Users.modify_password session[:identity], new_password
+  end
+
+  def delete_user
+    Services::Users.delete_user session[:identity]
   end
 end

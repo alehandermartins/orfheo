@@ -144,6 +144,24 @@
       );
     };
 
+    var _deleteProfile = function(profile_id, callback){
+      _send(       
+        '/users/delete_profile',
+        {
+          profile_id: profile_id
+        },
+        callback
+      );
+    };
+
+    var _deleteUser = function(callback){
+      _send(       
+        '/users/delete_user',
+        {},
+        callback
+      );
+    };
+
     return {
       register: _register,
       login: _login,
@@ -157,7 +175,9 @@
       modifyProduction: _modifyProduction,
       searchProfiles: _searchProfiles,
       deleteProposal: _deleteProposal,
-      deleteProduction: _deleteProduction
+      deleteProduction: _deleteProduction,
+      deleteProfile: _deleteProfile,
+      deleteUser: _deleteUser
     };
   }());
 

@@ -33,6 +33,14 @@ module Services
       def modify_password user_id, new_password
         Repos::Users.modify({user_id: user_id}, {password: new_password})
       end
+
+      def delete_user user_id
+        profiles = Services::Profiles.get_profiles :user_profiles, {user_id: user_id}
+        profiles.each{ |profile|
+          Services::Profiles.delete_profile profile[:profile_id]
+        }
+        Repos::Users.delete_user user_id
+      end
     end
   end
 end
