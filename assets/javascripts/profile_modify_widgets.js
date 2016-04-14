@@ -94,7 +94,7 @@
 
     var _deleteProfileCaller = $('<a>').attr('href','#').text('Elimina el perfil').addClass('deleteProfile-caller');
 
-    var _deleteProfile = Pard.Widgets.PopupCreator(_deleteProfileCaller, '', function(){return Pard.Widgets.DeleteProfileMessage()});
+    var _deleteProfile = Pard.Widgets.PopupCreator(_deleteProfileCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProfileMessage(profile.profile_id)});
 
     _createdWidget.append(_formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton), _deleteProfile.render());
 
@@ -156,15 +156,32 @@
     }
   }
 
-  ns.Widgets.DeleteProfileMessage = function(){  
+  ns.Widgets.DeleteProfileMessage = function(profile_id){  
     
     var _createdWidget = $('<div>');
+    var _message = $('<p>').text('Confirmando, tu perfil vendrá eliminado y con ello tu portfolio (si artista) y todas tus inscripciones en convocatorias.');
+    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
+    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+
+    _yesBtn.click(function(){
+      Pard.Backend.deleteProfile(profile_id, Pard.Events.DeleteProfile);
+    });
+
+    var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
+
+    _createdWidget.append(_message,  _buttonsContainer.append(_noBtn, _yesBtn));
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
+        _noBtn.click(function(){
+          callback();
+        });
+        _yesBtn.click(function(){
+          callback()
+        });
       }
     }
   }

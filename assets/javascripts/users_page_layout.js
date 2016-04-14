@@ -53,7 +53,7 @@
     var _modifyPassword = $('<li>').append(Pard.Widgets.ModifyPassword().render().attr('href','#'));
 
     var _dCaller = $('<a>').attr('href','#').text('Elimina mi cuenta');
-    var _deleteCaller = Pard.Widgets.PopupCreator(_dCaller, '', function(){return Pard.Widgets.DeleteUserMessage()});
+    var _deleteCaller = Pard.Widgets.PopupCreator(_dCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteUserMessage()});
     var _deleteUser = $('<li>').append(_deleteCaller.render());
 
 		_menu.append(_deleteUser, _modifyPassword,  _logout);
@@ -78,12 +78,29 @@
   ns.Widgets.DeleteUserMessage = function(){  
     
     var _createdWidget = $('<div>');
+    var _message = $('<p>').text('Confirmando, todos tus datos vendrán eliminados de orfheo: se cancelarán todos tus perfiles y sus contenidos. Con ello, todas tus inscripciones en convocatorias serán borradas.');
+    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
+    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+
+    _yesBtn.click(function(){
+      Pard.Backend.deleteUser(Pard.Events.DeleteUser);
+    });
+
+    var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
+
+    _createdWidget.append(_message,  _buttonsContainer.append(_noBtn, _yesBtn));
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
+        _noBtn.click(function(){
+          callback();
+        });
+        _yesBtn.click(function(){
+          callback()
+        });
       }
     }
   }
@@ -105,7 +122,7 @@
     
 
     _createdWidget.append(_buttonContainer);
-    console.log(myprofiles)
+
     if (myprofiles.length > 0){
       var _myProfileText = $('<p>').text('Tus perfiles').addClass('myProfile-text');
       _myprofiles.append(Pard.Widgets.MyProfiles(myprofiles).render());

@@ -173,8 +173,12 @@
       '3': {
         provider: 'instagram', 
         url: 'https://www.instagram.com/confusionfestival/'
+      },
+      '4': {
+        provider: 'youtube', 
+        url: 'https://www.youtube.com/channel/UCkAXyjiBR10dn0wFuh9JaSQ'
       }
-    };
+    }; 
 
     
     _contact.append(Pard.Widgets.PrintWebsList(_personalWebs).render());

@@ -137,6 +137,37 @@
     }
      else{
         console.log(data.reason);
+        Pard.Widgets.Alert('', data.reason);
+    }
+  }
+
+  ns.Events.DeleteProduction = function(data){
+    if (data['status'] == 'success'){
+      location.reload();
+    }
+     else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', data.reason);
+    }
+  }
+
+  ns.Events.DeleteProfile = function(data){
+    if (data['status'] == 'success'){
+      location.href = '/users/';
+    }
+     else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', data.reason);
+    }
+  }
+
+  ns.Events.DeleteUser = function(data){
+    if (data['status'] == 'success'){
+      location.href = '/';
+    }
+     else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', data.reason);
     }
   }
 

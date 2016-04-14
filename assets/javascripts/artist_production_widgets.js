@@ -100,7 +100,7 @@
 
     var _deleteProductionCaller = $('<a>').attr('href','#').text('Elimina este proyecto artístico').addClass('deleteProfile-caller');
 
-    var _deleteProduction = Pard.Widgets.PopupCreator(_deleteProductionCaller, '', function(){return Pard.Widgets.DeleteProfileMessage()});
+    var _deleteProduction = Pard.Widgets.PopupCreator(_deleteProductionCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProductionMessage(production.production_id, _closepopup)});
 
     _createdWidget.append(_initMex, _formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton), _deleteProduction.render());
 
@@ -114,9 +114,35 @@
     }
   }
 
-  ns.Widgets.DeleteProfileMessage = function(){  
+  ns.Widgets.DeleteProductionMessage = function(production_id, closepoup){  
     
     var _createdWidget = $('<div>');
+    var _message = $('<p>').text('Confirmando, tu proyecto artístico se eliminará de tu portfolio. Esa acción no afectará tu inscripción en la convocatoria del Benimaclet conFusión festival. ');
+    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
+    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+
+    _yesBtn.click(function(){
+      Pard.Backend.deleteProduction(production_id, Pard.Events.DeleteProduction);
+        closepopup();
+    });
+
+    var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
+
+    _createdWidget.append(_message,  _buttonsContainer.append(_noBtn, _yesBtn));
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _noBtn.click(function(){
+          callback();
+        });
+        _yesBtn.click(function(){
+          callback()
+        });
+      }
+    }
 
     return {
       render: function(){

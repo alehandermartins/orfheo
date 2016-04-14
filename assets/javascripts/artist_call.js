@@ -359,7 +359,6 @@
     var _message = $('<p>').text('Confirmando, tu propuesta será retirada de la convocatoria del Benimaclet conFusión festival y no podrá ser parte del evento.');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
-    console.log(proposal_id);
 
     _yesBtn.click(function(){
       Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteProposal);

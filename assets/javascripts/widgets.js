@@ -106,13 +106,6 @@
     var _mainCol = '';
 
     $(document).ready(function(){
-      var _mainCol = $('#main-profile-page').attr('style');
-      _mainCol = _mainCol.match(/rgba\(.*\)/i);
-      console.log(_mainCol[0])
-      // console.log(_mainCol.replace('background',''));
-    });
-
-    $(document).ready(function(){
     $('.whole-container').scroll(function(){
 
       if ($(window).width() > 1024) {
