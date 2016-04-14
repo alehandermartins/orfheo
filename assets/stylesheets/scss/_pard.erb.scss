@@ -604,6 +604,19 @@ button{
   font-size: $smallSize;
 }
 
+.confirm-delete-btn, .cancel-delete-btn{
+  font-size: $almostNormalSize;
+  float: right;
+  margin-right: 1rem;
+}
+
+
+.yes-no-button-container{
+  width: 100%;
+  min-height: 1.6rem;
+  position:relative;
+}
+
 
 
 

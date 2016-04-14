@@ -132,11 +132,8 @@
 
   ns.Events.DeleteProposal = function(data){
     if (data['status'] == 'success'){
-      console.log(data);
-        // Pard.Widgets.Alert('', 'Tu propuesta ha sido retirada del Benimaclet conFusión festival 2016.'),
-        // function(){
-        //  document.location = '/profile?id=' + data['profile_id'];
-        // }
+      // console.log(data);
+      Pard.Widgets.Alert('', 'Tu solicitud de participación en el festival ha sido cancelada correctamente.', function(){location.reload();})
     }
      else{
         console.log(data.reason);
