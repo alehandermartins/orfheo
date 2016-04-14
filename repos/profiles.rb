@@ -103,6 +103,9 @@ module Repos
 
           def visit_profiles args
             profiles = grab({user_id: args[:user_id]})
+            profiles.each{ |profile|
+              profile.merge! proposals: Services::Calls.get_otter_proposals_for(profile[:profile_id], profile[:type])
+            }
             sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
           end
 

@@ -31,6 +31,16 @@ module Repos
         get_my_proposals_from(results, profile_id)
       end
 
+      def get_otter_proposals_for profile_id, type
+          proposals_info = []
+          proposals = get_proposals_for(profile_id)
+          proposals.each{ |proposal|
+            proposals_info.push(proposal[:title]) if type == 'artist'
+            proposals_info.push(proposal[:description]) if type == 'space'
+          }
+          proposals_info
+      end
+
       def get_proposal_owner proposal_id
         results = @@calls_collection.find({ "proposals.proposal_id": proposal_id })
         return [] unless results.count > 0

@@ -185,6 +185,8 @@ describe Repos::Profiles do
     end
 
     it 'returns all profiles for a visitor' do
+      profile.merge! proposals: []
+      my_otter_profile.merge! proposals: []
       result = Repos::Profiles.get_profiles :visit_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end

@@ -27,6 +27,10 @@ module Services
         Repos::Calls.get_proposals_for profile_id
       end
 
+      def get_otter_proposals_for profile_id, type
+        Repos::Calls.get_otter_proposals_for profile_id, type
+      end
+
       def get_proposal_owner proposal_id
         Repos::Calls.get_proposal_owner proposal_id
       end

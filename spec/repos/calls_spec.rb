@@ -108,6 +108,18 @@ describe Repos::Calls do
 
       expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal, otter_proposal])
     end
+
+    it 'returns interesting info for a visitor of a profile' do
+      Repos::Calls.add({
+        user_id: user_id,
+        call_id: 'otter'
+      })
+
+      Repos::Calls.add_proposal call_id, proposal
+      Repos::Calls.add_proposal 'otter', otter_proposal
+
+      expect(Repos::Calls.get_otter_proposals_for profile_id, 'artist').to eq(['title', 'otter_title'])
+    end
   end
 
   describe 'Get_proposal_owner' do
