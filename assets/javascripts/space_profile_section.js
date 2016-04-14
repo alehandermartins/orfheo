@@ -41,10 +41,14 @@
     if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
     }else{
-      if(profile.proposals && profile.proposals[0]){
-      _bio.append($('<p>').text(profile.proposals[0]['description']));
+      if (out)_bio.append($('<p>').text(profile.proposals));
+      else {
+        if(profile.proposals && profile.proposals[0]){
+        _bio.append($('<p>').text(profile.proposals[0]['description']));
+        }
       }
     }
+
 
     var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['category']).render()));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');

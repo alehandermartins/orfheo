@@ -151,7 +151,7 @@ Pard.Profile = function(profiles){
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();      
-    var _header = Pard.Widgets.ProfileHeader();
+    var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
     var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']).render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){$(document).foundation()});
@@ -172,7 +172,7 @@ Pard.Visitor = function(profilesOut){
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();      
-    var _header = Pard.Widgets.ProfileHeader();
+    var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
     var _main = Pard.Widgets.ProfileMainLayout(profilesOut, _out).render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
