@@ -13,6 +13,12 @@ class CallsController < BaseController
     success ({profile_id: params[:profile_id]})
   end
 
+  post '/users/amend_proposal' do
+    check_proposal_ownership params[:proposal_id]
+    amend_proposal params[:proposal_id], params[:amend]
+    success
+  end
+
   post '/users/delete_proposal' do
     check_proposal_ownership params[:proposal_id]
     delete_proposal params[:proposal_id]
@@ -47,6 +53,10 @@ class CallsController < BaseController
 
   def get_proposal_owner proposal_id
     Services::Calls.get_proposal_owner proposal_id
+  end
+
+  def amend_proposal proposal_id, amend
+    Services::Calls.amend_proposal proposal_id, amend
   end
 
   def delete_proposal proposal_id

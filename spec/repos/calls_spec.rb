@@ -137,6 +137,15 @@ describe Repos::Calls do
       expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)
     end
   end
+  
+  describe 'Amend' do
+    it 'adds some amend to the proposal' do
+      Repos::Calls.add_proposal call_id, proposal
+      Repos::Calls.amend_proposal proposal_id, 'amend'
+      proposal.merge! amend: 'amend'
+      expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal])
+    end
+  end
 
   describe 'Delete' do
     it 'deletes a proposal' do

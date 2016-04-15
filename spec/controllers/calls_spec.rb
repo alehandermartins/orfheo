@@ -3,6 +3,7 @@ describe CallsController do
   let(:login_route){'/login/login_attempt'}
   let(:create_call_route){'/users/create_call'}
   let(:send_proposal_route){'/users/send_proposal'}
+  let(:amend_proposal_route){'/users/amend_proposal'}
   let(:delete_proposal_route){'/users/delete_proposal'}
 
   let(:user_hash){
@@ -119,6 +120,38 @@ describe CallsController do
       post send_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
+    end
+  end
+
+  describe 'Amend_proposal' do
+
+    before(:each){
+      post create_call_route, call
+    }
+
+    it 'fails if the proposal does not exist' do
+      post amend_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
+    end
+
+    it 'fails if the user does not own the proposal' do
+      proposal[:user_id] = 'otter'
+      Repos::Calls.add_proposal call_id, proposal
+      post amend_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'amends the proposal' do
+      proposal[:user_id] = user_id
+      Repos::Calls.add_proposal call_id, proposal
+      expect(Services::Calls).to receive(:amend_proposal).with(proposal_id, 'amend')
+      
+      post amend_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+      expect(parsed_response['status']).to eq('success')
     end
   end
 

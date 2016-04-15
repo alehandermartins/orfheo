@@ -104,7 +104,14 @@ describe Services::Calls do
     end
   end
 
-  describe 'Delete_proposal' do
+  describe 'Amend proposal' do
+    it 'amends the proposal' do
+      expect(Repos::Calls).to receive(:amend_proposal).with(proposal_id, 'amend')
+      Services::Calls.amend_proposal proposal_id, 'amend'
+    end
+  end
+
+  describe 'Delete proposal' do
     it 'deletes the proposal' do
       expect(Repos::Calls).to receive(:delete_proposal).with(proposal_id)
       Services::Calls.delete_proposal proposal_id

@@ -35,6 +35,10 @@ module Services
         Repos::Calls.get_otter_proposals_for profile_id, type
       end
 
+      def amend_proposal proposal_id, amend
+        Repos::Calls.amend_proposal proposal_id, amend
+      end
+
       def delete_proposal proposal_id
         Repos::Calls.delete_proposal proposal_id
       end

@@ -49,6 +49,14 @@ module Repos
         proposal[:user_id]
       end
 
+      def amend_proposal proposal_id, amend
+        @@calls_collection.update({ "proposals.proposal_id": proposal_id },
+          {
+            "$set": {"proposals.$.amend": amend}
+          },
+        {upsert: true})
+      end
+
       def delete_proposal proposal_id
         @@calls_collection.update({ "proposals.proposal_id": proposal_id },
           {

@@ -165,6 +165,17 @@
       );
     };
 
+    var _amendProposal = function(proposal_id, amend, callback){
+      _send(       
+        '/users/amend_proposal',
+        {
+          proposal_id: proposal_id,
+          amend: amend
+        },
+        callback
+      );
+    };
+
     return {
       register: _register,
       login: _login,
@@ -180,7 +191,8 @@
       deleteProposal: _deleteProposal,
       deleteProduction: _deleteProduction,
       deleteProfile: _deleteProfile,
-      deleteUser: _deleteUser
+      deleteUser: _deleteUser,
+      amendProposal: _amendProposal
     };
   }());
 
