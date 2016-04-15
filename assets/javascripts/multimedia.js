@@ -483,7 +483,7 @@
       var _item2 = $('<li>').html('...una imagen, un post o un vídeo publicado en <strong>facebook</strong>:')
 
       var _sublist2 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-     	$('<li>').text('pincha la fecha con la hora de publicación que aparece en el post bajo tu nombre'),
+     	$('<li>').text('pincha la fecha con la hora de publicación que aparece en la parte superior del post'),
      	$('<li>').text('copia entonces desde el navegador el enlace de la página que se abre'),
      	$('<li>').text('pegalo en el campo del formulario de orfheo'),
      	$('<li>').text('dale al botón para validar')
@@ -499,9 +499,18 @@
      	$('<li>').text('dale al botón para validar')
      	);
 
-     //spotify bandcamp
+     	var _item4 = $('<li>').html('...un audio desde <strong>spotify</strong>:')
 
-     _list.append(_item1.append(_sublist1), _item2.append(_sublist2), _item3.append(_sublist3));
+      var _sublist4 = $('<ol>').addClass('multimedia-accepted-sublist').append(
+     	$('<li>').text('selecciona una cancion de una playlist con el botón derecho del ratón'),
+     	$('<li>').text('pincha a "Copy Song Link"'),
+     	$('<li>').text('pega el contenido copiado en el formulario de orfheo'),
+     	$('<li>').text('dale al botón para validar')
+     	);
+
+      var _finalMessage = $('<p>').text('Finalmente, considera que se puede importar en orfheo solo contenidos multimedia declarados publicos en la web donde se ha subido.').css({'margin-top':'1rem'});
+
+     _list.append(_item1.append(_sublist1), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4),_finalMessage);
 
      _createdWidget.append(_list);
 
