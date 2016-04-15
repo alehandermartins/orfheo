@@ -116,10 +116,13 @@
       );
     };
 
-    var _searchProfiles = function(data, callback){
+    var _searchProfiles = function(tags, shown, callback){
       _send(       
         '/search/results',
-        data,
+        {
+          query: tags,
+          shown: shown
+        },
         callback
       );
     };

@@ -169,14 +169,6 @@ describe Repos::Profiles do
       expect(result.size).to eq(2)
     end
 
-    it 'returns all profiles sorting those of the user' do
-      result = Repos::Profiles.get_profiles :all_user_aside, {user_id: user_id}
-      expect(result).to eq({
-        my_profiles:  [profile, my_otter_profile],
-        profiles: [otter_user_profile]
-      })
-    end
-
     it 'returns all profiles and those of the user (sorted)' do
       profile.merge! proposals: []
       my_otter_profile.merge! proposals: []

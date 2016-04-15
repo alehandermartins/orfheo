@@ -100,16 +100,6 @@ module Repos
             }.shuffle
           end
 
-          def all_user_aside args
-            profiles = grab({})
-            {
-              my_profiles: profiles.select{ |profile| profile[:user_id] == args[:user_id]},
-              profiles: profiles.select{ |profile|
-                profile[:user_id] != args[:user_id] && non_empty_profile?(profile)
-              }.shuffle
-            }
-          end
-
           def user_profiles args
             profiles = grab({user_id: args[:user_id]})
             sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?

@@ -11,7 +11,7 @@
   		Pard.ProfileManager.deleteMultimedia(_profiles);
   	}
   	else {
-  		var _profiles = Pard.CachedProfiles['my_profiles'];
+  		var _profiles = Pard.CachedProfiles;
   		Pard.ProfileManager.deleteMultimedia();
   	}
 
@@ -19,10 +19,10 @@
 
   	window.fbAsyncInit = function() {
 	    //Heroku
-	    FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+	    //FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
 	    
 	    //Local
-   		//FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
+   		FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
 		}
 	  
 

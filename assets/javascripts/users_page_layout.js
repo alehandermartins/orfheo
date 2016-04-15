@@ -106,7 +106,7 @@
   }
   
   ns.Widgets.UserAside = function () {
-    var myprofiles = Pard.CachedProfiles['my_profiles'];
+    var myprofiles = Pard.CachedProfiles;
     var _createdWidget = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
     var _buttonContainer = $('<div>').addClass('create-profile-container');

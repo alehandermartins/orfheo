@@ -6,8 +6,6 @@
 
     var _createdWidget = $('<div>').addClass('search-engine-container');
 
-    var _profiles = Pard.CachedProfiles['profiles'];
-
     var _searchTool = $('<div>').addClass('search-tool-container');
     var _searchResult = $('<div>').addClass('search-results');
 
@@ -29,7 +27,14 @@
       return _label;
     };
 
-    _searchResult.append(Pard.Widgets.ProfileCards(_profiles).render());
+    var _shown = [];
+    Pard.Backend.searchProfiles([], [], function(data){
+      data.profiles.forEach(function(profile){
+        _shown.push(profile.profile_id);
+      });
+      _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+    });
+
     _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
 
     _searchWidget.css('width', '500');
@@ -89,15 +94,34 @@
     });
 
     _searchWidget.on('change', function(){
-      var tags = {};
-      tags['query'] = [];
+      _shown = [];
+      tags = [];
       _searchWidget.select2('data').forEach(function(tag){
-        tags['query'].push(tag.text);
+        tags.push(tag.text);
       });
-      console.log(_searchWidget.select2('data'));
-      Pard.Backend.searchProfiles(tags, function(data){
+      Pard.Backend.searchProfiles(tags, _shown, function(data){
+        data.profiles.forEach(function(profile){
+          _shown.push(profile.profile_id);
+        });
         _searchResult.empty();
         _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+      });
+    });
+
+    $(document).ready(function(){
+      $('.whole-container').scroll(function(){
+        if ($('.whole-container').scrollTop() + $(window).height() >= ($('#main-welcome-page').height() + $('.login-bar').height() + $('.footer-bar').height()) + 116){
+          tags = [];
+          _searchWidget.select2('data').forEach(function(tag){
+            tags.push(tag.text);
+          });
+          Pard.Backend.searchProfiles(tags, _shown, function(data){
+            data.profiles.forEach(function(profile){
+              _shown.push(profile.profile_id);
+            });
+            _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+          });
+        }
       });
     });
 
@@ -107,36 +131,6 @@
       }
     }
   }
-  
-  ns.Widgets.SearchByName = function(profiles, callback){
-    var _searchWidget = $('<div>').addClass('ui-widget');
-    var _textInput = Pard.Widgets.Input('', 'text');
-    _textInput.setClass('search-input');
-
-    var _availableTags = [];
-
-    profiles.forEach(function(profile, index){
-      _availableTags[index] = profile.name;
-    });
-
-    _textInput = _textInput.render(); 
-    _textInput.autocomplete({
-      source: _availableTags,
-      minLength: 2
-    });
-
-    var _searchBtn = $('<button>').html('&#x0533;').attr({type: 'button'}).click(function(){callback(_textInput)});
-    _searchBtn.addClass('search-btn');
-
-    _searchWidget.append(_textInput,_searchBtn);
-
-    return {
-      render: function(){
-        return _searchWidget;
-      }
-    }
-  }
-
 
   ns.Widgets.ProfileCards = function (profiles) {
 

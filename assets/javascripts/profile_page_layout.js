@@ -174,7 +174,7 @@
 
     if (profilesOut) var _profiles = profilesOut;    
     else{
-     var _profiles = Pard.CachedProfiles['my_profiles'];
+     var _profiles = Pard.CachedProfiles;
     }  
     var selected = false;
     if(window.location.href.match(/.*&sel=.*/)) selected = window.location.href.split("=").pop();
