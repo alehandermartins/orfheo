@@ -338,6 +338,7 @@
     _createdWidget.append(_linksPermittedContainer, _input.render(), _addInputButton, _invalidInput, _websAddedContainer);
 
     var fb_photos_url = /^(http|https)\:\/\/www\.facebook\.com\/photo.*/i;
+    var fb_photos_2url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/photos.*/i;
     var fb_posts_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/posts\/.*/i;
     var fb_videos_url = /^(http|https)\:\/\/www\.facebook\.com\/.*\/video.*/i;
     var fb_videos_2url = /^(http|https)\:\/\/www\.facebook\.com\/video.*/i;
@@ -381,7 +382,7 @@
         });
       }
 
-      if(url.match(fb_photos_url)) return _composeResults('facebook', 'image');
+      if(url.match(fb_photos_url) || url.match(fb_photos_2url)) return _composeResults('facebook', 'image');
       if(url.match(fb_posts_url)) return _composeResults('facebook', 'image');
       if(url.match(fb_videos_url) || url.match(fb_videos_2url)) return _composeResults('facebook', 'video');
       if(url.match(ig_url)) return _composeResults('instagram', 'image');

@@ -244,7 +244,7 @@ grid-section content LogIn page
     padding-left:2rem;
     padding-right:2rem;
   }
-  margin-top: 2.5rem;
+  margin-top: 3.5rem;
 }
 
 
@@ -332,7 +332,10 @@ User Section
   // width: 100%;
   // text-align: center;
   position: relative;
-  margin-bottom:2rem; 
+  margin-bottom:2.2rem;
+  margin-top: -0.2rem
+
+
   // color: $title-color;
   // @include breakpoint(medium){
   // margin-top: 2rem;
@@ -848,6 +851,19 @@ Production Section
   margin-bottom: 0.3rem;
   margin-top: 1rem;
 }
+
+.multimedia-accepted-sublist{
+  margin-bottom:0.5rem;
+
+}
+
+.multimedia-accepted-sublist li{
+  font-size: $almostNormalSize;
+}
+
+// .multimedia-accepted-list li{
+//   margin-top:0.5rem;
+// }
 
 .cloudinary_fileupload{
   margin-bottom: 1.5rem;

@@ -469,23 +469,39 @@
   ns.Widgets.MultimediaAcceptedMessage = function(){
      var _createdWidget = $('<div>');
 
-     var _list = $('<ul>');
+     var _list = $('<ul>').addClass('multimedia-accepted-list');
 
      var _item1 = $('<li>').html('...una imagen desde <strong>flickr, instagram, pinterest</strong> (un pin), <strong>twitter</strong> (un tweet) o un vídeo desde <strong>youtube, vimeo, vine</strong> o un audio desde <strong>soundcloud</strong>:')
 
-     var _sublist1 = $('<ol>').append(
+     var _sublist1 = $('<ol>').addClass('multimedia-accepted-sublist').append(
      	$('<li>').text('abre la imagen, el vídeo o el audio en el sitio web correspondiente'),
-     	$('<li>').text('copia su enlace directamete desde el navegador o desde la opción compartir/copiar enlace'),
-     	$('<li>').text('pegalo en el campo del formulario'),
+     	$('<li>').text('copia su enlace directamete desde el navegador o desde la opción "compartir" (o "copiar enlace")'),
+     	$('<li>').text('pegalo en el campo del formulario de orfheo'),
      	$('<li>').text('dale al botón para validar')
      	);
 
-     var _item2 = $('<li>').html('...una imagen, un post o un vídeo desde <strong>facebook</strong>:')
+      var _item2 = $('<li>').html('...una imagen, un post o un vídeo publicado en <strong>facebook</strong>:')
 
-     //spotify fb banscamp
+      var _sublist2 = $('<ol>').addClass('multimedia-accepted-sublist').append(
+     	$('<li>').text('pincha la fecha con la hora de publicación que aparece en el post bajo tu nombre'),
+     	$('<li>').text('copia entonces desde el navegador el enlace de la página que se abre'),
+     	$('<li>').text('pegalo en el campo del formulario de orfheo'),
+     	$('<li>').text('dale al botón para validar')
+     	);
 
-     _item1.append(_sublist1);
-     _list.append(_item1, _item2);
+     	var _item3 = $('<li>').html('...un audio desde <strong>bandcamp</strong>:')
+
+      var _sublist3 = $('<ol>').addClass('multimedia-accepted-sublist').append(
+     	$('<li>').text('en la página de la canción pincha a "Share/Embed" (bajo la foto principal) y entonces a "Embed this album"'),
+     	$('<li>').text('selecciona un estilo del lector musical'),
+     	$('<li>').text('copia el codigo html desde el campo Embed que aparec en la esquina izquierda superior'),
+     	$('<li>').text('pegalo en el campo del formulario de orfheo'),
+     	$('<li>').text('dale al botón para validar')
+     	);
+
+     //spotify bandcamp
+
+     _list.append(_item1.append(_sublist1), _item2.append(_sublist2), _item3.append(_sublist3));
 
      _createdWidget.append(_list);
 
