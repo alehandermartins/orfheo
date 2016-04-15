@@ -140,8 +140,6 @@ Pard.Users = function(profiles){
 
 Pard.Profile = function(profiles){
 
-  console.log(profiles);
-
   Pard.CachedProfiles  = profiles;
 
   var _whole = $('<div>').addClass('whole-container');
@@ -161,8 +159,6 @@ Pard.Profile = function(profiles){
 
 Pard.Visitor = function(profilesOut){
   
-  console.log(profilesOut);
-
   var _whole = $('<div>').addClass('whole-container');
 
   var _out = true;
@@ -183,8 +179,6 @@ Pard.Visitor = function(profilesOut){
 
 
 Pard.Outsider = function(profilesOut){
-
-  console.log(profilesOut)
 
   var _whole = $('<div>').addClass('whole-container');
 
