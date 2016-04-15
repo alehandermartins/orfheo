@@ -14,7 +14,7 @@ class SearchController < BaseController
     shown = check_params params[:shown]
     matched_profiles = query_profiles get_profiles, tags
     not_shown = not_shown_profiles matched_profiles, shown
-    success({profiles: not_shown.take(2)})
+    success({profiles: not_shown.take(6)})
   end
 
   private
