@@ -885,6 +885,13 @@ select, textarea, a{
   min-height: 1.5rem;
 }
 
+.error-multimedia-text{
+  color: red;
+  font-size: $almostNormalSize;
+  margin-top: -0.7rem;
+
+}
+
 .not-filled-text{
   margin-bottom: -0.5rem;
 }

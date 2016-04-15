@@ -304,7 +304,6 @@
 	  }
 	  });
 
-
   }
 
 
@@ -333,37 +332,21 @@
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
 
-    // var _videoProviders = ['youtube', 'vimeo', 'vine', 'facebook'];
-    // var _imageProviders = ['tu ordenador', 'instagram', 'flickr', 'pinterest', 'twitter', 'facebook'];
-    // var _audioProviders = ['soundcloud', 'bandcamp', 'spotify'];
-
     var _videoList = $('<ul>').addClass('clearfix');
-    _videoList.append($('<li>').html('<strong>videos</strong> desde:  youtube, vimeo, vine, facebook'));
-    // _videoProviders.forEach(function(element) {
-    //   console.log(element);
-    //   _videoList.append($('<li>').text(element));
-    // });
+    _videoList.append($('<li>').html('<strong>vídeos</strong> desde:  youtube, vimeo, vine, facebook'));
 
     var _imageList = $('<ul>').addClass('clearfix');
     _imageList.append($('<li>').html('<strong>imágenes</strong> desde: tu ordenador, instagram, flickr, pinterest, twitter, facebook'));
-    // _imageProviders.forEach(function(element) {
-    //   _imageList.append($('<li>').text(element));
-    // });
 
     var _audioList = $('<ul>').addClass('clearfix');
-    _audioList.append($('<li>').html('<strong>audios</strong> desde:soundcloud, bandcamp, spotify'));
-    // _audioProviders.forEach(function(element) {
-    //   _audioList.append($('<li>').text(element));
-    // });
+    _audioList.append($('<li>').html('<strong>audios</strong> desde: soundcloud, bandcamp, spotify'));
     
     var _message = $('<div>').append($('<p>').text('Puedes añadir:'),_videoList, _imageList, _audioList).addClass('message-form multimedia-manager-message');
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-
-    var _invalidInput = $('<div>').addClass('not-filled-text');
-    
+   
     if (production['type'] == 'space'){
       _submitForm['profile_id'] = production.profile_id;
     } 
@@ -375,11 +358,10 @@
 
     var _inputMultimedia = Pard.Widgets.InputMultimedia();
     _inputMultimedia.setVal(production['links']);
-    var _inputMultimediaLabel = $('<label>').addClass('multimedia-manager-input-label').text('Links a materiales online');
+    var _inputMultimediaLabel = $('<label>').addClass('multimedia-manager-input-label').text('Materiales online');
 
 
     _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimediaLabel,_inputMultimedia.render()));
-
 
     var _thumbnail = $('<div>').addClass('file-upload-thumbnail');
     var _url = [];
@@ -437,8 +419,7 @@
       }
     }
 
-
-    _createdWidget.append(_message, _formContainer, _invalidInput, _submitBtnContainer.append(submitButton));
+    _createdWidget.append(_message, _formContainer, _submitBtnContainer.append(submitButton));
 
     var _closepopup = {};
 
@@ -473,8 +454,8 @@
   }
 
   ns.Widgets.MultimediaAccepted = function(){
-    var _caller = $('<a>').text('Enlaces permitidos');
-    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.MultimediaAcceptedMessage()});
+    var _caller = $('<a>').text('Entradas aceptadas');
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Como añadir...', function(){return Pard.Widgets.MultimediaAcceptedMessage()});
 
     var _createdWidget = _popup.render();
 
@@ -487,6 +468,26 @@
 
   ns.Widgets.MultimediaAcceptedMessage = function(){
      var _createdWidget = $('<div>');
+
+     var _list = $('<ul>');
+
+     var _item1 = $('<li>').html('...una imagen desde <strong>flickr, instagram, pinterest</strong> (un pin), <strong>twitter</strong> (un tweet) o un vídeo desde <strong>youtube, vimeo, vine</strong> o un audio desde <strong>soundcloud</strong>:')
+
+     var _sublist1 = $('<ol>').append(
+     	$('<li>').text('abre la imagen, el vídeo o el audio en el sitio web correspondiente'),
+     	$('<li>').text('copia su enlace directamete desde el navegador o desde la opción compartir/copiar enlace'),
+     	$('<li>').text('pegalo en el campo del formulario'),
+     	$('<li>').text('dale al botón para validar')
+     	);
+
+     var _item2 = $('<li>').html('...una imagen, un post o un vídeo desde <strong>facebook</strong>:')
+
+     //spotify fb banscamp
+
+     _item1.append(_sublist1);
+     _list.append(_item1, _item2);
+
+     _createdWidget.append(_list);
 
      return {
       render: function(){

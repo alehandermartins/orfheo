@@ -27,7 +27,7 @@
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
       input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a tus perfiles en redes sociales (enlaces a videos y fotos podrás gestionarlos juntos con tu propuesta artística).')
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a tus perfiles en redes sociales (fotos y vídeos podrás gestionarlos juntos con tu propuesta artística).')
     };
 
     _form['color'] = {
@@ -83,9 +83,9 @@
     };
 
     _form['links'] = {
-      label: Pard.Widgets.InputLabel('Links a materiales online'),
+      label: Pard.Widgets.InputLabel('Materiales online'),
       input: Pard.Widgets.InputMultimedia(),
-      helptext: Pard.Widgets.HelpText('Añade enlaces a videos, fotos y audios desde tus redes sociales.')
+      helptext: Pard.Widgets.HelpText('Añade vídeos, fotos y audios desde tus redes sociales.')
     };
 
     _form['color'] = {
@@ -351,9 +351,9 @@
     //_form['fotos'] = Pard.Widgets.Input('fotos', 'file');
     
     _form['links'] = {
-      label: Pard.Widgets.InputLabel('Links a materiales online'),
+      label: Pard.Widgets.InputLabel('Materiales online'),
       input: Pard.Widgets.InputMultimedia(),
-      helptext: Pard.Widgets.HelpText('Añade enlaces a videos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor.')
+      helptext: Pard.Widgets.HelpText('Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor.')
     };
     
     
