@@ -33,10 +33,5 @@ describe WelcomeController do
       get '/'
       expect(last_response.location).to eq('http://example.org/users/')
     end
-
-    it 'gets all profiles' do
-      expect(Services::Profiles).to receive(:get_profiles).with(:all, nil).and_return([])
-      get '/'
-    end
   end
 end

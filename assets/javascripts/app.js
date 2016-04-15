@@ -1,12 +1,12 @@
 'use strict';
 
-Pard.CachedProfiles = {};
+Pard.CachedProfiles = [];
 Pard.ProfileManager = {
   getProfile: function(profile_id, profilesOut){
     var _profile = {};
     if (profilesOut){ profiles = profilesOut}
     else{
-     profiles = Pard.CachedProfiles['my_profiles'];
+     profiles = Pard.CachedProfiles;
     }
     profiles.forEach(function(profile){
       if(profile.profile_id == profile_id) _profile = profile;
@@ -18,7 +18,7 @@ Pard.ProfileManager = {
     var _production = {};
     if (profilesOut) var profiles = profilesOut;
     else{
-     var profiles =  Pard.CachedProfiles['my_profiles'];
+     var profiles =  Pard.CachedProfiles;
     }
     profiles.forEach(function(profile){
       if('productions' in profile){
@@ -31,7 +31,7 @@ Pard.ProfileManager = {
   },
   getProfileId: function(production_id){
     var _profile_id = '';
-    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+    Pard.CachedProfiles.forEach(function(profile){
       if('productions' in profile){
         profile.productions.forEach(function(production){
           if(production.production_id == production_id) _profile_id = profile.profile_id;
@@ -41,10 +41,10 @@ Pard.ProfileManager = {
     return _profile_id;
   },
   getUserId: function(){
-    return Pard.CachedProfiles['my_profiles'][0].user_id;
+    return Pard.CachedProfiles[0].user_id;
   },
   modifyProduction: function(production){
-    Pard.CachedProfiles['my_profiles'].forEach(function(profile){
+    Pard.CachedProfiles.forEach(function(profile){
       if('productions' in profile){
         profile.productions.forEach(function(prod, index){
           if(prod.production_id == production.production_id){
@@ -77,7 +77,7 @@ Pard.ProfileManager = {
 
     if (profilesOut) var profiles = profilesOut;
       else{
-        var profiles = Pard.CachedProfiles['my_profiles']
+        var profiles = Pard.CachedProfiles;
     }
     profiles.forEach(function(profile){
       if('video' in profile) delete(profile['video']);
@@ -94,9 +94,7 @@ Pard.ProfileManager = {
   }
 }
 
-Pard.Welcome = function(profiles){
-
-  Pard.CachedProfiles['profiles'] = profiles;
+Pard.Welcome = function(){
 
   var _header = Pard.Widgets.LoginHeader();
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
@@ -107,15 +105,14 @@ Pard.Welcome = function(profiles){
   
   $('body').append(_whole);
 
-  $(document).ready(function(){$(document).foundation()});
-
-
+  $(document).ready(function(){
+    $(document).foundation();
+  });
 }
 
 Pard.Users = function(profiles){
 
-  Pard.CachedProfiles['profiles'] = profiles.profiles;
-  Pard.CachedProfiles['my_profiles'] = profiles.my_profiles;
+  Pard.CachedProfiles = profiles;
 
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
@@ -131,7 +128,7 @@ Pard.Users = function(profiles){
   $(_whole).append(_header.render(), _main.render(), _callGenerator.render(), _footer.render());
 
   $(document).ready( function(){
-    if (profiles.my_profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
+    if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
   }); 
 
 
@@ -143,14 +140,14 @@ Pard.Users = function(profiles){
 
 Pard.Profile = function(profiles){
 
-  Pard.CachedProfiles['my_profiles'] = profiles;
+  Pard.CachedProfiles  = profiles;
 
   var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();      
     var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
-    var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles['my_profiles']).render().attr({id: 'main-profile-page'});
+    var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles).render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){$(document).foundation()});
   }

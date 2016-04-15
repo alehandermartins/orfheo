@@ -9,7 +9,7 @@
 
     if (profileOut) var profile = profileOut; 
       else{
-      profile_id = profile_id || Pard.CachedProfiles['my_profiles'][0].profile_id;
+      profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
       var profile = Pard.ProfileManager.getProfile(profile_id);
     }
    

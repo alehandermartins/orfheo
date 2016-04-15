@@ -7,7 +7,7 @@ class UsersController < BaseController
   end
 
   get '/users/' do
-    profiles = get_profiles :all_user_aside, {user_id: session[:identity]}
+    profiles = get_profiles :user_profiles, {user_id: session[:identity]}
     erb :users, :locals => {:profiles => profiles.to_json}
   end
 

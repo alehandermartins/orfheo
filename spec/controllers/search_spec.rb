@@ -34,6 +34,7 @@ describe SearchController do
 
   let(:profile){
     {
+      user_id: user_id,
       profile_id: profile_id,
       type: 'artist',
       name: 'artist_name',
@@ -47,7 +48,8 @@ describe SearchController do
 
   let(:space_profile){
     {
-      profile_id: otter_profile_id,
+      user_id: 'otter_user',
+      profile_id: 'otter_profile_id',
       type: 'space',
       name: 'space_name',
       category: 'home',
@@ -183,8 +185,6 @@ describe SearchController do
 
   describe 'Results' do
 
-
-
     it 'fails if the query is not an array of strings' do
       post results_route, {query: {id: 'id'}}
       expect(parsed_response['status']).to eq('fail')
@@ -192,22 +192,28 @@ describe SearchController do
     end
 
     it 'returns random profiles if query is empty' do
-      post results_route, {query: []}
+      post results_route, {query: [], shown: []}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(artist_profile), Util.stringify_hash(space_profile)])
     end
 
     it 'retrieves profiles form other users if logged in' do
-      allow(Services::Profiles).to receive(:get_profiles).with(:all_user_aside, {user_id: user_id}).and_return({profiles: []})
       post login_route, user_hash
-      expect(Services::Profiles).to receive(:get_profiles).with(:all_user_aside, {user_id: user_id})
-      post results_route, {query: ['music']}
+      post results_route, {query: ['valencia'], shown: []}
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profiles']).to eq([Util.stringify_hash(space_profile)])
     end
 
     it 'returns matching profiles' do
-      post results_route, {query: ['music']}
+      post results_route, {query: ['music'], shown: []}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(artist_profile)])
+    end
+
+    it 'excludes already shown profiles' do
+      post results_route, {query: ['valencia'], shown: [profile_id]}
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profiles']).to eq([Util.stringify_hash(space_profile)])
     end
   end
 end

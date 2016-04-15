@@ -11,32 +11,39 @@ class SearchController < BaseController
 
   post '/results' do
     tags = get_query params[:query]
+    shown = check_params params[:shown]
     matched_profiles = query_profiles get_profiles, tags
-    success({profiles: matched_profiles})
+    not_shown = not_shown_profiles matched_profiles, shown
+    success({profiles: not_shown.take(6)})
   end
 
   private
   def get_query params
     return [] if params.blank?
-    raise Pard::Invalid::QueryParams unless params.is_a?(Array) && params.all?{ |param| param.is_a? String}
+    check_params params
     params.map{|param| I18n.transliterate(param.downcase)}
   end
 
+  def check_params params
+    return [] if params.blank?
+    raise Pard::Invalid::QueryParams unless params.is_a?(Array) && params.all?{ |param| param.is_a? String}
+    params
+  end
+
   def get_profiles
-    if session[:identity]
-      profiles = Services::Profiles.get_profiles :all_user_aside, {user_id: session[:identity]}
-      return profiles[:profiles]
-    end
     profiles = Services::Profiles.get_profiles :all, nil
+    profiles.reject!{ |profile| profile[:user_id] == session[:identity]} if session[:identity]
+    profiles
   end
 
   def query_profiles all_profiles, tags
     return all_profiles if tags.all?{ |tag| tag.blank?}
     all_profiles.select{ |profile|
-      query_profile profile, tags
+      query_profile(profile, tags)
     }
   end
 
+  
   def query_profile profile, tags
     tags.all?{ |tag|
       check_profile(profile, tag) || check_proposals(profile, tag) 
@@ -101,6 +108,10 @@ class SearchController < BaseController
       :description,
       :short_description
     ]
+  end
+
+  def not_shown_profiles profiles, shown
+    profiles.reject{ |profile| shown.include? profile[:profile_id]}
   end
 
   def get_suggestions_for matched_profiles, query
