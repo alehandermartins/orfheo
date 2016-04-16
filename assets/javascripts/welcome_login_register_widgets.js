@@ -68,7 +68,7 @@
     _emailLabel.append(_fields['email'].render(), _fields['emailConf'].render());
     _passwdLabel.append(_fields['password'].render());
 
-    var _initMex = $('<div>').append($('<p>').append('...por supuesto es libre y gratuito :)')).addClass('register-form-init-mex');
+    var _initMex = $('<div>').append($('<p>').html('Con ello, tendrás acceso a tus datos de la convocatoria, podrás enviar más propuestas, enmandar las que has enviado, cambiar la información sobre ti para que el publico pueda conocerte...hacerlo,  <strong> por supuesto, es libre y gratuito :) </strong>')).addClass('register-form-init-mex');
 
     var _termsAndCondtions = $('<a>').attr('href','#').text('terminos y condiciones');
     var _termsAndCondtionsPopup = Pard.Widgets.PopupCreator(_termsAndCondtions,'Terminos y Condiciones', function(){return Pard.Widgets.TermsAndConditionsMessage()});

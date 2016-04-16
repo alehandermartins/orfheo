@@ -8,31 +8,34 @@
       Pard.Widgets.Alert('','Te hemos enviado por correo un enlace para confirmar tu cuenta y acceder a orfheo.');
     }
     else {
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
         var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
         _caller.trigger('click');
       }
       else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+        Pard.Widgets.Alert('', _dataReason);
       }
     }
   };
 
   ns.Events.Login = function(data){
+    console.log(data);
     if (data['status'] == 'success'){
       document.location = '/users/';
     }
     else {
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof  _dataReason == 'object'){
         var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
         _caller.trigger('click');
       }
       else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+        Pard.Widgets.Alert('', _dataReason);
       }
     };
   };
@@ -42,14 +45,15 @@
       document.location = '/';
     }
     else {
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
         var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
         _caller.trigger('click');
       }
       else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+        Pard.Widgets.Alert('', _dataReason);
       }
     }
   };
@@ -59,14 +63,15 @@
       document.location = '/profile?id=' + data['profile_id'];
     }
     else{
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
         var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
         _caller.trigger('click');
       }
       else{ 
         console.log(data.reason);
-        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+        Pard.Widgets.Alert('', _dataReason);
       }
     }
   };
@@ -81,14 +86,15 @@
       );
     }
     else{
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof  _dataReason == 'object'){
         var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return  _dataReason}, 'alert-container-full');
         _caller.trigger('click');
       }
       else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+        Pard.Widgets.Alert('', _dataReason);
       }
     }
   };
@@ -100,14 +106,15 @@
       Pard.Widgets.ProductionsNavigation(_profile_id, $('#_profileNav'), $('#_sectionContent'), $('#_productionsContent'), data.production.production_id);
     }
     else{
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof  _dataReason == 'object'){
         var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return  _dataReason}, 'alert-container-full');
         _caller.trigger('click');
       }
       else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+        Pard.Widgets.Alert('',  _dataReason);
       }
     }
   }
@@ -118,14 +125,15 @@
       document.location = '/profile?id=' + profile_id + '&sel=' + data.production.production_id;
     }
     else{
-      if (typeof Pard.Widgets.Dictionary(data.reason).render() == 'object'){
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
         var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.Dictionary(data.reason).render()}, 'alert-container-full');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
         _caller.trigger('click');
       }
       else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', Pard.Widgets.Dictionary(data.reason).render());
+        Pard.Widgets.Alert('', _dataReason);
       }
     }
   }
@@ -135,9 +143,17 @@
       // console.log(data);
       Pard.Widgets.Alert('', 'Tu solicitud de participación en el festival ha sido cancelada correctamente.', function(){location.reload();})
     }
-     else{
+    else{
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', data.reason);
+        Pard.Widgets.Alert('', _dataReason);
+      }
     }
   }
 
@@ -145,9 +161,17 @@
     if (data['status'] == 'success'){
       location.reload();
     }
-     else{
+    else{
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', data.reason);
+        Pard.Widgets.Alert('', _dataReason);
+      }
     }
   }
 
@@ -155,9 +179,17 @@
     if (data['status'] == 'success'){
       location.href = '/users/';
     }
-     else{
+    else{
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', data.reason);
+        Pard.Widgets.Alert('', _dataReason);
+      }
     }
   }
 
@@ -165,10 +197,36 @@
     if (data['status'] == 'success'){
       location.href = '/';
     }
-     else{
+    else{
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', data.reason);
+        Pard.Widgets.Alert('', _dataReason);
+      }
     }
+  }
+
+  ns.Events.AmendProposal = function(data){
+    if (data['status'] == 'success'){
+      Pard.Widgets.Alert('', 'Enmienda enviada correctamente.', function(){ location.reload(); });
+    }
+    // else{
+    //   var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+    //   if (typeof _dataReason == 'object'){
+    //     var _caller = $('<button>');
+    //     var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
+    //     _caller.trigger('click');
+    //   }
+      else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', _dataReason);
+      }
+    // }
   }
 
 

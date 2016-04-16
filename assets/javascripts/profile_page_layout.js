@@ -89,10 +89,7 @@
     var _buttonContainer = $('<div>');
 
     if (notLogged){
-      var _signUpMessage =  Pard.Widgets.Registration();    
-      var _caller = $('<button>').attr({type:'button'}).html('Regístrate')
-      var _popup = Pard.Widgets.PopupCreator(_caller, 'Regístrate para continuar', function(){return _signUpMessage});
-      var _signUpButton = _popup.render();
+      var _signUpButton = Pard.Widgets.SignUpButton().render();
       _signUpButton.addClass('signupButton-Outsider');
       var _innerContainer = $('<div>');
       _innerContainer.append(_signUpButton);

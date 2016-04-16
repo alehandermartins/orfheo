@@ -94,11 +94,7 @@
 
     Pard.Widgets.Sticker(_asideContainer, 95, 29);
 
-    var _signUpMessage =  Pard.Widgets.Registration();    
-    var _caller = $('<button>').attr({type:'button'}).html('Regístrate')
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Regístrate para continuar', function(){return _signUpMessage});
-
-    var _signUpButton = _popup.render();
+    var _signUpButton = Pard.Widgets.SignUpButton().render();
     _signUpButton.addClass('signupButton');
 
       _asideContainer.append(_info.append(_signUpButton));
@@ -106,6 +102,21 @@
     return{
       render: function(){
         return _asideContainer;
+      }
+    }
+  }
+
+  ns.Widgets.SignUpButton = function(){
+
+    var _signUpMessage =  Pard.Widgets.Registration();    
+    var _caller = $('<button>').attr({type:'button'}).html('Únete')
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
+
+    var _signUpButton = _popup.render();
+   
+    return{
+      render: function(){
+        return _signUpButton;
       }
     }
   }
@@ -134,7 +145,9 @@
     var _shortDescription = $('<p>').text('Festival libre de expresión gratuita').addClass('short-description-text');  
     _info.append(_shortDescription)
     
-    var _descriptionFestival = 'El Benimaclet conFusión festival es un evento de expresión artística celebrado en el barrio valenciano de Benimaclet. Las representaciones, tanto en los puntos ubicados por las calles peatonales como en los espacios participantes, pretenden dar voz al alma artística de este barrio. Al mismo tiempo, el festival quiere ser una plataforma de encuentro y diálogo abierta a todas las personas, una posibilidad para quien quiera comunicar algo y un estimulo para quien esté dispuesto a escuchar. Es un canal de difusión, defensa y práctica de valores tales como el sentido de comunidad, el compartir, la integración entre diversos, la libre expresión y la creatividad.';
+    var _descriptionFestival = 'El Benimaclet conFusión festival es un evento de expresión artística celebrado en el barrio valenciano de Benimaclet. Las representaciones, tanto en los puntos ubicados por las calles peatonales como en los espacios participantes, pretenden dar voz al alma artística de este barrio. Al mismo tiempo, el festival quiere ser una plataforma de encuentro y diálogo abierta a todas las personas, una posibilidad para quien quiera comunicar algo y un estimulo para quien esté dispuesto a escuchar.'; 
+      // Es un canal de difusión, defensa y práctica de valores tales como el sentido de comunidad, el compartir, la integración entre diversos, la libre expresión y la creatividad.
+    
 
     var _description = $('<p>').text(_descriptionFestival);
     _info.append(_description);

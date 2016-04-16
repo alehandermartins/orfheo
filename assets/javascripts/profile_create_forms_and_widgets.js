@@ -6,7 +6,7 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.CreateProfile = function(){
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Create profile');
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'});
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Comparte tu Arte o tu Espacio', function(){ return Pard.Widgets.CreateProfileMessage()});
    
     return {
@@ -44,8 +44,8 @@
     }
 
     var _popupTitle = {
-      artist: 'Perfil de artista',
-      space: 'Perfil de espacio'
+      artist: 'Artista',
+      space: 'Espacio'
     }
 
     var _caller = $('<div>').html(_buttonDesign[type]);
@@ -69,7 +69,7 @@
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
 
     var _message = $('<div>').addClass('message-form');
-    _message.html('<p> Puedes apuntarte a la convocatoría del conFusión 2016 enviado una o más propuestas como artista o también ofreciendo un tu espacio.</p> <h6>Empieza creando un perfil: </h6>');
+    _message.html('<p> Puedes apuntarte a la convocatoría del conFusión 2016 enviando una o más propuestas como artista o también ofreciendo un tu espacio:');
 
     _createdWidget.append(_message, _artistButton, _spaceButton);
 

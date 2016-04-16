@@ -6,6 +6,8 @@
 
  ns.Widgets.PrintSentCall = function(proposal, _form, closepopup){
 
+  console.log(proposal)
+
     var _createdWidget = $('<div>');
 
     var profile = Pard.ProfileManager.getProfile(proposal.profile_id);
@@ -100,20 +102,54 @@
 
 
     var _postData = $('<div>').addClass('postData-container');
-    var _postDataLabel = $('<p>').addClass('myProposals-field-label').text('No se permite modificar el formulario enviado, pero, en caso lo necesites, puedes enviar una enmienda antes del cierre de la convocatoria (15 de Junio).');
-    var _textArea = $('<textarea>').attr('rows', 4);
-    var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
 
-    _textArea.on('input', function(){$(this).removeClass('warning')});
+    if(proposal['amend']){
+      var _amendLabel = 'Enmienda:';
+      _amendFormLabel = $('<span>').text(_amendLabel).addClass('myProposals-field-label');
+      var _amendText = $('<div>').append($('<p>').text(proposal['amend']));
+      var _modifyAmendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').addClass('send-post-data-btn').text('Modifica Enmienda');
 
-    _sendButton.click(function(){
-      if (_textArea.val()) console.log('send');
-      else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
-    });
+      _modifyAmendButton.click(function(){
+        _postData.empty();
+        var _textArea = $('<textarea>').attr('rows', 4).val(proposal['amend']);
+        var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
 
-    var _finalMessage = $('<p>').append('Para cualquier duda o necesidad no te olvides que el equipo de organización del festival está siempre a tu disposición y puedes contactarlo escribiendo a <a href="mailto:contacta@beniconfusionfest.es" target="_top">contacta@beniconfusionfest.es</a>.').addClass('myproposal-final-message');
+        _textArea.on('input', function(){$(this).removeClass('warning')});
 
-    _postData.append(_postDataLabel, _textArea, _sendButton);
+        _sendButton.click(function(){
+          if (_textArea.val()) {
+            Pard.Backend.amendProposal(proposal.proposal_id, _textArea.val(), Pard.Events.AmendProposal);
+            closepopup();
+          }
+          else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
+        });
+    
+        _postData.append(_postDataLabel, _textArea, _sendButton);
+      });
+    
+      _postData.append(_amendFormLabel, _amendText, _modifyAmendButton);
+      
+    }
+    else{
+      var _postDataLabel = $('<p>').addClass('myProposals-field-label').text('No se permite modificar el formulario enviado, pero, en caso lo necesites, puedes enviar una enmienda antes del cierre de la convocatoria (15 de Junio).');
+
+      var _textArea = $('<textarea>').attr('rows', 4);
+      var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
+
+      _textArea.on('input', function(){$(this).removeClass('warning')});
+
+      _sendButton.click(function(){
+        if (_textArea.val()) {
+         Pard.Backend.amendProposal(proposal.proposal_id, _textArea.val(), Pard.Events.AmendProposal);
+         closepopup();
+        }
+        else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
+      });
+
+      _postData.append(_postDataLabel, _textArea, _sendButton);
+    }
+
+     var _finalMessage = $('<p>').append('Para cualquier duda o necesidad no te olvides que el equipo de organización del festival está siempre a tu disposición y puedes contactarlo escribiendo a <a href="mailto:contacta@beniconfusionfest.es" target="_top">contacta@beniconfusionfest.es</a>.').addClass('myproposal-final-message');
 
     var _deleteProposalCaller = $('<a>').attr('href','#').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller');
 

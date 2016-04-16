@@ -143,14 +143,6 @@
         });
       }
     }
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-      }
-    }
   }
 
 

@@ -79,14 +79,17 @@
       invalid_parameters: '<div>Los parámetros insertados no son validos!<br/> Por favor, revísalos.</div>',
       invalid_email: '<div>¡El correo no es correcto!<br/> Por favor, vuelve a intentar.</div>',
       incorrect_password: function(){return Pard.Widgets.RecoverPasswdMessage('¡Contraseña equivocada!')},
-      not_validated_user:'<h4 style="margin-top:-1.2rem;">Usuario no validado</h4> <div>Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam.</div>',
+      not_validated_user:function(){return Pard.Widgets.NotValidatedUserMessage()},
       invalid_type: 'Tipo de perfil no valido.',
-      existing_profile: 'Ya existe un perfil con este nombre. Ecoge otro.',
+      existing_profile: 'Ya existe un perfil con este nombre. Escoge otro.',
       non_existing_profile: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Perfil no existente!</div>',
       non_existing_proposal: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Propuesta no existente!</div>',
+       non_existing_production: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Producción artística no existente!</div>',
       invalid_category:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Categoría no valida!</div>',
       existing_call: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Convocatoria ya exitente.</div>',
-      non_existing_call:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe esta convocatoria.</div>'
+      non_existing_call:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe esta convocatoria.</div>',
+      you_dont_have_permission: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>No tienes los permisos necesarios para está acción.</div>',
+      invalid_query: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Acción no valida.</div>'
     }   
     
 
@@ -102,7 +105,7 @@
   }
 
   ns.Widgets.RecoverPasswdMessage = function(text){
-      var _messageContainer = $('<div>').append()
+      var _messageContainer = $('<div>');
       var _message  = $('<div>').text(text).css({
         'font-size': '18px',
         'margin-bottom':'1rem'
@@ -127,9 +130,60 @@
       }
     }
 
+    ns.Widgets.NotValidatedUserMessage = function(){
+      var _messageContainer = $('<div>'); 
+      var _message = $('<div>').append($('<p>').html('<h4 style="margin-top:-1.2rem;">Usuario no validado</h4> <p>Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam...</p>'));
+
+      var _userRecovery = $('<div>').append($('<span>').html('...o vuelve a escribir aquí tu correo, y te enviamos otro.'));
+
+      var _recoveryWidget = $('<div>');
+      var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
+
+      var _email = Pard.Widgets.Input('', 'email');
+      var _result = $('<div>').addClass('error-text');
+      var _sendButton = Pard.Widgets.Button('Enviar').render();
+      _sendButton.addClass('recoveryPasswd-popup-button');
+
+      _sendButton.on('click', function(){
+          _result.empty();
+          if(!regEx.test(_email.getVal())) {
+            _result.text('El email no es valido');
+            _email.addWarning();
+          }
+          else {
+            Pard.Backend.passwordRecovery(_email.getVal(), function(data){
+              if (data['status'] == 'success'){
+                Pard.Widgets.Alert('', 'Te hemos enviado un correo con las instrucciones para acceder a tu cuenta.');
+              }
+              else {
+                _result.text('El usuario no existe.');
+              }
+            });
+          }
+        });
+
+      
+      _recoveryWidget.append(_email.render(), _result, _sendButton);
+
+
+      _userRecovery.append(_recoveryWidget);
+
+      _messageContainer.append(_message, _userRecovery);
+
+      return {
+        render: function(){    
+          return _messageContainer;
+        },
+        setCallback: function(callback){
+          _sendButton.click(function(){callback()});
+          // _caller.on('click',function(){callback()});
+        }
+      }
+    }
+
 
   ns.Widgets.NoExistingUserMessage = function(){
-      var _messageContainer = $('<div>').append()
+      var _messageContainer = $('<div>');
       var _message  = $('<div>').text('¡No existe ningún usuario asociado con este correo!').css({
         'font-size': '18px',
         'margin-bottom':'1rem'
