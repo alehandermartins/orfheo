@@ -37,6 +37,8 @@
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
     var _main = $('<main>').css({'background': _backColor});
 
+   
+
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
     var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
@@ -73,6 +75,18 @@
 
     _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
     _main.append(_mainLarge);
+
+     if (notLogged) {
+        _main.addClass('outsider-main');
+       $('.whole-container').on('scroll',function() {
+       if ( _main.offset().top < 30){
+        $('#register-outsider-header-button').show();        
+       }
+       else{
+        $('#register-outsider-header-button').hide();
+       }
+      });
+     }
 
     return {
       render: function(){

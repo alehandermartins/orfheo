@@ -98,7 +98,8 @@ Pard.Welcome = function(){
 
   var _header = Pard.Widgets.LoginHeader();
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
-  var _footer = Pard.Widgets.Footer();
+  var _notLogged = true;
+  var _footer = Pard.Widgets.Footer(_notLogged);
   var _whole = $('<div>').addClass('whole-container');
   
   _whole.append(_header.render(), _main.render(), _footer.render());
@@ -186,8 +187,8 @@ Pard.Outsider = function(profilesOut){
   var _notLogged = true;
 
   var _display = function(){
-    var _footer = Pard.Widgets.Footer();      
-    var _header = Pard.Widgets.LoginHeader();
+    var _footer = Pard.Widgets.Footer(_notLogged);      
+    var _header = Pard.Widgets.LoginHeader(_notLogged);
     var _main = Pard.Widgets.ProfileMainLayout(profilesOut, _out, _notLogged).render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());

@@ -61,14 +61,15 @@ Header
 @media only screen and #{breakpoint(medium)} {
   .login-bar{
     @extend .pard-bar;
-    min-height: 6rem;
-    padding-top: 0.9rem; 
+    min-height: 5rem;
+    padding-top: 0.7rem; 
   }
   .user-bar{
     @extend .pard-bar;
     min-height: 4.5rem;
     padding-top: auto; 
   }
+
 }
 
 /*GENERAL*/
@@ -101,8 +102,8 @@ Header
   .input-login-field{
     height: auto;
     font-size: $smallSize;
-    width: 200px;
-    padding: 0.4rem
+    width: 180px;
+    padding: 0.3rem
   }
 }
 
@@ -148,7 +149,7 @@ Header
   @include breakpoint(medium){
     float: right;
     margin-top: -1.3rem;
-    margin-right: 6.7rem;
+    margin-right: 5rem;
   } 
 }
 
@@ -920,4 +921,23 @@ SMALL!!!
     max-height: -webkit-calc(98vw*1.35);
     max-height: calc(98vw*1.35); 
  }
+}
+
+
+
+/*===============================================
+OUTSIDER PAGE
+================================================*/
+
+@media only screen and #{breakpoint(medium)} {
+
+  .outsider-header{
+    position:fixed;
+    padding-right:0.9rem;
+  }
+
+  .outsider-main{
+    margin-top: 5rem;
+  }
+
 }

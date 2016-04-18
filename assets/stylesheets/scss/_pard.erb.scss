@@ -442,6 +442,25 @@ button{
   margin-top:1rem;
 }
 
+#register-outsider-header-button{
+  color: $element-color;
+  font-weight: bold;
+  // width: 100%;
+  padding: 0.3rem 0.65rem;
+  @include border-radius($element-border-radius);
+  background: rgb(56, 133, 255);
+  // display: inline-block;
+  font-size: $almostNormalSize;
+  position:absolute;
+  top: 0.2rem;
+  right: -5rem;
+  // position:absolute;
+}
+
+.header-flag{
+
+}
+
 // .signupButton-Outsider{
 //   margin-bottom: 1.8rem;
 // }
@@ -794,12 +813,14 @@ FOOTER
 .footer-bar{
   @extend .pard-bar;
   position:relative;
-  background: $content-background;
+  background: black;
+  color: $grey-2;
   padding-bottom:0rem;
   bottom:0;
+  font-size: $almostNormalSize;
   @include breakpoint(medium) {  
-    height:5rem;
-    padding-top:2rem;
+    height:2.2rem;
+    // padding-top:2rem;
   }
   @include breakpoint(small){
   padding-top:0.5rem;

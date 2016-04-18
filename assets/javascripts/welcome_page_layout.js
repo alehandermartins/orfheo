@@ -41,18 +41,29 @@
   }
 
 
-  ns.Widgets.LoginHeader = function(){
+  ns.Widgets.LoginHeader = function(notLogged){
     
     var _createdWidget = $('<header>').addClass('login-bar');
+   
     var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
     var _container = $('<div>').addClass('pard-header-container');
 
     
-    var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content').css('cursor','pointer');
-    _topBarTitle.html('<h3><strong>orfheo</strong></h3>');
-    _topBarTitle.click(function(){
+    var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content')
+    var _logo = $('<div>').css({'cursor':'pointer'});
+    _logo.html('<h3><strong>orfheo</strong></h3>');
+    _topBarTitle.append(_logo);
+    _logo.click(function(){
       location.href = '/';
     });
+
+     if (notLogged) {
+      _createdWidget.addClass('outsider-header');
+      var _registerBtnOut = Pard.Widgets.SignUpButton().render().attr({ id: 'register-outsider-header-button'});
+
+      _topBarTitle.append(_registerBtnOut);
+      _registerBtnOut.hide();
+    }
    
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
 
@@ -60,6 +71,7 @@
     var _iconLogin = $('<span>').addClass('menu-icon dark').css('margin-right','0.3rem');
     _iconLogin.attr('data-toggle','');
     _elemResponsive.append(_iconLogin,'Entra');
+
 
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true});
@@ -106,20 +118,7 @@
     }
   }
 
-  ns.Widgets.SignUpButton = function(){
 
-    var _signUpMessage =  Pard.Widgets.Registration();    
-    var _caller = $('<button>').attr({type:'button'}).html('Únete')
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta...', function(){return _signUpMessage});
-
-    var _signUpButton = _popup.render();
-   
-    return{
-      render: function(){
-        return _signUpButton;
-      }
-    }
-  }
 
   ns.Widgets.LoginSection = function (content) {
 
@@ -229,13 +228,28 @@
   }
 
 
-  ns.Widgets.Footer = function(){
+  ns.Widgets.Footer = function(notLogged){
 
     var _createdWidget = $('<footer>').addClass('footer-bar');
+
+    if (notLogged) _createdWidget.css('position','fixed');
+
     var _grid = $('<div>').addClass('pard-grid');
     var _container= $('<div>').addClass('pard-container-relative');
-    var _leftContent = $('<div>').addClass('left-bar-content  footer-left').html('left');
+    var _leftContent = $('<div>').addClass('left-bar-content  footer-left');
     var _rightContent = $('<div>').addClass('right-bar-content footer-right').html('right');
+
+    var _languagesMessage =  Pard.Widgets.LanguagesMessage();    
+    var _langCaller = $('<a>').html('Idiomas');
+    var _langPopup = Pard.Widgets.PopupCreator(_langCaller, '', function(){return _languagesMessage});
+    var _languages = _langPopup.render();
+
+    var _infoMessage =  Pard.Widgets.ProjectInfoMessage();    
+    var _infoCaller = $('<a>').html('Todo sobre orfheo');
+    var _infoPopup = Pard.Widgets.PopupCreator(_infoCaller, '', function(){return _infoMessage});
+    var _information = _infoPopup.render();
+
+    _leftContent.append(_information, _languages);
 
     _container.append(_leftContent,_rightContent);
     _grid.append(_container);
@@ -247,7 +261,30 @@
       }
     }
   }
- 
+
+  ns.Widgets.LanguagesMessage = function (){
+    var _createdWidget = $('<div>');
+    return {
+      render: function(){ 
+        _createdWidget
+      },
+      setCallback: function(callback){
+
+      }
+    }
+  }
+
+  ns.Widgets.ProjectInfoMessage = function (){
+    var _createdWidget = $('<div>');
+    return {
+      render: function(){ 
+        _createdWidget
+      },
+      setCallback: function(callback){
+        
+      }
+    }
+  }
 
 }(Pard || {}));
 

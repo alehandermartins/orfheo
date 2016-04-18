@@ -93,9 +93,13 @@
       }
     });
 
+    var _dataProfiles = [];
+    var _check;
+
     _searchWidget.on('change', function(){
       _shown = [];
       tags = [];
+      _dataProfiles = [];
       _searchWidget.select2('data').forEach(function(tag){
         tags.push(tag.text);
       });
@@ -108,9 +112,11 @@
       });
     });
 
+    
+
     $(document).ready(function(){
       $('.whole-container').scroll(function(){
-        if ($('.whole-container').scrollTop() + $(window).height() >= ($('#main-welcome-page').height() + $('.login-bar').height() + $('.footer-bar').height()) + 116){
+        if ($('.whole-container').scrollTop() + $(window).height() >= ($('#main-welcome-page').height() + $('.login-bar').height() + $('.footer-bar').height())){
           tags = [];
           _searchWidget.select2('data').forEach(function(tag){
             tags.push(tag.text);
@@ -119,7 +125,16 @@
             data.profiles.forEach(function(profile){
               _shown.push(profile.profile_id);
             });
-            _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+            data.profiles.forEach(function(profile){
+              if ($.inArray(profile.profile_id, _dataProfiles) == -1) {
+                _check = true;
+                _dataProfiles.push(profile.profile_id);
+              }
+              else{
+                _check=false;
+              }
+            });
+            if(_check) _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
           });
         }
       });
@@ -194,7 +209,6 @@
     var _category = $('<div>').addClass('category-profileCard');
     var _categories = '- ';
     var _keys = Object.keys(profile);
-          console.log(profile); 
 
     if ('productions' in profile){
       profile.productions.forEach(function(production){
