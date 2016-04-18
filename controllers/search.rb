@@ -46,7 +46,7 @@ class SearchController < BaseController
   
   def query_profile profile, tags
     tags.all?{ |tag|
-      check_profile(profile, tag) || check_proposals(profile, tag) 
+      check_profile(profile, tag) || check_productions(profile, tag) 
     }
   end
 
@@ -56,11 +56,11 @@ class SearchController < BaseController
     }
   end
 
-  def check_proposals profile, tag
-    return false unless profile.has_key? :proposals
-    searcheable_proposal_fields.any?{ |field|
-      profile[:proposals].any?{ |proposal|
-        check_value proposal[field], tag
+  def check_productions profile, tag
+    return false unless profile.has_key? :productions
+    searcheable_production_fields.any?{ |field|
+      profile[:productions].any?{ |production|
+        check_value production[field], tag
       }
     }
   end
@@ -101,7 +101,7 @@ class SearchController < BaseController
     ]
   end
 
-  def searcheable_proposal_fields
+  def searcheable_production_fields
     [
       :category,
       :title,
@@ -136,13 +136,13 @@ class SearchController < BaseController
 
   def add_artist_suggestions suggestions, profile, query
     add_suggestion(suggestions, profile[:city], 'city') if queriable? profile[:city], query
-    add_proposal_suggestions(suggestions, profile[:proposals], query) if profile.has_key? :proposals
+    add_production_suggestions(suggestions, profile[:productions], query) if profile.has_key? :productions
   end
 
-  def add_proposal_suggestions suggestions, proposals, query
-    proposals.each{ |proposal|
-      add_suggestion(suggestions, proposal[:title], 'title') if queriable? proposal[:title], query
-      add_suggestion(suggestions, proposal[:category], 'category') if queriable? proposal[:category], query
+  def add_production_suggestions suggestions, productions, query
+    productions.each{ |production|
+      add_suggestion(suggestions, production[:title], 'title') if queriable? production[:title], query
+      add_suggestion(suggestions, production[:category], 'category') if queriable? production[:category], query
     }
   end
 

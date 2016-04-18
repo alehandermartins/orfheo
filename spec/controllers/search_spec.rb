@@ -2,8 +2,6 @@ describe SearchController do
 
   let(:login_route){'/login/login_attempt'}
   let(:logout_route){'/login/logout'}
-  let(:create_profile_route){'/users/create_profile'}
-  let(:create_proposal_route){'/users/create_proposal'}
   let(:suggest_route){'/search/suggest'}
   let(:results_route){'/search/results'}
 
@@ -28,9 +26,9 @@ describe SearchController do
   }
 
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
-  let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:production_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:otter_profile_id){'cce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
-  let(:otter_proposal_id){'c11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:otter_production_id){'c11000e7-8f02-4542-a1c9-7f7aa18752ce'}
 
   let(:profile){
     {
@@ -68,10 +66,10 @@ describe SearchController do
     }
   }
 
-  let(:proposal){
+  let(:production){
     {
       profile_id: profile_id,
-      proposal_id: proposal_id,
+      production_id: production_id,
       category: 'music',
       title: 'music_title',
       description: 'description',
@@ -83,10 +81,10 @@ describe SearchController do
     }
   }
 
-  let(:otter_proposal){
+  let(:otter_production){
     {
       profile_id: profile_id,
-      proposal_id: otter_proposal_id,
+      production_id: otter_production_id,
       category: 'poetry',
       title: 'title',
       description: 'description',
@@ -99,7 +97,7 @@ describe SearchController do
   }
 
   let(:artist_profile){
-    profile.merge! proposals: [proposal, otter_proposal]
+    profile.merge! productions: [production, otter_production]
   }
 
   before(:each){
@@ -158,7 +156,7 @@ describe SearchController do
       ])
     end
 
-    it 'allows query from proposal fields' do
+    it 'allows query from production fields' do
       post suggest_route, {query: ['music', 'tit']}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([
