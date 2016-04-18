@@ -176,7 +176,6 @@
       modifyPassword: _modifyPassword,
       createProfile: _createProfile,
       modifyProfile: _modifyProfile,
-      createCall: _createCall,
       sendProposal: _sendProposal,
       modifyProduction: _modifyProduction,
       searchProfiles: _searchProfiles,
