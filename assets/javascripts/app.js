@@ -122,21 +122,15 @@ Pard.Users = function(profiles){
 
   var _footer = Pard.Widgets.Footer();
 
-  var _callGenerator = Pard.Widgets.Button('crea convocatoria', function(){
-    Pard.Backend.createCall(console.log('created'));
-  });
-
-  $(_whole).append(_header.render(), _main.render(), _callGenerator.render(), _footer.render());
+  $(_whole).append(_header.render(), _main.render(), _footer.render());
 
   $(document).ready( function(){
     if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
   }); 
 
-
   $('body').append(_whole);
 
   $(document).ready(function(){$(document).foundation()});
-
 }
 
 Pard.Profile = function(profiles){

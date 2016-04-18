@@ -4,6 +4,11 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
+        conFusionCall = {
+          user_id: 'conFusion',
+          call_id: 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
+        }
+        @@calls_collection.insert(conFusionCall) unless exists? conFusionCall[:call_id] 
       end
 
       def add call

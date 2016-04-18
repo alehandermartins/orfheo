@@ -89,14 +89,6 @@
       );
     };
 
-    var _createCall = function(callback){
-      _send(
-        '/users/create_call',
-        {},
-        callback
-      );
-    };
-
     var _sendProposal = function(form, callback){
       _send(
         '/users/send_proposal',

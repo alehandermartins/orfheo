@@ -27,6 +27,7 @@ class CallsController < BaseController
 
   private
   def check_non_existing call_id
+    raise Pard::Invalid::Params unless UUID.validate call_id
     raise Pard::Invalid::ExistingCall if Services::Calls.exists? call_id
   end
 
