@@ -75,8 +75,10 @@ html{
 main {
   padding-top:1.8rem;
   padding-bottom:1.8rem;
-  // background: $content-background;
   min-height: 75vh;
+  // @include breakpoint(small down){
+  //   padding-top:2.2rem;
+  // }
 }
 
 a, a:active, a:visited, a:hover {

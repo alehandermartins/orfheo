@@ -69,6 +69,12 @@ Header
     min-height: 4.5rem;
     padding-top: auto; 
   }
+  .login-bar, .user-bar{
+  border-bottom: 2px solid $grey-1;
+   // box-shadow: 0 1px 2px rgba($grey-2, 0.5);
+   box-shadow: 0 0 2px #f6f6f6;
+}
+
 
 }
 
@@ -76,11 +82,6 @@ Header
 
 
 
-.login-bar, .user-bar{
-  border-bottom: 2px solid $grey-1;
-   // box-shadow: 0 1px 2px rgba($grey-2, 0.5);
-   box-shadow: 0 0 2px #f6f6f6;
-}
 
 .input-login {
  @include breakpoint(small down){
@@ -290,12 +291,21 @@ Header
     margin-left:-0.5rem;
   }
   cursor: pointer;
+  @include breakpoint(small down){
+    margin-left: 0.5rem;
+  }
+
 }
 
 .top-header-content{
   display: block;
   width: 100%;
-  min-height: 3.5rem;
+  @include breakpoint(medium){
+    min-height: 3.5rem;
+  }
+  @include breakpoint(small down){
+    min-height: 2.3rem;
+  }
 }
 
 .settings-icon-dropdown-menu{
