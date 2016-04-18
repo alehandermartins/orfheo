@@ -245,13 +245,13 @@ Grid and Bar
    @include breakpoint(small down){
     position:fixed;
     padding-right:0.6rem;
-    min-height: 6.5rem;
+    min-height: 5rem;
     background-color: $content-background;
     z-index: 2;
     top:0;
     left:0;
     padding-top:0.5rem;
-    border-bottom:1px solid white;
+    border-bottom:2px solid $grey-1;;
   }
 }
 
@@ -310,7 +310,7 @@ off-canvas
     display:none;
   }
   .top-bar{
-    min-height: 6.5rem;
+    min-height: 5rem;
     // border-bottom: 1px solid white;
   }
   .off-canvas-wrapper{
@@ -445,25 +445,15 @@ button{
 #register-outsider-header-button{
   color: $element-color;
   font-weight: bold;
-  // width: 100%;
   padding: 0.3rem 0.65rem;
   @include border-radius($element-border-radius);
   background: rgb(56, 133, 255);
-  // display: inline-block;
   font-size: $almostNormalSize;
   position:absolute;
   top: 0.2rem;
   right: -5rem;
-  // position:absolute;
 }
 
-.header-flag{
-
-}
-
-// .signupButton-Outsider{
-//   margin-bottom: 1.8rem;
-// }
 
 .signupButton-container-Outsider{
   width: $pard-aside-width;
@@ -811,6 +801,7 @@ FOOTER
 ===============================================*/
 
 .footer-bar{
+  width: 100%;
   @extend .pard-bar;
   position:relative;
   background: black;
@@ -825,6 +816,7 @@ FOOTER
   @include breakpoint(small){
   padding-top:0.5rem;
   padding-bottom:0.5rem;
+  padding-left:0.75rem;
 
   }
   // border-top: 2px solid $grey-1;
@@ -832,13 +824,13 @@ FOOTER
 }
 
 .footer-right{
-  @include breakpoint(large){
+  @include breakpoint(medium){
     padding-right:0.6rem;
   }
 }
 
 .footer-left{
-  @include breakpoint(large){
+  @include breakpoint(medium){
     padding-left:0.7rem;
   }
 }
@@ -846,6 +838,8 @@ FOOTER
 .footer-text-link{
   margin-right:2rem;
 }
+
+@media only screen and #{breakpoint(medium)} {
 
 .footer-outsider{
   position:fixed;
@@ -855,6 +849,8 @@ FOOTER
   .footer-right{
     padding-right:0.1rem;
   }
+}
+
 }
 
 
