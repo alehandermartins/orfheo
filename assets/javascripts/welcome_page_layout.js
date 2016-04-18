@@ -232,24 +232,36 @@
 
     var _createdWidget = $('<footer>').addClass('footer-bar');
 
-    if (notLogged) _createdWidget.css('position','fixed');
+    if (notLogged) _createdWidget.addClass('footer-outsider');
 
     var _grid = $('<div>').addClass('pard-grid');
     var _container= $('<div>').addClass('pard-container-relative');
     var _leftContent = $('<div>').addClass('left-bar-content  footer-left');
-    var _rightContent = $('<div>').addClass('right-bar-content footer-right').html('right');
+    var _rightContent = $('<div>').addClass('right-bar-content footer-right');
 
-    var _languagesMessage =  Pard.Widgets.LanguagesMessage();    
-    var _langCaller = $('<a>').html('Idiomas');
-    var _langPopup = Pard.Widgets.PopupCreator(_langCaller, '', function(){return _languagesMessage});
+    var _langMessage = Pard.Widgets.LanguagesMessage();
+    var _langCaller = $('<a>').attr('href','#').html('Idiomas');
+    // _languages.click(function(){Pard.Widgets.Alert('',_langMessage)});
+    var _langPopup = Pard.Widgets.PopupCreator(_langCaller, '', function(){return _langMessage});
     var _languages = _langPopup.render();
+    _languages.addClass('footer-text-link');
+
+    var _termsAndConditionsMessage =  Pard.Widgets.TermsAndConditionsMessage();    
+    var _termsAndConditionsCaller = $('<a>').attr('href','#').html('Condiciones generales');
+    var _termsAndConditionsPopup = Pard.Widgets.PopupCreator(_termsAndConditionsCaller, '', function(){return _termsAndConditionsMessage});
+    var _termsAndConditions = _termsAndConditionsPopup.render().addClass('footer-text-link');
 
     var _infoMessage =  Pard.Widgets.ProjectInfoMessage();    
-    var _infoCaller = $('<a>').html('Todo sobre orfheo');
+    var _infoCaller = $('<a>').attr('href','#').html('Todo sobre el proyecto');
     var _infoPopup = Pard.Widgets.PopupCreator(_infoCaller, '', function(){return _infoMessage});
-    var _information = _infoPopup.render();
+    var _information = _infoPopup.render().addClass('footer-text-link');
 
-    _leftContent.append(_information, _languages);
+    _leftContent.append(_information, _termsAndConditions, _languages);
+
+    var _project = $('<span>').text('orfheo proyecto comunitario');
+    var _place = $('<span>').text('Benimaclet, Valencia 2016');
+
+    _rightContent.append(_project, ' | ', _place);
 
     _container.append(_leftContent,_rightContent);
     _grid.append(_container);
@@ -264,12 +276,19 @@
 
   ns.Widgets.LanguagesMessage = function (){
     var _createdWidget = $('<div>');
+    
+    var _val = $('<p>').append($('<div>').addClass('valencian-flag'), 'Ho sentim, però per falta de temps i mitjans, esta web està disponible només en castellà. Esperem poder-la prompte traduir a més idiomes.');
+    var _en = $('<p>').append($('<div>').addClass('english-flag'), 'We are sorry about this web being available only in Spanish. We hope to be able to extend it to other langages soon.');
+    var _ita = $('<p>').append($('<div>').addClass('italian-flag'), 'Ci dispiace peró finora, per mancanza di tempo e mezzi, questa web é disponibile solo in castellano. Speriamo poterla presto estendere a piú lingue.');
+
+    _createdWidget.append(_val, _en, _ita);
+
     return {
       render: function(){ 
-        _createdWidget
+        return _createdWidget
       },
       setCallback: function(callback){
-
+        
       }
     }
   }
@@ -278,7 +297,7 @@
     var _createdWidget = $('<div>');
     return {
       render: function(){ 
-        _createdWidget
+        return _createdWidget
       },
       setCallback: function(callback){
         

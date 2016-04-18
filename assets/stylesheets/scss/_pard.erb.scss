@@ -817,7 +817,7 @@ FOOTER
   color: $grey-2;
   padding-bottom:0rem;
   bottom:0;
-  font-size: $almostNormalSize;
+  font-size: $smallSize;
   @include breakpoint(medium) {  
     height:2.2rem;
     // padding-top:2rem;
@@ -827,7 +827,8 @@ FOOTER
   padding-bottom:0.5rem;
 
   }
-  border-top: 2px solid $grey-1;
+  // border-top: 2px solid $grey-1;
+  box-shadow: 0 0 2px black;
 }
 
 .footer-right{
@@ -841,6 +842,45 @@ FOOTER
     padding-left:0.7rem;
   }
 }
+
+.footer-text-link{
+  margin-right:2rem;
+}
+
+.footer-outsider{
+  position:fixed;
+  .footer-left{
+    padding-left:0.1rem;
+  }
+  .footer-right{
+    padding-right:0.1rem;
+  }
+}
+
+
+.valencian-flag, .italian-flag, .english-flag{
+  width: 1.5rem;
+  height: 1rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.valencian-flag{
+  background-image: url(<%= image_path 'valencian_flag.png' %>);
+}
+
+.italian-flag{
+  background-image: url(<%= image_path 'italian_flag.jpeg' %>);
+}
+
+.english-flag{
+  background-image: url(<%= image_path 'english_flag.png' %>);
+}
+
+
+
 
 
 /*==============================================

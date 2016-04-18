@@ -187,7 +187,7 @@
       _messageOther.text('del mismo usuario');
       }
       else{
-        _messageOther.text('otros perfiles');
+        _messageOther.text('tus otros perfiles');
       }
 
       if  (_myOtherProfiles.html()) asideNavContent.append(_myOtherProfiles.prepend(_messageOther));
