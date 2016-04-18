@@ -110,7 +110,7 @@
 
     var _signUpMessage =  Pard.Widgets.Registration();    
     var _caller = $('<button>').attr({type:'button'}).html('Únete')
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta...', function(){return _signUpMessage});
 
     var _signUpButton = _popup.render();
    
@@ -142,7 +142,7 @@
     var _info = $('<div>').addClass('information-bio');  
     var _contact = $('<div>').addClass('information-contact');
 
-    var _shortDescription = $('<p>').text('Festival libre de expresión gratuita').addClass('short-description-text');  
+    var _shortDescription = $('<p>').text('Festival libre de expresión gratuita - 15/16 Octubre 2016').addClass('short-description-text');  
     _info.append(_shortDescription)
     
     var _descriptionFestival = 'El Benimaclet conFusión festival es un evento de expresión artística celebrado en el barrio valenciano de Benimaclet. Las representaciones, tanto en los puntos ubicados por las calles peatonales como en los espacios participantes, pretenden dar voz al alma artística de este barrio. Al mismo tiempo, el festival quiere ser una plataforma de encuentro y diálogo abierta a todas las personas, una posibilidad para quien quiera comunicar algo y un estimulo para quien esté dispuesto a escuchar.'; 

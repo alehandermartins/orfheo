@@ -136,7 +136,7 @@
   
       var _reorderedProfiles = Pard.Widgets.ReorderArray(_profiles, _index).render();
 
-      history.pushState({},'','profile?id=' + _reorderedProfiles[0].profile_id);
+      history.replaceState({},'','profile?id=' + _reorderedProfiles[0].profile_id);
 
       _reorderedProfiles.forEach(function(profile, index) {
         if(!(index)){
@@ -168,7 +168,14 @@
       });
 
       asideNavContent.append(_profileNav)
-      var _messageOther = $('<p>').text('otros perfiles').addClass('message-otherProfile-asideBar');
+      var _messageOther = $('<p>').addClass('message-otherProfile-asideBar');
+      if (profilesOut){
+      _messageOther.text('del mismo usuario');
+      }
+      else{
+        _messageOther.text('otros perfiles');
+      }
+
       if  (_myOtherProfiles.html()) asideNavContent.append(_myOtherProfiles.prepend(_messageOther));
     }
 

@@ -21,6 +21,17 @@ LOGIN PAGE
   margin-bottom: 2rem;
 }
 
+.welcome-img-section-header {
+  background-image: url(<%= image_path 'logo_conFusion.png' %>);
+  width: 100%;
+  @include breakpoint(large){ height: 13.75rem; }
+  @include breakpoint(medium down){ height: 22vw;}
+  @include breakpoint(small down){ height: 30vw;}
+  background-repeat: no-repeat;
+  background-size: 95% 95%;
+
+}
+
 
 
 /*------------------

@@ -6,7 +6,7 @@
 
     var _createdWidget = $('<div>').addClass('search-engine-container');
 
-    var _searchTool = $('<div>').addClass('search-tool-container');
+    // var _searchTool = $('<div>').addClass('search-tool-container');
     var _searchResult = $('<div>').addClass('search-results');
 
     var _searchMessage = $('<div>').append($('<p>').text(label));
@@ -35,7 +35,7 @@
       _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
     });
 
-    _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
+    // _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
 
     _searchWidget.css('width', '500');
 
@@ -194,9 +194,11 @@
     var _category = $('<div>').addClass('category-profileCard');
     var _categories = '- ';
     var _keys = Object.keys(profile);
-    if ('proposals' in profile){
-      profile.proposals.forEach(function(proposal){
-        if (proposal.category) _categories += Pard.Widgets.Dictionary(proposal.category).render() + ' - ';
+          console.log(profile); 
+
+    if ('productions' in profile){
+      profile.productions.forEach(function(production){
+        if (production.category) _categories += Pard.Widgets.Dictionary(production.category).render() + ' - ';
       })
     }
     else{ if (profile.category) _categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
