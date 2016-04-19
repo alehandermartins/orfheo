@@ -122,17 +122,6 @@ describe Repos::Profiles do
     end
   end
 
-  describe 'Old pictures' do
-    it 'gives the stored pictures for profiles' do
-      expect(Repos::Profiles.profile_old_pictures profile_id, :profile_picture).to eq(['profile.jpg'])
-    end
-
-    it 'gives the stored pictures for productions' do
-      Repos::Profiles.add_production(profile_id, production)
-      expect(Repos::Profiles.production_old_pictures production_id, :photos).to eq(['picture.jpg', 'otter_picture.jpg'])
-    end
-  end
-
   describe 'Get Profiles' do
 
     let(:my_otter_profile){
@@ -161,6 +150,16 @@ describe Repos::Profiles do
       Repos::Profiles.update(otter_user_profile)
       otter_user_profile.delete(:_id)
     }
+
+    it 'returns a specific profile' do
+      result = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
+      expect(result).to eq(profile)
+    end
+
+    it 'returns a specific production' do
+      result = Repos::Profiles.get_profiles :production, {production_id: production_id}
+      expect(result).to eq(production)
+    end
 
     it 'returns all the space profiles, and artist profiles with at least one production' do
       result = Repos::Profiles.get_profiles :all

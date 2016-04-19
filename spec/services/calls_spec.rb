@@ -22,6 +22,7 @@ describe Services::Calls do
       duration: '15',
       availability: 'sun',
       components: 3,
+      photos: ['photo', 'otter_photo'],
       repeat: true
     }
   }
@@ -112,7 +113,14 @@ describe Services::Calls do
   end
 
   describe 'Delete proposal' do
-    it 'deletes the proposal' do
+
+    it 'deletes proposal but not stored pictures in the production' do
+      Services::Calls.register call, user_id
+      proposal.merge! proposal_id: proposal_id
+      Repos::Calls.add_proposal call_id, proposal
+      allow(Services::Profiles).to receive(:production_old_pictures).with(production_id).and_return({photos: ['photo']})
+ 
+      expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_photo'])
       expect(Repos::Calls).to receive(:delete_proposal).with(proposal_id)
       Services::Calls.delete_proposal proposal_id
     end

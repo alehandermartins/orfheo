@@ -13,8 +13,10 @@ class ArtistProfile
     check_fundamentals
   end
 
-  def image_fields
-    [:profile_picture]
+  def images
+    {
+      profile_picture: profile[:profile_picture]
+    }
   end
 
   def uuid

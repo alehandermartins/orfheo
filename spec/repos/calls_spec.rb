@@ -131,7 +131,13 @@ describe Repos::Calls do
     end
   end
 
-  describe 'Get_proposal_owner' do
+  describe 'Get_proposal' do
+
+    it 'retrieves a proposal' do
+      Repos::Calls.add_proposal call_id, proposal
+      expect(Repos::Calls.get_proposal proposal_id).to eq(proposal)
+    end
+    
     it 'retrieves the owner of the proposal' do
       Repos::Calls.add_proposal call_id, proposal
       expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)

@@ -27,6 +27,7 @@ describe CallsController do
   }
 
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+  let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
@@ -47,6 +48,7 @@ describe CallsController do
     {
       profile_id: profile_id,
       proposal_id: proposal_id,
+      production_id: production_id,
       call_id: call_id,
       type: 'artist',
       category: 'music',
@@ -61,7 +63,8 @@ describe CallsController do
       conditions: 'true',
       availability: 'sun',
       components: '3',
-      repeat: 'true'
+      repeat: 'true',
+      photos: ['photo']
     }
   }
 
@@ -178,6 +181,7 @@ describe CallsController do
     end
 
     it 'deletes the proposal' do
+      allow(Services::Profiles).to receive(:production_old_pictures).with(production_id).and_return({photos: ['photo']})
       proposal[:user_id] = user_id
       Repos::Calls.add_proposal call_id, proposal
       post delete_proposal_route, {proposal_id: proposal_id}

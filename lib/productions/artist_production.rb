@@ -10,8 +10,10 @@ class ArtistProduction
     check_fundamentals
   end
 
-  def image_fields
-    [:photos]
+  def images
+    {
+      photos: production[:photos]
+    }
   end
 
   def [] key

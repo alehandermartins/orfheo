@@ -34,5 +34,16 @@ module Util
         stringify_hash(v)
       end
     end
+
+    def destroy_old_pictures old_pictures, new_pictures
+      unused_pictures = old_pictures.keys.map{ |field|
+        next if old_pictures[field].blank?
+        next old_pictures[field] if new_pictures[field].blank?
+        old_pictures[field].reject{ |picture|
+          new_pictures[field].include? picture
+        }
+      }.compact.flatten
+      Cloudinary::Api.delete_resources(unused_pictures) unless unused_pictures.blank?
+    end
   end
 end
