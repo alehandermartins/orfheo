@@ -19,10 +19,10 @@
 
   	window.fbAsyncInit = function() {
 	    //Heroku
-	    //FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+	    FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
 	    
 	    //Local
-   		FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
+   		//FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
 		}
 	  
 
@@ -435,7 +435,7 @@
       }
     });
    
-    _photos.render().bind('cloudinarydone', function(e, data){
+    _photos.cloudinary().bind('cloudinarydone', function(e, data){
       _url.push(data['result']['public_id']);
       if(_url.length >= _photos.dataLength()){
         var _links = _inputMultimedia.getVal();
