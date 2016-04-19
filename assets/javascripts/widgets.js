@@ -257,6 +257,9 @@
       render: function(){
         return _fakeButton;
       },
+      cloudinary: function(){
+        return _photo;
+      },
       setUrl: function(url){
         _url = url;
       },

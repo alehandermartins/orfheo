@@ -137,6 +137,7 @@
      var _profiles = Pard.CachedProfiles;
     }  
     var selected = false;
+    window.location.href.split("=").pop();    
     if(window.location.href.match(/.*&sel=.*/)) selected = window.location.href.split("=").pop();
 
 

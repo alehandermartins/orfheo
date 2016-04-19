@@ -435,7 +435,7 @@
       }
     });
    
-    _photos.render().bind('cloudinarydone', function(e, data){
+    _photos.cloudinary().bind('cloudinarydone', function(e, data){
       _url.push(data['result']['public_id']);
       if(_url.length >= _photos.dataLength()){
         var _links = _inputMultimedia.getVal();
