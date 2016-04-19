@@ -22,9 +22,9 @@ module Services
         profile = PROFILES_MAP[params[:type]].new params, user_id
         raise Pard::Invalid::ExistingProfile unless name_available? profile
         raise Pard::Invalid::Params if profile.wrong_params?
-        old_pictures = profile_old_pictures profile
+        old_pictures = profile_old_pictures profile.uuid
         Repos::Profiles.update profile.to_h
-        destroy_old_pictures old_pictures, profile
+        Util.destroy_old_pictures old_pictures, profile
         profile.uuid
       end
 
@@ -37,9 +37,9 @@ module Services
       def modify_production params, user_id
         production = ArtistProduction.new params, user_id
         raise Pard::Invalid::Params if production.wrong_params?
-        old_pictures = production_old_pictures production
+        old_pictures = production_old_pictures production.uuid
         Repos::Profiles.modify_production production.to_h
-        destroy_old_pictures old_pictures, production
+        Util.destroy_old_pictures old_pictures, production.images
         production.to_h
       end
 
@@ -64,12 +64,24 @@ module Services
       end
 
       def delete_production production_id
+        old_pictures = production_old_pictures production_id
+        storable_pictures = Services::Calls.proposals_old_pictures production_id
+        Util.destroy_old_pictures old_pictures, storable_pictures 
         Repos::Profiles.delete_production production_id
       end
 
       def delete_profile profile_id
         Repos::Calls.delete_profile_proposals profile_id
+        profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
         Repos::Profiles.delete_profile profile_id
+      end
+
+      def production_old_pictures production_id
+        production = Repos::Profiles.get_profiles :production, {production_id: production_id}
+        return {} if production.blank?
+        [:profile_picture, :photos].map{ |field|
+          [field, production[field]]
+        }.to_h
       end
 
       private
@@ -84,30 +96,11 @@ module Services
         Repos::Profiles.update(profile)
       end
 
-      def profile_old_pictures profile
-        fields = profile.image_fields
-        fields.map{ |field|
-          [field, Repos::Profiles.profile_old_pictures(profile.uuid, field)]
+      def profile_old_pictures profile_id
+        profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
+        [:profile_picture, :photos].map{ |field|
+          [field, profile[field]]
         }.to_h
-      end
-
-      def production_old_pictures production
-        fields = production.image_fields
-        fields.map{ |field|
-          [field, Repos::Profiles.production_old_pictures(production.uuid, field)]
-        }.to_h
-      end
-
-      def destroy_old_pictures old_pictures, element
-        #clase element de la que derivan profile y production
-        unused_pictures = old_pictures.keys.map{ |field|
-          next if old_pictures[field].blank?
-          next old_pictures[field] if element[field].blank?
-          old_pictures[field].reject{ |picture|
-            element[field].include? picture
-          }
-        }.compact.flatten
-        Cloudinary::Api.delete_resources(unused_pictures) unless unused_pictures.blank?
       end
     end
   end

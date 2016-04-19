@@ -12,8 +12,11 @@ class SpaceProfile
     check_fundamentals || incorrect_categories?
   end
 
-  def image_fields
-    [:profile_picture, :photos]
+  def images
+    {
+      profile_picture: profile[:profile_picture],
+      photos: profile[:photos]
+    }
   end
 
   def uuid

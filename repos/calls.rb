@@ -33,7 +33,14 @@ module Repos
         results = @@calls_collection.find({ "proposals.profile_id": profile_id })
         return [] unless results.count > 0
 
-        get_my_proposals_from(results, profile_id)
+        get_my_proposals_from(results, 'profile_id', profile_id)
+      end
+
+      def get_proposals_for_production production_id
+        results = @@calls_collection.find({ "proposals.production_id": production_id })
+        return [] unless results.count > 0
+
+        get_my_proposals_from(results, 'production_id', production_id)
       end
 
       def get_otter_proposals_for profile_id, type
@@ -46,11 +53,16 @@ module Repos
           proposals_info
       end
 
-      def get_proposal_owner proposal_id
+      def get_proposal proposal_id
         results = @@calls_collection.find({ "proposals.proposal_id": proposal_id })
         return [] unless results.count > 0
+        proposals = results.first['proposals']
+        proposal = proposals.select{ |proposal| proposal['proposal_id'] == proposal_id }.first
+        Util.string_keyed_hash_to_symbolized proposal
+      end
 
-        proposal = get_proposal_from(results, proposal_id)
+      def get_proposal_owner proposal_id
+        proposal = get_proposal proposal_id
         proposal[:user_id]
       end
 
@@ -78,18 +90,12 @@ module Repos
       end
 
       private
-      def get_my_proposals_from results, profile_id
+      def get_my_proposals_from results, key, id
         proposals = results.map{ |call| call['proposals']}.flatten
-        my_proposals = proposals.select{ |proposal| proposal['profile_id'] == profile_id }
+        my_proposals = proposals.select{ |proposal| proposal[key] == id }
         my_proposals.map{ |proposal|
           Util.string_keyed_hash_to_symbolized proposal
         }
-      end
-
-      def get_proposal_from results, proposal_id
-        proposals = results.map{ |call| call['proposals']}.flatten
-        proposal = proposals.select{ |proposal| proposal['proposal_id'] == proposal_id }.first
-        Util.string_keyed_hash_to_symbolized proposal
       end
     end
   end

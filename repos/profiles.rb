@@ -39,19 +39,6 @@ module Repos
         @@profiles_collection.count(query: {"productions.production_id": production_id}) > 0
       end
 
-      def profile_old_pictures profile_id, field
-        profile = grab({profile_id: profile_id}).first
-        return [] unless profile.has_key? field
-        profile[field]
-      end
-
-      def production_old_pictures production_id, field
-        profile = grab({"productions.production_id": production_id}).first
-        production = profile[:productions].select{|production| production[:production_id] == production_id}.first
-        return [] unless production.has_key? field
-        production[field]
-      end
-
       def get_profiles method, args = nil
         Scout.get(method, args)
       end
@@ -98,6 +85,18 @@ module Repos
             grab({}).select{ |profile|
               non_empty_profile? profile
             }.shuffle
+          end
+
+          def profile args
+            grab({profile_id: args[:profile_id]}).first
+          end
+
+          def production args
+            results = grab({ "productions.production_id": args[:production_id]})
+            return [] unless results.count > 0
+            productions = results.first[:productions]
+            the_production = productions.select{ |element| element[:production_id] == args[:production_id] }.first
+            Util.string_keyed_hash_to_symbolized the_production
           end
 
           def user_profiles args
