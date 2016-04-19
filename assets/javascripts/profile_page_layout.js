@@ -79,7 +79,7 @@
      if (notLogged) {
         _main.addClass('outsider-main');
        $('.whole-container').on('scroll',function() {
-       if ( _main.offset().top < 30){
+       if ( _main.offset().top < 5){
         $('#register-outsider-header-button').show();        
        }
        else{
