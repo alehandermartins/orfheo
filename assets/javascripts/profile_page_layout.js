@@ -300,6 +300,7 @@
     profileNav.append(_navigationSelected.render());
 
     var _productions = [];
+    var _shown = [];
 
     if (profile.productions && profile.productions.length) {
       productionContent.addClass('nav-list-container')
@@ -310,15 +311,8 @@
     }
     _productions.forEach(function(production, index){
       var production_id = production.production_id;
-      var _myProduction = $('<div>'); 
-
-      _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile, _out).render());
-
-      sectionContent.append(_myProduction);
-
-      if(selected == production_id) _lastselected = _myProduction;
-      else{_myProduction.hide();}
-
+      var _myProduction = $('<div>');
+      
       var _productionItem = $('<div>').addClass('production-nav-element-container');
       var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
       var _nameColumn = $('<div>').addClass('name-column name-column-production-nav');
@@ -328,13 +322,22 @@
         $('.selected-element').removeClass('selected-element');
         _name.addClass('selected-element');
       }
-      _name.click(function(){ 
+      _name.click(function(){
         $('.selected-element').removeClass('selected-element');
         _name.addClass('selected-element');
         _lastselected.hide();
-        _myProduction.show();
-        _lastselected = _myProduction;
+
+        if(_shown[production_id]){
+          _shown[production_id].show();
+        }else{
+          var _myProduction = $('<div>');
+          _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile, _out).render());
+          sectionContent.append(_myProduction);
+          _shown[production_id] = _myProduction;
+        }
+        _lastselected = _shown[production_id];
       });
+
       _name.hover(function(){_name.addClass('text-link-profile-nav')}, function(){_name.removeClass('text-link-profile-nav ')});
       productionContent.append(_productionItem);
     });
