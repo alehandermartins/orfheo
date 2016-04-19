@@ -113,7 +113,7 @@
   ns.Widgets.ArtistForm = function(){
 
     var _createdWidget = $('<div>');
-    var _message = $('<div>').text('Las informaciones del perfil serán públicas y podrás modificarlas en todo momento.').addClass('message-form');
+    var _message = $('<div>').text('Estas informaciones se mostrarán en tu página de perfil, podrás modificarlas y te permitirán darte a conocer dentro y fuera del festival.').addClass('message-form');
     var _formContainer = $('<form>').addClass('popup-form');  
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
@@ -183,7 +183,7 @@
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
-    var _message = $('<div>').text('Las informaciones del perfil serán públicas y podrás modificarlas en todo momento.').addClass('message-form');
+    var _message = $('<div>').text('Estas informaciones se mostrarán en la página de perfil de tu espacio y podrás modificarlas en todo momento sin afectar tu participación en el festival.').addClass('message-form');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _submitForm = {};

@@ -300,11 +300,12 @@
 
     var _productions = [];
 
-
-    (profile.productions) ? productionContent.addClass('nav-list-container') : productionContent.removeClass('nav-list-container');
-    if (profile.productions) {
+    if (profile.productions && profile.productions.length) {
+      productionContent.addClass('nav-list-container')
       _productions = profile.productions;
       productionContent.append($('<p>').addClass('message-productions-asideBar').text('Portfolio'))  
+    }else{
+      productionContent.removeClass('nav-list-container');
     }
     _productions.forEach(function(production, index){
       var production_id = production.production_id;
