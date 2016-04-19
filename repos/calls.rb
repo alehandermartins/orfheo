@@ -33,7 +33,14 @@ module Repos
         results = @@calls_collection.find({ "proposals.profile_id": profile_id })
         return [] unless results.count > 0
 
-        get_my_proposals_from(results, profile_id)
+        get_my_proposals_from(results, 'profile_id', profile_id)
+      end
+
+      def get_proposals_for_production production_id
+        results = @@calls_collection.find({ "proposals.production_id": production_id })
+        return [] unless results.count > 0
+
+        get_my_proposals_from(results, 'production_id', production_id)
       end
 
       def get_otter_proposals_for profile_id, type
@@ -83,9 +90,9 @@ module Repos
       end
 
       private
-      def get_my_proposals_from results, profile_id
+      def get_my_proposals_from results, key, id
         proposals = results.map{ |call| call['proposals']}.flatten
-        my_proposals = proposals.select{ |proposal| proposal['profile_id'] == profile_id }
+        my_proposals = proposals.select{ |proposal| proposal[key] == id }
         my_proposals.map{ |proposal|
           Util.string_keyed_hash_to_symbolized proposal
         }

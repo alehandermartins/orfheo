@@ -247,7 +247,13 @@ describe Services::Profiles do
 
   describe 'Delete' do
 
-    it 'deletes a production' do
+    it 'deletes a production but not stored pictures in the proposals' do
+      Services::Profiles.create profile, user_id
+      production.merge! production_id: production_id
+      Repos::Profiles.add_production(profile_id, production)
+      allow(Services::Calls).to receive(:proposals_old_pictures).with(production_id).and_return({photos: ['picture.jpg']})
+      
+      expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg']) 
       expect(Repos::Profiles).to receive(:delete_production).with(production_id)
       Services::Profiles.delete_production production_id
     end

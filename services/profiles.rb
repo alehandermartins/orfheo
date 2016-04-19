@@ -64,17 +64,21 @@ module Services
       end
 
       def delete_production production_id
+        old_pictures = production_old_pictures production_id
+        storable_pictures = Services::Calls.proposals_old_pictures production_id
+        Util.destroy_old_pictures old_pictures, storable_pictures 
         Repos::Profiles.delete_production production_id
       end
 
       def delete_profile profile_id
         Repos::Calls.delete_profile_proposals profile_id
+        profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
         Repos::Profiles.delete_profile profile_id
       end
 
       def production_old_pictures production_id
         production = Repos::Profiles.get_profiles :production, {production_id: production_id}
-        return [] if production.blank?
+        return {} if production.blank?
         [:profile_picture, :photos].map{ |field|
           [field, production[field]]
         }.to_h

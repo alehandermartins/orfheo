@@ -33,7 +33,8 @@ describe Repos::Calls do
       photos: ['picture.jpg', 'otter_picture.jpg'],
       links: 'links',
       duration: 'duration',
-      children: 'children'
+      children: 'children',
+      photos: ['photo']
     }
   }
 
@@ -42,7 +43,8 @@ describe Repos::Calls do
         profile_id: profile_id,
         proposal_id: 'otter_proposal',
         title: 'otter_title',
-        links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}]
+        links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
+        photos: ['otter_photo']
       }
     }
 
@@ -118,6 +120,18 @@ describe Repos::Calls do
       expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal, otter_proposal])
     end
 
+    it 'returns all the proposals for a given production' do
+      Repos::Calls.add({
+        user_id: user_id,
+        call_id: 'otter'
+      })
+
+      Repos::Calls.add_proposal call_id, proposal
+      Repos::Calls.add_proposal 'otter', otter_proposal
+
+      expect(Repos::Calls.get_proposals_for_production production_id).to eq([proposal])
+    end
+
     it 'returns interesting info for a visitor of a profile' do
       Repos::Calls.add({
         user_id: user_id,
@@ -129,9 +143,6 @@ describe Repos::Calls do
 
       expect(Repos::Calls.get_otter_proposals_for profile_id, 'artist').to eq(['title', 'otter_title'])
     end
-  end
-
-  describe 'Get_proposal' do
 
     it 'retrieves a proposal' do
       Repos::Calls.add_proposal call_id, proposal
@@ -141,6 +152,20 @@ describe Repos::Calls do
     it 'retrieves the owner of the proposal' do
       Repos::Calls.add_proposal call_id, proposal
       expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)
+    end
+  end
+
+  describe 'Proposals old pictures' do
+    it 'returns all the proposal pictures for a given production' do
+      Repos::Calls.add({
+        user_id: user_id,
+        call_id: 'otter'
+      })
+
+      Repos::Calls.add_proposal call_id, proposal
+      otter_proposal.merge! production_id: production_id
+      Repos::Calls.add_proposal 'otter', otter_proposal
+      expect(Services::Calls.proposals_old_pictures production_id).to eq({photos: ['photo', 'otter_photo']})
     end
   end
   

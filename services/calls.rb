@@ -39,6 +39,15 @@ module Services
         Repos::Calls.amend_proposal proposal_id, amend
       end
 
+      def proposals_old_pictures production_id
+        proposals = Repos::Calls.get_proposals_for_production production_id
+        photos = []
+        proposals.each{ |proposal|
+          photos.push(proposal[:photos])
+        }
+        old_pictures = { photos: photos.compact.flatten }
+      end
+
       def delete_proposal proposal_id
         proposal = Repos::Calls.get_proposal proposal_id
         old_pictures = {
