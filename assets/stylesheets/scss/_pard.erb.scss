@@ -624,6 +624,16 @@ button{
 }
 
 
+.browse-btn{
+  @extend .pard-btn;
+  padding:0.4rem 0.6rem;
+  color: white;
+  font-weight: bold;
+  font-size: $smallSize; 
+  display: inline-block;
+}
+
+
 
 
 

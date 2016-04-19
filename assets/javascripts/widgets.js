@@ -246,7 +246,7 @@
       }
     });
 
-    var _fakeButton = $('<button>').addClass('pard-btn').attr({type:'button'}).html('Browse');
+    var _fakeButton = $('<button>').addClass('browse-btn').attr({type:'button'}).html('Sube una imagen');
     _fakeButton.on('click', function(){
       _photo.click();
     });
