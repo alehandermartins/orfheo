@@ -194,12 +194,12 @@
     var _url = [];
 
     var _folder = '/photos';
-    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 4);
 
     // _formContainer.append(_photos.render(), _thumbnail);
 
     var _form = Pard.Forms.BasicSpaceForm().render();
-    var _photosLabel = $('<label>').text('Fotos del espacio');
+    var _photosLabel = $('<label>').text('Fotos del espacio (máximo 4, tamaño inferior a 500kb');
     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail);
 
     for(var field in _form){

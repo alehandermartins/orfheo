@@ -37,10 +37,12 @@
 
     // _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
 
-    _searchWidget.css('width', '500');
+    // _searchWidget.css('width', '500');
 
+    var _searchInput = $('<div>').addClass('search-input');
+    _searchInput.append(_searchWidget);
 
-    _createdWidget.append(_searchWidget, _searchResult);
+    _createdWidget.append(_searchInput, _searchResult);
 
     _searchWidget.select2({
       placeholder: 'Busca',

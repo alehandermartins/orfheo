@@ -822,7 +822,7 @@ FOOTER
   bottom:0;
   font-size: $smallSize;
   @include breakpoint(medium) {  
-    height:2.2rem;
+    height:2rem;
     // padding-top:2rem;
   }
   @include breakpoint(small){
@@ -1271,10 +1271,7 @@ SEARCH
   // padding:0.2rem;
   font-size: 1rem;
   min-height: 2.6rem;
-  @include breakpoint(large){ 
-    width: 84%;
-    margin-left: 3.6rem;
-  }
+  
   // border-color: 
   // box-shadow: 0 0px 1px $blue-pard;
 }
@@ -1296,3 +1293,14 @@ SEARCH
   padding-top: 5px;
 }
 
+// span.select2-dropdown.select2-dropdown--below{
+//   width: 84%;
+// }
+
+
+.search-input{
+  @include breakpoint(large){ 
+    width: 84%;
+    margin-left: 3.6rem;
+  }
+}

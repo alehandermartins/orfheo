@@ -209,18 +209,24 @@
         _photo.val(null);
 
         if (_data.length + _url.length >= maxAmount){
-          if(maxAmount == 3) uploadErrors.push('M\xE1ximo tres imagenes');
-          if(maxAmount == 1) uploadErrors.push('M\xE1ximo una imagen');
+          if(maxAmount == 4){ 
+            Pard.Widgets.Alert('','Máximo cuatro imagenes.');
+            uploadErrors.push('cuatro img');
+          }
+          if(maxAmount == 1) {
+            Pard.Widgets.Alert('', 'Máximo una imagen.');
+            uploadErrors.push('una img');
+          }
         }
         if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
-          uploadErrors.push('Formatos aceptados: .gif, .jpeg, .jpg, .png');
+          Pard.Widgets.Alert('', 'Formatos aceptados: .gif, .jpeg, .jpg, .png');
+          uploadErrors.push('no accepted');
         }
-        if(data.originalFiles[0]['size'] > 1000000) {
-          uploadErrors.push('El tama\xF1o de las im\xE1genes no puede ser superior a 1Mb');
+        if(data.originalFiles[0]['size'] > 500000) {
+          Pard.Widgets.Alert('', 'El tamaño de las imágenes no puede ser superior a 500Kb. Puedes reducirlo en un momento utilizando, entre muchas otras,  <a href = "http://webresizer.com/resizer/?lang=es"  target="_blank">esta web</a>.');
+          uploadErrors.push('tamaño max');
         }
-        if(uploadErrors.length > 0) {
-          alert(uploadErrors.join("\n"));
-        } else {
+        if(uploadErrors.length == 0){
           var reader = new FileReader(); // instance of the FileReader
           reader.readAsDataURL(data.originalFiles[0]); // read the local file
 

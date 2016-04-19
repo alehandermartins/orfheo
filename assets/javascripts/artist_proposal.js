@@ -52,9 +52,9 @@
     var _url = [];
 
     var _folder = user_id + '/' + profile_id + '/photos';
-    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 3);
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 4);
 
-    var _photosLabel = $('<label>').text('Fotos de tu arte').css({
+    var _photosLabel = $('<label>').text('Fotos de tu arte (máximo 4, tamaño inferior a 500kb').css({
       'padding-top': '0.5rem'
     });
     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail);
