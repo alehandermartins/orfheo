@@ -212,7 +212,7 @@
 
     var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
 
-    var _searchEngineText = $('<h6>').text('Conoce a los artistas y espacios que ya se han registrado').addClass('serachEngine-text-welcome-page');
+    var _searchEngineText = $('<h6>').html('Conoce a los <strong>artistas y espacios</strong> que ya se han apuntado').addClass('searchEngine-text-welcome-page');
     var _searchEngine = Pard.Widgets.SearchEngine('');
 
     _callsBoxContent.append(_callsInfo,_signUpButton, _searchEngineText, _searchEngine.render());

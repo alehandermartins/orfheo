@@ -29,7 +29,7 @@
 
     var _t1 =  $('<h4>').text('I. Tu Arte').addClass('t-artistCall');
     var _t2 =  $('<h4>').text('II. Información particular').addClass('t-artistCall');
-    var _m1 = $('<span>').text('Esta información se quedará en tu portfolio y se mostrará en tu perfil.').addClass('m-artistCall');
+    var _m1 = $('<span>').html('Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil.').addClass('m-artistCall');
     var _m2 = $('<span>').text('Solo los organizadores del festival tendrán acceso a estos datos.').addClass('m-artistCall');
 
     var _part1 = $('<div>').addClass('title-part').append(_t1, _m1);

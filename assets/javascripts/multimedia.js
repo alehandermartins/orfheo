@@ -508,7 +508,7 @@
      	$('<li>').text('dale al botón para validar')
      	);
 
-      var _finalMessage = $('<p>').text('Finalmente, considera que se puede importar en orfheo solo contenidos multimedia declarados publicos en la web donde se han subido.').css({'margin-top':'1rem'});
+      var _finalMessage = $('<p>').text('Finalmente, considera que se pueden importar en orfheo solo contenidos multimedia declarados publicos en la web donde se han subido.').css({'margin-top':'1rem'});
 
      _list.append(_item1.append(_sublist1), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4),_finalMessage);
 
