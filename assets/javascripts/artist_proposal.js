@@ -24,8 +24,10 @@
   ns.Widgets.CallMessageArtist = function(profile){
     var _createdWidget = $('<div>');
     var _message = $('<div>').html(
-      '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Este formulario es para enviar tu propuesta al Benimaclet conFusión festival 2016. Tiene dos partes: la primera recoge los datos que definen tu producción artística, la segunda pide informaciones especificas en relación al festival.'
+      '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Este formulario es para enviar tu propuesta al Benimaclet conFusión festival 2016. Tiene dos partes: '
       ).addClass('message-form');
+
+    // la primera recoge los datos que definen tu producción artística, la segunda pide informaciones especificas en relación al festival.
 
     var _t1 =  $('<h4>').text('I. Tu Arte').addClass('t-artistCall');
     var _t2 =  $('<h4>').text('II. Información particular').addClass('t-artistCall');
