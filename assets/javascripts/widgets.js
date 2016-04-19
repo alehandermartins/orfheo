@@ -191,6 +191,7 @@
 
     var _data = [];
 
+
     var _photo = $.cloudinary.unsigned_upload_tag(
       "kqtqeksl",
       {
@@ -208,16 +209,17 @@
         _photo.val(null);
 
         if (_data.length + _url.length >= maxAmount){
-          uploadErrors.push('Only three images allowed');
+          if(maxAmount == 3) uploadErrors.push('M\xE1ximo tres imagenes');
+          if(maxAmount == 1) uploadErrors.push('M\xE1ximo una imagen');
         }
         if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
-            uploadErrors.push('Not an accepted file type');
+          uploadErrors.push('Formatos aceptados: .gif, .jpeg, .jpg, .png');
         }
         if(data.originalFiles[0]['size'] > 1000000) {
-            uploadErrors.push('Filesize is too big');
+          uploadErrors.push('El tama\xF1o de las im\xE1genes no puede ser superior a 1Mb');
         }
         if(uploadErrors.length > 0) {
-            alert(uploadErrors.join("\n"));
+          alert(uploadErrors.join("\n"));
         } else {
           var reader = new FileReader(); // instance of the FileReader
           reader.readAsDataURL(data.originalFiles[0]); // read the local file
@@ -244,9 +246,16 @@
       }
     });
 
+    var _fakeButton = $('<button>').addClass('pard-btn').attr({type:'button'}).html('Browse');
+    _fakeButton.on('click', function(){
+      _photo.click();
+    });
+
+    _fakeButton.css('margin-bottom', '15px');
+
     return {
       render: function(){
-        return _photo;
+        return _fakeButton;
       },
       setUrl: function(url){
         _url = url;
