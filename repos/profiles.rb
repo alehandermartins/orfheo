@@ -88,7 +88,8 @@ module Repos
           end
 
           def profile args
-            grab({profile_id: args[:profile_id]}).first
+            profile = grab({profile_id: args[:profile_id]}).first
+            profile.merge! proposals: Services::Calls.get_proposals_for(profile[:profile_id])
           end
 
           def production args

@@ -64,7 +64,6 @@ describe CallsController do
       availability: 'sun',
       components: '3',
       repeat: 'true',
-      photos: ['photo']
     }
   }
 

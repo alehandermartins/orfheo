@@ -34,7 +34,6 @@ describe Repos::Calls do
       links: 'links',
       duration: 'duration',
       children: 'children',
-      photos: ['photo']
     }
   }
 
@@ -165,7 +164,7 @@ describe Repos::Calls do
       Repos::Calls.add_proposal call_id, proposal
       otter_proposal.merge! production_id: production_id
       Repos::Calls.add_proposal 'otter', otter_proposal
-      expect(Services::Calls.proposals_old_pictures production_id).to eq({photos: ['photo', 'otter_photo']})
+      expect(Services::Calls.proposals_old_pictures production_id).to eq({photos: ['picture.jpg', 'otter_picture.jpg', 'otter_photo']})
     end
   end
   
@@ -183,19 +182,6 @@ describe Repos::Calls do
       Repos::Calls.add_proposal call_id, proposal
       expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal])
       Repos::Calls.delete_proposal proposal_id
-      expect(Repos::Calls.get_proposals_for profile_id).to eq([])
-    end
-
-    it 'deletes all proposals for a profile' do
-      Repos::Calls.add({
-        user_id: user_id,
-        call_id: 'otter'
-      })
-
-      Repos::Calls.add_proposal call_id, proposal
-      Repos::Calls.add_proposal 'otter', otter_proposal
-      expect(Repos::Calls.get_proposals_for profile_id).to eq([proposal, otter_proposal])
-      Repos::Calls.delete_profile_proposals profile_id
       expect(Repos::Calls.get_proposals_for profile_id).to eq([])
     end
   end

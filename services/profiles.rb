@@ -71,8 +71,11 @@ module Services
       end
 
       def delete_profile profile_id
-        Repos::Calls.delete_profile_proposals profile_id
         profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
+        delete_productions profile if profile.has_key? :productions
+        delete_proposals profile
+        old_pictures = profile_old_pictures profile_id
+        Util.destroy_old_pictures old_pictures, {}
         Repos::Profiles.delete_profile profile_id
       end
 
@@ -101,6 +104,18 @@ module Services
         [:profile_picture, :photos].map{ |field|
           [field, profile[field]]
         }.to_h
+      end
+
+      def delete_productions profile
+        profile[:productions].each{ |production|
+          delete_production production[:production_id]
+        }
+      end
+
+      def delete_proposals profile
+        profile[:proposals].each{ |proposal|
+          Services::Calls.delete_proposal proposal[:proposal_id]
+        }
       end
     end
   end

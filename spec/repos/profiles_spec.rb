@@ -153,6 +153,7 @@ describe Repos::Profiles do
 
     it 'returns a specific profile' do
       result = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
+      profile.merge! proposals: []
       expect(result).to eq(profile)
     end
 

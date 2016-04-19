@@ -82,13 +82,6 @@ module Repos
         )
       end
 
-      def delete_profile_proposals profile_id
-        proposals = get_proposals_for profile_id
-        proposals.each{ |proposal|
-          delete_proposal proposal[:proposal_id]
-        }
-      end
-
       private
       def get_my_proposals_from results, key, id
         proposals = results.map{ |call| call['proposals']}.flatten

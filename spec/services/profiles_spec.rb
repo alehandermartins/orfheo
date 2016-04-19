@@ -247,19 +247,24 @@ describe Services::Profiles do
 
   describe 'Delete' do
 
-    it 'deletes a production but not stored pictures in the proposals' do
+    before(:each){
       Services::Profiles.create profile, user_id
       production.merge! production_id: production_id
       Repos::Profiles.add_production(profile_id, production)
       allow(Services::Calls).to receive(:proposals_old_pictures).with(production_id).and_return({photos: ['picture.jpg']})
-      
+    }
+
+    it 'deletes a production but not stored pictures in the proposals' do
       expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg']) 
       expect(Repos::Profiles).to receive(:delete_production).with(production_id)
       Services::Profiles.delete_production production_id
     end
 
     it 'deletes a profile and its proposals' do
-      expect(Repos::Calls).to receive(:delete_profile_proposals).with(profile_id)
+      allow(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg']) 
+
+      expect(Repos::Profiles).to receive(:delete_production).with(production_id)
+      expect(Cloudinary::Api).to receive(:delete_resources).with(['profile.jpg']) 
       expect(Repos::Profiles).to receive(:delete_profile).with(profile_id)
       Services::Profiles.delete_profile profile_id
     end
