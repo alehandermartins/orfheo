@@ -29,7 +29,7 @@ describe Services::Mails do
   describe 'Welcome mail' do
 
     it 'renders the subject' do
-      expect(welcome_mail.subject).to eq('Welcome to pard')
+      expect(welcome_mail.subject).to eq('Bienvenido/a a orfheo')
     end
 
     it 'assigns the validation code to the body' do
@@ -42,7 +42,7 @@ describe Services::Mails do
     let(:password_mail){ Services::Mails.deliver_mail_to user, :forgotten_password}
 
     it 'renders the subject' do
-      expect(password_mail.subject).to eq('Forgotten Password')
+      expect(password_mail.subject).to eq('Recupera tu cuenta')
     end
 
     it 'assigns the validation code to the body' do

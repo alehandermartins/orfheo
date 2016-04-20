@@ -23,7 +23,7 @@ module Services
         def welcome user
           Pony.options = {
             subject: 'Bienvenido/a a orfheo',
-            body: "<p> Bienvenido/a en la plataforma para la gestión de la convocatoria del Benimaclet conFusión 2016. Para continuar con la inscripción en el festival activa tu cuenta con el siguiente enlace</p> <p><a href=\"http://pard.herokuapp.com/login/validate/#{user[:validation_code]}\">Activa tu cuenta</a> </p>"
+            body: "<p> Bienvenido/a a la plataforma para la gestión de la convocatoria del Benimaclet conFusión 2016. Para continuar con la inscripción en el festival activa tu cuenta con el siguiente enlace</p> <p><a href=\"http://pard.herokuapp.com/login/validate/#{user[:validation_code]}\">Activa tu cuenta</a> </p>"
           }
         end
 

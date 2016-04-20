@@ -187,6 +187,7 @@ describe Services::Profiles do
     before(:each){
       Services::Profiles.create profile, user_id
       production.merge! production_id: production_id
+      allow(Services::Calls).to receive(:proposals_old_pictures).with(production_id).and_return({photos: []})
     }
 
     it 'fails if the parameters are wrong' do
@@ -197,6 +198,13 @@ describe Services::Profiles do
     it 'deletes old images if changed' do
       Repos::Profiles.add_production profile_id, production
       expect(Cloudinary::Api).to receive(:delete_resources).with(['otter_picture.jpg'])
+      Services::Profiles.modify_production modified_production_params, user_id
+    end
+
+    it 'does not delete images used by proposals' do
+      allow(Services::Calls).to receive(:proposals_old_pictures).with(production_id).and_return({photos: ['otter_picture.jpg']})
+      Repos::Profiles.add_production profile_id, production
+      expect(Cloudinary::Api).not_to receive(:delete_resources)
       Services::Profiles.modify_production modified_production_params, user_id
     end
 
