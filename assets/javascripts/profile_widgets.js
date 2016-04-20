@@ -143,7 +143,6 @@
 
     if(production.image){
       var _imageContainer = $('<div>').addClass('image-production-container');
-      // var _imageTitle = $('<ul>').append($('<li>').append($('<h6>').text('Imágenes'))).addClass('image-audio-title');
       var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));      
       _multimediaContainer.append(_imageContainer);
       production.image.forEach(function(image){

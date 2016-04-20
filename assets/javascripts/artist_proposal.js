@@ -45,8 +45,9 @@
     var _invalidInput = $('<div>').addClass('not-filled-text');
     var _selected = 'music';
     var _closepopup = {};
-    
+
     var user_id = Pard.ProfileManager.getUserId();
+
     var profile_id = profile.profile_id;
     var _thumbnail = $('<div>');
     var _url = [];

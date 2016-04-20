@@ -15,11 +15,13 @@
    
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
 
-    $(document).ready(function(){
-      if(profile.proposals == false){
-        Pard.Widgets.CallArtistButton(profile, '').render().trigger('click');
-      }
-    });
+    if (!(profileOut)){
+      $(document).ready(function(){
+        if(profile.proposals == false){
+          Pard.Widgets.CallArtistButton(profile, '').render().trigger('click');
+        }
+      });
+    }
 
     var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
@@ -64,15 +66,17 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    
+
 
     if (out){
-      if(profile.proposals){
+
+      if(profile.proposals && profile.proposals.length){
+
         var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
         var _proposalsBoxContent = $('<div>').addClass('box-content');
         var _proposals = profile.proposals;
         var _artistCallProposals = $('<div>');
-        var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
+        var _callName = $('<p>').append('Se ha inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
 
         var _listproposals = $('<ul>');
 
@@ -86,6 +90,17 @@
         _proposalsBoxContent.append(_artistCallProposals);
         _proposalsBoxContainer.append(_proposalsBoxContent);
         _createdWidget.append(_proposalsBoxContainer);
+      }
+      else{
+        var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
+        var _proposalsBoxContent = $('<div>').addClass('box-content');
+        var _artistCallProposals = $('<div>');
+        var _callName = $('<p>').append('Todavía no se ha inscrito en ninguna convocatoria.').addClass('activities-box-call-name');
+        _artistCallProposals.append(_callName);
+        _proposalsBoxContent.append(_artistCallProposals);
+        _proposalsBoxContainer.append(_proposalsBoxContent);
+        _createdWidget.append(_proposalsBoxContainer);
+
       }
     }
     else{
