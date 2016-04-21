@@ -58,7 +58,7 @@
     var _photosLabel = $('<label>').text('Fotos de tu arte (máximo 4, tamaño inferior a 500kb)').css({
       'padding-top': '0.5rem'
     });
-    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail);
+    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css('margin-bottom','1rem');
 
     _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
     _submitForm['profile_id'] = profile.profile_id;
