@@ -398,7 +398,7 @@
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 4);
     var _photosLabel = $('<label>').addClass('multimedia-manager-input-label').text('Sube imágenes desde tu ordenador (máximo 4, tamaño inferior a 500kb)');
 
-     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail);
+     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css('margin-bottom','1rem');
 
     _formContainer.append(_photosContainer);
 
@@ -510,9 +510,9 @@
 
       var _finalMessage = $('<p>').text('Finalmente, considera que se pueden importar en orfheo solo contenidos multimedia declarados publicos en la web donde se han subido.').css({'margin-top':'1rem'});
 
-     _list.append(_item1.append(_sublist1), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4),_finalMessage);
+     _list.append(_item1.append(_sublist1), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4));
 
-     _createdWidget.append(_list);
+     _createdWidget.append(_list,_finalMessage);
 
      return {
       render: function(){

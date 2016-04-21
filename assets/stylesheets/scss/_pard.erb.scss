@@ -995,8 +995,8 @@ select, textarea, a{
 
 .title-part{
   @include breakpoint(large){
-    margin-top: 1.3rem;
-    margin-bottom: 3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 3.5rem;
   }
   @include breakpoint(small down){
     margin-top: 0.5rem;
@@ -1004,13 +1004,11 @@ select, textarea, a{
   }
 }
 
-.links-ArtistCall{
-  margin-top:0.5rem;
-}  
 
 .category-input{
   font-size: 14px;
   height: auto;
+  margin-bottom:1.5rem;
 }
 
 .photos-modifyProduction{
@@ -1087,7 +1085,7 @@ select, textarea, a{
 
   .availability-SpaceCall{
     margin-bottom: 1.5rem;
-    margin-top: 1.2rem; 
+    margin-top: 1.5rem; 
     // width: 24rem;
     input{
       width: 21rem;
@@ -1117,6 +1115,10 @@ select, textarea, a{
     }
   }
 
+  .own-SpaceCall, .un_wanted-SpaceCall, .sharing-SpaceCall, .conditions-SpaceCall{
+    margin-bottom: 1.5rem;
+  }
+
   .components-input, .category-input{
     display: inline-block;
     margin-left: 1.5rem;
@@ -1129,7 +1131,7 @@ select, textarea, a{
 
   .duration-ArtistCall, .duration-modifyProduction{
     display: inline-block;
-    margin-top: 1.7rem;
+    margin-top: 1rem;
     margin-bottom: -0.5rem;
   }
 
@@ -1159,6 +1161,18 @@ select, textarea, a{
 
 .deleteProfile-caller{
   font-size: $smallSize;
+}
+
+.field-ArtistCall{
+  margin-bottom: 1.5rem;
+}
+
+.title-ArtistCall{
+  margin-bottom: 2rem;
+}
+
+.links-ArtistCall{
+  margin-top: -1.5rem;
 }
 
 

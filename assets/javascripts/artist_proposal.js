@@ -79,11 +79,19 @@
     var _specificCallFields = Pard.Forms.ArtistCall(_selected).specificCallFields();
 
     _productionFields.forEach(function(field){
-      _fieldsetProductionContent.append($('<div>').addClass(field+'-ArtistCall').append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+      var _field = $('<div>').addClass(field+'-ArtistCall'); 
+      _field.addClass('field-ArtistCall');
+      var _label = _form[field]['label'].render().append(_form[field]['input'].render());
+      var _helpText = _form[field]['helptext'].render();
+      _field.append(_label, _helpText);
+      _fieldsetProductionContent.append(_field);
+
     });
 
     _specificCallFields.forEach(function(field){
-      _fieldsetSpecificCall.append($('<div>').addClass(field+'-ArtistCall').append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+      var _field = $('<div>').addClass(field+'-ArtistCall'); 
+      _field.addClass('field-ArtistCall');
+      _fieldsetSpecificCall.append(_field.append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
     });
 
     _fieldsetProduction.append(_fieldsetProductionContent, _photosContainer);
