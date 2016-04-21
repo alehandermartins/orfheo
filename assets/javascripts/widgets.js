@@ -223,7 +223,7 @@
           uploadErrors.push('no accepted');
         }
         if(data.originalFiles[0]['size'] > 500000) {
-          Pard.Widgets.Alert('', 'El tamaño de las imágenes no puede ser superior a 500Kb. Puedes reducirlo en un momento utilizando, entre muchas otras,  <a href = "http://webresizer.com/resizer/?lang=es"  target="_blank">esta web</a>.');
+          Pard.Widgets.Alert('', 'El tamaño de las imágenes no puede ser superior a 500Kb. Puedes reducirlo en un momento utilizando, entre muchas otras,  <a href = "http://optimizilla.com/es/"  target="_blank">esta web</a>.');
           uploadErrors.push('tamaño max');
         }
         if(uploadErrors.length == 0){
