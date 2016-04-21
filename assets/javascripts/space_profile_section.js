@@ -78,7 +78,7 @@
         var _callsBoxContent = $('<div>').addClass('box-content');
         var _callProposals = profile.proposals;
         var _spaceCallProposals = $('<div>');
-        var _callName = $('<p>').append('Se ha inscrito en ',$('<strong>').text('Benimaclet conFusión festival 2016'),'.');
+        var _callName = $('<p>').append('Se ha inscrito en el ',$('<strong>').text('Benimaclet conFusión festival 2016'),'.');
         _spaceCallProposals.append(_callName);
         _callsBoxContent.append(_spaceCallProposals)
         _callsBoxContainer.append(_callsBoxContent);

@@ -213,8 +213,12 @@
     var _keys = Object.keys(profile);
 
     if ('productions' in profile){
+      var _catArray = [];
       profile.productions.forEach(function(production){
-        if (production.category) _categories += Pard.Widgets.Dictionary(production.category).render() + ' - ';
+        if (production.category && $.inArray(production.category, _catArray)){
+          _catArray.push(production.category);
+          _categories += Pard.Widgets.Dictionary(production.category).render() + ' - ';
+        }
       })
     }
     else{ if (profile.category) _categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}

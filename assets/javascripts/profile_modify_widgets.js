@@ -63,7 +63,7 @@
     var _folder = 'profile_picture';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 1);
 
-    var _photosLabel = $('<label>').text('Foto de perfil').css({
+    var _photosLabel = $('<label>').text('Foto de perfil (máximo 500kb)').css({
       'padding-top': '0.5rem'
     });
     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).addClass('profilePhoto-modifyProfile');

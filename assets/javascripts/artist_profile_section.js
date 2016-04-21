@@ -76,7 +76,7 @@
         var _proposalsBoxContent = $('<div>').addClass('box-content');
         var _proposals = profile.proposals;
         var _artistCallProposals = $('<div>');
-        var _callName = $('<p>').append('Se ha inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
+        var _callName = $('<p>').append('Se ha inscrito en el ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
 
         var _listproposals = $('<ul>');
 
