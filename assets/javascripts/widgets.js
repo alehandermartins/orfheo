@@ -257,7 +257,7 @@
       _photo.click();
     });
 
-    _fakeButton.css('margin-bottom', '15px');
+    // _fakeButton.css('margin-bottom', '15px');
 
     return {
       render: function(){

@@ -631,7 +631,17 @@ button{
   font-weight: bold;
   font-size: $smallSize; 
   display: inline-block;
+  margin-bottom: 1rem;
 }
+
+.multimedia-manager-photos-container{
+  margin-bottom: 1.5rem;
+  .browse-btn{
+    margin-bottom: 1.3rem;
+  }
+}
+
+
 
 
 

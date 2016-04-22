@@ -398,7 +398,8 @@
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 4);
     var _photosLabel = $('<label>').addClass('multimedia-manager-input-label').text('Sube imágenes desde tu ordenador (máximo 4, tamaño inferior a 500kb)');
 
-     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css('margin-bottom','1rem');
+     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail)
+     _photosContainer.addClass('multimedia-manager-photos-container');
 
     _formContainer.append(_photosContainer);
 
