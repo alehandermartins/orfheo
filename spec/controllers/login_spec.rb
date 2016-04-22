@@ -104,7 +104,7 @@ describe LoginController do
       get validation_route
 
       expect(session[:identity]).to eq(user_id)
-      expect(last_response.location).to eq('http://pard.herokuapp.com/users/')
+      expect(last_response.location).to eq('http://www.orfheo.org/users/')
     end
   end
 

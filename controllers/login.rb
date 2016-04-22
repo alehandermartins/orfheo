@@ -11,7 +11,7 @@ class LoginController < BaseController
     user_id = validated_user params[:uuid]
     redirect '/' unless user_id
     session[:identity] = user_id
-    redirect 'http://pard.herokuapp.com/users/'
+    redirect 'http://www.orfheo.org/users/'
   end
 
   post '/login_attempt' do
