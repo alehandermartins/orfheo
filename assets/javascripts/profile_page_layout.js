@@ -338,6 +338,7 @@
           _shown[production_id] = _myProduction;
           FB.XFBML.parse();
           window.instgrm.Embeds.process();
+          doBuild();
         }
         _lastselected = _shown[production_id];
       });

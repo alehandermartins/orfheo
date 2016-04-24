@@ -284,10 +284,10 @@
 
 	  var _display = function(){
 	  	if (_done.length == _links.length){
-	  		$.ajaxSetup({cache: true});
+	  		var pinterestScript = $('<script>').attr({'src': '//assets.pinterest.com/js/pinit.js', 'type': 'text/javascript', 'data-pin-build': 'doBuild'});
+	  		$('body').append(pinterestScript);
 	  		$.getScript(document.location.protocol + '//connect.facebook.net/en_US/all.js');
 	  		$.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js');
-	  		$.getScript(document.location.protocol + '//assets.pinterest.com/js/pinit.js');
 	  		$(document).ready(function(){
 	  			callback();
 	  		});
