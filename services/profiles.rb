@@ -39,7 +39,7 @@ module Services
         raise Pard::Invalid::Params if production.wrong_params?
         old_pictures = production_old_pictures production.uuid
         storable_pictures = Services::Calls.proposals_old_pictures production.uuid
-        storable_pictures.merge!(production.images){ |key, a_value, b_value| a_value + b_value }
+        storable_pictures.merge!(production.images){ |key, a_value, b_value| (a_value || []) + (b_value || [])}
         Repos::Profiles.modify_production production.to_h
         Util.destroy_old_pictures old_pictures, storable_pictures
         production.to_h

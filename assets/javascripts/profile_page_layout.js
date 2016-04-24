@@ -318,6 +318,11 @@
       if(selected == production_id) {
         $('.selected-element').removeClass('selected-element');
         _name.addClass('selected-element');
+        var _myProduction = $('<div>');
+        _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile, _out).render());
+        sectionContent.append(_myProduction);
+        _shown[production_id] = _myProduction;
+        _lastselected = _shown[production_id];
       }
       _name.click(function(){
         $('.selected-element').removeClass('selected-element');
