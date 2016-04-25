@@ -10,8 +10,8 @@
     $.getScript('//connect.facebook.net/en_US/all.js').done(function(){
       $.getScript('//platform.instagram.com/en_US/embeds.js').done(function(){
         $(document).ready(function(){
-          FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
-          //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
+          //FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+          FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
           callback();
         });
       });
@@ -62,6 +62,11 @@
         });
         _imageContainer.prepend(_imageTitle);
       }
+      $(document).ready(function(){
+        FB.XFBML.parse();
+        window.instgrm.Embeds.process();
+        doBuild();
+      });
     });
 
     return{
@@ -270,9 +275,7 @@
 
     var _display = function(){
       if (_done.length == _links.length){
-        $(document).ready(function(){
-          callback(multimedia);
-        });
+        callback(multimedia);
       }
     }
 
