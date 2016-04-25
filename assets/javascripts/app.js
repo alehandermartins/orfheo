@@ -125,7 +125,7 @@ Pard.Visitor = function(profiles){
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
-     $(document).ready(function(){$(document).foundation()});
+    $(document).ready(function(){$(document).foundation()});
   } 
 
   Pard.Widgets.MultimediaScripts(_display);

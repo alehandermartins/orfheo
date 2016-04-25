@@ -5,20 +5,16 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.MultimediaScripts = function(callback){
+    var pinterestScript = $('<script>').attr({'src': '//assets.pinterest.com/js/pinit.js', 'type': 'text/javascript', 'data-pin-build': 'doBuild'});
+    $('body').append(pinterestScript);
     $.getScript('//connect.facebook.net/en_US/all.js').done(function(){
       $.getScript('//platform.instagram.com/en_US/embeds.js').done(function(){
-        var pinterestScript = $('<script>').attr({'src': '//assets.pinterest.com/js/pinit.js', 'type': 'text/javascript', 'data-pin-build': 'doBuild'});
-        $('body').append(pinterestScript);
         $(document).ready(function(){
-          FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
-          //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
+          //FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+          FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
           callback();
         });
-      }).fail(function(){
-        console.log('insta');
-      });  
-    }).fail(function(){
-      console.log('facebook');
+      });
     });
   }
 
@@ -66,11 +62,6 @@
         });
         _imageContainer.prepend(_imageTitle);
       }
-      $(document).ready(function(){
-        FB.XFBML.parse();
-        window.instgrm.Embeds.process();
-        doBuild();
-      });
     });
 
     return{
