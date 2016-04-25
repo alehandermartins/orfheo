@@ -112,17 +112,9 @@
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
     }
-
-    if (userStatus == 'owner'){
-      if (profile.video || profile.audio || profile.image){
-        var _multimediaContainer = Pard.Widgets.MultimediaContent(profile, out);
-        _createdWidget.append(_multimediaContainer.render());
-      }
-    }
-    else{
+  
     var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
     _createdWidget.append(_multimediaContainer.render());
-    }
 
     return {
       render: function(){

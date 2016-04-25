@@ -295,9 +295,6 @@
           _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
           sectionContent.append(_myProduction);
           _shown[production_id] = _myProduction;
-          FB.XFBML.parse();
-          window.instgrm.Embeds.process();
-          doBuild();
         }
         _lastselected = _shown[production_id];
       });

@@ -51,32 +51,6 @@ Pard.ProfileManager = {
         });
       }
     });
-  },  
-  addProductionMultimedia: function(data, type, production_id){
-    var production = Pard.ProfileManager.getProduction(production_id);
-    production[type] = production[type] || [];
-    production[type].push(data);
-  },
-  addProfileMultimedia: function(data, type, profile_id){
-    var profile = Pard.ProfileManager.getProfile(profile_id);
-    profile[type] = profile[type] || [];
-    profile[type].push(data);
-  },
-  
-  deleteMultimedia: function(){
-    var profiles = Pard.CachedProfiles;
-    profiles.forEach(function(profile){
-      if('video' in profile) delete(profile['video']);
-      if('image' in profile) delete(profile['image']);
-      if('audio' in profile) delete(profile['audio']);
-      if('productions' in profile){
-        profile.productions.forEach(function(production){
-          if('video' in production) delete(production['video']);
-          if('image' in production) delete(production['image']);
-          if('audio' in production) delete(production['audio']);
-        });
-      }
-    });
   }
 }
 
@@ -120,7 +94,6 @@ Pard.Users = function(profiles){
 }
 
 Pard.Profile = function(profiles){
-
   Pard.CachedProfiles  = profiles;
   Pard.UserStatus['status'] = 'owner';
 
@@ -134,7 +107,7 @@ Pard.Profile = function(profiles){
     $(document).ready(function(){$(document).foundation()});
   }
 
-  Pard.Widgets.Multimedia(_display);
+  Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
  
 };
@@ -155,7 +128,7 @@ Pard.Visitor = function(profiles){
      $(document).ready(function(){$(document).foundation()});
   } 
 
-  Pard.Widgets.Multimedia(_display);
+  Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
 };
 
@@ -176,6 +149,6 @@ Pard.Outsider = function(profiles){
      $(document).ready(function(){$(document).foundation()});
   } 
 
-  Pard.Widgets.Multimedia(_display);
+  Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
 };

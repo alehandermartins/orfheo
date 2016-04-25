@@ -107,61 +107,6 @@
       }
     } 
   } 
-
-  ns.Widgets.MultimediaContent = function(production){
-
-    var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimedia', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
-    _multimediaContainer.addClass('multimedia-container section-box-container'); 
-    var userStatus = Pard.UserStatus['status'];
-
-    if (userStatus == 'owner'){
-      var _multiMediaManager = Pard.Widgets.MultimediaManager(production);
-      _multimediaContainer.append(_multiMediaManager.render().addClass('manage-multimedia-btn'));
-    }
-
-    if(production.video){
-      var _videoContainer = $('<div>').addClass('video-production-container')
-
-      var _videoTitle = $('<div>').append($('<div>').addClass('video-title-box').append($('<h6>').text('Vídeos')));
-
-      _multimediaContainer.append(_videoContainer);
-      production.video.forEach(function(video){
-        _videoContainer.prepend($('<div>').addClass('single-video-container').append(video))
-      });
-      _videoContainer.prepend(_videoTitle);
-    };
-
-    if(production.audio){
-      var _audioContainer = $('<div>').addClass('image-production-container');
-      var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
-      _multimediaContainer.append(_audioContainer);
-      production.audio.forEach(function(audio){
-        _audioContainer.prepend($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
-      });
-      _audioContainer.prepend(_audioTitle);
-
-    }
-
-    if(production.image){
-      var _imageContainer = $('<div>').addClass('image-production-container');
-      var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));      
-      _multimediaContainer.append(_imageContainer);
-      production.image.forEach(function(image){
-        _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));
-      });
-      _imageContainer.prepend(_imageTitle);
-    }
-
-
-    return{
-      render: function(){
-        return _multimediaContainer;
-      }
-    }
-  }
-
-
-
-
+  
 }(Pard || {}));
 
