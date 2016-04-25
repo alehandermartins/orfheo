@@ -5,14 +5,20 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.MultimediaScripts = function(callback){
-    $.getScript(document.location.protocol + '//connect.facebook.net/en_US/all.js').done(function(){
-      $.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js').done(function(){
+    $.getScript('//connect.facebook.net/en_US/all.js').done(function(){
+      $.getScript('//platform.instagram.com/en_US/embeds.js').done(function(){
         var pinterestScript = $('<script>').attr({'src': '//assets.pinterest.com/js/pinit.js', 'type': 'text/javascript', 'data-pin-build': 'doBuild'});
         $('body').append(pinterestScript);
-        FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
-        //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
-        callback();
+        $(document).ready(function(){
+          FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+          //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
+          callback();
+        });
+      }).fail(function(){
+        console.log('insta');
       });  
+    }).fail(function(){
+      console.log('facebook');
     });
   }
 
