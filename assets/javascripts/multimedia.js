@@ -61,6 +61,9 @@
         });
         _imageContainer.prepend(_imageTitle);
       }
+      FB.XFBML.parse();
+      window.instgrm.Embeds.process();
+      doBuild();
     });
 
     return{
@@ -272,9 +275,6 @@
         $(document).ready(function(){
           callback(multimedia);
         });
-        FB.XFBML.parse();
-        window.instgrm.Embeds.process();
-        doBuild();
       }
     }
 
