@@ -5,18 +5,12 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.MultimediaScripts = function(callback){
-    window.fbAsyncInit = function() {
-      //Heroku
-      FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
-      
-      //Local
-      //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
-    }
     var pinterestScript = $('<script>').attr({'src': '//assets.pinterest.com/js/pinit.js', 'type': 'text/javascript', 'data-pin-build': 'doBuild'});
     $('body').append(pinterestScript);
     $.getScript(document.location.protocol + '//platform.instagram.com/en_US/embeds.js');
     $.getScript(document.location.protocol + '//connect.facebook.net/en_US/all.js', function(){
       $(document).ready(function(){
+        FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
         callback();
       });  
     });
