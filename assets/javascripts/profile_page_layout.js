@@ -31,13 +31,14 @@
     }
   }
 
-  ns.Widgets.ProfileMainLayout = function(profiles, out, notLogged){
+  ns.Widgets.ProfileMainLayout = function(){
+
+    var profiles = Pard.CachedProfiles;
+    var userStatus = Pard.UserStatus['status'];
 
     var _rgb = Pard.Widgets.IconColor(profiles[0]['color']).rgb();
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
     var _main = $('<main>').css({'background': _backColor});
-
-   
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
@@ -55,18 +56,10 @@
     var _sectionContent = $('<div>').attr('id','_sectionContent');
     var _sectionHeader = $('<div>');
 
-    if (out) Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, profiles[0].profile_id, profiles[0] );
-    else{
-      Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader);
-    }
-
-    if (out) Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent, profiles, notLogged);
-    else{
-      Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
-    }
+    Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, profiles[0].profile_id);
+    Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
 
     _offCanvasSection.append(_sectionContainer.append(_sectionHeader, _sectionContent));
-
     _offCanvasAside.append(_asideContent);
 
     _aside.append(_offCanvasAside);
@@ -76,7 +69,7 @@
     _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
     _main.append(_mainLarge);
 
-     if (notLogged) {
+     if (userStatus == 'outsider') {
         _main.addClass('outsider-main');
        $('.whole-container').on('scroll',function() {
        if ( _main.offset().top < 5){
@@ -96,13 +89,13 @@
   }
 
 
-  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent, profilesOut, notLogged) {
+  ns.Widgets.ProfileAside = function (sectionHeader, sectionContent, asideContent) {
 
     asideContent.addClass('aside-container');
-
     var _buttonContainer = $('<div>');
+    var userStatus = Pard.UserStatus['status'];
 
-    if (notLogged){
+    if (userStatus == 'outsider'){
       var _signUpButton = Pard.Widgets.SignUpButton().render();
       _signUpButton.addClass('signupButton-Outsider');
       var _innerContainer = $('<div>');
@@ -119,21 +112,14 @@
     }
 
     var _asideNavContent  = $('<div>');
-
-    if (profilesOut) asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent, profilesOut, notLogged).render());
-    else{
-      asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
-    }
+    asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
   }
 
-  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent, profilesOut){
+  ns.Widgets.ProfileAsideBar = function(sectionHeader, sectionContent, asideNavContent){
 
     asideNavContent.empty();
 
-    if (profilesOut) var _profiles = profilesOut;    
-    else{
-     var _profiles = Pard.CachedProfiles;
-    }  
+    var _profiles = Pard.CachedProfiles;
     var selected = false;
     window.location.href.split("=").pop();    
     if(window.location.href.match(/.*&sel=.*/)) selected = window.location.href.split("=").pop();
@@ -153,41 +139,21 @@
 
       _reorderedProfiles.forEach(function(profile, index) {
         if(!(index)){
-          if (profilesOut){ 
-            Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected, profile);
-          }
-          else{
-             Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected);
-          }                   
+          Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected);
         }
         else { 
-          if (profilesOut){
-            _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
-                Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent, profilesOut);
-                Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id, profile);
-                ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
-              }).render()
-            );
-          }
-          else{
-            _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
-                Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
-                Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id);
-                ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
-              }).render()
-            );
-          }
+          _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
+              Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, asideNavContent);
+              Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id);
+              ProfileNav(_reorderedProfiles, index,sectionHeader, sectionContent);
+            }).render()
+          );
         }
       });
 
       asideNavContent.append(_profileNav)
       var _messageOther = $('<p>').addClass('message-otherProfile-asideBar');
-      if (profilesOut){
-      _messageOther.text('del mismo usuario');
-      }
-      else{
-        _messageOther.text('tus otros perfiles');
-      }
+      _messageOther.text('tus otros perfiles');
 
       if  (_myOtherProfiles.html()) asideNavContent.append(_myOtherProfiles.prepend(_messageOther));
     }
@@ -263,16 +229,9 @@
     } 
   }
 
-  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected, profileOut){
+  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected){
 
-    if (profileOut){
-      var profile = profileOut;
-      var _out = true;
-    }
-    else{
-      var profile = Pard.ProfileManager.getProfile(profile_id);
-      _out = false;
-    }
+    var profile = Pard.ProfileManager.getProfile(profile_id);
 
     profileNav.empty();
     sectionContent.empty();
@@ -280,7 +239,7 @@
 
     var _lastselected = $('<div>');
 
-    var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile, _out).render();
+    var _profileSection = Pard.Widgets.ProfileSectionContent(profile['type']).render()(profile).render();
 
     _lastselected = _profileSection;
     sectionContent.append(_profileSection);
@@ -319,7 +278,7 @@
         $('.selected-element').removeClass('selected-element');
         _name.addClass('selected-element');
         var _myProduction = $('<div>');
-        _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile, _out).render());
+        _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
         sectionContent.append(_myProduction);
         _shown[production_id] = _myProduction;
         _lastselected = _shown[production_id];
@@ -333,7 +292,7 @@
           _shown[production_id].show();
         }else{
           var _myProduction = $('<div>');
-          _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile, _out).render());
+          _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
           sectionContent.append(_myProduction);
           _shown[production_id] = _myProduction;
           FB.XFBML.parse();

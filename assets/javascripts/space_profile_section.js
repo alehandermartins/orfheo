@@ -4,18 +4,12 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SpaceSection = function(sectionHeader,  profile_id, profileOut) {
+  ns.Widgets.SpaceSection = function(sectionHeader,  profile_id) {
 
+    var userStatus = Pard.UserStatus['status'];
 
-    if (profileOut){
-      var profile = profileOut;
-      var _out = true;
-    }
-    else {
-      profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
-      var profile = Pard.ProfileManager.getProfile(profile_id);
-      _out = false;
-    }
+    profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
+    var profile = Pard.ProfileManager.getProfile(profile_id);
 
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
 
@@ -23,14 +17,15 @@
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
     $('#main-profile-page').css({'background': _backColor});
 
-    if(profile.proposals == false && _out == false){
+    if(profile.proposals == false && userStatus == 'owner'){
       $(document).ready(function(){Pard.Widgets.CallSpaceButton(profile,'').render().trigger('click')});
     }
   }
 
-  ns.Widgets.SpaceSectionContent = function(profile, out) {  
+  ns.Widgets.SpaceSectionContent = function(profile) {
 
     var _createdWidget = $('<div>');
+    var userStatus = Pard.UserStatus['status'];
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
@@ -41,7 +36,7 @@
     if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
     }else{
-      if (out)_bio.append($('<p>').text(profile.proposals));
+      if (userStatus != 'owner')_bio.append($('<p>').text(profile.proposals));
       else {
         if(profile.proposals && profile.proposals[0]){
         _bio.append($('<p>').text(profile.proposals[0]['description']));
@@ -72,7 +67,7 @@
     _infoContentBox.append(_bio, _contact);
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
-    if (out){
+    if (userStatus != 'owner'){
       if('proposals' in profile && profile.proposals != false){
         var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
         var _callsBoxContent = $('<div>').addClass('box-content');
@@ -113,12 +108,12 @@
       _createdWidget.append(_callsBoxContainer);  
     }
    
-    if (!(out)){
+    if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
     }
 
-    if (out){
+    if (userStatus == 'owner'){
       if (profile.video || profile.audio || profile.image){
         var _multimediaContainer = Pard.Widgets.MultimediaContent(profile, out);
         _createdWidget.append(_multimediaContainer.render());

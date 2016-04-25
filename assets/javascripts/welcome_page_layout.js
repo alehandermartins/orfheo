@@ -41,13 +41,13 @@
   }
 
 
-  ns.Widgets.LoginHeader = function(notLogged){
+  ns.Widgets.LoginHeader = function(){
     
     var _createdWidget = $('<header>').addClass('login-bar');
+    var userStatus = Pard.UserStatus['status'];
    
     var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
     var _container = $('<div>').addClass('pard-header-container');
-
     
     var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content')
     var _logo = $('<div>').css({'cursor':'pointer'});
@@ -57,7 +57,7 @@
       location.href = '/';
     });
 
-     if (notLogged) {
+     if (userStatus == 'outsider') {
       _createdWidget.addClass('outsider-header');
       var _registerBtnOut = Pard.Widgets.SignUpButton().render().attr({ id: 'register-outsider-header-button'});
 
@@ -229,11 +229,12 @@
   }
 
 
-  ns.Widgets.Footer = function(notLogged){
+  ns.Widgets.Footer = function(){
 
     var _createdWidget = $('<footer>').addClass('footer-bar');
+    var userStatus = Pard.UserStatus['status'];
 
-    if (notLogged) _createdWidget.addClass('footer-outsider');
+    if (userStatus == 'outsider') _createdWidget.addClass('footer-outsider');
 
     var _grid = $('<div>').addClass('pard-grid');
     var _container= $('<div>').addClass('pard-container-relative');

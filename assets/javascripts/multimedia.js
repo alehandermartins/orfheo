@@ -4,25 +4,17 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.Multimedia = function(callback, profilesOut){
+  ns.Widgets.Multimedia = function(callback){
 
-  	if (profilesOut) {
-  		var _profiles = profilesOut; 
-  		Pard.ProfileManager.deleteMultimedia(_profiles);
-  	}
-  	else {
-  		var _profiles = Pard.CachedProfiles;
-  		Pard.ProfileManager.deleteMultimedia();
-  	}
-
-		Pard.ProfileManager.deleteMultimedia(_profiles);
+		var _profiles = Pard.CachedProfiles;
+		Pard.ProfileManager.deleteMultimedia();
 
   	window.fbAsyncInit = function() {
 	    //Heroku
-	    FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+	    //FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
 	    
 	    //Local
-   		//FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
+   		FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
 		}
 	  
 
@@ -297,11 +289,7 @@
 	  if(_links.length == 0) _display();
 
 	  _links.forEach(function(link){
-
-	  if (profilesOut)  _providers[link['media']['provider']](link['media'], link['id'], link['elementClass'], profilesOut);
-	  else{
 	  	_providers[link['media']['provider']](link['media'], link['id'], link['elementClass']);
-	  }
 	  });
 
   }

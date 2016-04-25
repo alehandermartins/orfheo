@@ -1,25 +1,21 @@
 'use strict';
 
 Pard.CachedProfiles = [];
+Pard.UserStatus = {};
+
 Pard.ProfileManager = {
-  getProfile: function(profile_id, profilesOut){
-    var _profile = {};
-    if (profilesOut){ profiles = profilesOut}
-    else{
-     profiles = Pard.CachedProfiles;
-    }
+  getProfile: function(profile_id){
+    var profiles = Pard.CachedProfiles;
+    var _profile ={};
     profiles.forEach(function(profile){
       if(profile.profile_id == profile_id) _profile = profile;
     });
     return _profile;
   },
  
-  getProduction: function(production_id, profilesOut){
+  getProduction: function(production_id){
+    var profiles =  Pard.CachedProfiles;
     var _production = {};
-    if (profilesOut) var profiles = profilesOut;
-    else{
-     var profiles =  Pard.CachedProfiles;
-    }
     profiles.forEach(function(profile){
       if('productions' in profile){
         profile.productions.forEach(function(production){
@@ -56,29 +52,19 @@ Pard.ProfileManager = {
       }
     });
   },  
-  addProductionMultimedia: function(data, type, production_id, profilesOut){
-    if (profilesOut) {
-      var production = Pard.ProfileManager.getProduction(production_id, profilesOut);}
-    else{
-      var production = Pard.ProfileManager.getProduction(production_id);}
+  addProductionMultimedia: function(data, type, production_id){
+    var production = Pard.ProfileManager.getProduction(production_id);
     production[type] = production[type] || [];
     production[type].push(data);
   },
-  addProfileMultimedia: function(data, type, profile_id, profilesOut){
-    if (profilesOut) var profile = Pard.ProfileManager.getProfile(profile_id, profilesOut);
-    else{
-      var profile = Pard.ProfileManager.getProfile(profile_id);
-    }
+  addProfileMultimedia: function(data, type, profile_id){
+    var profile = Pard.ProfileManager.getProfile(profile_id);
     profile[type] = profile[type] || [];
     profile[type].push(data);
   },
   
-  deleteMultimedia: function(profilesOut){
-
-    if (profilesOut) var profiles = profilesOut;
-      else{
-        var profiles = Pard.CachedProfiles;
-    }
+  deleteMultimedia: function(){
+    var profiles = Pard.CachedProfiles;
     profiles.forEach(function(profile){
       if('video' in profile) delete(profile['video']);
       if('image' in profile) delete(profile['image']);
@@ -136,13 +122,14 @@ Pard.Users = function(profiles){
 Pard.Profile = function(profiles){
 
   Pard.CachedProfiles  = profiles;
+  Pard.UserStatus['status'] = 'owner';
 
   var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();      
     var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
-    var _main = Pard.Widgets.ProfileMainLayout(Pard.CachedProfiles).render().attr({id: 'main-profile-page'});
+    var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){$(document).foundation()});
   }
@@ -152,43 +139,43 @@ Pard.Profile = function(profiles){
  
 };
 
-Pard.Visitor = function(profilesOut){
-  
-  var _whole = $('<div>').addClass('whole-container');
+Pard.Visitor = function(profiles){
 
-  var _out = true;
+  Pard.CachedProfiles  = profiles;
+  Pard.UserStatus['status'] = 'visitor';
+
+  var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();      
     var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
-    var _main = Pard.Widgets.ProfileMainLayout(profilesOut, _out).render().attr({id: 'main-profile-page'});
+    var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
      $(document).ready(function(){$(document).foundation()});
   } 
 
-  Pard.Widgets.Multimedia(_display, profilesOut);
+  Pard.Widgets.Multimedia(_display);
   $('body').append(_whole);
-
 };
 
 
-Pard.Outsider = function(profilesOut){
+Pard.Outsider = function(profiles){
+
+  Pard.CachedProfiles  = profiles;
+  Pard.UserStatus['status'] = 'outsider';
 
   var _whole = $('<div>').addClass('whole-container');
 
-  var _out = true;
-  var _notLogged = true;
-
   var _display = function(){
-    var _footer = Pard.Widgets.Footer(_notLogged);      
-    var _header = Pard.Widgets.LoginHeader(_notLogged);
-    var _main = Pard.Widgets.ProfileMainLayout(profilesOut, _out, _notLogged).render().attr({id: 'main-profile-page'});
+    var _footer = Pard.Widgets.Footer();      
+    var _header = Pard.Widgets.LoginHeader();
+    var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
      $(document).ready(function(){$(document).foundation()});
   } 
 
-  Pard.Widgets.Multimedia(_display, profilesOut);
+  Pard.Widgets.Multimedia(_display);
   $('body').append(_whole);
 };

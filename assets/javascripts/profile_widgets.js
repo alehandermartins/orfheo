@@ -108,12 +108,13 @@
     } 
   } 
 
-  ns.Widgets.MultimediaContent = function(production, out){
+  ns.Widgets.MultimediaContent = function(production){
 
     var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimedia', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
     _multimediaContainer.addClass('multimedia-container section-box-container'); 
+    var userStatus = Pard.UserStatus['status'];
 
-    if (!(out)){
+    if (userStatus == 'owner'){
       var _multiMediaManager = Pard.Widgets.MultimediaManager(production);
       _multimediaContainer.append(_multiMediaManager.render().addClass('manage-multimedia-btn'));
     }

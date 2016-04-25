@@ -5,17 +5,15 @@
   ns.Widgets = ns.Widgets || {};
 
  
-  ns.Widgets.ArtistSection = function(sectionHeader, profile_id, profileOut) {
+  ns.Widgets.ArtistSection = function(sectionHeader, profile_id) {
 
-    if (profileOut) var profile = profileOut; 
-      else{
-      profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
-      var profile = Pard.ProfileManager.getProfile(profile_id);
-    }
+    profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
+    var profile = Pard.ProfileManager.getProfile(profile_id);
+    var userStatus = Pard.UserStatus['status'];
    
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
 
-    if (!(profileOut)){
+    if (userStatus == 'owner'){
       $(document).ready(function(){
         if(profile.proposals == false){
           Pard.Widgets.CallArtistButton(profile, '').render().trigger('click');
@@ -26,12 +24,12 @@
     var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
     $('#main-profile-page').css({'background': _backColor});
-
   }
 
-  ns.Widgets.ArtistSectionContent = function(profile, out){
+  ns.Widgets.ArtistSectionContent = function(profile){
 
     var _createdWidget = $('<div>');
+    var userStatus = Pard.UserStatus['status'];
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
@@ -68,7 +66,7 @@
 
 
 
-    if (out){
+    if (userStatus != 'owner'){
 
       if(profile.proposals && profile.proposals.length){
 
@@ -121,7 +119,7 @@
 
   
 
-    if (!(out)){
+    if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
     }
@@ -134,20 +132,14 @@
   }
 
 
-  ns.Widgets.MyArtistProductionsContent = function(production_id, profile, out){
+  ns.Widgets.MyArtistProductionsContent = function(production_id, profile){
 
     var profile_color = profile['color'];
-
-    if (out){
-      var production = Pard.ProfileManager.getProduction(production_id, [profile]);
-    }
-    else{
-      var production = Pard.ProfileManager.getProduction(production_id);
-    }
+    var userStatus = Pard.UserStatus['status'];
+    var production = Pard.ProfileManager.getProduction(production_id);
+    var _createdWidget = $('<div>');
 
     var _categoryFields = Pard.Forms.ArtistCall(production.category).productionFields();
-   
-    var _createdWidget = $('<div>');
 
     var _title = $('<div>').addClass('production-title-box').append(
       $('<h4>').text(production.title));
@@ -168,7 +160,6 @@
       var _description = $('<p>').text(production['description']);
       _info.append(_description);
     }
-
 
     var _category = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(production['category']).render()));
     var _categoryIcon = Pard.Widgets.IconManager(production.category).render().addClass('information-contact-icon-column');
@@ -192,21 +183,13 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    if (!(out)){
+    if (userStatus == 'owner'){
       var _modifyProduction = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProduction(production).render(), profile_color);
       _createdWidget.append(_modifyProduction.render());
     }
 
-    if (out){
-      if (production.video || production.audio || production.image){
-        var _multimediaContainer = Pard.Widgets.MultimediaContent(production, out);
-        _createdWidget.append(_multimediaContainer.render());
-      }
-    }
-    else{
-    var _multimediaContainer = Pard.Widgets.MultimediaContent(production, out);
+    var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
     _createdWidget.append(_multimediaContainer.render());
-    }
 
     return {
       render: function(){
