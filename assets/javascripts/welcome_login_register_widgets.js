@@ -70,9 +70,9 @@
 
     var _initMex = $('<div>').append($('<p>').html('...tendrás acceso a tus datos de la convocatoria, podrás enviar más propuestas, enmendar las que has enviado, cambiar la información sobre ti para que el publico pueda conocerte... hacerlo,  <strong> por supuesto, es libre y gratuito :) </strong>')).addClass('register-form-init-mex');
 
-    var _termsAndCondtions = $('<a>').attr('href','#').text('terminos y condiciones');
+    var _termsAndCondtions = $('<a>').attr('href','#').text('condiciones generales');
     var _termsAndCondtionsPopup = Pard.Widgets.PopupCreator(_termsAndCondtions,'Terminos y Condiciones', function(){return Pard.Widgets.TermsAndConditionsMessage()});
-    var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestros ', _termsAndCondtionsPopup.render(), '.')).addClass('register-form-final-mex');
+    var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestras ', _termsAndCondtionsPopup.render(), '.')).addClass('register-form-final-mex');
 
     _createdWidget.append(_initMex, _emailLabel, _passwdLabel, _invalidInput, _fields['button'].render(), _finalMex);
 

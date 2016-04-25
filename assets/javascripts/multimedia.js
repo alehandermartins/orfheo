@@ -450,7 +450,7 @@
 
      var _list = $('<ul>').addClass('multimedia-accepted-list');
 
-     var _item1 = $('<li>').html('...una imagen desde <strong>flickr, instagram, pinterest</strong> (un pin), <strong>twitter</strong> (un tweet) o un vídeo desde <strong>youtube, vimeo, vine</strong> o un audio desde <strong>soundcloud</strong>:')
+     var _item1 = $('<li>').html('...una imagen desde <strong>flickr, instagram, pinterest</strong> (un pin) o un vídeo desde <strong>youtube, vimeo, vine</strong> o un audio desde <strong>soundcloud</strong>:')
 
      var _sublist1 = $('<ol>').addClass('multimedia-accepted-sublist').append(
      	$('<li>').text('abre la imagen, el vídeo o el audio en el sitio web correspondiente'),
@@ -458,6 +458,18 @@
      	$('<li>').text('pegalo en el campo del formulario de orfheo'),
      	$('<li>').text('dale al botón para validar')
      	);
+
+     var _item1_5 = $('<li>').html('...una imagen desde <strong>twitter</strong> (un tweet):')
+
+     var _sublist1_5 = $('<ol>').addClass('multimedia-accepted-sublist').append(
+      $('<li>').text('pincha el tweet que quieres compartir'),
+      $('<li>').text('en el popup que se te abre, pincha le icona con los tres puntitos'),
+      $('<li>').text('selecciona "Copiar enlace del tweeet"'),
+      $('<li>').text('copia el enlace y pegalo en el campo del formulario de orfheo'),
+      $('<li>').text('dale al botón para validar')
+      );
+
+      
 
       var _item2 = $('<li>').html('...una imagen, un post o un vídeo publicado en <strong>facebook</strong>:')
 
@@ -489,7 +501,7 @@
 
       var _finalMessage = $('<p>').text('Finalmente, considera que se pueden importar en orfheo solo contenidos multimedia declarados publicos en la web donde se han subido.').css({'margin-top':'1rem'});
 
-     _list.append(_item1.append(_sublist1), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4));
+     _list.append(_item1.append(_sublist1), _item1_5.append(_sublist1_5), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4));
 
      _createdWidget.append(_list,_finalMessage);
 
