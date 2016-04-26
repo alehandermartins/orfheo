@@ -200,7 +200,7 @@
 
     var _form = Pard.Forms.BasicSpaceForm().render();
     var _photosLabel = $('<label>').text('Fotos del espacio (máximo 4, tamaño inferior a 500kb)');
-    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail);
+    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css({'margin-bottom':'1.2rem', 'margin-top':'2rem'});
 
     for(var field in _form){
       if (field === 'color') _formContainer.append(_photosContainer); 

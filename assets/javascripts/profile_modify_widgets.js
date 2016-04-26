@@ -96,8 +96,6 @@
 
     var _deleteProfile = Pard.Widgets.PopupCreator(_deleteProfileCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProfileMessage(profile.profile_id)});
 
-    _createdWidget.append(_formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton), _deleteProfile.render());
-
     var _filled = function(){
       var _check = true;
       for (field in _form){
@@ -145,6 +143,12 @@
       _url.push(data['result']['public_id']);
       if(_url.length >= _photos.dataLength()) _send(_url);
     });
+
+    _submitBtnContainer.append(submitButton);
+
+    // console.log(_submitBtnContainer.html());
+
+    _createdWidget.append(_formContainer, _message, _invalidInput, _submitBtnContainer, _deleteProfile.render());
 
     return {
       render: function(){
