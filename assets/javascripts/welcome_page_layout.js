@@ -248,8 +248,8 @@
     var _languages = _langPopup.render();
     _languages.addClass('footer-text-link');
 
-    var _termsAndConditionsMessage =  Pard.Widgets.TermsAndConditionsMessage();    
     var _termsAndConditionsCaller = $('<a>').attr('href','#').html('Condiciones generales');
+    var _termsAndConditionsMessage = Pard.Widgets.TermsAndConditionsMessage();
     var _termsAndConditionsPopup = Pard.Widgets.PopupCreator(_termsAndConditionsCaller, '', function(){return _termsAndConditionsMessage});
     var _termsAndConditions = _termsAndConditionsPopup.render().addClass('footer-text-link');
 
@@ -287,7 +287,7 @@
 
     return {
       render: function(){ 
-        return _createdWidget
+        return _createdWidget;
       },
       setCallback: function(callback){
         

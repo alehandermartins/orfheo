@@ -50,9 +50,13 @@
       $('body').append(_content);
     });
 
+
+
     _popupCaller.on('click', function(){
       _content.empty();
       var _message = Pard.Widgets.PopupContent(title, message(), contentClass);
+                console.log(message().render());
+
       _message.setCallback(function(){_popup.close()});
       _content.append(_message.render());
       _popup.open();
@@ -84,7 +88,9 @@
     _header.append(_title, _closeBtn);
 
 
+
     _sectionContainer.append(content.render());
+
     _popupContent.append(_header, _sectionContainer);
     _createdWidget.append(_container.append(_popupContent));
     
