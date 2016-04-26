@@ -146,7 +146,7 @@
 
     _submitBtnContainer.append(submitButton);
 
-    // console.log(_submitBtnContainer.html());
+     console.log(_submitBtnContainer.html());
 
     _createdWidget.append(_formContainer, _message, _invalidInput, _submitBtnContainer, _deleteProfile.render());
 

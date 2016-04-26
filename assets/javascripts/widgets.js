@@ -55,8 +55,6 @@
     _popupCaller.on('click', function(){
       _content.empty();
       var _message = Pard.Widgets.PopupContent(title, message(), contentClass);
-                console.log(message().render());
-
       _message.setCallback(function(){_popup.close()});
       _content.append(_message.render());
       _popup.open();
