@@ -186,11 +186,17 @@
     if (userStatus == 'owner'){
       var _modifyProduction = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProduction(production).render(), profile_color);
       _createdWidget.append(_modifyProduction.render());
-    }
-
-    var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
+      var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
     _createdWidget.append(_multimediaContainer.render());
 
+    }else{
+      if (production['photos'] || production['links']){
+        var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
+        _createdWidget.append(_multimediaContainer.render());
+      }
+    }
+
+    
     return {
       render: function(){
         return _createdWidget;

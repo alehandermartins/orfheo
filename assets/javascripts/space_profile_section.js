@@ -111,10 +111,16 @@
     if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
+      var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
+      _createdWidget.append(_multimediaContainer.render());
+     }else{
+      if (profile['photos'] || profile['links']){
+        var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
+        _createdWidget.append(_multimediaContainer.render());
+      }
     }
   
-    var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
-    _createdWidget.append(_multimediaContainer.render());
+    
 
     return {
       render: function(){
