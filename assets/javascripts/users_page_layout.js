@@ -13,8 +13,9 @@
     var _topContent = $('<div>').addClass('top-header-content');
 
     var _topBarTitle = $('<div>').addClass('left-user-header-content');
-    _topBarTitle.html('<h3><strong>orfheo</strong></h3>');
-    _topBarTitle.click(function(){
+    var _logo = $('<div>').addClass('logo-header');
+    _topBarTitle.append(_logo);
+    _logo.click(function(){
       location.href = /users/;
     });
    

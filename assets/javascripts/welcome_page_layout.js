@@ -50,8 +50,7 @@
     var _container = $('<div>').addClass('pard-header-container');
     
     var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content')
-    var _logo = $('<div>').css({'cursor':'pointer'});
-    _logo.html('<h3><strong>orfheo</strong></h3>');
+    var _logo = $('<div>').addClass('logo-header');
     _topBarTitle.append(_logo);
     _logo.click(function(){
       location.href = '/';
@@ -298,6 +297,10 @@
   ns.Widgets.ProjectInfoMessage = function (){
     var _createdWidget = $('<div>');
 
+    var _image = $('<div>').addClass('orfheo-symbol-popup');
+
+    var _web = $('<p>').text('orfheo.org').addClass('orfeo-web-popup');
+
     var _title = $('<h4>').text('Todo sobre el proyecto').addClass('title-project-info');
     var _message = $('<div>').html('<p> Hola, has encontrado un lugar que no estabas buscando. Bienvenido en orfheo! Queremos contarte por qué has llegado hasta aquí.</p> <p> A raíz de la experiencia vivida organizando el Benimaclet conFusión festival, algunos de nosotros, voluntarios, hemos tenido la posibilidad de reflexionar sobre los retos de un modelo cooperativo en relación con la difícil gestión de las muchas ofertas artístico-culturales que recoge el evento. </p> <p> Hemos pensado lo que hacía falta, y lo hemos hecho. </p> <p> Estamos orgullosos de contar contigo porque orfheo, sin gente como tú, no es más que una voz, una llamada a la acción, que llega a ser realidad, y entonces comunidad, solamente gracias a todos sus ciudadanos. Una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria,  sino de dar valor a las propuestas de los creadores mas allá de un sólo encuentro. </p> <p> Estás en tu comunidad online, donde lanzar una convocatoria artístico-cultural es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Es una herramienta, un mecanismo de gestión cultural donde descubrir a través de perfiles, enlaces y conexiones. </p> <p> Es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Creemos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio donde una cosa expone a otra con la misma idea con la cual se ha creado. </p> <p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen,  y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental  para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Dejamos a ti imaginar un poco más de lo necesario y compartir con los demás experiencias inolvidables.</p>');
 
@@ -325,7 +328,7 @@
 
     _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7, _thanks);
 
-    _createdWidget.append(_part1, _part2);
+    _createdWidget.append(_image, _web, _part1, _part2);
 
     return {
       render: function(){ 

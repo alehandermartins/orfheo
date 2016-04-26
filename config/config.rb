@@ -42,6 +42,9 @@ class BaseController < Sinatra::Base
     italian_flag.jpeg
     valencian_flag.png
     english_flag.png
+    orfheoiconocolor.png
+    orfheologocolor.png
+    orfheosimbolocolor.png
   )
 
   set :assets_prefix, %w(assets vendor/assets)

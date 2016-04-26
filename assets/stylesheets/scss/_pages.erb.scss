@@ -38,6 +38,21 @@ LOGIN PAGE
 
 }
 
+.logo-header{
+  cursor: pointer;
+  background-image: url(<%= image_path 'orfheologocolor.png' %>);
+  width: 125px;
+  height: 42px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include breakpoint(small down){ 
+    width: 66px;
+    height: 22px;
+    margin-top:0.5rem;
+    margin-bottom:0.5rem;
+  }
+}
+
 
 
 /*------------------

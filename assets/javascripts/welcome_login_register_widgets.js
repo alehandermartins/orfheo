@@ -100,6 +100,10 @@
   ns.Widgets.TermsAndConditionsMessage = function(){
     var _createdWidget = $('<div>');
 
+    var _image = $('<div>').addClass('orfheo-symbol-popup');
+
+    var _web = $('<p>').text('orfheo.org').addClass('orfeo-web-popup');
+
     var _title = $('<h4>').text('Condiciones generales').addClass('title-project-info');
 
     var _lastModify = $('<div>').append($('<p>').text('Ultima modifica: 1 de Mayo 2016').addClass('conditions-lastModify')).addClass('conditions-par');
@@ -147,7 +151,7 @@
     var _finalMex = $('<div>').html('<p> Si tienes preguntas o sugerencias  envía un correo electrónico a <a href="mailto:info@orfheo.org"> info@orfheo.org</a>.</p> <p> Gracias por leer hasta aquí. Esperamos que disfrute dentro y fuera orfheo. </br> Tu participación al crear, mantener y mejorar ese lugar es imprescindible. </p> <p> Apreciamos que te hayas tomado tu tiempo para informarte sobre el proyecto, y te agradecemos que contribuyas. Mediante lo que haces, estas ayudando a construir algo realmente importante, no solamente una conexión de proyectos compartidos de manera colaborativa, sino también una vibrante comunidad enfocada en una muy noble meta. </p>')
 
 
-    _createdWidget.append( _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part6, _subtitle7, _finalMex);
+    _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part6, _subtitle7, _finalMex);
 
     return{
       render: function(){
