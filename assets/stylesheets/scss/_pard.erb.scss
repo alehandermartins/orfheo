@@ -1188,6 +1188,8 @@ select, textarea, a{
     }
   }
 
+
+
   .own-SpaceCall, .un_wanted-SpaceCall, .sharing-SpaceCall, .conditions-SpaceCall{
     margin-bottom: 1.5rem;
   }
@@ -1245,7 +1247,11 @@ select, textarea, a{
 
 }
 
-
+.profilePhoto-modifyProfile{
+  @include breakpoint (medium down){
+   margin-bottom:1rem;
+  }
+}
 
 
 .deleteProfile-caller{

@@ -69,7 +69,7 @@
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
 
     var _message = $('<div>').addClass('message-form');
-    _message.html('<p> Puedes apuntarte a la convocatoría del conFusión 2016 enviando una o más propuestas como artista o también ofreciendo un tu espacio:');
+    _message.html('<p> Puedes apuntarte a la convocatoria del conFusión 2016 enviando una o más propuestas como artista o también ofreciendo un tu espacio:');
 
     _createdWidget.append(_message, _artistButton, _spaceButton);
 
