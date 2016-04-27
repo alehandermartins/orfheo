@@ -22,7 +22,7 @@ describe Services::Mails do
     end
 
     it 'renders the sender' do
-      expect(welcome_mail.from).to eq(['pard.project@gmail.com'])
+      expect(welcome_mail.from).to eq(['no.reply.orfheo@gmail.com'])
     end
   end
 
