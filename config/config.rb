@@ -59,7 +59,7 @@ class BaseController < Sinatra::Base
   end
 
   options = {
-    :from => 'pard.project@gmail.com',
+    :from => 'no.reply.orfheo@gmail.com',
     :headers => { 'Content-Type' => 'text/html' },
     :via => :smtp,
     :via_options => {
@@ -76,7 +76,7 @@ class BaseController < Sinatra::Base
   configure :development, :test do
     DB = Mongo::Connection.new
     @@db = DB[settings.dbname]
-    Pony.override_options = {:from => 'pard.project@gmail.com', :via => :test }
+    Pony.override_options = {:from => 'no.reply.orfheo@gmail.com', :via => :test }
     Cloudinary.config do |config|
       config.cloud_name = 'hxgvncv7u'
       config.api_key = '844974134959653'
