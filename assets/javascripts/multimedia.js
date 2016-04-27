@@ -31,36 +31,41 @@
 
     Pard.Widgets.MultimediaDisplay(production, function(multimedia){
       if(multimedia.video != false){
+        var _outerVideocontainer = $('<div>');
         var _videoContainer = $('<div>').addClass('video-production-container')
 
-        var _videoTitle = $('<div>').append($('<div>').addClass('video-title-box').append($('<h6>').text('Vídeos')));
+        var _videoTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Vídeos')));
+        
+        // var _videoTitle = $('<div>').append($('<div>').addClass('video-title-box').append($('<h6>').text('Vídeos')));
 
-        _multimediaContainer.append(_videoContainer);
+        _multimediaContainer.append(_outerVideocontainer);
         multimedia.video.forEach(function(video){
           _videoContainer.prepend($('<div>').addClass('single-video-container').append(video))
         });
-        _videoContainer.prepend(_videoTitle);
+        _outerVideocontainer.append(_videoTitle, _videoContainer);
       };
 
       if(multimedia.audio != false){
+        var _outerAudiocontainer = $('<div>');
         var _audioContainer = $('<div>').addClass('image-production-container');
         var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
-        _multimediaContainer.append(_audioContainer);
+        _multimediaContainer.append(_outerAudiocontainer);
         multimedia.audio.forEach(function(audio){
           _audioContainer.prepend($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
         });
-        _audioContainer.prepend(_audioTitle);
+        _outerAudiocontainer.append(_audioTitle, _audioContainer);
 
       }
 
       if(multimedia.image != false){
+        var _outerImagescontainer = $('<div>');
         var _imageContainer = $('<div>').addClass('image-production-container');
         var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));      
-        _multimediaContainer.append(_imageContainer);
+        _multimediaContainer.append(_outerImagescontainer);
         multimedia.image.forEach(function(image){
           _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));
         });
-        _imageContainer.prepend(_imageTitle);
+        _outerImagescontainer.append(_imageTitle, _imageContainer);
       }
       $(document).ready(function(){
         FB.XFBML.parse();
