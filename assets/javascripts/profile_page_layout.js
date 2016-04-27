@@ -119,6 +119,8 @@
 
     asideNavContent.empty();
 
+    var userStatus = Pard.UserStatus['status'];
+
     var _profiles = Pard.CachedProfiles;
     var selected = false;
     window.location.href.split("=").pop();    
@@ -153,7 +155,11 @@
 
       asideNavContent.append(_profileNav)
       var _messageOther = $('<p>').addClass('message-otherProfile-asideBar');
-      _messageOther.text('tus otros perfiles');
+      if (userStatus == 'owner'){
+        _messageOther.text('tus otros perfiles');
+      }else{
+        _messageOther.text('del mismo usuario');
+      }
 
       if  (_myOtherProfiles.html()) asideNavContent.append(_myOtherProfiles.prepend(_messageOther));
     }

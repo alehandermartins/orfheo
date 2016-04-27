@@ -114,7 +114,7 @@
 
     
     _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Bio'),
+      label: Pard.Widgets.InputLabel('Biografiá / Información'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu vida artistica-cultural.')
     };
@@ -145,7 +145,7 @@
   	var _form = Pard.Forms.BasicSpaceForm().render();
 
     _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Bio'),
+      label: Pard.Widgets.InputLabel('Descripción / Información'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu espacio.')
     };
@@ -310,7 +310,7 @@
 
    	
     _form['duration'] = {
-      label: Pard.Widgets.InputLabel('Duracción del espectáculo *'), 
+      label: Pard.Widgets.InputLabel('Duración del espectáculo *'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
       helptext: Pard.Widgets.HelpText('')
     };

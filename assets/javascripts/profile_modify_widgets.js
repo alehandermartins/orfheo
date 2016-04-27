@@ -85,8 +85,10 @@
     for(var field in _form){
       if (profile.type === 'space'&& field === 'address') _formContainer.append(_photosContainer);
       if (profile.type === 'artist'&& field === 'bio') _formContainer.append(_photosContainer);
-      if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProfile').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
+      if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProfile').addClass('field-modifyProduction').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
     };
+
+    _formContainer.addClass(profile['type']+'-modifyProfile');
 
     var _message = $('<div>').append($('<p>').html(
       'IMPORTANTE: Los cambios que haces a través de este formulario no serán tomados en consideración por parte de la organización del festival.'

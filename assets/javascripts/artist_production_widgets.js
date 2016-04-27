@@ -34,7 +34,7 @@
 
     var _message = $('<div>').append($('<p>').html(
       'IMPORTANTE: Los cambios que haces a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
-      )).addClass('final-message-form');
+      )).addClass('final-message-form-modifyProduction');
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
@@ -86,8 +86,14 @@
       });
     }
     
+    var _fieldMod;
+
     for(var field in _form){
-      if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProduction').append(_form[field]['label'].render().append(_form[field]['input'].render())));
+      if(field != 'links') {
+         _fieldMod = $('<div>').addClass(field+'-modifyProduction').append(_form[field]['label'].render().append(_form[field]['input'].render()));
+          if(field != 'category')  _fieldMod.addClass('field-modifyProduction');
+        _formContainer.append(_fieldMod);
+      }
     };
 
     var _closepopup = {};
