@@ -29,11 +29,11 @@
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
     var _initMex = $('<div>').append($('<p>').html(
-        'Con ese formularo puedes modificar el contenido de la página de tu proyecto artistico. Sin embargo, no se modificará ninguno de los datos que has enviado a la convocatoria del Benimaclet conFusión festival.'
+        'Con este formularo puedes modificar el contenido de la página de tu proyecto artistico. Sin embargo, no se modificará ninguno de los datos que has enviado a la convocatoria del Benimaclet conFusión festival.'
       )).addClass('init-message-form');
 
     var _message = $('<div>').append($('<p>').html(
-      'IMPORTANTE: Los cambios que haces a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
+      'IMPORTANTE: Los cambios que hagas a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
       )).addClass('final-message-form-modifyProduction');
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
@@ -123,7 +123,7 @@
   ns.Widgets.DeleteProductionMessage = function(production_id, closepoup){  
     
     var _createdWidget = $('<div>');
-    var _message = $('<p>').text('Confirmando, tu proyecto artístico se eliminará de tu portfolio. Esa acción no afectará tu inscripción en la convocatoria del Benimaclet conFusión festival. ');
+    var _message = $('<p>').text('Confirmando, tu proyecto artístico se eliminará de tu portfolio. Esa acción no afectará a tu inscripción en la convocatoria del Benimaclet conFusión festival. ');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 

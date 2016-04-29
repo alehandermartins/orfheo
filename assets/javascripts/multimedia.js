@@ -458,9 +458,9 @@
      var _item1 = $('<li>').html('...una imagen desde <strong>flickr, instagram, pinterest</strong> (un pin) o un vídeo desde <strong>youtube, vimeo, vine</strong> o un audio desde <strong>soundcloud</strong>:')
 
      var _sublist1 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-     	$('<li>').text('abre la imagen, el vídeo o el audio en el sitio web correspondiente'),
+     	$('<li>').text('abre la imagen, vídeo o audio en el sitio web correspondiente'),
      	$('<li>').text('copia su enlace directamete desde el navegador o desde la opción "compartir" (o "copiar enlace")'),
-     	$('<li>').text('pegalo en el campo del formulario de orfheo'),
+     	$('<li>').text('pégalo en el campo del formulario de orfheo'),
      	$('<li>').text('dale al botón para validar')
      	);
 
@@ -468,9 +468,9 @@
 
      var _sublist1_5 = $('<ol>').addClass('multimedia-accepted-sublist').append(
       $('<li>').text('pincha el tweet que quieres compartir'),
-      $('<li>').text('en el popup que se te abre, pincha le icona con los tres puntitos'),
+      $('<li>').text('en el popup que se te abre, pincha el icono con los tres puntitos'),
       $('<li>').text('selecciona "Copiar enlace del tweeet"'),
-      $('<li>').text('copia el enlace y pegalo en el campo del formulario de orfheo'),
+      $('<li>').text('copia el enlace y pégalo en el campo del formulario de orfheo'),
       $('<li>').text('dale al botón para validar')
       );
 
@@ -480,31 +480,31 @@
 
       var _sublist2 = $('<ol>').addClass('multimedia-accepted-sublist').append(
      	$('<li>').text('pincha la fecha con la hora de publicación que aparece en la parte superior del post'),
-     	$('<li>').text('copia entonces desde el navegador el enlace de la página que se abre'),
-     	$('<li>').text('pegalo en el campo del formulario de orfheo'),
+     	$('<li>').text('copia desde el navegador el enlace de la página que se abre'),
+     	$('<li>').text('pégalo en el campo del formulario de orfheo'),
      	$('<li>').text('dale al botón para validar')
      	);
 
      	var _item3 = $('<li>').html('...un audio desde <strong>bandcamp</strong>:')
 
       var _sublist3 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-     	$('<li>').text('en la página de la canción pincha a "Share/Embed" (bajo la foto principal) y entonces a "Embed this album"'),
+     	$('<li>').text('en la página de la canción pincha en "Share/Embed" (bajo la foto principal) y entonces en "Embed this album"'),
      	$('<li>').text('selecciona un estilo del lector musical'),
-     	$('<li>').text('copia el codigo html desde el campo Embed que aparec en la esquina izquierda superior'),
-     	$('<li>').text('pegalo en el campo del formulario de orfheo'),
+     	$('<li>').text('copia el código html desde el campo Embed que aparece en la esquina izquierda superior'),
+     	$('<li>').text('pégalo en el campo del formulario de orfheo'),
      	$('<li>').text('dale al botón para validar')
      	);
 
      	var _item4 = $('<li>').html('...un audio desde <strong>spotify</strong>:')
 
       var _sublist4 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-     	$('<li>').text('selecciona una cancion de una playlist con el botón derecho del ratón'),
-     	$('<li>').text('pincha a "Copy Song Link"'),
+     	$('<li>').text('selecciona una canción de una playlist con el botón derecho del ratón'),
+     	$('<li>').text('pincha en "Copy Song Link"'),
      	$('<li>').text('pega el contenido copiado en el formulario de orfheo'),
      	$('<li>').text('dale al botón para validar')
      	);
 
-      var _finalMessage = $('<p>').text('Finalmente, considera que se pueden importar en orfheo solo contenidos multimedia declarados publicos en la web donde se han subido.').css({'margin-top':'1rem'});
+      var _finalMessage = $('<p>').text('Finalmente, considera que se pueden importar en orfheo sólo contenidos multimedia declarados públicos en la web donde se han subido.').css({'margin-top':'1rem'});
 
      _list.append(_item1.append(_sublist1), _item1_5.append(_sublist1_5), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4));
 

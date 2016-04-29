@@ -22,7 +22,7 @@
 
     var _createdWidget = $('<div>');
     var _message = $('<div>').html(
-      '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Con este formulario enviarás tu propuesta de participación al Benimaclet conFusión festival 2016. Los datos que recoge serán privados y podrán ser consultados solo por ti y la organización del festival.'
+      '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Con este formulario enviarás tu propuesta de participación al Benimaclet conFusión festival 2016. Los datos que recoge serán privados y podrán ser consultados sólo por ti y la organización del festival.'
       ).addClass('message-form');
     var _formContainer = $('<form>').addClass('popup-form');
     var _submitForm = {};

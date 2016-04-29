@@ -15,7 +15,7 @@
     _form['city'] = {
       label: Pard.Widgets.InputLabel('Ciudad *'),
       input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posibile contacto.')
+      helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posible contacto.')
     };
 
     _form['zip_code'] = {
@@ -27,7 +27,7 @@
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
       input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a tus perfiles en redes sociales (fotos y vídeos podrás gestionarlos juntos con tu propuesta artística).')
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística).')
     };
 
     _form['color'] = {
@@ -79,7 +79,7 @@
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
       input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tu webs o blogs personales como a tus perfiles en redes sociales')
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales')
     };
 
     _form['links'] = {
@@ -116,7 +116,7 @@
     _form['bio'] = {
       label: Pard.Widgets.InputLabel('Biografiá / Información'),
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu vida artistica-cultural.')
+      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu vida artística-cultural.')
     };
     _form['bio']['input'].setAttr('rows', 4);
 
@@ -194,9 +194,9 @@
     };
 
     _form['description'] = {
-      label: Pard.Widgets.InputLabel('Descripcion del espacio disponible y superficies para murales *'),
+      label: Pard.Widgets.InputLabel('Descripción del espacio disponible y superficies para murales *'),
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Numero de habitaciones, dimensiones aproximativas, paredes o persianas para intervenciones de arte urbana, etc.')
+      helptext: Pard.Widgets.HelpText('Número de habitaciones, dimensiones aproximadas, paredes o persianas para intervenciones de arte urbano, etc.')
     };
 
     _form['availability'] = {
@@ -221,7 +221,7 @@
     _form['sharing'] = {
       label: Pard.Widgets.InputLabel('Materiales a compartir'), 
       input: Pard.Widgets.TextArea(''),
-      helptext:Pard.Widgets.HelpText('Material que puedes compartir durante el festival como equipo de sonido, altavoces, material de arte plastica, focos de luz...')
+      helptext:Pard.Widgets.HelpText('Material que puedes compartir durante el festival como equipo de sonido, altavoces, material de arte plástico, focos de luz...')
     }
 
     _form['phone'] = {
@@ -251,7 +251,7 @@
   ns.Forms.Conditions = function() {
 
     var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/es/bases', target: '_blank'}).text('bases de participación');
-    var _conditions = $('<span>').text('He leido y acepto las condiciones en las ').append(_linkToConditions,' del festival *');
+    var _conditions = $('<span>').text('He leído y acepto las condiciones en las ').append(_linkToConditions,' del festival *');
 
     return{
       render: function(){
@@ -268,7 +268,7 @@
 
 		var _form = {};
 
-    var _labelsCategories = ['Musica', 'Artes Escénicas', 'Exposición', 'Poesía',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
+    var _labelsCategories = ['Música', 'Artes Escénicas', 'Exposición', 'Poesía',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
     var _labelsDays = ['Sabado', 'Domingo', 'Ambos dias'];
     var _valuesDays = ['sat', 'sun', 'both'];
@@ -318,9 +318,9 @@
 
     
     _form['components'] = {
-      label: Pard.Widgets.InputLabel('Numero de integrantes *'),
+      label: Pard.Widgets.InputLabel('Número de integrantes *'),
       input: Pard.Widgets.Input('', 'number'),
-      helptext: Pard.Widgets.HelpText('Numero de personas que llevan la actividad/espectáculo.')
+      helptext: Pard.Widgets.HelpText('Número de personas que llevan la actividad/espectáculo.')
     };
     _form['components']['input'].setAttr('min','1');
     _form['components']['input'].setClass('components-input');
@@ -344,7 +344,7 @@
     
     _form['children'] = {
       label: Pard.Widgets.InputLabel(''),
-      input: Pard.Widgets.CheckBox('Actividad para un publico infantil', 'yes_children'),
+      input: Pard.Widgets.CheckBox('Actividad para un público infantil', 'yes_children'),
       helptext: Pard.Widgets.HelpText('')
     };
     
@@ -360,7 +360,7 @@
     _form['sharing'] = {
       label: Pard.Widgets.InputLabel('Materiales a compartir'), 
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plastica, focos de luz, etc.')
+      helptext: Pard.Widgets.HelpText('Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc.')
     };
     _form['sharing']['input'].setClass('sharing-input');
 
@@ -368,7 +368,7 @@
     _form['needs'] = { 
       label: Pard.Widgets.InputLabel('Necesidades'),
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Indicar si se tienen especiales necesidades técnicas y/o de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y no podrá hacerse cargo del material necesario para cada actuacción.')
+      helptext: Pard.Widgets.HelpText('Indicar si se tienen necesidades técnicas especiales y/o de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y no podrá hacerse cargo del material necesario para cada actuacción.')
     };
     _form['needs']['input'].setClass('needs-input');
 
@@ -426,7 +426,7 @@
 
     _form['short_description'] = { 
       label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
-      input: Pard.Widgets.TextAreaCounter('', 80, 'Solo 80 caracteres permitidos. Quedan: '),
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Sólo 80 caracteres permitidos. Quedan: '),
       helptext: Pard.Widgets.HelpText('')
     };
     _form['short_description']['input'].setClass('short_description-input');
