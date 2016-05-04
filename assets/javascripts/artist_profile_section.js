@@ -191,7 +191,6 @@
 
     }else{
       if (production['photos'] || production['links']){
-        console.log('flag')
         var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
         _createdWidget.append(_multimediaContainer.render());
       }
