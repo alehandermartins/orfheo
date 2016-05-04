@@ -108,6 +108,7 @@ Pard.Profile = function(profiles){
 
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
+
  
 };
 
