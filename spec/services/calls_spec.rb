@@ -1,6 +1,6 @@
 describe Services::Calls do
 
-  let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:user_id){'45825599-b8cf-499c-825c-a7134a3f1ff0'}
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
@@ -85,10 +85,22 @@ describe Services::Calls do
     end
   end
 
-  describe 'Get_proposal_owner' do
+  describe 'Get_owner' do
+    it 'retrieves the owner of the call' do
+      expect(Repos::Calls).to receive(:get_call_owner).with(call_id)
+      Services::Calls.get_call_owner call_id
+    end
+
     it 'retrieves the owner of the proposal' do
       expect(Repos::Calls).to receive(:get_proposal_owner).with(proposal_id)
       Services::Calls.get_proposal_owner proposal_id
+    end
+  end
+
+  describe 'Get call' do
+    it 'retrieves the specified call' do
+      expect(Repos::Calls).to receive(:get_call).with(call_id)
+      Services::Calls.get_call call_id
     end
   end
 

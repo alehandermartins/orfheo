@@ -259,7 +259,6 @@ describe ProfilesController do
       post create_profile_route, profile
       post create_call_route, call
       post send_proposal_route, proposal
-      
     }
 
     it 'redirects user to not found page if profile does not exist' do

@@ -23,6 +23,14 @@ module Services
         Repos::Calls.add_proposal params[:call_id], proposal.to_h
       end
 
+      def get_call_owner call_id
+        Repos::Calls.get_call_owner call_id
+      end
+
+      def get_call call_id
+        Repos::Calls.get_call call_id
+      end
+
       def get_proposal_owner proposal_id
         Repos::Calls.get_proposal_owner proposal_id
       end

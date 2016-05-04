@@ -9,6 +9,7 @@ class CallsController < BaseController
   post '/users/send_proposal' do
     check_type params[:type]
     check_exists params[:call_id]
+    check_profile_ownership params[:profile_id]
     send_proposal params
     success ({profile_id: params[:profile_id]})
   end
@@ -23,6 +24,14 @@ class CallsController < BaseController
     check_proposal_ownership params[:proposal_id]
     delete_proposal params[:proposal_id]
     success
+  end
+
+  get '/call' do
+    halt erb(:not_found) unless Services::Calls.exists? params[:id]
+    owner = get_call_owner params[:id]
+    halt erb(:not_found) unless owner == session[:identity]
+    call = get_call params[:id]
+    erb :call, :locals => {:call => call.to_json}
   end
 
   private
@@ -62,5 +71,13 @@ class CallsController < BaseController
 
   def delete_proposal proposal_id
     Services::Calls.delete_proposal proposal_id
+  end
+
+  def get_call_owner call_id
+    Services::Calls.get_call_owner call_id
+  end
+
+  def get_call call_id
+    Services::Calls.get_call call_id
   end
 end

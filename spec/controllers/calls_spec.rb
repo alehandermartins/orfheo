@@ -2,6 +2,7 @@ describe CallsController do
 
   let(:login_route){'/login/login_attempt'}
   let(:create_call_route){'/users/create_call'}
+  let(:create_profile_route){'/users/create_profile'}
   let(:send_proposal_route){'/users/send_proposal'}
   let(:amend_proposal_route){'/users/amend_proposal'}
   let(:delete_proposal_route){'/users/delete_proposal'}
@@ -117,8 +118,25 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('non_existing_call')
     end
 
+    it 'fails if the profile does not exist' do
+      post send_proposal_route, proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_profile')
+    end
+
+    it 'fails if not the profile owner' do
+      allow(Services::Profiles).to receive(:get_profile_owner).with(profile_id).and_return('otter')
+      post create_profile_route, profile
+      post send_proposal_route, proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
     it 'sends the proposal' do
       expect(Services::Calls).to receive(:add_proposal).with(Util.stringify_hash(proposal), user_id)
+      post create_profile_route, profile
       post send_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
@@ -190,6 +208,40 @@ describe CallsController do
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_proposal')
+    end
+  end
+
+  describe 'Access' do
+
+    let(:call_route){'/call?id=' + call_id}
+
+    before(:each){
+      post create_profile_route, profile
+      post send_proposal_route, proposal
+    }
+
+    it 'redirects user to not found page if call does not exist' do
+      get call_route
+      expect(last_response.body).to include('Not Found')
+    end
+
+    it 'redirects user to not found page if not owner of the call' do
+      post create_call_route, call
+      allow(Services::Calls).to receive(:get_call_owner).and_return('otter')
+      get call_route
+      expect(last_response.body).to include('Not Found')
+    end
+
+    it 'gets the call of the user' do
+      post create_call_route, call
+      expect(Services::Calls).to receive(:get_call).with(call_id)
+      get call_route
+    end
+
+    it 'redirects user to call page otherwise' do
+      post create_call_route, call
+      get call_route
+      expect(last_response.body).to include('Pard.Call')
     end
   end
 end

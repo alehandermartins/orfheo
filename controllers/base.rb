@@ -20,6 +20,11 @@ class BaseController < Sinatra::Base
       raise Pard::Invalid.new 'invalid_password' if invalid_password? password
     end
 
+    def check_profile_ownership profile_id
+      raise Pard::Invalid::UnexistingProfile unless profile_exists? profile_id
+      raise Pard::Invalid::ProfileOwnership unless get_profile_owner(profile_id) == session[:identity]
+    end
+
     private
     def build_message payload
       message = {status: :success}
@@ -32,6 +37,14 @@ class BaseController < Sinatra::Base
 
     def invalid_password? password
       password.blank? || password.size < 8
+    end
+
+    def profile_exists? profile_id
+      Services::Profiles.exists? profile_id
+    end
+
+    def get_profile_owner profile_id
+      Services::Profiles.get_profile_owner profile_id
     end
   end
 end

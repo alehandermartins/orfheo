@@ -60,11 +60,6 @@ class ProfilesController < BaseController
     Services::Profiles.modify params, session[:identity]
   end
 
-  def check_profile_ownership profile_id
-    raise Pard::Invalid::UnexistingProfile unless profile_exists? profile_id
-    raise Pard::Invalid::ProfileOwnership unless get_profile_owner(profile_id) == session[:identity]
-  end
-
   def check_production_ownership production_id
     raise Pard::Invalid::UnexistingProduction unless production_exists? production_id
     raise Pard::Invalid::ProductionOwnership unless get_production_owner(production_id) == session[:identity]
@@ -78,10 +73,6 @@ class ProfilesController < BaseController
     Services::Profiles.modify_production params, session[:identity]
   end
 
-  def profile_exists? profile_id
-    Services::Profiles.exists? profile_id
-  end
-
   def production_exists? production_id
     Services::Profiles.production_exists? production_id
   end
@@ -90,10 +81,6 @@ class ProfilesController < BaseController
     method = :visit_profiles
     method = :user_profiles if owner == session[:identity]
     Services::Profiles.get_profiles method, {user_id: owner, profile_id: profile_id}
-  end
-
-  def get_profile_owner profile_id
-    Services::Profiles.get_profile_owner profile_id
   end
 
   def get_production_owner production_id

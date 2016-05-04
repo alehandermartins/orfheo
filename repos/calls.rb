@@ -5,7 +5,7 @@ module Repos
       def for db
         @@calls_collection = db['calls']
         conFusionCall = {
-          user_id: 'conFusion',
+          user_id: '45825599-b8cf-499c-825c-a7134a3f1ff0',
           call_id: 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
         }
         @@calls_collection.insert(conFusionCall) unless exists? conFusionCall[:call_id] 
@@ -61,6 +61,15 @@ module Repos
         Util.string_keyed_hash_to_symbolized proposal
       end
 
+      def get_call_owner call_id
+        call = grab({call_id: call_id}).first
+        call[:user_id]
+      end
+
+      def get_call call_id
+        call = grab({call_id: call_id}).first
+      end
+
       def get_proposal_owner proposal_id
         proposal = get_proposal proposal_id
         proposal[:user_id]
@@ -83,6 +92,15 @@ module Repos
       end
 
       private
+      def grab query
+        results = @@calls_collection.find(query)
+        return [] unless results.count > 0
+
+        results.map { |profile|
+         Util.string_keyed_hash_to_symbolized profile
+        }
+      end
+
       def get_my_proposals_from results, key, id
         proposals = results.map{ |call| call['proposals']}.flatten
         my_proposals = proposals.select{ |proposal| proposal[key] == id }

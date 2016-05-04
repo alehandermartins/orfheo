@@ -151,3 +151,8 @@ Pard.Outsider = function(profiles){
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
 };
+
+Pard.Call = function(call){
+  console.log(call);
+  $('body').append('Página de gestión de la convocatoria');
+}
