@@ -62,13 +62,63 @@
     var _checkBoxesBox = $('<div>');
     var _tableBox = $('<div>');
 
-    _fields[selected].forEach(function(field){
-    	var _checkBox = Pard.Widgets.CheckBox(field,field).render().addClass('checkBox-call-manager')
-    	_checkBoxesBox.append(_checkBox);
-    });
+    var _checkBoxes = [];
+
+    var _printTable = function(){
+
+    	_tableBox.empty();
+    	var _columns = [];
+    	_checkBoxes.forEach(function(elem){
+    		if (elem[0].getVal()) _columns.push(elem[1]);
+    	})
+     	_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected).render())
+    }
+
+    var _allCheckBoxes = Pard.Widgets.CheckBox('Todos los campos','all');
+    var _allCheckBoxesRendered = _allCheckBoxes.render();
+    _allCheckBoxesRendered.change(function(){
+    	_checkBoxesBox.empty();
+    	_printCheckBoxes()
+    	var _val = _allCheckBoxes.getVal()
+    	_checkBoxes.forEach(function(elem){
+    			elem[0].setVal(_val);
+    	})
+    	_printTable();
+    })
 
 
-    _createdWidget.append(_checkBoxesBox, _tableBox);
+    var _printCheckBoxes = function(){
+	    _fields[selected].forEach(function(field){
+	    	var _checkBox = Pard.Widgets.CheckBox(field,field)
+	    	_checkBoxes.push([_checkBox,field]);
+	    	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
+	    	_checkBoxRendered.change(function(){
+	    		_printTable();
+	    	})
+	    	_checkBoxesBox.append(_checkBoxRendered);
+	    });
+	  }
+
+	  _printCheckBoxes();
+
+    // var _createTableBtn = Pard.Widgets.Button('Crea tabla').render();
+    // _createTableBtn.click(function(){
+    // 	_tableBox.empty();
+    // 	var _columns = [];
+    // 	_checkBoxes.forEach(function(elem){
+    // 		if (elem[0].getVal()) _columns.push(elem[1]);
+    // 	})
+    //  	_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected).render())
+   	// });
+
+
+
+    // var _createTableBtnBox = $('<div>');
+    // _createTableBtnBox.append(_createTableBtn);
+    // _checkBoxesBox.append(_createTableBtnBox);
+
+    var _outerTableContainer = $('<div>').append(_tableBox.addClass('table-box-proposal-manager'));
+    _createdWidget.append(_allCheckBoxesRendered,_checkBoxesBox, _outerTableContainer);
 
 		return {
       render: function(){
@@ -77,5 +127,44 @@
 	   }
   }
 
+  ns.Widgets.CreateTable= function(columns, proposalsSelected){
+
+  	var _createdWidget = $('<table>').addClass('table-proposal');
+
+  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
+
+  	columns.forEach(function(title){
+  		var _titleCol = $('<td>').html(title);
+  		_titleRow.append(_titleCol);
+  	});
+
+  	_createdWidget.append(_titleRow);
+
+  	proposalsSelected.forEach(function(proposal){
+  		var _row = $('<tr>');
+  		columns.forEach(function(field){
+  			if (proposal[field] && field != 'availability') {
+  				var _col = $('<td>').html(proposal[field]);
+  			}
+  			else if (proposal[field] && field == 'availability') {
+  				var _col = $('<td>');
+  				for (var date in proposal[field]) {
+	  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
+  				}
+  			}
+  			else{
+  				var _col = $('<td>').html('');
+  			}
+  			_row.append(_col);
+  		});
+  		_createdWidget.append(_row);
+  	})
+
+		return {
+      render: function(){
+        return _createdWidget;
+      }
+	   }
+  }
 
 }(Pard || {}));

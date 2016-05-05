@@ -963,7 +963,7 @@ CALL PAGE
 
 .main-call-page{
   background: $grey-1;
-
+  min-height: 100%;
 }
 
 .call-section{
@@ -974,5 +974,20 @@ CALL PAGE
 .checkBox-call-manager{
   display: inline-block;
   width: 20%;
+}
+
+.table-proposal {
+  font-size: 12px;
+  overflow-x: scroll;
+}
+
+.table-proposal .title-row-table-proposal {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.table-box-proposal-manager{
+  overflow: auto;
+  max-height: 95vh;
 }
 

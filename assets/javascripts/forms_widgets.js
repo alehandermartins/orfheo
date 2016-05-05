@@ -219,7 +219,9 @@
         return _input.is(":checked");
       },
       setVal: function(_val){
-        if (_val && _val != 'false'){ _input.attr('checked', _val)};
+        if (_val && _val != 'false'){        console.log('flag');
+ _input.attr('checked', _val)};
+        if (_val === false){_input.attr('checked', false)};     
       },
       addWarning: function(){
         _input.addClass('checkBox-warning');
