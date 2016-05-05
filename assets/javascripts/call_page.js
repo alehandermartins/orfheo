@@ -79,7 +79,7 @@
     var _allCheckBoxesRendered = _allCheckBoxes.render();
     _allCheckBoxesRendered.change(function(){
     	_checkBoxesBox.empty();
-    	_printCheckBoxes()
+    	_printCheckBoxes();
     	var _val = _allCheckBoxes.getVal()
     	_checkBoxes.forEach(function(elem){
     			elem[0].setVal(_val);
@@ -89,6 +89,7 @@
 
 
     var _printCheckBoxes = function(){
+    	_checkBoxes = [];
 	    _fields[selected].forEach(function(field){
 	    	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),field)
 	    	_checkBoxes.push([_checkBox,field]);
