@@ -28,7 +28,7 @@
     	_contentBox.append(Pard.Widgets.CallManagerContent(_selected,  _proposalsSelected).render());
     }
 
-    var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render()
+    var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render().addClass('types-selector-call-manager')
 
     var _preSelected = 'artist';
 
@@ -60,18 +60,19 @@
   	}
 
     var _checkBoxesBox = $('<div>');
-    var _tableBox = $('<div>');
+    var _outerTableContainer = $('<div>');
 
     var _checkBoxes = [];
 
     var _printTable = function(){
-
-    	_tableBox.empty();
+    	_outerTableContainer.empty();
+    	var _tableBox = $('<div>');
     	var _columns = [];
     	_checkBoxes.forEach(function(elem){
     		if (elem[0].getVal()) _columns.push(elem[1]);
     	})
-     	_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected).render())
+    	if (_columns.length) _tableBox.addClass('table-box-proposal-manager'); 
+     	_outerTableContainer.append(_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected).render()))
     }
 
     var _allCheckBoxes = Pard.Widgets.CheckBox('Todos los campos','all');
@@ -101,23 +102,7 @@
 
 	  _printCheckBoxes();
 
-    // var _createTableBtn = Pard.Widgets.Button('Crea tabla').render();
-    // _createTableBtn.click(function(){
-    // 	_tableBox.empty();
-    // 	var _columns = [];
-    // 	_checkBoxes.forEach(function(elem){
-    // 		if (elem[0].getVal()) _columns.push(elem[1]);
-    // 	})
-    //  	_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected).render())
-   	// });
-
-
-
-    // var _createTableBtnBox = $('<div>');
-    // _createTableBtnBox.append(_createTableBtn);
-    // _checkBoxesBox.append(_createTableBtnBox);
-
-    var _outerTableContainer = $('<div>').append(_tableBox.addClass('table-box-proposal-manager'));
+  	
     _createdWidget.append(_allCheckBoxesRendered,_checkBoxesBox, _outerTableContainer);
 
 		return {
