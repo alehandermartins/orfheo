@@ -23,3 +23,5 @@
 // = require multimedia
 // = require profile_widgets
 // = require proposal_widgets
+// = require call_page
+

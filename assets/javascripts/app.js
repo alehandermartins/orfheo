@@ -155,5 +155,18 @@ Pard.Outsider = function(profiles){
 
 Pard.Call = function(call){
   console.log(call);
-  $('body').append('Página de gestión de la convocatoria');
+
+  var _whole = $('<div>').addClass('whole-container');
+  var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
+
+  var _main = Pard.Widgets.CallMainLayout(call);
+
+  var _footer = Pard.Widgets.Footer();
+
+  $(_whole).append(_header.render(), _main.render(), _footer.render());
+  $('body').append(_whole);
+
+  $(document).ready(function(){$(document).foundation()});
+
+
 }
