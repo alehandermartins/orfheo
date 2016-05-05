@@ -27,6 +27,30 @@ describe Proposal do
     }
   }
 
+  let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+
+  let(:profile){
+    {
+      user_id: user_id,
+      profile_id: profile_id,
+      type: 'artist',
+      name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      profile_picture: ['profile.jpg'],
+      bio: 'bio',
+      personal_web: 'my_web'
+    }
+  }
+
+  let(:user){
+    {
+      email: 'email@test.com',
+      password: 'password',
+    }
+  }
+
   describe 'Initialize' do
 
     it 'assigns a new production_id if the params do not specify any' do
@@ -71,6 +95,25 @@ describe Proposal do
       proposal = Proposal.new proposal_params, user_id
       expect(proposal.wrong_category?).to eq(false)
       expect(proposal.wrong_params?).to eq(false)
+    end
+  end
+
+  describe 'Add information' do
+
+    it 'assigns user_info to the proposal' do
+      allow(Repos::Users).to receive(:grab).with({user_id: user_id}).and_return(user);
+      proposal = Proposal.new proposal_params, user_id
+      proposal.add_user_info
+      expect(proposal[:email]).to eq(user[:email])
+    end
+
+    it 'assigns profile_info to the proposal' do
+      allow(Repos::Profiles).to receive(:get_profiles).with(:profile, {profile_id: profile_id}).and_return(profile)
+      proposal = Proposal.new proposal_params, user_id
+      proposal.add_profile_info
+      expect(proposal[:city]).to eq(profile[:city])
+      expect(proposal[:zip_code]).to eq(profile[:zip_code])
+      expect(proposal[:personal_web]).to eq(profile[:personal_web])
     end
   end
 end
