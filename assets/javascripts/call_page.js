@@ -90,7 +90,7 @@
 
     var _printCheckBoxes = function(){
 	    _fields[selected].forEach(function(field){
-	    	var _checkBox = Pard.Widgets.CheckBox(field,field)
+	    	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),field)
 	    	_checkBoxes.push([_checkBox,field]);
 	    	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
 	    	_checkBoxRendered.change(function(){
@@ -118,24 +118,39 @@
 
   	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
 
-  	columns.forEach(function(title){
-  		var _titleCol = $('<td>').html(title);
+  	columns.forEach(function(field){
+  		var _titleCol = $('<td>').html(Pard.Widgets.Dictionary(field).render());
+  		// if (field == 'category') _titleCol.append('PP');
   		_titleRow.append(_titleCol);
   	});
 
   	_createdWidget.append(_titleRow);
 
+  	// proposalName.sort();
+  	// proposalName.forEach(function(_name){
+  	// proposalSelected.some(function(proposal){
+  	//if (proposal['name'] ==  _name){
+		// 	_reordered.push(proposal)
+		// 	return true;
+		// } })
+
+
   	proposalsSelected.forEach(function(proposal){
   		var _row = $('<tr>');
   		columns.forEach(function(field){
-  			if (proposal[field] && field != 'availability') {
-  				var _col = $('<td>').html(proposal[field]);
-  			}
-  			else if (proposal[field] && field == 'availability') {
+  			if (proposal[field] && field == 'availability') {
   				var _col = $('<td>');
   				for (var date in proposal[field]) {
 	  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
   				}
+  			}
+  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
+  				if (proposal[field] == 'true') {var _col = $('<td>').html('Sí');}
+  				else if (proposal[field] == 'false') { var _col = $('<td>').html('No');}
+  				else { var _col = $('<td>').html(proposal[field]);}
+  			}
+  			else	if (proposal[field]) {
+  				var _col = $('<td>').html(proposal[field]);
   			}
   			else{
   				var _col = $('<td>').html('');

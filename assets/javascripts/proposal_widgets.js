@@ -6,8 +6,6 @@
 
  ns.Widgets.PrintSentCall = function(proposal, _form, closepopup){
 
-  console.log(proposal)
-
     var _createdWidget = $('<div>');
 
     var profile = Pard.ProfileManager.getProfile(proposal.profile_id);
