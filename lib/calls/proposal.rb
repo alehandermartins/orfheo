@@ -19,6 +19,17 @@ class Proposal
     wrong_basics? || wrong_form?
   end
 
+  def add_user_info
+    user = Repos::Users.grab({user_id: proposal[:user_id]})
+    proposal.merge! email: user[:email]
+  end
+
+  def add_profile_info
+    profile = Services::Profiles.get_profiles :profile, {profile_id: proposal[:profile_id]}
+    add_artist_fields(profile) if proposal[:type] == 'artist'
+    add_space_fields(profile) if proposal[:type] == 'space'
+  end
+
   def [] key
     proposal[key]
   end
@@ -89,5 +100,18 @@ class Proposal
 
   def mandatory? field
     (field[:category] == category || field[:category] == 'all') && field[:type] == 'mandatory'
+  end
+
+  def add_artist_fields profile
+    proposal.merge! city: profile[:city]
+    proposal.merge! personal_web: profile[:personal_web]
+    proposal.merge! zip_code: profile[:zip_code]
+  end
+
+  def add_space_fields profile
+    proposal.merge! address: profile[:address]
+    proposal.merge! photos: profile[:photos]
+    proposal.merge! personal_web: profile[:personal_web]
+    proposal.merge! links: profile[:links]
   end
 end

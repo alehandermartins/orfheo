@@ -215,7 +215,7 @@
     _createdWidget.append(_input.render().addClass('add-multimedia-input-field'), _addInputButton, _websAddedContainer);
 
     var fb_url = /.*facebook\.com\/.*/i;
-    var ig_url = /^(http|https)\:\/\/www\.instagram\..*/i;
+    var ig_url = /.*instagram\..*/i;
     var pt_url = /^(http|https)\:\/\/.*\.pinterest\.com\/.*/i;
     var vn_url = /^(http|https)\:\/\/vine\..*/i;
     var sp_url = /^(http|https)\:\/\/open\.spotify\..*/i;
@@ -223,7 +223,7 @@
     var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
     var yt_url = /^(http|https)\:\/\/www\.youtube\.*/i;
     var vm_url = /^(http|https)\:\/\/vimeo\.*/i;
-    var fl_url = /^(http|https)\:\/\/flickr\.*/i;
+    var fl_url = /.*flickr\.*/i;
     var sc_url = /^(http|https)\:\/\/soundcloud\.*/i;
 
     var _checkUrl = function(input){

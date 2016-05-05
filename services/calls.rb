@@ -19,6 +19,8 @@ module Services
         proposal = Proposal.new params, user_id
         raise Pard::Invalid::Category if proposal.wrong_category?
         raise Pard::Invalid::Params if proposal.wrong_params?
+        proposal.add_user_info
+        proposal.add_profile_info
         Services::Profiles.add_production proposal.to_h, user_id if params[:type] == 'artist'
         Repos::Calls.add_proposal params[:call_id], proposal.to_h
       end

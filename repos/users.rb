@@ -45,7 +45,7 @@ module Repos
       def delete_user user_id
         @@users_collection.remove({user_id: user_id})
       end
-
+      
       private
       def delete_field query, field
         @@users_collection.update(query,{

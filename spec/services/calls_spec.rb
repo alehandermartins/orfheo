@@ -31,6 +31,30 @@ describe Services::Calls do
     {}
   }
 
+  let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+
+  let(:profile){
+    {
+      user_id: user_id,
+      profile_id: profile_id,
+      type: 'artist',
+      name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      profile_picture: ['profile.jpg'],
+      bio: 'bio',
+      personal_web: 'my_web'
+    }
+  }
+
+  let(:user){
+    {
+      email: 'email@test.com',
+      password: 'password',
+    }
+  }
+
   describe 'Registration' do
 
     it 'registers the call' do
@@ -59,6 +83,11 @@ describe Services::Calls do
   end
 
   describe 'Add proposal' do
+
+    before(:each){
+      allow(Repos::Users).to receive(:grab).with({user_id: user_id}).and_return(user);
+      allow(Repos::Profiles).to receive(:get_profiles).with(:profile, {profile_id: profile_id}).and_return(profile)
+    }
 
     let(:profile_proposal){
       proposal.merge user_id: user_id

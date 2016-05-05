@@ -164,6 +164,12 @@ describe Repos::Calls do
       Repos::Calls.add_proposal call_id, proposal
       expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)
     end
+
+    it 'does not include sensitive info' do
+      proposal[:email] = 'email'
+      Repos::Calls.add_proposal call_id, proposal
+      expect(Repos::Calls.get_proposal proposal_id).not_to include(email: 'email')
+    end
   end
 
   describe 'Proposals old pictures' do

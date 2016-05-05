@@ -28,11 +28,23 @@
     };
 
     var _shown = [];
+    var _dataProfiles = [];
+    var _check;
+
     Pard.Backend.searchProfiles([], [], function(data){
       data.profiles.forEach(function(profile){
         _shown.push(profile.profile_id);
       });
-      _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+      data.profiles.forEach(function(profile){
+        if ($.inArray(profile.profile_id, _dataProfiles) == -1) {
+          _check = true;
+          _dataProfiles.push(profile.profile_id);
+        }
+        else{
+          _check=false;
+        }
+      });
+      if(_check) _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
     });
 
     // _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
@@ -95,8 +107,6 @@
       }
     });
 
-    var _dataProfiles = [];
-    var _check;
 
     _searchWidget.on('change', function(){
       _shown = [];
@@ -113,7 +123,6 @@
         _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
       });
     });
-
     
 
     $(document).ready(function(){

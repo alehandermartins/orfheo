@@ -58,7 +58,8 @@ module Repos
         return [] unless results.count > 0
         proposals = results.first['proposals']
         proposal = proposals.select{ |proposal| proposal['proposal_id'] == proposal_id }.first
-        Util.string_keyed_hash_to_symbolized proposal
+        proposal = Util.string_keyed_hash_to_symbolized proposal
+        remove_sensitive_fields proposal
       end
 
       def get_call_owner call_id
@@ -104,9 +105,20 @@ module Repos
       def get_my_proposals_from results, key, id
         proposals = results.map{ |call| call['proposals']}.flatten
         my_proposals = proposals.select{ |proposal| proposal[key] == id }
-        my_proposals.map{ |proposal|
+        my_proposals.map!{ |proposal|
           Util.string_keyed_hash_to_symbolized proposal
         }
+        my_proposals.each{ |proposal|
+          remove_sensitive_fields proposal
+        }
+      end
+
+      def remove_sensitive_fields proposal
+        proposal.delete(:email)
+        proposal.delete(:address)
+        proposal.delete(:city)
+        proposal.delete(:zip_code)
+        proposal
       end
     end
   end
