@@ -55,7 +55,7 @@
   	var _createdWidget = $('<div>');
 
   	var _fields = {
-  		space: ['name','category','responsible', 'email', 'phone','description', 'own', 'sharing', 'un_wanted','availability','amend'],
+  		space: ['name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
   		artist: ['name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend']
   	}
 
