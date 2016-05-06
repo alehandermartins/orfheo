@@ -71,8 +71,10 @@
     	_checkBoxes.forEach(function(elem){
     		if (elem[0].getVal()) _columns.push(elem[1]);
     	})
-    	if (_columns.length) _tableBox.addClass('table-box-proposal-manager'); 
-     	_outerTableContainer.append(_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected).render()))
+    	if (_columns.length) {
+    		_tableBox.addClass('table-box-proposal-manager'); 
+     		_outerTableContainer.append(_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected).render()))
+     }
     }
 
     var _allCheckBoxes = Pard.Widgets.CheckBox('Todos los campos','all');

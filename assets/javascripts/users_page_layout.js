@@ -110,7 +110,15 @@
     var myprofiles = Pard.CachedProfiles;
     var _createdWidget = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
+
     var _buttonContainer = $('<div>').addClass('create-profile-container');
+
+    // var user_id = Pard.ProfileManager.getUserId();
+    // if (user_id === '45825599-b8cf-499c-825c-a7134a3f1ff0') {
+    //    var _manageCallBtn =  Pard.Widgets.Button('Gestiona convocatoria', function(){location.href = '/call?id=b5bc4203-9379-4de0-856a-55e1e5f3fac6'}).render();
+    //    _buttonContainer.append(_manageCallBtn);
+    // }
+
     var _createProfileText = $('<p>').text('Crea un perfil').addClass('create-profile-text')
     var _createArtistBtn =  Pard.Widgets.CreateTypeProfile('artist').render();
     var _createSpaceBtn =  Pard.Widgets.CreateTypeProfile('space').render();
