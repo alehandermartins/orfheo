@@ -422,4 +422,79 @@
     }
   }
 
+  ns.Widgets.InputProgram = function(){
+
+    var _createdWidget = $('<div>'); 
+    var _results = [];
+    var _inputs = [];
+    var _inputSpace = Pard.Widgets.Input('Espacio','text');
+    var _inputDayTime = Pard.Widgets.Input('Horario','text');
+    _inputSpace.setClass('add-multimedia-input-field');
+    _inputDayTime.setClass('add-multimedia-input-field');
+    var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
+    _addInputButton.addClass('add-input-button-enlighted')
+
+    var _addnewInput = function(showInfo){
+      var _container = $('<div>');
+      var _newInputSpace = Pard.Widgets.Input('Espacio','text');
+      var _newInputDayTime = Pard.Widgets.Input('Horario','text');
+      _newInputDayTime.setClass('add-multimedia-input-field');
+      _newInputSpace.setClass('add-multimedia-input-field');
+      _newInputSpace.setVal(showInfo['place']);
+      _newInputDayTime.setVal(showInfo['day_time']);
+      _newInputSpace.setAttr('disabled', true);
+      _newInputDayTime.setAttr('disabled', true);
+      _inputs.push([_newInputSpace,_newInputDayTime]);
+
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+
+      _container.append(_newInputSpace.render(), _newInputDayTime.render(), _removeInputButton);
+      _removeInputButton.on('click', function(){
+        var _index = _inputs.indexOf([_newInputSpace,_newInputDayTime]);
+        _inputs.splice(_index, 1);
+        _results.splice(_index, 1);
+        _container.empty();
+      });
+      return _container;
+    }
+    
+    var _showsAddedContainer = $('<div>');
+
+    _addInputButton.on('click', function(){
+      if (_inputSpace.getVal() && _inputDayTime.getVal()){
+        var _show = {place: _inputSpace.getVal(), day_time: _inputDayTime.getVal()};
+        _showsAddedContainer.prepend(_addnewInput(_show));
+        _inputSpace.setVal('');
+        _inputDayTime.setVal('');
+        _results.push(_show);
+      }
+      else{
+        if (!(_inputSpace.getVal())) {_inputSpace.addWarning();}
+        else if (!(_inputDayTime.getVal())) {_inputDayTime.addWarning();}
+      }
+    });
+
+    _createdWidget.append(_inputSpace.render(), _inputDayTime.render(), _addInputButton,_showsAddedContainer);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _results;
+      },
+      setVal: function(values){
+        if(values == null || values == false) return true;
+        var _shows = [];
+        Object.keys(values).forEach(function(key){
+          _shows.push(values[key]);
+        });
+        _shows.forEach(function(show, index){
+          _results.push(show);
+          _showsAddedContainer.prepend(_addnewInput(show));
+        });
+      }
+    }
+  }
+
 }(Pard || {}));

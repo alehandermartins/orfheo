@@ -143,6 +143,8 @@
 	   }
   }
 
+
+
   ns.Widgets.CreateTable= function(columns, proposalsSelected){
 
   	var _createdWidget = $('<table>').addClass('table-proposal');
@@ -205,6 +207,7 @@
 	  			else if (field == 'place') {
 	  				var _col = $('<td>');
 	  				if (proposal[field]) _col.html('place');
+	  				_col.append(Pard.Widgets.InputProgram().render());
 		  		}
 		  		else if (field == 'day_time') {
 	  				var _col = $('<td>');
@@ -245,5 +248,8 @@
       }
 	   }
   }
+
+
+
 
 }(Pard || {}));
