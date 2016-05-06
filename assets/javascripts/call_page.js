@@ -117,49 +117,79 @@
 
   	var _createdWidget = $('<table>').addClass('table-proposal');
 
-  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
-
-  	columns.forEach(function(field){
-  		var _titleCol = $('<td>').html(Pard.Widgets.Dictionary(field).render());
-  		// if (field == 'category') _titleCol.append('PP');
-  		_titleRow.append(_titleCol);
-  	});
-
-  	_createdWidget.append(_titleRow);
-
-  	// proposalName.sort();
-  	// proposalName.forEach(function(_name){
-  	// proposalSelected.some(function(proposal){
-  	//if (proposal['name'] ==  _name){
-		// 	_reordered.push(proposal)
-		// 	return true;
-		// } })
+  	var _reorder = function(proposalField, field){
+	  	proposalField.sort(function (a, b) {
+    		return a.toLowerCase().localeCompare(b.toLowerCase());
+			});
+	  	var _reordered = [];
+	  	proposalField.forEach(function(value){
+	  		proposalsSelected.forEach(function(proposal){
+		  		if (proposal[field] ==  value && $.inArray(proposal,_reordered)==-1){
+						_reordered.push(proposal);
+					} 
+				})
+			})
+			return _reordered;
+  	}
 
 
-  	proposalsSelected.forEach(function(proposal){
-  		var _row = $('<tr>');
-  		columns.forEach(function(field){
-  			if (proposal[field] && field == 'availability') {
-  				var _col = $('<td>');
-  				for (var date in proposal[field]) {
-	  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
-  				}
-  			}
-  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
-  				if (proposal[field] == 'true') {var _col = $('<td>').html('Sí');}
-  				else if (proposal[field] == 'false') { var _col = $('<td>').html('No');}
-  				else { var _col = $('<td>').html(proposal[field]);}
-  			}
-  			else	if (proposal[field]) {
-  				var _col = $('<td>').html(proposal[field]);
-  			}
-  			else{
-  				var _col = $('<td>').html('');
-  			}
-  			_row.append(_col);
-  		});
-  		_createdWidget.append(_row);
-  	})
+  	var _printTable = function(proposals){
+
+  		_createdWidget.empty();
+	  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
+	  	columns.forEach(function(field){
+	  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
+	  		var _titleCol = $('<td>').append(_titleText);
+	  		var _proposalField = [];
+	  		if (field != 'availability'){
+		  		proposals.forEach(function(proposal){
+		  			_proposalField.push(proposal[field]);
+		  		});
+		  		_titleText.click(function(){ 
+		  			var _proposalsReordered = _reorder(_proposalField,field);
+		  			_printTable(_proposalsReordered);
+		  		});
+		  		_titleText.addClass('title-colText-call-manager');
+		  		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
+		  	}
+	  		_titleRow.append(_titleCol);
+	  	});
+
+	  	_createdWidget.append(_titleRow.prepend($('<td>').addClass('icon-column-call-table')));
+
+	  	proposals.forEach(function(proposal){
+	  		var _row = $('<tr>');
+	  		columns.forEach(function(field){
+	  			if (proposal[field] && field == 'availability') {
+	  				var _col = $('<td>');
+	  				for (var date in proposal[field]) {
+		  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
+	  				}
+	  			}
+	  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
+	  				if (proposal[field] == 'true') {var _col = $('<td>').html('Sí');}
+	  				else if (proposal[field] == 'false') { var _col = $('<td>').html('No');}
+	  				else { var _col = $('<td>').html(proposal[field]);}
+	  			}
+	  			else	if (proposal[field] && field == 'category'){
+	  				var _col = $('<td>').html(Pard.Widgets.Dictionary(proposal[field]).render());
+	  			}
+	  			else	if (proposal[field]) {
+	  				var _col = $('<td>').html(proposal[field]);
+	  			}
+	  			else{
+	  				var _col = $('<td>').html('');
+	  			}
+	  			_row.append(_col);
+	  		});
+	  		var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
+	  		_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
+	  		_row.prepend($('<td>').append(_icon));
+	  		_createdWidget.append(_row);
+	  	})
+	  }
+
+	  _printTable(proposalsSelected);
 
 		return {
       render: function(){
