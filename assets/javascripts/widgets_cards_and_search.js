@@ -28,23 +28,17 @@
     };
 
     var _shown = [];
-    var _dataProfiles = [];
-    var _check;
+    var _toBeShown = [];
 
     Pard.Backend.searchProfiles([], [], function(data){
+      _toBeShown = [];
       data.profiles.forEach(function(profile){
-        _shown.push(profile.profile_id);
+        if ($.inArray(profile.profile_id, _shown) == -1) {
+          _shown.push(profile.profile_id);
+          _toBeShown.push(profile);
+        }      
       });
-      data.profiles.forEach(function(profile){
-        if ($.inArray(profile.profile_id, _dataProfiles) == -1) {
-          _check = true;
-          _dataProfiles.push(profile.profile_id);
-        }
-        else{
-          _check=false;
-        }
-      });
-      if(_check) _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+      _searchResult.append(Pard.Widgets.ProfileCards(_toBeShown).render());
     });
 
     // _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
@@ -111,16 +105,19 @@
     _searchWidget.on('change', function(){
       _shown = [];
       tags = [];
-      _dataProfiles = [];
+      _shown = [];
       _searchWidget.select2('data').forEach(function(tag){
         tags.push(tag.text);
       });
       Pard.Backend.searchProfiles(tags, _shown, function(data){
+        _toBeShown = [];
         data.profiles.forEach(function(profile){
-          _shown.push(profile.profile_id);
+          if ($.inArray(profile.profile_id, _shown) == -1) {
+            _shown.push(profile.profile_id);
+            _toBeShown.push(profile);
+          }      
         });
-        _searchResult.empty();
-        _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+        _searchResult.append(Pard.Widgets.ProfileCards(_toBeShown).render());
       });
     });
     
@@ -133,19 +130,14 @@
             tags.push(tag.text);
           });
           Pard.Backend.searchProfiles(tags, _shown, function(data){
+            _toBeShown = [];
             data.profiles.forEach(function(profile){
-              _shown.push(profile.profile_id);
+              if ($.inArray(profile.profile_id, _shown) == -1) {
+                _shown.push(profile.profile_id);
+                _toBeShown.push(profile);
+              }      
             });
-            data.profiles.forEach(function(profile){
-              if ($.inArray(profile.profile_id, _dataProfiles) == -1) {
-                _check = true;
-                _dataProfiles.push(profile.profile_id);
-              }
-              else{
-                _check=false;
-              }
-            });
-            if(_check) _searchResult.append(Pard.Widgets.ProfileCards(data.profiles).render());
+            if (_toBeShown.length) _searchResult.append(Pard.Widgets.ProfileCards(_toBeShown).render());
           });
         }
       });
@@ -160,10 +152,10 @@
 
   ns.Widgets.ProfileCards = function (profiles) {
 
-    var _createdWidget =  $('<div>').addClass('row lateral-content-padding');
+    var _createdWidget =  $('<div>').css('display','inline-block');
 
     profiles.forEach(function(profile){
-      _createdWidget.append($('<div>').addClass('columns large-4').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')));
+      _createdWidget.append($('<div>').addClass('card-container').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')));
     });
 
     return{
