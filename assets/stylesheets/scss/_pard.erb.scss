@@ -727,6 +727,10 @@ Profile Card
   display: inline-block;
   display: inline-block;
   padding: 0 1.046rem;
+  @include breakpoint(420 down) {
+  @include horizontal-center;
+  position:relative;
+  }
 }
 
 .photo-container-card{

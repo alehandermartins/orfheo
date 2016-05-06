@@ -258,6 +258,9 @@ grid-section content LogIn page
   }
   @include breakpoint(medium){
     padding-left:2.8rem;
+  }
+  @include breakpoint(large){
+    padding-left:2.8rem;
     padding-right:2.8rem;
   }
   margin-top: 2.5rem;
