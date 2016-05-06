@@ -64,12 +64,15 @@
 
     var _checkBoxes = [];
 
-    var _printTable = function(){
+    var _createTable = function(){
     	_outerTableContainer.empty();
     	var _tableBox = $('<div>');
     	var _columns = [];
     	_checkBoxes.forEach(function(elem){
-    		if (elem[0].getVal()) _columns.push(elem[1]);
+    		if (elem[1] === 'place' || elem[1] === 'day_time'){
+    			_columns.push(elem[1]);
+    		}
+    		else if (elem[0].getVal()) _columns.push(elem[1]);
     	})
     	if (_columns.length) {
     		_tableBox.addClass('table-box-proposal-manager'); 
@@ -78,7 +81,7 @@
     }
 
     var _allCheckBoxes = Pard.Widgets.CheckBox('Todos los campos','all');
-    var _allCheckBoxesRendered = _allCheckBoxes.render();
+    var _allCheckBoxesRendered = _allCheckBoxes.render().addClass('checkBox-call-manager');
     _allCheckBoxesRendered.change(function(){
     	_checkBoxesBox.empty();
     	_printCheckBoxes();
@@ -86,27 +89,52 @@
     	_checkBoxes.forEach(function(elem){
     			elem[0].setVal(_val);
     	})
-    	_printTable();
+    	_createTable();
     })
+
+
+    var _programCheckBox = Pard.Widgets.CheckBox('<span style = "color: red; font-size:0.875rem">Programación</span>','program');
+    var _programCheckBoxRendered = _programCheckBox.render().addClass('checkBox-call-manager');
+    _programCheckBoxRendered.change(function(){
+    	_checkBoxesBox.empty();
+    	_printCheckBoxes();
+    	var _val = _programCheckBox.getVal()
+    	_checkBoxes.forEach(function(elem){
+    		if (elem[1] === 'link_orfheo' || elem[1] === 'name') elem[0].setVal(_val);
+    })
+    	if (_val){
+	    	_checkBoxes.push([true, 'place']);
+	    	_checkBoxes.push([true, 'day_time']);
+    	}
+    	_createTable();
+
+    })
+
 
 
     var _printCheckBoxes = function(){
     	_checkBoxes = [];
+    	var _checkBox = Pard.Widgets.CheckBox('Enlace a perfil','link_orfheo')
+	    	_checkBoxes.push([_checkBox,'link_orfheo']);
+	    	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
+	    	_checkBoxRendered.change(function(){
+	    		_createTable();
+	    	})
+	    	_checkBoxesBox.append(_checkBoxRendered);
 	    _fields[selected].forEach(function(field){
 	    	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),field)
 	    	_checkBoxes.push([_checkBox,field]);
 	    	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
 	    	_checkBoxRendered.change(function(){
-	    		_printTable();
+	    		_createTable();
 	    	})
 	    	_checkBoxesBox.append(_checkBoxRendered);
 	    });
 	  }
 
 	  _printCheckBoxes();
-
   	
-    _createdWidget.append(_allCheckBoxesRendered,_checkBoxesBox, _outerTableContainer);
+    _createdWidget.append($('<div>').append(_allCheckBoxesRendered, _programCheckBoxRendered).css('margin-bottom','1rem'),_checkBoxesBox, _outerTableContainer);
 
 		return {
       render: function(){
@@ -140,29 +168,49 @@
   		_createdWidget.empty();
 	  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
 	  	columns.forEach(function(field){
-	  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
+	  		if (field == 'link_orfheo'){
+	  		var _titleText = $('<span>').html('rfh');
 	  		var _titleCol = $('<td>').append(_titleText);
-	  		var _proposalField = [];
-	  		if (field != 'availability'){
-		  		proposals.forEach(function(proposal){
-		  			_proposalField.push(proposal[field]);
-		  		});
-		  		_titleText.click(function(){ 
-		  			var _proposalsReordered = _reorder(_proposalField,field);
-		  			_printTable(_proposalsReordered);
-		  		});
-		  		_titleText.addClass('title-colText-call-manager');
-		  		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
+	  		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
+	  		}
+	  		else{
+		  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
+		  		var _titleCol = $('<td>').append(_titleText);
+		  		var _proposalField = [];
+		  		if (field != 'availability'){
+			  		proposals.forEach(function(proposal){
+			  			_proposalField.push(proposal[field]);
+			  		});
+			  		_titleText.click(function(){ 
+			  			var _proposalsReordered = _reorder(_proposalField,field);
+			  			_printTable(_proposalsReordered);
+			  		});
+			  		_titleText.addClass('title-colText-call-manager');
+			  		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
+			  	}
 		  	}
 	  		_titleRow.append(_titleCol);
 	  	});
 
-	  	_createdWidget.append(_titleRow.prepend($('<td>').addClass('icon-column-call-table')));
+	  	_createdWidget.append(_titleRow);
 
 	  	proposals.forEach(function(proposal){
 	  		var _row = $('<tr>');
 	  		columns.forEach(function(field){
-	  			if (proposal[field] && field == 'availability') {
+	  			if (field == 'link_orfheo'){
+	  				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
+	  				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
+	  				_row.prepend($('<td>').append(_icon));
+	  			}
+	  			else if (field == 'place') {
+	  				var _col = $('<td>');
+	  				if (proposal[field]) _col.html('place');
+		  		}
+		  		else if (field == 'day_time') {
+	  				var _col = $('<td>');
+	  				if (proposal[field]) _col.html('place');
+		  		}
+	  			else if (proposal[field] && field == 'availability') {
 	  				var _col = $('<td>');
 	  				for (var date in proposal[field]) {
 		  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
@@ -184,9 +232,7 @@
 	  			}
 	  			_row.append(_col);
 	  		});
-	  		var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
-	  		_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
-	  		_row.prepend($('<td>').append(_icon));
+	  		
 	  		_createdWidget.append(_row);
 	  	})
 	  }
