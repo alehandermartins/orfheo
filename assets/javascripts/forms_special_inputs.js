@@ -422,15 +422,27 @@
     }
   }
 
-  ns.Widgets.InputProgram = function(){
+  ns.Widgets.InputProgram = function(places, dayTimeObj){
 
     var _createdWidget = $('<div>'); 
     var _results = [];
     var _inputs = [];
-    var _inputSpace = Pard.Widgets.Input('Espacio','text');
-    var _inputDayTime = Pard.Widgets.Input('Horario','text');
-    _inputSpace.setClass('add-multimedia-input-field');
-    _inputDayTime.setClass('add-multimedia-input-field');
+    // var _inputSpace = Pard.Widgets.Input('Espacio','text');
+    var _inputSpace = $('<select>');
+    var _inputDayTime = $('<select>');
+
+    var _dayTime = dayTimeObj['dayTime'];
+    var _dtArray = dayTimeObj['dtArray'];
+   
+   
+
+    // var _dtArray = ['A lo largo de los dos dias', 'Sábado, 10:00h','Sábado, 10:15h','Sábado, 10:30h','Sábado, 10:45h','Sábado, 11:00h', 'Sábado, 11:15h', 'Sábado, 11:30h', 'Sábado, 11:45h', 'Sábado, 12:00h', 'Sábado, 12:15h', 'Sábado, 12:30h', 'Sábado, 12:45h', 'Sábado, 13:00h', 'Sábado, 13:15h', 'Sábado, 13:30h', 'Sábado, 13:45h', 'Sábado, 14:00h', 'Sábado, 14:15h', 'Sábado, 14:30h','Sábado, 14:45h','Sábado, 15:00h','Sábado, 15:15h','Sábado, 15:30h','Sábado, 15:45h','Sábado, 16:00h','Sábado, 16:15h','Sábado, 16:30h','Sábado, 16:45h','Sábado, 17:00h','Sábado, 17:15h', 'Sábado, 17:30h','Sábado, 17:45h','Sábado, 18:00h','Sábado, 18:15h','Sábado, 18:30h','Sábado, 18:45h','Sábado, 19:00h','Sábado, 19:15h','Sábado, 19:30h','Sábado, 19:45h','Sábado, 20:00h','Sábado, 20:30h','Sábado, 20:45h','Sábado, 21:00h','Sábado, 21:15h','Sábado, 21:30h','Sábado, 21:45h','Sábado, 22:00h','Sábado, 22:15h','Sábado, 22:30h','Sábado, 22:45h','Sábado, 23:00h','Sábado, 23:15h','Sábado, 23:30h','Sábado, 23:45h','Domingo, 10:00h','Domingo, 10:15h','Domingo, 10:30h','Domingo, 10:45h','Domingo, 11:00h', 'Domingo, 11:15h', 'Domingo, 11:30h', 'Domingo, 11:45h', 'Domingo, 12:00h', 'Domingo, 12:15h', 'Domingo, 12:30h', 'Domingo, 12:45h', 'Domingo, 13:00h', 'Domingo, 13:15h', 'Domingo, 13:30h', 'Domingo, 13:45h', 'Domingo, 14:00h', 'Domingo, 14:15h', 'Domingo, 14:30h','Domingo, 14:45h','Domingo, 15:00h','Domingo, 15:15h','Domingo, 15:30h','Domingo, 15:45h','Domingo, 16:00h','Domingo, 16:15h','Domingo, 16:30h','Domingo, 16:45h','Domingo, 17:00h','Domingo, 17:15h', 'Domingo, 17:30h','Domingo, 17:45h','Domingo, 18:00h','Domingo, 18:15h','Domingo, 18:30h','Domingo, 18:45h','Domingo, 19:00h','Domingo, 19:15h','Domingo, 19:30h','Domingo, 19:45h','Domingo, 20:00h','Domingo, 20:30h','Domingo, 20:45h','Domingo, 21:00h','Domingo, 21:15h','Domingo, 21:30h','Domingo, 21:45h','Domingo, 22:00h','Domingo, 22:15h','Domingo, 22:30h','Domingo, 22:45h','Domingo, 23:00h','Domingo, 23:15h','Domingo, 23:30h','Domingo, 23:45h'];
+
+
+    
+    // var _inputDayTime = Pard.Widgets.Input('Horario','text');
+    // _inputSpace.setClass('add-multimedia-input-field');
+    // _inputDayTime.setClass('add-multimedia-input-field');
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted')
 
@@ -441,7 +453,7 @@
       _newInputDayTime.setClass('add-multimedia-input-field');
       _newInputSpace.setClass('add-multimedia-input-field');
       _newInputSpace.setVal(showInfo['place']);
-      _newInputDayTime.setVal(showInfo['day_time']);
+      _newInputDayTime.setVal(moment(showInfo['day_time']).format('dddd, h:mm')+"h");
       _newInputSpace.setAttr('disabled', true);
       _newInputDayTime.setAttr('disabled', true);
       _inputs.push([_newInputSpace,_newInputDayTime]);
@@ -461,20 +473,37 @@
     var _showsAddedContainer = $('<div>');
 
     _addInputButton.on('click', function(){
-      if (_inputSpace.getVal() && _inputDayTime.getVal()){
-        var _show = {place: _inputSpace.getVal(), day_time: _inputDayTime.getVal()};
+      if (_inputSpace.val() && _inputDayTime.val()){
+        var _show = {place: _inputSpace.val(), day_time: _dtArray[_inputDayTime.val()]};
         _showsAddedContainer.prepend(_addnewInput(_show));
-        _inputSpace.setVal('');
-        _inputDayTime.setVal('');
+        _inputSpace.select2('val', '');
+        _inputDayTime.select2('val', '');
         _results.push(_show);
       }
       else{
-        if (!(_inputSpace.getVal())) {_inputSpace.addWarning();}
-        else if (!(_inputDayTime.getVal())) {_inputDayTime.addWarning();}
+        if (!(_inputSpace.val())) {_inputSpace.addClass('warning');}
+        else if (!(_inputDayTime.val())) {_inputDayTime.addClass('warning');}
       }
     });
 
-    _createdWidget.append(_inputSpace.render(), _inputDayTime.render(), _addInputButton,_showsAddedContainer);
+    _createdWidget.append(_inputSpace, _inputDayTime, _addInputButton,_showsAddedContainer);
+
+    _inputSpace.select2({
+        allowClear: true,
+        data: places,
+        multiple:true,
+        maximumSelectionLength: 1,
+        placeholder: 'Espacio'
+    });
+
+    _inputDayTime.select2({
+        allowClear: true,
+        data: _dayTime,
+        multiple:true,
+        maximumSelectionLength: 1,
+        placeholder: 'Día y hora'
+    });
+
 
     return {
       render: function(){

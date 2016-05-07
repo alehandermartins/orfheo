@@ -10,3 +10,4 @@
 //= require jquery.datepick.min
 //= require jquery.datepick-es
 //= require select2.min
+//= require moment-with-locales

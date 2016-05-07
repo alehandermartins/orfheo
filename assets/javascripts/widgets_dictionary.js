@@ -129,6 +129,7 @@
     }
   }
 
+
   ns.Widgets.RecoverPasswdMessage = function(text){
       var _messageContainer = $('<div>');
       var _message  = $('<div>').text(text).css({

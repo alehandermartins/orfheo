@@ -21,22 +21,14 @@
     var _selectorCallback = function(){
     	_contentBox.empty();
     	var _selected = $(this).val();
-    	var _proposalsSelected = [];
-    	call['proposals'].forEach(function(proposal){
-    		if (proposal['type']==_selected) _proposalsSelected.push(proposal);
-    	});
-    	_contentBox.append(Pard.Widgets.CallManagerContent(_selected,  _proposalsSelected).render());
+    	_contentBox.append(Pard.Widgets.CallManagerContent(_selected,  call['proposals']).render());
     }
 
     var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render().addClass('types-selector-call-manager')
 
     var _preSelected = 'artist';
 
-    var _proposalsSelected = [];
-    call['proposals'].forEach(function(proposal){
-    		if (proposal['type']==_preSelected) _proposalsSelected.push(proposal);
-    	});
-   	_contentBox.append(Pard.Widgets.CallManagerContent(_preSelected,  _proposalsSelected).render());
+   	_contentBox.append(Pard.Widgets.CallManagerContent(_preSelected,  call['proposals']).render());
 
 		_typesSelectorBox.append(_typesSelector);  
 
@@ -50,14 +42,23 @@
     }
   }
 
-  ns.Widgets.CallManagerContent = function(selected, proposalsSelected){
- 	console.log(proposalsSelected);
+  ns.Widgets.CallManagerContent = function(selected, proposals){
   	var _createdWidget = $('<div>');
+
+  	var proposalsSelected = [];
+  	proposals.forEach(function(proposal){
+    		if (proposal['type'] == selected) proposalsSelected.push(proposal);
+    	});
 
   	var _fields = {
   		space: ['name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
   		artist: ['name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend']
   	}
+
+  	var _places = [{id:'', text:''}];
+  	proposals.forEach(function(proposal){
+    		if (proposal['type'] == 'space') _places.push({id: proposal['responsible'], text: proposal['responsible']});
+    });
 
     var _checkBoxesBox = $('<div>');
     var _outerTableContainer = $('<div>');
@@ -69,14 +70,14 @@
     	var _tableBox = $('<div>');
     	var _columns = [];
     	_checkBoxes.forEach(function(elem){
-    		if (elem[1] === 'place' || elem[1] === 'day_time'){
+    		if (elem[1] === 'program'){
     			_columns.push(elem[1]);
     		}
     		else if (elem[0].getVal()) _columns.push(elem[1]);
     	})
     	if (_columns.length) {
     		_tableBox.addClass('table-box-proposal-manager'); 
-     		_outerTableContainer.append(_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected).render()))
+     		_outerTableContainer.append(_tableBox.append(Pard.Widgets.CreateTable(_columns,proposalsSelected, _places).render()))
      }
     }
 
@@ -103,8 +104,8 @@
     		if (elem[1] === 'link_orfheo' || elem[1] === 'name') elem[0].setVal(_val);
     })
     	if (_val){
-	    	_checkBoxes.push([true, 'place']);
-	    	_checkBoxes.push([true, 'day_time']);
+	    	_checkBoxes.push([true, 'program']);
+	    	// _checkBoxes.push([true, 'day_time']);
     	}
     	_createTable();
 
@@ -145,7 +146,7 @@
 
 
 
-  ns.Widgets.CreateTable= function(columns, proposalsSelected){
+  ns.Widgets.CreateTable= function(columns, proposalsSelected, places){
 
   	var _createdWidget = $('<table>').addClass('table-proposal');
 
@@ -196,6 +197,8 @@
 
 	  	_createdWidget.append(_titleRow);
 
+			var dayTimeObj = Pard.Widgets.DayTime().render();
+
 	  	proposals.forEach(function(proposal){
 	  		var _row = $('<tr>');
 	  		columns.forEach(function(field){
@@ -204,15 +207,15 @@
 	  				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
 	  				_row.prepend($('<td>').append(_icon));
 	  			}
-	  			else if (field == 'place') {
+	  			else if (field == 'program') {
 	  				var _col = $('<td>');
-	  				if (proposal[field]) _col.html('place');
-	  				_col.append(Pard.Widgets.InputProgram().render());
+	  				if (proposal[field]) _col.html('program');
+	  				_col.append(Pard.Widgets.InputProgram(places, dayTimeObj).render());
 		  		}
-		  		else if (field == 'day_time') {
-	  				var _col = $('<td>');
-	  				if (proposal[field]) _col.html('place');
-		  		}
+		  		// else if (field == 'day_time') {
+	  			// 	var _col = $('<td>');
+	  			// 	if (proposal[field]) _col.html('place');
+		  		// }
 	  			else if (proposal[field] && field == 'availability') {
 	  				var _col = $('<td>');
 	  				for (var date in proposal[field]) {
@@ -248,6 +251,48 @@
       }
 	   }
   }
+
+
+  ns.Widgets.DayTime = function(){
+
+   var _dayTime = [{id: '',text: ''},{id:'A lo largo de los dos dias', text: 'A lo largo de los dos dias'}];
+
+    var _sat10am = new Date (2016,9,15,10,00,00,0);
+    var _sat2345pm = new Date (2016,9,15,23,45,00,0);
+    var _sund10am = new Date (2016,9,16,10,00,00,0);
+    var _sund2345pm = new Date (2016,9,16,23,45,00,0);
+    var _dtArray = [_sat10am];
+
+
+    function addMinutes(date, minutes) {
+     return new Date(date.getTime() + minutes*60000);
+    }
+
+
+    while(_dtArray[_dtArray.length -1].getTime() != _sat2345pm.getTime()){
+      _dayTime.push({id:_dtArray.length -1, text:moment(_dtArray[_dtArray.length -1]).format('dddd, h:mm')+"h"});
+      _dtArray.push(addMinutes(_dtArray[_dtArray.length -1], 15));
+    }
+
+    _dtArray.push(_sund10am);
+
+    while(_dtArray[_dtArray.length -1].getTime() != _sund2345pm.getTime()){
+      _dayTime.push({id:_dtArray.length -1, text:moment(_dtArray[_dtArray.length -1]).format('dddd, h:mm')+"h"});
+      _dtArray.push(addMinutes(_dtArray[_dtArray.length -1], 15));
+    }
+
+    var _createdWidget = {
+    	dayTime: _dayTime,
+    	dtArray: _dtArray
+    }
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+	   }
+  }
+
 
 
 

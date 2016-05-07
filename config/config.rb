@@ -46,6 +46,7 @@ class BaseController < Sinatra::Base
     orfheologocolor.png
     orfheologonegro.png
     orfheosimbolocolor.png
+    orfheo_fb_preview.jpg
   )
 
   set :assets_prefix, %w(assets vendor/assets)

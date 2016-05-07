@@ -38,7 +38,10 @@
           _toBeShown.push(profile);
         }      
       });
-      _searchResult.append(Pard.Widgets.ProfileCards(_toBeShown).render());
+      Pard.Widgets.ProfileCards(_toBeShown).render().forEach(function(profileCard){
+          _searchResult.append(profileCard);
+      })
+     
     });
 
     // _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
@@ -105,7 +108,7 @@
     _searchWidget.on('change', function(){
       _shown = [];
       tags = [];
-      _shown = [];
+      _searchResult.empty();
       _searchWidget.select2('data').forEach(function(tag){
         tags.push(tag.text);
       });
@@ -117,7 +120,9 @@
             _toBeShown.push(profile);
           }      
         });
-        _searchResult.append(Pard.Widgets.ProfileCards(_toBeShown).render());
+        Pard.Widgets.ProfileCards(_toBeShown).render().forEach(function(profileCard){
+          _searchResult.append(profileCard);
+      })
       });
     });
     
@@ -137,7 +142,11 @@
                 _toBeShown.push(profile);
               }      
             });
-            if (_toBeShown.length) _searchResult.append(Pard.Widgets.ProfileCards(_toBeShown).render());
+            if (_toBeShown.length) {
+              Pard.Widgets.ProfileCards(_toBeShown).render().forEach(function(profileCard){
+                  _searchResult.append(profileCard);
+                })
+            }          
           });
         }
       });
@@ -152,10 +161,10 @@
 
   ns.Widgets.ProfileCards = function (profiles) {
 
-    var _createdWidget =  $('<div>').css('display','inline-block');
+    var _createdWidget =  [];
 
     profiles.forEach(function(profile){
-      _createdWidget.append($('<div>').addClass('card-container').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')));
+      _createdWidget.push($('<div>').addClass('card-container').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')));
     });
 
     return{
