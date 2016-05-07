@@ -106,6 +106,7 @@ class Proposal
     proposal.merge! city: profile[:city]
     proposal.merge! personal_web: profile[:personal_web]
     proposal.merge! zip_code: profile[:zip_code]
+    proposal.merge! name: profile[:name]
   end
 
   def add_space_fields profile
@@ -113,5 +114,6 @@ class Proposal
     proposal.merge! photos: profile[:photos]
     proposal.merge! personal_web: profile[:personal_web]
     proposal.merge! links: profile[:links]
+    proposal.merge! name: profile[:name]
   end
 end
