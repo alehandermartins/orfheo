@@ -266,7 +266,7 @@
 
 	  	_tableCreated.append(_titleRow);
 
-			var dayTimeObj = Pard.Widgets.DayTime().render();
+			var dayTimeObj = Pard.Widgets.DayTime();
 			var _submitBtn = Pard.Widgets.Button('Guarda la programación', function(){_sendProgram();});
 
 	  	proposals.forEach(function(proposal){
@@ -279,7 +279,7 @@
 	  			}
 	  			else if (field == 'program') {
 	  				var _col = $('<td>');
-	  				var _inputProgram = Pard.Widgets.InputProgram(places, dayTimeObj);
+	  				var _inputProgram = Pard.Widgets.InputProgram(places, dayTimeObj.render(proposal['availability']));
 	  				var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
 	  				if (proposal['program']) _showObj['oldProgram'] = proposal['program'];
 	  				_programArray.push(_showObj);
@@ -327,17 +327,17 @@
 	  		var _data = {proposal_id: inputProgram['proposalId']};
 	  		var _program = [];
 	  		_showArray.forEach(function(show){
-	  			console.log(show['place'][0]);
+	  			console.log(show);
 	  			if (!(inputProgram['oldProgram']) || (inputProgram['oldProgram']['place'] ==! show['place'][0] && inputProgram['oldProgram']['day_time'].getTime() ==! show['day_time'].getTime())){
 	  				_program.push({
 	  					place: show['place'][0],
 	  				 	day_time: show['day_time']
 	  				});
-	  				_data['program'] = _program;	
-	  				_programData.push(_data);
 	  			}
 	  		});
-  		console.log(_programData);
+ 				_data['program'] = _program;	
+				_programData.push(_data);
+	  		console.log(_programData);
 	  	});
 	  }
     
@@ -352,39 +352,51 @@
 
   ns.Widgets.DayTime = function(){
 
-   var _dayTime = [{id: '',text: ''},{id:'A lo largo de los dos dias', text: 'A lo largo de los dos dias'}];
+    var _sat = [];
+    var _sun = [];
 
     var _sat10am = new Date (2016,9,15,10,00,00,0);
     var _sat2345pm = new Date (2016,9,15,23,45,00,0);
     var _sund10am = new Date (2016,9,16,10,00,00,0);
     var _sund2345pm = new Date (2016,9,16,23,45,00,0);
-    var _dtArray = [_sat10am];
-
+    var _satArray = [_sat10am];
+    var _sunArray = [_sund10am];
 
     function addMinutes(date, minutes) {
      return new Date(date.getTime() + minutes*60000);
     }
 
-
-    while(_dtArray[_dtArray.length -1].getTime() != _sat2345pm.getTime()){
-      _dayTime.push({id:_dtArray.length -1, text:moment(_dtArray[_dtArray.length -1]).format('dddd, h:mm')+"h"});
-      _dtArray.push(addMinutes(_dtArray[_dtArray.length -1], 15));
+    while(_satArray[_satArray.length -1].getTime() != _sat2345pm.getTime()){
+      _sat.push({id:_satArray.length -1, text:moment(_satArray[_satArray.length -1]).format('dddd, h:mm')+"h"});
+      _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));
     }
 
-    _dtArray.push(_sund10am);
-
-    while(_dtArray[_dtArray.length -1].getTime() != _sund2345pm.getTime()){
-      _dayTime.push({id:_dtArray.length -1, text:moment(_dtArray[_dtArray.length -1]).format('dddd, h:mm')+"h"});
-      _dtArray.push(addMinutes(_dtArray[_dtArray.length -1], 15));
-    }
-
-    var _createdWidget = {
-    	dayTime: _dayTime,
-    	dtArray: _dtArray
+    while(_sunArray[_sunArray.length -1].getTime() != _sund2345pm.getTime()){
+      _sun.push({id:_sunArray.length -1, text:moment(_sunArray[_sunArray.length -1]).format('dddd, h:mm')+"h"});
+      _sunArray.push(addMinutes(_sunArray[_sunArray.length -1], 15));
     }
 
     return {
-      render: function(){
+      render: function(availability){
+      	var _dayTime = [{id: '',text: ''},{id:'A lo largo de los dos dias', text: 'A lo largo de los dos dias'}];
+      	var _dtArray = [];
+      	for (var day in availability){     
+      		switch(availability[day]) {
+	    			case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':	
+        			_dtArray = _dtArray.concat(_satArray);
+        			_dayTime = _dayTime.concat(_sat);
+        			break;
+				    case 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)':
+			        _dtArray = _dtArray.concat(_sunArray);
+			        _dayTime = _dayTime.concat(_sun);
+			        break;
+					}
+				}
+      
+        var _createdWidget = {
+    			dayTime: _dayTime,
+    			dtArray: _dtArray
+    		}
         return _createdWidget;
       }
 	   }
