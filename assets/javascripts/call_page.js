@@ -7,24 +7,6 @@
   	var _main = $('<main>').addClass('main-call-page');
     var _mainLarge = $('<section>').addClass('pard-grid call-section');
 
-   //  var _tabs = $('<ul>').addClass('tabs').attr({'data-tabs':'', id: 'call-manager-tabs'});
-  	// var _tableTab = $('<li>').addClass('tabs-title is-active').append($('<a>').attr({href: "#tablePanel", 'aria-selected': 'true'}).text('Tabla y Programa'));
-  	// var _profilesTab = $('<li>').addClass('tabs-title is-active').append($('<a>').attr({href: "#ProfilesPanel", 'aria-selected': 'true'}).text('Perfiles'));
-
-  	// _tabs.append(_tableTab, _profilesTab);
-
-//   	var _tabsContent = $('<div>').addClass('tabs-content').attr({'data-tabs-content':'call-manager-tabs'});
-//   <div class="tabs-panel is-active" id="panel1">
-//     <p>Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor. Suspendisse dictum feugiat nisl ut dapibus.</p>
-//   </div>
-//   <div class="tabs-panel" id="panel2">
-//     <p>Suspendisse dictum feugiat nisl ut dapibus.  Vivamus hendrerit arcu sed erat molestie vehicula. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.  Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.</p>
-//   </div>
-// </div>
-
-
-
-
     var _title = $('<h4>').text('Gestiona la Convocatoria');
 
     var _tabs = $('<ul>').addClass('menu simple tabs-menu');
