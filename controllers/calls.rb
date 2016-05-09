@@ -95,12 +95,20 @@ class CallsController < BaseController
 
   def add_program call_id, program
     call_program = []
-    program.each{ |proposal|
-      puts proposal
+    program.each{ |key, proposal|
       new_program = {
-        day_time: proposal[:day_time],
-        place: proposal[:place]
+        proposal_id: proposal[:proposal_id],
+        program: []
       }
+      puts new_program
+      proposal[:program].each{ |key, performance|
+        new_performance = {
+          day_time: performance[:day_time],
+          place: performance[:place]
+        }
+        new_program[:program].push(new_performance)
+      }
+      puts new_program
       call_program.push(new_program)
     }
     Repos::Calls.add_program call_id, call_program

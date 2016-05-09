@@ -337,8 +337,10 @@
 	  		});
  				_data['program'] = _program;	
 				_programData.push(_data);
-	  		console.log(_programData);
 	  	});
+      Pard.Backend.program('conFusion', _programData, function(){
+        console.log(_programData);
+      });
 	  }
     
     _createdWidget.prepend(_tableBox.append(_tableCreated));
