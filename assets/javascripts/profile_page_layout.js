@@ -158,7 +158,7 @@
       if (userStatus == 'owner'){
         _messageOther.text('tus otros perfiles');
       }else{
-        _messageOther.text('del mismo usuario');
+        _messageOther.text('Otros perfiles del mismo usuario');
       }
 
       if  (_myOtherProfiles.html()) asideNavContent.append(_myOtherProfiles.prepend(_messageOther));

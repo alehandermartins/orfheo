@@ -534,6 +534,8 @@ Aside
   font-size: $almostNormalSize;
   padding:0.2rem;
   margin-bottom: 0;
+  line-height: 1.2rem;
+
 }
 
 .message-otherProfile-asideBar{
@@ -997,7 +999,7 @@ CALL PAGE
 
 .types-selector-call-manager{
   margin-bottom: 2rem;
-  margin-top: 2rem;
+  // margin-top: 2rem;
 }
 
 .title-colText-call-manager{
@@ -1006,4 +1008,23 @@ CALL PAGE
 
 .icon-column-call-table{
   width: 2rem;
+}
+
+.tab-selected{
+  background: $grey-1;
+}
+
+.menu.simple.tabs-menu li{
+  margin-right:0;
+}
+
+.tabs-menu li{
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+}
+
+.tabs-menu{
+  margin-top: 2rem;
+  margin-bottom : 2rem;
+
 }

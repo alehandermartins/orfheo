@@ -79,7 +79,7 @@
 
   ns.Events.SendProposal = function(data){
     if (data['status'] == 'success'){
-      Pard.Widgets.Alert('', '<h4 style = "color: rgb(76, 182, 50); margin-top: -1rem; text-align: center; font-weight: bold;">¡Genial!</h4><p style = "text-align:center">Te has inscrito correctamente</p> <p style="font-size: 14px; margin-top:1rem; text-align: center;"> Puedes enviar otra propuesta desde el mismo perfil (si artista) o crear y inscribir otros perfiles</p><p style="font-size: 14px; text-align: center; font-weight:bold">conFusión festival 2016</p>',
+      Pard.Widgets.Alert('', '<h4 style = "color: rgb(76, 182, 50); margin-top: -1rem; text-align: center; font-weight: bold;">¡Genial!</h4><p style = "text-align:center">Te has inscrito correctamente</p> <p style="font-size: 14px; margin-top:1rem; text-align: center;"> Puedes enviar otra propuesta desde el mismo perfil (si eres artista) o crear e inscribir otros perfiles</p><p style="font-size: 14px; text-align: center; font-weight:bold">conFusión festival 2016</p>',
         function(){
          document.location = '/profile?id=' + data['profile_id'];
         }

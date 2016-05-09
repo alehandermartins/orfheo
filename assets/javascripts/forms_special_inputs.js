@@ -504,7 +504,6 @@
         placeholder: 'Día y hora'
     });
 
-
     return {
       render: function(){
         return _createdWidget;
