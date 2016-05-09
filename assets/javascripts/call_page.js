@@ -37,7 +37,7 @@
 			_tabShowHide('tablePanel');
 		});
 
-  	var _profilesTabTitle =	$('<a>').attr({href: "#"}).text('Perfiles');
+  	var _profilesTabTitle =	$('<a>').attr({href: "#"}).text('Propuestas');
   	var _profilesTab = $('<li>').addClass('tabs-title is-active').append(_profilesTabTitle);
   	_profilesTab.click(function(){
 			if(!($('#profilesPanel').html())) $('#profilesPanel').append(Pard.Widgets.ProfilesPanelContent(call).render());
@@ -115,7 +115,7 @@
 
   	var _createdWidget = $('<div>');
 
-  	_createdWidget.append('crea y gestionas perfiles'); 
+  	_createdWidget.append('aquí se pueden crear propuestas y molaría poder tener la funcion de habilitar un cierto perfil para que pueda enviar una propuesta fuera convocatoria (tipo si te paso el profile_id a este profile, aunque la convocatoria este serrada, le aparece por un tiempo maximo de una semana el boton "envia otra propuesta el conFusion") HABLEMOS DE ESO'); 
 
   	return {
       render: function(){
@@ -298,7 +298,9 @@
 	  			else if (field == 'program') {
 	  				var _col = $('<td>');
 	  				var _inputProgram = Pard.Widgets.InputProgram(places, dayTimeObj);
-	  				_programArray.push({profileId: proposal.profile_id, newProgram: _inputProgram, oldProgram: proposal['program']});
+	  				var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
+	  				if (proposal['program']) _showObj['oldProgram'] = proposal['program'];
+	  				_programArray.push(_showObj);
 	  				if (proposal[field]) _inputProgram.setVal(proposal['program']);
 	  				_col.append(_inputProgram.render());
 	  				_createdWidget.append(_submitBtn.render())
@@ -340,10 +342,11 @@
 	  	var _programData = [];
 	  	_programArray.forEach(function(inputProgram){
 	  		var _showArray = inputProgram['newProgram'].getVal();	
-	  		var _data = {profile_id: inputProgram['profileId']};
+	  		var _data = {proposal_id: inputProgram['proposalId']};
 	  		var _program = [];
 	  		_showArray.forEach(function(show){
-	  			if (inputProgram['oldProgram']['place'] ==! show['place'][0] && inputProgram['oldProgram']['day_time'].getTime() ==! show['day_time'].getTime()){
+	  			console.log(show['place'][0]);
+	  			if (!(inputProgram['oldProgram']) || (inputProgram['oldProgram']['place'] ==! show['place'][0] && inputProgram['oldProgram']['day_time'].getTime() ==! show['day_time'].getTime())){
 	  				_program.push({
 	  					place: show['place'][0],
 	  				 	day_time: show['day_time']
