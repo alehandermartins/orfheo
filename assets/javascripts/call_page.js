@@ -350,7 +350,6 @@
 	   }
   }
 
-
   ns.Widgets.DayTime = function(){
 
    var _dayTime = [{id: '',text: ''},{id:'A lo largo de los dos dias', text: 'A lo largo de los dos dias'}];

@@ -8,7 +8,32 @@ module Repos
           user_id: '45825599-b8cf-499c-825c-a7134a3f1ff0',
           call_id: 'b5bc4203-9379-4de0-856a-55e1e5f3fac6'
         }
-        @@calls_collection.insert(conFusionCall) unless exists? conFusionCall[:call_id] 
+        @@calls_collection.insert(conFusionCall) unless exists? conFusionCall[:call_id]
+        call = get_call('b5bc4203-9379-4de0-856a-55e1e5f3fac6')
+        call[:proposals].each{ |proposal|
+          profile = Services::Profiles.get_profiles :profile, {profile_id: proposal[:profile_id]}
+          user = Repos::Users.grab({user_id: proposal[:user_id]})
+          proposal.merge! email: user[:email]
+  
+          if(proposal[:type] == 'artist')
+            proposal.merge! city: profile[:city]
+            proposal.merge! personal_web: profile[:personal_web]
+            proposal.merge! zip_code: profile[:zip_code]
+            proposal.merge! name: profile[:name]
+          end
+
+          if(proposal[:type] == 'space')
+            proposal.merge! address: profile[:address]
+            proposal.merge! photos: profile[:photos]
+            proposal.merge! personal_web: profile[:personal_web]
+            proposal.merge! links: profile[:links]
+            proposal.merge! name: profile[:name]
+          end
+          @@calls_collection.update({"proposals.proposal_id": proposal[:proposal_id]},{
+            "$set": {"proposals.$": proposal}
+          },
+          {upsert: true})
+        }
       end
 
       def add call
@@ -82,6 +107,16 @@ module Repos
             "$set": {"proposals.$.amend": amend}
           },
         {upsert: true})
+      end
+
+      def add_program call_id, program
+        program.each{ |proposal|
+          @@calls_collection.update({ call_id: call_id, "proposals.proposal_id": proposal[:proposal_id]},
+            {
+              "$set": {"proposals.$.program": proposal[:program]}
+            },
+          {upsert: true})
+        }
       end
 
       def delete_proposal proposal_id

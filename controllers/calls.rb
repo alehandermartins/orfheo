@@ -34,6 +34,13 @@ class CallsController < BaseController
     erb :call, :locals => {:call => call.to_json}
   end
 
+  post '/users/program' do
+    check_call_ownership params[:call_id]
+    add_program params[:call_id], params[:program]
+    success
+  end
+
+
   private
   def check_non_existing call_id
     raise Pard::Invalid::Params unless UUID.validate call_id
@@ -47,6 +54,11 @@ class CallsController < BaseController
   def check_proposal_ownership proposal_id
     raise Pard::Invalid::UnexistingProposal unless Services::Calls.proposal_exists? proposal_id
     raise Pard::Invalid::ProposalOwnership unless Services::Calls.get_proposal_owner(proposal_id) == session[:identity]
+  end
+
+  def check_call_ownership call_id
+    check_exists call_id
+    raise Pard::Invalid::CallOwnership unless Services::Calls.get_call_owner(call_id) == session[:identity]
   end
 
   def register_call params
@@ -79,5 +91,18 @@ class CallsController < BaseController
 
   def get_call call_id
     Services::Calls.get_call call_id
+  end
+
+  def add_program call_id, program
+    call_program = []
+    program.each{ |proposal|
+      puts proposal
+      new_program = {
+        day_time: proposal[:day_time],
+        place: proposal[:place]
+      }
+      call_program.push(new_program)
+    }
+    Repos::Calls.add_program call_id, call_program
   end
 end
