@@ -281,7 +281,7 @@
 	  				var _col = $('<td>');
 	  				var _inputProgram = Pard.Widgets.InputProgram(places, dayTimeObj.render(proposal['availability']));
 	  				var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
-	  				if (proposal['program']) _showObj['oldProgram'] = proposal['program'];
+	  				// if (proposal['program']) _showObj['oldProgram'] = proposal['program'];
 	  				_programArray.push(_showObj);
 	  				if (proposal[field]) _inputProgram.setVal(proposal['program']);
 	  				_col.append(_inputProgram.render());
@@ -323,21 +323,22 @@
 	  var _sendProgram	= function(){
 	  	var _programData = [];
 	  	_programArray.forEach(function(inputProgram){
+	  		var _modified = inputProgram['newProgram'].modifiedCheck();
 	  		var _showArray = inputProgram['newProgram'].getVal();	
 	  		var _data = {proposal_id: inputProgram['proposalId']};
 	  		var _program = [];
-	  		_showArray.forEach(function(show){
-	  			console.log(show);
-	  			if (!(inputProgram['oldProgram']) || (inputProgram['oldProgram']['place'] ==! show['place'][0] && inputProgram['oldProgram']['day_time'].getTime() ==! show['day_time'].getTime())){
+	  		if (_modified) {
+	  			_showArray.forEach(function(show, index){
 	  				_program.push({
 	  					place: show['place'][0],
 	  				 	day_time: show['day_time']
 	  				});
-	  			}
-	  		});
- 				_data['program'] = _program;	
-				_programData.push(_data);
-	  	});
+	  			});
+ 			    _data['program'] = _program;	
+				  _programData.push(_data);
+	  	  }
+      });
+      console.log(_programData);
       Pard.Backend.program('conFusion', _programData, function(){
         console.log(_programData);
       });
@@ -359,29 +360,29 @@
 
     var _sat10am = new Date (2016,9,15,10,00,00,0);
     var _sat2345pm = new Date (2016,9,15,23,45,00,0);
-    var _sund10am = new Date (2016,9,16,10,00,00,0);
-    var _sund2345pm = new Date (2016,9,16,23,45,00,0);
+    var _sun10am = new Date (2016,9,16,10,00,00,0);
+    var _sun2345pm = new Date (2016,9,16,23,45,00,0);
     var _satArray = [_sat10am];
-    var _sunArray = [_sund10am];
+    var _sunArray = [_sun10am];
 
     function addMinutes(date, minutes) {
      return new Date(date.getTime() + minutes*60000);
     }
 
     while(_satArray[_satArray.length -1].getTime() != _sat2345pm.getTime()){
-      _sat.push({id:_satArray.length -1, text:moment(_satArray[_satArray.length -1]).format('dddd, h:mm')+"h"});
+      _sat.push({id:_satArray.length, text:moment(_satArray[_satArray.length -1]).format('dddd, h:mm')+"h"});
       _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));
     }
 
-    while(_sunArray[_sunArray.length -1].getTime() != _sund2345pm.getTime()){
-      _sun.push({id:_sunArray.length -1, text:moment(_sunArray[_sunArray.length -1]).format('dddd, h:mm')+"h"});
+    while(_sunArray[_sunArray.length -1].getTime() != _sun2345pm.getTime()){
+      _sun.push({id:_sunArray.length, text:moment(_sunArray[_sunArray.length -1]).format('dddd, h:mm')+"h"});
       _sunArray.push(addMinutes(_sunArray[_sunArray.length -1], 15));
     }
 
     return {
       render: function(availability){
-      	var _dayTime = [{id: '',text: ''},{id:'A lo largo de los dos dias', text: 'A lo largo de los dos dias'}];
-      	var _dtArray = [];
+      	var _dayTime = [{id: '',text: ''},{id: 0, text: 'A lo largo de los dos dias'}];
+      	var _dtArray = ['both'];
       	for (var day in availability){     
       		switch(availability[day]) {
 	    			case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':	

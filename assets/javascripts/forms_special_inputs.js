@@ -425,6 +425,7 @@
   ns.Widgets.InputProgram = function(places, dayTimeObj){
 
     var _createdWidget = $('<div>'); 
+    var _modified = false;
     var _results = [];
     var _inputs = [];
     // var _inputSpace = Pard.Widgets.Input('Espacio','text');
@@ -433,16 +434,7 @@
 
     var _dayTime = dayTimeObj['dayTime'];
     var _dtArray = dayTimeObj['dtArray'];
-   
-   
 
-    // var _dtArray = ['A lo largo de los dos dias', 'Sábado, 10:00h','Sábado, 10:15h','Sábado, 10:30h','Sábado, 10:45h','Sábado, 11:00h', 'Sábado, 11:15h', 'Sábado, 11:30h', 'Sábado, 11:45h', 'Sábado, 12:00h', 'Sábado, 12:15h', 'Sábado, 12:30h', 'Sábado, 12:45h', 'Sábado, 13:00h', 'Sábado, 13:15h', 'Sábado, 13:30h', 'Sábado, 13:45h', 'Sábado, 14:00h', 'Sábado, 14:15h', 'Sábado, 14:30h','Sábado, 14:45h','Sábado, 15:00h','Sábado, 15:15h','Sábado, 15:30h','Sábado, 15:45h','Sábado, 16:00h','Sábado, 16:15h','Sábado, 16:30h','Sábado, 16:45h','Sábado, 17:00h','Sábado, 17:15h', 'Sábado, 17:30h','Sábado, 17:45h','Sábado, 18:00h','Sábado, 18:15h','Sábado, 18:30h','Sábado, 18:45h','Sábado, 19:00h','Sábado, 19:15h','Sábado, 19:30h','Sábado, 19:45h','Sábado, 20:00h','Sábado, 20:30h','Sábado, 20:45h','Sábado, 21:00h','Sábado, 21:15h','Sábado, 21:30h','Sábado, 21:45h','Sábado, 22:00h','Sábado, 22:15h','Sábado, 22:30h','Sábado, 22:45h','Sábado, 23:00h','Sábado, 23:15h','Sábado, 23:30h','Sábado, 23:45h','Domingo, 10:00h','Domingo, 10:15h','Domingo, 10:30h','Domingo, 10:45h','Domingo, 11:00h', 'Domingo, 11:15h', 'Domingo, 11:30h', 'Domingo, 11:45h', 'Domingo, 12:00h', 'Domingo, 12:15h', 'Domingo, 12:30h', 'Domingo, 12:45h', 'Domingo, 13:00h', 'Domingo, 13:15h', 'Domingo, 13:30h', 'Domingo, 13:45h', 'Domingo, 14:00h', 'Domingo, 14:15h', 'Domingo, 14:30h','Domingo, 14:45h','Domingo, 15:00h','Domingo, 15:15h','Domingo, 15:30h','Domingo, 15:45h','Domingo, 16:00h','Domingo, 16:15h','Domingo, 16:30h','Domingo, 16:45h','Domingo, 17:00h','Domingo, 17:15h', 'Domingo, 17:30h','Domingo, 17:45h','Domingo, 18:00h','Domingo, 18:15h','Domingo, 18:30h','Domingo, 18:45h','Domingo, 19:00h','Domingo, 19:15h','Domingo, 19:30h','Domingo, 19:45h','Domingo, 20:00h','Domingo, 20:30h','Domingo, 20:45h','Domingo, 21:00h','Domingo, 21:15h','Domingo, 21:30h','Domingo, 21:45h','Domingo, 22:00h','Domingo, 22:15h','Domingo, 22:30h','Domingo, 22:45h','Domingo, 23:00h','Domingo, 23:15h','Domingo, 23:30h','Domingo, 23:45h'];
-
-
-    
-    // var _inputDayTime = Pard.Widgets.Input('Horario','text');
-    // _inputSpace.setClass('add-multimedia-input-field');
-    // _inputDayTime.setClass('add-multimedia-input-field');
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted')
 
@@ -453,7 +445,8 @@
       _newInputDayTime.setClass('add-multimedia-input-field');
       _newInputSpace.setClass('add-multimedia-input-field');
       _newInputSpace.setVal(showInfo['place']);
-      _newInputDayTime.setVal(moment(showInfo['day_time']).format('dddd, h:mm')+"h");
+      if (showInfo['day_time'] == 'both') {_newInputDayTime.setVal('A lo largo de los dos días');}
+      else { _newInputDayTime.setVal(moment(showInfo['day_time']).format('dddd, h:mm')+"h")};
       _newInputSpace.setAttr('disabled', true);
       _newInputDayTime.setAttr('disabled', true);
       _inputs.push([_newInputSpace,_newInputDayTime]);
@@ -462,6 +455,7 @@
 
       _container.append(_newInputSpace.render(), _newInputDayTime.render(), _removeInputButton);
       _removeInputButton.on('click', function(){
+        _modified = true;
         var _index = _inputs.indexOf([_newInputSpace,_newInputDayTime]);
         _inputs.splice(_index, 1);
         _results.splice(_index, 1);
@@ -473,8 +467,13 @@
     var _showsAddedContainer = $('<div>');
 
     _addInputButton.on('click', function(){
+      _modified = true;
       if (_inputSpace.val() && _inputDayTime.val()){
+        if (_inputDayTime.val() == 'both'){
+        var _show = {place: _inputSpace.val(), day_time: _dtArray[_inputDayTime.val()]}}
+        else {
         var _show = {place: _inputSpace.val(), day_time: _dtArray[_inputDayTime.val()]};
+        }
         _showsAddedContainer.prepend(_addnewInput(_show));
         _inputSpace.select2('val', '');
         _inputDayTime.select2('val', '');
@@ -521,6 +520,12 @@
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
+      },
+      modifiedCheck: function(){
+        return _modified;
+      },
+      resetModifiedCheck: function(){
+        _modified = false;
       }
     }
   }

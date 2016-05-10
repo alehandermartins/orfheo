@@ -35,6 +35,14 @@ module Util
       end
     end
 
+    def arrayify_hash hash
+      return [] if hash.blank?
+      return hash unless hash.is_a? Hash
+      hash.map do |k, v|
+        string_keyed_hash_to_symbolized(v)
+      end      
+    end
+
     def destroy_old_pictures old_pictures, new_pictures
       unused_pictures = old_pictures.keys.map{ |field|
         next if old_pictures[field].blank?

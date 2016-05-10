@@ -94,23 +94,14 @@ class CallsController < BaseController
   end
 
   def add_program call_id, program
-    call_program = []
-    program.each{ |key, proposal|
-      new_program = {
+    return true if program.blank?
+    program = Util.arrayify_hash program
+    program.map!{ |proposal|
+      {
         proposal_id: proposal[:proposal_id],
-        program: []
+        program: Util.arrayify_hash(proposal[:program])
       }
-      puts new_program
-      proposal[:program].each{ |key, performance|
-        new_performance = {
-          day_time: performance[:day_time],
-          place: performance[:place]
-        }
-        new_program[:program].push(new_performance)
-      }
-      puts new_program
-      call_program.push(new_program)
     }
-    Repos::Calls.add_program call_id, call_program
+    Repos::Calls.add_program call_id, program
   end
 end
