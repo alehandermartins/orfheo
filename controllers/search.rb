@@ -50,6 +50,8 @@ class SearchController < BaseController
   end
 
   def check_profile profile, tag
+    return check_value profile[:type], tag if type?(tag)
+    return check_value profile[:category], tag if category?(tag)
     searcheable_fields.any?{ |field|
       check_value profile[field], tag
     }
@@ -57,6 +59,14 @@ class SearchController < BaseController
 
   def check_productions profile, tag
     return false unless profile.has_key? :productions
+    return false if type?(tag)
+
+    if category? tag
+      return profile[:productions].any?{ |production|
+        check_value production[:category], tag
+      }
+    end
+
     searcheable_production_fields.any?{ |field|
       profile[:productions].any?{ |production|
         check_value production[field], tag
@@ -167,6 +177,22 @@ class SearchController < BaseController
 
   def type? text
     ['artista', 'espacio'].include? text
+  end
+
+  def category? text
+    [
+      'organizacion',
+      'asociacion cultural',
+      'local comercial', 
+      'espacio particular',
+      'musica', 
+      'artes escenicas', 
+      'exposicion', 
+      'poesia',
+      'audiovisual',
+      'street art',
+      'taller',
+      'otros'].include? text
   end
 
   def translate text
