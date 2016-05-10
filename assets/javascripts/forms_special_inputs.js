@@ -506,7 +506,7 @@
     return {
       render: function(){
         _inputSpace.select2({
-          allowClear: true,
+          // allowClear: true,
           data: places,
           multiple:true,
           maximumSelectionLength: 1,
@@ -514,7 +514,7 @@
         });
 
         _inputDayTime.select2({
-          allowClear: true,
+          // allowClear: true,
           data: _dayTime,
           multiple:true,
           maximumSelectionLength: 1,
@@ -616,7 +616,7 @@
     return {
       render: function(){
         _inputArtist.select2({
-          allowClear: true,
+          // allowClear: true,
           data: artists,
           multiple:true,
           maximumSelectionLength: 1,
@@ -624,7 +624,7 @@
         });
 
         _inputDayTime.select2({
-          allowClear: true,
+          // allowClear: true,
           data: _dayTime,
           multiple:true,
           maximumSelectionLength: 1,
