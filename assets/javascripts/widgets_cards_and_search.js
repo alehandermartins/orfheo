@@ -5,12 +5,8 @@
   ns.Widgets.SearchEngine = function (label) {
 
     var _createdWidget = $('<div>').addClass('search-engine-container');
-
-    // var _searchTool = $('<div>').addClass('search-tool-container');
     var _searchResult = $('<div>').addClass('search-results');
-
     var _searchMessage = $('<div>').append($('<p>').text(label));
-
     var _searchWidget = $('<select>');
 
     function formatResource (resource) {
@@ -28,6 +24,7 @@
     };
 
     var _shown = [];
+    var tags = [];
     var _toBeShown = [];
 
     Pard.Backend.searchProfiles([], [], function(data){
@@ -39,14 +36,32 @@
         }      
       });
       Pard.Widgets.ProfileCards(_toBeShown).render().forEach(function(profileCard){
-          _searchResult.append(profileCard);
-      })
-     
+        _searchResult.append(profileCard);
+      });
+
+      $('.whole-container').scroll(function(){
+        if ($('.whole-container').scrollTop() + $(window).height() >= ($('#main-welcome-page').height() + $('.login-bar').height() + $('.footer-bar').height())){
+          tags = [];
+          _searchWidget.select2('data').forEach(function(tag){
+            tags.push(tag.text);
+          });
+          Pard.Backend.searchProfiles(tags, _shown, function(data){
+            _toBeShown = [];
+            data.profiles.forEach(function(profile){
+              if ($.inArray(profile.profile_id, _shown) == -1) {
+                _shown.push(profile.profile_id);
+                _toBeShown.push(profile);
+              }      
+            });
+            if (_toBeShown.length) {
+              Pard.Widgets.ProfileCards(_toBeShown).render().forEach(function(profileCard){
+                _searchResult.append(profileCard);
+              });
+            }          
+          });
+        }
+      });
     });
-
-    // _searchTool.append(_searchMessage, Pard.Widgets.Input('Busca aquí','text').render());
-
-    // _searchWidget.css('width', '500');
 
     var _searchInput = $('<div>').addClass('search-input');
     _searchInput.append(_searchWidget);
@@ -121,37 +136,11 @@
           }      
         });
         Pard.Widgets.ProfileCards(_toBeShown).render().forEach(function(profileCard){
-          _searchResult.append(profileCard);
+        _searchResult.append(profileCard);
       })
       });
     });
     
-
-    $(document).ready(function(){
-      $('.whole-container').scroll(function(){
-        if ($('.whole-container').scrollTop() + $(window).height() >= ($('#main-welcome-page').height() + $('.login-bar').height() + $('.footer-bar').height())){
-          tags = [];
-          _searchWidget.select2('data').forEach(function(tag){
-            tags.push(tag.text);
-          });
-          Pard.Backend.searchProfiles(tags, _shown, function(data){
-            _toBeShown = [];
-            data.profiles.forEach(function(profile){
-              if ($.inArray(profile.profile_id, _shown) == -1) {
-                _shown.push(profile.profile_id);
-                _toBeShown.push(profile);
-              }      
-            });
-            if (_toBeShown.length) {
-              Pard.Widgets.ProfileCards(_toBeShown).render().forEach(function(profileCard){
-                  _searchResult.append(profileCard);
-                })
-            }          
-          });
-        }
-      });
-    });
-
     return{
       render: function(){
         return _createdWidget;

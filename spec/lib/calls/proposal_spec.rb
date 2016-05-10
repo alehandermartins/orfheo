@@ -114,6 +114,7 @@ describe Proposal do
       expect(proposal[:city]).to eq(profile[:city])
       expect(proposal[:zip_code]).to eq(profile[:zip_code])
       expect(proposal[:personal_web]).to eq(profile[:personal_web])
+      expect(proposal[:name]).to eq(profile[:name])
     end
   end
 end

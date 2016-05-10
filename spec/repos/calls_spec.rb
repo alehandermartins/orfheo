@@ -203,4 +203,26 @@ describe Repos::Calls do
       expect(Repos::Calls.get_proposals_for profile_id).to eq([])
     end
   end
+
+  describe 'Program' do
+
+    let(:program){[
+      {
+        proposal_id: proposal_id,
+        program: [{day_time: 'date', place: 'space'}] 
+      },
+      {
+        proposal_id: 'otter_proposal',
+        program: [{day_time: 'otter_date', place: 'otter_space'}] 
+      },
+    ]}
+
+    it 'adds a program to a proposal' do
+      Repos::Calls.add_proposal call_id, proposal
+      Repos::Calls.add_proposal call_id, otter_proposal
+      Repos::Calls.add_program call_id, program
+      expect(Repos::Calls.get_proposal proposal_id).to include(program: program[0][:program])
+      expect(Repos::Calls.get_proposal 'otter_proposal').to include(program: program[1][:program])
+    end
+  end
 end

@@ -244,4 +244,38 @@ describe CallsController do
       expect(last_response.body).to include('Pard.Call')
     end
   end
+
+  describe 'Program' do
+    let(:program_route){'/users/program'}
+    let(:program_params){
+      {
+        call_id: call_id,
+        program: [
+          {
+            proposal_id: proposal_id,
+            program: [{day_time: 'date', place: 'space'}]        
+          }  
+        ]
+      }
+    }
+
+    before(:each){
+      post create_call_route, call
+      post create_profile_route, profile
+      post send_proposal_route, proposal
+    }
+
+    it 'fails if the user does not own the call' do
+      allow(Repos::Calls).to receive(:get_call_owner).and_return('otter')
+      post program_route, program_params
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'adds the program to the call' do
+      expect(Repos::Calls).to receive(:add_program).with(call_id, program_params[:program])
+      post program_route, program_params
+    end
+  end
 end

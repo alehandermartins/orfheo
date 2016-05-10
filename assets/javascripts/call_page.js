@@ -536,11 +536,14 @@
 	  					place: show['place'][0],
 	  				 	day_time: show['day_time']
 	  				});
-	  			})
+	  			});
 	 				_data['program'] = _program;	
 					_programData.push(_data);
 				}
 		  	inputProgram['newProgram'].resetModifiedCheck();
+        Pard.Backend.program('conFusion', _programData, function(){
+          console.log(_programData);
+        });
 	  	});
 	  	return _programData;
   	}
@@ -571,7 +574,7 @@
 		  			_data['program'] = [_program];	
 						_programData.push(_data);
 					}
-  			})				
+  			});			
 		  	inputProgram['newProgram'].resetModifiedCheck();
 	  	});
 	  	return _programData;
@@ -590,8 +593,7 @@
   }
   
 
-
-  ns.Widgets.DayTime = function(){    
+  ns.Widgets.DayTime = function(){
 
     var _sat = [];
     var _sun = [];
@@ -607,7 +609,6 @@
     function addMinutes(date, minutes) {
      return new Date(date.getTime() + minutes*60000);
     }
-
 
     while(_satArray[_satArray.length -1].getTime() != _sat2345pm.getTime()){
       _sat.push({id:_satArray.length, text:moment(_satArray[_satArray.length -1]).format('dddd, h:mm')+"h"});
