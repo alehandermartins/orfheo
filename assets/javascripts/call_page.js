@@ -210,9 +210,9 @@
     var _proposalsSelected = [];
 
   	proposals.forEach(function(proposal){
-  		if (proposal['type'] == 'space') _places.push({id: proposal['responsible'], text: proposal['responsible']});
+  		if (proposal['type'] == 'space') _places.push({id: proposal['name'], text: proposal['name']});
   		if (proposal['type'] == 'artist') {
-				_artists.push({id: proposal['proposal_id'], text: proposal['title']});
+				_artists.push({id: proposal['proposal_id'], text: proposal['name']});
 				if (proposal['program']){
 	  			proposal['program']['proposal_id'] = proposal['proposal_id'];
 	  			_programs.push(proposal['program']);
@@ -227,7 +227,7 @@
 					return true;
 	  			} 
 	  		});
-  			if (_check) _searchTags.push({id: proposal['category'], text: proposal['category']});
+  			if (_check) _searchTags.push({id: proposal['category'], text: Pard.Widgets.Dictionary(proposal['category']).render()});
   			_searchTags.push({id:proposal['name'], text:proposal['name']});
   			if (selected == 'space')  _searchTags.push({id: proposal['responsible'], text: proposal['responsible']});
   			if (selected == 'artist')  _searchTags.push({id: proposal['title'], text: proposal['title']});
@@ -297,16 +297,16 @@
 							_programArray.push(_showObj);
 							if (proposal['program']) _inputProgram.setVal(proposal['program']);
 						}
-
 					  if (proposal['type'] == 'space') {
 					  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-							// _inputProgram.setDayTime(proposal['availability']);
-							var _showObj = {place: proposal['responsible'], newProgram: _inputProgram};
+							var _showObj = {place: proposal['name'], newProgram: _inputProgram};
 							_programArray.push(_showObj);
 							var _savedProgram = [];	  					
 							_programs.forEach(function(program){
-								if (program['place'] == proposal['name']){
-									_savedProgram.push({proposal_id: program['proposal_id'], day_time: program['day_time']});
+								for (var key in program){
+									if (program[key]['place'] == proposal['name']){
+										_savedProgram.push({proposal_id: program['proposal_id'], day_time: program[key]['day_time']});
+									}
 								}
 							});
 							_inputProgram.setVal(_savedProgram);
@@ -385,119 +385,13 @@
 	    _printTable(_proposalsSearched);
     });
 
-    // _searchInput.on('change', function(){console.log($(this).val())});
-    
+   
 		return {
       render: function(){
         return _createdWidget;
       }
 	  }
   }
-
-
-  // ns.Widgets.PrintTable = function(proposalsSelected, columns, _artists,_programs, _places,  dayTimeObj, selected){
-
-		// var _tableCreated = $('<table>').addClass('table-proposal');_tableCreated.empty();
-  // 	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
-  // 	columns.forEach(function(field){
-  // 		if (field == 'link_orfheo'){
-  // 		var _titleText = $('<span>').html('rfh');
-  // 		var _titleCol = $('<td>').append(_titleText);
-  // 		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
-  // 		}
-  // 		else{
-	 //  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
-	 //  		var _titleCol = $('<td>').append(_titleText);
-	 //  		var _proposalField = [];
-	 //  		if (field != 'availability'){
-		//   		proposalsSelected.forEach(function(proposal){
-		//   			_proposalField.push(proposal[field]);
-		//   		});
-		//   		_titleText.click(function(){ 
-		//   			var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
-		//   			$('#table-box-proposal-manager').empty();
-		//   			$('#table-box-proposal-manager').append(Pard.Widgets.PrintTable(_proposalsReordered, columns, _artists, _programs, _places,  dayTimeObj).render());
-		//   		});
-		//   		_titleText.addClass('title-colText-call-manager');
-		//   		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
-		//   	}
-	 //  	}
-  // 		_titleRow.append(_titleCol);
-  // 	});
-
-  // 	_tableCreated.append(_titleRow);
-
-  // 	var _programArray = [];
-
-  // 	proposalsSelected.forEach(function(proposal){
-  // 		var _row = $('<tr>');
-  // 		columns.forEach(function(field){
-  // 			if (field == 'link_orfheo'){
-  // 				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
-  // 				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
-  // 				var _col = $('<td>').append(_icon);
-  // 			}
-  // 			else if (field == 'program') {
-  // 				var _col = $('<td>');
-  // 				  if (proposal['type'] == 'artist') {
-		// 					var _inputProgram = Pard.Widgets.InputArtistProgram(_places, dayTimeObj.render(proposal['availability']));
-		// 					// _inputProgram.setDayTime(proposal['availability']);
-		// 					var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
-		// 					_programArray.push(_showObj);
-		// 					if (proposal['program']) _inputProgram.setVal(proposal['program']);
-		// 				}
-
-		// 			  if (proposal['type'] == 'space') {
-		// 			  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-		// 					// _inputProgram.setDayTime(proposal['availability']);
-		// 					var _showObj = {place: proposal['responsible'], newProgram: _inputProgram};
-		// 					_programArray.push(_showObj);
-		// 					var _savedProgram = [];	  					
-		// 					_programs.forEach(function(program){
-		// 						if (program['place'] == proposal['name']){
-		// 							_savedProgram.push({proposal_id: program['proposal_id'], day_time: program['day_time']});
-		// 						}
-		// 					});
-		// 					_inputProgram.setVal(_savedProgram);
-		// 			  }
-		// 			_col.append(_inputProgram.render());	 
- 	// 			}
-  // 			else if (proposal[field] && field == 'availability') {
-  // 				var _col = $('<td>');
-  // 				for (var date in proposal[field]) {
-	 //  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
-  // 				}
-  // 			}
-  // 			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
-  // 				if (proposal[field] == 'true') {var _col = $('<td>').html('Sí');}
-  // 				else if (proposal[field] == 'false') { var _col = $('<td>').html('No');}
-  // 				else { var _col = $('<td>').html(proposal[field]);}
-  // 			}
-  // 			else	if (proposal[field] && field == 'category'){
-  // 				var _col = $('<td>').html(Pard.Widgets.Dictionary(proposal[field]).render());
-  // 			}
-  // 			else	if (proposal[field]) {
-  // 				var _col = $('<td>').html(proposal[field]);
-  // 			}
-  // 			else{
-  // 				var _col = $('<td>').html('');
-  // 			}
-  // 			_row.append(_col);
-  // 		});
-  // 		_tableCreated.append(_row);
-  // 	})
-
-		// var _submitBtn = Pard.Widgets.Button('Guarda la programación', function(){Pard.Widgets.SendProgram(_programArray, selected);});
-
-	 //  return{
-	 //  	render: function(){
-	 //  		return _tableCreated;
-	 //  	},
-	 //  	submitBtn: function(){
-	 //  		return _submitBtn;
-	 //  	}
-	 //  }
-  // }
 
 
   ns.Widgets.Reorder = function(proposalField, field, _proposalsSelected){
@@ -541,9 +435,6 @@
 					_programData.push(_data);
 				}
 		  	inputProgram['newProgram'].resetModifiedCheck();
-        Pard.Backend.program('conFusion', _programData, function(){
-          console.log(_programData);
-        });
 	  	});
 	  	return _programData;
   	}
@@ -587,8 +478,8 @@
 
 		var _programSaved = _programsFunc[selected](_programArray);
 
-		console.log(_programSaved);
-
+		Pard.Backend.program('conFusion', _programSaved, function(){
+       });
 
   }
   

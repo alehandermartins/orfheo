@@ -435,6 +435,8 @@
     var _dtArray = dayTimeObj.dtArray;
     var _dayTime = dayTimeObj.dayTime;
 
+    console.log(_dtArray);
+
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted')
 
@@ -487,26 +489,9 @@
 
     _createdWidget.append(_inputSpace, _inputDayTime, _addInputButton,_showsAddedContainer);
 
-    // _inputSpace.select2({
-    //     allowClear: true,
-    //     data: places,
-    //     multiple:true,
-    //     maximumSelectionLength: 1,
-    //     placeholder: 'Espacio'
-    // });
-
-    // _inputDayTime.select2({
-    //     allowClear: true,
-    //     data: _dayTime,
-    //     multiple:true,
-    //     maximumSelectionLength: 1,
-    //     placeholder: 'Día y hora'
-    // });
-
     return {
       render: function(){
         _inputSpace.select2({
-          // allowClear: true,
           data: places,
           multiple:true,
           maximumSelectionLength: 1,
@@ -514,7 +499,6 @@
         });
 
         _inputDayTime.select2({
-          // allowClear: true,
           data: _dayTime,
           multiple:true,
           maximumSelectionLength: 1,
@@ -527,10 +511,14 @@
       },
       setVal: function(values){
         if(values == null || values == false) return true;
-        var _shows = [];
-        Object.keys(values).forEach(function(key){
-          _shows.push(values[key]);
-        });
+        var _shows = values;
+        //         console.log(values);
+
+        // Object.keys(values).forEach(function(key){
+        //   _shows.push(values[key]);
+        // });
+        //         console.log(_shows);
+
         _shows.forEach(function(show, index){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
@@ -552,7 +540,6 @@
     var _modified = false;
     var _results = [];
     var _inputs = [];
-    // var _inputSpace = Pard.Widgets.Input('Espacio','text');
     var _inputArtist = $('<select>');
     var _inputDayTime = $('<select>');
 
@@ -616,7 +603,6 @@
     return {
       render: function(){
         _inputArtist.select2({
-          // allowClear: true,
           data: artists,
           multiple:true,
           maximumSelectionLength: 1,
@@ -624,7 +610,6 @@
         });
 
         _inputDayTime.select2({
-          // allowClear: true,
           data: _dayTime,
           multiple:true,
           maximumSelectionLength: 1,
@@ -637,11 +622,13 @@
       },
       setVal: function(values){
         if(values == null || values == false) return true;
-        var _shows = [];
-        Object.keys(values).forEach(function(key){
-          _shows.push(values[key]);
-        });
-        _shows.forEach(function(show){
+        // var _shows = [];
+        // console.log(values);
+        // Object.keys(values).forEach(function(key){
+        //   _shows.push(values[key]);
+        // });
+        //         console.log(_shows);
+        values.forEach(function(show){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
