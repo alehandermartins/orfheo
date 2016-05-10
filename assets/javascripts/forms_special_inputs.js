@@ -432,8 +432,8 @@
     var _inputSpace = $('<select>');
     var _inputDayTime = $('<select>');
 
-    var _dayTime = dayTimeObj['dayTime'];
-    var _dtArray = dayTimeObj['dtArray'];
+    var _dtArray = dayTimeObj.dtArray;
+    var _dayTime = dayTimeObj.dayTime;
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted')
@@ -487,24 +487,39 @@
 
     _createdWidget.append(_inputSpace, _inputDayTime, _addInputButton,_showsAddedContainer);
 
-    _inputSpace.select2({
-        allowClear: true,
-        data: places,
-        multiple:true,
-        maximumSelectionLength: 1,
-        placeholder: 'Espacio'
-    });
+    // _inputSpace.select2({
+    //     allowClear: true,
+    //     data: places,
+    //     multiple:true,
+    //     maximumSelectionLength: 1,
+    //     placeholder: 'Espacio'
+    // });
 
-    _inputDayTime.select2({
-        allowClear: true,
-        data: _dayTime,
-        multiple:true,
-        maximumSelectionLength: 1,
-        placeholder: 'Día y hora'
-    });
+    // _inputDayTime.select2({
+    //     allowClear: true,
+    //     data: _dayTime,
+    //     multiple:true,
+    //     maximumSelectionLength: 1,
+    //     placeholder: 'Día y hora'
+    // });
 
     return {
       render: function(){
+        _inputSpace.select2({
+          allowClear: true,
+          data: places,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Espacio'
+        });
+
+        _inputDayTime.select2({
+          allowClear: true,
+          data: _dayTime,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Día y hora'
+        });
         return _createdWidget;
       },
       getVal: function(){
@@ -541,8 +556,8 @@
     var _inputArtist = $('<select>');
     var _inputDayTime = $('<select>');
 
-    var _dayTime = dayTimeObj['dayTime'];
-    var _dtArray = dayTimeObj['dtArray'];
+    var _dtArray = dayTimeObj.dtArray;
+    var _dayTime = dayTimeObj.dayTime;
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted')
@@ -596,27 +611,25 @@
       }
     });
 
-
     _createdWidget.append(_inputArtist, _inputDayTime, _addInputButton,_showsAddedContainer);
-
-    _inputArtist.select2({
-        allowClear: true,
-        data: artists,
-        multiple:true,
-        maximumSelectionLength: 1,
-        placeholder: 'Artista'
-    });
-
-    _inputDayTime.select2({
-        allowClear: true,
-        data: _dayTime,
-        multiple:true,
-        maximumSelectionLength: 1,
-        placeholder: 'Día y hora'
-    });
 
     return {
       render: function(){
+        _inputArtist.select2({
+          allowClear: true,
+          data: artists,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Artista'
+        });
+
+        _inputDayTime.select2({
+          allowClear: true,
+          data: _dayTime,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Día y hora'
+        });
         return _createdWidget;
       },
       getVal: function(){
