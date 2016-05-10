@@ -57,6 +57,7 @@
     }
   }
 
+
   ns.Widgets.TablePanelContent = function(call){
 
   	var _createdWidget = $('<div>');
@@ -93,6 +94,7 @@
     }
   }
 
+
   ns.Widgets.ProfilesPanelContent = function() {
 
   	var _createdWidget = $('<div>');
@@ -106,23 +108,15 @@
     }
   }
 
+
   ns.Widgets.CallManagerContent = function(selected, proposals){
   	var _createdWidget = $('<div>');
-
-  	var proposalsSelected = [];
-  	proposals.forEach(function(proposal){
-    		if (proposal['type'] == selected) proposalsSelected.push(proposal);
-    	});
 
   	var _fields = {
   		space: ['name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
   		artist: ['name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend']
   	}
 
-  	var _places = [{id:'', text:''}];
-  	proposals.forEach(function(proposal){
-    		if (proposal['type'] == 'space') _places.push({id: proposal['responsible'], text: proposal['responsible']});
-    });
 
     var _checkBoxesBox = $('<div>');
     var _outerTableContainer = $('<div>');
@@ -139,7 +133,7 @@
     		else if (elem[0].getVal()) _columns.push(elem[1]);
     	})
     	if (_columns.length) {
-     		_outerTableContainer.append(Pard.Widgets.CreateTable(_columns,proposalsSelected, _places).render())
+     		_outerTableContainer.append(Pard.Widgets.CreateTable(_columns, proposals, selected).render())
      }
     }
 
@@ -208,9 +202,33 @@
 
 
 
-  ns.Widgets.CreateTable= function(columns, proposalsSelected, places){
+  ns.Widgets.CreateTable = function(columns, proposals, selected){
 
   	var _createdWidget = $('<div>');
+
+  	var _places = [{id:'', text:''}];
+  	proposals.forEach(function(proposal){
+    		if (proposal['type'] == 'space') _places.push({id: proposal['responsible'], text: proposal['responsible']});
+    });
+
+  	var _artists = [];
+  	var _programs = [];
+
+  	proposals.forEach(function(proposal){
+  		if (proposal['type'] == 'artist') {
+  			_artists.push({id: proposal['proposal_id'], text: proposal['title']});
+  			if (proposal['program']){
+	  			proposal['program']['proposal_id'] = proposal['proposal_id'];
+	  			_programs.push(proposal['program']);
+  			}
+  		}
+    });
+
+    var _proposalsSelected = [];
+  	proposals.forEach(function(proposal){
+    		if (proposal['type'] == selected) _proposalsSelected.push(proposal);
+    	});
+
 
   	var _tableBox = $('<div>');
  		_tableBox.addClass('table-box-proposal-manager'); 
@@ -225,7 +243,7 @@
 			});
 	  	var _reordered = [];
 	  	proposalField.forEach(function(value){
-	  		proposalsSelected.forEach(function(proposal){
+	  		_proposalsSelected.forEach(function(proposal){
 		  		if (proposal[field] ==  value && $.inArray(proposal,_reordered)==-1){
 						_reordered.push(proposal);
 					} 
@@ -234,8 +252,7 @@
 			return _reordered;
   	}
 
-
-  	var _printTable = function(proposals){
+  	var _printTable = function(proposalsSelected){
 
   		_tableCreated.empty();
 	  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
@@ -250,7 +267,7 @@
 		  		var _titleCol = $('<td>').append(_titleText);
 		  		var _proposalField = [];
 		  		if (field != 'availability'){
-			  		proposals.forEach(function(proposal){
+			  		proposalsSelected.forEach(function(proposal){
 			  			_proposalField.push(proposal[field]);
 			  		});
 			  		_titleText.click(function(){ 
@@ -269,7 +286,7 @@
 			var dayTimeObj = Pard.Widgets.DayTime();
 			var _submitBtn = Pard.Widgets.Button('Guarda la programación', function(){_sendProgram();});
 
-	  	proposals.forEach(function(proposal){
+	  	proposalsSelected.forEach(function(proposal){
 	  		var _row = $('<tr>');
 	  		columns.forEach(function(field){
 	  			if (field == 'link_orfheo'){
@@ -279,18 +296,29 @@
 	  			}
 	  			else if (field == 'program') {
 	  				var _col = $('<td>');
-	  				var _inputProgram = Pard.Widgets.InputProgram(places, dayTimeObj.render(proposal['availability']));
-	  				var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
-	  				// if (proposal['program']) _showObj['oldProgram'] = proposal['program'];
-	  				_programArray.push(_showObj);
-	  				if (proposal[field]) _inputProgram.setVal(proposal['program']);
-	  				_col.append(_inputProgram.render());
+		  			if (proposal['type'] == 'artist') {
+	  					var _inputProgram = Pard.Widgets.InputArtistProgram(_places, dayTimeObj.render(proposal['availability']));
+	  					var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
+	  					_programArray.push(_showObj);
+	  					if (proposal[field]) _inputProgram.setVal(proposal['program']);
+	  					_col.append(_inputProgram.render());
+	  				}
+	  			  if (proposal['type'] == 'space') {
+	  			  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists,
+	  			  		dayTimeObj.render(proposal['availability']), _programs);
+	  					var _showObj = {place: proposal['responsible'], newProgram: _inputProgram};
+	  					_programArray.push(_showObj);
+	  					var _savedProgram = [];	  					
+	  					_programs.forEach(function(program){
+	  						if (program['place'] == proposal['name']){
+	  							_savedProgram.push({proposal_id: program['proposal_id'], day_time: program['day_time']});
+	  						}
+	  					});
+ 							_inputProgram.setVal(_savedProgram);
+	  					_col.append(_inputProgram.render());
+	  			  }
 	  				_createdWidget.append(_submitBtn.render())
 		  		}
-		  		// else if (field == 'day_time') {
-	  			// 	var _col = $('<td>');
-	  			// 	if (proposal[field]) _col.html('place');
-		  		// }
 	  			else if (proposal[field] && field == 'availability') {
 	  				var _col = $('<td>');
 	  				for (var date in proposal[field]) {
@@ -318,27 +346,58 @@
 	  	})
 	  }
 
-	  _printTable(proposalsSelected);
+	  _printTable(_proposalsSelected);
 
 	  var _sendProgram	= function(){
 	  	var _programData = [];
-	  	_programArray.forEach(function(inputProgram){
-	  		var _modified = inputProgram['newProgram'].modifiedCheck();
-	  		var _showArray = inputProgram['newProgram'].getVal();	
-	  		var _data = {proposal_id: inputProgram['proposalId']};
-	  		var _program = [];
-	  		if (_modified) {
-	  			_showArray.forEach(function(show, index){
-	  				_program.push({
-	  					place: show['place'][0],
-	  				 	day_time: show['day_time']
-	  				});
-	  			})
-	 				_data['program'] = _program;	
-					_programData.push(_data);
-				}
-		  	inputProgram['newProgram'].resetModifiedCheck()
-	  	});
+	  	if (selected == 'artist'){
+	  		_programArray.forEach(function(inputProgram){
+		  		var _modified = inputProgram['newProgram'].modifiedCheck();
+		  		var _showArray = inputProgram['newProgram'].getVal();	
+		  		var _data = {proposal_id: inputProgram['proposalId']};
+		  		var _program = [];
+		  		if (_modified) {
+		  			_showArray.forEach(function(show, index){
+		  				_program.push({
+		  					place: show['place'][0],
+		  				 	day_time: show['day_time']
+		  				});
+		  			})
+		 				_data['program'] = _program;	
+						_programData.push(_data);
+					}
+			  	inputProgram['newProgram'].resetModifiedCheck();
+		  	});
+		  }
+		  if (selected == 'space'){
+	  		_programArray.forEach(function(inputProgram){
+		  		// var _modified = inputProgram['newProgram'].modifiedCheck();
+		  		var _showArray = inputProgram['newProgram'].getVal();	
+		  		var _place = inputProgram['place'];
+		  		// if (_modified) {
+		  			_showArray.forEach(function(show){
+		  				var _check = true;
+				  		var _data = {};
+		  				_programData.some(function(dataSaved){
+		  					if (show['proposal_id'] == dataSaved['proposal_id']){
+		  						dataSaved['program'].push({	place: _place, 	day_time: show['day_time']});
+		  						_check = false;
+		  					}
+		  				});
+		  				if (_check){
+			  				_data['proposal_id'] = show['proposal_id'][0];
+			  				var _program = {
+			  					place: _place,
+			  				 	day_time: show['day_time']
+			  				};		
+				  			_data['program'] = [_program];	
+								_programData.push(_data);
+							}
+		  			})		 				
+					// };
+			  	inputProgram['newProgram'].resetModifiedCheck();
+		  	});
+		  }
   		console.log(_programData);
 	  }
     
