@@ -422,7 +422,7 @@
     }
   }
 
-  ns.Widgets.InputProgram = function(places, dayTimeObj){
+  ns.Widgets.InputArtistProgram = function(places, dayTimeObj){
 
     var _createdWidget = $('<div>'); 
     var _modified = false;
@@ -432,8 +432,8 @@
     var _inputSpace = $('<select>');
     var _inputDayTime = $('<select>');
 
-    var _dayTime = dayTimeObj['dayTime'];
-    var _dtArray = dayTimeObj['dtArray'];
+    var _dtArray = dayTimeObj.dtArray;
+    var _dayTime = dayTimeObj.dayTime;
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted')
@@ -487,24 +487,39 @@
 
     _createdWidget.append(_inputSpace, _inputDayTime, _addInputButton,_showsAddedContainer);
 
-    _inputSpace.select2({
-        allowClear: true,
-        data: places,
-        multiple:true,
-        maximumSelectionLength: 1,
-        placeholder: 'Espacio'
-    });
+    // _inputSpace.select2({
+    //     allowClear: true,
+    //     data: places,
+    //     multiple:true,
+    //     maximumSelectionLength: 1,
+    //     placeholder: 'Espacio'
+    // });
 
-    _inputDayTime.select2({
-        allowClear: true,
-        data: _dayTime,
-        multiple:true,
-        maximumSelectionLength: 1,
-        placeholder: 'Día y hora'
-    });
+    // _inputDayTime.select2({
+    //     allowClear: true,
+    //     data: _dayTime,
+    //     multiple:true,
+    //     maximumSelectionLength: 1,
+    //     placeholder: 'Día y hora'
+    // });
 
     return {
       render: function(){
+        _inputSpace.select2({
+          allowClear: true,
+          data: places,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Espacio'
+        });
+
+        _inputDayTime.select2({
+          allowClear: true,
+          data: _dayTime,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Día y hora'
+        });
         return _createdWidget;
       },
       getVal: function(){
@@ -517,6 +532,116 @@
           _shows.push(values[key]);
         });
         _shows.forEach(function(show, index){
+          _results.push(show);
+          _showsAddedContainer.prepend(_addnewInput(show));
+        });
+      },
+      modifiedCheck: function(){
+        return _modified;
+      },
+      resetModifiedCheck: function(){
+        _modified = false;
+      }
+    }
+  }
+
+
+  ns.Widgets.InputSpaceProgram = function(artists, dayTimeObj, programs){
+
+    var _createdWidget = $('<div>'); 
+    var _modified = false;
+    var _results = [];
+    var _inputs = [];
+    // var _inputSpace = Pard.Widgets.Input('Espacio','text');
+    var _inputArtist = $('<select>');
+    var _inputDayTime = $('<select>');
+
+    var _dtArray = dayTimeObj.dtArray;
+    var _dayTime = dayTimeObj.dayTime;
+
+    var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
+    _addInputButton.addClass('add-input-button-enlighted')
+
+    var _addnewInput = function(showInfo){
+      var _container = $('<div>');
+      var _newInputArtist = Pard.Widgets.Input('Artista','text');
+      var _newInputDayTime = Pard.Widgets.Input('Horario','text');
+      _newInputDayTime.setClass('add-multimedia-input-field');
+      _newInputArtist.setClass('add-multimedia-input-field');
+      artists.some(function(artist){
+        if (artist['id'] == showInfo['proposal_id']) _newInputArtist.setVal(artist['text']);
+      });
+      if (showInfo['day_time'] == 'both') {_newInputDayTime.setVal('A lo largo de los dos días');}
+      else { _newInputDayTime.setVal(moment(showInfo['day_time']).format('dddd, h:mm')+"h")};
+      _newInputArtist.setAttr('disabled', true);
+      _newInputDayTime.setAttr('disabled', true);
+      _inputs.push([_newInputArtist,_newInputDayTime]);
+
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+
+      _container.append(_newInputArtist.render(), _newInputDayTime.render(), _removeInputButton);
+      _removeInputButton.on('click', function(){
+        _modified = true;
+        var _index = _inputs.indexOf([_newInputArtist,_newInputDayTime]);
+        _inputs.splice(_index, 1);
+        _results.splice(_index, 1);
+        _container.empty();
+      });
+      return _container;
+    }
+    
+    var _showsAddedContainer = $('<div>');
+
+    _addInputButton.on('click', function(){
+      _modified = true;
+      if (_inputArtist.val() && _inputDayTime.val()){
+        if (_inputDayTime.val() == 'both'){
+        var _show = {proposal_id: _inputArtist.val(), day_time: _dtArray[_inputDayTime.val()]}}
+        else {
+        var _show = {proposal_id: _inputArtist.val(), day_time: _dtArray[_inputDayTime.val()]};
+        }
+        _showsAddedContainer.prepend(_addnewInput(_show));
+        _inputArtist.select2('val', '');
+        _inputDayTime.select2('val', '');
+        _results.push(_show);
+      }
+      else{
+        if (!(_inputArtist.val())) {_inputArtist.addClass('warning');}
+        else if (!(_inputDayTime.val())) {_inputDayTime.addClass('warning');}
+      }
+    });
+
+    _createdWidget.append(_inputArtist, _inputDayTime, _addInputButton,_showsAddedContainer);
+
+    return {
+      render: function(){
+        _inputArtist.select2({
+          allowClear: true,
+          data: artists,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Artista'
+        });
+
+        _inputDayTime.select2({
+          allowClear: true,
+          data: _dayTime,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Día y hora'
+        });
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _results;
+      },
+      setVal: function(values){
+        if(values == null || values == false) return true;
+        var _shows = [];
+        Object.keys(values).forEach(function(key){
+          _shows.push(values[key]);
+        });
+        _shows.forEach(function(show){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
