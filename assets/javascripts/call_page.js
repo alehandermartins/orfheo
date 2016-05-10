@@ -445,26 +445,36 @@
   		_programArray.forEach(function(inputProgram){
 	  		// var _modified = inputProgram['newProgram'].modifiedCheck();
 	  		var _showArray = inputProgram['newProgram'].getVal();	
+		  		console.log(_showArray);
 	  		var _place = inputProgram['place'];
   			_showArray.forEach(function(show){
   				var _check = true;
 		  		var _data = {};
   				_programData.some(function(dataSaved){
-  					if (show['proposal_id'] == dataSaved['proposal_id']){
-  						dataSaved['program'].push({	place: _place, 	day_time: show['day_time']});
-  						_check = false;
+  					if (dataSaved['proposal_id'] == show['proposal_id']){
+  					// 	if (show['day_time'] == false) {
+  					// 		dataSaved['program'].push(),
+  					// 		_check = false;
+  					// 	}
+  					// 	else{	
+  							dataSaved['program'].push({	place: _place, 	day_time: show['day_time']});
+  							_check = false;
+  						// }
   						return true;
   					}
   				});
-  				if (_check){
-	  				_data['proposal_id'] = show['proposal_id'][0];
+  				if (_check && show['day_time']){
+	  				_data['proposal_id'] = show['proposal_id'];
 	  				var _program = {
 	  					place: _place,
 	  				 	day_time: show['day_time']
-	  				};		
-		  			_data['program'] = [_program];	
-						_programData.push(_data);
-					}
+	  				}
+	  				_data['program'] = [_program];
+	  			}else{
+	  				_data['proposal_id'] = show['proposal_id'];
+	  				_data['program'] = [];
+	  			}	  				
+					 _programData.push(_data);
   			});			
 		  	inputProgram['newProgram'].resetModifiedCheck();
 	  	});
@@ -478,6 +488,8 @@
 
 		var _programSaved = _programsFunc[selected](_programArray);
 
+		console.log(_programSaved);
+
 		Pard.Backend.program('conFusion', _programSaved, function(){
        });
 
@@ -487,7 +499,8 @@
   ns.Widgets.DayTime = function(){
 
     var _sat = [];
-    var _sun = [];
+    var _onlySun = [];
+    var _sunAfterSat = [];
 
     var _sat10am = new Date (2016,9,15,10,00,00,0);
     var _sat2345pm = new Date (2016,9,15,23,45,00,0);
@@ -507,30 +520,42 @@
     }
 
     while(_sunArray[_sunArray.length -1].getTime() != _sun2345pm.getTime()){
-      _sun.push({id:_sunArray.length, text:moment(_sunArray[_sunArray.length -1]).format('dddd, h:mm')+"h"});
+      _onlySun.push({id:_sunArray.length, text:moment(_sunArray[_sunArray.length -1]).format('dddd, h:mm')+"h"});
+      _sunAfterSat.push({id:_sunArray.length + _satArray.length, text:moment(_sunArray[_sunArray.length -1]).format('dddd, h:mm')+"h"});
       _sunArray.push(addMinutes(_sunArray[_sunArray.length -1], 15));
     }
 
     return {
       render: function(availability){
-      	    var _dayTime = [{id: '',text: ''},{id: 0, text: 'A lo largo de los dos dias'}];
-    var _dtArray = ['both'];
-      	for (var day in availability){     
-          switch(availability[day]) {
+  	    var _dayTime = [{id: '',text: ''},{id: 0, text: 'A lo largo de los dos dias'}];
+		    var _dtArray = ['both'];
+		    var _length = 0;
+      	for (var day in availability){
+      		_length = _length + 1; 
+      	}
+      	if (_length == 1){     
+          switch(availability[0]) {
             case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':  
               _dtArray = _dtArray.concat(_satArray);
               _dayTime = _dayTime.concat(_sat);
             break;
             case 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)':
               _dtArray = _dtArray.concat(_sunArray);
-              _dayTime = _dayTime.concat(_sun);
+              _dayTime = _dayTime.concat(_onlySun);
             break;
           }
+        }else{
+        	_dtArray = _dtArray.concat(_satArray);
+        	_dtArray = _dtArray.concat(_sunArray);
+          _dayTime = _dayTime.concat(_sat);
+          _dayTime = _dayTime.concat(_sunAfterSat);          
         }
+
         var _dayTimeObj = {
         	dtArray: _dtArray,
         	dayTime: _dayTime
         }  
+
       	return _dayTimeObj;
       }
 	  }
