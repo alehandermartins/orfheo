@@ -42,7 +42,6 @@ class SearchController < BaseController
       query_profile(profile, tags)
     }
   end
-
   
   def query_profile profile, tags
     tags.all?{ |tag|
@@ -164,6 +163,10 @@ class SearchController < BaseController
     sorted_results.push(results.select{ |result| result[:type] == 'name'})
     sorted_results.push(results.select{ |result| result[:type] == 'title'})
     sorted_results.flatten
+  end
+
+  def type? text
+    ['artista', 'espacio'].include? text
   end
 
   def translate text
