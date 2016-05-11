@@ -11,3 +11,4 @@
 //= require jquery.datepick-es
 //= require select2.min
 //= require moment-with-locales
+//= require spectrum

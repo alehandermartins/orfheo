@@ -32,10 +32,10 @@
 
     _form['color'] = {
       label: Pard.Widgets.InputLabel('Escoge un color'),
-      input: Pard.Widgets.Input('', 'color'),
+      input: Pard.Widgets.InputColor(),
       helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
     };
-    _form['color'].input.setClass('color-input');
+    // _form['color'].input.setClass('color-input');
    
 
     var _requiredFields = ['name', 'city', 'zip_code', 'color'];
@@ -90,10 +90,10 @@
 
     _form['color'] = {
       label: Pard.Widgets.InputLabel('Escoge un color'),
-      input: Pard.Widgets.Input('', 'color'),
+      input: Pard.Widgets.InputColor(),
       helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
     };
-    _form['color'].input.setClass('color-input');
+    // _form['color'].input.setClass('color-input');
    
     var _requiredFields = ['name', 'address', 'category', 'color','links'];
 

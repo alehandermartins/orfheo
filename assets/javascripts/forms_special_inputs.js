@@ -78,6 +78,40 @@
     }
   }
 
+  ns.Widgets.InputColor = function(){
+
+    var _createdWidget = $('<div>');
+
+    var _colorPicker = $('<input>').attr({'type': 'text', 'value': '#000'});
+
+    _createdWidget.append(_colorPicker);
+
+   return{
+      render: function(){
+        _colorPicker.spectrum({
+        chooseText: "OK",
+        cancelText: "cancel",
+        preferredFormat: "hex",
+      });
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _colorPicker.val(); 
+      },
+      setVal: function(colorPicked){
+        _colorPicker.val(colorPicked);
+      },
+      addWarning: function(){
+        _colorPicker.addClass('warning');
+      },
+      removeWarning: function(){
+        _colorPicker.removeClass('warning');
+      },
+      setClass: function(_class){
+        _colorPicker.addClass(_class);
+      }
+    }
+  }
 
 
   ns.Widgets.InputAddressSpace = function(label){
