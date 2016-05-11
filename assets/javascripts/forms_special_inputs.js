@@ -462,7 +462,6 @@
     var _modified = false;
     var _results = [];
     var _inputs = [];
-    // var _inputSpace = Pard.Widgets.Input('Espacio','text');
     var _inputSpace = $('<select>');
     var _inputDayTime = $('<select>');
 
@@ -470,13 +469,12 @@
     var _dayTime = dayTimeObj.dayTime;
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
-    _addInputButton.addClass('add-input-button-enlighted')
+    _addInputButton.addClass('add-input-button-enlighted');
 
     var _addnewInput = function(showInfo){
       var _container = $('<div>');
       var _newInputSpace = Pard.Widgets.Selector([showInfo['place']], [showInfo['place']]);   
       var _newInputDayTime; 
-
       if (showInfo['day_time'] == 'both') {
         _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
       }else { 
@@ -499,6 +497,7 @@
         _inputs.splice(_index, 1);
         _results.splice(_index, 1);
         _container.empty();
+        $('#succes-box-call-manager').empty();
       });
       return _container;
     }
@@ -509,14 +508,16 @@
       _modified = true;
       if (_inputSpace.val() && _inputDayTime.val()){
         if (_inputDayTime.val() == 'both'){
-        var _show = {place: _inputSpace.val(), day_time: _dtArray[_inputDayTime.val()]}}
+        var _show = {place: _inputSpace.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]}}
         else {
-        var _show = {place: _inputSpace.val(), day_time: _dtArray[_inputDayTime.val()]};
+        var _show = {place: _inputSpace.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]};
         }
         _showsAddedContainer.prepend(_addnewInput(_show));
         _inputSpace.select2('val', '');
         _inputDayTime.select2('val', '');
         _results.push(_show);
+         $('#succes-box-call-manager').empty();
+
       }
       else{
         if (!(_inputSpace.val())) {_inputSpace.addClass('warning');}
@@ -602,13 +603,23 @@
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
       _container.append(_newInputArtist.render(), _newInputDayTime.render(), _removeInputButton);
+
       _removeInputButton.on('click', function(){
         var _index = _inputs.indexOf([_newInputArtist,_newInputDayTime]);
         var _show = {proposal_id: _newInputArtist.getVal(), day_time: false};
         _inputs.splice(_index, 1);
-        _results.splice(_index, 1);
-        _results.push(_show);
+       
+        var _indexR = -1;
+        _results.some(function(result, index){
+          if(result.proposal_id == _newInputArtist.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
+            _indexR = index;
+        });
+        
+        if (_indexR > -1){ _results.splice(_indexR, 1);}
+        else{ _results.push(_show); }
+
         _container.empty();
+        $('#succes-box-call-manager').empty();
       });
       return _container;
     }
@@ -617,15 +628,12 @@
 
     _addInputButton.on('click', function(){
       if (_inputArtist.val() && _inputDayTime.val()){
-        if (_inputDayTime.val() == 'both'){
-        var _show = {proposal_id: _inputArtist.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]}}
-        else {
         var _show = {proposal_id: _inputArtist.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]};
-        }
         _showsAddedContainer.prepend(_addnewInput(_show));
         _inputArtist.select2('val', '');
         _inputDayTime.select2('val', '');
         _results.push(_show);
+        $('#succes-box-call-manager').empty();
       }
       else{
         if (!(_inputArtist.val())) {_inputArtist.addClass('warning');}

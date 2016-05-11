@@ -1,7 +1,7 @@
 'use strict';
 
 (function(ns){
-
+ 
 
   ns.Widgets.CallMainLayout = function(call){
   	var _main = $('<main>').addClass('main-call-page');
@@ -311,7 +311,7 @@
 								});
 								_inputProgram.setVal(_savedProgram);
 						  }
-						_col.append(_inputProgram.render());	 
+						_col.append(_inputProgram.render());
 	 				}
 	  			else if (proposal[field] && field == 'availability') {
 	  				var _col = $('<td>');
@@ -423,7 +423,7 @@
 	  		if (_modified) {
 	  			_showArray.forEach(function(show, index){
 	  				_program.push({
-	  					place: show['place'][0],
+	  					place: show['place'],
 	  				 	day_time: show['day_time']
 	  				});
 	  			});
@@ -441,11 +441,11 @@
   		_programArray.forEach(function(inputProgram){
 	  		// var _modified = inputProgram['newProgram'].modifiedCheck();
 	  		var _showArray = inputProgram['newProgram'].getVal();	
-		  		console.log(_showArray);
 	  		var _place = inputProgram['place'];
   			_showArray.forEach(function(show){
   				var _check = true;
 		  		var _data = {};
+			  		console.log(_showArray);
   				_programData.some(function(dataSaved){
   					if (dataSaved['proposal_id'] == show['proposal_id']){
   					// 	if (show['day_time'] == false) {
@@ -466,14 +466,15 @@
 	  				 	day_time: show['day_time']
 	  				}
 	  				_data['program'] = [_program];
-	  			}else{
+	  			}
+	  			else if (_check && !(show['day_time'])){
 	  				_data['proposal_id'] = show['proposal_id'];
 	  				_data['program'] = [];
-	  			}	  				
-					 _programData.push(_data);
+	  			}
+					if (!(jQuery.isEmptyObject(_data))) _programData.push(_data);
   			});			
-		  	inputProgram['newProgram'].resetModifiedCheck();
 	  	});
+	  	console.log(_programData);
 	  	return _programData;
 	  }
 
@@ -485,6 +486,7 @@
 		var _programSaved = _programsFunc[selected](_programArray);
 
 		Pard.Backend.program('conFusion', _programSaved, Pard.Events.SaveProgram);
+
 		Pard.ProposalsManager.modifyProposals(_programSaved);
 		Pard.Widgets.CreateTable(columns, selected);	
 
