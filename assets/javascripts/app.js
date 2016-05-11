@@ -2,7 +2,8 @@
 
 Pard.CachedProfiles = [];
 Pard.UserStatus = {};
-
+Pard.CachedProposals = [];
+ 
 Pard.ProfileManager = {
   getProfile: function(profile_id){
     var profiles = Pard.CachedProfiles;
@@ -51,6 +52,19 @@ Pard.ProfileManager = {
         });
       }
     });
+  }
+}
+
+Pard.ProposalsManager = {
+  modifyProposals: function(programs){
+    programs.forEach(function(program){
+      Pard.CachedProposals.some(function(proposal){
+        if(proposal['proposal_id'] == program['proposal_id']){
+            proposal['program'] = program['program'];
+            return true;
+        }
+      });
+    })
   }
 }
 
@@ -155,6 +169,8 @@ Pard.Outsider = function(profiles){
 
 Pard.Call = function(call){
   console.log(call);
+
+  Pard.CachedProposals  = call['proposals'];
 
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());

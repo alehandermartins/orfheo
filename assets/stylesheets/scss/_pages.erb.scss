@@ -1026,5 +1026,15 @@ CALL PAGE
 .tabs-menu{
   margin-top: 2rem;
   margin-bottom : 2rem;
+}
 
+.success-icon-check-call-manager{
+  color: $green-pard;
+  font-size: 2.5rem;
+  vertical-align: middle;
+}
+
+.success-check-call-manager{
+  color: $green-pard;
+  display: inline-block;
 }

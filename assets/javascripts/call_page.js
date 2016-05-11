@@ -74,7 +74,7 @@
     var _selectorCallback = function(){
     	_contentBox.empty();
     	var _selected = $(this).val();
-    	_contentBox.append(Pard.Widgets.CallManagerContent(_selected,  call['proposals']).render());
+    	_contentBox.append(Pard.Widgets.CallManagerContent(_selected).render());
     }
 
     var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render().addClass('types-selector-call-manager')
@@ -109,7 +109,7 @@
   }
 
 
-  ns.Widgets.CallManagerContent = function(selected, proposals){
+  ns.Widgets.CallManagerContent = function(selected){
   	var _createdWidget = $('<div>');
 
   	var _fields = {
@@ -133,7 +133,7 @@
     		else if (elem[0].getVal()) _columns.push(elem[1]);
     	})
     	if (_columns.length) {
-     		_outerTableContainer.append(Pard.Widgets.CreateTable(_columns, proposals, selected).render())
+     		_outerTableContainer.append(Pard.Widgets.CreateTable(_columns, selected).render())
      }
     }
 
@@ -199,7 +199,9 @@
   }
 
 
-  ns.Widgets.CreateTable = function(columns, proposals, selected){
+  ns.Widgets.CreateTable = function(columns, selected){
+
+  	var proposals = Pard.CachedProposals;
 
   	var _createdWidget = $('<div>');
   	var _searchTags = [{id:'', text:''}];
@@ -242,123 +244,117 @@
    	var _tableCreated = $('<table>').addClass('table-proposal');
 
    	var _submitBtnContainer = $('<div>');
+   	var _successBox = $('<span>').attr('id','succes-box-call-manager');
 
    	var _searchInput = $('<select>');
 
    	var _printTable = function(proposalsSelected) {
-   	_tableCreated.empty();
-  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
-  	columns.forEach(function(field){
-  		if (field == 'link_orfheo'){
-  		var _titleText = $('<span>').html('rfh');
-  		var _titleCol = $('<td>').append(_titleText);
-  		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
-  		}
-  		else{
-	  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
+	   	_tableCreated.empty();
+	  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
+	  	columns.forEach(function(field){
+	  		if (field == 'link_orfheo'){
+	  		var _titleText = $('<span>').html('rfh');
 	  		var _titleCol = $('<td>').append(_titleText);
-	  		var _proposalField = [];
-	  		if (field != 'availability'){
-		  		proposalsSelected.forEach(function(proposal){
-		  			_proposalField.push(proposal[field]);
-		  		});
-		  		_titleText.click(function(){ 
-		  			var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
-		  			_printTable(_proposalsReordered);
-
-		  			// $('#table-box-proposal-manager').empty();
-		  			// $('#table-box-proposal-manager').append(Pard.Widgets.PrintTable(_proposalsReordered, columns, _artists, _programs, _places,  dayTimeObj).render());
-		  		});
-		  		_titleText.addClass('title-colText-call-manager');
-		  		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
+	  		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
+	  		}
+	  		else{
+		  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
+		  		var _titleCol = $('<td>').append(_titleText);
+		  		var _proposalField = [];
+		  		if (field != 'availability'){
+			  		proposalsSelected.forEach(function(proposal){
+			  			_proposalField.push(proposal[field]);
+			  		});
+			  		_titleText.click(function(){ 
+			  			var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
+			  			_printTable(_proposalsReordered);
+			  		});
+			  		_titleText.addClass('title-colText-call-manager');
+			  		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
+			  	}
 		  	}
-	  	}
-  		_titleRow.append(_titleCol);
-  	});
+	  		_titleRow.append(_titleCol);
+	  	});
 
-  	_tableCreated.append(_titleRow);
+	  	_tableCreated.append(_titleRow);
 
-  	var _programArray = [];
+	  	var _programArray = [];
 
-  	proposalsSelected.forEach(function(proposal){
-  		var _row = $('<tr>');
-  		columns.forEach(function(field){
-  			if (field == 'link_orfheo'){
-  				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
-  				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
-  				var _col = $('<td>').append(_icon);
-  			}
-  			else if (field == 'program') {
-  				var _col = $('<td>');
-  				  if (proposal['type'] == 'artist') {
-							var _inputProgram = Pard.Widgets.InputArtistProgram(_places, dayTimeObj.render(proposal['availability']));
-							// _inputProgram.setDayTime(proposal['availability']);
-							var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
-							_programArray.push(_showObj);
-							if (proposal['program']) _inputProgram.setVal(proposal['program']);
-						}
-					  if (proposal['type'] == 'space') {
-					  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-							var _showObj = {place: proposal['name'], newProgram: _inputProgram};
-							_programArray.push(_showObj);
-							var _savedProgram = [];	  					
-							_programs.forEach(function(program){
-								for (var key in program){
-									if (program[key]['place'] == proposal['name']){
-										_savedProgram.push({proposal_id: program['proposal_id'], day_time: program[key]['day_time']});
+	  	proposalsSelected.forEach(function(proposal){
+	  		var _row = $('<tr>');
+	  		columns.forEach(function(field){
+	  			if (field == 'link_orfheo'){
+	  				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
+	  				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
+	  				var _col = $('<td>').append(_icon);
+	  			}
+	  			else if (field == 'program') {
+	  				var _col = $('<td>');
+	  				  if (proposal['type'] == 'artist') {
+								var _inputProgram = Pard.Widgets.InputArtistProgram(_places, dayTimeObj.render(proposal['availability']));
+								// _inputProgram.setDayTime(proposal['availability']);
+								var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
+								_programArray.push(_showObj);
+								if (proposal['program']) _inputProgram.setVal(proposal['program']);
+							}
+						  if (proposal['type'] == 'space') {
+						  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
+								var _showObj = {place: proposal['name'], newProgram: _inputProgram};
+								_programArray.push(_showObj);
+								var _savedProgram = [];	  					
+								_programs.forEach(function(program){
+									for (var key in program){
+										if (program[key]['place'] == proposal['name']){
+											_savedProgram.push({proposal_id: program['proposal_id'], day_time: program[key]['day_time']});
+										}
 									}
-								}
-							});
-							_inputProgram.setVal(_savedProgram);
-					  }
-					_col.append(_inputProgram.render());	 
- 				}
-  			else if (proposal[field] && field == 'availability') {
-  				var _col = $('<td>');
-  				for (var date in proposal[field]) {
-	  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
-  				}
-  			}
-  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
-  				if (proposal[field] == 'true') {var _col = $('<td>').html('Sí');}
-  				else if (proposal[field] == 'false') { var _col = $('<td>').html('No');}
-  				else { var _col = $('<td>').html(proposal[field]);}
-  			}
-  			else	if (proposal[field] && field == 'category'){
-  				var _col = $('<td>').html(Pard.Widgets.Dictionary(proposal[field]).render());
-  			}
-  			else	if (proposal[field]) {
-  				var _col = $('<td>').html(proposal[field]);
-  			}
-  			else{
-  				var _col = $('<td>').html('');
-  			}
-  			_row.append(_col);
-  		});
-  		_tableCreated.append(_row);
-  	})
+								});
+								_inputProgram.setVal(_savedProgram);
+						  }
+						_col.append(_inputProgram.render());	 
+	 				}
+	  			else if (proposal[field] && field == 'availability') {
+	  				var _col = $('<td>');
+	  				for (var date in proposal[field]) {
+		  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
+	  				}
+	  			}
+	  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
+	  				if (proposal[field] == 'true') {var _col = $('<td>').html('Sí');}
+	  				else if (proposal[field] == 'false') { var _col = $('<td>').html('No');}
+	  				else { var _col = $('<td>').html(proposal[field]);}
+	  			}
+	  			else	if (proposal[field] && field == 'category'){
+	  				var _col = $('<td>').html(Pard.Widgets.Dictionary(proposal[field]).render());
+	  			}
+	  			else	if (proposal[field]) {
+	  				var _col = $('<td>').html(proposal[field]);
+	  			}
+	  			else{
+	  				var _col = $('<td>').html('');
+	  			}
+	  			_row.append(_col);
+	  		});
+	  		_tableCreated.append(_row);
+	  	})
 	  	if ($.inArray('program', columns) >-1) {
 	  		_submitBtnContainer.empty()
-	 			var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){Pard.Widgets.SendProgram(_programArray, selected);});
-	 			_submitBtnContainer.append(_submitBtn.render());
+	 			var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){Pard.Widgets.SendProgram(_programArray, selected, columns);});
+	 			_submitBtnContainer.append(_successBox, _submitBtn.render());
 	 		}
-
-  	}
+	  }
 
   	_printTable(_proposalsSelected);
     
     _createdWidget.append(_searchInput, _tableBox.append(_tableCreated), _submitBtnContainer);
 
     _searchInput.select2({
-        // allowClear: true,
         data: _searchTags,
         multiple:true,
         placeholder: 'Busca',
         tags: true,
         tokenSeparators: [',', ' '],   
       });
-
-    // var _proposalsSearched = [];
 
     _searchInput.on('change', function() {
       var _searchTerms = $(this).val();
@@ -414,7 +410,7 @@
 	}
 
 
-  ns.Widgets.SendProgram = function (_programArray, selected) {
+  ns.Widgets.SendProgram = function (_programArray, selected, columns) {
 
   	var _programData = [];
 
@@ -488,10 +484,9 @@
 
 		var _programSaved = _programsFunc[selected](_programArray);
 
-		console.log(_programSaved);
-
-		Pard.Backend.program('conFusion', _programSaved, function(){
-       });
+		Pard.Backend.program('conFusion', _programSaved, Pard.Events.SaveProgram);
+		Pard.ProposalsManager.modifyProposals(_programSaved);
+		Pard.Widgets.CreateTable(columns, selected);	
 
   }
   

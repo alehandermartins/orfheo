@@ -32,6 +32,7 @@
       duration: {icon: '&#xE425;', className: 'material-icons'},
       multimedia: {icon: '&#xE6C4;', className: 'material-icons'},
       flag: {icon: '&#xE153;', className: 'material-icons'},
+      done: {icon: '&#xE876;', className: 'material-icons'},
       
       open_call: {icon:'', className: 'fa fa-bullhorn'},
 
