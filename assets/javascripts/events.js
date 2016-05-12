@@ -1,6 +1,6 @@
 'use strict';
 (function(ns){
-
+ 
   ns.Events = ns.Events || {};
 
   ns.Events.Register = function(data){
@@ -229,6 +229,13 @@
     // }
   }
 
+  ns.Events.SaveProgram = function(data){
+    $('#succes-box-call-manager').empty();
+    if(data['status'] == 'success') $('#succes-box-call-manager').append($('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
+    else{
+      $('#succes-box-call-manager').append($('<span>').text('¡Error! No se ha podido guardar los datos').css('color','red'))
+    }  
+  }
 
 }(Pard || {}));
   

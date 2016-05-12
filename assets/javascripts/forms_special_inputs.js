@@ -78,6 +78,40 @@
     }
   }
 
+  ns.Widgets.InputColor = function(){
+
+    var _createdWidget = $('<div>');
+
+    var _colorPicker = $('<input>').attr({'type': 'text', 'value': '#000'});
+
+    _createdWidget.append(_colorPicker);
+
+   return{
+      render: function(){
+        _colorPicker.spectrum({
+        chooseText: "OK",
+        cancelText: "cancel",
+        preferredFormat: "hex",
+      });
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _colorPicker.val(); 
+      },
+      setVal: function(colorPicked){
+        _colorPicker.val(colorPicked);
+      },
+      addWarning: function(){
+        _colorPicker.addClass('warning');
+      },
+      removeWarning: function(){
+        _colorPicker.removeClass('warning');
+      },
+      setClass: function(_class){
+        _colorPicker.addClass(_class);
+      }
+    }
+  }
 
 
   ns.Widgets.InputAddressSpace = function(label){
@@ -428,7 +462,6 @@
     var _modified = false;
     var _results = [];
     var _inputs = [];
-    // var _inputSpace = Pard.Widgets.Input('Espacio','text');
     var _inputSpace = $('<select>');
     var _inputDayTime = $('<select>');
 
@@ -436,19 +469,23 @@
     var _dayTime = dayTimeObj.dayTime;
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
-    _addInputButton.addClass('add-input-button-enlighted')
+    _addInputButton.addClass('add-input-button-enlighted');
 
     var _addnewInput = function(showInfo){
       var _container = $('<div>');
-      var _newInputSpace = Pard.Widgets.Input('Espacio','text');
-      var _newInputDayTime = Pard.Widgets.Input('Horario','text');
-      _newInputDayTime.setClass('add-multimedia-input-field');
+      var _newInputSpace = Pard.Widgets.Selector([showInfo['place']], [showInfo['place']]);   
+      var _newInputDayTime; 
+      if (showInfo['day_time'] == 'both') {
+        _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
+      }else { 
+        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
+      };
+
       _newInputSpace.setClass('add-multimedia-input-field');
-      _newInputSpace.setVal(showInfo['place']);
-      if (showInfo['day_time'] == 'both') {_newInputDayTime.setVal('A lo largo de los dos días');}
-      else { _newInputDayTime.setVal(moment(showInfo['day_time']).format('dddd, h:mm')+"h")};
-      _newInputSpace.setAttr('disabled', true);
-      _newInputDayTime.setAttr('disabled', true);
+      _newInputDayTime.setClass('add-multimedia-input-field');
+      _newInputSpace.disable();
+      _newInputDayTime.disable();
+
       _inputs.push([_newInputSpace,_newInputDayTime]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
@@ -458,8 +495,15 @@
         _modified = true;
         var _index = _inputs.indexOf([_newInputSpace,_newInputDayTime]);
         _inputs.splice(_index, 1);
-        _results.splice(_index, 1);
+
+        var _indexR = -1;
+        _results.some(function(result, index){
+          if(result.place == _newInputSpace.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
+            _indexR = index;
+        });     
+        if (_indexR > -1){ _results.splice(_indexR, 1);}
         _container.empty();
+        $('#succes-box-call-manager').empty();
       });
       return _container;
     }
@@ -470,14 +514,16 @@
       _modified = true;
       if (_inputSpace.val() && _inputDayTime.val()){
         if (_inputDayTime.val() == 'both'){
-        var _show = {place: _inputSpace.val(), day_time: _dtArray[_inputDayTime.val()]}}
+        var _show = {place: _inputSpace.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]}}
         else {
-        var _show = {place: _inputSpace.val(), day_time: _dtArray[_inputDayTime.val()]};
+        var _show = {place: _inputSpace.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]};
         }
         _showsAddedContainer.prepend(_addnewInput(_show));
         _inputSpace.select2('val', '');
         _inputDayTime.select2('val', '');
         _results.push(_show);
+         $('#succes-box-call-manager').empty();
+
       }
       else{
         if (!(_inputSpace.val())) {_inputSpace.addClass('warning');}
@@ -487,26 +533,9 @@
 
     _createdWidget.append(_inputSpace, _inputDayTime, _addInputButton,_showsAddedContainer);
 
-    // _inputSpace.select2({
-    //     allowClear: true,
-    //     data: places,
-    //     multiple:true,
-    //     maximumSelectionLength: 1,
-    //     placeholder: 'Espacio'
-    // });
-
-    // _inputDayTime.select2({
-    //     allowClear: true,
-    //     data: _dayTime,
-    //     multiple:true,
-    //     maximumSelectionLength: 1,
-    //     placeholder: 'Día y hora'
-    // });
-
     return {
       render: function(){
         _inputSpace.select2({
-          // allowClear: true,
           data: places,
           multiple:true,
           maximumSelectionLength: 1,
@@ -514,7 +543,6 @@
         });
 
         _inputDayTime.select2({
-          // allowClear: true,
           data: _dayTime,
           multiple:true,
           maximumSelectionLength: 1,
@@ -527,11 +555,21 @@
       },
       setVal: function(values){
         if(values == null || values == false) return true;
-        var _shows = [];
-        Object.keys(values).forEach(function(key){
-          _shows.push(values[key]);
+        var _index = [];
+        var _bothVal = [];
+        values.forEach(function(val, index){
+          if (val.day_time == 'both'){
+            _index.unshift(index);
+            _bothVal.push(val);
+          }
+        })
+
+        if (_index.length) _index.forEach(function(_ind){
+          values.splice(_ind, 1)
         });
-        _shows.forEach(function(show, index){
+        values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
+        if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
+        values.forEach(function(show, index){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
@@ -549,10 +587,8 @@
   ns.Widgets.InputSpaceProgram = function(artists, dayTimeObj, programs){
 
     var _createdWidget = $('<div>'); 
-    var _modified = false;
     var _results = [];
     var _inputs = [];
-    // var _inputSpace = Pard.Widgets.Input('Espacio','text');
     var _inputArtist = $('<select>');
     var _inputDayTime = $('<select>');
 
@@ -564,28 +600,46 @@
 
     var _addnewInput = function(showInfo){
       var _container = $('<div>');
-      var _newInputArtist = Pard.Widgets.Input('Artista','text');
-      var _newInputDayTime = Pard.Widgets.Input('Horario','text');
-      _newInputDayTime.setClass('add-multimedia-input-field');
-      _newInputArtist.setClass('add-multimedia-input-field');
+      var _newInputArtist;
+      var _newInputDayTime;
+
       artists.some(function(artist){
-        if (artist['id'] == showInfo['proposal_id']) _newInputArtist.setVal(artist['text']);
+        if (artist['id'] == showInfo['proposal_id']){ 
+           _newInputArtist = Pard.Widgets.Selector([artist['text']],[artist['id']]);
+           return true;
+        }    
       });
-      if (showInfo['day_time'] == 'both') {_newInputDayTime.setVal('A lo largo de los dos días');}
-      else { _newInputDayTime.setVal(moment(showInfo['day_time']).format('dddd, h:mm')+"h")};
-      _newInputArtist.setAttr('disabled', true);
-      _newInputDayTime.setAttr('disabled', true);
+      if (showInfo['day_time'] == 'both') {
+        _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
+      }else { 
+        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
+      };
+      _newInputArtist.setClass('add-multimedia-input-field');
+      _newInputDayTime.setClass('add-multimedia-input-field');
+      _newInputArtist.disable();
+      _newInputDayTime.disable();
       _inputs.push([_newInputArtist,_newInputDayTime]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
       _container.append(_newInputArtist.render(), _newInputDayTime.render(), _removeInputButton);
+
       _removeInputButton.on('click', function(){
-        _modified = true;
         var _index = _inputs.indexOf([_newInputArtist,_newInputDayTime]);
+        var _show = {proposal_id: _newInputArtist.getVal(), day_time: false};
         _inputs.splice(_index, 1);
-        _results.splice(_index, 1);
+       
+        var _indexR = -1;
+        _results.some(function(result, index){
+          if(result.proposal_id == _newInputArtist.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
+            _indexR = index;
+        });
+        
+        if (_indexR > -1){ _results.splice(_indexR, 1);}
+        else{ _results.push(_show); }
+
         _container.empty();
+        $('#succes-box-call-manager').empty();
       });
       return _container;
     }
@@ -593,17 +647,13 @@
     var _showsAddedContainer = $('<div>');
 
     _addInputButton.on('click', function(){
-      _modified = true;
       if (_inputArtist.val() && _inputDayTime.val()){
-        if (_inputDayTime.val() == 'both'){
-        var _show = {proposal_id: _inputArtist.val(), day_time: _dtArray[_inputDayTime.val()]}}
-        else {
-        var _show = {proposal_id: _inputArtist.val(), day_time: _dtArray[_inputDayTime.val()]};
-        }
+        var _show = {proposal_id: _inputArtist.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]};
         _showsAddedContainer.prepend(_addnewInput(_show));
         _inputArtist.select2('val', '');
         _inputDayTime.select2('val', '');
         _results.push(_show);
+        $('#succes-box-call-manager').empty();
       }
       else{
         if (!(_inputArtist.val())) {_inputArtist.addClass('warning');}
@@ -616,7 +666,6 @@
     return {
       render: function(){
         _inputArtist.select2({
-          // allowClear: true,
           data: artists,
           multiple:true,
           maximumSelectionLength: 1,
@@ -624,7 +673,6 @@
         });
 
         _inputDayTime.select2({
-          // allowClear: true,
           data: _dayTime,
           multiple:true,
           maximumSelectionLength: 1,
@@ -633,22 +681,42 @@
         return _createdWidget;
       },
       getVal: function(){
+        // var _results = [];
+        // _inputs.forEach(function(input){
+        // var _show = {proposal_id: input[0].getVal(), day_time: input[1].getVal()};
+        // _results.push(_show);
+        // });
         return _results;
       },
       setVal: function(values){
         if(values == null || values == false) return true;
-        var _shows = [];
-        Object.keys(values).forEach(function(key){
-          _shows.push(values[key]);
+        var _index = [];
+        var _bothVal = [];
+        values.forEach(function(val, index){
+          if (val.day_time == 'both'){
+            _index.unshift(index);
+            _bothVal.push(val);
+          }
+        })
+
+        if (_index.length) _index.forEach(function(_ind){
+          values.splice(_ind, 1)
         });
-        _shows.forEach(function(show){
+        values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
+        if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
+        values.forEach(function(show, index){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
       },
-      modifiedCheck: function(){
-        return _modified;
-      },
+      // {
+      //   // values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
+      //   if(values == null || values == false) return true;
+      //   values.forEach(function(show){
+      //     _results.push(show);
+      //     _showsAddedContainer.prepend(_addnewInput(show));
+      //   });
+      // },
       resetModifiedCheck: function(){
         _modified = false;
       }

@@ -32,6 +32,7 @@
       duration: {icon: '&#xE425;', className: 'material-icons'},
       multimedia: {icon: '&#xE6C4;', className: 'material-icons'},
       flag: {icon: '&#xE153;', className: 'material-icons'},
+      done: {icon: '&#xE876;', className: 'material-icons'},
       
       open_call: {icon:'', className: 'fa fa-bullhorn'},
 
@@ -96,9 +97,8 @@
       address: 'Dirección',
       own: 'Programación propria',
       un_wanted: 'Preferencias',
-      place: 'Espacio',
-      day_time: 'Horario',
-
+      program: 'Programa',
+      
       already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},
       invalid_parameters: '<div>Los parámetros insertados no son validos!<br/> Por favor, revísalos.</div>',
