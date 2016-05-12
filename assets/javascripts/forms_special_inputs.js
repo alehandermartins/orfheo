@@ -478,7 +478,7 @@
       if (showInfo['day_time'] == 'both') {
         _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
       }else { 
-        _newInputDayTime = Pard.Widgets.Selector([moment(showInfo['day_time']).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
+        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
       };
 
       _newInputSpace.setClass('add-multimedia-input-field');
@@ -495,7 +495,13 @@
         _modified = true;
         var _index = _inputs.indexOf([_newInputSpace,_newInputDayTime]);
         _inputs.splice(_index, 1);
-        _results.splice(_index, 1);
+
+        var _indexR = -1;
+        _results.some(function(result, index){
+          if(result.place == _newInputSpace.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
+            _indexR = index;
+        });     
+        if (_indexR > -1){ _results.splice(_indexR, 1);}
         _container.empty();
         $('#succes-box-call-manager').empty();
       });
@@ -549,6 +555,20 @@
       },
       setVal: function(values){
         if(values == null || values == false) return true;
+        var _index = [];
+        var _bothVal = [];
+        values.forEach(function(val, index){
+          if (val.day_time == 'both'){
+            _index.unshift(index);
+            _bothVal.push(val);
+          }
+        })
+
+        if (_index.length) _index.forEach(function(_ind){
+          values.splice(_ind, 1)
+        });
+        values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
+        if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
         values.forEach(function(show, index){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
@@ -592,7 +612,7 @@
       if (showInfo['day_time'] == 'both') {
         _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
       }else { 
-        _newInputDayTime = Pard.Widgets.Selector([moment(showInfo['day_time']).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
+        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
       };
       _newInputArtist.setClass('add-multimedia-input-field');
       _newInputDayTime.setClass('add-multimedia-input-field');
@@ -670,11 +690,33 @@
       },
       setVal: function(values){
         if(values == null || values == false) return true;
-        values.forEach(function(show){
+        var _index = [];
+        var _bothVal = [];
+        values.forEach(function(val, index){
+          if (val.day_time == 'both'){
+            _index.unshift(index);
+            _bothVal.push(val);
+          }
+        })
+
+        if (_index.length) _index.forEach(function(_ind){
+          values.splice(_ind, 1)
+        });
+        values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
+        if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
+        values.forEach(function(show, index){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
       },
+      // {
+      //   // values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
+      //   if(values == null || values == false) return true;
+      //   values.forEach(function(show){
+      //     _results.push(show);
+      //     _showsAddedContainer.prepend(_addnewInput(show));
+      //   });
+      // },
       resetModifiedCheck: function(){
         _modified = false;
       }

@@ -513,7 +513,7 @@
 
     while(_satArray[_satArray.length -1].getTime() != _sat2345pm.getTime()){
       _sat.push({id:_satArray.length, text:moment(_satArray[_satArray.length -1]).format('dddd, h:mm')+"h"});
-      _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));
+      _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));	
     }
 
     while(_sunArray[_sunArray.length -1].getTime() != _sun2345pm.getTime()){
