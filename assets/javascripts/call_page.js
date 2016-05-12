@@ -157,7 +157,9 @@
     	_printCheckBoxes();
     	var _val = _programCheckBox.getVal()
     	_checkBoxes.forEach(function(elem){
-    		if (elem[1] === 'link_orfheo' || elem[1] === 'name') elem[0].setVal(_val);
+    		['link_orfheo', 'name', 'title'].forEach(function(field){
+    			if (elem[1] == field) elem[0].setVal(_val);
+    		}) 
     })
     	if (_val){
 	    	_checkBoxes.push([true, 'program']);
@@ -214,7 +216,8 @@
   	proposals.forEach(function(proposal){
   		if (proposal['type'] == 'space') _places.push({id: proposal['name'], text: proposal['name']});
   		if (proposal['type'] == 'artist') {
-				_artists.push({id: proposal['proposal_id'], text: proposal['name']});
+  			var _text =  proposal['name'] + ' - ' +  proposal['title'];
+				_artists.push({id: proposal['proposal_id'], text: _text});
 				if (proposal['program']){
 	  			proposal['program']['proposal_id'] = proposal['proposal_id'];
 	  			_programs.push(proposal['program']);
@@ -287,6 +290,17 @@
 	  				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
 	  				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
 	  				var _col = $('<td>').append(_icon);
+	  			}
+	  			else if (field == 'name'){
+	  				var _col = $('<td>');
+	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
+	  				var _form;
+	  				if (selected == 'artists') _form = Pard.Forms.ArtistCall(proposal.category);
+	  				else _form = Pard.Forms.SpaceCall();
+
+  				 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
+  				 _col.append(_popup.render());
+
 	  			}
 	  			else if (field == 'program') {
 	  				var _col = $('<td>');
@@ -389,6 +403,19 @@
 	  }
   }
 
+  ns.Widgets.PrintProposalMessage = function(message){
+
+  	var _createdWidget = message.render();
+
+		return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+      }
+	  }
+  }
+
 
   ns.Widgets.Reorder = function(proposalField, field, _proposalsSelected){
   	proposalField.sort(function (a, b) {
@@ -445,7 +472,6 @@
   			_showArray.forEach(function(show){
   				var _check = true;
 		  		var _data = {};
-			  		console.log(_showArray);
   				_programData.some(function(dataSaved){
   					if (dataSaved['proposal_id'] == show['proposal_id']){
   					// 	if (show['day_time'] == false) {
@@ -474,7 +500,6 @@
 					if (!(jQuery.isEmptyObject(_data))) _programData.push(_data);
   			});			
 	  	});
-	  	console.log(_programData);
 	  	return _programData;
 	  }
 

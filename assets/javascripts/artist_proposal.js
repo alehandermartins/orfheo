@@ -218,9 +218,6 @@
     var _form = Pard.Forms.ArtistCall(proposal.category).render();
 
     var _closepopup = {};
-     
-   
-
 
     return {
       render: function(){

@@ -102,7 +102,7 @@
 
     var _image = $('<div>').addClass('orfheo-symbol-popup');
 
-    var _web = $('<p>').text('orfheo.org').addClass('orfeo-web-popup');
+    var _web = $('<p>').text('orfheo.org').addClass('orfheo-web-popup');
 
     var _title = $('<h4>').text('Condiciones generales').addClass('title-project-info');
 
