@@ -97,9 +97,8 @@
       address: 'Dirección',
       own: 'Programación propria',
       un_wanted: 'Preferencias',
-      place: 'Espacio',
-      day_time: 'Horario',
-
+      program: 'Programa',
+      
       already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},
       invalid_parameters: '<div>Los parámetros insertados no son validos!<br/> Por favor, revísalos.</div>',

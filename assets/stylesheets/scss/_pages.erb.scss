@@ -992,14 +992,24 @@ CALL PAGE
 
 #table-box-proposal-manager{
   overflow: auto;
-  max-height: 95vh;
+  max-height: 90vh;
   margin-top: 2rem;
   border: 1px solid $grey-3;
 }
 
 .types-selector-call-manager{
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   // margin-top: 2rem;
+  width: 21rem;
+  display: inline-block;
+  margin-right: 3rem;
+  margin-right: 9rem;
+
+}
+
+.program-all-checkbox-container{
+  // margin-bottom: 1rem;
+  display: inline;
 }
 
 .title-colText-call-manager{
@@ -1038,3 +1048,32 @@ CALL PAGE
   color: $green-pard;
   display: inline-block;
 }
+
+.search-input-call-manager-container{
+  width: 36rem;
+  @include horizontal-center;
+  position: relative;
+  margin-top: 2rem;
+}
+
+.submit-btn-call-manager-container{
+  position:absolute;
+  right: 0;
+  height: 2.5rem;
+}
+
+.submit-btn-outer-container-call-manager{
+  position:relative;
+  display: block;
+  min-height: 3rem;
+  margin: 1rem; 
+}
+
+#succes-box-call-manager{
+  margin-right: 1.5rem;
+  display: inline-block;
+  vertical-align: middle;
+  height: 2.5rem;
+}
+
+

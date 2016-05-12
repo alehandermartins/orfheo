@@ -62,8 +62,10 @@
 
   	var _createdWidget = $('<div>');
 
-  	var _typesSelectorBox = $('<div>');
+  	var _typesSelectorBox = $('<div>').addClass('types-selector-call-manager');
     var _contentBox = $('<div>');
+
+    var _programAllCheckbox = $('<div>');
 
     var _types = ['artist', 'space'];  
     var _labelTypes = [];
@@ -74,18 +76,18 @@
     var _selectorCallback = function(){
     	_contentBox.empty();
     	var _selected = $(this).val();
-    	_contentBox.append(Pard.Widgets.CallManagerContent(_selected).render());
+    	_contentBox.append(Pard.Widgets.CallManagerContent(_selected, _programAllCheckbox).render());
     }
 
-    var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render().addClass('types-selector-call-manager')
+    var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render();
 
     var _preSelected = 'artist';
 
-   	_contentBox.append(Pard.Widgets.CallManagerContent(_preSelected,  call['proposals']).render());
+   	_contentBox.append(Pard.Widgets.CallManagerContent(_preSelected, _programAllCheckbox).render());
 
 		_typesSelectorBox.append(_typesSelector);  
 
-    _createdWidget.append(_typesSelectorBox, _contentBox);
+    _createdWidget.append(_typesSelectorBox, _programAllCheckbox, _contentBox);
 
     return {
       render: function(){
@@ -109,8 +111,10 @@
   }
 
 
-  ns.Widgets.CallManagerContent = function(selected){
+  ns.Widgets.CallManagerContent = function(selected, programAllCheckbox){
   	var _createdWidget = $('<div>');
+
+  	programAllCheckbox.empty();
 
   	var _fields = {
   		space: ['name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
@@ -190,8 +194,10 @@
 	  }
 
 	  _printCheckBoxes();
+
+	  programAllCheckbox.append(_allCheckBoxesRendered, _programCheckBoxRendered).addClass('program-all-checkbox-container'),
   	
-    _createdWidget.append($('<div>').append(_allCheckBoxesRendered, _programCheckBoxRendered).css('margin-bottom','1rem'),_checkBoxesBox, _outerTableContainer);
+    _createdWidget.append(_checkBoxesBox, _outerTableContainer);
 
 		return {
       render: function(){
@@ -246,9 +252,12 @@
 
    	var _tableCreated = $('<table>').addClass('table-proposal');
 
-   	var _submitBtnContainer = $('<div>');
+   	var _submitBtnContainer = $('<div>').addClass('submit-btn-call-manager-container');
+   	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
+   	_submitBtnOuterContainer.append(_submitBtnContainer);
    	var _successBox = $('<span>').attr('id','succes-box-call-manager');
 
+   	var  _searchInputContainer = $('<div>').addClass('search-input-call-manager-container');
    	var _searchInput = $('<select>');
 
    	var _printTable = function(proposalsSelected) {
@@ -256,15 +265,15 @@
 	  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
 	  	columns.forEach(function(field){
 	  		if (field == 'link_orfheo'){
-	  		var _titleText = $('<span>').html('rfh');
-	  		var _titleCol = $('<td>').append(_titleText);
-	  		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
+		  		var _titleText = $('<span>').html('rfh');
+		  		var _titleCol = $('<td>').append(_titleText);
+		  		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
 	  		}
 	  		else{
 		  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
 		  		var _titleCol = $('<td>').append(_titleText);
 		  		var _proposalField = [];
-		  		if (field != 'availability'){
+		  		if (['availability', 'program'].indexOf(field)<0){
 			  		proposalsSelected.forEach(function(proposal){
 			  			_proposalField.push(proposal[field]);
 			  		});
@@ -301,6 +310,18 @@
   				 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
   				 _col.append(_popup.render());
 
+	  			}
+	  			else if (field == 'address'){
+	  				var _col = $('<td>');
+	  				var _fieldFormText = ' '+proposal['address']['route']+' '+proposal['address']['street_number'];
+      			if (proposal['door']) _fieldFormText += ', puerta/piso '+proposal['door'];
+     				_fieldFormText +=', '+proposal['address']['locality'];
+     				var _aStr = proposal['address']['route']+' '+proposal['address']['street_number']+', '+proposal['address']['locality']+' '+proposal['address']['country'];
+	  				var _address = $('<a>').attr({
+				      href: 'http://maps.google.com/maps?q='+_aStr,
+				      target: '_blank'
+				    }).text(_fieldFormText);
+  				 	_col.append(_address);
 	  			}
 	  			else if (field == 'program') {
 	  				var _col = $('<td>');
@@ -360,7 +381,7 @@
 
   	_printTable(_proposalsSelected);
     
-    _createdWidget.append(_searchInput, _tableBox.append(_tableCreated), _submitBtnContainer);
+    _createdWidget.append(_searchInputContainer.append(_searchInput), _tableBox.append(_tableCreated), _submitBtnOuterContainer);
 
     _searchInput.select2({
         data: _searchTags,
