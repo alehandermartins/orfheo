@@ -37,20 +37,12 @@ module Services
         Repos::Calls.get_proposal_owner proposal_id
       end
 
-      def get_proposals_for profile_id
-        Repos::Calls.get_proposals_for profile_id
-      end
-
-      def get_otter_proposals_for profile_id, type
-        Repos::Calls.get_otter_proposals_for profile_id, type
-      end
-
       def amend_proposal proposal_id, amend
         Repos::Calls.amend_proposal proposal_id, amend
       end
 
       def proposals_old_pictures production_id
-        proposals = Repos::Calls.get_proposals_for_production production_id
+        proposals = Repos::Calls.get_proposals(:production_proposals, {production_id: production_id})
         photos = []
         proposals.each{ |proposal|
           photos.push(proposal[:photos])
@@ -59,7 +51,7 @@ module Services
       end
 
       def delete_proposal proposal_id
-        proposal = Repos::Calls.get_proposal proposal_id
+        proposal = Repos::Calls.get_proposals(:proposal, {proposal_id: proposal_id})
         old_pictures = {
           photos: proposal[:photos]
         }
