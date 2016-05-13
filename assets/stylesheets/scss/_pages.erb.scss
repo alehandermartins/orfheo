@@ -995,6 +995,55 @@ CALL PAGE
   max-height: 90vh;
   margin-top: 2rem;
   border: 1px solid $grey-3;
+  table{
+    width: 100%;
+  }
+}
+
+td.column-call-manager-table{
+  min-width: 10rem;
+} 
+
+td.column-call-manager-table.column-link_orfheo{
+      min-width: 2rem;
+}
+
+td.column-call-manager-table.column-description, td.column-call-manager-table.column-needs, td.column-call-manager-table.column-short_description, td.column-call-manager-table.column-own, td.column-call-manager-table.column-un_wanted, td.column-call-manager-table.column-amend, td.column-call-manager-table.column-sharing{
+  min-width: 20rem;
+}
+
+td.column-call-manager-table.column-program{
+  min-width: 29rem;
+}
+
+
+.inputSpace-container, .inputDayTime-container, .inputArtist-container, .add-space-input-field, .add-dayTime-input-field, .add-artist-input-field{
+  display: inline-block;
+  font-size: $almostNormalSize;
+}
+
+.inputArtist-container, .inputSpace-container, .inputDayTime-container{
+  margin-bottom: 0.5rem;
+}
+
+div.inputSpace-container .select2-selection.select2-selection--multiple, div.inputDayTime-container .select2-selection.select2-selection--multiple, div.inputArtist-container .select2-selection.select2-selection--multiple{
+  font-size: 14px;
+}
+
+.add-artist-input-field, .add-space-input-field, .add-dayTime-input-field{
+  margin-bottom: 0.2rem;
+}
+
+.inputDayTime-container, .add-dayTime-input-field{
+  width:11rem;
+}
+
+.inputSpace-container, .add-space-input-field{
+  width:15rem;
+}
+
+.inputArtist-container, .add-artist-input-field{
+  width:18rem;
 }
 
 .types-selector-call-manager{
@@ -1016,7 +1065,7 @@ CALL PAGE
   cursor: pointer;
 }
 
-.icon-column-call-table{
+th.icon-column-call-table{
   width: 2rem;
 }
 
@@ -1074,6 +1123,11 @@ CALL PAGE
   display: inline-block;
   vertical-align: middle;
   height: 2.5rem;
+}
+
+.search-input-call-manager-container  .select2-selection.select2-selection--multiple {
+  min-height: 2.4rem;
+  font-size: $almostNormalSize;
 }
 
 

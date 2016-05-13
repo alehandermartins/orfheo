@@ -252,6 +252,9 @@
 
    	var _tableCreated = $('<table>').addClass('table-proposal');
 
+   	// var _tableColumn =  '<col style = "max-width:15rem">';
+		// _tableCreated.append(_tableColumn);
+
    	var _submitBtnContainer = $('<div>').addClass('submit-btn-call-manager-container');
    	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
    	_submitBtnOuterContainer.append(_submitBtnContainer);
@@ -262,16 +265,17 @@
 
    	var _printTable = function(proposalsSelected) {
 	   	_tableCreated.empty();
+	  	var _thead = $('<thead>');
 	  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
 	  	columns.forEach(function(field){
 	  		if (field == 'link_orfheo'){
 		  		var _titleText = $('<span>').html('rfh');
-		  		var _titleCol = $('<td>').append(_titleText);
+		  		var _titleCol = $('<th>').append(_titleText);
 		  		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
 	  		}
 	  		else{
 		  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
-		  		var _titleCol = $('<td>').append(_titleText);
+		  		var _titleCol = $('<th>').append(_titleText);
 		  		var _proposalField = [];
 		  		if (['availability', 'program'].indexOf(field)<0){
 			  		proposalsSelected.forEach(function(proposal){
@@ -288,31 +292,34 @@
 	  		_titleRow.append(_titleCol);
 	  	});
 
-	  	_tableCreated.append(_titleRow);
+	  	_tableCreated.append(_thead.append(_titleRow));
 
 	  	var _programArray = [];
+	  	var _tbody = $('<tbody>');
 
 	  	proposalsSelected.forEach(function(proposal){
 	  		var _row = $('<tr>');
 	  		columns.forEach(function(field){
+	  			var _colClass = 'column-'+field;
+	  			var _col = $('<td>').addClass('column-call-manager-table')
+	  			_col.addClass(_colClass);
 	  			if (field == 'link_orfheo'){
 	  				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
 	  				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
-	  				var _col = $('<td>').append(_icon);
+	  				_col.append(_icon);
 	  			}
 	  			else if (field == 'name'){
-	  				var _col = $('<td>');
 	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
 	  				var _form;
 	  				if (selected == 'artists') _form = Pard.Forms.ArtistCall(proposal.category);
 	  				else _form = Pard.Forms.SpaceCall();
 
   				 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
+
   				 _col.append(_popup.render());
 
 	  			}
 	  			else if (field == 'address'){
-	  				var _col = $('<td>');
 	  				var _fieldFormText = ' '+proposal['address']['route']+' '+proposal['address']['street_number'];
       			if (proposal['door']) _fieldFormText += ', puerta/piso '+proposal['door'];
      				_fieldFormText +=', '+proposal['address']['locality'];
@@ -324,7 +331,6 @@
   				 	_col.append(_address);
 	  			}
 	  			else if (field == 'program') {
-	  				var _col = $('<td>');
 	  				  if (proposal['type'] == 'artist') {
 								var _inputProgram = Pard.Widgets.InputArtistProgram(_places, dayTimeObj.render(proposal['availability']));
 								// _inputProgram.setDayTime(proposal['availability']);
@@ -349,29 +355,29 @@
 						_col.append(_inputProgram.render());
 	 				}
 	  			else if (proposal[field] && field == 'availability') {
-	  				var _col = $('<td>');
 	  				for (var date in proposal[field]) {
 		  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
 	  				}
 	  			}
 	  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
-	  				if (proposal[field] == 'true') {var _col = $('<td>').html('Sí');}
-	  				else if (proposal[field] == 'false') { var _col = $('<td>').html('No');}
+	  				if (proposal[field] == 'true') {_col.html('Sí');}
+	  				else if (proposal[field] == 'false') { _col.html('No');}
 	  				else { var _col = $('<td>').html(proposal[field]);}
 	  			}
 	  			else	if (proposal[field] && field == 'category'){
-	  				var _col = $('<td>').html(Pard.Widgets.Dictionary(proposal[field]).render());
+	  				_col.html(Pard.Widgets.Dictionary(proposal[field]).render());
 	  			}
 	  			else	if (proposal[field]) {
-	  				var _col = $('<td>').html(proposal[field]);
+	  				_col.html(proposal[field]);
 	  			}
 	  			else{
-	  				var _col = $('<td>').html('');
+	  				_col.html('');
 	  			}
 	  			_row.append(_col);
 	  		});
-	  		_tableCreated.append(_row);
+	  		_tbody.append(_row);
 	  	})
+	  	_tableCreated.append(_tbody);
 	  	if ($.inArray('program', columns) >-1) {
 	  		_submitBtnContainer.empty()
 	 			var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){Pard.Widgets.SendProgram(_programArray, selected, columns);});
@@ -558,19 +564,19 @@
     }
 
     while(_satArray[_satArray.length -1].getTime() != _sat2345pm.getTime()){
-      _sat.push({id:_satArray.length, text:moment(_satArray[_satArray.length -1]).format('dddd, h:mm')+"h"});
+      _sat.push({id:_satArray.length, text:moment(_satArray[_satArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
       _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));	
     }
 
     while(_sunArray[_sunArray.length -1].getTime() != _sun2345pm.getTime()){
-      _onlySun.push({id:_sunArray.length, text:moment(_sunArray[_sunArray.length -1]).format('dddd, h:mm')+"h"});
-      _sunAfterSat.push({id:_sunArray.length + _satArray.length, text:moment(_sunArray[_sunArray.length -1]).format('dddd, h:mm')+"h"});
+      _onlySun.push({id:_sunArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
+      _sunAfterSat.push({id:_sunArray.length + _satArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
       _sunArray.push(addMinutes(_sunArray[_sunArray.length -1], 15));
     }
 
     return {
       render: function(availability){
-  	    var _dayTime = [{id: '',text: ''},{id: 0, text: 'A lo largo de los dos dias'}];
+  	    var _dayTime = [{id: '',text: ''},{id: 0, text: 'Los dos dias'}];
 		    var _dtArray = ['both'];
 		    var _length = 0;
       	for (var day in availability){

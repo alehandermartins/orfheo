@@ -463,8 +463,9 @@
     var _results = [];
     var _inputs = [];
     var _inputSpace = $('<select>');
-    var _inputDayTime = $('<select>');
-
+    var _inputSpaceContainer = $('<div>').addClass('inputSpace-container');
+    var _inputDayTime = $('<select>').addClass('inputDayTime-select');
+    var _inputDayTimeContainer = $('<div>').addClass('inputDayTime-container');
     var _dtArray = dayTimeObj.dtArray;
     var _dayTime = dayTimeObj.dayTime;
 
@@ -476,24 +477,24 @@
       var _newInputSpace = Pard.Widgets.Selector([showInfo['place']], [showInfo['place']]);   
       var _newInputDayTime; 
       if (showInfo['day_time'] == 'both') {
-        _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
+        _newInputDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
       }else { 
-        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
+        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['day_time']]);
       };
 
-      _newInputSpace.setClass('add-multimedia-input-field');
-      _newInputDayTime.setClass('add-multimedia-input-field');
+      _newInputSpace.setClass('add-space-input-field');
+      _newInputDayTime.setClass('add-dayTime-input-field');
       _newInputSpace.disable();
       _newInputDayTime.disable();
 
-      _inputs.push([_newInputSpace,_newInputDayTime]);
+      _inputs.push([_newInputDayTime, _newInputSpace]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
-      _container.append(_newInputSpace.render(), _newInputDayTime.render(), _removeInputButton);
+      _container.append(_newInputDayTime.render(),_newInputSpace.render(),  _removeInputButton);
       _removeInputButton.on('click', function(){
         _modified = true;
-        var _index = _inputs.indexOf([_newInputSpace,_newInputDayTime]);
+        var _index = _inputs.indexOf([_newInputDayTime, _newInputSpace]);
         _inputs.splice(_index, 1);
 
         var _indexR = -1;
@@ -531,7 +532,7 @@
       }
     });
 
-    _createdWidget.append(_inputSpace, _inputDayTime, _addInputButton,_showsAddedContainer);
+    _createdWidget.append(_inputDayTimeContainer.append(_inputDayTime),_inputSpaceContainer.append(_inputSpace), _addInputButton,_showsAddedContainer);
 
     return {
       render: function(){
@@ -590,7 +591,9 @@
     var _results = [];
     var _inputs = [];
     var _inputArtist = $('<select>');
+    var _inputArtistContainer = $('<div>').addClass('inputArtist-container');
     var _inputDayTime = $('<select>');
+    var _inputDayTimeContainer = $('<div>').addClass('inputDayTime-container');
 
     var _dtArray = dayTimeObj.dtArray;
     var _dayTime = dayTimeObj.dayTime;
@@ -610,22 +613,22 @@
         }    
       });
       if (showInfo['day_time'] == 'both') {
-        _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
+        _newInputDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
       }else { 
-        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
+        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['day_time']]);
       };
-      _newInputArtist.setClass('add-multimedia-input-field');
-      _newInputDayTime.setClass('add-multimedia-input-field');
+      _newInputArtist.setClass('add-artist-input-field');
+      _newInputDayTime.setClass('add-dayTime-input-field');
       _newInputArtist.disable();
       _newInputDayTime.disable();
-      _inputs.push([_newInputArtist,_newInputDayTime]);
+      _inputs.push([_newInputDayTime, _newInputArtist]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
-      _container.append(_newInputArtist.render(), _newInputDayTime.render(), _removeInputButton);
+      _container.append(_newInputDayTime.render(), _newInputArtist.render(),  _removeInputButton);
 
       _removeInputButton.on('click', function(){
-        var _index = _inputs.indexOf([_newInputArtist,_newInputDayTime]);
+        var _index = _inputs.indexOf([_newInputDayTime, _newInputArtist]);
         var _show = {proposal_id: _newInputArtist.getVal(), day_time: false};
         _inputs.splice(_index, 1);
        
@@ -661,7 +664,7 @@
       }
     });
 
-    _createdWidget.append(_inputArtist, _inputDayTime, _addInputButton,_showsAddedContainer);
+    _createdWidget.append( _inputDayTimeContainer.append(_inputDayTime), _inputArtistContainer.append(_inputArtist), _addInputButton,_showsAddedContainer);
 
     return {
       render: function(){
