@@ -84,9 +84,10 @@ Pard.Welcome = function(){
   });
 }
 
-Pard.Users = function(profiles){
+Pard.Users = function(profiles, calls){
 
   Pard.CachedProfiles = profiles;
+  console.log(calls);
 
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());

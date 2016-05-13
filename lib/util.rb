@@ -37,6 +37,7 @@ module Util
 
     def arrayify_hash hash
       return [] if hash.blank?
+      return symbolize_array(hash) if hash.is_a? Array
       return hash unless hash.is_a? Hash
       hash.map do |k, v|
         string_keyed_hash_to_symbolized(v)

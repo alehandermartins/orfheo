@@ -64,9 +64,10 @@ describe UsersController do
       expect(last_response.location).to eq('http://example.org/')
     end
 
-    it 'gets the profiles of the user and other profiles' do
+    it 'gets the profiles and calls of the user and other profiles' do
       post login_route, user_hash
       expect(Services::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id})
+      expect(Repos::Calls).to receive(:get_user_calls).with(user_id)
       get users_route
     end
 

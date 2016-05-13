@@ -27,6 +27,16 @@ describe Services::Calls do
     }
   }
 
+  let(:otter_proposal){
+    {
+      profile_id: profile_id,
+      proposal_id: 'otter_proposal',
+      title: 'otter_title',
+      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
+      photos: ['otter_photo']
+    }
+  }
+
   let(:call){
     {}
   }
@@ -133,23 +143,28 @@ describe Services::Calls do
     end
   end
 
-  describe 'Get proposal' do
-
-    it 'retrieves the proposals for a given profile' do
-      expect(Repos::Calls).to receive(:get_proposals_for).with(profile_id)
-      Services::Calls.get_proposals_for profile_id
-    end
-
-    it 'retrieves the proposals for a profile when visiting' do
-      expect(Repos::Calls).to receive(:get_otter_proposals_for).with(profile_id, 'artist')
-      Services::Calls.get_otter_proposals_for profile_id, 'artist'
-    end
-  end
-
   describe 'Amend proposal' do
     it 'amends the proposal' do
       expect(Repos::Calls).to receive(:amend_proposal).with(proposal_id, 'amend')
       Services::Calls.amend_proposal proposal_id, 'amend'
+    end
+  end
+
+  describe 'Proposals old pictures' do
+    it 'returns all the proposal pictures for a given production' do
+      Repos::Calls.add({
+        user_id: user_id,
+        call_id: 'otter'
+      })
+      Repos::Calls.add({
+        user_id: 'otter_user',
+        call_id: call_id
+      })
+
+      Repos::Calls.add_proposal call_id, proposal
+      otter_proposal.merge! production_id: production_id
+      Repos::Calls.add_proposal 'otter', otter_proposal
+      expect(Services::Calls.proposals_old_pictures production_id).to eq({photos: ['photo', 'otter_photo', 'otter_photo']})
     end
   end
 
