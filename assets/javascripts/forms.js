@@ -2,6 +2,154 @@
 
   ns.Forms = ns.Forms || {};
 
+  ns.Forms.CreateArtistProposal = function(categorySelected){
+    var _form = {};
+
+    var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
+    var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
+
+    var _expoFields = ['name', 'title', 'short_description'];
+    var _showField = ['name', 'title', 'short_description', 'duration', 'components', 'availability', 'children'];
+
+    var _expoRequired = ['name', 'title', 'short_description'];
+    var _showRequired = ['name', 'title', 'short_description', 'duration', 'components', 'availability'];
+
+    var _categoryFields = {
+      'expo': _expoFields,
+      'music': _showField,
+      'arts': _showField,
+      'other': _showField,
+      'poetry': _showField,
+      'street_art': _showField,
+      'workshop': _showField,
+      'audiovisual': _showField
+    };
+
+    var _required = {
+      'expo': _expoRequired,
+      'music': _showRequired,
+      'arts': _showRequired,
+      'other': _showRequired,
+      'poetry': _showRequired,
+      'street_art': _showRequired,
+      'workshop': _showRequired,
+      'audiovisual': _showRequired
+    };
+
+
+    _form['name'] = {
+      label: Pard.Widgets.InputLabel('Nombre artistico *'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Es el nombre artístico de la persona o del colectivo que quiere participar en el festival.')
+    };
+
+    _form['title'] = {
+      label: Pard.Widgets.InputLabel('Título de la propuesta artística *'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['title']['input'].setClass('title-input');
+
+    _form['short_description'] = { 
+      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: '),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['short_description']['input'].setClass('short_description-input');
+    _form['short_description']['input'].setAttr('rows',1);
+
+    
+    _form['duration'] = {
+      label: Pard.Widgets.InputLabel('Duración del espectáculo *'), 
+      input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['duration']['input'].setClass('duration-input');
+
+    _form['components'] = {
+      label: Pard.Widgets.InputLabel('Número de integrantes *'),
+      input: Pard.Widgets.Input('', 'number'),
+      helptext: Pard.Widgets.HelpText('Número de personas que llevan la actividad/espectáculo.')
+    };
+    _form['components']['input'].setAttr('min','1');
+    _form['components']['input'].setClass('components-input');
+
+    _form['availability'] = {
+      label: Pard.Widgets.InputLabel('Disponibilidad *'),
+      input: Pard.Widgets.InputDate(''),
+      helptext: Pard.Widgets.HelpText('Selecciona los días que estás disponible para tu participación en el festival.')
+    };
+    // _form['availability']['input'].setClass('availability-input');
+
+    
+    _form['children'] = {
+      label: Pard.Widgets.InputLabel(''),
+      input: Pard.Widgets.CheckBox('Actividad para un público infantil', 'yes_children'),
+      helptext: Pard.Widgets.HelpText('')
+    };
+
+    var _requiredFields = _required[categorySelected];
+    var _formDef = {};
+
+    _categoryFields[categorySelected].forEach(function(field){
+      _formDef[field] = _form[field];
+    });
+
+    return {
+      render: function(){
+        return _formDef;
+      },
+      requiredFields: function(){
+        return _requiredFields;
+      }
+    }
+  }
+
+
+   ns.Forms.CreateSpaceProposal = function(categorySelected){
+    var _form = {};
+
+    var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular', 'Espacio Exterior'];
+    var _values = ['cultural_ass', 'commercial', 'home', 'open_air'];
+
+    _form['name'] = {
+      label: Pard.Widgets.InputLabel('Nombre del espacio *'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con el espacio durante el festival.')
+    };
+
+    _form['address'] ={
+      label: Pard.Widgets.InputLabel('Dirección *'),
+      input: Pard.Widgets.InputAddressSpace('Ej: Carrer de la Murta 13, Valencia'),
+      helptext: Pard.Widgets.HelpText('')
+    }
+
+    _form['category'] = {
+      label: Pard.Widgets.InputLabel('Categoría *'),
+      input: Pard.Widgets.Selector(_labels, _values),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['category']['input'].setClass('category-input');
+
+    _form['availability'] = {
+      label: Pard.Widgets.InputLabel('Disponibilidad *'),
+      input: Pard.Widgets.InputDate(''),
+      helptext: Pard.Widgets.HelpText('Selecciona los días que quieres compartir tu espacio.')
+    }
+
+    var _requiredFields = ['name', 'address', 'category', 'availability'];
+
+
+    return {
+      render: function(){
+        return _form;
+      },
+      requiredFields: function(){
+        return _requiredFields;
+      }
+    }
+  }
+
 
   ns.Forms.BasicArtistForm = function(){
 
@@ -270,8 +418,8 @@
 
     var _labelsCategories = ['Música', 'Artes Escénicas', 'Exposición', 'Poesía',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
-    var _labelsDays = ['Sabado', 'Domingo', 'Ambos dias'];
-    var _valuesDays = ['sat', 'sun', 'both'];
+    // var _labelsDays = ['Sabado', 'Domingo', 'Ambos dias'];
+    // var _valuesDays = ['sat', 'sun', 'both'];
     var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 

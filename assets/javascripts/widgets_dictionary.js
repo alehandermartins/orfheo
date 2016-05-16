@@ -65,6 +65,7 @@
       cultural_ass: 'Asociación Cultural',
       commercial: 'Local Comercial',
       home: 'Espacio Particular',
+      open_air: 'Espacio Exterior',
       music: 'Musica',
       arts: 'Artes Escénicas',
       expo: 'Exposición',

@@ -116,7 +116,6 @@
       _specificCallFields.forEach(function(field){
         _fieldsetSpecificCall.append($('<div>').addClass(field+'-ArtistCall').append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
       });
-      // _content.append(_fieldsetProduction, _fieldsetSpecificCall) 
       _submitForm['category'] = _selected;
       _createdWidget.append(_category, _content.append(_invalidInput), _submitBtnContainer.append(submitButton));
     };
