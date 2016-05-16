@@ -610,8 +610,10 @@
     var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateSpaceProposal(call)});
 
     var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateArtistProposal(call)});
+
+    var _whiteList = Pard.Widgets.WhiteList(call);
   	
-    _createdWidget.append(_spacePopup.render(), _artistPopup.render(call));
+    _createdWidget.append(_spacePopup.render(), _artistPopup.render(), _whiteList.render());
   	
   	// _createdWidget.append('aquí se pueden crear propuestas y molaría poder tener la funcion de habilitar un cierto perfil para que pueda enviar una propuesta fuera convocatoria (tipo si te paso el profile_id a este profile, aunque la convocatoria este serrada, le aparece por un tiempo maximo de una semana el boton "envia otra propuesta el conFusion") '); 
 
@@ -857,6 +859,42 @@
   }
 
 
+  ns.Widgets.WhiteList = function(call){
+  	var _createdWidget = $('<div>');
+    var _emailsNames = [{id:'', text:''}];
+    var _namesList = [];
+    var _emailsList = [];
+    call.proposals.forEach(function(proposal){
+    	var email = {id: proposal.email, text: proposal.email};
+    	if($.inArray(proposal.email, _emailsList) < 0) {
+    		_emailsNames.push(email);
+    		_emailsList.push(proposal.email);
+    	}
+    	var name = {id: proposal.email, text: proposal['name']};
+    	if($.inArray(proposal['name'], _namesList) < 0){
+    	  _emailsNames.push(name);
+    		_namesList.push(proposal['name']);
+    	}
+    });
+
+    var _emailNameInput = Pard.Widgets.WhiteListInput(_emailsNames);
+
+		var _submitBtnContainer = $('<div>').addClass('submit-btn-call-manager-container');
+   	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
+   	_submitBtnOuterContainer.append(_submitBtnContainer);
+   	var _successBox = $('<span>');
+
+   	var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){console.log(_emailNameInput.getVal())});
+	 	_submitBtnContainer.append(_successBox, _submitBtn.render());
+
+    _createdWidget.append(_emailNameInput.render(), _submitBtnOuterContainer);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
 
 
 }(Pard || {}));
