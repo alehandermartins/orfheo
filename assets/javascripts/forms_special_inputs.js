@@ -82,7 +82,7 @@
 
     var _createdWidget = $('<div>');
 
-    var _colorPicker = $('<input>').attr({'type': 'text', 'value': '#000'});
+    var _colorPicker = $('<input>').attr({'type': 'text', 'value': '#000000'});
 
     _createdWidget.append(_colorPicker);
 

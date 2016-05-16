@@ -97,19 +97,6 @@
   }
 
 
-  ns.Widgets.ProfilesPanelContent = function() {
-
-  	var _createdWidget = $('<div>');
-
-  	_createdWidget.append('aquí se pueden crear propuestas y molaría poder tener la funcion de habilitar un cierto perfil para que pueda enviar una propuesta fuera convocatoria (tipo si te paso el profile_id a este profile, aunque la convocatoria este serrada, le aparece por un tiempo maximo de una semana el boton "envia otra propuesta el conFusion") HABLEMOS DE ESO'); 
-
-  	return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
 
   ns.Widgets.CallManagerContent = function(selected, programAllCheckbox){
   	var _createdWidget = $('<div>');
@@ -311,7 +298,8 @@
 	  			else if (field == 'name'){
 	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
 	  				var _form;
-	  				if (selected == 'artists') _form = Pard.Forms.ArtistCall(proposal.category);
+	  				if (selected == 'artist') {_form = Pard.Forms.ArtistCall(proposal.category);
+	  					  	;}			
 	  				else _form = Pard.Forms.SpaceCall();
 
   				 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
@@ -611,6 +599,52 @@
 	}
 
 
+  ns.Widgets.ProfilesPanelContent = function() {
+
+  	var _createdWidget = $('<div>');
+
+  	var _createSpaceCaller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Espacio');
+
+  	var _createArtistCaller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Artista');
+
+    var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateSpaceProposal()});
+
+    var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateArtistProposal()});
+  	
+    _createdWidget.append(_spacePopup.render(), _artistPopup.render());
+  	
+  	_createdWidget.append('aquí se pueden crear propuestas y molaría poder tener la funcion de habilitar un cierto perfil para que pueda enviar una propuesta fuera convocatoria (tipo si te paso el profile_id a este profile, aunque la convocatoria este serrada, le aparece por un tiempo maximo de una semana el boton "envia otra propuesta el conFusion") '); 
+
+  	return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.CreateSpaceProposal = function(){
+  	var _createdWidget = $('<div>');
+
+  	return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(){      	
+      }
+    }  	
+  }
+
+  ns.Widgets.CreateArtistProposal = function(){
+  	var _createdWidget = $('<div>');
+
+  	return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(){      	
+      }
+    }  	
+  }
 
 
 
