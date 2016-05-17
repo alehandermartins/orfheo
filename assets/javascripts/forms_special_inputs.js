@@ -255,8 +255,8 @@
     var vn_url = /^(http|https)\:\/\/vine\..*/i;
     var sp_url = /^(http|https)\:\/\/open\.spotify\..*/i;
     var bc_url = /^(http|https)\:\/\/.*\.bandcamp\.com\/.*/i;
-    var tw_url = /^(http|https)\:\/\/twitter\.com\/.*/i;
-    var yt_url = /^(http|https)\:\/\/www\.youtube\.*/i;
+    var tw_url = /.*twitter\.com\/.*/i;
+    var yt_url = /.*youtube\.*/i;
     var vm_url = /^(http|https)\:\/\/vimeo\.*/i;
     var fl_url = /.*flickr\.*/i;
     var sc_url = /^(http|https)\:\/\/soundcloud\.*/i;
