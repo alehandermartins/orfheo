@@ -30,8 +30,7 @@
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
-    // console.log('space Call')  
-    // console.log(profile);
+
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile['type'];
     _submitForm['category'] = profile.category;
@@ -119,17 +118,22 @@
     
     var _createdWidget = $('<div>');
   
-    var _form = Pard.Forms.SpaceCall().render();                                    
+    var _form = Pard.Forms.SpaceCall().render();
+    // var _sentCall = Pard.Widgets.PrintSentCall(proposal, _form).render();
 
-    var _sentCall = Pard.Widgets.PrintSentCall(proposal, _form).render();
+    // _createdWidget.append(_sentCall);
 
-    _createdWidget.append(_sentCall);
+        var _closepopup = {};
+
 
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
+        _closepopup = callback;
+        var _sentCall = Pard.Widgets.PrintSentCall(proposal, _form, _closepopup).render();
+        _createdWidget.append(_sentCall); 
         // _closeBtn.on('click', function(){ 
         //   callback(); 
         // })
