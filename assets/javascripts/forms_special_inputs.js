@@ -4,18 +4,18 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
- ns.Widgets.InputTel = function(placeholder){
+  ns.Widgets.InputTel = function(placeholder){
 
   	var checkPhone = function(){
   		var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
       var notPattern = new RegExp (/[a-z]/);
         if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
         return _inputTel.getVal();
-      }
+    }
 
   	var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
 
-  	 return{
+  	return{
       render: function(){
         return _inputTel.render();
       },
@@ -35,9 +35,10 @@
         _inputTel.setClass(_class);
       }
     }
-  }
+  } 
 
-   ns.Widgets.InputDate = function(placeholder){
+
+  ns.Widgets.InputDate = function(placeholder){
  	
   	var _inputDate = Pard.Widgets.Input(placeholder,'text');
 
@@ -55,8 +56,8 @@
   	});
 
     // _datePicker.addClass('warning');
-
-  	 return{
+  
+	 return{
       render: function(){
         return _datePicker;
       },
@@ -82,7 +83,7 @@
 
     var _createdWidget = $('<div>');
 
-    var _colorPicker = $('<input>').attr({'type': 'text', 'value': '#000'});
+    var _colorPicker = $('<input>').attr({'type': 'text', 'value': '#000000'});
 
     _createdWidget.append(_colorPicker);
 
@@ -463,8 +464,9 @@
     var _results = [];
     var _inputs = [];
     var _inputSpace = $('<select>');
-    var _inputDayTime = $('<select>');
-
+    var _inputSpaceContainer = $('<div>').addClass('inputSpace-container');
+    var _inputDayTime = $('<select>').addClass('inputDayTime-select');
+    var _inputDayTimeContainer = $('<div>').addClass('inputDayTime-container');
     var _dtArray = dayTimeObj.dtArray;
     var _dayTime = dayTimeObj.dayTime;
 
@@ -476,24 +478,24 @@
       var _newInputSpace = Pard.Widgets.Selector([showInfo['place']], [showInfo['place']]);   
       var _newInputDayTime; 
       if (showInfo['day_time'] == 'both') {
-        _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
+        _newInputDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
       }else { 
-        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
+        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['day_time']]);
       };
 
-      _newInputSpace.setClass('add-multimedia-input-field');
-      _newInputDayTime.setClass('add-multimedia-input-field');
+      _newInputSpace.setClass('add-space-input-field');
+      _newInputDayTime.setClass('add-dayTime-input-field');
       _newInputSpace.disable();
       _newInputDayTime.disable();
 
-      _inputs.push([_newInputSpace,_newInputDayTime]);
+      _inputs.push([_newInputDayTime, _newInputSpace]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
-      _container.append(_newInputSpace.render(), _newInputDayTime.render(), _removeInputButton);
+      _container.append(_newInputDayTime.render(),_newInputSpace.render(),  _removeInputButton);
       _removeInputButton.on('click', function(){
         _modified = true;
-        var _index = _inputs.indexOf([_newInputSpace,_newInputDayTime]);
+        var _index = _inputs.indexOf([_newInputDayTime, _newInputSpace]);
         _inputs.splice(_index, 1);
 
         var _indexR = -1;
@@ -531,7 +533,7 @@
       }
     });
 
-    _createdWidget.append(_inputSpace, _inputDayTime, _addInputButton,_showsAddedContainer);
+    _createdWidget.append(_inputDayTimeContainer.append(_inputDayTime),_inputSpaceContainer.append(_inputSpace), _addInputButton,_showsAddedContainer);
 
     return {
       render: function(){
@@ -590,7 +592,9 @@
     var _results = [];
     var _inputs = [];
     var _inputArtist = $('<select>');
+    var _inputArtistContainer = $('<div>').addClass('inputArtist-container');
     var _inputDayTime = $('<select>');
+    var _inputDayTimeContainer = $('<div>').addClass('inputDayTime-container');
 
     var _dtArray = dayTimeObj.dtArray;
     var _dayTime = dayTimeObj.dayTime;
@@ -610,22 +614,22 @@
         }    
       });
       if (showInfo['day_time'] == 'both') {
-        _newInputDayTime = Pard.Widgets.Selector(['A lo largo de los dos días'],['both']);
+        _newInputDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
       }else { 
-        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).format('dddd, h:mm')+"h"],[showInfo['day_time']]);
+        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['day_time']]);
       };
-      _newInputArtist.setClass('add-multimedia-input-field');
-      _newInputDayTime.setClass('add-multimedia-input-field');
+      _newInputArtist.setClass('add-artist-input-field');
+      _newInputDayTime.setClass('add-dayTime-input-field');
       _newInputArtist.disable();
       _newInputDayTime.disable();
-      _inputs.push([_newInputArtist,_newInputDayTime]);
+      _inputs.push([_newInputDayTime, _newInputArtist]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
-      _container.append(_newInputArtist.render(), _newInputDayTime.render(), _removeInputButton);
+      _container.append(_newInputDayTime.render(), _newInputArtist.render(),  _removeInputButton);
 
       _removeInputButton.on('click', function(){
-        var _index = _inputs.indexOf([_newInputArtist,_newInputDayTime]);
+        var _index = _inputs.indexOf([_newInputDayTime, _newInputArtist]);
         var _show = {proposal_id: _newInputArtist.getVal(), day_time: false};
         _inputs.splice(_index, 1);
        
@@ -661,7 +665,7 @@
       }
     });
 
-    _createdWidget.append(_inputArtist, _inputDayTime, _addInputButton,_showsAddedContainer);
+    _createdWidget.append( _inputDayTimeContainer.append(_inputDayTime), _inputArtistContainer.append(_inputArtist), _addInputButton,_showsAddedContainer);
 
     return {
       render: function(){
@@ -719,6 +723,80 @@
       // },
       resetModifiedCheck: function(){
         _modified = false;
+      }
+    }
+  }
+
+
+  ns.Widgets.WhiteListInput = function(emailsNames){
+    
+    var _createdWidget = $('<div>'); 
+    var _results = [];
+    var _inputs = [];
+    var _inputNameEmail = $('<select>');
+    var _inputContainer = $('<div>').addClass('inputSpace-container');
+
+    var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
+    _addInputButton.addClass('add-input-button-enlighted');
+
+    var _addnewInput = function(showInfo){
+      var _container = $('<div>'); 
+      _newInput = Pard.Widgets.Selector([showInfo['name_email']],[showInfo['email']]);
+      
+      _newInput.setClass('add-whiteList-input-field');
+      _newInput.disable();      
+      _inputs.push([_newInput]);
+
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+
+      _container.append(_newInput.render(),  _removeInputButton);
+      _inputAddedContainer.append(_container);
+      _removeInputButton.on('click', function(){
+        var _index = _inputs.indexOf([_newInput]);
+        _inputs.splice(_index, 1);
+        var _indexR = -1;
+        _results.some(function(result, index){
+          if(result.email == _newInput.getVal())
+            _indexR = index;
+        });     
+        if (_indexR > -1){ _results.splice(_indexR, 1);}
+        _container.empty();
+      });
+    }
+    
+    var _inputAddedContainer = $('<div>');
+
+    _addInputButton.on('click', function(){
+      if (_inputNameEmail.val()){
+        var _data = _inputNameEmail.select2('data');
+        _results.push(_data[0].id);
+        var _info = {name_email: _data[0].text, email: _data[0].id}
+      }
+      _inputAddedContainer.prepend(_addnewInput(_info));
+      _inputNameEmail.select2('val', '');
+    });
+
+    _createdWidget.append(_inputContainer.append(_inputNameEmail), _addInputButton,_inputAddedContainer);
+
+    return {
+      render: function(){
+        _inputNameEmail.select2({
+          data: emailsNames,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder:'Email o Nombre de perfil'
+        });
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _results;
+      },
+      setVal: function(values){
+        if(values == null || values == false) return true;
+        values.forEach(function(show){
+          _results.push(show);
+          _showsAddedContainer.prepend(_addnewInput(show));
+        });
       }
     }
   }

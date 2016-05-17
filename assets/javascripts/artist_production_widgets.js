@@ -81,6 +81,7 @@
     }
 
     var _send = function(){
+      console.log(_getVal());
       Pard.Backend.modifyProduction(_getVal(), function(data){
         Pard.Events.ModifyProduction(data);
       });

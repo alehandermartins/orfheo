@@ -108,16 +108,20 @@
   
   ns.Widgets.UserAside = function () {
     var myprofiles = Pard.CachedProfiles;
+    var myCalls = Pard.CachedCalls;
+
     var _createdWidget = $('<div>').addClass('aside-container');
     var _myprofiles = $('<div>');
 
     var _buttonContainer = $('<div>').addClass('create-profile-container');
 
-    // var user_id = Pard.ProfileManager.getUserId();
-    // if (user_id === '45825599-b8cf-499c-825c-a7134a3f1ff0') {
-    //    var _manageCallBtn =  Pard.Widgets.Button('Gestiona convocatoria', function(){location.href = '/call?id=b5bc4203-9379-4de0-856a-55e1e5f3fac6'}).render();
-    //    _buttonContainer.append(_manageCallBtn);
-    // }
+    if(myCalls.length) myCalls.forEach(function(call){
+      var _manageCallText = $('<p>').text('Gestiona convocatorias').addClass('create-profile-text').addClass('create-profile-text');
+      var _manageCallBtn =  $('<div>').addClass('create-profile-btn').click(function(){location.href = '/call?id='+ call}).css('padding','0.5rem 0.25rem');
+      var _manageCallBtnText = $('<span>').text('conFusión 2016').addClass('create-profile-btn-text');
+      var _manageCallBtnIcon = Pard.Widgets.IconManager('proposals').render().addClass(' create-profile-btn-icon');
+       _buttonContainer.append(_manageCallText, _manageCallBtn.append(_manageCallBtnIcon,_manageCallBtnText));
+    });
 
     var _createProfileText = $('<p>').text('Crea un perfil').addClass('create-profile-text')
     var _createArtistBtn =  Pard.Widgets.CreateTypeProfile('artist').render();

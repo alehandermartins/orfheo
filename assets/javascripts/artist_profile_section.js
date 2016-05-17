@@ -6,6 +6,7 @@
 
  
   ns.Widgets.ArtistSection = function(sectionHeader, profile_id) {
+    console.log(profile_id)
 
     profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
@@ -79,7 +80,7 @@
         var _listproposals = $('<ul>');
 
         _proposals.forEach(function(proposal){
-          var _proposalItem = $('<li>').text(proposal);
+          var _proposalItem = $('<li>').text(proposal.title);
           _listproposals.append(_proposalItem);
           
         });

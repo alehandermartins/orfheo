@@ -17,7 +17,6 @@
 
     _createdWidget.append($('<p>').append('Has aceptado las condiciones en las ', Pard.Forms.Conditions().link(), ' del Benimaclet conFusión festival')) 
 
-
     var _postData = $('<div>').addClass('postData-container');
 
     if(proposal['amend']){
@@ -85,10 +84,7 @@
 
   ns.Widgets.PrintProposal = function(proposal, _form){
 
-    console.log(proposal);
-
     var _createdWidget = $('<div>');
-
 
     var _nameLabel = $('<span>').addClass('myProposals-field-label').text('Propuesta enviada por:');
     var _nameText = $('<span>').text(' ' + proposal['name']);
@@ -173,12 +169,13 @@
       }
     }
 
-    var _emailLabel = $('<span>').addClass('myProposals-field-label').text('Correo:');
-    var _emailText = $('<span>').text(' ' + proposal['email']);
-    var _email = $('<div>').append($('<p>').append(_emailLabel, _emailText));
-
-    _createdWidget.append(_email);
-
+    if ( proposal['email']) 
+    {var _emailLabel = $('<span>').addClass('myProposals-field-label').text('Correo:');
+        var _emailText = $('<span>').text(' ' + proposal['email']);
+        var _email = $('<div>').append($('<p>').append(_emailLabel, _emailText));
+    
+        _createdWidget.append(_email);
+    }
    return {
       render: function(){
         return _createdWidget;

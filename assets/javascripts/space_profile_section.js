@@ -24,6 +24,8 @@
 
   ns.Widgets.SpaceSectionContent = function(profile) {
 
+    console.log(profile);
+
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
@@ -35,15 +37,9 @@
 
     if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
-    }else{
-      if (userStatus != 'owner')_bio.append($('<p>').text(profile.proposals));
-      else {
-        if(profile.proposals && profile.proposals[0]){
+    }else if(profile.proposals && profile.proposals[0]){
         _bio.append($('<p>').text(profile.proposals[0]['description']));
-        }
-      }
     }
-
 
     var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['category']).render()));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
@@ -82,19 +78,19 @@
       else{
         var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
         var _proposalsBoxContent = $('<div>').addClass('box-content');
-        var _artistCallProposals = $('<div>');
+        var _spaceCallProposals = $('<div>');
         var _callName = $('<p>').append('Todavía no se ha inscrito en ninguna convocatoria.').addClass('activities-box-call-name');
-        _artistCallProposals.append(_callName);
-        _proposalsBoxContent.append(_artistCallProposals);
+        _spaceCallProposals.append(_callName);
+        _proposalsBoxContent.append(_spaceCallProposals);
         _proposalsBoxContainer.append(_proposalsBoxContent);
         _createdWidget.append(_proposalsBoxContainer);
-
       }     
     }
     else{
       var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
       var _callsBoxContent = $('<div>').addClass('box-content');
       if('proposals' in profile && profile.proposals != false){
+        console.log(profile.proposals);
         var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.proposals);
         // var _callButton = Pard.Widgets.CallSpaceButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
         _callsBoxContent.append(_mySpaceCallProposals.render()); 
