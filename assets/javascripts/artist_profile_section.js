@@ -66,7 +66,6 @@
     _createdWidget.append(_infoBoxContainer);
 
 
-
     if (userStatus != 'owner'){
 
       if(profile.proposals && profile.proposals.length){
@@ -80,7 +79,7 @@
         var _listproposals = $('<ul>');
 
         _proposals.forEach(function(proposal){
-          var _proposalItem = $('<li>').text(proposal.title);
+          var _proposalItem = $('<li>').text(proposal);
           _listproposals.append(_proposalItem);
           
         });

@@ -111,7 +111,7 @@ module Repos
           def visit_profiles args
             profiles = grab({user_id: args[:user_id]})
             profiles.each{ |profile|
-              profile.merge! proposals: Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile[:profile_id], type: profile[:type]})
+              profile.merge! proposals: Repos::Calls.get_proposals(:otter_profile_proposals, {profile_id: profile[:profile_id], type: profile[:type]})
             }
             sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
           end
