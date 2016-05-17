@@ -4,18 +4,18 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
- ns.Widgets.InputTel = function(placeholder){
+  ns.Widgets.InputTel = function(placeholder){
 
   	var checkPhone = function(){
   		var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
       var notPattern = new RegExp (/[a-z]/);
         if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
         return _inputTel.getVal();
-      }
+    }
 
   	var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
 
-  	 return{
+  	return{
       render: function(){
         return _inputTel.render();
       },
@@ -35,9 +35,10 @@
         _inputTel.setClass(_class);
       }
     }
-  }
+  } 
 
-   ns.Widgets.InputDate = function(placeholder){
+
+  ns.Widgets.InputDate = function(placeholder){
  	
   	var _inputDate = Pard.Widgets.Input(placeholder,'text');
 
@@ -55,8 +56,8 @@
   	});
 
     // _datePicker.addClass('warning');
-
-  	 return{
+  
+	 return{
       render: function(){
         return _datePicker;
       },

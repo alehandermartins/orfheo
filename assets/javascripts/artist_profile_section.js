@@ -79,7 +79,7 @@
         var _listproposals = $('<ul>');
 
         _proposals.forEach(function(proposal){
-          var _proposalItem = $('<li>').text(proposal);
+          var _proposalItem = $('<li>').text(proposal.title);
           _listproposals.append(_proposalItem);
           
         });
