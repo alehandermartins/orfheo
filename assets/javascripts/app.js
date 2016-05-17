@@ -3,7 +3,7 @@
 Pard.CachedProfiles = [];
 Pard.UserStatus = {};
 Pard.CachedProposals = [];
- 
+
 Pard.ProfileManager = {
   getProfile: function(profile_id){
     var profiles = Pard.CachedProfiles;

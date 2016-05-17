@@ -343,4 +343,17 @@ describe ProfilesController do
       expect(parsed_response['reason']).to eq('non_existing_production')
     end
   end
+
+  describe 'Create artist' do
+    it 'creates and artist' do
+      post '/users/create_artist', {
+        type: 'artist',
+        name: 'artist_name',
+        city: 'city',
+        zip_code: 'zip_code',
+        color: 'color'
+      }
+      ap parsed_response
+    end
+  end
 end

@@ -114,7 +114,7 @@
 
     
     _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Biografiá / Información'),
+      label: Pard.Widgets.InputLabel('Biografía / Información'),
       input: Pard.Widgets.TextArea(''),
       helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu vida artística-cultural.')
     };

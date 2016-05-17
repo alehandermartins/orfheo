@@ -12,8 +12,13 @@ class ArtistProduction
 
   def images
     {
-      photos: production[:photos]
+      photos: photos
     }
+  end
+
+  def photos
+    return [] if production[:photos].blank?
+    production[:photos]
   end
 
   def [] key

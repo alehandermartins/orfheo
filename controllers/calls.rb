@@ -40,7 +40,6 @@ class CallsController < BaseController
     success
   end
 
-
   private
   def check_non_existing call_id
     raise Pard::Invalid::Params unless UUID.validate call_id

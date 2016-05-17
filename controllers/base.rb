@@ -25,6 +25,13 @@ class BaseController < Sinatra::Base
       raise Pard::Invalid::ProfileOwnership unless get_profile_owner(profile_id) == session[:identity]
     end
 
+    def create_model params, form
+      raise Pard::Invalid::Params unless form.all?{ |field, entry|
+        correct_entry? params[field], entry[:type]  
+      }
+      form.keys.map{ |field| [field, params[field]] }.to_h
+    end
+
     private
     def build_message payload
       message = {status: :success}
@@ -45,6 +52,11 @@ class BaseController < Sinatra::Base
 
     def get_profile_owner profile_id
       Services::Profiles.get_profile_owner profile_id
+    end
+
+    def correct_entry? value, type
+      return !value.blank? if type == 'mandatory' 
+      true
     end
   end
 end

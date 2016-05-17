@@ -6,6 +6,18 @@ class ProfilesController < BaseController
     success({profile_id: profile_id})
   end
 
+  post '/users/create_artist' do
+    form = {
+      'artist' => 'create_artist',
+      'space' => 'create_space',
+      'organization' => 'create_organization'  
+    }
+    raise Pard::Invalid::Type unless form.keys.include? params[:type]
+    profile = create_model params, Forms.get(form[params[:type]])
+    Repos::Profiles.add profile, params[:type], session[:identity]
+    success
+  end
+
   post '/users/modify_profile' do
     check_type params[:type]
     check_profile_ownership params[:profile_id]
