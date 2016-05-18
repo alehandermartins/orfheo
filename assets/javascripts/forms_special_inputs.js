@@ -632,15 +632,15 @@
         var _index = _inputs.indexOf([_newInputDayTime, _newInputArtist]);
         var _show = {proposal_id: _newInputArtist.getVal(), day_time: false};
         _inputs.splice(_index, 1);
-       
+        
         var _indexR = -1;
         _results.some(function(result, index){
           if(result.proposal_id == _newInputArtist.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
             _indexR = index;
         });
         
-        if (_indexR > -1){ _results.splice(_indexR, 1);}
-        else{ _results.push(_show); }
+        if (_indexR > -1){ _results.splice(_indexR, 1); _results.push(_show); }
+        else{ conosole.log(_show); _results.push(_show); }
 
         _container.empty();
         $('#succes-box-call-manager').empty();
