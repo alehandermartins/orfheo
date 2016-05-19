@@ -105,20 +105,21 @@
     var _createTable = function(_columns, _searchInputs){
     	if (_columns.length) {
     		Pard.Widgets.CreateTable(_columns, selected, _tableBox, _submitBtnOuterContainer, _searchInputs);
+     		_tableBox.addClass('table-box-proposal-manager');
      	}else{
      		_tableBox.empty();
+     		_submitBtnOuterContainer.empty();
+     		_tableBox.removeClass('table-box-proposal-manager');
      	}
   	}
 
     var _outerTableContainer = $('<div>');
 
    	var _tableBox = $('<div>');
- 		_tableBox.attr('id', 'table-box-proposal-manager'); 
-
 
    	var  _searchInputContainer = $('<div>').addClass('search-input-call-manager-container');
 
-	  var _searchInput = Pard.Widgets.SearchInputCallManager(_tableBox, selected);
+	  var _searchInput = Pard.Widgets.SearchInputCallManager(selected);
 
 	  _searchInput.setCallback(function(){_createTable(_checkBoxesBox.getVal(), _searchInput.getVal())});
 
@@ -128,7 +129,7 @@
 
    	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
 
-	   	
+  	   	
     _createdWidget.append(_checkBoxesBox.render(), _outerTableContainer.append(_searchInputContainer.append(_searchInput.render()), _tableBox, _submitBtnOuterContainer));
 
 		return {
@@ -235,12 +236,10 @@
   }
 
 
-
-
-
   ns.Widgets.CreateTable = function(columns, selected, _tableBox, _submitBtnOuterContainer, proposalsToShow){
 
   	_tableBox.empty();
+
   	_submitBtnOuterContainer.empty();
 
   	var proposals = Pard.CachedProposals;
@@ -288,7 +287,7 @@
   }
 
 
-  ns.Widgets.SearchInputCallManager = function(_tableBox, selected, searchTags){
+  ns.Widgets.SearchInputCallManager = function(selected){
 
  	  var proposals = Pard.CachedProposals;
 
@@ -296,20 +295,32 @@
 
     var _proposalsSelected = [];
 
+		var _namesAdded = [];
+		var _categoryAdded = [];
+		var _respAdded = [];
+		var _titlesAdded = [];
+
+
   	proposals.forEach(function(proposal){
    		if (proposal['type'] == selected) {
    			_proposalsSelected.push(proposal);
-   			var _check = true;
-				_searchTags.some(function(tag){
-	  		if (proposal['category'] == tag['id']){ 
-					_check = false;
-					return true;
-	  			} 
-	  		});
-  			if (_check) _searchTags.push({id: proposal['category'], text: Pard.Widgets.Dictionary(proposal['category']).render()});
-  			_searchTags.push({id:proposal['name'], text:proposal['name']});
-  			if (selected == 'space')  _searchTags.push({id: proposal['responsible'], text: proposal['responsible']});
-  			if (selected == 'artist')  _searchTags.push({id: proposal['title'], text: proposal['title']});
+
+  			if ($.inArray(proposal['category'],_categoryAdded) < 0){
+  				_searchTags.push({id: proposal['category'], text: Pard.Widgets.Dictionary(proposal['category']).render()});
+  				_categoryAdded.push(proposal['category']);
+  			}
+  			if ($.inArray(proposal['name'],_namesAdded) < 0){
+  				_searchTags.push({id: proposal['name'], text: proposal['name']});
+  				_namesAdded.push(proposal['name']);
+  			}
+  			if (selected == 'space' && $.inArray(proposal['responsible'],_respAdded) < 0) {
+  				_searchTags.push({id: proposal['responsible'], text: proposal['responsible']});
+  				_respAdded.push(proposal['responsible']);
+  			}
+  			if (selected == 'artist' && $.inArray(proposal['responsible'],_titlesAdded) < 0)  {
+  				_searchTags.push({id: proposal['title'], text: proposal['title']});
+  				_titlesAdded.push(proposal['title']); 
+  			}
    		}
    	});
 
@@ -376,15 +387,7 @@
 
 
 
-
   ns.Widgets.PrintTable = function(proposalsSelected, columns, dayTimeObj, places, _artists, _programs, proposalsToShow) {
-
-  	var _fields = {
-  		space: ['name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend', 'program'],
-  		artist: ['name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend', 'program']
-  	}
-
-  	var _columnsField = _fields[proposalsSelected[0].type];
 
    	var _tableCreated = $('<table>').addClass('table-proposal');
    	var _programArray = [];
@@ -394,7 +397,7 @@
   	var _thead = $('<thead>');
   	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
 
-  	_columnsField.forEach(function(field){
+  	columns.forEach(function(field){
   		if (field == 'link_orfheo'){
 	  		var _titleText = $('<span>').html('rfh');
 	  		var _titleCol = $('<th>').append(_titleText);
@@ -417,7 +420,6 @@
 		  		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
 		  	}
 	  	}
-  		if ($.inArray(field,columns) < 0) _titleCol.hide();
   		_titleRow.append(_titleCol);
   	});
 
@@ -428,7 +430,7 @@
 
   	proposalsSelected.forEach(function(proposal){
   		var _row = $('<tr>');
-  		_columnsField.forEach(function(field){
+  		columns.forEach(function(field){
   			var _colClass = 'column-'+field;
   			var _col = $('<td>').addClass('column-call-manager-table')
   			_col.addClass(_colClass);
@@ -502,7 +504,6 @@
   			else{
   				_col.html('');
   			}
- 	  		if ($.inArray(field,columns) < 0) _col.hide();
   			_row.append(_col);
   		});
   		if (proposalsToShow && $.inArray(proposal, proposalsToShow) < 0) _row.hide(); 
