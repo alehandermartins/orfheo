@@ -102,93 +102,7 @@
   	
   	var _createdWidget = $('<div>');
 
-  	// programAllCheckbox.empty();
-
-  	// var _checkBoxesBox = $('<div>');
-   //  var _checkBoxes = [];
-
-   //  var _fields = {
-  	// 	space: ['name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
-  	// 	artist: ['name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend']
-  	// }
-
-  	// var _createTable = function(_columns){
-   //  	if (_columns.length) {
-   //  		Pard.Widgets.CreateTable(_columns, selected, _tableBox, _submitBtnOuterContainer, _searchInput.getVal());
-   //   	}else{
-   //   		_tableBox.empty();
-   //   	}
-  	// }
-
-  	// var _getColumns = function(){ 
-	  // 	var _columns = [];
-			// _checkBoxes.forEach(function(elem){
-			// 	if (elem[1] === 'program'){
-			// 		_columns.push(elem[1]); 			
-			// 	}
-			// 	else if (elem[0].getVal()) _columns.push(elem[1]);
-	  // 	})
-	  // 	return _columns;
-	  // }
-
-  	// var _printCheckBoxes = function(){
-  	// _checkBoxes = [];
-  	// var _checkBox = Pard.Widgets.CheckBox('Enlace a perfil','link_orfheo')
-   //  	_checkBoxes.push([_checkBox,'link_orfheo']);
-   //  	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
-   //  	_checkBoxRendered.change(function(){
-   //  		_createTable(_getColumns());
-   //  	})
-   //  	_checkBoxesBox.append(_checkBoxRendered);
-   //  _fields[selected].forEach(function(field){
-   //  	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),field)
-   //  	_checkBoxes.push([_checkBox,field]);
-   //  	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
-   //  	_checkBoxRendered.change(function(){
-   //  	_createTable(_getColumns());
-   //  	})
-   //  	_checkBoxesBox.append(_checkBoxRendered);
-   //  });
-  	// }
-
-  	// _printCheckBoxes();
-
-   //  var _allCheckBoxes = Pard.Widgets.CheckBox('Todos los campos','all');
-  	// var _allCheckBoxesRendered = _allCheckBoxes.render().addClass('checkBox-call-manager');
-
-   //  _allCheckBoxesRendered.change(function(){
-   //  	_checkBoxesBox.empty();
-   //  	_printCheckBoxes();
-   //  	_programCheckBox.setVal(false);
-   //  	var _val = _allCheckBoxes.getVal()
-   //  	_checkBoxes.forEach(function(elem){
-   //  			elem[0].setVal(_val);
-   //  	})
-   //  	_createTable(_getColumns());
-   //  })
-
-  	// var _programCheckBox = Pard.Widgets.CheckBox('<span style = "color: red; font-size:0.875rem">Programación</span>','program');
-   //  var _programCheckBoxRendered = _programCheckBox.render().addClass('checkBox-call-manager');
-   //  _programCheckBoxRendered.change(function(){
-   //  	_checkBoxesBox.empty();
-   //  	_printCheckBoxes();
-   //  	_allCheckBoxes.setVal(false);
-   //  	var _val = _programCheckBox.getVal();
-   //  	_checkBoxes.forEach(function(elem){
-   //  		['link_orfheo', 'name', 'title'].forEach(function(field){
-   //  			if (elem[1] == field) elem[0].setVal(_val);
-   //  		}) 
-   //  })
-   //  	if (_val){
-	  //   	_checkBoxes.push([true, 'program']);
-   //  	}
-   // 		_createTable(_getColumns());
-   //  })
-
-   //  programAllCheckbox.empty();
-   //  programAllCheckbox.append(_allCheckBoxesRendered, _programCheckBoxRendered).addClass('program-all-checkbox-container');
-
-     	var _createTable = function(_columns, _searchInputs){
+    var _createTable = function(_columns, _searchInputs){
     	if (_columns.length) {
     		Pard.Widgets.CreateTable(_columns, selected, _tableBox, _submitBtnOuterContainer, _searchInputs);
      	}else{
@@ -236,14 +150,6 @@
   		space: ['name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
   		artist: ['name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend']
   	}
-
-  	// var _createTable = function(_columns){
-   //  	if (_columns.length) {
-   //  		Pard.Widgets.CreateTable(_columns, selected, _tableBox, _submitBtnOuterContainer, _searchInput.getVal());
-   //   	}else{
-   //   		_tableBox.empty();
-   //   	}
-  	// }
 
   	var _createTable = function(){};
 
@@ -481,6 +387,10 @@
   	var _columnsField = _fields[proposalsSelected[0].type];
 
    	var _tableCreated = $('<table>').addClass('table-proposal');
+   	var _programArray = [];
+
+   	var _printTable = function(proposalsSelected){
+	
   	var _thead = $('<thead>');
   	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
 
@@ -500,6 +410,7 @@
 		  		});
 		  		_titleText.click(function(){ 
 		  			var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
+		  			_tableCreated.empty();
 		  			_printTable(_proposalsReordered);
 		  		});
 		  		_titleText.addClass('title-colText-call-manager');
@@ -512,7 +423,7 @@
 
   	_tableCreated.append(_thead.append(_titleRow));
 
-  	var _programArray = [];
+  	_programArray = [];
   	var _tbody = $('<tbody>');
 
   	proposalsSelected.forEach(function(proposal){
@@ -599,6 +510,9 @@
   	})
 
   	_tableCreated.append(_tbody);
+  	}
+
+  	_printTable(proposalsSelected);
 
 		return{
 			render: function(){
