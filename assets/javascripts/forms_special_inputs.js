@@ -635,12 +635,19 @@
         
         var _indexR = -1;
         _results.some(function(result, index){
-          if(result.proposal_id == _newInputArtist.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
+          if(result.proposal_id == _newInputArtist.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString()){
             _indexR = index;
+            _results.splice(_indexR, 1); 
+            _results.push(_show);
+            return true;
+          }
         });
         
-        if (_indexR > -1){ _results.splice(_indexR, 1); _results.push(_show); }
-        else{ conosole.log(_show); _results.push(_show); }
+        // if (_indexR > -1){ 
+        //   _results.splice(_indexR, 1); 
+        //   _results.push(_show); 
+        // }
+        // else{ conosole.log(_show); _results.push(_show); }
 
         _container.empty();
         $('#succes-box-call-manager').empty();
