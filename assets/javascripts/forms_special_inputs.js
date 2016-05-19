@@ -475,7 +475,7 @@
 
     var _addnewInput = function(showInfo){
       var _container = $('<div>');
-      var _newInputSpace = Pard.Widgets.Selector([showInfo['place']], [showInfo['place']]);   
+      var _newInputSpace = Pard.Widgets.Selector([showInfo['place']], [showInfo['proposal_id']]);   
       var _newInputDayTime; 
       if (showInfo['day_time'] == 'both') {
         _newInputDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
@@ -500,7 +500,7 @@
 
         var _indexR = -1;
         _results.some(function(result, index){
-          if(result.place == _newInputSpace.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
+          if(result.proposal_id == _newInputSpace.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
             _indexR = index;
         });     
         if (_indexR > -1){ _results.splice(_indexR, 1);}
@@ -516,9 +516,9 @@
       _modified = true;
       if (_inputSpace.val() && _inputDayTime.val()){
         if (_inputDayTime.val() == 'both'){
-        var _show = {place: _inputSpace.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]}}
-        else {
-        var _show = {place: _inputSpace.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]};
+          var _show = {place: _inputSpace.select2('data')[0]['text'], day_time: _dtArray[_inputDayTime.val()[0]], proposal_id: _inputSpace.select2('data')[0]['id']}
+        }else {
+          var _show = {place: _inputSpace.select2('data')[0]['text'], day_time: _dtArray[_inputDayTime.val()[0]], proposal_id: _inputSpace.select2('data')[0]['id']};
         }
         _showsAddedContainer.prepend(_addnewInput(_show));
         _inputSpace.select2('val', '');
@@ -565,13 +565,12 @@
             _bothVal.push(val);
           }
         })
-
         if (_index.length) _index.forEach(function(_ind){
           values.splice(_ind, 1)
         });
         values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
         if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
-        values.forEach(function(show, index){
+        values.forEach(function(show){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
@@ -642,12 +641,6 @@
             return true;
           }
         });
-        
-        // if (_indexR > -1){ 
-        //   _results.splice(_indexR, 1); 
-        //   _results.push(_show); 
-        // }
-        // else{ conosole.log(_show); _results.push(_show); }
 
         _container.empty();
         $('#succes-box-call-manager').empty();
@@ -692,11 +685,6 @@
         return _createdWidget;
       },
       getVal: function(){
-        // var _results = [];
-        // _inputs.forEach(function(input){
-        // var _show = {proposal_id: input[0].getVal(), day_time: input[1].getVal()};
-        // _results.push(_show);
-        // });
         return _results;
       },
       setVal: function(values){
@@ -709,7 +697,6 @@
             _bothVal.push(val);
           }
         })
-
         if (_index.length) _index.forEach(function(_ind){
           values.splice(_ind, 1)
         });
@@ -720,14 +707,6 @@
           _showsAddedContainer.prepend(_addnewInput(show));
         });
       },
-      // {
-      //   // values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
-      //   if(values == null || values == false) return true;
-      //   values.forEach(function(show){
-      //     _results.push(show);
-      //     _showsAddedContainer.prepend(_addnewInput(show));
-      //   });
-      // },
       resetModifiedCheck: function(){
         _modified = false;
       }

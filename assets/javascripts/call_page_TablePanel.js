@@ -288,7 +288,7 @@
     var _proposalsSelected = [];
 
   	proposals.forEach(function(proposal){
-  		if (proposal['type'] == 'space') _places.push({id: proposal['name'], text: proposal['name']});
+  		if (proposal['type'] == 'space') _places.push({id: proposal['proposal_id'], text: proposal['name']});
   		if (proposal['type'] == 'artist') {
   			var _text =  proposal['name'] + ' - ' +  proposal['title'];
 				_artists.push({id: proposal['proposal_id'], text: _text});
@@ -534,7 +534,8 @@
 						}
 					  if (proposal['type'] == 'space') {
 					  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-							var _showObj = {place: proposal['name'], newProgram: _inputProgram};
+							var _showObj = {place: proposal['name'], proposal_id: proposal['proposal_id'] ,
+							newProgram: _inputProgram};
 							_programArray.push(_showObj);
 							var _savedProgram = [];	  					
 							_programs.forEach(function(program){
@@ -625,10 +626,11 @@
 	  		var _data = {proposal_id: inputProgram['proposalId']};
 	  		var _program = [];
 	  		if (_modified) {
-	  			_showArray.forEach(function(show, index){
+	  			_showArray.forEach(function(show){
 	  				_program.push({
 	  					place: show['place'],
-	  				 	day_time: show['day_time']
+	  				 	day_time: show['day_time'],
+	  				 	proposal_id: show['proposal_id']
 	  				});
 	  			});
 	 				_data['program'] = _program;	
@@ -644,12 +646,16 @@
   		_programArray.forEach(function(inputProgram){
 	  		var _showArray = inputProgram['newProgram'].getVal();	
 	  		var _place = inputProgram['place'];
+	  		var _spaceProposal_id = inputProgram['proposal_id'];
   			_showArray.forEach(function(show){
   				var _check = true;
 		  		var _data = {};
   				_programData.some(function(dataSaved){
   					if (dataSaved['proposal_id'] == show['proposal_id']){
-  							if (show['day_time'] != false) dataSaved['program'].push({	place: _place, 	day_time: show['day_time']});
+  							if (show['day_time'] != false) dataSaved['program'].push({	place: _place, 	
+  								day_time: show['day_time'], 
+  								proposal_id: _spaceProposal_id
+  							});
   							_check = false;
   						return true;
   					}
@@ -658,7 +664,8 @@
 	  				_data['proposal_id'] = show['proposal_id'];
 	  				var _program = {
 	  					place: _place,
-	  				 	day_time: show['day_time']
+	  				 	day_time: show['day_time'],
+	  				 	proposal_id: _spaceProposal_id
 	  				}
 	  				_data['program'] = [_program];
 	  			}
