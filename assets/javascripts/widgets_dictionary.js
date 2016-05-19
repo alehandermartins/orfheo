@@ -96,6 +96,7 @@
       own: 'Programación propria',
       un_wanted: 'Preferencias',
       program: 'Programa',
+      link_orfheo: 'Enlace a perfil',
       
       already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},

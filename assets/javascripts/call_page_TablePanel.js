@@ -102,35 +102,58 @@
   	
   	var _createdWidget = $('<div>');
 
-    var _createTable = function(_columns, _searchInputs){
-    	if (_columns.length) {
-    		Pard.Widgets.CreateTable(_columns, selected, _tableBox, _submitBtnOuterContainer, _searchInputs);
-     		_tableBox.addClass('table-box-proposal-manager');
-     	}else{
-     		_tableBox.empty();
-     		_submitBtnOuterContainer.empty();
-     		_tableBox.removeClass('table-box-proposal-manager');
-     	}
+  	var _showHideTable = function(columns, rows){
+	   	if (columns.length) _tableBox.addClass('table-box-proposal-manager');
+	   	else _tableBox.removeClass('table-box-proposal-manager');
+	   	_matrix.forEach(function(row, i){
+	   		row.forEach(function(col, j){
+	   			if (rows.indexOf(i) > -1 && columns.indexOf(j) > -1) col.show();
+	   			else col.hide();
+	   		})
+	   	})
   	}
 
     var _outerTableContainer = $('<div>');
 
+   	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
+
    	var _tableBox = $('<div>');
+   	var _table = Pard.Widgets.CreateTable(selected, _submitBtnOuterContainer);
+
+   	var _matrix = _table.getMatrix();
+
+   	var _titleColCallback = function(field){
+   		var _proposalsSelectedReordered = Pard.Widgets.Reorder(field, selected).render();
+   		_tableBox.empty();
+   		_table =  Pard.Widgets.CreateTable(selected, _submitBtnOuterContainer, _proposalsSelectedReordered);
+   		_matrix = _table.getMatrix();
+   		_tableBox.append(_table.render());
+			_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
+   		_table.setTitleColCallback(function(field){
+   			_titleColCallback(field);
+   		});   		
+   	}
+
+   	_table.setTitleColCallback(function(field){
+   		_titleColCallback(field);
+   	});
+
 
    	var  _searchInputContainer = $('<div>').addClass('search-input-call-manager-container');
 
 	  var _searchInput = Pard.Widgets.SearchInputCallManager(selected);
 
-	  _searchInput.setCallback(function(){_createTable(_checkBoxesBox.getVal(), _searchInput.getVal())});
+	  _searchInput.setCallback(function(){_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal())});
 
-	  var _checkBoxesBox = Pard.Widgets.PrintCheckBoxes(programAllCheckbox, selected);
+	  var _checkBoxesBox = Pard.Widgets.PrintCheckBoxes(programAllCheckbox, selected, _submitBtnOuterContainer);
 
-	  _checkBoxesBox.setCallback(function(){_createTable(_checkBoxesBox.getVal(), _searchInput.getVal())});
+	  _checkBoxesBox.setCallback(function(){_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal())});
 
-   	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
+    _createdWidget.append(_checkBoxesBox.render(), _outerTableContainer.append(_searchInputContainer.append(_searchInput.render()), _tableBox.append(_table.render()), _submitBtnOuterContainer));
 
-  	   	
-    _createdWidget.append(_checkBoxesBox.render(), _outerTableContainer.append(_searchInputContainer.append(_searchInput.render()), _tableBox, _submitBtnOuterContainer));
+    _showHideTable([],[]);
+
+    _submitBtnOuterContainer.hide();
 
 		return {
       render: function(){
@@ -140,40 +163,57 @@
   }
 
 
+  ns.Widgets.Reorder = function(field, selected){
+  	var proposals = Pard.CachedProposals;
+  	var _proposalsSelected = [];
+  	proposals.forEach(function(proposal){
+  		if(proposal.type == selected) _proposalsSelected.push(proposal);
+  	})
 
-  ns.Widgets.PrintCheckBoxes = function(programAllCheckbox, selected) {
+  	_proposalsSelected.sort(function (a, b) {
+  		return a[field].toLowerCase().localeCompare(b[field].toLowerCase());
+		});
+
+		return {
+			render: function(){
+				return _proposalsSelected;
+			}
+		}
+	}
+
+
+  ns.Widgets.PrintCheckBoxes = function(programAllCheckbox, selected,_submitBtnOuterContainer) {
   	programAllCheckbox.empty();
 
   	var _checkBoxesBox = $('<div>');
     var _checkBoxes = [];
 
     var _fields = {
-  		space: ['name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
-  		artist: ['name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend']
+  		space: ['link_orfheo', 'name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
+  		artist: ['link_orfheo', 'name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend']
   	}
 
   	var _createTable = function(){};
 
   	var _getColumns = function(){ 
 	  	var _columns = [];
+	  	_submitBtnOuterContainer.hide();
 			_checkBoxes.forEach(function(elem){
 				if (elem[1] === 'program'){
-					_columns.push(elem[1]); 			
+					_columns.push(_fields[selected].length);
+					_submitBtnOuterContainer.show(); 			
 				}
-				else if (elem[0].getVal()) _columns.push(elem[1]);
+				else if (elem[0].getVal()) {
+					var index = _fields[selected].indexOf(elem[1]);
+					_columns.push(index);
+				}				
 	  	})
 	  	return _columns;
 	  }
 
+
   	var _printCheckBoxes = function(){
   	_checkBoxes = [];
-  	var _checkBox = Pard.Widgets.CheckBox('Enlace a perfil','link_orfheo')
-    	_checkBoxes.push([_checkBox,'link_orfheo']);
-    	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
-    	_checkBoxRendered.change(function(){
-    		_createTable();
-    	})
-    	_checkBoxesBox.append(_checkBoxRendered);
     _fields[selected].forEach(function(field){
     	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),field)
     	_checkBoxes.push([_checkBox,field]);
@@ -236,14 +276,12 @@
   }
 
 
-  ns.Widgets.CreateTable = function(columns, selected, _tableBox, _submitBtnOuterContainer, proposalsToShow){
-
-  	_tableBox.empty();
+  ns.Widgets.CreateTable = function(selected, _submitBtnOuterContainer, proposalsReordered){
 
   	_submitBtnOuterContainer.empty();
 
   	var proposals = Pard.CachedProposals;
-
+  	
   	var _places = [{id:'', text:''}];
   	var _artists = [{id:'', text:''}];
   	var _programs = [];
@@ -259,10 +297,12 @@
 	  			_programs.push(proposal['program']);
 				}
 			}
-   		if (proposal['type'] == selected) {
+   		if (!(proposalsReordered) && proposal['type'] == selected) {
    			_proposalsSelected.push(proposal);
    		}
    	});
+
+   	if (proposalsReordered) _proposalsSelected = proposalsReordered
 
 		var dayTimeObj = Pard.Widgets.DayTime();
 
@@ -270,19 +310,26 @@
    	_submitBtnOuterContainer.append(_submitBtnContainer);
    	var _successBox = $('<span>').attr('id','succes-box-call-manager');
 
-   	var _tableCreated = Pard.Widgets.PrintTable(_proposalsSelected, columns, dayTimeObj, _places, _artists, _programs, proposalsToShow);
+   	var _tableCreated = Pard.Widgets.PrintTable(_proposalsSelected, dayTimeObj, _places, _artists, _programs);
 
-
-	  if ($.inArray('program', columns) >-1) {
   		_submitBtnContainer.empty()
  			var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
 			  var _programArray = _tableCreated.getVal();
- 				Pard.Widgets.SendProgram(_programArray, selected, columns, _tableBox, _submitBtnOuterContainer);
+ 				Pard.Widgets.SendProgram(_programArray, selected);
  			});
  			_submitBtnContainer.append(_successBox, _submitBtn.render());
- 		}
 
-    _tableBox.append(_tableCreated.render());
+    return {
+    	render: function(){
+    		return _tableCreated.render()
+    	}, 
+    	getMatrix: function(){
+    		return _tableCreated.getMatrix();
+    	},
+    	setTitleColCallback: function(callback){
+    		_tableCreated.setTitleColCallback(callback);
+    	}
+    }
 
   }
 
@@ -299,7 +346,6 @@
 		var _categoryAdded = [];
 		var _respAdded = [];
 		var _titlesAdded = [];
-
 
   	proposals.forEach(function(proposal){
    		if (proposal['type'] == selected) {
@@ -345,7 +391,6 @@
 	  var _filterPropoposals = function(){
 	    var _searchTerms = _searchInput.val();
       if (_searchTerms){
-      	_proposalsSearched = [];
 	    	var _proposalsSearched = _proposalsSelected;
 	    	var _oldProposalsSearched = _proposalsSelected;
 	    	_searchTerms.forEach(function(_searchTerm){
@@ -367,7 +412,12 @@
 	    else{
 	    	_proposalsSearched = _proposalsSelected;
 	    }
-	    return _proposalsSearched;
+    	var _indexProposal = [0];
+	    _proposalsSearched.forEach(function(propSearched){
+	    	var position = _proposalsSelected.indexOf(propSearched) +1;
+	    	_indexProposal.push(position);
+	    });
+	    return _indexProposal;
 	  }
 
     return {
@@ -387,18 +437,30 @@
 
 
 
-  ns.Widgets.PrintTable = function(proposalsSelected, columns, dayTimeObj, places, _artists, _programs, proposalsToShow) {
+  ns.Widgets.PrintTable = function(proposalsSelected, dayTimeObj, places, _artists, _programs) {
+
+  	var _fields = {
+  		space: ['link_orfheo','name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend', 'program'],
+  		artist: ['link_orfheo', 'name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend', 'program']
+  	}
+
+  	var columns = _fields[proposalsSelected[0].type];
+
+  	var _cols = [];
+  	var _matrix = [];
 
    	var _tableCreated = $('<table>').addClass('table-proposal');
    	var _programArray = [];
+
+   	var reorder = function(colNum){};
 
    	var _printTable = function(proposalsSelected){
 	
   	var _thead = $('<thead>');
   	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
 
-  	columns.forEach(function(field){
-  		if (field == 'link_orfheo'){
+  	columns.forEach(function(field, colNum){
+  		if (field == 'link_orfheo'){ 
 	  		var _titleText = $('<span>').html('rfh');
 	  		var _titleCol = $('<th>').append(_titleText);
 	  		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
@@ -406,22 +468,23 @@
   		else{
 	  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
 	  		var _titleCol = $('<th>').append(_titleText);
-	  		var _proposalField = [];
 	  		if (['availability', 'program'].indexOf(field)<0){
-		  		proposalsSelected.forEach(function(proposal){
-		  			_proposalField.push(proposal[field]);
-		  		});
 		  		_titleText.click(function(){ 
-		  			var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
-		  			_tableCreated.empty();
-		  			_printTable(_proposalsReordered);
+		  			// var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
+		  			// _tableCreated.empty();
+		  			// _printTable(_proposalsReordered);
+		  			reorder(field);
 		  		});
 		  		_titleText.addClass('title-colText-call-manager');
 		  		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
 		  	}
 	  	}
   		_titleRow.append(_titleCol);
+  		_cols.push(_titleCol);
   	});
+
+ 		_matrix.push(_cols);
+ 		_cols = [];
 
   	_tableCreated.append(_thead.append(_titleRow));
 
@@ -505,9 +568,13 @@
   				_col.html('');
   			}
   			_row.append(_col);
+  			_cols.push(_col);
   		});
-  		if (proposalsToShow && $.inArray(proposal, proposalsToShow) < 0) _row.hide(); 
+
   		_tbody.append(_row);
+  		_matrix.push(_cols);
+  		_cols = [];
+
   	})
 
   	_tableCreated.append(_tbody);
@@ -521,6 +588,12 @@
 			},
 			getVal: function(){
 				return _programArray;
+			},
+			getMatrix: function(){
+				return _matrix;
+			},
+			setTitleColCallback: function(callback){
+				reorder = callback;
 			}
 		}
 	}
@@ -539,27 +612,9 @@
   }
 
 
-  ns.Widgets.Reorder = function(proposalField, field, _proposalsSelected){
-  	proposalField.sort(function (a, b) {
-  		return a.toLowerCase().localeCompare(b.toLowerCase());
-		});
-  	var _reordered = [];
-  	proposalField.forEach(function(value){
-  		_proposalsSelected.forEach(function(proposal){
-	  		if (proposal[field] ==  value && $.inArray(proposal,_reordered)==-1){
-					_reordered.push(proposal);
-				} 
-			})
-		});
-		return {
-			render: function(){
-				return _reordered;
-			}
-		}
-	}
 
 
-  ns.Widgets.SendProgram = function (_programArray, selected, columns, _tableBox, _submitBtnOuterContainer) {
+  ns.Widgets.SendProgram = function (_programArray, selected) {
 
   	var _programData = [];
 
@@ -583,8 +638,6 @@
 	  	});
 	  	return _programData;
   	}
-
-
 
 	  var _saveProgramSpaces = function(_programArray){
 
