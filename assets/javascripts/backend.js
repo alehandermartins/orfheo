@@ -173,6 +173,16 @@
       );
     };
 
+    var _getForm = function(form, callback){
+      _send(       
+        '/forms',
+        {
+          form: form
+        },
+        callback
+      );
+    };
+
 
     return {
       register: _register,
@@ -190,7 +200,8 @@
       deleteProfile: _deleteProfile,
       deleteUser: _deleteUser,
       amendProposal: _amendProposal,
-      program: _program
+      program: _program,
+      getForm: _getForm
     };
   }());
 

@@ -1,8 +1,8 @@
 class FormsController < BaseController
 
   post '/' do
-    check_type params[:type]
-    form = Forms.get(params[:type])
+    check_type params[:form]
+    form = Forms.get(params[:form])
     success({form: form})
   end
 

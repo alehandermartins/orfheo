@@ -13,6 +13,10 @@ module Repos
         {upsert: true})
       end
 
+      def add profile
+        @@profiles_collection.insert(profile)
+      end
+
       def name_available? name, profile_id
         query = {profile_id: {"$ne": profile_id}, name: name}
         @@profiles_collection.count(query: query) == 0

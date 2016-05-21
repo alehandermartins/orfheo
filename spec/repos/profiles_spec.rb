@@ -33,7 +33,7 @@ describe Repos::Profiles do
   }
 
   before(:each){
-    Repos::Profiles.update(profile)
+    Repos::Profiles.add(profile)
     profile.delete(:_id)
   }
 

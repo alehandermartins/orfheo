@@ -14,8 +14,14 @@ class ProfilesController < BaseController
     }
     raise Pard::Invalid::Type unless form.keys.include? params[:type]
     profile = create_model params, Forms.get(form[params[:type]])
-    Repos::Profiles.add profile, params[:type], session[:identity]
-    success
+    profile_id = SecureRandom.uuid
+
+    profile.merge! user_id: session[:identity]
+    profile.merge! profile_id: profile_id
+    profile.merge! type: type
+
+    Repos::Profiles.add profile
+    success({profile_id: profile_id})
   end
 
   post '/users/modify_profile' do

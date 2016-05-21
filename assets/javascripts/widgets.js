@@ -50,14 +50,45 @@
       $('body').append(_content);
     });
 
-
-
     _popupCaller.on('click', function(){
       _content.empty();
       var _message = Pard.Widgets.PopupContent(title, message(), contentClass);
       _message.setCallback(function(){_popup.close()});
       _content.append(_message.render());
       _popup.open();
+    });
+
+    return {
+      render: function(){
+        return _popupCaller;
+      }
+    }
+  }
+
+  ns.Widgets.PopupForm = function(caller, title, form){
+
+    var _content = $('<div>').addClass('very-fast reveal full');
+
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+
+    var _popupCaller = caller;
+
+    _popupCaller.one('click', function(){
+      $('body').append(_content);
+    });
+
+    _popupCaller.on('click', function(){
+      Pard.Backend.getForm(form, function(data){
+        var message = {
+          'create_artist': Pard.Widgets.ArtistForm,
+          'create_space': Pard.Widgets.SpaceForm,
+        }
+        _content.empty();
+        var _message = Pard.Widgets.PopupContent(title, message[form](data.form));
+        _message.setCallback(function(){_popup.close()});
+        _content.append(_message.render());
+        _popup.open();
+      });
     });
 
     return {
