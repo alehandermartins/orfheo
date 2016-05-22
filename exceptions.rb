@@ -38,6 +38,18 @@ module Pard
     end
   end
 
+  class Invalid::Category < Invalid
+    def message
+      'invalid_category'
+    end
+  end
+
+  class Invalid::Form < Invalid
+    def message
+      'invalid_form'
+    end
+  end
+
   class Invalid::ExistingProfile < Invalid
     def message
       'existing_profile'
@@ -83,12 +95,6 @@ module Pard
   class Invalid::CallOwnership < Invalid
     def message
       'you_dont_have_permission'
-    end
-  end
-
-  class Invalid::Category < Invalid
-    def message
-      'invalid_category'
     end
   end
 

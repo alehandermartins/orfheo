@@ -6,15 +6,11 @@ module Repos
         @@profiles_collection = db['profiles']
       end
 
-      def update fields
-        @@profiles_collection.update({profile_id: fields[:profile_id]},{
-          "$set": fields
+      def update profile
+        @@profiles_collection.update({profile_id: profile[:profile_id]},{
+          "$set": profile
         },
         {upsert: true})
-      end
-
-      def add profile
-        @@profiles_collection.insert(profile)
       end
 
       def name_available? name, profile_id
@@ -36,10 +32,12 @@ module Repos
       end
 
       def exists? profile_id
+        return false unless UUID.validate(profile_id)
         @@profiles_collection.count(query: {profile_id: profile_id}) > 0
       end
 
       def production_exists? production_id
+        return false unless UUID.validate(production_id)
         @@profiles_collection.count(query: {"productions.production_id": production_id}) > 0
       end
 

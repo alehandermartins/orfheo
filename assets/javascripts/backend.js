@@ -94,6 +94,14 @@
       );
     };
 
+    var _createProduction = function(form, callback){
+      _send(       
+        '/users/create_production',
+        form,
+        callback
+      );
+    };
+
     var _modifyProduction = function(form, callback){
       _send(       
         '/users/modify_production',
@@ -193,6 +201,7 @@
       createProfile: _createProfile,
       modifyProfile: _modifyProfile,
       sendProposal: _sendProposal,
+      createProduction: _createProduction,
       modifyProduction: _modifyProduction,
       searchProfiles: _searchProfiles,
       deleteProposal: _deleteProposal,

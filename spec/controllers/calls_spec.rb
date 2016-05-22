@@ -34,14 +34,11 @@ describe CallsController do
 
   let(:profile){
     {
-      profile_id: profile_id,
       type: 'artist',
       name: 'artist_name',
       city: 'city',
       zip_code: 'zip_code',
-      profile_picture: ['profile.jpg'],
-      bio: 'bio',
-      personal_web: 'my_web'
+      color: 'color'
     }
   }
 
@@ -78,6 +75,7 @@ describe CallsController do
     Repos::Users.add user
     Services::Users.validated_user validation_code
     post login_route, user_hash
+    allow(SecureRandom).to receive(:uuid).and_return(profile_id)
   }
 
   describe 'Create' do
@@ -126,8 +124,9 @@ describe CallsController do
     end
 
     it 'fails if not the profile owner' do
-      allow(Services::Profiles).to receive(:get_profile_owner).with(profile_id).and_return('otter')
       post create_profile_route, profile
+
+      allow(Services::Profiles).to receive(:get_profile_owner).with(profile_id).and_return('otter')
       post send_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')

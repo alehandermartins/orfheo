@@ -33,7 +33,7 @@ describe Repos::Profiles do
   }
 
   before(:each){
-    Repos::Profiles.add(profile)
+    Repos::Profiles.update(profile)
     profile.delete(:_id)
   }
 
@@ -117,6 +117,7 @@ describe Repos::Profiles do
 
     it 'checks if matched production is already in a profile' do
       expect(Repos::Profiles.production_exists?('otter_production')).to eq(false)
+      expect(Repos::Profiles.production_exists?(production_id)).to eq(false)
       Repos::Profiles.add_production(profile_id, production)
       expect(Repos::Profiles.production_exists?(production_id)).to eq(true)
     end

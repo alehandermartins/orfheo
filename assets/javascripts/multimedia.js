@@ -293,7 +293,7 @@
 
   ns.Widgets.MultimediaManager = function(production){
 
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica o crea nuovo');
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica o crea uno nuevo');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Gestiona tus contenidos multimedia', function(){return Pard.Widgets.MultimediaManagerMessage(production)});
 
     var _createdWidget = _popup.render();

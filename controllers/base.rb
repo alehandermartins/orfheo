@@ -12,6 +12,15 @@ class BaseController < Sinatra::Base
       message.to_json
     end
 
+    def scopify **param_projection
+      param_projection.each do |param, projection|
+        projection = param if projection == true
+        self.send(:define_singleton_method, projection) {
+          params[param]
+        }
+      end
+    end
+
     def check_invalid_email email
       raise Pard::Invalid.new 'invalid_email' if invalid_email? email
     end
@@ -23,6 +32,18 @@ class BaseController < Sinatra::Base
     def check_profile_ownership profile_id
       raise Pard::Invalid::UnexistingProfile unless profile_exists? profile_id
       raise Pard::Invalid::ProfileOwnership unless get_profile_owner(profile_id) == session[:identity]
+    end
+
+    def check_type type
+      raise Pard::Invalid::Type unless ['artist', 'space', 'organization'].include? type
+    end
+
+    def check_category category
+      raise Pard::Invalid::Category unless ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'].include? category
+    end
+
+    def check_type_and_category type
+      raise Pard::Invalid::Type unless ['artist', 'space', 'organization', 'music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'].include? type
     end
 
     def create_model params, form

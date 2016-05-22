@@ -11,10 +11,12 @@ module Repos
       end
 
       def exists? call_id
+        return false unless UUID.validate(call_id)
         @@calls_collection.count(query: {call_id: call_id}) > 0
       end
 
       def proposal_exists? proposal_id
+        return false unless UUID.validate(proposal_id)
        @@calls_collection.count(query: {"proposals.proposal_id": proposal_id}) > 0
       end
 

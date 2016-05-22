@@ -12,13 +12,6 @@ class SpaceProfile
     check_fundamentals || incorrect_categories?
   end
 
-  def images
-    {
-      profile_picture: profile[:profile_picture],
-      photos: profile[:photos]
-    }
-  end
-
   def uuid
     profile[:profile_id]
   end
