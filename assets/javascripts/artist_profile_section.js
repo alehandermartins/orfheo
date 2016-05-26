@@ -6,7 +6,6 @@
 
  
   ns.Widgets.ArtistSection = function(sectionHeader, profile_id) {
-    console.log(profile_id)
 
     profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);

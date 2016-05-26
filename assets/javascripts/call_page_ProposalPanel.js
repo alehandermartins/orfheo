@@ -6,17 +6,25 @@
 
   	var _createdWidget = $('<div>');
 
-  	var _createSpaceCaller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Espacio');
+    var _addProposalBox = $('<div>').addClass('add-proposal-box');
+    var _whiteListBox = $('<div>').addClass('white-list-box');
 
-  	var _createArtistCaller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text('Artista');
+    var _addProposalText = $('<p>').text('Añade propuestas a tu convocatoria para que puedas insertarlas en la programación').addClass('initial-text-proposalPanel');
+    var _whiteListText = $('<p>').text('Habilita usuarios para que puedan enviar una propuesta en cualquier momento').addClass('initial-text-proposalPanel');
+
+  	var _createSpaceCaller = $('<button>').addClass('create-space-proposal-call-page-btn').attr({type: 'button'}).text('Espacio');
+
+  	var _createArtistCaller = $('<button>').addClass('create-artist-proposal-call-page-btn').attr({type: 'button'}).text('Artista');
 
     var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateSpaceProposal(call)});
 
     var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateArtistProposal(call)});
 
     var _whiteList = Pard.Widgets.WhiteList(call);
-  	
-    _createdWidget.append(_spacePopup.render(), _artistPopup.render(), _whiteList.render());
+
+    _addProposalBox.append(_addProposalText, _spacePopup.render(), _artistPopup.render());
+    _whiteListBox.append(_whiteListText, _whiteList.render());	
+    _createdWidget.append(_addProposalBox, _whiteListBox);
 
   	return {
       render: function(){
@@ -50,7 +58,7 @@
     // var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css('margin-bottom','1rem');
 
     _submitForm['call_id'] = call.call_id;
-    // _submitForm['profile_id'] = profile.profile_id;
+    // _submitForm['profile_id'] = profile.profile_id; profile_id del organizador
     _submitForm['type'] = 'space';
     _submitForm['category'] = _preSelected;
 

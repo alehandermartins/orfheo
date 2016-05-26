@@ -720,7 +720,7 @@
     var _results = [];
     var _inputs = [];
     var _inputNameEmail = $('<select>');
-    var _inputContainer = $('<div>').addClass('inputSpace-container');
+    var _inputContainer = $('<div>').addClass('input-whiteList-container');
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
@@ -764,14 +764,16 @@
 
     _createdWidget.append(_inputContainer.append(_inputNameEmail), _addInputButton,_inputAddedContainer);
 
+    _inputNameEmail.select2({
+        placeholder:'Email o Nombre de perfil',
+        data: emailsNames,
+        multiple:true,
+        maximumSelectionLength: 1
+    });
+
     return {
       render: function(){
-        _inputNameEmail.select2({
-          data: emailsNames,
-          multiple:true,
-          maximumSelectionLength: 1,
-          placeholder:'Email o Nombre de perfil'
-        });
+
         return _createdWidget;
       },
       getVal: function(){

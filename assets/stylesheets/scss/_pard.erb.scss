@@ -534,9 +534,6 @@ button{
   height: 50px;
 }
 
-// .modify-section-content-button-container button:hover{
-//   font-weight: bold;
-// }
 
 .callButtonArtist-sendOther{
   @include breakpoint(large){
@@ -640,6 +637,22 @@ button{
     margin-bottom: 1.3rem;
   }
 }
+
+
+.create-space-proposal-call-page-btn, .create-artist-proposal-call-page-btn{
+  cursor: pointer;
+  padding: 0.4rem 1.2rem; 
+  border: 2px solid transparent;
+  margin-right: 2rem;
+  border: 2px solid $grey-1;
+  font-weight: bold;
+}
+
+ .create-space-proposal-call-page-btn:hover, .create-artist-proposal-call-page-btn:hover{
+    background: $grey-1;
+}
+
+
 
 
 

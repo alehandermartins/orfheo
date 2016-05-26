@@ -74,7 +74,7 @@
 
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true});
-    _elemOffCanvas.append(_iconOffCanvas, ' Menu');
+    _elemOffCanvas.append(_iconOffCanvas, ' Descubre maś');
 
     _responsiveMenu.append(_elemResponsive, _elemOffCanvas);
 
@@ -207,7 +207,7 @@
     // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
     var _signUpMessage =  Pard.Widgets.Registration();    
     var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Regístrate para continuar', function(){return _signUpMessage});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
     var _signUpButton = _popup.render().addClass('signUpButton-login-section');
 
     var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);

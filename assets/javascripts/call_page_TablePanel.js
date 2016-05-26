@@ -7,9 +7,9 @@
   	var _main = $('<main>').addClass('main-call-page');
     var _mainLarge = $('<section>').addClass('pard-grid call-section');
 
-    var _title = $('<h4>').text('Gestiona la Convocatoria');
+    var _title = $('<h4>').text('Gestiona la Convocatoria').css({'margin-top':'2rem', 'margin-bottom':'2rem'});
 
-    var _tabs = $('<ul>').addClass('menu simple tabs-menu');
+    var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
   	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla y Programa');
   	var _tableTab = $('<li>').append(_tableTabTitle);
   	_tableTab.click(function(){
@@ -22,10 +22,10 @@
   	var _profilesTabTitle =	$('<a>').attr({href: "#"}).text('Propuestas');
   	var _profilesTab = $('<li>').addClass('tabs-title is-active').append(_profilesTabTitle);
   	_profilesTab.click(function(){
-			if(!($('#profilesPanel').html())) $('#profilesPanel').append(Pard.Widgets.ProposalsPanelContent(call).render());
+			if(!($('#proposalsPanel').html())) $('#proposalsPanel').append(Pard.Widgets.ProposalsPanelContent(call).render());
 			$('.tab-selected').removeClass('tab-selected');
 			_profilesTab.addClass('tab-selected');
-			_tabShowHide('profilesPanel');
+			_tabShowHide('proposalsPanel');
 		});
 
   		
@@ -39,7 +39,7 @@
   	}
 
   	var _tablePanel = $('<div>').attr('id', 'tablePanel');
-		var _profilesPanel = $('<div>').attr('id', 'profilesPanel');
+		var _proposalsPanel = $('<div>').attr('id', 'proposalsPanel');
 
 		var _panelShown = _tablePanel;
 
@@ -47,7 +47,7 @@
 			_tableTabTitle.trigger('click')
 		});
 
-    _mainLarge.append(_title, _tabs, _tablePanel, _profilesPanel);
+    _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel);
     _main.append(_mainLarge);
 
   	return {
