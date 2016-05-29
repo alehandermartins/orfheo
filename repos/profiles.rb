@@ -24,9 +24,9 @@ module Repos
         })
       end
 
-      def modify_production fields
-        @@profiles_collection.update({"productions.production_id": fields[:production_id]},{
-          "$set": {"productions.$": fields}
+      def modify_production production
+        @@profiles_collection.update({"productions.production_id": production[:production_id]},{
+          "$set": {"productions.$": production}
         },
         {upsert: true})
       end

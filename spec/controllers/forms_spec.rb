@@ -2,7 +2,7 @@ describe FormsController do
 
   let(:forms_route){'/forms'}
 
-  describe 'Get' do
+  xdescribe 'Get' do
 
     it 'fails if the type does not exist' do
       post forms_route, {}

@@ -35,7 +35,7 @@ module Services
       end
 
       def delete_user user_id
-        profiles = Services::Profiles.get_profiles :user_profiles, {user_id: user_id}
+        profiles = Repos::Profiles.get_profiles :user_profiles, {user_id: user_id}
         profiles.each{ |profile|
           Services::Profiles.delete_profile profile[:profile_id]
         }

@@ -191,6 +191,15 @@
       );
     };
 
+    var _sendOwnProposal = function(form, callback){
+      _send(       
+        '/users/own_proposal',
+        {
+          form: form
+        },
+        callback
+      );
+    };
 
     return {
       register: _register,
@@ -201,6 +210,7 @@
       createProfile: _createProfile,
       modifyProfile: _modifyProfile,
       sendProposal: _sendProposal,
+      sendOwnProposal: _sendOwnProposal,
       createProduction: _createProduction,
       modifyProduction: _modifyProduction,
       searchProfiles: _searchProfiles,

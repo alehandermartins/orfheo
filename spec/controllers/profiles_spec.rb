@@ -53,53 +53,30 @@ describe ProfilesController do
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
-
-  let(:proposal){
+  let(:profile){
     {
-      profile_id: profile_id,
-      production_id: production_id,
-      call_id: call_id,
       type: 'artist',
-      category: 'music',
-      title: 'title',
-      description: 'description',
-      short_description: 'short_description',
-      photos: ['picture.jpg', 'otter_picture.jpg'],
-      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
-      duration: '15',
-      children: 'children',
-      phone: '666999666',
-      conditions: 'true',
-      availability: 'sun',
-      components: '3',
-      repeat: 'true'
+      name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      color: 'color'
     }
   }
 
-  let(:profile){
-      {
-        type: 'artist',
-        name: 'artist_name',
-        city: 'city',
-        zip_code: 'zip_code',
-        color: 'color'
-      }
+  let(:profile_model){
+    {
+      user_id: user_id,
+      profile_id: profile_id,
+      type: 'artist',
+      name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      personal_web: nil,
+      color: 'color'
     }
+  }
 
-    let(:profile_model){
-      {
-        user_id: user_id,
-        profile_id: profile_id,
-        type: 'artist',
-        name: 'artist_name',
-        city: 'city',
-        zip_code: 'zip_code',
-        personal_web: nil,
-        color: 'color'
-      }
-    }
-
-    let(:production){
+  let(:production){
     {
       profile_id: profile_id,
       category: 'music',
@@ -115,7 +92,6 @@ describe ProfilesController do
 
   let(:production_model){
     {
-      user_id: user_id,
       production_id: production_id,
       category: 'music',
       title: 'title',
@@ -127,10 +103,6 @@ describe ProfilesController do
       children: 'children',
       components: nil
     }
-  }
-
-  let(:call){
-    {}
   }
 
   before(:each){
@@ -190,16 +162,18 @@ describe ProfilesController do
       profile_model.merge! bio: 'bio'
     }
 
-    it 'fails if the type does not exist' do
-      post modify_profile_route, {}
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_type')
-    end
-
     it 'fails if the profile does not exist' do
       post modify_profile_route, profile
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_profile')
+    end
+
+    it 'fails if the type does not exist' do
+      post create_profile_route, profile
+      profile[:type] = 'otter'
+      post modify_profile_route, profile
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_type')
     end
 
     it 'modifies the desired parameters' do
@@ -245,7 +219,7 @@ describe ProfilesController do
       expect(Repos::Profiles).to receive(:add_production).with(profile_id, production_model)
       post create_production_route, production
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profile_id']).to eq(profile_id)
+      expect(parsed_response['production']).to eq(Util.stringify_hash(production_model))
     end
   end
 
@@ -257,6 +231,8 @@ describe ProfilesController do
     before(:each){
       post create_profile_route, profile
       production.merge! production_id: production_id
+      production[:title] = 'otter_title'
+      production_model[:title] = 'otter_title'
       allow(SecureRandom).to receive(:uuid).and_return(production_id)
     }
 
@@ -268,11 +244,11 @@ describe ProfilesController do
 
     it 'modifies a production' do
       post create_production_route, production
-      expect(Services::Profiles).to receive(:modify_production).with(Util.stringify_hash(production), user_id).and_return(production)
+      expect(Repos::Profiles).to receive(:modify_production).with(production_model)
 
       post modify_production_route, production
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['production']).to eq(Util.stringify_hash(production))
+      expect(parsed_response['production']).to eq(Util.stringify_hash(production_model))
     end
 
     it 'does not allow to modify a production you don"t own' do
@@ -292,8 +268,6 @@ describe ProfilesController do
 
     before(:each){
       post create_profile_route, profile
-      post create_call_route, call
-      post send_proposal_route, proposal
     }
 
     it 'redirects user to not found page if profile does not exist' do
@@ -302,7 +276,7 @@ describe ProfilesController do
     end
 
     it 'gets the profiles of the user' do
-      expect(Services::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id, profile_id: profile_id})
+      expect(Repos::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id, profile_id: profile_id})
       get profiles_route
     end
 

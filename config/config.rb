@@ -18,12 +18,14 @@ require_relative '../repos/users'
 require_relative '../repos/profiles'
 require_relative '../repos/calls'
 
+require_relative '../lib/forms/base'
+require_relative '../lib/forms/profiles'
+require_relative '../lib/forms/productions'
+require_relative '../lib/forms/proposals'
+
+
 require_relative '../lib/users/user'
-require_relative '../lib/profiles/artist_profile'
-require_relative '../lib/profiles/space_profile'
-require_relative '../lib/forms/forms'
 require_relative '../lib/calls/call'
-require_relative '../lib/calls/proposal'
 require_relative '../lib/util'
 
 class BaseController < Sinatra::Base

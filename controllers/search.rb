@@ -31,7 +31,7 @@ class SearchController < BaseController
   end
 
   def get_profiles
-    profiles = Services::Profiles.get_profiles :all, nil
+    profiles = Repos::Profiles.get_profiles :all, nil
     profiles.reject!{ |profile| profile[:user_id] == session[:identity]} if session[:identity]
     profiles
   end

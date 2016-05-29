@@ -45,7 +45,6 @@ describe CallsController do
   let(:proposal){
     {
       profile_id: profile_id,
-      proposal_id: proposal_id,
       production_id: production_id,
       call_id: call_id,
       type: 'artist',
@@ -54,14 +53,63 @@ describe CallsController do
       description: 'description',
       short_description: 'short_description',
       photos: ['picture.jpg', 'otter_picture.jpg'],
-      links: 'links',
-      duration: '15',
+      links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
+      duration: 'duration',
       children: 'children',
       phone: '666999666',
+      sharing: nil,
+      needs: nil,
       conditions: 'true',
+      waiting_list: nil,
       availability: 'sun',
       components: '3',
       repeat: 'true',
+    }
+  }
+
+  let(:proposal_model){
+    {
+      name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      duration: 'duration',
+      components: '3',
+      availability: 'sun',
+      children: 'children',
+      links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
+      photos: ['picture.jpg', 'otter_picture.jpg'],
+      sharing: nil,
+      needs: nil,
+      repeat: 'true',
+      waiting_list: nil,
+      phone: '666999666',
+      conditions: 'true',
+      user_id: user_id,
+      email: 'email@test.com',
+      profile_id: profile_id,
+      proposal_id: proposal_id,
+      production_id: production_id,
+      type: :artist,
+      category: :music,
+      personal_web: nil
+    }
+  }
+
+  let(:production_model){
+    {
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      duration: 'duration',
+      components: '3',
+      children: 'children',
+      links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
+      photos: ['picture.jpg', 'otter_picture.jpg'],
+      category: 'music',
+      production_id: production_id,
     }
   }
 
@@ -96,8 +144,49 @@ describe CallsController do
 
   describe 'Send_proposal' do
 
+    let(:own_proposal){
+      {
+        profile_id: profile_id,
+        call_id: call_id,
+        email: 'email',
+        name: 'artist_name',
+        type: 'artist',
+        category: 'music',
+        title: 'title',
+        description: 'description',
+        short_description: 'short_description',
+        duration: 'duration',
+        children: 'children',
+        phone: '666999666',
+        availability: 'sun',
+        components: '3',
+      }
+    }
+
+    let(:own_proposal_model){
+      {
+        user_id: user_id,
+        profile_id: profile_id,
+        proposal_id: proposal_id,
+        email: 'email',
+        name: 'artist_name',
+        type: :artist,
+        category: :music,
+        title: 'title',
+        description: 'description',
+        short_description: 'short_description',
+        duration: 'duration',
+        children: 'children',
+        phone: '666999666',
+        availability: 'sun',
+        components: '3',
+      }
+    }
+
     before(:each){
       post create_call_route, call
+      post create_profile_route, profile
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
     it 'fails if the proposal has the wrong type' do
@@ -105,7 +194,7 @@ describe CallsController do
       post send_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_type')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
     end
 
     it 'fails if the call does not exist' do
@@ -117,6 +206,7 @@ describe CallsController do
     end
 
     it 'fails if the profile does not exist' do
+      proposal[:profile_id] = 'otter'
       post send_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
@@ -124,9 +214,7 @@ describe CallsController do
     end
 
     it 'fails if not the profile owner' do
-      post create_profile_route, profile
-
-      allow(Services::Profiles).to receive(:get_profile_owner).with(profile_id).and_return('otter')
+      allow(Repos::Profiles).to receive(:get_profile_owner).with(profile_id).and_return('otter')
       post send_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
@@ -134,11 +222,25 @@ describe CallsController do
     end
 
     it 'sends the proposal' do
-      expect(Services::Calls).to receive(:add_proposal).with(Util.stringify_hash(proposal), user_id)
-      post create_profile_route, profile
+      expect(Repos::Calls).to receive(:add_proposal).with(call_id, proposal_model)
       post send_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
+    end
+
+    it 'adds a new production if non existing' do
+      allow(SecureRandom).to receive(:uuid).and_return(production_id)
+      expect(Repos::Profiles).to receive(:add_production).with(profile_id, production_model)
+      proposal.delete(:production_id)
+      post send_proposal_route, proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profile_id']).to eq(profile_id)
+    end
+
+    it 'sends own proposal' do
+      expect(Repos::Calls).to receive(:add_proposal).with(call_id, own_proposal_model)
+      post '/users/own_proposal', own_proposal
+      expect(parsed_response['status']).to eq('success')
     end
   end
 
@@ -156,8 +258,8 @@ describe CallsController do
     end
 
     it 'fails if the user does not own the proposal' do
-      proposal[:user_id] = 'otter'
-      Repos::Calls.add_proposal call_id, proposal
+      proposal_model[:user_id] = 'otter'
+      Repos::Calls.add_proposal call_id, proposal_model
       post amend_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
 
       expect(parsed_response['status']).to eq('fail')
@@ -165,9 +267,8 @@ describe CallsController do
     end
 
     it 'amends the proposal' do
-      proposal[:user_id] = user_id
-      Repos::Calls.add_proposal call_id, proposal
-      expect(Services::Calls).to receive(:amend_proposal).with(proposal_id, 'amend')
+      Repos::Calls.add_proposal call_id, proposal_model
+      expect(Repos::Calls).to receive(:amend_proposal).with(proposal_id, 'amend')
       
       post amend_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
       expect(parsed_response['status']).to eq('success')
@@ -188,8 +289,8 @@ describe CallsController do
     end
 
     it 'fails if the user does not own the proposal' do
-      proposal[:user_id] = 'otter'
-      Repos::Calls.add_proposal call_id, proposal
+      proposal_model[:user_id] = 'otter'
+      Repos::Calls.add_proposal call_id, proposal_model
       post delete_proposal_route, {proposal_id: proposal_id}
 
       expect(parsed_response['status']).to eq('fail')
@@ -198,8 +299,7 @@ describe CallsController do
 
     it 'deletes the proposal' do
       allow(Services::Profiles).to receive(:production_old_pictures).with(production_id).and_return({photos: ['photo']})
-      proposal[:user_id] = user_id
-      Repos::Calls.add_proposal call_id, proposal
+      Repos::Calls.add_proposal call_id, proposal_model
       post delete_proposal_route, {proposal_id: proposal_id}
 
       expect(parsed_response['status']).to eq('success')
@@ -226,14 +326,14 @@ describe CallsController do
 
     it 'redirects user to not found page if not owner of the call' do
       post create_call_route, call
-      allow(Services::Calls).to receive(:get_call_owner).and_return('otter')
+      allow(Repos::Calls).to receive(:get_call_owner).and_return('otter')
       get call_route
       expect(last_response.body).to include('Not Found')
     end
 
     it 'gets the call of the user' do
       post create_call_route, call
-      expect(Services::Calls).to receive(:get_call).with(call_id)
+      expect(Repos::Calls).to receive(:get_call).with(call_id)
       get call_route
     end
 
