@@ -25,9 +25,9 @@ class CallsController < BaseController
   end
 
   post '/users/own_proposal' do
-    scopify call_id: true, profile_id: true
-    check_exists! call_id
-    #check_profile_ownership profile_id
+    scopify call_id: true
+    params[:profile_id] = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+    check_call_ownership call_id
 
     proposal_id = SecureRandom.uuid
     proposal = Forms::Proposals.new(params, session[:identity]).create_own(proposal_id)
