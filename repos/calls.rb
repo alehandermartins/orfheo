@@ -68,11 +68,17 @@ module Repos
       end
 
       def delete_proposal proposal_id
+        @@calls_collection.update({ "proposals.program.proposal_id": proposal_id },
+          {
+            "$pull": {'proposals.$.program': {'proposal_id' => proposal_id}}
+          }
+        )
         @@calls_collection.update({ "proposals.proposal_id": proposal_id },
           {
             "$pull": {'proposals': {'proposal_id' => proposal_id}}
           }
         )
+
       end
 
       private

@@ -47,6 +47,17 @@ describe Repos::Calls do
     }
   }
 
+  let(:program){[
+      {
+        proposal_id: proposal_id,
+        program: [{day_time: 'date', place: 'space', proposal_id: 'otter_proposal'}, {day_time: 'anotter_date', place: 'anotter_space', proposal_id: 'anotter_proposal'}] 
+      },
+      {
+        proposal_id: 'otter_proposal',
+        program: [{day_time: 'otter_date', place: 'otter_space', proposal_id: proposal_id}] 
+      },
+    ]}
+
   let(:call){
     {
       user_id: user_id,
@@ -191,6 +202,15 @@ describe Repos::Calls do
       expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal])
       Repos::Calls.delete_proposal proposal_id
       expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([])
+    end
+
+    it 'removes the proposal from programs' do
+      Repos::Calls.add_proposal call_id, proposal
+      Repos::Calls.add_proposal call_id, otter_proposal
+      Repos::Calls.add_program call_id, program
+      Repos::Calls.delete_proposal 'otter_proposal'
+      proposal.merge! program: [{day_time: 'anotter_date', place: 'anotter_space', proposal_id: 'anotter_proposal'}]
+      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal])
     end
   end
 
