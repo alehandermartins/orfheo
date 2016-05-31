@@ -7,7 +7,7 @@
   	var _main = $('<main>').addClass('main-call-page');
     var _mainLarge = $('<section>').addClass('pard-grid call-section');
 
-    var _title = $('<h4>').text('Gestiona la Convocatoria').css({'margin-top':'3rem', 'margin-bottom':'2rem'});
+    var _title = $('<h4>').text('Gestiona la Convocatoria').css({'margin-top':'3rem', 'margin-bottom':'3rem'});
 
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
   	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla y Programa');

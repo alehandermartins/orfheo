@@ -233,14 +233,25 @@
     $('#succes-box-call-manager').empty();
     if(data['status'] == 'success') $('#succes-box-call-manager').append($('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
     else{
-      $('#succes-box-call-manager').append($('<span>').text('¡Error! No se ha podido guardar los datos').css('color','red'))
+      // $('#succes-box-call-manager').append($('<span>').text('¡Error! No se ha podido guardar los datos').css('color','red'));
+      Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
     }  
   }
 
   ns.Events.SendOwnProposal = function(data){
     if(data['status'] == 'success') Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
     else{
-      Pard.Widgets.Alert('','data.reason');
+      Pard.Widgets.Alert('',data.reason);
+      // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
+    }  
+  }
+
+  ns.Events.WhiteList = function(data){
+    $('#successBox-whiteList').empty();
+    if(data['status'] == 'success') $('#successBox-whiteList').append($('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
+    else{
+      // $('#succes-box-call-manager').append($('<span>').text('¡Error! No se ha podido guardar los datos').css('color','red'));
+      Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
     }  
   }
 

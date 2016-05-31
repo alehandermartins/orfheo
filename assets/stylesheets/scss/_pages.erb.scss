@@ -1066,16 +1066,6 @@ th.icon-column-call-table{
   width: 2rem;
 }
 
-.success-icon-check-call-manager{
-  color: $green-pard;
-  font-size: 2.5rem;
-  vertical-align: middle;
-}
-
-.success-check-call-manager{
-  color: $green-pard;
-  display: inline-block;
-}
 
 .search-input-call-manager-container{
   width: 36rem;
@@ -1097,23 +1087,36 @@ th.icon-column-call-table{
   margin: 1rem; 
 }
 
-#succes-box-call-manager{
+#succes-box-call-manager, #successBox-whiteList{
   margin-right: 1.5rem;
   display: inline-block;
   vertical-align: middle;
   height: 2.5rem;
 }
 
+
+.success-icon-check-call-manager{
+  color: $green-pard;
+  font-size: 2.5rem;
+  vertical-align: middle;
+}
+
+.success-check-call-manager{
+  color: $green-pard;
+  display: inline-block;
+}
+
 .search-input-call-manager-container  .select2-selection.select2-selection--multiple {
   min-height: 2.4rem;
+}
+
+.search-input-call-manager-container .select2-container .select2-search--inline .select2-search__field{
   font-size: $almostNormalSize;
 }
 
 #tablePanel, #proposalsPanel {
   margin-bottom: $pard-grid-spacing;
 }
-
-
 
 .add-proposal-box, .white-list-box{
   display: inline-block;
@@ -1136,10 +1139,14 @@ th.icon-column-call-table{
 }
 
 .input-whiteList-container{
-  font-size: 14px;
   width: 92%;
   display: inline-block;
   margin-bottom: 0.5rem;
+}
+
+.input-whiteList-container .select2-selection.select2-selection--multiple{
+    font-size: 14px;
+
 }
 
 .input-whiteList-container input{
@@ -1176,5 +1183,9 @@ th.icon-column-call-table{
   margin-top: 2rem;
 }
 
+
+p.initial-text-proposalPanel{
+  margin-bottom: 2rem;
+}
 
 
