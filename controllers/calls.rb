@@ -25,7 +25,9 @@ class CallsController < BaseController
   end
 
   post '/users/own_proposal' do
+    puts params
     scopify call_id: true
+    puts call_id
     params[:profile_id] = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
     check_call_ownership call_id
 

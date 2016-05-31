@@ -196,9 +196,7 @@
       console.log(callback);
       _send(       
         '/users/own_proposal',
-        {
-          form: form
-        },
+        form,
         callback
       );
     };

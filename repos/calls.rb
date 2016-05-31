@@ -78,7 +78,6 @@ module Repos
             "$pull": {'proposals': {'proposal_id' => proposal_id}}
           }
         )
-
       end
 
       private
