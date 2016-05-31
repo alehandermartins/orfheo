@@ -77,54 +77,82 @@ class Forms::Proposals < Forms::Base
 
   def artist_form
     {
-      music: music_arts_other_call,
-      arts: music_arts_other_call,
-      other: music_arts_other_call,
-      poetry: poetry_workshop_call, 
-      workshop: poetry_workshop_call,
+      music:music_call,
+      arts: music_call,
+      other: music_call,
+      poetry: workshop_call, 
+      workshop: workshop_call,
       street_art: street_art_call,
       audiovisual: audiovisual_call,
       expo: expo_call
     }
   end
 
-  def artist_own
+  def basic_artist_call
     {
-      music: music_arts_poetry_other_call_own,
-      arts: music_arts_poetry_other_call_own,
-      other: music_arts_poetry_other_call_own,
-      poetry: music_arts_poetry_other_call_own, 
-      workshop: music_arts_poetry_other_call_own,
-      street_art: music_arts_poetry_other_call_own,
-      audiovisual: audiovisual_call_own,
-      expo: expo_call_own
+      title: title,
+      description: description,
+      short_description: short_description,
+      links: links,
+      photos: photos,
+      sharing: sharing,
+      needs: needs,
+      waiting_list: waiting_list,
+      phone: phone,
+      conditions: conditions
     }
+  end
+
+  def music_call
+    music_fields = {
+      availability: availability,
+      duration: duration,
+      components: components,
+      children: children,
+      repeat:repeat
+    }
+    basic_artist_call.merge music_fields
+  end
+
+  def workshop_call
+    workshop_fields = {
+      availability: availability,
+      duration: duration,
+      children: children,
+      repeat:repeat
+    }
+    basic_artist_call.merge workshop_fields 
+  end
+
+  def audiovisual_call
+    audiovisual_fields = {
+      availability: availability,
+      duration: duration,
+      children: children
+    }
+    basic_artist_call.merge audiovisual_fields 
+  end
+
+  def street_art_call
+    basic_artist_call.merge availability: availability
+  end
+
+  def expo_call
+    basic_artist_call.merge meters: meters
   end
 
   def space_form
     {
-      cultural_ass: cultural_ass,
-      commercial: cultural_ass,
-      home: cultural_ass,
-      open_air: cultural_ass
+      cultural_ass: basic_space_call,
+      commercial: basic_space_call,
+      home: basic_space_call,
+      open_air: basic_space_call
     }
   end
 
-  def space_own
+  def basic_space_call
     {
-      cultural_ass: cultural_ass_own,
-      commercial: cultural_ass_own,
-      home: cultural_ass_own,
-      open_air: cultural_ass_own
-    }
-  end
-
-  def cultural_ass
-    {
-      address: address,
       photos: photos,
-      personal_web: space_personal_web,
-      links: links,
       responsible: responsible,
       description: space_description,
       availability: availability,
@@ -135,129 +163,70 @@ class Forms::Proposals < Forms::Base
       conditions: conditions
     }
   end
+  
+  def artist_own
+    {
+      music: music_call_own,
+      arts: music_call_own,
+      other: music_call_own,
+      poetry: music_call_own, 
+      workshop: music_call_own,
+      street_art: street_art_call_own,
+      audiovisual: audiovisual_call_own,
+      expo: basic_artist_call_own
+    }
+  end
 
-  def cultural_ass_own
+  def basic_artist_call_own
+    {
+      email: email,
+      phone: phone,
+      name: artist_name,
+      title: title,
+      description: description,
+      short_description: short_description,
+    }
+  end
+
+  def music_call_own
+    music_fields = {
+      duration: duration,
+      components: components,
+      availability: availability,
+      children: children
+    }
+    basic_artist_call_own.merge music_fields 
+  end
+
+  def audiovisual_call_own
+    audiovisual_fields = {
+      duration: duration,
+      availability: availability,
+      children: children
+    }
+    basic_artist_call_own.merge audiovisual_fields 
+  end
+
+  def street_art_call_own
+    basic_artist_call_own.merge availability: availability
+  end
+
+  def space_own
+    {
+      cultural_ass: basic_space_call_own,
+      commercial: basic_space_call_own,
+      home: basic_space_call_own,
+      open_air: basic_space_call_own
+    }
+  end
+
+  def basic_space_call_own
     {
       email: email,
       phone: phone,
       name: space_name,
-      address: address,
       responsible: responsible,
       availability: availability
-    }
-  end
-
-  def music_arts_other_call
-    {
-      title: title,
-      description: description,
-      short_description: short_description,
-      duration: duration,
-      components: components,
-      availability: availability,
-      children: children,
-      links: links,
-      photos: photos,
-      sharing: sharing,
-      needs: needs,
-      repeat: repeat,
-      waiting_list: waiting_list,
-      phone: phone,
-      conditions: conditions
-    }
-  end
-
-  def music_arts_poetry_other_call_own
-    {
-      email: email,
-      phone: phone,
-      name: artist_name,
-      title: title,
-      description: description,
-      short_description: short_description,
-      duration: duration,
-      components: components,
-      availability: availability,
-      children: children
-    }
-  end
-
-  def expo_call_own
-    {
-      email: email,
-      phone: phone,
-      name: artist_name,
-      description: description,
-      short_description: short_description
-    }
-  end
-
-  def poetry_workshop_call
-    music_arts_other_call.delete(:components)
-  end
-
-  def street_art_call
-    {
-      title: title,
-      description: description,
-      short_description: short_description,
-      availability: availability,
-      links: links,
-      photos: photos,
-      sharing: sharing,
-      needs: needs,
-      repeat: repeat,
-      waiting_list: waiting_list,
-      phone: phone,
-      conditions: conditions
-    }
-  end
-
-  def expo_call
-    {
-      title: title,
-      description: description,
-      short_description: short_description,
-      meters: meters,
-      links: links,
-      photos: photos,
-      sharing: sharing,
-      needs: needs,
-      waiting_list: waiting_list,
-      phone: phone,
-      conditions: conditions
-    }
-  end
-
-  def audiovisual_call
-    {
-      title: title,
-      description: description,
-      short_description: short_description,
-      duration: duration,
-      availability: availability,
-      children: children,
-      links: links,
-      photos: photos,
-      sharing: sharing,
-      needs: needs,
-      waiting_list: waiting_list,
-      phone: phone,
-      conditions: conditions
-    }
-  end
-
-  def audiovisual_call_own
-    {
-      email: email,
-      phone: phone,
-      name: artist_name,
-      title: title,
-      description: description,
-      short_description: short_description,
-      duration: duration,
-      availability: availability,
-      children: children
     }
   end
 end

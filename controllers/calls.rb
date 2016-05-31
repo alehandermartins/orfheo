@@ -8,7 +8,7 @@ class CallsController < BaseController
   end
 
   post '/users/send_proposal' do
-    scopify call_id: true, profile_id: true, production_id: true
+    scopify call_id: true, profile_id: true, production_id: true, type: true
     check_exists! call_id
     check_profile_ownership profile_id
 
@@ -16,7 +16,7 @@ class CallsController < BaseController
     proposal = Forms::Proposals.new(params, session[:identity]).create(proposal_id)
     Repos::Calls.add_proposal call_id, proposal
 
-    if production_id.blank?
+    if production_id.blank? && type == 'artist'
       production = Forms::Productions.new(params, session[:identity]).create(proposal[:production_id])
       Repos::Profiles.add_production profile_id, production
     end
