@@ -9,11 +9,11 @@
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 
     var _expoFields = ['name', 'title', 'short_description', 'email', 'phone'];
-    var _showField = ['name', 'title', 'short_description', 'duration', 'components', 'availability', 'children', 'email', 'phone'];
+    var _showField = ['name', 'title', 'short_description', 'duration', 'availability', 'children', 'email', 'phone'];
     var _streetArtFields = ['name', 'title', 'short_description', 'availability', 'email', 'phone'];
 
     var _expoRequired = ['name', 'title', 'short_description', 'email', 'phone'];
-    var _showRequired = ['name', 'title', 'short_description', 'duration', 'components', 'availability', 'email', 'phone'];
+    var _showRequired = ['name', 'title', 'short_description', 'duration', 'availability', 'email', 'phone'];
     var _streetArtRequired = ['name', 'title', 'short_description', 'availability', 'email', 'phone'];
 
     var _categoryFields = {
@@ -68,13 +68,13 @@
     };
     _form['duration']['input'].setClass('duration-input');
 
-    _form['components'] = {
-      label: Pard.Widgets.InputLabel('Número de integrantes *'),
-      input: Pard.Widgets.Input('', 'number'),
-      helptext: Pard.Widgets.HelpText('Número de personas que llevan la actividad/espectáculo.')
-    };
-    _form['components']['input'].setAttr('min','1');
-    _form['components']['input'].setClass('components-input');
+    // _form['components'] = {
+    //   label: Pard.Widgets.InputLabel('Número de integrantes *'),
+    //   input: Pard.Widgets.Input('', 'number'),
+    //   helptext: Pard.Widgets.HelpText('Número de personas que llevan la actividad/espectáculo.')
+    // };
+    // _form['components']['input'].setAttr('min','1');
+    // _form['components']['input'].setClass('components-input');
 
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad *'),
