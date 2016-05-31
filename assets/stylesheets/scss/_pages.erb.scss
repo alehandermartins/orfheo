@@ -945,6 +945,7 @@ CALL PAGE
   border-left: 1px solid $grey-3;
   @include border-radius($element-border-radius);
   padding: 0.5rem; 
+  font-size: $smallSize;
 
 }
 
@@ -952,6 +953,10 @@ CALL PAGE
 .tab-selected{
   /* background: $grey-1; */
   font-weight: bold;
+  a {
+    color: black;
+    font-size: $almostNormalSize;
+  }
 }
 
 /* .switcher-menu-call-page li.tab-selected{
@@ -1150,3 +1155,26 @@ th.icon-column-call-table{
   font-size: 12px;
   margin-bottom: 0.2rem;
 }
+
+.callPage-createSpaceProposal{
+  margin-top: 1.5rem;
+}
+
+
+.callPage-createArtistProposal{
+  margin-bottom: 1.5rem;
+} 
+
+
+.callPage-createArtistProposal input.phone-input,  .callPage-createSpaceProposal input.phone-input {
+  width: 13rem;
+  display: inline-block;
+  margin-left: 1.5rem;
+} 
+
+.callPage-categorySelector{
+  margin-top: 2rem;
+}
+
+
+

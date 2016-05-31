@@ -4,6 +4,43 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
+  ns.Widgets.InputEmail = function(placeholder){
+
+    var _checkInput = function(){
+      if(!regEx.test(_input.getVal())){
+        _input.addWarning();
+        return false;
+      }
+      else{
+        _input.removeWarning();
+        return _input.getVal();
+      }  
+    }
+
+    var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
+
+    var _input = Pard.Widgets.Input(placeholder, 'email', _checkInput);
+    
+    return{
+      render: function(){
+        return _input.render();
+      },
+      getVal: function(){
+        return _checkInput();
+      },
+      setVal: function(value){
+        _input.setVal(value);
+      },
+      addWarning: function(){
+        _input.addWarning();
+      },
+      removeWarning: function(){
+        _input.removeWarning();
+      }
+    }
+  
+  }
+
   ns.Widgets.InputTel = function(placeholder){
 
   	var checkPhone = function(){

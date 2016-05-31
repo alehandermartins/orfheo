@@ -62,11 +62,11 @@
     _submitForm['type'] = 'space';
     _submitForm['category'] = _preSelected;
 
-    _submitForm['phone'] = '000000000';
-    _submitForm['email'] = 'email@email.email';
-    _submitForm['conditions'] = "true";
-    _submitForm['description'] = 'bla bla bla';
-    _submitForm['responsible'] = 'xyz';
+    // _submitForm['phone'] = '000000000';
+    // _submitForm['email'] = 'email@email.email';
+    // _submitForm['conditions'] = "true";
+    // _submitForm['description'] = 'bla bla bla';
+    // _submitForm['responsible'] = 'xyz';
 
 
     var _content = $('<form>').addClass('popup-form');
@@ -74,8 +74,10 @@
    	var _fieldset = $('<fieldset>');
    	var _requiredFields = Pard.Forms.CreateSpaceProposal().requiredFields();
     var _form = Pard.Forms.CreateSpaceProposal().render();
+    _form['email'].input.setVal('hola@beniconfusionfest.es');
+    _form['phone'].input.setVal('000 000 000');
     for(var field in _form){
-    	_content.append($('<div>').addClass(field+'-createSpaceProposal'	).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+    	_content.append($('<div>').addClass('callPage-createSpaceProposal'	).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
     };
 
 
@@ -101,7 +103,7 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['photos'] = url;
+      // _submitForm['photos'] = url;
       return _submitForm;
     }
 
@@ -109,8 +111,11 @@
     //   Pard.Backend.sendProposal(_getVal(url), Pard.Events.SendProposal);
     // }
 
+    var _closepopup = function(){};
+
     submitButton.on('click',function(){
       if(_filled() == true){
+        Pard.Backend.sendOwnProposal(_getVal(), Pard.Events.SendOwnProposal);
         _closepopup();
         // if(_photos.dataLength() == false) _send(_url);
         // else{
@@ -129,7 +134,8 @@
       render: function(){
         return _createdWidget;
       },
-      setCallback: function(){      	
+      setCallback: function(callback){
+      _closepopup = callback;      	
       }
     }  	
   }
@@ -161,19 +167,20 @@
     // });
     // var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css('margin-bottom','1rem');
 
+    // _submitForm['user_id'] = user_id;
     _submitForm['call_id'] = call.call_id;
-    // _submitForm['profile_id'] = profile.profile_id;
+    _submitForm['profile_id'] = '26f6fc6d-ac81-451b-bd73-ee035e67538c';
     _submitForm['type'] = 'artist';
     _submitForm['category'] = _preSelected;
 
-    _submitForm['phone'] = '000000000';
-    _submitForm['email'] = 'email@email.email';
-    _submitForm['conditions'] = "true";
-    _submitForm['repeat'] = "true";
-    _submitForm['waiting_list'] = 'true';
-    _submitForm['city'] = 'vvv';
-    _submitForm['zip_code'] = 000000;
-    _submitForm['description'] = 'bla bla bla';
+    // _submitForm['phone'] = '000000000';
+    // _submitForm['email'] = 'email@email.email';
+    // _submitForm['conditions'] = "true";
+    // _submitForm['repeat'] = "true";
+    // _submitForm['waiting_list'] = 'true';
+    // _submitForm['city'] = 'vvv';
+    // _submitForm['zip_code'] = 000000;
+    // _submitForm['description'] = 'bla bla bla';
 
 
     var _content = $('<form>').addClass('popup-form');
@@ -186,8 +193,10 @@
 	   	var _fieldset = $('<fieldset>');
 	   	_requiredFields = Pard.Forms.CreateArtistProposal(_selected).requiredFields();
       _form = Pard.Forms.CreateArtistProposal(_selected).render();
+      _form['email'].input.setVal('hola@beniconfusionfest.es');
+      _form['phone'].input.setVal('000 000 000');
       for(var field in _form){
-      	_content.append($('<div>').addClass(field+'-createArtistProposal'	).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+      	_content.append($('<div>').addClass('callPage-createArtistProposal'	).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
       };
       _submitForm['category'] = _selected;
     }
@@ -202,16 +211,15 @@
       _printForm(_selected);
     };
 
-    var _category = Pard.Widgets.Selector(_labelsCategories, _valuesCategories, categorySelectCallback);
-
-    var _name = Pard.Widgets.Input('','text');
-
-    _category.setClass('category-input');
-
+    var _categorySelector = Pard.Widgets.Selector(_labelsCategories, _valuesCategories, categorySelectCallback);
+    // var _nameInput = Pard.Widgets.Input('','text');
+    _categorySelector.setClass('category-input');
     var _categoryLabel = $('<label>').text('Selecciona una categoría *');
-    var _nameLabel = $('<label>').text('Nombre Artístico *');
+    // var _nameLabel = $('<label>').text('Nombre Artístico *');
 
-    _createdWidget.append(_categoryLabel.append(_category.render()), _content, _invalidInput, _submitBtnContainer.append(submitButton));
+    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('callPage-categorySelector');
+
+    _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
     _printForm(_preSelected);
    
     var _filled = function(){
@@ -232,9 +240,11 @@
 
     var _getVal = function(url){
       for(var field in _form){
+              console.log(_form[field].input.getVal())
+
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['photos'] = url;
+      // _submitForm['photos'] = url;
       return _submitForm;
     }
 
@@ -244,6 +254,7 @@
 
     submitButton.on('click',function(){
       if(_filled() == true){
+        Pard.Backend.sendOwnProposal(_getVal(), Pard.Events.SendOwnProposal);
         _closepopup();
         // if(_photos.dataLength() == false) _send(_url);
         // else{
@@ -251,7 +262,6 @@
         // }
       }
     });
-
     // _photos.cloudinary().bind('cloudinarydone', function(e, data){
     //   _url.push(data['result']['public_id']);
     //   if(_url.length >= _photos.dataLength()) _send(_url);

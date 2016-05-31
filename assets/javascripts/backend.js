@@ -192,6 +192,8 @@
     };
 
     var _sendOwnProposal = function(form, callback){
+      console.log(form);
+      console.log(callback);
       _send(       
         '/users/own_proposal',
         {

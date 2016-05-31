@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.1'
+ruby '2.3.0	'
 #ruby-gemset=cg
 
 gem 'bundle'
@@ -23,3 +23,5 @@ gem 'activesupport'
 group :development, :test do
   gem 'rspec'
 end
+
+

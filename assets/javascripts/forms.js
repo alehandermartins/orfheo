@@ -8,11 +8,13 @@
     var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 
-    var _expoFields = ['name', 'title', 'short_description'];
-    var _showField = ['name', 'title', 'short_description', 'duration', 'components', 'availability', 'children'];
+    var _expoFields = ['name', 'title', 'short_description', 'email', 'phone'];
+    var _showField = ['name', 'title', 'short_description', 'duration', 'components', 'availability', 'children', 'email', 'phone'];
+    var _streetArtFields = ['name', 'title', 'short_description', 'availability', 'email', 'phone'];
 
-    var _expoRequired = ['name', 'title', 'short_description'];
-    var _showRequired = ['name', 'title', 'short_description', 'duration', 'components', 'availability'];
+    var _expoRequired = ['name', 'title', 'short_description', 'email', 'phone'];
+    var _showRequired = ['name', 'title', 'short_description', 'duration', 'components', 'availability', 'email', 'phone'];
+    var _streetArtRequired = ['name', 'title', 'short_description', 'availability', 'email', 'phone'];
 
     var _categoryFields = {
       'expo': _expoFields,
@@ -20,7 +22,7 @@
       'arts': _showField,
       'other': _showField,
       'poetry': _showField,
-      'street_art': _showField,
+      'street_art': _streetArtFields,
       'workshop': _showField,
       'audiovisual': _showField
     };
@@ -31,7 +33,7 @@
       'arts': _showRequired,
       'other': _showRequired,
       'poetry': _showRequired,
-      'street_art': _showRequired,
+      'street_art': _streetArtRequired,
       'workshop': _showRequired,
       'audiovisual': _showRequired
     };
@@ -77,7 +79,7 @@
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad *'),
       input: Pard.Widgets.InputDate(''),
-      helptext: Pard.Widgets.HelpText('Selecciona los días que estás disponible para tu participación en el festival.')
+      helptext: Pard.Widgets.HelpText('Selecciona los días que de disponibilidad en el festival.')
     };
     // _form['availability']['input'].setClass('availability-input');
 
@@ -87,6 +89,21 @@
       input: Pard.Widgets.CheckBox('Actividad para un público infantil', 'yes_children'),
       helptext: Pard.Widgets.HelpText('')
     };
+
+    _form['phone'] = {
+      label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
+      input: Pard.Widgets.InputTel(''),
+      helptext:Pard.Widgets.HelpText('Teléfono de la persona responsable.')
+    }
+    _form['phone']['input'].setClass('phone-input');
+
+
+    _form['email'] = {
+      label: Pard.Widgets.InputLabel('Email de contacto *'), 
+      input: Pard.Widgets.InputEmail(''),
+      helptext:Pard.Widgets.HelpText('Correo de la  persona responsable.')
+    }
+    
 
     var _requiredFields = _required[categorySelected];
     var _formDef = {};
@@ -134,10 +151,24 @@
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad *'),
       input: Pard.Widgets.InputDate(''),
-      helptext: Pard.Widgets.HelpText('Selecciona los días que quieres compartir tu espacio.')
+      helptext: Pard.Widgets.HelpText('Selecciona los días de disponibilidad del espacio.')
     }
 
-    var _requiredFields = ['name', 'address', 'category', 'availability'];
+    _form['phone'] = {
+      label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
+      input: Pard.Widgets.InputTel(''),
+      helptext:Pard.Widgets.HelpText('Teléfono de la persona responsable.')
+    }
+    _form['phone']['input'].setClass('phone-input');
+
+
+    _form['email'] = {
+      label: Pard.Widgets.InputLabel('Email de contacto *'), 
+      input: Pard.Widgets.InputEmail(''),
+      helptext:Pard.Widgets.HelpText('Correo de la  persona responsable.')
+    }
+
+    var _requiredFields = ['name', 'address', 'category', 'availability', 'email', 'phone'];
 
 
     return {

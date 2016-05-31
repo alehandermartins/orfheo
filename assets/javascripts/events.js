@@ -237,5 +237,12 @@
     }  
   }
 
+  ns.Events.SendOwnProposal = function(data){
+    if(data['status'] == 'success') Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
+    else{
+      Pard.Widgets.Alert('','data.reason');
+    }  
+  }
+
 }(Pard || {}));
   
