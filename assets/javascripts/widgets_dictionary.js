@@ -104,6 +104,7 @@
       invalid_email: '<div>¡El correo no es correcto!<br/> Por favor, vuelve a intentar.</div>',
       incorrect_password: function(){return Pard.Widgets.RecoverPasswdMessage('¡Contraseña equivocada!')},
       not_validated_user:function(){return Pard.Widgets.NotValidatedUserMessage()},
+      out_of_time_range: '<h4 style="margin-top:-1.2rem;">Convocatoria Cerrada</h4> <div>Tu propuesta no ha sido enviada.</div>',
       invalid_type: 'Tipo de perfil no valido.',
       existing_profile: 'Ya existe un perfil con este nombre. Escoge otro.',
       non_existing_profile: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Perfil no existente!</div>',

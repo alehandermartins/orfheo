@@ -93,7 +93,7 @@
         _caller.trigger('click');
       }
       else{
-        console.log(data.reason);
+        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
         Pard.Widgets.Alert('', _dataReason);
       }
     }
