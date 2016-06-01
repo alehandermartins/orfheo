@@ -2,10 +2,7 @@ module Forms
   class Base < Struct.new 'Forms', :params, :user_id
     
     def create_model_from form
-
       raise Pard::Invalid::Params unless form.all?{ |field, entry|
-        puts field
-        puts params[field]
         correct_entry? params[field], entry[:type]  
       }
       form.keys.map{ |field| [field, params[field]] }.to_h

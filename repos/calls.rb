@@ -67,6 +67,19 @@ module Repos
         }
       end
 
+      def add_whitelist call_id, whitelist
+         @@calls_collection.update({ call_id: call_id },
+          {
+            "$set": {"whitelist": whitelist}
+          },
+        {upsert: true})
+      end
+
+      def whitelist call_id
+        call = grab({call_id: call_id}).first
+        call[:whitelist] || []
+      end
+
       def delete_proposal proposal_id
         call = grab({"proposals.proposal_id": proposal_id}).first
         proposals = call[:proposals].each{ |proposal|

@@ -170,6 +170,17 @@
       );
     };
 
+    var _whitelist = function(call_id, whitelist, callback){
+      _send(       
+        '/users/add_whitelist',
+        {
+          call_id: 'b5bc4203-9379-4de0-856a-55e1e5f3fac6',
+          whitelist: whitelist
+        }
+        callback
+      );
+    };
+
     var _program = function(call_id, program, callback){
       _send(       
         '/users/program',
@@ -219,6 +230,7 @@
       deleteProfile: _deleteProfile,
       deleteUser: _deleteUser,
       amendProposal: _amendProposal,
+      whitelist: _whitelist,
       program: _program,
       getForm: _getForm
     };

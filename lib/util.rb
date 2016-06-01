@@ -24,6 +24,7 @@ module Util
       hash.map do |k, v|
         next [k.to_s, stringify_hash(v)] if v.is_a? Hash
         next [k.to_s, stringify_array(v)] if v.is_a? Array
+        next [k.to_s, v.to_s] if v.is_a? Symbol
         [k.to_s, v]
       end.to_h
     end

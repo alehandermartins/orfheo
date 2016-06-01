@@ -230,6 +230,18 @@ describe Repos::Calls do
     end
   end
 
+  describe 'Whitelist' do
+    let(:whitelist){
+      ['email1', 'email2', 'email3']
+    }
+
+    it 'Handles the whitelist' do
+      expect(Repos::Calls.whitelist call_id).to eq([])
+      Repos::Calls.add_whitelist call_id, whitelist
+      expect(Repos::Calls.whitelist call_id).to eq(whitelist)
+    end
+  end
+
   describe 'Program' do
 
     let(:program){[

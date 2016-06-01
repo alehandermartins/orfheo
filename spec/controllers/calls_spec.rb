@@ -7,15 +7,24 @@ describe CallsController do
   let(:amend_proposal_route){'/users/amend_proposal'}
   let(:delete_proposal_route){'/users/delete_proposal'}
 
-  let(:user_hash){
+   let(:user_hash){
     {
       email: 'email@test.com',
       password: 'password'
     }
   }
 
+  let(:otter_user_hash){
+    {
+      email: 'otter@otter.com',
+      password: 'otter_password'
+    }
+  }
+
   let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
   let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:otter_user_id){'8c41cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:otter_validation_code){'8c61cf77-32b0-4df2-9376-0960e64a654a'}
 
   let(:user){
     {
@@ -24,6 +33,16 @@ describe CallsController do
       password: 'password',
       validation: false,
       validation_code: validation_code
+    }
+  }
+
+  let(:otter_user){
+    {
+      user_id: otter_user_id,
+      email: 'otter@otter.com',
+      password: 'otter_password',
+      validation: false,
+      validation_code: otter_validation_code
     }
   }
 
@@ -115,13 +134,17 @@ describe CallsController do
 
   let(:call){
     {
-      call_id: call_id
+      call_id: call_id,
+      start: '1462053600',
+      deadline: '1466028000'
     }
   }
 
   before(:each){
     Repos::Users.add user
     Services::Users.validated_user validation_code
+    Repos::Users.add otter_user
+    Services::Users.validated_user otter_validation_code
     post login_route, user_hash
     allow(SecureRandom).to receive(:uuid).and_return(profile_id)
   }
@@ -241,6 +264,7 @@ describe CallsController do
       expect(Repos::Calls).to receive(:add_proposal).with(call_id, own_proposal_model)
       post '/users/own_proposal', own_proposal
       expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['call']).to eq(Util.stringify_hash(Repos::Calls.get_call call_id))
     end
   end
 
@@ -344,6 +368,16 @@ describe CallsController do
     end
   end
 
+  describe 'Whitelist' do
+    it 'stores a whitelist' do
+      post create_call_route, call
+      expect(Repos::Calls).to receive(:add_whitelist).with(call_id, ['otter@otter.com'])
+      post '/users/add_whitelist', {call_id: call_id, whitelist: ['otter@otter.com']}
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['call']).to eq(Util.stringify_hash(Repos::Calls.get_call call_id))
+    end
+  end
+
   describe 'Program' do
     let(:program_route){'/users/program'}
     let(:program_params){
@@ -375,6 +409,8 @@ describe CallsController do
     it 'adds the program to the call' do
       expect(Repos::Calls).to receive(:add_program).with(call_id, program_params[:program])
       post program_route, program_params
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['call']).to eq(Util.stringify_hash(Repos::Calls.get_call call_id))
     end
   end
 end

@@ -25,16 +25,23 @@ class CallsController < BaseController
   end
 
   post '/users/own_proposal' do
-    puts params
     scopify call_id: true
-    puts call_id
     params[:profile_id] = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
     check_call_ownership call_id
 
     proposal_id = SecureRandom.uuid
     proposal = Forms::Proposals.new(params, session[:identity]).create_own(proposal_id)
     Repos::Calls.add_proposal call_id, proposal
-    success
+    call = get_call call_id
+    success ({call: call})
+  end
+
+  post '/users/add_whitelist' do
+    scopify call_id: true, whitelist: true  
+    check_call_ownership call_id
+    Repos::Calls.add_whitelist call_id, whitelist
+    call = get_call call_id
+    success ({call: call})
   end
 
   post '/users/amend_proposal' do
@@ -63,7 +70,8 @@ class CallsController < BaseController
     scopify call_id: true, program: true
     check_call_ownership call_id
     add_program call_id, program
-    success
+    call = get_call call_id
+    success ({call: call})
   end
 
   private
