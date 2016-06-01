@@ -183,7 +183,6 @@ class Forms::Proposals < Forms::Base
       phone: phone,
       name: artist_name,
       title: title,
-      description: description,
       short_description: short_description,
     }
   end
