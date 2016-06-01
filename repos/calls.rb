@@ -68,14 +68,17 @@ module Repos
       end
 
       def delete_proposal proposal_id
-        @@calls_collection.update({ "proposals.program.proposal_id": proposal_id },
-          {
-            "$pull": {'proposals.$.program': {'proposal_id' => proposal_id}}
+        call = grab({"proposals.proposal_id": proposal_id}).first
+        proposals = call[:proposals].each{ |proposal|
+          next unless proposal.has_key? :program
+          proposal[:program].each{ |event|
+            proposal[:program].delete(event) if event[:proposal_id] == proposal_id
           }
-        )
-        @@calls_collection.update({ "proposals.proposal_id": proposal_id },
+        }
+        proposals.reject!{|proposal| proposal[:proposal_id] == proposal_id}
+        @@calls_collection.update({ call_id: call[:call_id] },
           {
-            "$pull": {'proposals': {'proposal_id' => proposal_id}}
+            "$set": {'proposals': proposals}
           }
         )
       end

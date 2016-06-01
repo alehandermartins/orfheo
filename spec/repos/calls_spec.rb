@@ -47,14 +47,28 @@ describe Repos::Calls do
     }
   }
 
+  let(:anotter_proposal){
+    {
+      profile_id: profile_id,
+      proposal_id: 'anotter_proposal',
+      title: 'otter_title',
+      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
+      photos: ['otter_photo']
+    }
+  }
+
   let(:program){[
       {
         proposal_id: proposal_id,
-        program: [{day_time: 'date', place: 'space', proposal_id: 'otter_proposal'}, {day_time: 'anotter_date', place: 'anotter_space', proposal_id: 'anotter_proposal'}] 
+        program: [{day_time: 'date', place: 'space', proposal_id: 'otter_proposal'}, {day_time: 'anotter_date', place: 'anotter_space', proposal_id: 'anotter_proposal'}, {day_time: 'otter_date', place: 'space', proposal_id: 'otter_proposal'}] 
       },
       {
         proposal_id: 'otter_proposal',
         program: [{day_time: 'otter_date', place: 'otter_space', proposal_id: proposal_id}] 
+      },
+      {
+        proposal_id: 'anotter_proposal',
+        program: [{day_time: 'otter_date', place: 'otter_space', proposal_id: 'otter_proposal'}] 
       },
     ]}
 
@@ -207,10 +221,12 @@ describe Repos::Calls do
     it 'removes the proposal from programs' do
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal call_id, otter_proposal
+      Repos::Calls.add_proposal call_id, anotter_proposal
       Repos::Calls.add_program call_id, program
       Repos::Calls.delete_proposal 'otter_proposal'
       proposal.merge! program: [{day_time: 'anotter_date', place: 'anotter_space', proposal_id: 'anotter_proposal'}]
-      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal])
+      anotter_proposal.merge! program: []
+      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal, anotter_proposal])
     end
   end
 
