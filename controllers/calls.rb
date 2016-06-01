@@ -11,6 +11,7 @@ class CallsController < BaseController
     scopify call_id: true, profile_id: true, production_id: true, type: true
     check_exists! call_id
     check_profile_ownership profile_id
+    check_deadline call_id
 
     proposal_id = SecureRandom.uuid
     proposal = Forms::Proposals.new(params, session[:identity]).create(proposal_id)
@@ -41,7 +42,7 @@ class CallsController < BaseController
     check_call_ownership call_id
     Repos::Calls.add_whitelist call_id, whitelist
     call = get_call call_id
-    success ({call: call})
+    success
   end
 
   post '/users/amend_proposal' do
@@ -92,6 +93,11 @@ class CallsController < BaseController
   def check_call_ownership call_id
     check_exists! call_id
     raise Pard::Invalid::CallOwnership unless Repos::Calls.get_call_owner(call_id) == session[:identity]
+  end
+
+  def check_deadline call_id
+    user_email = Repos::Users.grab({user_id: session[:identity]})[:email]
+    raise Pard::Invalid::Deadline unless Repos::Calls.proposal_on_time?(call_id, user_email) == true
   end
 
   def register_call params

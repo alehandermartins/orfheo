@@ -75,7 +75,10 @@ describe Repos::Calls do
   let(:call){
     {
       user_id: user_id,
-      call_id: call_id
+      call_id: call_id,
+      start: '1462053600',
+      deadline: '1466028000',
+      whitelist: []
     }
   }
 
@@ -123,6 +126,19 @@ describe Repos::Calls do
         'proposals' => [Util.stringify_hash(proposal)]
       })
     end
+  end
+
+  describe 'Proposal on time?' do
+
+    it 'checks whitelist and if a proposal is on time' do
+      allow(Time).to receive(:now).and_return(0)
+      Repos::Calls.add_whitelist call_id, ['email']
+      expect(Repos::Calls.proposal_on_time? call_id, 'otter_email').to eq(false)
+      expect(Repos::Calls.proposal_on_time? call_id, 'email').to eq(true)
+      allow(Time).to receive(:now).and_return(1462053601)
+      expect(Repos::Calls.proposal_on_time? call_id, 'otter_email').to eq(true)
+      expect(Repos::Calls.proposal_on_time? call_id, 'email').to eq(true)
+    end 
   end
 
   describe 'Get call' do
@@ -235,10 +251,10 @@ describe Repos::Calls do
       ['email1', 'email2', 'email3']
     }
 
-    it 'Handles the whitelist' do
-      expect(Repos::Calls.whitelist call_id).to eq([])
+    it 'Stores the whitelist' do
+      expect(Repos::Calls.get_call(call_id)[:whitelist]).to eq([])
       Repos::Calls.add_whitelist call_id, whitelist
-      expect(Repos::Calls.whitelist call_id).to eq(whitelist)
+      expect(Repos::Calls.get_call(call_id)[:whitelist]).to eq(whitelist)
     end
   end
 

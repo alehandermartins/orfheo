@@ -136,7 +136,7 @@ describe CallsController do
     {
       call_id: call_id,
       start: '1462053600',
-      deadline: '1466028000'
+      deadline: '1466028000',
     }
   }
 
@@ -374,7 +374,6 @@ describe CallsController do
       expect(Repos::Calls).to receive(:add_whitelist).with(call_id, ['otter@otter.com'])
       post '/users/add_whitelist', {call_id: call_id, whitelist: ['otter@otter.com']}
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['call']).to eq(Util.stringify_hash(Repos::Calls.get_call call_id))
     end
   end
 
