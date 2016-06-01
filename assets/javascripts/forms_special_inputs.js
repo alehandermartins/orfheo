@@ -762,9 +762,9 @@
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
 
-    var _addnewInput = function(showInfo){
+    var _addnewInput = function(item){
       var _container = $('<div>'); 
-      _newInput = Pard.Widgets.Selector([showInfo['name_email']],[showInfo['email']]);
+      _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);
       
       _newInput.setClass('add-whiteList-input-field');
       _newInput.disable();      
@@ -784,16 +784,18 @@
         });     
         if (_indexR > -1){ _results.splice(_indexR, 1);}
         _container.empty();
+        $('#successBox-whiteList').empty();
       });
     }
     
     var _inputAddedContainer = $('<div>');
 
     _addInputButton.on('click', function(){
+      $('#successBox-whiteList').empty();
       if (_inputNameEmail.val()){
         var _data = _inputNameEmail.select2('data');
-        _results.push(_data[0].id);
-        var _info = {name_email: _data[0].text, email: _data[0].id}
+        var _info = {name_email: _data[0].text, email: _data[0].id};
+        _results.push(_info);
       }
       _inputAddedContainer.prepend(_addnewInput(_info));
       _inputNameEmail.select2('val', '');
@@ -818,10 +820,11 @@
       },
       setVal: function(values){
         if(values == null || values == false) return true;
-        values.forEach(function(show){
-          _results.push(show);
-          _showsAddedContainer.prepend(_addnewInput(show));
-        });
+        // values.forEach(function(item){
+        for (var item in values){  
+          _results.push(values[item]);
+          _inputAddedContainer.prepend(_addnewInput(values[item]));
+        };
       }
     }
   }

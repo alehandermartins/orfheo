@@ -4,7 +4,9 @@
 
   ns.Widgets.ProposalsPanelContent = function(call) {
 
-  	var _createdWidget = $('<div>');
+    var proposals = Pard.CachedProposals;
+  	
+    var _createdWidget = $('<div>');
 
     var _addProposalBox = $('<div>').addClass('add-proposal-box');
     var _whiteListBox = $('<div>').addClass('white-list-box');
@@ -12,17 +14,45 @@
     var _addProposalText = $('<p>').text('Añade propuestas a tu convocatoria para que puedas insertarlas en la programación').addClass('initial-text-proposalPanel');
     var _whiteListText = $('<p>').text('Habilita usuarios para que puedan enviar una propuesta en cualquier momento').addClass('initial-text-proposalPanel');
 
-  	var _createSpaceCaller = $('<button>').addClass('create-space-proposal-call-page-btn').attr({type: 'button'}).text('Espacio');
+    var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('create-profile-btn-icon');
+    var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
+    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista').addClass('create-profile-btn-text'));
+    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio').addClass('create-profile-btn-text'));
 
-  	var _createArtistCaller = $('<button>').addClass('create-artist-proposal-call-page-btn').attr({type: 'button'}).text('Artista');
+
+  	var _createSpaceCaller = $('<div>').html(_spaceButtonHtml).addClass('create-space-proposal-call-page-btn');
+
+  	var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
     var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateSpaceProposal(call)});
 
     var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateArtistProposal(call)});
 
+    var _artistsList = $('<ul>').attr({'style':'list-style-type:none'});
+    // var _ownProposals = [];
+    var _spacesList= $('<ul>').attr({'style':'list-style-type:none'});
+
+    var _spacesOwnBox = $('<div>').addClass('ownBox-call-manager');
+    var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
+
+    proposals.forEach(function(proposal){
+      if (proposal.profile_id == call.profile_id) {
+        if (proposal.type == 'artist'){
+        _artistsList.prepend(Pard.Widgets.PrintOwnProposal(proposal).render());
+        }
+        else{
+          _spacesList.prepend(Pard.Widgets.PrintOwnProposal(proposal).render());
+        }
+      }
+    });
+
     var _whiteList = Pard.Widgets.WhiteList(call);
 
-    _addProposalBox.append(_addProposalText, _spacePopup.render(), _artistPopup.render());
+    // var _buttons = $('<div>').append(_spacePopup.render(), _artistPopup.render()).addClass('buttonsCOntainer-call-page');
+    
+    _spacesOwnBox.append(_spacePopup.render().addClass('buttonsCOntainer-call-page'), _spacesList);
+    _artistsOwnBox.append(_artistPopup.render().addClass('buttonsCOntainer-call-page'), _artistsList);
+    _addProposalBox.append(_addProposalText, _artistsOwnBox, _spacesOwnBox);
     _whiteListBox.append(_whiteListText, _whiteList.render());	
     _createdWidget.append(_addProposalBox, _whiteListBox);
 
@@ -32,6 +62,86 @@
       }
     }
   }
+
+  ns.Widgets.PrintOwnProposal = function(proposal){
+    var _createdWidget = $('<li>');
+
+    if (proposal['title']) var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']+' - ' + proposal['title']);
+    else var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
+    
+    var _form;
+
+    if (proposal.type == 'artist') {_form = Pard.Forms.ArtistCall(proposal.category);
+    }      
+    else _form = Pard.Forms.SpaceCall();
+
+    var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintOwnProposalMessage(proposal, _form.render())});
+
+    _createdWidget.append(_popup.render());
+    
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.PrintOwnProposalMessage = function(proposal, form){
+
+    var _createdWidget = $('<div>');
+
+    var _proposalPrinted = Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, form)).render();
+
+    var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina esta propuesta').addClass('deleteProfile-caller');
+
+    var closepopup;
+
+    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, closepopup)}, 'alert-container-full');
+
+    _createdWidget.append(_proposalPrinted, _deleteProposal.render());
+
+    return{
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        closepopup = callback;
+      }
+    }
+
+  }
+
+  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup){  
+    
+    var _createdWidget = $('<div>');
+    // var _message = $('<p>').text('Confirmando, tu propuesta será retirada de la convocatoria del Benimaclet conFusión festival y no podrá ser parte del evento.');
+    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
+    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+
+    _yesBtn.click(function(){
+      Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteProposal);
+        closepopup();
+    });
+
+    var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
+
+    _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn));
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _noBtn.click(function(){
+          callback();
+        });
+        _yesBtn.click(function(){
+          callback()
+        });
+      }
+    }
+  }
+
 
   ns.Widgets.CreateSpaceProposal = function(call){
   	var _createdWidget = $('<div>');
@@ -172,7 +282,7 @@
     // _submitForm['profile_id'] = '26f6fc6d-ac81-451b-bd73-ee035e67538c';
     _submitForm['type'] = 'artist';
     _submitForm['category'] = _preSelected;
-    _submitForm['description'] = '';
+    // _submitForm['description'] = '';
 
     // _submitForm['phone'] = '000000000';
     // _submitForm['email'] = 'email@email.email';
@@ -300,12 +410,20 @@
 
     var _emailNameInput = Pard.Widgets.WhiteListInput(_emailsNames);
 
+    _emailNameInput.setVal(call.whitelist);
+
 		var _submitBtnContainer = $('<div>').addClass('submit-btn-call-manager-container');
    	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
    	_submitBtnOuterContainer.append(_submitBtnContainer);
    	var _successBox = $('<span>').attr({id:'successBox-whiteList'});
 
-   	var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){console.log(_emailNameInput.getVal())});
+   	var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){_sendWhiteList()});
+  
+    var _sendWhiteList = function(){
+      var _wl = _emailNameInput.getVal();      
+      Pard.Backend.whitelist(call.call_id, _wl, Pard.Events.WhiteList);      
+    }
+
 
 	 	_submitBtnContainer.append(_successBox, _submitBtn.render());
 

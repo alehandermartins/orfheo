@@ -641,11 +641,12 @@ button{
 
 .create-space-proposal-call-page-btn, .create-artist-proposal-call-page-btn{
   cursor: pointer;
-  padding: 0.4rem 1.2rem; 
+  padding: 0.4rem 1.5rem; 
   border: 2px solid transparent;
   margin-right: 2rem;
   border: 2px solid $grey-1;
   font-weight: bold;
+  display: inline-block;
 }
 
  .create-space-proposal-call-page-btn:hover, .create-artist-proposal-call-page-btn:hover{

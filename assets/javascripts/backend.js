@@ -171,6 +171,7 @@
     };
 
     var _whitelist = function(call_id, whitelist, callback){
+      console.log(whitelist);
       _send(       
         '/users/add_whitelist',
         {

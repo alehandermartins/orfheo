@@ -251,6 +251,7 @@
   }
 
   ns.Events.WhiteList = function(data){
+    console.log(data);
     $('#successBox-whiteList').empty();
     if(data['status'] == 'success') $('#successBox-whiteList').append($('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
     else{
