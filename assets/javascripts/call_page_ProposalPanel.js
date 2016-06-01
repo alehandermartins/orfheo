@@ -24,13 +24,13 @@
 
   	var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
-    var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateSpaceProposal(call)});
+    var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateOwnSpaceProposal(call, _spacesList)});
 
-    var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateArtistProposal(call)});
+    var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateOwnArtistProposal(call, _artistsList)});
 
-    var _artistsList = $('<ul>').attr({'style':'list-style-type:none'});
-    // var _ownProposals = [];
-    var _spacesList= $('<ul>').attr({'style':'list-style-type:none'});
+    var _artistsList = $('<ul>').addClass('own-proposals-list');
+    // .attr({'style':'list-style-type:none'})
+    var _spacesList= $('<ul>').addClass('own-proposals-list');
 
     var _spacesOwnBox = $('<div>').addClass('ownBox-call-manager');
     var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
@@ -119,7 +119,7 @@
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 
     _yesBtn.click(function(){
-      Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteProposal);
+      Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteOwnProposal);
         closepopup();
     });
 
@@ -143,7 +143,7 @@
   }
 
 
-  ns.Widgets.CreateSpaceProposal = function(call){
+  ns.Widgets.CreateOwnSpaceProposal = function(call, spacesList){
   	var _createdWidget = $('<div>');
 
   	var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
@@ -225,12 +225,10 @@
 
     submitButton.on('click',function(){
       if(_filled() == true){
-        Pard.Backend.sendOwnProposal(_getVal(), Pard.Events.SendOwnProposal);
+        var _ownProposal = _getVal();
+        Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
         _closepopup();
-        // if(_photos.dataLength() == false) _send(_url);
-        // else{
-        //   _photos.submit();
-        // }
+        spacesList.prepend(Pard.Widgets.PrintOwnProposal(_ownProposal).render());
       }
     });
 
@@ -252,7 +250,7 @@
 
 
 
-  ns.Widgets.CreateArtistProposal = function(call){
+  ns.Widgets.CreateOwnArtistProposal = function(call, artistsList){
 
   	var _createdWidget = $('<div>');
 
@@ -365,15 +363,12 @@
 
     submitButton.on('click',function(){
       if(_filled() == true){
-        Pard.Backend.sendOwnProposal(_getVal(), Pard.Events.SendOwnProposal);
+        var _ownProposal = _getVal();
+        Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
         _closepopup();
-        // if(_photos.dataLength() == false) _send(_url);
-        // else{
-        //   _photos.submit();
-        // }
+        artistsList.prepend(Pard.Widgets.PrintOwnProposal(_ownProposal).render());
       }
     });
-
     // _photos.cloudinary().bind('cloudinarydone', function(e, data){
     //   _url.push(data['result']['public_id']);
     //   if(_url.length >= _photos.dataLength()) _send(_url);

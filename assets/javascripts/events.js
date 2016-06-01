@@ -241,7 +241,6 @@
   ns.Events.SendOwnProposal = function(data){
     if(data['status'] == 'success') {
       Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
-      console.log(data);
       Pard.CachedProposals = data.call.proposals;
     }
     else{
@@ -249,6 +248,26 @@
       // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
     }  
   }
+
+  ns.Events.DeleteOwnProposal = function(data){
+    if (data['status'] == 'success'){
+      // console.log(data);
+      Pard.Widgets.Alert('', 'Propuesta cancelada correctamente.', function(){location.reload();})
+    }
+    else{
+      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      if (typeof _dataReason == 'object'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
+        _caller.trigger('click');
+      }
+      else{
+        console.log(data.reason);
+        Pard.Widgets.Alert('', _dataReason);
+      }
+    }
+  }
+
 
   ns.Events.WhiteList = function(data){
     console.log(data);
