@@ -68,7 +68,7 @@ describe Services::Calls do
   describe 'Registration' do
 
     it 'registers the call' do
-      expect(Repos::Calls).to receive(:add).with({user_id: user_id, call_id: call_id})
+      expect(Repos::Calls).to receive(:add).with({user_id: user_id, call_id: call_id, start: nil, deadline: nil})
       Services::Calls.register call, user_id
     end
   end

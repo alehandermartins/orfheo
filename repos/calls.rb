@@ -49,6 +49,12 @@ module Repos
         proposal[:user_id]
       end
 
+      def proposal_on_time? call_id, email
+        call = grab({call_id: call_id}).first
+        return true if !call[:whitelist].blank? && call[:whitelist].include?(email)
+        call[:start].to_i < Time.now.to_i && call[:deadline].to_i > Time.now.to_i
+      end
+
       def amend_proposal proposal_id, amend
         @@calls_collection.update({ "proposals.proposal_id": proposal_id },
           {
@@ -73,11 +79,6 @@ module Repos
             "$set": {"whitelist": whitelist}
           },
         {upsert: true})
-      end
-
-      def whitelist call_id
-        call = grab({call_id: call_id}).first
-        call[:whitelist] || []
       end
 
       def delete_proposal proposal_id

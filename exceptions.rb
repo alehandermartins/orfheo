@@ -115,6 +115,12 @@ module Pard
       'invalid_query'
     end
   end
+
+  class Invalid::Deadline < Invalid
+    def message
+      'out_of_time_range'
+    end
+  end
 end
 
 

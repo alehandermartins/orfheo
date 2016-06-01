@@ -4,6 +4,21 @@ module Repos
 
       def for db
         @@users_collection = db['users']
+        mail
+      end
+
+      def mail
+        results = @@users_collection.find({})
+        return {} unless results.count > 0
+
+        users = results.map { |user|
+         Util.string_keyed_hash_to_symbolized user
+        }
+        users.each{ |user|
+          user[:validation_code] = SecureRandom.uuid if user[:validation_code].blank?
+          modify({user_id: user[:user_id]},{validation_code: user[:validation_code]})
+          Services::Mails.deliver_mail_to(user, :last_two_weeks)
+        }
       end
 
       def add user

@@ -225,6 +225,7 @@ class Forms::Proposals < Forms::Base
       email: email,
       phone: phone,
       name: space_name,
+      address: address,
       responsible: responsible,
       availability: availability
     }
