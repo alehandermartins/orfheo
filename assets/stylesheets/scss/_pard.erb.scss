@@ -641,7 +641,9 @@ button{
 
 .create-space-proposal-call-page-btn, .create-artist-proposal-call-page-btn{
   cursor: pointer;
-  padding: 0.4rem 1.5rem; 
+  padding: 0.4rem 1.5rem;
+  text-align: center;
+  width: 100%;
   border: 2px solid transparent;
   margin-right: 2rem;
   border: 2px solid $grey-1;
