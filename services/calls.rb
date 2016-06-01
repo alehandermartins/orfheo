@@ -21,7 +21,8 @@ module Services
         old_pictures = {
           photos: proposal[:photos]
         }
-        storable_pictures = Services::Profiles.production_old_pictures proposal[:production_id]
+        storable_pictures = {}
+        storable_pictures = Services::Profiles.production_old_pictures(proposal[:production_id]) unless proposal[:production_id].blank?
         Util.destroy_old_pictures old_pictures, storable_pictures 
         Repos::Calls.delete_proposal proposal_id
       end
