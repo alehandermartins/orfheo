@@ -502,6 +502,30 @@
   				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
   				_col.append(_icon);
   			}
+  			else if (field == 'program') {
+				  if (proposal['type'] == 'artist') {
+						var _inputProgram = Pard.Widgets.InputArtistProgram(places, dayTimeObj.render(proposal['availability']));
+						var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
+						_programArray.push(_showObj);
+						if (proposal['program']) _inputProgram.setVal(proposal['program']);
+					}
+				  if (proposal['type'] == 'space') {
+				  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
+						var _showObj = {place: proposal['name'], proposal_id: proposal['proposal_id'] ,
+						newProgram: _inputProgram};
+						_programArray.push(_showObj);
+						var _savedProgram = [];	  					
+						_programs.forEach(function(program){
+							for (var key in program){
+								if (program[key]['place'] == proposal['name']){
+									_savedProgram.push({proposal_id: program['proposal_id'], day_time: program[key]['day_time']});
+								}
+							}
+						});
+						_inputProgram.setVal(_savedProgram);
+				  }
+					_col.append(_inputProgram.render());
+ 				}
   			else if (proposal[field]) {
 	  			if (field == 'name'){
 	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
@@ -526,30 +550,6 @@
 				    }).text(_fieldFormText);
 					 	_col.append(_address);
 	  			}
-	  			else if (field == 'program') {
-	  				  if (proposal['type'] == 'artist') {
-								var _inputProgram = Pard.Widgets.InputArtistProgram(places, dayTimeObj.render(proposal['availability']));
-								var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
-								_programArray.push(_showObj);
-								if (proposal['program']) _inputProgram.setVal(proposal['program']);
-							}
-						  if (proposal['type'] == 'space') {
-						  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-								var _showObj = {place: proposal['name'], proposal_id: proposal['proposal_id'] ,
-								newProgram: _inputProgram};
-								_programArray.push(_showObj);
-								var _savedProgram = [];	  					
-								_programs.forEach(function(program){
-									for (var key in program){
-										if (program[key]['place'] == proposal['name']){
-											_savedProgram.push({proposal_id: program['proposal_id'], day_time: program[key]['day_time']});
-										}
-									}
-								});
-								_inputProgram.setVal(_savedProgram);
-						  }
-						_col.append(_inputProgram.render());
-	 				}
 	  			else if (proposal[field] && field == 'availability') {
 	  				for (var date in proposal[field]) {
 		  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
