@@ -239,7 +239,11 @@
   }
 
   ns.Events.SendOwnProposal = function(data){
-    if(data['status'] == 'success') Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
+    if(data['status'] == 'success') {
+      Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
+      console.log(data);
+      Pard.CachedProposals = data.call.proposals;
+    }
     else{
       Pard.Widgets.Alert('',data.reason);
       // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})

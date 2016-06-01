@@ -502,68 +502,70 @@
   				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
   				_col.append(_icon);
   			}
-  			else if (field == 'name'){
-  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
-  				var _form;
-  				if (proposal.type == 'artist') {_form = Pard.Forms.ArtistCall(proposal.category);
-  					  	;}			
-  				else _form = Pard.Forms.SpaceCall();
+  			else if (proposal[field]) {
+	  			if (field == 'name'){
+	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
+	  				var _form;
+	  				if (proposal.type == 'artist') {_form = Pard.Forms.ArtistCall(proposal.category);
+	  					  	;}			
+	  				else _form = Pard.Forms.SpaceCall();
 
-				 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
+					 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
 
-				 _col.append(_popup.render());
+					 _col.append(_popup.render());
 
-  			}
-  			else if (field == 'address'){
-  				var _fieldFormText = ' '+proposal['address']['route']+' '+proposal['address']['street_number'];
-    			if (proposal['door']) _fieldFormText += ', puerta/piso '+proposal['door'];
-   				_fieldFormText +=', '+proposal['address']['locality'];
-   				var _aStr = proposal['address']['route']+' '+proposal['address']['street_number']+', '+proposal['address']['locality']+' '+proposal['address']['country'];
-  				var _address = $('<a>').attr({
-			      href: 'http://maps.google.com/maps?q='+_aStr,
-			      target: '_blank'
-			    }).text(_fieldFormText);
-				 	_col.append(_address);
-  			}
-  			else if (field == 'program') {
-  				  if (proposal['type'] == 'artist') {
-							var _inputProgram = Pard.Widgets.InputArtistProgram(places, dayTimeObj.render(proposal['availability']));
-							var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
-							_programArray.push(_showObj);
-							if (proposal['program']) _inputProgram.setVal(proposal['program']);
-						}
-					  if (proposal['type'] == 'space') {
-					  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-							var _showObj = {place: proposal['name'], proposal_id: proposal['proposal_id'] ,
-							newProgram: _inputProgram};
-							_programArray.push(_showObj);
-							var _savedProgram = [];	  					
-							_programs.forEach(function(program){
-								for (var key in program){
-									if (program[key]['place'] == proposal['name']){
-										_savedProgram.push({proposal_id: program['proposal_id'], day_time: program[key]['day_time']});
+	  			}
+	  			else if ( field == 'address'){
+	  				var _fieldFormText = ' '+proposal['address']['route']+' '+proposal['address']['street_number'];
+	    			if (proposal['door']) _fieldFormText += ', puerta/piso '+proposal['door'];
+	   				_fieldFormText +=', '+proposal['address']['locality'];
+	   				var _aStr = proposal['address']['route']+' '+proposal['address']['street_number']+', '+proposal['address']['locality']+' '+proposal['address']['country'];
+	  				var _address = $('<a>').attr({
+				      href: 'http://maps.google.com/maps?q='+_aStr,
+				      target: '_blank'
+				    }).text(_fieldFormText);
+					 	_col.append(_address);
+	  			}
+	  			else if (field == 'program') {
+	  				  if (proposal['type'] == 'artist') {
+								var _inputProgram = Pard.Widgets.InputArtistProgram(places, dayTimeObj.render(proposal['availability']));
+								var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
+								_programArray.push(_showObj);
+								if (proposal['program']) _inputProgram.setVal(proposal['program']);
+							}
+						  if (proposal['type'] == 'space') {
+						  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
+								var _showObj = {place: proposal['name'], proposal_id: proposal['proposal_id'] ,
+								newProgram: _inputProgram};
+								_programArray.push(_showObj);
+								var _savedProgram = [];	  					
+								_programs.forEach(function(program){
+									for (var key in program){
+										if (program[key]['place'] == proposal['name']){
+											_savedProgram.push({proposal_id: program['proposal_id'], day_time: program[key]['day_time']});
+										}
 									}
-								}
-							});
-							_inputProgram.setVal(_savedProgram);
-					  }
-					_col.append(_inputProgram.render());
- 				}
-  			else if (proposal[field] && field == 'availability') {
-  				for (var date in proposal[field]) {
-	  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
+								});
+								_inputProgram.setVal(_savedProgram);
+						  }
+						_col.append(_inputProgram.render());
+	 				}
+	  			else if (proposal[field] && field == 'availability') {
+	  				for (var date in proposal[field]) {
+		  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
+	  				}
+	  			}
+	  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
+	  				if (proposal[field] == 'true') {_col.html('Sí');}
+	  				else if (proposal[field] == 'false') { _col.html('No');}
+	  				else { var _col = $('<td>').html(proposal[field]);}
+	  			}
+	  			else	if (proposal[field] && field == 'category'){
+	  				_col.html(Pard.Widgets.Dictionary(proposal[field]).render());
+	  			}
+	  			else{
+	  				_col.html(proposal[field]);
   				}
-  			}
-  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
-  				if (proposal[field] == 'true') {_col.html('Sí');}
-  				else if (proposal[field] == 'false') { _col.html('No');}
-  				else { var _col = $('<td>').html(proposal[field]);}
-  			}
-  			else	if (proposal[field] && field == 'category'){
-  				_col.html(Pard.Widgets.Dictionary(proposal[field]).render());
-  			}
-  			else	if (proposal[field]) {
-  				_col.html(proposal[field]);
   			}
   			else{
   				_col.html('');

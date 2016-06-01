@@ -169,9 +169,10 @@
 
     // _submitForm['user_id'] = user_id;
     _submitForm['call_id'] = call.call_id;
-    _submitForm['profile_id'] = '26f6fc6d-ac81-451b-bd73-ee035e67538c';
+    // _submitForm['profile_id'] = '26f6fc6d-ac81-451b-bd73-ee035e67538c';
     _submitForm['type'] = 'artist';
     _submitForm['category'] = _preSelected;
+    _submitForm['description'] = '';
 
     // _submitForm['phone'] = '000000000';
     // _submitForm['email'] = 'email@email.email';
@@ -262,6 +263,7 @@
         // }
       }
     });
+
     // _photos.cloudinary().bind('cloudinarydone', function(e, data){
     //   _url.push(data['result']['public_id']);
     //   if(_url.length >= _photos.dataLength()) _send(_url);

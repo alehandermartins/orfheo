@@ -148,6 +148,13 @@
     };
     _form['category']['input'].setClass('category-input');
 
+    _form['responsible'] = {
+      label: Pard.Widgets.InputLabel('Nombre del responsable del espacio *'),
+      input: Pard.Widgets.Input('','text'),
+      helptext: Pard.Widgets.HelpText('Indicar la persona que se compromete con el festival para la programación y gestión del espacio.')
+    };
+
+
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad *'),
       input: Pard.Widgets.InputDate(''),
@@ -168,7 +175,7 @@
       helptext:Pard.Widgets.HelpText('Correo de la  persona responsable.')
     }
 
-    var _requiredFields = ['name', 'address', 'category', 'availability', 'email', 'phone'];
+    var _requiredFields = ['name', 'address', 'category', 'responsible', 'availability', 'email', 'phone'];
 
 
     return {
