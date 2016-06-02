@@ -131,7 +131,8 @@
 			_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
    		_table.setTitleColCallback(function(field){
    			_titleColCallback(field);
-   		});   		
+   		});
+   		Pard.CachedProposals = _proposalsSelectedReordered;   		
    	}
 
    	_table.setTitleColCallback(function(field){
@@ -143,7 +144,10 @@
 
 	  var _searchInput = Pard.Widgets.SearchInputCallManager(selected);
 
-	  _searchInput.setCallback(function(){_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal())});
+	  _searchInput.setCallback(function(){
+	  	_searchInput.updateDatabase();
+	  	_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
+	  });
 
 	  var _checkBoxesBox = Pard.Widgets.PrintCheckBoxes(programAllCheckbox, selected, _submitBtnOuterContainer);
 
@@ -340,8 +344,6 @@
 
  	  var _searchTags = [{id:'', text:''}];
 
-    var _proposalsSelected = [];
-
 		var _namesAdded = [];
 		var _categoryAdded = [];
 		var _respAdded = [];
@@ -349,7 +351,7 @@
 
   	proposals.forEach(function(proposal){
    		if (proposal['type'] == selected) {
-   			_proposalsSelected.push(proposal);
+   			// _proposalsSelected.push(proposal);
 
   			if ($.inArray(proposal['category'],_categoryAdded) < 0){
   				_searchTags.push({id: proposal['category'], text: Pard.Widgets.Dictionary(proposal['category']).render()});
@@ -372,7 +374,7 @@
 
 		var dayTimeObj = Pard.Widgets.DayTime();
 
-	  var _proposalsSearched = _proposalsSelected;
+	  // var _proposalsSearched = _proposalsSelected;
 
   	var _createdWidget = $('<div>');
 
@@ -389,6 +391,13 @@
     });
 
 	  var _filterPropoposals = function(){
+ 	 	  proposals = Pard.CachedProposals;
+	    var _proposalsSelected = [];
+	  	proposals.forEach(function(proposal){
+   		if (proposal['type'] == selected) {
+	   			_proposalsSelected.push(proposal);
+	   		}
+   		});
 	    var _searchTerms = _searchInput.val();
       if (_searchTerms){
 	    	var _proposalsSearched = _proposalsSelected;
@@ -431,6 +440,9 @@
 			 	_searchInput.on('change', function() {
 	    		callback();
 	    	});
+    	},
+    	updateDatabase: function(){
+
     	}
     }
   }
@@ -518,7 +530,7 @@
 						_programs.forEach(function(program){
 							for (var key in program){
 								if (program[key]['place'] == proposal['name']){
-									_savedProgram.push({proposal_id: program['proposal_id'], day_time: program[key]['day_time']});
+									_savedProgram.push({proposal_id: program['proposal_id'], starting_day_time: program[key]['starting_day_time']});
 								}
 							}
 						});
@@ -623,21 +635,23 @@
 
   	var _saveProgramArtists = function(_programArray) {
   		_programArray.forEach(function(inputProgram){
-	  		var _modified = inputProgram['newProgram'].modifiedCheck();
+	  		// var _modified = true;
+	  		// inputProgram['newProgram'].modifiedCheck();
 	  		var _showArray = inputProgram['newProgram'].getVal();	
 	  		var _data = {proposal_id: inputProgram['proposalId']};
 	  		var _program = [];
-	  		if (_modified) {
+	  		// if (_modified) {
 	  			_showArray.forEach(function(show){
 	  				_program.push({
 	  					place: show['place'],
-	  				 	day_time: show['day_time'],
+	  				 	starting_day_time: show['starting_day_time'],
+	  				 	ending_day_time: show['ending_day_time'],
 	  				 	proposal_id: show['proposal_id']
 	  				});
 	  			});
 	 				_data['program'] = _program;	
 					_programData.push(_data);
-				}
+				// }
 		  	inputProgram['newProgram'].resetModifiedCheck();
 	  	});
 	  	return _programData;
@@ -654,24 +668,26 @@
 		  		var _data = {};
   				_programData.some(function(dataSaved){
   					if (dataSaved['proposal_id'] == show['proposal_id']){
-  							if (show['day_time'] != false) dataSaved['program'].push({	place: _place, 	
-  								day_time: show['day_time'], 
+  							if (show['starting_day_time'] != false) dataSaved['program'].push({	place: _place, 	
+  								starting_day_time: show['starting_day_time'], 
+  								ending_day_time: show['ending_day_time'],
   								proposal_id: _spaceProposal_id
   							});
   							_check = false;
   						return true;
   					}
   				});
-  				if (_check && show['day_time'] != false){
+  				if (_check && show['starting_day_time'] != false){
 	  				_data['proposal_id'] = show['proposal_id'];
 	  				var _program = {
 	  					place: _place,
-	  				 	day_time: show['day_time'],
+	  				 	starting_day_time: show['starting_day_time'],
+							ending_day_time: show['ending_day_time'],
 	  				 	proposal_id: _spaceProposal_id
 	  				}
 	  				_data['program'] = [_program];
 	  			}
-	  			else if (_check && show['day_time'] == false){
+	  			else if (_check && show['starting_day_time'] == false){
 	  				_data['proposal_id'] = show['proposal_id'];
 	  				_data['program'] = [];
 	  			}
@@ -762,3 +778,7 @@
 	}
 
 }(Pard || {}));
+
+
+
+

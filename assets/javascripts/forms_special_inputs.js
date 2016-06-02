@@ -502,8 +502,10 @@
     var _inputs = [];
     var _inputSpace = $('<select>');
     var _inputSpaceContainer = $('<div>').addClass('inputSpace-container');
-    var _inputDayTime = $('<select>').addClass('inputDayTime-select');
-    var _inputDayTimeContainer = $('<div>').addClass('inputDayTime-container');
+    var _inputStartingDayTime = $('<select>').addClass('inputDayTime-select');
+    var _inputStartingDayTimeContainer = $('<div>').addClass('inputDayTime-container');
+    var _inputEndDayTime = $('<select>').addClass('inputDayTime-select');
+    var _inputEndDayTimeContainer = $('<div>').addClass('inputDayTime-container');
     var _dtArray = dayTimeObj.dtArray;
     var _dayTime = dayTimeObj.dayTime;
 
@@ -513,31 +515,36 @@
     var _addnewInput = function(showInfo){
       var _container = $('<div>');
       var _newInputSpace = Pard.Widgets.Selector([showInfo['place']], [showInfo['proposal_id']]);   
-      var _newInputDayTime; 
-      if (showInfo['day_time'] == 'both') {
-        _newInputDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
+      var _newInputStartingDayTime;
+      var _newInputEndDayTime; 
+      if (showInfo['starting_day_time'] == 'both') {
+        _newInputStartingDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
+        _newInputEndDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
       }else { 
-        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['day_time']]);
+        _newInputStartingDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['starting_day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['starting_day_time']]);
+        _newInputEndDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['ending_day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['ending_day_time']]);
       };
 
       _newInputSpace.setClass('add-space-input-field');
-      _newInputDayTime.setClass('add-dayTime-input-field');
+      _newInputStartingDayTime.setClass('add-dayTime-input-field');
+      _newInputEndDayTime.setClass('add-dayTime-input-field');
       _newInputSpace.disable();
-      _newInputDayTime.disable();
+      _newInputStartingDayTime.disable();
+      _newInputEndDayTime.disable();
 
-      _inputs.push([_newInputDayTime, _newInputSpace]);
+      _inputs.push([_newInputStartingDayTime, _newInputEndDayTime, _newInputSpace]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
-      _container.append(_newInputDayTime.render(),_newInputSpace.render(),  _removeInputButton);
+      _container.append(_newInputStartingDayTime.render(),_newInputEndDayTime.render(), _newInputSpace.render(),  _removeInputButton);
       _removeInputButton.on('click', function(){
         _modified = true;
-        var _index = _inputs.indexOf([_newInputDayTime, _newInputSpace]);
+        var _index = _inputs.indexOf([_newInputStartingDayTime,_newInputEndDayTime, _newInputSpace]);
         _inputs.splice(_index, 1);
 
         var _indexR = -1;
         _results.some(function(result, index){
-          if(result.proposal_id == _newInputSpace.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString())
+          if(result.proposal_id == _newInputSpace.getVal() && result.starting_day_time.toString() ==  _newInputStartingDayTime.getVal().toString() && result.ending_day_time.toString() ==  _newInputEndDayTime.getVal().toString())
             _indexR = index;
         });     
         if (_indexR > -1){ _results.splice(_indexR, 1);}
@@ -551,26 +558,37 @@
 
     _addInputButton.on('click', function(){
       _modified = true;
-      if (_inputSpace.val() && _inputDayTime.val()){
-        if (_inputDayTime.val() == 'both'){
-          var _show = {place: _inputSpace.select2('data')[0]['text'], day_time: _dtArray[_inputDayTime.val()[0]], proposal_id: _inputSpace.select2('data')[0]['id']}
+      if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
+        if (_inputStartingDayTime.val() == 'both'){
+          var _show = {
+            place: _inputSpace.select2('data')[0]['text'], 
+            starting_day_time: _dtArray[_inputStartingDayTime.val()[0]],
+            ending_day_time:_dtArray[_inputStartingDayTime.val()[0]],
+            proposal_id: _inputSpace.select2('data')[0]['id']
+          }
         }else {
-          var _show = {place: _inputSpace.select2('data')[0]['text'], day_time: _dtArray[_inputDayTime.val()[0]], proposal_id: _inputSpace.select2('data')[0]['id']};
+          var _show = {
+            place: _inputSpace.select2('data')[0]['text'], 
+            starting_day_time: _dtArray[_inputStartingDayTime.val()[0]],  
+            ending_day_time:_dtArray[_inputEndDayTime.val()[0]],
+            proposal_id: _inputSpace.select2('data')[0]['id']};
         }
         _showsAddedContainer.prepend(_addnewInput(_show));
         _inputSpace.select2('val', '');
-        _inputDayTime.select2('val', '');
+        _inputStartingDayTime.select2('val', '');
+        _inputEndDayTime.select2('val','');
         _results.push(_show);
          $('#succes-box-call-manager').empty();
 
       }
       else{
         if (!(_inputSpace.val())) {_inputSpace.addClass('warning');}
-        else if (!(_inputDayTime.val())) {_inputDayTime.addClass('warning');}
+        else if (!(_inputStartingDayTime.val())) {_inputStartingDayTime.addClass('warning');}
+        else if (!(_inputEndDayTime.val())) {_inputEndDayTime.addClass('warning');}
       }
     });
 
-    _createdWidget.append(_inputDayTimeContainer.append(_inputDayTime),_inputSpaceContainer.append(_inputSpace), _addInputButton,_showsAddedContainer);
+    _createdWidget.append(_inputStartingDayTimeContainer.append(_inputStartingDayTime), _inputEndDayTimeContainer.append(_inputEndDayTime),_inputSpaceContainer.append(_inputSpace), _addInputButton,_showsAddedContainer);
 
     return {
       render: function(){
@@ -580,8 +598,13 @@
           maximumSelectionLength: 1,
           placeholder: 'Espacio'
         });
-
-        _inputDayTime.select2({
+        _inputStartingDayTime.select2({
+          data: _dayTime,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Día y hora'
+        });
+        _inputEndDayTime.select2({
           data: _dayTime,
           multiple:true,
           maximumSelectionLength: 1,
@@ -597,7 +620,7 @@
         var _index = [];
         var _bothVal = [];
         values.forEach(function(val, index){
-          if (val.day_time == 'both'){
+          if (val.starting_day_time == 'both'){
             _index.unshift(index);
             _bothVal.push(val);
           }
@@ -605,7 +628,7 @@
         if (_index.length) _index.forEach(function(_ind){
           values.splice(_ind, 1)
         });
-        values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
+        values.sort(function(val1, val2){return (new Date(val2.starting_day_time).getTime())- (new Date(val1.starting_day_time).getTime())});
         if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
         values.forEach(function(show){
           _results.push(show);
@@ -629,8 +652,11 @@
     var _inputs = [];
     var _inputArtist = $('<select>');
     var _inputArtistContainer = $('<div>').addClass('inputArtist-container');
-    var _inputDayTime = $('<select>');
-    var _inputDayTimeContainer = $('<div>').addClass('inputDayTime-container');
+    var _inputStartingDayTime = $('<select>');
+    var _inputStartingDayTimeContainer = $('<div>').addClass('inputDayTime-container');
+    var _inputEndDayTime = $('<select>');
+    var _inputEndDayTimeContainer = $('<div>').addClass('inputDayTime-container');
+
 
     var _dtArray = dayTimeObj.dtArray;
     var _dayTime = dayTimeObj.dayTime;
@@ -641,7 +667,8 @@
     var _addnewInput = function(showInfo){
       var _container = $('<div>');
       var _newInputArtist;
-      var _newInputDayTime;
+      var _newInputStartingDayTime;
+      var _newInputEndDayTime;
 
       artists.some(function(artist){
         if (artist['id'] == showInfo['proposal_id']){ 
@@ -649,29 +676,33 @@
            return true;
         }    
       });
-      if (showInfo['day_time'] == 'both') {
-        _newInputDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
+      if (showInfo['starting_day_time'] == 'both') {
+        _newInputStartingDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
+          _newInputEndDayTime = Pard.Widgets.Selector(['Los dos días'],['both']);
       }else { 
-        _newInputDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['day_time']]);
+        _newInputStartingDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['starting_day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['starting_day_time']]);
+        _newInputEndDayTime = Pard.Widgets.Selector([moment(new Date (showInfo['ending_day_time'])).locale("es").format('dddd, HH:mm')+"h"],[showInfo['ending_day_time']]);
       };
       _newInputArtist.setClass('add-artist-input-field');
-      _newInputDayTime.setClass('add-dayTime-input-field');
+      _newInputStartingDayTime.setClass('add-dayTime-input-field');
+      _newInputEndDayTime.setClass('add-dayTime-input-field');
       _newInputArtist.disable();
-      _newInputDayTime.disable();
-      _inputs.push([_newInputDayTime, _newInputArtist]);
+      _newInputStartingDayTime.disable();
+      _newInputEndDayTime.disable();
+      _inputs.push([_newInputStartingDayTime,_newInputEndDayTime, _newInputArtist]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
-      _container.append(_newInputDayTime.render(), _newInputArtist.render(),  _removeInputButton);
+      _container.append(_newInputStartingDayTime.render(), _newInputEndDayTime.render(), _newInputArtist.render(),  _removeInputButton);
 
       _removeInputButton.on('click', function(){
-        var _index = _inputs.indexOf([_newInputDayTime, _newInputArtist]);
-        var _show = {proposal_id: _newInputArtist.getVal(), day_time: false};
+        var _index = _inputs.indexOf([_newInputStartingDayTime, _newInputEndDayTime,  _newInputArtist]);
+        var _show = {proposal_id: _newInputArtist.getVal(), starting_day_time: false};
         _inputs.splice(_index, 1);
         
         var _indexR = -1;
         _results.some(function(result, index){
-          if(result.proposal_id == _newInputArtist.getVal() && result.day_time.toString() ==  _newInputDayTime.getVal().toString()){
+          if(result.proposal_id == _newInputArtist.getVal() && result.starting_day_time.toString() ==  _newInputStartingDayTime.getVal().toString() && result.ending_day_time.toString() ==  _newInputEndDayTime.getVal().toString()){
             _indexR = index;
             _results.splice(_indexR, 1); 
             _results.push(_show);
@@ -688,21 +719,27 @@
     var _showsAddedContainer = $('<div>');
 
     _addInputButton.on('click', function(){
-      if (_inputArtist.val() && _inputDayTime.val()){
-        var _show = {proposal_id: _inputArtist.val()[0], day_time: _dtArray[_inputDayTime.val()[0]]};
+      if (_inputArtist.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
+        var _show = {
+          proposal_id: _inputArtist.val()[0], 
+          starting_day_time: _dtArray[_inputStartingDayTime.val()[0]],
+          ending_day_time: _dtArray[_inputEndDayTime.val()[0]]
+        };
         _showsAddedContainer.prepend(_addnewInput(_show));
         _inputArtist.select2('val', '');
-        _inputDayTime.select2('val', '');
+        _inputStartingDayTime.select2('val', '');
+        _inputEndDayTime.select2('val','');
         _results.push(_show);
         $('#succes-box-call-manager').empty();
       }
       else{
         if (!(_inputArtist.val())) {_inputArtist.addClass('warning');}
-        else if (!(_inputDayTime.val())) {_inputDayTime.addClass('warning');}
+        else if (!(_inputStartingDayTime.val())) {_inputStartingDayTime.addClass('warning');}
+        else if (!(_inputEndDayTime.val())) {_inputEndDayTime.addClass('warning');}
       }
     });
 
-    _createdWidget.append( _inputDayTimeContainer.append(_inputDayTime), _inputArtistContainer.append(_inputArtist), _addInputButton,_showsAddedContainer);
+    _createdWidget.append( _inputStartingDayTimeContainer.append(_inputStartingDayTime), _inputEndDayTimeContainer.append(_inputEndDayTime), _inputArtistContainer.append(_inputArtist), _addInputButton,_showsAddedContainer);
 
     return {
       render: function(){
@@ -712,8 +749,13 @@
           maximumSelectionLength: 1,
           placeholder: 'Artista'
         });
-
-        _inputDayTime.select2({
+        _inputStartingDayTime.select2({
+          data: _dayTime,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Día y hora'
+        });
+        _inputEndDayTime.select2({
           data: _dayTime,
           multiple:true,
           maximumSelectionLength: 1,
@@ -729,7 +771,7 @@
         var _index = [];
         var _bothVal = [];
         values.forEach(function(val, index){
-          if (val.day_time == 'both'){
+          if (val.starting_day_time == 'both'){
             _index.unshift(index);
             _bothVal.push(val);
           }
@@ -737,7 +779,7 @@
         if (_index.length) _index.forEach(function(_ind){
           values.splice(_ind, 1)
         });
-        values.sort(function(val1, val2){return (new Date(val2.day_time).getTime())- (new Date(val1.day_time).getTime())});
+        values.sort(function(val1, val2){return (new Date(val2.starting_day_time).getTime())- (new Date(val1.starting_day_time).getTime())});
         if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
         values.forEach(function(show, index){
           _results.push(show);
