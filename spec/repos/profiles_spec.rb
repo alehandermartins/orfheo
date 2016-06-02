@@ -173,6 +173,8 @@ describe Repos::Profiles do
     it 'returns all profiles and those of the user (sorted)' do
       profile.merge! proposals: []
       my_otter_profile.merge! proposals: []
+      profile.merge! calls: []
+      my_otter_profile.merge! calls: []
       result = Repos::Profiles.get_profiles :user_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end

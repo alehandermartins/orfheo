@@ -19,6 +19,7 @@
 // = require widgets_dictionary
 // = require artist_profile_section
 // = require space_profile_section
+// = require organization_profile_section
 // = require forms_special_inputs
 // = require multimedia
 // = require profile_widgets

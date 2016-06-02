@@ -115,20 +115,14 @@
 
     var _buttonContainer = $('<div>').addClass('create-profile-container');
 
-    if(myCalls.length) myCalls.forEach(function(call){
-      var _manageCallText = $('<p>').text('Gestiona convocatorias').addClass('create-profile-text').addClass('create-profile-text');
-      var _manageCallBtn =  $('<div>').addClass('create-profile-btn').click(function(){location.href = '/call?id='+ call}).css('padding','0.5rem 0.25rem');
-      var _manageCallBtnText = $('<span>').text('conFusión 2016').addClass('create-profile-btn-text');
-      var _manageCallBtnIcon = Pard.Widgets.IconManager('proposals').render().addClass(' create-profile-btn-icon');
-       _buttonContainer.append(_manageCallText, _manageCallBtn.append(_manageCallBtnIcon,_manageCallBtnText));
-    });
-
     var _createProfileText = $('<p>').text('Crea un perfil').addClass('create-profile-text')
     var _createArtistBtn =  Pard.Widgets.CreateTypeProfile('artist').render();
     var _createSpaceBtn =  Pard.Widgets.CreateTypeProfile('space').render();
+    var _createOrganizationBtn = Pard.Widgets.CreateTypeProfile('organization').render();
 
     _createArtistBtn.addClass('create-profile-btn');
-    _createSpaceBtn.addClass('create-profile-btn');  
+    _createSpaceBtn.addClass('create-profile-btn');
+    _createOrganizationBtn.addClass('create-profile-btn');  
 
 
     _buttonContainer.append(_createProfileText,_createArtistBtn, _createSpaceBtn); 

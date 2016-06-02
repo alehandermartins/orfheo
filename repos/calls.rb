@@ -30,9 +30,8 @@ module Repos
         grab({call_id: call_id}).first
       end
 
-      def get_user_calls user_id
-        results = grab(user_id: user_id)
-        results.map{ |call| call[:call_id]}
+      def get_calls profile_id
+        grab({profile_id: profile_id})
       end
 
       def get_call_owner call_id

@@ -33,24 +33,28 @@
 
     var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('create-profile-btn-icon');
     var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
+    var _organizationIcon = Pard.Widgets.IconManager('organization').render().addClass('create-profile-btn-icon');
 
     var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista').addClass('create-profile-btn-text'));
-
     var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio').addClass('create-profile-btn-text'));
+    var _organizationButtonHtml = $('<div>').append(_organizationIcon, $('<span>').text('Organización').addClass('create-profile-btn-text'));
 
     var _buttonDesign = {
       artist: _artistButtonHtml,
-      space: _spaceButtonHtml
+      space: _spaceButtonHtml,
+      organization: _organizationButtonHtml
     }
 
     var _popupTitle = {
       artist: 'Artista',
-      space: 'Espacio'
+      space: 'Espacio',
+      organization: 'Organización'
     }
 
     var _form = {
       artist: 'create_artist',
-      space: 'create_space'
+      space: 'create_space',
+      organization: 'create_organization'
     }
 
     var _caller = $('<div>').html(_buttonDesign[type]);
@@ -74,6 +78,7 @@
 
     var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render().addClass('create-space-btn-popup');
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
+    var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-artist-btn-popup');
 
     var _message = $('<div>').addClass('message-form');
     _message.html('<p> Puedes apuntarte a la convocatoria del conFusión 2016 enviando una o más propuestas como artista o también ofreciendo tu espacio:');
@@ -104,6 +109,7 @@
     
     _form['artist'] = Pard.Widgets.ArtistForm();
     _form['space'] = Pard.Widgets.SpaceForm();
+    _form['organization'] = Pard.Widgets.OrganizationForm();
    
     _createdWidget.append(_form[type].render());
        
@@ -185,7 +191,6 @@
     }
   }
 
-
   ns.Widgets.SpaceForm = function(){
 
     var _createdWidget = $('<div>');
@@ -264,6 +269,74 @@
 
     _formContainer.append(_invalidInput, _submitBtnContainer);
     _createdWidget.append(_message, _formContainer)
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closepopup = callback;
+      }
+    }
+  }
+
+  ns.Widgets.OrganizationForm = function(){
+
+    var _createdWidget = $('<div>');
+    var _message = $('<div>').text('Esta información se mostrará en tu página de perfil').addClass('message-form');
+    var _formContainer = $('<form>').addClass('popup-form');  
+    var _invalidInput = $('<div>').addClass('not-filled-text');
+
+    var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+
+    var _form = Pard.Forms.BasicOrganizationForm().render();
+
+    for(var field in _form){
+      _formContainer.append(
+        $('<div>').addClass(field+'-OrganizationForm').append(_form[field].label.render().append(_form[field].input.render()),
+        _form[field].helptext.render())
+      );
+    }
+
+    var _filled = function(){
+      var _check = true;
+      var _requiredFields = Pard.Forms.BasicArtistForm().requiredFields();
+      _requiredFields.forEach(function(field){
+        if(!(_form[field].input.getVal())){
+          _form[field].input.addWarning();
+          _invalidInput.text('Por favor, revisa los campos obligatorios.');
+          _check = false;
+        } 
+      });
+      return _check;
+    }
+
+    var _getVal = function(){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      };
+      _submitForm['type'] = 'organization';
+      return _submitForm;
+    }
+
+    var _send = function(){
+      Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+    }
+
+    var _closepopup = {};
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        _closepopup();
+        _send();
+      }
+    });
+
+    _submitBtnContainer.append(submitButton);
+    _formContainer.append(_invalidInput, _submitBtnContainer);
+    _createdWidget.append(_message, _formContainer);
 
     return {
       render: function(){

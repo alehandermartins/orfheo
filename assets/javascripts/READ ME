@@ -13,4 +13,47 @@ No se guardan los links en create space profile!!
 FOTOS!
 - Modify Profile: Message en English! + filesize limit???
 
+2/06/2016
+-Chrono gem
+-Wordpress form plugin for embeds or google form
+-Endpoint for program
 
+
+conFusion profile
+
+{
+    "_id" : ObjectId("575045cc59c02b50c8d70114"),
+    "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
+    "name" : "Benimaclet conFusión Festival",
+    "city" : "Benimaclet (Valencia)",
+    "zip_code" : "46020",
+    "personal_web" : {
+        "0" : {
+            "url" : "https://www.facebook.com/beniconfusionfest/",
+            "provider" : "facebook"
+        },
+        "1" : {
+            "url" : "https://twitter.com/conFusionFest?lang=es",
+            "provider" : "twitter"
+        },
+        "2" : {
+            "url" : "https://www.instagram.com/confusionfestival/",
+            "provider" : "instagram"
+        },
+        "3" : {
+            "url" : "https://www.youtube.com/channel/UCkAXyjiBR10dn0wFuh9JaSQ",
+            "provider" : "youtube"
+        },
+        "4" : {
+            "url" : "http://beniconfusionfest.es",
+            "provider" : "my_web"
+        }
+    },
+    "color" : "#920a0a",
+    "user_id" : "8946e990-86f5-4075-988b-a734e1eb77a8",
+    "type" : "organization",
+    "bio" : "Festival libre de expresión gratuita - 15/16 Octubre 2016\n\nEl Benimaclet conFusión festival es un evento de expresión artística celebrado en el barrio valenciano de Benimaclet. Las representaciones, tanto en los puntos ubicados por las calles peatonales como en los espacios participantes, pretenden dar voz al alma artística de este barrio. Al mismo tiempo, el festival quiere ser una plataforma de encuentro y diálogo abierta a todas las personas, una posibilidad para quien quiera comunicar algo y un estímulo para quien esté dispuesto a escuchar.",
+    "profile_picture" : [ 
+        "profile_picture/zwqdpibl1ocxrsozdghp"
+    ]
+}

@@ -34,13 +34,7 @@ class Forms::Profiles < Forms::Base
       city: city,
       zip_code: zip_code,
       personal_web: personal_web,
-      color: {
-        type: 'mandatory',
-        label: 'Escoge un color',
-        input: 'InputColor',
-        args: nil,
-        helptext: 'Es el color personal de tu perfil!'
-      }
+      color: color
     }
   end
 
@@ -48,20 +42,8 @@ class Forms::Profiles < Forms::Base
     labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular']
     values = ['cultural_ass', 'commercial', 'home']
     {
-      name: {
-        type: 'mandatory',
-        label: 'Nombre del espacio *',
-        input: 'Input',
-        args: ['', 'text'],
-        helptext: 'Es el nombre que será asociado con tu espacio durante el festival.'
-      },
-      address: {
-        type: 'mandatory',
-        label: 'Dirección *',
-        input: 'InputAddressSpace',
-        args: ['Ej: Carrer de la Murta 13, Valencia'],
-        helptext: 'Tu dirección detallada es necesaria para poderte localizar en el mapa.'
-      },
+      name: space_name,
+      address: address,
       category: {
         type: 'mandatory',
         label: 'Categoría *',
@@ -70,34 +52,10 @@ class Forms::Profiles < Forms::Base
         helptext: '',
         format: 'category-input' 
       },
-      personal_web: {
-        type: 'optional',
-        label: 'Web personal y enlaces a redes sociales',
-        input: 'InputPersonalWeb',
-        args: nil,
-        helptext: 'Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales.'
-      },
-      links: {
-        type: 'optional',
-        label: 'Materiales online',
-        input: 'InputMultimedia',
-        args: nil,
-        helptext: 'Añade vídeos, fotos y audios desde tus redes sociales.'
-      },
-      photos:{
-        type: 'optional',
-        label: 'Fotos del espacio (máximo 4, tamaño inferior a 500kb)',
-        input: 'Cloudinary',
-        folder: '/photos',
-        amount: 4
-      },
-      color: {
-        type: 'mandatory',
-        label: 'Escoge un color',
-        input: 'InputColor',
-        args: nil,
-        helptext: 'Es el color personal de tu perfil!'
-      }
+      personal_web: personal_web,
+      links: links,
+      photos:photos,
+      color: color
     }
   end
 
@@ -112,20 +70,8 @@ class Forms::Profiles < Forms::Base
       },
       city: city,
       zip_code: zip_code,
-      personal_web: {
-        type: 'optional',
-        label: 'Web personal y enlaces a redes sociales',
-        input: 'InputPersonalWeb',
-        args: nil,
-        helptext: 'Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales.'
-      },
-      color: {
-        type: 'mandatory',
-        label: 'Escoge un color',
-        input: 'InputColor',
-        args: nil,
-        helptext: 'Es el color personal de tu perfil!'
-      }
+      personal_web: personal_web,
+      color: color
     }
   end
 

@@ -293,6 +293,53 @@
     }
   }
 
+  ns.Forms.BasicOrganizationForm = function(){
+
+    var _form = {};
+
+    _form['name'] = {
+      label: Pard.Widgets.InputLabel('Nombre*'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Es el nombre del colectivo.')
+    };
+    _form['city'] = {
+      label: Pard.Widgets.InputLabel('Ciudad *'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posible contacto.')
+    };
+
+    _form['zip_code'] = {
+      label: Pard.Widgets.InputLabel('Código postal *'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('Para situar tu proyecto en el mapa.')
+    };
+
+    _form['personal_web'] = {
+      label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
+      input: Pard.Widgets.InputPersonalWeb(),
+      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a webs o blogs como a perfiles en redes sociales')
+    };
+
+    _form['color'] = {
+      label: Pard.Widgets.InputLabel('Escoge un color'),
+      input: Pard.Widgets.InputColor(),
+      helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
+    };
+    // _form['color'].input.setClass('color-input');
+   
+
+    var _requiredFields = ['name', 'city', 'zip_code', 'color'];
+
+    return {
+      render: function(){
+        return _form;
+      },
+      requiredFields: function(){
+        return _requiredFields;
+      }
+    }
+  }
+
   ns.Forms.FullArtistForm = function(){
 
 
@@ -353,11 +400,44 @@
     }
   }
 
+  ns.Forms.FullOrganizationForm = function(){
+
+
+    var _form = Pard.Forms.BasicOrganizationForm().render();
+
+    
+    _form['bio'] = {
+      label: Pard.Widgets.InputLabel('Biografía / Información'),
+      input: Pard.Widgets.TextArea(''),
+      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre el colectivo.')
+    };
+    _form['bio']['input'].setAttr('rows', 4);
+
+    //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
+
+    var _requiredFields = ['name', 'city', 'zip_code', 'color','personal_web'];
+    var  _reorderedForm = {};
+
+    ['name', 'bio',  'city', 'zip_code','personal_web', 'color'].forEach(function(field){
+      _reorderedForm[field] = _form[field]; 
+    });
+
+    return {
+      render: function(){
+        return _reorderedForm;
+      },
+      requiredFields: function(){
+        return _requiredFields;
+      }
+    }
+  }
+
   ns.Forms.ProfileForms = function(selected){
 
 	var _forms = {
 		'artist': Pard.Forms.FullArtistForm,
-		'space': Pard.Forms.FullSpaceForm
+		'space': Pard.Forms.FullSpaceForm,
+    'organization': Pard.Forms.FullOrganizationForm
 	};
 
    return {

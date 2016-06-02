@@ -176,6 +176,16 @@ module Forms
       }
     end
 
+    def color
+      {
+        type: 'mandatory',
+        label: 'Escoge un color',
+        input: 'InputColor',
+        args: nil,
+        helptext: 'Es el color personal de tu perfil!'
+      }
+    end
+
     def meters
       {
         type: 'optional',

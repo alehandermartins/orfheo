@@ -85,25 +85,20 @@ Pard.Welcome = function(){
   });
 }
 
-Pard.Users = function(profiles, calls){
+Pard.Users = function(profiles){
 
   Pard.CachedProfiles = profiles;
-  if (calls) Pard.CachedCalls  = calls;
-
-   var _whole = $('<div>').addClass('whole-container');
+  
+  var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
-
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
-
   var _footer = Pard.Widgets.Footer();
 
   $(_whole).append(_header.render(), _main.render(), _footer.render());
 
-  if (!(calls.length)){
-    $(document).ready( function(){
-      if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
-    }); 
-  }
+  $(document).ready( function(){
+    if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
+  }); 
 
   $('body').append(_whole);
 
@@ -177,8 +172,8 @@ Pard.Outsider = function(profiles){
 };
 
 Pard.Call = function(call){
-  console.log(call);
 
+  Pard.CachedCalls = call;
   Pard.CachedProposals  = call['proposals'];
 
   var _whole = $('<div>').addClass('whole-container');

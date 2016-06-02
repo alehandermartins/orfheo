@@ -176,7 +176,6 @@ describe CallsController do
         type: 'artist',
         category: 'music',
         title: 'title',
-        description: 'description',
         short_description: 'short_description',
         duration: 'duration',
         children: 'children',
@@ -188,21 +187,20 @@ describe CallsController do
 
     let(:own_proposal_model){
       {
-        user_id: user_id,
-        profile_id: profile_id,
-        proposal_id: proposal_id,
         email: 'email',
+        phone: '666999666',
         name: 'artist_name',
-        type: :artist,
-        category: :music,
         title: 'title',
-        description: 'description',
         short_description: 'short_description',
         duration: 'duration',
         children: 'children',
-        phone: '666999666',
         availability: 'sun',
         components: '3',
+        user_id: user_id,
+        profile_id: profile_id,
+        proposal_id: proposal_id,
+        type: :artist,
+        category: :music
       }
     }
 
