@@ -639,8 +639,8 @@
   ns.Widgets.SendProgram = function (_programArray, selected) {
 
   	var _programData = [];
-
-  	console.log(_programArray);
+  	var _spacesWithprogram = [];
+  	var _artistsProgram = [];
 
   	var _saveProgramArtists = function(_programArray) {
   		_programArray.forEach(function(inputProgram){
@@ -649,23 +649,23 @@
 	  		var _showArray = inputProgram['newProgram'].getVal();	
    			var _artistProposal_id = inputProgram['proposalId'];
 	  		var _programArtist = [];
-	  		// if (_modified) {  			
-  			console.log(inputProgram);
+	  		// if (_modified) {  	
+		
   			_showArray.forEach(function(show){
   				var _check = true;
 		  		var _data = {};
   				_programData.some(function(dataSaved){
   					if (dataSaved['proposal_id'] == show['proposal_id']){
-  							if (show['starting_day_time'] != false) dataSaved['program'].push({	
-	  								starting_day_time: show['starting_day_time'], 
-	  								ending_day_time: show['ending_day_time'],
-	  								proposal_id: _artistProposal_id
-  								});
-  							_check = false;
+							dataSaved['program'].push({	
+								starting_day_time: show['starting_day_time'], 
+								ending_day_time: show['ending_day_time'],
+								proposal_id: _artistProposal_id
+							});
+							_check = false;
   						return true;
   					}
   				});
-  				if (_check && show['starting_day_time'] != false){
+  				if (_check){
 	  				_data['proposal_id'] = show['proposal_id'];
 	  				var _program = {
 	  				 	starting_day_time: show['starting_day_time'],
@@ -673,13 +673,12 @@
 	  				 	proposal_id: _artistProposal_id
 	  				}
 	  				_data['program'] = [_program];
-	  			}
-	  			else if (_check && show['starting_day_time'] == false){
-	  				_data['proposal_id'] = show['proposal_id'];
-	  				_data['program'] = [];
+						_spacesWithprogram.push(show['proposal_id']);
 	  			}
 					if (!(jQuery.isEmptyObject(_data))) _programData.push(_data);
-  			});			
+  			});
+
+  
 	  	
 				// }
 		  	// inputProgram['newProgram'].resetModifiedCheck();
@@ -694,14 +693,26 @@
   			});
  				_dataArtist['program'] = _programArtist;
 
-   			_programData.push(_dataArtist);
+   			_artistsProgram.push(_dataArtist);
 
 	  	});
+ //              _dtArray = _dtArray.concat(_satArray);
+ 			_programData = _programData.concat(_artistsProgram);
 
-  		console.log(_programData);
+	  	var proposals = Pard.CachedProposals;
+		  	proposals.forEach(function(proposal){
+		  		if (proposal.type == 'space' && $.inArray(proposal.proposal_id, _spacesWithprogram)<0){
+		  			var _data = {};
+		  			_data['proposal_id'] = proposal['proposal_id'];
+						_data['program'] = []; 
+						_programData.push(_data); 
+		  		}
+		  });			
 
-	  	return _programData;
+		  return _programData;
+  	
   	}
+
 
 	  var _saveProgramSpaces = function(_programArray){
 
@@ -761,8 +772,6 @@
 
 	  	});
 
-
-
 	  	return _programData;
 	  }
 
@@ -773,6 +782,8 @@
 
 		var _programSaved = _programsFunc[selected](_programArray);
 
+		console.log(_programSaved);
+
 		Pard.Backend.program('conFusion', _programSaved, Pard.Events.SaveProgram);
 
 		Pard.ProposalsManager.modifyProposals(_programSaved);
@@ -780,72 +791,6 @@
 
   }
   
-
- //  ns.Widgets.DayTime = function(){
-
- //    var _sat = [];
- //    var _onlySun = [];
- //    var _sunAfterSat = [];
-
- //    var _sat10am = new Date (2016,9,15,10,00,00,0);
- //    var _sat2345pm = new Date (2016,9,15,23,45,00,0);
- //    var _sun10am = new Date (2016,9,16,10,00,00,0);
- //    var _sun2345pm = new Date (2016,9,16,23,45,00,0);
- //    var _satArray = [_sat10am];
- //    var _sunArray = [_sun10am];
-
-
- //    function addMinutes(date, minutes) {
- //     return new Date(date.getTime() + minutes*60000);
- //    }
-
- //    while(_satArray[_satArray.length -1].getTime() != _sat2345pm.getTime()){
- //      _sat.push({id:_satArray.length, text:moment(_satArray[_satArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
- //      _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));	
- //    }
-
- //    while(_sunArray[_sunArray.length -1].getTime() != _sun2345pm.getTime()){
- //      _onlySun.push({id:_sunArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
- //      _sunAfterSat.push({id:_sunArray.length + _satArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
- //      _sunArray.push(addMinutes(_sunArray[_sunArray.length -1], 15));
- //    }
-
- //    return {
- //      render: function(availability){
- //  	    var _dayTime = [{id: '',text: ''},{id: 0, text: 'Los dos dias'}];
-	// 	    var _dtArray = ['permanent'];
-	// 	    var _length = 0;
- //      	for (var day in availability){
- //      		_length = _length + 1; 
- //      	}
- //      	if (_length == 1){     
- //          switch(availability[0]) {
- //            case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':  
- //              _dtArray = _dtArray.concat(_satArray);
- //              _dayTime = _dayTime.concat(_sat);
- //            break;
- //            case 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)':
- //              _dtArray = _dtArray.concat(_sunArray);
- //              _dayTime = _dayTime.concat(_onlySun);
- //            break;
- //          }
- //        }else{
- //        	_dtArray = _dtArray.concat(_satArray);
- //        	_dtArray = _dtArray.concat(_sunArray);
- //          _dayTime = _dayTime.concat(_sat);
- //          _dayTime = _dayTime.concat(_sunAfterSat);          
- //        }
-
- //        var _dayTimeObj = {
- //        	dtArray: _dtArray,
- //        	dayTime: _dayTime
- //        }  
-
- //      	return _dayTimeObj;
- //      }
-	//   }
-	// }
-
 
 	ns.Widgets.DayTime = function(){
 

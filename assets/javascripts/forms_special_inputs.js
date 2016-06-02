@@ -497,7 +497,7 @@
   ns.Widgets.InputArtistProgram = function(places, _dayTime){
 
     var _createdWidget = $('<div>'); 
-    var _modified = false;
+    // var _modified = false;
     var _results = [];
     var _inputs = [];
     var _inputSpace = $('<select>');
@@ -541,7 +541,7 @@
       _container.append(_newInputStartingDayTime.render(),_newInputEndDayTime.render(), _newInputSpace.render(),  _removeInputButton);
 
       _removeInputButton.on('click', function(){
-        _modified = true;
+        // _modified = true;
         var _index = _inputs.indexOf([_newInputStartingDayTime,_newInputEndDayTime, _newInputSpace]);
         _inputs.splice(_index, 1);
 
@@ -560,7 +560,7 @@
     var _showsAddedContainer = $('<div>');
 
     _addInputButton.on('click', function(){
-      _modified = true;
+      // _modified = true;
       if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val() && parseInt(_inputStartingDayTime.select2('data')[0]['id']) < parseInt(_inputEndDayTime.select2('data')[0]['id'])){
         // if (_inputStartingDayTime.val() == 'both'){
         //   var _show = {
@@ -632,19 +632,19 @@
         if (_index.length) _index.forEach(function(_ind){
           values.splice(_ind, 1)
         });
-        values.sort(function(val1, val2){return (new Date(val2.starting_day_time).getTime())- (new Date(val1.starting_day_time).getTime())});
+        values.sort(function(val1, val2){return parseInt(val2.starting_day_time)- parseInt(val1.starting_day_time)});
         if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
         values.forEach(function(show){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
-      },
-      modifiedCheck: function(){
-        return _modified;
-      },
-      resetModifiedCheck: function(){
-        _modified = false;
       }
+      // modifiedCheck: function(){
+      //   return _modified;
+      // },
+      // resetModifiedCheck: function(){
+      //   _modified = false;
+      // }
     }
   }
 
@@ -782,16 +782,17 @@
         if (_index.length) _index.forEach(function(_ind){
           values.splice(_ind, 1)
         });
-        values.sort(function(val1, val2){return (new Date(val2.starting_day_time).getTime())- (new Date(val1.starting_day_time).getTime())});
+        values.sort(function(val1, val2){return parseInt(val2.starting_day_time)- parseInt(val1.starting_day_time)});
         if (_index.length) _bothVal.forEach(function(bval){values.push(bval)});
         values.forEach(function(show, index){
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
-      },
-      resetModifiedCheck: function(){
-        _modified = false;
       }
+      // ,
+      // resetModifiedCheck: function(){
+      //   _modified = false;
+      // }
     }
   }
 
