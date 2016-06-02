@@ -334,9 +334,9 @@
 
     var profiles_map = {
       artist: Pard.Widgets.ArtistSection,
-      space: Pard.Widgets.SpaceSection
+      space: Pard.Widgets.SpaceSection,
+      organization: Pard.Widgets.OrganizationSection
     }
-
 
     return {
       render: function( ){
@@ -349,7 +349,8 @@
 
     var profiles_map = {
       artist: Pard.Widgets.ArtistSectionContent,
-      space: Pard.Widgets.SpaceSectionContent
+      space: Pard.Widgets.SpaceSectionContent,
+      organization: Pard.Widgets.OrganizationSectionContent
     }
 
     return {

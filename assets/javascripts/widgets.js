@@ -82,6 +82,7 @@
         var message = {
           'create_artist': Pard.Widgets.ArtistForm,
           'create_space': Pard.Widgets.SpaceForm,
+          'create_organization': Pard.Widgets.OrganizationForm
         }
         _content.empty();
         var _message = Pard.Widgets.PopupContent(title, message[form](data.form));

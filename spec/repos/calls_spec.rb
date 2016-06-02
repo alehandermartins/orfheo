@@ -75,6 +75,7 @@ describe Repos::Calls do
   let(:call){
     {
       user_id: user_id,
+      profile_id: profile_id,
       call_id: call_id,
       start: '1462053600',
       deadline: '1466028000',
@@ -148,8 +149,9 @@ describe Repos::Calls do
       expect(Repos::Calls.get_call call_id).to eq(call)
     end
 
-    it 'returns the user calls' do
-      expect(Repos::Calls.get_user_calls user_id).to eq([call_id])
+    it 'returns the profile calls' do
+      call.delete(:_id)
+      expect(Repos::Calls.get_calls profile_id).to eq([call])
     end
   end
 

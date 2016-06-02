@@ -84,7 +84,7 @@
 
     for(var field in _form){
       if (profile.type === 'space'&& field === 'address') _formContainer.append(_photosContainer);
-      if (profile.type === 'artist'&& field === 'bio') _formContainer.append(_photosContainer);
+      if ((profile.type === 'artist' || profile.type === 'organization') && field === 'bio') _formContainer.append(_photosContainer);
       if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProfile').addClass('field-modifyProduction').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
     };
 

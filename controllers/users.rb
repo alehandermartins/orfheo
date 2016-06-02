@@ -8,8 +8,7 @@ class UsersController < BaseController
 
   get '/users/' do
     profiles = Repos::Profiles.get_profiles :user_profiles, {user_id: session[:identity]}
-    calls = get_calls session[:identity]
-    erb :users, :locals => {:profiles => profiles.to_json, :calls => calls.to_json}
+    erb :users, :locals => {:profiles => profiles.to_json}
   end
 
   post '/users/modify_password' do
@@ -25,10 +24,6 @@ class UsersController < BaseController
   end
 
   private
-  def get_calls user_id
-    Repos::Calls.get_user_calls user_id
-  end
-
   def modify_password new_password
     Services::Users.modify_password session[:identity], new_password
   end
