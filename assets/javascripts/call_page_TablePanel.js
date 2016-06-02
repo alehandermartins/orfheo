@@ -640,27 +640,66 @@
 
   	var _programData = [];
 
+  	console.log(_programArray);
+
   	var _saveProgramArtists = function(_programArray) {
   		_programArray.forEach(function(inputProgram){
 	  		// var _modified = true;
 	  		// inputProgram['newProgram'].modifiedCheck();
 	  		var _showArray = inputProgram['newProgram'].getVal();	
-	  		var _data = {proposal_id: inputProgram['proposalId']};
-	  		var _program = [];
-	  		// if (_modified) {
-	  			_showArray.forEach(function(show){
-	  				_program.push({
-	  					place: show['place'],
+   			var _artistProposal_id = inputProgram['proposalId'];
+	  		var _programArtist = [];
+	  		// if (_modified) {  			
+  			console.log(inputProgram);
+  			_showArray.forEach(function(show){
+  				var _check = true;
+		  		var _data = {};
+  				_programData.some(function(dataSaved){
+  					if (dataSaved['proposal_id'] == show['proposal_id']){
+  							if (show['starting_day_time'] != false) dataSaved['program'].push({	
+	  								starting_day_time: show['starting_day_time'], 
+	  								ending_day_time: show['ending_day_time'],
+	  								proposal_id: _artistProposal_id
+  								});
+  							_check = false;
+  						return true;
+  					}
+  				});
+  				if (_check && show['starting_day_time'] != false){
+	  				_data['proposal_id'] = show['proposal_id'];
+	  				var _program = {
 	  				 	starting_day_time: show['starting_day_time'],
-	  				 	ending_day_time: show['ending_day_time'],
-	  				 	proposal_id: show['proposal_id']
-	  				});
-	  			});
-	 				_data['program'] = _program;	
-					_programData.push(_data);
+							ending_day_time: show['ending_day_time'],
+	  				 	proposal_id: _artistProposal_id
+	  				}
+	  				_data['program'] = [_program];
+	  			}
+	  			else if (_check && show['starting_day_time'] == false){
+	  				_data['proposal_id'] = show['proposal_id'];
+	  				_data['program'] = [];
+	  			}
+					if (!(jQuery.isEmptyObject(_data))) _programData.push(_data);
+  			});			
+	  	
 				// }
-		  	inputProgram['newProgram'].resetModifiedCheck();
+		  	// inputProgram['newProgram'].resetModifiedCheck();
+	  	var _dataArtist = {proposal_id: _artistProposal_id};
+  		_showArray.forEach(function(show){
+  				_programArtist.push({
+  					place: show['place'],
+  				 	starting_day_time: show['starting_day_time'],
+  				 	ending_day_time: show['ending_day_time'],
+  				 	proposal_id: show['proposal_id']
+  				});
+  			});
+ 				_dataArtist['program'] = _programArtist;
+
+   			_programData.push(_dataArtist);
+
 	  	});
+
+  		console.log(_programData);
+
 	  	return _programData;
   	}
 
@@ -700,7 +739,30 @@
 	  			}
 					if (!(jQuery.isEmptyObject(_data))) _programData.push(_data);
   			});			
+	  	
+
+				var _dataSpace = {proposal_id: _spaceProposal_id};
+	  		var _programSpace = [];
+	  		// if (_modified) {
+ 	
+	  		_showArray.forEach(function(show){
+			  	if (show['starting_day_time']){
+	  				_programSpace.push({
+	  				 	starting_day_time: show['starting_day_time'],
+	  				 	ending_day_time: show['ending_day_time'],
+	  				 	proposal_id: show['proposal_id']
+	  				});
+	  			}
+	  		});
+  			
+  			_dataSpace['program'] = _programSpace;
+
+				_programData.push(_dataSpace);
+
 	  	});
+
+
+
 	  	return _programData;
 	  }
 
@@ -719,39 +781,118 @@
   }
   
 
-  ns.Widgets.DayTime = function(){
+ //  ns.Widgets.DayTime = function(){
+
+ //    var _sat = [];
+ //    var _onlySun = [];
+ //    var _sunAfterSat = [];
+
+ //    var _sat10am = new Date (2016,9,15,10,00,00,0);
+ //    var _sat2345pm = new Date (2016,9,15,23,45,00,0);
+ //    var _sun10am = new Date (2016,9,16,10,00,00,0);
+ //    var _sun2345pm = new Date (2016,9,16,23,45,00,0);
+ //    var _satArray = [_sat10am];
+ //    var _sunArray = [_sun10am];
+
+
+ //    function addMinutes(date, minutes) {
+ //     return new Date(date.getTime() + minutes*60000);
+ //    }
+
+ //    while(_satArray[_satArray.length -1].getTime() != _sat2345pm.getTime()){
+ //      _sat.push({id:_satArray.length, text:moment(_satArray[_satArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
+ //      _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));	
+ //    }
+
+ //    while(_sunArray[_sunArray.length -1].getTime() != _sun2345pm.getTime()){
+ //      _onlySun.push({id:_sunArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
+ //      _sunAfterSat.push({id:_sunArray.length + _satArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
+ //      _sunArray.push(addMinutes(_sunArray[_sunArray.length -1], 15));
+ //    }
+
+ //    return {
+ //      render: function(availability){
+ //  	    var _dayTime = [{id: '',text: ''},{id: 0, text: 'Los dos dias'}];
+	// 	    var _dtArray = ['permanent'];
+	// 	    var _length = 0;
+ //      	for (var day in availability){
+ //      		_length = _length + 1; 
+ //      	}
+ //      	if (_length == 1){     
+ //          switch(availability[0]) {
+ //            case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':  
+ //              _dtArray = _dtArray.concat(_satArray);
+ //              _dayTime = _dayTime.concat(_sat);
+ //            break;
+ //            case 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)':
+ //              _dtArray = _dtArray.concat(_sunArray);
+ //              _dayTime = _dayTime.concat(_onlySun);
+ //            break;
+ //          }
+ //        }else{
+ //        	_dtArray = _dtArray.concat(_satArray);
+ //        	_dtArray = _dtArray.concat(_sunArray);
+ //          _dayTime = _dayTime.concat(_sat);
+ //          _dayTime = _dayTime.concat(_sunAfterSat);          
+ //        }
+
+ //        var _dayTimeObj = {
+ //        	dtArray: _dtArray,
+ //        	dayTime: _dayTime
+ //        }  
+
+ //      	return _dayTimeObj;
+ //      }
+	//   }
+	// }
+
+
+	ns.Widgets.DayTime = function(){
 
     var _sat = [];
-    var _onlySun = [];
+    var _sun = [];
     var _sunAfterSat = [];
 
     var _sat10am = new Date (2016,9,15,10,00,00,0);
     var _sat2345pm = new Date (2016,9,15,23,45,00,0);
     var _sun10am = new Date (2016,9,16,10,00,00,0);
     var _sun2345pm = new Date (2016,9,16,23,45,00,0);
+
+    _sat10am = _sat10am.getTime();
+    _sat2345pm = _sat2345pm.getTime();
+    _sun10am = _sun10am.getTime();
+    _sun2345pm = _sun2345pm.getTime();
+
     var _satArray = [_sat10am];
     var _sunArray = [_sun10am];
 
 
     function addMinutes(date, minutes) {
-     return new Date(date.getTime() + minutes*60000);
+     return (date + minutes*60000);
     }
 
-    while(_satArray[_satArray.length -1].getTime() != _sat2345pm.getTime()){
-      _sat.push({id:_satArray.length, text:moment(_satArray[_satArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
+
+
+    while(_satArray[_satArray.length -1] != _sat2345pm){
+      _sat.push({
+      	id:_satArray[_satArray.length -1], 
+      	text:moment(new Date (_satArray[_satArray.length -1])).locale("es").format('dddd, HH:mm')+"h"
+      });
       _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));	
     }
 
-    while(_sunArray[_sunArray.length -1].getTime() != _sun2345pm.getTime()){
-      _onlySun.push({id:_sunArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
-      _sunAfterSat.push({id:_sunArray.length + _satArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
+    while(_sunArray[_sunArray.length -1] != _sun2345pm){
+      _sun.push({
+      	id: _sunArray[_sunArray.length -1], 
+      	text:moment(new Date (_sunArray[_sunArray.length -1])).locale("es").format('dddd, HH:mm')+"h"
+      });
+      // _sunAfterSat.push({id: _sunArray.length + _satArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
       _sunArray.push(addMinutes(_sunArray[_sunArray.length -1], 15));
     }
 
     return {
       render: function(availability){
-  	    var _dayTime = [{id: '',text: ''},{id: 0, text: 'Los dos dias'}];
-		    var _dtArray = ['both'];
+  	    var _dayTime = [{id: '',text: ''},{id: 'permanent', text: 'Los dos dias'}];
 		    var _length = 0;
       	for (var day in availability){
       		_length = _length + 1; 
@@ -759,27 +900,23 @@
       	if (_length == 1){     
           switch(availability[0]) {
             case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':  
-              _dtArray = _dtArray.concat(_satArray);
               _dayTime = _dayTime.concat(_sat);
             break;
             case 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)':
-              _dtArray = _dtArray.concat(_sunArray);
-              _dayTime = _dayTime.concat(_onlySun);
+              _dayTime = _dayTime.concat(_sun);
             break;
           }
         }else{
-        	_dtArray = _dtArray.concat(_satArray);
-        	_dtArray = _dtArray.concat(_sunArray);
           _dayTime = _dayTime.concat(_sat);
-          _dayTime = _dayTime.concat(_sunAfterSat);          
+          _dayTime = _dayTime.concat(_sun);          
         }
 
-        var _dayTimeObj = {
-        	dtArray: _dtArray,
-        	dayTime: _dayTime
-        }  
+        // var _dayTimeObj = {
+        // 	dtArray: _dtArray,
+        // 	dayTime: _dayTime
+        // }  
 
-      	return _dayTimeObj;
+      	return _dayTime;
       }
 	  }
 	}
