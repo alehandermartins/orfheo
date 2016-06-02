@@ -509,6 +509,8 @@
     var _dtArray = dayTimeObj.dtArray;
     var _dayTime = dayTimeObj.dayTime;
 
+    _inputStartingDayTime.on('change', function(){console.log(_inputStartingDayTime.select2('data'))})
+
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
 
@@ -665,6 +667,7 @@
     _addInputButton.addClass('add-input-button-enlighted')
 
     var _addnewInput = function(showInfo){
+      console.log(showInfo);
       var _container = $('<div>');
       var _newInputArtist;
       var _newInputStartingDayTime;
@@ -697,7 +700,10 @@
 
       _removeInputButton.on('click', function(){
         var _index = _inputs.indexOf([_newInputStartingDayTime, _newInputEndDayTime,  _newInputArtist]);
-        var _show = {proposal_id: _newInputArtist.getVal(), starting_day_time: false};
+        var _show = {
+          proposal_id: _newInputArtist.getVal(), 
+          starting_day_time: false
+        };
         _inputs.splice(_index, 1);
         
         var _indexR = -1;

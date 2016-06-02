@@ -523,14 +523,21 @@
 					}
 				  if (proposal['type'] == 'space') {
 				  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-						var _showObj = {place: proposal['name'], proposal_id: proposal['proposal_id'] ,
-						newProgram: _inputProgram};
+						var _showObj = {
+							place: proposal['name'], 
+							proposal_id: proposal['proposal_id'] ,
+							newProgram: _inputProgram
+						};
 						_programArray.push(_showObj);
 						var _savedProgram = [];	  					
 						_programs.forEach(function(program){
 							for (var key in program){
 								if (program[key]['place'] == proposal['name']){
-									_savedProgram.push({proposal_id: program['proposal_id'], starting_day_time: program[key]['starting_day_time']});
+									_savedProgram.push({
+										proposal_id: program['proposal_id'], 
+										starting_day_time: program[key]['starting_day_time'],
+										ending_day_time: program[key]['ending_day_time']
+									});
 								}
 							}
 						});
