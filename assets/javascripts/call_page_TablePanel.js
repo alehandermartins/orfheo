@@ -4,6 +4,8 @@
  
 
   ns.Widgets.CallMainLayout = function(call){
+  	console.log(call);
+
   	var _main = $('<main>').addClass('main-call-page');
     var _mainLarge = $('<section>').addClass('pard-grid call-section');
 
@@ -292,7 +294,7 @@
     var _proposalsSelected = [];
 
   	proposals.forEach(function(proposal){
-  		if (proposal['type'] == 'space') _places.push({id: proposal['proposal_id'], text: proposal['name']});
+  		if (proposal['type'] == 'space') _places.push({id: proposal['proposal_id'], text: proposal['name'], availability: proposal['availability']});
   		if (proposal['type'] == 'artist') {
   			var _text =  proposal['name'] + ' - ' +  proposal['title'];
 				_artists.push({id: proposal['proposal_id'], text: _text});
@@ -518,6 +520,7 @@
 				  if (proposal['type'] == 'artist') {
 						var _inputProgram = Pard.Widgets.InputArtistProgram(places, dayTimeObj.render(proposal['availability']));
 						var _showObj = {proposalId: proposal.proposal_id, newProgram: _inputProgram};
+						_inputProgram.setEndDayTime(proposal['duration']);
 						_programArray.push(_showObj);
 						if (proposal['program']) _inputProgram.setVal(proposal['program']);
 					}
@@ -782,8 +785,6 @@
 
 		var _programSaved = _programsFunc[selected](_programArray);
 
-		console.log(_programSaved);
-
 		Pard.Backend.program('conFusion', _programSaved, Pard.Events.SaveProgram);
 
 		Pard.ProposalsManager.modifyProposals(_programSaved);
@@ -838,22 +839,28 @@
     return {
       render: function(availability){
   	    var _dayTime = [{id: '',text: ''},{id: 'permanent', text: 'Los dos dias'}];
-		    var _length = 0;
-      	for (var day in availability){
-      		_length = _length + 1; 
-      	}
-      	if (_length == 1){     
-          switch(availability[0]) {
-            case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':  
-              _dayTime = _dayTime.concat(_sat);
-            break;
-            case 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)':
-              _dayTime = _dayTime.concat(_sun);
-            break;
+  	    if (availability){
+  		    var _length = 0;
+        	for (var day in availability){
+        		_length = _length + 1; 
+        	}
+        	if (_length == 1){     
+            switch(availability[0]) {
+              case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':  
+              	_dayTime.push({id: 'day_1', text:'sábado'});
+                _dayTime = _dayTime.concat(_sat);
+              break;
+              case 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)':
+              	_dayTime.push({id: 'day_2', text:'domingo'});         
+                _dayTime = _dayTime.concat(_sun);
+              break;
+            }
+          }else{
+          	_dayTime.push({id: 'day_1', text:'sábado'});
+          	_dayTime.push({id: 'day_2', text:'domingo'});          	
+            _dayTime = _dayTime.concat(_sat);
+            _dayTime = _dayTime.concat(_sun);          
           }
-        }else{
-          _dayTime = _dayTime.concat(_sat);
-          _dayTime = _dayTime.concat(_sun);          
         }
 
         // var _dayTimeObj = {

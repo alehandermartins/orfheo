@@ -508,7 +508,6 @@
     var _inputEndDayTimeContainer = $('<div>').addClass('inputDayTime-container');
     // var _dtArray = dayTimeObj.dtArray;
 
-    _inputStartingDayTime.on('change', function(){console.log(_inputStartingDayTime.select2('data'))})
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
@@ -519,10 +518,25 @@
       var _newInputSpace = Pard.Widgets.Selector([showInfo['place']], [showInfo['proposal_id']]);   
       var _newInputStartingDayTime;
       var _newInputEndDayTime; 
-      if (showInfo['starting_day_time'] == 'permanent') {
-        _newInputStartingDayTime = Pard.Widgets.Selector(['Los dos días'],['permanent']);
-        _newInputEndDayTime = Pard.Widgets.Selector(['Los dos días'],['permanent']);
-      }else { 
+      if (!(parseInt(showInfo['starting_day_time']))) {
+        switch(showInfo['starting_day_time']) {
+          case 'permanent':   
+            _newInputStartingDayTime = Pard.Widgets.Selector(['Los dos días'],['permanent']);
+            _newInputEndDayTime = Pard.Widgets.Selector(['Los dos días'],['permanent']);
+          break;
+          case 'day_1':
+            _newInputStartingDayTime = Pard.Widgets.Selector(['sábado'],['day_1']);
+            _newInputEndDayTime = Pard.Widgets.Selector(['sábado'],['day_1']);
+          break;
+          case 'day_2':
+            _newInputStartingDayTime = Pard.Widgets.Selector(['domingo'],['day_2']);
+            _newInputEndDayTime = Pard.Widgets.Selector(['domingo'],['day_2']);
+          break;              
+        }
+        
+      }
+
+      else { 
         _newInputStartingDayTime = Pard.Widgets.Selector([moment(new Date (parseInt(showInfo['starting_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['starting_day_time']]);
         _newInputEndDayTime = Pard.Widgets.Selector([moment(new Date (parseInt(showInfo['ending_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['ending_day_time']]);
       };
@@ -561,7 +575,7 @@
 
     _addInputButton.on('click', function(){
       // _modified = true;
-      if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val() && parseInt(_inputStartingDayTime.select2('data')[0]['id']) < parseInt(_inputEndDayTime.select2('data')[0]['id'])){
+      if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
         // if (_inputStartingDayTime.val() == 'both'){
         //   var _show = {
         //     place: _inputSpace.select2('data')[0]['text'], 
@@ -592,7 +606,37 @@
       // }
     });
 
+    var _endDayTime = [{id:'',text:''}];
+
+
     _createdWidget.append(_inputStartingDayTimeContainer.append(_inputStartingDayTime), _inputEndDayTimeContainer.append(_inputEndDayTime),_inputSpaceContainer.append(_inputSpace), _addInputButton,_showsAddedContainer);
+      
+
+
+    // _inputStartingDayTime.on('change', function(){
+    //   _endDayTime = [{id:'',text:''}];
+    //   if (_inputStartingDayTime.select2('data')[0]){
+    //     var _starting = _inputStartingDayTime.select2('data')[0]['id'];
+    //     if (_starting == "permanent") _endDayTime = [{id: 'permanet', text: 'Los dos días'}];
+    //     else{
+    //       _starting = parseInt(_starting);
+    //       _dayTime.forEach(function(dt){
+    //         if (dt['id'] != 'permanent' && parseInt(dt['id']) > _starting) _endDayTime.push(dt);
+    //       })
+    //     }
+    //     }
+    //     _inputEndDayTimeContainer.empty();
+    //     _inputEndDayTimeContainer.append(_inputEndDayTime);
+    //     _inputEndDayTime.select2(
+    //     {
+    //     data: _endDayTime,
+    //     multiple:true,
+    //     maximumSelectionLength: 1,
+    //     placeholder: 'Día y hora'
+    //   })
+    
+    // });
+      
 
     return {
       render: function(){
@@ -609,7 +653,7 @@
           placeholder: 'Día y hora'
         });
         _inputEndDayTime.select2({
-          data: _dayTime,
+          data: _endDayTime,
           multiple:true,
           maximumSelectionLength: 1,
           placeholder: 'Día y hora'
@@ -638,7 +682,83 @@
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
-      }
+      }, 
+      setEndDayTime: function(duration){
+      _inputStartingDayTime.on('change', function(){
+        var _endingDayTime = [{id:'',text:''}]; 
+        var _preselectedEnding = {};    
+        if (_inputStartingDayTime.select2('data')[0]){
+          var _starting = _inputStartingDayTime.select2('data')[0]['id'];
+          if (_starting == "permanent"){
+           _endingDayTime = [{id: 'permanent', text: 'Los dos días'}];
+           _preselectedEnding = {id: 'permanent', text: 'Los dos días'};
+          }
+          if (_starting == "day_1"){
+           _endingDayTime = [{id: 'day_1', text: 'sábado'}];
+           _preselectedEnding = {id: 'day_1', text: 'sábado'};
+          }
+          if (_starting == "day_2"){
+           _endingDayTime = [{id: 'day_2', text: 'domingo'}];
+           _preselectedEnding = {id: 'day_2', text: 'domingo'};
+          }
+          else{
+            _starting = parseInt(_starting);
+            _dayTime.forEach(function(dt){
+              if (parseInt(dt['id']) > _starting){
+               _endingDayTime.push(dt);
+             }
+            })
+            if (duration && parseInt(_starting)) {
+              console.log(_starting)
+              var _durationMSec = parseInt(duration)*60000;
+              _ending = parseInt(_starting) + _durationMSec;
+              _preselectedEnding['id'] = _ending;
+              _preselectedEnding['text'] = moment(new Date(_ending)).locale("es").format('dddd, HH:mm')+"h";
+            }
+          }
+        }
+        var _inputEndDayTime = $('<select>').addClass('inputDayTime-select');
+        _inputEndDayTimeContainer.empty();
+        _inputEndDayTimeContainer.append(_inputEndDayTime);
+        _inputEndDayTime.select2({
+          data: _endingDayTime,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Día y hora'
+        });
+
+        var _inputSpace = $('<select>');
+        _inputSpaceContainer.empty();
+        _inputSpaceContainer.append(_inputSpace);
+        var _compatibleSpaces = [];
+        places.forEach(function(place){
+          if (place.availability && Object.keys(place.availability).length == 2) _compatibleSpaces.push(place);
+          else if (place.availability){
+            switch(new Date(place.availability['0']).getDate()) {
+              case new Date(_starting).getDate():
+                _compatibleSpaces.push(place); //day of the month
+              break;
+            }
+          }
+        });
+        _inputSpace.select2({
+          data: _compatibleSpaces,
+          multiple:true,
+          maximumSelectionLength: 1,
+          placeholder: 'Espacio'
+        });
+
+
+        if (_preselectedEnding.id){
+          var option = new Option(_preselectedEnding.text, _preselectedEnding.id, true, true);
+          _inputEndDayTime.append(option);
+          _inputEndDayTime.trigger('change')
+        }
+
+      });
+
+    }
+  }
       // modifiedCheck: function(){
       //   return _modified;
       // },
@@ -646,7 +766,6 @@
       //   _modified = false;
       // }
     }
-  }
 
 
   ns.Widgets.InputSpaceProgram = function(artists, _dayTime, programs){
