@@ -91,9 +91,7 @@
   		defaultDate: null,
   		onSelect:  function(){_datePicker.removeClass('warning')}
   	});
-
-    // _datePicker.addClass('warning');
-  
+ 
 	 return{
       render: function(){
         return _datePicker;
@@ -497,7 +495,6 @@
   ns.Widgets.InputArtistProgram = function(places, _dayTime){
 
     var _createdWidget = $('<div>'); 
-    // var _modified = false;
     var _results = [];
     var _inputs = [];
     var _inputSpace = $('<select>');
@@ -506,8 +503,6 @@
     var _inputStartingDayTimeContainer = $('<div>').addClass('inputDayTime-container');
     var _inputEndDayTime = $('<select>').addClass('inputDayTime-select');
     var _inputEndDayTimeContainer = $('<div>').addClass('inputDayTime-container');
-    // var _dtArray = dayTimeObj.dtArray;
-
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
@@ -555,7 +550,6 @@
       _container.append(_newInputStartingDayTime.render(),_newInputEndDayTime.render(), _newInputSpace.render(),  _removeInputButton);
 
       _removeInputButton.on('click', function(){
-        // _modified = true;
         var _index = _inputs.indexOf([_newInputStartingDayTime,_newInputEndDayTime, _newInputSpace]);
         _inputs.splice(_index, 1);
 
@@ -574,16 +568,7 @@
     var _showsAddedContainer = $('<div>');
 
     _addInputButton.on('click', function(){
-      // _modified = true;
       if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
-        // if (_inputStartingDayTime.val() == 'both'){
-        //   var _show = {
-        //     place: _inputSpace.select2('data')[0]['text'], 
-        //     starting_day_time:  _dtArray[_inputStartingDayTime.val()[0]],
-        //     ending_day_time:_dtArray[_inputStartingDayTime.val()[0]],
-        //     proposal_id: _inputSpace.select2('data')[0]['id']
-        //   }
-        // }else {
         var _show = {
           place: _inputSpace.select2('data')[0]['text'], 
           starting_day_time: _inputStartingDayTime.select2('data')[0]['id'],  
@@ -599,11 +584,6 @@
          $('#succes-box-call-manager').empty();
 
       }
-      // else{
-      //   if (!(_inputSpace.val())) {_inputSpace.addClass('warning');}
-      //   else if (!(_inputStartingDayTime.val())) {_inputStartingDayTime.addClass('warning');}
-      //   else if (!(_inputEndDayTime.val())) {_inputEndDayTime.addClass('warning');}
-      // }
     });
 
     var _endDayTime = [{id:'',text:''}];
@@ -611,33 +591,6 @@
 
     _createdWidget.append(_inputStartingDayTimeContainer.append(_inputStartingDayTime), _inputEndDayTimeContainer.append(_inputEndDayTime),_inputSpaceContainer.append(_inputSpace), _addInputButton,_showsAddedContainer);
       
-
-
-    // _inputStartingDayTime.on('change', function(){
-    //   _endDayTime = [{id:'',text:''}];
-    //   if (_inputStartingDayTime.select2('data')[0]){
-    //     var _starting = _inputStartingDayTime.select2('data')[0]['id'];
-    //     if (_starting == "permanent") _endDayTime = [{id: 'permanet', text: 'Los dos días'}];
-    //     else{
-    //       _starting = parseInt(_starting);
-    //       _dayTime.forEach(function(dt){
-    //         if (dt['id'] != 'permanent' && parseInt(dt['id']) > _starting) _endDayTime.push(dt);
-    //       })
-    //     }
-    //     }
-    //     _inputEndDayTimeContainer.empty();
-    //     _inputEndDayTimeContainer.append(_inputEndDayTime);
-    //     _inputEndDayTime.select2(
-    //     {
-    //     data: _endDayTime,
-    //     multiple:true,
-    //     maximumSelectionLength: 1,
-    //     placeholder: 'Día y hora'
-    //   })
-    
-    // });
-      
-
     return {
       render: function(){
         _inputSpace.select2({
@@ -684,88 +637,86 @@
         });
       }, 
       setEndDayTime: function(duration){
-      _inputStartingDayTime.on('change', function(){
-        var _endingDayTime = [{id:'',text:''}]; 
-        var _preselectedEnding = {};    
-        if (_inputStartingDayTime.select2('data')[0]){
-          var _starting = _inputStartingDayTime.select2('data')[0]['id'];
-          if (_starting == "permanent"){
-           _endingDayTime = [{id: 'permanent', text: 'Los dos días'}];
-           _preselectedEnding = {id: 'permanent', text: 'Los dos días'};
-          }
-          if (_starting == "day_1"){
-           _endingDayTime = [{id: 'day_1', text: 'sábado'}];
-           _preselectedEnding = {id: 'day_1', text: 'sábado'};
-          }
-          if (_starting == "day_2"){
-           _endingDayTime = [{id: 'day_2', text: 'domingo'}];
-           _preselectedEnding = {id: 'day_2', text: 'domingo'};
-          }
-          else{
-            _starting = parseInt(_starting);
-            _dayTime.forEach(function(dt){
-              if (parseInt(dt['id']) > _starting){
-               _endingDayTime.push(dt);
-             }
-            })
-            if (duration && parseInt(_starting)) {
-              console.log(_starting)
-              var _durationMSec = parseInt(duration)*60000;
-              _ending = parseInt(_starting) + _durationMSec;
-              _preselectedEnding['id'] = _ending;
-              _preselectedEnding['text'] = moment(new Date(_ending)).locale("es").format('dddd, HH:mm')+"h";
+        _inputStartingDayTime.on('change', function(){
+          var _endingDayTime = [{id:'',text:''}]; 
+          var _preselectedEnding = {};    
+          if (_inputStartingDayTime.select2('data')[0]){
+            var _starting = _inputStartingDayTime.select2('data')[0]['id'];
+            if (_starting == "permanent"){
+             _endingDayTime = [{id: 'permanent', text: 'Los dos días'}];
+             _preselectedEnding = {id: 'permanent', text: 'Los dos días'};
+            }
+            else if (_starting == "day_1"){
+             _endingDayTime = [{id: 'day_1', text: 'sábado'}];
+             _preselectedEnding = {id: 'day_1', text: 'sábado'};
+            }
+            else if (_starting == "day_2"){
+             _endingDayTime = [{id: 'day_2', text: 'domingo'}];
+             _preselectedEnding = {id: 'day_2', text: 'domingo'};
+            }
+            else{
+              _starting = parseInt(_starting);
+              _dayTime.forEach(function(dt){
+                if (parseInt(dt['id']) > _starting){
+                 _endingDayTime.push(dt);
+               }
+              })
+              if (duration && parseInt(_starting)) {
+                var _durationMSec = parseInt(duration)*60000;
+                _ending = parseInt(_starting) + _durationMSec;
+                _preselectedEnding['id'] = _ending;
+                _preselectedEnding['text'] = moment(new Date(_ending)).locale("es").format('dddd, HH:mm')+"h";
+              }
             }
           }
-        }
-        var _inputEndDayTime = $('<select>').addClass('inputDayTime-select');
-        _inputEndDayTimeContainer.empty();
-        _inputEndDayTimeContainer.append(_inputEndDayTime);
-        _inputEndDayTime.select2({
-          data: _endingDayTime,
-          multiple:true,
-          maximumSelectionLength: 1,
-          placeholder: 'Día y hora'
-        });
+          var _inputEndDayTime = $('<select>').addClass('inputDayTime-select');
+          _inputEndDayTimeContainer.empty();
+          _inputEndDayTimeContainer.append(_inputEndDayTime);
+          _inputEndDayTime.select2({
+            data: _endingDayTime,
+            multiple:true,
+            maximumSelectionLength: 1,
+            placeholder: 'Día y hora'
+          });
 
-        var _inputSpace = $('<select>');
-        _inputSpaceContainer.empty();
-        _inputSpaceContainer.append(_inputSpace);
-        var _compatibleSpaces = [];
-        places.forEach(function(place){
-          if (place.availability && Object.keys(place.availability).length == 2) _compatibleSpaces.push(place);
-          else if (place.availability){
-            switch(new Date(place.availability['0']).getDate()) {
-              case new Date(_starting).getDate():
-                _compatibleSpaces.push(place); //day of the month
-              break;
+          var _inputSpace = $('<select>');
+          _inputSpaceContainer.empty();
+          _inputSpaceContainer.append(_inputSpace);
+          var _compatibleSpaces = [];
+          var _dayDictionary = {
+            day_1: 15,
+            day_2: 16
+          }
+
+          places.forEach(function(place){
+            if (place.availability && Object.keys(place.availability).length == 2) _compatibleSpaces.push(place);
+            else if (place.availability){
+              switch(new Date(place.availability['0']).getDate()) {
+                case new Date(_starting).getDate():
+                  _compatibleSpaces.push(place); //day of the month
+                break;
+                case _dayDictionary[_starting]:                
+                  _compatibleSpaces.push(place);
+                break;
+              }
             }
+          });
+          _inputSpace.select2({
+            data: _compatibleSpaces,
+            multiple:true,
+            maximumSelectionLength: 1,
+            placeholder: 'Espacio'
+          });
+
+          if (_preselectedEnding.id){
+            var option = new Option(_preselectedEnding.text, _preselectedEnding.id, true, true);
+            _inputEndDayTime.append(option);
+            _inputEndDayTime.trigger('change');
           }
         });
-        _inputSpace.select2({
-          data: _compatibleSpaces,
-          multiple:true,
-          maximumSelectionLength: 1,
-          placeholder: 'Espacio'
-        });
-
-
-        if (_preselectedEnding.id){
-          var option = new Option(_preselectedEnding.text, _preselectedEnding.id, true, true);
-          _inputEndDayTime.append(option);
-          _inputEndDayTime.trigger('change')
-        }
-
-      });
-
+      }
     }
   }
-      // modifiedCheck: function(){
-      //   return _modified;
-      // },
-      // resetModifiedCheck: function(){
-      //   _modified = false;
-      // }
-    }
 
 
   ns.Widgets.InputSpaceProgram = function(artists, _dayTime, programs){
@@ -907,11 +858,86 @@
           _results.push(show);
           _showsAddedContainer.prepend(_addnewInput(show));
         });
+      }, 
+      setEndDayTime: function(){
+        _inputStartingDayTime.on('change', function(){
+          var _endingDayTime = [{id:'',text:''}]; 
+          // var _preselectedEnding = {};    
+          if (_inputStartingDayTime.select2('data')[0]){
+            var _starting = _inputStartingDayTime.select2('data')[0]['id'];
+            if (_starting == "permanent"){
+             _endingDayTime = [{id: 'permanent', text: 'Los dos días'}];
+             _preselectedEnding = {id: 'permanent', text: 'Los dos días'};
+            }
+            else if (_starting == "day_1"){
+             _endingDayTime = [{id: 'day_1', text: 'sábado'}];
+             _preselectedEnding = {id: 'day_1', text: 'sábado'};
+            }
+            else if (_starting == "day_2"){
+             _endingDayTime = [{id: 'day_2', text: 'domingo'}];
+             _preselectedEnding = {id: 'day_2', text: 'domingo'};
+            }
+            else{
+              _starting = parseInt(_starting);
+              _dayTime.forEach(function(dt){
+                if (parseInt(dt['id']) > _starting){
+                 _endingDayTime.push(dt);
+               }
+              })
+              // if (duration && parseInt(_starting)) {
+              //   var _durationMSec = parseInt(duration)*60000;
+              //   _ending = parseInt(_starting) + _durationMSec;
+              //   _preselectedEnding['id'] = _ending;
+              //   _preselectedEnding['text'] = moment(new Date(_ending)).locale("es").format('dddd, HH:mm')+"h";
+              // }
+            }
+          }
+          var _inputEndDayTime = $('<select>').addClass('inputDayTime-select');
+          _inputEndDayTimeContainer.empty();
+          _inputEndDayTimeContainer.append(_inputEndDayTime);
+          _inputEndDayTime.select2({
+            data: _endingDayTime,
+            multiple:true,
+            maximumSelectionLength: 1,
+            placeholder: 'Día y hora'
+          });
+
+          var _inputArtist = $('<select>');
+          _inputArtistContainer.empty();
+          _inputArtistContainer.append(_inputArtist);
+          var _compatibleArtists = [];
+          var _dayDictionary = {
+            day_1: 15,
+            day_2: 16
+          }
+
+          artists.forEach(function(artist){
+            if (artist.availability && Object.keys(artist.availability).length == 2) _compatibleArtists.push(artist);
+            else if (artist.availability){
+              switch(new Date(artist.availability['0']).getDate()) {
+                case new Date(_starting).getDate():
+                  _compatibleArtists.push(artist); //day of the month
+                break;
+                case _dayDictionary[_starting]:                
+                  _compatibleArtists.push(artist);
+                break;
+              }
+            }
+          });
+          _inputArtist.select2({
+            data: _compatibleArtists,
+            multiple:true,
+            maximumSelectionLength: 1,
+            placeholder: 'Artista'
+          });
+
+          // if (_preselectedEnding.id){
+          //   var option = new Option(_preselectedEnding.text, _preselectedEnding.id, true, true);
+          //   _inputEndDayTime.append(option);
+          //   _inputEndDayTime.trigger('change');
+          // }
+        });
       }
-      // ,
-      // resetModifiedCheck: function(){
-      //   _modified = false;
-      // }
     }
   }
 

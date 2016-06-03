@@ -297,7 +297,7 @@
   		if (proposal['type'] == 'space') _places.push({id: proposal['proposal_id'], text: proposal['name'], availability: proposal['availability']});
   		if (proposal['type'] == 'artist') {
   			var _text =  proposal['name'] + ' - ' +  proposal['title'];
-				_artists.push({id: proposal['proposal_id'], text: _text});
+				_artists.push({id: proposal['proposal_id'], text: _text, availability: proposal['availability']});
 				if (proposal['program']){
 	  			proposal['program']['proposal_id'] = proposal['proposal_id'];
 	  			_programs.push(proposal['program']);
@@ -526,6 +526,7 @@
 					}
 				  if (proposal['type'] == 'space') {
 				  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
+				  	_inputProgram.setEndDayTime();
 						var _showObj = {
 							place: proposal['name'], 
 							proposal_id: proposal['proposal_id'] ,
