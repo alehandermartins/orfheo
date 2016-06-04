@@ -12,3 +12,4 @@
 //= require select2.min
 //= require moment-with-locales
 //= require spectrum
+//= require jquery.dragtable
