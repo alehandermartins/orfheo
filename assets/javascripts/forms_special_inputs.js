@@ -992,20 +992,22 @@
       $('#successBox-whiteList').empty();
       if (_inputNameEmail.val()){
         var _data = _inputNameEmail.select2('data');
+        console.log(_data);
         var _info = {name_email: _data[0].text, email: _data[0].id};
         _results.push(_info);
+        _inputAddedContainer.prepend(_addnewInput(_info));
+       _inputNameEmail.select2('val', '');
       }
-      _inputAddedContainer.prepend(_addnewInput(_info));
-      _inputNameEmail.select2('val', '');
     });
 
     _createdWidget.append(_inputContainer.append(_inputNameEmail), _addInputButton,_inputAddedContainer);
 
     _inputNameEmail.select2({
-        placeholder:'Email o Nombre de perfil',
+        // placeholder:'Email o Nombre de perfil',
         data: emailsNames,
         multiple:true,
-        maximumSelectionLength: 1
+        maximumSelectionLength: 1,
+        tags: true
     });
 
     return {
