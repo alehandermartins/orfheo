@@ -14,39 +14,49 @@
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
   	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla y Programa');
   	var _tableTab = $('<li>').append(_tableTabTitle);
+  	_tableTab.one('click',function(){
+			$('#tablePanel').append(Pard.Widgets.TablePanelContent(call).render());
+		});
   	_tableTab.click(function(){
-			if(!($('#tablePanel').html())) $('#tablePanel').append(Pard.Widgets.TablePanelContent(call).render());
 			$('.tab-selected').removeClass('tab-selected');
-			_tableTab.addClass('tab-selected');
+			$(this).addClass('tab-selected');
 			_tabShowHide('tablePanel');
 		});
 
   	var _profilesTabTitle =	$('<a>').attr({href: "#"}).text('Propuestas');
   	var _profilesTab = $('<li>').addClass('tabs-title is-active').append(_profilesTabTitle);
-  	_profilesTab.click(function(){
-			if(!($('#proposalsPanel').html())) $('#proposalsPanel').append(Pard.Widgets.ProposalsPanelContent(call).render());
+  	_profilesTab.one('click',function(){
+			$('#proposalsPanel').append(Pard.Widgets.ProposalsPanelContent(call).render());
+		});
+		_profilesTab.click(function(){
 			$('.tab-selected').removeClass('tab-selected');
-			_profilesTab.addClass('tab-selected');
+			$(this).addClass('tab-selected');
 			_tabShowHide('proposalsPanel');
 		});
-
+		
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
     var _programTab = $('<li>').append(_programTabTitle);
-    _programTab.click(function(){
-      if(!($('#programPanel').html())) $('#programPanel').append(Pard.Widgets.ProgramManager(call).render());
-      $('.tab-selected').removeClass('tab-selected');
-      _tableTab.addClass('tab-selected');
-      _tabShowHide('programPanel');
+    _programTab.one('click',function(){
+			$('#programPanel').append(Pard.Widgets.ProgramManager(call).render());
     });
-
+    _programTab.click(function(){
+			$('.tab-selected').removeClass('tab-selected');
+			$(this).addClass('tab-selected');
+			_tabShowHide('programPanel');
+		});
   		
-  	_tabs.append(_tableTab, _profilesTab, _programTab);
+  	_tabs.append(
+  		_tableTab, 
+  		_profilesTab
+  		// _programTab
+  	);
 
   	var _tabShowHide = function(id_selected){
   		_panelShown.hide();
-  		var _selected = '#'+id_selected;
+  		// var _selected = '#'+id_selected;
   		_panelShown = $('#'+id_selected);
   		_panelShown.show();
+
   	}
 
   	var _tablePanel = $('<div>').attr('id', 'tablePanel');
