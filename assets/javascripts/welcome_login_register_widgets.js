@@ -14,7 +14,7 @@
 
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
     var _labels = ['Tu correo', 'Confirma tu correo', 'Mínimo 8 caracteres'];
-    var _types = ['email', 'email', 'password'];
+    var _types = ['text', 'text', 'password'];
 
     ['email', 'emailConf', 'password'].forEach(function(id, index){
       _fields[id] = Pard.Widgets.Input(_labels[index], _types[index]

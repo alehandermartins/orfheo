@@ -19,7 +19,7 @@
 
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
 
-    var _input = Pard.Widgets.Input(placeholder, 'email', _checkInput);
+    var _input = Pard.Widgets.Input(placeholder, 'text', _checkInput);
     
     return{
       render: function(){
@@ -183,6 +183,13 @@
         {types: ['address']});
       autocomplete.addListener('place_changed', function(){FillInAddress(autocomplete, _inputForm)});
     }
+
+    _inputPlace.one('input', function(){  
+      for (var component in _inputForm) {
+        _inputForm[component].setVal('');
+        _inputForm[component].setAttr('disabled', false);
+      }  
+    });
 
     FillInAddress = function(autocomplete, _inputForm) {
       var place = autocomplete.getPlace();

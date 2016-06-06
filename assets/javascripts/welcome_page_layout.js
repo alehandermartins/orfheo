@@ -68,13 +68,13 @@
 
     var _elemResponsive = $('<span>').addClass('float-right').attr({'data-responsive-toggle':'responsive-menu', 'data-hide-for': 'medium'}); 
     var _iconLogin = $('<span>').addClass('menu-icon dark').css('margin-right','0.3rem');
-    _iconLogin.attr('data-toggle','');
-    _elemResponsive.append(_iconLogin,'Entra');
+    // _iconLogin.attr('data-toggle','');
+    _elemResponsive.append($('<span>').append(_iconLogin,'Entra').attr('data-toggle','')).css('cursor','pointer');
 
 
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
-    var _iconOffCanvas = $('<span>').addClass('menu-icon dark').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true});
-    _elemOffCanvas.append(_iconOffCanvas, ' Descubre maś');
+    var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
+    _elemOffCanvas.append(_iconOffCanvas, ' Descubre maś').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
 
     _responsiveMenu.append(_elemResponsive, _elemOffCanvas);
 
