@@ -86,15 +86,14 @@
             // console.log(_time.position().top + steps * 40 + minsteps * 10);
 
             ui.draggable.trigger({type: 'proposal'});
-            if(pos.top + (parseInt(Pard.Widgets.DraggedProposal.duration)/60 * 40) < _time.position().top + 240){
-              var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
-              _time.append(newEvent);
-              newEvent.css({
-                position: "absolute",
-                top: position + "px",
-                left: _time.position().left + "px",
-              });
-            }
+            if(pos.top + (parseInt(Pard.Widgets.DraggedProposal.duration)/60 * 40) > _time.position().top + 240) position = _time.position().top + 240 - (parseInt(Pard.Widgets.DraggedProposal.duration)/60 * 40);
+            var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
+            _time.append(newEvent);
+            newEvent.css({
+              position: "absolute",
+              top: position + "px",
+              left: _time.position().left + "px",
+            });
           }
         });
 
