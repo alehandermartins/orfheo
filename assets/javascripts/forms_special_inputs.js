@@ -513,6 +513,7 @@
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
+    var _addInputButtonContainer = $('<span>');
 
     var _addnewInput = function(showInfo){
       var _container = $('<div>');
@@ -579,7 +580,7 @@
 
     var _endDayTime = [{id:'',text:''}];
 
-    _createdWidget.append(_inputStartingDayTimeContainer.append(_inputStartingDayTime), _inputEndDayTimeContainer.append(_inputEndDayTime),_inputSpaceContainer.append(_inputSpace), _addInputButton,_showsAddedContainer);
+    _createdWidget.append(_inputStartingDayTimeContainer.append(_inputStartingDayTime), _inputEndDayTimeContainer.append(_inputEndDayTime),_inputSpaceContainer.append(_inputSpace), _addInputButtonContainer.append(_addInputButton),_showsAddedContainer);
 
     _inputSpace.select2({
       data: places,
@@ -676,17 +677,29 @@
         var option = new Option(_preselectedEnding.text, _preselectedEnding.id, true, true);
         _inputEndDayTime.append(option);
         _inputEndDayTime.trigger('change');
+        console.log(_inputEndDayTime.select2('data')[0]);
+
       }
 
-      var _addShow = function(){
-        if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
+      _addInputButtonContainer.empty();
+          var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
+    _addInputButton.addClass('add-input-button-enlighted');
+    _addInputButtonContainer.append(_addInputButton);
 
+
+      var _addShow = function(){
+                      console.log(_inputSpace.select2('data')[0]);
+
+        if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
+          console.log('_addShow');
+          console.log(_inputEndDayTime.select2('data')[0]['text']);
           var _show = {
             place: _inputSpace.select2('data')[0]['text'], 
             starting_day_time: _inputStartingDayTime.select2('data')[0]['id'],  
             ending_day_time:_inputEndDayTime.select2('data')[0]['id'],
             proposal_id: _inputSpace.select2('data')[0]['id']
           };     
+          console.log(_show);
           _showsAddedContainer.prepend(_addnewInput(_show));
           _inputSpace.select2('val', '');
           _inputStartingDayTime.select2('val', '');
@@ -748,7 +761,8 @@
     var _inputEndDayTimeContainer = $('<div>').addClass('inputDayTime-container');
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
-    _addInputButton.addClass('add-input-button-enlighted')
+    _addInputButton.addClass('add-input-button-enlighted');
+    var _addInputButtonContainer = $('<span>');
 
     var _addnewInput = function(showInfo){
       var _container = $('<div>');
@@ -764,8 +778,17 @@
       });
       if (showInfo['starting_day_time'] == 'permanent') {
         _newInputStartingDayTime = Pard.Widgets.Selector(['Los dos días'],['permanent']);
-          _newInputEndDayTime = Pard.Widgets.Selector(['Los dos días'],['permanent']);
-      }else { 
+        _newInputEndDayTime = Pard.Widgets.Selector(['Los dos días'],['permanent']);
+      }
+      else if (showInfo['starting_day_time'] == "day_1"){
+        _newInputStartingDayTime =  Pard.Widgets.Selector(['sábado'],['day_1']);
+        _newInputEndDayTime = Pard.Widgets.Selector(['sábado'],['day_1']);
+      }
+      else if (showInfo['starting_day_time'] == "day_2"){
+        _newInputStartingDayTime =  Pard.Widgets.Selector(['domingo'],['day_2']);
+        _newInputEndDayTime = Pard.Widgets.Selector(['domingo'],['day_2']);
+      }
+      else { 
         _newInputStartingDayTime = Pard.Widgets.Selector([moment(new Date (parseInt(showInfo['starting_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['starting_day_time']]);
         _newInputEndDayTime = Pard.Widgets.Selector([moment(new Date (parseInt(showInfo['ending_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['ending_day_time']]);
       };
@@ -807,7 +830,7 @@
     
     var _showsAddedContainer = $('<div>');
 
-    _createdWidget.append( _inputStartingDayTimeContainer.append(_inputStartingDayTime), _inputEndDayTimeContainer.append(_inputEndDayTime), _inputArtistContainer.append(_inputArtist), _addInputButton,_showsAddedContainer);
+    _createdWidget.append( _inputStartingDayTimeContainer.append(_inputStartingDayTime), _inputEndDayTimeContainer.append(_inputEndDayTime), _inputArtistContainer.append(_inputArtist), _addInputButtonContainer.append(_addInputButton),_showsAddedContainer);
 
     _inputArtist.select2({
       data: artists,
@@ -907,10 +930,17 @@
         _inputEndDayTime.append(option);
         _inputEndDayTime.trigger('change');
       }
+
+      _addInputButtonContainer.empty();
+      var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
+      _addInputButton.addClass('add-input-button-enlighted');
+      _addInputButtonContainer.append(_addInputButton);
+
+
       _addInputButton.on('click', function(){ _addShow(); });
 
       var _addShow = function(){
-        if (_inputArtist.val() && _inputStartingDayTime.val() && _inputEndDayTime.val() && parseInt(_inputStartingDayTime.select2('data')[0]['id']) < parseInt(_inputEndDayTime.select2('data')[0]['id'])){
+        if (_inputArtist.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
           var _show = {
             proposal_id: _inputArtist.val()[0], 
             starting_day_time: _inputStartingDayTime.select2('data')[0]['id'],
