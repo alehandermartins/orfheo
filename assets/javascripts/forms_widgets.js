@@ -227,7 +227,13 @@
       },
       removeWarning: function(){
         _input.removeClass('checkBox-warning');
-      }
+      },
+      labelToggle: function(){
+        _label.css('cursor','pointer')
+        _label.on('click', function(){
+          _input.prop("checked", !_input.prop("checked"));
+        });
+      } 
     }
   }
 

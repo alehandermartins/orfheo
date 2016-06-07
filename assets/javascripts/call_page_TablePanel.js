@@ -173,7 +173,9 @@
 
 	  var _checkBoxesBox = Pard.Widgets.PrintCheckBoxes(programAllCheckbox, selected, _submitBtnOuterContainer);
 
-	  _checkBoxesBox.setCallback(function(){_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal())});
+	  _checkBoxesBox.setCallback(function(){
+	  	_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
+	  });
 
     _createdWidget.append(_checkBoxesBox.render(), _outerTableContainer.append(_searchInputContainer.append(_searchInput.render()), _tableBox.append(_table.render()), _submitBtnOuterContainer));
 
@@ -209,6 +211,7 @@
 
 
   ns.Widgets.PrintCheckBoxes = function(programAllCheckbox, selected,_submitBtnOuterContainer) {
+
   	programAllCheckbox.empty();
 
   	var _checkBoxesBox = $('<div>');
@@ -239,14 +242,20 @@
 
 
   	var _printCheckBoxes = function(){
+
   	_checkBoxes = [];
     _fields[selected].forEach(function(field){
-    	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),field)
+    	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),field);
+    	// var _checkBoxBox = $('<span>');
     	_checkBoxes.push([_checkBox,field]);
     	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
     	_checkBoxRendered.change(function(){
     	_createTable();
     	})
+    	_checkBox.labelToggle(); 	
+    	_checkBoxRendered.click(function(){  	
+    		_checkBoxRendered.trigger('change');
+    	});
     	_checkBoxesBox.append(_checkBoxRendered);
     });
   	}
@@ -265,7 +274,13 @@
     			elem[0].setVal(_val);
     	})
     	_createTable();
-    })
+    });
+
+    _allCheckBoxes.labelToggle(); 	
+
+    _allCheckBoxesRendered.click(function(){  	
+    		_allCheckBoxesRendered.trigger('change');
+    	});
 
   	var _programCheckBox = Pard.Widgets.CheckBox('<span style = "color: red; font-size:0.875rem">Programación</span>','program');
     var _programCheckBoxRendered = _programCheckBox.render().addClass('checkBox-call-manager');
@@ -283,7 +298,13 @@
 	    	_checkBoxes.push([true, 'program']);
     	}
    		_createTable();
-    })
+    });
+
+    _programCheckBox.labelToggle(); 	
+
+    _programCheckBoxRendered.click(function(){  	
+    		_programCheckBoxRendered.trigger('change');
+    	});
 
     programAllCheckbox.empty();
     programAllCheckbox.append(_allCheckBoxesRendered, _programCheckBoxRendered).addClass('program-all-checkbox-container');

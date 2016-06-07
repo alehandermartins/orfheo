@@ -422,7 +422,9 @@
 
 	 	_submitBtnContainer.append(_successBox, _submitBtn.render());
 
-    _createdWidget.append(_emailNameInput.render(), _submitBtnOuterContainer);
+    var _emailNameImputRendered = _emailNameInput.render();
+
+    _createdWidget.append($('<label>').text('Email o Nombre de perfil').append(_emailNameImputRendered), _submitBtnOuterContainer);
 
     return {
       render: function(){
