@@ -28,20 +28,27 @@
 
     var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateOwnArtistProposal(call, _artistsList)});
 
-    var _artistsList = $('<ul>').addClass('own-proposals-list');
+    var _artistsList = $('<ul>').addClass('own-proposals-list').attr('id','artist-list-call-page');
     // .attr({'style':'list-style-type:none'})
-    var _spacesList= $('<ul>').addClass('own-proposals-list');
+    var _spacesList= $('<ul>').addClass('own-proposals-list').attr('id','space-list-call-page');
 
     var _spacesOwnBox = $('<div>').addClass('ownBox-call-manager');
     var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
 
+    // var _artistProposalsList = [];
+
     proposals.forEach(function(proposal){
       if (proposal.profile_id == call.profile_id) {
+        var _proposalContainer = $('<li>');
         if (proposal.type == 'artist'){
-        _artistsList.prepend(Pard.Widgets.PrintOwnProposal(proposal).render());
+          var _artistProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);
+          // _artistProposalsList.push(_artistProposal);
+          _artistsList.prepend(_proposalContainer.append(_artistProposal.render()));
+          // _artistProposal.setDeleteProposalCallback(_proposalContainer);
         }
         else{
-          _spacesList.prepend(Pard.Widgets.PrintOwnProposal(proposal).render());
+          var _spaceProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);
+          _spacesList.prepend(_proposalContainer.append(_spaceProposal.render()));
         }
       }
     });
@@ -63,8 +70,8 @@
     }
   }
 
-  ns.Widgets.PrintOwnProposal = function(proposal){
-    var _createdWidget = $('<li>');
+  ns.Widgets.PrintOwnProposal = function(proposal, artistProposalContainer){
+    var _createdWidget = $('<span>');
 
     if (proposal['title']) var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']+' - ' + proposal['title']);
     else var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
@@ -75,7 +82,7 @@
     }      
     else _form = Pard.Forms.SpaceCall();
 
-    var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintOwnProposalMessage(proposal, _form.render())});
+    var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintOwnProposalMessage(proposal, _form.render(), artistProposalContainer)});
 
     _createdWidget.append(_popup.render());
     
@@ -86,8 +93,8 @@
     }
   }
 
-  ns.Widgets.PrintOwnProposalMessage = function(proposal, form){
-
+  ns.Widgets.PrintOwnProposalMessage = function(proposal, form, artistProposalContainer){
+    console.log(proposal);
     var _createdWidget = $('<div>');
 
     var _proposalPrinted = Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, form)).render();
@@ -96,7 +103,7 @@
 
     var closepopup;
 
-    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, closepopup)}, 'alert-container-full');
+    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, closepopup, artistProposalContainer)}, 'alert-container-full');
 
     _createdWidget.append(_proposalPrinted, _deleteProposal.render());
 
@@ -111,7 +118,7 @@
 
   }
 
-  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup){  
+  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup, artistProposalContainer){  
     
     var _createdWidget = $('<div>');
     // var _message = $('<p>').text('Confirmando, tu propuesta será retirada de la convocatoria del Benimaclet conFusión festival y no podrá ser parte del evento.');
@@ -120,6 +127,7 @@
 
     _yesBtn.click(function(){
       Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteOwnProposal);
+      artistProposalContainer.remove();
         closepopup();
     });
 
@@ -227,8 +235,9 @@
       if(_filled() == true){
         var _ownProposal = _getVal();
         Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
+        
         _closepopup();
-        spacesList.prepend(Pard.Widgets.PrintOwnProposal(_ownProposal).render());
+
       }
     });
 
@@ -349,8 +358,6 @@
 
     var _getVal = function(url){
       for(var field in _form){
-              console.log(_form[field].input.getVal())
-
          _submitForm[field] = _form[field].input.getVal();
       };
       // _submitForm['photos'] = url;
@@ -365,8 +372,11 @@
       if(_filled() == true){
         var _ownProposal = _getVal();
         Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
+        var proposals = Pard.CachedProposals;
+        var _proposalContainer = $('<li>');
+        var _artistProposal = Pard.Widgets.PrintOwnProposal(proposals[proposals.length -1], _proposalContainer);
+        artistsList.prepend(_proposalContainer.append(_artistProposal.render()));
         _closepopup();
-        artistsList.prepend(Pard.Widgets.PrintOwnProposal(_ownProposal).render());
       }
     });
     // _photos.cloudinary().bind('cloudinarydone', function(e, data){

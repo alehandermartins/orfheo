@@ -179,7 +179,7 @@
 
     _createdWidget.append(_checkBoxesBox.render(), _outerTableContainer.append(_searchInputContainer.append(_searchInput.render()), _tableBox.append(_table.render()), _submitBtnOuterContainer));
 
-    _showHideTable([],[]);
+    _showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
 
     _submitBtnOuterContainer.hide();
 
@@ -218,8 +218,8 @@
     var _checkBoxes = [];
 
     var _fields = {
-  		space: ['link_orfheo', 'name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend'],
-  		artist: ['link_orfheo', 'name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend']
+  		space: ['link_orfheo', 'name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend'],
+  		artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend']
   	}
 
   	var _createTable = function(){};
@@ -251,12 +251,14 @@
     	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
     	_checkBoxRendered.change(function(){
     	_createTable();
-    	})
+    	});
+    	if (field == 'name') _checkBox.setVal(true);
     	_checkBox.labelToggle(); 	
     	_checkBoxRendered.click(function(){  	
     		_checkBoxRendered.trigger('change');
     	});
     	_checkBoxesBox.append(_checkBoxRendered);
+
     });
   	}
 
@@ -495,8 +497,8 @@
   ns.Widgets.PrintTable = function(proposalsSelected, dayTimeObj, places, _artists, _programs) {
 
   	var _fields = {
-  		space: ['link_orfheo','name','category','responsible', 'email', 'phone','address','description', 'own', 'sharing', 'un_wanted','availability','amend', 'program'],
-  		artist: ['link_orfheo', 'name','category','email', 'phone','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability', 'amend', 'program']
+  		space: ['link_orfheo','name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend', 'program'],
+  		artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend', 'program']
   	}
 
   	var columns = _fields[proposalsSelected[0].type];

@@ -240,8 +240,13 @@
 
   ns.Events.SendOwnProposal = function(data){
     if(data['status'] == 'success') {
-      Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
       Pard.CachedProposals = data.call.proposals;
+      var _proposal = data.call.proposals[data.call.proposals.length -1];
+      var _proposalContainer = $('<li>');
+      var _printedProposal = Pard.Widgets.PrintOwnProposal(_proposal, _proposalContainer);
+      if (_proposal.type == 'space') $('#space-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
+      else $('#artist-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
+      Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
     }
     else{
       Pard.Widgets.Alert('',data.reason);
@@ -252,7 +257,7 @@
   ns.Events.DeleteOwnProposal = function(data){
     if (data['status'] == 'success'){
       // console.log(data);
-      Pard.Widgets.Alert('', 'Propuesta cancelada correctamente.', function(){location.reload();})
+      Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.')
     }
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
