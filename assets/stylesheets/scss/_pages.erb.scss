@@ -1012,7 +1012,7 @@ td.column-call-manager-table.column-description, td.column-call-manager-table.co
 }
 
 td.column-call-manager-table.column-program{
-  min-width: 29rem;
+  min-width: 24rem;
 }
 
 
@@ -1021,7 +1021,7 @@ td.column-call-manager-table.column-program{
   font-size: $almostNormalSize;
 }
 
-.inputArtist-container, .inputSpace-container, .inputDayTime-container{
+.inputArtist-container, .inputSpace-container{
   margin-bottom: 0.5rem;
 }
 
@@ -1035,14 +1035,15 @@ div.inputSpace-container .select2-selection.select2-selection--multiple, div.inp
 
 .inputDayTime-container, .add-dayTime-input-field{
   width:11rem;
+  margin-bottom: 0;
 }
 
 .inputSpace-container, .add-space-input-field{
-  width:15rem;
+  width:20.5rem;
 }
 
 .inputArtist-container, .add-artist-input-field{
-  width:18rem;
+  width:20.5rem;
 }
 
 .types-selector-call-manager{

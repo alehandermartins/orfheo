@@ -567,7 +567,7 @@
 					}
 				  if (proposal['type'] == 'space') {
 				  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-				  	_inputProgram.setEndDayTime();
+				  	// _inputProgram.setEndDayTime();
 						var _showObj = {
 							place: proposal['name'], 
 							proposal_id: proposal['proposal_id'] ,
