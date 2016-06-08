@@ -228,7 +228,7 @@
     // };
 
     var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: '#00FF00'});
-    var _icon = $('<div>').addClass('icon-profileCircle').html(Pard.Widgets.IconManager(proposal.type).render());
+    var _icon = $('<div>').addClass('icon-profileCircle').html(Pard.Widgets.IconManager(proposal.category).render());
     var _colorIcon = Pard.Widgets.IconColor('#00FF00').render();
     _icon.css({color: _colorIcon});
     var _profilename = proposal.name;
