@@ -273,7 +273,7 @@
     	_checkBoxRendered.change(function(){
     	_createTable();
     	});
-    	if (field == 'name') _checkBox.setVal(true);
+    	if (field == 'name' || field == 'link_orfheo') _checkBox.setVal(true);
     	_checkBox.labelToggle(); 	
     	_checkBoxRendered.click(function(){  	
     		_checkBoxRendered.trigger('change');
@@ -472,7 +472,8 @@
 		    	_oldProposalsSearched = _proposalsSearched;
 		    	_proposalsSearched = [];
 	      	_oldProposalsSearched.forEach(function(proposal){
-						if (_searchTerm == proposal['category'] || _searchTerm == proposal['name'] || _searchTerm == proposal['responsible'] || _searchTerm == proposal['title']) _proposalsSearched.push(proposal);
+            if ($.inArray(_searchTerm,_categoryAdded)>-1 && _searchTerm == proposal['category'] ) _proposalsSearched.push(proposal);
+						else if (_searchTerm == proposal['name'] || _searchTerm == proposal['responsible'] || _searchTerm == proposal['title']) _proposalsSearched.push(proposal);
 						else {
 							['title', 'description', 'short_description', 'needs', 'sharing'].some(function(field){ 
 								if (proposal[field] && proposal[field].toLowerCase().indexOf(_searchTerm.toLowerCase()) > -1){
