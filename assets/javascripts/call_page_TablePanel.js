@@ -472,7 +472,9 @@
 		    	_oldProposalsSearched = _proposalsSearched;
 		    	_proposalsSearched = [];
 	      	_oldProposalsSearched.forEach(function(proposal){
-            if ($.inArray(_searchTerm,_categoryAdded)>-1 && _searchTerm == proposal['category'] ) _proposalsSearched.push(proposal);
+            if ($.inArray(_searchTerm,_categoryAdded)>-1) {
+              if  (_searchTerm == proposal['category'] ) _proposalsSearched.push(proposal);
+            }
 						else if (_searchTerm == proposal['name'] || _searchTerm == proposal['responsible'] || _searchTerm == proposal['title']) _proposalsSearched.push(proposal);
 						else {
 							['title', 'description', 'short_description', 'needs', 'sharing'].some(function(field){ 
