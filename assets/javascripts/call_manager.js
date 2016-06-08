@@ -96,8 +96,6 @@
               end: position - colPosition + duration
             }
 
-            console.log(program[space.proposal_id]['proposal_id']);
-
             var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
             _time.append(newEvent);
             newEvent.css({
@@ -118,7 +116,7 @@
         axis: 'x',
         handle: '.spaceName',
         helper: function(){ 
-          return Pard.Widgets.SpaceHelper(space, call['proposals'], program[space.proposal_id]).render();
+          return Pard.Widgets.SpaceHelper(_spaceCol).render();
         },
         start: function(event, ui){
           _spaceCol.addClass('ui-sortable-placeholder');
@@ -131,6 +129,7 @@
             var index = $.inArray(_spaceCol, spaceColumns);
             if(index < spaceColumns.length - 1){
               spaceColumns[index + 1].after(spaceColumns[index]);
+              spaceColumns[index + 1].find('.programHelper').css({left: spaceColumns[index + 1].position().left + 1 + "px"});
               var tempColumn = spaceColumns[index + 1];
               spaceColumns[index + 1] = spaceColumns[index];
               spaceColumns[index] = tempColumn;
@@ -144,6 +143,7 @@
             var index = $.inArray(_spaceCol, spaceColumns);
             if(index > 0){
               spaceColumns[index].after(spaceColumns[index - 1]);
+              spaceColumns[index - 1].find('.programHelper').css({left: spaceColumns[index - 1].position().left + 1 + "px"});
               var tempColumn = spaceColumns[index - 1];
               spaceColumns[index - 1] = spaceColumns[index];
               spaceColumns[index] = tempColumn;
@@ -154,11 +154,9 @@
             }
           }
         },
-        stop:function(){
+        stop:function(event, ui){
           _spaceCol.removeClass('ui-sortable-placeholder');
-          //var index = $.inArray(_spaceCol, spaceColumns);
-          //_spaceCol = Pard.Widgets.SpaceHelper(space, call['proposals'], program[space.proposal_id]).render();
-          //spaceColumns[index] = _spaceCol;
+          _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
         }
       });
     });
@@ -258,6 +256,7 @@
     if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
     _category.html(_categories);
     _circle.append(_icon);
+
     _card.append(_photoContainer, _circle, _name, _city, _category);
     
     return {
@@ -345,50 +344,13 @@
     }
   }
 
-  ns.Widgets.SpaceHelper = function(space, proposals, program){
+  ns.Widgets.SpaceHelper = function(spaceCol){
+    var _spaceCol = spaceCol.clone();
 
-   var _spaceCol = $('<div>').addClass('spaceCol').css({
-      'display': ' inline-block',
-      'width': '11rem',
-      'border-width': '1px',
-      'border-style': 'solid',
+    _spaceCol.find('.programHelper').css({
+      top: '-=' + spaceCol.position().top, 
+      left: _spaceCol.position().left + "px"
     });
-    var _spacename = $('<div>').html(space.name).css({
-      'background': '#b5cfd2',
-      'padding': '8px',
-      'border-color': '#999999',
-      'height': '40px'
-    });
-
-    _spaceCol.append(_spacename);
-
-    var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
-      'padding': '8px',
-      'height': '240px'
-    });
-
-    _getProposal = function(proposal_id){
-      var result = {};
-      proposals.forEach(function(proposal){
-        if(proposal.proposal_id == proposal_id) result = proposal 
-      });
-      return result;
-    }
-
-    if(program){
-      var proposal_id = program['proposal_id'];
-      var proposal = _getProposal(proposal_id);
-
-      var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
-      _time.append(newEvent);
-      newEvent.css({
-        position: 'absolute',
-        top: program['start'] + 40 +  'px',
-        left: _time.position().left + "px",
-      });   
-    }
-
-    _spaceCol.append(_time);
 
     return {
       render: function(){
