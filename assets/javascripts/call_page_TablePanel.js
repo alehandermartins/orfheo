@@ -5,6 +5,7 @@
 
   ns.Widgets.CallMainLayout = function(call){
   	console.log(call);
+   
 
   	var _main = $('<main>').addClass('main-call-page');
     var _mainLarge = $('<section>').addClass('pard-grid call-section');
@@ -80,12 +81,14 @@
   }
 
 
-  ns.Widgets.TablePanelContent = function(call){
+  ns.Widgets.TablePanelContent = function(){
 
   	var _createdWidget = $('<div>');
 
   	var _typesSelectorBox = $('<div>').addClass('types-selector-call-manager');
-    var _contentBox = $('<div>');
+    var _contentBoxArtists = $('<div>');
+
+    var _contentBoxSpaces = $('<div>');
 
     var _programAllCheckbox = $('<div>');
 
@@ -95,21 +98,39 @@
     	_labelTypes.push(Pard.Widgets.Dictionary(type).render());
     });
 
+    var _cat = {
+      space: _contentBoxSpaces,
+      artist: _contentBoxArtists
+    }
+
+    _showHide = function(selected){
+      _shown.hide();
+      _shown = _cat[selected];
+      _shown.show();
+    }
+
+    _contentBoxSpaces.append(Pard.Widgets.CallManagerContent('space', _programAllCheckbox).render());
+    _contentBoxArtists.append(Pard.Widgets.CallManagerContent('artist', _programAllCheckbox).render());
+
     var _selectorCallback = function(){
-    	_contentBox.empty();
+    	// _contentBox.empty();
     	var _selected = $(this).val();
-    	_contentBox.append(Pard.Widgets.CallManagerContent(_selected, _programAllCheckbox).render());
+      _showHide(_selected);
+
     }
 
     var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render();
 
-    var _preSelected = 'artist';
+    // var _preSelected = 'artist';
 
-   	_contentBox.append(Pard.Widgets.CallManagerContent(_preSelected, _programAllCheckbox).render());
+   	// _contentBox.append(Pard.Widgets.CallManagerContent(_preSelected, _programAllCheckbox).render());
+
+    _contentBoxSpaces.hide();
+    var _shown = _contentBoxArtists;
 
 		_typesSelectorBox.append(_typesSelector);  
 
-    _createdWidget.append(_typesSelectorBox, _programAllCheckbox, _contentBox);
+    _createdWidget.append(_typesSelectorBox, _programAllCheckbox, _contentBoxArtists, _contentBoxSpaces);
 
     return {
       render: function(){

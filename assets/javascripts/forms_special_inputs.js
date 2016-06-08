@@ -1048,17 +1048,19 @@
 
     _createdWidget.append(_inputContainer.append(_inputNameEmail), _addInputButton,_inputAddedContainer);
 
-    _inputNameEmail.select2({
-        // placeholder:'Email o Nombre de perfil',
-        data: emailsNames,
-        multiple:true,
-        maximumSelectionLength: 1,
-        tags: true
-    });
+
 
     return {
       render: function(){
-
+      _inputNameEmail.select2({
+        placeholder:'Email o Nombre de perfil',
+        data: emailsNames,
+        allowClear: true,
+        // multiple: true,
+        tags: true
+        // tokenSeparators: [',', ' '],
+        // maximumSelectionLength: 1
+      });
         return _createdWidget;
       },
       getVal: function(){

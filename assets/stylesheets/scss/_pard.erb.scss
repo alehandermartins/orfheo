@@ -383,6 +383,13 @@ button{
 
 }
 
+
+.manage-call-btn {
+  @extend .pard-btn;
+  cursor: pointer;
+  padding: 0.25rem 0.75rem;
+}
+
 .create-profile-btn:hover{
   border: 2px solid $grey-1;
 }

@@ -13,3 +13,4 @@
 //= require moment-with-locales
 //= require spectrum
 //= require jquery.dragtable
+//= require HoldOn.min

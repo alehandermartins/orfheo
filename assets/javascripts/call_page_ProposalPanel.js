@@ -128,7 +128,19 @@
     _yesBtn.click(function(){
       Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteOwnProposal);
       artistProposalContainer.remove();
-        closepopup();
+      var _proposals = Pard.CachedProposals;
+      var _index
+      _proposals.some(function(proposal, index){ 
+        if (proposal.proposal_id == proposal_id ) {
+          _index = index;
+          return true;
+        }
+      });
+      _proposals.splice(_index, 1);
+      Pard.CachedProposals = _proposals;
+      $('#tablePanel').empty();
+      $('#tablePanel').append(Pard.Widgets.TablePanelContent().render());
+      closepopup();
     });
 
     var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
@@ -372,10 +384,10 @@
       if(_filled() == true){
         var _ownProposal = _getVal();
         Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
-        var proposals = Pard.CachedProposals;
-        var _proposalContainer = $('<li>');
-        var _artistProposal = Pard.Widgets.PrintOwnProposal(proposals[proposals.length -1], _proposalContainer);
-        artistsList.prepend(_proposalContainer.append(_artistProposal.render()));
+        // var proposals = Pard.CachedProposals;
+        // var _proposalContainer = $('<li>');
+        // var _artistProposal = Pard.Widgets.PrintOwnProposal(proposals[proposals.length -1], _proposalContainer);
+        // artistsList.prepend(_proposalContainer.append(_artistProposal.render()));
         _closepopup();
       }
     });
@@ -434,7 +446,7 @@
 
     var _emailNameImputRendered = _emailNameInput.render();
 
-    _createdWidget.append($('<label>').text('Email o Nombre de perfil').append(_emailNameImputRendered), _submitBtnOuterContainer);
+    _createdWidget.append($('<label>').append(_emailNameImputRendered), _submitBtnOuterContainer);
 
     return {
       render: function(){

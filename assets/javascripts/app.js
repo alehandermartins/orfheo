@@ -173,6 +173,20 @@ Pard.Outsider = function(profiles){
 
 Pard.Call = function(call){
 
+  HoldOn.open({
+    theme:'sk-circle'
+    // backgroundColor:'#000000',
+    // content:'',
+    // message:'',
+    // textColor:''
+  });
+
+  $(document).ready(function(){
+      $('body').append(_whole);
+      $(document).foundation();
+      HoldOn.close();
+  });
+
   Pard.CachedCalls = call;
   Pard.CachedProposals  = call['proposals'];
 
@@ -184,9 +198,5 @@ Pard.Call = function(call){
   var _footer = Pard.Widgets.Footer();
 
   $(_whole).append(_header.render(), _main.render(), _footer.render());
-  $('body').append(_whole);
-
-  $(document).ready(function(){$(document).foundation()});
-
 
 }

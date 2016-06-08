@@ -81,9 +81,9 @@
         var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
         var _callsBoxContent = $('<div>').addClass('box-content');
 
-        var _manageCallText = $('<p>').text('Gestiona convocatoria').addClass('create-profile-text').addClass('create-profile-text');
-        var _manageCallBtn =  $('<div>').addClass('create-profile-btn').click(function(){location.href = '/call?id='+ call.call_id}).css('padding','0.5rem 0.25rem');
-        var _manageCallBtnText = $('<span>').text('conFusión 2016').addClass('create-profile-btn-text');
+        var _manageCallText = $('<p>').text('Gestiona convocatoria').addClass('manage-call-text');
+        var _manageCallBtn =  $('<div>').addClass('manage-call-btn').click(function(){location.href = '/call?id='+ call.call_id});
+        var _manageCallBtnText = $('<span>').text('conFusión 2016').addClass('manage-call-btn-text');
         var _manageCallBtnIcon = Pard.Widgets.IconManager('proposals').render().addClass(' create-profile-btn-icon');
         
         _callsBoxContent.append(_manageCallText, _manageCallBtn.append(_manageCallBtnIcon,_manageCallBtnText));

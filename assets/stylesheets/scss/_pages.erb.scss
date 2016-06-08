@@ -330,6 +330,8 @@ Aside content User page
   margin-bottom: 0.5rem;
 }
 
+
+
 .create-profile-text{
   margin-top: 0.75rem;
 }
@@ -1208,4 +1210,26 @@ p.initial-text-proposalPanel{
   margin-bottom: 0.5rem;
   font-size: $almostNormalSize;
 }
+
+
+
+
+/*===============================================
+ORGANIZATION PAGE
+================================================*/
+
+
+.manage-call-text{
+  text-transform: uppercase;
+  /* padding: 0 $inner-spacing; */
+  margin-bottom: 0.5rem;
+}
+
+.manage-call-btn-text{
+  margin-left: 0.75rem;
+  font-weight: bold;
+  vertical-align: 0.2rem;
+}
+
+
 

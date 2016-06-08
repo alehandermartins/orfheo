@@ -247,6 +247,8 @@
       if (_proposal.type == 'space') $('#space-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
       else $('#artist-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
       Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
+      $('#tablePanel').empty();
+      $('#tablePanel').append(Pard.Widgets.TablePanelContent().render());
     }
     else{
       Pard.Widgets.Alert('',data.reason);
@@ -256,19 +258,19 @@
 
   ns.Events.DeleteOwnProposal = function(data){
     if (data['status'] == 'success'){
-      // console.log(data);
       Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.')
     }
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+        // var _caller = $('<button>');
+        // var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
+        // _caller.trigger('click');
       }
       else{
         console.log(data.reason);
-        Pard.Widgets.Alert('', _dataReason);
+        Pard.Widgets.Alert('', _dataReason, location.reload());
       }
     }
   }
