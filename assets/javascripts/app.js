@@ -181,11 +181,10 @@ Pard.Call = function(call){
     // textColor:''
   });
 
-  $(document).ready(function(){
-      $('body').append(_whole);
-      $(document).foundation();
-      HoldOn.close();
-  });
+  // $(window).load(function(){
+
+  //     HoldOn.close();
+  // });
 
   Pard.CachedCalls = call;
   Pard.CachedProposals  = call['proposals'];
@@ -197,6 +196,18 @@ Pard.Call = function(call){
 
   var _footer = Pard.Widgets.Footer();
 
-  $(_whole).append(_header.render(), _main.render(), _footer.render());
+  $(_whole).append(_header.render());
+
+  $('body').append(_whole);
+  $(document).foundation();
+      
+
+  $(_whole).append(_main.render(), _footer.render());
+
+
+  $(document).foundation();
+
+      HoldOn.close();
+
 
 }
