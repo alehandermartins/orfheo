@@ -10,6 +10,7 @@
     var _fields = {};
 
     var _emailLabel = Pard.Widgets.InputLabel('Email').render();
+    var _confEmailLabel = $('<label>');
     var _passwdLabel = Pard.Widgets.InputLabel('Contraseña').render();    
 
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
@@ -65,7 +66,8 @@
       _createdWidget.append(_fields[field].render());
     });
 
-    _emailLabel.append(_fields['email'].render(), _fields['emailConf'].render());
+    _emailLabel.append(_fields['email'].render());
+    _confEmailLabel.append(_fields['emailConf'].render())
     _passwdLabel.append(_fields['password'].render());
 
     var _initMex = $('<div>').append($('<p>').html('...tendrás acceso a tus datos de la convocatoria, podrás enviar más propuestas, enmendar las que has enviado, cambiar la información sobre ti para que el público pueda conocerte... hacerlo,  <strong> por supuesto, es libre y gratuito :) </strong>')).addClass('register-form-init-mex');
@@ -74,7 +76,7 @@
     var _termsAndCondtionsPopup = Pard.Widgets.PopupCreator(_termsAndCondtions,'', function(){return Pard.Widgets.TermsAndConditionsMessage();});
     var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestras ', _termsAndCondtionsPopup.render(), '.')).addClass('register-form-final-mex');
 
-    _createdWidget.append(_initMex, _emailLabel, _passwdLabel, _invalidInput, _fields['button'].render(), _finalMex);
+    _createdWidget.append(_initMex, _emailLabel, _confEmailLabel, _passwdLabel, _invalidInput, _fields['button'].render(), _finalMex);
 
     return {
       render: function(){
