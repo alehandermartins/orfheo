@@ -72,12 +72,13 @@
 
      _fields['button'].disable();
 
+     var _form = $('<form>');
 
     _types.forEach(function(field){
-      _createdWidget.append(_fields[field].render());
+      _form.append(_fields[field].render());
     });
 
-    _createdWidget.append(_invalidInput, _fields['button'].render());
+    _createdWidget.append(_form, _invalidInput, _fields['button'].render());
 
     return {
       render: function(){
