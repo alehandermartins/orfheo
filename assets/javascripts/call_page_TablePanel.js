@@ -913,12 +913,12 @@
         		_length = _length + 1; 
         	}
         	if (_length == 1){     
-            switch(availability[0]) {
-              case 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)':  
+            switch(new Date(availability[0]).getDate()) {
+              case 15:  
               	_dayTime.push({id: 'day_1', text:'sábado'});
                 _dayTime = _dayTime.concat(_sat);
               break;
-              case 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)':
+              case 16:
               	_dayTime.push({id: 'day_2', text:'domingo'});         
                 _dayTime = _dayTime.concat(_sun);
               break;

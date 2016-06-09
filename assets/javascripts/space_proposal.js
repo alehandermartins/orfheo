@@ -145,12 +145,7 @@
   }
 
 
-  ns.Widgets.AvailabilityDictionary = function(day){ 
-    if (day.toString() == 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)') return 'Sabado 15 de Octubre';
-    if (day.toString() == 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)') return 'Domingo 16 de Octubre';
-  }
-
-
+  
 
 }(Pard || {}));
 
