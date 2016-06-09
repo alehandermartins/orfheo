@@ -14,3 +14,4 @@
 //= require spectrum
 //= require jquery.dragtable
 //= require HoldOn.min
+//= require spin.min
