@@ -182,11 +182,11 @@
       );
     };
 
-    var _program = function(call_id, program, callback){
+    var _program = function(event_id, program, callback){
       _send(       
         '/users/program',
         {
-          call_id: 'b5bc4203-9379-4de0-856a-55e1e5f3fac6',
+          event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
           program: program
         },
         callback
