@@ -4,6 +4,7 @@ describe Services::Calls do
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:event_id){'a5bc4203-9379-4de0-856a-55e1e5f3fac6'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
   let(:proposal){
@@ -68,7 +69,7 @@ describe Services::Calls do
   describe 'Registration' do
 
     it 'registers the call' do
-      expect(Repos::Calls).to receive(:add).with({user_id: user_id, call_id: call_id, start: nil, deadline: nil})
+      expect(Repos::Calls).to receive(:add).with({user_id: user_id, call_id: call_id, start: nil, deadline: nil, event_id: event_id})
       Services::Calls.register call, user_id
     end
   end

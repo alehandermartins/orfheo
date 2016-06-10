@@ -176,14 +176,6 @@ describe ProfilesController do
       expect(parsed_response['reason']).to eq('invalid_type')
     end
 
-    it 'modifies the desired parameters' do
-      post create_profile_route, profile
-      expect(Repos::Profiles).to receive(:update).with(profile_model)
-      post modify_profile_route, profile
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profile_id']).to eq(profile_id)
-    end
-
     it 'does not allow to modify a profile you don"t own' do
       post create_profile_route, profile
       post logout_route
@@ -191,6 +183,14 @@ describe ProfilesController do
       post modify_profile_route, profile
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'modifies the desired parameters' do
+      post create_profile_route, profile
+      expect(Repos::Profiles).to receive(:update).with(profile_model)
+      post modify_profile_route, profile
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profile_id']).to eq(profile_id)
     end
   end
 

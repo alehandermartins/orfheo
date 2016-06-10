@@ -4,6 +4,7 @@ describe Repos::Calls do
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:event_id){'a5bc4203-9379-4de0-856a-55e1e5f3fac6'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
   let(:profile){
@@ -58,24 +59,27 @@ describe Repos::Calls do
   }
 
   let(:program){[
-      {
-        proposal_id: proposal_id,
-        program: [{day_time: 'date', place: 'space', proposal_id: 'otter_proposal'}, {day_time: 'anotter_date', place: 'anotter_space', proposal_id: 'anotter_proposal'}, {day_time: 'otter_date', place: 'space', proposal_id: 'otter_proposal'}] 
-      },
-      {
-        proposal_id: 'otter_proposal',
-        program: [{day_time: 'otter_date', place: 'otter_space', proposal_id: proposal_id}] 
-      },
-      {
-        proposal_id: 'anotter_proposal',
-        program: [{day_time: 'otter_date', place: 'otter_space', proposal_id: 'otter_proposal'}] 
-      },
-    ]}
+    {
+      time: ['3', '6'],
+      participant_id: profile_id,
+      participant_proposal_id: proposal_id,
+      host_id: nil,
+      host_proposal_id: 'otter_proposal'
+    },
+    {
+      time: ['3', '6'],
+      participant_id: profile_id,
+      participant_proposal_id: 'otter_proposal',
+      host_id: nil,
+      host_proposal_id: 'anotter_proposal'
+    }
+  ]}
 
   let(:call){
     {
       user_id: user_id,
       profile_id: profile_id,
+      event_id: event_id,
       call_id: call_id,
       start: '1462053600',
       deadline: '1466028000',
@@ -100,6 +104,10 @@ describe Repos::Calls do
     it 'retrieves the owner of the call' do
       expect(Repos::Calls.get_call_owner(call_id)).to eq(user_id)
     end
+
+    it 'retrieves the owner of the event' do
+      expect(Repos::Calls.get_event_owner(event_id)).to eq(user_id)
+    end
   end
 
   describe 'Exists?' do
@@ -112,6 +120,11 @@ describe Repos::Calls do
       expect(Repos::Calls.proposal_exists?('otter_proposal')).to eq(false)
       Repos::Calls.add_proposal(call_id, proposal)
       expect(Repos::Calls.proposal_exists?(proposal_id)).to eq(true)
+    end
+
+    it 'checks if matched event is already in any document' do
+      expect(Repos::Calls.event_exists? event_id).to eq(true)
+      expect(Repos::Calls.event_exists? 'otter').to eq(false)
     end
   end
 
@@ -219,7 +232,15 @@ describe Repos::Calls do
     end
   end
 
-  describe 'Amend' do
+  describe 'Modify' do
+
+    it 'modifies a proposal' do
+      Repos::Calls.add_proposal call_id, proposal
+      proposal[:title] = 'otter_title'
+      Repos::Calls.modify_proposal proposal
+      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal])
+    end
+
     it 'adds some amend to the proposal' do
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.amend_proposal proposal_id, 'amend'
@@ -240,11 +261,16 @@ describe Repos::Calls do
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal call_id, otter_proposal
       Repos::Calls.add_proposal call_id, anotter_proposal
-      Repos::Calls.add_program call_id, program
-      Repos::Calls.delete_proposal 'otter_proposal'
-      proposal.merge! program: [{day_time: 'anotter_date', place: 'anotter_space', proposal_id: 'anotter_proposal'}]
-      anotter_proposal.merge! program: []
-      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal, anotter_proposal])
+      Repos::Calls.add_program event_id, program
+
+      Repos::Calls.delete_proposal 'anotter_proposal'
+      expect(Repos::Calls.get_call(call_id)[:program]).to eq([{
+        time: ['3', '6'],
+        participant_id: profile_id,
+        participant_proposal_id: proposal_id,
+        host_id: nil,
+        host_proposal_id: 'otter_proposal'
+      }]) 
     end
   end
 
@@ -261,24 +287,11 @@ describe Repos::Calls do
   end
 
   describe 'Program' do
-
-    let(:program){[
-      {
-        proposal_id: proposal_id,
-        program: [{day_time: 'date', place: 'space'}] 
-      },
-      {
-        proposal_id: 'otter_proposal',
-        program: [{day_time: 'otter_date', place: 'otter_space'}] 
-      },
-    ]}
-
     it 'adds a program to a proposal' do
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal call_id, otter_proposal
-      Repos::Calls.add_program call_id, program
-      expect(Repos::Calls.get_proposals(:proposal, {proposal_id: proposal_id})).to include(program: program[0][:program])
-      expect(Repos::Calls.get_proposals(:proposal, {proposal_id: 'otter_proposal'})).to include(program: program[1][:program])
+      Repos::Calls.add_program event_id, program
+      expect(Repos::Calls.get_call(call_id)[:program]).to eq(program) 
     end
   end
 end

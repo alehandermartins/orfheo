@@ -10,6 +10,11 @@ module Repos
         @@calls_collection.insert(call)
       end
 
+      def event_exists? event_id
+        return false unless UUID.validate(event_id)
+        @@calls_collection.count(query: {event_id: event_id}) > 0
+      end
+
       def exists? call_id
         return false unless UUID.validate(call_id)
         @@calls_collection.count(query: {call_id: call_id}) > 0
@@ -34,6 +39,11 @@ module Repos
         grab({profile_id: profile_id})
       end
 
+      def get_event_owner event_id
+        event = grab({event_id: event_id}).first
+        event[:user_id]
+      end
+
       def get_call_owner call_id
         call = grab({call_id: call_id}).first
         call[:user_id]
@@ -54,6 +64,14 @@ module Repos
         call[:start].to_i < Time.now.to_i && call[:deadline].to_i > Time.now.to_i
       end
 
+      def modify_proposal proposal
+        @@calls_collection.update({ "proposals.proposal_id": proposal[:proposal_id]},
+          {
+            "$set": {"proposals.$": proposal}
+          },
+        {upsert: true})
+      end
+
       def amend_proposal proposal_id, amend
         @@calls_collection.update({ "proposals.proposal_id": proposal_id },
           {
@@ -62,14 +80,12 @@ module Repos
         {upsert: true})
       end
 
-      def add_program call_id, program
-        program.each{ |proposal|
-          @@calls_collection.update({ call_id: call_id, "proposals.proposal_id": proposal[:proposal_id]},
-            {
-              "$set": {"proposals.$.program": proposal[:program]}
-            },
-          {upsert: true})
-        }
+      def add_program event_id, program
+        @@calls_collection.update({ event_id: event_id },
+          {
+            "$set": {"program": program}
+          },
+        {upsert: true})
       end
 
       def add_whitelist call_id, whitelist
@@ -81,17 +97,13 @@ module Repos
       end
 
       def delete_proposal proposal_id
-        call = grab({"proposals.proposal_id": proposal_id}).first
-        proposals = call[:proposals].each{ |proposal|
-          next unless proposal.has_key? :program
-          proposal[:program].each{ |event|
-            proposal[:program].delete(event) if event[:proposal_id] == proposal_id
-          }
-        }
-        proposals.reject!{|proposal| proposal[:proposal_id] == proposal_id}
-        @@calls_collection.update({ call_id: call[:call_id] },
+        event = grab({"proposals.proposal_id": proposal_id}).first
+        event[:proposals].reject!{|proposal| proposal[:proposal_id] == proposal_id}
+        event[:program].reject!{|performance| performance[:participant_proposal_id] == proposal_id || performance[:host_proposal_id] == proposal_id} unless event[:program].blank?
+
+        @@calls_collection.update({event_id: event[:event_id]},
           {
-            "$set": {'proposals': proposals}
+            "$set": {'proposals': event[:proposals], 'program': event[:program]}
           }
         )
       end

@@ -2,6 +2,8 @@ class Forms::Proposals < Forms::Base
   
   def create proposal_id
     scopify
+    scopify_call
+    scopify_profile
     user = Repos::Users.grab({user_id: user_id})
     profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
     #call = Repos::Calls.get_call call_id
@@ -17,47 +19,77 @@ class Forms::Proposals < Forms::Base
     proposal.merge! profile_id: profile_id
     proposal.merge! proposal_id: proposal_id
     proposal.merge! production_id: production_id || SecureRandom.uuid
-    proposal.merge! type: type
-    proposal.merge! category: category
-    add_artist_fields(profile, proposal) if type == :artist
-    add_space_fields(profile, proposal) if type == :space
+    proposal.merge! category: category.to_s
+    add_profile_fields proposal, profile
     proposal
   end
 
   def create_own proposal_id
     scopify
+    scopify_call
     form = {
       artist: artist_own,
       space: space_own
     }
     proposal = create_model_from form[type][category]
     proposal.merge! user_id: user_id
+    proposal.merge! profile_id: nil
+    proposal.merge! proposal_id: proposal_id
+    proposal.merge! type: type.to_s
+    proposal.merge! category: category.to_s
+    proposal
+  end
+
+  def modify proposal_id
+    scopify
+    scopify_profile
+    form = {
+      artist: artist_form,
+      space: space_form
+    }
+    raise Pard::Invalid::Params unless form.has_key? type
+    raise Pard::Invalid::Params unless form[type].has_key? category
+    user = Repos::Users.grab({user_id: user_id})
+    profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
+    proposal = create_model_from form[type][category]
+    proposal.merge! user_id: user_id
+    proposal.merge! email: user[:email]
     proposal.merge! profile_id: profile_id
     proposal.merge! proposal_id: proposal_id
-    proposal.merge! type: type
-    proposal.merge! category: category
+    proposal.merge! production_id: production_id || SecureRandom.uuid
+    proposal.merge! category: category.to_s
+    add_profile_fields proposal, profile
     proposal
   end
 
   private
   def scopify
-    [:call_id, :profile_id].each do |param|
-      raise Pard::Invalid::Params if params[param].blank?
-      self.send(:define_singleton_method, param) {
-        params[param]
-      }
-    end
-
     [:type, :category].each do |param|
       raise Pard::Invalid::Params if params[param].blank?
       self.send(:define_singleton_method, param) {
         params[param].to_sym
       }
     end
+    self.send(:define_singleton_method, :production_id) {params[:production_id]}
+  end
 
-    self.send(:define_singleton_method, :production_id) {
-      params[:production_id]
-    }
+  def scopify_call
+    raise Pard::Invalid::Params if params[:call_id].blank?
+    self.send(:define_singleton_method, :call_id) {params[:call_id]}
+  end
+
+  def scopify_profile
+    raise Pard::Invalid::Params if params[:profile_id].blank?
+    self.send(:define_singleton_method, :profile_id) {params[:profile_id]}
+  end
+
+  def add_profile_fields proposal, profile
+    proposal.merge! type: profile[:type]
+    proposal.merge! profile_picture: profile[:profile_picture]
+    proposal.merge! color: profile[:color]
+    add_artist_fields(profile, proposal) if proposal[:type] == 'artist'
+    add_space_fields(profile, proposal) if proposal[:type] == 'space'
+    proposal
   end
 
   def add_artist_fields profile, proposal

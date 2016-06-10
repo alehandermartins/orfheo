@@ -9,7 +9,7 @@ class CallsController < BaseController
 
   post '/users/send_proposal' do
     scopify call_id: true, profile_id: true, production_id: true, type: true
-    check_exists! call_id
+    check_call_exists! call_id
     check_profile_ownership profile_id
     #check_deadline call_id
 
@@ -27,7 +27,7 @@ class CallsController < BaseController
 
   post '/users/own_proposal' do
     scopify call_id: true
-    params[:profile_id] = 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+    params[:profile_id] = nil
     check_call_ownership call_id
 
     proposal_id = SecureRandom.uuid
@@ -68,11 +68,11 @@ class CallsController < BaseController
   end
 
   post '/users/program' do
-    scopify call_id: true, program: true
-    check_call_ownership call_id
-    add_program call_id, program
-    call = get_call call_id
-    success ({call: call})
+    scopify event_id: true
+    check_event_ownership! event_id
+    program = Forms::Program.new(params, session[:identity]).create
+    Repos::Calls.add_program event_id, program
+    success
   end
 
   private
@@ -81,8 +81,12 @@ class CallsController < BaseController
     raise Pard::Invalid::ExistingCall if Repos::Calls.exists? call_id
   end
 
-  def check_exists! call_id
+  def check_call_exists! call_id
     raise Pard::Invalid::UnexistingCall unless Repos::Calls.exists? call_id
+  end
+
+  def check_event_exists! event_id
+    raise Pard::Invalid::UnexistingEvent unless Repos::Calls.event_exists? event_id
   end
 
   def check_proposal_ownership proposal_id
@@ -91,8 +95,13 @@ class CallsController < BaseController
   end
 
   def check_call_ownership call_id
-    check_exists! call_id
+    check_call_exists! call_id
     raise Pard::Invalid::CallOwnership unless Repos::Calls.get_call_owner(call_id) == session[:identity]
+  end
+
+  def check_event_ownership! event_id
+    check_event_exists! event_id
+    raise Pard::Invalid::EventOwnership unless Repos::Calls.get_event_owner(event_id) == session[:identity]
   end
 
   def check_deadline call_id
@@ -121,14 +130,6 @@ class CallsController < BaseController
   end
 
   def add_program call_id, program
-    return true if program.blank?
-    program = Util.arrayify_hash program
-    program.map!{ |proposal|
-      {
-        proposal_id: proposal[:proposal_id],
-        program: Util.arrayify_hash(proposal[:program])
-      }
-    }
     Repos::Calls.add_program call_id, program
   end
 end

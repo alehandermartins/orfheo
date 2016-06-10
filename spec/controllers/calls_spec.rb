@@ -49,6 +49,8 @@ describe CallsController do
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:performance_id){'a11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:event_id){'a5bc4203-9379-4de0-856a-55e1e5f3fac6'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
   let(:profile){
@@ -88,31 +90,33 @@ describe CallsController do
 
   let(:proposal_model){
     {
-      name: 'artist_name',
-      city: 'city',
-      zip_code: 'zip_code',
       title: 'title',
       description: 'description',
       short_description: 'short_description',
-      duration: 'duration',
-      components: '3',
-      availability: 'sun',
-      children: 'children',
       links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
       photos: ['picture.jpg', 'otter_picture.jpg'],
       sharing: nil,
       needs: nil,
-      repeat: 'true',
       waiting_list: nil,
       phone: '666999666',
       conditions: 'true',
+      availability: 'sun',
+      duration: 'duration',
+      components: '3',
+      children: 'children',
+      repeat: 'true',
+      name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      profile_picture: nil,
+      color: 'color',
       user_id: user_id,
       email: 'email@test.com',
       profile_id: profile_id,
       proposal_id: proposal_id,
       production_id: production_id,
-      type: :artist,
-      category: :music,
+      type: 'artist',
+      category: 'music',
       personal_web: nil
     }
   }
@@ -134,6 +138,7 @@ describe CallsController do
 
   let(:call){
     {
+      event_id: event_id,
       call_id: call_id,
       start: '1462053600',
       deadline: '1466028000',
@@ -197,10 +202,10 @@ describe CallsController do
         availability: 'sun',
         components: '3',
         user_id: user_id,
-        profile_id: profile_id,
+        profile_id: nil,
         proposal_id: proposal_id,
-        type: :artist,
-        category: :music
+        type: 'artist',
+        category: 'music'
       }
     }
 
@@ -379,12 +384,16 @@ describe CallsController do
     let(:program_route){'/users/program'}
     let(:program_params){
       {
-        call_id: call_id,
+        event_id: event_id,
         program: [
-          {
-            proposal_id: proposal_id,
-            program: [{day_time: 'date', place: 'space'}]        
-          }  
+        {
+          performance_id: performance_id,
+          time: ['3', '6'],
+          participant_id: profile_id,
+          participant_proposal_id: proposal_id,
+          host_id: nil,
+          host_proposal_id: 'otter_proposal'
+        }
         ]
       }
     }
@@ -396,7 +405,7 @@ describe CallsController do
     }
 
     it 'fails if the user does not own the call' do
-      allow(Repos::Calls).to receive(:get_call_owner).and_return('otter')
+      allow(Repos::Calls).to receive(:get_event_owner).and_return('otter')
       post program_route, program_params
 
       expect(parsed_response['status']).to eq('fail')
@@ -404,10 +413,9 @@ describe CallsController do
     end
 
     it 'adds the program to the call' do
-      expect(Repos::Calls).to receive(:add_program).with(call_id, program_params[:program])
+      expect(Repos::Calls).to receive(:add_program).with(event_id, program_params[:program])
       post program_route, program_params
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['call']).to eq(Util.stringify_hash(Repos::Calls.get_call call_id))
     end
   end
 end

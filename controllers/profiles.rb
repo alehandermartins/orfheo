@@ -13,9 +13,14 @@ class ProfilesController < BaseController
 
     profile = Forms::Profiles.new(params, session[:identity]).modify(profile_id)
     old_pictures = Services::Profiles.profile_old_pictures profile_id
-    
     Repos::Profiles.update profile
     Services::Profiles.destroy_profile_old_pictures old_pictures, profile
+
+    proposals = Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile[:profile_id]})
+    proposals.each{ |proposal|
+      proposal = Forms::Proposals.new(proposal, session[:identity]).modify(proposal[:proposal_id])
+      Repos::Calls.modify_proposal proposal
+    }
     
     success({profile_id: profile_id})
   end

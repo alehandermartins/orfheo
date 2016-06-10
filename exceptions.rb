@@ -74,6 +74,12 @@ module Pard
     end
   end
 
+  class Invalid::UnexistingEvent < Invalid
+    def message
+      'non_existing_event'
+    end
+  end
+
   class Invalid::ProfileOwnership < Invalid
     def message
       'you_dont_have_permission'
@@ -93,6 +99,12 @@ module Pard
   end
 
   class Invalid::CallOwnership < Invalid
+    def message
+      'you_dont_have_permission'
+    end
+  end
+
+  class Invalid::EventOwnership < Invalid
     def message
       'you_dont_have_permission'
     end
