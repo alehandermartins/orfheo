@@ -6,6 +6,7 @@
     var _createdWidget = $('<div>').attr('id', 'programPanel').css({'overflow': 'auto'});
 
     var artists = [];
+    var artistCards = [];
     var spaces = [];
     var spaceColumns = [];
     var program = {};
@@ -15,36 +16,31 @@
       if (proposal.type == 'space') spaces.push(proposal);
     });
 
-    var _table = $('<div>');
-
-    var _timeCol = $('<div>').addClass('timeCol').css({
-      'display': 'inline-block',
-      'width': '11rem',
-      'border-width': '1px',
-      'border-style': 'solid',
-    });
-    var _timename = $('<div>').html('Horas').css({
-      'background': '#b5cfd2',
-      'padding': '8px',
-      'border-color': '#999999',
-      'height': '40px'
+    var _tableContainer = $('<div>').addClass('tableContainer').css({
+      'overflow-x': 'scroll',
+      'overflow-y': 'hidden',
+      'width': 176*5,
+      'position': 'relative'
     });
 
-    var _timeSpan = $('<div>').html('&nbsp').css({
-      'padding': '8px',
-      'height': '240px'
+    var _table = $('<div>').css({
+      'width': 'auto',
+      'white-space':'nowrap',
     });
 
-    _timeCol.append(_timename, _timeSpan);
-    //_table.append(_timeCol);
-
-    ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00'].forEach(function(hour, hourIndex){
+    ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'].forEach(function(hour, hourIndex){
       var _time = $('<div>').html(hour).css({
         position: "absolute",
-        top: 190 + hourIndex * 40 + "px",
-        left: 20 + "px",
+        top: 162 + hourIndex * 40 + "px",
+        left: -40
       });
-      _timeSpan.append(_time);
+      var _line = $('<hr>').css({
+        position: "absolute",
+        top: 162 + hourIndex * 40 + "px",
+        left: -40,
+        width: 932
+      });
+      _createdWidget.append(_time, _line);
     });
 
     spaces.forEach(function(space){
@@ -65,8 +61,7 @@
       _spaceCol.append(_spacename);
 
         var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
-          'padding': '8px',
-          'height': '240px'
+          'height': '560px'
         });
         _time.droppable({
           accept: function(card){
@@ -77,6 +72,7 @@
             var position = ui.helper.position().top;
             var colPosition = _time.position().top;
 
+            if(ui.draggable.hasClass('proposalCard')) position -= (_tableContainer.position().top);
             if(position < colPosition) position = colPosition;
 
             var _offset = (position - colPosition) % 10;
@@ -85,14 +81,13 @@
 
             var duration = ui.helper.height();
             Pard.Widgets.DraggedProposal['height'] = duration;
-            if(position + duration > colPosition + 240) position = colPosition + 240 - duration;
+            if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
 
             program[space.proposal_id] = {
               proposal_id: Pard.Widgets.DraggedProposal.proposal_id,
               start: position - colPosition,
               end: position - colPosition + duration
             }
-
 
             var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
             _time.append(newEvent);
@@ -105,7 +100,7 @@
             newEvent.resizable({
               maxWidth: 174,
               minWidth: 174,
-              maxHeight: 240 - (position - colPosition),
+              maxHeight: _time.height() - (position - colPosition),
               grid: 10
             });
           }
@@ -117,6 +112,7 @@
       spaceColumns.push(_spaceCol);
 
       _spaceCol.draggable({
+        containment: '.tableContainer',
         revert: 'invalid',
         axis: 'x',
         handle: '.spaceName',
@@ -166,11 +162,27 @@
       });
     });
    
-    _createdWidget.append(_table);
+    _tableContainer.append(_table)
+    _createdWidget.append(_tableContainer);
+
+    _proposalsWidget = $('<div>').css({
+      'overflow-x': 'scroll',
+      'overflow-y': 'hidden',
+      'width': 176*5
+    });
+    _proposalCards = $('<div>').css({
+      'width': 'auto',
+      'white-space':'nowrap'
+    });
 
     artists.forEach(function(proposal){
-      _createdWidget.append(Pard.Widgets.ProposalCard(proposal).render());
+      var _artistCard = Pard.Widgets.ProposalCard(proposal).render();
+      artistCards.push(_artistCard);
+      _proposalCards.append(_artistCard);
     });
+
+    _proposalsWidget.append(_proposalCards);
+    _createdWidget.append(_proposalsWidget);
 
   	return {
       render: function(){
@@ -180,6 +192,19 @@
   }
 
   ns.Widgets.DraggedProposal = {};
+  ns.Widgets.CategoryColor = function(category){
+    var _dictionary = {
+      'music': '#3399FF',
+      'arts': '#FF62B2',
+      'poetry': '#FFFF66',
+      'expo': '#66CC00',
+      'street_art': '#FF3333',
+      'audiovisual': '#C0C0C0',
+      'other': '#FF8000'
+    }
+
+    return _dictionary[category];
+  };
 
   ns.Widgets.ProposalCard = function(proposal){
 
@@ -202,12 +227,14 @@
       }
     });
 
-    var _rgb = Pard.Widgets.IconColor('#00FF00').rgb();
-    _card.css({border: 'solid 3px'+'#00FF00'});
+    var color = Pard.Widgets.CategoryColor(proposal.category);
+
+    var _rgb = Pard.Widgets.IconColor(color).rgb();
+    _card.css({border: 'solid 3px' + color});
     _card.hover(
       function(){
         $(this).css({
-        'box-shadow': '0 0 2px 1px'+ '#00FF00'
+        'box-shadow': '0 0 2px 1px'+ color
         // 'background': 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+'.1'+ ')'
       });
       },
@@ -220,7 +247,7 @@
     );
     
     var _photoContainer = $('<div>').addClass('photo-container-card');
-    _photoContainer.css({background: '#00FF00'});  
+    _photoContainer.css({background: color});  
 
     // if('profile_picture' in profile && profile.profile_picture != null){
     //   var _photo = $.cloudinary.image(profile['profile_picture'][0],
@@ -229,9 +256,9 @@
     //   _photoContainer.append(_photo);
     // };
 
-    var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: '#00FF00'});
+    var _circle = $('<div>').addClass('circleProfile position-circleProfile-card').css({background: color});
     var _icon = $('<div>').addClass('icon-profileCircle').html(Pard.Widgets.IconManager(proposal.category).render());
-    var _colorIcon = Pard.Widgets.IconColor('#00FF00').render();
+    var _colorIcon = Pard.Widgets.IconColor(color).render();
     _icon.css({color: _colorIcon});
     var _profilename = proposal.name;
     if (_profilename.length>38) _profilename = _profilename.substring(0,35)+'...';
@@ -269,11 +296,13 @@
   }
 
   ns.Widgets.CardHelper = function(proposal){
+    var color = Pard.Widgets.CategoryColor(proposal.category);
+
     var _card =$('<div>').css({
       'display': 'inline-block',
       'width': '10.9rem',
       'height': (parseInt(proposal.duration)/60 * 40) + 'px',
-      'background': '#00FF00',
+      'background': color,
       'z-index': 9999
     });
 
@@ -300,11 +329,13 @@
   }
 
   ns.Widgets.ProgramHelper = function(proposal){
+    var color = Pard.Widgets.CategoryColor(proposal.category);
+
     var _card =$('<div>').addClass('programHelper').css({
       'display': 'inline-block',
       'width': '10.9rem',
       'height': proposal.height + 'px',
-      'background': '#00FF00',
+      'background': color,
       'z-index': 9999,
     });
 
