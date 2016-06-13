@@ -77,17 +77,14 @@
             var position = ui.helper.position().top;
             var colPosition = _time.position().top;
 
-            console.log(position);
-            console.log(colPosition);
-
             if(position < colPosition) position = colPosition;
 
-            var _offset = position % 10; 
-            if(_offset >= 5) position += _offset;
+            var _offset = (position - colPosition) % 10;
+            if(_offset >= 5) position += 10 - _offset;
             if(_offset < 5) position -= _offset;
 
-            ui.draggable.trigger({type: 'proposal'});
-            var duration = parseInt(Pard.Widgets.DraggedProposal.duration)/60 * 40
+            var duration = ui.helper.height();
+            Pard.Widgets.DraggedProposal['height'] = duration;
             if(position + duration > colPosition + 240) position = colPosition + 240 - duration;
 
             program[space.proposal_id] = {
@@ -96,12 +93,20 @@
               end: position - colPosition + duration
             }
 
+
             var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
             _time.append(newEvent);
             newEvent.css({
               position: 'absolute',
               top: position + "px",
               left: _time.position().left + "px",
+            });
+
+            newEvent.resizable({
+              maxWidth: 174,
+              minWidth: 174,
+              maxHeight: 240 - (position - colPosition),
+              grid: 10
             });
           }
         });
@@ -189,15 +194,12 @@
       snapTolerance: 7,
       grid: [ 10, 10 ],
       start: function(event, ui){
+        Pard.Widgets.DraggedProposal = proposal;
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(){
         _card.css({'opacity': '1', 'filter': 'alpha(opacity=100)'});
       }
-    });
-
-    _card.on('proposal', function(){
-      Pard.Widgets.DraggedProposal = proposal;
     });
 
     var _rgb = Pard.Widgets.IconColor('#00FF00').rgb();
@@ -301,9 +303,9 @@
     var _card =$('<div>').addClass('programHelper').css({
       'display': 'inline-block',
       'width': '10.9rem',
-      'height': (parseInt(proposal.duration)/60 * 40) + 'px',
+      'height': proposal.height + 'px',
       'background': '#00FF00',
-      'z-index': 9999
+      'z-index': 9999,
     });
 
     var _proposalTitle = $('<div>').html(proposal.title);
@@ -312,11 +314,11 @@
       'padding-left': '1px',
       'padding-right':'1px',
       'color': 'black',
-      'margin-top': (parseInt(proposal.duration)/60 * 40)/3 + 'px',
+      'margin-top': proposal.height/3 + 'px',
       'text-align':'center',
       'width':'100%',
       'line-height': '1.3rem',
-      'height': (parseInt(proposal.duration)/60 * 40)/3 + 'px'
+      'height': proposal.height/3 + 'px'
     });
 
     _card.append(_proposalTitle);
@@ -326,6 +328,7 @@
       helper: 'clone',
       grid: [ 10, 10 ],
       start: function(event, ui){
+        Pard.Widgets.DraggedProposal = proposal;
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(){
@@ -333,9 +336,7 @@
       }
     });
 
-    _card.on('proposal', function(){
-      Pard.Widgets.DraggedProposal = proposal;
-    });
+
 
     return {
       render: function(){
