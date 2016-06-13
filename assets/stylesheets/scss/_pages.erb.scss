@@ -23,7 +23,6 @@ WELCOME PAGE
 
 .info-box-news-welcome-page{
   display: inline-block;
-
 }
 
 .register-form-final-mex{
@@ -271,6 +270,25 @@ grid-section content LogIn page
     padding-right:2.8rem;
   }
   margin-top: 2.5rem;
+}
+
+.suggested-tag-search-engine{
+  cursor: pointer;
+  color: $grey-4;
+  font-weight: normal;
+  margin-right: $pard-grid-spacing;
+  display: inline-block;
+  font-size: $almostNormalSize;
+}
+
+.suggested-tag-search-engine:hover{
+  font-weight: bold;
+    /* font-size: $almostNormalSize; */
+}
+
+.search-tag-box{
+  text-align: center;
+  margin-top: $inner-spacing;
 }
 
 

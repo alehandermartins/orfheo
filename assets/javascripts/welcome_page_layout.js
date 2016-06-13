@@ -8,8 +8,6 @@
 
     var _main = $('<main>').attr('id','main-welcome-page');
 
-    _main.addClass('outsider-main')
-
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
     var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
@@ -145,7 +143,7 @@
 
 
 
-    var _searchEngineText = $('<h6>').html('Explora la comunidad de orfheo').addClass('searchEngine-text-welcome-page');
+    var _searchEngineText = $('<h6>').html('Explora la comunidad').addClass('searchEngine-text-welcome-page');
     var _searchEngine = Pard.Widgets.SearchEngine('');
 
     var _searchEngineBox = $('<div>').addClass('searchBox-welcome-page user-section-content  ');

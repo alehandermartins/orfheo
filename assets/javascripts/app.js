@@ -73,10 +73,11 @@ Pard.Welcome = function(){
 
   var _header = Pard.Widgets.LoginHeader();
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
+
   var _footer = Pard.Widgets.Footer();
   var _whole = $('<div>').addClass('whole-container');
   
-  _whole.append(_header.render(), _main.render(), _footer.render().addClass('footer-outsider'));
+  _whole.append(_header.render(), _main.render().addClass('outsider-main'), _footer.render().addClass('footer-outsider'));
   
   $('body').append(_whole);
 

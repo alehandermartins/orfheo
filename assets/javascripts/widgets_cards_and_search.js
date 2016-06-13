@@ -66,7 +66,70 @@
     var _searchInput = $('<div>').addClass('search-input');
     _searchInput.append(_searchWidget);
 
-    _createdWidget.append(_searchInput, _searchResult);
+    var _searchTagsBox = $('<div>').addClass('search-input search-tag-box');
+
+    var _artisticCatObj = {
+      'arts':{},
+      'audiovisual':{}, 
+      'expo':{}, 
+      'music':{},
+      'poetry':{}, 
+      'street_art':{}, 
+      'workshop':{}, 
+      'other':{}
+    };
+
+    var _spaceCatObj = {
+      'cultural_ass':{},
+      'commercial':{},
+      'home':{}, 
+      'open_air':{}
+    };
+
+    var _typeObj = {
+      'artist': _artisticCatObj, 
+      'space': _spaceCatObj, 
+      'organization': _organizationObj
+    };
+    
+    var _organizationObj = {};
+
+    var _objDictionary = function(data, obj){
+      console.log(data);
+      for (var field in obj) {
+        console.log(field);
+        if (data.toUpperCase() == Pard.Widgets.Dictionary(field).render().toUpperCase()) {return obj[field];}
+        else _objDictionary(Pard.Widgets.Dictionary(field).render(), obj[field]);
+      }
+    }
+
+
+    var _printTagFromObj = function(obj, field){
+      var _typeTag = $('<div>').addClass('suggested-tag-search-engine');
+      _typeTag.click(function(){
+        var _text = Pard.Widgets.Dictionary(field).render();
+        var option = new Option(_text, _text, true, true);
+        _searchWidget.append(option);
+        _searchWidget.trigger('change');
+        _printTags(obj[field]);
+      });
+      var _icon = Pard.Widgets.IconManager(field).render();
+      _icon.css('vertical-align','bottom');
+      _typeTag.append(_icon, Pard.Widgets.Dictionary(field).render());
+      _searchTagsBox.append(_typeTag);
+    };
+    
+    var _printTags = function(obj){   
+      console.log(obj)
+      _searchTagsBox.empty();   
+      for (var field in obj){
+        _printTagFromObj(obj, field);
+      }
+    }
+
+    _printTags(_typeObj);
+
+    _createdWidget.append(_searchInput, _searchTagsBox, _searchResult);
 
     _searchWidget.select2({
       placeholder: 'Busca por tags',
@@ -124,7 +187,8 @@
       _shown = [];
       tags = [];
       _searchResult.empty();
-      _searchWidget.select2('data').forEach(function(tag){
+      var _dataArray = _searchWidget.select2('data'); 
+      _dataArray.forEach(function(tag){
         tags.push(tag.text);
       });
       Pard.Backend.searchProfiles(tags, _shown, function(data){
@@ -139,6 +203,8 @@
         _searchResult.append(profileCard);
       })
       });
+      if (_dataArray.length) _printTags(_objDictionary(_dataArray[_dataArray.length-1]['text'], _typeObj));
+      else _printTags(_typeObj);
     });
     
     return{

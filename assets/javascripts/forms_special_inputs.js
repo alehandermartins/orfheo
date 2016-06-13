@@ -537,7 +537,6 @@
         }
         
       }
-
       else { 
         _newInputStartingDayTime = Pard.Widgets.Selector([  t(new Date (parseInt(showInfo['starting_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['starting_day_time']]);
         _newInputEndDayTime = Pard.Widgets.Selector([moment(new Date (parseInt(showInfo['ending_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['ending_day_time']]);
@@ -677,18 +676,17 @@
         var option = new Option(_preselectedEnding.text, _preselectedEnding.id, true, true);
         _inputEndDayTime.append(option);
         _inputEndDayTime.trigger('change');
-        console.log(_inputEndDayTime.select2('data')[0]);
+        // console.log(_inputEndDayTime.select2('data')[0]);
 
       }
 
       _addInputButtonContainer.empty();
-          var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
-    _addInputButton.addClass('add-input-button-enlighted');
-    _addInputButtonContainer.append(_addInputButton);
+      var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
+      _addInputButton.addClass('add-input-button-enlighted');
+      _addInputButtonContainer.append(_addInputButton);
 
 
       var _addShow = function(){
-                      console.log(_inputSpace.select2('data')[0]);
 
         if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
           console.log('_addShow');

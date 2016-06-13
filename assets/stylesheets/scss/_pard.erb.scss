@@ -13,7 +13,7 @@ $tinySize: 7px
 small:80% -> 12.8px / 0.8rem
 
  */ 
- 
+/*  
 // html, body, div, span, applet, object, iframe,
 // h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 // a, abbr, acronym, address, big, cite, code,
@@ -43,7 +43,7 @@ small:80% -> 12.8px / 0.8rem
 //   clear: both;
 //   overflow: auto;
 //   position:relative;
-//   }
+//   } */
 
 
 
@@ -87,7 +87,6 @@ a, a:active, a:visited, a:hover {
 
 a:hover{
   color: rgba(56, 133, 255,0.8);
-  // text-decoration: underline;
 }
 
 a.profileCard:hover{
@@ -213,10 +212,6 @@ Grid and Bar
 .grid-element-content{
   width: 100%;
   background: $grey-1;
-/*   // @include breakpoint(medium){
-  //   padding: $inner-spacing;
-   
-  // } */
   padding: $inner-spacing;
   padding-bottom:2rem;
   min-height: 100vh;
@@ -233,7 +228,6 @@ Grid and Bar
   padding-right:$inner-spacing;
   padding-top:$inner-spacing;
   padding-bottom:2rem;
-  // min-height: 100vh;
   @include border-radius($layout-border-radius);
   position:relative;
 }
@@ -279,11 +273,6 @@ off-canvas
     box-shadow: 0 0 10px rgba($black, 0.5);
   } 
   .off-canvas-grid-aside {
-  // @include breakpoint(medium){
-  //   padding-top:1.5rem;
-  //   overflow-x: hidden;
-
-  // }
   position: absolute;
   background: $content-background;
   z-index: -1;
@@ -296,16 +285,9 @@ off-canvas
     left: -$pard-aside-width;
     top: 0;
     width: $pard-aside-width; 
-    // @include breakpoint(medium){
-    //   width:13rem;
-    //   left: -13rem;
-    // }
   }
     .is-open-left {
       transform: translateX($pard-aside-width); 
-      // @include breakpoint(medium){
-      // transform: translateX(13rem); 
-      // }
     }
 
   .displayNone-for-mediumDown{
@@ -313,7 +295,6 @@ off-canvas
   }
   .top-bar{
     min-height: 5rem;
-    // border-bottom: 1px solid white;
   }
   .off-canvas-wrapper{
     margin-top: -1rem;
@@ -545,7 +526,6 @@ button{
 .callButtonArtist-sendOther{
   @include breakpoint(large){
     position: absolute;
-    // top: 0.75rem;
     top: -2.4rem;
     right: 0.75rem;    
   }
@@ -735,7 +715,6 @@ Profile Card
 }
 
 .profileCard{
-  // border: solid 2px #bababa;
   box-shadow: 0px 1px 2px 1px rgba(10, 10, 10, 0.2);
   display: block;
   line-height: 0;
@@ -786,17 +765,13 @@ Profile Card
 }
 
 .profileCard:hover, .profileCard:focus {
-    // box-shadow: 0 0 6px 1px rgba(255, 0, 0, 0.3);
     cursor:pointer; 
-        // inset 0 0 0 1000px rgba(255,0,0,0.05), 
-}  // If you want the shadow of the profile-color use js: .css({box-shadow: "0 0 6px 1px rgba(255, 0, 0, 0.5);"})
-
+} 
 .position-profileCard-login{
   position:relative;
 	margin-top:0.9rem;
   margin-bottom: 1rem; 
   @include breakpoint(small down) {
-  // @include horizontal-center;
   position:relative;
   }
 }
@@ -821,7 +796,6 @@ Profile Card
 
 .circleProfile{
   @include pardCircle(2.2rem);
-  // background: red;
 }
 
 .position-circleProfile-card {
@@ -855,19 +829,11 @@ Profile Card
 	text-align:center;
 	color:$text-color;
 	margin-top:1.6rem;
-	// @include horizontal-center;
 	border-bottom: 1px solid $text-color;
 	padding-bottom: 1rem;
   font-size: $almostNormalSize;
 }
 
-// .line-profileCard{
-// 	position:absolute;
-// 	margin-top:10.6rem;
-// 	display:block;
-// 	width: 90%;
-// 	@include horizontal-center;
-// }
 
 .category-profileCard{
 	width: 100%;
@@ -878,12 +844,6 @@ Profile Card
 	margin-top:1.4rem;
 }
 
-// .circleProfile:hover, .line-profileCard:hover{
-//  	    box-shadow: 0 0 6px 1px rgba(255, 0, 0, 0.5);  // Try to add some effect like these with on.mauseover profileCard with js
-// }  
-// .name-profileCard:hover{
-// 		text-shadow:0 0 3px rgba(255, 0, 0, 0.5);
-// } 
 
 
 /*-----------------
@@ -921,7 +881,6 @@ FOOTER
   font-size: $smallSize;
   @include breakpoint(medium) {  
     height:2rem;
-    // padding-top:2rem;
   }
   @include breakpoint(small){
   padding-top:0.5rem;
@@ -929,7 +888,6 @@ FOOTER
   padding-left:0.75rem;
 
   }
-  // border-top: 2px solid $grey-1;
   box-shadow: 0 0 2px black;
 }
 
@@ -1052,10 +1010,6 @@ FORMS
 ===============================================*/
 
 
-// select:-moz-focusring {
-//     color: transparent;
-//     text-shadow: 0 0 0 #000;
-// }
 select, textarea, a{
     @include border-radius($element-border-radius);
     outline: none;
@@ -1131,21 +1085,18 @@ select, textarea, a{
 
 .init-message-form{
   margin-bottom: 2rem;
-  // font-size: $almostNormalSize;
 }
 
 .final-message-form{
   margin-top: 2.5rem;
   margin-bottom: 2rem;
   color: red;
-  // font-size:$almostNormalSize;
 }
 
 .final-message-form-modifyProduction{
   margin-bottom: 2rem;
   margin-top: 0.5rem;
   color: red;
-  // font-size:$almostNormalSize;
 }
 
 .title-part{
@@ -1196,7 +1147,6 @@ select, textarea, a{
   .zip_code-ArtistForm, .zip_code-modifyProfile{
     width: 13rem;
     display: inline-block;  
-    // float: right;
   }
 
   .route-addressForm{
@@ -1253,7 +1203,6 @@ select, textarea, a{
   .availability-SpaceCall{
     margin-bottom: 2rem;
     margin-top: 2rem; 
-    // width: 24rem;
     input{
       width: 21rem;
       display: inline-block;
@@ -1263,8 +1212,6 @@ select, textarea, a{
 
   .availability-ArtistCall{
     margin-bottom: 1.5rem;
-    // margin-top: 1.2rem; 
-    // width: 24rem;
     input{
       width: 21rem;
       display: inline-block;
@@ -1397,7 +1344,6 @@ POPUP
 .popup-container-full{
     max-width: 40rem; //640px
     margin-bottom: 0.6rem;
-    // @include absolute-center;
     @include breakpoint(small down){
       margin-right: 2rem;
     }
@@ -1406,7 +1352,6 @@ POPUP
 .alert-container-full{
     max-width: 22rem; //352px
     margin-bottom: 0.6rem;
-    // @include absolute-center;
 }
 
 
@@ -1470,21 +1415,12 @@ SEARCH
 
 
 .select2-selection.select2-selection--multiple{
-  // padding:0.2rem;
   font-size: 1rem;
   min-height: 2.6rem;
   
-  // border-color: 
-  // box-shadow: 0 0px 1px $blue-pard;
+ 
 }
 
-// .select2-selection.select2-selection--multiple:focus{
-//   border-color: $blue-pard;
-// }
-
-// .select2-selection.select2-selection--multiple:focus{
-//   box-shadow: 0 0 4px $blue-pard;
-// }
 
 .select2-search.select2-search--inline input{
   height: auto;
@@ -1494,10 +1430,6 @@ SEARCH
 .select2-selection__rendered li{
   padding-top: 5px;
 }
-
-// span.select2-dropdown.select2-dropdown--below{
-//   width: 84%;
-// }
 
 
 .search-input{
