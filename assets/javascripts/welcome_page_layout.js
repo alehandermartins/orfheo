@@ -8,6 +8,8 @@
 
     var _main = $('<main>').attr('id','main-welcome-page');
 
+    _main.addClass('outsider-main')
+
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
     var _offCanvasAside = $('<div>').addClass('off-canvas-grid-aside position-left-grid-aside').attr({id: 'offCanvas-navBar', 'data-off-canvas': ''});
@@ -43,7 +45,8 @@
 
   ns.Widgets.LoginHeader = function(){
     
-    var _createdWidget = $('<header>').addClass('login-bar');
+    var _createdWidget = $('<header>').addClass('login-bar outsider-header'
+    );
     var userStatus = Pard.UserStatus['status'];
    
     var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
@@ -57,7 +60,6 @@
     });
 
      if (userStatus == 'outsider') {
-      _createdWidget.addClass('outsider-header');
       var _registerBtnOut = Pard.Widgets.SignUpButton().render().attr({ id: 'register-outsider-header-button'});
 
       _topBarTitle.append(_registerBtnOut);
@@ -99,16 +101,18 @@
 
   
   ns.Widgets.LoginAside = function () {
-    var _asideContainer = $('<div>').addClass('aside-container');
+    var _asideContainer = $('<div>').addClass('aside-container').css('position','fixed');
 
-    var _info = $('<div>').addClass('info grid-aside-content').append($('<p>').text('Entra en orfheo para apuntarte a la convocatoria'));
+    var _info = $('<div>').addClass('info grid-aside-content')
 
-    Pard.Widgets.Sticker(_asideContainer, 95, 29);
+    var _text = $('<p>').text('');
+
+    // Pard.Widgets.Sticker(_asideContainer, 95, 29);
 
     var _signUpButton = Pard.Widgets.SignUpButton().render();
     _signUpButton.addClass('signupButton');
 
-      _asideContainer.append(_info.append(_signUpButton));
+      _asideContainer.append(_info.append(_signUpButton, _info));
 
     return{
       render: function(){
@@ -125,99 +129,34 @@
 
     $(document).ready(function(){$('#main-welcome-page').addClass('main-welcome-page')});
 
-    var _content = content.addClass('grid-element-content welcome-page-section');
+    var _content = content.addClass('welcome-page-section');
 
-    var _photoContainer = $('<div>').addClass('welcome-img-section-header');
+    var _newsContainer = $('<div>').addClass('news-box-welcome-page ');
 
-    var _title = $('<div>').addClass('title-profile-section-container').append($('<h3>').text('Benimaclet conFusión festival').addClass('text-title-profile-section'));
+    var _cardContainer = $('<div>').addClass('card-container');
 
-    _content.append(_photoContainer,_title);
+    var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
-    var _infoContentBox = $('<div>').addClass('box-content');
-    
+    var _infoTitle = $('<div>').addClass('').append($('<h4>').text('Benimaclet conFusión festival III ed.'));
 
-    var _info = $('<div>').addClass('information-bio');  
-    var _contact = $('<div>').addClass('information-contact');
+    var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
 
-    var _shortDescription = $('<p>').text('Festival libre de expresión gratuita - 15/16 Octubre 2016').addClass('short-description-text');  
-    _info.append(_shortDescription)
-    
-    var _descriptionFestival = 'El Benimaclet conFusión festival es un evento de expresión artística celebrado en el barrio valenciano de Benimaclet. Las representaciones, tanto en los puntos ubicados por las calles peatonales como en los espacios participantes, pretenden dar voz al alma artística de este barrio. Al mismo tiempo, el festival quiere ser una plataforma de encuentro y diálogo abierta a todas las personas, una posibilidad para quien quiera comunicar algo y un estímulo para quien esté dispuesto a escuchar.'; 
-      // Es un canal de difusión, defensa y práctica de valores tales como el sentido de comunidad, el compartir, la integración entre diversos, la libre expresión y la creatividad.
-    
-
-    var _description = $('<p>').text(_descriptionFestival);
-    _info.append(_description);
-  
-    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary('organization').render()));
-    var _typeIcon = Pard.Widgets.IconManager('organization').render().addClass('information-contact-icon-column type-icon-info-box');
-
-    _contact.append($('<div>').append(_typeIcon, _type));
-
-    var _city = $('<div>').append(
-      Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), 
-      $('<p>').addClass('information-contact-text-column').append(
-        $('<a>').attr({
-          href: 'http://maps.google.com/maps?q=valencia 46020',
-          target: '_blank'
-        }).text('Benimaclet (Valencia)')
-      )
-    );
-
-    _contact.append(_city);
-
-    
-    var _personalWebs = {
-      '0': {
-        provider: 'facebook', 
-       url: 'https://www.facebook.com/beniconfusionfest/'
-      },
-      '1': {
-        provider: 'my_web', 
-        url: 'http://beniconfusionfest.es'
-      },
-      '2': {
-        provider: 'twitter', 
-        url: 'https://twitter.com/conFusionFest?lang=es'
-      },
-      '3': {
-        provider: 'instagram', 
-        url: 'https://www.instagram.com/confusionfestival/'
-      },
-      '4': {
-        provider: 'youtube', 
-        url: 'https://www.youtube.com/channel/UCkAXyjiBR10dn0wFuh9JaSQ'
-      }
-    }; 
-
-    
-    _contact.append(Pard.Widgets.PrintWebsList(_personalWebs).render());
+    var _mex = $('<div>').append($('<p>').text('Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.'));
 
 
-    _infoContentBox.append(_info, _contact);
-    _infoBoxContainer.append(_infoContentBox);
-    _content.append(_infoBoxContainer);
 
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
-    var _callsBoxContent = $('<div>').addClass('box-content');
-
-    var _callsInfoTitle = $('<p>').text('Abierta hasta el 15 de Junio.').css('font-weight','bold');
-    var _callsInfoText = $('<p>').html('Se aceptan todo tipo de propuestas propias y originales de carácter artístico, con un fondo humano y que impulsen valores que fomenten la armonía y convivencia entre las personas (<a href= "http://beniconfusionfest.es/es/bases" target="_blank">bases de participación</a>).');
-    // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
-    var _signUpMessage =  Pard.Widgets.Registration();    
-    var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
-    var _signUpButton = _popup.render().addClass('signUpButton-login-section');
-
-    var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
-
-    var _searchEngineText = $('<h6>').html('Conoce a los <strong>artistas y espacios</strong> que ya se han apuntado').addClass('searchEngine-text-welcome-page');
+    var _searchEngineText = $('<h6>').html('Explora la comunidad de orfheo').addClass('searchEngine-text-welcome-page');
     var _searchEngine = Pard.Widgets.SearchEngine('');
 
-    _callsBoxContent.append(_callsInfo,_signUpButton, _searchEngineText, _searchEngine.render());
+    var _searchEngineBox = $('<div>').addClass('searchBox-welcome-page user-section-content  ');
 
-    _content.append(_callsBoxContainer.append(_callsBoxContent));
+    _infoBox.append(_infoTitle, _mex);
+    _newsContainer.append(_cardContainer, _infoBox);
+    _content.append(_newsContainer);
+
+    _searchEngineBox.append(_searchEngineText, _searchEngine.render());
+
+    _content.append(_searchEngineBox);
 
 
     return{
@@ -227,6 +166,114 @@
     }
   }
 
+
+  // ns.Widgets.LoginSection = function (content) {
+
+  //   content.empty();
+
+  //   $(document).ready(function(){$('#main-welcome-page').addClass('main-welcome-page')});
+
+  //   var _content = content.addClass('grid-element-content welcome-page-section');
+
+  //   var _photoContainer = $('<div>').addClass('welcome-img-section-header');
+
+  //   var _title = $('<div>').addClass('title-profile-section-container').append($('<h3>').text('Benimaclet conFusión festival').addClass('text-title-profile-section'));
+
+  //   _content.append(_photoContainer,_title);
+
+  //   var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+  //   var _infoContentBox = $('<div>').addClass('box-content');
+    
+
+  //   var _info = $('<div>').addClass('information-bio');  
+  //   var _contact = $('<div>').addClass('information-contact');
+
+  //   var _shortDescription = $('<p>').text('Festival libre de expresión gratuita - 15/16 Octubre 2016').addClass('short-description-text');  
+  //   _info.append(_shortDescription)
+    
+  //   var _descriptionFestival = 'El Benimaclet conFusión festival es un evento de expresión artística celebrado en el barrio valenciano de Benimaclet. Las representaciones, tanto en los puntos ubicados por las calles peatonales como en los espacios participantes, pretenden dar voz al alma artística de este barrio. Al mismo tiempo, el festival quiere ser una plataforma de encuentro y diálogo abierta a todas las personas, una posibilidad para quien quiera comunicar algo y un estímulo para quien esté dispuesto a escuchar.'; 
+  //     // Es un canal de difusión, defensa y práctica de valores tales como el sentido de comunidad, el compartir, la integración entre diversos, la libre expresión y la creatividad.
+    
+
+  //   var _description = $('<p>').text(_descriptionFestival);
+  //   _info.append(_description);
+  
+  //   var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary('organization').render()));
+  //   var _typeIcon = Pard.Widgets.IconManager('organization').render().addClass('information-contact-icon-column type-icon-info-box');
+
+  //   _contact.append($('<div>').append(_typeIcon, _type));
+
+  //   var _city = $('<div>').append(
+  //     Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), 
+  //     $('<p>').addClass('information-contact-text-column').append(
+  //       $('<a>').attr({
+  //         href: 'http://maps.google.com/maps?q=valencia 46020',
+  //         target: '_blank'
+  //       }).text('Benimaclet (Valencia)')
+  //     )
+  //   );
+
+  //   _contact.append(_city);
+
+    
+  //   var _personalWebs = {
+  //     '0': {
+  //       provider: 'facebook', 
+  //      url: 'https://www.facebook.com/beniconfusionfest/'
+  //     },
+  //     '1': {
+  //       provider: 'my_web', 
+  //       url: 'http://beniconfusionfest.es'
+  //     },
+  //     '2': {
+  //       provider: 'twitter', 
+  //       url: 'https://twitter.com/conFusionFest?lang=es'
+  //     },
+  //     '3': {
+  //       provider: 'instagram', 
+  //       url: 'https://www.instagram.com/confusionfestival/'
+  //     },
+  //     '4': {
+  //       provider: 'youtube', 
+  //       url: 'https://www.youtube.com/channel/UCkAXyjiBR10dn0wFuh9JaSQ'
+  //     }
+  //   }; 
+
+    
+  //   _contact.append(Pard.Widgets.PrintWebsList(_personalWebs).render());
+
+
+  //   _infoContentBox.append(_info, _contact);
+  //   _infoBoxContainer.append(_infoContentBox);
+  //   _content.append(_infoBoxContainer);
+
+  //   var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
+  //   var _callsBoxContent = $('<div>').addClass('box-content');
+
+  //   var _callsInfoTitle = $('<p>').text('Abierta hasta el 15 de Junio.').css('font-weight','bold');
+  //   var _callsInfoText = $('<p>').html('Se aceptan todo tipo de propuestas propias y originales de carácter artístico, con un fondo humano y que impulsen valores que fomenten la armonía y convivencia entre las personas (<a href= "http://beniconfusionfest.es/es/bases" target="_blank">bases de participación</a>).');
+  //   // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
+  //   var _signUpMessage =  Pard.Widgets.Registration();    
+  //   var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
+  //   var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
+  //   var _signUpButton = _popup.render().addClass('signUpButton-login-section');
+
+  //   var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
+
+  //   var _searchEngineText = $('<h6>').html('Conoce a los <strong>artistas y espacios</strong> que ya se han apuntado').addClass('searchEngine-text-welcome-page');
+  //   var _searchEngine = Pard.Widgets.SearchEngine('');
+
+  //   _callsBoxContent.append(_callsInfo,_signUpButton, _searchEngineText, _searchEngine.render());
+
+  //   _content.append(_callsBoxContainer.append(_callsBoxContent));
+
+
+  //   return{
+  //     render: function(){
+  //       return _content;
+  //     }
+  //   }
+  // }
 
   ns.Widgets.Footer = function(){
 

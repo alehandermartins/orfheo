@@ -34,11 +34,14 @@
        
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio')  
-
     if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
-    }else if(profile.proposals && profile.proposals[0]){
+    }
+    else if(profile.proposals && profile.proposals[0]['description']){
         _bio.append($('<p>').text(profile.proposals[0]['description']));
+    }
+    else if(profile.proposals && profile.proposals[0]){
+        _bio.append($('<p>').text(profile.proposals[0]));
     }
 
     var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['category']).render()));

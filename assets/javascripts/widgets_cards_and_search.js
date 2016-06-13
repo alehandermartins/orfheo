@@ -69,7 +69,7 @@
     _createdWidget.append(_searchInput, _searchResult);
 
     _searchWidget.select2({
-      placeholder: 'Busca',
+      placeholder: 'Busca por tags',
       ajax: {
         url: '/search/suggest',
         type: 'POST',

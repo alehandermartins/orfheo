@@ -1,5 +1,5 @@
 /*===============================================
-LOGIN PAGE
+WELCOME PAGE
 ================================================*/
 
 .main-welcome-page{
@@ -8,7 +8,22 @@ LOGIN PAGE
 
 
 .welcome-page-section{
+  background:$grey-1; 
+}
+
+.news-box-welcome-page, .searchBox-welcome-page{
   background:white; 
+  width: 100%;
+}
+
+.news-box-welcome-page{
+  margin-bottom: $pard-grid-spacing;
+  padding: 1.5rem 3rem .5rem 3rem;
+}
+
+.info-box-news-welcome-page{
+  display: inline-block;
+
 }
 
 .register-form-final-mex{
@@ -217,10 +232,10 @@ grid-section content LogIn page
 }
 
 
-.ui-widget{
+/* .ui-widget{
   display: inline-block;
   width: 14.5rem
-}
+} */
 
 .display-inline{
   display: inline-block; 
@@ -236,7 +251,7 @@ grid-section content LogIn page
 
 
 .searchEngine-text-welcome-page{
-  margin-top: 2.5rem;
+  /* margin-top: 2.5rem; */
   margin-bottom: 0.8rem;
   font-size: 1rem;
   font-weight: bold;

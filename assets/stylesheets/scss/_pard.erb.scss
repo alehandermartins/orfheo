@@ -213,11 +213,11 @@ Grid and Bar
 .grid-element-content{
   width: 100%;
   background: $grey-1;
-  // @include breakpoint(medium){
+/*   // @include breakpoint(medium){
   //   padding: $inner-spacing;
    
-  // }
-   padding: $inner-spacing;
+  // } */
+  padding: $inner-spacing;
   padding-bottom:2rem;
   min-height: 100vh;
   @include border-radius($layout-border-radius);
@@ -1506,6 +1506,10 @@ SEARCH
     padding-left:3.8rem;
     padding-right: 3.8rem;
   }
+}
+
+input.select2-search__field{
+  width: 100% !important;
 }
 
 
