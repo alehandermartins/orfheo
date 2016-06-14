@@ -2,16 +2,16 @@ class Forms::Program < Forms::Base
   
   def create
     scopify
-    program.map!{ |performance|
+    program.map{ |performance|
       performance = create_model_from_performance performance
     }
-    program
   end
 
   private
   def scopify
+    params[:program] = Util.arrayify_hash params[:program]
+    raise Pard::Invalid::Params if params[:event_id].blank?
     [:event_id, :program].each do |param|
-      raise Pard::Invalid::Params if params[param].blank?
       self.send(:define_singleton_method, param) {
         params[param]
       }

@@ -9,7 +9,14 @@
     var artistCards = [];
     var spaces = [];
     var spaceColumns = [];
-    var program = {};
+
+    _getProposal = function(proposal_id){
+      var result = {};
+      call['proposals'].forEach(function(proposal){
+        if(proposal.proposal_id == proposal_id) return (result = proposal); 
+      });
+      return result;
+    }
 
     call['proposals'].forEach(function(proposal){
       if (proposal.type == 'artist') artists.push(proposal);
@@ -44,7 +51,7 @@
     });
 
     spaces.forEach(function(space){
-      var _spaceCol = $('<div>').addClass('spaceCol').css({
+      var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id).css({
         'display': ' inline-block',
         'width': '11rem',
         'border-width': '1px',
@@ -82,12 +89,6 @@
             var duration = ui.helper.height();
             Pard.Widgets.DraggedProposal['height'] = duration;
             if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
-
-            program[space.proposal_id] = {
-              proposal_id: Pard.Widgets.DraggedProposal.proposal_id,
-              start: position - colPosition,
-              end: position - colPosition + duration
-            }
 
             var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
             _time.append(newEvent);
@@ -160,12 +161,15 @@
           _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
         }
       });
+
+      
     });
    
-    _tableContainer.append(_table)
+    _tableContainer.append(_table);
     _createdWidget.append(_tableContainer);
 
     _proposalsWidget = $('<div>').css({
+      'margin-top': '5px',
       'overflow-x': 'scroll',
       'overflow-y': 'hidden',
       'width': 176*5
@@ -184,6 +188,68 @@
     _proposalsWidget.append(_proposalCards);
     _createdWidget.append(_proposalsWidget);
 
+    var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
+      var program = [];
+      spaceColumns.forEach(function(spaceCol){
+        Object.keys(spaceCol.find('.programHelper')).forEach(function(key){
+          if ($.isNumeric(key)){
+            var theEvent = spaceCol.find('.programHelper')[key];
+            var start = (theEvent.style.top.split('px')[0] - 41);
+            var end = start + parseInt(theEvent.style.height.split('px')[0]);
+
+            var performance = {
+              participant_id: _getProfileiD(theEvent.id),
+              participant_proposal_id: theEvent.id,
+              host_id: _getProfileiD(spaceCol.attr('id')),
+              host_proposal_id: spaceCol.attr('id'),
+              time: [start, end]
+            }
+            program.push(performance);
+          }
+        });
+      });
+      Pard.Backend.program(' ', program, function(data){
+        console.log(data['status']);
+      });
+    });
+    _createdWidget.append(_submitBtn.render());
+
+    _getProfileiD = function(proposal_id){
+      var profile_id = '';
+      call['proposals'].forEach(function(proposal){
+        if(proposal.proposal_id == proposal_id) return (profile_id = proposal.profile_id); 
+      });
+      return profile_id;
+    }
+
+    if(call['program']){
+      spaceColumns.forEach(function(spaceCol){
+        call['program'].forEach(function(performance){
+          console.log(spaceCol.attr('id'));
+          console.log(performance.host_proposal_id);
+          if(spaceCol.attr('id') == performance.host_proposal_id){
+            var timeCol = spaceCol.find('.spaceTime');
+            var proposal = _getProposal(performance.participant_proposal_id);
+            proposal['height'] = performance.time[1] - performance.time[0];
+            var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
+            timeCol.append(newEvent);
+            newEvent.css({
+              position: 'absolute',
+              top: parseInt(performance.time[0]) + 41 + "px",
+              left: spaceColumns.indexOf(spaceCol) * 176 + 1 + "px",
+            });
+
+            newEvent.resizable({
+              maxWidth: 174,
+              minWidth: 174,
+              maxHeight: timeCol.height() - (performance.time[0]),
+              grid: 10
+            });
+          }
+        });
+      });
+    }
+
   	return {
       render: function(){
         return _createdWidget;
@@ -193,7 +259,6 @@
 
   ns.Widgets.DraggedProposal = {};
   ns.Widgets.CategoryColor = function(category){
-    console.log(category);
     var _dictionary = {
       'music': '#3399FF',
       'arts': '#FF62B2',
@@ -218,7 +283,7 @@
       },
       snap: '.spaceTime',
       snapMode: 'inner',
-      snapTolerance: 7,
+      snapTolerance: 5,
       grid: [ 10, 10 ],
       start: function(event, ui){
         Pard.Widgets.DraggedProposal = proposal;
@@ -229,11 +294,7 @@
       }
     });
 
-    console.log(proposal.name)
     var color = Pard.Widgets.CategoryColor(proposal.category);
-
-    console.log(color);
-
     var _rgb = Pard.Widgets.IconColor(color).rgb();
     _card.css({border: 'solid 3px' + color});
     _card.hover(
@@ -336,7 +397,7 @@
   ns.Widgets.ProgramHelper = function(proposal){
     var color = Pard.Widgets.CategoryColor(proposal.category);
 
-    var _card =$('<div>').addClass('programHelper').css({
+    var _card =$('<div>').addClass('programHelper').attr('id', proposal.proposal_id).css({
       'display': 'inline-block',
       'width': '10.9rem',
       'height': proposal.height + 'px',
