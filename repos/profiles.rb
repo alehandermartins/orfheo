@@ -108,6 +108,17 @@ module Repos
             }
           end
 
+          def user_listed args
+            profiles = grab({user_id: args[:user_id]})
+            profiles.map{ |profile|
+              {
+                profile_id: profile[:profile_id],
+                name: profile[:name],
+                type: profile[:type]
+              }
+            }
+          end
+
           def visit_profiles args
             profiles = grab({user_id: args[:user_id]})
             profiles.each{ |profile|

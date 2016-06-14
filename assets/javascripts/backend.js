@@ -211,6 +211,14 @@
       );
     };
 
+    var _listProfiles = function(callback){
+      _send(       
+        '/users/list_profiles',
+        {},
+        callback
+      );
+    }
+
     return {
       register: _register,
       login: _login,
@@ -231,7 +239,8 @@
       amendProposal: _amendProposal,
       whitelist: _whitelist,
       program: _program,
-      getForm: _getForm
+      getForm: _getForm,
+      listProfiles: _listProfiles
     };
   }());
 

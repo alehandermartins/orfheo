@@ -181,6 +181,20 @@ describe Repos::Profiles do
       expect(result).to eq([my_otter_profile, profile])
     end
 
+    it 'returns a list of the profiles of the user' do
+      result = [{
+          profile_id: profile_id,
+          name: profile[:name],
+          type: profile[:type]
+        },
+        { 
+          profile_id: my_otter_profile[:profile_id],
+          name: my_otter_profile[:name],
+          type: my_otter_profile[:type]
+      }]
+      expect(Repos::Profiles.get_profiles :user_listed, {user_id: user_id}).to eq(result)
+    end
+
     it 'returns all profiles for a visitor' do
       profile.merge! calls: []
       profile.merge! proposals: []
