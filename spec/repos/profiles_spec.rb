@@ -164,11 +164,12 @@ describe Repos::Profiles do
       expect(result).to eq(production)
     end
 
-    it 'returns all the space profiles, and artist profiles with at least one production' do
+    it 'returns all the profiles' do
       result = Repos::Profiles.get_profiles :all
       expect(result.include? profile).to eq(true)
+      expect(result.include? my_otter_profile).to eq(true)
       expect(result.include? otter_user_profile).to eq(true)
-      expect(result.size).to eq(2)
+      expect(result.size).to eq(3)
     end
 
     it 'returns all profiles and those of the user (sorted)' do
@@ -178,6 +179,20 @@ describe Repos::Profiles do
       my_otter_profile.merge! calls: []
       result = Repos::Profiles.get_profiles :user_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
+    end
+
+    it 'returns a list of the profiles of the user' do
+      result = [{
+          profile_id: profile_id,
+          name: profile[:name],
+          type: profile[:type]
+        },
+        { 
+          profile_id: my_otter_profile[:profile_id],
+          name: my_otter_profile[:name],
+          type: my_otter_profile[:type]
+      }]
+      expect(Repos::Profiles.get_profiles :user_listed, {user_id: user_id}).to eq(result)
     end
 
     it 'returns all profiles for a visitor' do

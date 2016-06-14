@@ -356,4 +356,13 @@ describe ProfilesController do
       expect(parsed_response['reason']).to eq('non_existing_production')
     end
   end
+
+  describe 'List' do
+    it 'Retrieves a list with the user profiles' do
+      post create_profile_route, profile
+      post '/users/list_profiles'
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profiles']).to eq([{'profile_id' => profile_id, 'name' => profile[:name], 'type' => profile[:type]}])
+    end
+  end
 end

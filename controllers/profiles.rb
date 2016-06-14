@@ -71,6 +71,11 @@ class ProfilesController < BaseController
     success
   end
 
+  post '/users/list_profiles'do
+    profiles = Repos::Profiles.get_profiles :user_listed, {user_id: session[:identity]}
+    success({profiles: profiles})
+  end
+
   private
   def check_production_ownership! production_id
     raise Pard::Invalid::UnexistingProduction unless Repos::Profiles.production_exists? production_id
