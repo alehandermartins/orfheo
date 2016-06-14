@@ -27,6 +27,7 @@ describe Repos::Calls do
       profile_id: profile_id,
       production_id: production_id,
       proposal_id: proposal_id,
+      type: 'artist',
       category: 'categoty',
       title: 'title',
       description: 'description',
@@ -42,6 +43,7 @@ describe Repos::Calls do
     {
       profile_id: profile_id,
       proposal_id: 'otter_proposal',
+      type: 'artist',
       title: 'otter_title',
       links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       photos: ['otter_photo']
@@ -52,6 +54,7 @@ describe Repos::Calls do
     {
       profile_id: profile_id,
       proposal_id: 'anotter_proposal',
+      type: 'artist',
       title: 'otter_title',
       links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       photos: ['otter_photo']
@@ -89,6 +92,7 @@ describe Repos::Calls do
 
   before(:each){
     Repos::Calls.add(call)
+    call.delete(:_id)
   }
 
   describe 'Add' do
@@ -170,33 +174,30 @@ describe Repos::Calls do
 
   describe 'Get proposals' do
 
-    let(:otter_proposal){
+    let(:otter_call){
       {
+        user_id: user_id,
         profile_id: profile_id,
-        proposal_id: 'otter_proposal',
-        title: 'otter_title',
-        links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}]
+        call_id: 'otter'
       }
     }
 
-    it 'returns all the proposals for a given profile' do
-      Repos::Calls.add({
-        user_id: user_id,
-        call_id: 'otter'
-      })
+    before(:each){
+      Repos::Calls.add otter_call
+      otter_call.delete(:_id)
+    }
 
+    it 'returns all the proposals for a given profile' do
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal 'otter', otter_proposal
-
-      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal, otter_proposal])
+      results = {
+        calls: [call, otter_call],
+        proposals: [proposal, otter_proposal]
+      }
+      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
     end
 
     it 'returns all the proposals for a given production' do
-      Repos::Calls.add({
-        user_id: user_id,
-        call_id: 'otter'
-      })
-
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal 'otter', otter_proposal
 
@@ -204,15 +205,13 @@ describe Repos::Calls do
     end
 
     it 'returns interesting info for a visitor of a profile' do
-      Repos::Calls.add({
-        user_id: user_id,
-        call_id: 'otter'
-      })
-
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal 'otter', otter_proposal
-
-      expect(Repos::Calls.get_proposals(:otter_profile_proposals, {profile_id: profile_id, type: 'artist'})).to eq(['title', 'otter_title'])
+      results = {
+        calls: [call, otter_call],
+        proposals: ['title', 'otter_title']
+      }
+      expect(Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile_id})).to eq(results)
     end
 
     it 'retrieves a proposal' do
@@ -224,12 +223,6 @@ describe Repos::Calls do
       Repos::Calls.add_proposal call_id, proposal
       expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)
     end
-
-    it 'does not include sensitive info' do
-      proposal[:email] = 'email'
-      Repos::Calls.add_proposal call_id, proposal
-      expect(Repos::Calls.get_proposals(:proposal, {proposal_id: proposal_id})).not_to include(email: 'email')
-    end
   end
 
   describe 'Modify' do
@@ -238,23 +231,31 @@ describe Repos::Calls do
       Repos::Calls.add_proposal call_id, proposal
       proposal[:title] = 'otter_title'
       Repos::Calls.modify_proposal proposal
-      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal])
+      results = {
+        calls: [call],
+        proposals: [proposal]
+      }
+      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
     end
 
     it 'adds some amend to the proposal' do
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.amend_proposal proposal_id, 'amend'
       proposal.merge! amend: 'amend'
-      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal])
+      results = {
+        calls: [call],
+        proposals: [proposal]
+      }
+      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
     end
   end
 
   describe 'Delete' do
     it 'deletes a proposal' do
       Repos::Calls.add_proposal call_id, proposal
-      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([proposal])
+      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq({calls: [call], proposals: [proposal]})
       Repos::Calls.delete_proposal proposal_id
-      expect(Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile_id})).to eq([])
+      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq({calls: [call], proposals: []})
     end
 
     it 'removes the proposal from programs' do

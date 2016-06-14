@@ -122,6 +122,12 @@ describe SearchController do
         'text' => 'espacio',
         'type' => 'type',
         'icon' => 'space'
+      },
+      {
+        'id' => 'organizacion',
+        'text' => 'organizacion',
+        'type' => 'type',
+        'icon' => 'organization'
       }])
     end
 

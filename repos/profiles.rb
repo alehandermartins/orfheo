@@ -91,7 +91,7 @@ module Repos
 
           def profile args
             profile = grab({profile_id: args[:profile_id]}).first
-            profile.merge! proposals: Repos::Calls.get_proposals(:profile_proposals, {profile_id: args[:profile_id]})
+            profile.merge! Repos::Calls.get_proposals(:profile_info, {profile_id: args[:profile_id]})
           end
 
           def production args
@@ -106,15 +106,14 @@ module Repos
             profiles = grab({user_id: args[:user_id]})
             sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
             profiles.each{ |profile|
-              profile.merge! proposals: Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile[:profile_id]})
-              profile.merge! calls: Repos::Calls.get_calls(args[:profile_id])
+              profile.merge! Repos::Calls.get_proposals(:profile_info, {profile_id: profile[:profile_id]})
             }
           end
 
           def visit_profiles args
             profiles = grab({user_id: args[:user_id]})
             profiles.each{ |profile|
-              profile.merge! proposals: Repos::Calls.get_proposals(:otter_profile_proposals, {profile_id: profile[:profile_id], type: profile[:type]})
+              profile.merge! Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile[:profile_id], type: profile[:type]})
             }
             sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
           end

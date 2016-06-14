@@ -154,6 +154,7 @@ describe Repos::Profiles do
 
     it 'returns a specific profile' do
       result = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
+      profile.merge! calls: []
       profile.merge! proposals: []
       expect(result).to eq(profile)
     end
@@ -180,7 +181,9 @@ describe Repos::Profiles do
     end
 
     it 'returns all profiles for a visitor' do
+      profile.merge! calls: []
       profile.merge! proposals: []
+      my_otter_profile.merge! calls: []
       my_otter_profile.merge! proposals: []
       result = Repos::Profiles.get_profiles :visit_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])

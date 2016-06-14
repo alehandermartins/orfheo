@@ -134,18 +134,35 @@ module Repos
             get_my_proposals_from(results, :production_id, args[:production_id])
           end
 
-          def profile_proposals args
-            results = grab({ "proposals.profile_id": args[:profile_id]})
-            get_my_proposals_from(results, :profile_id, args[:profile_id])
+          def profile_info args
+            calls = grab({profile_id: args[:profile_id]}).each{ |call|
+              call.delete(:proposals)
+              call.delete(:program)
+            }
+            proposals = grab({ "proposals.profile_id": args[:profile_id]})
+            proposals = get_my_proposals_from(proposals, :profile_id, args[:profile_id])
+            compose_info calls, proposals
           end
 
-          def otter_profile_proposals args
-            proposals_info = []
-            profile_proposals(args).each{ |proposal|
-              proposals_info.push(proposal[:title]) if args[:type] == 'artist'
-              proposals_info.push(proposal[:description]) if args[:type] == 'space'
+          def compose_info calls, proposals
+            {
+              calls: calls,
+              proposals: proposals
             }
-            proposals_info
+          end
+
+          def otter_profile_info args
+            calls = grab({profile_id: args[:profile_id]}).each{ |call|
+              call.delete(:proposals)
+              call.delete(:program)
+            }
+            proposals = grab({ "proposals.profile_id": args[:profile_id]})
+            proposals = get_my_proposals_from(proposals, :profile_id, args[:profile_id])
+            proposals.map!{ |proposal|
+              next proposal[:title] if proposal[:type] == 'artist'
+              next proposal[:description] if proposal[:type] == 'space'
+            }.compact
+            compose_info calls, proposals
           end
 
           def get_my_proposals_from results, key, id
@@ -154,17 +171,6 @@ module Repos
             my_proposals.map!{ |proposal|
               Util.string_keyed_hash_to_symbolized proposal
             }
-            my_proposals.each{ |proposal|
-              remove_sensitive_fields proposal
-            }
-          end
-
-          def remove_sensitive_fields proposal
-            proposal.delete(:email)
-            proposal.delete(:address)
-            proposal.delete(:city)
-            proposal.delete(:zip_code)
-            proposal
           end
         end
       end

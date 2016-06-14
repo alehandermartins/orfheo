@@ -16,7 +16,7 @@ class ProfilesController < BaseController
     Repos::Profiles.update profile
     Services::Profiles.destroy_profile_old_pictures old_pictures, profile
 
-    proposals = Repos::Calls.get_proposals(:profile_proposals, {profile_id: profile[:profile_id]})
+    proposals = Repos::Calls.get_proposals(:profile_info, {profile_id: profile[:profile_id]})[:proposals]
     proposals.each{ |proposal|
       proposal = Forms::Proposals.new(proposal, session[:identity]).modify(proposal[:proposal_id])
       Repos::Calls.modify_proposal proposal
