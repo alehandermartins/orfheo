@@ -74,6 +74,7 @@
       street_art: 'Street Art',
       workshop: 'Taller',
       other: 'Otros',
+      festival: 'Festival',
       name: 'Nombre',
       category:'Categoría',
       email:'Email',

@@ -95,9 +95,7 @@
     var _organizationObj = {};
 
     var _objDictionary = function(data, obj){
-      console.log(data);
       for (var field in obj) {
-        console.log(field);
         if (data.toUpperCase() == Pard.Widgets.Dictionary(field).render().toUpperCase()) {return obj[field];}
         else _objDictionary(Pard.Widgets.Dictionary(field).render(), obj[field]);
       }
@@ -120,7 +118,6 @@
     };
     
     var _printTags = function(obj){   
-      console.log(obj)
       _searchTagsBox.empty();   
       for (var field in obj){
         _printTagFromObj(obj, field);
@@ -286,7 +283,11 @@
         }
       })
     }
-    else{ if (profile.category) _categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
+    else if (profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
+// CONFUSION ----> INFO HARDCODED!!
+    else if (profile.profile_id == 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83') _categories += 'Festival' + ' - '
+// TO BE CHANGED WHEN CORGANIZATION CATEGORIES DEFINED
+
     if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
     _category.html(_categories);
     _circle.append(_icon);

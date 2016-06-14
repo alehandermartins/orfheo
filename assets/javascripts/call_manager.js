@@ -193,6 +193,7 @@
 
   ns.Widgets.DraggedProposal = {};
   ns.Widgets.CategoryColor = function(category){
+    console.log(category);
     var _dictionary = {
       'music': '#3399FF',
       'arts': '#FF62B2',
@@ -200,7 +201,8 @@
       'expo': '#66CC00',
       'street_art': '#FF3333',
       'audiovisual': '#C0C0C0',
-      'other': '#FF8000'
+      'other': '#FF8000',
+      'workshop': '#000000'
     }
 
     return _dictionary[category];
@@ -227,7 +229,10 @@
       }
     });
 
+    console.log(proposal.name)
     var color = Pard.Widgets.CategoryColor(proposal.category);
+
+    console.log(color);
 
     var _rgb = Pard.Widgets.IconColor(color).rgb();
     _card.css({border: 'solid 3px' + color});

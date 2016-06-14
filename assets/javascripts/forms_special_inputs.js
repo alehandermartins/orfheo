@@ -1,6 +1,5 @@
 'use strict';
 
-
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
@@ -538,7 +537,7 @@
         
       }
       else { 
-        _newInputStartingDayTime = Pard.Widgets.Selector([  t(new Date (parseInt(showInfo['starting_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['starting_day_time']]);
+        _newInputStartingDayTime = Pard.Widgets.Selector([moment(new Date (parseInt(showInfo['starting_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['starting_day_time']]);
         _newInputEndDayTime = Pard.Widgets.Selector([moment(new Date (parseInt(showInfo['ending_day_time']))).locale("es").format('dddd, HH:mm')+"h"],[showInfo['ending_day_time']]);
       };
 
@@ -568,8 +567,7 @@
         if (_indexR > -1){ 
           _results.splice(_indexR, 1);
           _container.empty();
-        }              console.log(_results)
-
+        }             
         $('#succes-box-call-manager').empty();
       });
       return _container;
@@ -687,17 +685,15 @@
 
 
       var _addShow = function(){
-
         if (_inputSpace.val() && _inputStartingDayTime.val() && _inputEndDayTime.val()){
-          console.log('_addShow');
-          console.log(_inputEndDayTime.select2('data')[0]['text']);
+          var _data = _inputSpace.select2('data')[0]
           var _show = {
-            place: _inputSpace.select2('data')[0]['text'], 
+            place: _data['text'], 
             starting_day_time: _inputStartingDayTime.select2('data')[0]['id'],  
             ending_day_time:_inputEndDayTime.select2('data')[0]['id'],
-            proposal_id: _inputSpace.select2('data')[0]['id']
+            proposal_id: _data['id'],
+            profile_id: _data['profile_id']
           };     
-          console.log(_show);
           _showsAddedContainer.prepend(_addnewInput(_show));
           _inputSpace.select2('val', '');
           _inputStartingDayTime.select2('val', '');
@@ -706,6 +702,7 @@
           $('#succes-box-call-manager').empty();
         }
       }
+
       _addInputButton.on('click', function(){_addShow()});
 
     }
@@ -1036,7 +1033,6 @@
       $('#successBox-whiteList').empty();
       if (_inputNameEmail.val()){
         var _data = _inputNameEmail.select2('data');
-        console.log(_data);
         var _info = {name_email: _data[0].text, email: _data[0].id};
         _results.push(_info);
         _inputAddedContainer.prepend(_addnewInput(_info));

@@ -132,6 +132,18 @@
     var _newsContainer = $('<div>').addClass('news-box-welcome-page ');
 
     var _cardContainer = $('<div>').addClass('card-container');
+    var _profileConfusion = {
+      "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
+      "name" : "conFusión",
+      "city" : "Benimaclet (Valencia)",
+      "color" : "#920a0a",
+      "type" : "organization",
+      "profile_picture" : [ 
+          "profile_picture/zwqdpibl1ocxrsozdghp"
+      ]
+    }
+    _cardContainer.append(Pard.Widgets.CreateCard(_profileConfusion).render());
+
 
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
 
@@ -140,8 +152,6 @@
     var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
 
     var _mex = $('<div>').append($('<p>').text('Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.'));
-
-
 
     var _searchEngineText = $('<h6>').html('Explora la comunidad').addClass('searchEngine-text-welcome-page');
     var _searchEngine = Pard.Widgets.SearchEngine('');
