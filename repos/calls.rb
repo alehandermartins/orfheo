@@ -153,6 +153,9 @@ module Repos
 
           def otter_profile_info args
             calls = grab({profile_id: args[:profile_id]}).each{ |call|
+              requester = Repos::Users.grab({user_id: args[:requester]})
+              call[:whitelist] = false unless !call[:whitelist].blank? && call[:whitelist].include?(requester[:email]) 
+              call[:whitelist] = true if !call[:whitelist].blank? && call[:whitelist].include?(requester[:email])
               call.delete(:proposals)
               call.delete(:program)
             }

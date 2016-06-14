@@ -80,7 +80,7 @@ class ProfilesController < BaseController
   def get_profiles owner, profile_id
     method = :visit_profiles
     method = :user_profiles if owner == session[:identity]
-    Repos::Profiles.get_profiles method, {user_id: owner, profile_id: profile_id}
+    Repos::Profiles.get_profiles method, {user_id: owner, profile_id: profile_id, requester: session[:identity]}
   end
 end
 

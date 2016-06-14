@@ -276,7 +276,7 @@ describe ProfilesController do
     end
 
     it 'gets the profiles of the user' do
-      expect(Repos::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id, profile_id: profile_id})
+      expect(Repos::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id, profile_id: profile_id, requester: user_id})
       get profiles_route
     end
 

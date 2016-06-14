@@ -207,6 +207,8 @@ describe Repos::Calls do
     it 'returns interesting info for a visitor of a profile' do
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal 'otter', otter_proposal
+      call[:whitelist] = false
+      otter_call[:whitelist] = false 
       results = {
         calls: [call, otter_call],
         proposals: ['title', 'otter_title']
@@ -284,6 +286,19 @@ describe Repos::Calls do
       expect(Repos::Calls.get_call(call_id)[:whitelist]).to eq([])
       Repos::Calls.add_whitelist call_id, whitelist
       expect(Repos::Calls.get_call(call_id)[:whitelist]).to eq(whitelist)
+    end
+
+    it 'Shows if a user is whitelisted or not' do
+      Repos::Calls.add_whitelist call_id, whitelist
+      call[:whitelist] = false
+      results = {
+        calls: [call],
+        proposals: []
+      }
+      expect(Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile_id, requestor: user_id})).to eq(results)
+      allow(Repos::Users).to receive(:grab).and_return({email: 'email1'})
+      call[:whitelist] = true
+      expect(Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile_id, requestor: user_id})).to eq(results)
     end
   end
 
