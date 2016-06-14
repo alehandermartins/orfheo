@@ -11,6 +11,17 @@ WELCOME PAGE
   background:$grey-1; 
 }
 
+.container-title-welcome-page{
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  color: $grey-4;
+}
+
+.info-title-news-welcome{
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
 .news-box-welcome-page, .searchBox-welcome-page{
   background:white; 
   width: 100%;
@@ -18,11 +29,19 @@ WELCOME PAGE
 
 .news-box-welcome-page{
   margin-bottom: $pard-grid-spacing;
-  padding: 1.5rem 3rem .5rem 3rem;
+  padding: $inner-spacing;
+  font-size: 18px;
+}
+
+.search-titleBox-welcome-page{
+  padding: $inner-spacing $inner-spacing 0 $inner-spacing;
 }
 
 .info-box-news-welcome-page{
   display: inline-block;
+  padding: 0 1rem;
+  color: $grey-4;
+  vertical-align: top;
 }
 
 .register-form-final-mex{
@@ -248,14 +267,14 @@ grid-section content LogIn page
   margin-top: 1rem;
 }
 
-
+/* 
 .searchEngine-text-welcome-page{
-  /* margin-top: 2.5rem; */
   margin-bottom: 0.8rem;
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
 }
+ */
 
 .search-results{
    @include breakpoint(small down){
@@ -270,20 +289,34 @@ grid-section content LogIn page
     padding-right:2.8rem;
   }
   margin-top: 2.5rem;
+  min-height: 80vh;
 }
 
 .suggested-tag-search-engine{
   cursor: pointer;
-  color: $grey-4;
+  /* color: $grey-4; */
+  background: $grey-2;
+  border: 1px solid $grey-3;
   font-weight: normal;
   margin-right: $pard-grid-spacing;
   display: inline-block;
   font-size: $almostNormalSize;
+  padding: 0px 5px;
+  height: 1.5rem;
+  margin-bottom: 0.2rem;
+  @include border-radius(4px);
+
+}
+
+.search-tag-icon{
+  font-size: 1rem;
+  vertical-align: -3px;
+  margin-right: 2px;
 }
 
 .suggested-tag-search-engine:hover{
-  font-weight: bold;
-  font-size: $almostNormalSize;
+  background: $grey-4;
+  color: white;
 }
 
 .search-tag-box{

@@ -327,7 +327,7 @@
 
 
   ns.Widgets.SignUpButton = function(){
-
+ 
     var _signUpMessage =  Pard.Widgets.Registration();    
     var _caller = $('<button>').attr({type:'button'}).html('Únete')
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta...', function(){return _signUpMessage});

@@ -40,7 +40,7 @@
       });
 
       $('.whole-container').scroll(function(){
-        if ($('.whole-container').scrollTop() + $(window).height() >= ($('#main-welcome-page').height() + $('.login-bar').height() + $('.footer-bar').height())){
+        if ($('.whole-container').scrollTop() + $(window).height() + 100 >= ($('#main-welcome-page').height() + $('.login-bar').height() + $('.footer-bar').height())){
           tags = [];
           _searchWidget.select2('data').forEach(function(tag){
             tags.push(tag.text);
@@ -112,8 +112,9 @@
         _printTags(obj[field]);
       });
       var _icon = Pard.Widgets.IconManager(field).render();
-      _icon.css('vertical-align','bottom');
-      _typeTag.append(_icon, Pard.Widgets.Dictionary(field).render());
+      _icon.addClass('search-tag-icon');
+      var _tagSpan = $('<span>').css('vertical-align','middle');
+      _typeTag.append(_tagSpan.append(_icon, Pard.Widgets.Dictionary(field).render()));
       _searchTagsBox.append(_typeTag);
     };
     

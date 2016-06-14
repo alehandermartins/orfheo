@@ -101,16 +101,16 @@
   ns.Widgets.LoginAside = function () {
     var _asideContainer = $('<div>').addClass('aside-container').css('position','fixed');
 
-    var _info = $('<div>').addClass('info grid-aside-content')
+    var _info = $('<div>').addClass('grid-aside-content')
 
-    var _text = $('<p>').text('');
+    // var _text = $('<p>').text('');
 
     // Pard.Widgets.Sticker(_asideContainer, 95, 29);
 
     var _signUpButton = Pard.Widgets.SignUpButton().render();
     _signUpButton.addClass('signupButton');
 
-      _asideContainer.append(_info.append(_signUpButton, _info));
+      _asideContainer.append(_signUpButton);
 
     return{
       render: function(){
@@ -131,6 +131,10 @@
 
     var _newsContainer = $('<div>').addClass('news-box-welcome-page ');
 
+    var _titleNewsContainer = $('<div>');
+    var _containerNewsTitle = $('<h6>').text('Noticias').addClass('container-title-welcome-page');
+    _titleNewsContainer.append(_containerNewsTitle);
+
     var _cardContainer = $('<div>').addClass('card-container');
     var _profileConfusion = {
       "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
@@ -147,24 +151,36 @@
 
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
 
-    var _infoTitle = $('<div>').addClass('').append($('<h4>').text('Benimaclet conFusión festival III ed.'));
+    var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-welcome'));
 
     var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
 
     var _mex = $('<div>').append($('<p>').text('Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.'));
 
-    var _searchEngineText = $('<h6>').html('Explora la comunidad').addClass('searchEngine-text-welcome-page');
+    _infoBox.append(_infoTitle, _baseline,  _mex);
+    _newsContainer.append(_titleNewsContainer, _cardContainer, _infoBox);
+
+
+
+    var _searchEngineContainer = $('<div>').addClass('searchBox-welcome-page');
+
+    var _searchEngineTitleBox =  $('<div>').addClass('search-titleBox-welcome-page');
+    var _searchEngineTitle = $('<h6>').text('Explorar').addClass('container-title-welcome-page');
+    _searchEngineTitleBox.append(_searchEngineTitle);
+
+
     var _searchEngine = Pard.Widgets.SearchEngine('');
+    var _searchEngineBox = $('<div>').addClass('user-section-content ');
+    var _searchTitle = $('<div>').append($('<h2>').text('rfh').css({
+      'font-weight': 'bold',
+      'text-align': 'center',
+      'margin-top': '-2.5rem'
+    }))
 
-    var _searchEngineBox = $('<div>').addClass('searchBox-welcome-page user-section-content  ');
+    _searchEngineBox.append(_searchTitle, _searchEngine.render());
+    _searchEngineContainer.append(_searchEngineTitleBox,_searchEngineBox);
 
-    _infoBox.append(_infoTitle, _mex);
-    _newsContainer.append(_cardContainer, _infoBox);
-    _content.append(_newsContainer);
-
-    _searchEngineBox.append(_searchEngineText, _searchEngine.render());
-
-    _content.append(_searchEngineBox);
+    _content.append(_newsContainer, _searchEngineContainer);
 
 
     return{
