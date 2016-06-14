@@ -14,7 +14,7 @@ class SearchController < BaseController
     shown = check_params params[:shown]
     matched_profiles = query_profiles get_profiles, tags
     not_shown = not_shown_profiles matched_profiles, shown
-    success({profiles: not_shown.take(6)})
+    success({profiles: not_shown.take(12)})
   end
 
   private
@@ -125,11 +125,6 @@ class SearchController < BaseController
 
   def get_suggestions_for matched_profiles, query
     suggestions = []
-    if query.all?{ |tag| tag.blank?}
-      add_suggestion suggestions, 'artist', 'type'
-      add_suggestion suggestions, 'space', 'type'
-      add_suggestion suggestions, 'organization', 'type'
-    end
     return suggestions if query.last.blank?
     matched_profiles.each{ |profile|
       add_suggestions suggestions, profile, query  

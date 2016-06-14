@@ -108,29 +108,6 @@ describe SearchController do
 
   describe 'Suggest' do
 
-    it 'returns default types if query is empty' do
-      post suggest_route, {query: []}
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['items']).to eq([{
-        'id' => 'artista',
-        'text' => 'artista',
-        'type' => 'type',
-        'icon' => 'artist'
-      },
-      {
-        'id' => 'espacio',
-        'text' => 'espacio',
-        'type' => 'type',
-        'icon' => 'space'
-      },
-      {
-        'id' => 'organizacion',
-        'text' => 'organizacion',
-        'type' => 'type',
-        'icon' => 'organization'
-      }])
-    end
-
     it 'returns empty array if last query is empty' do
       post suggest_route, {query: ['valencia', '']}
       expect(parsed_response['status']).to eq('success')
