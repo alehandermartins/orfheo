@@ -164,11 +164,12 @@ describe Repos::Profiles do
       expect(result).to eq(production)
     end
 
-    it 'returns all the space profiles, and artist profiles with at least one production' do
+    it 'returns all the profiles' do
       result = Repos::Profiles.get_profiles :all
       expect(result.include? profile).to eq(true)
+      expect(result.include? my_otter_profile).to eq(true)
       expect(result.include? otter_user_profile).to eq(true)
-      expect(result.size).to eq(2)
+      expect(result.size).to eq(3)
     end
 
     it 'returns all profiles and those of the user (sorted)' do

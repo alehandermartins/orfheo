@@ -84,9 +84,7 @@ module Repos
           end
 
           def all args
-            grab({}).select{ |profile|
-              non_empty_profile? profile
-            }.shuffle
+            grab({}).shuffle
           end
 
           def profile args
@@ -116,10 +114,6 @@ module Repos
               profile.merge! Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile[:profile_id], type: profile[:type]})
             }
             sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
-          end
-
-          def non_empty_profile? profile
-            !profile[:productions].blank? || profile[:type] == 'space' || profile[:type] == 'organization'
           end
 
           def sort_profiles profiles, profile_id
