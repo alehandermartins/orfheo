@@ -120,7 +120,7 @@ module Repos
           end
 
           def non_empty_profile? profile
-            !profile[:productions].blank? || profile[:type] == 'space'
+            !profile[:productions].blank? || profile[:type] == 'space' || profile[:type] == 'organization'
           end
 
           def sort_profiles profiles, profile_id

@@ -128,6 +128,7 @@ class SearchController < BaseController
     if query.all?{ |tag| tag.blank?}
       add_suggestion suggestions, 'artist', 'type'
       add_suggestion suggestions, 'space', 'type'
+      add_suggestion suggestions, 'organization', 'type'
     end
     return suggestions if query.last.blank?
     matched_profiles.each{ |profile|
@@ -176,7 +177,7 @@ class SearchController < BaseController
   end
 
   def type? text
-    ['artista', 'espacio'].include? text
+    ['artista', 'espacio', 'organizacion'].include? text
   end
 
   def category? text
