@@ -225,8 +225,6 @@
     if(call['program']){
       spaceColumns.forEach(function(spaceCol){
         call['program'].forEach(function(performance){
-          console.log(spaceCol.attr('id'));
-          console.log(performance.host_proposal_id);
           if(spaceCol.attr('id') == performance.host_proposal_id){
             var timeCol = spaceCol.find('.spaceTime');
             var proposal = _getProposal(performance.participant_proposal_id);
