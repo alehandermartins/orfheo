@@ -95,7 +95,7 @@ Pard.Users = function(profiles){
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
   var _footer = Pard.Widgets.Footer();
 
-  $(_whole).append(_header.render(), _main.render(), _footer.render());
+  $(_whole).append(_header.render(), _main.render().addClass('main-welcome-page'), _footer.render());
 
   $(document).ready( function(){
     if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');

@@ -211,8 +211,8 @@ Grid and Bar
 
 .grid-element-content{
   width: 100%;
-  background: $grey-1;
-  padding: $inner-spacing;
+/*   background: $grey-1;
+ */  padding: $inner-spacing;
   padding-bottom:2rem;
   min-height: 100vh;
   @include border-radius($layout-border-radius);
@@ -274,7 +274,7 @@ off-canvas
   } 
   .off-canvas-grid-aside {
   position: absolute;
-  background: $content-background;
+  /* background: $content-background; */
   z-index: -1;
   max-height: 100%;
   overflow-y: auto;
@@ -377,25 +377,29 @@ button{
 
 .create-artist-btn-popup, .create-space-btn-popup{
     border: 2px solid $grey-2;
-    @include breakpoint(medium){
-     display: inline-block; 
-     margin-left: 4.8rem; 
-    };
     cursor: pointer;    
     margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    text-align: center;
+    @include breakpoint(medium){
+      display: inline-block; 
+      margin-left: 4.8rem; 
+      width: 12rem;
+    };
+
 }
 
 .create-artist-btn-popup:hover, .create-space-btn-popup:hover{
       background-color: $grey-1;
     }
 
-.create-artist-btn-popup{
-    padding: 0.5rem 3rem;
+/* create-artist-btn-popup{
+    padding: 0.5rem 0rem;
 }
 
 .create-space-btn-popup{
-  padding: 0.5rem 2.7rem;
-}
+  padding: 0.5rem 0rem;
+} */
 
 .create-profile-btn-text{
   margin-left:$inner-spacing;
@@ -425,6 +429,22 @@ button{
   height: 3rem;
   @include border-radius($element-border-radius);
   background: $blue-pard;
+}
+
+.signUpButtonForSmall{
+  color: $element-color;
+  font-weight: bold;
+  background: $blue-pard;
+  @include border-radius($element-border-radius);
+  position: absolute;
+  right: $inner-spacing;
+  top: $inner-spacing;
+  font-size: $almostNormalSize;
+  padding: 0.25rem 0.5rem;
+  @include breakpoint(medium){
+    display: none;
+  }
+
 }
 
 /* .signupButton{
@@ -777,7 +797,6 @@ Profile Card
 }
 
 .card-container{
-  display: inline-block;
   display: inline-block;
   padding: 0 1.046rem;
   @include breakpoint(420 down) {

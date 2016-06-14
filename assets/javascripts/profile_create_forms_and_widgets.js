@@ -7,7 +7,7 @@
 
   ns.Widgets.CreateProfile = function(){
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'});
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Comparte tu Arte o tu Espacio', function(){ return Pard.Widgets.CreateProfileMessage()});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage()});
    
     return {
       render: function(){
@@ -74,16 +74,28 @@
   ns.Widgets.CreateProfileMessage = function(){
 
 
-    var _createdWidget = $('<div>');
+    var _createdWidget = $('<div>').css({
+      'margin-top': '1.5rem'
+    });
 
     var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render().addClass('create-space-btn-popup');
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
     var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-artist-btn-popup');
 
-    var _message = $('<div>').addClass('message-form');
-    _message.html('<p> Puedes apuntarte a la convocatoria del conFusión 2016 enviando una o más propuestas como artista o también ofreciendo tu espacio:');
+    _spaceButton.append($('<p>').text('Alberga eventos').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }))
 
-    _createdWidget.append(_message, _artistButton, _spaceButton);
+    _artistButton.append($('<p>').text('Enseña tu portfolio ').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }))
+
+    // var _message = $('<div>').addClass('message-form');
+    // _message.html('<p> Puedes apuntarte a la convocatoria del conFusión 2016 enviando una o más propuestas como artista o también ofreciendo tu espacio:</p>');
+
+    _createdWidget.append(_artistButton, _spaceButton);
 
 
     return {

@@ -57,12 +57,17 @@
       location.href = '/';
     });
 
-     if (userStatus == 'outsider') {
+
+    if (userStatus == 'outsider') {
       var _registerBtnOut = Pard.Widgets.SignUpButton().render().attr({ id: 'register-outsider-header-button'});
 
       _topBarTitle.append(_registerBtnOut);
       _registerBtnOut.hide();
     }
+
+    var _signUpButtonForSmall = Pard.Widgets.SignUpButton().render();
+    _signUpButtonForSmall.addClass('signUpButtonForSmall');
+    _topBarTitle.append(_signUpButtonForSmall)
    
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
 
@@ -99,9 +104,11 @@
 
   
   ns.Widgets.LoginAside = function () {
-    var _asideContainer = $('<div>').addClass('aside-container').css('position','fixed');
+    var _asideContainer = $('<div>').addClass('aside-container login-aside-container');
 
-    var _info = $('<div>').addClass('grid-aside-content')
+    var _info = $('<div>').addClass('aside-text-welcome-page-container');
+
+    _info.append($('<h4>').text('La primera comunidad artístico-cultural donde conocer proyectos, encontrarse y crear juntos experiencias inolvidables'));
 
     // var _text = $('<p>').text('');
 
@@ -110,7 +117,7 @@
     var _signUpButton = Pard.Widgets.SignUpButton().render();
     _signUpButton.addClass('signupButton');
 
-      _asideContainer.append(_signUpButton);
+      _asideContainer.append(_signUpButton, _info);
 
     return{
       render: function(){
@@ -131,11 +138,11 @@
 
     var _newsContainer = $('<div>').addClass('news-box-welcome-page ');
 
-    var _titleNewsContainer = $('<div>');
-    var _containerNewsTitle = $('<h6>').text('Noticias').addClass('container-title-welcome-page');
-    _titleNewsContainer.append(_containerNewsTitle);
+    // var _titleNewsContainer = $('<div>');
+     // var _containerNewsTitle = $('<h6>').text('Noticias').addClass('container-title-welcome-page');
+    // _titleNewsContainer.append(_containerNewsTitle);
 
-    var _cardContainer = $('<div>').addClass('card-container');
+    var _cardContainer = $('<span>').addClass('card-container-news');
     var _profileConfusion = {
       "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
       "name" : "conFusión",
@@ -146,7 +153,11 @@
           "profile_picture/zwqdpibl1ocxrsozdghp"
       ]
     }
-    _cardContainer.append(Pard.Widgets.CreateCard(_profileConfusion).render());
+    
+    _card = Pard.Widgets.CreateCard(_profileConfusion).render();
+
+    _cardContainer.append(_card);
+
 
 
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
@@ -155,30 +166,25 @@
 
     var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
 
-    var _mex = $('<div>').append($('<p>').text('Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.'));
+    var _mex = $('<div>').append($('<p>').html('CONVOCATORIA CERRADA <br/>Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.').css('margin-bottom','0'));
 
-    _infoBox.append(_infoTitle, _baseline,  _mex);
-    _newsContainer.append(_titleNewsContainer, _cardContainer, _infoBox);
+    _infoBox.append(_cardContainer, _infoTitle, _baseline,  _mex);
+    _newsContainer.append(_infoBox);
 
 
 
     var _searchEngineContainer = $('<div>').addClass('searchBox-welcome-page');
 
-    var _searchEngineTitleBox =  $('<div>').addClass('search-titleBox-welcome-page');
-    var _searchEngineTitle = $('<h6>').text('Explorar').addClass('container-title-welcome-page');
-    _searchEngineTitleBox.append(_searchEngineTitle);
+    // var _searchEngineTitleBox =  $('<div>').addClass('search-titleBox-welcome-page');
+    // var _searchEngineTitle = $('<h6>').text('Explorar').addClass('container-title-welcome-page');
+    // _searchEngineTitleBox.append(_searchEngineTitle);
 
 
     var _searchEngine = Pard.Widgets.SearchEngine('');
     var _searchEngineBox = $('<div>').addClass('user-section-content ');
-    var _searchTitle = $('<div>').append($('<h2>').text('rfh').css({
-      'font-weight': 'bold',
-      'text-align': 'center',
-      'margin-top': '-2.5rem'
-    }))
-
-    _searchEngineBox.append(_searchTitle, _searchEngine.render());
-    _searchEngineContainer.append(_searchEngineTitleBox,_searchEngineBox);
+    
+    _searchEngineBox.append(_searchEngine.render());
+    _searchEngineContainer.append(_searchEngineBox);
 
     _content.append(_newsContainer, _searchEngineContainer);
 

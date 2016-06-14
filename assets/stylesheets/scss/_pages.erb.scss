@@ -11,10 +11,27 @@ WELCOME PAGE
   background:$grey-1; 
 }
 
-.container-title-welcome-page{
+.orfheo-symbol-image-searchEngine{
+  background-image: url(<%= image_path 'orfheosimbolonegro.png' %>);
+  width: 90px;
+  height: 61px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include horizontal-center;
+  position: relative;
+  margin-bottom: 1.5rem;
+  /* margin-top: -2rem; */
+}
+
+/* .container-title-welcome-page{
   text-transform: uppercase;
   margin-bottom: 1.5rem;
   color: $grey-4;
+} */
+
+.aside-text-welcome-page-container{
+  color: $grey-4;
+  margin-top: $pard-grid-spacing;
 }
 
 .info-title-news-welcome{
@@ -28,9 +45,22 @@ WELCOME PAGE
 }
 
 .news-box-welcome-page{
-  margin-bottom: $pard-grid-spacing;
-  padding: $inner-spacing;
+  margin-bottom: $inner-spacing;
+  padding: 1.5rem;
   font-size: 18px;
+  @include breakpoint (medium){
+    margin-bottom: $pard-grid-spacing;
+  }
+  
+}
+
+.card-container-news{
+  float: left;
+  margin-right: 2rem;
+  /* display: inline-block; */
+/*   @include breakpoint(small down) {
+    display: none;
+  } */
 }
 
 .search-titleBox-welcome-page{
@@ -38,10 +68,8 @@ WELCOME PAGE
 }
 
 .info-box-news-welcome-page{
-  display: inline-block;
-  padding: 0 1rem;
-  color: $grey-4;
-  vertical-align: top;
+
+ min-height: 14.3rem  ;
 }
 
 .register-form-final-mex{
@@ -189,6 +217,7 @@ Header
   @include breakpoint(small down){
     display: block;
     margin-top: 0.2rem;
+    white-space: nowrap;
   }
 }
 
@@ -238,6 +267,15 @@ Aside content LogIn page
 
 .grid-aside-content{
   padding: $inner-spacing;
+}
+
+.login-aside-container{
+  @include breakpoint(large){ 
+    position: fixed;
+  }
+  @include breakpoint(medium down){ 
+    padding: $inner-spacing;
+  }
 }
 
 

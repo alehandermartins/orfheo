@@ -106,35 +106,50 @@
     }
   }
   
-  ns.Widgets.UserAside = function () {
-    var myprofiles = Pard.CachedProfiles;
-    var myCalls = Pard.CachedCalls;
+  ns.Widgets.UserAside = function (sectionContainer) {
 
     var _createdWidget = $('<div>').addClass('aside-container');
-    var _myprofiles = $('<div>');
+    
+    var _profiles = $('<div>').addClass('create-profile-btn');
+    _profiles.text('Tus perfiles');
+
+    _profiles.click(function(){_contentShowHide('myprofiles-user-page')});
+    var _myProfiles = $('<div>').attr('id', 'myprofiles-user-page');
+    _myProfiles.append(Pard.Widgets.MyProfilesUserPage().render());
+    var _contentShown = _myProfiles;
+
+    var _explore = $('<div>').addClass('create-profile-btn');
+    _explore.text('Explora');
+    _explore.click(function(){_contentShowHide('explore-user-page')});
+    _explore.one('click', function(){
+    _exploreContent.append(Pard.Widgets.ExploreUserPage().render());      
+    });
+    var _exploreContent = $('<div>').attr('id', 'explore-user-page');
+    _exploreContent.hide();
+
+    var _news = $('<div>').addClass('create-profile-btn');
+    _news.text('Novedades');
+    _news.click(function(){_contentShowHide('news-user-page')});
+    _news.one('click', function(){
+    _newsContent.append(Pard.Widgets.NewsUserPage().render());      
+    });
+    var _newsContent = $('<div>').attr('id', 'news-user-page');
+    _newsContent.hide();
+
+
+    var _contentShowHide = function(id_selected){
+      _contentShown.hide();
+      // var _selected = '#'+id_selected;
+      _contentShown = $('#'+id_selected);
+      _contentShown.show();
+
+    }
 
     var _buttonContainer = $('<div>').addClass('create-profile-container');
-
-    var _createProfileText = $('<p>').text('Crea un perfil').addClass('create-profile-text')
-    var _createArtistBtn =  Pard.Widgets.CreateTypeProfile('artist').render();
-    var _createSpaceBtn =  Pard.Widgets.CreateTypeProfile('space').render();
-    var _createOrganizationBtn = Pard.Widgets.CreateTypeProfile('organization').render();
-
-    _createArtistBtn.addClass('create-profile-btn');
-    _createSpaceBtn.addClass('create-profile-btn');
-    _createOrganizationBtn.addClass('create-profile-btn');  
-
-
-    _buttonContainer.append(_createProfileText,_createArtistBtn, _createSpaceBtn); 
     
-
+    _buttonContainer.append(_profiles, _explore, _news);
+    sectionContainer.append(_myProfiles, _exploreContent, _newsContent);
     _createdWidget.append(_buttonContainer);
-
-    if (myprofiles.length > 0){
-      var _myProfileText = $('<p>').text('Tus perfiles').addClass('myProfile-text');
-      _myprofiles.append(Pard.Widgets.MyProfiles(myprofiles).render());
-      _createdWidget.append(_myProfileText,_myprofiles);
-    }
 
     return{
       render: function(){
@@ -143,19 +158,151 @@
     }
   }
 
+  ns.Widgets.MyProfilesUserPage = function(){
+    var _createdWidget = $('<div>').addClass('search-results');
 
-  ns.Widgets.UserSection = function(content) {
+    var _myprofiles = Pard.CachedProfiles;
 
-    content.empty();
+    if (_myprofiles.length > 0){
+      _myprofiles.forEach(function(profile){
+        var _profileContainer = $('<div>').addClass('card-container position-profileCard-login');
+        _createdWidget.append(_profileContainer.append(Pard.Widgets.CreateCard(profile).render()));
+      })
+    }
 
-    var profiles = Pard.CachedProfiles['profiles'];
-    var _content = content.addClass('grid-element-content user-section-content  ');
+    var _createProfileCardContainer = $('<div>').addClass('card-container').css('vertical-align','top');
+    var _createProfileCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
+    var _color = '#6f6f6f';
+    _createProfileCard.css({border: 'solid 3px'+_color});
+    _createProfileCard.hover(
+      function(){
+        $(this).css({
+        'box-shadow': '0 0 2px 1px'+ _color
+        // 'background': 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+'.1'+ ')'
+      });
+      },
+      function(){
+        $(this).css({
+          'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
+          // 'background':'white'
+        });
+      }
+    );
 
-    var _title = $('<div>').addClass('grid-section-contentTitle').html(' <h4> Explora los otros perfiles </h4>');
+    _createProfileCard.click(function(){
+      var _caller = $('<button>');
+      var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage()});
+      _caller.trigger('click');
+    });
+    _createProfileCardContainer.append(_createProfileCard);
+    _createdWidget.append(_createProfileCardContainer);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.ExploreUserPage = function(){
+
+    var _createdWidget = $('<div>');
    
     var _searchEngine = Pard.Widgets.SearchEngine('');
 
-    _content.append(_title, _searchEngine.render());
+    _createdWidget.append(_searchEngine.render());
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.NewsUserPage = function(){
+
+    var _createdWidget = $('<div>');
+
+    var _newsConFusionContainer = $('<div>').addClass('news-box-welcome-page ');
+
+    var _cardContainer = $('<span>').addClass('card-container-news');
+    var _profileConfusion = {
+      "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
+      "name" : "conFusión",
+      "city" : "Benimaclet (Valencia)",
+      "color" : "#920a0a",
+      "type" : "organization",
+      "profile_picture" : [ 
+          "profile_picture/zwqdpibl1ocxrsozdghp"
+      ]
+    }
+    
+    _card = Pard.Widgets.CreateCard(_profileConfusion).render();
+
+    _cardContainer.append(_card);
+
+    var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
+
+    var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-welcome'));
+
+    var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
+
+    var _mex = $('<div>').append($('<p>').html('CONVOCATORIA CERRADA <br/>Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.').css('margin-bottom','0'));
+
+    _infoBox.append(_cardContainer, _infoTitle, _baseline,  _mex);
+    _newsConFusionContainer.append(_infoBox);
+
+
+    var _newsOrfheoContainer = $('<div>').addClass('news-box-welcome-page ');
+
+    var _cardOrfheoContainer = $('<span>').addClass('card-container-news');
+    
+    var _orfheoCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
+    var _color = 'rgb(56, 133, 255)';
+    _orfheoCard.css({border: 'solid 3px'+_color});
+    _orfheoCard.hover(
+      function(){
+        $(this).css({
+        'box-shadow': '0 0 2px 1px'+ _color
+        // 'background': 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+'.1'+ ')'
+      });
+      },
+      function(){
+        $(this).css({
+          'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
+          // 'background':'white'
+        });
+      }
+    );
+
+    _cardOrfheoContainer.append(_orfheoCard);
+
+    var _infoOrfheoBox = $('<div>').addClass('info-box-news-welcome-page');
+
+    var _infoOrfheoTitle = $('<div>').append($('<h4>').text('Orfheo en continuo desarrollo').addClass('info-title-news-welcome'));
+
+    // var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
+
+    var _mexOrfheo = $('<div>').append($('<p>').text('Orfheo evoluciona con la intención de permitir a toda su comunidad...').css('margin-bottom','0'));
+
+    _infoOrfheoBox.append(_cardOrfheoContainer, _infoOrfheoTitle,  _mexOrfheo);
+    _newsConFusionContainer.append(_infoOrfheoBox);
+
+
+    _createdWidget.append(_newsConFusionContainer);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    } 
+
+  }  
+
+
+  ns.Widgets.UserSection = function(content) {
+
+    var _content = content.addClass('grid-element-content user-section-content');
     
     return{
       render: function(){

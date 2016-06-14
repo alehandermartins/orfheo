@@ -37,7 +37,7 @@
     if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
     }
-    else if(profile.proposals && profile.proposals[0]['description']){
+    else if(profile.proposals && profile.proposals[0] && profile.proposals[0]['description']){
         _bio.append($('<p>').text(profile.proposals[0]['description']));
     }
     else if(profile.proposals && profile.proposals[0]){
