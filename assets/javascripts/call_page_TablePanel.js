@@ -3,8 +3,6 @@
 (function(ns){
 
   ns.Widgets.CallMainLayout = function(call){
-  	console.log(call);
-   
   	var _main = $('<main>').addClass('main-call-page');
     var _mainLarge = $('<section>').addClass('pard-grid call-section');
 
