@@ -124,7 +124,8 @@ module Repos
             profiles.each{ |profile|
               profile.merge! Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile[:profile_id], requester: args[:requester]})
             }
-            sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
+            profiles = sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
+            profiles
           end
 
           def sort_profiles profiles, profile_id

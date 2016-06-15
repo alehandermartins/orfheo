@@ -72,7 +72,7 @@ class ProfilesController < BaseController
   end
 
   post '/users/list_profiles'do
-    profiles = Repos::Profiles.get_profiles :user_listed, {user_id: session[:identity]}
+    profiles = Repos::Profiles.get_profiles :visit_profiles, {user_id: session[:identity]}
     success({profiles: profiles})
   end
 
