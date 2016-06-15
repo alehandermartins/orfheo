@@ -75,10 +75,9 @@
           var _button = $('<button>').html('Envía una propuesta').addClass('signUp-button-welcome-section');
           _button.click(function(){
             var _listProfile = function(data){
-              console.log(data);
               if(data['status'] == 'success'){
                 var _caller = $('<button>');
-                var _popup = Pard.Widgets.PopupCreator(_caller,'Escribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id)});
+                var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id)});
                 _caller.trigger('click');
               }
               else{
@@ -112,11 +111,11 @@
     }
 
 
-    if(profile.calls){ 
-      var _searchEngine = Pard.Widgets.SearchEngine('', profile.calls[0].event_id);
-      var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
-      _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
-    }
+    // if(profile.calls){ 
+    //   var _searchEngine = Pard.Widgets.SearchEngine('', profile.calls[0].event_id);
+    //   var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
+    //   _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
+    // }
 
 
     _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));

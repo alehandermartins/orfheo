@@ -13,10 +13,10 @@ class SearchController < BaseController
   post '/results' do
     scopify query: true, shown: true, event_id: true
     tags = get_query query
-    shown = check_params shown
-    matched_profiles = query_profiles get_profiles(event_id), tags
-    not_shown = not_shown_profiles matched_profiles, shown
-    success({profiles: not_shown.take(12)})
+    shown_profiles = check_params shown
+    not_shown = not_shown_profiles get_profiles(event_id), shown_profiles
+    matched_profiles = query_profiles not_shown, tags
+    success({profiles: matched_profiles.take(2)})
   end
 
   private

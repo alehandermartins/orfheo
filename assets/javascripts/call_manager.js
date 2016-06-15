@@ -33,7 +33,7 @@
         if(proposal.proposal_id == proposal_id) return (result = proposal); 
       });
       return result;
-    }
+    };
 
     _getProfileiD = function(proposal_id){
       var profile_id = '';
@@ -41,7 +41,7 @@
         if(proposal.proposal_id == proposal_id) return (profile_id = proposal.profile_id); 
       });
       return profile_id;
-    }
+    };
 
     var _tableContainer = $('<div>').addClass('tableContainer').css({
       'overflow-x': 'scroll',
@@ -79,8 +79,6 @@
         width: 120
       });
 
-      spaceColumns[day['date']] = [];
-
       var start = parseInt(day['time'][0][0].split(':')[0]);
       var lastIndex = day['time'].length - 1;
       var end = parseInt(day['time'][lastIndex][1].split(':')[0]);
@@ -88,7 +86,7 @@
       var hours = [];
       for (var i = start; i <= end; i++) {
         hours.push(i);
-      }
+      };
 
       hours.forEach(function(hour, hourIndex){
         var _time = $('<div>').html(hour + ':00').css({
@@ -105,123 +103,130 @@
         _createdWidget.append(_time, _line);
       });
 
-      spaces.forEach(function(space){
-        var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id).css({
-          'display': ' inline-block',
-          'width': '11rem',
-          'border-width': '1px',
-          'border-style': 'solid',
-        });
-        var _spacename = $('<div>').addClass('spaceName').html(space.name).css({
-          'background': '#b5cfd2',
-          'padding': '8px',
-          'border-color': '#999999',
-          'height': '40px',
-          'cursor': 'pointer'
-        });
+      spaceColumns[day['date']] = {
+        'scheduled': [],
+        'permanent': []
+      };
 
-        _spaceCol.append(_spacename);
+      ['scheduled', 'permanent'].forEach(function(type){
+        
+        spaces.forEach(function(space){
+          var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id).css({
+            'display': ' inline-block',
+            'width': '11rem',
+            'border-width': '1px',
+            'border-style': 'solid',
+          });
+          var _spacename = $('<div>').addClass('spaceName').html(space.name).css({
+            'background': '#b5cfd2',
+            'padding': '8px',
+            'border-color': '#999999',
+            'height': '40px',
+            'cursor': 'pointer'
+          });
 
-        var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
-          'height': (hours.length - 1) * 40
-        });
-        _time.droppable({
-          accept: function(card){
-            if(card.hasClass('proposalCard') || card.hasClass('programHelper')) return true;
-          },
-          drop: function(event, ui) {
+          _spaceCol.append(_spacename);
 
-            var position = ui.helper.position().top;
-            var colPosition = _time.position().top;
+          var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
+            'height': (hours.length - 1) * 40
+          });
+          _time.droppable({
+            accept: function(card){
+              if(card.hasClass('proposalCard') || card.hasClass('programHelper')) return true;
+            },
+            drop: function(event, ui) {
 
-            if(ui.draggable.hasClass('proposalCard')) position -= (_tableContainer.position().top);
-            if(position < colPosition) position = colPosition;
+              var position = ui.helper.position().top;
+              var colPosition = _time.position().top;
 
-            var _offset = (position - colPosition) % 10;
-            if(_offset >= 5) position += 10 - _offset;
-            if(_offset < 5) position -= _offset;
+              if(ui.draggable.hasClass('proposalCard')) position -= (_tableContainer.position().top);
+              if(position < colPosition) position = colPosition;
 
-            var duration = ui.helper.height();
-            Pard.Widgets.DraggedProposal['height'] = duration;
-            if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
+              var _offset = (position - colPosition) % 10;
+              if(_offset >= 5) position += 10 - _offset;
+              if(_offset < 5) position -= _offset;
 
-            var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
-            _time.append(newEvent);
-            newEvent.css({
-              position: 'absolute',
-              top: position + "px",
-              left: _time.position().left + "px",
-            });
+              var duration = ui.helper.height();
+              Pard.Widgets.DraggedProposal['height'] = duration;
+              if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
 
-            newEvent.resizable({
-              maxWidth: 174,
-              minWidth: 174,
-              maxHeight: _time.height() - (position - colPosition),
-              grid: 10
-            });
-          }
-        });
+              var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
+              _time.append(newEvent);
+              newEvent.css({
+                position: 'absolute',
+                top: position + "px",
+                left: _time.position().left + "px",
+              });
 
-        _spaceCol.append(_time);
+              newEvent.resizable({
+                maxWidth: 174,
+                minWidth: 174,
+                maxHeight: _time.height() - (position - colPosition),
+                grid: 10
+              });
+            }
+          });
 
-        _spaceCol.draggable({
-          containment: '.tableContainer',
-          revert: 'invalid',
-          axis: 'x',
-          handle: '.spaceName',
-          helper: function(){ 
-            return Pard.Widgets.SpaceHelper(_spaceCol).render();
-          },
-          start: function(event, ui){
-            _spaceCol.addClass('ui-sortable-placeholder');
-          },
-          drag: function(event, ui){
-            var originalPosition = $(this).data("uiDraggable").originalPosition;
-            var position = ui.position.left;
-            var dayColumns = spaceColumns[day['date']];
+          _spaceCol.append(_time);
 
-            if (position > (originalPosition.left + 88)){
-              var index = $.inArray(_spaceCol, dayColumns);
-              if(index < dayColumns.length - 1){
-                dayColumns[index + 1].after(dayColumns[index]);
-                dayColumns[index + 1].find('.programHelper').css({left: dayColumns[index + 1].position().left + 1 + "px"});
-                var tempColumn = dayColumns[index + 1];
-                dayColumns[index + 1] = dayColumns[index];
-                dayColumns[index] = tempColumn;
-                $(this).data("uiDraggable").originalPosition = {
-                    top : originalPosition.top,
-                    left : originalPosition.left + 176
+          _spaceCol.draggable({
+            containment: '.tableContainer',
+            revert: 'invalid',
+            axis: 'x',
+            handle: '.spaceName',
+            helper: function(){ 
+              return Pard.Widgets.SpaceHelper(_spaceCol).render();
+            },
+            start: function(event, ui){
+              _spaceCol.addClass('ui-sortable-placeholder');
+            },
+            drag: function(event, ui){
+              var originalPosition = $(this).data("uiDraggable").originalPosition;
+              var position = ui.position.left;
+              var dayColumns = spaceColumns[day['date']][type];
+
+              if (position > (originalPosition.left + 88)){
+                var index = $.inArray(_spaceCol, dayColumns);
+                if(index < dayColumns.length - 1){
+                  dayColumns[index + 1].after(dayColumns[index]);
+                  dayColumns[index + 1].find('.programHelper').css({left: dayColumns[index + 1].position().left + 1 + "px"});
+                  var tempColumn = dayColumns[index + 1];
+                  dayColumns[index + 1] = dayColumns[index];
+                  dayColumns[index] = tempColumn;
+                  $(this).data("uiDraggable").originalPosition = {
+                      top : originalPosition.top,
+                      left : originalPosition.left + 176
+                  }
                 }
               }
-            }
-            if (position < (originalPosition.left - 88)){
-              var index = $.inArray(_spaceCol, dayColumns);
-              if(index > 0){
-                dayColumns[index].after(dayColumns[index - 1]);
-                dayColumns[index - 1].find('.programHelper').css({left: dayColumns[index - 1].position().left + 1 + "px"});
-                var tempColumn = dayColumns[index - 1];
-                dayColumns[index - 1] = dayColumns[index];
-                dayColumns[index] = tempColumn;
-                $(this).data("uiDraggable").originalPosition = {
-                    top : originalPosition.top,
-                    left : originalPosition.left - 176
+              if (position < (originalPosition.left - 88)){
+                var index = $.inArray(_spaceCol, dayColumns);
+                if(index > 0){
+                  dayColumns[index].after(dayColumns[index - 1]);
+                  dayColumns[index - 1].find('.programHelper').css({left: dayColumns[index - 1].position().left + 1 + "px"});
+                  var tempColumn = dayColumns[index - 1];
+                  dayColumns[index - 1] = dayColumns[index];
+                  dayColumns[index] = tempColumn;
+                  $(this).data("uiDraggable").originalPosition = {
+                      top : originalPosition.top,
+                      left : originalPosition.left - 176
+                  }
                 }
               }
+            },
+            stop:function(event, ui){
+              _spaceCol.removeClass('ui-sortable-placeholder');
+              _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
             }
-          },
-          stop:function(event, ui){
-            _spaceCol.removeClass('ui-sortable-placeholder');
-            _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
-          }
+          });
+          _table.append(_spaceCol.hide());
+          spaceColumns[day['date']][type].push(_spaceCol);
+          console.log(_spaceCol);
         });
-        _spacePermanent = _spaceCol.clone();
-        _spacePermanent.addClass('_permanent');
-        _table.append(_spaceCol.hide());
-        spaceColumns[day['date']].push(_spaceCol);
       });
     });
    
-    spaceColumns[eventTime[0]['date']].forEach(function(spaceCol){
+    spaceColumns[eventTime[0]['date']]['scheduled'].forEach(function(spaceCol){
       spaceCol.show();
     }); 
     _tableContainer.append(_table);
@@ -274,31 +279,31 @@
     });
     _createdWidget.append(_submitBtn.render());
 
-    if(call['program']){
-      call['program'].forEach(function(performance){
-        spaceColumns[performance.date].forEach(function(spaceCol){
-          if(spaceCol.attr('id') == performance.host_proposal_id){
-            var timeCol = spaceCol.find('.spaceTime');
-            var proposal = _getProposal(performance.participant_proposal_id);
-            proposal['height'] = performance.time[1] - performance.time[0];
-            var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
-            timeCol.append(newEvent);
-            newEvent.css({
-              position: 'absolute',
-              top: parseInt(performance.time[0]) + 41 + "px",
-              left: spaceColumns[performance.date].indexOf(spaceCol) * 176 + 1 + "px",
-            });
+    // if(call['program']){
+    //   call['program'].forEach(function(performance){
+    //     spaceColumns[performance.date].forEach(function(spaceCol){
+    //       if(spaceCol.attr('id') == performance.host_proposal_id){
+    //         var timeCol = spaceCol.find('.spaceTime');
+    //         var proposal = _getProposal(performance.participant_proposal_id);
+    //         proposal['height'] = performance.time[1] - performance.time[0];
+    //         var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
+    //         timeCol.append(newEvent);
+    //         newEvent.css({
+    //           position: 'absolute',
+    //           top: parseInt(performance.time[0]) + 41 + "px",
+    //           left: spaceColumns[performance.date].indexOf(spaceCol) * 176 + 1 + "px",
+    //         });
 
-            newEvent.resizable({
-              maxWidth: 174,
-              minWidth: 174,
-              maxHeight: timeCol.height() - (performance.time[0]),
-              grid: 10
-            });
-          }
-        });
-      });
-    }
+    //         newEvent.resizable({
+    //           maxWidth: 174,
+    //           minWidth: 174,
+    //           maxHeight: timeCol.height() - (performance.time[0]),
+    //           grid: 10
+    //         });
+    //       }
+    //     });
+    //   });
+    // }
 
   	return {
       render: function(){
