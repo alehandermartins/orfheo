@@ -92,11 +92,12 @@
 
      var _finalMessage = $('<p>').append('Para cualquier duda o necesidad no te olvides que el equipo de organización del festival está siempre a tu disposición y puedes contactarlo escribiendo a <a href="mailto:contacta@beniconfusionfest.es" target="_top">contacta@beniconfusionfest.es</a>.').addClass('myproposal-final-message');
 
-    var _deleteProposalCaller = $('<a>').attr('href','#').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller');
+    // var _deleteProposalCaller = $('<a>').attr('href','#').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller');
 
-    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProposalMessage(proposal.proposal_id, closepopup)});
+    // var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProposalMessage(proposal.proposal_id, closepopup)});
 
-    _createdWidget.append(_postData, _finalMessage, _deleteProposal.render());
+    _createdWidget.append(_postData, _finalMessage);
+    // _createdWidget.append(_deleteProposal.render());
 
 
     return {

@@ -5,7 +5,7 @@
   ns.Widgets.SearchEngine = function (label, event_id) {
 
     var _createdWidget = $('<div>').addClass('search-engine-container');
-     var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
+
     var _searchResult = $('<div>').addClass('search-results');
     var _searchMessage = $('<div>').append($('<p>').text(label));
     var _searchWidget = $('<select>');
@@ -129,7 +129,7 @@
 
     _printTags(_typeObj);
 
-    _createdWidget.append(_searchTitle, _searchInput, _searchTagsBox, _searchResult);
+    _createdWidget.append(_searchInput, _searchTagsBox, _searchResult);
 
     _searchWidget.select2({
       placeholder: 'Busca por tags',

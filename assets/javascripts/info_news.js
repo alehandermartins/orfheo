@@ -62,7 +62,7 @@
     _orfheoCard.append(_orfheoLogo);
     _cardOrfheoContainer.append(_orfheoCard);
     var _infoOrfheoBox = $('<div>').addClass('info-box-news-welcome-page');
-    var _infoOrfheoTitle = $('<div>').append($('<h4>').text('Cuida de tu comunidad y tu comunidad cuiderá de ti').addClass('info-title-news-user'));
+    var _infoOrfheoTitle = $('<div>').append($('<h4>').text('Cuida de tu comunidad y tu comunidad cuidará de ti').addClass('info-title-news-user'));
     var _mexOrfheo = $('<div>').append($('<p>').html('Orfheo sigue evolucionando con la intención de permitir a toda la comunidad poder lanzar y gestionar convocatorias, comunicar y crear redes.'), $('<p>').html('NUEVAS FUNCIONALIDADES A PUNTO DE LLEGAR'), $('<p>').html('El proyecto está abierto a cualquier tipo de colaboración. Para más informaciones <a href="mailto:info@orfheo.org">info@orfheo.org</a>.'));
     _infoOrfheoBox.append(_cardOrfheoContainer)
     if (date) {

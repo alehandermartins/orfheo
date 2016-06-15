@@ -56,11 +56,11 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
+    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
+    var _callsBoxContent = $('<div>').addClass('box-content');
+
     if (userStatus != 'owner'){
       if(profile.calls) profile.calls.forEach(function(call){
-        var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
-        var _callsBoxContent = $('<div>').addClass('box-content');
-
         var _callsInfoTitle = $('<p>').text('Convocatoria cerrada.').css('font-weight','bold');
         var _callsInfoText = $('<p>').html('Pronto la programación interactiva.');
         // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
@@ -92,7 +92,6 @@
           _callsInfoText.empty();
           _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
         }
-        _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
       });
     }
 
@@ -101,8 +100,7 @@
       _createdWidget.append(_modifyProfile.render());
       console.log(profile);
       if(profile.calls) profile.calls.forEach(function(call){
-        var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
-        var _callsBoxContent = $('<div>').addClass('box-content');
+
 
         var _manageCallText = $('<p>').text('Gestiona convocatoria').addClass('manage-call-text');
         var _manageCallBtn =  $('<div>').addClass('manage-call-btn').click(function(){location.href = '/call?id='+ call.call_id});
@@ -110,15 +108,20 @@
         var _manageCallBtnIcon = Pard.Widgets.IconManager('proposals').render().addClass(' create-profile-btn-icon');
         
         _callsBoxContent.append(_manageCallText, _manageCallBtn.append(_manageCallBtnIcon,_manageCallBtnText));
-        _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
       });
     }
 
-    console.log(profile.calls[0].event_id);
+
     if(profile.calls){ 
       var _searchEngine = Pard.Widgets.SearchEngine('', profile.calls[0].event_id);
-      _createdWidget.append(_searchEngine.render());
+      var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
+      _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
     }
+
+
+    _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
+
+
     return {
       render: function(){
         return _createdWidget;
@@ -146,7 +149,7 @@
       _createdWidget.append(_cardContainer.append(_card));
     });
 
-    _createdWidget.append($('<h4>').text('...o crea y escribe uno nuevo'));
+    _createdWidget.append($('<h4>').text('...o crea e inscribe uno nuevo'));
 
     return {
       render: function(){

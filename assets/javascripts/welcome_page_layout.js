@@ -184,8 +184,8 @@
 
     var _searchEngine = Pard.Widgets.SearchEngine('');
     var _searchEngineBox = $('<div>').addClass('user-section-content ');
-    
-    _searchEngineBox.append(_searchEngine.render());
+    var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
+    _searchEngineBox.append(_searchEngine.render().prepend(_searchTitle));
     _searchEngineContainer.append(_searchEngineBox);
 
     _content.append(_newsContainer.render(), _searchEngineContainer);
