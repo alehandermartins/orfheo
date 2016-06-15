@@ -200,6 +200,10 @@
       }
     );
 
+    var _addCircle = Pard.Widgets.IconManager('add_circle').render().addClass('addCircle-create-profile-card');
+    var _text = $('<p>').text('Crea un perfil').addClass('create-profile-card-text');
+    _createProfileCard.append(_addCircle, _text)
+
     _createProfileCard.click(function(){
       var _caller = $('<button>');
       var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage()});

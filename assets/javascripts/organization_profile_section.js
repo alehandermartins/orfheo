@@ -74,7 +74,18 @@
         if (profile.calls && profile.calls[0] && profile.calls[0].whitelist){
           var _button = $('<button>').html('Envía una propuesta').addClass('signUp-button-welcome-section');
           _button.click(function(){
-            Pard.Backend.listProfiles(Pard.Events.ListProfiles);
+            var _listProfile = function(data){
+              console.log(data);
+              if(data['status'] == 'success'){
+                var _caller = $('<button>');
+                var _popup = Pard.Widgets.PopupCreator(_caller,'Escribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id)});
+                _caller.trigger('click');
+              }
+              else{
+                Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
+              }
+            }
+            Pard.Backend.listProfiles(_listProfile);
           })
           _callsInfo.append(_button);
           _callsInfoTitle.removeAttr('style');
@@ -111,19 +122,21 @@
   }
 
 
-
-  ns.Widgets.ChooseProfileMessage = function(profiles){
+  ns.Widgets.ChooseProfileMessage = function(profiles, call_id){
     var _createdWidget = $('<div>');
 
     profiles.forEach(function(profile){
       var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
       var _card = Pard.Widgets.CreateCard(profile).render();
       // var _card = $('<button>').text(profile.name);
+      _card.removeAttr('href');
+      _card.attr('href','#');
       _card.click(function(){
-                console.log(profile.type);
-
-      var _caller =  Pard.Widgets.ProposalForm(profile.type).render();
-      _caller(profile,'').render().trigger('click');
+        if (profile.type == 'space' && profile.proposals && profile.proposals[0]) Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en el conFusión 2016. ');
+        else{
+          var _caller =  Pard.Widgets.ProposalForm(profile.type).render();
+          _caller(profile,'',call_id).render().trigger('click');
+        }
       });
       _createdWidget.append(_cardContainer.append(_card));
     });

@@ -4,10 +4,10 @@
 
 
 
-  ns.Widgets.CallSpaceButton = function(profile, label){
+  ns.Widgets.CallSpaceButton = function(profile, label, call_id){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
-    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile, call_id)});
 
     var _createdWidget = _popup.render();
 
@@ -19,7 +19,7 @@
   }
 
 
-  ns.Widgets.CallMessageSpace= function(profile){
+  ns.Widgets.CallMessageSpace= function(profile, call_id){
 
     var _createdWidget = $('<div>');
     var _message = $('<div>').html(
@@ -30,7 +30,8 @@
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
+    _submitForm['call_id'] = call_id;
+    // 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
 
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile['type'];

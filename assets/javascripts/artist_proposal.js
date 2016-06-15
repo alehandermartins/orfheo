@@ -5,11 +5,11 @@
   ns.Widgets = ns.Widgets || {};
 
 
-  ns.Widgets.CallArtistButton = function(profile, label){
+  ns.Widgets.CallArtistButton = function(profile, label, call_id){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
     var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){
-      return Pard.Widgets.CallMessageArtist(profile);
+      return Pard.Widgets.CallMessageArtist(profile, call_id);
     });
 
     var _createdWidget = _popup.render();
@@ -21,7 +21,7 @@
     }
   }
 
-  ns.Widgets.CallMessageArtist = function(profile){
+  ns.Widgets.CallMessageArtist = function(profile, call_id){
     var _createdWidget = $('<div>');
     var _message = $('<div>').html(
       '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Este formulario es para enviar tu propuesta al Benimaclet conFusión festival 2016. Tiene dos partes: '
@@ -60,7 +60,8 @@
     });
     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css('margin-bottom','1rem');
 
-    _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
+    // _submitForm['call_id'] = 'b5bc4203-9379-4de0-856a-55e1e5f3fac6';
+    _submitForm['call_id'] = call_id;
     _submitForm['profile_id'] = profile.profile_id;
     _submitForm['type'] = profile.type;
     _submitForm['category'] = _selected;

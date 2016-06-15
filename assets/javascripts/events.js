@@ -286,17 +286,6 @@
     }  
   }
 
-  ns.Events.ListProfiles = function(data){
-    if(data['status'] == 'success'){
-      console.log(data);
-      var _caller = $('<button>');
-      var _popup = Pard.Widgets.PopupCreator(_caller,'Escribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles)});
-      _caller.trigger('click');
-    }
-    else{
-      Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
-    }
-  }
 
 
 }(Pard || {}));
