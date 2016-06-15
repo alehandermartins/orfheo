@@ -38,8 +38,9 @@ class CallsController < BaseController
   end
 
   post '/users/add_whitelist' do
-    scopify call_id: true, whitelist: true  
+    scopify call_id: true
     check_call_ownership call_id
+    whitelist = Util.arrayify_hash params[:whitelist]
     Repos::Calls.add_whitelist call_id, whitelist
     call = get_call call_id
     success

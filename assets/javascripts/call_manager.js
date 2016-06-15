@@ -162,14 +162,7 @@
           }
         });
 
-
-        var _permanent = $('<div>').addClass('spacePermanent').html('&nbsp').css({
-          'height': 40
-        });
-
         _spaceCol.append(_time);
-        //_spaceCol.append(_permanent);
-        
 
         _spaceCol.draggable({
           containment: '.tableContainer',
@@ -221,6 +214,8 @@
             _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
           }
         });
+        _spacePermanent = _spaceCol.clone();
+        _spacePermanent.addClass('_permanent');
         _table.append(_spaceCol.hide());
         spaceColumns[day['date']].push(_spaceCol);
       });
