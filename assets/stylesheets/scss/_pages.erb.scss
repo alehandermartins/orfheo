@@ -577,15 +577,7 @@ Aside
 }
 
 
-.profile-selected-container{
-  background: $grey-1;
-  padding: 0.4rem 0.1rem;
-  position: relative;
-  width: 100%;
-  cursor: pointer;
-  min-height: 3.75rem;
-  display: block;
-}
+
 
 .profile-nav-circle-selected{
   @include pardCircle(2.2rem);
@@ -627,8 +619,20 @@ Aside
   display: block;
 }
 
+.profile-selected-container{
+  /* background: $grey-1; */
+  padding: 0.4rem 0.1rem;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  min-height: 3.75rem;
+  display: block;
+}
+
 .production-nav-element-container{
   min-height: 2.7rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
 }
 
 
@@ -637,25 +641,24 @@ Aside
   position: relative;
   width: 100%;
   padding-top: 0.4rem;
-    min-height: 3.75rem;
+  min-height: 3.75rem;
 }
 
-.profile-nav-element-container:hover{
+.profile-nav-element-container:hover, .profile-selected-container:hover, .production-nav-element-container:hover{
   background: $grey-1;
+  font-weight: bold;
+  cursor: pointer;
 }
-
 
 .text-link-profile-nav{
   font-weight: bold;
 }
 
-
-
 .selected-element{
   font-weight: bold;
+  background: $grey-1;
+  /* border-left: 4px solid #000000; */
 }
-
-
 
 .message-otherProfile-asideBar, .message-productions-asideBar{
   text-transform: uppercase;

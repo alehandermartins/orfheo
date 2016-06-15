@@ -60,17 +60,17 @@
         var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
         var _callsBoxContent = $('<div>').addClass('box-content');
 
-        var _callsInfoTitle = $('<p>').text('Abierta hasta el 15 de Junio.').css('font-weight','bold');
-        var _callsInfoText = $('<p>').html('Se aceptan todo tipo de propuestas propias y originales de carácter artístico, con un fondo humano y que impulsen valores que fomenten la armonía y convivencia entre las personas (<a href= "http://beniconfusionfest.es/es/bases" target="_blank">bases de participación</a>).');
+        var _callsInfoTitle = $('<p>').text('Convocatoria cerrada.').css('font-weight','bold');
+        var _callsInfoText = $('<p>').html('Pronto la programación interactiva.');
         // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
         var _signUpMessage =  Pard.Widgets.Registration();    
         var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
         var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
         var _signUpButton = _popup.render().addClass('signUpButton-login-section');
-
         var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
-
-        _callsBoxContent.append(_callsInfo,_signUpButton);
+        console.log(profile.calls[0]);
+        _callsBoxContent.append(_callsInfo);
+        if (profile.calls && profile.calls[0] && profile.calls[0].whitelist)_callsInfo.append(_signUpButton);
         _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
       });
     }

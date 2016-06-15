@@ -169,18 +169,21 @@
 
   ns.Widgets.ProfilesNavigationSelected = function(profile, callback){
 
-    var _createdWidget = $('<div>').addClass('profile-selected-container');
+    var _createdWidget = $('<div>').addClass('profile-selected-container  selected-element');
     var _circleColumn = $('<div>').addClass('icon-column');
 
     var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': profile['color']});
     var _nameColumn = $('<div>').addClass('name-column profile-name-column');
-    var _name = $('<p>').addClass('profile-nav-name-selected selected-element').text(profile['name']);
+    var _name = $('<p>').addClass('profile-nav-name-selected').text(profile['name']);
     
-    _createdWidget.hover(function(){_name.addClass('text-link-profile-nav')},function(){_name.removeClass('text-link-profile-nav')});
+    _createdWidget.hover(function(){
+      _name.addClass('text-link-profile-nav');
+      _name.removeClass('text-link-profile-nav');
+    });
 
     _createdWidget.click(function(){
       $('.selected-element').removeClass('selected-element');
-      _name.addClass('selected-element');
+      _createdWidget.addClass('selected-element');
       callback();      
     });
 
@@ -211,8 +214,8 @@
     _profileCircle.hover(function(){_name.addClass('text-link-profile-nav')},function(){_name.removeClass('text-link-profile-nav')});
     _elementContainer.click(function(){_profileCircle.trigger('click')});
     _profileCircle.click(function(){
-      $('.selected-element').removeClass('selected-element');
-      _name.addClass('selected-element');
+      // $('.selected-element').removeClass('selected-element');
+      // _name.addClass('selected-element');
       callback();      
     });
     var _icon = $('<div>').append(Pard.Widgets.IconManager(profile['type']).render().addClass('profile-nav-element-icon'));
@@ -283,7 +286,7 @@
       _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
       if(selected == production_id) {
         $('.selected-element').removeClass('selected-element');
-        _name.addClass('selected-element');
+        _productionItem.addClass('selected-element');
         var _myProduction = $('<div>');
         _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
         sectionContent.append(_myProduction);
@@ -295,9 +298,9 @@
           doBuild();
         });
       }
-      _name.click(function(){
+      _productionItem.click(function(){
         $('.selected-element').removeClass('selected-element');
-        _name.addClass('selected-element');
+        _productionItem.addClass('selected-element');
         _lastselected.hide();
 
         if(_shown[production_id]){
