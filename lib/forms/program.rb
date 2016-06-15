@@ -21,6 +21,7 @@ class Forms::Program < Forms::Base
   def create_model_from_performance performance
     {
       performance_id: performance[:performance_id] || SecureRandom.uuid,
+      date: performance[:date],
       time: performance[:time],
       participant_id: performance[:participant_id],
       participant_proposal_id: performance[:participant_proposal_id],
