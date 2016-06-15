@@ -269,9 +269,10 @@
     var _icon = $('<div>').addClass('icon-profileCircle').html(Pard.Widgets.IconManager(profile.type).render());
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon});
-    var _profilename = profile.name;
-    if (_profilename.length>38) _profilename = _profilename.substring(0,35)+'...';
-    var _name = $('<div>').addClass('name-profileCard').html(_profilename);
+    var _profilename = $('<span>').text(profile.name);
+    // if (_profilename.length>38) _profilename = _profilename.substring(0,35)+'...';
+    var _name = Pard.Widgets.FitInBox(_profilename, 165, 45).render();
+    _name.addClass('name-profileCard');
     var _profilecity;
     if (profile.city) _profilecity = profile.city;
     else _profilecity = profile.address.locality; 
