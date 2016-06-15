@@ -198,7 +198,7 @@
         return _createdWidget;
       }
     } 
-  }
+  } 
 
   ns.Widgets.ProfilesNavigationElement = function(profile, callback){
     var _createdWidget = $('<div>').addClass('nav-list-container');

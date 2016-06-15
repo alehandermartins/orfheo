@@ -110,26 +110,36 @@
 
     var _createdWidget = $('<div>').addClass('aside-container');
     
-    var _profiles = $('<div>').addClass('create-profile-btn');
+    var _profiles = $('<div>').addClass('aside-user-nav-btn');
     _profiles.text('Tus perfiles');
 
-    _profiles.click(function(){_contentShowHide('myprofiles-user-page')});
-    var _myProfiles = $('<div>').attr('id', 'myprofiles-user-page');
+    _profiles.click(function(){
+      _contentShowHide('myprofiles-user-page');
+      $(this).addClass('aside-user-nav-btn-selected');
+    });
+    var _myProfiles = $('<div>').attr('id', 'myprofiles-user-page').addClass('profiles-user-section-content');
     _myProfiles.append(Pard.Widgets.MyProfilesUserPage().render());
     var _contentShown = _myProfiles;
+    _profiles.addClass('aside-user-nav-btn-selected');
 
-    var _explore = $('<div>').addClass('create-profile-btn');
+    var _explore = $('<div>').addClass('aside-user-nav-btn');
     _explore.text('Explora');
-    _explore.click(function(){_contentShowHide('explore-user-page')});
+    _explore.click(function(){
+      _contentShowHide('explore-user-page');
+      $(this).addClass('aside-user-nav-btn-selected');
+    });
     _explore.one('click', function(){
     _exploreContent.append(Pard.Widgets.ExploreUserPage().render());      
     });
-    var _exploreContent = $('<div>').attr('id', 'explore-user-page');
+    var _exploreContent = $('<div>').attr('id', 'explore-user-page').addClass('profiles-user-section-content');
     _exploreContent.hide();
 
-    var _news = $('<div>').addClass('create-profile-btn');
+    var _news = $('<div>').addClass('aside-user-nav-btn');
     _news.text('Novedades');
-    _news.click(function(){_contentShowHide('news-user-page')});
+    _news.click(function(){
+      _contentShowHide('news-user-page');
+      $(this).addClass('aside-user-nav-btn-selected');
+    });
     _news.one('click', function(){
     _newsContent.append(Pard.Widgets.NewsUserPage().render());      
     });
@@ -138,6 +148,7 @@
 
 
     var _contentShowHide = function(id_selected){
+      $('.aside-user-nav-btn-selected').removeClass('aside-user-nav-btn-selected');
       _contentShown.hide();
       // var _selected = '#'+id_selected;
       _contentShown = $('#'+id_selected);
@@ -159,7 +170,7 @@
   }
 
   ns.Widgets.MyProfilesUserPage = function(){
-    var _createdWidget = $('<div>').addClass('search-results');
+    var _createdWidget = $('<div>').addClass('search-results').css('margin-top','0');
 
     var _myprofiles = Pard.CachedProfiles;
 
@@ -224,7 +235,6 @@
     var _createdWidget = $('<div>');
 
     var _newsConFusionContainer = $('<div>').addClass('news-box-welcome-page ');
-
     var _cardContainer = $('<span>').addClass('card-container-news');
     var _profileConfusion = {
       "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
@@ -235,29 +245,21 @@
       "profile_picture" : [ 
           "profile_picture/zwqdpibl1ocxrsozdghp"
       ]
-    }
-    
+    }   
     _card = Pard.Widgets.CreateCard(_profileConfusion).render();
-
     _cardContainer.append(_card);
-
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
-
-    var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-welcome'));
-
+    var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-user').css('margin-bottom','0'));
     var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
-
     var _mex = $('<div>').append($('<p>').html('CONVOCATORIA CERRADA <br/>Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.').css('margin-bottom','0'));
-
-    _infoBox.append(_cardContainer, _infoTitle, _baseline,  _mex);
+    var _date = $('<div>').append($('<span>').text('16-06-2016').addClass('news-date')).addClass('news-date-container');
+    _infoBox.append(_cardContainer, _date, _infoTitle, _baseline,  _mex);
     _newsConFusionContainer.append(_infoBox);
 
 
     var _newsOrfheoContainer = $('<div>').addClass('news-box-welcome-page ');
-
     var _cardOrfheoContainer = $('<span>').addClass('card-container-news');
-    
-    var _orfheoCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
+    var _orfheoCard =$('<a>').attr({href: '#'}).addClass('profileCard').css('cursor','default');
     var _color = 'rgb(56, 133, 255)';
     _orfheoCard.css({border: 'solid 3px'+_color});
     _orfheoCard.hover(
@@ -274,22 +276,15 @@
         });
       }
     );
-
     _cardOrfheoContainer.append(_orfheoCard);
-
     var _infoOrfheoBox = $('<div>').addClass('info-box-news-welcome-page');
+    var _infoOrfheoTitle = $('<div>').append($('<h4>').text('Cuida de tu comunidad y tu comunidad cuiderá de ti').addClass('info-title-news-user'));
+    var _mexOrfheo = $('<div>').append($('<p>').html('Orfheo sigue evolucionando con la intención de permitir a toda la comunidad poder lanzar y gestionar convocatorias, comunicar y crear redes.'), $('<p>').html('El proyecto está abierto a cualquier tipo de colaboración. Para más informaciones <a href="mailto:info@orfheo.org">info@orfheo.org</a>.'));
+    var _dateOrfheo = $('<div>').append($('<span>').text('15-06-2016').addClass('news-date')).addClass('news-date-container');
+    _infoOrfheoBox.append(_cardOrfheoContainer, _dateOrfheo, _infoOrfheoTitle, _mexOrfheo);
+    _newsOrfheoContainer.append(_infoOrfheoBox).css('margin-bottom','0');
 
-    var _infoOrfheoTitle = $('<div>').append($('<h4>').text('Orfheo en continuo desarrollo').addClass('info-title-news-welcome'));
-
-    // var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
-
-    var _mexOrfheo = $('<div>').append($('<p>').text('Orfheo evoluciona con la intención de permitir a toda su comunidad...').css('margin-bottom','0'));
-
-    _infoOrfheoBox.append(_cardOrfheoContainer, _infoOrfheoTitle,  _mexOrfheo);
-    _newsConFusionContainer.append(_infoOrfheoBox);
-
-
-    _createdWidget.append(_newsConFusionContainer);
+    _createdWidget.append(_newsConFusionContainer, _newsOrfheoContainer);
 
     return{
       render: function(){
@@ -302,7 +297,7 @@
 
   ns.Widgets.UserSection = function(content) {
 
-    var _content = content.addClass('grid-element-content user-section-content');
+    var _content = content.addClass('user-grid-element-content');
     
     return{
       render: function(){

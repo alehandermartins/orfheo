@@ -162,7 +162,7 @@
 
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
 
-    var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-welcome'));
+    var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-welcome').css('margin-bottom','0'));
 
     var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
 

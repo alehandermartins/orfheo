@@ -34,9 +34,25 @@ WELCOME PAGE
   margin-top: $pard-grid-spacing;
 }
 
-.info-title-news-welcome{
-  margin-bottom: 0;
+.news-date{
+  float: right;
+  font-size: $almostNormalSize;
+}
+
+.info-title-news-welcome, .info-title-news-user{
+  margin-bottom: 1rem;
   font-weight: bold;
+}
+
+
+/* 
+.info-title-news-user{
+  margin-top: 1rem;
+  display: inline-block;
+}
+ */
+.news-date-container{
+  height: 1.5rem;
 }
 
 .news-box-welcome-page, .searchBox-welcome-page{
@@ -428,35 +444,62 @@ Aside content User page
   width: 100%;
 }
 
-.create-profile-text, .myProfile-text{
+.aside-user-nav-btn {
+  cursor: pointer;
+  width: 100%;  
+  padding: 0.4rem $inner-spacing; 
+  border-left: 4px solid transparent;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+
+.aside-user-nav-btn:hover{
+  border-left: 3px solid #000000;
+  background: $grey-2;
+  font-weight: bold;
+
+}
+
+.aside-user-nav-btn-selected {
+  border-left: 3px solid #000000;
+  background: $grey-2;
+  font-weight: bold;
+  /* color: white; */
+}
+
+/* .create-profile-text, .myProfile-text{
   text-transform: uppercase;
   padding: 0 $inner-spacing;
   margin-bottom: 0.5rem;
-}
+} */
 
-
+/* 
 
 .create-profile-text{
   margin-top: 0.75rem;
-}
+} */
 
-.myProfile-text{
+/* .myProfile-text{
   margin-top: 1rem;
   margin-bottom: -0.5rem;
-}
+} */
 
 
-.myprofile-card-position{
+/* .myprofile-card-position{
   margin-top: $pard-grid-spacing;
   background-color: $content-background;
-}
+} */
+
+
 
 /*------------
 User Section
 --------------*/
 
-.user-section-content{
+.profiles-user-section-content{
   padding: 1.5rem;
+  background: white;
 }
 
 

@@ -211,14 +211,27 @@ Grid and Bar
 
 .grid-element-content{
   width: 100%;
-/*   background: $grey-1;
- */  padding: $inner-spacing;
+  background: $grey-1;
+  padding: $inner-spacing;
   padding-bottom:2rem;
   min-height: 100vh;
   @include border-radius($layout-border-radius);
   position:relative;
 
 }
+
+.user-grid-element-content{
+  width: 100%;
+  background: $grey-1;
+  /* padding: $inner-spacing; */
+  /* padding-bottom:2rem; */
+  min-height: 100vh;
+  @include border-radius($layout-border-radius);
+  position:relative;
+
+}
+
+
 
 
 .section-content{ 
@@ -356,13 +369,7 @@ button{
 }
 
 
-.create-profile-btn {
-  cursor: pointer;
-  width: 100%;  
-  padding: 0.5rem $inner-spacing; 
-  border: 2px solid transparent;
 
-}
 
 
 .manage-call-btn {
@@ -371,9 +378,6 @@ button{
   padding: 0.25rem 0.75rem;
 }
 
-.create-profile-btn:hover{
-  border: 2px solid $grey-1;
-}
 
 .create-artist-btn-popup, .create-space-btn-popup{
     border: 2px solid $grey-2;
