@@ -67,7 +67,7 @@
     var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();    
     var _proposalsBoxContent = $('<div>').addClass('box-content');
 
-
+    console.log(profile);
 
     if(profile.proposals && profile.proposals.length){
       if (userStatus != 'owner'){
@@ -77,10 +77,10 @@
 
         var _listproposals = $('<ul>');
 
+        console.log(_proposals);
         _proposals.forEach(function(proposal){
           var _proposalItem = $('<li>').text(proposal);
           _listproposals.append(_proposalItem);
-          
         });
 
         _artistCallProposals.append(_callName, _listproposals);
