@@ -219,7 +219,9 @@
     var _createdWidget =  [];
 
     profiles.forEach(function(profile){
-      _createdWidget.push($('<div>').addClass('card-container').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')));
+      _createdWidget.push($('<div>').addClass('card-container').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login').attr({
+      target: '_blank'
+      })));
     });
 
     return{
@@ -233,7 +235,9 @@
 
   ns.Widgets.CreateCard = function(profile){
 
-    var _card =$('<a>').attr({href: '/profile?id=' + profile['profile_id']}).addClass('profileCard');
+    var _card =$('<a>').attr({
+      href: '/profile?id=' + profile['profile_id']
+    }).addClass('profileCard');
     var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
     _card.css({border: 'solid 3px'+profile.color});
     _card.hover(
@@ -265,9 +269,10 @@
     var _icon = $('<div>').addClass('icon-profileCircle').html(Pard.Widgets.IconManager(profile.type).render());
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon});
-    var _profilename = profile.name;
-    if (_profilename.length>38) _profilename = _profilename.substring(0,35)+'...';
-    var _name = $('<div>').addClass('name-profileCard').html(_profilename);
+    var _profilename = $('<span>').text(profile.name);
+    // if (_profilename.length>38) _profilename = _profilename.substring(0,35)+'...';
+    var _name = Pard.Widgets.FitInBox(_profilename, 165, 45).render();
+    _name.addClass('name-profileCard');
     var _profilecity;
     if (profile.city) _profilecity = profile.city;
     else _profilecity = profile.address.locality; 
