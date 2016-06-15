@@ -18,6 +18,7 @@
   }
 
   ns.Widgets.OrganizationSectionContent = function(profile){
+    console.log(profile);
 
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
@@ -34,7 +35,7 @@
       _bio.append($('<p>').text(profile['bio']));
     }  
 
-    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['type']).render()));
+    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary('festival').render()));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
 
     _contact.append($('<div>').append(_typeIcon, _type));
