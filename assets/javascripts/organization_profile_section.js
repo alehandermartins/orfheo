@@ -79,7 +79,7 @@
           _callsInfo.append(_button);
           _callsInfoTitle.removeAttr('style');
           _callsInfoText.empty();
-          _callsInfoText.html('<strong> Sin embargo, la organización te ha abilitado para que puedas todavía enviar propuestas.</strong>');
+          _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
         }
         _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
       });
