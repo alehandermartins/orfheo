@@ -174,6 +174,8 @@ Pard.Outsider = function(profiles){
 
 Pard.Call = function(call){
 
+  console.log(call);
+
   // HoldOn.open({
   //   theme:'sk-circle',
   //   backgroundColor:'#000000',

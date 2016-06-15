@@ -77,8 +77,8 @@
         var _callName = $('<p>').append('Se ha inscrito en el ',$('<strong>').text('Benimaclet conFusión festival 2016'),'.');
         _spaceCallProposals.append(_callName);
         _callsBoxContent.append(_spaceCallProposals)
-        _callsBoxContainer.append(_callsBoxContent);
-        _createdWidget.append(_callsBoxContainer);  
+        // _callsBoxContainer.append(_callsBoxContent);
+        // _createdWidget.append(_callsBoxContainer);  
       }
       else{
         var _callsBoxContent = $('<div>').addClass('box-content');
@@ -91,14 +91,13 @@
       }
     }
     else{
-        var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
-        var _proposalsBoxContent = $('<div>').addClass('box-content');
-        var _spaceCallProposals = $('<div>');
+        // var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
+        var _callsBoxContent = $('<div>').addClass('box-content');
         var _callName = $('<p>').append('Todavía no se ha inscrito en ninguna convocatoria.').addClass('activities-box-call-name');
-        _spaceCallProposals.append(_callName);
-        _proposalsBoxContent.append(_spaceCallProposals);
-        _proposalsBoxContainer.append(_proposalsBoxContent);
-        _createdWidget.append(_proposalsBoxContainer);
+        _callsBoxContent.append(_callName);
+        // _callsBoxContainer.append(_spaceCallProposals);
+        // _proposalsBoxContainer.append(_proposalsBoxContent);
+        // _createdWidget.append(_proposalsBoxContainer);
     }     
     
    

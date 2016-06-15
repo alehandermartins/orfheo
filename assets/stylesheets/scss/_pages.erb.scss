@@ -49,6 +49,10 @@ WELCOME PAGE
   width: 100%;
 }
 
+.searchBox-welcome-page{
+  padding-top: 1.5rem;
+}
+
 .news-box-welcome-page{
   margin-bottom: $inner-spacing;
   padding: 1.5rem;
@@ -279,6 +283,7 @@ grid-section content LogIn page
 
 .search-engine-container{
   position: relative;
+  padding-top: 0.3rem;
 }
 
 .search-tool-container{

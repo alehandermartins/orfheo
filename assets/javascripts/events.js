@@ -290,7 +290,7 @@
     if(data['status'] == 'success'){
       console.log(data);
       var _caller = $('<button>');
-      var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles)});
+      var _popup = Pard.Widgets.PopupCreator(_caller,'Escribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles)});
       _caller.trigger('click');
     }
     else{

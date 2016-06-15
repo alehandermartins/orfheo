@@ -64,25 +64,26 @@
         var _callsInfoTitle = $('<p>').text('Convocatoria cerrada.').css('font-weight','bold');
         var _callsInfoText = $('<p>').html('Pronto la programación interactiva.');
         // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
-        var _signUpMessage =  Pard.Widgets.Registration();    
-        var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
-        var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
-        var _signUpButton = _popup.render().addClass('signUpButton-login-section');
+       
+        // var _signUpMessage =  Pard.Widgets.Registration();    
+        // var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
+        // var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
         var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
-        console.log(profile.calls[0]);
         _callsBoxContent.append(_callsInfo);
-        if (profile.calls && profile.calls[0] && profile.calls[0].whitelist)_callsInfo.append(_signUpButton);
+
+        if (profile.calls && profile.calls[0] && profile.calls[0].whitelist){
+          var _button = $('<button>').html('Envía una propuesta').addClass('signUp-button-welcome-section');
+          _button.click(function(){
+            Pard.Backend.listProfiles(Pard.Events.ListProfiles);
+          })
+          _callsInfo.append(_button);
+          _callsInfoTitle.removeAttr('style');
+          _callsInfoText.empty();
+          _callsInfoText.html('<strong> Sin embargo, la organización te ha abilitado para que puedas todavía enviar propuestas.</strong>');
+        }
         _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
       });
     }
-
-    var _button = $('<button>').text('listProfiles');
-    _button.click(function(){
-      Pard.Backend.listProfiles(Pard.Events.ListProfiles);
-    })
-
-        _createdWidget.append(_button);
-
 
     if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
@@ -111,30 +112,32 @@
 
 
 
-    ns.Widgets.ChooseProfileMessage = function(profiles){
-      var _createdWidget = $('<div>');
+  ns.Widgets.ChooseProfileMessage = function(profiles){
+    var _createdWidget = $('<div>');
 
-      profiles.forEach(function(profile){
-        var _cardContainer = $('<div>');
-        // var _card = Pard.Widgets.CreateCard(profile).render();
-        var _card = $('<button>').text(profile.name);
-        _card.click(function(){
-                  console.log(profile.type);
+    profiles.forEach(function(profile){
+      var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
+      var _card = Pard.Widgets.CreateCard(profile).render();
+      // var _card = $('<button>').text(profile.name);
+      _card.click(function(){
+                console.log(profile.type);
 
-        var _caller =  Pard.Widgets.ProposalForm(profile.type).render();
-        _caller(profile,'').render().trigger('click');
-        });
-        _createdWidget.append(_cardContainer.append(_card));
+      var _caller =  Pard.Widgets.ProposalForm(profile.type).render();
+      _caller(profile,'').render().trigger('click');
       });
+      _createdWidget.append(_cardContainer.append(_card));
+    });
 
-      return {
-        render: function(){
-          return _createdWidget;
-        },
-        setCallback: function(closepopup){
-        }
-      } 
-    }
+    _createdWidget.append($('<h4>').text('...o crea y escribe uno nuevo'));
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(closepopup){
+      }
+    } 
+  }
 
 
 
