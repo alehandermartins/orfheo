@@ -3,7 +3,9 @@
 (function(ns){
 
   ns.Widgets.ProgramManager = function(call){
-    var _createdWidget = $('<div>').attr('id', 'programPanel').css({'overflow': 'auto'});
+    var _createdWidget = $('<div>').attr('id', 'programPanel').css({
+      'margin-left': 35
+    });
 
     var eventTime = [
       {
@@ -73,7 +75,7 @@
       _daySelector.css({
         position: "absolute",
         top: 162,
-        left: -200,
+        left: -140,
         width: 120
       });
 
@@ -92,12 +94,12 @@
         var _time = $('<div>').html(hour + ':00').css({
           position: "absolute",
           top: 162 + hourIndex * 40 + "px",
-          left: -40
+          left: 0
         });
         var _line = $('<hr>').css({
           position: "absolute",
           top: 162 + hourIndex * 40 + "px",
-          left: -40,
+          left: 0,
           width: 932
         });
         _createdWidget.append(_time, _line);
@@ -160,7 +162,13 @@
           }
         });
 
+
+        var _permanent = $('<div>').addClass('spacePermanent').html('&nbsp').css({
+          'height': 40
+        });
+
         _spaceCol.append(_time);
+        //_spaceCol.append(_permanent);
         
 
         _spaceCol.draggable({
