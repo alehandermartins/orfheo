@@ -110,12 +110,13 @@
       );
     };
 
-    var _searchProfiles = function(tags, shown, callback){
+    var _searchProfiles = function(tags, shown, event_id, callback){
       _send(       
         '/search/results',
         {
           query: tags,
-          shown: shown
+          shown: shown,
+          event_id: event_id
         },
         callback
       );

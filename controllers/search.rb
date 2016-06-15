@@ -1,18 +1,20 @@
 class SearchController < BaseController
 
   post '/suggest' do
-    query = get_query params[:query]
+    scopify query: true, event_id: true
+    queriable_tags = get_query query
     tags = query[0...-1]
-    matched_profiles = query_profiles get_profiles, tags
-    results = get_suggestions_for matched_profiles, query
+    matched_profiles = query_profiles get_profiles(event_id), tags
+    results = get_suggestions_for matched_profiles, queriable_tags
     results = sort_results results
     success({items: results})
   end
 
   post '/results' do
-    tags = get_query params[:query]
-    shown = check_params params[:shown]
-    matched_profiles = query_profiles get_profiles, tags
+    scopify query: true, shown: true, event_id: true
+    tags = get_query query
+    shown = check_params shown
+    matched_profiles = query_profiles get_profiles(event_id), tags
     not_shown = not_shown_profiles matched_profiles, shown
     success({profiles: not_shown.take(12)})
   end
@@ -30,9 +32,10 @@ class SearchController < BaseController
     params
   end
 
-  def get_profiles
-    profiles = Repos::Profiles.get_profiles :all, nil
-    profiles.reject!{ |profile| profile[:user_id] == session[:identity]} if session[:identity]
+  def get_profiles event_id
+    profiles = Repos::Profiles.get_profiles :event_profiles, {event_id: event_id} unless event_id.blank?
+    profiles = Repos::Profiles.get_profiles :all, nil if event_id.blank?
+    profiles.reject!{ |profile| profile[:user_id] == session[:identity]} if session[:identity] && event_id.blank? 
     profiles
   end
 

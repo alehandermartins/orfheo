@@ -2,7 +2,7 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SearchEngine = function (label) {
+  ns.Widgets.SearchEngine = function (label, event_id) {
 
     var _createdWidget = $('<div>').addClass('search-engine-container');
      var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
@@ -29,7 +29,7 @@
     var tags = [];
     var _toBeShown = [];
 
-    Pard.Backend.searchProfiles([], [], function(data){
+    Pard.Backend.searchProfiles([], [], event_id, function(data){
       _toBeShown = [];
       data.profiles.forEach(function(profile){
         if ($.inArray(profile.profile_id, _shown) == -1) {
@@ -47,7 +47,7 @@
           _searchWidget.select2('data').forEach(function(tag){
             tags.push(tag.text);
           });
-          Pard.Backend.searchProfiles(tags, _shown, function(data){
+          Pard.Backend.searchProfiles(tags, _shown, event_id, function(data){
             _toBeShown = [];
             data.profiles.forEach(function(profile){
               if ($.inArray(profile.profile_id, _shown) == -1) {
@@ -146,7 +146,8 @@
           _query.push(params.term);
           return {
             query: _query,
-            page: params.page
+            page: params.page,
+            event_id: event_id
           };
         },
         processResults: function (data, params) {
@@ -191,7 +192,7 @@
       _dataArray.forEach(function(tag){
         tags.push(tag.text);
       });
-      Pard.Backend.searchProfiles(tags, _shown, function(data){
+      Pard.Backend.searchProfiles(tags, _shown, event_id, function(data){
         _toBeShown = [];
         data.profiles.forEach(function(profile){
           if ($.inArray(profile.profile_id, _shown) == -1) {

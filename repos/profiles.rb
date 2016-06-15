@@ -108,17 +108,6 @@ module Repos
             }
           end
 
-          def user_listed args
-            profiles = grab({user_id: args[:user_id]})
-            profiles.map{ |profile|
-              {
-                profile_id: profile[:profile_id],
-                name: profile[:name],
-                type: profile[:type]
-              }
-            }
-          end
-
           def visit_profiles args
             profiles = grab({user_id: args[:user_id]})
             profiles.each{ |profile|
@@ -126,6 +115,14 @@ module Repos
             }
             profiles = sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
             profiles
+          end
+
+          def event_profiles args
+            event = Repos::Calls.get_event args[:event_id]
+            return [] unless event.has_key? :proposals
+            event[:proposals].map{ |proposal|
+              grab({profile_id: proposal[:profile_id]}).first
+            }.compact.uniq
           end
 
           def sort_profiles profiles, profile_id

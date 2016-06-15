@@ -90,7 +90,7 @@
           _callsInfo.append(_button);
           _callsInfoTitle.removeAttr('style');
           _callsInfoText.empty();
-          _callsInfoText.html('<strong> Sin embargo, la organización te ha abilitado para que puedas todavía enviar propuestas.</strong>');
+          _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
         }
         _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
       });
@@ -114,6 +114,11 @@
       });
     }
 
+    console.log(profile.calls[0].event_id);
+    if(profile.calls){ 
+      var _searchEngine = Pard.Widgets.SearchEngine('', profile.calls[0].event_id);
+      _createdWidget.append(_searchEngine.render());
+    }
     return {
       render: function(){
         return _createdWidget;
