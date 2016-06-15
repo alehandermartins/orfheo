@@ -97,10 +97,7 @@
     if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
-      console.log(profile);
       if(profile.calls) profile.calls.forEach(function(call){
-
-
         var _manageCallText = $('<p>').text('Gestiona convocatoria').addClass('manage-call-text');
         var _manageCallBtn =  $('<div>').addClass('manage-call-btn').click(function(){location.href = '/call?id='+ call.call_id});
         var _manageCallBtnText = $('<span>').text('conFusión 2016').addClass('manage-call-btn-text');

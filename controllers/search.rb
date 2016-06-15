@@ -3,7 +3,7 @@ class SearchController < BaseController
   post '/suggest' do
     scopify query: true, event_id: true
     queriable_tags = get_query query
-    tags = query[0...-1]
+    tags = queriable_tags[0...-1]
     matched_profiles = query_profiles get_profiles(event_id), tags
     results = get_suggestions_for matched_profiles, queriable_tags
     results = sort_results results
