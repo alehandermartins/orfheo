@@ -103,6 +103,11 @@
       });
     }
 
+    console.log(profile.calls[0].event_id);
+    if(profile.calls){ 
+      var _searchEngine = Pard.Widgets.SearchEngine('', profile.calls[0].event_id);
+      _createdWidget.append(_searchEngine.render());
+    }
     return {
       render: function(){
         return _createdWidget;

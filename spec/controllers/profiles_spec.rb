@@ -361,8 +361,10 @@ describe ProfilesController do
     it 'Retrieves a list with the user profiles' do
       post create_profile_route, profile
       post '/users/list_profiles'
+      profile_model[:calls] = []
+      profile_model[:proposals] = []
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profiles']).to eq([{'profile_id' => profile_id, 'name' => profile[:name], 'type' => profile[:type]}])
+      expect(parsed_response['profiles']).to eq([Util.stringify_hash(profile_model)])
     end
   end
 end

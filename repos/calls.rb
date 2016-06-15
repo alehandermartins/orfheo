@@ -39,6 +39,10 @@ module Repos
         grab({profile_id: profile_id})
       end
 
+      def get_event event_id
+        event = grab({event_id: event_id}).first
+      end
+
       def get_event_owner event_id
         event = grab({event_id: event_id}).first
         event[:user_id]
