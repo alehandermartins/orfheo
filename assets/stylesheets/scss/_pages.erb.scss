@@ -1098,7 +1098,12 @@ CALL PAGE
 
 .table-proposal {
   font-size: 12px;
+  margin-bottom: 0;
   }
+
+.table-proposal tbody tr{
+  border-top: 1px solid $grey-3;
+}
 
 .table-proposal .title-row-table-proposal {
   font-size: 14px;

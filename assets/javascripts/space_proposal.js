@@ -19,8 +19,6 @@
   }
 
 
-
-
   ns.Widgets.CallMessageSpace= function(profile){
 
     var _createdWidget = $('<div>');

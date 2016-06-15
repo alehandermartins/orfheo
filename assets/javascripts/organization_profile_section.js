@@ -76,6 +76,14 @@
       });
     }
 
+    var _button = $('<button>').text('listProfiles');
+    _button.click(function(){
+      Pard.Backend.listProfiles(Pard.Events.ListProfiles);
+    })
+
+        _createdWidget.append(_button);
+
+
     if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
@@ -100,4 +108,34 @@
       }
     }
   }
+
+
+
+    ns.Widgets.ChooseProfileMessage = function(profiles){
+      var _createdWidget = $('<div>');
+
+      profiles.forEach(function(profile){
+        var _cardContainer = $('<div>');
+        // var _card = Pard.Widgets.CreateCard(profile).render();
+        var _card = $('<button>').text(profile.name);
+        _card.click(function(){
+                  console.log(profile.type);
+
+        var _caller =  Pard.Widgets.ProposalForm(profile.type).render();
+        _caller(profile,'').render().trigger('click');
+        });
+        _createdWidget.append(_cardContainer.append(_card));
+      });
+
+      return {
+        render: function(){
+          return _createdWidget;
+        },
+        setCallback: function(closepopup){
+        }
+      } 
+    }
+
+
+
 }(Pard || {}));

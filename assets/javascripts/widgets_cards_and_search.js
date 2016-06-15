@@ -219,7 +219,9 @@
     var _createdWidget =  [];
 
     profiles.forEach(function(profile){
-      _createdWidget.push($('<div>').addClass('card-container').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')));
+      _createdWidget.push($('<div>').addClass('card-container').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login').attr({
+      target: '_blank'
+      })));
     });
 
     return{
@@ -233,7 +235,9 @@
 
   ns.Widgets.CreateCard = function(profile){
 
-    var _card =$('<a>').attr({href: '/profile?id=' + profile['profile_id']}).addClass('profileCard');
+    var _card =$('<a>').attr({
+      href: '/profile?id=' + profile['profile_id']
+    }).addClass('profileCard');
     var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
     _card.css({border: 'solid 3px'+profile.color});
     _card.hover(

@@ -4,6 +4,20 @@
 
   ns.Widgets = ns.Widgets || {}; 
 
+  ns.Widgets.ProposalForm = function(type){
+    console.log(type);
+    var _proposalForms = {
+      artist: Pard.Widgets.CallArtistButton,
+      space: Pard.Widgets.CallSpaceButton
+    }
+
+    return{
+      render: function(){
+        return  _proposalForms[type];
+      }
+    }
+  }
+
   ns.Widgets.PrintSentCall = function(proposal, _form, closepopup){
 
     var _createdWidget = $('<div>');
