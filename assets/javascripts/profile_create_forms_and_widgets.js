@@ -71,11 +71,7 @@
 
 
   ns.Widgets.CreateProfileMessage = function(callbackEvent){
-        console.log(callbackEvent);
-
-
-
-    var _createdWidget = $('<div>').css({
+     var _createdWidget = $('<div>').css({
       'margin-top': '1.5rem'
     });
 
@@ -115,9 +111,6 @@
   }
 
   ns.Widgets.CreateTypeProfile = function(type, callbackEvent){
-        console.log(callbackEvent);
-
-
     var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('create-profile-btn-icon');
     var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
     var _organizationIcon = Pard.Widgets.IconManager('organization').render().addClass('create-profile-btn-icon');
@@ -160,8 +153,6 @@
 
 
   ns.Widgets.CreateTypeProfileMessage = function(type, callbackEvent){
-        console.log(callbackEvent);
-
 
     var _createdWidget = $('<div>');
 
