@@ -1143,8 +1143,10 @@ CALL PAGE
 }
 
 .table-box-proposal-manager{
+  position: relative;
   overflow: auto;
   max-height: 90vh;
+  height: 90vh;
   margin-top: 2rem;
   border: 1px solid $grey-3;
   table{

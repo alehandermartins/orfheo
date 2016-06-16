@@ -157,25 +157,52 @@
    	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
 
    	var _tableBox = $('<div>');
+
    	var _table = Pard.Widgets.CreateTable(selected, _submitBtnOuterContainer);
 
    	var _matrix = _table.getMatrix();
 
-   	var _titleColCallback = function(field){
+   	var  _titleColCallback = function(field, callback){  
    		var _proposalsSelectedReordered = Pard.Widgets.Reorder(field, selected).render();
-   		_tableBox.empty();
    		_table =  Pard.Widgets.CreateTable(selected, _submitBtnOuterContainer, _proposalsSelectedReordered);
    		_matrix = _table.getMatrix();
    		_tableBox.append(_table.render());
 			_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
    		_table.setTitleColCallback(function(field){
-   			_titleColCallback(field);
+        var spinner =  new Spinner().spin();
+        $.wait(
+          '', 
+          function(){
+            _tableBox.empty();  
+            _tableBox.append(spinner.el); 
+          }, 
+          function(){
+            _titleColCallback(field, function(){spinner.stop();});
+          }
+        )
+        // _tableBox.empty();    
+        //
+        // _tableBox.append(spinner.el);
+        // setTimeout(function(){_titleColCallback(field, function(){spinner.stop();});},0)
    		});
-   		Pard.CachedProposals = _proposalsSelectedReordered;   		
+   		Pard.CachedProposals = _proposalsSelectedReordered;
+      callback();
+
    	}
 
+
    	_table.setTitleColCallback(function(field){
-   		_titleColCallback(field);
+      var spinner =  new Spinner().spin();
+      $.wait(
+        '', 
+        function(){
+          _tableBox.empty();  
+          _tableBox.append(spinner.el); 
+        }, 
+        function(){
+          _titleColCallback(field, function(){spinner.stop();});
+        }
+      )
    	});
 
 
@@ -216,7 +243,9 @@
   	})
 
   	_proposalsSelected.sort(function (a, b) {
-  		return a[field].toLowerCase().localeCompare(b[field].toLowerCase());
+  		if (a[field] && b[field]) return a[field].toLowerCase().localeCompare(b[field].toLowerCase());
+      else if (!(a[field])) return 1
+      else if (!(b[field])) return -1
 		});
 
 		return {
