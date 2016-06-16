@@ -4,7 +4,7 @@ class ProfilesController < BaseController
     profile_id = SecureRandom.uuid
     profile = Forms::Profiles.new(params, session[:identity]).create(profile_id)
     Repos::Profiles.update profile
-    success({profile_id: profile_id})
+    success({profile_id: profile_id, type: profile[:type]})
   end
 
    post '/users/modify_profile' do
