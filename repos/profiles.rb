@@ -120,9 +120,10 @@ module Repos
           def event_profiles args
             event = Repos::Calls.get_event args[:event_id]
             return [] unless event.has_key? :proposals
+            profiles = all args
             event[:proposals].map{ |proposal|
-              grab({profile_id: proposal[:profile_id]}).first
-            }.compact.uniq
+              profiles.select{ |profile| profile[:profile_id] ==  proposal[:profile_id]}
+            }.flatten.compact.uniq.shuffle
           end
 
           def sort_profiles profiles, profile_id
