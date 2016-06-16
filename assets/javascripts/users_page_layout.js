@@ -181,36 +181,9 @@
       })
     }
 
-    var _createProfileCardContainer = $('<div>').addClass('card-container').css('vertical-align','top');
-    var _createProfileCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
-    var _color = '#6f6f6f';
-    _createProfileCard.css({border: 'solid 3px'+_color});
-    _createProfileCard.hover(
-      function(){
-        $(this).css({
-        'box-shadow': '0 0 2px 1px'+ _color
-        // 'background': 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+'.1'+ ')'
-      });
-      },
-      function(){
-        $(this).css({
-          'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
-          // 'background':'white'
-        });
-      }
-    );
+    var _createProfileCardContainer = Pard.Widgets.CreateProfileCard();
 
-    var _addCircle = Pard.Widgets.IconManager('add_circle').render().addClass('addCircle-create-profile-card');
-    var _text = $('<p>').text('Crea un perfil').addClass('create-profile-card-text');
-    _createProfileCard.append(_addCircle, _text)
-
-    _createProfileCard.click(function(){
-      var _caller = $('<button>');
-      var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage()});
-      _caller.trigger('click');
-    });
-    _createProfileCardContainer.append(_createProfileCard);
-    _createdWidget.append(_createProfileCardContainer);
+    _createdWidget.append(_createProfileCardContainer.render());
 
     return{
       render: function(){

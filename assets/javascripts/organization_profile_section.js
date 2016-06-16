@@ -73,17 +73,17 @@
 
         if (profile.calls && profile.calls[0] && profile.calls[0].whitelist){
           var _button = $('<button>').html('Envía una propuesta').addClass('signUp-button-welcome-section');
-          _button.click(function(){
-            var _listProfile = function(data){
-              if(data['status'] == 'success'){
-                var _caller = $('<button>');
-                var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id)});
-                _caller.trigger('click');
-              }
-              else{
-                Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
-              }
+          var _listProfile = function(data){
+            if(data['status'] == 'success'){
+              var _caller = $('<button>');
+              var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id)});
+              _caller.trigger('click');
             }
+            else{
+              Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
+            }
+          }
+          _button.click(function(){
             Pard.Backend.listProfiles(_listProfile);
           })
           _callsInfo.append(_button);
@@ -145,7 +145,30 @@
       _createdWidget.append(_cardContainer.append(_card));
     });
 
-    _createdWidget.append($('<h4>').text('...o crea e inscribe uno nuevo'));
+    var _secondTitle = $('<h4>').text('...o crea e inscribe uno nuevo')
+    var _createAndInscribeProfile = function(data){
+              console.log(data);
+
+      if (data['status'] == 'success'){
+        var _caller =  Pard.Widgets.ProposalForm(data.type).render();
+        _caller(data,'',call_id).render().trigger('click');
+      }
+      else{
+        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+        if (typeof _dataReason == 'object'){
+          var _caller = $('<button>');
+          var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
+          _caller.trigger('click');
+        }
+        else{ 
+          console.log(data.reason);
+          Pard.Widgets.Alert('', _dataReason);
+        }
+      }
+    }
+    var _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile);
+
+    _createdWidget.append(_secondTitle, _createProfileCard.render());
 
     return {
       render: function(){

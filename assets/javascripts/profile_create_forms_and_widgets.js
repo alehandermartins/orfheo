@@ -16,6 +16,7 @@
     }
   }
 
+
   ns.Widgets.MyProfiles = function(profiles){
 
     var _createdWidget = $('<div>');
@@ -29,58 +30,60 @@
     }
   }
 
-  ns.Widgets.CreateTypeProfile = function(type){
+  ns.Widgets.CreateProfileCard = function(callbackEvent){
+        console.log(callbackEvent);
 
-    var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('create-profile-btn-icon');
-    var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
-    var _organizationIcon = Pard.Widgets.IconManager('organization').render().addClass('create-profile-btn-icon');
 
-    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista').addClass('create-profile-btn-text'));
-    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio').addClass('create-profile-btn-text'));
-    var _organizationButtonHtml = $('<div>').append(_organizationIcon, $('<span>').text('Organización').addClass('create-profile-btn-text'));
+    var _createProfileCardContainer = $('<div>').addClass('card-container').css('vertical-align','top');
+    var _createProfileCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
+    var _color = '#6f6f6f';
+    _createProfileCard.css({border: 'solid 3px'+_color});
+    _createProfileCard.hover(
+      function(){
+        $(this).css({
+        'box-shadow': '0 0 2px 1px'+ _color
+        // 'background': 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+'.1'+ ')'
+      });
+      },
+      function(){
+        $(this).css({
+          'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
+          // 'background':'white'
+        });
+      }
+    );
 
-    var _buttonDesign = {
-      artist: _artistButtonHtml,
-      space: _spaceButtonHtml,
-      organization: _organizationButtonHtml
-    }
+    var _addCircle = Pard.Widgets.IconManager('add_circle').render().addClass('addCircle-create-profile-card');
+    var _text = $('<p>').text('Crea un perfil').addClass('create-profile-card-text');
+    _createProfileCard.append(_addCircle, _text)
 
-    var _popupTitle = {
-      artist: 'Artista',
-      space: 'Espacio',
-      organization: 'Organización'
-    }
-
-    var _form = {
-      artist: 'create_artist',
-      space: 'create_space',
-      organization: 'create_organization'
-    }
-
-    var _caller = $('<div>').html(_buttonDesign[type]);
-    
-    var _popup = Pard.Widgets.PopupCreator(_caller, _popupTitle[type], function(){ return Pard.Widgets.CreateTypeProfileMessage(type)});
-    //var _popup = Pard.Widgets.PopupForm(_caller, _popupTitle[type], _form[type]);
-
-    var _createdWidget = _popup.render();
+    _createProfileCard.click(function(){
+      var _caller = $('<button>');
+      var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage(callbackEvent)});
+      _caller.trigger('click');
+    });
+    _createProfileCardContainer.append(_createProfileCard);
 
     return {
       render: function(){
-        return _createdWidget;
+        return _createProfileCardContainer;
       }
     }
   }
 
-  ns.Widgets.CreateProfileMessage = function(){
+
+  ns.Widgets.CreateProfileMessage = function(callbackEvent){
+        console.log(callbackEvent);
+
 
 
     var _createdWidget = $('<div>').css({
       'margin-top': '1.5rem'
     });
 
-    var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render().addClass('create-space-btn-popup');
-    var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
-    var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-artist-btn-popup');
+    var _spaceButton = Pard.Widgets.CreateTypeProfile('space', callbackEvent).render().addClass('create-space-btn-popup');
+    var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
+    // var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-artist-btn-popup');
 
     _spaceButton.append($('<p>').text('Alberga eventos').css({
       'margin-top':'0.5rem',
@@ -113,32 +116,82 @@
     }
   }
 
-  ns.Widgets.CreateTypeProfileMessage = function(type){
+  ns.Widgets.CreateTypeProfile = function(type, callbackEvent){
+        console.log(callbackEvent);
+
+
+    var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('create-profile-btn-icon');
+    var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
+    var _organizationIcon = Pard.Widgets.IconManager('organization').render().addClass('create-profile-btn-icon');
+
+    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista').addClass('create-profile-btn-text'));
+    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio').addClass('create-profile-btn-text'));
+    var _organizationButtonHtml = $('<div>').append(_organizationIcon, $('<span>').text('Organización').addClass('create-profile-btn-text'));
+
+    var _buttonDesign = {
+      artist: _artistButtonHtml,
+      space: _spaceButtonHtml,
+      organization: _organizationButtonHtml
+    }
+
+    var _popupTitle = {
+      artist: 'Artista',
+      space: 'Espacio',
+      organization: 'Organización'
+    }
+
+    var _form = {
+      artist: 'create_artist',
+      space: 'create_space',
+      organization: 'create_organization'
+    }
+
+    var _caller = $('<div>').html(_buttonDesign[type]);
+    
+    var _popup = Pard.Widgets.PopupCreator(_caller, _popupTitle[type], function(){ return Pard.Widgets.CreateTypeProfileMessage(type, callbackEvent)});
+    //var _popup = Pard.Widgets.PopupForm(_caller, _popupTitle[type], _form[type]);
+
+    var _createdWidget = _popup.render();
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+
+  ns.Widgets.CreateTypeProfileMessage = function(type, callbackEvent){
+        console.log(callbackEvent);
+
 
     var _createdWidget = $('<div>');
 
     var _form = {};
     
-    _form['artist'] = Pard.Widgets.ArtistForm();
-    _form['space'] = Pard.Widgets.SpaceForm();
-    _form['organization'] = Pard.Widgets.OrganizationForm();
+    _form['artist'] = Pard.Widgets.ArtistForm;
+    _form['space'] = Pard.Widgets.SpaceForm;
+    _form['organization'] = Pard.Widgets.OrganizationForm;
+
+    var _formExecuted = _form[type](callbackEvent);
    
-    _createdWidget.append(_form[type].render());
+    _createdWidget.append(_formExecuted.render());
        
     return {
       render: function(){
         return _createdWidget;
       },
       setCallback: function(callback){
-        _form[type].setCallback(callback);
+        _formExecuted.setCallback(callback);
       }
     }
   }
 
-  ns.Widgets.ArtistForm = function(){
+  ns.Widgets.ArtistForm = function(callbackEvent){
+    console.log(callbackEvent);
 
     var _createdWidget = $('<div>');
-    var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer dentro y fuera del festival.').addClass('message-form');
+    var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.').addClass('message-form');
     var _formContainer = $('<form>').addClass('popup-form');  
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
@@ -177,7 +230,8 @@
     }
 
     var _send = function(){
-      Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+      if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
+      else Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
     }
 
     var _closepopup = {};
@@ -203,11 +257,11 @@
     }
   }
 
-  ns.Widgets.SpaceForm = function(){
+  ns.Widgets.SpaceForm = function(callbackEvent){
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
-    var _message = $('<div>').text('Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla en todo momento sin afectar a tu participación en el festival.').addClass('message-form');
+    var _message = $('<div>').text('Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla.').addClass('message-form');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _submitForm = {};
@@ -257,7 +311,8 @@
     }
 
     var _send = function(url){
-      Pard.Backend.createProfile(_getVal(url), Pard.Events.CreateProfile);
+      if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
+      else Pard.Backend.createProfile(_getVal(url), Pard.Events.CreateProfile);
     }
 
     var _closepopup = {};
@@ -292,7 +347,7 @@
     }
   }
 
-  ns.Widgets.OrganizationForm = function(){
+  ns.Widgets.OrganizationForm = function(callbackEvent){
 
     var _createdWidget = $('<div>');
     var _message = $('<div>').text('Esta información se mostrará en tu página de perfil').addClass('message-form');
@@ -334,7 +389,8 @@
     }
 
     var _send = function(){
-      Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+      if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
+      else Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
     }
 
     var _closepopup = {};
