@@ -49,6 +49,7 @@ class BaseController < Sinatra::Base
     orfheologocolor.png
     orfheologonegro.png
     orfheosimbolocolor.png
+    orfheosimbolonegro.png
     orfheo_fb_preview.jpg
   )
 
