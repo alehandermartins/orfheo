@@ -150,8 +150,9 @@
               console.log(data);
 
       if (data['status'] == 'success'){
-        var _caller =  Pard.Widgets.ProposalForm(data.type).render();
-        _caller(data,'',call_id).render().trigger('click');
+        var _profile = data.profile;
+        var _caller =  Pard.Widgets.ProposalForm(_profile.type).render();
+        _caller(_profile,'',call_id).render().trigger('click');
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();

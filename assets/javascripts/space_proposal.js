@@ -20,6 +20,7 @@
 
 
   ns.Widgets.CallMessageSpace= function(profile, call_id){
+    console.log(profile);
 
     var _createdWidget = $('<div>');
     var _message = $('<div>').html(

@@ -188,7 +188,6 @@
   }
 
   ns.Widgets.ArtistForm = function(callbackEvent){
-    console.log(callbackEvent);
 
     var _createdWidget = $('<div>');
     var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.').addClass('message-form');

@@ -60,7 +60,7 @@
 
   ns.Events.CreateProfile = function(data){
     if (data['status'] == 'success'){
-      document.location = '/profile?id=' + data['profile_id'];
+      document.location = '/profile?id=' + data['profile']['profile_id'];
     }
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
