@@ -4,10 +4,10 @@
 
 
 
-  ns.Widgets.CallSpaceButton = function(profile, label, call_id){
+  ns.Widgets.CallSpaceButton = function(profile, label, call_id, callbackSendProposal){
 
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
-    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile, call_id)});
+    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile, call_id, callbackSendProposal)});
 
     var _createdWidget = _popup.render();
 
@@ -19,7 +19,7 @@
   }
 
 
-  ns.Widgets.CallMessageSpace= function(profile, call_id){
+  ns.Widgets.CallMessageSpace= function(profile, call_id, callbackSendProposal){
     console.log(profile);
 
     var _createdWidget = $('<div>');
@@ -45,7 +45,7 @@
       _formContainer.append($('<div>').addClass(field+'-SpaceCall').append(_form[field].label.render().append(_form[field].input.render()),_form[field].helptext.render()));
     }
 
-    var _beCarefullText = $('<p>').text('ATENCIÓN: Una vez enviado, no te será permitido modificar el contenido de este formulario (como mucho, para pequeñas correcciones, podrás enmendarlo). Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
+    var _beCarefullText = $('<p>').text('ATENCIÓN: Una vez enviado, no te será permitido modificar el contenido de este formulario. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
 
 
     var _filled = function(){
@@ -80,8 +80,9 @@
       },
       setCallback: function(callback){
         _submitBtn.on('click',function(){
-          if(_filled() == true){ 
-            Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal); 
+          if(_filled() == true){
+            if (callbackSendProposal) Pard.Backend.sendProposal(_getVal(), callbackSendProposal); 
+            else Pard.Backend.sendProposal(_getVal(), Pard.Events.SendProposal); 
             callback();
           }
         })

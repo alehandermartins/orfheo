@@ -183,7 +183,7 @@
 
     var _createProfileCardContainer = Pard.Widgets.CreateProfileCard();
 
-    _createdWidget.append(_createProfileCardContainer.render());
+    _createdWidget.append(_createProfileCardContainer.render().addClass('card-container').css('vertical-align','top'));
 
     return{
       render: function(){

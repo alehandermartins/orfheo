@@ -31,10 +31,8 @@
   }
 
   ns.Widgets.CreateProfileCard = function(callbackEvent){
-        console.log(callbackEvent);
 
-
-    var _createProfileCardContainer = $('<div>').addClass('card-container').css('vertical-align','top');
+    var _createProfileCardContainer = $('<div>');
     var _createProfileCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
     var _color = '#6f6f6f';
     _createProfileCard.css({border: 'solid 3px'+_color});
