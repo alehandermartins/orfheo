@@ -196,11 +196,11 @@
 
     var _createdWidget = $('<div>');
    
-    var _searchEngine = Pard.Widgets.SearchEngine('');
+    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page').render();
 
     var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
 
-    _createdWidget.append(_searchEngine.render().prepend(_searchTitle));
+    _createdWidget.append(_searchTitle, _searchEngine);
 
     return{
       render: function(){

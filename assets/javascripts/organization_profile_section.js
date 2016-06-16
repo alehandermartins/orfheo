@@ -108,11 +108,11 @@
     }
 
 
-    // if(profile.calls){ 
-    //   var _searchEngine = Pard.Widgets.SearchEngine('', profile.calls[0].event_id);
-    //   var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
-    //   _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
-    // }
+    if(profile.calls){ 
+      var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page', profile.calls[0].event_id);
+      var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
+      _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
+    }
 
 
     _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));

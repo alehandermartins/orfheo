@@ -2,12 +2,11 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SearchEngine = function (label, event_id) {
+  ns.Widgets.SearchEngine = function(main_id, event_id) {
 
     var _createdWidget = $('<div>').addClass('search-engine-container');
-
+    var _main_id = '#' + main_id;
     var _searchResult = $('<div>').addClass('search-results');
-    var _searchMessage = $('<div>').append($('<p>').text(label));
     var _searchWidget = $('<select>');
 
 
@@ -42,12 +41,14 @@
       });
 
       $('.whole-container').scroll(function(){
-        if ($('.whole-container').scrollTop() + $(window).height() + 100 >= ($('#main-welcome-page').height() + $('.login-bar').height() + $('.footer-bar').height())){
+        if ($('.whole-container').scrollTop() + $(window).height() + 100 >= ($(_main_id).height() + $('.login-bar').height() + $('.footer-bar').height())){
+          console.log('calling');
           tags = [];
           _searchWidget.select2('data').forEach(function(tag){
             tags.push(tag.text);
           });
           Pard.Backend.searchProfiles(tags, _shown, event_id, function(data){
+            console.log(data);
             _toBeShown = [];
             data.profiles.forEach(function(profile){
               if ($.inArray(profile.profile_id, _shown) == -1) {
