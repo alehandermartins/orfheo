@@ -55,30 +55,61 @@
       'white-space':'nowrap',
     });
 
+    var _timeTable = $('<div>');
     var _daySelector = $('<select>');
+    var _typeSelector = $('<select>');
+
     var _lastSelected = eventTime[0]['date'];
+    var _typeSelected = 'scheduled';
+
     _daySelector.on('change', function(){
-      spaceColumns[_lastSelected].forEach(function(spaceCol){
+      spaceColumns[_lastSelected][_typeSelected].forEach(function(spaceCol){
         spaceCol.hide();
       });
-      spaceColumns[_daySelector.val()].forEach(function(spaceCol){
+      spaceColumns[_daySelector.val()][_typeSelector.val()].forEach(function(spaceCol){
         spaceCol.show();
-        _lastSelected = _daySelector.val();
       });
+      _lastSelected = _daySelector.val();
+    });
+
+    _typeSelector.on('change', function(){
+      spaceColumns[_lastSelected][_typeSelected].forEach(function(spaceCol){
+        if(_typeSelector.val() == 'permanent') _timeTable.hide()
+        else{_timeTable.show()}
+        spaceCol.hide();
+      });
+      spaceColumns[_daySelector.val()][_typeSelector.val()].forEach(function(spaceCol){
+        spaceCol.show();
+      });
+      _typeSelected = _typeSelector.val();
+    });
+
+    _createdWidget.append(_daySelector);
+    _createdWidget.append(_typeSelector);
+
+    _daySelector.css({
+      position: "absolute",
+      top: 162,
+      left: -140,
+      width: 120
+    });
+
+    _typeSelector.css({
+      position: "absolute",
+      top: 202,
+      left: -140,
+      width: 120
+    });
+
+    ['scheduled', 'permanent'].forEach(function(type){
+      var typeOption = $('<option>').val(type).text(type); 
+      _typeSelector.append(typeOption);
     });
 
     eventTime.forEach(function(day){
       var date = $('<option>').val(day['date']).text(day['date']); 
       _daySelector.append(date);
-      _createdWidget.append(_daySelector);
-
-      _daySelector.css({
-        position: "absolute",
-        top: 162,
-        left: -140,
-        width: 120
-      });
-
+      
       var start = parseInt(day['time'][0][0].split(':')[0]);
       var lastIndex = day['time'].length - 1;
       var end = parseInt(day['time'][lastIndex][1].split(':')[0]);
@@ -100,7 +131,8 @@
           left: 0,
           width: 932
         });
-        _createdWidget.append(_time, _line);
+        _timeTable.append(_time, _line);
+        _createdWidget.append(_timeTable);
       });
 
       spaceColumns[day['date']] = {
@@ -253,22 +285,25 @@
     var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
       var program = [];
       Object.keys(spaceColumns).forEach(function(date){
-        spaceColumns[date].forEach(function(spaceCol){
-          Object.keys(spaceCol.find('.programHelper')).forEach(function(key){
-            if ($.isNumeric(key)){
-              var theEvent = spaceCol.find('.programHelper')[key];
-              var start = (theEvent.style.top.split('px')[0] - 41);
-              var end = start + parseInt(theEvent.style.height.split('px')[0]);
-              var performance = {
-                participant_id: _getProfileiD(theEvent.id),
-                participant_proposal_id: theEvent.id,
-                host_id: _getProfileiD(spaceCol.attr('id')),
-                host_proposal_id: spaceCol.attr('id'),
-                date: date,
-                time: [start, end]
+        Object.keys(spaceColumns[date]).forEach(function(type){
+          spaceColumns[date][type].forEach(function(spaceCol){
+            Object.keys(spaceCol.find('.programHelper')).forEach(function(key){
+              if ($.isNumeric(key)){
+                var theEvent = spaceCol.find('.programHelper')[key];
+                var start = (theEvent.style.top.split('px')[0] - 41);
+                var end = start + parseInt(theEvent.style.height.split('px')[0]);
+                var performance = {
+                  participant_id: _getProfileiD(theEvent.id),
+                  participant_proposal_id: theEvent.id,
+                  host_id: _getProfileiD(spaceCol.attr('id')),
+                  host_proposal_id: spaceCol.attr('id'),
+                  date: date,
+                  type: type,
+                  time: [start, end]
+                }
+                program.push(performance);
               }
-              program.push(performance);
-            }
+            });
           });
         });
       });
@@ -279,31 +314,31 @@
     });
     _createdWidget.append(_submitBtn.render());
 
-    // if(call['program']){
-    //   call['program'].forEach(function(performance){
-    //     spaceColumns[performance.date].forEach(function(spaceCol){
-    //       if(spaceCol.attr('id') == performance.host_proposal_id){
-    //         var timeCol = spaceCol.find('.spaceTime');
-    //         var proposal = _getProposal(performance.participant_proposal_id);
-    //         proposal['height'] = performance.time[1] - performance.time[0];
-    //         var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
-    //         timeCol.append(newEvent);
-    //         newEvent.css({
-    //           position: 'absolute',
-    //           top: parseInt(performance.time[0]) + 41 + "px",
-    //           left: spaceColumns[performance.date].indexOf(spaceCol) * 176 + 1 + "px",
-    //         });
+    if(call['program']){
+      call['program'].forEach(function(performance){
+        spaceColumns[performance.date][performance.type].forEach(function(spaceCol){
+          if(spaceCol.attr('id') == performance.host_proposal_id){
+            var timeCol = spaceCol.find('.spaceTime');
+            var proposal = _getProposal(performance.participant_proposal_id);
+            proposal['height'] = performance.time[1] - performance.time[0];
+            var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
+            timeCol.append(newEvent);
+            newEvent.css({
+              position: 'absolute',
+              top: parseInt(performance.time[0]) + 41 + "px",
+              left: spaceColumns[performance.date][performance.type].indexOf(spaceCol) * 176 + 1 + "px",
+            });
 
-    //         newEvent.resizable({
-    //           maxWidth: 174,
-    //           minWidth: 174,
-    //           maxHeight: timeCol.height() - (performance.time[0]),
-    //           grid: 10
-    //         });
-    //       }
-    //     });
-    //   });
-    // }
+            newEvent.resizable({
+              maxWidth: 174,
+              minWidth: 174,
+              maxHeight: timeCol.height() - (performance.time[0]),
+              grid: 10
+            });
+          }
+        });
+      });
+    }
 
   	return {
       render: function(){
