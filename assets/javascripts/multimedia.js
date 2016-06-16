@@ -80,7 +80,7 @@
       }
     }
   }
-
+ 
   ns.Widgets.MultimediaDisplay = function(production, callback){
 
     var multimedia = {};

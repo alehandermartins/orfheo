@@ -15,3 +15,4 @@
 //= require jquery.dragtable
 //= require HoldOn.min
 //= require spin.min
+//= require jquery-timing.min
