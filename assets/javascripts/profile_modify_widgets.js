@@ -90,9 +90,9 @@
 
     _formContainer.addClass(profile['type']+'-modifyProfile');
 
-    var _message = $('<div>').append($('<p>').html(
-      'IMPORTANTE: Los cambios que haces a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
-    )).addClass('final-message-form');
+    // var _message = $('<div>').append($('<p>').html(
+    //   'IMPORTANTE: Los cambios que haces a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
+    // )).addClass('final-message-form');
 
     var _deleteProfileCaller = $('<a>').attr('href','#').text('Elimina el perfil').addClass('deleteProfile-caller');
 
@@ -148,7 +148,7 @@
 
     _submitBtnContainer.append(submitButton);
 
-    _createdWidget.append(_formContainer, _message, _invalidInput, _submitBtnContainer, _deleteProfile.render());
+    _createdWidget.append(_formContainer, _invalidInput, _submitBtnContainer, _deleteProfile.render());
 
     return {
       render: function(){

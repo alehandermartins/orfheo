@@ -384,7 +384,7 @@ button{
     text-align: center;
     @include breakpoint(medium){
       display: inline-block; 
-      margin-left: 4.8rem; 
+      margin-left: 4rem; 
       width: 12rem;
     };
 
@@ -659,8 +659,14 @@ button{
   display: inline-block;
 }
 
- .create-space-proposal-call-page-btn:hover, .create-artist-proposal-call-page-btn:hover{
+.create-space-proposal-call-page-btn:hover, .create-artist-proposal-call-page-btn:hover{
     background: $grey-1;
+}
+
+.success-inscription-btn{
+  display: inline-block;
+  margin-left: 4rem;
+  margin-bottom: 0.5rem;
 }
 
 
@@ -1321,7 +1327,7 @@ select, textarea, a{
 }
 
 .links-ArtistCall{
-  margin-top: -1.5rem;
+  margin-top: 1.5rem;
 }
 
 

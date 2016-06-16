@@ -182,7 +182,7 @@
     // _searchEngineTitleBox.append(_searchEngineTitle);
 
 
-    var _searchEngine = Pard.Widgets.SearchEngine('');
+    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page');
     var _searchEngineBox = $('<div>').addClass('user-section-content ');
     var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
     _searchEngineBox.append(_searchEngine.render().prepend(_searchTitle));

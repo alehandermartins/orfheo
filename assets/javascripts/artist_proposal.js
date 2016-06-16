@@ -5,11 +5,11 @@
   ns.Widgets = ns.Widgets || {};
 
 
-  ns.Widgets.CallArtistButton = function(profile, label, call_id){
+  ns.Widgets.CallArtistButton = function(profile, label, call_id, callbackSendProposal){
 
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'});
     var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){
-      return Pard.Widgets.CallMessageArtist(profile, call_id);
+      return Pard.Widgets.CallMessageArtist(profile, call_id, callbackSendProposal);
     });
 
     var _createdWidget = _popup.render();
@@ -21,7 +21,7 @@
     }
   }
 
-  ns.Widgets.CallMessageArtist = function(profile, call_id){
+  ns.Widgets.CallMessageArtist = function(profile, call_id, callbackSendProposal){
     var _createdWidget = $('<div>');
     var _message = $('<div>').html(
       '<h4 style="font-weight:600; margin: -1rem 0 1rem 0;">conFusión 2016</h4> Este formulario es para enviar tu propuesta al Benimaclet conFusión festival 2016. Tiene dos partes: '
@@ -127,7 +127,7 @@
 
     var _categoryLabel = $('<label>').text('Selecciona una categoría *')
 
-    var _beCarefullText = $('<p>').text('ATENCIÓN: Una vez enviado, no te será permitido modificar el contenido de este formulario (como mucho, para pequeñas correcciones, podrás enmendarlo). Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
+    var _beCarefullText = $('<p>').text('ATENCIÓN: Una vez enviado, no te será permitido modificar el contenido de este formulario. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
 
     _createdWidget.append(_message, _part1,  _categoryLabel.append(_category.render()), _content.append( _beCarefullText),
      _submitBtnContainer.append(submitButton));
@@ -156,7 +156,8 @@
     }
 
     var _send = function(url){
-      Pard.Backend.sendProposal(_getVal(url), Pard.Events.SendProposal);
+      if (callbackSendProposal) Pard.Backend.sendProposal(_getVal(url), callbackSendProposal);
+      else Pard.Backend.sendProposal(_getVal(url), Pard.Events.SendProposal);
     }
 
     submitButton.on('click',function(){

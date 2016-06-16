@@ -76,7 +76,7 @@
           var _listProfile = function(data){
             if(data['status'] == 'success'){
               var _caller = $('<button>');
-              var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id)});
+              var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id, _button)});
               _caller.trigger('click');
             }
             else{
@@ -107,13 +107,11 @@
       });
     }
 
-
     if(profile.calls){ 
       var _searchEngine = Pard.Widgets.SearchEngine('', profile.calls[0].event_id);
       var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
       _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
     }
-
 
     _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
 
@@ -126,8 +124,56 @@
   }
 
 
-  ns.Widgets.ChooseProfileMessage = function(profiles, call_id){
+  ns.Widgets.ChooseProfileMessage = function(profiles, call_id, _button){
     var _createdWidget = $('<div>');
+    var _closeListProfilePopup = function(){};
+
+    var _callbackSendProposal = function(data){
+      if (data['status'] == 'success'){
+        var _caller = $('<button>');
+        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _popupMessageSentProposal(data)});
+        _caller.trigger('click');
+      }
+      else{
+        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+        if (typeof  _dataReason == 'object'){
+          var _caller = $('<button>');
+          var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return  _dataReason}, 'alert-container-full');
+          _caller.trigger('click');
+        }
+        else{
+          var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+          Pard.Widgets.Alert('', _dataReason);
+        }
+      }
+    }
+
+    var _popupMessageSentProposal = function(data){
+      var _container = $('<div>')
+      var _closepopup = function(){};
+      var _message = $('<div>').append($('<h4>').text('¡Genial!').addClass('success-inscription-title'),$('<h5>').text('Te has inscrito correctamente.').css({
+        'text-align':'center',
+        'margin-bottom': '2rem'
+      }));
+      var _toProfilePageBtn = Pard.Widgets.Button('Ve a pagína de perfil', function(){
+          location.href = '/profile?id=' + data['profile_id'];  
+      }).render().addClass('success-inscription-btn');
+      var _sendOtherProposal = Pard.Widgets.Button('Envía otra propuesta', function(){
+          _closepopup();
+          _closeListProfilePopup();
+          _button.trigger('click');
+      }).render().addClass('success-inscription-btn');
+      _container.append(_message, _toProfilePageBtn, _sendOtherProposal);
+      return {
+        render: function(){
+          return _container;
+        },
+        setCallback: function(callback){
+          _closepopup = callback;
+        }
+      }
+    }
+              
 
     profiles.forEach(function(profile){
       var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
@@ -139,20 +185,21 @@
         if (profile.type == 'space' && profile.proposals && profile.proposals[0]) Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en el conFusión 2016. ');
         else{
           var _caller =  Pard.Widgets.ProposalForm(profile.type).render();
-          _caller(profile,'',call_id).render().trigger('click');
+          _caller(profile,'',call_id, _callbackSendProposal).render().trigger('click');
         }
       });
       _createdWidget.append(_cardContainer.append(_card));
     });
 
-    var _secondTitle = $('<h4>').text('...o crea e inscribe uno nuevo')
+    var _secondTitle = $('<h4>').text('...o crea e inscribe uno nuevo');
+    _secondTitle.css({
+      'margin-top': '2rem'
+    });
     var _createAndInscribeProfile = function(data){
-              console.log(data);
-
       if (data['status'] == 'success'){
         var _profile = data.profile;
         var _caller =  Pard.Widgets.ProposalForm(_profile.type).render();
-        _caller(_profile,'',call_id).render().trigger('click');
+        _caller(_profile,'',call_id, _callbackSendProposal).render().trigger('click');
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
@@ -169,13 +216,14 @@
     }
     var _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile);
 
-    _createdWidget.append(_secondTitle, _createProfileCard.render());
+    _createdWidget.append(_secondTitle, _createProfileCard.render().addClass('card-container-popup position-profileCard-login'));
 
     return {
       render: function(){
         return _createdWidget;
       },
-      setCallback: function(closepopup){
+      setCallback: function(callback){
+        _closeListProfilePopup = callback;
       }
     } 
   }
