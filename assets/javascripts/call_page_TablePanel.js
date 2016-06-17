@@ -82,9 +82,9 @@
   	var _createdWidget = $('<div>');
 
   	var _typesSelectorBox = $('<div>').addClass('types-selector-call-manager');
-    var _contentBoxArtists = $('<div>');
+    var _contentBoxArtists = $('<div>').addClass('content-box-ArtistSpace');
 
-    var _contentBoxSpaces = $('<div>');
+    var _contentBoxSpaces = $('<div>').addClass('content-box-ArtistSpace');
 
     var _programAllCheckbox = $('<div>');
 
@@ -103,16 +103,25 @@
       _shown.hide();
       _shown = _cat[selected];
       _shown.show();
+      if (selected == 'space' && !(_contentBoxSpaces.html())){
+        var spinner =  new Spinner().spin();
+        _contentBoxSpaces.append(spinner.el);
+        $.wait(
+          '', 
+          function(){
+            _contentBoxSpaces.append(Pard.Widgets.CallManagerContent('space', _programAllCheckbox).render());
+          }, 
+          function(){
+            spinner.stop();
+          }
+        );
+      }
     }
 
-    _contentBoxSpaces.append(Pard.Widgets.CallManagerContent('space', _programAllCheckbox).render());
-    _contentBoxArtists.append(Pard.Widgets.CallManagerContent('artist', _programAllCheckbox).render());
-
     var _selectorCallback = function(){
-    	// _contentBox.empty();
-    	var _selected = $(this).val();
+      // _contentBox.empty();
+      var _selected = $(this).val();
       _showHide(_selected);
-
     }
 
     var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render();
@@ -120,6 +129,8 @@
     // var _preSelected = 'artist';
 
    	// _contentBox.append(Pard.Widgets.CallManagerContent(_preSelected, _programAllCheckbox).render());
+
+    _contentBoxArtists.append(Pard.Widgets.CallManagerContent('artist', _programAllCheckbox).render());
 
     _contentBoxSpaces.hide();
     var _shown = _contentBoxArtists;
@@ -319,6 +330,7 @@
     	_programCheckBox.setVal(false);
     	var _val = _allCheckBoxes.getVal()
     	_checkBoxes.forEach(function(elem){
+        console.log(elem[0]);
     			elem[0].setVal(_val);
     	})
     	_createTable();

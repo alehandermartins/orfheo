@@ -271,9 +271,12 @@
     var _shown = [];
 
     if (profile.productions && profile.productions.length) {
-      productionContent.addClass('nav-list-container')
+      productionContent.addClass('nav-list-container');
       _productions = profile.productions;
-      productionContent.append($('<p>').addClass('message-productions-asideBar').text('Portfolio'))  
+      productionContent.append($('<p>').addClass('message-productions-asideBar').text('Portfolio'));  
+    }
+    else{
+      productionContent.removeClass('nav-list-container');
     }
 
     if (_productions) _productions.forEach(function(production, index){
@@ -324,15 +327,15 @@
       productionContent.append(_productionItem);
     });
 
-    if (userStatus == 'owner' && profile.type == 'artist') {
-      var _createProductionBtn = Pard.Widgets.Button('Crea una produccion',function(){
-        console.log('clicked');
-      });
-      productionContent.append(_createProductionBtn.render());
-    }
-    else{
-      productionContent.removeClass('nav-list-container');
-    }
+    // if (userStatus == 'owner' && profile.type == 'artist') {
+    //   var _createProductionBtn = Pard.Widgets.Button('Crea una produccion',function(){
+    //     console.log('clicked');
+    //   });
+    //   productionContent.append(_createProductionBtn.render());
+    // }
+    // else{
+    //   productionContent.removeClass('nav-list-container');
+    // }
 
 
     profileNav.append(productionContent);
