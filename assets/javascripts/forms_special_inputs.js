@@ -119,15 +119,20 @@
 
     var _colorPicker = $('<input>').attr({'type': 'text', 'value': '#000000'});
 
+    
+
     _createdWidget.append(_colorPicker);
 
    return{
       render: function(){
         _colorPicker.spectrum({
-        chooseText: "OK",
-        cancelText: "cancel",
-        preferredFormat: "hex",
-      });
+          chooseText: "OK",
+          cancelText: "cancel",
+          preferredFormat: "hex",
+          move: function(color){
+            _colorPicker.val(color);
+          }
+        });
         return _createdWidget;
       },
       getVal: function(){
@@ -148,8 +153,8 @@
     }
   }
 
-
-  ns.Widgets.InputAddressSpace = function(label){
+  
+ns.Widgets.InputAddressSpace = function(label){
    
     var autocomplete;
 
