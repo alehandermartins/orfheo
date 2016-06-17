@@ -1001,18 +1001,20 @@
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
 
-    var _addnewInput = function(item){
+    var _addnewInput = function(item, classNewInput){
       var _container = $('<div>'); 
       _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);
       
       _newInput.setClass('add-whiteList-input-field');
+      if (classNewInput) _newInput.setClass(classNewInput);
+
       _newInput.disable();      
       _inputs.push([_newInput]);
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
       _container.append(_newInput.render(),  _removeInputButton);
-      _inputAddedContainer.append(_container);
+      _inputAddedContainer.prepend(_container);
       _removeInputButton.on('click', function(){
         var _index = _inputs.indexOf([_newInput]);
         _inputs.splice(_index, 1);
@@ -1027,7 +1029,7 @@
       });
     }
     
-    var _inputAddedContainer = $('<div>');
+    var _inputAddedContainer = $('<div>').css('margin-top','2.3rem');
 
     _addInputButton.on('click', function(){
       $('#successBox-whiteList').empty();
@@ -1035,26 +1037,43 @@
         var _data = _inputNameEmail.select2('data');
         var _info = {name_email: _data[0].text, email: _data[0].id};
         _results.push(_info);
-        _inputAddedContainer.prepend(_addnewInput(_info));
+        _addnewInput(_info, 'new-input-selected-whitelist');
        _inputNameEmail.select2('val', '');
       }
     });
 
-    _createdWidget.append(_inputContainer.append(_inputNameEmail), _addInputButton,_inputAddedContainer);
+    _createdWidget.append(_inputContainer.append(_inputNameEmail),_inputAddedContainer);
+
+    _inputNameEmail.select2({
+      placeholder:'Email o Nombre de perfil',
+      data: emailsNames,
+      allowClear: true,
+      // multiple: true,
+      tags: true
+      // tokenSeparators: [',', ' '],
+      // maximumSelectionLength: 1
+    });
+
+    // _addInputButton.hide();
+
+    _inputNameEmail.on('select2:select',function(){
+      if (_inputNameEmail.select2('data')) _addInputButton.trigger('click');
+    });
+
+    _inputNameEmail.on('select2:open',function(){
+      $('input.select2-search__field').val('');
+      _inputNameEmail.val('val','');
+      $('span.select2-search.select2-search--dropdown').click(function(){
+        $('input.select2-search__field').focus();
+      });
+      setTimeout(function() {$('input.select2-search__field').focus()},500);
+    });
 
 
 
     return {
       render: function(){
-      _inputNameEmail.select2({
-        placeholder:'Email o Nombre de perfil',
-        data: emailsNames,
-        allowClear: true,
-        // multiple: true,
-        tags: true
-        // tokenSeparators: [',', ' '],
-        // maximumSelectionLength: 1
-      });
+ 
         return _createdWidget;
       },
       getVal: function(){
