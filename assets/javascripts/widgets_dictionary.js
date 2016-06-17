@@ -114,7 +114,7 @@
       invalid_category:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Categoría no valida!</div>',
       existing_call: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Convocatoria ya exitente.</div>',
       non_existing_call:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe esta convocatoria.</div>',
-      you_dont_have_permission: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>No tienes los permisos necesarios para está acción.</div>',
+      you_dont_have_permission: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Perdiste la conexión...vuelve a logearte e inténtalo de nuevo.</div>',
       invalid_query: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Acción no valida.</div>'
     }   
     

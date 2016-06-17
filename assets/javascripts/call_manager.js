@@ -445,7 +445,9 @@
     _circle.append(_icon);
 
     _card.append(_photoContainer, _circle, _name, _city, _category);
-    
+
+    var _popup = Pard.Widgets.PopupCreator(_card, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal)});
+
     return {
       render: function(){
         return _card;
@@ -491,8 +493,7 @@
       'display': 'inline-block',
       'width': '10.9rem',
       'height': proposal.height + 'px',
-      'background': color,
-      'z-index': 9999,
+      'background': color
     });
 
     var _proposalTitle = $('<div>').html(proposal.title);
