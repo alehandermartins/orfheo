@@ -7,16 +7,10 @@
       'margin-left': 35
     });
 
-    var eventTime = [
-      {
-        date: '2016-10-15',
-        time: [['10:00', '14:00'], ['17:00', '23:00']]
-      },
-      {
-        date: '2016-10-16',
-        time: [['10:00', '14:00'], ['17:00', '23:00']]
-      }
-    ];
+    var eventTime = {
+      '2016-10-15': [['10:00', '14:00'], ['17:00', '23:00']],
+      '2016-10-16': [['10:00', '14:00'], ['17:00', '23:00']]
+    }
 
     var artists = [];
     var spaces = [];
@@ -59,7 +53,7 @@
     var _daySelector = $('<select>');
     var _typeSelector = $('<select>');
 
-    var _lastSelected = eventTime[0]['date'];
+    var _lastSelected = Object.keys(eventTime)[0];;
     var _typeSelected = 'scheduled';
 
     _daySelector.on('change', function(){
@@ -106,13 +100,13 @@
       _typeSelector.append(typeOption);
     });
 
-    eventTime.forEach(function(day){
-      var date = $('<option>').val(day['date']).text(day['date']); 
+    Object.keys(eventTime).forEach(function(day){
+      var date = $('<option>').val(day).text(day); 
       _daySelector.append(date);
       
-      var start = parseInt(day['time'][0][0].split(':')[0]);
-      var lastIndex = day['time'].length - 1;
-      var end = parseInt(day['time'][lastIndex][1].split(':')[0]);
+      var start = parseInt(eventTime[day][0][0].split(':')[0]);
+      var lastIndex = eventTime[day].length - 1;
+      var end = parseInt(eventTime[day][lastIndex][1].split(':')[0]);
 
       var hours = [];
       for (var i = start; i <= end; i++) {
@@ -135,7 +129,7 @@
         _createdWidget.append(_timeTable);
       });
 
-      spaceColumns[day['date']] = {
+      spaceColumns[day] = {
         'scheduled': [],
         'permanent': []
       };
@@ -215,7 +209,7 @@
             drag: function(event, ui){
               var originalPosition = $(this).data("uiDraggable").originalPosition;
               var position = ui.position.left;
-              var dayColumns = spaceColumns[day['date']][type];
+              var dayColumns = spaceColumns[day][type];
 
               if (position > (originalPosition.left + 88)){
                 var index = $.inArray(_spaceCol, dayColumns);
@@ -252,13 +246,12 @@
             }
           });
           _table.append(_spaceCol.hide());
-          spaceColumns[day['date']][type].push(_spaceCol);
-          console.log(_spaceCol);
+          spaceColumns[day][type].push(_spaceCol);
         });
       });
     });
    
-    spaceColumns[eventTime[0]['date']]['scheduled'].forEach(function(spaceCol){
+    spaceColumns[Object.keys(eventTime)[0]]['scheduled'].forEach(function(spaceCol){
       spaceCol.show();
     }); 
     _tableContainer.append(_table);
@@ -285,13 +278,27 @@
     var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
       var program = [];
       Object.keys(spaceColumns).forEach(function(date){
+        
+        var eventTimeArray = eventTime[date][0][0].split(':');
+        var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
+
         Object.keys(spaceColumns[date]).forEach(function(type){
           spaceColumns[date][type].forEach(function(spaceCol){
             Object.keys(spaceCol.find('.programHelper')).forEach(function(key){
               if ($.isNumeric(key)){
                 var theEvent = spaceCol.find('.programHelper')[key];
-                var start = (theEvent.style.top.split('px')[0] - 41);
-                var end = start + parseInt(theEvent.style.height.split('px')[0]);
+                
+                var start = (theEvent.style.top.split('px')[0] - 41) * 1.5 + eventMinutes;
+                var end = start + parseInt(theEvent.style.height.split('px')[0]) * 1.5;
+                var startHour = Math.floor(start/60);
+                var startMin = start % 60;
+                if(startMin < 10) startMin = '0' + startMin;
+                var endHour = Math.floor(end/60);
+                var endMin = end % 60;
+                if(endMin < 10) endMin = '0' + endMin;
+                start = startHour + ':' + startMin;
+                end = endHour + ':' + endMin;
+
                 var performance = {
                   participant_id: _getProfileiD(theEvent.id),
                   participant_proposal_id: theEvent.id,
@@ -320,19 +327,31 @@
           if(spaceCol.attr('id') == performance.host_proposal_id){
             var timeCol = spaceCol.find('.spaceTime');
             var proposal = _getProposal(performance.participant_proposal_id);
-            proposal['height'] = performance.time[1] - performance.time[0];
+            
+            var eventTimeArray = eventTime[performance.date][0][0].split(':');
+            var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
+
+
+            var startArray = performance.time[0].split(':');
+            var start = (parseInt(startArray[0]) * 60 + parseInt(startArray[1]) - eventMinutes) / 1.5;
+            
+            var endArray = performance.time[1].split(':');
+            var end = (parseInt(endArray[0]) * 60 + parseInt(endArray[1]) - eventMinutes) / 1.5;
+            
+            proposal['height'] = (end - start) ;
             var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
             timeCol.append(newEvent);
+
             newEvent.css({
               position: 'absolute',
-              top: parseInt(performance.time[0]) + 41 + "px",
+              top: start + 41 + "px",
               left: spaceColumns[performance.date][performance.type].indexOf(spaceCol) * 176 + 1 + "px",
             });
 
             newEvent.resizable({
               maxWidth: 174,
               minWidth: 174,
-              maxHeight: timeCol.height() - (performance.time[0]),
+              maxHeight: timeCol.height() - start,
               grid: 10
             });
           }
