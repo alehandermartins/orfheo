@@ -630,10 +630,12 @@
 						_programs.forEach(function(program){
 							for (var key in program){
 								if (program[key]['place'] == proposal['name']){
+                  console.log(new Date(program[key]['starting_day_time']).toISOString());
+                  var starting_day_time = program[key]['starting_day_time']
 									_savedProgram.push({
 										proposal_id: program['proposal_id'], 
-										starting_day_time: program[key]['starting_day_time'],
-										ending_day_time: program[key]['ending_day_time']
+										starting_day_time: new Date(program[key]['starting_day_time']).toISOString(),
+										ending_day_time: new Date(program[key]['ending_day_time']).toISOString()
 									});
 								}
 							}

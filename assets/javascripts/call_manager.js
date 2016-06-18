@@ -6,10 +6,11 @@
     var _createdWidget = $('<div>').attr('id', 'programPanel').css({
       'margin-left': 35
     });
+    console.log(new Date(156542).toISOString());
 
     var eventTime = {
-      '2016-10-15': [['10:00', '14:00'], ['17:00', '23:00']],
-      '2016-10-16': [['10:00', '14:00'], ['17:00', '23:00']]
+      '2016-06-15T00:00:00.000Z': [['2016-06-15T10:00:00.000Z', '2016-06-15T14:00:00.000Z'], ['2016-06-15T17:00:00.000Z', '2016-06-15T23:00:00.000Z']],
+      '2016-06-16T00:00:00.000Z': [['2016-06-16T10:00:00.000Z', '2016-06-16T14:00:00.000Z'], ['2016-06-16T17:00:00.000Z', '2016-06-16T23:00:00.000Z']]
     }
 
     var artists = [];
@@ -101,12 +102,13 @@
     });
 
     Object.keys(eventTime).forEach(function(day){
-      var date = $('<option>').val(day).text(day); 
+      var dateText = day.split('T')[0];
+      var date = $('<option>').val(day).text(dateText); 
       _daySelector.append(date);
       
-      var start = parseInt(eventTime[day][0][0].split(':')[0]);
+      var start = parseInt(eventTime[day][0][0].split('T')[1].split(':')[0]);
       var lastIndex = eventTime[day].length - 1;
-      var end = parseInt(eventTime[day][lastIndex][1].split(':')[0]);
+      var end = parseInt(eventTime[day][lastIndex][1].split('T')[1].split(':')[0]);
 
       var hours = [];
       for (var i = start; i <= end; i++) {
@@ -175,6 +177,16 @@
               var duration = ui.helper.height();
               Pard.Widgets.DraggedProposal['height'] = duration;
               if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
+
+              if(type == 'permanent'){
+                position = colPosition;
+                Object.keys(_time.find('.programHelper')).forEach(function(key){
+                  if ($.isNumeric(key)){
+                    var theEvent = _time.find('.programHelper')[key];
+                    position += parseInt(theEvent.style.height.split('px')[0]);
+                  }
+                });
+              }
 
               var newEvent = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedProposal).render();
               _time.append(newEvent);
@@ -278,8 +290,9 @@
     var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
       var program = [];
       Object.keys(spaceColumns).forEach(function(date){
-        
-        var eventTimeArray = eventTime[date][0][0].split(':');
+
+        var eventDate = date.split('T')[0];
+        var eventTimeArray = eventTime[date][0][0].split('T')[1].split(':');
         var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
 
         Object.keys(spaceColumns[date]).forEach(function(type){
@@ -296,8 +309,8 @@
                 var endHour = Math.floor(end/60);
                 var endMin = end % 60;
                 if(endMin < 10) endMin = '0' + endMin;
-                start = startHour + ':' + startMin;
-                end = endHour + ':' + endMin;
+                start = eventDate + 'T' + startHour + ':' + startMin + ':' + '00' + '.000Z';
+                end = eventDate + 'T' + endHour + ':' + endMin + ':' + '00' + '.000Z';
 
                 var performance = {
                   participant_id: _getProfileiD(theEvent.id),
@@ -327,17 +340,16 @@
           if(spaceCol.attr('id') == performance.host_proposal_id){
             var timeCol = spaceCol.find('.spaceTime');
             var proposal = _getProposal(performance.participant_proposal_id);
-            
-            var eventTimeArray = eventTime[performance.date][0][0].split(':');
+            console.log(performance.time[0]);
+            var eventTimeArray = eventTime[performance.date][0][0].split('T')[1].split(':');
             var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
 
-
-            var startArray = performance.time[0].split(':');
+            var startArray = performance.time[0].split('T')[1].split(':');
             var start = (parseInt(startArray[0]) * 60 + parseInt(startArray[1]) - eventMinutes) / 1.5;
-            
-            var endArray = performance.time[1].split(':');
+            console.log(start);
+            var endArray = performance.time[1].split('T')[1].split(':');
             var end = (parseInt(endArray[0]) * 60 + parseInt(endArray[1]) - eventMinutes) / 1.5;
-            
+            console.log(end);
             proposal['height'] = (end - start) ;
             var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
             timeCol.append(newEvent);
