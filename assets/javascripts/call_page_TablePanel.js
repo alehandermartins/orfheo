@@ -105,14 +105,19 @@
       _shown.show();
       if (selected == 'space' && !(_contentBoxSpaces.html())){
         var spinner =  new Spinner().spin();
-        _contentBoxSpaces.append(spinner.el);
         $.wait(
           '', 
           function(){
-            _contentBoxSpaces.append(Pard.Widgets.CallManagerContent('space', _programAllCheckbox).render());
+            _contentBoxSpaces.append(spinner.el);
           }, 
           function(){
-            spinner.stop();
+            setTimeout(function(){
+              var _appendAndStopSpinner = function(stopSpinner){ 
+                _contentBoxSpaces.append(Pard.Widgets.CallManagerContent('space', _programAllCheckbox).render());
+                stopSpinner();
+              }
+              _appendAndStopSpinner(function(){spinner.stop()});
+            },0)
           }
         );
       }
@@ -188,14 +193,10 @@
             _tableBox.append(spinner.el); 
           }, 
           function(){
-            _titleColCallback(field, function(){spinner.stop();});
+           setTimeout(function(){ _titleColCallback(field, function(){spinner.stop();})},0);
           }
         )
-        // _tableBox.empty();    
-        //
-        // _tableBox.append(spinner.el);
-        // setTimeout(function(){_titleColCallback(field, function(){spinner.stop();});},0)
-   		});
+      });
    		Pard.CachedProposals = _proposalsSelectedReordered;
       callback();
 
@@ -211,7 +212,7 @@
           _tableBox.append(spinner.el); 
         }, 
         function(){
-          _titleColCallback(field, function(){spinner.stop();});
+         setTimeout(function(){ _titleColCallback(field, function(){spinner.stop();})},0);
         }
       )
    	});
@@ -606,6 +607,40 @@
 
   	_tableCreated.append(_thead.append(_titleRow));
 
+
+    // var _tfoot = $('<tfoot>');
+    // var _titleRowFoot = $('<tr>').addClass('title-row-table-proposal');
+
+    //  columns.forEach(function(field, colNum){
+    //   if (field == 'link_orfheo'){ 
+    //     var _titleText = $('<span>').html('rfh');
+    //     var _titleCol = $('<th>').append(_titleText);
+    //     _titleRowFoot.append(_titleCol.addClass('icon-column-call-table'));
+    //   }
+    //   else{
+    //     var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
+    //     var _titleCol = $('<th>').append(_titleText);
+    //     if (['availability', 'program'].indexOf(field)<0){
+    //       _titleText.click(function(){ 
+    //         // var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
+    //         // _tableCreated.empty();
+    //         // _printTable(_proposalsReordered);
+    //         reorder(field);
+    //       });
+    //       _titleText.addClass('title-colText-call-manager');
+    //       _titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
+    //     }
+    //   }
+    //   _titleRowFoot.append(_titleCol);
+    //   _cols.push(_titleCol);
+    // });
+
+    // _matrix.push(_cols);
+    // _cols = [];
+
+    // _tableCreated.append(_tfoot.append(_titleRowFoot ));
+
+
   	_programArray = [];
   	var _tbody = $('<tbody>');
 
@@ -712,6 +747,10 @@
   	}
 
   	_printTable(proposalsSelected);
+
+    // $(document).ready(function() {
+    //   _tableCreated.DataTable();
+    // })
 
 		return{
 			render: function(){
