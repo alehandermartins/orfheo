@@ -82,9 +82,9 @@
   	var _createdWidget = $('<div>');
 
   	var _typesSelectorBox = $('<div>').addClass('types-selector-call-manager');
-    var _contentBoxArtists = $('<div>');
+    var _contentBoxArtists = $('<div>').addClass('content-box-ArtistSpace');
 
-    var _contentBoxSpaces = $('<div>');
+    var _contentBoxSpaces = $('<div>').addClass('content-box-ArtistSpace');
 
     var _programAllCheckbox = $('<div>');
 
@@ -103,16 +103,30 @@
       _shown.hide();
       _shown = _cat[selected];
       _shown.show();
+      if (selected == 'space' && !(_contentBoxSpaces.html())){
+        var spinner =  new Spinner().spin();
+        $.wait(
+          '', 
+          function(){
+            _contentBoxSpaces.append(spinner.el);
+          }, 
+          function(){
+            setTimeout(function(){
+              var _appendAndStopSpinner = function(stopSpinner){ 
+                _contentBoxSpaces.append(Pard.Widgets.CallManagerContent('space', _programAllCheckbox).render());
+                stopSpinner();
+              }
+              _appendAndStopSpinner(function(){spinner.stop()});
+            },0)
+          }
+        );
+      }
     }
 
-    _contentBoxSpaces.append(Pard.Widgets.CallManagerContent('space', _programAllCheckbox).render());
-    _contentBoxArtists.append(Pard.Widgets.CallManagerContent('artist', _programAllCheckbox).render());
-
     var _selectorCallback = function(){
-    	// _contentBox.empty();
-    	var _selected = $(this).val();
+      // _contentBox.empty();
+      var _selected = $(this).val();
       _showHide(_selected);
-
     }
 
     var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render();
@@ -120,6 +134,8 @@
     // var _preSelected = 'artist';
 
    	// _contentBox.append(Pard.Widgets.CallManagerContent(_preSelected, _programAllCheckbox).render());
+
+    _contentBoxArtists.append(Pard.Widgets.CallManagerContent('artist', _programAllCheckbox).render());
 
     _contentBoxSpaces.hide();
     var _shown = _contentBoxArtists;
@@ -177,14 +193,10 @@
             _tableBox.append(spinner.el); 
           }, 
           function(){
-            _titleColCallback(field, function(){spinner.stop();});
+           setTimeout(function(){ _titleColCallback(field, function(){spinner.stop();})},0);
           }
         )
-        // _tableBox.empty();    
-        //
-        // _tableBox.append(spinner.el);
-        // setTimeout(function(){_titleColCallback(field, function(){spinner.stop();});},0)
-   		});
+      });
    		Pard.CachedProposals = _proposalsSelectedReordered;
       callback();
 
@@ -200,7 +212,7 @@
           _tableBox.append(spinner.el); 
         }, 
         function(){
-          _titleColCallback(field, function(){spinner.stop();});
+         setTimeout(function(){ _titleColCallback(field, function(){spinner.stop();})},0);
         }
       )
    	});
@@ -319,6 +331,7 @@
     	_programCheckBox.setVal(false);
     	var _val = _allCheckBoxes.getVal()
     	_checkBoxes.forEach(function(elem){
+        console.log(elem[0]);
     			elem[0].setVal(_val);
     	})
     	_createTable();
@@ -594,6 +607,40 @@
 
   	_tableCreated.append(_thead.append(_titleRow));
 
+
+    // var _tfoot = $('<tfoot>');
+    // var _titleRowFoot = $('<tr>').addClass('title-row-table-proposal');
+
+    //  columns.forEach(function(field, colNum){
+    //   if (field == 'link_orfheo'){ 
+    //     var _titleText = $('<span>').html('rfh');
+    //     var _titleCol = $('<th>').append(_titleText);
+    //     _titleRowFoot.append(_titleCol.addClass('icon-column-call-table'));
+    //   }
+    //   else{
+    //     var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
+    //     var _titleCol = $('<th>').append(_titleText);
+    //     if (['availability', 'program'].indexOf(field)<0){
+    //       _titleText.click(function(){ 
+    //         // var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
+    //         // _tableCreated.empty();
+    //         // _printTable(_proposalsReordered);
+    //         reorder(field);
+    //       });
+    //       _titleText.addClass('title-colText-call-manager');
+    //       _titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
+    //     }
+    //   }
+    //   _titleRowFoot.append(_titleCol);
+    //   _cols.push(_titleCol);
+    // });
+
+    // _matrix.push(_cols);
+    // _cols = [];
+
+    // _tableCreated.append(_tfoot.append(_titleRowFoot ));
+
+
   	_programArray = [];
   	var _tbody = $('<tbody>');
 
@@ -702,6 +749,10 @@
   	}
 
   	_printTable(proposalsSelected);
+
+    // $(document).ready(function() {
+    //   _tableCreated.DataTable();
+    // })
 
 		return{
 			render: function(){

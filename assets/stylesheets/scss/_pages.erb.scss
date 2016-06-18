@@ -1154,6 +1154,10 @@ CALL PAGE
   }
 }
 
+.content-box-ArtistSpace{
+  min-height: 100vh;
+}
+
 td.column-call-manager-table{
   min-width: 10rem;
 } 
@@ -1234,13 +1238,14 @@ th.icon-column-call-table{
   position:absolute;
   right: 0;
   height: 2.5rem;
+  top: 1.8rem;
 }
 
 .submit-btn-outer-container-call-manager{
   position:relative;
   display: block;
-  min-height: 2rem;
-  margin: 1rem; 
+  margin-right: 2rem;
+  font-size: $almostNormalSize;
 }
 
 #succes-box-call-manager, #successBox-whiteList{
@@ -1317,6 +1322,10 @@ th.icon-column-call-table{
   width: 92%;
   font-size: 12px;
   margin-bottom: 0.2rem;
+}
+
+.new-input-selected-whitelist{
+  background-color: rgba(212, 185, 41, 0.5) !important;;
 }
 
 .callPage-createSpaceProposal{

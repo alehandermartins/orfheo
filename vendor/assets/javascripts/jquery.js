@@ -16,3 +16,4 @@
 //= require HoldOn.min
 //= require spin.min
 //= require jquery-timing.min
+//= require jquery.dataTables.min

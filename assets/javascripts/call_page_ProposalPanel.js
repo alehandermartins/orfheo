@@ -434,7 +434,10 @@
    	_submitBtnOuterContainer.append(_submitBtnContainer);
    	var _successBox = $('<span>').attr({id:'successBox-whiteList'});
 
-   	var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){_sendWhiteList()});
+   	var _submitBtn = Pard.Widgets.Button('Guarda los cambios',
+     function(){
+      _sendWhiteList();
+    });
   
     var _sendWhiteList = function(){
       var _wl = _emailNameInput.getVal();      
@@ -446,7 +449,7 @@
 
     var _emailNameImputRendered = _emailNameInput.render();
 
-    _createdWidget.append($('<label>').append(_emailNameImputRendered), _submitBtnOuterContainer);
+    _createdWidget.append(_submitBtnOuterContainer, $('<label>').append(_emailNameImputRendered));
 
     return {
       render: function(){
