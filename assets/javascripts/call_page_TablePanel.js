@@ -63,7 +63,7 @@
 		var _panelShown = _tablePanel;
 
 		$(document).ready(function(){
-			_tableTabTitle.trigger('click')
+			_programTabTitle.trigger('click')
 		});
 
     _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel, _programPanel);
