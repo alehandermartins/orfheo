@@ -22,7 +22,7 @@ class Forms::Program < Forms::Base
     {
       performance_id: performance[:performance_id] || SecureRandom.uuid,
       date: performance[:date],
-      type: performance[:type],
+      permanent: performance[:permanent],
       time: performance[:time],
       participant_id: performance[:participant_id],
       participant_proposal_id: performance[:participant_proposal_id],

@@ -401,44 +401,11 @@
 
     var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
       var program = [];
-      Object.keys(spaceColumns).forEach(function(date){
-
-        var eventDate = date.split('T')[0];
-        var eventTimeArray = eventTime[date][0][0].split('T')[1].split(':');
-        var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
-          
-        spaceColumns[date].forEach(function(spaceCol){
-          Object.keys(spaceCol.find('.programHelper')).forEach(function(key){
-            if ($.isNumeric(key)){
-              var theEvent = spaceCol.find('.programHelper')[key];
-              
-              var start = (theEvent.style.top.split('px')[0] - 41) * 1.5 + eventMinutes;
-              var end = start + parseInt(theEvent.style.height.split('px')[0]) * 1.5;
-              var startHour = Math.floor(start/60);
-              var startMin = start % 60;
-              if(startMin < 10) startMin = '0' + startMin;
-              var endHour = Math.floor(end/60);
-              var endMin = end % 60;
-              if(endMin < 10) endMin = '0' + endMin;
-              start = eventDate + 'T' + startHour + ':' + startMin + ':' + '00' + '.000Z';
-              end = eventDate + 'T' + endHour + ':' + endMin + ':' + '00' + '.000Z';
-
-              var performance = {
-                participant_id: _getProfileiD(theEvent.id),
-                participant_proposal_id: theEvent.id,
-                host_id: _getProfileiD(spaceCol.attr('id')),
-                host_proposal_id: spaceCol.attr('id'),
-                date: date,
-                permanent: false,
-                time: [start, end]
-              }
-              program.push(performance);
-            }
-          });
-        });
+      Pard.Widgets.Program.forEach(function(performance, index){
+        program.push(performance);
+        delete program[index].card;
       });
-      
-      Pard.Backend.program(' ', program, function(data){
+      Pard.Backend.program(' ', Pard.Widgets.Program, function(data){
         console.log(data['status']);
       });
     });
