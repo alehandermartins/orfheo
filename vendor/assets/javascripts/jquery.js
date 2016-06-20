@@ -12,7 +12,6 @@
 //= require select2.min
 //= require moment-with-locales
 //= require spectrum
-//= require jquery.dragtable
 //= require HoldOn.min
 //= require spin.min
 //= require jquery-timing.min
