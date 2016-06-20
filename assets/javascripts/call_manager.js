@@ -7,6 +7,7 @@
       'margin-left': 35
     });
 
+    Pard.Widgets.CachedCall = call;
     var eventTime = call.eventTime;
     eventTime = {
       '2016-10-15': [['2016-10-15T10:00:00.000Z', '2016-10-15T14:00:00.000Z'], ['2016-10-15T17:00:00.000Z', '2016-10-15T23:00:00.000Z']],
@@ -80,8 +81,7 @@
 
       spaceColumns[day] = [];
 
-      var dateText = day.split('T')[0];
-      var date = $('<option>').val(day).text(dateText); 
+      var date = $('<option>').val(day).text(day); 
       _daySelector.append(date);
       
       var start = parseInt(eventTime[day][0][0].split('T')[1].split(':')[0]);
@@ -183,6 +183,7 @@
               participant_proposal_id: performance.proposal_id,
               host_id: space.profile_id,
               host_proposal_id: space.proposal_id,
+              host_name: space.name,
               date: day,
               permanent: false,
               time: [start, end],
@@ -313,6 +314,7 @@
               participant_proposal_id: performance.proposal_id,
               host_id: space.profile_id,
               host_proposal_id: space.proposal_id,
+              host_name: space.name,
               date: Object.keys(eventTime),
               permanent: true,
               time: eventTime,
@@ -483,6 +485,7 @@
     }
   }
 
+  ns.Widgets.CachedCall = {};
   ns.Widgets.DraggedPerformance = {};
   ns.Widgets.Program = [];
   ns.Widgets.CategoryColor = function(category){
@@ -679,7 +682,7 @@
       }
     });
 
-    Pard.Widgets.PopupCreator(_card, performance.title, function(){ return Pard.Widgets.ProgramHelperPopup(performance, _card)});
+    Pard.Widgets.PopupCreator(_card, performance.title, function(){ return Pard.Widgets.ProgramHelperPopup(performance.proposal_id)});
 
     return {
       render: function(){
@@ -740,7 +743,7 @@
       }
     });
 
-    Pard.Widgets.PopupCreator(_card, performance.title, function(){ return Pard.Widgets.ProgramHelperPopup(performance, _card)});
+    Pard.Widgets.PopupCreator(_card, performance.title, function(){ return Pard.Widgets.ProgramHelperPopup(performance.participant_proposal_id)});
 
     return {
       render: function(){
@@ -764,13 +767,127 @@
     }
   }
 
-  ns.Widgets.ProgramHelperPopup = function(proposal, card){
-    var _createdWidget = $('<div>');
+  ns.Widgets.ProgramHelperPopup = function(proposal_id){
     var _closepopup = {};
+    var _createdWidget = $('<div>');
+    var call = Pard.Widgets.CachedCall;
+    var program = Pard.Widgets.Program;
+    
+    var myPerformances = [];
+    program.forEach(function(performance){
+      if(performance.participant_proposal_id == proposal_id) myPerformances.push(performance);
+    });
 
-    var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
+    myPerformances.forEach(function(performance){
+      var _performaceBox = $('<div>');
+      
+      var _daySelector = $('<select>');
+      var date = $('<option>').val(performance.date).text(performance.date); 
+      _daySelector.append(date);
+      _daySelector.attr('disabled', true);
 
-    _createdWidget.append(_callName);
+      var _spaceSelector = $('<select>');
+      var space = $('<option>').val(performance.host_proposal_id).text(performance.host_name); 
+      _spaceSelector.append(space);
+      _spaceSelector.attr('disabled', true);
+
+      var _startTime = $('<select>');
+      var startArray = performance.time[0].split('T')[1].split(':');
+      var start = $('<option>').val(performance.time[0]).text(startArray[0] + ':' + startArray[1]); 
+      _startTime.append(start);
+      _startTime.attr('disabled', true);
+
+      var _endTime = $('<select>');
+      var endArray = performance.time[1].split('T')[1].split(':');
+      var end = $('<option>').val(performance.time[1]).text(endArray[0] + ':' + endArray[1]); 
+      _endTime.append(end);
+      _endTime.attr('disabled', true);
+
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+
+      _removeInputButton.on('click', function(){
+        Pard.Widgets.Program.splice(Pard.Widgets.Program.indexOf(performance), 1);
+        performance['card'].remove();
+        _performaceBox.remove();
+      });
+
+      _daySelector.css({'display': ' inline-block', 'width': '120'});
+      _spaceSelector.css({'display': ' inline-block', 'width': '250'});
+      _startTime.css({'display': ' inline-block', 'width': '80'});
+      _endTime.css({'display': ' inline-block', 'width': '80'});
+
+      _performaceBox.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
+      _createdWidget.append(_performaceBox);
+    });
+    
+    var eventTime = {
+      '2016-10-15': [['2016-10-15T10:00:00.000Z', '2016-10-15T14:00:00.000Z'], ['2016-10-15T17:00:00.000Z', '2016-10-15T23:00:00.000Z']],
+      '2016-10-16': [['2016-10-16T10:00:00.000Z', '2016-10-16T14:00:00.000Z'], ['2016-10-16T17:00:00.000Z', '2016-10-16T23:00:00.000Z']]
+    };
+
+    // var _performaceBox = $('<div>');
+
+    // var _daySelector = $('<select>');
+    // Object.keys(eventTime).forEach(function(day){
+    //   var date = $('<option>').val(day).text(day); 
+    //   _daySelector.append(date);
+    // });
+
+    // var _spaceSelector = $('<select>');
+    // call['proposals'].forEach(function(proposal){
+    //   if(proposal.type == 'space'){
+    //     var space = $('<option>').val(proposal.profile_id).text(proposal.name); 
+    //     _spaceSelector.append(space);
+    //   }
+    // });
+    // _daySelector.css({'display': ' inline-block', 'width': '200'});
+    // _spaceSelector.css({'display': ' inline-block', 'width': '200'});
+
+    // _performaceBox.append(_daySelector, _spaceSelector);
+    // _createdWidget.append(_performaceBox);
+
+    // var _results = [];
+    // var _inputs = [];
+    // var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url',function(){
+    //   _addInputButton.addClass('add-input-button-enlighted')
+    // });
+    // _input.setClass('add-multimedia-input-field');
+    // var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
+
+    // var _addnewInput = function(url){
+    //   var _container = $('<div>');
+    //   var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url');
+    //   _newInput.setClass('add-multimedia-input-field');
+    //   _newInput.setVal(url);
+    //   _newInput.setAttr('disabled', true);
+    //   _inputs.push(_newInput);
+
+    //   var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+
+    //   _container.append(_newInput.render().addClass('add-multimedia-input-field'), _removeInputButton);
+    //   _removeInputButton.on('click', function(){
+    //     _inputs.splice(_inputs.indexOf(_newInput), 1);
+    //     _container.empty();
+    //   });
+    //   return _container;
+    // }
+
+    // var _websAddedContainer = $('<div>');
+
+    // _addInputButton.on('click', function(){
+    //   $(this).removeClass('add-input-button-enlighted');
+    //   if(_checkUrl(_input)){
+    //     _websAddedContainer.prepend(_addnewInput(_input.getVal()));
+    //     _input.setVal('');
+    //   }
+    // });
+
+    // _createdWidget.append(_input.render().addClass('add-multimedia-input-field'), _addInputButton, _websAddedContainer);
+
+
+    //var _callName = $('<p>').append('Inscrito en ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
+
+    //_createdWidget.append(_callName);
 
     return {
       render: function(){

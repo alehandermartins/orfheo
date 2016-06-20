@@ -27,7 +27,8 @@ class Forms::Program < Forms::Base
       participant_id: performance[:participant_id],
       participant_proposal_id: performance[:participant_proposal_id],
       host_id: performance[:host_id],
-      host_proposal_id: performance[:host_proposal_id]
+      host_proposal_id: performance[:host_proposal_id],
+      host_name: performance[:host_name]
     }
   end
 end
