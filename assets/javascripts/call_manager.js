@@ -292,12 +292,10 @@
 
             var duration = ui.helper.height();
             position = colPosition;
-            console.log(position);
             Pard.Widgets.Program.forEach(function(performanceProgram){
               if(performanceProgram['host_proposal_id'] == space.proposal_id && performanceProgram['permanent'] == true) position += parseInt(performanceProgram['card'].height());
             });
 
-            console.log(position);
             Pard.Widgets.DraggedPerformance['height'] = duration;
             Pard.Widgets.DraggedPerformance['top'] = position;
             Pard.Widgets.DraggedPerformance['left'] = _time.position().left;
@@ -411,7 +409,6 @@
         program.push(performance);
         delete program[index].card;
       });
-      console.log(Pard.Widgets.Program);
       Pard.Backend.program(' ', Pard.Widgets.Program, function(data){
         console.log(data['status']);
       });
@@ -674,7 +671,6 @@
       maxHeight: performance.maxHeight,
       grid: 10,
       stop: function(event, ui){
-        console.log(Pard.Widgets.Program);
         Pard.Widgets.Program.forEach(function(performanceProgram){
           if(performanceProgram.performance_id == performance.performance_id){
             var end = new Date(performanceProgram['time'][0]);
@@ -884,7 +880,6 @@
         while(dayStart <= maxStart){
           var timeVal = dayStart.toISOString();
           var timeArray = timeVal.split('T')[1].split(':');
-          console.log(timeArray);
           var startOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
           _startTime.append(startOption);
 
