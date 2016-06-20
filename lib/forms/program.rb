@@ -20,14 +20,15 @@ class Forms::Program < Forms::Base
 
   def create_model_from_performance performance
     {
-      performance_id: performance[:performance_id] || SecureRandom.uuid,
+      performance_id: performance[:performance_id],
       date: performance[:date],
-      type: performance[:type],
+      permanent: performance[:permanent],
       time: performance[:time],
       participant_id: performance[:participant_id],
       participant_proposal_id: performance[:participant_proposal_id],
       host_id: performance[:host_id],
-      host_proposal_id: performance[:host_proposal_id]
+      host_proposal_id: performance[:host_proposal_id],
+      host_name: performance[:host_name]
     }
   end
 end
