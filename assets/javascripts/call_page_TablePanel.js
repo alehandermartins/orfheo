@@ -45,7 +45,7 @@
   	_tabs.append(
   		_tableTab, 
   		_profilesTab,
-  		 _programTab
+  		_programTab
   	);
 
   	var _tabShowHide = function(id_selected){
