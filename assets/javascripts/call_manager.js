@@ -405,47 +405,48 @@
         program.push(performance);
         delete program[index].card;
       });
+      console.log(Pard.Widgets.Program);
       Pard.Backend.program(' ', Pard.Widgets.Program, function(data){
         console.log(data['status']);
       });
     });
     _createdWidget.append(_submitBtn.render());
 
-    // if(call['program']){
-    //   call['program'].forEach(function(performance){
-    //     spaceColumns[performance.date].forEach(function(spaceCol){
-    //       if(spaceCol.attr('id') == performance.host_proposal_id){
-    //         var timeCol = spaceCol.find('.spaceTime');
-    //         var proposal = _getProposal(performance.participant_proposal_id);
 
-    //         var eventTimeArray = eventTime[performance.date][0][0].split('T')[1].split(':');
-    //         var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
+    if(call['program']){
+      var permanentPerformances = [];
+      call['program'].forEach(function(performance){
+        console.log(performance);
+        if (performance.permanent == 'false'){
+          spaceColumns[performance.date].forEach(function(spaceCol){
+            if(spaceCol.attr('id') == performance.host_proposal_id){
+              var timeCol = spaceCol.find('.spaceTime');
+              var proposal = _getProposal(performance.participant_proposal_id);
 
-    //         var startArray = performance.time[0].split('T')[1].split(':');
-    //         var start = (parseInt(startArray[0]) * 60 + parseInt(startArray[1]) - eventMinutes) / 1.5;
-    //         var endArray = performance.time[1].split('T')[1].split(':');
-    //         var end = (parseInt(endArray[0]) * 60 + parseInt(endArray[1]) - eventMinutes) / 1.5;
+              var eventTimeArray = eventTime[performance.date][0][0].split('T')[1].split(':');
+              var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
 
-    //         proposal['height'] = (end - start) ;
-    //         var newEvent = Pard.Widgets.ProgramHelper(proposal).render();
-    //         timeCol.append(newEvent);
+              var startArray = performance.time[0].split('T')[1].split(':');
+              var start = (parseInt(startArray[0]) * 60 + parseInt(startArray[1]) - eventMinutes) / 1.5;
+              var endArray = performance.time[1].split('T')[1].split(':');
+              var end = (parseInt(endArray[0]) * 60 + parseInt(endArray[1]) - eventMinutes) / 1.5;
 
-    //         newEvent.css({
-    //           position: 'absolute',
-    //           top: start + 41 + "px",
-    //           left: spaceColumns[performance.date].indexOf(spaceCol) * 176 + 1 + "px",
-    //         });
+              proposal['performance_id'] = performance.performance_id
+              proposal['height'] = (end - start);
+              proposal['top'] = start + 41;
+              proposal['left'] = spaceColumns[performance.date].indexOf(spaceCol) * 176 + 1;
+              proposal['maxHeight'] = timeCol.height() - start;
+              
+              var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
+              timeCol.append(newPerformance);
 
-    //         newEvent.resizable({
-    //           maxWidth: 174,
-    //           minWidth: 174,
-    //           maxHeight: timeCol.height() - start,
-    //           grid: 10
-    //         });
-    //       }
-    //     });
-    //   });
-    // }
+              performance['card'] = newPerformance;
+              Pard.Widgets.Program.push(performance);
+            }
+          });
+        }
+      });
+    }
 
   	return {
       render: function(){
@@ -639,7 +640,8 @@
       maxHeight: performance.maxHeight,
       grid: 10,
       stop: function(event, ui){
-        Pard.Widgets.Program.forEach(function(performanceProgram, index){
+        console.log(Pard.Widgets.Program);
+        Pard.Widgets.Program.forEach(function(performanceProgram){
           if(performanceProgram.performance_id == performance.performance_id){
             var end = new Date(performanceProgram['time'][0]);
             end.setMinutes(end.getMinutes() + ui.size.height * 1.5);
