@@ -16,4 +16,16 @@
 //= require HoldOn.min
 //= require spin.min
 //= require jquery-timing.min
+
 //= require jquery.dataTables.min
+//= require dataTables.foundation.min
+//= require responsive.dataTables.min
+//= require dataTables.keyTable.min
+
+//= require dataTables.buttons.min
+//= require buttons.flash.min
+//= require jszip.min
+//= require pdfmake.min
+//= require vfs_fonts
+//= require buttons.html5.min
+//= require buttons.print.min

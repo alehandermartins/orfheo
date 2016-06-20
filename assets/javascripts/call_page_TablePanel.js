@@ -157,16 +157,16 @@
   	
   	var _createdWidget = $('<div>');
 
-  	var _showHideTable = function(columns, rows){
-	   	if (columns.length) _tableBox.addClass('table-box-proposal-manager');
-	   	else _tableBox.removeClass('table-box-proposal-manager');
-	   	_matrix.forEach(function(row, i){
-	   		row.forEach(function(col, j){
-	   			if (rows.indexOf(i) > -1 && columns.indexOf(j) > -1) col.show();
-	   			else col.hide();
-	   		})
-	   	})
-  	}
+  	// var _showHideTable = function(columns, rows){
+	  //  	if (columns.length) _tableBox.addClass('table-box-proposal-manager');
+	  //  	else _tableBox.removeClass('table-box-proposal-manager');
+	  //  	_matrix.forEach(function(row, i){
+	  //  		row.forEach(function(col, j){
+	  //  			if (rows.indexOf(i) > -1 && columns.indexOf(j) > -1) col.show();
+	  //  			// else col.hide();
+	  //  		})
+	  //  	})
+  	// }
 
     var _outerTableContainer = $('<div>');
 
@@ -175,67 +175,77 @@
    	var _tableBox = $('<div>');
 
    	var _table = Pard.Widgets.CreateTable(selected, _submitBtnOuterContainer);
+    var _categories = _table.categories();
 
-   	var _matrix = _table.getMatrix();
+   // 	var _matrix = _table.getMatrix();
 
-   	var  _titleColCallback = function(field, callback){  
-   		var _proposalsSelectedReordered = Pard.Widgets.Reorder(field, selected).render();
-   		_table =  Pard.Widgets.CreateTable(selected, _submitBtnOuterContainer, _proposalsSelectedReordered);
-   		_matrix = _table.getMatrix();
-   		_tableBox.append(_table.render());
-			_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
-   		_table.setTitleColCallback(function(field){
-        var spinner =  new Spinner().spin();
-        $.wait(
-          '', 
-          function(){
-            _tableBox.empty();  
-            _tableBox.append(spinner.el); 
-          }, 
-          function(){
-           setTimeout(function(){ _titleColCallback(field, function(){spinner.stop();})},0);
-          }
-        )
-      });
-   		Pard.CachedProposals = _proposalsSelectedReordered;
-      callback();
+   // 	var  _titleColCallback = function(field, callback){  
+   // 		var _proposalsSelectedReordered = Pard.Widgets.Reorder(field, selected).render();
+   // 		_table =  Pard.Widgets.CreateTable(selected, _submitBtnOuterContainer, _proposalsSelectedReordered);
+   // 		_matrix = _table.getMatrix();
+   // 		_tableBox.append(_table.render());
+			// _showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
+   // 		_table.setTitleColCallback(function(field){
+   //      var spinner =  new Spinner().spin();
+   //      $.wait(
+   //        '', 
+   //        function(){
+   //          _tableBox.empty();  
+   //          _tableBox.append(spinner.el); 
+   //        }, 
+   //        function(){
+   //         setTimeout(function(){ _titleColCallback(field, function(){spinner.stop();})},0);
+   //        }
+   //      )
+   //    });
+   // 		Pard.CachedProposals = _proposalsSelectedReordered;
+   //    callback();
 
-   	}
-
-
-   	_table.setTitleColCallback(function(field){
-      var spinner =  new Spinner().spin();
-      $.wait(
-        '', 
-        function(){
-          _tableBox.empty();  
-          _tableBox.append(spinner.el); 
-        }, 
-        function(){
-         setTimeout(function(){ _titleColCallback(field, function(){spinner.stop();})},0);
-        }
-      )
-   	});
+   // 	}
 
 
-   	var  _searchInputContainer = $('<div>').addClass('search-input-call-manager-container');
+   // 	_table.setTitleColCallback(function(field){
+   //    var spinner =  new Spinner().spin();
+   //    $.wait(
+   //      '', 
+   //      function(){
+   //        _tableBox.empty();  
+   //        _tableBox.append(spinner.el); 
+   //      }, 
+   //      function(){
+   //       setTimeout(function(){ _titleColCallback(field, function(){spinner.stop();})},0);
+   //      }
+   //    )
+   // 	});
 
-	  var _searchInput = Pard.Widgets.SearchInputCallManager(selected);
 
-	  _searchInput.setCallback(function(){
-	  	_searchInput.updateDatabase();
-	  	_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
-	  });
+   // 	var  _searchInputContainer = $('<div>').addClass('search-input-call-manager-container');
 
-	  var _checkBoxesBox = Pard.Widgets.PrintCheckBoxes(programAllCheckbox, selected, _submitBtnOuterContainer);
+	  // var _searchInput = Pard.Widgets.SearchInputCallManager(selected);
 
-	  _checkBoxesBox.setCallback(function(){
-	  	_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
-	  });
+	  // _searchInput.setCallback(function(){
+	  // 	_searchInput.updateDatabase();
+	  // 	_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
+	  // });
 
-    _createdWidget.append(_checkBoxesBox.render(), _outerTableContainer.append(_searchInputContainer.append(_searchInput.render()), _tableBox.append(_table.render()), _submitBtnOuterContainer));
+	  var _checkBoxesBox = Pard.Widgets.PrintCheckBoxes(programAllCheckbox, selected, _submitBtnOuterContainer, _categories);
 
-    _showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
+	  // _checkBoxesBox.setCallback(function(){
+	  // 	_showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
+	  // });
+
+    var _tableRendered = _table.render();
+
+    _createdWidget.append(_checkBoxesBox.render(), _outerTableContainer.append(_tableBox.append(_tableRendered), _submitBtnOuterContainer));
+
+    // _showHideTable(_checkBoxesBox.getVal(), _searchInput.getVal());
+
+     $(document).ready(function() {
+
+      _checkBoxesBox.setCallback(_tableRendered);
+     
+    });
+
 
     _submitBtnOuterContainer.hide();
 
@@ -247,28 +257,28 @@
   }
 
 
-  ns.Widgets.Reorder = function(field, selected){
-  	var proposals = Pard.CachedProposals;
-  	var _proposalsSelected = [];
-  	proposals.forEach(function(proposal){
-  		if(proposal.type == selected) _proposalsSelected.push(proposal);
-  	})
+ //  ns.Widgets.Reorder = function(field, selected){
+ //  	var proposals = Pard.CachedProposals;
+ //  	var _proposalsSelected = [];
+ //  	proposals.forEach(function(proposal){
+ //  		if(proposal.type == selected) _proposalsSelected.push(proposal);
+ //  	})
 
-  	_proposalsSelected.sort(function (a, b) {
-  		if (a[field] && b[field]) return a[field].toLowerCase().localeCompare(b[field].toLowerCase());
-      else if (!(a[field])) return 1
-      else if (!(b[field])) return -1
-		});
+ //  	_proposalsSelected.sort(function (a, b) {
+ //  		if (a[field] && b[field]) return a[field].toLowerCase().localeCompare(b[field].toLowerCase());
+ //      else if (!(a[field])) return 1
+ //      else if (!(b[field])) return -1
+	// 	});
 
-		return {
-			render: function(){
-				return _proposalsSelected;
-			}
-		}
-	}
+	// 	return {
+	// 		render: function(){
+	// 			return _proposalsSelected;
+	// 		}
+	// 	}
+	// }
 
 
-  ns.Widgets.PrintCheckBoxes = function(programAllCheckbox, selected,_submitBtnOuterContainer) {
+  ns.Widgets.PrintCheckBoxes = function(programAllCheckbox, selected,_submitBtnOuterContainer, categories) {
 
   	programAllCheckbox.empty();
 
@@ -280,41 +290,48 @@
   		artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend']
   	}
 
-  	var _createTable = function(){};
+  	var _table;
 
-  	var _getColumns = function(){ 
-	  	var _columns = [];
-	  	_submitBtnOuterContainer.hide();
-			_checkBoxes.forEach(function(elem){
-				if (elem[1] === 'program'){
-					_columns.push(_fields[selected].length);
-					_submitBtnOuterContainer.show(); 			
-				}
-				else if (elem[0].getVal()) {
-					var index = _fields[selected].indexOf(elem[1]);
-					_columns.push(index);
-				}				
-	  	})
-	  	return _columns;
-	  }
+  	// var _getColumns = function(){ 
+	  // 	var _columns = [];
+	  // 	_submitBtnOuterContainer.hide();
+			// _checkBoxes.forEach(function(elem){
+			// 	if (elem[1] === 'program'){
+			// 		_columns.push(_fields[selected].length);
+			// 		_submitBtnOuterContainer.show(); 			
+			// 	}
+			// 	else if (elem[0].getVal()) {
+			// 		var index = _fields[selected].indexOf(elem[1]);
+			// 		_columns.push(index);
+			// 	}				
+	  // 	})
+	  // 	return _columns;
+	  // }
+
+    var _filterCategory = $('<select>');
+
 
 
   	var _printCheckBoxes = function(){
 
   	_checkBoxes = [];
-    _fields[selected].forEach(function(field){
-    	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),field);
+    _fields[selected].forEach(function(field, columnNum){
+    	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),false);
     	// var _checkBoxBox = $('<span>');
     	_checkBoxes.push([_checkBox,field]);
     	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
-    	_checkBoxRendered.change(function(){
-    	_createTable();
-    	});
+    	_checkBoxRendered.click(function(){
+        var column = _table.column(columnNum);
+        column.visible( _checkBox.getVal() );
+        } );
     	if (field == 'name' || field == 'link_orfheo') _checkBox.setVal(true);
+      else {
+        _checkBox.setVal(false);
+      };
     	_checkBox.labelToggle(); 	
-    	_checkBoxRendered.click(function(){  	
-    		_checkBoxRendered.trigger('change');
-    	});
+    	// _checkBoxRendered.click(function(){  	
+    	// 	_checkBoxRendered.trigger('change');
+    	// });
     	_checkBoxesBox.append(_checkBoxRendered);
 
     });
@@ -331,10 +348,9 @@
     	_programCheckBox.setVal(false);
     	var _val = _allCheckBoxes.getVal()
     	_checkBoxes.forEach(function(elem){
-        console.log(elem[0]);
     			elem[0].setVal(_val);
     	})
-    	_createTable();
+    	// _createTable();
     });
 
     _allCheckBoxes.labelToggle(); 	
@@ -358,7 +374,7 @@
     	if (_val){
 	    	_checkBoxes.push([true, 'program']);
     	}
-   		_createTable();
+   		// _createTable();
     });
 
     _programCheckBox.labelToggle(); 	
@@ -370,6 +386,29 @@
     programAllCheckbox.empty();
     programAllCheckbox.append(_allCheckBoxesRendered, _programCheckBoxRendered).addClass('program-all-checkbox-container');
 
+    _checkBoxesBox.append(_filterCategory);
+
+    var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
+    categories.forEach(function(cat){
+      _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render()});
+    });
+    
+    _filterCategory.select2({
+      data: _searchTags,
+      // multiple:true,
+      // placeholder: 'Busca',
+      // tags: true,
+      // tokenSeparators: [',', ' '],   
+    });
+
+    _filterCategory.on('select2:select',function(){
+      var _cat =  _filterCategory.select2('data')[0];
+      if (_cat.id == 'all') _table.columns( 2 ).search('').draw();
+      else _table.columns( 2 ).search(_cat.text).draw();
+    });
+
+
+    
     return {
 	  	render: function(){
 	  		return _checkBoxesBox;
@@ -377,11 +416,79 @@
 	  	getVal: function(){
 	  		return _getColumns();
 	  	}, 
-	  	setCallback: function(callback){
-	    		_createTable = callback;
-	    }
+	  	setCallback: function(table){
+        var _shownColumns = ['link_orfheo','name','category','title','short_description']
+        var _hiddenColumnsArray=[];
+        _fields[selected].forEach(function(field, colNum){
+          if($.inArray(field,_shownColumns)<0) _hiddenColumnsArray.push(colNum);
+        });
+        _hiddenColumnsArray.push(_fields[selected].length);
+        _table = table.DataTable({
+          "language":{
+          "lengthMenu": " Resultados por página _MENU_",
+          "zeroRecords": "Ningún resultado",
+          "info": "",
+          "infoEmpty": "Ningúna información disponible",
+          "infoFiltered": "(filtered from _MAX_ total records)",
+          "search": "Busca",
+          "paginate": {
+            "first":      "Primera",
+            "last":       "Última",
+            "next":       "Siguiente",
+            "previous":   "Anterior"
+          },
+        },
+        fixedHeader: {
+          header: true
+        },
+        "scrollX": true,
+        "scrollY": "90vh",
+        "paging": false,
+        "scrollCollapse": true,
+        // 'responsive': true,
+        // 'colReorder': true,
+        "columnDefs": [
+          { "visible": false, "targets": _hiddenColumnsArray }
+          ],
+        // keys: true,
+        dom: 'Bfrtip',
+        buttons: [
+          {
+              extend: 'copy',
+              text: 'Copia',
+              exportOptions: {
+                  columns: ':visible'
+              }
+          },
+          {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+          },
+          {
+            extend: 'pdf',
+            exportOptions: {
+                columns: ':visible'
+            },
+            orientation: 'landscape'
+          }
+        ]
+        });
+
+
+        // _fields[selected].forEach(function(field, colNum){
+        //   if(field == 'name' || field == 'link_orfheo') _table.column(colNum).visible(true);
+        //   else _table.column(colNum).visible(false);
+        // });
+        // _table.column(_fields[selected].length).visible(false);
+        // _table.columns.adjust().draw( true );
+	      
+      }
   	}
   }
+
+
 
 
   ns.Widgets.CreateTable = function(selected, _submitBtnOuterContainer, proposalsReordered){
@@ -394,8 +501,10 @@
   	var _artists = [{id:'', text:''}];
   	var _programs = [];
     var _proposalsSelected = [];
+    var _categories = [];
 
   	proposals.forEach(function(proposal){
+      if ($.inArray(proposal.category, _categories)<0 && proposal.type == selected) _categories.push(proposal.category);
   		if (proposal['type'] == 'space') _places.push({id: proposal['proposal_id'], text: proposal['name'], availability: proposal['availability'], profile_id: proposal['profile_id']});
   		if (proposal['type'] == 'artist') {
   			var _text =  proposal['name'] + ' - ' +  proposal['title'];
@@ -430,129 +539,132 @@
     return {
     	render: function(){
     		return _tableCreated.render()
-    	}, 
-    	getMatrix: function(){
-    		return _tableCreated.getMatrix();
     	},
-    	setTitleColCallback: function(callback){
-    		_tableCreated.setTitleColCallback(callback);
-    	}
+      categories: function(){
+        return _categories;
+      }
+    	// getMatrix: function(){
+    	// 	return _tableCreated.getMatrix();
+    	// },
+    	// setTitleColCallback: function(callback){
+    	// 	_tableCreated.setTitleColCallback(callback);
+    	// }
     }
 
   }
 
 
-  ns.Widgets.SearchInputCallManager = function(selected){
+  // ns.Widgets.SearchInputCallManager = function(selected){
 
- 	  var proposals = Pard.CachedProposals;
+ 	//   var proposals = Pard.CachedProposals;
 
- 	  var _searchTags = [{id:'', text:''}];
+ 	//   var _searchTags = [{id:'', text:''}];
 
-		var _namesAdded = [];
-		var _categoryAdded = [];
-		var _respAdded = [];
-		var _titlesAdded = [];
+		// var _namesAdded = [];
+		// var _categoryAdded = [];
+		// var _respAdded = [];
+		// var _titlesAdded = [];
 
-  	proposals.forEach(function(proposal){
-   		if (proposal['type'] == selected) {
-   			// _proposalsSelected.push(proposal);
+  // 	proposals.forEach(function(proposal){
+  //  		if (proposal['type'] == selected) {
+  //  			// _proposalsSelected.push(proposal);
 
-  			if ($.inArray(proposal['category'],_categoryAdded) < 0){
-  				_searchTags.push({id: proposal['category'], text: Pard.Widgets.Dictionary(proposal['category']).render()});
-  				_categoryAdded.push(proposal['category']);
-  			}
-  			if ($.inArray(proposal['name'],_namesAdded) < 0){
-  				_searchTags.push({id: proposal['name'], text: proposal['name']});
-  				_namesAdded.push(proposal['name']);
-  			}
-  			if (selected == 'space' && $.inArray(proposal['responsible'],_respAdded) < 0) {
-  				_searchTags.push({id: proposal['responsible'], text: proposal['responsible']});
-  				_respAdded.push(proposal['responsible']);
-  			}
-  			if (selected == 'artist' && $.inArray(proposal['responsible'],_titlesAdded) < 0)  {
-  				_searchTags.push({id: proposal['title'], text: proposal['title']});
-  				_titlesAdded.push(proposal['title']); 
-  			}
-   		}
-   	});
+  // 			if ($.inArray(proposal['category'],_categoryAdded) < 0){
+  // 				_searchTags.push({id: proposal['category'], text: Pard.Widgets.Dictionary(proposal['category']).render()});
+  // 				_categoryAdded.push(proposal['category']);
+  // 			}
+  // 			if ($.inArray(proposal['name'],_namesAdded) < 0){
+  // 				_searchTags.push({id: proposal['name'], text: proposal['name']});
+  // 				_namesAdded.push(proposal['name']);
+  // 			}
+  // 			if (selected == 'space' && $.inArray(proposal['responsible'],_respAdded) < 0) {
+  // 				_searchTags.push({id: proposal['responsible'], text: proposal['responsible']});
+  // 				_respAdded.push(proposal['responsible']);
+  // 			}
+  // 			if (selected == 'artist' && $.inArray(proposal['responsible'],_titlesAdded) < 0)  {
+  // 				_searchTags.push({id: proposal['title'], text: proposal['title']});
+  // 				_titlesAdded.push(proposal['title']); 
+  // 			}
+  //  		}
+  //  	});
 
-		var dayTimeObj = Pard.Widgets.DayTime();
+		// var dayTimeObj = Pard.Widgets.DayTime();
 
-	  // var _proposalsSearched = _proposalsSelected;
+	 //  // var _proposalsSearched = _proposalsSelected;
 
-  	var _createdWidget = $('<div>');
+  // 	var _createdWidget = $('<div>');
 
-   	var _searchInput = $('<select>');
+  //  	var _searchInput = $('<select>');
 
-  	_createdWidget.append(_searchInput);
+  // 	_createdWidget.append(_searchInput);
 
-	  _searchInput.select2({
-      data: _searchTags,
-      multiple:true,
-      placeholder: 'Busca',
-      tags: true,
-      tokenSeparators: [',', ' '],   
-    });
+	 //  _searchInput.select2({
+  //     data: _searchTags,
+  //     multiple:true,
+  //     placeholder: 'Busca',
+  //     tags: true,
+  //     tokenSeparators: [',', ' '],   
+  //   });
 
-	  var _filterPropoposals = function(){
- 	 	  proposals = Pard.CachedProposals;
-	    var _proposalsSelected = [];
-	  	proposals.forEach(function(proposal){
-   		if (proposal['type'] == selected) {
-	   			_proposalsSelected.push(proposal);
-	   		}
-   		});
-	    var _searchTerms = _searchInput.val();
-      if (_searchTerms){
-	    	var _proposalsSearched = _proposalsSelected;
-	    	var _oldProposalsSearched = _proposalsSelected;
-	    	_searchTerms.forEach(function(_searchTerm){
-		    	_oldProposalsSearched = _proposalsSearched;
-		    	_proposalsSearched = [];
-	      	_oldProposalsSearched.forEach(function(proposal){
-            if ($.inArray(_searchTerm,_categoryAdded)>-1) {
-              if  (_searchTerm == proposal['category'] ) _proposalsSearched.push(proposal);
-            }
-						else if (_searchTerm == proposal['name'] || _searchTerm == proposal['responsible'] || _searchTerm == proposal['title']) _proposalsSearched.push(proposal);
-						else {
-							['title', 'description', 'short_description', 'needs', 'sharing'].some(function(field){ 
-								if (proposal[field] && proposal[field].toLowerCase().indexOf(_searchTerm.toLowerCase()) > -1){
-									_proposalsSearched.push(proposal);   
-									return true;
-								}   
-							});
-	      		};
-		    	})
-		    })
-	    }
-	    else{
-	    	_proposalsSearched = _proposalsSelected;
-	    }
-    	var _indexProposal = [0];
-	    _proposalsSearched.forEach(function(propSearched){
-	    	var position = _proposalsSelected.indexOf(propSearched) +1;
-	    	_indexProposal.push(position);
-	    });
-	    return _indexProposal;
-	  }
+	 //  var _filterPropoposals = function(){
+ 	//  	  proposals = Pard.CachedProposals;
+	 //    var _proposalsSelected = [];
+	 //  	proposals.forEach(function(proposal){
+  //  		if (proposal['type'] == selected) {
+	 //   			_proposalsSelected.push(proposal);
+	 //   		}
+  //  		});
+	 //    var _searchTerms = _searchInput.val();
+  //     if (_searchTerms){
+	 //    	var _proposalsSearched = _proposalsSelected;
+	 //    	var _oldProposalsSearched = _proposalsSelected;
+	 //    	_searchTerms.forEach(function(_searchTerm){
+		//     	_oldProposalsSearched = _proposalsSearched;
+		//     	_proposalsSearched = [];
+	 //      	_oldProposalsSearched.forEach(function(proposal){
+  //           if ($.inArray(_searchTerm,_categoryAdded)>-1) {
+  //             if  (_searchTerm == proposal['category'] ) _proposalsSearched.push(proposal);
+  //           }
+		// 				else if (_searchTerm == proposal['name'] || _searchTerm == proposal['responsible'] || _searchTerm == proposal['title']) _proposalsSearched.push(proposal);
+		// 				else {
+		// 					['title', 'description', 'short_description', 'needs', 'sharing'].some(function(field){ 
+		// 						if (proposal[field] && proposal[field].toLowerCase().indexOf(_searchTerm.toLowerCase()) > -1){
+		// 							_proposalsSearched.push(proposal);   
+		// 							return true;
+		// 						}   
+		// 					});
+	 //      		};
+		//     	})
+		//     })
+	 //    }
+	 //    else{
+	 //    	_proposalsSearched = _proposalsSelected;
+	 //    }
+  //   	var _indexProposal = [0];
+	 //    _proposalsSearched.forEach(function(propSearched){
+	 //    	var position = _proposalsSelected.indexOf(propSearched) +1;
+	 //    	_indexProposal.push(position);
+	 //    });
+	 //    return _indexProposal;
+	 //  }
 
-    return {
-    	render: function(){
-    		return _createdWidget;
-    	},
-    	getVal: function(){
-    		return _filterPropoposals();
-    	}, 
-    	setCallback: function(callback){
-			 	_searchInput.on('change', function() {
-	    		callback();
-	    	});
-    	},
-    	updateDatabase: function(){
+  //   return {
+  //   	render: function(){
+  //   		return _createdWidget;
+  //   	},
+  //   	getVal: function(){
+  //   		return _filterPropoposals();
+  //   	}, 
+  //   	setCallback: function(callback){
+		// 	 	_searchInput.on('change', function() {
+	 //    		callback();
+	 //    	});
+  //   	},
+  //   	updateDatabase: function(){
 
-    	}
-    }
-  }
+  //   	}
+  //   }
+  // }
 
 
 
@@ -565,10 +677,10 @@
 
   	var columns = _fields[proposalsSelected[0].type];
 
-  	var _cols = [];
-  	var _matrix = [];
+  	// var _cols = [];
+  	// var _matrix = [];
 
-   	var _tableCreated = $('<table>').addClass('table-proposal');
+   	var _tableCreated = $('<table>').addClass('table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"100%"});
    	var _programArray = [];
 
    	var reorder = function(colNum){};
@@ -576,69 +688,65 @@
    	var _printTable = function(proposalsSelected){
 	
   	var _thead = $('<thead>');
-  	var _titleRow = $('<tr>').addClass('title-row-table-proposal');
+  	var _titleRow = $('<tr>')
+    // .addClass('title-row-table-proposal');
 
   	columns.forEach(function(field, colNum){
   		if (field == 'link_orfheo'){ 
-	  		var _titleText = $('<span>').html('rfh');
-	  		var _titleCol = $('<th>').append(_titleText);
-	  		_titleRow.append(_titleCol.addClass('icon-column-call-table'));
-  		}
+	  		// var _titleText = $('<span>').html('rfh');
+	  		// var _titleCol = $('<th>').append(_titleText);
+	  		// _titleRow.append(_titleCol.addClass('icon-column-call-table'));
+  		  var _titleCol = $('<th>').text('rfh');
+        _titleRow.append(_titleCol);
+      }
   		else{
-	  		var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
-	  		var _titleCol = $('<th>').append(_titleText);
-	  		if (['availability', 'program'].indexOf(field)<0){
-		  		_titleText.click(function(){ 
-		  			// var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
-		  			// _tableCreated.empty();
-		  			// _printTable(_proposalsReordered);
-		  			reorder(field);
-		  		});
-		  		_titleText.addClass('title-colText-call-manager');
-		  		_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
-		  	}
+	  		// var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
+	  		// var _titleCol = $('<th>').append(_titleText);
+        var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+	  		// if (['availability', 'program'].indexOf(field)<0){
+		  	// 	_titleText.click(function(){ 
+		  	// 		// var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
+		  	// 		// _tableCreated.empty();
+		  	// 		// _printTable(_proposalsReordered);
+		  	// 		reorder(field);
+		  	// 	});
+		  	// 	_titleText.addClass('title-colText-call-manager');
+		  	// 	_titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
+		  	// }
 	  	}
+      var _class = 'column-'+field;
+      _titleCol.addClass('column-call-manager-table');
+      _titleCol.addClass(_class);
   		_titleRow.append(_titleCol);
-  		_cols.push(_titleCol);
+  		// _cols.push(_titleCol);
   	});
 
- 		_matrix.push(_cols);
- 		_cols = [];
+ 		// _matrix.push(_cols);
+ 		// _cols = [];
 
   	_tableCreated.append(_thead.append(_titleRow));
 
 
-    // var _tfoot = $('<tfoot>');
-    // var _titleRowFoot = $('<tr>').addClass('title-row-table-proposal');
+    var _tfoot = $('<tfoot>');
+    var _titleRowFoot = $('<tr>')
+    // .addClass('title-row-table-proposal');
 
-    //  columns.forEach(function(field, colNum){
-    //   if (field == 'link_orfheo'){ 
-    //     var _titleText = $('<span>').html('rfh');
-    //     var _titleCol = $('<th>').append(_titleText);
-    //     _titleRowFoot.append(_titleCol.addClass('icon-column-call-table'));
-    //   }
-    //   else{
-    //     var _titleText = $('<span>').html(Pard.Widgets.Dictionary(field).render());
-    //     var _titleCol = $('<th>').append(_titleText);
-    //     if (['availability', 'program'].indexOf(field)<0){
-    //       _titleText.click(function(){ 
-    //         // var _proposalsReordered = Pard.Widgets.Reorder(_proposalField,field, proposalsSelected).render();
-    //         // _tableCreated.empty();
-    //         // _printTable(_proposalsReordered);
-    //         reorder(field);
-    //       });
-    //       _titleText.addClass('title-colText-call-manager');
-    //       _titleText.append($('<span>').html('&#xE5C5').addClass('material-icons').css('vertical-align','middle'))
-    //     }
-    //   }
-    //   _titleRowFoot.append(_titleCol);
-    //   _cols.push(_titleCol);
-    // });
+     columns.forEach(function(field, colNum){
+      if (field == 'link_orfheo'){ 
+        var _titleCol = $('<th>').text('rfh');
+        _titleRow.append(_titleCol);
+      }
+      else{
+        var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+      }
+      _titleRowFoot.append(_titleCol);
+      // _cols.push(_titleCol);
+    });
 
     // _matrix.push(_cols);
     // _cols = [];
 
-    // _tableCreated.append(_tfoot.append(_titleRowFoot ));
+    _tableCreated.append(_tfoot.append(_titleRowFoot ));
 
 
   	_programArray = [];
@@ -647,9 +755,9 @@
   	proposalsSelected.forEach(function(proposal){
   		var _row = $('<tr>');
   		columns.forEach(function(field){
-  			var _colClass = 'column-'+field;
+  			// var _colClass = 'column-'+field;
   			var _col = $('<td>').addClass('column-call-manager-table')
-  			_col.addClass(_colClass);
+  			// _col.addClass(_colClass);
   			if (field == 'link_orfheo'){
   				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
   				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
@@ -734,12 +842,12 @@
   				_col.html('');
   			}
   			_row.append(_col);
-  			_cols.push(_col);
+  			// _cols.push(_col);
   		});
 
   		_tbody.append(_row);
-  		_matrix.push(_cols);
-  		_cols = [];
+  		// _matrix.push(_cols);
+  		// _cols = [];
 
   	})
 
@@ -748,23 +856,23 @@
 
   	_printTable(proposalsSelected);
 
-    // $(document).ready(function() {
-    //   _tableCreated.DataTable();
-    // })
+    // _tableCreated.append($('<a>').text('showHide').addClass('toggle-visa'),$('<a>').text('showHide1').addClass('toggle-visb'));
 
+   
 		return{
 			render: function(){
 				return _tableCreated;
 			},
 			getVal: function(){
 				return _programArray;
-			},
-			getMatrix: function(){
-				return _matrix;
-			},
-			setTitleColCallback: function(callback){
-				reorder = callback;
 			}
+   //    ,
+			// getMatrix: function(){
+			// 	return _matrix;
+			// },
+			// setTitleColCallback: function(callback){
+			// 	reorder = callback;
+			// }
 		}
 	}
 
