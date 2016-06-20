@@ -528,8 +528,10 @@
       snapTolerance: 5,
       grid: [ 10, 10 ],
       start: function(event, ui){
-        Pard.Widgets.DraggedPerformance = proposal;
-        Pard.Widgets.DraggedPerformance['performance_id'] = _generateUUID();
+        var performance = {};
+        performance['performance_id'] = _generateUUID();
+        for (var field in proposal){ performance[field] = proposal[field] };
+        Pard.Widgets.DraggedPerformance = performance;
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(){
@@ -930,7 +932,7 @@
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
       _removeInputButton.on('click', function(){
-        Pard.Widgets.Program.splice(Pard.Widgets.Program.indexOf(performance), 1);
+        program.splice(Pard.Widgets.Program.indexOf(performance), 1);
         performance['card'].remove();
         _performaceBox.remove();
       });
