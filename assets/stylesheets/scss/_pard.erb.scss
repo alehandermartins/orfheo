@@ -1560,3 +1560,15 @@ IMAGES
   }
 }
 
+
+
+
+table.dataTable thead .sorting_asc {
+    background-image: url(<%= image_path 'sort_asc.png' %>);
+}
+table.dataTable thead .sorting_desc {
+    background-image: url(<%= image_path 'sort_desc.png' %>);
+}
+table.dataTable thead .sorting {
+    background-image: url(<%= image_path 'sort_both.png' %>);
+}

@@ -1125,24 +1125,51 @@ CALL PAGE
 
 .checkBox-call-manager{
   display: inline-block;
-  width: 25%;
+  width: 15rem;
 }
 
 .table-proposal {
   font-size: 12px;
   margin-bottom: 0;
-  }
+  /* border: 1px solid $grey-3; */
 
-.table-proposal tbody tr{
-  border-top: 1px solid $grey-3;
 }
 
-.table-proposal .title-row-table-proposal {
+/* .table-proposal tbody tr{
+  border-top: 1px solid $grey-3;
+} */
+
+.table-proposal thead {
   font-size: 14px;
   font-weight: bold;
+  background: white;
 }
 
-.table-box-proposal-manager{
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+  border: none;
+  padding: 0;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+   background: none;
+  a {
+    color: black;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  border: none;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: none;
+  border: none;
+}
+
+div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
+  font-size: $almostNormalSize;
+}
+
+/* .table-box-proposal-manager{
   position: relative;
   overflow: auto;
   max-height: 90vh;
@@ -1152,25 +1179,44 @@ CALL PAGE
   table{
     width: 100%;
   }
-}
+} */
 
+
+.table-box-proposal-manager{
+  position: relative;
+  overflow: auto;
+  max-width: 100%;
+  margin-top: 2rem;
+}
 .content-box-ArtistSpace{
   min-height: 100vh;
 }
 
-td.column-call-manager-table{
+.table-box-proposal-manager tbody{
+  max-height: 90vh;
+  overflow: auto;
+}
+
+/* td.column-call-manager-table{
   min-width: 10rem;
+}  */
+/* .column-call-manager-table{
+  min-width: 8rem;
 } 
-
-td.column-call-manager-table.column-link_orfheo{
-  min-width: 2rem;
+ */
+.column-call-manager-table.column-link_orfheo{
+  width: 1rem;
 }
 
-td.column-call-manager-table.column-description, td.column-call-manager-table.column-needs, td.column-call-manager-table.column-short_description, td.column-call-manager-table.column-own, td.column-call-manager-table.column-un_wanted, td.column-call-manager-table.column-amend, td.column-call-manager-table.column-sharing{
-  min-width: 20rem;
+.column-call-manager-table.column-name,.column-call-manager-table.column-title,.column-call-manager-table.column-category{
+  min-width: 8rem;
 }
 
-td.column-call-manager-table.column-program{
+.column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing{
+  min-width: 16rem;
+}
+
+.column-call-manager-table.column-program{
   min-width: 24rem;
 }
 
