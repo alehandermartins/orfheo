@@ -71,6 +71,7 @@ class CallsController < BaseController
   post '/users/program' do
     scopify event_id: true
     check_event_ownership! event_id
+    puts params[:program]
     program = Forms::Program.new(params, session[:identity]).create
     Repos::Calls.add_program event_id, program
     success
