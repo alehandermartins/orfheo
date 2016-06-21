@@ -283,7 +283,9 @@
   	programAllCheckbox.empty();
 
   	var _checkBoxesBox = $('<div>');
-    var _checkBoxes = [];
+    var _shownColumns = ['link_orfheo','name','category','title','short_description'];
+    var _checkBoxesField = [];
+    var _checkBoxesRendered = [];
 
     var _fields = {
   		space: ['link_orfheo', 'name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend'],
@@ -312,22 +314,26 @@
 
 
 
-  	var _printCheckBoxes = function(){
-
-  	_checkBoxes = [];
+  	var _printCheckBoxes = function(columnShown){
+      console.log(columnShown)
+  	_checkBoxesField = [];
     _fields[selected].forEach(function(field, columnNum){
     	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),false);
     	// var _checkBoxBox = $('<span>');
-    	_checkBoxes.push([_checkBox,field]);
     	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
+      _checkBoxesField.push(field);
     	_checkBoxRendered.click(function(){
         var column = _table.column(columnNum);
         column.visible( _checkBox.getVal() );
         } );
-    	if (field == 'name' || field == 'link_orfheo') _checkBox.setVal(true);
+    	if ($.inArray(field,columnShown)>-1) {
+        _checkBox.setVal(true);
+      }
       else {
         _checkBox.setVal(false);
       };
+              if (_table) _table.column(columnNum).visible( _checkBox.getVal() );
+
     	_checkBox.labelToggle(); 	
     	// _checkBoxRendered.click(function(){  	
     	// 	_checkBoxRendered.trigger('change');
@@ -337,54 +343,59 @@
     });
   	}
 
-  	_printCheckBoxes();
+  	_printCheckBoxes(_shownColumns);
 
     var _allCheckBoxes = Pard.Widgets.CheckBox('Todos los campos','all');
   	var _allCheckBoxesRendered = _allCheckBoxes.render().addClass('checkBox-call-manager');
 
-    _allCheckBoxesRendered.change(function(){
+    _allCheckBoxesRendered.click(function(){
+      var _val = _allCheckBoxes.getVal();
     	_checkBoxesBox.empty();
-    	_printCheckBoxes();
-    	_programCheckBox.setVal(false);
-    	var _val = _allCheckBoxes.getVal()
-    	_checkBoxes.forEach(function(elem){
-    			elem[0].setVal(_val);
-    	})
-    	// _createTable();
+    	if (_val) _printCheckBoxes(_checkBoxesField);
+      else _printCheckBoxes([]);
+
+    	// _programCheckBox.setVal(false);
+    	// var _val = _allCheckBoxes.getVal();
+
+     //  console.log(_val);
+    	// _checkBoxes.forEach(function(elem,pos){
+    	// 		elem.setVal(_val);
+     //      _checkBoxesRendered[pos].trigger('click');
+    	// })
     });
 
     _allCheckBoxes.labelToggle(); 	
 
-    _allCheckBoxesRendered.click(function(){  	
-    		_allCheckBoxesRendered.trigger('change');
-    	});
+    // _allCheckBoxesRendered.click(function(){  	
+    // 		_allCheckBoxesRendered.trigger('change');
+    // 	});
 
-  	var _programCheckBox = Pard.Widgets.CheckBox('<span style = "color: red; font-size:0.875rem">Programación</span>','program');
-    var _programCheckBoxRendered = _programCheckBox.render().addClass('checkBox-call-manager');
-    _programCheckBoxRendered.change(function(){
-    	_checkBoxesBox.empty();
-    	_printCheckBoxes();
-    	_allCheckBoxes.setVal(false);
-    	var _val = _programCheckBox.getVal();
-    	_checkBoxes.forEach(function(elem){
-    		['link_orfheo', 'name', 'title'].forEach(function(field){
-    			if (elem[1] == field) elem[0].setVal(_val);
-    		}) 
-    })
-    	if (_val){
-	    	_checkBoxes.push([true, 'program']);
-    	}
-   		// _createTable();
-    });
+  	// var _programCheckBox = Pard.Widgets.CheckBox('<span style = "color: red; font-size:0.875rem">Programación</span>','program');
+   //  var _programCheckBoxRendered = _programCheckBox.render().addClass('checkBox-call-manager');
+   //  _programCheckBoxRendered.change(function(){
+   //  	_checkBoxesBox.empty();
+   //  	_printCheckBoxes();
+   //  	_allCheckBoxes.setVal(false);
+   //  	var _val = _programCheckBox.getVal();
+   //  	_checkBoxes.forEach(function(elem){
+   //  		['link_orfheo', 'name', 'title'].forEach(function(field){
+   //  			if (elem[1] == field) elem[0].setVal(_val);
+   //  		}) 
+   //  })
+   //  	if (_val){
+	  //   	_checkBoxes.push([true, 'program']);
+   //  	}
+   // 		// _createTable();
+   //  });
 
-    _programCheckBox.labelToggle(); 	
+   //  _programCheckBox.labelToggle(); 	
 
-    _programCheckBoxRendered.click(function(){  	
-    		_programCheckBoxRendered.trigger('change');
-    	});
+    // _programCheckBoxRendered.click(function(){  	
+    // 		_programCheckBoxRendered.trigger('change');
+    // 	});
 
     programAllCheckbox.empty();
-    programAllCheckbox.append(_allCheckBoxesRendered, _programCheckBoxRendered).addClass('program-all-checkbox-container');
+    programAllCheckbox.append(_allCheckBoxesRendered).addClass('program-all-checkbox-container');
 
     _checkBoxesBox.append(_filterCategory);
 
@@ -417,12 +428,12 @@
 	  		return _getColumns();
 	  	}, 
 	  	setCallback: function(table){
-        var _shownColumns = ['link_orfheo','name','category','title','short_description']
+
         var _hiddenColumnsArray=[];
         _fields[selected].forEach(function(field, colNum){
           if($.inArray(field,_shownColumns)<0) _hiddenColumnsArray.push(colNum);
         });
-        _hiddenColumnsArray.push(_fields[selected].length);
+        // _hiddenColumnsArray.push(_fields[selected].length);
         _table = table.DataTable({
           "language":{
           "lengthMenu": " Resultados por página _MENU_",
@@ -499,7 +510,7 @@
   	
   	var _places = [{id:'', text:''}];
   	var _artists = [{id:'', text:''}];
-  	var _programs = [];
+  	// var _programs = [];
     var _proposalsSelected = [];
     var _categories = [];
 
@@ -509,10 +520,10 @@
   		if (proposal['type'] == 'artist') {
   			var _text =  proposal['name'] + ' - ' +  proposal['title'];
 				_artists.push({id: proposal['proposal_id'], text: _text, availability: proposal['availability']});
-				if (proposal['program']){
-	  			proposal['program']['proposal_id'] = proposal['proposal_id'];
-	  			_programs.push(proposal['program']);
-				}
+				// if (proposal['program']){
+	  	// 		proposal['program']['proposal_id'] = proposal['proposal_id'];
+	  	// 		_programs.push(proposal['program']);
+				// }
 			}
    		if (!(proposalsReordered) && proposal['type'] == selected) {
    			_proposalsSelected.push(proposal);
@@ -523,18 +534,18 @@
 
 		var dayTimeObj = Pard.Widgets.DayTime();
 
-   	var _submitBtnContainer = $('<div>').addClass('submit-btn-call-manager-container');
-   	_submitBtnOuterContainer.append(_submitBtnContainer);
-   	var _successBox = $('<span>').attr('id','succes-box-call-manager');
+   	// var _submitBtnContainer = $('<div>').addClass('submit-btn-call-manager-container');
+   	// _submitBtnOuterContainer.append(_submitBtnContainer);
+   	// var _successBox = $('<span>').attr('id','succes-box-call-manager');
 
-   	var _tableCreated = Pard.Widgets.PrintTable(_proposalsSelected, dayTimeObj, _places, _artists, _programs);
+   	var _tableCreated = Pard.Widgets.PrintTable(_proposalsSelected, dayTimeObj, _places);
 
-  		_submitBtnContainer.empty()
- 			var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
-			  var _programArray = _tableCreated.getVal();
- 				Pard.Widgets.SendProgram(_programArray, selected);
- 			});
- 			_submitBtnContainer.append(_successBox, _submitBtn.render());
+  		// _submitBtnContainer.empty()
+ 			// var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
+			 //  var _programArray = _tableCreated.getVal();
+ 			// 	Pard.Widgets.SendProgram(_programArray, selected);
+ 			// });
+ 			// _submitBtnContainer.append(_successBox, _submitBtn.render());
 
     return {
     	render: function(){
@@ -668,11 +679,11 @@
 
 
 
-  ns.Widgets.PrintTable = function(proposalsSelected, dayTimeObj, places, _artists, _programs) {
+  ns.Widgets.PrintTable = function(proposalsSelected, dayTimeObj, places, _artists) {
 
   	var _fields = {
-  		space: ['link_orfheo','name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend', 'program'],
-  		artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend', 'program']
+  		space: ['link_orfheo','name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend'],
+  		artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend']
   	}
 
   	var columns = _fields[proposalsSelected[0].type];
@@ -681,7 +692,7 @@
   	// var _matrix = [];
 
    	var _tableCreated = $('<table>').addClass('table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"100%"});
-   	var _programArray = [];
+   	// var _programArray = [];
 
    	var reorder = function(colNum){};
 
@@ -749,7 +760,7 @@
     _tableCreated.append(_tfoot.append(_titleRowFoot ));
 
 
-  	_programArray = [];
+  	// _programArray = [];
   	var _tbody = $('<tbody>');
 
   	proposalsSelected.forEach(function(proposal){
@@ -763,42 +774,42 @@
   				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
   				_col.append(_icon);
   			}
-  			else if (field == 'program') {
-				  if (proposal['type'] == 'artist') {
-						var _inputProgram = Pard.Widgets.InputArtistProgram(places, dayTimeObj.render(proposal['availability']));
-						var _showObj = {profile_id: proposal.profile_id, proposal_id: proposal.proposal_id, newProgram: _inputProgram};
-						_inputProgram.setEndDayTime(proposal['duration']);
-						_programArray.push(_showObj);
-						if (proposal['program']) _inputProgram.setVal(proposal['program']);
-					}
-				  if (proposal['type'] == 'space') {
-				  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
-				  	// _inputProgram.setEndDayTime();
-						var _showObj = {
-							place: proposal['name'], 
-							proposal_id: proposal['proposal_id'],
-              profile_id: proposal['profile_id'],
-							newProgram: _inputProgram
-						};
-						_programArray.push(_showObj);
-						var _savedProgram = [];	  					
-						_programs.forEach(function(program){
-							for (var key in program){
-								if (program[key]['place'] == proposal['name']){
-                  console.log(new Date(program[key]['starting_day_time']).toISOString());
-                  var starting_day_time = program[key]['starting_day_time']
-									_savedProgram.push({
-										proposal_id: program['proposal_id'], 
-										starting_day_time: new Date(program[key]['starting_day_time']).toISOString(),
-										ending_day_time: new Date(program[key]['ending_day_time']).toISOString()
-									});
-								}
-							}
-						});
-						_inputProgram.setVal(_savedProgram);
-				  }
-					_col.append(_inputProgram.render());
- 				}
+  			// else if (field == 'program') {
+				 //  if (proposal['type'] == 'artist') {
+					// 	var _inputProgram = Pard.Widgets.InputArtistProgram(places, dayTimeObj.render(proposal['availability']));
+					// 	var _showObj = {profile_id: proposal.profile_id, proposal_id: proposal.proposal_id, newProgram: _inputProgram};
+					// 	_inputProgram.setEndDayTime(proposal['duration']);
+					// 	_programArray.push(_showObj);
+					// 	if (proposal['program']) _inputProgram.setVal(proposal['program']);
+					// }
+				 //  if (proposal['type'] == 'space') {
+				 //  	var _inputProgram = Pard.Widgets.InputSpaceProgram(_artists, dayTimeObj.render(proposal['availability']), _programs);
+				 //  	// _inputProgram.setEndDayTime();
+					// 	var _showObj = {
+					// 		place: proposal['name'], 
+					// 		proposal_id: proposal['proposal_id'],
+     //          profile_id: proposal['profile_id'],
+					// 		newProgram: _inputProgram
+					// 	};
+					// 	_programArray.push(_showObj);
+					// 	var _savedProgram = [];	  					
+					// 	_programs.forEach(function(program){
+					// 		for (var key in program){
+					// 			if (program[key]['place'] == proposal['name']){
+     //              console.log(new Date(program[key]['starting_day_time']).toISOString());
+     //              var starting_day_time = program[key]['starting_day_time']
+					// 				_savedProgram.push({
+					// 					proposal_id: program['proposal_id'], 
+					// 					starting_day_time: new Date(program[key]['starting_day_time']).toISOString(),
+					// 					ending_day_time: new Date(program[key]['ending_day_time']).toISOString()
+					// 				});
+					// 			}
+					// 		}
+					// 	});
+					// 	_inputProgram.setVal(_savedProgram);
+				 //  }
+					// _col.append(_inputProgram.render());
+ 				// }
   			else if (proposal[field]) {
 	  			if (field == 'name'){
 	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
@@ -864,10 +875,11 @@
 		return{
 			render: function(){
 				return _tableCreated;
-			},
-			getVal: function(){
-				return _programArray;
 			}
+   //    ,
+			// getVal: function(){
+			// 	return _programArray;
+			// }
    //    ,
 			// getMatrix: function(){
 			// 	return _matrix;
