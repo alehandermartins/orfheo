@@ -1212,28 +1212,32 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   min-width: 8rem;
 } 
  */
-.column-call-manager-table.column-link_orfheo{
-  width: 1rem;
-}
 
-.column-call-manager-table.column-name,.column-call-manager-table.column-title,.column-call-manager-table.column-category{
+
+.column-call-manager-table{
   min-width: 8rem;
 }
 
-.column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing{
+.column-call-manager-table.column-link_orfheo{
+  min-width: 1rem;
+}
+
+.column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing,  .column-call-manager-table.column-address{
   min-width: 16rem;
 }
 
+
+/* 
 .column-call-manager-table.column-program{
   min-width: 24rem;
-}
+} */
 
-
+/* 
 .inputSpace-container, .inputDayTime-container, .inputArtist-container, .add-space-input-field, .add-dayTime-input-field, .add-artist-input-field{
   display: inline-block;
   font-size: $almostNormalSize;
-}
-
+} */
+/* 
 .inputArtist-container, .inputSpace-container{
   margin-bottom: 0.5rem;
 }
@@ -1257,7 +1261,7 @@ div.inputSpace-container .select2-selection.select2-selection--multiple, div.inp
 
 .inputArtist-container, .add-artist-input-field{
   width:20.5rem;
-}
+} */
 
 .types-selector-call-manager{
   margin-bottom: 1.5rem;
@@ -1276,9 +1280,9 @@ div.inputSpace-container .select2-selection.select2-selection--multiple, div.inp
   cursor: pointer;
 }
 
-th.icon-column-call-table{
+/* th.icon-column-call-table{
   width: 2rem;
-}
+} */
 
 
 .search-input-call-manager-container{
