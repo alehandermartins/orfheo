@@ -192,6 +192,11 @@
       artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend']
     }
 
+    var _titleFile = {
+      artist: 'Tabla_artistas',
+      space: 'Tabla_espacios'
+    }
+
   	var _createdWidget = $('<div>');
 
     var _table = Pard.Widgets.PrintTable(proposalsSelected, _fields[_selected]);
@@ -273,14 +278,17 @@
           extend: 'excel',
           exportOptions: {
               columns: ':visible'
-          }
+          },
+          title: _titleFile[_selected]
+
         },
         {
           extend: 'pdf',
           exportOptions: {
               columns: ':visible'
           },
-          orientation: 'landscape'
+          orientation: 'landscape',
+          title: _titleFile[_selected]
         }
       ]
       });

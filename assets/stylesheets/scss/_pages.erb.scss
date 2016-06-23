@@ -1283,14 +1283,14 @@ div.inputSpace-container .select2-selection.select2-selection--multiple, div.inp
 }
 
 
-/* .select-category-container-call-manager span.select2-container--default .select2-selection--single{
-  @include border-radius(0.125rem);
-  height:2.43rem;
+span.select2-container--default .select2-selection--single{
+  /* @include border-radius(0.125rem);
+  height:2.43rem; */
   outline: none;
-  border: 1px solid #cacaca;
+  /* border: 1px solid #cacaca; */
 }
 
-.select-category-container-call-manager span.select2-container--default .select2-selection--single .select2-selection__rendered, .select-category-container-call-manager span.select2-container--default .select2-selection--single .select2-selection__arrow{
+/* .select-category-container-call-manager span.select2-container--default .select2-selection--single .select2-selection__rendered, .select-category-container-call-manager span.select2-container--default .select2-selection--single .select2-selection__arrow{
   line-height: 2.43rem;
   height: 2.43rem;
 }
@@ -1309,13 +1309,42 @@ div.dt-buttons{
   top: 0.5rem;
 }
 
-a.dt-button{
-  /* @extend .pard-btn; */
-  padding: 0.1rem 0.4rem;
-  font-size: $smallSize;
+a.dt-button:hover:not(.disabled){
+  background: rgba(0,0,0,0.8);
+  background-image: none;
+  border: none;
 }
 
-  
+a.dt-button:active{
+    background: rgba(0,0,0,0.7);
+    background-image: none;
+    border: none;
+}
+
+
+
+.table-box-call-manager-page a.dt-button{
+  @extend .pard-btn;
+  padding: 0.1rem 0.4rem;
+  font-size: $smallSize;
+  border: none;  
+}
+
+
+.table-box-call-manager-page a.dt-button:active:not(.disabled):hover:not(.disabled),.table-box-call-manager-page a.dt-button:focus:not(.disabled){
+  background-color: rgba(0,0,0,0.7);
+  background-image: none;
+  border: none;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+/* .dt-button:hover{
+    background: rgba(0,0,0,0.7);
+  }
+ */
+
+
 div.dataTables_wrapper div.dataTables_filter label{
   margin-right: 12rem;
   margin-bottom: 1rem;
