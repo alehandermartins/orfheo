@@ -79,19 +79,17 @@
 
   ns.Widgets.TablePanelContent = function(){
 
-  	var _createdWidget = $('<div>');
+  	var _createdWidget = $('<div>').css('position','relative');
 
   	var _typesSelectorBox = $('<div>').addClass('types-selector-call-manager');
     var _contentBoxArtists = $('<div>').addClass('content-box-ArtistSpace');
 
     var _contentBoxSpaces = $('<div>').addClass('content-box-ArtistSpace');
 
-    var _programAllCheckbox = $('<div>');
-
     var _types = ['artist', 'space'];  
-    var _labelTypes = [];
+    var _tagsTypes = [];
     _types.forEach(function(type){
-    	_labelTypes.push(Pard.Widgets.Dictionary(type).render());
+    	_tagsTypes.push({id: type, text:Pard.Widgets.Dictionary(type).render()});
     });
 
     var _cat = {
@@ -131,7 +129,7 @@
           function(){
             setTimeout(function(){
               var _appendAndStopSpinner = function(stopSpinner){ 
-                _contentBoxSpaces.append(Pard.Widgets.CallManagerContent(_proposalsSelected['space'], _categories['space'], _programAllCheckbox).render());
+                _contentBoxSpaces.append(Pard.Widgets.CallManagerContent(_proposalsSelected['space'], _categories['space']).render());
                 stopSpinner();
               }
               _appendAndStopSpinner(function(){spinner.stop()});
@@ -147,16 +145,27 @@
       _showHide(_selected);
     }
 
-    var _typesSelector = Pard.Widgets.Selector(_labelTypes, _types, _selectorCallback).render();
+    var _typesSelector = $('<select>');
 
-    _contentBoxArtists.append(Pard.Widgets.CallManagerContent(_proposalsSelected['artist'], _categories['artist'],_programAllCheckbox).render());
+    _contentBoxArtists.append(Pard.Widgets.CallManagerContent(_proposalsSelected['artist'], _categories['artist']).render());
 
     _contentBoxSpaces.hide();
     var _shown = _contentBoxArtists;
 
 		_typesSelectorBox.append(_typesSelector);  
 
-    _createdWidget.append(_typesSelectorBox, _programAllCheckbox, _contentBoxArtists, _contentBoxSpaces);
+    _createdWidget.append(_typesSelectorBox, _contentBoxArtists, _contentBoxSpaces);
+
+    _typesSelector.select2({
+      data: _tagsTypes,
+      minimumResultsForSearch: -1
+    });
+
+    _typesSelector.on('select2:select', function(){
+      var _selected = _typesSelector.select2('data')[0].id;
+      _showHide(_selected);
+      // function(){_selectorCallback()
+    });
 
     return {
       render: function(){
@@ -167,24 +176,133 @@
 
 
 
-  ns.Widgets.CallManagerContent = function(proposalsSelected, categories, programAllCheckbox){
+  ns.Widgets.CallManagerContent = function(proposalsSelected, categories){
   	
+    var _selected = proposalsSelected[0].type;
+
+    var _shownColumns = {
+      space: ['link_orfheo','name','category','address'],
+      artist: ['link_orfheo','name','category','title','short_description']
+    }
+    // var _checkBoxes = [];
+    // var _checkBoxesRendered = [];
+
+    var _fields = {
+      space: ['link_orfheo', 'name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend'],
+      artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend']
+    }
+
   	var _createdWidget = $('<div>');
 
-    var _table = Pard.Widgets.PrintTable(proposalsSelected);
+    var _table = Pard.Widgets.PrintTable(proposalsSelected, _fields[_selected]);
 
     var _outerTableContainer = $('<div>');
 
-   	var _tableBox = $('<div>');
+     var _filterCategoryContainer = $('<div>').addClass('select-category-container-call-manager');
 
-	  var _checkBoxesBox = Pard.Widgets.PrintCheckBoxes(programAllCheckbox, proposalsSelected[0].type, categories);
+    var _filterCategory = $('<select>');
+     var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
+    categories.forEach(function(cat){
+      _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render()});
+    });  
+
+   	var _tableBox = $('<div>').addClass('table-box-call-manager-page');
+
+	  var _checkBoxesBox = Pard.Widgets.PrintCheckBoxes(_fields[_selected], _shownColumns[_selected]);
 
     var _tableRendered = _table.render();
 
-    _createdWidget.append(_checkBoxesBox.render(), _outerTableContainer.append(_tableBox.append(_tableRendered)));
+    _createdWidget.append(_filterCategoryContainer.append(_filterCategory), _checkBoxesBox.render(), _outerTableContainer.append(_tableBox.append(_tableRendered)));
+
+    _filterCategory.select2({
+      data: _searchTags
+      // multiple:true,
+      // placeholder: 'Busca',
+      // tags: true,
+      // tokenSeparators: [',', ' '],   
+    });
+
 
     $(document).ready(function() {
-      _checkBoxesBox.setCallback(_tableRendered);
+
+      var _hiddenColumnsArray=[];
+      _fields[_selected].forEach(function(field, colNum){
+        if($.inArray(field,_shownColumns[_selected])<0) _hiddenColumnsArray.push(colNum);
+      });
+      // _hiddenColumnsArray.push(_fields[selected].length);
+      var _dataTable = _tableRendered.DataTable({
+        "language":{
+        "lengthMenu": " Resultados por página _MENU_",
+        "zeroRecords": "Ningún resultado",
+        "info": "",
+        "infoEmpty": "Ningúna información disponible",
+        "infoFiltered": "(filtered from _MAX_ total records)",
+        "search": "Busca",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Siguiente",
+          "previous":   "Anterior"
+        },
+       "search": "_INPUT_",
+        "searchPlaceholder": "Busca"
+      },
+      fixedHeader: {
+        header: true
+      },
+      "scrollX": true,
+      "scrollY": "90vh",
+      "paging": false,
+      "scrollCollapse": true,
+      // 'responsive': true,
+      // 'colReorder': true,
+      "columnDefs": [
+        { "visible": false, "targets": _hiddenColumnsArray }
+        ],
+      // keys: true,
+      dom: 'Bfrtip',
+      buttons: [
+        {
+            extend: 'copy',
+            text: 'Copia',
+            exportOptions: {
+                columns: ':visible'
+            }
+        },
+        {
+          extend: 'excel',
+          exportOptions: {
+              columns: ':visible'
+          }
+        },
+        {
+          extend: 'pdf',
+          exportOptions: {
+              columns: ':visible'
+          },
+          orientation: 'landscape'
+        }
+      ]
+      });
+
+      // _checkBoxesRendered[0].prop('checked', true)
+      // _checkBoxesRendered[0].trigger('click');
+
+
+      // _fields[selected].forEach(function(field, colNum){
+      //   if(field == 'name' || field == 'link_orfheo') _table.column(colNum).visible(true);
+      //   else _table.column(colNum).visible(false);
+      // });
+      // _table.column(_fields[selected].length).visible(false);
+      _dataTable.columns.adjust().draw(true);
+
+      _filterCategory.on('select2:select',function(){
+      var _cat =  _filterCategory.select2('data')[0];
+      if (_cat.id == 'all') _dataTable.columns( 2 ).search('').draw();
+      else _dataTable.columns( 2 ).search(_cat.text).draw();
+    });
+
+       _checkBoxesBox.setCallback(_dataTable);
     });
 
 		return {
@@ -195,31 +313,21 @@
   }
 
 
-  ns.Widgets.PrintCheckBoxes = function(programAllCheckbox, selected, categories) {
+  ns.Widgets.PrintCheckBoxes = function(_fields, _shownColumns) {
 
-  	programAllCheckbox.empty();
+    var _createdWidget = $('<div>');
 
   	var _checkBoxesBox = $('<div>');
-    var _shownColumns = {
-      space: ['link_orfheo','name','category','address'],
-      artist: ['link_orfheo','name','category','title','short_description']
-    }
-    var _checkBoxesField = [];
-    // var _checkBoxes = [];
-    // var _checkBoxesRendered = [];
 
-    var _fields = {
-  		space: ['link_orfheo', 'name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend'],
-  		artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend']
-  	}
+    var  _allCheckBoxesBox = $('<div>').addClass('allCheckBoxesBox');
+
+    var _checkBoxesField = [];
 
   	var _table;
 
-    var _filterCategory = $('<select>');
-
   	var _printCheckBoxes = function(columnShown){
   	_checkBoxesField = [];
-    _fields[selected].forEach(function(field, columnNum){
+    _fields.forEach(function(field, columnNum){
     	var _checkBox = Pard.Widgets.CheckBox(Pard.Widgets.Dictionary(field).render(),false);
       _checkBoxesField.push(field);
     	var _checkBoxRendered = _checkBox.render().addClass('checkBox-call-manager');
@@ -244,7 +352,7 @@
     });
   	}
 
-  	_printCheckBoxes(_shownColumns[selected]);
+  	_printCheckBoxes(_shownColumns);
 
     var _allCheckBoxes = Pard.Widgets.CheckBox('Todos los campos','all');
   	var _allCheckBoxesRendered = _allCheckBoxes.render().addClass('checkBox-call-manager');
@@ -256,110 +364,20 @@
       else _printCheckBoxes([]);
     });
 
-    programAllCheckbox.append(_allCheckBoxesRendered);
-
+    _allCheckBoxesBox.append(_allCheckBoxesRendered);
     _allCheckBoxes.labelToggle(); 	
 
-    _checkBoxesBox.append(_filterCategory);
-
-    var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
-    categories.forEach(function(cat){
-      _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render()});
-    });
-    
-    _filterCategory.select2({
-      data: _searchTags,
-      // multiple:true,
-      // placeholder: 'Busca',
-      // tags: true,
-      // tokenSeparators: [',', ' '],   
-    });
-
-    _filterCategory.on('select2:select',function(){
-      var _cat =  _filterCategory.select2('data')[0];
-      if (_cat.id == 'all') _table.columns( 2 ).search('').draw();
-      else _table.columns( 2 ).search(_cat.text).draw();
-    });
-    
+    _createdWidget.append(_allCheckBoxesBox, _checkBoxesBox);
+   
     return {
 	  	render: function(){
-	  		return _checkBoxesBox;
+	  		return _createdWidget;
 	  	},
-	  	getVal: function(){
-	  		return _getColumns();
-	  	}, 
+	  	// getVal: function(){
+	  	// 	return _getColumns();
+	  	// }, 
 	  	setCallback: function(table){
-
-        var _hiddenColumnsArray=[];
-        _fields[selected].forEach(function(field, colNum){
-          if($.inArray(field,_shownColumns[selected])<0) _hiddenColumnsArray.push(colNum);
-        });
-        console.log(_hiddenColumnsArray);
-        // _hiddenColumnsArray.push(_fields[selected].length);
-        _table = table.DataTable({
-          "language":{
-          "lengthMenu": " Resultados por página _MENU_",
-          "zeroRecords": "Ningún resultado",
-          "info": "",
-          "infoEmpty": "Ningúna información disponible",
-          "infoFiltered": "(filtered from _MAX_ total records)",
-          "search": "Busca",
-          "paginate": {
-            "first":      "Primera",
-            "last":       "Última",
-            "next":       "Siguiente",
-            "previous":   "Anterior"
-          },
-        },
-        fixedHeader: {
-          header: true
-        },
-        "scrollX": true,
-        "scrollY": "90vh",
-        "paging": false,
-        "scrollCollapse": true,
-        // 'responsive': true,
-        // 'colReorder': true,
-        "columnDefs": [
-          { "visible": false, "targets": _hiddenColumnsArray }
-          ],
-        // keys: true,
-        dom: 'Bfrtip',
-        buttons: [
-          {
-              extend: 'copy',
-              text: 'Copia',
-              exportOptions: {
-                  columns: ':visible'
-              }
-          },
-          {
-            extend: 'excel',
-            exportOptions: {
-                columns: ':visible'
-            }
-          },
-          {
-            extend: 'pdf',
-            exportOptions: {
-                columns: ':visible'
-            },
-            orientation: 'landscape'
-          }
-        ]
-        });
-
-        // _checkBoxesRendered[0].prop('checked', true)
-        // _checkBoxesRendered[0].trigger('click');
-
-
-        // _fields[selected].forEach(function(field, colNum){
-        //   if(field == 'name' || field == 'link_orfheo') _table.column(colNum).visible(true);
-        //   else _table.column(colNum).visible(false);
-        // });
-        // _table.column(_fields[selected].length).visible(false);
-        _table.columns.adjust().draw(true);
-
+        _table = table;
 	      
       }
   	}
@@ -480,14 +498,7 @@
 
 
 
-  ns.Widgets.PrintTable = function(proposalsSelected) {
-
-  	var _fields = {
-  		space: ['link_orfheo','name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend'],
-  		artist: ['link_orfheo', 'name','category','title','short_description','description', 'duration','components', 'meters', 'children', 'repeat', 'waiting_list','needs','sharing','availability','email', 'phone', 'amend']
-  	}
-
-  	var columns = _fields[proposalsSelected[0].type];
+  ns.Widgets.PrintTable = function(proposalsSelected, columns) {
 
    	var _tableCreated = $('<table>').addClass('table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"950px"});
 
