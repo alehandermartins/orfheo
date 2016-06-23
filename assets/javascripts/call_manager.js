@@ -14,12 +14,14 @@
       '2016-10-16': [['2016-10-16T10:00:00.000Z', '2016-10-16T14:00:00.000Z'], ['2016-10-16T17:00:00.000Z', '2016-10-16T23:00:00.000Z']]
     };
 
-    var artists = [];
+    var artists = {};
+    var artistProposals = [];
     var spaces = [];
     var spaceColumns = {};
 
     call['proposals'].forEach(function(proposal){
       if (proposal.type == 'artist'){
+        artistProposals.push(proposal);
         artists[proposal.profile_id] = artists[proposal.profile_id] || [];
         artists[proposal.profile_id].push(proposal)
       };
@@ -41,6 +43,96 @@
       });
       return profile_id;
     };
+
+    function formatResource (resource) {
+      if(!resource.id) return resource.name;
+      var _label = $('<span>').text(resource.name);
+      //var _icon = Pard.Widgets.IconManager(resource.icon).render();
+      //_label.append(_icon);
+      // _icon.css({
+      //   position: 'relative',
+      //   left: '5px',
+      //   top: '5px',
+      // });
+      return _label;
+    };
+
+    var _daySelector = $('<select>');
+    var _lastSelected = Object.keys(eventTime)[0];;
+
+    _daySelector.on('change', function(){
+      spaceColumns[_lastSelected].forEach(function(spaceCol){
+        if(_daySelector.val() == 'permanent') _timeTable.hide()
+        else{_timeTable.show()}
+        spaceCol.hide();
+      });
+      spaceColumns[_daySelector.val()].forEach(function(spaceCol){
+        spaceCol.show();
+      });
+      _lastSelected = _daySelector.val();
+    });
+
+    _daySelector.css({
+      'display': 'inline-block',
+      'width': 120
+    });
+
+    var _spaceSelectorContainer = $('<div>').css({
+      'margin-left': 50,
+      'display': 'inline-block',
+      'width': 300
+    });
+    var _artistSelectorContainer = $('<div>').css({
+      'margin-left': 50,
+      'display': 'inline-block',
+      'width': 300
+    });
+
+    var _spaceSelector = $('<select>');
+    var _artistSelector = $('<select>');
+
+    _spaceSelectorContainer.append(_spaceSelector);
+    _artistSelectorContainer.append(_artistSelector);
+
+    var _showArtists = Pard.Widgets.Button('Ver', function(){
+      _artists.toggle('slide', {direction: 'right'}, 500);
+    }).render();
+    _showArtists.css({
+      'display': 'inline-block',
+      'margin-left': 5
+    });
+
+    _createdWidget.append(_daySelector, _spaceSelectorContainer, _artistSelectorContainer, _showArtists);
+
+    _spaceSelector.select2({
+      placeholder: 'Espacios',
+      data: spaces,
+      multiple: true,
+      tags: true,
+      tokenSeparators: [',', ' '],   
+      templateResult: formatResource,
+    }).on("select2:select", function(e) {
+      if(_spaceSelector.select2('data') != false){
+        if(e.params.data.isNew){
+          $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
+        }
+      }
+    });
+
+    _artistSelector.select2({
+      placeholder: 'Artistas',
+      data: artistProposals,
+      multiple: true,
+      tags: true,
+      tokenSeparators: [',', ' '],   
+      templateResult: formatResource,
+    }).on("select2:select", function(e) {
+      if(_spaceSelector.select2('data') != false){
+        if(e.params.data.isNew){
+          $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
+        }
+      }
+    });
 
     var _tableContainer = $('<div>').addClass('tableContainer').css({
       'overflow-x': 'scroll',
@@ -108,39 +200,12 @@
     });
 
 
-    var _showArtists = Pard.Widgets.Button('Artistas', function(){
-      _artists.toggle('slide', {direction: 'right'}, 500);
-    }).render();
-    _showArtists.css({'position': 'absolute',
-      'top': 217,
-      'left': 1000,
-    });
+
 
     _createdWidget.append(_artists, _showArtists);
 
     var _timeTable = $('<div>');
-    var _daySelector = $('<select>');
 
-    var _lastSelected = Object.keys(eventTime)[0];;
-
-    _daySelector.on('change', function(){
-      spaceColumns[_lastSelected].forEach(function(spaceCol){
-        if(_daySelector.val() == 'permanent') _timeTable.hide()
-        else{_timeTable.show()}
-        spaceCol.hide();
-      });
-      spaceColumns[_daySelector.val()].forEach(function(spaceCol){
-        spaceCol.show();
-      });
-      _lastSelected = _daySelector.val();
-    });
-
-    _daySelector.css({
-      'display': 'inline-block',
-      'width': 120
-    });
-
-    _createdWidget.append(_daySelector);
 
     Object.keys(eventTime).forEach(function(day){
 
