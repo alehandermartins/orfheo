@@ -199,7 +199,7 @@ describe Repos::Profiles do
     it 'returns all profiles for an event' do
       allow(Repos::Calls).to receive(:get_event).with('event_id').and_return(event)
       result = Repos::Profiles.get_profiles :event_profiles, {event_id: 'event_id'}
-      expect(result).to eq([profile, otter_user_profile])
+      expect(result).to include(profile, otter_user_profile)
     end
   end
 

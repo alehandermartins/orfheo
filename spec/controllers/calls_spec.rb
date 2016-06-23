@@ -392,7 +392,10 @@ describe CallsController do
           participant_id: profile_id,
           participant_proposal_id: proposal_id,
           host_id: nil,
-          host_proposal_id: 'otter_proposal'
+          date: '2016-15-10',
+          permanent: 'false',
+          host_proposal_id: 'otter_proposal',
+          host_name: 'otter'
         }
         ]
       }

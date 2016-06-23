@@ -184,21 +184,44 @@
           'border-width': '1px',
           'border-style': 'solid'
         });
-        var _spacename = $('<div>').addClass('spaceName').css({
-          'background': '#b5cfd2',
-          'padding': '8px',
+        var _spaceHeader = $('<div>').addClass('spaceHeader').css({
+          'display': 'inline-block',
+          'padding': 0,
+          'background-color': '#009999',
           'border-color': '#999999',
           'height': '40px',
           'cursor': 'pointer',
-          'text-align': 'center'
+          'text-align': 'center',
+          'width': 174
+        });
+
+        var _icon = Pard.Widgets.IconManager('menu').render().css({
+          'margin-top': 8
+        });
+        var _menuIcon = $('<div>').append(_icon);
+        _menuIcon.css({
+          'display': 'inline-block',
+          'vertical-align': 'middle',
+          'height': 38,
+        });
+        _spaceCol.append(_menuIcon);
+
+        var _spacename = $('<div>');
+        _spacename.css({
+          'display': 'inline-block',
+          'vertical-align': 'middle',
+          'width': 120,
+          'height': 38,
+          'white-space': 'normal'
         });
 
         var _title = $('<p>').addClass('profile-nav-name-selected').text(space.name);
-        _spacename.append(Pard.Widgets.FitInBox(_title, 176, 40).render());
+        _spacename.append(Pard.Widgets.FitInBox(_title, 120, 38).render());
+        _spaceHeader.append(_spacename, _menuIcon);
 
         Pard.Widgets.PopupCreator(_spacename, 'conFusión 2016', function(){ return Pard.Widgets.MySpaceCallProposalMessage(space)});
 
-        _spaceCol.append(_spacename);
+        _spaceCol.append(_spaceHeader);
 
         var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
           'height': (hours.length - 1) * 40
@@ -274,7 +297,7 @@
           containment: '.tableContainer',
           revert: 'invalid',
           axis: 'x',
-          handle: '.spaceName',
+          handle: '.spaceHeader',
           helper: function(){ 
             return Pard.Widgets.SpaceHelper(_spaceCol).render();
           },
@@ -429,7 +452,7 @@
         containment: '.tableContainer',
         revert: 'invalid',
         axis: 'x',
-        handle: '.spaceName',
+        handle: '.spaceHeader',
         helper: function(){ 
           return Pard.Widgets.SpaceHelper(_spaceCol).render();
         },
@@ -634,7 +657,7 @@
     
     var _icon = $('<div>').append(Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon'));
     var _colorIcon = Pard.Widgets.IconColor(color).render();
-    _icon.css({color: _colorIcon}); 
+    _icon.css({color: _colorIcon});
 
     _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
     _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render());
@@ -657,7 +680,7 @@
         });
       }
     );
-    
+
     Pard.Widgets.PopupCreator(_card, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal)});
 
     return {
@@ -704,7 +727,7 @@
     });
 
     var _title = $('<p>').addClass('profile-nav-name-selected').text(performance.title);
-    _card.append(Pard.Widgets.FitInBox(_title, 176, performance.height).render().css({'position': 'absolute'}));
+    _card.append(Pard.Widgets.FitInBox(_title, 176, performance.height - 2).render().css({'position': 'absolute'}));
 
     _card.draggable({
       revert: false,

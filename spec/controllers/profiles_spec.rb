@@ -147,7 +147,7 @@ describe ProfilesController do
       expect(Repos::Profiles).to receive(:update).with(profile_model)
       post create_profile_route, profile
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profile_id']).to eq(profile_id)
+      expect(parsed_response['profile']).to eq(Util.stringify_hash(profile_model))
     end
   end
 

@@ -31,6 +31,7 @@
       flag: {icon: '&#xE153;', className: 'material-icons'},
       done: {icon: '&#xE876;', className: 'material-icons'},
       add_circle: {icon:'&#xE147;', className:'material-icons'},
+      menu: {icon:'&#xE8EE;', className:'material-icons'},
 
       open_call: {icon:'', className: 'fa fa-bullhorn'},
       youtube: {icon: '', className: 'fa fa-youtube'},

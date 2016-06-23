@@ -279,7 +279,17 @@ describe Repos::Calls do
 
   describe 'Whitelist' do
     let(:whitelist){
-      ['email1', 'email2', 'email3']
+      [
+        {
+          'email': 'email1'
+        },
+        {
+          'email': 'email2'
+        },
+        {
+          'email': 'email3'
+        },
+      ]
     }
 
     it 'Stores the whitelist' do
