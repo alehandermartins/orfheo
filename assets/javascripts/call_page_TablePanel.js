@@ -9,7 +9,7 @@
     var _title = $('<h4>').text('Gestiona la Convocatoria').css({'margin-top':'3rem', 'margin-bottom':'3rem'});
 
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
-  	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla y Programa');
+  	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla');
   	var _tableTab = $('<li>').append(_tableTabTitle);
   	_tableTab.one('click',function(){
 			$('#tablePanel').append(Pard.Widgets.TablePanelContent(call).render());

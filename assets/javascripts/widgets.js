@@ -224,9 +224,7 @@
    
 
   ns.Widgets.Cloudinary = function(folder, thumbnail, _url, maxAmount){
-
     var _data = [];
-
 
     var _photo = $.cloudinary.unsigned_upload_tag(
       "kqtqeksl",
@@ -319,19 +317,24 @@
   ns.Widgets.FitInBox = function(textBox, max_width, max_height){
     var _container = $('<div>').css({
       'max-width': max_width+'px',
-      'word-wrap': ' break-word'
-    })
+      'word-wrap': 'break-word',
+    });
+
     $('body').append(_container.append((textBox)));
-    while (textBox.height()>max_height){
+    var height = textBox.height();
+
+    while (textBox.height() > max_height){
       var _text = textBox.text();
       var _positionLastWord = _text.lastIndexOf(" ");
       _text = _text.substring(0, _positionLastWord);
-      textBox.text(_text+'...');
+      textBox.text(_text + '...');
+      if (textBox.height() == height){ break; }
+      height = textBox.height();
     }
 
     return{
       render: function(){
-        return textBox
+        return textBox;
       }
     }
   }

@@ -1,7 +1,7 @@
 @charset 'utf-8';
 
 
-@import 'jquery-ui';
+//@import 'jquery-ui';
 @import 'settings';
 @import 'foundation';
 @import 'motion-ui';
@@ -29,8 +29,8 @@
 @include foundation-forms;
 @include foundation-visibility-classes;
 @include foundation-float-classes;
-// @include foundation-accordion;
-// @include foundation-accordion-menu;
+@include foundation-accordion;
+@include foundation-accordion-menu;
 // @include foundation-badge;
 // @include foundation-breadcrumbs;
 // @include foundation-button-group;
