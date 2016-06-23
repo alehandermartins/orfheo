@@ -1006,10 +1006,16 @@ ns.Widgets.InputAddressSpace = function(label){
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
 
+    var _emails = [];
+
     var _addnewInput = function(item, classNewInput){
+      if ($.inArray(item.email, _emails)>-1){
+        Pard.Widgets.Alert('','Este usuario ya está en la lista.')
+        return false
+      }
+      _emails.push(item.email);
       var _container = $('<div>'); 
-      _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);
-      
+      _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);      
       _newInput.setClass('add-whiteList-input-field');
       if (classNewInput) _newInput.setClass(classNewInput);
 
@@ -1088,8 +1094,8 @@ ns.Widgets.InputAddressSpace = function(label){
         if(values == null || values == false) return true;
         // values.forEach(function(item){
         for (var item in values){  
-          _results.push(values[item]);
           _inputAddedContainer.prepend(_addnewInput(values[item]));
+          _results.push(values[item]);
         };
       }
     }
