@@ -1216,6 +1216,7 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 
 .column-call-manager-table{
   min-width: 8rem;
+  white-space: normal;
 }
 
 .column-call-manager-table.column-link_orfheo{
@@ -1224,6 +1225,7 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 
 .column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing,  .column-call-manager-table.column-address{
   min-width: 16rem;
+  white-space: normal;
 }
 
 
@@ -1264,16 +1266,71 @@ div.inputSpace-container .select2-selection.select2-selection--multiple, div.inp
 } */
 
 .types-selector-call-manager{
-  margin-bottom: 1.5rem;
-  width: 21rem;
+  margin-bottom: 2.5rem;
+  width: 17rem;
   display: inline-block;
   margin-right: 3rem;
   margin-right: 9rem;
 
 }
 
-.program-all-checkbox-container{
-  display: inline;
+.select-category-container-call-manager{
+  width: 17rem;
+  display: inline-block;  
+  position: absolute;
+  top: 0rem;
+  left: 22.5rem;
+}
+
+
+/* .select-category-container-call-manager span.select2-container--default .select2-selection--single{
+  @include border-radius(0.125rem);
+  height:2.43rem;
+  outline: none;
+  border: 1px solid #cacaca;
+}
+
+.select-category-container-call-manager span.select2-container--default .select2-selection--single .select2-selection__rendered, .select-category-container-call-manager span.select2-container--default .select2-selection--single .select2-selection__arrow{
+  line-height: 2.43rem;
+  height: 2.43rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color:#090909 transparent transparent transparent;
+} */
+
+.table-box-call-manager-page{
+  margin-top: 1rem;
+}
+
+div.dt-buttons{
+  float: right;
+  right: 2rem;
+  top: 0.5rem;
+}
+
+a.dt-button{
+  /* @extend .pard-btn; */
+  padding: 0.1rem 0.4rem;
+  font-size: $smallSize;
+}
+
+  
+div.dataTables_wrapper div.dataTables_filter label{
+  margin-right: 12rem;
+  margin-bottom: 1rem;
+}
+
+div.dataTables_wrapper div.dataTables_filter input{
+  width: 25rem !important;
+  font-size: $almostNormalSize;
+}
+
+.allCheckBoxesBox{
+  display: inline-block;
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
 }
 
 .title-colText-call-manager{
@@ -1285,26 +1342,28 @@ div.inputSpace-container .select2-selection.select2-selection--multiple, div.inp
 } */
 
 
-.search-input-call-manager-container{
+
+
+/* .search-input-call-manager-container{
   width: 36rem;
   @include horizontal-center;
   position: relative;
   margin-top: 2rem;
 }
-
-/* .submit-btn-call-manager-container{
+ */
+.submit-btn-call-manager-container{
   position:absolute;
   right: 0;
   height: 2.5rem;
   top: 1.8rem;
-} */
+}
 
-/* .submit-btn-outer-container-call-manager{
+.submit-btn-outer-container-call-manager{
   position:relative;
   display: block;
   margin-right: 2rem;
   font-size: $almostNormalSize;
-} */
+}
 
 #succes-box-call-manager, #successBox-whiteList{
   margin-right: 1.5rem;
