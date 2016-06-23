@@ -279,17 +279,27 @@
           exportOptions: {
               columns: ':visible'
           },
-          title: _titleFile[_selected]
+          filename: _titleFile[_selected]
 
         },
-        {
-          extend: 'pdf',
-          exportOptions: {
-              columns: ':visible'
-          },
-          orientation: 'landscape',
-          title: _titleFile[_selected]
-        }
+        // {
+        //   extend: 'pdf',
+        //   exportOptions: {
+        //       columns: ':visible'
+        //   },
+        //   orientation: 'landscape',
+        //   filename: _titleFile[_selected]
+        // }
+        // {
+        //   extend: 'print',
+        //   text: 'Imprime',
+        //   exportOptions: {
+        //     modifier: {
+        //         page: 'current'
+        //     }
+        //   },
+        //   title: _titleFile[_selected]
+        // }
       ]
       });
 
@@ -366,10 +376,25 @@
   	var _allCheckBoxesRendered = _allCheckBoxes.render().addClass('checkBox-call-manager');
 
     _allCheckBoxesRendered.click(function(){
-      var _val = _allCheckBoxes.getVal();
-    	_checkBoxesBox.empty();
-    	if (_val) _printCheckBoxes(_checkBoxesField);
-      else _printCheckBoxes([]);
+      var spinner =  new Spinner().spin();
+      _checkBoxesBox.empty();
+        $.wait(
+          '', 
+          function(){
+            _checkBoxesBox.append(spinner.el);
+          }, 
+          function(){
+            setTimeout(function(){
+              var _appendAndStopSpinner = function(stopSpinner){ 
+                var _val = _allCheckBoxes.getVal();
+                if (_val) _printCheckBoxes(_checkBoxesField);
+                else _printCheckBoxes([]);
+                stopSpinner();    
+              }
+              _appendAndStopSpinner(function(){spinner.stop()});
+            },0)
+          }
+        )
     });
 
     _allCheckBoxesBox.append(_allCheckBoxesRendered);

@@ -1305,7 +1305,7 @@ span.select2-container--default .select2-selection--single{
 
 div.dt-buttons{
   float: right;
-  right: 2rem;
+  margin-right: 2rem;
   top: 0.5rem;
 }
 
@@ -1328,6 +1328,8 @@ a.dt-button:active{
   padding: 0.1rem 0.4rem;
   font-size: $smallSize;
   border: none;  
+  margin-left: 0.2rem;
+  margin-top: 0.5rem;
 }
 
 
