@@ -80,7 +80,6 @@
 
     call['proposals'].forEach(function(proposal){
       if (proposal.type == 'artist'){
-        
         artists[proposal.profile_id] = artists[proposal.profile_id] || [];
         artists[proposal.profile_id].push(proposal)
       };
@@ -95,7 +94,7 @@
 
     Object.keys(artists).forEach(function(profile_id){
       artistProposals.push({
-        id: artists[profile_id][0].proposal_id,
+        id: artists[profile_id][0].profile_id,
         text: artists[profile_id][0].name
       });
     });
@@ -210,6 +209,14 @@
           $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
         }
       }
+      Object.keys(artists).forEach(function(profile_id){
+        if(profile_id == _artistSelector.val()){
+          console.log(artists[profile_id]);
+          artists[profile_id]['card'].show();
+          artists[profile_id]['card'].find('.accordion-item').trigger('click');
+        }
+        else{artists[profile_id]['card'].hide();}
+      });
     });
 
     var _tableContainer = $('<div>').addClass('tableContainer').css({
@@ -275,10 +282,8 @@
         lastaHref = aHref;
       });
       _artists.append(container);
+      artists[profile_id]['card'] = container;
     });
-
-
-
 
     _createdWidget.append(_artists, _showArtists);
 
