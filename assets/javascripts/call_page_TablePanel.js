@@ -201,8 +201,8 @@
 
   	var _checkBoxesBox = $('<div>');
     var _shownColumns = {
-      space: ['name','category','address'],
-      artist: ['name','category','title','short_description']
+      space: ['link_orfheo','name','category','address'],
+      artist: ['link_orfheo','name','category','title','short_description']
     }
     var _checkBoxesField = [];
     // var _checkBoxes = [];
@@ -255,6 +255,8 @@
     	if (_val) _printCheckBoxes(_checkBoxesField);
       else _printCheckBoxes([]);
     });
+
+    programAllCheckbox.append(_allCheckBoxesRendered);
 
     _allCheckBoxes.labelToggle(); 	
 
@@ -487,7 +489,7 @@
 
   	var columns = _fields[proposalsSelected[0].type];
 
-   	var _tableCreated = $('<table>').addClass('table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"100%"});
+   	var _tableCreated = $('<table>').addClass('table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"950px"});
 
    	var reorder = function(colNum){};
 

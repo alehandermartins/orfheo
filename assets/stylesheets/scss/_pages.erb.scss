@@ -1216,6 +1216,7 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 
 .column-call-manager-table{
   min-width: 8rem;
+  white-space: normal;
 }
 
 .column-call-manager-table.column-link_orfheo{
@@ -1224,6 +1225,7 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 
 .column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing,  .column-call-manager-table.column-address{
   min-width: 16rem;
+  white-space: normal;
 }
 
 
