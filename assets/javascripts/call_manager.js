@@ -16,16 +16,88 @@
 
     var artists = {};
     var artistProposals = [];
+    var spaceProposals = [];
     var spaces = [];
     var spaceColumns = {};
 
+    artistProposals.push({
+      id: 'music',
+      text: 'Música',
+      icon: 'music'
+    });
+    artistProposals.push({
+      id: 'arts',
+      text: 'Artes Escénicas',
+      icon: 'arts'
+    });
+    artistProposals.push({
+      id: 'workshop',
+      text: 'Taller',
+      icon: 'workshop'
+    });
+    artistProposals.push({
+      id: 'poetry',
+      text: 'Poesía',
+      icon: 'poetry'
+    });
+    artistProposals.push({
+      id: 'expo',
+      text: 'Exposición',
+      icon: 'expo'
+    });
+    artistProposals.push({
+      id: 'street_art',
+      text: 'Street Art',
+      icon: 'street_art'
+    });
+    artistProposals.push({
+      id: 'audiovisual',
+      text: 'Audiovisual',
+      icon: 'audiovisual'
+    });
+    artistProposals.push({
+      id: 'other',
+      text: 'Otro',
+      icon: 'other'
+    });
+
+    spaceProposals.push({
+      id: 'cultural_ass',
+      text: 'Asociación cultural',
+    });
+    spaceProposals.push({
+      id: 'commercial',
+      text: 'Local comercial',
+    });
+    spaceProposals.push({
+      id: 'home',
+      text: 'Espacio particular',
+    });
+    spaceProposals.push({
+      id: 'street',
+      text: 'Espacio exterior',
+    })
+
     call['proposals'].forEach(function(proposal){
       if (proposal.type == 'artist'){
-        artistProposals.push(proposal);
+        
         artists[proposal.profile_id] = artists[proposal.profile_id] || [];
         artists[proposal.profile_id].push(proposal)
       };
-      if (proposal.type == 'space') spaces.push(proposal);
+      if (proposal.type == 'space'){
+        spaceProposals.push({
+          id: proposal.proposal_id,
+          text: proposal.name
+        });
+        spaces.push(proposal);
+      }
+    });
+
+    Object.keys(artists).forEach(function(profile_id){
+      artistProposals.push({
+        id: artists[profile_id][0].proposal_id,
+        text: artists[profile_id][0].name
+      });
     });
 
     _getProposal = function(proposal_id){
@@ -45,15 +117,17 @@
     };
 
     function formatResource (resource) {
-      if(!resource.id) return resource.name;
-      var _label = $('<span>').text(resource.name);
-      //var _icon = Pard.Widgets.IconManager(resource.icon).render();
-      //_label.append(_icon);
-      // _icon.css({
-      //   position: 'relative',
-      //   left: '5px',
-      //   top: '5px',
-      // });
+      if(!resource.id) return resource.text;
+      var _label = $('<span>').text(resource.text);
+      if(resource.icon){
+        var _icon = Pard.Widgets.IconManager(resource.icon).render();
+        _label.append(_icon);
+        _icon.css({
+          position: 'relative',
+          left: '5px',
+          top: '5px',
+        });
+      }
       return _label;
     };
 
@@ -89,7 +163,11 @@
     });
 
     var _spaceSelector = $('<select>');
+    var _emptySpace = $('<option>');
+    _spaceSelector.append(_emptySpace);
     var _artistSelector = $('<select>');
+    var _emptyArtist = $('<option>');
+    _artistSelector.append(_emptyArtist);
 
     _spaceSelectorContainer.append(_spaceSelector);
     _artistSelectorContainer.append(_artistSelector);
@@ -106,8 +184,8 @@
 
     _spaceSelector.select2({
       placeholder: 'Espacios',
-      data: spaces,
-      multiple: true,
+      allowClear: true,
+      data: spaceProposals,
       tags: true,
       tokenSeparators: [',', ' '],   
       templateResult: formatResource,
@@ -122,7 +200,7 @@
     _artistSelector.select2({
       placeholder: 'Artistas',
       data: artistProposals,
-      multiple: true,
+      allowClear: true,
       tags: true,
       tokenSeparators: [',', ' '],   
       templateResult: formatResource,
