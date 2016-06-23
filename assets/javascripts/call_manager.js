@@ -57,7 +57,7 @@
     var _artists = $('<ul>').addClass('accordion').attr({'data-accordion':'', 'role': 'tablist'}).css({
       'position': 'absolute',
       'overflow-y': 'scroll',
-      'top': 141,
+      'top': 196,
       'left': 751,
       'width': 233,
       'border-width': '1px',
@@ -112,7 +112,7 @@
       _artists.toggle('slide', {direction: 'right'}, 500);
     }).render();
     _showArtists.css({'position': 'absolute',
-      'top': 141,
+      'top': 217,
       'left': 1000,
     });
 
@@ -135,14 +135,12 @@
       _lastSelected = _daySelector.val();
     });
 
-    _createdWidget.append(_daySelector);
-
     _daySelector.css({
-      position: "absolute",
-      top: 162,
-      left: -140,
-      width: 120
+      'display': 'inline-block',
+      'width': 120
     });
+
+    _createdWidget.append(_daySelector);
 
     Object.keys(eventTime).forEach(function(day){
 
@@ -163,12 +161,12 @@
       hours.forEach(function(hour, hourIndex){
         var _time = $('<div>').html(hour + ':00').css({
           position: "absolute",
-          top: 162 + hourIndex * 40 + "px",
+          top: 217 + hourIndex * 40 + "px",
           left: 0
         });
         var _line = $('<hr>').css({
           position: "absolute",
-          top: 162 + hourIndex * 40 + "px",
+          top: 217 + hourIndex * 40 + "px",
           left: 0,
           width: 932
         });
@@ -358,19 +356,44 @@
         'border-width': '1px',
         'border-style': 'solid'
       });
-      var _spacename = $('<div>').addClass('spaceName').css({
-        'background': '#b5cfd2',
-        'padding': '8px',
-        'border-color': '#999999',
-        'height': '40px',
-        'cursor': 'pointer',
-        'text-align': 'center'
-      });
+      var _spaceHeader = $('<div>').addClass('spaceHeader').css({
+          'display': 'inline-block',
+          'padding': 0,
+          'background-color': '#009999',
+          'border-color': '#999999',
+          'height': '40px',
+          'cursor': 'pointer',
+          'text-align': 'center',
+          'width': 174
+        });
 
-      var _title = $('<p>').addClass('profile-nav-name-selected').text(space.name);
-      _spacename.append(Pard.Widgets.FitInBox(_title, 176, 40).render());
+        var _icon = Pard.Widgets.IconManager('menu').render().css({
+          'margin-top': 8
+        });
+        var _menuIcon = $('<div>').append(_icon);
+        _menuIcon.css({
+          'display': 'inline-block',
+          'vertical-align': 'middle',
+          'height': 38,
+        });
+        _spaceCol.append(_menuIcon);
 
-      _spaceCol.append(_spacename);
+        var _spacename = $('<div>');
+        _spacename.css({
+          'display': 'inline-block',
+          'vertical-align': 'middle',
+          'width': 120,
+          'height': 38,
+          'white-space': 'normal'
+        });
+
+        var _title = $('<p>').addClass('profile-nav-name-selected').text(space.name);
+        _spacename.append(Pard.Widgets.FitInBox(_title, 120, 38).render());
+        _spaceHeader.append(_spacename, _menuIcon);
+
+        Pard.Widgets.PopupCreator(_spacename, 'conFusión 2016', function(){ return Pard.Widgets.MySpaceCallProposalMessage(space)});
+
+        _spaceCol.append(_spaceHeader);
 
       var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
         'height': 520
