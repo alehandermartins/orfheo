@@ -23,59 +23,71 @@
     artistProposals.push({
       id: 'music',
       text: 'Música',
-      icon: 'music'
+      icon: 'music',
+      type: 'category'
     });
     artistProposals.push({
       id: 'arts',
       text: 'Artes Escénicas',
-      icon: 'arts'
+      icon: 'arts',
+      type: 'category'
     });
     artistProposals.push({
       id: 'workshop',
       text: 'Taller',
-      icon: 'workshop'
+      icon: 'workshop',
+      type: 'category'
     });
     artistProposals.push({
       id: 'poetry',
       text: 'Poesía',
-      icon: 'poetry'
+      icon: 'poetry',
+      type: 'category'
     });
     artistProposals.push({
       id: 'expo',
       text: 'Exposición',
-      icon: 'expo'
+      icon: 'expo',
+      type: 'category'
     });
     artistProposals.push({
       id: 'street_art',
       text: 'Street Art',
-      icon: 'street_art'
+      icon: 'street_art',
+      type: 'category'
     });
     artistProposals.push({
       id: 'audiovisual',
       text: 'Audiovisual',
-      icon: 'audiovisual'
+      icon: 'audiovisual',
+      type: 'category'
     });
     artistProposals.push({
       id: 'other',
       text: 'Otro',
-      icon: 'other'
+      icon: 'other',
+      type: 'category'
     });
 
     spaceProposals.push({
       id: 'cultural_ass',
       text: 'Asociación cultural',
+      type: 'category'
     });
     spaceProposals.push({
       id: 'commercial',
       text: 'Local comercial',
+      type: 'category'
     });
     spaceProposals.push({
       id: 'home',
       text: 'Espacio particular',
+      type: 'category'
     });
     spaceProposals.push({
       id: 'street',
       text: 'Espacio exterior',
+      type: 'category'
     })
 
     call['proposals'].forEach(function(proposal){
@@ -173,6 +185,8 @@
 
     var _showArtists = Pard.Widgets.Button('Ver', function(){
       _artists.toggle('slide', {direction: 'right'}, 500);
+      if(_artists.hasClass('is-active')) _artists.removeClass('is-active');
+      else{_artists.addClass('is-active');}
     }).render();
     _showArtists.css({
       'display': 'inline-block',
@@ -209,14 +223,42 @@
           $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
         }
       }
+      var _data = _artistSelector.select2('data')[0];
+      if(_data['type'] == 'category'){
+        Object.keys(artists).forEach(function(profile_id){
+          var check = false;
+          artists[profile_id].forEach(function(proposal){
+          console.log(proposal.category, _data['id']);
+            if (proposal.category == _data['id']) check = true;
+          });
+          if(check == true){
+            artists[profile_id]['card'].show();
+          }
+          else{artists[profile_id]['card'].hide();}
+        });
+      }      
+      else{
+        Object.keys(artists).forEach(function(profile_id){
+          if(profile_id == _artistSelector.val()){
+            artists[profile_id]['card'].show();
+            artists[profile_id]['card'].find('.accordion-item').trigger('click');
+          }
+          else{artists[profile_id]['card'].hide();}
+        });
+      }
+
+      if(!_artists.hasClass('is-active')){
+        _artists.addClass('is-active');
+        _artists.toggle('slide', {direction: 'right'}, 500);
+      }
+    });
+
+    _artistSelector.on("select2:unselecting", function(e){
       Object.keys(artists).forEach(function(profile_id){
-        if(profile_id == _artistSelector.val()){
-          console.log(artists[profile_id]);
-          artists[profile_id]['card'].show();
-          artists[profile_id]['card'].find('.accordion-item').trigger('click');
-        }
-        else{artists[profile_id]['card'].hide();}
+        artists[profile_id]['card'].show();
       });
+      $(this).select2("val", "");
+      e.preventDefault();
     });
 
     var _tableContainer = $('<div>').addClass('tableContainer').css({
@@ -231,7 +273,7 @@
       'white-space':'nowrap',
     });
 
-    var _artists = $('<ul>').addClass('accordion').attr({'data-accordion':'', 'role': 'tablist'}).css({
+    var _artists = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).css({
       'position': 'absolute',
       'overflow-y': 'scroll',
       'top': 196,
@@ -899,12 +941,18 @@
 
     var _title = $('<p>').addClass('profile-nav-name-selected').text(performance.title);
     _card.append(Pard.Widgets.FitInBox(_title, 176, performance.height - 2).render().css({'position': 'absolute'}));
+    var accordionShown = false;
 
     _card.draggable({
       revert: false,
       helper: 'clone',
       grid: [ 10, 10 ],
       start: function(event, ui){
+        if($('.accordion').hasClass('is-active')){
+          accordionShown = true;
+          $('.accordion').removeClass('is-active');
+          $('.accordion').toggle('slide', {direction: 'right'}, 500);
+        }
         Pard.Widgets.DraggedPerformance = performance;
         Pard.Widgets.Program.forEach(function(performanceProgram, index){
           if(performanceProgram.performance_id == performance.performance_id) Pard.Widgets.Program.splice(index, 1);
@@ -912,6 +960,10 @@
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(){
+        if(accordionShown == true){
+          $('.accordion').addClass('is-active');
+          $('.accordion').toggle('slide', {direction: 'right'}, 500);
+        }
         _card.remove();
       }
     });
