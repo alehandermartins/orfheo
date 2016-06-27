@@ -110,8 +110,9 @@
       id: 'street',
       text: 'Espacio exterior',
       type: 'category'
-    })
+    });
 
+   var start = new Date().getTime();
     call['proposals'].forEach(function(proposal){
       if (proposal.type == 'artist'){
         artists[proposal.profile_id] = artists[proposal.profile_id] || [];
@@ -336,6 +337,8 @@
       'white-space':'nowrap',
     });
 
+    
+
     var _artists = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).css({
       'position': 'absolute',
       'overflow-y': 'scroll',
@@ -345,7 +348,7 @@
       'border-width': '1px',
       'border-style': 'solid',
       'height': 562,
-      'z-index': 3
+      'z-index': 4
     });
 
     var lastArtist = '';
@@ -806,6 +809,13 @@
       shownSpaces.push(space);
       space[Object.keys(eventTime)[0]].show();
     });
+
+    var _whiteBox = $('<div>').html('&nbsp').css({
+      'display': 'inline-block',
+      'width': 176,
+      'height': 560,
+    });
+    _table.append(_whiteBox);
     _tableContainer.append(_table);
     _createdWidget.append(_tableContainer);
 
