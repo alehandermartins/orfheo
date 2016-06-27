@@ -813,7 +813,7 @@
     var _whiteBox = $('<div>').html('&nbsp').css({
       'display': 'inline-block',
       'width': 176,
-      'height': 560,
+      'height': 500,
     });
     _table.append(_whiteBox);
     _tableContainer.append(_table);
