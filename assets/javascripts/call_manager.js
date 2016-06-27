@@ -2,6 +2,27 @@
 
 (function(ns){
 
+  ns.Widgets.CachedCall = {};
+  ns.Widgets.SpaceColumns = {};
+  ns.Widgets.DraggedPerformance = {};
+  ns.Widgets.Program = [];
+  ns.ColumnWidth = 176;
+
+  ns.Widgets.CategoryColor = function(category){
+    var _dictionary = {
+      'music': '#3399FF',
+      'arts': '#FF62B2',
+      'poetry': '#FFFF00',
+      'expo': '#66CC00',
+      'street_art': '#FF3333',
+      'audiovisual': '#C0C0C0',
+      'other': '#FF8000',
+      'workshop': '#994C00'
+    }
+
+    return _dictionary[category];
+  };
+
   ns.Widgets.ProgramManager = function(call){
     var _createdWidget = $('<div>').attr('id', 'programPanel').css({
       'margin-left': 35
@@ -19,6 +40,7 @@
     var spaceProposals = [];
     var spaces = [];
     var spaceColumns = {};
+    var shownSpaces = [];
 
     artistProposals.push({
       id: 'music',
@@ -97,7 +119,7 @@
       };
       if (proposal.type == 'space'){
         spaceProposals.push({
-          id: proposal.proposal_id,
+          id: proposal.profile_id,
           text: proposal.name
         });
         spaces.push(proposal);
@@ -128,7 +150,6 @@
     };
 
     function formatResource (resource) {
-      if(!resource.id) return resource.text;
       var _label = $('<span>').text(resource.text);
       if(resource.icon){
         var _icon = Pard.Widgets.IconManager(resource.icon).render();
@@ -143,16 +164,15 @@
     };
 
     var _daySelector = $('<select>');
-    var _lastSelected = Object.keys(eventTime)[0];;
+    var _lastSelected = Object.keys(eventTime)[0];
 
     _daySelector.on('change', function(){
-      spaceColumns[_lastSelected].forEach(function(spaceCol){
+      shownSpaces.forEach(function(space, index){
         if(_daySelector.val() == 'permanent') _timeTable.hide()
-        else{_timeTable.show()}
-        spaceCol.hide();
-      });
-      spaceColumns[_daySelector.val()].forEach(function(spaceCol){
-        spaceCol.show();
+        else{_timeTable.show();}
+        space[_lastSelected].hide();
+        if (index > 0) shownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
+        space[_daySelector.val()].show();
       });
       _lastSelected = _daySelector.val();
     });
@@ -203,11 +223,60 @@
       tokenSeparators: [',', ' '],   
       templateResult: formatResource,
     }).on("select2:select", function(e) {
-      if(_spaceSelector.select2('data') != false){
-        if(e.params.data.isNew){
-          $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
-        }
+      var _data = _spaceSelector.select2('data')[0];
+      shownSpaces = [];
+      if(!_data.selected){
+        spaces.forEach(function(space){
+          space[_lastSelected].hide();
+        });
       }
+      else{
+        var field = 'profile_id';
+        if(_data['type'] == 'category') field = 'category';
+        spaces.forEach(function(space){
+          if(space[field] == _data['id']){
+            space[_lastSelected].show();
+            shownSpaces.push(space);
+          }
+          else{ space[_lastSelected].hide();}
+        });
+        Pard.ColumnWidth = 176; 
+        if(shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / shownSpaces.length;
+        var _keys = Object.keys(eventTime);
+        _keys.push('permanent');
+        shownSpaces.forEach(function(space, index){
+          _keys.forEach(function(date){
+            space[date].css({
+              'width': Pard.ColumnWidth,
+            });
+            space[date].find('.programHelper').css({
+              'width': Pard.ColumnWidth - 2,
+              'left': index * Pard.ColumnWidth + 1
+            });
+          });
+        });
+      }
+    });
+
+    _spaceSelector.on("select2:unselecting", function(e){
+      shownSpaces = [];
+      spaces.forEach(function(space){
+        space[_lastSelected].show();
+        shownSpaces.push(space);
+      });
+      Pard.ColumnWidth = 176; 
+      if(shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / shownSpaces.length;
+      shownSpaces.forEach(function(space, index){
+        space[_lastSelected].css({
+        'width': Pard.ColumnWidth,
+        });
+        space[_lastSelected].find('.programHelper').css({
+          'width': Pard.ColumnWidth - 2,
+          'left': index * Pard.ColumnWidth + 1
+        });
+      });
+      $(this).select2("val", "");
+      e.preventDefault();
     });
 
     _artistSelector.select2({
@@ -218,35 +287,29 @@
       tokenSeparators: [',', ' '],   
       templateResult: formatResource,
     }).on("select2:select", function(e) {
-      if(_spaceSelector.select2('data') != false){
-        if(e.params.data.isNew){
-          $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
-        }
-      }
       var _data = _artistSelector.select2('data')[0];
+      if(!_data.selected){
+        Object.keys(artists).forEach(function(profile_id){
+          artists[profile_id]['card'].hide();
+        });
+      }
       if(_data['type'] == 'category'){
         Object.keys(artists).forEach(function(profile_id){
           var check = false;
           artists[profile_id].forEach(function(proposal){
-          console.log(proposal.category, _data['id']);
             if (proposal.category == _data['id']) check = true;
           });
-          if(check == true){
-            artists[profile_id]['card'].show();
-          }
+          if(check == true) artists[profile_id]['card'].show();
           else{artists[profile_id]['card'].hide();}
         });
       }      
       else{
+        artists[_artistSelector.val()]['card'].show();
+        artists[_artistSelector.val()]['card'].find('.accordion-item').trigger('click');
         Object.keys(artists).forEach(function(profile_id){
-          if(profile_id == _artistSelector.val()){
-            artists[profile_id]['card'].show();
-            artists[profile_id]['card'].find('.accordion-item').trigger('click');
-          }
-          else{artists[profile_id]['card'].hide();}
+          if(profile_id != _artistSelector.val()) artists[profile_id]['card'].hide();
         });
       }
-
       if(!_artists.hasClass('is-active')){
         _artists.addClass('is-active');
         _artists.toggle('slide', {direction: 'right'}, 500);
@@ -264,7 +327,7 @@
     var _tableContainer = $('<div>').addClass('tableContainer').css({
       'overflow-x': 'scroll',
       'overflow-y': 'hidden',
-      'width': 176*5,
+      'width': 176 * 5,
       'position': 'relative'
     });
 
@@ -331,7 +394,6 @@
 
     var _timeTable = $('<div>');
 
-
     Object.keys(eventTime).forEach(function(day){
 
       spaceColumns[day] = [];
@@ -358,7 +420,7 @@
           position: "absolute",
           top: 217 + hourIndex * 40 + "px",
           left: 0,
-          width: 932
+          width: 927
         });
         _timeTable.append(_time, _line);
         _createdWidget.append(_timeTable);
@@ -380,7 +442,7 @@
           'height': '40px',
           'cursor': 'pointer',
           'text-align': 'center',
-          'width': 174
+          'width': '100%'
         });
 
         var _icon = Pard.Widgets.IconManager('menu').render().css({
@@ -435,6 +497,7 @@
             if(ui.draggable.hasClass('proposalCard')) duration += 2;
 
             Pard.Widgets.DraggedPerformance['height'] = duration;
+            Pard.Widgets.DraggedPerformance['width'] = _time.width();
             Pard.Widgets.DraggedPerformance['top'] = position;
             Pard.Widgets.DraggedPerformance['left'] = _time.position().left;
             Pard.Widgets.DraggedPerformance['maxHeight'] = _time.height() - (position - colPosition);
@@ -495,33 +558,44 @@
           drag: function(event, ui){
             var originalPosition = $(this).data("uiDraggable").originalPosition;
             var position = ui.position.left;
-            var dayColumns = spaceColumns[day];
 
-            if (position > (originalPosition.left + 88)){
-              var index = $.inArray(_spaceCol, dayColumns);
-              if(index < dayColumns.length - 1){
-                dayColumns[index + 1].after(dayColumns[index]);
-                dayColumns[index + 1].find('.programHelper').css({left: dayColumns[index + 1].position().left + 1 + "px"});
-                var tempColumn = dayColumns[index + 1];
-                dayColumns[index + 1] = dayColumns[index];
-                dayColumns[index] = tempColumn;
+            if (position > (originalPosition.left + Pard.ColumnWidth / 2)){
+              var index = shownSpaces.indexOf(space);
+              if(index < shownSpaces.length - 1){
+                shownSpaces[index + 1][_lastSelected].after(space[_lastSelected]);
+                shownSpaces[index + 1][_lastSelected].find('.programHelper').css({left: shownSpaces[index + 1][_lastSelected].position().left + 1 + "px"});
+                
+                var spaceIndex = spaces.indexOf(space);
+                var nextSpaceIndex = spaces.indexOf(shownSpaces[index + 1]);
+                spaces.splice(spaceIndex, 1);
+                spaces.splice(nextSpaceIndex, 0, space);
+
+                shownSpaces.splice(index, 1);
+                shownSpaces.splice(index + 1, 0, space);
+
                 $(this).data("uiDraggable").originalPosition = {
                     top : originalPosition.top,
-                    left : originalPosition.left + 176
+                    left : originalPosition.left + Pard.ColumnWidth
                 }
               }
             }
-            if (position < (originalPosition.left - 88)){
-              var index = $.inArray(_spaceCol, dayColumns);
+            if (position < (originalPosition.left - Pard.ColumnWidth / 2)){
+              var index = shownSpaces.indexOf(space);
               if(index > 0){
-                dayColumns[index].after(dayColumns[index - 1]);
-                dayColumns[index - 1].find('.programHelper').css({left: dayColumns[index - 1].position().left + 1 + "px"});
-                var tempColumn = dayColumns[index - 1];
-                dayColumns[index - 1] = dayColumns[index];
-                dayColumns[index] = tempColumn;
+                space[_lastSelected].after(shownSpaces[index - 1][_lastSelected]);
+                shownSpaces[index - 1][_lastSelected].find('.programHelper').css({left: shownSpaces[index - 1][_lastSelected].position().left + 1 + "px"});
+                
+                var spaceIndex = spaces.indexOf(space);
+                var prevSpaceIndex = spaces.indexOf(shownSpaces[index - 1]);
+                spaces.splice(spaceIndex, 1);
+                spaces.splice(prevSpaceIndex, 0, space);
+
+                shownSpaces.splice(index, 1);
+                shownSpaces.splice(index - 1, 0, space);
+
                 $(this).data("uiDraggable").originalPosition = {
-                    top : originalPosition.top,
-                    left : originalPosition.left - 176
+                  top : originalPosition.top,
+                  left : originalPosition.left - Pard.ColumnWidth
                 }
               }
             }
@@ -533,6 +607,7 @@
         });
         _table.append(_spaceCol.hide());
         spaceColumns[day].push(_spaceCol);
+        space[day] = _spaceCol;
       });
     });
 
@@ -554,7 +629,7 @@
           'height': '40px',
           'cursor': 'pointer',
           'text-align': 'center',
-          'width': 174
+          'width': '100%'
         });
 
         var _icon = Pard.Widgets.IconManager('menu').render().css({
@@ -673,39 +748,50 @@
           _spaceCol.addClass('ui-sortable-placeholder');
         },
         drag: function(event, ui){
-          var originalPosition = $(this).data("uiDraggable").originalPosition;
-          var position = ui.position.left;
-          var dayColumns = spaceColumns['permanent'];
+            var originalPosition = $(this).data("uiDraggable").originalPosition;
+            var position = ui.position.left;
 
-          if (position > (originalPosition.left + 88)){
-            var index = $.inArray(_spaceCol, dayColumns);
-            if(index < dayColumns.length - 1){
-              dayColumns[index + 1].after(dayColumns[index]);
-              dayColumns[index + 1].find('.programHelper').css({left: dayColumns[index + 1].position().left + 1 + "px"});
-              var tempColumn = dayColumns[index + 1];
-              dayColumns[index + 1] = dayColumns[index];
-              dayColumns[index] = tempColumn;
-              $(this).data("uiDraggable").originalPosition = {
-                  top : originalPosition.top,
-                  left : originalPosition.left + 176
+            if (position > (originalPosition.left + Pard.ColumnWidth / 2)){
+              var index = shownSpaces.indexOf(space);
+              if(index < shownSpaces.length - 1){
+                shownSpaces[index + 1][_lastSelected].after(space[_lastSelected]);
+                shownSpaces[index + 1][_lastSelected].find('.programHelper').css({left: shownSpaces[index + 1][_lastSelected].position().left + 1 + "px"});
+                
+                var spaceIndex = spaces.indexOf(space);
+                var nextSpaceIndex = spaces.indexOf(shownSpaces[index + 1]);
+                spaces.splice(spaceIndex, 1);
+                spaces.splice(nextSpaceIndex, 0, space);
+
+                shownSpaces.splice(index, 1);
+                shownSpaces.splice(index + 1, 0, space);
+
+                $(this).data("uiDraggable").originalPosition = {
+                    top : originalPosition.top,
+                    left : originalPosition.left + Pard.ColumnWidth
+                }
               }
             }
-          }
-          if (position < (originalPosition.left - 88)){
-            var index = $.inArray(_spaceCol, dayColumns);
-            if(index > 0){
-              dayColumns[index].after(dayColumns[index - 1]);
-              dayColumns[index - 1].find('.programHelper').css({left: dayColumns[index - 1].position().left + 1 + "px"});
-              var tempColumn = dayColumns[index - 1];
-              dayColumns[index - 1] = dayColumns[index];
-              dayColumns[index] = tempColumn;
-              $(this).data("uiDraggable").originalPosition = {
+            if (position < (originalPosition.left - Pard.ColumnWidth / 2)){
+              var index = shownSpaces.indexOf(space);
+              if(index > 0){
+                space[_lastSelected].after(shownSpaces[index - 1][_lastSelected]);
+                shownSpaces[index - 1][_lastSelected].find('.programHelper').css({left: shownSpaces[index - 1][_lastSelected].position().left + 1 + "px"});
+                
+                var spaceIndex = spaces.indexOf(space);
+                var prevSpaceIndex = spaces.indexOf(shownSpaces[index - 1]);
+                spaces.splice(spaceIndex, 1);
+                spaces.splice(prevSpaceIndex, 0, space);
+
+                shownSpaces.splice(index, 1);
+                shownSpaces.splice(index - 1, 0, space);
+
+                $(this).data("uiDraggable").originalPosition = {
                   top : originalPosition.top,
-                  left : originalPosition.left - 176
+                  left : originalPosition.left - Pard.ColumnWidth
+                }
               }
             }
-          }
-        },
+          },
         stop:function(event, ui){
           _spaceCol.removeClass('ui-sortable-placeholder');
           _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
@@ -713,12 +799,13 @@
       });
       _table.append(_spaceCol.hide());
       spaceColumns['permanent'].push(_spaceCol);
+      space['permanent'] = _spaceCol;
     });
     
-   
-    spaceColumns[Object.keys(eventTime)[0]].forEach(function(spaceCol){
-      spaceCol.show();
-    }); 
+    spaces.forEach(function(space){
+      shownSpaces.push(space);
+      space[Object.keys(eventTime)[0]].show();
+    });
     _tableContainer.append(_table);
     _createdWidget.append(_tableContainer);
 
@@ -802,24 +889,7 @@
     }
   }
 
-  ns.Widgets.CachedCall = {};
-  ns.Widgets.SpaceColumns = {};
-  ns.Widgets.DraggedPerformance = {};
-  ns.Widgets.Program = [];
-  ns.Widgets.CategoryColor = function(category){
-    var _dictionary = {
-      'music': '#3399FF',
-      'arts': '#FF62B2',
-      'poetry': '#FFFF00',
-      'expo': '#66CC00',
-      'street_art': '#FF3333',
-      'audiovisual': '#C0C0C0',
-      'other': '#FF8000',
-      'workshop': '#994C00'
-    }
-
-    return _dictionary[category];
-  };
+  
 
   ns.Widgets.ProposalCard = function(proposal){
 
@@ -908,7 +978,7 @@
     var duration = parseInt(proposal.duration)/60 * 40 || 100;
     var _card =$('<div>').css({
       'display': 'inline-block',
-      'width': '10.9rem',
+      'width': 176 *2,
       'height': duration,
       'z-index': 9999,
       'border': '1px solid',
@@ -933,7 +1003,7 @@
       'top': performance.top,
       'left': performance.left,
       'display': 'inline-block',
-      'width': '10.9rem',
+      'width': performance.width,
       'height': performance.height + 'px',
       'background': color,
       'white-space': 'normal'
@@ -969,8 +1039,8 @@
     });
 
     _card.resizable({
-      maxWidth: 174,
-      minWidth: 174,
+      maxWidth: performance.width,
+      minWidth: performance.width,
       maxHeight: performance.maxHeight,
       grid: 10,
       stop: function(event, ui){
@@ -1000,7 +1070,7 @@
       'top': performance.top,
       'left': performance.left,
       'display': 'inline-block',
-      'width': '10.9rem',
+      'width': performance.width,
       'height': '100px',
       'background': color,
       'white-space': 'normal'
