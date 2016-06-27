@@ -3,9 +3,9 @@
 (function(ns){
 
   ns.Widgets.CachedCall = {};
-  ns.Widgets.SpaceColumns = {};
-  ns.Widgets.DraggedPerformance = {};
+  ns.Widgets.CachedSpaces = [];
   ns.Widgets.Program = [];
+  ns.Widgets.DraggedPerformance = {};
   ns.ColumnWidth = 176;
 
   ns.Widgets.CategoryColor = function(category){
@@ -39,7 +39,6 @@
     var artistProposals = [];
     var spaceProposals = [];
     var spaces = [];
-    var spaceColumns = {};
     var shownSpaces = [];
 
     artistProposals.push({
@@ -169,11 +168,26 @@
 
     _daySelector.on('change', function(){
       shownSpaces.forEach(function(space, index){
-        if(_daySelector.val() == 'permanent') _timeTable.hide()
+        if(_daySelector.val() == 'permanent') _timeTable.hide();
         else{_timeTable.show();}
         space[_lastSelected].hide();
         if (index > 0) shownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
         space[_daySelector.val()].show();
+      });
+      var _whidth = Pard.ColumnWidth; 
+      if(shownSpaces.length < 4) _whidth = Pard.ColumnWidth * 4 / shownSpaces.length;
+      var _keys = Object.keys(eventTime);
+      _keys.push('permanent');
+      shownSpaces.forEach(function(space, index){
+        _keys.forEach(function(date){
+          space[date].css({
+            'width': _whidth,
+          });
+          space[date].find('.programHelper').css({
+            'width': _whidth - 2,
+            'left': index * _whidth + 1
+          });
+        });
       });
       _lastSelected = _daySelector.val();
     });
@@ -241,18 +255,18 @@
           }
           else{ space[_lastSelected].hide();}
         });
-        Pard.ColumnWidth = 176; 
-        if(shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / shownSpaces.length;
+        var _whidth = Pard.ColumnWidth; 
+        if(shownSpaces.length < 4) _whidth = Pard.ColumnWidth * 4 / shownSpaces.length;
         var _keys = Object.keys(eventTime);
         _keys.push('permanent');
         shownSpaces.forEach(function(space, index){
           _keys.forEach(function(date){
             space[date].css({
-              'width': Pard.ColumnWidth,
+              'width': _whidth,
             });
             space[date].find('.programHelper').css({
-              'width': Pard.ColumnWidth - 2,
-              'left': index * Pard.ColumnWidth + 1
+              'width': _whidth - 2,
+              'left': index * _whidth + 1
             });
           });
         });
@@ -265,15 +279,17 @@
         space[_lastSelected].show();
         shownSpaces.push(space);
       });
-      Pard.ColumnWidth = 176; 
-      if(shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / shownSpaces.length;
+      var _whidth = Pard.ColumnWidth; 
+      if(shownSpaces.length < 4) _whidth = Pard.ColumnWidth * 4 / shownSpaces.length;
+      var _keys = Object.keys(eventTime);
+      _keys.push('permanent');
       shownSpaces.forEach(function(space, index){
         space[_lastSelected].css({
-        'width': Pard.ColumnWidth,
+        'width': _whidth,
         });
         space[_lastSelected].find('.programHelper').css({
-          'width': Pard.ColumnWidth - 2,
-          'left': index * Pard.ColumnWidth + 1
+          'width': _whidth - 2,
+          'left': index * _whidth + 1
         });
       });
       $(this).select2("val", "");
@@ -337,8 +353,6 @@
       'white-space':'nowrap',
     });
 
-    
-
     var _artists = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).css({
       'position': 'absolute',
       'overflow-y': 'scroll',
@@ -398,8 +412,6 @@
     var _timeTable = $('<div>');
 
     Object.keys(eventTime).forEach(function(day){
-
-      spaceColumns[day] = [];
 
       var date = $('<option>').val(day).text(day); 
       _daySelector.append(date);
@@ -609,12 +621,10 @@
           }
         });
         _table.append(_spaceCol.hide());
-        spaceColumns[day].push(_spaceCol);
         space[day] = _spaceCol;
       });
     });
 
-    spaceColumns['permanent'] = [];
     _daySelector.append($('<option>').val('permanent').text('Permanente'));
 
     spaces.forEach(function(space){
@@ -751,57 +761,56 @@
           _spaceCol.addClass('ui-sortable-placeholder');
         },
         drag: function(event, ui){
-            var originalPosition = $(this).data("uiDraggable").originalPosition;
-            var position = ui.position.left;
+          var originalPosition = $(this).data("uiDraggable").originalPosition;
+          var position = ui.position.left;
 
-            if (position > (originalPosition.left + Pard.ColumnWidth / 2)){
-              var index = shownSpaces.indexOf(space);
-              if(index < shownSpaces.length - 1){
-                shownSpaces[index + 1][_lastSelected].after(space[_lastSelected]);
-                shownSpaces[index + 1][_lastSelected].find('.programHelper').css({left: shownSpaces[index + 1][_lastSelected].position().left + 1 + "px"});
-                
-                var spaceIndex = spaces.indexOf(space);
-                var nextSpaceIndex = spaces.indexOf(shownSpaces[index + 1]);
-                spaces.splice(spaceIndex, 1);
-                spaces.splice(nextSpaceIndex, 0, space);
+          if (position > (originalPosition.left + Pard.ColumnWidth / 2)){
+            var index = shownSpaces.indexOf(space);
+            if(index < shownSpaces.length - 1){
+              shownSpaces[index + 1][_lastSelected].after(space[_lastSelected]);
+              shownSpaces[index + 1][_lastSelected].find('.programHelper').css({left: shownSpaces[index + 1][_lastSelected].position().left + 1 + "px"});
+              
+              var spaceIndex = spaces.indexOf(space);
+              var nextSpaceIndex = spaces.indexOf(shownSpaces[index + 1]);
+              spaces.splice(spaceIndex, 1);
+              spaces.splice(nextSpaceIndex, 0, space);
 
-                shownSpaces.splice(index, 1);
-                shownSpaces.splice(index + 1, 0, space);
+              shownSpaces.splice(index, 1);
+              shownSpaces.splice(index + 1, 0, space);
 
-                $(this).data("uiDraggable").originalPosition = {
-                    top : originalPosition.top,
-                    left : originalPosition.left + Pard.ColumnWidth
-                }
-              }
-            }
-            if (position < (originalPosition.left - Pard.ColumnWidth / 2)){
-              var index = shownSpaces.indexOf(space);
-              if(index > 0){
-                space[_lastSelected].after(shownSpaces[index - 1][_lastSelected]);
-                shownSpaces[index - 1][_lastSelected].find('.programHelper').css({left: shownSpaces[index - 1][_lastSelected].position().left + 1 + "px"});
-                
-                var spaceIndex = spaces.indexOf(space);
-                var prevSpaceIndex = spaces.indexOf(shownSpaces[index - 1]);
-                spaces.splice(spaceIndex, 1);
-                spaces.splice(prevSpaceIndex, 0, space);
-
-                shownSpaces.splice(index, 1);
-                shownSpaces.splice(index - 1, 0, space);
-
-                $(this).data("uiDraggable").originalPosition = {
+              $(this).data("uiDraggable").originalPosition = {
                   top : originalPosition.top,
-                  left : originalPosition.left - Pard.ColumnWidth
-                }
+                  left : originalPosition.left + Pard.ColumnWidth
               }
             }
-          },
+          }
+          if (position < (originalPosition.left - Pard.ColumnWidth / 2)){
+            var index = shownSpaces.indexOf(space);
+            if(index > 0){
+              space[_lastSelected].after(shownSpaces[index - 1][_lastSelected]);
+              shownSpaces[index - 1][_lastSelected].find('.programHelper').css({left: shownSpaces[index - 1][_lastSelected].position().left + 1 + "px"});
+              
+              var spaceIndex = spaces.indexOf(space);
+              var prevSpaceIndex = spaces.indexOf(shownSpaces[index - 1]);
+              spaces.splice(spaceIndex, 1);
+              spaces.splice(prevSpaceIndex, 0, space);
+
+              shownSpaces.splice(index, 1);
+              shownSpaces.splice(index - 1, 0, space);
+
+              $(this).data("uiDraggable").originalPosition = {
+                top : originalPosition.top,
+                left : originalPosition.left - Pard.ColumnWidth
+              }
+            }
+          }
+        },
         stop:function(event, ui){
           _spaceCol.removeClass('ui-sortable-placeholder');
           _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
         }
       });
       _table.append(_spaceCol.hide());
-      spaceColumns['permanent'].push(_spaceCol);
       space['permanent'] = _spaceCol;
     });
     
@@ -832,65 +841,65 @@
     _createdWidget.append(_submitBtn.render());
 
 
-    if(call['program']){
-      var permanentPerformances = {};
-      call['program'].forEach(function(performance){
-        if (performance.permanent == 'true'){
-          permanentPerformances[performance.host_proposal_id] = permanentPerformances[performance.host_proposal_id] || [];
-          permanentPerformances[performance.host_proposal_id].push(performance);
-        }
-        if (performance.permanent == 'false'){
-          spaceColumns[performance.date].forEach(function(spaceCol){
-            if(spaceCol.attr('id') == performance.host_proposal_id){
-              var timeCol = spaceCol.find('.spaceTime');
-              var proposal = _getProposal(performance.participant_proposal_id);
+    // if(call['program']){
+    //   var permanentPerformances = {};
+    //   call['program'].forEach(function(performance){
+    //     if (performance.permanent == 'true'){
+    //       permanentPerformances[performance.host_proposal_id] = permanentPerformances[performance.host_proposal_id] || [];
+    //       permanentPerformances[performance.host_proposal_id].push(performance);
+    //     }
+    //     if (performance.permanent == 'false'){
+    //       spaceColumns[performance.date].forEach(function(spaceCol){
+    //         if(spaceCol.attr('id') == performance.host_proposal_id){
+    //           var timeCol = spaceCol.find('.spaceTime');
+    //           var proposal = _getProposal(performance.participant_proposal_id);
 
-              var eventTimeArray = eventTime[performance.date][0][0].split('T')[1].split(':');
-              var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
+    //           var eventTimeArray = eventTime[performance.date][0][0].split('T')[1].split(':');
+    //           var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
 
-              var startArray = performance.time[0].split('T')[1].split(':');
-              var start = (parseInt(startArray[0]) * 60 + parseInt(startArray[1]) - eventMinutes) / 1.5;
-              var endArray = performance.time[1].split('T')[1].split(':');
-              var end = (parseInt(endArray[0]) * 60 + parseInt(endArray[1]) - eventMinutes) / 1.5;
+    //           var startArray = performance.time[0].split('T')[1].split(':');
+    //           var start = (parseInt(startArray[0]) * 60 + parseInt(startArray[1]) - eventMinutes) / 1.5;
+    //           var endArray = performance.time[1].split('T')[1].split(':');
+    //           var end = (parseInt(endArray[0]) * 60 + parseInt(endArray[1]) - eventMinutes) / 1.5;
 
-              proposal['performance_id'] = performance.performance_id
-              proposal['height'] = (end - start);
-              proposal['top'] = start + 41;
-              proposal['left'] = spaceColumns[performance.date].indexOf(spaceCol) * 176 + 1;
-              proposal['maxHeight'] = timeCol.height() - start;
+    //           proposal['performance_id'] = performance.performance_id
+    //           proposal['height'] = (end - start);
+    //           proposal['top'] = start + 41;
+    //           proposal['left'] = spaceColumns[performance.date].indexOf(spaceCol) * 176 + 1;
+    //           proposal['maxHeight'] = timeCol.height() - start;
               
-              var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
-              timeCol.append(newPerformance);
+    //           var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
+    //           timeCol.append(newPerformance);
 
-              performance['card'] = newPerformance;
-              Pard.Widgets.Program.push(performance);
-            }
-          });
-        }
-      });
-      spaceColumns['permanent'].forEach(function(spaceCol){
-        if(permanentPerformances[spaceCol.attr('id')]){
-          permanentPerformances[spaceCol.attr('id')].forEach(function(performance, index){
-            var timeCol = spaceCol.find('.spaceTime');
-            var proposal = _getProposal(performance.participant_proposal_id);
+    //           performance['card'] = newPerformance;
+    //           Pard.Widgets.Program.push(performance);
+    //         }
+    //       });
+    //     }
+    //   });
+    //   spaceColumns['permanent'].forEach(function(spaceCol){
+    //     if(permanentPerformances[spaceCol.attr('id')]){
+    //       permanentPerformances[spaceCol.attr('id')].forEach(function(performance, index){
+    //         var timeCol = spaceCol.find('.spaceTime');
+    //         var proposal = _getProposal(performance.participant_proposal_id);
             
-            proposal['performance_id'] = performance.performance_id;
-            proposal['height'] = 100;
-            proposal['top'] = index * proposal['height'] + 41;
-            proposal['left'] = spaceColumns['permanent'].indexOf(spaceCol) * 176 + 1;
+    //         proposal['performance_id'] = performance.performance_id;
+    //         proposal['height'] = 100;
+    //         proposal['top'] = index * proposal['height'] + 41;
+    //         proposal['left'] = spaceColumns['permanent'].indexOf(spaceCol) * 176 + 1;
           
-            var newPerformance = Pard.Widgets.ProgramPermanentHelper(proposal, performance.host_proposal_id).render();
-            timeCol.append(newPerformance);
+    //         var newPerformance = Pard.Widgets.ProgramPermanentHelper(proposal, performance.host_proposal_id).render();
+    //         timeCol.append(newPerformance);
 
-            performance['permanent'] = true;
-            performance['card'] = newPerformance;
-            Pard.Widgets.Program.push(performance);
-          });
-        }
-      });
-    }
+    //         performance['permanent'] = true;
+    //         performance['card'] = newPerformance;
+    //         Pard.Widgets.Program.push(performance);
+    //       });
+    //     }
+    //   });
+    // }
 
-    Pard.Widgets.SpaceColumns = spaceColumns;
+    Pard.Widgets.CachedSpaces = spaces;
 
   	return {
       render: function(){
@@ -1142,9 +1151,8 @@
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var call = Pard.Widgets.CachedCall;
-    var spaces = [];
+    var spaces = Pard.Widgets.CachedSpaces;
     var program = Pard.Widgets.Program;
-    var spaceColumns = Pard.Widgets.SpaceColumns;
 
     call['proposals'].forEach(function(proposal){
       if(proposal.type == 'space') spaces.push(proposal);
@@ -1189,9 +1197,9 @@
       _daySelector.on('change', function(){
         performance.date = _daySelector.val();
         performance['card'].remove();
-        spaceColumns[performance.date].forEach(function(spaceCol){
-          if(spaceCol.attr('id') == performance.host_proposal_id){
-            var timeCol = spaceCol.find('.spaceTime');
+        spaces.forEach(function(space){
+          if(space.proposal_id == performance.host_proposal_id){
+            var timeCol = space[performance.date].find('.spaceTime');
             var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
             timeCol.append(newPerformance);
             performance['card'] = newPerformance;
@@ -1202,13 +1210,12 @@
       _spaceSelector.on('change', function(){
         performance.host_proposal_id = _spaceSelector.val();
         performance['card'].remove();
-        spaceColumns[performance.date].forEach(function(spaceCol){
-          if(spaceCol.attr('id') == performance.host_proposal_id){
+        spaces.forEach(function(space){
+          if(space.proposal_id == performance.host_proposal_id){
             var timeCol = spaceCol.find('.spaceTime');
             var spaceProposal = _getProposal(_spaceSelector.val());
 
             performance['host_id'] = spaceProposal.host_id;
-            performance['host_name'] = spaceProposal.host_name;
             proposal['left'] = spaceColumns[performance.date].indexOf(spaceCol) * 176 + 1;
             
             var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
