@@ -42,13 +42,11 @@
 
       $('.whole-container').scroll(function(){
         if ($('.whole-container').scrollTop() + $(window).height() + 100 >= ($(_main_id).height() + $('.login-bar').height() + $('.footer-bar').height())){
-          console.log('calling');
           tags = [];
           _searchWidget.select2('data').forEach(function(tag){
             tags.push(tag.text);
           });
           Pard.Backend.searchProfiles(tags, _shown, event_id, function(data){
-            console.log(data);
             _toBeShown = [];
             data.profiles.forEach(function(profile){
               if ($.inArray(profile.profile_id, _shown) == -1) {
