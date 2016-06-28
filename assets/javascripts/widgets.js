@@ -326,7 +326,6 @@
 
     $('body').append(_container.append((textBox)));
     var height = textBox.height();
-    console.log(textBox.css('line-height'))
     if ( parseInt(textBox.css('line-height')) < max_height){
       while (height > max_height){
         var _text = textBox.text();
