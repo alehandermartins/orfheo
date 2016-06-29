@@ -2,6 +2,116 @@
 
   ns.Forms = ns.Forms || {};
 
+  ns.Forms.CreateProduction = function(categorySelected){
+    var _form = {};
+
+    var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
+    var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
+
+    var _expoFields = ['title', 'short_description'];
+    var _showField = ['title', 'short_description', 'duration', 'children'];
+    var _streetArtFields = ['title', 'short_description'];
+
+    var _expoRequired = ['title', 'short_description'];
+    var _showRequired = ['title', 'short_description', 'duration'];
+    var _streetArtRequired = ['title', 'short_description'];
+
+    var _categoryFields = {
+      'expo': _expoFields,
+      'music': _showField,
+      'arts': _showField,
+      'other': _showField,
+      'poetry': _showField,
+      'street_art': _streetArtFields,
+      'workshop': _showField,
+      'audiovisual': _showField
+    };
+
+    var _required = {
+      'expo': _expoRequired,
+      'music': _showRequired,
+      'arts': _showRequired,
+      'other': _showRequired,
+      'poetry': _showRequired,
+      'street_art': _streetArtRequired,
+      'workshop': _showRequired,
+      'audiovisual': _showRequired
+    };
+
+
+    // _form['name'] = {
+    //   label: Pard.Widgets.InputLabel('Nombre artistico *'),
+    //   input: Pard.Widgets.Input('', 'text'),
+    //   helptext: Pard.Widgets.HelpText('Es el nombre artístico de la persona o del colectivo que quiere participar en el festival.')
+    // };
+
+    _form['title'] = {
+      label: Pard.Widgets.InputLabel('Título de la propuesta artística *'),
+      input: Pard.Widgets.Input('', 'text'),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['title']['input'].setClass('title-input');
+
+    _form['short_description'] = { 
+      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
+      input: Pard.Widgets.TextAreaCounter('', 80, ' Máximo 80 caracteres. Quedan: '),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['short_description']['input'].setClass('short_description-input');
+    _form['short_description']['input'].setAttr('rows',1);
+
+    
+    _form['duration'] = {
+      label: Pard.Widgets.InputLabel('Duración *'), 
+      input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['duration']['input'].setClass('duration-input');
+
+    // _form['availability'] = {
+    //   label: Pard.Widgets.InputLabel('Disponibilidad *'),
+    //   input: Pard.Widgets.InputDate(''),
+    //   helptext: Pard.Widgets.HelpText('Selecciona los días que de disponibilidad en el festival.')
+    // };
+        
+    _form['children'] = {
+      label: Pard.Widgets.InputLabel(''),
+      input: Pard.Widgets.CheckBox('Actividad para un público infantil', 'yes_children'),
+      helptext: Pard.Widgets.HelpText('')
+    };
+
+    // _form['phone'] = {
+    //   label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
+    //   input: Pard.Widgets.InputTel(''),
+    //   helptext:Pard.Widgets.HelpText('Teléfono de la persona responsable.')
+    // }
+    // _form['phone']['input'].setClass('phone-input');
+
+
+    // _form['email'] = {
+    //   label: Pard.Widgets.InputLabel('Email de contacto *'), 
+    //   input: Pard.Widgets.InputEmail(''),
+    //   helptext:Pard.Widgets.HelpText('Correo de la  persona responsable.')
+    // }   
+
+    var _requiredFields = _required[categorySelected];
+    var _formDef = {};
+
+    _categoryFields[categorySelected].forEach(function(field){
+      _formDef[field] = _form[field];
+    });
+
+    return {
+      render: function(){
+        return _formDef;
+      },
+      requiredFields: function(){
+        return _requiredFields;
+      }
+    }    
+
+  }
+
   ns.Forms.CreateArtistProposal = function(categorySelected){
     var _form = {};
 
@@ -62,7 +172,7 @@
 
     
     _form['duration'] = {
-      label: Pard.Widgets.InputLabel('Duración del espectáculo *'), 
+      label: Pard.Widgets.InputLabel('Duración *'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
       helptext: Pard.Widgets.HelpText('')
     };

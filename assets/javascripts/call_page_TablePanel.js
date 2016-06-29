@@ -208,7 +208,7 @@
     var _filterCategory = $('<select>');
      var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
     categories.forEach(function(cat){
-      _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render()});
+      _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render(), icon: cat});
     });  
 
    	var _tableBox = $('<div>').addClass('table-box-call-manager-page');
@@ -219,12 +219,25 @@
 
     _createdWidget.append(_filterCategoryContainer.append(_filterCategory), _checkBoxesBox.render(), _outerTableContainer.append(_tableBox.append(_tableRendered)));
 
+    function formatResource (resource) {
+      var _label = $('<span>').text(resource.text);
+      if(resource.icon){
+        var _icon = Pard.Widgets.IconManager(resource.icon).render();
+        _label.append(_icon);
+        _icon.css({
+          // position: 'relative',
+          'margin-left': '0.5rem',
+          'vertical-align':'middle'
+          // top: '5px'
+        });
+      }
+      return _label;
+    };
+
     _filterCategory.select2({
-      data: _searchTags
-      // multiple:true,
-      // placeholder: 'Busca',
-      // tags: true,
-      // tokenSeparators: [',', ' '],   
+      data: _searchTags,
+      templateResult: formatResource
+      // ,templateSelection: formatResource
     });
 
 
