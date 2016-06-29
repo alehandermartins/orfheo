@@ -1040,7 +1040,7 @@ ns.Widgets.InputAddressSpace = function(label){
       });
     }
     
-    var _inputAddedContainer = $('<div>').css('margin-top','2.3rem');
+    var _inputAddedContainer = $('<div>').css('margin-top','2.2rem');
 
     _addInputButton.on('click', function(){
       $('#successBox-whiteList').empty();

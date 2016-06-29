@@ -347,4 +347,73 @@
   }
 
 
+  ns.Widgets.ArtisticCategorySelect2 = function(){
+    var _createdWidget = $('<div>').addClass('category-input');
+    var _selector = $('<select>');
+
+    var _searchTags = [];
+    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
+
+    _valuesCategories.forEach(function(cat){
+      _searchTags.push({id:cat, text:Pard.Widgets.Dictionary(cat).render()});
+    });
+
+
+    function formatResource (resource) {
+      var _label = $('<span>').text(resource.text);
+        var _icon = Pard.Widgets.IconManager(resource.id).render();
+        _label.append(_icon);
+        _icon.css({
+          // position: 'relative',
+          'margin-left': '0.5rem',
+          'vertical-align':'middle'
+          // top: '5px'
+        });
+      return _label;
+    };
+
+    _createdWidget.append(_selector);
+    _selector.select2({
+      data: _searchTags,
+      templateResult: formatResource
+      ,minimumResultsForSearch: Infinity
+      ,templateSelection: formatResource
+    });
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getData: function(){
+        return _selector.select2('data');
+      },
+      setCallback: function(callback){
+        _selector.on('select2:select', function(){callback()});
+      }
+    }
+  }
+
+  ns.Widgets.ArtisticCategoryFoundationSelector = function(categorySelectCallback){
+
+    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
+    var _labelsCategories = [];
+
+    _valuesCategories.forEach(function(cat){
+      _labelsCategories.push(Pard.Widgets.Dictionary(cat).render());
+    });
+
+    var _createdWidget = Pard.Widgets.Selector(_labelsCategories, _valuesCategories, categorySelectCallback);
+
+    _createdWidget.setClass('category-input');
+
+    return {
+      render: function(){
+        return _createdWidget.render();
+      }
+    }
+  }
+
+
+
 }(Pard || {}));

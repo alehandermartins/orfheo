@@ -1081,6 +1081,7 @@ select, textarea, a{
   font-size: 14px;
   height: auto;
   margin-bottom:1.5rem;
+  outline: none;
 }
 
 .photos-modifyProduction{
@@ -1361,7 +1362,7 @@ ICONS
 }
 
 /*==============================================
-SEARCH
+SEARCH // SELECT2
 ===============================================*/
 
 .select2-results__message {
@@ -1410,6 +1411,22 @@ input.select2-search__field{
   width: 100% !important;
 }
 
+span.select2-container--default .select2-selection--single{
+  height: 2.1rem;
+  @include border-radius($element-border-radius);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+  line-height: 2rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+  height: 2.1rem;
+}
+
+/* form .select2-results__option{
+  padding: 3px;
+} */
 
 
 /*===============================================

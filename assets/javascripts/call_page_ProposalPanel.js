@@ -332,22 +332,17 @@
     }
      
 
-    var _labelsCategories = ['Música', 'Artes Escénicas', 'Exposición', 'Poesía',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
-    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
-
-
     var categorySelectCallback = function(){
       var _selected = $(this).val();
       _printForm(_selected);
     };
 
-    var _categorySelector = Pard.Widgets.Selector(_labelsCategories, _valuesCategories, categorySelectCallback);
+    var _categorySelector = Pard.Widgets.ArtisticCategoryFoundationSelector(categorySelectCallback);
     // var _nameInput = Pard.Widgets.Input('','text');
-    _categorySelector.setClass('category-input');
     var _categoryLabel = $('<label>').text('Selecciona una categoría *');
     // var _nameLabel = $('<label>').text('Nombre Artístico *');
 
-    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('callPage-categorySelector');
+    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
 
     _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
     _printForm(_preSelected);

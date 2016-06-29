@@ -270,79 +270,184 @@
     var _productions = [];
     var _shown = [];
 
-    if (profile.productions && profile.productions.length) {
+    if ((userStatus == 'owner' && profile.type == 'artist') || (profile.productions && profile.productions.length)) {
       productionContent.addClass('nav-list-container');
-      _productions = profile.productions;
-      productionContent.append($('<p>').addClass('message-productions-asideBar').text('Portfolio'));  
+      productionContent.append($('<p>').addClass('message-productions-asideBar').text('Portfolio'));
     }
     else{
       productionContent.removeClass('nav-list-container');
     }
 
-    if (_productions) _productions.forEach(function(production, index){
-      var production_id = production.production_id;
-      var _myProduction = $('<div>');
-      
-      var _productionItem = $('<div>').addClass('production-nav-element-container');
-      var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
-      var _nameColumn = $('<div>').addClass('name-column name-column-production-nav');
-      var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
-      _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
-      if(selected == production_id) {
-        $('.selected-element').removeClass('selected-element');
-        _productionItem.addClass('selected-element');
+    if (profile.productions && profile.productions.length) {
+      _productions = profile.productions;
+        _productions.forEach(function(production, index){
+        var production_id = production.production_id;
         var _myProduction = $('<div>');
-        _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
-        sectionContent.append(_myProduction);
-        _shown[production_id] = _myProduction;
-        _lastselected = _shown[production_id];
-        $(document).ready(function(){
-          FB.XFBML.parse();
-          window.instgrm.Embeds.process();
-          doBuild();
-        });
-      }
-      _productionItem.click(function(){
-        $('.selected-element').removeClass('selected-element');
-        _productionItem.addClass('selected-element');
-        _lastselected.hide();
-
-        if(_shown[production_id]){
-          _shown[production_id].show();
-        }else{
-          var _myProduction = $('<div>');
+        var _productionItem = $('<div>').addClass('production-nav-element-container');
+        var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
+        var _nameColumn = $('<div>').addClass('name-column name-column-production-nav');
+        var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
+        _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
+        if(selected == production_id) {
+          $('.selected-element').removeClass('selected-element');
+          _productionItem.addClass('selected-element');
           _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
           sectionContent.append(_myProduction);
           _shown[production_id] = _myProduction;
+          _lastselected = _shown[production_id];
           $(document).ready(function(){
             FB.XFBML.parse();
             window.instgrm.Embeds.process();
             doBuild();
           });
         }
-        _lastselected = _shown[production_id];
+        _productionItem.click(function(){
+          $('.selected-element').removeClass('selected-element');
+          _productionItem.addClass('selected-element');
+          _lastselected.hide();
+
+          if(_shown[production_id]){
+            _shown[production_id].show();
+          }else{
+            _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
+            sectionContent.append(_myProduction);
+            _shown[production_id] = _myProduction;
+            $(document).ready(function(){
+              FB.XFBML.parse();
+              window.instgrm.Embeds.process();
+              doBuild();
+            });
+          }
+          _lastselected = _shown[production_id];
+        });
+
+        _name.hover(function(){_name.addClass('text-link-profile-nav')}, function(){_name.removeClass('text-link-profile-nav ')});
+        productionContent.append(_productionItem);
       });
+    }
 
-      _name.hover(function(){_name.addClass('text-link-profile-nav')}, function(){_name.removeClass('text-link-profile-nav ')});
-      productionContent.append(_productionItem);
-    });
+    if (userStatus == 'owner' && profile.type == 'artist') {
+      var _createProductionItem = $('<div>').addClass('production-nav-element-container');
+      var _iconPlusColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager('add_circle').render().css({'text-align': 'center', display:'block'}))));
+      var _textColumn = $('<div>').addClass('name-column name-column-production-nav');
+      var _text = $('<p>').text('Crea un contenido artístico').addClass('profile-nav-production-name');
+      _createProductionItem.append(_iconPlusColumn, _textColumn.append(_text));
 
-    // if (userStatus == 'owner' && profile.type == 'artist') {
-    //   var _createProductionBtn = Pard.Widgets.Button('Crea una produccion',function(){
-    //     console.log('clicked');
-    //   });
-    //   productionContent.append(_createProductionBtn.render());
-    // }
-    // else{
-    //   productionContent.removeClass('nav-list-container');
-    // }
+      // var _createProductionBtn = Pard.Widgets.Button('Crea una producción',function(){
+      //   console.log('clicked');
+      // });
+      // productionContent.append(_createProductionBtn.render());
 
+      var _createProdPopup = Pard.Widgets.PopupCreator(_createProductionItem, 'Crea un contenido artístico', function(){ return Pard.Widgets.CreateNewProduction(profile_id)});
+      
+      // _createProductionItem.click(function(){
+      //   console.log('clicked');
+      // });
+
+      productionContent.append(_createProdPopup.render());
+    }
 
     profileNav.append(productionContent);
 
     return {
       render: function() {
         return  productionContent;
+      }
+    }
+  }
+
+
+  ns.Widgets.CreateNewProduction = function(profile_id){
+    var _createdWidget = $('<div>');
+
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+    var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
+    var _preSelected = 'music';
+    var _closepopup = {};
+
+
+    _submitForm['type'] = 'artist';
+    _submitForm['category'] = _preSelected;
+    _submitForm['profile_id'] = profile_id
+
+    var _content = $('<form>').addClass('popup-form');
+
+    var _form = {};
+    var _requiredFields = [];
+
+    var _printForm = function(_selected){
+      _content.empty();
+      var _fieldset = $('<fieldset>');
+      _requiredFields = Pard.Forms.CreateProduction(_selected).requiredFields();
+      _form = Pard.Forms.CreateProduction(_selected).render();
+      for(var field in _form){
+        console.log(field);
+        _content.append($('<div>').addClass('callPage-createArtistProposal' ).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+      };
+      _submitForm['category'] = _selected;
+    }
+
+    // var _categorySelector = Pard.Widgets.ArtisticCategorySelector();
+    // var categorySelectCallback = function(){
+    //   var _selected = _categorySelector.getData();
+    //   _printForm(_selected[0].id);
+    // };
+    // _categorySelector.setCallback(categorySelectCallback);
+
+    var categorySelectCallback = function(){
+      var _selected = $(this).val();
+      _printForm(_selected);
+    };
+    var _categorySelector = Pard.Widgets.ArtisticCategoryFoundationSelector(categorySelectCallback);
+
+    var _categoryLabel = $('<label>').text('Selecciona una categoría *');
+
+    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
+
+    _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
+    _printForm(_preSelected);
+   
+    var _filled = function(){
+      var _check = true;
+      for(var field in _form){
+        if ($.inArray(field, _requiredFields) >= 0 ){
+          if(!(_form[field].input.getVal())) {
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;
+          }
+        }
+      }
+      if (_check) _invalidInput.empty();
+      return _check;    
+    };
+
+
+    var _getVal = function(url){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      };
+      return _submitForm;
+    }
+
+ 
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        var _newProduction = _getVal();
+        Pard.Backend.createProduction(_newProduction, Pard.Events.CreateProduction);
+        _closepopup();
+      }
+    });
+
+
+    return{
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        closepopup = callback;
       }
     }
   }

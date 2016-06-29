@@ -291,6 +291,14 @@
     }  
   }
 
+  ns.Events.CreateProduction = function(data){
+    if(data['status'] == 'success') {
+      console.log(data);
+    }else{
+      Pard.Widgets.Alert('',data.reason);
+    }  
+  }
+
 
 
 }(Pard || {}));
