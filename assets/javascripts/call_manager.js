@@ -725,7 +725,9 @@
           else{
             _time.append(newPerformance);
             Object.keys(eventTime).forEach(function(date){
-              var time = eventTime[date];
+              var start = eventTime[date][0][0];
+              var lastIndex = eventTime[date].length - 1;
+              var end = eventTime[date][lastIndex][1];
               var performance = {
                 performance_id: Pard.Widgets.DraggedPerformance.performance_id,
                 participant_id: Pard.Widgets.DraggedPerformance.profile_id,
@@ -734,7 +736,7 @@
                 host_proposal_id: space.proposal_id,
                 date: date,
                 permanent: true,
-                time: time,
+                time: [start, end],
                 card: newPerformance
               }
               Pard.Widgets.Program.push(performance); 
@@ -1368,7 +1370,7 @@
 
         _spaceSelector.on('change', function(){
           host_proposal_ids.splice($.inArray(performance.host_proposal_id, host_proposal_ids), 1);
-          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0) performance['card'].remove();
+          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0) performance.card.remove();
           
           var spaceProposal = _getProposal(_spaceSelector.val());
           if($.inArray(_spaceSelector.val(), host_proposal_ids) < 0){
@@ -1409,97 +1411,88 @@
           host_proposal_ids.push(_spaceSelector.val());
         });
         
-        // var dayStart = new Date(eventTime[performance.date][0][0]);
-        // var lastIndex = eventTime[performance.date].length - 1;
-        // var dayEnd = new Date(eventTime[performance.date][lastIndex][1]);
+        var dayStart = new Date(eventTime[performance.date][0][0]);
+        var lastIndex = eventTime[performance.date].length - 1;
+        var dayEnd = new Date(eventTime[performance.date][lastIndex][1]);
 
-        // var _startTime = $('<select>');
-        // var _endTime = $('<select>');
+        var _startTime = $('<select>');
+        var _endTime = $('<select>');
 
-        // var _setStartTimes = function(){
-        //   _startTime.empty();
-        //   var start = new Date(performance['time'][0]);
-        //   var end = new Date(performance['time'][1]);
+        var _setStartTimes = function(){
+          _startTime.empty();
+          var start = new Date(performance['time'][0]);
+          var end = new Date(performance['time'][1]);
 
-        //   dayStart = new Date(eventTime[performance.date][0][0]);
-        //   var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
+          dayStart = new Date(eventTime[performance.date][0][0]);
+          var maxStart = end;
+          maxStart.setMinutes(maxStart.getMinutes() - 15);
 
-        //   while(dayStart <= maxStart){
-        //     var timeVal = dayStart.toISOString();
-        //     var timeArray = timeVal.split('T')[1].split(':');
-        //     var startOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
-        //     _startTime.append(startOption);
+          while(dayStart <= maxStart){
+            var timeVal = dayStart.toISOString();
+            var timeArray = timeVal.split('T')[1].split(':');
+            var startOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
+            _startTime.append(startOption);
 
-        //     dayStart.setMinutes(dayStart.getMinutes() + 15);
-        //   };
+            dayStart.setMinutes(dayStart.getMinutes() + 15);
+          };
 
-        //   _startTime.val(performance['time'][0]);
-        // };
+          _startTime.val(performance['time'][0]);
+        };
 
-        // var _setEndTimes = function(){
-        //   _endTime.empty();
-        //   var start = new Date(performance['time'][0]);
-        //   var minEnd = new Date(start.getTime() + 15 * 60000);
+        var _setEndTimes = function(){
+          _endTime.empty();
+          var start = new Date(performance['time'][0]);
+          var minEnd = new Date(start.getTime() + 15 * 60000);
           
-        //   while(minEnd <= dayEnd){
-        //     var timeVal = minEnd.toISOString();
-        //     var timeArray = timeVal.split('T')[1].split(':');
-        //     var endOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
-        //     _endTime.append(endOption);
+          while(minEnd <= dayEnd){
+            var timeVal = minEnd.toISOString();
+            var timeArray = timeVal.split('T')[1].split(':');
+            var endOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
+            _endTime.append(endOption);
 
-        //     minEnd.setMinutes(minEnd.getMinutes() + 15);
-        //   };
-        //   _endTime.val(performance['time'][1]);
-        // };
+            minEnd.setMinutes(minEnd.getMinutes() + 15);
+          };
+          _endTime.val(performance['time'][1]);
+        };
 
-        // _setStartTimes();
-        // _setEndTimes();
+        _setStartTimes();
+        _setEndTimes();
 
-        // _startTime.on('change', function(){
-        //   var oldStart = new Date(performance['time'][0]).getTime();
-        //   var newStart = new Date(_startTime.val()).getTime();
-        //   performance['card'].css({'top': '+=' + (newStart - oldStart) / 90000});
-        //   performance['time'][0] = _startTime.val();
-        //   performance['time'][1] = new Date((new Date(performance['time'][1]).getTime() + (newStart - oldStart))).toISOString();
-        //   _endTime.val(performance['time'][1]);
-        //   _setEndTimes();
-        // });
+        _startTime.on('change', function(){
+          var oldStart = new Date(performance['time'][0]).getTime();
+          var newStart = new Date(_startTime.val()).getTime();
+          performance['time'][0] = _startTime.val();
+          _endTime.val(performance['time'][1]);
+          _setEndTimes();
+        });
 
-        // _endTime.on('change', function(){
-        //   var oldEnd = new Date(performance['time'][1]).getTime() / 60000;
-        //   var newEnd = new Date(_endTime.val()).getTime() / 60000;
-        //   performance['card'].css({'height': '+=' + (newEnd - oldEnd) / 1.5});
-        //   performance['time'][1] = _endTime.val();
-        //   _setStartTimes();
-        // });
+        _endTime.on('change', function(){
+          var oldEnd = new Date(performance['time'][1]).getTime() / 60000;
+          var newEnd = new Date(_endTime.val()).getTime() / 60000;
+          performance['time'][1] = _endTime.val();
+          _setStartTimes();
+        });
 
         var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         _removeInputButton.on('click', function(){
-          //program.splice(Pard.Widgets.Program.indexOf(performance), 1);
-          //performance['card'].remove();
+          dates.splice(dates.indexOf(performance.date), 1);
+          host_proposal_ids.splice(dates.indexOf(performance.host_proposal_id), 1);
+          performances.splice(performances.indexOf(performance), 1);
+          program.splice(Pard.Widgets.Program.indexOf(performance), 1);
+
           _performaceBox.remove();
-          var the_index = performance.date.indexOf(date);
-          var host_proposal_id = performance.host_proposal_id[the_index];
-          performance.host_proposal_id.splice(the_index, 1);
-
-          if($.inArray(host_proposal_id, performance.host_proposal_id)) performance.card[the_index].remove();
-
-          performance.host_id.splice(the_index, 1);
-          performance.time.splice(the_index, 1);
-          performance.card.splice(the_index, 1);
-          performance.date.splice(the_index, 1);
+          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0) performance.card.remove();
 
           _daySelectors.splice(_daySelectors.indexOf(_daySelector), 1);
-          _setDates(date);
+          _setDates(performance.date);
         });
 
         _daySelector.css({'display': ' inline-block', 'width': '120'});
         _spaceSelector.css({'display': ' inline-block', 'width': '250'});
-        // _startTime.css({'display': ' inline-block', 'width': '80'});
-        // _endTime.css({'display': ' inline-block', 'width': '80'});
+        _startTime.css({'display': ' inline-block', 'width': '80'});
+        _endTime.css({'display': ' inline-block', 'width': '80'});
 
-        //_performaceBox.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
-        _performaceBox.append(_daySelector, _spaceSelector, _removeInputButton);
+        _performaceBox.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
         _createdWidget.append(_performaceBox);
       });
     };
