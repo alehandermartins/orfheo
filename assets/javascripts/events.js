@@ -105,7 +105,7 @@
     if (data['status'] == 'success'){
       Pard.ProfileManager.modifyProduction(data.production);
       var _profile_id = Pard.ProfileManager.getProfileId(data.production.production_id);
-      Pard.Widgets.ProductionsNavigation(_profile_id, $('#_profileNav'), $('#_sectionContent'), $('#_productionsContent'), data.production.production_id);
+      Pard.Widgets.ProductionsNavigation(_profile_id, $('#_profileNav'), $('#_sectionContent'), data.production.production_id);
     }
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
@@ -294,6 +294,7 @@
   ns.Events.CreateProduction = function(data){
     if(data['status'] == 'success') {
       console.log(data);
+      Pard.Widgets.Alert('','Contenido creado correctamente');
     }else{
       Pard.Widgets.Alert('',data.reason);
     }  
