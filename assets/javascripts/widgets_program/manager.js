@@ -16,8 +16,18 @@
     //   '2016-10-16': [['2016-10-16T10:00:00.000Z', '2016-10-16T14:00:00.000Z'], ['2016-10-16T17:00:00.000Z', '2016-10-16T23:00:00.000Z']]
     // };
 
+    //Time in milliseconds: consider to use it!!
+    // {"2016-10-15" : [[ "1476518400000", "1476532800000"], 
+    //         [ "1476543600000", "1476568800000" ] ],
+    //     "2016-10-16" : [ ["1476604800000","1476705600000" ], 
+    //         [ "1476630000000", "1476655200000" ]]}
+
     //Object to fill with profile_id (keys) and proposals (values)
     var artists = {};
+
+    // console.log(new Date (2016,9,16,10,00,00,0).getTime());
+    // console.log(new Date (2016,9,17,14,00,00,0).getTime());
+
 
     //Filling default categories for selectors
     var artistProposals = Pard.Widgets.ArtistProposals();
@@ -262,7 +272,6 @@
 
     //Artists panel
     var _artists = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).addClass('artist-accordeon-call-manager');
-
     //Last selections (needed for accordion show hide purposes)
     var lastArtist = '';
     var lastaHref = '';
@@ -322,8 +331,13 @@
       _daySelector.append(date);
       
       var start = parseInt(eventTime[day][0][0].split('T')[1].split(':')[0]);
+      // var start = new Date(parseInt(eventTime[day][0][0]));
+      
       var lastIndex = eventTime[day].length - 1;
       var end = parseInt(eventTime[day][lastIndex][1].split('T')[1].split(':')[0]);
+      // var end = new Date(parseInt(eventTime[day][lastIndex][1]));
+
+      if (end == 00) end = 24; 
 
       //Amount of hours in our day
       var hours = [];
