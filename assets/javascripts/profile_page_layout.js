@@ -130,15 +130,13 @@
       
     var _profileNav = $('<div>').addClass('profile-nav-container').attr('id','_profileNav');
     var _myOtherProfiles = $('<div>').addClass('other-profiles-nav-container');
-    var _productionContent = $('<div>').attr('id','_productionsContent');
-
    
     history.replaceState({},'','profile?id=' + _profiles[0].profile_id);
 
     _profiles.forEach(function(profile, index) {
       if(index == 0){
         Pard.Widgets.ProfileSection(profile['type']).render()(sectionHeader, profile.profile_id);
-        Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent,_productionContent, selected);
+        Pard.Widgets.ProductionsNavigation(profile.profile_id, _profileNav, sectionContent, selected);
       }
       else { 
         _myOtherProfiles.append(Pard.Widgets.ProfilesNavigationElement(profile, function(){
@@ -232,15 +230,16 @@
     } 
   }
 
-  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, productionContent, selected, sectionHeader){
-
-    var profile = Pard.ProfileManager.getProfile(profile_id);
-
-    var userStatus = Pard.UserStatus['status'];
+  ns.Widgets.ProductionsNavigation = function(profile_id, profileNav, sectionContent, selected){
 
     profileNav.empty();
     sectionContent.empty();
-    productionContent.empty();
+
+    var profile = Pard.ProfileManager.getProfile(profile_id);
+    console.log(profile);
+    var userStatus = Pard.UserStatus['status'];
+
+    var productionContent = $('<div>').attr('id','_productionsContent');
 
     var _lastselected = $('<div>');
 
@@ -266,7 +265,6 @@
 
     profileNav.append(_navigationSelected.render());
     
-
     var _productions = [];
     var _shown = [];
 
@@ -280,7 +278,7 @@
 
     if (profile.productions && profile.productions.length) {
       _productions = profile.productions;
-        _productions.forEach(function(production, index){
+      _productions.forEach(function(production){
         var production_id = production.production_id;
         var _myProduction = $('<div>');
         var _productionItem = $('<div>').addClass('production-nav-element-container');
@@ -322,7 +320,7 @@
         });
 
         _name.hover(function(){_name.addClass('text-link-profile-nav')}, function(){_name.removeClass('text-link-profile-nav ')});
-        productionContent.append(_productionItem);
+        productionContent.append(_productionItem);      
       });
     }
 
@@ -338,7 +336,7 @@
       // });
       // productionContent.append(_createProductionBtn.render());
 
-      var _createProdPopup = Pard.Widgets.PopupCreator(_createProductionItem, 'Crea un contenido artístico', function(){ return Pard.Widgets.CreateNewProduction(profile_id)});
+      var _createProdPopup = Pard.Widgets.PopupCreator(_createProductionItem, 'Crea un contenido artístico', function(){ return Pard.Widgets.CreateNewProductionMessage(profile_id)});
       
       // _createProductionItem.click(function(){
       //   console.log('clicked');
@@ -356,8 +354,55 @@
     }
   }
 
+  // ns.Widgets.AddProductionToList = function(production, productionContent, _lastselected, selected){
+    
+  //   var production_id = production.production_id;
+  //   var _myProduction = $('<div>');
+  //   var _productionItem = $('<div>').addClass('production-nav-element-container');
+  //   var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
+  //   var _nameColumn = $('<div>').addClass('name-column name-column-production-nav');
+  //   var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
+  //   _productionItem.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
+  //   if(selected == production_id) {
+  //     $('.selected-element').removeClass('selected-element');
+  //     _productionItem.addClass('selected-element');
+  //     _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
+  //     sectionContent.append(_myProduction);
+  //     _shown[production_id] = _myProduction;
+  //     _lastselected = _shown[production_id];
+  //     $(document).ready(function(){
+  //       FB.XFBML.parse();
+  //       window.instgrm.Embeds.process();
+  //       doBuild();
+  //     });
+  //   }
+  //   _productionItem.click(function(){
+  //     $('.selected-element').removeClass('selected-element');
+  //     _productionItem.addClass('selected-element');
+  //     _lastselected.hide();
 
-  ns.Widgets.CreateNewProduction = function(profile_id){
+  //     if(_shown[production_id]){
+  //       _shown[production_id].show();
+  //     }else{
+  //       _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
+  //       sectionContent.append(_myProduction);
+  //       _shown[production_id] = _myProduction;
+  //       $(document).ready(function(){
+  //         FB.XFBML.parse();
+  //         window.instgrm.Embeds.process();
+  //         doBuild();
+  //       });
+  //     }
+  //     _lastselected = _shown[production_id];
+  //   });
+
+  //   _name.hover(function(){_name.addClass('text-link-profile-nav')}, function(){_name.removeClass('text-link-profile-nav ')});
+  //   productionContent.append(_productionItem);
+
+  // }
+
+
+  ns.Widgets.CreateNewProductionMessage = function(profile_id){
     var _createdWidget = $('<div>');
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
@@ -383,7 +428,6 @@
       _requiredFields = Pard.Forms.CreateProduction(_selected).requiredFields();
       _form = Pard.Forms.CreateProduction(_selected).render();
       for(var field in _form){
-        console.log(field);
         _content.append($('<div>').addClass('callPage-createArtistProposal' ).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
       };
       _submitForm['category'] = _selected;
@@ -432,11 +476,22 @@
       return _submitForm;
     }
 
+    var _createNewProdCallback = function(data){
+      if (data.status == 'success'){
+        Pard.ProfileManager.addProduction(profile_id,data.production);
+        Pard.Widgets.ProductionsNavigation(profile_id, $('#_profileNav'), $('#_sectionContent'), data.production.production_id);
+        // Pard.Widgets.Alert('','Contenido creado correctamente');
+      }
+      else{
+      Pard.Widgets.Alert('',data.reason);
+      }  
+    }
  
     submitButton.on('click',function(){
       if(_filled() == true){
         var _newProduction = _getVal();
-        Pard.Backend.createProduction(_newProduction, Pard.Events.CreateProduction);
+        console.log(_newProduction);
+        Pard.Backend.createProduction(_newProduction, _createNewProdCallback);
         _closepopup();
       }
     });
@@ -447,7 +502,7 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        closepopup = callback;
+        _closepopup = callback;
       }
     }
   }

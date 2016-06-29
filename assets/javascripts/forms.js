@@ -8,9 +8,9 @@
     var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 
-    var _expoFields = ['title', 'short_description'];
-    var _showField = ['title', 'short_description', 'duration', 'children'];
-    var _streetArtFields = ['title', 'short_description'];
+    var _expoFields = ['title', 'short_description', 'description'];
+    var _showField = ['title', 'short_description', 'description', 'duration', 'children'];
+    var _streetArtFields = ['title', 'short_description', 'description'];
 
     var _expoRequired = ['title', 'short_description'];
     var _showRequired = ['title', 'short_description', 'duration'];
@@ -60,7 +60,15 @@
     _form['short_description']['input'].setClass('short_description-input');
     _form['short_description']['input'].setAttr('rows',1);
 
-    
+     _form['description'] = {
+      label: Pard.Widgets.InputLabel('Descripción *'),
+      input: Pard.Widgets.TextArea(''),
+      helptext: Pard.Widgets.HelpText('Cuenta en que consiste tu producción artística.')
+    };
+    _form['description']['input'].setClass('description-input');
+    _form['description']['input'].setAttr('rows', 4);
+
+
     _form['duration'] = {
       label: Pard.Widgets.InputLabel('Duración *'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),

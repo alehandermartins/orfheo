@@ -14,7 +14,15 @@ Pard.ProfileManager = {
     });
     return _profile;
   },
- 
+  addProduction: function(profile_id, production){
+    var profiles = Pard.CachedProfiles;
+    profiles.some(function(profile){
+      if(profile.profile_id == profile_id) {
+        if (profile.productions) profile.productions.push(production);
+        else profile['productions'] = [production];
+      }
+    }); 
+  },
   getProduction: function(production_id){
     var profiles =  Pard.CachedProfiles;
     var _production = {};
