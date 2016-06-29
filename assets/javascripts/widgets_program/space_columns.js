@@ -365,10 +365,10 @@
             Pard.ShownSpaces[index + 1]['permanent'].after(space['permanent']);
             Pard.ShownSpaces[index + 1]['permanent'].find('.programHelper').css({left: Pard.ShownSpaces[index + 1]['permanent'].position().left + 1 + "px"});
             
-            var spaceIndex = spaces.indexOf(space);
-            var nextSpaceIndex = spaces.indexOf(Pard.ShownSpaces[index + 1]);
-            spaces.splice(spaceIndex, 1);
-            spaces.splice(nextSpaceIndex, 0, space);
+            var spaceIndex = Pard.Spaces.indexOf(space);
+            var nextSpaceIndex = Pard.Spaces.indexOf(Pard.ShownSpaces[index + 1]);
+            Pard.Spaces.splice(spaceIndex, 1);
+            Pard.Spaces.splice(nextSpaceIndex, 0, space);
 
             Pard.ShownSpaces.splice(index, 1);
             Pard.ShownSpaces.splice(index + 1, 0, space);
@@ -385,10 +385,10 @@
             space['permanent'].after(Pard.ShownSpaces[index - 1]['permanent']);
             Pard.ShownSpaces[index - 1]['permanent'].find('.programHelper').css({left: Pard.ShownSpaces[index - 1]['permanent'].position().left + 1 + "px"});
             
-            var spaceIndex = spaces.indexOf(space);
-            var prevSpaceIndex = spaces.indexOf(Pard.ShownSpaces[index - 1]);
-            spaces.splice(spaceIndex, 1);
-            spaces.splice(prevSpaceIndex, 0, space);
+            var spaceIndex = Pard.Spaces.indexOf(space);
+            var prevSpaceIndex = Pard.Spaces.indexOf(Pard.ShownSpaces[index - 1]);
+            Pard.Spaces.splice(spaceIndex, 1);
+            Pard.Spaces.splice(prevSpaceIndex, 0, space);
 
             Pard.ShownSpaces.splice(index, 1);
             Pard.ShownSpaces.splice(index - 1, 0, space);
