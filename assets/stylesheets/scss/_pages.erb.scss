@@ -1229,43 +1229,6 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   white-space: normal;
 }
 
-
-/* 
-.column-call-manager-table.column-program{
-  min-width: 24rem;
-} */
-
-/* 
-.inputSpace-container, .inputDayTime-container, .inputArtist-container, .add-space-input-field, .add-dayTime-input-field, .add-artist-input-field{
-  display: inline-block;
-  font-size: $almostNormalSize;
-} */
-/* 
-.inputArtist-container, .inputSpace-container{
-  margin-bottom: 0.5rem;
-}
-
-div.inputSpace-container .select2-selection.select2-selection--multiple, div.inputDayTime-container .select2-selection.select2-selection--multiple, div.inputArtist-container .select2-selection.select2-selection--multiple{
-  font-size: 14px;
-}
-
-.add-artist-input-field, .add-space-input-field, .add-dayTime-input-field{
-  margin-bottom: 0.2rem;
-}
-
-.inputDayTime-container, .add-dayTime-input-field{
-  width:11rem;
-  margin-bottom: 0;
-}
-
-.inputSpace-container, .add-space-input-field{
-  width:20.5rem;
-}
-
-.inputArtist-container, .add-artist-input-field{
-  width:20.5rem;
-} */
-
 .types-selector-call-manager{
   margin-bottom: 2.5rem;
   width: 17rem;
@@ -1291,15 +1254,6 @@ span.select2-container--default .select2-selection--single{
   /* border: 1px solid #cacaca; */
 }
 
-/* .select-category-container-call-manager span.select2-container--default .select2-selection--single .select2-selection__rendered, .select-category-container-call-manager span.select2-container--default .select2-selection--single .select2-selection__arrow{
-  line-height: 2.43rem;
-  height: 2.43rem;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow b {
-    border-color:#090909 transparent transparent transparent;
-} */
-
 .table-box-call-manager-page{
   margin-top: 1rem;
 }
@@ -1322,8 +1276,6 @@ a.dt-button:active{
     border: none;
 }
 
-
-
 .table-box-call-manager-page a.dt-button{
   @extend .pard-btn;
   padding: 0.1rem 0.4rem;
@@ -1341,11 +1293,6 @@ a.dt-button:active{
   box-shadow: none;
   text-shadow: none;
 }
-
-/* .dt-button:hover{
-    background: rgba(0,0,0,0.7);
-  }
- */
 
 
 div.dataTables_wrapper div.dataTables_filter label{
@@ -1369,20 +1316,6 @@ div.dataTables_wrapper div.dataTables_filter input{
   cursor: pointer;
 }
 
-/* th.icon-column-call-table{
-  width: 2rem;
-} */
-
-
-
-
-/* .search-input-call-manager-container{
-  width: 36rem;
-  @include horizontal-center;
-  position: relative;
-  margin-top: 2rem;
-}
- */
 .submit-btn-call-manager-container{
   position:absolute;
   right: 0;
@@ -1459,14 +1392,6 @@ div.dataTables_wrapper div.dataTables_filter input{
 
 }
 
-/* .input-whiteList-container input{
-  width: 200px !important;
-} */
-
-/* .input-whiteList-container span{
-  max-height: 2.5rem;
-} */
-
 .add-whiteList-input-field{
   width: 92%;
   font-size: 12px;
@@ -1522,7 +1447,43 @@ p.initial-text-proposalPanel{
   font-size: $almostNormalSize;
 }
 
+ 
+/*---------------------------
+Program Manager Tab
+--------------------------- */
 
+/* .program-panel-call-manager{
+  margin-left: 2.2rem;
+} */
+
+.table-box-call-manager{
+  position: relative;
+}
+
+.time-table-call-manager{
+  /* position: relative; */
+  display: inline-block;
+  width: 3rem;
+}
+
+.table-container-call-manager{
+  overflow-x: scroll;
+  overflow-y: hidden;
+  position: relative;
+  display: inline-block;
+  width: 55rem;
+}
+
+.artist-accordeon-call-manager{
+  position: absolute;
+  overflow-y: scroll;
+  right: 0;
+  top:0;
+  width: 13rem;
+  border: 1px solid;
+  height: 562px;
+  z-index: 4;
+};
 
 
 /*===============================================

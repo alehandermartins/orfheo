@@ -3,9 +3,7 @@
 (function(ns){
 
   ns.Widgets.ProgramManager = function(call){
-    var _createdWidget = $('<div>').attr('id', 'programPanel').css({
-      'margin-left': 35
-    });
+    var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
 
     Pard.CachedCall = call;
     
@@ -251,30 +249,19 @@
       e.preventDefault();
     });
 
-    var _tableContainer = $('<div>').addClass('tableContainer').css({
-      'overflow-x': 'scroll',
-      'overflow-y': 'hidden',
-      'width': Pard.ColumnWidth * 5,
-      'position': 'relative'
-    });
+    var _tableBox = $('<div>').addClass('table-box-call-manager');
+
+    var _timeTable = $('<div>').addClass('time-table-call-manager');
+
+    var _tableContainer = $('<div>').addClass('tableContainer table-container-call-manager');
 
     var _table = $('<div>').css({
-      'width': 'auto',
+      'width': '100%',
       'white-space':'nowrap',
     });
 
     //Artists panel
-    var _artists = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).css({
-      'position': 'absolute',
-      'overflow-y': 'scroll',
-      'top': 196,
-      'left': 751,
-      'width': 233,
-      'border-width': '1px',
-      'border-style': 'solid',
-      'height': 562,
-      'z-index': 4
-    });
+    var _artists = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).addClass('artist-accordeon-call-manager');
 
     //Last selections (needed for accordion show hide purposes)
     var lastArtist = '';
@@ -322,9 +309,10 @@
       artists[profile_id]['card'] = container;
     });
 
-    _createdWidget.append(_artists, _showArtists);
 
-    var _timeTable = $('<div>');
+
+    // _createdWidget.append();
+
 
     //Filling the columns for each day we declare a set of space columns. One extra set for permanent
     Object.keys(eventTime).forEach(function(day){
@@ -347,17 +335,16 @@
       hours.forEach(function(hour, hourIndex){
         var _time = $('<div>').html(hour + ':00').css({
           position: "absolute",
-          top: 217 + hourIndex * 40 + "px",
+          top: 20 + hourIndex * 40 + "px",
           left: 0
         });
         var _line = $('<hr>').css({
           position: "absolute",
-          top: 217 + hourIndex * 40 + "px",
+          top: 20 + hourIndex * 40 + "px",
           left: 0,
           width: 927
         });
         _timeTable.append(_time, _line);
-        _createdWidget.append(_timeTable);
       });
 
       //Defining space columns and appending them (they start hidden)
@@ -392,7 +379,11 @@
     });
     _table.append(_whiteBox);
     _tableContainer.append(_table);
-    _createdWidget.append(_tableContainer);
+
+    _tableBox.append(_timeTable, _tableContainer, _artists);
+
+    _createdWidget.append(_tableBox);
+
 
     //Submit button it justs sends the created program
     var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
