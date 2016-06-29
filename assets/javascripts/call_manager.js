@@ -697,12 +697,21 @@
           position = colPosition;
           if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
 
+          var performance_ids = [];
+          Pard.Widgets.Program.forEach(function(performanceProgram){
+            if(performanceProgram['permanent'] == true){
+              if($.inArray(performanceProgram['performance_id'], performance_ids) < 0 && performanceProgram['host_proposal_id'] == space.proposal_id){
+                performance_ids.push(performanceProgram['performance_id']);
+                position += parseInt(performanceProgram['card'].height());
+              }
+            }
+          });
+
           Pard.Widgets.DraggedPerformance['height'] = duration;
           Pard.Widgets.DraggedPerformance['top'] = position;
           Pard.Widgets.DraggedPerformance['left'] = _time.position().left;
 
           var newPerformance = Pard.Widgets.ProgramPermanentHelper(Pard.Widgets.DraggedPerformance, space.proposal_id).render();
-          _time.append(newPerformance);
 
           if(ui.draggable.hasClass('programHelper')){
             Pard.Widgets.DraggedPerformance['performances'].forEach(function(performanceProgram){
@@ -711,18 +720,10 @@
               performanceProgram.card = newPerformance;
               Pard.Widgets.Program.push(performanceProgram);
             });
+            if($.inArray(Pard.Widgets.DraggedPerformance['performances'][0].performance_id, performance_ids) < 0) _time.append(newPerformance);
           }
           else{
-            var performance_ids = [];
-            Pard.Widgets.Program.forEach(function(performanceProgram){
-              if(performanceProgram['permanent'] == true){
-                if($.inArray(performanceProgram['performance_id'], performance_ids) < 0 && performanceProgram['host_proposal_id'] == space.proposal_id){
-                  performance_ids.push(performanceProgram['performance_id']);
-                  position += parseInt(performanceProgram['card'].height());  
-                }
-              }
-            });
-          
+            _time.append(newPerformance);
             Object.keys(eventTime).forEach(function(date){
               var time = eventTime[date];
               var performance = {
@@ -1367,27 +1368,44 @@
 
         _spaceSelector.on('change', function(){
           host_proposal_ids.splice($.inArray(performance.host_proposal_id, host_proposal_ids), 1);
-          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0) performance.card.remove();
+          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0) performance['card'].remove();
           
           var spaceProposal = _getProposal(_spaceSelector.val());
-          performance.host_proposal_id = _spaceSelector.val();
-          performance.host_id = spaceProposal.host_id;
-
           if($.inArray(_spaceSelector.val(), host_proposal_ids) < 0){
             spaces.forEach(function(space){
               if(space.proposal_id == _spaceSelector.val()){
-                var timeCol = space['permanent'].find('.spaceTime');
-                var spaceProposal = _getProposal(_spaceSelector.val());
 
+                var performance_ids = [];
+                var position = 41;
+                Pard.Widgets.Program.forEach(function(performanceProgram){
+                  if(performanceProgram['permanent'] == true){
+                    if($.inArray(performanceProgram['performance_id'], performance_ids) < 0 && performanceProgram['host_proposal_id'] == space.proposal_id){
+                      performance_ids.push(performanceProgram['performance_id']);
+                      position += parseInt(performanceProgram['card'].height());
+                    }
+                  }
+                });
                 proposal['left'] = shownSpaces.indexOf(space) * 176 + 1;
-                
-                var newPerformance = Pard.Widgets.ProgramPermanentHelper(proposal, _spaceSelector.val()).render();
-                timeCol.append(newPerformance);
+                proposal['top'] = position
 
+                var newPerformance = Pard.Widgets.ProgramPermanentHelper(proposal, _spaceSelector.val()).render();
+                              
+                var timeCol = space['permanent'].find('.spaceTime');
+                timeCol.append(newPerformance);
                 performance['card'] = newPerformance;
               }
             });
           }
+          else{
+            var _card = {};
+            performances.forEach(function(myPerformance){
+              if(myPerformance.host_proposal_id == _spaceSelector.val()) _card = myPerformance['card'];
+            });
+            performance['card'] = _card;
+          }
+
+          performance.host_id = spaceProposal.profile_id;
+          performance.host_proposal_id = _spaceSelector.val();
           host_proposal_ids.push(_spaceSelector.val());
         });
         
