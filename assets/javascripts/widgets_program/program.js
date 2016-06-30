@@ -1,7 +1,7 @@
 'use strict';
 
 (function(ns){
-	ns.Widgets.PerformanceProgram = function(proposal_id){
+	ns.Widgets.PerformanceProgram = function(proposal){
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var call = Pard.CachedCall;
@@ -13,8 +13,8 @@
     var myPerformances = [];
     var myPermanentPerformances = [];
     program.forEach(function(performance){
-      if(performance.participant_proposal_id == proposal_id && performance.permanent == false) myPerformances.push(performance);
-      if(performance.participant_proposal_id == proposal_id && performance.permanent == true) myPermanentPerformances.push(performance);
+      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == false) myPerformances.push(performance);
+      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == true) myPermanentPerformances.push(performance);
     });
 
     //Non-permanet input

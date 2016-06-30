@@ -1,49 +1,18 @@
 module Repos
-  class Calls
+  class Events
     class << self
 
       def for db
-        @@calls_collection = db['calls']
-        # call = grab({})[0]
-        # participants = call[:proposals].map{ |proposal|
-        #   {
-        #     name: proposal.name
-        #     address: proposal.address
-        #   }
-        # }
+        @@events_collection = db['calls']
       end
 
-      def add call
-        @@calls_collection.insert(call)
+      def add event
+        @@events_collection.insert(event)
       end
 
       def event_exists? event_id
         return false unless UUID.validate(event_id)
-        @@calls_collection.count(query: {event_id: event_id}) > 0
-      end
-
-      def exists? call_id
-        return false unless UUID.validate(call_id)
-        @@calls_collection.count(query: {call_id: call_id}) > 0
-      end
-
-      def proposal_exists? proposal_id
-        return false unless UUID.validate(proposal_id)
-       @@calls_collection.count(query: {"proposals.proposal_id": proposal_id}) > 0
-      end
-
-      def add_proposal call_id, proposal
-        @@calls_collection.update({call_id: call_id},{
-          "$push": {proposals: proposal}
-        })
-      end
-
-      def get_call call_id
-        grab({call_id: call_id}).first
-      end
-
-      def get_calls profile_id
-        grab({profile_id: profile_id})
+        @@events_collection.count(query: {event_id: event_id}) > 0
       end
 
       def get_event event_id
@@ -55,9 +24,15 @@ module Repos
         event[:user_id]
       end
 
-      def get_call_owner call_id
-        call = grab({call_id: call_id}).first
-        call[:user_id]
+      def add_proposal event_id, profile_id, proposal
+        @@calls_collection.update({event_id: event_id, 'participants': {profile_id: profile_id}},{
+          "$push": {'participants.$.proposals': proposal}
+        })
+      end
+
+      def proposal_exists? proposal_id
+        return false unless UUID.validate(proposal_id)
+       @@events_collection.count(query: {'participants.proposals': {proposal_id: proposal_id}}) > 0
       end
 
       def get_proposals method, args = nil
@@ -69,16 +44,10 @@ module Repos
         proposal[:user_id]
       end
 
-      def proposal_on_time? call_id, email
-        call = grab({call_id: call_id}).first
-        return true if !call[:whitelist].blank? && call[:whitelist].include?(email)
-        call[:start].to_i < Time.now.to_i && call[:deadline].to_i > Time.now.to_i
-      end
-
       def modify_proposal proposal
-        @@calls_collection.update({ "proposals.proposal_id": proposal[:proposal_id]},
+        @@calls_collection.update({ 'participants.proposals': {proposal_id: proposal[:proposal_id]} },
           {
-            "$set": {"proposals.$": proposal}
+            "$set": {"participants.$.proposals": proposal}
           },
         {upsert: true})
       end
@@ -99,14 +68,6 @@ module Repos
         {upsert: true})
       end
 
-      def add_whitelist call_id, whitelist
-         @@calls_collection.update({ call_id: call_id },
-          {
-            "$set": {"whitelist": whitelist}
-          },
-        {upsert: true})
-      end
-
       def delete_proposal proposal_id
         event = grab({"proposals.proposal_id": proposal_id}).first
         event[:proposals].reject!{|proposal| proposal[:proposal_id] == proposal_id}
@@ -117,6 +78,39 @@ module Repos
             "$set": {'proposals': event[:proposals], 'program': event[:program]}
           }
         )
+      end
+
+      #Managing call
+      def call_exists? call_id
+        return false unless UUID.validate(call_id)
+        @@events_collection.count(query: {call_id: call_id}) > 0
+      end
+
+      def proposal_on_time? call_id, email
+        call = grab({call_id: call_id}).first
+        return true if !call[:whitelist].blank? && call[:whitelist].include?(email)
+        call[:start].to_i < Time.now.to_i && call[:deadline].to_i > Time.now.to_i
+      end
+
+      def get_call call_id
+        grab({call_id: call_id}).first
+      end
+
+      def get_calls profile_id
+        grab({profile_id: profile_id})
+      end
+      
+      def get_call_owner call_id
+        call = grab({call_id: call_id}).first
+        call[:user_id]
+      end
+
+      def add_whitelist call_id, whitelist
+         @@calls_collection.update({ call_id: call_id },
+          {
+            "$set": {"whitelist": whitelist}
+          },
+        {upsert: true})
       end
 
       private

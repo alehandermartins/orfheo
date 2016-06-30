@@ -17,6 +17,7 @@ require_relative '../services/calls'
 require_relative '../repos/users'
 require_relative '../repos/profiles'
 require_relative '../repos/calls'
+require_relative '../repos/events'
 
 require_relative '../lib/forms/base'
 require_relative '../lib/forms/profiles'
@@ -108,6 +109,7 @@ class BaseController < Sinatra::Base
     Repos::Users.for @@db
     Repos::Profiles.for @@db
     Repos::Calls.for @@db
+    Repos::Events.for @@db
   end
 
   configure do
