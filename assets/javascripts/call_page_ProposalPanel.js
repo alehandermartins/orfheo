@@ -424,7 +424,7 @@
 
     _emailNameInput.setVal(call.whitelist);
 
-		var _submitBtnContainer = $('<div>').addClass('submit-btn-call-manager-container');
+		var _submitBtnContainer = $('<div>').addClass('submit-whitelist-call-manager-container');
    	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
    	_submitBtnOuterContainer.append(_submitBtnContainer);
    	var _successBox = $('<span>').attr({id:'successBox-whiteList'});

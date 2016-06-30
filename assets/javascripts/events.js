@@ -232,8 +232,14 @@
   }
 
   ns.Events.SaveProgram = function(data){
-    $('#succes-box-call-manager').empty();
-    if(data['status'] == 'success') $('#succes-box-call-manager').append($('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
+    $('.save-text-call-manager').empty();
+    if(data['status'] == 'success') {
+      $('.save-text-call-manager').append($('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
+        setTimeout(function(){
+          $('.save-text-call-manager').empty();
+          $('.save-text-call-manager').html('Guarda </br>los cambios');
+        }, 3000);
+    }
     else{
       // $('#succes-box-call-manager').append($('<span>').text('¡Error! No se ha podido guardar los datos').css('color','red'));
       Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})

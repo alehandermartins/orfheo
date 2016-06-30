@@ -82,23 +82,7 @@
       return _label;
     };
 
-    //Declaring Selectors
-    var _daySelector = $('<select>');
-    var _lastSelected = Object.keys(eventTime)[0];
-
-    var _spaceSelectorContainer = $('<div>')
-    var _spaceSelector = $('<select>');
-    var _emptySpace = $('<option>');
-    _spaceSelector.append(_emptySpace);
-
-    var _artistSelectorContainer = $('<li>').addClass('artists-selector-container-call-manager')
-    var _artistSelector = $('<select>');
-    var _emptyArtist = $('<option>');
-    _artistSelector.append(_emptyArtist);
-
-    _spaceSelectorContainer.append(_spaceSelector);
-    _artistSelectorContainer.append(_artistSelector);
-
+   
     //Button for showing hidding artists
     var _showArtists = $('<button>').attr('type','button').addClass('show-hide-btn-call-manager');
     var _showIcon = Pard.Widgets.IconManager('hide_left_list').render().css('color','#6f6f6f');
@@ -119,16 +103,16 @@
     });
 
     //Selectors CSS
-    _daySelector.css({
-      'display': 'inline-block',
-      'width': 120
-    });
+    // _daySelector.css({
+    //   'display': 'inline-block',
+    //   'width': 120
+    // });
 
-    _spaceSelectorContainer.css({
-      'margin-left': 50,
-      'display': 'inline-block',
-      'width': 300
-    });
+    // _spaceSelectorContainer.css({
+    //   'margin-left': 50,
+    //   'display': 'inline-block',
+    //   'width': 300
+    // });
     // _artistSelectorContainer.css({
     //   'margin-left': 50,
     //   'display': 'inline-block',
@@ -156,10 +140,36 @@
 
     var _selectors = $('<div>').addClass('selectors-call-manager');
 
-    _createdWidget.append(_selectors.append(_daySelector, _spaceSelectorContainer, _showArtists));
+
+     //Declaring Selectors
+    var _daySelectorContainer = $('<div>').addClass('day-selector-container-call-manager');
+    var _daySelector = $('<select>');
+    var _lastSelected = Object.keys(eventTime)[0];
+
+    var _spaceSelectorContainer = $('<div>').addClass('space-selector-container-call-manager');
+    var _spaceSelector = $('<select>');
+    var _emptySpace = $('<option>');
+    _spaceSelector.append(_emptySpace);
+
+    var _artistSelectorContainer = $('<li>').addClass('artists-selector-container-call-manager')
+    var _artistSelector = $('<select>');
+    var _emptyArtist = $('<option>');
+    _artistSelector.append(_emptyArtist);
+
+    _spaceSelectorContainer.append(_spaceSelector);
+    _artistSelectorContainer.append(_artistSelector);
+    _daySelectorContainer.append(_daySelector);
+
+    _createdWidget.append(_selectors.append(_daySelectorContainer, _spaceSelectorContainer, _showArtists));
 
     //Dayselector behaviour
-    _daySelector.on('change', function(){
+    _daySelector.select2({
+      // data: spaceProposals,
+      minimumResultsForSearch: Infinity,
+      // tags: true,
+      allowClear:false,
+      templateResult: formatResource
+    }).on('select2:select', function(){
       //Hiding timeTable if permanent
       if(_daySelector.val() == 'permanent') _timeTable.hide();
       else{_timeTable.show();}
@@ -184,8 +194,6 @@
       placeholder: 'Espacios',
       allowClear: true,
       data: spaceProposals,
-      tags: true,
-      tokenSeparators: [',', ' '],   
       templateResult: formatResource,
     }).on("select2:select", function(e) {
       var _data = _spaceSelector.select2('data')[0];
@@ -374,11 +382,16 @@
 
 
     //Filling the columns for each day we declare a set of space columns. One extra set for permanent
-    Object.keys(eventTime).forEach(function(day){
+    Object.keys(eventTime).forEach(function(day, day_number){
 
       var date = $('<option>').val(day).text(day);
       //New date for _daySelector 
       _daySelector.append(date);
+
+      if (day_number == 0) {
+        _daySelector.select2('data', {id: day, text: day});
+        _daySelector.trigger('change');
+      }
       
       var start = parseInt(eventTime[day][0][0].split('T')[1].split(':')[0]);
       // var start = new Date(parseInt(eventTime[day][0][0]));
@@ -397,17 +410,10 @@
 
       //Times and lines (This gets redefined each loop... probably not the best place)
       hours.forEach(function(hour, hourIndex){
-        var _time = $('<div>').html(hour + ':00').css({
-          position: "absolute",
-          top: 20 + hourIndex * 40 + "px",
-          left: 0
-        });
-        var _line = $('<hr>').css({
-          position: "absolute",
-          top: 20 + hourIndex * 40 + "px",
-          left: 0,
-          width: 927
-        });
+        var _time = $('<div>').html(hour + ':00').addClass('time-timeTable-call-manager');
+        _time.css({top: 28 + hourIndex * 40 + "px"});
+        var _line = $('<hr>').addClass('line-timeTable-call-manager')
+        _line.css({top: 20 + hourIndex * 40 + "px"});
         _timeTable.append(_time, _line);
       });
 
@@ -436,31 +442,32 @@
     });
 
     //White extra box to append to the end... to make all columns visible even when accordion is shown
-    var _whiteBox = $('<div>').html('&nbsp').css({
-      'display': 'inline-block',
-      'width': Pard.ColumnWidth,
-      'height': 500,
-    });
+    var _whiteBox = $('<div>').html('&nbsp').addClass('last-white-column-table-manager');
+    _whiteBox.css('width', Pard.ColumnWidth);
     _table.append(_whiteBox);
     _tableContainer.append(_table);
 
-    _tableBox.append(_scrollers, _timeTable, _tableContainer, _artists);
+    _tableBox.append(_timeTable.prepend(_scrollers), _tableContainer, _artists);
 
     _createdWidget.append(_tableBox);
 
 
     //Submit button it justs sends the created program
-    var _submitBtn = Pard.Widgets.Button('Guarda los cambios', function(){
+    var _submitBtn = Pard.Widgets.Button('', function(){
       var program = [];
       Pard.Widgets.Program.forEach(function(performance, index){
         program.push(performance);
         delete program[index].card;
       });
-      Pard.Backend.program(' ', Pard.Widgets.Program, function(data){
-        console.log(data['status']);
-      });
-    });
-    _createdWidget.append(_submitBtn.render());
+      Pard.Backend.program(' ', Pard.Widgets.Program, Pard.Events.SaveProgram);
+    }).render().addClass('submit-program-btn-call-manager');
+
+    _submitBtn.append(Pard.Widgets.IconManager('save').render());
+
+    var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container');
+    // var _successBox = $('<span>').attr({id:'succes-box-call-manager'});
+
+    _selectors.append(_submitBtnContainer.append($('<p>').append($('<span>').html('Guarda </br>los cambios')).addClass('save-text-call-manager'),_submitBtn));
 
     //Filling the table with existing program from database
     if(call['program']){

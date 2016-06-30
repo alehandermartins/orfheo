@@ -674,12 +674,16 @@ button{
 .show-hide-btn-call-manager{
   position: absolute;
   right: -3px;
-  bottom: 6px;
+  bottom: -1rem;
   span{
     font-size: 1.4rem;
   }  
 }
 
+.submit-program-btn-call-manager{
+  padding: 1px 8px;
+  vertical-align: middle;
+}
 
 
 /*===============================================

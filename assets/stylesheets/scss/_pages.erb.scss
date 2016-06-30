@@ -1316,11 +1316,11 @@ div.dataTables_wrapper div.dataTables_filter input{
   cursor: pointer;
 }
 
-.submit-btn-call-manager-container{
+.submit-whitelist-call-manager-container{
   position:absolute;
   right: 0;
   height: 2.5rem;
-  top: 2rem;
+  top: 2.4rem;
 }
 
 .submit-btn-outer-container-call-manager{
@@ -1331,16 +1331,22 @@ div.dataTables_wrapper div.dataTables_filter input{
 }
 
 #succes-box-call-manager, #successBox-whiteList{
-  margin-right: 1.5rem;
   display: inline-block;
   vertical-align: middle;
-  height: 2.5rem;
+  height: 1.5rem;
 }
 
+#successBox-whiteList{
+  margin-right: 1rem;
+}
+
+#succes-box-call-manager{
+  margin-left: 1rem;
+}
 
 .success-icon-check-call-manager{
   color: $green-pard;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   vertical-align: middle;
 }
 
@@ -1509,8 +1515,8 @@ li.artists-selector-container-call-manager{
 .scrollers-call-managers{
   display: inline-block;
   position: absolute;
-  left: -2px;
-  top: -15px;
+  left: -0.2rem;
+  top: -1rem;
 }
 
 .navigation-btn-icon{
@@ -1521,7 +1527,60 @@ li.artists-selector-container-call-manager{
 
 .selectors-call-manager{
   position: relative;
-  margin-left: 5rem;
+  margin-bottom: 1.5rem;
+}
+
+.day-selector-container-call-manager{
+  display: inline-block;
+  width: 9rem;
+  margin-left: 4rem;
+}
+
+.space-selector-container-call-manager{
+  display: inline-block;
+  width: 18rem;
+  margin-left: 3rem;
+}
+
+.time-timeTable-call-manager{
+  position: absolute;
+  left: 0;
+  font-size: $almostNormalSize;
+}
+
+.line-timeTable-call-manager{
+  position: absolute;
+  left: 42px;
+  width: 885px;
+}
+
+
+.last-white-column-table-manager{
+  display: inline-block;
+  height: 575px;
+  vertical-align: 15px;
+  background: white;
+}
+
+.submit-program-btn-container{
+  /* margin-left: 8rem;
+  display: inline-block;
+  font-size: $almostNormalSize; */
+  font-size: 0.875rem;
+  position: absolute;
+  right: 0px;
+  top: -3rem;
+  height: 2.5rem;
+}
+
+.save-text-call-manager{
+  margin-right: 0.5rem;
+  display: inline-block;
+  margin-bottom: 0;
+  text-align: right;
+  line-height: 1.2rem;
+  height: 2.5rem;
+  vertical-align: middle;
 }
 
 /*===============================================
