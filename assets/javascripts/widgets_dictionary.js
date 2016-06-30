@@ -32,8 +32,12 @@
       done: {icon: '&#xE876;', className: 'material-icons'},
       add_circle: {icon:'&#xE147;', className:'material-icons'},
       menu: {icon:'&#xE8EE;', className:'material-icons'},
+      left_arrow_block: {icon:'&#xE5DC;', className:'material-icons'},
+      right_arrow_block: {icon:'&#xE5DD;', className:'material-icons'},      
 
       open_call: {icon:'', className: 'fa fa-bullhorn'},
+      arrow_circle_right: {icon:'', className: 'fa fa-arrow-circle-right'},
+      arrow_circle_left: {icon:'', className: 'fa fa-arrow-circle-left'},
       youtube: {icon: '', className: 'fa fa-youtube'},
       vimeo: {icon: '', className: 'fa fa-vimeo'},
       flickr: {icon: '', className: 'fa fa-flickr'},
@@ -44,7 +48,7 @@
       instagram: {icon: '', className: 'fa fa-instagram'},
       pinterest: {icon: '', className: 'fa fa-pinterest-p'},
       vine: {icon: '', className: 'fa fa-vine'},
-      bandcamp: {icon: '', className: 'icon-bandcamp'},
+      bandcamp: {icon: '', className: 'icon-bandcamp'}
     };
 
     var _createdWidget = $('<span>');

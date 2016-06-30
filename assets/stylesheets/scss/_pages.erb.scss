@@ -1476,15 +1476,34 @@ Program Manager Tab
 
 .artist-accordeon-call-manager{
   position: absolute;
-  overflow-y: scroll;
+  overflow-y: hidden;
   right: 0;
   top:0;
   width: 13rem;
   border: 1px solid;
   height: 97.3%;
   z-index: 4;
-};
+}
 
+.artist-list-container-call-manager{
+  overflow-y: scroll;
+  height:  -moz-calc(100% - 2.5rem);
+  height:  -webkit-calc(100% - 2.5rem);
+  height:  calc(100% - 2.5rem);
+}
+
+li.artists-selector-container-call-manager{
+  span.select2-container--default .select2-selection--single{
+    height: 2.5rem;
+    border-radius: 0;
+  }
+  .select2-container--default .select2-selection--single .select2-selection__rendered{
+    line-height: 2.4;
+  }
+  .select2-container--default .select2-selection--single .select2-selection__arrow{
+    height: 2.5rem;
+  }
+}
 
 /*===============================================
 ORGANIZATION PAGE

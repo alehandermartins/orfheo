@@ -80,7 +80,7 @@
     var _emptySpace = $('<option>');
     _spaceSelector.append(_emptySpace);
 
-    var _artistSelectorContainer = $('<div>')
+    var _artistSelectorContainer = $('<li>').addClass('artists-selector-container-call-manager')
     var _artistSelector = $('<select>');
     var _emptyArtist = $('<option>');
     _artistSelector.append(_emptyArtist);
@@ -89,11 +89,23 @@
     _artistSelectorContainer.append(_artistSelector);
 
     //Button for showing hiding artists
-    var _showArtists = Pard.Widgets.Button('Ver', function(){
+    var _showArtists = $('<button>').attr('type','button').addClass('show-hide-btn-call-manager');
+    var _showIcon = Pard.Widgets.IconManager('left_arrow_block').render();
+    var _hideIcon = Pard.Widgets.IconManager('right_arrow_block').render();
+    _showArtists.append(_hideIcon);
+    _showArtists.on('click', function(){
       _artists.toggle('slide', {direction: 'right'}, 500);
-      if(_artists.hasClass('is-active')) _artists.removeClass('is-active');
-      else{_artists.addClass('is-active');}
-    }).render();
+      if(_artists.hasClass('is-active')){ 
+        _artists.removeClass('is-active');
+        _showArtists.empty();
+        _showArtists.append(_showIcon);
+      }
+      else{
+        _artists.addClass('is-active');
+        _showArtists.empty();
+        _showArtists.append(_hideIcon);
+      }
+    });
 
     //Selectors CSS
     _daySelector.css({
@@ -106,17 +118,15 @@
       'display': 'inline-block',
       'width': 300
     });
-    _artistSelectorContainer.css({
-      'margin-left': 50,
-      'display': 'inline-block',
-      'width': 300
-    });
-    _showArtists.css({
-      'display': 'inline-block',
-      'margin-left': 5
-    });
+    // _artistSelectorContainer.css({
+    //   'margin-left': 50,
+    //   'display': 'inline-block',
+    //   'width': 300
+    // });
 
-    _createdWidget.append(_daySelector, _spaceSelectorContainer, _artistSelectorContainer, _showArtists);
+    var _selectors = $('<div>').css('position','relative');
+
+    _createdWidget.append(_selectors.append(_daySelector, _spaceSelectorContainer, _showArtists));
 
     //Dayselector behaviour
     _daySelector.on('change', function(){
@@ -272,6 +282,8 @@
 
     //Artists panel
     var _artists = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).addClass('artist-accordeon-call-manager');
+    var _listContainer = $('<div>').addClass('artist-list-container-call-manager');
+    _artists.append(_artistSelectorContainer, _listContainer);
     //Last selections (needed for accordion show hide purposes)
     var lastArtist = '';
     var lastaHref = '';
@@ -314,7 +326,7 @@
         lastArtist = content;
         lastaHref = aHref;
       });
-      _artists.append(container);
+      _listContainer.append(container);
       artists[profile_id]['card'] = container;
     });
 
