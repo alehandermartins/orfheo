@@ -95,7 +95,8 @@
         Pard.Widgets.DraggedPerformance['top'] = position;
         Pard.Widgets.DraggedPerformance['left'] = _time.position().left;
         Pard.Widgets.DraggedPerformance['maxHeight'] = _time.height() - (position - colPosition);
-
+        Pard.Widgets.DraggedPerformance['day'] = day;
+        
         //Obtaining start and end times from position and pixels
         var eventDate = day.split('T')[0];
         var eventTimeArray = eventTime[day][0][0].split('T')[1].split(':');

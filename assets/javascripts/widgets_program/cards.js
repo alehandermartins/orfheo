@@ -16,6 +16,13 @@
     var color = Pard.Widgets.CategoryColor(proposal.category);
 
     var _card = $('<div>').addClass('proposalCard');
+
+
+    if($.inArray(Object.keys(Pard.CachedCall.eventTime)[0], proposal.availability) < 0){
+      _card.css({
+        'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
+      });
+    }
     
     _card.draggable({
       revert: 'invalid',
@@ -85,6 +92,14 @@
     return {
       render: function(){
         return _card;
+      },
+      setDay: function(day){
+        //Giving background to card if not availabe
+        if($.inArray(day, proposal.availability) < 0){
+          _card.css({
+            'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
+          });
+        }
       }
     }
   }
@@ -130,6 +145,12 @@
       'background': color,
       'white-space': 'normal'
     });
+
+    if($.inArray(performance.day, performance.availability) < 0){
+      _card.css({
+        'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
+      });
+    }
 
     var _title = $('<p>').addClass('profile-nav-name-selected').text(performance.title);
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, performance.height - 2).render().css({'position': 'absolute'}));

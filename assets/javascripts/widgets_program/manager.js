@@ -36,15 +36,17 @@
     //Filling artists, spaces and selector options
     call['proposals'].forEach(function(proposal){
       //Formatting availability parameter
+      var dates = Object.keys(eventTime);
+      dates.push('permanent');
       if(proposal.availability && proposal.availability != 'false'){
-        var availability = [];
+        var availability = ['permanent'];
         Object.keys(proposal.availability).forEach(function(index){
           var date = new Date(proposal.availability[index]);
           availability.push(date.toISOString().split('T')[0]);
         });
         proposal.availability = availability;
       }
-      else{ proposal.availability = Object.keys(eventTime);}
+      else{ proposal.availability = dates;}
 
       if (proposal.type == 'artist'){
         artists[proposal.profile_id] = artists[proposal.profile_id] || [];
@@ -141,12 +143,15 @@
 
     //Dayselector behaviour
     _daySelector.on('change', function(){
-
+      //Hiding timeTable if permanent
+      if(_daySelector.val() == 'permanent') _timeTable.hide();
+      else{_timeTable.show();}
+      //Giving css to unavailable proposals
+      proposalCards.forEach(function(card){
+        card.setDay(_daySelector.val());
+      });
       //Only affects the columns of the shown spaces
       Pard.ShownSpaces.forEach(function(space, index){
-        //Hiding timeTable if permanent
-        if(_daySelector.val() == 'permanent') _timeTable.hide();
-        else{_timeTable.show();}
         //Hiding lastSelection
         space[_lastSelected].hide();
         //Showing new selection (append needed to reorder)
@@ -299,6 +304,8 @@
     //Last selections (needed for accordion show hide purposes)
     var lastArtist = '';
     var lastaHref = '';
+    //Array of proposal cards
+    var proposalCards = [];
 
     //Filling the accordion... the classes are giving style from foundation... need to change and redifine (no foundation behaviour)
     Object.keys(artists).forEach(function(profile_id, index){
@@ -310,7 +317,9 @@
       var content = $('<div>').addClass('accordion-content').css({'padding': 0});
       artists[profile_id].forEach(function(proposal){
         //Creating cards for each proposal
-        content.append(Pard.Widgets.ProposalCard(proposal).render());
+        var proposalCard = Pard.Widgets.ProposalCard(proposal);
+        proposalCards.push(proposalCard);
+        content.append(proposalCard.render());
       });
       accordionNav.append(aHref);
       container.append(accordionNav, content);
@@ -471,6 +480,7 @@
               proposal['top'] = start + 41;
               proposal['left'] = index * Pard.ColumnWidth + 1;
               proposal['maxHeight'] = timeCol.height() - start;
+              proposal['day'] = performance.date;
               
               //New card
               var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
