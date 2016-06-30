@@ -55,6 +55,14 @@
     var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
       'height': (hours.length - 1) * 40
     });
+    
+    //Giving background to space if not availabe
+    if($.inArray(day, space.availability) < 0){
+      _time.css({
+        'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
+      });
+    }
+    
     _time.droppable({
       //Only accepts elements with these classes
       accept: function(card){

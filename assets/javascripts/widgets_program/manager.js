@@ -35,16 +35,27 @@
 
     //Filling artists, spaces and selector options
     call['proposals'].forEach(function(proposal){
+      //Formatting availability parameter
+      if(proposal.availability && proposal.availability != 'false'){
+        var availability = [];
+        Object.keys(proposal.availability).forEach(function(index){
+          var date = new Date(proposal.availability[index]);
+          availability.push(date.toISOString().split('T')[0]);
+        });
+        proposal.availability = availability;
+      }
+      else{ proposal.availability = Object.keys(eventTime);}
+
       if (proposal.type == 'artist'){
         artists[proposal.profile_id] = artists[proposal.profile_id] || [];
         artists[proposal.profile_id].push(proposal)
       };
       if (proposal.type == 'space'){
+        Pard.Spaces.push(proposal);
         spaceProposals.push({
           id: proposal.profile_id,
           text: proposal.name
         });
-        Pard.Spaces.push(proposal);
       }
     });
 
@@ -88,7 +99,7 @@
     _spaceSelectorContainer.append(_spaceSelector);
     _artistSelectorContainer.append(_artistSelector);
 
-    //Button for showing hiding artists
+    //Button for showing hidding artists
     var _showArtists = $('<button>').attr('type','button').addClass('show-hide-btn-call-manager');
     var _showIcon = Pard.Widgets.IconManager('left_arrow_block').render();
     var _hideIcon = Pard.Widgets.IconManager('right_arrow_block').render();
@@ -130,6 +141,7 @@
 
     //Dayselector behaviour
     _daySelector.on('change', function(){
+
       //Only affects the columns of the shown spaces
       Pard.ShownSpaces.forEach(function(space, index){
         //Hiding timeTable if permanent
