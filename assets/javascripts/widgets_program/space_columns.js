@@ -8,20 +8,10 @@
     var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id).css({
       'display': ' inline-block',
       'width': '11rem',
-      'border-width': '1px',
-      'border-style': 'solid'
+      'border': '1px solid'
     });
     //Space header is the handle for dragging space columns
-    var _spaceHeader = $('<div>').addClass('spaceHeader').css({
-      'display': 'inline-block',
-      'padding': 0,
-      'background-color': '#009999',
-      'border-color': '#999999',
-      'height': '40px',
-      'cursor': 'pointer',
-      'text-align': 'center',
-      'width': '100%'
-    });
+    var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header');
 
     var _icon = Pard.Widgets.IconManager('menu').render().css({
       'margin-top': 8
@@ -58,9 +48,12 @@
     
     //Giving background to space if not availabe
     if($.inArray(day, space.availability) < 0){
-      _time.css({
-        'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
-      });
+      _spaceCol.addClass('space-not-available-call-manager');
+      // .css({
+      //   'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
+      // });
+    }else{
+      _spaceCol.removeClass('space-not-available-call-manager');
     }
     
     _time.droppable({

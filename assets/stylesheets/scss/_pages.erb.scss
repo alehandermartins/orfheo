@@ -1583,6 +1583,31 @@ li.artists-selector-container-call-manager{
   vertical-align: middle;
 }
 
+/* .space-column-manager-table{
+  display: inline-block !important;
+  width: 11rem;
+  border: 1px solid;
+} */
+
+.space-column-header{
+  display: inline-block;
+  padding: 0;
+  background-color: $grey-2;
+  height: 40px;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+
+}
+
+.space-not-available-call-manager,.artist-not-available-call-manager{
+  opacity:0.4;
+  background: $grey-2;
+/* repeating-linear-gradient(45deg,$grey-4, $grey-4 10px,$grey-1 10px,$grey-1 20px); */
+}
+
+
+
 /*===============================================
 ORGANIZATION PAGE
 ================================================*/

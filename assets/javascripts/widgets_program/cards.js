@@ -19,9 +19,13 @@
 
 
     if($.inArray(Object.keys(Pard.CachedCall.eventTime)[0], proposal.availability) < 0){
-      _card.css({
-        'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
-      });
+      _card.addClass('artist-not-available-call-manager');
+      // .css({
+      //   'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
+      // });
+    }
+    else{
+      _card.removeClass('artist-not-available-call-manager');
     }
     
     _card.draggable({

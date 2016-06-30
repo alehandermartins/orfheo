@@ -125,14 +125,14 @@
     _scrollRightBtn.mousehold(500,function(){
       var _leftPos = _tableContainer.scrollLeft();
       $(_tableContainer).animate({
-        scrollLeft: _leftPos + 527
+        scrollLeft: _leftPos + 528
     }, 500);
     });
 
     _scrollLeftBtn.mousehold(500,function(){
       var _leftPos = _tableContainer.scrollLeft();
       $(_tableContainer).animate({
-        scrollLeft: _leftPos - 527
+        scrollLeft: _leftPos - 528
     }, 500);
     });
 
@@ -174,18 +174,21 @@
       if(_daySelector.val() == 'permanent') _timeTable.hide();
       else{_timeTable.show();}
       //Giving css to unavailable proposals
+              console.log(_daySelector.val());
+
       proposalCards.forEach(function(card){
         card.setDay(_daySelector.val());
       });
       //Only affects the columns of the shown spaces
       Pard.ShownSpaces.forEach(function(space, index){
         //Hiding lastSelection
+        console.log(_lastSelected);
         space[_lastSelected].hide();
         //Showing new selection (append needed to reorder)
         if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
         space[_daySelector.val()].show();
       });
-        //Seting new selection as lastSelection
+        //Setting new selection as lastSelection
       _lastSelected = _daySelector.val();
     });
 
@@ -313,7 +316,8 @@
 
     var _tableBox = $('<div>').addClass('table-box-call-manager');
 
-    var _timeTable = $('<div>').addClass('time-table-call-manager');
+    var _timeTable = $('<div>');
+    var _timeTableContainer = $('<div>').addClass('time-table-call-manager');
 
     var _tableContainer = $('<div>').addClass('tableContainer table-container-call-manager');
 
@@ -447,7 +451,7 @@
     _table.append(_whiteBox);
     _tableContainer.append(_table);
 
-    _tableBox.append(_timeTable.prepend(_scrollers), _tableContainer, _artists);
+    _tableBox.append(_timeTableContainer.append(_scrollers, _timeTable), _tableContainer, _artists);
 
     _createdWidget.append(_tableBox);
 
@@ -467,7 +471,7 @@
     var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container');
     // var _successBox = $('<span>').attr({id:'succes-box-call-manager'});
 
-    _selectors.append(_submitBtnContainer.append($('<p>').append($('<span>').html('Guarda </br>los cambios')).addClass('save-text-call-manager'),_submitBtn));
+    _selectors.append(_submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn));
 
     //Filling the table with existing program from database
     if(call['program']){

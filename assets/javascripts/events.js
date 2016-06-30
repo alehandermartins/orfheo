@@ -290,6 +290,9 @@
     if(data['status'] == 'success'){
       $('#successBox-whiteList').append($('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
       $('.new-input-selected-whitelist').removeClass('new-input-selected-whitelist');
+      setTimeout(function(){
+        $('#successBox-whiteList').empty();
+      }, 3000);
     }
     else{
       // $('#succes-box-call-manager').append($('<span>').text('¡Error! No se ha podido guardar los datos').css('color','red'));
