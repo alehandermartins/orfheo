@@ -174,15 +174,12 @@
       if(_daySelector.val() == 'permanent') _timeTable.hide();
       else{_timeTable.show();}
       //Giving css to unavailable proposals
-              console.log(_daySelector.val());
-
       proposalCards.forEach(function(card){
         card.setDay(_daySelector.val());
       });
       //Only affects the columns of the shown spaces
       Pard.ShownSpaces.forEach(function(space, index){
         //Hiding lastSelection
-        console.log(_lastSelected);
         space[_lastSelected].hide();
         //Showing new selection (append needed to reorder)
         if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
@@ -221,9 +218,11 @@
 
         //Formatting columns with depending on the amount of shown spaces
         Pard.ColumnWidth = 176; 
+        if (Pard.ShownSpaces.length == 0) _whiteBox.css('background','transparent');
         if(Pard.ShownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / Pard.ShownSpaces.length;
         var _keys = Object.keys(eventTime);
         _keys.push('permanent');
+
         Pard.ShownSpaces.forEach(function(space, index){
           if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
           _keys.forEach(function(date){
@@ -242,6 +241,7 @@
     //Space selector unselecting case (shows all spaces and formats width)
     _spaceSelector.on("select2:unselecting", function(e){
       Pard.ShownSpaces = [];
+      _whiteBox.css('background','white');
       Pard.Spaces.forEach(function(space){
         space[_lastSelected].show();
         Pard.ShownSpaces.push(space);
@@ -252,13 +252,22 @@
       _keys.push('permanent');
       Pard.ShownSpaces.forEach(function(space, index){
         if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
-        space[_lastSelected].css({
-        'width': Pard.ColumnWidth,
-        });
-        space[_lastSelected].find('.programHelper').css({
-          'width': Pard.ColumnWidth - 2,
-          'left': index * Pard.ColumnWidth + 1
-        });
+          _keys.forEach(function(date){
+            space[date].css({
+              'width': Pard.ColumnWidth,
+            });
+            space[date].find('.programHelper').css({
+              'width': Pard.ColumnWidth - 2,
+              'left': index * Pard.ColumnWidth + 1
+            });
+          });
+        // space[_lastSelected].css({
+        // 'width': Pard.ColumnWidth,
+        // });
+        // space[_lastSelected].find('.programHelper').css({
+        //   'width': Pard.ColumnWidth - 2,
+        //   'left': index * Pard.ColumnWidth + 1
+        // });
       });
       $(this).select2("val", "");
       e.preventDefault();

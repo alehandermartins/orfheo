@@ -223,16 +223,17 @@
       'border-width': '1px',
       'border-style': 'solid'
     });
-    var _spaceHeader = $('<div>').addClass('spaceHeader').css({
-        'display': 'inline-block',
-        'padding': 0,
-        'background-color': '#009999',
-        'border-color': '#999999',
-        'height': '40px',
-        'cursor': 'pointer',
-        'text-align': 'center',
-        'width': '100%'
-      });
+    var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header');
+    // .css({
+    //     'display': 'inline-block',
+    //     'padding': 0,
+    //     'background-color': '#009999',
+    //     'border-color': '#999999',
+    //     'height': '40px',
+    //     'cursor': 'pointer',
+    //     'text-align': 'center',
+    //     'width': '100%'
+    //   });
 
       var _icon = Pard.Widgets.IconManager('menu').render().css({
         'margin-top': 8
