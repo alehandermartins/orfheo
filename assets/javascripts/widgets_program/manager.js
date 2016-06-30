@@ -101,8 +101,8 @@
 
     //Button for showing hidding artists
     var _showArtists = $('<button>').attr('type','button').addClass('show-hide-btn-call-manager');
-    var _showIcon = Pard.Widgets.IconManager('left_arrow_block').render();
-    var _hideIcon = Pard.Widgets.IconManager('right_arrow_block').render();
+    var _showIcon = Pard.Widgets.IconManager('hide_left_list').render().css('color','#6f6f6f');
+    var _hideIcon = Pard.Widgets.IconManager('hide_right_list').render();
     _showArtists.append(_hideIcon);
     _showArtists.on('click', function(){
       _artists.toggle('slide', {direction: 'right'}, 500);
@@ -135,7 +135,26 @@
     //   'width': 300
     // });
 
-    var _selectors = $('<div>').css('position','relative');
+    var _scrollLeftBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_left').render().addClass('navigation-btn-icon'));
+    var _scrollRightBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_right').render().addClass('navigation-btn-icon'));
+
+    _scrollRightBtn.mousehold(500,function(){
+      var _leftPos = _tableContainer.scrollLeft();
+      $(_tableContainer).animate({
+        scrollLeft: _leftPos + 527
+    }, 500);
+    });
+
+    _scrollLeftBtn.mousehold(500,function(){
+      var _leftPos = _tableContainer.scrollLeft();
+      $(_tableContainer).animate({
+        scrollLeft: _leftPos - 527
+    }, 500);
+    });
+
+    var _scrollers = $('<div>').append( _scrollLeftBtn, _scrollRightBtn).addClass('scrollers-call-managers');
+
+    var _selectors = $('<div>').addClass('selectors-call-manager');
 
     _createdWidget.append(_selectors.append(_daySelector, _spaceSelectorContainer, _showArtists));
 
@@ -425,7 +444,7 @@
     _table.append(_whiteBox);
     _tableContainer.append(_table);
 
-    _tableBox.append(_timeTable, _tableContainer, _artists);
+    _tableBox.append(_scrollers, _timeTable, _tableContainer, _artists);
 
     _createdWidget.append(_tableBox);
 

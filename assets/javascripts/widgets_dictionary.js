@@ -33,7 +33,13 @@
       add_circle: {icon:'&#xE147;', className:'material-icons'},
       menu: {icon:'&#xE8EE;', className:'material-icons'},
       left_arrow_block: {icon:'&#xE5DC;', className:'material-icons'},
-      right_arrow_block: {icon:'&#xE5DD;', className:'material-icons'},      
+      right_arrow_block: {icon:'&#xE5DD;', className:'material-icons'},
+      navigation_left: {icon:'&#xE408;', className:'material-icons'},
+      navigation_right: {icon:'&#xE409;', className:'material-icons'},
+
+      hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
+      hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},
+
 
       open_call: {icon:'', className: 'fa fa-bullhorn'},
       arrow_circle_right: {icon:'', className: 'fa fa-arrow-circle-right'},

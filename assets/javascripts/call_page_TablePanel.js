@@ -60,10 +60,13 @@
 		var _proposalsPanel = $('<div>').attr('id', 'proposalsPanel');
     var _programPanel = $('<div>').attr('id', 'programPanel');
 
-		var _panelShown = _tablePanel;
+		// var _panelShown = _tablePanel;
+    var _panelShown = _programPanel;
+ 
 
 		$(document).ready(function(){
-			_tableTab.trigger('click')
+			// _tableTab.trigger('click')
+      _programTab.trigger('click')
 		});
 
     _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel, _programPanel);
