@@ -36,17 +36,15 @@
     //Filling artists, spaces and selector options
     call['proposals'].forEach(function(proposal){
       //Formatting availability parameter
-      var dates = Object.keys(eventTime);
-      dates.push('permanent');
       if(proposal.availability && proposal.availability != 'false'){
-        var availability = ['permanent'];
+        var availability = [];
         Object.keys(proposal.availability).forEach(function(index){
           var date = new Date(proposal.availability[index]);
           availability.push(date.toISOString().split('T')[0]);
         });
         proposal.availability = availability;
       }
-      else{ proposal.availability = dates;}
+      else{ proposal.availability = Object.keys(eventTime);}
 
       if (proposal.type == 'artist'){
         artists[proposal.profile_id] = artists[proposal.profile_id] || [];

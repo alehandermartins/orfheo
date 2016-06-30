@@ -95,7 +95,8 @@
       },
       setDay: function(day){
         //Giving background to card if not availabe
-        if($.inArray(day, proposal.availability) < 0){
+        if(day == 'permanent')_card.css('background', 'none');
+        else if($.inArray(day, proposal.availability) < 0){
           _card.css({
             'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
           });
