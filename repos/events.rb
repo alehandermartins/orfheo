@@ -3,7 +3,7 @@ module Repos
     class << self
 
       def for db
-        @@events_collection = db['calls']
+        @@events_collection = db['events']
       end
 
       def add event

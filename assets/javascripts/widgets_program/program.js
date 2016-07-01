@@ -1,6 +1,7 @@
 'use strict';
 
 (function(ns){
+
 	ns.Widgets.PerformanceProgram = function(proposal){
     var _closepopup = {};
     var _createdWidget = $('<div>');
@@ -13,8 +14,8 @@
     var myPerformances = [];
     var myPermanentPerformances = [];
     program.forEach(function(performance){
-      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == false) myPerformances.push(performance);
-      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == true) myPermanentPerformances.push(performance);
+      if(performance.performance_id == proposal.performance_id && performance.permanent == false) myPerformances.push(performance);
+      if(performance.performance_id == proposal.performance_id && performance.permanent == true) myPermanentPerformances.push(performance);
     });
 
     //Non-permanet input
@@ -44,7 +45,7 @@
       	//Update od the performance date
         performance.date = _daySelector.val();
         performance['card'].remove();
-        spaces.forEach(function(space){
+        Pard.Spaces.forEach(function(space){
           if(space.proposal_id == performance.host_proposal_id){
             var timeCol = space[performance.date].find('.spaceTime');
             var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();

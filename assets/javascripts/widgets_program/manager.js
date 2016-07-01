@@ -6,6 +6,10 @@
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
 
     Pard.CachedCall = call;
+
+    $(document).ready(function(){
+      $(document).foundation();
+    });
     
     //Schedule of the event
     var eventTime = call.eventTime;
@@ -81,7 +85,6 @@
       }
       return _label;
     };
-
    
     //Button for showing hidding artists
     var _showArtists = $('<button>').attr('type','button').addClass('show-hide-btn-call-manager');
@@ -389,7 +392,7 @@
       artists[profile_id]['card'] = container;
     });
 
-
+    Pard.Artists = artists;
 
     // _createdWidget.append();
 

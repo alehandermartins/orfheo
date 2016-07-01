@@ -13,14 +13,15 @@
     //Space header is the handle for dragging space columns
     var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header');
 
-    var _icon = Pard.Widgets.IconManager('menu').render().css({
-      'margin-top': 8
-    });
+    // var _icon = Pard.Widgets.IconManager('menu').render().css({
+    //   'margin-top': 8
+    // });
+
+    var _icon = Pard.Widgets.SpaceDropdownMenu(space.profile_id, space.name).render();
     var _menuIcon = $('<div>').append(_icon);
     _menuIcon.css({
       'display': 'inline-block',
       'vertical-align': 'middle',
-      'height': 38,
     });
     _spaceCol.append(_menuIcon);
 

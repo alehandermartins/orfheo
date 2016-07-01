@@ -6,6 +6,7 @@ require 'mongo'
 require 'cloudinary'
 require 'active_support'
 require 'active_support/core_ext/object'
+require 'time'
 
 require_relative '../exceptions'
 
@@ -108,8 +109,8 @@ class BaseController < Sinatra::Base
   configure do
     Repos::Users.for @@db
     Repos::Profiles.for @@db
-    Repos::Calls.for @@db
     Repos::Events.for @@db
+    Repos::Calls.for @@db
   end
 
   configure do

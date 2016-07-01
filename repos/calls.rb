@@ -5,16 +5,110 @@ module Repos
       def for db
         @@calls_collection = db['calls']
         # call = grab({})[0]
-        # participants = call[:proposals].map{ |proposal|
-        #   {
-        #     name: proposal.name
-        #     address: proposal.address
-        #   }
+        # profiles = {}
+
+        # call[:proposals].each{ |proposal|
+        #   profiles[proposal[:profile_id]] = profiles[proposal[:profile_id]] || []
+        #   profiles[proposal[:profile_id]].push(proposal)
         # }
+
+        # participants = []
+        # profiles.each{ |profile_id, proposals|
+        #   participants.push(artist_fields(proposals)) if(proposals[0][:type] == 'artist')
+        #   participants.push(space_fields(proposals)) if(proposals[0][:type] == 'space')
+        # }
+        # call.delete(:proposals)
+        # call[:participants] = participants
+        # Repos::Events.add(call) unless (Repos::Events.event_exists? call[:event_id])
+      end
+
+      def artist_fields proposals
+        address = {
+          locality: proposals[0][:city],
+          postal_code: proposals[0][:zip_code]
+        }
+        fields = {
+          user_id: proposals[0][:user_id],
+          email: proposals[0][:email],
+          profile_id: proposals[0][:profile_id],
+          name: proposals[0][:name],
+          type: proposals[0][:type],
+          phone: proposals[0][:phone],
+          address: address,
+          proposals: []
+        }
+
+        proposals.each{ |proposal|
+          availability = []
+          availability = proposal[:availability].map{ |key, value|
+            Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
+          }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Array) && !proposal[:availability].blank?)
+          
+          availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
+          proposal[:availability] = availability
+
+          proposal.delete(:photos)
+          proposal.delete(:personal_web)
+          proposal.delete(:links)
+          proposal.delete(:whitelist)
+          proposal.delete(:call_id)
+
+          proposal.delete(:city)
+          proposal.delete(:zip_code)
+          proposal.delete(:user_id)
+          proposal.delete(:email)
+          proposal.delete(:profile_id)
+          proposal.delete(:name)
+          proposal.delete(:phone)
+          proposal.delete(:program)
+          fields[:proposals].push(proposal)
+        }
+        return fields
+      end
+
+      def space_fields proposals
+        fields = {
+          user_id: proposals[0][:user_id],
+          email: proposals[0][:email],
+          profile_id: proposals[0][:profile_id],
+          name: proposals[0][:name],
+          type: proposals[0][:type],
+          category: proposals[0][:category],
+          phone: proposals[0][:phone],
+          address: proposals[0][:address],
+          proposals: []
+        }
+
+        proposals.each{ |proposal|
+          availability = []
+          availability = proposal[:availability].map{ |key, value|
+            Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
+          }.compact unless( !proposal.has_key? :availability || proposal[:availability].is_a?(Array) || proposal[:availability].blank?)
+          
+          availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
+          proposal[:availability] = availability
+          proposal.delete(:category)
+
+          proposal.delete(:photos)
+          proposal.delete(:personal_web)
+          proposal.delete(:links)
+          proposal.delete(:call_id)
+
+          proposal.delete(:address)
+          proposal.delete(:user_id)
+          proposal.delete(:email)
+          proposal.delete(:profile_id)
+          proposal.delete(:name)
+          proposal.delete(:phone)
+          proposal.delete(:program)
+          fields[:proposals].push(proposal)
+        }
+        return fields
       end
 
       def add call
         @@calls_collection.insert(call)
+        
       end
 
       def event_exists? event_id

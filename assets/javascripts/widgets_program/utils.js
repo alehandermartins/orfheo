@@ -5,6 +5,7 @@
   Pard.CachedCall = {};
   Pard.Spaces = [];
   Pard.ShownSpaces = [];
+  Pard.Artists = {};
   ns.Widgets.Program = [];
   ns.Widgets.DraggedPerformance = {};
   ns.ColumnWidth = 176;
@@ -22,6 +23,44 @@
     }
 
     return _dictionary[category];
+  }
+
+  ns.Widgets.SpaceDropdownMenu = function(profile_id, profile_name){     
+
+    var _menu = $('<ul>').addClass('menu');
+    
+    var _profileLink = $('<li>');
+    var _profileCaller = $('<a>').attr({
+      target: 'blank',
+      href: '/profile?id=' + profile_id
+    }).text('Ver perfil');
+
+    var _programLink = $('<li>');
+    var _programCaller = $('<a>').attr('href','#').text('Ver programa');
+    var _program = Pard.Widgets.PopupCreator(_programCaller, profile_name, function(){return Pard.Widgets.SpaceProgram(profile_id)});
+
+    // var _dCaller = $('<a>').attr('href','#').text('Elimina mi cuenta');
+    // var _deleteCaller = Pard.Widgets.PopupCreator(_dCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteUserMessage()});
+    // var _deleteUser = $('<li>').append(_deleteCaller.render());
+
+    _profileLink.append(_profileCaller);
+    _programLink.append(_program.render());
+    _menu.append(_profileLink, _programLink);
+    var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
+    var _iconDropdownMenu = $('<li>').append(
+      $('<a>').attr('href','#').append(
+        $('<span>').html('&#xE8EE').addClass('material-icons settings-icon-dropdown-menu')
+        )
+      ,_menu
+    );
+
+    _menuContainer.append(_iconDropdownMenu);
+
+    return {
+      render: function(){
+        return _menuContainer;
+      } 
+    }
   }
 
   ns.Widgets.GetProposal = function(proposal_id){
