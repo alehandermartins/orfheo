@@ -203,7 +203,7 @@
           if(performanceProgram.performance_id == performance.performance_id){
             var end = new Date(performanceProgram['time'][0]);
             end.setMinutes(end.getMinutes() + ui.size.height * 1.5);
-            performanceProgram['time'][1] = end.toISOString();
+            performanceProgram['time'][1] = end.getTime();
           }
         });
       }

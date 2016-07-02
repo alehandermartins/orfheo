@@ -13,11 +13,7 @@
     //Space header is the handle for dragging space columns
     var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header');
 
-    // var _icon = Pard.Widgets.IconManager('menu').render().css({
-    //   'margin-top': 8
-    // });
-
-    var _icon = Pard.Widgets.SpaceDropdownMenu(space.profile_id, space.name).render();
+    var _icon = Pard.Widgets.SpaceDropdownMenu(space).render();
     var _menuIcon = $('<div>').append(_icon);
     _menuIcon.css({
       'display': 'inline-block',
@@ -50,9 +46,6 @@
     //Giving background to space if not availabe
     if($.inArray(day, space.availability) < 0){
       _spaceCol.addClass('space-not-available-call-manager');
-      // .css({
-      //   'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
-      // });
     }else{
       _spaceCol.removeClass('space-not-available-call-manager');
     }
@@ -92,22 +85,11 @@
         Pard.Widgets.DraggedPerformance['day'] = day;
         
         //Obtaining start and end times from position and pixels
-        var eventDate = day.split('T')[0];
-        var eventTimeArray = eventTime[day][0][0].split('T')[1].split(':');
-        var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
 
-        var start = (position - 41) * 1.5 + eventMinutes;
-        var end = (start + duration * 1.5);
-        var startHour = Math.floor(start/60);
-        var startMin = start % 60;
-        if(startHour < 10) startHour = '0' + startHour;
-        if(startMin < 10) startMin = '0' + startMin;
-        var endHour = Math.floor(end/60);
-        var endMin = end % 60;
-        if(endHour < 10) endHour = '0' + endHour;
-        if(endMin < 10) endMin = '0' + endMin;
-        start = eventDate + 'T' + startHour + ':' + startMin + ':' + '00' + '.000Z';
-        end = eventDate + 'T' + endHour + ':' + endMin + ':' + '00' + '.000Z';
+        var start = new Date(parseInt(eventTime[day][0][0]));
+        start.setMinutes(start.getMinutes() + (position - 41) * 1.5);
+        var end = new Date(start.getTime());
+        end.setMinutes(start.getMinutes() + duration * 1.5);
 
         //New performance card
         var newPerformance = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedPerformance, space.proposal_id).render();
@@ -123,7 +105,7 @@
           host_proposal_id: space.proposal_id,
           date: day,
           permanent: false,
-          time: [start, end],
+          time: [start.getTime(), end.getTime()],
           card: newPerformance
         }
 
@@ -325,9 +307,9 @@
           //If the performance is new we create a performance with the same performance_id for each day of the event and push them to the program
           _time.append(newPerformance);
           Object.keys(eventTime).forEach(function(date){
-            var start = eventTime[date][0][0];
+            var start = parseInt(eventTime[date][0][0]);
             var lastIndex = eventTime[date].length - 1;
-            var end = eventTime[date][lastIndex][1];
+            var end = parseInt(eventTime[date][lastIndex][1]);
             var performance = {
               performance_id: Pard.Widgets.DraggedPerformance.performance_id,
               participant_id: Pard.Widgets.DraggedPerformance.profile_id,

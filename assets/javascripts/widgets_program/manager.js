@@ -6,19 +6,9 @@
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
 
     Pard.CachedCall = call;
-
-    $(document).ready(function(){
-      $(document).foundation();
-    });
     
     //Schedule of the event
     var eventTime = call.eventTime;
-
-    //To be included in call Database (if not already)
-    // var eventTime = {
-    //   '2016-10-15': [['2016-10-15T10:00:00.000Z', '2016-10-15T14:00:00.000Z'], ['2016-10-15T17:00:00.000Z', '2016-10-15T23:00:00.000Z']],
-    //   '2016-10-16': [['2016-10-16T10:00:00.000Z', '2016-10-16T14:00:00.000Z'], ['2016-10-16T17:00:00.000Z', '2016-10-16T23:00:00.000Z']]
-    // };
 
     //Time in milliseconds: consider to use it!!
     // {"2016-10-15" : [[ "1476518400000", "1476532800000"], 
@@ -408,24 +398,35 @@
         _daySelector.select2('data', {id: day, text: day});
         _daySelector.trigger('change');
       }
-      
-      var start = parseInt(eventTime[day][0][0].split('T')[1].split(':')[0]);
-      // var start = new Date(parseInt(eventTime[day][0][0]));
+      var start = new Date(parseInt(eventTime[day][0][0]));
+      var startDate = start.getDate();
+      var startHour = start.getHours();
       
       var lastIndex = eventTime[day].length - 1;
-      var end = parseInt(eventTime[day][lastIndex][1].split('T')[1].split(':')[0]);
-      // var end = new Date(parseInt(eventTime[day][lastIndex][1]));
-
-      if (end == 00) end = 24; 
+      
+      var end = new Date(parseInt(eventTime[day][lastIndex][1]));
+      var endDate = end.getDate();
+      var endHour = end.getHours();
 
       //Amount of hours in our day
       var hours = [];
-      for (var i = start; i <= end; i++) {
-        hours.push(i);
-      };
+      if(endDate > startDate){
+        for (var i = startHour; i < 24; i++) {
+          hours.push(i);
+        }
+        for (var i = 0; i <= endHour; i++) {
+          hours.push(i);
+        }
+      }
+      else{
+        for (var i = startHour; i <= endHour; i++) {
+          hours.push(i);
+        }
+      }
 
       //Times and lines (This gets redefined each loop... probably not the best place)
       hours.forEach(function(hour, hourIndex){
+        if(hour < 10) hour = '0' + hour;
         var _time = $('<div>').html(hour + ':00').addClass('time-timeTable-call-manager');
         _time.css({top: 28 + hourIndex * 40 + "px"});
         var _line = $('<hr>').addClass('line-timeTable-call-manager')
@@ -503,15 +504,14 @@
               var proposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
 
               //We get the beginning of the day in minutes
-              var eventTimeArray = eventTime[performance.date][0][0].split('T')[1].split(':');
-              var eventMinutes = parseInt(eventTimeArray[0]) * 60 + parseInt(eventTimeArray[1]);
-
+              var dayStart = parseInt(eventTime[performance.date][0][0]);
+              performance.time[0] = parseInt(performance.time[0]);
+              performance.time[1] = parseInt(performance.time[1]);
+              
               //We transform the start and end of the performance into pixels using the beginning of the day
-              //10 pixels = 15 min 
-              var startArray = performance.time[0].split('T')[1].split(':');
-              var start = (parseInt(startArray[0]) * 60 + parseInt(startArray[1]) - eventMinutes) / 1.5;
-              var endArray = performance.time[1].split('T')[1].split(':');
-              var end = (parseInt(endArray[0]) * 60 + parseInt(endArray[1]) - eventMinutes) / 1.5;
+              //10 pixels = 15 min
+              var start = (performance.time[0] - dayStart) / 90000;
+              var end = (performance.time[1] - dayStart) / 90000;
 
               //Info for the card
               proposal['performance_id'] = performance.performance_id;
@@ -527,6 +527,7 @@
               timeCol.append(newPerformance);
               performance.card = newPerformance;
               performance.permanent = false;
+             
 
               Pard.Widgets.Program.push(performance);
             }
@@ -556,6 +557,8 @@
             }
             //All performances with the same performance_id must point to the same card
             performance.permanent = true;
+            performance.time[0] = parseInt(performance.time[0]);
+            performance.time[1] = parseInt(performance.time[1]);
             performance.card = newPerformance[performance.performance_id];
             Pard.Widgets.Program.push(performance);
           });

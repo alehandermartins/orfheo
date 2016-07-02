@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets.SpaceProgram = function(profile_id){
+  ns.Widgets.SpaceProgram = function(space){
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var call = Pard.CachedCall;
@@ -12,8 +12,8 @@
     var myPerformances = [];
     var myPermanentPerformances = [];
     program.forEach(function(performance){
-      if(performance.host_id == profile_id && performance.permanent == false) myPerformances.push(performance);
-      if(performance.host_id == profile_id && performance.permanent == true) myPermanentPerformances.push(performance);
+      if(performance.host_id == space.profile_id && performance.permanent == false) myPerformances.push(performance);
+      if(performance.host_id == space.profile_id && performance.permanent == true) myPermanentPerformances.push(performance);
     });
 
     var _performaceInput = function(performance){
@@ -52,14 +52,11 @@
         //Update od the performance date
         performance.date = _daySelector.val();
         performance['card'].remove();
-        Pard.Spaces.forEach(function(space){
-          if(space.proposal_id == performance.host_proposal_id){
-            var timeCol = space[performance.date].find('.spaceTime');
-            var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
-            timeCol.append(newPerformance);
-            performance['card'] = newPerformance;
-          }
-        });
+        var timeCol = space[performance.date].find('.spaceTime');
+        var proposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
+        var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
+        timeCol.append(newPerformance);
+        performance['card'] = newPerformance;
       });
       
       //Space Selector behaviour

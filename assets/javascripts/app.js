@@ -182,8 +182,6 @@ Pard.Outsider = function(profiles){
 
 Pard.Call = function(call){
 
-  console.log(call);
-
   // HoldOn.open({
   //   theme:'sk-circle',
   //   backgroundColor:'#000000',
@@ -202,11 +200,11 @@ Pard.Call = function(call){
   
   $(window).load(function(){
       spinner.stop();
+      $(document).foundation();
   });  
 
-  $(document).ready(function(){
+  $(window).ready(function(){
     $('body').append(_whole);
-    $(document).foundation();
   });
 
   Pard.CachedCalls = call;

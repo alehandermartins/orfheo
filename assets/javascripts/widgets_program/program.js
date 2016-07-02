@@ -14,8 +14,8 @@
     var myPerformances = [];
     var myPermanentPerformances = [];
     program.forEach(function(performance){
-      if(performance.performance_id == proposal.performance_id && performance.permanent == false) myPerformances.push(performance);
-      if(performance.performance_id == proposal.performance_id && performance.permanent == true) myPermanentPerformances.push(performance);
+      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == false) myPerformances.push(performance);
+      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == true) myPermanentPerformances.push(performance);
     });
 
     //Non-permanet input
@@ -41,44 +41,50 @@
 
       //Day selector behaviour
       _daySelector.on('change', function(){
-      	//We destroy the card and add a new card to the new space column
-      	//Update od the performance date
+      	//Update on the performance date
         performance.date = _daySelector.val();
-        performance['card'].remove();
+        var dateArray = performance.date.split('-');
+        var start = new Date(performance.time[0]);
+        var end = new Date(performance.time[1]);
+
+        start.setUTCFullYear(parseInt(dateArray[0]));
+        end.setUTCFullYear(parseInt(dateArray[0]));
+
+        start.setUTCMonth(parseInt(dateArray[1] - 1));
+        end.setUTCMonth(parseInt(dateArray[1] - 1));
+
+        start.setUTCDate(parseInt(dateArray[2]));
+        end.setUTCDate(parseInt(dateArray[2]));
+
+        performance.time[0] = start.getTime();
+        performance.time[1] = end.getTime();
+
         Pard.Spaces.forEach(function(space){
           if(space.proposal_id == performance.host_proposal_id){
             var timeCol = space[performance.date].find('.spaceTime');
-            var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
-            timeCol.append(newPerformance);
-            performance['card'] = newPerformance;
+            timeCol.append(performance['card']);
           }
         });
+        _setStartTimes();
+        _setEndTimes();
       });
       
       //Space Selector behaviour
       _spaceSelector.on('change', function(){
-      	//We destroy the card and add a new card to the new space column
       	//Update od the performance location
         performance.host_proposal_id = _spaceSelector.val();
-        performance['card'].remove();
         Pard.Spaces.forEach(function(space){
           if(space.proposal_id == performance.host_proposal_id){
             var timeCol = space[performance.date].find('.spaceTime');
             var spaceProposal = Pard.Widgets.GetProposal(_spaceSelector.val());
 
-            proposal['left'] = Pard.ShownSpaces.indexOf(space) * 176 + 1;
-            
-            var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
-            timeCol.append(newPerformance);
+            performance['card'].css('left', Pard.ShownSpaces.indexOf(space) * 176 + 1);
+            timeCol.append(performance['card']);
 
-            performance['card'] = newPerformance;
+            performance.host_id = spaceProposal.profile_id;
           }
         });
       });
-
-      var dayStart = new Date(eventTime[performance.date][0][0]);
-      var lastIndex = eventTime[performance.date].length - 1;
-      var dayEnd = new Date(eventTime[performance.date][lastIndex][1]);
 
       var _startTime = $('<select>');
       var _endTime = $('<select>');
@@ -86,63 +92,70 @@
       //Filling start options
       var _setStartTimes = function(){
         _startTime.empty();
+
+        var dayStart = new Date(parseInt(eventTime[performance.date][0][0]));
+        var lastIndex = eventTime[performance.date].length - 1;
+        var dayEnd = new Date(parseInt(eventTime[performance.date][lastIndex][1]));
+        
         var start = new Date(performance['time'][0]);
         var end = new Date(performance['time'][1]);
-
         //Te max value for start is that that puts the end on the limit of the day
-        dayStart = new Date(eventTime[performance.date][0][0]);
         var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
 
         while(dayStart <= maxStart){
-          var timeVal = dayStart.toISOString();
-          var timeArray = timeVal.split('T')[1].split(':');
-          var startOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
+          var hours = dayStart.getHours();
+          var minutes = dayStart.getMinutes();4
+          if(hours < 10) hours = '0' + hours;
+          if(minutes < 10) minutes = '0' + minutes;
+          var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
           _startTime.append(startOption);
-
           dayStart.setMinutes(dayStart.getMinutes() + 15);
         };
-
         _startTime.val(performance['time'][0]);
       };
 
       //Filling end options
       var _setEndTimes = function(){
         _endTime.empty();
+        
+        var lastIndex = eventTime[performance.date].length - 1;
+        var dayEnd = new Date(parseInt(eventTime[performance.date][lastIndex][1]));
+
         var start = new Date(performance['time'][0]);
         //The minimum end is the start plus 15 minutes
         var minEnd = new Date(start.getTime() + 15 * 60000);
-        
+
         while(minEnd <= dayEnd){
-          var timeVal = minEnd.toISOString();
-          var timeArray = timeVal.split('T')[1].split(':');
-          var endOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
+          var hours = minEnd.getHours();
+          var minutes = minEnd.getMinutes();4
+          if(hours < 10) hours = '0' + hours;
+          if(minutes < 10) minutes = '0' + minutes;
+          var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
           _endTime.append(endOption);
 
           minEnd.setMinutes(minEnd.getMinutes() + 15);
         };
         _endTime.val(performance['time'][1]);
       };
-
       _setStartTimes();
       _setEndTimes();
 
       _startTime.on('change', function(){
       	//We update start and end and move the card
-        var oldStart = new Date(performance['time'][0]).getTime();
-        var newStart = new Date(_startTime.val()).getTime();
+        var oldStart = performance['time'][0];
+        var newStart = parseInt(_startTime.val());
         performance['card'].css({'top': '+=' + (newStart - oldStart) / 90000});
-        performance['time'][0] = _startTime.val();
-        performance['time'][1] = new Date((new Date(performance['time'][1]).getTime() + (newStart - oldStart))).toISOString();
-        _endTime.val(performance['time'][1]);
+        performance['time'][0] = newStart;
+        performance['time'][1] = performance['time'][1] + (newStart - oldStart);
         _setEndTimes();
       });
 
       _endTime.on('change', function(){
       	//We update the end and resize the card
-        var oldEnd = new Date(performance['time'][1]).getTime() / 60000;
-        var newEnd = new Date(_endTime.val()).getTime() / 60000;
-        performance['card'].css({'height': '+=' + (newEnd - oldEnd) / 1.5});
-        performance['time'][1] = _endTime.val();
+        var oldEnd = performance['time'][1];
+        var newEnd = parseInt(_endTime.val());
+        performance['card'].css({'height': '+=' + (newEnd - oldEnd) / 90000});
+        performance['time'][1] = newEnd;
         _setStartTimes();
       });
 
@@ -182,7 +195,7 @@
           var _date = $('<option>').val(date).text(date); 
           daySelector.append(_date);
           daySelector.attr('disabled', false);
-        });
+        });  
       };
 
       performances.forEach(function(performance){
@@ -213,8 +226,28 @@
 
         _daySelector.on('change', function(){
         	//Updating day selectors
+          dates.splice(dates.indexOf(performance.date), 1);
+          dates.push(_daySelector.val());
+
           performance.date = _daySelector.val();
-          _setDates(date);
+          var dateArray = performance.date.split('-');
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+
+          start.setUTCFullYear(parseInt(dateArray[0]));
+          end.setUTCFullYear(parseInt(dateArray[0]));
+
+          start.setUTCMonth(parseInt(dateArray[1] - 1));
+          end.setUTCMonth(parseInt(dateArray[1] - 1));
+
+          start.setUTCDate(parseInt(dateArray[2]));
+          end.setUTCDate(parseInt(dateArray[2]));
+
+          performance.time[0] = start.getTime();
+          performance.time[1] = end.getTime();
+
+          _setStartTimes();
+          _setEndTimes();
         });
 
         _spaceSelector.on('change', function(){
@@ -263,10 +296,6 @@
           performance.host_proposal_id = _spaceSelector.val();
           host_proposal_ids.push(_spaceSelector.val());
         });
-        
-        var dayStart = new Date(eventTime[performance.date][0][0]);
-        var lastIndex = eventTime[performance.date].length - 1;
-        var dayEnd = new Date(eventTime[performance.date][lastIndex][1]);
 
         var _startTime = $('<select>');
         var _endTime = $('<select>');
@@ -274,34 +303,37 @@
         //Same as non-permanent but this time there is no duration involved
         var _setStartTimes = function(){
           _startTime.empty();
-          var start = new Date(performance['time'][0]);
-          var end = new Date(performance['time'][1]);
 
-          dayStart = new Date(eventTime[performance.date][0][0]);
-          var maxStart = end;
+          var dayStart = new Date(parseInt(eventTime[performance.date][0][0]));
+          var maxStart = new Date(performance['time'][1]);
           maxStart.setMinutes(maxStart.getMinutes() - 15);
 
           while(dayStart <= maxStart){
-            var timeVal = dayStart.toISOString();
-            var timeArray = timeVal.split('T')[1].split(':');
-            var startOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
+            var hours = dayStart.getHours();
+            var minutes = dayStart.getMinutes();4
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
             _startTime.append(startOption);
-
             dayStart.setMinutes(dayStart.getMinutes() + 15);
           };
-
           _startTime.val(performance['time'][0]);
         };
 
         var _setEndTimes = function(){
           _endTime.empty();
-          var start = new Date(performance['time'][0]);
-          var minEnd = new Date(start.getTime() + 15 * 60000);
-          
+        
+          var lastIndex = eventTime[performance.date].length - 1;
+          var dayEnd = new Date(parseInt(eventTime[performance.date][lastIndex][1]));
+
+          var minEnd = new Date(performance['time'][0] + 15 * 60000);
+
           while(minEnd <= dayEnd){
-            var timeVal = minEnd.toISOString();
-            var timeArray = timeVal.split('T')[1].split(':');
-            var endOption = $('<option>').val(timeVal).text(timeArray[0] + ':' + timeArray[1]);
+            var hours = minEnd.getHours();
+            var minutes = minEnd.getMinutes();4
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
             _endTime.append(endOption);
 
             minEnd.setMinutes(minEnd.getMinutes() + 15);
@@ -313,17 +345,12 @@
         _setEndTimes();
 
         _startTime.on('change', function(){
-          var oldStart = new Date(performance['time'][0]).getTime();
-          var newStart = new Date(_startTime.val()).getTime();
-          performance['time'][0] = _startTime.val();
-          _endTime.val(performance['time'][1]);
+          performance['time'][0] = parseInt(_startTime.val());
           _setEndTimes();
         });
 
         _endTime.on('change', function(){
-          var oldEnd = new Date(performance['time'][1]).getTime() / 60000;
-          var newEnd = new Date(_endTime.val()).getTime() / 60000;
-          performance['time'][1] = _endTime.val();
+          performance['time'][1] = parseInt(_endTime.val());
           _setStartTimes();
         });
 

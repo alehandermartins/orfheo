@@ -25,19 +25,19 @@
     return _dictionary[category];
   }
 
-  ns.Widgets.SpaceDropdownMenu = function(profile_id, profile_name){     
+  ns.Widgets.SpaceDropdownMenu = function(space){     
 
     var _menu = $('<ul>').addClass('menu');
     
     var _profileLink = $('<li>');
     var _profileCaller = $('<a>').attr({
       target: 'blank',
-      href: '/profile?id=' + profile_id
+      href: '/profile?id=' + space.profile_id
     }).text('Ver perfil');
 
     var _programLink = $('<li>');
     var _programCaller = $('<a>').attr('href','#').text('Ver programa');
-    var _program = Pard.Widgets.PopupCreator(_programCaller, profile_name, function(){return Pard.Widgets.SpaceProgram(profile_id)});
+    var _program = Pard.Widgets.PopupCreator(_programCaller, space.name, function(){return Pard.Widgets.SpaceProgram(space)});
 
     // var _dCaller = $('<a>').attr('href','#').text('Elimina mi cuenta');
     // var _deleteCaller = Pard.Widgets.PopupCreator(_dCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteUserMessage()});
