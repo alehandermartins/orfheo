@@ -217,9 +217,7 @@
     //     'width': '100%'
     //   });
 
-      var _icon = Pard.Widgets.IconManager('menu').render().css({
-        'margin-top': 8
-      });
+      var _icon = Pard.Widgets.SpaceDropdownMenu(space).render();
       var _menuIcon = $('<div>').append(_icon);
       _menuIcon.css({
         'display': 'inline-block',

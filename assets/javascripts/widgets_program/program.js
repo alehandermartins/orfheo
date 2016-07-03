@@ -12,10 +12,13 @@
     //We get all the performances related to the proposal
     //Sorting them into permanent and non-permanent
     var myPerformances = [];
-    var myPermanentPerformances = [];
+    var myPermanentPerformances = {};
     program.forEach(function(performance){
       if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == false) myPerformances.push(performance);
-      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == true) myPermanentPerformances.push(performance);
+      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == true){
+        myPermanentPerformances[performance.performance_id] = myPermanentPerformances[performance.performance_id] || [];
+        myPermanentPerformances[performance.performance_id].push(performance);
+      }
     });
 
     //Non-permanet input
@@ -104,7 +107,7 @@
 
         while(dayStart <= maxStart){
           var hours = dayStart.getHours();
-          var minutes = dayStart.getMinutes();4
+          var minutes = dayStart.getMinutes();
           if(hours < 10) hours = '0' + hours;
           if(minutes < 10) minutes = '0' + minutes;
           var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
@@ -253,7 +256,24 @@
         _spaceSelector.on('change', function(){
           //If no more performances in a place, the card on that place is removed
           host_proposal_ids.splice($.inArray(performance.host_proposal_id, host_proposal_ids), 1);
-          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0) performance.card.remove();
+          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0){
+            performance.card.remove();
+            var spacePerformances = [];
+            var performance_ids = [performance.performance_id];
+            //Recalculating position of the rest of the elements of the column one a card is destroyed
+            Pard.Widgets.Program.forEach(function(performance){
+              if(performance['permanent'] == true){
+                if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == performance.host_proposal_id){
+                  performance_ids.push(performance['performance_id']);
+                  spacePerformances.push(performance);
+                }
+              }
+            });
+            console.log()
+            spacePerformances.forEach(function(spacePerformance, index){
+              spacePerformance['card'].css({'top': index * 100 + 41});
+            });
+          }
           
           var spaceProposal = Pard.Widgets.GetProposal(_spaceSelector.val());
           //If no performaces on the new place, a card is created
@@ -390,8 +410,13 @@
     myPerformances.forEach(function(performance){
       _performaceInput(performance);
     });
-    //Different for permanent performances
-    _permanentPerformanceInput(myPermanentPerformances);
+
+    var _permanentLabel = $('<div>').text('Actuaciones Permanentes:');
+    if(Object.keys(myPermanentPerformances).length > 0) _createdWidget.append(_permanentLabel);
+
+    Object.keys(myPermanentPerformances).forEach(function(performance_id){
+      _permanentPerformanceInput(myPermanentPerformances[performance_id]);
+    });
 
     return {
       render: function(){
