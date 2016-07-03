@@ -515,15 +515,16 @@
 
               //Info for the card
               proposal['performance_id'] = performance.performance_id;
-              proposal['width'] = Pard.ColumnWidth - 2;
-              proposal['height'] = (end - start);
-              proposal['top'] = start + 41;
-              proposal['left'] = index * Pard.ColumnWidth + 1;
-              proposal['maxHeight'] = timeCol.height() - start;
-              proposal['day'] = performance.date;
-              
+              var cardParameters = {
+                'top': start + 41,
+                'height': (end - start),
+                'left' : index * Pard.ColumnWidth + 1,
+                'maxHeight': timeCol.height() - start,
+                'day': performance.date
+              }
+
               //New card
-              var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id).render();
+              var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id, cardParameters).render();
               timeCol.append(newPerformance);
               performance.card = newPerformance;
               performance.permanent = false;
@@ -546,13 +547,13 @@
               var proposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
               
               proposal['performance_id'] = performance.performance_id;
-              proposal['height'] = 100;
-              proposal['top'] = performance_ids.length * proposal['height'] + 41;
-              proposal['left'] = index * Pard.ColumnWidth + 1;
-
+              var cardParameters = {
+                'top': performance_ids.length * 100 + 41,
+                'left' : index * Pard.ColumnWidth + 1,
+              }
               performance_ids.push(performance.performance_id);
 
-              newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(proposal, performance.host_proposal_id).render();
+              newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(proposal, performance.host_proposal_id, cardParameters).render();
               timeCol.append(newPerformance[performance.performance_id]);
             }
             //All performances with the same performance_id must point to the same card

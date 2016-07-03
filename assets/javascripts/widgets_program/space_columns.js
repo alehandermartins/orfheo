@@ -72,27 +72,26 @@
         if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
 
         var duration = ui.helper.height();
-
         //Adjusting border
         if(ui.draggable.hasClass('proposalCard')) duration += 2;
 
-        //Dragged performance stores all the actual dragged card info
-        Pard.Widgets.DraggedPerformance['height'] = duration;
-        Pard.Widgets.DraggedPerformance['width'] = _time.width();
-        Pard.Widgets.DraggedPerformance['top'] = position;
-        Pard.Widgets.DraggedPerformance['left'] = _time.position().left;
-        Pard.Widgets.DraggedPerformance['maxHeight'] = _time.height() - (position - colPosition);
-        Pard.Widgets.DraggedPerformance['day'] = day;
+        //We define the parameters of the card
+        var cardParameters = {
+          'top': position,
+          'height': duration,
+          'left' : _time.position().left,
+          'maxHeight': _time.height() - (position - colPosition),
+          'day': day
+        }
         
         //Obtaining start and end times from position and pixels
-
         var start = new Date(parseInt(eventTime[day][0][0]));
         start.setMinutes(start.getMinutes() + (position - 41) * 1.5);
         var end = new Date(start.getTime());
         end.setMinutes(start.getMinutes() + duration * 1.5);
 
         //New performance card
-        var newPerformance = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedPerformance, space.proposal_id).render();
+        var newPerformance = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedPerformance, space.proposal_id, cardParameters).render();
         _time.append(newPerformance);
 
         //Performance to be stored
@@ -247,7 +246,7 @@
       _spaceCol.append(_spaceHeader);
 
     var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
-      'height': 520
+      'height': 560
     });
     _time.droppable({
       accept: function(card){
@@ -286,11 +285,12 @@
           }
         });
 
-        Pard.Widgets.DraggedPerformance['height'] = duration;
-        Pard.Widgets.DraggedPerformance['top'] = position;
-        Pard.Widgets.DraggedPerformance['left'] = _time.position().left;
+        var cardParameters = {
+          'top': position,
+          'left' : _time.position().left,
+        }
 
-        var newPerformance = Pard.Widgets.ProgramPermanentHelper(Pard.Widgets.DraggedPerformance, space.proposal_id).render();
+        var newPerformance = Pard.Widgets.ProgramPermanentHelper(Pard.Widgets.DraggedPerformance, space.proposal_id, cardParameters).render();
 
         //If we drop a dragged performance we only have to rewrite the space parameters in the program and point the performance to the new card
         if(ui.draggable.hasClass('programHelper')){

@@ -262,6 +262,7 @@
               if(space.proposal_id == _spaceSelector.val()){
 
                 var performance_ids = [];
+
                 var position = 41;
                 Pard.Widgets.Program.forEach(function(performanceProgram){
                   if(performanceProgram['permanent'] == true){
@@ -271,10 +272,13 @@
                     }
                   }
                 });
-                proposal['left'] = Pard.ShownSpaces.indexOf(space) * 176 + 1;
-                proposal['top'] = position
 
-                var newPerformance = Pard.Widgets.ProgramPermanentHelper(proposal, _spaceSelector.val()).render();
+                var cardParameters = {
+                  'top': position,
+                  'left' : Pard.ShownSpaces.indexOf(space) * Pard.ColumnWidth + 1,
+                }
+
+                var newPerformance = Pard.Widgets.ProgramPermanentHelper(proposal, _spaceSelector.val(), cardParameters).render();
                               
                 var timeCol = space['permanent'].find('.spaceTime');
                 timeCol.append(newPerformance);

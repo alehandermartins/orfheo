@@ -17,16 +17,8 @@
 
     var _card = $('<div>').addClass('proposalCard');
 
-
-    if($.inArray(Object.keys(Pard.CachedCall.eventTime)[0], proposal.availability) < 0){
-      _card.addClass('artist-not-available-call-manager');
-      // .css({
-      //   'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
-      // });
-    }
-    else{
-      _card.removeClass('artist-not-available-call-manager');
-    }
+    if($.inArray(Object.keys(Pard.CachedCall.eventTime)[0], proposal.availability) < 0) _card.addClass('artist-not-available-call-manager');
+    else{ _card.removeClass('artist-not-available-call-manager'); }
     
     _card.draggable({
       revert: 'invalid',
@@ -138,27 +130,27 @@
   }
 
   //This is the dragged element once a performance card is in the space columns
-  ns.Widgets.ProgramHelper = function(performance, space){
-    var color = Pard.Widgets.CategoryColor(performance.category);
-    var _card =$('<div>').addClass('programHelper').attr('id', performance.performance_id).css({
+  ns.Widgets.ProgramHelper = function(proposal, space, cardParameters){
+    var color = Pard.Widgets.CategoryColor(proposal.category);
+    var _card =$('<div>').addClass('programHelper').attr('id', proposal.performance_id).css({
       'position': 'absolute',
-      'top': performance.top,
-      'left': performance.left,
+      'top': cardParameters.top,
+      'left': cardParameters.left,
       'display': 'inline-block',
-      'width': performance.width,
-      'height': performance.height + 'px',
+      'width': Pard.ColumnWidth - 2,
+      'height': cardParameters.height + 'px',
       'background': color,
       'white-space': 'normal'
     });
 
-    if($.inArray(performance.day, performance.availability) < 0){
+    if($.inArray(cardParameters.day, proposal.availability) < 0){
       _card.css({
         'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
       });
     }
 
-    var _title = $('<p>').addClass('profile-nav-name-selected').text(performance.title);
-    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, performance.height - 2).render().css({'position': 'absolute'}));
+    var _title = $('<p>').addClass('profile-nav-name-selected').text(proposal.title);
+    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, cardParameters.height - 2).render().css({'position': 'absolute'}));
     var accordionShown = false;
 
     _card.draggable({
@@ -174,10 +166,10 @@
           $('.accordion').toggle('slide', {direction: 'right'}, 500);
         }
         //Storing info
-        Pard.Widgets.DraggedPerformance = performance;
+        Pard.Widgets.DraggedPerformance = proposal;
         //We delete the performance from the program... this makes that if the card is dropped outside the performances are gone
         Pard.Widgets.Program.forEach(function(performanceProgram, index){
-          if(performanceProgram.performance_id == performance.performance_id) Pard.Widgets.Program.splice(index, 1);
+          if(performanceProgram.performance_id == proposal.performance_id) Pard.Widgets.Program.splice(index, 1);
         });
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
@@ -193,24 +185,24 @@
     });
 
     _card.resizable({
-      maxWidth: performance.width,
-      minWidth: performance.width,
-      maxHeight: performance.maxHeight,
+      maxWidth: cardParameters.width,
+      minWidth: cardParameters.width,
+      maxHeight: cardParameters.maxHeight,
       grid: 10,
       stop: function(event, ui){
         //Recalculating perfomance new duration
-        Pard.Widgets.Program.forEach(function(performanceProgram){
-          if(performanceProgram.performance_id == performance.performance_id){
-            var end = new Date(performanceProgram['time'][0]);
+        Pard.Widgets.Program.forEach(function(performance){
+          if(performance.performance_id == proposal.performance_id){
+            var end = new Date(performance['time'][0]);
             end.setMinutes(end.getMinutes() + ui.size.height * 1.5);
-            performanceProgram['time'][1] = end.getTime();
+            performance['time'][1] = end.getTime();
           }
         });
       }
     });
 
     //On click the performance shows its program
-    Pard.Widgets.PopupCreator(_card, performance.title, function(){ return Pard.Widgets.PerformanceProgram(performance)});
+    Pard.Widgets.PopupCreator(_card, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
 
     return {
       render: function(){
@@ -220,12 +212,12 @@
   }
 
   //This is the dragged element for permanent performances
-  ns.Widgets.ProgramPermanentHelper = function(performance, space){
-    var color = Pard.Widgets.CategoryColor(performance.category);
-    var _card =$('<div>').addClass('programHelper').attr('id', performance.performance_id).css({
+  ns.Widgets.ProgramPermanentHelper = function(proposal, space, cardParameters){
+    var color = Pard.Widgets.CategoryColor(proposal.category);
+    var _card =$('<div>').addClass('programHelper').attr('id', proposal.performance_id).css({
       'position': 'absolute',
-      'top': performance.top,
-      'left': performance.left,
+      'top': cardParameters.top,
+      'left': cardParameters.left,
       'display': 'inline-block',
       'width': Pard.ColumnWidth - 2,
       'height': '100px',
@@ -233,8 +225,8 @@
       'white-space': 'normal'
     });
 
-    var _title = $('<p>').addClass('profile-nav-name-selected').text(performance.title);
-    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, performance.height).render());
+    var _title = $('<p>').addClass('profile-nav-name-selected').text(proposal.title);
+    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, cardParameters.height).render());
 
     var top = 0;
 
@@ -243,16 +235,16 @@
       helper: 'clone',
       grid: [ 10, 10 ],
       start: function(event, ui){
-        Pard.Widgets.DraggedPerformance = performance;
+        Pard.Widgets.DraggedPerformance = proposal;
         //We search for the performances linked to this one that belong to the same space
-        var performances = $.grep(Pard.Widgets.Program, function(performanceProgram){
-          if(performanceProgram.performance_id == performance.performance_id && performanceProgram['host_proposal_id'] == space) return true;
+        var performances = $.grep(Pard.Widgets.Program, function(performance){
+          if(performance.performance_id == proposal.performance_id && performance['host_proposal_id'] == space) return true;
           return false;
         });
         //We store those performances
         Pard.Widgets.DraggedPerformance['performances'] = performances;
-        Pard.Widgets.Program = $.grep(Pard.Widgets.Program, function(performanceProgram){
-          if(performanceProgram['performance_id'] == performance.performance_id && performanceProgram['host_proposal_id'] == space) return false;
+        Pard.Widgets.Program = $.grep(Pard.Widgets.Program, function(performance){
+          if(performance['performance_id'] == proposal.performance_id && performance['host_proposal_id'] == space) return false;
           return true;
         });
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
@@ -262,21 +254,21 @@
         var spacePerformances = [];
         var performance_ids = [];
         //Recalculating position of the rest of the elements of the column one a card is destroyed
-        Pard.Widgets.Program.forEach(function(performanceProgram){
-          if(performanceProgram['permanent'] == true){
-            if($.inArray(performanceProgram['performance_id'], performance_ids) < 0 && performanceProgram['host_proposal_id'] == space){
-              performance_ids.push(performanceProgram['performance_id']);
-              spacePerformances.push(performanceProgram);
+        Pard.Widgets.Program.forEach(function(performance){
+          if(performance['permanent'] == true){
+            if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == space){
+              performance_ids.push(performance['performance_id']);
+              spacePerformances.push(performance);
             }
           }
         });
         spacePerformances.forEach(function(spacePerformance, index){
-          spacePerformance['card'].css({'top': index * performance.height + 41});
+          spacePerformance['card'].css({'top': index * 100 + 41});
         });
       }
     });
 
-    Pard.Widgets.PopupCreator(_card, performance.title, function(){ return Pard.Widgets.PerformanceProgram(performance)});
+    Pard.Widgets.PopupCreator(_card, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
 
     return {
       render: function(){
