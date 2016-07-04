@@ -19,8 +19,6 @@
 
     if($.inArray(Object.keys(Pard.CachedCall.eventTime)[0], proposal.availability) < 0) _card.addClass('artist-not-available-call-manager');
     else{ _card.removeClass('artist-not-available-call-manager'); }
-    
-   
 
     _card.addClass('proposal-card-container-call-manager');
     var _circleColumn = $('<div>').addClass('icon-column');
@@ -54,11 +52,17 @@
         // _title.css('cursor','move');
         // _title_text.css('cursor','move');
         //we assing a UUID to the new performance
-        var performance = {};
-        performance['performance_id'] = _generateUUID();
-        for (var field in proposal){ performance[field] = proposal[field] };
+        var performance = {
+          performance_id: _generateUUID(),
+          participant_id: proposal.profile_id,
+          participant_proposal_id: proposal.proposal_id,
+          title: proposal.title,
+          duration: proposal.duration,
+          category: proposal.category,
+          availability: proposal.availability
+        }
         //We store the info to be known by the column it is dropped into
-        Pard.Widgets.DraggedPerformance = performance;
+        ui.helper.data('performance', performance);
         //CSS change
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)', 'z-index': 999999});
         //We hide the accordion
@@ -147,32 +151,20 @@
   }
 
   //This is the dragged element once a performance card is in the space columns
-  ns.Widgets.ProgramHelper = function(proposal, space, cardParameters){
-    var color = Pard.Widgets.CategoryColor(proposal.category);
-    var _card =$('<div>').addClass('programHelper').attr('id', proposal.performance_id).css({
+  ns.Widgets.ProgramHelper = function(performance){
+    var color = Pard.Widgets.CategoryColor(performance.category);
+    var _card =$('<div>').addClass('programHelper').css({
       'position': 'absolute',
-      'top': cardParameters.top,
-      'left': cardParameters.left,
       'display': 'inline-block',
       'width': Pard.ColumnWidth - 2,
-      'height': cardParameters.height + 'px',
       'background': color,
       'white-space': 'normal'
     });
 
-    if($.inArray(cardParameters.day, proposal.availability) < 0){
-      _card.addClass('artist-not-available-call-manager');
-      // _card.css({
-      //   'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
-      // });
-    }else{
-      _card.removeClass('artist-not-available-call-manager');
-    }
-
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _title_text = $('<a>').attr('href','#').text(proposal.title);
+    var _title_text = $('<a>').attr('href','#').text(performance.title);
     _title.append(_title_text);
-    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, cardParameters.height - 2).render().css({'position': 'absolute'}));
+    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, 40).render().css({'position': 'absolute'}));
     var accordionShown = false;
 
     _card.draggable({
@@ -185,35 +177,38 @@
       start: function(event, ui){
         // _title.css('cursor','move');
         // _title_text.css('cursor','move');
+        //Storing info
+        ui.helper.data('dropped', false);
+        ui.helper.data('performance', performance);
         //We hide the accordion
         if($('.accordion').hasClass('is-active')){
           accordionShown = true;
           $('.accordion').removeClass('is-active');
           $('.accordion').toggle('slide', {direction: 'right'}, 500);
         }
-        //Storing info
-        Pard.Widgets.DraggedPerformance = proposal;
-        //We delete the performance from the program... this makes that if the card is dropped outside the performances are gone
-        Pard.Widgets.Program.forEach(function(performanceProgram, index){
-          if(performanceProgram.performance_id == proposal.performance_id) Pard.Widgets.Program.splice(index, 1);
-        });
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
-      stop:function(){
+      stop:function(event, ui){
+        //The card and performance is destroyed if dropped out
+        if(ui.helper.data('dropped') == false){
+          Pard.Widgets.Program.forEach(function(performance, index){
+            if(performance.performance_id == proposal.performance_id){
+              Pard.Widgets.Program.splice(index, 1);
+              _card.remove();
+            }
+          });
+        }
         //Showing the accordion if not hidden
         if(accordionShown == true){
           $('.accordion').addClass('is-active');
           $('.accordion').toggle('slide', {direction: 'right'}, 500);
         }
-        //The card is destroyed. A new card will be created if it is dropped in a space column
-        _card.remove();
       }
     });
 
     _card.resizable({
-      maxWidth: cardParameters.width,
-      minWidth: cardParameters.width,
-      maxHeight: cardParameters.maxHeight,
+      maxWidth: Pard.ColumnWidth - 2,
+      minWidth: Pard.ColumnWidth - 2,
       grid: 10,
       stop: function(event, ui){
         //Recalculating perfomance new duration
@@ -228,11 +223,21 @@
     });
 
     //On click the performance shows its program
-    Pard.Widgets.PopupCreator(_title, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
+    Pard.Widgets.PopupCreator(_title, performance.title, function(){ return Pard.Widgets.PerformanceProgram(performance)});
 
     return {
       render: function(){
         return _card;
+      },
+      setParameters: function(top, height, left, maxHeight){
+        _card.css({
+          'top': position,
+          'height': duration,
+          'left' : _time.position().left,
+        });
+        _card.resizable({
+          maxHeight: maxHeight
+        });
       }
     }
   }

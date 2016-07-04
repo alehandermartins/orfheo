@@ -2,7 +2,7 @@
 
 (function(ns){
 
-	ns.Widgets.PerformanceProgram = function(proposal){
+	ns.Widgets.PerformanceProgram = function(cardInfo){
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var call = Pard.CachedCall;
@@ -14,8 +14,8 @@
     var myPerformances = [];
     var myPermanentPerformances = {};
     program.forEach(function(performance){
-      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == false) myPerformances.push(performance);
-      if(performance.participant_proposal_id == proposal.proposal_id && performance.permanent == true){
+      if(performance.participant_proposal_id == cardInfo.participant_proposal_id && performance.permanent == false) myPerformances.push(performance);
+      if(performance.participant_proposal_id == cardInfo.participant_proposal_id && performance.permanent == true){
         myPermanentPerformances[performance.performance_id] = myPermanentPerformances[performance.performance_id] || [];
         myPermanentPerformances[performance.performance_id].push(performance);
       }
@@ -189,13 +189,18 @@
         _displayShows();
       });
 
+      var _comments = Pard.Widgets.Input('Comentarios:', 'textarea', '', function(){
+        performance['comments'] = _comments.val();
+      }).render();
+      _comments.val(performance['comments']);
+
       //Selectors CSS
       _daySelector.css({'display': ' inline-block', 'width': '120'});
       _spaceSelector.css({'display': ' inline-block', 'width': '250'});
       _startTime.css({'display': ' inline-block', 'width': '80'});
       _endTime.css({'display': ' inline-block', 'width': '80'});
 
-      _performanceBox.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
+      _performanceBox.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton, _comments);
       performance['box'] = _performanceBox;
       _inputsByDate[performance.date]['scheduled'].push(performance);
     };

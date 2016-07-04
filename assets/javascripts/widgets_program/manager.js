@@ -512,24 +512,39 @@
               //10 pixels = 15 min
               var start = (performance.time[0] - dayStart) / 90000;
               var end = (performance.time[1] - dayStart) / 90000;
+              var position = start + 41;
+              var duration = (end - start);
+              var left = index * Pard.ColumnWidth + 1;
+              var maxHeight = timeCol.height() - start;
+
 
               //Info for the card
-              proposal['performance_id'] = performance.performance_id;
-              var cardParameters = {
-                'top': start + 41,
-                'height': (end - start),
-                'left' : index * Pard.ColumnWidth + 1,
-                'maxHeight': timeCol.height() - start,
-                'day': performance.date
+              var _performance = {
+                performance_id: performance.performance_id,
+                participant_id: proposal.profile_id,
+                participant_proposal_id: proposal.proposal_id,
+                title: proposal.title,
+                duration: proposal.duration,
+                category: proposal.category,
+                availability: proposal.availability
               }
-
+              
               //New card
-              var newPerformance = Pard.Widgets.ProgramHelper(proposal, performance.host_proposal_id, cardParameters).render();
-              timeCol.append(newPerformance);
-              performance.card = newPerformance;
               performance.permanent = false;
-             
-
+              performance.card = Pard.Widgets.ProgramHelper(_performance).render();
+              timeCol.append(performance.card);
+              performance.card.css({
+                'top': position,
+                'height': duration,
+                'left' : left,
+                'opacity': '1',
+                'filter': 'alpha(opacity=100)'
+              });
+              performance.card.resizable({
+                maxHeight: maxHeight
+              });
+              if($.inArray(performance.date, _performance.availability) < 0) performance.card.addClass('artist-not-available-call-manager');
+              else{performance.card.removeClass('artist-not-available-call-manager');}
               Pard.Widgets.Program.push(performance);
             }
           });

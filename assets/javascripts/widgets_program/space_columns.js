@@ -50,6 +50,7 @@
       },
       //Activated on drop
       drop: function(event, ui) {
+        ui.helper.data('dropped', true);
         var position = ui.helper.position().top;
         var colPosition = _time.position().top;
 
@@ -64,45 +65,44 @@
         //If the card is below the drop zone it adjustes to the low end
         if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
 
+        //Adjusting height
         var duration = ui.helper.height();
-        //Adjusting border
         if(ui.draggable.hasClass('proposalCard')) duration += 2;
 
-        //We define the parameters of the card
-        var cardParameters = {
-          'top': position,
-          'height': duration,
-          'left' : _time.position().left,
-          'maxHeight': _time.height() - (position - colPosition),
-          'day': day
-        }
-        
         //Obtaining start and end times from position and pixels
         var start = new Date(parseInt(eventTime[day][0][0]));
         start.setMinutes(start.getMinutes() + (position - 41) * 1.5);
         var end = new Date(start.getTime());
         end.setMinutes(start.getMinutes() + duration * 1.5);
 
-        //New performance card
-        var newPerformance = Pard.Widgets.ProgramHelper(Pard.Widgets.DraggedPerformance, space.proposal_id, cardParameters).render();
-        _time.append(newPerformance);
-
-        //Performance to be stored
-        //Each performance has a key(card) that points to the card that represents it
-        var performance = {
-          performance_id: Pard.Widgets.DraggedPerformance.performance_id,
-          participant_id: Pard.Widgets.DraggedPerformance.profile_id,
-          participant_proposal_id: Pard.Widgets.DraggedPerformance.proposal_id,
-          host_id: space.profile_id,
-          host_proposal_id: space.proposal_id,
-          date: day,
-          permanent: false,
-          time: [start.getTime(), end.getTime()],
-          card: newPerformance
+        var _performance = ui.helper.data('performance');
+        if(ui.draggable.hasClass('proposalCard')){
+          _performance.date = day,
+          _performance.permanent = false,
+          _performance.card = Pard.Widgets.ProgramHelper(ui.helper.data('performance')).render();
+          Pard.Widgets.Program.push(_performance);
         }
 
-        //Program to be stored
-        Pard.Widgets.Program.push(performance);
+        Pard.Widgets.Program.forEach(function(performance){
+          if(performance.performance_id == _performance.performance_id){
+            _time.append(performance.card);
+            performance.host_id = space.profile_id;
+            performance.host_proposal_id = space.proposal_id;
+            performance.time = [start.getTime(), end.getTime()];
+            performance.card.css({
+              'top': position,
+              'height': duration,
+              'left' : _time.position().left,
+              'opacity': '1',
+              'filter': 'alpha(opacity=100)'
+            });
+            performance.card.resizable({
+              maxHeight: _time.height() - (position - colPosition)
+            });
+            if($.inArray(day, _performance.availability) < 0) performance.card.addClass('artist-not-available-call-manager');
+            else{performance.card.removeClass('artist-not-available-call-manager');}
+          }
+        });
       }
     });
 
