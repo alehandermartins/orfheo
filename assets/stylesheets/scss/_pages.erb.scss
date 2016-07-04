@@ -1589,16 +1589,6 @@ li.artists-selector-container-call-manager{
   border: 1px solid;
 } */
 
-.space-column-header{
-  display: inline-block;
-  padding: 0;
-  background-color: $grey-2;
-  height: 40px;
-  cursor: pointer;
-  text-align: center;
-  width: 100%;
-
-}
 
 .space-not-available-call-manager,.artist-not-available-call-manager{
   opacity:0.4;
@@ -1616,38 +1606,79 @@ li.artists-selector-container-call-manager{
   display: block;
 }
 
-/* .proposal-card-container-call-manager:hover{
+/* .proposal-card-container-call-manager:hover, .dragged-card-call-manager:hover{
   font-weight: bold;
 } */
+
+
+.proposal-title-card-call-manager{
+  line-height: 1rem;
+  font-size: 0.75rem;
+  margin-bottom: 0;
+  /* cursor: pointer; */
+  /* cursor: pointer; */
+  a{
+    color: black;
+  }
+  a:hover{
+   text-decoration: underline;
+  }
+}
+
+.dragging-card-call-manager{
+  z-index: 9999;
+  border: 1px solid;
+  display: inline-block;
+}
+
+.dragged-card-call-manager{
+  white-space: normal;
+  cursor:grab;
+  position: absolute;
+}
+
+.space-column-call-manager{
+  display: inline-block !important;
+  width: 11rem;
+  border: 1px solid;
+  /* overflow-y: hidden; */
+}
 
 .space-name-container-call-manager{
   display: inline-block;
   vertical-align: middle;
-  width: 120px;
-  height: 38px;
+  width: 8rem;
   white-space: normal;
+  margin: 0 0.2rem;
 }
 
 .space-name-headerTable-call-manager{
   line-height: 1rem;
   font-size: 0.75rem;
   margin-bottom: 0;
-  cursor: pointer;
-}
-
-
-
-.proposal-title-card-call-manager{
-  line-height: 1.3rem;
-  font-size: 0.75rem;
-  margin-bottom: 0;
-  cursor: pointer;
-  /* cursor: pointer; */
-  /* a {
+  a{
     color: black;
-  } */
+  }
+  a:hover{
+   text-decoration: underline;
+  }
 }
 
+.space-column-header{
+  display: inline-block;
+  padding: 0;
+  background-color: $grey-2;
+  height: 2.5rem;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  cursor: grab;
+  padding: 0.2rem;
+}
+
+.space-column-header .menu > li > a{
+  padding: 0.4rem;
+}
 
 /*===============================================
 ORGANIZATION PAGE

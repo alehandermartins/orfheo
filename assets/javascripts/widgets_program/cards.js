@@ -26,8 +26,8 @@
     var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': color});
     var _titleColumn = $('<div>').addClass('name-column profile-name-column');
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _title_text = $('<a>').attr('href','#').text(proposal.title);
-    _title.append(_title_text);
+    var _titleText = $('<a>').attr('href','#').text(proposal.title);
+    _title.append(_titleText);
     
     var _icon = $('<div>').append(Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon'));
     var _colorIcon = Pard.Widgets.IconColor(color).render();
@@ -50,7 +50,7 @@
       grid: [ 10, 10 ],
       start: function(event, ui){
         // _title.css('cursor','move');
-        // _title_text.css('cursor','move');
+        // _titleText.css('cursor','move');
         //we assing a UUID to the new performance
         var performance = {
           performance_id: _generateUUID(),
@@ -95,7 +95,7 @@
     );
 
     //Proposal form info
-    Pard.Widgets.PopupCreator(_title, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal)});
+    Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal)});
 
     return {
       render: function(){
@@ -131,17 +131,17 @@
     var _width = Pard.ColumnWidth;
     if(_width > 176 * 2) _width = 176 * 2; 
     
-    var _card =$('<div>').css({
-      'display': 'inline-block',
+    var _card =$('<div>').addClass('dragging-card-call-manager').css({
       'width': _width,
       'height': duration,
-      'z-index': 9999,
-      'border': '1px solid',
       'border-color':color
     });
 
-    var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(proposal.title));
-    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, duration).render().css({'position': 'absolute'}));
+    var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(proposal.title).css('cursor','move'));
+    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, duration).render().css({
+      'position': 'absolute',
+      })
+    );
 
     return {
       render: function(){
@@ -160,18 +160,27 @@
       'background': color,
       'white-space': 'normal'
     });
+    _card.addClass('dragged-card-call-manager');
 
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _title_text = $('<a>').attr('href','#').text(performance.title);
-    _title.append(_title_text);
+    var _titleText = $('<a>').attr('href','#').text(performance.title);
+    _title.append(_titleText);
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, 40).render().css({'position': 'absolute'}));
+
     var accordionShown = false;
+
+    _card.mousedown(function(){
+      _card.css('cursor','move');
+    });
+    _card.mouseup(function(){
+      _card.css('cursor','grab');
+    });
 
     _card.draggable({
       revert: false,
       //The helper is himself
       helper: 'clone',
-      cursor: 'move', 
+      // cursor: 'move', 
       // cursorAt: { top: 5, right: 15 },
       grid: [ 10, 10 ],
       start: function(event, ui){
@@ -180,6 +189,7 @@
         //Storing info
         ui.helper.data('dropped', false);
         ui.helper.data('performance', performance);
+        
         //We hide the accordion
         if($('.accordion').hasClass('is-active')){
           accordionShown = true;
@@ -198,6 +208,8 @@
             }
           });
         }
+      stop:function(){
+        _card.css('cursor','drag');
         //Showing the accordion if not hidden
         if(accordionShown == true){
           $('.accordion').addClass('is-active');
@@ -223,7 +235,7 @@
     });
 
     //On click the performance shows its program
-    Pard.Widgets.PopupCreator(_title, performance.title, function(){ return Pard.Widgets.PerformanceProgram(performance)});
+    Pard.Widgets.PopupCreator(_titleText, performance.title, function(){ return Pard.Widgets.PerformanceProgram(performance)});
 
     return {
       render: function(){
@@ -246,33 +258,40 @@
   ns.Widgets.ProgramPermanentHelper = function(proposal, space, cardParameters){
     var color = Pard.Widgets.CategoryColor(proposal.category);
     var _card =$('<div>').addClass('programHelper').attr('id', proposal.performance_id).css({
-      'position': 'absolute',
       'top': cardParameters.top,
       'left': cardParameters.left,
       'display': 'inline-block',
       'width': Pard.ColumnWidth - 2,
       'height': '100px',
-      'background': color,
-      'white-space': 'normal'
+      'background': color
     });
+
+    _card.addClass('dragged-card-call-manager');
 
     // _card.on('mousedown',function(){});
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _title_text = $('<a>').attr('href','#').text(proposal.title);
-    _title.append(_title_text);
+    var _titleText = $('<a>').attr('href','#').text(proposal.title);
+    _title.append(_titleText);
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, cardParameters.height).render());
 
     var top = 0;
 
+    _card.mousedown(function(){
+      _card.css('cursor','move');
+    });
+    _card.mouseup(function(){
+      _card.css('cursor','grab');
+    });
+
     _card.draggable({
       revert: false,
-      cursor: 'move',
+      // cursor: 'move',
       // cursorAt: { top: 5, right: 15 }, 
       helper: 'clone',
       grid: [ 10, 10 ],
       start: function(event, ui){
         // _title.css('cursor','move');
-        // _title_text.css('cursor','move');
+        // _titleText.css('cursor','move');
         Pard.Widgets.DraggedPerformance = proposal;
         //We search for the performances linked to this one that belong to the same space
         var performances = $.grep(Pard.Widgets.Program, function(performance){
@@ -306,7 +325,7 @@
       }
     });
 
-    Pard.Widgets.PopupCreator(_title, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
+    Pard.Widgets.PopupCreator(_titleText, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
 
     return {
       render: function(){
