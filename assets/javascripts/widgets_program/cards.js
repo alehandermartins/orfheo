@@ -104,8 +104,6 @@
       setDay: function(day){
         //Giving background to card if not availabe
         // if(day == 'permanent')_card.css('background', 'none');
-        console.log(proposal.availability);
-        console.log(day);
         if(day == 'permanent'){
           _card.removeClass('artist-not-available-call-manager');
         }
@@ -234,26 +232,15 @@
     return {
       render: function(){
         return _card;
-      },
-      setParameters: function(top, height, left, maxHeight){
-        _card.css({
-          'top': position,
-          'height': duration,
-          'left' : _time.position().left,
-        });
-        _card.resizable({
-          maxHeight: maxHeight
-        });
       }
     }
   }
 
   //This is the dragged element for permanent performances
-  ns.Widgets.ProgramPermanentHelper = function(proposal, space, cardParameters){
-    var color = Pard.Widgets.CategoryColor(proposal.category);
-    var _card =$('<div>').addClass('programHelper').attr('id', proposal.performance_id).css({
-      'top': cardParameters.top,
-      'left': cardParameters.left,
+  ns.Widgets.ProgramPermanentHelper = function(cardInfo, host_id){
+    var color = Pard.Widgets.CategoryColor(cardInfo.category);
+    var _card =$('<div>').addClass('programHelper').css({
+      'position': 'absolute',
       'display': 'inline-block',
       'width': Pard.ColumnWidth - 2,
       'height': '100px',
@@ -264,11 +251,9 @@
 
     // _card.on('mousedown',function(){});
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _titleText = $('<a>').attr('href','#').text(proposal.title);
+    var _titleText = $('<a>').attr('href','#').text(cardInfo.title);
     _title.append(_titleText);
-    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, cardParameters.height).render());
-
-    var top = 0;
+    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, 40).render());
 
     _card.mousedown(function(){
       _card.css('cursor','move');
@@ -286,28 +271,29 @@
       start: function(event, ui){
         // _title.css('cursor','move');
         // _titleText.css('cursor','move');
-        Pard.Widgets.DraggedPerformance = proposal;
-        //We search for the performances linked to this one that belong to the same space
-        var performances = $.grep(Pard.Widgets.Program, function(performance){
-          if(performance.performance_id == proposal.performance_id && performance['host_proposal_id'] == space) return true;
-          return false;
-        });
-        //We store those performances
-        Pard.Widgets.DraggedPerformance['performances'] = performances;
-        Pard.Widgets.Program = $.grep(Pard.Widgets.Program, function(performance){
-          if(performance['performance_id'] == proposal.performance_id && performance['host_proposal_id'] == space) return false;
-          return true;
-        });
+        ui.helper.data('dropped', false);
+        //We store the info
+        ui.helper.data('performance', cardInfo);
+        ui.helper.data('host_id', host_id);
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
-      stop:function(){
-        _card.remove();
+      stop:function(event, ui){
+        //The card and performance is destroyed if dropped out
+        if(ui.helper.data('dropped') == false){
+          Pard.Widgets.Program.forEach(function(performance, index){
+            if(performance.performance_id == cardInfo.performance_id && performance.host_id == host_id){
+              Pard.Widgets.Program.splice(index, 1);
+              _card.remove();
+            }
+          });
+        }
+
         var spacePerformances = [];
         var performance_ids = [];
         //Recalculating position of the rest of the elements of the column one a card is destroyed
         Pard.Widgets.Program.forEach(function(performance){
           if(performance['permanent'] == true){
-            if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == space){
+            if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == host_id){
               performance_ids.push(performance['performance_id']);
               spacePerformances.push(performance);
             }
@@ -316,10 +302,11 @@
         spacePerformances.forEach(function(spacePerformance, index){
           spacePerformance['card'].css({'top': index * 100 + 41});
         });
+        host_id = ui.helper.data('host_id');
       }
     });
 
-    Pard.Widgets.PopupCreator(_titleText, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
+    Pard.Widgets.PopupCreator(_titleText, cardInfo.title, function(){ return Pard.Widgets.PerformanceProgram(cardInfo)});
 
     return {
       render: function(){

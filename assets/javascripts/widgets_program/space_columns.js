@@ -6,12 +6,12 @@
     var eventTime = Pard.CachedCall.eventTime;
 
     var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id);
-    _spaceCol.addClass('space-column-call-manager');
-    // .css({
-    //   'display': ' inline-block',
-    //   'width': '11rem',
-    //   'border': '1px solid'
-    // });
+    //_spaceCol.addClass('space-column-call-manager');
+    _spaceCol.css({
+      'display': ' inline-block',
+      'width': '11rem',
+      'border': '1px solid'
+    });
     //Space header is the handle for dragging space columns
     var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header');
 
@@ -205,7 +205,7 @@
 
   ns.Widgets.PermanentSpaceColumn = function(space){
     var eventTime = Pard.CachedCall.eventTime;
-    var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id).css({
+    var _spaceCol = $('<div>').addClass('spaceCol').css({
       'display': ' inline-block',
       'width': '11rem',
       'border-width': '1px',
@@ -260,77 +260,79 @@
         if(card.hasClass('proposalCard') || card.hasClass('programHelper')) return true;
       },
       drop: function(event, ui) {
-
-        var position = ui.helper.position().top;
+        ui.helper.data('dropped', true);
         var colPosition = _time.position().top;
 
-        if(position < colPosition) position = colPosition;
-
-        var _offset = (position - colPosition) % 10;
-        if(_offset >= 5) position += 10 - _offset;
-        if(_offset < 5) position -= _offset;
-
+        //The initial position for permanent performances is at the top
+        var position = colPosition;
         var duration = ui.helper.height();
-
-        //Adjusting width
+        //Adjusting heigth
         if(ui.draggable.hasClass('proposalCard')) duration += 2;
 
-        //The initial position for permanent performances is at the top
-        position = colPosition;
-        if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
-
         //If there are other cards in the column the new card must appear below all of them
+        var _performance = ui.helper.data('performance');
         var performance_ids = [];
-        Pard.Widgets.Program.forEach(function(performanceProgram){
-          if(performanceProgram['permanent'] == true){
+        var _existingCard = '';
+        Pard.Widgets.Program.forEach(function(performance){
+          if(performance['permanent'] == true){
+            if(performance.performance_id == _performance.performance_id && performance['host_proposal_id'] == space.proposal_id) _existingCard = performance.card;
             //Since permanent performances are composed of multiple performances we have to check we count only one card per space
-            if($.inArray(performanceProgram['performance_id'], performance_ids) < 0 && performanceProgram['host_proposal_id'] == space.proposal_id){
-              performance_ids.push(performanceProgram['performance_id']);
+            if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == space.proposal_id){
+              performance_ids.push(performance['performance_id']);
               //We increase the position
-              position += parseInt(performanceProgram['card'].height());
+              position += parseInt(performance['card'].height());
             }
           }
         });
 
-        var cardParameters = {
-          'top': position,
-          'left' : _time.position().left,
-        }
-
-        var newPerformance = Pard.Widgets.ProgramPermanentHelper(Pard.Widgets.DraggedPerformance, space.proposal_id, cardParameters).render();
-
-        //If we drop a dragged performance we only have to rewrite the space parameters in the program and point the performance to the new card
-        if(ui.draggable.hasClass('programHelper')){
-          Pard.Widgets.DraggedPerformance['performances'].forEach(function(performanceProgram){
-            performanceProgram.host_id = space.profile_id;
-            performanceProgram.host_proposal_id = space.proposal_id;
-            performanceProgram.card = newPerformance;
-            Pard.Widgets.Program.push(performanceProgram);
+        if(ui.draggable.hasClass('proposalCard')){
+          _performance.card = Pard.Widgets.ProgramPermanentHelper(ui.helper.data('performance'), space.profile_id).render();
+          _performance.card.css({
+            'top': position,
+            'left' : _time.position().left
           });
-          //If there is already a card that belongs to this performance we do not create a new one
-          if($.inArray(Pard.Widgets.DraggedPerformance['performances'][0].performance_id, performance_ids) < 0) _time.append(newPerformance);
-        }
-        else{
           //If the performance is new we create a performance with the same performance_id for each day of the event and push them to the program
-          _time.append(newPerformance);
           Object.keys(eventTime).forEach(function(date){
             var start = parseInt(eventTime[date][0][0]);
             var lastIndex = eventTime[date].length - 1;
             var end = parseInt(eventTime[date][lastIndex][1]);
-            var performance = {
-              performance_id: Pard.Widgets.DraggedPerformance.performance_id,
-              participant_id: Pard.Widgets.DraggedPerformance.profile_id,
-              participant_proposal_id: Pard.Widgets.DraggedPerformance.proposal_id,
+            var permanentPerformance = {
+              performance_id: _performance.performance_id,
+              participant_id: _performance.participant_id,
+              participant_proposal_id: _performance.participant_proposal_id,
               host_id: space.profile_id,
               host_proposal_id: space.proposal_id,
               date: date,
               permanent: true,
               time: [start, end],
-              card: newPerformance
+              card: _performance.card
             }
-            Pard.Widgets.Program.push(performance); 
+            Pard.Widgets.Program.push(permanentPerformance); 
+          });
+          _time.append(_performance.card);
+        }
+        else{
+          var host_id = ui.helper.data('host_id');
+          Pard.Widgets.Program.forEach(function(performance){
+            console.log(performance.performance_id == _performance.performance_id && performance.host_id == host_id);
+            if(performance.performance_id == _performance.performance_id && performance.host_id == host_id){
+              performance.host_id = space.profile_id;
+              performance.host_proposal_id = space.proposal_id;
+              //If there is already a card that belongs to this performance we do not create a new one
+              console.log(_existingCard);
+              if(_existingCard != false) performance.card = _existingCard;
+              else{
+                performance.card.css({
+                  'top': position,
+                  'left' : _time.position().left,
+                  'opacity': '1',
+                  'filter': 'alpha(opacity=100)'
+                });
+              }
+            }
           });
         }
+        ui.helper.data('host_id', space.profile_id);
       }
     });
 

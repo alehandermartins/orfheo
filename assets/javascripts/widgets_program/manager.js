@@ -519,7 +519,7 @@
 
 
               //Info for the card
-              var _performance = {
+              var _cardInfo = {
                 performance_id: performance.performance_id,
                 participant_id: proposal.profile_id,
                 participant_proposal_id: proposal.proposal_id,
@@ -531,19 +531,17 @@
               
               //New card
               performance.permanent = false;
-              performance.card = Pard.Widgets.ProgramHelper(_performance).render();
+              performance.card = Pard.Widgets.ProgramHelper(_cardInfo).render();
               timeCol.append(performance.card);
               performance.card.css({
                 'top': position,
                 'height': duration,
                 'left' : left,
-                'opacity': '1',
-                'filter': 'alpha(opacity=100)'
               });
               performance.card.resizable({
                 maxHeight: maxHeight
               });
-              if($.inArray(performance.date, _performance.availability) < 0) performance.card.addClass('artist-not-available-call-manager');
+              if($.inArray(performance.date, proposal.availability) < 0) performance.card.addClass('artist-not-available-call-manager');
               else{performance.card.removeClass('artist-not-available-call-manager');}
               Pard.Widgets.Program.push(performance);
             }
@@ -561,15 +559,24 @@
               var timeCol = space['permanent'].find('.spaceTime');
               var proposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
               
-              proposal['performance_id'] = performance.performance_id;
-              var cardParameters = {
+              //Info for the card
+              var _cardInfo = {
+                performance_id: performance.performance_id,
+                participant_id: proposal.profile_id,
+                participant_proposal_id: proposal.proposal_id,
+                title: proposal.title,
+                duration: proposal.duration,
+                category: proposal.category,
+                availability: proposal.availability
+              }
+              
+              newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(_cardInfo, performance.host_id).render();
+              timeCol.append(newPerformance[performance.performance_id]);
+              newPerformance[performance.performance_id].css({
                 'top': performance_ids.length * 100 + 41,
                 'left' : index * Pard.ColumnWidth + 1,
-              }
+              });
               performance_ids.push(performance.performance_id);
-
-              newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(proposal, performance.host_proposal_id, cardParameters).render();
-              timeCol.append(newPerformance[performance.performance_id]);
             }
             //All performances with the same performance_id must point to the same card
             performance.permanent = true;
