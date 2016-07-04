@@ -5,11 +5,13 @@
   ns.Widgets.SpaceColumn = function(space, day, hours){
     var eventTime = Pard.CachedCall.eventTime;
 
-    var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id).css({
-      'display': ' inline-block',
-      'width': '11rem',
-      'border': '1px solid'
-    });
+    var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id);
+    _spaceCol.addClass('space-column-call-manager');
+    // .css({
+    //   'display': ' inline-block',
+    //   'width': '11rem',
+    //   'border': '1px solid'
+    // });
     //Space header is the handle for dragging space columns
     var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header');
 
@@ -23,13 +25,22 @@
 
     var _spacename = $('<div>');
     _spacename.addClass('space-name-container-call-manager');
-    var _title = $('<p>').addClass('space-name-headerTable-call-manager').text(space.name);
-    _spacename.append(Pard.Widgets.FitInBox(_title, 120, 38).render());
+    var _title = $('<p>').addClass('space-name-headerTable-call-manager').append($('<a>').text(space.name));   
+    var _titleText = $('<a>').attr('href','#');
+    _titleText.text(Pard.Widgets.FitInBox(_title, 125, 38).render().text());
+    _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
     _spaceHeader.append(_spacename, _menuIcon);
     _spaceCol.append(_spaceHeader);
 
+    _spacename.mousedown(function(){
+      _spacename.css('cursor','move');
+    });
+    _spacename.mouseup(function(){
+      _spacename.css('cursor','grab');
+    });
+
     //Popup showing the space form
-    Pard.Widgets.PopupCreator(_spacename, 'conFusión 2016', function(){ return Pard.Widgets.MySpaceCallProposalMessage(space)});
+    Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.MySpaceCallProposalMessage(space)});
 
     //All the performances are dropped in the _time zone
     var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
@@ -183,6 +194,8 @@
       }
     });
 
+    // var _spaceColContainer = $('<div>').css({'overflow-y':'hidden','display':'inline-block'}).append(_spaceCol);
+
     return {
       render: function(){
         return _spaceCol;
@@ -222,11 +235,20 @@
       var _spacename = $('<div>');
       _spacename.addClass('space-name-container-call-manager');
 
-      var _title = $('<p>').addClass('space-name-headerTable-call-manager').text(space.name);
-      _spacename.append(Pard.Widgets.FitInBox(_title, 120, 38).render());
+      var _title = $('<p>').addClass('space-name-headerTable-call-manager').append($('<a>').text(space.name));   
+      var _titleText = $('<a>').attr('href','#');
+      _titleText.text(Pard.Widgets.FitInBox(_title, 125, 38).render().text());
+      _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
       _spaceHeader.append(_spacename, _menuIcon);
 
-      Pard.Widgets.PopupCreator(_spacename, 'conFusión 2016', function(){ return Pard.Widgets.MySpaceCallProposalMessage(space)});
+      _spacename.mousedown(function(){
+        _spacename.css('cursor','move');
+      });
+      _spacename.mouseup(function(){
+        _spacename.css('cursor','grab');
+      });
+
+      Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.MySpaceCallProposalMessage(space)});
 
       _spaceCol.append(_spaceHeader);
 
@@ -376,6 +398,8 @@
         _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
       }
     });
+
+
 
     return {
       render: function(){

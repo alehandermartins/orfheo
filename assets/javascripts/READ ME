@@ -18,6 +18,10 @@ FOTOS!
 -Wordpress form plugin for embeds or google form
 -Endpoint for program
 
+3/07/2016
+- comlumns of call manager are draggable but their position is not saved (which is the utility?)
+- add filter for available / not available (spaces and artists)
+
 
 conFusion profile
 
