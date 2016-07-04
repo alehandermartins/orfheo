@@ -22,15 +22,8 @@
     _spaceCol.append(_menuIcon);
 
     var _spacename = $('<div>');
-    _spacename.css({
-      'display': 'inline-block',
-      'vertical-align': 'middle',
-      'width': 120,
-      'height': 38,
-      'white-space': 'normal'
-    });
-
-    var _title = $('<p>').addClass('profile-nav-name-selected').text(space.name);
+    _spacename.addClass('space-name-container-call-manager');
+    var _title = $('<p>').addClass('space-name-headerTable-call-manager').text(space.name);
     _spacename.append(Pard.Widgets.FitInBox(_title, 120, 38).render());
     _spaceHeader.append(_spacename, _menuIcon);
     _spaceCol.append(_spaceHeader);
@@ -227,15 +220,9 @@
       _spaceCol.append(_menuIcon);
 
       var _spacename = $('<div>');
-      _spacename.css({
-        'display': 'inline-block',
-        'vertical-align': 'middle',
-        'width': 120,
-        'height': 38,
-        'white-space': 'normal'
-      });
+      _spacename.addClass('space-name-container-call-manager');
 
-      var _title = $('<p>').addClass('profile-nav-name-selected').text(space.name);
+      var _title = $('<p>').addClass('space-name-headerTable-call-manager').text(space.name);
       _spacename.append(Pard.Widgets.FitInBox(_title, 120, 38).render());
       _spaceHeader.append(_spacename, _menuIcon);
 

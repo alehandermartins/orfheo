@@ -1606,6 +1606,47 @@ li.artists-selector-container-call-manager{
 /* repeating-linear-gradient(45deg,$grey-4, $grey-4 10px,$grey-1 10px,$grey-1 20px); */
 }
 
+.proposal-card-container-call-manager{
+  /* background: $grey-1; */
+  padding: 0.1rem 0.1rem;
+  position: relative;
+  width: 100%;
+  cursor: grab; 
+  min-height: 3.75rem;
+  display: block;
+}
+
+/* .proposal-card-container-call-manager:hover{
+  font-weight: bold;
+} */
+
+.space-name-container-call-manager{
+  display: inline-block;
+  vertical-align: middle;
+  width: 120px;
+  height: 38px;
+  white-space: normal;
+}
+
+.space-name-headerTable-call-manager{
+  line-height: 1rem;
+  font-size: 0.75rem;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+
+
+.proposal-title-card-call-manager{
+  line-height: 1.3rem;
+  font-size: 0.75rem;
+  margin-bottom: 0;
+  cursor: pointer;
+  /* cursor: pointer; */
+  /* a {
+    color: black;
+  } */
+}
 
 
 /*===============================================

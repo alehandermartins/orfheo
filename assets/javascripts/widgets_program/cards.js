@@ -20,8 +20,28 @@
     if($.inArray(Object.keys(Pard.CachedCall.eventTime)[0], proposal.availability) < 0) _card.addClass('artist-not-available-call-manager');
     else{ _card.removeClass('artist-not-available-call-manager'); }
     
-    _card.draggable({
+   
+
+    _card.addClass('proposal-card-container-call-manager');
+    var _circleColumn = $('<div>').addClass('icon-column');
+
+    var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': color});
+    var _titleColumn = $('<div>').addClass('name-column profile-name-column');
+    var _title = $('<p>').addClass('proposal-title-card-call-manager');
+    var _title_text = $('<a>').attr('href','#').text(proposal.title);
+    _title.append(_title_text);
+    
+    var _icon = $('<div>').append(Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon'));
+    var _colorIcon = Pard.Widgets.IconColor(color).render();
+    _icon.css({color: _colorIcon});
+
+    _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
+    _titleColumn.append(Pard.Widgets.FitInBox(_title,125,54).render());
+
+     _card.draggable({
       revert: 'invalid',
+      cursor: 'move',
+      // cursorAt: { top: 5, right: 15 },
       helper: function(){
         return Pard.Widgets.CardHelper(proposal).render();
       },
@@ -31,6 +51,8 @@
       snapTolerance: 5,
       grid: [ 10, 10 ],
       start: function(event, ui){
+        // _title.css('cursor','move');
+        // _title_text.css('cursor','move');
         //we assing a UUID to the new performance
         var performance = {};
         performance['performance_id'] = _generateUUID();
@@ -49,21 +71,7 @@
       }
     });
 
-    _card.addClass('profile-selected-container');
-    var _circleColumn = $('<div>').addClass('icon-column');
-
-    var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': color});
-    var _nameColumn = $('<div>').addClass('name-column profile-name-column');
-    var _name = $('<p>').addClass('profile-nav-name-selected').text(proposal.title);
-    
-    var _icon = $('<div>').append(Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon'));
-    var _colorIcon = Pard.Widgets.IconColor(color).render();
-    _icon.css({color: _colorIcon});
-
-    _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
-    _nameColumn.append(Pard.Widgets.FitInBox(_name,125,54).render());
-
-    _card.append(_circleColumn, _nameColumn);
+    _card.append(_circleColumn, _titleColumn);
 
     var _rgb = Pard.Widgets.IconColor(color).rgb();
     _card.css({border: 'solid 3px' + color});
@@ -83,7 +91,7 @@
     );
 
     //Proposal form info
-    Pard.Widgets.PopupCreator(_card, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal)});
+    Pard.Widgets.PopupCreator(_title, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal)});
 
     return {
       render: function(){
@@ -91,11 +99,20 @@
       },
       setDay: function(day){
         //Giving background to card if not availabe
-        if(day == 'permanent')_card.css('background', 'none');
+        // if(day == 'permanent')_card.css('background', 'none');
+        console.log(proposal.availability);
+        console.log(day);
+        if(day == 'permanent'){
+          _card.removeClass('artist-not-available-call-manager');
+        }
         else if($.inArray(day, proposal.availability) < 0){
-          _card.css({
-            'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
-          });
+          _card.addClass('artist-not-available-call-manager');
+          // _card.css({
+          //   'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
+          // });
+        }
+        else{
+          _card.removeClass('artist-not-available-call-manager');
         }
       }
     }
@@ -119,7 +136,7 @@
       'border-color':color
     });
 
-    var _title = $('<p>').addClass('profile-nav-name-selected').text(proposal.title);
+    var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(proposal.title));
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, duration).render().css({'position': 'absolute'}));
 
     return {
@@ -144,12 +161,17 @@
     });
 
     if($.inArray(cardParameters.day, proposal.availability) < 0){
-      _card.css({
-        'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
-      });
+      _card.addClass('artist-not-available-call-manager');
+      // _card.css({
+      //   'background': 'repeating-linear-gradient(45deg,#606dbc,#606dbc 10px,#465298 10px,#465298 20px)'
+      // });
+    }else{
+      _card.removeClass('artist-not-available-call-manager');
     }
 
-    var _title = $('<p>').addClass('profile-nav-name-selected').text(proposal.title);
+    var _title = $('<p>').addClass('proposal-title-card-call-manager');
+    var _title_text = $('<a>').attr('href','#').text(proposal.title);
+    _title.append(_title_text);
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, cardParameters.height - 2).render().css({'position': 'absolute'}));
     var accordionShown = false;
 
@@ -157,8 +179,12 @@
       revert: false,
       //The helper is himself
       helper: 'clone',
+      cursor: 'move', 
+      // cursorAt: { top: 5, right: 15 },
       grid: [ 10, 10 ],
       start: function(event, ui){
+        // _title.css('cursor','move');
+        // _title_text.css('cursor','move');
         //We hide the accordion
         if($('.accordion').hasClass('is-active')){
           accordionShown = true;
@@ -202,7 +228,7 @@
     });
 
     //On click the performance shows its program
-    Pard.Widgets.PopupCreator(_card, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
+    Pard.Widgets.PopupCreator(_title, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
 
     return {
       render: function(){
@@ -225,16 +251,23 @@
       'white-space': 'normal'
     });
 
-    var _title = $('<p>').addClass('profile-nav-name-selected').text(proposal.title);
+    // _card.on('mousedown',function(){});
+    var _title = $('<p>').addClass('proposal-title-card-call-manager');
+    var _title_text = $('<a>').attr('href','#').text(proposal.title);
+    _title.append(_title_text);
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, cardParameters.height).render());
 
     var top = 0;
 
     _card.draggable({
       revert: false,
+      cursor: 'move',
+      // cursorAt: { top: 5, right: 15 }, 
       helper: 'clone',
       grid: [ 10, 10 ],
       start: function(event, ui){
+        // _title.css('cursor','move');
+        // _title_text.css('cursor','move');
         Pard.Widgets.DraggedPerformance = proposal;
         //We search for the performances linked to this one that belong to the same space
         var performances = $.grep(Pard.Widgets.Program, function(performance){
@@ -268,7 +301,7 @@
       }
     });
 
-    Pard.Widgets.PopupCreator(_card, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
+    Pard.Widgets.PopupCreator(_title, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(proposal)});
 
     return {
       render: function(){
