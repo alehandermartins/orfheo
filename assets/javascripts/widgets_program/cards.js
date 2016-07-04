@@ -149,8 +149,8 @@
   }
 
   //This is the dragged element once a performance card is in the space columns
-  ns.Widgets.ProgramHelper = function(performance){
-    var color = Pard.Widgets.CategoryColor(performance.category);
+  ns.Widgets.ProgramHelper = function(cardInfo){
+    var color = Pard.Widgets.CategoryColor(cardInfo.category);
     var _card =$('<div>').addClass('programHelper').css({
       'position': 'absolute',
       'display': 'inline-block',
@@ -161,7 +161,7 @@
     _card.addClass('dragged-card-call-manager');
 
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _titleText = $('<a>').attr('href','#').text(performance.title);
+    var _titleText = $('<a>').attr('href','#').text(cardInfo.title);
     _title.append(_titleText);
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, 40).render().css({'position': 'absolute'}));
 
@@ -186,7 +186,7 @@
         // _title_text.css('cursor','move');
         //Storing info
         ui.helper.data('dropped', false);
-        ui.helper.data('performance', performance);
+        ui.helper.data('cardInfo', cardInfo);
         
         //We hide the accordion
         if($('.accordion').hasClass('is-active')){
@@ -201,7 +201,7 @@
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
           Pard.Widgets.Program.forEach(function(performance, index){
-            if(performance.performance_id == proposal.performance_id){
+            if(performance.performance_id == cardInfo.performance_id){
               Pard.Widgets.Program.splice(index, 1);
               _card.remove();
             }
@@ -217,7 +217,7 @@
       stop: function(event, ui){
         //Recalculating perfomance new duration
         Pard.Widgets.Program.forEach(function(performance){
-          if(performance.performance_id == proposal.performance_id){
+          if(performance.performance_id == cardInfo.performance_id){
             var end = new Date(performance['time'][0]);
             end.setMinutes(end.getMinutes() + ui.size.height * 1.5);
             performance['time'][1] = end.getTime();
@@ -227,7 +227,7 @@
     });
 
     //On click the performance shows its program
-    Pard.Widgets.PopupCreator(_titleText, performance.title, function(){ return Pard.Widgets.PerformanceProgram(performance)});
+    Pard.Widgets.PopupCreator(_titleText, cardInfo.title, function(){ return Pard.Widgets.PerformanceProgram(cardInfo)});
 
     return {
       render: function(){
