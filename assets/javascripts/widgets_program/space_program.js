@@ -19,10 +19,24 @@
       } 
     });
 
-    var _performaceInput = function(performance){
-      var _performaceBox = $('<div>');
+    //Object to place all the performances
+    var _inputsByDate = {};
+    var _labelsByDate = {};
+    Object.keys(eventTime).forEach(function(date){
+      _inputsByDate[date] = { 
+        'scheduled': [],
+        'permanent': []
+      }
+      _labelsByDate[date] = {
+        'scheduled': $('<div>').text(date + ':'),
+        'permanent': $('<div>').text(date + ' - Actuaciones permanentes:') 
+      }
+    });
+
+    var _performanceInput = function(performance){
+      var _performanceBox = $('<div>');
       var _artistContainer = $('<div>').css('height', 39);
-      var _performaceContainer = $('<div>');
+      var _performanceContainer = $('<div>');
 
       //Artist selector
       var _artistSelector = $('<select>');
@@ -220,6 +234,7 @@
         performance['time'][0] = newStart;
         performance['time'][1] = performance['time'][1] + (newStart - oldStart);
         _setEndTimes();
+        _displayShows();
       });
 
       _endTime.on('change', function(){
@@ -229,6 +244,7 @@
         performance['card'].css({'height': '+=' + (newEnd - oldEnd) / 90000});
         performance['time'][1] = newEnd;
         _setStartTimes();
+        _displayShows();
       });
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
@@ -237,7 +253,9 @@
         //Removing card and performance from program
         program.splice(Pard.Widgets.Program.indexOf(performance), 1);
         performance['card'].remove();
-        _performaceBox.remove();
+        _performanceBox.remove();
+        _inputsByDate[performance.date]['scheduled'].splice(_inputsByDate[performance.date]['scheduled'].indexOf(performance), 1);
+        _displayShows();
       });
 
       //Selectors CSS
@@ -249,19 +267,20 @@
       _endTime.css({'display': ' inline-block', 'width': '80'});
 
       _artistContainer.append(_daySelector, _artistSelector);
-      _performaceContainer.append(_proposalSelector, _startTime, _endTime, _removeInputButton);
-      _performaceBox.append(_artistContainer, _performaceContainer);
-      _createdWidget.append(_performaceBox);
+      _performanceContainer.append(_proposalSelector, _startTime, _endTime, _removeInputButton);
+      _performanceBox.append(_artistContainer, _performanceContainer);
+      performance['box'] = _performanceBox;
+      _inputsByDate[performance.date]['scheduled'].push(performance);
     };
 
     //Input for permanent performances
     var _permanentPerformanceInput = function(performances){
       //Storing dates and places. Necessary since a permanent performance is composed of performances with dates and places
       var dates = [];
-      var participant_proposal_ids = [];
+      var host_proposal_ids = [];
       performances.forEach(function(performance){
         dates.push(performance.date);
-        participant_proposal_ids.push(performance.participant_proposal_id);
+        host_proposal_ids.push(performance.host_proposal_id);
       });
 
       var _daySelectors = [];
@@ -275,9 +294,9 @@
       };
 
       performances.forEach(function(performance){
-        var _performaceBox = $('<div>');
+        var _performanceBox = $('<div>');
         var _artistContainer = $('<div>').css('height', 39);
-        var _performaceContainer = $('<div>');
+        var _performanceContainer = $('<div>');
         
         var _daySelector = $('<select>');
         _daySelectors.push(_daySelector);
@@ -468,11 +487,13 @@
         _startTime.on('change', function(){
           performance['time'][0] = parseInt(_startTime.val());
           _setEndTimes();
+          _displayShows();
         });
 
         _endTime.on('change', function(){
           performance['time'][1] = parseInt(_endTime.val());
           _setStartTimes();
+          _displayShows();
         });
 
         var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
@@ -480,16 +501,34 @@
           
           //Removing all elements from global variables pointing to the deleted performance
           dates.splice(dates.indexOf(performance.date), 1);
-          host_proposal_ids.splice(dates.indexOf(performance.host_proposal_id), 1);
+          host_proposal_ids.splice(host_proposal_ids.indexOf(performance.host_proposal_id), 1);
           performances.splice(performances.indexOf(performance), 1);
           program.splice(Pard.Widgets.Program.indexOf(performance), 1);
 
-          _performaceBox.remove();
+          _performanceBox.remove();
           //If no more performances in that place, delete the card
-          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0) performance.card.remove();
+          if($.inArray(performance.host_proposal_id, host_proposal_ids) < 0){
+            performance.card.remove();
+            var spacePerformances = [];
+            var performance_ids = [performance.performance_id];
+            //Recalculating position of the rest of the elements of the column one a card is destroyed
+            Pard.Widgets.Program.forEach(function(performance){
+              if(performance['permanent'] == true){
+                if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == performance.host_proposal_id){
+                  performance_ids.push(performance['performance_id']);
+                  spacePerformances.push(performance);
+                }
+              }
+            });
+            spacePerformances.forEach(function(spacePerformance, index){
+              spacePerformance['card'].css({'top': index * 100 + 41});
+            });
+          }
 
           _daySelectors.splice(_daySelectors.indexOf(_daySelector), 1);
           _setDates(performance.date);
+          _inputsByDate[performance.date]['permanent'].splice(_inputsByDate[performance.date]['scheduled'].indexOf(performance), 1);
+          _displayShows();
         });
         
         //CSS
@@ -501,23 +540,50 @@
         _endTime.css({'display': ' inline-block', 'width': '80'});
 
         _artistContainer.append(_daySelector, _artistSelector);
-        _performaceContainer.append(_proposalSelector, _startTime, _endTime, _removeInputButton);
-        _performaceBox.append(_artistContainer, _performaceContainer);
-        _createdWidget.append(_performaceBox);
+        _performanceContainer.append(_proposalSelector, _startTime, _endTime, _removeInputButton);
+        _performanceBox.append(_artistContainer, _performanceContainer);
+        performance['box'] = _performanceBox;
+        _inputsByDate[performance.date]['permanent'].push(performance);
       });
     };
 
     //For each of the performances an input box with all the data is shown
     myPerformances.forEach(function(performance){
-      _performaceInput(performance);
+      _performanceInput(performance);
     });
-
-    var _permanentLabel = $('<div>').text('Actuaciones Permanentes:');
-    if(Object.keys(myPermanentPerformances).length > 0) _createdWidget.append(_permanentLabel);
 
     Object.keys(myPermanentPerformances).forEach(function(performance_id){
       _permanentPerformanceInput(myPermanentPerformances[performance_id]);
     });
+
+    var _compare = function (a,b) {
+      if (a.time[0] < b.time[0]) return 1;
+      if (a.time[0] > b.time[0]) return -1;
+      return 0;
+    }
+
+    var _displayShows = function(){
+      Object.keys(_inputsByDate).forEach(function(date){
+        if(_inputsByDate[date]['scheduled'].length > 0){
+          _createdWidget.append(_labelsByDate[date]['scheduled']);
+          _inputsByDate[date]['scheduled'].sort(_compare);
+          _inputsByDate[date]['scheduled'].forEach(function(performance){
+            _labelsByDate[date]['scheduled'].after(performance.box);
+          });
+        }
+        else{_labelsByDate[date]['scheduled'].remove();}
+        if(_inputsByDate[date]['permanent'].length > 0){
+          _createdWidget.append(_labelsByDate[date]['permanent']);
+          _inputsByDate[date]['permanent'].sort(_compare);
+          _inputsByDate[date]['permanent'].forEach(function(performance){
+            _labelsByDate[date]['permanent'].after(performance.box);
+          });
+        }
+        else{_labelsByDate[date]['permanent'].remove();}
+      });
+    }
+
+    _displayShows();
 
     return {
       render: function(){
