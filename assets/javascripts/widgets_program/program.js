@@ -189,10 +189,28 @@
         _displayShows();
       });
 
-      var _comments = Pard.Widgets.Input('Comentarios:', 'textarea', '', function(){
+      var _confirmedContainer = $('<div>').css('height', 20);
+      var _input = $('<input />').attr({ type: 'checkbox', 'checked': performance.confirmed});
+      var _label = $('<label>').html('Confirmado');
+      _label.css('display','inline');
+      var _confirmed = $('<div>').append(_input,_label);
+      _input.on('change', function(){
+        performance.confirmed = _input.is(":checked");
+      });
+      _confirmed.css('margin-left', 430);
+      _confirmedContainer.append(_confirmed);
+
+      var _commentsContainer = $('<div>');
+      var _comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+      _comments.on('input', function(){
         performance['comments'] = _comments.val();
-      }).render();
+      });
       _comments.val(performance['comments']);
+      _comments.css('width', 530);
+      _commentsContainer.append(_comments);
+
+      var _performanceContainer = $('<div>').css('height', 40);
+      _performanceContainer.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
 
       //Selectors CSS
       _daySelector.css({'display': ' inline-block', 'width': '120'});
@@ -200,7 +218,7 @@
       _startTime.css({'display': ' inline-block', 'width': '80'});
       _endTime.css({'display': ' inline-block', 'width': '80'});
 
-      _performanceBox.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton, _comments);
+      _performanceBox.append(_confirmedContainer, _performanceContainer, _commentsContainer);
       performance['box'] = _performanceBox;
       _inputsByDate[performance.date]['scheduled'].push(performance);
     };
@@ -316,16 +334,13 @@
                   }
                 });
 
-                var cardParameters = {
-                  'top': position,
-                  'left' : Pard.ShownSpaces.indexOf(space) * Pard.ColumnWidth + 1,
-                }
-
-                var newPerformance = Pard.Widgets.ProgramPermanentHelper(proposal, _spaceSelector.val(), cardParameters).render();
-                              
+                performance.card = Pard.Widgets.ProgramPermanentHelper(cardInfo, _spaceSelector.val()).render();
                 var timeCol = space['permanent'].find('.spaceTime');
-                timeCol.append(newPerformance);
-                performance['card'] = newPerformance;
+                performance.card.css({
+                  'top': position,
+                  'left' : Pard.ShownSpaces.indexOf(space) * Pard.ColumnWidth + 1
+                });
+                timeCol.append(performance.card);
               }
             });
           }

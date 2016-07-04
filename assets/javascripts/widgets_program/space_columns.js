@@ -286,7 +286,7 @@
         });
 
         if(ui.draggable.hasClass('proposalCard')){
-          _performance.card = Pard.Widgets.ProgramPermanentHelper(ui.helper.data('performance'), space.profile_id).render();
+          _performance.card = Pard.Widgets.ProgramPermanentHelper(ui.helper.data('performance'), space.proposal_id).render();
           _performance.card.css({
             'top': position,
             'left' : _time.position().left
@@ -312,14 +312,13 @@
           _time.append(_performance.card);
         }
         else{
-          var host_id = ui.helper.data('host_id');
+          var host_proposal_id = ui.helper.data('host_proposal_id');
           Pard.Widgets.Program.forEach(function(performance){
-            console.log(performance.performance_id == _performance.performance_id && performance.host_id == host_id);
-            if(performance.performance_id == _performance.performance_id && performance.host_id == host_id){
+            console.log(performance.performance_id == _performance.performance_id && performance.host_proposal_id == host_proposal_id);
+            if(performance.performance_id == _performance.performance_id && performance.host_proposal_id == host_proposal_id){
               performance.host_id = space.profile_id;
               performance.host_proposal_id = space.proposal_id;
               //If there is already a card that belongs to this performance we do not create a new one
-              console.log(_existingCard);
               if(_existingCard != false) performance.card = _existingCard;
               else{
                 performance.card.css({
@@ -332,12 +331,11 @@
             }
           });
         }
-        ui.helper.data('host_id', space.profile_id);
+        ui.helper.data('host_proposal_id', space.proposal_id);
       }
     });
 
     _spaceCol.append(_time);
-
     //Same as regular space columns
     _spaceCol.draggable({
       containment: '.tableContainer',

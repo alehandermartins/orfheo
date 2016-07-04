@@ -237,7 +237,7 @@
   }
 
   //This is the dragged element for permanent performances
-  ns.Widgets.ProgramPermanentHelper = function(cardInfo, host_id){
+  ns.Widgets.ProgramPermanentHelper = function(cardInfo, host_proposal_id){
     var color = Pard.Widgets.CategoryColor(cardInfo.category);
     var _card =$('<div>').addClass('programHelper').css({
       'position': 'absolute',
@@ -274,18 +274,21 @@
         ui.helper.data('dropped', false);
         //We store the info
         ui.helper.data('performance', cardInfo);
-        ui.helper.data('host_id', host_id);
+        ui.helper.data('host_proposal_id', host_proposal_id);
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(event, ui){
+        console.log(ui.helper.data('dropped'));
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
-          Pard.Widgets.Program.forEach(function(performance, index){
-            if(performance.performance_id == cardInfo.performance_id && performance.host_id == host_id){
-              Pard.Widgets.Program.splice(index, 1);
-              _card.remove();
-            }
-          });
+          var index = Pard.Widgets.Program.length - 1;
+          while(index > 0){
+            if(Pard.Widgets.Program[index].performance_id == cardInfo.performance_id && Pard.Widgets.Program[index].host_proposal_id == host_proposal_id){
+                Pard.Widgets.Program.splice(index, 1);
+                _card.remove();
+              }
+            index -= 1;
+          }
         }
 
         var spacePerformances = [];
@@ -293,7 +296,7 @@
         //Recalculating position of the rest of the elements of the column one a card is destroyed
         Pard.Widgets.Program.forEach(function(performance){
           if(performance['permanent'] == true){
-            if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == host_id){
+            if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == host_proposal_id){
               performance_ids.push(performance['performance_id']);
               spacePerformances.push(performance);
             }
@@ -302,7 +305,7 @@
         spacePerformances.forEach(function(spacePerformance, index){
           spacePerformance['card'].css({'top': index * 100 + 41});
         });
-        host_id = ui.helper.data('host_id');
+        host_id = ui.helper.data('host_proposal_id');
       }
     });
 

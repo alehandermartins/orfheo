@@ -472,9 +472,10 @@
     //Submit button it justs sends the created program
     var _submitBtn = Pard.Widgets.Button('', function(){
       var program = [];
-      Pard.Widgets.Program.forEach(function(performance, index){
+      Pard.Widgets.Program.forEach(function(performance){
+        delete performance.card;
+        delete performance.box;
         program.push(performance);
-        delete program[index].card;
       });
       Pard.Backend.program(' ', Pard.Widgets.Program, Pard.Events.SaveProgram);
     }).render().addClass('submit-program-btn-call-manager');
@@ -570,7 +571,7 @@
                 availability: proposal.availability
               }
               
-              newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(_cardInfo, performance.host_id).render();
+              newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(_cardInfo, performance.host_proposal_id).render();
               timeCol.append(newPerformance[performance.performance_id]);
               newPerformance[performance.performance_id].css({
                 'top': performance_ids.length * 100 + 41,
