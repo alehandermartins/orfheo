@@ -199,6 +199,7 @@
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(event, ui){
+       _card.css('cursor','move');
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
           Pard.Widgets.Program.forEach(function(performance, index){
@@ -207,13 +208,6 @@
               _card.remove();
             }
           });
-        }
-      stop:function(){
-        _card.css('cursor','drag');
-        //Showing the accordion if not hidden
-        if(accordionShown == true){
-          $('.accordion').addClass('is-active');
-          $('.accordion').toggle('slide', {direction: 'right'}, 500);
         }
       }
     });
