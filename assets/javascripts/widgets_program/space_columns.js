@@ -86,11 +86,11 @@
         var end = new Date(start.getTime());
         end.setMinutes(start.getMinutes() + duration * 1.5);
 
-        var _performance = ui.helper.data('performance');
+        var _performance = ui.helper.data('cardInfo');
         if(ui.draggable.hasClass('proposalCard')){
           _performance.date = day,
           _performance.permanent = false,
-          _performance.card = Pard.Widgets.ProgramHelper(ui.helper.data('performance')).render();
+          _performance.card = Pard.Widgets.ProgramHelper(ui.helper.data('cardInfo')).render();
           Pard.Widgets.Program.push(_performance);
         }
 

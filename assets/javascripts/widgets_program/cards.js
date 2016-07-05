@@ -52,7 +52,7 @@
         // _title.css('cursor','move');
         // _titleText.css('cursor','move');
         //we assing a UUID to the new performance
-        var performance = {
+        var cardInfo = {
           performance_id: _generateUUID(),
           participant_id: proposal.profile_id,
           participant_proposal_id: proposal.proposal_id,
@@ -62,7 +62,7 @@
           availability: proposal.availability
         }
         //We store the info to be known by the column it is dropped into
-        ui.helper.data('performance', performance);
+        ui.helper.data('cardInfo', cardInfo);
         //CSS change
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)', 'z-index': 999999});
         //We hide the accordion
