@@ -473,9 +473,18 @@
     var _submitBtn = Pard.Widgets.Button('', function(){
       var program = [];
       Pard.Widgets.Program.forEach(function(performance, index){
-        program[index] = performance;
-        delete program[index].card;
-        delete program[index].box;
+        var _performance = {
+          performance_id: performance.performance_id,
+          participant_id: performance.participant_id,
+          participant_proposal_id: performance.participant_proposal_id,
+          host_id: performance.host_id,
+          host_proposal_id: performance.host_proposal_id,
+          date: performance.date,
+          time: performance.time,
+          comments: performance.comments,
+          confirmed: performance.confirmed
+        }
+        program.push(_performance);
       });
       Pard.Backend.program(' ', program, Pard.Events.SaveProgram);
     }).render().addClass('submit-program-btn-call-manager');
