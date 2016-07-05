@@ -331,18 +331,10 @@
       var _text = $('<p>').text('Crea un contenido artístico').addClass('profile-nav-production-name');
       _createProductionItem.append(_iconPlusColumn, _textColumn.append(_text));
 
-      // var _createProductionBtn = Pard.Widgets.Button('Crea una producción',function(){
-      //   console.log('clicked');
-      // });
-      // productionContent.append(_createProductionBtn.render());
-
       var _createProdPopup = Pard.Widgets.PopupCreator(_createProductionItem, 'Crea un contenido artístico', function(){ return Pard.Widgets.CreateNewProductionMessage(profile_id)});
       
-      // _createProductionItem.click(function(){
-      //   console.log('clicked');
-      // });
-
-      productionContent.append(_createProdPopup.render());
+      // productionContent.append(_createProdPopup.render());
+    
     }
 
     profileNav.append(productionContent);
