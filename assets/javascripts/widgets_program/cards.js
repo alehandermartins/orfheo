@@ -273,12 +273,11 @@
         // _titleText.css('cursor','move');
         ui.helper.data('dropped', false);
         //We store the info
-        ui.helper.data('performance', cardInfo);
+        ui.helper.data('cardInfo', cardInfo);
         ui.helper.data('host_proposal_id', host_proposal_id);
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(event, ui){
-        console.log(ui.helper.data('dropped'));
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
           var index = Pard.Widgets.Program.length - 1;
@@ -305,7 +304,7 @@
         spacePerformances.forEach(function(spacePerformance, index){
           spacePerformance['card'].css({'top': index * 100 + 41});
         });
-        host_id = ui.helper.data('host_proposal_id');
+        host_proposal_id = ui.helper.data('host_proposal_id');
       }
     });
 

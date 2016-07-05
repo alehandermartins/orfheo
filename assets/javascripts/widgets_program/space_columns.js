@@ -270,7 +270,7 @@
         if(ui.draggable.hasClass('proposalCard')) duration += 2;
 
         //If there are other cards in the column the new card must appear below all of them
-        var _performance = ui.helper.data('performance');
+        var _performance = ui.helper.data('cardInfo');
         var performance_ids = [];
         var _existingCard = '';
         Pard.Widgets.Program.forEach(function(performance){
@@ -286,7 +286,7 @@
         });
 
         if(ui.draggable.hasClass('proposalCard')){
-          _performance.card = Pard.Widgets.ProgramPermanentHelper(ui.helper.data('performance'), space.proposal_id).render();
+          _performance.card = Pard.Widgets.ProgramPermanentHelper(ui.helper.data('cardInfo'), space.proposal_id).render();
           _performance.card.css({
             'top': position,
             'left' : _time.position().left
@@ -314,7 +314,6 @@
         else{
           var host_proposal_id = ui.helper.data('host_proposal_id');
           Pard.Widgets.Program.forEach(function(performance){
-            console.log(performance.performance_id == _performance.performance_id && performance.host_proposal_id == host_proposal_id);
             if(performance.performance_id == _performance.performance_id && performance.host_proposal_id == host_proposal_id){
               performance.host_id = space.profile_id;
               performance.host_proposal_id = space.proposal_id;
