@@ -472,12 +472,12 @@
     //Submit button it justs sends the created program
     var _submitBtn = Pard.Widgets.Button('', function(){
       var program = [];
-      Pard.Widgets.Program.forEach(function(performance){
-        delete performance.card;
-        delete performance.box;
-        program.push(performance);
+      Pard.Widgets.Program.forEach(function(performance, index){
+        program[index] = performance;
+        delete program[index].card;
+        delete program[index].box;
       });
-      Pard.Backend.program(' ', Pard.Widgets.Program, Pard.Events.SaveProgram);
+      Pard.Backend.program(' ', program, Pard.Events.SaveProgram);
     }).render().addClass('submit-program-btn-call-manager');
 
     _submitBtn.append(Pard.Widgets.IconManager('save').render());
