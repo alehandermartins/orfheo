@@ -24,7 +24,7 @@ class Forms::Proposals < Forms::Base
     availability = []
     availability = proposal[:availability].map{ |key, value|
       Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
-    }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Array) && !proposal[:availability].blank?)
+    }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Hash) && !proposal[:availability].blank?)
     
     availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
     proposal[:availability] = availability
@@ -47,7 +47,7 @@ class Forms::Proposals < Forms::Base
     availability = []
     availability = proposal[:availability].map{ |key, value|
       Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
-    }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Array) && !proposal[:availability].blank?)
+    }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Hash) && !proposal[:availability].blank?)
     
     availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
     proposal[:availability] = availability
