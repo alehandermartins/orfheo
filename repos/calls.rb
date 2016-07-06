@@ -10,17 +10,18 @@ module Repos
         proposals = call[:proposals].each{ |proposal|
           availability = []
           availability = proposal[:availability].map{ |key, value|
-            puts value
             Time.parse(value).to_s.split(' ')[0] unless(value == 'false' || value.blank?)
           }.compact if( proposal.has_key? :availability)
           
           availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
           proposal[:availability] = availability
         }
-        @@calls_collection.update({event_id: call[:event_id]},{
-          "$set": {"proposals": proposals}
-        },
-        {upsert: true}) unless (call['modified'] == 'true')
+        unless (call['modified'] == 'true')
+          @@calls_collection.update({event_id: call[:event_id]},{
+            "$set": {"proposals": proposals}
+          },
+          {upsert: true})
+        end 
         @@calls_collection.update({event_id: call[:event_id]},{
           "$set": {"modified": 'true'}
         },
