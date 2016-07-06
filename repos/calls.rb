@@ -4,28 +4,28 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
-        call = grab({})[0]
-        Repos::Events.add(call) unless (Repos::Events.event_exists? call[:event_id])
+        # call = grab({})[0]
+        # Repos::Events.add(call) unless (Repos::Events.event_exists? call[:event_id])
 
-        proposals = call[:proposals].each{ |proposal|
-          availability = []
-          availability = proposal[:availability].map{ |key, value|
-            Time.parse(value).to_s.split(' ')[0] unless(value == 'false' || value.blank?)
-          }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Hash) && !proposal[:availability].blank?)
+        # proposals = call[:proposals].each{ |proposal|
+        #   availability = []
+        #   availability = proposal[:availability].map{ |key, value|
+        #     Time.parse(value).to_s.split(' ')[0] unless(value == 'false' || value.blank?)
+        #   }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Hash) && !proposal[:availability].blank?)
           
-          availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
-          proposal[:availability] = availability
-        }
-        unless (call['modified'] == 'true')
-          @@calls_collection.update({event_id: call[:event_id]},{
-            "$set": {"proposals": proposals}
-          },
-          {upsert: true})
-        end 
-        @@calls_collection.update({event_id: call[:event_id]},{
-          "$set": {"modified": 'true'}
-        },
-        {upsert: true})
+        #   availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
+        #   proposal[:availability] = availability
+        # }
+        # unless (call['modified'] == 'true')
+        #   @@calls_collection.update({event_id: call[:event_id]},{
+        #     "$set": {"proposals": proposals}
+        #   },
+        #   {upsert: true})
+        # end 
+        # @@calls_collection.update({event_id: call[:event_id]},{
+        #   "$set": {"modified": 'true'}
+        # },
+        # {upsert: true})
         # call = grab({})[0]
         # profiles = {}
 
