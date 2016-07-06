@@ -6,11 +6,11 @@ module Repos
         @@calls_collection = db['calls']
         call = grab({})[0]
         Repos::Events.add(call) unless (Repos::Events.event_exists? call[:event_id])
-        profiles = {}
 
-        call[:proposals].each{ |proposal|
+        proposals = call[:proposals].each{ |proposal|
           availability = []
           availability = proposal[:availability].map{ |key, value|
+            puts value
             Time.parse(value).to_s.split(' ')[0] unless(value == 'false' || value.blank?)
           }.compact if( proposal.has_key? :availability)
           
@@ -18,7 +18,11 @@ module Repos
           proposal[:availability] = availability
         }
         @@calls_collection.update({event_id: call[:event_id]},{
-          "$set": {"proposals": call[:proposals]}
+          "$set": {"proposals": proposals}
+        },
+        {upsert: true}) unless (call['modified'] == 'true')
+        @@calls_collection.update({event_id: call[:event_id]},{
+          "$set": {"modified": 'true'}
         },
         {upsert: true})
         # call = grab({})[0]
