@@ -481,6 +481,7 @@
           host_proposal_id: performance.host_proposal_id,
           date: performance.date,
           time: performance.time,
+          permanent: performance.permanent,
           comments: performance.comments,
           confirmed: performance.confirmed
         }

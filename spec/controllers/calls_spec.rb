@@ -100,7 +100,7 @@ describe CallsController do
       waiting_list: nil,
       phone: '666999666',
       conditions: 'true',
-      availability: 'sun',
+      availability: ['2016-10-15', '2016-10-16'],
       duration: 'duration',
       components: '3',
       children: 'children',
@@ -185,7 +185,7 @@ describe CallsController do
         duration: 'duration',
         children: 'children',
         phone: '666999666',
-        availability: 'sun',
+        availability: ['2016-10-15', '2016-10-16'],
         components: '3',
       }
     }
@@ -199,7 +199,7 @@ describe CallsController do
         short_description: 'short_description',
         duration: 'duration',
         children: 'children',
-        availability: 'sun',
+        availability: ['2016-10-15', '2016-10-16'],
         components: '3',
         user_id: user_id,
         profile_id: nil,
@@ -388,14 +388,15 @@ describe CallsController do
         program: [
         {
           performance_id: performance_id,
-          time: ['3', '6'],
           participant_id: profile_id,
           participant_proposal_id: proposal_id,
           host_id: nil,
-          date: '2016-15-10',
-          permanent: 'false',
           host_proposal_id: 'otter_proposal',
-          host_name: 'otter'
+          date: '2016-15-10',
+          time: ['3', '6'],
+          permanent: 'false',
+          comments: 'comments',
+          confirmed: 'true'
         }
         ]
       }

@@ -7,7 +7,6 @@
   Pard.ShownSpaces = [];
   Pard.Artists = {};
   ns.Widgets.Program = [];
-  ns.Widgets.DraggedPerformance = {};
   ns.ColumnWidth = 176;
 
   ns.Widgets.CategoryColor = function(category){

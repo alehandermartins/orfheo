@@ -4,13 +4,25 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
-        # call = grab({})[0]
-        # profiles = {}
+        call = grab({})[0]
+        Repos::Events.add(call) unless Repos::Events.event_exists?('a5bc4203-9379-4de0-856a-55e1e5f3fac6')
+        profiles = {}
 
-        # call[:proposals].each{ |proposal|
-        #   profiles[proposal[:profile_id]] = profiles[proposal[:profile_id]] || []
-        #   profiles[proposal[:profile_id]].push(proposal)
-        # }
+        call[:proposals].each{ |proposal|
+          availability = []
+          availability = proposal[:availability].map{ |key, value|
+            Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
+          }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Array) && !proposal[:availability].blank?)
+          
+          availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
+          proposal[:availability] = availability
+        }
+
+        @@calls_collection.update({ event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'},
+          {
+            "$set": {"proposals": call[:proposals]}
+          },
+        {upsert: true})
 
         # participants = []
         # profiles.each{ |profile_id, proposals|

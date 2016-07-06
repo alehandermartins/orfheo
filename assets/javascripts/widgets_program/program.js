@@ -311,6 +311,7 @@
                 }
               }
             });
+            console.log(performance_ids);
             spacePerformances.forEach(function(spacePerformance, index){
               spacePerformance['card'].css({'top': index * 100 + 41});
             });

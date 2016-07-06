@@ -5,7 +5,7 @@
   ns.Widgets.SpaceColumn = function(space, day, hours){
     var eventTime = Pard.CachedCall.eventTime;
 
-    var _spaceCol = $('<div>').addClass('spaceCol').attr('id', space.proposal_id);
+    var _spaceCol = $('<div>').addClass('spaceCol');
     //_spaceCol.addClass('space-column-call-manager');
     _spaceCol.css({
       'display': ' inline-block',
@@ -318,13 +318,24 @@
               performance.host_id = space.profile_id;
               performance.host_proposal_id = space.proposal_id;
               //If there is already a card that belongs to this performance we do not create a new one
-              if(_existingCard != false) performance.card = _existingCard;
-              else{
+              if(host_proposal_id == performance.host_proposal_id){
                 performance.card.css({
                   'top': position,
                   'left' : _time.position().left,
                   'opacity': '1',
                   'filter': 'alpha(opacity=100)'
+                });
+              }
+              else if(_existingCard != false){
+                performance.card.remove();
+                performance.card = _existingCard;
+              }
+              else{
+                performance.card.css({
+                'top': position,
+                'left' : _time.position().left,
+                'opacity': '1',
+                'filter': 'alpha(opacity=100)'
                 });
               }
             }

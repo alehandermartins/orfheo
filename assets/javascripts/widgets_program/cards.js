@@ -197,7 +197,7 @@
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(event, ui){
-       _card.css('cursor','move');
+       _card.css('cursor','grab');
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
           Pard.Widgets.Program.forEach(function(performance, index){
@@ -278,6 +278,7 @@
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(event, ui){
+        _card.css('cursor','grab');
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
           var index = Pard.Widgets.Program.length - 1;
