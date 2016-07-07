@@ -96,7 +96,19 @@
         return _datePicker;
       },
       getVal: function(){
-        if (_inputDate.getVal()) return _datePicker.datepick('getDate'); return false;
+        if (_inputDate.getVal()){
+          var _dateInserted = _datePicker.datepick('getDate');
+          var _datesArray = [];
+          console.log(_dateInserted);
+          _dateInserted.forEach(function(selection){
+            var day = selection.getDate();
+            var monthIndex = selection.getMonth()+1;
+            var year = selection.getFullYear();
+            _datesArray.push(year+ '-'+monthIndex+'-'+day);
+          });
+          return _datesArray;
+       } 
+        return false;
       },
       setVal: function(dates){
       	_datePicker.datepick('setDate', dates);
