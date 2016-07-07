@@ -14,7 +14,11 @@
     // {"2016-10-15" : [[ "1476518400000", "1476532800000"], 
     //         [ "1476543600000", "1476568800000" ] ],
     //     "2016-10-16" : [ ["1476604800000","1476705600000" ], 
-    //         [ "1476630000000", "1476655200000" ]]}
+    //         [ "1476630000000", "1476655200000" ]],
+  // "permanent" : [ 
+  //           "11:00", 
+  //           "21:00"
+  //       ]}
 
     //Object to fill with profile_id (keys) and proposals (values)
     var artists = {};
@@ -389,6 +393,8 @@
 
     //Filling the columns for each day we declare a set of space columns. One extra set for permanent
     Object.keys(eventTime).forEach(function(day, day_number){
+
+      if (day == 'permanent') return false;
 
       var date = $('<option>').val(day).text(day);
       //New date for _daySelector 

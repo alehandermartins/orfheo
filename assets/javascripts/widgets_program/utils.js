@@ -26,8 +26,8 @@
 
   ns.Widgets.ReorderProgram = function(perfomances){
     var _compare = function (a,b) {
-      if (a.time[0] < b.time[0]) return 1;
-      if (a.time[0] > b.time[0]) return -1;
+      if (a.time[0] < b.time[0]) return -1;
+      if (a.time[0] > b.time[0]) return 1;
       return 0;
     }
     return perfomances.sort(_compare);

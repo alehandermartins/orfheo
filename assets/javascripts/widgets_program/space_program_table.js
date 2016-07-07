@@ -8,20 +8,20 @@
     var program = Pard.Widgets.Program;
     var eventTime = call.eventTime;
 
-    var _reorderProgram = Pard.Widgets.ReorderProgram(program);
 
     var myPerformances = [];
-    var myPermanentPerformances = {};
+    var myPermanentPerformances = [];
     program.forEach(function(performance){
-      if(performance.host_id == space.profile_id && performance.permanent == false) myPerformances.push(performance);
-      if(performance.host_id == space.profile_id && performance.permanent == true){
-        myPermanentPerformances[performance.performance_id] = myPermanentPerformances[performance.performance_id] || [];
-        myPermanentPerformances[performance.performance_id].push(performance);
-      } 
+      if(performance.host_id == space.profile_id) myPerformances.push(performance);
     });
 
+    var _reorderedProgram = [];
+
+    if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgram(myPerformances);
+  
+    console.log(_reorderedProgram);
+
     var _infoSpace = space.name.toUpperCase() +' - '+space.address.route+' '+space.address.street_number+' - tel.' + space.phone+ ' ('+space.responsible + ') '+' - correo'+ space.email;
-    console.log(_infoSpace);
 
     var _spaceTable = $('<table>').addClass('table_display table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"640px"});
 
@@ -55,7 +55,10 @@
 
     var _tbody = $('<tbody>');
 
+    console.log(new Date().getTime());
+
     Object.keys(eventTime).forEach(function(day){
+      if (day == 'permanent') return false;
       var _day = new Date(day);
       var _dayRow = $('<tr>'); 
       _columnsHeaders.forEach(function(field){
@@ -63,7 +66,7 @@
         var _col = $('<td>').addClass('column-call-manager-table');
         _col.addClass(_colClass);
         if (field == 'time'){
-          _col.append(moment(_day).locale('es').format('dddd'));
+          _col.append(moment(_day).locale('es').format('dddd').toUpperCase());
         }
         else{
           _col.html('');
@@ -71,18 +74,19 @@
         _dayRow.append(_col);
       });
       _tbody.append(_dayRow);
-        program.forEach(function(show){
+        _reorderedProgram.forEach(function(show){
           var _proposal = Pard.Widgets.GetProposal(show.participant_proposal_id);
-          console.log(show);
           var _row = $('<tr>');
           var _startDate = new Date(parseInt(show['time'][0]));
           var _endDate = new Date(parseInt(show['time'][1]));
+          if (moment(_startDate).format('MM-DD-YYYY') == moment(_day).format('MM-DD-YYYY')){
+          
           _columnsHeaders.forEach(function(field){
             var _colClass = 'column-'+field;
             var _col = $('<td>').addClass('column-call-manager-table');
             _col.addClass(_colClass);
               if (field == 'time'){
-                var _schedule = moment(_startDate).locale("es").format('dddd, HH:mm') + '-' + moment(_endDate).locale("es").format('HH:mm');
+                var _schedule = moment(_startDate).locale("es").format('HH:mm') + '-' + moment(_endDate).locale("es").format('HH:mm');
                 _col.append(_schedule);
               }
               if (field == 'name'){
@@ -107,6 +111,7 @@
           _tbody.append(_row);
           // _matrix.push(_cols);
           // _cols = [];}
+        }
     });
     });
 
@@ -116,6 +121,7 @@
     _createdWidget.append(_infoSpace, _tableBox.append(_spaceTable));
 
   _spaceTable.DataTable({
+        rowReorder: false,
     "language":{
       "zeroRecords": "Ningún resultado",
       "info": "",
@@ -128,6 +134,7 @@
     fixedHeader: {
       header: true
     },
+    aaSorting: [],
     "paging": false,
     "scrollCollapse": true,
     dom: 'Bfrtip',

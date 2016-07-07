@@ -319,10 +319,19 @@
             'left' : _time.position().left
           });
           //If the performance is new we create a performance with the same performance_id for each day of the event and push them to the program
+          var _startHour = parseInt(eventTime['permanent'][0].split(':')[0]);
+          var _startMin = parseInt(eventTime['permanent'][0].split(':')[1]);
+          var _endHour = parseInt(eventTime['permanent'][1].split(':')[0]);
+          var _endMin = parseInt(eventTime['permanent'][1].split(':')[1]);
+          console.log()
           Object.keys(eventTime).forEach(function(date){
-            var start = parseInt(eventTime[date][0][0]);
-            var lastIndex = eventTime[date].length - 1;
-            var end = parseInt(eventTime[date][lastIndex][1]);
+            if (date == 'permanent') return false;
+            var start = new Date(date.split('-')[0],date.split('-')[1] -1,date.split('-')[2],_startHour, _startMin);
+            // start.setHours(_startHour,_startMin);
+            start = start.getTime(); 
+            // var lastIndex = eventTime[date].length - 1;
+            var end = new Date(date.split('-')[0],date.split('-')[1] -1,date.split('-')[2],_endHour, _endMin);
+            end = end.getTime();
             var permanentPerformance = {
               performance_id: _performance.performance_id,
               participant_id: _performance.participant_id,
