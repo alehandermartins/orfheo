@@ -2,8 +2,6 @@ class Forms::Proposals < Forms::Base
   
   def create proposal_id
     scopify
-    scopify_call
-    scopify_profile
     user = Repos::Users.grab({user_id: user_id})
     profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
     #call = Repos::Calls.get_call call_id
@@ -26,14 +24,13 @@ class Forms::Proposals < Forms::Base
 
   def create_own proposal_id
     scopify
-    scopify_call
     form = {
       artist: artist_own,
       space: space_own
     }
     proposal = create_model_from form[type][category]
     proposal.merge! user_id: user_id
-    proposal.merge! profile_id: nil
+    proposal.merge! profile_id: profile_id
     proposal.merge! proposal_id: proposal_id
     proposal.merge! type: type.to_s
     proposal.merge! category: category.to_s
@@ -70,17 +67,13 @@ class Forms::Proposals < Forms::Base
         params[param].to_sym
       }
     end
+    [:profile_id, :call_id].each do |param|
+      raise Pard::Invalid::Params if params[param].blank?
+      self.send(:define_singleton_method, param) {
+        params[param]
+      }
+    end
     self.send(:define_singleton_method, :production_id) {params[:production_id]}
-  end
-
-  def scopify_call
-    raise Pard::Invalid::Params if params[:call_id].blank?
-    self.send(:define_singleton_method, :call_id) {params[:call_id]}
-  end
-
-  def scopify_profile
-    raise Pard::Invalid::Params if params[:profile_id].blank?
-    self.send(:define_singleton_method, :profile_id) {params[:profile_id]}
   end
 
   def add_profile_fields proposal, profile

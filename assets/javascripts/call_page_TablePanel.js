@@ -123,6 +123,7 @@
 		$(document).ready(function(){
 			// _tableTab.trigger('click')
       _programTab.trigger('click')
+
 		});
 
     _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel, _programPanel);

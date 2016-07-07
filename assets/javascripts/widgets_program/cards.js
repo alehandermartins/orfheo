@@ -308,7 +308,7 @@
       }
     });
 
-    Pard.Widgets.PopupCreator(_titleText, cardInfo.title, function(){ return Pard.Widgets.PerformanceProgram(cardInfo)});
+    Pard.Widgets.PopupCreator(_titleText, cardInfo.title, function(){ return Pard.Widgets.PermanentPerformanceProgram(cardInfo)});
 
     return {
       render: function(){

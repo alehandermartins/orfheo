@@ -38,7 +38,8 @@
     // var _artistProposalsList = [];
 
     proposals.forEach(function(proposal){
-      if (!proposal.profile_id) {
+      var lastElement = proposal.profile_id.split('-').pop();
+      if (lastElement == 'own') {
         var _proposalContainer = $('<li>');
         if (proposal.type == 'artist'){
           var _artistProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);

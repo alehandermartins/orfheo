@@ -82,7 +82,7 @@ describe CallsController do
       needs: nil,
       conditions: 'true',
       waiting_list: nil,
-      availability: 'sun',
+      availability: ['2016-10-15', '2016-10-16'],
       components: '3',
       repeat: 'true',
     }
@@ -202,7 +202,7 @@ describe CallsController do
         availability: ['2016-10-15', '2016-10-16'],
         components: '3',
         user_id: user_id,
-        profile_id: nil,
+        profile_id: "b11000e7-8f02-4542-a1c9-7f7aa18752ce-own",
         proposal_id: proposal_id,
         type: 'artist',
         category: 'music'
