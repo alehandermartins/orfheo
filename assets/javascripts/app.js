@@ -195,16 +195,16 @@ Pard.Call = function(call){
   //     HoldOn.close();
   // });
 
-  var spinner =  new Spinner().spin();
-  $('body').append(spinner.el);
+  // var spinner =  new Spinner().spin();
+  // $('body').append(spinner.el);
   
-  $(window).load(function(){
-      spinner.stop();
-      $(document).foundation();
-  });  
+  // $(window).load(function(){
+  //     spinner.stop();
+  // });  
 
   $(window).ready(function(){
     $('body').append(_whole);
+    $(document).foundation();
   });
 
   Pard.CachedCalls = call;

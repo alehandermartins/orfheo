@@ -547,7 +547,7 @@
               performance.card.css({
                 'top': position,
                 'height': duration,
-                'left' : left,
+                'left' : left
               });
               performance.card.resizable({
                 maxHeight: maxHeight

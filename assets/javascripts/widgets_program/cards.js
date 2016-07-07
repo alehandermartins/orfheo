@@ -64,13 +64,11 @@
         //We store the info to be known by the column it is dropped into
         ui.helper.data('cardInfo', cardInfo);
         //CSS change
-        _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)', 'z-index': 999999});
         //We hide the accordion
         $('.accordion').toggle('slide', {direction: 'right'}, 500);
       },
       stop:function(){
         //Return to normality
-        _card.css({'opacity': '1', 'filter': 'alpha(opacity=100)'});
         $('.accordion').toggle('slide', {direction: 'right'}, 500);
       }
     });
@@ -128,7 +126,7 @@
     //Avoiding to get too long helpers to drag around
     var _width = Pard.ColumnWidth;
     if(_width > 176 * 2) _width = 176 * 2; 
-    
+
     var _card =$('<div>').addClass('dragging-card-call-manager').css({
       'width': _width,
       'height': duration,
@@ -159,6 +157,7 @@
       'white-space': 'normal'
     });
     _card.addClass('dragged-card-call-manager');
+
 
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
     var _titleText = $('<a>').attr('href','#').text(cardInfo.title);

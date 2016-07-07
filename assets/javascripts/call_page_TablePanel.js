@@ -12,7 +12,26 @@
   	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla');
   	var _tableTab = $('<li>').append(_tableTabTitle);
   	_tableTab.one('click',function(){
-			$('#tablePanel').append(Pard.Widgets.TablePanelContent(call).render());
+      var spinner =  new Spinner().spin();
+        $.wait(
+          '', 
+          function(){
+            $('body').append(spinner.el);
+          }, 
+          function(){
+            setTimeout(function(){
+              var _appendAndStopSpinner = function(stopSpinner){ 
+                $('#tablePanel').append(Pard.Widgets.TablePanelContent(call).render());
+                stopSpinner();
+              }
+              _appendAndStopSpinner(function(){
+                spinner.stop();
+                $(document).foundation();
+              });
+            },0)
+          }
+        );
+			
 		});
   	_tableTab.click(function(){
 			$('.tab-selected').removeClass('tab-selected');
@@ -23,7 +42,25 @@
   	var _proposalsTabTitle =	$('<a>').attr({href: "#"}).text('Propuestas');
   	var _proposalsTab = $('<li>').addClass('tabs-title is-active').append(_proposalsTabTitle);
   	_proposalsTab.one('click',function(){
-			$('#proposalsPanel').append(Pard.Widgets.ProposalsPanelContent(call).render());
+       var spinner =  new Spinner().spin();
+        $.wait(
+          '', 
+          function(){
+            $('body').append(spinner.el);
+          }, 
+          function(){
+            setTimeout(function(){
+              var _appendAndStopSpinner = function(stopSpinner){ 
+                $('#proposalsPanel').append(Pard.Widgets.ProposalsPanelContent(call).render());
+                stopSpinner();
+              }
+              _appendAndStopSpinner(function(){
+                spinner.stop();
+                $(document).foundation();
+              });
+            },0)
+          }
+        );
 		});
 		_proposalsTab.click(function(){
 			$('.tab-selected').removeClass('tab-selected');
@@ -34,7 +71,26 @@
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
     var _programTab = $('<li>').append(_programTabTitle);
     _programTab.one('click',function(){
-			$('#programPanel').append(Pard.Widgets.ProgramManager(call).render());
+       var spinner =  new Spinner().spin();
+        $.wait(
+          '', 
+          function(){
+            $('body').append(spinner.el);
+          }, 
+          function(){
+            setTimeout(function(){
+              var _appendAndStopSpinner = function(stopSpinner){ 
+               $('#programPanel').append(Pard.Widgets.ProgramManager(call).render());
+                stopSpinner();
+              }
+              _appendAndStopSpinner(function(){
+                spinner.stop();
+                $(document).foundation();
+              });
+            },0)
+          }
+        );
+			
     });
     _programTab.click(function(){
 			$('.tab-selected').removeClass('tab-selected');

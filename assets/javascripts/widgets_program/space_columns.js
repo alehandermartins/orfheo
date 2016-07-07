@@ -103,15 +103,20 @@
             performance.card.css({
               'top': position,
               'height': duration,
-              'left' : _time.position().left,
-              'opacity': '1',
-              'filter': 'alpha(opacity=100)'
+              'left' : _time.position().left
             });
             performance.card.resizable({
               maxHeight: _time.height() - (position - colPosition)
             });
-            if($.inArray(day, _performance.availability) < 0) performance.card.addClass('artist-not-available-call-manager');
-            else{performance.card.removeClass('artist-not-available-call-manager');}
+            if($.inArray(day, _performance.availability) < 0) {
+              performance.card.addClass('artist-not-available-call-manager');
+            }
+            else{
+              performance.card.removeClass('artist-not-available-call-manager');
+              performance.card.css({
+                'opacity': '1',
+                'filter': 'alpha(opacity=100)'});
+            }
           }
         });
       }

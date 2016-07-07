@@ -82,6 +82,10 @@
             timeCol.append(performance['card']);
           }
         });
+
+        if($.inArray(performance.date, cardInfo.availability) < 0) performance.card.addClass('artist-not-available-call-manager');
+        else{performance.card.removeClass('artist-not-available-call-manager');}
+
         _setStartTimes();
         _setEndTimes();
       });
