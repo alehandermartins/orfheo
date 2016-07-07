@@ -46,7 +46,7 @@
     var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
       'height': (hours.length - 1) * 40
     });
-    
+
     //Giving background to space if not availabe
     if($.inArray(day, space.availability) < 0){
       _spaceCol.addClass('space-not-available-call-manager');
@@ -115,8 +115,15 @@
               performance.card.removeClass('artist-not-available-call-manager');
               performance.card.css({
                 'opacity': '1',
-                'filter': 'alpha(opacity=100)'});
+                'filter': 'alpha(opacity=100)'
+              });
             }
+
+            // Pard.Widgets.Program.forEach(function(show){
+            //   console.log(show.host_proposal_id);
+            // })
+            // console.log(space.proposal_id);
+
           }
         });
       }

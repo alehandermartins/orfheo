@@ -32,11 +32,11 @@
     var _profileCaller = $('<a>').attr({
       target: 'blank',
       href: '/profile?id=' + space.profile_id
-    }).text('Ver perfil');
+    }).text('Perfil');
 
     var _programLink = $('<li>');
-    var _programCaller = $('<a>').attr('href','#').text('Ver programa');
-    var _program = Pard.Widgets.PopupCreator(_programCaller, space.name, function(){return Pard.Widgets.SpaceProgram(space)});
+    var _programCaller = $('<a>').attr('href','#').text('Programa');
+    var _program = Pard.Widgets.PopupCreator(_programCaller, space.name, function(){return Pard.Widgets.SpaceProgramTable(space)});
 
     // var _dCaller = $('<a>').attr('href','#').text('Elimina mi cuenta');
     // var _deleteCaller = Pard.Widgets.PopupCreator(_dCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteUserMessage()});
