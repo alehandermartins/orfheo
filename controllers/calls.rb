@@ -27,7 +27,7 @@ class CallsController < BaseController
 
   post '/users/own_proposal' do
     scopify call_id: true
-    params[:profile_id] = nil
+    params[:profile_id] = SecureRandom.uuid + '-own'
     check_call_ownership call_id
 
     proposal_id = SecureRandom.uuid
