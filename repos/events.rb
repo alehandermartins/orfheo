@@ -4,39 +4,6 @@ module Repos
 
       def for db
         @@events_collection = db['events']
-        call = grab({})[0]
-        proposals = []
-        call[:proposals].each{ |proposal|
-          availability = []
-          if(proposal.has_key? :availability)
-            availability.push(Time.parse(proposal[:availability]['0']).to_s.split(' ')[0]) if proposal[:availability].has_key? '0'
-            availability.push(Time.parse(proposal[:availability]['1']).to_s.split(' ')[0]) if proposal[:availability].has_key? '1'
-          end
-          availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
-          proposal[:availability] = availability
-          proposals.push(proposal)
-        }
-
-        call[:proposals] = proposals
-        Repos::Calls.add(call)
-
-        # call = grab({})[0]
-        # Repos::Event.add(call)
-        # profiles = {}
-
-        # call[:proposals].each{ |proposal|
-        #   availability = []
-        #   availability = proposal[:availability].map{ |key, value|
-        #     Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
-        #   }.compact if( proposal.has_key? :availability && !proposal[:availability].blank?)
-          
-        #   availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
-        #   proposal[:availability] = availability
-        # }
-        # @@events_collection.update({event_id: call[:event_id]},{
-        #   "$set": {"proposals": call[:proposals]}
-        # },
-        # {upsert: true})
       end
 
       def add event

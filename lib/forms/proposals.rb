@@ -21,13 +21,6 @@ class Forms::Proposals < Forms::Base
     proposal.merge! production_id: production_id || SecureRandom.uuid
     proposal.merge! category: category.to_s
     add_profile_fields proposal, profile
-    availability = []
-    availability = proposal[:availability].map{ |key, value|
-      Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
-    }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Hash) && !proposal[:availability].blank?)
-    
-    availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
-    proposal[:availability] = availability
     proposal
   end
 
@@ -44,13 +37,6 @@ class Forms::Proposals < Forms::Base
     proposal.merge! proposal_id: proposal_id
     proposal.merge! type: type.to_s
     proposal.merge! category: category.to_s
-    availability = []
-    availability = proposal[:availability].map{ |key, value|
-      Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
-    }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Hash) && !proposal[:availability].blank?)
-    
-    availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
-    proposal[:availability] = availability
     proposal
   end
 
