@@ -15,6 +15,16 @@
     });
 
     var _performanceBox = $('<div>');
+    var _alignPerformances = function(new_host, old_host, new_date, old_date){
+      var _oldPerformances = [];
+      var _newPerformances = [];
+      Pard.Widgets.Program.forEach(function(performance){
+        if(performance.host_proposal_id == new_host && performance.date == new_date && performance.permanent == false) _newPerformances.push(performance);
+        if(performance.host_proposal_id == old_host && performance.date == old_date && performance.permanent == false) _oldPerformances.push(performance);
+      });
+      if(new_host != old_host || new_date != old_date) Pard.Widgets.AlignPerformances(_oldPerformances);
+      Pard.Widgets.AlignPerformances(_newPerformances);
+    }
     
     //Day selector
     var _daySelector = $('<select>');
@@ -37,8 +47,9 @@
     //Day selector behaviour
     _daySelector.on('change', function(){
       //Update on the performance date
+      var _oldDate = _performance.date;
       _performance.date = _daySelector.val();
-      var dateArray = _performance.date.split('-');
+      var dateArray = _daySelector.val().split('-');
       var start = new Date(_performance.time[0]);
       var end = new Date(_performance.time[1]);
 
@@ -53,7 +64,6 @@
 
       _performance.time[0] = start.getTime();
       _performance.time[1] = end.getTime();
-
       Pard.Spaces.forEach(function(space){
         if(space.proposal_id == _performance.host_proposal_id){
           var timeCol = space[_performance.date].find('.spaceTime');
@@ -66,23 +76,26 @@
 
       _setStartTimes();
       _setEndTimes();
+      _alignPerformances(_performance.host_proposal_id, _performance.host_proposal_id, _performance.date, _oldDate);
     });
     
     //Space Selector behaviour
     _spaceSelector.on('change', function(){
       //Update od the performance location
+      var _oldHost = _performance.host_proposal_id;
       _performance.host_proposal_id = _spaceSelector.val();
       Pard.Spaces.forEach(function(space){
-        if(space.proposal_id == _performance.host_proposal_id){
+        if(space.proposal_id == _spaceSelector.val()){
           var timeCol = space[_performance.date].find('.spaceTime');
           var spaceProposal = Pard.Widgets.GetProposal(_spaceSelector.val());
 
-          _performance['card'].css('left', Pard.ShownSpaces.indexOf(space) * 176 + 1);
-          timeCol.append(_performance['card']);
+          _performance.card.css('left', Pard.ShownSpaces.indexOf(space) * Pard.ColumnWidth + 1);
+          timeCol.append(_performance.card);
 
           _performance.host_id = spaceProposal.profile_id;
         }
       });
+      _alignPerformances(_performance.host_proposal_id, _oldHost, _performance.date, _performance.date);
     });
 
     var _startTime = $('<select>');
@@ -147,6 +160,7 @@
       _performance['time'][0] = newStart;
       _performance['time'][1] = _performance['time'][1] + (newStart - oldStart);
       _setEndTimes();
+      _alignPerformances(_performance.host_proposal_id, _performance.host_proposal_id, _performance.date, _performance.date);
     });
 
     _endTime.on('change', function(){
@@ -156,6 +170,7 @@
       _performance['card'].css({'height': '+=' + (newEnd - oldEnd) / 90000});
       _performance['time'][1] = newEnd;
       _setStartTimes();
+      _alignPerformances(_performance.host_proposal_id, _performance.host_proposal_id, _performance.date, _performance.date);
     });
 
     var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
@@ -165,6 +180,7 @@
       Pard.Widgets.Program.splice(Pard.Widgets.Program.indexOf(_performance), 1);
       _performance['card'].remove();
       _performanceBox.remove();
+      _alignPerformances(_performance.host_proposal_id, _performance.host_proposal_id, _performance.date, _performance.date);
     });
 
     var _confirmedContainer = $('<div>').css('height', 20);
