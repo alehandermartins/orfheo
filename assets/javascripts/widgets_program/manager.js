@@ -396,7 +396,7 @@
 
       if (day == 'permanent') return false;
 
-      var date = $('<option>').val(day).text(day);
+      var date = $('<option>').val(day).text(moment(day).format('DD-MM-YYYY'));
       //New date for _daySelector 
       _daySelector.append(date);
 

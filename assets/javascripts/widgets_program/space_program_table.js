@@ -1,6 +1,7 @@
  'use strict';
 
 (function(ns){
+
   ns.Widgets.SpaceProgramTable = function(space){
     var _closepopup = {};
     var _createdWidget = $('<div>');
@@ -17,153 +18,170 @@
       email: 'Email'
     };
 
-  var _printSpaceProgram = function(space){
+    var _infoSpace = space.address.route+' '+space.address.street_number+' - tel. ' + space.phone+ ' ('+space.responsible + ') '+' - email: '+ space.email;
 
-    _createdWidget.empty();
+    var _spaceName = space.name;
 
-    var call = Pard.CachedCall;
-    var program = Pard.Widgets.Program;
-    var eventTime = call.eventTime;
+    var _infoSpaceBox = $('<div>').addClass('info-box-popup-program');
 
-    var myPerformances = [];
-    var myPermanentPerformances = [];
-    program.forEach(function(performance){
-      if(performance.host_id == space.profile_id) myPerformances.push(performance);
-    });
+    _infoSpaceBox.append($('<p>').append(_infoSpace));
 
-    var _reorderedProgram = [];
+    var _printSpaceProgram = function(space){
 
-    if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgramCrono(myPerformances);
-  
-    var _infoSpace = space.name.toUpperCase() +' - '+space.address.route+' '+space.address.street_number+' - tel.' + space.phone+ ' ('+space.responsible + ') '+' - correo'+ space.email;
+      _createdWidget.empty();
 
-    var _spaceTable = $('<table>').addClass('table_display table-proposal row-border').attr({'cellspacing':"0", 'width':'100%'});
+      var call = Pard.CachedCall;
+      var program = Pard.Widgets.Program;
+      var eventTime = call.eventTime;
 
-    var _tableBox = $('<div>').addClass('table-space-program');
-
-    var _thead = $('<thead>');
-    var _titleRow = $('<tr>');
-    // .addClass('title-row-table-proposal');
-
-    _columnsHeaders.forEach(function(field, colNum){
-      var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
-      var _class = 'column-'+field;
-      // _titleCol.addClass('column-space-program-call-manager');
-      // _titleCol.addClass(_class);
-      _titleRow.append(_titleCol);
-    });
-
-    _spaceTable.append(_thead.append(_titleRow));
-
-    var _tbody = $('<tbody>');
-
-
-
-    Object.keys(eventTime).forEach(function(day){
-      if (day == 'permanent') return false;
-      var _day = new Date(day);
-
-      var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
-      _columnsHeaders.forEach(function(field){
-        var _colClass = 'column-'+field;
-        var _col = $('<td>').addClass('column-space-program-call-manager');
-        _col.addClass(_colClass);
-        if (field == 'time'){
-          _col.append(moment(_day).locale('es').format('dddd').toUpperCase());
-        }
-        else{
-          _col.html('');
-        }
-        _dayRow.append(_col);
+      var myPerformances = [];
+      var myPermanentPerformances = [];
+      program.forEach(function(performance){
+        if(performance.host_id == space.profile_id) myPerformances.push(performance);
       });
 
-      var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
-      _columnsHeaders.forEach(function(field){
-        var _colClass = 'column-'+field;
-        var _col = $('<td>').addClass('column-space-program-call-manager');
-        _col.addClass(_colClass);
-        if (field == 'time'){
-          _col.append('Permanente');
-        }
-        else{
-          _col.html('');
-        }
-        _permanentRow.append(_col);
+      var _reorderedProgram = [];
+
+      if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgramCrono(myPerformances);
+
+      var _spaceTable = $('<table>').addClass('table_display table-proposal row-border').attr({'cellspacing':"0", 'width':'100%'});
+
+      var _tableBox = $('<div>').addClass('table-space-program');
+
+      var _thead = $('<thead>');
+      var _titleRow = $('<tr>');
+      // .addClass('title-row-table-proposal');
+
+      _columnsHeaders.forEach(function(field, colNum){
+        var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
+        var _class = 'column-'+field;
+        // _titleCol.addClass('column-space-program-call-manager');
+        // _titleCol.addClass(_class);
+        _titleRow.append(_titleCol);
       });
 
-      var _permanents = [];
-      var _check = true;
+      _spaceTable.append(_thead.append(_titleRow));
 
-      _reorderedProgram.forEach(function(show){
+      var _tbody = $('<tbody>');
 
-        var _startDate = new Date(parseInt(show['time'][0]));
-        var _endDate = new Date(parseInt(show['time'][1]));
-        if (moment(_startDate).format('MM-DD-YYYY') == moment(_day).format('MM-DD-YYYY')){
-          if (_check) {
-            _tbody.append(_dayRow);
-            _check = false;
+
+
+      Object.keys(eventTime).forEach(function(day){
+        if (day == 'permanent') return false;
+        var _day = new Date(day);
+
+        var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
+        _columnsHeaders.forEach(function(field){
+          var _colClass = 'column-'+field;
+          var _col = $('<td>').addClass('column-space-program-call-manager');
+          _col.addClass(_colClass);
+          if (field == 'time'){
+            _col.append(moment(_day).locale('es').format('dddd').toUpperCase());
           }
-          if (show.permanent) _permanents.push([show, _startDate, _endDate]);
-          else {
-            var _row = _printRow(show,_startDate, _endDate);              
+          else if(field == 'name'){
+            _col.append(moment(_day).locale('es').format('DD-MM-YYYY'));
+          }
+          else{
+            _col.html('');
+          }
+          _dayRow.append(_col);
+        });
+
+        var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
+        _columnsHeaders.forEach(function(field){
+          var _colClass = 'column-'+field;
+          var _col = $('<td>').addClass('column-space-program-call-manager');
+          _col.addClass(_colClass);
+          if (field == 'time'){
+            _col.append('Permanente');
+          }
+          else{
+            _col.html('');
+          }
+          _permanentRow.append(_col);
+        });
+
+        var _permanents = [];
+        var _check = true;
+
+        _reorderedProgram.forEach(function(show){
+
+          var _startDate = new Date(parseInt(show['time'][0]));
+          var _endDate = new Date(parseInt(show['time'][1]));
+          if (moment(_startDate).format('MM-DD-YYYY') == moment(_day).format('MM-DD-YYYY')){
+            if (_check) {
+              _tbody.append(_dayRow);
+              _check = false;
+            }
+            if (show.permanent) _permanents.push([show, _startDate, _endDate]);
+            else {
+              var _row = _printRow(show,_startDate, _endDate);              
+              _tbody.append(_row);
+            }
+          }
+        });
+        if (_permanents.length) {
+          _tbody.append(_permanentRow);
+          _permanents.forEach(function(expo){
+            var _row = _printRow(expo[0],expo[1], expo[2]);
             _tbody.append(_row);
-          }
+          })
         }
       });
-      if (_permanents.length) {
-        _tbody.append(_permanentRow);
-        _permanents.forEach(function(expo){
-          var _row = _printRow(expo[0],expo[1], expo[2]);
-          _tbody.append(_row);
-        })
-      }
-    });
 
-    _spaceTable.append(_tbody);
+      _spaceTable.append(_tbody);
+      _spaceTable.addClass('program-table-popup');
+      _createdWidget.append(_infoSpaceBox, _tableBox.append(_spaceTable));
 
-    _createdWidget.append(_infoSpace, _tableBox.append(_spaceTable));
-
-    _spaceTable.DataTable({
-          rowReorder: false,
-      "language":{
-        "zeroRecords": "Ningún resultado",
-        "info": "",
-        "infoEmpty": "Ningúna información disponible",
-        "infoFiltered": "(filtered from _MAX_ total records)",
-        "search": "Busca",
-        "search": "_INPUT_",
-        "searchPlaceholder": "Busca"
-      },
-      fixedHeader: {
-        header: true
-      },
-      aaSorting: [],
-      "paging": false,
-      "scrollCollapse": true,
-      dom: 'Bfrtip',
-      "searching": false,
-      "bSort": false,
-      buttons: [
-      {
-        extend: 'excel',
-        exportOptions: {
-            columns: ':visible'
+      _spaceTable.DataTable({
+        rowReorder: false,
+        "language":{
+          "zeroRecords": "Ningún resultado",
+          "info": "",
+          "infoEmpty": "Ningúna información disponible",
+          "infoFiltered": "(filtered from _MAX_ total records)",
+          "search": "Busca",
+          "search": "_INPUT_",
+          "searchPlaceholder": "Busca"
         },
-        filename: 'programa '+space.name
-      },
-      {
-        extend: 'pdf',
-        exportOptions: {
-            columns: ':visible'
+        fixedHeader: {
+          header: true
         },
-        orientation: 'landscape',
-        filename: 'programa '+space.name,
-        title: _infoSpace,
-        message: 'pippo'
-      }
-    ]
-    });
-
+        aaSorting: [],
+        "paging": false,
+        "scrollCollapse": true,
+        dom: 'Bfrtip',
+        "searching": false,
+        "bSort": false,
+        buttons: [
+        {
+          extend: 'excel',
+          exportOptions: {
+              columns: ':visible'
+          },
+          filename: 'programa '+space.name
+        },
+        {
+          extend: 'pdf',
+          exportOptions: {
+              columns: ':visible'
+          },
+          orientation: 'landscape',
+          filename: 'programa '+space.name,
+          title: _spaceName,
+          message: '__MESSAGE__',
+          customize: function ( doc ) {
+            doc.content.forEach(function(content) {
+            if (content.style == 'message') {
+              content.text = _infoSpace;
+              content.fontSize = 16;
+              // content.margin = [100, 100, 50, 50];
+            }
+            })
+          }  
+        }
+        ]
+      });
     }
 
     var _printRow = function(show, startDate, endDate){
@@ -179,7 +197,8 @@
           }
           if (field == 'name'){
             var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
-            var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(show)},'', function(){_printSpaceProgram(space)});
+            if (show.permanent) var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title, function(){ return Pard.Widgets.PermanentPerformanceProgram(show)},'', function(){_printSpaceProgram(space)});
+            else  var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(show)},'', function(){_printSpaceProgram(space)});
            _col.append(_popup.render());
 
           }
