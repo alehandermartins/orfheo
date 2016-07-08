@@ -116,13 +116,14 @@
 		var _proposalsPanel = $('<div>').attr('id', 'proposalsPanel');
     var _programPanel = $('<div>').attr('id', 'programPanel');
 
-		var _panelShown = _tablePanel;
-    // var _panelShown = _programPanel;
+		// var _panelShown = _tablePanel;
+    var _panelShown = _programPanel;
  
 
 		$(document).ready(function(){
-			//_tableTab.trigger('click')
-       _programTab.trigger('click')
+			// _tableTab.trigger('click')
+      _programTab.trigger('click')
+
 		});
 
     _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel, _programPanel);
@@ -611,113 +612,113 @@
 
    	var _printTable = function(proposalsSelected){
 	
-  	var _thead = $('<thead>');
-  	var _titleRow = $('<tr>')
-    // .addClass('title-row-table-proposal');
+    	var _thead = $('<thead>');
+    	var _titleRow = $('<tr>')
+      // .addClass('title-row-table-proposal');
 
-  	columns.forEach(function(field, colNum){
-  		if (field == 'link_orfheo'){ 
-	 		  var _titleCol = $('<th>').text('rfh');
-        _titleRow.append(_titleCol);
-      }
-  		else{
-	       var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
-	 	  	}
-      var _class = 'column-'+field;
-      _titleCol.addClass('column-call-manager-table');
-      _titleCol.addClass(_class);
-  		_titleRow.append(_titleCol);
-  	});
+    	columns.forEach(function(field, colNum){
+    		if (field == 'link_orfheo'){ 
+  	 		  var _titleCol = $('<th>').text('rfh');
+          _titleRow.append(_titleCol);
+        }
+    		else{
+  	       var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+  	 	  	}
+        var _class = 'column-'+field;
+        _titleCol.addClass('column-call-manager-table');
+        _titleCol.addClass(_class);
+    		_titleRow.append(_titleCol);
+    	});
 
-  	_tableCreated.append(_thead.append(_titleRow));
+    	_tableCreated.append(_thead.append(_titleRow));
 
 
-    var _tfoot = $('<tfoot>');
-    // .addClass('tfoot-proposal-table-call-manager');;
-    var _titleRowFoot = $('<tr>');
-    // .addClass('title-row-table-proposal');
+      var _tfoot = $('<tfoot>');
+      // .addClass('tfoot-proposal-table-call-manager');;
+      var _titleRowFoot = $('<tr>');
+      // .addClass('title-row-table-proposal');
 
-     columns.forEach(function(field, colNum){
-      if (field == 'link_orfheo'){ 
-        var _titleCol = $('<th>').text('rfh');
-        _titleRow.append(_titleCol);
-      }
-      else{
-        var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
-      }
-      _titleRowFoot.append(_titleCol);
-    });
+      columns.forEach(function(field, colNum){
+        if (field == 'link_orfheo'){ 
+          var _titleCol = $('<th>').text('rfh');
+          _titleRow.append(_titleCol);
+        }
+        else{
+          var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+        }
+        _titleRowFoot.append(_titleCol);
+      });
 
-    _tableCreated.append(_tfoot.append(_titleRowFoot ));
+      _tableCreated.append(_tfoot.append(_titleRowFoot ));
 
-  	var _tbody = $('<tbody>');
+  	  var _tbody = $('<tbody>');
 
-  	proposalsSelected.forEach(function(proposal){
-  		var _row = $('<tr>');
-  		columns.forEach(function(field){
-  			var _colClass = 'column-'+field;
-  			var _col = $('<td>').addClass('column-call-manager-table')
-  			_col.addClass(_colClass);
-  			if (field == 'link_orfheo'){
-  				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
-  				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
-  				_col.append(_icon);
-  			}
-  			else if (proposal[field]) {
-	  			if (field == 'name'){
-	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
-	  				var _form;
-	  				if (proposal.type == 'artist') {_form = Pard.Forms.ArtistCall(proposal.category);
-	  					  	;}			
-	  				else _form = Pard.Forms.SpaceCall();
+    	proposalsSelected.forEach(function(proposal){
+    		var _row = $('<tr>');
+    		columns.forEach(function(field){
+    			var _colClass = 'column-'+field;
+    			var _col = $('<td>').addClass('column-call-manager-table')
+    			_col.addClass(_colClass);
+    			if (field == 'link_orfheo'){
+    				var _icon = $('<a>').append(Pard.Widgets.IconManager(proposal['type']).render());
+    				_icon.attr({'href': '/profile?id=' + proposal['profile_id'], 'target':'_blank'});
+    				_col.append(_icon);
+    			}
+    			else if (proposal[field]) {
+  	  			if (field == 'name'){
+  	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
+  	  				var _form;
+  	  				if (proposal.type == 'artist') {_form = Pard.Forms.ArtistCall(proposal.category);
+  	  					  	;}			
+  	  				else _form = Pard.Forms.SpaceCall();
 
-					 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
+  					 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
 
-					 _col.append(_popup.render());
+  					 _col.append(_popup.render());
 
-	  			}
-	  			else if ( field == 'address'){
-	  				var _fieldFormText = ' '+proposal['address']['route']+' '+proposal['address']['street_number'];
-	    			if (proposal['door']) _fieldFormText += ', puerta/piso '+proposal['door'];
-	   				_fieldFormText +=', '+proposal['address']['locality'];
-	   				var _aStr = proposal['address']['route']+' '+proposal['address']['street_number']+', '+proposal['address']['locality']+' '+proposal['address']['country'];
-	  				var _address = $('<a>').attr({
-				      href: 'http://maps.google.com/maps?q='+_aStr,
-				      target: '_blank'
-				    }).text(_fieldFormText);
-					 	_col.append(_address);
-	  			}
-	  			else if (proposal[field] && field == 'availability') {
-	  				for (var date in proposal[field]) {
-		  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
-	  				}
-	  			}
-	  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
-	  				if (proposal[field] == 'true') {_col.html('Sí');}
-	  				else if (proposal[field] == 'false') { _col.html('No');}
-	  				else { var _col = $('<td>').html(proposal[field]);}
-	  			}
-	  			else	if (proposal[field] && field == 'category'){
-	  				_col.html(Pard.Widgets.Dictionary(proposal[field]).render());
-	  			}
-	  			else{
-	  				_col.html(proposal[field]);
-  				}
-  			}
-  			else{
-  				_col.html('');
-  			}
-  			_row.append(_col);
-  			// _cols.push(_col);
-  		});
+  	  			}
+  	  			else if ( field == 'address'){
+  	  				var _fieldFormText = ' '+proposal['address']['route']+' '+proposal['address']['street_number'];
+  	    			if (proposal['door']) _fieldFormText += ', puerta/piso '+proposal['door'];
+  	   				_fieldFormText +=', '+proposal['address']['locality'];
+  	   				var _aStr = proposal['address']['route']+' '+proposal['address']['street_number']+', '+proposal['address']['locality']+' '+proposal['address']['country'];
+  	  				var _address = $('<a>').attr({
+  				      href: 'http://maps.google.com/maps?q='+_aStr,
+  				      target: '_blank'
+  				    }).text(_fieldFormText);
+  					 	_col.append(_address);
+  	  			}
+  	  			else if (proposal[field] && field == 'availability') {
+  	  				for (var date in proposal[field]) {
+  		  				_col.append($('<div>').append(Pard.Widgets.AvailabilityDictionary(proposal[field][date])));
+  	  				}
+  	  			}
+  	  			else	if (proposal[field] && $.inArray(field,['children', 'waiting_list','repeat'])>-1) {
+  	  				if (proposal[field] == 'true') {_col.html('Sí');}
+  	  				else if (proposal[field] == 'false') { _col.html('No');}
+  	  				else { var _col = $('<td>').html(proposal[field]);}
+  	  			}
+  	  			else	if (proposal[field] && field == 'category'){
+  	  				_col.html(Pard.Widgets.Dictionary(proposal[field]).render());
+  	  			}
+  	  			else{
+  	  				_col.html(proposal[field]);
+    				}
+    			}
+    			else{
+    				_col.html('');
+    			}
+    			_row.append(_col);
+    			// _cols.push(_col);
+    		});
 
-  		_tbody.append(_row);
-  		// _matrix.push(_cols);
-  		// _cols = [];
+    		_tbody.append(_row);
+    		// _matrix.push(_cols);
+    		// _cols = [];
 
-  	})
+    	})
 
-  	_tableCreated.append(_tbody);
+    	_tableCreated.append(_tbody);
   	}
 
   	_printTable(proposalsSelected);

@@ -106,6 +106,7 @@ WELCOME PAGE
 
 
 
+
 /*------------------
 Header
 -------------------*/
@@ -1679,6 +1680,14 @@ li.artists-selector-container-call-manager{
 .space-column-header .menu > li > a{
   padding: 0.4rem;
 }
+
+
+
+.table-space-program{
+  max-width: 640px;
+  overflow: auto; 
+}
+
 
 /*===============================================
 ORGANIZATION PAGE
