@@ -19,8 +19,6 @@
 
     if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgram(myPerformances);
   
-    console.log(_reorderedProgram);
-
     var _infoSpace = space.name.toUpperCase() +' - '+space.address.route+' '+space.address.street_number+' - tel.' + space.phone+ ' ('+space.responsible + ') '+' - correo'+ space.email;
 
     var _spaceTable = $('<table>').addClass('table_display table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"640px"});
@@ -91,7 +89,8 @@
               }
               if (field == 'name'){
                 var _namePopupCaller = $('<a>').attr({'href':'#'}).text(_proposal['name']);
-               _col.append(_namePopupCaller);
+                var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, _proposal.title, function(){ return Pard.Widgets.PerformanceProgram(show)});
+               _col.append(_popup.render());
     
               }
               
