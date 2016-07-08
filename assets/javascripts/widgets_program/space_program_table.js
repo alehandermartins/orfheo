@@ -69,6 +69,8 @@
       Object.keys(eventTime).forEach(function(day){
         if (day == 'permanent') return false;
         var _day = new Date(day);
+        var _rowPosition = 0;
+        var _dayRowPos = [];
 
         var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
         _columnsHeaders.forEach(function(field){
@@ -168,16 +170,28 @@
           },
           orientation: 'landscape',
           filename: 'programa '+space.name,
-          title: _spaceName,
+          title: _spaceName + ' - Programación conFusión 2016',
           message: '__MESSAGE__',
           customize: function ( doc ) {
+            console.log(doc);
             doc.content.forEach(function(content) {
             if (content.style == 'message') {
               content.text = _infoSpace;
-              content.fontSize = 16;
-              // content.margin = [100, 100, 50, 50];
+              content.fontSize = 14;
+              content.margin = [0, 0, 0, 20];
             }
-            })
+            if (content.style == 'title'){
+              content.fontSize = 16;
+              content.alignment= 'left';
+            }
+            });
+             console.log(doc.content[2].table);
+            doc.content[2].table.widths = [ '9%', '15%', '10%', '16%', '25%','10%','15%'];
+            doc.content[2].table.body.forEach(function(row, rowNumber){
+              if (rowNumber == 1) row.forEach(function(cell, index){
+                cell.fillColor = '#6f6f6f';
+              })
+            });
           }  
         }
         ]
