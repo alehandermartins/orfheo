@@ -220,7 +220,10 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        _closepopup = callback;
+        _closepopup = function(){
+          _createdWidget.remove();     
+          callback;
+        }
       }
     }
   }
@@ -486,7 +489,10 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        _closepopup = callback;
+        _closepopup = function(){
+          _createdWidget.remove();     
+          callback;
+        }
       }
     }
   };
