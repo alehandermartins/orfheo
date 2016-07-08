@@ -111,17 +111,17 @@
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == space.proposal_id && performance.permanent == false) _performances.push(performance);
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == ui.helper.data('host_proposal_id') && performance.permanent == false && ui.draggable.hasClass('programHelper')) _oldColumnPerformances.push(performance);
           if(performance.performance_id == _cardInfo.performance_id){
-            _time.append(_performance.card);
-            _performance.host_id = space.profile_id;
-            _performance.host_proposal_id = space.proposal_id;
-            _performance.time = [start.getTime(), end.getTime()];
-            _performance.card.css({
+            _time.append(performance.card);
+            performance.host_id = space.profile_id;
+            performance.host_proposal_id = space.proposal_id;
+            performance.time = [start.getTime(), end.getTime()];
+            performance.card.css({
                 'top': position,
                 'height': duration,
                 'left' : left,
                 'width': width
               });
-            _performance.card.resizable({
+            performance.card.resizable({
               maxWidth: width,
               minWidth: width,
               maxHeight: _time.height() - (position - colPosition),
@@ -130,13 +130,13 @@
               performance.card.addClass('artist-not-available-call-manager');
             }
             else{
-              _performance.card.removeClass('artist-not-available-call-manager');
-              _performance.card.css({
+              performance.card.removeClass('artist-not-available-call-manager');
+              performance.card.css({
                 'opacity': '1',
                 'filter': 'alpha(opacity=100)'
               });
             }
-
+            _performances.push(performance);
           }
         });
         Pard.Widgets.AlignPerformances(_performances);

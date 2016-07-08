@@ -217,13 +217,16 @@
       grid: 10,
       stop: function(event, ui){
         //Recalculating perfomance new duration
+        var _performances = [];
         Pard.Widgets.Program.forEach(function(performance){
+          if(performance.host_proposal_id == host_proposal_id) _performances.push(performance);
           if(performance.performance_id == cardInfo.performance_id){
             var end = new Date(performance['time'][0]);
             end.setMinutes(end.getMinutes() + ui.size.height * 1.5);
             performance['time'][1] = end.getTime();
           }
         });
+        Pard.Widgets.AlignPerformances(_performances);
       }
     });
 

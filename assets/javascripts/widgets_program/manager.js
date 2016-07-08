@@ -506,6 +506,7 @@
     //Filling the table with existing program from database
     if(call['program']){
       var permanentPerformances = {};
+      var scheduledPerformances = {};
       call['program'].forEach(function(performance){
         //Permanent and non permanent performances are not treated equally
         if (performance.permanent == 'true'){
@@ -549,18 +550,21 @@
               //New card
               performance.permanent = false;
               performance.card = Pard.Widgets.ProgramHelper(_cardInfo, performance.host_proposal_id).render();
-              timeCol.append(performance.card);
               performance.card.css({
                 'top': position,
                 'height': duration,
                 'left' : left
               });
+              timeCol.append(performance.card);
               performance.card.resizable({
                 maxHeight: maxHeight
               });
               if($.inArray(performance.date, proposal.availability) < 0) performance.card.addClass('artist-not-available-call-manager');
               else{performance.card.removeClass('artist-not-available-call-manager');}
               Pard.Widgets.Program.push(performance);
+              scheduledPerformances[performance.host_proposal_id] = scheduledPerformances[performance.host_proposal_id] || {};
+              scheduledPerformances[performance.host_proposal_id][performance.date] = scheduledPerformances[performance.host_proposal_id][performance.date] || [];
+              scheduledPerformances[performance.host_proposal_id][performance.date].push(performance);
             }
           });
         }
@@ -603,6 +607,11 @@
             Pard.Widgets.Program.push(performance);
           });
         }
+      });
+      Object.keys(scheduledPerformances).forEach(function(host_proposal_id){
+        Object.keys(scheduledPerformances[host_proposal_id]).forEach(function(date){
+          Pard.Widgets.AlignPerformances(scheduledPerformances[host_proposal_id][date]);
+        });
       });
     }
 

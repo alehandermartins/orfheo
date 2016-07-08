@@ -50,10 +50,14 @@
     return performances.sort(_compare);
   }
 
-  ns.Widgets.AlignPerformances = function(performances, left){
+  ns.Widgets.AlignPerformances = function(performances){
+    if(performances.length == 0) return false;
+    var left = 0;
+    Pard.ShownSpaces.forEach(function(space, index){
+      if(space.proposal_id == performances[0].host_proposal_id) left = index * Pard.ColumnWidth + 1;
+    });
     performances = Pard.Widgets.ReorderProgram(performances);
     _firstPerformance = performances.shift();
-    var left = Math.floor(_firstPerformance.card.position().left / Pard.ColumnWidth) * Pard.ColumnWidth + 1;
     var showStart = [_firstPerformance.time[0]];
     var showEnd = [_firstPerformance.time[1]];
     _firstPerformance.card.css({
