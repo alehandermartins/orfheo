@@ -19,6 +19,7 @@
     //Day selector
     var _daySelector = $('<select>');
     Object.keys(eventTime).forEach(function(day){
+      if(day == 'permanent') return false;
       var date = $('<option>').val(day).text(day); 
       _daySelector.append(date);
     });
@@ -236,6 +237,7 @@
 
     //Day selector
     Object.keys(eventTime).forEach(function(day){
+      if(day == 'permanent') return false;
       if(day == _performance.date || dates.indexOf(day) < 0){
         var _date = $('<option>').val(day).text(day); 
         _daySelector.append(_date);
@@ -292,7 +294,7 @@
         Pard.Widgets.Program.forEach(function(performance){
           if(performance.permanent == true){
             if($.inArray(performance.performance_id, performance_ids) < 0 && performance.host_proposal_id == _performance.host_proposal_id){
-              performance_ids.push(_performance.performance_id);
+              performance_ids.push(performance.performance_id);
               spacePerformances.push(performance);
             }
           }
@@ -321,7 +323,7 @@
 
             _performance.card = Pard.Widgets.ProgramPermanentHelper(cardInfo, _spaceSelector.val()).render();
             var timeCol = space['permanent'].find('.spaceTime');
-            performance.card.css({
+            _performance.card.css({
               'top': position,
               'left' : Pard.ShownSpaces.indexOf(space) * Pard.ColumnWidth + 1
             });
@@ -405,7 +407,7 @@
       //Removing all elements from global variables pointing to the deleted performance
       dates.splice(dates.indexOf(_performance.date), 1);
       host_proposal_ids.splice(host_proposal_ids.indexOf(_performance.host_proposal_id), 1);
-      performances.splice(performances.indexOf(_performance), 1);
+      _performances.splice(_performances.indexOf(_performance), 1);
       Pard.Widgets.Program.splice(Pard.Widgets.Program.indexOf(_performance), 1);
 
       _performanceBox.remove();
