@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets.PerformanceProgram = function(cardInfo){
+  ns.Widgets.PerformanceProgram = function(cardInfo, callbackOnClose){
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var eventTime = Pard.CachedCall.eventTime;
