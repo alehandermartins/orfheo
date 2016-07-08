@@ -3,4 +3,4 @@
 // = require ./cards
 // = require ./program
 // = require ./utils
-// = require ./space_program_table
+// = require ./space_program

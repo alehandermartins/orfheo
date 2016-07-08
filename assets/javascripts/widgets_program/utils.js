@@ -101,7 +101,7 @@
 
     var _programLink = $('<li>');
     var _programCaller = $('<a>').attr('href','#').text('Programa');
-    var _program = Pard.Widgets.PopupCreator(_programCaller, space.name, function(){return Pard.Widgets.SpaceProgramTable(space)}, 'space-program-popup-call-manager');
+    var _program = Pard.Widgets.PopupCreator(_programCaller, space.name, function(){return Pard.Widgets.SpaceProgram(space)}, 'space-program-popup-call-manager');
 
     _profileLink.append(_profileCaller);
     _programLink.append(_program.render());

@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets.SpaceProgramTable = function(space){
+  ns.Widgets.SpaceProgram = function(space){
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
