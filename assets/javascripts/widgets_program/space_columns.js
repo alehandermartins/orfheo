@@ -120,7 +120,7 @@
                 'filter': 'alpha(opacity=100)'
               });
             }
-
+            _performances.push(performance);
           }
         });
         Pard.Widgets.AlignPerformances(_performances, _time.position().left);
