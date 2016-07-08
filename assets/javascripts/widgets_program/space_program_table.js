@@ -174,7 +174,7 @@
           }
           if (field == 'name'){
             var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
-            var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(show, function(){_printSpaceProgram(space)})});
+            var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(show)},'', function(){_printSpaceProgram(space)});
            _col.append(_popup.render());
 
           }

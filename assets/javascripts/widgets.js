@@ -37,7 +37,7 @@
   };
 
 
-  ns.Widgets.PopupCreator = function(caller, title, message, contentClass){
+  ns.Widgets.PopupCreator = function(caller, title, message, contentClass, callback){
 
     var _content = $('<div>').addClass('very-fast reveal full');
 
@@ -53,7 +53,10 @@
     _popupCaller.on('click', function(){
       _content.empty();
       var _message = Pard.Widgets.PopupContent(title, message(), contentClass);
-      _message.setCallback(function(){_popup.close()});
+      _message.setCallback(function(){
+        if (callback) callback();
+        _popup.close();
+      });
       _content.append(_message.render());
       _popup.open();
     });
@@ -115,6 +118,12 @@
 
     _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
 
+    var _callback = {};
+
+    _closeBtn.click(function(){
+      _callback();
+    });
+
     _header.append(_title, _closeBtn);
 
 
@@ -130,6 +139,7 @@
       },
       setCallback: function(callback){
         content.setCallback(callback);
+        _callback = callback;
       }
     }
   }
