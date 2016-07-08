@@ -24,14 +24,49 @@
     return _dictionary[category];
   }
 
-  ns.Widgets.ReorderProgram = function(perfomances){
+  ns.Widgets.ReorderProgram = function(performances){
     var _compare = function (a,b) {
-      if (a.time[0] < b.time[0]) return 1;
-      if (a.time[0] > b.time[0]) return -1;
+      if (a.time[0] < b.time[0]) return -1;
+      if (a.time[0] > b.time[0]) return 1;
+      if (a.time[0] == b.time[0]){
+        if (a.time[1] < b.time[1]) return 1;
+        if (a.time[1] > b.time[1]) return -1;
+      }
       return 0;
     }
-    return perfomances.sort(_compare);
+    return performances.sort(_compare);
   }
+
+  ns.Widgets.AlignPerformances = function(performances, left){
+    performances = Pard.Widgets.ReorderProgram(performances);
+    _firstPerformance = performances.shift();
+    var showStart = [_firstPerformance.time[0]];
+    var showEnd = [_firstPerformance.time[1]];
+    _firstPerformance.card.css({
+      'width': Pard.ColumnWidth - 2,
+      'left': left,
+      'z-index': 0
+    });
+    performances.forEach(function(performance){
+      var _cardIndex = 0;
+      showEnd.some(function(endTime, index){
+        if(performance.time[0] >= endTime){
+          _cardIndex = index;
+          console.log(_cardIndex);
+          return true;
+        }
+        _cardIndex = index + 1;
+      });
+      if(_cardIndex >= showEnd.length) showEnd.push(performance.time[1]);
+      else{ showEnd[_cardIndex] = performance.time[1];}
+      performance.card.css({
+        'width': (Pard.ColumnWidth - 2) - 10 * _cardIndex,
+        'left': left + 10 * _cardIndex,
+        'z-index': _cardIndex
+      });
+    });
+  }
+
 
   ns.Widgets.SpaceDropdownMenu = function(space){     
 
