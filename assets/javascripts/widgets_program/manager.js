@@ -548,7 +548,7 @@
               
               //New card
               performance.permanent = false;
-              performance.card = Pard.Widgets.ProgramHelper(_cardInfo).render();
+              performance.card = Pard.Widgets.ProgramHelper(_cardInfo, performance.host_proposal_id).render();
               timeCol.append(performance.card);
               performance.card.css({
                 'top': position,

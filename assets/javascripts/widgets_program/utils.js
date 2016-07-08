@@ -37,10 +37,10 @@
     return performances.sort(_compare);
   }
 
-  ns.Widgets.AlignPerformances = function(performances, left){
-    console.log(performances);
+  ns.Widgets.AlignPerformances = function(performances){
     performances = Pard.Widgets.ReorderProgram(performances);
     _firstPerformance = performances.shift();
+    var left = Math.floor(_firstPerformance.card.position().left / Pard.ColumnWidth) * Pard.ColumnWidth + 1;
     var showStart = [_firstPerformance.time[0]];
     var showEnd = [_firstPerformance.time[1]];
     _firstPerformance.card.css({
@@ -53,7 +53,6 @@
       showEnd.some(function(endTime, index){
         if(performance.time[0] >= endTime){
           _cardIndex = index;
-          console.log(_cardIndex);
           return true;
         }
         _cardIndex = index + 1;
@@ -64,6 +63,10 @@
         'width': (Pard.ColumnWidth - 2) - 10 * _cardIndex,
         'left': left + 10 * _cardIndex,
         'z-index': _cardIndex
+      });
+      performance.card.resizable({
+        maxWidth: (Pard.ColumnWidth - 2) - 10 * _cardIndex,
+        minWidth: (Pard.ColumnWidth - 2) - 10 * _cardIndex
       });
     });
   }

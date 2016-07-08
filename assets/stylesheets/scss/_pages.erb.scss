@@ -1607,9 +1607,9 @@ li.artists-selector-container-call-manager{
   display: block;
 }
 
-/* .proposal-card-container-call-manager:hover, .dragged-card-call-manager:hover{
-  font-weight: bold;
-} */
+.dragged-card-call-manager:hover{
+  z-index: 999 !important;
+}
 
 
 .proposal-title-card-call-manager{
