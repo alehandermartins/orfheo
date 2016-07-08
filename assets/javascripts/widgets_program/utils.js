@@ -38,6 +38,7 @@
   }
 
   ns.Widgets.AlignPerformances = function(performances, left){
+    console.log(performances);
     performances = Pard.Widgets.ReorderProgram(performances);
     _firstPerformance = performances.shift();
     var showStart = [_firstPerformance.time[0]];
@@ -182,7 +183,7 @@
       type: 'category'
     });
     spaceProposals.push({
-      id: 'street',
+      id: 'open_air',
       text: 'Espacio exterior',
       type: 'category'
     });

@@ -35,7 +35,7 @@
       time: 'Horario',
       name:'Artista',
       category: 'Categoría',         
-      title: 'Titúlo',
+      title: 'Título',
       short_description:'Descripción breve',
       phone: 'Teléfono',
       email: 'Email'
