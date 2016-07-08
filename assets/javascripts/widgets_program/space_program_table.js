@@ -17,7 +17,7 @@
 
     var _reorderedProgram = [];
 
-    if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgram(myPerformances);
+    if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgramCrono(myPerformances);
   
     var _infoSpace = space.name.toUpperCase() +' - '+space.address.route+' '+space.address.street_number+' - tel.' + space.phone+ ' ('+space.responsible + ') '+' - correo'+ space.email;
 
@@ -35,7 +35,7 @@
       time: 'Horario',
       name:'Artista',
       category: 'Categoría',         
-      title: 'Titúlo',
+      title: 'Título',
       short_description:'Descripción breve',
       phone: 'Teléfono',
       email: 'Email'
@@ -100,16 +100,11 @@
               else{
                 _col.html(_proposal[field]);
               }
-            // else{
-            //   _col.html('');
-            // }
             _row.append(_col);
-            // _cols.push(_col);
           });
     
           _tbody.append(_row);
-          // _matrix.push(_cols);
-          // _cols = [];}
+
         }
     });
     });
