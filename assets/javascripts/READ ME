@@ -1,3 +1,29 @@
+pdfMake Staluing properties:
+
+[
+        'font',
+        'fontSize',
+        'bold',
+        'italics',
+        'alignment',
+        'color',
+        'columnGap',
+        'fillColor',
+        'decoration',
+        'decorationStyle',
+        'decorationColor',
+        'background',
+        'lineHeight',
+        'noWrap'
+        'tableCellPadding'
+        'cellBorder',
+        'headerCellBorder',
+        'oddRowCellBorder',
+        'evenRowCellBorder',
+        'tableBorder'
+]
+
+
 CAMBIOS EN FORMULARIOS:
 Space:
 - Address con google API - ya no hay campo city y zip code sino solo campo address que recoge un objeto

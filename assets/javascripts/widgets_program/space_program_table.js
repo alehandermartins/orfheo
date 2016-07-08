@@ -26,7 +26,14 @@
 
     _infoSpaceBox.append($('<p>').append(_infoSpace));
 
+    var _rowPosition = 1;
+    var _dayRowPos = [];
+    var _permanentRowPos = [];
+
     var _printSpaceProgram = function(space){
+      _rowPosition = 1;
+      _dayRowPos = [];
+      _permanentRowPos = [];
 
       _createdWidget.empty();
 
@@ -69,8 +76,6 @@
       Object.keys(eventTime).forEach(function(day){
         if (day == 'permanent') return false;
         var _day = new Date(day);
-        var _rowPosition = 0;
-        var _dayRowPos = [];
 
         var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
         _columnsHeaders.forEach(function(field){
@@ -97,6 +102,9 @@
           if (field == 'time'){
             _col.append('Permanente');
           }
+          else if (field == 'name'){
+            _col.append(moment(new Date(day)).locale('es').format('dddd'));
+          }
           else{
             _col.html('');
           }
@@ -113,20 +121,27 @@
           if (moment(_startDate).format('MM-DD-YYYY') == moment(_day).format('MM-DD-YYYY')){
             if (_check) {
               _tbody.append(_dayRow);
+              _dayRowPos.push(_rowPosition);
+              _rowPosition = _rowPosition + 1;
               _check = false;
             }
             if (show.permanent) _permanents.push([show, _startDate, _endDate]);
             else {
               var _row = _printRow(show,_startDate, _endDate);              
               _tbody.append(_row);
+              _rowPosition = _rowPosition + 1;
             }
           }
         });
         if (_permanents.length) {
           _tbody.append(_permanentRow);
+          _permanentRowPos.push(_rowPosition);
+          _rowPosition = _rowPosition + 1;
           _permanents.forEach(function(expo){
             var _row = _printRow(expo[0],expo[1], expo[2]);
             _tbody.append(_row);
+            _rowPosition = _rowPosition + 1;
+
           })
         }
       });
@@ -168,12 +183,17 @@
           exportOptions: {
               columns: ':visible'
           },
+          // download: 'open',
           orientation: 'landscape',
           filename: 'programa '+space.name,
           title: _spaceName + ' - Programación conFusión 2016',
           message: '__MESSAGE__',
           customize: function ( doc ) {
-            console.log(doc);
+            // doc.styles['table-row'] = {
+            //   'font-size': '16px',
+            //   'padding': '4px',
+            //   'border-top': '1px solid #dedede'
+            // }
             doc.content.forEach(function(content) {
             if (content.style == 'message') {
               content.text = _infoSpace;
@@ -185,12 +205,43 @@
               content.alignment= 'left';
             }
             });
-             console.log(doc.content[2].table);
+            doc.content[2].layout= 'lightHorizontalLines';
             doc.content[2].table.widths = [ '9%', '15%', '10%', '16%', '25%','10%','15%'];
             doc.content[2].table.body.forEach(function(row, rowNumber){
-              if (rowNumber == 1) row.forEach(function(cell, index){
-                cell.fillColor = '#6f6f6f';
-              })
+              if (rowNumber == 0) {
+                row.forEach(function(cell, index){
+                  cell.alignment = 'left';
+                  cell.bold = true;
+                  cell.fillColor = '#ffffff';
+                  cell.color = '#000000';
+                  cell.margin = [2,2,2,2];
+                });
+              }  
+              else if ($.inArray (rowNumber, _dayRowPos) >-1){ row.forEach(function(cell, index){
+                  cell.fillColor = '#6f6f6f';
+                  cell.color = '#ffffff';
+                  cell.fontSize = 11;
+                  cell.bold = true;
+                  if (index == 0) cell.margin = [4,2,2,2];
+                  else cell.margin = [2,2,2,2];
+                });
+              }
+              else if($.inArray (rowNumber, _permanentRowPos) >-1){ 
+                row.forEach(function(cell, index){
+                  cell.fillColor = '#dedede';
+                  cell.bold = true;
+                  cell.bold = true;
+                  if (index == 0) cell.margin = [4,2,2,2];
+                  else cell.margin = [2,2,2,2];
+                });
+              }
+              else{
+                row.forEach(function(cell, index){
+                  cell.fillColor = '#ffffff';
+                  cell.margin = [2,4,2,4];
+                  // cell.cellBorder = '1px solid red';
+                });
+              }
             });
           }  
         }
