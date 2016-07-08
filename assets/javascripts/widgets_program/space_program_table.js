@@ -37,7 +37,7 @@
   
     var _infoSpace = space.name.toUpperCase() +' - '+space.address.route+' '+space.address.street_number+' - tel.' + space.phone+ ' ('+space.responsible + ') '+' - correo'+ space.email;
 
-    var _spaceTable = $('<table>').addClass('table_display table-proposal stripe row-border').attr({'cellspacing':"0", 'width':'100%'});
+    var _spaceTable = $('<table>').addClass('table_display table-proposal row-border').attr({'cellspacing':"0", 'width':'100%'});
 
     var _tableBox = $('<div>').addClass('table-space-program');
 
@@ -63,7 +63,7 @@
       if (day == 'permanent') return false;
       var _day = new Date(day);
 
-      var _dayRow = $('<tr>'); 
+      var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
       _columnsHeaders.forEach(function(field){
         var _colClass = 'column-'+field;
         var _col = $('<td>').addClass('column-space-program-call-manager');
@@ -77,7 +77,7 @@
         _dayRow.append(_col);
       });
 
-      var _permanentRow = $('<tr>'); 
+      var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
       _columnsHeaders.forEach(function(field){
         var _colClass = 'column-'+field;
         var _col = $('<td>').addClass('column-space-program-call-manager');
@@ -142,6 +142,7 @@
       "scrollCollapse": true,
       dom: 'Bfrtip',
       "searching": false,
+      "bSort": false,
       buttons: [
       {
         extend: 'excel',
