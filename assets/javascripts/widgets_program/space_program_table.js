@@ -37,7 +37,7 @@
   
     var _infoSpace = space.name.toUpperCase() +' - '+space.address.route+' '+space.address.street_number+' - tel.' + space.phone+ ' ('+space.responsible + ') '+' - correo'+ space.email;
 
-    var _spaceTable = $('<table>').addClass('table_display table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"640px"});
+    var _spaceTable = $('<table>').addClass('table_display table-proposal row-border').attr({'cellspacing':"0", 'width':'100%'});
 
     var _tableBox = $('<div>').addClass('table-space-program');
 
@@ -48,7 +48,7 @@
     _columnsHeaders.forEach(function(field, colNum){
       var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
       var _class = 'column-'+field;
-      // _titleCol.addClass('column-call-manager-table');
+      // _titleCol.addClass('column-space-program-call-manager');
       // _titleCol.addClass(_class);
       _titleRow.append(_titleCol);
     });
@@ -63,10 +63,10 @@
       if (day == 'permanent') return false;
       var _day = new Date(day);
 
-      var _dayRow = $('<tr>'); 
+      var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
       _columnsHeaders.forEach(function(field){
         var _colClass = 'column-'+field;
-        var _col = $('<td>').addClass('column-call-manager-table');
+        var _col = $('<td>').addClass('column-space-program-call-manager');
         _col.addClass(_colClass);
         if (field == 'time'){
           _col.append(moment(_day).locale('es').format('dddd').toUpperCase());
@@ -76,12 +76,11 @@
         }
         _dayRow.append(_col);
       });
-      _tbody.append(_dayRow);
 
-      var _permanentRow = $('<tr>'); 
+      var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
       _columnsHeaders.forEach(function(field){
         var _colClass = 'column-'+field;
-        var _col = $('<td>').addClass('column-call-manager-table');
+        var _col = $('<td>').addClass('column-space-program-call-manager');
         _col.addClass(_colClass);
         if (field == 'time'){
           _col.append('Permanente');
@@ -93,12 +92,17 @@
       });
 
       var _permanents = [];
+      var _check = true;
 
       _reorderedProgram.forEach(function(show){
 
         var _startDate = new Date(parseInt(show['time'][0]));
         var _endDate = new Date(parseInt(show['time'][1]));
         if (moment(_startDate).format('MM-DD-YYYY') == moment(_day).format('MM-DD-YYYY')){
+          if (_check) {
+            _tbody.append(_dayRow);
+            _check = false;
+          }
           if (show.permanent) _permanents.push([show, _startDate, _endDate]);
           else {
             var _row = _printRow(show,_startDate, _endDate);              
@@ -138,6 +142,7 @@
       "scrollCollapse": true,
       dom: 'Bfrtip',
       "searching": false,
+      "bSort": false,
       buttons: [
       {
         extend: 'excel',
@@ -166,7 +171,7 @@
       var proposal = Pard.Widgets.GetProposal(show.participant_proposal_id);
       _columnsHeaders.forEach(function(field){
         var _colClass = 'column-'+field;
-        var _col = $('<td>').addClass('column-call-manager-table');
+        var _col = $('<td>').addClass('column-space-program-call-manager');
         _col.addClass(_colClass);
           if (field == 'time'){
             var _schedule = moment(startDate).locale("es").format('HH:mm') + '-' + moment(endDate).locale("es").format('HH:mm');

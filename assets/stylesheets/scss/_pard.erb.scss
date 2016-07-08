@@ -1363,6 +1363,16 @@ POPUP
   vertical-align: middle;
 }
 
+.space-program-popup-call-manager{
+  width: 1024px;
+  background: white;
+  @include horizontal-center;
+  padding: 1.5rem;
+  padding-bottom: 0rem;
+  @include border-radius($layout-border-radius);
+  top:2rem;
+}
+
 
 
 /*==============================================
