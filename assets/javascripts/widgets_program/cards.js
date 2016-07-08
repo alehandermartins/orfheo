@@ -324,12 +324,13 @@
     }
   }
 
-  ns.Widgets.SpaceHelper = function(spaceCol){
+  ns.Widgets.SpaceHelper = function(space, spaceCol){
+    var spaceIndex = Pard.Spaces.indexOf(space);
     var _spaceCol = spaceCol.clone();
 
     _spaceCol.find('.programHelper').css({
       top: '-=' + spaceCol.position().top, 
-      left: _spaceCol.position().left + "px"
+      left: '-=' + (spaceIndex * Pard.ColumnWidth + 1) + "px"
     });
 
     return {

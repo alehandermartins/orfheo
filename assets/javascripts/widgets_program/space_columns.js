@@ -86,10 +86,6 @@
         var end = new Date(start.getTime());
         end.setMinutes(start.getMinutes() + duration * 1.5);
 
-        Pard.Widgets.Program.forEach(function(performance){
-          
-        });
-
         var _cardInfo = ui.helper.data('cardInfo');
         if(ui.draggable.hasClass('proposalCard')){
           _cardInfo.date = day,
@@ -146,7 +142,7 @@
     });
 
     _spaceCol.append(_time);
-
+    var _oldIndex = 0;
     //Making columns draggable
     _spaceCol.draggable({
       containment: '.tableContainer',
@@ -155,10 +151,11 @@
       handle: '.spaceHeader',
       helper: function(){ 
         //Calling the helper to be dragged
-        return Pard.Widgets.SpaceHelper(_spaceCol).render();
+        return Pard.Widgets.SpaceHelper(space, _spaceCol).render();
       },
       start: function(event, ui){
         //Column becomes grey
+        _oldIndex = Pard.ShownSpaces.indexOf(space);
         _spaceCol.addClass('ui-sortable-placeholder');
       },
       drag: function(event, ui){
@@ -173,7 +170,7 @@
             //Repositioning dragged space after next space
             Pard.ShownSpaces[index + 1][day].after(space[day]);
             //Repositioning all the performances
-            Pard.ShownSpaces[index + 1][day].find('.programHelper').css({left: Pard.ShownSpaces[index + 1][day].position().left + 1 + "px"});
+            Pard.ShownSpaces[index + 1][day].find('.programHelper').css({left: '-=' + Pard.ColumnWidth + "px"});
             
             //Repositioning elements in Pard.Space array (this makes that the changes are persistant even if you use the selectors)
             var spaceIndex = Pard.Spaces.indexOf(space);
@@ -197,7 +194,7 @@
           var index = Pard.ShownSpaces.indexOf(space);
           if(index > 0){
             space[day].after(Pard.ShownSpaces[index - 1][day]);
-            Pard.ShownSpaces[index - 1][day].find('.programHelper').css({left: Pard.ShownSpaces[index - 1][day].position().left + 1 + "px"});
+            Pard.ShownSpaces[index - 1][day].find('.programHelper').css({left: '+=' + Pard.ColumnWidth + "px"});
             
             var spaceIndex = Pard.Spaces.indexOf(space);
             var prevSpaceIndex = Pard.Spaces.indexOf(Pard.ShownSpaces[index - 1]);
@@ -217,8 +214,9 @@
       stop:function(event, ui){
         //Column is not grey anymore
         //Repositioning all performances in the new location
+        var _newIndex = Pard.Spaces.indexOf(space);
         _spaceCol.removeClass('ui-sortable-placeholder');
-        _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
+        _spaceCol.find('.programHelper').css({left: '+=' + ((_newIndex - _oldIndex) * Pard.ColumnWidth) + "px"});
       }
     });
 
