@@ -105,7 +105,6 @@
 
 
   ns.Widgets.PopupContent = function(title, content, contentClass){
-    
     var _createdWidget = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>');
@@ -125,8 +124,6 @@
     });
 
     _header.append(_title, _closeBtn);
-
-
 
     _sectionContainer.append(content.render());
 

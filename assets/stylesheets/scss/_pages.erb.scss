@@ -1684,8 +1684,38 @@ li.artists-selector-container-call-manager{
 
 
 .table-space-program{
-  max-width: 640px;
+  max-width: 100%;
   overflow: auto; 
+}
+
+.column-space-program-call-manager{
+  /* width: 5rem; */
+  white-space: normal;
+}
+
+.column-space-program-call-manager.column-category{
+  /* width: 4rem; */
+  width: 100px;
+}
+
+.column-space-program-call-manager.column-time,.column-space-program-call-manager.column-phone{
+  /* width: 3rem; */
+  max-width: 105px;
+}
+
+ .column-space-program-call-manager.column-email {
+  /* width: 5rem; */
+  width: 120px;
+}
+
+.column-space-program-call-manager.column-name{
+  /* width: 6rem; */
+  width: 140px;
+}
+
+.column-space-program-call-manager.column-short_description {
+  /* width: 10rem; */
+  width: 210px;
 }
 
 
