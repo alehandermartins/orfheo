@@ -147,7 +147,7 @@
   }
 
   //This is the dragged element once a performance card is in the space columns
-  ns.Widgets.ProgramHelper = function(cardInfo){
+  ns.Widgets.ProgramHelper = function(cardInfo, host_proposal_id){
     var color = Pard.Widgets.CategoryColor(cardInfo.category);
     var _card =$('<div>').addClass('programHelper').css({
       'position': 'absolute',
@@ -186,6 +186,7 @@
         //Storing info
         ui.helper.data('dropped', false);
         ui.helper.data('cardInfo', cardInfo);
+        ui.helper.data('host_proposal_id', host_proposal_id);
         
         //We hide the accordion
         if($('.accordion').hasClass('is-active')){
@@ -196,7 +197,7 @@
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(event, ui){
-       _card.css('cursor','grab');
+        _card.css('cursor','grab');
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
           Pard.Widgets.Program.forEach(function(performance, index){
@@ -206,6 +207,7 @@
             }
           });
         }
+        host_proposal_id = ui.helper.data('host_proposal_id');
       }
     });
 

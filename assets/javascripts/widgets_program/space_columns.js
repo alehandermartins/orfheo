@@ -94,7 +94,10 @@
         if(ui.draggable.hasClass('proposalCard')){
           _cardInfo.date = day,
           _cardInfo.permanent = false,
-          _cardInfo.card = Pard.Widgets.ProgramHelper(ui.helper.data('cardInfo')).render();
+          _cardInfo.card = Pard.Widgets.ProgramHelper(ui.helper.data('cardInfo'), space.proposal_id).render();
+           _cardInfo.card.css({
+            'left' : _time.position().left
+          });
           Pard.Widgets.Program.push(_cardInfo);
         }
 
@@ -103,14 +106,10 @@
         var left = _time.position().left;
 
         var _performances = []
+        var _oldColumnPerformances = [];
         Pard.Widgets.Program.forEach(function(performance){
-          if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == space.proposal_id && performance.permanent == false){
-            _performances.push(performance);
-            if(start.getTime() >= performance.time[0] && start.getTime() < performance.time[1]){
-              width = performance.card.width() - 10;
-              left = performance.card.position().left + 10;
-            } 
-          }
+          if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == space.proposal_id && performance.permanent == false) _performances.push(performance);
+          if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == ui.helper.data('host_proposal_id') && performance.permanent == false && ui.draggable.hasClass('programHelper')) _oldColumnPerformances.push(performance);
           if(performance.performance_id == _cardInfo.performance_id){
             _time.append(_performance.card);
             _performance.host_id = space.profile_id;
@@ -140,7 +139,9 @@
 
           }
         });
-          
+        Pard.Widgets.AlignPerformances(_performances);
+        if (_oldColumnPerformances.length > 0 && ui.helper.data('host_proposal_id') != space.proposal_id) Pard.Widgets.AlignPerformances(_oldColumnPerformances);
+        ui.helper.data('host_proposal_id', space.proposal_id);
       }
     });
 
