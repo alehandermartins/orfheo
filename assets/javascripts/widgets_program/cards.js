@@ -148,6 +148,7 @@
 
   //This is the dragged element once a performance card is in the space columns
   ns.Widgets.ProgramHelper = function(cardInfo, host_proposal_id){
+    cardInfo.permanent = false;
     var color = Pard.Widgets.CategoryColor(cardInfo.category);
     var _card =$('<div>').addClass('programHelper').css({
       'position': 'absolute',
@@ -242,6 +243,7 @@
 
   //This is the dragged element for permanent performances
   ns.Widgets.ProgramPermanentHelper = function(cardInfo, host_proposal_id){
+    cardInfo.permanent = true;
     var color = Pard.Widgets.CategoryColor(cardInfo.category);
     var _card =$('<div>').addClass('programHelper').css({
       'position': 'absolute',

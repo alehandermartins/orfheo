@@ -19,6 +19,7 @@
     //Day selector
     var _daySelector = $('<select>');
     Object.keys(eventTime).forEach(function(day){
+      if(day == 'permanent') return false;
       var date = $('<option>').val(day).text(day); 
       _daySelector.append(date);
     });
@@ -208,8 +209,7 @@
     }
   }
 
-
-  ns.Widgets.PermanentPerformanceProgram = function(cardInfo){
+  ns.Widgets.PermanentPerformanceProgram = function(cardInfo, callbackOnClose){
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var eventTime = Pard.CachedCall.eventTime;
@@ -222,9 +222,8 @@
       if(performance.performance_id == cardInfo.performance_id){
         _performances.push(performance);
         if(performance.date == cardInfo.date) _performance = performance;
-      }    
+      }
     });
-  
     //Storing dates and places. Necessary since a permanent performance is composed of performances with dates and places
     var dates = [];
     var host_proposal_ids = [];
@@ -232,14 +231,14 @@
       dates.push(performance.date);
       host_proposal_ids.push(performance.host_proposal_id);
     });
-
      
     var _performanceBox = $('<div>');
     var _daySelector = $('<select>');
 
     //Day selector
     Object.keys(eventTime).forEach(function(day){
-      if(day == performance.date || dates.indexOf(day) < 0){
+      if(day == 'permanent') return false;
+      if(day == _performance.date || dates.indexOf(day) < 0){
         var _date = $('<option>').val(day).text(day); 
         _daySelector.append(_date);
       }
@@ -255,18 +254,18 @@
       _spaceSelector.append(spaceOption);
     });
 
-    _daySelector.val(performance.date);
-    _spaceSelector.val(performance.host_proposal_id);
+    _daySelector.val(_performance.date);
+    _spaceSelector.val(_performance.host_proposal_id);
 
     _daySelector.on('change', function(){
      //Updating day selectors
-      dates.splice(dates.indexOf(performance.date), 1);
+      dates.splice(dates.indexOf(_performance.date), 1);
       dates.push(_daySelector.val());
 
-      performance.date = _daySelector.val();
-      var dateArray = performance.date.split('-');
-      var start = new Date(performance.time[0]);
-      var end = new Date(performance.time[1]);
+      _performance.date = _daySelector.val();
+      var dateArray = _performance.date.split('-');
+      var start = new Date(_performance.time[0]);
+      var end = new Date(_performance.time[1]);
 
       start.setUTCFullYear(parseInt(dateArray[0]));
       end.setUTCFullYear(parseInt(dateArray[0]));
@@ -290,7 +289,7 @@
       if($.inArray(_performance.host_proposal_id, host_proposal_ids) < 0){
         _performance.card.remove();
         var spacePerformances = [];
-        var performance_ids = [performance.performance_id];
+        var performance_ids = [_performance.performance_id];
         //Recalculating position of the rest of the elements of the column one a card is destroyed
         Pard.Widgets.Program.forEach(function(performance){
           if(performance.permanent == true){
@@ -324,7 +323,7 @@
 
             _performance.card = Pard.Widgets.ProgramPermanentHelper(cardInfo, _spaceSelector.val()).render();
             var timeCol = space['permanent'].find('.spaceTime');
-            performance.card.css({
+            _performance.card.css({
               'top': position,
               'left' : Pard.ShownSpaces.indexOf(space) * Pard.ColumnWidth + 1
             });
@@ -353,21 +352,20 @@
     //Same as non-permanent but this time there is no duration involved
     var _setStartTimes = function(){
       _startTime.empty();
-
       var dayStart = new Date(parseInt(eventTime[_performance.date][0][0]));
-      var maxStart = new Date(_performance['time'][1]);
+      var maxStart = new Date(_performance.time[1]);
       maxStart.setMinutes(maxStart.getMinutes() - 15);
 
       while(dayStart <= maxStart){
         var hours = dayStart.getHours();
-        var minutes = dayStart.getMinutes();4
+        var minutes = dayStart.getMinutes();
         if(hours < 10) hours = '0' + hours;
         if(minutes < 10) minutes = '0' + minutes;
         var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
         _startTime.append(startOption);
         dayStart.setMinutes(dayStart.getMinutes() + 15);
       };
-      _startTime.val(_performance['time'][0]);
+      _startTime.val(_performance.time[0]);
     };
 
     var _setEndTimes = function(){
@@ -376,11 +374,11 @@
       var lastIndex = eventTime[_performance.date].length - 1;
       var dayEnd = new Date(parseInt(eventTime[_performance.date][lastIndex][1]));
 
-      var minEnd = new Date(_performance['time'][0] + 15 * 60000);
+      var minEnd = new Date(_performance.time[0] + 15 * 60000);
 
       while(minEnd <= dayEnd){
         var hours = minEnd.getHours();
-        var minutes = minEnd.getMinutes();4
+        var minutes = minEnd.getMinutes();
         if(hours < 10) hours = '0' + hours;
         if(minutes < 10) minutes = '0' + minutes;
         var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
@@ -388,7 +386,7 @@
 
         minEnd.setMinutes(minEnd.getMinutes() + 15);
       };
-      _endTime.val(_performance['time'][1]);
+      _endTime.val(_performance.time[1]);
     };
 
     _setStartTimes();
@@ -406,11 +404,10 @@
 
     var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
     _removeInputButton.on('click', function(){
-      
       //Removing all elements from global variables pointing to the deleted performance
       dates.splice(dates.indexOf(_performance.date), 1);
       host_proposal_ids.splice(host_proposal_ids.indexOf(_performance.host_proposal_id), 1);
-      performances.splice(performances.indexOf(_performance), 1);
+      _performances.splice(_performances.indexOf(_performance), 1);
       Pard.Widgets.Program.splice(Pard.Widgets.Program.indexOf(_performance), 1);
 
       _performanceBox.remove();
@@ -432,16 +429,41 @@
           spacePerformance['card'].css({'top': index * 100 + 41});
         });
       }
-        
-      //CSS
-      _daySelector.css({'display': ' inline-block', 'width': '120'});
-      _spaceSelector.css({'display': ' inline-block', 'width': '250'});
-      _startTime.css({'display': ' inline-block', 'width': '80'});
-      _endTime.css({'display': ' inline-block', 'width': '80'});
-
-      _performanceBox.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
-      _createdWidget.append(_performanceBox);
     });
+    
+    var _confirmedContainer = $('<div>').css('height', 20);
+    var _input = $('<input />').attr({ type: 'checkbox', 'checked': _performance.confirmed});
+    var _label = $('<label>').html('Confirmado');
+    _label.css('display','inline');
+    var _confirmed = $('<div>').append(_input,_label);
+    _input.on('change', function(){
+      _performances.forEach(function(performance){
+        performance.confirmed = _input.is(":checked");
+      });
+    });
+    _confirmed.css('margin-left', 430);
+    _confirmedContainer.append(_confirmed);
+
+    var _commentsContainer = $('<div>');
+    var _comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+    _comments.on('input', function(){
+      _performance['comments'] = _comments.val();
+    });
+    _comments.val(_performance['comments']);
+    _comments.css('width', 530);
+    _commentsContainer.append(_comments);
+
+    var _performanceContainer = $('<div>').css('height', 40);
+    _performanceContainer.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
+
+    //Selectors CSS
+    _daySelector.css({'display': ' inline-block', 'width': '120'});
+    _spaceSelector.css({'display': ' inline-block', 'width': '250'});
+    _startTime.css({'display': ' inline-block', 'width': '80'});
+    _endTime.css({'display': ' inline-block', 'width': '80'});
+
+    _performanceBox.append(_confirmedContainer, _performanceContainer, _commentsContainer);
+    _createdWidget.append(_performanceBox);
 
     return {
       render: function(){
