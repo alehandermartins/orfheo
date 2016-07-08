@@ -37,7 +37,20 @@
     return performances.sort(_compare);
   }
 
-  ns.Widgets.AlignPerformances = function(performances){
+  ns.Widgets.ReorderProgramCrono = function(performances){
+    var _compare = function (a,b) {
+      if (a.time[0] < b.time[0]) return -1;
+      if (a.time[0] > b.time[0]) return 1;
+      if (a.time[0] == b.time[0]){
+        if (a.time[1] < b.time[1]) return -1;
+        if (a.time[1] > b.time[1]) return 1;
+      }
+      return 0;
+    }
+    return performances.sort(_compare);
+  }
+
+  ns.Widgets.AlignPerformances = function(performances, left){
     performances = Pard.Widgets.ReorderProgram(performances);
     _firstPerformance = performances.shift();
     var left = Math.floor(_firstPerformance.card.position().left / Pard.ColumnWidth) * Pard.ColumnWidth + 1;

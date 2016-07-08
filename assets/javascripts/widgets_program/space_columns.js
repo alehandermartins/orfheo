@@ -86,6 +86,10 @@
         var end = new Date(start.getTime());
         end.setMinutes(start.getMinutes() + duration * 1.5);
 
+        Pard.Widgets.Program.forEach(function(performance){
+          
+        });
+
         var _cardInfo = ui.helper.data('cardInfo');
         if(ui.draggable.hasClass('proposalCard')){
           _cardInfo.date = day,
@@ -97,35 +101,42 @@
           Pard.Widgets.Program.push(_cardInfo);
         }
 
+        var _performance = {};
+        var width = Pard.ColumnWidth - 2;
+        var left = _time.position().left;
+
         var _performances = []
         var _oldColumnPerformances = [];
         Pard.Widgets.Program.forEach(function(performance){
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == space.proposal_id && performance.permanent == false) _performances.push(performance);
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == ui.helper.data('host_proposal_id') && performance.permanent == false && ui.draggable.hasClass('programHelper')) _oldColumnPerformances.push(performance);
           if(performance.performance_id == _cardInfo.performance_id){
-            _time.append(performance.card);
-            performance.host_id = space.profile_id;
-            performance.host_proposal_id = space.proposal_id;
-            performance.time = [start.getTime(), end.getTime()];
-            performance.card.css({
-              'top': position,
-              'height': duration,
-              'left' : _time.position().left,
-            });
-            performance.card.resizable({
+            _time.append(_performance.card);
+            _performance.host_id = space.profile_id;
+            _performance.host_proposal_id = space.proposal_id;
+            _performance.time = [start.getTime(), end.getTime()];
+            _performance.card.css({
+                'top': position,
+                'height': duration,
+                'left' : left,
+                'width': width
+              });
+            _performance.card.resizable({
+              maxWidth: width,
+              minWidth: width,
               maxHeight: _time.height() - (position - colPosition),
             });
             if($.inArray(day, _cardInfo.availability) < 0) {
               performance.card.addClass('artist-not-available-call-manager');
             }
             else{
-              performance.card.removeClass('artist-not-available-call-manager');
-              performance.card.css({
+              _performance.card.removeClass('artist-not-available-call-manager');
+              _performance.card.css({
                 'opacity': '1',
                 'filter': 'alpha(opacity=100)'
               });
             }
-            _performances.push(performance);
+
           }
         });
         Pard.Widgets.AlignPerformances(_performances);
@@ -313,7 +324,6 @@
           var _startMin = parseInt(eventTime['permanent'][0].split(':')[1]);
           var _endHour = parseInt(eventTime['permanent'][1].split(':')[0]);
           var _endMin = parseInt(eventTime['permanent'][1].split(':')[1]);
-          console.log()
           Object.keys(eventTime).forEach(function(date){
             if (date == 'permanent') return false;
             var start = new Date(date.split('-')[0],date.split('-')[1] -1,date.split('-')[2],_startHour, _startMin);
