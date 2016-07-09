@@ -1688,7 +1688,7 @@ li.artists-selector-container-call-manager{
   overflow: auto; 
 }
 
-.column-space-program-call-manager{
+.column-space-program-call-manager, .column-artist-program-call-manager{
   /* width: 5rem; */
   white-space: normal;
 }
@@ -1698,24 +1698,29 @@ li.artists-selector-container-call-manager{
   width: 100px;
 }
 
-.column-space-program-call-manager.column-time,.column-space-program-call-manager.column-phone{
+.column-space-program-call-manager.column-time,.column-space-program-call-manager.column-phone, .column-artist-program-call-manager.column-time, .column-artist-program-call-manager.column-phone {
   /* width: 3rem; */
   max-width: 105px;
 }
 
- .column-space-program-call-manager.column-email {
+ .column-space-program-call-manager.column-email, .column-artist-program-call-manager.column-email {
   /* width: 5rem; */
   width: 120px;
 }
 
-.column-space-program-call-manager.column-name{
+.column-space-program-call-manager.column-name, .column-artist-program-call-manager.column-name{
   /* width: 6rem; */
   width: 140px;
 }
 
-.column-space-program-call-manager.column-short_description {
+.column-space-program-call-manager.column-short_description, .column-artist-program-call-manager.column-address {
   /* width: 10rem; */
   width: 210px;
+}
+
+.column-artist-program-call-manager.column-title {
+  /* width: 10rem; */
+  width: 180px;
 }
 
 /* .day-row-program-table-call-manager{
@@ -1753,6 +1758,34 @@ tr.permanent-row-program-table-call-manager td{
   p{
     margin-bottom: 0.5rem;
   }
+}
+
+.artists-dropdown-icon-call-manager{
+  position: absolute;
+  right: -0.6rem;
+  top: 0.4rem;
+}
+
+.artist-list-container-call-manager .accordion-title::before{
+  content: none;
+}
+
+.artist-list-container-call-manager .accordion-title{
+  padding-right: 1.9rem;
+  padding-left: 0.7rem;
+}
+
+.artist-list-container-call-manager .is-dropdown-submenu, .space-column-header .is-dropdown-submenu{
+  min-width: 160px;
+}
+
+.space-column-header .menu > li > a, .artist-list-container-call-manager .menu > li > a{
+  text-align: right;
+}
+
+.artist-list-container-call-manager .menu > li > a{
+    padding: 7px 16px;
+
 }
 
 

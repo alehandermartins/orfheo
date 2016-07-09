@@ -349,6 +349,8 @@
       var container = $('<div>').css({'padding': 0});
       var accordionNav = $('<li>').addClass('accordion-item');
       var aHref = $('<a>').addClass('accordion-title').text(proposal.name);
+      var _artistMenuDropdown = Pard.Widgets.ArtistDropdownMenu(artists[profile_id][0]).render();
+      _artistMenuDropdown.addClass('artists-dropdown-icon-call-manager');
       var content = $('<div>').addClass('accordion-content').css({'padding': 0});
       artists[profile_id].forEach(function(proposal){
         //Creating cards for each proposal
@@ -356,7 +358,7 @@
         proposalCards.push(proposalCard);
         content.append(proposalCard.render());
       });
-      accordionNav.append(aHref);
+      accordionNav.append(aHref.append(_artistMenuDropdown));
       container.append(accordionNav, content);
 
       //Accordion behaviour

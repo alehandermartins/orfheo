@@ -4,3 +4,4 @@
 // = require ./program
 // = require ./utils
 // = require ./space_program
+// = require ./artist_program

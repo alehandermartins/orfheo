@@ -123,6 +123,48 @@
     }
   }
 
+   ns.Widgets.ArtistDropdownMenu = function(artist){     
+
+    var _menu = $('<ul>').addClass('menu');
+    
+    var _profileLink = $('<li>');
+    var _profileCaller = $('<a>').attr({
+      target: 'blank',
+      href: '/profile?id=' + artist.profile_id
+    }).text('Perfil');
+
+    var _programLink = $('<li>');
+    var _programCaller = $('<a>').attr('href','#').text('Programa');
+    var _program = Pard.Widgets.PopupCreator(_programCaller, artist.name, function(){return Pard.Widgets.ArtistProgram(artist)}, 'space-program-popup-call-manager');
+    _profileLink.append(_profileCaller);
+    _profileLink.click(function(event){
+      // prevent accordeon from opening
+      event.stopImmediatePropagation();
+    });
+    var _programRendered = _program.render();
+    _programRendered.click(function(event){
+      // prevent accordeon from opening
+      event.stopImmediatePropagation();
+    });
+    _programLink.append(_programRendered);
+    _menu.append(_profileLink, _programLink);
+    var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
+    var _iconDropdownMenu = $('<li>').append(
+      $('<a>').attr('href','#').append(
+        $('<span>').html('&#xE8EE').addClass('material-icons settings-icon-dropdown-menu')
+        )
+      ,_menu
+    );
+
+    _menuContainer.append(_iconDropdownMenu);
+
+    return {
+      render: function(){
+        return _menuContainer;
+      } 
+    }
+  }
+
   ns.Widgets.GetProposal = function(proposal_id){
     result = $.grep(Pard.CachedCall['proposals'], function(proposal){
       if(proposal.proposal_id == proposal_id) return true; 
