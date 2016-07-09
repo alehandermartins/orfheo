@@ -3,7 +3,6 @@
 (function(ns){
 
   ns.Widgets.ArtistProgram = function(artist){
-    console.log(artist);
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
@@ -29,8 +28,6 @@
     var _rowPosition = 1;
     var _dayRowPos = [];
     var _permanentRowPos = [];
-
-    console.log(Pard.Widgets.Program);
 
     var _printArtistProgram = function(artist){
       _rowPosition = 1;

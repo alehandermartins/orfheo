@@ -1494,6 +1494,7 @@ Program Manager Tab
 
 .artist-list-container-call-manager{
   overflow-y: scroll;
+  overflow-x: hidden;
   height:  -moz-calc(100% - 2.5rem);
   height:  -webkit-calc(100% - 2.5rem);
   height:  calc(100% - 2.5rem);

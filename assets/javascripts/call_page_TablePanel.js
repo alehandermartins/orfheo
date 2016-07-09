@@ -11,8 +11,9 @@
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
   	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla');
   	var _tableTab = $('<li>').append(_tableTabTitle);
-  	_tableTab.one('click',function(){
-      var spinner =  new Spinner().spin();
+  	_tableTab.on('click',function(){
+      if (!($('#tablePanel').html())){
+        var spinner =  new Spinner().spin();
         $.wait(
           '', 
           function(){
@@ -31,9 +32,7 @@
             },0)
           }
         );
-			
-		});
-  	_tableTab.click(function(){
+      }
 			$('.tab-selected').removeClass('tab-selected');
 			$(this).addClass('tab-selected');
 			_tabShowHide('tablePanel');
@@ -41,6 +40,7 @@
 
   	var _proposalsTabTitle =	$('<a>').attr({href: "#"}).text('Propuestas');
   	var _proposalsTab = $('<li>').addClass('tabs-title is-active').append(_proposalsTabTitle);
+    _proposalsTab.attr('id','proposalsTab');
   	_proposalsTab.one('click',function(){
        var spinner =  new Spinner().spin();
         $.wait(
@@ -70,29 +70,28 @@
 		
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
     var _programTab = $('<li>').append(_programTabTitle);
-    _programTab.one('click',function(){
-       var spinner =  new Spinner().spin();
-        $.wait(
-          '', 
-          function(){
-            $('body').append(spinner.el);
-          }, 
-          function(){
-            setTimeout(function(){
-              var _appendAndStopSpinner = function(stopSpinner){ 
-               $('#programPanel').append(Pard.Widgets.ProgramManager(call).render());
-                stopSpinner();
-              }
-              _appendAndStopSpinner(function(){
-                spinner.stop();
-                $(document).foundation();
-              });
-            },0)
-          }
-        );
-			
-    });
-    _programTab.click(function(){
+    _programTab.on('click',function(){
+      if (!($('#programPanel').html())){
+        var spinner =  new Spinner().spin();
+          $.wait(
+            '', 
+            function(){
+              $('body').append(spinner.el);
+            }, 
+            function(){
+              setTimeout(function(){
+                var _appendAndStopSpinner = function(stopSpinner){ 
+                 $('#programPanel').append(Pard.Widgets.ProgramManager().render());
+                  stopSpinner();
+                }
+                _appendAndStopSpinner(function(){
+                  spinner.stop();
+                  $(document).foundation();
+                });
+              },0)
+            }
+          );
+      }
 			$('.tab-selected').removeClass('tab-selected');
 			$(this).addClass('tab-selected');
 			_tabShowHide('programPanel');
@@ -115,13 +114,13 @@
 		var _proposalsPanel = $('<div>').attr('id', 'proposalsPanel');
     var _programPanel = $('<div>').attr('id', 'programPanel');
 
-		// var _panelShown = _tablePanel;
-    var _panelShown = _programPanel;
+		var _panelShown = _tablePanel;
+    // var _panelShown = _programPanel;
  
 
 		$(document).ready(function(){
-			// _tableTab.trigger('click')
-      _programTab.trigger('click')
+			_tableTab.trigger('click')
+      // _programTab.trigger('click')
 
 		});
 
@@ -744,111 +743,6 @@
 	  }
   }
 
-
-
-
-  ns.Widgets.SendProgram = function (_programArray, selected) {
-
-    var call = Pard.CachedCalls;
-    var _program = [];
-
-  	var _saveProgramArtists = function(_programArray) {
-  		_programArray.forEach(function(inputProgram){
-	  		var _showArray = inputProgram['newProgram'].getVal();	
-   			var _artistProposal_id = inputProgram['proposal_id'];
-        var _artistId = inputProgram['profile_id'];
-  			_showArray.forEach(function(show){
-		  		var _performance = {};
-          // _performance['event_id'] = call['event_id'];
-          _performance['time'] = [ show['starting_day_time'], show['ending_day_time']];
-          _performance['participant_id'] = _artistId;
-          _performance['participant_proposal_id'] = _artistProposal_id;
-          if (show['profile_id']) _performance['host_id'] = show['profile_id'];
-          else  _performance['host_id'] = null;
-          _performance['host_proposal_id'] = show['proposal_id']; 
-          _program.push(_performance);
-        });
-      })
-      return _program;
-    }
-
-	  var _saveProgramSpaces = function(_programArray){
-
-  		_programArray.forEach(function(inputProgram){
-	  		var _showArray = inputProgram['newProgram'].getVal();	
-	  		var _place = inputProgram['place'];
-	  		var _spaceProposal_id = inputProgram['proposal_id'];
-  			_showArray.forEach(function(show){
-  				var _check = true;
-		  		var _data = {};
-  				_programData.some(function(dataSaved){
-  					if (dataSaved['proposal_id'] == show['proposal_id']){
-  							if (show['starting_day_time'] != false) dataSaved['program'].push({	place: _place, 	
-  								starting_day_time: show['starting_day_time'], 
-  								ending_day_time: show['ending_day_time'],
-  								proposal_id: _spaceProposal_id
-  							});
-  							_check = false;
-  						return true;
-  					}
-  				});
-  				if (_check && show['starting_day_time'] != false){
-	  				_data['proposal_id'] = show['proposal_id'];
-	  				var _program = {
-	  					place: _place,
-	  				 	starting_day_time: show['starting_day_time'],
-							ending_day_time: show['ending_day_time'],
-	  				 	proposal_id: _spaceProposal_id
-	  				}
-	  				_data['program'] = [_program];
-	  			}
-	  			else if (_check && show['starting_day_time'] == false){
-	  				_data['proposal_id'] = show['proposal_id'];
-	  				_data['program'] = [];
-	  			}
-					if (!(jQuery.isEmptyObject(_data))) _programData.push(_data);
-  			});			
-	  	
-
-				var _dataSpace = {proposal_id: _spaceProposal_id};
-	  		var _programSpace = [];
-	  		// if (_modified) {
- 	
-	  		_showArray.forEach(function(show){
-			  	if (show['starting_day_time']){
-	  				_programSpace.push({
-	  				 	starting_day_time: show['starting_day_time'],
-	  				 	ending_day_time: show['ending_day_time'],
-	  				 	proposal_id: show['proposal_id']
-	  				});
-	  			}
-	  		});
-  			
-  			_dataSpace['program'] = _programSpace;
-
-				_programData.push(_dataSpace);
-
-	  	});
-
-	  	return _programData;
-	  }
-
-	  var _programsFunc = {
-	  	artist: _saveProgramArtists,
-	  	space: _saveProgramSpaces
-	  }
-
-		var _programSaved = _programsFunc[selected](_programArray);
-
-    console.log(_programSaved);
-    console.log(call.event_id);
-
-		Pard.Backend.program(call.event_id, _programSaved, Pard.Events.SaveProgram);
-
-		Pard.ProposalsManager.modifyProposals(_programSaved);	
-
-  }
-  
 
 	ns.Widgets.DayTime = function(){
 

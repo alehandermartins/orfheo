@@ -2,11 +2,11 @@
 
 (function(ns){
 
-  ns.Widgets.ProgramManager = function(call){
+  ns.Widgets.ProgramManager = function(){
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
+   
+   var call = Pard.CachedCall;
 
-    Pard.CachedCall = call;
-    
     //Schedule of the event
     var eventTime = call.eventTime;
 
@@ -55,6 +55,15 @@
           text: proposal.name
         });
       }
+    });
+
+    spaceProposals.push({
+      id: 'available',
+      text: 'Disponible'
+    },
+    {
+      id: 'unavailable',
+      text: 'No disponible'
     });
 
     //Filling artist proposals
@@ -202,17 +211,40 @@
         });
       }
       else{
-        var field = 'profile_id';
-        if(_data['type'] == 'category') field = 'category';
-        Pard.Spaces.forEach(function(space){
-          if(space[field] == _data['id']){
-            //Showing selected spaces and adding them to shown list
-            space[_lastSelected].show();
-            Pard.ShownSpaces.push(space);
+        if (_data.id == 'available' && _daySelector.val() !== 'permanent'){
+          Pard.Spaces.forEach(function(space){
+            if ($.inArray(_daySelector.val(), space.availability)>-1)  {
+              space[_lastSelected].show();
+              Pard.ShownSpaces.push(space);
+            }
+            else{ 
+              space[_lastSelected].hide();
+            }
+          })
+        }
+        else if (_data.id == 'unavailable' && _daySelector.val() !== 'permanent'){
+          Pard.Spaces.forEach(function(space){
+            if ($.inArray(_daySelector.val(), space.availability)<0){
+                space[_lastSelected].show();
+                Pard.ShownSpaces.push(space);
+              }
+              else{ 
+                space[_lastSelected].hide();
+              }
+            })
           }
-          else{ space[_lastSelected].hide();}
-        });
-
+        else {
+          var field = 'profile_id';
+          if(_data['type'] == 'category') field = 'category';
+          Pard.Spaces.forEach(function(space){
+            if(space[field] == _data['id']){
+              //Showing selected spaces and adding them to shown list
+              space[_lastSelected].show();
+              Pard.ShownSpaces.push(space);
+            }
+            else{ space[_lastSelected].hide();}
+          });
+        }
         //Formatting columns with depending on the amount of shown spaces
         Pard.ColumnWidth = 176; 
         if (Pard.ShownSpaces.length == 0) _whiteBox.css('background','transparent');

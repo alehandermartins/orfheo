@@ -16,6 +16,7 @@
           callback(data);
       })
       .fail(function() {
+        Pard.Widgets.Alert('¡Error!', 'Problema en el servidor, operación no ejecutada. Intenta más tarde. Si el error persiste contacta con info@orfheo.org.');
         console.log("error");
       });
     };

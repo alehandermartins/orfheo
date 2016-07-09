@@ -93,7 +93,7 @@
     );
 
     //Proposal form info
-    Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.MyArtistCallProposalMessage(proposal)});
+    Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, Pard.Forms.ArtistCall(proposal.category).render()))});
 
     return {
       render: function(){

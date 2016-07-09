@@ -2,7 +2,7 @@
 
 (function(ns){
   
-  Pard.CachedCall = {};
+  // Pard.CachedCall = {};
   Pard.Spaces = [];
   Pard.ShownSpaces = [];
   Pard.Artists = {};

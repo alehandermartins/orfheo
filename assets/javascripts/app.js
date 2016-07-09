@@ -3,7 +3,7 @@
 Pard.CachedProfiles = [];
 Pard.UserStatus = {};
 Pard.CachedProposals = [];
-Pard.CachedCalls = [];
+Pard.CachedCall = [];
 
 Pard.ProfileManager = {
   getProfile: function(profile_id){
@@ -182,32 +182,12 @@ Pard.Outsider = function(profiles){
 
 Pard.Call = function(call){
 
-  // HoldOn.open({
-  //   theme:'sk-circle',
-  //   backgroundColor:'#000000',
-  //   // content:'',
-  //   // message:'',
-  //   // textColor:''
-  // });
-
-  // $(window).load(function(){
-
-  //     HoldOn.close();
-  // });
-
-  // var spinner =  new Spinner().spin();
-  // $('body').append(spinner.el);
-  
-  // $(window).load(function(){
-  //     spinner.stop();
-  // });  
-
   $(window).ready(function(){
     $('body').append(_whole);
     $(document).foundation();
   });
 
-  Pard.CachedCalls = call;
+  Pard.CachedCall = call;
   Pard.CachedProposals  = call['proposals'];
 
   var _whole = $('<div>').addClass('whole-container');
@@ -216,9 +196,7 @@ Pard.Call = function(call){
   var _main = Pard.Widgets.CallMainLayout(call);
 
   var _footer = Pard.Widgets.Footer();
-
-  // $(document).foundation();
-      
+     
 
   $(_whole).append(_header.render(), _main.render(), _footer.render());
 

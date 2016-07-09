@@ -32,15 +32,15 @@
     _spaceHeader.append(_spacename, _menuIcon);
     _spaceCol.append(_spaceHeader);
 
-    _spacename.mousedown(function(){
-      _spacename.css('cursor','move');
+    _spaceHeader.mousedown(function(){
+      _spaceHeader.css('cursor','move');
     });
-    _spacename.mouseup(function(){
-      _spacename.css('cursor','grab');
+    _spaceHeader.mouseup(function(){
+      _spaceHeader.css('cursor','grab');
     });
 
     //Popup showing the space form
-    Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.MySpaceCallProposalMessage(space)});
+    Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(space, Pard.Forms.SpaceCall().render()))}); 
 
     //All the performances are dropped in the _time zone
     var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
@@ -159,6 +159,7 @@
         _spaceCol.addClass('ui-sortable-placeholder');
       },
       drag: function(event, ui){
+        _spaceHeader.css('cursor','move');
         //We get the original position of the column, necessary for later calculations
         var originalPosition = $(this).data("uiDraggable").originalPosition;
         var position = ui.position.left;
@@ -212,6 +213,13 @@
         }
       },
       stop:function(event, ui){
+        _spaceHeader.css('cursor','grab');
+        _spaceHeader.mousedown(function(){
+          _spaceHeader.css('cursor','move');
+        });
+        _spaceHeader.mouseup(function(){
+          _spaceHeader.css('cursor','grab');
+        });
         //Column is not grey anymore
         //Repositioning all performances in the new location
         var _newIndex = Pard.Spaces.indexOf(space);
@@ -267,11 +275,11 @@
       _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
       _spaceHeader.append(_spacename, _menuIcon);
 
-      _spacename.mousedown(function(){
-        _spacename.css('cursor','move');
+      _spaceHeader.mousedown(function(){
+        _spaceHeader.css('cursor','move');
       });
-      _spacename.mouseup(function(){
-        _spacename.css('cursor','grab');
+      _spaceHeader.mouseup(function(){
+        _spaceHeader.css('cursor','grab');
       });
 
       Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.MySpaceCallProposalMessage(space)});
@@ -387,12 +395,13 @@
       axis: 'x',
       handle: '.spaceHeader',
       helper: function(){ 
-        return Pard.Widgets.SpaceHelper(_spaceCol).render();
+        return Pard.Widgets.SpaceHelper(space, _spaceCol).render();
       },
       start: function(event, ui){
         _spaceCol.addClass('ui-sortable-placeholder');
       },
       drag: function(event, ui){
+        _spaceHeader.css('cursor','move');
         var originalPosition = $(this).data("uiDraggable").originalPosition;
         var position = ui.position.left;
 
@@ -438,6 +447,13 @@
         }
       },
       stop:function(event, ui){
+        _spaceHeader.css('cursor','grab');
+        _spaceHeader.mousedown(function(){
+          _spaceHeader.css('cursor','move');
+        });
+        _spaceHeader.mouseup(function(){
+          _spaceHeader.css('cursor','grab');
+        });
         _spaceCol.removeClass('ui-sortable-placeholder');
         _spaceCol.find('.programHelper').css({left: _spaceCol.position().left + 1 + "px"});
       }

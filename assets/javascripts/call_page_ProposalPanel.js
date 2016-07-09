@@ -95,7 +95,6 @@
   }
 
   ns.Widgets.PrintOwnProposalMessage = function(proposal, form, artistProposalContainer){
-    console.log(proposal);
     var _createdWidget = $('<div>');
 
     var _proposalPrinted = Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, form)).render();
@@ -122,25 +121,30 @@
   ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup, artistProposalContainer){  
     
     var _createdWidget = $('<div>');
-    // var _message = $('<p>').text('Confirmando, tu propuesta será retirada de la convocatoria del Benimaclet conFusión festival y no podrá ser parte del evento.');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 
     _yesBtn.click(function(){
       Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteOwnProposal);
-      artistProposalContainer.remove();
-      var _proposals = Pard.CachedProposals;
-      var _index
-      _proposals.some(function(proposal, index){ 
-        if (proposal.proposal_id == proposal_id ) {
-          _index = index;
-          return true;
-        }
-      });
-      _proposals.splice(_index, 1);
-      Pard.CachedProposals = _proposals;
-      $('#tablePanel').empty();
-      $('#tablePanel').append(Pard.Widgets.TablePanelContent().render());
+      // artistProposalContainer.remove();
+      // var _proposals = Pard.CachedProposals;
+      // var _index;
+      // _proposals.some(function(proposal, index){ 
+      //   if (proposal.proposal_id == proposal_id ) {
+      //     _index = index;
+      //     return true;
+      //   }
+      // });
+      // _proposals.splice(_index, 1);
+      // Pard.CachedProposals = _proposals;
+      // $('#tablePanel').empty();
+      // $('#tablePanel').append(Pard.Widgets.TablePanelContent().render());
+      // $('#programPanel').empty();
+      // Pard.CachedCall.proposals = _proposals;
+      // Pard.Widgets.Program = [];
+      // Pard.Spaces = [];
+      // Pard.ShownSpaces = [];
+      // Pard.Artists = {};
       closepopup();
     });
 
@@ -176,29 +180,10 @@
 
     var user_id = call.user_id;
 
-   	// var profile_id = profile.profile_id;
-    // var _thumbnail = $('<div>');
-    // var _url = [];
-
-    // var _folder = user_id + '/' + profile_id + '/photos';
-    // var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 4);
-
-    // var _photosLabel = $('<label>').text('Fotos de tu arte (máximo 4, tamaño inferior a 500kb)').css({
-    //   'padding-top': '0.5rem'
-    // });
-    // var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css('margin-bottom','1rem');
-
     _submitForm['call_id'] = call.call_id;
-    // _submitForm['profile_id'] = profile.profile_id; profile_id del organizador
+
     _submitForm['type'] = 'space';
     _submitForm['category'] = _preSelected;
-
-    // _submitForm['phone'] = '000000000';
-    // _submitForm['email'] = 'email@email.email';
-    // _submitForm['conditions'] = "true";
-    // _submitForm['description'] = 'bla bla bla';
-    // _submitForm['responsible'] = 'xyz';
-
 
     var _content = $('<form>').addClass('popup-form');
 
@@ -234,13 +219,8 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      // _submitForm['photos'] = url;
       return _submitForm;
     }
-
-    // var _send = function(url){
-    //   Pard.Backend.sendProposal(_getVal(url), Pard.Events.SendProposal);
-    // }
 
     var _closepopup = function(){};
 

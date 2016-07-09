@@ -249,6 +249,11 @@
   ns.Events.SendOwnProposal = function(data){
     if(data['status'] == 'success') {
       Pard.CachedProposals = data.call.proposals;
+      Pard.CachedCall= data.call;
+      Pard.Widgets.Program = [];
+      Pard.Spaces = [];
+      Pard.ShownSpaces = [];
+      Pard.Artists = {};
       var _proposal = data.call.proposals[data.call.proposals.length -1];
       var _proposalContainer = $('<li>');
       var _printedProposal = Pard.Widgets.PrintOwnProposal(_proposal, _proposalContainer);
@@ -256,7 +261,8 @@
       else $('#artist-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
       Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
       $('#tablePanel').empty();
-      $('#tablePanel').append(Pard.Widgets.TablePanelContent().render());
+      // $('#tablePanel').append(Pard.Widgets.TablePanelContent().render());
+      $('#programPanel').empty();
     }
     else{
       Pard.Widgets.Alert('',data.reason);
@@ -265,16 +271,16 @@
   }
 
   ns.Events.DeleteOwnProposal = function(data){
+    console.log(data);
     if (data['status'] == 'success'){
-      Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.')
+      Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.', function(){
+        location.reload();
+      });
     }
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
         Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
-        // var _caller = $('<button>');
-        // var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        // _caller.trigger('click');
       }
       else{
         console.log(data.reason);
@@ -295,7 +301,6 @@
       }, 3000);
     }
     else{
-      // $('#succes-box-call-manager').append($('<span>').text('¡Error! No se ha podido guardar los datos').css('color','red'));
       Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
     }  
   }
