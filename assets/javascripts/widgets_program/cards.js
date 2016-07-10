@@ -59,7 +59,8 @@
           title: proposal.title,
           duration: proposal.duration,
           category: proposal.category,
-          availability: proposal.availability
+          availability: proposal.availability,
+          name: proposal.name
         }
         //We store the info to be known by the column it is dropped into
         ui.helper.data('cardInfo', cardInfo);
@@ -232,7 +233,7 @@
     });
 
     //On click the performance shows its program
-    Pard.Widgets.PopupCreator(_titleText, cardInfo.title, function(){ return Pard.Widgets.PerformanceProgram(cardInfo)});
+    Pard.Widgets.PopupCreator(_titleText, cardInfo.title+' ('+cardInfo.name+')', function(){ return Pard.Widgets.PerformanceProgram(cardInfo)});
 
     return {
       render: function(){
@@ -315,7 +316,7 @@
       }
     });
 
-    Pard.Widgets.PopupCreator(_titleText, cardInfo.title, function(){ return Pard.Widgets.PermanentPerformanceProgram(cardInfo)});
+    Pard.Widgets.PopupCreator(_titleText, cardInfo.title +' ('+cardInfo.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(cardInfo)});
 
     return {
       render: function(){

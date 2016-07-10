@@ -1575,6 +1575,15 @@ li.artists-selector-container-call-manager{
   height: 2.5rem;
 }
 
+.submit-program-btn-container-tablePanel{
+  font-size: 0.875rem;
+  position: absolute;
+  left: 0.6rem;
+  top: 6rem;
+  height: 2.5rem;
+  z-index: 1;  
+}
+
 .save-text-call-manager{
   margin-right: 0.5rem;
   display: inline-block;
@@ -1583,6 +1592,7 @@ li.artists-selector-container-call-manager{
   line-height: 1.2rem;
   height: 2.5rem;
   vertical-align: middle;
+  width: 75px;
 }
 
 /* .space-column-manager-table{
@@ -1689,10 +1699,15 @@ li.artists-selector-container-call-manager{
   overflow: auto; 
 }
 
-.column-space-program-call-manager, .column-artist-program-call-manager{
-  /* width: 5rem; */
+.column-space-program-call-manager, .column-artist-program-call-manager,
+.column-table-program-call-manager{
   white-space: normal;
 }
+
+/* .table-box-call-manager-page .dataTables_scroll
+{
+    overflow:auto;
+} */
 
 .column-space-program-call-manager.column-category{
   /* width: 4rem; */
@@ -1703,6 +1718,7 @@ li.artists-selector-container-call-manager{
   /* width: 3rem; */
   max-width: 105px;
 }
+
 
  .column-space-program-call-manager.column-email, .column-artist-program-call-manager.column-email {
   /* width: 5rem; */
@@ -1719,9 +1735,53 @@ li.artists-selector-container-call-manager{
   width: 210px;
 }
 
-.column-artist-program-call-manager.column-title {
+.column-artist-program-call-manager.column-title,.column-space-program-call-manager.column-title{
   /* width: 10rem; */
-  width: 180px;
+  width: 170px;
+}
+
+
+  /* td.column-table-program-call-manager.column-title, td.column-table-program-call-manager.column-comments{
+    width: 175px;
+  }
+
+  td.column-table-program-call-manager.column-artist, td.column-table-program-call-manager.column-space,{
+    width: 150px;
+  }
+
+  td.column-table-program-call-manager.column-confirmed{
+    width: 100px;
+  }
+
+  td.column-table-program-call-manager.column-time,td.column-table-program-call-manager.column-day{
+    width: 100px;
+  } */
+
+th.column-table-program-call-manager.column-title, th.column-table-program-call-manager.column-comments{
+  width: 145px;
+}
+
+ th.column-table-program-call-manager.column-artist, th.column-table-program-call-manager.column-space{
+  width: 115px;
+}
+
+
+th.column-table-program-call-manager.column-confirmed {
+  width: 80px;
+}
+ th.column-table-program-call-manager.column-time, th.column-table-program-call-manager.column-day{
+  width: 55px;
+}
+
+
+table.program-table{
+  table-layout:fixed;
+/* width: 950px; */
+}
+
+table.program-table tfoot th{
+  padding-left: 10px !important;
+  padding-right: 24px !important;
 }
 
 /* .day-row-program-table-call-manager{

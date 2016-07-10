@@ -3,6 +3,7 @@
 (function(ns){
 
   ns.Widgets.ProgramManager = function(){
+    // Pard.Widgets.Program = [];
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
    
    var call = Pard.CachedCall;
