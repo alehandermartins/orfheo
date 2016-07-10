@@ -47,8 +47,17 @@
       });
 
       var _reorderedProgram = [];
+      var _conflictPerformances = [];
 
       if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgramCrono(myPerformances);
+      _reorderedProgram.forEach(function(performance, index){
+        for(i = _reorderedProgram.indexOf(performance) + 1; i < _reorderedProgram.length; i++){
+         if(_reorderedProgram[i].time[0] < performance.time[1]){
+          _conflictPerformances.push(performance);
+          _conflictPerformances.push(_reorderedProgram[i]);
+         }   
+        }
+      });
 
       var _artistTable = $('<table>').addClass('table_display table-proposal row-border').attr({'cellspacing':"0", 'width':'100%'});
 
@@ -113,7 +122,7 @@
         var _permanents = [];
         var _check = true;
 
-        _reorderedProgram.forEach(function(show){
+        _reorderedProgram.forEach(function(show, index){
 
           var _startDate = new Date(parseInt(show['time'][0]));
           var _endDate = new Date(parseInt(show['time'][1]));
@@ -126,7 +135,9 @@
             }
             if (show.permanent) _permanents.push([show, _startDate, _endDate]);
             else {
-              var _row = _printRow(show,_startDate, _endDate);              
+              var _conflict = false;
+              if($.inArray(show, _conflictPerformances) >= 0) _conflict = true;
+              var _row = _printRow(show,_startDate, _endDate, _conflict);              
               _tbody.append(_row);
               _rowPosition = _rowPosition + 1;
             }
@@ -137,7 +148,9 @@
           _permanentRowPos.push(_rowPosition);
           _rowPosition = _rowPosition + 1;
           _permanents.forEach(function(expo){
-            var _row = _printRow(expo[0],expo[1], expo[2]);
+            var _conflict = false;
+            if($.inArray(expo[0], _conflictPerformances) >= 0) _conflict = true;
+            var _row = _printRow(expo[0],expo[1], expo[2], _conflict);
             _tbody.append(_row);
             _rowPosition = _rowPosition + 1;
 
@@ -237,8 +250,13 @@
       });
     }
 
-    var _printRow = function(show, startDate, endDate){
+    var _printRow = function(show, startDate, endDate, conflict){
       var _row = $('<tr>');
+      if(conflict == true){
+        _row.css({
+          'background': '#F75757'
+        });
+      }
       var spaceProposal = Pard.Widgets.GetProposal(show.host_proposal_id);
       var artistProposal = Pard.Widgets.GetProposal(show.participant_proposal_id);
       _columnsHeaders.forEach(function(field){
