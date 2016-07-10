@@ -10,6 +10,7 @@
 
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
   	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla');
+
   	var _tableTab = $('<li>').append(_tableTabTitle);
   	_tableTab.on('click',function(){
       if (!($('#tablePanel').html())){
@@ -27,7 +28,7 @@
               }
               _appendAndStopSpinner(function(){
                 spinner.stop();
-                $(document).foundation();
+                $('#tablePanel').foundation();
               });
             },0)
           }
@@ -56,7 +57,7 @@
               }
               _appendAndStopSpinner(function(){
                 spinner.stop();
-                $(document).foundation();
+                $('#proposalsPanel').foundation();
               });
             },0)
           }
@@ -86,7 +87,7 @@
                 }
                 _appendAndStopSpinner(function(){
                   spinner.stop();
-                  $(document).foundation();
+                  $('#programPanel').foundation();
                 });
               },0)
             }
@@ -110,16 +111,16 @@
 
   	}
 
-  	var _tablePanel = $('<div>').attr('id', 'tablePanel');
-		var _proposalsPanel = $('<div>').attr('id', 'proposalsPanel');
-    var _programPanel = $('<div>').attr('id', 'programPanel');
+  	var _tablePanel = $('<div>').attr('id', 'tablePanel').hide();
+		var _proposalsPanel = $('<div>').attr('id', 'proposalsPanel').hide();
+    var _programPanel = $('<div>').attr('id', 'programPanel').hide();
 
 		var _panelShown = _tablePanel;
     // var _panelShown = _programPanel;
- 
+    _panelShown.show();
 
 		$(document).ready(function(){
-			_tableTab.trigger('click')
+			_tableTab.trigger('click');
       // _programTab.trigger('click')
 
 		});
@@ -144,7 +145,10 @@
 
     var _contentBoxSpaces = $('<div>').addClass('content-box-ArtistSpace');
 
-    var _types = ['artist', 'space'];  
+
+    var _contentBoxProgram = $('<div>').addClass('content-box-ArtistSpace');
+
+    var _types = ['artist', 'space' ,'program'];  
     var _tagsTypes = [];
     _types.forEach(function(type){
     	_tagsTypes.push({id: type, text:Pard.Widgets.Dictionary(type).render()});
@@ -152,7 +156,8 @@
 
     var _cat = {
       space: _contentBoxSpaces,
-      artist: _contentBoxArtists
+      artist: _contentBoxArtists,
+      program: _contentBoxProgram
     }
 
     var proposals = Pard.CachedProposals;
@@ -195,6 +200,32 @@
           }
         );
       }
+      if (selected == 'program'){
+        _contentBoxProgram.empty();
+        var spinner =  new Spinner().spin();
+        var _check = false;
+        $.wait(
+          '', 
+          function(){
+            _contentBoxProgram.append(spinner.el);
+            if (!($('#programPanel').html())){
+              $('#programPanel').append(Pard.Widgets.ProgramManager().render());
+              _check = true;
+            }
+          }, 
+          function(){
+            setTimeout(function(){
+              var _appendAndStopSpinner = function(stopSpinner){ 
+                _contentBoxProgram.append(Pard.Widgets.ProgramTableContent(_categories).render());
+                stopSpinner();
+              }
+              _appendAndStopSpinner(function(){spinner.stop()});
+              if(_check) $('#programPanel').foundation();
+            },0)
+          }
+        );
+      }
+     
     }
 
     var _selectorCallback = function(){
@@ -208,11 +239,12 @@
     _contentBoxArtists.append(Pard.Widgets.CallManagerContent(_proposalsSelected['artist'], _categories['artist']).render());
 
     _contentBoxSpaces.hide();
+    _contentBoxProgram.hide();
     var _shown = _contentBoxArtists;
 
 		_typesSelectorBox.append(_typesSelector);  
 
-    _createdWidget.append(_typesSelectorBox, _contentBoxArtists, _contentBoxSpaces);
+    _createdWidget.append(_typesSelectorBox, _contentBoxArtists, _contentBoxSpaces, _contentBoxProgram);
 
     _typesSelector.select2({
       data: _tagsTypes,
@@ -232,6 +264,304 @@
     }
   }
 
+  ns.Widgets.ProgramTableContent = function(categories){
+
+    var _createdWidget = $('<div>');
+
+    var _table = Pard.Widgets.PrintProgramTable();
+
+    var _outerTableContainer = $('<div>');
+
+    var _tableBox = $('<div>').addClass('table-box-call-manager-page');
+
+    var _submitBtn = Pard.Widgets.Button('', function(){
+      var program = [];
+      Pard.Widgets.Program.forEach(function(performance, index){
+        var _performance = {
+          performance_id: performance.performance_id,
+          participant_id: performance.participant_id,
+          participant_proposal_id: performance.participant_proposal_id,
+          host_id: performance.host_id,
+          host_proposal_id: performance.host_proposal_id,
+          date: performance.date,
+          time: performance.time,
+          permanent: performance.permanent,
+          comments: performance.comments,
+          confirmed: performance.confirmed
+        }
+        program.push(_performance);
+      });
+      Pard.Backend.program(' ', program, Pard.Events.SaveProgram);
+    }).render().addClass('submit-program-btn-call-manager');
+
+    _submitBtn.append(Pard.Widgets.IconManager('save').render());
+
+    var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container-tablePanel');
+    // var _successBox = $('<span>').attr({id:'succes-box-call-manager'});
+
+    _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn);
+
+    var _filterCategoryContainer = $('<div>').addClass('select-category-container-call-manager');
+    var _filterCategory = $('<select>');
+     var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
+    categories['artist'].forEach(function(cat){
+      _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render(), icon: cat});
+    });
+
+    _filterCategoryContainer.append(_filterCategory);
+
+
+    function formatResource (resource) {
+      var _label = $('<span>').text(resource.text);
+      if(resource.icon){
+        var _icon = Pard.Widgets.IconManager(resource.icon).render();
+        _label.append(_icon);
+        _icon.css({
+          // position: 'relative',
+          'margin-left': '0.5rem',
+          'vertical-align':'middle'
+          // top: '5px'
+        });
+      }
+      return _label;
+    };
+
+    _filterCategory.select2({
+      data: _searchTags,
+      templateResult: formatResource
+      // ,templateSelection: formatResource
+    });
+
+    _filterCategory.on('select2:select',function(){
+      var _cat =  _filterCategory.select2('data')[0];
+      if (_cat.id == 'all') _table.dataTableCreated().columns( 7 ).search('').draw();
+      else _table.dataTableCreated().columns( 7 ).search(_cat.id).draw();
+    });
+
+
+    _createdWidget.append(_filterCategoryContainer, _submitBtnContainer, _outerTableContainer.append(_tableBox.append(_table.render())));
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.PrintProgramTable = function(){
+    
+
+    var _createdWidget = $('<div>');     
+
+    var columns = ['day','time','artist','title','space','comments','confirmed', 'category'];
+
+    var _dataTable ;
+
+    var _printTable = function(){
+
+      var program = [];
+        if (Pard.CachedCall.program && Pard.Widgets.Program.length) program = Pard.CachedCall.program;
+        else Pard.Widgets.Program = program;
+
+        // var myPermanentPerformances = [];
+        // program.forEach(function(performance){
+        //   if(performance.participant_id == artist.profile_id) myPerformances.push(performance);
+        // });    
+
+        var _permanents = [];    
+
+      _reorderedProgram = Pard.Widgets.ReorderProgramCrono(program);
+
+
+
+      var _tableCreated = $('<table>').addClass('table-proposal stripe row-border program-table').attr({'cellspacing':"0", 'width':"950px"});
+  
+      var _thead = $('<thead>');
+      var _titleRow = $('<tr>')
+      // .addClass('title-row-table-proposal');
+
+      columns.forEach(function(field, colNum){
+        var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+        var _class = 'column-'+field;
+        _titleCol.addClass('column-table-program-call-manager');
+        _titleCol.addClass(_class);
+        _titleRow.append(_titleCol);
+      });
+
+      _tableCreated.append(_thead.append(_titleRow));
+
+
+      var _tfoot = $('<tfoot>');
+      // .addClass('tfoot-proposal-table-call-manager');;
+      var _titleRowFoot = $('<tr>');
+      // .addClass('title-row-table-proposal');
+
+      columns.forEach(function(field, colNum){
+        var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+        var _class = 'column-'+field;
+        _titleCol.addClass('column-table-program-call-manager');
+        _titleCol.addClass(_class);
+        _titleRowFoot.append(_titleCol);
+      });
+
+      _tableCreated.append(_tfoot.append(_titleRowFoot ));
+
+      var _tbody = $('<tbody>');
+
+      _reorderedProgram.forEach(function(performance){
+
+        var spaceProposal = Pard.Widgets.GetProposal(performance.host_proposal_id);
+        var artistProposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
+        var _row = $('<tr>');
+        columns.forEach(function(field){
+        var _colClass = 'column-'+field;
+          var _col = $('<td>').addClass('column-table-program-call-manager');
+          _col.addClass(_colClass);
+        if (field == 'day'){
+          _col.append(moment(new Date(performance['date'])).locale('es').format('DD-MM-YYYY'));
+        }
+        else if (field == 'time'){     
+          _col.append(moment(new Date(parseInt(performance['time'][0]))).locale('es').format('HH:mm')+'-'+moment(new Date (parseInt(performance['time'][1]))).locale('es').format('HH:mm'));
+        }
+        else if (field == 'space'){     
+          var _programCaller = $('<a>').attr('href','#').text(spaceProposal['name']);
+          Pard.Widgets.PopupCreator(_programCaller, spaceProposal.name, function(){return Pard.Widgets.SpaceProgram(spaceProposal, function(){_createdWidget.empty(); _printTable();})}, 'space-program-popup-call-manager');    
+          _col.append(_programCaller);
+        }
+        else if (field == 'artist'){ 
+          var _programCaller = $('<a>').attr('href','#').text(artistProposal['name']);
+          Pard.Widgets.PopupCreator(_programCaller, artistProposal.name, function(){return Pard.Widgets.ArtistProgram(artistProposal,function(){_createdWidget.empty(); _printTable();})}, 'space-program-popup-call-manager');    
+          _col.append(_programCaller);
+        }
+        else if (field == 'title'){     
+          var _catIcon =  Pard.Widgets.IconManager(artistProposal['category']).render().css('font-size','13px');
+          var _namePopupCaller = $('<a>').attr({'href':'#'}).append(_catIcon,' ', artistProposal['title']);
+          if (performance.permanent) Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(performance)},'', function(){
+            _createdWidget.empty(); 
+            _printTable();});
+          else Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(performance)},'', function(){
+            _createdWidget.empty(); 
+            _printTable();});
+         _col.append(_namePopupCaller);
+        }
+        else if (field == 'comments'){     
+          _col.append(performance['comments']);
+        }
+        else if (field == 'confirmed'){ 
+          var _text;
+          if (performance['confirmed']) _text = 'Sí';
+          else _text = 'No';
+          _col.append(_text);
+        }
+        else { 
+          _col.append(artistProposal['category']);
+        }
+          _row.append(_col);
+        });
+
+        if (performance.permanent) {
+          _permanents.push(_row);
+          console.log(_permanents);
+        }
+        else {_tbody.append(_row); console.log('app')}
+      })
+
+      if (_permanents.length) {
+        var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
+        columns.forEach(function(field){
+          var _colClass = 'column-'+field;
+          var _col = $('<td>').addClass('column-space-program-call-manager');
+          _col.addClass(_colClass);
+          if (field == 'day'){
+            _col.append('Permanente');
+          }
+          else{
+            _col.html('');
+          }
+          _permanentRow.append(_col);
+        });
+        _tbody.append(_permanentRow);
+        _permanents.forEach(function(row){
+          _tbody.append(row);
+        });
+      }
+      _tableCreated.append(_tbody);
+      _createdWidget.append(_tableCreated);
+      _dataTable = _tableCreated.DataTable({
+        "language":{
+        "lengthMenu": " Resultados por página _MENU_",
+        "zeroRecords": "Ningún resultado",
+        "info": "",
+        "infoEmpty": "Ningúna información disponible",
+        "infoFiltered": "(filtered from _MAX_ total records)",
+        "search": "Busca",
+        "search": "_INPUT_",
+        "searchPlaceholder": "Busca"
+      },
+      fixedHeader: {
+        header: true
+      },
+      "columnDefs": [
+        {
+            "targets": [ columns.length -1 ],
+            "visible": false
+        }
+      ],
+      // "scrollX": true,
+      "scrollY": "90vh",
+      "bAutoWidth": false,
+      "paging": false,
+      "scrollCollapse": true,
+      // 'responsive': true,
+      // 'colReorder': true,
+      
+      // keys: true,
+      // "bSort": false,
+      aaSorting: [],
+      dom: 'Bfrtip',
+      buttons: [
+        {
+          extend: 'pdf',
+          exportOptions: {
+              columns: ':visible'
+          },
+          orientation: 'landscape',
+          filename: 'programación_conFusión_2016',
+          title: 'Programación conFusión 2016'
+
+        },
+        // {
+        //     extend: 'copy',
+        //     text: 'Copia',
+        //     exportOptions: {
+        //         columns: ':visible'
+        //     }
+        // },
+        {
+          extend: 'excel',
+          exportOptions: {
+              columns: ':visible'
+          },
+          filename: 'programación conFusión 2016'
+
+        }
+      ]
+      });
+    }
+
+    _printTable();
+   
+    return{
+      render: function(){
+        return _createdWidget;
+      }, 
+      dataTableCreated: function(){
+        return _dataTable;
+      }
+    }
+  }
+
 
 
   ns.Widgets.CallManagerContent = function(proposalsSelected, categories){
@@ -242,8 +572,6 @@
       space: ['link_orfheo','name','category','address'],
       artist: ['link_orfheo','name','category','title','short_description']
     }
-    // var _checkBoxes = [];
-    // var _checkBoxesRendered = [];
 
     var _fields = {
       space: ['link_orfheo', 'name','category','responsible','address','description', 'own', 'sharing', 'un_wanted','availability', 'email', 'phone','amend'],
@@ -261,7 +589,7 @@
 
     var _outerTableContainer = $('<div>');
 
-     var _filterCategoryContainer = $('<div>').addClass('select-category-container-call-manager');
+    var _filterCategoryContainer = $('<div>').addClass('select-category-container-call-manager');
 
     var _filterCategory = $('<select>');
      var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
@@ -297,7 +625,6 @@
       templateResult: formatResource
       // ,templateSelection: formatResource
     });
-
 
     $(document).ready(function() {
 
@@ -374,15 +701,6 @@
       ]
       });
 
-      // _checkBoxesRendered[0].prop('checked', true)
-      // _checkBoxesRendered[0].trigger('click');
-
-
-      // _fields[selected].forEach(function(field, colNum){
-      //   if(field == 'name' || field == 'link_orfheo') _table.column(colNum).visible(true);
-      //   else _table.column(colNum).visible(false);
-      // });
-      // _table.column(_fields[selected].length).visible(false);
       _dataTable.columns.adjust().draw(true);
 
       _filterCategory.on('select2:select',function(){
@@ -630,7 +948,6 @@
 
     	_tableCreated.append(_thead.append(_titleRow));
 
-
       var _tfoot = $('<tfoot>');
       // .addClass('tfoot-proposal-table-call-manager');;
       var _titleRowFoot = $('<tr>');
@@ -707,12 +1024,9 @@
     				_col.html('');
     			}
     			_row.append(_col);
-    			// _cols.push(_col);
     		});
 
     		_tbody.append(_row);
-    		// _matrix.push(_cols);
-    		// _cols = [];
 
     	})
 
@@ -742,87 +1056,6 @@
       }
 	  }
   }
-
-
-	ns.Widgets.DayTime = function(){
-
-    var _sat = [];
-    var _sun = [];
-    var _sunAfterSat = [];
-
-    var _sat10am = new Date (2016,9,15,10,00,00,0);
-    var _sat2345pm = new Date (2016,9,15,23,45,00,0);
-    var _sun10am = new Date (2016,9,16,10,00,00,0);
-    var _sun2345pm = new Date (2016,9,16,23,45,00,0);
-
-    _sat10am = _sat10am.getTime();
-    _sat2345pm = _sat2345pm.getTime();
-    _sun10am = _sun10am.getTime();
-    _sun2345pm = _sun2345pm.getTime();
-
-    var _satArray = [_sat10am];
-    var _sunArray = [_sun10am];
-
-
-    function addMinutes(date, minutes) {
-     return (date + minutes*60000);
-    }
-
-
-
-    while(_satArray[_satArray.length -1] != _sat2345pm){
-      _sat.push({
-      	id:_satArray[_satArray.length -1], 
-      	text:moment(new Date (_satArray[_satArray.length -1])).locale("es").format('dddd, HH:mm')+"h"
-      });
-      _satArray.push(addMinutes(_satArray[_satArray.length -1], 15));	
-    }
-
-    while(_sunArray[_sunArray.length -1] != _sun2345pm){
-      _sun.push({
-      	id: _sunArray[_sunArray.length -1], 
-      	text:moment(new Date (_sunArray[_sunArray.length -1])).locale("es").format('dddd, HH:mm')+"h"
-      });
-      // _sunAfterSat.push({id: _sunArray.length + _satArray.length, text:moment(_sunArray[_sunArray.length -1]).locale("es").format('dddd, HH:mm')+"h"});
-      _sunArray.push(addMinutes(_sunArray[_sunArray.length -1], 15));
-    }
-
-    return {
-      render: function(availability){
-  	    var _dayTime = [{id: '',text: ''},{id: 'permanent', text: 'Los dos dias'}];
-  	    if (availability){
-  		    var _length = 0;
-        	for (var day in availability){
-        		_length = _length + 1; 
-        	}
-        	if (_length == 1){     
-            switch(new Date(availability[0]).getDate()) {
-              case 15:  
-              	_dayTime.push({id: 'day_1', text:'sábado'});
-                _dayTime = _dayTime.concat(_sat);
-              break;
-              case 16:
-              	_dayTime.push({id: 'day_2', text:'domingo'});         
-                _dayTime = _dayTime.concat(_sun);
-              break;
-            }
-          }else{
-          	_dayTime.push({id: 'day_1', text:'sábado'});
-          	_dayTime.push({id: 'day_2', text:'domingo'});          	
-            _dayTime = _dayTime.concat(_sat);
-            _dayTime = _dayTime.concat(_sun);          
-          }
-        }
-
-        // var _dayTimeObj = {
-        // 	dtArray: _dtArray,
-        // 	dayTime: _dayTime
-        // }  
-
-      	return _dayTime;
-      }
-	  }
-	}
 
 }(Pard || {}));
 

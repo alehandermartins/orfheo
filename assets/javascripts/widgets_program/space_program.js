@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets.SpaceProgram = function(space){
+  ns.Widgets.SpaceProgram = function(space, callback){
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
@@ -260,14 +260,17 @@
             var _schedule = moment(startDate).locale("es").format('HH:mm') + '-' + moment(endDate).locale("es").format('HH:mm');
             _col.append(_schedule);
           }
-          if (field == 'name'){
-            var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
-            if (show.permanent) var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title, function(){ return Pard.Widgets.PermanentPerformanceProgram(show)},'', function(){_printSpaceProgram(space)});
-            else  var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title, function(){ return Pard.Widgets.PerformanceProgram(show)},'', function(){_printSpaceProgram(space)});
-           _col.append(_popup.render());
+          if (field == 'title'){
+            var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['title']);
+            if (show.permanent) Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(show)},'', function(){
+              _printSpaceProgram(space)
+              if (callback) callback();});
+            else  Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(show)},'', function(){
+              _printSpaceProgram(space); 
+              if (callback) callback();});
+           _col.append(_namePopupCaller);
 
           }
-          
           else  if (proposal[field] && field == 'category'){
             _col.html(Pard.Widgets.Dictionary(proposal[field]).render());
           }
