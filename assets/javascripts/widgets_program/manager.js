@@ -585,6 +585,8 @@
               
               //New card
               performance.permanent = false;
+              if(performance.confirmed == 'true') performance.confirmed = true;
+              if(performance.confirmed == 'false') performance.confirmed = false;
               performance.card = Pard.Widgets.ProgramHelper(_cardInfo, performance.host_proposal_id).render();
               performance.card.css({
                 'top': position,
@@ -638,6 +640,8 @@
             }
             //All performances with the same performance_id must point to the same card
             performance.permanent = true;
+            if(performance.confirmed == 'true') performance.confirmed = true;
+            if(performance.confirmed == 'false') performance.confirmed = false;
             performance.time[0] = parseInt(performance.time[0]);
             performance.time[1] = parseInt(performance.time[1]);
             performance.card = newPerformance[performance.performance_id];
