@@ -203,7 +203,8 @@
     });
 
     var _confirmedContainer = $('<div>').css('height', 20);
-    var _input = $('<input />').attr({ type: 'checkbox', 'checked': _performance.confirmed});
+    var _input = $('<input />').attr({ type: 'checkbox'});
+    _input.prop('checked', _performance.confirmed);
     var _label = $('<label>').html('Confirmado');
     _label.css('display','inline');
     var _confirmed = $('<div>').append(_input,_label);
@@ -470,7 +471,8 @@
     });
     
     var _confirmedContainer = $('<div>').css('height', 20);
-    var _input = $('<input />').attr({ type: 'checkbox', 'checked': _performance.confirmed});
+    var _input = $('<input />').attr({ type: 'checkbox'});
+    _input.prop('checked', _performance.confirmed);
     var _label = $('<label>').html('Confirmado');
     _label.css('display','inline');
     var _confirmed = $('<div>').append(_input,_label);
@@ -534,6 +536,8 @@
     //Storing dates and places. Necessary since a permanent performance is composed of performances with dates and places
     var dates = [];
     var host_proposal_ids = [];
+    var _checkBoxes = [];
+
     _performances.forEach(function(performance){
       dates.push(performance.date);
       host_proposal_ids.push(performance.host_proposal_id);
@@ -756,15 +760,50 @@
         _setDates(performance.date);
       });
         
-      //CSS
+      var _confirmedContainer = $('<div>').css('height', 20);
+
+      var _input = $('<input />').attr({ type: 'checkbox'});
+      _input.prop('checked', performance.confirmed);
+      var _label = $('<label>').html('Confirmado');
+      _label.css('display','inline');
+      var _confirmed = $('<div>').append(_input,_label);
+      _checkBoxes.push(_input);
+
+      _input.on('change', function(){
+        _performances.forEach(function(myPerformance){
+          myPerformance.confirmed = _input.is(":checked");
+        });
+        _checkBoxes.forEach(function(checkbox){
+          checkbox.prop('checked', _input.is(':checked'));
+        });
+      });
+      _confirmed.css('margin-left', 430);
+      _confirmedContainer.append(_confirmed);
+
+
+      var _commentsContainer = $('<div>');
+      var _comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+      _comments.on('input', function(){
+        performance['comments'] = _comments.val();
+      });
+      _comments.val(performance['comments']);
+      _comments.css('width', 530);
+      _commentsContainer.append(_comments);
+
+      var _performanceContainer = $('<div>').css('height', 40);
+      _performanceContainer.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
+
+      //Selectors CSS
       _daySelector.css({'display': ' inline-block', 'width': '120'});
       _spaceSelector.css({'display': ' inline-block', 'width': '250'});
       _startTime.css({'display': ' inline-block', 'width': '80'});
       _endTime.css({'display': ' inline-block', 'width': '80'});
 
-      _performanceBox.append(_daySelector, _spaceSelector, _startTime, _endTime, _removeInputButton);
+      _performanceBox.append(_confirmedContainer, _performanceContainer, _commentsContainer);
       _createdWidget.append(_performanceBox);
     });
+
+
 
     //For each of the performances an input box with all the data is shown
     return {
