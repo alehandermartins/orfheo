@@ -103,9 +103,11 @@
 
         var _performances = []
         var _oldColumnPerformances = [];
+        var _myPerformances = [];
         Pard.Widgets.Program.forEach(function(performance){
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == space.proposal_id && performance.permanent == false) _performances.push(performance);
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == ui.helper.data('host_proposal_id') && performance.permanent == false && ui.draggable.hasClass('programHelper')) _oldColumnPerformances.push(performance);
+          if(performance.date == day && performance.participant_id == ui.helper.data('cardInfo').participant_id) _myPerformances.push(performance);
           if(performance.performance_id == _cardInfo.performance_id){
             _time.append(performance.card);
             performance.host_id = space.profile_id;
@@ -138,6 +140,21 @@
         Pard.Widgets.AlignPerformances(_performances);
         if (_oldColumnPerformances.length > 0 && ui.helper.data('host_proposal_id') != space.proposal_id) Pard.Widgets.AlignPerformances(_oldColumnPerformances);
         ui.helper.data('host_proposal_id', space.proposal_id);
+        if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
+          _myPerformances.some(function(performance, index){
+           var _checkConflict = function(){
+            for(i = _myPerformances.indexOf(performance) + 1; i < _myPerformances.length; i++){
+              if(_myPerformances[i].time[0] < performance.time[1]) return true;
+            }
+          }
+          if(_checkConflict()){
+            var _programCaller = $('<a>').attr('href','#').text('Programa');
+            ui.helper.data('cardInfo').profile_id = ui.helper.data('cardInfo').participant_id;
+            Pard.Widgets.PopupCreator(_programCaller, ui.helper.data('cardInfo').name, function(){return Pard.Widgets.ArtistProgram(ui.helper.data('cardInfo'))}, 'space-program-popup-call-manager');
+            _programCaller.trigger('click');
+            return true;
+          }
+        });
       }
     });
 
