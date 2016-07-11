@@ -259,6 +259,18 @@
       }
       var spaceProposal = Pard.Widgets.GetProposal(show.host_proposal_id);
       var artistProposal = Pard.Widgets.GetProposal(show.participant_proposal_id);
+      var cardInfo = {
+        performance_id: show.performance_id,
+        participant_id: artistProposal.profile_id,
+        participant_proposal_id: artistProposal.proposal_id,
+        title: artistProposal.title,
+        duration: artistProposal.duration,
+        category: artistProposal.category,
+        availability: artistProposal.availability,
+        name: artistProposal.name,
+        date: show.date
+      }
+
       _columnsHeaders.forEach(function(field){
         var _colClass = 'column-'+field;
         var _col = $('<td>').addClass('column-artist-program-call-manager');
@@ -269,10 +281,10 @@
           }
           if (field == 'title'){
             var _namePopupCaller = $('<a>').attr({'href':'#'}).text(artistProposal['title']);
-            if (show.permanent) var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(show, true)},'', function(){
+            if (show.permanent) var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(cardInfo, true)},'', function(){
               _printArtistProgram(artist);
               if (callback) callback();});
-            else  var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(show, true)},'', function(){_printArtistProgram(artist);
+            else  var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(cardInfo, true)},'', function(){_printArtistProgram(artist);
               if (callback) callback();});
            _col.append(_popup.render());
 
