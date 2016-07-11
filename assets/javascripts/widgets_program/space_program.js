@@ -263,11 +263,9 @@
           if (field == 'title'){
             var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['title']);
             if (show.permanent) Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(show)},'', function(){
-              _printSpaceProgram(space)
-              if (callback) callback();});
+              _printSpaceProgram(space);});
             else  Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(show)},'', function(){
-              _printSpaceProgram(space); 
-              if (callback) callback();});
+              _printSpaceProgram(space);});
            _col.append(_namePopupCaller);
 
           }

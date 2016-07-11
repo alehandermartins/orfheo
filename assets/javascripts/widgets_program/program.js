@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets.PerformanceProgram = function(cardInfo, callbackOnClose){
+  ns.Widgets.PerformanceProgram = function(cardInfo, conflict){
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var eventTime = Pard.CachedCall.eventTime;
@@ -18,10 +18,29 @@
     var _alignPerformances = function(new_host, old_host, new_date, old_date){
       var _oldPerformances = [];
       var _newPerformances = [];
+      var _myPerformances = [];
       Pard.Widgets.Program.forEach(function(performance){
         if(performance.host_proposal_id == new_host && performance.date == new_date && performance.permanent == false) _newPerformances.push(performance);
         if(performance.host_proposal_id == old_host && performance.date == old_date && performance.permanent == false) _oldPerformances.push(performance);
+        if(performance.date == new_date && performance.participant_id == cardInfo.participant_id) _myPerformances.push(performance);
       });
+      if(!conflict){
+        if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
+        _myPerformances.some(function(performance, index){
+           var _checkConflict = function(){
+            for(i = _myPerformances.indexOf(performance) + 1; i < _myPerformances.length; i++){
+              if(_myPerformances[i].time[0] < performance.time[1]) return true;
+            }
+          }
+          if(_checkConflict()){
+            var _programCaller = $('<a>').attr('href','#').text('Programa');
+            cardInfo.profile_id = cardInfo.participant_id;
+            Pard.Widgets.PopupCreator(_programCaller, cardInfo.name, function(){return Pard.Widgets.ArtistProgram(cardInfo)}, 'space-program-popup-call-manager', _closepopup);
+            _programCaller.trigger('click');
+            return true;
+          }
+        });
+      }
       if(new_host != old_host || new_date != old_date) Pard.Widgets.AlignPerformances(_oldPerformances);
       Pard.Widgets.AlignPerformances(_newPerformances);
     }
@@ -221,14 +240,14 @@
       },
       setCallback: function(callback){
         _closepopup = function(){
-          _createdWidget.remove();     
-          callback;
+          _createdWidget.remove();
+          callback();
         }
       }
     }
   }
 
-  ns.Widgets.PermanentPerformanceProgram = function(cardInfo, callbackOnClose){
+  ns.Widgets.PermanentPerformanceProgram = function(cardInfo, conflict){
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var eventTime = Pard.CachedCall.eventTime;
@@ -490,8 +509,8 @@
       },
       setCallback: function(callback){
         _closepopup = function(){
-          _createdWidget.remove();     
-          callback;
+          _createdWidget.remove();
+          callback();
         }
       }
     }

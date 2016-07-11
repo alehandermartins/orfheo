@@ -268,12 +268,11 @@
             _col.append(_schedule);
           }
           if (field == 'title'){
-            console.log(artistProposal)
             var _namePopupCaller = $('<a>').attr({'href':'#'}).text(artistProposal['title']);
-            if (show.permanent) var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(show)},'', function(){
+            if (show.permanent) var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(show, true)},'', function(){
               _printArtistProgram(artist);
               if (callback) callback();});
-            else  var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(show)},'', function(){_printArtistProgram(artist);
+            else  var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(show, true)},'', function(){_printArtistProgram(artist);
               if (callback) callback();});
            _col.append(_popup.render());
 
@@ -297,8 +296,11 @@
       render: function(){
         return _createdWidget;
       },
-      setCallback: function(callback){
-        _closepopup = callback;
+      setCallback: function(closeCallback){
+        _closepopup = function(){
+          _createdWidget.remove();
+          closeCallback();
+        }
       }
     }
   }

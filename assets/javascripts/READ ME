@@ -1,10 +1,8 @@
-
 9/7/2016
 TO DO CALL-MANAGER:
 - permanet performance cannot go in normal columns --> they must got in permanet space_col!!
 - add number to space (eventually related with the position of the space_col)
-- fix confirmed checkBox (it does not work propoerly!!)
-
+- fix confirmed checkBox (it does not work propoerly!!) 
 
 
 pdfMake Styling properties:
