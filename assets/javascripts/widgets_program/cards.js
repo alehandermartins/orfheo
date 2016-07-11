@@ -316,7 +316,7 @@
       }
     });
 
-    Pard.Widgets.PopupCreator(_titleText, cardInfo.title +' ('+cardInfo.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(cardInfo)});
+    Pard.Widgets.PopupCreator(_titleText, cardInfo.title +' ('+cardInfo.name+')', function(){ return Pard.Widgets.PermanentPerformanceManager(cardInfo)});
 
     return {
       render: function(){

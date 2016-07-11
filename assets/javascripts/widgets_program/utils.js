@@ -5,7 +5,6 @@
   // Pard.CachedCall = {};
   Pard.Spaces = [];
   Pard.ShownSpaces = [];
-  Pard.Artists = {};
   ns.Widgets.Program = [];
   ns.ColumnWidth = 176;
 
