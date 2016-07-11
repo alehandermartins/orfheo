@@ -252,6 +252,17 @@
     var _printRow = function(show, startDate, endDate){
       var _row = $('<tr>');
       var proposal = Pard.Widgets.GetProposal(show.participant_proposal_id);
+      var cardInfo = {
+        performance_id: show.performance_id,
+        participant_id: proposal.profile_id,
+        participant_proposal_id: proposal.proposal_id,
+        title: proposal.title,
+        duration: proposal.duration,
+        category: proposal.category,
+        availability: proposal.availability,
+        name: proposal.name,
+        date: show.date
+      }
       _columnsHeaders.forEach(function(field){
         var _colClass = 'column-'+field;
         var _col = $('<td>').addClass('column-space-program-call-manager');
@@ -262,9 +273,9 @@
           }
           if (field == 'title'){
             var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['title']);
-            if (show.permanent) Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(show)},'', function(){
+            if (show.permanent) Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(cardInfo)},'', function(){
               _printSpaceProgram(space);});
-            else  Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(show)},'', function(){
+            else  Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(cardInfo)},'', function(){
               _printSpaceProgram(space);});
            _col.append(_namePopupCaller);
 
