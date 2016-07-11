@@ -1499,6 +1499,7 @@ Program Manager Tab
   height:  -webkit-calc(100% - 2.5rem);
   height:  calc(100% - 2.5rem);
   border-top: 1px solid #aaa;
+  /* width: 13rem; */
 }
 
 li.artists-selector-container-call-manager{
@@ -1758,19 +1759,19 @@ li.artists-selector-container-call-manager{
   } */
 
 th.column-table-program-call-manager.column-title, th.column-table-program-call-manager.column-comments{
-  width: 145px;
+  width: 145px !important;
 }
 
  th.column-table-program-call-manager.column-artist, th.column-table-program-call-manager.column-space{
-  width: 115px;
+  width: 115px !important;
 }
 
 
 th.column-table-program-call-manager.column-confirmed {
-  width: 80px;
+  width: 80px !important;
 }
  th.column-table-program-call-manager.column-time, th.column-table-program-call-manager.column-day{
-  width: 55px;
+  width: 55px !important;
 }
 
 
@@ -1823,7 +1824,7 @@ tr.permanent-row-program-table-call-manager td{
 
 .artists-dropdown-icon-call-manager{
   position: absolute;
-  right: -0.6rem;
+  right: 0.2rem;
   top: 0.4rem;
 }
 
@@ -1845,7 +1846,7 @@ tr.permanent-row-program-table-call-manager td{
 }
 
 .artist-list-container-call-manager .menu > li > a{
-    padding: 7px 16px;
+    padding: 7px 0px ;
 
 }
 
