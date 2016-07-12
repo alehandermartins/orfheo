@@ -254,7 +254,7 @@
       var _row = $('<tr>');
       if(conflict == true){
         _row.css({
-          'background': '#F75757'
+          'background': '#FBA4A4'
         });
       }
       var spaceProposal = Pard.Widgets.GetProposal(show.host_proposal_id);

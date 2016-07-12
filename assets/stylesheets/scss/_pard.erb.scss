@@ -680,6 +680,10 @@ button{
   }  
 }
 
+.show-hide-btn-call-manager:hover{
+  color: rgba(0,0,0,0.8);
+}
+
 .submit-program-btn-call-manager{
   padding: 0px 8px;
   vertical-align: middle;
@@ -1555,4 +1559,15 @@ table.dataTable thead .sorting_desc {
 }
 table.dataTable thead .sorting {
     background-image: url(<%= image_path 'sort_both.png' %>);
+}
+
+
+.cursor_grab{
+  cursor: -webkit-grab; 
+  cursor:-moz-grab;
+  cursor: grab;
+}
+
+.cursor_move{
+  cursor: move;
 }
