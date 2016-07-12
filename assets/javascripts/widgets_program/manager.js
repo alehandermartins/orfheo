@@ -375,6 +375,7 @@
     //Array of proposal cards
     var proposalCards = [];
 
+    var startTime = new Date().getTime();
     //Filling the accordion... the classes are giving style from foundation... need to change and redifine (no foundation behaviour)
     Object.keys(artists).forEach(function(profile_id, index){
 
@@ -390,6 +391,7 @@
         var proposalCard = Pard.Widgets.ProposalCard(proposal);
         proposalCards.push(proposalCard);
         content.append(proposalCard.render());
+        var pep = 'pep';
       });
       accordionNav.append(aHref.append(_artistMenuDropdown));
       container.append(accordionNav, content);
@@ -420,11 +422,10 @@
       _listContainer.append(container);
       artists[profile_id]['card'] = container;
     });
+    
+    var endTime = new Date().getTime();
 
-    Pard.Artists = artists;
-
-    // _createdWidget.append();
-
+    //console.log((endTime - startTime) /1000);
 
     //Filling the columns for each day we declare a set of space columns. One extra set for permanent
     Object.keys(eventTime).forEach(function(day, day_number){

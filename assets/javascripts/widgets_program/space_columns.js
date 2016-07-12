@@ -40,7 +40,20 @@
     });
 
     //Popup showing the space form
-    Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(space, Pard.Forms.SpaceCall().render()))}); 
+    _titleText.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('conFusión 2016', Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(space, Pard.Forms.SpaceCall().render())));
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    });
 
     //All the performances are dropped in the _time zone
     var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
@@ -239,7 +252,7 @@
         });
         //Column is not grey anymore
         //Repositioning all performances in the new location
-        var _newIndex = Pard.Spaces.indexOf(space);
+        var _newIndex = Pard.ShownSpaces.indexOf(space);
         _spaceCol.removeClass('ui-sortable-placeholder');
         _spaceCol.find('.programHelper').css({left: '+=' + ((_newIndex - _oldIndex) * Pard.ColumnWidth) + "px"});
       }

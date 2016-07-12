@@ -100,10 +100,23 @@
 
     var _programLink = $('<li>');
     var _programCaller = $('<a>').attr('href','#').text('Programa');
-    var _program = Pard.Widgets.PopupCreator(_programCaller, space.name, function(){return Pard.Widgets.SpaceProgram(space)}, 'space-program-popup-call-manager');
+    _programCaller.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent(space.name, Pard.Widgets.SpaceProgram(space), 'space-program-popup-call-manager');
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    });
 
     _profileLink.append(_profileCaller);
-    _programLink.append(_program.render());
+    _programLink.append(_programCaller);
     _menu.append(_profileLink, _programLink);
     var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
     var _iconDropdownMenu = $('<li>').append(
@@ -134,18 +147,32 @@
 
     var _programLink = $('<li>');
     var _programCaller = $('<a>').attr('href','#').text('Programa');
-    var _program = Pard.Widgets.PopupCreator(_programCaller, artist.name, function(){return Pard.Widgets.ArtistProgram(artist)}, 'space-program-popup-call-manager');
+
+    _programCaller.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist), 'space-program-popup-call-manager');
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    });
+
     _profileLink.append(_profileCaller);
     _profileLink.click(function(event){
       // prevent accordeon from opening
       event.stopImmediatePropagation();
     });
-    var _programRendered = _program.render();
-    _programRendered.click(function(event){
+    _programCaller.click(function(event){
       // prevent accordeon from opening
       event.stopImmediatePropagation();
     });
-    _programLink.append(_programRendered);
+    _programLink.append(_programCaller);
     _menu.append(_profileLink, _programLink);
     var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
     var _iconDropdownMenu = $('<li>').append(
