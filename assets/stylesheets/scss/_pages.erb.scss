@@ -183,7 +183,16 @@ Header
     top: 100%;
     left: auto;
     right: 0;
+    z-index: 10;
 }
+
+.space-column-header .dropdown.menu:not(.vertical) .is-dropdown-submenu.first-sub {
+    top: 100%;
+    left: auto;
+    right: 0.3rem;
+    z-index: 10;
+}
+
 
 
 .rememberMe-ckb input{
@@ -1487,9 +1496,12 @@ Program Manager Tab
   right: 0;
   top:0;
   width: 13rem;
-  border: 1px solid;
-  height: 97.3%;
+  border: 1px solid;/* 
+  height:  -moz-calc(100% - 1.4rem);
+  height:  -webkit-calc(100% - 1.4rem);
+  height:  calc(100% - 1.4rem); */
   z-index: 4;
+  height: 602px;
 }
 
 .artist-list-container-call-manager{
@@ -1526,6 +1538,10 @@ li.artists-selector-container-call-manager{
   font-size: 2rem;
   margin-left: -0.25rem;
   margin-right: -0.25rem;
+}
+
+.navigation-btn-icon:hover{
+  color:rgba(0, 0, 0, 0.8);
 }
 
 .selectors-call-manager{
@@ -1682,10 +1698,9 @@ li.artists-selector-container-call-manager{
   padding: 0;
   background-color: $grey-2;
   height: 2.5rem;
-  cursor: pointer;
+  /* cursor: pointer; */
   text-align: center;
   width: 100%;
-  cursor: grab;
   padding: 0.2rem;
 }
 
@@ -1835,6 +1850,7 @@ tr.permanent-row-program-table-call-manager td{
 .artist-list-container-call-manager .accordion-title{
   padding-right: 1.9rem;
   padding-left: 0.7rem;
+  color: #000000;
 }
 
 .artist-list-container-call-manager .is-dropdown-submenu, .space-column-header .is-dropdown-submenu{
@@ -1847,6 +1863,17 @@ tr.permanent-row-program-table-call-manager td{
 
 .artist-list-container-call-manager .menu > li > a{
     padding: 7px 0px ;
+
+}
+
+.artist-list-container-call-manager .menu > li > a{
+    padding: 7px 0px ;
+
+}
+
+
+.artist-list-container-call-manager li.is-dropdown-submenu-item a{
+    padding: 7px 8px ;
 
 }
 
