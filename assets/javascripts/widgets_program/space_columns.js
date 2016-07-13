@@ -25,9 +25,9 @@
 
     var _spacename = $('<div>');
     _spacename.addClass('space-name-container-call-manager');
-    var _title = $('<p>').addClass('space-name-headerTable-call-manager').append($('<a>').text(space.name));   
+    // var _title = $('<p>').addClass('space-name-headerTable-call-manager').append($('<a>').text(space.name));   
     var _titleText = $('<a>').attr('href','#');
-    _titleText.text(Pard.Widgets.FitInBox(_title, 125, 38).render().text());
+    _titleText.text(Pard.Widgets.CutString(space.name, 35));
     _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
     _spaceHeader.append(_spacename, _menuIcon);
     _spaceCol.append(_spaceHeader);
@@ -286,10 +286,9 @@
 
       var _spacename = $('<div>');
       _spacename.addClass('space-name-container-call-manager');
-
-      var _title = $('<p>').addClass('space-name-headerTable-call-manager').append($('<a>').text(space.name));   
+  
       var _titleText = $('<a>').attr('href','#');
-      _titleText.text(Pard.Widgets.FitInBox(_title, 125, 38).render().text());
+      _titleText.text(Pard.Widgets.CutString(space.name, 35));
       _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
       _spaceHeader.append(_spacename, _menuIcon);
 

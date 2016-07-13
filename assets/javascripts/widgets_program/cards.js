@@ -20,25 +20,31 @@
     if($.inArray(Object.keys(Pard.CachedCall.eventTime)[0], proposal.availability) < 0) _card.addClass('artist-not-available-call-manager');
     else{ _card.removeClass('artist-not-available-call-manager'); }
 
-    _card.addClass('proposal-card-container-call-manager');
+    _card.addClass('proposal-card-container-call-manager cursor_grab');
+
+    _card.mousedown(function(){
+      _card.removeClass('cursor_grab').addClass('cursor_move');
+    });
+    _card.mouseup(function(){
+      _card.removeClass('cursor_move').addClass('cursor_grab');
+    });
+
     var _circleColumn = $('<div>').addClass('icon-column');
 
     var _profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': color});
     var _titleColumn = $('<div>').addClass('name-column profile-name-column');
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _titleText = $('<a>').attr('href','#').text(proposal.title);
-    _title.append(_titleText);
+    var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(proposal.title, 35));
     
     var _icon = $('<div>').append(Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon'));
     var _colorIcon = Pard.Widgets.IconColor(color).render();
     _icon.css({color: _colorIcon});
 
     _circleColumn.append($('<div>').addClass('nav-icon-production-container').append(_profileCircle.append(_icon)));
-    _titleColumn.append(Pard.Widgets.FitInBox(_title,125,54).render());
+    _titleColumn.append(_title.append(_titleText));
 
      _card.draggable({
       revert: 'invalid',
-      cursor: 'move',
       // cursorAt: { top: 5, right: 15 },
       helper: function(){
         return Pard.Widgets.CardHelper(proposal).render();
@@ -119,6 +125,15 @@
     }
   }
 
+
+  ns.Widgets.CutString = function(string, numMaxCaracters){
+    var _catString = string;
+
+    if(string.length > numMaxCaracters) _catString = string.substr(0,numMaxCaracters -4)+'...';
+
+    return _catString
+  }
+
   //This is the dragged element when a proposal is dragged from the accordion
   ns.Widgets.CardHelper = function(proposal){
     var color = Pard.Widgets.CategoryColor(proposal.category);
@@ -133,8 +148,8 @@
       'height': duration,
       'border-color':color
     });
-
-    var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(proposal.title).css('cursor','move'));
+    console.log('CardHelper');
+    var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(proposal.title).removeClass('cursor_move').addClass('cursor_move'));
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, duration).render().css({
       'position': 'absolute',
       })
@@ -158,7 +173,7 @@
       'background': color,
       'white-space': 'normal'
     });
-    _card.addClass('dragged-card-call-manager');
+    _card.addClass('dragged-card-call-manager cursor_grab');
 
 
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
@@ -169,10 +184,10 @@
     var accordionShown = false;
 
     _card.mousedown(function(){
-      _card.css('cursor','move');
+      _card.removeClass('cursor_grab').addClass('cursor_move');
     });
     _card.mouseup(function(){
-      _card.css('cursor','grab');
+      _card.removeClass('cursor_move').addClass('cursor_grab');
     });
 
     _card.draggable({
@@ -183,8 +198,7 @@
       // cursorAt: { top: 5, right: 15 },
       grid: [ 10, 10 ],
       start: function(event, ui){
-        // _title.css('cursor','move');
-        // _title_text.css('cursor','move');
+        _card.removeClass('cursor_grab').addClass('cursor_move');
         //Storing info
         ui.helper.data('dropped', false);
         ui.helper.data('cardInfo', cardInfo);
@@ -199,7 +213,7 @@
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
       },
       stop:function(event, ui){
-        _card.css('cursor','grab');
+        _card.removeClass('cursor_move').addClass('cursor_grab');
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
           Pard.Widgets.Program.forEach(function(performance, index){
@@ -254,7 +268,7 @@
       'background': color
     });
 
-    _card.addClass('dragged-card-call-manager');
+    _card.addClass('dragged-card-call-manager cursor_grab');
 
     // _card.on('mousedown',function(){});
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
@@ -263,11 +277,12 @@
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, 40).render());
 
     _card.mousedown(function(){
-      _card.css('cursor','move');
+      _card.removeClass('cursor_grab').addClass('cursor_move');
     });
     _card.mouseup(function(){
-      _card.css('cursor','grab');
+      _card.removeClass('cursor_move').addClass('cursor_grab');
     });
+
 
     _card.draggable({
       revert: false,
@@ -283,9 +298,10 @@
         ui.helper.data('cardInfo', cardInfo);
         ui.helper.data('host_proposal_id', host_proposal_id);
         _card.css({'opacity': '0.4', 'filter': 'alpha(opacity=40)'});
+        _card.removeClass('cursor_grab').addClass('cursor_move');
       },
       stop:function(event, ui){
-        _card.css('cursor','grab');
+        _card.removeClass('cursor_move').addClass('cursor_grab');
         //The card and performance is destroyed if dropped out
         if(ui.helper.data('dropped') == false){
           var index = Pard.Widgets.Program.length - 1;
