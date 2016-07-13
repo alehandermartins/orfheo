@@ -104,7 +104,7 @@
           _cardInfo.date = day,
           _cardInfo.permanent = false,
           _cardInfo.card = Pard.Widgets.ProgramHelper(ui.helper.data('cardInfo'), space.proposal_id).render();
-           _cardInfo.card.css({
+          _cardInfo.card.css({
             'left' : _time.position().left
           });
           Pard.Widgets.Program.push(_cardInfo);
@@ -120,18 +120,19 @@
         Pard.Widgets.Program.forEach(function(performance){
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == space.proposal_id && performance.permanent == false) _performances.push(performance);
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == ui.helper.data('host_proposal_id') && performance.permanent == false && ui.draggable.hasClass('programHelper')) _oldColumnPerformances.push(performance);
-          if(performance.date == day && performance.participant_id == ui.helper.data('cardInfo').participant_id) _myPerformances.push(performance);
+          if(performance.date == day && performance.participant_proposal_id == ui.helper.data('cardInfo').participant_proposal_id) _myPerformances.push(performance);
+          if(performance.date == day && performance.participant_id == ui.helper.data('cardInfo').participant_id && performance.permanent == false) _myPerformances.push(performance);
           if(performance.performance_id == _cardInfo.performance_id){
             _time.append(performance.card);
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
             performance.time = [start.getTime(), end.getTime()];
             performance.card.css({
-                'top': position,
-                'height': duration,
-                'left' : left,
-                'width': width
-              });
+              'top': position,
+              'height': duration,
+              'left' : left,
+              'width': width
+            });
             performance.card.resizable({
               maxWidth: width,
               minWidth: width,
@@ -154,17 +155,25 @@
         if (_oldColumnPerformances.length > 0 && ui.helper.data('host_proposal_id') != space.proposal_id) Pard.Widgets.AlignPerformances(_oldColumnPerformances);
         ui.helper.data('host_proposal_id', space.proposal_id);
         if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
-          _myPerformances.some(function(performance, index){
-           var _checkConflict = function(){
+        _myPerformances.some(function(performance, index){
+          var _checkConflict = function(){
             for(i = _myPerformances.indexOf(performance) + 1; i < _myPerformances.length; i++){
               if(_myPerformances[i].time[0] < performance.time[1]) return true;
             }
           }
           if(_checkConflict()){
-            var _programCaller = $('<a>').attr('href','#').text('Programa');
-            ui.helper.data('cardInfo').profile_id = ui.helper.data('cardInfo').participant_id;
-            Pard.Widgets.PopupCreator(_programCaller, ui.helper.data('cardInfo').name, function(){return Pard.Widgets.ArtistProgram(ui.helper.data('cardInfo'))}, 'space-program-popup-call-manager');
-            _programCaller.trigger('click');
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+            var _cardInfo = ui.helper.data('cardInfo');
+            _cardInfo.profile_id = _cardInfo.participant_id;
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _message = Pard.Widgets.PopupContent(_cardInfo.name, Pard.Widgets.ArtistProgram(_cardInfo), 'space-program-popup-call-manager');
+            _message.setCallback(function(){
+              _content.remove();
+            });
+            _content.append(_message.render());
+            _popup.open();
             return true;
           }
         });
@@ -337,7 +346,9 @@
         var _performance = ui.helper.data('cardInfo');
         var performance_ids = [];
         var _existingCard = '';
+        var _myPerformances = [];
         Pard.Widgets.Program.forEach(function(performance){
+          if(performance.participant_proposal_id == _performance.participant_proposal_id) _myPerformances.push(performance);
           if(performance['permanent'] == true){
             if(performance.performance_id == _performance.performance_id && performance['host_proposal_id'] == space.proposal_id) _existingCard = performance.card;
             //Since permanent performances are composed of multiple performances we have to check we count only one card per space
@@ -379,7 +390,8 @@
               time: [start, end],
               card: _performance.card
             }
-            Pard.Widgets.Program.push(permanentPerformance); 
+            Pard.Widgets.Program.push(permanentPerformance);
+            _myPerformances.push(permanentPerformance);
           });
           _time.append(_performance.card);
         }
@@ -414,6 +426,27 @@
           });
         }
         ui.helper.data('host_proposal_id', space.proposal_id);
+        if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
+        _myPerformances.some(function(performance, index){
+          var _checkConflict = function(){
+            for(i = _myPerformances.indexOf(performance) + 1; i < _myPerformances.length; i++){
+              if(_myPerformances[i].time[0] < performance.time[1]) return true;
+            }
+          }
+          if(_checkConflict()){
+            var _content = $('<div>').addClass('very-fast reveal full');
+            $('body').append(_content);
+            _performance.profile_id = _performance.participant_id;
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _message = Pard.Widgets.PopupContent(_performance.name, Pard.Widgets.ArtistProgram(_performance), 'space-program-popup-call-manager');
+            _message.setCallback(function(){
+              _content.remove();
+            });
+            _content.append(_message.render());
+            _popup.open();
+            return true;
+          }
+        });
       }
     });
 

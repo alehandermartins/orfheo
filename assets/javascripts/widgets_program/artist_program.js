@@ -52,10 +52,26 @@
       if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgramCrono(myPerformances);
       _reorderedProgram.forEach(function(performance, index){
         for(i = _reorderedProgram.indexOf(performance) + 1; i < _reorderedProgram.length; i++){
-         if(_reorderedProgram[i].time[0] < performance.time[1]){
-          _conflictPerformances.push(performance);
-          _conflictPerformances.push(_reorderedProgram[i]);
-         }   
+          if(performance.permanent == true){
+            if(_reorderedProgram[i].participant_proposal_id == performance.participant_proposal_id){
+              if(_reorderedProgram[i].time[0] < performance.time[1]){
+                _conflictPerformances.push(performance);
+                _conflictPerformances.push(_reorderedProgram[i]);
+              }
+            }
+          }
+          else if(_reorderedProgram[i].participant_proposal_id == performance.participant_proposal_id && _reorderedProgram[i].permanent == true){
+            if(_reorderedProgram[i].time[0] < performance.time[1]){
+              _conflictPerformances.push(performance);
+              _conflictPerformances.push(_reorderedProgram[i]);
+            }   
+          }
+          else if(_reorderedProgram[i].permanent == false){
+            if(_reorderedProgram[i].time[0] < performance.time[1]){
+              _conflictPerformances.push(performance);
+              _conflictPerformances.push(_reorderedProgram[i]);
+            }
+          }
         }
       });
 
