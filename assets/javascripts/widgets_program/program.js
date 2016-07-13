@@ -272,6 +272,39 @@
         if(performance.date == cardInfo.date) _performance = performance;
       }
     });
+
+    var _checkConflict = function(new_date){
+      var _myPerformances = [];
+      Pard.Widgets.Program.forEach(function(performance){
+        if(performance.date == new_date && performance.participant_id == cardInfo.participant_id) _myPerformances.push(performance);
+      });
+      if(!conflict){
+        if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
+        _myPerformances.some(function(performance, index){
+           var _check = function(){
+            for(i = _myPerformances.indexOf(performance) + 1; i < _myPerformances.length; i++){
+              if(_myPerformances[i].time[0] < performance.time[1]) return true;
+            }
+          }
+          if(_check()){
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+            cardInfo.profile_id = cardInfo.participant_id;
+
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _message = Pard.Widgets.PopupContent(cardInfo.name, Pard.Widgets.ArtistProgram(cardInfo), 'space-program-popup-call-manager');
+            _message.setCallback(function(){
+              _closepopup();
+              _createdWidget.remove();
+            });
+            _content.append(_message.render());
+            _popup.open();
+            return true;
+          }
+        });
+      }
+    }
     //Storing dates and places. Necessary since a permanent performance is composed of performances with dates and places
     var dates = [];
     var host_proposal_ids = [];
@@ -329,6 +362,7 @@
 
       _setStartTimes();
       _setEndTimes();
+      _checkConflict(_performance.date);
     });
 
     _spaceSelector.on('change', function(){
@@ -443,11 +477,13 @@
     _startTime.on('change', function(){
       _performance['time'][0] = parseInt(_startTime.val());
       _setEndTimes();
+      _checkConflict(_performance.date);
     });
 
     _endTime.on('change', function(){
       _performance['time'][1] = parseInt(_endTime.val());
       _setStartTimes();
+      _checkConflict(_performance.date);
     });
 
     var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
@@ -528,7 +564,7 @@
   };
 
 
-	ns.Widgets.PermanentPerformanceManager = function(cardInfo){
+	ns.Widgets.PermanentPerformanceManager = function(cardInfo, conflict){
     var _closepopup = {};
     var _createdWidget = $('<div>');
     var call = Pard.CachedCall;
@@ -541,6 +577,39 @@
     program.forEach(function(performance){
       if(performance.participant_proposal_id == cardInfo.participant_proposal_id && performance.permanent == true) _performances.push(performance);
     });
+
+    var _checkConflict = function(new_date){
+      var _myPerformances = [];
+      Pard.Widgets.Program.forEach(function(performance){
+        if(performance.date == new_date && performance.participant_id == cardInfo.participant_id) _myPerformances.push(performance);
+      });
+      if(!conflict){
+        if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
+        _myPerformances.some(function(performance, index){
+           var _check = function(){
+            for(i = _myPerformances.indexOf(performance) + 1; i < _myPerformances.length; i++){
+              if(_myPerformances[i].time[0] < performance.time[1]) return true;
+            }
+          }
+          if(_check()){
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+            cardInfo.profile_id = cardInfo.participant_id;
+
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _message = Pard.Widgets.PopupContent(cardInfo.name, Pard.Widgets.ArtistProgram(cardInfo), 'space-program-popup-call-manager');
+            _message.setCallback(function(){
+              _closepopup();
+              _createdWidget.remove();
+            });
+            _content.append(_message.render());
+            _popup.open();
+            return true;
+          }
+        });
+      }
+    }
 
     //Storing dates and places. Necessary since a permanent performance is composed of performances with dates and places
     var dates = [];
@@ -613,6 +682,7 @@
 
         _setStartTimes();
         _setEndTimes();
+        _checkConflict(performance.date);
       });
 
       _spaceSelector.on('change', function(){
@@ -729,11 +799,13 @@
       _startTime.on('change', function(){
         performance['time'][0] = parseInt(_startTime.val());
         _setEndTimes();
+        _checkConflict(performance.date);
       });
 
       _endTime.on('change', function(){
         performance['time'][1] = parseInt(_endTime.val());
         _setStartTimes();
+        _checkConflict(performance.date);
       });
 
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
