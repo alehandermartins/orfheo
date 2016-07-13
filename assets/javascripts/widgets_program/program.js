@@ -22,7 +22,7 @@
       Pard.Widgets.Program.forEach(function(performance){
         if(performance.host_proposal_id == new_host && performance.date == new_date && performance.permanent == false) _newPerformances.push(performance);
         if(performance.host_proposal_id == old_host && performance.date == old_date && performance.permanent == false) _oldPerformances.push(performance);
-        if(performance.date == new_date && performance.participant_id == cardInfo.participant_id) _myPerformances.push(performance);
+        if(performance.date == new_date && performance.participant_id == cardInfo.participant_id && performance.permanent == false) _myPerformances.push(performance);
       });
       if(!conflict){
         if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
@@ -276,7 +276,7 @@
     var _checkConflict = function(new_date){
       var _myPerformances = [];
       Pard.Widgets.Program.forEach(function(performance){
-        if(performance.date == new_date && performance.participant_id == cardInfo.participant_id) _myPerformances.push(performance);
+        if(performance.date == new_date && performance.participant_proposal_id == cardInfo.participant_proposal_id) _myPerformances.push(performance);
       });
       if(!conflict){
         if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
@@ -581,7 +581,7 @@
     var _checkConflict = function(new_date){
       var _myPerformances = [];
       Pard.Widgets.Program.forEach(function(performance){
-        if(performance.date == new_date && performance.participant_id == cardInfo.participant_id) _myPerformances.push(performance);
+        if(performance.date == new_date && performance.participant_proposal_id == cardInfo.participant_proposal_id) _myPerformances.push(performance);
       });
       if(!conflict){
         if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
