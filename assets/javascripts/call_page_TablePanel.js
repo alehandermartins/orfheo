@@ -456,7 +456,7 @@
             $('body').append(_content);
 
             var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-            var _message = Pard.Widgets.PopupContent(space.name, Pard.Widgets.SpaceProgram(space), 'space-program-popup-call-manager');
+            var _message = Pard.Widgets.PopupContent(spaceProposal.name, Pard.Widgets.SpaceProgram(spaceProposal), 'space-program-popup-call-manager');
             _message.setCallback(function(){
               _popup.close();
               _createdWidget.empty(); 
@@ -540,12 +540,9 @@
           _row.append(_col);
         });
 
-        if (performance.permanent) {
-          _permanents.push(_row);
-          console.log(_permanents);
-        }
-        else {_tbody.append(_row); console.log('app')}
-      })
+        if (performance.permanent) _permanents.push(_row);
+        else {_tbody.append(_row)}
+      });
 
       if (_permanents.length) {
         var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
@@ -553,12 +550,8 @@
           var _colClass = 'column-'+field;
           var _col = $('<td>').addClass('column-space-program-call-manager');
           _col.addClass(_colClass);
-          if (field == 'day'){
-            _col.append('Permanente');
-          }
-          else{
-            _col.html('');
-          }
+          if (field == 'day') _col.append('Permanente');
+          else{ _col.html('');}
           _permanentRow.append(_col);
         });
         _tbody.append(_permanentRow);
@@ -1063,14 +1056,24 @@
   	  			if (field == 'name'){
   	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
   	  				var _form;
-  	  				if (proposal.type == 'artist') {_form = Pard.Forms.ArtistCall(proposal.category);
-  	  					  	;}			
+  	  				if (proposal.type == 'artist')_form = Pard.Forms.ArtistCall(proposal.category);
   	  				else _form = Pard.Forms.SpaceCall();
+              _namePopupCaller.on('click', function(){
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
 
-  					 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _message = Pard.Widgets.PopupContent('conFusión 2016', Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render())));
+                _message.setCallback(function(){
+                  _content.remove();
+                  _popup.close();
+                });
+                _content.append(_message.render());
+                _popup.open();
+              });
 
-  					 _col.append(_popup.render());
-
+  					 _col.append(_namePopupCaller);
   	  			}
   	  			else if ( field == 'address'){
   	  				var _fieldFormText = ' '+proposal['address']['route']+' '+proposal['address']['street_number'];
