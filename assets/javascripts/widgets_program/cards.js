@@ -139,14 +139,6 @@
   }
 
 
-  ns.Widgets.CutString = function(string, numMaxCaracters){
-    var _catString = string;
-
-    if(string.length > numMaxCaracters) _catString = string.substr(0,numMaxCaracters -4)+'...';
-
-    return _catString
-  }
-
   //This is the dragged element when a proposal is dragged from the accordion
   ns.Widgets.CardHelper = function(proposal){
     var color = Pard.Widgets.CategoryColor(proposal.category);
@@ -161,7 +153,6 @@
       'height': duration,
       'border-color':color
     });
-    console.log('CardHelper');
     var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(proposal.title).removeClass('cursor_move').addClass('cursor_move'));
     _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, duration).render().css({
       'position': 'absolute',

@@ -353,6 +353,15 @@
     }
   }
 
+  
+  ns.Widgets.CutString = function(string, numMaxCaracters){
+    var _catString = string;
+
+    if(string.length > numMaxCaracters) _catString = string.substr(0,numMaxCaracters -4)+'...';
+
+    return _catString
+  }
+
 
   ns.Widgets.ArtisticCategorySelect2 = function(){
     var _createdWidget = $('<div>').addClass('category-input');
