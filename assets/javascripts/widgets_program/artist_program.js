@@ -93,9 +93,23 @@
 
       _artistTable.append(_thead.append(_titleRow));
 
+
+      var _tfoot = $('<tfoot>');
+      var _footRow = $('<tr>');
+
+      _columnsHeaders.forEach(function(field, colNum){
+        var _titleCol = $('<th>');
+
+        if (field == 'email') _titleCol.text('Powered by Orfheo');
+        else _titleCol.text('');
+        // _titleCol.addClass('column-space-program-call-manager');
+        // _titleCol.addClass(_class);
+        _footRow.append(_titleCol);
+      });
+
+      _artistTable.append(_tfoot.append(_footRow));
+
       var _tbody = $('<tbody>');
-
-
 
       Object.keys(eventTime).forEach(function(day){
         if (day == 'permanent') return false;
@@ -215,6 +229,7 @@
           orientation: 'landscape',
           filename: 'programa '+artist.name,
           title: _artistName + ' - Programación conFusión 2016',
+          footer: true,
           customize: function ( doc ) {
             doc.content.forEach(function(content) {
             if (content.style == 'title'){
@@ -251,6 +266,13 @@
                   if (index == 0) cell.margin = [4,2,2,2];
                   else cell.margin = [2,2,2,2];
                 });
+              }
+              else if (rowNumber == doc.content[1].table.body.length -1){
+                row.forEach(function(cell, index){
+                  cell.color = '#000000';
+                  cell.fillColor = '#ffffff';
+                  cell.margin = [0,15,2,2];
+                })
               }
               else{
                 row.forEach(function(cell, index){
