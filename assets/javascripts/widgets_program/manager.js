@@ -272,6 +272,12 @@
             space[date].css({
               'width': Pard.ColumnWidth,
             });
+            if(date == 'permanent'){
+              space[date].find('.programHelper').css({
+                'width': Pard.ColumnWidth - 2,
+                'left': index * Pard.ColumnWidth + 1 
+              });
+            }
             if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][date]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][date]);
           });
         });
@@ -304,6 +310,12 @@
           space[date].css({
             'width': Pard.ColumnWidth,
           });
+          if(date == 'permanent'){
+            space[date].find('.programHelper').css({
+              'width': Pard.ColumnWidth - 2,
+              'left': index * Pard.ColumnWidth + 1 
+            });
+          }
           if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][date]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][date]);
         });
       });
