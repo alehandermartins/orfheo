@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets.ArtistProgram = function(artist, callback){
+  ns.Widgets.ArtistProgram = function(artist){
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
@@ -281,13 +281,41 @@
           }
           if (field == 'title'){
             var _namePopupCaller = $('<a>').attr({'href':'#'}).text(artistProposal['title']);
-            if (show.permanent) var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(cardInfo, true)},'', function(){
-              _printArtistProgram(artist);
-              if (callback) callback();});
-            else  var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(cardInfo, true)},'', function(){_printArtistProgram(artist);
-              if (callback) callback();});
-           _col.append(_popup.render());
+            if (show.permanent){
+              _namePopupCaller.on('click', function(){
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
 
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PermanentPerformanceProgram(cardInfo, true));
+                _message.setCallback(function(){
+                  _printArtistProgram(artistProposal);
+                  _content.remove();
+                  _popup.close();
+                });
+                _content.append(_message.render());
+                _popup.open();
+              });
+            }
+            else {
+              _namePopupCaller.on('click', function(){
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
+
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PerformanceProgram(cardInfo, true));
+                _message.setCallback(function(){
+                  _printArtistProgram(artistProposal);
+                  _content.remove();
+                  _popup.close();
+                });
+                _content.append(_message.render());
+                _popup.open();
+              });
+            }
+           _col.append(_namePopupCaller);
           }
           
           else  if (field == 'address'){
@@ -308,10 +336,10 @@
       render: function(){
         return _createdWidget;
       },
-      setCallback: function(closeCallback){
+      setCallback: function(callback){
         _closepopup = function(){
           _createdWidget.remove();
-          closeCallback();
+          callback();
         }
       }
     }

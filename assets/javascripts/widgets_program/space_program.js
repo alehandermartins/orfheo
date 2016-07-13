@@ -273,12 +273,41 @@
           }
           if (field == 'title'){
             var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['title']);
-            if (show.permanent) Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(cardInfo)},'', function(){
-              _printSpaceProgram(space);});
-            else  Pard.Widgets.PopupCreator(_namePopupCaller, proposal.title+' ('+proposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(cardInfo)},'', function(){
-              _printSpaceProgram(space);});
-           _col.append(_namePopupCaller);
+            if (show.permanent){
+              _namePopupCaller.on('click', function(){
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
 
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _message = Pard.Widgets.PopupContent(proposal.title+' (' + proposal.name + ')', Pard.Widgets.PermanentPerformanceProgram(cardInfo));
+                _message.setCallback(function(){
+                  _printSpaceProgram(space);
+                  _content.remove();
+                  _popup.close();
+                });
+                _content.append(_message.render());
+                _popup.open();
+              });
+            }
+            else {
+              _namePopupCaller.on('click', function(){
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
+
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _message = Pard.Widgets.PopupContent(proposal.title+' (' + proposal.name + ')', Pard.Widgets.PerformanceProgram(cardInfo));
+                _message.setCallback(function(){
+                  _printSpaceProgram(space);
+                  _content.remove();
+                  _popup.close();
+                });
+                _content.append(_message.render());
+                _popup.open();
+              });
+            }
+           _col.append(_namePopupCaller);
           }
           else  if (proposal[field] && field == 'category'){
             _col.html(Pard.Widgets.Dictionary(proposal[field]).render());

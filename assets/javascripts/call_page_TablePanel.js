@@ -37,6 +37,7 @@
 			$('.tab-selected').removeClass('tab-selected');
 			$(this).addClass('tab-selected');
 			_tabShowHide('tablePanel');
+      
 		});
 
   	var _proposalsTabTitle =	$('<a>').attr({href: "#"}).text('Propuestas');
@@ -62,16 +63,20 @@
             },0)
           }
         );
+      
 		});
 		_proposalsTab.click(function(){
 			$('.tab-selected').removeClass('tab-selected');
 			$(this).addClass('tab-selected');
 			_tabShowHide('proposalsPanel');
+      
 		});
 		
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
     var _programTab = $('<li>').append(_programTabTitle);
     _programTab.on('click',function(){
+      
+
       if (!($('#programPanel').html())){
         var spinner =  new Spinner().spin();
           $.wait(
@@ -82,8 +87,12 @@
             function(){
               setTimeout(function(){
                 var _appendAndStopSpinner = function(stopSpinner){ 
+                var startTime = new Date().getTime();
+
                  $('#programPanel').append(Pard.Widgets.ProgramManager().render());
                   stopSpinner();
+                  var endTime = new Date().getTime();
+      console.log((endTime - startTime) /1000);
                 }
                 _appendAndStopSpinner(function(){
                   spinner.stop();
@@ -92,10 +101,12 @@
               },0)
             }
           );
+
       }
 			$('.tab-selected').removeClass('tab-selected');
 			$(this).addClass('tab-selected');
 			_tabShowHide('programPanel');
+      
 		});
   		
   	_tabs.append(
@@ -413,6 +424,19 @@
 
         var spaceProposal = Pard.Widgets.GetProposal(performance.host_proposal_id);
         var artistProposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
+        
+        var cardInfo = {
+          performance_id: performance.performance_id,
+          participant_id: artistProposal.profile_id,
+          participant_proposal_id: artistProposal.proposal_id,
+          title: artistProposal.title,
+          duration: artistProposal.duration,
+          category: artistProposal.category,
+          availability: artistProposal.availability,
+          name: artistProposal.name,
+          date: performance.date
+        }
+
         var _row = $('<tr>');
         columns.forEach(function(field){
         var _colClass = 'column-'+field;
@@ -426,23 +450,79 @@
         }
         else if (field == 'space'){     
           var _programCaller = $('<a>').attr('href','#').text(spaceProposal['name']);
-          Pard.Widgets.PopupCreator(_programCaller, spaceProposal.name, function(){return Pard.Widgets.SpaceProgram(spaceProposal, function(){_createdWidget.empty(); _printTable();})}, 'space-program-popup-call-manager');    
+          _programCaller.on('click', function(){
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _message = Pard.Widgets.PopupContent(spaceProposal.name, Pard.Widgets.SpaceProgram(spaceProposal), 'space-program-popup-call-manager');
+            _message.setCallback(function(){
+              _popup.close();
+              _createdWidget.empty(); 
+              _printTable();
+            });
+            _content.append(_message.render());
+            _popup.open();
+          });
           _col.append(_programCaller);
         }
-        else if (field == 'artist'){ 
+        else if (field == 'artist'){
           var _programCaller = $('<a>').attr('href','#').text(artistProposal['name']);
-          Pard.Widgets.PopupCreator(_programCaller, artistProposal.name, function(){return Pard.Widgets.ArtistProgram(artistProposal,function(){_createdWidget.empty(); _printTable();})}, 'space-program-popup-call-manager');    
+          _programCaller.on('click', function(){
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _message = Pard.Widgets.PopupContent(artistProposal.name, Pard.Widgets.ArtistProgram(artistProposal), 'space-program-popup-call-manager');
+            _message.setCallback(function(){
+              _popup.close();
+              _createdWidget.empty(); 
+              _printTable();
+            });
+            _content.append(_message.render());
+            _popup.open();
+          });
           _col.append(_programCaller);
         }
         else if (field == 'title'){     
           var _catIcon =  Pard.Widgets.IconManager(artistProposal['category']).render().css('font-size','13px');
           var _namePopupCaller = $('<a>').attr({'href':'#'}).append(_catIcon,' ', artistProposal['title']);
-          if (performance.permanent) Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PermanentPerformanceProgram(performance)},'', function(){
-            _createdWidget.empty(); 
-            _printTable();});
-          else Pard.Widgets.PopupCreator(_namePopupCaller, artistProposal.title+' ('+artistProposal.name+')', function(){ return Pard.Widgets.PerformanceProgram(performance)},'', function(){
-            _createdWidget.empty(); 
-            _printTable();});
+          if (performance.permanent){
+              _namePopupCaller.on('click', function(){
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
+
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PermanentPerformanceProgram(cardInfo, true));
+                _message.setCallback(function(){
+                  _createdWidget.empty(); 
+                  _printTable();
+                  _popup.close();
+                });
+                _content.append(_message.render());
+                _popup.open();
+              });
+            }
+            else {
+              _namePopupCaller.on('click', function(){
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
+
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PerformanceProgram(cardInfo, true));
+                _message.setCallback(function(){
+                  _createdWidget.empty(); 
+                  _printTable();
+                  _popup.close();
+                });
+                _content.append(_message.render());
+                _popup.open();
+              });
+            }
          _col.append(_namePopupCaller);
         }
         else if (field == 'comments'){     
@@ -460,12 +540,9 @@
           _row.append(_col);
         });
 
-        if (performance.permanent) {
-          _permanents.push(_row);
-          console.log(_permanents);
-        }
-        else {_tbody.append(_row); console.log('app')}
-      })
+        if (performance.permanent) _permanents.push(_row);
+        else {_tbody.append(_row)}
+      });
 
       if (_permanents.length) {
         var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
@@ -473,12 +550,8 @@
           var _colClass = 'column-'+field;
           var _col = $('<td>').addClass('column-space-program-call-manager');
           _col.addClass(_colClass);
-          if (field == 'day'){
-            _col.append('Permanente');
-          }
-          else{
-            _col.html('');
-          }
+          if (field == 'day') _col.append('Permanente');
+          else{ _col.html('');}
           _permanentRow.append(_col);
         });
         _tbody.append(_permanentRow);
@@ -983,14 +1056,24 @@
   	  			if (field == 'name'){
   	  				var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
   	  				var _form;
-  	  				if (proposal.type == 'artist') {_form = Pard.Forms.ArtistCall(proposal.category);
-  	  					  	;}			
+  	  				if (proposal.type == 'artist')_form = Pard.Forms.ArtistCall(proposal.category);
   	  				else _form = Pard.Forms.SpaceCall();
+              _namePopupCaller.on('click', function(){
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
 
-  					 var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, 'conFusión 2016', function(){return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render()))});
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _message = Pard.Widgets.PopupContent('conFusión 2016', Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render())));
+                _message.setCallback(function(){
+                  _content.remove();
+                  _popup.close();
+                });
+                _content.append(_message.render());
+                _popup.open();
+              });
 
-  					 _col.append(_popup.render());
-
+  					 _col.append(_namePopupCaller);
   	  			}
   	  			else if ( field == 'address'){
   	  				var _fieldFormText = ' '+proposal['address']['route']+' '+proposal['address']['street_number'];

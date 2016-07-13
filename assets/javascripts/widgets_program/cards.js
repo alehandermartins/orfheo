@@ -100,7 +100,20 @@
     );
 
     //Proposal form info
-    Pard.Widgets.PopupCreator(_titleText, 'conFusión 2016', function(){ return Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, Pard.Forms.ArtistCall(proposal.category).render()))});
+    _titleText.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('conFusión 2016', Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, Pard.Forms.ArtistCall(proposal.category).render())));
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    });
 
     return {
       render: function(){
