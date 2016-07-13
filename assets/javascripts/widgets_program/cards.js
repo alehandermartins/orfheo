@@ -238,6 +238,7 @@
       stop: function(event, ui){
         //Recalculating perfomance new duration
         var _performances = [];
+        var _myPerformances = [];
         Pard.Widgets.Program.forEach(function(performance){
           if(performance.host_proposal_id == host_proposal_id) _performances.push(performance);
           if(performance.performance_id == cardInfo.performance_id){
@@ -245,13 +246,55 @@
             end.setMinutes(end.getMinutes() + ui.size.height * 1.5);
             performance['time'][1] = end.getTime();
           }
+          if(performance.permanent == true){
+            if(performance.date == cardInfo.date && performance.participant_proposal_id == cardInfo.participant_proposal_id) _myPerformances.push(performance);
+          }
+          else{
+            if(performance.date == cardInfo.date && performance.participant_id == cardInfo.participant_id) _myPerformances.push(performance);   
+          }
         });
         Pard.Widgets.AlignPerformances(_performances);
+        if (_myPerformances)  _myPerformances = Pard.Widgets.ReorderProgramCrono(_myPerformances);
+        _myPerformances.some(function(performance, index){
+          var _checkConflict = function(){
+            for(i = _myPerformances.indexOf(performance) + 1; i < _myPerformances.length; i++){
+              if(_myPerformances[i].time[0] < performance.time[1]) return true;
+            }
+          }
+          if(_checkConflict()){
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+            var _cardInfo = ui.helper.data('cardInfo');
+            cardInfo.profile_id = cardInfo.participant_id;
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _message = Pard.Widgets.PopupContent(cardInfo.name, Pard.Widgets.ArtistProgram(cardInfo), 'space-program-popup-call-manager');
+            _message.setCallback(function(){
+              _content.remove();
+            });
+            _content.append(_message.render());
+            _popup.open();
+            return true;
+          }
+        });
       }
     });
 
     //On click the performance shows its program
-    Pard.Widgets.PopupCreator(_titleText, cardInfo.title+' ('+cardInfo.name+')', function(){ return Pard.Widgets.PerformanceProgram(cardInfo)});
+    _titleText.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent(cardInfo.title+' (' + cardInfo.name + ')', Pard.Widgets.PerformanceProgram(cardInfo));
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    });
 
     return {
       render: function(){
@@ -336,7 +379,20 @@
       }
     });
 
-    Pard.Widgets.PopupCreator(_titleText, cardInfo.title +' ('+cardInfo.name+')', function(){ return Pard.Widgets.PermanentPerformanceManager(cardInfo)});
+    _titleText.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent(cardInfo.title+' (' + cardInfo.name + ')', Pard.Widgets.PermanentPerformanceManager(cardInfo));
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    });
 
     return {
       render: function(){

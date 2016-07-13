@@ -100,17 +100,18 @@
         end.setMinutes(start.getMinutes() + duration * 1.5);
 
         var _cardInfo = ui.helper.data('cardInfo');
+        var _performance = ui.helper.data('cardInfo');
+        _performance.date = day;
         if(ui.draggable.hasClass('proposalCard')){
           _cardInfo.date = day,
           _cardInfo.permanent = false,
-          _cardInfo.card = Pard.Widgets.ProgramHelper(ui.helper.data('cardInfo'), space.proposal_id).render();
+          _cardInfo.card = Pard.Widgets.ProgramHelper(_performance, space.proposal_id).render();
           _cardInfo.card.css({
             'left' : _time.position().left
           });
           Pard.Widgets.Program.push(_cardInfo);
         }
 
-        var _performance = {};
         var width = Pard.ColumnWidth - 2;
         var left = _time.position().left;
 

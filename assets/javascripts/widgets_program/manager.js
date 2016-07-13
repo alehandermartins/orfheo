@@ -575,7 +575,8 @@
                 duration: proposal.duration,
                 category: proposal.category,
                 availability: proposal.availability,
-                name: proposal.name
+                name: proposal.name,
+                date: performance.date
               }
               
               //New card
@@ -622,7 +623,8 @@
                 duration: proposal.duration,
                 category: proposal.category,
                 availability: proposal.availability,
-                name: proposal.name
+                name: proposal.name,
+                date: performance.date
               }
               
               newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(_cardInfo, performance.host_proposal_id).render();
