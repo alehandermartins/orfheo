@@ -402,7 +402,7 @@
   }
 
   ns.Widgets.SpaceHelper = function(space, spaceCol){
-    var spaceIndex = Pard.Spaces.indexOf(space);
+    var spaceIndex = Pard.ShownSpaces.indexOf(space);
     var _spaceCol = spaceCol.clone();
 
     _spaceCol.find('.programHelper').css({

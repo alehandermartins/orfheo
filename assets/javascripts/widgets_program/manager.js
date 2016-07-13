@@ -205,6 +205,10 @@
     }).on("select2:select", function(e) {
       var _data = _spaceSelector.select2('data')[0];
       //On every change shown spaces are redefined
+      var _oldIndexes = [];
+      Pard.ShownSpaces.forEach(function(space){
+        _oldIndexes.push(space.proposal_id);
+      });
       Pard.ShownSpaces = [];
       if(!_data.selected){
         spaces.forEach(function(space){
@@ -253,16 +257,22 @@
         var _keys = Object.keys(eventTime);
         _keys.push('permanent');
 
+        var _spacePerformances = [];
+        Pard.Widgets.Program.forEach(function(performance){
+          if(performance.permanent == false){
+            _spacePerformances[performance.host_proposal_id] = _spacePerformances[performance.host_proposal_id] || {};
+            _spacePerformances[performance.host_proposal_id][performance.date] = _spacePerformances[performance.host_proposal_id][performance.date] || [];
+            _spacePerformances[performance.host_proposal_id][performance.date].push(performance);
+          } 
+        });
+
         Pard.ShownSpaces.forEach(function(space, index){
           if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
           _keys.forEach(function(date){
             space[date].css({
               'width': Pard.ColumnWidth,
             });
-            space[date].find('.programHelper').css({
-              'width': Pard.ColumnWidth - 2,
-              'left': index * Pard.ColumnWidth + 1
-            });
+            if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][date]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][date]);
           });
         });
       }
@@ -276,6 +286,14 @@
         space[_lastSelected].show();
         Pard.ShownSpaces.push(space);
       });
+      var _spacePerformances = [];
+      Pard.Widgets.Program.forEach(function(performance){
+        if(performance.permanent == false){
+          _spacePerformances[performance.host_proposal_id] = _spacePerformances[performance.host_proposal_id] || {};
+          _spacePerformances[performance.host_proposal_id][performance.date] = _spacePerformances[performance.host_proposal_id][performance.date] || [];
+          _spacePerformances[performance.host_proposal_id][performance.date].push(performance);
+        } 
+      });
       Pard.ColumnWidth = 176; 
       if(Pard.ShownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / Pard.ShownSpaces.length;
       var _keys = Object.keys(eventTime);
@@ -286,11 +304,7 @@
           space[date].css({
             'width': Pard.ColumnWidth,
           });
-          console.log(space[date].find('.programHelper'));
-          space[date].find('.programHelper').css({
-            'width': Pard.ColumnWidth - 2,
-            'left': index * Pard.ColumnWidth + 1
-          });
+          if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][date]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][date]);
         });
       });
       $(this).select2("val", "");
