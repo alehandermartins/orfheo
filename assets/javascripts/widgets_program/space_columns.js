@@ -120,8 +120,12 @@
         Pard.Widgets.Program.forEach(function(performance){
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == space.proposal_id && performance.permanent == false) _performances.push(performance);
           if(performance.performance_id != _cardInfo.performance_id && performance.date == day && performance.host_proposal_id == ui.helper.data('host_proposal_id') && performance.permanent == false && ui.draggable.hasClass('programHelper')) _oldColumnPerformances.push(performance);
-          if(performance.date == day && performance.participant_proposal_id == ui.helper.data('cardInfo').participant_proposal_id) _myPerformances.push(performance);
-          if(performance.date == day && performance.participant_id == ui.helper.data('cardInfo').participant_id && performance.permanent == false) _myPerformances.push(performance);
+          if(performance.permanent == true){
+            if(performance.date == day && performance.participant_proposal_id == _cardInfo.participant_proposal_id) _myPerformances.push(performance);
+          }
+          else{
+            if(performance.date == day && performance.participant_id == _cardInfo.participant_id) _myPerformances.push(performance);   
+          }
           if(performance.performance_id == _cardInfo.performance_id){
             _time.append(performance.card);
             performance.host_id = space.profile_id;

@@ -282,22 +282,16 @@
       _keys.push('permanent');
       Pard.ShownSpaces.forEach(function(space, index){
         if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
-          _keys.forEach(function(date){
-            space[date].css({
-              'width': Pard.ColumnWidth,
-            });
-            space[date].find('.programHelper').css({
-              'width': Pard.ColumnWidth - 2,
-              'left': index * Pard.ColumnWidth + 1
-            });
+        _keys.forEach(function(date){
+          space[date].css({
+            'width': Pard.ColumnWidth,
           });
-        // space[_lastSelected].css({
-        // 'width': Pard.ColumnWidth,
-        // });
-        // space[_lastSelected].find('.programHelper').css({
-        //   'width': Pard.ColumnWidth - 2,
-        //   'left': index * Pard.ColumnWidth + 1
-        // });
+          console.log(space[date].find('.programHelper'));
+          space[date].find('.programHelper').css({
+            'width': Pard.ColumnWidth - 2,
+            'left': index * Pard.ColumnWidth + 1
+          });
+        });
       });
       $(this).select2("val", "");
       e.preventDefault();
