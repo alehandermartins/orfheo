@@ -331,18 +331,18 @@
       'font-weight': 'bold'
     });
 
-    // $('body').append(_container.append((textBox)));
-    // var height = textBox.height();
-    // if ( parseInt(textBox.css('line-height')) < max_height){
-    //   while (height > max_height){
-    //     var _text = textBox.text();
-    //     var _positionLastWord = _text.lastIndexOf(" ");
-    //     _text = _text.substring(0, _positionLastWord);
-    //     textBox.text(_text + '...');
-    //     // if (textBox.height() == height){console.log('bb'); break; }
-    //     height = textBox.height();
-    //   }
-    // }
+    $('body').append(_container.append((textBox)));
+    var height = textBox.height();
+    if ( parseInt(textBox.css('line-height')) < max_height){
+      while (height > max_height){
+        var _text = textBox.text();
+        var _positionLastWord = _text.lastIndexOf(" ");
+        _text = _text.substring(0, _positionLastWord);
+        textBox.text(_text + '...');
+        // if (textBox.height() == height){console.log('bb'); break; }
+        height = textBox.height();
+      }
+    }
 
     textBox.removeAttr('style','font-weight');
 
