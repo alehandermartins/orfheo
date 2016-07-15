@@ -1022,34 +1022,38 @@ ns.Widgets.InputAddressSpace = function(label){
 
     var _addnewInput = function(item, classNewInput){
       if ($.inArray(item.email, _emails)>-1){
-        Pard.Widgets.Alert('','Este usuario ya está en la lista.')
-        return false
+        Pard.Widgets.Alert('','Este usuario ya está en la lista.');
+        return false;
       }
-      _emails.push(item.email);
-      var _container = $('<div>'); 
-      _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);      
-      _newInput.setClass('add-whiteList-input-field');
-      if (classNewInput) _newInput.setClass(classNewInput);
+      else{
+        _emails.push(item.email);
+        var _container = $('<div>'); 
+        var _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);      
+        _newInput.setClass('add-whiteList-input-field');
+        if (classNewInput) _newInput.setClass(classNewInput);
 
-      _newInput.disable();      
-      _inputs.push([_newInput]);
+        _newInput.disable();      
+        _inputs.push([_newInput]);
 
-      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+        var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
-      _container.append(_newInput.render(),  _removeInputButton);
-      _inputAddedContainer.prepend(_container);
-      _removeInputButton.on('click', function(){
-        var _index = _inputs.indexOf([_newInput]);
-        _inputs.splice(_index, 1);
-        var _indexR = -1;
-        _results.some(function(result, index){
-          if(result.email == _newInput.getVal())
-            _indexR = index;
-        });     
-        if (_indexR > -1){ _results.splice(_indexR, 1);}
-        _container.empty();
-        $('#successBox-whiteList').empty();
-      });
+        _container.append(_newInput.render(),  _removeInputButton);
+        _inputAddedContainer.prepend(_container);
+        _removeInputButton.on('click', function(){
+          var _index = _inputs.indexOf([_newInput]);
+          _inputs.splice(_index, 1);
+          var _indexR = -1;
+          _results.some(function(result, index){            
+            if(result.email == _newInput.getVal()){           _indexR = index;
+              return true;
+            }
+          });             
+          if (_indexR > -1){ _results.splice(_indexR, 1);}
+          _container.empty();
+          $('#successBox-whiteList').empty();
+        });
+        return true;
+      }
     }
     
     var _inputAddedContainer = $('<div>').css('margin-top','2.2rem');
@@ -1059,8 +1063,7 @@ ns.Widgets.InputAddressSpace = function(label){
       if (_inputNameEmail.val()){
         var _data = _inputNameEmail.select2('data');
         var _info = {name_email: _data[0].text, email: _data[0].id};
-        _results.push(_info);
-        _addnewInput(_info, 'new-input-selected-whitelist');
+        if (_addnewInput(_info, 'new-input-selected-whitelist')) _results.push(_info);
        _inputNameEmail.select2('val', '');
       }
     });
@@ -1106,7 +1109,7 @@ ns.Widgets.InputAddressSpace = function(label){
         if(values == null || values == false) return true;
         // values.forEach(function(item){
         for (var item in values){  
-          _inputAddedContainer.prepend(_addnewInput(values[item]));
+          _addnewInput(values[item]);
           _results.push(values[item]);
         };
       }
