@@ -302,7 +302,10 @@
         }
         program.push(_performance);
       });
-      Pard.Backend.program(' ', program, Pard.Events.SaveProgram);
+      Pard.Spaces.forEach(function(space){
+        order.push(space.proposal_id);
+      });
+      Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
     }).render().addClass('submit-program-btn-call-manager');
 
     _submitBtn.append(Pard.Widgets.IconManager('save').render());

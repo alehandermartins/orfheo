@@ -10,6 +10,7 @@
 
     //Schedule of the event
     var eventTime = call.eventTime;
+    
 
     //Time in milliseconds: consider to use it!!
     // {"2016-10-15" : [[ "1476518400000", "1476532800000"], 
@@ -23,10 +24,6 @@
 
     //Object to fill with profile_id (keys) and proposals (values)
     var artists = {};
-
-    // console.log(new Date (2016,9,16,10,00,00,0).getTime());
-    // console.log(new Date (2016,9,17,14,00,00,0).getTime());
-
 
     //Filling default categories for selectors
     var artistProposals = Pard.Widgets.ArtistProposals();
@@ -75,6 +72,13 @@
       });
     });
 
+    //Ordering spaces
+    var _reorderSpaces = function(a, b){
+      if (call.order.indexOf(a.proposal_id) < call.order.indexOf(b.proposal_id)) return -1;
+      if (call.order.indexOf(a.proposal_id) > call.order.indexOf(b.proposal_id)) return 1;
+      return 0;
+    }
+    Pard.Spaces.sort(_reorderSpaces);
     //Giving format to selector items
     function formatResource (resource) {
       var _label = $('<span>').text(resource.text);
@@ -534,6 +538,7 @@
     //Submit button it justs sends the created program
     var _submitBtn = Pard.Widgets.Button('', function(){
       var program = [];
+      var order = [];
       Pard.Widgets.Program.forEach(function(performance, index){
         var _performance = {
           performance_id: performance.performance_id,
@@ -549,7 +554,11 @@
         }
         program.push(_performance);
       });
-      Pard.Backend.program(' ', program, Pard.Events.SaveProgram);
+
+      Pard.Spaces.forEach(function(space){
+        order.push(space.proposal_id);
+      });
+      Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
     }).render().addClass('submit-program-btn-call-manager');
 
     _submitBtn.append(Pard.Widgets.IconManager('save').render());

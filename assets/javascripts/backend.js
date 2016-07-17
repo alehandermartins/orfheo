@@ -184,12 +184,13 @@
       );
     };
 
-    var _program = function(event_id, program, callback){
+    var _program = function(event_id, program, order, callback){
       _send(       
         '/users/program',
         {
           event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
-          program: program
+          program: program,
+          order: order
         },
         callback
       );

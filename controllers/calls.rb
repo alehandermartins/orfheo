@@ -69,10 +69,10 @@ class CallsController < BaseController
   end
 
   post '/users/program' do
-    scopify event_id: true
+    scopify event_id: true, order: true
     check_event_ownership! event_id
     program = Forms::Program.new(params, session[:identity]).create
-    Repos::Calls.add_program event_id, program
+    Repos::Calls.add_program event_id, program, order
     success
   end
 

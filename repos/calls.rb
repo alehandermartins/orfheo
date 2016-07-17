@@ -6,7 +6,14 @@ module Repos
         @@calls_collection = db['calls']
         
       
-        # call = grab({})[0]
+        call = grab({})[0]
+        call[:order] = call[:proposals].map{ |proposal|
+          proposal[:proposal_id] if proposal[:type] == 'space'
+        }.compact
+        @@calls_collection.update({event_id: call[:event_id]},{
+          "$set": {"order": call[:order]}
+        })
+
         # Repos::Events.add(call) unless (Repos::Events.event_exists? call[:event_id])
 
         # proposals = call[:proposals].each{ |proposal|
@@ -156,8 +163,19 @@ module Repos
       end
 
       def add_proposal call_id, proposal
+        add_artist_proposal if proposal[:type] == :artist
+        add_space_proposal if proposal[:type] == :space
+      end
+
+      def add_artist_proposal call_id, proposal
         @@calls_collection.update({call_id: call_id},{
           "$push": {proposals: proposal}
+        })
+      end
+
+      def add_space_proposal call_id, proposal
+        @@calls_collection.update({call_id: call_id},{
+          "$push": {proposals: proposal, order: proposal[:proposal_id]}
         })
       end
 
@@ -214,10 +232,10 @@ module Repos
         {upsert: true})
       end
 
-      def add_program event_id, program
+      def add_program event_id, program, order
         @@calls_collection.update({ event_id: event_id },
           {
-            "$set": {"program": program}
+            "$set": {'program': program, 'order': order}
           },
         {upsert: true})
       end
@@ -234,10 +252,11 @@ module Repos
         event = grab({"proposals.proposal_id": proposal_id}).first
         event[:proposals].reject!{|proposal| proposal[:proposal_id] == proposal_id}
         event[:program].reject!{|performance| performance[:participant_proposal_id] == proposal_id || performance[:host_proposal_id] == proposal_id} unless event[:program].blank?
+        event[:order].reject! {|proposal_id| proposal_id == proposal_id} unless event[:order].blank?
 
         @@calls_collection.update({event_id: event[:event_id]},
           {
-            "$set": {'proposals': event[:proposals], 'program': event[:program]}
+            "$set": {'proposals': event[:proposals], 'program': event[:program], 'order': event[:order]}
           }
         )
       end
