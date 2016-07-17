@@ -19,6 +19,7 @@ class LoginController < BaseController
     check_existing_user params[:email]
     user_id = user_id_for params[:email], params[:password]
     session[:identity] = user_id
+    puts session[:identity]
     success
   end
 
