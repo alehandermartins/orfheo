@@ -153,8 +153,8 @@
       'height': duration,
       'border-color':color
     });
-    var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(proposal.title).removeClass('cursor_move').addClass('cursor_move'));
-    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, duration).render().css({
+    var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(Pard.Widgets.CutString(proposal.title, 35)).removeClass('cursor_move').addClass('cursor_move'));
+    _card.append(_title.css({
       'position': 'absolute',
       })
     );
@@ -181,9 +181,9 @@
 
 
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _titleText = $('<a>').attr('href','#').text(cardInfo.title);
+    var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(cardInfo.title, 35));
     _title.append(_titleText);
-    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, 40).render().css({'position': 'absolute'}));
+    _card.append(_title.css({'position': 'absolute'}));
 
     var accordionShown = false;
 
@@ -319,9 +319,9 @@
 
     // _card.on('mousedown',function(){});
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _titleText = $('<a>').attr('href','#').text(cardInfo.title);
+    var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(cardInfo.title, 35));
     _title.append(_titleText);
-    _card.append(Pard.Widgets.FitInBox(_title, Pard.ColumnWidth, 40).render());
+    _card.append(_title);
 
     _card.mousedown(function(){
       _card.removeClass('cursor_grab').addClass('cursor_move');
