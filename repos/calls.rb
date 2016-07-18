@@ -6,15 +6,15 @@ module Repos
         @@calls_collection = db['calls']
         
       
-        # call = grab({})[0]
-        # if call[:order].blank?
-        #   call[:order] = call[:proposals].map{ |proposal|
-        #     proposal[:proposal_id] if proposal[:type] == 'space'
-        #   }.compact
-        #   @@calls_collection.update({event_id: call[:event_id]},{
-        #     "$set": {"order": call[:order]}
-        #   })
-        # end
+        call = grab({})[0]
+        if call[:order].blank?
+          call[:order] = call[:proposals].map{ |proposal|
+            proposal[:proposal_id] if proposal[:type] == 'space'
+          }.compact
+          @@calls_collection.update({event_id: call[:event_id]},{
+            "$set": {"order": call[:order]}
+          })
+        end
 
         # Repos::Events.add(call) unless (Repos::Events.event_exists? call[:event_id])
 
