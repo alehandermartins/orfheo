@@ -7,6 +7,7 @@
   Pard.ShownSpaces = [];
   ns.Widgets.Program = [];
   ns.ColumnWidth = 176;
+  ns.PermanentCardHeight = 40;
 
   ns.Widgets.CategoryColor = function(category){
     var _dictionary = {

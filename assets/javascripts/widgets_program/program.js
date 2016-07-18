@@ -379,6 +379,7 @@
         var performance_ids = [_performance.performance_id];
         //Recalculating position of the rest of the elements of the column one a card is destroyed
         Pard.Widgets.Program.forEach(function(performance){
+          // spacePerformances = [];
           if(performance.permanent == true){
             if($.inArray(performance.performance_id, performance_ids) < 0 && performance.host_proposal_id == _performance.host_proposal_id){
               performance_ids.push(performance.performance_id);
@@ -387,7 +388,8 @@
           }
         });
         spacePerformances.forEach(function(spacePerformance, index){
-          spacePerformance['card'].css({'top': index * 100 + 41});
+          console.log('first')
+          spacePerformance['card'].css({'top': index * Pard.PermanentCardHeight + 41});
         });
       }
       
@@ -507,6 +509,7 @@
         var performance_ids = [_performance.performance_id];
         //Recalculating position of the rest of the elements of the column one a card is destroyed
         Pard.Widgets.Program.forEach(function(performance){
+          // spacePerformances = [];
           if(performance.permanent == true){
             if($.inArray(performance.performance_id, performance_ids) < 0 && performance.host_proposal_id == _performance.host_proposal_id){
               performance_ids.push(performance.performance_id);
@@ -515,7 +518,9 @@
           }
         });
         spacePerformances.forEach(function(spacePerformance, index){
-          spacePerformance['card'].css({'top': index * 100 + 41});
+                    console.log('second');
+
+          spacePerformance['card'].css({'top': index * Pard.PermanentCardHeight + 41});
         });
       }
     });
@@ -698,16 +703,17 @@
           var spacePerformances = [];
           var performance_ids = [performance.performance_id];
           //Recalculating position of the rest of the elements of the column one a card is destroyed
-          Pard.Widgets.Program.forEach(function(performance){
-            if(performance['permanent'] == true){
-              if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == performance.host_proposal_id){
-                performance_ids.push(performance['performance_id']);
-                spacePerformances.push(performance);
+          Pard.Widgets.Program.forEach(function(show){
+            if(show['permanent'] == true){
+              if($.inArray(show['performance_id'], performance_ids) < 0 && show['host_proposal_id'] == performance.host_proposal_id){
+                performance_ids.push(show['performance_id']);
+                spacePerformances.push(show);
               }
             }
           });
           spacePerformances.forEach(function(spacePerformance, index){
-            spacePerformance['card'].css({'top': index * 100 + 41});
+            console.log('third')
+            spacePerformance['card'].css({'top': index * Pard.PermanentCardHeight + 41});
           });
         }
             
@@ -829,16 +835,18 @@
           var spacePerformances = [];
           var performance_ids = [performance.performance_id];
           //Recalculating position of the rest of the elements of the column one a card is destroyed
-          Pard.Widgets.Program.forEach(function(performance){
-            if(performance['permanent'] == true){
-              if($.inArray(performance['performance_id'], performance_ids) < 0 && performance['host_proposal_id'] == performance.host_proposal_id){
-                performance_ids.push(performance['performance_id']);
-                spacePerformances.push(performance);
+          Pard.Widgets.Program.forEach(function(show){
+            if(show['permanent'] == true){
+              // spacePerformances = [];
+              if($.inArray(show['performance_id'], performance_ids) < 0 && show['host_proposal_id'] == performance.host_proposal_id){
+                performance_ids.push(show['performance_id']);
+                spacePerformances.push(show);
               }
             }
           });
           spacePerformances.forEach(function(spacePerformance, index){
-            spacePerformance['card'].css({'top': index * 100 + 41});
+            console.log('last');
+            spacePerformance['card'].css({'top': index * Pard.PermanentCardHeight + 41});
           });
         }
 
