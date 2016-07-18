@@ -143,7 +143,7 @@
   ns.Widgets.CardHelper = function(proposal){
     var color = Pard.Widgets.CategoryColor(proposal.category);
     //Transforming minutes into pixels
-    var duration = parseInt(proposal.duration)/60 * 40 || 100;
+    var duration = parseInt(proposal.duration)/60 * 40 || Pard.PermanentCardHeight;
     //Avoiding to get too long helpers to drag around
     var _width = Pard.ColumnWidth;
     if(_width > 176 * 2) _width = 176 * 2; 
@@ -311,7 +311,7 @@
       'position': 'absolute',
       'display': 'inline-block',
       'width': Pard.ColumnWidth - 2,
-      'height': '100px',
+      'height': Pard.PermanentCardHeight,
       'background': color
     });
 
@@ -373,7 +373,7 @@
           }
         });
         spacePerformances.forEach(function(spacePerformance, index){
-          spacePerformance['card'].css({'top': index * 100 + 41});
+          spacePerformance['card'].css({'top': index * Pard.PermanentCardHeight + 41});
         });
         host_proposal_id = ui.helper.data('host_proposal_id');
       }

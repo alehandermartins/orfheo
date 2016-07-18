@@ -449,6 +449,8 @@
     
     var endTime = new Date().getTime();
 
+    var hours = [];
+
     //console.log((endTime - startTime) /1000);
 
     //Filling the columns for each day we declare a set of space columns. One extra set for permanent
@@ -475,7 +477,7 @@
       var endHour = end.getHours();
 
       //Amount of hours in our day
-      var hours = [];
+      hours = [];
       if(endDate > startDate){
         for (var i = startHour; i < 24; i++) {
           hours.push(i);
@@ -489,6 +491,13 @@
           hours.push(i);
         }
       }
+
+      _table.css({
+        'height': hours.length*40+2
+      });
+      _artists.css({
+        'height': hours.length*40+2
+      });
 
       //Times and lines (This gets redefined each loop... probably not the best place)
       hours.forEach(function(hour, hourIndex){
@@ -508,12 +517,13 @@
       });
     });
 
+
     //Pemanent option for daySelector
     _daySelector.append($('<option>').val('permanent').text('Permanente'));
 
     //Defining Permanent columns
     Pard.Spaces.forEach(function(space){
-      _spaceCol = Pard.Widgets.PermanentSpaceColumn(space).render();
+      _spaceCol = Pard.Widgets.PermanentSpaceColumn(space, hours).render();
       _table.append(_spaceCol.hide());
       space['permanent'] = _spaceCol;
     });
@@ -665,7 +675,7 @@
               newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(_cardInfo, performance.host_proposal_id).render();
               timeCol.append(newPerformance[performance.performance_id]);
               newPerformance[performance.performance_id].css({
-                'top': performance_ids.length * 100 + 41,
+                'top': performance_ids.length * Pard.PermanentCardHeight + 41,
                 'left' : index * Pard.ColumnWidth + 1,
               });
               performance_ids.push(performance.performance_id);
