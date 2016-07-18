@@ -1,7 +1,6 @@
 class UsersController < BaseController
 
   before '/users/*' do
-    puts session[:identity]
     if !session[:identity] then
       redirect '/'
     end

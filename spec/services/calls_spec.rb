@@ -32,6 +32,7 @@ describe Services::Calls do
     {
       profile_id: profile_id,
       proposal_id: 'otter_proposal',
+      type: 'artist',
       title: 'otter_title',
       links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       photos: ['otter_photo']
