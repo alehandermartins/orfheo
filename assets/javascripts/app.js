@@ -200,15 +200,23 @@ Pard.Call = function(call){
 
   $(_whole).append(_header.render(), _main.render(), _footer.render());
 
-
-
-      // HoldOn.close();
-
-
 }
+
 
 Pard.Event = function(program){
   //Address 
   //http://localhost:3000/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6
   console.log(program);
+
+
+  var _whole = $('<div>').addClass('whole-container');
+
+  var _footer = Pard.Widgets.Footer();      
+  var _header = Pard.Widgets.LoginHeader();
+  var _main = Pard.Widgets.MainLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
+  _whole.append(_header.render(), _main.render().addClass('main-welcome-page outsider-main'),  _footer.render());
+
+  $('body').append(_whole);
+  $(document).ready(function(){$(document).foundation()});
+
 }

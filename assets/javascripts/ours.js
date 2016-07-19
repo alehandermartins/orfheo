@@ -29,3 +29,5 @@
 // = require info_news
 
 // = require widgets_program
+
+// = require event_page
