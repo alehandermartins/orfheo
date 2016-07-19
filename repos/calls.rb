@@ -6,15 +6,15 @@ module Repos
         @@calls_collection = db['calls']
         
       
-        call = grab({})[0]
-        if call[:order].blank?
-          call[:order] = call[:proposals].map{ |proposal|
-            proposal[:proposal_id] if proposal[:type] == 'space'
-          }.compact
-          @@calls_collection.update({event_id: call[:event_id]},{
-            "$set": {"order": call[:order]}
-          })
-        end
+        # call = grab({})[0]
+        # if call[:order].blank?
+        #   call[:order] = call[:proposals].map{ |proposal|
+        #     proposal[:proposal_id] if proposal[:type] == 'space'
+        #   }.compact
+        #   @@calls_collection.update({event_id: call[:event_id]},{
+        #     "$set": {"order": call[:order]}
+        #   })
+        # end
 
         # Repos::Events.add(call) unless (Repos::Events.event_exists? call[:event_id])
 
@@ -242,11 +242,27 @@ module Repos
       end
 
       def add_whitelist call_id, whitelist
-         @@calls_collection.update({ call_id: call_id },
+        @@calls_collection.update({ call_id: call_id },
           {
             "$set": {"whitelist": whitelist}
           },
         {upsert: true})
+      end
+
+      def get_program event_id
+        event = grab({event_id: event_id}).first
+        event[:program].map{ |performance|
+          artist = event[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
+          space = event[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:host_proposal_id]}.first
+          order = event[:order].index(performance[:host_proposal_id])
+          performance.merge! host_name: space[:name]
+          performance.merge! address: space[:address]
+          performance.merge! participant_name: artist[:name]
+          performance.merge! title: artist[:title]
+          performance.merge! participant_category: artist[:category]
+          performance.merge! host_category: space[:category]
+          performance.merge! order: order
+        }
       end
 
       def delete_proposal proposal_id

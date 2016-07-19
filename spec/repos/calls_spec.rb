@@ -28,7 +28,8 @@ describe Repos::Calls do
       production_id: production_id,
       proposal_id: proposal_id,
       type: 'artist',
-      category: 'categoty',
+      name: 'artist_name',
+      category: 'arts',
       title: 'title',
       description: 'description',
       short_description: 'short_description',
@@ -44,6 +45,8 @@ describe Repos::Calls do
       profile_id: profile_id,
       proposal_id: 'otter_proposal',
       type: 'artist',
+      category: 'expo',
+      name: 'otter_name',
       title: 'otter_title',
       links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       photos: ['otter_photo']
@@ -54,8 +57,10 @@ describe Repos::Calls do
     {
       profile_id: profile_id,
       proposal_id: 'anotter_proposal',
-      type: 'artist',
-      title: 'otter_title',
+      type: 'space',
+      category: 'home',
+      address: 'space_address',
+      name: 'space_name',
       links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       photos: ['otter_photo']
     }
@@ -66,17 +71,21 @@ describe Repos::Calls do
       time: ['3', '6'],
       participant_id: profile_id,
       participant_proposal_id: proposal_id,
-      host_id: nil,
-      host_proposal_id: 'otter_proposal'
+      host_id: profile_id,
+      host_proposal_id: 'anotter_proposal'
     },
     {
       time: ['3', '6'],
       participant_id: profile_id,
       participant_proposal_id: 'otter_proposal',
-      host_id: nil,
+      host_id: profile_id,
       host_proposal_id: 'anotter_proposal'
     }
   ]}
+
+  let(:order){
+    ['anotter_proposal']
+  }
 
   let(:call){
     {
@@ -86,7 +95,8 @@ describe Repos::Calls do
       call_id: call_id,
       start: '1462053600',
       deadline: '1466028000',
-      whitelist: []
+      whitelist: [],
+      order: []
     }
   }
 
@@ -264,15 +274,15 @@ describe Repos::Calls do
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal call_id, otter_proposal
       Repos::Calls.add_proposal call_id, anotter_proposal
-      Repos::Calls.add_program event_id, program
+      Repos::Calls.add_program event_id, program, order
 
-      Repos::Calls.delete_proposal 'anotter_proposal'
+      Repos::Calls.delete_proposal 'otter_proposal'
       expect(Repos::Calls.get_call(call_id)[:program]).to eq([{
         time: ['3', '6'],
         participant_id: profile_id,
         participant_proposal_id: proposal_id,
-        host_id: nil,
-        host_proposal_id: 'otter_proposal'
+        host_id: profile_id,
+        host_proposal_id: 'anotter_proposal'
       }]) 
     end
   end
@@ -313,11 +323,53 @@ describe Repos::Calls do
   end
 
   describe 'Program' do
-    it 'adds a program to a proposal' do
+
+    let(:retrieved_program){
+      [
+        {
+          :time=>["3", "6"],
+          :participant_id => profile_id,
+          :participant_proposal_id => proposal_id,
+          :host_id => profile_id,
+          :host_proposal_id => "anotter_proposal",
+          :host_name => "space_name",
+          :address => "space_address",
+          :participant_name => "artist_name",
+          :title=>"title",
+          :participant_category=>"arts",
+          :host_category=> 'home', 
+          :order => 0
+        },
+        { 
+          :time=>["3", "6"],
+          :participant_id => profile_id,
+          :participant_proposal_id => "otter_proposal",
+          :host_id => profile_id,
+          :host_proposal_id => "anotter_proposal",
+          :host_name => "space_name",
+          :address => "space_address",
+          :participant_name => "otter_name",
+          :title => "otter_title",
+          :participant_category=> 'expo',
+          :host_category => 'home',
+          :order => 0
+        }
+      ]
+    }
+
+    before(:each){
       Repos::Calls.add_proposal call_id, proposal
       Repos::Calls.add_proposal call_id, otter_proposal
-      Repos::Calls.add_program event_id, program
+      Repos::Calls.add_proposal call_id, anotter_proposal
+      Repos::Calls.add_program event_id, program, order
+    }
+
+    it 'adds a program to a proposal' do
       expect(Repos::Calls.get_call(call_id)[:program]).to eq(program) 
+    end
+
+    it 'retrieves the program' do
+      expect(Repos::Calls.get_program event_id).to eq(retrieved_program)
     end
   end
 end

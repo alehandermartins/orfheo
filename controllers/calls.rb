@@ -76,6 +76,13 @@ class CallsController < BaseController
     success
   end
 
+  get '/event' do
+    halt erb(:not_found) unless Repos::Calls.event_exists? params[:id]
+    program = Repos::Calls.get_program params[:id]
+    erb :event, :locals => {:program => program.to_json}
+  end
+
+
   private
   def check_non_existing call_id
     raise Pard::Invalid::Params unless UUID.validate call_id
