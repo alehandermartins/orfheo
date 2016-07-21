@@ -68,8 +68,23 @@
   }
 
   ns.Widgets.ProgramEventPage = function(){
-    var _createdWidget = $('<div>');
 
+    var hosts = [];
+    var data = [];
+    Pard.CachedProgram.forEach(function(performance){
+      if($.inArray(performance.host_proposal_id, hosts) < 0){
+        data.push({
+          lat: performance.address.location.lat,
+          lon: performance.address.location.lng,
+          title: performance.host_name,
+          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000'
+        });
+        hosts.push(performance.host_proposal_id);
+        if(performance.order === 1) console.log(performance.host_name);
+      }
+    });
+
+    var _createdWidget = $('<div>');
     var _searchWidget = $('<select>');
     _createdWidget.append(_searchWidget);
     
@@ -99,7 +114,32 @@
         }
       }
     });
-    _createdWidget.append('program');
+    var map = $('<div>').attr('id', 'gmap');
+    map.css({'width': '100%', 'height': '250px'});
+    // var data = [{
+    //     lat: 45.9,
+    //     lon: 10.9,
+    //     title: 'Title A1',
+    //     html: '<h3>Content A1</h3>',
+    //     zoom: 8,
+    //     icon: 'http://www.google.com/mapfiles/markerA.png'
+    //   },
+    //   {
+    //     lat: 44.8,
+    //     lon: 1.7,
+    //     title: 'Title B1',
+    //     html: '<h3>Content B1</h3>',
+    //     show_infowindow: false
+    //   }
+    // ];
+    $(document).ready(function(){
+    new Maplace({
+      locations: data,
+      controls_type: 'list',
+      controls_on_map: false
+    }).Load();
+  });
+    _createdWidget.append(map);
 
     return{
       render: function(){

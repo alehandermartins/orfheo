@@ -30,3 +30,4 @@
 //= require buttons.print.min
 
 //= require mousehold
+//= require maplace
