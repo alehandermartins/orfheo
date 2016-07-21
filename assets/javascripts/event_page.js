@@ -67,17 +67,25 @@
     }
   }
 
+  ns.Widgets.SpaceMarkerProgram = function(host_proposal_id){
+    console.log(host_proposal_id);
+  }
+
   ns.Widgets.ProgramEventPage = function(){
 
     var hosts = [];
     var data = [];
+       var myFunction = function(){
+      console.log('maiu');
+    }
     Pard.CachedProgram.forEach(function(performance){
       if($.inArray(performance.host_proposal_id, hosts) < 0){
         data.push({
           lat: performance.address.location.lat,
           lon: performance.address.location.lng,
           title: performance.host_name,
-          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000'
+          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
+          html: "<div><b>" + performance.host_name + "</b></div> <button onclick = \" Pard.Widgets.SpaceMarkerProgram('" + performance.host_proposal_id + "');\">Ver programa</button>"
         });
         hosts.push(performance.host_proposal_id);
         if(performance.order === 1) console.log(performance.host_name);
@@ -114,29 +122,15 @@
         }
       }
     });
+    var _location;
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
-    // var data = [{
-    //     lat: 45.9,
-    //     lon: 10.9,
-    //     title: 'Title A1',
-    //     html: '<h3>Content A1</h3>',
-    //     zoom: 8,
-    //     icon: 'http://www.google.com/mapfiles/markerA.png'
-    //   },
-    //   {
-    //     lat: 44.8,
-    //     lon: 1.7,
-    //     title: 'Title B1',
-    //     html: '<h3>Content B1</h3>',
-    //     show_infowindow: false
-    //   }
-    // ];
+    
     $(document).ready(function(){
     new Maplace({
       locations: data,
       controls_type: 'list',
-      controls_on_map: false
+      controls_on_map: false,
     }).Load();
   });
     _createdWidget.append(map);
