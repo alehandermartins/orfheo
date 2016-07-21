@@ -68,11 +68,78 @@
   }
 
   ns.Widgets.ProgramEventPage = function(){
+
+    var hosts = [];
+    var data = [];
+    Pard.CachedProgram.forEach(function(performance){
+      if($.inArray(performance.host_proposal_id, hosts) < 0){
+        data.push({
+          lat: performance.address.location.lat,
+          lon: performance.address.location.lng,
+          title: performance.host_name,
+          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000'
+        });
+        hosts.push(performance.host_proposal_id);
+        if(performance.order === 1) console.log(performance.host_name);
+      }
+    });
+
     var _createdWidget = $('<div>');
-
-   
-
-    _createdWidget.append('program');
+    var _searchWidget = $('<select>');
+    _createdWidget.append(_searchWidget);
+    
+    function formatResource (resource) {
+      if(!resource.id) return resource.text;
+      var _label = $('<span>').text(resource.text);
+      if(resource.type == 'city') var _icon = Pard.Widgets.IconManager('city_artist').render();
+      else { var _icon = Pard.Widgets.IconManager(resource.icon).render();}
+      _label.append(_icon);
+      _icon.css({
+        position: 'relative',
+        left: '5px',
+        top: '5px',
+      });
+      return _label;
+    };
+    _searchWidget.select2({
+      placeholder: 'Busca por tags',
+      multiple: true,
+      tags: true,
+      tokenSeparators: [',', ' '],   
+      templateResult: formatResource,
+    }).on("select2:select", function(e) {
+      if(_searchWidget.select2('data') != false){
+        if(e.params.data.isNew){
+          $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
+        }
+      }
+    });
+    var map = $('<div>').attr('id', 'gmap');
+    map.css({'width': '100%', 'height': '250px'});
+    // var data = [{
+    //     lat: 45.9,
+    //     lon: 10.9,
+    //     title: 'Title A1',
+    //     html: '<h3>Content A1</h3>',
+    //     zoom: 8,
+    //     icon: 'http://www.google.com/mapfiles/markerA.png'
+    //   },
+    //   {
+    //     lat: 44.8,
+    //     lon: 1.7,
+    //     title: 'Title B1',
+    //     html: '<h3>Content B1</h3>',
+    //     show_infowindow: false
+    //   }
+    // ];
+    $(document).ready(function(){
+    new Maplace({
+      locations: data,
+      controls_type: 'list',
+      controls_on_map: false
+    }).Load();
+  });
+    _createdWidget.append(map);
 
     return{
       render: function(){

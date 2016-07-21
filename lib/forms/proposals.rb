@@ -81,7 +81,6 @@ class Forms::Proposals < Forms::Base
   def add_profile_fields proposal, profile
     proposal.merge! type: profile[:type]
     proposal.merge! profile_picture: profile[:profile_picture]
-    proposal.merge! color: profile[:color]
     add_artist_fields(profile, proposal) if proposal[:type] == 'artist'
     add_space_fields(profile, proposal) if proposal[:type] == 'space'
     proposal
@@ -89,16 +88,12 @@ class Forms::Proposals < Forms::Base
 
   def add_artist_fields profile, proposal
     proposal.merge! city: profile[:city]
-    proposal.merge! personal_web: profile[:personal_web]
     proposal.merge! zip_code: profile[:zip_code]
     proposal.merge! name: profile[:name]
   end
 
   def add_space_fields profile, proposal
     proposal.merge! address: profile[:address]
-    proposal.merge! photos: profile[:photos]
-    proposal.merge! personal_web: profile[:personal_web]
-    proposal.merge! links: profile[:links]
     proposal.merge! name: profile[:name]
   end
 

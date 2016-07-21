@@ -4,6 +4,7 @@ Pard.CachedProfiles = [];
 Pard.UserStatus = {};
 Pard.CachedProposals = [];
 Pard.CachedCall = [];
+Pard.CachedProgram = [];
 
 Pard.ProfileManager = {
   getProfile: function(profile_id){
@@ -118,8 +119,6 @@ Pard.Profile = function(profiles){
   Pard.CachedProfiles  = profiles;
   Pard.UserStatus['status'] = 'owner';
 
-  console.log(profiles);
-
   var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
@@ -132,8 +131,6 @@ Pard.Profile = function(profiles){
 
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
-
- 
 };
 
 
@@ -206,9 +203,7 @@ Pard.Call = function(call){
 Pard.Event = function(program){
   //Address 
   //http://localhost:3000/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6
-  console.log(program);
-
-
+  Pard.CachedProgram = program;
   var _whole = $('<div>').addClass('whole-container');
 
   var _footer = Pard.Widgets.Footer();      

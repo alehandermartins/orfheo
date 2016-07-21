@@ -109,7 +109,6 @@ describe CallsController do
       city: 'city',
       zip_code: 'zip_code',
       profile_picture: nil,
-      color: 'color',
       user_id: user_id,
       email: 'email@test.com',
       profile_id: profile_id,
@@ -117,7 +116,6 @@ describe CallsController do
       production_id: production_id,
       type: 'artist',
       category: 'music',
-      personal_web: nil
     }
   }
 
@@ -398,7 +396,8 @@ describe CallsController do
           comments: 'comments',
           confirmed: 'true'
         }
-        ]
+        ],
+        order: ['otter_proposal']
       }
     }
 
@@ -417,7 +416,7 @@ describe CallsController do
     end
 
     it 'adds the program to the call' do
-      expect(Repos::Calls).to receive(:add_program).with(event_id, program_params[:program])
+      expect(Repos::Calls).to receive(:add_program).with(event_id, program_params[:program], program_params[:order])
       post program_route, program_params
       expect(parsed_response['status']).to eq('success')
     end
