@@ -4,6 +4,20 @@ module Repos
 
       def for db
         @@profiles_collection = db['profiles']
+        profiles = grab({})
+        profiles.each{ |profile|
+          if profile[:type] == 'space'
+            route = I18n.transliterate(profile[:address][:route])
+            street_number = profile[:address][:street_number]
+            locality = I18n.transliterate(profile[:address][:locality])
+            postal_code = profile[:address][:postal_code]
+            uri = URI.parse("https://maps.googleapis.com/maps/api/geocode/json?address=" + route + '+' + street_number + '+' + locality + '+' + postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg")
+            res = Net::HTTP.get(uri)
+            response = JSON.parse(res)
+            profile[:address].merge! location: response['results'].first['geometry']['location'] unless response['status'] != "OK" || response['results'].blank?
+            update profile
+          end
+        }
       end
 
       def update profile

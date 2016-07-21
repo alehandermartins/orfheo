@@ -7,6 +7,7 @@ require 'cloudinary'
 require 'active_support'
 require 'active_support/core_ext/object'
 require 'time'
+require 'net/http'
 
 require_relative '../exceptions'
 

@@ -118,8 +118,6 @@ Pard.Profile = function(profiles){
   Pard.CachedProfiles  = profiles;
   Pard.UserStatus['status'] = 'owner';
 
-  console.log(profiles);
-
   var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
@@ -132,8 +130,6 @@ Pard.Profile = function(profiles){
 
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
-
- 
 };
 
 

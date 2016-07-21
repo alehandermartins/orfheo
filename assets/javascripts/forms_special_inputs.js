@@ -239,7 +239,15 @@ ns.Widgets.InputAddressSpace = function(label){
           _check = '';
         }
       })
-      if (_check) return _addressValues;
+      if (_check){
+        var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressValues.route + '+' + _addressValues.street_number + '+' + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+        $.get(uri, function(data){
+          if(data.status == "OK" && data.results.length > 0){
+            _addressValues.location = data.results[0].geometry.location;
+          }
+        });
+        return _addressValues;
+      } 
       return _check;
     }
  

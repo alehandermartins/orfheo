@@ -70,8 +70,35 @@
   ns.Widgets.ProgramEventPage = function(){
     var _createdWidget = $('<div>');
 
-   
-
+    var _searchWidget = $('<select>');
+    _createdWidget.append(_searchWidget);
+    
+    function formatResource (resource) {
+      if(!resource.id) return resource.text;
+      var _label = $('<span>').text(resource.text);
+      if(resource.type == 'city') var _icon = Pard.Widgets.IconManager('city_artist').render();
+      else { var _icon = Pard.Widgets.IconManager(resource.icon).render();}
+      _label.append(_icon);
+      _icon.css({
+        position: 'relative',
+        left: '5px',
+        top: '5px',
+      });
+      return _label;
+    };
+    _searchWidget.select2({
+      placeholder: 'Busca por tags',
+      multiple: true,
+      tags: true,
+      tokenSeparators: [',', ' '],   
+      templateResult: formatResource,
+    }).on("select2:select", function(e) {
+      if(_searchWidget.select2('data') != false){
+        if(e.params.data.isNew){
+          $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
+        }
+      }
+    });
     _createdWidget.append('program');
 
     return{
