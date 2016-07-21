@@ -8,26 +8,17 @@ module Repos
         call = grab({})[0]
         Repos::Events.add call
 
-        if call[:order].blank?
-          call[:order] = call[:proposals].map{ |proposal|
-            proposal[:proposal_id] if proposal[:type] == 'space'
-          }.compact
-          @@calls_collection.update({event_id: call[:event_id]},{
-            "$set": {"order": call[:order]}
-          })
-        end
-
         proposals = call[:proposals].map{ |proposal|
           if(proposal[:type] == 'space')
             if (proposal[:profile_id].split('-').last == 'own')
-              route = I18n.transliterate(proposal[:address][:route])
-              street_number = proposal[:address][:street_number]
-              locality = I18n.transliterate(proposal[:address][:locality])
-              postal_code = proposal[:address][:postal_code]
-              uri = URI.parse("https://maps.googleapis.com/maps/api/geocode/json?address=" + route + '+' + street_number + '+' + locality + '+' + postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg")
-              res = Net::HTTP.get(uri)
-              response = JSON.parse(res)
-              proposal[:address].merge! location: response['results'].first['geometry']['location'] unless response['status'] != "OK" || response['results'].blank?
+              # route = I18n.transliterate(proposal[:address][:route])
+              # street_number = proposal[:address][:street_number]
+              # locality = I18n.transliterate(proposal[:address][:locality])
+              # postal_code = proposal[:address][:postal_code]
+              # uri = URI.parse("https://maps.googleapis.com/maps/api/geocode/json?address=" + route + '+' + street_number + '+' + locality + '+' + postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg")
+              # res = Net::HTTP.get(uri)
+              # response = JSON.parse(res)
+              # proposal[:address].merge! location: response['results'].first['geometry']['location'] unless response['status'] != "OK" || response['results'].blank?
             else
               profile = Repos::Profiles.get_profiles :profile, {profile_id: proposal[:profile_id]}
               proposal[:address] = profile[:address]
