@@ -19,8 +19,19 @@ module Repos
 
         proposals = call[:proposals].map{ |proposal|
           if(proposal[:type] == 'space')
-            profile = Repos::Profiles.get_profiles :profile, {profile_id: proposal[:profile_id]}
-            proposal[:address] = profile[:address]
+            if (proposal[:profile_id].split('-').last == 'own')
+              route = I18n.transliterate(proposal[:address][:route])
+              street_number = proposal[:address][:street_number]
+              locality = I18n.transliterate(proposal[:address][:locality])
+              postal_code = proposal[:address][:postal_code]
+              uri = URI.parse("https://maps.googleapis.com/maps/api/geocode/json?address=" + route + '+' + street_number + '+' + locality + '+' + postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg")
+              res = Net::HTTP.get(uri)
+              response = JSON.parse(res)
+              proposal[:address].merge! location: response['results'].first['geometry']['location'] unless response['status'] != "OK" || response['results'].blank?
+            else
+              profile = Repos::Profiles.get_profiles :profile, {profile_id: proposal[:profile_id]}
+              proposal[:address] = profile[:address]
+            end
           end
           proposal.delete(:program)
           proposal.delete(:personal_web)
