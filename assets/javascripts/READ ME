@@ -22,7 +22,7 @@ NICE TO HAVE CALL MANAGER PAGE
 - Everytime one is inserted in the whitelist, one receives an email with instructions to follow to inscribe in the call
 - artist name and title in card dropped in manager table
 - borders for cards dropped in manager table 
-- in tablePanel, when displaying programa, filter by category doesn't work after modifying performance!
+- in tablePanel, when displaying programa, if one modifies in managerPanel the table does not update!
 
 
 
