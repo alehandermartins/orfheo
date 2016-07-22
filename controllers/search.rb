@@ -19,6 +19,13 @@ class SearchController < BaseController
     success({profiles: matched_profiles.take(12)})
   end
 
+  post '/suggest_program' do
+    scopify query: true, event_id: true
+    queriable_tags = get_query query
+    results = Services::Search.get_program_suggestions event_id, queriable_tags
+    success({items: results})
+  end
+
   private
   def get_query params
     return [] if params.blank?

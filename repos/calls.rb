@@ -205,6 +205,7 @@ module Repos
           performance.merge! address: space[:address]
           performance.merge! participant_name: artist[:name]
           performance.merge! title: artist[:title]
+          performance.merge! short_description: artist[:short_description]
           performance.merge! participant_category: artist[:category]
           performance.merge! host_category: space[:category]
           performance.merge! order: order

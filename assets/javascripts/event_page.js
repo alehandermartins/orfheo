@@ -67,25 +67,35 @@
     }
   }
 
+  ns.Widgets.SpaceMarkerProgram = function(host_proposal_id){
+    console.log(host_proposal_id);
+  }
+
   ns.Widgets.ProgramEventPage = function(){
 
     var hosts = [];
     var data = [];
-    Pard.CachedProgram.forEach(function(performance){
+    var performanceData = [];
+    
+    Pard.CachedProgram.forEach(function(performance, index){
+      performanceData.push({
+        id: index,
+        text: performance.participant_name
+      });
       if($.inArray(performance.host_proposal_id, hosts) < 0){
         data.push({
           lat: performance.address.location.lat,
           lon: performance.address.location.lng,
           title: performance.host_name,
-          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000'
+          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
+          html: "<div><b>" + performance.host_name + "</b></div> <button onclick = \" Pard.Widgets.SpaceMarkerProgram('" + performance.host_proposal_id + "');\">Ver programa</button>"
         });
         hosts.push(performance.host_proposal_id);
-        if(performance.order === 1) console.log(performance.host_name);
       }
     });
 
     var _createdWidget = $('<div>');
-    var _searchWidget = $('<select>');
+    var _searchWidget = $('<select>').attr('id', 'searchEngine');
     _createdWidget.append(_searchWidget);
     
     function formatResource (resource) {
@@ -101,8 +111,36 @@
       });
       return _label;
     };
+
     _searchWidget.select2({
       placeholder: 'Busca por tags',
+      ajax: {
+        url: '/search/suggest_program',
+        type: 'POST',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          var _query = [];
+          _searchWidget.select2('data').forEach(function(element){
+            _query.push(element.id);
+          });
+          _query.push(params.term);
+          return {
+            query: _query,
+            page: params.page,
+            event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+          };
+        },
+        processResults: function (data, params) {
+          params.page = params.page || 1;
+          return {
+            results: data.items,
+            pagination: {
+              more: (params.page * 30) < data.total_count
+            }
+          };
+        }
+      },
       multiple: true,
       tags: true,
       tokenSeparators: [',', ' '],   
@@ -114,31 +152,17 @@
         }
       }
     });
+
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
-    // var data = [{
-    //     lat: 45.9,
-    //     lon: 10.9,
-    //     title: 'Title A1',
-    //     html: '<h3>Content A1</h3>',
-    //     zoom: 8,
-    //     icon: 'http://www.google.com/mapfiles/markerA.png'
-    //   },
-    //   {
-    //     lat: 44.8,
-    //     lon: 1.7,
-    //     title: 'Title B1',
-    //     html: '<h3>Content B1</h3>',
-    //     show_infowindow: false
-    //   }
-    // ];
+    
     $(document).ready(function(){
-    new Maplace({
-      locations: data,
-      controls_type: 'list',
-      controls_on_map: false
-    }).Load();
-  });
+      new Maplace({
+        locations: data,
+        controls_type: 'list',
+        controls_on_map: false,
+      }).Load();
+    });
     _createdWidget.append(map);
 
     return{
