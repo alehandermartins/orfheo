@@ -6,22 +6,10 @@
     // Pard.Widgets.Program = [];
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
    
-   var call = Pard.CachedCall;
-
+    var call = Pard.CachedCall;
     //Schedule of the event
     var eventTime = call.eventTime;
     
-
-    //Time in milliseconds: consider to use it!!
-    // {"2016-10-15" : [[ "1476518400000", "1476532800000"], 
-    //         [ "1476543600000", "1476568800000" ] ],
-    //     "2016-10-16" : [ ["1476604800000","1476705600000" ], 
-    //         [ "1476630000000", "1476655200000" ]],
-  // "permanent" : [ 
-  //           "11:00", 
-  //           "21:00"
-  //       ]}
-
     //Object to fill with profile_id (keys) and proposals (values)
     var artists = {};
 
@@ -113,23 +101,6 @@
       }
     });
 
-    //Selectors CSS
-    // _daySelector.css({
-    //   'display': 'inline-block',
-    //   'width': 120
-    // });
-
-    // _spaceSelectorContainer.css({
-    //   'margin-left': 50,
-    //   'display': 'inline-block',
-    //   'width': 300
-    // });
-    // _artistSelectorContainer.css({
-    //   'margin-left': 50,
-    //   'display': 'inline-block',
-    //   'width': 300
-    // });
-
     var _scrollLeftBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_left').render().addClass('navigation-btn-icon'));
     var _scrollRightBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_right').render().addClass('navigation-btn-icon'));
 
@@ -188,6 +159,15 @@
       proposalCards.forEach(function(card){
         card.setDay(_daySelector.val());
       });
+
+      var _spacePerformances = [];
+      Pard.Widgets.Program.forEach(function(performance){
+        if(performance.permanent == false){
+          _spacePerformances[performance.host_proposal_id] = _spacePerformances[performance.host_proposal_id] || {};
+          _spacePerformances[performance.host_proposal_id][performance.date] = _spacePerformances[performance.host_proposal_id][performance.date] || [];
+          _spacePerformances[performance.host_proposal_id][performance.date].push(performance);
+        } 
+      });
       //Only affects the columns of the shown spaces
       Pard.ShownSpaces.forEach(function(space, index){
         //Hiding lastSelection
@@ -195,6 +175,16 @@
         //Showing new selection (append needed to reorder)
         if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
         space[_daySelector.val()].show();
+        space[_daySelector.val()].css({
+          'width': Pard.ColumnWidth,
+        });
+        if(_daySelector.val() == 'permanent'){
+          space[_daySelector.val()].find('.programHelper').css({
+            'width': Pard.ColumnWidth - 2,
+            'left': index * Pard.ColumnWidth + 1 
+          });
+        }
+        if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][_daySelector.val()]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][_daySelector.val()]);
       });
         //Setting new selection as lastSelection
       _lastSelected = _daySelector.val();
@@ -209,10 +199,6 @@
     }).on("select2:select", function(e) {
       var _data = _spaceSelector.select2('data')[0];
       //On every change shown spaces are redefined
-      var _oldIndexes = [];
-      Pard.ShownSpaces.forEach(function(space){
-        _oldIndexes.push(space.proposal_id);
-      });
       Pard.ShownSpaces = [];
       if(!_data.selected){
         spaces.forEach(function(space){
@@ -255,12 +241,6 @@
           });
         }
         //Formatting columns with depending on the amount of shown spaces
-        Pard.ColumnWidth = 176; 
-        if (Pard.ShownSpaces.length == 0) _whiteBox.css('background','transparent');
-        if(Pard.ShownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / Pard.ShownSpaces.length;
-        var _keys = Object.keys(eventTime);
-        _keys.push('permanent');
-
         var _spacePerformances = [];
         Pard.Widgets.Program.forEach(function(performance){
           if(performance.permanent == false){
@@ -269,21 +249,20 @@
             _spacePerformances[performance.host_proposal_id][performance.date].push(performance);
           } 
         });
-
+        Pard.ColumnWidth = 176; 
+        if(Pard.ShownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / Pard.ShownSpaces.length;
         Pard.ShownSpaces.forEach(function(space, index){
           if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
-          _keys.forEach(function(date){
-            space[date].css({
-              'width': Pard.ColumnWidth,
-            });
-            if(date == 'permanent'){
-              space[date].find('.programHelper').css({
-                'width': Pard.ColumnWidth - 2,
-                'left': index * Pard.ColumnWidth + 1 
-              });
-            }
-            if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][date]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][date]);
+          space[_daySelector.val()].css({
+            'width': Pard.ColumnWidth,
           });
+          if(_daySelector.val() == 'permanent'){
+            space[_daySelector.val()].find('.programHelper').css({
+              'width': Pard.ColumnWidth - 2,
+              'left': index * Pard.ColumnWidth + 1 
+            });
+          }
+          if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][_daySelector.val()]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][_daySelector.val()]);
         });
       }
     });
@@ -306,22 +285,18 @@
       });
       Pard.ColumnWidth = 176; 
       if(Pard.ShownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / Pard.ShownSpaces.length;
-      var _keys = Object.keys(eventTime);
-      _keys.push('permanent');
       Pard.ShownSpaces.forEach(function(space, index){
         if (index > 0) Pard.ShownSpaces[index - 1][_daySelector.val()].after(space[_daySelector.val()]);
-        _keys.forEach(function(date){
-          space[date].css({
-            'width': Pard.ColumnWidth,
-          });
-          if(date == 'permanent'){
-            space[date].find('.programHelper').css({
-              'width': Pard.ColumnWidth - 2,
-              'left': index * Pard.ColumnWidth + 1 
-            });
-          }
-          if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][date]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][date]);
+        space[_daySelector.val()].css({
+          'width': Pard.ColumnWidth,
         });
+        if(_daySelector.val() == 'permanent'){
+          space[_daySelector.val()].find('.programHelper').css({
+            'width': Pard.ColumnWidth - 2,
+            'left': index * Pard.ColumnWidth + 1 
+          });
+        }
+        if(_spacePerformances[space.proposal_id] && _spacePerformances[space.proposal_id][_daySelector.val()]) Pard.Widgets.AlignPerformances(_spacePerformances[space.proposal_id][_daySelector.val()]);
       });
       $(this).select2("val", "");
       e.preventDefault();

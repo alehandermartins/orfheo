@@ -421,6 +421,7 @@
                 performance.card = _existingCard;
               }
               else{
+                _time.append(performance.card);
                 performance.card.css({
                 'top': position,
                 'left' : _time.position().left,
@@ -467,6 +468,7 @@
         return Pard.Widgets.SpaceHelper(space, _spaceCol).render();
       },
       start: function(event, ui){
+        _spaceCol.addClass('ui-sortable-placeholder');
         _spaceHeader.removeClass('cursor_grab').addClass('cursor_move');
       },
       drag: function(event, ui){
