@@ -29,20 +29,20 @@
     _explore.one('click', function(){
     _exploreContent.append(Pard.Widgets.ParticipantEventPage().render());      
     });
-    var _exploreContent = $('<div>').attr('id', 'participant-event-page').addClass('profiles-user-section-content');
+    var _exploreContent = $('<div>').attr('id', 'participants-event-page').addClass('profiles-user-section-content');
     _exploreContent.hide();
 
-    // var _news = $('<div>').addClass('aside-user-nav-btn');
-    // _news.text('Novedades');
-    // _news.click(function(){
-    //   _contentShowHide('news-user-page');
-    //   $(this).addClass('aside-user-nav-btn-selected');
-    // });
-    // _news.one('click', function(){
-    // _newsContent.append(Pard.Widgets.NewsUserPage().render());      
-    // });
-    // var _newsContent = $('<div>').attr('id', 'news-user-page');
-    // _newsContent.hide();
+    var _info = $('<div>').addClass('aside-user-nav-btn');
+    _info.text('Informaciones');
+    _info.click(function(){
+      _contentShowHide('info-event-page');
+      $(this).addClass('aside-user-nav-btn-selected');
+    });
+    _info.one('click', function(){
+    _infoContent.append(Pard.Widgets.EventInfo().render());      
+    });
+    var _infoContent = $('<div>').attr('id', 'info-event-page').addClass('profiles-user-section-content');
+    _infoContent.hide();
 
 
     var _contentShowHide = function(id_selected){
@@ -56,8 +56,8 @@
 
     var _buttonContainer = $('<div>').addClass('create-profile-container');
     
-    _buttonContainer.append(_program, _explore);
-    sectionContainer.append(_programContent, _exploreContent);
+    _buttonContainer.append(_program, _explore, _info);
+    sectionContainer.append(_programContent, _exploreContent, _infoContent);
     _createdWidget.append(_buttonContainer);
 
     return{
@@ -172,43 +172,6 @@
     }
   }
 
-  ns.Widgets.ParticipantEventPage = function(){
-
-    var _createdWidget = $('<div>');
-
-     // var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page', profile.calls[0].event_id);
-     //  var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
-     //  _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
-   
-    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page').render();
-
-    var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
-
-    _createdWidget.append(_searchTitle, _searchEngine);
-
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-  // ns.Widgets.NewsUserPage = function(){
-
-  //   var _createdWidget = $('<div>');
-
-  //   var _newsConFusionContainer = Pard.Widgets.ConFusionEndCall('16-06-2016');
-
-  //   var _newsOrfheoContainer = Pard.Widgets.OrfheoFirstMessage('15-06-2016');
-
-  //   _createdWidget.append(_newsConFusionContainer.render(), _newsOrfheoContainer.render());
-
-  //   return{
-  //     render: function(){
-  //       return _createdWidget;
-  //     }
-  //   } 
-  // }
 
 
   ns.Widgets.EventSection = function(content) {

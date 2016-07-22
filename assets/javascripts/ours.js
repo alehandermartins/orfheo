@@ -31,3 +31,4 @@
 // = require widgets_program
 
 // = require event_page
+// = require event_page_infoANDparticipants
