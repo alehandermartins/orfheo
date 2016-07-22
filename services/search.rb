@@ -10,6 +10,12 @@ module Services
 	    	sort_results results
 	    end
 
+	    def get_program_results event_id, tags
+	    	program = Repos::Calls.get_program event_id
+	    	results = query_program program, tags
+	    	order_results results
+	    end
+
 	    def query_program program, tags
 		    return program if tags.all?{ |tag| tag.blank?}
 		    program.select{ |performance|
@@ -137,6 +143,18 @@ module Services
 		    sorted_results.push(results.select{ |result| result[:type] == 'city'})
 		    sorted_results.push(results.select{ |result| result[:type] == 'title'})
 		    sorted_results.flatten
+		  end
+
+		  def order_results results
+		  	ordered_program = {}
+		  	dates = ['2016-10-15', '2016-10-16']
+		  	dates.each{ |date|
+		  		ordered_program[date] = []
+		  		ordered_program[date].push(results.select{ |performance| performance[:date] == date && performance[:permanent] == 'false'}.sort{ |a,b| a[:time].first <=> a[:time].first })
+		  		ordered_program[date].push(results.select{ |performance| performance[:date] == date && performance[:permanent] == 'true'}.sort{ |a,b| a[:time].first <=> a[:time].first })
+		  		ordered_program[date].flatten!
+		  	}
+		  	ordered_program
 		  end
    	end
   end

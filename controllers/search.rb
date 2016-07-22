@@ -26,6 +26,13 @@ class SearchController < BaseController
     success({items: results})
   end
 
+  post '/results_program' do
+    scopify query: true, event_id: true
+    tags = get_query query
+    results = Services::Search.get_program_results event_id, tags
+    success({program: results})
+  end
+
   private
   def get_query params
     return [] if params.blank?

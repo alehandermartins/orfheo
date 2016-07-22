@@ -75,13 +75,8 @@
 
     var hosts = [];
     var data = [];
-    var performanceData = [];
-    
+
     Pard.CachedProgram.forEach(function(performance, index){
-      performanceData.push({
-        id: index,
-        text: performance.participant_name
-      });
       if($.inArray(performance.host_proposal_id, hosts) < 0){
         data.push({
           lat: performance.address.location.lat,
@@ -153,6 +148,38 @@
       }
     });
 
+    var _searchCallback = function(spinnerStop){
+      tags = [];
+
+      var _dataArray = _searchWidget.select2('data'); 
+      _dataArray.forEach(function(tag){
+        tags.push(tag.text);
+      });
+      Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
+        console.log(data.program);
+        // else {
+        //   var _message = $('<h6>').text('Ningún resultado').css('color','#6f6f6f');
+        //   _searchResult.append(_message);
+        // }
+      });
+      spinnerStop();
+    }
+
+    _searchWidget.on('change', function(){
+      var spinner =  new Spinner().spin();
+      $.wait(
+        '', 
+        function(){
+          _searchResult.empty();  
+          _searchResult.append(spinner.el); 
+        }, 
+        function(){
+          _searchCallback(function(){spinner.stop()});
+        }
+      )
+    });
+
+
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
     
@@ -163,7 +190,10 @@
         controls_on_map: false,
       }).Load();
     });
-    _createdWidget.append(map);
+
+    var _searchResult = $('<div>');
+    _createdWidget.append(map, _searchResult);
+    _searchWidget.trigger('change');
 
     return{
       render: function(){

@@ -123,6 +123,17 @@
       );
     };
 
+    var _searchProgram = function(tags, event_id, callback){
+      _send(       
+        '/search/results_program',
+        {
+          query: tags,
+          event_id: event_id
+        },
+        callback
+      );
+    };
+
     var _deleteProposal = function(proposal_id, callback){
       _send(       
         '/users/delete_proposal',
@@ -235,6 +246,7 @@
       createProduction: _createProduction,
       modifyProduction: _modifyProduction,
       searchProfiles: _searchProfiles,
+      searchProgram: _searchProgram,
       deleteProposal: _deleteProposal,
       deleteProduction: _deleteProduction,
       deleteProfile: _deleteProfile,
