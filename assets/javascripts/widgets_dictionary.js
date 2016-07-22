@@ -37,6 +37,9 @@
       navigation_left: {icon:'&#xE408;', className:'material-icons'},
       navigation_right: {icon:'&#xE409;', className:'material-icons'},
       save: {icon:'&#xE161;', className:'material-icons'},
+      clock: {icon:'&#xE192;', className:'material-icons'},
+      location: {icon:'&#xE0C8;', className:'material-icons'},
+      organizer: {icon:'&#xE43B;', className:'material-icons' },
 
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},

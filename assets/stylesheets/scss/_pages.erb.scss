@@ -1468,10 +1468,6 @@ p.initial-text-proposalPanel{
 Program Manager Tab
 --------------------------- */
 
-/* .program-panel-call-manager{
-  margin-left: 2.2rem;
-} */
-
 .table-box-call-manager{
   position: relative;
 }
@@ -1496,10 +1492,7 @@ Program Manager Tab
   right: 0;
   top:0;
   width: 13rem;
-  border: 1px solid;/* 
-  height:  -moz-calc(100% - 1.4rem);
-  height:  -webkit-calc(100% - 1.4rem);
-  height:  calc(100% - 1.4rem); */
+  border: 1px solid;
   z-index: 4;
   height: 602px;
 }
@@ -1586,9 +1579,6 @@ li.artists-selector-container-call-manager{
 }
 
 .submit-program-btn-container{
-  /* margin-left: 8rem;
-  display: inline-block;
-  font-size: $almostNormalSize; */
   font-size: 0.875rem;
   position: absolute;
   right: 0px;
@@ -1616,13 +1606,6 @@ li.artists-selector-container-call-manager{
   width: 75px;
 }
 
-/* .space-column-manager-table{
-  display: inline-block !important;
-  width: 11rem;
-  border: 1px solid;
-} */
-
-
 .space-not-available-call-manager,.artist-not-available-call-manager{
   opacity:0.4;
   background: $grey-2;
@@ -1638,11 +1621,6 @@ li.artists-selector-container-call-manager{
   min-height: 3.75rem;
   display: block;
 }
-
-/*.dragged-card-call-manager:hover{
-  z-index: 999 !important;
-}*/
-
 
 .proposal-title-card-call-manager{
   line-height: 1rem;
@@ -1712,8 +1690,6 @@ li.artists-selector-container-call-manager{
   padding: 0.4rem;
 }
 
-
-
 .table-space-program{
   max-width: 100%;
   overflow: auto; 
@@ -1724,10 +1700,6 @@ li.artists-selector-container-call-manager{
   white-space: normal;
 }
 
-/* .table-box-call-manager-page .dataTables_scroll
-{
-    overflow:auto;
-} */
 
 .column-space-program-call-manager.column-category{
   /* width: 4rem; */
@@ -1760,22 +1732,6 @@ li.artists-selector-container-call-manager{
   width: 170px;
 }
 
-
-  /* td.column-table-program-call-manager.column-title, td.column-table-program-call-manager.column-comments{
-    width: 175px;
-  }
-
-  td.column-table-program-call-manager.column-artist, td.column-table-program-call-manager.column-space,{
-    width: 150px;
-  }
-
-  td.column-table-program-call-manager.column-confirmed{
-    width: 100px;
-  }
-
-  td.column-table-program-call-manager.column-time,td.column-table-program-call-manager.column-day{
-    width: 100px;
-  } */
 
 th.column-table-program-call-manager.column-title, th.column-table-program-call-manager.column-comments{
   width: 145px !important;
@@ -1915,3 +1871,56 @@ ORGANIZATION PAGE
 
 
 
+
+/*===============================================
+EVENT PAGE
+================================================*/
+
+.aside-event-nav-btn {
+  cursor: pointer;
+  width: 100%;  
+  padding: 0.4rem $inner-spacing; 
+  border-left: 4px solid transparent;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+.aside-event-nav-btn-selected {
+  font-weight: bold;
+  text-decoration: underline;
+  font-weight: bold;
+  /* color: white; */
+}
+
+.aside-event-nav-btn:hover{
+  @extend .aside-event-nav-btn-selected;
+}
+
+.title-infoTab-event-page{
+  text-align: center;
+  margin-top: -0.5rem;
+}
+
+.element-headerTitle-infoTab-event{
+  width: 33%;
+  display: inline-block;
+  padding: 0.4rem 1rem;
+}
+
+.header-container-infoTab-event{
+  margin-top: -0.5rem;
+}
+.info-text-header-infoTab-event{
+  display: inline;
+  vertical-align: top;
+  margin-left: 0.5rem;
+}
+
+.textContainer-infoTab-event-page{
+  margin-top: 2rem;
+}
+
+.baseline-infoTab-event-page{
+  text-transform: uppercase;
+  margin:0;
+}

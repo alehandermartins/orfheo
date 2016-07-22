@@ -6,25 +6,25 @@
 
   ns.Widgets.EventAside = function (sectionContainer) {
 
-    var _createdWidget = $('<div>').addClass('aside-container');
+    var _createdWidget = $('<div>').addClass('aside-container').css('background', 'white');
     
-    var _program = $('<div>').addClass('aside-user-nav-btn');
+    var _program = $('<div>').addClass('aside-event-nav-btn');
     _program.text('Programa');
 
     _program.click(function(){
       _contentShowHide('program-event-page');
-      $(this).addClass('aside-user-nav-btn-selected');
+      $(this).addClass('aside-event-nav-btn-selected');
     });
     var _programContent = $('<div>').attr('id', 'program-event-page').addClass('profiles-user-section-content');
     _programContent.append(Pard.Widgets.ProgramEventPage().render());
     var _contentShown = _programContent;
-    _program.addClass('aside-user-nav-btn-selected');
+    _program.addClass('aside-event-nav-btn-selected');
 
-    var _explore = $('<div>').addClass('aside-user-nav-btn');
+    var _explore = $('<div>').addClass('aside-event-nav-btn');
     _explore.text('Participantes');
     _explore.click(function(){
       _contentShowHide('participants-event-page');
-      $(this).addClass('aside-user-nav-btn-selected');
+      $(this).addClass('aside-event-nav-btn-selected');
     });
     _explore.one('click', function(){
     _exploreContent.append(Pard.Widgets.ParticipantEventPage().render());      
@@ -32,11 +32,11 @@
     var _exploreContent = $('<div>').attr('id', 'participants-event-page').addClass('profiles-user-section-content');
     _exploreContent.hide();
 
-    var _info = $('<div>').addClass('aside-user-nav-btn');
+    var _info = $('<div>').addClass('aside-event-nav-btn');
     _info.text('Informaciones');
     _info.click(function(){
       _contentShowHide('info-event-page');
-      $(this).addClass('aside-user-nav-btn-selected');
+      $(this).addClass('aside-event-nav-btn-selected');
     });
     _info.one('click', function(){
     _infoContent.append(Pard.Widgets.EventInfo().render());      
@@ -46,7 +46,7 @@
 
 
     var _contentShowHide = function(id_selected){
-      $('.aside-user-nav-btn-selected').removeClass('aside-user-nav-btn-selected');
+      $('.aside-event-nav-btn-selected').removeClass('aside-event-nav-btn-selected');
       _contentShown.hide();
       // var _selected = '#'+id_selected;
       _contentShown = $('#'+id_selected);
