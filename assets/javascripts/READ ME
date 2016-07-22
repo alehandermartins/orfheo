@@ -1,3 +1,15 @@
+22/07/2016
+Exporting importing database
+
+-Comando para copiar coleccion en un file(users se copia en un file users)
+mongoexport -h ds055535.mlab.com:55535 -d heroku_1qqrwjjv -c users -u heroku_1qqrwjjv  -p 6j1mh19jfgfn4up520imdbh3g8 -o users
+
+-Comando para crear la misma coleccion en Robomongo
+mongoimport -d cg_dev -c users --file users
+
+-Repetir para profiles y calls
+-Eliminar files con datos
+
 
 12/07/2016
 NICE TO HAVE CALL MANAGER PAGE
