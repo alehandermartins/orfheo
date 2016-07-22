@@ -279,8 +279,6 @@
 
     var _createdWidget = $('<div>');
 
-    var _table = Pard.Widgets.PrintProgramTable();
-
     var _outerTableContainer = $('<div>');
 
     var _tableBox = $('<div>').addClass('table-box-call-manager-page');
@@ -302,9 +300,12 @@
         }
         program.push(_performance);
       });
+
+      var order = [];
       Pard.Spaces.forEach(function(space){
         order.push(space.proposal_id);
       });
+      
       Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
     }).render().addClass('submit-program-btn-call-manager');
 
@@ -317,7 +318,7 @@
 
     var _filterCategoryContainer = $('<div>').addClass('select-category-container-call-manager');
     var _filterCategory = $('<select>');
-     var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
+    var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
     categories['artist'].forEach(function(cat){
       _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render(), icon: cat});
     });
@@ -346,6 +347,8 @@
       // ,templateSelection: formatResource
     });
 
+    var _table = Pard.Widgets.PrintProgramTable(_filterCategory);
+
     _filterCategory.on('select2:select',function(){
       var _cat =  _filterCategory.select2('data')[0];
       if (_cat.id == 'all') _table.dataTableCreated().columns( 7 ).search('').draw();
@@ -363,7 +366,7 @@
     }
   }
 
-  ns.Widgets.PrintProgramTable = function(){
+  ns.Widgets.PrintProgramTable = function(filterCategory){
     
 
     var _createdWidget = $('<div>');     
@@ -372,22 +375,20 @@
 
     var _dataTable ;
 
+    var program = [];
+
     var _printTable = function(){
 
-      var program = [];
-        if (Pard.CachedCall.program && Pard.Widgets.Program.length) program = Pard.CachedCall.program;
-        else Pard.Widgets.Program = program;
+      if (Pard.Widgets.Program && Pard.Widgets.Program.length) program = Pard.Widgets.Program;
+      // else Pard.Widgets.Program = program;
+      // var myPermanentPerformances = [];
+      // program.forEach(function(performance){
+      //   if(performance.participant_id == artist.profile_id) myPerformances.push(performance);
+      // });    
 
-        // var myPermanentPerformances = [];
-        // program.forEach(function(performance){
-        //   if(performance.participant_id == artist.profile_id) myPerformances.push(performance);
-        // });    
-
-        var _permanents = [];    
+      var _permanents = [];    
 
       _reorderedProgram = Pard.Widgets.ReorderProgramCrono(program);
-
-
 
       var _tableCreated = $('<table>').addClass('table-proposal stripe row-border program-table').attr({'cellspacing':"0", 'width':"950px"});
   
@@ -624,6 +625,7 @@
         }
       ]
       });
+      filterCategory.trigger('select2:select');
     }
 
     _printTable();
