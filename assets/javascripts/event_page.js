@@ -67,24 +67,53 @@
     }
   }
 
-  ns.Widgets.SpaceMarkerProgram = function(host_proposal_id){
-    console.log(host_proposal_id);
+  ns.ProgramInfo = {};
+
+  ns.Widgets.SpaceMarkerProgram = function(host_name){
+    Pard.Backend.searchProgram([host_name], 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
+      Pard.ProgramInfo.program = data.program;
+      Pard.PrintProgram();
+    });
+  }
+
+  ns.PrintProgram = function(){
+    var _program = Pard.ProgramInfo.program;
+    var _date = Pard.ProgramInfo.date || '2016-10-15';
+    var _searchResult = $('#searchResult');
+
+    _searchResult.empty();
+    var _dateBox = $('<div>');
+    var _dateLabel = $('<h4>').text(moment(_date).format('DD-MM-YYYY'));
+    _dateBox.append(_dateLabel);
+    _searchResult.append(_dateBox);
+    _program[_date].forEach(function(performance){
+      var _performanceBox = $('<div>');
+      var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
+      var _title = performance.title;
+      _performanceBox.append(_time, _title);
+      _searchResult.append(_performanceBox);
+    });
+
+    if(_program[_date].length == 0) {
+      var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
+      _searchResult.append(_message);
+    }
   }
 
   ns.Widgets.ProgramEventPage = function(){
 
     var hosts = [];
-    var data = [];
-    var performances = [];
+    var _data = [];
+    var _searchResult = $('<div>').attr('id', 'searchResult');
 
     Pard.CachedProgram.forEach(function(performance, index){
       if($.inArray(performance.host_proposal_id, hosts) < 0){
-        data.push({
+        _data.push({
           lat: performance.address.location.lat,
           lon: performance.address.location.lng,
           title: performance.host_name,
           icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
-          html: "<div><b>" + performance.host_name + "</b></div> <button onclick = \" Pard.Widgets.SpaceMarkerProgram('" + performance.host_proposal_id + "');\">Ver programa</button>"
+          html: "<div><b>" + performance.host_name + "</b></div> <button onclick = \" Pard.Widgets.SpaceMarkerProgram('" + performance.host_name + "');\">Ver programa</button>"
         });
         hosts.push(performance.host_proposal_id);
       }
@@ -108,6 +137,11 @@
       minimumResultsForSearch: Infinity,
       allowClear:false,
       templateResult: formatResource
+    });
+
+    _daySelector.on('change', function(){
+      Pard.ProgramInfo.date = _daySelector.val();
+      Pard.PrintProgram();
     });
 
     function formatResource (resource) {
@@ -173,22 +207,8 @@
         tags.push(tag.text);
       });
       Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
-        var _dateBox = $('<div>');
-        var _dateLabel = $('<h4>').text(moment(_daySelector.val()).format('DD-MM-YYYY'));
-        _dateBox.append(_dateLabel);
-        _searchResult.append(_dateBox);
-        data.program[_daySelector.val()].forEach(function(performance){
-          var _performanceBox = $('<div>');
-          var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
-          var _title = performance.title;
-          _performanceBox.append(_time, _title);
-          _searchResult.append(_performanceBox);
-        });
-
-        if(data.program[_daySelector.val()].length == 0) {
-          var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
-          _searchResult.append(_message);
-        }
+        Pard.ProgramInfo.program = data.program;
+        Pard.PrintProgram();
       });
       spinnerStop();
     }
@@ -213,13 +233,13 @@
     
     $(document).ready(function(){
       new Maplace({
-        locations: data,
+        locations: _data,
         controls_type: 'list',
         controls_on_map: false,
       }).Load();
     });
 
-    var _searchResult = $('<div>');
+    
     _createdWidget.append(map, _searchResult);
     _searchWidget.trigger('change');
 
