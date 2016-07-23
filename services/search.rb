@@ -150,8 +150,8 @@ module Services
 		  	dates = ['2016-10-15', '2016-10-16']
 		  	dates.each{ |date|
 		  		ordered_program[date] = []
-		  		ordered_program[date].push(results.select{ |performance| performance[:date] == date && performance[:permanent] == 'false'}.sort{ |a,b| a[:time].first <=> a[:time].first })
-		  		ordered_program[date].push(results.select{ |performance| performance[:date] == date && performance[:permanent] == 'true'}.sort{ |a,b| a[:time].first <=> a[:time].first })
+		  		ordered_program[date].push(results.select{ |performance| performance[:date] == date && performance[:permanent] == 'false'}.sort_by{ |performance| [performance[:time].first, performance[:time].last] })
+		  		ordered_program[date].push(results.select{ |performance| performance[:date] == date && performance[:permanent] == 'true'}.sort_by{ |performance| [performance[:time].first, performance[:time].last] })
 		  		ordered_program[date].flatten!
 		  	}
 		  	ordered_program

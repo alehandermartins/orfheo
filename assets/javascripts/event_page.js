@@ -75,6 +75,7 @@
 
     var hosts = [];
     var data = [];
+    var performances = [];
 
     Pard.CachedProgram.forEach(function(performance, index){
       if($.inArray(performance.host_proposal_id, hosts) < 0){
@@ -91,8 +92,24 @@
 
     var _createdWidget = $('<div>');
     var _searchWidget = $('<select>').attr('id', 'searchEngine');
-    _createdWidget.append(_searchWidget);
+
+    var _daySelectorContainer = $('<div>').css('width', 150);
+    var _daySelector = $('<select>');
+
+    ['2016-10-15', '2016-10-16'].forEach(function(day){
+      var date = $('<option>').val(day).text(moment(day).format('DD-MM-YYYY'));
+      _daySelector.append(date);
+    });
+
+    _daySelectorContainer.append(_daySelector);
     
+    _createdWidget.append(_searchWidget, _daySelectorContainer);
+    _daySelector.select2({
+      minimumResultsForSearch: Infinity,
+      allowClear:false,
+      templateResult: formatResource
+    });
+
     function formatResource (resource) {
       if(!resource.id) return resource.text;
       var _label = $('<span>').text(resource.text);
@@ -156,11 +173,22 @@
         tags.push(tag.text);
       });
       Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
-        console.log(data.program);
-        // else {
-        //   var _message = $('<h6>').text('Ningún resultado').css('color','#6f6f6f');
-        //   _searchResult.append(_message);
-        // }
+        var _dateBox = $('<div>');
+        var _dateLabel = $('<h4>').text(moment(_daySelector.val()).format('DD-MM-YYYY'));
+        _dateBox.append(_dateLabel);
+        _searchResult.append(_dateBox);
+        data.program[_daySelector.val()].forEach(function(performance){
+          var _performanceBox = $('<div>');
+          var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
+          var _title = performance.title;
+          _performanceBox.append(_time, _title);
+          _searchResult.append(_performanceBox);
+        });
+
+        if(data.program[_daySelector.val()].length == 0) {
+          var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
+          _searchResult.append(_message);
+        }
       });
       spinnerStop();
     }

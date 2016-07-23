@@ -230,8 +230,8 @@ module Repos
         results = @@calls_collection.find(query)
         return [] unless results.count > 0
 
-        results.map { |profile|
-         Util.string_keyed_hash_to_symbolized profile
+        results.map { |event|
+         Util.string_keyed_hash_to_symbolized event
         }
       end
 

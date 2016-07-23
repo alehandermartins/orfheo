@@ -426,8 +426,6 @@
 
     var hours = [];
 
-    //console.log((endTime - startTime) /1000);
-
     //Filling the columns for each day we declare a set of space columns. One extra set for permanent
     Object.keys(eventTime).forEach(function(day, day_number){
 
