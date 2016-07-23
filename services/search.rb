@@ -104,15 +104,16 @@ module Services
 		  def add_suggestions suggestions, performance, query
 		    add_suggestion(suggestions, performance[:participant_category], 'category') if queriable? performance[:participant_category], query
 		    add_suggestion(suggestions, performance[:host_category], 'category') if queriable? performance[:host_category], query
-		    add_suggestion(suggestions, performance[:participant_name], 'name') if queriable? performance[:participant_name], query
-		    add_suggestion(suggestions, performance[:host_name], 'name') if queriable? performance[:host_name], query
+		    add_suggestion(suggestions, performance[:participant_name], 'name', 'artist') if queriable? performance[:participant_name], query
+		    add_suggestion(suggestions, performance[:host_name], 'name', 'space') if queriable? performance[:host_name], query
 		  	add_suggestion(suggestions, performance[:title], 'title') if queriable? performance[:title], query
 		    add_suggestion(suggestions, performance[:address]['locality'], 'city') if queriable? performance[:address]['locality'], query  
 		  end
 
-		  def add_suggestion suggestions, text, type
+		  def add_suggestion suggestions, text, type, icon = nil
+		  	icon = icon || text
 			  translation = I18n.transliterate(translate text)
-			  suggestions.push({id: translation, text: translation, type: type, icon: text}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(translation.downcase)}
+			  suggestions.push({id: translation, text: translation, type: type, icon: icon}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(translation.downcase)}
 			end
 
 			def translate text
