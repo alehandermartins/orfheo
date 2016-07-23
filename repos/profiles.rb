@@ -121,8 +121,8 @@ module Repos
             event = Repos::Calls.get_event args[:event_id]
             return [] unless event.has_key? :proposals
             profiles = all args
-            event[:proposals].map{ |proposal|
-              profiles.select{ |profile| profile[:profile_id] ==  proposal[:profile_id]}
+            event[:program].map{ |performance|
+              [profiles.select{ |profile| profile[:profile_id] == performance[:participant_id] }, profiles.select{ |profile| profile[:profile_id] == performance[:host_id]}]
             }.flatten.compact.uniq.shuffle
           end
 

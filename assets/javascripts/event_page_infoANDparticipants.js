@@ -66,7 +66,7 @@
     
     // var _callProposalsTitle = $('<div>').append($('<h5>').text('Artistas y espacios participantes')).addClass('call-proposals-title');
    
-    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page').render();
+    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', 'a5bc4203-9379-4de0-856a-55e1e5f3fac6').render();
 
     var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
 
