@@ -113,7 +113,7 @@
           lon: performance.address.location.lng,
           title: performance.host_name,
           icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
-          html: "<div><b>" + performance.host_name + "</b></div> <button onclick = \" Pard.Widgets.SpaceMarkerProgram('" + performance.host_name + "');\">Ver programa</button>"
+          html: "<div><b>" + performance.host_name + "</b></div> <button id= 'markerButton'>Ver programa</button>"
         });
         hosts.push(performance.host_proposal_id);
       }
@@ -227,15 +227,21 @@
       )
     });
 
-
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
     
     $(document).ready(function(){
-      new Maplace({
+      var gmap = new Maplace({
         locations: _data,
         controls_type: 'list',
         controls_on_map: false,
+        afterOpenInfowindow: function(index, marker, location){
+          setTimeout(function(){
+            $('#markerButton').on('click', function(){
+              console.log(_data[index].title);
+            });
+          }, 50);
+        }
       }).Load();
     });
 
