@@ -18,7 +18,7 @@
   ns.Widgets.EventInfo = function(){
   	var _createdWidget = $('<div>');
 
-    var _title = Pard.Widgets.EventTitle();
+    // var _title = Pard.Widgets.EventTitle();
 
     var _header = $('<div>').addClass('header-container-infoTab-event');
 
@@ -48,7 +48,7 @@
     var _text = $('<p>').text('Bla bla bla...');
     _textContainer.append(_baseline, _text)
 
-    _createdWidget.append(_title, _header, _textContainer);
+    _createdWidget.append(_header, _textContainer);
 
     return{
       render: function(){
@@ -68,9 +68,9 @@
    
     var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', 'a5bc4203-9379-4de0-856a-55e1e5f3fac6').render();
 
-    var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
+    // var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
 
-    _createdWidget.append(_searchTitle, _searchEngine);
+    _createdWidget.append( _searchEngine);
 
     return{
       render: function(){

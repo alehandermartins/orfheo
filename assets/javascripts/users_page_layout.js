@@ -13,7 +13,9 @@
     var _topContent = $('<div>').addClass('top-header-content');
 
     var _topBarTitle = $('<div>').addClass('left-user-header-content');
-    var _logo = $('<div>').addClass('logo-header inside-header-logo');
+    var _logo = $('<a>').attr({
+      'href': '/'
+    }).append($('<div>').addClass('logo-header inside-header-logo'));
     _topBarTitle.append(_logo);
     _logo.click(function(){
       location.href = /users/;
