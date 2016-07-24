@@ -51,11 +51,13 @@
     var _container = $('<div>').addClass('pard-header-container');
     
     var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content')
-    var _logo = $('<div>').addClass('logo-header');
+    var _logo = $('<a>').attr({
+      'href': '/'
+    }).append($('<div>').addClass('logo-header'));
     _topBarTitle.append(_logo);
-    _logo.click(function(){
-      location.href = '/';
-    });
+    // _logo.click(function(){
+    //   location.href = '/';
+    // });
 
 
     if (userStatus == 'outsider') {

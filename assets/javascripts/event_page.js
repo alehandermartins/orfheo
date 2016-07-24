@@ -15,7 +15,7 @@
       _contentShowHide('program-event-page');
       $(this).addClass('aside-event-nav-btn-selected');
     });
-    var _programContent = $('<div>').attr('id', 'program-event-page').addClass('profiles-user-section-content');
+    var _programContent = $('<div>').attr('id', 'program-event-page');
     _programContent.append(Pard.Widgets.ProgramEventPage().render());
     var _contentShown = _programContent;
     _program.addClass('aside-event-nav-btn-selected');
@@ -29,7 +29,7 @@
     _explore.one('click', function(){
     _exploreContent.append(Pard.Widgets.ParticipantEventPage().render());      
     });
-    var _exploreContent = $('<div>').attr('id', 'participants-event-page').addClass('profiles-user-section-content');
+    var _exploreContent = $('<div>').attr('id', 'participants-event-page');
     _exploreContent.hide();
 
     var _info = $('<div>').addClass('aside-event-nav-btn');
@@ -41,7 +41,7 @@
     _info.one('click', function(){
     _infoContent.append(Pard.Widgets.EventInfo().render());      
     });
-    var _infoContent = $('<div>').attr('id', 'info-event-page').addClass('profiles-user-section-content');
+    var _infoContent = $('<div>').attr('id', 'info-event-page');
     _infoContent.hide();
 
 
@@ -56,8 +56,10 @@
 
     var _buttonContainer = $('<div>').addClass('create-profile-container');
     
-    _buttonContainer.append(_program, _explore, _info);
-    sectionContainer.append(_programContent, _exploreContent, _infoContent);
+    var _title = Pard.Widgets.EventTitle();
+
+    _buttonContainer.append( _program, _explore, _info);
+    sectionContainer.append(_title, _programContent, _exploreContent, _infoContent).addClass('profiles-user-section-content');
     _createdWidget.append(_buttonContainer);
 
     return{
