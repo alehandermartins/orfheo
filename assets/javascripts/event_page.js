@@ -71,13 +71,6 @@
 
   ns.ProgramInfo = {};
 
-  ns.Widgets.SpaceMarkerProgram = function(host_name){
-    Pard.Backend.searchProgram([host_name], 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
-      Pard.ProgramInfo.program = data.program;
-      Pard.PrintProgram();
-    });
-  }
-
   ns.PrintProgram = function(){
     var _program = Pard.ProgramInfo.program;
     var _date = Pard.ProgramInfo.date || '2016-10-15';
@@ -107,19 +100,6 @@
     var hosts = [];
     var _data = [];
     var _searchResult = $('<div>').attr('id', 'searchResult');
-
-    Pard.CachedProgram.forEach(function(performance, index){
-      if($.inArray(performance.host_proposal_id, hosts) < 0){
-        _data.push({
-          lat: performance.address.location.lat,
-          lon: performance.address.location.lng,
-          title: performance.host_name,
-          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
-          html: "<div><b>" + performance.host_name + "</b></div> <button id= 'markerButton'>Ver programa</button>"
-        });
-        hosts.push(performance.host_proposal_id);
-      }
-    });
 
     var _createdWidget = $('<div>');
     var _searchWidget = $('<select>').attr('id', 'searchEngine');
@@ -203,13 +183,29 @@
 
     var _searchCallback = function(spinnerStop){
       tags = [];
-
+      console.log('miau');
       var _dataArray = _searchWidget.select2('data'); 
       _dataArray.forEach(function(tag){
         tags.push(tag.text);
       });
       Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
         Pard.ProgramInfo.program = data.program;
+        _data = [];
+        hosts = [];
+        data.program[_daySelector.val()].forEach(function(performance, index){
+        if($.inArray(performance.host_proposal_id, hosts) < 0){
+            _data.push({
+              lat: performance.address.location.lat,
+              lon: performance.address.location.lng,
+              title: performance.host_name,
+              zoom: 16,
+              icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
+              html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>"
+            });
+            hosts.push(performance.host_proposal_id);
+          }
+        });
+        gmap.SetLocations(_data, true);
         Pard.PrintProgram();
       });
       spinnerStop();
@@ -231,25 +227,26 @@
 
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
-    
+    var gmap;
+
     $(document).ready(function(){
-      var gmap = new Maplace({
+      gmap = new Maplace({
         locations: _data,
         controls_type: 'list',
         controls_on_map: false,
-        afterOpenInfowindow: function(index, marker, location){
-          setTimeout(function(){
-            $('#markerButton').on('click', function(){
-              console.log(_data[index].title);
-            });
-          }, 50);
+        beforeShow: function(index, location, marker){
+          _searchWidget.val('');
+          var option = new Option(_data[index].title, _data[index].title, true, true);
+          _searchWidget.append(option);
+          _searchWidget.trigger('change');
         }
       }).Load();
+      _searchWidget.trigger('change');
     });
 
     
     _createdWidget.append(map, _searchResult);
-    _searchWidget.trigger('change');
+   
 
     return{
       render: function(){

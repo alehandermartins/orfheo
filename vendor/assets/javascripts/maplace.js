@@ -9,4 +9,1135 @@
 * @version  0.2.7
 * @preserve
 */
-!function(a,b){"function"==typeof define&&define.amd?define(["jquery"],b):"object"==typeof exports?module.exports=b(require("jquery")):a.Maplace=b(a.jQuery)}(this,function(a){"use strict";function b(b){this.VERSION="0.2.7",this.loaded=!1,this.markers=[],this.circles=[],this.oMap=!1,this.view_all_key="all",this.infowindow=null,this.maxZIndex=0,this.ln=0,this.oMap=!1,this.oBounds=null,this.map_div=null,this.canvas_map=null,this.controls_wrapper=null,this.current_control=null,this.current_index=null,this.Polyline=null,this.Polygon=null,this.Fusion=null,this.directionsService=null,this.directionsDisplay=null,this.o={debug:!1,map_div:"#gmap",controls_div:"#controls",generate_controls:!0,controls_type:"dropdown",controls_cssclass:"",controls_title:"",controls_on_map:!0,controls_applycss:!0,controls_position:google.maps.ControlPosition.RIGHT_TOP,type:"marker",view_all:!0,view_all_text:"View All",pan_on_click:!0,start:0,locations:[],shared:{},map_options:{mapTypeId:google.maps.MapTypeId.ROADMAP},stroke_options:{strokeColor:"#0000FF",strokeOpacity:.8,strokeWeight:2,fillColor:"#0000FF",fillOpacity:.4},directions_options:{travelMode:google.maps.TravelMode.DRIVING,unitSystem:google.maps.UnitSystem.METRIC,optimizeWaypoints:!1,provideRouteAlternatives:!1,avoidHighways:!1,avoidTolls:!1},circle_options:{radius:100,visible:!0},styles:{},fusion_options:{},directions_panel:null,draggable:!1,editable:!1,show_infowindows:!0,show_markers:!0,infowindow_type:"bubble",listeners:{},beforeViewAll:function(){},afterViewAll:function(){},beforeShow:function(a,b,c){},afterShow:function(a,b,c){},afterCreateMarker:function(a,b,c){},beforeCloseInfowindow:function(a,b){},afterCloseInfowindow:function(a,b){},beforeOpenInfowindow:function(a,b,c){},afterOpenInfowindow:function(a,b,c){},afterRoute:function(a,b,c){},onPolylineClick:function(a){},onPolygonClick:function(a){},circleRadiusChanged:function(a,b,c){},circleCenterChanged:function(a,b,c){},drag:function(a,b,c){},dragEnd:function(a,b,c){},dragStart:function(a,b,c){}},this.AddControl("dropdown",c),this.AddControl("list",d),b&&"directions"===b.type&&(!b.show_markers&&(b.show_markers=!1),!b.show_infowindows&&(b.show_infowindows=!1)),a.extend(!0,this.o,b)}var c,d;return c={activateCurrent:function(a){this.html_element.find("select").val(a)},getHtml:function(){var b,c,d=this,e="";if(this.ln>1){for(e+='<select class="dropdown controls '+this.o.controls_cssclass+'">',this.ShowOnMenu(this.view_all_key)&&(e+='<option value="'+this.view_all_key+'">'+this.o.view_all_text+"</option>"),c=0;c<this.ln;c+=1)this.ShowOnMenu(c)&&(e+='<option value="'+(c+1)+'">'+(this.o.locations[c].title||"#"+(c+1))+"</option>");e+="</select>",e=a(e).bind("change",function(){d.ViewOnMap(this.value)})}return b=this.o.controls_title,this.o.controls_title&&(b=a('<div class="controls_title"></div>').css(this.o.controls_applycss?{fontWeight:"bold",fontSize:this.o.controls_on_map?"12px":"inherit",padding:"3px 10px 5px 0"}:{}).append(this.o.controls_title)),this.html_element=a('<div class="wrap_controls"></div>').append(b).append(e),this.html_element}},d={html_a:function(b,c,d){var e=this,f=c||b+1,g=d||this.o.locations[b].title,h=a('<a data-load="'+f+'" id="ullist_a_'+f+'" href="#'+f+'" title="'+g+'"><span>'+(g||"#"+(b+1))+"</span></a>");return h.css(this.o.controls_applycss?{color:"#666",display:"block",padding:"5px",fontSize:this.o.controls_on_map?"12px":"inherit",textDecoration:"none"}:{}),h.on("click",function(b){b.preventDefault();var c=a(this).attr("data-load");e.ViewOnMap(c)}),h},activateCurrent:function(a){this.html_element.find("li").removeClass("active"),this.html_element.find("#ullist_a_"+a).parent().addClass("active")},getHtml:function(){var b,c,e=a("<ul class='ullist controls "+this.o.controls_cssclass+"'></ul>").css(this.o.controls_applycss?{margin:0,padding:0,listStyleType:"none"}:{});for(this.ShowOnMenu(this.view_all_key)&&e.append(a("<li></li>").append(d.html_a.call(this,!1,this.view_all_key,this.o.view_all_text))),c=0;c<this.ln;c++)this.ShowOnMenu(c)&&e.append(a("<li></li>").append(d.html_a.call(this,c)));return b=this.o.controls_title,this.o.controls_title&&(b=a('<div class="controls_title"></div>').css(this.o.controls_applycss?{fontWeight:"bold",padding:"3px 10px 5px 0",fontSize:this.o.controls_on_map?"12px":"inherit"}:{}).append(this.o.controls_title)),this.html_element=a('<div class="wrap_controls"></div>').append(b).append(e),this.html_element}},b.prototype.controls={},b.prototype.create_objMap=function(){var b,c=this,d=0;for(b in this.o.styles)this.o.styles.hasOwnProperty(b)&&(0===d&&(this.o.map_options.mapTypeControlOptions={mapTypeIds:[google.maps.MapTypeId.ROADMAP]}),d++,this.o.map_options.mapTypeControlOptions.mapTypeIds.push("map_style_"+d));if(this.loaded)c.oMap.setOptions(this.o.map_options);else try{this.map_div.css({position:"relative",overflow:"hidden"}),this.canvas_map=a("<div>").addClass("canvas_map").css({width:"100%",height:"100%"}).appendTo(this.map_div),this.oMap=new google.maps.Map(this.canvas_map.get(0),this.o.map_options)}catch(e){this.debug("create_objMap::"+this.map_div.selector,e.toString())}d=0;for(b in this.o.styles)this.o.styles.hasOwnProperty(b)&&(d++,this.oMap.mapTypes.set("map_style_"+d,new google.maps.StyledMapType(this.o.styles[b],{name:b})),this.oMap.setMapTypeId("map_style_"+d))},b.prototype.add_markers_to_objMap=function(){var a,b,c=this.o.type||"marker";switch(c){case"marker":for(a=0;a<this.ln;a++)b=this.create_objPoint(a),this.create.marker.call(this,a,b);break;default:this.create[c].apply(this)}},b.prototype.create_objPoint=function(b){var c=a.extend({},this.o.locations[b]),d=void 0===c.visible?void 0:c.visible;return!c.type&&(c.type=this.o.type),c.map=this.oMap,c.position=new google.maps.LatLng(c.lat,c.lon),c.zIndex=void 0===c.zIndex?1e4:c.zIndex+100,c.visible=void 0===d?this.o.show_markers:d,this.o.maxZIndex=c.zIndex>this.maxZIndex?c.zIndex:this.maxZIndex,c.image&&(c.icon=new google.maps.MarkerImage(c.image,new google.maps.Size(c.image_w||32,c.image_h||32),new google.maps.Point(0,0),new google.maps.Point((c.image_w||32)/2,(c.image_h||32)/2))),c},b.prototype.create_objCircle=function(b){var c,d,e;return e=a.extend({},b),c=a.extend({},this.o.stroke_options),d=a.extend({},this.o.circle_options),a.extend(c,b.stroke_options||{}),a.extend(e,c),a.extend(d,b.circle_options||{}),a.extend(e,d),e.center=b.position,e.draggable=!1,e.zIndex=b.zIndex>0?b.zIndex-10:1,e},b.prototype.add_markerEv=function(a,b,c){var d=this;google.maps.event.addListener(c,"click",function(e){d.o.beforeShow(a,b,c),d.o.show_infowindows&&b.show_infowindow!==!1&&d.open_infowindow(a,c,e),d.o.pan_on_click&&b.pan_on_click!==!1&&(d.oMap.panTo(b.position),b.zoom&&d.oMap.setZoom(b.zoom)),d.current_control&&d.o.generate_controls&&d.current_control.activateCurrent&&d.current_control.activateCurrent.call(d,a+1),d.current_index=a,d.o.afterShow(a,b,c)}),b.draggable&&this.add_dragEv(a,b,c)},b.prototype.add_circleEv=function(a,b,c){var d=this;google.maps.event.addListener(c,"click",function(){d.ViewOnMap(a+1)}),google.maps.event.addListener(c,"center_changed",function(){d.o.circleCenterChanged(a,b,c)}),google.maps.event.addListener(c,"radius_changed",function(){d.o.circleRadiusChanged(a,b,c)}),b.draggable&&this.add_dragEv(a,b,c)},b.prototype.add_dragEv=function(a,b,c){var d=this;google.maps.event.addListener(c,"drag",function(e){var f,g;if(c.getPosition)f=c.getPosition();else{if(!c.getCenter)return;f=c.getCenter()}if(d.circles[a]&&d.circles[a].setCenter(f),d.Polyline?g="Polyline":d.Polygon&&(g="Polygon"),g){for(var h=d[g].getPath(),i=h.getArray(),j=[],k=0;k<i.length;++k)j[k]=a===k?new google.maps.LatLng(f.lat(),f.lng()):new google.maps.LatLng(i[k].lat(),i[k].lng());d[g].setPath(new google.maps.MVCArray(j)),d.add_polyEv(g)}d.o.drag(a,b,c)}),google.maps.event.addListener(c,"dragend",function(){d.o.dragEnd(a,b,c)}),google.maps.event.addListener(c,"dragstart",function(){d.o.dragStart(a,b,c)}),google.maps.event.addListener(c,"center_changed",function(){d.markers[a]&&c.getCenter&&d.markers[a].setPosition(c.getCenter()),d.o.drag(a,b,c)})},b.prototype.add_polyEv=function(a){var b=this;google.maps.event.addListener(this[a].getPath(),"set_at",function(c,d){var e=b[a].getPath().getAt(c),f=new google.maps.LatLng(e.lat(),e.lng());b.markers[c]&&b.markers[c].setPosition(f),b.circles[c]&&b.circles[c].setCenter(f),b.o["on"+a+"Changed"](c,d,b[a].getPath().getArray())})},b.prototype.create={marker:function(a,b,c){var d;return"circle"!==b.type||c||(d=this.create_objCircle(b),b.visible||(d.draggable=b.draggable),c=new google.maps.Circle(d),this.add_circleEv(a,d,c),this.circles[a]=c),b.type="marker",c=new google.maps.Marker(b),this.add_markerEv(a,b,c),this.oBounds.extend(b.position),this.markers[a]=c,this.o.afterCreateMarker(a,b,c),c},circle:function(){var a,b,c,d;for(a=0;a<this.ln;a++)b=this.create_objPoint(a),"circle"===b.type&&(c=this.create_objCircle(b),b.visible||(c.draggable=b.draggable),d=new google.maps.Circle(c),this.add_circleEv(a,c,d),this.circles[a]=d),b.type="marker",this.create.marker.call(this,a,b,d)},polyline:function(){var b,c,d=a.extend({},this.o.stroke_options);for(d.path=[],d.draggable=this.o.draggable,d.editable=this.o.editable,d.map=this.oMap,d.zIndex=this.o.maxZIndex+100,b=0;b<this.ln;b++)c=this.create_objPoint(b),this.create.marker.call(this,b,c),d.path.push(c.position);this.Polyline?this.Polyline.setOptions(d):this.Polyline=new google.maps.Polyline(d),this.add_polyEv("Polyline")},polygon:function(){var b,c,d=this,e=a.extend({},this.o.stroke_options);for(e.path=[],e.draggable=this.o.draggable,e.editable=this.o.editable,e.map=this.oMap,e.zIndex=this.o.maxZIndex+100,b=0;b<this.ln;b++)c=this.create_objPoint(b),this.create.marker.call(this,b,c),e.path.push(c.position);this.Polygon?this.Polygon.setOptions(e):this.Polygon=new google.maps.Polygon(e),google.maps.event.addListener(this.Polygon,"click",function(a){d.o.onPolygonClick(a)}),this.add_polyEv("Polygon")},fusion:function(){this.o.fusion_options.styles=[this.o.stroke_options],this.o.fusion_options.map=this.oMap,this.Fusion?this.Fusion.setOptions(this.o.fusion_options):this.Fusion=new google.maps.FusionTablesLayer(this.o.fusion_options)},directions:function(){var b,c,d,e,f,g=this,h=[],i=0;for(b=0;b<this.ln;b++)c=this.create_objPoint(b),0===b?e=c.position:b===this.ln-1?f=c.position:(d=this.o.locations[b].stopover===!0,h.push({location:c.position,stopover:d})),this.create.marker.call(this,b,c);this.o.directions_options.origin=e,this.o.directions_options.destination=f,this.o.directions_options.waypoints=h,this.directionsService||(this.directionsService=new google.maps.DirectionsService),this.directionsDisplay?this.directionsDisplay.setOptions({draggable:this.o.draggable}):this.directionsDisplay=new google.maps.DirectionsRenderer({draggable:this.o.draggable}),this.directionsDisplay.setMap(this.oMap),this.o.directions_panel&&(this.o.directions_panel=a(this.o.directions_panel),this.directionsDisplay.setPanel(this.o.directions_panel.get(0))),this.o.draggable&&google.maps.event.addListener(this.directionsDisplay,"directions_changed",function(){i=g.compute_distance(g.directionsDisplay.directions),g.o.afterRoute(i)}),this.directionsService.route(this.o.directions_options,function(a,b){b===google.maps.DirectionsStatus.OK&&(i=g.compute_distance(a),g.directionsDisplay.setDirections(a)),g.o.afterRoute(i,b,a)})}},b.prototype.compute_distance=function(a){var b,c=0,d=a.routes[0],e=d.legs.length;for(b=0;e>b;b++)c+=d.legs[b].distance.value;return c},b.prototype.type_to_open={bubble:function(a){this.infowindow=new google.maps.InfoWindow({content:a.html||""})}},b.prototype.open_infowindow=function(a,b,c){this.CloseInfoWindow();var d=this.o.locations[a],e=this.o.infowindow_type;d.html&&this.type_to_open[e]&&(this.o.beforeOpenInfowindow(a,d,b),this.type_to_open[e].call(this,d),this.infowindow.open(this.oMap,b),this.o.afterOpenInfowindow(a,d,b))},b.prototype.get_html_controls=function(){return this.controls[this.o.controls_type]&&this.controls[this.o.controls_type].getHtml?(this.current_control=this.controls[this.o.controls_type],this.current_control.getHtml.apply(this)):""},b.prototype.generate_controls=function(){if(!this.o.controls_on_map)return this.controls_wrapper.empty(),void this.controls_wrapper.append(this.get_html_controls());var b=a('<div class="on_gmap '+this.o.controls_type+' gmap_controls"></div>').css(this.o.controls_applycss?{margin:"5px"}:{}),c=a(this.get_html_controls()).css(this.o.controls_applycss?{background:"#fff",padding:"5px",border:"1px solid #eee",boxShadow:"rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px",maxHeight:this.map_div.find(".canvas_map").outerHeight()-80,minWidth:100,overflowY:"auto",overflowX:"hidden"}:{});b.append(c),this.oMap.controls[this.o.controls_position].push(b.get(0))},b.prototype.init_map=function(){var a=this;this.Polyline&&this.Polyline.setMap(null),this.Polygon&&this.Polygon.setMap(null),this.Fusion&&this.Fusion.setMap(null),this.directionsDisplay&&this.directionsDisplay.setMap(null);for(var b=this.markers.length-1;b>=0;b-=1)try{this.markers[b]&&this.markers[b].setMap(null)}catch(c){a.debug("init_map::markers::setMap",c.stack)}this.markers.length=0,this.markers=[];for(var d=this.circles.length-1;d>=0;d-=1)try{this.circles[d]&&this.circles[d].setMap(null)}catch(c){a.debug("init_map::circles::setMap",c.stack)}this.circles.length=0,this.circles=[],this.o.controls_on_map&&this.oMap.controls&&this.oMap.controls[this.o.controls_position].forEach(function(b,c){try{a.oMap.controls[this.o.controls_position].removeAt(c)}catch(d){a.debug("init_map::removeAt",d.stack)}}),this.oBounds=new google.maps.LatLngBounds},b.prototype.perform_load=function(){1===this.ln?(this.o.map_options.set_center?this.oMap.setCenter(new google.maps.LatLng(this.o.map_options.set_center[0],this.o.map_options.set_center[1])):(this.oMap.fitBounds(this.oBounds),this.ViewOnMap(1)),this.o.map_options.zoom&&this.oMap.setZoom(this.o.map_options.zoom)):0===this.ln?(this.o.map_options.set_center?this.oMap.setCenter(new google.maps.LatLng(this.o.map_options.set_center[0],this.o.map_options.set_center[1])):this.oMap.fitBounds(this.oBounds),this.oMap.setZoom(this.o.map_options.zoom||1)):(this.oMap.fitBounds(this.oBounds),"number"==typeof(this.o.start-0)&&this.o.start>0&&this.o.start<=this.ln?this.ViewOnMap(this.o.start):this.o.map_options.set_center?this.oMap.setCenter(new google.maps.LatLng(this.o.map_options.set_center[0],this.o.map_options.set_center[1])):this.ViewOnMap(this.view_all_key),this.o.map_options.zoom&&this.oMap.setZoom(this.o.map_options.zoom))},b.prototype.debug=function(a,b){return this.o.debug&&console.log(a,b),this},b.prototype.AddControl=function(a,b){return a&&b?(this.controls[a]=b,this):(self.debug("AddControl",'Missing "name" and "func" callback.'),!1)},b.prototype.CloseInfoWindow=function(){return this.infowindow&&(this.current_index||0===this.current_index)&&(this.o.beforeCloseInfowindow(this.current_index,this.o.locations[this.current_index]),this.infowindow.close(),this.infowindow=null,this.o.afterCloseInfowindow(this.current_index,this.o.locations[this.current_index])),this},b.prototype.ShowOnMenu=function(a){if(a===this.view_all_key&&this.o.view_all&&this.ln>1)return!0;if(a=parseInt(a,10),"number"==typeof(a-0)&&a>=0&&a<this.ln){var b=this.o.locations[a].on_menu!==!1;if(b)return!0}return!1},b.prototype.ViewOnMap=function(a){if(a===this.view_all_key)this.o.beforeViewAll(),this.current_index=a,this.o.locations.length>0&&this.o.generate_controls&&this.current_control&&this.current_control.activateCurrent&&this.current_control.activateCurrent.apply(this,[a]),this.oMap.fitBounds(this.oBounds),this.CloseInfoWindow(),this.o.afterViewAll();else if(a=parseInt(a,10),"number"==typeof(a-0)&&a>0&&a<=this.ln)try{google.maps.event.trigger(this.markers[a-1],"click")}catch(b){this.debug("ViewOnMap::trigger",b.stack)}return this},b.prototype.SetLocations=function(a,b){return this.o.locations=a,b&&this.Load(),this},b.prototype.AddLocations=function(b,c){var d=this;return a.isArray(b)&&a.each(b,function(a,b){d.o.locations.push(b)}),a.isPlainObject(b)&&this.o.locations.push(b),c&&this.Load(),this},b.prototype.AddLocation=function(b,c,d){return a.isPlainObject(b)&&this.o.locations.splice(c,0,b),d&&this.Load(),this},b.prototype.RemoveLocations=function(b,c){var d=this,e=0;return a.isArray(b)?a.each(b,function(a,b){b-e<d.ln&&d.o.locations.splice(b-e,1),e++}):b<this.ln&&this.o.locations.splice(b,1),c&&this.Load(),this},b.prototype.Loaded=function(){return this.loaded},b.prototype._init=function(){this.ln=this.o.locations.length;for(var b=0;b<this.ln;b++){var c=a.extend({},this.o.shared);this.o.locations[b]=a.extend(c,this.o.locations[b]),this.o.locations[b].html&&(this.o.locations[b].html=this.o.locations[b].html.replace("%index",b+1),this.o.locations[b].html=this.o.locations[b].html.replace("%title",this.o.locations[b].title||""))}return this.map_div=a(this.o.map_div),this.controls_wrapper=a(this.o.controls_div),this},b.prototype.Load=function(b){a.extend(!0,this.o,b),b&&b.locations&&(this.o.locations=b.locations),this._init(),this.o.visualRefresh===!1?google.maps.visualRefresh=!1:google.maps.visualRefresh=!0,this.init_map(),this.create_objMap(),this.add_markers_to_objMap(),this.ln>1&&this.o.generate_controls||this.o.force_generate_controls?(this.o.generate_controls=!0,this.generate_controls()):this.o.generate_controls=!1;var c=this;if(this.loaded)this.perform_load();else{google.maps.event.addListenerOnce(this.oMap,"idle",function(){c.perform_load()});for(var d in this.o.listeners)this.o.listeners.hasOwnProperty(d)&&google.maps.event.addListener(this.oMap,d,this.o.listeners[d])}return this.loaded=!0,this},b});
+
+;(function(root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        module.exports = factory(require('jquery'));
+    } else {
+        root.Maplace = factory(root.jQuery);
+    }
+
+}(this, function($) {
+    'use strict';
+
+    var html_dropdown,
+        html_ullist;
+
+    //dropdown menu type
+    html_dropdown = {
+        activateCurrent: function(index) {
+            this.html_element.find('select').val(index);
+        },
+
+        getHtml: function() {
+            var self = this,
+                html = '',
+                title,
+                a;
+
+            if (this.ln > 1) {
+                html += '<select class="dropdown controls ' + this.o.controls_cssclass + '">';
+
+                if (this.ShowOnMenu(this.view_all_key)) {
+                    html += '<option value="' + this.view_all_key + '">' + this.o.view_all_text + '</option>';
+                }
+
+                for (a = 0; a < this.ln; a += 1) {
+                    if (this.ShowOnMenu(a)) {
+                        html += '<option value="' + (a + 1) + '">' + (this.o.locations[a].title || ('#' + (a + 1))) + '</option>';
+                    }
+                }
+                html += '</select>';
+
+                html = $(html).bind('change', function() {
+                    self.ViewOnMap(this.value);
+                });
+            }
+
+            title = this.o.controls_title;
+            if (this.o.controls_title) {
+                title = $('<div class="controls_title"></div>').css(this.o.controls_applycss ? {
+                    fontWeight: 'bold',
+                    fontSize: this.o.controls_on_map ? '12px' : 'inherit',
+                    padding: '3px 10px 5px 0'
+                } : {}).append(this.o.controls_title);
+            }
+
+            this.html_element = $('<div class="wrap_controls"></div>').append(title).append(html);
+
+            return this.html_element;
+        }
+    };
+
+
+    //ul list menu type
+    html_ullist = {
+        html_a: function(i, hash, ttl) {
+            var self = this,
+                index = hash || (i + 1),
+                title = ttl || this.o.locations[i].title,
+                el_a = $('<a data-load="' + index + '" id="ullist_a_' + index + '" href="#' + index + '" title="' + title + '"><span>' + (title || ('#' + (i + 1))) + '</span></a>');
+
+            el_a.css(this.o.controls_applycss ? {
+                color: '#666',
+                display: 'block',
+                padding: '5px',
+                fontSize: this.o.controls_on_map ? '12px' : 'inherit',
+                textDecoration: 'none'
+            } : {});
+
+            el_a.on('click', function(e) {
+                e.preventDefault();
+                var i = $(this).attr('data-load');
+                self.ViewOnMap(i);
+            });
+
+            return el_a;
+        },
+
+        activateCurrent: function(index) {
+            this.html_element.find('li').removeClass('active');
+            this.html_element.find('#ullist_a_' + index).parent().addClass('active');
+        },
+
+        getHtml: function() {
+            var html = $('<ul class=\'ullist controls ' + this.o.controls_cssclass + '\'></ul>').css(this.o.controls_applycss ? {
+                margin: 0,
+                padding: 0,
+                listStyleType: 'none'
+            } : {}),
+                title, a;
+
+            if (this.ShowOnMenu(this.view_all_key)) {
+                html.append($('<li></li>').append(html_ullist.html_a.call(this, false, this.view_all_key, this.o.view_all_text)));
+            }
+
+            for (a = 0; a < this.ln; a++) {
+                if (this.ShowOnMenu(a)) {
+                    html.append($('<li></li>').append(html_ullist.html_a.call(this, a)));
+                }
+            }
+
+            title = this.o.controls_title;
+            if (this.o.controls_title) {
+                title = $('<div class="controls_title"></div>').css(this.o.controls_applycss ? {
+                    fontWeight: 'bold',
+                    padding: '3px 10px 5px 0',
+                    fontSize: this.o.controls_on_map ? '12px' : 'inherit'
+                } : {}).append(this.o.controls_title);
+            }
+
+            this.html_element = $('<div class="wrap_controls"></div>').append(title).append(html);
+
+            return this.html_element;
+        }
+    };
+
+
+    /**
+    * Create a new instance
+    * @class Maplace
+    * @constructor
+    */
+    function Maplace(args) {
+        this.VERSION = '0.2.7';
+        this.loaded = false;
+        this.markers = [];
+        this.circles = [];
+        this.oMap = false;
+        this.view_all_key = 'all';
+
+        this.infowindow = null;
+        this.maxZIndex = 0;
+        this.ln = 0;
+        this.oMap = false;
+        this.oBounds = null;
+        this.map_div = null;
+        this.canvas_map = null;
+        this.controls_wrapper = null;
+        this.current_control = null;
+        this.current_index = null;
+        this.Polyline = null;
+        this.Polygon = null;
+        this.Fusion = null;
+        this.directionsService = null;
+        this.directionsDisplay = null;
+
+        //default options
+        this.o = {
+            debug: false,
+            map_div: '#gmap',
+            controls_div: '#controls',
+            generate_controls: true,
+            controls_type: 'dropdown',
+            controls_cssclass: '',
+            controls_title: '',
+            controls_on_map: true,
+            controls_applycss: true,
+            controls_position: google.maps.ControlPosition.RIGHT_TOP,
+            type: 'marker',
+            view_all: true,
+            view_all_text: 'View All',
+            pan_on_click: true,
+            start: 0,
+            locations: [],
+            shared: {},
+            map_options: {
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            },
+            stroke_options: {
+                strokeColor: '#0000FF',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#0000FF',
+                fillOpacity: 0.4
+            },
+            directions_options: {
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC,
+                optimizeWaypoints: false,
+                provideRouteAlternatives: false,
+                avoidHighways: false,
+                avoidTolls: false
+            },
+            circle_options: {
+                radius: 100,
+                visible: true
+            },
+            styles: {},
+            fusion_options: {},
+            directions_panel: null,
+            draggable: false,
+            editable: false,
+            show_infowindows: true,
+            show_markers: true,
+            infowindow_type: 'bubble',
+            listeners: {},
+
+            //events
+            beforeViewAll: function() {},
+            afterViewAll: function() {},
+            beforeShow: function(index, location, marker) {},
+            afterShow: function(index, location, marker) {},
+            afterCreateMarker: function(index, location, marker) {},
+
+            beforeCloseInfowindow: function(index, location) {},
+            afterCloseInfowindow: function(index, location) {},
+            beforeOpenInfowindow: function(index, location, marker) {},
+            afterOpenInfowindow: function(index, location, marker) {},
+
+            afterRoute: function(distance, status, result) {},
+            onPolylineClick: function(obj) {},
+            onPolygonClick: function(obj) {},
+
+            circleRadiusChanged: function(index, circle, marker) {},
+            circleCenterChanged: function(index, circle, marker) {},
+
+            drag: function(index, location, marker) {},
+            dragEnd: function(index, location, marker) {},
+            dragStart: function(index, location, marker) {}
+        };
+
+        //default menu types
+        this.AddControl('dropdown', html_dropdown);
+        this.AddControl('list', html_ullist);
+
+        if (args && args.type === 'directions') {
+            !args.show_markers && (args.show_markers = false);
+            !args.show_infowindows && (args.show_infowindows = false);
+        }
+
+        //init
+        $.extend(true, this.o, args);
+    }
+
+    //where to store the menu types
+    Maplace.prototype.controls = {};
+
+    //initialize google map object
+    Maplace.prototype.create_objMap = function() {
+        var self = this,
+            count = 0,
+            i;
+
+        //if styled
+        for (i in this.o.styles) {
+            if (this.o.styles.hasOwnProperty(i)) {
+                if (count === 0) {
+                    this.o.map_options.mapTypeControlOptions = {
+                        mapTypeIds: [google.maps.MapTypeId.ROADMAP]
+                    };
+                }
+                count++;
+                this.o.map_options.mapTypeControlOptions.mapTypeIds.push('map_style_' + count);
+            }
+        }
+
+        //if init
+        if (!this.loaded) {
+            try {
+                this.map_div.css({
+                    position: 'relative',
+                    overflow: 'hidden'
+                });
+
+                //create the container div into map_div
+                this.canvas_map = $('<div>').addClass('canvas_map').css({
+                    width: '100%',
+                    height: '100%'
+                }).appendTo(this.map_div);
+
+                this.oMap = new google.maps.Map(this.canvas_map.get(0), this.o.map_options);
+
+            } catch (err) {
+                this.debug('create_objMap::' + this.map_div.selector, err.toString());
+            }
+
+        //else loads the new optionsl
+        } else {
+            self.oMap.setOptions(this.o.map_options);
+        }
+
+        //if styled
+        count = 0;
+        for (i in this.o.styles) {
+            if (this.o.styles.hasOwnProperty(i)) {
+                count++;
+                this.oMap.mapTypes.set('map_style_' + count, new google.maps.StyledMapType(this.o.styles[i], {
+                    name: i
+                }));
+                this.oMap.setMapTypeId('map_style_' + count);
+            }
+        }
+    };
+
+    //adds markers to the map
+    Maplace.prototype.add_markers_to_objMap = function() {
+        var a,
+            point,
+            type = this.o.type || 'marker';
+
+        //switch how to display the locations
+        switch (type) {
+            case 'marker':
+                for (a = 0; a < this.ln; a++) {
+                    point = this.create_objPoint(a);
+                    this.create.marker.call(this, a, point);
+                }
+                break;
+            default:
+                this.create[type].apply(this);
+                break;
+        }
+    };
+
+    //create the main object point
+    Maplace.prototype.create_objPoint = function(index) {
+        var point = $.extend({}, this.o.locations[index]),
+            visibility = point.visible === undefined ? undefined : point.visible;
+
+        !point.type && (point.type = this.o.type);
+
+        //set obj map
+        point.map = this.oMap;
+        point.position = new google.maps.LatLng(point.lat, point.lon);
+        point.zIndex = point.zIndex === undefined ? 10000 : (point.zIndex + 100);
+        point.visible = visibility === undefined  ? this.o.show_markers : visibility;
+
+        this.o.maxZIndex = point.zIndex > this.maxZIndex ? point.zIndex : this.maxZIndex;
+
+        if (point.image) {
+            point.icon = new google.maps.MarkerImage(
+                point.image,
+                new google.maps.Size(point.image_w || 32, point.image_h || 32),
+                new google.maps.Point(0, 0),
+                new google.maps.Point((point.image_w || 32) / 2, (point.image_h || 32)  / 2)
+            );
+        }
+
+        return point;
+    };
+
+    //create the main object circle
+    Maplace.prototype.create_objCircle = function(point) {
+        var def_stroke_opz,
+            def_circle_opz,
+            circle;
+
+        circle = $.extend({}, point);
+        def_stroke_opz = $.extend({}, this.o.stroke_options);
+        def_circle_opz = $.extend({}, this.o.circle_options);
+
+        $.extend(def_stroke_opz, point.stroke_options || {});
+        $.extend(circle, def_stroke_opz);
+
+        $.extend(def_circle_opz, point.circle_options || {});
+        $.extend(circle, def_circle_opz);
+
+        circle.center = point.position;
+        circle.draggable = false;
+        circle.zIndex = point.zIndex > 0 ? point.zIndex - 10 : 1;
+
+        return circle;
+    };
+
+    //create the main object point
+    Maplace.prototype.add_markerEv = function(index, point, marker) {
+        var self = this;
+
+        google.maps.event.addListener(marker, 'click', function(ev) {
+            self.o.beforeShow(index, point, marker);
+
+            //show infowindow?
+            if (self.o.show_infowindows && (point.show_infowindow === false ? false : true)) {
+                self.open_infowindow(index, marker, ev);
+            }
+
+            //pan and zoom the map
+            if (self.o.pan_on_click && (point.pan_on_click === false ? false : true)) {
+                self.oMap.panTo(point.position);
+                point.zoom && self.oMap.setZoom(point.zoom);
+            }
+
+            //activate related menu link
+            if (self.current_control && self.o.generate_controls && self.current_control.activateCurrent) {
+                self.current_control.activateCurrent.call(self, index + 1);
+            }
+
+            //update current location index
+            self.current_index = index;
+
+            self.o.afterShow(index, point, marker);
+        });
+
+        if (point.draggable) {
+            this.add_dragEv(index, point, marker);
+        }
+
+        google.maps.event.addListener(marker, 'show', function(ev) {
+            //show infowindow?
+            if (self.o.show_infowindows && (point.show_infowindow === false ? false : true)) {
+                self.open_infowindow(index, marker, ev);
+            }
+
+            //pan and zoom the map
+            if (self.o.pan_on_click && (point.pan_on_click === false ? false : true)) {
+                self.oMap.panTo(point.position);
+                point.zoom && self.oMap.setZoom(point.zoom);
+            }
+
+            //activate related menu link
+            if (self.current_control && self.o.generate_controls && self.current_control.activateCurrent) {
+                self.current_control.activateCurrent.call(self, index + 1);
+            }
+
+            //update current location index
+            self.current_index = index;
+        });
+
+        if (point.draggable) {
+            this.add_dragEv(index, point, marker);
+        }
+
+    };
+
+    //add events to circles objs
+    Maplace.prototype.add_circleEv = function(index, circle, marker) {
+        var self = this;
+
+        google.maps.event.addListener(marker, 'click', function() {
+            self.ViewOnMap(index + 1);
+        });
+
+        google.maps.event.addListener(marker, 'center_changed', function() {
+            self.o.circleCenterChanged(index, circle, marker);
+        });
+
+        google.maps.event.addListener(marker, 'radius_changed', function() {
+            self.o.circleRadiusChanged(index, circle, marker);
+        });
+
+        if (circle.draggable) {
+            this.add_dragEv(index, circle, marker);
+        }
+    };
+
+    //add drag events
+    Maplace.prototype.add_dragEv = function(index, obj, marker) {
+        var self = this;
+
+        google.maps.event.addListener(marker, 'drag', function(ev) {
+            var pos,
+                extraType;
+
+            if (marker.getPosition) {
+                pos = marker.getPosition();
+            } else if (marker.getCenter) {
+                pos = marker.getCenter();
+            } else {
+                return;
+            }
+
+            //update circle position
+            if (self.circles[index]) {
+                self.circles[index].setCenter(pos);
+            }
+
+            //update polygon or polyline if defined
+            if (self.Polyline) {
+                extraType = 'Polyline';
+            } else if (self.Polygon) {
+                extraType = 'Polygon';
+            }
+
+            if (extraType) {
+                var path = self[extraType].getPath(),
+                    pathArray = path.getArray(),
+                    arr = [],
+                    i = 0;
+
+                for (; i < pathArray.length; ++i) {
+                    arr[i] = (index === i) ?
+                        new google.maps.LatLng(pos.lat(), pos.lng())
+                        : new google.maps.LatLng(pathArray[i].lat(), pathArray[i].lng());
+                }
+
+                self[extraType].setPath(new google.maps.MVCArray(arr));
+                self.add_polyEv(extraType);
+            }
+
+            //fire drag event
+            self.o.drag(index, obj, marker);
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function() {
+            self.o.dragEnd(index, obj, marker);
+        });
+
+        google.maps.event.addListener(marker, 'dragstart', function() {
+            self.o.dragStart(index, obj, marker);
+        });
+
+        google.maps.event.addListener(marker, 'center_changed', function() {
+            //update marker position
+            if (self.markers[index] && marker.getCenter) {
+                self.markers[index].setPosition(marker.getCenter());
+            }
+
+            self.o.drag(index, obj, marker);
+        });
+    };
+
+    //add events to poly objs
+    Maplace.prototype.add_polyEv = function(typeName) {
+        var self = this;
+
+        google.maps.event.addListener(this[typeName].getPath(), 'set_at', function(index, obj) {
+            var item = self[typeName].getPath().getAt(index),
+                newPos = new google.maps.LatLng(item.lat(), item.lng());
+
+            self.markers[index] && self.markers[index].setPosition(newPos);
+            self.circles[index] && self.circles[index].setCenter(newPos);
+
+            self.o['on' + typeName + 'Changed'](index, obj, self[typeName].getPath().getArray());
+        });
+    };
+
+    //wrapper for the map types
+    Maplace.prototype.create = {
+
+        //single marker
+        marker: function(index, point, marker) {
+            var self = this,
+                circle;
+
+            //allow mix circles with markers
+            if (point.type === 'circle' && !marker) {
+                circle = this.create_objCircle(point);
+
+                if (!point.visible) {
+                    circle.draggable = point.draggable;
+                }
+
+                marker = new google.maps.Circle(circle);
+                this.add_circleEv(index, circle, marker);
+
+                //store the new circle
+                this.circles[index] = marker;
+            }
+
+            point.type = 'marker';
+
+            //create the marker and add click event
+            marker = new google.maps.Marker(point);
+            this.add_markerEv(index, point, marker);
+
+            //extends bounds with this location
+            this.oBounds.extend(point.position);
+
+            //store the new marker
+            this.markers[index] = marker;
+
+            this.o.afterCreateMarker(index, point, marker);
+
+            return marker;
+        },
+
+
+        //circle mode
+        circle: function() {
+            var self = this,
+                a,
+                point,
+                circle,
+                marker;
+
+            for (a = 0; a < this.ln; a++) {
+                point = this.create_objPoint(a);
+
+                //allow mix markers with circles
+                if (point.type === 'circle') {
+                    circle = this.create_objCircle(point);
+
+                    if (!point.visible) {
+                        circle.draggable = point.draggable;
+                    }
+
+                    marker = new google.maps.Circle(circle);
+                    this.add_circleEv(a, circle, marker);
+
+                    //store the new circle
+                    this.circles[a] = marker;
+                }
+
+                point.type = 'marker';
+                this.create.marker.call(this, a, point, marker);
+            }
+        },
+
+
+        //polyline mode
+        polyline: function() {
+            var self = this,
+                a,
+                point,
+                stroke = $.extend({}, this.o.stroke_options);
+
+            stroke.path = [];
+            stroke.draggable = this.o.draggable;
+            stroke.editable = this.o.editable;
+            stroke.map = this.oMap;
+            stroke.zIndex = this.o.maxZIndex + 100;
+
+            //create the path and location marker
+            for (a = 0; a < this.ln; a++) {
+                point = this.create_objPoint(a);
+                this.create.marker.call(this, a, point);
+
+                stroke.path.push(point.position);
+            }
+
+            this.Polyline ?
+                this.Polyline.setOptions(stroke)
+                : this.Polyline = new google.maps.Polyline(stroke);
+
+            this.add_polyEv('Polyline');
+        },
+
+
+        //polygon mode
+        polygon: function() {
+            var self = this,
+                a,
+                point,
+                stroke = $.extend({}, this.o.stroke_options);
+
+            stroke.path = [];
+            stroke.draggable = this.o.draggable;
+            stroke.editable = this.o.editable;
+            stroke.map = this.oMap;
+            stroke.zIndex = this.o.maxZIndex + 100;
+
+            //create the path and location marker
+            for (a = 0; a < this.ln; a++) {
+                point = this.create_objPoint(a);
+                this.create.marker.call(this, a, point);
+
+                stroke.path.push(point.position);
+            }
+
+            this.Polygon ?
+                this.Polygon.setOptions(stroke)
+                : this.Polygon = new google.maps.Polygon(stroke);
+
+            google.maps.event.addListener(this.Polygon, 'click', function(obj) {
+                self.o.onPolygonClick(obj);
+            });
+
+            this.add_polyEv('Polygon');
+        },
+
+
+        //fusion tables
+        fusion: function() {
+            this.o.fusion_options.styles = [this.o.stroke_options];
+            this.o.fusion_options.map = this.oMap;
+
+            this.Fusion ?
+                this.Fusion.setOptions(this.o.fusion_options)
+                : this.Fusion = new google.maps.FusionTablesLayer(this.o.fusion_options);
+        },
+
+
+        //directions mode
+        directions: function() {
+            var self = this,
+                a,
+                point,
+                stopover,
+                origin,
+                destination,
+                waypoints = [],
+                distance = 0;
+
+            //create the waypoints and location marker
+            for (a = 0; a < this.ln; a++) {
+                point = this.create_objPoint(a);
+
+                //first location start point
+                if (a === 0) {
+                    origin = point.position;
+
+                //last location end point
+                } else if (a === (this.ln - 1)) {
+                    destination = point.position;
+
+                //waypoints in the middle
+                } else {
+                    stopover = this.o.locations[a].stopover === true ? true : false;
+                    waypoints.push({
+                        location: point.position,
+                        stopover: stopover
+                    });
+                }
+
+                this.create.marker.call(this, a, point);
+            }
+
+            this.o.directions_options.origin = origin;
+            this.o.directions_options.destination = destination;
+            this.o.directions_options.waypoints = waypoints;
+
+            this.directionsService || (this.directionsService = new google.maps.DirectionsService());
+            this.directionsDisplay ?
+                this.directionsDisplay.setOptions({draggable: this.o.draggable})
+                : this.directionsDisplay = new google.maps.DirectionsRenderer({draggable: this.o.draggable});
+
+            this.directionsDisplay.setMap(this.oMap);
+
+            //show the directions panel
+            if (this.o.directions_panel) {
+                this.o.directions_panel = $(this.o.directions_panel);
+                this.directionsDisplay.setPanel(this.o.directions_panel.get(0));
+            }
+
+            if (this.o.draggable) {
+                google.maps.event.addListener(this.directionsDisplay, 'directions_changed', function() {
+                    distance = self.compute_distance(self.directionsDisplay.directions);
+                    self.o.afterRoute(distance);
+                });
+            }
+
+            this.directionsService.route(this.o.directions_options, function(result, status) {
+                //directions found
+                if (status === google.maps.DirectionsStatus.OK) {
+                    distance = self.compute_distance(result);
+                    self.directionsDisplay.setDirections(result);
+                }
+                self.o.afterRoute(distance, status, result);
+            });
+        }
+    };
+
+    //route distance
+    Maplace.prototype.compute_distance = function(result) {
+        var total = 0,
+            i,
+            myroute = result.routes[0],
+            rlen = myroute.legs.length;
+
+        for (i = 0; i < rlen; i++) {
+            total += myroute.legs[i].distance.value;
+        }
+
+        return total;
+    };
+
+    //wrapper for the infowindow types
+    Maplace.prototype.type_to_open = {
+        //google default infowindow
+        bubble: function(location) {
+            this.infowindow = new google.maps.InfoWindow({
+                content: location.html || ''
+            });
+        }
+    };
+
+    //open the infowindow
+    Maplace.prototype.open_infowindow = function(index, marker, ev) {
+        //close if any open
+        this.CloseInfoWindow();
+        var point = this.o.locations[index],
+            type = this.o.infowindow_type;
+
+        //show if content and valid infowindow type provided
+        if (point.html && this.type_to_open[type]) {
+            this.o.beforeOpenInfowindow(index, point, marker);
+            this.type_to_open[type].call(this, point);
+            this.infowindow.open(this.oMap, marker);
+            this.o.afterOpenInfowindow(index, point, marker);
+        }
+    };
+
+    //gets the html for the menu
+    Maplace.prototype.get_html_controls = function() {
+        if (this.controls[this.o.controls_type] && this.controls[this.o.controls_type].getHtml) {
+            this.current_control = this.controls[this.o.controls_type];
+
+            return this.current_control.getHtml.apply(this);
+        }
+        return '';
+    };
+
+    //creates the controls menu
+    Maplace.prototype.generate_controls = function() {
+        //append menu on the div container
+        if (!this.o.controls_on_map) {
+            this.controls_wrapper.empty();
+            this.controls_wrapper.append(this.get_html_controls());
+            return;
+        }
+
+        //else
+        //controls in map
+        var cntr = $('<div class="on_gmap ' + this.o.controls_type + ' gmap_controls"></div>')
+            .css(this.o.controls_applycss ? {margin: '5px'} : {}),
+
+            inner = $(this.get_html_controls()).css(this.o.controls_applycss ? {
+                background: '#fff',
+                padding: '5px',
+                border: '1px solid #eee',
+                boxShadow: 'rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px',
+                maxHeight: this.map_div.find('.canvas_map').outerHeight() - 80,
+                minWidth: 100,
+                overflowY: 'auto',
+                overflowX: 'hidden'
+            } : {});
+
+        cntr.append(inner);
+
+        //attach controls
+        this.oMap.controls[this.o.controls_position].push(cntr.get(0));
+    };
+
+    //resets obj map, markers, bounds, listeners, controllers
+    Maplace.prototype.init_map = function() {
+        var self = this;
+
+        this.Polyline && this.Polyline.setMap(null);
+        this.Polygon && this.Polygon.setMap(null);
+        this.Fusion && this.Fusion.setMap(null);
+        this.directionsDisplay && this.directionsDisplay.setMap(null);
+
+        for (var i = this.markers.length - 1; i >= 0; i -= 1) {
+            try {
+                this.markers[i] && this.markers[i].setMap(null);
+            } catch (err) {
+                self.debug('init_map::markers::setMap', err.stack);
+            }
+        }
+
+        this.markers.length = 0;
+        this.markers = [];
+
+        for (var e = this.circles.length - 1; e >= 0; e -= 1) {
+            try {
+                this.circles[e] && this.circles[e].setMap(null);
+            } catch (err) {
+                self.debug('init_map::circles::setMap', err.stack);
+            }
+        }
+
+        this.circles.length = 0;
+        this.circles = [];
+
+        if (this.o.controls_on_map && this.oMap.controls) {
+            this.oMap.controls[this.o.controls_position].forEach(function(element, index) {
+                try {
+                    self.oMap.controls[this.o.controls_position].removeAt(index);
+                } catch (err) {
+                    self.debug('init_map::removeAt', err.stack);
+                }
+            });
+        }
+
+        this.oBounds = new google.maps.LatLngBounds();
+    };
+
+    //perform the first view of the map
+    Maplace.prototype.perform_load = function() {
+        //one location
+        if (this.ln === 1) {
+            if (this.o.map_options.set_center) {
+                this.oMap.setCenter(new google.maps.LatLng(this.o.map_options.set_center[0], this.o.map_options.set_center[1]));
+
+            } else {
+                this.oMap.fitBounds(this.oBounds);
+                this.ViewOnMap(1);
+            }
+
+            this.o.map_options.zoom && this.oMap.setZoom(this.o.map_options.zoom);
+
+        //no locations
+        } else if (this.ln === 0) {
+            if (this.o.map_options.set_center) {
+                this.oMap.setCenter(new google.maps.LatLng(this.o.map_options.set_center[0], this.o.map_options.set_center[1]));
+
+            } else {
+                this.oMap.fitBounds(this.oBounds);
+            }
+
+            this.oMap.setZoom(this.o.map_options.zoom || 1);
+
+        //n+ locations
+        } else {
+            this.oMap.fitBounds(this.oBounds);
+
+            //check the start option
+            if (typeof (this.o.start - 0) === 'number' && this.o.start > 0 && this.o.start <= this.ln) {
+                this.ViewOnMap(this.o.start);
+
+            //check if set_center exists
+            } else if (this.o.map_options.set_center) {
+                this.oMap.setCenter(new google.maps.LatLng(this.o.map_options.set_center[0], this.o.map_options.set_center[1]));
+
+            //view all
+            } else {
+                this.ViewOnMap(this.view_all_key);
+            }
+
+            this.o.map_options.zoom && this.oMap.setZoom(this.o.map_options.zoom);
+        }
+    };
+
+    Maplace.prototype.debug = function(code, msg) {
+        this.o.debug && console.log(code, msg);
+        return this;
+    };
+
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
+
+    //adds a custom menu to the class
+    Maplace.prototype.AddControl = function(name, func) {
+        if (!name || !func) {
+            self.debug('AddControl', 'Missing "name" and "func" callback.');
+            return false;
+        }
+        this.controls[name] = func;
+        return this;
+    };
+
+    //close the infowindow
+    Maplace.prototype.CloseInfoWindow = function() {
+        if (this.infowindow && (this.current_index || this.current_index === 0)) {
+            this.o.beforeCloseInfowindow(this.current_index, this.o.locations[this.current_index]);
+            this.infowindow.close();
+            this.infowindow = null;
+            this.o.afterCloseInfowindow(this.current_index, this.o.locations[this.current_index]);
+        }
+        return this;
+    };
+
+    //checks if a location has to be in menu
+    Maplace.prototype.ShowOnMenu = function(index) {
+        if (index === this.view_all_key && this.o.view_all && this.ln > 1) {
+            return true;
+        }
+
+        index = parseInt(index, 10);
+        if (typeof (index - 0) === 'number' && index >= 0 && index < this.ln) {
+            var on_menu = this.o.locations[index].on_menu === false ? false : true;
+            if (on_menu) {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    //triggers to show a location in map
+    Maplace.prototype.ViewOnMap = function(index) {
+        //view all
+        if (index === this.view_all_key) {
+            this.o.beforeViewAll();
+            this.current_index = index;
+            if (this.o.locations.length > 0 && this.o.generate_controls && this.current_control && this.current_control.activateCurrent) {
+                this.current_control.activateCurrent.apply(this, [index]);
+            }
+            this.oMap.fitBounds(this.oBounds);
+            this.CloseInfoWindow();
+            this.o.afterViewAll();
+
+        //specific location
+        } else {
+            index = parseInt(index, 10);
+            if (typeof (index - 0) === 'number' && index > 0 && index <= this.ln) {
+                try {
+                    google.maps.event.trigger(this.markers[index - 1], 'show');
+                } catch (err) {
+                    this.debug('ViewOnMap::trigger', err.stack);
+                }
+            }
+        }
+        return this;
+    };
+
+    //replace current locations
+    Maplace.prototype.SetLocations = function(locs, reload) {
+        this.o.locations = locs;
+        reload && this.Load();
+        return this;
+    };
+
+    //adds one or more locations to the end of the array
+    Maplace.prototype.AddLocations = function(locs, reload) {
+        var self = this;
+
+        if ($.isArray(locs)) {
+            $.each(locs, function(index, value) {
+                self.o.locations.push(value);
+            });
+        }
+
+        if ($.isPlainObject(locs)) {
+            this.o.locations.push(locs);
+        }
+
+        reload && this.Load();
+        return this;
+    };
+
+    //adds a location at the specific index
+    Maplace.prototype.AddLocation = function(location, index, reload) {
+        var self = this;
+
+        if ($.isPlainObject(location)) {
+            this.o.locations.splice(index, 0, location);
+        }
+
+        reload && this.Load();
+        return this;
+    };
+
+    //remove one or more locations
+    Maplace.prototype.RemoveLocations = function(locs, reload) {
+        var self = this,
+            k = 0;
+
+        if ($.isArray(locs)) {
+            $.each(locs, function(index, value) {
+                if ((value - k) < self.ln) {
+                    self.o.locations.splice(value - k, 1);
+                }
+                k++;
+            });
+        } else {
+            if (locs < this.ln) {
+                this.o.locations.splice(locs, 1);
+            }
+        }
+
+        reload && this.Load();
+        return this;
+    };
+
+    //check if already initialized with a Load()
+    Maplace.prototype.Loaded = function() {
+        return this.loaded;
+    };
+
+    //loads the options
+    Maplace.prototype._init = function() {
+        //store the locations length
+        this.ln = this.o.locations.length;
+
+        //update all locations with shared
+        for (var i = 0; i < this.ln; i++) {
+            var common = $.extend({}, this.o.shared);
+            this.o.locations[i] = $.extend(common, this.o.locations[i]);
+            if (this.o.locations[i].html) {
+                this.o.locations[i].html = this.o.locations[i].html.replace('%index', i + 1);
+                this.o.locations[i].html = this.o.locations[i].html.replace('%title', (this.o.locations[i].title || ''));
+            }
+        }
+
+        //store dom references
+        this.map_div = $(this.o.map_div);
+        this.controls_wrapper = $(this.o.controls_div);
+        return this;
+    };
+
+    //creates the map and menu
+    Maplace.prototype.Load = function(args) {
+        $.extend(true, this.o, args);
+        args && args.locations && (this.o.locations = args.locations);
+        this._init();
+
+        //reset/init google map objects
+        this.o.visualRefresh === false ? (google.maps.visualRefresh = false) : (google.maps.visualRefresh = true);
+        this.init_map();
+        this.create_objMap();
+
+        //add markers
+        this.add_markers_to_objMap();
+
+        //generate controls
+        if ((this.ln > 1 && this.o.generate_controls) || this.o.force_generate_controls)  {
+            this.o.generate_controls = true;
+            this.generate_controls();
+        } else {
+            this.o.generate_controls = false;
+        }
+
+        var self = this;
+
+        //first call
+        if (!this.loaded) {
+            google.maps.event.addListenerOnce(this.oMap, 'idle', function() {
+                self.perform_load();
+            });
+
+            //add custom listeners
+            for (var i in this.o.listeners) {
+                if (this.o.listeners.hasOwnProperty(i)) {
+                    google.maps.event.addListener(this.oMap, i, this.o.listeners[i]);
+                }
+            }
+
+        //all other calls
+        } else {
+            this.perform_load();
+        }
+
+        this.loaded = true;
+
+        return this;
+    };
+
+    return Maplace;
+}));
