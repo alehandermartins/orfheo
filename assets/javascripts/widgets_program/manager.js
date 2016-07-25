@@ -308,7 +308,7 @@
       data: artistProposals,
       allowClear: true,
       tags: true,
-      tokenSeparators: [',', ' '],   
+      // tokenSeparators: [',', ' '],   
       templateResult: formatResource,
     }).on("select2:select", function(e) {
       var _data = _artistSelector.select2('data')[0];
