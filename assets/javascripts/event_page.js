@@ -73,10 +73,6 @@
     var _searchResult = $('#searchResult');
 
     _searchResult.empty();
-    var _dateBox = $('<div>');
-    var _dateLabel = $('<h4>').text(moment(date).format('DD-MM-YYYY'));
-    _dateBox.append(_dateLabel);
-    _searchResult.append(_dateBox);
     program[date].forEach(function(performance){
       if((host && performance.host_name == host) || !host){
         var _performanceBox = $('<div>');
@@ -109,13 +105,17 @@
     var _daySelector = $('<select>');
 
     ['2016-10-15', '2016-10-16'].forEach(function(day){
-      var date = $('<option>').val(day).text(moment(day).format('DD-MM-YYYY'));
+      var date = $('<option>').val(day).text(moment(day).lang('es').format('DD-MMM-YYYY'));
       _daySelector.append(date);
     });
 
     _daySelectorContainer.append(_daySelector);
     
-    _createdWidget.append(_searchWidget, _daySelectorContainer);
+    var map = $('<div>').attr('id', 'gmap');
+    map.css({'width': '100%', 'height': '250px'});
+    var gmap;
+    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _searchResult);
+    
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
       allowClear:false,
@@ -123,6 +123,25 @@
     });
 
     _daySelector.on('change', function(){
+      _data = [];
+      hosts = [];
+      _program[_daySelector.val()].forEach(function(performance, index){
+      if($.inArray(performance.host_proposal_id, hosts) < 0){
+          if(performance.host_name == _host) _hostIndex = _data.length + 1;
+          _data.push({
+            lat: performance.address.location.lat,
+            lon: performance.address.location.lng,
+            title: performance.host_name,
+            zoom: 16,
+            icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
+            html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>",
+            order: performance.order
+          });
+          hosts.push(performance.host_proposal_id);
+        }
+      });
+      gmap.SetLocations(_data, true);
+      if(_hostIndex) gmap.ViewOnMap(_hostIndex);
       Pard.PrintProgram(_program, _daySelector.val(), _host);
     });
 
@@ -183,9 +202,9 @@
 
     var _searchCallback = function(spinnerStop){
       tags = [];
-      console.log('miau');
       var _dataArray = _searchWidget.select2('data'); 
       _dataArray.forEach(function(tag){
+        if(tag.icon && tag.icon == 'space') _host = tag.text;
         tags.push(tag.text);
       });
       Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
@@ -207,8 +226,9 @@
             hosts.push(performance.host_proposal_id);
           }
         });
+        console.log(_data);
+        console.log(data.program, _daySelector.val(), _host);
         gmap.SetLocations(_data, true);
-        console.log(_data, _hostIndex);
         if(_hostIndex) gmap.ViewOnMap(_hostIndex);
         Pard.PrintProgram(_program, _daySelector.val(), _host);
       });
@@ -229,9 +249,7 @@
       )
     });
 
-    var map = $('<div>').attr('id', 'gmap');
-    map.css({'width': '100%', 'height': '250px'});
-    var gmap;
+    
 
     $(document).ready(function(){
       gmap = new Maplace({
@@ -255,7 +273,6 @@
     });
 
     
-    _createdWidget.append(map, _searchResult);
    
 
     return{
