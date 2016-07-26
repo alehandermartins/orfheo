@@ -69,27 +69,25 @@
     }
   }
 
-  ns.ProgramInfo = {};
-
-  ns.PrintProgram = function(){
-    var _program = Pard.ProgramInfo.program;
-    var _date = Pard.ProgramInfo.date || '2016-10-15';
+  ns.PrintProgram = function(program, date, host){
     var _searchResult = $('#searchResult');
 
     _searchResult.empty();
     var _dateBox = $('<div>');
-    var _dateLabel = $('<h4>').text(moment(_date).format('DD-MM-YYYY'));
+    var _dateLabel = $('<h4>').text(moment(date).format('DD-MM-YYYY'));
     _dateBox.append(_dateLabel);
     _searchResult.append(_dateBox);
-    _program[_date].forEach(function(performance){
-      var _performanceBox = $('<div>');
-      var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
-      var _title = performance.title;
-      _performanceBox.append(_time, _title);
-      _searchResult.append(_performanceBox);
+    program[date].forEach(function(performance){
+      if((host && performance.host_name == host) || !host){
+        var _performanceBox = $('<div>');
+        var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
+        var _title = performance.title;
+        _performanceBox.append(_time, _title);
+        _searchResult.append(_performanceBox);
+      }
     });
 
-    if(_program[_date].length == 0) {
+    if(program[date].length == 0) {
       var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
       _searchResult.append(_message);
     }
@@ -99,6 +97,9 @@
 
     var hosts = [];
     var _data = [];
+    var _program = [];
+    var _host;
+    var _hostIndex;
     var _searchResult = $('<div>').attr('id', 'searchResult');
 
     var _createdWidget = $('<div>');
@@ -122,8 +123,7 @@
     });
 
     _daySelector.on('change', function(){
-      Pard.ProgramInfo.date = _daySelector.val();
-      Pard.PrintProgram();
+      Pard.PrintProgram(_program, _daySelector.val(), _host);
     });
 
     function formatResource (resource) {
@@ -189,24 +189,28 @@
         tags.push(tag.text);
       });
       Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
-        Pard.ProgramInfo.program = data.program;
+        _program = data.program;
         _data = [];
         hosts = [];
         data.program[_daySelector.val()].forEach(function(performance, index){
         if($.inArray(performance.host_proposal_id, hosts) < 0){
+            if(performance.host_name == _host) _hostIndex = _data.length + 1;
             _data.push({
               lat: performance.address.location.lat,
               lon: performance.address.location.lng,
               title: performance.host_name,
               zoom: 16,
               icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
-              html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>"
+              html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>",
+              order: performance.order
             });
             hosts.push(performance.host_proposal_id);
           }
         });
         gmap.SetLocations(_data, true);
-        Pard.PrintProgram();
+        console.log(_data, _hostIndex);
+        if(_hostIndex) gmap.ViewOnMap(_hostIndex);
+        Pard.PrintProgram(_program, _daySelector.val(), _host);
       });
       spinnerStop();
     }
@@ -234,11 +238,17 @@
         locations: _data,
         controls_type: 'list',
         controls_on_map: false,
-        beforeShow: function(index, location, marker){
-          _searchWidget.val('');
-          var option = new Option(_data[index].title, _data[index].title, true, true);
-          _searchWidget.append(option);
-          _searchWidget.trigger('change');
+        afterShow: function(index, location, marker){
+          _host = _data[index].title;
+          marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
+          Pard.PrintProgram(_program, _daySelector.val(), _data[index].title);
+        },
+        afterOpenInfowindow: function(index, location, marker){
+          marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
+        },
+        afterCloseClick: function(index){
+          _host = '';
+          Pard.PrintProgram(_program, _daySelector.val(), '');
         }
       }).Load();
       _searchWidget.trigger('change');
