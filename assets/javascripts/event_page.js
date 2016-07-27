@@ -71,10 +71,34 @@
 
   ns.PrintProgram = function(program, date, host){
     var _searchResult = $('#searchResult');
+    var _searchTagsBox = $('#tagBox');
+    var _searchWidget = $('#searchEngine');
 
+     var _printTags = function(categories){
+      _searchTagsBox.empty();
+      categories.forEach(function(category){
+        var _typeTag = $('<div>').addClass('suggested-tag-search-engine');
+        if(categories.length > 1){
+          _typeTag.click(function(){
+            var _text = Pard.Widgets.Dictionary(category).render();
+            var option = new Option(_text, _text, true, true);
+            _searchWidget.append(option);
+            _searchWidget.trigger('change');
+          });
+        }
+        var _icon = Pard.Widgets.IconManager(category).render();
+        _icon.addClass('search-tag-icon');
+        var _tagSpan = $('<span>').css('vertical-align','middle');
+        _typeTag.append(_tagSpan.append(_icon, Pard.Widgets.Dictionary(category).render()));
+        _searchTagsBox.append(_typeTag);
+      });
+    };
+    
     _searchResult.empty();
+    var _categories = [];
     program[date].forEach(function(performance){
       if((host && performance.host_name == host) || !host){
+        if($.inArray(performance.participant_category, _categories) < 0) _categories.push(performance.participant_category);
         var _performanceBox = $('<div>');
         var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
         var _title = performance.title;
@@ -87,6 +111,7 @@
       var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
       _searchResult.append(_message);
     }
+    _printTags(_categories);
   }
 
   ns.Widgets.ProgramEventPage = function(){
@@ -97,6 +122,7 @@
     var _host;
     var _hostIndex;
     var _searchResult = $('<div>').attr('id', 'searchResult');
+    var _searchTagsBox = $('<div>').addClass('search-input search-tag-box').attr('id', 'tagBox');
 
     var _createdWidget = $('<div>');
     var _searchWidget = $('<select>').attr('id', 'searchEngine');
@@ -105,7 +131,7 @@
     var _daySelector = $('<select>');
 
     ['2016-10-15', '2016-10-16'].forEach(function(day){
-      var date = $('<option>').val(day).text(moment(day).lang('es').format('DD-MMM-YYYY'));
+      var date = $('<option>').val(day).text(moment(day).locale('es').format('DD-MMM-YYYY'));
       _daySelector.append(date);
     });
 
@@ -114,7 +140,8 @@
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
     var gmap;
-    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _searchResult);
+    
+    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _searchTagsBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
@@ -126,7 +153,7 @@
       _data = [];
       hosts = [];
       _program[_daySelector.val()].forEach(function(performance, index){
-      if($.inArray(performance.host_proposal_id, hosts) < 0){
+        if($.inArray(performance.host_proposal_id, hosts) < 0){
           if(performance.host_name == _host) _hostIndex = _data.length + 1;
           _data.push({
             lat: performance.address.location.lat,
@@ -212,7 +239,7 @@
         _data = [];
         hosts = [];
         data.program[_daySelector.val()].forEach(function(performance, index){
-        if($.inArray(performance.host_proposal_id, hosts) < 0){
+          if($.inArray(performance.host_proposal_id, hosts) < 0){
             if(performance.host_name == _host) _hostIndex = _data.length + 1;
             _data.push({
               lat: performance.address.location.lat,
@@ -226,8 +253,6 @@
             hosts.push(performance.host_proposal_id);
           }
         });
-        console.log(_data);
-        console.log(data.program, _daySelector.val(), _host);
         gmap.SetLocations(_data, true);
         if(_hostIndex) gmap.ViewOnMap(_hostIndex);
         Pard.PrintProgram(_program, _daySelector.val(), _host);
@@ -249,8 +274,6 @@
       )
     });
 
-    
-
     $(document).ready(function(){
       gmap = new Maplace({
         locations: _data,
@@ -271,9 +294,6 @@
       }).Load();
       _searchWidget.trigger('change');
     });
-
-    
-   
 
     return{
       render: function(){
