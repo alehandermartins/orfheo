@@ -170,18 +170,22 @@
   ns.Widgets.ProgramHelper = function(cardInfo, host_proposal_id){
     cardInfo.permanent = false;
     var color = Pard.Widgets.CategoryColor(cardInfo.category);
+    // var borderColor = '1px solid '+  Pard.Widgets.BorderCategoryColor(cardInfo.category);
     var _card =$('<div>').addClass('programHelper').css({
       'position': 'absolute',
       'display': 'inline-block',
       'width': Pard.ColumnWidth - 2,
       'background': color,
-      'white-space': 'normal'
+      'white-space': 'normal',
+      'box-shadow': 'inset 0 0 1px '
+      // 'border': borderColor
     });
     _card.addClass('dragged-card-call-manager cursor_grab');
 
 
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(cardInfo.title, 35));
+    var _titleTextLong = cardInfo.name+' - '+cardInfo.title;
+    var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
     _title.append(_titleText);
     _card.append(_title.css({'position': 'absolute'}));
 
@@ -307,19 +311,23 @@
   ns.Widgets.ProgramPermanentHelper = function(cardInfo, host_proposal_id){
     cardInfo.permanent = true;
     var color = Pard.Widgets.CategoryColor(cardInfo.category);
+    // var borderColor = '1px solid '+ Pard.Widgets.BorderCategoryColor(cardInfo.category);
     var _card =$('<div>').addClass('programHelper').css({
       'position': 'absolute',
       'display': 'inline-block',
       'width': Pard.ColumnWidth - 2,
       'height': Pard.PermanentCardHeight,
-      'background': color
+      'background': color,
+      'box-shadow': 'inset 0 0 1px '
+      // 'border': borderColor 
     });
 
     _card.addClass('dragged-card-call-manager cursor_grab');
 
     // _card.on('mousedown',function(){});
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
-    var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(cardInfo.title, 35));
+    var _titleTextLong = cardInfo.name+' - '+cardInfo.title;
+    var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
     _title.append(_titleText);
     _card.append(_title);
 

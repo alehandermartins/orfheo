@@ -20,8 +20,8 @@ NICE TO HAVE CALL MANAGER PAGE
 - Make appear clearly a sign or something indicating if an artist (proposal) has been inserted already in the program or not
 - Save program does not work properly if more people are making changes simultaneusly (everyone rewrite on others' changes)
 - Everytime one is inserted in the whitelist, one receives an email with instructions to follow to inscribe in the call
-- artist name and title in card dropped in manager table
-- borders for cards dropped in manager table 
+- artist name and title in card dropped in manager table (OK)
+- borders for cards dropped in manager table (OK)
 - in tablePanel, when displaying programa, if one modifies in managerPanel the table does not update!
 
 

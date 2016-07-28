@@ -20,7 +20,7 @@
 
     var _infoSpace = space.address.route+' '+space.address.street_number+' - tel. ' + space.phone+ ' ('+space.responsible + ') '+' - email: '+ space.email;
 
-    var _spaceName = space.name;
+    var _spaceName = space.name + ' ('+Pard.Widgets.Dictionary(space.category).render()+')';
 
     var _infoSpaceBox = $('<div>').addClass('info-box-popup-program');
 

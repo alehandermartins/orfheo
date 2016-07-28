@@ -24,6 +24,22 @@
     return _dictionary[category];
   }
 
+  ns.Widgets.BorderCategoryColor = function(category){
+    var _dictionary = {
+      'music': 'rgb(6, 105, 204)',
+      'arts': 'rgb(150, 6, 171)',
+      'poetry': 'rgb(173, 166, 44)',
+      'expo': 'rgb(72, 131, 13)',
+      'street_art': 'rgb(210, 11, 11)',
+      'audiovisual': 'rgb(107, 109, 111)',
+      'other': 'rgb(215, 78, 15)',
+      'workshop': 'rgb(51, 26, 2)'
+    }
+
+    return _dictionary[category];
+  }
+
+
   ns.Widgets.ReorderProgram = function(performances){
     var _compare = function (a,b) {
       if (a.time[0] < b.time[0]) return -1;
@@ -34,7 +50,13 @@
       }
       return 0;
     }
-    return performances.sort(_compare);
+    var performancesNotPermanent = [];
+    console.log(performances);
+    performances.forEach(function(perform){
+      if (!(perform.permanent)) performancesNotPermanent.push(perform); 
+    });
+    console.log(performancesNotPermanent);
+    return performancesNotPermanent.sort(_compare);
   }
 
   ns.Widgets.ReorderProgramCrono = function(performances){
@@ -56,8 +78,8 @@
     Pard.ShownSpaces.forEach(function(space, index){
       if(space.proposal_id == performances[0].host_proposal_id) left = index * Pard.ColumnWidth + 1;
     });
-    performances = Pard.Widgets.ReorderProgram(performances);
-    _firstPerformance = performances.shift();
+    var _performances = Pard.Widgets.ReorderProgram(performances);
+    _firstPerformance = _performances.shift();
     var showStart = [_firstPerformance.time[0]];
     var showEnd = [_firstPerformance.time[1]];
     _firstPerformance.card.css({
@@ -65,7 +87,7 @@
       'left': left,
       'z-index': 0
     });
-    performances.forEach(function(performance){
+    _performances.forEach(function(performance){
       var _cardIndex = 0;
       showEnd.some(function(endTime, index){
         if(performance.time[0] >= endTime){
@@ -107,7 +129,8 @@
       $('body').append(_content);
 
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent(space.name, Pard.Widgets.SpaceProgram(space), 'space-program-popup-call-manager');
+      var _popupTitle = space.name + ' ('+Pard.Widgets.Dictionary(space.category).render() +')';
+      var _message = Pard.Widgets.PopupContent(_popupTitle, Pard.Widgets.SpaceProgram(space), 'space-program-popup-call-manager');
       _message.setCallback(function(){
         _content.remove();
         _popup.close();
@@ -246,7 +269,7 @@
     });
     artistProposals.push({
       id: 'other',
-      text: 'Otro',
+      text: 'Otros',
       icon: 'other',
       type: 'category'
     });
