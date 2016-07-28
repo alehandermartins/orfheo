@@ -227,6 +227,7 @@
             afterCloseInfowindow: function(index, location) {},
             beforeOpenInfowindow: function(index, location, marker) {},
             afterOpenInfowindow: function(index, location, marker) {},
+            afterCloseClick: function(index) {},
 
             afterRoute: function(distance, status, result) {},
             onPolylineClick: function(obj) {},
@@ -797,6 +798,10 @@
             this.o.beforeOpenInfowindow(index, point, marker);
             this.type_to_open[type].call(this, point);
             this.infowindow.open(this.oMap, marker);
+            var that = this;
+            google.maps.event.addListener(this.infowindow,'closeclick', function(){
+                that.o.afterCloseClick(index);
+            });
             this.o.afterOpenInfowindow(index, point, marker);
         }
     };
