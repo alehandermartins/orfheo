@@ -51,11 +51,9 @@
       return 0;
     }
     var performancesNotPermanent = [];
-    console.log(performances);
     performances.forEach(function(perform){
       if (!(perform.permanent)) performancesNotPermanent.push(perform); 
     });
-    console.log(performancesNotPermanent);
     return performancesNotPermanent.sort(_compare);
   }
 

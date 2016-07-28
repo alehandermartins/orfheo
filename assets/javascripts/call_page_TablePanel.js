@@ -279,6 +279,14 @@
 
     var _createdWidget = $('<div>');
 
+    var _checkBoxesBox = $('<div>').css('min-height','7rem');
+
+    var _columns = ['day','time','artist','category','title','short_description','space','space_category','comments','confirmed'];
+    var _shownColumns = ['day','time','artist','category','title','short_description','space'];
+
+    var _checkBoxes = Pard.Widgets.PrintCheckBoxes(_columns, _shownColumns);
+
+
     var _outerTableContainer = $('<div>');
 
     var _tableBox = $('<div>').addClass('table-box-call-manager-page');
@@ -347,16 +355,39 @@
       // ,templateSelection: formatResource
     });
 
-    var _table = Pard.Widgets.PrintProgramTable(_filterCategory);
+    var _table = Pard.Widgets.PrintProgramTable(_checkBoxes, _filterCategory, _columns, _shownColumns);
 
     _filterCategory.on('select2:select',function(){
       var _cat =  _filterCategory.select2('data')[0];
-      if (_cat.id == 'all') _table.dataTableCreated().columns( 7 ).search('').draw();
-      else _table.dataTableCreated().columns( 7 ).search(_cat.id).draw();
+      if (_cat.id == 'all') _table.dataTableCreated().columns( 3 ).search('').draw();
+      else _table.dataTableCreated().columns( 3 ).search(_cat.text).draw();
     });
 
+    var _outOfprogramBtn = Pard.Widgets.Button('Artistas fuera programa').render();
 
-    _createdWidget.append(_filterCategoryContainer, _submitBtnContainer, _outerTableContainer.append(_tableBox.append(_table.render())));
+    _outOfprogramBtn.addClass('out-of-program-btn');
+
+    _outOfprogramBtn.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('Artistas fuera del programa', Pard.Widgets.ArtistOutOfProgram());
+
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      }); 
+      
+      _content.append(_message.render());
+      _popup.open();
+    });
+
+    _checkBoxesBox.append(_checkBoxes.render());
+    _outerTableContainer.append(_outOfprogramBtn, _tableBox.append(_table.render()))
+
+    _createdWidget.append(_filterCategoryContainer, _checkBoxesBox, _submitBtnContainer, _outerTableContainer);
 
 
     return {
@@ -366,12 +397,40 @@
     }
   }
 
-  ns.Widgets.PrintProgramTable = function(filterCategory){
+  ns.Widgets.ArtistOutOfProgram = function(){
+    var _createdWidget = $('<ul>');
+    var _proposalsOut = [];
+    Pard.CachedProposals.forEach(function(proposal){
+      var _check = true;
+      console.log(proposal);
+      if (proposal.type == 'artist'){
+        Pard.Widgets.Program.some(function(performance){
+          if (proposal.proposal_id == performance.participant_proposal_id) {
+            _check = false;
+            return true;
+          }
+        });
+        if (_check) {
+          _createdWidget.append($('<li>').text(proposal.category+' - ' + proposal.name+' - '+proposal.title));
+        };
+      }
+    });
+    
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        callback;      
+      }
+    }
+  }
+  
+
+  ns.Widgets.PrintProgramTable = function(checkBoxes, filterCategory, columns, shownColumns){
     
 
     var _createdWidget = $('<div>');     
-
-    var columns = ['day','time','artist','title','space','comments','confirmed', 'category'];
 
     var _dataTable ;
 
@@ -427,7 +486,7 @@
       _reorderedProgram.forEach(function(performance){
 
         var spaceProposal = Pard.Widgets.GetProposal(performance.host_proposal_id);
-        var artistProposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
+          var artistProposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
         
         var cardInfo = {
           performance_id: performance.performance_id,
@@ -471,6 +530,9 @@
           });
           _col.append(_programCaller);
         }
+        else if (field == 'space_category'){   
+          _col.append(Pard.Widgets.Dictionary(spaceProposal['category']).render());
+        }
         else if (field == 'artist'){
           var _programCaller = $('<a>').attr('href','#').text(artistProposal['name']);
           _programCaller.on('click', function(){
@@ -491,8 +553,9 @@
           _col.append(_programCaller);
         }
         else if (field == 'title'){     
-          var _catIcon =  Pard.Widgets.IconManager(artistProposal['category']).render().css('font-size','13px');
-          var _namePopupCaller = $('<a>').attr({'href':'#'}).append(_catIcon,' ', artistProposal['title']);
+          // var _catIcon =  Pard.Widgets.IconManager(artistProposal['category']).render().css('font-size','13px');
+          // var _namePopupCaller = $('<a>').attr({'href':'#'}).append(_catIcon,' ', artistProposal['title']);
+          var _namePopupCaller = $('<a>').attr({'href':'#'}).append(artistProposal['title']);
           if (performance.permanent){
               _namePopupCaller.on('click', function(){
                 var _content = $('<div>').addClass('very-fast reveal full');
@@ -538,8 +601,11 @@
           else _text = 'No';
           _col.append(_text);
         }
+        else if (field == 'category'){
+          _col.append(Pard.Widgets.Dictionary(artistProposal[field]).render());
+        }
         else { 
-          _col.append(artistProposal['category']);
+          _col.append(artistProposal[field]);
         }
           _row.append(_col);
         });
@@ -565,6 +631,12 @@
       }
       _tableCreated.append(_tbody);
       _createdWidget.append(_tableCreated);
+      
+      var _hiddenColumnsArray=[];
+      columns.forEach(function(field, colNum){
+        if($.inArray(field,shownColumns)<0) _hiddenColumnsArray.push(colNum);
+      });
+      
       _dataTable = _tableCreated.DataTable({
         "language":{
         "lengthMenu": " Resultados por página _MENU_",
@@ -580,12 +652,9 @@
         header: true
       },
       "columnDefs": [
-        {
-            "targets": [ columns.length -1 ],
-            "visible": false
-        }
+        { "visible": false, "targets": _hiddenColumnsArray }
       ],
-      // "scrollX": true,
+      "scrollX": true,
       "scrollY": "90vh",
       "bAutoWidth": false,
       "paging": false,
@@ -626,6 +695,7 @@
       ]
       });
       filterCategory.trigger('select2:select');
+      checkBoxes.setCallback(_dataTable);
     }
 
     _printTable();
