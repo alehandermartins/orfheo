@@ -472,7 +472,7 @@
         _spaceHeader.removeClass('cursor_grab').addClass('cursor_move');
       },
       drag: function(event, ui){
-        _spaceHeader.css('cursor','move');
+        // _spaceHeader.addClass('cursor_move');
         var originalPosition = $(this).data("uiDraggable").originalPosition;
         var position = ui.position.left;
 
