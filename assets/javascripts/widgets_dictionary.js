@@ -76,6 +76,7 @@
     var _dictionary = {
       artist: 'Artista',
       space: 'Espacio',
+      spaces: 'Espacios',
       organization: 'Organización',
       cultural_ass: 'Asociación Cultural',
       commercial: 'Local Comercial',
@@ -118,6 +119,8 @@
       time: 'Horario',
       day: 'Día',
       space_category:'Categoría espacio',
+      artist_categories: 'Categorías artisticas',
+      space_number: 'Numero espacio',
       
       already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},
@@ -146,7 +149,7 @@
           if (typeof _dictionary[voice] == 'function') return _dictionary[voice]();
           return _dictionary[voice];
         }
-        else{return false;}
+        else{return voice;}
       }
     }
   }

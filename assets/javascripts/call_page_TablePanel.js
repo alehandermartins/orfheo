@@ -281,7 +281,7 @@
 
     var _checkBoxesBox = $('<div>').css('min-height','7rem');
 
-    var _columns = ['day','time','artist','category','title','short_description','space','space_category','comments','confirmed'];
+    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','confirmed'];
     var _shownColumns = ['day','time','artist','category','title','short_description','space'];
 
     var _checkBoxes = Pard.Widgets.PrintCheckBoxes(_columns, _shownColumns);
@@ -402,7 +402,6 @@
     var _proposalsOut = [];
     Pard.CachedProposals.forEach(function(proposal){
       var _check = true;
-      console.log(proposal);
       if (proposal.type == 'artist'){
         Pard.Widgets.Program.some(function(performance){
           if (proposal.proposal_id == performance.participant_proposal_id) {
@@ -445,6 +444,8 @@
       //   if(performance.participant_id == artist.profile_id) myPerformances.push(performance);
       // });    
 
+      console.log(Pard.Spaces);
+
       var _permanents = [];    
 
       _reorderedProgram = Pard.Widgets.ReorderProgramCrono(program);
@@ -486,7 +487,14 @@
       _reorderedProgram.forEach(function(performance){
 
         var spaceProposal = Pard.Widgets.GetProposal(performance.host_proposal_id);
-          var artistProposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
+        var spaceNumber;
+        Pard.Spaces.some(function(space, index){
+          if (space.proposal_id == spaceProposal.proposal_id) {
+            spaceNumber = index + 1;
+            return true;
+          }
+        });
+        var artistProposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
         
         var cardInfo = {
           performance_id: performance.performance_id,
@@ -511,7 +519,7 @@
         else if (field == 'time'){     
           _col.append(moment(new Date(parseInt(performance['time'][0]))).locale('es').format('HH:mm')+'-'+moment(new Date (parseInt(performance['time'][1]))).locale('es').format('HH:mm'));
         }
-        else if (field == 'space'){     
+        else if (field == 'space'){  
           var _programCaller = $('<a>').attr('href','#').text(spaceProposal['name']);
           _programCaller.on('click', function(){
             var _content = $('<div>').addClass('very-fast reveal full');
@@ -532,6 +540,9 @@
         }
         else if (field == 'space_category'){   
           _col.append(Pard.Widgets.Dictionary(spaceProposal['category']).render());
+        }
+         else if (field == 'space_number'){   
+          _col.append(spaceNumber);
         }
         else if (field == 'artist'){
           var _programCaller = $('<a>').attr('href','#').text(artistProposal['name']);

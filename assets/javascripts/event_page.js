@@ -114,6 +114,8 @@
     _printTags(_categories);
   }
 
+ 
+
   ns.Widgets.ProgramEventPage = function(){
 
     var hosts = [];
@@ -302,6 +304,8 @@
     }
   }
 
+
+ 
 
 
   ns.Widgets.EventSection = function(content) {
