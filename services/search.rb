@@ -10,10 +10,18 @@ module Services
 	    	sort_results results
 	    end
 
-	    def get_program_results event_id, tags
+	    def get_program_results event_id, tags, date, time
 	    	program = Repos::Calls.get_program event_id
-	    	results = query_program program, tags
-	    	order_results results
+	    	date_program = program.select{|performance| performance[:date] == date}
+	    	results = query_program date_program, tags
+	    	results = select_now results, time unless time.blank?
+				order_results results
+	    end
+
+	    def select_now results, time
+	    	results.select{|performance|
+					(performance[:time].first.to_i > time.to_i && performance[:time].first.to_i < time.to_i + 3600 * 1000) || (performance[:time].first.to_i < time.to_i && performance[:time].last.to_i > time.to_i + 60 * 15 * 1000)
+				}
 	    end
 
 	    def query_program program, tags
@@ -147,15 +155,10 @@ module Services
 		  end
 
 		  def order_results results
-		  	ordered_program = {}
-		  	dates = ['2016-10-15', '2016-10-16']
-		  	dates.each{ |date|
-		  		ordered_program[date] = []
-		  		ordered_program[date].push(results.select{ |performance| performance[:date] == date && performance[:permanent] == 'false'}.sort_by{ |performance| [performance[:time].first, performance[:time].last] })
-		  		ordered_program[date].push(results.select{ |performance| performance[:date] == date && performance[:permanent] == 'true'}.sort_by{ |performance| [performance[:time].first, performance[:time].last] })
-		  		ordered_program[date].flatten!
-		  	}
-		  	ordered_program
+		  	ordered_program = []
+		  	ordered_program.push(results.select{ |performance| performance[:permanent] == 'false'}.sort_by{ |performance| [performance[:time].first, performance[:time].last] })
+		  	ordered_program.push(results.select{ |performance| performance[:permanent] == 'true'}.sort_by{ |performance| [performance[:time].first, performance[:time].last] })
+		  	ordered_program.flatten
 		  end
    	end
   end

@@ -123,11 +123,23 @@
       );
     };
 
-    var _searchProgram = function(tags, event_id, callback){
+    var _searchProgram = function(tags, event_id, date, time, callback){
       _send(       
         '/search/results_program',
         {
           query: tags,
+          event_id: event_id,
+          date: date,
+          time: time
+        },
+        callback
+      );
+    };
+
+    var _searchProgramNow = function(event_id, callback){
+      _send(       
+        '/search/program_now',
+        {
           event_id: event_id
         },
         callback

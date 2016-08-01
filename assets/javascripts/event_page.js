@@ -69,7 +69,7 @@
     }
   }
 
-  ns.PrintProgram = function(program, date, host){
+  ns.PrintProgram = function(program, host){
     var _searchResult = $('#searchResult');
     var _searchTagsBox = $('#tagBox');
     var _searchWidget = $('#searchEngine');
@@ -96,7 +96,7 @@
     
     _searchResult.empty();
     var _categories = [];
-    program[date].forEach(function(performance){
+    program.forEach(function(performance){
       if((host && performance.host_name == host) || !host){
         if($.inArray(performance.participant_category, _categories) < 0) _categories.push(performance.participant_category);
         var _performanceBox = $('<div>');
@@ -107,7 +107,7 @@
       }
     });
 
-    if(program[date].length == 0) {
+    if(program.length == 0) {
       var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
       _searchResult.append(_message);
     }
@@ -132,45 +132,32 @@
     var _daySelector = $('<select>');
 
     ['2016-10-15', '2016-10-16'].forEach(function(day){
-      var date = $('<option>').val(day).text(moment(day).locale('es').format('DD-MMM-YYYY'));
-      _daySelector.append(date);
+      var _date = $('<option>').val(day).text(moment(day).locale('es').format('DD-MMM-YYYY'));
+      _daySelector.append(_date);
     });
 
     _daySelectorContainer.append(_daySelector);
+
+    var _programNow = $('<button>').html('Ahora');
+    _programNow.on('click', function(){
+      var _date = new Date();
+      //var _day = moment(_date).format('YYYY-MM-DD');
+      //var _time = _date.getTime();
+      var _time = new Date(2016, 09, 15, 18, 23, 01, 123).getTime();
+      var _day = '2016-10-15';
+      _search(_day, _time);
+    });
     
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
     var gmap;
     
-    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _searchTagsBox, _searchResult);
+    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _programNow, _searchTagsBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
       allowClear:false,
       templateResult: formatResource
-    });
-
-    _daySelector.on('change', function(){
-      _data = [];
-      hosts = [];
-      _program[_daySelector.val()].forEach(function(performance, index){
-        if($.inArray(performance.host_proposal_id, hosts) < 0){
-          if(performance.host_name == _host) _hostIndex = _data.length + 1;
-          _data.push({
-            lat: performance.address.location.lat,
-            lon: performance.address.location.lng,
-            title: performance.host_name,
-            zoom: 16,
-            icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
-            html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>",
-            order: performance.order
-          });
-          hosts.push(performance.host_proposal_id);
-        }
-      });
-      gmap.SetLocations(_data, true);
-      if(_hostIndex) gmap.ViewOnMap(_hostIndex);
-      Pard.PrintProgram(_program, _daySelector.val(), _host);
     });
 
     function formatResource (resource) {
@@ -228,40 +215,7 @@
       }
     });
 
-    var _searchCallback = function(spinnerStop){
-      tags = [];
-      var _dataArray = _searchWidget.select2('data'); 
-      _dataArray.forEach(function(tag){
-        if(tag.icon && tag.icon == 'space') _host = tag.text;
-        tags.push(tag.text);
-      });
-      Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', function(data){
-        _program = data.program;
-        _data = [];
-        hosts = [];
-        data.program[_daySelector.val()].forEach(function(performance, index){
-          if($.inArray(performance.host_proposal_id, hosts) < 0){
-            if(performance.host_name == _host) _hostIndex = _data.length + 1;
-            _data.push({
-              lat: performance.address.location.lat,
-              lon: performance.address.location.lng,
-              title: performance.host_name,
-              zoom: 16,
-              icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
-              html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>",
-              order: performance.order
-            });
-            hosts.push(performance.host_proposal_id);
-          }
-        });
-        gmap.SetLocations(_data, true);
-        if(_hostIndex) gmap.ViewOnMap(_hostIndex);
-        Pard.PrintProgram(_program, _daySelector.val(), _host);
-      });
-      spinnerStop();
-    }
-
-    _searchWidget.on('change', function(){
+    var _search = function(date, time){
       var spinner =  new Spinner().spin();
       $.wait(
         '', 
@@ -270,9 +224,46 @@
           _searchResult.append(spinner.el); 
         }, 
         function(){
-          _searchCallback(function(){spinner.stop()});
+          tags = [];
+          var _dataArray = _searchWidget.select2('data'); 
+          _dataArray.forEach(function(tag){
+            if(tag.icon && tag.icon == 'space') _host = tag.text;
+            tags.push(tag.text);
+          });
+          Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', date, time, function(data){
+            _program = data.program;
+            _data = [];
+            hosts = [];
+            data.program.forEach(function(performance, index){
+              if($.inArray(performance.host_proposal_id, hosts) < 0){
+                if(performance.host_name == _host) _hostIndex = _data.length + 1;
+                _data.push({
+                  lat: performance.address.location.lat,
+                  lon: performance.address.location.lng,
+                  title: performance.host_name,
+                  zoom: 16,
+                  icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
+                  html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>",
+                  order: performance.order
+                });
+                hosts.push(performance.host_proposal_id);
+              }
+            });
+            gmap.SetLocations(_data, true);
+            if(_hostIndex) gmap.ViewOnMap(_hostIndex);
+            Pard.PrintProgram(_program, _host);
+          });
+          spinner.stop();
         }
-      )
+      );
+    }
+
+    _searchWidget.on('change', function(){
+      _search(_daySelector.val());
+    });
+
+    _daySelector.on('change', function(){
+      _search(_daySelector.val());
     });
 
     $(document).ready(function(){
@@ -294,7 +285,7 @@
           Pard.PrintProgram(_program, _daySelector.val(), '');
         }
       }).Load();
-      _searchWidget.trigger('change');
+      _search(_daySelector.val());
     });
 
     return{

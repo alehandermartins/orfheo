@@ -27,9 +27,9 @@ class SearchController < BaseController
   end
 
   post '/results_program' do
-    scopify query: true, event_id: true
+    scopify query: true, event_id: true, date: true, time: true
     tags = get_query query
-    results = Services::Search.get_program_results event_id, tags
+    results = Services::Search.get_program_results event_id, tags, date, time
     success({program: results})
   end
 
