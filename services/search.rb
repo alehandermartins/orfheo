@@ -80,7 +80,7 @@ module Services
 
 		  def space_category? text
 		    [
-		      'organizacion',
+		      'espacio exterior',
 		      'asociacion cultural',
 		      'local comercial', 
 		      'espacio particular'].include? text
@@ -120,7 +120,7 @@ module Services
 		    dictionary = {
 		      artist: 'artista',
 		      space: 'espacio',
-		      organization: 'organizacion',
+		      open_air: 'espacio exterior',
 		      cultural_ass: 'asociacion cultural',
 		      commercial: 'local comercial',
 		      home: 'espacio particular',
