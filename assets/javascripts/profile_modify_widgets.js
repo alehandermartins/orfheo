@@ -126,7 +126,15 @@
 
 
     var _send = function(url){
-      Pard.Backend.modifyProfile(_getVal(url), Pard.Events.CreateProfile);
+      var _formVal = _getVal(url);
+      console.log(_formVal);
+      var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + '+' + _formVal.address.street_number + '+' + _formVal.address.locality + '+' + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+      $.get(uri, function(data){
+        if(data.status == "OK" && data.results.length > 0){
+          _formVal.address.location = data.results[0].geometry.location;
+        }
+        Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+      });
     }
 
     var _closepopup = {};
