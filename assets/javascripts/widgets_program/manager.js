@@ -644,7 +644,9 @@
                 category: proposal.category,
                 availability: proposal.availability,
                 name: proposal.name,
-                date: performance.date
+                date: performance.date,
+                confirmed: performance.confirmed,
+                comments: performance.comments
               }
               
               newPerformance[performance.performance_id] = Pard.Widgets.ProgramPermanentHelper(_cardInfo, performance.host_proposal_id).render();

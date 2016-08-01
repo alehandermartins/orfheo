@@ -188,7 +188,7 @@
     var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
     var _confirmationCheck = '';
     var _confirmationCheckContainer = $('<span>').addClass('checker'); 
-    if (cardInfo.confirmed=='true') _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
+    if (cardInfo.confirmed == 'true') _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
     _confirmationCheckContainer.append(_confirmationCheck);
     var _commentIcon = '';
     var _commentIconContainer = $('<span>').addClass('commentIcon'); 
@@ -336,7 +336,15 @@
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
     var _titleTextLong = cardInfo.name+' - '+cardInfo.title;
     var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
-    _title.append(_titleText);
+    var _confirmationCheck = '';
+    var _confirmationCheckContainer = $('<span>').addClass('checker'); 
+    if (cardInfo.confirmed=='true') _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
+    _confirmationCheckContainer.append(_confirmationCheck);
+    var _commentIcon = '';
+    var _commentIconContainer = $('<span>').addClass('commentIcon'); 
+    if (cardInfo.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render()); 
+    _commentIconContainer.append(_commentIcon);
+    _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
     _card.append(_title);
 
     _card.mousedown(function(){

@@ -870,12 +870,16 @@
       _checkBoxes.push(_input);
 
       _input.on('change', function(){
+        var _check = false;
         _performances.forEach(function(myPerformance){
           myPerformance.confirmed = _input.is(":checked");
+          if (myPerformance.confirmed) _check = true; 
         });
         _checkBoxes.forEach(function(checkbox){
           checkbox.prop('checked', _input.is(':checked'));
         });
+        if (_check) _performances[0].card.find('.checker').append(Pard.Widgets.IconManager('done').render())
+        else _performances[0].card.find('.checker').empty();
       });
       _confirmed.css('margin-left', 430);
       _confirmedContainer.append(_confirmed);
@@ -885,6 +889,8 @@
       var _comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
       _comments.on('input', function(){
         performance['comments'] = _comments.val();
+        performance.card.find('.commentIcon').empty(); 
+        if (performance.comments) performance.card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
       });
       _comments.val(performance['comments']);
       _comments.css('width', 530);
