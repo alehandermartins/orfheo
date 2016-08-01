@@ -275,14 +275,14 @@
         afterShow: function(index, location, marker){
           _host = _data[index].title;
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
-          Pard.PrintProgram(_program, _daySelector.val(), _data[index].title);
+          Pard.PrintProgram(_program, _data[index].title);
         },
         afterOpenInfowindow: function(index, location, marker){
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
         },
         afterCloseClick: function(index){
           _host = '';
-          Pard.PrintProgram(_program, _daySelector.val(), '');
+          Pard.PrintProgram(_program, '');
         }
       }).Load();
       _search(_daySelector.val());
