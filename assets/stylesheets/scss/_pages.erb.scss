@@ -1630,6 +1630,7 @@ li.artists-selector-container-call-manager{
   /* cursor: pointer; */
   a{
     color: black;
+    margin-right: 0.2rem;
   }
   a:hover{
    text-decoration: underline;
@@ -1939,3 +1940,22 @@ EVENT PAGE
   text-transform: uppercase;
   margin:0;
 }
+
+.checker {
+  float: right;
+  margin-right: 0.2rem;
+}
+.checker .material-icons{
+  font-size: 1rem;
+  font-weight: bold;
+ }
+
+.commentIcon {
+  float: right;
+  margin-right: 0.2rem;
+}
+.commentIcon .material-icons{
+  font-size: 0.8rem;
+ }
+
+

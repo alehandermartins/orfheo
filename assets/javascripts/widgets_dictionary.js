@@ -40,6 +40,7 @@
       clock: {icon:'&#xE192;', className:'material-icons'},
       location: {icon:'&#xE0C8;', className:'material-icons'},
       organizer: {icon:'&#xE43B;', className:'material-icons' },
+      comments: {icon:'&#xE0B9;', className:'material-icons' },
 
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},

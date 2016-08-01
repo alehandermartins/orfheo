@@ -223,13 +223,6 @@
     _label.css('display','inline');
     var _confirmed = $('<div>').append(_input,_label);
     _input.on('change', function(){
-      // console.log(_performance);
-      //  Pard.Spaces.forEach(function(space){
-      //   if(space.proposal_id == _spaceSelector.val()){
-      //     timeCol = space[_performance.date].find('.spaceTime');
-      //   }
-      // });
-      // _performance.card.remove();
       _performance.confirmed = _input.is(":checked");
       if (_performance.confirmed) _performance.card.find('.checker').append(Pard.Widgets.IconManager('done').render())
       else _performance.card.find('.checker').empty(); 
@@ -243,7 +236,9 @@
     var _comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
     _comments.on('input', function(){
       _performance['comments'] = _comments.val();
-    });
+      _performance.card.find('.commentIcon').empty(); 
+      if (_performance.comments) _performance.card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+      });
     _comments.val(_performance['comments']);
     _comments.css('width', 530);
     _commentsContainer.append(_comments);

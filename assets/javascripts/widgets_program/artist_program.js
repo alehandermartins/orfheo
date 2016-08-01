@@ -306,7 +306,9 @@
         category: artistProposal.category,
         availability: artistProposal.availability,
         name: artistProposal.name,
-        date: show.date
+        date: show.date, 
+        confirmed: show.confirmed,
+        comments: show.comments,
       }
 
       _columnsHeaders.forEach(function(field){

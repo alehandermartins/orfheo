@@ -595,7 +595,8 @@
                 availability: proposal.availability,
                 name: proposal.name,
                 date: performance.date,
-                confirmed: performance.confirmed
+                confirmed: performance.confirmed,
+                comments: performance.comments
               }
               
               //New card

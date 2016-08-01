@@ -288,7 +288,9 @@
         category: proposal.category,
         availability: proposal.availability,
         name: proposal.name,
-        date: show.date
+        date: show.date,
+        confirmed: show.confirmed,
+        comments: show.comments,
       }
       _columnsHeaders.forEach(function(field){
         var _colClass = 'column-'+field;
