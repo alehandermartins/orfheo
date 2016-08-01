@@ -140,10 +140,11 @@
     _daySelectorContainer.append(_daySelector);
     
     var map = $('<div>').attr('id', 'gmap');
+    var controls = $('<div>').attr('id', 'controls');
     map.css({'width': '100%', 'height': '250px'});
     var gmap;
     
-    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _searchTagsBox, _searchResult);
+    _createdWidget.append(map, controls, _searchWidget, _daySelectorContainer, _searchTagsBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
@@ -279,8 +280,12 @@
     $(document).ready(function(){
       gmap = new Maplace({
         locations: _data,
-        controls_type: 'list',
-        controls_on_map: false,
+        controls_div: '#controls',
+        controls_on_map: true,
+        map_options: {
+    mapTypeControl: false,
+    scaleControl: false
+        },
         afterShow: function(index, location, marker){
           _host = _data[index].title;
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
