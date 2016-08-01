@@ -304,10 +304,7 @@
     }
   }
 
-
  
-
-
   ns.Widgets.EventSection = function(content) {
 
     var _content = content.addClass('user-grid-element-content');

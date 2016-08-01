@@ -246,7 +246,6 @@
   }
 
   ns.Widgets.SpaceForm = function(callbackEvent){
-
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
     var _message = $('<div>').text('Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla.').addClass('message-form');
@@ -299,8 +298,17 @@
     }
 
     var _send = function(url){
-      if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
-      else Pard.Backend.createProfile(_getVal(url), Pard.Events.CreateProfile);
+      var _formVal;
+      if (callbackEvent) _formVal = _getVal();
+      else _formVal = _getVal(url);
+      var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + '+' + _formVal.address.street_number + '+' + _formVal.address.locality + '+' + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+      $.get(uri, function(data){
+        if(data.status == "OK" && data.results.length > 0){
+          _formVal.address.location = data.results[0].geometry.location;
+        }
+        if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
+        else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+      });
     }
 
     var _closepopup = {};

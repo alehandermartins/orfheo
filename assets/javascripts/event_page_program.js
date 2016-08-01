@@ -1,3 +1,7 @@
+'use strict';
+
+(function(ns){
+
 ns.Widgets.ProgramEventPage = function(){
 
     var hosts = [];
@@ -318,3 +322,5 @@ ns.Widgets.ProgramEventPage = function(){
       _searchResult.append(_message);
     }
   }
+  
+}(Pard || {}));
