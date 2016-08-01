@@ -322,5 +322,4 @@ ns.Widgets.ProgramEventPage = function(){
       _searchResult.append(_message);
     }
   }
-  
 }(Pard || {}));

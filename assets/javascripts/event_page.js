@@ -114,7 +114,6 @@
     _printTags(_categories);
   }
 
- 
 
   ns.Widgets.ProgramEventPage = function(){
 
@@ -304,7 +303,6 @@
       }
     }
   }
-
  
   ns.Widgets.EventSection = function(content) {
 

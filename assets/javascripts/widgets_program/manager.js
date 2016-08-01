@@ -594,7 +594,8 @@
                 category: proposal.category,
                 availability: proposal.availability,
                 name: proposal.name,
-                date: performance.date
+                date: performance.date,
+                confirmed: performance.confirmed
               }
               
               //New card

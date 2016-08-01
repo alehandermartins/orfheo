@@ -223,7 +223,18 @@
     _label.css('display','inline');
     var _confirmed = $('<div>').append(_input,_label);
     _input.on('change', function(){
+      // console.log(_performance);
+      //  Pard.Spaces.forEach(function(space){
+      //   if(space.proposal_id == _spaceSelector.val()){
+      //     timeCol = space[_performance.date].find('.spaceTime');
+      //   }
+      // });
+      // _performance.card.remove();
       _performance.confirmed = _input.is(":checked");
+      if (_performance.confirmed) _performance.card.find('.checker').append(Pard.Widgets.IconManager('done').render())
+      else _performance.card.find('.checker').empty(); 
+      // timeCol.append();
+
     });
     _confirmed.css('margin-left', 430);
     _confirmedContainer.append(_confirmed);

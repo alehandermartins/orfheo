@@ -363,7 +363,7 @@
       else _table.dataTableCreated().columns( 3 ).search(_cat.text).draw();
     });
 
-    var _outOfprogramBtn = Pard.Widgets.Button('Artistas fuera programa').render();
+    var _outOfprogramBtn = Pard.Widgets.Button('Artistas sin programación').render();
 
     _outOfprogramBtn.addClass('out-of-program-btn');
 
@@ -429,11 +429,13 @@
   ns.Widgets.PrintProgramTable = function(checkBoxes, filterCategory, columns, shownColumns){
     
 
-    var _createdWidget = $('<div>');     
+    var _createdWidget = $('<div>').addClass('program-table-container');     
 
     var _dataTable ;
 
     var program = [];
+
+    var _searchImputText = '';
 
     var _printTable = function(){
 
@@ -444,9 +446,7 @@
       //   if(performance.participant_id == artist.profile_id) myPerformances.push(performance);
       // });    
 
-      console.log(Pard.Spaces);
-
-      var _permanents = [];    
+      var _permanents = [];   
 
       _reorderedProgram = Pard.Widgets.ReorderProgramCrono(program);
 
@@ -522,6 +522,7 @@
         else if (field == 'space'){  
           var _programCaller = $('<a>').attr('href','#').text(spaceProposal['name']);
           _programCaller.on('click', function(){
+            _searchImputText = $('.program-table-container .dataTables_filter input').val();
             var _content = $('<div>').addClass('very-fast reveal full');
             _content.empty();
             $('body').append(_content);
@@ -531,6 +532,11 @@
             _message.setCallback(function(){
               _popup.close();
               _createdWidget.empty(); 
+              shownColumns = [];
+              var _checkedBoxes = checkBoxes.getVal();
+              columns.forEach(function(col, index){
+                if (_checkedBoxes[index]) shownColumns.push(col);
+              });
               _printTable();
             });
             _content.append(_message.render());
@@ -547,6 +553,7 @@
         else if (field == 'artist'){
           var _programCaller = $('<a>').attr('href','#').text(artistProposal['name']);
           _programCaller.on('click', function(){
+            _searchImputText = $('.program-table-container .dataTables_filter input').val();
             var _content = $('<div>').addClass('very-fast reveal full');
             _content.empty();
             $('body').append(_content);
@@ -556,6 +563,11 @@
             _message.setCallback(function(){
               _popup.close();
               _createdWidget.empty(); 
+              shownColumns = [];
+              var _checkedBoxes = checkBoxes.getVal();
+              columns.forEach(function(col, index){
+                if (_checkedBoxes[index]) shownColumns.push(col);
+              });
               _printTable();
             });
             _content.append(_message.render());
@@ -569,6 +581,7 @@
           var _namePopupCaller = $('<a>').attr({'href':'#'}).append(artistProposal['title']);
           if (performance.permanent){
               _namePopupCaller.on('click', function(){
+                _searchImputText = $('.program-table-container .dataTables_filter input').val();
                 var _content = $('<div>').addClass('very-fast reveal full');
                 _content.empty();
                 $('body').append(_content);
@@ -576,7 +589,12 @@
                 var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
                 var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PermanentPerformanceProgram(cardInfo, true));
                 _message.setCallback(function(){
-                  _createdWidget.empty(); 
+                  _createdWidget.empty();
+                  shownColumns = [];
+                  var _checkedBoxes = checkBoxes.getVal();
+                  columns.forEach(function(col, index){
+                    if (_checkedBoxes[index]) shownColumns.push(col);
+                  });
                   _printTable();
                   _popup.close();
                 });
@@ -586,6 +604,7 @@
             }
             else {
               _namePopupCaller.on('click', function(){
+              _searchImputText = $('.program-table-container .dataTables_filter input').val();
                 var _content = $('<div>').addClass('very-fast reveal full');
                 _content.empty();
                 $('body').append(_content);
@@ -594,6 +613,11 @@
                 var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PerformanceProgram(cardInfo, true));
                 _message.setCallback(function(){
                   _createdWidget.empty(); 
+                   shownColumns = [];
+                    var _checkedBoxes = checkBoxes.getVal();
+                    columns.forEach(function(col, index){
+                      if (_checkedBoxes[index]) shownColumns.push(col);
+                    });
                   _printTable();
                   _popup.close();
                 });
@@ -707,6 +731,7 @@
       });
       filterCategory.trigger('select2:select');
       checkBoxes.setCallback(_dataTable);
+      if(_searchImputText) _dataTable.search(_searchImputText).draw();
     }
 
     _printTable();
@@ -891,6 +916,8 @@
 
   	var _table;
 
+    var _checkBoxesArray = [];
+
   	var _printCheckBoxes = function(columnShown){
   	_checkBoxesField = [];
     _fields.forEach(function(field, columnNum){
@@ -914,6 +941,8 @@
     	_checkBox.labelToggle(); 	
     
     	_checkBoxesBox.append(_checkBoxRendered);
+
+      _checkBoxesArray.push(_checkBox);
 
     });
   	}
@@ -949,17 +978,24 @@
     _allCheckBoxes.labelToggle(); 	
 
     _createdWidget.append(_allCheckBoxesBox, _checkBoxesBox);
+
+    var _getColumns = function(){
+      var _checks = [];
+      _checkBoxesArray.forEach(function(ckbx){
+       _checks.push(ckbx.getVal());
+      })
+      return _checks;
+    }
    
     return {
 	  	render: function(){
 	  		return _createdWidget;
 	  	},
-	  	// getVal: function(){
-	  	// 	return _getColumns();
-	  	// }, 
+	  	getVal: function(){
+	  		return _getColumns();
+	  	}, 
 	  	setCallback: function(table){
-        _table = table;
-	      
+        _table = table;	      
       }
   	}
   }
@@ -1081,7 +1117,7 @@
 
   ns.Widgets.PrintTable = function(proposalsSelected, columns) {
 
-   	var _tableCreated = $('<table>').addClass('table-proposal stripe row-border').attr({'cellspacing':"0", 'width':"950px"});
+   	var _tableCreated = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0", 'width':"950px"});
 
    	var reorder = function(colNum){};
 

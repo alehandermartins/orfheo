@@ -66,7 +66,7 @@
           duration: proposal.duration,
           category: proposal.category,
           availability: proposal.availability,
-          name: proposal.name
+          name: proposal.name,
         }
         //We store the info to be known by the column it is dropped into
         ui.helper.data('cardInfo', cardInfo);
@@ -186,7 +186,11 @@
     var _title = $('<p>').addClass('proposal-title-card-call-manager');
     var _titleTextLong = cardInfo.name+' - '+cardInfo.title;
     var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
-    _title.append(_titleText);
+    var _confirmationCheck = '';
+    var _confirmationCheckContainer = $('<span>').addClass('checker'); 
+    if (cardInfo.confirmed=='true') _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
+    _confirmationCheckContainer.append(_confirmationCheck);
+    _title.append(_titleText, _confirmationCheckContainer);
     _card.append(_title.css({'position': 'absolute'}));
 
     var accordionShown = false;
