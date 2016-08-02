@@ -128,6 +128,12 @@ module Pard
     end
   end
 
+  class Invalid::FilterParams < Invalid
+    def message
+      'invalid_filters'
+    end
+  end
+
   class Invalid::Deadline < Invalid
     def message
       'out_of_time_range'

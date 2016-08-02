@@ -45,6 +45,12 @@ module Util
       end      
     end
 
+    def transliterate array
+      array.map{ |value|
+        I18n.transliterate(value.downcase)
+      }
+    end
+
     def destroy_old_pictures old_pictures, new_pictures
       unused_pictures = old_pictures.keys.map{ |field|
         next if old_pictures[field].blank?
