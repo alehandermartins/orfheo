@@ -38,7 +38,13 @@ module Services
 
 		  def filter_participants program, filters
 		  	program.select{ |performance| 
-		  		filters performance[:participant_category]
+		  		filters.include? translate(performance[:participant_category])
+		  	}
+		  end
+
+		  def filter_hosts program, filters
+		  	program.select{ |performance| 
+		  		filters.include? translate(performance[:host_category])
 		  	}
 		  end
   
