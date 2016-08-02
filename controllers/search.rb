@@ -20,18 +20,18 @@ class SearchController < BaseController
   end
 
   post '/suggest_program' do
-    scopify query: true, event_id: true
+    scopify query: true, event_id: true, filters: true
     queriable_tags = get_query query
-    results = Services::Search.get_program_suggestions event_id, queriable_tags
+    ok_filters = get_filters filters
+    results = Services::Search.get_program_suggestions event_id, queriable_tags, ok_filters
     success({items: results})
   end
 
   post '/results_program' do
     scopify query: true, event_id: true, filters: true, date: true, time: true
     tags = get_query query
-    translated_filters = get_filters filters
-    puts translated_filters
-    results = Services::Search.get_program_results event_id, tags, translated_filters, date, time
+    ok_filters = get_filters filters
+    results = Services::Search.get_program_results event_id, tags, ok_filters, date, time
     success({program: results})
   end
 

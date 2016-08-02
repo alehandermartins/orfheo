@@ -286,10 +286,18 @@
             _query.push(element.id);
           });
           _query.push(params.term);
+          var filters = {};
+          Object.keys(_filters).forEach(function(key){
+            filters[key] = [];
+            Object.keys(_filters[key]).forEach(function(category){
+              if(_filters[key][category] == true) filters[key].push(category);
+            });
+          });
           return {
             query: _query,
             page: params.page,
-            event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+            event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
+            filters: filters
           };
         },
         processResults: function (data, params) {

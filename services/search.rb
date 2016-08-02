@@ -2,9 +2,8 @@ module Services
   class Search
     class << self
     	
-    	def get_program_suggestions event_id, queriable_tags
+    	def get_program_suggestions event_id, queriable_tags, filters
     		tags = queriable_tags[0...-1]
-    		filters = {}
 	    	program = Repos::Calls.get_program event_id
 	    	matched_performances = query_program program, tags, filters
 	    	results = get_suggestions_for matched_performances, queriable_tags
