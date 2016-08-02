@@ -69,29 +69,29 @@
     }
   }
 
-  ns.PrintProgram = function(program, host){
-    var _searchResult = $('#searchResult');
-    var _searchTagsBox = $('#tagBox');
-    var _searchWidget = $('#searchEngine');
+  // ns.PrintProgram = function(program, host){
+  //   var _searchResult = $('#searchResult');
+  //   var _searchTagsBox = $('#tagBox');
+  //   var _searchWidget = $('#searchEngine');
 
-    _searchResult.empty();
-    var _categories = [];
-    program.forEach(function(performance){
-      if((host && performance.host_name == host) || !host){
-        if($.inArray(performance.participant_category, _categories) < 0) _categories.push(performance.participant_category);
-        var _performanceBox = $('<div>');
-        var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
-        var _title = performance.title;
-        _performanceBox.append(_time, _title);
-        _searchResult.append(_performanceBox);
-      }
-    });
+  //   _searchResult.empty();
+  //   var _categories = [];
+  //   program.forEach(function(performance){
+  //     if((host && performance.host_name == host) || !host){
+  //       if($.inArray(performance.participant_category, _categories) < 0) _categories.push(performance.participant_category);
+  //       var _performanceBox = $('<div>');
+  //       var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
+  //       var _title = performance.title;
+  //       _performanceBox.append(_time, _title);
+  //       _searchResult.append(_performanceBox);
+  //     }
+  //   });
 
-    if(program.length == 0) {
-      var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
-      _searchResult.append(_message);
-    }
-  }
+  //   if(program.length == 0) {
+  //     var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
+  //     _searchResult.append(_message);
+  //   }
+  // }
 
   ns.Widgets.Filters = function(){
     var _createdWidget = $('<div>');
