@@ -3,19 +3,29 @@
 (function(ns){
 
 
-  ns.PrintProgram = function(program, host){
+  ns.PrintProgram = function(program, host, gmap, dataSpaces){
     var _searchResult = $('#searchResult');
     // var _searchTagsBox = $('#tagBox');
     // var _searchWidget = $('#searchEngine');
-
-    console.log(program);
-
+    console.log(dataSpaces);
     _searchResult.empty();
-    var _categories = [];
+    // var _categories = [];
     program.forEach(function(performance){
       if((host && performance.host_name == host) || !host){
-        if($.inArray(performance.participant_category, _categories) < 0) _categories.push(performance.participant_category);
-        _searchResult.append(Pard.Widgets.ProgramCard(performance));
+        // if($.inArray(performance.participant_category, _categories) < 0) _categories.push(performance.participant_category);
+        var _performanceCard = Pard.Widgets.ProgramCard(performance, gmap, dataSpaces);
+        _performanceCard.setNumberClickCallback(function(){
+          var _index;
+          dataSpaces.some(function(space, pos){
+            if (space.order == performance.order) {
+              _index = pos;
+              return true;
+            }
+          });
+          gmap.ViewOnMap(_index+1);
+          Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
+        });
+        _searchResult.append(_performanceCard.render());
       }
     });
 
@@ -25,7 +35,7 @@
     }
   }
 
-  ns.Widgets.ProgramCard = function(performance){
+  ns.Widgets.ProgramCard = function(performance, gmap){
     var _dictionary = {
       music: 'Música',
       arts: 'Escénicas',
@@ -40,6 +50,10 @@
     var _time = $('<div>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
     var _participantCat = $('<span>').append(Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon'), $('<span>').append(_dictionary[performance.participant_category]).addClass('participant-category-text'));
     var _hostNum = $('<p>').text(performance.order).addClass('host-number-program-card');
+    var numberClickCallback;
+    _hostNum.on('click',function(){
+      numberClickCallback();
+    });
     var _titleRow = $('<div>');
     var _descriptionRow = $('<div>');
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
@@ -47,7 +61,6 @@
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
     else _participant.addClass('participant-program-card-own').attr({'href': '#'})
     var _host = $('<a>').text(performance.host_name);
-    console.log(performance.participant_id.search('own'))
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
     else _host.addClass('host-program-card-own').attr({'href': '#'});
     var _hostCat = $('<span>').append('('+Pard.Widgets.Dictionary(performance.host_category).render()+')').addClass('host-category-program-card');
@@ -64,7 +77,14 @@
     _col3.append(_titleRow, _descriptionRow);
     _progCard.append(_col1, _col2, _col3);
 
-    return _progCard;
+    return {
+      render: function(){
+        return _progCard;
+      },
+      setNumberClickCallback: function(callback){
+        numberClickCallback = callback;
+      }
+    }
   }
 
 }(Pard || {}));

@@ -366,7 +366,7 @@
             });
             gmap.SetLocations(_data, true);
             if(_hostIndex) gmap.ViewOnMap(_hostIndex);
-            Pard.PrintProgram(_program, _host);
+            Pard.PrintProgram(_program, _host, gmap, _data);
           });
           spinner.stop();
         }
@@ -388,14 +388,14 @@
         afterShow: function(index, location, marker){
           _host = _data[index].title;
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
-          Pard.PrintProgram(_program, _data[index].title);
+          Pard.PrintProgram(_program, _data[index].title, gmap, _data);
         },
         afterOpenInfowindow: function(index, location, marker){
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
         },
         afterCloseClick: function(index){
           _host = '';
-          Pard.PrintProgram(_program, '');
+          Pard.PrintProgram(_program, '', gmap, _data);
         }
       }).Load();
       _search(_daySelector.val());
