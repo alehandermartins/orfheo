@@ -110,8 +110,6 @@ module Services
 		  end
 
 		  def add_suggestions suggestions, performance, query
-		    add_suggestion(suggestions, performance[:participant_category], 'category') if queriable? performance[:participant_category], query
-		    add_suggestion(suggestions, performance[:host_category], 'category') if queriable? performance[:host_category], query
 		    add_suggestion(suggestions, performance[:participant_name], 'name', 'artist') if queriable? performance[:participant_name], query
 		    add_suggestion(suggestions, performance[:host_name], 'name', 'space') if queriable? performance[:host_name], query
 		  	add_suggestion(suggestions, performance[:title], 'title') if queriable? performance[:title], query

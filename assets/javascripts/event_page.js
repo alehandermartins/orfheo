@@ -74,26 +74,6 @@
     var _searchTagsBox = $('#tagBox');
     var _searchWidget = $('#searchEngine');
 
-     var _printTags = function(categories){
-      _searchTagsBox.empty();
-      categories.forEach(function(category){
-        var _typeTag = $('<div>').addClass('suggested-tag-search-engine');
-        if(categories.length > 1){
-          _typeTag.click(function(){
-            var _text = Pard.Widgets.Dictionary(category).render();
-            var option = new Option(_text, _text, true, true);
-            _searchWidget.append(option);
-            _searchWidget.trigger('change');
-          });
-        }
-        var _icon = Pard.Widgets.IconManager(category).render();
-        _icon.addClass('search-tag-icon');
-        var _tagSpan = $('<span>').css('vertical-align','middle');
-        _typeTag.append(_tagSpan.append(_icon, Pard.Widgets.Dictionary(category).render()));
-        _searchTagsBox.append(_typeTag);
-      });
-    };
-    
     _searchResult.empty();
     var _categories = [];
     program.forEach(function(performance){
@@ -111,7 +91,6 @@
       var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
       _searchResult.append(_message);
     }
-    _printTags(_categories);
   }
 
   ns.Widgets.Filters = function(){
@@ -203,12 +182,21 @@
       'border': 'solid black'
     });
     _programNow.on('click', function(){
-      var _date = new Date();
-      //var _day = moment(_date).format('YYYY-MM-DD');
-      //var _time = _date.getTime();
-      var _time = new Date(2016, 09, 15, 18, 23, 01, 123).getTime();
-      var _day = '2016-10-15';
-      _search(_day, _time);
+      if(_programNow.hasClass('active')){
+        _search(_daySelector.val());
+        _programNow.removeClass('active');
+        _programNow.html('Ahora');
+      }
+      else{
+        var _date = new Date();
+        //var _day = moment(_date).format('YYYY-MM-DD');
+        //var _time = _date.getTime();
+        var _time = new Date(2016, 09, 15, 18, 23, 01, 123).getTime();
+        var _day = '2016-10-15';
+        _search(_day, _time);
+        _programNow.addClass('active');
+        _programNow.html('Todo');
+      }
     });
 
     var _filters = $('<button>').html('Filtros').css({
