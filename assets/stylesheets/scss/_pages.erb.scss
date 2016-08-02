@@ -1468,6 +1468,24 @@ p.initial-text-proposalPanel{
 Program Manager Tab
 --------------------------- */
 
+
+.checker {
+  float: right;
+  margin-right: 0.2rem;
+}
+.checker .material-icons{
+  font-size: 1rem;
+  font-weight: bold;
+ }
+
+.commentIcon {
+  float: right;
+  margin-right: 0.2rem;
+}
+.commentIcon .material-icons{
+  font-size: 0.8rem;
+ }
+
 .table-box-call-manager{
   position: relative;
 }
@@ -1993,7 +2011,7 @@ EVENT PAGE
 
 .host-program-card:hover, .host-number-program-card:hover{
   color: rgba(67, 137, 248, 0.8);
-  cursor: pointer;
+  cursor: poi;
 }
 
 .host-program-card, .host-number-program-card, .host-program-card-own{
