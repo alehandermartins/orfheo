@@ -241,6 +241,7 @@
       _message.setCallback(function(){
         _content.remove();
         _popup.close();
+        _search(_daySelector.val());
       });
 
       _content.append(_message.render());
