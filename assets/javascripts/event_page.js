@@ -114,6 +114,62 @@
     _printTags(_categories);
   }
 
+  ns.Widgets.Filters = function(){
+    var _createdWidget = $('<div>');
+    var _closepopup;
+
+    var _artistCategories = $('<div>').text('Categorias Artísticas');
+    _createdWidget.append(_artistCategories);
+
+    ['Musica', 'Artes Escénicas', 'Expo'].forEach(function(filter){
+      var _filterContainer = $('<div>').css('height', 20);
+      var _input = $('<input />').attr({ type: 'checkbox'});
+      //_input.prop('checked', _performance.confirmed);
+      var _label = $('<label>').html(filter);
+      _label.css('display','inline');
+      var _filter = $('<div>').append(_input,_label);
+      _filterContainer.append(_filter);
+      _createdWidget.append(_filterContainer);
+    });
+
+    var _spaceCategories = $('<div>').text('Categorias Espacios');
+    _createdWidget.append(_spaceCategories);
+
+    ['Local Comercial', 'Espacio Particular', 'Asociación Cultural', 'Espacio Exterior'].forEach(function(filter){
+      var _filterContainer = $('<div>').css('height', 20);
+      var _input = $('<input />').attr({ type: 'checkbox'});
+      //_input.prop('checked', _performance.confirmed);
+      var _label = $('<label>').html(filter);
+      _label.css('display','inline');
+      var _filter = $('<div>').append(_input,_label);
+      _filterContainer.append(_filter);
+      _createdWidget.append(_filterContainer);
+    });
+
+    var _otherCategories = $('<div>').text('Otros');
+    _createdWidget.append(_otherCategories);
+
+    ['Infantil'].forEach(function(filter){
+      var _filterContainer = $('<div>').css('height', 20);
+      var _input = $('<input />').attr({ type: 'checkbox'});
+      //_input.prop('checked', _performance.confirmed);
+      var _label = $('<label>').html(filter);
+      _label.css('display','inline');
+      var _filter = $('<div>').append(_input,_label);
+      _filterContainer.append(_filter);
+      _createdWidget.append(_filterContainer);
+    });
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closepopup = callback;
+      }
+    }
+  }
 
   ns.Widgets.ProgramEventPage = function(){
 
@@ -128,7 +184,10 @@
     var _createdWidget = $('<div>');
     var _searchWidget = $('<select>').attr('id', 'searchEngine');
 
-    var _daySelectorContainer = $('<div>').css('width', 150);
+    var _daySelectorContainer = $('<div>').css({
+      'width': 150,
+      'display': 'inline-block'
+    });
     var _daySelector = $('<select>');
 
     ['2016-10-15', '2016-10-16'].forEach(function(day){
@@ -138,7 +197,11 @@
 
     _daySelectorContainer.append(_daySelector);
 
-    var _programNow = $('<button>').html('Ahora');
+    var _programNow = $('<button>').html('Ahora').css({
+      'width': 150,
+      'display': 'inline-block',
+      'border': 'solid black'
+    });
     _programNow.on('click', function(){
       var _date = new Date();
       //var _day = moment(_date).format('YYYY-MM-DD');
@@ -147,12 +210,33 @@
       var _day = '2016-10-15';
       _search(_day, _time);
     });
+
+    var _filters = $('<button>').html('Filtros').css({
+      'width': 150,
+      'display': 'inline-block',
+      'border': 'solid black'
+    });
+
+    _filters.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('Selecciona', Pard.Widgets.Filters());
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    });
     
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
     var gmap;
     
-    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _programNow, _searchTagsBox, _searchResult);
+    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _programNow, _filters, _searchTagsBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
