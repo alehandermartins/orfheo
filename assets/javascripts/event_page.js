@@ -93,52 +93,36 @@
     }
   }
 
-  ns.Widgets.Filters = function(){
+  ns.Widgets.Filters = function(filters, callback){
     var _createdWidget = $('<div>');
     var _closepopup;
 
-    var _artistCategories = $('<div>').text('Categorias Artísticas');
-    _createdWidget.append(_artistCategories);
+    var _labels = {
+      'participants': 'Categorias Artísticas',
+      'hosts': 'Categorias Espacios',
+      'other': 'Otros'
+    }
 
-    ['Musica', 'Artes Escénicas', 'Expo'].forEach(function(filter){
-      var _filterContainer = $('<div>').css('height', 20);
-      var _input = $('<input />').attr({ type: 'checkbox'});
-      //_input.prop('checked', _performance.confirmed);
-      var _label = $('<label>').html(filter);
-      _label.css('display','inline');
-      var _filter = $('<div>').append(_input,_label);
-      _filterContainer.append(_filter);
-      _createdWidget.append(_filterContainer);
+    Object.keys(filters).forEach(function(key){
+
+      var _categoriesLabel = $('<div>').text(_labels[key]);
+      _createdWidget.append(_categoriesLabel);
+
+      Object.keys(filters[key]).forEach(function(filter){
+        var _filterContainer = $('<div>').css('height', 20);
+        var _input = $('<input />').attr({ type: 'checkbox'});
+        _input.prop('checked', filters[key][filter]);
+        _input.on('change', function(){
+          filters[key][filter] = _input.is(":checked");
+          callback(filters);
+        });
+        var _label = $('<label>').html(filter);
+        _label.css('display','inline');
+        var _filter = $('<div>').append(_input,_label);
+        _filterContainer.append(_filter);
+        _createdWidget.append(_filterContainer);
+      });
     });
-
-    var _spaceCategories = $('<div>').text('Categorias Espacios');
-    _createdWidget.append(_spaceCategories);
-
-    ['Local Comercial', 'Espacio Particular', 'Asociación Cultural', 'Espacio Exterior'].forEach(function(filter){
-      var _filterContainer = $('<div>').css('height', 20);
-      var _input = $('<input />').attr({ type: 'checkbox'});
-      //_input.prop('checked', _performance.confirmed);
-      var _label = $('<label>').html(filter);
-      _label.css('display','inline');
-      var _filter = $('<div>').append(_input,_label);
-      _filterContainer.append(_filter);
-      _createdWidget.append(_filterContainer);
-    });
-
-    var _otherCategories = $('<div>').text('Otros');
-    _createdWidget.append(_otherCategories);
-
-    ['Infantil'].forEach(function(filter){
-      var _filterContainer = $('<div>').css('height', 20);
-      var _input = $('<input />').attr({ type: 'checkbox'});
-      //_input.prop('checked', _performance.confirmed);
-      var _label = $('<label>').html(filter);
-      _label.css('display','inline');
-      var _filter = $('<div>').append(_input,_label);
-      _filterContainer.append(_filter);
-      _createdWidget.append(_filterContainer);
-    });
-
 
     return {
       render: function(){
@@ -152,6 +136,19 @@
 
   ns.Widgets.ProgramEventPage = function(){
     var eventDates = ['2016-10-15', '2016-10-16'];
+    var eventCategories = {
+      participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Street Art', 'Taller', 'Otros'],
+      hosts: ['Asociación Cultural', 'Espacio Exterior', 'Espacio Particular', 'Local Comercial'],
+      other: ['Infantil']
+    }
+    var _filters = {};
+
+    Object.keys(eventCategories).forEach(function(key){
+      if(eventCategories[key]) _filters[key] = {};
+      eventCategories[key].forEach(function(category){
+        _filters[key][category] = false;
+      });
+    });
 
     var hosts = [];
     var _data = [];
@@ -216,7 +213,7 @@
       if(_programNow.hasClass('fired')){
         var _date = new Date();
         //var _time = _date.getTime();
-        var _time = new Date(2016, 09, 15, 18, 23, 01, 123).getTime();
+        var _time = new Date('2016', '09', '15', '18', '23', '01', '123').getTime();
         _search(_daySelector.val(), _time);
       }
       else{
@@ -227,23 +224,25 @@
       }
     });
 
-    var _filters = $('<button>').html('Filtros').css({
+    var _filtersButton = $('<button>').html('Filtros').css({
       'width': 150,
       'display': 'inline-block',
       'border': 'solid black'
     });
 
-    _filters.on('click', function(){
+    _filtersButton.on('click', function(){
       var _content = $('<div>').addClass('very-fast reveal full');
       _content.empty();
       $('body').append(_content);
 
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent('Selecciona', Pard.Widgets.Filters());
+      var _message = Pard.Widgets.PopupContent('Selecciona', Pard.Widgets.Filters(_filters, function(filters){_filters = filters;}));
+
       _message.setCallback(function(){
         _content.remove();
         _popup.close();
       });
+
       _content.append(_message.render());
       _popup.open();
     });
@@ -252,7 +251,7 @@
     map.css({'width': '100%', 'height': '250px'});
     var gmap;
     
-    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _programNow, _filters, _searchTagsBox, _searchResult);
+    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _programNow, _filtersButton, _searchTagsBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
@@ -330,7 +329,7 @@
             if(tag.icon && tag.icon == 'space') _host = tag.text;
             tags.push(tag.text);
           });
-          Pard.Backend.searchProgram(tags, 'a5bc4203-9379-4de0-856a-55e1e5f3fac6', date, time, function(data){
+          Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, _filters, date, time, function(data){
             _program = data.program;
             _data = [];
             hosts = [];

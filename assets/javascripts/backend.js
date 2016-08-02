@@ -123,12 +123,13 @@
       );
     };
 
-    var _searchProgram = function(tags, event_id, date, time, callback){
+    var _searchProgram = function(event_id, tags, filters, date, time, callback){
       _send(       
         '/search/results_program',
         {
-          query: tags,
           event_id: event_id,
+          query: tags,
+          filters: filters,
           date: date,
           time: time
         },
