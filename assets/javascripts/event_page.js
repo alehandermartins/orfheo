@@ -151,6 +151,7 @@
   }
 
   ns.Widgets.ProgramEventPage = function(){
+    var eventDates = ['2016-10-15', '2016-10-16'];
 
     var hosts = [];
     var _data = [];
@@ -169,7 +170,7 @@
     });
     var _daySelector = $('<select>');
 
-    ['2016-10-15', '2016-10-16'].forEach(function(day){
+    eventDates.forEach(function(day){
       var _date = $('<option>').val(day).text(moment(day).locale('es').format('DD-MMM-YYYY'));
       _daySelector.append(_date);
     });
@@ -181,21 +182,48 @@
       'display': 'inline-block',
       'border': 'solid black'
     });
+
+    var extraDate;
     _programNow.on('click', function(){
+      var _date = new Date();
+      var _day = moment(_date).format('YYYY-MM-DD');
+      //var _day = '2016-10-15';
+
       if(_programNow.hasClass('active')){
-        _search(_daySelector.val());
         _programNow.removeClass('active');
         _programNow.html('Ahora');
+        _search(_daySelector.val());
       }
       else{
+        _programNow.addClass('active fired');
+        _programNow.html('Todo');
+        if($.inArray(_day, eventDates) < 0){
+          _daySelector.empty();
+          extraDate = $('<option>').val(_day).text(moment(_day).locale('es').format('DD-MMM-YYYY'));
+          _daySelector.append(extraDate);
+          eventDates.forEach(function(day){
+            var _dateOption = $('<option>').val(day).text(moment(day).locale('es').format('DD-MMM-YYYY'));
+            _daySelector.append(_dateOption);
+          });
+        }
+        _daySelector.val(_day);
+        _daySelector.trigger('change');
+        _programNow.removeClass('fired');
+      }
+    });
+
+    _daySelector.on('change', function(){
+      if(_programNow.hasClass('fired')){
         var _date = new Date();
-        //var _day = moment(_date).format('YYYY-MM-DD');
         //var _time = _date.getTime();
         var _time = new Date(2016, 09, 15, 18, 23, 01, 123).getTime();
-        var _day = '2016-10-15';
-        _search(_day, _time);
-        _programNow.addClass('active');
-        _programNow.html('Todo');
+        _search(_daySelector.val(), _time);
+      }
+      else{
+        if(extraDate) extraDate.remove();
+        _programNow.removeClass('active');
+        _programNow.html('Ahora');
+        _search(_daySelector.val());
       }
     });
 
@@ -334,9 +362,7 @@
       _search(_daySelector.val());
     });
 
-    _daySelector.on('change', function(){
-      _search(_daySelector.val());
-    });
+
 
     $(document).ready(function(){
       gmap = new Maplace({
