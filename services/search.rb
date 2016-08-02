@@ -4,16 +4,17 @@ module Services
     	
     	def get_program_suggestions event_id, queriable_tags
     		tags = queriable_tags[0...-1]
+    		filters = {}
 	    	program = Repos::Calls.get_program event_id
-	    	matched_performances = query_program program, tags
+	    	matched_performances = query_program program, tags, filters
 	    	results = get_suggestions_for matched_performances, queriable_tags
 	    	sort_results results
 	    end
 
-	    def get_program_results event_id, tags, date, time
+	    def get_program_results event_id, tags, filters, date, time
 	    	program = Repos::Calls.get_program event_id
 	    	date_program = program.select{|performance| performance[:date] == date}
-	    	results = query_program date_program, tags
+	    	results = query_program date_program, tags, filters
 	    	results = select_now results, time unless time.blank?
 				order_results results
 	    end
@@ -24,11 +25,21 @@ module Services
 				}
 	    end
 
-	    def query_program program, tags
+	    def query_program program, tags, filters
+	    	program = filter_participants program, filters[:participants] if filters.has_key? :participants
+	    	program = filter_hosts program, filters[:hosts] if filters.has_key? :hosts
+	    	program = filter_other program, filters[:other] if filters.has_key? :other
+
 		    return program if tags.all?{ |tag| tag.blank?}
 		    program.select{ |performance|
 		      query_performance(performance, tags)
 		    }
+		  end
+
+		  def filter_participants program, filters
+		  	program.select{ |performance| 
+		  		filters performance[:participant_category]
+		  	}
 		  end
   
 		  def query_performance performance, tags

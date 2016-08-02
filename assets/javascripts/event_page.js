@@ -329,7 +329,14 @@
             if(tag.icon && tag.icon == 'space') _host = tag.text;
             tags.push(tag.text);
           });
-          Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, _filters, date, time, function(data){
+          var filters = {};
+          Object.keys(_filters).forEach(function(key){
+            filters[key] = [];
+            Object.keys(_filters[key]).forEach(function(category){
+              if(_filters[key][category] == true) filters[key].push(category);
+            });
+          });
+          Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, date, time, function(data){
             _program = data.program;
             _data = [];
             hosts = [];
