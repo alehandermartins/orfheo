@@ -1468,6 +1468,24 @@ p.initial-text-proposalPanel{
 Program Manager Tab
 --------------------------- */
 
+
+.checker {
+  float: right;
+  margin-right: 0.2rem;
+}
+.checker .material-icons{
+  font-size: 1rem;
+  font-weight: bold;
+ }
+
+.commentIcon {
+  float: right;
+  margin-right: 0.2rem;
+}
+.commentIcon .material-icons{
+  font-size: 0.8rem;
+ }
+
 .table-box-call-manager{
   position: relative;
 }
@@ -1941,21 +1959,102 @@ EVENT PAGE
   margin:0;
 }
 
-.checker {
-  float: right;
+
+
+.program-card-container{
+  width: 45rem;
+  display: inline-block;
+  p{
+    margin: 0;
+  }
+}
+
+.program-card-container{
+  cursor: default;
+}
+
+
+.col1-program-card, .col2-program-card, .col3-program-card{
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 1rem;
+}
+
+.col1-program-card{
+  width: 7rem;
+}
+
+.col2-program-card{
+  width: 2rem;
+}
+
+.col3-program-card{
+  width: 35rem;
+}
+
+.title-program-card{
+  background: $blue-pard;
+  color: white;
+  padding: 0 0.1rem;
   margin-right: 0.2rem;
 }
-.checker .material-icons{
-  font-size: 1rem;
+
+.participant-program-card, .participant-program-card-own{
+  color: $blue-pard;
   font-weight: bold;
- }
-
-.commentIcon {
-  float: right;
-  margin-right: 0.2rem;
 }
-.commentIcon .material-icons{
-  font-size: 0.8rem;
- }
 
+.participant-program-card:hover{
+  cursor: pointer;
+  color:  $blue-pard-hover;
+}
 
+.host-program-card:hover, .host-number-program-card:hover{
+  color: rgba(67, 137, 248, 0.8);
+  cursor: poi;
+}
+
+.host-program-card, .host-number-program-card, .host-program-card-own{
+  /* color: $blue-pard; */
+  color:  #4389f8;
+}
+
+.host-program-card-own:hover{
+  cursor: default;
+  color:  #4389f8;
+}
+
+.participant-program-card-own:hover{
+  cursor: default;
+  color:  $blue-pard;
+}
+
+/* 
+.host-program-card{
+  font-size: $almostNormalSize;
+}
+ */
+.host-category-program-card{
+  font-size: $almostNormalSize;
+}
+
+.participant-category-icon{
+  margin-right: 0.3rem;
+}
+
+.participant-category-text{
+  font-size: $almostNormalSize;
+}
+
+.material-icons.participant-category-icon{
+  vertical-align: -0.3rem;
+  font-size: 1.2rem;
+}
+
+.fa.participant-category-icon{
+  font-size: 0.9rem;
+}
+
+.icon-theatre.participant-category-icon, .icon-book-open.participant-category-icon{
+  font-size: 1rem;
+}
