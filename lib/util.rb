@@ -45,11 +45,33 @@ module Util
       end      
     end
 
-    def transliterate array
+    def translate array
       array.map{ |value|
-        I18n.transliterate(value.downcase)
+        esp_eng(I18n.transliterate(value.downcase))
       }
     end
+
+    def esp_eng text
+        dictionary = {
+          'artista' => 'artist',
+          'espacio' => 'space',
+          'espacio exterior' => 'open_air',
+          'asociacion cultural' => 'cultural_ass',
+          'local comercial' => 'commercial',
+          'espacio particular' => 'home',
+          'musica' => 'music',
+          'artes escenicas' => 'arts',
+          'exposicion' => 'expo',
+          'poesia' => 'poetry',
+          'audiovisual' => 'audiovisual',
+          'street_art' => 'street_art',
+          'taller' => 'workshop',
+          'otros' => 'other',
+          'infantil' => 'children'
+        }
+        return dictionary[text] if dictionary.has_key? text
+        text
+      end
 
     def destroy_old_pictures old_pictures, new_pictures
       unused_pictures = old_pictures.keys.map{ |field|
