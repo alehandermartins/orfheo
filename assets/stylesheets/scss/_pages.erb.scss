@@ -479,6 +479,9 @@ User Section
 .profiles-user-section-content{
   padding: 1.5rem;
   background: white;
+  @include breakpoint(medium down){
+    padding: 1.5rem 0.75rem;
+  }
 }
 
 
@@ -1909,6 +1912,12 @@ ORGANIZATION PAGE
 /*===============================================
 EVENT PAGE
 ================================================*/
+#program-event-page{
+  @include breakpoint(small down){
+    font-size: $almostNormalSize;
+  }
+}
+
 
 .aside-event-nav-btn {
   cursor: pointer;
@@ -1962,7 +1971,9 @@ EVENT PAGE
 
 
 .program-card-container{
-  width: 45rem;
+  @include breakpoint(large){
+    width: 45rem;
+  }
   display: inline-block;
   p{
     margin: 0;
@@ -1971,29 +1982,44 @@ EVENT PAGE
 
 .program-card-container{
   cursor: default;
+  margin-bottom: 1rem;
 }
 
 
 .col1-program-card, .col2-program-card, .col3-program-card{
   display: inline-block;
   vertical-align: top;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .col1-program-card{
-  width: 7rem;
+  @include breakpoint(large){
+    width: 7rem;
+  }
 }
 
 .col2-program-card{
-  width: 2rem;
+  @include breakpoint(large){
+    width: 2rem;
+  }
 }
 
 .col3-program-card{
-  width: 35rem;
+  @include breakpoint(large){
+    width: 35rem;
+  }
 }
 
+.timePlace-container-event-page{
+  display: inline-block;
+  float: left;
+  margin-right: 0.5rem;
+}
+
+
 .title-program-card{
-  background: $blue-pard;
+  /* background: $blue-pard; */
+  background: $grey-4;
   color: white;
   padding: 0 0.1rem;
   margin-right: 0.2rem;
@@ -2019,6 +2045,13 @@ EVENT PAGE
   color:  #4389f8;
 }
 
+.host-number-program-card{
+  @include breakpoint(medium down){
+    float: right;
+    margin-right: 0.5rem;
+  }
+}
+
 .host-program-card-own:hover{
   cursor: default;
   color:  #4389f8;
@@ -2040,6 +2073,9 @@ EVENT PAGE
 
 .participant-category-icon{
   margin-right: 0.3rem;
+  @include breakpoint(medium down){
+    float: right;
+  }
 }
 
 .participant-category-text{
@@ -2057,13 +2093,17 @@ EVENT PAGE
 
 .icon-theatre.participant-category-icon, .icon-book-open.participant-category-icon{
   font-size: 1rem;
+  margin-bottom: -3px;
 }
 
 .searchWidgetsContainer-event-page{
   /* background:  white; */
-  padding: 1rem 3.8rem 0 3.8rem;
-  width: 45rem;
-  margin-bottom: 1.5rem;
+  @include breakpoint(large){
+    padding: 1rem 3.8rem 0 3.8rem;
+    width: 45rem;
+    margin-bottom: 1.5rem;
+  }
+  width: 100%;
 }
 
 .event-page-aside{
@@ -2077,8 +2117,13 @@ EVENT PAGE
 }
 
 .day-selector-container-event-page span{
-  text-transform: uppercase;
-  font-weight: bold;
+  @include breakpoint(medium){
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  @include breakpoint(small down){
+    font-size: $almostNormalSize;
+  }
 }
 
 .day-selector-container-event-page span.select2-container{
@@ -2107,3 +2152,5 @@ EVENT PAGE
 .filter-checkbox-event-page label, .filter-checkbox-event-page input{
   cursor: pointer;
 }
+
+

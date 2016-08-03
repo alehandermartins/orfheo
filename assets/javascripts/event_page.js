@@ -108,7 +108,16 @@
       'other': 'Otros'
     }
 
-    var _checks = [];
+    var _dictionary = {
+      'Artes Escénicas': 'arts',
+      'Audiovisual': 'audiovisual',
+      'Exposición':'expo',
+      'Música': 'music',
+      'Street Art': 'street_art',
+      'Taller':'workshop',
+      'Otros': 'other',
+      'Infantil':'children'
+    }
 
     Object.keys(filters).forEach(function(key){
 
@@ -125,9 +134,8 @@
         _input.on('change', function(){
           filters[key][filter] = _input.is(":checked");
           callback(filters);
-          _checks.push(filters[key][filter]);
         });
-        var _label = $('<label>').html(filter);
+        var _label = $('<label>').append(filter,' ',Pard.Widgets.IconManager(_dictionary[filter]).render());
         _label.css('display','inline');
         var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');
         _filter.on('click',function(){
@@ -146,8 +154,14 @@
         _closepopup = callback;
       },
       checkFilterOn: function(){
+        var _checks = [];
+        Object.keys(filters).forEach(function(key){
+          Object.keys(filters[key]).forEach(function(filter){
+            _checks.push(filters[key][filter]);
+          });
+        });
         if ($.inArray(true,_checks)>-1) return true;
-        else return false
+        else return false;
       }
     }
   }
@@ -181,7 +195,11 @@
     var _daySelector = $('<select>');
 
     eventDates.forEach(function(day){
-      var _date = $('<option>').val(day).text(moment(day).locale('es').format('dddd, DD-MMM-YYYY'));
+      var _dayText = '';
+      if ($(window).width()>640) _dayText = moment(day).locale('es').format('dddd, DD-MMM-YYYY');
+      else _dayText = moment(day).locale('es').format(' DD-MMM-YYYY')
+
+      var _date = $('<option>').val(day).text(_dayText);
       _daySelector.append(_date);
     });
 
@@ -257,6 +275,8 @@
 
     var _searchWidgetsContainer = $('<div>').addClass('searchWidgetsContainer-event-page');
 
+    $(window).load(function(){ if ($(window).width()<1024) _searchWidgetsContainer.css({width: $('#program-event-page').width()});})
+
     _searchWidgetsContainer.append($('<div>').append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
     Pard.Widgets.Sticker(_searchWidgetsContainer, 452, 0);
     
@@ -299,7 +319,7 @@
           Object.keys(_filters).forEach(function(key){
             filters[key] = [];
             Object.keys(_filters[key]).forEach(function(category){
-              if(_filters[key][category] == true) filters[key].push(category);
+              if(_fiflters[key][category] == true) filters[key].push(category);
             });
           });
           return {
