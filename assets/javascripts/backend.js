@@ -124,7 +124,6 @@
     };
 
     var _searchProgram = function(event_id, tags, filters, date, time, callback){
-      console.log(filters);
       _send(       
         '/search/results_program',
         {
