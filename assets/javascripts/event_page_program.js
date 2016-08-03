@@ -7,7 +7,6 @@
     var _searchResult = $('#searchResult');
     // var _searchTagsBox = $('#tagBox');
     // var _searchWidget = $('#searchEngine');
-    console.log(dataSpaces);
     _searchResult.empty();
     // var _categories = [];
     program.forEach(function(performance){
@@ -23,6 +22,8 @@
             }
           });
           gmap.ViewOnMap(_index+1);
+          console.log($('.whole-container').scrollTop());
+          $('.whole-container').scrollTop(200);
           Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
         });
         _searchResult.append(_performanceCard.render());

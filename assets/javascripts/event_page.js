@@ -48,6 +48,7 @@
 
 
     var _contentShowHide = function(id_selected){
+      $('.whole-container').scrollTop(0);
       $('.aside-event-nav-btn-selected').removeClass('aside-event-nav-btn-selected');
       _contentShown.hide();
       // var _selected = '#'+id_selected;

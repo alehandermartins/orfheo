@@ -157,7 +157,6 @@
         var _fixedPosition = stickyDistanceTop;
 
         var _distanceFromWindow = _windowTop -_fixedPosition;
-        console.log(_distanceFromWindow);
         // if (notLogged){
         //   if (_distanceFromWindow*_diffI<0){
         //     $(elem).css({position: 'fixed', 'top':'0', 'padding-top':stickyDistanceTop+'px', 'background': _mainCol[0]});
@@ -170,7 +169,6 @@
         // }
         // else{
           if (_distanceFromWindow*_diffI<0)   {
-            console.log('fissa!!')
             $(elem).css({position: 'fixed', 'top':stickyDistanceTop+'px'});
             _diffI = -1;
           }
