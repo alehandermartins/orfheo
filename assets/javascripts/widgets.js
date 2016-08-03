@@ -151,7 +151,7 @@
 
     $(document).ready(function(){
     $('.whole-container').scroll(function(){
-      if ($(window).width() > 1024) {
+      // if ($(window).width() > 1024) {
         var _windowTop = $(elem).offset().top;
         var _headerTop = $('header').offset().top;
         var _fixedPosition = stickyDistanceTop;
@@ -177,12 +177,12 @@
               _diffI = +1;
           }
         // }
-      }
+      // }
     });
   })
-    $( window ).resize(function() {
-      $(elem).removeAttr('style');
-    })
+    // $( window ).resize(function() {
+    //   $(elem).removeAttr('style');
+    // })
 
   }
 

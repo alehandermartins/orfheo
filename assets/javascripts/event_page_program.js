@@ -22,7 +22,6 @@
             }
           });
           gmap.ViewOnMap(_index+1);
-          console.log($('.whole-container').scrollTop());
           $('.whole-container').scrollTop(200);
           Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
         });

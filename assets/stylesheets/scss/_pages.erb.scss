@@ -2060,11 +2060,26 @@ EVENT PAGE
 }
 
 .searchWidgetsContainer-event-page{
-  background:  white;
-  padding: 1rem;
+  /* background:  white; */
+  padding: 1rem 3.8rem 0 3.8rem;
+  width: 45rem;
 }
 
 .event-page-aside{
   background: white;
+  padding-top: 0.2rem;
 }
 
+.day-selector-container-event-page{
+  width: 40%;
+  display: inline-block;
+}
+
+.day-selector-container-event-page span{
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.day-selector-container-event-page span.select2-container{
+  margin-top: -3px;
+}
