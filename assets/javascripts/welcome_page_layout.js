@@ -115,10 +115,6 @@
 
     _info.append($('<h4>').text('La primera comunidad artístico-cultural donde conocer proyectos, encontrarse y crear juntos experiencias inolvidables'));
 
-    // var _text = $('<p>').text('');
-
-    // Pard.Widgets.Sticker(_asideContainer, 95, 29);
-
     var _signUpButton = Pard.Widgets.SignUpButton().render();
     _signUpButton.addClass('signupButton');
 
