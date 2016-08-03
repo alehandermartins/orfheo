@@ -183,8 +183,8 @@
     var extraDate;
     _programNow.on('click', function(){
       var _date = new Date();
-      var _day = moment(_date).format('YYYY-MM-DD');
-      //var _day = '2016-10-15';
+      //var _day = moment(_date).format('YYYY-MM-DD');
+      var _day = '2016-10-15';
 
       if(_programNow.hasClass('active')){
         _programNow.removeClass('active');
