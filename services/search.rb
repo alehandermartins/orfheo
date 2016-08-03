@@ -37,14 +37,23 @@ module Services
 
 		  def filter_participants program, filters
 		  	program.select{ |performance| 
-		  		filters.include? translate(performance[:participant_category])
+		  		filters.include? performance[:participant_category]
 		  	}
 		  end
 
 		  def filter_hosts program, filters
 		  	program.select{ |performance| 
-		  		filters.include? translate(performance[:host_category])
+		  		filters.include? performance[:host_category]
 		  	}
+		  end
+
+		  def filter_other program, filters
+		  	filters.each{ |filter|
+		  		program.select!{ |performance|
+		  			performance[filter.to_sym] == 'true'
+		  		}
+		  	}
+		  	program
 		  end
   
 		  def query_performance performance, tags
