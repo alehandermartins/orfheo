@@ -100,7 +100,10 @@
   	return {
   		render: function(){
   			return _createdWidget;
-  		} 
+  		},
+      showRegisterBtn: function(){
+        _registerBtnOut.show();
+      } 
   	}
   }
 

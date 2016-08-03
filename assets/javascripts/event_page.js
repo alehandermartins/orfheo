@@ -6,7 +6,11 @@
 
   ns.Widgets.EventAside = function (sectionContainer) {
 
-    var _createdWidget = $('<div>').addClass('aside-container').css('background', 'white');
+    var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
+
+    if ($(window).width()>640) Pard.Widgets.Sticker(_createdWidget, 83, 24);
+    // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
+
     
     var _program = $('<div>').addClass('aside-event-nav-btn');
     _program.text('Programa');
@@ -46,6 +50,7 @@
 
 
     var _contentShowHide = function(id_selected){
+      $('.whole-container').scrollTop(0);
       $('.aside-event-nav-btn-selected').removeClass('aside-event-nav-btn-selected');
       _contentShown.hide();
       // var _selected = '#'+id_selected;
@@ -158,24 +163,17 @@
     var _createdWidget = $('<div>');
     var _searchWidget = $('<select>').attr('id', 'searchEngine');
 
-    var _daySelectorContainer = $('<div>').css({
-      'width': 150,
-      'display': 'inline-block'
-    });
+    var _daySelectorContainer = $('<div>').addClass('day-selector-container-event-page');
     var _daySelector = $('<select>');
 
     eventDates.forEach(function(day){
-      var _date = $('<option>').val(day).text(moment(day).locale('es').format('DD-MMM-YYYY'));
+      var _date = $('<option>').val(day).text(moment(day).locale('es').format('dddd, DD-MMM-YYYY'));
       _daySelector.append(_date);
     });
 
     _daySelectorContainer.append(_daySelector);
 
-    var _programNow = $('<button>').html('Ahora').css({
-      'width': 150,
-      'display': 'inline-block',
-      'border': 'solid black'
-    });
+    var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page');
 
     var extraDate;
     _programNow.on('click', function(){
@@ -216,11 +214,7 @@
       }
     });
 
-    var _filtersButton = $('<button>').html('Filtros').css({
-      'width': 150,
-      'display': 'inline-block',
-      'border': 'solid black'
-    });
+    var _filtersButton = $('<button>').html('Filtros').addClass('interaction-btn-event-page');
 
     _filtersButton.on('click', function(){
       var _content = $('<div>').addClass('very-fast reveal full');
@@ -243,8 +237,13 @@
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
     var gmap;
+
+    var _searchWidgetsContainer = $('<div>').addClass('searchWidgetsContainer-event-page');
+
+    _searchWidgetsContainer.append($('<div>').append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
+    Pard.Widgets.Sticker(_searchWidgetsContainer, 452, 0);
     
-    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _programNow, _filtersButton, _searchTagsBox, _searchResult);
+    _createdWidget.append(map, _searchWidgetsContainer, _searchTagsBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
@@ -316,6 +315,10 @@
     });
 
     var _search = function(){
+      _searchWidget.on("select2:opening",function(){
+        if ($(window).width() < 640)  $('.whole-container').scrollTop(375);      
+      });
+      
       var spinner =  new Spinner().spin();
       $.wait(
         '', 
