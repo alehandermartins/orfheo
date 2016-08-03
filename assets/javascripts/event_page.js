@@ -6,7 +6,9 @@
 
   ns.Widgets.EventAside = function (sectionContainer) {
 
-    var _createdWidget = $('<div>').addClass('aside-container').css('background', 'white');
+    var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
+
+    Pard.Widgets.Sticker(_createdWidget, 83, 24)
     
     var _program = $('<div>').addClass('aside-event-nav-btn');
     _program.text('Programa');
@@ -251,8 +253,13 @@
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
     var gmap;
+
+    var _searchWidgetsContainer = $('<div>').addClass('searchWidgetsContainer-event-page');
+
+    _searchWidgetsContainer.append(_searchWidget, _daySelectorContainer, _programNow, _filtersButton);
+    Pard.Widgets.Sticker(_searchWidgetsContainer, 452, 0);
     
-    _createdWidget.append(map, _searchWidget, _daySelectorContainer, _programNow, _filtersButton, _searchTagsBox, _searchResult);
+    _createdWidget.append(map, _searchWidgetsContainer, _searchTagsBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,

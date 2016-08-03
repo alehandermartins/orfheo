@@ -207,9 +207,9 @@ Pard.Event = function(program){
   var _whole = $('<div>').addClass('whole-container');
 
   var _footer = Pard.Widgets.Footer();      
-  var _header = Pard.Widgets.LoginHeader();
+  var _header = Pard.Widgets.LoginHeader().render().removeClass('outsider-header');
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
-  _whole.append(_header.render(), _main.render().addClass('main-welcome-page outsider-main'),  _footer.render());
+  _whole.append(_header, _main.render().addClass('main-welcome-page'),  _footer.render());
 
   $('body').append(_whole);
   $(document).ready(function(){$(document).foundation()});

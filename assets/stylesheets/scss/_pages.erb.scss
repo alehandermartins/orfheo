@@ -2011,7 +2011,7 @@ EVENT PAGE
 
 .host-program-card:hover, .host-number-program-card:hover{
   color: rgba(67, 137, 248, 0.8);
-  cursor: poi;
+  cursor: pointer;
 }
 
 .host-program-card, .host-number-program-card, .host-program-card-own{
@@ -2058,3 +2058,13 @@ EVENT PAGE
 .icon-theatre.participant-category-icon, .icon-book-open.participant-category-icon{
   font-size: 1rem;
 }
+
+.searchWidgetsContainer-event-page{
+  background:  white;
+  padding: 1rem;
+}
+
+.event-page-aside{
+  background: white;
+}
+
