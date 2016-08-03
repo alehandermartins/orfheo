@@ -76,10 +76,10 @@
     var _host = $('<a>').text(performance.host_name);
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
     else _host.addClass('host-program-card-own').attr({'href': '#'});
-    var _hostCat = $('<span>').append('('+Pard.Widgets.Dictionary(performance.host_category).render()+')').addClass('host-category-program-card');
+    // var _hostCat = $('<span>').append('('+Pard.Widgets.Dictionary(performance.host_category).render()+')').addClass('host-category-program-card');
     var _shortDescription = performance.short_description;
     
-    _titleRow.append($('<p>').append(_title, _participant, ' / ',_host,' ',_hostCat));
+    _titleRow.append($('<p>').append(_title, _participant, ' / ',_host));
     _descriptionRow.append($('<p>').append(_shortDescription).addClass('short-description-program-card'));
     
     var _col1 = $('<div>').addClass('col1-program-card');
