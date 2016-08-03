@@ -150,11 +150,8 @@
       });
     });
 
-    var hosts = [];
     var _data = [];
-    var _program = [];
     var _host;
-    var _hostIndex;
     var _searchResult = $('<div>').attr('id', 'searchResult');
     var _searchTagsBox = $('<div>').addClass('search-input search-tag-box').attr('id', 'tagBox');
 
@@ -189,7 +186,7 @@
       if(_programNow.hasClass('active')){
         _programNow.removeClass('active');
         _programNow.html('Ahora');
-        _search(_daySelector.val());
+        _search();
       }
       else{
         _programNow.addClass('active fired');
@@ -210,17 +207,12 @@
     });
 
     _daySelector.on('change', function(){
-      if(_programNow.hasClass('fired')){
-        var _date = new Date();
-        //var _time = _date.getTime();
-        var _time = new Date('2016', '09', '15', '18', '23', '01', '123').getTime();
-        _search(_daySelector.val(), _time);
-      }
+      if(_programNow.hasClass('fired')) _search();
       else{
         if(extraDate) extraDate.remove();
         _programNow.removeClass('active');
         _programNow.html('Ahora');
-        _search(_daySelector.val());
+        _search();
       }
     });
 
@@ -241,7 +233,7 @@
       _message.setCallback(function(){
         _content.remove();
         _popup.close();
-        _search(_daySelector.val());
+        _search();
       });
 
       _content.append(_message.render());
@@ -323,7 +315,7 @@
       }
     });
 
-    var _search = function(date, time){
+    var _search = function(){
       var spinner =  new Spinner().spin();
       $.wait(
         '', 
@@ -345,10 +337,21 @@
               if(_filters[key][category] == true) filters[key].push(category);
             });
           });
-          Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, date, time, function(data){
-            _program = data.program;
+
+          var _day = _daySelector.val();
+          var _time;
+          if(_programNow.hasClass('active')){
+            var _date = new Date();
+            _day = '2016-10-15';
+            //_day = moment(_date).format('YYYY-MM-DD');
+            //_time = _date.getTime();
+            _time = new Date('2016', '09', '15', '18', '23', '01', '123').getTime();
+          }
+
+          Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){
             _data = [];
-            hosts = [];
+            var hosts = [];
+            var _hostIndex;
             data.program.forEach(function(performance, index){
               if($.inArray(performance.host_proposal_id, hosts) < 0){
                 if(performance.host_name == _host) _hostIndex = _data.length + 1;
@@ -366,7 +369,7 @@
             });
             gmap.SetLocations(_data, true);
             if(_hostIndex) gmap.ViewOnMap(_hostIndex);
-            Pard.PrintProgram(_program, _host, gmap, _data);
+            Pard.PrintProgram(data.program, _host, gmap, _data);
           });
           spinner.stop();
         }
@@ -374,7 +377,8 @@
     }
 
     _searchWidget.on('change', function(){
-      _search(_daySelector.val());
+      _host = '';
+      _search();
     });
 
 
@@ -398,7 +402,7 @@
           Pard.PrintProgram(_program, '', gmap, _data);
         }
       }).Load();
-      _search(_daySelector.val());
+      _search();
     });
 
     return{
