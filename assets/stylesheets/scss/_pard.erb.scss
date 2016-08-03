@@ -703,12 +703,24 @@ button{
   color: red;
 }
 
-.interaction-btn-event-page{
+/* .interaction-btn-event-page{
   width: 30%;
   display: inline-block;
   border: solid black;
   background: white;
   height: 2rem;
+} */
+
+.interaction-btn-event-page{
+  /* width: 29.6%; */
+  width: 30%;
+  display: inline-block;
+  border: 2px solid #fff;
+  background: black;
+  height: 2rem;
+  color: white;
+  font-weight: bold;
+  /* margin-left: 2px; */
 }
 
 

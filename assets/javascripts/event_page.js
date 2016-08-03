@@ -108,22 +108,31 @@
       'other': 'Otros'
     }
 
+    var _checks = [];
+
     Object.keys(filters).forEach(function(key){
 
       var _categoriesLabel = $('<div>').text(_labels[key]);
       _createdWidget.append(_categoriesLabel);
 
       Object.keys(filters[key]).forEach(function(filter){
-        var _filterContainer = $('<div>').css('height', 20);
+        var _filterContainer = $('<div>');
         var _input = $('<input />').attr({ type: 'checkbox'});
         _input.prop('checked', filters[key][filter]);
+        _input.on('click',function(event){
+              event.stopPropagation();
+        });
         _input.on('change', function(){
           filters[key][filter] = _input.is(":checked");
           callback(filters);
+          _checks.push(filters[key][filter]);
         });
         var _label = $('<label>').html(filter);
         _label.css('display','inline');
-        var _filter = $('<div>').append(_input,_label);
+        var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');
+        _filter.on('click',function(){
+          _input.trigger('click');
+        })
         _filterContainer.append(_filter);
         _createdWidget.append(_filterContainer);
       });
@@ -135,6 +144,10 @@
       },
       setCallback: function(callback){
         _closepopup = callback;
+      },
+      checkFilterOn: function(){
+        if ($.inArray(true,_checks)>-1) return true;
+        else return false
       }
     }
   }
@@ -189,7 +202,7 @@
       }
       else{
         _programNow.addClass('active fired');
-        _programNow.html('Todo');
+        // _programNow.html('Todo');
         if($.inArray(_day, eventDates) < 0){
           _daySelector.empty();
           extraDate = $('<option>').val(_day).text(moment(_day).locale('es').format('DD-MMM-YYYY'));
@@ -223,9 +236,12 @@
       $('body').append(_content);
 
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent('Selecciona', Pard.Widgets.Filters(_filters, function(filters){_filters = filters;}));
+      var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
+      var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
 
       _message.setCallback(function(){
+        if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
+        else _filtersButton.removeClass('active');
         _content.remove();
         _popup.close();
         _search();

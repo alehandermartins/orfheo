@@ -2092,3 +2092,18 @@ EVENT PAGE
   /* text-align: center; */
 }
 
+.active{
+  font-weight: bold;
+  background: $green-pard
+}
+
+.filter-checkbox-event-page{
+  cursor: pointer;
+  margin-bottom: 0.2rem;
+  display: inline-block;
+  height: 1.5rem;
+}
+
+.filter-checkbox-event-page label, .filter-checkbox-event-page input{
+  cursor: pointer;
+}
