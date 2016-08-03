@@ -156,6 +156,7 @@
     });
 
     var _data = [];
+    var _program;
     var _host;
     var _searchResult = $('<div>').attr('id', 'searchResult');
     var _searchTagsBox = $('<div>').addClass('search-input search-tag-box').attr('id', 'tagBox');
@@ -318,7 +319,7 @@
       _searchWidget.on("select2:opening",function(){
         if ($(window).width() < 640)  $('.whole-container').scrollTop(375);      
       });
-      
+
       var spinner =  new Spinner().spin();
       $.wait(
         '', 
@@ -352,6 +353,7 @@
           }
 
           Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){
+            _program = data.program;
             _data = [];
             var hosts = [];
             var _hostIndex;
@@ -383,8 +385,6 @@
       _host = '';
       _search();
     });
-
-
 
     $(document).ready(function(){
       gmap = new Maplace({
