@@ -4,6 +4,17 @@
 
 
   ns.PrintProgram = function(program, host, gmap, dataSpaces){
+
+    // var _originalWidth = $( window ).width();
+    // $( window ).resize(function() {
+    //   if (_originalWidth>1024 && $(window).width()<1024) {
+    //     Pard.PrintProgram(program, host, gmap, dataSpaces);
+    //   }
+    //   if (_originalWidth<1024 && $(window).width()>1024) {
+    //     Pard.PrintProgram(program, host, gmap, dataSpaces);
+    //   }
+    // });
+
     var _searchResult = $('#searchResult');
     // var _searchTagsBox = $('#tagBox');
     // var _searchWidget = $('#searchEngine');
@@ -29,7 +40,8 @@
             }
           });
           gmap.ViewOnMap(_index+1);
-          $('.whole-container').scrollTop(200);
+          if ($(window).width()>640) $('.whole-container').scrollTop(200);
+          else $('.whole-container').scrollTop(110);
           Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
         });
         if (performance.permanent == 'true' && _checkPermanent) {
@@ -75,12 +87,14 @@
     var _host = $('<a>').text(performance.host_name);
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
     else _host.addClass('host-program-card-own').attr({'href': '#'});
-    // var _hostCat = $('<span>').append('('+Pard.Widgets.Dictionary(performance.host_category).render()+')').addClass('host-category-program-card');
+    var _children = '';
+    if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'); 
+     // var _hostCat = $('<span>').append('('+Pard.Widgets.Dictionary(performance.host_category).render()+')').addClass('host-category-program-card');
     var _shortDescription = performance.short_description;
     
    
     if ($(window).width() > 1024){
-      var _participantCat = $('<span>').append(_participantCatIcon, _participantCatText);
+      // var _participantCat = $('<span>').append(_participantCatIcon, _participantCatText);
       var _titleRow = $('<div>');
       var _descriptionRow = $('<div>');
       _titleRow.append($('<p>').append(_title, _participant, ' / ',_host));
@@ -88,13 +102,13 @@
       var _col1 = $('<div>').addClass('col1-program-card');
       var _col2 = $('<div>').addClass('col2-program-card');
       var _col3 = $('<div>').addClass('col3-program-card');
-      _col1.append(_time, _participantCat);
+      _col1.append(_time, _participantCatIcon,  _children);
       _col2.append($('<p>').append(_hostNum));
       _col3.append(_titleRow, _descriptionRow);
       _progCard.append(_col1, _col2, _col3);
     }
     else{
-      var _timePlaceContainer = $('<div>').append(_time, _participantCatIcon, _participantCatIcon, _hostNum).addClass('timePlace-container-event-page');
+      var _timePlaceContainer = $('<div>').append(_time, _hostNum, _participantCatIcon, _children).addClass('timePlace-container-event-page');
       _progCard.append(_timePlaceContainer, _title, ' ',_participant,  ' ',_shortDescription, ' / ', _host);
     }
 

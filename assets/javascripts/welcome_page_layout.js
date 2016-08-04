@@ -82,6 +82,7 @@
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
     _elemOffCanvas.append(_iconOffCanvas, ' Descubre maś').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
+    _elemOffCanvas.click(function(){$('.whole-container').scrollTop(0);});
 
     _responsiveMenu.append(_elemResponsive, _elemOffCanvas);
 
@@ -95,7 +96,6 @@
     _container.append(_topBarTitle, _responsiveMenu, _menuLogin);
     _topBar.append(_container);
     _createdWidget.append(_topBar);
-
 
   	return {
   		render: function(){

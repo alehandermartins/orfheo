@@ -1915,6 +1915,7 @@ EVENT PAGE
 #program-event-page{
   @include breakpoint(small down){
     font-size: $almostNormalSize;
+    line-height: 1.4rem;
   }
 }
 
@@ -1994,13 +1995,14 @@ EVENT PAGE
 
 .col1-program-card{
   @include breakpoint(large){
-    width: 7rem;
+    width: 6.5rem;
   }
 }
 
 .col2-program-card{
   @include breakpoint(large){
-    width: 2rem;
+    width: 2.5rem;
+    padding-left: .3rem;
   }
 }
 
@@ -2014,6 +2016,7 @@ EVENT PAGE
   display: inline-block;
   float: left;
   margin-right: 0.5rem;
+  margin-bottom: -0.3rem;
 }
 
 
@@ -2047,7 +2050,7 @@ EVENT PAGE
 
 .host-number-program-card{
   @include breakpoint(medium down){
-    float: right;
+    /* float: right; */
     margin-right: 0.5rem;
   }
 }
@@ -2073,10 +2076,25 @@ EVENT PAGE
 
 .participant-category-icon{
   margin-right: 0.3rem;
-  @include breakpoint(medium down){
+/*   @include breakpoint(medium down){
     float: right;
+  } */
+  @include breakpoint (large){
+    float:right; 
+    margin-right:0.7rem;
   }
 }
+
+
+.icon-children-program{
+  font-size: 1.1rem;
+  margin-bottom: -0.3rem;
+  @include breakpoint (large){
+    float:right; 
+    margin-right:0.5rem;
+  }
+}
+
 
 .participant-category-text{
   font-size: $almostNormalSize;
@@ -2099,11 +2117,22 @@ EVENT PAGE
 .searchWidgetsContainer-event-page{
   /* background:  white; */
   @include breakpoint(large){
-    padding: 1rem 3.8rem 0 3.8rem;
+    padding: 0 3.8rem 0 3.8rem;
     width: 45rem;
-    margin-bottom: 1.5rem;
   }
+  padding-top: 0.5rem;
+  @include breakpoint(medium){
+    padding-top: 1.5rem;
+  }
+  margin-bottom: 1.5rem;
   width: 100%;
+}
+
+.searchWidgetsContainer-event-page .select2-selection.select2-selection--multiple{
+   @include breakpoint (small down){
+    font-size: $almostNormalSize;
+    min-height: 2rem;
+  }
 }
 
 .event-page-aside{
@@ -2152,5 +2181,4 @@ EVENT PAGE
 .filter-checkbox-event-page label, .filter-checkbox-event-page input{
   cursor: pointer;
 }
-
 

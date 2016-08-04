@@ -144,7 +144,6 @@
 
   ns.Widgets.Sticker = function (elem, distanceFromHeader, stickyDistanceTop) {
 
-
     var _diffI = 1;
     var _distanceFromHeader = distanceFromHeader*(-1);
     var _mainCol = '';
@@ -155,8 +154,8 @@
         var _windowTop = $(elem).offset().top;
         var _headerTop = $('header').offset().top;
         var _fixedPosition = stickyDistanceTop;
-
         var _distanceFromWindow = _windowTop -_fixedPosition;
+
         // if (notLogged){
         //   if (_distanceFromWindow*_diffI<0){
         //     $(elem).css({position: 'fixed', 'top':'0', 'padding-top':stickyDistanceTop+'px', 'background': _mainCol[0]});
@@ -180,10 +179,44 @@
       // }
     });
   })
+
     // $( window ).resize(function() {
     //   $(elem).removeAttr('style');
     // })
 
+  }
+
+  ns.Widgets.StickAndKickHeader = function (elem, distanceFromHeader, stickyDistanceTop) {
+
+    var _diffI = 1;
+    var _distanceFromHeader = distanceFromHeader*(-1);
+    var _mainCol = '';
+
+    $(document).ready(function(){
+      $('.whole-container').scroll(function(){
+      // if ($(window).width() > 1024) {
+        var _windowTop = $(elem).offset().top;
+        var _headerTop = $('header').offset().top;
+        var _fixedPosition = stickyDistanceTop;
+        var _distanceFromWindow = _windowTop -_fixedPosition;
+
+        if (_distanceFromWindow*_diffI<0)   {
+          $('.pard-header-container').css('position','relative');
+
+          $(elem).css({position: 'fixed', 'top':stickyDistanceTop+'px'});
+          _diffI = -1;
+        }
+        if (_headerTop>_distanceFromHeader){
+            $(elem).css({'position':'', 'top':''});
+            _diffI = +1;
+            $('.pard-header-container').css('position','fixed')
+        }
+        // if (_distanceFromWindow*_diffI-0.5*$('.pard-header-container').height()<0){
+        //   console.log('FIX')
+        //    $('.pard-header-container').css('position','relative');
+        // }
+      });
+    })
   }
 
 

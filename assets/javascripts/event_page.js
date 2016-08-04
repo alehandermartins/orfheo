@@ -135,7 +135,7 @@
           filters[key][filter] = _input.is(":checked");
           callback(filters);
         });
-        var _label = $('<label>').append(filter,' ',Pard.Widgets.IconManager(_dictionary[filter]).render());
+        var _label = $('<label>').append(filter,' ',Pard.Widgets.IconManager(_dictionary[filter]).render().addClass('participant-category-icon'));
         _label.css('display','inline');
         var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');
         _filter.on('click',function(){
@@ -275,10 +275,18 @@
 
     var _searchWidgetsContainer = $('<div>').addClass('searchWidgetsContainer-event-page');
 
-    $(window).load(function(){ if ($(window).width()<1024) _searchWidgetsContainer.css({width: $('#program-event-page').width()});})
+    if ($(window).width()<1024) {
+      $(window).load(function(){_searchWidgetsContainer.css({width: $('#program-event-page').width()});})
+    }
+
+    if ($(window).width()<640){
+      Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 442, 0);
+    }
+    else{
+       Pard.Widgets.Sticker(_searchWidgetsContainer, 452, -10);
+    }
 
     _searchWidgetsContainer.append($('<div>').append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
-    Pard.Widgets.Sticker(_searchWidgetsContainer, 452, 0);
     
     _createdWidget.append(map, _searchWidgetsContainer, _searchTagsBox, _searchResult);
     
@@ -319,7 +327,7 @@
           Object.keys(_filters).forEach(function(key){
             filters[key] = [];
             Object.keys(_filters[key]).forEach(function(category){
-              if(_fiflters[key][category] == true) filters[key].push(category);
+              if(_filters[key][category] == true) filters[key].push(category);
             });
           });
           return {
@@ -345,15 +353,22 @@
       templateResult: formatResource,
     }).on("select2:select", function(e) {
       if(_searchWidget.select2('data') != false){
+        if ($(window).width() < 640)  $('.whole-container').scrollTop(110);   
         if(e.params.data.isNew){
           $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
         }
       }
     });
 
+    _searchWidget.on("select2:unselect",function(){
+      if ($(window).width() < 640)  {
+        $('.whole-container').scrollTop(110); 
+      }
+    });
+
     var _search = function(){
       _searchWidget.on("select2:opening",function(){
-        if ($(window).width() < 640)  $('.whole-container').scrollTop(375);      
+        if ($(window).width() < 640)  $('.whole-container').scrollTop(360);      
       });
 
       var spinner =  new Spinner().spin();
