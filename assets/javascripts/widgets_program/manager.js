@@ -352,6 +352,24 @@
       e.preventDefault();
     });
 
+    var _outOfprogramBtn = Pard.Widgets.Button('Artistas sin programación').render();
+    _outOfprogramBtn.addClass('out-of-program-btn-manager');
+    _outOfprogramBtn.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('Artistas fuera del programa', Pard.Widgets.ArtistOutOfProgram());
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      }); 
+      
+      _content.append(_message.render());
+      _popup.open();
+    });
+
+
     var _tableBox = $('<div>').addClass('table-box-call-manager');
 
     var _timeTable = $('<div>');
@@ -549,7 +567,7 @@
     var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container');
     // var _successBox = $('<span>').attr({id:'succes-box-call-manager'});
 
-    _selectors.append(_submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn));
+    _selectors.append(_outOfprogramBtn, _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn));
 
     //Filling the table with existing program from database
     if(call['program']){

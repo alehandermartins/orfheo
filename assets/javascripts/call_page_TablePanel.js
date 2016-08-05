@@ -398,8 +398,45 @@
   }
 
   ns.Widgets.ArtistOutOfProgram = function(){
-    var _createdWidget = $('<ul>');
-    var _proposalsOut = [];
+
+    var _createdWidget = $('<div>').addClass('artist-out-of-program-popup-content');     
+
+    var columns = ['name', 'title', 'category'];
+
+    var _tableCreated = $('<table>').addClass('table-proposal stripe row-border artist-out-of-program-table').attr({'cellspacing':"0", 'width':"100%"});
+
+    var _thead = $('<thead>');
+    var _titleRow = $('<tr>')
+    // .addClass('title-row-table-proposal');
+
+    columns.forEach(function(field, colNum){
+      var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+      // var _class = 'column-'+field;
+      // _titleCol.addClass('column-table-program-call-manager');
+      // _titleCol.addClass(_class);
+      _titleRow.append(_titleCol);
+    });
+
+    _tableCreated.append(_thead.append(_titleRow));
+
+
+    var _tfoot = $('<tfoot>');
+    // .addClass('tfoot-proposal-table-call-manager');;
+    var _titleRowFoot = $('<tr>');
+    // .addClass('title-row-table-proposal');
+
+    columns.forEach(function(field, colNum){
+      var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+      // var _class = 'column-'+field;
+      // _titleCol.addClass('column-table-program-call-manager');
+      // _titleCol.addClass(_class);
+      _titleRowFoot.append(_titleCol);
+    });
+
+    _tableCreated.append(_tfoot.append(_titleRowFoot ));
+
+    var _tbody = $('<tbody>');
+
     Pard.CachedProposals.forEach(function(proposal){
       var _check = true;
       if (proposal.type == 'artist'){
@@ -410,11 +447,91 @@
           }
         });
         if (_check) {
-          _createdWidget.append($('<li>').text(proposal.category+' - ' + proposal.name+' - '+proposal.title));
-        };
-      }
+          var _row = $('<tr>');
+          columns.forEach(function(field){
+            // var _colClass = 'column-'+field;
+              var _col = $('<td>');
+              // _col.addClass(_colClass);
+            if (field == 'category'){
+              _col.append(Pard.Widgets.Dictionary(proposal[field]).render());
+            }
+            else { 
+              _col.append(proposal[field]);
+            }
+            _row.append(_col);
+            _tbody.append(_row);
+          });
+        }
+      };
     });
     
+    _tableCreated.append(_tbody);
+    _createdWidget.append(_tableCreated);
+    
+    var _dataTable;
+    _dataTable = _tableCreated.DataTable({
+      "language":{
+      "lengthMenu": " Resultados por página _MENU_",
+      "zeroRecords": "Ningún resultado",
+      "info": "",
+      "infoEmpty": "Ningúna información disponible",
+      "infoFiltered": "(filtered from _MAX_ total records)",
+      "search": "Busca",
+      "search": "_INPUT_",
+      "searchPlaceholder": "Busca"
+    },
+    fixedHeader: {
+      header: true
+    },
+    "scrollY": "90vh",
+    "bAutoWidth": false,
+    "paging": false,
+    "scrollCollapse": true,
+    aaSorting: []
+  });
+
+    var _filterCategoryContainer = $('<div>').addClass('select-category-container-artistOutOfProgram');
+    var _filterCategory = $('<select>');
+    var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
+    [ 'arts', 'audiovisual', 'expo','music', 'street_art','workshop', 'other'].forEach(function(cat){
+      _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render(), icon: cat});
+    });
+
+    _filterCategoryContainer.append(_filterCategory);
+
+
+    function formatResource (resource) {
+      var _label = $('<span>').text(resource.text);
+      if(resource.icon){
+        var _icon = Pard.Widgets.IconManager(resource.icon).render();
+        _label.append(_icon);
+        _icon.css({
+          // position: 'relative',
+          'margin-left': '0.5rem',
+          'vertical-align':'middle'
+          // top: '5px'
+        });
+      }
+      return _label;
+    };
+
+    _filterCategory.select2({
+      data: _searchTags,
+      templateResult: formatResource
+      // ,templateSelection: formatResource
+    });
+
+
+    _filterCategory.on('select2:select',function(){
+      var _cat =  _filterCategory.select2('data')[0];
+      if (_cat.id == 'all') _dataTable.columns( 2 ).search('').draw();
+      else _dataTable.columns( 2 ).search(_cat.text).draw();
+    });
+    
+    // _filterCategory.trigger('select2:select');
+
+    _createdWidget.prepend(_filterCategoryContainer);
+  
     return {
       render: function(){
         return _createdWidget;
