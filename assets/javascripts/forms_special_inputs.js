@@ -254,6 +254,16 @@ ns.Widgets.InputAddressSpace = function(label){
     var _placeForm = $('<div>').append(_inputPlace);
     for (var key in _inputForm){_placeForm.append(_inputForm[key].render().attr({disabled: 'true'}))};
 
+    _inputPlace.on('focus', function(){
+      if ($('.reveal[aria-hidden="false"]').html()){
+        var _distanceInputTop = _inputPlace.offset().top;
+        var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
+        var _headerHeight = $('header').height();
+        var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
+        $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
+      }
+    })
+
     return {
       render: function(){
         return _placeForm;
