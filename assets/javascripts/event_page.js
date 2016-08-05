@@ -10,12 +10,14 @@
 
     if ($(window).width()>640) Pard.Widgets.Sticker(_createdWidget, 83, 24);
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
+    var _participants;
 
-    
     var _program = $('<div>').addClass('aside-event-nav-btn');
     _program.text('Programa');
 
     _program.click(function(){
+      if(_participants) _participants.deactivate();
+      _participants.deactivate();
       _contentShowHide('program-event-page');
       $(this).addClass('aside-event-nav-btn-selected');
     });
@@ -27,11 +29,13 @@
     var _explore = $('<div>').addClass('aside-event-nav-btn');
     _explore.text('Participantes');
     _explore.click(function(){
+      if(_participants) _participants.activate();
       _contentShowHide('participants-event-page');
       $(this).addClass('aside-event-nav-btn-selected');
     });
     _explore.one('click', function(){
-    _exploreContent.append(Pard.Widgets.ParticipantEventPage().render());      
+      _participants = Pard.Widgets.ParticipantEventPage();
+      _exploreContent.append(_participants.render());     
     });
     var _exploreContent = $('<div>').attr('id', 'participants-event-page');
     _exploreContent.hide();
@@ -39,10 +43,12 @@
     var _info = $('<div>').addClass('aside-event-nav-btn');
     _info.text('Informaciones');
     _info.click(function(){
+      if(_participants) _participants.deactivate();
       _contentShowHide('info-event-page');
       $(this).addClass('aside-event-nav-btn-selected');
     });
     _info.one('click', function(){
+      if(_participants) _participants.deactivate();
     _infoContent.append(Pard.Widgets.EventInfo().render());      
     });
     var _infoContent = $('<div>').attr('id', 'info-event-page');
@@ -56,7 +62,6 @@
       // var _selected = '#'+id_selected;
       _contentShown = $('#'+id_selected);
       _contentShown.show();
-
     }
 
     var _buttonContainer = $('<div>').addClass('create-profile-container');

@@ -61,21 +61,18 @@
   ns.Widgets.ParticipantEventPage = function(){
 
     var _createdWidget = $('<div>');
-
-    var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page');
-    
-    // var _callProposalsTitle = $('<div>').append($('<h5>').text('Artistas y espacios participantes')).addClass('call-proposals-title');
-   
-    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', 'a5bc4203-9379-4de0-856a-55e1e5f3fac6').render();
-
-    // var _searchTitle = $('<div>').addClass('orfheo-symbol-image-searchEngine');
-
-    _createdWidget.append( _searchEngine);
+    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', 'a5bc4203-9379-4de0-856a-55e1e5f3fac6');
+    _createdWidget.append( _searchEngine.render());
 
     return{
       render: function(){
-        console.log(_createdWidget.html());
         return _createdWidget;
+      },
+      activate: function(){
+        _searchEngine.activate();
+      },
+      deactivate: function(){
+        _searchEngine.deactivate();
       }
     }
   }
