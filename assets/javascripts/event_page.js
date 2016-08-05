@@ -456,7 +456,12 @@
           Pard.PrintProgram(_program, '', gmap, _data);
         }
       }).Load();
-      _search();
+
+      var _firstDate = moment(new Date()).format('YYYY-MM-DD');
+      if($.inArray(_firstDate, eventDates) >= 0){
+        _daySelector.val(_firstDate);
+      }
+      _daySelector.trigger('change');
     });
 
     return{
