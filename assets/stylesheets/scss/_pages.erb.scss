@@ -1191,6 +1191,22 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   font-size: $almostNormalSize;
 }
 
+.artist-out-of-program-table{
+  width: 590px !important;
+  table-layout:fixed;
+}
+
+.select-category-container-artistOutOfProgram{
+  width: 13rem;
+  margin-bottom: 2rem;
+  float: right;
+}
+
+.artist-out-of-program-popup-content div.dataTables_wrapper div.dataTables_filter input {
+    width: 19rem !important;
+    font-size: 0.875rem;
+}
+
 /* .table-box-proposal-manager{
   position: relative;
   overflow: auto;
