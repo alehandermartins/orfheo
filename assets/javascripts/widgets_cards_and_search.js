@@ -192,6 +192,18 @@
       }
     });
 
+    if ($(window).width()<640) {
+      _searchWidget.on('select2:opening', function(){
+        var _distanceInputTop = _searchInput.offset().top;
+        var _scroolTop = $('.whole-container').scrollTop();
+        var _headerHeight = $('header').height();
+        var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
+        $('.whole-container').scrollTop(_distanceToDo);
+      });
+    }
+    
+    
+
 
     var _search = function(){
 
