@@ -259,13 +259,16 @@ module Repos
             }
             proposals = grab({ "proposals.profile_id": args[:profile_id]})
             proposals = get_my_proposals_from(proposals, :profile_id, args[:profile_id])
-            compose_info calls, proposals
+            program = grab({ "$or": [{ "program.participant_id": args[:profile_id]}, {"program.host_id": args[:profile_id]}]})
+            program = get_my_program_from(program, args[:profile_id])
+            compose_info calls, proposals, program
           end
 
-          def compose_info calls, proposals
+          def compose_info calls, proposals, program
             {
               calls: calls,
-              proposals: proposals
+              proposals: proposals,
+              program: program
             }
           end
 
@@ -283,7 +286,9 @@ module Repos
               next proposal[:title] if proposal[:type] == 'artist'
               next proposal[:description] if proposal[:type] == 'space'
             }.compact
-            compose_info calls, proposals
+            program = grab({ "$or": [{ "program.participant_id": args[:profile_id]},{"program.host_id": args[:profile_id]}]})
+            program = get_my_program_from(program, args[:profile_id])
+            compose_info calls, proposals, program
           end
 
           def get_my_proposals_from results, key, id
@@ -292,6 +297,27 @@ module Repos
             my_proposals.map!{ |proposal|
               Util.string_keyed_hash_to_symbolized proposal
             }
+          end
+
+          def get_my_program_from results, id
+            results.map{ |event| 
+              my_performances = event[:program].select{|performance| performance[:participant_id] == id || performance[:host_id] == id}
+              my_performances.map{ |performance|
+                artist = event[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
+                space = event[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:host_proposal_id]}.first
+                order = event[:order].index(performance[:host_proposal_id])
+                performance.merge! event_id: event[:event_id]
+                performance.merge! host_name: space[:name]
+                performance.merge! address: space[:address]
+                performance.merge! participant_name: artist[:name]
+                performance.merge! title: artist[:title]
+                performance.merge! short_description: artist[:short_description]
+                performance.merge! children: artist[:children]
+                performance.merge! participant_category: artist[:category]
+                performance.merge! host_category: space[:category]
+                performance.merge! order: order
+              }
+            }.flatten
           end
         end
       end

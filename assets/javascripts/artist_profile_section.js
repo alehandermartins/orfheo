@@ -59,7 +59,6 @@
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     };
 
-
     _infoContentBox.append(_bio, _contact);
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
