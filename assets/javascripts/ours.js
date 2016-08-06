@@ -26,6 +26,7 @@
 // = require proposal_widgets
 // = require call_page_TablePanel
 // = require call_page_ProposalPanel
+// = require call_qr
 // = require info_news
 
 // = require widgets_program

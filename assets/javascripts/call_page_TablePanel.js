@@ -108,11 +108,46 @@
 			_tabShowHide('programPanel');
       
 		});
+
+    var _qrTabTitle =  $('<a>').attr({href: "#"}).text('QR');
+    var _qrTab = $('<li>').append(_qrTabTitle);
+    _qrTab.on('click',function(){
+      
+
+      if (!($('#qrPanel').html())){
+        var spinner =  new Spinner().spin();
+          $.wait(
+            '', 
+            function(){
+              $('body').append(spinner.el);
+            }, 
+            function(){
+              setTimeout(function(){
+                var _appendAndStopSpinner = function(stopSpinner){ 
+
+                 $('#qrPanel').append(Pard.Widgets.QRManager(call.qr).render());
+                  stopSpinner();
+                }
+                _appendAndStopSpinner(function(){
+                  spinner.stop();
+                  $('#qrPanel').foundation();
+                });
+              },0)
+            }
+          );
+
+      }
+      $('.tab-selected').removeClass('tab-selected');
+      $(this).addClass('tab-selected');
+      _tabShowHide('qrPanel');
+      
+    });
   		
   	_tabs.append(
   		_tableTab, 
   		_proposalsTab,
-  		_programTab
+  		_programTab,
+      _qrTab
   	);
 
   	var _tabShowHide = function(id_selected){
@@ -125,6 +160,7 @@
   	var _tablePanel = $('<div>').attr('id', 'tablePanel').hide();
 		var _proposalsPanel = $('<div>').attr('id', 'proposalsPanel').hide();
     var _programPanel = $('<div>').attr('id', 'programPanel').hide();
+    var _qrPanel = $('<div>').attr('id', 'qrPanel').hide();
 
 		var _panelShown = _tablePanel;
     // var _panelShown = _programPanel;
@@ -133,10 +169,9 @@
 		$(document).ready(function(){
 			_tableTab.trigger('click');
       // _programTab.trigger('click')
-
 		});
 
-    _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel, _programPanel);
+    _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel, _programPanel, _qrPanel);
     _main.append(_mainLarge);
 
   	return {
