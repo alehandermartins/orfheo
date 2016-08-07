@@ -772,6 +772,7 @@ Profile Card
 		}
     .photo-container-card{
       height: 10vw;
+      width: 27.3vw;
     }
 		.name-profileCard{
 			margin-top: 5.3vw;
@@ -806,24 +807,26 @@ Profile Card
 .card-container{
   display: inline-block;
   padding: 0 1.046rem;
-  @include breakpoint(420 down) {
-  @include horizontal-center;
-  position:relative;
+  @include breakpoint(410 down) {
+    display: block;
+    @include horizontal-center;
+    position:relative;
   }
 }
 
 .card-container-popup{
   display: inline-block;
   padding: 0 0.6rem;
-  @include breakpoint(420 down) {
-  @include horizontal-center;
-  position:relative;
+  @include breakpoint(410 down) {
+    @include horizontal-center;
+    display: block;
+    position:relative;
   }
 }
 
 .photo-container-card{
   display: block;
-  width: 100%;
+  width: 10.25rem;
   height: 3.75rem;
   margin:0 auto;
   background:red;

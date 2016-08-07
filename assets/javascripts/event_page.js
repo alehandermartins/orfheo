@@ -373,7 +373,13 @@
 
     var _search = function(){
       _searchWidget.on("select2:opening",function(){
-        if ($(window).width() < 640)  $('.whole-container').scrollTop(360);      
+        if ($(window).width() < 640) {
+          var _distanceInputTop = _searchWidget.offset().top;
+          var _scroolTop = $('.whole-container').scrollTop();
+          var _headerHeight = $('header').height();
+          var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
+          $('.whole-container').scrollTop(_distanceToDo);
+        }
       });
 
       var spinner =  new Spinner().spin();
