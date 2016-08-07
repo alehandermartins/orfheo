@@ -111,6 +111,7 @@
 
     var _qrTabTitle =  $('<a>').attr({href: "#"}).text('QR');
     var _qrTab = $('<li>').append(_qrTabTitle);
+    var _goToEventPage = $('<a>').attr({href: "/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6"}).text('Página del evento');
     _qrTab.on('click',function(){
       
 
@@ -125,7 +126,7 @@
               setTimeout(function(){
                 var _appendAndStopSpinner = function(stopSpinner){ 
 
-                 $('#qrPanel').append(Pard.Widgets.QRManager(call.qr).render());
+                 $('#qrPanel').append(Pard.Widgets.QRManager(call.qr).render(), _goToEventPage);
                   stopSpinner();
                 }
                 _appendAndStopSpinner(function(){

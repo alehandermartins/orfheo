@@ -83,7 +83,7 @@
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
     var _participant = $('<a>').text(performance.participant_name);
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
-    else _participant.addClass('participant-program-card-own').attr({'href': '#'})
+    else _participant.addClass('participant-program-card-own').attr({'href': '#'});
     var _host = $('<a>').text(performance.host_name);
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
     else _host.addClass('host-program-card-own').attr({'href': '#'});
@@ -108,8 +108,12 @@
       _progCard.append(_col1, _col2, _col3);
     }
     else{
-      var _timePlaceContainer = $('<div>').append(_time, _hostNum, _participantCatIcon, _children).addClass('timePlace-container-event-page');
-      _progCard.append(_timePlaceContainer, _title, ' ',_participant,  ' ',_shortDescription, ' / ', _host);
+      var _timePlaceContainer = $('<div>').append(_time.addClass('time-smallScreen-program'), _hostNum.addClass('hostNum-smallScreen-program'), $('<div>').append(_participantCatIcon, _children).addClass('icons-smallScreen-program'));
+      // _timePlaceContainer.on('click', function(){
+      //   numberClickCallback();
+      // });
+      var _titleHostContainer = $('<div>').append(_title, ' ',_participant,  ' / ', _host);
+      _progCard.append(_timePlaceContainer,_titleHostContainer , _shortDescription);
     }
 
 

@@ -126,7 +126,7 @@
 
     Object.keys(filters).forEach(function(key){
 
-      var _categoriesLabel = $('<div>').text(_labels[key]);
+      var _categoriesLabel = $('<div>').text(_labels[key]).addClass('categories-labels-popup-event-page');
       _createdWidget.append(_categoriesLabel);
 
       Object.keys(filters[key]).forEach(function(filter){

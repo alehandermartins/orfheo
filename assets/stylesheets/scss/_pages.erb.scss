@@ -2028,11 +2028,23 @@ EVENT PAGE
   }
 }
 
-.timePlace-container-event-page{
+.time-smallScreen-program, {
   display: inline-block;
-  float: left;
-  margin-right: 0.5rem;
-  margin-bottom: -0.3rem;
+  width: 6rem;
+}
+
+.icons-smallScreen-program{
+  display: inline-block;
+}
+
+.hostNum-smallScreen-program{
+  display: inline-block;
+  width: 2.5rem;
+  text-align: center;
+}
+
+.titleHostContainer-container-event-page{
+  /* display: inline-block; */
 }
 
 
@@ -2044,7 +2056,7 @@ EVENT PAGE
   margin-right: 0.2rem;
 }
 
-.participant-program-card, .participant-program-card-own{
+.participant-program-card{
   color: $blue-pard;
   font-weight: bold;
 }
@@ -2059,9 +2071,21 @@ EVENT PAGE
   cursor: pointer;
 }
 
-.host-program-card, .host-number-program-card, .host-program-card-own{
+.host-program-card, .host-number-program-card{
   /* color: $blue-pard; */
   color:  #4389f8;
+}
+
+
+a.host-program-card-own {  
+  text-decoration: underline;
+  color: black;
+}
+
+a.participant-program-card-own {
+  font-weight: bold;
+  /* text-decoration: underline; */
+  color: black;
 }
 
 .host-number-program-card{
@@ -2073,12 +2097,12 @@ EVENT PAGE
 
 .host-program-card-own:hover{
   cursor: default;
-  color:  #4389f8;
+  /* color:  #4389f8; */
 }
 
 .participant-program-card-own:hover{
   cursor: default;
-  color:  $blue-pard;
+  /* color:  $blue-pard; */
 }
 
 /* 
@@ -2189,12 +2213,16 @@ EVENT PAGE
 
 .filter-checkbox-event-page{
   cursor: pointer;
-  margin-bottom: 0.2rem;
+  margin-bottom: -0.2rem;
   display: inline-block;
-  height: 1.5rem;
+  /* height: 1.5rem; */
 }
 
 .filter-checkbox-event-page label, .filter-checkbox-event-page input{
   cursor: pointer;
+}
+
+.categories-labels-popup-event-page{
+  margin-bottom: 0.2rem;
 }
 
