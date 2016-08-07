@@ -67,8 +67,14 @@ class BaseController < Sinatra::Base
 
   register Sinatra::AssetPipeline
 
+
+
   configure do
-    enable :sessions
+    use Rack::Session::Cookie, {
+      :key => 'rack.session',
+      :secret => 'my_secret_cookie_session'
+    }
+    #enable :sessions
   end
 
   options = {
