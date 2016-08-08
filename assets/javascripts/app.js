@@ -200,18 +200,17 @@ Pard.Call = function(call){
 }
 
 
-Pard.Event = function(program){
+Pard.Event = function(program, status){
   //Address 
   //http://localhost:3000/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6
-  
-  Pard.UserStatus['status'] = 'outsider';
+  Pard.UserStatus['status'] = status;
 
   Pard.CachedProgram = program;
   var _whole = $('<div>').addClass('whole-container');
 
-  var _footer = Pard.Widgets.Footer();      
-  var _header = Pard.Widgets.LoginHeader();
-  _header.showRegisterBtn();
+  var _footer = Pard.Widgets.Footer();
+  if(status == 'visitor') var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
+  else{var _header = Pard.Widgets.LoginHeader();}
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
   _whole.append(_header.render().removeClass('outsider-header'), _main.render().addClass('main-welcome-page'),  _footer.render().removeClass('footer-outsider'));
 

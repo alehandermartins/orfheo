@@ -24,7 +24,7 @@
   ns.Events.Login = function(data){
     console.log(data);
     if (data['status'] == 'success'){
-      document.location = '/users/';
+      location.reload();
     }
     else {
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();

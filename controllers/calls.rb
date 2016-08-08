@@ -79,7 +79,9 @@ class CallsController < BaseController
   get '/event' do
     halt erb(:not_found) unless Repos::Calls.event_exists? params[:id]
     program = Repos::Calls.get_program params[:id]
-    erb :event, :locals => {:program => program.to_json}
+    status = 'outsider' if !session[:identity]
+    status = 'visitor' if session[:identity]
+    erb :event, :locals => {:program => program.to_json, :status => status.to_json}
   end
 
 
