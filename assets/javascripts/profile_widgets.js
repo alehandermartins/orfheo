@@ -38,16 +38,18 @@
 
     var _profileColorRgba = Pard.Widgets.IconColor(profileColor).rgba(0.2);
 
+    console.log(profileColor)
+
      _modifyBtn.hover(
       function(){
         _triangle.css({'border-top': '70px solid rgb('+_profileColorRgba[0]+','+_profileColorRgba[1]+','+_profileColorRgba[2]+')'});
       }, 
       function(){
-        _triangle.css({'border-top': '70px solid'+profileColor});
+        _triangle.css({'border-top': '70px solid '+profileColor});
       });
 
      _createdWidget.append(
-      _triangle.css({'border-top': '70px solid'+profileColor}),
+      _triangle.css({'border-top': '70px solid '+profileColor}),
       _modifyBtn
     );
 
