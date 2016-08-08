@@ -168,7 +168,7 @@
   
 ns.Widgets.InputAddressSpace = function(label){
    
-    var autocomplete;
+    var autocomplete = {};
 
     var componentForm = {
       route: 'long_name',
@@ -194,7 +194,7 @@ ns.Widgets.InputAddressSpace = function(label){
     _inputPlace.one('focus', function(){AutocompleteFunction()});
 
     var AutocompleteFunction = function(){
-       autocomplete = new google.maps.places.Autocomplete(
+      autocomplete = new google.maps.places.Autocomplete(
         (document.getElementById('place_address_autocomplete')),
         {types: ['address']});
       autocomplete.addListener('place_changed', function(){FillInAddress(autocomplete, _inputForm)});
