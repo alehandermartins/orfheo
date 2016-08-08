@@ -293,16 +293,16 @@
       href: '/profile?id=' + profile['profile_id']
     }).addClass('profileCard');
     var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
-    _card.css({border: 'solid 3px'+profile.color});
+    _card.css({'border-color': profile.color});
     _card.hover(
       function(){
-        $(this).css({
+        _card.css({
         'box-shadow': '0 0 2px 1px'+ profile.color
         // 'background': 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+'.1'+ ')'
       });
       },
       function(){
-        $(this).css({
+        _card.css({'border': '3px solid'+profile.color, 
           'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
           // 'background':'white'
         });

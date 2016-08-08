@@ -255,7 +255,7 @@ ns.Widgets.InputAddressSpace = function(label){
     for (var key in _inputForm){_placeForm.append(_inputForm[key].render().attr({disabled: 'true'}))};
 
     _inputPlace.on('focus', function(){
-      if ($('.reveal[aria-hidden="false"]').html()){
+      if ($('.reveal[aria-hidden="false"]').html() && $(window).width()<1024){
         var _distanceInputTop = _inputPlace.offset().top;
         var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
         var _headerHeight = $('header').height();

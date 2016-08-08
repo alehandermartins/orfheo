@@ -730,6 +730,21 @@ button{
   /* margin-left: 2px; */
 }
 
+.buttons-noMapPopup button{
+  margin-right: 2rem;
+  font-size: 14px;
+  margin-top: 0.5rem;
+  @include breakpoint(medium){
+    float: right;
+  }
+}
+
+.buttons-noMapPopup{
+  @include breakpoint(medium){
+    height: 2rem;
+  }
+}
+
 
 
 /*===============================================
@@ -795,6 +810,11 @@ Profile Card
 .profileCard:hover, .profileCard:focus {
     cursor:pointer; 
 } 
+
+.profileCard{
+  border: 3px solid;
+}
+
 .position-profileCard-login{
   position:relative;
 	margin-top:0.9rem;

@@ -305,9 +305,30 @@
       $.get(uri, function(data){
         if(data.status == "OK" && data.results.length > 0){
           _formVal.address.location = data.results[0].geometry.location;
+          if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
+          else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+          _closepopup();
+          }
+        else {
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _closepopupAlert = function(){
+            _popup.close();
+          }
+          var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopupAlert, function(){
+              if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
+              else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+            }));
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          }); 
+          _content.append(_message.render());
+          _popup.open();
+
         }
-        if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
-        else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
       });
     }
 
@@ -315,7 +336,6 @@
 
     submitButton.on('click',function(){
       if(_filled() == true){
-        _closepopup();
         if(_photos.dataLength() == false) _send(_url);
         else{
           _photos.submit();
@@ -339,6 +359,26 @@
       },
       setCallback: function(callback){
         _closepopup = callback;
+      }
+    }
+  }
+
+  ns.Widgets.AlertNoMapLocation = function(formVal,closepopup,callback){
+    var _createdWidget = $('<div>');
+    var _text = $('<p>').text('Google no reconoce la dirección de tu espacio y por lo tanto no puede ser localizada en ningún mapa.')
+    var _goAnywayBtn = Pard.Widgets.Button('Continua igualmente', function(){callback()});
+    var _tryAgainBtn = Pard.Widgets.Button('Corrige la dirección', function(){
+      closepopup();
+    });
+
+    var buttonsContainer = $('<div>').addClass('buttons-noMapPopup')
+    _createdWidget.append(_text, buttonsContainer.append(_goAnywayBtn.render(), _tryAgainBtn.render()));
+    return{
+      render: function(){
+        return  _createdWidget;
+      },
+      setCallback: function(){
+        // callback();
       }
     }
   }

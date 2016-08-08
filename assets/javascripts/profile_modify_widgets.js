@@ -127,21 +127,54 @@
 
     var _send = function(url){
       var _formVal = _getVal(url);
-      console.log(_formVal);
-      var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + '+' + _formVal.address.street_number + '+' + _formVal.address.locality + '+' + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
-      $.get(uri, function(data){
-        if(data.status == "OK" && data.results.length > 0){
-          _formVal.address.location = data.results[0].geometry.location;
-        }
+      if (_formVal.type == 'space'){
+        var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + '+' + _formVal.address.street_number + '+' + _formVal.address.locality + '+' + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+        $.get(uri, function(data){
+          if(data.status == "OK" && data.results.length > 0){
+            _formVal.address.location = data.results[0].geometry.location;
+          Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+          _closepopup();
+          }
+          else{
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _closepopup = function(){
+            _popup.close();
+          }
+          var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup, function(){
+             Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+            _closepopup();
+          }));
+
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          }); 
+          _content.append(_message.render());
+          _popup.open();
+
+          }
+        });
+      }
+      else {
+        // var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.city + '+' + _formVal.zip_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+        // $.get(uri, function(data){
+        //   if(data.status == "OK" && data.results.length > 0){
+        //     console.log(data.results[0].geometry.location);
+        //     _formVal['location'] = data.results[0].geometry.location;
+        //   }
+        //   Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+        // });
         Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
-      });
+      }
     }
 
     var _closepopup = {};
 
     submitButton.on('click',function(){
       if(_filled() == true){
-        _closepopup();
         if(_photos.dataLength() == false) _send(_url);
         else{
           _photos.submit();

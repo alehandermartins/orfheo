@@ -31,6 +31,21 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
+    if (profile.program){
+      var _programBoxContainer = Pard.Widgets.SectionBoxContainer('Programación Benimaclet conFusión festival 2016', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+      var _programContent = $('<div>').addClass('box-content');
+      profile.program.forEach(function(performance){
+        _programContent.append(Pard.Widgets.ProgramCard(performance).render());
+      });
+      _programBoxContainer.append(_programContent);
+      _createdWidget.append(_programBoxContainer);
+    }
+
+
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoContentBox = $('<div>').addClass('box-content');
+    
+
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
     

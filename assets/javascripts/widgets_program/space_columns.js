@@ -8,9 +8,11 @@
     var _spaceCol = $('<div>').addClass('spaceCol');
     //_spaceCol.addClass('space-column-call-manager');
     _spaceCol.css({
-      'display': ' inline-block',
+      'display': 'inline-block',
       'width': '11rem',
-      'border': '1px solid'
+      'border-style': 'solid',
+      'border-width': '1px',
+      'border-color': 'black'
       // 'height': hours.length *40+'px'
     });
     //Space header is the handle for dragging space columns
