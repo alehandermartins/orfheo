@@ -124,26 +124,27 @@
       return _submitForm;
     }
 
+    var _closepopup = function(){};
 
     var _send = function(url){
       var _formVal = _getVal(url);
       if (_formVal.type == 'space'){
-        var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + '+' + _formVal.address.street_number + '+' + _formVal.address.locality + '+' + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+        var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
         $.get(uri, function(data){
           if(data.status == "OK" && data.results.length > 0){
             _formVal.address.location = data.results[0].geometry.location;
-          Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
-          _closepopup();
+            Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+            _closepopup();
           }
           else{
           var _content = $('<div>').addClass('very-fast reveal full');
           _content.empty();
           $('body').append(_content);
           var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _closepopup = function(){
+          var _closepopup2 = function(){
             _popup.close();
           }
-          var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup, function(){
+          var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup2, function(){
              Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
             _closepopup();
           }));
@@ -170,8 +171,6 @@
         Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
       }
     }
-
-    var _closepopup = {};
 
     submitButton.on('click',function(){
       if(_filled() == true){
