@@ -131,7 +131,9 @@
     var _profileNav = $('<div>').addClass('profile-nav-container').attr('id','_profileNav');
     var _myOtherProfiles = $('<div>').addClass('other-profiles-nav-container');
    
-    history.replaceState({},'','profile?id=' + _profiles[0].profile_id);
+    if (typeof history.pushState != 'undefined') { 
+      history.replaceState({},'','profile?id=' + _profiles[0].profile_id);
+    }
 
     _profiles.forEach(function(profile, index) {
       if(index == 0){
