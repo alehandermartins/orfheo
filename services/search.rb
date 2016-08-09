@@ -82,11 +82,18 @@ module Services
 		  end
 
 		  def matches? value, tag
+		  	matchable_tags = tag.split(/\W+/)
 		    matchable_value = translate(I18n.transliterate(value.downcase))
 		    words = matchable_value.split(/\W+/).map{ |word| translate(word).split(/\W+/)}.flatten
-		    matchable_value == tag || words.any?{ |word|
-		      word.start_with? tag  
-		    }
+		    matchable_value == tag || words_match?(words, matchable_tags)
+		  end
+
+		  def words_match? words, tags
+		  	tags.all?{ |tag|
+		  		words.any?{ |word|
+		      	word.start_with? tag  
+		    	}
+		  	}
 		  end
 
 		  def searcheable_fields
