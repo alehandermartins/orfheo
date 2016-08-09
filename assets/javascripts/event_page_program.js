@@ -134,7 +134,9 @@
     // var _participantCatText = $('<span>').append(_dictionary[performance.participant_category]).addClass('participant-category-text');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
-    var _hostNum = $('<span>').text(_orderNum).addClass('host-number-program-card');
+    //var _hostNum = $('<span>').text(_orderNum).addClass('host-number-program-card');
+    var _hostNum = $('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000');
+    _hostNum.addClass('host-number-program-card');
     var numberClickCallback;
     _hostNum.on('click',function(){
       numberClickCallback();
@@ -192,7 +194,9 @@
     // var _participantCatText = $('<span>').append(_dictionary[performance.participant_category]).addClass('participant-category-text');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
-    var _hostNum = $('<span>').text(_orderNum).addClass('host-number-program-card');
+    //var _hostNum = $('<span>').text(_orderNum).addClass('host-number-program-card');
+    var _hostNum = $('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000');
+    _hostNum.addClass('host-number-program-card');
     var numberClickCallback;
     _hostNum.on('click',function(){
       numberClickCallback();
