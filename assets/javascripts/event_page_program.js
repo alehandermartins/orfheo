@@ -9,8 +9,8 @@
     _searchResult.empty();
     var _checkPermanent = true;
     var _checkShow = true;
-    program.forEach(function(performance){
-      if((host && performance.host_name == host) || !host){
+    program.forEach(function(performance){      
+      if((host &&  Pard.Widgets.RemoveAccents(performance.host_name) == host) || !host){
         var _performanceCard = Pard.Widgets.ProgramCard(performance,host);
         _performanceCard.setNumberClickCallback(
           function(){
@@ -67,12 +67,12 @@
       _searchResult.append(_block);
     })
     _programReordered.forEach(function(performance){
-      if((host && performance.host_name == host) || !host){
+      if((host &&  Pard.Widgets.RemoveAccents(performance.host_name) == host) || !host){
         if (performance.host_category != _spaceCat || !_space){
           _spaceCat =  performance.host_category;
           _catBlockObj[performance.host_category].append($('<div>').append($('<h4>').append(Pard.Widgets.Dictionary(_spaceCat).render())).addClass('title-program-event-page'));
         }
-        if (performance.host_name != _space || !_space){
+        if ( Pard.Widgets.RemoveAccents(performance.host_name) != _space || !_space){
           _space =  performance.host_name;
           _catBlockObj[performance.host_category].append($('<div>').append($('<h5>').append(_space)));
         }
