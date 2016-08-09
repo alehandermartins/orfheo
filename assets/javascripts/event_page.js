@@ -406,17 +406,9 @@
     //   });
     // });
 
-    var _search = function(){
-      _searchWidget.on("select2:opening",function(){
-        if ($(window).width() < 640) {
-          var _distanceInputTop = _searchWidget.offset().top;
-          var _scroolTop = $('.whole-container').scrollTop();
-          var _headerHeight = $('header').height();
-          var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
-          $('.whole-container').scrollTop(_distanceToDo);
-        }
-      });
 
+    var _search = function(){
+      // $('body').click()
       var spinner =  new Spinner().spin();
       $.wait(
         '', 
@@ -490,6 +482,16 @@
       _search();
     });
 
+    _searchWidget.on("select2:opening",function(){
+      if ($(window).width() < 640 ) {
+        var _distanceInputTop = _searchWidget.offset().top;
+        var _scroolTop = $('.whole-container').scrollTop();
+        var _headerHeight = $('header').height();
+        var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
+        $('.whole-container').scrollTop(_distanceToDo);
+      }
+    });
+
     $(document).ready(function(){
       gmap = new Maplace({
         locations: _data,
@@ -507,6 +509,10 @@
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
         },
         afterCloseClick: function(index){
+          _host = '';
+          _printProgram(_program, '', gmap, _data);
+        },
+        afterCloseInfowindow: function(index){
           _host = '';
           _printProgram(_program, '', gmap, _data);
         }

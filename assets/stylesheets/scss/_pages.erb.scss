@@ -2006,6 +2006,7 @@ EVENT PAGE
 .col1-program-card, .col2-program-card, .col3-program-card{
   display: inline-block;
   vertical-align: top;
+  position: relative;
   /* margin-bottom: 1rem; */
 }
 
@@ -2017,7 +2018,7 @@ EVENT PAGE
 
 .col2-program-card{
   @include breakpoint(large){
-    width: 2.5rem;
+    width: 2.8rem;
     padding-left: .3rem;
   }
 }
@@ -2226,3 +2227,11 @@ a.participant-program-card-own {
   margin-bottom: 0.2rem;
 }
 
+.x-host-number-simbol{
+  font-weight: bold;
+  position: absolute;
+  top: -1px;
+  right: 9px;
+  font-size: .9rem;
+  color: black;
+}

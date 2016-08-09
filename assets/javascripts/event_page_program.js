@@ -5,40 +5,30 @@
 
   ns.PrintProgram = function(program, host, gmap, dataSpaces){
 
-    // var _originalWidth = $( window ).width();
-    // $( window ).resize(function() {
-    //   if (_originalWidth>1024 && $(window).width()<1024) {
-    //     Pard.PrintProgram(program, host, gmap, dataSpaces);
-    //   }
-    //   if (_originalWidth<1024 && $(window).width()>1024) {
-    //     Pard.PrintProgram(program, host, gmap, dataSpaces);
-    //   }
-    // });
     var _searchResult = $('#searchResult');
     _searchResult.empty();
     var _checkPermanent = true;
     var _checkShow = true;
     program.forEach(function(performance){
-      // if(performance.permanent != 'true' && _checkShow) {
-      //    var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')
-      //   _searchResult.append($('<div>').append($('<h4>').append('Actuacciones ', _day)).addClass('title-program-event-page'));
-      //   _checkShow = false;
-      // }
       if((host && performance.host_name == host) || !host){
-        var _performanceCard = Pard.Widgets.ProgramCard(performance, gmap, dataSpaces);
-        _performanceCard.setNumberClickCallback(function(){
-          var _index;
-          dataSpaces.some(function(space, pos){
-            if (space.order == performance.order) {
-              _index = pos;
-              return true;
-            }
+        var _performanceCard = Pard.Widgets.ProgramCard(performance,host);
+        _performanceCard.setNumberClickCallback(
+          function(){
+            var _index;
+            dataSpaces.some(function(space, pos){
+              if (space.order == performance.order) {
+                _index = pos;
+                return true;
+              }
+            });
+            gmap.ViewOnMap(_index+1);
+            if ($(window).width()>640) $('.whole-container').scrollTop(200);
+            else $('.whole-container').scrollTop(110);
+            Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
+          },
+          function(){
+            gmap.CloseInfoWindow();
           });
-          gmap.ViewOnMap(_index+1);
-          if ($(window).width()>640) $('.whole-container').scrollTop(200);
-          else $('.whole-container').scrollTop(110);
-          Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
-        });
         if (performance.permanent == 'true' && _checkPermanent) {
           // var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')
           var _permanentTitle = $('<div>').append($('<h4>').append('Permanentes a lo largo del día ')).addClass('title-program-event-page');
@@ -86,20 +76,24 @@
           _space =  performance.host_name;
           _catBlockObj[performance.host_category].append($('<div>').append($('<h5>').append(_space)));
         }
-        var _performanceCard = Pard.Widgets.ProgramCard(performance, gmap, dataSpaces);
-        _performanceCard.setNumberClickCallback(function(){
-          var _index;
-          dataSpaces.some(function(space, pos){
-            if (space.order == performance.order) {
-              _index = pos;
-              return true;
-            }
+        var _performanceCard = Pard.Widgets.ProgramCard(performance, host);
+        _performanceCard.setNumberClickCallback(
+          function(){
+            var _index;
+            dataSpaces.some(function(space, pos){
+              if (space.order == performance.order) {
+                _index = pos;
+                return true;
+              }
+            });
+            gmap.ViewOnMap(_index + 1);
+            if ($(window).width()>640) $('.whole-container').scrollTop(200);
+            else $('.whole-container').scrollTop(110);
+            Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
+          },
+          function(){
+            gmap.CloseInfoWindow();
           });
-          gmap.ViewOnMap(_index + 1);
-          if ($(window).width()>640) $('.whole-container').scrollTop(200);
-          else $('.whole-container').scrollTop(110);
-          Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
-        });
         _catBlockObj[performance.host_category].append(_performanceCard.render());
 
       }
@@ -118,7 +112,7 @@
     return program;
   }
 
-  ns.Widgets.ProgramCard = function(performance){
+  ns.Widgets.ProgramCard = function(performance, host){
     // var _dictionary = {
     //   music: 'Música',
     //   arts: 'Escénicas',
@@ -135,12 +129,17 @@
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
     //var _hostNum = $('<span>').text(_orderNum).addClass('host-number-program-card');
-    var _hostNum = $('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000');
+    var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
     _hostNum.addClass('host-number-program-card');
-    var numberClickCallback;
-    _hostNum.on('click',function(){
-      numberClickCallback();
+    var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol'));
+    var numberClick1Callback;
+    var numberClick2Callback;
+    _hostNum.click(function(){
+      numberClick1Callback();
     });
+    _hostNumX.click(function(){
+      numberClick2Callback();
+    })
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
     var _participant = $('<a>').text(performance.participant_name);
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
@@ -163,7 +162,8 @@
       var _col2 = $('<div>').addClass('col2-program-card');
       var _col3 = $('<div>').addClass('col3-program-card');
       _col1.append(_time, _participantCatIcon,  _children);
-      _col2.append($('<p>').append(_hostNum));
+      if (host) _col2.append($('<p>').append(_hostNumX));
+      else _col2.append($('<p>').append(_hostNum));
       _col3.append(_titleRow, _descriptionRow);
       _progCard.append(_col1, _col2, _col3);
     }
@@ -181,8 +181,9 @@
       render: function(){
         return _progCard;
       },
-      setNumberClickCallback: function(callback){
-        numberClickCallback = callback;
+      setNumberClickCallback: function(callback1, callback2){
+        numberClick1Callback = callback1;
+        numberClick2Callback = callback2;
       }
     }
   }
@@ -197,10 +198,15 @@
     //var _hostNum = $('<span>').text(_orderNum).addClass('host-number-program-card');
     var _hostNum = $('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000');
     _hostNum.addClass('host-number-program-card');
-    var numberClickCallback;
-    _hostNum.on('click',function(){
-      numberClickCallback();
-    });
+    var numberClick1Callback;
+    var numberClick2Callback;
+    _hostNum.toggle(
+      function(){
+        numberClick1Callback();
+      },
+      function(){
+        numberClick2Callback();
+      });
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
     var _participant = $('<a>').text(performance.participant_name);
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
@@ -240,8 +246,9 @@
       render: function(){
         return _progCard;
       },
-      setNumberClickCallback: function(callback){
-        numberClickCallback = callback;
+      setNumberClickCallback: function(callback1, callback2){
+        numberClick1Callback = callback1;
+        numberClick2Callback = callback2;
       }
     }
   }
