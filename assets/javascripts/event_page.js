@@ -345,6 +345,12 @@
         type: 'POST',
         dataType: 'json',
         delay: 250,
+        positionDropdown: function(forceAbove){
+          if (forceAbove) {
+            enoughRoomAbove = false;
+            enoughRoomBelow = true;
+          }
+        },
         data: function (params) {
           var _query = [];
           _searchWidget.select2('data').forEach(function(element){
