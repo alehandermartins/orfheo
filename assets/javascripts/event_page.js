@@ -344,7 +344,7 @@
         url: '/search/suggest_program',
         type: 'POST',
         dataType: 'json',
-        delay: 250,
+        delay: 10,
         data: function (params) {
           var _query = [];
           _searchWidget.select2('data').forEach(function(element){
@@ -377,22 +377,28 @@
       },
       multiple: true,
       tags: true,
-      tokenSeparators: [',', ' '],   
+      tokenSeparators: [';', '\n', '\t'],   
       templateResult: formatResource,
     }).on("select2:select", function(e) {
       if(_searchWidget.select2('data') != false){
-        if ($(window).width() < 640)  $('.whole-container').scrollTop(110);   
         if(e.params.data.isNew){
           $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
         }
       }
+      // $(':focus').blur();
     });
 
-    _searchWidget.on("select2:unselect",function(){
-      if ($(window).width() < 640)  {
-        $('.whole-container').scrollTop(110); 
-      }
-    });
+    // _searchWidget.on("select2:unselect",function(event){
+    //   if ($(window).width() < 640)  {
+    //     $('.whole-container').scrollTop(110); 
+    //   }
+    // });
+
+    // _searchWidget.on('select2:unselecting',function(){
+    //   _searchWidget.one("select2:opening",function(){
+    //     $('body').focus();
+    //   });
+    // });
 
     var _search = function(){
       _searchWidget.on("select2:opening",function(){
@@ -463,6 +469,12 @@
             _printProgram(data.program, _host, gmap, _data);
           });
           spinner.stop();
+          // $('body').focus();
+          _searchWidget.select2("close");
+          $(':focus').blur();
+          $('body').click();
+          if ($(window).width() < 640)  $('.whole-container').scrollTop(110);   
+
         }
       );
     }

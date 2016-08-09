@@ -19,11 +19,11 @@
     var _checkPermanent = true;
     var _checkShow = true;
     program.forEach(function(performance){
-      if(performance.permanent != 'true' && _checkShow) {
-         var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')
-        _searchResult.append($('<div>').append($('<h4>').append('Actuacciones ', _day)).addClass('title-program-event-page'));
-        _checkShow = false;
-      }
+      // if(performance.permanent != 'true' && _checkShow) {
+      //    var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')
+      //   _searchResult.append($('<div>').append($('<h4>').append('Actuacciones ', _day)).addClass('title-program-event-page'));
+      //   _checkShow = false;
+      // }
       if((host && performance.host_name == host) || !host){
         var _performanceCard = Pard.Widgets.ProgramCard(performance, gmap, dataSpaces);
         _performanceCard.setNumberClickCallback(function(){
@@ -40,8 +40,8 @@
           Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
         });
         if (performance.permanent == 'true' && _checkPermanent) {
-          var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')
-          var _permanentTitle = $('<div>').append($('<h4>').append('Permanentes a lo largo del día ',_day)).addClass('title-program-event-page');
+          // var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')
+          var _permanentTitle = $('<div>').append($('<h4>').append('Permanentes a lo largo del día ')).addClass('title-program-event-page');
           _checkPermanent = false;
           _searchResult.append(_permanentTitle);
         }
