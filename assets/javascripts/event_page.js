@@ -499,10 +499,10 @@
           mapTypeControl: false,
         },
         afterShow: function(index, location, marker){
-          _host = _data[index].title;
+          _host = Pard.Widgets.RemoveAccents(_data[index].title);
           var _iconNum = _data[index].order + 1;
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
-          _printProgram(_program, _data[index].title, gmap, _data);
+          _printProgram(_program, _host, gmap, _data);
         },
         afterOpenInfowindow: function(index, location, marker){
           var _iconNum = _data[index].order + 1;
