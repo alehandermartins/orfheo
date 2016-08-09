@@ -14,14 +14,10 @@
     //     Pard.PrintProgram(program, host, gmap, dataSpaces);
     //   }
     // });
-
     var _searchResult = $('#searchResult');
-    // var _searchTagsBox = $('#tagBox');
-    // var _searchWidget = $('#searchEngine');
     _searchResult.empty();
     var _checkPermanent = true;
     var _checkShow = true;
-    // var _categories = [];
     program.forEach(function(performance){
       if(performance.permanent != 'true' && _checkShow) {
          var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')
@@ -29,7 +25,6 @@
         _checkShow = false;
       }
       if((host && performance.host_name == host) || !host){
-        // if($.inArray(performance.participant_category, _categories) < 0) _categories.push(performance.participant_category);
         var _performanceCard = Pard.Widgets.ProgramCard(performance, gmap, dataSpaces);
         _performanceCard.setNumberClickCallback(function(){
           var _index;
@@ -60,6 +55,69 @@
     }
   }
 
+  Pard.PrintProgramSpaces = function(program, host, gmap, dataSpaces){
+    var _searchResult = $('#searchResult');
+    _searchResult.empty();
+
+    var _programReordered = Pard.Widgets.ReorderProgramBySpace(program);
+    var _space = '';
+    var _spaceCat = '';
+
+    var _spaceCatDictionary = {
+      home: 'Espacios Particulares',
+      commercial: 'Locales Comerciales',
+      cultural_ass: 'Asociaciones Culturales',
+      open_air: 'Espacios Exteriores'
+    }
+
+    var _catBlockObj = {};
+    ['home','cultural_ass','commercial','open_air'].forEach(function(cat){
+      var _block = $('<div>').addClass('category-block-program');
+      _catBlockObj[cat] = _block;
+      _searchResult.append(_block);
+    })
+    _programReordered.forEach(function(performance){
+      if((host && performance.host_name == host) || !host){
+        if (performance.host_category != _spaceCat || !_space){
+          _spaceCat =  performance.host_category;
+          _catBlockObj[performance.host_category].append($('<div>').append($('<h4>').append(Pard.Widgets.Dictionary(_spaceCat).render())).addClass('title-program-event-page'));
+        }
+        if (performance.host_name != _space || !_space){
+          _space =  performance.host_name;
+          _catBlockObj[performance.host_category].append($('<div>').append($('<h5>').append(_space)));
+        }
+        var _performanceCard = Pard.Widgets.ProgramCard(performance, gmap, dataSpaces);
+        _performanceCard.setNumberClickCallback(function(){
+          var _index;
+          dataSpaces.some(function(space, pos){
+            if (space.order == performance.order) {
+              _index = pos;
+              return true;
+            }
+          });
+          gmap.ViewOnMap(_index + 1);
+          if ($(window).width()>640) $('.whole-container').scrollTop(200);
+          else $('.whole-container').scrollTop(110);
+          Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
+        });
+        _catBlockObj[performance.host_category].append(_performanceCard.render());
+
+      }
+    });
+
+    if(program.length == 0) {
+      var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
+      _searchResult.append(_message);
+    }
+  }
+
+  ns.Widgets.ReorderProgramBySpace= function(program){
+    program.sort(function(show1, show2){
+      return show1.order - show2.order;
+    });
+    return program;
+  }
+
   ns.Widgets.ProgramCard = function(performance){
     // var _dictionary = {
     //   music: 'Música',
@@ -75,7 +133,8 @@
     var _time = $('<div>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
     // var _participantCatText = $('<span>').append(_dictionary[performance.participant_category]).addClass('participant-category-text');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
-    var _hostNum = $('<span>').text(performance.order).addClass('host-number-program-card');
+    var _orderNum = performance.order +1;
+    var _hostNum = $('<span>').text(_orderNum).addClass('host-number-program-card');
     var numberClickCallback;
     _hostNum.on('click',function(){
       numberClickCallback();
@@ -89,7 +148,6 @@
     else _host.addClass('host-program-card-own').attr({'href': '#'});
     var _children = '';
     if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'); 
-     // var _hostCat = $('<span>').append('('+Pard.Widgets.Dictionary(performance.host_category).render()+')').addClass('host-category-program-card');
     var _shortDescription = performance.short_description;
     
    
@@ -133,7 +191,8 @@
     var _time = $('<div>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
     // var _participantCatText = $('<span>').append(_dictionary[performance.participant_category]).addClass('participant-category-text');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
-    var _hostNum = $('<span>').text(performance.order).addClass('host-number-program-card');
+    var _orderNum = performance.order +1;
+    var _hostNum = $('<span>').text(_orderNum).addClass('host-number-program-card');
     var numberClickCallback;
     _hostNum.on('click',function(){
       numberClickCallback();

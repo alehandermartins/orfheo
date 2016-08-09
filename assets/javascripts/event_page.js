@@ -191,10 +191,33 @@
     var _program;
     var _host;
     var _searchResult = $('<div>').attr('id', 'searchResult');
-    var _searchTagsBox = $('<div>').addClass('search-input search-tag-box').attr('id', 'tagBox');
+    var _chooseOrderBox = $('<div>').addClass('choose-order-box');
 
     var _createdWidget = $('<div>');
     var _searchWidget = $('<select>').attr('id', 'searchEngine');
+
+    var _chooseOrder = $('<select>');
+    var _chooseText = $('<span>').text('Ordena por')
+    _chooseOrderBox.append(_chooseText, _chooseOrder);
+
+    var _types = ['Horario', 'Espacio' ,'Categoría artistica'];  
+    var _tagsTypes = [];
+    _types.forEach(function(type){
+      _tagsTypes.push({id: type, text:type});
+    });
+    var _printProgramDictionary = {
+      'Horario': Pard.PrintProgram,
+      'Espacio': Pard.PrintProgramSpaces,
+      'Categoría artistica': Pard.PrintProgram
+    }
+    var _printProgram = Pard.PrintProgram;
+    _chooseOrder.select2({
+      data: _tagsTypes,
+      minimumResultsForSearch: -1
+    }).on('select2:select', function(){
+      _printProgram = _printProgramDictionary[_chooseOrder.select2('data')[0].id];
+      _search();
+    });
 
     var _daySelectorContainer = $('<div>').addClass('day-selector-container-event-page');
     var _daySelector = $('<select>');
@@ -293,7 +316,7 @@
 
     _searchWidgetsContainer.append($('<div>').append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
     
-    _createdWidget.append(map, _searchWidgetsContainer, _searchTagsBox, _searchResult);
+    _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
@@ -420,6 +443,7 @@
             var hosts = [];
             var _hostIndex;
             data.program.forEach(function(performance, index){
+              var _iconNum = performance.order +1;
               if($.inArray(performance.host_proposal_id, hosts) < 0){
                 if(performance.host_name == _host) _hostIndex = _data.length + 1;
                 _data.push({
@@ -427,7 +451,7 @@
                   lon: performance.address.location.lng,
                   title: performance.host_name,
                   zoom: 16,
-                  icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + performance.order + '|FE7569|000000',
+                  icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|FE7569|000000',
                   html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>",
                   order: performance.order
                 });
@@ -436,7 +460,7 @@
             });
             gmap.SetLocations(_data, true);
             if(_hostIndex) gmap.ViewOnMap(_hostIndex);
-            Pard.PrintProgram(data.program, _host, gmap, _data);
+            _printProgram(data.program, _host, gmap, _data);
           });
           spinner.stop();
         }
@@ -456,15 +480,17 @@
         },
         afterShow: function(index, location, marker){
           _host = _data[index].title;
-          marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
-          Pard.PrintProgram(_program, _data[index].title, gmap, _data);
+          var _iconNum = _data[index].order+1;
+          marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
+          _printProgram(_program, _data[index].title, gmap, _data);
         },
         afterOpenInfowindow: function(index, location, marker){
-          marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _data[index].order + '|9933FF|000000');
+          var _iconNum = _data[index].order+1;
+          marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
         },
         afterCloseClick: function(index){
           _host = '';
-          Pard.PrintProgram(_program, '', gmap, _data);
+          _printProgram(_program, '', gmap, _data);
         }
       }).Load();
 
