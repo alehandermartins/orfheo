@@ -2250,7 +2250,7 @@ a.participant-program-card-own {
 }
 
 .x-host-number-simbol{
-  top:  -10px;
+  top:  -3px;
   right: -9px;
 }
 
@@ -2295,4 +2295,8 @@ a.participant-program-card-own {
   @include breakpoint(small down){
     margin-top: 5rem;
   }
+}
+
+.short-description-program-card{
+  margin-left: 1.5rem;
 }

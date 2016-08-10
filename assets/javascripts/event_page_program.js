@@ -197,20 +197,40 @@
     var _shortDescription = performance.short_description;
     
    
+    // if ($(window).width() > 1024){
+    //   var _titleRow = $('<div>');
+    //   var _descriptionRow = $('<div>');
+    //   _titleRow.append($('<p>').append(_title, _participant, ' / ',_host));
+    //   _descriptionRow.append($('<p>').append(_shortDescription).addClass('short-description-program-card'));
+    //   var _col1 = $('<div>').addClass('col1-program-card');
+    //   var _col2 = $('<div>').addClass('col2-program-card');
+    //   var _col3 = $('<div>').addClass('col3-program-card');
+    //   _col1.append(_time, _participantCatIcon.css({'float':'right', 'margin-right':'0.7rem'}),  _children.css({'float':'right', 'margin-right':'0.5rem'}));
+    //   _X.addClass('x-host-number-simbol')
+    //   if (host) _col2.append($('<span>').append(_hostNumX));
+    //   else _col2.append($('<span>').append(_hostNum));
+    //   _col3.append(_titleRow, _descriptionRow);
+    //   _progCard.append(_col1, _col2, _col3);
+    // }
     if ($(window).width() > 1024){
       var _titleRow = $('<div>');
       var _descriptionRow = $('<div>');
-      _titleRow.append($('<p>').append(_title, _participant, ' / ',_host));
-      _descriptionRow.append($('<p>').append(_shortDescription).addClass('short-description-program-card'));
+      var _spaceRow = $('<div>');
+      var _iconContainer = $('<div>').append($('<span>').append(_children, _participantCatIcon).css({'float':'right','margin-right':'0.7rem'})).css('height','1.6rem');
+      _titleRow.append($('<p>').append(_title, _participant.css('margin-left','0.3rem')));
+      _descriptionRow.append($('<p>').append(_shortDescription));
       var _col1 = $('<div>').addClass('col1-program-card');
-      var _col2 = $('<div>').addClass('col2-program-card');
-      var _col3 = $('<div>').addClass('col3-program-card');
-      _col1.append(_time, _participantCatIcon.css({'float':'right', 'margin-right':'0.7rem'}),  _children.css({'float':'right', 'margin-right':'0.5rem'}));
-      _X.addClass('x-host-number-simbol')
-      if (host) _col2.append($('<span>').append(_hostNumX));
-      else _col2.append($('<span>').append(_hostNum));
-      _col3.append(_titleRow, _descriptionRow);
-      _progCard.append(_col1, _col2, _col3);
+      var _col2 = $('<div>').addClass('col2-program-card').css('width','38.5rem');
+      //var _col3 = $('<div>').addClass('col3-program-card');
+      _col1.append(_time,  _iconContainer);
+      _X.addClass('x-host-number-simbol');
+       // _participantCatIcon.css({'float':'right', 'margin-right':'0.7rem'})      
+      if (host) _col1.append($('<div>').append(_hostNumX.css({'float':'right','margin-right':'1rem'})).css('height','1.6rem'));
+      else _col1.append($('<div>').append(_hostNum.css({'float':'right','margin-right':'1rem'})).css('height','1.6rem'));
+      _spaceRow.append(_host);
+      // _col3.append(_titleRow, _descriptionRow);
+      _col2.append( _titleRow, _descriptionRow, _spaceRow);
+      _progCard.append(_col1, _col2);
     }
     else{
       var _timePlaceContainer = $('<div>').append(_time.addClass('time-smallScreen-program'));
