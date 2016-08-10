@@ -45,6 +45,8 @@
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},
 
+      circle_arrow_up: {icon:'', className:'fa fa-arrow-circle-up'},
+
 
       open_call: {icon:'', className: 'fa fa-bullhorn'},
       arrow_circle_right: {icon:'', className: 'fa fa-arrow-circle-right'},

@@ -8,8 +8,6 @@
 
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
 
-    console.log(Pard.UserStatus['status'])
-
     if ($(window).width()>640){
       if (Pard.UserStatus['status'] == 'outsider') Pard.Widgets.Sticker(_createdWidget, 83, 24);
       else if (Pard.UserStatus['status'] == 'visitor') Pard.Widgets.Sticker(_createdWidget, 74, 24);
@@ -309,9 +307,19 @@
 
     var _searchWidgetsContainer = $('<div>').addClass('searchWidgetsContainer-event-page');
 
-    if ($(window).width()<1024) {
-      $(window).load(function(){_searchWidgetsContainer.css({width: $('#program-event-page').width()});})
-    }
+    var _goUpBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('circle_arrow_up').render()).addClass('goUpBtn-program-event-page');
+    _goUpBtn.hide();
+    $('body').append(_goUpBtn);
+    _goUpBtn.on('click',function(){
+      $('.whole-container').scrollTop(0);
+    })
+ 
+      $(window).load(function(){
+          if ($(window).width()<1024) {
+            _searchWidgetsContainer.css({width: $('#program-event-page').width()});
+          }
+      })
+
 
     if ($(window).width()<640){
       Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 442, 0);
@@ -319,8 +327,12 @@
         $('.whole-container').scroll(function(){
         if (_searchWidgetsContainer.hasClass('position-fixed')){
           if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
+          _goUpBtn.show();
         }
-        else _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
+        else {
+          _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
+          _goUpBtn.hide();
+        }
         });
       });
     }
@@ -330,8 +342,13 @@
         $('.whole-container').scroll(function(){
         if (_searchWidgetsContainer.hasClass('position-fixed')){
           if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
+          _goUpBtn.show();
+
         }
-        else _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
+        else{ 
+          _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
+          _goUpBtn.hide();
+        }
         });
       });
     }
