@@ -1987,7 +1987,7 @@ EVENT PAGE
 
 
 
-.program-card-container{
+.program-card-container, .programBySpace-card-container{
   @include breakpoint(large){
     width: 45rem;
   }
@@ -2002,6 +2002,9 @@ EVENT PAGE
   margin-bottom: 1.5rem;
 }
 
+.programBySpace-card-container{
+  margin-bottom: 1rem;
+}
 
 .col1-program-card, .col2-program-card, .col3-program-card{
   display: inline-block;
@@ -2042,6 +2045,12 @@ EVENT PAGE
   display: inline-block;
   width: 2.5rem;
   text-align: center;
+  margin-right: 0.6rem;
+}
+
+.hostNum-smallScreen-program img{
+  margin-bottom: -0.6rem;
+  vertical-align: 0 !important;
 }
 
 .titleHostContainer-container-event-page{
@@ -2054,7 +2063,7 @@ EVENT PAGE
   background: $grey-4;
   color: white;
   padding: 0 0.1rem;
-  margin-right: 0.2rem;
+  margin-right: 0.3rem;
 }
 
 .participant-program-card{
@@ -2120,20 +2129,20 @@ a.participant-program-card-own {
 /*   @include breakpoint(medium down){
     float: right;
   } */
-  @include breakpoint (large){
+ /*  @include breakpoint (large){
     float:right; 
     margin-right:0.7rem;
-  }
+  } */
 }
 
 
 .icon-children-program{
   font-size: 1.1rem;
   margin-bottom: -0.3rem;
-  @include breakpoint (large){
+ /*  @include breakpoint (large){
     float:right; 
     margin-right:0.5rem;
-  }
+  } */
 }
 
 
@@ -2156,6 +2165,7 @@ a.participant-program-card-own {
 }
 
 .searchWidgetsContainer-event-page{
+  z-index: 999;
   /* background:  white; */
   @include breakpoint(large){
     padding: 0 3.8rem 0 3.8rem;
@@ -2202,7 +2212,7 @@ a.participant-program-card-own {
 
 .title-program-event-page{
   margin-top: .5rem;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1.5rem; */
   color:   $grey-4;
   /* text-align: center; */
 }
@@ -2215,7 +2225,7 @@ a.participant-program-card-own {
 .filter-checkbox-event-page{
   cursor: pointer;
   margin-bottom: -0.2rem;
-  display: inline-block;
+  /* display: inline-block; */
   /* height: 1.5rem; */
 }
 
@@ -2227,11 +2237,51 @@ a.participant-program-card-own {
   margin-bottom: 0.2rem;
 }
 
-.x-host-number-simbol{
+.x-host-number-simbol, .x-host-number-simbol-small, .x-host-number-simbol-programByspace{
   font-weight: bold;
   position: absolute;
-  top: -1px;
-  right: 9px;
   font-size: .9rem;
   color: black;
 }
+
+.x-host-number-simbol-small{
+  top: -3px;
+  right: -2px;
+}
+
+.x-host-number-simbol{
+  top:  -10px;
+  right: -9px;
+}
+
+.x-host-number-simbol-programByspace{
+  top: -8px;
+  right: -9px;
+
+}
+
+.choose-order-select{
+  display: inline-block;
+  width: 10rem;
+  margin-left: 1rem;
+  vertical-align: 0.1rem;
+}
+
+.choose-order-box{
+  margin-bottom: 2rem;
+  position: relative;
+  height: 1.5rem;
+}
+
+
+.nameNum-container-program{
+  position: relative;
+  margin-bottom: 0.6rem;
+  margin-top: 1rem;
+}
+
+.space-name-title-program{
+  display: inline-block;
+  margin-left:1.5rem;
+}
+

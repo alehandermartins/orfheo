@@ -130,7 +130,7 @@
       _createdWidget.append(_categoriesLabel);
 
       Object.keys(filters[key]).forEach(function(filter){
-        var _filterContainer = $('<div>');
+        // var _filterContainer = $('<div>');
         var _input = $('<input />').attr({ type: 'checkbox'});
         _input.prop('checked', filters[key][filter]);
         _input.on('click',function(event){
@@ -146,8 +146,8 @@
         _filter.on('click',function(){
           _input.trigger('click');
         })
-        _filterContainer.append(_filter);
-        _createdWidget.append(_filterContainer);
+        // _filterContainer.append(_filter);
+        _createdWidget.append(_filter);
       });
     });
 
@@ -197,8 +197,9 @@
     var _searchWidget = $('<select>').attr('id', 'searchEngine');
 
     var _chooseOrder = $('<select>');
-    var _chooseText = $('<span>').text('Ordena por')
-    _chooseOrderBox.append(_chooseText, _chooseOrder);
+    var _chooseOrderSelect = $('<div>').append(_chooseOrder).addClass('choose-order-select');
+    var _chooseText = $('<span>').text('Ordena por');
+    _chooseOrderBox.append($('<div>').append(_chooseText, _chooseOrderSelect).css('float','right'));
 
     var _types = ['Horario', 'Espacio' ,'Categoría artistica'];  
     var _tagsTypes = [];
