@@ -2182,7 +2182,7 @@ a.participant-program-card-own {
 .searchWidgetsContainer-event-page .select2-selection.select2-selection--multiple{
    @include breakpoint (small down){
     font-size: $almostNormalSize;
-    min-height: 2rem;
+    /* min-height: 2rem; */
   }
 }
 
@@ -2285,3 +2285,14 @@ a.participant-program-card-own {
   margin-left:1.5rem;
 }
 
+.blocks-container-prograByspace{
+@include breakpoint(large){
+  margin-bottom: -1rem;}
+}
+
+.chooseOrderSelect-additional-distance{
+  margin-top: 6.2rem;
+  @include breakpoint(small down){
+    margin-top: 5rem;
+  }
+}

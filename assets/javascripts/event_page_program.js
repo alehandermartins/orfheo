@@ -48,8 +48,8 @@
   Pard.PrintProgramSpaces = function(program, host, gmap, dataSpaces){
     var _searchResult = $('#searchResult');
     _searchResult.empty();
-    var _blocksContainer = $('<div>');
-    _searchResult.append(_blocksContainer.css('margin-top','-1rem'));
+    var _blocksContainer = $('<div>').addClass('blocks-container-prograByspace');
+    _searchResult.append(_blocksContainer);
 
     var _programReordered = Pard.Widgets.ReorderProgramBySpace(program);
     var _space = '';

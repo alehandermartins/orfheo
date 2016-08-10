@@ -310,9 +310,25 @@
 
     if ($(window).width()<640){
       Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 442, 0);
+      $(window).load(function(){
+        $('.whole-container').scroll(function(){
+        if (_searchWidgetsContainer.hasClass('position-fixed')){
+          if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
+        }
+        else _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
+        });
+      });
     }
     else{
-       Pard.Widgets.Sticker(_searchWidgetsContainer, 452, -10);
+      Pard.Widgets.Sticker(_searchWidgetsContainer, 452, -10);
+      $(window).load(function(){
+        $('.whole-container').scroll(function(){
+        if (_searchWidgetsContainer.hasClass('position-fixed')){
+          if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
+        }
+        else _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
+        });
+      });
     }
 
     _searchWidgetsContainer.append($('<div>').append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));

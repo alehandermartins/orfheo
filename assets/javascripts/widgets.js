@@ -168,11 +168,11 @@
         // }
         // else{
           if (_distanceFromWindow*_diffI<0)   {
-            $(elem).css({position: 'fixed', 'top':stickyDistanceTop+'px'});
+            $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
             _diffI = -1;
           }
           if (_headerTop>_distanceFromHeader){
-              $(elem).css({'position':'', 'top':''});
+              $(elem).removeClass('position-fixed').css({'top':''});
               _diffI = +1;
           }
         // }
@@ -203,11 +203,11 @@
         if (_distanceFromWindow*_diffI<0)   {
           $('.pard-header-container').css('position','relative');
 
-          $(elem).css({position: 'fixed', 'top':stickyDistanceTop+'px'});
+          $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
           _diffI = -1;
         }
         if (_headerTop>_distanceFromHeader){
-            $(elem).css({'position':'', 'top':''});
+            $(elem).removeClass('position-fixed').css({'top':''});
             _diffI = +1;
             $('.pard-header-container').css('position','fixed')
         }
