@@ -216,7 +216,7 @@
       var _titleRow = $('<div>');
       var _descriptionRow = $('<div>');
       var _spaceRow = $('<div>');
-      var _iconContainer = $('<div>').append($('<span>').append(_children, _participantCatIcon).css({'float':'right','margin-right':'0.7rem'})).css('height','1.6rem');
+      var _iconContainer = $('<div>').append($('<span>').append(_children.css('margin-right','0.3rem'), _participantCatIcon).css({'float':'right','margin-right':'0.3rem'})).css('height','1.6rem');
       _titleRow.append($('<p>').append(_title, _participant.css('margin-left','0.3rem')));
       _descriptionRow.append($('<p>').append(_shortDescription));
       var _col1 = $('<div>').addClass('col1-program-card');
@@ -225,8 +225,8 @@
       _col1.append(_time,  _iconContainer);
       _X.addClass('x-host-number-simbol');
        // _participantCatIcon.css({'float':'right', 'margin-right':'0.7rem'})      
-      if (host) _col1.append($('<div>').append(_hostNumX.css({'float':'right','margin-right':'1rem'})).css('height','1.6rem'));
-      else _col1.append($('<div>').append(_hostNum.css({'float':'right','margin-right':'1rem'})).css('height','1.6rem'));
+      if (host) _col1.append($('<div>').append(_hostNumX.css({'float':'right','margin-right':'0.8rem'})).css('height','1.6rem'));
+      else _col1.append($('<div>').append(_hostNum.css({'float':'right','margin-right':'0.6rem'})).css('height','1.6rem'));
       _spaceRow.append(_host);
       // _col3.append(_titleRow, _descriptionRow);
       _col2.append( _titleRow, _descriptionRow, _spaceRow);

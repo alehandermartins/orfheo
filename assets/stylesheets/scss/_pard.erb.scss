@@ -255,7 +255,7 @@ Grid and Bar
   position:relative;
   width: 100%;
    @include breakpoint(small down){
-    position:fixed;
+    position:fixed !important;
     padding-right:0.6rem;
     min-height: 5rem;
     background-color: $content-background;
@@ -1640,5 +1640,5 @@ table.dataTable thead .sorting {
 
 
 .position-fixed{
-  position: fixed;
+  position: fixed !important;
 }

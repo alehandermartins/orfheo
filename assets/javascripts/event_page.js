@@ -8,7 +8,12 @@
 
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
 
-    if ($(window).width()>640) Pard.Widgets.Sticker(_createdWidget, 83, 24);
+    console.log(Pard.UserStatus['status'])
+
+    if ($(window).width()>640){
+      if (Pard.UserStatus['status'] == 'outsider') Pard.Widgets.Sticker(_createdWidget, 83, 24);
+      else if (Pard.UserStatus['status'] == 'visitor') Pard.Widgets.Sticker(_createdWidget, 74, 24);
+    }
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
     var _participants;
 
@@ -201,15 +206,15 @@
     var _chooseText = $('<span>').text('Ordena por');
     _chooseOrderBox.append($('<div>').append(_chooseText, _chooseOrderSelect).css('float','right'));
 
-    var _types = ['Horario', 'Espacio' ,'Categoría artistica'];  
+    var _types = ['Horario', 'Espacio'];  
     var _tagsTypes = [];
     _types.forEach(function(type){
       _tagsTypes.push({id: type, text:type});
     });
     var _printProgramDictionary = {
       'Horario': Pard.PrintProgram,
-      'Espacio': Pard.PrintProgramSpaces,
-      'Categoría artistica': Pard.PrintProgram
+      'Espacio': Pard.PrintProgramSpaces
+      // 'Categoría artistica': Pard.PrintProgram
     }
     var _printProgram = Pard.PrintProgram;
     _chooseOrder.select2({
