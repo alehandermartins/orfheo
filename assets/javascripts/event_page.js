@@ -510,10 +510,6 @@
         afterCloseClick: function(index){
           _host = '';
           _printProgram(_program, '', gmap, _data);
-        },
-        afterCloseInfowindow: function(index){
-          _host = '';
-          _printProgram(_program, '', gmap, _data);
         }
       }).Load();
 
