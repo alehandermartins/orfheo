@@ -313,12 +313,6 @@
     _goUpBtn.on('click',function(){
       $('.whole-container').scrollTop(0);
     })
- 
-      $(window).load(function(){
-          if ($(window).width()<1024) {
-            _searchWidgetsContainer.css({width: $('#program-event-page').width()});
-          }
-      })
 
 
     if ($(window).width()<640){
@@ -329,6 +323,9 @@
     }
 
     $(window).load(function(){
+      if ($(window).width()<1024) {
+          _searchWidgetsContainer.css({width: $('#program-event-page').width()});
+      };
       $('.whole-container').scroll(function(){
       if (_searchWidgetsContainer.hasClass('position-fixed')){
         if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
@@ -340,8 +337,10 @@
       }
       });
     });
+
+    var _sCont = $('<div>');
   
-    _searchWidgetsContainer.append($('<div>').append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
+    _searchWidgetsContainer.append(_sCont.append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
     
     _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _searchResult);
     
@@ -367,12 +366,13 @@
 
     _searchWidget.select2({
       placeholder: 'Busca por tags',
-      minimumInputLength: 2,
+      minimumInputLength: 1,
+      allowClear: true,
       ajax: {
         url: '/search/suggest_program',
         type: 'POST',
         dataType: 'json',
-        delay: 10,
+        delay: 250,
         positionDropdown: function(forceAbove){
           if (forceAbove) {
             enoughRoomAbove = false;
@@ -510,13 +510,24 @@
       _search();
     });
 
-    _searchWidget.on("select2:opening",function(){
+    _sCont.click(function(){
+      console.log('click');
+      $('.select2-selection.select2-selection--multiple').click(function(ev){
+        console.log(ev);
+        ev.preventDefault();
+        ev.stopPropagation(); 
+      });
+    });
+
+    _searchWidget.on('select2:opening',function(){
       if ($(window).width() < 640 ) {
         var _distanceInputTop = _searchWidget.offset().top;
         var _scroolTop = $('.whole-container').scrollTop();
         var _headerHeight = $('header').height();
         var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
         $('.whole-container').scrollTop(_distanceToDo);
+          // _searchWidget.select2("close");
+
       }
     });
 
