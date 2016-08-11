@@ -74,6 +74,11 @@
       _blocksContainer.append(_block);
       _spaceCatCheck[cat] = true;
     })
+
+    var _windowSize; 
+    if ($(window).width() > 1024) _windowSize = 'big';
+    else _windowSize = 'small';
+
     _programReordered.forEach(function(performance){
       if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
         if (_spaceCatCheck[performance.host_category]){
@@ -117,7 +122,7 @@
           else _spaceName.attr('href','#').css({'color':'black', 'text-decoration':'underline','cursor':'default'})
           _catBlockObj[performance.host_category].append(_nameNumCont.append(_spaceName));
           }
-        var _performanceCard = Pard.Widgets.ProgramBySpaceCard(performance, host);
+        var _performanceCard = Pard.Widgets.ProgramBySpaceCard(performance, host, _windowSize);
         _catBlockObj[performance.host_category].append(_performanceCard.render());
 
       }
@@ -136,7 +141,7 @@
     return program;
   }
 
-  ns.Widgets.ProgramBySpaceCard = function(performance, host){
+  ns.Widgets.ProgramBySpaceCard = function(performance, host, size){
     var _progCard = $('<div>').addClass('programBySpace-card-container');
     var _time = $('<span>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
 
@@ -151,7 +156,7 @@
     if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- category-icon icon-children-program'); 
     var _shortDescription = performance.short_description;
   
-    if ($(window).width() > 1024){    
+    if (size == 'big'){    
       var _row1 = $('<p>');
       var _row2 = $('<p>');
       var _iconContainer = $('<span>').append(_participantCatIcon,  _children).css('margin','0 1rem');
