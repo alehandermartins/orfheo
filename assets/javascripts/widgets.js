@@ -167,11 +167,11 @@
         //   }
         // }
         // else{
-          if (_distanceFromWindow*_diffI<0)   {
+          if (_distanceFromWindow*_diffI<0 && !($(elem).hasClass('position-fixed')))   {
             $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
             _diffI = -1;
           }
-          if (_headerTop>_distanceFromHeader){
+          if (_headerTop>_distanceFromHeader && $(elem).hasClass('position-fixed')){
               $(elem).removeClass('position-fixed').css({'top':''});
               _diffI = +1;
           }
@@ -200,16 +200,16 @@
         var _fixedPosition = stickyDistanceTop;
         var _distanceFromWindow = _windowTop -_fixedPosition;
 
-        if (_distanceFromWindow*_diffI<0)   {
-          $('.pard-header-container').css('position','relative');
+        if (_distanceFromWindow*_diffI<0 && !($(elem).hasClass('position-fixed'))){
+          $('.pard-header-container').hide();
 
           $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
           _diffI = -1;
         }
-        if (_headerTop>_distanceFromHeader){
-            $(elem).removeClass('position-fixed').css({'top':''});
-            _diffI = +1;
-            $('.pard-header-container').css('position','fixed')
+        if (_headerTop>_distanceFromHeader && $(elem).hasClass('position-fixed')){
+          $(elem).removeClass('position-fixed').css({'top':''});
+          _diffI = +1;
+          $('.pard-header-container').show();  
         }
         // if (_distanceFromWindow*_diffI-0.5*$('.pard-header-container').height()<0){
         //   console.log('FIX')

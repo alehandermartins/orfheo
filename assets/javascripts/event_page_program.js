@@ -51,7 +51,8 @@
     var _blocksContainer = $('<div>').addClass('blocks-container-prograByspace');
     _searchResult.append(_blocksContainer);
 
-    var _programReordered = Pard.Widgets.ReorderProgramBySpace(program);
+    // var _programReordered = Pard.Widgets.ReorderProgramBySpace(program);
+    var _programObj = Pard.Widgets.ReorderProgramBySpace(program);
     var _space = '';
     var _spaceCatCheck = {};
 
@@ -69,7 +70,11 @@
       _blocksContainer.append(_block);
       _spaceCatCheck[cat] = true;
     })
-    _programReordered.forEach(function(performance){
+    for (var hostSpace in _programObj){
+    var _spaceBlock = $('<div>');
+    var _showBlock = $('<div>');
+    var _permanentBlock = $('<div>');
+    Pard.Widgets.ReorderProgramCrono(_programObj[hostSpace]).forEach(function(performance){
       if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
         if (_spaceCatCheck[performance.host_category]){
           var _spaceCat =  performance.host_category;
@@ -109,14 +114,17 @@
           else _nameNumCont.append($('<span>').append(_hostNum));
           var _spaceName = $('<a>').append($('<h5>').append(_space)).addClass('space-name-title-program');
           if(performance.host_id.search('own')<0) _spaceName.attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
-          else _spaceName.attr('href','#').css({'color':'black', 'text-decoration':'underline','cursor':'default'})
-          _catBlockObj[performance.host_category].append(_nameNumCont.append(_spaceName));
-          }
+          else _spaceName.attr('href','#').css({'color':'black', 'text-decoration':'underline','cursor':'default'});
+          _spaceBlock.append(_nameNumCont.append(_spaceName));
+        }
         var _performanceCard = Pard.Widgets.ProgramBySpaceCard(performance, host);
-        _catBlockObj[performance.host_category].append(_performanceCard.render());
-
+        if (performance.permanent == 'true') _permanentBlock.append(_performanceCard.render());
+        else _showBlock.append(_performanceCard.render());
       }
     });
+    _catBlockObj[_programObj[hostSpace][0].host_category].append(_spaceBlock);
+    _spaceBlock.append(_showBlock, _permanentBlock);
+    }
 
     if(program.length == 0) {
       var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
@@ -125,10 +133,16 @@
   }
 
   ns.Widgets.ReorderProgramBySpace= function(program){
-    program.sort(function(show1, show2){
-      return show1.order - show2.order;
+    var _prObj = {};
+    program.forEach(function(performance){
+      if(!(_prObj[performance.order])) _prObj[performance.order] = [performance];
+      else _prObj[performance.order].push(performance);
     });
-    return program;
+    return _prObj;
+    // program.sort(function(show1, show2){
+    //   return show1.order - show2.order;
+    // });
+    // return program;
   }
 
   ns.Widgets.ProgramBySpaceCard = function(performance, host){
@@ -173,14 +187,14 @@
     var _time = $('<div>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
-    // var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
-    // _hostNum.addClass('host-number-program-card');
-    // var _X = $('<span>').html('&#xE888').addClass('material-icons');
-    // var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),_X).css('position','relative');
-    var _hostNum = $('<a>').attr('href','#').append( _orderNum);
+    var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
     _hostNum.addClass('host-number-program-card');
     var _X = $('<span>').html('&#xE888').addClass('material-icons');
-    var _hostNumX = $('<a>').attr('href','#').append(_orderNum,_X).css('position','relative');
+    var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),_X).css('position','relative');
+    // var _hostNum = $('<a>').attr('href','#').append( _orderNum);
+    // _hostNum.addClass('host-number-program-card');
+    // var _X = $('<span>').html('&#xE888').addClass('material-icons');
+    // var _hostNumX = $('<a>').attr('href','#').append(_orderNum,_X).css('position','relative');
     
     var numberClick1Callback;
     var numberClick2Callback;
@@ -239,7 +253,7 @@
     }
     else{
       var _timePlaceContainer = $('<div>').append(_time.addClass('time-smallScreen-program'));
-      _X.addClass('.x-host-number-simbol-small');
+      _X.addClass('x-host-number-simbol-small');
       if (host) _timePlaceContainer.append(_hostNumX.addClass('hostNum-smallScreen-program'));
       else _timePlaceContainer.append(_hostNum.addClass('hostNum-smallScreen-program'));
       _timePlaceContainer.append($('<div>').append(_participantCatIcon, _children).addClass('icons-smallScreen-program'));
