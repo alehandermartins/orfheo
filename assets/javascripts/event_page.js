@@ -82,30 +82,6 @@
     }
   }
 
-  // ns.PrintProgram = function(program, host){
-  //   var _searchResult = $('#searchResult');
-  //   var _searchTagsBox = $('#tagBox');
-  //   var _searchWidget = $('#searchEngine');
-
-  //   _searchResult.empty();
-  //   var _categories = [];
-  //   program.forEach(function(performance){
-  //     if((host && performance.host_name == host) || !host){
-  //       if($.inArray(performance.participant_category, _categories) < 0) _categories.push(performance.participant_category);
-  //       var _performanceBox = $('<div>');
-  //       var _time = moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm');
-  //       var _title = performance.title;
-  //       _performanceBox.append(_time, _title);
-  //       _searchResult.append(_performanceBox);
-  //     }
-  //   });
-
-  //   if(program.length == 0) {
-  //     var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
-  //     _searchResult.append(_message);
-  //   }
-  // }
-
   ns.Widgets.Filters = function(filters, callback){
     var _createdWidget = $('<div>');
     var _closepopup;
@@ -149,7 +125,6 @@
         _filter.on('click',function(){
           _input.trigger('click');
         })
-        // _filterContainer.append(_filter);
         _createdWidget.append(_filter);
       });
     });
@@ -212,7 +187,6 @@
     var _printProgramDictionary = {
       'Horario': Pard.PrintProgram,
       'Espacio': Pard.PrintProgramSpaces
-      // 'Categoría artistica': Pard.PrintProgram
     }
     var _printProgram = Pard.PrintProgram;
     _chooseOrder.select2({
@@ -342,7 +316,17 @@
   
     _searchWidgetsContainer.append(_sCont.append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
     
-    _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _searchResult);
+    var _allSpaces = $('<button>').html('Todos los espacios').addClass('interaction-btn-event-page');
+    _allSpaces.on('click', function(){
+      _host = '';
+      _printProgram(_program, '', gmap, _data);
+      gmap.CloseInfoWindow();
+      _allSpaces.hide();
+    });
+
+    _allSpaces.hide();
+
+    _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _allSpaces, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
@@ -421,19 +405,6 @@
       }
       // $(':focus').blur();
     });
-
-    // _searchWidget.on("select2:unselect",function(event){
-    //   if ($(window).width() < 640)  {
-    //     $('.whole-container').scrollTop(110); 
-    //   }
-    // });
-
-    // _searchWidget.on('select2:unselecting',function(){
-    //   _searchWidget.one("select2:opening",function(){
-    //     $('body').focus();
-    //   });
-    // });
-
 
     var _search = function(){
       // $('body').click()
@@ -527,7 +498,6 @@
         var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
         $('.whole-container').scrollTop(_distanceToDo);
           // _searchWidget.select2("close");
-
       }
     });
 
@@ -542,18 +512,11 @@
           var _iconNum = _data[index].order + 1;
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
           _printProgram(_program, _host, gmap, _data);
+          _allSpaces.show();
         },
         afterOpenInfowindow: function(index, location, marker){
           var _iconNum = _data[index].order + 1;
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
-        },
-        afterCloseClick: function(index){
-          _host = '';
-          _printProgram(_program, '', gmap, _data);
-        },
-        afterCloseInfowindow: function(index){
-          _host = '';
-          _printProgram(_program, '', gmap, _data);
         }
       }).Load();
 
