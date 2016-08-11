@@ -9,9 +9,14 @@
     _searchResult.empty();
     var _checkPermanent = true;
     var _checkShow = true;
+
+    var _windowSize; 
+    if ($(window).width() > 1024) _windowSize = 'big';
+    else _windowSize = 'small';
+
     program.forEach(function(performance){      
       if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
-        var _performanceCard = Pard.Widgets.ProgramCard(performance,host);
+        var _performanceCard = Pard.Widgets.ProgramCard(performance, host, _windowSize);
         _performanceCard.setNumberClickCallback(
           function(){
             var _index;
@@ -70,66 +75,73 @@
       _blocksContainer.append(_block);
       _spaceCatCheck[cat] = true;
     })
+
+    var _windowSize; 
+    if ($(window).width() > 1024) _windowSize = 'big';
+    else _windowSize = 'small';
+
     for (var hostSpace in _programObj){
-    var _spaceBlock = $('<div>');
-    var _showBlock = $('<div>');
-    var _permanentBlock = $('<div>');
-    Pard.Widgets.ReorderProgramCrono(_programObj[hostSpace]).forEach(function(performance){
-      if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
-        if (_spaceCatCheck[performance.host_category]){
-          var _spaceCat =  performance.host_category;
-          _catBlockObj[performance.host_category].append($('<div>').append($('<h4>').append(Pard.Widgets.Dictionary(_spaceCat).render())).addClass('title-program-event-page'));
-          _spaceCatCheck[performance.host_category] = false;
-        }
-        if (performance.host_name != _space || !_space){
-          _space =  performance.host_name;
-          var _orderNum = performance.order + 1;
-          var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
-          _hostNum.addClass('host-number-program-card');
-          var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol-programByspace')).css('position','relative');
-          var numberClick1Callback = function(){
-            var _index;
-            dataSpaces.some(function(space, pos){
-              if (space.order == performance.order) {
-                _index = pos;
-                return true;
-              }
+      var _spaceBlock = $('<div>');
+      var _showBlock = $('<div>');
+      var _permanentBlock = $('<div>');
+      Pard.Widgets.ReorderProgramCrono(_programObj[hostSpace]).forEach(function(performance){
+        if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
+          if (_spaceCatCheck[performance.host_category]){
+            var _spaceCat =  performance.host_category;
+            _catBlockObj[performance.host_category].append($('<div>').append($('<h4>').append(Pard.Widgets.Dictionary(_spaceCat).render())).addClass('title-program-event-page'));
+            _spaceCatCheck[performance.host_category] = false;
+          }
+          if (performance.host_name != _space || !_space){
+            _space =  performance.host_name;
+            var _orderNum = performance.order + 1;
+            var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
+            _hostNum.addClass('host-number-program-card');
+            var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol-programByspace')).css('position','relative');
+            var numberClick1Callback = function(){
+              var _index;
+              dataSpaces.some(function(space, pos){
+                if (space.order == performance.order) {
+                  _index = pos;
+                  return true;
+                }
+              });
+              gmap.ViewOnMap(_index + 1);
+              if ($(window).width()>640) $('.whole-container').scrollTop(200);
+              else $('.whole-container').scrollTop(110);
+              Pard.PrintProgramSpaces(program, dataSpaces[_index].title, gmap, dataSpaces);
+            };
+            var numberClick2Callback = function(){
+              gmap.CloseInfoWindow();
+            };
+            _hostNum.click(function(){
+              numberClick1Callback();
             });
-            gmap.ViewOnMap(_index + 1);
-            if ($(window).width()>640) $('.whole-container').scrollTop(200);
-            else $('.whole-container').scrollTop(110);
-            Pard.PrintProgramSpaces(program, dataSpaces[_index].title, gmap, dataSpaces);
-          };
-          var numberClick2Callback = function(){
-            gmap.CloseInfoWindow();
-          };
-          _hostNum.click(function(){
-            numberClick1Callback();
-          });
-          _hostNumX.click(function(){
-            numberClick2Callback();
-          })
-          var _nameNumCont = $('<div>').addClass('nameNum-container-program');
-          if (host) _nameNumCont.append($('<span>').append(_hostNumX).css('position', 'relative'));
-          else _nameNumCont.append($('<span>').append(_hostNum));
-          var _spaceName = $('<a>').append($('<h5>').append(_space)).addClass('space-name-title-program');
-          if(performance.host_id.search('own')<0) _spaceName.attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
-          else _spaceName.attr('href','#').css({'color':'black', 'text-decoration':'underline','cursor':'default'});
-          _spaceBlock.append(_nameNumCont.append(_spaceName));
-        }
-        var _performanceCard = Pard.Widgets.ProgramBySpaceCard(performance, host);
-        if (performance.permanent == 'true') _permanentBlock.append(_performanceCard.render());
-        else _showBlock.append(_performanceCard.render());
+            _hostNumX.click(function(){
+              numberClick2Callback();
+            })
+            var _nameNumCont = $('<div>').addClass('nameNum-container-program');
+            if (host) _nameNumCont.append($('<span>').append(_hostNumX).css('position', 'relative'));
+            else _nameNumCont.append($('<span>').append(_hostNum));
+            var _spaceName = $('<a>').append($('<h5>').append(_space)).addClass('space-name-title-program');
+            if(performance.host_id.search('own')<0) _spaceName.attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
+            else _spaceName.attr('href','#').css({'color':'black', 'text-decoration':'underline','cursor':'default'});
+            _spaceBlock.append(_nameNumCont.append(_spaceName));
+          }
+          var _performanceCard = Pard.Widgets.ProgramBySpaceCard(performance, host);
+          if (performance.permanent == 'true') _permanentBlock.append(_performanceCard.render());
+          else _showBlock.append(_performanceCard.render());
       }
-    });
-    _catBlockObj[_programObj[hostSpace][0].host_category].append(_spaceBlock);
-    _spaceBlock.append(_showBlock, _permanentBlock);
+      });
+
+      _catBlockObj[_programObj[hostSpace][0].host_category].append(_spaceBlock);
+      _spaceBlock.append(_showBlock, _permanentBlock);
     }
 
     if(program.length == 0) {
       var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
       _searchResult.append(_message);
     }
+
   }
 
   ns.Widgets.ReorderProgramBySpace= function(program){
@@ -145,7 +157,7 @@
     // return program;
   }
 
-  ns.Widgets.ProgramBySpaceCard = function(performance, host){
+  ns.Widgets.ProgramBySpaceCard = function(performance, host, size){
     var _progCard = $('<div>').addClass('programBySpace-card-container');
     var _time = $('<span>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
 
@@ -160,7 +172,7 @@
     if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- category-icon icon-children-program'); 
     var _shortDescription = performance.short_description;
   
-    if ($(window).width() > 1024){    
+    if (size == 'big'){    
       var _row1 = $('<p>');
       var _row2 = $('<p>');
       var _iconContainer = $('<span>').append(_participantCatIcon,  _children).css('margin','0 1rem');
@@ -181,7 +193,7 @@
     }
   }
 
-  ns.Widgets.ProgramCard = function(performance, host){
+  ns.Widgets.ProgramCard = function(performance, host, size){
 
     var _progCard = $('<div>').addClass('program-card-container');
     var _time = $('<div>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
@@ -215,23 +227,22 @@
     if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'); 
     var _shortDescription = performance.short_description;
     
-   
-    // if ($(window).width() > 1024){
-    //   var _titleRow = $('<div>');
-    //   var _descriptionRow = $('<div>');
-    //   _titleRow.append($('<p>').append(_title, _participant, ' / ',_host));
-    //   _descriptionRow.append($('<p>').append(_shortDescription).addClass('short-description-program-card'));
-    //   var _col1 = $('<div>').addClass('col1-program-card');
-    //   var _col2 = $('<div>').addClass('col2-program-card');
-    //   var _col3 = $('<div>').addClass('col3-program-card');
-    //   _col1.append(_time, _participantCatIcon.css({'float':'right', 'margin-right':'0.7rem'}),  _children.css({'float':'right', 'margin-right':'0.5rem'}));
-    //   _X.addClass('x-host-number-simbol')
-    //   if (host) _col2.append($('<span>').append(_hostNumX));
-    //   else _col2.append($('<span>').append(_hostNum));
-    //   _col3.append(_titleRow, _descriptionRow);
-    //   _progCard.append(_col1, _col2, _col3);
+    // if(size == 'big'){
+      // var _titleRow = $('<div>');
+      // var _descriptionRow = $('<div>');
+      // _titleRow.append($('<p>').append(_title, _participant, ' / ',_host));
+      // _descriptionRow.append($('<p>').append(_shortDescription).addClass('short-description-program-card'));
+      // var _col1 = $('<div>').addClass('col1-program-card');
+      // var _col2 = $('<div>').addClass('col2-program-card');
+      // var _col3 = $('<div>').addClass('col3-program-card');
+      // _col1.append(_time, _participantCatIcon.css({'float':'right', 'margin-right':'0.7rem'}),  _children.css({'float':'right', 'margin-right':'0.5rem'}));
+      // _X.addClass('x-host-number-simbol')
+      // if (host) _col2.append($('<span>').append(_hostNumX));
+      // else _col2.append($('<span>').append(_hostNum));
+      // _col3.append(_titleRow, _descriptionRow);
+      // _progCard.append(_col1, _col2, _col3);
     // }
-    if ($(window).width() > 1024){
+    if(size == 'big'){
       var _titleRow = $('<div>');
       var _descriptionRow = $('<div>');
       var _spaceRow = $('<div>');
