@@ -308,7 +308,7 @@
     var _searchWidgetsContainer = $('<div>').addClass('searchWidgetsContainer-event-page');
 
     var _goUpBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('circle_arrow_up').render()).addClass('goUpBtn-program-event-page');
-    _goUpBtn.hide();
+    _goUpBtn.addClass('hide-goUpBtn');
     $('body').append(_goUpBtn);
     _goUpBtn.on('click',function(){
       $('.whole-container').scrollTop(0);
@@ -323,36 +323,24 @@
 
     if ($(window).width()<640){
       Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 442, 0);
-      $(window).load(function(){
-        $('.whole-container').scroll(function(){
-        if (_searchWidgetsContainer.hasClass('position-fixed')){
-          if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
-          _goUpBtn.show();
-        }
-        else {
-          _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
-          _goUpBtn.hide();
-        }
-        });
-      });
     }
-    else{
+    else {
       Pard.Widgets.Sticker(_searchWidgetsContainer, 452, -10);
-      $(window).load(function(){
-        $('.whole-container').scroll(function(){
-        if (_searchWidgetsContainer.hasClass('position-fixed')){
-          if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
-          _goUpBtn.show();
-
-        }
-        else{ 
-          _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
-          _goUpBtn.hide();
-        }
-        });
-      });
     }
 
+    $(window).load(function(){
+      $('.whole-container').scroll(function(){
+      if (_searchWidgetsContainer.hasClass('position-fixed')){
+        if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
+        if (_goUpBtn.hasClass('hide-goUpBtn')) _goUpBtn.removeClass('hide-goUpBtn');
+      }
+      else {
+        if (_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')) _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
+        if (!(_goUpBtn.hasClass('hide-goUpBtn'))) _goUpBtn.addClass('hide-goUpBtn');
+      }
+      });
+    });
+  
     _searchWidgetsContainer.append($('<div>').append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
     
     _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _searchResult);
@@ -379,6 +367,7 @@
 
     _searchWidget.select2({
       placeholder: 'Busca por tags',
+      minimumInputLength: 2,
       ajax: {
         url: '/search/suggest_program',
         type: 'POST',
