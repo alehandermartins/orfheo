@@ -188,7 +188,7 @@
     var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
     var _confirmationCheck = '';
     var _confirmationCheckContainer = $('<span>').addClass('checker'); 
-    if (cardInfo.confirmed == 'true') _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
+    if (cardInfo.confirmed == 'true' || cardInfo.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
     _confirmationCheckContainer.append(_confirmationCheck);
     var _commentIcon = '';
     var _commentIconContainer = $('<span>').addClass('commentIcon'); 
@@ -338,7 +338,7 @@
     var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
     var _confirmationCheck = '';
     var _confirmationCheckContainer = $('<span>').addClass('checker'); 
-    if (cardInfo.confirmed=='true') _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
+    if (cardInfo.confirmed=='true' || cardInfo.confirmed==true) _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
     _confirmationCheckContainer.append(_confirmationCheck);
     var _commentIcon = '';
     var _commentIconContainer = $('<span>').addClass('commentIcon'); 

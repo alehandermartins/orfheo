@@ -40,6 +40,7 @@
   }
 
 
+
   ns.Widgets.ReorderProgram = function(performances){
     var _compare = function (a,b) {
       if (a.time[0] < b.time[0]) return -1;
@@ -299,6 +300,118 @@
     });
 
     return spaceProposals;
+  }
+
+  ns.Widgets.OrderSpace = function(){
+    var _createdWidget = $('<div>');
+
+    var _spaces = [];
+    Pard.Spaces.forEach(function(spa){
+      _spaces.push(spa);
+    });
+
+    var _dictionaryColor = {
+      home: 'rgb(240, 239, 179)',
+      commercial: 'rgb(196, 245, 239)',
+      open_air: 'rgb(218, 227, 251)',
+      cultural_ass: 'rgb(238, 212, 246)'
+    }
+
+    var _listSortable = $('<ul>');
+    _listSortable.sortable({
+        cursor: "move",
+      });
+    _listSortable.disableSelection();
+
+    var _printSpaceCard = function(space, index){
+      var _order = index + 1;
+      var _spaceCard = $('<li>').text(_order+'. '+space.name).addClass('ui-state-default sortable-space-card').css('background', _dictionaryColor[space.category]).attr('id', space.proposal_id);
+      return _spaceCard
+    }
+
+    _spaces.forEach(function(space, index){
+      _listSortable.append(_printSpaceCard(space, index));
+    });
+
+    var _orderButtonsContainer = $('<div>');
+
+    var _alphaBtn = Pard.Widgets.Button('A --> Z', function(){
+      _listSortable.empty();
+      _spaces.sort(function(s1, s2){
+        return s1.name.localeCompare(s2.name);
+      });
+      _spaces.forEach(function(sp, n){
+        _listSortable.append(_printSpaceCard(sp, n));
+      });
+      console.log(_spaces);
+      console.log(Pard.Spaces);
+    });
+
+    var _catOrderBtn = Pard.Widgets.Button('Categoría', function(){
+      _listSortable.empty();
+      var _catArrays = {
+        home: [],
+        cultural_ass: [],
+        commercial:[],
+        open_air:[]     
+      }
+      _spaces.forEach(function(spa){
+        _catArrays[spa.category].push(spa);
+      });
+      _spaces = [];
+      for (var cat in _catArrays){
+        _spaces = _spaces.concat(_catArrays[cat]);
+      }
+      _spaces.forEach(function(sp, n){
+        _listSortable.append(_printSpaceCard(sp, n));
+      });
+    });
+
+    var _closepopup = function(){};
+
+    var _OKbtn = Pard.Widgets.Button('OK', function(){
+      Pard.CachedCall.order =  _listSortable.sortable('toArray');
+      $('#programPanel').empty();
+      Pard.Spaces = [];
+      Pard.ShownSpaces = [];
+      Pard.Widgets.Program = [];
+      var spinner =  new Spinner().spin();
+          $.wait(
+            '', 
+            function(){
+              $('body').append(spinner.el);
+              _closepopup();
+            }, 
+            function(){
+              setTimeout(function(){
+                var _appendAndStopSpinner = function(stopSpinner){ 
+                  $('#programPanel').append(Pard.Widgets.ProgramManager().render());
+                  stopSpinner();
+                }
+                _appendAndStopSpinner(function(){
+                  spinner.stop();
+                  $('#programPanel').foundation();
+                });
+              },0)
+            }
+          );
+
+    }).render().addClass('OK-btn-reorderSpace-popup');
+
+    var _OKbtnContainer = $('<div>').addClass('OK-btn-container-popup');
+    _OKbtnContainer.append(_OKbtn);
+
+    _orderButtonsContainer.append(_alphaBtn.render(), _catOrderBtn.render());
+
+    _createdWidget.append(_orderButtonsContainer, _listSortable, _OKbtnContainer);
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closepopup = callback;      
+      }
+    }
   }
 
 }(Pard || {}));

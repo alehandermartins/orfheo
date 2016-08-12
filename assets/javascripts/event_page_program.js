@@ -4,7 +4,6 @@
 
 
   ns.PrintProgram = function(program, host, gmap, dataSpaces){
-
     var _searchResult = $('#searchResult');
     _searchResult.empty();
     var _checkPermanent = true;
@@ -55,6 +54,8 @@
     _searchResult.empty();
     var _blocksContainer = $('<div>').addClass('blocks-container-prograByspace');
     _searchResult.append(_blocksContainer);
+
+    console.log('eeee');
 
     // var _programReordered = Pard.Widgets.ReorderProgramBySpace(program);
     var _programObj = Pard.Widgets.ReorderProgramBySpace(program);

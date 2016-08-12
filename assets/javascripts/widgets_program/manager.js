@@ -6,9 +6,10 @@
     // Pard.Widgets.Program = [];
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
    
-    var call = Pard.CachedCall;
+    var call = Pard.CachedCall; 
     //Schedule of the event
     var eventTime = call.eventTime;
+    console.log(call)
     
     //Object to fill with profile_id (keys) and proposals (values)
     var artists = {};
@@ -23,17 +24,21 @@
       if(proposal.availability && proposal.availability != 'false'){
         var availability = [];
         Object.keys(proposal.availability).forEach(function(index){
-          var date = new Date(proposal.availability[index]);
-          availability.push(date.toISOString().split('T')[0]);
-        });
+          if (proposal.availability[index] != 'permanent'){
+            var date = new Date(proposal.availability[index]);
+            availability.push(date.toISOString().split('T')[0]);
+            _checkis = true;
+          }        
+         });
         proposal.availability = availability;
       }
-      else{ proposal.availability = Object.keys(eventTime);}
+      else{proposal.availability = Object.keys(eventTime);}
 
       if (proposal.type == 'artist'){
         artists[proposal.profile_id] = artists[proposal.profile_id] || [];
         artists[proposal.profile_id].push(proposal)
       };
+      
       if (proposal.type == 'space'){
         Pard.Spaces.push(proposal);
         spaceProposals.push({
@@ -42,6 +47,8 @@
         });
       }
     });
+
+    // if (spaceList) Pard.Spaces = spaceList;
 
     spaceProposals.push({
       id: 'available',
@@ -61,6 +68,7 @@
     });
 
     //Ordering spaces
+
     var _reorderSpaces = function(a, b){
       if (call.order.indexOf(a.proposal_id) < call.order.indexOf(b.proposal_id)) return -1;
       if (call.order.indexOf(a.proposal_id) > call.order.indexOf(b.proposal_id)) return 1;
@@ -352,6 +360,7 @@
       e.preventDefault();
     });
 
+    // button to see artist proposals still out of the program
     var _outOfprogramBtn = Pard.Widgets.Button('Artistas sin programación').render();
     _outOfprogramBtn.addClass('out-of-program-btn-manager');
     _outOfprogramBtn.on('click', function(){
@@ -368,6 +377,24 @@
       _content.append(_message.render());
       _popup.open();
     });
+
+    // popup to reorder Spaces
+     var _orderSpaceBtn = Pard.Widgets.Button('Ordena los espacios').render();
+    _orderSpaceBtn.addClass('out-of-program-btn-manager');
+    _orderSpaceBtn.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('Ordena Espacios', Pard.Widgets.OrderSpace());
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      }); 
+      _content.append(_message.render());
+      _popup.open();
+    });
+
 
 
     var _tableBox = $('<div>').addClass('table-box-call-manager');
@@ -567,7 +594,7 @@
     var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container');
     // var _successBox = $('<span>').attr({id:'succes-box-call-manager'});
 
-    _selectors.append(_outOfprogramBtn, _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn));
+    _selectors.append(_outOfprogramBtn, _orderSpaceBtn, _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn));
 
     //Filling the table with existing program from database
     if(call['program']){
@@ -575,11 +602,11 @@
       var scheduledPerformances = {};
       call['program'].forEach(function(performance){
         //Permanent and non permanent performances are not treated equally
-        if (performance.permanent == 'true'){
+        if (performance.permanent == 'true' || performance.permanent == true){
           permanentPerformances[performance.host_id] = permanentPerformances[performance.host_id] || [];
           permanentPerformances[performance.host_id].push(performance);
         }
-        if (performance.permanent == 'false'){
+        if (performance.permanent == 'false' || performance.permanent == false){
           Pard.Spaces.forEach(function(space, index){
             if(space.proposal_id == performance.host_proposal_id){
               //We get the part where the performances are dropped
@@ -619,8 +646,8 @@
               
               //New card
               performance.permanent = false;
-              if(performance.confirmed == 'true') performance.confirmed = true;
-              if(performance.confirmed == 'false') performance.confirmed = false;
+              if(performance.confirmed == 'true' || performance.confirmed == true) performance.confirmed = true;
+              if(performance.confirmed == 'false' || performance.confirmed==false) performance.confirmed = false;
               performance.card = Pard.Widgets.ProgramHelper(_cardInfo, performance.host_proposal_id).render();
               performance.card.css({
                 'top': position,
@@ -677,8 +704,8 @@
             }
             //All performances with the same performance_id must point to the same card
             performance.permanent = true;
-            if(performance.confirmed == 'true') performance.confirmed = true;
-            if(performance.confirmed == 'false') performance.confirmed = false;
+            if(performance.confirmed == 'true' || performance.confirmed == true) performance.confirmed = true;
+            if(performance.confirmed == 'false' ||    performance.confirmed == false) performance.confirmed = false;
             performance.time[0] = parseInt(performance.time[0]);
             performance.time[1] = parseInt(performance.time[1]);
             performance.card = newPerformance[performance.performance_id];

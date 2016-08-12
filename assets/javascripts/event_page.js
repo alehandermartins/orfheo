@@ -406,6 +406,7 @@
     });
 
     var _search = function(){
+      console.log('pinta')
       // $('body').click()
       _searchResult.empty();  
       var spinner =  new Spinner().spin();
@@ -479,9 +480,10 @@
       );
     }
 
-    _searchWidget.on('change', function(){
+    _searchWidget.on('change', function(ev){
       _host = '';
       _search();
+      ev.stopImmediatePropagation();
     });
 
     // _sCont.click(function(){

@@ -89,7 +89,7 @@
                 var _appendAndStopSpinner = function(stopSpinner){ 
                 var startTime = new Date().getTime();
 
-                 $('#programPanel').append(Pard.Widgets.ProgramManager().render());
+                  $('#programPanel').append(Pard.Widgets.ProgramManager().render());
                   stopSpinner();
                   var endTime = new Date().getTime();
       console.log((endTime - startTime) /1000);

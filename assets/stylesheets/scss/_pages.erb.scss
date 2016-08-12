@@ -1891,6 +1891,21 @@ tr.permanent-row-program-table-call-manager td{
 }
 
 
+.sortable-space-card{
+  display: inline-block;
+  width: 110px;
+  height: 80px;
+  font-size:  12px;
+  margin: 3px 3px 3px 0; 
+  padding: 1px; 
+  vertical-align: top;
+  text-align: center;
+  color: black;
+  font-weight: normal;
+  /* word-break: break-all; */
+}
+
+
 /*===============================================
 ORGANIZATION PAGE
 ================================================*/
@@ -2303,4 +2318,10 @@ a.participant-program-card-own {
 
 .hide-goUpBtn{
   display: none !important;
+}
+
+
+.OK-btn-container-popup{
+  position: relative;
+  height: 2rem;
 }
