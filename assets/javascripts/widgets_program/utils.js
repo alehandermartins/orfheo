@@ -302,7 +302,8 @@
     return spaceProposals;
   }
 
-  ns.Widgets.OrderSpace = function(){
+  ns.Widgets.OrderSpace = function(spaceSelector){
+
     var _createdWidget = $('<div>');
 
     var _spaces = [];
@@ -333,7 +334,9 @@
       _listSortable.append(_printSpaceCard(space, index));
     });
 
-    var _orderButtonsContainer = $('<div>');
+    var _orderButtonsContainer = $('<div>').addClass('order-buttons-container');
+
+    var _orderText = $('<span>').text('Ordena por:');
 
     var _alphaBtn = Pard.Widgets.Button('A --> Z', function(){
       _listSortable.empty();
@@ -343,8 +346,6 @@
       _spaces.forEach(function(sp, n){
         _listSortable.append(_printSpaceCard(sp, n));
       });
-      console.log(_spaces);
-      console.log(Pard.Spaces);
     });
 
     var _catOrderBtn = Pard.Widgets.Button('Categoría', function(){
@@ -369,12 +370,9 @@
 
     var _closepopup = function(){};
 
-    var _OKbtn = Pard.Widgets.Button('OK', function(){
+    var _OKbtn = Pard.Widgets.Button('Guarda los cambios', function(){
       Pard.CachedCall.order =  _listSortable.sortable('toArray');
       $('#programPanel').empty();
-      Pard.Spaces = [];
-      Pard.ShownSpaces = [];
-      Pard.Widgets.Program = [];
       var spinner =  new Spinner().spin();
           $.wait(
             '', 
@@ -385,6 +383,32 @@
             function(){
               setTimeout(function(){
                 var _appendAndStopSpinner = function(stopSpinner){ 
+                  var program = [];
+                  var order = [];
+                  Pard.Widgets.Program.forEach(function(performance, index){
+                    var _performance = {
+                      performance_id: performance.performance_id,
+                      participant_id: performance.participant_id,
+                      participant_proposal_id: performance.participant_proposal_id,
+                      host_id: performance.host_id,
+                      host_proposal_id: performance.host_proposal_id,
+                      date: performance.date,
+                      time: performance.time,
+                      permanent: performance.permanent,
+                      comments: performance.comments,
+                      confirmed: performance.confirmed
+                    }
+                    program.push(_performance);
+                  });
+
+                  Pard.Spaces.forEach(function(space){
+                    order.push(space.proposal_id);
+                  });
+                  Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
+                  Pard.CachedCall.program = program;
+                  Pard.Spaces = [];
+                  Pard.ShownSpaces = [];
+                  Pard.Widgets.Program = [];
                   $('#programPanel').append(Pard.Widgets.ProgramManager().render());
                   stopSpinner();
                 }
@@ -401,7 +425,7 @@
     var _OKbtnContainer = $('<div>').addClass('OK-btn-container-popup');
     _OKbtnContainer.append(_OKbtn);
 
-    _orderButtonsContainer.append(_alphaBtn.render(), _catOrderBtn.render());
+    _orderButtonsContainer.append(_catOrderBtn.render(), _alphaBtn.render(),  _orderText);
 
     _createdWidget.append(_orderButtonsContainer, _listSortable, _OKbtnContainer);
     return {
@@ -411,6 +435,81 @@
       setCallback: function(callback){
         _closepopup = callback;      
       }
+    }
+  }
+
+
+  ns.Widgets.ArtistOutOfProgramCaller = function(){
+    // button to see artist proposals still out of the program
+    var _outOfprogramBtn = $('<li>').text('Artistas sin programación');
+    // _outOfprogramBtn.addClass('out-of-program-btn-manager');
+    _outOfprogramBtn.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('Artistas fuera del programa', Pard.Widgets.ArtistOutOfProgram());
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      }); 
+      
+      _content.append(_message.render());
+      _popup.open();
+    });
+
+    return _outOfprogramBtn;
+  }
+
+      // popup to reorder Spaces
+  ns.Widgets.OrderSpaceCaller = function(){
+    var _orderSpaceBtn = $('<li>').text('Ordena Espacios');
+    // _orderSpaceBtn.addClass('order-spaces-btn-manager');
+    _orderSpaceBtn.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('Ordena Espacios', Pard.Widgets.OrderSpace());
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      }); 
+      _content.append(_message.render());
+      _popup.open();
+    });
+    return _orderSpaceBtn;
+  }
+
+
+  ns.Widgets.ToolsDropdownMenu = function(spaceSelector){     
+
+    var _menu = $('<ul>').addClass('menu');
+
+    var _artistOut = Pard.Widgets.ArtistOutOfProgramCaller();
+    var _orderSpaces = Pard.Widgets.OrderSpaceCaller();
+
+    _orderSpaces.on('click', function(){
+      spaceSelector.select2("val", "");
+      spaceSelector.trigger('select2:unselecting');
+    });
+
+    _menu.append(_artistOut,_orderSpaces);
+
+    var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
+    var _iconDropdownMenu = $('<li>').append(
+      $('<a>').attr('href','#').append(
+        Pard.Widgets.IconManager('tools').render()
+        )
+      ,_menu
+    );
+
+    _menuContainer.append(_iconDropdownMenu);
+
+    return {
+      render: function(){
+        return _menuContainer;
+      } 
     }
   }
 

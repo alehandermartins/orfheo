@@ -150,7 +150,9 @@
     _artistSelectorContainer.append(_artistSelector);
     _daySelectorContainer.append(_daySelector);
 
-    _createdWidget.append(_selectors.append(_daySelectorContainer, _spaceSelectorContainer, _showArtists));
+    var _buttonsContainer = $('<div>').addClass('buttons-container-call-manager');
+
+    _createdWidget.append(_buttonsContainer, _selectors.append(_daySelectorContainer, _spaceSelectorContainer, _showArtists));
 
     //Dayselector behaviour
     _daySelector.select2({
@@ -360,43 +362,7 @@
       e.preventDefault();
     });
 
-    // button to see artist proposals still out of the program
-    var _outOfprogramBtn = Pard.Widgets.Button('Artistas sin programación').render();
-    _outOfprogramBtn.addClass('out-of-program-btn-manager');
-    _outOfprogramBtn.on('click', function(){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent('Artistas fuera del programa', Pard.Widgets.ArtistOutOfProgram());
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      }); 
-      
-      _content.append(_message.render());
-      _popup.open();
-    });
-
-    // popup to reorder Spaces
-     var _orderSpaceBtn = Pard.Widgets.Button('Ordena los espacios').render();
-    _orderSpaceBtn.addClass('out-of-program-btn-manager');
-    _orderSpaceBtn.on('click', function(){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent('Ordena Espacios', Pard.Widgets.OrderSpace());
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      }); 
-      _content.append(_message.render());
-      _popup.open();
-    });
-
-
-
+    
     var _tableBox = $('<div>').addClass('table-box-call-manager');
 
     var _timeTable = $('<div>');
@@ -587,6 +553,7 @@
         order.push(space.proposal_id);
       });
       Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
+      Pard.CachedCall.program = program;
     }).render().addClass('submit-program-btn-call-manager');
 
     _submitBtn.append(Pard.Widgets.IconManager('save').render());
@@ -594,7 +561,12 @@
     var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container');
     // var _successBox = $('<span>').attr({id:'succes-box-call-manager'});
 
-    _selectors.append(_outOfprogramBtn, _orderSpaceBtn, _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn));
+    var _toolsContainer = $('<div>').addClass('tools-buttons-container');
+
+    _toolsContainer.append($('<span>').text('Herramientas'), Pard.Widgets.ToolsDropdownMenu(_spaceSelector).render());
+
+
+    _buttonsContainer.append(_toolsContainer, _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn));
 
     //Filling the table with existing program from database
     if(call['program']){
