@@ -4,6 +4,8 @@
 
 
   ns.PrintProgram = function(program, host, gmap, dataSpaces){
+
+    console.log('miau');
     var _searchResult = $('#searchResult');
     _searchResult.empty();
     var _checkPermanent = true;
@@ -32,6 +34,7 @@
           },
           function(){
             gmap.CloseInfoWindow();
+            Pard.PrintProgram(program, '', gmap, dataSpaces);
           });
         if (performance.permanent == 'true' && _checkPermanent) {
           // var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')

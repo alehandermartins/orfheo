@@ -168,7 +168,7 @@
     var _data = [];
     var _program;
     var _host;
-    var _searchResult = $('<div>').attr('id', 'searchResult').css('min-height','5rem');
+    var _searchResult = $('<div>').attr('id', 'searchResult');
     var _chooseOrderBox = $('<div>').addClass('choose-order-box');
 
     var _createdWidget = $('<div>');
@@ -316,17 +316,7 @@
   
     _searchWidgetsContainer.append(_sCont.append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
     
-    var _allSpaces = $('<button>').html('Todos los espacios').addClass('interaction-btn-event-page');
-    _allSpaces.on('click', function(){
-      _host = '';
-      _printProgram(_program, '', gmap, _data);
-      gmap.CloseInfoWindow();
-      _allSpaces.hide();
-    });
-
-    _allSpaces.hide();
-
-    _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _allSpaces, _searchResult);
+    _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _searchResult);
     
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
@@ -356,7 +346,7 @@
         url: '/search/suggest_program',
         type: 'POST',
         dataType: 'json',
-        delay: 100,
+        delay: 250,
         positionDropdown: function(forceAbove){
           if (forceAbove) {
             enoughRoomAbove = false;
@@ -403,79 +393,76 @@
           $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
         }
       }
+      // $(':focus').blur();
     });
 
     var _search = function(){
       console.log('pinta')
       // $('body').click()
-      _searchResult.empty();  
       var spinner =  new Spinner().spin();
       $.wait(
         '', 
         function(){
-          $('body').append(spinner.el); 
+          _searchResult.empty();  
+          _searchResult.append(spinner.el); 
         }, 
         function(){
-          setTimeout(function(){
-            var _appendAndStopSpinner = function(stopSpinner){ 
-              tags = [];
-              var _dataArray = _searchWidget.select2('data');
-              _dataArray.forEach(function(tag){
-                if(tag.icon && tag.icon == 'space') _host = tag.text;
-                tags.push(tag.text);
-              });
-              var filters = {};
-              Object.keys(_filters).forEach(function(key){
-                filters[key] = [];
-                Object.keys(_filters[key]).forEach(function(category){
-                  if(_filters[key][category] == true) filters[key].push(category);
-                });
-              });
+          tags = [];
+          var _dataArray = _searchWidget.select2('data');
+          _dataArray.forEach(function(tag){
+            if(tag.icon && tag.icon == 'space') _host = tag.text;
+            tags.push(tag.text);
+          });
+          var filters = {};
+          Object.keys(_filters).forEach(function(key){
+            filters[key] = [];
+            Object.keys(_filters[key]).forEach(function(category){
+              if(_filters[key][category] == true) filters[key].push(category);
+            });
+          });
 
-              var _day = _daySelector.val();
-              var _time;
-              if(_programNow.hasClass('active')){
-                var _date = new Date();
-                _day = '2016-10-15';
-                //_day = moment(_date).format('YYYY-MM-DD');
-                //_time = _date.getTime();
-                _time = new Date('2016', '09', '15', '18', '23', '01', '123').getTime();
+          var _day = _daySelector.val();
+          var _time;
+          if(_programNow.hasClass('active')){
+            var _date = new Date();
+            _day = '2016-10-15';
+            //_day = moment(_date).format('YYYY-MM-DD');
+            //_time = _date.getTime();
+            _time = new Date('2016', '09', '15', '18', '23', '01', '123').getTime();
+          }
+
+          Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){
+            _program = data.program;
+            _data = [];
+            var hosts = [];
+            var _hostIndex;
+            data.program.forEach(function(performance, index){
+              var _iconNum = performance.order +1;
+              if($.inArray(performance.host_proposal_id, hosts) < 0){
+                if(performance.host_name == _host) _hostIndex = _data.length + 1;
+                _data.push({
+                  lat: performance.address.location.lat,
+                  lon: performance.address.location.lng,
+                  title: performance.host_name,
+                  zoom: 16,
+                  icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|FE7569|000000',
+                  html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>",
+                  order: performance.order
+                });
+                hosts.push(performance.host_proposal_id);
               }
+            });
+            gmap.SetLocations(_data, true);
+            if(_hostIndex) gmap.ViewOnMap(_hostIndex);
+            _printProgram(data.program, _host, gmap, _data);
+          });
+          spinner.stop();
+          // $('body').focus();
+          _searchWidget.select2("close");
+          $(':focus').blur();
+          $('body').click();
+          if ($(window).width() < 640)  $('.whole-container').scrollTop(110);   
 
-              Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){
-                _program = data.program;
-                _data = [];
-                var hosts = [];
-                var _hostIndex;
-                data.program.forEach(function(performance, index){
-                  var _iconNum = performance.order +1;
-                  if($.inArray(performance.host_proposal_id, hosts) < 0){
-                    if(performance.host_name == _host) _hostIndex = _data.length + 1;
-                    _data.push({
-                      lat: performance.address.location.lat,
-                      lon: performance.address.location.lng,
-                      title: performance.host_name,
-                      zoom: 16,
-                      icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|FE7569|000000',
-                      html: "<div><b>" + performance.host_name + "</b> ("+ Pard.Widgets.Dictionary(performance.host_category).render() + " )</div> <div>"+ performance.address.route+ "</b></div>",
-                      order: performance.order
-                    });
-                    hosts.push(performance.host_proposal_id);
-                  }
-                });
-                gmap.SetLocations(_data, true);
-                if(_hostIndex) gmap.ViewOnMap(_hostIndex);
-                _printProgram(data.program, _host, gmap, _data);
-              });
-              stopSpinner();
-            }
-            _appendAndStopSpinner(function(){
-              _searchWidget.select2("close");
-              $(':focus').blur();
-              if ($(window).width() < 640)  $('.whole-container').scrollTop(110);   
-              });
-              spinner.stop();
-          },0);         
         }
       );
     }
@@ -486,14 +473,14 @@
       ev.stopImmediatePropagation();
     });
 
-    // _sCont.click(function(){
-    //   console.log('click');
-    //   $('.select2-selection.select2-selection--multiple').click(function(ev){
-    //     console.log(ev);
-    //     ev.preventDefault();
-    //     ev.stopPropagation(); 
-    //   });
-    // });
+    _sCont.click(function(){
+      console.log('click');
+      $('.select2-selection.select2-selection--multiple').click(function(ev){
+        console.log(ev);
+        ev.preventDefault();
+        ev.stopPropagation(); 
+      });
+    });
 
     _searchWidget.on('select2:opening',function(){
       if ($(window).width() < 640 ) {
@@ -502,7 +489,7 @@
         var _headerHeight = $('header').height();
         var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
         $('.whole-container').scrollTop(_distanceToDo);
-        _searchWidget.select2("close");
+          // _searchWidget.select2("close");
       }
     });
 
@@ -517,11 +504,14 @@
           var _iconNum = _data[index].order + 1;
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
           _printProgram(_program, _host, gmap, _data);
-          _allSpaces.show();
         },
         afterOpenInfowindow: function(index, location, marker){
           var _iconNum = _data[index].order + 1;
           marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
+        },
+        afterCloseClick: function(index){
+          _host = '';
+          _printProgram(_program, '', gmap, _data);
         }
       }).Load();
 
