@@ -116,6 +116,7 @@
             };
             var numberClick2Callback = function(){
               gmap.CloseInfoWindow();
+              Pard.PrintProgramSpaces(program, '', gmap, dataSpaces);
             };
             _hostNum.click(function(){
               numberClick1Callback();
