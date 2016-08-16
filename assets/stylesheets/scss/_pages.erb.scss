@@ -759,8 +759,8 @@ Profile Section
 
 .information-bio{
   @include breakpoint(large){
-    width: 60%;
-    padding: 0 $inner-spacing 0 0;
+    width: 100%; 
+    padding: 0;
   }
   p{
     font-size: $almostNormalSize;
@@ -769,8 +769,11 @@ Profile Section
 
 .information-contact{
   @include breakpoint(large){
-    width: 40%;
-     padding: 0 0 0 $inner-spacing;
+    width: 18rem;
+    padding: 0 0 $inner-spacing 1.5rem;
+    float: right;
+    right: 0;
+    position: relative;
   }
 }
 
@@ -2056,7 +2059,7 @@ EVENT PAGE
 
 
 
-.program-card-container, .programBySpace-card-container{
+.program-card-container, .programBySpace-card-container, .program-card-container-profile{
   @include breakpoint(large){
     width: 45rem;
   }
@@ -2072,6 +2075,10 @@ EVENT PAGE
 }
 
 .programBySpace-card-container{
+  margin-bottom: 1rem;
+}
+
+.program-card-container-profile{
   margin-bottom: 1rem;
 }
 
@@ -2378,4 +2385,32 @@ a.participant-program-card-own {
 .OK-btn-container-popup{
   position: relative;
   height: 2rem;
+}
+
+@media only screen and #{breakpoint(large)} { 
+
+.col2-program-card-profile, .col1-program-card-profile{
+  display: inline-block;
+  vertical-align: top;
+}
+
+.col1-program-card-profile{
+  width: 10rem;
+}
+
+.col2-program-card-profile{
+  width: 35rem;
+}
+}
+
+.descriptionRow-profile-programCard p{
+  @include breakpoint(medium down){
+    display: inline;
+  }
+}
+
+.title-day-profile-programCard{
+  margin-top: .5rem;
+  margin-bottom: 1rem;
+  color:  $grey-4;
 }

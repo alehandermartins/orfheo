@@ -29,6 +29,10 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
+    if (profile.program){ 
+      _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program, profile.type));
+    }
+
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
        
@@ -63,7 +67,9 @@
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     }
   
-    _infoContentBox.append(_bio, _contact);
+    $('body').append(_contact);
+    _infoContentBox.css('min-height',_contact.height()+24)
+    _infoContentBox.append(_bio.prepend(_contact));
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 

@@ -58,9 +58,6 @@
     var _blocksContainer = $('<div>').addClass('blocks-container-prograByspace');
     _searchResult.append(_blocksContainer);
 
-    console.log('eeee');
-
-    // var _programReordered = Pard.Widgets.ReorderProgramBySpace(program);
     var _programObj = Pard.Widgets.ReorderProgramBySpace(program);
     var _space = '';
     var _spaceCatCheck = {};
@@ -231,22 +228,7 @@
     var _children = $('<span>');
     if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'); 
     var _shortDescription = performance.short_description;
-    
-    // if(size == 'big'){
-      // var _titleRow = $('<div>');
-      // var _descriptionRow = $('<div>');
-      // _titleRow.append($('<p>').append(_title, _participant, ' / ',_host));
-      // _descriptionRow.append($('<p>').append(_shortDescription).addClass('short-description-program-card'));
-      // var _col1 = $('<div>').addClass('col1-program-card');
-      // var _col2 = $('<div>').addClass('col2-program-card');
-      // var _col3 = $('<div>').addClass('col3-program-card');
-      // _col1.append(_time, _participantCatIcon.css({'float':'right', 'margin-right':'0.7rem'}),  _children.css({'float':'right', 'margin-right':'0.5rem'}));
-      // _X.addClass('x-host-number-simbol')
-      // if (host) _col2.append($('<span>').append(_hostNumX));
-      // else _col2.append($('<span>').append(_hostNum));
-      // _col3.append(_titleRow, _descriptionRow);
-      // _progCard.append(_col1, _col2, _col3);
-    // }
+
     if(size == 'big'){
       var _titleRow = $('<div>');
       var _descriptionRow = $('<div>');
@@ -289,23 +271,80 @@
     }
   }
 
+  ns.Widgets.ProgramProfile = function(program, type){
+    var _programBoxContainer = Pard.Widgets.SectionBoxContainer('Programación Benimaclet conFusión festival 2016', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _programContent = $('<div>').addClass('box-content');
+    var _day;
+    var _permanentBlock;
+    var _showBlock;
+    Pard.Widgets.ReorderProgramCrono(program).forEach(function(performance){
+      if (!(_day) || _day != moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM')) {
+        _dayBlock = $('<div>');
+        _showBlock = $('<div>');
+        _permanentBlock = $('<div>');
+        _day = moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM');
+        var _dayTitle = $('<h6>').append(_day).addClass('title-day-profile-programCard').css({'text-transform': 'capitalize'});
+        _dayBlock.append(_dayTitle);
+        _dayBlock.append(_showBlock,_permanentBlock)
+      }
+      if (performance.permanent == 'false') _showBlock.append(Pard.Widgets.ProgramCardProfile(performance,type).render());
+      else if (performance.permanent == 'true') _permanentBlock.append(Pard.Widgets.ProgramCardProfile(performance,type).render());        
+      _programContent.append(_dayBlock);
+    });
+    _programBoxContainer.append(_programContent);
+
+    return _programBoxContainer;
+
+      // VERSION WITH PERMANENT BLOCK SEPARETED
+     // var _programBoxContainer = Pard.Widgets.SectionBoxContainer('Programación Benimaclet conFusión festival 2016', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+     //  var _programContent = $('<div>').addClass('box-content');
+     //  var _day;
+     //  var _permanetDay;
+     //  var _showBlock = $('<div>');
+     //  var _permanentBlock = $('<div>');
+     //  var _permanentObj = {};
+     //  var _permanentByDay = {};
+     //  Pard.Widgets.ReorderProgramCrono(profile.program).forEach(function(performance){
+     //    if( performance.permanent == 'false'){
+     //      if (!(_day) || _day != moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM')) {
+     //        _day = moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM');
+     //        var _dayTitle = $('<h6>').append(_day).addClass('title-day-profile-programCard').css({'text-transform': 'capitalize'});
+     //        _showBlock.append(_dayTitle);
+     //      }
+     //      _showBlock.append(Pard.Widgets.ProgramCardProfile(performance, type).render());
+     //    }
+     //    else if (performance.permanent == 'true'){
+     //      if (_permanentObj[performance.participant_proposal_id]) _permanentObj[performance.participant_proposal_id].push(performance);
+     //      else _permanentObj[performance.participant_proposal_id] = [performance]; 
+     //    }
+     //  });
+     //  for (var proposal in _permanentObj){
+     //    var _days = ''; 
+     //    _permanentObj[proposal].forEach(function(expo, index){
+     //      if (index == _permanentObj[proposal].length -1 ) _days = _days +'y '+ moment(expo.time[0], 'x').locale('es').format('dddd DD MMMM');
+     //      else _days = _days + moment(expo.time[0], 'x').locale('es').format('dddd DD')+' ' ;
+     //    })
+     //    if (_permanentByDay[_days])  _permanentByDay[_days].push(_permanentObj[proposal][0])
+     //    else _permanentByDay[_days] = [(_permanentObj[proposal][0])];
+     //  }
+     //  for (var days in _permanentByDay){
+     //    _permanentBlock.append($('<h6>').append('Permanentes ', days).addClass('title-day-profile-programCard'));
+     //    _permanentByDay[days].forEach(function(permanentShow){
+     //      _permanentBlock.append(Pard.Widgets.ProgramCardProfile(permanentShow).render());
+     //    })
+     //  }
+     //  _programContent.append(_showBlock,_permanentBlock);
+     //  _programBoxContainer.append(_programContent);
+
+  }
+
   ns.Widgets.ProgramCardProfile = function(performance, type){
 
-    var _progCard = $('<div>').addClass('program-card-container');
-    var _time = $('<div>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
+    var _progCard = $('<div>').addClass('program-card-container-profile');
+    var _time = $('<div>').append(moment(performance.time[0], 'x').locale('es').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm')).css('text-transform','capitalize');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
-    var _hostNum = $('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000');
-    _hostNum.addClass('host-number-program-card');
-    var numberClick1Callback;
-    var numberClick2Callback;
-    _hostNum.toggle(
-      function(){
-        numberClick1Callback();
-      },
-      function(){
-        numberClick2Callback();
-      });
+    
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
     var _participant = $('<a>').text(performance.participant_name);
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
@@ -313,40 +352,33 @@
     var _host = $('<a>').text(performance.host_name);
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
     else _host.addClass('host-program-card-own').attr({'href': '#'});
+    var _participant = $('<a>').text(performance.participant_name);
+    if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
+    else _participant.addClass('participant-program-card-own').attr({'href': '#'});
     var _children = '';
-    if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'); 
+    if (performance.children == 'true') _children = $('<div>').append(Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'), 'Infantil'); 
     var _shortDescription = performance.short_description;
-    
-   
-    // if ($(window).width() > 1024){
-      var _titleRow = $('<div>');
-      var _hostRow = $('<div>');
-      var _descriptionRow = $('<div>');
-      _hostRow.append($('<p>').append(_hostNum,_host));
-      _titleRow.append(_title);
-      _descriptionRow.append($('<p>').append(_shortDescription).addClass('short-description-program-card'));
-      var _col1 = $('<div>').addClass('col1-program-card-profile');
-      // var _col2 = $('<div>').addClass('col2-program-card');
-      var _col2 = $('<div>').addClass('col2-program-card-profile');
-      _col1.append(_time);
-      _col2.append(_hostRow, _titleRow, _descriptionRow);
-      // _col3.append();
-      _progCard.append(_col1, _col2);
-    // }
-    // else{
-      // var _timePlaceContainer = $('<div>').append(_time.addClass('time-smallScreen-program'), _hostNum.addClass('hostNum-smallScreen-program'), $('<div>').append(_participantCatIcon, _children).addClass('icons-smallScreen-program'));
-      // var _titleHostContainer = $('<div>').append(_title, ' ',_participant,  ' / ', _host);
-      // _progCard.append(_timePlaceContainer,_titleHostContainer , _shortDescription);
-    // }
+      
+    var _titleRow = $('<div>');
+    var _descriptionRow = $('<div>').addClass('descriptionRow-profile-programCard');
+    var _hostRow = $('<div>');
+    var _participantRow = $('<div>');
+    _titleRow.append(_time, _participantCatIcon, Pard.Widgets.Dictionary(performance.participant_category).render(), _children);      
+    _descriptionRow.append($('<p>').append( _title), $('<p>').append(_shortDescription).addClass('short-description-program-card'));      
+    _hostRow.append($('<p>').append(Pard.Widgets.IconManager('space').render().addClass('participant-category-icon'), _host));
+    _participantRow.append($('<p>').append(Pard.Widgets.IconManager('artist').render().addClass('participant-category-icon'), _participant));
+    var _col1 = $('<div>').addClass('col1-program-card-profile');
+    var _col2 = $('<div>').addClass('col2-program-card-profile');
+    _col1.append(_titleRow);
+    _col2.append(_descriptionRow);
+    _progCard.append(_col1, _col2);
+    if(type == 'artist') _progCard.append(_hostRow);
+    else if(type == 'space') _progCard.append(_participantRow);
 
 
     return {
       render: function(){
         return _progCard;
-      },
-      setNumberClickCallback: function(callback1, callback2){
-        numberClick1Callback = callback1;
-        numberClick2Callback = callback2;
       }
     }
   }

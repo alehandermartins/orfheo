@@ -31,16 +31,9 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-    // if (profile.program){
-    //   var _programBoxContainer = Pard.Widgets.SectionBoxContainer('Programación Benimaclet conFusión festival 2016', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
-    //   var _programContent = $('<div>').addClass('box-content');
-    //   profile.program.forEach(function(performance){
-    //     _programContent.append(Pard.Widgets.ProgramCardProfile(performance).render());
-    //   });
-    //   _programBoxContainer.append(_programContent);
-    //   _createdWidget.append(_programBoxContainer);
-    // }
-
+    if (profile.program && profile.program.length){
+      _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program,profile.type));
+    }
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
@@ -51,12 +44,13 @@
     
     
     var _contact = $('<div>').addClass('information-contact');
-    var _bio = $('<div>').addClass('information-bio')
-
-
-    if(profile['bio']){ 
+    var _bio = $('<div>').addClass('information-bio');  
+    if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
-    }  
+    }
+    else{
+      _bio.append('');
+    }
 
     var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['type']).render()));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
@@ -74,7 +68,9 @@
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     };
 
-    _infoContentBox.append(_bio, _contact);
+    $('body').append(_contact);
+    _infoContentBox.css('min-height',_contact.height()+24)
+    _infoContentBox.append(_bio.prepend(_contact));
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
@@ -185,7 +181,9 @@
       _addtionalInfo.append(_childrenIcon, _children);
     }
     
-    _infoContentBox.append(_info, _addtionalInfo);
+    $('body').append(_addtionalInfo);
+    _infoContentBox.css('min-height',_addtionalInfo.height()+24)
+    _infoContentBox.append(_info.prepend(_addtionalInfo));
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
