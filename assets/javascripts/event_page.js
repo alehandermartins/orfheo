@@ -342,13 +342,13 @@
     _searchWidget.select2({
       placeholder: 'Busca por tags',
       minimumInputLength: 1,
-      minimumResultsForSearch: -1,
+      minimumResultsForSearch: 1,
       // allowClear: true,
       ajax: {
         url: '/search/suggest_program',
         type: 'POST',
         dataType: 'json',
-        delay: 250,
+        delay: 100,
         positionDropdown: function(forceAbove){
           if (forceAbove) {
             enoughRoomAbove = false;
