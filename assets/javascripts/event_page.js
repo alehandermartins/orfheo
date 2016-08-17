@@ -284,7 +284,7 @@
 
     var _goUpBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('circle_arrow_up').render()).addClass('goUpBtn-program-event-page');
     _goUpBtn.addClass('hide-goUpBtn');
-    // $('body').append(_goUpBtn);
+    $('body').append(_goUpBtn);
     _goUpBtn.on('click',function(){
       $('.whole-container').scrollTop(0);
     })
@@ -387,7 +387,7 @@
       },
       multiple: true,
       tags: true,
-      tokenSeparators: [';', '\n', '\t'],   
+      // tokenSeparators: [';', '\n', '\t'],   
       templateResult: formatResource
     }).on("select2:select", function(e) {
       if(_searchWidget.select2('data') != false){
