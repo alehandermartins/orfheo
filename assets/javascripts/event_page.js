@@ -284,7 +284,7 @@
 
     var _goUpBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('circle_arrow_up').render()).addClass('goUpBtn-program-event-page');
     _goUpBtn.addClass('hide-goUpBtn');
-    $('body').append(_goUpBtn);
+    // $('body').append(_goUpBtn);
     _goUpBtn.on('click',function(){
       $('.whole-container').scrollTop(0);
     })
