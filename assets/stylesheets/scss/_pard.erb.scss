@@ -761,10 +761,17 @@ button{
 
 a.toEventPageBtn-profile-page{
   @extend .pard-btn;
-  font-size: $almostNormalSize;
   color: white;
+  font-size: $smallSize;
+  padding: 0.2rem 0.8rem;
   float: right;
-  padding: 0.2rem 1rem;
+  @include breakpoint(large){
+    font-size: $almostNormalSize;
+    padding: 0.2rem 1rem;
+  }
+  @include breakpoint(small down){
+    margin-bottom: 1rem;
+  }
 }
 
 /*===============================================

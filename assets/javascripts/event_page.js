@@ -192,9 +192,10 @@
     _chooseOrder.select2({
       data: _tagsTypes,
       minimumResultsForSearch: -1
-    }).on('select2:select', function(){
-      _printProgram = _printProgramDictionary[_chooseOrder.select2('data')[0].id];
-      _search();
+    }).on('change', function(){
+        _searchResult.empty();  
+        _printProgram = _printProgramDictionary[_chooseOrder.select2('data')[0].id];
+        _search();
     });
 
     var _daySelectorContainer = $('<div>').addClass('day-selector-container-event-page');
@@ -341,7 +342,8 @@
     _searchWidget.select2({
       placeholder: 'Busca por tags',
       minimumInputLength: 1,
-      allowClear: true,
+      minimumResultsForSearch: -1,
+      // allowClear: true,
       ajax: {
         url: '/search/suggest_program',
         type: 'POST',
@@ -386,7 +388,7 @@
       multiple: true,
       tags: true,
       tokenSeparators: [';', '\n', '\t'],   
-      templateResult: formatResource,
+      templateResult: formatResource
     }).on("select2:select", function(e) {
       if(_searchWidget.select2('data') != false){
         if(e.params.data.isNew){
@@ -397,8 +399,6 @@
     });
 
     var _search = function(){
-      console.log('pinta')
-      // $('body').click()
       var spinner =  new Spinner().spin();
       $.wait(
         '', 
@@ -407,7 +407,7 @@
           _searchResult.append(spinner.el); 
         }, 
         function(){
-          tags = [];
+          var tags = [];
           var _dataArray = _searchWidget.select2('data');
           _dataArray.forEach(function(tag){
             if(tag.icon && tag.icon == 'space') _host = tag.text;
@@ -473,14 +473,6 @@
       ev.stopImmediatePropagation();
     });
 
-    _sCont.click(function(){
-      console.log('click');
-      $('.select2-selection.select2-selection--multiple').click(function(ev){
-        console.log(ev);
-        ev.preventDefault();
-        ev.stopPropagation(); 
-      });
-    });
 
     _searchWidget.on('select2:opening',function(){
       if ($(window).width() < 640 ) {
@@ -489,7 +481,6 @@
         var _headerHeight = $('header').height();
         var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
         $('.whole-container').scrollTop(_distanceToDo);
-          // _searchWidget.select2("close");
       }
     });
 

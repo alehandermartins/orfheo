@@ -350,14 +350,11 @@
     var _orderNum = performance.order +1;
     
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
-    var _participant = $('<a>').text(performance.participant_name);
-    if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
-    else _participant.addClass('participant-program-card-own').attr({'href': '#'});
     var _host = $('<a>').text(performance.host_name);
-    if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
+    if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id});
     else _host.addClass('host-program-card-own').attr({'href': '#'});
     var _participant = $('<a>').text(performance.participant_name);
-    if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
+    if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id});
     else _participant.addClass('participant-program-card-own').attr({'href': '#'});
     var _children = '';
     if (performance.children == 'true') _children = $('<div>').append(Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'), 'Infantil'); 
