@@ -758,6 +758,15 @@ button{
   right: 0;
 }
 
+
+a.toEventPageBtn-profile-page{
+  @extend .pard-btn;
+  font-size: $almostNormalSize;
+  color: white;
+  float: right;
+  padding: 0.2rem 1rem;
+}
+
 /*===============================================
 COMPONENTS
 ================================================*/

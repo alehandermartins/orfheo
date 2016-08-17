@@ -272,7 +272,11 @@
   }
 
   ns.Widgets.ProgramProfile = function(program, type){
-    var _programBoxContainer = Pard.Widgets.SectionBoxContainer('Programación Benimaclet conFusión festival 2016', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _programBoxContainer = $('<div>').addClass('section-box-container');
+    var _toEventPageBtn = $('<a>').text('Programación general').attr('href','/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6').addClass('toEventPageBtn-profile-page');
+    var _titleContainer = $('<div>').addClass('title-box-container');
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Programación Benimaclet conFusión festival 2016'), _toEventPageBtn));
+    _programBoxContainer.append(_titleContainer);
     var _programContent = $('<div>').addClass('box-content');
     var _day;
     var _permanentBlock;
