@@ -529,16 +529,16 @@
       var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
 
       _message.setCallback(function(){
-        // if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
-        // else _filtersButton.removeClass('active');
-        // _content.remove();
-        // _popup.close();
-        // _search();
+        if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
+        else _filtersButton.removeClass('active');
+        _content.remove();
+        _popup.close();
+        _search();
       });
       _content.append(_message.render());
-      // _popup.open();
+      _popup.open();
       _content.remove();
-      // _popup.close();
+      _popup.close();
       _search();
     });
 
