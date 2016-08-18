@@ -5,7 +5,6 @@
 
   ns.PrintProgram = function(program, host, gmap, dataSpaces){
 
-    console.log('miau');
     var _searchResult = $('#searchResult');
     _searchResult.empty();
     var _checkPermanent = true;

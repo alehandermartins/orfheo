@@ -83,6 +83,7 @@
   }
 
   ns.Widgets.Filters = function(filters, callback){
+    console.log('Widgets.Filters')
     var _createdWidget = $('<div>');
     var _closepopup;
 
@@ -137,6 +138,7 @@
         _closepopup = callback;
       },
       checkFilterOn: function(){
+        console.log('checkFilterOn');
         var _checks = [];
         Object.keys(filters).forEach(function(key){
           Object.keys(filters[key]).forEach(function(filter){
@@ -255,6 +257,8 @@
 
     var _filtersButton = $('<button>').html('Filtros').addClass('interaction-btn-event-page');
 
+    var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
+
     _filtersButton.on('click', function(){
       var _content = $('<div>').addClass('very-fast reveal full');
       _content.empty();
@@ -339,6 +343,7 @@
       return _label;
     };
 
+
     _searchWidget.select2({
       placeholder: 'Busca por tags',
       minimumInputLength: 1,
@@ -356,6 +361,7 @@
           }
         },
         data: function (params) {
+          console.log('data')
           var _query = [];
           _searchWidget.select2('data').forEach(function(element){
             _query.push(element.id);
@@ -376,6 +382,7 @@
           };
         },
         processResults: function (data, params) {
+          console.log('processResults');
           params.page = params.page || 1;
           return {
             results: data.items,
@@ -400,6 +407,7 @@
 
     var _search = function(){
       var spinner =  new Spinner().spin();
+      console.log('search')
       $.wait(
         '', 
         function(){
@@ -468,6 +476,7 @@
     }
 
     _searchWidget.on('change', function(ev){
+      console.log('searchWidget_change');
       _host = '';
       _search();
       ev.stopImmediatePropagation();
@@ -510,6 +519,7 @@
       if($.inArray(_firstDate, eventDates) >= 0){
         _daySelector.val(_firstDate);
       }
+      _filtersWidgets.checkFilterOn();
       _daySelector.trigger('change');
     });
 
