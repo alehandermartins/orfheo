@@ -491,6 +491,8 @@
       }
     });
 
+    var _filtersWidgets; 
+
     $(document).ready(function(){
       gmap = new Maplace({
         locations: _data,
@@ -517,7 +519,7 @@
       if($.inArray(_firstDate, eventDates) >= 0){
         _daySelector.val(_firstDate);
       }
-      var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
+      _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
       _filtersWidgets.checkFilterOn();
       _search();
     });
