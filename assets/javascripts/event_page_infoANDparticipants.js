@@ -46,15 +46,84 @@
     var _textContainer = $('<div>').addClass('textContainer-infoTab-event-page');
     var _baseline = $('<p>').text('Festival gratuito de expresión libre').addClass('baseline-infoTab-event-page');
     var _text = $('<p>').text('Bla bla bla...');
-    _textContainer.append(_baseline, _text)
+    _textContainer.append(_baseline, _text);
 
-    _createdWidget.append(_header, _textContainer);
+    var _partnersContainer = $('<div>');
+    // var _sponsor = $('<div>');
+    var _collaborators = $('<div>');
+    var _collaboratorsTitle = $('<h4>').text('Colabora:').addClass('title-program-event-page');
+    _collaborators.append(_collaboratorsTitle);
+    var _collaboratorsArray = [
+    {
+      name: 'Laboratorio de Fabricación',
+      link: 'http://laboratoriodefabricacion.com/',
+      img: 'laboratorio_de_fabricacion_oxx5cp'
+    },
+    {
+      name: 'Associació de Veïns i Veïnes de Benimaclet',
+      link: 'https://avvbenimaclet.wordpress.com/',
+      img: 'Asociacion_vecinos_squareLogo_vqxp2t'
+    },
+    {
+      name: 'Chernoville',
+      link: 'https://www.facebook.com/ChernovilleStudios/?hc_ref=SEARCH&fref=nf',
+      img: 'LOGO_Chernoville_gonlbe'
+    },
+    {
+      name: '4b',
+      link: 'https://www.facebook.com/benimaclet4b/?fref=ts',
+      img: 'logo_4b_f57juv'
+    },
+    {
+      name: 'Goatxa',
+      link: 'http://www.goatxa.es/',
+      img: 'Goatxa_logo_d3fnyt'
+    },
+    {
+      name: 'Coprint',
+      link: 'http://coprint.com/',
+      img: 'coprint_zst4xw'
+    },
+    {
+      name: 'Benimaclet Entra',
+      link: 'http://benimacletentra.org/',
+      img: 'BE_bouuxi'
+    },
+    {
+      name: 'Caixa Fosca',
+      link: 'http://www.caixafosca.com/',
+      img: 'caixa_fosca_logo_ww7haj'
+    }
+    ];
+    _collaboratorsArray.forEach(function(collaborator){
+      _collaborators.append(Pard.Widgets.PartnerCard(collaborator));
+    });
+
+    _partnersContainer.append(_collaborators);
+    _createdWidget.append(_header, _textContainer, _partnersContainer);
 
     return{
       render: function(){
         return _createdWidget;
       }
     } 
+  }
+
+  ns.Widgets.PartnerCard = function(partner){
+    var _partnerCard = $('<div>').addClass('partnerCard-event-page');
+    var _image = $('<div>').addClass('partnerImage-event-page');
+    var _logo = $('<a>').append($.cloudinary.image(partner.img,{ format: 'png', width: 170 , effect: 'saturation:50' }));
+    _image.append(_logo);
+    if (partner.link) {
+      var _name = $('<div>').append($('<p>').append($('<a>').text(partner.name).attr({'href': partner.link, 'target':'_blank'})).addClass('partnerName-event-page'));
+      _logo.attr({'href': partner.link, 'target':'_blank'});
+    }
+    else {
+      var _name = $('<div>').append($('<p>').text(partner.name).addClass('partnerName-event-page'));
+      _logo.attr({'href': '#', 'target':'_blank'}).css('cursor','default');
+    }
+    _partnerCard.append(_image, _name);
+    return _partnerCard;
   }
 
 

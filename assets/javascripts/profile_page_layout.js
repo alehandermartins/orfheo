@@ -104,7 +104,7 @@
       _buttonContainer.append(_innerContainer).addClass('outer-signupButton-container-Outsider');
     }
     else{      
-      var _toUserPageBtn = Pard.Widgets.Button('Inicio', function(){
+      var _toUserPageBtn = Pard.Widgets.Button('Página de usuario', function(){
       location.href = /users/});      
       _toUserPageBtn.setClass('toUserPage-btn');
       _buttonContainer.append(_toUserPageBtn.render());

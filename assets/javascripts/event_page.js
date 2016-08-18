@@ -20,7 +20,6 @@
 
     _program.click(function(){
       if(_participants) _participants.deactivate();
-      _participants.deactivate();
       _contentShowHide('program-event-page');
       $(this).addClass('aside-event-nav-btn-selected');
     });
@@ -83,7 +82,6 @@
   }
 
   ns.Widgets.Filters = function(filters, callback){
-    console.log('Widgets.Filters')
     var _createdWidget = $('<div>');
     var _closepopup;
 
@@ -138,7 +136,6 @@
         _closepopup = callback;
       },
       checkFilterOn: function(){
-        console.log('checkFilterOn');
         var _checks = [];
         Object.keys(filters).forEach(function(key){
           Object.keys(filters[key]).forEach(function(filter){
@@ -359,7 +356,6 @@
           }
         },
         data: function (params) {
-          console.log('data')
           var _query = [];
           _searchWidget.select2('data').forEach(function(element){
             _query.push(element.id);
@@ -380,7 +376,6 @@
           };
         },
         processResults: function (data, params) {
-          console.log('processResults');
           params.page = params.page || 1;
           return {
             results: data.items,
@@ -405,7 +400,6 @@
 
     var _search = function(){
       var spinner =  new Spinner().spin();
-      console.log('search')
       $.wait(
         '', 
         function(){
@@ -463,7 +457,6 @@
             _printProgram(data.program, _host, gmap, _data);
           });
           spinner.stop();
-          // $('body').focus();
           _searchWidget.select2("close");
           $(':focus').blur();
           $('body').click();
@@ -474,7 +467,6 @@
     }
 
     _searchWidget.on('change', function(ev){
-      console.log('searchWidget_change');
       _host = '';
       _search();
       ev.stopImmediatePropagation();
@@ -491,7 +483,6 @@
       }
     });
 
-    // var _filtersWidgets; 
 
     $(document).ready(function(){
       gmap = new Maplace({
@@ -523,11 +514,9 @@
       var _content = $('<div>').addClass('very-fast reveal full');
       _content.empty();
       $('body').append(_content);
-
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
       var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
       var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
-
       _message.setCallback(function(){
         if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
         else _filtersButton.removeClass('active');
