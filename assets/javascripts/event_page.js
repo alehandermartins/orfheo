@@ -257,15 +257,13 @@
 
     var _filtersButton = $('<button>').html('Filtros').addClass('interaction-btn-event-page');
 
-    var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
-
     _filtersButton.on('click', function(){
       var _content = $('<div>').addClass('very-fast reveal full');
       _content.empty();
       $('body').append(_content);
 
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
+      _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
       var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
 
       _message.setCallback(function(){
@@ -519,8 +517,9 @@
       if($.inArray(_firstDate, eventDates) >= 0){
         _daySelector.val(_firstDate);
       }
+      var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
       _filtersWidgets.checkFilterOn();
-      _daySelector.trigger('change');
+      _search();
     });
 
     return{
