@@ -521,7 +521,6 @@
       }
 
       // var _content = $('<div>').addClass('very-fast reveal full');
-      // _content.empty();
       // $('body').append(_content);
 
       // var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
@@ -535,7 +534,8 @@
         // _popup.close();
         // _search();
       });
-      _message.render();
+      $('body').append(_message.render());
+      _message.remove();
       // _popup.open();
       // _content.remove();
       // _popup.close();
