@@ -22,8 +22,9 @@
 
     var _header = $('<div>').addClass('header-container-infoTab-event');
 
-    var _whenText = $('<p>').text('15-16 Octubre 2016').addClass('info-text-header-infoTab-event');
-    var _when = $('<div>').append(Pard.Widgets.IconManager('clock').render(), _whenText).addClass('element-headerTitle-infoTab-event');
+    var _whenText = $('<div>').append($('<p>').html('15-16 Octubre 2016  de 11:00 a 24:00h')).addClass('info-text-header-infoTab-event');
+    var _whenIcon = $('<div>').append(Pard.Widgets.IconManager('clock').render()).addClass('iconContainer-infoHeader-event-page');
+    var _when = $('<div>').append(_whenIcon, _whenText).addClass('element-headerTitle-infoTab-event');
     _when.css({'border-right': '1px solid'});
 
     var _location = $('<a>').text('Benimaclet, Valencia').attr({

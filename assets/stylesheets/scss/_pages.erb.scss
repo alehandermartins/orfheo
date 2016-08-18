@@ -2045,15 +2045,29 @@ EVENT PAGE
   }
 }
 
+.iconContainer-infoHeader-event-page{
+  display: inline-block;
+  width: 2rem;
+}
+
 .header-container-infoTab-event{
   margin-top: -0.5rem;
 }
 .info-text-header-infoTab-event{
-  display: inline;
+  display: inline-block;
   vertical-align: top;
   margin-left: 0.5rem;
+  @include breakpoint(large){
+    width: -moz-calc(100% - 2.5rem);
+    width: -webkit-calc(100% - 2.5rem);
+    width: calc(100% - 2.5rem);
+  };
   a {
     vertical-align: top;
+  }
+  p{
+    line-height: 1.2rem;
+    margin: 0;
   }
 }
 

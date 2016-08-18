@@ -58,6 +58,7 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
+
     var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
     var _callsBoxContent = $('<div>').addClass('box-content');
 
@@ -110,12 +111,20 @@
     }
 
     if(profile.calls){ 
+      
+      // var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
+      // var _eventBoxContent = $('<div>').addClass('box-content');
+      // var _eventCard = Pard.Widgets.EventCard();
+      // _eventBoxContainer.append(_eventCard.render());
+      // _createdWidget.append(_eventBoxContainer.append(_eventBoxContainer));
+
+      
       var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page', profile.calls[0].event_id);
       var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
       _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
+      _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
+    
     }
-
-    _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
 
 
     return {
@@ -125,6 +134,38 @@
     }
   }
 
+  ns.Widgets.EventInfoCard = function(event){
+    var _createdWidget = $('<div>');
+    var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
+    var _logo = $('<a>').append($.cloudinary.image(event.main_img,{ format: 'png', width: 170 , effect: 'saturation:50' }));
+    _image.append(_logo);
+
+    var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
+    var _infoTitle = $('<div>').append($('<h4>').text(event.name).addClass('info-title-news-user').css('margin-bottom','0'));
+    var _baseline = $('<div>').append($('<p>').text(event.baseline));
+    var _eventdays;
+    if (event.eventTime.length == 1){
+      _eventdays = moment();
+    }
+    else {
+
+    }
+
+    var _days =  $('<div>').append($('<p>').text(_eventdays));
+
+    var _status = $('<div>').css('margin-bottom','0');
+
+    _infoBox.append(_infoTitle, _baseline, _days, _status);
+
+    _createdWidget.append(_image, _infoBox);
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
 
   ns.Widgets.ChooseProfileMessage = function(profiles, call_id, _button){
     var _createdWidget = $('<div>');

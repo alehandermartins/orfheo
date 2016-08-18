@@ -106,9 +106,10 @@ Pard.Users = function(profiles){
 
   $(_whole).append(_header.render(), _main.render().addClass('main-welcome-page'), _footer.render());
 
-  $(document).ready( function(){
-    if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
-  }); 
+  // If no profile trigger popup CreateProfile (do not delete!)
+  // $(document).ready( function(){
+  //   if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
+  // }); 
 
   $('body').append(_whole);
 
