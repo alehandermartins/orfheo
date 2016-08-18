@@ -519,29 +519,26 @@
       if($.inArray(_firstDate, eventDates) >= 0){
         _daySelector.val(_firstDate);
       }
-      // _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
-      // _filtersWidgets.checkFilterOn();
-      // _search();
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
 
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
-      var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
+      // var _content = $('<div>').addClass('very-fast reveal full');
+      // _content.empty();
+      // $('body').append(_content);
 
-      _message.setCallback(function(){
-        if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
-        else _filtersButton.removeClass('active');
-        _content.remove();
-        _popup.close();
-        _search();
-      });
+      // var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;}).render();
+      // var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
 
-      _content.append(_message.render());
-      _popup.open();
-      _content.remove();
-      _popup.close();
+      // _message.setCallback(function(){
+        // if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
+        // else _filtersButton.removeClass('active');
+        // _content.remove();
+        // _popup.close();
+        // _search();
+      // });
+      // _message.render();
+      // _popup.open();
+      // _content.remove();
+      // _popup.close();
       _search();
     });
 
