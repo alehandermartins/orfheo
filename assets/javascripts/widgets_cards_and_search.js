@@ -27,6 +27,7 @@
     var _shown = [];
     var tags = [];
     var _toBeShown = [];
+    var _noMoreResults = false;
 
     Pard.Backend.searchProfiles([], [], event_id, function(data){
       _toBeShown = [];
@@ -48,7 +49,7 @@
             $.wait(
               '', 
               function(){
-                _searchResult.append(spinner.el); 
+              if (!(_noMoreResults)) _searchResult.append(spinner.el); 
               }, 
               function(){
                 tags = [];
@@ -67,6 +68,9 @@
                     Pard.Widgets.ProfileCards(_toBeShown).render().forEach(function(profileCard){
                       _searchResult.append(profileCard);
                     });
+                  }
+                  else{
+                    _noMoreResults = true;
                   }
                   spinner.stop();
                   _searchWidget.removeClass('active');
@@ -202,9 +206,6 @@
       });
     }
     
-    
-
-
     var _search = function(){
 
       var spinner =  new Spinner().spin();
@@ -212,7 +213,7 @@
         '', 
         function(){
           _searchResult.empty();  
-          _searchResult.append(spinner.el); 
+          if (!(_noMoreResults)) _searchResult.append(spinner.el); 
         }, 
         function(){
           _shown = [];
@@ -240,6 +241,7 @@
             else {
               var _message = $('<h6>').text('Ningún resultado').css('color','#6f6f6f');
               _searchResult.append(_message);
+              _noMoreResults = true;
             }
           });
           if (_dataArray.length) _printTags(_objDictionary(_dataArray[_dataArray.length-1]['text'], _typeObj));
@@ -251,6 +253,7 @@
 
 
     _searchWidget.on('change', function(){
+      _noMoreResults = false;
       _search();
     });
 

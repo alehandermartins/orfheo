@@ -55,19 +55,24 @@
     _collaborators.append(_collaboratorsTitle);
     var _collaboratorsArray = [
     {
-      name: 'Laboratorio de Fabricación',
-      link: 'http://laboratoriodefabricacion.com/',
-      img: 'laboratorio_de_fabricacion_oxx5cp'
+      name: 'Caixa Fosca',
+      link: 'http://www.caixafosca.com/',
+      img: 'caixa_fosca_logo_ww7haj'
+    },
+    {
+      name: 'Carlos Antón Varón',
+      link: 'http://www.caranva.com/',
+      img: 'logo-caverde_mqzpkq'
+    },
+    {
+      name: 'Benimaclet Entra',
+      link: 'http://benimacletentra.org/',
+      img: 'BE_bouuxi'
     },
     {
       name: 'Associació de Veïns i Veïnes de Benimaclet',
       link: 'https://avvbenimaclet.wordpress.com/',
       img: 'Asociacion_vecinos_squareLogo_vqxp2t'
-    },
-    {
-      name: 'Chernoville',
-      link: 'https://www.facebook.com/ChernovilleStudios/?hc_ref=SEARCH&fref=nf',
-      img: 'LOGO_Chernoville_gonlbe'
     },
     {
       name: '4b',
@@ -85,15 +90,30 @@
       img: 'coprint_zst4xw'
     },
     {
-      name: 'Benimaclet Entra',
-      link: 'http://benimacletentra.org/',
-      img: 'BE_bouuxi'
+      name: 'Chernoville',
+      link: 'https://www.facebook.com/ChernovilleStudios/?hc_ref=SEARCH&fref=nf',
+      img: 'LOGO_Chernoville_gonlbe'
     },
     {
-      name: 'Caixa Fosca',
-      link: 'http://www.caixafosca.com/',
-      img: 'caixa_fosca_logo_ww7haj'
-    }
+      name: 'Laboratorio de Fabricación',
+      link: 'http://laboratoriodefabricacion.com/',
+      img: 'laboratorio_de_fabricacion_oxx5cp'
+    },
+    {
+      name: 'La Cova',
+      link: 'https://www.facebook.com/lacuevadebenimaclet/?fref=ts',
+      img: 'logo-la-cueva_txluc0'
+    },
+    {
+      name: 'Talk! English Association',
+      link: 'http://talkasocia.wixsite.com/valencia',
+      img: 'logo_talk_qbvdoe'
+    },
+    {
+      name: 'Escuela Meme',
+      link: 'https://www.facebook.com/escuelameme.benimaclet/?fref=ts',
+      img: 'logo-meme_xap33x'
+    },
     ];
     _collaboratorsArray.forEach(function(collaborator){
       _collaborators.append(Pard.Widgets.PartnerCard(collaborator));

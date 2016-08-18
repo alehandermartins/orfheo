@@ -28,12 +28,13 @@
     
     
     var _contact = $('<div>').addClass('information-contact');
-    var _bio = $('<div>').addClass('information-bio')
-
-
-    if(profile['bio']){ 
+    var _bio = $('<div>').addClass('information-bio');  
+    if(profile['bio']){     
       _bio.append($('<p>').text(profile['bio']));
-    }  
+    }
+    else{
+      _bio.append('');
+    }
 
     var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary('festival').render()));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
@@ -51,8 +52,9 @@
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     };
 
-
-    _infoContentBox.append(_bio, _contact);
+    $('body').append(_contact);
+    _infoContentBox.css('min-height',_contact.height()+24)
+    _infoContentBox.append(_bio.prepend(_contact));
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
