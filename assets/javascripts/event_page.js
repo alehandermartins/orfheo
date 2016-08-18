@@ -534,8 +534,9 @@
         // _popup.close();
         // _search();
       });
-      $('body').append(_message.render());
-      _message.remove();
+      var _messageRendered = _message.render()
+      $('body').append(_messageRendered);
+      _messageRendered.remove();
       // _popup.open();
       // _content.remove();
       // _popup.close();
