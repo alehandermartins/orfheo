@@ -16,6 +16,30 @@
         });
       });
     });
+    
+    // window.fbAsyncInit = function() {
+    //   FB.init({
+    //     appId      : '196330040742409',
+    //     xfbml      : true,
+    //     version    : 'v2.7'
+    //   });
+    
+    //   // Get Embedded Video Player API Instance
+    //   var my_video_player;
+    //   FB.Event.subscribe('xfbml.ready', function(msg) {
+    //     if (msg.type === 'video') {
+    //       my_video_player = msg.instance;
+    //     }
+    //   });
+    // };
+
+    // (function(d, s, id){
+    //    var js, fjs = d.getElementsByTagName(s)[0];
+    //    if (d.getElementById(id)) {return;}
+    //    js = d.createElement(s); js.id = id;
+    //    js.src = "//connect.facebook.net/en_US/all.js";
+    //    fjs.parentNode.insertBefore(js, fjs);
+    //  }(document, 'script', 'facebook-jssdk'));
   }
 
   ns.Widgets.MultimediaContent = function(production, callback){
@@ -113,7 +137,7 @@
         { format: 'jpg', width: 350 , effect: 'saturation:50' });
       multimedia[link['type']].push(_img[0]);
 
-      if ($(window).width()>750){
+      // if ($(window).width()>750){
         var _popupImg = $.cloudinary.image(link['url'],{ format: 'jpg',  width: 750, effect: 'saturation:50' });
 
         var _createdWidget = $('<div>').addClass('fast reveal full');    
@@ -143,8 +167,8 @@
           _popup.open();
         });
 
-        _img.css({cursor:' pointer'});
-      }
+        _img.css({cursor:'zoom-in'});
+      // }
       _done.push(link);
       _display();      
     }
@@ -179,30 +203,32 @@
     }
 
     var _facebook = function(link){
+      console.log(link);
         var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
         if (link['type'] == 'image'){
           if ($(window).width() > 400) { 
-            _facebookMedia.attr('data-width', '350');
+            _facebookMedia.attr({'data-width': '350'});
           }
           else{
             _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de facebook')).css({'font-size':'12px', 'text-align': 'center'});
           }
         }
         if (link['type'] == 'video') {
+          _facebookMedia = $('<div>').addClass('fb-video').attr('data-href', link['url']);
           if ($(window).width() > 1024) {
-            _facebookMedia.attr('data-width', '718'); //It won't go below 350
+            _facebookMedia.attr({'data-width': '718', 'data-allowfullscreen':'true'}); 
           }
-          if ($(window).width() > 640) {
+          else if ($(window).width() > 640) {
             var _videoWidth = $(window).width()-254;
-            _facebookMedia.attr({'data-width': _videoWidth}); //It won't go below 350
+            _facebookMedia.attr({'data-width': _videoWidth , 'data-allowfullscreen':'true'}); //It won't go below 350
           }
-          if ($(window).width() > 400) { 
+          else { 
             var _videoWidth = $(window).width()-52;
-            _facebookMedia.attr('data-width', _videoWidth);
+            _facebookMedia.attr({'data-width':_videoWidth, 'data-allowfullscreen':'true'});
           }
-          else{
-            _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Vídeo de facebook')).css({'font-size':'12px', 'text-align': 'center'});
-          }
+          // else{
+          //   _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Vídeo de facebook')).css({'font-size':'12px', 'text-align': 'center'});
+          // }
         }
       multimedia[link['type']].push(_facebookMedia);
       _done.push(link);

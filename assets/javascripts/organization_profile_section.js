@@ -110,12 +110,19 @@
       });
     }
 
-    if(profile.calls){ 
+    if(profile.calls && profile.calls.length){ 
       
-      // var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
-      // var _eventBoxContent = $('<div>').addClass('box-content');
-      // var _eventCard = Pard.Widgets.EventCard();
-      // _eventBoxContainer.append(_eventCard.render());
+      var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
+      var _eventBoxContent = $('<div>').addClass('box-content');
+      var _event = {
+        name: 'Benimaclet conFusión festival III ed.',
+        baseline: 'Festival libre de expresión gratuita',
+        eventTime: profile.calls[0].eventTime,
+        main_img: 'conFusion_cartel_1-compressor_aiyrxc',
+        event_id: profile.calls[0].event_id
+      }
+      var _eventCard = Pard.Widgets.EventInfoCard(_event);
+      _eventBoxContainer.append(_eventBoxContent.append(_eventCard.render()));
       // _createdWidget.append(_eventBoxContainer.append(_eventBoxContainer));
 
       
@@ -134,26 +141,63 @@
     }
   }
 
+
   ns.Widgets.EventInfoCard = function(event){
     var _createdWidget = $('<div>');
     var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
-    var _logo = $('<a>').append($.cloudinary.image(event.main_img,{ format: 'png', width: 170 , effect: 'saturation:50' }));
+    var _logo = $('<a>').append($.cloudinary.image(event.main_img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
     _image.append(_logo);
+    
+    var _popupImg = $.cloudinary.image(event.main_img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
+
+    var _popupContainer = $('<div>').addClass('fast reveal full');    
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _innerContainer = $('<div>').addClass('vcenter-inner');
+    
+
+    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+    _closeBtn.append($('<span>').html('&times;'));
+
+    var _popup = new Foundation.Reveal(_popupContainer, {animationIn: 'fade-in', animationOut: 'fade-out'});
+
+    _closeBtn.click(function(){
+      _popup.close();
+    });
+
+    var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
+
+    _innerContainer.append(_popupContent);
+    _popupContainer.append(_outerContainer.append(_innerContainer));
+
+    _logo.one('mouseover', function(){
+      $('body').append(_popupContainer)
+    });
+
+    _logo.click(function(){
+      _popup.open();
+    });
+
 
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
-    var _infoTitle = $('<div>').append($('<h4>').text(event.name).addClass('info-title-news-user').css('margin-bottom','0'));
-    var _baseline = $('<div>').append($('<p>').text(event.baseline));
-    var _eventdays;
-    if (event.eventTime.length == 1){
-      _eventdays = moment();
+    var _infoTitle = $('<div>').append($('<h4>').append($('<a>').text(event.name).attr('href','/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6')).addClass('eventName-event-card'));
+    var _baseline = $('<div>').append($('<p>').text(event.baseline)).addClass('baseline-event-info-card');
+    var _eventdays = '';
+    var _dayArray = [];
+    for (var key in event.eventTime) {
+      if (key != 'permanent') _dayArray.push(event.eventTime[key]);
+    };
+    if (_dayArray.length == 1){
+      _eventdays = moment(new Date(parseInt(_dayArray[0]))).locale('es').format('dddd DD MMMM YYYY');
     }
-    else {
-
+    else if (_dayArray.length > 1) {
+      _eventdays = $('<span>').text(moment(new Date(parseInt(_dayArray[0]))).locale('es').format('DD')+'-'+moment(new Date(parseInt(_dayArray[_dayArray.length-1]))).locale('es').format('DD')+' '+moment(new Date(parseInt(_dayArray[_dayArray.length-1]))).locale('es').format('MMMM YYYY'));
     }
 
-    var _days =  $('<div>').append($('<p>').text(_eventdays));
+    var _days =  $('<div>').append($('<p>').append(_eventdays).addClass('eventDay-event-info-card'),$('<p>').append('de 11:00 a 14:00 y de 17:00 a 24:00h')).addClass('eventDate-event-info-card');
 
     var _status = $('<div>').css('margin-bottom','0');
+    var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6').addClass('toEventPageBtn-event-info-card');
+    _status.append(_toEventPageBtn);
 
     _infoBox.append(_infoTitle, _baseline, _days, _status);
 

@@ -774,6 +774,13 @@ a.toEventPageBtn-profile-page{
   }
 }
 
+
+a.toEventPageBtn-event-info-card{
+  @extend .pard-btn;
+  color: white;
+  font-size: 1rem;
+}
+
 /*===============================================
 COMPONENTS
 ================================================*/
@@ -1445,6 +1452,9 @@ POPUP
   margin: 0 auto;
   clear: both;
   max-width: 750px;
+  @include breakpoint(750px down){
+    margin-right: 2rem;
+  }
 }
 
 .vcenter-outer{

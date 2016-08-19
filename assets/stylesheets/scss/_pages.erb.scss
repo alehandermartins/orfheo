@@ -34,6 +34,8 @@ WELCOME PAGE
 }
 
 
+
+
 /* 
 .info-title-news-user{
   margin-top: 1rem;
@@ -1994,7 +1996,37 @@ ORGANIZATION PAGE
   font-weight: bold;
 }
 
+.eventImage-event-info-card{
+  border: 1px solid $grey-2;
+  a {
+    cursor: zoom-in;
+  }
+}
 
+.eventDay-event-info-card{
+  text-transform: capitalize;
+  font-size:  1rem;
+  margin: 0;
+  font-weight: bold;
+}
+
+.baseline-event-info-card{
+  text-transform: uppercase;
+  margin-top: .5rem;
+}
+
+
+.eventDate-event-info-card{
+  text-align: right;
+  margin-top: 1.5rem;
+}
+
+.eventName-event-card{
+  font-weight: bold;
+  a{
+    vertical-align: -0.75rem;
+  }
+}
 
 
 /*===============================================
@@ -2034,12 +2066,13 @@ EVENT PAGE
 }
 
 .element-headerTitle-infoTab-event{
-  width: 33%;
+  width: 15rem;
   display: inline-block;
-  padding: 0.4rem 1rem;
+  padding: 0.4rem 0.75rem;
+  height: 3.2rem;
   @include breakpoint(small down){
-    display: block;
-    width: 100%;
+  /*   display: block;
+    width: 100%; */
     border-right: none !important;
     padding: 0rem;
   }
@@ -2061,14 +2094,19 @@ EVENT PAGE
     width: -moz-calc(100% - 2.5rem);
     width: -webkit-calc(100% - 2.5rem);
     width: calc(100% - 2.5rem);
-  };
+  }
   a {
     vertical-align: top;
   }
-  p{
+  p {
     line-height: 1.2rem;
     margin: 0;
   }
+}
+
+p.info-text-header-infoTab-event{
+    line-height: 1.2rem;
+    margin: 0;
 }
 
 .textContainer-infoTab-event-page{

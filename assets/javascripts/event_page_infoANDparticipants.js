@@ -22,25 +22,27 @@
 
     var _header = $('<div>').addClass('header-container-infoTab-event');
 
-    var _whenText = $('<div>').append($('<p>').html('15-16 Octubre 2016  de 11:00 a 24:00h')).addClass('info-text-header-infoTab-event');
+    var _whenText = $('<div>').addClass('info-text-header-infoTab-event');
+    var _days = $('<p>').html('15-16 Octubre 2016')
+    var _time = $('<p>').text('11:00-14:00, 17:00-24:00h').css({'font-size':'14px','margin-top': '0.1rem'});
+    _whenText.append(_days,_time);
     var _whenIcon = $('<div>').append(Pard.Widgets.IconManager('clock').render()).addClass('iconContainer-infoHeader-event-page');
     var _when = $('<div>').append(_whenIcon, _whenText).addClass('element-headerTitle-infoTab-event');
     _when.css({'border-right': '1px solid'});
-
     var _location = $('<a>').text('Benimaclet, Valencia').attr({
       href: 'https://www.google.es/maps/place/Benimaclet,+Valencia/@39.4862947,-0.373891,14z/data=!3m1!4b1!4m5!3m4!1s0xd6048a769bd2a51:0x868cb4bea88b8f9f!8m2!3d39.4871955!4d-0.3548312',
       target: '_blank'
     });
-    var _whereText = $('<p>').append(_location).addClass('info-text-header-infoTab-event');
-    var _where = $('<div>').append(Pard.Widgets.IconManager('location').render(), _whereText).addClass('element-headerTitle-infoTab-event');
+    var _whereText = $('<div>').append($('<p>').append(_location)).addClass('info-text-header-infoTab-event');
+    var _where = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('location').render()).addClass('iconContainer-infoHeader-event-page'), _whereText).addClass('element-headerTitle-infoTab-event');
     _where.css({'border-right': '1px solid'});
     
     var _organizer = $('<a>').text('conFusión').attr({
       href: '/profile?id=' + 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83',
       target: '_blank'
     });
-    var _whoText = $('<p>').append('Organiza ', _organizer).addClass('info-text-header-infoTab-event');
-    var _who = $('<div>').append(Pard.Widgets.IconManager('organizer').render(), _whoText).addClass('element-headerTitle-infoTab-event');
+    var _whoText = $('<div>').append($('<p>').append('Organiza ', _organizer)).addClass('info-text-header-infoTab-event');
+    var _who = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('organizer').render()).addClass('iconContainer-infoHeader-event-page'), _whoText).addClass('element-headerTitle-infoTab-event');
     
     _header.append(_when, _where, _who)
 
