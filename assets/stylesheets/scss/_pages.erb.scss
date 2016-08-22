@@ -1263,6 +1263,14 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   white-space: normal;
 }
 
+.column-call-manager-table.column-title{
+  width: 10rem !important;
+}
+
+.column-call-manager-table.column-name{
+  width: 9rem !important;
+}
+
 .types-selector-call-manager{
   margin-bottom: 2.5rem;
   width: 17rem;
@@ -1749,9 +1757,13 @@ li.artists-selector-container-call-manager{
   width: 100px;
 }
 
-.column-table-program-call-manager.column-category, .column-table-program-call-manager.column-space_category{
+.column-table-program-call-manager.column-space_category{
   /* width: 4rem; */
   width: 65px;
+}
+
+.column-table-program-call-manager.column-category{
+  width: 65px !important;
 }
 
 .column-table-program-call-manager.column-space_number{
@@ -1782,7 +1794,7 @@ li.artists-selector-container-call-manager{
 
 .column-table-program-call-manager.column-short_description {
   /* width: 10rem; */
-  width: 190px;
+  width: 190px !important;
 }
 
 .column-artist-program-call-manager.column-title,.column-space-program-call-manager.column-title{

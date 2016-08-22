@@ -399,29 +399,29 @@
       else _table.dataTableCreated().columns( 3 ).search(_cat.text).draw();
     });
 
-    var _outOfprogramBtn = Pard.Widgets.Button('Artistas sin programación').render();
+    // var _outOfprogramBtn = Pard.Widgets.Button('Artistas sin programación').render();
 
-    _outOfprogramBtn.addClass('out-of-program-btn');
+    // _outOfprogramBtn.addClass('out-of-program-btn');
 
-    _outOfprogramBtn.on('click', function(){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
+    // _outOfprogramBtn.on('click', function(){
+    //   var _content = $('<div>').addClass('very-fast reveal full');
+    //   _content.empty();
+    //   $('body').append(_content);
 
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent('Artistas fuera del programa', Pard.Widgets.ArtistOutOfProgram());
+    //   var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    //   var _message = Pard.Widgets.PopupContent('Artistas fuera del programa', Pard.Widgets.ArtistOutOfProgram());
 
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      }); 
+    //   _message.setCallback(function(){
+    //     _content.remove();
+    //     _popup.close();
+    //   }); 
       
-      _content.append(_message.render());
-      _popup.open();
-    });
+    //   _content.append(_message.render());
+    //   _popup.open();
+    // });
 
     _checkBoxesBox.append(_checkBoxes.render());
-    _outerTableContainer.append(_outOfprogramBtn, _tableBox.append(_table.render()))
+    _outerTableContainer.append(_tableBox.append(_table.render()))
 
     _createdWidget.append(_filterCategoryContainer, _checkBoxesBox, _submitBtnContainer, _outerTableContainer);
 
