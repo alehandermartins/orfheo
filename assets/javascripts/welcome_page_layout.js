@@ -137,54 +137,13 @@
 
     var _content = content.addClass('welcome-page-section');
 
-    _content.append(Pard.Widgets.ConfusionProgramOnline().render());
+    // _content.append(Pard.Widgets.ConfusionProgramOnline().render());
 
 
-    // var _newsContainer = Pard.Widgets.ConFusionEndCall();
-
-    // $('<div>').addClass('news-box-welcome-page ');
-
-    // // var _titleNewsContainer = $('<div>');
-    //  // var _containerNewsTitle = $('<h6>').text('Noticias').addClass('container-title-welcome-page');
-    // // _titleNewsContainer.append(_containerNewsTitle);
-
-    // var _cardContainer = $('<span>').addClass('card-container-news');
-    // var _profileConfusion = {
-    //   "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
-    //   "name" : "conFusión",
-    //   "city" : "Benimaclet (Valencia)",
-    //   "color" : "#920a0a",
-    //   "type" : "organization",
-    //   "profile_picture" : [ 
-    //       "profile_picture/zwqdpibl1ocxrsozdghp"
-    //   ]
-    // }
-    
-    // _card = Pard.Widgets.CreateCard(_profileConfusion).render();
-
-    // _cardContainer.append(_card);
-
-
-
-    // var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
-
-    // var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-welcome').css('margin-bottom','0'));
-
-    // var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
-
-    // var _mex = $('<div>').append($('<p>').html('CONVOCATORIA CERRADA <br/>Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.').css('margin-bottom','0'));
-
-    // _infoBox.append(_cardContainer, _infoTitle, _baseline,  _mex);
-    // _newsContainer.append(_infoBox);
-
+    _content.append(Pard.Widgets.ConFusionEndCall().render());
 
 
     var _searchEngineContainer = $('<div>').addClass('searchBox-welcome-page');
-
-    // var _searchEngineTitleBox =  $('<div>').addClass('search-titleBox-welcome-page');
-    // var _searchEngineTitle = $('<h6>').text('Explorar').addClass('container-title-welcome-page');
-    // _searchEngineTitleBox.append(_searchEngineTitle);
-
 
     var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page');
     var _searchEngineBox = $('<div>').addClass('user-section-content ');
@@ -193,7 +152,6 @@
     _searchEngineContainer.append(_searchEngineBox);
 
     _content.append(_searchEngineContainer);
-
 
     return{
       render: function(){

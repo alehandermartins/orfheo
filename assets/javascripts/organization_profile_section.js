@@ -71,66 +71,60 @@
       }
       var _eventCard = Pard.Widgets.EventInfoCard(_event);
       _eventBoxContainer.append(_eventBoxContent.append(_eventCard.render()));
-       _createdWidget.append(_eventBoxContainer.append(_eventBoxContainer));
+
+      // _createdWidget.append(_eventBoxContainer);
 
       
+      //-------------------------------------------------------------------
       // var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page', profile.calls[0].event_id);
       // var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
       // _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
-      // _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
-    
+      //--------------------------------------------------------------
     }
 
 
-    // var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
-    // var _callsBoxContent = $('<div>').addClass('box-content');
+    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
+    var _callsBoxContent = $('<div>').addClass('box-content');
 
       if(profile.calls) profile.calls.forEach(function(call){
-      //   var _callsInfoTitle = $('<p>').text('Convocatoria cerrada.').css('font-weight','bold');
-      //   var _callsInfoText = $('<p>').html('Pronto la programación interactiva.');
-      // var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
-      //  _callsBoxContent.append(_callsInfo);
-        
-        // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
-       
-        // var _signUpMessage =  Pard.Widgets.Registration();    
-        // var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
-        // var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
-        
+        var _callsInfoTitle = $('<p>').text('Convocatoria cerrada.').css('font-weight','bold');
+        var _callsInfoText = $('<p>').html('Pronto la programación interactiva.');
+      var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
+       _callsBoxContent.append(_callsInfo);
 
 
-        if (profile.calls && profile.calls[0] && profile.calls[0].whitelist == true){
-          var _button = $('<button>').html('Envía una propuesta').addClass('signUp-button-welcome-section');
-          var _listProfile = function(data){
-            if(data['status'] == 'success'){
-              var _caller = $('<button>');
-              var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id, _button)});
-              _caller.trigger('click');
-            }
-            else{
-              Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
-            }
+      if (profile.calls && profile.calls[0] && profile.calls[0].whitelist == true){
+        var _button = $('<button>').html('Envía una propuesta').addClass('signUp-button-welcome-section');
+        var _listProfile = function(data){
+          if(data['status'] == 'success'){
+            var _caller = $('<button>');
+            var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, call.call_id, _button)});
+            _caller.trigger('click');
           }
-          _button.click(function(){
-            Pard.Backend.listProfiles(_listProfile);
-          })
-          _eventBoxContent.append($('<p>').append(_button).addClass('callToActionBtn-container-eventCard'));
-          // _callsInfo.append(_button);
-          // _callsInfoTitle.removeAttr('style');
-          // _callsInfoText.empty();
-          // _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
+          else{
+            Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
+          }
         }
-      });
+        _button.click(function(){
+          Pard.Backend.listProfiles(_listProfile);
+        })
+        // _eventBoxContent.append($('<p>').append(_button).addClass('callToActionBtn-container-eventCard'));
+        _callsInfo.append(_button);
+        _callsInfoTitle.removeAttr('style');
+        _callsInfoText.empty();
+        _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
+      }
+    });
+
+    _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
 
     if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
       if(profile.calls) profile.calls.forEach(function(call){
-        // var _manageCallText = $('<p>').text('Gestiona convocatoria').addClass('manage-call-text');
-        var _manageCallBtn =  $('<button>').addClass('manage-call-btn').click(function(){location.href = '/call?id='+ call.call_id}).text('Gestiona convocatoria').attr('type','button');
-        // var _manageCallBtnIcon = Pard.Widgets.IconManager('proposals').render().addClass(' create-profile-btn-icon');
-        
-        _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
+        var _manageCallBtn =  $('<button>').addClass('manage-call-btn').click(function(){location.href = '/call?id='+ call.call_id}).text('Gestiona convocatoria').attr('type','button');        
+        // _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
+        _callsBoxContainer.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
       });
     }
 

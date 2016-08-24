@@ -370,7 +370,7 @@
 
     var _closepopup = function(){};
 
-    var _OKbtn = Pard.Widgets.Button('Guarda los cambios', function(){
+    var _OKbtn = Pard.Widgets.Button('OK', function(){
       Pard.CachedCall.order =  _listSortable.sortable('toArray');
       $('#programPanel').empty();
       var spinner =  new Spinner().spin();
@@ -404,7 +404,7 @@
                   Pard.Spaces.forEach(function(space){
                     order.push(space.proposal_id);
                   });
-                  Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
+                  // Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
                   Pard.CachedCall.program = program;
                   Pard.Spaces = [];
                   Pard.ShownSpaces = [];

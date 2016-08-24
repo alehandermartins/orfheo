@@ -440,13 +440,21 @@
               var _iconNum = performance.order +1;
               if($.inArray(performance.host_proposal_id, hosts) < 0){
                 if(performance.host_name == _host) _hostIndex = _data.length + 1;
+                if(!(performance.address.location)){
+                  performance.address.location = {
+                    lat:'',
+                    lng:''
+                  };
+                  performance.address.route = '¡ERROR EN LA GEOLOCALIZACION DEL ESPACIO!'
+                }
                 _data.push({
                   lat: performance.address.location.lat,
                   lon: performance.address.location.lng,
                   title: performance.host_name,
                   zoom: 16,
-                  icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|FE7569|000000',
-                  html: "<div><b>" + performance.host_name + "</b></div> <div>"+ performance.address.route+"</div>",
+                  icon:'http://www.googlemapsmarkers.com/v1/'+_iconNum+'/FE7569/',
+                  // icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|FE7569|000000',
+                  html: "<div><b>" + performance.host_name + "</b> ("+Pard.Widgets.Dictionary(performance.host_category).render()+")</div> <div>"+ performance.address.route+" "+performance.address.street_number+"</div>",
                   order: performance.order
                 });
                 hosts.push(performance.host_proposal_id);
@@ -493,12 +501,14 @@
         afterShow: function(index, location, marker){
           _host = Pard.Widgets.RemoveAccents(_data[index].title);
           var _iconNum = _data[index].order + 1;
-          marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
+          // marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
+          marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/')
           _printProgram(_program, _host, gmap, _data);
         },
         afterOpenInfowindow: function(index, location, marker){
           var _iconNum = _data[index].order + 1;
-          marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
+          // marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
+          marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/')
         },
         afterCloseClick: function(index){
           _host = '';

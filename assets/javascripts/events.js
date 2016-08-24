@@ -241,8 +241,8 @@
         }, 3000);
     }
     else{
-      // $('#succes-box-call-manager').append($('<span>').text('¡Error! No se ha podido guardar los datos').css('color','red'));
-      Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
+      console.log('error');
+      Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();});
     }  
   }
 

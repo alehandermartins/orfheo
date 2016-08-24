@@ -94,9 +94,13 @@
           if (performance.host_name != _space || !_space){
             _space =  performance.host_name;
             var _orderNum = performance.order + 1;
-            var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
+            // var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
+            var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/FE7569/'));
+
+          
             _hostNum.addClass('host-number-program-card');
-            var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol-programByspace')).css('position','relative');
+            // var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol-programByspace')).css('position','relative');
+            var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/9933FF/'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol-programByspace')).css('position','relative');            
             var numberClick1Callback = function(){
               var _index;
               dataSpaces.some(function(space, pos){
@@ -200,15 +204,13 @@
     var _time = $('<div>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
-    var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
+    // var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
+    var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/FE7569/'));
     _hostNum.addClass('host-number-program-card');
     var _X = $('<span>').html('&#xE888').addClass('material-icons');
-    var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),_X).css('position','relative');
-    // var _hostNum = $('<a>').attr('href','#').append( _orderNum);
-    // _hostNum.addClass('host-number-program-card');
-    // var _X = $('<span>').html('&#xE888').addClass('material-icons');
-    // var _hostNumX = $('<a>').attr('href','#').append(_orderNum,_X).css('position','relative');
-    
+    // var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),_X).css('position','relative');
+    var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/9933FF/'),_X).css('position','relative');
+
     var numberClick1Callback;
     var numberClick2Callback;
     _hostNum.click(function(){
