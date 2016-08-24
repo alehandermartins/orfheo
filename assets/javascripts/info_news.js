@@ -2,6 +2,57 @@
 
 (function(ns){
 
+  ns.Widgets.ConfusionProgramOnline = function(date){
+    var _newsContainer = $('<div>').addClass('news-box-welcome-page');
+    var _event = {
+        name: 'Benimaclet conFusión festival III ed.',
+        baseline: 'Festival libre de expresión gratuita',
+        eventTime: {
+          "2016-10-15": [
+              [
+                  "1476518400000",
+                  "1476532800000"
+              ],
+              [
+                  "1476543600000",
+                  "1476568800000"
+              ]
+          ],
+          "2016-10-16": [
+              [
+                  "1476604800000",
+                  "1476705600000"
+              ],
+              [
+                  "1476630000000",
+                  "1476655200000"
+              ]
+          ],
+          "permanent": [
+              "11:00",
+              "21:00"
+          ],
+        }, 
+        main_img: 'conFusion_cartel_1-compressor_aiyrxc',
+        event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+      }
+    var _eventCard = Pard.Widgets.EventInfoCard(_event);
+    _newsContainer.append(_eventCard.render());
+
+    if (date) {
+      var _date = $('<div>').append($('<span>').text(date).addClass('news-date')).css('height','0.5rem');
+      _newsContainer.prepend(_date);
+    }
+
+    return {
+      render: function(){
+        return _newsContainer;
+      }
+    }
+
+
+  }
+
 	ns.Widgets.ConFusionEndCall = function(date){
 
 		var _newsConFusionContainer = $('<div>').addClass('news-box-welcome-page ');

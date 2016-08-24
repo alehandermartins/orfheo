@@ -371,12 +371,12 @@ button{
   margin-top: 1rem;
 }
 
-
+/* 
 .manage-call-btn {
   @extend .pard-btn;
   cursor: pointer;
   padding: 0.25rem 0.75rem;
-}
+} */
 
 
 .create-artist-btn-popup, .create-space-btn-popup{
@@ -505,12 +505,8 @@ button{
   display: block;
 }
 
-.signUp-button-welcome-section{
+.signUp-button-welcome-section, .manage-call-btn{
   @extend .pard-btn;
-  @include breakpoint(large){
-  position: absolute;
-  top: -2.5rem;
-  right: 0.5rem;}
   font-size: 1rem;
   padding: 0.5rem 2rem;
 }

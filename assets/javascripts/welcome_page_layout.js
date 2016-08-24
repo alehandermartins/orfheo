@@ -137,7 +137,10 @@
 
     var _content = content.addClass('welcome-page-section');
 
-    var _newsContainer = Pard.Widgets.ConFusionEndCall();
+    _content.append(Pard.Widgets.ConfusionProgramOnline().render());
+
+
+    // var _newsContainer = Pard.Widgets.ConFusionEndCall();
 
     // $('<div>').addClass('news-box-welcome-page ');
 
@@ -189,7 +192,7 @@
     _searchEngineBox.append(_searchEngine.render().prepend(_searchTitle));
     _searchEngineContainer.append(_searchEngineBox);
 
-    _content.append(_newsContainer.render(), _searchEngineContainer);
+    _content.append(_searchEngineContainer);
 
 
     return{

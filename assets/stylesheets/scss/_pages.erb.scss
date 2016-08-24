@@ -1255,21 +1255,28 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 }
 
 .column-call-manager-table.column-link_orfheo{
-  min-width: 1rem;
+  min-width: 1.5rem;
+  width: 1.5rem !important;
 }
 
 .column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing,  .column-call-manager-table.column-address{
   min-width: 16rem;
+  width: 16rem !important;
   white-space: normal;
 }
 
 .column-call-manager-table.column-title{
-  width: 10rem !important;
+  width: 11rem !important;
 }
 
 .column-call-manager-table.column-name{
-  width: 9rem !important;
+  width: 11rem !important;
 }
+
+.column-call-manager-table.column-category{
+  width: 7rem !important;
+}
+
 
 .types-selector-call-manager{
   margin-bottom: 2.5rem;
@@ -2038,6 +2045,11 @@ ORGANIZATION PAGE
   a{
     vertical-align: -0.75rem;
   }
+}
+
+.callToActionBtn-container-eventCard{
+  clear: both;
+  margin-top: 1.5rem;
 }
 
 

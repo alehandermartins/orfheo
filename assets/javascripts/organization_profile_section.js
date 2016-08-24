@@ -58,23 +58,48 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
+    if(profile.calls && profile.calls.length){ 
+      
+      var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
+      var _eventBoxContent = $('<div>').addClass('box-content');
+      var _event = {
+        name: 'Benimaclet conFusión festival III ed.',
+        baseline: 'Festival libre de expresión gratuita',
+        eventTime: profile.calls[0].eventTime,
+        main_img: 'conFusion_cartel_1-compressor_aiyrxc',
+        event_id: profile.calls[0].event_id
+      }
+      var _eventCard = Pard.Widgets.EventInfoCard(_event);
+      _eventBoxContainer.append(_eventBoxContent.append(_eventCard.render()));
+       _createdWidget.append(_eventBoxContainer.append(_eventBoxContainer));
 
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
-    var _callsBoxContent = $('<div>').addClass('box-content');
+      
+      // var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page', profile.calls[0].event_id);
+      // var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
+      // _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
+      // _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
+    
+    }
 
-    if (userStatus != 'owner'){
+
+    // var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
+    // var _callsBoxContent = $('<div>').addClass('box-content');
+
       if(profile.calls) profile.calls.forEach(function(call){
-        var _callsInfoTitle = $('<p>').text('Convocatoria cerrada.').css('font-weight','bold');
-        var _callsInfoText = $('<p>').html('Pronto la programación interactiva.');
+      //   var _callsInfoTitle = $('<p>').text('Convocatoria cerrada.').css('font-weight','bold');
+      //   var _callsInfoText = $('<p>').html('Pronto la programación interactiva.');
+      // var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
+      //  _callsBoxContent.append(_callsInfo);
+        
         // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
        
         // var _signUpMessage =  Pard.Widgets.Registration();    
         // var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
         // var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
-        var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
-        _callsBoxContent.append(_callsInfo);
+        
 
-        if (profile.calls && profile.calls[0] && profile.calls[0].whitelist){
+
+        if (profile.calls && profile.calls[0] && profile.calls[0].whitelist == true){
           var _button = $('<button>').html('Envía una propuesta').addClass('signUp-button-welcome-section');
           var _listProfile = function(data){
             if(data['status'] == 'success'){
@@ -89,48 +114,24 @@
           _button.click(function(){
             Pard.Backend.listProfiles(_listProfile);
           })
-          _callsInfo.append(_button);
-          _callsInfoTitle.removeAttr('style');
-          _callsInfoText.empty();
-          _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
+          _eventBoxContent.append($('<p>').append(_button).addClass('callToActionBtn-container-eventCard'));
+          // _callsInfo.append(_button);
+          // _callsInfoTitle.removeAttr('style');
+          // _callsInfoText.empty();
+          // _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
         }
       });
-    }
 
     if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
       if(profile.calls) profile.calls.forEach(function(call){
-        var _manageCallText = $('<p>').text('Gestiona convocatoria').addClass('manage-call-text');
-        var _manageCallBtn =  $('<div>').addClass('manage-call-btn').click(function(){location.href = '/call?id='+ call.call_id});
-        var _manageCallBtnText = $('<span>').text('conFusión 2016').addClass('manage-call-btn-text');
-        var _manageCallBtnIcon = Pard.Widgets.IconManager('proposals').render().addClass(' create-profile-btn-icon');
+        // var _manageCallText = $('<p>').text('Gestiona convocatoria').addClass('manage-call-text');
+        var _manageCallBtn =  $('<button>').addClass('manage-call-btn').click(function(){location.href = '/call?id='+ call.call_id}).text('Gestiona convocatoria').attr('type','button');
+        // var _manageCallBtnIcon = Pard.Widgets.IconManager('proposals').render().addClass(' create-profile-btn-icon');
         
-        _callsBoxContent.append(_manageCallText, _manageCallBtn.append(_manageCallBtnIcon,_manageCallBtnText));
+        _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
       });
-    }
-
-    if(profile.calls && profile.calls.length){ 
-      
-      var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
-      var _eventBoxContent = $('<div>').addClass('box-content');
-      var _event = {
-        name: 'Benimaclet conFusión festival III ed.',
-        baseline: 'Festival libre de expresión gratuita',
-        eventTime: profile.calls[0].eventTime,
-        main_img: 'conFusion_cartel_1-compressor_aiyrxc',
-        event_id: profile.calls[0].event_id
-      }
-      var _eventCard = Pard.Widgets.EventInfoCard(_event);
-      _eventBoxContainer.append(_eventBoxContent.append(_eventCard.render()));
-      // _createdWidget.append(_eventBoxContainer.append(_eventBoxContainer));
-
-      
-      var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page', profile.calls[0].event_id);
-      var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
-      _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
-      _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
-    
     }
 
 

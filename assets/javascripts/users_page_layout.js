@@ -216,11 +216,14 @@
 
     var _createdWidget = $('<div>');
 
+    var _newsConfusionProgramOnline = Pard.Widgets.ConfusionProgramOnline('16-09-2016');
+    _createdWidget.append(_newsConfusionProgramOnline.render());
+
     var _newsConFusionContainer = Pard.Widgets.ConFusionEndCall('16-06-2016');
+    _createdWidget.append(_newsConFusionContainer.render())
 
     var _newsOrfheoContainer = Pard.Widgets.OrfheoFirstMessage('15-06-2016');
-
-    _createdWidget.append(_newsConFusionContainer.render(), _newsOrfheoContainer.render());
+    _createdWidget.append(_newsOrfheoContainer.render());
 
     return{
       render: function(){
