@@ -1,7 +1,8 @@
 'use strict';
 
 (function(ns){
-  
+  ns.Widgets = ns.Widgets || {};  
+
   // Pard.CachedCall = {};
   Pard.Spaces = [];
   Pard.ShownSpaces = [];

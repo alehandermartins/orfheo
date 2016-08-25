@@ -1,6 +1,7 @@
 'use strict';
 
 (function(ns){
+  ns.Widgets = ns.Widgets || {};  
 
   ns.Widgets.SpaceColumn = function(space, day, hours){
     var eventTime = Pard.CachedCall.eventTime;

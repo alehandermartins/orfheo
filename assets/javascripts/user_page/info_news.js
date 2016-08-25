@@ -2,6 +2,8 @@
 
 (function(ns){
 
+  ns.Widgets = ns.Widgets || {};
+
   ns.Widgets.ConfusionProgramOnline = function(date){
     var _newsContainer = $('<div>').addClass('news-box-welcome-page');
     var _event = {

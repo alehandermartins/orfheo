@@ -1,6 +1,7 @@
 'use strict';
 
 (function(ns){
+  ns.Widgets = ns.Widgets || {};  
 
   ns.Widgets.PerformanceProgram = function(cardInfo, conflict){
     var _closepopup = {};

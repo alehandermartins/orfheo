@@ -1,3 +1,5 @@
+'use strict';
+
 (function(ns){
 
   ns.Forms = ns.Forms || {};

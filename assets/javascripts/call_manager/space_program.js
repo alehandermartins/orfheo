@@ -1,6 +1,7 @@
  'use strict';
 
 (function(ns){
+  ns.Widgets = ns.Widgets || {};  
 
   ns.Widgets.SpaceProgram = function(space, callback){
     var _closepopup = {};

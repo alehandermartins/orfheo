@@ -2,6 +2,7 @@
 
 (function(ns){
 
+  ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.ModifyProfile = function(profile){
 

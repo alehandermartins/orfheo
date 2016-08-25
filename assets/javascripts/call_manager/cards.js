@@ -1,6 +1,9 @@
 'use strict';
 
 (function(ns){
+
+  ns.Widgets = ns.Widgets || {};  
+
   ns.Widgets.ProposalCard = function(proposal){
     //UUID generator
     _generateUUID = function() {

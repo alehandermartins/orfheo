@@ -1,6 +1,8 @@
 'use strict';
 
 (function(ns){
+    ns.Widgets = ns.Widgets || {};  
+
 
   ns.Widgets.ProposalsPanelContent = function(call) {
 

@@ -2,6 +2,8 @@
 
 (function(ns){
 
+  ns.Widgets = ns.Widgets || {};  
+
   ns.Widgets.QRManager = function(qr) {
     var _createdWidget = $('<div>');
     console.log(qr);

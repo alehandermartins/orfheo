@@ -2,6 +2,8 @@
 
 (function(ns){
 
+  ns.Widgets = ns.Widgets || {};  
+
   ns.Widgets.ArtistProgram = function(artist){
     var _closepopup = {};
     var _createdWidget = $('<div>');
