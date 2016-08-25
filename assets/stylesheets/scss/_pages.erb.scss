@@ -2551,11 +2551,11 @@ EVENT PAGE
 }
 
 .closeBtn-browser-alert{
-  @include breakpoint(medium down){
+  margin: -0.5rem 0px 0px 1.5rem;
+  /* @include breakpoint(medium down){ */
     float: right;
     position: relative;
-    margin: -0.5rem 0px 0px 1.5rem;
-  }
+  /* } */
 }
 
 
