@@ -2205,13 +2205,13 @@ p.info-text-header-infoTab-event{
 
 .hostNum-smallScreen-program{
   display: inline-block;
-  width: 2.5rem;
+  /* width: 2.5rem; */
   text-align: center;
-  margin-right: 0.6rem;
+  margin-right: 1.2rem;
 }
 
 .hostNum-smallScreen-program img{
-  margin-bottom: -0.6rem;
+  /* margin-bottom: -0.6rem; */
   vertical-align: 0 !important;
 }
 
@@ -2243,7 +2243,7 @@ p.info-text-header-infoTab-event{
   cursor: pointer;
 }
 
-.host-program-card, .host-number-program-card{
+.host-program-card{
   /* color: $blue-pard; */
   color:  #4389f8;
 }
@@ -2263,7 +2263,7 @@ a.participant-program-card-own {
 .host-number-program-card{
   @include breakpoint(medium down){
     /* float: right; */
-    margin-right: 0.5rem;
+    margin-right: 0.8rem;
   }
 }
 
@@ -2408,7 +2408,7 @@ a.participant-program-card-own {
 
 .x-host-number-simbol-small{
   top: -3px;
-  right: -2px;
+  right: -8px;
 }
 
 .x-host-number-simbol{
@@ -2526,3 +2526,37 @@ a.participant-program-card-own {
     transform: translateY(-50%);
   }
 }
+
+
+/*===============================================
+EVENT PAGE
+================================================*/
+
+.text-browser-alert{
+
+}
+
+.text-button-container-browser-alert{
+  /* @extend .pard-grid; */
+}
+
+.browser-alert{
+  background-color: rgba(252, 230, 226, 0.9);
+  padding: 0.5rem 2rem;
+  position: relative;
+  z-index: 3;
+  @include breakpoint(small down){
+    padding: 0.5rem;
+  }
+}
+
+.closeBtn-browser-alert{
+  @include breakpoint(medium down){
+    float: right;
+    position: relative;
+    margin: -0.5rem 0px 0px 1.5rem;
+  }
+}
+
+
+

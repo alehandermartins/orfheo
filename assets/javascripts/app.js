@@ -80,6 +80,7 @@ Pard.ProposalsManager = {
 
 Pard.Welcome = function(){
 
+
   var _header = Pard.Widgets.LoginHeader();
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
 

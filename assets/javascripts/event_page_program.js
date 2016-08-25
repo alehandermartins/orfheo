@@ -251,13 +251,15 @@
       _progCard.append(_col1, _col2);
     }
     else{
-      var _timePlaceContainer = $('<div>').append(_time.addClass('time-smallScreen-program'));
+      var _timeRow = $('<div>').append(_time.addClass('time-smallScreen-program'));
       _X.addClass('x-host-number-simbol-small');
-      if (host) _timePlaceContainer.append(_hostNumX.addClass('hostNum-smallScreen-program'));
-      else _timePlaceContainer.append(_hostNum.addClass('hostNum-smallScreen-program'));
-      _timePlaceContainer.append($('<div>').append(_participantCatIcon, _children).addClass('icons-smallScreen-program'));
-      var _titleHostContainer = $('<div>').append(_title, ' ',_participant,  ' / ', _host);
-      _progCard.append(_timePlaceContainer.css('margin-bottom','0.4rem'),_titleHostContainer , _shortDescription);
+      _timeRow.append($('<div>').append(_participantCatIcon, _children).addClass('icons-smallScreen-program'));
+      var _titleRow = $('<div>').append(_title, ' ',_participant);
+      var _hostRow = $('<div>');
+      _host.css('vertical-align','top')
+      if (host) _hostRow.append(_hostNumX.addClass('hostNum-smallScreen-program'),_host);
+      else _hostRow.append(_hostNum.addClass('hostNum-smallScreen-program'),_host);
+      _progCard.append(_timeRow,_titleRow , _shortDescription,_hostRow);
     }
 
 

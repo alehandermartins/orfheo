@@ -63,7 +63,7 @@
       img: 'caixa_fosca_logo_ww7haj'
     },
     {
-      name: 'Carlos Antón Varón',
+      name: 'Carlos Antón Varó',
       link: 'http://www.caranva.com/',
       img: 'logo-caverde_mqzpkq'
     },
@@ -81,6 +81,11 @@
       name: '4b',
       link: 'https://www.facebook.com/benimaclet4b/?fref=ts',
       img: 'logo_4b_f57juv'
+    },
+    {
+      name: 'Al Berro Producciones',
+      link: 'http://www.alberroproducciones.com/',
+      img: 'Logo_AlBerroProducciones_seqhyq'
     },
     {
       name: 'Goatxa',

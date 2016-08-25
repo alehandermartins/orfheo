@@ -31,3 +31,5 @@
 
 //= require mousehold
 //= require maplace
+
+//=require bowser.min
