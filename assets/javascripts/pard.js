@@ -3,18 +3,17 @@ $.cloudinary.config({ cloud_name: 'hxgvncv7u', api_key: '844974134959653'});
 var Pard = {};
 
 var DetectBrowser = function(){
-	console.log(bowser);
 	console.log(bowser.name);
-	console.log(bowser.version);
 	var _compatibleBrowsers = {
-		'Firefox': '38',
-		'Chrome': '42',
-		'Chromium': '42',
-		'Internet Explorer': '11',
+		'Firefox': 38,
+		'Chrome': 42,
+		'Chromium': 42,
+		'Internet Explorer': 11,
 		// 'msedge':'11',
-		'Safari': '9',
-		'Opera':'39'
+		'Safari': 9,
+		'Opera': 39
 	}
+	console.log(bowser.version);
 	if($(window).width()>640 && (!(_compatibleBrowsers[bowser.name]) || bowser.version < _compatibleBrowsers[bowser.name])){
 		var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
 		var _alertText = $('<p>').html('Se ha detectado que estás utilizando una versión de '+bowser.name+' con la cual orfheo no ha sido testado. No se excluyen problemas de incompatibilidad. </br>Para una mejor experiencia, se recomienda utilizar una versión reciente de Google Chrome o de Mozilla Firefox.').addClass('text-browser-alert');
