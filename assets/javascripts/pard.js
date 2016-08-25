@@ -7,17 +7,17 @@ var DetectBrowser = function(){
 	console.log(bowser.name);
 	console.log(bowser.version);
 	var _compatibleBrowsers = {
-		'firefox': '38',
-		'chrome': '42',
-		'chromium': '42',
-		'internet explorer':'11',
+		'Firefox': '38',
+		'Chrome': '42',
+		'Chromium': '42',
+		'Internet Explorer': '11',
 		// 'msedge':'11',
-		'safari': '9',
-		'opera':'39'
+		'Safari': '9',
+		'Opera':'39'
 	}
-	if($(window).width()>640 && (!(_compatibleBrowsers[bowser.name.toLowerCase()]) || bowser.version <_compatibleBrowsers[bowser.name.toLowerCase()])){
+	if($(window).width()>640 && (!(_compatibleBrowsers[bowser.name]) || bowser.version < _compatibleBrowsers[bowser.name])){
 		var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
-		var _alertText = $('<p>').html('Se ha detectado que estás utilizando una versión de '+bowser.name+' con la cual orfheo no ha sido testeado. No se excluyen problemas de incompatibilidad. </br>Para una mejor experiencia, se recomienda utilizar una versión reciente de Google Chrome o de Mozilla Firefox.').addClass('text-browser-alert');
+		var _alertText = $('<p>').html('Se ha detectado que estás utilizando una versión de '+bowser.name+' con la cual orfheo no ha sido testado. No se excluyen problemas de incompatibilidad. </br>Para una mejor experiencia, se recomienda utilizar una versión reciente de Google Chrome o de Mozilla Firefox.').addClass('text-browser-alert');
 		var _alertContainer = $('<div>').append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('browser-alert callout').attr('data-closable','');
 		$('body').prepend(_alertContainer);
 	}
@@ -26,21 +26,32 @@ DetectBrowser();
 
 var DetectTrackingProtection = function(){
 	var canreach = false;
-	$(function() {
-	    $('<img/>')
+	var _alertContainer = $('<div>');
+	$('body').prepend(_alertContainer);
+	$.wait(
+    '', 
+    function(){
+       $('<img/>')
 	        .attr("src", "http://apps.facebook.com/favicon.ico")
-	        .load(function(){canreach = true;})
+	        .load(function(){
+	        	canreach = true; 
+	        	_alertContainer.remove()
+	        })
 	        .css("display", "none")
-	        .appendTo(document.body);
-	});
-	$(window).load(function(){
-		if (!(canreach)) { 	
-		var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
-		var _alertText = $('<p>').html('No se pueden cargar correctamente todos los contenidos de esta  página. Es muy probable que sea por tener habilitada la función de "tracking protection" del navegador. Para una mejor experiencia, se recomienda desactivarla.').addClass('text-browser-alert');
-		var _alertContainer = $('<div>').append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('browser-alert callout').attr('data-closable','');
-		$('body').prepend(_alertContainer);
-		}
-	})
+	        .appendTo($('body'));
+    }, 
+    function(){
+      $(window).load(function(){
+        setTimeout(function(){	
+        	if (!(canreach)) { 	
+					var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
+					var _alertText = $('<p>').html('No se pueden cargar correctamente todos los contenidos de esta  página. Es muy probable que sea por tener habilitada la función de "tracking protection" del navegador. Para una mejor experiencia, se recomienda desactivarla.').addClass('text-browser-alert');
+					_alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('browser-alert callout').attr('data-closable','');
+				}
+				},1000)
+ 			});
+    }
+  );
 }
 DetectTrackingProtection();
 
