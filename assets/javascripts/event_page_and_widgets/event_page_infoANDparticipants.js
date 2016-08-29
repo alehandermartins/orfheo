@@ -122,6 +122,21 @@
       link: 'https://www.facebook.com/escuelameme.benimaclet/?fref=ts',
       img: 'logo-meme_xap33x'
     },
+    {
+      name: 'La Tapadera',
+      link: 'http://www.espaciolatapadera.es/',
+      img: 'Logo_tapadera_ffx0jb'
+    },
+    {
+      name: 'Asociación de Imagen Experimental',
+      link: '',
+      img: 'logo_AIE_zw3srs'
+    },
+    {
+      name: 'PICUV',
+      link: 'https://www.facebook.com/picuv/?fref=ts',
+      img: 'Logo_PICUV_qptegh'
+    }
     ];
     _collaboratorsArray.forEach(function(collaborator){
       _collaborators.append(Pard.Widgets.PartnerCard(collaborator));

@@ -96,6 +96,7 @@
       'Audiovisual': 'audiovisual',
       'Exposición':'expo',
       'Música': 'music',
+      'Poesía': 'poetry',
       'Street Art': 'street_art',
       'Taller':'workshop',
       'Otros': 'other',
@@ -151,7 +152,7 @@
   ns.Widgets.ProgramEventPage = function(){
     var eventDates = ['2016-10-15', '2016-10-16'];
     var eventCategories = {
-      participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Street Art', 'Taller', 'Otros'],
+      participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Poesía', 'Street Art', 'Taller', 'Otros'],
       hosts: ['Asociación Cultural', 'Espacio Exterior', 'Espacio Particular', 'Local Comercial'],
       other: ['Infantil']
     }
