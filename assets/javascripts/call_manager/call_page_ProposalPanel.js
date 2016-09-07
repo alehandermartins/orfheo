@@ -229,49 +229,54 @@
     submitButton.on('click',function(){
       if(_filled() == true){
         var spinner =  new Spinner().spin();
-      $.wait(
-        '', 
-        function(){
+      // $.wait(
+      //   '', 
+      //   function(){
           $('body').append(spinner.el);
-           submitButton.attr('disabled',true);
-        var _ownProposal = _getVal();
-        var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _ownProposal.address.route + "+" + _ownProposal.address.street_number + "+" + _ownProposal.address.locality + "+" + _ownProposal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-          $.post(uri, function(data){
-            if(data.status == "OK" && data.results.length > 0){
-              _ownProposal['address']['location'] = data.results[0].geometry.location;
-             Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
-            }
-            else {
-              console.log('bad address')
-              spinner.stop();
-              submitButton.attr('disabled',false);
-              var _content = $('<div>').addClass('very-fast reveal full');
-              _content.empty();
-              $('body').append(_content);
-              var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-              var _closepopupAlert = function(){
-                _popup.close();
+          submitButton.attr('disabled',true);
+          var _sentProposalEvent = function(data){
+            $.wait(
+              '', 
+              function(){
+                Pard.Events.SendOwnProposal(data);
+              },
+              function(){
+                submitButton.attr('disabled',false);
+                _closepopup();
+                spinner.stop();}
+            )
+          }
+          var _ownProposal = _getVal();
+          var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _ownProposal.address.route + "+" + _ownProposal.address.street_number + "+" + _ownProposal.address.locality + "+" + _ownProposal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+            $.post(uri, function(data){
+              if(data.status == "OK" && data.results.length > 0){
+                _ownProposal['address']['location'] = data.results[0].geometry.location;
+               Pard.Backend.sendOwnProposal(_ownProposal, _sentProposalEvent);
               }
-              var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_ownProposal, _closepopupAlert, function(){
-                  Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
-                }));
-              _message.setCallback(function(){
-                _content.remove();
-                _popup.close();
-              }); 
-              _content.append(_message.render());
-              _popup.open();
+              else {
+                spinner.stop();
+                submitButton.attr('disabled',false);
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _closepopupAlert = function(){
+                  _popup.close();
+                }
+                var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_ownProposal, _closepopupAlert, function(){
+                    Pard.Backend.sendOwnProposal(_ownProposal,_sentProposalEvent);
+                  }));
+                _message.setCallback(function(){
+                  _content.remove();
+                  _popup.close();
+                }); 
+                _content.append(_message.render());
+                _popup.open();
 
-            }
-          });
-        },
-        function(){
-          console.log('closepopup')
-          submitButton.attr('disabled',false);
-          _closepopup();
-          spinner.stop();
-        }
-      )
+              }
+            });
+          // },
+
       }
     });
 
