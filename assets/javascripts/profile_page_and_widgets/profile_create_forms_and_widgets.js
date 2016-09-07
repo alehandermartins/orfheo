@@ -320,7 +320,6 @@
           var _formVal;
           if (callbackEvent) _formVal = _getVal();
           else _formVal = _getVal(url);
-          console.log(_formVal);
           var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
           console.log(uri);
           $.post(uri, function(data){

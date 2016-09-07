@@ -2,6 +2,7 @@
 TO DO
 - if artist changes name profile also name in proposal changes (?  ---> maybe if we allow proposal to be edited by organizer or artist we do not this this)
 - create event tab in user so that one can manage its event withou going to the corresponding profile
+- ATT! when one eliminates a own space proposal the order of the spaces in the program fucks up untill the user save the program again --->SOLVE IT
 
 22/07/2016
 Exporting importing database
