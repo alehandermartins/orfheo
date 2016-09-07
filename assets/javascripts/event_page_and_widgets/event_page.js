@@ -212,7 +212,7 @@
 
     _daySelectorContainer.append(_daySelector);
 
-    var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page');
+    var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page').attr('disabled',true).css('background','rgb(198, 193, 193');
 
     var extraDate;
     _programNow.on('click', function(){
@@ -253,7 +253,7 @@
       }
     });
 
-    var _filtersButton = $('<button>').html('Filtros').addClass('interaction-btn-event-page');
+    var _filtersButton = $('<button>').html('Filtros').addClass('pard-btn interaction-btn-event-page');
 
     _filtersButton.on('click', function(){
       var _content = $('<div>').addClass('very-fast reveal full');
@@ -466,7 +466,6 @@
             if(_hostIndex) gmap.ViewOnMap(_hostIndex);
             _printProgram(data.program, _host, gmap, _data);
           });
-          spinner.stop();
           _searchWidget.select2("close");
           $(':focus').blur();
           $('body').click();
