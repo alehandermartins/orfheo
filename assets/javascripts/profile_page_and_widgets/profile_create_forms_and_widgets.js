@@ -218,8 +218,18 @@
     }
 
     var _send = function(){
-      if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
-      else Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+      var spinner =  new Spinner().spin();
+      $.wait(
+        '', 
+        function(){
+          $('body').append(spinner.el);           
+          if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
+          else Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+        },
+        function(){
+          spinner.stop();
+        }
+      )
     }
 
     var _closepopup = {};
@@ -301,49 +311,61 @@
     var _closepopup = function(){};
 
     var _send = function(url){
-      console.log('send')
-      var _formVal;
-      if (callbackEvent) _formVal = _getVal();
-      else _formVal = _getVal(url);
-      console.log(_formVal);
-      var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-      console.log(uri);
-      $.post(uri, function(data){
-        console.log(data);
-        if(data.status == "OK" && data.results.length > 0){
-          _formVal['address']['location'] = data.results[0].geometry.location;
-          console.log( _formVal);
-          if (callbackEvent){
-            Pard.Backend.createProfile(_formVal, callbackEvent);
-          }
-          else {
-            console.log('before back')
-            Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
-            console.log('after')
-          }
-          _closepopup();
-        }
-        else {
-          var _content = $('<div>').addClass('very-fast reveal full');
-          _content.empty();
-          $('body').append(_content);
-          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _closepopupAlert = function(){
-            _popup.close();
-          }
-          var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopupAlert, function(){
-              if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
-              else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
-            }));
-          _message.setCallback(function(){
-            _content.remove();
-            _popup.close();
-          }); 
-          _content.append(_message.render());
-          _popup.open();
+      var spinner =  new Spinner().spin();
+      $.wait(
+        '', 
+        function(){
+          $('body').append(spinner.el);
+          submitButton.attr('disabled',true);
+          var _formVal;
+          if (callbackEvent) _formVal = _getVal();
+          else _formVal = _getVal(url);
+          console.log(_formVal);
+          var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+          console.log(uri);
+          $.post(uri, function(data){
+            console.log(data);
+            if(data.status == "OK" && data.results.length > 0){
+              _formVal['address']['location'] = data.results[0].geometry.location;
+              console.log( _formVal);
+              if (callbackEvent){
+                Pard.Backend.createProfile(_formVal, callbackEvent);
+              }
+              else {
+                Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+              }
+            }
+            else {
+              spinner.stop();
+              submitButton.attr('disabled',false);
+              var _content = $('<div>').addClass('very-fast reveal full');
+              _content.empty();
+              $('body').append(_content);
+              var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+              var _closepopupAlert = function(){
+                _popup.close();
+              }
+              var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopupAlert, function(){
+                  if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
+                  else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+                }));
+              _message.setCallback(function(){
+                _content.remove();
+                _popup.close();
+              }); 
+              _content.append(_message.render());
+              _popup.open();
 
+            }
+          });
+        },
+        function(){
+          submitButton.attr('disabled',false);
+          _closepopup();
+          spinner.stop();
         }
-      });
+      )
+     
     }
 
     submitButton.on('click',function(){

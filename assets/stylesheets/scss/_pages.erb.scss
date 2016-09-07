@@ -1259,7 +1259,7 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   width: 1.5rem !important;
 }
 
-.column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing,  .column-call-manager-table.column-address{
+.column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing,  .column-call-manager-table.column-address, .column-call-manager-table.column-email{
   min-width: 16rem;
   width: 16rem !important;
   white-space: normal;
@@ -1802,6 +1802,10 @@ li.artists-selector-container-call-manager{
 .column-table-program-call-manager.column-short_description {
   /* width: 10rem; */
   width: 190px !important;
+}
+
+.column-table-program-call-manager.column-email{
+  width: 16rem !important;
 }
 
 .column-artist-program-call-manager.column-title,.column-space-program-call-manager.column-title{

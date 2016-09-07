@@ -433,6 +433,7 @@
           }
 
           Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){
+            console.log(data);
             _program = data.program;
             _data = [];
             var hosts = [];

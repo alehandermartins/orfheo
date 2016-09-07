@@ -319,7 +319,7 @@
 
     var _checkBoxesBox = $('<div>').css('min-height','7rem');
 
-    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','confirmed'];
+    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','email','confirmed'];
     var _shownColumns = ['day','time','artist','category','title','short_description','space'];
 
     var _checkBoxes = Pard.Widgets.PrintCheckBoxes(_columns, _shownColumns);
@@ -612,7 +612,8 @@
       // .addClass('title-row-table-proposal');
 
       columns.forEach(function(field, colNum){
-        var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+        if (field == 'email') var _titleCol = $('<th>').text('email artista');
+        else var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
         var _class = 'column-'+field;
         _titleCol.addClass('column-table-program-call-manager');
         _titleCol.addClass(_class);
