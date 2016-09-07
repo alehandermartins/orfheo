@@ -319,7 +319,7 @@
 
     var _checkBoxesBox = $('<div>').css('min-height','7rem');
 
-    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','email','confirmed'];
+    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','phone','email','confirmed'];
     var _shownColumns = ['day','time','artist','category','title','short_description','space'];
 
     var _checkBoxes = Pard.Widgets.PrintCheckBoxes(_columns, _shownColumns);
@@ -422,10 +422,10 @@
     //   _popup.open();
     // });
 
-    _checkBoxesBox.append(_checkBoxes.render());
-    _outerTableContainer.append(_tableBox.append(_table.render()))
+    _checkBoxesBox.append(_checkBoxes.render()).addClass('checkBoxesBox-call-manager-table');
+    _outerTableContainer.append(_submitBtnContainer, _tableBox.append(_table.render())).css('position','relative');
 
-    _createdWidget.append(_filterCategoryContainer, _checkBoxesBox, _submitBtnContainer, _outerTableContainer);
+    _createdWidget.append(_filterCategoryContainer, _checkBoxesBox,  _outerTableContainer);
 
 
     return {
@@ -612,7 +612,8 @@
       // .addClass('title-row-table-proposal');
 
       columns.forEach(function(field, colNum){
-        if (field == 'email') var _titleCol = $('<th>').text('email artista');
+        if (field == 'email') var _titleCol = $('<th>').text('Email artista');
+        else if (field == 'phone') var _titleCol = $('<th>').text('Tél. artista');
         else var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
         var _class = 'column-'+field;
         _titleCol.addClass('column-table-program-call-manager');

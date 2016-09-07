@@ -1647,7 +1647,7 @@ li.artists-selector-container-call-manager{
   font-size: 0.875rem;
   position: absolute;
   left: 0.6rem;
-  top: 13rem;
+  /* top: 13rem; */
   height: 2.5rem;
   z-index: 1;  
 }
@@ -1808,6 +1808,11 @@ li.artists-selector-container-call-manager{
   width: 16rem !important;
 }
 
+.column-table-program-call-manager.column-phone{
+  width:  6rem !important;
+}
+
+
 .column-artist-program-call-manager.column-title,.column-space-program-call-manager.column-title{
   /* width: 10rem; */
   width: 170px;
@@ -1916,6 +1921,10 @@ tr.permanent-row-program-table-call-manager td{
 .artist-list-container-call-manager li.is-dropdown-submenu-item a{
     padding: 7px 8px ;
 
+}
+
+.checkBoxesBox-call-manager-table{
+  margin-bottom: 1rem;
 }
 
 
