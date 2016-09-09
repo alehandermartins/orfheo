@@ -2154,6 +2154,8 @@ p.info-text-header-infoTab-event{
 .baseline-infoTab-event-page{
   text-transform: uppercase;
   margin:0;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 
@@ -2571,5 +2573,35 @@ EVENT PAGE
   /* } */
 }
 
+.text-event-page-info{
+  display: inline;
+  /* float: right; */
+}
+
+.image-evet-page-info{
+  display: inline-block;
+  float: left;
+  width: 50%;
+}
+
+.img-event-info-p{
+  border: 1px solid $grey-2;
+}
+
+.colaborators-container-info-event-page{
+  clear: both;
+  padding-top: 2rem;
+  display: inline-block;
+}
 
 
+
+/*===============================================
+CROWDFUNDING
+================================================*/
+
+.crowdfunding-widget-infoTab-event{
+  width: 252px;
+  float: right;
+  margin-left: 1rem;
+}

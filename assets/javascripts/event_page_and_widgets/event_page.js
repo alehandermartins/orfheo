@@ -56,6 +56,20 @@
     var _infoContent = $('<div>').attr('id', 'info-event-page');
     _infoContent.hide();
 
+    var _partner = $('<div>').addClass('aside-event-nav-btn');
+    _partner.text('Colaboradores');
+    _partner.click(function(){
+      if(_participants) _participants.deactivate();
+      _contentShowHide('partner-event-page');
+      $(this).addClass('aside-event-nav-btn-selected');
+    });
+    _partner.one('click', function(){
+      if(_participants) _participants.deactivate();
+    _partnerContent.append(Pard.Widgets.PartnerTab());      
+    });
+    var _partnerContent = $('<div>').attr('id', 'partner-event-page');
+    _partnerContent.hide();
+
 
     var _contentShowHide = function(id_selected){
       $('.whole-container').scrollTop(0);
@@ -70,8 +84,8 @@
     
     var _title = Pard.Widgets.EventTitle();
 
-    _buttonContainer.append( _program, _explore, _info);
-    sectionContainer.append(_title, _programContent, _exploreContent, _infoContent).addClass('profiles-user-section-content');
+    _buttonContainer.append( _program, _explore, _info, _partner);
+    sectionContainer.append(_title, _programContent, _exploreContent, _infoContent, _partnerContent).addClass('profiles-user-section-content');
     _createdWidget.append(_buttonContainer);
 
     return{

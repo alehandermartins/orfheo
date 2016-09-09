@@ -4,10 +4,47 @@
 
   ns.Widgets = ns.Widgets || {};  
 
+  ns.ConfusionInfo =  {
+    name: 'Benimaclet conFusión festival III ed.',
+    baseline: 'Festival libre de expresión gratuita',
+    eventTime: {
+      "2016-10-15": [
+          [
+              "1476518400000",
+              "1476532800000"
+          ],
+          [
+              "1476543600000",
+              "1476568800000"
+          ]
+      ],
+      "2016-10-16": [
+          [
+              "1476604800000",
+              "1476705600000"
+          ],
+          [
+              "1476630000000",
+              "1476655200000"
+          ]
+      ],
+      "permanent": [
+          "11:00",
+          "21:00"
+      ],
+    }, 
+    main_img: 'cartel_conFusion_2016_cut_kdyyoj',
+    event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
+    place: 'Benimaclet, Valencia',
+    organizer: 'conFusión',
+    organizer_id: 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+  }
+
+
   ns.Widgets.EventTitle = function(){
     var _createdWidget = $('<div>');
 
-    var _title = $('<h3>').text('Benimaclet conFusión festival III ed.').addClass('title-infoTab-event-page');
+    var _title = $('<h3>').text(Pard.ConfusionInfo.name).addClass('title-infoTab-event-page');
 
     var _line = $('<hr>').css('margin-top','0.75rem');
 
@@ -29,7 +66,7 @@
     var _whenIcon = $('<div>').append(Pard.Widgets.IconManager('clock').render()).addClass('iconContainer-infoHeader-event-page');
     var _when = $('<div>').append(_whenIcon, _whenText).addClass('element-headerTitle-infoTab-event');
     _when.css({'border-right': '1px solid'});
-    var _location = $('<a>').text('Benimaclet, Valencia').attr({
+    var _location = $('<a>').text(Pard.ConfusionInfo.place).attr({
       href: 'https://www.google.es/maps/place/Benimaclet,+Valencia/@39.4862947,-0.373891,14z/data=!3m1!4b1!4m5!3m4!1s0xd6048a769bd2a51:0x868cb4bea88b8f9f!8m2!3d39.4871955!4d-0.3548312',
       target: '_blank'
     });
@@ -37,8 +74,8 @@
     var _where = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('location').render()).addClass('iconContainer-infoHeader-event-page'), _whereText).addClass('element-headerTitle-infoTab-event');
     _where.css({'border-right': '1px solid'});
     
-    var _organizer = $('<a>').text('conFusión').attr({
-      href: '/profile?id=' + 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83',
+    var _organizer = $('<a>').text(Pard.ConfusionInfo.organizer).attr({
+      href: '/profile?id=' + Pard.ConfusionInfo.organizer_id,
       target: '_blank'
     });
     var _whoText = $('<div>').append($('<p>').append('Organiza ', _organizer)).addClass('info-text-header-infoTab-event');
@@ -47,15 +84,38 @@
     _header.append(_when, _where, _who)
 
     var _textContainer = $('<div>').addClass('textContainer-infoTab-event-page');
-    var _baseline = $('<p>').text('Festival gratuito de expresión libre').addClass('baseline-infoTab-event-page');
-    var _text = $('<p>').text('Bla bla bla...');
-    _textContainer.append(_baseline, _text);
+    var _baseline = $('<p>').text(Pard.ConfusionInfo.baseline).addClass('baseline-infoTab-event-page');
+    var _textTitle = $('<h4>').text('Características básicas:').addClass('title-program-event-page');
+    var _text = $('<div>').append(
+      $('<p>').text('El Benimaclet conFusión festivales un acto de unión. Pretende romper con el concepto de público-privado, crear lugares donde compartir con desconocidos y acercarnos entre todos y todas.'),
+      $('<p>').text('Cualquiera, a través de una  convocatoria gestionada previamente, puede ofrecer algo propio durante el festival: puede ser su arte, sus conocimientos, su tiempo o también un espacio propio.'),
+      $('<p>').text(' Este evento no tiene nigún animo de lucro, es gratuito para todo el publico y se ha organizado gracias a la colaboració de mucha gente. Quiere ser la demostración de que si cada uno comparte lo que tiene y siente, todo empieza a ser posible.'),
+      $('<p>').text('Te invitamos a disfrutar, estar, fluir y sentir, sin olvidar, en nigún momento, que no puedes verlo todo.')).addClass('text-event-page-info');
+    var _image = $('<div>').append($.cloudinary.image(Pard.ConfusionInfo.main_img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p')).addClass('image-evet-page-info');
+    var _infoContent = $('<div>').append(_image, _text.prepend(_textTitle));
+    _textContainer.append(_baseline, _infoContent);
 
-    var _partnersContainer = $('<div>');
+    var _crowdfundingContainer = $('<div>').addClass('colaborators-container-info-event-page');
+    var _crowdfunding = $('<span>').html('<iframe frameborder="0" height="480px" src="//www.goteo.org/widget/project/benimaclet-confusion-festival" width="250px" scrolling="no"></iframe>').addClass('crowdfunding-widget-infoTab-event');
+    var _crowdtitle = $('<h4>').text('Financiación:').addClass('title-program-event-page');
+    var _crowdText = $('<div>').append($('<p>').text('La organización de un festival de este tipo requiere mucho tiempo y muchos esfuerzos. Lo hacemos prácticamente sin dinero, trabajando como voluntarios 10 meses al año y intentando a reducir los gastos lo más posible. Sin embargo, hay varios que no podemos evitar y que tenemos que cubrir.'),
+      $('<p>').text('Sin embargo, hemos decidido crear un evento gratuito sin escoger el camino fácil de encontrar un patrocinador comercial. El conFusión es un proyecto participativo, hecho por y para las personas, basado en el aportar lo que cada uno puede. Es por eso que preferimos financiarnos a través de un crowdfunding y dejar a cada quien decir como colaborar.'));
+    _crowdfundingContainer.append(_crowdfunding, _crowdtitle, _crowdText);
     // var _sponsor = $('<div>');
-    var _collaborators = $('<div>');
-    var _collaboratorsTitle = $('<h4>').text('Colabora:').addClass('title-program-event-page');
-    _collaborators.append(_collaboratorsTitle);
+   
+    _createdWidget.append(_header, _textContainer, _crowdfundingContainer);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    } 
+  }
+
+  ns.Widgets.PartnerTab = function(){
+    var _collaborators = $('<div>').css('margin-top','2.5rem');
+    // var _collaboratorsTitle = $('<h4>').text('Colabora:').addClass('title-program-event-page');
+    // _collaborators.append(_collaboratorsTitle);
     var _collaboratorsArray = [
     {
       name: 'Caixa Fosca',
@@ -142,14 +202,8 @@
       _collaborators.append(Pard.Widgets.PartnerCard(collaborator));
     });
 
-    _partnersContainer.append(_collaborators);
-    _createdWidget.append(_header, _textContainer, _partnersContainer);
+    return _collaborators;
 
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    } 
   }
 
   ns.Widgets.PartnerCard = function(partner){

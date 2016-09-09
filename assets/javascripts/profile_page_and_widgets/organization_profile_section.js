@@ -62,17 +62,18 @@
       
       var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
       var _eventBoxContent = $('<div>').addClass('box-content');
-      var _event = {
-        name: 'Benimaclet conFusión festival III ed.',
-        baseline: 'Festival libre de expresión gratuita',
-        eventTime: profile.calls[0].eventTime,
-        main_img: 'conFusion_cartel_1-compressor_aiyrxc',
-        event_id: profile.calls[0].event_id
-      }
+      var _event = Pard.ConfusionInfo;
+      // {
+      //   name: 'Benimaclet conFusión festival III ed.',
+      //   baseline: 'Festival libre de expresión gratuita',
+      //   eventTime: profile.calls[0].eventTime,
+      //   main_img: 'cartel_conFusion_2016_q5vfbk',
+      //   event_id: profile.calls[0].event_id
+      // }
       var _eventCard = Pard.Widgets.EventInfoCard(_event);
       _eventBoxContainer.append(_eventBoxContent.append(_eventCard.render()));
 
-      // _createdWidget.append(_eventBoxContainer);
+      _createdWidget.append(_eventBoxContainer);
 
       
       //-------------------------------------------------------------------
@@ -108,23 +109,23 @@
         _button.click(function(){
           Pard.Backend.listProfiles(_listProfile);
         })
-        // _eventBoxContent.append($('<p>').append(_button).addClass('callToActionBtn-container-eventCard'));
-        _callsInfo.append(_button);
-        _callsInfoTitle.removeAttr('style');
-        _callsInfoText.empty();
-        _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
+        _eventBoxContent.append($('<p>').append(_button).addClass('callToActionBtn-container-eventCard'));
+        // _callsInfo.append(_button);
+        // _callsInfoTitle.removeAttr('style');
+        // _callsInfoText.empty();
+        // _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
       }
     });
 
-    _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
+    // _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
 
     if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
       if(profile.calls) profile.calls.forEach(function(call){
         var _manageCallBtn =  $('<button>').addClass('manage-call-btn').click(function(){location.href = '/call?id='+ call.call_id}).text('Gestiona convocatoria').attr('type','button');        
-        // _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
-        _callsBoxContainer.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
+        _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
+        // _callsBoxContainer.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
       });
     }
 
