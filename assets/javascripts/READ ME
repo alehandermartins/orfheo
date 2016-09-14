@@ -2,8 +2,8 @@
 TO DO
 - if artist changes name profile also name in proposal changes (?  ---> maybe if we allow proposal to be edited by organizer or artist we do not this this)
 - create event tab in user so that one can manage its event withou going to the corresponding profile
-- ATT! when one eliminates a own space proposal the order of the spaces in the program fucks up untill the user save the program again --->SOLVE IT
-- Problem with program table (?)--> when one confirms it does not put the check in the call manager table (better check it again)
+- ATT! PROBLEM! when one eliminates a own space proposal the order of the spaces in the program fucks up untill the user save the program again ---> SOLVE IT ---> what happens when users is deleted and at the same time program with his proposal is saved? there is a conflic everytime there is a performance with participant_proposal_id (or host_proposal_id) and the corresponding proposal does not exists anymore!! 
+- Problem with program table (?)--> when one confirms it does not put the check in the call manager table (better check it again) 
 - necesary a"Refresh" button that call backend and then one can update de datas in the table without refreshig the page!! 
 
 22/07/2016

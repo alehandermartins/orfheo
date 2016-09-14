@@ -126,8 +126,11 @@
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 
+    var spinnerDeleteProposal =  new Spinner().spin();
+
     _yesBtn.click(function(){
-      Pard.Backend.deleteProposal(proposal_id, Pard.Events.DeleteOwnProposal);
+      $('body').append(spinnerDeleteProposal.el);
+      Pard.Backend.deleteProposal(proposal_id, _deleteProposalCallback);
       // artistProposalContainer.remove();
       // var _proposals = Pard.CachedProposals;
       // var _index;
@@ -149,6 +152,73 @@
       // Pard.Artists = {};
       closepopup();
     });
+
+     var _deleteProposalCallback = function(data){
+      if (data['status'] == 'success'){
+        $.wait(
+          '', 
+          function(){
+            artistProposalContainer.remove();
+            var _proposals = Pard.CachedProposals;
+            var _index;
+            _proposals.some(function(proposal, index){ 
+              if (proposal.proposal_id == proposal_id ) {
+                _index = index;
+                return true;
+              }
+            });
+            _proposals.splice(_index, 1);
+            Pard.CachedProposals = _proposals;
+            var _indexP = [];
+            Pard.CachedCall.program.forEach(function(show, index){
+              if (show.participant_proposal_id == proposal_id || show.host_proposal_id == proposal_id) {
+                _indexP.push(index);
+              }
+            });
+            _indexP.forEach(function(pos, ind){
+              var _currentPos = pos - ind;
+              Pard.CachedCall.program.splice(_currentPos,1);
+            });
+            // var _indexOrder;
+            // Pard.CachedCall.order.some(function(space, index){
+            //   if (space != proposal_id) {
+            //     console.log(space);
+            //     _indexOrder = index;
+            //     return true;
+            //   }
+            // });
+            // Pard.CachedCall.order.splice(_indexOrder, 1);
+            // var _saveProgramCallback = function(data){
+            //   console.log(data);
+            // }
+            // Pard.Backend.program(' ', Pard.CachedCall.program,  Pard.CachedCall.order, _saveProgramCallback);
+            // console.log('done');
+            $('#tablePanel').empty();
+            $('#programPanel').empty();
+            Pard.Widgets.Program = [];
+            Pard.Spaces = [];
+            Pard.ShownSpaces = [];
+            Pard.Artists = {}; 
+          },
+          function(){
+            spinnerDeleteProposal.stop();
+            Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
+          }
+        )
+      }
+      else{
+        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+        if (typeof _dataReason == 'object'){
+          spinnerDeleteProposal.stop();
+          Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+      }
+      else{
+        console.log(data.reason);
+        spinnerDeleteProposal.stop();
+        Pard.Widgets.Alert('', _dataReason, location.reload());
+      }
+    }
+    }
 
     var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
 

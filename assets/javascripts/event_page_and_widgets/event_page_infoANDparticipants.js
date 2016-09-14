@@ -92,7 +92,12 @@
       $('<p>').text(' Este evento no tiene nigún animo de lucro, es gratuito para todo el publico y se ha organizado gracias a la colaboració de mucha gente. Quiere ser la demostración de que si cada uno comparte lo que tiene y siente, todo empieza a ser posible.'),
       $('<p>').text('Te invitamos a disfrutar, estar, fluir y sentir, sin olvidar, en nigún momento, que no puedes verlo todo.')).addClass('text-event-page-info');
     var _image = $('<div>').append($.cloudinary.image(Pard.ConfusionInfo.main_img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p')).addClass('image-evet-page-info');
-    var _infoContent = $('<div>').append(_image, _text.prepend(_textTitle));
+      if ($(window).width() < 640) {
+        var _infoContent = $('<div>').append(_text.prepend(_textTitle), _image);
+      }
+      else{
+        var _infoContent = $('<div>').append( _image, _text.prepend(_textTitle));
+      }
     _textContainer.append(_baseline, _infoContent);
 
     var _crowdfundingContainer = $('<div>').addClass('colaborators-container-info-event-page');
@@ -100,7 +105,12 @@
     var _crowdtitle = $('<h4>').text('Financiación:').addClass('title-program-event-page');
     var _crowdText = $('<div>').append($('<p>').text('La organización de un festival de este tipo requiere mucho tiempo y muchos esfuerzos. Lo hacemos prácticamente sin dinero, trabajando como voluntarios 10 meses al año y intentando a reducir los gastos lo más posible. Sin embargo, hay varios que no podemos evitar y que tenemos que cubrir.'),
       $('<p>').text('Sin embargo, hemos decidido crear un evento gratuito sin escoger el camino fácil de encontrar un patrocinador comercial. El conFusión es un proyecto participativo, hecho por y para las personas, basado en el aportar lo que cada uno puede. Es por eso que preferimos financiarnos a través de un crowdfunding y dejar a cada quien decir como colaborar.'));
-    _crowdfundingContainer.append(_crowdfunding, _crowdtitle, _crowdText);
+    if ($(window).width() < 640) {
+      _crowdfundingContainer.append(_crowdtitle, _crowdText, $('<div>').append(_crowdfunding).css({'width':'100%', 'position':'relative', 'height':'480px'}));
+    }
+    else{
+      _crowdfundingContainer.append(_crowdfunding, _crowdtitle, _crowdText);
+    }
     // var _sponsor = $('<div>');
    
     _createdWidget.append(_header, _textContainer, _crowdfundingContainer);

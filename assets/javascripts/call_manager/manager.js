@@ -603,8 +603,8 @@
 
 
               //Info for the card
-              console.log(proposal);
-              console.log(performance);
+              // console.log(proposal);
+              // console.log(performance);
               var _cardInfo = {
                 performance_id: performance.performance_id,
                 participant_id: proposal.profile_id,
