@@ -29,9 +29,9 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-    // if (profile.program && profile.program.length){ 
-    //   _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program, profile.type));
-    // }
+    if (profile.program && profile.program.length){ 
+      _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program, profile.type));
+    }
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
