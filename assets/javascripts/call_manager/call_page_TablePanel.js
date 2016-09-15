@@ -319,7 +319,7 @@
 
     var _checkBoxesBox = $('<div>').css('min-height','7rem');
 
-    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','phone','email','confirmed'];
+    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','children','phone','email','confirmed'];
     var _shownColumns = ['day','time','artist','category','title','short_description','space'];
 
     var _checkBoxes = Pard.Widgets.PrintCheckBoxes(_columns, _shownColumns);
