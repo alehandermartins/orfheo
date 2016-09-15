@@ -248,15 +248,16 @@
 
   ns.Events.SendOwnProposal = function(data){
     if(data['status'] == 'success') {
+      console.log(data);
       Pard.CachedProposals = data.call.proposals;
-      Pard.CachedCall= data.call;
+      Pard.CachedCall.proposals= data.call.proposals;
       Pard.Widgets.Program = [];
       Pard.Spaces = [];
       Pard.ShownSpaces = [];
       Pard.Artists = {};
       var _proposal = data.call.proposals[data.call.proposals.length -1];
       var _proposalContainer = $('<li>');
-      var _printedProposal = Pard.Widgets.PrintOwnProposal(_proposal, _proposalContainer);
+      var _printedProposal = Pard.Widgets.PrintOwnProposal(_proposal, _proposalContainer); 
       if (_proposal.type == 'space') $('#space-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
       else $('#artist-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
       Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
