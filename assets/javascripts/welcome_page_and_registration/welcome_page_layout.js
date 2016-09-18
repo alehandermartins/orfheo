@@ -137,10 +137,10 @@
 
     var _content = content.addClass('welcome-page-section');
 
-    // _content.append(Pard.Widgets.ConfusionProgramOnline().render());
+    _content.append(Pard.Widgets.ConfusionProgramOnline().render());
 
 
-    _content.append(Pard.Widgets.ConFusionEndCall().render());
+    // _content.append(Pard.Widgets.ConFusionEndCall().render());
 
 
     var _searchEngineContainer = $('<div>').addClass('searchBox-welcome-page');

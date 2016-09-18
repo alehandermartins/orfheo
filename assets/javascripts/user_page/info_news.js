@@ -10,7 +10,7 @@
     
     var _event = Pard.ConfusionInfo;
 
-    var _eventCard = Pard.Widgets.EventInfoCard(_event);
+    var _eventCard = Pard.Widgets.EventInfoCardWU(_event);
     _newsContainer.append(_eventCard.render());
 
     if (date) {
@@ -26,6 +26,78 @@
 
 
   }
+
+  ns.Widgets.EventInfoCardWU = function(event){
+    var _createdWidget = $('<div>');
+    var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
+    var _logo = $('<a>').append($.cloudinary.image(event.main_img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
+    _image.append(_logo);
+    
+    var _popupImg = $.cloudinary.image(event.main_img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
+
+    var _popupContainer = $('<div>').addClass('fast reveal full');    
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _innerContainer = $('<div>').addClass('vcenter-inner');
+    
+
+    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+    _closeBtn.append($('<span>').html('&times;'));
+
+    var _popup = new Foundation.Reveal(_popupContainer, {animationIn: 'fade-in', animationOut: 'fade-out'});
+
+    _closeBtn.click(function(){
+      _popup.close();
+    });
+
+    var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
+
+    _innerContainer.append(_popupContent);
+    _popupContainer.append(_outerContainer.append(_innerContainer));
+
+    _logo.one('mouseover', function(){
+      $('body').append(_popupContainer)
+    });
+
+    _logo.click(function(){
+      _popup.open();
+    });
+
+
+    var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
+    var _infoTitle = $('<div>').append($('<h4>').append($('<a>').text(event.name).attr('href','/event?id='+event.event_id).css({'vertical-align':'0'})).addClass('eventName-event-card'));
+    var _baseline = $('<div>').append($('<p>').text(event.baseline)).addClass('baseline-event-info-card');
+    var _organizer = $('<div>').append($('<p>').text('Organiza: ').append($('<a>').text(event.organizer).attr({'href': '/profile?id='+event.organizer_id}))).css('margin-bottom','-1rem');
+    var _eventdays = '';
+    var _dayArray = [];
+    for (var key in event.eventTime) {
+      if (key != 'permanent') _dayArray.push(event.eventTime[key]);
+    };
+    if (_dayArray.length == 1){
+      _eventdays = moment(new Date(parseInt(_dayArray[0]))).locale('es').format('dddd DD MMMM YYYY');
+    }
+    else if (_dayArray.length > 1) {
+      _eventdays = $('<span>').text(moment(new Date(parseInt(_dayArray[0]))).locale('es').format('DD')+'-'+moment(new Date(parseInt(_dayArray[_dayArray.length-1]))).locale('es').format('DD')+' '+moment(new Date(parseInt(_dayArray[_dayArray.length-1]))).locale('es').format('MMMM YYYY'));
+    }
+
+    var _days =  $('<div>').append($('<p>').append(_eventdays).addClass('eventDay-event-info-card'),$('<p>').append('de 11:00 a 14:00 y de 17:00 a 24:00h')).addClass('eventDate-event-info-card');
+
+    var _status = $('<div>').css('margin-bottom','0');
+    var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6').addClass('toEventPageBtn-event-info-card');
+    _status.append(_toEventPageBtn);
+
+    _infoBox.append(_infoTitle, _baseline,_organizer, _days, _status);
+
+    _createdWidget.append(_image, _infoBox);
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+
 
 	ns.Widgets.ConFusionEndCall = function(date){
 
@@ -44,7 +116,7 @@
     _card = Pard.Widgets.CreateCard(_profileConfusion).render();
     _cardContainer.append(_card);
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
-    var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-user').css('margin-bottom','0'));
+    var _infoTitle = $('<div>').append($('<h4>').text('Benimaclet conFusión festival III ed.').addClass('info-title-news-user').css({'margin-bottom':'0'}));
     var _baseline = $('<div>').append($('<p>').text('15/16 Octubre 2016 - de 10 a 14 y de 17 a 23 horas'));
     var _mex = $('<div>').append($('<p>').html('CONVOCATORIA CERRADA <br/>Gracias a tod@s l@s que han participado en la convocatoria.'), $('<p>').text('Pronto en orfheo la programación interactiva del evento.').css('margin-bottom','0'));
     _infoBox.append(_cardContainer);
