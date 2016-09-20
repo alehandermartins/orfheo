@@ -111,7 +111,7 @@
       'Exposición':'expo',
       'Música': 'music',
       'Poesía': 'poetry',
-      'Street Art': 'street_art',
+      'street_art': 'street_art',
       'Taller':'workshop',
       'Otros': 'other',
       'Infantil':'children'
@@ -166,7 +166,7 @@
   ns.Widgets.ProgramEventPage = function(){
     var eventDates = ['2016-10-15', '2016-10-16'];
     var eventCategories = {
-      participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Poesía', 'Street Art', 'Taller', 'Otros'],
+      participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Poesía', 'street_art', 'Taller', 'Otros'],
       hosts: ['Asociación Cultural', 'Espacio Exterior', 'Espacio Particular', 'Local Comercial'],
       other: ['Infantil']
     }
@@ -448,6 +448,8 @@
 
           Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){
             console.log(data);
+                      console.log(filters)
+
             _program = data.program;
             _data = [];
             var hosts = [];
