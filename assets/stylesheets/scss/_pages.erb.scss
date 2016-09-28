@@ -36,8 +36,6 @@ WELCOME PAGE
 }
 
 
-
-
 /* 
 .info-title-news-user{
   margin-top: 1rem;
@@ -2559,6 +2557,19 @@ EVENT PAGE
   z-index: 3;
   @include breakpoint(small down){
     padding: 0.5rem;
+  }
+}
+
+.crowdfunding-alert{
+  background-color: rgba(255, 255, 5, 0.9);
+  padding: 0.5rem 2rem;
+  position: relative;
+  z-index: 3;
+  @include breakpoint(small down){
+    padding: 0.5rem;
+  }
+  p{
+    margin-bottom: 0;
   }
 }
 
