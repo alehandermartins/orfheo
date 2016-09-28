@@ -214,7 +214,7 @@ Pard.Event = function(program, status){
   if(status == 'visitor') var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
   else{var _header = Pard.Widgets.LoginHeader();}
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
-  _whole.append(_header.render().removeClass('outsider-header'), _main.render().addClass('main-welcome-page'),  _footer.render().removeClass('footer-outsider'));
+  _whole.append(_header.render().removeClass('outsider-header'), _main.render().addClass('main-welcome-page'), _footer.render().removeClass('footer-outsider'));
 
 
   //CROWDFUNDING MESSAGE

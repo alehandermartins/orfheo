@@ -538,23 +538,23 @@
         _daySelector.val(_firstDate);
       }
       // ATT!! do not change this part! It is necessary so that searchWidgets (imputText, day selector, order selector) works in mobile phone quickly - This part reproduce the action of opening and closing filters popup
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _contentP = $('<div>').addClass('very-fast reveal full');
+      _contentP.empty();
+      $('body').append(_contentP);
+      var _popup = new Foundation.Reveal(_contentP, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
       var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
       var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
       _message.setCallback(function(){
         if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
         else _filtersButton.removeClass('active');
-        _content.remove();
+        _contentP.remove();
         _popup.close();
         _search();
       });
-      _content.append(_message.render());
-      _popup.open();
-      _content.remove();
-      _popup.close();
+      _contentP.append(_message.render());
+      // _popup.open();
+      // _popup.close();
+      _contentP.remove();
       _search();
     });
 
