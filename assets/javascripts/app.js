@@ -219,7 +219,7 @@ Pard.Event = function(program, status){
 
   //CROWDFUNDING MESSAGE
   var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
-  var _alertText = $('<p>').html('Este evento ofrece más de 380 actividades gratuitas, no tiene fin lucrativo y tampoco ningún patrocinador. Sin embargo su organización conlleva unos gastos inevitables. Para que se haga sostenible económicamente tenemos en marcha un crowdfunding. Si quieres que este festival siga siendo un regalo para todo el mundo, haz tu donación a través de la página: <a href="https://www.goteo.org/project/benimaclet-confusion-festival", target="_blank"> goteo.cc/confusionfestival</a> ').addClass('text-browser-alert');
+  var _alertText = $('<p>').html('Este evento es gratuito y nadie gana nada, pero sí que tiene gastos y se mantiene solo por donaciones. La tuya también es necesaria: <a href="https://www.goteo.org/project/benimaclet-confusion-festival", target="_blank"> aporta a nuestro crowdfunding</a> ').addClass('text-browser-alert');
   var _alertContainer = $('<div>').append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('crowdfunding-alert callout').attr('data-closable','');
   $(_whole).prepend(_alertContainer);
   
