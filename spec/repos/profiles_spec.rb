@@ -145,7 +145,8 @@ describe Repos::Profiles do
 
     let(:event){
       {
-        proposals: [{profile_id: profile_id},{profile_id: profile_id},{profile_id: 'otter_user_profile_id'}]
+        proposals: [{profile_id: profile_id},{profile_id: 'otter_user_profile_id'}],
+        program: [{participant_id: profile_id, host_id: profile_id},{participant_id: 'otter_user_profile_id', host_id: profile_id}]
       }
     }
 
@@ -162,6 +163,7 @@ describe Repos::Profiles do
       result = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
       profile.merge! calls: []
       profile.merge! proposals: []
+      profile.merge! program: []
       expect(result).to eq(profile)
     end
 
@@ -183,6 +185,8 @@ describe Repos::Profiles do
       my_otter_profile.merge! proposals: []
       profile.merge! calls: []
       my_otter_profile.merge! calls: []
+      profile.merge! program: []
+      my_otter_profile.merge! program: []
       result = Repos::Profiles.get_profiles :user_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end
@@ -190,8 +194,10 @@ describe Repos::Profiles do
     it 'returns all profiles for a visitor' do
       profile.merge! calls: []
       profile.merge! proposals: []
+      profile.merge! program: []
       my_otter_profile.merge! calls: []
       my_otter_profile.merge! proposals: []
+      my_otter_profile.merge! program: []
       result = Repos::Profiles.get_profiles :visit_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end
