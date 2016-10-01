@@ -31,6 +31,7 @@ class SearchController < BaseController
   post '/results_program' do
     scopify query: true, event_id: true, filters: true, date: true, time: true
     tags = get_query query
+    puts filters
     translated_filters = get_filters filters
     results = Services::Search.get_program_results event_id, tags, translated_filters, date, time
     success({program: results})

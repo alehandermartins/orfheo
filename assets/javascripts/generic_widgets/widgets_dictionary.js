@@ -145,9 +145,18 @@
       existing_call: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Convocatoria ya exitente.</div>',
       non_existing_call:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe esta convocatoria.</div>',
       you_dont_have_permission: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Perdiste la conexión...vuelve a logearte e inténtalo de nuevo.</div>',
-      invalid_query: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Acción no valida.</div>'
-    }   
-    
+      invalid_query: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Acción no valida.</div>',
+      
+      'Artes Escénicas': 'arts',
+      'Audiovisual': 'audiovisual',
+      'Exposición':'expo',
+      'Música': 'music',
+      'Poesía': 'poetry',
+      'Street Art': 'street_art',
+      'Taller':'workshop',
+      'Otros': 'other',
+      'Infantil':'children'
+    }
 
     return {
       render: function(){
@@ -281,8 +290,5 @@
     // if (day.toString() == 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)') return 'Sabado 15 de Octubre';
     // if (day.toString() == 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)') return 'Domingo 16 de Octubre';
   }
-
-
-
 
 }(Pard || {}));
