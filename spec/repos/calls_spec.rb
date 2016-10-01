@@ -36,7 +36,7 @@ describe Repos::Calls do
       photos: ['picture.jpg', 'otter_picture.jpg'],
       links: 'links',
       duration: 'duration',
-      children: 'children',
+      children: 'true',
     }
   }
 
@@ -202,7 +202,8 @@ describe Repos::Calls do
       Repos::Calls.add_proposal 'otter', otter_proposal
       results = {
         calls: [call, otter_call],
-        proposals: [proposal, otter_proposal]
+        proposals: [proposal, otter_proposal],
+        program: []
       }
       expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
     end
@@ -221,7 +222,8 @@ describe Repos::Calls do
       otter_call[:whitelist] = false 
       results = {
         calls: [call, otter_call],
-        proposals: ['title', 'otter_title']
+        proposals: ['title', 'otter_title'],
+        program: []
       }
       expect(Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile_id})).to eq(results)
     end
@@ -245,7 +247,8 @@ describe Repos::Calls do
       Repos::Calls.modify_proposal proposal
       results = {
         calls: [call],
-        proposals: [proposal]
+        proposals: [proposal],
+        program: []
       }
       expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
     end
@@ -256,7 +259,8 @@ describe Repos::Calls do
       proposal.merge! amend: 'amend'
       results = {
         calls: [call],
-        proposals: [proposal]
+        proposals: [proposal],
+        program: []
       }
       expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
     end
@@ -265,9 +269,9 @@ describe Repos::Calls do
   describe 'Delete' do
     it 'deletes a proposal' do
       Repos::Calls.add_proposal call_id, proposal
-      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq({calls: [call], proposals: [proposal]})
+      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq({calls: [call], proposals: [proposal], program: []})
       Repos::Calls.delete_proposal proposal_id
-      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq({calls: [call], proposals: []})
+      expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq({calls: [call], proposals: [], program: []})
     end
 
     it 'removes the proposal from programs' do
@@ -313,7 +317,8 @@ describe Repos::Calls do
       call[:whitelist] = false
       results = {
         calls: [call],
-        proposals: []
+        proposals: [],
+        program: []
       }
       expect(Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile_id, requestor: user_id})).to eq(results)
       allow(Repos::Users).to receive(:grab).and_return({email: 'email1'})
@@ -336,6 +341,8 @@ describe Repos::Calls do
           :address => "space_address",
           :participant_name => "artist_name",
           :title=>"title",
+          :short_description=>"short_description",
+          :children=>"true",
           :participant_category=>"arts",
           :host_category=> 'home', 
           :order => 0
@@ -350,6 +357,8 @@ describe Repos::Calls do
           :address => "space_address",
           :participant_name => "otter_name",
           :title => "otter_title",
+          :short_description=> nil,
+          :children=> nil,
           :participant_category=> 'expo',
           :host_category => 'home',
           :order => 0

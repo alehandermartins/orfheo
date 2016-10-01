@@ -363,6 +363,7 @@ describe ProfilesController do
       post '/users/list_profiles'
       profile_model[:calls] = []
       profile_model[:proposals] = []
+      profile_model[:program] = []
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(profile_model)])
     end
