@@ -35,7 +35,7 @@ describe SearchController do
       user_id: user_id,
       profile_id: profile_id,
       type: 'artist',
-      name: 'artist_name',
+      name: 'TEATRO CÍRCULO',
       city: 'valencia',
       zip_code: 'zip_code',
       profile_picture: ['profile.jpg'],
