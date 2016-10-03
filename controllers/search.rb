@@ -13,7 +13,6 @@ class SearchController < BaseController
   post '/results' do
     scopify query: true, shown: true, event_id: true
     tags = get_query query
-    puts tags
     shown_profiles = check_params shown
     not_shown = not_shown_profiles get_profiles(event_id), shown_profiles
     matched_profiles = query_profiles not_shown, tags
@@ -116,6 +115,7 @@ class SearchController < BaseController
   end
 
   def queriable? value, query
+    return false if value.nil?
     tags = query[0...-1]
     return false if tags.any? { |tag| tag == translate(I18n.transliterate(value).downcase)}
     matches? value, query.last

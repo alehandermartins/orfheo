@@ -136,6 +136,7 @@ module Services
 		  end
 
 		  def queriable? value, query
+		  	return false if value.nil?
 		    tags = query[0...-1]
 		    return false if tags.any? { |tag| tag == translate(I18n.transliterate(value).downcase)}
 		    matches? value, query.last
