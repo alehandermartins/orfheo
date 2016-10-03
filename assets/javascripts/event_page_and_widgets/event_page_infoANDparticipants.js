@@ -206,6 +206,11 @@
       name: 'PICUV',
       link: 'https://www.facebook.com/picuv/?fref=ts',
       img: 'Logo_PICUV_qptegh'
+    },
+    {
+      name: 'Tapinearte',
+      link: 'https://www.facebook.com/TAPINEARTE?fref=ts',
+      img: 'logo_tapinearte_qsss6l'
     }
     ];
     _collaboratorsArray.forEach(function(collaborator){
@@ -227,7 +232,7 @@
     }
     else {
       var _name = $('<div>').append($('<p>').text(partner.name).addClass('partnerName-event-page'));
-      _logo.attr({'href': '#', 'target':'_blank'}).css('cursor','default');
+      _logo.css('cursor','default');
     }
     _partnerCard.append(_image, _name);
     return _partnerCard;
