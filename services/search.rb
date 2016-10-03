@@ -83,7 +83,7 @@ module Services
 
 		  def matches? value, tag
 		  	matchable_tags = tag.split(/\W+/)
-		    matchable_value = translate(I18n.transliterate(value.downcase))
+		    matchable_value = translate(I18n.transliterate(value).downcase)
 		    words = matchable_value.split(/\W+/).map{ |word| translate(word).split(/\W+/)}.flatten
 		    matchable_value == tag || words_match?(words, matchable_tags)
 		  end
@@ -136,8 +136,9 @@ module Services
 		  end
 
 		  def queriable? value, query
+		  	return false if value.nil?
 		    tags = query[0...-1]
-		    return false if tags.any? { |tag| tag == translate(I18n.transliterate(value.downcase))}
+		    return false if tags.any? { |tag| tag == translate(I18n.transliterate(value).downcase)}
 		    matches? value, query.last
 		  end
 
@@ -151,7 +152,7 @@ module Services
 		  def add_suggestion suggestions, text, type, icon = nil
 		  	icon = icon || text
 			  translation = I18n.transliterate(translate text)
-			  suggestions.push({id: translation, text: translation, type: type, icon: icon}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(translation.downcase)}
+			  suggestions.push({id: translation, text: translation, type: type, icon: icon}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(translation).downcase}
 			end
 
 			def translate text

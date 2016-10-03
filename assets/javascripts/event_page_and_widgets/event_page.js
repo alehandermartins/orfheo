@@ -105,18 +105,6 @@
       'other': 'Otros'
     }
 
-    var _dictionary = {
-      'Artes Escénicas': 'arts',
-      'Audiovisual': 'audiovisual',
-      'Exposición':'expo',
-      'Música': 'music',
-      'Poesía': 'poetry',
-      'street_art': 'street_art',
-      'Taller':'workshop',
-      'Otros': 'other',
-      'Infantil':'children'
-    }
-
     Object.keys(filters).forEach(function(key){
 
       var _categoriesLabel = $('<div>').text(_labels[key]).addClass('categories-labels-popup-event-page');
@@ -133,7 +121,7 @@
           filters[key][filter] = _input.is(":checked");
           callback(filters);
         });
-        var _label = $('<label>').append(filter,' ',Pard.Widgets.IconManager(_dictionary[filter]).render().addClass('participant-category-icon'));
+        var _label = $('<label>').append(filter,' ',Pard.Widgets.IconManager(Pard.Widgets.Dictionary(filter).render()).render().addClass('participant-category-icon'));
         _label.css('display','inline');
         var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');
         _filter.on('click',function(){
@@ -166,7 +154,7 @@
   ns.Widgets.ProgramEventPage = function(){
     var eventDates = ['2016-10-15', '2016-10-16'];
     var eventCategories = {
-      participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Poesía', 'street_art', 'Taller', 'Otros'],
+      participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Poesía', 'Street Art', 'Taller', 'Otros'],
       hosts: ['Asociación Cultural', 'Espacio Exterior', 'Espacio Particular', 'Local Comercial'],
       other: ['Infantil']
     }
@@ -380,9 +368,10 @@
           Object.keys(_filters).forEach(function(key){
             filters[key] = [];
             Object.keys(_filters[key]).forEach(function(category){
-              if(_filters[key][category] == true) filters[key].push(category);
+              if(_filters[key][category] == true) filters[key].push(Pard.Widgets.Dictionary(category).render());
             });
           });
+          
           return {
             query: _query,
             page: params.page,
@@ -432,7 +421,7 @@
           Object.keys(_filters).forEach(function(key){
             filters[key] = [];
             Object.keys(_filters[key]).forEach(function(category){
-              if(_filters[key][category] == true) filters[key].push(category);
+              if(_filters[key][category] == true) filters[key].push(Pard.Widgets.Dictionary(category).render());
             });
           });
 
@@ -447,8 +436,6 @@
           }
 
           Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){
-            console.log(data);
-                      console.log(filters)
 
             _program = data.program;
             _data = [];

@@ -30,6 +30,7 @@ class SearchController < BaseController
   post '/results_program' do
     scopify query: true, event_id: true, filters: true, date: true, time: true
     tags = get_query query
+    puts filters
     translated_filters = get_filters filters
     results = Services::Search.get_program_results event_id, tags, translated_filters, date, time
     success({program: results})
@@ -39,7 +40,7 @@ class SearchController < BaseController
   def get_query params
     return [] if params.blank?
     check_params params
-    params.map{|param| I18n.transliterate(param.downcase)}
+    params.map{|param| I18n.transliterate(param).downcase}
   end
 
   def get_filters params
@@ -114,13 +115,14 @@ class SearchController < BaseController
   end
 
   def queriable? value, query
+    return false if value.nil?
     tags = query[0...-1]
-    return false if tags.any? { |tag| tag == translate(I18n.transliterate(value.downcase))}
+    return false if tags.any? { |tag| tag == translate(I18n.transliterate(value).downcase)}
     matches? value, query.last
   end
 
   def matches? value, tag
-    matchable_value = translate(I18n.transliterate(value.downcase))
+    matchable_value = translate(I18n.transliterate(value).downcase)
     words = matchable_value.split(/\W+/).map{ |word| translate(word).split(/\W+/)}.flatten
     matchable_value == tag || words.any?{ |word|
       word.start_with? tag  
@@ -187,7 +189,7 @@ class SearchController < BaseController
 
   def add_suggestion suggestions, text, type
     translation = I18n.transliterate(translate text)
-    suggestions.push({id: translation, text: translation, type: type, icon: text}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(translation.downcase)}
+    suggestions.push({id: translation, text: translation, type: type, icon: text}) unless suggestions.any?{ |suggestion| suggestion[:text].downcase == I18n.transliterate(translation).downcase}
   end
 
   def sort_results results
