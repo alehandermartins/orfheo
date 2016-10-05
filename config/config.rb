@@ -8,6 +8,7 @@ require 'active_support'
 require 'active_support/core_ext/object'
 require 'time'
 require 'net/http'
+require 'faye/websocket'
 
 require_relative '../exceptions'
 
@@ -32,9 +33,11 @@ require_relative '../lib/users/user'
 require_relative '../lib/calls/call'
 require_relative '../lib/util'
 
+Faye::WebSocket.load_adapter('thin')
 class BaseController < Sinatra::Base
   set :environment, (ENV['RACK_ENV'].to_sym || :production) rescue :production
-
+  set server: 'thin', connections: []
+  
   register Sinatra::ConfigFile
 
   config_file File.join(File.dirname(__FILE__) , 'config.yml')
@@ -66,8 +69,6 @@ class BaseController < Sinatra::Base
 
 
   register Sinatra::AssetPipeline
-
-
 
   configure do
     use Rack::Session::Cookie, {

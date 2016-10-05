@@ -18,6 +18,7 @@ gem 'mongo'
 gem 'uuid'
 gem 'cloudinary'
 gem 'activesupport'
+gem 'faye-websocket'
 
 
 group :development, :test do

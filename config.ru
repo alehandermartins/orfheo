@@ -11,7 +11,8 @@ require './controllers/profiles'
 require './controllers/calls'
 require './controllers/search'
 require './controllers/forms'
-
+require './controllers/chat'
+require './services/chat'
 
 # require 'rack-livereload' if ENV['RACK_ENV'] == 'development'
 # use Rack::LiveReload, no_swf: true , min_delay: 2000, max_delay: 5000 if ENV['RACK_ENV'] == 'development'
@@ -23,6 +24,7 @@ use MyExceptionHandling
 use UsersController
 use ProfilesController
 use CallsController
+use Services::Chat
 
 map '/' do
   run WelcomeController
@@ -38,4 +40,8 @@ end
 
 map '/forms' do
 	run FormsController
+end
+
+map '/chat' do
+	run ChatController
 end

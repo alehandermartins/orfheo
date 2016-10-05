@@ -229,3 +229,56 @@ Pard.Event = function(program, status){
   $(document).ready(function(){$(document).foundation()});
 
 }
+
+Pard.Chat = function(){
+
+  var scheme   = "ws://";
+  var uri      = scheme + window.document.location.host + "/";
+  var ws       = new WebSocket(uri);
+
+  var _inputText = $('<input>').attr({'type': 'text', 'placeholder': 'mensaje'});
+  var _sendButton = Pard.Widgets.Button('Enviar', function(event) {
+    event.preventDefault();
+    //var handle = $("#input-handle")[0].value;
+    var text   = _inputText.val();
+    ws.send(JSON.stringify(text));
+  });  
+  var _chatText = $('<div>');
+
+  ws.onmessage = function(message) {
+    //var data = JSON.parse(message.data);
+    console.log(message);
+    //_chatText.append("<div class='panel panel-default'><div class='panel-heading'>" + message.data + "</div><div class='panel-body'>" + message.data + "</div></div>");
+    _chatText.append("<div class='panel-body'>" + message.data + "</div></div>");
+    _chatText.stop().animate({
+      scrollTop: _chatText[0].scrollHeight
+    }, 800);
+  };
+
+  var _chatSection = function (content) {
+
+    content.empty();
+
+    $(document).ready(function(){$('#main-welcome-page').addClass('main-welcome-page')});
+
+    var _content = content.addClass('welcome-page-section');
+
+    _content.append(_inputText, _sendButton.render(), _chatText);
+
+    return{
+      render: function(){
+        return _content;
+      }
+    }
+  }
+
+  var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, _chatSection);
+  var _whole = $('<div>').addClass('whole-container');
+
+  var _header = Pard.Widgets.LoginHeader();
+  _whole.append(_header.render(), _main.render().addClass('outsider-main'));
+
+  $('body').append(_whole);
+  $(document).ready(function(){$(document).foundation()});
+
+}
