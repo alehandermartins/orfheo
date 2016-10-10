@@ -160,7 +160,7 @@
     {
       name: 'Goatxa',
       link: 'http://www.goatxa.es/',
-      img: 'Goatxa_logo_d3fnyt'
+      img: 'Goatxa_logotipo_bfkksr'
     },
     {
       name: 'Coprint',
