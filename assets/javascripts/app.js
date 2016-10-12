@@ -98,6 +98,7 @@ Pard.Welcome = function(){
 
 Pard.Users = function(profiles){
 
+  console.log(profiles);
   Pard.CachedProfiles = profiles;
   
   var _whole = $('<div>').addClass('whole-container');
@@ -134,8 +135,6 @@ Pard.Profile = function(profiles){
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
 };
-
-
 
 
 Pard.Visitor = function(profiles){
@@ -218,12 +217,10 @@ Pard.Event = function(program, status){
 
 
   //CROWDFUNDING MESSAGE
-  var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
-  var _alertText = $('<p>').html('Este evento es gratuito y nadie gana nada, pero sí que tiene gastos y se mantiene solo por donaciones. La tuya también es necesaria: <a href="https://www.goteo.org/project/benimaclet-confusion-festival", target="_blank"> aporta a nuestro crowdfunding</a> ').addClass('text-browser-alert');
-  var _alertContainer = $('<div>').append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('crowdfunding-alert callout').attr('data-closable','');
-  $(_whole).prepend(_alertContainer);
-  
-
+  // var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
+  // var _alertText = $('<p>').html('Este evento es gratuito y nadie gana nada, pero sí que tiene gastos y se mantiene solo por donaciones. La tuya también es necesaria: <a href="https://www.goteo.org/project/benimaclet-confusion-festival", target="_blank"> aporta a nuestro crowdfunding</a> ').addClass('text-browser-alert');
+  // var _alertContainer = $('<div>').append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('crowdfunding-alert callout').attr('data-closable','');
+  // $(_whole).prepend(_alertContainer);
 
   $('body').append(_whole);
   $(document).ready(function(){$(document).foundation()});
@@ -233,7 +230,7 @@ Pard.Event = function(program, status){
 Pard.Chat = function(){
 
   var scheme   = "ws://";
-  var uri      = scheme + window.document.location.host + "/";
+  var uri      = scheme + window.document.location.host + "?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6";
   var ws       = new WebSocket(uri);
 
   var _inputText = $('<input>').attr({'type': 'text', 'placeholder': 'mensaje'});
@@ -244,6 +241,13 @@ Pard.Chat = function(){
     ws.send(JSON.stringify(text));
   });  
   var _chatText = $('<div>');
+
+  ws.onopen = function()
+    {
+      // Web Socket is connected, send data using send()
+      ws.send("Message to send");
+      alert("Message is sent...");
+    };
 
   ws.onmessage = function(message) {
     //var data = JSON.parse(message.data);

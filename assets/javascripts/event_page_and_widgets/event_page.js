@@ -214,13 +214,12 @@
 
     _daySelectorContainer.append(_daySelector);
 
-    var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page').attr('disabled',true).css('background','rgb(198, 193, 193');
+    var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page');
 
     var extraDate;
     _programNow.on('click', function(){
       var _date = new Date();
-      //var _day = moment(_date).format('YYYY-MM-DD');
-      var _day = '2016-10-15';
+      var _day = moment(_date).format('YYYY-MM-DD');
 
       if(_programNow.hasClass('active')){
         _programNow.removeClass('active');
@@ -429,10 +428,8 @@
           var _time;
           if(_programNow.hasClass('active')){
             var _date = new Date();
-            _day = '2016-10-15';
-            //_day = moment(_date).format('YYYY-MM-DD');
-            //_time = _date.getTime();
-            _time = new Date('2016', '09', '15', '18', '23', '01', '123').getTime();
+            _day = moment(_date).format('YYYY-MM-DD');
+            _time = _date.getTime();
           }
 
           Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){

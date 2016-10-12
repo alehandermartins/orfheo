@@ -103,7 +103,7 @@
           callback();
         });
         _yesBtn.click(function(){
-          callback()
+          callback();
         });
       }
     }

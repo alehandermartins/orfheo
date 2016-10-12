@@ -30,15 +30,12 @@
   
     var _iconColor = Pard.Widgets.IconColor(profileColor).render();
 
-    _modifyBtn.css({color: _iconColor})
-
+    _modifyBtn.css({color: _iconColor});
 
     var _triangle = $('<div>').addClass('modify-section-content-button-container');
 
 
     var _profileColorRgba = Pard.Widgets.IconColor(profileColor).rgba(0.2);
-
-    console.log(profileColor)
 
      _modifyBtn.hover(
       function(){
