@@ -41,7 +41,3 @@ end
 map '/forms' do
 	run FormsController
 end
-
-map '/chat' do
-	run ChatController
-end
