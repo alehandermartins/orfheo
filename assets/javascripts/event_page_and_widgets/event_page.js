@@ -520,6 +520,8 @@
       var _firstDate = moment(new Date()).format('YYYY-MM-DD');
       if($.inArray(_firstDate, eventDates) >= 0){
         _daySelector.val(_firstDate);
+        _daySelector.trigger('change');
+        //_daySelector.text(moment(new Date()).locale('es').format(' DD-MMM-YYYY'));
       }
       // ATT!! do not change this part! It is necessary so that searchWidgets (imputText, day selector, order selector) works in mobile phone quickly - This part reproduce the action of opening and closing filters popup
       if ($(window).width() < 640 ) {
