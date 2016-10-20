@@ -4,6 +4,21 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
+        # call = get_call('b5bc4203-9379-4de0-856a-55e1e5f3fac6')
+        # proposals = call[:proposals]
+        # event = {}
+        # proposals.each{ |proposal|
+        #   event[proposal[:proposal_id]] = event[proposal[:proposal_id]] || []
+        #   event[proposal[:proposal_id]].push(proposal)
+        # }
+
+        # new_event = call
+        # new_event[:proposals] = []
+        # event.each{|participant_id, proposals|
+        #   new_event[:proposals].push(artist_fields proposals) if proposals[0][:type] == 'artist'
+        #   new_event[:proposals].push(space_fields proposals) if proposals[0][:type] == 'space'
+        # }
+        # Repos::Events.add new_event
       end
 
       def artist_fields proposals
@@ -23,14 +38,6 @@ module Repos
         }
 
         proposals.each{ |proposal|
-          availability = []
-          availability = proposal[:availability].map{ |key, value|
-            Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
-          }.compact if( proposal.has_key? :availability && proposal[:availability].is_a?(Hash) && !proposal[:availability].blank?)
-          
-          availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
-          proposal[:availability] = availability
-
           proposal.delete(:photos)
           proposal.delete(:personal_web)
           proposal.delete(:links)
@@ -45,6 +52,8 @@ module Repos
           proposal.delete(:name)
           proposal.delete(:phone)
           proposal.delete(:program)
+          proposal.delete(:type)
+          proposal.delete(:profile_picture)
           fields[:proposals].push(proposal)
         }
         return fields
@@ -64,13 +73,6 @@ module Repos
         }
 
         proposals.each{ |proposal|
-          availability = []
-          availability = proposal[:availability].map{ |key, value|
-            Time.parse(value).to_s.split(' ')[0] unless(value == 'false')
-          }.compact unless( !proposal.has_key? :availability || proposal[:availability].is_a?(Array) || proposal[:availability].blank?)
-          
-          availability = ['2016-10-15', '2016-10-16'] if(availability.empty?)
-          proposal[:availability] = availability
           proposal.delete(:category)
 
           proposal.delete(:photos)
@@ -85,28 +87,30 @@ module Repos
           proposal.delete(:name)
           proposal.delete(:phone)
           proposal.delete(:program)
+          proposal.delete(:type)
+          proposal.delete(:profile_picture)
           fields[:proposals].push(proposal)
         }
         return fields
       end
 
       def add call
-        @@calls_collection.insert(call)
+        @@calls_collection.insert_one(call)
       end
 
       def event_exists? event_id
         return false unless UUID.validate(event_id)
-        @@calls_collection.count(query: {event_id: event_id}) > 0
+        @@calls_collection.count(event_id: event_id) > 0
       end
 
       def exists? call_id
         return false unless UUID.validate(call_id)
-        @@calls_collection.count(query: {call_id: call_id}) > 0
+        @@calls_collection.count(call_id: call_id) > 0
       end
 
       def proposal_exists? proposal_id
         return false unless UUID.validate(proposal_id)
-       @@calls_collection.count(query: {"proposals.proposal_id": proposal_id}) > 0
+       @@calls_collection.count("proposals.proposal_id": proposal_id) > 0
       end
 
       def add_proposal call_id, proposal
@@ -115,13 +119,13 @@ module Repos
       end
 
       def add_artist_proposal call_id, proposal
-        @@calls_collection.update({call_id: call_id},{
+        @@calls_collection.update_one({call_id: call_id},{
           "$push": {proposals: proposal}
         })
       end
 
       def add_space_proposal call_id, proposal
-        @@calls_collection.update({call_id: call_id},{
+        @@calls_collection.update_one({call_id: call_id},{
           "$push": {proposals: proposal, order: proposal[:proposal_id]}
         })
       end
@@ -164,7 +168,7 @@ module Repos
       end
 
       def modify_proposal proposal
-        @@calls_collection.update({ "proposals.proposal_id": proposal[:proposal_id]},
+        @@calls_collection.update_one({ "proposals.proposal_id": proposal[:proposal_id]},
           {
             "$set": {"proposals.$": proposal}
           },
@@ -172,7 +176,7 @@ module Repos
       end
 
       def amend_proposal proposal_id, amend
-        @@calls_collection.update({ "proposals.proposal_id": proposal_id },
+        @@calls_collection.update_one({ "proposals.proposal_id": proposal_id },
           {
             "$set": {"proposals.$.amend": amend}
           },
@@ -180,7 +184,7 @@ module Repos
       end
 
       def add_program event_id, program, order
-        @@calls_collection.update({ event_id: event_id },
+        @@calls_collection.update_one({ event_id: event_id },
           {
             "$set": {'program': program, 'order': order}
           },
@@ -188,7 +192,7 @@ module Repos
       end
 
       def add_whitelist call_id, whitelist
-        @@calls_collection.update({ call_id: call_id },
+        @@calls_collection.update_one({ call_id: call_id },
           {
             "$set": {"whitelist": whitelist}
           },
@@ -219,7 +223,7 @@ module Repos
         event[:program].reject!{|performance| performance[:participant_proposal_id] == proposal_id || performance[:host_proposal_id] == proposal_id} unless event[:program].blank?
         event[:order].reject! {|proposal_id| proposal_id == proposal_id} unless event[:order].blank?
 
-        @@calls_collection.update({event_id: event[:event_id]},
+        @@calls_collection.update_one({event_id: event[:event_id]},
           {
             "$set": {'proposals': event[:proposals], 'program': event[:program], 'order': event[:order]}
           }

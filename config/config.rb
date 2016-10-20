@@ -92,10 +92,11 @@ class BaseController < Sinatra::Base
       :enable_starttls_auto => true
     }
   }
+  
+  Mongo::Logger.logger.level = ::Logger::FATAL
 
   configure :development, :test do
-    DB = Mongo::Connection.new
-    @@db = DB[settings.dbname]
+    @@db = Mongo::Client.new('mongodb://localhost:27017/Orfheo/cg_dev')
     Pony.override_options = {:from => 'no.reply.orfheo@gmail.com', :via => :test }
     Cloudinary.config do |config|
       config.cloud_name = 'hxgvncv7u'
@@ -108,9 +109,7 @@ class BaseController < Sinatra::Base
   end
 
   configure :production, :deployment do
-    DB = Mongo::Connection.new settings.dbhost, settings.dbport
-    DB[settings.dbname].authenticate settings.dbuser, settings.dbpass
-    @@db = DB[settings.dbname]
+    @@db = Mongo::Client.new('mongodb://heroku_1qqrwjjv:6j1mh19jfgfn4up520imdbh3g8@ds055535.mongolab.com:55535/heroku_1qqrwjjv')
     Pony.override_options = options
     puts 'configured for pdd'
   end

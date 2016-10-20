@@ -21,7 +21,7 @@ describe Repos::Users do
   describe 'Add' do
 
     it 'registers an unvalidated user' do
-      saved_entry = @db['users'].find_one()
+      saved_entry = @db['users'].find({}).first
       expect(saved_entry).to include({
         'user_id' => user_id,
         'email' => 'email@test.com',
@@ -36,7 +36,7 @@ describe Repos::Users do
 
     it 'modifies a field' do
       Repos::Users.modify({user_id: user_id}, {password: 'otter_password'})
-      saved_entry = @db['users'].find_one()
+      saved_entry = @db['users'].find({}).first
       expect(saved_entry).to include({
         'user_id' => user_id,
         'email' => 'email@test.com',
@@ -58,7 +58,7 @@ describe Repos::Users do
 
     it 'validates a user' do
       Repos::Users.validate(validation_code)
-      saved_entry = @db['users'].find_one()
+      saved_entry = @db['users'].find({}).first
       expect(saved_entry).to include({
         'user_id' => user_id,
         'email' => 'email@test.com',
@@ -69,7 +69,7 @@ describe Repos::Users do
 
     it 'deletes the validation_code from the saved_entry' do
       Repos::Users.validate(validation_code)
-      saved_entry = @db['users'].find_one()
+      saved_entry = @db['users'].find({}).first
       expect(saved_entry).not_to include({
         'validation_code' => validation_code
       })
@@ -85,7 +85,7 @@ describe Repos::Users do
     it 'adds a new validation code to the user' do
       Repos::Users.validate(validation_code)
       Repos::Users.reseted_user('email@test.com')
-      saved_entry = @db['users'].find_one()
+      saved_entry = @db['users'].find({}).first
       expect(UUID.validate saved_entry['validation_code']).to eq(true)
     end
 

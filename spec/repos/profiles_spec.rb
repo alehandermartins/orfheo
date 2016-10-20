@@ -40,7 +40,7 @@ describe Repos::Profiles do
   describe 'Create and modify' do
 
     it 'registers a new profile' do
-      saved_entry = @db['profiles'].find_one()
+      saved_entry = @db['profiles'].find({}).first
       expect(saved_entry).to include({
         'user_id' => user_id,
         'profile_id' => profile_id,
@@ -51,7 +51,7 @@ describe Repos::Profiles do
 
     it 'modifies a parameter' do
       Repos::Profiles.update({profile_id: profile_id, name: 'otter_name'})
-      saved_entry = @db['profiles'].find_one()
+      saved_entry = @db['profiles'].find({}).first
       expect(saved_entry).to include({
         'profile_id' => profile_id,
         'name' => 'otter_name'
@@ -83,7 +83,7 @@ describe Repos::Profiles do
     it 'adds a production to the array of productions' do
       Repos::Profiles.add_production(profile_id, production)
 
-      saved_entry = @db['profiles'].find_one()
+      saved_entry = @db['profiles'].find({}).first
       expect(saved_entry).to include({
         'user_id' => user_id,
         'profile_id' => profile_id,
@@ -98,7 +98,7 @@ describe Repos::Profiles do
       Repos::Profiles.add_production(profile_id, otter_production)
       Repos::Profiles.modify_production(modified_production)
 
-      saved_entry = @db['profiles'].find_one()
+      saved_entry = @db['profiles'].find({}).first
       expect(saved_entry).to include({
         'user_id' => user_id,
         'profile_id' => profile_id,

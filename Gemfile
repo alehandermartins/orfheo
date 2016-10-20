@@ -6,7 +6,7 @@ gem 'bundle'
 gem 'thin'
 gem 'sinatra', require: false
 gem 'sinatra-contrib', require: false
-gem 'sinatra-asset-pipeline'
+gem 'sinatra-asset-pipeline', '0.7.0'
 gem 'json'
 gem 'awesome_print'
 gem 'sass'

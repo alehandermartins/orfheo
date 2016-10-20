@@ -7,12 +7,12 @@ module Repos
       end
 
       def add event
-        @@events_collection.insert(event)
+        @@events_collection.insert_one(event)
       end
 
-      def event_exists? event_id
+      def exists? event_id
         return false unless UUID.validate(event_id)
-        @@events_collection.count(query: {event_id: event_id}) > 0
+        @@events_collection.count(event_id: event_id) > 0
       end
 
       def get_event event_id
@@ -25,14 +25,14 @@ module Repos
       end
 
       def add_proposal event_id, profile_id, proposal
-        @@calls_collection.update({event_id: event_id, 'participants': {profile_id: profile_id}},{
+        @@calls_collection.update_one({event_id: event_id, 'participants': {profile_id: profile_id}},{
           "$push": {'participants.$.proposals': proposal}
         })
       end
 
       def proposal_exists? proposal_id
         return false unless UUID.validate(proposal_id)
-       @@events_collection.count(query: {'participants.proposals': {proposal_id: proposal_id}}) > 0
+       @@events_collection.count('participants.proposals': {proposal_id: proposal_id}) > 0
       end
 
       def get_proposals method, args = nil
@@ -45,7 +45,7 @@ module Repos
       end
 
       def modify_proposal proposal
-        @@calls_collection.update({ 'participants.proposals': {proposal_id: proposal[:proposal_id]} },
+        @@calls_collection.update_one({ 'participants.proposals': {proposal_id: proposal[:proposal_id]} },
           {
             "$set": {"participants.$.proposals": proposal}
           },
@@ -53,7 +53,7 @@ module Repos
       end
 
       def amend_proposal proposal_id, amend
-        @@calls_collection.update({ "proposals.proposal_id": proposal_id },
+        @@calls_collection.update_one({ "proposals.proposal_id": proposal_id },
           {
             "$set": {"proposals.$.amend": amend}
           },
@@ -61,7 +61,7 @@ module Repos
       end
 
       def add_program event_id, program
-        @@calls_collection.update({ event_id: event_id },
+        @@calls_collection.update_one({ event_id: event_id },
           {
             "$set": {"program": program}
           },
@@ -73,7 +73,7 @@ module Repos
         event[:proposals].reject!{|proposal| proposal[:proposal_id] == proposal_id}
         event[:program].reject!{|performance| performance[:participant_proposal_id] == proposal_id || performance[:host_proposal_id] == proposal_id} unless event[:program].blank?
 
-        @@calls_collection.update({event_id: event[:event_id]},
+        @@calls_collection.update_one({event_id: event[:event_id]},
           {
             "$set": {'proposals': event[:proposals], 'program': event[:program]}
           }
@@ -83,7 +83,7 @@ module Repos
       #Managing call
       def call_exists? call_id
         return false unless UUID.validate(call_id)
-        @@events_collection.count(query: {call_id: call_id}) > 0
+        @@events_collection.count(call_id: call_id) > 0
       end
 
       def proposal_on_time? call_id, email
@@ -106,7 +106,7 @@ module Repos
       end
 
       def add_whitelist call_id, whitelist
-         @@calls_collection.update({ call_id: call_id },
+         @@calls_collection.update_one({ call_id: call_id },
           {
             "$set": {"whitelist": whitelist}
           },

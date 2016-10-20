@@ -7,25 +7,24 @@ module Repos
       end
 
       def update profile
-        @@profiles_collection.update({profile_id: profile[:profile_id]},{
+        @@profiles_collection.update_one({profile_id: profile[:profile_id]},{
           "$set": profile
         },
         {upsert: true})
       end
 
       def name_available? name, profile_id
-        query = {profile_id: {"$ne": profile_id}, name: name}
-        @@profiles_collection.count(query: query) == 0
+        @@profiles_collection.count(profile_id: {"$ne": profile_id}, name: name) == 0
       end
 
       def add_production profile_id, production
-        @@profiles_collection.update({profile_id: profile_id},{
+        @@profiles_collection.update_one({profile_id: profile_id},{
           "$push": {productions: production}
         })
       end
 
       def modify_production production
-        @@profiles_collection.update({"productions.production_id": production[:production_id]},{
+        @@profiles_collection.update_one({"productions.production_id": production[:production_id]},{
           "$set": {"productions.$": production}
         },
         {upsert: true})
@@ -33,12 +32,12 @@ module Repos
 
       def exists? profile_id
         return false unless UUID.validate(profile_id)
-        @@profiles_collection.count(query: {profile_id: profile_id}) > 0
+        @@profiles_collection.count(profile_id: profile_id) > 0
       end
 
       def production_exists? production_id
         return false unless UUID.validate(production_id)
-        @@profiles_collection.count(query: {"productions.production_id": production_id}) > 0
+        @@profiles_collection.count("productions.production_id": production_id) > 0
       end
 
       def get_profiles method, args = nil
@@ -56,7 +55,7 @@ module Repos
       end
 
       def delete_production production_id
-        @@profiles_collection.update({ "productions.production_id": production_id },
+        @@profiles_collection.update_one({ "productions.production_id": production_id },
           {
             "$pull": {'productions': {'production_id' => production_id}}
           }
@@ -64,7 +63,7 @@ module Repos
       end
 
       def delete_profile profile_id
-        @@profiles_collection.remove({profile_id: profile_id})
+        @@profiles_collection.delete_one(profile_id: profile_id)
       end
 
       private

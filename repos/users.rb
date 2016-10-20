@@ -4,35 +4,20 @@ module Repos
 
       def for db
         @@users_collection = db['users']
-        #mail
       end
 
-      # def mail
-      #   results = @@users_collection.find({})
-      #   return {} unless results.count > 0
-
-      #   users = results.map { |user|
-      #    Util.string_keyed_hash_to_symbolized user
-      #   }
-      #   users.each{ |user|
-      #     user[:validation_code] = SecureRandom.uuid if user[:validation_code].blank?
-      #     modify({user_id: user[:user_id]},{validation_code: user[:validation_code]})
-      #     Services::Mails.deliver_mail_to(user, :last_two_weeks)
-      #   }
-      # end
-
       def add user
-        @@users_collection.insert(user)
+        @@users_collection.insert_one(user)
       end
 
       def modify query, new_field
-        @@users_collection.update(query,{
+        @@users_collection.update_one(query,{
           "$set": new_field
         })
       end
 
       def exists? query
-        @@users_collection.count(query: query) > 0
+        @@users_collection.count(query) > 0
       end
 
       def validate validation_code
@@ -58,12 +43,12 @@ module Repos
       end
 
       def delete_user user_id
-        @@users_collection.remove({user_id: user_id})
+        @@users_collection.delete_one({user_id: user_id})
       end
       
       private
       def delete_field query, field
-        @@users_collection.update(query,{
+        @@users_collection.update_one(query,{
           "$unset": {"#{field}" => ""}
         })
       end

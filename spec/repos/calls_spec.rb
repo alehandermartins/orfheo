@@ -108,7 +108,7 @@ describe Repos::Calls do
   describe 'Add' do
 
     it 'registers a new call' do
-      saved_entry = @db['calls'].find_one()
+      saved_entry = @db['calls'].find({}).first
       expect(saved_entry).to include({
         'user_id' => user_id,
         'call_id' => call_id,
@@ -147,7 +147,7 @@ describe Repos::Calls do
     it 'adds a proposal to the array of proposals' do
       Repos::Calls.add_proposal call_id, proposal
 
-      saved_entry = @db['calls'].find_one()
+      saved_entry = @db['calls'].find({}).first
       expect(saved_entry).to include({
         'user_id' => user_id,
         'call_id' => call_id,
