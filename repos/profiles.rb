@@ -13,8 +13,8 @@ module Repos
         {upsert: true})
       end
 
-      def name_available? name, profile_id
-        @@profiles_collection.count(profile_id: {"$ne": profile_id}, name: name) == 0
+      def name_available? user_id, name
+        @@profiles_collection.count(user_id: {"$ne": user_id}, name: name) == 0
       end
 
       def add_production profile_id, production

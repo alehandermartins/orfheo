@@ -2,6 +2,8 @@ class ProfilesController < BaseController
 
   post '/users/create_profile' do
     profile_id = SecureRandom.uuid
+    name_available? params[:name]
+
     profile = Forms::Profiles.new(params, session[:identity]).create(profile_id)
     Repos::Profiles.update profile
     success({profile: profile})
@@ -10,6 +12,7 @@ class ProfilesController < BaseController
    post '/users/modify_profile' do
     scopify profile_id: true
     check_profile_ownership profile_id
+    name_available? params[:name]
 
     profile = Forms::Profiles.new(params, session[:identity]).modify(profile_id)
     old_pictures = Services::Profiles.profile_old_pictures profile_id
@@ -86,6 +89,10 @@ class ProfilesController < BaseController
     method = :visit_profiles
     method = :user_profiles if owner == session[:identity]
     Repos::Profiles.get_profiles method, {user_id: owner, profile_id: profile_id, requester: session[:identity]}
+  end
+
+  def name_available? name
+    raise Pard::Invalid::ExistingName unless Repos::Profiles.name_available?(session[:identity], name)
   end
 end
 

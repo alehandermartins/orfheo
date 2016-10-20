@@ -59,8 +59,8 @@ describe Repos::Profiles do
     end
 
     it 'checks if a name is availabe' do
-      expect(Repos::Profiles.name_available? 'artist_name', 'otter_id').to eq(false)
-      expect(Repos::Profiles.name_available? 'otter_name', 'otter_id').to eq(true)
+      expect(Repos::Profiles.name_available? 'otter_id', 'artist_name').to eq(false)
+      expect(Repos::Profiles.name_available? user_id, 'artist_name').to eq(true)
     end
   end
 

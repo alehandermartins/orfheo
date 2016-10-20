@@ -62,6 +62,12 @@ module Pard
     end
   end
 
+  class Invalid::ExistingName < Invalid
+    def message
+      'existing_name'
+    end
+  end
+
   class Invalid::UnexistingProduction < Invalid
     def message
       'non_existing_production'

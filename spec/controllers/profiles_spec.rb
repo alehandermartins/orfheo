@@ -49,6 +49,7 @@ describe ProfilesController do
   }
 
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+  let(:otter_profile_id){'fde01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
@@ -57,6 +58,16 @@ describe ProfilesController do
     {
       type: 'artist',
       name: 'artist_name',
+      city: 'city',
+      zip_code: 'zip_code',
+      color: 'color'
+    }
+  }
+
+  let(:otter_profile){
+    {
+      type: 'artist',
+      name: 'otter_artist_name',
       city: 'city',
       zip_code: 'zip_code',
       color: 'color'
@@ -117,7 +128,8 @@ describe ProfilesController do
   describe 'Create' do
 
     it 'fails if the type does not exist' do
-      post create_profile_route, {}
+      profile.delete(:type)
+      post create_profile_route, profile
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_type')
     end
@@ -148,6 +160,18 @@ describe ProfilesController do
       post create_profile_route, profile
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile']).to eq(Util.stringify_hash(profile_model))
+    end
+
+    it 'fails if the name is already taken by other user' do
+      post create_profile_route, profile
+      post create_profile_route, profile
+      expect(parsed_response['status']).to eq('success')
+
+      post logout_route
+      post login_route, otter_user_hash
+      post create_profile_route, profile
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('existing_name')
     end
   end
 
@@ -191,6 +215,20 @@ describe ProfilesController do
       post modify_profile_route, profile
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
+    end
+
+    it 'fails if the name is already taken by other user' do
+      post create_profile_route, profile
+      post logout_route
+      post login_route, otter_user_hash
+      allow(SecureRandom).to receive(:uuid).and_return(otter_profile_id)
+      post create_profile_route, otter_profile
+
+      otter_profile[:profile_id] = otter_profile_id
+      otter_profile[:name] = 'artist_name'
+      post modify_profile_route, otter_profile
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('existing_name')
     end
   end
 
