@@ -2,89 +2,67 @@ describe Repos::Events do
 
   let(:user_id){'45825599-b8cf-499c-825c-a7134a3f1ff0'}
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+  let(:space_profile_id){'spe01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:event_id){'a5bc4203-9379-4de0-856a-55e1e5f3fac6'}
+  let(:performance_id){'c5bc4203-9379-4de0-856a-55e1e5f3fac6'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
-  let(:profile){
+  let(:artist_proposal){
     {
-      user_id: user_id,
-      profile_id: profile_id,
-      type: 'artist',
-      name: 'artist_name',
-      city: 'city',
-      zip_code: 'zip_code',
-      profile_picture: ['profile.jpg'],
-      bio: 'bio',
-      personal_web: 'my_web'
-    }
-  }
-
-  let(:proposal){
-    {
-      user_id: user_id,
-      profile_id: profile_id,
-      production_id: production_id,
       proposal_id: proposal_id,
-      type: 'artist',
-      name: 'artist_name',
       category: 'arts',
       title: 'title',
       description: 'description',
       short_description: 'short_description',
-      photos: ['picture.jpg', 'otter_picture.jpg'],
-      links: 'links',
       duration: 'duration',
-      children: 'true',
+      children: 'true'
     }
   }
 
-  let(:otter_proposal){
+  let(:artist){
     {
+      user_id: user_id,
       profile_id: profile_id,
-      proposal_id: 'otter_proposal',
-      type: 'artist',
-      category: 'expo',
-      name: 'otter_name',
-      title: 'otter_title',
-      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
-      photos: ['otter_photo']
+      email: 'email',
+      name: 'artist_name',
+      address: {
+        locality: 'locality',
+        postal_code: 'postal_code'
+      },
+      phone: 'phone',
+      proposals: [artist_proposal]
     }
   }
 
-  let(:anotter_proposal){
+  let(:space){
     {
-      profile_id: profile_id,
-      proposal_id: 'anotter_proposal',
-      type: 'space',
-      category: 'home',
-      address: 'space_address',
+      user_id: user_id,
+      profile_id: space_profile_id,
+      email: 'email',
       name: 'space_name',
-      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
-      photos: ['otter_photo']
+      address: {
+        locality: 'locality',
+        postal_code: 'postal_code'
+      },
+      phone: 'phone',
+      category: 'category'
     }
   }
 
-  let(:program){[
+  let(:performance){
     {
-      time: ['3', '6'],
+      performance_id: performance_id,
       participant_id: profile_id,
       participant_proposal_id: proposal_id,
-      host_id: profile_id,
-      host_proposal_id: 'anotter_proposal'
-    },
-    {
-      time: ['3', '6'],
-      participant_id: profile_id,
-      participant_proposal_id: 'otter_proposal',
-      host_id: profile_id,
-      host_proposal_id: 'anotter_proposal'
+      host_id: space_profile_id,
+      date: 'date',
+      time: 'time',
+      permanent: 'false',
+      comments: 'comments',
+      confirmed: false
     }
-  ]}
-
-  let(:order){
-    ['anotter_proposal']
   }
 
   let(:event){
@@ -92,8 +70,6 @@ describe Repos::Events do
       user_id: user_id,
       profile_id: profile_id,
       event_id: event_id,
-      call_id: call_id,
-      order: []
     }
   }
 
@@ -123,40 +99,83 @@ describe Repos::Events do
       expect(Repos::Events.exists? 'otter').to eq(false)
     end
 
-    # it 'checks if matched proposal is already in an event' do
-    #   expect(Repos::Events.proposal_exists?('otter_proposal')).to eq(false)
-    #   Repos::Events.add_proposal(event_id, proposal)
-    #   expect(Repos::Events.proposal_exists?(proposal_id)).to eq(true)
-    # end
+    it 'checks if performers participate in an event' do
+      Repos::Events.add_artist event_id, artist
+      expect(Repos::Events.performers_participate? event_id, performance).to eq(false)
+      Repos::Events.add_space event_id, space
+      expect(Repos::Events.performers_participate? event_id, performance).to eq(true)
+    end
+
+    it 'checks if performance and performers exist' do
+      Repos::Events.add_artist event_id, artist
+      expect(Repos::Events.performance_exists? event_id, performance).to eq(false)
+      Repos::Events.add_space event_id, space
+      expect(Repos::Events.performance_exists? event_id, performance).to eq(false)
+      Repos::Events.add_performance event_id, performance
+      expect(Repos::Events.performance_exists? event_id, performance).to eq(true)
+    end
   end
 
-  # describe 'Push' do
+  describe 'Add participants' do
+    
+    it 'adds an artist' do
+      Repos::Events.add_artist event_id, artist
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['artists'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => profile_id,
+        'proposals' => [Util.stringify_hash(artist_proposal)]
+      })
+    end
 
-  #   it 'adds a proposal to the array of proposals' do
-  #     Repos::Calls.add_proposal call_id, proposal
+    it 'adds a space' do
+      Repos::Events.add_space event_id, space
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['spaces'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'category' => 'category'
+      })
+    end
+  end
 
-  #     saved_entry = @db['calls'].find_one()
-  #     expect(saved_entry).to include({
-  #       'user_id' => user_id,
-  #       'call_id' => call_id,
-  #       'proposals' => [Util.stringify_hash(proposal)]
-  #     })
-  #   end
-  # end
+  describe 'Add proposals' do
 
-  # describe 'Proposal on time?' do
+    it 'adds a proposal' do
+      Repos::Events.add_artist event_id, artist
+      Repos::Events.add_artist_proposal event_id, profile_id, artist_proposal
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['artists'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => profile_id,
+        'proposals' => [Util.stringify_hash(artist_proposal), Util.stringify_hash(artist_proposal)]
+      })
+    end
+  end
 
-  #   it 'checks whitelist and if a proposal is on time' do
-  #     allow(Time).to receive(:now).and_return(0)
-  #     Repos::Calls.add_whitelist call_id, ['email']
-  #     expect(Repos::Calls.proposal_on_time? call_id, 'otter_email').to eq(false)
-  #     expect(Repos::Calls.proposal_on_time? call_id, 'email').to eq(true)
-  #     allow(Time).to receive(:now).and_return(1462053601)
-  #     expect(Repos::Calls.proposal_on_time? call_id, 'otter_email').to eq(true)
-  #     expect(Repos::Calls.proposal_on_time? call_id, 'email').to eq(true)
-  #   end 
-  # end
+  describe 'Performaces' do
 
+    it 'adds a performance' do
+      Repos::Events.add_performance event_id, performance
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['program'].first).to include(Util.stringify_hash(performance))
+    end
+
+    it 'modifies a performance' do
+      Repos::Events.add_performance event_id, performance
+      performance[:date] = 'otter_date'
+      Repos::Events.modify_performance event_id, performance
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['program'].first).to include(Util.stringify_hash(performance))
+    end
+
+    it 'deletes a performance' do
+      Repos::Events.add_performance event_id, performance
+      Repos::Events.delete_performance event_id, performance_id
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['program']).to eq([])
+    end
+  end
   # describe 'Get call' do
 
   #   it 'returns the specified calls' do

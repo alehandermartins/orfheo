@@ -86,6 +86,18 @@ module Pard
     end
   end
 
+  class Invalid::UnexistingParticipants < Invalid
+    def message
+      'non_existing_participants'
+    end
+  end
+
+  class Invalid::UnexistingPerformance < Invalid
+    def message
+      'non_existing_performance'
+    end
+  end
+
   class Invalid::ProfileOwnership < Invalid
     def message
       'you_dont_have_permission'

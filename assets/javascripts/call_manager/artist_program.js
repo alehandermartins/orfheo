@@ -4,7 +4,7 @@
 
   ns.Widgets = ns.Widgets || {};  
 
-  ns.Widgets.ArtistProgram = function(artist){
+  ns.Widgets.ArtistProgram = function(artist, program, _spaces, _program){
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
@@ -19,175 +19,88 @@
       email: 'Email'
     };
 
-    // var _infoSpace = space.address.route+' '+space.address.street_number+' - tel. ' + space.phone+ ' ('+space.responsible + ') '+' - email: '+ space.email;
-
-    var _artistName = artist.name;
-
     var _infoArtistBox = $('<div>').addClass('info-box-popup-program');
-
-    // _infoArtistBox.append($('<p>').append(_infoSpace));
-
-    var _rowPosition = 1;
-    var _dayRowPos = [];
-    var _permanentRowPos = [];
+    var _conflictPerformances;
 
     var _printArtistProgram = function(artist){
-      _rowPosition = 1;
-      _dayRowPos = [];
-      _permanentRowPos = [];
-
       _createdWidget.empty();
-
-      var call = Pard.CachedCall;
-      var program = Pard.Widgets.Program;
-      var eventTime = call.eventTime;
-
-      var myPerformances = [];
-      var myPermanentPerformances = [];
-      program.forEach(function(performance){
-        if(performance.participant_id == artist.profile_id) myPerformances.push(performance);
+      _conflictPerformances = [];
+      var myPerformances = Object.keys(program).map(function(performance_id){
+        return program[performance_id];
       });
 
-      var _reorderedProgram = [];
-      var _conflictPerformances = [];
-
-      if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgramCrono(myPerformances);
-      _reorderedProgram.forEach(function(performance, index){
-        for(i = _reorderedProgram.indexOf(performance) + 1; i < _reorderedProgram.length; i++){
-          if(performance.permanent == true){
-            if(_reorderedProgram[i].participant_proposal_id == performance.participant_proposal_id){
-              if(_reorderedProgram[i].time[0] < performance.time[1]){
+      if (myPerformances) myPerformances = Pard.Widgets.ReorderProgramCrono(myPerformances);
+      myPerformances.forEach(function(performance, index){
+        for(i = myPerformances.indexOf(performance) + 1; i < myPerformances.length; i++){
+          if(performance.permanent == 'true'){
+            if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id){
+              if(myPerformances[i].time[0] < performance.time[1]){
                 _conflictPerformances.push(performance);
-                _conflictPerformances.push(_reorderedProgram[i]);
+                _conflictPerformances.push(myPerformances[i]);
               }
             }
           }
-          else if(_reorderedProgram[i].participant_proposal_id == performance.participant_proposal_id && _reorderedProgram[i].permanent == true){
-            if(_reorderedProgram[i].time[0] < performance.time[1]){
+          else if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id && myPerformances[i].permanent == 'true'){
+            if(myPerformances[i].time[0] < performance.time[1]){
               _conflictPerformances.push(performance);
-              _conflictPerformances.push(_reorderedProgram[i]);
+              _conflictPerformances.push(myPerformances[i]);
             }   
           }
-          else if(_reorderedProgram[i].permanent == false){
-            if(_reorderedProgram[i].time[0] < performance.time[1]){
+          else if(myPerformances[i].permanent == 'false'){
+            if(myPerformances[i].time[0] < performance.time[1]){
               _conflictPerformances.push(performance);
-              _conflictPerformances.push(_reorderedProgram[i]);
+              _conflictPerformances.push(myPerformances[i]);
             }
           }
         }
       });
 
       var _artistTable = $('<table>').addClass('table_display table-proposal row-border').attr({'cellspacing':"0", 'width':'100%'});
-
       var _tableBox = $('<div>').addClass('table-space-program');
-
       var _thead = $('<thead>');
       var _titleRow = $('<tr>');
-      // .addClass('title-row-table-proposal');
-
-      _columnsHeaders.forEach(function(field, colNum){
-        var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
-        // var _class = 'column-'+field;
-        // _titleCol.addClass('column-space-program-call-manager');
-        // _titleCol.addClass(_class);
-        _titleRow.append(_titleCol);
-      });
-
-      _artistTable.append(_thead.append(_titleRow));
-
-
       var _tfoot = $('<tfoot>');
       var _footRow = $('<tr>');
 
-      _columnsHeaders.forEach(function(field, colNum){
-        var _titleCol = $('<th>');
-
-        if (field == 'email') _titleCol.text('Powered by Orfheo');
-        else _titleCol.text('');
-        // _titleCol.addClass('column-space-program-call-manager');
-        // _titleCol.addClass(_class);
-        _footRow.append(_titleCol);
+      _columnsHeaders.forEach(function(field){
+        var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
+        var _footCol = $('<th>');
+        if (field == 'email') _footCol.text('Powered by Orfheo');
+        else{_footCol.text('');}
+        _titleRow.append(_titleCol);
+        _footRow.append(_footCol);
       });
 
+      _artistTable.append(_thead.append(_titleRow));
       _artistTable.append(_tfoot.append(_footRow));
 
       var _tbody = $('<tbody>');
 
-      Object.keys(eventTime).forEach(function(day){
-        if (day == 'permanent') return false;
-        var _day = new Date(day);
+      var lastDate;
+      myPerformances.forEach(function(performance){
+        if(performance.date != lastDate){
+          var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
+          var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
+          var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
+          var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
+          var _addressCol = $('<td>').addClass('column-artist-program-call-manager column-address');
+          var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
+          var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
-        var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
-        _columnsHeaders.forEach(function(field){
-          var _colClass = 'column-'+field;
-          var _col = $('<td>').addClass('column-space-program-call-manager');
-          _col.addClass(_colClass);
-          if (field == 'time'){
-            _col.append(moment(_day).locale('es').format('dddd').toUpperCase());
-          }
-          else if(field == 'title'){
-            _col.append(moment(_day).locale('es').format('DD-MM-YYYY'));
-          }
-          else{
-            _col.html('');
-          }
-          _dayRow.append(_col);
-        });
+          _timeCol.append(moment(performance.date).locale('es').format('dddd').toUpperCase());
+          _titleCol.append(moment(performance.date).locale('es').format('DD-MM-YYYY'));
+          _nameCol.html('');
+          _addressCol.html('');
+          _phoneCol.html('');
+          _emailCol.html('');
 
-        var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
-        _columnsHeaders.forEach(function(field){
-          var _colClass = 'column-'+field;
-          var _col = $('<td>').addClass('column-space-program-call-manager');
-          _col.addClass(_colClass);
-          if (field == 'time'){
-            _col.append('Permanente');
-          }
-          else if (field == 'title'){
-            _col.append(moment(new Date(day)).locale('es').format('dddd'));
-          }
-          else{
-            _col.html('');
-          }
-          _permanentRow.append(_col);
-        });
-
-        var _permanents = [];
-        var _check = true;
-
-        _reorderedProgram.forEach(function(show, index){
-
-          var _startDate = new Date(parseInt(show['time'][0]));
-          var _endDate = new Date(parseInt(show['time'][1]));
-          if (moment(_startDate).format('MM-DD-YYYY') == moment(_day).format('MM-DD-YYYY')){
-            if (_check) {
-              _tbody.append(_dayRow);
-              _dayRowPos.push(_rowPosition);
-              _rowPosition = _rowPosition + 1;
-              _check = false;
-            }
-            if (show.permanent) _permanents.push([show, _startDate, _endDate]);
-            else {
-              var _conflict = false;
-              if($.inArray(show, _conflictPerformances) >= 0) _conflict = true;
-              var _row = _printRow(show,_startDate, _endDate, _conflict);              
-              _tbody.append(_row);
-              _rowPosition = _rowPosition + 1;
-            }
-          }
-        });
-        if (_permanents.length) {
-          _tbody.append(_permanentRow);
-          _permanentRowPos.push(_rowPosition);
-          _rowPosition = _rowPosition + 1;
-          _permanents.forEach(function(expo){
-            var _conflict = false;
-            if($.inArray(expo[0], _conflictPerformances) >= 0) _conflict = true;
-            var _row = _printRow(expo[0],expo[1], expo[2], _conflict);
-            _tbody.append(_row);
-            _rowPosition = _rowPosition + 1;
-
-          })
+          _dayRow.append(_timeCol, _titleCol, _nameCol, _addressCol, _phoneCol, _emailCol);
         }
+
+        var _row = _printRow(performance);
+        _tbody.append(_dayRow);
+        _tbody.append(_row);
+        lastDate = performance.date;
       });
 
       _artistTable.append(_tbody);
@@ -220,7 +133,7 @@
           exportOptions: {
               columns: ':visible'
           },
-          filename: 'programa '+artist.name
+          filename: 'programa '+ artist.name
         },
         {
           extend: 'pdf',
@@ -229,8 +142,8 @@
           },
           // download: 'open',
           orientation: 'landscape',
-          filename: 'programa '+artist.name,
-          title: _artistName + ' - Programación conFusión 2016',
+          filename: 'programa '+ artist.name,
+          title: artist.name + ' - Programación conFusión 2016',
           footer: true,
           customize: function ( doc ) {
             doc.content.forEach(function(content) {
@@ -290,84 +203,47 @@
       });
     }
 
-    var _printRow = function(show, startDate, endDate, conflict){
+    var _printRow = function(show){
       var _row = $('<tr>');
-      if(conflict == true){
+      if($.inArray(show, _conflictPerformances) >= 0){
         _row.css({
           'background': '#FBA4A4'
         });
       }
-      var spaceProposal = Pard.Widgets.GetProposal(show.host_proposal_id);
-      var artistProposal = Pard.Widgets.GetProposal(show.participant_proposal_id);
-      var cardInfo = {
-        performance_id: show.performance_id,
-        participant_id: artistProposal.profile_id,
-        participant_proposal_id: artistProposal.proposal_id,
-        title: artistProposal.title,
-        duration: artistProposal.duration,
-        category: artistProposal.category,
-        availability: artistProposal.availability,
-        name: artistProposal.name,
-        date: show.date, 
-        confirmed: show.confirmed,
-        comments: show.comments,
-      }
 
-      _columnsHeaders.forEach(function(field){
-        var _colClass = 'column-'+field;
-        var _col = $('<td>').addClass('column-artist-program-call-manager');
-        _col.addClass(_colClass);
-          if (field == 'time'){
-            var _schedule = moment(startDate).locale("es").format('HH:mm') + '-' + moment(endDate).locale("es").format('HH:mm');
-            _col.append(_schedule);
-          }
-          if (field == 'title'){
-            var _namePopupCaller = $('<a>').attr({'href':'#'}).text(artistProposal['title']);
-            if (show.permanent){
-              _namePopupCaller.on('click', function(){
-                var _content = $('<div>').addClass('very-fast reveal full');
-                _content.empty();
-                $('body').append(_content);
+      var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
+      var _schedule = moment(show.time[0]).locale("es").format('HH:mm') + '-' + moment(show.time[1]).locale("es").format('HH:mm');
+      var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
+      var _namePopupCaller = $('<a>').attr({'href':'#'}).text(show.title);
+      var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
+      var _addressCol = $('<td>').addClass('column-artist-program-call-manager column-address');
+      var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
+      var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
-                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-                var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PermanentPerformanceProgram(cardInfo, true));
-                _message.setCallback(function(){
-                  _printArtistProgram(artistProposal);
-                  _content.remove();
-                  _popup.close();
-                });
-                _content.append(_message.render());
-                _popup.open();
-              });
-            }
-            else {
-              _namePopupCaller.on('click', function(){
-                var _content = $('<div>').addClass('very-fast reveal full');
-                _content.empty();
-                $('body').append(_content);
+      _timeCol.append(_schedule);
+      _titleCol.append(_namePopupCaller);
+      _nameCol.html(show.host_name);
+      _addressCol.html(show.address.route + ' ' + show.address.street_number);
+      _phoneCol.html(_spaces[show.host_id].space.phone);
+      _emailCol.html(_spaces[show.host_id].space.email);
 
-                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-                var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PerformanceProgram(cardInfo, true));
-                _message.setCallback(function(){
-                  _printArtistProgram(artistProposal);
-                  _content.remove();
-                  _popup.close();
-                });
-                _content.append(_message.render());
-                _popup.open();
-              });
-            }
-           _col.append(_namePopupCaller);
-          }
-          
-          else  if (field == 'address'){
-            _col.html(spaceProposal.address.route+' '+spaceProposal.address.street_number);
-          }
-          else{
-            _col.html(spaceProposal[field]);
-          }
-        _row.append(_col);
+      _namePopupCaller.on('click', function(){
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent(show.title + ' (' + artist.name + ')', _program[show.performance_id].performanceManager('load'));
+        _message.setCallback(function(){
+          _printArtistProgram(artist, program, _program);
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
       });
+
+      _row.append(_timeCol, _titleCol, _nameCol, _addressCol, _phoneCol, _emailCol);
+      
       return _row;
     }
 

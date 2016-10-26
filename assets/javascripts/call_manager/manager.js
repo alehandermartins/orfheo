@@ -4,50 +4,62 @@
   ns.Widgets = ns.Widgets || {};  
 
   ns.Widgets.ProgramManager = function(){
-    // Pard.Widgets.Program = [];
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
    
-    var call = Pard.CachedCall; 
-    //Schedule of the event
-    var eventTime = call.eventTime;
-    console.log(call)
+    var the_event = Pard.CachedEvent; 
+    var eventTime = the_event.eventTime;
     
-    //Object to fill with profile_id (keys) and proposals (values)
-    var artists = {};
-
     //Filling default categories for selectors
     var artistProposals = Pard.Widgets.ArtistProposals();
     var spaceProposals = Pard.Widgets.SpaceProposals();
 
-    //Filling artists, spaces and selector options
-    call['proposals'].forEach(function(proposal){
-      //Formatting availability parameter
-      if(proposal.availability && proposal.availability != 'false'){
-        var availability = [];
-        Object.keys(proposal.availability).forEach(function(index){
-          if (proposal.availability[index] != 'permanent'){
-            var date = new Date(proposal.availability[index]);
-            availability.push(date.toISOString().split('T')[0]);
-            _checkis = true;
-          }        
-         });
-        proposal.availability = availability;
-      }
-      else{proposal.availability = Object.keys(eventTime);}
+    var artists = the_event.artists;
+    var spaces = the_event.spaces;
 
-      if (proposal.type == 'artist'){
-        artists[proposal.profile_id] = artists[proposal.profile_id] || [];
-        artists[proposal.profile_id].push(proposal)
-      };
-      
-      if (proposal.type == 'space'){
-        Pard.Spaces.push(proposal);
-        spaceProposals.push({
-          id: proposal.profile_id,
-          text: proposal.name
-        });
-      }
+    spaces.forEach(function(space){
+      Pard.Spaces.push(space);
+      spaceProposals.push({
+        id: space.profile_id,
+        text: space.name
+      });
     });
+
+    artists.forEach(function(artist){
+      artistProposals.push({
+        id: artist.profile_id,
+        text: artist.name
+      });
+    });
+
+    //Filling artists, spaces and selector options
+    // call['proposals'].forEach(function(proposal){
+    //   //Formatting availability parameter
+    //   if(proposal.availability && proposal.availability != 'false'){
+    //     var availability = [];
+    //     Object.keys(proposal.availability).forEach(function(index){
+    //       if (proposal.availability[index] != 'permanent'){
+    //         var date = new Date(proposal.availability[index]);
+    //         availability.push(date.toISOString().split('T')[0]);
+    //         _checkis = true;
+    //       }        
+    //      });
+    //     proposal.availability = availability;
+    //   }
+    //   else{proposal.availability = Object.keys(eventTime);}
+
+    //   if (proposal.type == 'artist'){
+    //     artists[proposal.profile_id] = artists[proposal.profile_id] || [];
+    //     artists[proposal.profile_id].push(proposal)
+    //   };
+      
+    //   if (proposal.type == 'space'){
+    //     Pard.Spaces.push(proposal);
+    //     spaceProposals.push({
+    //       id: proposal.profile_id,
+    //       text: proposal.name
+    //     });
+    //   }
+    // });
 
     // if (spaceList) Pard.Spaces = spaceList;
 
@@ -61,12 +73,12 @@
     });
 
     //Filling artist proposals
-    Object.keys(artists).forEach(function(profile_id){
-      artistProposals.push({
-        id: artists[profile_id][0].profile_id,
-        text: artists[profile_id][0].name
-      });
-    });
+    // Object.keys(artists).forEach(function(profile_id){
+    //   artistProposals.push({
+    //     id: artists[profile_id][0].profile_id,
+    //     text: artists[profile_id][0].name
+    //   });
+    // });
 
     //Ordering spaces
 
@@ -128,7 +140,6 @@
     });
 
     var _scrollers = $('<div>').append( _scrollLeftBtn, _scrollRightBtn).addClass('scrollers-call-managers');
-
     var _selectors = $('<div>').addClass('selectors-call-manager');
 
 
@@ -380,62 +391,7 @@
     var _artists = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).addClass('artist-accordeon-call-manager');
     var _listContainer = $('<div>').addClass('artist-list-container-call-manager');
     _artists.append(_artistSelectorContainer, _listContainer);
-    //Last selections (needed for accordion show hide purposes)
-    var lastArtist = '';
-    var lastaHref = '';
     //Array of proposal cards
-    var proposalCards = [];
-
-    var startTime = new Date().getTime();
-    //Filling the accordion... the classes are giving style from foundation... need to change and redifine (no foundation behaviour)
-    Object.keys(artists).forEach(function(profile_id, index){
-
-      var proposal = artists[profile_id][0];
-      var container = $('<div>').css({'padding': 0});
-      var accordionNav = $('<li>').addClass('accordion-item');
-      var aHref = $('<a>').addClass('accordion-title').text(proposal.name);
-      var _artistMenuDropdown = Pard.Widgets.ArtistDropdownMenu(artists[profile_id][0]).render();
-      _artistMenuDropdown.addClass('artists-dropdown-icon-call-manager');
-      var content = $('<div>').addClass('accordion-content').css({'padding': 0});
-      artists[profile_id].forEach(function(proposal){
-        //Creating cards for each proposal
-        var proposalCard = Pard.Widgets.ProposalCard(proposal);
-        proposalCards.push(proposalCard);
-        content.append(proposalCard.render());
-        var pep = 'pep';
-      });
-      accordionNav.append(aHref.append(_artistMenuDropdown));
-      container.append(accordionNav, content);
-
-      //Accordion behaviour
-      accordionNav.on('click', function(){
-        if(!lastArtist){
-          aHref.addClass('is-active');
-          content.slideToggle();
-        }
-        else{
-          if(aHref.hasClass('is-active')){
-            content.slideToggle();
-            aHref.removeClass('is-active');
-          }
-          else{
-            if(lastArtist != content && lastaHref.hasClass('is-active')){
-              lastArtist.slideToggle();
-              lastaHref.removeClass('is-active');
-            }
-            content.slideToggle();
-            aHref.addClass('is-active');
-          }
-        }
-        lastArtist = content;
-        lastaHref = aHref;
-      });
-      _listContainer.append(container);
-      artists[profile_id]['card'] = container;
-    });
-    
-    var endTime = new Date().getTime();
-
     var hours = [];
 
     //Filling the columns for each day we declare a set of space columns. One extra set for permanent

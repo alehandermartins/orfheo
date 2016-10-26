@@ -8,6 +8,7 @@ require './controllers/welcome'
 require './controllers/login'
 require './controllers/users'
 require './controllers/profiles'
+require './controllers/events'
 require './controllers/calls'
 require './controllers/search'
 require './controllers/forms'
@@ -23,6 +24,7 @@ use MyExceptionHandling
 
 use UsersController
 use ProfilesController
+use EventsController
 use CallsController
 use Services::Chat
 

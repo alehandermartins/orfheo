@@ -27,6 +27,7 @@ require_relative '../lib/forms/base'
 require_relative '../lib/forms/profiles'
 require_relative '../lib/forms/productions'
 require_relative '../lib/forms/proposals'
+require_relative '../lib/forms/events'
 require_relative '../lib/forms/program'
 
 require_relative '../lib/users/user'

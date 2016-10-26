@@ -4,17 +4,15 @@
   ns.Widgets = ns.Widgets || {};  
 
   ns.Widgets.SpaceColumn = function(space, day, hours){
-    var eventTime = Pard.CachedCall.eventTime;
+    var eventTime = Pard.CachedEvent.eventTime;
 
     var _spaceCol = $('<div>').addClass('spaceCol');
-    //_spaceCol.addClass('space-column-call-manager');
     _spaceCol.css({
       'display': 'inline-block',
       'width': '11rem',
       'border-style': 'solid',
       'border-width': '1px',
       'border-color': 'black'
-      // 'height': hours.length *40+'px'
     });
     //Space header is the handle for dragging space columns
     var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header cursor_grab');
@@ -29,7 +27,6 @@
 
     var _spacename = $('<div>');
     _spacename.addClass('space-name-container-call-manager');
-    // var _title = $('<p>').addClass('space-name-headerTable-call-manager').append($('<a>').text(space.name));   
     var _titleText = $('<a>').attr('href','#');
     _titleText.text(Pard.Widgets.CutString(space.name, 35));
     _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
@@ -287,7 +284,7 @@
   }
 
   ns.Widgets.PermanentSpaceColumn = function(space, hours){
-    var eventTime = Pard.CachedCall.eventTime;
+    var eventTime = Pard.CachedEvent.eventTime;
     var _spaceCol = $('<div>').addClass('spaceCol').css({
       'display': ' inline-block',
       'width': '11rem',

@@ -1,0 +1,1347 @@
+'use strict';
+
+(function(ns){
+  ns.Widgets = ns.Widgets || {};  
+
+  ns.Widgets.ProgramManager = function(){
+
+    var the_event = Pard.CachedEvent;
+    var eventTime = the_event.eventTime;
+    var artists = the_event.artists;
+    var spaces = the_event.spaces;
+
+    var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
+    var _tableBox = $('<div>').addClass('table-box-call-manager');
+    
+    var _timeTableContainer = $('<div>').addClass('time-table-call-manager');
+    var _tableContainer = $('<div>').addClass('tableContainer table-container-call-manager');
+    var _artistsBlock = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).addClass('artist-accordeon-call-manager');
+    var _artistsList = $('<div>').addClass('artist-list-container-call-manager');
+
+    var _scrollLeftBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_left').render().addClass('navigation-btn-icon'));
+    var _scrollRightBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_right').render().addClass('navigation-btn-icon'));
+
+    _scrollRightBtn.mousehold(500,function(){
+      var _leftPos = _tableContainer.scrollLeft();
+      $(_tableContainer).animate({
+        scrollLeft: _leftPos + 528
+    }, 500);
+    });
+
+    _scrollLeftBtn.mousehold(500,function(){
+      var _leftPos = _tableContainer.scrollLeft();
+      $(_tableContainer).animate({
+        scrollLeft: _leftPos - 528
+    }, 500);
+    });
+
+    var _scrollers = $('<div>').append( _scrollLeftBtn, _scrollRightBtn).addClass('scrollers-call-managers');
+    _timeTableContainer.append(_scrollers);
+
+    var _timeTables = {};
+    var _tables = {};
+
+    Object.keys(eventTime).forEach(function(day, index){
+      var _timeTable = $('<div>');
+      var _table = $('<div>').css({
+        'width': '100%',
+        'white-space':'nowrap',
+      });
+
+      if (day == 'permanent')_table.css('height', 602);
+      else {
+        var start = new Date(parseInt(eventTime[day][0][0]));
+        var startDate = start.getDate();
+        var startHour = start.getHours();
+        
+        var end = new Date(parseInt(eventTime[day][1][1]));
+        var endDate = end.getDate();
+        var endHour = end.getHours();
+        if(index == 1) endHour = 3;
+        //Amount of hours in our day
+        var hours = [];
+        if(endDate > startDate){
+          for (var i = startHour; i < 24; i++) {hours.push(i);}
+          for (var i = 0; i <= endHour; i++) {hours.push(i);}
+        }
+        else{
+          for (var i = startHour; i <= endHour; i++) {hours.push(i);}
+        }
+
+        hours.forEach(function(hour, hourIndex){
+          if(hour < 10) hour = '0' + hour;
+          var _time = $('<div>').html(hour + ':00').addClass('time-timeTable-call-manager');
+          _time.css({top: 28 + hourIndex * 40 + "px"});
+          var _line = $('<hr>').addClass('line-timeTable-call-manager')
+          _line.css({top: 20 + hourIndex * 40 + "px"});
+          _timeTable.append(_time, _line);
+        });
+
+        _table.css({
+          'height': hours.length * 40 + 2
+        });
+      }
+
+      _timeTables[day] = _timeTable;
+      _tables[day] = _table;
+      if(index == 0){
+        _timeTableContainer.append(_timeTables[day]);
+        _tableContainer.append(_tables[day]);
+      }
+      else{
+        _timeTableContainer.append(_timeTables[day].hide());
+        _tableContainer.append(_tables[day].hide());
+      }
+    });
+
+    var _startHour = parseInt(eventTime['permanent'][0].split(':')[0]);
+    var _startMin = parseInt(eventTime['permanent'][0].split(':')[1]);
+    var _endHour = parseInt(eventTime['permanent'][1].split(':')[0]);
+    var _endMin = parseInt(eventTime['permanent'][1].split(':')[1]);
+
+    var _selectors = $('<div>').addClass('selectors-call-manager');
+    var _buttonsContainer = $('<div>').addClass('buttons-container-call-manager');
+    
+    var _daySelectorContainer = $('<div>').addClass('day-selector-container-call-manager');
+    var _daySelector = $('<select>');
+
+    var _spaceSelectorContainer = $('<div>').addClass('space-selector-container-call-manager');
+    var _spaceSelector = $('<select>');
+    var _emptySpace = $('<option>');
+    _spaceSelector.append(_emptySpace);
+
+    var _artistSelectorContainer = $('<div>').addClass('artists-selector-container-call-manager');
+    var _artistSelector = $('<select>');
+    var _emptyArtist = $('<option>');
+    _artistSelector.append(_emptyArtist);
+
+    var _showArtists = $('<button>').attr('type','button').addClass('show-hide-btn-call-manager');
+    var _showIcon = Pard.Widgets.IconManager('hide_left_list').render().css('color','#6f6f6f');
+    var _hideIcon = Pard.Widgets.IconManager('hide_right_list').render();
+    _showArtists.append(_hideIcon);
+
+    _daySelectorContainer.append(_daySelector);
+    _spaceSelectorContainer.append(_spaceSelector);
+    _artistSelectorContainer.append(_artistSelector);
+
+    Object.keys(eventTime).forEach(function(day, day_number){
+      if (day == 'permanent') _daySelector.append($('<option>').val(day).text('Permanente'));
+      else{
+        var date = $('<option>').val(day).text(moment(day).format('DD-MM-YYYY'));
+        _daySelector.append(date);
+      }
+    });
+
+    var _lastSelected = Object.keys(eventTime)[0];
+    var artistProposals = Pard.Widgets.ArtistProposals();
+    var spaceProposals = Pard.Widgets.SpaceProposals();
+    var _shownSpaces = [];
+    
+    spaces.forEach(function(space){
+      spaceProposals.push({
+        type: 'profile',
+        id: space.profile_id,
+        text: space.name
+      });
+      _shownSpaces.push(space);
+    });
+
+    artists.forEach(function(artist){
+      artistProposals.push({
+        id: artist.profile_id,
+        text: artist.name
+      });
+    });
+
+    _daySelector.select2({
+      minimumResultsForSearch: Infinity,
+      allowClear:false,
+      templateResult: Pard.Widgets.FormatResource
+    }).on('select2:select', function(){
+      //Giving css to unavailable proposals
+      Object.keys(_artists).forEach(function(profile_id){
+        _artists[profile_id].setDay(_daySelector.val());
+      });
+
+      _tables[_lastSelected].hide();
+      _timeTables[_lastSelected].hide();
+      _tables[_daySelector.val()].show();
+      _timeTables[_daySelector.val()].show();
+      
+      _lastSelected = _daySelector.val();
+    });
+
+    _spaceSelector.select2({
+      placeholder: 'Espacios',
+      allowClear: true,
+      data: spaceProposals,
+      templateResult: Pard.Widgets.FormatResource,
+    }).on("select2:select", function(e) {
+      var _data = _spaceSelector.select2('data')[0];
+      _shownSpaces = [];
+      if(_data['type'] == 'category'){
+        spaces.forEach(function(space){
+          if(space.category == _data['id']){
+            _spaces[space.profile_id].showColumns();
+            _shownSpaces.push(space);
+          }
+          else{ _spaces[space.profile_id].hideColumns();}
+        });
+      }
+      if(_data['type'] == 'profile'){
+        spaces.forEach(function(space){
+          if(space.profile_id == _spaceSelector.val()){
+            _spaces[space.profile_id].showColumns();
+            _shownSpaces.push(space);
+          }
+          else{_spaces[space.profile_id].hideColumns();}
+        });
+      }
+      Pard.ColumnWidth = 176; 
+      if(_shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
+      _shownSpaces.forEach(function(space){
+        _spaces[space.profile_id].alignPerformances(_daySelector.val());
+      });
+    });
+
+    _spaceSelector.on("select2:unselecting", function(e){
+      _shownSpaces = [];
+      Pard.ColumnWidth = 176; 
+      if(spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
+      spaces.forEach(function(space){
+        _spaces[space.profile_id].showColumns();
+        _spaces[space.profile_id].alignPerformances(_daySelector.val());
+        _shownSpaces.push(space)
+      });
+      $(this).select2("val", "");
+      e.preventDefault();
+    });
+
+    _artistSelector.select2({
+      placeholder: 'Artistas',
+      data: artistProposals,
+      allowClear: true,
+      templateResult: Pard.Widgets.FormatResource,
+    }).on("select2:select", function(e) {
+      var _data = _artistSelector.select2('data')[0];
+      if(_data['type'] == 'category'){
+        Object.keys(_artists).forEach(function(profile_id){
+          if (_artists[profile_id].proposals.some(function(proposal){
+            return proposal.category == _data['id'];
+          })) _artists[profile_id].accordion.show();
+          else{_artists[profile_id].accordion.hide();}
+        });
+      }
+      else{
+        Object.keys(_artists).forEach(function(profile_id){
+          if(profile_id == _artistSelector.val()){
+            _artists[_artistSelector.val()].accordion.show();
+            _artists[_artistSelector.val()].accordion.find('.accordion-item').trigger('click');
+          } 
+          else{_artists[profile_id].accordion.hide();}
+        });
+      }
+    });
+
+    _artistSelector.on("select2:unselecting", function(e){
+      Object.keys(_artists).forEach(function(profile_id){
+        _artists[profile_id].accordion.show();
+      });
+      $(this).select2("val", "");
+      e.preventDefault();
+    });
+
+    _showArtists.on('click', function(){
+      _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+      if(_artistsBlock.hasClass('is-active')){ 
+        _artistsBlock.removeClass('is-active');
+        _showArtists.empty();
+        _showArtists.append(_showIcon);
+      }
+      else{
+        _artistsBlock.addClass('is-active');
+        _showArtists.empty();
+        _showArtists.append(_hideIcon);
+      }
+    });
+
+    var _artists = {};
+    var _spaces = {};
+    var _program = {};
+
+    var _performance;
+    var lastArtist;
+    var _closePopup;
+
+    var Artist = function(artist){
+      var program = {};
+      var _proposals = [];
+     
+      var Accordion = function(){
+        var container = $('<div>').css({'padding': 0});
+        var accordionNav = $('<li>').addClass('accordion-item');
+        var aHref = $('<a>').addClass('accordion-title').text(artist.name);
+        var _artistMenuDropdown = ArtistDropdownMenu(artist).render();
+        _artistMenuDropdown.addClass('artists-dropdown-icon-call-manager');
+        var content = $('<div>').addClass('accordion-content').css({'padding': 0});
+        
+        artist.proposals.forEach(function(proposal, index){
+          _proposals.push(new ProposalCard(proposal));
+          content.append(_proposals[index].render());
+        });
+
+        accordionNav.append(aHref.append(_artistMenuDropdown));
+        container.append(accordionNav, content);
+
+        accordionNav.on('click', function(){
+          content.slideToggle();
+          if(lastArtist != content){
+            content.addClass('is-active');
+            if(lastArtist && lastArtist.hasClass('is-active')){
+              lastArtist.slideToggle();
+              lastArtist.removeClass('is-active');
+            }
+          }
+          else{
+            content.removeClass('is-active');
+          }
+          lastArtist = content;
+        });
+
+        return{
+          render: function(){
+            return container;
+          }
+        }
+      }
+      
+      var ProposalCard = function(proposal){
+
+        var card = $('<div>').addClass('proposalCard');
+        var color = Pard.Widgets.CategoryColor(proposal.category);
+
+        if($.inArray(Object.keys(Pard.CachedEvent.eventTime)[0], proposal.availability) < 0) card.addClass('artist-not-available-call-manager');
+        else{ card.removeClass('artist-not-available-call-manager'); }
+
+        card.addClass('proposal-card-container-call-manager cursor_grab');
+        card.mousedown(function(){
+          card.removeClass('cursor_grab').addClass('cursor_move');
+        });
+        card.mouseup(function(){
+          card.removeClass('cursor_move').addClass('cursor_grab');
+        });
+
+        var circleColumn = $('<div>').addClass('icon-column');
+        var profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': color});
+        var titleColumn = $('<div>').addClass('name-column profile-name-column');
+        var title = $('<p>').addClass('proposal-title-card-call-manager');
+        var titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(proposal.title, 35));
+        var icon = $('<div>').append(Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon'));
+        var colorIcon = Pard.Widgets.IconColor(color).render();
+        icon.css({color: colorIcon});
+        circleColumn.append($('<div>').addClass('nav-icon-production-container').append(profileCircle.append(icon)));
+        titleColumn.append(title.append(titleText));
+
+        card.draggable({
+          revert: 'invalid',
+          helper: function(){
+            return Pard.Widgets.CardHelper(proposal).render();
+          },
+          appendTo: '.tableContainer',
+          snap: '.spaceTime',
+          snapMode: 'inner',
+          snapTolerance: 5,
+          grid: [ 10, 10 ],
+          start: function(event, ui){
+            _performance = {
+              participant_id: artist.profile_id,
+              participant_proposal_id: proposal.proposal_id,
+              title: proposal.title,
+              participant_category: proposal.category,
+              availability: proposal.availability,
+              participant_name: artist.name
+            }
+            $('.accordion').toggle('slide', {direction: 'right'}, 500);
+          },
+          stop:function(){
+            $('.accordion').toggle('slide', {direction: 'right'}, 500);
+          }
+        });
+
+        card.append(circleColumn, titleColumn);
+
+        var rgb = Pard.Widgets.IconColor(color).rgb();
+        card.css({border: 'solid 3px' + color});
+        card.hover(
+          function(){
+            $(this).css({'box-shadow': '0 0 2px 1px'+ color});
+          },
+          function(){
+            $(this).css({'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'});
+          }
+        );
+
+        return {
+          render: function(){
+            return card;
+          },
+          setDay: function(day){
+            if(day == 'permanent'){
+              card.removeClass('artist-not-available-call-manager');
+            }
+            else if($.inArray(day, proposal.availability) < 0){
+              card.addClass('artist-not-available-call-manager');
+            }
+            else{
+              card.removeClass('artist-not-available-call-manager');
+            }
+          }
+        }
+      }
+
+      var ArtistDropdownMenu = function(){     
+        var _menu = $('<ul>').addClass('menu');
+        var _profileLink = $('<li>');
+        var _profileCaller = $('<a>').attr({
+          target: 'blank',
+          href: '/profile?id=' + artist.profile_id
+        }).text('Perfil');
+
+        var _programLink = $('<li>');
+        var _programCaller = $('<a>').attr('href','#').text('Programa');
+
+        _programCaller.on('click', function(){
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist, program, _spaces, _program), 'space-program-popup-call-manager');
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          });
+          _content.append(_message.render());
+          _popup.open();
+        });
+
+        _profileLink.append(_profileCaller);
+        _profileLink.click(function(event){
+          event.stopImmediatePropagation();
+        });
+        _programCaller.click(function(event){
+          event.stopImmediatePropagation();
+        });
+
+        _programLink.append(_programCaller);
+        _menu.append(_profileLink, _programLink);
+        var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
+        var _iconDropdownMenu = $('<li>').append(
+          $('<a>').attr('href','#').append(
+            $('<span>').html('&#xE8EE').addClass('material-icons settings-icon-dropdown-menu')
+            )
+          ,_menu
+        );
+
+        _menuContainer.append(_iconDropdownMenu);
+
+        return {
+          render: function(){
+            return _menuContainer;
+          } 
+        }
+      }
+
+      var checkConflicts = function(performance_to_check){
+        var _conflictPerformances = [];
+        var myPerformances = Object.keys(program).map(function(performance_id){
+          return program[performance_id];
+        });
+
+        if (myPerformances) myPerformances = Pard.Widgets.ReorderProgramCrono(myPerformances);
+        myPerformances.forEach(function(performance, index){
+          for(i = myPerformances.indexOf(performance) + 1; i < myPerformances.length; i++){
+            if(performance.permanent == 'true'){
+              if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id){
+                if(myPerformances[i].time[0] < performance.time[1]){
+                  _conflictPerformances.push(performance);
+                  _conflictPerformances.push(myPerformances[i]);
+                }
+              }
+            }
+            else if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id && myPerformances[i].permanent == 'true'){
+              if(myPerformances[i].time[0] < performance.time[1]){
+                _conflictPerformances.push(performance);
+                _conflictPerformances.push(myPerformances[i]);
+              }   
+            }
+            else if(myPerformances[i].permanent == 'false'){
+              if(myPerformances[i].time[0] < performance.time[1]){
+                _conflictPerformances.push(performance);
+                _conflictPerformances.push(myPerformances[i]);
+              }
+            }
+          }
+        });
+        console.log(performance_to_check);
+        console.log(myPerformances);
+        if($.inArray(performance_to_check, _conflictPerformances) >= 0){
+          //Closing active performanceManager
+          if(_closePopup) _closePopup();
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist, program, _program), 'space-program-popup-call-manager');
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          });
+          _content.append(_message.render());
+          _popup.open();
+        }
+      }
+
+      var _accordion = Accordion().render();
+
+      return{
+        artist: artist,
+        accordion: _accordion,
+        proposals: artist.proposals,
+        setDay: function(day){
+          _proposals.forEach(function(proposal){
+            proposal.setDay(day);
+          });
+        },
+        addPerformance: function(performance){
+          program[performance.performance_id] = performance;
+          checkConflicts(performance);
+          console.log('artist_added');
+        },
+        deletePerformance: function(performance_id){
+          delete program[performance_id];
+          console.log('artist_deleted');
+        },
+        loadPerformance: function(performance){
+          program[performance.performance_id] = performance;
+        }
+      }
+    }
+
+    var Space = function(space){
+      var _columns = {};
+      var program = {};
+
+      var SpaceColumn = function(day){
+        var _spaceCol = $('<div>').addClass('spaceCol');
+        _spaceCol.css({
+          'display': 'inline-block',
+          'width': '11rem',
+          'border-style': 'solid',
+          'border-width': '1px',
+          'border-color': 'black'
+        });
+
+        var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header cursor_grab');
+        var _icon = SpaceDropdownMenu(space).render();
+        var _menuIcon = $('<div>').append(_icon);
+        _menuIcon.css({
+          'display': 'inline-block',
+          'vertical-align': 'middle',
+        });
+        _spaceCol.append(_menuIcon);
+
+        var _spacename = $('<div>');
+        _spacename.addClass('space-name-container-call-manager');
+        var _titleText = $('<a>').attr('href','#');
+        _titleText.text(Pard.Widgets.CutString(space.name, 35));
+        _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
+        _spaceHeader.append(_spacename, _menuIcon);
+        _spaceCol.append(_spaceHeader);
+
+        _spaceHeader.mousedown(function(){
+          _spaceHeader.removeClass('cursor_grab').addClass('cursor_move');
+        });
+        _spaceHeader.mouseup(function(){
+          _spaceHeader.removeClass('cursor_move').addClass('cursor_grab');
+        });
+
+        //Popup showing the space form
+        _titleText.on('click', function(){
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _message = Pard.Widgets.PopupContent('conFusión 2016', Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(space, Pard.Forms.SpaceCall().render())));
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          });
+          _content.append(_message.render());
+          _popup.open();
+        });
+
+        var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
+          'height': _tables[day].height() - 42
+        });
+
+        //Giving background to space if not availabe
+        if( day != 'permanent' && $.inArray(day, space.availability) < 0) _spaceCol.addClass('space-not-available-call-manager');
+        else{_spaceCol.removeClass('space-not-available-call-manager');}
+        
+        _time.droppable({
+          accept: function(card){
+            if(card.hasClass('proposalCard') || card.hasClass('programHelper')) return true;
+          },
+          drop: function(event, ui) {
+            ui.helper.data('dropped', true);
+            var position = ui.helper.position().top;
+            var colPosition = _time.position().top;
+
+            //If the element is higher, its height is adjusted to the top of the _time zone
+            if(position < colPosition) position = colPosition;
+
+            //Adjusting to time line
+            var _offset = (position - colPosition) % 10;
+            if(_offset >= 5) position += 10 - _offset;
+            if(_offset < 5) position -= _offset;
+
+            //If the card is below the drop zone it adjustes to the low end
+            var duration = ui.helper.height();
+            if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
+            
+
+            var create = function(performance){
+              if(!_performance.performance_id) _performance.performance_id = Pard.Widgets.GenerateUUID();
+              _addSpaceInfo(_performance);
+              _program[_performance.performance_id] = new Performance(_performance);
+              _program[_performance.performance_id].addToPrograms();  
+            }
+
+            if(_performance.host_id && _performance.host_id != space.profile_id) _spaces[_performance.host_id].deletePerformance(_performance);
+            if(_performance.performance_id && _program[_performance.performance_id]) _program[_performance.performance_id].destroy();
+            if(day == 'permanent'){
+              _performance.permanent = 'true';
+              Object.keys(eventTime).forEach(function(date){
+                if(date == 'permanent') return false;
+                var start = new Date(date.split('-')[0],date.split('-')[1] -1,date.split('-')[2],_startHour, _startMin);
+                var end = new Date(date.split('-')[0],date.split('-')[1] -1,date.split('-')[2],_endHour, _endMin);
+                _performance.date = date;
+                _performance.time = [start.getTime(), end.getTime()];
+                create(_performance);
+              });
+            }
+            else{
+              var start = new Date(parseInt(eventTime[day][0][0]));
+              start.setMinutes(start.getMinutes() + (position - 41) * 1.5);
+              var end = new Date(start.getTime());
+              end.setMinutes(start.getMinutes() + duration * 1.5);
+
+              _performance.date = day;
+              _performance.permanent = 'false';
+              _performance.time = [start.getTime(), end.getTime()];
+              create(performance);
+            }
+          }
+        });
+
+        _spaceCol.append(_time);
+        _spaceCol.draggable({
+          containment: '.tableContainer',
+          revert: 'invalid',
+          axis: 'x',
+          handle: '.spaceHeader',
+          helper: function(){ 
+            return Pard.Widgets.SpaceHelper(_spaceCol).render();
+          },
+          start: function(event, ui){
+            _spaceCol.addClass('ui-sortable-placeholder');
+          },
+          drag: function(event, ui){
+            _spaceHeader.removeClass('cursor_grab').addClass('cursor_move');
+            //We get the original position of the column, necessary for later calculations
+            var originalPosition = $(this).data("uiDraggable").originalPosition;
+            var position = ui.position.left;
+
+            //If the position of the column increases in more than a half of its with we switch columns
+            if (position > (originalPosition.left + Pard.ColumnWidth / 2)){
+              var index = _shownSpaces.indexOf(space);
+              if(index < _shownSpaces.length - 1){
+                Object.keys(eventTime).forEach(function(date){
+                  if(date == 'permanent') return;
+                  _spaces[_shownSpaces[index + 1].profile_id].columns[date].after(_columns[date]);
+                  _spaces[_shownSpaces[index + 1].profile_id].columns[date].find('.programHelper').css({left: '-=' + Pard.ColumnWidth + "px"});
+                  _columns[date].find('.programHelper').css({left: '+=' + Pard.ColumnWidth + "px"});
+                });
+
+                var spaceIndex = spaces.indexOf(space);
+                var nextSpaceIndex = spaces.indexOf(_shownSpaces[index + 1]);
+                spaces.splice(spaceIndex, 1);
+                spaces.splice(nextSpaceIndex, 0, space);
+
+                //Repositioning elements in ShownSpaces array
+                _shownSpaces.splice(index + 1, 0, _shownSpaces.splice(index, 1)[0]);
+
+                //Recalculatig original position for the stop animation
+                $(this).data("uiDraggable").originalPosition = {
+                  top : originalPosition.top,
+                  left : originalPosition.left + Pard.ColumnWidth
+                }
+              }
+            }
+            //Same as before but with previous column
+            if (position < (originalPosition.left - Pard.ColumnWidth / 2)){
+              var index = _shownSpaces.indexOf(space);
+              if(index > 0){
+                Object.keys(eventTime).forEach(function(date){
+                  if(date == 'permanent') return;
+                  _columns[date].after(_spaces[_shownSpaces[index - 1].profile_id].columns[date]);
+                  _spaces[_shownSpaces[index - 1].profile_id].columns[date].find('.programHelper').css({left: '+=' + Pard.ColumnWidth + "px"});
+                  _columns[date].find('.programHelper').css({left: '-=' + Pard.ColumnWidth + "px"});
+                });
+
+                var spaceIndex = spaces.indexOf(space);
+                var prevSpaceIndex = spaces.indexOf(_shownSpaces[index - 1]);
+                spaces.splice(spaceIndex, 1);
+                spaces.splice(prevSpaceIndex, 0, space);
+
+                _shownSpaces.splice(index - 1, 0, _shownSpaces.splice(index, 1)[0]);
+
+                $(this).data("uiDraggable").originalPosition = {
+                  top : originalPosition.top,
+                  left : originalPosition.left - Pard.ColumnWidth
+                }
+              }
+            }
+          },
+          stop:function(event, ui){
+            _spaceHeader.removeClass('cursor_move').addClass('cursor_grab');
+            _spaceHeader.mousedown(function(){
+              _spaceHeader.removeClass('cursor_grab').addClass('cursor_move');
+            });
+            _spaceHeader.mouseup(function(){
+              _spaceHeader.removeClass('cursor_move').addClass('cursor_grab');
+            });
+            _spaceCol.removeClass('ui-sortable-placeholder');
+          }
+        });
+
+        return {
+          render: function(){
+            return _spaceCol;
+          }
+        }
+      }
+
+      var SpaceDropdownMenu = function(space){     
+
+        var _menu = $('<ul>').addClass('menu');
+        
+        var _profileLink = $('<li>');
+        var _profileCaller = $('<a>').attr({
+          target: 'blank',
+          href: '/profile?id=' + space.profile_id
+        }).text('Perfil');
+
+        var _programLink = $('<li>');
+        var _programCaller = $('<a>').attr('href','#').text('Programa');
+        _programCaller.on('click', function(){
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _popupTitle = space.name + ' ('+Pard.Widgets.Dictionary(space.category).render() +')';
+          var _message = Pard.Widgets.PopupContent(_popupTitle, Pard.Widgets.SpaceProgram(space, program, _artists, _program), 'space-program-popup-call-manager');
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          });
+          _content.append(_message.render());
+          _popup.open();
+        });
+
+        _profileLink.append(_profileCaller);
+        _programLink.append(_programCaller);
+        _menu.append(_profileLink, _programLink);
+        var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
+        var _iconDropdownMenu = $('<li>').append(
+          $('<a>').attr('href','#').append(
+            $('<span>').html('&#xE8EE').addClass('material-icons settings-icon-dropdown-menu')
+            )
+          ,_menu
+        );
+
+        _menuContainer.append(_iconDropdownMenu);
+
+        return {
+          render: function(){
+            return _menuContainer;
+          } 
+        }
+      }
+
+      var AlignPerformances = function(left){
+        var performances = Object.keys(program).map(function(performance_id){
+          return program[performance_id];
+        });
+        var permanentPerformances = performances.map(function(performance){
+          return performances.permanent == 'true';
+        });
+
+        var align = function(){
+          performances = Pard.Widgets.ReorderProgram(performances);
+          if (performances.length == 0) return;
+          performances.forEach(function(performance){
+            if(performances.permanent == 'true' && spaceProgram[performance_id].participant_id != performance.participant_id) position += Pard.PermanentCardHeight;
+          });
+          var firstPerformance = performances.shift();
+          var showStart = [firstPerformance.time[0]];
+          var showEnd = [firstPerformance.time[1]];
+          _program[firstPerformance.performance_id].performanceCard().css({
+            'width': Pard.ColumnWidth - 2,
+            'left': left,
+            'z-index': 0
+          });
+
+          performances.forEach(function(performance){
+            var _cardIndex = 0;
+            showEnd.some(function(endTime, index){
+              if(performance.time[0] >= endTime){
+                _cardIndex = index;
+                return true;
+              }
+              _cardIndex = index + 1;
+            });
+            if(_cardIndex >= showEnd.length) showEnd.push(performance.time[1]);
+            else{ showEnd[_cardIndex] = performance.time[1];}
+            _program[performance.performance_id].performanceCard().css({
+              'width': (Pard.ColumnWidth - 2) - 10 * _cardIndex,
+              'left': left + 10 * _cardIndex,
+              'z-index': _cardIndex
+            });
+          });
+        }
+      }
+
+      var _addSpaceInfo = function(performance){
+        performance.host_id = space.profile_id;
+        performance.host_proposal_id = space.proposal_id;
+        performance.host_name = space.name;
+        performance.address = space.address;
+        performance.host_category = space.category;
+      }
+
+      Object.keys(eventTime).forEach(function(day){
+        _columns[day] = SpaceColumn(day).render();
+        _tables[day].append(_columns[day]);
+      });
+
+      return {
+        space: space,
+        columns: _columns,
+        program: program,
+        showColumns: function(){
+          Object.keys(_columns).forEach(function(date){
+            _columns[date].show();
+          });
+        },
+        hideColumns: function(){
+          Object.keys(_columns).forEach(function(date){
+            _columns[date].hide();
+          });
+        },
+        alignPerformances: function(day){
+          var position = _columns[day].position().left + 1;
+          Object.keys(eventTime).forEach(function(date){
+            _columns[date].css('width', Pard.ColumnWidth);
+          });
+          AlignPerformances(position);
+        },
+        addPerformance: function(performance, programCard){
+          _addSpaceInfo(performance);
+          program[performance.performance_id] = performance;
+          var date = performance.date;
+          if(performance.permanent == 'true') date = 'permanent';
+          if(_daySelector.val() != date) _tables[date].show();
+          _columns[date].append(programCard);
+          AlignPerformances(_columns[date].position().left + 1);
+          if(_daySelector.val() != date) _tables[date].hide();
+          console.log('space_added');
+        },
+        deletePerformance: function(performance){
+          delete program[performance.performance_id];
+          AlignPerformances(_columns[performance.date].position().left + 1);
+          console.log('space_deleted');
+        },
+        loadPerformance: function(performance, programCard){
+          var date = performance.date;
+          if(performance.permanent == 'false') _columns[date].append(programCard);
+          else{
+            date = 'permanent';
+            if(Object.keys(program).every(function(performance_id){
+              return program[performance_id].participant_proposal_id != performance.proposal_id;
+            }))_columns[date].append(programCard);
+          }
+          program[date] = performance;
+        }
+      }
+    }
+
+    var Performance = function(performance){
+      
+      var PerformanceCard = function(){
+        var _createdWidget = $('<div>');
+        var color = Pard.Widgets.CategoryColor(performance.participant_category);
+        
+        var timeCol = _spaces[performance.host_id].columns[performance.date].find('.spaceTime');
+        var dayStart = parseInt(eventTime[performance.date][0][0]);
+        performance.time[0] = parseInt(performance.time[0]);
+        performance.time[1] = parseInt(performance.time[1]);
+        
+        //10 pixels = 15 min
+        var start = (performance.time[0] - dayStart) / 90000;
+        var end = (performance.time[1] - dayStart) / 90000;
+        var position = start + 41;
+        var duration = (end - start);
+        var maxHeight = timeCol.height() - start;
+
+        var _card =$('<div>').addClass('programHelper').css({
+          'position': 'absolute',
+          'display': 'inline-block',
+          'width': Pard.ColumnWidth - 2,
+          'top': position,
+          'height': duration,
+          'background': color,
+          'white-space': 'normal',
+          'box-shadow': 'inset 0 0 1px '
+        });
+        _card.addClass('dragged-card-call-manager cursor_grab');
+
+        var _title = $('<p>').addClass('proposal-title-card-call-manager');
+        var _titleTextLong = performance.participant_name + ' - ' + performance.title;
+        var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
+        var _confirmationCheck = '';
+        var _confirmationCheckContainer = $('<span>').addClass('checker'); 
+        if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
+        _confirmationCheckContainer.append(_confirmationCheck);
+        var _commentIcon = '';
+        var _commentIconContainer = $('<span>').addClass('commentIcon'); 
+        if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render()); 
+        _commentIconContainer.append(_commentIcon);
+        _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
+        _card.append(_title.css({'position': 'absolute'}));
+
+        _card.mousedown(function(){
+          _card.removeClass('cursor_grab').addClass('cursor_move');
+        });
+        _card.mouseup(function(){
+          _card.removeClass('cursor_move').addClass('cursor_grab');
+        });
+
+        _card.draggable({
+          revert: false,
+          helper: 'clone',
+          grid: [ 10, 10 ],
+          start: function(event, ui){
+            _card.removeClass('cursor_grab').addClass('cursor_move');
+            _performance = performance;
+            ui.helper.data('dropped', false);
+            if($('.accordion').hasClass('is-active')){
+              $('.accordion').toggle('slide', {direction: 'right'}, 500);
+              $('.accordion').removeClass('is-active');
+            }
+            _card.css({'opacity': '0.4'});
+          },
+          stop:function(event, ui){
+            _card.removeClass('cursor_move').addClass('cursor_grab');
+            _card.css({'opacity': '1'});
+            //The card and performance is destroyed if dropped out
+            if(ui.helper.data('dropped') == false){
+              delete _program[performance.performance_id];
+              _artists[performance.participant_id].deletePerformance(performance.performance_id);
+              _spaces[performance.host_id].deletePerformance(performance);
+              _card.remove();
+            }
+          }
+        });
+
+        _card.resizable({
+          resize: function(event, ui) {
+            ui.size.width = ui.originalSize.width;
+          },
+          maxHeight: maxHeight,
+          grid: 10,
+          stop: function(event, ui){
+            var duration = new Date(performance['time'][0]);
+            duration.setMinutes(duration.getMinutes() + ui.size.height * 1.5);
+            performance['time'][1] = duration.getTime();
+            _program[performance.performance_id].addToPrograms();
+          }
+        });
+
+        //On click the performance shows its program
+        _titleText.on('click', function(){
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PerformanceManager());
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          });
+          _content.append(_message.render());
+          _popup.open();
+        });
+
+        return {
+          render: function(){
+            return _card;
+          }
+        }
+      }
+
+      var PermanentPerformanceCard = function(){
+        var _createdWidget = $('<div>');
+        var color = Pard.Widgets.CategoryColor(performance.participant_category);
+        
+        var position = 41;
+        var spaceProgram = _spaces[performance.host_id].program;
+        Object.keys(spaceProgram).forEach(function(performance_id){
+          if(spaceProgram[performance_id].permanent == 'true' && spaceProgram[performance_id].participant_id != performance.participant_id) position += Pard.PermanentCardHeight;
+        });
+        var _card =$('<div>').addClass('programHelper').css({
+          'position': 'absolute',
+          'display': 'inline-block',
+          'width': Pard.ColumnWidth - 2,
+          'top': position,
+          'height': Pard.PermanentCardHeight,
+          'background': color,
+          'white-space': 'normal',
+          'box-shadow': 'inset 0 0 1px '
+        });
+        _card.addClass('dragged-card-call-manager cursor_grab');
+
+        var _title = $('<p>').addClass('proposal-title-card-call-manager');
+        var _titleTextLong = performance.participant_name + ' - ' + performance.title;
+        var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
+        var _confirmationCheck = '';
+        var _confirmationCheckContainer = $('<span>').addClass('checker'); 
+        if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render(); 
+        _confirmationCheckContainer.append(_confirmationCheck);
+        var _commentIcon = '';
+        var _commentIconContainer = $('<span>').addClass('commentIcon'); 
+        if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render()); 
+        _commentIconContainer.append(_commentIcon);
+        _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
+        _card.append(_title.css({'position': 'absolute'}));
+
+        _card.mousedown(function(){
+          _card.removeClass('cursor_grab').addClass('cursor_move');
+        });
+        _card.mouseup(function(){
+          _card.removeClass('cursor_move').addClass('cursor_grab');
+        });
+
+        _card.draggable({
+          revert: false,
+          helper: 'clone',
+          grid: [ 10, 10 ],
+          start: function(event, ui){
+            _card.removeClass('cursor_grab').addClass('cursor_move');
+            _performance = performance;
+            ui.helper.data('dropped', false);
+            if($('.accordion').hasClass('is-active')){
+              $('.accordion').toggle('slide', {direction: 'right'}, 500);
+              $('.accordion').removeClass('is-active');
+            }
+            _card.css({'opacity': '0.4'});
+          },
+          stop:function(event, ui){
+            _card.removeClass('cursor_move').addClass('cursor_grab');
+            _card.css({'opacity': '1'});
+            //The card and performance is destroyed if dropped out
+            if(ui.helper.data('dropped') == false){
+              delete _program[performance.performance_id];
+              _artists[performance.participant_id].deletePerformance(performance.performance_id);
+              _spaces[performance.host_id].deletePerformance(performance);
+              _card.remove();
+            }
+          }
+        });
+
+        //On click the performance shows its program
+        _titleText.on('click', function(){
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PerformanceManager());
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          });
+          _content.append(_message.render());
+          _popup.open();
+        });
+
+        return {
+          render: function(){
+            return _card;
+          }
+        }
+      }
+      
+      var PerformanceManager = function(saveMethod){
+        if(saveMethod == 'load') _savePerformance = _loadToPrograms;
+        else{_savePerformance = _addToPrograms}
+        
+        var performanceBox = $('<div>');
+        var performanceContainer = $('<div>').css('height', 40);
+        var daySelector = $('<select>');
+        var spaceSelector = $('<select>');
+        var startTime = $('<select>');
+        var endTime = $('<select>');
+        var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+        var commentsContainer = $('<div>');
+        var comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+        
+        var confirmedContainer = $('<div>').css('height', 20);
+        var input = $('<input />').attr({type: 'checkbox'});
+        var label = $('<label>').html('Confirmado');
+        var confirmed = $('<div>').append(input, label);
+
+        daySelector.css({'display': ' inline-block', 'width': '120'});
+        spaceSelector.css({'display': ' inline-block', 'width': '250'});
+        startTime.css({'display': ' inline-block', 'width': '80'});
+        endTime.css({'display': ' inline-block', 'width': '80'});
+        confirmed.css('margin-left', 430);
+        label.css('display','inline');
+        comments.css('width', 530);
+
+        confirmedContainer.append(confirmed);
+        commentsContainer.append(comments);
+        performanceContainer.append(daySelector, spaceSelector, startTime, endTime, removeInputButton);
+        performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
+
+        Object.keys(eventTime).forEach(function(day){
+          if(day == 'permanent') return false;
+          var date = $('<option>').val(day).text(day); 
+          daySelector.append(date);
+        });
+
+        spaces.forEach(function(space){
+          var spaceOption = $('<option>').val(space.profile_id).text(space.name); 
+          spaceSelector.append(spaceOption);
+        });
+
+        daySelector.on('change', function(){
+          performance.date = daySelector.val();
+          var dateArray = daySelector.val().split('-');
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+
+          start.setUTCFullYear(parseInt(dateArray[0]));
+          end.setUTCFullYear(parseInt(dateArray[0]));
+
+          start.setUTCMonth(parseInt(dateArray[1] - 1));
+          end.setUTCMonth(parseInt(dateArray[1] - 1));
+
+          start.setUTCDate(parseInt(dateArray[2]));
+          end.setUTCDate(parseInt(dateArray[2]));
+
+          performance.time[0] = start.getTime();
+          performance.time[1] = end.getTime();
+
+          _savePerformance();
+          setStartTimes();
+          setEndTimes();
+        });
+      
+        spaceSelector.on('change', function(){
+          _spaces[performance.host_id].deletePerformance(performance);
+          performance.host_id = spaceSelector.val();
+          _savePerformance();
+        });
+
+        var setStartTimes = function(){
+          startTime.empty();
+
+          var dayStart = new Date(parseInt(eventTime[performance.date][0][0]));
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1][1]));
+          
+          var start = new Date(performance['time'][0]);
+          var end = new Date(performance['time'][1]);
+          //Te max value for start is that that puts the end on the limit of the day
+          var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
+
+          while(dayStart <= maxStart){
+            var hours = dayStart.getHours();
+            var minutes = dayStart.getMinutes();
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
+            startTime.append(startOption);
+            dayStart.setMinutes(dayStart.getMinutes() + 15);
+          };
+          startTime.val(performance['time'][0]);
+        };
+
+        var setEndTimes = function(){
+          endTime.empty();
+          
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1][1]));
+          var start = new Date(performance['time'][0]);
+          //The minimum end is the start plus 15 minutes
+          var minEnd = new Date(start.getTime() + 15 * 60000);
+
+          while(minEnd <= dayEnd){
+            var hours = minEnd.getHours();
+            var minutes = minEnd.getMinutes();4
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
+            endTime.append(endOption);
+
+            minEnd.setMinutes(minEnd.getMinutes() + 15);
+          };
+          endTime.val(performance['time'][1]);
+        };
+
+
+        startTime.on('change', function(){
+          var oldStart = performance['time'][0];
+          var newStart = parseInt(startTime.val());
+          card.css({'top': '+=' + (newStart - oldStart) / 90000});
+          performance['time'][0] = newStart;
+          performance['time'][1] = performance['time'][1] + (newStart - oldStart);
+          setEndTimes();
+          _savePerformance();
+        });
+
+        endTime.on('change', function(){
+          var oldEnd = _performance['time'][1];
+          var newEnd = parseInt(endTime.val());
+          card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
+          performance['time'][1] = newEnd;
+          setStartTimes();
+          _savePerformance();
+        });
+
+        removeInputButton.on('click', function(){
+          delete _program[performance.performance_id]
+          _spaces[performance.host_id].deletePerformance(performance, card);
+          _artists[performance.participant_id].deletePerformance(performance.performance_id);
+          card.remove();
+          closepopup();
+        });
+
+        input.on('change', function(){
+          performance.confirmed = input.is(":checked");
+          if (performance.confirmed) card.find('.checker').append(Pard.Widgets.IconManager('done').render());
+          else card.find('.checker').empty(); 
+          _savePerformance();
+        });
+        
+        comments.on('input', function(){
+          performance.comments = comments.val();
+          card.find('.commentIcon').empty(); 
+          if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+          _savePerformance();
+        });
+
+        daySelector.val(performance.date);
+        spaceSelector.val(performance.host_id);
+        setStartTimes();
+        setEndTimes();
+        comments.val(performance.comments);
+        input.prop('checked', performance.confirmed);
+
+        return {
+          render: function(){
+            return performanceBox;
+          },
+          setCallback: function(callback){
+            _closePopup = function(){
+              performanceBox.remove();
+              callback();
+            }
+          }
+        }
+      }
+
+      var card;
+      if(performance.permanent == 'true') card = PermanentPerformanceCard().render();
+      else{card = PerformanceCard().render();}
+
+      var _addToPrograms = function(){
+        _spaces[performance.host_id].addPerformance(performance, card);
+        _artists[performance.participant_id].addPerformance(performance);
+      }
+
+      var _loadToPrograms = function(){
+        _spaces[performance.host_id].addPerformance(performance, card);
+        _artists[performance.participant_id].loadPerformance(performance);
+      }
+
+      return {
+        performanceCard: function(){
+          return card;
+        },
+        addToPrograms: _addToPrograms,
+        destroy: function(){
+          card.remove();
+        },
+        loadPerformance: function(){
+          _spaces[performance.host_id].loadPerformance(performance, card);
+          _artists[performance.participant_id].loadPerformance(performance);
+        },
+        performanceManager: PerformanceManager
+      }
+    }
+
+    _artistsBlock.append(_artistSelectorContainer, _artistsList);
+    artists.forEach(function(artist){
+      _artists[artist.profile_id] = new Artist(artist);
+      _artistsList.append(_artists[artist.profile_id].accordion);
+    });
+
+    spaces.forEach(function(space){
+      _spaces[space.profile_id] = new Space(space);
+    });
+
+    _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
+    _createdWidget.append(_buttonsContainer, _selectors.append(_daySelectorContainer, _spaceSelectorContainer, _showArtists));
+    _createdWidget.append(_tableBox);
+
+    // if(the_event.program){
+    //   the_event.program.forEach(function(performance, index){
+    //     _program[performance.performance_id] = new Performance(performance);
+    //     _program[performance.performance_id].loadPerformance();
+    //   });
+    //   var align = function(){
+    //     setTimeout(function(){
+    //       if(_spaces[spaces[1].profile_id].columns[_daySelector.val()].position().left != 0){
+    //         Object.keys(_spaces).forEach(function(profile_id){
+    //           _spaces[profile_id].alignPerformances(_daySelector.val());
+    //         });
+    //       }
+    //       else{align();}
+    //     }, 500);
+    //   }
+    //   align();
+    // } 
+
+  	return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+  
+}(Pard || {}));

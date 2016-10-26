@@ -3,12 +3,35 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};  
 
-  // Pard.CachedCall = {};
   Pard.Spaces = [];
   Pard.ShownSpaces = [];
   ns.Widgets.Program = [];
   ns.ColumnWidth = 176;
-  ns.PermanentCardHeight = 40;
+  ns.PermanentCardHeight = 42;
+
+  ns.Widgets.GenerateUUID = function() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = (d + Math.random()*16)%16 | 0;
+      d = Math.floor(d/16);
+      return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+  }
+
+  ns.Widgets.FormatResource = function(resource) {
+    var _label = $('<span>').text(resource.text);
+    if(resource.icon){
+      var _icon = Pard.Widgets.IconManager(resource.icon).render();
+      _label.append(_icon);
+      _icon.css({
+        position: 'relative',
+        left: '5px',
+        top: '5px',
+      });
+    }
+    return _label;
+  }
 
   ns.Widgets.CategoryColor = function(category){
     var _dictionary = {
@@ -54,7 +77,7 @@
     }
     var performancesNotPermanent = [];
     performances.forEach(function(perform){
-      if (!(perform.permanent)) performancesNotPermanent.push(perform); 
+      if (perform.permanent == 'false') performancesNotPermanent.push(perform); 
     });
     return performancesNotPermanent.sort(_compare);
   }
@@ -72,151 +95,8 @@
     return performances.sort(_compare);
   }
 
-  ns.Widgets.AlignPerformances = function(performances){
-    if(performances.length == 0) return false;
-    var left = 0;
-    Pard.ShownSpaces.forEach(function(space, index){
-      if(space.proposal_id == performances[0].host_proposal_id) left = index * Pard.ColumnWidth + 1;
-    });
-    var _performances = Pard.Widgets.ReorderProgram(performances);
-    _firstPerformance = _performances.shift();
-    var showStart = [_firstPerformance.time[0]];
-    var showEnd = [_firstPerformance.time[1]];
-    _firstPerformance.card.css({
-      'width': Pard.ColumnWidth - 2,
-      'left': left,
-      'z-index': 0
-    });
-    _performances.forEach(function(performance){
-      var _cardIndex = 0;
-      showEnd.some(function(endTime, index){
-        if(performance.time[0] >= endTime){
-          _cardIndex = index;
-          return true;
-        }
-        _cardIndex = index + 1;
-      });
-      if(_cardIndex >= showEnd.length) showEnd.push(performance.time[1]);
-      else{ showEnd[_cardIndex] = performance.time[1];}
-      performance.card.css({
-        'width': (Pard.ColumnWidth - 2) - 10 * _cardIndex,
-        'left': left + 10 * _cardIndex,
-        'z-index': _cardIndex
-      });
-      performance.card.resizable({
-        maxWidth: (Pard.ColumnWidth - 2) - 10 * _cardIndex,
-        minWidth: (Pard.ColumnWidth - 2) - 10 * _cardIndex
-      });
-    });
-  }
-
-
-  ns.Widgets.SpaceDropdownMenu = function(space){     
-
-    var _menu = $('<ul>').addClass('menu');
-    
-    var _profileLink = $('<li>');
-    var _profileCaller = $('<a>').attr({
-      target: 'blank',
-      href: '/profile?id=' + space.profile_id
-    }).text('Perfil');
-
-    var _programLink = $('<li>');
-    var _programCaller = $('<a>').attr('href','#').text('Programa');
-    _programCaller.on('click', function(){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _popupTitle = space.name + ' ('+Pard.Widgets.Dictionary(space.category).render() +')';
-      var _message = Pard.Widgets.PopupContent(_popupTitle, Pard.Widgets.SpaceProgram(space), 'space-program-popup-call-manager');
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      });
-      _content.append(_message.render());
-      _popup.open();
-    });
-
-    _profileLink.append(_profileCaller);
-    _programLink.append(_programCaller);
-    _menu.append(_profileLink, _programLink);
-    var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
-    var _iconDropdownMenu = $('<li>').append(
-      $('<a>').attr('href','#').append(
-        $('<span>').html('&#xE8EE').addClass('material-icons settings-icon-dropdown-menu')
-        )
-      ,_menu
-    );
-
-    _menuContainer.append(_iconDropdownMenu);
-
-    return {
-      render: function(){
-        return _menuContainer;
-      } 
-    }
-  }
-
-   ns.Widgets.ArtistDropdownMenu = function(artist){     
-
-    var _menu = $('<ul>').addClass('menu');
-    
-    var _profileLink = $('<li>');
-    var _profileCaller = $('<a>').attr({
-      target: 'blank',
-      href: '/profile?id=' + artist.profile_id
-    }).text('Perfil');
-
-    var _programLink = $('<li>');
-    var _programCaller = $('<a>').attr('href','#').text('Programa');
-
-    _programCaller.on('click', function(){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist), 'space-program-popup-call-manager');
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      });
-      _content.append(_message.render());
-      _popup.open();
-    });
-
-    _profileLink.append(_profileCaller);
-    _profileLink.click(function(event){
-      // prevent accordeon from opening
-      event.stopImmediatePropagation();
-    });
-    _programCaller.click(function(event){
-      // prevent accordeon from opening
-      event.stopImmediatePropagation();
-    });
-    _programLink.append(_programCaller);
-    _menu.append(_profileLink, _programLink);
-    var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
-    var _iconDropdownMenu = $('<li>').append(
-      $('<a>').attr('href','#').append(
-        $('<span>').html('&#xE8EE').addClass('material-icons settings-icon-dropdown-menu')
-        )
-      ,_menu
-    );
-
-    _menuContainer.append(_iconDropdownMenu);
-
-    return {
-      render: function(){
-        return _menuContainer;
-      } 
-    }
-  }
-
   ns.Widgets.GetProposal = function(proposal_id){
-    result = $.grep(Pard.CachedCall['proposals'], function(proposal){
+    result = $.grep(Pard.CachedEvent.artists, function(proposal){
       if(proposal.proposal_id == proposal_id) return true; 
       return false;
     })[0];
@@ -298,6 +178,14 @@
       id: 'open_air',
       text: 'Espacio exterior',
       type: 'category'
+    });
+    spaceProposals.push({
+      id: 'available',
+      text: 'Disponible'
+    },
+    {
+      id: 'unavailable',
+      text: 'No disponible'
     });
 
     return spaceProposals;
@@ -481,7 +369,6 @@
     });
     return _orderSpaceBtn;
   }
-
 
   ns.Widgets.ToolsDropdownMenu = function(spaceSelector){     
 

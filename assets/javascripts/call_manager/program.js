@@ -6,7 +6,7 @@
   ns.Widgets.PerformanceProgram = function(cardInfo, conflict){
     var _closepopup = {};
     var _createdWidget = $('<div>');
-    var eventTime = Pard.CachedCall.eventTime;
+    var eventTime = Pard.CachedEvent.eventTime;
     
     //We get all the performances related to the proposal
     //Sorting them into permanent and non-permanent
@@ -272,7 +272,7 @@
   ns.Widgets.PermanentPerformanceProgram = function(cardInfo, conflict){
     var _closepopup = {};
     var _createdWidget = $('<div>');
-    var eventTime = Pard.CachedCall.eventTime;
+    var eventTime = Pard.CachedEvent.eventTime;
     
     //We get all the performances related to the proposal
     //Sorting them into permanent and non-permanent
@@ -584,9 +584,9 @@
 	ns.Widgets.PermanentPerformanceManager = function(cardInfo, conflict){
     var _closepopup = {};
     var _createdWidget = $('<div>');
-    var call = Pard.CachedCall;
+    var the_event = Pard.CachedEvent;
     var program = Pard.Widgets.Program;
-    var eventTime = call.eventTime;
+    var eventTime = the_event.eventTime;
     
     //We get all the performances related to the proposal
     //Sorting them into permanent and non-permanent

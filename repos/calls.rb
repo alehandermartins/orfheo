@@ -8,16 +8,18 @@ module Repos
         # proposals = call[:proposals]
         # event = {}
         # proposals.each{ |proposal|
-        #   event[proposal[:proposal_id]] = event[proposal[:proposal_id]] || []
-        #   event[proposal[:proposal_id]].push(proposal)
+        #   event[proposal[:profile_id]] = event[proposal[:profile_id]] || []
+        #   event[proposal[:profile_id]].push(proposal)
         # }
 
         # new_event = call
-        # new_event[:proposals] = []
+        # new_event[:artists] = []
+        # new_event[:spaces] = []
         # event.each{|participant_id, proposals|
-        #   new_event[:proposals].push(artist_fields proposals) if proposals[0][:type] == 'artist'
-        #   new_event[:proposals].push(space_fields proposals) if proposals[0][:type] == 'space'
+        #   new_event[:artists].push(artist_fields proposals) if proposals[0][:type] == 'artist'
+        #   new_event[:spaces].push(space_fields proposals) if proposals[0][:type] == 'space'
         # }
+        # new_event.delete(:proposals)
         # Repos::Events.add new_event
       end
 
@@ -31,7 +33,6 @@ module Repos
           email: proposals[0][:email],
           profile_id: proposals[0][:profile_id],
           name: proposals[0][:name],
-          type: proposals[0][:type],
           phone: proposals[0][:phone],
           address: address,
           proposals: []
@@ -60,38 +61,18 @@ module Repos
       end
 
       def space_fields proposals
-        fields = {
-          user_id: proposals[0][:user_id],
-          email: proposals[0][:email],
-          profile_id: proposals[0][:profile_id],
-          name: proposals[0][:name],
-          type: proposals[0][:type],
-          category: proposals[0][:category],
-          phone: proposals[0][:phone],
-          address: proposals[0][:address],
-          proposals: []
-        }
-
-        proposals.each{ |proposal|
-          proposal.delete(:category)
-
+          proposal = proposals.first
           proposal.delete(:photos)
           proposal.delete(:personal_web)
           proposal.delete(:links)
           proposal.delete(:call_id)
 
-          proposal.delete(:address)
-          proposal.delete(:user_id)
-          proposal.delete(:email)
-          proposal.delete(:profile_id)
-          proposal.delete(:name)
-          proposal.delete(:phone)
           proposal.delete(:program)
-          proposal.delete(:type)
           proposal.delete(:profile_picture)
-          fields[:proposals].push(proposal)
-        }
-        return fields
+          proposal.delete(:production_id)
+          proposal.delete(:proposal_id)
+          proposal.delete(:type)
+          proposal
       end
 
       def add call

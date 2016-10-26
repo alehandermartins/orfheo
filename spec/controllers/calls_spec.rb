@@ -335,89 +335,11 @@ describe CallsController do
     end
   end
 
-  describe 'Access' do
-
-    let(:call_route){'/call?id=' + call_id}
-
-    before(:each){
-      post create_profile_route, profile
-      post send_proposal_route, proposal
-    }
-
-    it 'redirects user to not found page if call does not exist' do
-      get call_route
-      expect(last_response.body).to include('Not Found')
-    end
-
-    it 'redirects user to not found page if not owner of the call' do
-      post create_call_route, call
-      allow(Repos::Calls).to receive(:get_call_owner).and_return('otter')
-      get call_route
-      expect(last_response.body).to include('Not Found')
-    end
-
-    it 'gets the call of the user' do
-      post create_call_route, call
-      expect(Repos::Calls).to receive(:get_call).with(call_id)
-      get call_route
-    end
-
-    it 'redirects user to call page otherwise' do
-      post create_call_route, call
-      get call_route
-      expect(last_response.body).to include('Pard.Call')
-    end
-  end
-
   describe 'Whitelist' do
     it 'stores a whitelist' do
       post create_call_route, call
       expect(Repos::Calls).to receive(:add_whitelist).with(call_id, ['otter@otter.com'])
       post '/users/add_whitelist', {call_id: call_id, whitelist: ['otter@otter.com']}
-      expect(parsed_response['status']).to eq('success')
-    end
-  end
-
-  describe 'Program' do
-    let(:program_route){'/users/program'}
-    let(:program_params){
-      {
-        event_id: event_id,
-        program: [
-        {
-          performance_id: performance_id,
-          participant_id: profile_id,
-          participant_proposal_id: proposal_id,
-          host_id: nil,
-          host_proposal_id: 'otter_proposal',
-          date: '2016-15-10',
-          time: ['3', '6'],
-          permanent: 'false',
-          comments: 'comments',
-          confirmed: 'true'
-        }
-        ],
-        order: ['otter_proposal']
-      }
-    }
-
-    before(:each){
-      post create_call_route, call
-      post create_profile_route, profile
-      post send_proposal_route, proposal
-    }
-
-    it 'fails if the user does not own the call' do
-      allow(Repos::Calls).to receive(:get_event_owner).and_return('otter')
-      post program_route, program_params
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('you_dont_have_permission')
-    end
-
-    it 'adds the program to the call' do
-      expect(Repos::Calls).to receive(:add_program).with(event_id, program_params[:program], program_params[:order])
-      post program_route, program_params
       expect(parsed_response['status']).to eq('success')
     end
   end

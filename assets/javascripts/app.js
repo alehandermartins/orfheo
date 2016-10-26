@@ -2,8 +2,7 @@
 
 Pard.CachedProfiles = [];
 Pard.UserStatus = {};
-Pard.CachedProposals = [];
-Pard.CachedCall = [];
+Pard.CachedEvent = [];
 Pard.CachedProgram = [];
 
 Pard.ProfileManager = {
@@ -178,20 +177,19 @@ Pard.Outsider = function(profiles){
   $('body').append(_whole);
 };
 
-Pard.Call = function(call){
+Pard.EventManager = function(the_event){
 
   $(window).ready(function(){
     $('body').append(_whole);
     $(document).foundation();
   });
 
-  Pard.CachedCall = call;
-  Pard.CachedProposals  = call['proposals'];
+  Pard.CachedEvent = the_event;
 
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
 
-  var _main = Pard.Widgets.CallMainLayout(call);
+  var _main = Pard.Widgets.CallMainLayout(the_event);
 
   var _footer = Pard.Widgets.Footer();
      

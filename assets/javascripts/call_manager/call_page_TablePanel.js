@@ -170,8 +170,8 @@
     _panelShown.show();
 
 		$(document).ready(function(){
-			_tableTab.trigger('click');
-      // _programTab.trigger('click')
+			//_tableTab.trigger('click');
+      _programTab.trigger('click')
 		});
 
     _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel, _programPanel, _qrPanel);
@@ -401,32 +401,10 @@
       else _table.dataTableCreated().columns( 3 ).search(_cat.text).draw();
     });
 
-    // var _outOfprogramBtn = Pard.Widgets.Button('Artistas sin programación').render();
-
-    // _outOfprogramBtn.addClass('out-of-program-btn');
-
-    // _outOfprogramBtn.on('click', function(){
-    //   var _content = $('<div>').addClass('very-fast reveal full');
-    //   _content.empty();
-    //   $('body').append(_content);
-
-    //   var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-    //   var _message = Pard.Widgets.PopupContent('Artistas fuera del programa', Pard.Widgets.ArtistOutOfProgram());
-
-    //   _message.setCallback(function(){
-    //     _content.remove();
-    //     _popup.close();
-    //   }); 
-      
-    //   _content.append(_message.render());
-    //   _popup.open();
-    // });
-
     _checkBoxesBox.append(_checkBoxes.render()).addClass('checkBoxesBox-call-manager-table');
     _outerTableContainer.append(_submitBtnContainer, _tableBox.append(_table.render())).css('position','relative');
 
     _createdWidget.append(_filterCategoryContainer, _checkBoxesBox,  _outerTableContainer);
-
 
     return {
       render: function(){
@@ -1156,121 +1134,6 @@
       }
   	}
   }
-
-
-  // // ns.Widgets.SearchInputCallManager = function(selected){
-
- 	// //   var proposals = Pard.CachedProposals;
-
- 	// //   var _searchTags = [{id:'', text:''}];
-
-		// // var _namesAdded = [];
-		// // var _categoryAdded = [];
-		// // var _respAdded = [];
-		// // var _titlesAdded = [];
-
-  // // 	proposals.forEach(function(proposal){
-  // //  		if (proposal['type'] == selected) {
-  // //  			// _proposalsSelected.push(proposal);
-
-  // // 			if ($.inArray(proposal['category'],_categoryAdded) < 0){
-  // // 				_searchTags.push({id: proposal['category'], text: Pard.Widgets.Dictionary(proposal['category']).render()});
-  // // 				_categoryAdded.push(proposal['category']);
-  // // 			}
-  // // 			if ($.inArray(proposal['name'],_namesAdded) < 0){
-  // // 				_searchTags.push({id: proposal['name'], text: proposal['name']});
-  // // 				_namesAdded.push(proposal['name']);
-  // // 			}
-  // // 			if (selected == 'space' && $.inArray(proposal['responsible'],_respAdded) < 0) {
-  // // 				_searchTags.push({id: proposal['responsible'], text: proposal['responsible']});
-  // // 				_respAdded.push(proposal['responsible']);
-  // // 			}
-  // // 			if (selected == 'artist' && $.inArray(proposal['responsible'],_titlesAdded) < 0)  {
-  // // 				_searchTags.push({id: proposal['title'], text: proposal['title']});
-  // // 				_titlesAdded.push(proposal['title']); 
-  // // 			}
-  // //  		}
-  // //  	});
-
-		// // var dayTimeObj = Pard.Widgets.DayTime();
-
-	 // //  // var _proposalsSearched = _proposalsSelected;
-
-  // // 	var _createdWidget = $('<div>');
-
-  // //  	var _searchInput = $('<select>');
-
-  // // 	_createdWidget.append(_searchInput);
-
-	 // //  _searchInput.select2({
-  // //     data: _searchTags,
-  // //     multiple:true,
-  // //     placeholder: 'Busca',
-  // //     tags: true,
-  // //     tokenSeparators: [',', ' '],   
-  // //   });
-
-	 // //  var _filterPropoposals = function(){
- 	// //  	  proposals = Pard.CachedProposals;
-	 // //    var _proposalsSelected = [];
-	 // //  	proposals.forEach(function(proposal){
-  // //  		if (proposal['type'] == selected) {
-	 // //   			_proposalsSelected.push(proposal);
-	 // //   		}
-  // //  		});
-	 // //    var _searchTerms = _searchInput.val();
-  // //     if (_searchTerms){
-	 // //    	var _proposalsSearched = _proposalsSelected;
-	 // //    	var _oldProposalsSearched = _proposalsSelected;
-	 // //    	_searchTerms.forEach(function(_searchTerm){
-		// //     	_oldProposalsSearched = _proposalsSearched;
-		// //     	_proposalsSearched = [];
-	 // //      	_oldProposalsSearched.forEach(function(proposal){
-  // //           if ($.inArray(_searchTerm,_categoryAdded)>-1) {
-  // //             if  (_searchTerm == proposal['category'] ) _proposalsSearched.push(proposal);
-  // //           }
-		// // 				else if (_searchTerm == proposal['name'] || _searchTerm == proposal['responsible'] || _searchTerm == proposal['title']) _proposalsSearched.push(proposal);
-		// // 				else {
-		// // 					['title', 'description', 'short_description', 'needs', 'sharing'].some(function(field){ 
-		// // 						if (proposal[field] && proposal[field].toLowerCase().indexOf(_searchTerm.toLowerCase()) > -1){
-		// // 							_proposalsSearched.push(proposal);   
-		// // 							return true;
-		// // 						}   
-		// // 					});
-	 // //      		};
-		// //     	})
-		// //     })
-	 // //    }
-	 // //    else{
-	 // //    	_proposalsSearched = _proposalsSelected;
-	 // //    }
-  // //   	var _indexProposal = [0];
-	 // //    _proposalsSearched.forEach(function(propSearched){
-	 // //    	var position = _proposalsSelected.indexOf(propSearched) +1;
-	 // //    	_indexProposal.push(position);
-	 // //    });
-	 // //    return _indexProposal;
-	 // //  }
-
-  // //   return {
-  // //   	render: function(){
-  // //   		return _createdWidget;
-  // //   	},
-  // //   	getVal: function(){
-  // //   		return _filterPropoposals();
-  // //   	}, 
-  // //   	setCallback: function(callback){
-		// // 	 	_searchInput.on('change', function() {
-	 // //    		callback();
-	 // //    	});
-  // //   	},
-  // //   	updateDatabase: function(){
-
-  // //   	}
-  // //   }
-  // // }
-
-
 
   ns.Widgets.PrintTable = function(proposalsSelected, columns) {
 

@@ -60,31 +60,6 @@ class CallsController < BaseController
     success
   end
 
-  get '/call' do
-    halt erb(:not_found) unless Repos::Calls.exists? params[:id]
-    owner = get_call_owner params[:id]
-    halt erb(:not_found) unless owner == session[:identity]
-    call = get_call params[:id]
-    erb :call, :locals => {:call => call.to_json}
-  end
-
-  post '/users/program' do
-    scopify event_id: true, order: true
-    check_event_ownership! event_id
-    program = Forms::Program.new(params, session[:identity]).create
-    Repos::Calls.add_program event_id, program, order
-    success
-  end
-
-  get '/event' do
-    halt erb(:not_found) unless Repos::Calls.event_exists? params[:id]
-    program = Repos::Calls.get_program params[:id]
-    status = 'outsider' if !session[:identity]
-    status = 'visitor' if session[:identity]
-    erb :event, :locals => {:program => program.to_json, :status => status.to_json}
-  end
-
-
   private
   def check_non_existing call_id
     raise Pard::Invalid::Params unless UUID.validate call_id
@@ -95,10 +70,6 @@ class CallsController < BaseController
     raise Pard::Invalid::UnexistingCall unless Repos::Calls.exists? call_id
   end
 
-  def check_event_exists! event_id
-    raise Pard::Invalid::UnexistingEvent unless Repos::Calls.event_exists? event_id
-  end
-
   def check_proposal_ownership proposal_id
     raise Pard::Invalid::UnexistingProposal unless Repos::Calls.proposal_exists? proposal_id
     raise Pard::Invalid::ProposalOwnership unless Repos::Calls.get_proposal_owner(proposal_id) == session[:identity]
@@ -107,11 +78,6 @@ class CallsController < BaseController
   def check_call_ownership call_id
     check_call_exists! call_id
     raise Pard::Invalid::CallOwnership unless Repos::Calls.get_call_owner(call_id) == session[:identity]
-  end
-
-  def check_event_ownership! event_id
-    check_event_exists! event_id
-    raise Pard::Invalid::EventOwnership unless Repos::Calls.get_event_owner(event_id) == session[:identity]
   end
 
   def check_deadline call_id
@@ -137,9 +103,5 @@ class CallsController < BaseController
 
   def get_call call_id
     Repos::Calls.get_call call_id
-  end
-
-  def add_program call_id, program
-    Repos::Calls.add_program call_id, program
   end
 end

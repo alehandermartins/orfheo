@@ -3,7 +3,7 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};  
 
-  ns.Widgets.SpaceProgram = function(space, callback){
+  ns.Widgets.SpaceProgram = function(space, program, _artists, _program){
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
@@ -19,151 +19,68 @@
       email: 'Email'
     };
 
-    var _infoSpace = space.address.route+' '+space.address.street_number+' - tel. ' + space.phone+ ' ('+space.responsible + ') '+' - email: '+ space.email;
-
-    var _spaceName = space.name + ' ('+Pard.Widgets.Dictionary(space.category).render()+')';
-
+    var _infoSpace = space.address.route+ ' ' + space.address.street_number + ' - tel. ' + space.phone + ' (' + space.responsible + ') '+' - email: '+ space.email;
+    var _spaceName = space.name + ' (' + Pard.Widgets.Dictionary(space.category).render() + ')';
     var _infoSpaceBox = $('<div>').addClass('info-box-popup-program');
-
     _infoSpaceBox.append($('<p>').append(_infoSpace));
 
-    var _rowPosition = 1;
-    var _dayRowPos = [];
-    var _permanentRowPos = [];
-
     var _printSpaceProgram = function(space){
-      _rowPosition = 1;
-      _dayRowPos = [];
-      _permanentRowPos = [];
-
       _createdWidget.empty();
 
-      var call = Pard.CachedCall;
-      var program = Pard.Widgets.Program;
-      var eventTime = call.eventTime;
-
-      var myPerformances = [];
-      var myPermanentPerformances = [];
-      program.forEach(function(performance){
-        if(performance.host_id == space.profile_id) myPerformances.push(performance);
+      var myPerformances = Object.keys(program).map(function(performance_id){
+        return program[performance_id];
       });
 
-      var _reorderedProgram = [];
-
-      if (myPerformances) _reorderedProgram = Pard.Widgets.ReorderProgramCrono(myPerformances);
+      if (myPerformances) myPerformances = Pard.Widgets.ReorderProgramCrono(myPerformances);
 
       var _spaceTable = $('<table>').addClass('table_display table-proposal row-border').attr({'cellspacing':"0", 'width':'100%'});
-
       var _tableBox = $('<div>').addClass('table-space-program');
-
       var _thead = $('<thead>');
       var _titleRow = $('<tr>');
-      // .addClass('title-row-table-proposal');
-
-      _columnsHeaders.forEach(function(field, colNum){
-        var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
-        var _class = 'column-'+field;
-        // _titleCol.addClass('column-space-program-call-manager');
-        // _titleCol.addClass(_class);
-        _titleRow.append(_titleCol);
-      });
-
-      _spaceTable.append(_thead.append(_titleRow));
-
       var _tfoot = $('<tfoot>');
       var _footRow = $('<tr>');
 
-      // .addClass('title-row-table-proposal');
-
-      _columnsHeaders.forEach(function(field, colNum){
-        var _titleCol = $('<th>');
-
-        if (field == 'email') _titleCol.text('Powered by Orfheo');
-        else _titleCol.text('');
-        // _titleCol.addClass('column-space-program-call-manager');
-        // _titleCol.addClass(_class);
-        _footRow.append(_titleCol);
+      _columnsHeaders.forEach(function(field){
+        var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
+        var _footCol = $('<th>');
+        if (field == 'email') _footCol.text('Powered by Orfheo');
+        else{_footCol.text('');}
+        _titleRow.append(_titleCol);
+        _footRow.append(_footCol);
       });
 
+      _spaceTable.append(_thead.append(_titleRow));
       _spaceTable.append(_tfoot.append(_footRow));
 
-      
-
       var _tbody = $('<tbody>');
+      var lastDate;
 
+      myPerformances.forEach(function(performance){
+        if(performance.date != lastDate){
+          var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
+          var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
+          var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
+          var _categoryCol = $('<td>').addClass('column-artist-program-call-manager column-category');
+          var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
+          var _shortDCol = $('<td>').addClass('column-artist-program-call-manager column-short_description');
+          var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
+          var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
+          _timeCol.append(moment(performance.date).locale('es').format('dddd').toUpperCase());
+          _titleCol.append(moment(performance.date).locale('es').format('DD-MM-YYYY'));
+          _nameCol.html('');
+          _categoryCol.html('');
+          _shortDCol.html('');
+          _phoneCol.html('');
+          _emailCol.html('');
 
-      Object.keys(eventTime).forEach(function(day){
-        if (day == 'permanent') return false;
-        var _day = new Date(day);
-
-        var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
-        _columnsHeaders.forEach(function(field){
-          var _colClass = 'column-'+field;
-          var _col = $('<td>').addClass('column-space-program-call-manager');
-          _col.addClass(_colClass);
-          if (field == 'time'){
-            _col.append(moment(_day).locale('es').format('dddd').toUpperCase());
-          }
-          else if(field == 'name'){
-            _col.append(moment(_day).locale('es').format('DD-MM-YYYY'));
-          }
-          else{
-            _col.html('');
-          }
-          _dayRow.append(_col);
-        });
-
-        var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
-        _columnsHeaders.forEach(function(field){
-          var _colClass = 'column-'+field;
-          var _col = $('<td>').addClass('column-space-program-call-manager');
-          _col.addClass(_colClass);
-          if (field == 'time'){
-            _col.append('Permanente');
-          }
-          else if (field == 'name'){
-            _col.append(moment(new Date(day)).locale('es').format('dddd'));
-          }
-          else{
-            _col.html('');
-          }
-          _permanentRow.append(_col);
-        });
-
-        var _permanents = [];
-        var _check = true;
-
-        _reorderedProgram.forEach(function(show){
-
-          var _startDate = new Date(parseInt(show['time'][0]));
-          var _endDate = new Date(parseInt(show['time'][1]));
-          if (moment(_startDate).format('MM-DD-YYYY') == moment(_day).format('MM-DD-YYYY')){
-            if (_check) {
-              _tbody.append(_dayRow);
-              _dayRowPos.push(_rowPosition);
-              _rowPosition = _rowPosition + 1;
-              _check = false;
-            }
-            if (show.permanent) _permanents.push([show, _startDate, _endDate]);
-            else {
-              var _row = _printRow(show,_startDate, _endDate);              
-              _tbody.append(_row);
-              _rowPosition = _rowPosition + 1;
-            }
-          }
-        });
-        if (_permanents.length) {
-          _tbody.append(_permanentRow);
-          _permanentRowPos.push(_rowPosition);
-          _rowPosition = _rowPosition + 1;
-          _permanents.forEach(function(expo){
-            var _row = _printRow(expo[0],expo[1], expo[2]);
-            _tbody.append(_row);
-            _rowPosition = _rowPosition + 1;
-
-          })
+          _dayRow.append(_timeCol, _titleCol, _nameCol, _categoryCol, _shortDCol, _phoneCol, _emailCol);
         }
+
+        var _row = _printRow(performance);
+        _tbody.append(_dayRow);
+        _tbody.append(_row);
+        lastDate = performance.date;
       });
 
       _spaceTable.append(_tbody);
@@ -277,79 +194,46 @@
       });
     }
 
-    var _printRow = function(show, startDate, endDate){
+    var _printRow = function(show){
       var _row = $('<tr>');
-      var proposal = Pard.Widgets.GetProposal(show.participant_proposal_id);
-      var cardInfo = {
-        performance_id: show.performance_id,
-        participant_id: proposal.profile_id,
-        participant_proposal_id: proposal.proposal_id,
-        title: proposal.title,
-        duration: proposal.duration,
-        category: proposal.category,
-        availability: proposal.availability,
-        name: proposal.name,
-        date: show.date,
-        confirmed: show.confirmed,
-        comments: show.comments,
-      }
-      _columnsHeaders.forEach(function(field){
-        var _colClass = 'column-'+field;
-        var _col = $('<td>').addClass('column-space-program-call-manager');
-        _col.addClass(_colClass);
-          if (field == 'time'){
-            var _schedule = moment(startDate).locale("es").format('HH:mm') + '-' + moment(endDate).locale("es").format('HH:mm');
-            _col.append(_schedule);
-          }
-          if (field == 'title'){
-            var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['title']);
-            if (show.permanent){
-              _namePopupCaller.on('click', function(){
-                var _content = $('<div>').addClass('very-fast reveal full');
-                _content.empty();
-                $('body').append(_content);
 
-                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-                var _message = Pard.Widgets.PopupContent(proposal.title+' (' + proposal.name + ')', Pard.Widgets.PermanentPerformanceProgram(cardInfo));
-                _message.setCallback(function(){
-                  _printSpaceProgram(space);
-                  _content.remove();
-                  _popup.close();
-                });
-                _content.append(_message.render());
-                _popup.open();
-              });
-            }
-            else {
-              _namePopupCaller.on('click', function(){
-                var _content = $('<div>').addClass('very-fast reveal full');
-                _content.empty();
-                $('body').append(_content);
+      var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
+      var _schedule = moment(show.time[0]).locale("es").format('HH:mm') + '-' + moment(show.time[1]).locale("es").format('HH:mm');
+      var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
+      var _categoryCol = $('<td>').addClass('column-artist-program-call-manager column-category');
+      var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
+      var _namePopupCaller = $('<a>').attr({'href':'#'}).text(show.title);
+      var _shortDCol = $('<td>').addClass('column-artist-program-call-manager column-short_description');
+      var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
+      var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
-                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-                var _message = Pard.Widgets.PopupContent(proposal.title+' (' + proposal.name + ')', Pard.Widgets.PerformanceProgram(cardInfo));
-                _message.setCallback(function(){
-                  _printSpaceProgram(space);
-                  _content.remove();
-                  _popup.close();
-                });
-                _content.append(_message.render());
-                _popup.open();
-              });
-            }
-           _col.append(_namePopupCaller);
-          }
-          else  if (proposal[field] && field == 'category'){
-            _col.html(Pard.Widgets.Dictionary(proposal[field]).render());
-          }
-          else{
-            _col.html(proposal[field]);
-          }
-        _row.append(_col);
+      _timeCol.append(_schedule);
+      _titleCol.append(_namePopupCaller);
+      _nameCol.html(show.participant_name);
+      _categoryCol.html(Pard.Widgets.Dictionary(show.participant_category).render());
+      _shortDCol.html(show.short_description);
+      _phoneCol.html(_artists[show.participant_id].artist.phone);
+      _emailCol.html(_artists[show.participant_id].artist.email);
+
+      _namePopupCaller.on('click', function(){
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent(show.title + ' (' + show.participant_name + ')', _program[show.performance_id].performanceManager());
+        _message.setCallback(function(){
+          _printSpaceProgram(space, program, _program);
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
       });
+
+      _row.append(_timeCol, _titleCol, _nameCol, _categoryCol, _shortDCol, _phoneCol, _emailCol);
+      
       return _row;
     }
-
 
     _printSpaceProgram(space);
 
