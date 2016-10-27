@@ -196,7 +196,6 @@
   ns.Widgets.OrderSpace = function(spaceSelector){
 
     var _createdWidget = $('<div>');
-
     var _spaces = [];
     Pard.Spaces.forEach(function(spa){
       _spaces.push(spa);
@@ -217,7 +216,7 @@
 
     var _printSpaceCard = function(space, index){
       var _order = index + 1;
-      var _spaceCard = $('<li>').text(_order+'. '+space.name).addClass('ui-state-default sortable-space-card').css('background', _dictionaryColor[space.category]).attr('id', space.proposal_id);
+      var _spaceCard = $('<li>').text(_order + '. ' + space.name).addClass('ui-state-default sortable-space-card').css('background', _dictionaryColor[space.category]).attr('id', space.proposal_id);
       return _spaceCard
     }
 

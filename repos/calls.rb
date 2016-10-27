@@ -4,29 +4,37 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
-        # call = get_call('b5bc4203-9379-4de0-856a-55e1e5f3fac6')
-        # proposals = call[:proposals]
-        # event = {}
-        # proposals.each{ |proposal|
-        #   event[proposal[:profile_id]] = event[proposal[:profile_id]] || []
-        #   event[proposal[:profile_id]].push(proposal)
-        # }
+        call = get_call('b5bc4203-9379-4de0-856a-55e1e5f3fac6')
+        proposals = call[:proposals]
+        event = {}
+        proposals.each{ |proposal|
+          event[proposal[:profile_id]] = event[proposal[:profile_id]] || []
+          event[proposal[:profile_id]].push(proposal)
+        }
 
-        # new_event = call
-        # new_event[:artists] = []
-        # new_event[:spaces] = []
-        # event.each{|participant_id, proposals|
-        #   new_event[:artists].push(artist_fields proposals) if proposals[0][:type] == 'artist'
-        #   new_event[:spaces].push(space_fields proposals) if proposals[0][:type] == 'space'
-        # }
-        # program = []
-        # call[:program].each{ |performance|
-        #   performance[:performance_id] = SecureRandom.uuid;
-        #   program.push(performance)
-        # }
-        # new_event[:program] = program
-        # new_event.delete(:proposals)
-        # Repos::Events.add new_event
+        new_event = call
+        new_event[:artists] = []
+        new_event[:spaces] = []
+        event.each{|participant_id, proposals|
+          new_event[:artists].push(artist_fields proposals) if proposals[0][:type] == 'artist'
+          new_event[:spaces].push(space_fields proposals) if proposals[0][:type] == 'space'
+        }
+
+        spaces = [];
+        call[:order].each{ |host_proposal_id|
+          space = new_event[:spaces].select{ |space| space[:proposal_id] == host_proposal_id}.first
+          spaces.push(space)
+        }
+        new_event[:spaces] = spaces
+        program = []
+        call[:program].each{ |performance|
+          performance[:performance_id] = SecureRandom.uuid;
+          program.push(performance)
+        }
+        new_event[:program] = program
+        new_event.delete(:proposals)
+        new_event.delete(:order)
+        Repos::Events.add new_event
       end
 
       def artist_fields proposals
@@ -76,7 +84,6 @@ module Repos
           proposal.delete(:program)
           proposal.delete(:profile_picture)
           proposal.delete(:production_id)
-          proposal.delete(:proposal_id)
           proposal.delete(:type)
           proposal
       end

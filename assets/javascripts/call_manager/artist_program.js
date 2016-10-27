@@ -23,6 +23,10 @@
     var _conflictPerformances;
 
     var _printArtistProgram = function(artist){
+      var _rowPosition = 1;
+      var _dayRowPos = [];
+      var _permanentRowPos = [];
+      
       _createdWidget.empty();
       _conflictPerformances = [];
       var myPerformances = Object.keys(program).map(function(performance_id){
@@ -98,6 +102,8 @@
 
           _dayRow.append(_timeCol, _titleCol, _nameCol, _addressCol, _phoneCol, _emailCol);
           _tbody.append(_dayRow);
+          _dayRowPos.push(_rowPosition);
+          _rowPosition = _rowPosition + 1;
         }
 
         if(performance.permanent == 'true' && lastType == 'false'){
@@ -119,11 +125,14 @@
 
            _permanentRow.append(_timeCol, _titleCol, _nameCol, _addressCol, _phoneCol, _emailCol);
           _tbody.append(_permanentRow);
+          _permanentRowPos.push(_rowPosition);
+          _rowPosition = _rowPosition + 1;
         }
 
         var _row = _printRow(performance);
         _tbody.append(_row);
         lastDate = performance.date;
+        _rowPosition = _rowPosition + 1;
       });
 
       _artistTable.append(_tbody);
