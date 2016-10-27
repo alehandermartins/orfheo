@@ -75,10 +75,12 @@
       _artistTable.append(_tfoot.append(_footRow));
 
       var _tbody = $('<tbody>');
-
       var lastDate;
+      var lastType = 'false';
+
       myPerformances.forEach(function(performance){
         if(performance.date != lastDate){
+          lastType = 'false';
           var _dayRow = $('<tr>').addClass('day-row-program-table-call-manager'); 
           var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
           var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
@@ -95,10 +97,31 @@
           _emailCol.html('');
 
           _dayRow.append(_timeCol, _titleCol, _nameCol, _addressCol, _phoneCol, _emailCol);
+          _tbody.append(_dayRow);
+        }
+
+        if(performance.permanent == 'true' && lastType == 'false'){
+          lastType = 'true';
+          var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager');
+          var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
+          var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
+          var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
+          var _addressCol = $('<td>').addClass('column-artist-program-call-manager column-address');
+          var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
+          var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
+
+          _timeCol.append('Permanente');
+          _titleCol.append(moment(performance.date).locale('es').format('dddd'));
+          _nameCol.html('');
+          _addressCol.html('');
+          _phoneCol.html('');
+          _emailCol.html('');
+
+           _permanentRow.append(_timeCol, _titleCol, _nameCol, _addressCol, _phoneCol, _emailCol);
+          _tbody.append(_permanentRow);
         }
 
         var _row = _printRow(performance);
-        _tbody.append(_dayRow);
         _tbody.append(_row);
         lastDate = performance.date;
       });
@@ -212,7 +235,7 @@
       }
 
       var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
-      var _schedule = moment(show.time[0]).locale("es").format('HH:mm') + '-' + moment(show.time[1]).locale("es").format('HH:mm');
+      var _schedule = moment(parseInt(show.time[0])).locale("es").format('HH:mm') + '-' + moment(parseInt(show.time[1])).locale("es").format('HH:mm');
       var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
       var _namePopupCaller = $('<a>').attr({'href':'#'}).text(show.title);
       var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');

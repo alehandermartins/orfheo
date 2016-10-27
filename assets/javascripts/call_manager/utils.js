@@ -84,6 +84,8 @@
 
   ns.Widgets.ReorderProgramCrono = function(performances){
     var _compare = function (a,b) {
+      if(a.permanent == 'true' && b.permanent == 'false' && a.date == b.date) return 1;
+      if(a.permanent == 'false' && b.permanent == 'true' && a.date == b.date) return -1;
       if (a.time[0] < b.time[0]) return -1;
       if (a.time[0] > b.time[0]) return 1;
       if (a.time[0] == b.time[0]){

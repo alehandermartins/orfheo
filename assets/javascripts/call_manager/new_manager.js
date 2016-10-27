@@ -57,7 +57,6 @@
         var end = new Date(parseInt(eventTime[day][1][1]));
         var endDate = end.getDate();
         var endHour = end.getHours();
-        if(index == 1) endHour = 3;
         //Amount of hours in our day
         var hours = [];
         if(endDate > startDate){
@@ -938,7 +937,7 @@
                 return program[performance_id];
               });
               myPerformances = myPerformances.filter(function(show){
-                if(show.proposal_id == performance.proposal_id){
+                if(show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id){
                   _columns['permanent'].append(_program[show.performance_id].performanceCard());
                   return;
                 }
