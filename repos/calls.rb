@@ -19,6 +19,12 @@ module Repos
         #   new_event[:artists].push(artist_fields proposals) if proposals[0][:type] == 'artist'
         #   new_event[:spaces].push(space_fields proposals) if proposals[0][:type] == 'space'
         # }
+        # program = []
+        # call[:program].each{ |performance|
+        #   performance[:performance_id] = SecureRandom.uuid;
+        #   program.push(performance)
+        # }
+        # new_event[:program] = program
         # new_event.delete(:proposals)
         # Repos::Events.add new_event
       end

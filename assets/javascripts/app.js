@@ -73,7 +73,7 @@ Pard.ProposalsManager = {
             return true;
         }
       });
-    })
+    });
   }
 }
 
@@ -175,7 +175,7 @@ Pard.Outsider = function(profiles){
 
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
-};
+}
 
 Pard.EventManager = function(the_event){
 
