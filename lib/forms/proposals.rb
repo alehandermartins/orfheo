@@ -99,7 +99,7 @@ class Forms::Proposals < Forms::Base
 
   def artist_form
     {
-      music:music_call,
+      music: music_call,
       arts: music_call,
       other: music_call,
       poetry: workshop_call, 

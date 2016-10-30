@@ -1655,8 +1655,22 @@
         _message.setCallback(function(){
           _content.remove();
           _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
+      });
+
+      var _orderSpaceBtn = $('<li>').text('Ordena Espacios');
+      _orderSpaceBtn.on('click', function(){
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent('Ordena Espacios', OrderSpace());
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
         }); 
-      
         _content.append(_message.render());
         _popup.open();
       });
@@ -1701,34 +1715,6 @@
             });
           });
         });
-        
-        // Pard.CachedProposals.forEach(function(proposal){
-        //   var _check = true;
-        //   if (proposal.type == 'artist'){
-        //     Pard.Widgets.Program.some(function(performance){
-        //       if (proposal.proposal_id == performance.participant_proposal_id) {
-        //         _check = false;
-        //         return true;
-        //       }
-        //     });
-        //     if (_check) {
-        //       var _row = $('<tr>');
-        //       columns.forEach(function(field){
-        //         // var _colClass = 'column-'+field;
-        //           var _col = $('<td>');
-        //           // _col.addClass(_colClass);
-        //         if (field == 'category'){
-        //           _col.append(Pard.Widgets.Dictionary(proposal[field]).render());
-        //         }
-        //         else { 
-        //           _col.append(proposal[field]);
-        //         }
-        //         _row.append(_col);
-        //         _tbody.append(_row);
-        //       });
-        //     }
-        //   };
-        // });
         
         _tableCreated.append(_tbody);
         _createdWidget.append(_tableCreated);
@@ -1787,15 +1773,93 @@
         }
       }
 
-      // var _orderSpaces = OrderSpaceCaller();
+      var OrderSpace = function(spaceSelector){
+        var _createdWidget = $('<div>');
+        var _dictionaryColor = {
+          home: 'rgb(240, 239, 179)',
+          commercial: 'rgb(196, 245, 239)',
+          open_air: 'rgb(218, 227, 251)',
+          cultural_ass: 'rgb(238, 212, 246)'
+        }
 
-      // _orderSpaces.on('click', function(){
-      //   _spaceSelector.select2("val", "");
-      //   _spaceSelector.trigger('select2:unselecting');
-      // });
+        var _listSortable = $('<ul>');
+        _listSortable.sortable({cursor: "move"});
+        _listSortable.disableSelection();
 
-      _menu.append(_outOfprogramBtn);
+        var _printSpaceCard = function(space, index){
+          var _order = index + 1;
+          var _spaceCard = $('<li>').text(_order + '. ' + space.name).addClass('ui-state-default sortable-space-card').css('background', _dictionaryColor[space.category]).attr('id', space.profile_id);
+          return _spaceCard
+        }
 
+        spaces.forEach(function(space, index){
+          _listSortable.append(_printSpaceCard(space, index));
+        });
+
+        var _orderButtonsContainer = $('<div>').addClass('order-buttons-container');
+        var _orderText = $('<span>').text('Ordena por:');
+
+        var _alphaBtn = Pard.Widgets.Button('A --> Z', function(){
+          _listSortable.empty();
+          spaces.sort(function(s1, s2){
+            return s1.name.localeCompare(s2.name);
+          });
+          spaces.forEach(function(sp, n){
+            _listSortable.append(_printSpaceCard(sp, n));
+          });
+        });
+
+        var _catOrderBtn = Pard.Widgets.Button('Categoría', function(){
+          _listSortable.empty();
+          var _catArrays = {
+            home: [],
+            cultural_ass: [],
+            commercial:[],
+            open_air:[]     
+          }
+          spaces.forEach(function(spa){
+            _catArrays[spa.category].push(spa);
+          });
+          spaces = [];
+          for (var cat in _catArrays){
+            spaces = spaces.concat(_catArrays[cat]);
+          }
+          spaces.forEach(function(sp, n){
+            _listSortable.append(_printSpaceCard(sp, n));
+          });
+        });
+
+        var _OKbtn = Pard.Widgets.Button('OK', function(){
+          // _shownSpaces = [];
+          // var list = _listSortable.sortable('toArray'));
+          // spaces.forEach(function(space, index){
+          //   _shownSpaces.push(space);
+          //   if(index >= spaces.length - 1) return;
+          //   Object.keys(eventTime).forEach(function(date){
+          //     _spaces[space.profile_id].columns[date].after(_spaces[spaces[(index + 1)].profile_id].columns[date]);
+          //   });
+          // });
+          // spaces.forEach(function(space, index){
+          //   _spaces[space.profile_id].alignPerformances(_daySelector.val());
+          // });
+          // _closePopup();
+        });
+
+        var _OKbtnContainer = $('<div>').addClass('OK-btn-container-popup');
+        _OKbtnContainer.append(_OKbtn.render());
+        _orderButtonsContainer.append(_catOrderBtn.render(), _alphaBtn.render(),  _orderText);
+        _createdWidget.append(_orderButtonsContainer, _listSortable, _OKbtnContainer);
+        return {
+          render: function(){
+            return _createdWidget;
+          },
+          setCallback: function(callback){
+            _closePopup = callback
+          }
+        }
+      }
+
+      _menu.append(_outOfprogramBtn, _orderSpaceBtn);
       var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
         $('<a>').attr('href','#').append(
@@ -1803,9 +1867,7 @@
           )
         ,_menu
       );
-
       _menuContainer.append(_iconDropdownMenu);
-
 
       return {
         render: function(){

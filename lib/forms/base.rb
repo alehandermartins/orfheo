@@ -110,7 +110,7 @@ module Forms
         label: 'Descripción *',
         input: 'TextArea',
         args: [''],
-        helptext: 'Cuéntanos en detalle en que constiste tu propuesta.'
+        helptext: 'Cuéntanos en detalle en qué consiste tu propuesta.'
       }
     end
 

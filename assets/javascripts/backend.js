@@ -220,11 +220,11 @@
       );
     };
 
-    var _getForm = function(form, callback){
+    var _getCallForms = function(call_id, callback){
       _send(       
         '/forms',
         {
-          form: form
+          call_id: call_id
         },
         callback
       );
@@ -267,7 +267,7 @@
       amendProposal: _amendProposal,
       whitelist: _whitelist,
       program: _program,
-      getForm: _getForm,
+      getCallForms: _getCallForms,
       listProfiles: _listProfiles
     };
   }());

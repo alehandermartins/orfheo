@@ -25,7 +25,7 @@ module Repos
 
       def get_event event_id
         event = grab({event_id: event_id}).first
-        event[:program] = arrange_program event
+        event = arrange_program event unless event[:program].blank?
         event
       end
 
@@ -85,17 +85,16 @@ module Repos
 
       def get_program event_id
         event = grab({event_id: event_id}).first
-        arrange_program event
+        event = arrange_program event unless event[:program].blank?
+        event[:program]
       end
 
       def arrange_program event
         event[:program].map{ |performance|
           artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
           artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
-          
           space = event[:spaces].select{ |participant| participant[:profile_id] == performance[:host_id]}.first
           order = event[:spaces].index{ |space| space[:proposal_id] == performance[:host_proposal_id] }
-
           performance.merge! host_name: space[:name]
           performance.merge! address: space[:address]
           performance.merge! host_category: space[:category]
@@ -106,6 +105,11 @@ module Repos
           performance.merge! participant_category: artist_proposal[:category]
           performance.merge! order: order
         }
+        event
+      end
+
+      def get_info method, args = nil
+        Scout.get(method, args)
       end
 
       private
@@ -118,7 +122,7 @@ module Repos
         }
       end
 
-      class Scout < Calls
+      class Scout < Events
         class << self
           def get method, args
             Scout.send(method, args)
@@ -135,20 +139,23 @@ module Repos
           end
 
           def profile_info args
-            calls = grab({profile_id: args[:profile_id]}).each{ |call|
-              call.delete(:proposals)
-              call.delete(:program)
+            events = grab({profile_id: args[:profile_id]}).each{ |event|
+              event.delete(:artists)
+              event.delete(:spaces)
+              event.delete(:whitelist)
+              event.delete(:program)
+              event.delete(:qr)
             }
             proposals = grab({ "proposals.profile_id": args[:profile_id]})
             proposals = get_my_proposals_from(proposals, :profile_id, args[:profile_id])
             program = grab({ "$or": [{ "program.participant_id": args[:profile_id]}, {"program.host_id": args[:profile_id]}]})
             program = get_my_program_from(program, args[:profile_id])
-            compose_info calls, proposals, program
+            compose_info events, proposals, program
           end
 
-          def compose_info calls, proposals, program
+          def compose_info events, proposals, program
             {
-              calls: calls,
+              events: events,
               proposals: proposals,
               program: program
             }

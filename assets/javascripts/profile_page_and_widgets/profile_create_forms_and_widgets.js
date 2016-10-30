@@ -507,7 +507,7 @@
 
     for(var field in _form){
       _formContainer.append(
-        $('<div>').addClass(field+'-ArtistForm').append(
+        $('<div>').addClass(field + '-ArtistForm').append(
           _form[field].label.render(),
           _form[field].input.render(),
           _form[field].helptext.render()

@@ -181,15 +181,6 @@
       text: 'Espacio exterior',
       type: 'category'
     });
-    spaceProposals.push({
-      id: 'available',
-      text: 'Disponible'
-    },
-    {
-      id: 'unavailable',
-      text: 'No disponible'
-    });
-
     return spaceProposals;
   }
 
@@ -327,79 +318,4 @@
       }
     }
   }
-
-
-  ns.Widgets.ArtistOutOfProgramCaller = function(){
-    // button to see artist proposals still out of the program
-    var _outOfprogramBtn = $('<li>').text('Artistas sin programación');
-    // _outOfprogramBtn.addClass('out-of-program-btn-manager');
-    _outOfprogramBtn.on('click', function(){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent('Artistas fuera del programa', Pard.Widgets.ArtistOutOfProgram());
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      }); 
-      
-      _content.append(_message.render());
-      _popup.open();
-    });
-
-    return _outOfprogramBtn;
-  }
-
-      // popup to reorder Spaces
-  ns.Widgets.OrderSpaceCaller = function(){
-    var _orderSpaceBtn = $('<li>').text('Ordena Espacios');
-    // _orderSpaceBtn.addClass('order-spaces-btn-manager');
-    _orderSpaceBtn.on('click', function(){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent('Ordena Espacios', Pard.Widgets.OrderSpace());
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      }); 
-      _content.append(_message.render());
-      _popup.open();
-    });
-    return _orderSpaceBtn;
-  }
-
-  ns.Widgets.ToolsDropdownMenu = function(spaceSelector){     
-
-    var _menu = $('<ul>').addClass('menu');
-
-    var _artistOut = Pard.Widgets.ArtistOutOfProgramCaller();
-    var _orderSpaces = Pard.Widgets.OrderSpaceCaller();
-
-    _orderSpaces.on('click', function(){
-      spaceSelector.select2("val", "");
-      spaceSelector.trigger('select2:unselecting');
-    });
-
-    _menu.append(_artistOut,_orderSpaces);
-
-    var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
-    var _iconDropdownMenu = $('<li>').append(
-      $('<a>').attr('href','#').append(
-        Pard.Widgets.IconManager('tools').render()
-        )
-      ,_menu
-    );
-
-    _menuContainer.append(_iconDropdownMenu);
-
-    return {
-      render: function(){
-        return _menuContainer;
-      } 
-    }
-  }
-
 }(Pard || {}));

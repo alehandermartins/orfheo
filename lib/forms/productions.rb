@@ -32,7 +32,6 @@ class Forms::Productions < Forms::Base
       description: description,
       short_description: short_description,
       duration: duration,
-      components: components,
       children: children,
       links: links,
       photos: photos
@@ -60,7 +59,6 @@ class Forms::Productions < Forms::Base
       title: title,
       description: description,
       short_description: short_description,
-      meters: meters,
       children: children,
       links: links,
       photos: photos
@@ -84,7 +82,6 @@ class Forms::Productions < Forms::Base
       title: title,
       description: description,
       short_description: short_description,
-      components: components,
       children: children,
       links: links,
       photos: photos

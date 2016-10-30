@@ -1,16 +1,14 @@
 class FormsController < BaseController
 
   post '/' do
-  	scopify form: true, type: true
-    check_type_and_category type
-    check_form form
-    retrieved_form = Forms.create(type) if form == 'create'
-    retrieved_form = Forms.modify(type) if form == 'modify'
-    success({form: retrieved_form})
+  	scopify call_id: true
+    check_call_exists! call_id
+    forms = Repos::Calls.get_forms call_id
+    success({forms: forms})
   end
 
   private
-  def check_form form
-    raise Pard::Invalid::Form unless ['create', 'modify'].include? form
+  def check_call_exists! call_id
+    raise Pard::Invalid::UnexistingCall unless Repos::Calls.exists? call_id
   end
 end
