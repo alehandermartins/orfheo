@@ -4,9 +4,11 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
-        # call = {}
-        # call[:user_id] = "45825599-b8cf-499c-825c-a7134a3f1ff0"
-        # call[:call_id] = "b5bc4203-9379-4de0-856a-55e1e5f3fac6"
+        call = {}
+        #call[:user_id] = "45825599-b8cf-499c-825c-a7134a3f1ff0"
+        #call[:call_id] = "b5bc4203-9379-4de0-856a-55e1e5f3fac6"
+        # call[:user_id] = "bbeba06b-1f30-408d-a1bc-14c9f98efe2j"
+        # call[:call_id] = "b6bc4203-9379-4de0-856a-55e1e5f3fac6"
         # call[:artist] = artist_form
         # call[:space] = space_form
         # add call
@@ -84,8 +86,8 @@ module Repos
         {
           availability: availability,
           children: children,
-          components: components,
-          repeat:repeat,
+          #components: components,
+          #repeat:repeat,
           links: links,
           photos: photos,
           conditions: conditions
@@ -96,7 +98,7 @@ module Repos
         {
           availability: availability,
           children: children,
-          repeat:repeat,
+          #repeat:repeat,
           links: links,
           photos: photos,
           conditions: conditions
@@ -106,7 +108,7 @@ module Repos
       def my_audiovisual
         {
           availability: availability,
-          repeat:repeat,
+          #repeat:repeat,
           children: children,
           links: links,
           photos: photos,
@@ -116,7 +118,7 @@ module Repos
 
       def my_expo
         {
-          meters: meters,
+          #meters: meters,
           links: links,
           photos: photos,
           conditions: conditions,
@@ -150,10 +152,10 @@ module Repos
       def my_space
         {
           availability: availability,
-          responsible: responsible,
-          sharing: sharing,
-          own: own,
-          un_wanted: un_wanted,
+          #responsible: responsible,
+          #sharing: sharing,
+          #own: own,
+          #un_wanted: un_wanted,
           conditions: conditions
         }
       end
