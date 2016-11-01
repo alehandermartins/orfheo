@@ -335,7 +335,7 @@
 
       var _createProdPopup = Pard.Widgets.PopupCreator(_createProductionItem, 'Crea un contenido artístico', function(){ return Pard.Widgets.CreateNewProductionMessage(profile_id)});
       
-      // productionContent.append(_createProdPopup.render());
+      productionContent.append(_createProdPopup.render());
     
     }
 
