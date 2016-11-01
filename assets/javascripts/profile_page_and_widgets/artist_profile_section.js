@@ -35,11 +35,8 @@
       _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program,profile.type));
     }
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
-    var _infoContentBox = $('<div>').addClass('box-content');
-    
-
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+   
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Biografía', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
     
     

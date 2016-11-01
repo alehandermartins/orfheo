@@ -29,11 +29,11 @@
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
     var _initMex = $('<div>').append($('<p>').html(
-        'Con este formularo puedes modificar el contenido de la página de tu proyecto artistico. Sin embargo, no se modificará ninguno de los datos que has enviado a convocatorias.'
+        'Con este formularo puedes modificar el contenido de la página de tu proyecto artistico.'
       )).addClass('init-message-form');
 
     var _message = $('<div>').append($('<p>').html(
-      'IMPORTANTE: Los cambios que hagas a través de este formulario no serán tomados en consideración por parte de la organización del festival.'
+      'IMPORTANTE: Los cambios que haces a través de este formulario no afectarán los datos enviados a convocatorias.'
       )).addClass('final-message-form-modifyProduction');
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');

@@ -10,9 +10,9 @@
     var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
     var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 
-    var _expoFields = ['title', 'short_description', 'description'];
-    var _showField = ['title', 'short_description', 'description', 'duration', 'children'];
-    var _streetArtFields = ['title', 'short_description', 'description'];
+    var _expoFields = ['title', 'short_description', 'description','links'];
+    var _showField = ['title', 'short_description', 'description', 'duration', 'children','links'];
+    var _streetArtFields = ['title', 'short_description', 'description','links'];
 
     var _expoRequired = ['title', 'short_description'];
     var _showRequired = ['title', 'short_description', 'duration'];
@@ -56,7 +56,7 @@
 
     _form['short_description'] = { 
       label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
-      input: Pard.Widgets.TextAreaCounter('', 80, ' Máximo 80 caracteres. Quedan: '),
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Resume tu propuesta artística en máximo 80 caracteres. Quedan: '),
       helptext: Pard.Widgets.HelpText('')
     };
     _form['short_description']['input'].setClass('short_description-input');
@@ -65,7 +65,7 @@
      _form['description'] = {
       label: Pard.Widgets.InputLabel('Descripción *'),
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Cuenta en que consiste tu producción artística.')
+      helptext: Pard.Widgets.HelpText('Decribe con más detalles tu propuesta artística.')
     };
     _form['description']['input'].setClass('description-input');
     _form['description']['input'].setAttr('rows', 4);
@@ -86,8 +86,15 @@
         
     _form['children'] = {
       label: Pard.Widgets.InputLabel(''),
-      input: Pard.Widgets.CheckBox('Actividad para un público infantil', 'yes_children'),
+      input: Pard.Widgets.CheckBox('Actividad orientada a un público infantil', 'yes_children'),
       helptext: Pard.Widgets.HelpText('')
+    };
+
+
+    _form['links'] = {
+      label: Pard.Widgets.InputLabel('Materiales online'),
+      input: Pard.Widgets.InputMultimedia(),
+      helptext: Pard.Widgets.HelpText('Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor.')
     };
 
     // _form['phone'] = {
@@ -162,7 +169,7 @@
     _form['name'] = {
       label: Pard.Widgets.InputLabel('Nombre artistico *'),
       input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre artístico de la persona o del colectivo que quiere participar en el festival.')
+      helptext: Pard.Widgets.HelpText('Es el nombre de tu perfil de artista.')
     };
 
     _form['title'] = {
@@ -174,7 +181,7 @@
 
     _form['short_description'] = { 
       label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
-      input: Pard.Widgets.TextAreaCounter('', 80, 'Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: '),
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: '),
       helptext: Pard.Widgets.HelpText('')
     };
     _form['short_description']['input'].setClass('short_description-input');
@@ -199,14 +206,14 @@
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad *'),
       input: Pard.Widgets.InputDate(''),
-      helptext: Pard.Widgets.HelpText('Selecciona los días que de disponibilidad en el festival.')
+      helptext: Pard.Widgets.HelpText('Selecciona los días que de disponibilidad en el evento.')
     };
     // _form['availability']['input'].setClass('availability-input');
 
     
     _form['children'] = {
       label: Pard.Widgets.InputLabel(''),
-      input: Pard.Widgets.CheckBox('Actividad para un público infantil', 'yes_children'),
+      input: Pard.Widgets.CheckBox('Actividad orientada a un público infantil', 'yes_children'),
       helptext: Pard.Widgets.HelpText('')
     };
 
@@ -252,7 +259,7 @@
     _form['name'] = {
       label: Pard.Widgets.InputLabel('Nombre del espacio *'),
       input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con el espacio durante el festival.')
+      helptext: Pard.Widgets.HelpText('Es el nombre de tu perfil de espacio.')
     };
 
     _form['address'] ={
@@ -271,7 +278,7 @@
     _form['responsible'] = {
       label: Pard.Widgets.InputLabel('Nombre del responsable del espacio *'),
       input: Pard.Widgets.Input('','text'),
-      helptext: Pard.Widgets.HelpText('Indicar la persona que se compromete con el festival para la programación y gestión del espacio.')
+      helptext: Pard.Widgets.HelpText('Indicar la persona que se compromete con la programación y gestión del espacio')
     };
 
 
@@ -316,7 +323,7 @@
     _form['name'] = {
       label: Pard.Widgets.InputLabel('Nombre artistico *'),
       input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre artístico de la persona o del colectivo que quiere participar en el festival.')
+      helptext: Pard.Widgets.HelpText('Es el nombre de tu perfil de artista.')
     };
     _form['city'] = {
       label: Pard.Widgets.InputLabel('Ciudad *'),
@@ -366,7 +373,7 @@
     _form['name'] = {
       label: Pard.Widgets.InputLabel('Nombre del espacio *'),
       input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre que será asociado con tu espacio durante el festival.')
+      helptext: Pard.Widgets.HelpText('Es el nombre de tu perfil de espacio.')
     };
 
     _form['address'] ={
@@ -464,7 +471,7 @@
 
 
   	var _form = Pard.Forms.BasicArtistForm().render();
-
+ 
     
     _form['bio'] = {
       label: Pard.Widgets.InputLabel('Biografía / Información'),
@@ -576,7 +583,7 @@
     _form['responsible'] = {
       label: Pard.Widgets.InputLabel('Nombre del responsable del espacio *'),
       input: Pard.Widgets.Input('','text'),
-      helptext: Pard.Widgets.HelpText('Indicar la persona que se compromete con el festival para la programación y gestión del espacio.')
+      helptext: Pard.Widgets.HelpText('Indicar la persona que se compromete con la programación y gestión del espacio.')
     };
 
     _form['description'] = {
@@ -607,13 +614,13 @@
     _form['sharing'] = {
       label: Pard.Widgets.InputLabel('Materiales a compartir'), 
       input: Pard.Widgets.TextArea(''),
-      helptext:Pard.Widgets.HelpText('Material que puedes compartir durante el festival como equipo de sonido, altavoces, material de arte plástico, focos de luz...')
+      helptext:Pard.Widgets.HelpText('Material que puedes compartir durante el evento como equipo de sonido, altavoces, material de arte plástico, focos de luz...')
     }
 
     _form['phone'] = {
       label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
       input: Pard.Widgets.InputTel(''),
-      helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización del festival.')
+      helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización.')
     }
     
     _form['conditions'] = {
@@ -637,7 +644,7 @@
   ns.Forms.Conditions = function() {
 
     var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/es/bases', target: '_blank'}).text('bases de participación');
-    var _conditions = $('<span>').text('He leído y acepto las condiciones en las ').append(_linkToConditions,' del festival *');
+    var _conditions = $('<span>').text('He leído y acepto las condiciones en las ').append(_linkToConditions,' *');
 
     return{
       render: function(){
@@ -688,7 +695,7 @@
     
     _form['short_description'] = { 
       label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
-      input: Pard.Widgets.TextAreaCounter('', 80, 'Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: '),
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: '),
       helptext: Pard.Widgets.HelpText('')
     };
     _form['short_description']['input'].setClass('short_description-input');
@@ -723,14 +730,14 @@
     _form['availability'] = {
       label: Pard.Widgets.InputLabel('Disponibilidad *'),
       input: Pard.Widgets.InputDate(''),
-      helptext: Pard.Widgets.HelpText('Selecciona los días que estás disponible para tu participación en el festival.')
+      helptext: Pard.Widgets.HelpText('Selecciona los días que estás disponible para tu participación en el evento.')
     };
     // _form['availability']['input'].setClass('availability-input');
 
     
     _form['children'] = {
       label: Pard.Widgets.InputLabel(''),
-      input: Pard.Widgets.CheckBox('Actividad para un público infantil', 'yes_children'),
+      input: Pard.Widgets.CheckBox('Actividad orientada a un público infantil', 'yes_children'),
       helptext: Pard.Widgets.HelpText('')
     };
     
@@ -746,7 +753,7 @@
     _form['sharing'] = {
       label: Pard.Widgets.InputLabel('Materiales a compartir'), 
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc.')
+      helptext: Pard.Widgets.HelpText('Material que puedes compartir durante el evento, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc.')
     };
     _form['sharing']['input'].setClass('sharing-input');
 
@@ -754,7 +761,7 @@
     _form['needs'] = { 
       label: Pard.Widgets.InputLabel('Necesidades'),
       input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Indicar si se tienen necesidades técnicas especiales y/o de espacio. IMPORTANTE: El festival tendrá lugar en espacios no convencionales y no podrá hacerse cargo del material necesario para cada actuacción.')
+      helptext: Pard.Widgets.HelpText('Indicar si se tienen necesidades técnicas especiales y/o de espacio. IMPORTANTE: El evento tendrá lugar en espacios no convencionales y no podrá hacerse cargo del material necesario para cada actuacción.')
     };
     _form['needs']['input'].setClass('needs-input');
 
@@ -774,7 +781,7 @@
     _form['phone'] = {
       label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
       input: Pard.Widgets.InputTel(''),
-      helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización del festival.')
+      helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización.')
     };
     // _form['phone']['input'].setClass('phone-input');
 
