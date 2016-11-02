@@ -5,129 +5,138 @@
     "event_id" : "a6bc4203-9379-4de0-856a-55e1e5f3fac6",
     "qr" : "qr_h3ujck",
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fac6",
-    "name" : "ExtraMurs.",
-    "baseline" : "Festival 008",
+    "name" : "VII Distrito 008. Festival Urbano de Extramurs",
+    "baseline" : " ",
     "img" : "distrito008_eojj5t",
     "eventTime" : {
-        "2017-04-14" : [ 
+        "2017-03-30" : [ 
             [ 
-                "1476518400000", 
-                "1476532800000"
+                "1490893200000", 
+                "1490893200000"
             ], 
             [ 
-                "1476543600000", 
-                "1476568800000"
+                "1490905800000", 
+                "1490905800000"
             ]
         ],
-        "2017-04-15" : [ 
+        "2017-03-31" : [ 
             [ 
-                "1476518400000", 
-                "1476532800000"
+                "1490970600000", 
+                "1490970600000"
             ], 
             [ 
-                "1476543600000", 
-                "1476568800000"
+                "1490997600000", 
+                "1490997600000"
             ]
         ],
-        "2017-04-16" : [ 
+        "2017-04-01" : [ 
             [ 
-                "1476518400000", 
-                "1476532800000"
+                "1491033600000", 
+                "1491033600000"
             ], 
             [ 
-                "1476543600000", 
-                "1476568800000"
+                "1491084000000", 
+                "1491084000000"
             ]
         ],
-        "2017-04-17" : [ 
+        "2017-04-02" : [ 
             [ 
-                "1476518400000", 
-                "1476532800000"
+                "1491120000000", 
+                "1491120000000"
             ], 
             [ 
-                "1476543600000", 
-                "1476568800000"
+                "1491170400000", 
+                "1491170400000"
             ]
         ],
-        "2017-04-18" : [ 
+        "2017-04-07" : [ 
             [ 
-                "1476518400000", 
-                "1476532800000"
+                "1491575400000", 
+                "1491575400000"
             ], 
             [ 
-                "1476543600000", 
-                "1476568800000"
+                "1491602400000", 
+                "1491602400000"
             ]
         ],
-        "2017-04-19" : [ 
+        "2017-04-08" : [ 
             [ 
-                "1476518400000", 
-                "1476532800000"
+                "1491638400000", 
+                "1491638400000"
             ], 
             [ 
-                "1476543600000", 
-                "1476568800000"
-            ]
-        ],
-        "2017-04-20" : [ 
-            [ 
-                "1476518400000", 
-                "1476532800000"
-            ], 
-            [ 
-                "1476543600000", 
-                "1476568800000"
-            ]
-        ],
-        "2017-04-21" : [ 
-            [ 
-                "1476518400000", 
-                "1476532800000"
-            ], 
-            [ 
-                "1476543600000", 
-                "1476568800000"
-            ]
-        ],
-        "2017-04-22" : [ 
-            [ 
-                "1476518400000", 
-                "1476532800000"
-            ], 
-            [ 
-                "1476543600000", 
-                "1476568800000"
-            ]
-        ],
-        "2017-04-23" : [ 
-            [ 
-                "1476518400000", 
-                "1476532800000"
-            ], 
-            [ 
-                "1476543600000", 
-                "1476568800000"
-            ]
-        ],
-        "2017-04-24" : [ 
-            [ 
-                "1476518400000", 
-                "1476532800000"
-            ], 
-            [ 
-                "1476543600000", 
-                "1476568800000"
+                "1491688800000", 
+                "1491688800000"
             ]
         ],
         "permanent" : [ 
-            "11:00", 
+            "17:00", 
             "21:00"
         ]
     },
-    "start" : "1462053600",
-    "deadline" : "1466028000",
-    "artists" : [],
-    "spaces" : [],
+    "start" : "1479682800",
+    "deadline" : "1482706800",
+    "artists" : [ 
+        {
+            "user_id" : "99f93909-af0c-4f3e-807c-22d22bc1840e",
+            "email" : "centoss2000@yahoo.es",
+            "profile_id" : "0316dfba-9ced-429b-b6ab-1f21efefe797",
+            "name" : "cento",
+            "phone" : "625 88 44 94",
+            "address" : {
+                "locality" : "valència",
+                "postal_code" : "46020"
+            },
+            "proposals" : [ 
+                {
+                    "title" : "Anhelo",
+                    "description" : "Pintura mural. Retrato sobre un fondo celeste.",
+                    "short_description" : "Pintura mural. Retrato sobre un fondo celeste.",
+                    "sharing" : "Cubeta de pintura, rodillo, brochas.",
+                    "needs" : "Compresor de aire para pistola de pintura, toma de electricidad para el compresor.",
+                    "waiting_list" : "true",
+                    "conditions" : "true",
+                    "availability" : [ 
+                        "2016-10-15", 
+                        "2016-10-16"
+                    ],
+                    "proposal_id" : "ef53090a-234a-439a-9cb8-83660539348f",
+                    "production_id" : "2557ec64-0486-4c04-96ec-ddde533ca9b6",
+                    "category" : "street_art",
+                    "amend" : "Disponibilidad 15 y 16 de Octubre"
+                }
+            ]
+        }
+    ],
+    "spaces" : [ 
+        {
+            "responsible" : "María Casquete Pascual",
+            "description" : "Disponemos de 80 m2, fachada y persiana.",
+            "phone" : "673638018",
+            "sharing" : "Altavoces, mini cadena con plato, ordenador y cualquier cosa que esté a mi alcance.",
+            "own" : "",
+            "un_wanted" : "",
+            "conditions" : "true",
+            "user_id" : "d5c9f991-cb50-4c54-ab47-4635908f5b42",
+            "email" : "modaboja@gmail.com",
+            "profile_id" : "8bec80dc-4f18-4748-abb1-825d8ae641a0",
+            "proposal_id" : "9ae0b8a5-80f3-4548-bf54-50d5e59d79ec",
+            "category" : "commercial",
+            "address" : {
+                "route" : "Carrer de la Vila de Muro",
+                "street_number" : "12",
+                "door" : "",
+                "locality" : "València",
+                "country" : "España",
+                "postal_code" : "46020",
+                "location" : {
+                    "lat" : "39.4838746",
+                    "lng" : "-0.361586"
+                }
+            },
+            "name" : "ModaBoja"
+        }
+    ],
     "program" : [],
     "whitelist" : []
 },

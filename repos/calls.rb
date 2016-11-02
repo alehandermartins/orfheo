@@ -4,14 +4,13 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
+        #call = get_call('b6bc4203-9379-4de0-856a-55e1e5f3fac6')
         call = {}
-        #call[:user_id] = "45825599-b8cf-499c-825c-a7134a3f1ff0"
-        #call[:call_id] = "b5bc4203-9379-4de0-856a-55e1e5f3fac6"
-        # call[:user_id] = "bbeba06b-1f30-408d-a1bc-14c9f98efe2j"
-        # call[:call_id] = "b6bc4203-9379-4de0-856a-55e1e5f3fac6"
-        # call[:artist] = artist_form
-        # call[:space] = space_form
-        # add call
+        call[:user_id] = "bbeba06b-1f30-408d-a1bc-14c9f98efe2j"
+        call[:call_id] = "b6bc4203-9379-4de0-856a-55e1e5f3fac6"
+        call[:artist] = artist_form
+        call[:space] = space_form
+        add call
 
 
         # call = get_call('b5bc4203-9379-4de0-856a-55e1e5f3fac6')
@@ -53,9 +52,9 @@ module Repos
           workshop: my_workshop,
           expo: my_expo,
           street_art: my_street_art,
-          poetry: my_workshop, 
-          audiovisual: my_music,
-          other: my_music,
+          poetry: my_music, 
+          audiovisual: my_audiovisual,
+          other: my_other,
         }
       end
 
@@ -84,53 +83,137 @@ module Repos
 
       def my_music
         {
-          availability: availability,
-          children: children,
-          #components: components,
-          #repeat:repeat,
+          title: title, 
+          description: description,
+          short_description: short_description,
+          duration: duration,
           links: links,
           photos: photos,
+          phone: phone,
+          availability: availability,
+          age: age,
+          space_type: space_type,
+          technical_needs: technical_needs,
+          scenography: scenography,
+          test: test,
+          arrangement: arrangement,
+          economic: economic,
+          anticipated: anticipated,
+          anticipated_only: anticipated_only,
           conditions: conditions
         }
       end
 
       def my_workshop
         {
-          availability: availability,
-          children: children,
-          #repeat:repeat,
+          title: title, 
+          description: description,
+          short_description: short_description,
+          duration: duration,
           links: links,
           photos: photos,
+          phone: phone,
+          availability: availability,
+          age: age,
+          inscription: inscription,
+          only_inscription: only_inscription,
+          max_attendants: max_attendants,
+          space_type: space_type,
+          technical_needs: technical_needs,
+          mounting: mounting,
+          mounting_time_workshop: mounting_time_workshop,
+          arrangement_workshop: arrangement_workshop,
+          economic: economic,
           conditions: conditions
         }
       end
 
       def my_audiovisual
         {
-          availability: availability,
-          #repeat:repeat,
-          children: children,
+          title: title, 
+          description: description,
+          short_description: short_description,
+          duration: duration,
           links: links,
           photos: photos,
+          phone: phone,
+          availability: availability,
+          age: age,
+          movies: movies,
+          space_type: space_type,
+          technical_needs: technical_needs,
+          mounting: mounting,
+          mounting_time_workshop: mounting_time_workshop,
+          audiovisual_arrangement: audiovisual_arrangement,
+          economic: economic,
+          anticipated: anticipated,
+          anticipated_only: anticipated_only,
           conditions: conditions
         }
       end
 
       def my_expo
         {
-          #meters: meters,
+          title: title, 
+          description: description,
+          short_description: short_description,
           links: links,
           photos: photos,
-          conditions: conditions,
+          phone: phone,
+          availability: availability,
+          space_type_expo: space_type_expo,
+          mountig_time: mountig_time,
+          needs_expo: needs_expo,
+          conditions: conditions
         }
       end
 
       def my_street_art
         {
-          availability: availability,
+          title: title, 
+          description: description,
+          short_description: short_description,
+          duration: duration,
           links: links,
           photos: photos,
-          conditions: conditions,
+          phone: phone,
+          availability: availability,
+          age: age,
+          surface: surface,
+          other_surface: other_surface,
+          intervention_type: intervention_type,
+          needs_street: needs_street,
+          show_time: show_time,
+          arrangement_street: arrangement_street,
+          economic: economic,
+          conditions: conditions
+        }
+      end
+
+      def my_other
+        {
+          title: title, 
+          description: description,
+          short_description: short_description,
+          duration: duration,
+          links: links,
+          photos: photos,
+          phone: phone,
+          availability: availability,
+          age: age,
+          activity_type: activity_type,
+          space_type: space_type,
+          technical_needs: technical_needs,
+          mountig: mounting,
+          mounting_time_workshop: mounting_time_workshop,
+          inscription: inscription,
+          only_inscription: only_inscription,
+          max_attendants_optional: max_attendants_optional,
+          arrangement_workshop: arrangement_workshop,
+          economic:economic,
+          anticipated: anticipated,
+          anticipated_only: anticipated_only,
+          conditions: conditions
         }
       end
 
@@ -157,6 +240,295 @@ module Repos
           #own: own,
           #un_wanted: un_wanted,
           conditions: conditions
+        }
+      end
+
+      def activity_type
+        {
+          type: 'mandatory',
+          label: 'Tipo de actividad *',
+          input: 'Input',
+          args: ['', 'text'],
+          helptext: ''
+        }
+      end
+
+      def arrangement_street
+        labels = ['Caché', 'Gastos Producción', 'Sin caché']          
+        {
+          type: 'mandatory',
+          label: 'Acuerdo económico *',
+          input: 'MultipleSelector',
+          args: [labels],
+          helptext: 'Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias.'
+        }
+      end
+
+      def show_time
+        {
+          type: 'optional',
+          label: 'Tiempo de realización',
+          input: 'TextArea',
+          args: [''],
+          helptext: 'Indica cuanto tiempo necesitarías aproximadamente para la realización de tu obra o intervención.'
+        }
+      end
+
+      def needs_street
+        {
+          type: 'optional',
+          label: 'Necesidades técnicas',
+          input: 'TextArea',
+          args: [''],
+          helptext: 'Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte. Ej.: pintura, andamios, grúa, escalera, etc...'
+        }
+      end
+
+      def intervention_type
+        labels = ['instalación permanente', 'instalación provisional']          
+        {
+          type: 'optional',
+          label: 'Tipo de intervención',
+          input: 'Selector',
+          args: [labels, labels],
+          helptext: ''
+        }
+      end
+
+      def surface
+        labels = ['lona', 'tablero', 'muro', 'pared medianera', 'suelo', 'pared', 'Otro']          
+        {
+          type: 'mandatory',
+          label: 'Acuerdo económico *',
+          input: 'MultipleSelector',
+          args: [labels],
+          helptext: 'Selecciona el tipo de soporte en el que te gustaría mostrar tu obra. Puedes elegir una o varias opciones.'
+        }
+      end
+
+      def other_surface
+        {
+          type: 'optional',
+          label: 'Otro',
+          input: 'Input',
+          args: ['', 'text'],
+          helptext: ''
+        }
+      end
+
+      def movies
+        {
+          type: 'optional',
+          label: 'Ficha Película/s / Obra/s',
+          input: 'TextArea',
+          args: [''],
+          helptext: 'Indicar título, director/artista, año, duración + descripción. Explicar TODO lo que debe citarse; quién colabora, cede las pelis etc etc…para comunicación.'
+        }
+      end
+
+      def audiovisual_arrangement
+        labels = ['Caché', 'Taquilla', 'A la voluntad', 'Gastos Producción', 'Sin caché']          
+        {
+          type: 'mandatory',
+          label: 'Acuerdo económico *',
+          input: 'MultipleSelector',
+          args: [labels],
+          helptext: 'Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias.'
+        }
+      end
+
+      def arrangement_workshop
+        labels = ['Caché', 'Por inscripciones', 'A la voluntad', 'Gastos Producción', 'Sin caché']          
+        {
+          type: 'mandatory',
+          label: 'Acuerdo económico *',
+          input: 'MultipleSelector',
+          args: [labels],
+          helptext: 'Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias.'
+        }
+      end
+
+      def mounting_time_workshop
+        {
+          type: 'optional',
+          label: 'Tiempo montaje',
+          input: 'TextArea',
+          args: [''],
+          helptext: 'Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello.'
+        }
+      end
+
+      def mounting
+        {
+          type: 'mandatory',
+          label: 'Montaje *',
+          input: 'CheckBox',
+          args: ['', 'yes'],
+          helptext: ''
+        }
+      end
+
+      def inscription
+        {
+          type: 'optional',
+          label: 'Inscripción previa',
+          input: 'CheckBox',
+          args: ['Elegir si deseas que haya inscripción previa a la actividad.', 'yes'],
+          helptext: ''
+        }
+      end
+
+      def only_inscription
+        {
+          type: 'optional',
+          label: 'Sólo bajo inscripción',
+          input: 'CheckBox',
+          args: ['Elegir si se quiere que la actividad sea bajo inscripción obligatoria.', 'yes'],
+          helptext: ''
+        }
+      end
+
+      def max_attendants
+        {
+          type: 'mandatory',
+          label: 'Plazas *',
+          input: 'Input',
+          args: ['', 'number'],
+          helptext: 'Indica el número de plazas que abarca la actividad.'
+        }
+      end
+
+      def max_attendants_optional
+        {
+          type: 'optional',
+          label: 'Plazas',
+          input: 'Input',
+          args: ['', 'number'],
+          helptext: 'Indica el número de plazas que abarca la actividad.'
+        }
+      end
+
+      def space_type_expo
+        labels = ['salas de actuaciones', 'locales de restauración', 'comercios']          
+        {
+          type: 'mandatory',
+          label: 'Tipo de espacio *',
+          input: 'MultipleSelector',
+          args: [labels],
+          helptext: 'Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones.'
+        }
+      end
+
+      def mountig_time
+        {
+          type: 'mandatory',
+          label: 'Tiempo montaje *',
+          input: 'TextArea',
+          args: [''],
+          helptext: 'Indica cuanto tiempo de montaje necesitarías. El artista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello. El artista también tendrá que hacer sus propias cartelas.'
+        }
+      end
+
+      def needs_expo
+        {
+          type: 'optional',
+          label: 'Necesidades técnicas',
+          input: 'TextArea',
+          args: [''],
+          helptext: 'Indícanos qué necesidades técnicas requiere la exposición de tu obra para que podamos valorar si podemos ayudarte a desarrollar tu propuesta. Ej.: proyector, equipo de sonido, taladrar o intervenir pared expositiva, peanas, obra gran tamaño, etc.'
+        }
+      end
+
+      def age
+        labels = ['Todos los públicos', 'Infantil', 'Familiar', 'Juvenil', 'Adultos']          
+        {
+          type: 'mandatory',
+          label: 'Edades público *',
+          input: 'Selector',
+          args: [labels, labels],
+          helptext: ''
+        }
+      end
+
+      def space_type
+        labels = ['salas de actuaciones', 'locales de restauración', 'comercios', 'espacio urbano']          
+        {
+          type: 'mandatory',
+          label: 'Tipo de espacio *',
+          input: 'MultipleSelector',
+          args: [labels],
+          helptext: 'Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones.'
+        }
+      end
+
+      def technical_needs
+        {
+          type: 'optional',
+          label: 'Necesidades técnicas',
+          input: 'TextArea',
+          args: [''],
+          helptext: 'Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc.'
+        }
+      end
+
+      def scenography
+        {
+          type: 'mandatory',
+          label: 'Montaje escenografía *',
+          input: 'CheckBox',
+          args: ['', 'yes'],
+          helptext: ''
+        }
+      end
+
+      def test
+        {
+          type: 'mandatory',
+          label: 'Ensayo / prueba de sonido *',
+          input: 'CheckBox',
+          args: ['', 'yes'],
+          helptext: ''
+        }
+      end
+
+      def arrangement
+        labels = ['Caché', 'Taquilla','Gorra', 'Gastos Producción', 'Sin caché']          
+        {
+          type: 'mandatory',
+          label: 'Acuerdo económico *',
+          input: 'MultipleSelector',
+          args: [labels],
+          helptext: 'Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias.'
+        }
+      end
+
+      def economic
+        {
+          type: 'optional',
+          label: 'Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)',
+          input: 'Input',
+          args: ['', 'number'],
+          helptext: 'Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. '
+        }
+      end
+
+      def anticipated
+        {
+          type: 'optional',
+          label: 'Entrada anticipada',
+          input: 'CheckBox',
+          args: ['', 'yes'],
+          helptext: 'Elegir si deseas que haya venta de entrada anticipada a la actividad.'
+        }
+      end
+
+      def anticipated_only
+        {
+          type: 'optional',
+          label: 'Sólo con entrada anticipada',
+          input: 'CheckBox',
+          args: ['', 'yes'],
+          helptext: 'Elegir si quieres que la actividad sea con entrada anticipada únicamente.'
         }
       end
 
@@ -327,7 +699,7 @@ module Repos
           type: 'optional',
           label: '',
           input: 'CheckBox',
-          args: ['En la eventualidad, quiero quedarme en la lista de espera', 'yes_waitig_list'],
+          args: ['Acepto las condiciones de participación asociadas a este evento', 'yes'],
           helptext: ''
         }
       end

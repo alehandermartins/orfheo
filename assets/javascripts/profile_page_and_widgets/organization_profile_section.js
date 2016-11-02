@@ -101,9 +101,9 @@
           var _content = $('<div>').addClass('very-fast reveal full');
           _content.empty();
           $('body').append(_content);
-
+          console.log(data);
           var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent(profile.events[0].name, Pard.Widgets.ArtistCallForm(data.forms.artist.music));
+          var _message = Pard.Widgets.PopupContent(profile.events[0].name, Pard.Widgets.FormManager(data.forms.artist));
           _message.setCallback(function(){
             _content.remove();
             _popup.close();
@@ -139,6 +139,37 @@
     return {
       render: function(){
         return _createdWidget;
+      }
+    }
+  }
+
+
+  ns.Widgets.FormManager = function(forms){
+    var _createdWidget = $('<div>');
+    var _categorySelector = $('<select>');
+    var _content = $('<div>');
+
+    var _emptyOption = $('<option>').text('Selecciona una categoría');
+    _categorySelector.append(_emptyOption);
+
+    for(var field in forms){
+      _categorySelector.append($('<option>').text(Pard.Widgets.Dictionary(field).render()).val(field))
+    }
+
+    _categorySelector.on('change',function(){
+      _content.empty();
+      _emptyOption.css('display', 'none');
+      _content.append(Pard.Widgets.ArtistCallForm(forms[_categorySelector.val()]).render());
+    });
+
+    _createdWidget.append(_categorySelector, _content);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        console.log('miau');
       }
     }
   }
@@ -181,6 +212,10 @@
           _form[field].helptext.render()
         )
       );
+        if(form[field]['input'] == 'MultipleSelector'){
+          _form[field].input.render().multipleSelect();
+          _form[field].helptext.render().css('margin-top', 5);
+        }
       }
     }
 

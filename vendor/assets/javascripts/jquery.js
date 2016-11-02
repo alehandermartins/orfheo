@@ -33,3 +33,4 @@
 //= require maplace
 
 //=require bowser.min
+//=require multiple-select

@@ -139,6 +139,44 @@
     }
   }
 
+  ns.Widgets.MultipleSelector = function(values, callback){
+    var _createdWidget = $('<select>').attr("multiple", "multiple");
+    values.forEach(function(value){
+      _createdWidget.append($('<option>').text(value).val(value));
+    });
+     _createdWidget.on('change',function(){
+      if(callback) {
+        var boundCallback = callback.bind(_createdWidget);
+        boundCallback();
+      };
+    });
+
+    _createdWidget.css({
+      'width': 300
+    });
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _createdWidget.val();
+      },
+      setVal: function(value){
+        _createdWidget.val(value);
+      },
+      setClass: function(_class){
+        _createdWidget.addClass(_class);
+      },
+      enable: function(){
+        _createdWidget.attr('disabled',false);
+      },
+      disable: function(){
+        _createdWidget.attr('disabled',true);
+      }
+    }
+  }
+
 
   ns.Widgets.TextArea = function(label){
     var _createdWidget = $('<div>');

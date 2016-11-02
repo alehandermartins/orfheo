@@ -59,7 +59,7 @@
         var endHour = end.getHours();
         //Amount of hours in our day
         var hours = [];
-        if(endDate > startDate){
+        if(endDate != startDate){
           for (var i = startHour; i < 24; i++) {hours.push(i);}
           for (var i = 0; i <= endHour; i++) {hours.push(i);}
         }
