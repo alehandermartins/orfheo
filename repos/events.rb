@@ -108,13 +108,76 @@ module Repos
         event
       end
 
+      def my_events profile_id
+        events = grab({profile_id: profile_id}).map{ |event|
+          event.delete(:artists)
+          event.delete(:whitelist)
+          event.delete(:spaces)
+          event.delete(:program)
+          event.delete(:qr)
+          event
+        }
+      end
+
+      def requested_events profile_id, requester_id
+        requester = Repos::Users.grab({user_id: requester_id})
+        events = grab({profile_id: profile_id}).map{ |event|
+          event.delete(:artists)
+          whitelist = false
+          whitelist = true if event[:whitelist].any?{ |user| user[:email] == requester[:email] }
+          event[:whitelist] = whitelist
+          event.delete(:spaces)
+          event.delete(:program)
+          event.delete(:qr)
+          event
+        }       
+      end
+
+      def my_artist_proposals profile_id
+        events = grab({ "artists.profile_id": profile_id})
+        events.map{ |event|
+          event[:artists].select{ |proposal| proposal[:profile_id] == profile_id}.first[:proposals]
+        }.flatten
+      end
+
+      def my_space_proposals profile_id
+        events = grab({ "spaces.profile_id": profile_id})
+        events.map{ |event|
+          event[:spaces].select{ |proposal| proposal[:profile_id] == profile_id}.first
+        }.flatten
+      end
+
+      def my_program profile_id
+        events = grab({ "$or": [{ "program.participant_id": profile_id}, {"program.host_id": profile_id}]}) 
+        events.map{ |event|
+          my_performances = event[:program].select{|performance| performance[:participant_id] == profile_id || performance[:host_id] == profile_id}
+          my_performances.map{ |performance|
+            artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
+            artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
+            space = event[:spaces].select{ |participant| participant[:profile_id] == performance[:host_id]}.first
+            order = event[:spaces].index{ |space| space[:proposal_id] == performance[:host_proposal_id] }
+            performance.merge! event_name: event[:name]
+            performance.merge! event_id: event[:event_id]
+            performance.merge! host_name: space[:name]
+            performance.merge! address: space[:address]
+            performance.merge! host_category: space[:category]
+            performance.merge! participant_name: artist[:name]
+            performance.merge! title: artist_proposal[:title]
+            performance.merge! short_description: artist_proposal[:short_description]
+            performance.merge! children: artist_proposal[:children]
+            performance.merge! participant_category: artist_proposal[:category]
+            performance.merge! order: order
+          }
+        }.flatten
+      end
+
       def get_info method, args = nil
         Scout.get(method, args)
       end
 
       private
-      def grab query
-        results = @@events_collection.find(query)
+      def grab query, projection = {}
+        results = @@events_collection.find(query, projection)
         return [] unless results.count > 0
 
         results.map { |event|
@@ -126,16 +189,6 @@ module Repos
         class << self
           def get method, args
             Scout.send(method, args)
-          end
-
-          def proposal args
-            results = grab({ "proposals.proposal_id": args[:proposal_id] })
-            get_my_proposals_from(results, :proposal_id, args[:proposal_id]).first
-          end
-
-          def production_proposals args
-            results = grab({ "proposals.production_id": args[:production_id]})
-            get_my_proposals_from(results, :production_id, args[:production_id])
           end
 
           def profile_info args
