@@ -199,13 +199,12 @@ Pard.EventManager = function(the_event){
 }
 
 
-Pard.Event = function(program, status){
-  console.log(program);
+Pard.Event = function(the_event, status){
   //Address 
   //http://localhost:3000/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6
   Pard.UserStatus['status'] = status;
 
-  Pard.CachedProgram = program;
+  Pard.CachedProgram = the_event;
   var _whole = $('<div>').addClass('whole-container');
 
   var _footer = Pard.Widgets.Footer();

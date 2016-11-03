@@ -43,8 +43,8 @@ describe Repos::Events do
       email: 'email',
       name: 'space_name',
       address: {
-        locality: 'locality',
-        postal_code: 'postal_code'
+        'locality' => 'locality',
+        'postal_code' => 'postal_code'
       },
       phone: 'phone',
       category: 'category'
@@ -150,6 +150,16 @@ describe Repos::Events do
         'profile_id' => profile_id,
         'proposals' => [Util.stringify_hash(artist_proposal), Util.stringify_hash(artist_proposal)]
       })
+    end
+
+    it 'retrieves my artist proposals' do
+      Repos::Events.add_artist event_id, artist
+      expect(Repos::Events.my_artist_proposals profile_id).to eq([artist_proposal])
+    end
+
+    it 'retrieves my space proposals' do
+      Repos::Events.add_space event_id, space
+      expect(Repos::Events.my_space_proposals space_profile_id).to eq([space])
     end
   end
 

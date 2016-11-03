@@ -7,21 +7,19 @@ class CallsController < BaseController
     success
   end
 
-  post '/users/send_proposal' do
-    scopify call_id: true, profile_id: true, production_id: true, type: true
-    check_call_exists! call_id
+  post '/users/send_artist_proposal' do
+    scopify event_id: true, profile_id: true, production_id: true
+    check_event_exists! event_id
     check_profile_ownership profile_id
-    #check_deadline call_id
+    check_deadline! event_id
 
-    proposal_id = SecureRandom.uuid
-    proposal = Forms::Proposals.new(params, session[:identity]).create(proposal_id)
-    Repos::Calls.add_proposal call_id, proposal
+    proposal = Proposals.new(params, session[:identity])
+    Repos::Events.add_proposal event_id, proposal.to_h
 
-    if production_id.blank? && type == 'artist'
-      production = Forms::Productions.new(params, session[:identity]).create(proposal[:production_id])
-      Repos::Profiles.add_production profile_id, production
+    if production_id.blank?
+      production = Productions.new(params, session[:identity])
+      Repos::Profiles.add_production profile_id, production.to_h
     end
-
     success ({profile_id: profile_id})
   end
 

@@ -39,10 +39,14 @@ class EventsController < BaseController
 
   get '/event' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
-    program = Repos::Events.get_program params[:id]
+    event = Repos::Events.get_event params[:id]
+    event.delete(:artists)
+    event.delete(:whitelist)
+    event.delete(:spaces)
+    event.delete(:qr)
     status = 'outsider' if !session[:identity]
     status = 'visitor' if session[:identity]
-    erb :event, :locals => {:program => program.to_json, :status => status.to_json}
+    erb :event, :locals => {:the_event => event.to_json, :status => status.to_json}
   end
 
   get '/event_manager' do
