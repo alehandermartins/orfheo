@@ -211,6 +211,17 @@
             )
         );
       }
+      else if (form[field].input == 'CheckBox'){
+        var _genericField = $('<div>');
+        _formContainer.append(
+           _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render().append(_form[field].label.render().css({
+              'display': 'inline',
+              'margin-left':'-1rem'
+            })
+          ))
+        );
+          if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render().css({'margin-top':'0'}));  
+      }
       else{
         var _genericField = $('<div>');
         _formContainer.append(
@@ -220,7 +231,8 @@
         )
         if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
         if(form[field]['input'] == 'MultipleSelector'){
-          _form[field].input.render().multipleSelect();
+          _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+            selectAll: false});
           _form[field].helptext.render().css('margin-top', 5);
         }
       }

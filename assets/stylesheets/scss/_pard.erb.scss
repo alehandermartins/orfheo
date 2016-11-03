@@ -1094,7 +1094,7 @@ select, textarea, a{
 }
 
 .popup-form button {
-  autline: none;
+  outline: none;
 }
 
 .popup-form input, .popup-form textarea, .popup-form select{
@@ -1276,6 +1276,23 @@ select, textarea, a{
     margin: 2rem 0;
   }
 
+  .MultipleSelector-FormField select{
+    width: 100% !important;
+    outline: none !important;
+
+  }
+
+  .MultipleSelector-FormField .ms-choice{
+      @include border-radius($element-border-radius);
+      font-size: $almostNormalSize;
+      height: 34px;
+      span{
+        padding: 4px 8px;
+      }
+      div{
+        top:  4px;
+      }
+  }
  /*  .InputTel-FormField{
     width: 24rem;
     input{

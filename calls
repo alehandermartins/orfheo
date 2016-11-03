@@ -891,7 +891,7 @@
                 "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -1107,7 +1107,7 @@
                 "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -1332,7 +1332,7 @@
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -1437,7 +1437,7 @@
                 "helptext" : "Indícanos qué necesidades técnicas requiere la exposición de tu obra para que podamos valorar si podemos ayudarte a desarrollar tu propuesta. Ej.: proyector, equipo de sonido, taladrar o intervenir pared expositiva, peanas, obra gran tamaño, etc."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -1649,7 +1649,7 @@
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -1865,7 +1865,7 @@
                 "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -2089,7 +2089,7 @@
                 "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -2344,7 +2344,7 @@
                 "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -2367,7 +2367,7 @@
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -2388,7 +2388,7 @@
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -2409,7 +2409,7 @@
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 
@@ -2430,7 +2430,7 @@
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
-                "type" : "optional",
+                "type" : "mandatory",
                 "label" : "",
                 "input" : "CheckBox",
                 "args" : [ 

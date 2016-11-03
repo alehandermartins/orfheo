@@ -151,9 +151,10 @@
       };
     });
 
-    _createdWidget.css({
-      'width': 300
-    });
+
+    // _createdWidget.css({
+    //   'width': 300
+    // });
 
     return {
       render: function(){
