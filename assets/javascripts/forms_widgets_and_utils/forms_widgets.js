@@ -179,7 +179,7 @@
 
 
   ns.Widgets.TextArea = function(label){
-    var _createdWidget = $('<div>');
+    // var _createdWidget = $('<div>');
     var _textarea = $('<textarea>').attr({placeholder: label});
 
     _textarea.on('input',function(){_textarea.removeClass('warning')});
@@ -197,11 +197,11 @@
     });
 
 
-    _createdWidget.append(_textarea);
+    // _createdWidget.append(_textarea);
 
     return {
       render: function(){
-        return _createdWidget;
+        return _textarea;
       },
       getVal: function(){
         return _textarea.val();
@@ -227,9 +227,9 @@
 
   ns.Widgets.TextAreaCounter = function(label, max, message){
     var _createdWidget = $('<div>');
-    var _textarea = $('<textarea>').attr({placeholder: label, maxlength:80});
+    var _textarea = $('<textarea>').attr({placeholder: label, maxlength:80, rows: 1}).addClass('short_description-input');
     var _remainingCar = $('<span>').text(80).css({display: 'inline', 'font-weight':600});
-    var _counter = $('<div>').append(message, _remainingCar,'.').addClass('help-text');
+    var _counter = $('<p>').append(message, _remainingCar,'.').addClass('help-text');
     _textarea.on('input',(function(){
     	_textarea.removeClass('warning');
     	_remainingCar.text(max - _textarea.val().length);

@@ -9,7 +9,7 @@
     profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
     var userStatus = Pard.UserStatus['status'];
-   
+  
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
 
     var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
@@ -178,7 +178,7 @@
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
-    var _message = $('<div>').text('Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla en todo momento sin afectar a tu participación en el festival.').addClass('message-form');
+    var _message = $('<div>').text('Esta información se mostrará en la página de perfil y podrás modificarla en todo momento sin afectar a tu participación en convocatorias.').addClass('message-form');
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _form = {};
@@ -190,7 +190,7 @@
     var _thumbnail = $('<div>');
     var _photos = Pard.Widgets.Cloudinary(form['photos'].folder, _thumbnail, _url, form['photos'].amount);
     var _photosLabel = $('<label>').text(form['photos'].label);
-    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css({'margin-bottom':'1.2rem', 'margin-top':'2rem'});
+    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css({'margin-bottom':'-1rem'});
 
     for(var field in form){
       if (field != 'photos'){
@@ -204,14 +204,21 @@
 
     for(var field in form){
       if (field == 'photos') _formContainer.append(_photosContainer);
-      else{
+      else if (form[field].input == 'TextAreaCounter'){
         _formContainer.append(
-        $('<div>').addClass(field + '-SpaceForm').append(
+           $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+              _form[field].label.render(),_form[field].input.render()
+            )
+        );
+      }
+      else{
+        var _genericField = $('<div>');
+        _formContainer.append(
+        _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
           _form[field].label.render(),
-          _form[field].input.render(),
-          _form[field].helptext.render()
+          _form[field].input.render())
         )
-      );
+        if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
         if(form[field]['input'] == 'MultipleSelector'){
           _form[field].input.render().multipleSelect();
           _form[field].helptext.render().css('margin-top', 5);

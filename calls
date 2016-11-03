@@ -11,7 +11,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "children" : {
                 "type" : "optional",
@@ -76,7 +76,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "children" : {
                 "type" : "optional",
@@ -141,7 +141,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "children" : {
                 "type" : "optional",
@@ -232,7 +232,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "links" : {
                 "type" : "optional",
@@ -267,7 +267,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "children" : {
                 "type" : "optional",
@@ -322,7 +322,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "children" : {
                 "type" : "optional",
@@ -387,7 +387,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "children" : {
                 "type" : "optional",
@@ -454,7 +454,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "responsible" : {
                 "type" : "mandatory",
@@ -512,7 +512,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "responsible" : {
                 "type" : "mandatory",
@@ -570,7 +570,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "responsible" : {
                 "type" : "mandatory",
@@ -628,7 +628,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "responsible" : {
                 "type" : "mandatory",
@@ -712,7 +712,7 @@
                 "args" : [ 
                     "", 
                     80, 
-                    "Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: "
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
                 ],
                 "helptext" : ""
             },
@@ -769,7 +769,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización del festival."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
             "availability" : {
                 "type" : "mandatory",
@@ -778,7 +778,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
@@ -928,7 +928,7 @@
                 "args" : [ 
                     "", 
                     80, 
-                    "Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: "
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
                 ],
                 "helptext" : ""
             },
@@ -985,7 +985,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización del festival."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
             "availability" : {
                 "type" : "mandatory",
@@ -994,7 +994,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
@@ -1144,7 +1144,7 @@
                 "args" : [ 
                     "", 
                     80, 
-                    "Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: "
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
                 ],
                 "helptext" : ""
             },
@@ -1201,7 +1201,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización del festival."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
             "availability" : {
                 "type" : "mandatory",
@@ -1210,7 +1210,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
@@ -1369,7 +1369,7 @@
                 "args" : [ 
                     "", 
                     80, 
-                    "Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: "
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
                 ],
                 "helptext" : ""
             },
@@ -1394,7 +1394,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización del festival."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
             "availability" : {
                 "type" : "mandatory",
@@ -1403,7 +1403,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "space_type_expo" : {
                 "type" : "mandatory",
@@ -1474,7 +1474,7 @@
                 "args" : [ 
                     "", 
                     80, 
-                    "Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: "
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
                 ],
                 "helptext" : ""
             },
@@ -1531,7 +1531,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización del festival."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
             "availability" : {
                 "type" : "mandatory",
@@ -1540,7 +1540,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
@@ -1686,7 +1686,7 @@
                 "args" : [ 
                     "", 
                     80, 
-                    "Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: "
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
                 ],
                 "helptext" : ""
             },
@@ -1743,7 +1743,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización del festival."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
             "availability" : {
                 "type" : "mandatory",
@@ -1752,7 +1752,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
@@ -1902,7 +1902,7 @@
                 "args" : [ 
                     "", 
                     80, 
-                    "Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: "
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
                 ],
                 "helptext" : ""
             },
@@ -1959,7 +1959,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización del festival."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
             "availability" : {
                 "type" : "mandatory",
@@ -1968,7 +1968,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
@@ -2126,7 +2126,7 @@
                 "args" : [ 
                     "", 
                     80, 
-                    "Es la descripción que aparecerá en el programa de mano del festival. Por motivos de espacio en el papel, está limitada a 80 caracteres. Quedan: "
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
                 ],
                 "helptext" : ""
             },
@@ -2183,7 +2183,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización del festival."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
             "availability" : {
                 "type" : "mandatory",
@@ -2192,7 +2192,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
@@ -2364,7 +2364,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
                 "type" : "optional",
@@ -2385,7 +2385,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
                 "type" : "optional",
@@ -2406,7 +2406,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
                 "type" : "optional",
@@ -2427,7 +2427,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el festival."
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
                 "type" : "optional",

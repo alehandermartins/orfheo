@@ -2,12 +2,22 @@
     "_id" : ObjectId("5815e329f6ed9990eb1a09c3"),
     "user_id" : "bbeba06b-1f30-408d-a1bc-14c9f98efe2j",
     "profile_id" : "2c303d75-0d9d-4fec-b8c9-d17c7e5283c0",
+    "organizer": "Distrito 008",
     "event_id" : "a6bc4203-9379-4de0-856a-55e1e5f3fac6",
     "qr" : "qr_h3ujck",
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fac6",
     "name" : "VII Distrito 008. Festival Urbano de Extramurs",
-    "baseline" : " ",
+    "baseline" : "Somos Barrio / Som Barri",
     "img" : "distrito008_eojj5t",
+    "place": "Extramurs - Valencia",
+    "address":{};
+    "collaborators":[
+    {
+      name: 'PICUV',
+      link: 'https://www.facebook.com/picuv/?fref=ts',
+      img: 'Logo_PICUV_qptegh'
+    }
+    ];
     "eventTime" : {
         "2017-03-30" : [ 
             [ 
@@ -144,12 +154,101 @@
     "_id" : ObjectId("58122ea700ab0341f3453e23"),
     "user_id" : "45825599-b8cf-499c-825c-a7134a3f1ff0",
     "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
+    "organizer": "conFusión"
     "event_id" : "a5bc4203-9379-4de0-856a-55e1e5f3fac6",
     "qr" : "qr_h3ujck",
     "call_id" : "b5bc4203-9379-4de0-856a-55e1e5f3fac6",
     "name" : "Benimaclet conFusión festival III ed.",
     "baseline" : "Festival libre de expresión gratuita",
+    "place": "Benimaclet - Valencia",
+    "address":{};
     "img" : "cartel_conFusion_2016_cut_kdyyoj",
+        "collaborators":[
+        {
+          name: 'Caixa Fosca',
+          link: 'http://www.caixafosca.com/',
+          img: 'caixa_fosca_logo_ww7haj'
+        },
+        {
+          name: 'Carlos Antón Varó',
+          link: 'http://www.caranva.com/',
+          img: 'logo-caverde_mqzpkq'
+        },
+        {
+          name: 'Benimaclet Entra',
+          link: 'http://benimacletentra.org/',
+          img: 'BE_bouuxi'
+        },
+        {
+          name: 'Associació de Veïns i Veïnes de Benimaclet',
+          link: 'https://avvbenimaclet.wordpress.com/',
+          img: 'Asociacion_vecinos_squareLogo_vqxp2t'
+        },
+        {
+          name: '4b',
+          link: 'https://www.facebook.com/benimaclet4b/?fref=ts',
+          img: 'logo_4b_f57juv'
+        },
+        {
+          name: 'Al Berro Producciones',
+          link: 'http://www.alberroproducciones.com/',
+          img: 'Logo_AlBerroProducciones_seqhyq'
+        },
+        {
+          name: 'Goatxa',
+          link: 'http://www.goatxa.es/',
+          img: 'Goatxa_logotipo_bfkksr'
+        },
+        {
+          name: 'Coprint',
+          link: 'http://coprint.com/',
+          img: 'coprint_zst4xw'
+        },
+        {
+          name: 'Chernoville',
+          link: 'https://www.facebook.com/ChernovilleStudios/?hc_ref=SEARCH&fref=nf',
+          img: 'LOGO_Chernoville_gonlbe'
+        },
+        {
+          name: 'Laboratorio de Fabricación',
+          link: 'http://laboratoriodefabricacion.com/',
+          img: 'laboratorio_de_fabricacion_oxx5cp'
+        },
+        {
+          name: 'La Cova',
+          link: 'https://www.facebook.com/lacuevadebenimaclet/?fref=ts',
+          img: 'logo-la-cueva_txluc0'
+        },
+        {
+          name: 'Talk! English Association',
+          link: 'http://talkasocia.wixsite.com/valencia',
+          img: 'logo_talk_qbvdoe'
+        },
+        {
+          name: 'Escuela Meme',
+          link: 'https://www.facebook.com/escuelameme.benimaclet/?fref=ts',
+          img: 'logo-meme_xap33x'
+        },
+        {
+          name: 'La Tapadera',
+          link: 'http://www.espaciolatapadera.es/',
+          img: 'Logo_tapadera_ffx0jb'
+        },
+        {
+          name: 'Asociación de Imagen Experimental',
+          link: '',
+          img: 'logo_AIE_zw3srs'
+        },
+        {
+          name: 'PICUV',
+          link: 'https://www.facebook.com/picuv/?fref=ts',
+          img: 'Logo_PICUV_qptegh'
+        },
+        {
+          name: 'Tapinearte',
+          link: 'https://www.facebook.com/TAPINEARTE?fref=ts',
+          img: 'logo_tapinearte_qsss6l'
+        }]
     "eventTime" : {
         "2016-10-15" : [ 
             [ 

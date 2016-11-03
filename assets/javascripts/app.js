@@ -200,6 +200,7 @@ Pard.EventManager = function(the_event){
 
 
 Pard.Event = function(program, status){
+  console.log(program);
   //Address 
   //http://localhost:3000/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6
   Pard.UserStatus['status'] = status;

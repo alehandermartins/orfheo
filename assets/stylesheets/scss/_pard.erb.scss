@@ -1101,6 +1101,7 @@ select, textarea, a{
     @include border-radius($element-border-radius);
     height: auto;
     font-size: $almostNormalSize;
+    margin:  0 0 0rem;
 }
 
 .popup-form .route-addressForm, .popup-form .street_number-addressForm,.popup-form .door-addressForm, .popup-form .locality-addressForm, .popup-form .country-addressForm, .popup-form .postal_code-addressForm, .multiMedia {
@@ -1118,12 +1119,20 @@ select, textarea, a{
 
 .help-text{
   line-height: 0.9rem;
-  margin-top: -0.5rem;
+  margin: 0rem;
+  margin-top: 0.3rem;
 }
 
 
-.description-input, .short_description-input, .needs-input, .sharing-input{
+.description-input, .needs-input, .sharing-input{
   line-height: 1.2rem;
+}
+
+.short_description-input{
+  line-height: 1.2rem;
+  min-height: 0 !important;
+  height: 2.2rem !important;
+  overflow-y: hidden;
 }
 
 
@@ -1263,7 +1272,20 @@ select, textarea, a{
     margin-bottom: 1.8rem;
   }
 
-  .phone-SpaceCall, .phone-ArtistCall{
+  .call-form-field{
+    margin: 2rem 0;
+  }
+
+ /*  .InputTel-FormField{
+    width: 24rem;
+    input{
+      width: 13rem;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+  } */
+
+  /* .phone-SpaceCall, .phone-ArtistCall{
     margin-bottom: 1.5rem;
     margin-top: 1.2rem; 
     width: 24rem;
@@ -1273,13 +1295,26 @@ select, textarea, a{
       margin-left: 1.5rem;
     }
   }
-
-  .phone-SpaceCall{
+ */
+/*   .phone-SpaceCall{
     margin-bottom: 2rem;
     margin-top: 2rem; 
   }
+ */
 
-  .availability-SpaceCall{
+/*   .InputDate-FormField{
+    input{
+      width: 21rem;
+    }
+  }
+
+  .Selector-FormField{
+    select{
+      width: 21rem;
+    }
+  } */
+
+ /*  .availability-SpaceCall{
     margin-bottom: 2rem;
     margin-top: 2rem; 
     input{
@@ -1296,8 +1331,9 @@ select, textarea, a{
       display: inline-block;
       margin-left: 1.5rem;
     }
-  }
+  } */
 
+/* 
   .responsible-SpaceCall{
     margin-bottom: 1.5rem;
     margin-top: 2rem; 
@@ -1306,7 +1342,7 @@ select, textarea, a{
       display: inline-block;
       margin-left: 1.5rem;
     }
-  }
+  } */
 
 
 
