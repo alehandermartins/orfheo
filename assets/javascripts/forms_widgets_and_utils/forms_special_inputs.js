@@ -74,18 +74,23 @@
   } 
 
 
-  ns.Widgets.InputDate = function(placeholder){
+  ns.Widgets.InputDate = function(placeholder,eventTime){
  	
   	var _inputDate = Pard.Widgets.Input(placeholder,'text');
+    var _dateMinMax = [];
+    for (var day in eventTime) {
+      console.log(day);
+      if (day != 'permanent') _dateMinMax.push(day);
+    }
 
   	var _datePicker = _inputDate.render();
   	_datePicker.datepick({
   		firstDay: 1,
-  		minDate: new Date(2016, 10 - 1, 15),
-  		maxDate: new Date(2016, 10 - 1, 16),
+  		minDate: new Date(_dateMinMax[0]),
+  		maxDate: new Date(_dateMinMax[_dateMinMax.length -1]),
   		dateFormat: 'DD, dd M yyyy',
 			multiSeparator: ' - ',
-  		multiSelect: 2,
+  		multiSelect: _dateMinMax.length,
   		defaultStatus: placeholder,
   		defaultDate: null,
   		onSelect:  function(){_datePicker.removeClass('warning')}
@@ -124,6 +129,57 @@
       }
     }
   }
+
+  // ns.Widgets.MultipleSelectorDate = function(eventTime, callback){
+  //   var _createdWidget = $('<select>').attr("multiple", "multiple");
+  //   var _dateMinMax = [];
+  //   for (var day in eventTime) {
+  //     var _dayHuman = moment(new Date(day)).locale('es').format('dd, DD-MM');
+  //     if (day != 'permanent') _dateMinMax.push(_dayHuman);
+  //   }
+  //   _dateMinMax.forEach(function(value){
+  //     _createdWidget.append($('<option>').text(value).val(value));
+  //   });
+  //    _createdWidget.on('change',function(){
+  //       _createdWidget.next().find('.ms-choice').removeClass('warning');
+  //     if(callback) {
+  //       var boundCallback = callback.bind(_createdWidget);
+  //       boundCallback();
+  //     };
+  //   });
+
+
+  //   // _createdWidget.css({
+  //   //   'width': 300
+  //   // });
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     getVal: function(){
+  //       return _createdWidget.val();
+  //     },
+  //     setVal: function(value){
+  //       _createdWidget.val(value);
+  //     },
+  //     addWarning: function(){
+  //       _createdWidget.next().find('.ms-choice').addClass('warning');
+  //     },
+  //     removeWarning: function(){
+  //       _createdWidget.next().find('.ms-choice').removeClass('warning');
+  //     },
+  //     setClass: function(_class){
+  //       _createdWidget.addClass(_class);
+  //     },
+  //     enable: function(){
+  //       _createdWidget.attr('disabled',false);
+  //     },
+  //     disable: function(){
+  //       _createdWidget.attr('disabled',true);
+  //     }
+  //   }
+  // }
 
   ns.Widgets.InputColor = function(){
 

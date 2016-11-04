@@ -124,6 +124,12 @@
       getVal: function(){
         return _createdWidget.val();
       },
+      addWarning: function(){
+        _createdWidget.addClass('warning');
+      },
+      removeWarning: function(){
+        _createdWidget.removeClass('warning');
+      },
       setVal: function(value){
         _createdWidget.val(value);
       },
@@ -140,11 +146,14 @@
   }
 
   ns.Widgets.MultipleSelector = function(values, callback){
+    console.log(values);
+    console.log(callback);
     var _createdWidget = $('<select>').attr("multiple", "multiple");
     values.forEach(function(value){
       _createdWidget.append($('<option>').text(value).val(value));
     });
      _createdWidget.on('change',function(){
+        _createdWidget.next().find('.ms-choice').removeClass('warning');
       if(callback) {
         var boundCallback = callback.bind(_createdWidget);
         boundCallback();
@@ -165,6 +174,12 @@
       },
       setVal: function(value){
         _createdWidget.val(value);
+      },
+      addWarning: function(){
+        _createdWidget.next().find('.ms-choice').addClass('warning');
+      },
+      removeWarning: function(){
+        _createdWidget.next().find('.ms-choice').removeClass('warning');
       },
       setClass: function(_class){
         _createdWidget.addClass(_class);

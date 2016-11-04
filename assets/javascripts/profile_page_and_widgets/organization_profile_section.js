@@ -178,8 +178,12 @@
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
-    var _message = $('<div>').text('Esta información se mostrará en la página de perfil y podrás modificarla en todo momento sin afectar a tu participación en convocatorias.').addClass('message-form');
+
+    var _message_1 = $('<div>').append($('<div>').html('PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil').addClass('m-artistCall')).addClass('message-call');
+    var _message_2 = $('<div>').append($('<div>').text('PARTE II: Sólo los organizadores tendrán acceso a los siguientes datos').addClass('m-artistCall')).addClass('message-call');
     var _invalidInput = $('<div>').addClass('not-filled-text');
+
+    _formContainer.append(_message_1);
 
     var _form = {};
     var _submitForm = {};
@@ -196,6 +200,8 @@
       if (field != 'photos'){
         _form[field] = {};
         _form[field]['type'] = form[field].type;
+        if(form[field]['type'] == 'mandatory') form[field]['label'] = form[field]['label']+' *';
+        if (form[field]['input']=='CheckBox') form[field].args[0] = form[field].label;
         _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
         _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
         _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
@@ -203,7 +209,12 @@
     }    
 
     for(var field in form){
-      if (field == 'photos') _formContainer.append(_photosContainer);
+                console.log(field)
+
+      if (field == 'photos') {
+        _formContainer.append(_photosContainer);
+        _formContainer.append(_message_2.css('margin-top','2rem'));
+      }
       else if (form[field].input == 'TextAreaCounter'){
         _formContainer.append(
            $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
@@ -214,13 +225,17 @@
       else if (form[field].input == 'CheckBox'){
         var _genericField = $('<div>');
         _formContainer.append(
-           _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render().append(_form[field].label.render().css({
-              'display': 'inline',
-              'margin-left':'-1rem'
-            })
-          ))
-        );
-          if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render().css({'margin-top':'0'}));  
+           _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render()));
+          if (form[field]['helptext'].length) {
+            if (field == 'conditions') {
+              var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
+            }
+            else {
+              var _helptextfield = _form[field].helptext.render();
+            }
+            _helptextfield.css({'margin-top':'0'});
+            _genericField.append(_helptextfield);
+          };  
       }
       else{
         var _genericField = $('<div>');
@@ -231,8 +246,20 @@
         )
         if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
         if(form[field]['input'] == 'MultipleSelector'){
-          _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-            selectAll: false});
+          if (field == 'availability'){
+            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+              selectAllText: "Selecciona todo",
+              countSelected: false,
+              allSelected: "Disponible todos los días"
+            });
+          }
+          else{
+            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+              selectAll: false,
+              countSelected: false,
+              allSelected: false
+            });
+          }
           _form[field].helptext.render().css('margin-top', 5);
         }
       }
@@ -283,7 +310,7 @@
     _submitBtnContainer.append(submitButton);
 
     _formContainer.append(_invalidInput, _submitBtnContainer);
-    _createdWidget.append(_message, _formContainer)
+    _createdWidget.append(_formContainer)
 
     return {
       render: function(){

@@ -6,7 +6,7 @@
         "music" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -15,17 +15,17 @@
             },
             "children" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Para niños",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Actividad para un público infantil", 
+                    "", 
                     "yes_children"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
             "components" : {
                 "type" : "optional",
-                "label" : "Número de integrantes *",
+                "label" : "Número de integrantes",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -35,13 +35,13 @@
             },
             "repeat" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Repetir",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Si posible, quiero repetir mi actuacción", 
+                    "", 
                     "yes_repeat"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
             },
             "links" : {
                 "type" : "optional",
@@ -57,12 +57,12 @@
                 "folder" : "/photos",
                 "amount" : 4
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera.", 
                     "yes_waitig_list"
                 ],
                 "helptext" : ""
@@ -71,7 +71,7 @@
         "arts" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -80,17 +80,17 @@
             },
             "children" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Para niños",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Actividad para un público infantil", 
+                    "", 
                     "yes_children"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
             "components" : {
                 "type" : "optional",
-                "label" : "Número de integrantes *",
+                "label" : "Número de integrantes",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -100,13 +100,13 @@
             },
             "repeat" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Repetir",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Si posible, quiero repetir mi actuacción", 
+                    "Eligir si se quiere, posiblemente, repetir la actuacción.", 
                     "yes_repeat"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
             },
             "links" : {
                 "type" : "optional",
@@ -122,21 +122,21 @@
                 "folder" : "/photos",
                 "amount" : 4
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "workshop" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -145,23 +145,23 @@
             },
             "children" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Para niños",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Actividad para un público infantil", 
+                    "", 
                     "yes_children"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
             "repeat" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Repetir",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Si posible, quiero repetir mi actuacción", 
+                    "", 
                     "yes_repeat"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
             },
             "links" : {
                 "type" : "optional",
@@ -177,21 +177,21 @@
                 "folder" : "/photos",
                 "amount" : 4
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "expo" : {
             "meters" : {
                 "type" : "optional",
-                "label" : "Espacio necesario para la exposición *",
+                "label" : "Espacio necesario para la exposición",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -213,21 +213,21 @@
                 "folder" : "/photos",
                 "amount" : 4
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "street_art" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -248,21 +248,21 @@
                 "folder" : "/photos",
                 "amount" : 4
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "poetry" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -271,23 +271,23 @@
             },
             "children" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Para niños",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Actividad para un público infantil", 
+                    "", 
                     "yes_children"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
             "repeat" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Repetir",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Si posible, quiero repetir mi actuacción", 
+                    "", 
                     "yes_repeat"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
             },
             "links" : {
                 "type" : "optional",
@@ -303,21 +303,21 @@
                 "folder" : "/photos",
                 "amount" : 4
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "audiovisual" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -326,17 +326,17 @@
             },
             "children" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Para niños",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Actividad para un público infantil", 
+                    "", 
                     "yes_children"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
             "components" : {
                 "type" : "optional",
-                "label" : "Número de integrantes *",
+                "label" : "Número de integrantes",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -346,13 +346,13 @@
             },
             "repeat" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Repetir",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Si posible, quiero repetir mi actuacción", 
+                    "", 
                     "yes_repeat"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
             },
             "links" : {
                 "type" : "optional",
@@ -368,21 +368,21 @@
                 "folder" : "/photos",
                 "amount" : 4
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "other" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -391,17 +391,17 @@
             },
             "children" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Para niños",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Actividad para un público infantil", 
+                    "", 
                     "yes_children"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
             "components" : {
                 "type" : "optional",
-                "label" : "Número de integrantes *",
+                "label" : "Número de integrantes",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -411,13 +411,13 @@
             },
             "repeat" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Repetir",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Si posible, quiero repetir mi actuacción", 
+                    "", 
                     "yes_repeat"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
             },
             "links" : {
                 "type" : "optional",
@@ -433,15 +433,15 @@
                 "folder" : "/photos",
                 "amount" : 4
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         }
     },
@@ -449,7 +449,7 @@
         "cultural_ass" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -458,7 +458,7 @@
             },
             "responsible" : {
                 "type" : "mandatory",
-                "label" : "Nombre del responsable del espacio *",
+                "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -493,21 +493,21 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "commercial" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -516,7 +516,7 @@
             },
             "responsible" : {
                 "type" : "mandatory",
-                "label" : "Nombre del responsable del espacio *",
+                "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -551,21 +551,21 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "home" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -574,7 +574,7 @@
             },
             "responsible" : {
                 "type" : "mandatory",
-                "label" : "Nombre del responsable del espacio *",
+                "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -609,21 +609,21 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "conditions" : {
+            "waitig_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
         "open_air" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
+                "label" : "Disponibilidad",
                 "input" : "InputDate",
                 "args" : [ 
                     ""
@@ -632,7 +632,7 @@
             },
             "responsible" : {
                 "type" : "mandatory",
-                "label" : "Nombre del responsable del espacio *",
+                "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -667,15 +667,15 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "conditions" : {
+            "waiting_list" : {
                 "type" : "optional",
-                "label" : "",
+                "label" : "Lista de espera",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "En la eventualidad, quiero quedarme en la lista de espera", 
+                    "", 
                     "yes_waitig_list"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         }
     }
@@ -688,7 +688,7 @@
         "music" : {
             "title" : {
                 "type" : "mandatory",
-                "label" : "Título de la propuesta artística *",
+                "label" : "Título de la propuesta artística",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -698,7 +698,7 @@
             },
             "description" : {
                 "type" : "mandatory",
-                "label" : "Descripción *",
+                "label" : "Descripción",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -707,7 +707,7 @@
             },
             "short_description" : {
                 "type" : "mandatory",
-                "label" : "Descripción (muy) breve *",
+                "label" : "Descripción (muy) breve",
                 "input" : "TextAreaCounter",
                 "args" : [ 
                     "", 
@@ -718,7 +718,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo *",
+                "label" : "Duración del espectáculo",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -764,7 +764,7 @@
             },
             "phone" : {
                 "type" : "mandatory",
-                "label" : "Teléfono de contacto *",
+                "label" : "Teléfono de contacto",
                 "input" : "InputTel",
                 "args" : [ 
                     ""
@@ -773,16 +773,22 @@
             },
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" : [
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
-                "label" : "Edades público *",
+                "label" : "Edades público",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -804,7 +810,7 @@
             },
             "space_type" : {
                 "type" : "mandatory",
-                "label" : "Tipo de espacio *",
+                "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -826,28 +832,28 @@
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
             "scenography" : {
-                "type" : "mandatory",
-                "label" : "Montaje escenografía *",
+                "type" : "optional",
+                "label" : "Montaje escenografía",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere montar escenografía."
             },
             "test" : {
-                "type" : "mandatory",
-                "label" : "Ensayo / prueba de sonido *",
+                "type" : "optional",
+                "label" : "Ensayo / prueba de sonido",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si previamente se quiere hacer un ensayo / prueba de sonido."
             },
             "arrangement" : {
                 "type" : "mandatory",
-                "label" : "Acuerdo económico *",
+                "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -892,19 +898,19 @@
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext":"https://distrito008.es/"
             }
         },
         "arts" : {
             "title" : {
                 "type" : "mandatory",
-                "label" : "Título de la propuesta artística *",
+                "label" : "Título de la propuesta artística",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -914,7 +920,7 @@
             },
             "description" : {
                 "type" : "mandatory",
-                "label" : "Descripción *",
+                "label" : "Descripción",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -923,7 +929,7 @@
             },
             "short_description" : {
                 "type" : "mandatory",
-                "label" : "Descripción (muy) breve *",
+                "label" : "Descripción (muy) breve",
                 "input" : "TextAreaCounter",
                 "args" : [ 
                     "", 
@@ -934,7 +940,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo *",
+                "label" : "Duración del espectáculo",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -980,7 +986,7 @@
             },
             "phone" : {
                 "type" : "mandatory",
-                "label" : "Teléfono de contacto *",
+                "label" : "Teléfono de contacto",
                 "input" : "InputTel",
                 "args" : [ 
                     ""
@@ -989,16 +995,22 @@
             },
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" : [
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
-                "label" : "Edades público *",
+                "label" : "Edades público",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1020,7 +1032,7 @@
             },
             "space_type" : {
                 "type" : "mandatory",
-                "label" : "Tipo de espacio *",
+                "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -1042,28 +1054,28 @@
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
             "scenography" : {
-                "type" : "mandatory",
-                "label" : "Montaje escenografía *",
+                "type" : "optional",
+                "label" : "Montaje escenografía",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere montar escenografía."
             },
             "test" : {
-                "type" : "mandatory",
-                "label" : "Ensayo / prueba de sonido *",
+                "type" : "optional",
+                "label" : "Ensayo / prueba de sonido",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si previamente se quiere hacer un ensayo / prueba de sonido."
             },
             "arrangement" : {
                 "type" : "mandatory",
-                "label" : "Acuerdo económico *",
+                "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -1108,19 +1120,19 @@
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "workshop" : {
             "title" : {
                 "type" : "mandatory",
-                "label" : "Título de la propuesta artística *",
+                "label" : "Título de la propuesta artística",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -1130,7 +1142,7 @@
             },
             "description" : {
                 "type" : "mandatory",
-                "label" : "Descripción *",
+                "label" : "Descripción",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -1139,7 +1151,7 @@
             },
             "short_description" : {
                 "type" : "mandatory",
-                "label" : "Descripción (muy) breve *",
+                "label" : "Descripción (muy) breve",
                 "input" : "TextAreaCounter",
                 "args" : [ 
                     "", 
@@ -1150,7 +1162,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo *",
+                "label" : "Duración del espectáculo",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1196,7 +1208,7 @@
             },
             "phone" : {
                 "type" : "mandatory",
-                "label" : "Teléfono de contacto *",
+                "label" : "Teléfono de contacto",
                 "input" : "InputTel",
                 "args" : [ 
                     ""
@@ -1205,16 +1217,22 @@
             },
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" : [
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
-                "label" : "Edades público *",
+                "label" : "Edades público",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1239,24 +1257,24 @@
                 "label" : "Inscripción previa",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Elegir si deseas que haya inscripción previa a la actividad.", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Elegir si deseas que haya inscripción previa a la actividad."
             },
             "only_inscription" : {
                 "type" : "optional",
                 "label" : "Sólo bajo inscripción",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Elegir si se quiere que la actividad sea bajo inscripción obligatoria.", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Elegir si se quiere que la actividad sea bajo inscripción obligatoria."
             },
             "max_attendants" : {
                 "type" : "mandatory",
-                "label" : "Plazas *",
+                "label" : "Plazas",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -1266,7 +1284,7 @@
             },
             "space_type" : {
                 "type" : "mandatory",
-                "label" : "Tipo de espacio *",
+                "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -1288,8 +1306,8 @@
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
             "mounting" : {
-                "type" : "mandatory",
-                "label" : "Montaje *",
+                "type" : "optional",
+                "label" : "Montaje",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
@@ -1308,7 +1326,7 @@
             },
             "arrangement_workshop" : {
                 "type" : "mandatory",
-                "label" : "Acuerdo económico *",
+                "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -1333,19 +1351,19 @@
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "expo" : {
             "title" : {
                 "type" : "mandatory",
-                "label" : "Título de la propuesta artística *",
+                "label" : "Título de la propuesta artística",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -1355,7 +1373,7 @@
             },
             "description" : {
                 "type" : "mandatory",
-                "label" : "Descripción *",
+                "label" : "Descripción",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -1364,7 +1382,7 @@
             },
             "short_description" : {
                 "type" : "mandatory",
-                "label" : "Descripción (muy) breve *",
+                "label" : "Descripción (muy) breve",
                 "input" : "TextAreaCounter",
                 "args" : [ 
                     "", 
@@ -1389,7 +1407,7 @@
             },
             "phone" : {
                 "type" : "mandatory",
-                "label" : "Teléfono de contacto *",
+                "label" : "Teléfono de contacto",
                 "input" : "InputTel",
                 "args" : [ 
                     ""
@@ -1398,16 +1416,22 @@
             },
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "space_type_expo" : {
                 "type" : "mandatory",
-                "label" : "Tipo de espacio *",
+                "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -1420,7 +1444,7 @@
             },
             "mountig_time" : {
                 "type" : "mandatory",
-                "label" : "Tiempo montaje *",
+                "label" : "Tiempo montaje",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -1438,19 +1462,19 @@
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "street_art" : {
             "title" : {
                 "type" : "mandatory",
-                "label" : "Título de la propuesta artística *",
+                "label" : "Título de la propuesta artística",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -1460,7 +1484,7 @@
             },
             "description" : {
                 "type" : "mandatory",
-                "label" : "Descripción *",
+                "label" : "Descripción",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -1469,7 +1493,7 @@
             },
             "short_description" : {
                 "type" : "mandatory",
-                "label" : "Descripción (muy) breve *",
+                "label" : "Descripción (muy) breve",
                 "input" : "TextAreaCounter",
                 "args" : [ 
                     "", 
@@ -1480,7 +1504,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo *",
+                "label" : "Duración del espectáculo",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1526,7 +1550,7 @@
             },
             "phone" : {
                 "type" : "mandatory",
-                "label" : "Teléfono de contacto *",
+                "label" : "Teléfono de contacto",
                 "input" : "InputTel",
                 "args" : [ 
                     ""
@@ -1535,16 +1559,22 @@
             },
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
-                "label" : "Edades público *",
+                "label" : "Edades público",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1566,16 +1596,16 @@
             },
             "surface" : {
                 "type" : "mandatory",
-                "label" : "Acuerdo económico *",
+                "label" : "Tipo de soporte",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
-                        "lona", 
-                        "tablero", 
-                        "muro", 
-                        "pared medianera", 
-                        "suelo", 
-                        "pared", 
+                        "Lona", 
+                        "Tablero", 
+                        "Muro", 
+                        "Pared medianera", 
+                        "Suelo", 
+                        "Pared", 
                         "Otro"
                     ]
                 ],
@@ -1583,7 +1613,7 @@
             },
             "other_surface" : {
                 "type" : "optional",
-                "label" : "Otro",
+                "label" : "Especificar 'otro' suporte (Únicamente si se ha marcado este caso)",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -1627,7 +1657,7 @@
             },
             "arrangement_street" : {
                 "type" : "mandatory",
-                "label" : "Acuerdo económico *",
+                "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -1650,19 +1680,19 @@
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "poetry" : {
             "title" : {
                 "type" : "mandatory",
-                "label" : "Título de la propuesta artística *",
+                "label" : "Título de la propuesta artística",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -1672,7 +1702,7 @@
             },
             "description" : {
                 "type" : "mandatory",
-                "label" : "Descripción *",
+                "label" : "Descripción",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -1681,7 +1711,7 @@
             },
             "short_description" : {
                 "type" : "mandatory",
-                "label" : "Descripción (muy) breve *",
+                "label" : "Descripción (muy) breve",
                 "input" : "TextAreaCounter",
                 "args" : [ 
                     "", 
@@ -1692,7 +1722,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo *",
+                "label" : "Duración del espectáculo",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1738,7 +1768,7 @@
             },
             "phone" : {
                 "type" : "mandatory",
-                "label" : "Teléfono de contacto *",
+                "label" : "Teléfono de contacto",
                 "input" : "InputTel",
                 "args" : [ 
                     ""
@@ -1747,16 +1777,22 @@
             },
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
-                "label" : "Edades público *",
+                "label" : "Edades público",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1778,7 +1814,7 @@
             },
             "space_type" : {
                 "type" : "mandatory",
-                "label" : "Tipo de espacio *",
+                "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -1800,28 +1836,28 @@
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
             "scenography" : {
-                "type" : "mandatory",
-                "label" : "Montaje escenografía *",
+                "type" : "optional",
+                "label" : "Montaje escenografía",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se quiere montar escenografía."
             },
             "test" : {
-                "type" : "mandatory",
-                "label" : "Ensayo / prueba de sonido *",
+                "type" : "optional",
+                "label" : "Ensayo / prueba de sonido",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si previamente se quiere hacer un ensayo / prueba de sonido."
             },
             "arrangement" : {
                 "type" : "mandatory",
-                "label" : "Acuerdo económico *",
+                "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -1866,19 +1902,19 @@
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "audiovisual" : {
             "title" : {
                 "type" : "mandatory",
-                "label" : "Título de la propuesta artística *",
+                "label" : "Título de la propuesta artística",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -1888,7 +1924,7 @@
             },
             "description" : {
                 "type" : "mandatory",
-                "label" : "Descripción *",
+                "label" : "Descripción",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -1897,7 +1933,7 @@
             },
             "short_description" : {
                 "type" : "mandatory",
-                "label" : "Descripción (muy) breve *",
+                "label" : "Descripción (muy) breve",
                 "input" : "TextAreaCounter",
                 "args" : [ 
                     "", 
@@ -1908,7 +1944,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo *",
+                "label" : "Duración del espectáculo",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1954,7 +1990,7 @@
             },
             "phone" : {
                 "type" : "mandatory",
-                "label" : "Teléfono de contacto *",
+                "label" : "Teléfono de contacto",
                 "input" : "InputTel",
                 "args" : [ 
                     ""
@@ -1963,16 +1999,22 @@
             },
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
-                "label" : "Edades público *",
+                "label" : "Edades público",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -2003,7 +2045,7 @@
             },
             "space_type" : {
                 "type" : "mandatory",
-                "label" : "Tipo de espacio *",
+                "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -2025,8 +2067,8 @@
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
             "mounting" : {
-                "type" : "mandatory",
-                "label" : "Montaje *",
+                "type" : "optional",
+                "label" : "Montaje",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
@@ -2045,7 +2087,7 @@
             },
             "audiovisual_arrangement" : {
                 "type" : "mandatory",
-                "label" : "Acuerdo económico *",
+                "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -2090,19 +2132,19 @@
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "other" : {
             "title" : {
                 "type" : "mandatory",
-                "label" : "Título de la propuesta artística *",
+                "label" : "Título de la propuesta artística",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -2112,7 +2154,7 @@
             },
             "description" : {
                 "type" : "mandatory",
-                "label" : "Descripción *",
+                "label" : "Descripción",
                 "input" : "TextArea",
                 "args" : [ 
                     ""
@@ -2121,7 +2163,7 @@
             },
             "short_description" : {
                 "type" : "mandatory",
-                "label" : "Descripción (muy) breve *",
+                "label" : "Descripción (muy) breve",
                 "input" : "TextAreaCounter",
                 "args" : [ 
                     "", 
@@ -2132,7 +2174,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo *",
+                "label" : "Duración del espectáculo",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -2178,7 +2220,7 @@
             },
             "phone" : {
                 "type" : "mandatory",
-                "label" : "Teléfono de contacto *",
+                "label" : "Teléfono de contacto",
                 "input" : "InputTel",
                 "args" : [ 
                     ""
@@ -2187,16 +2229,22 @@
             },
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" : [
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "age" : {
                 "type" : "mandatory",
-                "label" : "Edades público *",
+                "label" : "Edades público",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -2218,7 +2266,7 @@
             },
             "activity_type" : {
                 "type" : "mandatory",
-                "label" : "Tipo de actividad *",
+                "label" : "Tipo de actividad",
                 "input" : "Input",
                 "args" : [ 
                     "", 
@@ -2228,7 +2276,7 @@
             },
             "space_type" : {
                 "type" : "mandatory",
-                "label" : "Tipo de espacio *",
+                "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -2250,8 +2298,8 @@
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
             "mountig" : {
-                "type" : "mandatory",
-                "label" : "Montaje *",
+                "type" : "optional",
+                "label" : "Montaje",
                 "input" : "CheckBox",
                 "args" : [ 
                     "", 
@@ -2273,20 +2321,20 @@
                 "label" : "Inscripción previa",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Elegir si deseas que haya inscripción previa a la actividad.", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Elegir si deseas que haya inscripción previa a la actividad."
             },
             "only_inscription" : {
                 "type" : "optional",
                 "label" : "Sólo bajo inscripción",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Elegir si se quiere que la actividad sea bajo inscripción obligatoria.", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Elegir si se quiere que la actividad sea bajo inscripción obligatoria."
             },
             "max_attendants_optional" : {
                 "type" : "optional",
@@ -2300,7 +2348,7 @@
             },
             "arrangement_workshop" : {
                 "type" : "mandatory",
-                "label" : "Acuerdo económico *",
+                "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
@@ -2345,13 +2393,13 @@
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         }
     },
@@ -2359,85 +2407,109 @@
         "cultural_ass" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "commercial" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "home" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         },
         "open_air" : {
             "availability" : {
                 "type" : "mandatory",
-                "label" : "Disponibilidad *",
-                "input" : "InputDate",
-                "args" : [ 
-                    ""
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
             "conditions" : {
                 "type" : "mandatory",
-                "label" : "",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
                 "args" : [ 
-                    "Acepto las condiciones de participación asociadas a este evento", 
+                    "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "https://distrito008.es/"
             }
         }
     }
