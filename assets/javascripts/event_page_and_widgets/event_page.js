@@ -14,7 +14,7 @@
       else if (Pard.UserStatus['status'] == 'visitor') Pard.Widgets.Sticker(_createdWidget, 74, 24);
     }
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
-    var _participants;
+
 
     if (Pard.CachedEvent.program.length){
       if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published){
@@ -31,7 +31,31 @@
         var _contentShown = _programContent;
         _program.addClass('aside-event-nav-btn-selected');
         _buttonContainer.append(_program);
-      }
+
+
+        var _explore = $('<div>').addClass('aside-event-nav-btn');
+        _explore.text('Participantes');
+        var _exploreContent = $('<div>').attr('id', 'participants-event-page');
+        _exploreContent.hide();
+        _explore.click(function(){
+          if(_participants) _participants.activate();
+          _contentShowHide('participants-event-page');
+          $(this).addClass('aside-event-nav-btn-selected');
+        });
+        var _participants;
+        if (_contentShown){ 
+          _explore.one('click', function(){
+            _participants = Pard.Widgets.ParticipantEventPage(Pard.CachedEvent.event_id);
+            _exploreContent.append(_participants.render());     
+          });
+        }
+        else{
+          _participants = Pard.Widgets.ParticipantEventPage(Pard.CachedEvent.event_id);
+          _exploreContent.append(_participants.render());     
+          var _contentShown = _exploreContent;
+        }
+        _buttonContainer.append(_explore)
+       }
     }
 
     // Pard.Backend.searchProfiles([], [], Pard.CachedEvent.event_id, function(data){console.log(data)});
@@ -48,51 +72,29 @@
     if (_contentShown){
       _info.one('click', function(){
         if(_participants) _participants.deactivate();
-      _infoContent.append(Pard.Widgets.EventInfo().render()); 
-      _infoContent.hide();     
+      _infoContent.append(Pard.Widgets.EventInfo().render());
       })
     }
     else var _contentShown = _infoContent.append(Pard.Widgets.EventInfo().render());
     _buttonContainer.append(_info);
 
-    if (false){
-      var _explore = $('<div>').addClass('aside-event-nav-btn');
-      _explore.text('Participantes');
-      var _exploreContent = $('<div>').attr('id', 'participants-event-page');
-      _explore.click(function(){
-        if(_participants) _participants.activate();
-        _contentShowHide('participants-event-page');
+
+    if (Pard.CachedEvent.partners.length || Pard.UserStatus['status'] == 'owner'){
+      var _partner = $('<div>').addClass('aside-event-nav-btn');
+      _partner.text('Colaboradores');
+      _partner.click(function(){
+        if(_participants) _participants.deactivate();
+        _contentShowHide('partner-event-page');
         $(this).addClass('aside-event-nav-btn-selected');
       });
-      if (_contentShown){ 
-        _explore.one('click', function(){
-          _participants = Pard.Widgets.ParticipantEventPage(Pard.CachedEvent.event_id);
-          _exploreContent.append(_participants.render());     
-        });
-        _exploreContent.hide();
-      }
-      else{
-        _participants = Pard.Widgets.ParticipantEventPage(Pard.CachedEvent.event_id);
-        _exploreContent.append(_participants.render());     
-        var _contentShown = _exploreContent;
-      }
-      _buttonContainer.append(_explore)
+      _partner.one('click', function(){
+        if(_participants) _participants.deactivate();
+      _partnerContent.append(Pard.Widgets.PartnerTab(Pard.CachedEvent.partners));      
+      });
+      var _partnerContent = $('<div>').attr('id', 'partner-event-page');
+      _partnerContent.hide();
+      _buttonContainer.append(_partner);
     }
-
-    var _partner = $('<div>').addClass('aside-event-nav-btn');
-    _partner.text('Colaboradores');
-    _partner.click(function(){
-      if(_participants) _participants.deactivate();
-      _contentShowHide('partner-event-page');
-      $(this).addClass('aside-event-nav-btn-selected');
-    });
-    _partner.one('click', function(){
-      if(_participants) _participants.deactivate();
-    _partnerContent.append(Pard.Widgets.PartnerTab());      
-    });
-    var _partnerContent = $('<div>').attr('id', 'partner-event-page');
-    _partnerContent.hide();
-    _buttonContainer.append(_partner);
 
 
     var _contentShowHide = function(id_selected){
