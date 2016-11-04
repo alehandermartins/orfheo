@@ -179,8 +179,9 @@
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
 
-    var _message_1 = $('<div>').append($('<div>').html('PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil').addClass('m-artistCall')).addClass('message-call');
-    var _message_2 = $('<div>').append($('<div>').text('PARTE II: Sólo los organizadores tendrán acceso a los siguientes datos').addClass('m-artistCall')).addClass('message-call');
+    var _message_1 = $('<div>').append($('<p>').html('PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil').addClass('m-artistCall')).addClass('message-call');
+    var _message_2 = $('<div>').append($('<p>').text('PARTE II: Sólo los organizadores tendrán acceso a los siguientes datos').addClass('m-artistCall')).addClass('message-call');
+    var _finalMessage =  $('<p>').html('ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     _formContainer.append(_message_1);
@@ -309,7 +310,7 @@
 
     _submitBtnContainer.append(submitButton);
 
-    _formContainer.append(_invalidInput, _submitBtnContainer);
+    _formContainer.append(_finalMessage, _invalidInput, _submitBtnContainer);
     _createdWidget.append(_formContainer)
 
     return {
@@ -426,7 +427,7 @@
 
     var _categoryLabel = $('<label>').text('Selecciona una categoría *')
 
-    var _beCarefullText = $('<p>').text('ATENCIÓN: Una vez enviado, no te será permitido modificar el contenido de este formulario. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
+    var _beCarefullText = $('<p>').html('ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
 
     _createdWidget.append(_message, _part1,  _categoryLabel.append(_category.render()), _content.append( _beCarefullText),
      _submitBtnContainer.append(submitButton));

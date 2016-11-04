@@ -239,10 +239,11 @@
   }
 
 
-  ns.Widgets.ParticipantEventPage = function(){
-
+  ns.Widgets.ParticipantEventPage = function(event_id){
+    
     var _createdWidget = $('<div>');
-    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', 'a5bc4203-9379-4de0-856a-55e1e5f3fac6');
+    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', event_id);
+    // 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
     _createdWidget.append( _searchEngine.render());
 
     return{

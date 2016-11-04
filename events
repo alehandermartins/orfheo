@@ -10,14 +10,14 @@
     "baseline" : "Somos Barrio / Som Barri",
     "img" : "distrito008_eojj5t",
     "place": "Extramurs - Valencia",
-    "address":{};
-    "collaborators":[
+    "address":{},
+    "partners":[
     {
       name: 'PICUV',
       link: 'https://www.facebook.com/picuv/?fref=ts',
       img: 'Logo_PICUV_qptegh'
     }
-    ];
+    ],
     "eventTime" : {
         "2017-03-30" : [ 
             [ 
@@ -147,6 +147,7 @@
             "name" : "ModaBoja"
         }
     ],
+    "published": false,
     "program" : [],
     "whitelist" : []
 },
@@ -161,9 +162,9 @@
     "name" : "Benimaclet conFusión festival III ed.",
     "baseline" : "Festival libre de expresión gratuita",
     "place": "Benimaclet - Valencia",
-    "address":{};
+    "address":{},
     "img" : "cartel_conFusion_2016_cut_kdyyoj",
-        "collaborators":[
+    "partners":[
         {
           name: 'Caixa Fosca',
           link: 'http://www.caixafosca.com/',
@@ -248,7 +249,7 @@
           name: 'Tapinearte',
           link: 'https://www.facebook.com/TAPINEARTE?fref=ts',
           img: 'logo_tapinearte_qsss6l'
-        }]
+        }],
     "eventTime" : {
         "2016-10-15" : [ 
             [ 
@@ -287,6 +288,7 @@
             "email" : "riccardo.toto@gmail.com"
         }
     ],
+    "published": true,
     "program" : [ 
         {
             "performance_id" : "8d74cc6a-454d-4f9f-bee6-5be9c5a0e921",

@@ -4,9 +4,10 @@
 
   ns.Widgets = ns.Widgets || {};  
 
-  ns.Widgets.EventAside = function (sectionContainer) {
+  ns.Widgets.EventAside = function(sectionContainer) {
 
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
+    var _buttonContainer = $('<div>').addClass('create-profile-container');
 
     if ($(window).width()>640){
       if (Pard.UserStatus['status'] == 'outsider') Pard.Widgets.Sticker(_createdWidget, 83, 24);
@@ -15,46 +16,68 @@
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
     var _participants;
 
-    var _program = $('<div>').addClass('aside-event-nav-btn');
-    _program.text('Programa');
+    if (Pard.CachedEvent.program.length){
+      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published){
+        var _program = $('<div>').addClass('aside-event-nav-btn');
+        _program.text('Programa');
 
-    _program.click(function(){
-      if(_participants) _participants.deactivate();
-      _contentShowHide('program-event-page');
-      $(this).addClass('aside-event-nav-btn-selected');
-    });
-    var _programContent = $('<div>').attr('id', 'program-event-page');
-    _programContent.append(Pard.Widgets.ProgramEventPage().render());
-    var _contentShown = _programContent;
-    _program.addClass('aside-event-nav-btn-selected');
+        _program.click(function(){
+          if(_participants) _participants.deactivate();
+          _contentShowHide('program-event-page');
+          $(this).addClass('aside-event-nav-btn-selected');
+        });
+        var _programContent = $('<div>').attr('id', 'program-event-page');
+        _programContent.append(Pard.Widgets.ProgramEventPage().render());
+        var _contentShown = _programContent;
+        _program.addClass('aside-event-nav-btn-selected');
+        _buttonContainer.append(_program);
+      }
+    }
 
-    var _explore = $('<div>').addClass('aside-event-nav-btn');
-    _explore.text('Participantes');
-    _explore.click(function(){
-      if(_participants) _participants.activate();
-      _contentShowHide('participants-event-page');
-      $(this).addClass('aside-event-nav-btn-selected');
-    });
-    _explore.one('click', function(){
-      _participants = Pard.Widgets.ParticipantEventPage();
-      _exploreContent.append(_participants.render());     
-    });
-    var _exploreContent = $('<div>').attr('id', 'participants-event-page');
-    _exploreContent.hide();
+    // Pard.Backend.searchProfiles([], [], Pard.CachedEvent.event_id, function(data){console.log(data)});
+
 
     var _info = $('<div>').addClass('aside-event-nav-btn');
     _info.text('Informaciones');
+    var _infoContent = $('<div>').attr('id', 'info-event-page');
     _info.click(function(){
       if(_participants) _participants.deactivate();
       _contentShowHide('info-event-page');
       $(this).addClass('aside-event-nav-btn-selected');
     });
-    _info.one('click', function(){
-      if(_participants) _participants.deactivate();
-    _infoContent.append(Pard.Widgets.EventInfo().render());      
-    });
-    var _infoContent = $('<div>').attr('id', 'info-event-page');
-    _infoContent.hide();
+    if (_contentShown){
+      _info.one('click', function(){
+        if(_participants) _participants.deactivate();
+      _infoContent.append(Pard.Widgets.EventInfo().render()); 
+      _infoContent.hide();     
+      })
+    }
+    else var _contentShown = _infoContent.append(Pard.Widgets.EventInfo().render());
+    _buttonContainer.append(_info);
+
+    if (false){
+      var _explore = $('<div>').addClass('aside-event-nav-btn');
+      _explore.text('Participantes');
+      var _exploreContent = $('<div>').attr('id', 'participants-event-page');
+      _explore.click(function(){
+        if(_participants) _participants.activate();
+        _contentShowHide('participants-event-page');
+        $(this).addClass('aside-event-nav-btn-selected');
+      });
+      if (_contentShown){ 
+        _explore.one('click', function(){
+          _participants = Pard.Widgets.ParticipantEventPage(Pard.CachedEvent.event_id);
+          _exploreContent.append(_participants.render());     
+        });
+        _exploreContent.hide();
+      }
+      else{
+        _participants = Pard.Widgets.ParticipantEventPage(Pard.CachedEvent.event_id);
+        _exploreContent.append(_participants.render());     
+        var _contentShown = _exploreContent;
+      }
+      _buttonContainer.append(_explore)
+    }
 
     var _partner = $('<div>').addClass('aside-event-nav-btn');
     _partner.text('Colaboradores');
@@ -69,6 +92,7 @@
     });
     var _partnerContent = $('<div>').attr('id', 'partner-event-page');
     _partnerContent.hide();
+    _buttonContainer.append(_partner);
 
 
     var _contentShowHide = function(id_selected){
@@ -79,12 +103,9 @@
       _contentShown = $('#'+id_selected);
       _contentShown.show();
     }
-
-    var _buttonContainer = $('<div>').addClass('create-profile-container');
     
     var _title = Pard.Widgets.EventTitle();
 
-    _buttonContainer.append( _program, _explore, _info, _partner);
     sectionContainer.append(_title, _programContent, _exploreContent, _infoContent, _partnerContent).addClass('profiles-user-section-content');
     _createdWidget.append(_buttonContainer);
 
