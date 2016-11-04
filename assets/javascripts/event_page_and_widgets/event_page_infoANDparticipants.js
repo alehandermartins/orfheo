@@ -65,33 +65,55 @@
     var _daysArray = [];
     var _dateEvent = "";
     
-    for (var day in _eventInfo.eventTime){
-      if (day != 'permanent') {
-        var _dayDate = new Date(day);
-        _daysArray.push(_dayDate);
-        if (_daysArray.length<2){
-          _dateEvent = _dateEvent+moment(_dayDate).locale('es').format('D');
-        }
-        else if (_dayDate.getMonth() == _daysArray[_daysArray.length-2].getMonth()){
-          _dateEvent = _dateEvent+'-'+moment(_dayDate).locale('es').format('D');
-        }
-        else{
-          _dateEvent = _dateEvent+' '+moment(_daysArray[_daysArray.length-2]).locale('es').format('MMMM YYYY')+'<br> '+moment(_dayDate).locale('es').format('D');
-        }
-      }
-    }
+    // for (var day in _eventInfo.eventTime){
+    //   if (day != 'permanent') {
+    //     var _dayDate = new Date(day);
+    //     _daysArray.push(_dayDate);
+    //     if (_daysArray.length<2){
+    //       _dateEvent = _dateEvent+moment(_dayDate).locale('es').format('D');
+    //     }
+    //     else if (_dayDate.getMonth() == _daysArray[_daysArray.length-2].getMonth()){
+    //       _dateEvent = _dateEvent+'-'+moment(_dayDate).locale('es').format('D');
+    //     }
+    //     else{
+    //       _dateEvent = _dateEvent+' '+moment(_daysArray[_daysArray.length-2]).locale('es').format('MMMM YYYY')+'<br> '+moment(_dayDate).locale('es').format('D');
+    //     }
+    //   }
+    // }
 
-    _dateEvent = _dateEvent+' '+moment(_daysArray[_daysArray.length-2]).locale('es').format('MMMM YYYY');
-    console.log(_dateEvent);
+    // _dateEvent = _dateEvent+' '+moment(_daysArray[_daysArray.length-2]).locale('es').format('MMMM YYYY');
 
 
-    var _whenText = $('<div>').addClass('info-text-header-infoTab-event');
-    var _days = $('<p>').html(_dateEvent);
+    // var _whenText = $('<div>').addClass('info-text-header-infoTab-event');
+    // var _days = $('<p>').html(_dateEvent);
     // var _time = $('<p>').text('11:00-14:00, 17:00-24:00h').css({'font-size':'14px','margin-top': '0.1rem'});
-    _whenText.append(_days);
-    var _whenIcon = $('<div>').append(Pard.Widgets.IconManager('clock').render()).addClass('iconContainer-infoHeader-event-page');
-    var _when = $('<div>').append(_whenIcon, _whenText).addClass('element-headerTitle-infoTab-event');
-    _when.css({'border-right': '1px solid'});
+    
+    // _whenText.append(_days);
+    // var _whenIcon = $('<div>').append(Pard.Widgets.IconManager('clock').render()).addClass('iconContainer-infoHeader-event-page');
+    // var _when = $('<div>').append(_whenIcon, _whenText).addClass('element-headerTitle-infoTab-event');
+    // _when.css({'border-right': '1px solid'});
+    // _whenText.append(_days);
+    
+    var _callText = $('<div>').addClass('info-text-header-infoTab-event');
+    var _callIcon = $('<div>').append(Pard.Widgets.IconManager('open_call').render()).addClass('iconContainer-infoHeader-event-page');
+    var _opening = new Date(parseInt(_eventInfo.start));
+    var _closing = new Date(parseInt(_eventInfo.deadline));
+    var _now = new Date();
+    console.log(moment(_closing).locale('es').format('HH mm dddd, DD-MM-YYYY'));
+    console.log(moment(_opening).locale('es').format('HH mm dddd, DD-MM-YYYY'))
+    if(_now.getTime()<_opening.getTime()){
+      _callText.append($('<p>').html('Convocatoria abierta desde '+moment(_opening).locale('es').format('dddd DD/MM')));
+    }
+    else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
+      var _callopened = $('<a>').attr({'href':'#'}).text('Convocatoria abierta');
+      _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
+    }
+    else if(_now.getTime()>_closing.getTime()){
+      _callText.append($('<p>').html('Convocatoria cerrada'));
+    }
+    var _callStatus = $('<div>').append(_callIcon, _callText).addClass('element-headerTitle-infoTab-event');
+
+
     var _location = $('<a>').text(_eventInfo.place).attr({
       href: 'https://www.google.es/maps/place/'+_eventInfo.place,
       target: '_blank'
@@ -106,8 +128,9 @@
     });
     var _whoText = $('<div>').append($('<p>').append('Organiza ', _organizer)).addClass('info-text-header-infoTab-event');
     var _who = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('organizer').render()).addClass('iconContainer-infoHeader-event-page'), _whoText).addClass('element-headerTitle-infoTab-event');
+    _who.css({'border-right': '1px solid'});
     
-    _header.append(_when, _where, _who)
+    _header.append(_who, _where, _callStatus)
 
     var _textContainer = $('<div>').addClass('textContainer-infoTab-event-page');
     var _baseline = $('<p>').text(_eventInfo.baseline).addClass('baseline-infoTab-event-page');

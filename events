@@ -84,8 +84,8 @@
             "21:00"
         ]
     },
-    "start" : "1479682800",
-    "deadline" : "1482706800",
+    "start" : "1462053660000",
+    "deadline" : "1466027999000",
     "artists" : [ 
         {
             "user_id" : "99f93909-af0c-4f3e-807c-22d22bc1840e",
@@ -276,8 +276,8 @@
             "21:00"
         ]
     },
-    "start" : "1462053600",
-    "deadline" : "1466028000",
+    "start" : "1479682860000",
+    "deadline" : "1482793199000",
     "whitelist" : [ 
         {
             "name_email" : "alvarojavier09@yahoo.es",
