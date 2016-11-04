@@ -14,7 +14,8 @@ class CallsController < BaseController
     check_deadline! event_id
 
     proposal = Proposals.new(params, session[:identity])
-    Repos::Events.add_proposal event_id, proposal.to_h
+    Repos::Events.add_artist_proposal event_id, proposal.to_h unless Repos::Events.artist_exists? event_id, profile_id
+    Repos::Events.add_artist
 
     if production_id.blank?
       production = Productions.new(params, session[:identity])

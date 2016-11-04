@@ -46,6 +46,7 @@ class EventsController < BaseController
     event.delete(:qr)
     status = 'outsider' if !session[:identity]
     status = 'visitor' if session[:identity]
+    status = 'owner' if session[:identity] == event[:user_id]
     erb :event, :locals => {:the_event => event.to_json, :status => status.to_json}
   end
 

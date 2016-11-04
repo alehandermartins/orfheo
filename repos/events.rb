@@ -171,10 +171,6 @@ module Repos
         }.flatten
       end
 
-      def get_info method, args = nil
-        Scout.get(method, args)
-      end
-
       private
       def grab query, projection = {}
         results = @@events_collection.find(query, projection)
@@ -183,85 +179,6 @@ module Repos
         results.map { |event|
          Util.string_keyed_hash_to_symbolized event
         }
-      end
-
-      class Scout < Events
-        class << self
-          def get method, args
-            Scout.send(method, args)
-          end
-
-          def profile_info args
-            events = grab({profile_id: args[:profile_id]}).each{ |event|
-              event.delete(:artists)
-              event.delete(:spaces)
-              event.delete(:whitelist)
-              event.delete(:program)
-              event.delete(:qr)
-            }
-            proposals = grab({ "proposals.profile_id": args[:profile_id]})
-            proposals = get_my_proposals_from(proposals, :profile_id, args[:profile_id])
-            program = grab({ "$or": [{ "program.participant_id": args[:profile_id]}, {"program.host_id": args[:profile_id]}]})
-            program = get_my_program_from(program, args[:profile_id])
-            compose_info events, proposals, program
-          end
-
-          def compose_info events, proposals, program
-            {
-              events: events,
-              proposals: proposals,
-              program: program
-            }
-          end
-
-          def otter_profile_info args
-            calls = grab({profile_id: args[:profile_id]}).each{ |call|
-              requester = Repos::Users.grab({user_id: args[:requester]})
-              call[:whitelist] = false unless !call[:whitelist].blank? && call[:whitelist].any?{ |user| user[:email] == requester[:email] } 
-              call[:whitelist] = true if !call[:whitelist].blank? && call[:whitelist].any?{ |user| user[:email] == requester[:email] }
-              call.delete(:proposals)
-              call.delete(:program)
-            }
-            proposals = grab({ "proposals.profile_id": args[:profile_id]})
-            proposals = get_my_proposals_from(proposals, :profile_id, args[:profile_id])
-            proposals.map!{ |proposal|
-              next proposal[:title] if proposal[:type] == 'artist'
-              next proposal[:description] if proposal[:type] == 'space'
-            }.compact
-            program = grab({ "$or": [{ "program.participant_id": args[:profile_id]},{"program.host_id": args[:profile_id]}]})
-            program = get_my_program_from(program, args[:profile_id])
-            compose_info calls, proposals, program
-          end
-
-          def get_my_proposals_from results, key, id
-            proposals = results.map{ |call| call[:proposals]}.flatten
-            my_proposals = proposals.select{ |proposal| proposal[key] == id }
-            my_proposals.map!{ |proposal|
-              Util.string_keyed_hash_to_symbolized proposal
-            }
-          end
-
-          def get_my_program_from results, id
-            results.map{ |event| 
-              my_performances = event[:program].select{|performance| performance[:participant_id] == id || performance[:host_id] == id}
-              my_performances.map{ |performance|
-                artist = event[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
-                space = event[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:host_proposal_id]}.first
-                order = event[:order].index(performance[:host_proposal_id])
-                performance.merge! event_id: event[:event_id]
-                performance.merge! host_name: space[:name]
-                performance.merge! address: space[:address]
-                performance.merge! participant_name: artist[:name]
-                performance.merge! title: artist[:title]
-                performance.merge! short_description: artist[:short_description]
-                performance.merge! children: artist[:children]
-                performance.merge! participant_category: artist[:category]
-                performance.merge! host_category: space[:category]
-                performance.merge! order: order
-              }
-            }.flatten
-          end
-        end
       end
     end
   end

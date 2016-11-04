@@ -5,12 +5,12 @@ module Repos
       def for db
         @@calls_collection = db['calls']
         #call = get_call('b6bc4203-9379-4de0-856a-55e1e5f3fac6')
-        call = {}
-        call[:user_id] = "bbeba06b-1f30-408d-a1bc-14c9f98efe2j"
-        call[:call_id] = "b6bc4203-9379-4de0-856a-55e1e5f3fac6"
-        call[:artist] = artist_form
-        call[:space] = space_form
-        add call
+        # call = {}
+        # call[:user_id] = "bbeba06b-1f30-408d-a1bc-14c9f98efe2j"
+        # call[:call_id] = "b6bc4203-9379-4de0-856a-55e1e5f3fac6"
+        # call[:artist] = artist_form
+        # call[:space] = space_form
+        # add call
 
 
         # call = get_call('b5bc4203-9379-4de0-856a-55e1e5f3fac6')

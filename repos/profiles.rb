@@ -127,13 +127,10 @@ module Repos
           end
 
           def event_profiles args
-            event = Repos::Calls.get_event args[:event_id]
-            return [] unless event.has_key? :proposals
-            profiles = all args
+            event = Repos::Events.get_event args[:event_id]
             participant_ids = event[:program].map{ |performance|
               [performance[:participant_id], performance[:host_id]]
             }.flatten.compact.uniq
-
             grab({profile_id: {"$in": participant_ids}})
           end
 
