@@ -60,7 +60,7 @@
 
     // var _title = Pard.Widgets.EventTitle();
 
-    var _header = $('<div>').addClass('header-container-infoTab-event');
+    var _header = $('<div>');
 
     var _daysArray = [];
     var _dateEvent = "";
@@ -99,11 +99,42 @@
     var _opening = new Date(parseInt(_eventInfo.start));
     var _closing = new Date(parseInt(_eventInfo.deadline));
     var _now = new Date();
-    if(_now.getTime()<_opening.getTime()){
-      _callText.append($('<p>').html('Apertura convocatoria '+moment(_opening).locale('es').format('dddd DD MMMM')));
-    }
-    else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
+    // if(_now.getTime()<_opening.getTime()){
+    //   _callText.append($('<p>').html('Apertura convocatoria '+moment(_opening).locale('es').format('dddd DD MMMM')));
+    // }
+    // else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
+    if(true){
       var _callopened = $('<a>').attr({'href':'#'}).text('Convocatoria abierta');
+
+      var _listProfile = function(data){
+          if(data['status'] == 'success'){
+            var _caller = $('<button>');
+            var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, _eventInfo, _callopened)});
+            _caller.trigger('click');
+          }
+          else{
+            Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
+          }
+        }
+        Pard.Backend.listProfiles(_listProfile);
+
+        _callopened.click(function(){
+          Pard.Backend.getCallForms(_eventInfo.call_id, function(data){
+          var _content = $('<div>').addClass('very-fast reveal full');
+          _content.empty();
+          $('body').append(_content);
+          console.log(data);
+          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          var _message = Pard.Widgets.PopupContent(_eventInfo.name, Pard.Widgets.FormManager(data.forms.artist));
+          _message.setCallback(function(){
+            _content.remove();
+            _popup.close();
+          });
+          _content.append(_message.render());
+          _popup.open();
+          });
+          //Pard.Backend.listProfiles(_listProfile);
+        });
       _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
     }
     else if(_now.getTime()>_closing.getTime()){
@@ -127,7 +158,7 @@
     }
     var _whereText = $('<div>').append($('<p>').append(_location)).addClass('info-text-header-infoTab-event');
     var _where = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('location').render()).addClass('iconContainer-infoHeader-event-page'), _whereText).addClass('element-headerTitle-infoTab-event');
-    _where.css({'border-right': '1px solid'});
+    _where.css({'border-right': '1px solid #bebebe'});
     
     var _organizer = $('<a>').append(Pard.Widgets.FitInBox($('<p>').append('Organiza ', _eventInfo.organizer),181,55).render().text().substring(9));
     _organizer.attr({
@@ -136,9 +167,18 @@
     });
     var _whoText = $('<div>').addClass('info-text-header-infoTab-event').append($('<p>').append('Organiza ', _organizer));
     var _who = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('organizer').render()).addClass('iconContainer-infoHeader-event-page'), _whoText).addClass('element-headerTitle-infoTab-event');
-    _who.css({'border-right': '1px solid'});
+    _who.css({'border-right': '1px solid #bebebe'});
+
+    var _h1 = $('<div>').append(_who, _where, _callStatus);
+    var _timeContent= $('<div>').addClass('timeContent-infoTab-event')
+    var _h2 = $('<div>').addClass('time-container-eventInfo');
+    _h2.append($('<div>').append(Pard.Widgets.IconManager('clock').render().addClass('iconContainer-infoHeader-event-page'), _timeContent));
+
+    for (var day in _eventInfo.eventTime){
+      _timeContent.append(' ',day);
+    }
     
-    _header.append(_who, _where, _callStatus)
+    _header.append(_h1, _h2);
 
     var _textContainer = $('<div>').addClass('textContainer-infoTab-event-page');
     var _baseline = $('<p>').text(_eventInfo.baseline).addClass('baseline-infoTab-event-page');
@@ -178,6 +218,24 @@
       }
     } 
   }
+
+
+  ns.Widgets.getCallForms = function(eventInfo){
+    Pard.Backend.getCallForms(eventInfo.call_id, function(data){
+    var _content = $('<div>').addClass('very-fast reveal full');
+    _content.empty();
+    $('body').append(_content);
+    console.log(data);
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(data.forms.artist));
+    _message.setCallback(function(){
+      _content.remove();
+      _popup.close();
+    });
+    _content.append(_message.render());
+    _popup.open();
+    });
+  };
 
 
   // ns.Widgets.EventInfoConFusion = function(){

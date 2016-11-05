@@ -2133,9 +2133,12 @@ EVENT PAGE
   vertical-align: middle;
 }
 
-.header-container-infoTab-event{
-  /* margin-top: -1.2rem; */
+.time-container-eventInfo{
+  border-bottom:1px solid $grey-3 ;
+  border-top: 1px solid $grey-3;
+  padding: 0.4rem 0.6rem;
 }
+
 
 .info-text-header-infoTab-event{
   display: inline-block;
@@ -2153,6 +2156,17 @@ EVENT PAGE
   p {
     line-height: 1.4rem;
     margin: 0;
+  }
+}
+
+.timeContent-infoTab-event{
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+  @include breakpoint(large){
+    width: -moz-calc(100% - 2.4rem);
+    width: -webkit-calc(100% - 2.4rem);
+    width: calc(100% - 2.4rem);
   }
 }
 
