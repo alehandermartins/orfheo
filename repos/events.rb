@@ -68,6 +68,47 @@ module Repos
         event[:start].to_i < Time.now.to_i && event[:deadline].to_i > Time.now.to_i
       end
 
+      def amend_artist proposal_id, amend
+        event = grab({"artists.proposals.proposal_id": proposal_id}).first
+        proposals = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| 
+          proposal[:amend] = amend if proposal[:proposal_id] == proposal_id
+          proposal[:proposal_id] == proposal_id
+        }}[:proposals]
+        @@events_collection.update_one({"artists.proposals.proposal_id": proposal_id},
+          {
+            "$set": {'artists.$.proposals': proposals}
+          })
+      end
+
+      def amend_space proposal_id, amend
+        @@events_collection.update_one({ "spaces.proposal_id": proposal_id },
+          {
+            "$set": {"spaces.$.amend": amend}
+          })
+      end
+
+      def modify_artist_proposal artist
+        profile_id = artist[:profile_id]
+        new_proposal = artist[:proposals].first
+        event = grab({"artists.profile_id": profile_id}).first
+        proposals = event[:artists].detect{|artist| artist[:profile_id] == profile_id}[:proposals]
+        proposals.map!{ |proposal|
+          proposal = new_proposal if proposal[:proposal_id] == new_proposal[:proposal_id]
+        }
+        @@events_collection.update_one({"artists.profile_id": profile_id},
+          {
+            "$set": {'artists.$.proposals': proposals}
+          })
+      end
+
+      def modify_space space
+        proposal_id = space[:proposal_id]
+        @@events_collection.update_one({ "spaces.proposal_id": proposal_id },
+          {
+            "$set": {"spaces.$": space}
+          })
+      end
+
       def add_performance event_id, performance
         @@events_collection.update_one({event_id: event_id},{
           "$push": {program: performance}

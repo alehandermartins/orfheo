@@ -40,6 +40,7 @@ describe Repos::Events do
     {
       user_id: user_id,
       profile_id: space_profile_id,
+      proposal_id: proposal_id,
       email: 'email',
       name: 'space_name',
       address: {
@@ -209,6 +210,57 @@ describe Repos::Events do
     end
   end
 
+  describe 'Modify' do
+
+    before(:each){
+      Repos::Events.add_artist event_id, artist
+      Repos::Events.add_space event_id, space
+    }
+
+    it 'modifies an artist proposal' do
+      artist_proposal[:title] = 'otter_title'
+      Repos::Events.modify_artist_proposal artist
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['artists'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => profile_id,
+        'proposals' => [Util.stringify_hash(artist_proposal)]
+      })
+    end
+
+    it 'modifies a space proposal' do
+      space[:phone] = 'otter_phone'
+      Repos::Events.modify_space space
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['spaces'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'phone' => 'otter_phone'
+      })
+    end
+
+    it 'adds some amend to the artist proposal' do
+      Repos::Events.amend_artist proposal_id, 'amend'
+      artist_proposal.merge! amend: 'amend'
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['artists'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => profile_id,
+        'proposals' => [Util.stringify_hash(artist_proposal)]
+      })
+    end
+
+    it 'adds some amend to the space proposal' do
+      Repos::Events.amend_space proposal_id, 'amend'
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['spaces'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'amend' => 'amend'
+      })
+    end
+  end
+
   describe 'Whitelist' do
     it 'Stores the whitelist' do
       expect(Repos::Events.get_event(event_id)[:whitelist]).to eq([])
@@ -224,18 +276,7 @@ describe Repos::Events do
       expect(Repos::Events.proposal_on_time? event_id, 'otter_user').to eq(true)
     end
   end
-  # describe 'Get call' do
-
-  #   it 'returns the specified calls' do
-  #     call.delete(:_id)
-  #     expect(Repos::Calls.get_call call_id).to eq(call)
-  #   end
-
-  #   it 'returns the profile calls' do
-  #     call.delete(:_id)
-  #     expect(Repos::Calls.get_calls profile_id).to eq([call])
-  #   end
-  # end
+  
 
   # describe 'Get proposals' do
 
@@ -294,32 +335,7 @@ describe Repos::Events do
   #   end
   # end
 
-  # describe 'Modify' do
-
-  #   it 'modifies a proposal' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     proposal[:title] = 'otter_title'
-  #     Repos::Calls.modify_proposal proposal
-  #     results = {
-  #       calls: [call],
-  #       proposals: [proposal],
-  #       program: []
-  #     }
-  #     expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
-  #   end
-
-  #   it 'adds some amend to the proposal' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     Repos::Calls.amend_proposal proposal_id, 'amend'
-  #     proposal.merge! amend: 'amend'
-  #     results = {
-  #       calls: [call],
-  #       proposals: [proposal],
-  #       program: []
-  #     }
-  #     expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
-  #   end
-  # end
+  
 
   # describe 'Delete' do
   #   it 'deletes a proposal' do

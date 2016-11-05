@@ -34,7 +34,43 @@ class CallsController < BaseController
     success ({profile_id: profile_id})
   end
 
+  post '/users/amend_artist_proposal' do
+    scopify profile_id: true, proposal_id: true, amend: true
+    check_profile_ownership profile_id
+    Repos::Events.amend_artist profile_id, proposal_id, amend
+    success
+  end
 
+  post '/users/amend_space_proposal' do
+    scopify profile_id: true, proposal_id: true, amend: true
+    check_profile_ownership profile_id
+    Repos::Events.amend_space profile_id, proposal_id, amend
+    success
+  end
+
+  post '/users/modify_artist_proposal' do
+    scopify event_id: true, call_id: true, profile_id: true, category: true
+    check_event_ownership! event_id
+    check_call_exists! call_id
+    check_artist_category! category
+
+    form = get_artist_form call_id, category
+    proposal = ArtistProposal.new(params, session[:identity], form)
+    Repos::Events.modify_artist event_id, proposal.to_h
+    success ({profile_id: profile_id})
+  end
+
+  post '/users/modify_space_proposal' do
+    scopify event_id: true, call_id: true, profile_id: true, category: true
+    check_event_ownership! event_id
+    check_call_exists! call_id
+    check_space_category! category
+
+    form = get_space_form call_id, category
+    proposal = SpaceProposal.new(params, session[:identity], form)
+    Repos::Events.modify_space event_id, proposal.to_h
+    success ({profile_id: profile_id})
+  end
 
   post '/users/own_proposal' do
     scopify call_id: true
@@ -49,34 +85,21 @@ class CallsController < BaseController
   end
 
   post '/users/add_whitelist' do
-    scopify call_id: true
-    check_call_ownership call_id
+    scopify event_id: true
+    check_event_ownership! event_id
     whitelist = Util.arrayify_hash params[:whitelist]
-    Repos::Calls.add_whitelist call_id, whitelist
-    call = get_call call_id
-    success
-  end
-
-  post '/users/amend_proposal' do
-    scopify proposal_id: true, amend: true
-    check_proposal_ownership proposal_id
-    Repos::Calls.amend_proposal proposal_id, amend
+    Repos::Events.add_whitelist event_id, whitelist
     success
   end
 
   post '/users/delete_proposal' do
-    scopify proposal_id: true
-    check_proposal_ownership proposal_id
+    scopify profile_id: true, proposal_id: true
+    check_profile_ownership proposal_id
     delete_proposal proposal_id
     success
   end
 
   private
-  def check_non_existing call_id
-    raise Pard::Invalid::Params unless UUID.validate call_id
-    raise Pard::Invalid::ExistingCall if Repos::Calls.exists? call_id
-  end
-
   def check_call_exists! call_id
     raise Pard::Invalid::UnexistingCall unless Repos::Calls.exists? call_id
   end
