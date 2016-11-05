@@ -80,8 +80,6 @@
       _card.click(function(){
         if (profile.type == 'space' && profile.proposals && profile.proposals[0]) Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en el conFusión 2016. ');
         else{
-          // var _caller =  Pard.Widgets.ProposalForm(profile.type).render();
-          // _caller(profile,'',call_id, _callbackSendProposal).render().trigger('click');
           Pard.Widgets.GetCallForms(event_info, profile, _callbackSendProposal);
         }
       });
@@ -95,8 +93,7 @@
     var _createAndInscribeProfile = function(data){
       if (data['status'] == 'success'){
         var _profile = data.profile;
-        var _caller =  Pard.Widgets.ProposalForm(_profile.type).render();
-        _caller(_profile,'',_call_id, _callbackSendProposal).render().trigger('click');
+        Pard.Widgets.GetCallForms(event_info, _profile, _callbackSendProposal); 
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
