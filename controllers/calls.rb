@@ -35,16 +35,16 @@ class CallsController < BaseController
   end
 
   post '/users/amend_artist_proposal' do
-    scopify profile_id: true, proposal_id: true, amend: true
-    check_profile_ownership profile_id
-    Repos::Events.amend_artist profile_id, proposal_id, amend
+    scopify proposal_id: true, amend: true
+    check_proposal_ownership! proposal_id, :artist
+    Repos::Events.amend_artist proposal_id, amend
     success
   end
 
   post '/users/amend_space_proposal' do
-    scopify profile_id: true, proposal_id: true, amend: true
-    check_profile_ownership profile_id
-    Repos::Events.amend_space profile_id, proposal_id, amend
+    scopify proposal_id: true, amend: true
+    check_proposal_ownership! proposal_id, :space
+    Repos::Events.amend_space proposal_id, amend
     success
   end
 
@@ -56,7 +56,7 @@ class CallsController < BaseController
 
     form = get_artist_form call_id, category
     proposal = ArtistProposal.new(params, session[:identity], form)
-    Repos::Events.modify_artist event_id, proposal.to_h
+    Repos::Events.modify_artist proposal.to_h
     success ({profile_id: profile_id})
   end
 
@@ -68,7 +68,7 @@ class CallsController < BaseController
 
     form = get_space_form call_id, category
     proposal = SpaceProposal.new(params, session[:identity], form)
-    Repos::Events.modify_space event_id, proposal.to_h
+    Repos::Events.modify_space proposal.to_h
     success ({profile_id: profile_id})
   end
 
@@ -118,9 +118,8 @@ class CallsController < BaseController
     forms[:space][category.to_sym]
   end
 
-  def check_proposal_ownership proposal_id
-    raise Pard::Invalid::UnexistingProposal unless Repos::Calls.proposal_exists? proposal_id
-    raise Pard::Invalid::ProposalOwnership unless Repos::Calls.get_proposal_owner(proposal_id) == session[:identity]
+  def check_proposal_ownership! proposal_id, type
+    raise Pard::Invalid::ProposalOwnership unless Repos::Events.get_proposal_owner(proposal_id, type) == session[:identity]
   end
 
   def check_call_ownership call_id

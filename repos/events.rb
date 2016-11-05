@@ -25,7 +25,7 @@ module Repos
 
       def get_event event_id
         event = grab({event_id: event_id}).first
-        event = arrange_program event unless event[:program].blank?
+        event[:program] = arrange_program event, event[:program]
         event
       end
 
@@ -87,10 +87,10 @@ module Repos
           })
       end
 
-      def modify_artist_proposal artist
+      def modify_artist artist
         profile_id = artist[:profile_id]
         new_proposal = artist[:proposals].first
-        event = grab({"artists.profile_id": profile_id}).first
+        event = grab({"artists.proposals.proposal_id": new_proposal[:proposal_id]}).first
         proposals = event[:artists].detect{|artist| artist[:profile_id] == profile_id}[:proposals]
         proposals.map!{ |proposal|
           proposal = new_proposal if proposal[:proposal_id] == new_proposal[:proposal_id]
@@ -106,6 +106,22 @@ module Repos
         @@events_collection.update_one({ "spaces.proposal_id": proposal_id },
           {
             "$set": {"spaces.$": space}
+          })
+      end
+
+      def update_artist artist
+        profile_id = artist[:profile_id]
+        @@events_collection.update_one({"artists.profile_id": profile_id},
+          {
+            "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address]}
+          })
+      end
+
+      def update_space space
+        profile_id = space[:profile_id]
+        @@events_collection.update_one({"spaces.profile_id": profile_id},
+          {
+            "$set": {'spaces.$.name': space[:name], 'spaces.$.address': space[:address], 'spaces.$.category': space[:category], 'spaces.$.description': space[:description]}
           })
       end
 
@@ -140,27 +156,7 @@ module Repos
 
       def get_program event_id
         event = grab({event_id: event_id}).first
-        event = arrange_program event unless event[:program].blank?
-        event[:program]
-      end
-
-      def arrange_program event
-        event[:program].map{ |performance|
-          artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
-          artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
-          space = event[:spaces].select{ |participant| participant[:profile_id] == performance[:host_id]}.first
-          order = event[:spaces].index{ |space| space[:proposal_id] == performance[:host_proposal_id] }
-          performance.merge! host_name: space[:name]
-          performance.merge! address: space[:address]
-          performance.merge! host_category: space[:category]
-          performance.merge! participant_name: artist[:name]
-          performance.merge! title: artist_proposal[:title]
-          performance.merge! short_description: artist_proposal[:short_description]
-          performance.merge! children: artist_proposal[:children]
-          performance.merge! participant_category: artist_proposal[:category]
-          performance.merge! order: order
-        }
-        event
+        arrange_program event, event[:program]
       end
 
       def my_events profile_id
@@ -206,23 +202,7 @@ module Repos
         events = grab({ "$or": [{ "program.participant_id": profile_id}, {"program.host_id": profile_id}]}) 
         events.map{ |event|
           my_performances = event[:program].select{|performance| performance[:participant_id] == profile_id || performance[:host_id] == profile_id}
-          my_performances.map{ |performance|
-            artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
-            artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
-            space = event[:spaces].select{ |participant| participant[:profile_id] == performance[:host_id]}.first
-            order = event[:spaces].index{ |space| space[:proposal_id] == performance[:host_proposal_id] }
-            performance.merge! event_name: event[:name]
-            performance.merge! event_id: event[:event_id]
-            performance.merge! host_name: space[:name]
-            performance.merge! address: space[:address]
-            performance.merge! host_category: space[:category]
-            performance.merge! participant_name: artist[:name]
-            performance.merge! title: artist_proposal[:title]
-            performance.merge! short_description: artist_proposal[:short_description]
-            performance.merge! children: artist_proposal[:children]
-            performance.merge! participant_category: artist_proposal[:category]
-            performance.merge! order: order
-          }
+          arrange_program event, my_performances
         }.flatten
       end
 
@@ -233,6 +213,26 @@ module Repos
 
         results.map { |event|
          Util.string_keyed_hash_to_symbolized event
+        }
+      end
+
+      def arrange_program event, program
+        program.map{ |performance|
+          artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
+          artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
+          space = event[:spaces].select{ |participant| participant[:profile_id] == performance[:host_id]}.first
+          order = event[:spaces].index{ |space| space[:proposal_id] == performance[:host_proposal_id] }
+          performance.merge! event_name: event[:name]
+          performance.merge! event_id: event[:event_id]
+          performance.merge! host_name: space[:name]
+          performance.merge! address: space[:address]
+          performance.merge! host_category: space[:category]
+          performance.merge! participant_name: artist[:name]
+          performance.merge! title: artist_proposal[:title]
+          performance.merge! short_description: artist_proposal[:short_description]
+          performance.merge! children: artist_proposal[:children]
+          performance.merge! participant_category: artist_proposal[:category]
+          performance.merge! order: order
         }
       end
     end

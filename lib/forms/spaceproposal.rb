@@ -34,9 +34,10 @@ class SpaceProposal
       profile_id: profile[:profile_id],
       email: user[:email],
       proposal_id: params[:proposal_id] || SecureRandom.uuid,
-      category: params[:category],
+      category: profile[:category],
       name: profile[:name],
       address: profile[:address],
+      description: profile[:description],
       phone: params[:phone]
     }
     form.each{ |field, content| space_proposal[field] = params[field]} 

@@ -217,9 +217,31 @@ describe Repos::Events do
       Repos::Events.add_space event_id, space
     }
 
+    it 'updates an artist' do
+      artist[:name] = 'otter_name'
+      Repos::Events.update_artist artist
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['artists'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => profile_id,
+        'name' => 'otter_name'
+      })
+    end
+
+    it 'updates an space' do
+      space[:description] = 'otter_description'
+      Repos::Events.update_space space
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['spaces'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'description' => 'otter_description'
+      })
+    end
+
     it 'modifies an artist proposal' do
       artist_proposal[:title] = 'otter_title'
-      Repos::Events.modify_artist_proposal artist
+      Repos::Events.modify_artist artist
       saved_entry = @db['events'].find({}).first
       expect(saved_entry['artists'].first).to include({
         'user_id' => user_id,
