@@ -42,13 +42,13 @@
 
 
   ns.Widgets.EventTitle = function(){
-    var _createdWidget = $('<div>');
+    var _createdWidget = $('<div>').addClass('title-infoTab-event-page-container');
 
     var _title = $('<h3>').text(Pard.CachedEvent.name).addClass('title-infoTab-event-page');
 
-    var _line = $('<hr>').css('margin-top','0.75rem');
+    // var _line = $('<hr>').css('margin-top','0.75rem');
 
-    return _createdWidget.append(_title, _line);
+    return _createdWidget.append(_title);
 
   }
 
@@ -95,14 +95,12 @@
     // _whenText.append(_days);
     
     var _callText = $('<div>').addClass('info-text-header-infoTab-event');
-    var _callIcon = $('<div>').append(Pard.Widgets.IconManager('open_call').render()).addClass('iconContainer-infoHeader-event-page');
+    var _callIcon = $('<div>').append(Pard.Widgets.IconManager('open_call').render().addClass('bullhorn-icon-event-page')).addClass('iconContainer-infoHeader-event-page');
     var _opening = new Date(parseInt(_eventInfo.start));
     var _closing = new Date(parseInt(_eventInfo.deadline));
     var _now = new Date();
-    console.log(moment(_closing).locale('es').format('HH mm dddd, DD-MM-YYYY'));
-    console.log(moment(_opening).locale('es').format('HH mm dddd, DD-MM-YYYY'))
     if(_now.getTime()<_opening.getTime()){
-      _callText.append($('<p>').html('Convocatoria abierta desde '+moment(_opening).locale('es').format('dddd DD/MM')));
+      _callText.append($('<p>').html('Apertura convocatoria '+moment(_opening).locale('es').format('dddd DD MMMM')));
     }
     else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
       var _callopened = $('<a>').attr({'href':'#'}).text('Convocatoria abierta');
@@ -113,20 +111,30 @@
     }
     var _callStatus = $('<div>').append(_callIcon, _callText).addClass('element-headerTitle-infoTab-event');
 
-
-    var _location = $('<a>').text(_eventInfo.place).attr({
-      href: 'https://www.google.es/maps/place/'+_eventInfo.place,
-      target: '_blank'
-    });
+    var _location = $('<a>').text(_eventInfo.place);
+    if (!($.isEmptyObject(_eventInfo.address))){
+      var _aStr = _eventInfo['address']['route']+' '+_eventInfo['address']['street_number']+', '+_eventInfo['address']['locality']+' '+_eventInfo['address']['country'];
+      _location.attr({
+        href: 'http://maps.google.com/maps?q='+_aStr,
+        target: '_blank'
+      });
+    }
+    else{
+      _location.attr({
+        href: 'https://www.google.es/maps/place/'+_eventInfo.place,
+        target: '_blank'
+      });
+    }
     var _whereText = $('<div>').append($('<p>').append(_location)).addClass('info-text-header-infoTab-event');
     var _where = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('location').render()).addClass('iconContainer-infoHeader-event-page'), _whereText).addClass('element-headerTitle-infoTab-event');
     _where.css({'border-right': '1px solid'});
     
-    var _organizer = $('<a>').text(_eventInfo.organizer).attr({
+    var _organizer = $('<a>').append(Pard.Widgets.FitInBox($('<p>').append('Organiza ', _eventInfo.organizer),181,55).render().text().substring(9));
+    _organizer.attr({
       href: '/profile?id=' + _eventInfo.profile_id,
       target: '_blank'
     });
-    var _whoText = $('<div>').append($('<p>').append('Organiza ', _organizer)).addClass('info-text-header-infoTab-event');
+    var _whoText = $('<div>').addClass('info-text-header-infoTab-event').append($('<p>').append('Organiza ', _organizer));
     var _who = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('organizer').render()).addClass('iconContainer-infoHeader-event-page'), _whoText).addClass('element-headerTitle-infoTab-event');
     _who.css({'border-right': '1px solid'});
     
@@ -172,80 +180,80 @@
   }
 
 
-  ns.Widgets.EventInfoConFusion = function(){
-  	var _createdWidget = $('<div>');
+  // ns.Widgets.EventInfoConFusion = function(){
+  // 	var _createdWidget = $('<div>');
 
-    // var _title = Pard.Widgets.EventTitle();
+  //   // var _title = Pard.Widgets.EventTitle();
 
-    var _eventInfo = Pard.ConfusionInfo;
+  //   var _eventInfo = Pard.ConfusionInfo;
 
-    var _header = $('<div>').addClass('header-container-infoTab-event');
+  //   var _header = $('<div>').addClass('header-container-infoTab-event');
 
-    var _whenText = $('<div>').addClass('info-text-header-infoTab-event');
-    var _daysArray = [];
-    var _dateEvent = "";
+  //   var _whenText = $('<div>').addClass('info-text-header-infoTab-event');
+  //   var _daysArray = [];
+  //   var _dateEvent = "";
 
-    var _days = $('<p>').html('15-16 Octubre 2016')
-    var _time = $('<p>').text('11:00-14:00, 17:00-24:00h').css({'font-size':'14px','margin-top': '0.1rem'});
-    _whenText.append(_days,_time);
-    var _whenIcon = $('<div>').append(Pard.Widgets.IconManager('clock').render()).addClass('iconContainer-infoHeader-event-page');
-    var _when = $('<div>').append(_whenIcon, _whenText).addClass('element-headerTitle-infoTab-event');
-    _when.css({'border-right': '1px solid'});
-    var _location = $('<a>').text(_eventInfo.place).attr({
-      href: 'https://www.google.es/maps/place/Benimaclet,+Valencia/@39.4862947,-0.373891,14z/data=!3m1!4b1!4m5!3m4!1s0xd6048a769bd2a51:0x868cb4bea88b8f9f!8m2!3d39.4871955!4d-0.3548312',
-      target: '_blank'
-    });
-    var _whereText = $('<div>').append($('<p>').append(_location)).addClass('info-text-header-infoTab-event');
-    var _where = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('location').render()).addClass('iconContainer-infoHeader-event-page'), _whereText).addClass('element-headerTitle-infoTab-event');
-    _where.css({'border-right': '1px solid'});
+  //   var _days = $('<p>').html('15-16 Octubre 2016')
+  //   var _time = $('<p>').text('11:00-14:00, 17:00-24:00h').css({'font-size':'14px','margin-top': '0.1rem'});
+  //   _whenText.append(_days,_time);
+  //   var _whenIcon = $('<div>').append(Pard.Widgets.IconManager('clock').render()).addClass('iconContainer-infoHeader-event-page');
+  //   var _when = $('<div>').append(_whenIcon, _whenText).addClass('element-headerTitle-infoTab-event');
+  //   _when.css({'border-right': '1px solid'});
+  //   var _location = $('<a>').text(_eventInfo.place).attr({
+  //     href: 'https://www.google.es/maps/place/Benimaclet,+Valencia/@39.4862947,-0.373891,14z/data=!3m1!4b1!4m5!3m4!1s0xd6048a769bd2a51:0x868cb4bea88b8f9f!8m2!3d39.4871955!4d-0.3548312',
+  //     target: '_blank'
+  //   });
+  //   var _whereText = $('<div>').append($('<p>').append(_location)).addClass('info-text-header-infoTab-event');
+  //   var _where = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('location').render()).addClass('iconContainer-infoHeader-event-page'), _whereText).addClass('element-headerTitle-infoTab-event');
+  //   _where.css({'border-right': '1px solid'});
     
-    var _organizer = $('<a>').text(_eventInfo.organizer).attr({
-      href: '/profile?id=' + _eventInfo.profile_id,
-      target: '_blank'
-    });
-    var _whoText = $('<div>').append($('<p>').append('Organiza ', _organizer)).addClass('info-text-header-infoTab-event');
-    var _who = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('organizer').render()).addClass('iconContainer-infoHeader-event-page'), _whoText).addClass('element-headerTitle-infoTab-event');
+  //   var _organizer = $('<a>').text(_eventInfo.organizer).attr({
+  //     href: '/profile?id=' + _eventInfo.profile_id,
+  //     target: '_blank'
+  //   });
+  //   var _whoText = $('<div>').append($('<p>').append('Organiza ', _organizer)).addClass('info-text-header-infoTab-event');
+  //   var _who = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('organizer').render()).addClass('iconContainer-infoHeader-event-page'), _whoText).addClass('element-headerTitle-infoTab-event');
     
-    _header.append(_when, _where, _who)
+  //   _header.append(_when, _where, _who)
 
-    var _textContainer = $('<div>').addClass('textContainer-infoTab-event-page');
-    var _baseline = $('<p>').text(_eventInfo.baseline).addClass('baseline-infoTab-event-page');
-    var _textTitle = $('<h4>').text('Características básicas:').addClass('title-program-event-page');
-    var _text = $('<div>').append(
-      $('<p>').text('El Benimaclet conFusión festivales un acto de unión. Pretende romper con el concepto de público-privado, crear lugares donde compartir con desconocidos y acercarnos entre todos y todas.'),
-      $('<p>').text('Cualquiera, a través de una  convocatoria gestionada previamente, puede ofrecer algo propio durante el festival: puede ser su arte, sus conocimientos, su tiempo o también un espacio propio.'),
-      $('<p>').text(' Este evento no tiene nigún animo de lucro, es gratuito para todo el publico y se ha organizado gracias a la colaboració de mucha gente. Quiere ser la demostración de que si cada uno comparte lo que tiene y siente, todo empieza a ser posible.'),
-      $('<p>').text('Te invitamos a disfrutar, estar, fluir y sentir, sin olvidar, en nigún momento, que no puedes verlo todo.')).addClass('text-event-page-info');
-    var _image = $('<div>').append($.cloudinary.image(_eventInfo.img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p')).addClass('image-evet-page-info');
-      if ($(window).width() < 640) {
-        var _infoContent = $('<div>').append(_text.prepend(_textTitle), _image);
-      }
-      else{
-        var _infoContent = $('<div>').append( _image, _text.prepend(_textTitle));
-      }
-    _textContainer.append(_baseline, _infoContent);
+  //   var _textContainer = $('<div>').addClass('textContainer-infoTab-event-page');
+  //   var _baseline = $('<p>').text(_eventInfo.baseline).addClass('baseline-infoTab-event-page');
+  //   var _textTitle = $('<h4>').text('Características básicas:').addClass('title-program-event-page');
+  //   var _text = $('<div>').append(
+  //     $('<p>').text('El Benimaclet conFusión festivales un acto de unión. Pretende romper con el concepto de público-privado, crear lugares donde compartir con desconocidos y acercarnos entre todos y todas.'),
+  //     $('<p>').text('Cualquiera, a través de una  convocatoria gestionada previamente, puede ofrecer algo propio durante el festival: puede ser su arte, sus conocimientos, su tiempo o también un espacio propio.'),
+  //     $('<p>').text(' Este evento no tiene nigún animo de lucro, es gratuito para todo el publico y se ha organizado gracias a la colaboració de mucha gente. Quiere ser la demostración de que si cada uno comparte lo que tiene y siente, todo empieza a ser posible.'),
+  //     $('<p>').text('Te invitamos a disfrutar, estar, fluir y sentir, sin olvidar, en nigún momento, que no puedes verlo todo.')).addClass('text-event-page-info');
+  //   var _image = $('<div>').append($.cloudinary.image(_eventInfo.img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p')).addClass('image-evet-page-info');
+  //     if ($(window).width() < 640) {
+  //       var _infoContent = $('<div>').append(_text.prepend(_textTitle), _image);
+  //     }
+  //     else{
+  //       var _infoContent = $('<div>').append( _image, _text.prepend(_textTitle));
+  //     }
+  //   _textContainer.append(_baseline, _infoContent);
 
-    var _crowdfundingContainer = $('<div>').addClass('colaborators-container-info-event-page');
-    var _crowdfunding = $('<span>').html('<iframe frameborder="0" height="480px" src="//www.goteo.org/widget/project/benimaclet-confusion-festival" width="250px" scrolling="no"></iframe>').addClass('crowdfunding-widget-infoTab-event');
-    var _crowdtitle = $('<h4>').text('Financiación:').addClass('title-program-event-page');
-    var _crowdText = $('<div>').append($('<p>').text('La organización de un festival de este tipo requiere mucho tiempo y muchos esfuerzos. Lo hacemos prácticamente sin dinero, trabajando como voluntarios 10 meses al año y intentando a reducir los gastos lo más posible. Sin embargo, hay varios que no podemos evitar y que tenemos que cubrir.'),
-      $('<p>').text('Sin embargo, hemos decidido crear un evento gratuito sin escoger el camino fácil de encontrar un patrocinador comercial. El conFusión es un proyecto participativo, hecho por y para las personas, basado en el aportar lo que cada uno puede. Es por eso que preferimos financiarnos a través de un crowdfunding y dejar a cada quien decir como colaborar.'));
-    if ($(window).width() < 640) {
-      _crowdfundingContainer.append(_crowdtitle, _crowdText, $('<div>').append(_crowdfunding).css({'width':'100%', 'position':'relative', 'height':'480px'}));
-    }
-    else{
-      _crowdfundingContainer.append(_crowdfunding, _crowdtitle, _crowdText);
-    }
-    // var _sponsor = $('<div>');
+  //   var _crowdfundingContainer = $('<div>').addClass('colaborators-container-info-event-page');
+  //   var _crowdfunding = $('<span>').html('<iframe frameborder="0" height="480px" src="//www.goteo.org/widget/project/benimaclet-confusion-festival" width="250px" scrolling="no"></iframe>').addClass('crowdfunding-widget-infoTab-event');
+  //   var _crowdtitle = $('<h4>').text('Financiación:').addClass('title-program-event-page');
+  //   var _crowdText = $('<div>').append($('<p>').text('La organización de un festival de este tipo requiere mucho tiempo y muchos esfuerzos. Lo hacemos prácticamente sin dinero, trabajando como voluntarios 10 meses al año y intentando a reducir los gastos lo más posible. Sin embargo, hay varios que no podemos evitar y que tenemos que cubrir.'),
+  //     $('<p>').text('Sin embargo, hemos decidido crear un evento gratuito sin escoger el camino fácil de encontrar un patrocinador comercial. El conFusión es un proyecto participativo, hecho por y para las personas, basado en el aportar lo que cada uno puede. Es por eso que preferimos financiarnos a través de un crowdfunding y dejar a cada quien decir como colaborar.'));
+  //   if ($(window).width() < 640) {
+  //     _crowdfundingContainer.append(_crowdtitle, _crowdText, $('<div>').append(_crowdfunding).css({'width':'100%', 'position':'relative', 'height':'480px'}));
+  //   }
+  //   else{
+  //     _crowdfundingContainer.append(_crowdfunding, _crowdtitle, _crowdText);
+  //   }
+  //   // var _sponsor = $('<div>');
    
-    _createdWidget.append(_header, _textContainer, _crowdfundingContainer);
+  //   _createdWidget.append(_header, _textContainer, _crowdfundingContainer);
 
-    return{
-      render: function(){
-        return _createdWidget;
-      }
-    } 
-  }
+  //   return{
+  //     render: function(){
+  //       return _createdWidget;
+  //     }
+  //   } 
+  // }
 
   ns.Widgets.PartnerTab = function(partnersArray){
     var _partnerTab = $('<div>').css('margin-top','2.5rem');

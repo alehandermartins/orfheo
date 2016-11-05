@@ -2102,10 +2102,21 @@ EVENT PAGE
   margin-top: -0.5rem;
 }
 
+.title-infoTab-event-page-container{
+  border-bottom: 1px solid $grey-3;
+  width: 100%;
+}
+
+.bullhorn-icon-event-page{
+  font-size: 1.2rem;
+  margin-left: 0.1rem;
+  vertical-align: 0.1rem;
+}
+
 .element-headerTitle-infoTab-event{
   width: 15rem;
   display: inline-block;
-  padding: 0.4rem 0.75rem;
+  padding: 0.4rem 0.6rem;
   height: 3.2rem;
   @include breakpoint(small down){
   /*   display: block;
@@ -2118,20 +2129,23 @@ EVENT PAGE
 .iconContainer-infoHeader-event-page{
   display: inline-block;
   width: 2rem;
-  margin-top: -0.2rem;
+  margin-top: .4rem;
+  vertical-align: middle;
 }
 
 .header-container-infoTab-event{
-  margin-top: -0.5rem;
+  /* margin-top: -1.2rem; */
 }
+
 .info-text-header-infoTab-event{
   display: inline-block;
-  vertical-align: top;
-  margin-left: 0.5rem;
+  vertical-align: middle;
+  margin-left: 0.4rem;
+  max-height: 2.4rem;
   @include breakpoint(large){
-    width: -moz-calc(100% - 2.5rem);
-    width: -webkit-calc(100% - 2.5rem);
-    width: calc(100% - 2.5rem);
+    width: -moz-calc(100% - 2.4rem);
+    width: -webkit-calc(100% - 2.4rem);
+    width: calc(100% - 2.4rem);
   }
   a {
     vertical-align: top;
@@ -2142,11 +2156,11 @@ EVENT PAGE
   }
 }
 
-p.info-text-header-infoTab-event{
+/* p.info-text-header-infoTab-event{
     line-height: 1.2rem;
     margin: 0;
 }
-
+ */
 .textContainer-infoTab-event-page{
   @include breakpoint(medium){
    margin-top: 2rem;

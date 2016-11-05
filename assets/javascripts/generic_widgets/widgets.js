@@ -354,6 +354,8 @@
   }
 
   ns.Widgets.FitInBox = function(textBox, max_width, max_height){
+    console.log(textBox.html());
+    console.log(max_width)
     var _container = $('<div>').css({
       'max-width': max_width+'px',
       'word-wrap': 'break-word'
@@ -377,6 +379,7 @@
     }
 
     textBox.removeAttr('style','font-weight');
+    textBox.remove();
 
     return{
       render: function(){
