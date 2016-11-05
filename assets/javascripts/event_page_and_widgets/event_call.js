@@ -125,6 +125,7 @@
 
 
   ns.Widgets.GetCallForms = function(eventInfo, profile, callbackSendProposal){
+    console.log(profile);
     Pard.Backend.getCallForms(eventInfo.call_id, function(data){
       console.log(data);
     var _content = $('<div>').addClass('very-fast reveal full');
@@ -144,14 +145,66 @@
 
 
   ns.Widgets.FormManager = function(forms, profile, callbackSendProposal){
+
     var _formTypeConstructor = {
       artist: Pard.Widgets.ArtistCallForm,
       space: Pard.Widgets.SpaceCallForm
     };
 
+    // var _contentShowHide = function(id_selected){
+    //   $('.content-form-selected').removeClass('content-form-selected');
+    //   _contentShown.hide();
+    //   // var _selected = '#'+id_selected;
+    //   _contentShown = $('#'+id_selected);
+    //   _contentShown.show();
+    // }
+
+    var _contentSel = $('<div>').attr('id','form-from-selector');
+    // var _contentShown = _contentSel;
+
+
     var _createdWidget = $('<div>');
+
+    if(profile.productions && profile.productions.length){
+      var _prodContainer = $('<div>').addClass('prodContainer-event-page');
+      profile.productions.forEach(function(production){
+        var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
+        var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
+        _iconColumn.css({
+          'padding':'0.2rem'
+        })
+        var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css({'height':'2rem'});
+        var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
+        _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
+        _prodContainer.append(_prodBtn);
+        _prodBtn.click(function(){
+          if (_prodBtn.hasClass('content-form-selected')){
+            _prodBtn.removeClass('content-form-selected');
+            _categorySelector.prop('selectedIndex',0);;
+            _contentSel.empty();
+          }
+          else{
+            var _catProduction = production.category;
+            var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, callbackSendProposal);
+            _categorySelector.val(_catProduction);
+            _form.setVal(production);
+            _form.setCallback(function(){
+              _closepopup();
+            });
+            _prodBtn.addClass('content-form-selected');
+            // var _content = $('<div>').attr('id','form-'+production.production_id);
+            // _createdWidget.append(_content.append(_form.render()));
+            // _contentShowHide('form-'+production.production_id);
+            _contentSel.empty();
+            _contentSel.append(_form.render());
+          }
+        })
+      });
+      _createdWidget.append(_prodContainer);
+    }
+
+
     var _categorySelector = $('<select>');
-    var _content = $('<div>');
 
     var _emptyOption = $('<option>').text('Selecciona una categoría');
     _categorySelector.append(_emptyOption);
@@ -163,17 +216,19 @@
     var _closepopup = {};
 
     _categorySelector.on('change',function(){
-      _content.empty();
+      $('.content-form-selected').removeClass('content-form-selected');
+      _contentSel.empty();
       _emptyOption.css('display', 'none');
       var _catSelected = _categorySelector.val();
-      var _formConstructor = _formTypeConstructor[profile.type](forms[profile.type][_catSelected], profile, _catSelected, callbackSendProposal);
-      _formConstructor.setCallback(function(){
+      var _form = _formTypeConstructor[profile.type](forms[profile.type][_catSelected], profile, _catSelected, callbackSendProposal);
+      _form.setCallback(function(){
         _closepopup();
       })
-      _content.append(_formConstructor.render());
+      _contentSel.append(_form.render());
+      // _contentShowHide('form-from-selector');
     });
 
-    _createdWidget.append(_categorySelector, _content);
+    _createdWidget.append(_categorySelector, _contentSel);
 
     return{
       render: function(){
@@ -214,9 +269,9 @@
       if (field != 'photos'){
         _form[field] = {};
         _form[field]['type'] = form[field].type;
-        if(form[field]['type'] == 'mandatory') form[field]['label'] = form[field]['label']+' *';
+        if(form[field]['type'] == 'mandatory')  _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+        else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
         if (form[field]['input']=='CheckBox') form[field].args[0] = form[field].label;
-        _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
         _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
         _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
       }
@@ -337,6 +392,35 @@
       },
       setCallback: function(callback){
         _closepopup = callback;
+      },
+      setVal: function(production){
+        for(var field in production){
+          if (_form[field] && field != 'photos') _form[field].input.setVal(production[field]);
+
+          if(production.photos && field == 'photos' ){
+            production.photos.forEach(function(photo){
+              _url.push(photo);
+              var _container = $('<span>');
+              var _previousPhoto = $.cloudinary.image(photo,
+                { format: 'jpg', width: 50, height: 50,
+                  crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+              var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+                'position': 'relative',
+                'bottom': '20px',
+                'cursor': 'pointer'
+              });
+
+              _icon.on('click', function(){
+                _url.splice(_url.indexOf(photo), 1);
+                _photos.setUrl(_url);
+                _container.empty();
+              });
+
+              _container.append(_previousPhoto, _icon);
+              _thumbnail.append(_container);
+            });
+          }
+        }
       }
     }
   }

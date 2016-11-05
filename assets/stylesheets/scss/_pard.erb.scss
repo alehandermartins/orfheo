@@ -1145,8 +1145,7 @@ select, textarea, a{
 .error-multimedia-text{
   color: red;
   font-size: $almostNormalSize;
-  margin-top: -0.7rem;
-
+  margin-bottom: 0;
 }
 
 .not-filled-text{
@@ -1198,7 +1197,7 @@ select, textarea, a{
 }
 
 
-.category-input{
+select.category-input{
   font-size: 14px;
   height: auto;
   margin-bottom:1.5rem;
@@ -1219,7 +1218,7 @@ select, textarea, a{
 
   .duration-input{
     width: 6rem;
-    margin-left: 1rem;
+    margin-left: 1rem !important;
   }
 
   .category-input{
@@ -1369,13 +1368,13 @@ select, textarea, a{
 
   .components-input, .category-input{
     display: inline-block;
-    margin-left: 1.5rem;
+    margin-left: 1.5rem !important;
   }
 
-  .children-ArtistCall, .children-modifyProduction{
+/*   .children-ArtistCall, .children-modifyProduction{
     display: inline-block;
     margin-left: 3.8rem
-  }
+  } */
 
   .duration-ArtistCall, .duration-modifyProduction{
     display: inline-block;
@@ -1389,7 +1388,7 @@ select, textarea, a{
     /* border-top: 1px solid; */
     /* border-right: 1px solid; */
     padding: 0 1rem;
-    background: $grey-1;
+    color: $grey-4;
   }
 
   .message-call{

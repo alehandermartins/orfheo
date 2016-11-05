@@ -146,8 +146,7 @@
   }
 
   ns.Widgets.MultipleSelector = function(values, callback){
-    console.log(values);
-    console.log(callback);
+
     var _createdWidget = $('<select>').attr("multiple", "multiple");
     values.forEach(function(value){
       _createdWidget.append($('<option>').text(value).val(value));

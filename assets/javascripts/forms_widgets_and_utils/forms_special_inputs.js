@@ -79,7 +79,6 @@
   	var _inputDate = Pard.Widgets.Input(placeholder,'text');
     var _dateMinMax = [];
     for (var day in eventTime) {
-      console.log(day);
       if (day != 'permanent') _dateMinMax.push(day);
     }
 
@@ -104,7 +103,6 @@
         if (_inputDate.getVal()){
           var _dateInserted = _datePicker.datepick('getDate');
           var _datesArray = [];
-          console.log(_dateInserted);
           _dateInserted.forEach(function(selection){
             var day = selection.getDate();
             var monthIndex = selection.getMonth()+1;
