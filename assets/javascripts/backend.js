@@ -87,9 +87,17 @@
       );
     };
 
-    var _sendProposal = function(form, callback){
+    var _sendArtistProposal = function(form, callback){
       _send(
-        '/users/send_proposal',
+        '/users/send_artist_proposal',
+        form,
+        callback
+      );
+    };
+
+    var _sendSpaceProposal = function(form, callback){
+      _send(
+        '/users/send_space_proposal',
         form,
         callback
       );
@@ -185,9 +193,20 @@
       );
     };
 
-    var _amendProposal = function(proposal_id, amend, callback){
+    var _amendArtistProposal = function(proposal_id, amend, callback){
       _send(       
-        '/users/amend_proposal',
+        '/users/amend_artist_proposal',
+        {
+          proposal_id: proposal_id,
+          amend: amend
+        },
+        callback
+      );
+    };
+
+    var _amendSpaceProposal = function(proposal_id, amend, callback){
+      _send(       
+        '/users/amend_space_proposal',
         {
           proposal_id: proposal_id,
           amend: amend
@@ -254,7 +273,8 @@
       modifyPassword: _modifyPassword,
       createProfile: _createProfile,
       modifyProfile: _modifyProfile,
-      sendProposal: _sendProposal,
+      sendArtistProposal: _sendArtistProposal,
+      sendSpaceProposal: _sendSpaceProposal,
       sendOwnProposal: _sendOwnProposal,
       createProduction: _createProduction,
       modifyProduction: _modifyProduction,
@@ -264,7 +284,8 @@
       deleteProduction: _deleteProduction,
       deleteProfile: _deleteProfile,
       deleteUser: _deleteUser,
-      amendProposal: _amendProposal,
+      amendArtistProposal: _amendArtistProposal,
+      amendSpaceProposal: _amendSpaceProposal,
       whitelist: _whitelist,
       program: _program,
       getCallForms: _getCallForms,
