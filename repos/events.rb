@@ -49,6 +49,7 @@ module Repos
       end
 
       def add_space event_id, space
+        return if @@events_collection.count("spaces.profile_id": space[:profile_id]) > 0
         @@events_collection.update_one({event_id: event_id},{
           "$push": {spaces: space}
         })

@@ -5,6 +5,7 @@ describe CallsController do
   let(:create_call_route){'/users/create_call'}
   let(:create_profile_route){'/users/create_profile'}
   let(:send_artist_proposal_route){'/users/send_artist_proposal'}
+  let(:send_space_proposal_route){'/users/send_space_proposal'}
   let(:amend_proposal_route){'/users/amend_proposal'}
   let(:delete_proposal_route){'/users/delete_proposal'}
 
@@ -48,6 +49,7 @@ describe CallsController do
   }
 
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
+  let(:space_profile_id){'fce11c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:performance_id){'a11000e7-8f02-4542-a1c9-7f7aa18752ce'}
@@ -113,6 +115,48 @@ describe CallsController do
       children: nil
     }
   }
+  
+  let(:space){
+    {
+      user_id: user_id,
+      profile_id: space_profile_id,
+      proposal_id: proposal_id,
+      email: 'email@test.com',
+      name: 'space_name',
+      address: {
+        locality: 'locality',
+        postal_code: 'postal_code'
+      },
+      category: 'home',
+      phone: 'phone',
+      optional: nil
+    }
+  }  
+
+  let(:space_profile){
+    {
+      type: 'space',
+      profile_id: space_profile_id,
+      name: 'space_name',
+      address: {
+        'locality' => 'locality',
+        'postal_code' => 'postal_code'
+      },
+      category: 'home',
+      color: 'color'
+    }
+  }
+
+  let(:space_proposal){
+    {
+      user_id: user_id,
+      profile_id: space_profile_id,
+      event_id: event_id,
+      call_id: call_id,
+      phone: 'phone',
+      category: 'home'
+    }
+  }
 
   let(:event){
     {
@@ -139,7 +183,13 @@ describe CallsController do
           description: {type: "mandatory"},
           short_description: {type: "mandatory"},
           duration: {type: "mandatory"},
-          optional:{type: "optional"}
+          optional: {type: "optional"}
+        }
+      },
+      space: {
+        home: {
+          phone: {type: "mandatory"},
+          optional: {type: "optional"}
         }
       }
     }
@@ -213,6 +263,14 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
+    it 'fails if the call does not include the category' do
+      proposal[:category] = 'arts'
+      post send_artist_proposal_route, proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
     it 'adds a new production if non existing' do
       expect(Repos::Profiles).to receive(:add_production).with(profile_id, production)
       post send_artist_proposal_route, proposal
@@ -225,6 +283,37 @@ describe CallsController do
       post send_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
+    end
+
+    xit 'sends own proposal' do
+      expect(Repos::Calls).to receive(:add_proposal).with(call_id, own_proposal_model)
+      post '/users/own_proposal', own_proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['call']).to eq(Util.stringify_hash(Repos::Calls.get_call call_id))
+    end
+  end
+
+  describe 'Send_space_proposal' do
+
+    before(:each){
+      allow(SecureRandom).to receive(:uuid).and_return(space_profile_id)
+      post create_profile_route, space_profile
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+    }
+
+    it 'fails if wrong category' do
+      space_proposal[:category] = 'otter'
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_category')
+    end
+
+    it 'sends the proposal' do
+      expect(Repos::Events).to receive(:add_space).with(event_id, space)
+      post send_space_proposal_route, space_proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profile_id']).to eq(space_profile_id)
     end
 
     xit 'sends own proposal' do

@@ -38,8 +38,12 @@ class BaseController < Sinatra::Base
       raise Pard::Invalid::Type unless ['artist', 'space', 'organization'].include? type
     end
 
-    def check_category! category
+    def check_artist_category! category
       raise Pard::Invalid::Category unless ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other'].include? category
+    end
+
+    def check_space_category! category
+      raise Pard::Invalid::Category unless ['cultural_ass', 'home', 'commercial', 'open_air'].include? category
     end
 
     def check_type_and_category type

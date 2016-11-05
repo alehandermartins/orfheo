@@ -152,9 +152,19 @@ describe Repos::Events do
       expect(Repos::Events.proposal_on_time? event_id, 'otter').to eq(true)
     end
 
-    
-
     it 'adds a space' do
+      Repos::Events.add_space event_id, space
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['spaces'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'category' => 'category'
+      })
+    end
+
+    it 'adds a space only once' do
+      Repos::Events.add_space event_id, space
+      space[:category] == 'otter'
       Repos::Events.add_space event_id, space
       saved_entry = @db['events'].find({}).first
       expect(saved_entry['spaces'].first).to include({

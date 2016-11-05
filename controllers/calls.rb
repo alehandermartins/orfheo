@@ -5,7 +5,7 @@ class CallsController < BaseController
     check_event_exists! event_id
     check_call_exists! call_id
     check_profile_ownership profile_id
-    check_category! category
+    check_artist_category! category
     check_deadline! event_id
 
     if production_id.blank?
@@ -19,6 +19,22 @@ class CallsController < BaseController
     Repos::Events.add_artist event_id, proposal.to_h
     success ({profile_id: profile_id})
   end
+
+  post '/users/send_space_proposal' do
+    scopify event_id: true, call_id: true, profile_id: true, category: true
+    check_event_exists! event_id
+    check_call_exists! call_id
+    check_profile_ownership profile_id
+    check_space_category! category
+    check_deadline! event_id
+
+    form = get_space_form call_id, category
+    proposal = SpaceProposal.new(params, session[:identity], form)
+    Repos::Events.add_space event_id, proposal.to_h
+    success ({profile_id: profile_id})
+  end
+
+
 
   post '/users/own_proposal' do
     scopify call_id: true
@@ -70,6 +86,13 @@ class CallsController < BaseController
     categories = forms[:artist].keys
     raise Pard::Invalid::Params unless categories.include? category.to_sym
     forms[:artist][category.to_sym]
+  end
+
+  def get_space_form call_id, category
+    forms = Repos::Calls.get_forms call_id
+    categories = forms[:space].keys
+    raise Pard::Invalid::Params unless categories.include? category.to_sym
+    forms[:space][category.to_sym]
   end
 
   def check_proposal_ownership proposal_id
