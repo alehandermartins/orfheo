@@ -96,6 +96,7 @@
     };
 
     var _sendSpaceProposal = function(form, callback){
+      console.log(form);
       _send(
         '/users/send_space_proposal',
         form,

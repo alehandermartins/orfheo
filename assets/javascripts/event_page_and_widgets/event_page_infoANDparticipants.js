@@ -44,7 +44,18 @@
   ns.Widgets.EventTitle = function(){
     var _createdWidget = $('<div>').addClass('title-infoTab-event-page-container');
 
-    var _title = $('<h3>').text(Pard.CachedEvent.name).addClass('title-infoTab-event-page');
+    var _title = $('<h3>').text(Pard.CachedEvent.name);
+
+    if(true){
+    var _callToAction = $('<button>').attr('type','button').html('¡Apúntate!').addClass('signUp-button-welcome-section');
+    _callToAction.on('click',function(){
+       Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, '').render);
+    });
+    _title.append(_callToAction);
+    }
+    else{
+      _title.addClass('title-infoTab-event-page');
+    }
 
     // var _line = $('<hr>').css('margin-top','0.75rem');
 
@@ -104,35 +115,26 @@
     // }
     // else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
     if(true){
+
       var _callopened = $('<a>').attr({'href':'#'}).text('Convocatoria abierta');
 
-      var _listProfile = function(data){
-          if(data['status'] == 'success'){
-            var _caller = $('<button>');
-            var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, _eventInfo, _callopened)});
-            _caller.trigger('click');
-          }
-          else{
-            Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
-          }
-        }
-        Pard.Backend.listProfiles(_listProfile);
-
         _callopened.click(function(){
-          Pard.Backend.getCallForms(_eventInfo.call_id, function(data){
-          var _content = $('<div>').addClass('very-fast reveal full');
-          _content.empty();
-          $('body').append(_content);
-          console.log(data);
-          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent(_eventInfo.name, Pard.Widgets.FormManager(data.forms.artist));
-          _message.setCallback(function(){
-            _content.remove();
-            _popup.close();
-          });
-          _content.append(_message.render());
-          _popup.open();
-          });
+            Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(_eventInfo, _callopened).render);
+
+          // Pard.Backend.getCallForms(_eventInfo.call_id, function(data){
+          // var _content = $('<div>').addClass('very-fast reveal full');
+          // _content.empty();
+          // $('body').append(_content);
+          // console.log(data);
+          // var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+          // var _message = Pard.Widgets.PopupContent(_eventInfo.name, Pard.Widgets.FormManager(data.forms.artist));
+          // _message.setCallback(function(){
+          //   _content.remove();
+          //   _popup.close();
+          // });
+          // _content.append(_message.render());
+          // _popup.open();
+          // });
           //Pard.Backend.listProfiles(_listProfile);
         });
       _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
@@ -220,22 +222,6 @@
   }
 
 
-  ns.Widgets.getCallForms = function(eventInfo){
-    Pard.Backend.getCallForms(eventInfo.call_id, function(data){
-    var _content = $('<div>').addClass('very-fast reveal full');
-    _content.empty();
-    $('body').append(_content);
-    console.log(data);
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-    var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(data.forms.artist));
-    _message.setCallback(function(){
-      _content.remove();
-      _popup.close();
-    });
-    _content.append(_message.render());
-    _popup.open();
-    });
-  };
 
 
   // ns.Widgets.EventInfoConFusion = function(){

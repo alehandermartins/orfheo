@@ -146,6 +146,7 @@
       non_existing_call:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe esta convocatoria.</div>',
       you_dont_have_permission: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Perdiste la conexión...vuelve a logearte e inténtalo de nuevo.</div>',
       invalid_query: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Acción no valida.</div>',
+      non_existing_event:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe este evento.</div>',
       
       'Artes Escénicas': 'arts',
       'Audiovisual': 'audiovisual',
