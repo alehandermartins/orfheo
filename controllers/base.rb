@@ -39,11 +39,15 @@ class BaseController < Sinatra::Base
     end
 
     def check_category! category
-      raise Pard::Invalid::Category unless ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'].include? category
+      raise Pard::Invalid::Category unless ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other'].include? category
     end
 
     def check_type_and_category type
       raise Pard::Invalid::Type unless ['artist', 'space', 'organization', 'music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'].include? type
+    end
+
+    def check_event_exists! event_id
+      raise Pard::Invalid::UnexistingEvent unless Repos::Events.exists? event_id
     end
 
     private

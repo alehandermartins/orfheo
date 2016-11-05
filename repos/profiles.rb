@@ -87,7 +87,8 @@ module Repos
           end
 
           def profile args
-            profile = grab({profile_id: args[:profile_id]}).first
+            profile_id = args[:profile_id]
+            profile = grab({profile_id: profile_id}).first
             events = Repos::Events.my_events(profile_id)
             proposals = Repos::Events.my_artist_proposals(profile_id) if profile[:type] == 'artist'
             proposals = Repos::Events.my_space_proposals(profile_id) if profile[:type] == 'space'

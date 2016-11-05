@@ -1,9 +1,10 @@
 describe CallsController do
 
   let(:login_route){'/login/login_attempt'}
+  let(:logout_route){'/login/logout'}
   let(:create_call_route){'/users/create_call'}
   let(:create_profile_route){'/users/create_profile'}
-  let(:send_proposal_route){'/users/send_proposal'}
+  let(:send_artist_proposal_route){'/users/send_artist_proposal'}
   let(:amend_proposal_route){'/users/amend_proposal'}
   let(:delete_proposal_route){'/users/delete_proposal'}
 
@@ -57,89 +58,90 @@ describe CallsController do
     {
       type: 'artist',
       name: 'artist_name',
-      city: 'city',
-      zip_code: 'zip_code',
+      city: 'locality',
+      zip_code: 'postal_code',
       color: 'color'
+    }
+  }
+
+  let(:artist){
+    {
+      user_id: user_id,
+      profile_id: profile_id,
+      email: 'email@test.com',
+      name: 'artist_name',
+      address: nil,
+      phone: 'phone',
+      proposals: [{
+        production_id: production_id,
+        proposal_id: production_id,
+        category: 'music',
+        title: 'title',
+        description: 'description',
+        short_description: 'short_description',
+        duration: 'duration',
+        optional: nil
+      }]
     }
   }
 
   let(:proposal){
     {
       profile_id: profile_id,
-      production_id: production_id,
+      event_id: event_id,
       call_id: call_id,
-      type: 'artist',
       category: 'music',
       title: 'title',
       description: 'description',
       short_description: 'short_description',
-      photos: ['picture.jpg', 'otter_picture.jpg'],
-      links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
       duration: 'duration',
-      children: 'children',
-      phone: '666999666',
-      sharing: nil,
-      needs: nil,
-      conditions: 'true',
-      waiting_list: nil,
-      availability: ['2016-10-15', '2016-10-16'],
-      components: '3',
-      repeat: 'true',
+      phone: 'phone',
     }
   }
 
-  let(:proposal_model){
+  let(:production){
     {
-      title: 'title',
-      description: 'description',
-      short_description: 'short_description',
-      links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
-      photos: ['picture.jpg', 'otter_picture.jpg'],
-      sharing: nil,
-      needs: nil,
-      waiting_list: nil,
-      phone: '666999666',
-      conditions: 'true',
-      availability: ['2016-10-15', '2016-10-16'],
-      duration: 'duration',
-      components: '3',
-      children: 'children',
-      repeat: 'true',
-      name: 'artist_name',
-      city: 'city',
-      zip_code: 'zip_code',
-      profile_picture: nil,
       user_id: user_id,
-      email: 'email@test.com',
-      profile_id: profile_id,
-      proposal_id: proposal_id,
       production_id: production_id,
-      type: 'artist',
       category: 'music',
-    }
-  }
-
-  let(:production_model){
-    {
       title: 'title',
       description: 'description',
       short_description: 'short_description',
       duration: 'duration',
-      components: '3',
-      children: 'children',
-      links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
-      photos: ['picture.jpg', 'otter_picture.jpg'],
-      category: 'music',
-      production_id: production_id,
+      photos: nil,
+      links: nil,
+      children: nil
+    }
+  }
+
+  let(:event){
+    {
+      user_id: user_id,
+      profile_id: profile_id,
+      event_id: event_id,
+      call_id: call_id,
+      artists: [],
+      spaces: [],
+      program: [],
+      whitelist: [],
+      start: '1462053600',
+      deadline: '1466028000',
     }
   }
 
   let(:call){
     {
-      event_id: event_id,
+      user_id: user_id,
       call_id: call_id,
-      start: '1462053600',
-      deadline: '1466028000',
+      artist: {
+        music: {
+          title: {type: "mandatory"},
+          description: {type: "mandatory"},
+          short_description: {type: "mandatory"},
+          duration: {type: "mandatory"},
+          optional:{type: "optional"}
+        }
+      }
     }
   }
 
@@ -148,82 +150,30 @@ describe CallsController do
     Services::Users.validated_user validation_code
     Repos::Users.add otter_user
     Services::Users.validated_user otter_validation_code
+    Repos::Events.add(event)
+    Repos::Calls.add(call)
     post login_route, user_hash
     allow(SecureRandom).to receive(:uuid).and_return(profile_id)
   }
 
-  describe 'Create' do
-
-    it 'fails if the call already exists' do
-      post create_call_route, call
-      post create_call_route, call
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('existing_call')
-    end
-
-    it 'adds a new a call' do
-      expect(Services::Calls).to receive(:register).with(Util.stringify_hash(call), user_id)
-      post create_call_route, call
-      expect(parsed_response['status']).to eq('success')
-    end
-  end
-
-  describe 'Send_proposal' do
-
-    let(:own_proposal){
-      {
-        profile_id: profile_id,
-        call_id: call_id,
-        email: 'email',
-        name: 'artist_name',
-        type: 'artist',
-        category: 'music',
-        title: 'title',
-        short_description: 'short_description',
-        duration: 'duration',
-        children: 'children',
-        phone: '666999666',
-        availability: ['2016-10-15', '2016-10-16'],
-        components: '3',
-      }
-    }
-
-    let(:own_proposal_model){
-      {
-        email: 'email',
-        phone: '666999666',
-        name: 'artist_name',
-        title: 'title',
-        short_description: 'short_description',
-        duration: 'duration',
-        children: 'children',
-        availability: ['2016-10-15', '2016-10-16'],
-        components: '3',
-        user_id: user_id,
-        profile_id: "b11000e7-8f02-4542-a1c9-7f7aa18752ce-own",
-        proposal_id: proposal_id,
-        type: 'artist',
-        category: 'music'
-      }
-    }
+  describe 'Send_artist_proposal' do
 
     before(:each){
-      post create_call_route, call
       post create_profile_route, profile
-      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+      allow(SecureRandom).to receive(:uuid).and_return(production_id)
     }
 
-    it 'fails if the proposal has the wrong type' do
-      proposal[:type] = 'otter'
-      post send_proposal_route, proposal
+    it 'fails if the event does not exist' do
+      proposal[:event_id] = 'otter'
+      post send_artist_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_parameters')
+      expect(parsed_response['reason']).to eq('non_existing_event')
     end
 
     it 'fails if the call does not exist' do
       proposal[:call_id] = 'otter'
-      post send_proposal_route, proposal
+      post send_artist_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_call')
@@ -231,7 +181,7 @@ describe CallsController do
 
     it 'fails if the profile does not exist' do
       proposal[:profile_id] = 'otter'
-      post send_proposal_route, proposal
+      post send_artist_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_profile')
@@ -239,29 +189,45 @@ describe CallsController do
 
     it 'fails if not the profile owner' do
       allow(Repos::Profiles).to receive(:get_profile_owner).with(profile_id).and_return('otter')
-      post send_proposal_route, proposal
+      post send_artist_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
-    it 'sends the proposal' do
-      expect(Repos::Calls).to receive(:add_proposal).with(call_id, proposal_model)
-      post send_proposal_route, proposal
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profile_id']).to eq(profile_id)
+    it 'fails if wrong category' do
+      proposal[:category] = 'otter'
+      post send_artist_proposal_route, proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_category')
+    end
+
+    it 'fails if out of deadline' do
+      post logout_route
+      post login_route, otter_user_hash
+      allow(Repos::Profiles).to receive(:get_profile_owner).with(profile_id).and_return(otter_user_id)
+      post send_artist_proposal_route, proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
     it 'adds a new production if non existing' do
-      allow(SecureRandom).to receive(:uuid).and_return(production_id)
-      expect(Repos::Profiles).to receive(:add_production).with(profile_id, production_model)
-      proposal.delete(:production_id)
-      post send_proposal_route, proposal
+      expect(Repos::Profiles).to receive(:add_production).with(profile_id, production)
+      post send_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
     end
 
-    it 'sends own proposal' do
+    it 'sends the proposal' do
+      expect(Repos::Events).to receive(:add_artist).with(event_id, artist)
+      post send_artist_proposal_route, proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profile_id']).to eq(profile_id)
+    end
+
+    xit 'sends own proposal' do
       expect(Repos::Calls).to receive(:add_proposal).with(call_id, own_proposal_model)
       post '/users/own_proposal', own_proposal
       expect(parsed_response['status']).to eq('success')

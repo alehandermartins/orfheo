@@ -35,9 +35,17 @@ module Repos
       end
 
       def add_artist event_id, artist
-        @@events_collection.update_one({event_id: event_id},{
-          "$push": {artists: artist}
-        })
+        if @@events_collection.count("artists.profile_id": artist[:profile_id]) == 0
+          @@events_collection.update_one({event_id: event_id},{
+            "$push": {artists: artist}
+          })
+        else
+          @@events_collection.update_one({event_id: event_id, "artists.profile_id": artist[:profile_id]},
+          {
+            "$push": {"artists.$.proposals": artist[:proposals].first}
+          },
+          {upsert: true})
+        end
       end
 
       def add_space event_id, space
@@ -46,12 +54,17 @@ module Repos
         })
       end
 
-      def add_artist_proposal event_id, profile_id, proposal
-        @@events_collection.update_one({event_id: event_id, "artists.profile_id": profile_id},
-          {
-            "$push": {"artists.$.proposals": proposal}
-          },
-        {upsert: true})
+      def add_whitelist event_id, whitelist
+        @@events_collection.update_one({event_id: event_id},{
+          "$set": {whitelist: whitelist}
+        })
+      end
+
+      def proposal_on_time? event_id, user_id
+        event = grab({event_id: event_id}).first
+        email = Repos::Users.grab({user_id: user_id})[:email]
+        return true if event[:user_id] == user_id || event[:whitelist].include?(email)
+        event[:start].to_i < Time.now.to_i && event[:deadline].to_i > Time.now.to_i
       end
 
       def add_performance event_id, performance

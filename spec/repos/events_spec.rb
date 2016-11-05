@@ -25,7 +25,7 @@ describe Repos::Events do
     {
       user_id: user_id,
       profile_id: profile_id,
-      email: 'email',
+      email: 'email@test.com',
       name: 'artist_name',
       address: {
         locality: 'locality',
@@ -70,6 +70,13 @@ describe Repos::Events do
       user_id: user_id,
       profile_id: profile_id,
       event_id: event_id,
+      call_id: call_id,
+      artists: [],
+      spaces: [],
+      program: [],
+      whitelist: [],
+      start: '1462053600',
+      deadline: '1466028000',
     }
   }
 
@@ -128,6 +135,25 @@ describe Repos::Events do
       })
     end
 
+    it 'adds a proposal to an exisiting artist' do
+      Repos::Events.add_artist event_id, artist
+      Repos::Events.add_artist event_id, artist
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['artists'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => profile_id,
+        'proposals' => [Util.stringify_hash(artist_proposal), Util.stringify_hash(artist_proposal)]
+      })
+    end
+
+    it 'checks deadline' do
+      expect(Repos::Events.proposal_on_time? event_id, 'otter').to eq(false)
+      allow(Time).to receive(:now).and_return(1462053601)
+      expect(Repos::Events.proposal_on_time? event_id, 'otter').to eq(true)
+    end
+
+    
+
     it 'adds a space' do
       Repos::Events.add_space event_id, space
       saved_entry = @db['events'].find({}).first
@@ -135,20 +161,6 @@ describe Repos::Events do
         'user_id' => user_id,
         'profile_id' => space_profile_id,
         'category' => 'category'
-      })
-    end
-  end
-
-  describe 'Add proposals' do
-
-    it 'adds a proposal' do
-      Repos::Events.add_artist event_id, artist
-      Repos::Events.add_artist_proposal event_id, profile_id, artist_proposal
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['artists'].first).to include({
-        'user_id' => user_id,
-        'profile_id' => profile_id,
-        'proposals' => [Util.stringify_hash(artist_proposal), Util.stringify_hash(artist_proposal)]
       })
     end
 
@@ -184,6 +196,22 @@ describe Repos::Events do
       Repos::Events.delete_performance event_id, performance_id
       saved_entry = @db['events'].find({}).first
       expect(saved_entry['program']).to eq([])
+    end
+  end
+
+  describe 'Whitelist' do
+    it 'Stores the whitelist' do
+      expect(Repos::Events.get_event(event_id)[:whitelist]).to eq([])
+      Repos::Events.add_whitelist event_id, ['walter@white']
+      expect(Repos::Events.get_event(event_id)[:whitelist]).to eq(['walter@white'])
+    end
+
+    it 'allows whitelisted or owner' do
+      expect(Repos::Events.proposal_on_time? event_id, 'otter').to eq(false)
+      expect(Repos::Events.proposal_on_time? event_id, user_id).to eq(true)
+      Repos::Events.add_whitelist event_id, ['walter@white']
+      allow(Repos::Users).to receive(:grab).with({user_id: 'otter_user'}).and_return({email: 'walter@white'})
+      expect(Repos::Events.proposal_on_time? event_id, 'otter_user').to eq(true)
     end
   end
   # describe 'Get call' do

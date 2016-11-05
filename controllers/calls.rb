@@ -1,26 +1,22 @@
 class CallsController < BaseController
 
-  post '/users/create_call' do
-    scopify call_id: true
-    check_non_existing call_id
-    register_call params
-    success
-  end
-
   post '/users/send_artist_proposal' do
-    scopify event_id: true, profile_id: true, production_id: true
+    scopify event_id: true, call_id: true, profile_id: true, production_id: true, category: true
     check_event_exists! event_id
+    check_call_exists! call_id
     check_profile_ownership profile_id
+    check_category! category
     check_deadline! event_id
 
-    proposal = Proposals.new(params, session[:identity])
-    Repos::Events.add_artist_proposal event_id, proposal.to_h unless Repos::Events.artist_exists? event_id, profile_id
-    Repos::Events.add_artist
-
     if production_id.blank?
-      production = Productions.new(params, session[:identity])
+      production = Production.new(params, session[:identity])
+      params[:production_id] = production[:production_id]
       Repos::Profiles.add_production profile_id, production.to_h
     end
+
+    form = get_artist_form call_id, category
+    proposal = ArtistProposal.new(params, session[:identity], form)
+    Repos::Events.add_artist event_id, proposal.to_h
     success ({profile_id: profile_id})
   end
 
@@ -69,6 +65,13 @@ class CallsController < BaseController
     raise Pard::Invalid::UnexistingCall unless Repos::Calls.exists? call_id
   end
 
+  def get_artist_form call_id, category
+    forms = Repos::Calls.get_forms call_id
+    categories = forms[:artist].keys
+    raise Pard::Invalid::Params unless categories.include? category.to_sym
+    forms[:artist][category.to_sym]
+  end
+
   def check_proposal_ownership proposal_id
     raise Pard::Invalid::UnexistingProposal unless Repos::Calls.proposal_exists? proposal_id
     raise Pard::Invalid::ProposalOwnership unless Repos::Calls.get_proposal_owner(proposal_id) == session[:identity]
@@ -79,9 +82,8 @@ class CallsController < BaseController
     raise Pard::Invalid::CallOwnership unless Repos::Calls.get_call_owner(call_id) == session[:identity]
   end
 
-  def check_deadline call_id
-    user_email = Repos::Users.grab({user_id: session[:identity]})[:email]
-    raise Pard::Invalid::Deadline unless Repos::Calls.proposal_on_time?(call_id, user_email) == true
+  def check_deadline! event_id
+    raise Pard::Invalid::Deadline unless Repos::Events.proposal_on_time?(event_id, session[:identity]) == true
   end
 
   def register_call params

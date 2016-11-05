@@ -30,10 +30,10 @@
   ns.Widgets.EventInfoCardWU = function(event){
     var _createdWidget = $('<div>');
     var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
-    var _logo = $('<a>').append($.cloudinary.image(event.main_img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
+    var _logo = $('<a>').append($.cloudinary.image(event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
     _image.append(_logo);
     
-    var _popupImg = $.cloudinary.image(event.main_img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
+    var _popupImg = $.cloudinary.image(event.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
 
     var _popupContainer = $('<div>').addClass('fast reveal full');    
     var _outerContainer = $('<div>').addClass('vcenter-outer');
