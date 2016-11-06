@@ -182,18 +182,39 @@
     var _h2 = $('<div>').addClass('time-container-eventInfo');
     _h2.append($('<div>').append(Pard.Widgets.IconManager('clock').render().addClass('iconContainer-infoHeader-event-page'), _timeContent));
 
-    for (var day in _eventInfo.eventTime){
-      if(day != 'permanent'){
-        var _dateCont = $('<div>').addClass('single-date-container-event-page');
-        var _dayCont = $('<div>').append(moment(day).locale('es').format('D MMM YYYY')).addClass('date-calendar-box');
-        var _daydateI = new Date(parseInt(_eventInfo.eventTime[day][0]));
-        var _daydateF = new Date(parseInt(_eventInfo.eventTime[day][1]));
-        var _timeCont = $('<div>').append($('<p>').text('de '+moment(_daydateI).locale('es').format('HH:mm')),$('<p>').text('a '+moment(_daydateF).locale('es').format('HH:mm')+' h')).addClass('time-calendar-box');
-        _dateCont.append(_dayCont,_timeCont);
-        _timeContent.append(_dateCont);
+    var _count = 0;
+    var _printAll = false;
+    
+    var _printDaysCalendar = function(){
+      _timeContent.empty();
+        for (var day in _eventInfo.eventTime){
+        if(day != 'permanent'){
+          _count += 1;
+          if (_count>5 && !_printAll){
+            var _seeAll = $('<a>').attr('href','#').text('ver todos').addClass('see-all-event-page');
+            var _seeAllContainer = $('<div>').append('... ',_seeAll).css('margin','-0.3rem 0 -0.3rem 2.4rem');
+            _h2.append(_seeAllContainer);
+            _seeAll.click(function(){
+              _printAll = true;
+              _seeAllContainer.remove();
+              _printDaysCalendar();
+            });
+          }
+          else{
+            var _dateCont = $('<div>').addClass('single-date-container-event-page');
+            var _dayCont = $('<div>').append(moment(day).locale('es').format('D MMM YYYY')).addClass('date-calendar-box');
+            var _daydateI = new Date(parseInt(_eventInfo.eventTime[day][0]));
+            var _daydateF = new Date(parseInt(_eventInfo.eventTime[day][1]));
+            var _timeCont = $('<div>').append($('<p>').text('de '+moment(_daydateI).locale('es').format('HH:mm')),$('<p>').text('a '+moment(_daydateF).locale('es').format('HH:mm')+' h')).addClass('time-calendar-box');
+            _dateCont.append(_dayCont,_timeCont);
+            _timeContent.append(_dateCont);
+          }
+        }
       }
     }
-    
+
+    _printDaysCalendar();
+
     _header.append(_h1, _h2);
 
     var _content = $('<div>').addClass('content-event-page');
