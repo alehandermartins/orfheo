@@ -607,7 +607,7 @@ Aside
 }
 
 .profile-nav-name-selected, .profile-nav-name-element, .profile-nav-production-name{
-  line-height: 1.3rem;
+  line-height: 1.2rem;
   font-size: $smallSize;
   margin-bottom: 0;
   cursor: pointer;
@@ -780,7 +780,7 @@ Profile Section
   }
 }
 
-.information-contact-icon-column, .information-contact-text-column{
+.information-contact-icon-column, .information-contact-text-cotextContainer-infoTablumn{
   display: inline-block;
   vertical-align: top; 
 }
@@ -2136,13 +2136,6 @@ EVENT PAGE
   vertical-align: middle;
 }
 
-.time-container-eventInfo{
-  border-bottom:1px solid $grey-3 ;
-  border-top: 1px solid $grey-3;
-  padding: 0.4rem 0.6rem;
-}
-
-
 .info-text-header-infoTab-event{
   display: inline-block;
   vertical-align: middle;
@@ -2181,8 +2174,11 @@ EVENT PAGE
 .textContainer-infoTab-event-page{
   @include breakpoint(medium){
    margin-top: 2rem;
-   min-height: 30rem;
   }
+}
+
+.content-event-page{
+  min-height: 30rem;
 }
 
 .baseline-infoTab-event-page{
@@ -2659,14 +2655,14 @@ a.participant-program-card-own {
 }
 
 .production-btn-event-page{
-  padding: 0.2rem 0.1rem;
+  padding: 0.2rem 0.2rem;
   position: relative;
   width: 11.5rem;
   display: inline-block;
   height: 2.7rem;
   margin-top: 0.1rem;
   margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin-right: 0.8rem;
   border: 1px solid $grey-2;
 }
 
@@ -2689,6 +2685,47 @@ a.participant-program-card-own {
   display: inline-block;
   width: 80%;
   padding: 0 1rem 0 0;
+}
+
+.time-container-eventInfo{
+  border-bottom:1px solid $grey-3 ;
+  border-top: 1px solid $grey-3;
+  padding: 0.4rem 0.6rem;
+}
+
+.single-date-container-event-page{
+  display: inline-block;
+  font-size: $smallSize;
+  margin-right: 0.7rem;
+  margin-bottom: 0.35rem;
+  margin-top: 0.35rem;
+  width: 7.5rem;
+  border: 1px solid $grey-2;
+  text-align: center;
+  /* height: 2rem; */
+}
+
+.date-calendar-box{
+  line-height: 1rem;
+  background-color: $grey-1;
+  padding: 0.2rem;
+  display: inline-block;
+  vertical-align: middle;
+  width: 3.6rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.time-calendar-box{
+  padding: 0.2rem 0.2rem;
+  display: inline-block;
+  vertical-align: middle;
+  width: 3.7rem;
+
+  p{
+    margin: 0;
+    line-height: 1rem;
+  }
 }
 
 /*===============================================

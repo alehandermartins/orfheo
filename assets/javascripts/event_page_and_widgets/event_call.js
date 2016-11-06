@@ -181,8 +181,9 @@
         _iconColumn.css({
           'padding':'0.2rem'
         })
-        var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css({'height':'2rem'});
+        var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
         var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
+
         _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
         _prodContainer.append(_prodBtn);
         _prodBtn.click(function(){

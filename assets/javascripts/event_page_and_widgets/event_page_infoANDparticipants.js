@@ -183,16 +183,25 @@
     _h2.append($('<div>').append(Pard.Widgets.IconManager('clock').render().addClass('iconContainer-infoHeader-event-page'), _timeContent));
 
     for (var day in _eventInfo.eventTime){
-      _timeContent.append(' ',day);
+      if(day != 'permanent'){
+        var _dateCont = $('<div>').addClass('single-date-container-event-page');
+        var _dayCont = $('<div>').append(moment(day).locale('es').format('D MMM YYYY')).addClass('date-calendar-box');
+        var _daydateI = new Date(parseInt(_eventInfo.eventTime[day][0]));
+        var _daydateF = new Date(parseInt(_eventInfo.eventTime[day][1]));
+        var _timeCont = $('<div>').append($('<p>').text('de '+moment(_daydateI).locale('es').format('HH:mm')),$('<p>').text('a '+moment(_daydateF).locale('es').format('HH:mm')+' h')).addClass('time-calendar-box');
+        _dateCont.append(_dayCont,_timeCont);
+        _timeContent.append(_dateCont);
+      }
     }
     
     _header.append(_h1, _h2);
 
+    var _content = $('<div>').addClass('content-event-page');
     var _textContainer = $('<div>').addClass('textContainer-infoTab-event-page');
     var _baseline = $('<p>').text(_eventInfo.baseline).addClass('baseline-infoTab-event-page');
     // var _textTitle = $('<h4>').text('Características básicas:').addClass('title-program-event-page');
     var _text = $('<div>').append(
-      $('<p>').html('bla bla bla').addClass('text-event-page-info'));
+      $('<p>').html('bla </p> bla <br>bla').addClass('text-event-page-info'));
     var _image = $('<div>').append($.cloudinary.image(_eventInfo.img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p')).addClass('image-evet-page-info');
       if ($(window).width() < 640) {
         var _infoContent = $('<div>').append(_text.prepend(_baseline), _image);
@@ -200,7 +209,7 @@
       else{
         var _infoContent = $('<div>').append( _image, _text.prepend(_baseline));
       }
-    _textContainer.append(_infoContent);
+    _content.append(_textContainer.append(_infoContent));
 
     // var _crowdfundingContainer = $('<div>').addClass('colaborators-container-info-event-page');
     // var _crowdfunding = $('<span>').html('<iframe frameborder="0" height="480px" src="//www.goteo.org/widget/project/benimaclet-confusion-festival" width="250px" scrolling="no"></iframe>').addClass('crowdfunding-widget-infoTab-event');
@@ -214,7 +223,7 @@
     //   _crowdfundingContainer.append(_crowdfunding, _crowdtitle, _crowdText);
     // }
    
-    _createdWidget.append(_header, _textContainer);
+    _createdWidget.append(_header, _content);
 
     return{
       render: function(){
