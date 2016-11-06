@@ -4,8 +4,7 @@ module Services
 
       def delete_production production_id
         old_pictures = production_old_pictures production_id
-        storable_pictures = Services::Calls.proposals_old_pictures production_id
-        Util.destroy_old_pictures old_pictures, storable_pictures 
+        Util.destroy_old_pictures old_pictures, {} 
         Repos::Profiles.delete_production production_id
       end
 
@@ -27,18 +26,8 @@ module Services
         get_pictures production
       end
 
-      def destroy_profile_old_pictures old_pictures, profile
-        new_pictures = get_pictures profile
-        Util.destroy_old_pictures old_pictures, new_pictures
-      end
-
-      def destroy_production_old_pictures old_pictures, production
-        new_pictures = get_pictures production
-        storable_pictures = Services::Calls.proposals_old_pictures production[:production_id]
-        production_photos = production[:photos]
-        production_photos = [] if production[:photos].blank? 
-        new_pictures = {photos: production_photos}
-        storable_pictures.merge!(new_pictures){ |key, a_value, b_value| (a_value || []) + (b_value || [])}
+      def destroy_old_pictures old_pictures, element
+        new_pictures = get_pictures element
         Util.destroy_old_pictures old_pictures, new_pictures
       end
 

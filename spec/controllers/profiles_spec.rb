@@ -56,33 +56,24 @@ describe ProfilesController do
 
   let(:profile){
     {
+      user_id: user_id,
+      profile_id: profile_id,
       type: 'artist',
       name: 'artist_name',
-      city: 'city',
-      zip_code: 'zip_code',
-      color: 'color'
+      address: 'address',
+      personal_web: nil,
+      color: 'color',
+      bio: nil,
+      profile_picture: nil
     }
   }
 
   let(:otter_profile){
     {
+      profile_id: otter_profile_id,
       type: 'artist',
       name: 'otter_artist_name',
-      city: 'city',
-      zip_code: 'zip_code',
-      color: 'color'
-    }
-  }
-
-  let(:profile_model){
-    {
-      user_id: user_id,
-      profile_id: profile_id,
-      type: 'artist',
-      name: 'artist_name',
-      city: 'city',
-      zip_code: 'zip_code',
-      personal_web: nil,
+      address: 'address',
       color: 'color'
     }
   }
@@ -90,19 +81,6 @@ describe ProfilesController do
   let(:production){
     {
       profile_id: profile_id,
-      category: 'music',
-      title: 'title',
-      description: 'description',
-      short_description: 'short_description',
-      photos: ['picture.jpg', 'otter_picture.jpg'],
-      links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
-      duration: 'duration',
-      children: 'children'
-    }
-  }
-
-  let(:production_model){
-    {
       production_id: production_id,
       category: 'music',
       title: 'title',
@@ -111,8 +89,7 @@ describe ProfilesController do
       photos: ['picture.jpg', 'otter_picture.jpg'],
       links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
       duration: 'duration',
-      children: 'children',
-      components: nil
+      children: 'children'
     }
   }
 
@@ -126,13 +103,6 @@ describe ProfilesController do
   }
 
   describe 'Create' do
-
-    it 'fails if the type does not exist' do
-      profile.delete(:type)
-      post create_profile_route, profile
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_type')
-    end
 
     it 'fails if the type does not do not correspond with expected types' do
       post create_profile_route, {
@@ -156,10 +126,10 @@ describe ProfilesController do
     end
 
     it 'creates a profile' do
-      expect(Repos::Profiles).to receive(:update).with(profile_model)
+      expect(Repos::Profiles).to receive(:update).with(profile)
       post create_profile_route, profile
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profile']).to eq(Util.stringify_hash(profile_model))
+      expect(parsed_response['profile']).to eq(Util.stringify_hash(profile))
     end
 
     it 'fails if the name is already taken by other user' do
@@ -179,25 +149,10 @@ describe ProfilesController do
 
     let(:modify_profile_route){'/users/modify_profile'}
 
-    before(:each){
-      profile.merge! profile_id: profile_id
-      profile.merge! bio: 'bio'
-      profile_model.merge!  profile_picture: nil
-      profile_model.merge! bio: 'bio'
-    }
-
     it 'fails if the profile does not exist' do
       post modify_profile_route, profile
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_profile')
-    end
-
-    it 'fails if the type does not exist' do
-      post create_profile_route, profile
-      profile[:type] = 'otter'
-      post modify_profile_route, profile
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_type')
     end
 
     it 'does not allow to modify a profile you don"t own' do
@@ -211,7 +166,7 @@ describe ProfilesController do
 
     it 'modifies the desired parameters' do
       post create_profile_route, profile
-      expect(Repos::Profiles).to receive(:update).with(profile_model)
+      expect(Repos::Profiles).to receive(:update).with(profile)
       post modify_profile_route, profile
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
@@ -221,10 +176,8 @@ describe ProfilesController do
       post create_profile_route, profile
       post logout_route
       post login_route, otter_user_hash
-      allow(SecureRandom).to receive(:uuid).and_return(otter_profile_id)
       post create_profile_route, otter_profile
 
-      otter_profile[:profile_id] = otter_profile_id
       otter_profile[:name] = 'artist_name'
       post modify_profile_route, otter_profile
       expect(parsed_response['status']).to eq('fail')
@@ -236,7 +189,6 @@ describe ProfilesController do
 
     before(:each){
       post create_profile_route, profile
-      allow(SecureRandom).to receive(:uuid).and_return(production_id)
     }
 
     it 'fails if the profile does not exist' do
@@ -254,10 +206,10 @@ describe ProfilesController do
     end
 
     it 'creates a production' do
-      expect(Repos::Profiles).to receive(:add_production).with(profile_id, production_model)
       post create_production_route, production
+      production.delete(:profile_id)
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['production']).to eq(Util.stringify_hash(production_model))
+      expect(parsed_response['production']).to eq(Util.stringify_hash(production))
     end
   end
 
@@ -268,10 +220,6 @@ describe ProfilesController do
 
     before(:each){
       post create_profile_route, profile
-      production.merge! production_id: production_id
-      production[:title] = 'otter_title'
-      production_model[:title] = 'otter_title'
-      allow(SecureRandom).to receive(:uuid).and_return(production_id)
     }
 
     it 'fails if the production does not exist' do
@@ -282,11 +230,10 @@ describe ProfilesController do
 
     it 'modifies a production' do
       post create_production_route, production
-      expect(Repos::Profiles).to receive(:modify_production).with(production_model)
-
       post modify_production_route, production
+      production.delete(:profile_id)
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['production']).to eq(Util.stringify_hash(production_model))
+      expect(parsed_response['production']).to eq(Util.stringify_hash(production))
     end
 
     it 'does not allow to modify a production you don"t own' do
@@ -399,11 +346,11 @@ describe ProfilesController do
     it 'Retrieves a list with the user profiles' do
       post create_profile_route, profile
       post '/users/list_profiles'
-      profile_model[:calls] = []
-      profile_model[:proposals] = []
-      profile_model[:program] = []
+      profile[:events] = []
+      profile[:proposals] = []
+      profile[:program] = []
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profiles']).to eq([Util.stringify_hash(profile_model)])
+      expect(parsed_response['profiles']).to eq([Util.stringify_hash(profile)])
     end
   end
 end

@@ -1,29 +1,33 @@
 class ProfilesController < BaseController
 
   post '/users/create_profile' do
-    profile_id = SecureRandom.uuid
-    name_available? params[:name]
+    scopify type: true, name: true
+    check_type! type
+    name_available? name
 
-    profile = Forms::Profiles.new(params, session[:identity]).create(profile_id)
-    Repos::Profiles.update profile
-    success({profile: profile})
+    profile = ArtistProfile.new(params, session[:identity]) if type == 'artist'
+    profile = SpaceProfile.new(params, session[:identity]) if type == 'space'
+    profile = OrganizationProfile.new(params, session[:identity]) if type == 'organization'
+
+    Repos::Profiles.update profile.to_h
+    success({profile: profile.to_h})
   end
 
    post '/users/modify_profile' do
-    scopify profile_id: true
+    scopify profile_id: true, type: true, name: true
+    check_type! type
     check_profile_ownership profile_id
-    name_available? params[:name]
+    name_available? name
 
-    profile = Forms::Profiles.new(params, session[:identity]).modify(profile_id)
+    profile = ArtistProfile.new(params, session[:identity]) if type == 'artist'
+    profile = SpaceProfile.new(params, session[:identity]) if type == 'space'
+    profile = OrganizationProfile.new(params, session[:identity]) if type == 'organization'
     old_pictures = Services::Profiles.profile_old_pictures profile_id
-    Repos::Profiles.update profile
-    Services::Profiles.destroy_profile_old_pictures old_pictures, profile
+    Repos::Profiles.update profile.to_h
+    Services::Profiles.destroy_old_pictures old_pictures, profile.to_h
 
-    proposals = Repos::Calls.get_proposals(:profile_info, {profile_id: profile[:profile_id]})[:proposals]
-    proposals.each{ |proposal|
-      proposal = Forms::Proposals.new(proposal, session[:identity]).modify(proposal[:proposal_id])
-      Repos::Calls.modify_proposal proposal
-    }
+    Repos::Events.update_artist profile.to_h if type == 'artist'
+    Repos::Events.update_space profile.to_h if type == 'space'
     
     success({profile_id: profile_id})
   end
@@ -38,26 +42,26 @@ class ProfilesController < BaseController
   end
 
   post '/users/create_production' do
-    scopify profile_id: true
+    scopify profile_id: true, category: true
     check_profile_ownership profile_id
+    check_artist_category! category
 
-    production_id = SecureRandom.uuid
-    production = Forms::Productions.new(params, session[:identity]).create(production_id)
-    Repos::Profiles.add_production profile_id, production
-    success({production: production})
+    production = Production.new(params, session[:identity])
+    Repos::Profiles.add_production profile_id, production.to_h
+    success({production: production.to_h})
   end
 
   post '/users/modify_production' do
-    scopify production_id: true
+    scopify production_id: true, category: true
     check_production_ownership! production_id
+    check_artist_category! category
 
-    production = Forms::Productions.new(params, session[:identity]).modify(production_id)
+    production = Production.new(params, session[:identity])
     old_pictures = Services::Profiles.production_old_pictures production_id
-
-    Repos::Profiles.modify_production production
-    Services::Profiles.destroy_production_old_pictures old_pictures, production
+    Repos::Profiles.modify_production production.to_h
+    Services::Profiles.destroy_old_pictures old_pictures, production
     
-    success({production: production})
+    success({production: production.to_h})
   end
 
   post '/users/delete_production' do
@@ -75,7 +79,7 @@ class ProfilesController < BaseController
   end
 
   post '/users/list_profiles'do
-    profiles = Repos::Profiles.get_profiles :visit_profiles, {user_id: session[:identity]}
+    profiles = Repos::Profiles.get_profiles :user_profiles, {user_id: session[:identity]}
     success({profiles: profiles})
   end
 

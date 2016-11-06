@@ -161,7 +161,7 @@ describe Repos::Profiles do
 
     it 'returns a specific profile' do
       result = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
-      profile.merge! calls: []
+      profile.merge! events: []
       profile.merge! proposals: []
       profile.merge! program: []
       expect(result).to eq(profile)
@@ -181,29 +181,27 @@ describe Repos::Profiles do
     end
 
     it 'returns all profiles and those of the user (sorted)' do
+      profile.merge! events: []
       profile.merge! proposals: []
-      my_otter_profile.merge! proposals: []
-      profile.merge! calls: []
-      my_otter_profile.merge! calls: []
       profile.merge! program: []
+      my_otter_profile.merge! events: []
+      my_otter_profile.merge! proposals: []
       my_otter_profile.merge! program: []
       result = Repos::Profiles.get_profiles :user_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end
 
     it 'returns all profiles for a visitor' do
-      profile.merge! calls: []
-      profile.merge! proposals: []
+      profile.merge! events: []
       profile.merge! program: []
-      my_otter_profile.merge! calls: []
-      my_otter_profile.merge! proposals: []
+      my_otter_profile.merge! events: []
       my_otter_profile.merge! program: []
       result = Repos::Profiles.get_profiles :visit_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end
 
     it 'returns all profiles for an event' do
-      allow(Repos::Calls).to receive(:get_event).with('event_id').and_return(event)
+      allow(Repos::Events).to receive(:get_event).with('event_id').and_return(event)
       result = Repos::Profiles.get_profiles :event_profiles, {event_id: 'event_id'}
       expect(result).to include(profile, otter_user_profile)
     end

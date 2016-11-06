@@ -1,13 +1,13 @@
 class Production
 
   def initialize params, user_id
+    check_fields params
     @production = new_production params, user_id
-    check_fields
   end
 
-  def check_fields
-  raise Pard::Invalid::Params if mandatory.any?{ |field|
-    production[field].blank?
+  def check_fields params
+  raise Pard::Invalid::Params if mandatory(params).any?{ |field|
+    params[field].blank?
   }
   end
 
@@ -23,7 +23,6 @@ class Production
   attr_reader :production
   def new_production params, user_id
     {
-      user_id: user_id,
       production_id: params[:production_id] || SecureRandom.uuid,
       category: params[:category],
       title: params[:title],
@@ -36,16 +35,13 @@ class Production
     }
   end
 
-  def mandatory
+  def mandatory params
     fields = [
-      :user_id, 
-      :production_id, 
-      :category,
       :title,
       :description,
       :short_description
     ]
-    fields.push(:duration) if(['music', 'arts', 'workshop', 'audiovisual', 'poetry'].include? production[:category])
+    fields.push(:duration) if(['music', 'arts', 'workshop', 'audiovisual', 'poetry'].include? params[:category])
     fields
   end
 end

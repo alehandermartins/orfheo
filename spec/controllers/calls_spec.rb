@@ -60,8 +60,7 @@ describe CallsController do
     {
       type: 'artist',
       name: 'artist_name',
-      city: 'locality',
-      zip_code: 'postal_code',
+      address: 'address',
       color: 'color'
     }
   }
@@ -72,7 +71,7 @@ describe CallsController do
       profile_id: profile_id,
       email: 'email@test.com',
       name: 'artist_name',
-      address: nil,
+      address: 'address',
       phone: 'phone',
       proposals: [{
         production_id: production_id,
@@ -103,7 +102,6 @@ describe CallsController do
 
   let(:production){
     {
-      user_id: user_id,
       production_id: production_id,
       category: 'music',
       title: 'title',
@@ -129,6 +127,7 @@ describe CallsController do
       },
       category: 'home',
       phone: 'phone',
+      description: nil,
       optional: nil
     }
   }  
