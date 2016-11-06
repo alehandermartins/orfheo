@@ -36,24 +36,24 @@ class CallsController < BaseController
 
   post '/users/amend_artist_proposal' do
     scopify proposal_id: true, amend: true
-    check_proposal_exists! proposal_id, :artist
-    check_proposal_ownership! proposal_id, :artist
+    check_proposal_exists! proposal_id
+    check_artist_proposal_ownership! proposal_id
     Repos::Events.amend_artist proposal_id, amend
     success
   end
 
   post '/users/amend_space_proposal' do
     scopify proposal_id: true, amend: true
-    check_proposal_exists! proposal_id, :space
-    check_proposal_ownership! proposal_id, :space
+    check_proposal_exists! proposal_id
+    check_space_proposal_ownership! proposal_id
     Repos::Events.amend_space proposal_id, amend
     success
   end
 
   post '/users/modify_artist_proposal' do
-    scopify event_id: true, call_id: true, profile_id: true, category: true
+    scopify event_id: true, call_id: true, profile_id: true, proposal_id: true, category: true
     check_event_ownership! event_id
-    check_proposal_exists! proposal_id, :artist
+    check_proposal_exists! proposal_id
     check_call_exists! call_id
     check_artist_category! category
 
@@ -64,9 +64,9 @@ class CallsController < BaseController
   end
 
   post '/users/modify_space_proposal' do
-    scopify event_id: true, call_id: true, profile_id: true, category: true
+    scopify event_id: true, call_id: true, proposal_id: true, category: true
     check_event_ownership! event_id
-    check_proposal_exists! proposal_id, :space
+    check_proposal_exists! proposal_id
     check_call_exists! call_id
     check_space_category! category
 
@@ -98,7 +98,7 @@ class CallsController < BaseController
 
   post '/users/delete_proposal' do
     scopify profile_id: true, proposal_id: true
-    check_profile_ownership proposal_id
+    check_event_ownership! proposal_id
     delete_proposal proposal_id
     success
   end
@@ -122,12 +122,16 @@ class CallsController < BaseController
     forms[:space][category.to_sym]
   end
 
-  def check_proposal_exists! proposal_id, type
-    raise Pard::Invalid::UnexistingProposal unless Repos::Events.proposal_exists?(proposal_id, type)
+  def check_proposal_exists! proposal_id
+    raise Pard::Invalid::UnexistingProposal unless Repos::Events.proposal_exists?(proposal_id)
   end
 
-  def check_proposal_ownership! proposal_id, type
-    raise Pard::Invalid::ProposalOwnership unless Repos::Calls.get_proposal_owner(proposal_id, type) == session[:identity]
+  def check_artist_proposal_ownership! proposal_id
+    raise Pard::Invalid::ProposalOwnership unless Repos::Events.get_artist_proposal_owner(proposal_id) == session[:identity]
+  end
+
+  def check_space_proposal_ownership! proposal_id
+    raise Pard::Invalid::ProposalOwnership unless Repos::Events.get_space_proposal_owner(proposal_id) == session[:identity]
   end
 
   def check_call_ownership call_id
@@ -137,14 +141,6 @@ class CallsController < BaseController
 
   def check_deadline! event_id
     raise Pard::Invalid::Deadline unless Repos::Events.proposal_on_time?(event_id, session[:identity]) == true
-  end
-
-  def register_call params
-    Services::Calls.register(params, session[:identity])
-  end
-
-  def get_proposal_owner proposal_id
-    Repos::Calls.get_proposal_owner proposal_id
   end
 
   def delete_proposal proposal_id

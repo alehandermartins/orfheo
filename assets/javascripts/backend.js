@@ -216,6 +216,22 @@
       );
     };
 
+    var _modifyArtistProposal = function(form, callback){
+      _send(
+        '/users/modify_artist_proposal',
+        form,
+        callback
+      );
+    };
+
+    var _modifySpaceProposal = function(form, callback){
+      _send(
+        '/users/modify_space_proposal',
+        form,
+        callback
+      );
+    };
+
     var _whitelist = function(call_id, whitelist, callback){
       console.log(whitelist);
       _send(       
@@ -287,6 +303,8 @@
       deleteUser: _deleteUser,
       amendArtistProposal: _amendArtistProposal,
       amendSpaceProposal: _amendSpaceProposal,
+      modifyArtistProposal: _modifyArtistProposal,
+      modifySpaceProposal: _modifySpaceProposal,
       whitelist: _whitelist,
       program: _program,
       getCallForms: _getCallForms,

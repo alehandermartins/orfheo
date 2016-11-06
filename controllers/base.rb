@@ -34,6 +34,11 @@ class BaseController < Sinatra::Base
       raise Pard::Invalid::ProfileOwnership unless Repos::Profiles.get_profile_owner(profile_id) == session[:identity]
     end
 
+    def check_event_ownership! event_id
+      raise Pard::Invalid::UnexistingEvent unless Repos::Events.exists? event_id
+      raise Pard::Invalid::EventOwnership unless Repos::Events.get_event_owner(event_id) == session[:identity]
+    end
+
     def check_type! type
       raise Pard::Invalid::Type unless ['artist', 'space', 'organization'].include? type
     end

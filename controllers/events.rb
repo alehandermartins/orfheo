@@ -58,11 +58,6 @@ class EventsController < BaseController
   end
 
   private
-  def check_event_ownership! event_id
-    raise Pard::Invalid::UnexistingEvent unless Repos::Events.exists? event_id
-    raise Pard::Invalid::EventOwnership unless Repos::Events.get_event_owner(event_id) == session[:identity]
-  end
-
   def check_participants! event_id, performance
     raise Pard::Invalid::UnexistingParticipants unless Repos::Events.performers_participate? event_id, performance
   end

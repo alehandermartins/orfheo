@@ -10,8 +10,7 @@ describe Repos::Profiles do
       profile_id: profile_id,
       type: 'artist',
       name: 'artist_name',
-      city: 'city',
-      zip_code: 'zip_code',
+      address: 'address',
       profile_picture: ['profile.jpg'],
       bio: 'bio',
       personal_web: 'my_web'

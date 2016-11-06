@@ -6,7 +6,10 @@ describe CallsController do
   let(:create_profile_route){'/users/create_profile'}
   let(:send_artist_proposal_route){'/users/send_artist_proposal'}
   let(:send_space_proposal_route){'/users/send_space_proposal'}
-  let(:amend_proposal_route){'/users/amend_proposal'}
+  let(:amend_artist_proposal_route){'/users/amend_artist_proposal'}
+  let(:amend_space_proposal_route){'/users/amend_space_proposal'}
+  let(:modify_artist_proposal_route){'/users/modify_artist_proposal'}
+  let(:modify_space_proposal_route){'/users/modify_space_proposal'}
   let(:delete_proposal_route){'/users/delete_proposal'}
 
    let(:user_hash){
@@ -326,30 +329,71 @@ describe CallsController do
   describe 'Amend_proposal' do
 
     before(:each){
-      post create_call_route, call
+      post create_profile_route, profile
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
     it 'fails if the proposal does not exist' do
-      post amend_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
-
+      post amend_artist_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
 
     it 'fails if the user does not own the proposal' do
-      proposal_model[:user_id] = 'otter'
-      Repos::Calls.add_proposal call_id, proposal_model
-      post amend_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+      post send_artist_proposal_route, proposal
+      post logout_route
+      post login_route, otter_user
+      post amend_artist_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
     it 'amends the proposal' do
-      Repos::Calls.add_proposal call_id, proposal_model
-      expect(Repos::Calls).to receive(:amend_proposal).with(proposal_id, 'amend')
-      
-      post amend_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+      post send_artist_proposal_route, proposal
+      expect(Repos::Events).to receive(:amend_artist).with(proposal_id, 'amend')
+      post amend_artist_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+      expect(parsed_response['status']).to eq('success')
+    end
+  end
+
+  describe 'Modify_proposal' do
+
+    before(:each){
+      allow(SecureRandom).to receive(:uuid).and_return(profile_id)
+      proposal[:production_id] = production_id
+      proposal[:proposal_id] = proposal_id
+    }
+
+    it 'fails if the proposal does not exist' do
+      proposal[:proposal_id] = 'otter'
+      post modify_artist_proposal_route, proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
+    end
+
+    it 'fails if the user does not own the event' do
+      post logout_route
+      post login_route, otter_user
+      post create_profile_route, profile
+      allow(Repos::Events).to receive(:proposal_on_time?).and_return(true)
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+      post send_artist_proposal_route, proposal
+      post modify_artist_proposal_route, proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'modifies the proposal' do
+      post create_profile_route, profile
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+      post send_artist_proposal_route, proposal
+      artist[:proposals].first[:title] = 'otter_title'
+      artist[:proposals].first[:proposal_id] = proposal_id
+      proposal[:title] = 'otter_title'
+      expect(Repos::Events).to receive(:modify_artist).with(artist)
+      post modify_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
     end
   end

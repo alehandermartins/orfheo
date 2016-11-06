@@ -5,6 +5,7 @@ describe Repos::Events do
   let(:space_profile_id){'spe01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
   let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'b11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:space_proposal_id){'b21000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:event_id){'a5bc4203-9379-4de0-856a-55e1e5f3fac6'}
   let(:performance_id){'c5bc4203-9379-4de0-856a-55e1e5f3fac6'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
@@ -40,7 +41,7 @@ describe Repos::Events do
     {
       user_id: user_id,
       profile_id: space_profile_id,
-      proposal_id: proposal_id,
+      proposal_id: space_proposal_id,
       email: 'email',
       name: 'space_name',
       address: {
@@ -105,6 +106,25 @@ describe Repos::Events do
     it 'checks if matched element is already in any document' do
       expect(Repos::Events.exists? event_id).to eq(true)
       expect(Repos::Events.exists? 'otter').to eq(false)
+    end
+
+    it 'checks if a proposal exists' do
+      expect(Repos::Events.proposal_exists? proposal_id).to eq(false)
+      expect(Repos::Events.proposal_exists? space_proposal_id).to eq(false)
+      Repos::Events.add_artist event_id, artist
+      expect(Repos::Events.proposal_exists? proposal_id).to eq(true)
+      Repos::Events.add_space event_id, space
+      expect(Repos::Events.proposal_exists? space_proposal_id).to eq(true)
+    end
+
+    it 'gets the owner of an artist proposal' do
+      Repos::Events.add_artist event_id, artist
+      expect(Repos::Events.get_artist_proposal_owner proposal_id).to eq(user_id)
+    end
+
+    it 'gets the owner of a space proposal' do
+      Repos::Events.add_space event_id, space
+      expect(Repos::Events.get_space_proposal_owner space_proposal_id).to eq(user_id)
     end
 
     it 'checks if performers participate in an event' do
@@ -262,6 +282,8 @@ describe Repos::Events do
     end
 
     it 'adds some amend to the artist proposal' do
+      artist[:profile_id] = 'otter'
+      Repos::Events.add_artist event_id, artist
       Repos::Events.amend_artist proposal_id, 'amend'
       artist_proposal.merge! amend: 'amend'
       saved_entry = @db['events'].find({}).first
@@ -273,7 +295,7 @@ describe Repos::Events do
     end
 
     it 'adds some amend to the space proposal' do
-      Repos::Events.amend_space proposal_id, 'amend'
+      Repos::Events.amend_space space_proposal_id, 'amend'
       saved_entry = @db['events'].find({}).first
       expect(saved_entry['spaces'].first).to include({
         'user_id' => user_id,

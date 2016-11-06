@@ -15,6 +15,10 @@ module Repos
         @@events_collection.count(event_id: event_id) > 0
       end
 
+      def proposal_exists? proposal_id
+        @@events_collection.count({"$or": [{"artists.proposals.proposal_id": proposal_id},{"spaces.proposal_id": proposal_id}]}) > 0
+      end
+
       def performance_exists? event_id, performance
         @@events_collection.count({
           event_id: event_id,
@@ -32,6 +36,16 @@ module Repos
       def get_event_owner event_id
         event = grab({event_id: event_id}).first
         event[:user_id]
+      end
+
+      def get_space_proposal_owner proposal_id
+        event = grab({'spaces.proposal_id': proposal_id},{"spaces.user_id": true, 'spaces.proposal_id': true}).first
+        event[:spaces].detect{|space| space[:proposal_id] == proposal_id}[:user_id]
+      end
+
+      def get_artist_proposal_owner proposal_id
+        event = grab({"artists.proposals.proposal_id": proposal_id}, {'artists.user_id': true, 'artists.proposals.proposal_id': true}).first
+        event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}[:user_id]
       end
 
       def add_artist event_id, artist
@@ -69,7 +83,7 @@ module Repos
       end
 
       def amend_artist proposal_id, amend
-        event = grab({"artists.proposals.proposal_id": proposal_id}).first
+        event = grab({"artists.proposals.proposal_id": proposal_id}, {'artists.proposals': true}).first
         proposals = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| 
           proposal[:amend] = amend if proposal[:proposal_id] == proposal_id
           proposal[:proposal_id] == proposal_id
@@ -208,7 +222,8 @@ module Repos
 
       private
       def grab query, projection = {}
-        results = @@events_collection.find(query, projection)
+        results = @@events_collection.find(query) if projection.blank?
+        results = @@events_collection.aggregate([{'$match': query}, {'$project': projection}]) unless projection.blank?
         return [] unless results.count > 0
 
         results.map { |event|

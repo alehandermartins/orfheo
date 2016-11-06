@@ -170,7 +170,7 @@
         'margin-top':'1.5rem',
         'margin-bottom':'1rem'
       });
-      var _t2 = $('<div>').append($('<h5>').text('...o propone algo nuevo')).css({
+      var _t2 = $('<div>').append($('<h5>').text('...o propón algo nuevo')).css({
         'margin-bottom':'1rem'
       });;
       var _prodContainer = $('<div>').addClass('prodContainer-event-page');
