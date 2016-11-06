@@ -2693,6 +2693,7 @@ a.participant-program-card-own {
   border-bottom:1px solid $grey-3 ;
   border-top: 1px solid $grey-3;
   padding: 0.4rem 0.6rem;
+  position: relative;
 }
 
 .single-date-container-event-page{
@@ -2728,6 +2729,11 @@ a.participant-program-card-own {
     margin: 0;
     line-height: 1rem;
   }
+}
+
+.see-all-event-page{
+  font-size: $smallSize;
+  /* text-align: center; */
 }
 
 /*===============================================
