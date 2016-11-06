@@ -11,6 +11,11 @@
     "img" : "distrito008_eojj5t",
     "place": "Extramurs - Valencia",
     "address":{},
+    "description":"Distrito 008 es un evento anual con formato de festival urbano, de barrio, que nace en 2013 con la intención de dinamizar y promocionar cultural y comercialmente la zona 008 del barrio Extramurs de Valencia. <br>
+    Distrito 008 nace como una plataforma que pretende aglutinar a todos esos comercios, restaurantes y locales que convierten a este Distrito en lo que es: una de las zonas con más actividad cultural y más oferta de ocio, cultura y restauración de la ciudad, los vecinos residentes y a los visitantes de otros barrios con propóstio doble: vivir el barrio desde dentro y darlo a conocer fuera de él. Distrito 008 es un escaparate, un muestrario, una cata del barrio y una celebración. <br>
+    Es el momento en que locales y calles de Extramurs se llenan de arte, música, danza, teatro, circo, gastronomía, poesía, moda, actividades infantiles... <br>
+    Lema VII Edición: Somos Barrio / Som Barri. <br>
+    Somos el primer barrio construido fuera de las murallas de la ciudad, somos modernidad en la historia con La Finca Roja, el antiguo matadero reconvertido en La Petxina o Abastos, hemos sido zona de ocio, hemos sido el ensanche modesto, somos una zona gas- tronómica, hemos sido el Salvem con éxito (Salven el Botànic), pero hoy, somos barrio con Distrito 008." 
     "partners":[
     {
       name: 'PICUV',
@@ -164,6 +169,10 @@
     "place": "Benimaclet - Valencia",
     "address":{},
     "img" : "cartel_conFusion_2016_cut_kdyyoj",
+    "description": El Benimaclet conFusión festival es un acto de unión. Pretende romper con el concepto de público-privado, crear lugares donde compartir con desconocidos y acercarnos entre todos y todas. <br>
+    Cualquiera, a través de una  convocatoria gestionada previamente, puede ofrecer algo propio durante el festival: puede ser su arte, sus conocimientos, su tiempo o también un espacio propio.<br>
+    Este evento no tiene nigún animo de lucro, es gratuito para todo el publico y se ha organizado gracias a la colaboració de mucha gente. Quiere ser la demostración de que si cada uno comparte lo que tiene y siente, todo empieza a ser posible.<br>
+    Te invitamos a disfrutar, estar, fluir y sentir, sin olvidar, en nigún momento, que no puedes verlo todo.
     "partners":[
         {
           name: 'Caixa Fosca',

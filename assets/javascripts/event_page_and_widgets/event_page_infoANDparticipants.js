@@ -44,22 +44,28 @@
   ns.Widgets.EventTitle = function(){
     var _createdWidget = $('<div>').addClass('title-infoTab-event-page-container');
 
-    var _title = $('<h3>').text(Pard.CachedEvent.name);
+    var _title = $('<h3>').text(Pard.CachedEvent.name).addClass('title-infoTab-event-page');
 
     if(true){
-    var _callToAction = $('<button>').attr('type','button').html('¡Apúntate!').addClass('signUp-button-welcome-section');
+    var _callToAction = $('<button>').attr('type','button').html('¡Apúntate!').addClass('signUp-button-welcome-section').css({
+      'position': 'absolute',
+      'bottom': '1rem'
+    });
     _callToAction.on('click',function(){
        Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, '').render);
     });
-    _title.append(_callToAction);
+    var _btnContainer = $('<div>').append(_callToAction).addClass('btn-container-header-event');
+    var _titleContainer = $('<div>').append(_title).addClass('title-container-header-event');
+    _createdWidget.append(_titleContainer, _btnContainer);
     }
     else{
-      _title.addClass('title-infoTab-event-page');
+      _createdWidget.append(_title)
+      // _title.addClass('title-infoTab-event-page');
     }
 
     // var _line = $('<hr>').css('margin-top','0.75rem');
 
-    return _createdWidget.append(_title);
+    return _createdWidget;
 
   }
 
@@ -184,35 +190,31 @@
 
     var _textContainer = $('<div>').addClass('textContainer-infoTab-event-page');
     var _baseline = $('<p>').text(_eventInfo.baseline).addClass('baseline-infoTab-event-page');
-    var _textTitle = $('<h4>').text('Características básicas:').addClass('title-program-event-page');
+    // var _textTitle = $('<h4>').text('Características básicas:').addClass('title-program-event-page');
     var _text = $('<div>').append(
-      $('<p>').text('El Benimaclet conFusión festivales un acto de unión. Pretende romper con el concepto de público-privado, crear lugares donde compartir con desconocidos y acercarnos entre todos y todas.'),
-      $('<p>').text('Cualquiera, a través de una  convocatoria gestionada previamente, puede ofrecer algo propio durante el festival: puede ser su arte, sus conocimientos, su tiempo o también un espacio propio.'),
-      $('<p>').text(' Este evento no tiene nigún animo de lucro, es gratuito para todo el publico y se ha organizado gracias a la colaboració de mucha gente. Quiere ser la demostración de que si cada uno comparte lo que tiene y siente, todo empieza a ser posible.'),
-      $('<p>').text('Te invitamos a disfrutar, estar, fluir y sentir, sin olvidar, en nigún momento, que no puedes verlo todo.')).addClass('text-event-page-info');
+      $('<p>').html('bla bla bla').addClass('text-event-page-info'));
     var _image = $('<div>').append($.cloudinary.image(_eventInfo.img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p')).addClass('image-evet-page-info');
       if ($(window).width() < 640) {
-        var _infoContent = $('<div>').append(_text.prepend(_textTitle), _image);
+        var _infoContent = $('<div>').append(_text.prepend(_baseline), _image);
       }
       else{
-        var _infoContent = $('<div>').append( _image, _text.prepend(_textTitle));
+        var _infoContent = $('<div>').append( _image, _text.prepend(_baseline));
       }
-    _textContainer.append(_baseline, _infoContent);
+    _textContainer.append(_infoContent);
 
-    var _crowdfundingContainer = $('<div>').addClass('colaborators-container-info-event-page');
-    var _crowdfunding = $('<span>').html('<iframe frameborder="0" height="480px" src="//www.goteo.org/widget/project/benimaclet-confusion-festival" width="250px" scrolling="no"></iframe>').addClass('crowdfunding-widget-infoTab-event');
-    var _crowdtitle = $('<h4>').text('Financiación:').addClass('title-program-event-page');
-    var _crowdText = $('<div>').append($('<p>').text('La organización de un festival de este tipo requiere mucho tiempo y muchos esfuerzos. Lo hacemos prácticamente sin dinero, trabajando como voluntarios 10 meses al año y intentando a reducir los gastos lo más posible. Sin embargo, hay varios que no podemos evitar y que tenemos que cubrir.'),
-      $('<p>').text('Sin embargo, hemos decidido crear un evento gratuito sin escoger el camino fácil de encontrar un patrocinador comercial. El conFusión es un proyecto participativo, hecho por y para las personas, basado en el aportar lo que cada uno puede. Es por eso que preferimos financiarnos a través de un crowdfunding y dejar a cada quien decir como colaborar.'));
-    if ($(window).width() < 640) {
-      _crowdfundingContainer.append(_crowdtitle, _crowdText, $('<div>').append(_crowdfunding).css({'width':'100%', 'position':'relative', 'height':'480px'}));
-    }
-    else{
-      _crowdfundingContainer.append(_crowdfunding, _crowdtitle, _crowdText);
-    }
-    // var _sponsor = $('<div>');
+    // var _crowdfundingContainer = $('<div>').addClass('colaborators-container-info-event-page');
+    // var _crowdfunding = $('<span>').html('<iframe frameborder="0" height="480px" src="//www.goteo.org/widget/project/benimaclet-confusion-festival" width="250px" scrolling="no"></iframe>').addClass('crowdfunding-widget-infoTab-event');
+    // var _crowdtitle = $('<h4>').text('Financiación:').addClass('title-program-event-page');
+    // var _crowdText = $('<div>').append($('<p>').text('La organización de un festival de este tipo requiere mucho tiempo y muchos esfuerzos. Lo hacemos prácticamente sin dinero, trabajando como voluntarios 10 meses al año y intentando a reducir los gastos lo más posible. Sin embargo, hay varios que no podemos evitar y que tenemos que cubrir.'),
+    //   $('<p>').text('Sin embargo, hemos decidido crear un evento gratuito sin escoger el camino fácil de encontrar un patrocinador comercial. El conFusión es un proyecto participativo, hecho por y para las personas, basado en el aportar lo que cada uno puede. Es por eso que preferimos financiarnos a través de un crowdfunding y dejar a cada quien decir como colaborar.'));
+    // if ($(window).width() < 640) {
+    //   _crowdfundingContainer.append(_crowdtitle, _crowdText, $('<div>').append(_crowdfunding).css({'width':'100%', 'position':'relative', 'height':'480px'}));
+    // }
+    // else{
+    //   _crowdfundingContainer.append(_crowdfunding, _crowdtitle, _crowdText);
+    // }
    
-    _createdWidget.append(_header, _textContainer, _crowdfundingContainer);
+    _createdWidget.append(_header, _textContainer);
 
     return{
       render: function(){

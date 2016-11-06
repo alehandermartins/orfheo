@@ -2101,11 +2101,13 @@ EVENT PAGE
 .title-infoTab-event-page{
   text-align: center;
   margin-top: -0.5rem;
+  font-size: 2.1rem;
 }
 
 .title-infoTab-event-page-container{
   border-bottom: 1px solid $grey-3;
   width: 100%;
+  position: relative;
 }
 
 .bullhorn-icon-event-page{
@@ -2179,6 +2181,7 @@ EVENT PAGE
 .textContainer-infoTab-event-page{
   @include breakpoint(medium){
    margin-top: 2rem;
+   min-height: 30rem;
   }
 }
 
@@ -2186,7 +2189,6 @@ EVENT PAGE
   text-transform: uppercase;
   margin:0;
   margin-bottom: 2rem;
-  text-align: center;
 }
 
 
@@ -2652,7 +2654,7 @@ a.participant-program-card-own {
 }
 
 .content-form-selected{
-  background: $grey-1;
+  background-color: $grey-1;
   font-weight: bold;
 }
 
@@ -2678,8 +2680,16 @@ a.participant-program-card-own {
   margin-bottom: 1rem;
 }
 
+.btn-container-header-event{
+  display: inline-block;
+  width: 20%;
+}
 
-
+.title-container-header-event{
+  display: inline-block;
+  width: 80%;
+  padding: 0 1rem 0 0;
+}
 
 /*===============================================
 CROWDFUNDING

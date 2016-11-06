@@ -159,14 +159,22 @@
     //   _contentShown.show();
     // }
 
-    var _contentSel = $('<div>').attr('id','form-from-selector');
+    var _contentSel = $('<div>');
     // var _contentShown = _contentSel;
 
 
     var _createdWidget = $('<div>');
 
     if(profile.productions && profile.productions.length){
+      var _t1 = $('<div>').append($('<h5>').text('Apúntate con una propuesta de tu portfolio')).css({
+        'margin-top':'1.5rem',
+        'margin-bottom':'1rem'
+      });
+      var _t2 = $('<div>').append($('<h5>').text('...o propone algo nuevo')).css({
+        'margin-bottom':'1rem'
+      });;
       var _prodContainer = $('<div>').addClass('prodContainer-event-page');
+      _prodContainer.append(_t1);
       profile.productions.forEach(function(production){
         var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
         var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
@@ -182,15 +190,18 @@
             _prodBtn.removeClass('content-form-selected');
             _categorySelector.prop('selectedIndex',0);;
             _contentSel.empty();
+            _t2.show();
           }
           else{
             var _catProduction = production.category;
             var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, callbackSendProposal);
             _categorySelector.val(_catProduction);
+            _t2.hide();
             _form.setVal(production);
             _form.setCallback(function(){
               _closepopup();
             });
+            $('.content-form-selected').removeClass('content-form-selected');
             _prodBtn.addClass('content-form-selected');
             // var _content = $('<div>').attr('id','form-'+production.production_id);
             // _createdWidget.append(_content.append(_form.render()));
@@ -217,7 +228,9 @@
 
     _categorySelector.on('change',function(){
       $('.content-form-selected').removeClass('content-form-selected');
+      _categorySelector.addClass('content-form-selected').css('font-weight','normal');
       _contentSel.empty();
+      _t2.show();
       _emptyOption.css('display', 'none');
       var _catSelected = _categorySelector.val();
       var _form = _formTypeConstructor[profile.type](forms[profile.type][_catSelected], profile, _catSelected, callbackSendProposal);
@@ -228,7 +241,7 @@
       // _contentShowHide('form-from-selector');
     });
 
-    _createdWidget.append(_categorySelector, _contentSel);
+    _createdWidget.append(_t2, _categorySelector, _contentSel);
 
     return{
       render: function(){

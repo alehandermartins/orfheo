@@ -211,7 +211,7 @@ Pard.Event = function(the_event, status){
   var _whole = $('<div>').addClass('whole-container');
 
   var _footer = Pard.Widgets.Footer();
-  if(status == 'visitor') var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
+  if(status == 'visitor' || status == 'owner') var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
   else{var _header = Pard.Widgets.LoginHeader();}
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
   _whole.append(_header.render().removeClass('outsider-header'), _main.render().addClass('main-welcome-page'), _footer.render().removeClass('footer-outsider'));
