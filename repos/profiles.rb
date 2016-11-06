@@ -4,11 +4,28 @@ module Repos
 
       def for db
         @@profiles_collection = db['profiles']
+        profiles = grab({})
+        profiles.each{ |profile|
+          next unless profile[:address].blank?
+          profile[:address] = {
+            locality: profile[:city],
+            postal_code: profile[:zip_code]
+          }
+          profile.delete(:city)
+          profile.delete(:zip_code)
+        }
+        profiles.each{ |profile|
+          update profile
+        }
       end
 
       def update profile
         @@profiles_collection.update_one({profile_id: profile[:profile_id]},{
-          "$set": profile
+          "$set": profile,
+        },
+        {upsert: true})
+        @@profiles_collection.update_one({profile_id: profile[:profile_id]},{
+          "$unset": {'city': '', 'zip_code': ''}
         },
         {upsert: true})
       end
