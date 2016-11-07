@@ -276,7 +276,6 @@
           $.post(uri, function(data){
             if(data.status == "OK" && data.results.length > 0){
               _formVal['address']['location'] = data.results[0].geometry.location;
-              console.log( _formVal);
               if (callbackEvent){
                 Pard.Backend.createProfile(_formVal, callbackEvent);
               }

@@ -370,6 +370,60 @@ ns.Widgets.InputAddressSpace = function(label){
     var _placeForm = $('<div>').append(_inputPlace);
     for (var key in _inputForm){_placeForm.append(_inputForm[key].render().attr({disabled: 'true'}))};
 
+    var _mapCheckContainer = $('<div>');
+    var _seeMapText = $('<a>').text('Comprobar localización en el mapa').attr('href','#');
+
+    _seeMapText.click(function(){
+      var _addressInserted = addressValue();
+      console.log(_addressInserted);
+      var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressInserted.route + "+" + _addressInserted.street_number + "+" + _addressInserted.locality + "+" + _addressInserted.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+      var _location;
+      $.post(uri, function(data){
+        if(data.status == "OK" && data.results.length > 0){
+          _location = data.results[0].geometry.location;
+           var _map = $('<div>').attr('id', 'gmapProfile');
+          _map.css({'width': '100%', 'height': '250px'});
+
+          // gmapProfile.SetLocations(data, true);
+          // gmapProfile.ViewOnMap('0');
+          console.log(_location);
+          var gmapProfile;
+          gmapProfile = new Maplace({
+            locations: _location,
+            map_div: '#gmapProfile'
+            // map_options: {
+            //   mapTypeControl: false,
+            // }
+            // afterShow: function(index, location, marker){
+            //   _host = Pard.Widgets.RemoveAccents(_data[index].title);
+            //   var _iconNum = _data[index].order + 1;
+            //   // marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
+            //   marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/')
+            //   _printProgram(_program, _host, gmap, _data);
+            // },
+            // afterOpenInfowindow: function(index, location, marker){
+            //   var _iconNum = _data[index].order + 1;
+            //   // marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
+            //   marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/')
+            // },
+            // afterCloseClick: function(index){
+            //   _host = '';
+            //   _printProgram(_program, '', gmap, _data);
+            // }
+          }).Load();
+          console.log('yep')
+          _mapCheckContainer.append(_map);
+        }
+        else{
+          console.log('error');
+        }
+      });
+     
+    });
+
+    _mapCheckContainer.append(_seeMapText);
+    _placeForm.append(_mapCheckContainer);
+
     _inputPlace.on('focus', function(){
       if ($('.reveal[aria-hidden="false"]').html() && $(window).width()<1024){
         var _distanceInputTop = _inputPlace.offset().top;
