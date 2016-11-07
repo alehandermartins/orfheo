@@ -31,8 +31,13 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
+
     if (profile.program && profile.program.length){
+      var _now = new Date();
+      var _dayShow = new Date(profile.program[0].date);
+      if(_now.getTime() < (_dayShow.getTime()+604800000)){
       _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program,profile.type));
+      }
     }
 
    
@@ -55,9 +60,9 @@
     _contact.append($('<div>').append(_typeIcon, _type));
 
     var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
-      href: 'http://maps.google.com/maps?q='+profile['city']+' '+profile['zip_code'],
+      href: 'http://maps.google.com/maps?q='+profile['address']['locality']+' '+profile['address']['postal_code'],
       target: '_blank'
-      }).text(profile['city'])));
+      }).text(profile['address']['locality'])));
 
     _contact.append(_city);
 

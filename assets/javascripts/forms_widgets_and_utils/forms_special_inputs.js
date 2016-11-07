@@ -219,6 +219,68 @@
     }
   }
 
+ns.Widgets.InputAddressArtist = function(){
+  var componentForm = {
+      locality: 'long_name',
+      postal_code: 'short_name'
+    };
+
+    var _inputForm = {
+      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning();}),
+      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();})
+    }
+
+    // for (var field in _inputForm) _inputForm[field].setClass(field+'-artistForm');
+
+      var addressValue = function(){
+      var _addressValues = {};
+      var _check = true;
+      for (var field in _inputForm){
+        _addressValues[field] = _inputForm[field].getVal();
+      }
+      ['locality', 'postal_code'].forEach(function(field){
+        if (!(_addressValues[field])) {
+          _inputForm[field].addWarning();
+          _check = '';
+        }
+      })
+      if (_check){
+        // var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressValues.route + '+' + _addressValues.street_number + '+' + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+        // $.get(uri, function(data){
+        //   if(data.status == "OK" && data.results.length > 0){
+        //     _addressValues.location = data.results[0].geometry.location;
+        //   }
+        // });
+        return _addressValues;
+      } 
+      return _check;
+    }
+
+
+    var _placeForm = $('<div>');
+    for (var field in _inputForm){
+      _placeForm.append($('<div>').append(_inputForm[field].render()).addClass(field+'-ArtistForm'));
+    };
+
+    return {
+      render: function(){
+        return _placeForm;
+      },
+      getVal: function(){
+        return addressValue();
+      },
+      setVal: function(_val){
+        for(var field in _inputForm) {
+          _inputForm[field].setVal(_val[field]);
+        }
+      },
+      addWarning: function(){
+        addressValue();
+      }
+    }
+  }
+
+   
   
 ns.Widgets.InputAddressSpace = function(label){
    

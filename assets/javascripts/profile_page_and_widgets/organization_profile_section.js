@@ -41,9 +41,9 @@
     _contact.append($('<div>').append(_typeIcon, _type));
 
     var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
-      href: 'http://maps.google.com/maps?q='+profile['city']+' '+profile['zip_code'],
+      href: 'http://maps.google.com/maps?q='+profile['city']+' '+profile['postal_code'],
       target: '_blank'
-      }).text(profile['city'])));
+      }).text(profile['locality'])));
 
     _contact.append(_city);
 

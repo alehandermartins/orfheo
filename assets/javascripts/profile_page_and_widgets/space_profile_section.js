@@ -29,9 +29,15 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-    if (profile.program && profile.program.length){ 
-      _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program, profile.type));
+
+    if (profile.program && profile.program.length){
+      var _now = new Date();
+      var _dayShow = new Date(profile.program[0].date);
+      if(_now.getTime() < (_dayShow.getTime()+604800000)){
+      _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program,profile.type));
+      }
     }
+
 
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');

@@ -222,7 +222,7 @@
     var _baseline = $('<p>').text(_eventInfo.baseline).addClass('baseline-infoTab-event-page');
     // var _textTitle = $('<h4>').text('Características básicas:').addClass('title-program-event-page');
     var _text = $('<div>').append(
-      $('<p>').html('bla </p> bla <br>bla').addClass('text-event-page-info'));
+      $('<p>').html(_eventInfo.description).addClass('text-event-page-info'));
     var _image = $('<div>').append($.cloudinary.image(_eventInfo.img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p')).addClass('image-evet-page-info');
       if ($(window).width() < 640) {
         var _infoContent = $('<div>').append(_text.prepend(_baseline), _image);

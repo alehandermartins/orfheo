@@ -325,17 +325,31 @@
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Es el nombre de tu perfil de artista.')
     };
-    _form['city'] = {
-      label: Pard.Widgets.InputLabel('Ciudad *'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posible contacto.')
-    };
 
-    _form['zip_code'] = {
-      label: Pard.Widgets.InputLabel('Código postal *'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Para situar tu proyecto artístico en el mapa.')
+    _form['bio'] = {
+      label: Pard.Widgets.InputLabel('Biografía / Información'),
+      input: Pard.Widgets.TextArea(''),
+      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu vida artística-cultural.')
     };
+    _form['bio']['input'].setAttr('rows', 4);
+
+    _form['address'] = {
+      label: Pard.Widgets.InputLabel('Ciudad y Código postal *'),
+      input: Pard.Widgets.InputAddressArtist(''),
+      helptext: Pard.Widgets.HelpText('Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto.')
+    }
+
+    // _form['locality'] = {
+    //   label: Pard.Widgets.InputLabel('Ciudad *'),
+    //   input: Pard.Widgets.Input('', 'text'),
+    //   helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posible contacto.')
+    // };
+
+    // _form['postal_code'] = {
+    //   label: Pard.Widgets.InputLabel('Código postal *'),
+    //   input: Pard.Widgets.Input('', 'text'),
+    //   helptext: Pard.Widgets.HelpText('Para situar tu proyecto artístico en el mapa.')
+    // };
 
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
@@ -349,9 +363,10 @@
       helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
     };
     // _form['color'].input.setClass('color-input');
-   
 
-    var _requiredFields = ['name', 'city', 'zip_code', 'color'];
+
+
+    var _requiredFields = ['name', 'address', 'color'];
 
     return {
       render: function(){
@@ -429,17 +444,22 @@
       input: Pard.Widgets.Input('', 'text'),
       helptext: Pard.Widgets.HelpText('Es el nombre del colectivo.')
     };
-    _form['city'] = {
-      label: Pard.Widgets.InputLabel('Ciudad *'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posible contacto.')
-    };
+    // _form['locality'] = {
+    //   label: Pard.Widgets.InputLabel('Ciudad *'),
+    //   input: Pard.Widgets.Input('', 'text'),
+    //   helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posible contacto.')
+    // };
 
-    _form['zip_code'] = {
-      label: Pard.Widgets.InputLabel('Código postal *'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Para situar tu proyecto en el mapa.')
-    };
+    // _form['postal_code'] = {
+    //   label: Pard.Widgets.InputLabel('Código postal *'),
+    //   input: Pard.Widgets.Input('', 'text'),
+    //   helptext: Pard.Widgets.HelpText('Para situar tu proyecto en el mapa.')
+    // };
+    _form['address'] = {
+      label: Pard.Widgets.InputLabel('Ciudad y Código postal *'),
+      input: Pard.Widgets.InputAddressArtist(''),
+      helptext: Pard.Widgets.HelpText('Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto.')
+    }
 
     _form['personal_web'] = {
       label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
@@ -455,7 +475,7 @@
     // _form['color'].input.setClass('color-input');
    
 
-    var _requiredFields = ['name', 'city', 'zip_code', 'color'];
+    var _requiredFields = ['name', 'address', 'color'];
 
     return {
       render: function(){
@@ -482,10 +502,10 @@
 
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
-    var _requiredFields = ['name', 'city', 'zip_code', 'color','personal_web'];
+    var _requiredFields = ['name', 'address', 'color','personal_web'];
     var  _reorderedForm = {};
 
-    ['name', 'bio',  'city', 'zip_code','personal_web', 'color'].forEach(function(field){
+    ['name', 'bio',  'address','personal_web', 'color'].forEach(function(field){
       _reorderedForm[field] = _form[field]; 
     });
 
@@ -542,10 +562,10 @@
 
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
-    var _requiredFields = ['name', 'city', 'zip_code', 'color','personal_web'];
+    var _requiredFields = ['name', 'address', 'color','personal_web'];
     var  _reorderedForm = {};
 
-    ['name', 'bio',  'city', 'zip_code','personal_web', 'color'].forEach(function(field){
+    ['name', 'bio',  'address','personal_web', 'color'].forEach(function(field){
       _reorderedForm[field] = _form[field]; 
     });
 

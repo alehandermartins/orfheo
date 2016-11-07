@@ -30,7 +30,7 @@
     }
   }
 
-  ns.Widgets.CreateProfileCard = function(callbackEvent){
+  ns.Widgets.CreateProfileCard = function(callbackEvent, allowedProfile){
 
     var _createProfileCardContainer = $('<div>');
     var _createProfileCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
@@ -57,7 +57,7 @@
 
     _createProfileCard.click(function(){
       var _caller = $('<button>');
-      var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage(callbackEvent)});
+      var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage(callbackEvent, allowedProfile)});
       _caller.trigger('click');
     });
     _createProfileCardContainer.append(_createProfileCard);
@@ -70,7 +70,7 @@
   }
 
 
-  ns.Widgets.CreateProfileMessage = function(callbackEvent){
+  ns.Widgets.CreateProfileMessage = function(callbackEvent, allowedProfile){
      var _createdWidget = $('<div>').css({
       'margin-top': '1.5rem'
     });
@@ -89,11 +89,20 @@
       'margin-bottom': '0'
     }))
 
+    var _btnObj = {
+      artist: _artistButton,
+      space: _spaceButton
+    }
+
     // var _message = $('<div>').addClass('message-form');
     // _message.html('<p> Puedes apuntarte a la convocatoria del conFusión 2016 enviando una o más propuestas como artista o también ofreciendo tu espacio:</p>');
-
-    _createdWidget.append(_artistButton, _spaceButton);
-
+    
+      for (var typeProfile in _btnObj) {
+        if (allowedProfile){
+          if($.inArray(typeProfile,allowedProfile)>-1) _createdWidget.append(_btnObj[typeProfile]);
+        }
+        else {_createdWidget.append(_btnObj[typeProfile]);}
+      }
 
     return {
       render: function(){
@@ -179,7 +188,7 @@
   ns.Widgets.ArtistForm = function(callbackEvent){
 
     var _createdWidget = $('<div>');
-    var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.').addClass('message-form');
+    var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.');
     var _formContainer = $('<form>').addClass('popup-form');  
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
@@ -187,11 +196,20 @@
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
 
+
+    var _thumbnail = $('<div>');
+    var _url = [];
+    var _folder = 'profile_picture';
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 1);
+    var _photosLabel = $('<label>').text('Foto de perfil (máximo 500kb)');
+    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).addClass('profilePhoto-modifyProfile').css('margin-top','2rem');
+
     var _form = Pard.Forms.BasicArtistForm().render();
 
     for(var field in _form){
+      if (field === 'bio') _formContainer.append(_photosContainer);
       _formContainer.append(
-        $('<div>').addClass(field+'-ArtistForm').append(_form[field].label.render().append(_form[field].input.render()),
+        $('<div>').addClass(field+'-ArtistForm profile-form-field').append(_form[field].label.render().append(_form[field].input.render()),
         _form[field].helptext.render())
       );
     }
@@ -209,37 +227,117 @@
       return _check;
     }
 
-    var _getVal = function(){
+    var _getVal = function(url){
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
+      _submitForm['profile_picture'] = url;
       _submitForm['type'] = 'artist';
       return _submitForm;
     }
 
-    var _send = function(){
+    // var _getVal = function(){
+    //   for(var field in _form){
+    //      _submitForm[field] = _form[field].input.getVal();
+    //   };
+    //   _submitForm['type'] = 'artist';
+    //   return _submitForm;
+    // }
+
+    // var _send = function(){
+    //   var spinner =  new Spinner().spin();
+    //   $.wait(
+    //     '', 
+    //     function(){
+    //       $('body').append(spinner.el);           
+    //       if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
+    //       else Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+    //     },
+    //     function(){
+    //       spinner.stop();
+    //     }
+    //   )
+    // }
+
+    var _closepopup = {};
+
+
+    var _send = function(url){
       var spinner =  new Spinner().spin();
       $.wait(
         '', 
         function(){
-          $('body').append(spinner.el);           
-          if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
-          else Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+          $('body').append(spinner.el);
+          submitButton.attr('disabled',true);
+          var _formVal;
+          if (callbackEvent) _formVal = _getVal();
+          else _formVal = _getVal(url);
+          var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+          $.post(uri, function(data){
+            if(data.status == "OK" && data.results.length > 0){
+              _formVal['address']['location'] = data.results[0].geometry.location;
+              console.log( _formVal);
+              if (callbackEvent){
+                Pard.Backend.createProfile(_formVal, callbackEvent);
+              }
+              else {
+                Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+              }
+            }
+            else {
+              spinner.stop();
+              submitButton.attr('disabled',false);
+              var _content = $('<div>').addClass('very-fast reveal full');
+              _content.empty();
+              $('body').append(_content);
+              var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+              var _closepopupAlert = function(){
+                _popup.close();
+              }
+              var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopupAlert, function(){
+                  if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
+                  else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+                }));
+              _message.setCallback(function(){
+                _content.remove();
+                _popup.close();
+              }); 
+              _content.append(_message.render());
+              _popup.open();
+
+            }
+          });
         },
         function(){
+          submitButton.attr('disabled',false);
+          // _closepopup();
           spinner.stop();
         }
       )
+     
     }
-
-    var _closepopup = {};
 
     submitButton.on('click',function(){
       if(_filled() == true){
-        _closepopup();
-        _send();
+        if(_photos.dataLength() == false) _send(_url);
+        else{
+          _photos.submit();
+        }
       }
     });
+
+    _photos.cloudinary().bind('cloudinarydone', function(e, data){
+      _url.push(data['result']['public_id']);
+      if(_url.length >= _photos.dataLength()) _send(_url);
+    });
+
+
+    // submitButton.on('click',function(){
+    //   if(_filled() == true){
+    //     _closepopup();
+    //     _send();
+    //   }
+    // });
 
     _submitBtnContainer.append(submitButton);
     _formContainer.append(_invalidInput, _submitBtnContainer);
@@ -360,7 +458,7 @@
         },
         function(){
           submitButton.attr('disabled',false);
-          _closepopup();
+          // _closepopup();
           spinner.stop();
         }
       )

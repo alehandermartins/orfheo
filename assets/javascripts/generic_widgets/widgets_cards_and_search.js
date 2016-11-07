@@ -336,7 +336,7 @@
     if (profile.city) _profilecity = profile.city;
     else _profilecity = profile.address.locality; 
     if (_profilecity.length>24) _profilecity = _profilecity.substring(0,21)+'...';
-    var _city = $('<div>').addClass('city-profileCard').html(_profilecity);
+    var _city = $('<div>').addClass('locality-profileCard').html(_profilecity);
     var _category = $('<div>').addClass('category-profileCard');
     var _categories = '- ';
     var _keys = Object.keys(profile);

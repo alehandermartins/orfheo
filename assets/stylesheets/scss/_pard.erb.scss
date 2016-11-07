@@ -826,7 +826,7 @@ Profile Card
       line-height:3.2vw;
       height: 10vw;
 		}
-		.city-profileCard{
+		.locality-profileCard{
 			margin-top: 2.3vw;
 			font-size: 2.2vw;
 			padding-bottom: 2.7vw;
@@ -912,7 +912,7 @@ Profile Card
   display: block;
 }
 
-.city-profileCard{
+.locality-profileCard{
 	width:100%;
 	display:block;
 	text-align:center;
@@ -1210,6 +1210,10 @@ select.category-input{
 
 /*LARGE*/
 
+.profile-form-field{
+    margin: 2rem 0;
+}
+
 @media only screen and #{breakpoint(large)} {
 
   .components-input{
@@ -1225,13 +1229,15 @@ select.category-input{
     width: 12rem;
   }
 
-  .city-ArtistForm, .city-modifyProfile{
+  .locality-ArtistForm, .locality-modifyProfile{
     width: 17rem;
     display: inline-block;
     margin-right: 3rem;   
   }
 
-  .zip_code-ArtistForm, .zip_code-modifyProfile{
+
+
+  .postal_code-ArtistForm, .postal_code-modifyProfile{
     width: 13rem;
     display: inline-block;  
   }
@@ -1265,6 +1271,13 @@ select.category-input{
 
   .name-SpaceForm, .address-SpaceForm, .personal_web-SpaceForm, .links-SpaceForm{
     margin-bottom: 1.5rem;
+  }
+
+  .name-ArtistForm{
+    width: 17rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+    vertical-align: top;
   }
 
   .color-SpaceForm{
@@ -1404,14 +1417,15 @@ select.category-input{
   .profilePhoto-modifyProfile{
     display: inline-block;
     margin-left: 4rem;
-    position: absolute;
-    margin-top: 0.8rem;  
+    position: relative;
+    margin-top: 0.4rem;  
   }
 
   .name-modifyProfile{
     width: 17rem;
     display: inline-block;  
-    margin-top: 1.2rem;    
+    margin-top: 1rem;    
+    vertical-align: top;
   }
 
   .color-modifyProfile{
@@ -1422,8 +1436,14 @@ select.category-input{
     margin-top: -0.5rem;
   }
 
-  .artist-modifyProfile .bio-modifyProfile {
+
+
+  .artist-modifyProfile .bio-modifyProfile, .bio-ArtistForm {
     margin-top: -0.5rem;
+  }
+
+  .bio-ArtistForm {
+    margin-top: 0rem;
   }
 
 }
@@ -1441,6 +1461,10 @@ select.category-input{
 
 .field-ArtistCall, .field-modifyProduction{
   margin-bottom: 1.5rem;
+}
+
+.field-modifyProduction{
+  margin-bottom: 2rem;
 }
 
 .title-ArtistCall{
