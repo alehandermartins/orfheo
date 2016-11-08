@@ -1,23 +1,26 @@
 class LoginController < BaseController
 
   post '/register_attempt' do
-    check_params params[:email], params[:password]
-    check_non_existing_user params[:email]
+    scopify email: true, password: true
+    check_params email, password
+    check_non_existing_user email
     register_user params
     success
   end
 
-  get '/validate/:uuid' do
-    user_id = validated_user params[:uuid]
+  get '/validate' do
+    user_id = validated_user params[:id]
     redirect '/' unless user_id
     session[:identity] = user_id
-    redirect 'http://www.orfheo.org/users/'
+    redirect "http://www.orfheo.org/event?id=#{params[:event_id]}" if Repos::Events.exists? params[:event_id]
+    redirect "http://www.orfheo.org/users/"
   end
 
   post '/login_attempt' do
-    check_params params[:email], params[:password]
-    check_existing_user params[:email]
-    user_id = user_id_for params[:email], params[:password]
+    scopify email: true, password: true, event_id: true
+    check_params email, password
+    check_existing_user email
+    user_id = user_id_for email, password
     session[:identity] = user_id
     success
   end
@@ -28,9 +31,10 @@ class LoginController < BaseController
   end
 
   post '/forgotten_password' do
-    check_invalid_email params[:email]
-    check_existing_user params[:email]
-    send_new_validation_code_to params[:email]
+    scopify email: true
+    check_invalid_email email
+    check_existing_user email
+    send_new_validation_code_to email
     success
   end
 

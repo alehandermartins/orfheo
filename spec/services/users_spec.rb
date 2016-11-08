@@ -11,16 +11,27 @@ describe Services::Users do
   let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
 
   let(:user){
-      {
-        user_id: user_id,
-        email: 'email@test.com',
-        password: 'password',
-        validation: false,
-        validation_code: validation_code
-      }
+    {
+      user_id: user_id,
+      email: 'email@test.com',
+      password: 'password',
+      validation: false,
+      validation_code: validation_code
     }
+  }
+
+  let(:event){
+    {
+      event_id: 'event_id',
+      event_name: 'event_name'
+    }
+  }
 
   describe 'Registration' do
+
+    before(:each){
+      allow(SecureRandom).to receive(:uuid).and_return(user_id)
+    }
 
     it 'registers and unvalidated user' do
       expect(Repos::Users).to receive(:add).with(hash_including(user_hash))
@@ -29,7 +40,13 @@ describe Services::Users do
 
     it 'delivers welcome email' do
       expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(user_hash), :welcome)
+      Services::Users.register user_hash
+    end
 
+    it 'delivers event email' do
+      user_hash[:event_id] = 'event_id'
+      allow(Repos::Events).to receive(:get_event_name).and_return('event_name')
+      expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(password: 'password', email: 'email@test.com'), :event, event)
       Services::Users.register user_hash
     end
   end

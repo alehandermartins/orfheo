@@ -2,6 +2,7 @@ describe Services::Mails do
 
   let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
   let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:event_id){'a5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
   let(:user){
     {
@@ -10,6 +11,13 @@ describe Services::Mails do
       password: 'password',
       validation: false,
       validation_code: validation_code
+    }
+  }
+
+  let(:event){
+    {
+      event_id: event_id,
+      event_name: 'event_name'
     }
   }
 
@@ -29,11 +37,23 @@ describe Services::Mails do
   describe 'Welcome mail' do
 
     it 'renders the subject' do
-      expect(welcome_mail.subject).to eq('Bienvenido/a a orfheo')
+      expect(welcome_mail.subject).to eq('Bienvenido/a a Orfheo')
     end
 
     it 'assigns the validation code to the body' do
       expect(welcome_mail.body).to include(validation_code)
+    end
+  end
+
+  describe 'Event mail' do
+    let(:event_mail){ Services::Mails.deliver_mail_to user, :event, event}
+
+    it 'renders the subject' do
+      expect(event_mail.subject).to eq('Bienvenido/a a Orfheo')
+    end
+
+    it 'assigns the validation code and event code to the body' do
+      expect(event_mail.body).to include(validation_code + '&event_id=' + event_id)
     end
   end
 

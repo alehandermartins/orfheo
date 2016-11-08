@@ -11,6 +11,7 @@ describe LoginController do
 
   let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
   let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
+  let(:event_id){'a5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
   let(:user){
     {
@@ -83,14 +84,14 @@ describe LoginController do
 
   describe 'Validation' do
 
-    let(:validation_route){'/login/validate/' + validation_code}
+    let(:validation_route){'/login/validate?id=' + validation_code}
 
     before(:each){
       Repos::Users.add user
     }
 
     it 'redirects to registration if the validation code does not exist' do
-      get '/login/validate/otter'
+      get '/login/validate?id=otter'
 
       expect(last_response.location).to eq('http://example.org/')
     end
@@ -105,6 +106,13 @@ describe LoginController do
 
       expect(session[:identity]).to eq(user_id)
       expect(last_response.location).to eq('http://www.orfheo.org/users/')
+    end
+
+    it 'redirects to event page if event_id is provided' do
+      allow(Repos::Events).to receive(:exists?).with(event_id).and_return(true)
+      get '/login/validate?id=' + validation_code + '&event_id=' + event_id
+
+      expect(last_response.location).to eq('http://www.orfheo.org/event?id=' + event_id)
     end
   end
 
