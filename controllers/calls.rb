@@ -35,16 +35,18 @@ class CallsController < BaseController
   end
 
   post '/users/amend_artist_proposal' do
-    scopify proposal_id: true, amend: true
+    scopify event_id: true, proposal_id: true, amend: true
     check_proposal_exists! proposal_id
+    check_deadline! event_id
     check_artist_proposal_ownership! proposal_id
     Repos::Events.amend_artist proposal_id, amend
     success
   end
 
   post '/users/amend_space_proposal' do
-    scopify proposal_id: true, amend: true
+    scopify event_id: true, proposal_id: true, amend: true
     check_proposal_exists! proposal_id
+    check_deadline! event_id
     check_space_proposal_ownership! proposal_id
     Repos::Events.amend_space proposal_id, amend
     success
@@ -76,6 +78,22 @@ class CallsController < BaseController
     success ({profile_id: profile_id})
   end
 
+  post '/users/delete_artist_proposal' do
+    scopify event_id: true, proposal_id: true
+    check_event_ownership! event_id
+    check_deadline! event_id
+    delete_artist_proposal proposal_id
+    success
+  end
+
+  post '/users/delete_space_proposal' do
+    scopify event_id: true, proposal_id: true
+    check_event_ownership! event_id
+    check_deadline! event_id
+    delete_space_proposal proposal_id
+    success
+  end
+
   post '/users/own_proposal' do
     scopify call_id: true
     params[:profile_id] = SecureRandom.uuid + '-own'
@@ -93,13 +111,6 @@ class CallsController < BaseController
     check_event_ownership! event_id
     whitelist = Util.arrayify_hash params[:whitelist]
     Repos::Events.add_whitelist event_id, whitelist
-    success
-  end
-
-  post '/users/delete_proposal' do
-    scopify profile_id: true, proposal_id: true
-    check_event_ownership! proposal_id
-    delete_proposal proposal_id
     success
   end
 
