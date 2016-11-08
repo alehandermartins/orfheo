@@ -381,7 +381,7 @@ ns.Widgets.InputAddressSpace = function(label){
 
     _seeMapText.on('click',function(){
       _errorBox.empty()
-      _mapCheckContainer.append();
+      // _mapCheckContainer.append();
       var _addressInserted = addressValue();
       var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressInserted.route + "+" + _addressInserted.street_number + "+" + _addressInserted.locality + "+" + _addressInserted.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
       var _location;
@@ -441,7 +441,41 @@ ns.Widgets.InputAddressSpace = function(label){
         var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
         $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
       }
-    })
+    });
+
+    var _displayMap = function(location){
+      _geocod = location;
+      var _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
+      if (_check){ 
+        _map.css({'width': '21rem', 'height': '13rem', 'display':'inline-block'});
+        _mapBox.css({'padding-bottom':'2rem', 'margin-top':'0.5rem'}); 
+        geomap = new Maplace({
+          locations: _location,
+          map_div: '#gmapProfile',
+          map_options: {
+            mapTypeControl: false
+          }
+        }).Load();
+        console.log('here');
+        var _geocodField = $('<div>');
+        _latField.setVal(_geocod.lat);
+        _lonField.setVal(_geocod.lng);
+        var _latLabel = $('<label>').text('Latitud').append(_latField.render());
+        var _lonLabel = $('<label>').text('Longitud').append(_lonField.render());
+        var _geoCodText = $('<p>').append('Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ', _hereBtn,'.');
+        _hereBtn.click(function(){
+          _geocod = {lat: _latField.getVal(), lng: _lonField.getVal()};
+          _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
+          geomap.SetLocations(_location, true);
+        });
+        // geomap.SetLocations(_location, true);
+        _geocodCont.append(_latLabel, _lonLabel, _geoCodText)
+        _check = false;
+      }
+      else{
+        geomap.SetLocations(_location, true);
+      }
+    }
 
     return {
       render: function(){
@@ -461,6 +495,9 @@ ns.Widgets.InputAddressSpace = function(label){
       },
       getLocation: function(){
         return _geocod;
+      },
+      displayMap: function(location){
+        _displayMap(location);
       }
     }
   }

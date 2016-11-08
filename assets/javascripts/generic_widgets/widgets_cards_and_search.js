@@ -317,6 +317,10 @@
     var _photoContainer = $('<div>').addClass('photo-container-card');
     _photoContainer.css({background: profile.color});  
 
+    if (profile.type == 'space' && !(profile.profile_picture)){ 
+      if (profile.photos) profile.profile_picture = [profile.photos[0]];
+    } 
+
     if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
         { format: 'jpg', width: 164, height: 60,

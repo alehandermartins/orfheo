@@ -411,11 +411,19 @@
       helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales')
     };
 
+
     _form['links'] = {
       label: Pard.Widgets.InputLabel('Materiales online'),
       input: Pard.Widgets.InputMultimedia(),
       helptext: Pard.Widgets.HelpText('Añade vídeos, fotos y audios desde tus redes sociales.')
     };
+
+    _form['bio'] = {
+      label: Pard.Widgets.InputLabel('Descripción / Información'),
+      input: Pard.Widgets.TextArea(''),
+      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu espacio.')
+    };
+    _form['bio']['input'].setAttr('rows', 4);
 
     _form['color'] = {
       label: Pard.Widgets.InputLabel('Escoge un color'),
@@ -525,12 +533,12 @@
 
   	var _form = Pard.Forms.BasicSpaceForm().render();
 
-    _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Descripción / Información'),
-      input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu espacio.')
-    };
-    _form['bio']['input'].setAttr('rows', 4);
+    // _form['bio'] = {
+    //   label: Pard.Widgets.InputLabel('Descripción / Información'),
+    //   input: Pard.Widgets.TextArea(''),
+    //   helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu espacio.')
+    // };
+    // _form['bio']['input'].setAttr('rows', 4);
 
 
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');

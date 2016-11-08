@@ -9,11 +9,40 @@
 
     var _photoContainer = $('<div>');
 
+    if (profile.photos && !(profile.profile_picture)){ 
+      profile.profile_picture = [profile.photos[0]];
+      profile.photos.shift(); 
+    }
+
     if(profile.profile_picture){
       var _img = $.cloudinary.image(profile['profile_picture'][0],
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
       _photoContainer.addClass('section-profilePhoto-container').append(_img);
+      var _popup 
+
+      _img.one('mouseover', function(){
+        var _popupImg = $.cloudinary.image(profile['profile_picture'][0],{ format: 'jpg',  width: 750, effect: 'saturation:50' });
+        var _popupWidget = $('<div>').addClass('fast reveal full');    
+        var _outerContainer = $('<div>').addClass('vcenter-outer');
+        var _innerContainer = $('<div>').addClass('vcenter-inner');
+        var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+        _closeBtn.append($('<span>').html('&times;'));
+        _popup = new Foundation.Reveal(_popupWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
+        _closeBtn.click(function(){
+          _popup.close();
+        });
+        var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
+        _innerContainer.append(_popupContent);
+        _popupWidget.append(_outerContainer.append(_innerContainer));
+        $('body').append(_popupWidget);
+      });
+
+      _img.click(function(){
+        _popup.open();
+      });
+
+      _img.css({cursor:'zoom-in'});
     }
     else _photoContainer.css({'background-color': profile.color}).addClass('section-profilePhoto-container-noPhoto');
 

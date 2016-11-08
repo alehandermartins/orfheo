@@ -234,39 +234,16 @@
       return _submitForm;
     }
 
-    // var _getVal = function(){
-    //   for(var field in _form){
-    //      _submitForm[field] = _form[field].input.getVal();
-    //   };
-    //   _submitForm['type'] = 'artist';
-    //   return _submitForm;
-    // }
-
-    // var _send = function(){
-    //   var spinner =  new Spinner().spin();
-    //   $.wait(
-    //     '', 
-    //     function(){
-    //       $('body').append(spinner.el);           
-    //       if (callbackEvent)  Pard.Backend.createProfile(_getVal(), callbackEvent);
-    //       else Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
-    //     },
-    //     function(){
-    //       spinner.stop();
-    //     }
-    //   )
-    // }
-
     var _closepopup = {};
 
 
     var _send = function(url){
-      var spinner =  new Spinner().spin();
-      $.wait(
-        '', 
-        function(){
-          $('body').append(spinner.el);
-          submitButton.attr('disabled',true);
+      // var spinner =  new Spinner().spin();
+      // $.wait(
+      //   '', 
+      //   function(){
+          // $('body').append(spinner.el);
+          // submitButton.attr('disabled',true);
           var _formVal;
           // if (callbackEvent) _formVal = _getVal();
           // else 
@@ -306,23 +283,42 @@
 
             }
           });
-        },
-        function(){
-          submitButton.attr('disabled',false);
-          // _closepopup();
-          spinner.stop();
-        }
-      )
+      //   },
+      //   function(){
+      //     submitButton.attr('disabled',false);
+      //     // _closepopup();
+      //     spinner.stop();
+      //   }
+      // )
      
     }
 
+    var spinner =  new Spinner()
+
     submitButton.on('click',function(){
-      if(_filled() == true){
-        if(_photos.dataLength() == false) _send(_url);
-        else{
-          _photos.submit();
+      spinner.spin();
+      $.wait(
+        '',
+        function(){ 
+          $('body').append(spinner.el);
+          submitButton.attr('disabled',true);
+          if(_filled() == true){
+            if(_photos.dataLength() == false) _send(_url);
+            else{
+              _photos.submit();
+            }
+          }
+        },
+        function(){
+          setTimeout(
+            function(){
+              submitButton.attr('disabled',false);
+              spinner.stop(); 
+            }, 
+            1000
+          );
         }
-      }
+      )
     });
 
     _photos.cloudinary().bind('cloudinarydone', function(e, data){
@@ -358,12 +354,12 @@
     var _url = [];
 
     var _folder = '/photos';
-    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 4);
+    var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 5);
 
     // _formContainer.append(_photos.render(), _thumbnail);
 
     var _form = Pard.Forms.BasicSpaceForm().render();
-    var _photosLabel = $('<label>').text('Fotos del espacio (máximo 4, tamaño inferior a 500kb)');
+    var _photosLabel = $('<label>').text('Fotos del espacio (máximo 4, tamaño inferior a 500kb). La primera foti será tu foto de perfil.');
     var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css({'margin-bottom':'1.2rem', 'margin-top':'2rem'});
 
     for(var field in _form){
@@ -399,82 +395,83 @@
 
     var _closepopup = function(){};
 
+    var spinner =  new Spinner();
+    
     var _send = function(url){
-      var spinner =  new Spinner().spin();
-      $.wait(
-        '', 
-        function(){
-          $('body').append(spinner.el);
-          submitButton.attr('disabled',true);
-          var _formVal;
-          // if (callbackEvent) _formVal = _getVal();
-          // else 
-          _formVal = _getVal(url);
-          console.log(_form['address']['input'].getLocation());
-          if (_form['address']['input'].getLocation()){
-            _formVal['address']['location'] = _form['address']['input'].getLocation();
+      var _formVal = _getVal(url);
+      if (_form['address']['input'].getLocation()){
+        _formVal['address']['location'] = _form['address']['input'].getLocation();
+        if (callbackEvent){
+              Pard.Backend.createProfile(_formVal, callbackEvent);
+            }
+        else {
+          Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+        }
+      }
+      else{
+        var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+        $.post(uri, function(data){
+          console.log(data);
+          if(data.status == "OK" && data.results.length > 0){
+            _formVal['address']['location'] = data.results[0].geometry.location;
+            console.log( _formVal);
             if (callbackEvent){
-                  Pard.Backend.createProfile(_formVal, callbackEvent);
-                }
+              Pard.Backend.createProfile(_formVal, callbackEvent);
+            }
             else {
               Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
             }
           }
-          else{
-            var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-            $.post(uri, function(data){
-              console.log(data);
-              if(data.status == "OK" && data.results.length > 0){
-                _formVal['address']['location'] = data.results[0].geometry.location;
-                console.log( _formVal);
-                if (callbackEvent){
-                  Pard.Backend.createProfile(_formVal, callbackEvent);
-                }
-                else {
-                  Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
-                }
-              }
-              else {
-                spinner.stop();
-                submitButton.attr('disabled',false);
-                var _content = $('<div>').addClass('very-fast reveal full');
-                _content.empty();
-                $('body').append(_content);
-                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-                var _closepopupAlert = function(){
-                  _popup.close();
-                }
-                var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopupAlert, function(){
-                    if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
-                    else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
-                  }));
-                _message.setCallback(function(){
-                  _content.remove();
-                  _popup.close();
-                }); 
-                _content.append(_message.render());
-                _popup.open();
+          else {
+            spinner.stop();
+            submitButton.attr('disabled',false);
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _closepopupAlert = function(){
+              _popup.close();
+            }
+            var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopupAlert, function(){
+                if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
+                else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+              }));
+            _message.setCallback(function(){
+              _content.remove();
+              _popup.close();
+            }); 
+            _content.append(_message.render());
+            _popup.open();
 
-              }
-            })
           }
-        },
-        function(){
-          submitButton.attr('disabled',false);
-          // _closepopup();
-          spinner.stop();
-        }
-      )
-     
+        })
+      }
     }
 
     submitButton.on('click',function(){
-      if(_filled() == true){
-        if(_photos.dataLength() == false) _send(_url);
-        else{
-          _photos.submit();
+      spinner.spin();
+      $.wait(
+        '',
+        function(){ 
+          $('body').append(spinner.el);
+          submitButton.attr('disabled',true);
+          if(_filled() == true){
+            if(_photos.dataLength() == false) _send(_url);
+            else{
+              _photos.submit();
+            }
+          }
+        },
+        function(){
+          setTimeout(
+            function(){
+              submitButton.attr('disabled',false);
+              spinner.stop(); 
+            }, 
+            1000
+          );
         }
-      }
+      )
     });
 
     _photos.cloudinary().bind('cloudinarydone', function(e, data){

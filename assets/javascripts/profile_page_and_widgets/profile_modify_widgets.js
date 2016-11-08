@@ -61,6 +61,7 @@
       });
     }
 
+
     var _folder = 'profile_picture';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 1);
 
@@ -84,9 +85,20 @@
     };
 
     for(var field in _form){
-      if (profile.type === 'space'&& field === 'address') _formContainer.append(_photosContainer);
-      if ((profile.type === 'artist' || profile.type === 'organization') && field === 'bio') _formContainer.append(_photosContainer);
-      if(field != 'links') _formContainer.append($('<div>').addClass(field+'-modifyProfile').addClass('field-modifyProduction').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
+      if (profile.type === 'space'&& field === 'address') {_formContainer.append(_photosContainer);
+        var _addressWidget = _form[field].input;
+        $.wait(
+        '',
+        function(){ 
+          _formContainer.append($('<div>').addClass(field+'-modifyProfile').addClass('field-modifyProduction').append(_form[field].label.render().append(_addressWidget.render()), _form[field].helptext.render()));
+        },
+        function(){
+        _addressWidget.displayMap(profile['address']['location']);
+        }
+        )
+      }
+      else if ((profile.type === 'artist' || profile.type === 'organization') && field === 'bio') _formContainer.append(_photosContainer);
+      if(field != 'links' && !(profile.type === 'space'&& field === 'address')) _formContainer.append($('<div>').addClass(field+'-modifyProfile').addClass('field-modifyProduction').append(_form[field].label.render().append(_form[field].input.render()), _form[field].helptext.render()));
     };
 
     _formContainer.addClass(profile['type']+'-modifyProfile');
@@ -129,48 +141,42 @@
 
     var _send = function(url){
       var _formVal = _getVal(url);
+      if (_form['address']['input'].getLocation()){
+        _formVal['address']['location'] = _form['address']['input'].getLocation();
+         Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+          _closepopup();
+      }
+      else{
       // if (_formVal.type == 'space'){
-      var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-      $.get(uri, function(data){
-        if(data.status == "OK" && data.results.length > 0){
-          _formVal.address.location = data.results[0].geometry.location;
-          Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
-          _closepopup();
-        }
-        else{
-        var _content = $('<div>').addClass('very-fast reveal full');
-        _content.empty();
-        $('body').append(_content);
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        var _closepopup2 = function(){
-          _popup.close();
-        }
-        var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup2, function(){
-           Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
-          _closepopup();
-        }));
+        var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+        $.get(uri, function(data){
+          if(data.status == "OK" && data.results.length > 0){
+            _formVal.address.location = data.results[0].geometry.location;
+            Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+            _closepopup();
+          }
+          else{
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _closepopup2 = function(){
+              _popup.close();
+            }
+            var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup2, function(){
+               Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+              _closepopup();
+            }));
 
-        _message.setCallback(function(){
-          _content.remove();
-          _popup.close();
-        }); 
-        _content.append(_message.render());
-        _popup.open();
-
-        }
-      });
-      // }
-      // else {
-      //   // var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.city + '+' + _formVal.zip_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
-      //   // $.get(uri, function(data){
-      //   //   if(data.status == "OK" && data.results.length > 0){
-      //   //     console.log(data.results[0].geometry.location);
-      //   //     _formVal['location'] = data.results[0].geometry.location;
-      //   //   }
-      //   //   Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
-      //   // });
-      //   Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
-      // }
+            _message.setCallback(function(){
+              _content.remove();
+              _popup.close();
+            }); 
+            _content.append(_message.render());
+            _popup.open();
+          }
+        });
+      }
     }
 
     submitButton.on('click',function(){

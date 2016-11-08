@@ -282,6 +282,10 @@
         _photo.val(null);
 
         if (_data.length + _url.length >= maxAmount){
+          if(maxAmount == 5){ 
+            Pard.Widgets.Alert('','Máximo cinco imagenes.');
+            uploadErrors.push('cuatro img');
+          }
           if(maxAmount == 4){ 
             Pard.Widgets.Alert('','Máximo cuatro imagenes.');
             uploadErrors.push('cuatro img');
