@@ -152,6 +152,7 @@
   ns.Widgets.FormManager = function(forms, profile, callbackSendProposal){
     var _createdWidget = $('<div>');
     var _closepopup = {};
+    var _production_id;
     var _typeFormsCatArray = Object.keys(forms);
     if($.inArray(profile.type, _typeFormsCatArray) < 0){
       var _okProfiles = '';
@@ -195,14 +196,16 @@
           _prodContainer.append(_prodBtn);
           _prodBtn.click(function(){
             if (_prodBtn.hasClass('content-form-selected')){
+              _production_id = false;
               _prodBtn.removeClass('content-form-selected');
               _categorySelector.prop('selectedIndex',0);;
               _contentSel.empty();
               _t2.show();
             }
             else{
-              var _catProduction = production.category;
-              var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, callbackSendProposal);
+              _production_id = production.production_id;
+              var _catProduction = Pard.Widgets.Dictionary(production.category).render();
+              var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, _production_id, callbackSendProposal);
               _categorySelector.val(_catProduction);
               _t2.hide();
               _form.setVal(production);
@@ -241,8 +244,9 @@
         _contentSel.empty();
         if (_t2) _t2.show();
         _emptyOption.css('display', 'none');
+        _production_id = false;
         var _catSelected = _categorySelector.val();
-        var _form = _formTypeConstructor[profile.type](forms[profile.type][_catSelected], profile, _catSelected, callbackSendProposal);
+        var _form = _formTypeConstructor[profile.type](forms[profile.type][_catSelected], profile, _catSelected, _production_id, callbackSendProposal);
         _form.setCallback(function(){
           _closepopup();
         })
@@ -272,7 +276,7 @@
     }
   }
 
-  ns.Widgets.ArtistCallForm = function(form, profile, catSelected, callbackSendProposal){
+  ns.Widgets.ArtistCallForm = function(form, profile, catSelected, production_id, callbackSendProposal){
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
@@ -409,8 +413,8 @@
       _submitForm['profile_id'] = profile.profile_id;
       _submitForm['type'] = profile.type;
       _submitForm['category'] = _orfheoCategory;
+      if (production_id) _submitForm['production_id'] = production_id; 
       if (!(form['subcategory'])) _submitForm['subcategory'] = catSelected;
-    
       if (form['photos']) _submitForm['photos'] = url;
       return _submitForm;
     }
