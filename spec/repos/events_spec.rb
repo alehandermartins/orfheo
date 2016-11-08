@@ -102,6 +102,10 @@ describe Repos::Events do
     it 'retrieves the owner of the event' do
       expect(Repos::Events.get_event_owner(event_id)).to eq(user_id)
     end
+
+    it 'retrieves the name of the event' do
+      expect(Repos::Events.get_event_name(event_id)).to eq('event_name')
+    end
   end
 
   describe 'Exists?' do
@@ -202,6 +206,7 @@ describe Repos::Events do
       artist_proposal[:event_id] = event_id
       artist_proposal[:event_name] = 'event_name'
       artist_proposal[:call_id] = call_id
+      artist_proposal[:deadline] = event[:deadline]
       expect(Repos::Events.my_artist_proposals profile_id).to eq([artist_proposal])
     end
 
@@ -210,6 +215,7 @@ describe Repos::Events do
       space[:event_id] = event_id
       space[:event_name] = 'event_name'
       space[:call_id] = call_id
+      space[:deadline] = event[:deadline]
       expect(Repos::Events.my_space_proposals space_profile_id).to eq([space])
     end
   end

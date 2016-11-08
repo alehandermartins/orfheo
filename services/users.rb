@@ -4,8 +4,19 @@ module Services
 
       def register params
         user = User.new params
-        Services::Mails.deliver_mail_to user.to_h, :welcome
+        if Repos::Events.exists?(params[:event_id])
+          Services::Mails.deliver_mail_to user.to_h, :event, event(params[:event_id])
+        else
+          Services::Mails.deliver_mail_to user.to_h, :welcome
+        end
         Repos::Users.add user.to_h
+      end
+
+      def event event_id
+        {
+          event_id: event_id,
+          event_name: Repos::Events.get_event_name(event_id)
+        }
       end
 
       def exists? email

@@ -15,6 +15,11 @@ module Repos
         @@events_collection.count(event_id: event_id) > 0
       end
 
+      def get_event_name event_id
+        event = grab({event_id: event_id}).first
+        event[:name]
+      end
+
       def proposal_exists? proposal_id
         @@events_collection.count({"$or": [{"artists.proposals.proposal_id": proposal_id},{"spaces.proposal_id": proposal_id}]}) > 0
       end
@@ -242,6 +247,7 @@ module Repos
             proposal[:event_id] = event[:event_id]
             proposal[:event_name] = event[:name]
             proposal[:call_id] = event[:call_id]
+            proposal[:deadline] = event[:deadline]
           }
         }.flatten
       end
@@ -253,6 +259,7 @@ module Repos
           proposal[:event_id] = event[:event_id]
           proposal[:event_name] = event[:name]
           proposal[:call_id] = event[:call_id]
+          proposal[:deadline] = event[:deadline]
           proposal
         }.flatten
       end
