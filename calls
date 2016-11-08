@@ -3,7 +3,8 @@
     "user_id" : "45825599-b8cf-499c-825c-a7134a3f1ff0",
     "call_id" : "b5bc4203-9379-4de0-856a-55e1e5f3fac6",
     "artist" : {
-        "music" : {
+        "Música" : {
+            "category":["music"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -68,7 +69,8 @@
                 "helptext" : ""
             }
         },
-        "arts" : {
+        "Artes Escénicas" : {
+            "category": ["arts"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -133,7 +135,8 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "workshop" : {
+        "Taller" : {
+            "category" : ["workshop"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -188,7 +191,8 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "expo" : {
+        "Exposición" : {
+            "category": ["expo"],
             "meters" : {
                 "type" : "optional",
                 "label" : "Espacio necesario para la exposición",
@@ -224,7 +228,8 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "street_art" : {
+        "Street Art" : {
+            "category": ["street_art"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -259,7 +264,8 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "poetry" : {
+        "Poesía" : {
+            "category": ["poetry"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -314,7 +320,8 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "audiovisual" : {
+        "Audiovisual" : {
+            "category":["audiovisual"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -379,7 +386,8 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "other" : {
+        "Otros" : {
+            "category": ["other"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -446,7 +454,8 @@
         }
     },
     "space" : {
-        "cultural_ass" : {
+        "Asociación Cultural" : {
+            "category": ["cultural_ass"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -504,7 +513,8 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "commercial" : {
+        "Local Comercial" : {
+            "category": ["commercial"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -562,7 +572,7 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "home" : {
+        "Espacio Particular" : {
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -620,7 +630,8 @@
                 "helptext" : "Eligir si se quiere, en la eventualidad, quedarse en la lista de espera."
             }
         },
-        "open_air" : {
+        "Espacio Exterior" : {
+            "category": ["open_air"],
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -685,7 +696,8 @@
     "user_id" : "bbeba06b-1f30-408d-a1bc-14c9f98efe2j",
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fac6",
     "artist" : {
-        "music" : {
+        "Música" : {
+            "category": ["music"],
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -907,7 +919,8 @@
                 "helptext":"https://distrito008.es/"
             }
         },
-        "arts" : {
+        "Artes Escénicas" : {
+            "category": ["arts"],
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1129,7 +1142,8 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "workshop" : {
+        "Taller" : {
+            "category": ["workshop"],
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1360,7 +1374,240 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "expo" : {
+        "Gastronomía" : {
+            "category": ["gastronomy"],
+            "title" : {
+                "type" : "mandatory",
+                "label" : "Título de la propuesta artística",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "text"
+                ],
+                "helptext" : ""
+            },
+            "description" : {
+                "type" : "mandatory",
+                "label" : "Descripción",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+            },
+            "short_description" : {
+                "type" : "mandatory",
+                "label" : "Descripción (muy) breve",
+                "input" : "TextAreaCounter",
+                "args" : [ 
+                    "", 
+                    80, 
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                ],
+                "helptext" : ""
+            },
+            "duration" : {
+                "type" : "mandatory",
+                "label" : "Duración del espectáculo",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "15 min", 
+                        "30 min", 
+                        "45 min", 
+                        "1 h", 
+                        "1h 15min", 
+                        "1h 30min", 
+                        "1h 45min", 
+                        "2 h", 
+                        "2h 15min", 
+                        "2h 30min"
+                    ], 
+                    [ 
+                        "15", 
+                        "30", 
+                        "45", 
+                        "60", 
+                        "75", 
+                        "90", 
+                        "105", 
+                        "120", 
+                        "135", 
+                        "150"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "links" : {
+                "type" : "optional",
+                "label" : "Materiales online",
+                "input" : "InputMultimedia",
+                "args" : null,
+                "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+            },
+            "photos" : {
+                "type" : "optional",
+                "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                "input" : "Cloudinary",
+                "folder" : "/photos",
+                "amount" : 4
+            },
+            "phone" : {
+                "type" : "mandatory",
+                "label" : "Teléfono de contacto",
+                "input" : "InputTel",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
+            },
+            "availability" : {
+                "type" : "mandatory",
+                "label" : "Disponibilidad",
+                "input" : "MultipleSelector",
+                "args" : [
+                    [ 
+                         "Viernes 31/3/2017",
+                         "Sábado 1/4/2017",
+                         "Domingo 2/4/2017",
+                         "Viernes 7/4/2017",
+                         "Sábado 8/4/2017"
+                    ]
+                ],
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+            },
+            "age" : {
+                "type" : "mandatory",
+                "label" : "Edades público",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ], 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "inscription" : {
+                "type" : "optional",
+                "label" : "Inscripción previa",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Elegir si deseas que haya inscripción previa a la actividad."
+            },
+            "only_inscription" : {
+                "type" : "optional",
+                "label" : "Sólo bajo inscripción",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Elegir si se quiere que la actividad sea bajo inscripción obligatoria."
+            },
+            "max_attendants" : {
+                "type" : "mandatory",
+                "label" : "Plazas",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "number"
+                ],
+                "helptext" : "Indica el número de plazas que abarca la actividad."
+            },
+            "space_type" : {
+                "type" : "mandatory",
+                "label" : "Tipo de espacio",
+                "input" : "MultipleSelector",
+                "args" : [ 
+                    [ 
+                        "salas de actuaciones", 
+                        "locales de restauración", 
+                        "comercios", 
+                        "espacio urbano"
+                    ]
+                ],
+                "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
+            },
+            "technical_needs" : {
+                "type" : "optional",
+                "label" : "Necesidades técnicas",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
+            },
+            "mounting" : {
+                "type" : "optional",
+                "label" : "Montaje",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : ""
+            },
+            "mounting_time_workshop" : {
+                "type" : "optional",
+                "label" : "Tiempo montaje",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
+            },
+            "arrangement_workshop" : {
+                "type" : "mandatory",
+                "label" : "Acuerdo económico",
+                "input" : "MultipleSelector",
+                "args" : [ 
+                    [ 
+                        "Caché", 
+                        "Por inscripciones", 
+                        "A la voluntad", 
+                        "Gastos Producción", 
+                        "Sin caché"
+                    ]
+                ],
+                "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
+            },
+            "economic" : {
+                "type" : "optional",
+                "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "number"
+                ],
+                "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
+            },
+            "conditions" : {
+                "type" : "mandatory",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "https://distrito008.es/"
+            }
+        },
+        "Exposición" : {
+        "category": ["expo"],
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1471,7 +1718,8 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "street_art" : {
+        "Street Art" : {
+            "category":["street_art"],
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1689,7 +1937,8 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "poetry" : {
+        "Poesía" : {
+            "category":["poetry"],
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1911,7 +2160,8 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "audiovisual" : {
+        "Audiovisual" : {
+            "category":["audiovisual"],
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -2141,7 +2391,8 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "other" : {
+        "Otros" : {
+            "category":["other"],
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -2404,7 +2655,39 @@
         }
     },
     "space" : {
-        "cultural_ass" : {
+        "Espacio colaborador" : {
+            "category": [ 
+                        "cultural_ass", 
+                        "home", 
+                        "commercial"
+                    ],
+            "subcategory":{
+                "type" : "mandatory",
+                "label" : "Categoría del espacio",
+                "input" : "Selector",
+                "args" : [ 
+                    ["Restauración y Clubs", 
+                    "Arte, Cultura y Diseño", 
+                    "Espacio particular", 
+                    "Tiendas y servicios"],
+                    ["Restauración y Clubs", 
+                    "Arte, Cultura y Diseño", 
+                    "Espacio particular", 
+                    "Tiendas y servicios"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "aforo": {
+                "type" : "mandatory",
+                "label" : "Aforo máximo",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "text"
+                ],
+                "helptext" : ""
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -2420,6 +2703,15 @@
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
+            "phone" : {
+                "type" : "mandatory",
+                "label" : "Teléfono de contacto",
+                "input" : "InputTel",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
+            },
             "conditions" : {
                 "type" : "mandatory",
                 "label" : "Acepto las condiciones de participación asociadas a este evento",
@@ -2431,7 +2723,39 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "commercial" : {
+        "Espacio con actividad" : {
+            "category":[ 
+                        "cultural_ass", 
+                        "home", 
+                        "commercial"
+                    ],
+            "subcategory":{
+                "type" : "mandatory",
+                "label" : "Edades público",
+                "input" : "Selector",
+                "args" : [ 
+                    ["Restauración y Clubs", 
+                    "Arte, Cultura y Diseño", 
+                    "Espacio particular", 
+                    "Tiendas y servicios"],
+                    ["Restauración y Clubs", 
+                    "Arte, Cultura y Diseño", 
+                    "Espacio particular", 
+                    "Tiendas y servicios"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "aforo": {
+                "type" : "mandatory",
+                "label" : "Aforo máximo",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "text"
+                ],
+                "helptext" : ""
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -2447,59 +2771,71 @@
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "conditions" : {
+            "phone" : {
                 "type" : "mandatory",
-                "label" : "Acepto las condiciones de participación asociadas a este evento",
-                "input" : "CheckBox",
+                "label" : "Teléfono de contacto",
+                "input" : "InputTel",
                 "args" : [ 
-                    "", 
-                    "yes"
+                    ""
                 ],
-                "helptext" : "https://distrito008.es/"
-            }
-        },
-        "home" : {
-            "availability" : {
-                "type" : "mandatory",
-                "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" :[
-                    [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
-                    ]
-                ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
-            "conditions" : {
+            "tipodeactividad":{
                 "type" : "mandatory",
-                "label" : "Acepto las condiciones de participación asociadas a este evento",
-                "input" : "CheckBox",
+                "label" : "Tipo de actividad",
+                "input" : "Selector",
                 "args" : [ 
-                    "", 
-                    "yes"
-                ],
-                "helptext" : "https://distrito008.es/"
-            }
-        },
-        "open_air" : {
-            "availability" : {
-                "type" : "mandatory",
-                "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" :[
-                    [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                    ["Actividad propia", 
+                    "Actividad programada"
+                    ],
+                    ["Actividad propia", 
+                    "Actividad programada"
                     ]
                 ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                "helptext" : "Elige si prefieres desarrollar en tu local una actividad propia, de vuestra creación, o una actividad programada por la organización del Festival según tus preferencias y posibilidades del espacio que dispones. Si eliges la opción de actividad propia deberéis rellenar un formulario como Artista, la propuesta deberá pasar por el filtro de la organización."
+            },
+            "categoriaactividad":{
+                "type" : "otional",
+                "label" : "Categoría de actividad (sólo para espacios con actividad propia) *",
+                "input" : "MultipleSelector",
+                "args" :[
+                    [ "Música", 
+                    "Artes Escénicas", 
+                    "Poesía", 
+                    "Exposición", 
+                    "Street Art", 
+                    "Audiovisual", 
+                    "Taller",
+                    "Gastronomía",
+                    "Otros"
+                    ]
+                ],
+                "helptext" : "Elige el tipo de actividades que puedes y te apetece desarrollar en tu local."
+            },
+            "posibilidadesdelespacio":{
+                "type" : "optional",
+                "label" : "Posibilidades del espacio",
+                "input" : "MultipleSelector",
+                "args" :[
+                    ["sistema para exponer",
+                    "iluminación exposición",
+                    "posibilidad de taladrar pared",
+                    "posibilidad de intervenir pared",
+                    "equipo de sonido directo", 
+                    "micrófonos",
+                    "tarima",
+                    "suelo parquet",
+                    "mesas",
+                    "sillas",
+                    "proyector",
+                    "focos",
+                    "técnico de sonido",
+                    "técnico de luces",
+                    "posibilidad de taquilla",
+                    "posibilidad negociar barra"
+                    ]
+                ],
+                "helptext" : "Marca lo que puede aportar tu local en el desarrollo de las actividades elegidas."
             },
             "conditions" : {
                 "type" : "mandatory",

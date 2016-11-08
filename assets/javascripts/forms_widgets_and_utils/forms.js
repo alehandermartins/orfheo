@@ -419,8 +419,8 @@
     };
 
     _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Descripción / Información'),
-      input: Pard.Widgets.TextArea(''),
+      label: Pard.Widgets.InputLabel('Descripción / Información *'),
+      input: Pard.Widgets.TextArea('Dimensiones, caracteristicas, actividades que suele hospedar, etc.'),
       helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu espacio.')
     };
     _form['bio']['input'].setAttr('rows', 4);
@@ -432,7 +432,7 @@
     };
     // _form['color'].input.setClass('color-input');
    
-    var _requiredFields = ['name', 'address', 'category', 'color','links'];
+    var _requiredFields = ['name', 'address', 'category', 'bio', 'color','links'];
 
     return {
       render: function(){
@@ -544,7 +544,7 @@
     //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
 
 
-    var _requiredFields = ['name', 'address', 'category', 'color'];
+    var _requiredFields = ['name', 'address', 'bio','category', 'color'];
 
     return {
       render: function(){

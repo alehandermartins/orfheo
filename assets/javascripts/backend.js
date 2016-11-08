@@ -89,6 +89,7 @@
     };
 
     var _sendArtistProposal = function(form, callback){
+      console.log('sendArtistProposal')
       _send(
         '/users/send_artist_proposal',
         form,
@@ -97,7 +98,7 @@
     };
 
     var _sendSpaceProposal = function(form, callback){
-      console.log(form);
+      console.log('sendSpaceProposal');
       _send(
         '/users/send_space_proposal',
         form,
