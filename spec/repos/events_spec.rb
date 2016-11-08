@@ -102,6 +102,10 @@ describe Repos::Events do
     it 'retrieves the owner of the event' do
       expect(Repos::Events.get_event_owner(event_id)).to eq(user_id)
     end
+
+    it 'retrieves the name of the event' do
+      expect(Repos::Events.get_event_name(event_id)).to eq('event_name')
+    end
   end
 
   describe 'Exists?' do
