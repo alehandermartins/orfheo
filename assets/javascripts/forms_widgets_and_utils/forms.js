@@ -394,7 +394,8 @@
     _form['address'] ={
       label: Pard.Widgets.InputLabel('Dirección *'),
       input: Pard.Widgets.InputAddressSpace('Ej: Carrer de la Murta 13, Valencia'),
-      helptext: Pard.Widgets.HelpText('Tu dirección detallada es necesaria para poderte localizar en el mapa.')
+      helptext: Pard.Widgets.HelpText('')
+      // helptext: Pard.Widgets.HelpText('Tu dirección detallada es necesaria para poderte localizar en el mapa.')
     }
 
     _form['category'] = {

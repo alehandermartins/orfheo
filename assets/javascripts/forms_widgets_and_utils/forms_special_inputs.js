@@ -305,7 +305,7 @@ ns.Widgets.InputAddressSpace = function(label){
 
     for (var field in _inputForm) _inputForm[field].setClass(field+'-addressForm');
 
-    var _inputPlace = $('<input>').attr({type: 'text', id: 'place_address_autocomplete', placeholder:label});
+    var _inputPlace = $('<input>').attr({type: 'text', id: 'place_address_autocomplete', placeholder:label}).css('margin-bottom','1rem');
 
     _inputPlace.one('focus', function(){AutocompleteFunction()});
 
@@ -349,6 +349,7 @@ ns.Widgets.InputAddressSpace = function(label){
       for (var field in _inputForm){
         _addressValues[field] = _inputForm[field].getVal();
       }
+      if(_geocod) _addressValues['location'] = _geocod;
       ['route', 'street_number', 'locality', 'postal_code'].forEach(function(field){
         if (!(_addressValues[field])) {
           _inputForm[field].addWarning();
@@ -356,12 +357,6 @@ ns.Widgets.InputAddressSpace = function(label){
         }
       })
       if (_check){
-        // var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressValues.route + '+' + _addressValues.street_number + '+' + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
-        // $.get(uri, function(data){
-        //   if(data.status == "OK" && data.results.length > 0){
-        //     _addressValues.location = data.results[0].geometry.location;
-        //   }
-        // });
         return _addressValues;
       } 
       return _check;
@@ -370,58 +365,72 @@ ns.Widgets.InputAddressSpace = function(label){
     var _placeForm = $('<div>').append(_inputPlace);
     for (var key in _inputForm){_placeForm.append(_inputForm[key].render().attr({disabled: 'true'}))};
 
-    var _mapCheckContainer = $('<div>');
-    var _seeMapText = $('<a>').text('Comprobar localización en el mapa').attr('href','#');
+    var _mapCheckContainer = $('<div>').css({'margin-bottom':'-2.5rem'});
+    var _seeMapText = $('<a>').text('Comprueba la localización en el mapa').attr('href','#');         
+    var _map = $('<div>').attr('id', 'gmapProfile');
+    var _errorBox = $('<div>');
+    var _geocodCont = $('<div>').addClass('geocod-container-adrees-imput');
+    var _mapBox = $('<div>').append(_map, _geocodCont);
+    _mapCheckContainer.append($('<div>').append(_seeMapText).css({'text-align':'right','font-size':'0.8125rem', 'margin-top':'0.4rem'}), _errorBox, _mapBox);
+    var geomap;
+    var _geocod;
+    var _check = true;
+    var _latField = Pard.Widgets.Input('','text');
+    var _lonField = Pard.Widgets.Input('','text');
+    var _hereBtn = $('<a>').text('aquí').attr('href','#');
 
-    _seeMapText.click(function(){
+    _seeMapText.on('click',function(){
+      _errorBox.empty()
+      _mapCheckContainer.append();
       var _addressInserted = addressValue();
-      console.log(_addressInserted);
       var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressInserted.route + "+" + _addressInserted.street_number + "+" + _addressInserted.locality + "+" + _addressInserted.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
       var _location;
       $.post(uri, function(data){
         if(data.status == "OK" && data.results.length > 0){
-          _location = data.results[0].geometry.location;
-           var _map = $('<div>').attr('id', 'gmapProfile');
-          _map.css({'width': '100%', 'height': '250px'});
+          _geocod = data.results[0].geometry.location;
+          _map.css({'width': '21rem', 'height': '13rem', 'display':'inline-block'});
+          _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
 
-          // gmapProfile.SetLocations(data, true);
-          // gmapProfile.ViewOnMap('0');
-          console.log(_location);
-          var gmapProfile;
-          gmapProfile = new Maplace({
-            locations: _location,
-            map_div: '#gmapProfile'
-            // map_options: {
-            //   mapTypeControl: false,
-            // }
-            // afterShow: function(index, location, marker){
-            //   _host = Pard.Widgets.RemoveAccents(_data[index].title);
-            //   var _iconNum = _data[index].order + 1;
-            //   // marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
-            //   marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/')
-            //   _printProgram(_program, _host, gmap, _data);
-            // },
-            // afterOpenInfowindow: function(index, location, marker){
-            //   var _iconNum = _data[index].order + 1;
-            //   // marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
-            //   marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/')
-            // },
-            // afterCloseClick: function(index){
-            //   _host = '';
-            //   _printProgram(_program, '', gmap, _data);
-            // }
-          }).Load();
-          console.log('yep')
-          _mapCheckContainer.append(_map);
+          if (_check){ 
+            geomap = new Maplace({
+              locations: _location,
+              map_div: '#gmapProfile',
+              map_options: {
+                mapTypeControl: false
+              }
+            }).Load();
+            var _geocodField = $('<div>');
+            var _latLabel = $('<label>').text('Latitud').append(_latField.render());
+            var _lonLabel = $('<label>').text('Longitud').append(_lonField.render());
+            var _geoCodText = $('<p>').append('Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ', _hereBtn,'.');
+            _hereBtn.click(function(){
+              _geocod = {lat: _latField.getVal(), lng: _lonField.getVal()};
+              _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
+              geomap.SetLocations(_location, true);
+            });
+            _geocodCont.append(_latLabel, _lonLabel, _geoCodText)
+            _check = false;
+          }
+          _mapBox.css({'padding-bottom':'2rem', 'margin-top':'0.5rem'})
+          _latField.setVal(_geocod.lat);
+          _lonField.setVal(_geocod.lng); 
+          geomap.SetLocations(_location, true);
         }
         else{
-          console.log('error');
+          console.log('e1 ')
+          _errorBox.append($('<p>').text('¡Atención! Google no reconoce la dirección insertada: corrígela, si quieres que sea localizada correctamente.').css({
+            'color':'red',
+            'margin-bottom':'0'
+          }));
+          if (_latField && _lonField) {
+            _latField.setVal('');
+            _lonField.setVal('');
+            _hereBtn.trigger('click');
+          }          
         }
       });
-     
     });
 
-    _mapCheckContainer.append(_seeMapText);
     _placeForm.append(_mapCheckContainer);
 
     _inputPlace.on('focus', function(){
@@ -449,6 +458,9 @@ ns.Widgets.InputAddressSpace = function(label){
       },
       addWarning: function(){
         addressValue();
+      },
+      getLocation: function(){
+        return _geocod;
       }
     }
   }

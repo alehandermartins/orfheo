@@ -1104,19 +1104,6 @@ select, textarea, a{
     margin:  0 0 0rem;
 }
 
-.popup-form .route-addressForm, .popup-form .street_number-addressForm,.popup-form .door-addressForm, .popup-form .locality-addressForm, .popup-form .country-addressForm, .popup-form .postal_code-addressForm, .multiMedia {
-  font-size: $smallSize;
-  margin-bottom: 0.5rem;
-  display: inline-block; 
-}
-
-.popup-form .postal_code-addressForm {
-  font-size: $smallSize;
-  margin-bottom: 1.1rem;
-  display: inline-block; 
-}
-
-
 .help-text{
   line-height: 0.9rem;
   margin: 0rem;
@@ -1214,6 +1201,13 @@ select.category-input{
     margin: 2rem 0;
 }
 
+.geocod-container-adrees-imput{
+  display: inline-block;
+  width: 13rem;
+  margin-left: 2rem;
+  vertical-align: top;
+}
+
 @media only screen and #{breakpoint(large)} {
 
   .components-input{
@@ -1235,32 +1229,45 @@ select.category-input{
     margin-right: 3rem;   
   }
 
-
-
   .postal_code-ArtistForm, .postal_code-modifyProfile{
     width: 13rem;
     display: inline-block;  
   }
 
-  .route-addressForm{
+  .popup-form .route-addressForm, .popup-form .street_number-addressForm,.popup-form .door-addressForm, .multiMedia {
+    font-size: $smallSize;
+    margin-bottom: 0.5rem;
+    display: inline-block; 
+  }
+
+  .popup-form .postal_code-addressForm {
+    font-size: $smallSize;
+    display: inline-block; 
+}
+
+  .popup-form .route-addressForm{
     width: 17rem;
   }
 
-  .street_number-addressForm, .door-addressForm{
+  .popup-form .street_number-addressForm, .popup-form .door-addressForm{
     width: 5rem;
     margin-left:1rem;
   }
 
-  .locality-addressForm{
+  .popup-form .locality-addressForm{
     width: 13rem;
+    font-size: $smallSize;
+    display: inline-block; 
   }
 
-  .country-addressForm{
+  .popup-form .country-addressForm{
     width: 13rem;
     margin-left:1rem;
+    display: inline-block;
+    font-size: $smallSize;
   }
 
-  .postal_code-addressForm{
+  .popup-form .postal_code-addressForm{
     width: 8rem;
     margin-left:1rem;
   }

@@ -93,16 +93,13 @@
       artist: _artistButton,
       space: _spaceButton
     }
-
-    // var _message = $('<div>').addClass('message-form');
-    // _message.html('<p> Puedes apuntarte a la convocatoria del conFusión 2016 enviando una o más propuestas como artista o también ofreciendo tu espacio:</p>');
     
-      for (var typeProfile in _btnObj) {
-        if (allowedProfile){
-          if($.inArray(typeProfile,allowedProfile)>-1) _createdWidget.append(_btnObj[typeProfile]);
-        }
-        else {_createdWidget.append(_btnObj[typeProfile]);}
+    for (var typeProfile in _btnObj) {
+      if (allowedProfile){
+        if($.inArray(typeProfile,allowedProfile)>-1) _createdWidget.append(_btnObj[typeProfile]);
       }
+      else {_createdWidget.append(_btnObj[typeProfile]);}
+    }
 
     return {
       render: function(){
@@ -231,6 +228,7 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
+      console.log(url);
       _submitForm['profile_picture'] = url;
       _submitForm['type'] = 'artist';
       return _submitForm;
@@ -270,8 +268,10 @@
           $('body').append(spinner.el);
           submitButton.attr('disabled',true);
           var _formVal;
-          if (callbackEvent) _formVal = _getVal();
-          else _formVal = _getVal(url);
+          // if (callbackEvent) _formVal = _getVal();
+          // else 
+          _formVal = _getVal(url);
+          console.log(_formVal);
           var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
           $.post(uri, function(data){
             if(data.status == "OK" && data.results.length > 0){
@@ -329,14 +329,6 @@
       _url.push(data['result']['public_id']);
       if(_url.length >= _photos.dataLength()) _send(_url);
     });
-
-
-    // submitButton.on('click',function(){
-    //   if(_filled() == true){
-    //     _closepopup();
-    //     _send();
-    //   }
-    // });
 
     _submitBtnContainer.append(submitButton);
     _formContainer.append(_invalidInput, _submitBtnContainer);
@@ -415,45 +407,57 @@
           $('body').append(spinner.el);
           submitButton.attr('disabled',true);
           var _formVal;
-          if (callbackEvent) _formVal = _getVal();
-          else _formVal = _getVal(url);
-          var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-          console.log(uri);
-          $.post(uri, function(data){
-            console.log(data);
-            if(data.status == "OK" && data.results.length > 0){
-              _formVal['address']['location'] = data.results[0].geometry.location;
-              console.log( _formVal);
-              if (callbackEvent){
-                Pard.Backend.createProfile(_formVal, callbackEvent);
+          // if (callbackEvent) _formVal = _getVal();
+          // else 
+          _formVal = _getVal(url);
+          console.log(_form['address']['input'].getLocation());
+          if (_form['address']['input'].getLocation()){
+            _formVal['address']['location'] = _form['address']['input'].getLocation();
+            if (callbackEvent){
+                  Pard.Backend.createProfile(_formVal, callbackEvent);
+                }
+            else {
+              Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+            }
+          }
+          else{
+            var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+            $.post(uri, function(data){
+              console.log(data);
+              if(data.status == "OK" && data.results.length > 0){
+                _formVal['address']['location'] = data.results[0].geometry.location;
+                console.log( _formVal);
+                if (callbackEvent){
+                  Pard.Backend.createProfile(_formVal, callbackEvent);
+                }
+                else {
+                  Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+                }
               }
               else {
-                Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
-              }
-            }
-            else {
-              spinner.stop();
-              submitButton.attr('disabled',false);
-              var _content = $('<div>').addClass('very-fast reveal full');
-              _content.empty();
-              $('body').append(_content);
-              var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-              var _closepopupAlert = function(){
-                _popup.close();
-              }
-              var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopupAlert, function(){
-                  if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
-                  else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
-                }));
-              _message.setCallback(function(){
-                _content.remove();
-                _popup.close();
-              }); 
-              _content.append(_message.render());
-              _popup.open();
+                spinner.stop();
+                submitButton.attr('disabled',false);
+                var _content = $('<div>').addClass('very-fast reveal full');
+                _content.empty();
+                $('body').append(_content);
+                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+                var _closepopupAlert = function(){
+                  _popup.close();
+                }
+                var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopupAlert, function(){
+                    if (callbackEvent)  Pard.Backend.createProfile(_formVal, callbackEvent);
+                    else Pard.Backend.createProfile(_formVal, Pard.Events.CreateProfile);
+                  }));
+                _message.setCallback(function(){
+                  _content.remove();
+                  _popup.close();
+                }); 
+                _content.append(_message.render());
+                _popup.open();
 
-            }
-          });
+              }
+            })
+          }
         },
         function(){
           submitButton.attr('disabled',false);
@@ -496,7 +500,10 @@
   ns.Widgets.AlertNoMapLocation = function(formVal,closepopup,callback){
     var _createdWidget = $('<div>');
     var _text = $('<p>').text('Google no reconoce la dirección de tu espacio y por lo tanto no puede ser localizada en ningún mapa.')
-    var _goAnywayBtn = Pard.Widgets.Button('Continua igualmente', function(){callback()});
+    var _goAnywayBtn = Pard.Widgets.Button('Continua igualmente', function(){
+      closepopup();
+      callback();
+    });
     var _tryAgainBtn = Pard.Widgets.Button('Corrige la dirección', function(){
       closepopup();
     });
@@ -582,180 +589,180 @@
     }
   }
 
-  ns.Widgets.ArtistFormBackend = function(form){
+  // ns.Widgets.ArtistFormBackend = function(form){
     
-    var _createdWidget = $('<div>');
-    var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer dentro y fuera del festival.').addClass('message-form');
-    var _formContainer = $('<form>').addClass('popup-form');  
-    var _invalidInput = $('<div>').addClass('not-filled-text');
+  //   var _createdWidget = $('<div>');
+  //   var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer dentro y fuera del festival.').addClass('message-form');
+  //   var _formContainer = $('<form>').addClass('popup-form');  
+  //   var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    var _form = {};
-    var _submitForm = {};
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+  //   var _form = {};
+  //   var _submitForm = {};
+  //   var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+  //   var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
 
-    for(var field in form){
-      _form[field] = {};
-      _form[field]['type'] = form[field].type;
-      _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
-      _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
-      _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
-    }    
+  //   for(var field in form){
+  //     _form[field] = {};
+  //     _form[field]['type'] = form[field].type;
+  //     _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
+  //     _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+  //     _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
+  //   }    
 
-    for(var field in _form){
-      _formContainer.append(
-        $('<div>').addClass(field + '-ArtistForm').append(
-          _form[field].label.render(),
-          _form[field].input.render(),
-          _form[field].helptext.render()
-        )
-      );
-    }
+  //   for(var field in _form){
+  //     _formContainer.append(
+  //       $('<div>').addClass(field + '-ArtistForm').append(
+  //         _form[field].label.render(),
+  //         _form[field].input.render(),
+  //         _form[field].helptext.render()
+  //       )
+  //     );
+  //   }
 
-    var _filled = function(){
-      var _check = true;
-      for(var field in _form){
-        if(_form[field].type == 'mandatory' && !(_form[field].input.getVal())){
-          _form[field].input.addWarning();
-          _invalidInput.text('Por favor, revisa los campos obligatorios.');
-          _check = false;
-        }
-      } 
-      return _check;
-    }
+  //   var _filled = function(){
+  //     var _check = true;
+  //     for(var field in _form){
+  //       if(_form[field].type == 'mandatory' && !(_form[field].input.getVal())){
+  //         _form[field].input.addWarning();
+  //         _invalidInput.text('Por favor, revisa los campos obligatorios.');
+  //         _check = false;
+  //       }
+  //     } 
+  //     return _check;
+  //   }
 
-    var _getVal = function(){
-      for(var field in _form){
-         _submitForm[field] = _form[field].input.getVal();
-      };
-      _submitForm['type'] = 'artist';
-      return _submitForm;
-    }
+  //   var _getVal = function(){
+  //     for(var field in _form){
+  //        _submitForm[field] = _form[field].input.getVal();
+  //     };
+  //     _submitForm['type'] = 'artist';
+  //     return _submitForm;
+  //   }
 
-    var _send = function(){
-      Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
-    }
+  //   var _send = function(){
+  //     Pard.Backend.createProfile(_getVal(), Pard.Events.CreateProfile);
+  //   }
 
-    var _closepopup = {};
+  //   var _closepopup = {};
 
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        _closepopup();
-        _send();
-      }
-    });
+  //   submitButton.on('click',function(){
+  //     if(_filled() == true){
+  //       _closepopup();
+  //       _send();
+  //     }
+  //   });
 
-    _submitBtnContainer.append(submitButton);
-    _formContainer.append(_invalidInput, _submitBtnContainer);
-    _createdWidget.append(_message, _formContainer);
+  //   _submitBtnContainer.append(submitButton);
+  //   _formContainer.append(_invalidInput, _submitBtnContainer);
+  //   _createdWidget.append(_message, _formContainer);
 
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-        _closepopup = callback;
-      }
-    }
-  }
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     setCallback: function(callback){
+  //       _closepopup = callback;
+  //     }
+  //   }
+  // }
 
 
-  ns.Widgets.SpaceFormBackend = function(form){
+  // ns.Widgets.SpaceFormBackend = function(form){
 
-    var _createdWidget = $('<div>');
-    var _formContainer = $('<form>').addClass('popup-form');
-    var _message = $('<div>').text('Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla en todo momento sin afectar a tu participación en el festival.').addClass('message-form');
-    var _invalidInput = $('<div>').addClass('not-filled-text');
+  //   var _createdWidget = $('<div>');
+  //   var _formContainer = $('<form>').addClass('popup-form');
+  //   var _message = $('<div>').text('Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla en todo momento sin afectar a tu participación en el festival.').addClass('message-form');
+  //   var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    var _form = {};
-    var _submitForm = {};
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+  //   var _form = {};
+  //   var _submitForm = {};
+  //   var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+  //   var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
 
-    var _url = [];
-    var _thumbnail = $('<div>');
-    var _photos = Pard.Widgets.Cloudinary(form['photos'].folder, _thumbnail, _url, form['photos'].amount);
-    var _photosLabel = $('<label>').text(form['photos'].label);
-    var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css({'margin-bottom':'1.2rem', 'margin-top':'2rem'});
+  //   var _url = [];
+  //   var _thumbnail = $('<div>');
+  //   var _photos = Pard.Widgets.Cloudinary(form['photos'].folder, _thumbnail, _url, form['photos'].amount);
+  //   var _photosLabel = $('<label>').text(form['photos'].label);
+  //   var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css({'margin-bottom':'1.2rem', 'margin-top':'2rem'});
 
-    for(var field in form){
-      if (field != 'photos'){
-        _form[field] = {};
-        _form[field]['type'] = form[field].type;
-        _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
-        _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
-        _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
-      }
-    }    
+  //   for(var field in form){
+  //     if (field != 'photos'){
+  //       _form[field] = {};
+  //       _form[field]['type'] = form[field].type;
+  //       _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
+  //       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+  //       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
+  //     }
+  //   }    
 
-    for(var field in form){
-      if (field == 'photos') _formContainer.append(_photosContainer);
-      else{
-        _formContainer.append(
-        $('<div>').addClass(field+'-SpaceForm').append(
-          _form[field].label.render(),
-          _form[field].input.render(),
-          _form[field].helptext.render()
-        )
-      );
-      }
-    }
+  //   for(var field in form){
+  //     if (field == 'photos') _formContainer.append(_photosContainer);
+  //     else{
+  //       _formContainer.append(
+  //       $('<div>').addClass(field+'-SpaceForm').append(
+  //         _form[field].label.render(),
+  //         _form[field].input.render(),
+  //         _form[field].helptext.render()
+  //       )
+  //     );
+  //     }
+  //   }
 
-    var _filled = function(){
-      var _check = true;
-      for(var field in _form){
-        if(_form[field].type == 'mandatory' && !(_form[field].input.getVal())){
-          _form[field].input.addWarning();
-          _invalidInput.text('Por favor, revisa los campos obligatorios.');
-          _check = false;
-        }
-      } 
-      return _check;
-    }
+  //   var _filled = function(){
+  //     var _check = true;
+  //     for(var field in _form){
+  //       if(_form[field].type == 'mandatory' && !(_form[field].input.getVal())){
+  //         _form[field].input.addWarning();
+  //         _invalidInput.text('Por favor, revisa los campos obligatorios.');
+  //         _check = false;
+  //       }
+  //     } 
+  //     return _check;
+  //   }
 
-    var _getVal = function(url){
-      for(var field in _form){
-         _submitForm[field] = _form[field].input.getVal();
-      };
-      _submitForm['type'] = 'space';     
-      _submitForm['photos'] = url;
-      return _submitForm;
-    }
+  //   var _getVal = function(url){
+  //     for(var field in _form){
+  //        _submitForm[field] = _form[field].input.getVal();
+  //     };
+  //     _submitForm['type'] = 'space';     
+  //     _submitForm['photos'] = url;
+  //     return _submitForm;
+  //   }
 
-    var _send = function(url){
-      Pard.Backend.createProfile(_getVal(url), Pard.Events.CreateProfile);
-    }
+  //   var _send = function(url){
+  //     Pard.Backend.createProfile(_getVal(url), Pard.Events.CreateProfile);
+  //   }
 
-    var _closepopup = {};
+  //   var _closepopup = {};
 
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        _closepopup();
-        if(_photos.dataLength() == false) _send(_url);
-        else{
-          _photos.submit();
-        }
-      }
-    });
+  //   submitButton.on('click',function(){
+  //     if(_filled() == true){
+  //       _closepopup();
+  //       if(_photos.dataLength() == false) _send(_url);
+  //       else{
+  //         _photos.submit();
+  //       }
+  //     }
+  //   });
 
-    _photos.cloudinary().bind('cloudinarydone', function(e, data){
-      _url.push(data['result']['public_id']);
-      if(_url.length >= _photos.dataLength()) _send(_url);
-    });
+  //   _photos.cloudinary().bind('cloudinarydone', function(e, data){
+  //     _url.push(data['result']['public_id']);
+  //     if(_url.length >= _photos.dataLength()) _send(_url);
+  //   });
 
-    _submitBtnContainer.append(submitButton);
+  //   _submitBtnContainer.append(submitButton);
 
-    _formContainer.append(_invalidInput, _submitBtnContainer);
-    _createdWidget.append(_message, _formContainer)
+  //   _formContainer.append(_invalidInput, _submitBtnContainer);
+  //   _createdWidget.append(_message, _formContainer)
 
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-        _closepopup = callback;
-      }
-    }
-  }
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     setCallback: function(callback){
+  //       _closepopup = callback;
+  //     }
+  //   }
+  // }
 
 }(Pard || {}));
