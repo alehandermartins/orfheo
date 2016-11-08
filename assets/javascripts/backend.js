@@ -21,12 +21,13 @@
       });
     };
 
-    var _register = function(email, password, callback){
+    var _register = function(email, password, event_id, callback){
       _send(
         '/login/register_attempt',
         {
           email: email,
-          password: password
+          password: password,
+          event_id: event_id
         },
         callback
       );

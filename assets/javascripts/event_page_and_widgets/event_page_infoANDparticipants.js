@@ -52,7 +52,26 @@
       'bottom': '1rem'
     });
     _callToAction.on('click',function(){
+      if (Pard.UserStatus['status'] == 'outsider'){
+        var _popupContent = $('<div>').addClass('very-fast reveal full');
+        _popupContent.empty();
+        $('body').append(_popupContent);
+        var _popup = new Foundation.Reveal(_popupContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _signUpEventMessage =  Pard.Widgets.PopupContent('Para apuntarte necesitas hacer antes el login', Pard.Widgets.LoginEvent(Pard.CachedEvent.event_id));  
+        _signUpEventMessage.setCallback(function(){});
+        _popupContent.append(_signUpEventMessage.render());
+        _popup.open();  
+        // var _popupContent = $('<div>').addClass('very-fast reveal full');
+        // _popupContent.empty();
+        // $('body').append(_popupContent);
+        // var _popup = new Foundation.Reveal(_popupContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        // var _signUpMessage =  Pard.Widgets.PopupContent('Empieza creando una cuenta...', Pard.Widgets.Registration());  
+        // _popupContent.append(_signUpMessage.render());
+        // _popup.open();  
+    }
+      else{
        Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, '').render);
+      }
     });
     var _btnContainer = $('<div>').append(_callToAction).addClass('btn-container-header-event');
     var _titleContainer = $('<div>').append(_title).addClass('title-container-header-event');

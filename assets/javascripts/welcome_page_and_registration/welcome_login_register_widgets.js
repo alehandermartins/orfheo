@@ -4,7 +4,7 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.Registration = function(){
+  ns.Widgets.Registration = function(event_id){
 
     var _createdWidget = $('<form>').attr('autocomplete','on');
     var _invalidInput = $('<div>').addClass('error-text');
@@ -90,11 +90,22 @@
       setCallback: function(callback){
         _fields['button'].render().on('click', function(){
           if (_checkInput()){
-            Pard.Backend.register(
-              _fields['email'].getVal(),
-              _fields['password'].getVal(),
-              Pard.Events.Register
-            );
+            if (event_id){
+              Pard.Backend.register(
+                _fields['email'].getVal(),
+                _fields['password'].getVal(),
+                event_id,
+                Pard.Events.Register
+              );
+            } 
+            else{
+              Pard.Backend.register(
+                _fields['email'].getVal(),
+                _fields['password'].getVal(),
+                '',
+                Pard.Events.Register
+              );
+            }
           callback();
           }
           else {return false};
@@ -282,6 +293,7 @@
     }
   }
 
+
   ns.Widgets.RememberMe = function(emailField, passwdField, button){
 
     var _ckb = $('<input>').attr({type:'checkbox', value:'remember-me'}); 
@@ -331,10 +343,97 @@
   }
 
 
+   ns.Widgets.LoginEvent = function(event_id){
+
+    var _createdWidget = $('<form>').addClass('input-login').attr({autocomplete:'on'});
+    var _emailRecovery = $('<div>').addClass('passwdRecovery-eventLogin');
+    var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
+
+    var _popup = Pard.Widgets.PopupCreator(_caller,'Recupera tu cuenta', function(){return Pard.Widgets.RecoveryMessage()});
+
+    _emailRecovery.append(_popup.render());
+
+    var _fields = {};
+
+    var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
+    var _labels = ['Tu email', 'Contraseña'];
+    var _types = ['email', 'password'];
+
+
+    _types.forEach(function(id, index){
+      _fields[id] = Pard.Widgets.Input(_labels[index], _types[index], function(){
+
+        var _checkPassword = function(){
+          if(_fields['password'].getVal().length >= 8) return true;
+        }
+
+        var _checkInput = function(){
+          if(regEx.test(_fields['email'].getVal())) return _checkPassword();
+        }
+
+        if (_checkInput() == true){
+          _fields['button'].enable();
+        }else{
+          _fields['button'].disable();
+        }
+      });
+    });
+
+
+
+    _fields['button'] = Pard.Widgets.Button('Entra', function(){
+      _rememberMe.rememberMe();
+      Pard.Backend.login(
+        _fields['email'].getVal(),
+        _fields['password'].getVal(),
+        Pard.Events.Login
+      );
+    });
+
+    _fields['button'].setClass('login-btn');
+    _fields['email'].setClass('input-loginEvent-field');
+    _fields['password'].setClass('input-loginEvent-field');
+
+    var _rememberMe = Pard.Widgets.RememberMe(_fields['email'], _fields['password'], _fields['button']);
+
+    Object.keys(_fields).map(function(field){
+      _createdWidget.append(_fields[field].render().attr({name: field}));
+    });
+
+    // var _tools = $('<div>').addClass('login-header-tools');
+    // _tools.append(_rememberMe.render(),_emailRecovery);
+
+    _createdWidget.append(_emailRecovery);
+
+    var _signUpContainer = $('<div>').addClass('signUpCont-eventLogin');
+    var _signUpText = $('<h5>').text('Si no tienes una cuenta:').addClass('signUpText-eventLogin');
+    var _signUpMessage =  Pard.Widgets.Registration(event_id);    
+    var _caller = $('<button>').attr({type:'button'}).html('Crea una cuenta').addClass('signupButton-eventLogin');
+    // _caller.click(function(){
+    //   _signUpContainer.append(_signUpMessage.render().addClass('popup-form').css('margin-top', '1rem'));
+    //   _caller.remove();
+    // });
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea una cuenta...', function(){return _signUpMessage});
+    var _signUpButton = _popup.render();
+
+    _signUpContainer.append(_signUpText,_caller);
+    _createdWidget.append(_signUpContainer);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        callback();
+      }
+    }
+  }
+
+
   ns.Widgets.SignUpButton = function(){
  
     var _signUpMessage =  Pard.Widgets.Registration();    
-    var _caller = $('<button>').attr({type:'button'}).html('Únete')
+    var _caller = $('<button>').attr({type:'button'}).html('Únete');
     var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta...', function(){return _signUpMessage});
 
     var _signUpButton = _popup.render();

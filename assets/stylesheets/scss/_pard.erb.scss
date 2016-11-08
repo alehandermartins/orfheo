@@ -435,6 +435,19 @@ button{
   background: $blue-pard;
 }
 
+.signupButton-eventLogin{
+  color: $element-color;
+  font-weight: bold;
+/*   width: 6rem;
+  height: 2rem;
+ */  
+  @include border-radius($element-border-radius);
+  background: $blue-pard;
+  margin-left: 1rem;
+  vertical-align: 0.1rem;
+  padding: 0.4rem 0.8rem;
+}
+
 .signUpButtonForSmall{
   color: $element-color;
   font-weight: bold;
@@ -482,7 +495,7 @@ button{
   margin-bottom: 4.8rem;
 }
 
-.signupButton:hover, .signupButton-alert:hover, .signupButton-Outsider:hover{
+.signupButton:hover, .signupButton-alert:hover, .signupButton-Outsider:hover, .signupButton-eventLogin:hover {
     background: rgba(56, 133, 255,0.8);
 }
 

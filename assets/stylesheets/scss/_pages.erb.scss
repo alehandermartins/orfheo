@@ -165,7 +165,7 @@ Header
     }
   }
   @include breakpoint(medium){
-    .input-login-field {
+    .input-login-field, .input-loginEvent-field {
       display:inline-block;
       margin-right:0.4rem;
     }
@@ -177,6 +177,12 @@ Header
     height: auto;
     font-size: $smallSize;
     width: 180px;
+    padding: 0.3rem
+  }
+  .input-loginEvent-field{
+    height: auto;
+    font-size: $almostNormalSize;
+    width: 14rem;
     padding: 0.3rem
   }
 }
@@ -235,6 +241,20 @@ Header
     margin-top: -1.3rem;
     margin-right: 5rem;
   } 
+}
+
+.passwdRecovery-eventLogin{
+  font-size: $smallSize;
+  @include breakpoint(medium){
+    float: right;
+    margin-top: -0.8rem;
+    margin-right: 13rem;
+  } 
+  @include breakpoint(small down){
+    display: block;
+    margin-top: 0.2rem;
+    white-space: nowrap;
+  }
 }
 
 
@@ -2733,6 +2753,15 @@ a.participant-program-card-own {
 .see-all-event-page{
   font-size: $smallSize;
   /* text-align: center; */
+}
+
+.signUpText-eventLogin{
+  display: inline-block;
+  margin-bottom: 0rem;
+}
+
+.signUpCont-eventLogin{
+    margin-top: 1rem;
 }
 
 /*===============================================
