@@ -59,6 +59,7 @@ describe Repos::Events do
       participant_id: profile_id,
       participant_proposal_id: proposal_id,
       host_id: space_profile_id,
+      host_proposal_id: space_proposal_id,
       date: 'date',
       time: 'time',
       permanent: 'false',
@@ -73,6 +74,7 @@ describe Repos::Events do
       profile_id: profile_id,
       event_id: event_id,
       call_id: call_id,
+      name: 'event_name',
       artists: [],
       spaces: [],
       program: [],
@@ -197,11 +199,17 @@ describe Repos::Events do
 
     it 'retrieves my artist proposals' do
       Repos::Events.add_artist event_id, artist
+      artist_proposal[:event_id] = event_id
+      artist_proposal[:event_name] = 'event_name'
+      artist_proposal[:call_id] = call_id
       expect(Repos::Events.my_artist_proposals profile_id).to eq([artist_proposal])
     end
 
     it 'retrieves my space proposals' do
       Repos::Events.add_space event_id, space
+      space[:event_id] = event_id
+      space[:event_name] = 'event_name'
+      space[:call_id] = call_id
       expect(Repos::Events.my_space_proposals space_profile_id).to eq([space])
     end
   end
@@ -321,126 +329,49 @@ describe Repos::Events do
     end
   end
   
+  describe 'Delete' do
+    before(:each){
+      Repos::Events.add_artist event_id, artist
+      Repos::Events.add_space event_id, space
+    }
 
-  # describe 'Get proposals' do
+    it 'deletes an artist proposal' do
+      artist_proposal[:proposal_id] = 'otter'
+      Repos::Events.add_artist event_id, artist
+      Repos::Events.delete_artist_proposal proposal_id
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['artists'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => profile_id,
+        'proposals' => [Util.stringify_hash(artist_proposal)]
+      })
+    end
 
-  #   let(:otter_call){
-  #     {
-  #       user_id: user_id,
-  #       profile_id: profile_id,
-  #       call_id: 'otter'
-  #     }
-  #   }
+    it 'deletes an artist if last proposal' do
+      Repos::Events.delete_artist_proposal proposal_id
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['artists']).to eq([])
+    end
 
-  #   before(:each){
-  #     Repos::Calls.add otter_call
-  #     otter_call.delete(:_id)
-  #   }
+    it 'deletes a space proposal' do
+      Repos::Events.delete_space_proposal space_proposal_id
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['spaces']).to eq([])
+    end
 
-  #   it 'returns all the proposals for a given profile' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     Repos::Calls.add_proposal 'otter', otter_proposal
-  #     results = {
-  #       calls: [call, otter_call],
-  #       proposals: [proposal, otter_proposal],
-  #       program: []
-  #     }
-  #     expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq(results)
-  #   end
+    it 'removes the artist_proposal from programs' do
+      Repos::Events.add_performance event_id, performance
+      Repos::Events.delete_artist_proposal proposal_id
+      expect(Repos::Events.get_program(event_id)).to eq([]) 
+    end
 
-  #   it 'returns all the proposals for a given production' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     Repos::Calls.add_proposal 'otter', otter_proposal
+    it 'removes the space_proposal from programs' do
+      Repos::Events.add_performance event_id, performance
+      Repos::Events.delete_space_proposal space_proposal_id
+      expect(Repos::Events.get_program(event_id)).to eq([]) 
+    end
+  end
 
-  #     expect(Repos::Calls.get_proposals(:production_proposals, {production_id: production_id})).to eq([proposal])
-  #   end
-
-  #   it 'returns interesting info for a visitor of a profile' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     Repos::Calls.add_proposal 'otter', otter_proposal
-  #     call[:whitelist] = false
-  #     otter_call[:whitelist] = false 
-  #     results = {
-  #       calls: [call, otter_call],
-  #       proposals: ['title', 'otter_title'],
-  #       program: []
-  #     }
-  #     expect(Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile_id})).to eq(results)
-  #   end
-
-  #   it 'retrieves a proposal' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     expect(Repos::Calls.get_proposals(:proposal, {proposal_id: proposal_id})).to eq(proposal)
-  #   end
-    
-  #   it 'retrieves the owner of the proposal' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     expect(Repos::Calls.get_proposal_owner proposal_id).to eq(user_id)
-  #   end
-  # end
-
-  
-
-  # describe 'Delete' do
-  #   it 'deletes a proposal' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq({calls: [call], proposals: [proposal], program: []})
-  #     Repos::Calls.delete_proposal proposal_id
-  #     expect(Repos::Calls.get_proposals(:profile_info, {profile_id: profile_id})).to eq({calls: [call], proposals: [], program: []})
-  #   end
-
-  #   it 'removes the proposal from programs' do
-  #     Repos::Calls.add_proposal call_id, proposal
-  #     Repos::Calls.add_proposal call_id, otter_proposal
-  #     Repos::Calls.add_proposal call_id, anotter_proposal
-  #     Repos::Calls.add_program event_id, program, order
-
-  #     Repos::Calls.delete_proposal 'otter_proposal'
-  #     expect(Repos::Calls.get_call(call_id)[:program]).to eq([{
-  #       time: ['3', '6'],
-  #       participant_id: profile_id,
-  #       participant_proposal_id: proposal_id,
-  #       host_id: profile_id,
-  #       host_proposal_id: 'anotter_proposal'
-  #     }]) 
-  #   end
-  # end
-
-  # describe 'Whitelist' do
-  #   let(:whitelist){
-  #     [
-  #       {
-  #         'email': 'email1'
-  #       },
-  #       {
-  #         'email': 'email2'
-  #       },
-  #       {
-  #         'email': 'email3'
-  #       },
-  #     ]
-  #   }
-
-  #   it 'Stores the whitelist' do
-  #     expect(Repos::Calls.get_call(call_id)[:whitelist]).to eq([])
-  #     Repos::Calls.add_whitelist call_id, whitelist
-  #     expect(Repos::Calls.get_call(call_id)[:whitelist]).to eq(whitelist)
-  #   end
-
-  #   it 'Shows if a user is whitelisted or not' do
-  #     Repos::Calls.add_whitelist call_id, whitelist
-  #     call[:whitelist] = false
-  #     results = {
-  #       calls: [call],
-  #       proposals: [],
-  #       program: []
-  #     }
-  #     expect(Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile_id, requestor: user_id})).to eq(results)
-  #     allow(Repos::Users).to receive(:grab).and_return({email: 'email1'})
-  #     call[:whitelist] = true
-  #     expect(Repos::Calls.get_proposals(:otter_profile_info, {profile_id: profile_id, requestor: user_id})).to eq(results)
-  #   end
-  # end
 
   # describe 'Program' do
 

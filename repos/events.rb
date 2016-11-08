@@ -139,6 +139,34 @@ module Repos
           })
       end
 
+      def delete_artist profile_id
+        @@events_collection.update_one({"artists.profile_id": profile_id},
+          {
+            "$pull": {'artists': {'profile_id': profile_id}}
+          })
+      end
+
+      def delete_space_proposal proposal_id
+        delete_performances proposal_id
+        @@events_collection.update_one({"spaces.proposal_id": proposal_id},
+          {
+            "$pull": {'spaces': {'proposal_id' => proposal_id}}
+          })
+      end
+
+      def delete_artist_proposal proposal_id
+        delete_performances proposal_id
+        event = grab({"artists.proposals.proposal_id": proposal_id}).first
+        artist = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}
+        proposals = artist[:proposals]
+        proposals.select!{|proposal| proposal[:proposal_id] != proposal_id}
+        return delete_artist artist[:profile_id] if proposals.blank?
+        @@events_collection.update_one({"artists.proposals.proposal_id": proposal_id},
+          {
+            "$set": {'artists.$.proposals': proposals}
+          })
+      end
+
       def add_performance event_id, performance
         @@events_collection.update_one({event_id: event_id},{
           "$push": {program: performance}
@@ -157,6 +185,14 @@ module Repos
         @@events_collection.update_one({ event_id: event_id },
           {
             "$pull": {'program': {'performance_id' => performance_id}}
+          }
+        )
+      end
+
+      def delete_performances proposal_id
+        @@events_collection.update_one({"$or": [{"artists.proposals.proposal_id": proposal_id},{"spaces.proposal_id": proposal_id}]},
+          {
+            "$pull": {'program': {"$or": [{'participant_proposal_id'=> proposal_id}, {'host_proposal_id'=> proposal_id}]}}
           }
         )
       end
@@ -201,14 +237,23 @@ module Repos
       def my_artist_proposals profile_id
         events = grab({ "artists.profile_id": profile_id})
         events.map{ |event|
-          event[:artists].select{ |proposal| proposal[:profile_id] == profile_id}.first[:proposals]
+          proposals = event[:artists].select{ |proposal| proposal[:profile_id] == profile_id}.first[:proposals]
+          proposals.each{ |proposal| 
+            proposal[:event_id] = event[:event_id]
+            proposal[:event_name] = event[:name]
+            proposal[:call_id] = event[:call_id]
+          }
         }.flatten
       end
 
       def my_space_proposals profile_id
         events = grab({ "spaces.profile_id": profile_id})
         events.map{ |event|
-          event[:spaces].select{ |proposal| proposal[:profile_id] == profile_id}.first
+          proposal = event[:spaces].select{ |proposal| proposal[:profile_id] == profile_id}.first
+          proposal[:event_id] = event[:event_id]
+          proposal[:event_name] = event[:name]
+          proposal[:call_id] = event[:call_id]
+          proposal
         }.flatten
       end
 
