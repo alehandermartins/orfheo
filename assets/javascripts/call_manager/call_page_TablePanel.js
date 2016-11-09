@@ -6,10 +6,11 @@
 
   ns.Widgets.CallMainLayout = function(call){
   	var _main = $('<main>').addClass('main-call-page');
-    var _mainLarge = $('<section>').addClass('pard-grid call-section');
+    var _mainLarge = $('<section>').addClass('pard-grid call-section'); 
 
-    var _title = $('<h4>').text('Gestiona la Convocatoria').css({'margin-top':'3rem', 'margin-bottom':'3rem'});
+    var _title = $('<h4>').text('Gestiona la Convocatoria').css({'margin-top':'1.5rem', 'margin-bottom':'2.5rem'});
 
+    var _navigationContainer = $('<div>').addClass('navigation-container-call-page');
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
   	var _tableTabTitle =	$('<a>').attr({href: "#"}).text('Tabla');
 
@@ -99,6 +100,7 @@
                 _appendAndStopSpinner(function(){
                   spinner.stop();
                   $('#programPanel').foundation();
+                  $('#artistAccordeon').css({'height':$('.tableContainer').height(), 'max-height':'none'});
                 });
               },0)
             }
@@ -113,9 +115,8 @@
 
     var _qrTabTitle =  $('<a>').attr({href: "#"}).text('QR');
     var _qrTab = $('<li>').append(_qrTabTitle);
-    var _goToEventPage = $('<a>').attr({href: "/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6"}).text('Página del evento');
-    _qrTab.on('click',function(){
-      
+    var _goToEventPage = $('<a>').attr({href: "/event?id="+call.event_id}).text('Página del evento');
+    _qrTab.on('click',function(){    
 
       if (!($('#qrPanel').html())){
         var spinner =  new Spinner().spin();
@@ -174,7 +175,9 @@
       _programTab.trigger('click')
 		});
 
-    _mainLarge.append( _tabs, _title, _tablePanel, _proposalsPanel, _programPanel, _qrPanel);
+    var _goToEventBtn = $('<a>').attr('href','/event?id='+call.event_id).text('Página evento');
+    _goToEventBtn.addClass('toEventPage-btn-callPage');
+    _mainLarge.append( _navigationContainer.append(_goToEventBtn, _tabs), _title, _tablePanel, _proposalsPanel, _programPanel, _qrPanel);
     _main.append(_mainLarge);
 
   	return {

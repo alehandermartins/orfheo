@@ -816,6 +816,18 @@ a.toEventPageBtn-event-info-card{
   font-size: $almostNormalSize;
 }
 
+a.toEventPage-btn-callPage{
+  display: inline-block;
+  font-size: $almostNormalSize;
+  margin-right: 2.5rem;
+  text-decoration: underline;
+}
+
+a.navigation-btn-callPage{
+  text-decoration: underline;
+  font-size: $almostNormalSize;
+}
+
 /*===============================================
 COMPONENTS
 ================================================*/
@@ -1354,75 +1366,6 @@ select.category-input{
         top:  4px;
       }
   }
- /*  .InputTel-FormField{
-    width: 24rem;
-    input{
-      width: 13rem;
-      display: inline-block;
-      margin-left: 1.5rem;
-    }
-  } */
-
-  /* .phone-SpaceCall, .phone-ArtistCall{
-    margin-bottom: 1.5rem;
-    margin-top: 1.2rem; 
-    width: 24rem;
-    input{
-      width: 13rem;
-      display: inline-block;
-      margin-left: 1.5rem;
-    }
-  }
- */
-/*   .phone-SpaceCall{
-    margin-bottom: 2rem;
-    margin-top: 2rem; 
-  }
- */
-
-/*   .InputDate-FormField{
-    input{
-      width: 21rem;
-    }
-  }
-
-  .Selector-FormField{
-    select{
-      width: 21rem;
-    }
-  } */
-
- /*  .availability-SpaceCall{
-    margin-bottom: 2rem;
-    margin-top: 2rem; 
-    input{
-      width: 21rem;
-      display: inline-block;
-      margin-left: 1.5rem;
-    }
-  }
-
-  .availability-ArtistCall{
-    margin-bottom: 1.5rem;
-    input{
-      width: 21rem;
-      display: inline-block;
-      margin-left: 1.5rem;
-    }
-  } */
-
-/* 
-  .responsible-SpaceCall{
-    margin-bottom: 1.5rem;
-    margin-top: 2rem; 
-    input{
-      width: 19rem;
-      display: inline-block;
-      margin-left: 1.5rem;
-    }
-  } */
-
-
 
   .own-SpaceCall, .un_wanted-SpaceCall, .sharing-SpaceCall, .conditions-SpaceCall{
     margin-bottom: 1.5rem;

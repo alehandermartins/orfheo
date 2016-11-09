@@ -1109,7 +1109,6 @@ OUTSIDER PAGE
 CALL PAGE
 ================================================*/
 
-
 .main-call-page{
   background: $grey-1;
   min-height: 100%;
@@ -1119,23 +1118,29 @@ CALL PAGE
   background: white;
   padding: $inner-spacing;
   position: relative;
+  min-height: 100%;
 }
 
 .switcher-menu-call-page{
-  top: 0.25rem;
+  top: 0rem;
   position: absolute;
   right: 0.25rem;
-  
+}
+
+.navigation-container-call-page{
+  position: relative;
+  padding:  0 0.5rem 0.2rem 0.5rem;;
+ border-bottom: 1px solid $grey-2;
 }
 
 .menu.simple.tabs-menu.switcher-menu-call-page li{
   /* border-right: 1px solid $grey-3; */
-  border-bottom: 1px solid $grey-3;
+  /* border-bottom: 1px solid $grey-3; */
   border-left: 1px solid $grey-3;
   @include border-radius($element-border-radius);
-  padding: 0.5rem; 
+  padding: 0.25rem 0.4rem; 
   font-size: $smallSize;
-
+  /* background-color: white; */
 }
 
 
@@ -1549,6 +1554,7 @@ Program Manager Tab
 
 .table-box-call-manager{
   position: relative;
+  min-height: 90vh;
 }
 
 .time-table-call-manager{
@@ -1558,7 +1564,7 @@ Program Manager Tab
 }
 
 .table-container-call-manager{
-  overflow-x: scroll;
+  /* overflow-x: scroll; */
   overflow-y: hidden;
   position: relative;
   display: inline-block;
@@ -1573,7 +1579,8 @@ Program Manager Tab
   width: 13rem;
   border: 1px solid;
   z-index: 4;
-  height: 602px;
+  min-height: 90vh;
+  max-height: 90vh;
 }
 
 .artist-list-container-call-manager{
@@ -1985,8 +1992,8 @@ tr.permanent-row-program-table-call-manager td{
 .tools-buttons-container{
   position: absolute;
   display: inline-block;
-  right: 11rem;
-  margin-top: 0.4rem;
+  right: 0rem;
+  margin-top: -2.6rem;
   span{
     font-size: $almostNormalSize;
     margin-right: 0.5rem;
@@ -2745,6 +2752,16 @@ a.participant-program-card-own {
 
 .signUpCont-eventLogin{
     margin-top: 1rem;
+}
+
+
+.navigation-outside-event-page{
+  padding: 0 0.75rem;
+}
+
+.navigation-innerCont-event-page{
+  border-top: 1px solid $grey-3;
+  padding: 0.75rem 0;
 }
 
 /*===============================================

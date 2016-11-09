@@ -15,7 +15,8 @@
     
     var _timeTableContainer = $('<div>').addClass('time-table-call-manager');
     var _tableContainer = $('<div>').addClass('tableContainer table-container-call-manager');
-    var _artistsBlock = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist'}).addClass('artist-accordeon-call-manager');
+    var _artistsBlock = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist', 'id':'artistAccordeon'}).addClass('artist-accordeon-call-manager');
+
     var _artistsList = $('<div>').addClass('artist-list-container-call-manager');
 
     var _scrollLeftBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_left').render().addClass('navigation-btn-icon'));
@@ -1886,10 +1887,10 @@
       _spaces[space.profile_id] = new Space(space);
     });
 
-     _toolsContainer.append($('<span>').text('Herramientas'), ToolsDropdownMenu().render());
-    _buttonsContainer.append(_toolsContainer);
+     _toolsContainer.append(ToolsDropdownMenu().render());
+    // _buttonsContainer.append(_toolsContainer);
     _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
-    _createdWidget.append(_buttonsContainer, _selectors.append(_daySelectorContainer, _spaceSelectorContainer, _showArtists));
+    _createdWidget.append(_selectors.append(_daySelectorContainer, _spaceSelectorContainer, _toolsContainer, _showArtists));
     _createdWidget.append(_tableBox);
 
     if(the_event.program){

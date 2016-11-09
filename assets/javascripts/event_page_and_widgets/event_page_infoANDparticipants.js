@@ -61,16 +61,9 @@
         _signUpEventMessage.setCallback(function(){});
         _popupContent.append(_signUpEventMessage.render());
         _popup.open();  
-        // var _popupContent = $('<div>').addClass('very-fast reveal full');
-        // _popupContent.empty();
-        // $('body').append(_popupContent);
-        // var _popup = new Foundation.Reveal(_popupContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        // var _signUpMessage =  Pard.Widgets.PopupContent('Empieza creando una cuenta...', Pard.Widgets.Registration());  
-        // _popupContent.append(_signUpMessage.render());
-        // _popup.open();  
     }
       else{
-       Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, '').render);
+       Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, _callToAction).render);
       }
     });
     var _btnContainer = $('<div>').append(_callToAction).addClass('btn-container-header-event');
@@ -135,33 +128,14 @@
     var _opening = new Date(parseInt(_eventInfo.start));
     var _closing = new Date(parseInt(_eventInfo.deadline));
     var _now = new Date();
-    // if(_now.getTime()<_opening.getTime()){
-    //   _callText.append($('<p>').html('Apertura convocatoria '+moment(_opening).locale('es').format('dddd DD MMMM')));
-    // }
-    // else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
-    if(true){
-
+    if(_now.getTime()<_opening.getTime()){
+      _callText.append($('<p>').html('Apertura convocatoria '+moment(_opening).locale('es').format('dddd DD MMMM')));
+    }
+    else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
       var _callopened = $('<a>').attr({'href':'#'}).text('Convocatoria abierta');
-
-        _callopened.click(function(){
-            Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(_eventInfo, _callopened).render);
-
-          // Pard.Backend.getCallForms(_eventInfo.call_id, function(data){
-          // var _content = $('<div>').addClass('very-fast reveal full');
-          // _content.empty();
-          // $('body').append(_content);
-          // console.log(data);
-          // var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          // var _message = Pard.Widgets.PopupContent(_eventInfo.name, Pard.Widgets.FormManager(data.forms.artist));
-          // _message.setCallback(function(){
-          //   _content.remove();
-          //   _popup.close();
-          // });
-          // _content.append(_message.render());
-          // _popup.open();
-          // });
-          //Pard.Backend.listProfiles(_listProfile);
-        });
+      _callopened.click(function(){
+          Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(_eventInfo, _callopened).render);
+      });
       _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
     }
     else if(_now.getTime()>_closing.getTime()){

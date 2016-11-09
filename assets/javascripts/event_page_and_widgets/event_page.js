@@ -109,7 +109,17 @@
     var _title = Pard.Widgets.EventTitle();
 
     sectionContainer.append(_title, _programContent, _exploreContent, _infoContent, _partnerContent).addClass('profiles-user-section-content');
+
     _createdWidget.append(_buttonContainer);
+
+    if (Pard.UserStatus['status'] == 'owner'){
+      var _toCallPageBtn = $('<a>').attr('href','/event_manager?id='+Pard.CachedEvent.event_id).text('Gestiona convocatoria');
+      _toCallPageBtn.addClass('navigation-btn-callPage');
+      var _toCallPageBtnContainer = $('<div>').addClass('navigation-outside-event-page');
+      var _innerContNav =  $('<div>').addClass('navigation-innerCont-event-page');
+      _toCallPageBtnContainer.append(_innerContNav.append(_toCallPageBtn))
+      _createdWidget.append(_toCallPageBtnContainer);
+    }
 
     return{
       render: function(){

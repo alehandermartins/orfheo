@@ -187,7 +187,7 @@
       for (var typeForm in forms[profile.type]){
         _formTypes.push(typeForm);
         _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
-        forms[profile.type][typeForm].category.forEach(function(cat){
+        forms[profile.type][typeForm].category.args.forEach(function(cat){
           if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
         });
       };  
@@ -366,9 +366,9 @@
         _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
         _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
       }
-    }    
+    // }    
 
-    for(var field in form){
+    // for(var field in form){
       if (field == 'photos') {
         _formContainer.append(_photosContainer);
         _formContainer.append(_message_2.css('margin-top','2rem'));
@@ -378,13 +378,16 @@
           _orfheoCategory = profile.category;
         }
         else{ 
-          if (form[field].length>1){
-             _formContainer.append(
-             $('<div>').addClass(field + '-FormField' + ' call-form-field').append('Selecciona una categoría artistica *', Pard.Widgets.Selector(form[field],form[field]))
-             )
+          if (form[field].args.length>1){
+            _formContainer.append(
+              $('<div>').addClass(field + '-FormField' + ' call-form-field').append(
+                $('<label>').text('Selecciona una categoría artistica *'), 
+                Pard.Widgets.Selector(form[field].args,form[field].args).render()
+              )
+            )
           }
           else{
-            _orfheoCategory = form[field][0]; 
+            _orfheoCategory = form[field].args[0]; 
           }
         }
       }
@@ -411,6 +414,7 @@
         };  
       }
       else{
+        if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
         var _genericField = $('<div>');
         _formContainer.append(
         _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
@@ -479,14 +483,31 @@
     var _closepopup = {};
 
     submitButton.on('click',function(){
-      if(_filled() == true){
-        _closepopup();
-        if (!(_photos)) _send();
-        else if(_photos.dataLength() == false) _send(_url);
-        else{
-          _photos.submit();
+
+      $.wait(
+        '', 
+        function(){
+          if(_filled() == true){
+            _closepopup();
+            if (!(_photos)) _send();
+            else if(_photos.dataLength() == false) _send(_url);
+            else{
+              _photos.submit();
+            }
+          }
+          else{
+            spinner.stop();
+          }
+        },
+        function(){
+          setTimeout(
+            function(){
+              spinner.stop(); 
+            }, 
+            500
+          );
         }
-      }
+      );
     });
 
     if(form['photos']){

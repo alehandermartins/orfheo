@@ -4,7 +4,10 @@
     "call_id" : "b5bc4203-9379-4de0-856a-55e1e5f3fac6",
     "artist" : {
         "Música" : {
-            "category":["music"],
+            "category":{
+                "args" : ["music"],
+                "type": "optional"
+                },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -70,7 +73,10 @@
             }
         },
         "Artes Escénicas" : {
-            "category": ["arts"],
+            "category": {
+                "args":["arts"],
+                "type": "optional"
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -136,7 +142,10 @@
             }
         },
         "Taller" : {
-            "category" : ["workshop"],
+            "category" :{    
+                "args":["workshop"],
+                "type": "optional"
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -192,7 +201,10 @@
             }
         },
         "Exposición" : {
-            "category": ["expo"],
+            "category": {
+                "args": ["expo"],
+                "type": "optional"
+            },
             "meters" : {
                 "type" : "optional",
                 "label" : "Espacio necesario para la exposición",
@@ -229,7 +241,10 @@
             }
         },
         "Street Art" : {
-            "category": ["street_art"],
+            "category": {
+                    "args": ["street_art"],
+                    "type": "optional"
+                },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -265,7 +280,10 @@
             }
         },
         "Poesía" : {
-            "category": ["poetry"],
+            "category":{ 
+                "args": ["poetry"],
+                "type": "optional"
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -321,7 +339,10 @@
             }
         },
         "Audiovisual" : {
-            "category":["audiovisual"],
+            "category":{ 
+                "args": ["audiovisual"],
+                "type": "optional"
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -387,7 +408,10 @@
             }
         },
         "Otros" : {
-            "category": ["other"],
+            "category":{ 
+                "args": ["other"],
+                "type":"optional"
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -455,7 +479,10 @@
     },
     "space" : {
         "Asociación Cultural" : {
-            "category": ["cultural_ass"],
+            "category":{ 
+                "args": ["cultural_ass"],
+                "type":"optional"
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -514,7 +541,10 @@
             }
         },
         "Local Comercial" : {
-            "category": ["commercial"],
+            "category":{ 
+                "args": ["commercial"],
+                "type":"optional"
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -631,7 +661,10 @@
             }
         },
         "Espacio Exterior" : {
-            "category": ["open_air"],
+            "category":{ 
+                "args": ["open_air"],
+                "type":"optional"
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
@@ -697,7 +730,10 @@
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fac6",
     "artist" : {
         "Música" : {
-            "category": ["music"],
+            "category":{ 
+                "args": ["music"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -920,7 +956,10 @@
             }
         },
         "Artes Escénicas" : {
-            "category": ["arts"],
+            "category":{ 
+                "args": ["arts"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1143,7 +1182,10 @@
             }
         },
         "Taller" : {
-            "category": ["workshop"],
+            "category":{ 
+                "args": ["workshop"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1375,7 +1417,10 @@
             }
         },
         "Gastronomía" : {
-            "category": ["gastronomy"],
+            "category":{ 
+                "args": ["gastronomy"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1607,7 +1652,10 @@
             }
         },
         "Exposición" : {
-        "category": ["expo"],
+            "category":{ 
+                "args": ["expo"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1719,7 +1767,10 @@
             }
         },
         "Street Art" : {
-            "category":["street_art"],
+            "category":{ 
+                "args": ["street_art"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -1938,7 +1989,10 @@
             }
         },
         "Poesía" : {
-            "category":["poetry"],
+            "category":{ 
+                "args": ["poetry"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -2161,7 +2215,10 @@
             }
         },
         "Audiovisual" : {
-            "category":["audiovisual"],
+            "category":{ 
+                "args": ["audiovisual"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -2392,7 +2449,10 @@
             }
         },
         "Otros" : {
-            "category":["other"],
+            "category":{ 
+                "args": ["other"],
+                "type":"optional"
+            },
             "title" : {
                 "type" : "mandatory",
                 "label" : "Título de la propuesta artística",
@@ -2654,13 +2714,16 @@
             }
         }
     },
-    "space" : {
+    "space" : { 
         "Espacio colaborador" : {
-            "category": [ 
+            "category":{ 
+                "args": [ 
                         "cultural_ass", 
                         "home", 
                         "commercial"
                     ],
+                "type":"optional"
+            },
             "subcategory":{
                 "type" : "mandatory",
                 "label" : "Categoría del espacio en el evento",
@@ -2724,11 +2787,14 @@
             }
         },
         "Espacio con actividad" : {
-            "category":[ 
+            "category":{
+                "args":[ 
                         "cultural_ass", 
                         "home", 
                         "commercial"
                     ],
+                type: "optional"
+            },
             "subcategory":{
                 "type" : "mandatory",
                 "label" : "Categoría del espacio en el evento",
