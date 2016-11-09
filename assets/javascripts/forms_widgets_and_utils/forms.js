@@ -269,7 +269,7 @@
     }
 
     _form['category'] = {
-      label: Pard.Widgets.InputLabel('Categoría *'),
+      label: Pard.Widgets.InputLabel('Tipo de espacio *'),
       input: Pard.Widgets.Selector(_labels, _values),
       helptext: Pard.Widgets.HelpText('')
     };
@@ -399,7 +399,7 @@
     }
 
     _form['category'] = {
-      label: Pard.Widgets.InputLabel('Categoría *'),
+      label: Pard.Widgets.InputLabel('Tipo de espacio *'),
       input: Pard.Widgets.Selector(_labels, _values),
       helptext: Pard.Widgets.HelpText('')
     };

@@ -7,7 +7,7 @@
 
   ns.Widgets.CreateProfile = function(){
     var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'});
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil', function(){ return Pard.Widgets.CreateProfileMessage()});
+    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil en orfheo', function(){ return Pard.Widgets.CreateProfileMessage()});
    
     return {
       render: function(){

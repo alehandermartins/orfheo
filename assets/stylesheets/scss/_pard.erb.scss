@@ -1543,6 +1543,10 @@ POPUP
 }
 
 
+.top-position .popup-container-full, .top-position .alert-container-full{
+  margin-bottom: 14.6rem;
+}
+
 @media only screen and (max-width : 400px) {
   .alert-container-full{
     margin-right: 2rem;
@@ -1583,6 +1587,11 @@ POPUP
   padding-bottom: 0rem;
   @include border-radius($layout-border-radius);
   top:2rem;
+}
+
+.popup-container-full .event-form-popup{
+  min-height: 100vh;
+  background-color: transparent;
 }
 
 

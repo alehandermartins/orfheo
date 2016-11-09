@@ -2663,7 +2663,7 @@
                     ],
             "subcategory":{
                 "type" : "mandatory",
-                "label" : "Categoría del espacio",
+                "label" : "Categoría del espacio en el evento",
                 "input" : "Selector",
                 "args" : [ 
                     ["Restauración y Clubs", 
@@ -2731,7 +2731,7 @@
                     ],
             "subcategory":{
                 "type" : "mandatory",
-                "label" : "Edades público",
+                "label" : "Categoría del espacio en el evento",
                 "input" : "Selector",
                 "args" : [ 
                     ["Restauración y Clubs", 

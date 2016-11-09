@@ -135,7 +135,7 @@
 
 
   ns.Widgets.GetCallForms = function(forms, eventInfo, profile, callbackSendProposal){
-    var _content = $('<div>').addClass('very-fast reveal full');
+    var _content = $('<div>').addClass('very-fast reveal full top-position');
     _content.empty();
     $('body').append(_content);
     var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
@@ -151,6 +151,9 @@
 
   ns.Widgets.FormManager = function(forms, profile, callbackSendProposal){
     var _createdWidget = $('<div>');
+    var _initialMexText = 'Este es el <strong>formulario</strong> para inscribirte en la convocatoria <strong>de '+Pard.CachedEvent.organizer+'</strong> como '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase()+':'
+    var _initialMex = $('<h6>').html(_initialMexText).css('margin-bottom','1.5rem');
+    _createdWidget.append(_initialMex); 
     var _closepopup = {};
     var _production_id;
     var _typeFormsCatArray = Object.keys(forms);
@@ -171,10 +174,28 @@
         space: Pard.Widgets.ArtistCallForm
       };
 
+      var _outerFormBox = $('<div>');
+      var _formTypeSelectorCont = $('<div>');
+      var _formTypeOptionsCont = $('<div>');
       var _contentSel = $('<div>');
+      var _formTypes = [];
+      var _acceptedCategories = [];
+      var _formTypeSelector = $('<select>');
+      var _emptyOption = $('<option>').text('Selecciona como quieres apuntarte').val('');
+      _formTypeSelector.append(_emptyOption);
+      
+      for (var typeForm in forms[profile.type]){
+        _formTypes.push(typeForm);
+        _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
+        forms[profile.type][typeForm].category.forEach(function(cat){
+          if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
+        });
+      };  
+
+      _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector),_formTypeOptionsCont);
 
       if(profile.productions && profile.productions.length){
-        var _t1 = $('<div>').append($('<h5>').text('Apúntate con una propuesta de tu portfolio')).css({
+        var _t1 = $('<div>').append($('<h5>').text('apúntate con una propuesta de tu portfolio')).css({
           'margin-top':'1.5rem',
           'margin-bottom':'1rem'
         });
@@ -183,87 +204,111 @@
         });
         var _prodContainer = $('<div>').addClass('prodContainer-event-page');
         _prodContainer.append(_t1);
+        var _compatibleProductions = false;
         profile.productions.forEach(function(production){
-          var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
-          var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
-          _iconColumn.css({
-            'padding':'0.2rem'
-          })
-          var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
-          var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
+          if ($.inArray(production.category, _acceptedCategories)>-1){
+            var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
+            var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
+            _iconColumn.css({
+              'padding':'0.2rem'
+            })
+            var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
+            var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
 
-          _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
-          _prodContainer.append(_prodBtn);
-          _prodBtn.click(function(){
-            if (_prodBtn.hasClass('content-form-selected')){
-              _production_id = false;
-              _prodBtn.removeClass('content-form-selected');
-              _categorySelector.prop('selectedIndex',0);;
-              _contentSel.empty();
-              _t2.show();
-            }
-            else{
-              _production_id = production.production_id;
-              var _catProduction = Pard.Widgets.Dictionary(production.category).render();
-              var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, _production_id, callbackSendProposal);
-              _categorySelector.val(_catProduction);
-              _t2.hide();
-              _form.setVal(production);
-              _form.setCallback(function(){
-                _closepopup();
-              });
-              $('.content-form-selected').removeClass('content-form-selected');
-              _prodBtn.addClass('content-form-selected');
-              // var _content = $('<div>').attr('id','form-'+production.production_id);
-              // _createdWidget.append(_content.append(_form.render()));
-              // _contentShowHide('form-'+production.production_id);
-              _contentSel.empty();
-              _contentSel.append(_form.render());
-            }
-          })
+            _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
+            _prodContainer.append(_prodBtn);
+            _compatibleProductions = true;
+            _prodBtn.click(function(){
+              if (_prodBtn.hasClass('content-form-selected')){
+                _production_id = false;
+                _prodBtn.removeClass('content-form-selected');
+                _formTypeSelector.prop('selectedIndex',0);;
+                _contentSel.empty();
+                _formTypeSelector.show();
+                _t2.show();
+                _formTypeOptionsCont.empty();
+              }
+              else{
+                _production_id = production.production_id;
+                var _catProduction = Pard.Widgets.Dictionary(production.category).render();
+                if (false){
+                  var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, _production_id, callbackSendProposal);
+                  _formTypeSelector.val(_catProduction);
+                  _t2.hide();
+                  _form.setVal(production);
+                  _form.setCallback(function(){
+                    _closepopup();
+                  });
+                  $('.content-form-selected').removeClass('content-form-selected');
+                  _prodBtn.addClass('content-form-selected');
+                  _contentSel.empty();
+                  _contentSel.append(_form.render());
+                }
+                else{
+                  if (_t2) _t2.hide();
+                  $('.content-form-selected').removeClass('content-form-selected');
+                  _prodBtn.addClass('content-form-selected');
+                  var _formTypeOptionsSelector = $('<select>');
+                  var _emptyOpt = $('<option>').text('Selecciona como quieres apuntarte').val('');
+                  _formTypeOptionsSelector.append(_emptyOpt);
+                  for (var typeForm in forms[profile.type]){
+                    if( $.inArray(production.category, forms[profile.type][typeForm].category) > -1){ 
+                      _formTypeOptionsSelector.append($('<option>').text(typeForm).val(typeForm));
+                    }
+                  }
+                  _formTypeSelector.hide();
+                  _contentSel.empty()
+                  _formTypeOptionsSelector.on('change', function(){
+                    // $('.content-form-selected').removeClass('content-form-selected');
+                    // _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+                    _printForm(_formTypeOptionsSelector, _emptyOpt, production);
+                  });
+                  _formTypeOptionsCont.append(_formTypeOptionsSelector);
+                }
+              }
+            })
+          }
         });
-        _createdWidget.append(_prodContainer);
+        if (_compatibleProductions) _createdWidget.append(_prodContainer);
       }
 
-      var _categorySelector = $('<select>');
+      // var _formTypeSelector = $('<select>');
 
-      var _emptyOption = $('<option>').text('Selecciona una categoría para apuntarte como '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase());
-      _categorySelector.append(_emptyOption);
+      // var _emptyOption = $('<option>').text('Selecciona para apuntarte como '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase());
+      // var _emptyOption = $('<option>').text('Selecciona').val('');
+      // _formTypeSelector.append(_emptyOption);
 
-      var _festivalCategories = [];
-
-      for(var field in forms[profile.type]){
-        _categorySelector.append($('<option>').text(field).val(field));
-        _festivalCategories.push(field);
-      }
-
-
-      _categorySelector.on('change',function(){
+      _formTypeSelector.on('change',function(){
         $('.content-form-selected').removeClass('content-form-selected');
-        _categorySelector.addClass('content-form-selected').css('font-weight','normal');
-        _contentSel.empty();
+        _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
         if (_t2) _t2.show();
-        _emptyOption.css('display', 'none');
+        _printForm(_formTypeSelector, _emptyOption);
+      });
+
+      var _printForm = function(formTypeSelector, emptyOption, production){
+        _contentSel.empty();
+        emptyOption.css('display', 'none');
         _production_id = false;
-        var _catSelected = _categorySelector.val();
-        var _form = _formTypeConstructor[profile.type](forms[profile.type][_catSelected], profile, _catSelected, _production_id, callbackSendProposal);
+        var _typeFormSelected = formTypeSelector.val();
+        var _form = _formTypeConstructor[profile.type](forms[profile.type][_typeFormSelected], profile, _typeFormSelected, _production_id, callbackSendProposal);
         _form.setCallback(function(){
           _closepopup();
-        })
+        });
+        if (production) _form.setVal(production); 
         _contentSel.append(_form.render());
         // _contentShowHide('form-from-selector');
-      });
+      };
 
       if (profile.category){
         var _profileCategory = Pard.Widgets.Dictionary(profile.category).render();
-        if ($.inArray(_profileCategory, _festivalCategories)>-1){
-          _categorySelector.val(_profileCategory);
-          _categorySelector.trigger('change');
-          _categorySelector.attr('disabled',true);
+        if ($.inArray(_profileCategory, _formTypes)>-1){
+          _formTypeSelector.val(_profileCategory);
+          _formTypeSelector.trigger('change');
+          _formTypeSelector.attr('disabled',true);
         }
       }
 
-      _createdWidget.append(_t2, _categorySelector, _contentSel);
+      _createdWidget.append(_t2, _outerFormBox.append(_contentSel));
     }
 
     return{
@@ -314,9 +359,12 @@
       if (field != 'photos' && field != 'category'){
         _form[field] = {};
         _form[field]['type'] = form[field].type;
-        if(form[field]['type'] == 'mandatory')  _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+        if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
         else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
-        if (form[field]['input']=='CheckBox') form[field].args[0] = form[field].label;
+        if (form[field]['input']=='CheckBox') {
+          form[field].args[0] = form[field].label;
+          if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
+        }
         _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
         _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
       }
@@ -353,16 +401,16 @@
         var _genericField = $('<div>');
         _formContainer.append(
            _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render()));
-          if (form[field]['helptext'].length) {
-            if (field == 'conditions') {
-              var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
-            }
-            else {
-              var _helptextfield = _form[field].helptext.render();
-            }
-            _helptextfield.css({'margin-top':'0'});
-            _genericField.append(_helptextfield);
-          };  
+        if (form[field]['helptext'].length) {
+          if (field == 'conditions') {
+            var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
+          }
+          else {
+            var _helptextfield = _form[field].helptext.render();
+          }
+          _helptextfield.css({'margin-top':'0'});
+          _genericField.append(_helptextfield);
+        };  
       }
       else{
         var _genericField = $('<div>');
