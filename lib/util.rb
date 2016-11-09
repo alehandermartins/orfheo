@@ -37,6 +37,7 @@ module Util
     end
 
     def arrayify_hash hash
+      return hash if hash.is_a? Array
       return [] if hash.blank?
       return symbolize_array(hash) if hash.is_a? Array
       return hash unless hash.is_a? Hash

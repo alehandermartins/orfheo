@@ -36,8 +36,9 @@ class CallsController < BaseController
 
   post '/users/amend_artist_proposal' do
     scopify event_id: true, proposal_id: true, amend: true
-    check_proposal_exists! proposal_id
+    check_event_exists! event_id
     check_deadline! event_id
+    check_proposal_exists! proposal_id
     check_artist_proposal_ownership! proposal_id
     Repos::Events.amend_artist proposal_id, amend
     success
@@ -45,6 +46,7 @@ class CallsController < BaseController
 
   post '/users/amend_space_proposal' do
     scopify event_id: true, proposal_id: true, amend: true
+    check_event_exists! event_id
     check_proposal_exists! proposal_id
     check_deadline! event_id
     check_space_proposal_ownership! proposal_id
@@ -62,7 +64,7 @@ class CallsController < BaseController
     form = get_artist_form call_id, form_category
     proposal = ArtistProposal.new(params, session[:identity], form)
     Repos::Events.modify_artist proposal.to_h
-    success ({profile_id: profile_id})
+    success
   end
 
   post '/users/modify_space_proposal' do
@@ -75,11 +77,13 @@ class CallsController < BaseController
     form = get_space_form call_id, form_category
     proposal = SpaceProposal.new(params, session[:identity], form)
     Repos::Events.modify_space proposal.to_h
-    success ({profile_id: profile_id})
+    success
   end
 
   post '/users/delete_artist_proposal' do
     scopify event_id: true, proposal_id: true
+    check_event_exists! event_id
+    check_proposal_exists! proposal_id
     check_artist_access! event_id, proposal_id
     check_deadline! event_id
     Repos::Events.delete_artist_proposal proposal_id
@@ -88,6 +92,8 @@ class CallsController < BaseController
 
   post '/users/delete_space_proposal' do
     scopify event_id: true, proposal_id: true
+    check_event_exists! event_id
+    check_proposal_exists! proposal_id
     check_space_access! event_id, proposal_id
     check_deadline! event_id
     Repos::Events.delete_space_proposal proposal_id
@@ -119,10 +125,10 @@ class CallsController < BaseController
   end
 
   post '/users/add_whitelist' do
-    scopify event_id: true
+    scopify event_id: true, whitelist: true
     check_event_ownership! event_id
-    whitelist = Util.arrayify_hash params[:whitelist]
-    Repos::Events.add_whitelist event_id, whitelist
+    list = Util.arrayify_hash whitelist
+    Repos::Events.add_whitelist event_id, list
     success
   end
 

@@ -10,7 +10,8 @@ describe CallsController do
   let(:amend_space_proposal_route){'/users/amend_space_proposal'}
   let(:modify_artist_proposal_route){'/users/modify_artist_proposal'}
   let(:modify_space_proposal_route){'/users/modify_space_proposal'}
-  let(:delete_proposal_route){'/users/delete_proposal'}
+  let(:delete_artist_proposal_route){'/users/delete_artist_proposal'}
+  let(:delete_space_proposal_route){'/users/delete_space_proposal'}
 
    let(:user_hash){
     {
@@ -84,7 +85,9 @@ describe CallsController do
         description: 'description',
         short_description: 'short_description',
         duration: 'duration',
-        optional: nil
+        optional: nil,
+        form_category: 'music',
+        subcategory: 'music'
       }]
     }
   }
@@ -100,6 +103,8 @@ describe CallsController do
       short_description: 'short_description',
       duration: 'duration',
       phone: 'phone',
+      form_category: 'music',
+      subcategory: 'music'
     }
   }
 
@@ -131,7 +136,9 @@ describe CallsController do
       category: 'home',
       phone: 'phone',
       description: nil,
-      optional: nil
+      optional: nil,
+      form_category: 'home',
+      subcategory: 'home'
     }
   }  
 
@@ -156,7 +163,9 @@ describe CallsController do
       event_id: event_id,
       call_id: call_id,
       phone: 'phone',
-      category: 'home'
+      category: 'home',
+      form_category: 'home',
+      subcategory: 'home'
     }
   }
 
@@ -265,8 +274,8 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
-    it 'fails if the call does not include the category' do
-      proposal[:category] = 'arts'
+    it 'fails if the call does not include the form category' do
+      proposal[:form_category] = 'arts'
       post send_artist_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
@@ -334,7 +343,7 @@ describe CallsController do
     }
 
     it 'fails if the proposal does not exist' do
-      post amend_artist_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+      post amend_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id, amend: 'amend'}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
@@ -343,7 +352,8 @@ describe CallsController do
       post send_artist_proposal_route, proposal
       post logout_route
       post login_route, otter_user
-      post amend_artist_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+      allow(Repos::Events).to receive(:proposal_on_time?).and_return(true)
+      post amend_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id, amend: 'amend'}
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
@@ -352,7 +362,7 @@ describe CallsController do
     it 'amends the proposal' do
       post send_artist_proposal_route, proposal
       expect(Repos::Events).to receive(:amend_artist).with(proposal_id, 'amend')
-      post amend_artist_proposal_route, {proposal_id: proposal_id, amend: 'amend'}
+      post amend_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id, amend: 'amend'}
       expect(parsed_response['status']).to eq('success')
     end
   end
@@ -401,43 +411,33 @@ describe CallsController do
   describe 'Delete_proposal' do
 
     before(:each){
-      post create_call_route, call
+      post logout_route
+      post login_route, otter_user
+      post create_profile_route, profile
+      artist[:user_id] = otter_user_id
+      artist[:proposals].first[:proposal_id] = proposal_id
+      Repos::Events.add_artist event_id, artist
     }
 
-    it 'fails if the proposal does not exist' do
-      post delete_proposal_route, {proposal_id: proposal_id}
-
+    it 'fails if the user is out of time' do
+      post delete_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('non_existing_proposal')
+      expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
-    it 'fails if the user does not own the proposal' do
-      proposal_model[:user_id] = 'otter'
-      Repos::Calls.add_proposal call_id, proposal_model
-      post delete_proposal_route, {proposal_id: proposal_id}
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('you_dont_have_permission')
-    end
-
-    it 'deletes the proposal' do
-      allow(Services::Profiles).to receive(:production_old_pictures).with(production_id).and_return({photos: ['photo']})
-      Repos::Calls.add_proposal call_id, proposal_model
-      post delete_proposal_route, {proposal_id: proposal_id}
-
+    it 'allows event owner to delete' do
+      post logout_route
+      post login_route, user
+      expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
+      post delete_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
-      post delete_proposal_route, proposal
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
   end
 
   describe 'Whitelist' do
     it 'stores a whitelist' do
-      post create_call_route, call
-      expect(Repos::Calls).to receive(:add_whitelist).with(call_id, ['otter@otter.com'])
-      post '/users/add_whitelist', {call_id: call_id, whitelist: ['otter@otter.com']}
+      expect(Repos::Events).to receive(:add_whitelist).with(event_id, ['otter@otter.com'])
+      post '/users/add_whitelist', {event_id: event_id, whitelist: ['otter@otter.com']}
       expect(parsed_response['status']).to eq('success')
     end
   end
