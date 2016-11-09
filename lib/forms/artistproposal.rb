@@ -46,6 +46,8 @@ class ArtistProposal
       production_id: params[:production_id],
       proposal_id: params[:proposal_id] || SecureRandom.uuid,
       category: params[:category],
+      subcategory: params[:subcategory],
+      form_category: params[:form_category]
     }
     form.each{ |field, content| proposal[field] = params[field]}
     proposal
