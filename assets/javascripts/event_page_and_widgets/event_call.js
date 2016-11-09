@@ -214,26 +214,30 @@
             })
             var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
             var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
-
-            _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
+            var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
+            _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()), _xbtn);
+            _xbtn.hide();
             _prodContainer.append(_prodBtn);
             _compatibleProductions = true;
             _prodBtn.click(function(){
               if (_prodBtn.hasClass('content-form-selected')){
+                _xbtn.hide();
+                _formTypeSelector.show();
+                _formTypeSelector.attr('disabled',false);
                 _production_id = false;
                 _prodBtn.removeClass('content-form-selected');
                 _formTypeSelector.prop('selectedIndex',0);;
                 _contentSel.empty();
-                _formTypeSelector.show();
                 _t2.show();
                 _formTypeOptionsCont.empty();
               }
               else{
                 _production_id = production.production_id;
                 var _catProduction = Pard.Widgets.Dictionary(production.category).render();
-                if (false){
+                if (forms[profile.type][_catProduction]){
                   var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, _production_id, callbackSendProposal);
                   _formTypeSelector.val(_catProduction);
+                  _formTypeSelector.attr('disabled',true);
                   _t2.hide();
                   _form.setVal(production);
                   _form.setCallback(function(){
@@ -241,6 +245,7 @@
                   });
                   $('.content-form-selected').removeClass('content-form-selected');
                   _prodBtn.addClass('content-form-selected');
+                  _xbtn.show();
                   _contentSel.empty();
                   _contentSel.append(_form.render());
                 }
@@ -248,6 +253,7 @@
                   if (_t2) _t2.hide();
                   $('.content-form-selected').removeClass('content-form-selected');
                   _prodBtn.addClass('content-form-selected');
+                  _xbtn.show();
                   var _formTypeOptionsSelector = $('<select>');
                   var _emptyOpt = $('<option>').text('Selecciona como quieres apuntarte').val('');
                   _formTypeOptionsSelector.append(_emptyOpt);
@@ -259,8 +265,6 @@
                   _formTypeSelector.hide();
                   _contentSel.empty()
                   _formTypeOptionsSelector.on('change', function(){
-                    // $('.content-form-selected').removeClass('content-form-selected');
-                    // _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
                     _printForm(_formTypeOptionsSelector, _emptyOpt, production);
                   });
                   _formTypeOptionsCont.append(_formTypeOptionsSelector);
@@ -271,12 +275,6 @@
         });
         if (_compatibleProductions) _createdWidget.append(_prodContainer);
       }
-
-      // var _formTypeSelector = $('<select>');
-
-      // var _emptyOption = $('<option>').text('Selecciona para apuntarte como '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase());
-      // var _emptyOption = $('<option>').text('Selecciona').val('');
-      // _formTypeSelector.append(_emptyOption);
 
       _formTypeSelector.on('change',function(){
         $('.content-form-selected').removeClass('content-form-selected');
@@ -321,7 +319,7 @@
     }
   }
 
-  ns.Widgets.ArtistCallForm = function(form, profile, catSelected, production_id, callbackSendProposal){
+  ns.Widgets.ArtistCallForm = function(form, profile, formTypeSelected, production_id, callbackSendProposal){
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
@@ -461,8 +459,9 @@
       _submitForm['profile_id'] = profile.profile_id;
       _submitForm['type'] = profile.type;
       _submitForm['category'] = _orfheoCategory;
+      _submitForm['form_category'] = formTypeSelected;
       if (production_id) _submitForm['production_id'] = production_id; 
-      if (!(form['subcategory'])) _submitForm['subcategory'] = catSelected;
+      if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
       if (form['photos']) _submitForm['photos'] = url;
       return _submitForm;
     }

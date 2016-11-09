@@ -791,6 +791,31 @@ a.toEventPageBtn-event-info-card{
   padding: 0.3rem 1.2rem;
 }
 
+.production-nav-element-container.production-btn-event-page{
+  padding: 0.2rem 0.2rem;
+  position: relative;
+  width: 11.5rem;
+  display: inline-block;
+  height: 2.7rem;
+  margin-top: 0.1rem;
+  margin-bottom: 1rem;
+  margin-right: 0.8rem;
+  border: 1px solid $grey-2;
+}
+
+.production-nav-element-container.production-btn-event-page:hover{
+  background: $grey-1;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.xbtn-production-event-page{
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  font-size: $almostNormalSize;
+}
+
 /*===============================================
 COMPONENTS
 ================================================*/
