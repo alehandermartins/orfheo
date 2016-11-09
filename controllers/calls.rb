@@ -1,7 +1,7 @@
 class CallsController < BaseController
 
   post '/users/send_artist_proposal' do
-    scopify event_id: true, call_id: true, profile_id: true, production_id: true, category: true, form_category: true: true
+    scopify event_id: true, call_id: true, profile_id: true, production_id: true, category: true, form_category: true
     check_event_exists! event_id
     check_call_exists! call_id
     check_profile_ownership profile_id
@@ -94,16 +94,28 @@ class CallsController < BaseController
     success
   end
 
-  post '/users/own_proposal' do
-    scopify call_id: true
-    params[:profile_id] = SecureRandom.uuid + '-own'
-    check_call_ownership call_id
+  post '/users/send_artist_own_proposal' do
+    scopify event_id: true, call_id: true, profile_id: true, category: true, form_category: true
+    check_event_ownership! event_id
+    check_call_exists! call_id
+    check_artist_category! category
 
-    proposal_id = SecureRandom.uuid
-    proposal = Forms::Proposals.new(params, session[:identity]).create_own(proposal_id)
-    Repos::Calls.add_proposal call_id, proposal
-    call = get_call call_id
-    success ({call: call})
+    form = get_artist_form call_id, form_category
+    proposal = ArtistOwnProposal.new(params, session[:identity], form)
+    Repos::Events.add_artist event_id, proposal.to_h
+    success
+  end
+
+  post '/users/send_space_own_proposal' do
+    scopify event_id: true, call_id: true, profile_id: true, category: true, form_category: true
+    check_event_ownership! event_id
+    check_call_exists! call_id
+    check_space_category! category
+
+    form = get_space_form call_id, form_category
+    proposal = SpaceOwnProposal.new(params, session[:identity], form)
+    Repos::Events.add_space event_id, proposal.to_h
+    success
   end
 
   post '/users/add_whitelist' do
