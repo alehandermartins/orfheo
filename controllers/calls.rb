@@ -80,17 +80,17 @@ class CallsController < BaseController
 
   post '/users/delete_artist_proposal' do
     scopify event_id: true, proposal_id: true
-    check_event_ownership! event_id
+    check_artist_access! event_id, proposal_id
     check_deadline! event_id
-    delete_artist_proposal proposal_id
+    Repos::Events.delete_artist_proposal proposal_id
     success
   end
 
   post '/users/delete_space_proposal' do
     scopify event_id: true, proposal_id: true
-    check_event_ownership! event_id
+    check_space_access! event_id, proposal_id
     check_deadline! event_id
-    delete_space_proposal proposal_id
+    Repos::Events.delete_space_proposal proposal_id
     success
   end
 
@@ -154,15 +154,11 @@ class CallsController < BaseController
     raise Pard::Invalid::Deadline unless Repos::Events.proposal_on_time?(event_id, session[:identity]) == true
   end
 
-  def delete_proposal proposal_id
-    Services::Calls.delete_proposal proposal_id
+  def check_artist_access! event_id, proposal_id
+    raise Pard::Invalid::ProposalOwnership unless Repos::Events.get_artist_proposal_owner(proposal_id) == session[:identity] || Repos::Events.get_event_owner(event_id) == session[:identity]
   end
 
-  def get_call_owner call_id
-    Repos::Calls.get_call_owner call_id
-  end
-
-  def get_call call_id
-    Repos::Calls.get_call call_id
+  def check_space_access! event_id, proposal_id
+    raise Pard::Invalid::ProposalOwnership unless Repos::Events.get_space_proposal_owner(proposal_id) == session[:identity] || Repos::Events.get_event_owner(event_id) == session[:identity]
   end
 end
