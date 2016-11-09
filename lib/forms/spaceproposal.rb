@@ -38,7 +38,9 @@ class SpaceProposal
       name: profile[:name],
       address: profile[:address],
       description: profile[:description],
-      phone: params[:phone]
+      phone: params[:phone],
+      subcategory: params[:subcategory],
+      form_category: params[:form_category]
     }
     form.each{ |field, content| space_proposal[field] = params[field]} 
     space_proposal
