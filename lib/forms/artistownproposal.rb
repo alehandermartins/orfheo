@@ -7,12 +7,13 @@ class ArtistOwnProposal
 
   def check_fields params, form
     raise Pard::Invalid::Params unless form.all?{ |field, entry|
-      correct_entry? params[field], entry[:type]
+      correct_entry? params[field], entry[:type], field
     }
+    raise Pard::Invalid::Params if params[:name].blank? || params[:email].blank?
   end
 
-  def correct_entry? value, type
-    return !value.blank? if type == 'mandatory'
+  def correct_entry? value, type, field
+    return !value.blank? if type == 'mandatory' && field.to_s.to_i == 0 
     true
   end
 
@@ -26,10 +27,10 @@ class ArtistOwnProposal
 
   private
   attr_reader :artist_proposal
-  def new_artist params, user, form
+  def new_artist params, user_id, form
     proposal = new_proposal params, form
     artist_proposal = {
-      user_id: user[:user_id],
+      user_id: user_id,
       profile_id: params[:profile_id] || (SecureRandom.uuid + '-own'),
       email: params[:email],
       name: params[:name],
