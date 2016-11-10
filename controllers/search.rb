@@ -219,6 +219,7 @@ class SearchController < BaseController
       'audiovisual',
       'street art',
       'taller',
+      'gastronomia',
       'otros'].include? text
   end
 
@@ -238,6 +239,7 @@ class SearchController < BaseController
       audiovisual: 'audiovisual',
       street_art: 'street art',
       workshop: 'taller',
+      gastronomy: 'gastronomia',
       other: 'otros',
     }
     return dictionary[text.to_sym] if dictionary.has_key? text.to_sym

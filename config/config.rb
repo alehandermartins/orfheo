@@ -28,6 +28,8 @@ require_relative '../lib/forms/spaceprofile'
 require_relative '../lib/forms/production'
 require_relative '../lib/forms/artistproposal'
 require_relative '../lib/forms/spaceproposal'
+require_relative '../lib/forms/artistownproposal'
+require_relative '../lib/forms/spaceownproposal'
 require_relative '../lib/forms/events'
 require_relative '../lib/forms/program'
 

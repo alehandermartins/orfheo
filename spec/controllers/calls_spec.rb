@@ -85,7 +85,8 @@ describe CallsController do
         description: 'description',
         short_description: 'short_description',
         duration: 'duration',
-        optional: nil,
+        '1': nil,
+        '2': 'mandatory',
         form_category: 'music',
         subcategory: 'music'
       }]
@@ -104,7 +105,8 @@ describe CallsController do
       duration: 'duration',
       phone: 'phone',
       form_category: 'music',
-      subcategory: 'music'
+      subcategory: 'music',
+      '2': 'mandatory'
     }
   }
 
@@ -136,7 +138,8 @@ describe CallsController do
       category: 'home',
       phone: 'phone',
       description: nil,
-      optional: nil,
+      '1': nil,
+      '2': 'mandatory',
       form_category: 'home',
       subcategory: 'home'
     }
@@ -165,7 +168,8 @@ describe CallsController do
       phone: 'phone',
       category: 'home',
       form_category: 'home',
-      subcategory: 'home'
+      subcategory: 'home',
+      '2': 'mandatory'
     }
   }
 
@@ -194,13 +198,15 @@ describe CallsController do
           description: {type: "mandatory"},
           short_description: {type: "mandatory"},
           duration: {type: "mandatory"},
-          optional: {type: "optional"}
+          '1': {type: "optional"},
+          '2': {type: "mandatory"}
         }
       },
       space: {
         home: {
           phone: {type: "mandatory"},
-          optional: {type: "optional"}
+          '1': {type: "optional"},
+          '2': {type: "mandatory"}
         }
       }
     }
@@ -295,12 +301,72 @@ describe CallsController do
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(profile_id)
     end
+  end
 
-    xit 'sends own proposal' do
-      expect(Repos::Calls).to receive(:add_proposal).with(call_id, own_proposal_model)
-      post '/users/own_proposal', own_proposal
+  describe 'Sends own artist proposal' do
+
+    before(:each){
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+    }
+
+    let(:artist_own){
+    {
+      user_id: user_id,
+      profile_id: profile_id + '-own',
+      email: 'email@test.com',
+      name: 'artist_name',
+      phone: 'phone',
+      proposals: [{
+        proposal_id: proposal_id + '-own',
+        category: 'music',
+        title: 'title',
+        description: 'description',
+        short_description: 'short_description',
+        duration: 'duration',
+        '1': nil,
+        '2': nil,
+        form_category: 'music',
+        subcategory: 'music'
+      }]
+    }
+  }
+
+  let(:artist_own_proposal){
+    {
+      profile_id: profile_id + '-own',
+      event_id: event_id,
+      call_id: call_id,
+      email: 'email@test.com',
+      name: 'artist_name',
+      category: 'music',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      duration: 'duration',
+      phone: 'phone',
+      form_category: 'music',
+      subcategory: 'music'
+    }
+  }
+
+    it 'fails if it does not include mandatory orfheo fields' do
+      artist_own_proposal.delete(:title)
+      post '/users/send_artist_own_proposal', artist_own_proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
+    it 'fails if it does not include profile mandatory orfheo fields' do
+      artist_own_proposal.delete(:name)
+      post '/users/send_artist_own_proposal', artist_own_proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
+    it 'sends own proposal' do
+      expect(Repos::Events).to receive(:add_artist).with(event_id, artist_own)
+      post '/users/send_artist_own_proposal', artist_own_proposal
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['call']).to eq(Util.stringify_hash(Repos::Calls.get_call call_id))
     end
   end
 
@@ -326,12 +392,66 @@ describe CallsController do
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profile_id']).to eq(space_profile_id)
     end
+  end
 
-    xit 'sends own proposal' do
-      expect(Repos::Calls).to receive(:add_proposal).with(call_id, own_proposal_model)
-      post '/users/own_proposal', own_proposal
+  describe 'Sends own space proposal' do
+
+    before(:each){
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+    }
+
+    let(:space_own){
+    {
+      user_id: user_id,
+      profile_id: space_profile_id + '-own',
+      proposal_id: proposal_id + '-own',
+      email: 'email@test.com',
+      name: 'space_name',
+      address: 'address',
+      category: 'home',
+      phone: 'phone',
+      description: nil,
+      '1': nil,
+      '2': nil,
+      form_category: 'home',
+      subcategory: 'home'
+    }
+  }
+
+  let(:space_own_proposal){
+    {
+      user_id: user_id,
+      profile_id: space_profile_id + '-own',
+      event_id: event_id,
+      call_id: call_id,
+      email: 'email@test.com',
+      name: 'space_name',
+      address: 'address',
+      phone: 'phone',
+      category: 'home',
+      form_category: 'home',
+      subcategory: 'home'
+    }
+  }
+
+    it 'fails if it does not include mandatory orfheo fields' do
+      space_own_proposal.delete(:phone)
+      post '/users/send_space_own_proposal', space_own_proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
+    it 'fails if it does not include profile mandatory orfheo fields' do
+      space_own_proposal.delete(:address)
+      post '/users/send_space_own_proposal', space_own_proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
+    it 'sends own proposal' do
+      expect(Repos::Events).to receive(:add_space).with(event_id, space_own)
+      post '/users/send_space_own_proposal', space_own_proposal
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['call']).to eq(Util.stringify_hash(Repos::Calls.get_call call_id))
     end
   end
 
