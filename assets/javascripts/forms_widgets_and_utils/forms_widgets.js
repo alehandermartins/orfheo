@@ -1,322 +1,184 @@
 'use strict';
 
-
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
-   ns.Widgets.Input = function(label, type, oninputcallback, onchangecallback){
+  ns.Widgets.PrintForm = function(form, submitButton){
 
-    var _input = $('<input>').attr({'type':type, 'placeholder': label});
+    var _submitForm = {};
+    var _form = {};
+    var _url = [];
+    var _formContainer = $('<form>').addClass('popup-form');
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    _input.on('input',function(){
-      _input.removeClass('warning');
-      if(oninputcallback) oninputcallback();
-    });
+    var _closepopup = {};
+    var _send = function(){};
+    var spinner =  new Spinner()
 
-    _input.on('change', function(){
-      if(onchangecallback) onchangecallback();
-    });
-
-    _input.on('focus', function(){
-      if($(window).width()<1024){
-        if ($('.reveal[aria-hidden="false"]').html()){
-          var _distanceInputTop = _input.offset().top;
-          var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
-          var _headerHeight = $('header').height();
-          var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
-          $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
-        }
+    for(var field in form){
+      _form[field] = {};
+      _form[field]['type'] = form[field].type;
+      if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+      else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
+      if (form[field]['input']=='CheckBox') {
+        form[field].args[0] = form[field].label;
+        if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
       }
-    });
+      _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+      _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
 
-
-    return{
-      render: function(){
-        return _input;
-      },
-      getVal: function(){
-        return _input.val();
-      },
-      setVal: function(value){
-        _input.val(value);
-      },
-      addWarning: function(){
-        _input.addClass('warning');
-      },
-      removeWarning: function(){
-        _input.removeClass('warning');
-      },
-      setClass: function(_class){
-        _input.addClass(_class);
-      },
-      setAttr: function(attribute, value){
-        _input.attr(attribute,value);
-      }
-    }
-  };
-
-  ns.Widgets.InputLabel = function(label){
-
-    var _label = $('<label>').text(label);
-
-    return{
-      render: function(){
-        return _label;
-      },
-      setClass: function(_class){
-        _label.addClass(_class);
-      }
-    }
-  };
-
-  ns.Widgets.HelpText = function(label){
-
-    var _helptext = $('<p>').addClass('help-text').html(label);
-
-    return{
-      render: function(){
-        return _helptext;
-      },
-      setClass: function(_class){
-        _helptext.addClass(_class);
-      }
-    }
-  };
-
-
-  ns.Widgets.Button = function(label, callback){
-
-    var _createdWidget = $('<button>').addClass('pard-btn').attr({type:'button'}).html(label);
-    if (callback) _createdWidget.click(callback);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      disable: function(){
-        _createdWidget.attr('disabled',true);
-      },
-      enable: function(){
-        _createdWidget.attr('disabled',false);
-      },
-      setClass: function(_class){
-        _createdWidget.addClass(_class);
-      }
-    };
-  };
-
-  ns.Widgets.Selector = function(labels, values, callback){
-    var _createdWidget = $('<select>');
-    values.forEach(function(value, index){
-      _createdWidget.append($('<option>').text(labels[index]).val(value));
-    });
-     _createdWidget.on('change',function(){
-      if(callback) {
-        var boundCallback = callback.bind(_createdWidget);
-        boundCallback();
-      };
-    });
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      getVal: function(){
-        return _createdWidget.val();
-      },
-      addWarning: function(){
-        _createdWidget.addClass('warning');
-      },
-      removeWarning: function(){
-        _createdWidget.removeClass('warning');
-      },
-      setVal: function(value){
-        _createdWidget.val(value);
-      },
-      setClass: function(_class){
-        _createdWidget.addClass(_class);
-      },
-      enable: function(){
-        _createdWidget.attr('disabled',false);
-      },
-      disable: function(){
-        _createdWidget.attr('disabled',true);
-      }
-    }
-  }
-
-  ns.Widgets.MultipleSelector = function(values, callback){
-
-    var _createdWidget = $('<select>').attr("multiple", "multiple");
-    values.forEach(function(value){
-      _createdWidget.append($('<option>').text(value).val(value));
-    });
-     _createdWidget.on('change',function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
-      if(callback) {
-        var boundCallback = callback.bind(_createdWidget);
-        boundCallback();
-      };
-    });
-
-
-    // _createdWidget.css({
-    //   'width': 300
-    // });
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      getVal: function(){
-        return _createdWidget.val();
-      },
-      setVal: function(value){
-        _createdWidget.val(value);
-      },
-      addWarning: function(){
-        _createdWidget.next().find('.ms-choice').addClass('warning');
-      },
-      removeWarning: function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
-      },
-      setClass: function(_class){
-        _createdWidget.addClass(_class);
-      },
-      enable: function(){
-        _createdWidget.attr('disabled',false);
-      },
-      disable: function(){
-        _createdWidget.attr('disabled',true);
-      }
-    }
-  }
-
-
-  ns.Widgets.TextArea = function(label, Nrows){
-    // var _createdWidget = $('<div>');
-    var _textarea = $('<textarea>').attr({placeholder: label})
-    if (Nrows)_textarea.attr({'rows': Nrows});
-
-    _textarea.on('input',function(){_textarea.removeClass('warning')});
-
-    _textarea.on('focus', function(){
-      if($(window).width()<1024){
-        if ($('.reveal[aria-hidden="false"]').html()){
-          var _distanceInputTop = _textarea.offset().top;
-          var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
-          var _headerHeight = $('header').height();
-          var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
-          $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
-        }
-      }
-    });
-
-
-    // _createdWidget.append(_textarea);
-
-    return {
-      render: function(){
-        return _textarea;
-      },
-      getVal: function(){
-        return _textarea.val();
-      },
-      setVal: function(value){
-        _textarea.val(value);
-      },
-      addWarning: function(){
-        _textarea.addClass('warning');
-      },
-      removeWarning: function(){
-        _textarea.removeClass('warning');
-      },
-      setClass: function(_class){
-        _textarea.addClass(_class);
-      }, 
-      setAttr: function(attribute, value){
-        _textarea.attr(attribute,value);
-      }
-    }
-  }
-
-
-  ns.Widgets.TextAreaCounter = function(label, max, message){
-    var _createdWidget = $('<div>');
-    var _textarea = $('<textarea>').attr({placeholder: label, maxlength:80, rows: 1}).addClass('short_description-input');
-    var _remainingCar = $('<span>').text(80).css({display: 'inline', 'font-weight':600});
-    var _counter = $('<p>').append(message, _remainingCar,'.').addClass('help-text');
-    _textarea.on('input',(function(){
-    	_textarea.removeClass('warning');
-    	_remainingCar.text(max - _textarea.val().length);
-    }));
-
-    _createdWidget.append(_textarea, _counter);
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      getVal: function(){
-      	return _textarea.val();
-      },
-      setVal: function(value){
-        _textarea.val(value);
-      }, 
-      setAttr: function(attribute, value){
-        _textarea.attr(attribute,value);
-      }, 
-      setClass: function(_class){
-        _textarea.addClass(_class);
-      },
-      addWarning: function(){
-        _textarea.addClass('warning');
-      },
-      removeWarning: function(){
-        _textarea.removeClass('warning');
-      },
-    }
-  }
-
-
-
- 
-
-  ns.Widgets.CheckBox = function(label, value){
-
-    var _input = $('<input />').attr({ type: 'checkbox', 'value': value});
-    var _label = $('<label>').html(label);
-    _label.css('display','inline');
-    var _createdWidget = $('<div>').append(_input,_label);
-
-    _input.on('change', function(){(_input.removeClass('checkBox-warning'))});
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      getVal: function(){
-        return _input.is(":checked");
-      },
-      setVal: function(_val){
-        if (_val && _val != 'false'){ _input.attr('checked', _val)};
-        if (_val === false){_input.attr('checked', false)};     
-      },
-      addWarning: function(){
-        _input.addClass('checkBox-warning');
-      },
-      removeWarning: function(){
-        _input.removeClass('checkBox-warning');
-      },
-      labelToggle: function(){
-        _label.css('cursor','pointer')
-        _label.on('click', function(){
-          _input.prop("checked", !_input.prop("checked"));
+      if (field == 'photos' || field == 'profile_picture'){
+        var _thumbnail = $('<div>');
+        var _photosLabel = $('<label>').text(form[field].label);
+        var _photoWidget = _form[field].input
+        var _photos = _photoWidget.getPhotos();
+        var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
+        if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
+        _photos.cloudinary().bind('cloudinarydone', function(e, data){
+          var _url = _photoWidget.getVal();
+          console.log(_url);
+          _url.push(data['result']['public_id']);
+          if(_url.length >= _photos.dataLength()) _send();
         });
+      _formContainer.append(_photosContainer);
+      }
+      else if (form[field].input == 'TextAreaCounter'){
+        _formContainer.append(
+           $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field '+field+'-FormDiv').append(
+              _form[field].label.render(),_form[field].input.render()
+            )
+        );
+      }
+      else if (form[field].input == 'CheckBox'){
+        var _genericField = $('<div>');
+        _formContainer.append(
+           _genericField.addClass(form[field].input + '-FormField' + ' call-form-field '+field+'-FormDiv').append(_form[field].input.render()));
+        if (form[field]['helptext'].length) {
+          var _helptextfield = _form[field].helptext.render();
+          _helptextfield.css({'margin-top':'0'});
+          _genericField.append(_helptextfield);
+        }
+      }
+      else{
+        var _genericField = $('<div>');
+        _formContainer.append(
+        _genericField.addClass(form[field].input + '-FormField' + ' call-form-field '+field+'-FormDiv').append(
+          _form[field].label.render(),
+          _form[field].input.render())
+        )
+        if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
+        if(form[field]['input'] == 'MultipleSelector'){
+          if (field == 'availability'){
+            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+              selectAllText: "Selecciona todo",
+              countSelected: false,
+              allSelected: "Disponible todos los días"
+            });
+          }
+          else{
+            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+              selectAll: false,
+              countSelected: false,
+              allSelected: false
+            });
+          }
+          _form[field].helptext.render().css('margin-top', 5);
+        }
+      }
+    }
+
+    var _filled = function(){
+      var _check = true;
+      for(var field in _form){
+        if(_form[field].type == 'mandatory' && !(_form[field].input.getVal())){
+          _form[field].input.addWarning();
+          _invalidInput.text('Por favor, revisa los campos obligatorios.');
+          _check = false;
+        }
       } 
+      return _check;
+    }
+
+    submitButton.on('click',function(){
+      spinner.spin();
+      $.wait(
+        '',
+        function(){ 
+          $('body').append(spinner.el);
+          submitButton.attr('disabled',true);
+          if(_filled() == true){
+            if(_photos.dataLength() == false) _send();
+            else{
+              _photos.submit();
+            }
+          }
+        },
+        function(){
+          setTimeout(
+            function(){
+              submitButton.attr('disabled',false);
+              spinner.stop(); 
+            }, 
+            1000
+          );
+        }
+      )
+    });
+    
+    _submitBtnContainer.append(submitButton);
+    _formContainer.append(_invalidInput, _submitBtnContainer);
+
+    return {
+      render: function(){
+        return _formContainer;
+      },
+      Spinner: function(){
+        return spinner;
+      },
+      setSend: function(send){
+        _send = send
+      },
+      setCallback: function(callback){
+        _closepopup = callback;
+      },
+      getVal: function(){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      }
+      return _submitForm;
+      },
+      setVal: function(production){
+        for(var field in production){
+          if (_form[field]) _form[field].input.setVal(production[field]);
+        }
+      }
     }
   }
 
+  
+  ns.Widgets.AlertNoMapLocation = function(formVal,closepopup,callback){
+    var _createdWidget = $('<div>');
+    var _text = $('<p>').text('Google no reconoce la dirección que has insertado y por lo tanto no puede ser localizada en ningún mapa.')
+    var _goAnywayBtn = Pard.Widgets.Button('Continua igualmente', function(){
+      closepopup();
+      callback();
+    });
+    var _tryAgainBtn = Pard.Widgets.Button('Corrige la dirección', function(){
+      closepopup();
+    });
+
+    var buttonsContainer = $('<div>').addClass('buttons-noMapPopup')
+    _createdWidget.append(_text, buttonsContainer.append(_goAnywayBtn.render(), _tryAgainBtn.render()));
+    return{
+      render: function(){
+        return  _createdWidget;
+      },
+      setCallback: function(){
+        // callback();
+      }
+    }
+  }
 
   
 }(Pard || {}));

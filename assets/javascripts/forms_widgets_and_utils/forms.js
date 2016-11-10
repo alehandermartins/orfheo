@@ -4,6 +4,373 @@
 
   ns.Forms = ns.Forms || {};
 
+  ns.Forms.CreateProfile = function(profile_type){
+    var _form = {
+      artist: {
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre artistico",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de artista."
+        },
+        profile_picture:{
+          "type" : "optional",
+          "label" : "Foto de perfil (máximo 500kb)",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/profile_picture", 
+                    1
+                  ],
+          "helptext" : ""
+              },
+        bio:{
+          "type" : "optional",
+          "label" : "Biografía / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    "", 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Ciudad y Código postal",
+          "input" : "InputAddressArtist",
+          "args" : null,
+          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
+      },
+      space:{
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre del espacio",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de espacio."
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Dirección",
+          "input" : "InputAddressSpace",
+          "args" : [
+                    'Ej: Carrer de la Murta 13, Valencia'
+                  ],
+          "helptext" : ""
+        },
+        category: {
+          'type': 'mandatory',
+          'label': "Tipo de espacio",
+          'input': 'Selector',
+          'args': [
+                  ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'],
+                  ['cultural_ass', 'commercial', 'home']
+                ] ,
+          'helptext':''
+        },
+        bio:{
+          "type" : "mandatory",
+          "label" : "Descripción / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
+        },
+        links : {
+          "type": "optional",
+          "label": 'Materiales online',
+          "input": "InputMultimedia",
+          "args": null,
+          "helptext": 'Añade vídeos, fotos y audios desde tus redes sociales.'
+        },
+        photos:{
+          "type" : "optional",
+          "label" : "Fotos del espacio (máximo 5, tamaño inferior a 500kb).",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/photos", 
+                    5
+                  ],
+          "helptext" : "La primera foto será tu foto de perfil."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
+      },
+      organization:{
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre artistico",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de artista."
+        },
+        profile_picture:{
+          "type" : "optional",
+          "label" : "Foto de perfil (máximo 500kb)",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/profile_picture", 
+                    1
+                  ],
+          "helptext" : ""
+              },
+        bio:{
+          "type" : "optional",
+          "label" : "Biografía / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    "", 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Ciudad y Código postal",
+          "input" : "InputAddressArtist",
+          "args" : null,
+          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
+      }
+    }
+
+    return _form[profile_type];
+  
+  }
+
+   ns.Forms.ModifyProfile = function(profile_type){
+    var _form = {
+      artist: {
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre artistico",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de artista."
+        },
+        profile_picture:{
+          "type" : "optional",
+          "label" : "Foto de perfil (máximo 500kb)",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/profile_picture", 
+                    1
+                  ],
+          "helptext" : ""
+              },
+        bio:{
+          "type" : "optional",
+          "label" : "Biografía / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    "", 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Ciudad y Código postal",
+          "input" : "InputAddressArtist",
+          "args" : null,
+          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
+      },
+      space:{
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre del espacio",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de espacio."
+        },
+        profile_picture:{
+          "type" : "optional",
+          "label" : "Foto de perfil (máximo 500kb)",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/profile_picture", 
+                    1
+                  ],
+          "helptext" : ""
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Dirección",
+          "input" : "InputAddressSpace",
+          "args" : [
+                    'Ej: Carrer de la Murta 13, Valencia'
+                  ],
+          "helptext" : ""
+        },
+        category: {
+          'type': 'mandatory',
+          'label': "Tipo de espacio",
+          'input': 'Selector',
+          'args': [
+                  ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'],
+                  ['cultural_ass', 'commercial', 'home']
+                ] ,
+          'helptext':''
+        },
+        bio:{
+          "type" : "mandatory",
+          "label" : "Descripción / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
+      },
+      organization:{
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre artistico",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de artista."
+        },
+        profile_picture:{
+          "type" : "optional",
+          "label" : "Foto de perfil (máximo 500kb)",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/profile_picture", 
+                    1
+                  ],
+          "helptext" : ""
+              },
+        bio:{
+          "type" : "optional",
+          "label" : "Biografía / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    "", 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Ciudad y Código postal",
+          "input" : "InputAddressArtist",
+          "args" : null,
+          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
+      }
+    }
+  
+    return _form[profile_type];
+  
+  }
+
+
+
   ns.Forms.CreateProduction = function(categorySelected){
     var _form = {};
 
@@ -315,451 +682,41 @@
     }
   }
 
-  ns.Forms.CreateProfile = function(profile_type){
-    var _form = {
-      artist: {
-        name: {
-          "type" : "mandatory",
-          "label" : "Nombre artistico",
-          "input" : "Input",
-          "args" : [ 
-                    "", 
-                    "text"
-                  ],
-          "helptext" : "Es el nombre de tu perfil de artista."
-        },
-        profile_picture:{
-          "type" : "optional",
-          "label" : "Foto de perfil (máximo 500kb)",
-          "input" : "UploadPhotos",
-          "args" : [ 
-                    "/profile_picture", 
-                    1
-                  ],
-          "helptext" : ""
-              },
-        bio:{
-          "type" : "optional",
-          "label" : "Biografía / Información",
-          "input" : "TextArea",
-          "args" : [ 
-                    "", 
-                    4
-                  ],
-          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
-        },
-        address:{
-          "type" : "mandatory",
-          "label" : "Ciudad y Código postal",
-          "input" : "InputAddressArtist",
-          "args" : null,
-          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
-        },
-        personal_web:{
-          "type" : "optional",
-          "label" : "Web personal y enlaces a redes sociales",
-          "input" : "InputPersonalWeb",
-          "args" : null,
-          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
-        },
-        color:{
-          "type" : "optional",
-          "label" : "Escoge un color",
-          "input" : "InputColor",
-          "args" : null,
-          "helptext" : "Es el color personal de tu perfil!"
-        }
-      },
-      space:{
-        name: {
-          "type" : "mandatory",
-          "label" : "Nombre del espacio",
-          "input" : "Input",
-          "args" : [ 
-                    "", 
-                    "text"
-                  ],
-          "helptext" : "Es el nombre de tu perfil de espacio."
-        },
-        address:{
-          "type" : "mandatory",
-          "label" : "Dirección",
-          "input" : "InputAddressSpace",
-          "args" : [
-                    'Ej: Carrer de la Murta 13, Valencia'
-                  ],
-          "helptext" : ""
-        },
-        category: {
-          'type': 'mandatory',
-          'label': "Tipo de espacio",
-          'input': 'Selector',
-          'args': [
-                  ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'],
-                  ['cultural_ass', 'commercial', 'home']
-                ] ,
-          'helptext':''
-        },
-        bio:{
-          "type" : "mandatory",
-          "label" : "Descripción / Información",
-          "input" : "TextArea",
-          "args" : [ 
-                    'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
-                    4
-                  ],
-          "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
-        },
-        personal_web:{
-          "type" : "optional",
-          "label" : "Web personal y enlaces a redes sociales",
-          "input" : "InputPersonalWeb",
-          "args" : null,
-          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
-        },
-        links : {
-          "type": "optional",
-          "label": 'Materiales online',
-          "input": "InputMultimedia",
-          "args": null,
-          "helptext": 'Añade vídeos, fotos y audios desde tus redes sociales.'
-        },
-        photos:{
-          "type" : "optional",
-          "label" : "Fotos del espacio (máximo 5, tamaño inferior a 500kb).",
-          "input" : "UploadPhotos",
-          "args" : [ 
-                    "/photos", 
-                    5
-                  ],
-          "helptext" : "La primera foto será tu foto de perfil."
-        },
-        color:{
-          "type" : "optional",
-          "label" : "Escoge un color",
-          "input" : "InputColor",
-          "args" : null,
-          "helptext" : "Es el color personal de tu perfil!"
-        }
-      },
-      organization:{
-        name: {
-          "type" : "mandatory",
-          "label" : "Nombre artistico",
-          "input" : "Input",
-          "args" : [ 
-                    "", 
-                    "text"
-                  ],
-          "helptext" : "Es el nombre de tu perfil de artista."
-        },
-        profile_picture:{
-          "type" : "optional",
-          "label" : "Foto de perfil (máximo 500kb)",
-          "input" : "UploadPhotos",
-          "args" : [ 
-                    "/profile_picture", 
-                    1
-                  ],
-          "helptext" : ""
-              },
-        bio:{
-          "type" : "optional",
-          "label" : "Biografía / Información",
-          "input" : "TextArea",
-          "args" : [ 
-                    "", 
-                    4
-                  ],
-          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
-        },
-        address:{
-          "type" : "mandatory",
-          "label" : "Ciudad y Código postal",
-          "input" : "InputAddressArtist",
-          "args" : null,
-          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
-        },
-        personal_web:{
-          "type" : "optional",
-          "label" : "Web personal y enlaces a redes sociales",
-          "input" : "InputPersonalWeb",
-          "args" : null,
-          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
-        },
-        color:{
-          "type" : "optional",
-          "label" : "Escoge un color",
-          "input" : "InputColor",
-          "args" : null,
-          "helptext" : "Es el color personal de tu perfil!"
-        }
-      }
-    }
 
-  
-    return _form[profile_type];
-  
-  }
-
-   ns.Forms.ModifyProfile = function(profile_type){
-    var _form = {
-      artist: {
-        name: {
-          "type" : "mandatory",
-          "label" : "Nombre artistico",
-          "input" : "Input",
-          "args" : [ 
-                    "", 
-                    "text"
-                  ],
-          "helptext" : "Es el nombre de tu perfil de artista."
-        },
-        profile_picture:{
-          "type" : "optional",
-          "label" : "Foto de perfil (máximo 500kb)",
-          "input" : "UploadPhotos",
-          "args" : [ 
-                    "/profile_picture", 
-                    1
-                  ],
-          "helptext" : ""
-              },
-        bio:{
-          "type" : "optional",
-          "label" : "Biografía / Información",
-          "input" : "TextArea",
-          "args" : [ 
-                    "", 
-                    4
-                  ],
-          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
-        },
-        address:{
-          "type" : "mandatory",
-          "label" : "Ciudad y Código postal",
-          "input" : "InputAddressArtist",
-          "args" : null,
-          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
-        },
-        personal_web:{
-          "type" : "optional",
-          "label" : "Web personal y enlaces a redes sociales",
-          "input" : "InputPersonalWeb",
-          "args" : null,
-          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
-        },
-        color:{
-          "type" : "optional",
-          "label" : "Escoge un color",
-          "input" : "InputColor",
-          "args" : null,
-          "helptext" : "Es el color personal de tu perfil!"
-        }
-      },
-      space:{
-        name: {
-          "type" : "mandatory",
-          "label" : "Nombre del espacio",
-          "input" : "Input",
-          "args" : [ 
-                    "", 
-                    "text"
-                  ],
-          "helptext" : "Es el nombre de tu perfil de espacio."
-        },
-        profile_picture:{
-          "type" : "optional",
-          "label" : "Foto de perfil (máximo 500kb)",
-          "input" : "UploadPhotos",
-          "args" : [ 
-                    "/profile_picture", 
-                    1
-                  ],
-          "helptext" : ""
-        },
-        address:{
-          "type" : "mandatory",
-          "label" : "Dirección",
-          "input" : "InputAddressSpace",
-          "args" : [
-                    'Ej: Carrer de la Murta 13, Valencia'
-                  ],
-          "helptext" : ""
-        },
-        category: {
-          'type': 'mandatory',
-          'label': "Tipo de espacio",
-          'input': 'Selector',
-          'args': [
-                  ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'],
-                  ['cultural_ass', 'commercial', 'home']
-                ] ,
-          'helptext':''
-        },
-        bio:{
-          "type" : "mandatory",
-          "label" : "Descripción / Información",
-          "input" : "TextArea",
-          "args" : [ 
-                    'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
-                    4
-                  ],
-          "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
-        },
-        personal_web:{
-          "type" : "optional",
-          "label" : "Web personal y enlaces a redes sociales",
-          "input" : "InputPersonalWeb",
-          "args" : null,
-          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
-        },
-        color:{
-          "type" : "optional",
-          "label" : "Escoge un color",
-          "input" : "InputColor",
-          "args" : null,
-          "helptext" : "Es el color personal de tu perfil!"
-        }
-      },
-      organization:{
-        name: {
-          "type" : "mandatory",
-          "label" : "Nombre artistico",
-          "input" : "Input",
-          "args" : [ 
-                    "", 
-                    "text"
-                  ],
-          "helptext" : "Es el nombre de tu perfil de artista."
-        },
-        profile_picture:{
-          "type" : "optional",
-          "label" : "Foto de perfil (máximo 500kb)",
-          "input" : "UploadPhotos",
-          "args" : [ 
-                    "/profile_picture", 
-                    1
-                  ],
-          "helptext" : ""
-              },
-        bio:{
-          "type" : "optional",
-          "label" : "Biografía / Información",
-          "input" : "TextArea",
-          "args" : [ 
-                    "", 
-                    4
-                  ],
-          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
-        },
-        address:{
-          "type" : "mandatory",
-          "label" : "Ciudad y Código postal",
-          "input" : "InputAddressArtist",
-          "args" : null,
-          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
-        },
-        personal_web:{
-          "type" : "optional",
-          "label" : "Web personal y enlaces a redes sociales",
-          "input" : "InputPersonalWeb",
-          "args" : null,
-          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
-        },
-        color:{
-          "type" : "optional",
-          "label" : "Escoge un color",
-          "input" : "InputColor",
-          "args" : null,
-          "helptext" : "Es el color personal de tu perfil!"
-        }
-      }
-    }
-
-  
-    return _form[profile_type];
-  
-  }
-
-  ns.Forms.SpaceCall = function() {
-
-		var _form = {};
-    var _labels = ['Ambos dias', 'Sabado', 'Domingo'];
-    var _values = ['both', 'sat', 'sun'];
-
-    _form['responsible'] = {
-      label: Pard.Widgets.InputLabel('Nombre del responsable del espacio *'),
-      input: Pard.Widgets.Input('','text'),
-      helptext: Pard.Widgets.HelpText('Indicar la persona que se compromete con la programación y gestión del espacio.')
-    };
-
-    _form['description'] = {
-      label: Pard.Widgets.InputLabel('Descripción del espacio disponible y superficies para murales *'),
-      input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Número de habitaciones, dimensiones aproximadas, paredes o persianas para intervenciones de arte urbano, etc.')
-    };
-
-    _form['availability'] = {
-      label: Pard.Widgets.InputLabel('Disponibilidad *'),
-      input: Pard.Widgets.InputDate(''),
-      helptext: Pard.Widgets.HelpText('Selecciona los días que quieres compartir tu espacio.')
-    }
-
+  ns.Forms.ModifyProductionForm = function(category){
+    var _form = {};
+    var _productionForm = Pard.Forms.ArtistCallForm().render();
     
-    _form['own'] = {
-      label: Pard.Widgets.InputLabel('Programación propia'), 
-      input: Pard.Widgets.TextArea(''),
-      helptext:Pard.Widgets.HelpText('Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán.')
-    }
+    var _productionFields = Pard.Forms.ArtistCall(category).productionFields();
 
-    _form['un_wanted'] = {
-      label: Pard.Widgets.InputLabel('Preferencias de actividades'), 
-      input: Pard.Widgets.TextArea(''),
-      helptext:Pard.Widgets.HelpText('Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar.')
-    }
+    _form['category'] = {
+      label: Pard.Widgets.InputLabel('Categoría *'), 
+      input: Pard.Widgets.Selector([Pard.Widgets.Dictionary(category).render()], [category]),
+      helptext:Pard.Widgets.HelpText('No se puede modificar')
+    };
+    _form['category']['input'].setClass('category-input');;
 
-    _form['sharing'] = {
-      label: Pard.Widgets.InputLabel('Materiales a compartir'), 
-      input: Pard.Widgets.TextArea(''),
-      helptext:Pard.Widgets.HelpText('Material que puedes compartir durante el evento como equipo de sonido, altavoces, material de arte plástico, focos de luz...')
-    }
+    _productionFields.forEach(function(_element){
+      _form[_element] = _productionForm[_element];
+    });
 
-    _form['phone'] = {
-      label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
-      input: Pard.Widgets.InputTel(''),
-      helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización.')
-    }
-    
-    _form['conditions'] = {
-      label: Pard.Widgets.InputLabel(''), 
-      input: Pard.Widgets.CheckBox(Pard.Forms.Conditions().render(), 'yes_conditions'),
-      helptext:Pard.Widgets.HelpText('')
-    }
 
-    var _requiredFields = ['phone', 'description', 'conditions', 'responsible', 'availability'];
+    _form['short_description'] = { 
+      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
+      input: Pard.Widgets.TextAreaCounter('', 80, 'Sólo 80 caracteres permitidos. Quedan: '),
+      helptext: Pard.Widgets.HelpText('')
+    };
+    _form['short_description']['input'].setClass('short_description-input');
+    _form['short_description']['input'].setAttr('rows',1);
+
+    var _required = Pard.Forms.ArtistCall(category).productionRequired();
 
     return {
       render: function(){
         return _form;
       },
       requiredFields: function(){
-      	return _requiredFields;
-      }
-    }
-  }
-
-  ns.Forms.Conditions = function() {
-
-    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/es/bases', target: '_blank'}).text('bases de participación');
-    var _conditions = $('<span>').text('He leído y acepto las condiciones en las ').append(_linkToConditions,' *');
-
-    return{
-      render: function(){
-        return _conditions;
-      }, 
-      link: function(){
-        return _linkToConditions;
+        return _required;
       }
     }
   }
@@ -767,7 +724,7 @@
 
   ns.Forms.ArtistCallForm = function() {
 
-		var _form = {};
+    var _form = {};
 
     var _labelsCategories = ['Música', 'Artes Escénicas', 'Exposición', 'Poesía',  'Audiovisual', 'Street Art', 'Taller', 'Otros'];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'];
@@ -809,7 +766,7 @@
     _form['short_description']['input'].setClass('short_description-input');
     _form['short_description']['input'].setAttr('rows',1);
 
-   	
+    
     _form['duration'] = {
       label: Pard.Widgets.InputLabel('Duración del espectáculo *'), 
       input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
@@ -907,44 +864,96 @@
     }
   }
 
-  ns.Forms.ModifyProductionForm = function(category){
-    var _form = {};
-    var _productionForm = Pard.Forms.ArtistCallForm().render();
+  
+
+
+  
+
+
+  ns.Forms.SpaceCall = function() {
+
+		var _form = {};
+    var _labels = ['Ambos dias', 'Sabado', 'Domingo'];
+    var _values = ['both', 'sat', 'sun'];
+
+    _form['responsible'] = {
+      label: Pard.Widgets.InputLabel('Nombre del responsable del espacio *'),
+      input: Pard.Widgets.Input('','text'),
+      helptext: Pard.Widgets.HelpText('Indicar la persona que se compromete con la programación y gestión del espacio.')
+    };
+
+    _form['description'] = {
+      label: Pard.Widgets.InputLabel('Descripción del espacio disponible y superficies para murales *'),
+      input: Pard.Widgets.TextArea(''),
+      helptext: Pard.Widgets.HelpText('Número de habitaciones, dimensiones aproximadas, paredes o persianas para intervenciones de arte urbano, etc.')
+    };
+
+    _form['availability'] = {
+      label: Pard.Widgets.InputLabel('Disponibilidad *'),
+      input: Pard.Widgets.InputDate(''),
+      helptext: Pard.Widgets.HelpText('Selecciona los días que quieres compartir tu espacio.')
+    }
+
     
-    var _productionFields = Pard.Forms.ArtistCall(category).productionFields();
+    _form['own'] = {
+      label: Pard.Widgets.InputLabel('Programación propia'), 
+      input: Pard.Widgets.TextArea(''),
+      helptext:Pard.Widgets.HelpText('Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán.')
+    }
 
-    _form['category'] = {
-      label: Pard.Widgets.InputLabel('Categoría *'), 
-      input: Pard.Widgets.Selector([Pard.Widgets.Dictionary(category).render()], [category]),
-      helptext:Pard.Widgets.HelpText('No se puede modificar')
-    };
-    _form['category']['input'].setClass('category-input');;
+    _form['un_wanted'] = {
+      label: Pard.Widgets.InputLabel('Preferencias de actividades'), 
+      input: Pard.Widgets.TextArea(''),
+      helptext:Pard.Widgets.HelpText('Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar.')
+    }
 
-    _productionFields.forEach(function(_element){
-      _form[_element] = _productionForm[_element];
-    });
+    _form['sharing'] = {
+      label: Pard.Widgets.InputLabel('Materiales a compartir'), 
+      input: Pard.Widgets.TextArea(''),
+      helptext:Pard.Widgets.HelpText('Material que puedes compartir durante el evento como equipo de sonido, altavoces, material de arte plástico, focos de luz...')
+    }
 
+    _form['phone'] = {
+      label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
+      input: Pard.Widgets.InputTel(''),
+      helptext:Pard.Widgets.HelpText('Esta información es necesaria para un eventual contacto por parte de la organización.')
+    }
+    
+    _form['conditions'] = {
+      label: Pard.Widgets.InputLabel(''), 
+      input: Pard.Widgets.CheckBox(Pard.Forms.Conditions().render(), 'yes_conditions'),
+      helptext:Pard.Widgets.HelpText('')
+    }
 
-    _form['short_description'] = { 
-      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
-      input: Pard.Widgets.TextAreaCounter('', 80, 'Sólo 80 caracteres permitidos. Quedan: '),
-      helptext: Pard.Widgets.HelpText('')
-    };
-    _form['short_description']['input'].setClass('short_description-input');
-    _form['short_description']['input'].setAttr('rows',1);
-
-    var _required = Pard.Forms.ArtistCall(category).productionRequired();
+    var _requiredFields = ['phone', 'description', 'conditions', 'responsible', 'availability'];
 
     return {
       render: function(){
         return _form;
       },
       requiredFields: function(){
-        return _required;
+      	return _requiredFields;
       }
     }
   }
 
+  ns.Forms.Conditions = function() {
+
+    var _linkToConditions = $('<a>').attr({href: 'http://beniconfusionfest.es/es/bases', target: '_blank'}).text('bases de participación');
+    var _conditions = $('<span>').text('He leído y acepto las condiciones en las ').append(_linkToConditions,' *');
+
+    return{
+      render: function(){
+        return _conditions;
+      }, 
+      link: function(){
+        return _linkToConditions;
+      }
+    }
+  }
+
+
+  
 
   ns.Forms.ArtistCall = function(artistCategory){
 
