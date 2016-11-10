@@ -344,7 +344,7 @@
       },
       Spinner: function(){
         return spinner;
-      }
+      },
       setSend: function(send){
         _send = send
       },
