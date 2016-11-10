@@ -193,9 +193,10 @@
   }
 
 
-  ns.Widgets.TextArea = function(label){
+  ns.Widgets.TextArea = function(label, Nrows){
     // var _createdWidget = $('<div>');
-    var _textarea = $('<textarea>').attr({placeholder: label});
+    var _textarea = $('<textarea>').attr({placeholder: label})
+    if (Nrows)_textarea.attr({'rows': Nrows});
 
     _textarea.on('input',function(){_textarea.removeClass('warning')});
 

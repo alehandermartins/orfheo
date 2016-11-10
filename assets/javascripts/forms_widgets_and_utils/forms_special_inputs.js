@@ -3,6 +3,58 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
+  ns.Widgets.UploadPhotos = function(folder, maxNumPhotos){
+
+    var _thumbnail = $('<div>');
+    var _url = [];
+    var _folder = folder;
+    var _photos = Pard.Widgets.Cloudinary(folder, _thumbnail, _url, maxNumPhotos);
+    var _photosContainer = $('<div>').append(_photos.render(), _thumbnail);
+
+    return{
+       render: function(){
+        return _photosContainer;
+      },
+      getVal: function(){
+        return _url;
+      },
+      setVal: function(photos){
+        photos.forEach(function(photo){
+          _url.push(photo);
+          var _container = $('<span>');
+          var _previousPhoto = $.cloudinary.image(photo,
+            { format: 'jpg', width: 50, height: 50,
+              crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+          _formContainer.append(_previousPhoto);
+          var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+            'position': 'relative',
+            'bottom': '20px',
+            'cursor': 'pointer'
+          });
+
+          _icon.on('click', function(){
+            _url.splice(_url.indexOf(photo), 1);
+            _photos.setUrl(_url);
+            _container.empty();
+          });
+
+          _container.append(_previousPhoto, _icon);
+          _thumbnail.append(_container);
+        });
+      },
+      getPhotos: function(){
+        return _photos;
+      }
+      // addWarning: function(){
+      //   _input.addWarning();
+      // },
+      // removeWarning: function(){
+      //   _input.removeWarning();
+      // }
+    }
+
+  }
+
   ns.Widgets.InputEmail = function(placeholder){
 
     var _checkInput = function(){

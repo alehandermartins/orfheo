@@ -76,6 +76,7 @@
       })
     }
     else var _contentShown = _infoContent.append(Pard.Widgets.EventInfo().render());
+    if (!(_program)) _info.addClass('aside-event-nav-btn-selected');
     _buttonContainer.append(_info);
 
 
