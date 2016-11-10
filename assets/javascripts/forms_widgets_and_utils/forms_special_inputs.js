@@ -19,40 +19,35 @@
         return _url;
       },
       setVal: function(photos){
-        photos.forEach(function(photo){
-          _url.push(photo);
-          var _container = $('<span>');
-          var _previousPhoto = $.cloudinary.image(photo,
-            { format: 'jpg', width: 50, height: 50,
-              crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-          _formContainer.append(_previousPhoto);
-          var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-            'position': 'relative',
-            'bottom': '20px',
-            'cursor': 'pointer'
-          });
+        if (photos && photos != null){
+          photos.forEach(function(photo){
+            _url.push(photo);
+            var _container = $('<span>');
+            var _previousPhoto = $.cloudinary.image(photo,
+              { format: 'jpg', width: 50, height: 50,
+                crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+            _photosContainer.append(_previousPhoto);
+            var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+              'position': 'relative',
+              'bottom': '20px',
+              'cursor': 'pointer'
+            });
 
-          _icon.on('click', function(){
-            _url.splice(_url.indexOf(photo), 1);
-            _photos.setUrl(_url);
-            _container.empty();
-          });
+            _icon.on('click', function(){
+              _url.splice(_url.indexOf(photo), 1);
+              _photos.setUrl(_url);
+              _container.empty();
+            });
 
-          _container.append(_previousPhoto, _icon);
-          _thumbnail.append(_container);
-        });
+            _container.append(_previousPhoto, _icon);
+            _thumbnail.append(_container);
+          });
+        }
       },
       getPhotos: function(){
         return _photos;
       }
-      // addWarning: function(){
-      //   _input.addWarning();
-      // },
-      // removeWarning: function(){
-      //   _input.removeWarning();
-      // }
     }
-
   }
 
   ns.Widgets.InputEmail = function(placeholder){
@@ -284,7 +279,7 @@ ns.Widgets.InputAddressArtist = function(){
 
     // for (var field in _inputForm) _inputForm[field].setClass(field+'-artistForm');
 
-      var addressValue = function(){
+    var addressValue = function(){
       var _addressValues = {};
       var _check = true;
       for (var field in _inputForm){

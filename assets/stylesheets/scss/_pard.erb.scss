@@ -1334,11 +1334,40 @@ select.category-input{
     margin-bottom: 1.5rem;
   }
 
-  .name-ArtistForm{
-    width: 17rem;
-    display: inline-block;
-    margin-bottom: 2rem;
-    vertical-align: top;
+  .modifyProfilePopup .name-FormDiv{
+    @include breakpoint (large){
+      width: 17rem;
+      display: inline-block;
+      vertical-align: top;
+      margin-top:1rem;
+    }
+  }
+
+  .createProfilePopup-artist .name-FormDiv, .createProfilePopup-organization .name-FormDiv{
+    @include breakpoint (large){
+      width: 17rem;
+      display: inline-block;
+      vertical-align: top;
+      margin-top:2rem;
+    }
+  }
+
+  .modifyProfilePopup .photoContainer{
+    @include breakpoint (large){
+      display: inline-block;
+      margin-left: 2rem;
+      margin-left: 6rem;
+      margin-top: 1rem;
+    }
+  }
+
+  .createProfilePopup-artist .photoContainer, .createProfilePopup-organization .photoContainer{
+    @include breakpoint (large){
+      display: inline-block;
+      margin-left: 2rem;
+      margin-left: 6rem;
+      margin-top: 2rem;
+    }
   }
 
   .color-SpaceForm{

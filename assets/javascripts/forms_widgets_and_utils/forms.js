@@ -315,7 +315,7 @@
     }
   }
 
-  ns.Forms.Profile = function(profile_type){
+  ns.Forms.CreateProfile = function(profile_type){
     var _form = {
       artist: {
         name: {
@@ -502,299 +502,184 @@
   
   }
 
-
-
-  ns.Forms.BasicArtistForm = function(){
-
-    var _form = {};
-
-    _form['name'] = {
-      label: Pard.Widgets.InputLabel(' *'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre de tu perfil de artista.')
-    };
-
-    _form['profile_picture'] = {
-      label: Pard.Widgets.InputLabel('Foto de perfil (máximo 500kb)'),
-      input: Pard.Widgets.UploadPhotos('profile_picture', 1),
-      helptext: Pard.Widgets.HelpText('')
-    };
-
-    _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Biografía / Información'),
-      input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu vida artística-cultural.')
-    };
-    _form['bio']['input'].setAttr('rows', 4);
-
-    _form['address'] = {
-      label: Pard.Widgets.InputLabel('Ciudad y Código postal *'),
-      input: Pard.Widgets.InputAddressArtist(''),
-      helptext: Pard.Widgets.HelpText('Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto.')
-    }
-
-    // _form['locality'] = {
-    //   label: Pard.Widgets.InputLabel('Ciudad *'),
-    //   input: Pard.Widgets.Input('', 'text'),
-    //   helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posible contacto.')
-    // };
-
-    // _form['postal_code'] = {
-    //   label: Pard.Widgets.InputLabel('Código postal *'),
-    //   input: Pard.Widgets.Input('', 'text'),
-    //   helptext: Pard.Widgets.HelpText('Para situar tu proyecto artístico en el mapa.')
-    // };
-
-    _form['personal_web'] = {
-      label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
-      input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística).')
-    };
-
-    _form['color'] = {
-      label: Pard.Widgets.InputLabel('Escoge un color'),
-      input: Pard.Widgets.InputColor(),
-      helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
-    };
-    // _form['color'].input.setClass('color-input');
-
-
-
-    var _requiredFields = ['name', 'address', 'color'];
-
-    return {
-      render: function(){
-        return _form;
+   ns.Forms.ModifyProfile = function(profile_type){
+    var _form = {
+      artist: {
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre artistico",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de artista."
+        },
+        profile_picture:{
+          "type" : "optional",
+          "label" : "Foto de perfil (máximo 500kb)",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/profile_picture", 
+                    1
+                  ],
+          "helptext" : ""
+              },
+        bio:{
+          "type" : "optional",
+          "label" : "Biografía / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    "", 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Ciudad y Código postal",
+          "input" : "InputAddressArtist",
+          "args" : null,
+          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
       },
-      requiredFields: function(){
-        return _requiredFields;
-      }
-    }
-  }
-
-  ns.Forms.BasicSpaceForm = function(){
-
-    var _form = {};
-
-    var _labels = ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'];
-    var _values = ['cultural_ass', 'commercial', 'home'];
-
-    _form['name'] = {
-      label: Pard.Widgets.InputLabel('Nombre del espacio *'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre de tu perfil de espacio.')
-    };
-
-    _form['address'] ={
-      label: Pard.Widgets.InputLabel('Dirección *'),
-      input: Pard.Widgets.InputAddressSpace('Ej: Carrer de la Murta 13, Valencia'),
-      helptext: Pard.Widgets.HelpText('')
-      // helptext: Pard.Widgets.HelpText('Tu dirección detallada es necesaria para poderte localizar en el mapa.')
-    }
-
-    _form['category'] = {
-      label: Pard.Widgets.InputLabel('Tipo de espacio *'),
-      input: Pard.Widgets.Selector(_labels, _values),
-      helptext: Pard.Widgets.HelpText('')
-    };
-    _form['category']['input'].setClass('category-input');
-
-    _form['personal_web'] = {
-      label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
-      input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales')
-    };
-
-
-    _form['links'] = {
-      label: Pard.Widgets.InputLabel('Materiales online'),
-      input: Pard.Widgets.InputMultimedia(),
-      helptext: Pard.Widgets.HelpText('Añade vídeos, fotos y audios desde tus redes sociales.')
-    };
-
-    _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Descripción / Información *'),
-      input: Pard.Widgets.TextArea('Dimensiones, caracteristicas, actividades que suele hospedar, etc.'),
-      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu espacio.')
-    };
-    _form['bio']['input'].setAttr('rows', 4);
-
-    _form['color'] = {
-      label: Pard.Widgets.InputLabel('Escoge un color'),
-      input: Pard.Widgets.InputColor(),
-      helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
-    };
-    // _form['color'].input.setClass('color-input');
-   
-    var _requiredFields = ['name', 'address', 'category', 'bio', 'color','links'];
-
-    return {
-      render: function(){
-        return _form;
+      space:{
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre del espacio",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de espacio."
+        },
+        profile_picture:{
+          "type" : "optional",
+          "label" : "Foto de perfil (máximo 500kb)",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/profile_picture", 
+                    1
+                  ],
+          "helptext" : ""
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Dirección",
+          "input" : "InputAddressSpace",
+          "args" : [
+                    'Ej: Carrer de la Murta 13, Valencia'
+                  ],
+          "helptext" : ""
+        },
+        category: {
+          'type': 'mandatory',
+          'label': "Tipo de espacio",
+          'input': 'Selector',
+          'args': [
+                  ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'],
+                  ['cultural_ass', 'commercial', 'home']
+                ] ,
+          'helptext':''
+        },
+        bio:{
+          "type" : "mandatory",
+          "label" : "Descripción / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
       },
-      requiredFields: function(){
-        return _requiredFields;
+      organization:{
+        name: {
+          "type" : "mandatory",
+          "label" : "Nombre artistico",
+          "input" : "Input",
+          "args" : [ 
+                    "", 
+                    "text"
+                  ],
+          "helptext" : "Es el nombre de tu perfil de artista."
+        },
+        profile_picture:{
+          "type" : "optional",
+          "label" : "Foto de perfil (máximo 500kb)",
+          "input" : "UploadPhotos",
+          "args" : [ 
+                    "/profile_picture", 
+                    1
+                  ],
+          "helptext" : ""
+              },
+        bio:{
+          "type" : "optional",
+          "label" : "Biografía / Información",
+          "input" : "TextArea",
+          "args" : [ 
+                    "", 
+                    4
+                  ],
+          "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        },
+        address:{
+          "type" : "mandatory",
+          "label" : "Ciudad y Código postal",
+          "input" : "InputAddressArtist",
+          "args" : null,
+          "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        },
+        personal_web:{
+          "type" : "optional",
+          "label" : "Web personal y enlaces a redes sociales",
+          "input" : "InputPersonalWeb",
+          "args" : null,
+          "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        },
+        color:{
+          "type" : "optional",
+          "label" : "Escoge un color",
+          "input" : "InputColor",
+          "args" : null,
+          "helptext" : "Es el color personal de tu perfil!"
+        }
       }
     }
-  }
 
-  ns.Forms.BasicOrganizationForm = function(){
-
-    var _form = {};
-
-    _form['name'] = {
-      label: Pard.Widgets.InputLabel('Nombre*'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('Es el nombre del colectivo.')
-    };
-    // _form['locality'] = {
-    //   label: Pard.Widgets.InputLabel('Ciudad *'),
-    //   input: Pard.Widgets.Input('', 'text'),
-    //   helptext: Pard.Widgets.HelpText('Indicar tu ciudad hará más facil localizarte para un posible contacto.')
-    // };
-
-    // _form['postal_code'] = {
-    //   label: Pard.Widgets.InputLabel('Código postal *'),
-    //   input: Pard.Widgets.Input('', 'text'),
-    //   helptext: Pard.Widgets.HelpText('Para situar tu proyecto en el mapa.')
-    // };
-    _form['address'] = {
-      label: Pard.Widgets.InputLabel('Ciudad y Código postal *'),
-      input: Pard.Widgets.InputAddressArtist(''),
-      helptext: Pard.Widgets.HelpText('Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto.')
-    }
-
-    _form['personal_web'] = {
-      label: Pard.Widgets.InputLabel('Web personal y enlaces a redes sociales'),
-      input: Pard.Widgets.InputPersonalWeb(),
-      helptext: Pard.Widgets.HelpText('Puedes añadir enlaces tanto a webs o blogs como a perfiles en redes sociales')
-    };
-
-    _form['color'] = {
-      label: Pard.Widgets.InputLabel('Escoge un color'),
-      input: Pard.Widgets.InputColor(),
-      helptext: Pard.Widgets.HelpText('Es el color personal de tu perfil!')
-    };
-    // _form['color'].input.setClass('color-input');
-   
-
-    var _requiredFields = ['name', 'address', 'color'];
-
-    return {
-      render: function(){
-        return _form;
-      },
-      requiredFields: function(){
-        return _requiredFields;
-      }
-    }
-  }
-
-  ns.Forms.FullArtistForm = function(){
-
-
-  	var _form = Pard.Forms.BasicArtistForm().render();
- 
-    
-    _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Biografía / Información'),
-      input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu vida artística-cultural.')
-    };
-    _form['bio']['input'].setAttr('rows', 4);
-
-    //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
-
-    var _requiredFields = ['name', 'address', 'color','personal_web'];
-    var  _reorderedForm = {};
-
-    ['name', 'bio',  'address','personal_web', 'color'].forEach(function(field){
-      _reorderedForm[field] = _form[field]; 
-    });
-
-    return {
-      render: function(){
-        return _reorderedForm;
-      },
-      requiredFields: function(){
-      	return _requiredFields;
-      }
-    }
-  }
-
-
-  ns.Forms.FullSpaceForm = function(){
-
-  	var _form = Pard.Forms.BasicSpaceForm().render();
-
-    // _form['bio'] = {
-    //   label: Pard.Widgets.InputLabel('Descripción / Información'),
-    //   input: Pard.Widgets.TextArea(''),
-    //   helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre tu espacio.')
-    // };
-    // _form['bio']['input'].setAttr('rows', 4);
-
-
-    //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
-
-
-    var _requiredFields = ['name', 'address', 'bio','category', 'color'];
-
-    return {
-      render: function(){
-        return _form;
-      },
-      requiredFields: function(){
-      	return _requiredFields;
-      }
-    }
-  }
-
-  ns.Forms.FullOrganizationForm = function(){
-
-
-    var _form = Pard.Forms.BasicOrganizationForm().render();
-
-    
-    _form['bio'] = {
-      label: Pard.Widgets.InputLabel('Biografía / Información'),
-      input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Cualquier cosa que quieras compartir sobre el colectivo.')
-    };
-    _form['bio']['input'].setAttr('rows', 4);
-
-    //_form['fotos'] = Pard.Widgets.Input('Fotos', 'file');
-
-    var _requiredFields = ['name', 'address', 'color','personal_web'];
-    var  _reorderedForm = {};
-
-    ['name', 'bio',  'address','personal_web', 'color'].forEach(function(field){
-      _reorderedForm[field] = _form[field]; 
-    });
-
-    return {
-      render: function(){
-        return _reorderedForm;
-      },
-      requiredFields: function(){
-        return _requiredFields;
-      }
-    }
-  }
-
-  ns.Forms.ProfileForms = function(selected){
-
-	var _forms = {
-		'artist': Pard.Forms.FullArtistForm,
-		'space': Pard.Forms.FullSpaceForm,
-    'organization': Pard.Forms.FullOrganizationForm
-	};
-
-   return {
-      render: function(){
-        return _forms[selected]();
-      }
-    }
+  
+    return _form[profile_type];
+  
   }
 
   ns.Forms.SpaceCall = function() {
