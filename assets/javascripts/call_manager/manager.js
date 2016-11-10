@@ -1,7 +1,7 @@
 'use strict';
 
 (function(ns){
-  ns.Widgets = ns.Widgets || {};  
+  ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.ProgramManager = function(){
 
@@ -395,7 +395,7 @@
           _content.empty();
           $('body').append(_content);
           var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent(Pard.CachedEvent.name, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, Pard.Forms.ArtistCall(proposal.category).render())));
+          var _message = Pard.Widgets.PopupContent(Pard.CachedEvent.name, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, Pard.Forms.ArtistCall(proposal.form_category).render())));
           _message.setCallback(function(){
             _content.remove();
             _popup.close();
