@@ -178,6 +178,8 @@ Pard.Outsider = function(profiles){
 }
 
 Pard.EventManager = function(the_event){
+  console.log(the_event);
+
 
   $(window).ready(function(){
     $('body').append(_whole);

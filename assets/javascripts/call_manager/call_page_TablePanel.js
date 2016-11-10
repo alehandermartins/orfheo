@@ -1060,7 +1060,7 @@
                 $('body').append(_content);
 
                 var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-                var _message = Pard.Widgets.PopupContent('conFusión 2016', Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render())));
+                var _message = Pard.Widgets.PopupContent(Pard.CachedEvent.name, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, _form.render())));
                 _message.setCallback(function(){
                   _content.remove();
                   _popup.close();

@@ -10,6 +10,8 @@
     var artists = the_event.artists;
     var spaces = the_event.spaces;
 
+    var _forms;
+
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
     var _tableBox = $('<div>').addClass('table-box-call-manager');
     
@@ -321,7 +323,7 @@
         var card = $('<div>').addClass('proposalCard');
         var color = Pard.Widgets.CategoryColor(proposal.category);
 
-        if($.inArray(Object.keys(Pard.CachedEvent.eventTime)[0], proposal.availability) < 0) card.addClass('artist-not-available-call-manager');
+        if($.inArray(Object.keys(the_event.eventTime)[0], proposal.availability) < 0) card.addClass('artist-not-available-call-manager');
         else{ card.removeClass('artist-not-available-call-manager'); }
 
         card.addClass('proposal-card-container-call-manager cursor_grab');
@@ -392,9 +394,8 @@
           var _content = $('<div>').addClass('very-fast reveal full');
           _content.empty();
           $('body').append(_content);
-
           var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent('conFusión 2016', Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, Pard.Forms.ArtistCall(proposal.category).render())));
+          var _message = Pard.Widgets.PopupContent(Pard.CachedEvent.name, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, Pard.Forms.ArtistCall(proposal.category).render())));
           _message.setCallback(function(){
             _content.remove();
             _popup.close();
@@ -548,6 +549,21 @@
       }
     }
 
+    var _displayPopupProposal = function(proposal, form){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent(the_event.name, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, form)));
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    }
+
     var Space = function(space){
       var _columns = {};
       var program = {};
@@ -588,18 +604,16 @@
 
         //Popup showing the space form
         _titleText.on('click', function(){
-          var _content = $('<div>').addClass('very-fast reveal full');
-          _content.empty();
-          $('body').append(_content);
-
-          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent('conFusión 2016', Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(space, Pard.Forms.SpaceCall().render())));
-          _message.setCallback(function(){
-            _content.remove();
-            _popup.close();
-          });
-          _content.append(_message.render());
-          _popup.open();
+          if (!(_forms)) {
+            Pard.Backend.getCallForms(the_event.call_id, function(data){
+            console.log(data);
+              _forms = data.forms;
+              _displayPopupProposal(space, _forms['space'][space.form_category]);
+            });
+          }
+          else{
+            _displayPopupProposal(space, _forms['space'][space.form_category]);
+          } 
         });
 
         var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
