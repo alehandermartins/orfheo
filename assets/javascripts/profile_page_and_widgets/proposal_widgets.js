@@ -209,6 +209,8 @@
           _createdWidget.append(_element);
         }
         else {
+                console.log(field);
+
           _textLabel = form[field]['label'];
           if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
           if ($.isArray(proposal[field])){

@@ -170,8 +170,8 @@
     }
     else{
       var _formTypeConstructor = {
-        artist: Pard.Widgets.ArtistCallForm,
-        space: Pard.Widgets.ArtistCallForm
+        artist: Pard.Widgets.CallForm,
+        space: Pard.Widgets.CallForm
       };
 
       var _outerFormBox = $('<div>');
@@ -187,7 +187,7 @@
       for (var typeForm in forms[profile.type]){
         _formTypes.push(typeForm);
         _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
-        forms[profile.type][typeForm].category.args.forEach(function(cat){
+        forms[profile.type][typeForm].category.args[0].forEach(function(cat){
           if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
         });
       };  
@@ -273,7 +273,7 @@
             })
           }
         });
-        if (_compatibleProductions) _createdWidget.append(_prodContainer);
+        if (_compatibleProductions) _createdWidget.append(_prodContainer, _t2 );
       }
 
       _formTypeSelector.on('change',function(){
@@ -306,7 +306,7 @@
         }
       }
 
-      _createdWidget.append(_t2, _outerFormBox.append(_contentSel));
+      _createdWidget.append(_outerFormBox.append(_contentSel));
     }
 
     return{
@@ -319,7 +319,9 @@
     }
   }
 
-  ns.Widgets.ArtistCallForm = function(form, profile, formTypeSelected, production_id, callbackSendProposal){
+  ns.Widgets.CallForm = function(form, profile, formTypeSelected, production_id, callbackSendProposal){
+
+    console.log(production_id);
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
@@ -335,26 +337,20 @@
     var _message_1 = _messageDictionary[profile.type]; 
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    _formContainer.append(_message_1);
+    var _containerOrfheoFields = $('<div>').append(_message_1);
+    var _containerCustomFields = $('<div>');
+    _formContainer.append(_containerOrfheoFields, _containerCustomFields);
 
     var _orfheoCategory;
+    var _photos;
+    var _conditions;
 
     var _form = {};
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envía');
 
-    var _url = [];
-
-    if(form['photos']){
-      var _thumbnail = $('<div>');
-      var _photos = Pard.Widgets.Cloudinary(form['photos'].folder, _thumbnail, _url, form['photos'].amount);
-      var _photosLabel = $('<label>').text(form['photos'].label);
-      var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css({'margin-bottom':'-1rem'});
-    }
-    for(var field in form){
-
-      if (field != 'photos' && field != 'category'){
+    Object.keys(form).forEach(function(field){
         _form[field] = {};
         _form[field]['type'] = form[field].type;
         if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
@@ -365,87 +361,99 @@
         }
         _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
         _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
-      }
-    // }    
 
-    // for(var field in form){
       if (field == 'photos') {
-        _formContainer.append(_photosContainer);
-        _formContainer.append(_message_2.css('margin-top','2rem'));
+        var _thumbnail = $('<div>');
+        var _photosLabel = $('<label>').text(form[field].label);
+        var _photoWidget = _form[field].input;
+        var _photos = _photoWidget.getPhotos();
+        var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
+        if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
+        _photos.cloudinary().bind('cloudinarydone', function(e, data){
+          var _url = _photoWidget.getVal();
+          _url.push(data['result']['public_id']);
+          if(_url.length >= _photos.dataLength()) _send();
+        });
+      _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','2rem'));
       }
       else if (field == 'category'){
         if (profile.category){
           _orfheoCategory = profile.category;
         }
         else{ 
-          if (form[field].args.length>1){
-            _formContainer.append(
-              $('<div>').addClass(field + '-FormField' + ' call-form-field').append(
-                $('<label>').text('Selecciona una categoría artistica *'), 
-                Pard.Widgets.Selector(form[field].args,form[field].args).render()
-              )
+          if (form[field].args[0].length>1){
+            var _formField = $('<div>');
+            _containerOrfheoFields.append(
+            _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
+              _form[field].label.render(),
+              _form[field].input.render())
             )
+            if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
           }
           else{
-            _orfheoCategory = form[field].args[0]; 
+            _orfheoCategory = form[field].args[0][0]; 
           }
         }
-      }
-      else if (form[field].input == 'TextAreaCounter'){
-        _formContainer.append(
-           $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-              _form[field].label.render(),_form[field].input.render()
-            )
-        );
-      }
-      else if (form[field].input == 'CheckBox'){
-        var _genericField = $('<div>');
-        _formContainer.append(
-           _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render()));
-        if (form[field]['helptext'].length) {
-          if (field == 'conditions') {
-            var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
-          }
-          else {
-            var _helptextfield = _form[field].helptext.render();
-          }
-          _helptextfield.css({'margin-top':'0'});
-          _genericField.append(_helptextfield);
-        };  
       }
       else{
-        if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
-        var _genericField = $('<div>');
-        _formContainer.append(
-        _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
-          _form[field].label.render(),
-          _form[field].input.render())
-        )
-        if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
-        if(form[field]['input'] == 'MultipleSelector'){
-          if (field == 'availability'){
-            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-              selectAllText: "Selecciona todo",
-              countSelected: false,
-              allSelected: "Disponible todos los días"
-            });
+        if (form[field].input == 'TextAreaCounter'){
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+                _form[field].label.render(),_form[field].input.render());
+        }
+        else if (form[field].input == 'CheckBox'){
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
+          if (form[field]['helptext'].length) {
+            if (field == 'conditions') {
+              console.log('COND')
+              var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
+            }
+            else {
+              var _helptextfield = _form[field].helptext.render();
+            }
+            _helptextfield.css({'margin-top':'0'});
+            _formField.append(_helptextfield);
+          }  
+        }
+        else{
+          if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+            _form[field].label.render(),
+            _form[field].input.render()
+          )
+          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
+          if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
+            if (field == 'availability'){
+              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+                selectAllText: "Selecciona todo",
+                countSelected: false,
+                allSelected: "Disponible todos los días"
+              });
+            }
+            else{
+              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+                selectAll: false,
+                countSelected: false,
+                allSelected: false
+              });
+            }
+            _form[field].helptext.render().css('margin-top', 5);
           }
-          else{
-            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-              selectAll: false,
-              countSelected: false,
-              allSelected: false
-            });
-          }
-          _form[field].helptext.render().css('margin-top', 5);
+        }
+        if($.isNumeric(field)) _containerCustomFields.append(_formField);
+        else if (field != 'conditions')_containerOrfheoFields.append(_formField);
+        else{
+          _conditions = _formField;
         }
       }
-    }
+    });
+
+    _containerCustomFields.append(_conditions);
+
 
     var _filled = function(){
       var _check = true;
       for(var field in _form){
-        if(_form[field].type == 'mandatory' && !(_form[field].input.getVal())){
+        if(_form[field].type == 'mandatory' && !(_form[field].input.getVal()) && field != 'category'){
           _form[field].input.addWarning();
           _invalidInput.text('Por favor, revisa los campos obligatorios.');
           _check = false;
@@ -454,7 +462,7 @@
       return _check;
     }
 
-    var _getVal = function(url){
+    var _getVal = function(){
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
@@ -462,11 +470,12 @@
       _submitForm['event_id'] = Pard.CachedEvent.event_id;
       _submitForm['profile_id'] = profile.profile_id;
       _submitForm['type'] = profile.type;
-      _submitForm['category'] = _orfheoCategory;
+      if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = formTypeSelected;
       if (production_id) _submitForm['production_id'] = production_id; 
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
-      if (form['photos']) _submitForm['photos'] = url;
+      console.log(_submitForm);
+      // if (form['photos']) _submitForm['photos'] = url;
       return _submitForm;
     }
 
@@ -475,25 +484,24 @@
       space: Pard.Backend.sendSpaceProposal 
     }
 
-    var _send = function(url){
-      console.log(_getVal(url)); 
-      _backEndDictionary[profile.type](_getVal(url), callbackSendProposal);
+    var _send = function(){
+      console.log('sent');
+      _backEndDictionary[profile.type](_getVal(), function(data){callbackSendProposal(data);
+        _closepopup();
+      });
     }
 
     var _closepopup = {};
 
     submitButton.on('click',function(){
-
+      var spinner = new Spinner();
+      spinner.spin();
       $.wait(
         '', 
         function(){
+          $('body').append(spinner.el);
           if(_filled() == true){
-            _closepopup();
-            if (!(_photos)) _send();
-            else if(_photos.dataLength() == false) _send(_url);
-            else{
-              _photos.submit();
-            }
+            _send();
           }
           else{
             spinner.stop();
@@ -502,20 +510,13 @@
         function(){
           setTimeout(
             function(){
-              spinner.stop(); 
+              spinner.stop();
             }, 
             500
           );
         }
       );
     });
-
-    if(form['photos']){
-      _photos.cloudinary().bind('cloudinarydone', function(e, data){
-        _url.push(data['result']['public_id']);
-        if(_url.length >= _photos.dataLength()) _send(_url);
-      });
-    }
     
     _submitBtnContainer.append(submitButton);
 
@@ -531,31 +532,7 @@
       },
       setVal: function(production){
         for(var field in production){
-          if (_form[field] && field != 'photos') _form[field].input.setVal(production[field]);
-
-          if(production.photos && field == 'photos' ){
-            production.photos.forEach(function(photo){
-              _url.push(photo);
-              var _container = $('<span>');
-              var _previousPhoto = $.cloudinary.image(photo,
-                { format: 'jpg', width: 50, height: 50,
-                  crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
-              var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
-                'position': 'relative',
-                'bottom': '20px',
-                'cursor': 'pointer'
-              });
-
-              _icon.on('click', function(){
-                _url.splice(_url.indexOf(photo), 1);
-                _photos.setUrl(_url);
-                _container.empty();
-              });
-
-              _container.append(_previousPhoto, _icon);
-              _thumbnail.append(_container);
-            });
-          }
+          if (_form[field]) _form[field].input.setVal(production[field]);
         }
       }
     }

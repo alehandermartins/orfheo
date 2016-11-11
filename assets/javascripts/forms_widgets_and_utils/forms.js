@@ -114,7 +114,7 @@
       },
       photos:{
         "type" : "optional",
-        "label" : "Fotos del espacio (máximo 5, tamaño inferior a 500kb).",
+        "label" : "Fotos del espacio (máximo 5, tamaño inferior a 500kb)",
         "input" : "UploadPhotos",
         "args" : [ 
                   "/photos", 

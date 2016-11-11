@@ -4,16 +4,27 @@
     "call_id" : "b5bc4203-9379-4de0-856a-55e1e5f3fac6",
     "artist" : {
         "Música" : {
-            "category":{
-                "args" : ["music"],
-                "type": "optional"
-                },
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "music"
+                    ], 
+                    [ 
+                        "Música"
+                    ]
+                ],
+                "helptext" : ""
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
@@ -27,7 +38,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "components" : {
+            "1" : {
                 "type" : "optional",
                 "label" : "Número de integrantes",
                 "input" : "Input",
@@ -37,7 +48,7 @@
                 ],
                 "helptext" : "Número de personas que llevan la actividad/espectáculo."
             },
-            "repeat" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -57,11 +68,14 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
-            "waitig_list" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -73,16 +87,27 @@
             }
         },
         "Artes Escénicas" : {
-            "category": {
-                "args":["arts"],
-                "type": "optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "arts"
+                    ], 
+                    [ 
+                        "Artes Escénicas"
+                    ]
+                ],
+                "helptext" : ""
             },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
@@ -96,7 +121,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "components" : {
+            "1" : {
                 "type" : "optional",
                 "label" : "Número de integrantes",
                 "input" : "Input",
@@ -106,7 +131,7 @@
                 ],
                 "helptext" : "Número de personas que llevan la actividad/espectáculo."
             },
-            "repeat" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -126,11 +151,14 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
-            "waitig_list" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -142,16 +170,27 @@
             }
         },
         "Taller" : {
-            "category" :{    
-                "args":["workshop"],
-                "type": "optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "workshop"
+                    ], 
+                    [ 
+                        "Taller"
+                    ]
+                ],
+                "helptext" : ""
             },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
@@ -165,7 +204,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "repeat" : {
+            "1" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -185,11 +224,14 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
-            "waitig_list" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -201,11 +243,21 @@
             }
         },
         "Exposición" : {
-            "category": {
-                "args": ["expo"],
-                "type": "optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "expo"
+                    ], 
+                    [ 
+                        "Exposición"
+                    ]
+                ],
+                "helptext" : ""
             },
-            "meters" : {
+            "1" : {
                 "type" : "optional",
                 "label" : "Espacio necesario para la exposición",
                 "input" : "Input",
@@ -225,11 +277,14 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
-            "waitig_list" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -241,16 +296,27 @@
             }
         },
         "Street Art" : {
-            "category": {
-                    "args": ["street_art"],
-                    "type": "optional"
-                },
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "street_art"
+                    ], 
+                    [ 
+                        "Street Art"
+                    ]
+                ],
+                "helptext" : ""
+            },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
@@ -264,11 +330,14 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
-            "waitig_list" : {
+            "1" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -280,16 +349,27 @@
             }
         },
         "Poesía" : {
-            "category":{ 
-                "args": ["poetry"],
-                "type": "optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "poetry"
+                    ], 
+                    [ 
+                        "Poesía"
+                    ]
+                ],
+                "helptext" : ""
             },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
@@ -303,7 +383,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "repeat" : {
+            "1" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -323,11 +403,14 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
-            "waitig_list" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -339,16 +422,27 @@
             }
         },
         "Audiovisual" : {
-            "category":{ 
-                "args": ["audiovisual"],
-                "type": "optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "audiovisual"
+                    ], 
+                    [ 
+                        "Audiovisual"
+                    ]
+                ],
+                "helptext" : ""
             },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
@@ -362,7 +456,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "components" : {
+            "1" : {
                 "type" : "optional",
                 "label" : "Número de integrantes",
                 "input" : "Input",
@@ -372,7 +466,7 @@
                 ],
                 "helptext" : "Número de personas que llevan la actividad/espectáculo."
             },
-            "repeat" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -392,11 +486,14 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
-            "waitig_list" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -408,16 +505,27 @@
             }
         },
         "Otros" : {
-            "category":{ 
-                "args": ["other"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "other"
+                    ], 
+                    [ 
+                        "Otros"
+                    ]
+                ],
+                "helptext" : ""
             },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
@@ -431,7 +539,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "components" : {
+            "1" : {
                 "type" : "optional",
                 "label" : "Número de integrantes",
                 "input" : "Input",
@@ -441,7 +549,7 @@
                 ],
                 "helptext" : "Número de personas que llevan la actividad/espectáculo."
             },
-            "repeat" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -461,11 +569,14 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
-            "waitig_list" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -479,20 +590,31 @@
     },
     "space" : {
         "Asociación Cultural" : {
-            "category":{ 
-                "args": ["cultural_ass"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona tu tipo de espacio",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "cultural_ass"
+                    ], 
+                    [ 
+                        "Asociación Cultural"
+                    ]
+                ],
+                "helptext" : ""
             },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "responsible" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
@@ -502,7 +624,7 @@
                 ],
                 "helptext" : "Indicar la persona que se compromete con el festival para la programación y gestión del espacio."
             },
-            "sharing" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Materiales a compartir",
                 "input" : "TextArea",
@@ -511,7 +633,7 @@
                 ],
                 "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
             },
-            "own" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Programación propia",
                 "input" : "TextArea",
@@ -520,7 +642,7 @@
                 ],
                 "helptext" : "Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán."
             },
-            "un_wanted" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Preferencias de actividades",
                 "input" : "TextArea",
@@ -529,7 +651,7 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "waitig_list" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -541,20 +663,31 @@
             }
         },
         "Local Comercial" : {
-            "category":{ 
-                "args": ["commercial"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona tu tipo de espacio",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "commercial"
+                    ], 
+                    [ 
+                        "Local Comercial"
+                    ]
+                ],
+                "helptext" : ""
             },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "responsible" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
@@ -564,7 +697,7 @@
                 ],
                 "helptext" : "Indicar la persona que se compromete con el festival para la programación y gestión del espacio."
             },
-            "sharing" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Materiales a compartir",
                 "input" : "TextArea",
@@ -573,7 +706,7 @@
                 ],
                 "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
             },
-            "own" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Programación propia",
                 "input" : "TextArea",
@@ -582,7 +715,7 @@
                 ],
                 "helptext" : "Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán."
             },
-            "un_wanted" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Preferencias de actividades",
                 "input" : "TextArea",
@@ -591,7 +724,7 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "waitig_list" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -606,13 +739,14 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "responsible" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
@@ -622,7 +756,7 @@
                 ],
                 "helptext" : "Indicar la persona que se compromete con el festival para la programación y gestión del espacio."
             },
-            "sharing" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Materiales a compartir",
                 "input" : "TextArea",
@@ -631,7 +765,7 @@
                 ],
                 "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
             },
-            "own" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Programación propia",
                 "input" : "TextArea",
@@ -640,7 +774,7 @@
                 ],
                 "helptext" : "Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán."
             },
-            "un_wanted" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Preferencias de actividades",
                 "input" : "TextArea",
@@ -649,7 +783,7 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "waitig_list" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -661,20 +795,31 @@
             }
         },
         "Espacio Exterior" : {
-            "category":{ 
-                "args": ["open_air"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona tu tipo de espacio",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "open_air"
+                    ], 
+                    [ 
+                        "Espacio Exterior"
+                    ]
+                ],
+                "helptext" : ""
             },
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "InputDate",
+                "input" : "MultipleDaysSelector",
                 "args" : [ 
-                    ""
+                    "1476482400000", 
+                    "1476568800000"
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "responsible" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
@@ -684,7 +829,7 @@
                 ],
                 "helptext" : "Indicar la persona que se compromete con el festival para la programación y gestión del espacio."
             },
-            "sharing" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Materiales a compartir",
                 "input" : "TextArea",
@@ -693,7 +838,7 @@
                 ],
                 "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
             },
-            "own" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Programación propia",
                 "input" : "TextArea",
@@ -702,7 +847,7 @@
                 ],
                 "helptext" : "Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán."
             },
-            "un_wanted" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Preferencias de actividades",
                 "input" : "TextArea",
@@ -711,7 +856,7 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "waiting_list" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -730,9 +875,19 @@
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fac6",
     "artist" : {
         "Música" : {
-            "category":{ 
-                "args": ["music"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "music"
+                    ], 
+                    [ 
+                        "Música"
+                    ]
+                ],
+                "helptext" : ""
             },
             "title" : {
                 "type" : "mandatory",
@@ -806,9 +961,12 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
             "phone" : {
                 "type" : "mandatory",
@@ -822,19 +980,19 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" : [
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "age" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Edades público",
                 "input" : "Selector",
@@ -856,7 +1014,7 @@
                 ],
                 "helptext" : ""
             },
-            "space_type" : {
+            "2" : {
                 "type" : "mandatory",
                 "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
@@ -870,7 +1028,7 @@
                 ],
                 "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
             },
-            "technical_needs" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Necesidades técnicas",
                 "input" : "TextArea",
@@ -879,7 +1037,7 @@
                 ],
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
-            "scenography" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Montaje escenografía",
                 "input" : "CheckBox",
@@ -889,7 +1047,7 @@
                 ],
                 "helptext" : "Eligir si se quiere montar escenografía."
             },
-            "test" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Ensayo / prueba de sonido",
                 "input" : "CheckBox",
@@ -899,7 +1057,7 @@
                 ],
                 "helptext" : "Eligir si previamente se quiere hacer un ensayo / prueba de sonido."
             },
-            "arrangement" : {
+            "6" : {
                 "type" : "mandatory",
                 "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
@@ -914,7 +1072,7 @@
                 ],
                 "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
             },
-            "economic" : {
+            "7" : {
                 "type" : "optional",
                 "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
                 "input" : "Input",
@@ -924,7 +1082,7 @@
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
-            "anticipated" : {
+            "8" : {
                 "type" : "optional",
                 "label" : "Entrada anticipada",
                 "input" : "CheckBox",
@@ -934,233 +1092,7 @@
                 ],
                 "helptext" : "Elegir si deseas que haya venta de entrada anticipada a la actividad."
             },
-            "anticipated_only" : {
-                "type" : "optional",
-                "label" : "Sólo con entrada anticipada",
-                "input" : "CheckBox",
-                "args" : [ 
-                    "", 
-                    "yes"
-                ],
-                "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
-            },
-            "conditions" : {
-                "type" : "mandatory",
-                "label" : "Acepto las condiciones de participación asociadas a este evento",
-                "input" : "CheckBox",
-                "args" : [ 
-                    "", 
-                    "yes"
-                ],
-                "helptext":"https://distrito008.es/"
-            }
-        },
-        "Artes Escénicas" : {
-            "category":{ 
-                "args": ["arts"],
-                "type":"optional"
-            },
-            "title" : {
-                "type" : "mandatory",
-                "label" : "Título de la propuesta artística",
-                "input" : "Input",
-                "args" : [ 
-                    "", 
-                    "text"
-                ],
-                "helptext" : ""
-            },
-            "description" : {
-                "type" : "mandatory",
-                "label" : "Descripción",
-                "input" : "TextArea",
-                "args" : [ 
-                    ""
-                ],
-                "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
-            },
-            "short_description" : {
-                "type" : "mandatory",
-                "label" : "Descripción (muy) breve",
-                "input" : "TextAreaCounter",
-                "args" : [ 
-                    "", 
-                    80, 
-                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
-                ],
-                "helptext" : ""
-            },
-            "duration" : {
-                "type" : "mandatory",
-                "label" : "Duración del espectáculo",
-                "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "15 min", 
-                        "30 min", 
-                        "45 min", 
-                        "1 h", 
-                        "1h 15min", 
-                        "1h 30min", 
-                        "1h 45min", 
-                        "2 h", 
-                        "2h 15min", 
-                        "2h 30min"
-                    ], 
-                    [ 
-                        "15", 
-                        "30", 
-                        "45", 
-                        "60", 
-                        "75", 
-                        "90", 
-                        "105", 
-                        "120", 
-                        "135", 
-                        "150"
-                    ]
-                ],
-                "helptext" : ""
-            },
-            "links" : {
-                "type" : "optional",
-                "label" : "Materiales online",
-                "input" : "InputMultimedia",
-                "args" : null,
-                "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
-            },
-            "photos" : {
-                "type" : "optional",
-                "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
-            },
-            "phone" : {
-                "type" : "mandatory",
-                "label" : "Teléfono de contacto",
-                "input" : "InputTel",
-                "args" : [ 
-                    ""
-                ],
-                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
-            },
-            "availability" : {
-                "type" : "mandatory",
-                "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" : [
-                    [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
-                    ]
-                ],
-                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
-            },
-            "age" : {
-                "type" : "mandatory",
-                "label" : "Edades público",
-                "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "Todos los públicos", 
-                        "Infantil", 
-                        "Familiar", 
-                        "Juvenil", 
-                        "Adultos"
-                    ], 
-                    [ 
-                        "Todos los públicos", 
-                        "Infantil", 
-                        "Familiar", 
-                        "Juvenil", 
-                        "Adultos"
-                    ]
-                ],
-                "helptext" : ""
-            },
-            "space_type" : {
-                "type" : "mandatory",
-                "label" : "Tipo de espacio",
-                "input" : "MultipleSelector",
-                "args" : [ 
-                    [ 
-                        "salas de actuaciones", 
-                        "locales de restauración", 
-                        "comercios", 
-                        "espacio urbano"
-                    ]
-                ],
-                "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
-            },
-            "technical_needs" : {
-                "type" : "optional",
-                "label" : "Necesidades técnicas",
-                "input" : "TextArea",
-                "args" : [ 
-                    ""
-                ],
-                "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
-            },
-            "scenography" : {
-                "type" : "optional",
-                "label" : "Montaje escenografía",
-                "input" : "CheckBox",
-                "args" : [ 
-                    "", 
-                    "yes"
-                ],
-                "helptext" : "Eligir si se quiere montar escenografía."
-            },
-            "test" : {
-                "type" : "optional",
-                "label" : "Ensayo / prueba de sonido",
-                "input" : "CheckBox",
-                "args" : [ 
-                    "", 
-                    "yes"
-                ],
-                "helptext" : "Eligir si previamente se quiere hacer un ensayo / prueba de sonido."
-            },
-            "arrangement" : {
-                "type" : "mandatory",
-                "label" : "Acuerdo económico",
-                "input" : "MultipleSelector",
-                "args" : [ 
-                    [ 
-                        "Caché", 
-                        "Taquilla", 
-                        "Gorra", 
-                        "Gastos Producción", 
-                        "Sin caché"
-                    ]
-                ],
-                "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
-            },
-            "economic" : {
-                "type" : "optional",
-                "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
-                "input" : "Input",
-                "args" : [ 
-                    "", 
-                    "number"
-                ],
-                "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
-            },
-            "anticipated" : {
-                "type" : "optional",
-                "label" : "Entrada anticipada",
-                "input" : "CheckBox",
-                "args" : [ 
-                    "", 
-                    "yes"
-                ],
-                "helptext" : "Elegir si deseas que haya venta de entrada anticipada a la actividad."
-            },
-            "anticipated_only" : {
+            "9" : {
                 "type" : "optional",
                 "label" : "Sólo con entrada anticipada",
                 "input" : "CheckBox",
@@ -1181,10 +1113,20 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "Taller" : {
-            "category":{ 
-                "args": ["workshop"],
-                "type":"optional"
+        "Artes Escénicas" : {
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "arts"
+                    ], 
+                    [ 
+                        "Artes Escénicas"
+                    ]
+                ],
+                "helptext" : ""
             },
             "title" : {
                 "type" : "mandatory",
@@ -1258,9 +1200,12 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
             "phone" : {
                 "type" : "mandatory",
@@ -1274,19 +1219,19 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" : [
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "age" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Edades público",
                 "input" : "Selector",
@@ -1308,37 +1253,7 @@
                 ],
                 "helptext" : ""
             },
-            "inscription" : {
-                "type" : "optional",
-                "label" : "Inscripción previa",
-                "input" : "CheckBox",
-                "args" : [ 
-                    "", 
-                    "yes"
-                ],
-                "helptext" : "Elegir si deseas que haya inscripción previa a la actividad."
-            },
-            "only_inscription" : {
-                "type" : "optional",
-                "label" : "Sólo bajo inscripción",
-                "input" : "CheckBox",
-                "args" : [ 
-                    "", 
-                    "yes"
-                ],
-                "helptext" : "Elegir si se quiere que la actividad sea bajo inscripción obligatoria."
-            },
-            "max_attendants" : {
-                "type" : "mandatory",
-                "label" : "Plazas",
-                "input" : "Input",
-                "args" : [ 
-                    "", 
-                    "number"
-                ],
-                "helptext" : "Indica el número de plazas que abarca la actividad."
-            },
-            "space_type" : {
+            "2" : {
                 "type" : "mandatory",
                 "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
@@ -1352,7 +1267,7 @@
                 ],
                 "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
             },
-            "technical_needs" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Necesidades técnicas",
                 "input" : "TextArea",
@@ -1361,7 +1276,276 @@
                 ],
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
-            "mounting" : {
+            "4" : {
+                "type" : "optional",
+                "label" : "Montaje escenografía",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Eligir si se quiere montar escenografía."
+            },
+            "5" : {
+                "type" : "optional",
+                "label" : "Ensayo / prueba de sonido",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Eligir si previamente se quiere hacer un ensayo / prueba de sonido."
+            },
+            "6" : {
+                "type" : "mandatory",
+                "label" : "Acuerdo económico",
+                "input" : "MultipleSelector",
+                "args" : [ 
+                    [ 
+                        "Caché", 
+                        "Taquilla", 
+                        "Gorra", 
+                        "Gastos Producción", 
+                        "Sin caché"
+                    ]
+                ],
+                "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
+            },
+            "7" : {
+                "type" : "optional",
+                "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "number"
+                ],
+                "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
+            },
+            "8" : {
+                "type" : "optional",
+                "label" : "Entrada anticipada",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Elegir si deseas que haya venta de entrada anticipada a la actividad."
+            },
+            "9" : {
+                "type" : "optional",
+                "label" : "Sólo con entrada anticipada",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
+            },
+            "10" : {
+                "type" : "mandatory",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "https://distrito008.es/"
+            }
+        },
+        "Taller" : {
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "workshop"
+                    ], 
+                    [ 
+                        "Taller"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "title" : {
+                "type" : "mandatory",
+                "label" : "Título de la propuesta artística",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "text"
+                ],
+                "helptext" : ""
+            },
+            "description" : {
+                "type" : "mandatory",
+                "label" : "Descripción",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+            },
+            "short_description" : {
+                "type" : "mandatory",
+                "label" : "Descripción (muy) breve",
+                "input" : "TextAreaCounter",
+                "args" : [ 
+                    "", 
+                    80, 
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                ],
+                "helptext" : ""
+            },
+            "duration" : {
+                "type" : "mandatory",
+                "label" : "Duración del espectáculo",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "15 min", 
+                        "30 min", 
+                        "45 min", 
+                        "1 h", 
+                        "1h 15min", 
+                        "1h 30min", 
+                        "1h 45min", 
+                        "2 h", 
+                        "2h 15min", 
+                        "2h 30min"
+                    ], 
+                    [ 
+                        "15", 
+                        "30", 
+                        "45", 
+                        "60", 
+                        "75", 
+                        "90", 
+                        "105", 
+                        "120", 
+                        "135", 
+                        "150"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "links" : {
+                "type" : "optional",
+                "label" : "Materiales online",
+                "input" : "InputMultimedia",
+                "args" : null,
+                "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+            },
+            "photos" : {
+                "type" : "optional",
+                "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
+            },
+            "phone" : {
+                "type" : "mandatory",
+                "label" : "Teléfono de contacto",
+                "input" : "InputTel",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
+            },
+            "availability" : {
+                "type" : "mandatory",
+                "input" : "MultipleDaysSelector",
+                "label":"Disponibilidad",
+                "args" : [ 
+                    [ 
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
+                    ]
+                ],
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+            },
+            "1" : {
+                "type" : "mandatory",
+                "label" : "Edades público",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ], 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "2" : {
+                "type" : "optional",
+                "label" : "Inscripción previa",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Elegir si deseas que haya inscripción previa a la actividad."
+            },
+            "3" : {
+                "type" : "optional",
+                "label" : "Sólo bajo inscripción",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Elegir si se quiere que la actividad sea bajo inscripción obligatoria."
+            },
+            "4" : {
+                "type" : "mandatory",
+                "label" : "Plazas",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "number"
+                ],
+                "helptext" : "Indica el número de plazas que abarca la actividad."
+            },
+            "5" : {
+                "type" : "mandatory",
+                "label" : "Tipo de espacio",
+                "input" : "MultipleSelector",
+                "args" : [ 
+                    [ 
+                        "salas de actuaciones", 
+                        "locales de restauración", 
+                        "comercios", 
+                        "espacio urbano"
+                    ]
+                ],
+                "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
+            },
+            "6" : {
+                "type" : "optional",
+                "label" : "Necesidades técnicas",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
+            },
+            "7" : {
                 "type" : "optional",
                 "label" : "Montaje",
                 "input" : "CheckBox",
@@ -1371,7 +1555,7 @@
                 ],
                 "helptext" : ""
             },
-            "mounting_time_workshop" : {
+            "8" : {
                 "type" : "optional",
                 "label" : "Tiempo montaje",
                 "input" : "TextArea",
@@ -1380,7 +1564,7 @@
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
-            "arrangement_workshop" : {
+            "9" : {
                 "type" : "mandatory",
                 "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
@@ -1395,7 +1579,7 @@
                 ],
                 "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
             },
-            "economic" : {
+            "10" : {
                 "type" : "optional",
                 "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
                 "input" : "Input",
@@ -1417,9 +1601,19 @@
             }
         },
         "Gastronomía" : {
-            "category":{ 
-                "args": ["gastronomy"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "gastronomy"
+                    ], 
+                    [ 
+                        "Gastronomía"
+                    ]
+                ],
+                "helptext" : ""
             },
             "title" : {
                 "type" : "mandatory",
@@ -1493,9 +1687,12 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
             "phone" : {
                 "type" : "mandatory",
@@ -1509,19 +1706,19 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" : [
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "age" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Edades público",
                 "input" : "Selector",
@@ -1543,7 +1740,7 @@
                 ],
                 "helptext" : ""
             },
-            "inscription" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Inscripción previa",
                 "input" : "CheckBox",
@@ -1553,7 +1750,7 @@
                 ],
                 "helptext" : "Elegir si deseas que haya inscripción previa a la actividad."
             },
-            "only_inscription" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Sólo bajo inscripción",
                 "input" : "CheckBox",
@@ -1563,7 +1760,7 @@
                 ],
                 "helptext" : "Elegir si se quiere que la actividad sea bajo inscripción obligatoria."
             },
-            "max_attendants" : {
+            "4" : {
                 "type" : "mandatory",
                 "label" : "Plazas",
                 "input" : "Input",
@@ -1573,7 +1770,7 @@
                 ],
                 "helptext" : "Indica el número de plazas que abarca la actividad."
             },
-            "space_type" : {
+            "5" : {
                 "type" : "mandatory",
                 "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
@@ -1587,7 +1784,7 @@
                 ],
                 "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
             },
-            "technical_needs" : {
+            "6" : {
                 "type" : "optional",
                 "label" : "Necesidades técnicas",
                 "input" : "TextArea",
@@ -1596,7 +1793,7 @@
                 ],
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
-            "mounting" : {
+            "7" : {
                 "type" : "optional",
                 "label" : "Montaje",
                 "input" : "CheckBox",
@@ -1606,7 +1803,7 @@
                 ],
                 "helptext" : ""
             },
-            "mounting_time_workshop" : {
+            "8" : {
                 "type" : "optional",
                 "label" : "Tiempo montaje",
                 "input" : "TextArea",
@@ -1615,7 +1812,7 @@
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
-            "arrangement_workshop" : {
+            "9" : {
                 "type" : "mandatory",
                 "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
@@ -1630,7 +1827,7 @@
                 ],
                 "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
             },
-            "economic" : {
+            "10" : {
                 "type" : "optional",
                 "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
                 "input" : "Input",
@@ -1640,7 +1837,7 @@
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
-            "conditions" : {
+            "11" : {
                 "type" : "mandatory",
                 "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
@@ -1652,9 +1849,19 @@
             }
         },
         "Exposición" : {
-            "category":{ 
-                "args": ["expo"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "expo"
+                    ], 
+                    [ 
+                        "Exposición"
+                    ]
+                ],
+                "helptext" : ""
             },
             "title" : {
                 "type" : "mandatory",
@@ -1696,9 +1903,12 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
             "phone" : {
                 "type" : "mandatory",
@@ -1713,18 +1923,19 @@
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
                 "input" : "MultipleSelector",
-                "args" :[
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "space_type_expo" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
@@ -1737,7 +1948,7 @@
                 ],
                 "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
             },
-            "mountig_time" : {
+            "2" : {
                 "type" : "mandatory",
                 "label" : "Tiempo montaje",
                 "input" : "TextArea",
@@ -1746,7 +1957,7 @@
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El artista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello. El artista también tendrá que hacer sus propias cartelas."
             },
-            "needs_expo" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Necesidades técnicas",
                 "input" : "TextArea",
@@ -1767,9 +1978,19 @@
             }
         },
         "Street Art" : {
-            "category":{ 
-                "args": ["street_art"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "street_art"
+                    ], 
+                    [ 
+                        "Street Art"
+                    ]
+                ],
+                "helptext" : ""
             },
             "title" : {
                 "type" : "mandatory",
@@ -1843,9 +2064,12 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
             "phone" : {
                 "type" : "mandatory",
@@ -1859,19 +2083,19 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" :[
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "age" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Edades público",
                 "input" : "Selector",
@@ -1893,7 +2117,7 @@
                 ],
                 "helptext" : ""
             },
-            "surface" : {
+            "2" : {
                 "type" : "mandatory",
                 "label" : "Tipo de soporte",
                 "input" : "MultipleSelector",
@@ -1910,7 +2134,7 @@
                 ],
                 "helptext" : "Selecciona el tipo de soporte en el que te gustaría mostrar tu obra. Puedes elegir una o varias opciones."
             },
-            "other_surface" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Especificar 'otro' suporte (Únicamente si se ha marcado este caso)",
                 "input" : "Input",
@@ -1920,7 +2144,7 @@
                 ],
                 "helptext" : ""
             },
-            "intervention_type" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Tipo de intervención",
                 "input" : "Selector",
@@ -1936,7 +2160,7 @@
                 ],
                 "helptext" : ""
             },
-            "needs_street" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Necesidades técnicas",
                 "input" : "TextArea",
@@ -1945,7 +2169,7 @@
                 ],
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte. Ej.: pintura, andamios, grúa, escalera, etc..."
             },
-            "show_time" : {
+            "6" : {
                 "type" : "optional",
                 "label" : "Tiempo de realización",
                 "input" : "TextArea",
@@ -1954,7 +2178,7 @@
                 ],
                 "helptext" : "Indica cuanto tiempo necesitarías aproximadamente para la realización de tu obra o intervención."
             },
-            "arrangement_street" : {
+            "7" : {
                 "type" : "mandatory",
                 "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
@@ -1967,7 +2191,7 @@
                 ],
                 "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
             },
-            "economic" : {
+            "8" : {
                 "type" : "optional",
                 "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
                 "input" : "Input",
@@ -1989,9 +2213,19 @@
             }
         },
         "Poesía" : {
-            "category":{ 
-                "args": ["poetry"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "poetry"
+                    ], 
+                    [ 
+                        "Poesía"
+                    ]
+                ],
+                "helptext" : ""
             },
             "title" : {
                 "type" : "mandatory",
@@ -2065,9 +2299,12 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
             "phone" : {
                 "type" : "mandatory",
@@ -2081,19 +2318,19 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" :[
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "age" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Edades público",
                 "input" : "Selector",
@@ -2115,7 +2352,7 @@
                 ],
                 "helptext" : ""
             },
-            "space_type" : {
+            "2" : {
                 "type" : "mandatory",
                 "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
@@ -2129,7 +2366,7 @@
                 ],
                 "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
             },
-            "technical_needs" : {
+            "3" : {
                 "type" : "optional",
                 "label" : "Necesidades técnicas",
                 "input" : "TextArea",
@@ -2138,7 +2375,7 @@
                 ],
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
-            "scenography" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Montaje escenografía",
                 "input" : "CheckBox",
@@ -2148,7 +2385,7 @@
                 ],
                 "helptext" : "Eligir si se quiere montar escenografía."
             },
-            "test" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Ensayo / prueba de sonido",
                 "input" : "CheckBox",
@@ -2158,7 +2395,7 @@
                 ],
                 "helptext" : "Eligir si previamente se quiere hacer un ensayo / prueba de sonido."
             },
-            "arrangement" : {
+            "6" : {
                 "type" : "mandatory",
                 "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
@@ -2173,7 +2410,7 @@
                 ],
                 "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
             },
-            "economic" : {
+            "7" : {
                 "type" : "optional",
                 "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
                 "input" : "Input",
@@ -2183,7 +2420,7 @@
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
-            "anticipated" : {
+            "8" : {
                 "type" : "optional",
                 "label" : "Entrada anticipada",
                 "input" : "CheckBox",
@@ -2193,7 +2430,7 @@
                 ],
                 "helptext" : "Elegir si deseas que haya venta de entrada anticipada a la actividad."
             },
-            "anticipated_only" : {
+            "9" : {
                 "type" : "optional",
                 "label" : "Sólo con entrada anticipada",
                 "input" : "CheckBox",
@@ -2215,9 +2452,19 @@
             }
         },
         "Audiovisual" : {
-            "category":{ 
-                "args": ["audiovisual"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "audiovisual"
+                    ], 
+                    [ 
+                        "Audiovisual"
+                    ]
+                ],
+                "helptext" : ""
             },
             "title" : {
                 "type" : "mandatory",
@@ -2291,9 +2538,12 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
             "phone" : {
                 "type" : "mandatory",
@@ -2307,19 +2557,19 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" :[
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "age" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Edades público",
                 "input" : "Selector",
@@ -2341,7 +2591,7 @@
                 ],
                 "helptext" : ""
             },
-            "movies" : {
+            "2" : {
                 "type" : "optional",
                 "label" : "Ficha Película/s / Obra/s",
                 "input" : "TextArea",
@@ -2350,7 +2600,7 @@
                 ],
                 "helptext" : "Indicar título, director/artista, año, duración + descripción. Explicar TODO lo que debe citarse; quién colabora, cede las pelis etc etc…para comunicación."
             },
-            "space_type" : {
+            "3" : {
                 "type" : "mandatory",
                 "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
@@ -2364,7 +2614,7 @@
                 ],
                 "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
             },
-            "technical_needs" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Necesidades técnicas",
                 "input" : "TextArea",
@@ -2373,7 +2623,7 @@
                 ],
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
-            "mounting" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Montaje",
                 "input" : "CheckBox",
@@ -2383,7 +2633,7 @@
                 ],
                 "helptext" : ""
             },
-            "mounting_time_workshop" : {
+            "6" : {
                 "type" : "optional",
                 "label" : "Tiempo montaje",
                 "input" : "TextArea",
@@ -2392,7 +2642,7 @@
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
-            "audiovisual_arrangement" : {
+            "7" : {
                 "type" : "mandatory",
                 "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
@@ -2407,7 +2657,7 @@
                 ],
                 "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
             },
-            "economic" : {
+            "8" : {
                 "type" : "optional",
                 "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
                 "input" : "Input",
@@ -2417,7 +2667,7 @@
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
-            "anticipated" : {
+            "9" : {
                 "type" : "optional",
                 "label" : "Entrada anticipada",
                 "input" : "CheckBox",
@@ -2427,7 +2677,7 @@
                 ],
                 "helptext" : "Elegir si deseas que haya venta de entrada anticipada a la actividad."
             },
-            "anticipated_only" : {
+            "10" : {
                 "type" : "optional",
                 "label" : "Sólo con entrada anticipada",
                 "input" : "CheckBox",
@@ -2449,9 +2699,19 @@
             }
         },
         "Otros" : {
-            "category":{ 
-                "args": ["other"],
-                "type":"optional"
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "other"
+                    ], 
+                    [ 
+                        "Otros"
+                    ]
+                ],
+                "helptext" : ""
             },
             "title" : {
                 "type" : "mandatory",
@@ -2525,9 +2785,12 @@
             "photos" : {
                 "type" : "optional",
                 "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-                "input" : "Cloudinary",
-                "folder" : "/photos",
-                "amount" : 4
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
             },
             "phone" : {
                 "type" : "mandatory",
@@ -2541,19 +2804,19 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" : [
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "age" : {
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Edades público",
                 "input" : "Selector",
@@ -2575,7 +2838,7 @@
                 ],
                 "helptext" : ""
             },
-            "activity_type" : {
+            "2" : {
                 "type" : "mandatory",
                 "label" : "Tipo de actividad",
                 "input" : "Input",
@@ -2585,7 +2848,7 @@
                 ],
                 "helptext" : ""
             },
-            "space_type" : {
+            "3" : {
                 "type" : "mandatory",
                 "label" : "Tipo de espacio",
                 "input" : "MultipleSelector",
@@ -2599,7 +2862,7 @@
                 ],
                 "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
             },
-            "technical_needs" : {
+            "4" : {
                 "type" : "optional",
                 "label" : "Necesidades técnicas",
                 "input" : "TextArea",
@@ -2608,7 +2871,7 @@
                 ],
                 "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
-            "mountig" : {
+            "5" : {
                 "type" : "optional",
                 "label" : "Montaje",
                 "input" : "CheckBox",
@@ -2618,7 +2881,7 @@
                 ],
                 "helptext" : ""
             },
-            "mounting_time_workshop" : {
+            "6" : {
                 "type" : "optional",
                 "label" : "Tiempo montaje",
                 "input" : "TextArea",
@@ -2627,7 +2890,7 @@
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
-            "inscription" : {
+            "7" : {
                 "type" : "optional",
                 "label" : "Inscripción previa",
                 "input" : "CheckBox",
@@ -2637,7 +2900,7 @@
                 ],
                 "helptext" : "Elegir si deseas que haya inscripción previa a la actividad."
             },
-            "only_inscription" : {
+            "8" : {
                 "type" : "optional",
                 "label" : "Sólo bajo inscripción",
                 "input" : "CheckBox",
@@ -2647,7 +2910,7 @@
                 ],
                 "helptext" : "Elegir si se quiere que la actividad sea bajo inscripción obligatoria."
             },
-            "max_attendants_optional" : {
+            "9" : {
                 "type" : "optional",
                 "label" : "Plazas",
                 "input" : "Input",
@@ -2657,7 +2920,7 @@
                 ],
                 "helptext" : "Indica el número de plazas que abarca la actividad."
             },
-            "arrangement_workshop" : {
+            "10" : {
                 "type" : "mandatory",
                 "label" : "Acuerdo económico",
                 "input" : "MultipleSelector",
@@ -2672,7 +2935,7 @@
                 ],
                 "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
             },
-            "economic" : {
+            "11" : {
                 "type" : "optional",
                 "label" : "Caché / Gastos Producción (Únicamente si se ha marcado alguno de estos casos)",
                 "input" : "Input",
@@ -2682,7 +2945,7 @@
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
-            "anticipated" : {
+            "12" : {
                 "type" : "optional",
                 "label" : "Entrada anticipada",
                 "input" : "CheckBox",
@@ -2692,7 +2955,7 @@
                 ],
                 "helptext" : "Elegir si deseas que haya venta de entrada anticipada a la actividad."
             },
-            "anticipated_only" : {
+            "13" : {
                 "type" : "optional",
                 "label" : "Sólo con entrada anticipada",
                 "input" : "CheckBox",
@@ -2714,34 +2977,47 @@
             }
         }
     },
-    "space" : { 
+    "space" : {
         "Espacio colaborador" : {
-            "category":{ 
-                "args": [ 
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona tu tipo de espacio",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
                         "cultural_ass", 
                         "home", 
                         "commercial"
-                    ],
-                "type":"optional"
-            },
-            "subcategory":{
-                "type" : "mandatory",
-                "label" : "Categoría del espacio en el evento",
-                "input" : "Selector",
-                "args" : [ 
-                    ["Restauración y Clubs", 
-                    "Arte, Cultura y Diseño", 
-                    "Espacio particular", 
-                    "Tiendas y servicios"],
-                    ["Restauración y Clubs", 
-                    "Arte, Cultura y Diseño", 
-                    "Espacio particular", 
-                    "Tiendas y servicios"
+                    ], 
+                    [ 
+                        "Asociación Cultural", 
+                        "Espacio Particular", 
+                        "Local Comercial"
                     ]
                 ],
                 "helptext" : ""
             },
-            "aforo": {
+            "subcategory" : {
+                "type" : "mandatory",
+                "label" : "Categoría del espacio en el evento",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "Restauración y Clubs", 
+                        "Arte, Cultura y Diseño", 
+                        "Espacio particular", 
+                        "Tiendas y servicios"
+                    ], 
+                    [ 
+                        "Restauración y Clubs", 
+                        "Arte, Cultura y Diseño", 
+                        "Espacio particular", 
+                        "Tiendas y servicios"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Aforo máximo",
                 "input" : "Input",
@@ -2754,14 +3030,14 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" :[
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
@@ -2787,32 +3063,45 @@
             }
         },
         "Espacio con actividad" : {
-            "category":{
-                "args":[ 
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona tu tipo de espacio",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
                         "cultural_ass", 
                         "home", 
                         "commercial"
-                    ],
-                type: "optional"
-            },
-            "subcategory":{
-                "type" : "mandatory",
-                "label" : "Categoría del espacio en el evento",
-                "input" : "Selector",
-                "args" : [ 
-                    ["Restauración y Clubs", 
-                    "Arte, Cultura y Diseño", 
-                    "Espacio particular", 
-                    "Tiendas y servicios"],
-                    ["Restauración y Clubs", 
-                    "Arte, Cultura y Diseño", 
-                    "Espacio particular", 
-                    "Tiendas y servicios"
+                    ], 
+                    [ 
+                        "Asociación Cultural", 
+                        "Espacio Particular", 
+                        "Local Comercial"
                     ]
                 ],
                 "helptext" : ""
             },
-            "aforo": {
+            "subcategory" : {
+                "type" : "mandatory",
+                "label" : "Categoría del espacio en el evento",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "Restauración y Clubs", 
+                        "Arte, Cultura y Diseño", 
+                        "Espacio particular", 
+                        "Tiendas y servicios"
+                    ], 
+                    [ 
+                        "Restauración y Clubs", 
+                        "Arte, Cultura y Diseño", 
+                        "Espacio particular", 
+                        "Tiendas y servicios"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "1" : {
                 "type" : "mandatory",
                 "label" : "Aforo máximo",
                 "input" : "Input",
@@ -2825,14 +3114,14 @@
             "availability" : {
                 "type" : "mandatory",
                 "label" : "Disponibilidad",
-                "input" : "MultipleSelector",
-                "args" :[
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
                     [ 
-                         "Viernes 31/3/2017",
-                         "Sábado 1/4/2017",
-                         "Domingo 2/4/2017",
-                         "Viernes 7/4/2017",
-                         "Sábado 8/4/2017"
+                        "1490911200000", 
+                        "1490997600000", 
+                        "1491084000000", 
+                        "1491516000000",
+                        "1491602400000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
@@ -2846,59 +3135,63 @@
                 ],
                 "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
             },
-            "tipodeactividad":{
+            "2" : {
                 "type" : "mandatory",
                 "label" : "Tipo de actividad",
                 "input" : "Selector",
                 "args" : [ 
-                    ["Actividad propia", 
-                    "Actividad programada"
-                    ],
-                    ["Actividad propia", 
-                    "Actividad programada"
+                    [ 
+                        "Actividad propia", 
+                        "Actividad programada"
+                    ], 
+                    [ 
+                        "Actividad propia", 
+                        "Actividad programada"
                     ]
                 ],
                 "helptext" : "Elige si prefieres desarrollar en tu local una actividad propia, de vuestra creación, o una actividad programada por la organización del Festival según tus preferencias y posibilidades del espacio que dispones. Si eliges la opción de actividad propia deberéis rellenar un formulario como Artista, la propuesta deberá pasar por el filtro de la organización."
             },
-            "categoriaactividad":{
+            "3" : {
                 "type" : "otional",
                 "label" : "Categoría de actividad (sólo para espacios con actividad propia) *",
                 "input" : "MultipleSelector",
-                "args" :[
-                    [ "Música", 
-                    "Artes Escénicas", 
-                    "Poesía", 
-                    "Exposición", 
-                    "Street Art", 
-                    "Audiovisual", 
-                    "Taller",
-                    "Gastronomía",
-                    "Otros"
+                "args" : [ 
+                    [ 
+                        "Música", 
+                        "Artes Escénicas", 
+                        "Poesía", 
+                        "Exposición", 
+                        "Street Art", 
+                        "Audiovisual", 
+                        "Taller", 
+                        "Gastronomía", 
+                        "Otros"
                     ]
                 ],
                 "helptext" : "Elige el tipo de actividades que puedes y te apetece desarrollar en tu local."
             },
-            "posibilidadesdelespacio":{
+            "4" : {
                 "type" : "optional",
                 "label" : "Posibilidades del espacio",
                 "input" : "MultipleSelector",
-                "args" :[
-                    ["sistema para exponer",
-                    "iluminación exposición",
-                    "posibilidad de taladrar pared",
-                    "posibilidad de intervenir pared",
-                    "equipo de sonido directo", 
-                    "micrófonos",
-                    "tarima",
-                    "suelo parquet",
-                    "mesas",
-                    "sillas",
-                    "proyector",
-                    "focos",
-                    "técnico de sonido",
-                    "técnico de luces",
-                    "posibilidad de taquilla",
-                    "posibilidad negociar barra"
+                "args" : [ 
+                    [ 
+                        "sistema para exponer", 
+                        "iluminación exposición", 
+                        "posibilidad de taladrar pared", 
+                        "posibilidad de intervenir pared", 
+                        "equipo de sonido directo", 
+                        "micrófonos", 
+                        "tarima", 
+                        "suelo parquet", 
+                        "mesas", 
+                        "sillas", 
+                        "proyector", 
+                        "focos", 
+                        "técnico de sonido", 
+                        "técnico de luces", 
+                        "posibilidad de taquilla", 
+                        "posibilidad negociar barra"
                     ]
                 ],
                 "helptext" : "Marca lo que puede aportar tu local en el desarrollo de las actividades elegidas."

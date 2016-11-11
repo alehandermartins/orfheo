@@ -14,7 +14,8 @@
 
     var _closepopup = {};
     var _send = function(){};
-    var spinner =  new Spinner()
+    var spinner =  new Spinner();
+    var _photos;
 
     for(var field in form){
       _form[field] = {};

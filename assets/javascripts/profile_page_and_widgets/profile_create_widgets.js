@@ -138,7 +138,6 @@
 
 
   ns.Widgets.CreateTypeProfileMessage = function(type, callbackEvent){
-    console.log(callbackEvent);
     var _createdWidget = $('<div>').addClass('createProfilePopup createProfilePopup-'+type);
 
     var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.');

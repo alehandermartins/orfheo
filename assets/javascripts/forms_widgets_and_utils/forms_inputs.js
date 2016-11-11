@@ -151,18 +151,14 @@
     values.forEach(function(value){
       _createdWidget.append($('<option>').text(value).val(value));
     });
-     _createdWidget.on('change',function(){
+    
+    _createdWidget.on('change',function(){
         _createdWidget.next().find('.ms-choice').removeClass('warning');
       if(callback) {
         var boundCallback = callback.bind(_createdWidget);
         boundCallback();
       };
     });
-
-
-    // _createdWidget.css({
-    //   'width': 300
-    // });
 
     return {
       render: function(){
@@ -193,10 +189,65 @@
   }
 
 
+  ns.Widgets.MultipleDaysSelector = function(millisecValues, callback){
+    var _createdWidget = $('<select>').attr("multiple", "multiple");
+    millisecValues.forEach(function(value){
+      var _day = moment(new Date(parseInt(value))).locale('es').format('dddd DD/MM/YYYY');
+      _createdWidget.append($('<option>').text(_day).val(value));
+    });
+    
+    _createdWidget.on('change',function(){
+        _createdWidget.next().find('.ms-choice').removeClass('warning');
+      if(callback) {
+        var boundCallback = callback.bind(_createdWidget);
+        boundCallback();
+      };
+    });
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        if(_createdWidget.val()) {
+          var _daysArray = [];
+          _createdWidget.val().forEach(function(val){
+            _daysArray.push(moment(new Date(parseInt(val))).locale('es').format('YYYY-MM-DD'));
+          });
+          console.log(_daysArray);          
+          return _daysArray;
+        }
+        else{
+          return false;
+        }
+      },
+      setVal: function(value){
+        _createdWidget.val(value);
+      },
+      addWarning: function(){
+        console.log('daysSelec')
+        _createdWidget.next().find('.ms-choice').addClass('warning');
+      },
+      removeWarning: function(){
+        _createdWidget.next().find('.ms-choice').removeClass('warning');
+      },
+      setClass: function(_class){
+        _createdWidget.addClass(_class);
+      },
+      enable: function(){
+        _createdWidget.attr('disabled',false);
+      },
+      disable: function(){
+        _createdWidget.attr('disabled',true);
+      }
+    }
+  }
+
+
   ns.Widgets.TextArea = function(label, Nrows){
     // var _createdWidget = $('<div>');
     var _textarea = $('<textarea>').attr({placeholder: label})
-    if (Nrows)_textarea.attr({'rows': Nrows});
+    if (Nrows)_textarea.attr({'rows': parseInt(Nrows)});
 
     _textarea.on('input',function(){_textarea.removeClass('warning')});
 

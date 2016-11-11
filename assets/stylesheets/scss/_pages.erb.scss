@@ -1573,7 +1573,7 @@ Program Manager Tab
 
 .artist-accordeon-call-manager{
   position: absolute;
-  overflow-y: hidden;
+  overflow-y: auto;
   right: 0;
   top:0;
   width: 13rem;
@@ -1584,7 +1584,7 @@ Program Manager Tab
 }
 
 .artist-list-container-call-manager{
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   overflow-x: hidden;
   height:  -moz-calc(100% - 2.5rem);
   height:  -webkit-calc(100% - 2.5rem);
