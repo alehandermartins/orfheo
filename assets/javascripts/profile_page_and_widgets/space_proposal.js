@@ -19,31 +19,36 @@
   }
 
 
-  ns.Widgets.MySpaceCallProposals = function(callProposals){
+  ns.Widgets.MySpaceCallProposals = function(callProposals, profileType){
     
     var _createdWidget = $('<div>');
 
     var _eventNames = [];
     var _forms;
     
+    var _listProposals = $('<ul>');
+
     callProposals.forEach(function(proposal){
       if ($.inArray(proposal.event_name, _eventNames)<0) {
+        console.log(proposal)
         var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
-        var _listProposals = $('<ul>');
+        _listProposals = $('<ul>');
         _createdWidget.append(_callName, _listProposals);
       }
       _eventNames.push(proposal.event_name);
-      var _caller = $('<a>').attr({href:'#'}).text('Formulario enviado');
+      var _caller = $('<a>').attr({href:'#'})
+      if (proposal.title) _caller.text(proposal.title);
+      else _caller.text('Formulario enviado');
       var _proposalItem = $('<li>').append( _caller);
       _listProposals.append(_proposalItem); 
       _caller.click(function(){
         if (!(_forms)) {
           Pard.Backend.getCallForms(proposal.call_id, function(data){_forms = data.forms;
-          _displayPopup(proposal, _forms['space'][proposal.form_category],proposal.event_name);
+          _displayPopup(proposal, _forms['profileType'][proposal.form_category],proposal.event_name);
           });
         }
         else{
-          _displayPopup(proposal, _forms['space'][proposal.form_category],proposal.event_name);
+          _displayPopup(proposal, _forms['profileType'][proposal.form_category],proposal.event_name);
         }       
       });
     });

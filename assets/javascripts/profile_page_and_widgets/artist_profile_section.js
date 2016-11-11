@@ -76,54 +76,22 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();    
-    var _proposalsBoxContent = $('<div>').addClass('box-content');
 
-    if(profile.proposals && profile.proposals.length){
-      if (userStatus != 'owner'){
-        var _proposals = profile.proposals;
-        var _artistCallProposals = $('<div>');
-        var _callName = $('<p>').append('Se ha inscrito en el ',$('<span>').text('Benimaclet conFusión festival 2016').css({'font-weight': 'bold'}),' con:').addClass('activities-box-call-name');
-
-        var _listproposals = $('<ul>');
-
-        _proposals.forEach(function(proposal){
-          var _proposalItem = $('<li>').text(proposal);
-          _listproposals.append(_proposalItem);
-        });
-
-        _artistCallProposals.append(_callName, _listproposals);
-        _proposalsBoxContent.append(_artistCallProposals);
-        _proposalsBoxContainer.append(_proposalsBoxContent);
-        _createdWidget.append(_proposalsBoxContainer);
-      }
-      else{
-        if(profile.proposals && profile.proposals.length){
-          var _myArtistCallProposals = Pard.Widgets.MyArtistCallProposals(profile.proposals);
-          // var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía otra propuesta').render().addClass('callButtonArtist-sendOther');
-          _proposalsBoxContent.append(_myArtistCallProposals.render());
-        }
-      }
-    }  
-    else{
-        var _artistCallProposals = $('<div>');
-        var _callName = $('<p>').append('Todavía no se ha inscrito en ninguna convocatoria.').addClass('activities-box-call-name');
-        _artistCallProposals.append(_callName);
-        _proposalsBoxContent.append(_artistCallProposals);
-        _proposalsBoxContainer.append(_proposalsBoxContent);
-        _createdWidget.append(_proposalsBoxContainer);
-
-      }
-      // else{
-      //   var _callButton = Pard.Widgets.CallArtistButton(profile,'Envía una propuesta al conFusión 2016').render().addClass('callButtonArtist-sendOther');
-      //   _proposalsBoxContent.append(_callButton);
-      // }
-      _proposalsBoxContainer.append(_proposalsBoxContent);
-      _createdWidget.append(_proposalsBoxContainer);
-
-  
 
     if (userStatus == 'owner'){
+      var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();    
+      var _proposalsBoxContent = $('<div>').addClass('box-content');
+    if(profile.proposals && profile.proposals.length){
+        var _myCallProposals = Pard.Widgets.MySpaceCallProposals(profile.proposals, profile.type);
+        _proposalsBoxContent.append(_myCallProposals.render()); 
+      }
+      else{
+          var _callName = $('<p>').append('No estás inscrito en ninguna convocatoria activa en este periodo.').addClass('activities-box-call-name');
+          _proposalsBoxContent.append(_callName);
+      }     
+      _proposalsBoxContainer.append(_proposalsBoxContent);
+      _createdWidget.append(_proposalsBoxContainer);
+  
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
     }
