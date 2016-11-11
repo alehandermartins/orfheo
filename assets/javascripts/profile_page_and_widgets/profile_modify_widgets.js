@@ -285,7 +285,7 @@
   ns.Widgets.DeleteProfileMessage = function(profile_id){  
     
     var _createdWidget = $('<div>');
-    var _message = $('<p>').text('Confirmando, tu perfil será eliminado y con ello tu portfolio (si eres artista) y todas tus inscripciones en convocatorias.');
+    var _message = $('<p>').text('Confirmando, tu perfil será eliminado y con ello todos su contenidos. Sin embargo, no se cancelarán las propuestas enviada a convocatorias.');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 

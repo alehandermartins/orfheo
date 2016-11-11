@@ -137,6 +137,9 @@
       setCallback: function(callback){
         content.setCallback(callback);
         _callback = callback;
+      },
+      appendToContent: function(_additionalContent){
+        _sectionContainer.append(_additionalContent);
       }
     }
   }

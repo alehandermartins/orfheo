@@ -82,7 +82,7 @@
       var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();    
       var _proposalsBoxContent = $('<div>').addClass('box-content');
     if(profile.proposals && profile.proposals.length){
-        var _myCallProposals = Pard.Widgets.MyCallProposals(profile.proposals, profile.type);
+        var _myCallProposals = Pard.Widgets.MyCallProposals(profile);
         _proposalsBoxContent.append(_myCallProposals.render()); 
       }
       else{
