@@ -176,7 +176,7 @@
     
     var _conditionsText = $('<div>').addClass('info-text-header-infoTab-event')
     if (_eventInfo.conditions) _conditionsText.append($('<a>').attr({'href':_eventInfo.conditions,'target':'_blank'}).append('Bases de participación'));
-    else _eventInfo.append($('<p>').text('Sin condiciones de participación'));
+    else _conditionsText.append($('<p>').text('Sin condiciones de participación'));
     var _callConditions = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('my_web').render()).addClass('iconContainer-infoHeader-event-page'), _conditionsText).addClass('callConditions-infoTab-event');
 
     var _timeContent= $('<div>').addClass('timeContent-infoTab-event');
