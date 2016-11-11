@@ -238,20 +238,6 @@ module Repos
         }
       end
 
-      def requested_events profile_id, requester_id
-        requester = Repos::Users.grab({user_id: requester_id})
-        events = grab({profile_id: profile_id}).map{ |event|
-          event.delete(:artists)
-          whitelist = false
-          whitelist = true if event[:whitelist].any?{ |user| user[:email] == requester[:email] }
-          event[:whitelist] = whitelist
-          event.delete(:spaces)
-          event.delete(:program)
-          event.delete(:qr)
-          event
-        }       
-      end
-
       def my_artist_proposals profile_id
         events = grab({ "artists.profile_id": profile_id})
         events.map{ |event|
@@ -280,9 +266,16 @@ module Repos
       def my_program profile_id
         events = grab({ "$or": [{ "program.participant_id": profile_id}, {"program.host_id": profile_id}]}) 
         events.map{ |event|
+          next if event[:published] == 'false'
+          event[:eventTime].delete(:permanent)
           my_performances = event[:program].select{|performance| performance[:participant_id] == profile_id || performance[:host_id] == profile_id}
-          arrange_program event, my_performances
-        }.flatten
+          {
+            event_id: event[:event_id],
+            event_name: event[:name],
+            date: event[:eventTime].keys.max.to_s,
+            shows: arrange_program(event, my_performances)
+          }
+        }.compact.sort_by{|event| event[:date]}.reverse
       end
 
       private
@@ -302,8 +295,6 @@ module Repos
           artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
           space = event[:spaces].select{ |participant| participant[:profile_id] == performance[:host_id]}.first
           order = event[:spaces].index{ |space| space[:proposal_id] == performance[:host_proposal_id] }
-          performance.merge! event_name: event[:name]
-          performance.merge! event_id: event[:event_id]
           performance.merge! host_name: space[:name]
           performance.merge! address: space[:address]
           performance.merge! host_category: space[:category]

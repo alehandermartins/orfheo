@@ -1904,6 +1904,7 @@
       spaces.forEach(function(space){
         _spaces[space.profile_id] = new Space(space);
       });
+      if(spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
 
        _toolsContainer.append(ToolsDropdownMenu().render());
       // _buttonsContainer.append(_toolsContainer);
@@ -1919,7 +1920,7 @@
         });
         var align = function(){
           setTimeout(function(){
-            if(_spaces[spaces[1].profile_id].columns[_daySelector.val()].position().left != 0){
+            if(spaces.length < 2 || _spaces[spaces[1].profile_id].columns[_daySelector.val()].position().left != 0){
               Object.keys(_spaces).forEach(function(profile_id){
                 _spaces[profile_id].alignPerformances(_daySelector.val());
               });
