@@ -922,50 +922,6 @@
           performance.host_category = space.category;
         }
 
-<<<<<<< HEAD
-
-
-      return {
-        space: space,
-        columns: _columns,
-        program: program,
-        showColumns: function(){
-          Object.keys(_columns).forEach(function(date){
-            _columns[date].show();
-          });
-        },
-        hideColumns: function(){
-          Object.keys(_columns).forEach(function(date){
-            _columns[date].hide();
-          });
-        },
-        alignPerformances: function(day){
-          var position = _columns[day].position().left + 1;
-          Object.keys(eventTime).forEach(function(date){
-            _columns[date].css('width', Pard.ColumnWidth);
-          });
-          AlignPerformances(position);
-        },
-        addPerformance: function(performance, programCard){
-          _addSpaceInfo(performance);
-          _loadPerformance(performance, programCard);
-          AlignPerformances(_columns[_daySelector.val()].position().left + 1);
-        },
-        deletePerformance: function(performance){
-          delete program[performance.performance_id];
-          if(performance.permanent == 'true'){
-            if(_columns['permanent'].find('.' + performance.performance_id).length) {
-              _columns['permanent'].find('.' + performance.performance_id).detach();
-              var myPerformances = Object.keys(program).map(function(performance_id){
-                return program[performance_id];
-              });
-              myPerformances = myPerformances.filter(function(show){
-                if(show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id){
-                  _columns['permanent'].append(_program[show.performance_id].performanceCard());
-                  return;
-                }
-              });
-=======
         var _loadPerformance = function(performance, programCard){
           if(performance.permanent == 'false') _columns[performance.date].append(programCard);
           else{
@@ -973,7 +929,6 @@
               return program[performance_id].participant_proposal_id != performance.participant_proposal_id;
             })){
               _columns['permanent'].append(programCard);
->>>>>>> cbc39bc8227717a513686b57aa795f5023adbf00
             }
           }
           program[performance.performance_id] = performance;
