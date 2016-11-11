@@ -26,7 +26,7 @@
   ns.Widgets.ModifyProfileMessage = function(profile, submitButton){
 
     var _createdWidget = $('<div>').addClass('modifyProfilePopup modifyProfilePopup-'+profile.type);
-    var _form = Pard.Forms.ModifyProfile(profile.type);
+    var _form = Pard.Forms.ModifyProfile[profile.type];
     var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton, profile.type);
     

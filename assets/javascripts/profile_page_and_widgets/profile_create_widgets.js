@@ -152,7 +152,7 @@
     var _message = $('<div>').text(_initialMessages[type]);
     _createdWidget.append(_message);
 
-    var _form = Pard.Forms.CreateProfile(type);
+    var _form = Pard.Forms.CreateProfile[type];
     var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
     var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton, type);
 

@@ -388,20 +388,20 @@
         //Needed for displaying info
         proposal.name = artist.name;
         proposal.phone = artist.phone;
+        proposal.email = artist.email;
 
         //Proposal form info
         titleText.on('click', function(){
-          var _content = $('<div>').addClass('very-fast reveal full');
-          _content.empty();
-          $('body').append(_content);
-          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent(Pard.CachedEvent.name, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, Pard.Forms.ArtistCall(proposal.form_category).render())));
-          _message.setCallback(function(){
-            _content.remove();
-            _popup.close();
-          });
-          _content.append(_message.render());
-          _popup.open();
+        if (!(_forms)) {
+            Pard.Backend.getCallForms(the_event.call_id, function(data){
+            console.log(artist);
+              _forms = data.forms;
+              Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category],the_event.name);
+            });
+          }
+          else{
+            Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category],the_event.name);
+          } 
         });
 
         return {
@@ -549,21 +549,6 @@
       }
     }
 
-    var _displayPopupProposal = function(proposal, form){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent(the_event.name, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, form)));
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      });
-      _content.append(_message.render());
-      _popup.open();
-    }
-
     var Space = function(space){
       var _columns = {};
       var program = {};
@@ -608,11 +593,11 @@
             Pard.Backend.getCallForms(the_event.call_id, function(data){
             console.log(data);
               _forms = data.forms;
-              _displayPopupProposal(space, _forms['space'][space.form_category]);
+              Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category],the_event.name);
             });
           }
           else{
-            _displayPopupProposal(space, _forms['space'][space.form_category]);
+            Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category],the_event.name);
           } 
         });
 

@@ -2184,15 +2184,36 @@ EVENT PAGE
   }
 }
 
+.timeContainer-infoTab-event{
+  padding: 0.1rem 0.6rem;
+  @include breakpoint(large){
+    display: inline-block;
+  }
+}
+
 .timeContent-infoTab-event{
-  display: inline-block;
   vertical-align: middle;
   margin-left: 0.4rem;
+/*   padding: 0 0.6rem;
+ */  display: inline-block;
   @include breakpoint(large){
-    width: -moz-calc(100% - 2.4rem);
-    width: -webkit-calc(100% - 2.4rem);
-    width: calc(100% - 2.4rem);
+    width: 27rem;
+    border-right: 1px solid $grey-3;
   }
+}
+
+.callConditions-infoTab-event{
+  display: inline-block;
+  vertical-align: middle;
+  @include breakpoint(large){
+    width: 14.4rem;
+    display: inline-block;
+  }
+}
+
+.h2-event-page{
+  border-top: 1px solid $grey-3;
+  border-bottom: 1px solid $grey-3;
 }
 
 /* p.info-text-header-infoTab-event{
@@ -2701,7 +2722,7 @@ a.participant-program-card-own {
 .time-container-eventInfo{
   border-bottom:1px solid $grey-3 ;
   border-top: 1px solid $grey-3;
-  padding: 0.4rem 0.6rem;
+  padding: 0.1rem 0.6rem;
   position: relative;
 }
 

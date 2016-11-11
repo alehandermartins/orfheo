@@ -4,41 +4,41 @@
 
   ns.Widgets = ns.Widgets || {};  
 
-  ns.ConfusionInfo =  {
-    name: 'Benimaclet conFusión festival III ed.',
-    baseline: 'Festival libre de expresión gratuita',
-    eventTime: {
-      "2016-10-15": [
-          [
-              "1476518400000",
-              "1476532800000"
-          ],
-          [
-              "1476543600000",
-              "1476568800000"
-          ]
-      ],
-      "2016-10-16": [
-          [
-              "1476604800000",
-              "1476705600000"
-          ],
-          [
-              "1476630000000",
-              "1476655200000"
-          ]
-      ],
-      "permanent": [
-          "11:00",
-          "21:00"
-      ],
-    }, 
-    img: 'cartel_conFusion_2016_cut_kdyyoj',
-    event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
-    place: 'Benimaclet, Valencia',
-    organizer: 'conFusión',
-    profile_id: 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
-  }
+  // ns.ConfusionInfo =  {
+  //   name: 'Benimaclet conFusión festival III ed.',
+  //   baseline: 'Festival libre de expresión gratuita',
+  //   eventTime: {
+  //     "2016-10-15": [
+  //         [
+  //             "1476518400000",
+  //             "1476532800000"
+  //         ],
+  //         [
+  //             "1476543600000",
+  //             "1476568800000"
+  //         ]
+  //     ],
+  //     "2016-10-16": [
+  //         [
+  //             "1476604800000",
+  //             "1476705600000"
+  //         ],
+  //         [
+  //             "1476630000000",
+  //             "1476655200000"
+  //         ]
+  //     ],
+  //     "permanent": [
+  //         "11:00",
+  //         "21:00"
+  //     ],
+  //   }, 
+  //   img: 'cartel_conFusion_2016_cut_kdyyoj',
+  //   event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
+  //   place: 'Benimaclet, Valencia',
+  //   organizer: 'conFusión',
+  //   profile_id: 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
+  // }
 
 
   ns.Widgets.EventTitle = function(){
@@ -139,7 +139,7 @@
       _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
     }
     else if(_now.getTime()>_closing.getTime()){
-      _callText.append($('<p>').html('Convocatoria cerrada'));
+      _callText.append($('<p>').html('Cierre convocatoria '+ moment(_closing).locale('es').format('DD MMMM YYYY') ));
     }
     var _callStatus = $('<div>').append(_callIcon, _callText).addClass('element-headerTitle-infoTab-event');
 
@@ -171,27 +171,33 @@
     _who.css({'border-right': '1px solid #bebebe'});
 
     var _h1 = $('<div>').append(_who, _where, _callStatus);
-    var _timeContent= $('<div>').addClass('timeContent-infoTab-event')
-    var _h2 = $('<div>').addClass('time-container-eventInfo');
-    _h2.append($('<div>').append(Pard.Widgets.IconManager('clock').render().addClass('iconContainer-infoHeader-event-page'), _timeContent));
+    
+    var _conditionsText = $('<div>').addClass('info-text-header-infoTab-event')
+    if (_eventInfo.conditions) _conditionsText.append($('<a>').attr({'href':_eventInfo.conditions,'target':'_blank'}).append('Bases de participación'));
+    else _eventInfo.append($('<p>').text('Sin condiciones de participación'));
+    var _callConditions = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('my_web').render()).addClass('iconContainer-infoHeader-event-page'), _conditionsText).addClass('callConditions-infoTab-event');
 
+    var _timeContent= $('<div>').addClass('timeContent-infoTab-event');
     var _count = 0;
     var _printAll = false;
+    var _h2 = $('<div>').addClass('h2-event-page');
+    _h2.append($('<div>').append(Pard.Widgets.IconManager('clock').render().addClass('iconContainer-infoHeader-event-page'), _timeContent).addClass('timeContainer-infoTab-event')  , _callConditions);
     
     var _printDaysCalendar = function(){
       _timeContent.empty();
         for (var day in _eventInfo.eventTime){
         if(day != 'permanent'){
           _count += 1;
-          if (_count>5 && !_printAll){
+          if (_count>3 && !_printAll){
             var _seeAll = $('<a>').attr('href','#').text('ver todos').addClass('see-all-event-page');
-            var _seeAllContainer = $('<div>').append('... ',_seeAll).css('margin','-0.3rem 0 -0.3rem 2.4rem');
-            _h2.append(_seeAllContainer);
+            var _seeAllContainer = $('<div>').append('... ',_seeAll).css('margin','-0.7rem 0 -0.3rem 0');
+            _timeContent.append(_seeAllContainer);
             _seeAll.click(function(){
               _printAll = true;
               _seeAllContainer.remove();
               _printDaysCalendar();
             });
+            return false;
           }
           else{
             var _dateCont = $('<div>').addClass('single-date-container-event-page');
