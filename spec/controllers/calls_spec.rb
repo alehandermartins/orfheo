@@ -179,6 +179,8 @@ describe CallsController do
       profile_id: profile_id,
       event_id: event_id,
       call_id: call_id,
+      organizer: 'organizer',
+      name: 'event_name',
       artists: [],
       spaces: [],
       program: [],
@@ -545,10 +547,19 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
-    it 'allows event owner to delete' do
+    it 'allows event owner to delete and delivers rejection mail' do
       post logout_route
       post login_route, user
       expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
+      expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(otter_user_hash), :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
+      post delete_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id}
+      expect(parsed_response['status']).to eq('success')
+    end
+
+    it 'allows proposal owner to delete and does not deliver rejection mail' do
+      allow(Repos::Events).to receive(:proposal_on_time?).and_return(true)
+      expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
+      expect(Services::Mails).not_to receive(:deliver_mail_to).with(hash_including(otter_user_hash), :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
       post delete_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
     end

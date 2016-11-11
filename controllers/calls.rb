@@ -84,9 +84,14 @@ class CallsController < BaseController
     scopify event_id: true, proposal_id: true
     check_event_exists! event_id
     check_proposal_exists! proposal_id
-    check_artist_access! event_id, proposal_id
+    
+    event = Repos::Events.get_event(event_id)
+    proposal = Repos::Events.get_artist_proposal(proposal_id)
+    check_proposal_access! event[:user_id], proposal[:user_id]
     check_deadline! event_id
     Repos::Events.delete_artist_proposal proposal_id
+    
+    send_rejection_mail(event, proposal[:user_id], proposal[:title]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
     success
   end
 
@@ -94,9 +99,14 @@ class CallsController < BaseController
     scopify event_id: true, proposal_id: true
     check_event_exists! event_id
     check_proposal_exists! proposal_id
-    check_space_access! event_id, proposal_id
+
+    event = Repos::Events.get_event(event_id)
+    proposal = Repos::Events.get_space_proposal(proposal_id)
+    check_proposal_access! event[:user_id], proposal[:user_id]
     check_deadline! event_id
     Repos::Events.delete_space_proposal proposal_id
+    
+    send_rejection_mail(event, proposal[:user_id], proposal[:name]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
     success
   end
 
@@ -172,11 +182,13 @@ class CallsController < BaseController
     raise Pard::Invalid::Deadline unless Repos::Events.proposal_on_time?(event_id, session[:identity]) == true
   end
 
-  def check_artist_access! event_id, proposal_id
-    raise Pard::Invalid::ProposalOwnership unless Repos::Events.get_artist_proposal_owner(proposal_id) == session[:identity] || Repos::Events.get_event_owner(event_id) == session[:identity]
+  def check_proposal_access! event_owner, proposal_owner
+    raise Pard::Invalid::ProposalOwnership unless event_owner == session[:identity] || proposal_owner == session[:identity]
   end
 
-  def check_space_access! event_id, proposal_id
-    raise Pard::Invalid::ProposalOwnership unless Repos::Events.get_space_proposal_owner(proposal_id) == session[:identity] || Repos::Events.get_event_owner(event_id) == session[:identity]
+  def send_rejection_mail event, user_id, title
+    user = Repos::Users.grab({user_id: user_id})
+    payload = {organizer: event[:organizer], event_name: event[:name], title: title}
+    Services::Mails.deliver_mail_to user, :rejected, payload
   end
 end
