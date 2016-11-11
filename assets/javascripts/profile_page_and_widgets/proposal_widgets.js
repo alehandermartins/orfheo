@@ -4,30 +4,90 @@
 
   ns.Widgets = ns.Widgets || {}; 
 
-  ns.Widgets.ProposalForm = function(type){
-    console.log(type);
-    var _proposalForms = {
-      artist: Pard.Widgets.CallArtistButton,
-      space: Pard.Widgets.CallSpaceButton
-    }
+  // ns.Widgets.ProposalForm = function(type){
+  //   console.log(type);
+  //   var _proposalForms = {
+  //     artist: Pard.Widgets.CallArtistButton,
+  //     space: Pard.Widgets.CallSpaceButton
+  //   }
 
-    return{
+  //   return{
+  //     render: function(){
+  //       return  _proposalForms[type];
+  //     }
+  //   }
+  // }
+
+  ns.Widgets.MyCallProposals = function(callProposals, profileType){
+
+    var _createdWidget = $('<div>');
+
+    var _eventNames = [];
+    var _forms;
+    
+    var _listProposals = $('<ul>');
+
+    callProposals.forEach(function(proposal){
+      if ($.inArray(proposal.event_name, _eventNames)<0) {
+        console.log(proposal)
+        var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
+        _listProposals = $('<ul>');
+        _createdWidget.append(_callName, _listProposals);
+      }
+      _eventNames.push(proposal.event_name);
+      var _caller = $('<a>').attr({href:'#'})
+      if (proposal.title) _caller.text(proposal.title);
+      else _caller.text('Formulario enviado');
+      var _proposalItem = $('<li>').append( _caller);
+      _listProposals.append(_proposalItem); 
+      _caller.click(function(){
+        if (!(_forms)) {
+          Pard.Backend.getCallForms(proposal.call_id, function(data){
+            _forms = data.forms;
+            _displayPopup(proposal, _forms[profileType][proposal.form_category],profileType, proposal.event_name);
+          });
+        }
+        else{
+          _displayPopup(proposal, _forms[profileType][proposal.form_category], profileType, proposal.event_name);
+        }       
+      });
+    });
+
+
+    var _displayPopup = function(proposal, form, profileType,popupTitle){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent(popupTitle,Pard.Widgets.PrintMyProposal(proposal, form, profileType, function(){_popup.close()}));
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    }
+  
+    return {
       render: function(){
-        return  _proposalForms[type];
+        return _createdWidget;
       }
     }
   }
 
-  ns.Widgets.PrintMyProposal = function(proposal, form, closepopup){
+
+  ns.Widgets.PrintMyProposal = function(proposal, form, profileType, closepopup){
 
     var _createdWidget = $('<div>');
-
-    var profile = Pard.ProfileManager.getProfile(proposal.profile_id);
-
-
     _createdWidget.append(Pard.Widgets.PrintProposal(proposal, form).render());
-
     _createdWidget.append($('<p>').append('Has aceptado las condiciones en las bases de participación de la convocatoria de ',proposal.event_name)); 
+
+    var _backendAmendProposal = {
+      space: Pard.Backend.amendSpaceProposal,
+      artist: Pard.Backend.amendArtistProposal
+    }
+
 
     var _postData = $('<div>').addClass('postData-container');
     var _deadline = new Date(parseInt(proposal.deadline));
@@ -47,7 +107,7 @@
 
         _sendButton.click(function(){
           if (_textArea.val()) {
-            Pard.Backend.amendProposal(proposal.proposal_id, _textArea.val(), Pard.Events.AmendProposal);
+            _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, _textArea.val(), Pard.Events.AmendProposal);
             closepopup();
           }
           else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
@@ -71,7 +131,7 @@
 
       _sendButton.click(function(){
         if (_textArea.val()) {
-         Pard.Backend.amendProposal(proposal.proposal_id, _textArea.val(), Pard.Events.AmendProposal);
+         _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, _textArea.val(), Pard.Events.AmendProposal);
          closepopup();
         }
         else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
@@ -104,24 +164,10 @@
     return {
       render: function(){
         return _createdWidget;
+      },
+      setCallback: function(callback){
       }
     }
-  }
-
-
-  ns.Widgets.DisplayPopupProposal = function(proposal, form, popupTitle){
-    var _content = $('<div>').addClass('very-fast reveal full');
-    _content.empty();
-    $('body').append(_content);
-
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-    var _message = Pard.Widgets.PopupContent(popupTitle, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, form)));
-    _message.setCallback(function(){
-      _content.remove();
-      _popup.close();
-    });
-    _content.append(_message.render());
-    _popup.open();
   }
 
 
@@ -141,7 +187,7 @@
     _orfheoFields.forEach(function(field){
       if (field == 'email' && proposal[field]) {
         var _emailLabel = $('<span>').addClass('myProposals-field-label').text('Correo:');
-        var _emailText = $('<span>').text(' ' + proposal[field]);
+        var _emailText = $('<a>').attr('href','mailto:'+proposal[field]).text(' ' + proposal[field]);
         var _email = $('<div>').append($('<p>').append(_emailLabel, _emailText));
         _createdWidget.append(_email);
       }
@@ -221,9 +267,28 @@
     return {
       render: function(){
         return _createdWidget;
+      },
+      setCallback: function(callback){
       }
     }
   }
+
+
+  ns.Widgets.DisplayPopupProposal = function(proposal, form, popupTitle){
+    var _content = $('<div>').addClass('very-fast reveal full');
+    _content.empty();
+    $('body').append(_content);
+
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    var _message = Pard.Widgets.PopupContent(popupTitle, Pard.Widgets.PrintProposal(proposal, form));
+    _message.setCallback(function(){
+      _content.remove();
+      _popup.close();
+    });
+    _content.append(_message.render());
+    _popup.open();
+  }
+
 
   ns.Widgets.DeleteProposalMessage = function(proposal, closepopup){  
     

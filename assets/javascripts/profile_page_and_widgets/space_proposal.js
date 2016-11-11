@@ -4,79 +4,22 @@
 
 
 
-  ns.Widgets.CallSpaceButton = function(profile, label, call_id, callbackSendProposal){
+  // ns.Widgets.CallSpaceButton = function(profile, label, call_id, callbackSendProposal){
 
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
-    var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile, call_id, callbackSendProposal)});
+  //   var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).text(label);
+  //   var _popup = Pard.Widgets.PopupCreator(_caller, '', function(){return Pard.Widgets.CallMessageSpace(profile, call_id, callbackSendProposal)});
 
-    var _createdWidget = _popup.render();
+  //   var _createdWidget = _popup.render();
 
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-
-  ns.Widgets.MySpaceCallProposals = function(callProposals, profileType){
-    
-    var _createdWidget = $('<div>');
-
-    var _eventNames = [];
-    var _forms;
-    
-    var _listProposals = $('<ul>');
-
-    callProposals.forEach(function(proposal){
-      if ($.inArray(proposal.event_name, _eventNames)<0) {
-        console.log(proposal)
-        var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
-        _listProposals = $('<ul>');
-        _createdWidget.append(_callName, _listProposals);
-      }
-      _eventNames.push(proposal.event_name);
-      var _caller = $('<a>').attr({href:'#'})
-      if (proposal.title) _caller.text(proposal.title);
-      else _caller.text('Formulario enviado');
-      var _proposalItem = $('<li>').append( _caller);
-      _listProposals.append(_proposalItem); 
-      _caller.click(function(){
-        if (!(_forms)) {
-          Pard.Backend.getCallForms(proposal.call_id, function(data){_forms = data.forms;
-          _displayPopup(proposal, _forms['profileType'][proposal.form_category],proposal.event_name);
-          });
-        }
-        else{
-          _displayPopup(proposal, _forms['profileType'][proposal.form_category],proposal.event_name);
-        }       
-      });
-    });
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     }
+  //   }
+  // }
 
 
-    var _displayPopup = function(proposal, form, popupTitle){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent(popupTitle, Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintMyProposal(proposal, form)));
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      });
-      _content.append(_message.render());
-      _popup.open();
-    }
   
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-
 
 
   // ns.Widgets.CallMessageSpace= function(profile, call_id, callbackSendProposal){

@@ -158,11 +158,12 @@
       );
     };
 
-    var _deleteProposal = function(proposal_id, callback){
+    var _deleteProposal = function(proposal_id, event_id, callback){
       _send(       
         '/users/delete_proposal',
         {
-          proposal_id: proposal_id
+          proposal_id: proposal_id,
+          event_id: event_id
         },
         callback
       );
@@ -196,22 +197,25 @@
       );
     };
 
-    var _amendArtistProposal = function(proposal_id, amend, callback){
+    var _amendArtistProposal = function(proposal_id, event_id, amend, callback){
+      console.log(amend);
       _send(       
         '/users/amend_artist_proposal',
         {
           proposal_id: proposal_id,
+          event_id:event_id,
           amend: amend
         },
         callback
       );
     };
 
-    var _amendSpaceProposal = function(proposal_id, amend, callback){
+    var _amendSpaceProposal = function(proposal_id, event_id, amend, callback){
       _send(       
         '/users/amend_space_proposal',
         {
           proposal_id: proposal_id,
+          event_id:event_id,
           amend: amend
         },
         callback

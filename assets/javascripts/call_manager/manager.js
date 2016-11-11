@@ -923,6 +923,8 @@
         _tables[day].append(_columns[day]);
       });
 
+
+
       return {
         space: space,
         columns: _columns,
@@ -1913,7 +1915,15 @@
 
   	return {
       render: function(){
-        return _createdWidget;
+      //add empty column to the end so that artists list does not cover any space
+      Object.keys(eventTime).forEach(function(day){
+        _tables[day].append($('<div>').css({
+          'display': 'inline-block',
+          'width': '11rem',
+        }))
+      });
+
+      return _createdWidget;
       }
     }
   }

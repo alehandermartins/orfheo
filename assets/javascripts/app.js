@@ -4,6 +4,7 @@ Pard.CachedProfiles = [];
 Pard.UserStatus = {};
 Pard.CachedEvent = [];
 Pard.CachedProgram = [];
+Pard.CachedProposals = [];
 
 Pard.ProfileManager = {
   getProfile: function(profile_id){

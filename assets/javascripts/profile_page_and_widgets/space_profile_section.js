@@ -85,7 +85,7 @@
       var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
       if('proposals' in profile && profile.proposals != false){
         var _callsBoxContent = $('<div>').addClass('box-content');
-        var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.proposals, profile.type);
+        var _mySpaceCallProposals = Pard.Widgets.MyCallProposals(profile.proposals, profile.type);
             _callsBoxContent.append(_mySpaceCallProposals.render()); 
       }
       else{

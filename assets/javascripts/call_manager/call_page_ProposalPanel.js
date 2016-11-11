@@ -99,7 +99,7 @@
   ns.Widgets.PrintOwnProposalMessage = function(proposal, form, artistProposalContainer){
     var _createdWidget = $('<div>');
 
-    var _proposalPrinted = Pard.Widgets.PrintProposalMessage(Pard.Widgets.PrintProposal(proposal, form)).render();
+    var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form).render();
 
     var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina esta propuesta').addClass('deleteProfile-caller');
 
