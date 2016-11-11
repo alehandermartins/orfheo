@@ -275,7 +275,7 @@ module Repos
             published: event[:published],
             shows: arrange_program(event, my_performances)
           }
-        }.flatten
+        }.sort_by{|event| event[:date]}
       end
 
       private
