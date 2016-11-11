@@ -75,12 +75,19 @@ describe Repos::Events do
       event_id: event_id,
       call_id: call_id,
       name: 'event_name',
+      eventTime:{
+        '2017-03-30': [],
+        '2017-04-29': [],
+        '2017-05-29': [],
+        'permanent': []
+      },
       artists: [],
       spaces: [],
       program: [],
       whitelist: [],
       start: '1462053600',
       deadline: '1466028000',
+      published: false
     }
   }
 
@@ -217,6 +224,18 @@ describe Repos::Events do
       space[:call_id] = call_id
       space[:deadline] = event[:deadline]
       expect(Repos::Events.my_space_proposals space_profile_id).to eq([space])
+    end
+
+    it 'retrieves my program' do
+      Repos::Events.add_artist event_id, artist
+      Repos::Events.add_space event_id, space
+      Repos::Events.add_performance event_id, performance
+      expect(Repos::Events.my_program(profile_id).first).to include({
+        event_id: event_id,
+        event_name: 'event_name',
+        date: '2017-05-29',
+        published: false
+        })
     end
   end
 

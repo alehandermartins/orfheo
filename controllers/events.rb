@@ -40,6 +40,9 @@ class EventsController < BaseController
   get '/event' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
     event = Repos::Events.get_event params[:id]
+    user = Repos::Users.grab({user_id: session[:identity]})
+    event[:whitelisted] = false
+    event[:whitelisted] = true if(session[:identity] == event[:user_id] || event[:whitelist].any?{|whitelisted| whitelisted[:email] == user[:email]})
     event.delete(:artists)
     event.delete(:whitelist)
     event.delete(:spaces)

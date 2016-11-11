@@ -136,7 +136,7 @@ module Repos
           def visit_profiles args
             profiles = grab({user_id: args[:user_id]})
             profiles.each{ |profile|
-              events = Repos::Events.requested_events(profile[:profile_id], args[:requester])
+              events = Repos::Events.my_events(profile[:profile_id])
               program = Repos::Events.my_program(profile[:profile_id])
               profile.merge! ({events: events, program: program})
             }
