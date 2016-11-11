@@ -38,7 +38,6 @@
         if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
         _photos.cloudinary().bind('cloudinarydone', function(e, data){
           var _url = _photoWidget.getVal();
-          console.log(_url);
           _url.push(data['result']['public_id']);
           if(_url.length >= _photos.dataLength()) _send();
         });

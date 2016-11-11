@@ -464,7 +464,6 @@ ns.Widgets.InputAddressSpace = function(label){
           geomap.SetLocations(_location, true);
         }
         else{
-          console.log('e1 ')
           _errorBox.append($('<p>').text('¡Atención! Google no reconoce la dirección insertada: corrígela, si quieres que sea localizada correctamente.').css({
             'color':'red',
             'margin-bottom':'0'
@@ -503,7 +502,6 @@ ns.Widgets.InputAddressSpace = function(label){
             mapTypeControl: false
           }
         }).Load();
-        console.log('here');
         var _geocodField = $('<div>');
         _latField.setVal(_geocod.lat);
         _lonField.setVal(_geocod.lng);
@@ -975,7 +973,6 @@ ns.Widgets.InputAddressSpace = function(label){
         var option = new Option(_preselectedEnding.text, _preselectedEnding.id, true, true);
         _inputEndDayTime.append(option);
         _inputEndDayTime.trigger('change');
-        // console.log(_inputEndDayTime.select2('data')[0]);
 
       }
 

@@ -31,7 +31,6 @@
     _callProposals.forEach(function(proposal){
       proposal.name = profile.name
       if ($.inArray(proposal.event_name, _eventNames)<0) {
-        console.log(proposal)
         var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
         _listProposals = $('<ul>');
         _createdWidget.append(_callName, _listProposals);
@@ -201,7 +200,6 @@
 
     for(var field in proposal){
       if ($.inArray(field, $.merge(['profile_id','proposal_id','user_id','call_id','event_id','event_name','deadline','category','conditions','form_category','name','production_id', 'links', 'photos', 'amend'],_orfheoFields))<0){  
-        console.log(field);
         if (field == 'description') {
           var _label = $('<span>').addClass('myProposals-field-label').text('Descripción:').css('display', 'block');
           var _text = $('<span>').text(' ' + proposal[field]);
@@ -209,8 +207,6 @@
           _createdWidget.append(_element);
         }
         else {
-                console.log(field);
-
           _textLabel = form[field]['label'];
           if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
           if ($.isArray(proposal[field])){

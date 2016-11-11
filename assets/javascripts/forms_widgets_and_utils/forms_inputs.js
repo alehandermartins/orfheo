@@ -214,7 +214,6 @@
           _createdWidget.val().forEach(function(val){
             _daysArray.push(moment(new Date(parseInt(val))).locale('es').format('YYYY-MM-DD'));
           });
-          console.log(_daysArray);          
           return _daysArray;
         }
         else{
@@ -225,7 +224,6 @@
         _createdWidget.val(value);
       },
       addWarning: function(){
-        console.log('daysSelec')
         _createdWidget.next().find('.ms-choice').addClass('warning');
       },
       removeWarning: function(){

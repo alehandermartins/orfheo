@@ -113,7 +113,6 @@
     var _forms;
     Pard.Backend.getCallForms(event_info.call_id, function(data){
       _forms = data.forms
-      console.log(data)
       _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile, Object.keys(_forms));
       _createdWidget.append(_secondTitle, _createProfileCard.render().addClass('card-container-popup position-profileCard-login'));
     });
@@ -321,8 +320,6 @@
 
   ns.Widgets.CallForm = function(form, profile, formTypeSelected, production_id, callbackSendProposal){
 
-    console.log(production_id);
-
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
 
@@ -404,7 +401,6 @@
           var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
           if (form[field]['helptext'].length) {
             if (field == 'conditions') {
-              console.log('COND')
               var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
             }
             else {
@@ -474,8 +470,6 @@
       _submitForm['form_category'] = formTypeSelected;
       if (production_id) _submitForm['production_id'] = production_id; 
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
-      console.log(_submitForm);
-      // if (form['photos']) _submitForm['photos'] = url;
       return _submitForm;
     }
 
@@ -485,7 +479,6 @@
     }
 
     var _send = function(){
-      console.log('sent');
       _backEndDictionary[profile.type](_getVal(), function(data){callbackSendProposal(data);
         _closepopup();
       });
@@ -537,161 +530,6 @@
       }
     }
   }
-
-  // ns.Widgets.SpaceCallForm = function(form, profile, catSelected, callbackSendProposal){
-  //   var _createdWidget = $('<div>');
-  //   var _formContainer = $('<form>').addClass('popup-form');
-
-  //   // var _message_1 = $('<div>').append($('<p>').html('PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil').addClass('m-artistCall')).addClass('message-call');
-  //   var _message_1 = $('<div>').append($('<p>').text('Sólo los organizadores tendrán acceso a los siguientes datos').addClass('m-artistCall')).addClass('message-call');
-  //   var _finalMessage =  $('<p>').html('ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
-  //   var _invalidInput = $('<div>').addClass('not-filled-text');
-
-  //   _formContainer.append(_message_1);
-
-  //   var _form = {};
-  //   var _submitForm = {};
-  //   var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-  //   var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
-
-  //   var _url = [];
-  //   if(form['photos']){
-  //       var _thumbnail = $('<div>');
-  //       var _photos = Pard.Widgets.Cloudinary(form['photos'].folder, _thumbnail, _url, form['photos'].amount);
-  //       var _photosLabel = $('<label>').text(form['photos'].label);
-  //       var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css({'margin-bottom':'-1rem'});
-  //   }
-  //   for(var field in form){
-  //     console.log(field);
-  //     if (field != 'photos' && field != 'category'){
-  //       _form[field] = {};
-  //       _form[field]['type'] = form[field].type;
-  //       if(form[field]['type'] == 'mandatory') form[field]['label'] = form[field]['label']+' *';
-  //       if (form[field]['input']=='CheckBox') form[field].args[0] = form[field].label;
-  //       _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
-  //       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
-  //       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
-  //     }
-  //   }    
-
-  //   for(var field in form){
-  //     if (field == 'photos') {
-  //       _formContainer.append(_photosContainer);
-  //       _formContainer.append(_message_2.css('margin-top','2rem'));
-  //     }
-  //     else if (form[field].input == 'TextAreaCounter'){
-  //       _formContainer.append(
-  //          $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-  //             _form[field].label.render(),_form[field].input.render()
-  //           )
-  //       );
-  //     }
-  //     else if (form[field].input == 'CheckBox'){
-  //       var _genericField = $('<div>');
-  //       _formContainer.append(
-  //          _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render()));
-  //         if (form[field]['helptext'].length) {
-  //           if (field == 'conditions') {
-  //             var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
-  //           }
-  //           else {
-  //             var _helptextfield = _form[field].helptext.render();
-  //           }
-  //           _helptextfield.css({'margin-top':'0'});
-  //           _genericField.append(_helptextfield);
-  //         };  
-  //     }
-  //     else{
-  //       var _genericField = $('<div>');
-  //       _formContainer.append(
-  //       _genericField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
-  //         _form[field].label.render(),
-  //         _form[field].input.render())
-  //       )
-  //       if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
-  //       if(form[field]['input'] == 'MultipleSelector'){
-  //         if (field == 'availability'){
-  //           _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-  //             selectAllText: "Selecciona todo",
-  //             countSelected: false,
-  //             allSelected: "Disponible todos los días"
-  //           });
-  //         }
-  //         else{
-  //           _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-  //             selectAll: false,
-  //             countSelected: false,
-  //             allSelected: false
-  //           });
-  //         }
-  //         _form[field].helptext.render().css('margin-top', 5);
-  //       }
-  //     }
-  //   }
-
-  //   var _filled = function(){
-  //     var _check = true;
-  //     for(var field in _form){
-  //       if(_form[field].type == 'mandatory' && !(_form[field].input.getVal())){
-  //         _form[field].input.addWarning();
-  //         _invalidInput.text('Por favor, revisa los campos obligatorios.');
-  //         _check = false;
-  //       }
-  //     } 
-  //     return _check;
-  //   }
-
-  //   var _getVal = function(url){
-  //     for(var field in _form){
-  //        _submitForm[field] = _form[field].input.getVal();
-  //     };
-  //     _submitForm['call_id'] = Pard.CachedEvent.call_id;
-  //     _submitForm['event_id'] = Pard.CachedEvent.event_id;
-  //     _submitForm['profile_id'] = profile.profile_id;
-  //     _submitForm['type'] = profile.type;
-  //     _submitForm['category'] = catSelected;     
-  //     if (form['_photos']) _submitForm['photos'] = url;
-  //     return _submitForm;
-  //   }
-
-  //   var _send = function(url){
-  //     Pard.Backend.sendSpaceProposal(_getVal(url), callbackSendProposal);
-  //   }
-
-  //   var _closepopup = {};
-
-  //   submitButton.on('click',function(){
-  //     if(_filled() == true){
-  //       _closepopup();
-  //       if(!_photos || _photos.dataLength() == false){console.log('hep');_send(_url);}
-  //       else{
-  //         _photos.submit();
-  //       }
-  //     }
-  //   });
-
-  //   if(form['photos']){
-  //     _photos.cloudinary().bind('cloudinarydone', function(e, data){
-  //       _url.push(data['result']['public_id']);
-  //       if(_url.length >= _photos.dataLength()) _send(_url);
-  //     });
-  //   }
-
-  //   _submitBtnContainer.append(submitButton);
-
-  //   _formContainer.append(_finalMessage, _invalidInput, _submitBtnContainer);
-  //   _createdWidget.append(_formContainer)
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     },
-  //     setCallback: function(callback){
-  //       _closepopup = callback;
-  //     }
-  //   }
-
-  // }
 
 
 }(Pard || {}));

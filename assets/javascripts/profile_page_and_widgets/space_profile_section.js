@@ -29,7 +29,6 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-
     if (profile.program && profile.program.length){
       var _now = new Date();
       var _dayShow = new Date(profile.program[0].date);
