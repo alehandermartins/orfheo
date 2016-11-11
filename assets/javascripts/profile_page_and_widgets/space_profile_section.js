@@ -79,21 +79,13 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
+
 
     if (userStatus == 'owner'){
+      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
       if('proposals' in profile && profile.proposals != false){
-        // if (userStatus != 'owner'){  
-        //   var _callsBoxContent = $('<div>').addClass('box-content');
-        //   var _callProposals = profile.proposals;
-        //   var _spaceCallProposals = $('<div>');
-        //   var _callName = $('<p>').append('Se ha inscrito en el ',$('<strong>').text('Benimaclet conFusión festival 2016'),'.');
-        //   _spaceCallProposals.append(_callName);
-        //   _callsBoxContent.append(_spaceCallProposals)
-        // }
-        // else{
-          var _callsBoxContent = $('<div>').addClass('box-content');
-            var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.proposals);
+        var _callsBoxContent = $('<div>').addClass('box-content');
+        var _mySpaceCallProposals = Pard.Widgets.MySpaceCallProposals(profile.proposals, profile.type);
             _callsBoxContent.append(_mySpaceCallProposals.render()); 
       }
       else{

@@ -145,7 +145,9 @@
 
     var _location = $('<a>').text(_eventInfo.place);
     if (!($.isEmptyObject(_eventInfo.address))){
-      var _aStr = _eventInfo['address']['route']+' '+_eventInfo['address']['street_number']+', '+_eventInfo['address']['locality']+' '+_eventInfo['address']['country'];
+      var _aStr = '';
+      if (_eventInfo['address']['route'] && _eventInfo['address']['street_number']) _aStr += _eventInfo['address']['route']+' '+_eventInfo['address']['street_number']+', '
+      _aStr += _eventInfo['address']['locality']+' '+_eventInfo['address']['postal_code'];
       _location.attr({
         href: 'http://maps.google.com/maps?q='+_aStr,
         target: '_blank'
