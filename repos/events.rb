@@ -43,14 +43,27 @@ module Repos
         event[:user_id]
       end
 
-      def get_space_proposal_owner proposal_id
-        event = grab({'spaces.proposal_id': proposal_id},{"spaces.user_id": true, 'spaces.proposal_id': true}).first
-        event[:spaces].detect{|space| space[:proposal_id] == proposal_id}[:user_id]
+      def get_artist_proposal proposal_id
+        event = grab({"artists.proposals.proposal_id": proposal_id}).first
+        artist = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}
+        proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == proposal_id}
+        artist.delete(:proposals)
+        artist.merge proposal
       end
 
       def get_artist_proposal_owner proposal_id
         event = grab({"artists.proposals.proposal_id": proposal_id}, {'artists.user_id': true, 'artists.proposals.proposal_id': true}).first
         event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}[:user_id]
+      end
+
+      def get_space_proposal proposal_id
+        event = grab({'spaces.proposal_id': proposal_id}).first
+        event[:spaces].detect{|space| space[:proposal_id] == proposal_id}
+      end
+
+      def get_space_proposal_owner proposal_id
+        proposal = get_space_proposal proposal_id
+        proposal[:user_id]
       end
 
       def add_artist event_id, artist

@@ -37,7 +37,7 @@ class SpaceProposal
       category: profile[:category],
       name: profile[:name],
       address: profile[:address],
-      description: profile[:description],
+      description: profile[:bio],
       phone: params[:phone],
       subcategory: params[:subcategory],
       form_category: params[:form_category]

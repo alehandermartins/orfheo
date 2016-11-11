@@ -21,6 +21,14 @@ describe Services::Mails do
     }
   }
 
+  let(:rejection){
+    {
+      organizer: 'organizer',
+      title: 'title',
+      event_name: 'event_name'
+    }
+  }
+
   let(:welcome_mail){Services::Mails.deliver_mail_to user, :welcome}
 
   describe 'Delivers mail' do
@@ -67,6 +75,19 @@ describe Services::Mails do
 
     it 'assigns the validation code to the body' do
       expect(password_mail.body).to include(validation_code)
+    end
+  end
+
+  describe 'Rejected' do
+
+    let(:rejected_mail){ Services::Mails.deliver_mail_to user, :rejected, rejection}
+
+    it 'renders the subject' do
+      expect(rejected_mail.subject).to eq('Propuesta rechazada')
+    end
+
+    it 'assigns the validation code to the body' do
+      expect(rejected_mail.body).to include('Lamentablemente, organizer ha rechazado tu propuesta "title" para el event_name')
     end
   end
 end
