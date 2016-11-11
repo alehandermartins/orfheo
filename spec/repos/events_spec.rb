@@ -87,7 +87,7 @@ describe Repos::Events do
       whitelist: [],
       start: '1462053600',
       deadline: '1466028000',
-      published: false
+      published: 'true'
     }
   }
 
@@ -234,7 +234,6 @@ describe Repos::Events do
         event_id: event_id,
         event_name: 'event_name',
         date: '2017-05-29',
-        published: false
         })
     end
   end
