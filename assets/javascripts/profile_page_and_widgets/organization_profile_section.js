@@ -40,12 +40,12 @@
 
     _contact.append($('<div>').append(_typeIcon, _type));
 
-    var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
-      href: 'http://maps.google.com/maps?q='+profile['city']+' '+profile['postal_code'],
+    var _address = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
+      href: 'http://maps.google.com/maps?q='+profile['address']['locality']+' '+profile['address']['postal_code'],
       target: '_blank'
-      }).text(profile['locality'])));
+      }).text(profile['address']['locality'])));
 
-    _contact.append(_city);
+    _contact.append(_address);
 
     if(profile.personal_web){
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());

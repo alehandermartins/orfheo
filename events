@@ -90,68 +90,8 @@
     },
     "start" : "1479682860000",
     "deadline" : "1482793199000",
-    
-    "artists" : [ 
-        {
-            "user_id" : "99f93909-af0c-4f3e-807c-22d22bc1840e",
-            "email" : "centoss2000@yahoo.es",
-            "profile_id" : "0316dfba-9ced-429b-b6ab-1f21efefe797",
-            "name" : "cento",
-            "phone" : "625 88 44 94",
-            "address" : {
-                "locality" : "valència",
-                "postal_code" : "46020"
-            },
-            "proposals" : [ 
-                {
-                    "title" : "Anhelo",
-                    "description" : "Pintura mural. Retrato sobre un fondo celeste.",
-                    "short_description" : "Pintura mural. Retrato sobre un fondo celeste.",
-                    "sharing" : "Cubeta de pintura, rodillo, brochas.",
-                    "needs" : "Compresor de aire para pistola de pintura, toma de electricidad para el compresor.",
-                    "waiting_list" : "true",
-                    "conditions" : "true",
-                    "availability" : [ 
-                        "2016-10-15", 
-                        "2016-10-16"
-                    ],
-                    "proposal_id" : "ef53090a-234a-439a-9cb8-83660539348f",
-                    "production_id" : "2557ec64-0486-4c04-96ec-ddde533ca9b6",
-                    "category" : "street_art",
-                    "amend" : "Disponibilidad 15 y 16 de Octubre"
-                }
-            ]
-        }
-    ],
-    "spaces" : [ 
-        {
-            "responsible" : "María Casquete Pascual",
-            "description" : "Disponemos de 80 m2, fachada y persiana.",
-            "phone" : "673638018",
-            "sharing" : "Altavoces, mini cadena con plato, ordenador y cualquier cosa que esté a mi alcance.",
-            "own" : "",
-            "un_wanted" : "",
-            "conditions" : "true",
-            "user_id" : "d5c9f991-cb50-4c54-ab47-4635908f5b42",
-            "email" : "modaboja@gmail.com",
-            "profile_id" : "8bec80dc-4f18-4748-abb1-825d8ae641a0",
-            "proposal_id" : "9ae0b8a5-80f3-4548-bf54-50d5e59d79ec",
-            "category" : "commercial",
-            "address" : {
-                "route" : "Carrer de la Vila de Muro",
-                "street_number" : "12",
-                "door" : "",
-                "locality" : "València",
-                "country" : "España",
-                "postal_code" : "46020",
-                "location" : {
-                    "lat" : "39.4838746",
-                    "lng" : "-0.361586"
-                }
-            },
-            "name" : "ModaBoja"
-        }
-    ],
+    "artists" : [ ],
+    "spaces" : [],
     "published": false,
     "program" : [],
     "whitelist" : []

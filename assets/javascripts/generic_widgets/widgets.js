@@ -5,6 +5,36 @@
   ns.Widgets = ns.Widgets || {};
 
 
+  ns.Widgets.BigAlert = function(title, content, contentClass, callback){
+
+    var _createdWidget = $('<div>').addClass('fast reveal full');
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>');
+    _popupContent.addClass('popup-container-full'); 
+    if (contentClass){_popupContent.addClass(contentClass);}
+    var _sectionContainer = $('<section>').addClass('popup-content');
+    var _header = $('<div>').addClass('row popup-header');
+    var _title = $('<h4>').addClass('small-11 popup-title').text(title);
+    var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
+    _closeBtn.click(function(){
+      if (callback) callback();
+      _popup.close();
+    });
+
+    _header.append(_title, _closeBtn);
+    _sectionContainer.append(content);
+    _popupContent.append(_header, _sectionContainer);
+    _outerContainer.append(_container.append(_popupContent));
+    _createdWidget.append(_outerContainer);
+    $('body').append(_createdWidget);
+    _popup.open();
+
+  }
+
+
   ns.Widgets.Alert = function(title, content, callback){
 
     var _createdWidget = $('<div>').addClass('fast reveal full');    
@@ -68,42 +98,7 @@
     }
   }
 
-  // ns.Widgets.PopupForm = function(caller, title, form){
-
-  //   var _content = $('<div>').addClass('very-fast reveal full');
-
-  //   var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-
-  //   var _popupCaller = caller;
-
-  //   _popupCaller.one('click', function(){
-  //     $('body').append(_content);
-  //   });
-
-  //   _popupCaller.on('click', function(){
-  //     Pard.Backend.getForm(form, function(data){
-  //       var message = {
-  //         'create_artist': Pard.Widgets.ArtistForm,
-  //         'create_space': Pard.Widgets.SpaceForm,
-  //         'create_organization': Pard.Widgets.OrganizationForm
-  //       }
-  //       _content.empty();
-  //       var _message = Pard.Widgets.PopupContent(title, message[form](data.form));
-  //       _message.setCallback(function(){_popup.close()});
-  //       _content.append(_message.render());
-  //       _popup.open();
-  //     });
-  //   });
-
-  //   return {
-  //     render: function(){
-  //       return _popupCaller;
-  //     }
-  //   }
-  // }
-
-
-
+ 
   ns.Widgets.PopupContent = function(title, content, contentClass){
     var _createdWidget = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
@@ -117,7 +112,7 @@
 
     _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
 
-    var _callback = {};
+    var _callback = function(){};
 
     _closeBtn.click(function(){
       _callback();

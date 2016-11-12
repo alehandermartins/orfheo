@@ -733,6 +733,10 @@ button{
   /* margin-left: 2px; */
 }
 
+.disabled-button{
+  background-color: $grey-3 !important;
+}
+
 .buttons-noMapPopup button{
   margin-right: 2rem;
   font-size: 14px;
@@ -1129,6 +1133,7 @@ a.footer-text-link:hover{
   margin-bottom: 4rem;
   margin-top: -1rem;
 }
+
 
 
 
@@ -1540,7 +1545,7 @@ POPUP
 
 
 .top-position .popup-container-full, .top-position .alert-container-full{
-  margin-bottom: 14.6rem;
+  margin-bottom: 50%;
 }
 
 @media only screen and (max-width : 400px) {
@@ -1590,6 +1595,13 @@ POPUP
   background-color: transparent;
 }
 
+.multimedia-popup-bigalert{
+  max-width: 48rem;
+  padding: 0.5rem;
+  .video-production-container{
+    text-align: center;
+  }
+}
 
 
 /*==============================================

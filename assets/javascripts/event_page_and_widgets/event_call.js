@@ -57,7 +57,6 @@
       }).render().addClass('success-inscription-btn');
       var _sendOtherProposal = Pard.Widgets.Button('Envía otra propuesta', function(){
           _closepopup();
-          _closeListProfilePopup();
           _button.trigger('click');
       }).render().addClass('success-inscription-btn');
       _container.append(_message, _toProfilePageBtn, _sendOtherProposal);
@@ -80,7 +79,7 @@
       _card.click(function(){
         if (profile.type == 'space' && profile.proposals && profile.proposals[0]) Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en el conFusión 2016. ');
         else{
-          Pard.Widgets.GetCallForms(_forms, profile, closeListProfilePopup, _callbackSendProposal);
+          Pard.Widgets.GetCallForms(_forms, profile, _closeListProfilePopup, _callbackSendProposal);
         }
       });
       _createdWidget.append(_cardContainer.append(_card));
@@ -93,7 +92,7 @@
     var _createAndInscribeProfile = function(data){
       if (data['status'] == 'success'){
         var _profile = data.profile;
-        Pard.Widgets.GetCallForms(_forms, _profile, closeListProfilePopup, _callbackSendProposal); 
+        Pard.Widgets.GetCallForms(_forms, _profile, _closeListProfilePopup, _callbackSendProposal); 
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
@@ -135,29 +134,25 @@
 
   ns.Widgets.GetCallForms = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     var eventInfo = Pard.CachedEvent;
-    var _content = $('<div>').addClass('very-fast reveal full top-position');
+    var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
     _content.empty();
     $('body').append(_content);
     var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-    var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(forms, profile, callbackSendProposal));
+    var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(forms, profile, closeListProfilePopup, callbackSendProposal));
     _message.setCallback(function(){
       _content.remove();
       _popup.close();
     });
     _content.append(_message.render());
     _popup.open();
-    _closeListProfilePopup()
   };
 
 
-  ns.Widgets.FormManager = function(forms, profile, callbackSendProposal){
+  ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal){
+    
     var _createdWidget = $('<div>');
-    var _initialMexText = 'Ésts es el <strong>formulario</strong> para inscribir tu perfil <a href=/profile?id='+profile.profile_id+', target="_blank">'+_profile.name+'</a> en la convocatoria <strong> para '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase()+ 's de '+Pard.CachedEvent.organizer+'</strong>:'
-    var _initialMex = $('<h6>').html(_initialMexText).css('margin-bottom','1.5rem');
-    _createdWidget.append(_initialMex); 
-    var _closepopup = {};
-    var _production_id;
     var _typeFormsCatArray = Object.keys(forms);
+    
     if($.inArray(profile.type, _typeFormsCatArray) < 0){
       var _okProfiles = '';
       _typeFormsCatArray.forEach(function(type,index){
@@ -170,6 +165,14 @@
       _createdWidget.append($('<p>').text('ATENCIÓN, NO PUEDES CONTINUAR'), $('<p>').html('Esta convocatoría es solo para perfiles de<strong>'+_okProfiles+'</strong>. Selecciona o crea uno de de los tipos aceptados para seguir.').css({'font-size':'1rem'}));
     }
     else{
+      closeListProfilePopup();
+
+      var _initialMexText = 'Éste es el <strong>formulario</strong> para inscribir tu perfil <a href="/profile?id='+profile.profile_id+'", target="_blank">'+profile.name+'</a> en la convocatoria <strong> para '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase()+ 's de '+Pard.CachedEvent.organizer+'</strong>:'
+      var _initialMex = $('<h6>').html(_initialMexText).css('margin-bottom','1.5rem');
+      _createdWidget.append(_initialMex); 
+      var _closepopup = {};
+      var _production_id;
+
       var _formTypeConstructor = {
         artist: Pard.Widgets.CallForm,
         space: Pard.Widgets.CallForm
@@ -188,7 +191,7 @@
       for (var typeForm in forms[profile.type]){
         _formTypes.push(typeForm);
         _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
-        forms[profile.type][typeForm].category.args[0].forEach(function(cat){
+        forms[profile.type][typeForm].category.args[1].forEach(function(cat){
           if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
         });
       };  
@@ -222,6 +225,7 @@
             _compatibleProductions = true;
             _prodBtn.click(function(){
               if (_prodBtn.hasClass('content-form-selected')){
+                $('#popupForm').addClass('top-position');
                 _xbtn.hide();
                 _formTypeSelector.show();
                 _formTypeSelector.attr('disabled',false);
@@ -233,6 +237,7 @@
                 _formTypeOptionsCont.empty();
               }
               else{
+                $('#popupForm').removeClass('top-position');
                 _production_id = production.production_id;
                 var _catProduction = Pard.Widgets.Dictionary(production.category).render();
                 if (forms[profile.type][_catProduction]){
@@ -278,6 +283,7 @@
       }
 
       _formTypeSelector.on('change',function(){
+        $('#popupForm').removeClass('top-position');
         $('.content-form-selected').removeClass('content-form-selected');
         _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
         if (_t2) _t2.show();
@@ -295,7 +301,6 @@
         });
         if (production) _form.setVal(production); 
         _contentSel.append(_form.render());
-        // _contentShowHide('form-from-selector');
       };
 
       if (profile.category){
@@ -373,14 +378,14 @@
           _url.push(data['result']['public_id']);
           if(_url.length >= _photos.dataLength()) _send();
         });
-      _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','2rem'));
+      _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','3rem'));
       }
       else if (field == 'category'){
         if (profile.category){
           _orfheoCategory = profile.category;
         }
         else{ 
-          if (form[field].args[0].length>1){
+          if (form[field].args[1].length>1){
             var _formField = $('<div>');
             _containerOrfheoFields.append(
             _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
@@ -390,7 +395,7 @@
             if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
           }
           else{
-            _orfheoCategory = form[field].args[0][0]; 
+            _orfheoCategory = form[field].args[1][0]; 
           }
         }
       }

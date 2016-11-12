@@ -248,7 +248,10 @@
 
     _daySelectorContainer.append(_daySelector);
 
-    var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page');
+    var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page').attr('type','button');
+
+    _programNow.attr('disabled',true).addClass('disabled-button');
+
 
     var extraDate;
     _programNow.on('click', function(){
@@ -288,7 +291,7 @@
       }
     });
 
-    var _filtersButton = $('<button>').html('Filtros').addClass('pard-btn interaction-btn-event-page');
+    var _filtersButton = $('<button>').html('Filtros').addClass('pard-btn interaction-btn-event-page').attr('type','button');
 
     _filtersButton.on('click', function(){
       var _content = $('<div>').addClass('very-fast reveal full');

@@ -18,6 +18,7 @@
       street_art: {icon: '&#xE243;', className: 'material-icons'},
       workshop: {icon: '', className: 'fa fa-cubes'},
       other: {icon: '&#xE155;', className: 'material-icons'},
+      gastronomy: {icon:'&#xE556;', className:'material-icons' },
       modify_section_content: {icon: '&#xE150;', className: 'material-icons'},
       information: {icon: '&#xE061;', className: 'material-icons'},
       city_artist: {icon: '&#xE55F;', className: 'material-icons'},
@@ -44,6 +45,9 @@
       organizer: {icon:'&#xE43B;', className:'material-icons' },
       comments: {icon:'&#xE0B9;', className:'material-icons' },
       tools: {icon:'&#xE869;', className:'material-icons' },
+      // conditions: {icon:'&#xE0E0;', className:'material-icons' },
+      conditions: {icon:'&#xE53B;', className:'material-icons' },
+      delete: {icon:'&#xE872;', className:'material-icons' },
 
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},

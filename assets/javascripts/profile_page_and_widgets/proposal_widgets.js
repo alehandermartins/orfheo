@@ -4,20 +4,6 @@
 
   ns.Widgets = ns.Widgets || {}; 
 
-  // ns.Widgets.ProposalForm = function(type){
-  //   console.log(type);
-  //   var _proposalForms = {
-  //     artist: Pard.Widgets.CallArtistButton,
-  //     space: Pard.Widgets.CallSpaceButton
-  //   }
-
-  //   return{
-  //     render: function(){
-  //       return  _proposalForms[type];
-  //     }
-  //   }
-  // }
-
   ns.Widgets.MyCallProposals = function(profile){
 
     var _createdWidget = $('<div>');
@@ -82,9 +68,10 @@
 
     var _createdWidget = $('<div>');
     _createdWidget.append(Pard.Widgets.PrintProposal(proposal, form).render());
-    console.log()
-    var _conditionsLink = $('<a>').attr({'href':form['conditions']['helptext'], 'target':'_blank'}).text('bases de participación');
-    _createdWidget.append($('<p>').append('Has aceptado las condiciones en las ',_conditionsLink,' de la convocatoria de ',proposal.event_name)); 
+    if (form['conditions'] && form['conditions']['helptext']){
+      var _conditionsLink = $('<a>').attr({'href':form['conditions']['helptext'], 'target':'_blank'}).text('bases de participación');
+      _createdWidget.append($('<p>').append('Has aceptado las condiciones en las ',_conditionsLink,' de la convocatoria de ',proposal.event_name)); 
+    }
     var _deadline = new Date(parseInt(proposal.deadline));
     var _now = new Date();
     if(_now.getTime() < _deadline.getTime()){
@@ -153,15 +140,7 @@
     console.log(form);
     console.log(proposal);
     var _createdWidget = $('<div>');
-    var _nameLabel = $('<span>').addClass('myProposals-field-label').text('Propuesta enviada por:');
-    var _nameText = $('<span>').text(' ' + proposal['name']);
-    var _name = $('<div>').append($('<p>').append(_nameLabel, _nameText))
-    var _orfheoFields = ['subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
-
-    var _linksAndPhotos = ['links','photos']
-    _createdWidget.append(_name);
-
-    var _fieldFormLabel, _fieldForm, _textLabel, _proposalField, _fieldFormText;
+    var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
 
     _orfheoFields.forEach(function(field){
       if (proposal[field]){
@@ -169,7 +148,11 @@
         _fieldFormText = $('<span>');
         _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
-        if (field == 'email') {
+        if (field == 'name') {
+          _fieldFormLabel.text('Propuesta enviada por:');
+          _fieldFormText.text(' ' + proposal['name']).css('font-weight','bold');
+        }
+        else if (field == 'email') {
           _fieldFormLabel.text('Correo:');
           _fieldFormText .append($('<a>').attr('href','mailto:'+proposal[field]).text(' ' + proposal[field]));
         }
@@ -178,7 +161,7 @@
           _fieldFormText.text(' ' + proposal[field]);
         }
         else if(field == 'address'){
-          _fieldFormLabel = $('<span>').text('Dirección: ')
+          _fieldFormLabel.text('Dirección: ')
           var _fieldText = $('<a>');
           var _address = ' ';
           if (proposal['address']['route']) _address +=  proposal['address']['route']+ ' ';
@@ -211,13 +194,28 @@
         }
         else if (form[field]){
           _fieldFormLabel.text(form[field].label+':');
-          _fieldFormText.text(' ' + proposal[field]);
+          var _text = ' ' + proposal[field];
+          if (field == 'duration') _text = _text + ' min';
+          _fieldFormText.append(_text);
         }
       }
     });
 
-    // if ($.inArray(field, $.merge($.merge(['profile_id','proposal_id','user_id','call_id','event_id','event_name','deadline','category','conditions','form_category','name','production_id', 'amend'],_orfheoFields),_linksAndPhotos))<0)
-           
+    if (proposal['photos'] || proposal['links']){
+      var _multimediaContainer = $('<div>');
+      _fieldFormLabel = $('<span>').addClass('myProposals-field-label').text('Multimedias:');
+      var _linkPhoto = $('<a>').text(' ver contenidos enviados').attr('href','#')
+      _fieldFormText = $('<span>').append(_linkPhoto);
+      _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
+      _createdWidget.append(_fieldForm);
+      Pard.Widgets.MultimediaScripts(function(){});       
+      _linkPhoto.click(function(){
+          if (!(_multimediaContainer.html())) Pard.Widgets.MultimediaDisplay(proposal, function(multimedia){Pard.Widgets.AddMultimediaContent(_multimediaContainer, multimedia)});
+
+          Pard.Widgets.BigAlert('',_multimediaContainer,'multimedia-popup-bigalert'); 
+      })
+    }
+
     for(var field in proposal){
       if ($.isNumeric(field)){
         _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
@@ -226,6 +224,7 @@
         _createdWidget.append(_fieldForm);
         _textLabel = form[field]['label'];          
         if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
+        _textLabel += ':';
         _fieldFormLabel.append(_textLabel);
         if ($.isArray(proposal[field])){
           var _list = $('<ul>');
@@ -252,6 +251,53 @@
       }
     }
   }
+
+
+  ns.Widgets.AddMultimediaContent =  function(_multimediaContainer, multimedia) {
+
+      if(multimedia.video != false){
+        var _outerVideocontainer = $('<div>');
+        var _videoContainer = $('<div>').addClass('video-production-container')
+
+        var _videoTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Vídeos')));
+        
+        // var _videoTitle = $('<div>').append($('<div>').addClass('video-title-box').append($('<h6>').text('Vídeos')));
+
+        _multimediaContainer.append(_outerVideocontainer);
+        multimedia.video.forEach(function(video){
+          _videoContainer.prepend($('<div>').addClass('single-video-container').append(video))
+        });
+        _outerVideocontainer.append(_videoTitle, _videoContainer);
+      };
+
+      if(multimedia.audio != false){
+        var _outerAudiocontainer = $('<div>');
+        var _audioContainer = $('<div>').addClass('image-production-container');
+        var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
+        _multimediaContainer.append(_outerAudiocontainer);
+        multimedia.audio.forEach(function(audio){
+          _audioContainer.prepend($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
+        });
+        _outerAudiocontainer.append(_audioTitle, _audioContainer);
+
+      }
+
+      if(multimedia.image != false){
+        var _outerImagescontainer = $('<div>');
+        var _imageContainer = $('<div>').addClass('image-production-container');
+        var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));      
+        _multimediaContainer.append(_outerImagescontainer);
+        multimedia.image.forEach(function(image){
+          _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));
+        });
+        _outerImagescontainer.append(_imageTitle, _imageContainer);
+      }
+      // $(document).ready(function(){
+        FB.XFBML.parse();
+        window.instgrm.Embeds.process();
+        doBuild();
+      // });
+    }
 
 
   ns.Widgets.DisplayPopupProposal = function(proposal, form, popupTitle){

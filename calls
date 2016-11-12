@@ -10,10 +10,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "music"
+                        "Música"
                     ], 
                     [ 
-                        "Música"
+                        "music"
                     ]
                 ],
                 "helptext" : ""
@@ -102,10 +102,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "arts"
+                        "Artes Escénicas"
                     ], 
                     [ 
-                        "Artes Escénicas"
+                        "arts"
                     ]
                 ],
                 "helptext" : ""
@@ -194,10 +194,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "workshop"
+                        "Taller"
                     ], 
                     [ 
-                        "Taller"
+                        "workshop"
                     ]
                 ],
                 "helptext" : ""
@@ -276,10 +276,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "expo"
+                        "Exposición"
                     ], 
                     [ 
-                        "Exposición"
+                        "expo"
                     ]
                 ],
                 "helptext" : ""
@@ -338,10 +338,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "street_art"
+                        "Street Art"
                     ], 
                     [ 
-                        "Street Art"
+                        "street_art"
                     ]
                 ],
                 "helptext" : ""
@@ -400,10 +400,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "poetry"
+                        "Poesía"
                     ], 
                     [ 
-                        "Poesía"
+                        "poetry"
                     ]
                 ],
                 "helptext" : ""
@@ -482,10 +482,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "audiovisual"
+                        "Audiovisual"
                     ], 
                     [ 
-                        "Audiovisual"
+                        "audiovisual"
                     ]
                 ],
                 "helptext" : ""
@@ -574,10 +574,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "other"
+                        "Otros"
                     ], 
                     [ 
-                        "Otros"
+                        "other"
                     ]
                 ],
                 "helptext" : ""
@@ -668,10 +668,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "cultural_ass"
+                        "Asociación Cultural"
                     ], 
                     [ 
-                        "Asociación Cultural"
+                        "cultural_ass"
                     ]
                 ],
                 "helptext" : ""
@@ -741,10 +741,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "commercial"
+                        "Local Comercial"
                     ], 
                     [ 
-                        "Local Comercial"
+                        "commercial"
                     ]
                 ],
                 "helptext" : ""
@@ -873,10 +873,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "open_air"
+                        "Espacio Exterior"
                     ], 
                     [ 
-                        "Espacio Exterior"
+                        "open_air"
                     ]
                 ],
                 "helptext" : ""
@@ -953,10 +953,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "music"
+                        "Música"
                     ], 
                     [ 
-                        "Música"
+                        "music"
                     ]
                 ],
                 "helptext" : ""
@@ -1192,10 +1192,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "arts"
+                        "Artes Escénicas"
                     ], 
                     [ 
-                        "Artes Escénicas"
+                        "arts"
                     ]
                 ],
                 "helptext" : ""
@@ -1413,7 +1413,7 @@
                 ],
                 "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
             },
-            "10" : {
+            "conditions" : {
                 "type" : "mandatory",
                 "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
@@ -1431,10 +1431,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "workshop"
+                        "Taller"
                     ], 
                     [ 
-                        "Taller"
+                        "workshop"
                     ]
                 ],
                 "helptext" : ""
@@ -1471,7 +1471,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo",
+                "label" : "Duración del taller",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -1625,14 +1625,15 @@
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se necesita algún tipo de montaje."
             },
             "8" : {
                 "type" : "optional",
                 "label" : "Tiempo montaje",
-                "input" : "TextArea",
+                "input" : "Input",
                 "args" : [ 
-                    ""
+                    "",
+                    "text"
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
@@ -1679,10 +1680,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "gastronomy"
+                        "Gastronomía"
                     ], 
                     [ 
-                        "Gastronomía"
+                        "gastronomy"
                     ]
                 ],
                 "helptext" : ""
@@ -1718,11 +1719,12 @@
                 "helptext" : ""
             },
             "duration" : {
-                "type" : "mandatory",
-                "label" : "Duración del espectáculo",
+                "type" : "optional",
+                "label" : "Duración (si aplica)",
                 "input" : "Selector",
                 "args" : [ 
-                    [ 
+                    [   
+                        "No tiene duración",
                         "15 min", 
                         "30 min", 
                         "45 min", 
@@ -1734,7 +1736,8 @@
                         "2h 15min", 
                         "2h 30min"
                     ], 
-                    [ 
+                    [   
+                        "",
                         "15", 
                         "30", 
                         "45", 
@@ -1873,14 +1876,15 @@
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se necesita algún tipo de montaje."
             },
             "8" : {
                 "type" : "optional",
                 "label" : "Tiempo montaje",
-                "input" : "TextArea",
+                "input" : "Input",
                 "args" : [ 
-                    ""
+                    "",
+                    "text"
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
@@ -1909,7 +1913,7 @@
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
-            "11" : {
+            "conditions" : {
                 "type" : "mandatory",
                 "label" : "Acepto las condiciones de participación asociadas a este evento",
                 "input" : "CheckBox",
@@ -1927,10 +1931,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "expo"
+                        "Exposición"
                     ], 
                     [ 
-                        "Exposición"
+                        "expo"
                     ]
                 ],
                 "helptext" : ""
@@ -2007,38 +2011,7 @@
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "1" : {
-                "type" : "mandatory",
-                "label" : "Tipo de espacio",
-                "input" : "MultipleSelector",
-                "args" : [ 
-                    [ 
-                        "salas de actuaciones", 
-                        "locales de restauración", 
-                        "comercios"
-                    ]
-                ],
-                "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
-            },
-            "2" : {
-                "type" : "mandatory",
-                "label" : "Tiempo montaje",
-                "input" : "TextArea",
-                "args" : [ 
-                    ""
-                ],
-                "helptext" : "Indica cuanto tiempo de montaje necesitarías. El artista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello. El artista también tendrá que hacer sus propias cartelas."
-            },
-            "3" : {
-                "type" : "optional",
-                "label" : "Necesidades técnicas",
-                "input" : "TextArea",
-                "args" : [ 
-                    ""
-                ],
-                "helptext" : "Indícanos qué necesidades técnicas requiere la exposición de tu obra para que podamos valorar si podemos ayudarte a desarrollar tu propuesta. Ej.: proyector, equipo de sonido, taladrar o intervenir pared expositiva, peanas, obra gran tamaño, etc."
-            },
-            "4": {
+            "1": {
                 "type" : "mandatory",
                 "label" : "Edades público",
                 "input" : "Selector",
@@ -2060,6 +2033,38 @@
                 ],
                 "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
+            "2" : {
+                "type" : "mandatory",
+                "label" : "Tipo de espacio",
+                "input" : "MultipleSelector",
+                "args" : [ 
+                    [ 
+                        "salas de actuaciones", 
+                        "locales de restauración", 
+                        "comercios"
+                    ]
+                ],
+                "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
+            },
+            "3" : {
+                "type" : "mandatory",
+                "label" : "Tiempo montaje",
+                "input" : "Input",
+                "args" : [ 
+                    "",
+                    "text"
+                ],
+                "helptext" : "Indica cuanto tiempo de montaje necesitarías. El artista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello. El artista también tendrá que hacer sus propias cartelas."
+            },
+            "4" : {
+                "type" : "optional",
+                "label" : "Necesidades técnicas",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Indícanos qué necesidades técnicas requiere la exposición de tu obra para que podamos valorar si podemos ayudarte a desarrollar tu propuesta. Ej.: proyector, equipo de sonido, taladrar o intervenir pared expositiva, peanas, obra gran tamaño, etc."
+            },
             "conditions" : {
                 "type" : "mandatory",
                 "label" : "Acepto las condiciones de participación asociadas a este evento",
@@ -2078,10 +2083,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "street_art"
+                        "Street Art"
                     ], 
                     [ 
-                        "Street Art"
+                        "street_art"
                     ]
                 ],
                 "helptext" : ""
@@ -2156,7 +2161,29 @@
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
-            }
+            },
+            "1": {
+                "type" : "mandatory",
+                "label" : "Edades público",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ], 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ]
+                ],
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+            },
             "2" : {
                 "type" : "mandatory",
                 "label" : "Tipo de soporte",
@@ -2242,28 +2269,6 @@
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
-            "9": {
-                "type" : "mandatory",
-                "label" : "Edades público",
-                "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "Todos los públicos", 
-                        "Infantil", 
-                        "Familiar", 
-                        "Juvenil", 
-                        "Adultos"
-                    ], 
-                    [ 
-                        "Todos los públicos", 
-                        "Infantil", 
-                        "Familiar", 
-                        "Juvenil", 
-                        "Adultos"
-                    ]
-                ],
-                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
-            },
             "conditions" : {
                 "type" : "mandatory",
                 "label" : "Acepto las condiciones de participación asociadas a este evento",
@@ -2282,10 +2287,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "poetry"
+                        "Poesía"
                     ], 
                     [ 
-                        "Poesía"
+                        "poetry"
                     ]
                 ],
                 "helptext" : ""
@@ -2521,10 +2526,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "audiovisual"
+                        "Audiovisual"
                     ], 
                     [ 
-                        "Audiovisual"
+                        "audiovisual"
                     ]
                 ],
                 "helptext" : ""
@@ -2561,7 +2566,7 @@
             },
             "duration" : {
                 "type" : "mandatory",
-                "label" : "Duración del espectáculo",
+                "label" : "Duración",
                 "input" : "Selector",
                 "args" : [ 
                     [ 
@@ -2694,14 +2699,15 @@
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se necesita algún tipo de montaje."
             },
             "6" : {
                 "type" : "optional",
                 "label" : "Tiempo montaje",
-                "input" : "TextArea",
+                "input" : "Input",
                 "args" : [ 
-                    ""
+                    "",
+                    "text"
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El artista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
@@ -2768,10 +2774,10 @@
                 "input" : "Selector",
                 "args" : [ 
                     [ 
-                        "other"
+                        "Otros"
                     ], 
                     [ 
-                        "Otros"
+                        "other"
                     ]
                 ],
                 "helptext" : ""
@@ -2942,14 +2948,15 @@
                     "", 
                     "yes"
                 ],
-                "helptext" : ""
+                "helptext" : "Eligir si se necesita algún tipo de montaje."
             },
             "6" : {
                 "type" : "optional",
                 "label" : "Tiempo montaje",
-                "input" : "TextArea",
+                "input" : "Input",
                 "args" : [ 
-                    ""
+                    "",
+                    "text"
                 ],
                 "helptext" : "Indica cuanto tiempo de montaje necesitarías. El artista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
@@ -3046,17 +3053,17 @@
                 "type" : "mandatory",
                 "label" : "Selecciona tu tipo de espacio",
                 "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "cultural_ass", 
-                        "home", 
-                        "commercial"
-                    ], 
+                "args" : [
                     [ 
                         "Asociación Cultural", 
                         "Espacio Particular", 
                         "Local Comercial"
-                    ]
+                    ], 
+                    [ 
+                        "cultural_ass", 
+                        "home", 
+                        "commercial"
+                    ] 
                 ],
                 "helptext" : ""
             },
@@ -3130,17 +3137,17 @@
                 "type" : "mandatory",
                 "label" : "Selecciona tu tipo de espacio",
                 "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "cultural_ass", 
-                        "home", 
-                        "commercial"
-                    ], 
+                "args" : [
                     [ 
                         "Asociación Cultural", 
                         "Espacio Particular", 
                         "Local Comercial"
-                    ]
+                    ], 
+                    [ 
+                        "cultural_ass", 
+                        "home", 
+                        "commercial"
+                    ] 
                 ],
                 "helptext" : ""
             },

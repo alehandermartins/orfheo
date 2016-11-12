@@ -59,12 +59,12 @@
 
     _contact.append($('<div>').append(_typeIcon, _type));
 
-    var _city = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
+    var _address = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
       href: 'http://maps.google.com/maps?q='+profile['address']['locality']+' '+profile['address']['postal_code'],
       target: '_blank'
       }).text(profile['address']['locality'])));
 
-    _contact.append(_city);
+    _contact.append(_address);
 
     if(profile.personal_web){
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
@@ -111,7 +111,7 @@
     var production = Pard.ProfileManager.getProduction(production_id);
     var _createdWidget = $('<div>');
 
-    var _categoryFields = Pard.Forms.ArtistCall(production.category).productionFields();
+    // var _categoryFields = Pard.Forms.ArtistCall(production.category).productionFields();
 
     var _title = $('<div>').addClass('production-title-box').append(
       $('<h4>').text(production.title));
