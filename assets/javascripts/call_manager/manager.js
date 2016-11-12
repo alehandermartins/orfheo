@@ -59,62 +59,34 @@
       var _scrollers = $('<div>').append( _scrollLeftBtn, _scrollRightBtn).addClass('scrollers-call-managers');
       _timeTableContainer.append(_scrollers);
 
-      var _timeTables = {};
       var _tables = {};
+      
+      var timeManager = Pard.Widgets.TimeManager(eventTime);
+      var hours = timeManager.hours;
+      eventTime = timeManager.times;
+
+      var _timeTable = $('<div>');
+      hours.forEach(function(hour, hourIndex){
+        if(hour < 10) hour = '0' + hour;
+        var _time = $('<div>').html(hour + ':00').addClass('time-timeTable-call-manager');
+        _time.css({top: 28 + hourIndex * 40 + "px"});
+        var _line = $('<hr>').addClass('line-timeTable-call-manager')
+        _line.css({top: 20 + hourIndex * 40 + "px"});
+        _timeTable.append(_time, _line);
+      });
+      _timeTableContainer.append(_timeTable);
 
       Object.keys(eventTime).forEach(function(day, index){
-        var _timeTable = $('<div>');
         var _table = $('<div>').css({
           'width': '100%',
-          'white-space':'nowrap',
+          'height': hours.length * 40 + 2,
+          'white-space':'nowrap'
         });
-
-        if (day == 'permanent')_table.css('height', 602);
-        else {
-          var start = new Date(parseInt(eventTime[day][0][0]));
-          var startDate = start.getDate();
-          var startHour = start.getHours();
-          
-          var end = new Date(parseInt(eventTime[day][1][1]));
-          var endDate = end.getDate();
-          var endHour = end.getHours();
-          //Amount of hours in our day
-          var hours = [];
-          if(endDate != startDate){
-            for (var i = startHour; i < 24; i++) {hours.push(i);}
-            for (var i = 0; i <= endHour; i++) {hours.push(i);}
-          }
-          else{
-            for (var i = startHour; i <= endHour; i++) {hours.push(i);}
-          }
-
-          hours.forEach(function(hour, hourIndex){
-            if(hour < 10) hour = '0' + hour;
-            var _time = $('<div>').html(hour + ':00').addClass('time-timeTable-call-manager');
-            _time.css({top: 28 + hourIndex * 40 + "px"});
-            var _line = $('<hr>').addClass('line-timeTable-call-manager')
-            _line.css({top: 20 + hourIndex * 40 + "px"});
-            _timeTable.append(_time, _line);
-          });
-
-          _table.css({
-            'height': hours.length * 40 + 2
-          });
-        }
-
-        _timeTables[day] = _timeTable;
         _tables[day] = _table;
-        if(index == 0){
-          _timeTableContainer.append(_timeTables[day]);
-          _tableContainer.append(_tables[day]);
-        }
-        else{
-          _timeTableContainer.append(_timeTables[day].hide());
-          _tableContainer.append(_tables[day].hide());
-        }
+        if(index == 0) _tableContainer.append(_tables[day]);
+        else{ _tableContainer.append(_tables[day].hide());}
       });
 
-      
       var _startHour = parseInt(eventTime['permanent'][0].split(':')[0]);
       var _startMin = parseInt(eventTime['permanent'][0].split(':')[1]);
       var _endHour = parseInt(eventTime['permanent'][1].split(':')[0]);
@@ -184,11 +156,10 @@
         Object.keys(_artists).forEach(function(profile_id){
           _artists[profile_id].setDay(_daySelector.val());
         });
-
+        if(_daySelector.val() == 'permanent') _timeTable.hide();
+        else{_timeTable.show();}
         _tables[_lastSelected].hide();
-        _timeTables[_lastSelected].hide();
         _tables[_daySelector.val()].show();
-        _timeTables[_daySelector.val()].show();
         
         _lastSelected = _daySelector.val();
       });
@@ -219,7 +190,7 @@
             else{_spaces[space.profile_id].hideColumns();}
           });
         }
-        Pard.ColumnWidth = 176; 
+        Pard.ColumnWidth = 176;
         if(_shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
         _shownSpaces.forEach(function(space){
           _spaces[space.profile_id].alignPerformances(_daySelector.val());
@@ -707,7 +678,7 @@
               }
               else{
                 destroy(_performance);
-                var start = new Date(parseInt(eventTime[day][0][0]));
+                var start = new Date(parseInt(eventTime[day][0]));
                 start.setMinutes(start.getMinutes() + (position - 41) * 1.5);
                 var end = new Date(start.getTime());
                 end.setMinutes(start.getMinutes() + duration * 1.5);
@@ -997,7 +968,8 @@
           var color = Pard.Widgets.CategoryColor(performance.participant_category);
           
           var timeCol = _spaces[performance.host_id].columns[performance.date].find('.spaceTime');
-          var dayStart = parseInt(eventTime[performance.date][0][0]);
+          var dayStart = parseInt(eventTime[performance.date][0]);
+
           performance.time[0] = parseInt(performance.time[0]);
           performance.time[1] = parseInt(performance.time[1]);
           
@@ -1177,14 +1149,13 @@
           var setStartTimes = function(){
             startTime.empty();
 
-            var dayStart = new Date(parseInt(eventTime[performance.date][0][0]));
-            var dayEnd = new Date(parseInt(eventTime[performance.date][1][1]));
-            
+            var dayStart = new Date(parseInt(eventTime[performance.date][0]));
+            var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
+
             var start = new Date(performance.time[0]);
             var end = new Date(performance.time[1]);
             //Te max value for start is that that puts the end on the limit of the day
             var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
-
             while(dayStart <= maxStart){
               var hours = dayStart.getHours();
               var minutes = dayStart.getMinutes();
@@ -1199,8 +1170,8 @@
 
           var setEndTimes = function(){
             endTime.empty();
-            
-            var dayEnd = new Date(parseInt(eventTime[performance.date][1][1]));
+
+            var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
             var start = new Date(performance['time'][0]);
             //The minimum end is the start plus 15 minutes
             var minEnd = new Date(start.getTime() + 15 * 60000);
@@ -1528,7 +1499,7 @@
 
           var setStartTimes = function(){
             startTime.empty();
-            var dayStart = new Date(parseInt(eventTime[performance.date][0][0]));
+            var dayStart = new Date(parseInt(eventTime[performance.date][0]));
             var maxStart = new Date(parseInt(performance.time[1]));
             maxStart.setMinutes(maxStart.getMinutes() - 15);
 
@@ -1546,7 +1517,7 @@
 
           var setEndTimes = function(){
             endTime.empty();
-            var dayEnd = new Date(parseInt(eventTime[performance.date][1][1]));
+            var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
             var minEnd = new Date(parseInt(performance.time[0]) + 15 * 60000);
 
             while(minEnd <= dayEnd){
@@ -1904,7 +1875,7 @@
       spaces.forEach(function(space){
         _spaces[space.profile_id] = new Space(space);
       });
-      if(spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
+      if(spaces.length > 0 && spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
 
        _toolsContainer.append(ToolsDropdownMenu().render());
       // _buttonsContainer.append(_toolsContainer);
