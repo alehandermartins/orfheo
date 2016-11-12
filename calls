@@ -38,7 +38,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "1" : {
+            "components" : {
                 "type" : "optional",
                 "label" : "Número de integrantes",
                 "input" : "Input",
@@ -48,7 +48,7 @@
                 ],
                 "helptext" : "Número de personas que llevan la actividad/espectáculo."
             },
-            "2" : {
+            "repeat" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -75,7 +75,16 @@
                 ],
                 "helptext" : ""
             },
-            "3" : {
+            "sharing" : {
+                "type" : "optional",
+                "label" : "Materiales a compartir",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
+            },
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -121,7 +130,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "1" : {
+            "components" : {
                 "type" : "optional",
                 "label" : "Número de integrantes",
                 "input" : "Input",
@@ -131,7 +140,7 @@
                 ],
                 "helptext" : "Número de personas que llevan la actividad/espectáculo."
             },
-            "2" : {
+            "repeat" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -158,7 +167,16 @@
                 ],
                 "helptext" : ""
             },
-            "3" : {
+            "sharing" : {
+                "type" : "optional",
+                "label" : "Materiales a compartir",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
+            },
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -204,7 +222,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "1" : {
+            "repeat" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -231,7 +249,16 @@
                 ],
                 "helptext" : ""
             },
-            "2" : {
+            "sharing" : {
+                "type" : "optional",
+                "label" : "Materiales a compartir",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
+            },
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -257,7 +284,7 @@
                 ],
                 "helptext" : ""
             },
-            "1" : {
+            "meters" : {
                 "type" : "optional",
                 "label" : "Espacio necesario para la exposición",
                 "input" : "Input",
@@ -284,7 +311,16 @@
                 ],
                 "helptext" : ""
             },
-            "2" : {
+            "sharing" : {
+                "type" : "optional",
+                "label" : "Materiales a compartir",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
+            },
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -337,7 +373,16 @@
                 ],
                 "helptext" : ""
             },
-            "1" : {
+            "sharing" : {
+                "type" : "optional",
+                "label" : "Materiales a compartir",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
+            },
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -383,7 +428,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "1" : {
+            "repeat" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -410,7 +455,16 @@
                 ],
                 "helptext" : ""
             },
-            "2" : {
+            "sharing" : {
+                "type" : "optional",
+                "label" : "Materiales a compartir",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
+            },
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -456,7 +510,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "1" : {
+            "components" : {
                 "type" : "optional",
                 "label" : "Número de integrantes",
                 "input" : "Input",
@@ -466,7 +520,7 @@
                 ],
                 "helptext" : "Número de personas que llevan la actividad/espectáculo."
             },
-            "2" : {
+            "repeat" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -493,7 +547,16 @@
                 ],
                 "helptext" : ""
             },
-            "3" : {
+            "sharing" : {
+                "type" : "optional",
+                "label" : "Materiales a compartir",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
+            },
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -539,7 +602,7 @@
                 ],
                 "helptext" : "Eligir si la actividad está orientada a un publico infantil."
             },
-            "1" : {
+            "components" : {
                 "type" : "optional",
                 "label" : "Número de integrantes",
                 "input" : "Input",
@@ -549,7 +612,7 @@
                 ],
                 "helptext" : "Número de personas que llevan la actividad/espectáculo."
             },
-            "2" : {
+            "repeat" : {
                 "type" : "optional",
                 "label" : "Repetir",
                 "input" : "CheckBox",
@@ -576,7 +639,16 @@
                 ],
                 "helptext" : ""
             },
-            "3" : {
+            "sharing" : {
+                "type" : "optional",
+                "label" : "Materiales a compartir",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
+            },
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -614,7 +686,7 @@
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "1" : {
+            "responsible" : {
                 "type" : "mandatory",
                 "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
@@ -624,7 +696,7 @@
                 ],
                 "helptext" : "Indicar la persona que se compromete con el festival para la programación y gestión del espacio."
             },
-            "2" : {
+            "sharing" : {
                 "type" : "optional",
                 "label" : "Materiales a compartir",
                 "input" : "TextArea",
@@ -633,7 +705,7 @@
                 ],
                 "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
             },
-            "3" : {
+            "own" : {
                 "type" : "optional",
                 "label" : "Programación propia",
                 "input" : "TextArea",
@@ -642,7 +714,7 @@
                 ],
                 "helptext" : "Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán."
             },
-            "4" : {
+            "un_wanted" : {
                 "type" : "optional",
                 "label" : "Preferencias de actividades",
                 "input" : "TextArea",
@@ -651,7 +723,7 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "5" : {
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -687,7 +759,7 @@
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "1" : {
+            "responsible" : {
                 "type" : "mandatory",
                 "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
@@ -697,7 +769,7 @@
                 ],
                 "helptext" : "Indicar la persona que se compromete con el festival para la programación y gestión del espacio."
             },
-            "2" : {
+            "sharing" : {
                 "type" : "optional",
                 "label" : "Materiales a compartir",
                 "input" : "TextArea",
@@ -706,7 +778,7 @@
                 ],
                 "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
             },
-            "3" : {
+            "own" : {
                 "type" : "optional",
                 "label" : "Programación propia",
                 "input" : "TextArea",
@@ -715,7 +787,7 @@
                 ],
                 "helptext" : "Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán."
             },
-            "4" : {
+            "un_wanted" : {
                 "type" : "optional",
                 "label" : "Preferencias de actividades",
                 "input" : "TextArea",
@@ -724,7 +796,7 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "5" : {
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -746,7 +818,7 @@
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "1" : {
+            "responsible" : {
                 "type" : "mandatory",
                 "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
@@ -756,7 +828,7 @@
                 ],
                 "helptext" : "Indicar la persona que se compromete con el festival para la programación y gestión del espacio."
             },
-            "2" : {
+            "sharing" : {
                 "type" : "optional",
                 "label" : "Materiales a compartir",
                 "input" : "TextArea",
@@ -765,7 +837,7 @@
                 ],
                 "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
             },
-            "3" : {
+            "own" : {
                 "type" : "optional",
                 "label" : "Programación propia",
                 "input" : "TextArea",
@@ -774,7 +846,7 @@
                 ],
                 "helptext" : "Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán."
             },
-            "4" : {
+            "un_wanted" : {
                 "type" : "optional",
                 "label" : "Preferencias de actividades",
                 "input" : "TextArea",
@@ -783,7 +855,7 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "5" : {
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -819,7 +891,7 @@
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
             },
-            "1" : {
+            "responsible" : {
                 "type" : "mandatory",
                 "label" : "Nombre del responsable del espacio",
                 "input" : "Input",
@@ -829,7 +901,7 @@
                 ],
                 "helptext" : "Indicar la persona que se compromete con el festival para la programación y gestión del espacio."
             },
-            "2" : {
+            "sharing" : {
                 "type" : "optional",
                 "label" : "Materiales a compartir",
                 "input" : "TextArea",
@@ -838,7 +910,7 @@
                 ],
                 "helptext" : "Material que puedes compartir durante el festival, como: equipo de sonido, altavoces, material de arte plástico, focos de luz, etc."
             },
-            "3" : {
+            "own" : {
                 "type" : "optional",
                 "label" : "Programación propia",
                 "input" : "TextArea",
@@ -847,7 +919,7 @@
                 ],
                 "helptext" : "Indicar, si se da el caso, el nombre y los horarios de actuacción de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán."
             },
-            "4" : {
+            "un_wanted" : {
                 "type" : "optional",
                 "label" : "Preferencias de actividades",
                 "input" : "TextArea",
@@ -856,7 +928,7 @@
                 ],
                 "helptext" : "Indicar tanto las actividades que NO quieres en tu espacio como las que te gustaría hospedar."
             },
-            "5" : {
+            "waitig_list" : {
                 "type" : "optional",
                 "label" : "Lista de espera",
                 "input" : "CheckBox",
@@ -1012,7 +1084,7 @@
                         "Adultos"
                     ]
                 ],
-                "helptext" : ""
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
             "2" : {
                 "type" : "mandatory",
@@ -1251,7 +1323,7 @@
                         "Adultos"
                     ]
                 ],
-                "helptext" : ""
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
             "2" : {
                 "type" : "mandatory",
@@ -1490,7 +1562,7 @@
                         "Adultos"
                     ]
                 ],
-                "helptext" : ""
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
             "2" : {
                 "type" : "optional",
@@ -1738,7 +1810,7 @@
                         "Adultos"
                     ]
                 ],
-                "helptext" : ""
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
             "2" : {
                 "type" : "optional",
@@ -1966,6 +2038,28 @@
                 ],
                 "helptext" : "Indícanos qué necesidades técnicas requiere la exposición de tu obra para que podamos valorar si podemos ayudarte a desarrollar tu propuesta. Ej.: proyector, equipo de sonido, taladrar o intervenir pared expositiva, peanas, obra gran tamaño, etc."
             },
+            "4": {
+                "type" : "mandatory",
+                "label" : "Edades público",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ], 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ]
+                ],
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+            },
             "conditions" : {
                 "type" : "mandatory",
                 "label" : "Acepto las condiciones de participación asociadas a este evento",
@@ -2022,38 +2116,6 @@
                 ],
                 "helptext" : ""
             },
-            "duration" : {
-                "type" : "mandatory",
-                "label" : "Duración del espectáculo",
-                "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "15 min", 
-                        "30 min", 
-                        "45 min", 
-                        "1 h", 
-                        "1h 15min", 
-                        "1h 30min", 
-                        "1h 45min", 
-                        "2 h", 
-                        "2h 15min", 
-                        "2h 30min"
-                    ], 
-                    [ 
-                        "15", 
-                        "30", 
-                        "45", 
-                        "60", 
-                        "75", 
-                        "90", 
-                        "105", 
-                        "120", 
-                        "135", 
-                        "150"
-                    ]
-                ],
-                "helptext" : ""
-            },
             "links" : {
                 "type" : "optional",
                 "label" : "Materiales online",
@@ -2094,29 +2156,7 @@
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
-            },
-            "1" : {
-                "type" : "mandatory",
-                "label" : "Edades público",
-                "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "Todos los públicos", 
-                        "Infantil", 
-                        "Familiar", 
-                        "Juvenil", 
-                        "Adultos"
-                    ], 
-                    [ 
-                        "Todos los públicos", 
-                        "Infantil", 
-                        "Familiar", 
-                        "Juvenil", 
-                        "Adultos"
-                    ]
-                ],
-                "helptext" : ""
-            },
+            }
             "2" : {
                 "type" : "mandatory",
                 "label" : "Tipo de soporte",
@@ -2172,9 +2212,10 @@
             "6" : {
                 "type" : "optional",
                 "label" : "Tiempo de realización",
-                "input" : "TextArea",
+                "input" : "Input",
                 "args" : [ 
-                    ""
+                    "",
+                    "text"
                 ],
                 "helptext" : "Indica cuanto tiempo necesitarías aproximadamente para la realización de tu obra o intervención."
             },
@@ -2200,6 +2241,28 @@
                     "number"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
+            },
+            "9": {
+                "type" : "mandatory",
+                "label" : "Edades público",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ], 
+                    [ 
+                        "Todos los públicos", 
+                        "Infantil", 
+                        "Familiar", 
+                        "Juvenil", 
+                        "Adultos"
+                    ]
+                ],
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
             "conditions" : {
                 "type" : "mandatory",
@@ -2350,7 +2413,7 @@
                         "Adultos"
                     ]
                 ],
-                "helptext" : ""
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
             "2" : {
                 "type" : "mandatory",
@@ -2373,7 +2436,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
+                       "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
             },
             "4" : {
                 "type" : "optional",
@@ -2589,7 +2652,7 @@
                         "Adultos"
                     ]
                 ],
-                "helptext" : ""
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
             "2" : {
                 "type" : "optional",
@@ -2640,7 +2703,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
+                "helptext" : "Indica cuanto tiempo de montaje necesitarías. El artista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
             "7" : {
                 "type" : "mandatory",
@@ -2836,7 +2899,7 @@
                         "Adultos"
                     ]
                 ],
-                "helptext" : ""
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             },
             "2" : {
                 "type" : "mandatory",
@@ -2888,7 +2951,7 @@
                 "args" : [ 
                     ""
                 ],
-                "helptext" : "Indica cuanto tiempo de montaje necesitarías. El tallerista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
+                "helptext" : "Indica cuanto tiempo de montaje necesitarías. El artista se encarga del montaje o en su defecto debe delegarlo en otro e indicar quién se encargará de ello."
             },
             "7" : {
                 "type" : "optional",

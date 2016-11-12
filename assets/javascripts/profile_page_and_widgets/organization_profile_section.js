@@ -128,7 +128,7 @@
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
       if(profile.events) profile.events.forEach(function(_event){
-        var _manageCallBtn =  $('<button>').addClass('manage-call-btn').click(function(){location.href = '/event_manager?id='+ _event.event_id}).text('Gestiona convocatoria').attr('type','button');        
+        var _manageCallBtn =  $('<a>').addClass('manage-call-btn').attr('href','/event_manager?id='+ _event.event_id).text('Gestiona convocatoria').attr('type','button');        
         _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
         // _callsBoxContainer.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
       });
@@ -354,7 +354,7 @@
 
     var _days =  $('<div>').append($('<p>').append(_eventdays).addClass('eventDay-event-info-card'),$('<p>').append('de 11:00 a 14:00 y de 17:00 a 24:00h')).addClass('eventDate-event-info-card');
     var _status = $('<div>').css('margin-bottom','0');
-    var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id=' + the_event.event_id).addClass('toEventPageBtn-event-info-card');
+    var _toEventPageBtn = $('<a>').text('¡Página del evento!').attr('href','/event?id=' + the_event.event_id).addClass('toEventPageBtn-event-info-card');
     _status.append(_toEventPageBtn);
     _infoBox.append(_infoTitle, _baseline, _days, _status);
     _createdWidget.append(_image, _infoBox);

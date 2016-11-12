@@ -45,7 +45,7 @@
         if (!(_forms)) {
           Pard.Backend.getCallForms(proposal.call_id, function(data){
             _forms = data.forms;
-            _displayPopup(proposal, _forms[profile.type][proposal.form_category],profile.type, proposal.event_name);
+            _displayPopup(proposal, _forms[profile.type][proposal.form_category], proposal.event_name);
           });
         }
         else{
@@ -81,9 +81,10 @@
   ns.Widgets.PrintMyProposal = function(proposal, form, profileType, closepopup){
 
     var _createdWidget = $('<div>');
-    var _status = 'ownerProposal'
-    _createdWidget.append(Pard.Widgets.PrintProposal(proposal, form, _status).render());
-    _createdWidget.append($('<p>').append('Has aceptado las condiciones en las bases de participación de la convocatoria de ',proposal.event_name)); 
+    _createdWidget.append(Pard.Widgets.PrintProposal(proposal, form).render());
+    console.log()
+    var _conditionsLink = $('<a>').attr({'href':form['conditions']['helptext'], 'target':'_blank'}).text('bases de participación');
+    _createdWidget.append($('<p>').append('Has aceptado las condiciones en las ',_conditionsLink,' de la convocatoria de ',proposal.event_name)); 
     var _deadline = new Date(parseInt(proposal.deadline));
     var _now = new Date();
     if(_now.getTime() < _deadline.getTime()){
@@ -155,74 +156,91 @@
     var _nameLabel = $('<span>').addClass('myProposals-field-label').text('Propuesta enviada por:');
     var _nameText = $('<span>').text(' ' + proposal['name']);
     var _name = $('<div>').append($('<p>').append(_nameLabel, _nameText))
-    var _orfheoFields = ['subcategory','phone','email','address'];
+    var _orfheoFields = ['subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
 
+    var _linksAndPhotos = ['links','photos']
     _createdWidget.append(_name);
 
     var _fieldFormLabel, _fieldForm, _textLabel, _proposalField, _fieldFormText;
 
     _orfheoFields.forEach(function(field){
-      if (field == 'email' && proposal[field]) {
-        var _emailLabel = $('<span>').addClass('myProposals-field-label').text('Correo:');
-        var _emailText = $('<a>').attr('href','mailto:'+proposal[field]).text(' ' + proposal[field]);
-        var _email = $('<div>').append($('<p>').append(_emailLabel, _emailText));
-        _createdWidget.append(_email);
-      }
-      else if (field == 'phone' && proposal[field]){
-        var _label = $('<span>').addClass('myProposals-field-label').text('Teléfono:');
-        var _text = $('<span>').text(' ' + proposal[field]);
-        var _element = $('<div>').append($('<p>').append(_label, _text));
-        _createdWidget.append(_element);
-      }
-      else if(field == 'address' && proposal[field]){
-        _textLabel = 'Dirección: ';
-        _fieldFormLabel = $('<span>').text(_textLabel).addClass('myProposals-field-label');
-        var _fieldFormText = $('<a>');
-        var _address = ' ';
-        if (proposal['address']['route']) _address +=  proposal['address']['route']+ ' ';
-        if (proposal['address']['street_number']) _address += ' '+proposal['address']['street_number']+',  ';
-        if (proposal['address']['door']) _address += ', puerta/piso '+proposal['address']['door']+',  ';
-        _address += proposal['address']['postal_code']+', '+proposal['address']['locality'];
-        _fieldFormText.text(_address).attr({
-            href: 'http://maps.google.com/maps?q='+_address,
-            target: '_blank'
-        })
-        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText));
+      if (proposal[field]){
+        _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
+        _fieldFormText = $('<span>');
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
-      }
-      else if (form[field] && proposal.field){
-        var _label = $('<span>').addClass('myProposals-field-label').text(form[field].label+':');
-        var _text = $('<span>').text(' ' + proposal[field]);
-        var _element = $('<div>').append($('<p>').append(_label, _text));
-        _createdWidget.append(_element);
+        if (field == 'email') {
+          _fieldFormLabel.text('Correo:');
+          _fieldFormText .append($('<a>').attr('href','mailto:'+proposal[field]).text(' ' + proposal[field]));
+        }
+        else if (field == 'phone'){
+          _fieldFormLabel.text('Teléfono:');
+          _fieldFormText.text(' ' + proposal[field]);
+        }
+        else if(field == 'address'){
+          _fieldFormLabel = $('<span>').text('Dirección: ')
+          var _fieldText = $('<a>');
+          var _address = ' ';
+          if (proposal['address']['route']) _address +=  proposal['address']['route']+ ' ';
+          if (proposal['address']['street_number']) _address += ' '+proposal['address']['street_number']+',  ';
+          if (proposal['address']['door']) _address += ', puerta/piso '+proposal['address']['door']+',  ';
+          _address += proposal['address']['postal_code']+', '+proposal['address']['locality'];
+          _fieldText.text(_address).attr({
+              href: 'http://maps.google.com/maps?q='+_address,
+              target: '_blank'
+          })
+          _fieldFormText.append(_fieldText);
+        }
+        else if (field == 'description') {
+            _fieldFormLabel.text('Descripción:')
+            _fieldFormText.text(' ' + proposal[field]);
+            _fieldForm.addClass('proposalFieldPrinted-TextArea');
+        }
+        else if (field == 'subcategory') {
+            _fieldFormLabel.text('Categoría en el evento:');
+            _fieldFormText.text(' ' + proposal[field]);
+        }
+        else if (field == 'availability') {
+          _fieldFormLabel.text('Disponibilidad:');
+          var _list = $('<ul>');
+          proposal[field].forEach(function(val){
+            var _dayDate = new Date (val);
+            _list.append($('<li>').text(moment(_dayDate).locale('es').format('dddd DD')+' de '+moment(_dayDate).locale('es').format('MMMM YYYY')));
+          });  
+          _fieldFormText.append(_list);
+        }
+        else if (form[field]){
+          _fieldFormLabel.text(form[field].label+':');
+          _fieldFormText.text(' ' + proposal[field]);
+        }
       }
     });
 
+    // if ($.inArray(field, $.merge($.merge(['profile_id','proposal_id','user_id','call_id','event_id','event_name','deadline','category','conditions','form_category','name','production_id', 'amend'],_orfheoFields),_linksAndPhotos))<0)
+           
     for(var field in proposal){
-      if ($.inArray(field, $.merge(['profile_id','proposal_id','user_id','call_id','event_id','event_name','deadline','category','conditions','form_category','name','production_id', 'links', 'photos', 'amend'],_orfheoFields))<0){  
-        if (field == 'description') {
-          var _label = $('<span>').addClass('myProposals-field-label').text('Descripción:').css('display', 'block');
-          var _text = $('<span>').text(' ' + proposal[field]);
-          var _element = $('<div>').append($('<p>').append(_label, _text));
-          _createdWidget.append(_element);
+      if ($.isNumeric(field)){
+        _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
+        _fieldFormText = $('<span>');
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
+        _createdWidget.append(_fieldForm);
+        _textLabel = form[field]['label'];          
+        if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
+        _fieldFormLabel.append(_textLabel);
+        if ($.isArray(proposal[field])){
+          var _list = $('<ul>');
+          proposal[field].forEach(function(val){
+          _list.append($('<li>').text(val));
+          });  
+          _fieldFormText.append(_list);
         }
-        else {
-          _textLabel = form[field]['label'];
-          if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
-          if ($.isArray(proposal[field])){
-            _proposalField = ' - '
-            proposal[field].forEach(function(item){
-              _proposalField = _proposalField + item + ' - ';
-            });
-          }
-          else _proposalField = proposal[field];
-          _fieldFormLabel = $('<span>').text(_textLabel+':').addClass('myProposals-field-label');
-          if (field != 'duration') {_fieldFormLabel.css('display', 'block')}       
-          else {_proposalField = ' '+_proposalField+ ' min';}
-          // if (field == 'phone') _proposalField = ' '+_proposalField;
-          _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _proposalField));
-          _createdWidget.append(_fieldForm);
+        else if (form[field]['input'] == 'CheckBox'){
+          var _text;
+          if (proposal[field]) _text = ' Sí';
+          else _text = ' No';
+          _fieldFormText.append(_text);
         }
+        else _fieldFormText.text(' '+proposal[field]);  
       }
     }
 

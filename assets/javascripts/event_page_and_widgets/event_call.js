@@ -80,7 +80,7 @@
       _card.click(function(){
         if (profile.type == 'space' && profile.proposals && profile.proposals[0]) Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en el conFusión 2016. ');
         else{
-          Pard.Widgets.GetCallForms(_forms, event_info, profile, _callbackSendProposal);
+          Pard.Widgets.GetCallForms(_forms, profile, closeListProfilePopup, _callbackSendProposal);
         }
       });
       _createdWidget.append(_cardContainer.append(_card));
@@ -93,7 +93,7 @@
     var _createAndInscribeProfile = function(data){
       if (data['status'] == 'success'){
         var _profile = data.profile;
-        Pard.Widgets.GetCallForms(_forms, event_info, _profile, _callbackSendProposal); 
+        Pard.Widgets.GetCallForms(_forms, _profile, closeListProfilePopup, _callbackSendProposal); 
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
@@ -133,7 +133,8 @@
 
 
 
-  ns.Widgets.GetCallForms = function(forms, eventInfo, profile, callbackSendProposal){
+  ns.Widgets.GetCallForms = function(forms, profile, closeListProfilePopup, callbackSendProposal){
+    var eventInfo = Pard.CachedEvent;
     var _content = $('<div>').addClass('very-fast reveal full top-position');
     _content.empty();
     $('body').append(_content);
@@ -145,12 +146,13 @@
     });
     _content.append(_message.render());
     _popup.open();
+    _closeListProfilePopup()
   };
 
 
   ns.Widgets.FormManager = function(forms, profile, callbackSendProposal){
     var _createdWidget = $('<div>');
-    var _initialMexText = 'Este es el <strong>formulario</strong> para inscribirte en la convocatoria <strong>de '+Pard.CachedEvent.organizer+'</strong> como '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase()+':'
+    var _initialMexText = 'Ésts es el <strong>formulario</strong> para inscribir tu perfil <a href=/profile?id='+profile.profile_id+', target="_blank">'+_profile.name+'</a> en la convocatoria <strong> para '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase()+ 's de '+Pard.CachedEvent.organizer+'</strong>:'
     var _initialMex = $('<h6>').html(_initialMexText).css('margin-bottom','1.5rem');
     _createdWidget.append(_initialMex); 
     var _closepopup = {};
