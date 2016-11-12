@@ -105,6 +105,66 @@
     return result;
   }
 
+  ns.Widgets.TimeManager = function(eventTime){
+    var startHour = 0;
+    var endHour = 0;
+    var endDate = false;
+    Object.keys(eventTime).forEach(function(day, index){
+      if(day == 'permanent') return;
+      if(index == 0){
+        startHour = new Date(parseInt(eventTime[day][0][0])).getHours();
+        endHour = new Date(parseInt(eventTime[day][1][1])).getHours();
+      }
+      var start = new Date(parseInt(eventTime[day][0][0]));
+      var end = new Date(parseInt(eventTime[day][1][1]));
+      var minHour = start.getHours();
+      var maxHour = end.getHours();
+      if(end.getMinutes() > 0) maxHour += 1;
+      if(minHour < startHour) startHour = minHour;
+      if(endDate == false){
+        if(start.getDate() != end.getDate()){
+          endDate == true;
+          endHour = maxHour;
+        }
+        else{if(maxHour > endHour) endHour = maxHour;}
+      }
+      if(endDate == true){
+        if(maxHour > endHour) endHour = maxHour; 
+      }
+    });
+    
+    //Amount of hours in our day
+    var hourSpan = endHour - startHour;
+    if(endHour < startHour) hourSpan = 24 - startHour + endHour;
+    var hours = [];
+    if(endHour < startHour){
+      for (var i = startHour; i < 24; i++) {hours.push(i);}
+      for (var i = 0; i <= endHour; i++) {hours.push(i);}
+    }
+    else{
+      for (var i = startHour; i <= endHour; i++) {hours.push(i);}
+    }
+
+    Object.keys(eventTime).forEach(function(day, index){
+      if(day == 'permanent') return;
+      var tempTime = [];
+      tempTime[0] = new Date(parseInt(eventTime[day][0][0]));
+      tempTime[0].setHours(startHour);
+      tempTime[0].setMinutes(0);
+      tempTime[0] = tempTime[0].getTime();
+      tempTime[1] = new Date(parseInt(eventTime[day][0][0]));
+      tempTime[1].setHours(startHour + hourSpan);
+      tempTime[1].setMinutes(0);
+      tempTime[1] = tempTime[1].getTime();
+      eventTime[day] = [tempTime[0], tempTime[1]];
+    });
+
+    return{
+      hours: hours,
+      times: eventTime
+    }
+  }
+
   ns.Widgets.ArtistProposals = function(){
     var artistProposals = [];
     artistProposals.push({
