@@ -156,7 +156,7 @@
             else{ _spaces[space.profile_id].hideColumns();}
           });
         }
-        if(_data['type'] == 'profile'){
+        else{
           spaces.forEach(function(space){
             if(space.profile_id == _spaceSelector.val()){
               _spaces[space.profile_id].showColumns();
@@ -570,9 +570,11 @@
             _accordion.addProposal(_proposals[proposal.proposal_id]);
           },
           deleteProposal: function(proposal_id){
-            _proposals[proposal_id].render().remove();
-            delete _proposals[proposal_id];
-            if(Object.keys(_proposals) == 0) _accordion.render().remove();
+            if(proposal_id in _proposals){
+              _proposals[proposal_id].render().remove();
+              delete _proposals[proposal_id];
+              if(Object.keys(_proposals) == 0) _accordion.render().remove();
+            }
           }
         }
       }
@@ -1972,7 +1974,7 @@
             _artists[profile_id].deleteProposal(proposal_id);
             var artistProgram = _artists[profile_id].program;
             Object.keys(artistProgram).forEach(function(performance_id){
-              if(artistProgram[performance_id].participant_proposal_id == proposal_id) this.deletePerformance(performance_id);
+              if(artistProgram[performance_id].participant_proposal_id == proposal_id) _program[performance_id].destroy();
             });
             delete _artists[profile_id];
             var _id = _artistSelector.val();
@@ -1989,7 +1991,7 @@
               _spaces[profile_id].columns[day].remove();
             });
             Object.keys(_spaces[profile_id].program).forEach(function(performance_id){
-              this.deletePerformance(performance_id);
+              _program[performance_id].destroy();
             });
             delete _spaces[profile_id];
             var _id = _spaceSelector.val();
