@@ -161,7 +161,7 @@
 
     return{
       hours: hours,
-      times: eventTime
+      eventTime: eventTime
     }
   }
 

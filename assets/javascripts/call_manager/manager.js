@@ -5,10 +5,8 @@
 
   ns.Widgets.Manager = function(the_event){
 
-    var eventTime = the_event.eventTime;
     var artists = the_event.artists;
     var spaces = the_event.spaces;
-
     var _forms;
 
     var _main = $('<main>').addClass('main-call-page');
@@ -27,6 +25,14 @@
     var _programTab = $('<li>').append(_programTabTitle);
     var _proposalsTab = $('<li>').append(_proposalsTabTitle);
     var _qrTab = $('<li>').append(_qrTabTitle);
+
+    var timeManager = Pard.Widgets.TimeManager(the_event.eventTime);
+    var hours = timeManager.hours;
+    var eventTime = timeManager.eventTime;
+    var _startHour = parseInt(eventTime['permanent'][0].split(':')[0]);
+    var _startMin = parseInt(eventTime['permanent'][0].split(':')[1]);
+    var _endHour = parseInt(eventTime['permanent'][1].split(':')[0]);
+    var _endMin = parseInt(eventTime['permanent'][1].split(':')[1]);
 
     var ProgramManager = function(){
 
@@ -61,10 +67,6 @@
 
       var _tables = {};
       
-      var timeManager = Pard.Widgets.TimeManager(eventTime);
-      var hours = timeManager.hours;
-      eventTime = timeManager.times;
-
       var _timeTable = $('<div>');
       hours.forEach(function(hour, hourIndex){
         if(hour < 10) hour = '0' + hour;
@@ -86,11 +88,6 @@
         if(index == 0) _tableContainer.append(_tables[day]);
         else{ _tableContainer.append(_tables[day].hide());}
       });
-
-      var _startHour = parseInt(eventTime['permanent'][0].split(':')[0]);
-      var _startMin = parseInt(eventTime['permanent'][0].split(':')[1]);
-      var _endHour = parseInt(eventTime['permanent'][1].split(':')[0]);
-      var _endMin = parseInt(eventTime['permanent'][1].split(':')[1]);
 
       var _selectors = $('<div>').addClass('selectors-call-manager');
       var _buttonsContainer = $('<div>').addClass('buttons-container-call-manager');
@@ -304,6 +301,9 @@
           return{
             render: function(){
               return container;
+            },
+            addProposal: function(proposalCard){
+              content.append(proposalCard.render());
             }
           }
         }
@@ -513,11 +513,11 @@
           }
         }
 
-        var _accordion = Accordion().render();
+        var _accordion = Accordion();
 
         return{
           artist: artist,
-          accordion: _accordion,
+          accordion: _accordion.render(),
           proposals: artist.proposals,
           program: program,
           setDay: function(day){
@@ -534,6 +534,10 @@
           },
           loadPerformance: function(performance){
             program[performance.performance_id] = performance;
+          },
+          addProposal: function(proposal){
+            _proposals.push(new ProposalCard(proposal));
+            _accordion.addProposal(_proposals[_proposals.length - 1]);
           }
         }
       }
