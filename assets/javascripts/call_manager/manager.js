@@ -573,7 +573,18 @@
             if(proposal_id in _proposals){
               _proposals[proposal_id].render().remove();
               delete _proposals[proposal_id];
-              if(Object.keys(_proposals) == 0) _accordion.render().remove();
+              if(Object.keys(_proposals) == 0){
+                artists = artists.filter(function(stored_artist){
+                  return artist.profile_id != stored_artist.profile_id; 
+                });
+                _accordion.render().remove();
+                delete _artists[artist.profile_id];
+              }
+              else{
+                artist.proposals.filter(function(proposal){
+                  return proposal.proposal_id != proposal_id;
+                });
+              }
             }
           }
         }
@@ -1968,15 +1979,11 @@
         },
         deleteArtist: function(profile_id, proposal_id){
           if(profile_id in _artists){
-            artists = artists.filter(function(artist){
-              return artist.profile_id != profile_id; 
-            });
-            _artists[profile_id].deleteProposal(proposal_id);
             var artistProgram = _artists[profile_id].program;
             Object.keys(artistProgram).forEach(function(performance_id){
               if(artistProgram[performance_id].participant_proposal_id == proposal_id) _program[performance_id].destroy();
             });
-            delete _artists[profile_id];
+            _artists[profile_id].deleteProposal(proposal_id);
             var _id = _artistSelector.val();
             _loadArtistSelector();
             _artistSelector.trigger('reload', [_id]);
@@ -2102,6 +2109,39 @@
       ]
     }
 
+    var newArtist2 = {
+      "user_id" : "db3822e5-eb3a-4ebf-81c7-58b245129195",
+      "email" : "trencadisx2@gmail.com",
+      "profile_id" : "431fe94b-c05d-493a-a40e-f411fd7506cd",
+      "name" : "Trencadiss",
+      "phone" : "680569013",
+      "address" : {
+        "locality" : "Barcelona",
+        "postal_code" : "08004"
+      },
+      "proposals" : [ 
+        {
+          "production_id" : "f3d62e6f-f68d-4c46-bee9-443e17cd79aa",
+          "proposal_id" : "f63f1f4d-fd26-4fe0-a131-4393195d1cd2",
+          "category" : "music",
+          "title" : "Trencadiss",
+          "description" : "Un concierto acústico de nuestras propias canciones y alguna versión. Dos guitarras, dos voces. Dos músicos. \n",
+          "short_description" : "Trencadiss. Grupo indie pop rock. Barcelona. Concierto acústico. ",
+          "conditions" : "true",
+          "children" : "false",
+          "sharing" : "dos micrófonos, cables y dos pies de micro",
+          "needs" : "Un equipo de voces. ",
+          "waiting_list" : "false",
+          "duration" : "45",
+          "availability" : [ 
+              "2016-10-15"
+          ],
+          "components" : "2",
+          "repeat" : "true"
+        }
+      ]
+    }
+
     var newSpace = {
       "responsible" : "riccardo toto",
       "description" : "- pasillo largo y estrecho donde se puede exponer (15m2)\n- salon con ventanas al patio (8 m2)\n- un patio interior para conciertitos, poesia, teatro.\n",
@@ -2134,10 +2174,10 @@
       "name" : "4b"
     }
 
-    _programManager.addSpace(newSpace);
-    _programManager.deleteSpace(newSpace.profile_id);
-    _programManager.addArtist(newArtist);
-    _programManager.deleteArtist(newArtist.profile_id, "f63f1f4d-fd26-4fe0-a131-4393195d1cd1");
+    //_programManager.addSpace(newSpace);
+    //_programManager.deleteSpace(newSpace.profile_id);
+    //_programManager.addArtist(newArtist2);
+    //_programManager.deleteArtist(newArtist.profile_id, "f63f1f4d-fd26-4fe0-a131-4393195d1cd1");
 
     var _lastSelectedPanel = _programManager;
     _programTab.on('click', function(){
