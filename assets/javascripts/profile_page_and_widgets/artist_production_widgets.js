@@ -5,6 +5,71 @@
   ns.Widgets = ns.Widgets || {};
 
 
+  ns.Widgets.CreateNewProductionMessage = function(profile){
+    var _createdWidget = $('<div>').addClass('createProductionForm');
+    var _content = $('<div>');
+    var _closepopup = function(){};
+    var _genericForm = Pard.Forms.Production;
+
+    var _printForm = function(catSelected){
+      _content.empty();
+      var _fieldsForm = Pard.Forms.FieldsForms(catSelected).createProduction();
+      var _form = {};
+      _fieldsForm.forEach(function(field){
+        _form[field] = _genericForm[field];
+      });
+      var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+      var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton);
+      var _send = function(){
+        var _submittForm;
+        _submitForm = _formWidget.getVal();
+        _submitForm['type'] = profile.type;
+        _submitForm['profile_id'] = profile.profile_id;
+        _submitForm['category'] = catSelected;
+        Pard.Backend.createProduction(_submitForm, function(data){
+          _createNewProdCallback(data);
+          _closepopup();
+        });
+      }
+      _formWidget.setSend(_send);    
+      _content.append(_formWidget.render());
+    }
+
+    var _createNewProdCallback = function(data){
+      if (data.status == 'success'){
+        Pard.ProfileManager.addProduction(profile.profile_id,data.production);
+        Pard.Widgets.ProductionsNavigation(profile.profile_id, $('#_profileNav'), $('#_sectionContent'), data.production.production_id);
+      }
+      else{
+      Pard.Widgets.Alert('',data.reason);
+      }  
+    }
+
+    var categorySelectCallback = function(){
+      var _catSelected = _categorySelector.getVal();
+      _printForm(_catSelected);
+    };
+    var _categorySelector = Pard.Widgets.OrfheoArtCatSelect2(categorySelectCallback);
+    var _categoryLabel = $('<label>').text('Selecciona una categoría *');
+    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render()));
+
+    _createdWidget.append(_category, _content);
+
+    _printForm('music');
+
+    return{
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closepopup = callback;
+      }
+    }
+  }
+
+
+
+
   ns.Widgets.ModifyProduction = function(production){
 
     var _caller = $('<button>').addClass('modify-content-button').attr({type: 'button'}).html(Pard.Widgets.IconManager('modify_section_content').render());
@@ -21,95 +86,54 @@
 
   ns.Widgets.ModifyProductionMessage = function(production){
 
-    if (production['links'] != false && production['links'] != null){
-      var _array = Object.keys(production['links']).map(function(key){return production['links'][key]});
-      production['links'] = _array;
-    };
+    var _createdWidget = $('<div>').addClass('createProductionForm');
+    var _content = $('<div>');
+    var _closepopup = function(){};
+    var _genericForm = Pard.Forms.Production;
 
-    var _createdWidget = $('<div>');
-    var _formContainer = $('<form>').addClass('popup-form');
+    var _printForm = function(catSelected){
+      _content.empty();
+      var _catSelector = Pard.Widgets.OrfheoArtCatSelect2();
+      _catSelector.setVal(catSelected);
+      _catSelector.disable();
+      var _fieldsForm = Pard.Forms.FieldsForms(catSelected).modifyProduction();
+      var _form = {};
+      _fieldsForm.forEach(function(field){
+        _form[field] = _genericForm[field];
+      });
+      var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+      var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton);
+      var _send = function(){
+        var _submittForm;
+        _submitForm = _formWidget.getVal();
+        var user_id = Pard.ProfileManager.getUserId();
+        var profile_id = Pard.ProfileManager.getProfileId(production.production_id);
+        _submitForm['production_id'] = production.production_id;
+        _submitForm['profile_id'] = profile_id;
+        _submitForm['category'] = catSelected;
+        Pard.Backend.modifyProduction(_getVal(), function(data){
+          Pard.Events.ModifyProduction(data);
+          _closepopup();
+        });
+      }
+      _formWidget.setSend(_send);
+      _formWidget.setVal(production); 
+      var _categoryLabel = $('<label>').text('Categoría');
+      var _category = $('<div>').append(_categoryLabel.append(_catSelector.render()));   
+      _content.append(_category, _formWidget.render());
+    }
+
     var _initMex = $('<div>').append($('<p>').html(
-        'Con este formularo puedes modificar el contenido de la página de tu proyecto artistico.'
+        'Con este formularo puedes modificar el contenido de la página de tu proyecto artistico. Los cambios que hagas no afectarán los datos enviados a convocatorias.'
       )).addClass('init-message-form');
 
-    var _message = $('<div>').append($('<p>').html(
-      'IMPORTANTE: Los cambios que haces a través de este formulario no afectarán los datos enviados a convocatorias.'
-      )).addClass('final-message-form-modifyProduction');
-
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
-    var _submitForm = {};
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var _invalidInput = $('<div>').addClass('not-filled-text');
-
-    var user_id = Pard.ProfileManager.getUserId();
-    var profile_id = Pard.ProfileManager.getProfileId(production.production_id);
-
-    _submitForm['production_id'] = production.production_id;
-    _submitForm['profile_id'] = profile_id;
-
-    var _form = Pard.Forms.ModifyProductionForm(production['category']);
-    var _requiredFields = _form.requiredFields();
-    _form = _form.render();
-
-    for(var field in _form){
-      if(production[field] && field != 'photos') _form[field]['input'].setVal(production[field]);
-    };
-    _form['category'].input.disable();
-
-    var _filled = function(){
-      var _check = true;
-      for (var field in _form){
-        if ($.inArray(field, _requiredFields) >= 0){
-          if(!(_form[field].input.getVal())) {
-            if(field != 'links') _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
-            _message.css('color','black');
-            _check = false;}
-        }
-      }
-      if (_check) _invalidInput.empty();
-      return _check;    
-    };
-
-    var _getVal = function(){
-      for(var field in _form){
-         _submitForm[field] = _form[field].input.getVal();
-
-      };
-      _submitForm['photos'] = production['photos'];
-      return _submitForm;
-    }
-
-    var _send = function(){
-      console.log(_getVal());
-      Pard.Backend.modifyProduction(_getVal(), function(data){
-        Pard.Events.ModifyProduction(data);
-      });
-    }
-    
-    var _fieldMod;
-
-    for(var field in _form){
-      if(field != 'links') {
-         _fieldMod = $('<div>').addClass(field+'-modifyProduction').append(_form[field]['label'].render().append(_form[field]['input'].render()));
-          if(field != 'category')  _fieldMod.addClass('field-modifyProduction');
-        _formContainer.append(_fieldMod);
-      }
-    };
-
-    var _closepopup = {};
-
-    submitButton.on('click',function(){
-        if (_filled()){
-        _closepopup();
-        _send();}
-    });
+    _printForm(production.category);
 
     var _deleteProductionCaller = $('<a>').attr('href','#').text('Elimina este proyecto artístico').addClass('deleteProfile-caller');
 
     var _deleteProduction = Pard.Widgets.PopupCreator(_deleteProductionCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProductionMessage(production.production_id, _closepopup)});
 
-    _createdWidget.append(_initMex, _formContainer, _message, _invalidInput, _submitBtnContainer.append(submitButton), _deleteProduction.render());
+    _createdWidget.append(_initMex, _content, _deleteProduction.render());
 
     return {
       render: function(){

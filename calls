@@ -1724,7 +1724,7 @@
                 "input" : "Selector",
                 "args" : [ 
                     [   
-                        "No tiene duración",
+                        "No tiene duración definida",
                         "15 min", 
                         "30 min", 
                         "45 min", 
@@ -1737,7 +1737,7 @@
                         "2h 30min"
                     ], 
                     [   
-                        "",
+                        "None",
                         "15", 
                         "30", 
                         "45", 

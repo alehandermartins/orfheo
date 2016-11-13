@@ -140,7 +140,10 @@
 
         
     if (production['duration'] != 'false' && production['duration']){
-      var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(production['duration']+' min'));
+      var _durationText;
+      if ($.isNumeric(production['duration'])) _durationText = production['duration']+' min';
+      else _durationText = production['duration'];
+      var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(_durationText));
       var _durationIcon = Pard.Widgets.IconManager('duration').render().addClass('information-contact-icon-column');
       _addtionalInfo.append($('<div>').append(_durationIcon, _duration));
     }

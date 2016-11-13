@@ -198,6 +198,13 @@
 
       _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector),_formTypeOptionsCont);
 
+      _formTypeSelector.select2({
+        minimumResultsForSearch: Infinity,
+        dropdownCssClass: 'orfheoTypeFormSelector',
+        placeholder: "Selecciona como quieres apuntarte"
+        // allowClear: true
+      });
+
       if(profile.productions && profile.productions.length){
         var _t1 = $('<div>').append($('<h5>').text('apúntate con una propuesta de tu portfolio')).css({
           'margin-top':'1.5rem',
@@ -218,20 +225,18 @@
             })
             var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
             var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
-            var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
-            _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()), _xbtn);
-            _xbtn.hide();
+            _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
             _prodContainer.append(_prodBtn);
             _compatibleProductions = true;
             _prodBtn.click(function(){
               if (_prodBtn.hasClass('content-form-selected')){
                 $('#popupForm').addClass('top-position');
-                _xbtn.hide();
                 _formTypeSelector.show();
                 _formTypeSelector.attr('disabled',false);
                 _production_id = false;
                 _prodBtn.removeClass('content-form-selected');
-                _formTypeSelector.prop('selectedIndex',0);;
+                $('.xbtn-production-event-page').remove();
+                _formTypeSelector.val('').trigger('change');
                 _contentSel.empty();
                 _t2.show();
                 _formTypeOptionsCont.empty();
@@ -242,7 +247,7 @@
                 var _catProduction = Pard.Widgets.Dictionary(production.category).render();
                 if (forms[profile.type][_catProduction]){
                   var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, _production_id, callbackSendProposal);
-                  _formTypeSelector.val(_catProduction);
+                  _formTypeSelector.val(_catProduction).trigger('change');
                   _formTypeSelector.attr('disabled',true);
                   _t2.hide();
                   _form.setVal(production);
@@ -251,7 +256,8 @@
                   });
                   $('.content-form-selected').removeClass('content-form-selected');
                   _prodBtn.addClass('content-form-selected');
-                  _xbtn.show();
+                  var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
+                  _prodBtn.append(_xbtn);
                   _contentSel.empty();
                   _contentSel.append(_form.render());
                 }
@@ -259,7 +265,8 @@
                   if (_t2) _t2.hide();
                   $('.content-form-selected').removeClass('content-form-selected');
                   _prodBtn.addClass('content-form-selected');
-                  _xbtn.show();
+                  var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
+                  _prodBtn.append(_xbtn);
                   var _formTypeOptionsSelector = $('<select>');
                   var _emptyOpt = $('<option>').text('Selecciona como quieres apuntarte').val('');
                   _formTypeOptionsSelector.append(_emptyOpt);
@@ -271,9 +278,16 @@
                   _formTypeSelector.hide();
                   _contentSel.empty()
                   _formTypeOptionsSelector.on('change', function(){
-                    _printForm(_formTypeOptionsSelector, _emptyOpt, production);
+                    _printForm(_formTypeOptionsSelector, production);
                   });
                   _formTypeOptionsCont.append(_formTypeOptionsSelector);
+                  _formTypeOptionsSelector.select2({
+                    minimumResultsForSearch: Infinity,
+                    dropdownCssClass: 'orfheoTypeFormSelector',
+                    placeholder: "Selecciona como quieres apuntarte"
+                    // allowClear: true
+                  });
+
                 }
               }
             })
@@ -283,16 +297,18 @@
       }
 
       _formTypeSelector.on('change',function(){
-        $('#popupForm').removeClass('top-position');
-        $('.content-form-selected').removeClass('content-form-selected');
-        _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-        if (_t2) _t2.show();
-        _printForm(_formTypeSelector, _emptyOption);
+        if (_formTypeSelector.val()){
+          $('.xbtn-production-event-page').remove();
+          $('#popupForm').removeClass('top-position');
+          $('.content-form-selected').removeClass('content-form-selected');
+          _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+          if (_t2) _t2.show();
+          _printForm(_formTypeSelector);
+        }
       });
 
-      var _printForm = function(formTypeSelector, emptyOption, production){
+      var _printForm = function(formTypeSelector, production){
         _contentSel.empty();
-        emptyOption.css('display', 'none');
         _production_id = false;
         var _typeFormSelected = formTypeSelector.val();
         var _form = _formTypeConstructor[profile.type](forms[profile.type][_typeFormSelected], profile, _typeFormSelected, _production_id, callbackSendProposal);

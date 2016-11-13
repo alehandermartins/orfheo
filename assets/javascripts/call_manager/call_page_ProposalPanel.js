@@ -434,7 +434,7 @@
       _printForm(_selected);
     };
 
-    var _categorySelector = Pard.Widgets.ArtisticCategoryFoundationSelector(categorySelectCallback);
+    var _categorySelector = Pard.Widgets.OrfheoArtCatSelector(categorySelectCallback);
     // var _nameInput = Pard.Widgets.Input('','text');
     var _categoryLabel = $('<label>').text('Selecciona una categoría *');
     // var _nameLabel = $('<label>').text('Nombre Artístico *');

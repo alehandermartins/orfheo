@@ -333,7 +333,7 @@
       var _text = $('<p>').text('Crea un contenido artístico').addClass('profile-nav-production-name');
       _createProductionItem.append(_iconPlusColumn, _textColumn.append(_text));
 
-      var _createProdPopup = Pard.Widgets.PopupCreator(_createProductionItem, 'Crea un contenido artístico', function(){ return Pard.Widgets.CreateNewProductionMessage(profile_id)});
+      var _createProdPopup = Pard.Widgets.PopupCreator(_createProductionItem, 'Crea un contenido artístico', function(){ return Pard.Widgets.CreateNewProductionMessage(profile)});
       
       productionContent.append(_createProdPopup.render());
     
@@ -394,112 +394,6 @@
   //   productionContent.append(_productionItem);
 
   // }
-
-
-  ns.Widgets.CreateNewProductionMessage = function(profile_id){
-    var _createdWidget = $('<div>');
-
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
-    var _submitForm = {};
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var _invalidInput = $('<div>').addClass('not-filled-text');
-    var _preSelected = 'music';
-    var _closepopup = {};
-
-
-    _submitForm['type'] = 'artist';
-    _submitForm['category'] = _preSelected;
-    _submitForm['profile_id'] = profile_id
-
-    var _content = $('<form>').addClass('popup-form');
-
-    var _form = {};
-    var _requiredFields = [];
-
-    var _printForm = function(_selected){
-      _content.empty();
-      var _fieldset = $('<fieldset>');
-      _requiredFields = Pard.Forms.CreateProduction(_selected).requiredFields();
-      _form = Pard.Forms.CreateProduction(_selected).render();
-      for(var field in _form){
-        _content.append($('<div>').addClass('callPage-createArtistProposal' ).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
-      };
-      _submitForm['category'] = _selected;
-    }
-
-    // var _categorySelector = Pard.Widgets.ArtisticCategorySelector();
-    // var categorySelectCallback = function(){
-    //   var _selected = _categorySelector.getData();
-    //   _printForm(_selected[0].id);
-    // };
-    // _categorySelector.setCallback(categorySelectCallback);
-
-    var categorySelectCallback = function(){
-      var _selected = $(this).val();
-      _printForm(_selected);
-    };
-    var _categorySelector = Pard.Widgets.ArtisticCategoryFoundationSelector(categorySelectCallback);
-
-    var _categoryLabel = $('<label>').text('Selecciona una categoría *');
-
-    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
-
-    _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
-    _printForm(_preSelected);
-   
-    var _filled = function(){
-      var _check = true;
-      for(var field in _form){
-        if ($.inArray(field, _requiredFields) >= 0 ){
-          if(!(_form[field].input.getVal())) {
-            _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
-            _check = false;
-          }
-        }
-      }
-      if (_check) _invalidInput.empty();
-      return _check;    
-    };
-
-
-    var _getVal = function(url){
-      for(var field in _form){
-         _submitForm[field] = _form[field].input.getVal();
-      };
-      return _submitForm;
-    }
-
-    var _createNewProdCallback = function(data){
-      if (data.status == 'success'){
-        Pard.ProfileManager.addProduction(profile_id,data.production);
-        Pard.Widgets.ProductionsNavigation(profile_id, $('#_profileNav'), $('#_sectionContent'), data.production.production_id);
-        // Pard.Widgets.Alert('','Contenido creado correctamente');
-      }
-      else{
-      Pard.Widgets.Alert('',data.reason);
-      }  
-    }
- 
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        var _newProduction = _getVal();
-        console.log(_newProduction);
-        Pard.Backend.createProduction(_newProduction, _createNewProdCallback);
-        _closepopup();
-      }
-    });
-
-
-    return{
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-        _closepopup = callback;
-      }
-    }
-  }
 
 
   ns.Widgets.ProfileSection = function(type) {

@@ -466,31 +466,7 @@ Aside content User page
   border-left: 3px solid #000000;
   background: $grey-2;
   font-weight: bold;
-  /* color: white; */
 }
-
-/* .create-profile-text, .myProfile-text{
-  text-transform: uppercase;
-  padding: 0 $inner-spacing;
-  margin-bottom: 0.5rem;
-} */
-
-/* 
-
-.create-profile-text{
-  margin-top: 0.75rem;
-} */
-
-/* .myProfile-text{
-  margin-top: 1rem;
-  margin-bottom: -0.5rem;
-} */
-
-
-/* .myprofile-card-position{
-  margin-top: $pard-grid-spacing;
-  background-color: $content-background;
-} */
 
 
 
@@ -1063,6 +1039,67 @@ Production Section
   min-width: 100%;
  }
 
+.createProductionForm{
+  margin-top: 2rem;
+  .submit-btn-container{
+    margin: 0;
+  } 
+  .not-filled-text{
+    margin-top: 2rem;
+  }
+  select{
+    margin-bottom: 0;
+    }
+}
+
+.iconCategory-select2{
+  position: relative;
+  margin-right: 0.3rem;
+  vertical-align: middle;
+  width: 2rem;
+  display: inline-block;
+  text-align: center;
+  font-size:  1rem;
+}
+
+.iconCategory-select2.fa.fa-cubes{
+    font-size: 12px;
+}
+.iconCategory-select2.icon-book-open{
+  font-size: $almostNormalSize;
+}
+
+.orfheoArtCatSelector{
+  li.select2-results__option{
+      padding: 0;  
+      max-height: 22px;
+      font-size: $almostNormalSize;
+  }
+/*   li.select2-results__option--highlighted[aria-selected]{
+    color: black;
+  } */
+}
+
+.orfheoTypeFormSelector{
+  li.select2-results__option{
+      padding: 0 6px;  
+      max-height: 22px;
+      font-size: $almostNormalSize;
+  }
+}
+
+.createProductionForm .selection{
+  font-size: 1rem;
+  .iconCategory-select2{
+    font-size: 1.2rem;
+  }
+  .iconCategory-select2.fa.fa-cubes{
+    font-size: 14px;
+  }
+  .iconCategory-select2.icon-book-open{
+  font-size: 1rem;
+}
+}
 
 /*------------
 SMALL!!!

@@ -94,9 +94,6 @@ a.profileCard:hover{
 
 } 
 
-
-
-
 .whole-container {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -1675,10 +1672,12 @@ span.select2-container--default .select2-selection--single{
   height: 2.1rem;
 }
 
-/* form .select2-results__option{
-  padding: 3px;
-} */
 
+/* .select2-container--default .select2-results__option--highlighted[aria-selected]{
+  color:  black !important;
+  background-color: $grey-1 !important;
+}
+ */
 
 /*===============================================
 COLOR PICKER

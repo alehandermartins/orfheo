@@ -100,6 +100,7 @@
       street_art: 'Street Art',
       workshop: 'Taller',
       other: 'Otros',
+      gastronomy: 'Gastronomía',
       festival: 'Festival',
       name: 'Nombre',
       category:'Categoría',

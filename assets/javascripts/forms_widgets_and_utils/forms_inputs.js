@@ -108,7 +108,7 @@
   ns.Widgets.Selector = function(labels, values, callback){
     var _createdWidget = $('<select>');
     values.forEach(function(value, index){
-      _createdWidget.append($('<option>').text(labels[index]).val(value));
+      _createdWidget.append($('<option>').append(labels[index]).val(value));
     });
      _createdWidget.on('change',function(){
       if(callback) {

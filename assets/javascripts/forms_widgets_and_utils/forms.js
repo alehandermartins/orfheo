@@ -3,7 +3,7 @@
 (function(ns){
 
   ns.Forms = ns.Forms || {};
-
+ 
   ns.Forms.CreateProfile = {
     artist: {
       name: {
@@ -395,126 +395,133 @@
     }
   }
 
-  ns.Forms.CreateProduction = function(categorySelected){
-    var _form = {};
+  ns.Forms.Production ={
+    title:{
+        "type" : "mandatory",
+        "label" : "Título de la propuesta artística",
+        "input" : "Input",
+        "args" : [ 
+                  '', 
+                  'text'
+                ],
+        "helptext" : ""
+      },
+    description: {
+      'type':'mandatory',
+      'label':'Descripción',
+      'input':'TextArea',
+      'args':['',4],
+      'helptext': 'Decribe con más detalles tu propuesta artística.'
+    },
+    short_description: { 
+      'type':'mandatory',
+      'label':'Descripción (muy) breve',
+      'input': 'TextAreaCounter',
+      'args':['',80,'Resume tu propuesta artística en máximo 80 caracteres. Quedan:'],
+      'helptext': ''
+    },
+    duration : {
+      "type" : "optional",
+      "label" : "Duración *",
+      "input" : "Selector",
+      "args" : [ 
+          [   
+              "No tiene duración definida",
+              "15 min", 
+              "30 min", 
+              "45 min", 
+              "1 h", 
+              "1h 15min", 
+              "1h 30min", 
+              "1h 45min", 
+              "2 h", 
+              "2h 15min", 
+              "2h 30min"
+          ], 
+          [   
+              "None",
+              "15", 
+              "30", 
+              "45", 
+              "60", 
+              "75", 
+              "90", 
+              "105", 
+              "120", 
+              "135", 
+              "150"
+          ]
+      ],
+      "helptext" : ""
+    },
+    children : {
+      "type" : "optional",
+      "label" : "Para niños",
+      "input" : "CheckBox",
+      "args" : [ 
+          "", 
+          "yes_children"
+      ],
+      "helptext" : "Eligir si la actividad está orientada a un publico infantil."
+    }, 
+    links : {
+        "type" : "optional",
+        "label" : "Materiales online",
+        "input" : "InputMultimedia",
+        "args" : null,
+        "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+    },
+    photos : {
+        "type" : "optional",
+        "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+        "input" : "UploadPhotos",
+        "args" : [ 
+            "/photos", 
+            4
+        ],
+        "helptext" : ""
+    }
+  }
 
-    var _labelsTime = ['15 min', '30 min', '45 min', '1 h', '1h 15min', '1h 30min', '1h 45min', '2 h', '2h 15min', '2h 30min'];
-    var _valuesTime = ['15', '30', '45', '60', '75', '90', '105', '120', '135', '150'];
 
-    var _expoFields = ['title', 'short_description', 'description','links'];
-    var _showField = ['title', 'short_description', 'description', 'duration', 'children','links'];
-    var _streetArtFields = ['title', 'short_description', 'description','links'];
+  ns.Forms.FieldsForms = function(categorySelected){
 
-    var _expoRequired = ['title', 'short_description'];
-    var _showRequired = ['title', 'short_description', 'duration'];
-    var _streetArtRequired = ['title', 'short_description'];
-
-    var _categoryFields = {
-      'expo': _expoFields,
-      'music': _showField,
-      'arts': _showField,
-      'other': _showField,
-      'poetry': _showField,
-      'street_art': _streetArtFields,
-      'workshop': _showField,
-      'audiovisual': _showField
+    var _createExpoFields = ['title', 'short_description', 'description','links','photos'];
+    var _createShowFields = ['title', 'short_description', 'description', 'duration', 'children','links','photos'];
+    var _createStreetArtFields = ['title', 'short_description', 'description','links','photos'];
+    var _createProductionFields = {
+      'expo': _createExpoFields,
+      'music': _createShowFields,
+      'arts': _createShowFields,
+      'poetry': _createShowFields,
+      'street_art': _createStreetArtFields,
+      'workshop': _createShowFields,
+      'audiovisual': _createShowFields,
+      'gastronomy': _createShowFields,
+      'other': _createShowFields
     };
 
-    var _required = {
-      'expo': _expoRequired,
-      'music': _showRequired,
-      'arts': _showRequired,
-      'other': _showRequired,
-      'poetry': _showRequired,
-      'street_art': _streetArtRequired,
-      'workshop': _showRequired,
-      'audiovisual': _showRequired
+    var _modifyExpoFields = ['title', 'short_description', 'description','links','photos'];
+    var _modifyShowFields = ['title', 'short_description', 'description', 'duration', 'children','links','photos'];
+    var _modifyStreetArtFields = ['title', 'short_description', 'description','links','photos'];
+    var _modifyProductionFields = {
+      'expo': _modifyExpoFields,
+      'music': _modifyShowFields,
+      'arts': _modifyShowFields,
+      'poetry': _modifyShowFields,
+      'street_art': _modifyStreetArtFields,
+      'workshop': _modifyShowFields,
+      'audiovisual': _modifyShowFields,
+      'gastronomy': _modifyShowFields,
+      'other': _modifyShowFields
     };
-
-
-    // _form['name'] = {
-    //   label: Pard.Widgets.InputLabel('Nombre artistico *'),
-    //   input: Pard.Widgets.Input('', 'text'),
-    //   helptext: Pard.Widgets.HelpText('Es el nombre artístico de la persona o del colectivo que quiere participar en el festival.')
-    // };
-
-    _form['title'] = {
-      label: Pard.Widgets.InputLabel('Título de la propuesta artística *'),
-      input: Pard.Widgets.Input('', 'text'),
-      helptext: Pard.Widgets.HelpText('')
-    };
-    _form['title']['input'].setClass('title-input');
-
-    _form['short_description'] = { 
-      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
-      input: Pard.Widgets.TextAreaCounter('', 80, 'Resume tu propuesta artística en máximo 80 caracteres. Quedan: '),
-      helptext: Pard.Widgets.HelpText('')
-    };
-    _form['short_description']['input'].setClass('short_description-input');
-    _form['short_description']['input'].setAttr('rows',1);
-
-     _form['description'] = {
-      label: Pard.Widgets.InputLabel('Descripción *'),
-      input: Pard.Widgets.TextArea(''),
-      helptext: Pard.Widgets.HelpText('Decribe con más detalles tu propuesta artística.')
-    };
-    _form['description']['input'].setClass('description-input');
-    _form['description']['input'].setAttr('rows', 4);
-
-
-    _form['duration'] = {
-      label: Pard.Widgets.InputLabel('Duración *'), 
-      input: Pard.Widgets.Selector(_labelsTime, _valuesTime),
-      helptext: Pard.Widgets.HelpText('')
-    };
-    _form['duration']['input'].setClass('duration-input');
-
-    // _form['availability'] = {
-    //   label: Pard.Widgets.InputLabel('Disponibilidad *'),
-    //   input: Pard.Widgets.InputDate(''),
-    //   helptext: Pard.Widgets.HelpText('Selecciona los días que de disponibilidad en el festival.')
-    // };
-        
-    _form['children'] = {
-      label: Pard.Widgets.InputLabel(''),
-      input: Pard.Widgets.CheckBox('Actividad orientada a un público infantil', 'yes_children'),
-      helptext: Pard.Widgets.HelpText('')
-    };
-
-
-    _form['links'] = {
-      label: Pard.Widgets.InputLabel('Materiales online'),
-      input: Pard.Widgets.InputMultimedia(),
-      helptext: Pard.Widgets.HelpText('Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor.')
-    };
-
-    // _form['phone'] = {
-    //   label: Pard.Widgets.InputLabel('Teléfono de contacto *'), 
-    //   input: Pard.Widgets.InputTel(''),
-    //   helptext:Pard.Widgets.HelpText('Teléfono de la persona responsable.')
-    // }
-    // _form['phone']['input'].setClass('phone-input');
-
-
-    // _form['email'] = {
-    //   label: Pard.Widgets.InputLabel('Email de contacto *'), 
-    //   input: Pard.Widgets.InputEmail(''),
-    //   helptext:Pard.Widgets.HelpText('Correo de la  persona responsable.')
-    // }   
-
-    var _requiredFields = _required[categorySelected];
-    var _formDef = {};
-
-    _categoryFields[categorySelected].forEach(function(field){
-      _formDef[field] = _form[field];
-    });
 
     return {
-      render: function(){
-        return _formDef;
+      createProduction: function(){
+        return _createProductionFields[categorySelected];
       },
-      requiredFields: function(){
-        return _requiredFields;
+      modifyProduction: function(){
+        return _modifyProductionFields[categorySelected];
       }
     }    
 
@@ -707,43 +714,43 @@
   }
 
 
-  ns.Forms.ModifyProductionForm = function(category){
-    var _form = {};
-    var _productionForm = Pard.Forms.ArtistCallForm().render();
+  // ns.Forms.ModifyProductionForm = function(category){
+  //   var _form = {};
+  //   var _productionForm = Pard.Forms.ArtistCallForm().render();
     
-    var _productionFields = Pard.Forms.ArtistCall(category).productionFields();
+  //   var _productionFields = Pard.Forms.ArtistCall(category).productionFields();
 
-    _form['category'] = {
-      label: Pard.Widgets.InputLabel('Categoría *'), 
-      input: Pard.Widgets.Selector([Pard.Widgets.Dictionary(category).render()], [category]),
-      helptext:Pard.Widgets.HelpText('No se puede modificar')
-    };
-    _form['category']['input'].setClass('category-input');;
+  //   _form['category'] = {
+  //     label: Pard.Widgets.InputLabel('Categoría *'), 
+  //     input: Pard.Widgets.Selector([Pard.Widgets.Dictionary(category).render()], [category]),
+  //     helptext:Pard.Widgets.HelpText('No se puede modificar')
+  //   };
+  //   _form['category']['input'].setClass('category-input');;
 
-    _productionFields.forEach(function(_element){
-      _form[_element] = _productionForm[_element];
-    });
+  //   _productionFields.forEach(function(_element){
+  //     _form[_element] = _productionForm[_element];
+  //   });
 
 
-    _form['short_description'] = { 
-      label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
-      input: Pard.Widgets.TextAreaCounter('', 80, 'Sólo 80 caracteres permitidos. Quedan: '),
-      helptext: Pard.Widgets.HelpText('')
-    };
-    _form['short_description']['input'].setClass('short_description-input');
-    _form['short_description']['input'].setAttr('rows',1);
+  //   _form['short_description'] = { 
+  //     label: Pard.Widgets.InputLabel('Descripción (muy) breve *'),
+  //     input: Pard.Widgets.TextAreaCounter('', 80, 'Sólo 80 caracteres permitidos. Quedan: '),
+  //     helptext: Pard.Widgets.HelpText('')
+  //   };
+  //   _form['short_description']['input'].setClass('short_description-input');
+  //   _form['short_description']['input'].setAttr('rows',1);
 
-    var _required = Pard.Forms.ArtistCall(category).productionRequired();
+  //   var _required = Pard.Forms.ArtistCall(category).productionRequired();
 
-    return {
-      render: function(){
-        return _form;
-      },
-      requiredFields: function(){
-        return _required;
-      }
-    }
-  }
+  //   return {
+  //     render: function(){
+  //       return _form;
+  //     },
+  //     requiredFields: function(){
+  //       return _required;
+  //     }
+  //   }
+  // }
 
 
   ns.Forms.ArtistCallForm = function() {

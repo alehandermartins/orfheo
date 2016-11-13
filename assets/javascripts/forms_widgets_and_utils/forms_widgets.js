@@ -113,6 +113,7 @@
               _photos.submit();
             }
           }
+          else(spinner.stop());
         },
         function(){
           setTimeout(

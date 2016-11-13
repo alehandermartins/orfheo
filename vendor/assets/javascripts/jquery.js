@@ -9,7 +9,7 @@
 //= require jquery.plugin.min
 //= require jquery.datepick.min
 //= require jquery.datepick-es
-//= require select2.min
+//= require select2.full.min
 //= require moment-with-locales
 //= require spectrum
 //= require HoldOn.min
