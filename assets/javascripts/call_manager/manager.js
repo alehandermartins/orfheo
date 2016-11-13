@@ -124,25 +124,8 @@
       });
 
       var _lastSelected = Object.keys(eventTime)[0];
-      var artistProposals = Pard.Widgets.ArtistProposals();
-      var spaceProposals = Pard.Widgets.SpaceProposals();
+      var artistProposals, spaceProposals;
       var _shownSpaces = [];
-      
-      spaces.forEach(function(space){
-        spaceProposals.push({
-          type: 'profile',
-          id: space.profile_id,
-          text: space.name
-        });
-        _shownSpaces.push(space);
-      });
-
-      artists.forEach(function(artist){
-        artistProposals.push({
-          id: artist.profile_id,
-          text: artist.name
-        });
-      });
 
       _daySelector.select2({
         minimumResultsForSearch: Infinity,
@@ -161,12 +144,7 @@
         _lastSelected = _daySelector.val();
       });
 
-      _spaceSelector.select2({
-        placeholder: 'Espacios',
-        allowClear: true,
-        data: spaceProposals,
-        templateResult: Pard.Widgets.FormatResource,
-      }).on("select2:select", function(e) {
+      var selectSpaces = function(){
         var _data = _spaceSelector.select2('data')[0];
         _shownSpaces = [];
         if(_data['type'] == 'category'){
@@ -192,27 +170,9 @@
         _shownSpaces.forEach(function(space){
           _spaces[space.profile_id].alignPerformances(_daySelector.val());
         });
-      });
+      }
 
-      _spaceSelector.on("select2:unselecting", function(e){
-        _shownSpaces = [];
-        Pard.ColumnWidth = 176; 
-        if(spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
-        spaces.forEach(function(space){
-          _spaces[space.profile_id].showColumns();
-          _spaces[space.profile_id].alignPerformances(_daySelector.val());
-          _shownSpaces.push(space)
-        });
-        $(this).select2("val", "");
-        e.preventDefault();
-      });
-
-      _artistSelector.select2({
-        placeholder: 'Artistas',
-        data: artistProposals,
-        allowClear: true,
-        templateResult: Pard.Widgets.FormatResource,
-      }).on("select2:select", function(e) {
+      var selectArtists = function(){
         var _data = _artistSelector.select2('data')[0];
         if(_data['type'] == 'category'){
           Object.keys(_artists).forEach(function(profile_id){
@@ -231,6 +191,60 @@
             else{_artists[profile_id].accordion.hide();}
           });
         }
+      }
+
+      var _loadSpaceSelector = function(){
+        spaceProposals = Pard.Widgets.SpaceProposals();
+        spaces.forEach(function(space){
+          spaceProposals.push({
+            type: 'profile',
+            id: space.profile_id,
+            text: space.name
+          });
+        });
+        _spaceSelector.select2({
+          placeholder: 'Espacios',
+          allowClear: true,
+          data: spaceProposals,
+          templateResult: Pard.Widgets.FormatResource,
+        });
+      }
+
+      var _loadArtistSelector = function(){
+        artistProposals = Pard.Widgets.ArtistProposals();
+        artists.forEach(function(artist){
+          artistProposals.push({
+            id: artist.profile_id,
+            text: artist.name
+          });
+        });
+        _artistSelector.select2({
+          placeholder: 'Artistas',
+          data: artistProposals,
+          allowClear: true,
+          templateResult: Pard.Widgets.FormatResource,
+        });
+      }
+
+      _spaceSelector.on("select2:select", function(e) {
+        selectSpaces();
+      });
+
+      _artistSelector.on("select2:select", function(e) {
+        selectArtists();
+      });
+
+      _spaceSelector.on("select2:unselecting", function(e){
+        _shownSpaces = [];
+        Pard.ColumnWidth = 176; 
+        if(spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
+        spaces.forEach(function(space){
+          _spaces[space.profile_id].showColumns();
+          _spaces[space.profile_id].alignPerformances(_daySelector.val());
+          _shownSpaces.push(space);
+        });
+        $(this).select2("val", "");
+        e.preventDefault();
       });
 
       _artistSelector.on("select2:unselecting", function(e){
@@ -240,6 +254,21 @@
         $(this).select2("val", "");
         e.preventDefault();
       });
+
+      _spaceSelector.on('reload', function(e, _id){
+        $(this).val(_id);
+        $(this).trigger('change');
+        if(!_id) $(this).trigger('select2:unselecting');
+      });
+
+      _artistSelector.on('reload', function(e, _id){
+        $(this).val(_id);
+        $(this).trigger('change');
+        if(!_id) $(this).trigger('select2:unselecting');
+      });
+
+      _loadSpaceSelector();
+      _loadArtistSelector();
 
       _showArtists.on('click', function(){
         _artistsBlock.toggle('slide', {direction: 'right'}, 500);
@@ -1878,6 +1907,7 @@
 
       spaces.forEach(function(space){
         _spaces[space.profile_id] = new Space(space);
+        _shownSpaces.push(space);
       });
       if(spaces.length > 0 && spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
 
@@ -1909,6 +1939,25 @@
     	return {
         render: function(){
           return _createdWidget;
+        },
+        addArtist: function(artist){
+          if(artist.profile_id in _artists) _artists[artist.profile_id].addProposal(artist.proposals[0]);
+          else{_artists[artist.profile_id] = new Artist(artist);
+            _artistsList.append(_artists[artist.profile_id].accordion);
+            artists.push(artist);
+            var _id = _artistSelector.val();
+             _loadArtistSelector();
+            _artistSelector.trigger('reload', [_id]);
+          }
+        },
+        addSpace: function(space){
+          if(!(space.profile_id in _spaces)){
+            _spaces[space.profile_id] = new Space(space);
+            spaces.push(space);
+            var _id = _spaceSelector.val();
+            _loadSpaceSelector();
+            _spaceSelector.trigger('reload', [_id]);
+          }
         }
       }
     }
@@ -1974,6 +2023,75 @@
     var _programManager = ProgramManager();
     var _proposalsManager = ProposalsManager();
     var _qrManager = Pard.Widgets.QRManager(the_event.qr);
+
+    var newArtist = {
+            "user_id" : "db3822e5-eb3a-4ebf-81c7-58b245129195",
+            "email" : "trencadisx2@gmail.com",
+            "profile_id" : "431fe94b-c05d-493a-a40e-f411fd7506cd",
+            "name" : "Trencadiss",
+            "phone" : "680569013",
+            "address" : {
+                "locality" : "Barcelona",
+                "postal_code" : "08004"
+            },
+            "proposals" : [ 
+                {
+                    "production_id" : "f3d62e6f-f68d-4c46-bee9-443e17cd79aa",
+                    "proposal_id" : "f63f1f4d-fd26-4fe0-a131-4393195d1cd1",
+                    "category" : "music",
+                    "title" : "Trencadiss",
+                    "description" : "Un concierto acústico de nuestras propias canciones y alguna versión. Dos guitarras, dos voces. Dos músicos. \n",
+                    "short_description" : "Trencadiss. Grupo indie pop rock. Barcelona. Concierto acústico. ",
+                    "conditions" : "true",
+                    "children" : "false",
+                    "sharing" : "dos micrófonos, cables y dos pies de micro",
+                    "needs" : "Un equipo de voces. ",
+                    "waiting_list" : "false",
+                    "duration" : "45",
+                    "availability" : [ 
+                        "2016-10-15"
+                    ],
+                    "components" : "2",
+                    "repeat" : "true"
+                }
+            ]
+        }
+
+    var newSpace = {
+            "responsible" : "riccardo toto",
+            "description" : "- pasillo largo y estrecho donde se puede exponer (15m2)\n- salon con ventanas al patio (8 m2)\n- un patio interior para conciertitos, poesia, teatro.\n",
+            "availability" : [ 
+                "2016-10-15", 
+                "2016-10-16"
+            ],
+            "phone" : "633753471",
+            "sharing" : "un equipo de sonido pequeno, una nevera de bar, escaleras, herramientas, agua, tomas de luz, sillas, una mesa, 2 mesitas, un mueble/barra",
+            "own" : "posible infopoint, espacio jolly",
+            "un_wanted" : "mejor no hacer actividades y mantener el espacio util para cosas del ultimo momento y para con tranuqilidad ;)",
+            "conditions" : null,
+            "user_id" : "a6e3b8df-2088-4c4c-a67c-c8939afbeb63",
+            "email" : "riccardo.toto@gmail.com",
+            "profile_id" : "1074d199-5f90-4530-865a-7289d2e73725",
+            "proposal_id" : "fd2727fe-bfb7-4411-aa29-9e4443663d49",
+            "category" : "home",
+            "address" : {
+                "route" : "Carrer de la Mare de Déu de l'Assumpció",
+                "street_number" : "4",
+                "door" : "b",
+                "locality" : "València",
+                "country" : "Spain",
+                "postal_code" : "46020",
+                "location" : {
+                    "lat" : 39.4863166,
+                    "lng" : -0.3598083
+                }
+            },
+            "name" : "4b"
+        }
+
+        _programManager.addSpace(newSpace);
+         _programManager.addArtist(newArtist);
+        //_programManager.addSpace(newSpace);
 
     var _lastSelectedPanel = _programManager;
     _programTab.on('click', function(){
