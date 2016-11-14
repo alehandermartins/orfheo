@@ -1101,6 +1101,32 @@ Production Section
 }
 }
 
+.iconCat-pastEventBlock, .iconProfile-pastEventBlock{
+  font-size: 1rem;
+  vertical-align: middle;
+  width: 1.2rem;
+  display: inline-block;
+  color: $grey-3;
+  margin: 0 .1rem;
+}
+
+.iconCat-pastEventBlock.fa.fa-cubes{
+  font-size: 12px;
+  }
+.iconCat-pastEventBlock.icon-book-open{
+  font-size: .8rem;
+}
+
+.iconCat-pastEventBlock.icon-theatre{
+    width: 1.5rem;
+  }
+
+.title-pastEventBlock{
+  font-weight: bold;
+  margin-right: 0.2rem;
+}
+
+
 /*------------
 SMALL!!!
 -------------*/
@@ -1121,6 +1147,14 @@ SMALL!!!
     max-height: -webkit-calc(98vw*1.35);
     max-height: calc(98vw*1.35); 
  }
+}
+
+.proposal-pastEventBlock{
+  height: 1.5rem;
+}
+
+.eventName-pastEventBlock{
+  /* font-size: 1rem; */
 }
 
 

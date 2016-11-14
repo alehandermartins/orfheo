@@ -29,15 +29,6 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-    if (profile.program && profile.program.length){
-      var _now = new Date();
-      var _dayShow = new Date(profile.program[0].date);
-      if(_now.getTime() < (_dayShow.getTime()+604800000)){
-      _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program,profile.type));
-      }
-    }
-
-
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
        
@@ -78,6 +69,29 @@
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
 
+    var _programBoxContainer = $('<div>').addClass('section-box-container');
+    var _titleContainer = $('<div>').addClass('title-box-container');
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Participación en eventos')));
+    var _programContent = $('<div>').addClass('box-content');
+    _programBoxContainer.append(_titleContainer,_programContent)
+
+    if (profile.program && profile.program.length){
+      var _now = new Date();
+      profile.program.forEach(function(eventProgram){
+        var _dayShow = new Date(eventProgram.date);
+        // si ha pasado menos de una semana
+        if(_now.getTime() < (_dayShow.getTime()+604800000)){
+          _createdWidget.prepend(Pard.Widgets.ProgramProfile(eventProgram,profile.type));
+        }
+        else{
+          _programContent.append(Pard.Widgets.PastEventSpace(eventProgram));
+        }
+      })
+    }
+
+    if (_programContent.html()) _createdWidget.append(_programBoxContainer);
+
+
 
 
     if (userStatus == 'owner'){
@@ -100,7 +114,7 @@
       var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
       _createdWidget.append(_multimediaContainer.render());
      }else{
-      if (profile['photos'] || profile['links']){
+      if (profile['photos'] || profile['links']){        
         var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
         _createdWidget.append(_multimediaContainer.render());
       }

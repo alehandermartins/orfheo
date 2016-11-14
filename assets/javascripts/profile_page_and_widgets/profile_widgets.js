@@ -138,9 +138,9 @@
 
   ns.Widgets.ProgramProfile = function(program, type){
     var _programBoxContainer = $('<div>').addClass('section-box-container');
-    var _toEventPageBtn = $('<a>').text('Programación general').attr('href','/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6').addClass('toEventPageBtn-profile-page');
+    var _toEventPageBtn = $('<a>').text('Programación general').attr('href','/event?id='+program.event_id).addClass('toEventPageBtn-profile-page');
     var _titleContainer = $('<div>').addClass('title-box-container');
-    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Programación Benimaclet conFusión festival III ed.'), _toEventPageBtn));
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Programación'+program.event_name), _toEventPageBtn));
     _programBoxContainer.append(_titleContainer);
     var _programContent = $('<div>').addClass('box-content');
     var _day;
@@ -204,6 +204,123 @@
      //  }
      //  _programContent.append(_showBlock,_permanentBlock);
      //  _programBoxContainer.append(_programContent);
+
+  }
+
+  ns.Widgets.PastEventArtist = function(participation, type){
+    
+    var _eventName = $('<a>').attr('href','/event?id='+participation.event_id).text(participation.event_name).addClass('eventName-pastEventBlock');
+    var _eventProposals = $('<ul>').css({'list-style-type':'none','margin-left':'0.5rem'});
+    var _permanentShows = {};
+    participation.shows.forEach(function(show, index){
+      if(show.permanent == 'true'){
+        if (_permanentShows[show.participant_proposal_id]) _permanentShows[show.participant_proposal_id].push(show);
+        else _permanentShows[show.participant_proposal_id] = [show];
+      }
+      else if (index < 1 || show.participant_proposal_id != participation.shows[index-1].participant_proposal_id || show.date != participation.shows[index-1].date){
+        var _date = moment(new Date(show.date)).locale('es').format('DD MMMM YYYY');
+        var _day = $('<span>').text(_date+':');
+        var _title = $('<span>').text(show.title).addClass('title-pastEventBlock');
+        var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
+        var _host;
+        if (show.host_id.indexOf('own') >-1) _host = $('<span>').text(show.host_name).css('text-decoration','underline');
+        else _host = $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name); 
+        var _place = $('<span>').append(Pard.Widgets.IconManager('space').render().addClass('iconProfile-pastEventBlock'),_host);
+        var _proposal = $('<li>').append(_day,' ',_category, _title, ' / ',_place).addClass('proposal-pastEventBlock');
+        _eventProposals.append(_proposal);
+      }
+    });
+
+    if (!($.isEmptyObject(_permanentShows))){
+      for (var instalation in _permanentShows){
+        var _showArray = _permanentShows[instalation];
+        var show = _showArray[0];
+        var _init_date = moment(new Date(_showArray[0].date)).locale('es').format('DD MMMM YYYY');
+        var _day = $('<span>').append(_init_date);
+        if (_showArray.length>1) {
+          var _final_date = moment(new Date(_showArray[_showArray.length -1].date)).locale('es').format('DD MMMM YYYY');
+          _day.text(_init_date+' - '+_final_date+':');
+        }
+        else{
+          _day.text(_init_date+':')
+        }
+        var _title = $('<span>').text(show.title).addClass('title-pastEventBlock');
+        var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
+        var _place = $('<span>').append(Pard.Widgets.IconManager('space').render().addClass('iconProfile-pastEventBlock'), $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name));
+        var _proposal = $('<li>').append(_day,' ',_category, _title, ' / ',_place).addClass('proposal-pastEventBlock');
+        _eventProposals.append(_proposal);
+      }
+    }
+
+    var _event = $('<div>').append(_eventName,_eventProposals);
+
+    return _event;
+
+  }
+
+  ns.Widgets.PastEventSpace = function(participation){
+    
+    var _eventName = $('<a>').attr('href','/event?id='+participation.event_id).text(participation.event_name).addClass('eventName-pastEventBlock');
+    var _eventProposals = $('<ul>').css({'list-style-type':'none','margin-left':'0.5rem'});
+    var _permanentShows = [];
+    var _artistByDay = {};
+
+    participation.shows.forEach(function(show, index){
+      if(show.permanent == 'true'){
+        _permanentShows.push(show);
+      }
+      else {
+        if (_artistByDay[show.date]) _artistByDay[show.date].push(show);
+        else _artistByDay[show.date] = [show];
+      }
+    });
+
+    if (!($.isEmptyObject(_artistByDay))){
+      for (var day in _artistByDay){
+        var _artists = $('<span>').append(Pard.Widgets.IconManager('artist').render().addClass('iconProfile-pastEventBlock'));
+        var _date = moment(new Date(day)).locale('es').format('DD MMMM YYYY');
+        var _day = $('<span>').text(_date+':');
+        var _proposal = $('<li>').append(_day,' ',_artists).addClass('proposal-pastEventBlock');
+        _eventProposals.append(_proposal);
+        _artistByDay[day].forEach(function(show, index){
+          if (index < 1){ 
+            _artists.append($('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
+          }
+          else if (show.participant_id != participation.shows[index-1].participant_id){
+            _artists.append(' - ', $('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
+          }
+        })  
+      }
+    }
+
+    if (_permanentShows.length){
+      var _participantsArray = [];
+      var _artists = $('<span>').append(Pard.Widgets.IconManager('artist').render().addClass('iconProfile-pastEventBlock'));
+      var _id = new Date(_permanentShows[0].date);
+      var _fd = new Date(_permanentShows[_permanentShows.length -1].date);
+      var _day = $('<span>');
+      var _proposal = $('<li>').append(_day,' ',_artists).addClass('proposal-pastEventBlock');
+      _eventProposals.append(_proposal);
+      _permanentShows.forEach(function(show, index){
+        var _nd = new Date(show.date);
+        if(_nd.getTime()<_id.getTime()) _id = _nd;
+        else if(_nd.getTime()>_fd.getTime()) _fd = _nd;
+        if (index < 1){ 
+            _artists.append($('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
+            _participantsArray.push(show.participant_id);
+        }
+        else if ($.inArray(show.participant_id, _participantsArray)<0){
+          _artists.append(' - ', $('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
+          _participantsArray.push(show.participant_id);
+        }
+      })
+      if (_id.getTime() == _fd.getTime()) _day.append(moment(_id).locale('es').format('DD MMMM YYYY'),':')
+      else _day.append(moment(_id).locale('es').format('DD MMMM YYYY'),' - ',moment(_fd).locale('es').format('DD MMMM YYYY'),':');
+    }
+
+    var _event = $('<div>').append(_eventName,_eventProposals);
+
+    return _event;
 
   }
 

@@ -31,19 +31,29 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
+    var _programBoxContainer = $('<div>').addClass('section-box-container');
+    // var _toEventPageBtn = $('<a>').text('Programación general').attr('href','/event?id='+program.event_id).addClass('toEventPageBtn-profile-page');
+    var _titleContainer = $('<div>').addClass('title-box-container');
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Participación en eventos')));
+    var _programContent = $('<div>').addClass('box-content');
+    _programBoxContainer.append(_titleContainer,_programContent)
 
     if (profile.program && profile.program.length){
       var _now = new Date();
-      var _dayShow = new Date(profile.program[0].date);
-      if(_now.getTime() < (_dayShow.getTime()+604800000)){
-      _createdWidget.append(Pard.Widgets.ProgramProfile(profile.program,profile.type));
-      }
+      profile.program.forEach(function(eventProgram){
+        var _dayShow = new Date(eventProgram.date);
+        // si ha pasado menos de una semana
+        if(_now.getTime() < (_dayShow.getTime()+604800000)){
+          _createdWidget.append(Pard.Widgets.ProgramProfile(eventProgram,profile.type));
+        }
+        else{
+          _programContent.append(Pard.Widgets.PastEventArtist(eventProgram));
+        }
+      })
     }
 
-   
     var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Biografía', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
-    
     
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio');  
@@ -94,6 +104,10 @@
   
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
+    }
+
+   if (_programContent.html()){
+      _createdWidget.append(_programBoxContainer);    
     }
 
     return {
@@ -166,11 +180,10 @@
       var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
       _createdWidget.append(_multimediaContainer.render());
 
-    }else{
-      if (production['photos'] || production['links']){
-        var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
-        _createdWidget.append(_multimediaContainer.render());
-      }
+    }else if (production['photos'] || production['links']){
+      console.log(production)
+      var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
+      _createdWidget.append(_multimediaContainer.render());
     }
 
     
