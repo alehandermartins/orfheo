@@ -40,6 +40,40 @@
     }
   }
 
+  ns.Widgets.NewLoginHeader = function(){
+    var _createdWidget = $('<header>').addClass('loginHeader-AllPage full');
+    
+    // var _createdWidget = $('<div>').addClass('fast reveal full'); 
+    // var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _container = $('<div>').addClass('container-header');
+    var _content = $('<div>');
+    var _logo = $('<a>').attr({
+      'href': '#'
+    }).append($('<div>').addClass('logo-welcomePage'));
+    var _logoBaseline = $('<div>').append($('<p>').text('your cultural community')).addClass('logoBaseline-welcomePage');
+    var _signUpButtonContainer = $('<div>').append(Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage')).addClass('signUpBtn-container');
+    var _loginContainer = $('<div>');
+    var _loginText = $('<a>').attr({'href': '#'}).text('Login').addClass('loginText-welcomePage');
+    var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container'));
+
+    _loginText.click(function(){
+      _loginText.remove();
+      _loginContainer.append(_loginInputs);
+    });
+    _content.append(_logo, _logoBaseline, _signUpButtonContainer);
+
+    var _loginWidget = $('<div>').append(_loginContainer, _loginText).addClass('container-loginHeader');
+
+    // _outerContainer.append(_container.append(_content));
+    _createdWidget.append(_container.append(_content), _loginWidget);
+
+    return {
+      render : function(){
+        return _createdWidget;
+      }
+    }
+  }
+
 
   ns.Widgets.LoginHeader = function(){
     
@@ -55,14 +89,9 @@
       'href': '/'
     }).append($('<div>').addClass('logo-header'));
     _topBarTitle.append(_logo);
-    // _logo.click(function(){
-    //   location.href = '/';
-    // });
-
 
     if (userStatus == 'outsider') {
       var _registerBtnOut = Pard.Widgets.SignUpButton().render().attr({ id: 'register-outsider-header-button'});
-
       _topBarTitle.append(_registerBtnOut);
       _registerBtnOut.hide();
     }
@@ -113,12 +142,16 @@
 
     var _info = $('<div>').addClass('aside-text-welcome-page-container');
 
-    _info.append($('<h4>').text('La primera comunidad artístico-cultural donde conocer proyectos, encontrarse y crear juntos experiencias inolvidables'));
+    _info.append($('<h5>').text('Orfheo es la primera comunidad artístico-cultural donde conocer proyectos, encontrarse y crear juntos experiencias inolvidables')).css('margin-top','0');
 
     var _signUpButton = Pard.Widgets.SignUpButton().render();
-    _signUpButton.addClass('signupButton');
+    _signUpButton.addClass('signupButton').css('margin-top','0.5rem');
 
-      _asideContainer.append(_signUpButton, _info);
+    var _info2 = $('<div>').addClass('aside-text-welcome-page-container');
+
+    _info2.append($('<h4>').text('Si quieres lanzar y gestionar una convocatoria en la comunidad contactános a info@orfheo.org')).css('margin-top','3.5rem');
+
+      _asideContainer.append(_info, _signUpButton, _info2);
 
     return{
       render: function(){
@@ -133,11 +166,11 @@
 
     content.empty();
 
-    $(document).ready(function(){$('#main-welcome-page').addClass('main-welcome-page')});
+    $(document).ready(function(){$('#main-welcome-page').addClass('main-welcome-page').css({'margin-top':0})});
 
     var _content = content.addClass('welcome-page-section');
 
-    _content.append(Pard.Widgets.ConfusionProgramOnline().render());
+    _content.append(Pard.Widgets.Distrito008Call().render());
 
 
     // _content.append(Pard.Widgets.ConFusionEndCall().render());
@@ -160,114 +193,6 @@
     }
   }
 
-
-  // ns.Widgets.LoginSection = function (content) {
-
-  //   content.empty();
-
-  //   $(document).ready(function(){$('#main-welcome-page').addClass('main-welcome-page')});
-
-  //   var _content = content.addClass('grid-element-content welcome-page-section');
-
-  //   var _photoContainer = $('<div>').addClass('welcome-img-section-header');
-
-  //   var _title = $('<div>').addClass('title-profile-section-container').append($('<h3>').text('Benimaclet conFusión festival').addClass('text-title-profile-section'));
-
-  //   _content.append(_photoContainer,_title);
-
-  //   var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
-  //   var _infoContentBox = $('<div>').addClass('box-content');
-    
-
-  //   var _info = $('<div>').addClass('information-bio');  
-  //   var _contact = $('<div>').addClass('information-contact');
-
-  //   var _shortDescription = $('<p>').text('Festival libre de expresión gratuita - 15/16 Octubre 2016').addClass('short-description-text');  
-  //   _info.append(_shortDescription)
-    
-  //   var _descriptionFestival = 'El Benimaclet conFusión festival es un evento de expresión artística celebrado en el barrio valenciano de Benimaclet. Las representaciones, tanto en los puntos ubicados por las calles peatonales como en los espacios participantes, pretenden dar voz al alma artística de este barrio. Al mismo tiempo, el festival quiere ser una plataforma de encuentro y diálogo abierta a todas las personas, una posibilidad para quien quiera comunicar algo y un estímulo para quien esté dispuesto a escuchar.'; 
-  //     // Es un canal de difusión, defensa y práctica de valores tales como el sentido de comunidad, el compartir, la integración entre diversos, la libre expresión y la creatividad.
-    
-
-  //   var _description = $('<p>').text(_descriptionFestival);
-  //   _info.append(_description);
-  
-  //   var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary('organization').render()));
-  //   var _typeIcon = Pard.Widgets.IconManager('organization').render().addClass('information-contact-icon-column type-icon-info-box');
-
-  //   _contact.append($('<div>').append(_typeIcon, _type));
-
-  //   var _city = $('<div>').append(
-  //     Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), 
-  //     $('<p>').addClass('information-contact-text-column').append(
-  //       $('<a>').attr({
-  //         href: 'http://maps.google.com/maps?q=valencia 46020',
-  //         target: '_blank'
-  //       }).text('Benimaclet (Valencia)')
-  //     )
-  //   );
-
-  //   _contact.append(_city);
-
-    
-  //   var _personalWebs = {
-  //     '0': {
-  //       provider: 'facebook', 
-  //      url: 'https://www.facebook.com/beniconfusionfest/'
-  //     },
-  //     '1': {
-  //       provider: 'my_web', 
-  //       url: 'http://beniconfusionfest.es'
-  //     },
-  //     '2': {
-  //       provider: 'twitter', 
-  //       url: 'https://twitter.com/conFusionFest?lang=es'
-  //     },
-  //     '3': {
-  //       provider: 'instagram', 
-  //       url: 'https://www.instagram.com/confusionfestival/'
-  //     },
-  //     '4': {
-  //       provider: 'youtube', 
-  //       url: 'https://www.youtube.com/channel/UCkAXyjiBR10dn0wFuh9JaSQ'
-  //     }
-  //   }; 
-
-    
-  //   _contact.append(Pard.Widgets.PrintWebsList(_personalWebs).render());
-
-
-  //   _infoContentBox.append(_info, _contact);
-  //   _infoBoxContainer.append(_infoContentBox);
-  //   _content.append(_infoBoxContainer);
-
-  //   var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
-  //   var _callsBoxContent = $('<div>').addClass('box-content');
-
-  //   var _callsInfoTitle = $('<p>').text('Abierta hasta el 15 de Junio.').css('font-weight','bold');
-  //   var _callsInfoText = $('<p>').html('Se aceptan todo tipo de propuestas propias y originales de carácter artístico, con un fondo humano y que impulsen valores que fomenten la armonía y convivencia entre las personas (<a href= "http://beniconfusionfest.es/es/bases" target="_blank">bases de participación</a>).');
-  //   // var _participation = $('<p>').append($('<a>').attr({'href': '#', 'target': '_blank' }).text('Bases de participación.'))
-  //   var _signUpMessage =  Pard.Widgets.Registration();    
-  //   var _caller = $('<button>').attr({type:'button'}).html('Apúntate').addClass('signUp-button-welcome-section');
-  //   var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta', function(){return _signUpMessage});
-  //   var _signUpButton = _popup.render().addClass('signUpButton-login-section');
-
-  //   var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
-
-  //   var _searchEngineText = $('<h6>').html('Conoce a los <strong>artistas y espacios</strong> que ya se han apuntado').addClass('searchEngine-text-welcome-page');
-  //   var _searchEngine = Pard.Widgets.SearchEngine('');
-
-  //   _callsBoxContent.append(_callsInfo,_signUpButton, _searchEngineText, _searchEngine.render());
-
-  //   _content.append(_callsBoxContainer.append(_callsBoxContent));
-
-
-  //   return{
-  //     render: function(){
-  //       return _content;
-  //     }
-  //   }
-  // }
 
   ns.Widgets.Footer = function(){
 

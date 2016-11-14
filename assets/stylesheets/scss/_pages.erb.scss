@@ -1,4 +1,109 @@
 /*===============================================
+NEW WELCOME PAGE
+================================================*/
+.loginHeader-AllPage{
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: relative;
+}
+
+.container-header{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: -2.5rem;
+}
+
+.container-loginHeader{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 9rem;
+  height: 13rem;
+}
+
+.login-container{
+  position: relative;
+  width: 240px;
+  margin-top: 2.5rem;
+  input.input-login-field{
+    width: 100%;
+    display: block;
+    font-size: $almostNormalSize;
+    height: 30px;
+  }
+  .login-btn{
+    float: right;
+    padding: 0.35rem 1.8rem;
+  }
+  .passwdRecovery{
+    /* margin-top: 1rem; */
+    float: none;
+    text-align: center;
+    display: inline-block;
+    width: 80%;
+    border-top: 1px solid $grey-2;
+    padding: 0.5rem;
+    margin-top: 0.1rem;
+    margin-left: 1.5rem;
+  }
+  .rememberMe-ckb label{
+    /* font-size: $almostNormalSize; */
+  }
+}
+
+.logo-welcomePage{
+  cursor: pointer;
+  background-image: url(<%= image_path 'orfheologocolor.png' %>);
+  width: 240px;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include breakpoint(small down){ 
+    width: 110px;
+    height: 37px;
+  }
+}
+
+.signUpBtn-container{
+  width: 100%;
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.signUp-welcomePage{
+  color: $element-color;
+  font-weight: bold;
+  @include border-radius($element-border-radius);
+  background: $blue-pard;
+  padding: 0.4rem 1.8rem;
+}
+
+.signUp-welcomePage:hover{
+  background: rgba(56, 133, 255,0.8);
+}
+
+.loginText-welcomePage{
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+}
+
+
+.logoBaseline-welcomePage{
+  width: 100%;
+  text-align: center;
+  font-size: $almostNormalSize;
+  p{
+    margin: -0.2rem 0;
+  }
+}
+
+/*===============================================
 WELCOME PAGE
 ================================================*/
 
@@ -286,9 +391,9 @@ Aside content LogIn page
 }
 
 .login-aside-container{
-  @include breakpoint(large){ 
+/*   @include breakpoint(large){ 
     position: fixed;
-  }
+  } */
   @include breakpoint(medium down){ 
     padding: $inner-spacing;
   }

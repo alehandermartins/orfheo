@@ -48,6 +48,90 @@
     "published": true
   }
 
+  ns.DistritoInfo = {
+    "profile_id" : "2c303d75-0d9d-4fec-b8c9-d17c7e5283c0",
+    "organizer": "Distrito 008",
+    "event_id" : "a6bc4203-9379-4de0-856a-55e1e5f3fac6",
+    "qr" : "qr_h3ujck",
+    "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fac6",
+    "name" : "VII Distrito 008. Festival Urbano de Extramurs",
+    "baseline" : "Somos Barrio / Som Barri",
+    "img" : "distrito008_eojj5t",
+    "place": "Extramurs - Valencia",
+    "address":{
+      "locality":"Extramurs - Valencia",
+      "postal_code": "46008"
+    },
+    "eventTime" : {
+        "2017-03-30" : [ 
+            [ 
+                "1490893200000", 
+                "1490893200000"
+            ], 
+            [ 
+                "1490905800000", 
+                "1490905800000"
+            ]
+        ],
+        "2017-03-31" : [ 
+            [ 
+                "1490970600000", 
+                "1490970600000"
+            ], 
+            [ 
+                "1490997600000", 
+                "1490997600000"
+            ]
+        ],
+        "2017-04-01" : [ 
+            [ 
+                "1491033600000", 
+                "1491033600000"
+            ], 
+            [ 
+                "1491084000000", 
+                "1491084000000"
+            ]
+        ],
+        "2017-04-02" : [ 
+            [ 
+                "1491120000000", 
+                "1491120000000"
+            ], 
+            [ 
+                "1491170400000", 
+                "1491170400000"
+            ]
+        ],
+        "2017-04-07" : [ 
+            [ 
+                "1491575400000", 
+                "1491575400000"
+            ], 
+            [ 
+                "1491602400000", 
+                "1491602400000"
+            ]
+        ],
+        "2017-04-08" : [ 
+            [ 
+                "1491638400000", 
+                "1491638400000"
+            ], 
+            [ 
+                "1491688800000", 
+                "1491688800000"
+            ]
+        ],
+        "permanent" : [ 
+            "17:00", 
+            "21:00"
+        ]
+    },
+    "start" : "1479682860000",
+    "deadline" : "1482793199000"
+  }
+
   ns.Widgets.ConfusionProgramOnline = function(date){
     var _newsContainer = $('<div>').addClass('news-box-welcome-page');
     
@@ -66,9 +150,112 @@
         return _newsContainer;
       }
     }
-
-
   }
+
+  ns.Widgets.Distrito008Call = function(date){
+     var _newsContainer = $('<div>').addClass('news-box-welcome-page');
+    
+    var _event = Pard.DistritoInfo;
+
+    var _eventCard = Pard.Widgets.EventInfoCardDistrito(_event);
+    _newsContainer.append(_eventCard.render());
+
+    if (date) {
+      var _date = $('<div>').append($('<span>').text(date).addClass('news-date')).css('height','0.5rem');
+      _newsContainer.prepend(_date);
+    }
+
+    return {
+      render: function(){
+        return _newsContainer;
+      }
+    }
+  }
+
+
+  ns.Widgets.EventInfoCardDistrito = function(event){
+    var _createdWidget = $('<div>');
+    var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
+    var _logo = $('<a>').append($.cloudinary.image(event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
+    _image.append(_logo);
+    
+    var _popupImg = $.cloudinary.image(event.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
+
+    var _popupContainer = $('<div>').addClass('fast reveal full');    
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _innerContainer = $('<div>').addClass('vcenter-inner');
+    
+
+    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+    _closeBtn.append($('<span>').html('&times;'));
+
+    var _popup = new Foundation.Reveal(_popupContainer, {animationIn: 'fade-in', animationOut: 'fade-out'});
+
+    _closeBtn.click(function(){
+      _popup.close();
+    });
+
+    var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
+
+    _innerContainer.append(_popupContent);
+    _popupContainer.append(_outerContainer.append(_innerContainer));
+
+    _logo.one('mouseover', function(){
+      $('body').append(_popupContainer)
+    });
+
+    _logo.click(function(){
+      _popup.open();
+    });
+
+
+    var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
+    var _infoTitle = $('<div>').append($('<h4>').append($('<a>').text(event.name).attr('href','/event?id='+event.event_id).css({'vertical-align':'0'})).addClass('eventName-event-card'));
+    var _baseline = $('<div>').append($('<p>').text(event.baseline)).addClass('baseline-event-info-card').css('font-size','1rem');
+    var _organizer = $('<div>').append($('<p>').text('Organiza: ').append($('<a>').text(event.organizer).attr({'href': '/profile?id='+event.organizer_id}))).css({'margin-bottom':'-1rem', 'font-size':'1rem'});
+    var _eventdays = '';
+    var _dayArray = [];
+    for (var key in event.eventTime) {
+      if (key != 'permanent') _dayArray.push(event.eventTime[key]);
+    };
+    if (_dayArray.length == 1){
+      _eventdays = moment(new Date(parseInt(_dayArray[0]))).locale('es').format('dddd DD MMMM YYYY');
+    }
+    else if (_dayArray.length > 1) {
+      _eventdays = $('<span>').text(moment(new Date(parseInt(_dayArray[0]))).locale('es').format('DD')+'-'+moment(new Date(parseInt(_dayArray[_dayArray.length-1]))).locale('es').format('DD')+' '+moment(new Date(parseInt(_dayArray[_dayArray.length-1]))).locale('es').format('MMMM YYYY'));
+    }
+
+    var _days =  $('<div>').append($('<p>').append(_eventdays).addClass('eventDay-event-info-card'),$('<p>').append('de 10:00 a 24:00h')).addClass('eventDate-event-info-card').css('font-size','1rem');
+
+    var _status = $('<div>').css({'margin-bottom':'0', 'font-size':'1rem','margin-top':'-1rem','width':'32rem'  });
+    var _now = new Date();
+    if (event.published){
+      var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id='+event.event_id).addClass('toEventPageBtn-event-info-card');
+        _status.append(_toEventPageBtn);
+    }
+    else if (_now.getTime() < parseInt(event.start)){
+      _status.append('Apertura convocatoria: ',moment(parseInt(event.start)).locale('es').format('DD MMMM 2016'));
+    }
+    else if (_now.getTime() < parseInt(event.deadline)){
+      _status.append($('<p>').text('¡Convocatoria abierta!'),$('<p>').append('Apúntate desde la ', $('<a>').attr('href','/event?id='+event.event_id).text('página del evento')));
+    }
+    else{
+       _status.append('Convocatoria cerrada');
+    }
+
+    _infoBox.append(_infoTitle, _baseline,_organizer, _days, _status);
+
+    _createdWidget.append(_image, _infoBox);
+
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+
 
   ns.Widgets.EventInfoCardWU = function(event){
     var _createdWidget = $('<div>');
@@ -81,7 +268,6 @@
     var _popupContainer = $('<div>').addClass('fast reveal full');    
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _innerContainer = $('<div>').addClass('vcenter-inner');
-    
 
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
     _closeBtn.append($('<span>').html('&times;'));

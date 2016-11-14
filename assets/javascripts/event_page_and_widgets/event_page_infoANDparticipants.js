@@ -4,43 +4,6 @@
 
   ns.Widgets = ns.Widgets || {};  
 
-  ns.ConfusionInfo =  {
-    name: 'Benimaclet conFusión festival III ed.',
-    baseline: 'Festival libre de expresión gratuita',
-    eventTime: {
-      "2016-10-15": [
-          [
-              "1476518400000",
-              "1476532800000"
-          ],
-          [
-              "1476543600000",
-              "1476568800000"
-          ]
-      ],
-      "2016-10-16": [
-          [
-              "1476604800000",
-              "1476705600000"
-          ],
-          [
-              "1476630000000",
-              "1476655200000"
-          ]
-      ],
-      "permanent": [
-          "11:00",
-          "21:00"
-      ],
-    }, 
-    img: 'cartel_conFusion_2016_cut_kdyyoj',
-    event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
-    place: 'Benimaclet, Valencia',
-    organizer: 'conFusión',
-    profile_id: 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'
-  }
-
-
   ns.Widgets.EventTitle = function(){
     var _createdWidget = $('<div>').addClass('title-infoTab-event-page-container');
 

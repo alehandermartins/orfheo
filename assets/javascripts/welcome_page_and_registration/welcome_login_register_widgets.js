@@ -275,12 +275,31 @@
 
     var _rememberMe = Pard.Widgets.RememberMe(_fields['email'], _fields['password'], _fields['button']);
 
-    Object.keys(_fields).map(function(field){
-      _createdWidget.append(_fields[field].render().attr({name: field}));
-    });
+    var _emailField = _fields['email'].render().attr({name: 'email'});
+    var _passwdField = _fields['password'].render().attr({name:'password'});
+    var _btn = _fields['button'].render();
 
-    // var _tools = $('<div>').addClass('login-header-tools');
-    // _tools.append(_rememberMe.render(),_emailRecovery);
+    // Object.keys(_fields).map(function(field){
+    //   _createdWidget.append(_fields[field].render().attr({name: field}));
+    // });
+
+    _emailField.keypress(function (e) {
+      var key = e.which;
+      if(key == 13){
+        _btn.click();
+        return false;  
+      }
+    });   
+
+    _passwdField.keypress(function (e) {
+      var key = e.which;
+      if(key == 13){
+        _btn.click();
+        return false;  
+      }
+    });   
+
+    _createdWidget.append(_emailField, _passwdField, _btn);
 
     var _checkBox = _rememberMe.render();
 
@@ -348,6 +367,8 @@
     var _createdWidget = $('<form>').addClass('input-login').attr({autocomplete:'on'});
     var _emailRecovery = $('<div>').addClass('passwdRecovery-eventLogin');
     var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
+    // var _caller = $('<a>').attr('href','#').text('Recupera contraseña');
+
 
     var _popup = Pard.Widgets.PopupCreator(_caller,'Recupera tu cuenta', function(){return Pard.Widgets.RecoveryMessage()});
 
