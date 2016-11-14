@@ -5,4 +5,5 @@
 // = require ./helpers
 // = require ./manager
 // = require ./space_program
+// = require ./tables
 // = require ./utils

@@ -2,11 +2,11 @@
 
 (function(ns){
 
-  ns.Widgets = ns.Widgets || {};  
+  ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.CallMainLayout = function(call){
   	var _main = $('<main>').addClass('main-call-page');
-    var _mainLarge = $('<section>').addClass('pard-grid call-section'); 
+    var _mainLarge = $('<section>').addClass('pard-grid call-section');
 
     var _title = $('<h4>').text('Gestiona la Convocatoria').css({'margin-top':'1.5rem', 'margin-bottom':'2.5rem'});
 
@@ -19,13 +19,13 @@
       if (!($('#tablePanel').html())){
         var spinner =  new Spinner().spin();
         $.wait(
-          '', 
+          '',
           function(){
             $('body').append(spinner.el);
-          }, 
+          },
           function(){
             setTimeout(function(){
-              var _appendAndStopSpinner = function(stopSpinner){ 
+              var _appendAndStopSpinner = function(stopSpinner){
                 $('#tablePanel').append(Pard.Widgets.TablePanelContent(call).render());
                 stopSpinner();
               }
@@ -40,7 +40,7 @@
 			$('.tab-selected').removeClass('tab-selected');
 			$(this).addClass('tab-selected');
 			_tabShowHide('tablePanel');
-      
+
 		});
 
   	var _proposalsTabTitle =	$('<a>').attr({href: "#"}).text('Propuestas');
@@ -49,13 +49,13 @@
   	_proposalsTab.one('click',function(){
        var spinner =  new Spinner().spin();
         $.wait(
-          '', 
+          '',
           function(){
             $('body').append(spinner.el);
-          }, 
+          },
           function(){
             setTimeout(function(){
-              var _appendAndStopSpinner = function(stopSpinner){ 
+              var _appendAndStopSpinner = function(stopSpinner){
                 $('#proposalsPanel').append(Pard.Widgets.ProposalsPanelContent(call).render());
                 stopSpinner();
               }
@@ -66,30 +66,30 @@
             },0)
           }
         );
-      
+
 		});
 		_proposalsTab.click(function(){
 			$('.tab-selected').removeClass('tab-selected');
 			$(this).addClass('tab-selected');
 			_tabShowHide('proposalsPanel');
-      
+
 		});
-		
+
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
     var _programTab = $('<li>').append(_programTabTitle);
     _programTab.on('click',function(){
-      
+
 
       if (!($('#programPanel').html())){
         var spinner =  new Spinner().spin();
           $.wait(
-            '', 
+            '',
             function(){
               $('body').append(spinner.el);
-            }, 
+            },
             function(){
               setTimeout(function(){
-                var _appendAndStopSpinner = function(stopSpinner){ 
+                var _appendAndStopSpinner = function(stopSpinner){
                 var startTime = new Date().getTime();
 
                   $('#programPanel').append(Pard.Widgets.ProgramManager().render());
@@ -110,24 +110,24 @@
 			$('.tab-selected').removeClass('tab-selected');
 			$(this).addClass('tab-selected');
 			_tabShowHide('programPanel');
-      
+
 		});
 
     var _qrTabTitle =  $('<a>').attr({href: "#"}).text('QR');
     var _qrTab = $('<li>').append(_qrTabTitle);
     var _goToEventPage = $('<a>').attr({href: "/event?id="+call.event_id}).text('Página del evento');
-    _qrTab.on('click',function(){    
+    _qrTab.on('click',function(){
 
       if (!($('#qrPanel').html())){
         var spinner =  new Spinner().spin();
           $.wait(
-            '', 
+            '',
             function(){
               $('body').append(spinner.el);
-            }, 
+            },
             function(){
               setTimeout(function(){
-                var _appendAndStopSpinner = function(stopSpinner){ 
+                var _appendAndStopSpinner = function(stopSpinner){
 
                  $('#qrPanel').append(Pard.Widgets.QRManager(call.qr).render(), _goToEventPage);
                   stopSpinner();
@@ -144,11 +144,11 @@
       $('.tab-selected').removeClass('tab-selected');
       $(this).addClass('tab-selected');
       _tabShowHide('qrPanel');
-      
+
     });
-  		
+
   	_tabs.append(
-  		_tableTab, 
+  		_tableTab,
   		_proposalsTab,
   		_programTab,
       _qrTab
@@ -201,7 +201,7 @@
     var _contentBoxSpaces = $('<div>').addClass('content-box-ArtistSpace');
     var _contentBoxProgram = $('<div>').addClass('content-box-ArtistSpace');
 
-    var _types = ['artist', 'space' ,'program'];  
+    var _types = ['artist', 'space' ,'program'];
     var _tagsTypes = [];
     _types.forEach(function(type){
     	_tagsTypes.push({id: type, text:Pard.Widgets.Dictionary(type).render()});
@@ -241,13 +241,13 @@
       if (selected == 'space' && !(_contentBoxSpaces.html())){
         var spinner =  new Spinner().spin();
         $.wait(
-          '', 
+          '',
           function(){
             _contentBoxSpaces.append(spinner.el);
-          }, 
+          },
           function(){
             setTimeout(function(){
-              var _appendAndStopSpinner = function(stopSpinner){ 
+              var _appendAndStopSpinner = function(stopSpinner){
                 _contentBoxSpaces.append(Pard.Widgets.CallManagerContent(_proposalsSelected['space'], _categories['space']).render());
                 stopSpinner();
               }
@@ -261,17 +261,17 @@
         var spinner =  new Spinner().spin();
         var _check = false;
         $.wait(
-          '', 
+          '',
           function(){
             _contentBoxProgram.append(spinner.el);
             if (!($('#programPanel').html())){
               $('#programPanel').append(Pard.Widgets.ProgramManager().render());
               _check = true;
             }
-          }, 
+          },
           function(){
             setTimeout(function(){
-              var _appendAndStopSpinner = function(stopSpinner){ 
+              var _appendAndStopSpinner = function(stopSpinner){
                 _contentBoxProgram.append(Pard.Widgets.ProgramTableContent(_categories).render());
                 stopSpinner();
               }
@@ -293,7 +293,7 @@
     _contentBoxSpaces.hide();
     _contentBoxProgram.hide();
     var _shown = _contentBoxArtists;
-		_typesSelectorBox.append(_typesSelector);  
+		_typesSelectorBox.append(_typesSelector);
     _createdWidget.append(_typesSelectorBox, _contentBoxArtists, _contentBoxSpaces, _contentBoxProgram);
 
     _typesSelector.select2({
@@ -351,7 +351,7 @@
       Pard.Spaces.forEach(function(space){
         order.push(space.proposal_id);
       });
-      
+
       Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
     }).render().addClass('submit-program-btn-call-manager');
 
@@ -414,9 +414,9 @@
   }
 
   ns.Widgets.PrintProgramTable = function(checkBoxes, filterCategory, columns, shownColumns){
-    
 
-    var _createdWidget = $('<div>').addClass('program-table-container');     
+
+    var _createdWidget = $('<div>').addClass('program-table-container');
 
     var _dataTable ;
 
@@ -431,14 +431,14 @@
       // var myPermanentPerformances = [];
       // program.forEach(function(performance){
       //   if(performance.participant_id == artist.profile_id) myPerformances.push(performance);
-      // });    
+      // });
 
-      var _permanents = [];   
+      var _permanents = [];
 
       _reorderedProgram = Pard.Widgets.ReorderProgramCrono(program);
 
       var _tableCreated = $('<table>').addClass('table-proposal stripe row-border program-table').attr({'cellspacing':"0", 'width':"950px"});
-  
+
       var _thead = $('<thead>');
       var _titleRow = $('<tr>')
       // .addClass('title-row-table-proposal');
@@ -484,7 +484,7 @@
           }
         });
         var artistProposal = Pard.Widgets.GetProposal(performance.participant_proposal_id);
-        
+
         var cardInfo = {
           performance_id: performance.performance_id,
           participant_id: artistProposal.profile_id,
@@ -505,10 +505,10 @@
         if (field == 'day'){
           _col.append(moment(new Date(performance['date'])).locale('es').format('DD-MM-YYYY'));
         }
-        else if (field == 'time'){     
+        else if (field == 'time'){
           _col.append(moment(new Date(parseInt(performance['time'][0]))).locale('es').format('HH:mm')+'-'+moment(new Date (parseInt(performance['time'][1]))).locale('es').format('HH:mm'));
         }
-        else if (field == 'space'){  
+        else if (field == 'space'){
           var _programCaller = $('<a>').attr('href','#').text(spaceProposal['name']);
           _programCaller.on('click', function(){
             _searchImputText = $('.program-table-container .dataTables_filter input').val();
@@ -520,7 +520,7 @@
             var _message = Pard.Widgets.PopupContent(spaceProposal.name, Pard.Widgets.SpaceProgram(spaceProposal), 'space-program-popup-call-manager');
             _message.setCallback(function(){
               _popup.close();
-              _createdWidget.empty(); 
+              _createdWidget.empty();
               shownColumns = [];
               var _checkedBoxes = checkBoxes.getVal();
               columns.forEach(function(col, index){
@@ -533,10 +533,10 @@
           });
           _col.append(_programCaller);
         }
-        else if (field == 'space_category'){   
+        else if (field == 'space_category'){
           _col.append(Pard.Widgets.Dictionary(spaceProposal['category']).render());
         }
-         else if (field == 'space_number'){   
+         else if (field == 'space_number'){
           _col.append(spaceNumber);
         }
         else if (field == 'artist'){
@@ -551,7 +551,7 @@
             var _message = Pard.Widgets.PopupContent(artistProposal.name, Pard.Widgets.ArtistProgram(artistProposal), 'space-program-popup-call-manager');
             _message.setCallback(function(){
               _popup.close();
-              _createdWidget.empty(); 
+              _createdWidget.empty();
               shownColumns = [];
               var _checkedBoxes = checkBoxes.getVal();
               columns.forEach(function(col, index){
@@ -564,7 +564,7 @@
           });
           _col.append(_programCaller);
         }
-        else if (field == 'title'){     
+        else if (field == 'title'){
           // var _catIcon =  Pard.Widgets.IconManager(artistProposal['category']).render().css('font-size','13px');
           // var _namePopupCaller = $('<a>').attr({'href':'#'}).append(_catIcon,' ', artistProposal['title']);
           var _namePopupCaller = $('<a>').attr({'href':'#'}).append(artistProposal['title']);
@@ -601,7 +601,7 @@
                 var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
                 var _message = Pard.Widgets.PopupContent(artistProposal.title+' (' + artistProposal.name + ')', Pard.Widgets.PerformanceProgram(cardInfo, true));
                 _message.setCallback(function(){
-                  _createdWidget.empty(); 
+                  _createdWidget.empty();
                    shownColumns = [];
                     var _checkedBoxes = checkBoxes.getVal();
                     columns.forEach(function(col, index){
@@ -616,10 +616,10 @@
             }
          _col.append(_namePopupCaller);
         }
-        else if (field == 'comments'){     
+        else if (field == 'comments'){
           _col.append(performance['comments']);
         }
-        else if (field == 'confirmed'){ 
+        else if (field == 'confirmed'){
           var _text;
           if (performance['confirmed']) _text = 'Sí';
           else _text = 'No';
@@ -628,7 +628,7 @@
         else if (field == 'category'){
           _col.append(Pard.Widgets.Dictionary(artistProposal[field]).render());
         }
-        else { 
+        else {
           _col.append(artistProposal[field]);
         }
           _row.append(_col);
@@ -639,7 +639,7 @@
       });
 
       if (_permanents.length) {
-        var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager'); 
+        var _permanentRow = $('<tr>').addClass('permanent-row-program-table-call-manager');
         columns.forEach(function(field){
           var _colClass = 'column-'+field;
           var _col = $('<td>').addClass('column-space-program-call-manager');
@@ -655,12 +655,12 @@
       }
       _tableCreated.append(_tbody);
       _createdWidget.append(_tableCreated);
-      
+
       var _hiddenColumnsArray=[];
       columns.forEach(function(field, colNum){
         if($.inArray(field,shownColumns)<0) _hiddenColumnsArray.push(colNum);
       });
-      
+
       _dataTable = _tableCreated.DataTable({
         "language":{
         "lengthMenu": " Resultados por página _MENU_",
@@ -685,7 +685,7 @@
       "scrollCollapse": true,
       // 'responsive': true,
       // 'colReorder': true,
-      
+
       // keys: true,
       // "bSort": false,
       aaSorting: [],
@@ -724,11 +724,11 @@
     }
 
     _printTable();
-   
+
     return{
       render: function(){
         return _createdWidget;
-      }, 
+      },
       dataTableCreated: function(){
         return _dataTable;
       }
@@ -738,7 +738,7 @@
 
 
   ns.Widgets.EventManagerContent = function(proposalsSelected, categories){
-  	
+
     var _selected = proposalsSelected[0].type;
 
     var _shownColumns = {
@@ -768,7 +768,7 @@
      var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
     categories.forEach(function(cat){
       _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render(), icon: cat});
-    });  
+    });
 
    	var _tableBox = $('<div>').addClass('table-box-call-manager-page');
 
@@ -927,8 +927,8 @@
       };
       if (_table) _table.column(columnNum).visible( _checkBox.getVal() );
 
-    	_checkBox.labelToggle(); 	
-    
+    	_checkBox.labelToggle();
+
     	_checkBoxesBox.append(_checkBoxRendered);
 
       _checkBoxesArray.push(_checkBox);
@@ -945,17 +945,17 @@
       var spinner =  new Spinner().spin();
       _checkBoxesBox.empty();
         $.wait(
-          '', 
+          '',
           function(){
             _checkBoxesBox.append(spinner.el);
-          }, 
+          },
           function(){
             setTimeout(function(){
-              var _appendAndStopSpinner = function(stopSpinner){ 
+              var _appendAndStopSpinner = function(stopSpinner){
                 var _val = _allCheckBoxes.getVal();
                 if (_val) _printCheckBoxes(_checkBoxesField);
                 else _printCheckBoxes([]);
-                stopSpinner();    
+                stopSpinner();
               }
               _appendAndStopSpinner(function(){spinner.stop()});
             },0)
@@ -964,7 +964,7 @@
     });
 
     _allCheckBoxesBox.append(_allCheckBoxesRendered);
-    _allCheckBoxes.labelToggle(); 	
+    _allCheckBoxes.labelToggle();
 
     _createdWidget.append(_allCheckBoxesBox, _checkBoxesBox);
 
@@ -975,16 +975,16 @@
       })
       return _checks;
     }
-   
+
     return {
 	  	render: function(){
 	  		return _createdWidget;
 	  	},
 	  	getVal: function(){
 	  		return _getColumns();
-	  	}, 
+	  	},
 	  	setCallback: function(table){
-        _table = table;	      
+        _table = table;
       }
   	}
   }
@@ -996,13 +996,13 @@
    	var reorder = function(colNum){};
 
    	var _printTable = function(proposalsSelected){
-	
+
     	var _thead = $('<thead>');
     	var _titleRow = $('<tr>')
       // .addClass('title-row-table-proposal');
 
     	columns.forEach(function(field, colNum){
-    		if (field == 'link_orfheo'){ 
+    		if (field == 'link_orfheo'){
   	 		  var _titleCol = $('<th>').text('rfh');
           _titleRow.append(_titleCol);
         }
@@ -1023,7 +1023,7 @@
       // .addClass('title-row-table-proposal');
 
       columns.forEach(function(field, colNum){
-        if (field == 'link_orfheo'){ 
+        if (field == 'link_orfheo'){
           var _titleCol = $('<th>').text('rfh');
           _titleRow.append(_titleCol);
         }
@@ -1115,7 +1115,7 @@
   	_printTable(proposalsSelected);
 
 
-   
+
 		return{
 			render: function(){
 				return _tableCreated;

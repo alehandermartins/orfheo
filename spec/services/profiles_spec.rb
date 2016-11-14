@@ -74,7 +74,7 @@ describe Services::Profiles do
       Services::Profiles.destroy_old_pictures old_pictures, production
     end
 
-    it 'does not delete images used by proposals' do
+    it 'does not delete images if unchanged' do
       old_pictures = Services::Profiles.production_old_pictures production_id
       expect(Cloudinary::Api).not_to receive(:delete_resources)
       Services::Profiles.destroy_old_pictures old_pictures, production

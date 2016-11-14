@@ -42,7 +42,8 @@
       'street_art': '#FF3333',
       'audiovisual': '#C0C0C0',
       'other': '#FF8000',
-      'workshop': '#994C00'
+      'workshop': '#994C00',
+      'gastronomy': '#821486'
     }
 
     return _dictionary[category];
@@ -207,6 +208,12 @@
       id: 'audiovisual',
       text: 'Audiovisual',
       icon: 'audiovisual',
+      type: 'category'
+    });
+    artistProposals.push({
+      id: 'gastronomy',
+      text: 'Gastronomía',
+      icon: 'gastronomy',
       type: 'category'
     });
     artistProposals.push({
