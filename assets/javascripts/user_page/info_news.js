@@ -18,28 +18,28 @@
     },
     "img" : "cartel_conFusion_2016_cut_kdyyoj",
     "eventTime" : {
-        "2016-10-15" : [ 
-            [ 
-                "1476518400000", 
+        "2016-10-15" : [
+            [
+                "1476518400000",
                 "1476532800000"
-            ], 
-            [ 
-                "1476543600000", 
+            ],
+            [
+                "1476543600000",
                 "1476568800000"
             ]
         ],
-        "2016-10-16" : [ 
-            [ 
-                "1476604800000", 
+        "2016-10-16" : [
+            [
+                "1476604800000",
                 "1476705600000"
-            ], 
-            [ 
-                "1476630000000", 
+            ],
+            [
+                "1476630000000",
                 "1476655200000"
             ]
         ],
-        "permanent" : [ 
-            "11:00", 
+        "permanent" : [
+            "11:00",
             "21:00"
         ]
     },
@@ -63,68 +63,68 @@
       "postal_code": "46008"
     },
     "eventTime" : {
-        "2017-03-30" : [ 
-            [ 
-                "1490893200000", 
+        "2017-03-30" : [
+            [
+                "1490893200000",
                 "1490893200000"
-            ], 
-            [ 
-                "1490905800000", 
+            ],
+            [
+                "1490905800000",
                 "1490905800000"
             ]
         ],
-        "2017-03-31" : [ 
-            [ 
-                "1490970600000", 
+        "2017-03-31" : [
+            [
+                "1490970600000",
                 "1490970600000"
-            ], 
-            [ 
-                "1490997600000", 
+            ],
+            [
+                "1490997600000",
                 "1490997600000"
             ]
         ],
-        "2017-04-01" : [ 
-            [ 
-                "1491033600000", 
+        "2017-04-01" : [
+            [
+                "1491033600000",
                 "1491033600000"
-            ], 
-            [ 
-                "1491084000000", 
+            ],
+            [
+                "1491084000000",
                 "1491084000000"
             ]
         ],
-        "2017-04-02" : [ 
-            [ 
-                "1491120000000", 
+        "2017-04-02" : [
+            [
+                "1491120000000",
                 "1491120000000"
-            ], 
-            [ 
-                "1491170400000", 
+            ],
+            [
+                "1491170400000",
                 "1491170400000"
             ]
         ],
-        "2017-04-07" : [ 
-            [ 
-                "1491575400000", 
+        "2017-04-07" : [
+            [
+                "1491575400000",
                 "1491575400000"
-            ], 
-            [ 
-                "1491602400000", 
+            ],
+            [
+                "1491602400000",
                 "1491602400000"
             ]
         ],
-        "2017-04-08" : [ 
-            [ 
-                "1491638400000", 
+        "2017-04-08" : [
+            [
+                "1491638400000",
                 "1491638400000"
-            ], 
-            [ 
-                "1491688800000", 
+            ],
+            [
+                "1491688800000",
                 "1491688800000"
             ]
         ],
-        "permanent" : [ 
-            "17:00", 
+        "permanent" : [
+            "17:00",
             "21:00"
         ]
     },
@@ -134,7 +134,7 @@
 
   ns.Widgets.ConfusionProgramOnline = function(date){
     var _newsContainer = $('<div>').addClass('news-box-welcome-page');
-    
+
     var _event = Pard.ConfusionInfo;
 
     var _eventCard = Pard.Widgets.EventInfoCardWU(_event);
@@ -154,7 +154,7 @@
 
   ns.Widgets.Distrito008Call = function(date){
      var _newsContainer = $('<div>').addClass('news-box-welcome-page');
-    
+
     var _event = Pard.DistritoInfo;
 
     var _eventCard = Pard.Widgets.EventInfoCardDistrito(_event);
@@ -178,13 +178,13 @@
     var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
     var _logo = $('<a>').append($.cloudinary.image(event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
     _image.append(_logo);
-    
+
     var _popupImg = $.cloudinary.image(event.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
 
-    var _popupContainer = $('<div>').addClass('fast reveal full');    
+    var _popupContainer = $('<div>').addClass('fast reveal full');
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _innerContainer = $('<div>').addClass('vcenter-inner');
-    
+
 
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
     _closeBtn.append($('<span>').html('&times;'));
@@ -262,10 +262,10 @@
     var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
     var _logo = $('<a>').append($.cloudinary.image(event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
     _image.append(_logo);
-    
+
     var _popupImg = $.cloudinary.image(event.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
 
-    var _popupContainer = $('<div>').addClass('fast reveal full');    
+    var _popupContainer = $('<div>').addClass('fast reveal full');
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _innerContainer = $('<div>').addClass('vcenter-inner');
 
@@ -338,10 +338,10 @@
       "city" : "Benimaclet (Valencia)",
       "color" : "#920a0a",
       "type" : "organization",
-      "profile_picture" : [ 
-          "profile_picture/zwqdpibl1ocxrsozdghp"
+      "profile_picture" : [
+          "profile_picture/ckeakobhaf10jmh93pyk"
       ]
-    }   
+    }
     _card = Pard.Widgets.CreateCard(_profileConfusion).render();
     _cardContainer.append(_card);
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
