@@ -146,7 +146,7 @@
     _content.append(_message.render());
     _popup.open();
   };
-
+ 
 
   ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     

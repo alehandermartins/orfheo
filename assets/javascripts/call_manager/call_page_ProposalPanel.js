@@ -3,86 +3,9 @@
 (function(ns){
     ns.Widgets = ns.Widgets || {};  
 
-  ns.Widgets.CreateOwnProposal = function(the_event, callback){
-    
-    var _createdWidget = $('<div>');
+  ns.Widgets.CreateOwnProposal = function(forms, the_event, callbackCreatedProposal){
 
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
-    var _submitForm = {};
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var _invalidInput = $('<div>').addClass('not-filled-text');
-    var _preSelected = 'music';
-    var _closepopup = {};
-
-    var user_id = the_event.user_id;
-
-    _submitForm['call_id'] = the_event.call_id;
-    _submitForm['type'] = 'artist';
-    _submitForm['category'] = _preSelected;
-   
-    var _content = $('<form>').addClass('popup-form');
-
-    var _form = {};
-    var _requiredFields = [];
-
-    var _printForm = function(_selected){
-      _content.empty();
-      var _fieldset = $('<fieldset>');
-      _requiredFields = Pard.Forms.CreateArtistProposal(_selected).requiredFields();
-      _form = Pard.Forms.CreateArtistProposal(_selected).render();
-      _form['email'].input.setVal('hola@beniconfusionfest.es');
-      _form['phone'].input.setVal('000 000 000');
-      for(var field in _form){
-        _content.append($('<div>').addClass('callPage-createArtistProposal' ).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
-      };
-      _submitForm['category'] = _selected;
-    }
-     
-
-    var categorySelectCallback = function(){
-      var _selected = $(this).val();
-      _printForm(_selected);
-    };
-
-    var _categorySelector = Pard.Widgets.OrfheoArtCatSelector(categorySelectCallback);
-    var _categoryLabel = $('<label>').text('Selecciona una categoría *');
-
-    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
-
-    _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
-    _printForm(_preSelected);
-   
-    var _filled = function(){
-      var _check = true;
-      for(var field in _form){
-        if ($.inArray(field, _requiredFields) >= 0 ){
-          if(!(_form[field].input.getVal())) {
-            _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
-            _check = false;
-          }
-        }
-      }
-      if (_check) _invalidInput.empty();
-      return _check;    
-    };
-
-
-    var _getVal = function(url){
-      for(var field in _form){
-         _submitForm[field] = _form[field].input.getVal();
-      };
-      return _submitForm;
-    }
-
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        var _ownProposal = _getVal();
-        Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
-        _closepopup();
-      }
-    });
-  
+    var _createdWidget = $('<div>');   
 
     return {
       render: function(){
@@ -90,6 +13,305 @@
       },
       setCallback: function(callback){
         _closepopup = callback;
+      }
+    }
+
+  }
+    
+  //   var _createdWidget = $('<div>');
+
+  //   var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+  //   var _submitForm = {};
+  //   var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+  //   var _invalidInput = $('<div>').addClass('not-filled-text');
+  //   var _preSelected = 'music';
+  //   var _closepopup = {};
+
+  //   var user_id = the_event.user_id;
+
+  //   _submitForm['call_id'] = the_event.call_id;
+  //   _submitForm['type'] = 'artist';
+  //   _submitForm['category'] = _preSelected;
+   
+  //   var _content = $('<form>').addClass('popup-form');
+
+  //   var _form = {};
+  //   var _requiredFields = [];
+
+  //   var _printForm = function(_selected){
+  //     _content.empty();
+  //     var _fieldset = $('<fieldset>');
+  //     _requiredFields = Pard.Forms.CreateArtistProposal(_selected).requiredFields();
+  //     _form = Pard.Forms.CreateArtistProposal(_selected).render();
+  //     _form['email'].input.setVal('hola@beniconfusionfest.es');
+  //     _form['phone'].input.setVal('000 000 000');
+  //     for(var field in _form){
+  //       _content.append($('<div>').addClass('callPage-createArtistProposal' ).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+  //     };
+  //     _submitForm['category'] = _selected;
+  //   }
+     
+
+  //   var categorySelectCallback = function(){
+  //     var _selected = $(this).val();
+  //     _printForm(_selected);
+  //   };
+
+  //   var _categorySelector = Pard.Widgets.OrfheoArtCatSelector(categorySelectCallback);
+  //   var _categoryLabel = $('<label>').text('Selecciona una categoría *');
+
+  //   var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
+
+  //   _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
+  //   _printForm(_preSelected);
+   
+  //   var _filled = function(){
+  //     var _check = true;
+  //     for(var field in _form){
+  //       if ($.inArray(field, _requiredFields) >= 0 ){
+  //         if(!(_form[field].input.getVal())) {
+  //           _form[field].input.addWarning();
+  //           _invalidInput.text('Por favor, revisa los campos obligatorios.');
+  //           _check = false;
+  //         }
+  //       }
+  //     }
+  //     if (_check) _invalidInput.empty();
+  //     return _check;    
+  //   };
+
+
+  //   var _getVal = function(url){
+  //     for(var field in _form){
+  //        _submitForm[field] = _form[field].input.getVal();
+  //     };
+  //     return _submitForm;
+  //   }
+
+  //   submitButton.on('click',function(){
+  //     if(_filled() == true){
+  //       var _ownProposal = _getVal();
+  //       Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
+  //       _closepopup();
+  //     }
+  //   });
+  
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     setCallback: function(callback){
+  //       _closepopup = callback;
+  //     }
+  //   }
+  // }
+
+  ns.Widgets.PrintOwnProposalForm = function(form){
+
+    var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+
+    var _send = function(){};
+
+    var _submitForm = {};
+    var _form = {};
+    var _url = [];
+    var _formContainer = $('<form>').addClass('popup-form');
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
+
+    var _closepopup = {};
+    var spinner =  new Spinner();
+    var _photos;
+    var _orfheoCategory;
+    // var _conditions;
+
+    var _displayAllBtn = $('<a>').attr('href','#').text('Todos los campos');
+
+    var _containerOrfheoFields = $('<div>')
+    var _containerCustom = $('<div>');
+    var _containerCustomFields = $('<div>');
+    _containerCustom.append(_displayAllBtn, _containerCustomFields);
+    _formContainer.append(_containerOrfheoFields, _containerCustom);
+
+    Object.keys(form).forEach(function(field){
+      _form[field] = {};
+      _form[field]['type'] = form[field].type;
+      if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+      else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
+      if (form[field]['input']=='CheckBox') {
+        form[field].args[0] = form[field].label;
+        if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
+      }
+      _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+      _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
+
+      if (field == 'photos') {
+        var _thumbnail = $('<div>');
+        var _photosLabel = $('<label>').text(form[field].label);
+        var _photoWidget = _form[field].input;
+        var _photos = _photoWidget.getPhotos();
+        var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
+        if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
+        _photos.cloudinary().bind('cloudinarydone', function(e, data){
+          var _url = _photoWidget.getVal();
+          _url.push(data['result']['public_id']);
+          if(_url.length >= _photos.dataLength()) _send();
+        });
+      _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','3rem'));
+      }
+      else if (field == 'category'){
+        if (profile.category){
+          _orfheoCategory = profile.category;
+        }
+        else{ 
+          if (form[field].args[1].length>1){
+            var _formField = $('<div>');
+            _containerOrfheoFields.append(
+            _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
+              _form[field].label.render(),
+              _form[field].input.render())
+            )
+            if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
+          }
+          else{
+            _orfheoCategory = form[field].args[1][0]; 
+          }
+        }
+      }
+      else{
+        if (form[field].input == 'TextAreaCounter'){
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+                _form[field].label.render(),_form[field].input.render());
+        }
+        else if (form[field].input == 'CheckBox'){
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
+          if (form[field]['helptext'].length) {
+            if (field == 'conditions') {
+              var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
+            }
+            else {
+              var _helptextfield = _form[field].helptext.render();
+            }
+            _helptextfield.css({'margin-top':'0'});
+            _formField.append(_helptextfield);
+          }  
+        }
+        else{
+          if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+            _form[field].label.render(),
+            _form[field].input.render()
+          )
+          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
+          if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
+            if (field == 'availability'){
+              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+                selectAllText: "Selecciona todo",
+                countSelected: false,
+                allSelected: "Disponible todos los días"
+              });
+            }
+            else{
+              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+                selectAll: false,
+                countSelected: false,
+                allSelected: false
+              });
+            }
+            _form[field].helptext.render().css('margin-top', 5);
+          }
+        }
+        if($.isNumeric(field)) _containerCustomFields.append(_formField);
+        else _containerOrfheoFields.append(_formField);
+      }
+    });
+
+    // _containerCustomFields.append(_conditions);
+
+
+    var _filled = function(){
+      var _check = true;
+      for(var field in _form){
+        if(_form[field].type == 'mandatory' && !(_form[field].input.getVal()) && field != 'category'){
+          _form[field].input.addWarning();
+          _invalidInput.text('Por favor, revisa los campos obligatorios.');
+          _check = false;
+        }
+      } 
+      return _check;
+    }
+
+    var _getVal = function(){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      };
+      _submitForm['call_id'] = Pard.CachedEvent.call_id;
+      _submitForm['event_id'] = Pard.CachedEvent.event_id;
+      _submitForm['profile_id'] = profile.profile_id;
+      _submitForm['type'] = profile.type;
+      if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
+      _submitForm['form_category'] = formTypeSelected;
+      if (production_id) _submitForm['production_id'] = production_id; 
+      if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
+      return _submitForm;
+    }
+
+
+    submitButton.on('click',function(){
+      spinner.spin();
+      $.wait(
+        '',
+        function(){ 
+          $('body').append(spinner.el);
+          submitButton.attr('disabled',true);
+          if(_filled() == true){
+            if(_photos.dataLength() == false) _send();
+            else{
+              _photos.submit();
+            }
+          }
+          else(spinner.stop());
+        },
+        function(){
+          setTimeout(
+            function(){
+              submitButton.attr('disabled',false);
+              spinner.stop(); 
+            }, 
+            1000
+          );
+        }
+      )
+    });
+    
+    _submitBtnContainer.append(submitButton);
+    _formContainer.append(_invalidInput, _submitBtnContainer);
+
+    return {
+      render: function(){
+        return _formContainer;
+      },
+      Spinner: function(){
+        return spinner;
+      },
+      setSend: function(send){
+        _send = send
+      },
+      setCallback: function(callback){
+        _closepopup = callback;
+      },
+      getVal: function(){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      }
+      return _submitForm;
+      },
+      setVal: function(production){
+        for(var field in production){
+          if (_form[field]) _form[field].input.setVal(production[field]);
+        }
       }
     }
   }
