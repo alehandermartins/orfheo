@@ -130,6 +130,12 @@ describe EventsController do
       post create_event_route, event
       expect(parsed_response['status']).to eq('success')
     end
+
+    it 'retrieves all events' do
+      expect(Repos::Events).to receive(:get_events)
+      post '/events'
+      expect(parsed_response['status']).to eq('success')
+    end
   end
 
   describe 'Create_performance' do

@@ -113,6 +113,13 @@ describe Repos::Events do
     it 'retrieves the name of the event' do
       expect(Repos::Events.get_event_name(event_id)).to eq('event_name')
     end
+
+    it 'retrieves all the events' do
+      expect((Repos::Events.get_events).first).to include({
+        user_id: user_id,
+        event_id: event_id,
+      })
+    end
   end
 
   describe 'Exists?' do
@@ -158,7 +165,7 @@ describe Repos::Events do
   end
 
   describe 'Add participants' do
-    
+
     it 'adds an artist' do
       Repos::Events.add_artist event_id, artist
       saved_entry = @db['events'].find({}).first
@@ -352,7 +359,7 @@ describe Repos::Events do
       expect(Repos::Events.proposal_on_time? event_id, 'otter_user').to eq(true)
     end
   end
-  
+
   describe 'Delete' do
     before(:each){
       Repos::Events.add_artist event_id, artist
@@ -386,13 +393,13 @@ describe Repos::Events do
     it 'removes the artist_proposal from programs' do
       Repos::Events.add_performance event_id, performance
       Repos::Events.delete_artist_proposal proposal_id
-      expect(Repos::Events.get_program(event_id)).to eq([]) 
+      expect(Repos::Events.get_program(event_id)).to eq([])
     end
 
     it 'removes the space_proposal from programs' do
       Repos::Events.add_performance event_id, performance
       Repos::Events.delete_space_proposal space_proposal_id
-      expect(Repos::Events.get_program(event_id)).to eq([]) 
+      expect(Repos::Events.get_program(event_id)).to eq([])
     end
   end
 
@@ -414,10 +421,10 @@ describe Repos::Events do
   #         :short_description=>"short_description",
   #         :children=>"true",
   #         :participant_category=>"arts",
-  #         :host_category=> 'home', 
+  #         :host_category=> 'home',
   #         :order => 0
   #       },
-  #       { 
+  #       {
   #         :time=>["3", "6"],
   #         :participant_id => profile_id,
   #         :participant_proposal_id => "otter_proposal",
@@ -444,7 +451,7 @@ describe Repos::Events do
   #   }
 
   #   it 'adds a program to a proposal' do
-  #     expect(Repos::Calls.get_call(call_id)[:program]).to eq(program) 
+  #     expect(Repos::Calls.get_call(call_id)[:program]).to eq(program)
   #   end
 
   #   it 'retrieves the program' do
