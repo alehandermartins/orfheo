@@ -42,7 +42,7 @@ Faye::WebSocket.load_adapter('thin')
 class BaseController < Sinatra::Base
   set :environment, (ENV['RACK_ENV'].to_sym || :production) rescue :production
   set server: 'thin', connections: []
-  
+
   register Sinatra::ConfigFile
 
   config_file File.join(File.dirname(__FILE__) , 'config.yml')
@@ -84,21 +84,6 @@ class BaseController < Sinatra::Base
     #enable :sessions
   end
 
-  # options = {
-  #   :from => 'no.reply.orfheo@gmail.com',
-  #   :headers => { 'Content-Type' => 'text/html' },
-  #   :via => :smtp,
-  #   :via_options => {
-  #     :address => 'smtp.sendgrid.net',
-  #     :port => '587',
-  #     :domain => 'heroku.com',
-  #     :user_name => ENV['SENDGRID_USERNAME'],
-  #     :password => ENV['SENDGRID_PASSWORD'],
-  #     :authentication => :plain,
-  #     :enable_starttls_auto => true
-  #   }
-  # }
-
   options = {
     :from => 'no.reply.orfheo@gmail.com',
     :headers => { 'Content-Type' => 'text/html' },
@@ -107,21 +92,18 @@ class BaseController < Sinatra::Base
       :address => 'smtp.sendgrid.net',
       :port => '587',
       :domain => 'heroku.com',
-      :user_name => 'app47085092@heroku.com',
-      :password => 'a9awf3mj5410',
+      :user_name => ENV['SENDGRID_USERNAME'],
+      :password => ENV['SENDGRID_PASSWORD'],
       :authentication => :plain,
       :enable_starttls_auto => true
     }
   }
 
-
-  
   Mongo::Logger.logger.level = ::Logger::FATAL
 
   configure :development, :test do
     @@db = Mongo::Client.new('mongodb://localhost:27017/Orfheo/cg_dev')
-    #Pony.override_options = {:from => 'no.reply.orfheo@gmail.com', :via => :test }
-    Pony.override_options = options
+    Pony.override_options = {:from => 'no.reply.orfheo@gmail.com', :via => :test }
     Cloudinary.config do |config|
       config.cloud_name = 'hxgvncv7u'
       config.api_key = '844974134959653'
