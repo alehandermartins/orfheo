@@ -138,7 +138,6 @@ WELCOME PAGE
 .news-date{
   float: right;
   font-size: $almostNormalSize;
-  padding-left: 50%;
   margin-bottom: 0.4rem;
 }
 
@@ -155,7 +154,8 @@ WELCOME PAGE
 }
  */
 .news-date-container{
-  height: 1.5rem;
+  height: 1rem;
+  position: relative;
 }
 
 .news-box-welcome-page, .searchBox-welcome-page{

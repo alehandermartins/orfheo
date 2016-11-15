@@ -417,12 +417,13 @@
           proposal.name = artist.name;
           proposal.phone = artist.phone;
           proposal.email = artist.email;
+          //needed for conFusion 2016 proposals
+          if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render()
 
           //Proposal form info
           titleText.on('click', function(){
           if (!(_forms)) {
               Pard.Backend.getCallForms(the_event.call_id, function(data){
-              console.log(artist);
                 _forms = data.forms;
                 Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category],the_event.name);
               });
