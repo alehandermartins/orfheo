@@ -9,7 +9,10 @@
 
     var _title = $('<h3>').text(Pard.CachedEvent.name).addClass('title-infoTab-event-page');
 
-    if(true){
+    var _opening = new Date(parseInt(Pard.CachedEvent.start));
+    var _closing = new Date(parseInt(Pard.CachedEvent.deadline));
+    var _now = new Date();
+    if((_opening.getTime()<_now.getTime()) && (_now.getTime()<_closing.getTime())){
     var _callToAction = $('<button>').attr('type','button').html('¡Apúntate!').addClass('signUp-button-welcome-section button-event-header');
     _callToAction.on('click',function(){
       if (Pard.UserStatus['status'] == 'outsider'){
