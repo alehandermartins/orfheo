@@ -122,7 +122,7 @@
           }
         })
         _link.text(_url);
-       _personalWebs.append($('<div>').addClass('information-contact-icon-column').append(_iconLink), $('<p>').addClass('information-contact-text-column').append(_link));        
+       _personalWebs.append($('<div>').append(_iconLink.addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append(_link)));        
       }
     });
     

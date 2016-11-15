@@ -195,7 +195,7 @@
         else if (form[field]){
           _fieldFormLabel.text(form[field].label+':');
           var _text = ' ' + proposal[field];
-          if (field == 'duration') _text = _text + ' min';
+          if (field == 'duration' && $.isNumeric(proposal[field])) _text = _text + ' min';
           _fieldFormText.append(_text);
         }
       }
@@ -209,10 +209,10 @@
       _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
       _createdWidget.append(_fieldForm);
       Pard.Widgets.MultimediaScripts(function(){});       
-      _linkPhoto.click(function(){
-          if (!(_multimediaContainer.html())) Pard.Widgets.MultimediaDisplay(proposal, function(multimedia){Pard.Widgets.AddMultimediaContent(_multimediaContainer, multimedia)});
+      _linkPhoto.click(function(){        
+        if (!(_multimediaContainer.html())) Pard.Widgets.MultimediaDisplay(proposal, function(multimedia){Pard.Widgets.AddMultimediaContent(_multimediaContainer, multimedia)});
 
-          Pard.Widgets.BigAlert('',_multimediaContainer,'multimedia-popup-bigalert'); 
+          Pard.Widgets.BigAlert('',_multimediaContainer,'multimedia-popup-bigalert');
       })
     }
 

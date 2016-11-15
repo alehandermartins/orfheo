@@ -1260,6 +1260,21 @@ select.category-input{
   vertical-align: top;
 }
 
+.map-inputAddressWidgets{
+  width: 100%;
+  height: 13rem;
+  margin-bottom: 1rem;  
+  @include breakpoint(large){
+    width: 21rem;
+    display: inline-block;
+  }
+}
+
+
+.call-form-field{
+  margin: 2rem 0;
+}
+
 @media only screen and #{breakpoint(large)} {
 
   .components-input{
@@ -1376,9 +1391,6 @@ select.category-input{
     margin-bottom: 1.8rem;
   }
 
-  .call-form-field{
-    margin: 2rem 0;
-  }
 
   .MultipleSelector-FormField select, .MultipleDaysSelector-FormField select{
     width: 100% !important;
@@ -1593,10 +1605,19 @@ POPUP
 }
 
 .multimedia-popup-bigalert{
+  width: 90vw;
   max-width: 48rem;
   padding: 0.5rem;
   .video-production-container{
     text-align: center;
+  }
+  .single-video-container iframe{
+    width: 640px !important;
+    height: 360px !important;
+    @include breakpoint (medium down){
+      width: 100% !important;
+      height: auto !important;
+    }
   }
 }
 

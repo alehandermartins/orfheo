@@ -435,7 +435,7 @@ ns.Widgets.InputAddressSpace = function(label){
       $.post(uri, function(data){
         if(data.status == "OK" && data.results.length > 0){
           _geocod = data.results[0].geometry.location;
-          _map.css({'width': '21rem', 'height': '13rem', 'display':'inline-block'});
+          _map.addClass('map-inputAddressWidgets');
           _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
 
           if (_check){ 
@@ -449,7 +449,7 @@ ns.Widgets.InputAddressSpace = function(label){
             var _geocodField = $('<div>');
             var _latLabel = $('<label>').text('Latitud').append(_latField.render());
             var _lonLabel = $('<label>').text('Longitud').append(_lonField.render());
-            var _geoCodText = $('<p>').append('Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ', _hereBtn,'.');
+            var _geoCodText = $('<p>').append('Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ', _hereBtn,'.').css({'font-size':'0.875rem','margin-top':'0.4rem'});
             _hereBtn.click(function(){
               _geocod = {lat: _latField.getVal(), lng: _lonField.getVal()};
               _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];

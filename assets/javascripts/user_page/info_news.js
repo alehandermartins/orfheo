@@ -212,7 +212,7 @@
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
     var _infoTitle = $('<div>').append($('<h4>').append($('<a>').text(event.name).attr('href','/event?id='+event.event_id).css({'vertical-align':'0'})).addClass('eventName-event-card'));
     var _baseline = $('<div>').append($('<p>').text(event.baseline)).addClass('baseline-event-info-card').css('font-size','1rem');
-    var _organizer = $('<div>').append($('<p>').text('Organiza: ').append($('<a>').text(event.organizer).attr({'href': '/profile?id='+event.organizer_id}))).css({'margin-bottom':'-1rem', 'font-size':'1rem'});
+    var _organizer = $('<div>').append($('<p>').text('Organiza: ').append($('<a>').text(event.organizer).attr({'href': '/profile?id='+event.organizer_id}))).css({'font-size':'1rem'});
     var _eventdays = '';
     var _dayArray = [];
     for (var key in event.eventTime) {
@@ -225,9 +225,9 @@
       _eventdays = $('<span>').text(moment(new Date(parseInt(_dayArray[0]))).locale('es').format('DD')+'-'+moment(new Date(parseInt(_dayArray[_dayArray.length-1]))).locale('es').format('DD')+' '+moment(new Date(parseInt(_dayArray[_dayArray.length-1]))).locale('es').format('MMMM YYYY'));
     }
 
-    var _days =  $('<div>').append($('<p>').append(_eventdays).addClass('eventDay-event-info-card'),$('<p>').append('de 10:00 a 24:00h')).addClass('eventDate-event-info-card').css('font-size','1rem');
+    var _days =  $('<div>').append($('<p>').append(_eventdays.addClass('eventDay-event-info-card'),': de 10:00 a 24:00h')).addClass('eventDate-event-info-card').css('font-size','1rem');
 
-    var _status = $('<div>').css({'margin-bottom':'0', 'font-size':'1rem','margin-top':'-1rem','width':'32rem'  });
+    var _status = $('<div>').addClass('status-eventCard');
     var _now = new Date();
     if (event.published){
       var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id='+event.event_id).addClass('toEventPageBtn-event-info-card');

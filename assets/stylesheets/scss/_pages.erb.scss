@@ -16,6 +16,11 @@ NEW WELCOME PAGE
   margin-top: -2.5rem;
 }
 
+.content-loginSinUp-header{
+  position: relative;
+  text-align: center;
+}
+
 .container-loginHeader{
   position: absolute;
   top: 50%;
@@ -63,9 +68,11 @@ NEW WELCOME PAGE
   background-repeat: no-repeat;
   background-size: 100% 100%;
   @include breakpoint(small down){ 
-    width: 110px;
-    height: 37px;
+    width: 150px;
+    height: 50px;
   }
+  @include horizontal-center;
+  position: relative;
 }
 
 .signUpBtn-container{
@@ -174,9 +181,9 @@ WELCOME PAGE
   float: left;
   margin-right: 2rem;
   /* display: inline-block; */
-/*   @include breakpoint(small down) {
-    display: none;
-  } */
+  @include breakpoint(small down) {
+    margin-right: 1rem;
+  }
 }
 
 .search-titleBox-welcome-page{
@@ -210,6 +217,7 @@ WELCOME PAGE
     margin-top:0.5rem;
   }
 }
+
 
 
 
@@ -2241,6 +2249,9 @@ ORGANIZATION PAGE
   a {
     cursor: zoom-in;
   }
+  @include breakpoint(medium down){
+    width: 7rem;
+  }
 }
 
 .eventDay-event-info-card{
@@ -2258,7 +2269,6 @@ ORGANIZATION PAGE
 
 .eventDate-event-info-card{
   text-align: right;
-  margin-top: 1.5rem;
 }
 
 .eventName-event-card{
@@ -2275,6 +2285,15 @@ ORGANIZATION PAGE
     color:  white;
   }
 }
+
+.status-eventCard{
+  margin-bottom:0;
+  font-size:1rem;
+  @include breakpoint(large){ 
+    width:32rem;
+  }
+}
+
 
 
 /*===============================================
@@ -2332,8 +2351,8 @@ EVENT PAGE
   padding: 0.4rem 0.6rem;
   height: 3.2rem;
   @include breakpoint(small down){
-  /*   display: block;
-    width: 100%; */
+    display: block;
+    width: 100%;
     border-right: none !important;
     padding: 0rem;
   }
@@ -2352,11 +2371,9 @@ EVENT PAGE
   vertical-align: middle;
   margin-left: 0.4rem;
   max-height: 2.4rem;
-  @include breakpoint(large){
-    width: -moz-calc(100% - 2.4rem);
-    width: -webkit-calc(100% - 2.4rem);
-    width: calc(100% - 2.4rem);
-  }
+  width: -moz-calc(100% - 2.4rem);
+  width: -webkit-calc(100% - 2.4rem);
+  width: calc(100% - 2.4rem);
   a {
     vertical-align: top;
   }
@@ -2367,17 +2384,19 @@ EVENT PAGE
 }
 
 .timeContainer-infoTab-event{
-  padding: 0.1rem 0.6rem;
   @include breakpoint(large){
     display: inline-block;
+    padding: 0.1rem 0.6rem;
   }
 }
 
 .timeContent-infoTab-event{
   vertical-align: middle;
   margin-left: 0.4rem;
-/*   padding: 0 0.6rem;
- */  display: inline-block;
+  width: -moz-calc(100% - 2.4rem);
+  width: -webkit-calc(100% - 2.4rem);
+  width: calc(100% - 2.4rem);
+  display: inline-block;
   @include breakpoint(large){
     width: 27rem;
     border-right: 1px solid $grey-3;
@@ -2394,8 +2413,10 @@ EVENT PAGE
 }
 
 .h2-event-page{
-  border-top: 1px solid $grey-3;
   border-bottom: 1px solid $grey-3;
+  @include breakpoint(large){
+    border-top: 1px solid $grey-3;
+  }
 }
 
 /* p.info-text-header-infoTab-event{
@@ -2415,7 +2436,7 @@ EVENT PAGE
 
 .baseline-infoTab-event-page{
   text-transform: uppercase;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
 }
 
 
@@ -2891,29 +2912,47 @@ a.participant-program-card-own {
 }
 
 .btn-container-header-event{
-  display: inline-block;
-  width: 20%;
+  width: 100%;
+  /* text-align: center; */
+  position: relative;
+  @include breakpoint (large){
+    display: inline-block;
+    width: 20%;
+  }
+  @include breakpoint(medium down){
+    text-align: right;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.button-event-header{
+  @include breakpoint (large){
+    position: absolute;
+    bottom: -0.3rem;
+  }
 }
 
 .title-container-header-event{
-  display: inline-block;
-  width: 80%;
+  @include breakpoint(large){
+    width: 80%;
+    display: inline-block;
+  }
   padding: 0 1rem 0 0;
 }
 
 .time-container-eventInfo{
   border-bottom:1px solid $grey-3 ;
   border-top: 1px solid $grey-3;
-  padding: 0.1rem 0.6rem;
   position: relative;
+  padding: 0.25rem 0.6rem;
 }
 
 .single-date-container-event-page{
   display: inline-block;
   font-size: $smallSize;
-  margin-right: 0.7rem;
-  margin-bottom: 0.35rem;
-  margin-top: 0.35rem;
+  margin-right: 0.6rem;
+  margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
   width: 7.43rem;
   border: 1px solid $grey-2;
   text-align: center;
@@ -2945,7 +2984,9 @@ a.participant-program-card-own {
 
 .see-all-event-page{
   font-size: $smallSize;
-  /* text-align: center; */
+  @include breakpoint (small down){
+    display: inline;
+  }
 }
 
 .signUpText-eventLogin{

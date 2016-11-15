@@ -10,10 +10,7 @@
     var _title = $('<h3>').text(Pard.CachedEvent.name).addClass('title-infoTab-event-page');
 
     if(true){
-    var _callToAction = $('<button>').attr('type','button').html('¡Apúntate!').addClass('signUp-button-welcome-section').css({
-      'position': 'absolute',
-      'bottom': '1rem'
-    });
+    var _callToAction = $('<button>').attr('type','button').html('¡Apúntate!').addClass('signUp-button-welcome-section button-event-header');
     _callToAction.on('click',function(){
       if (Pard.UserStatus['status'] == 'outsider'){
         var _popupContent = $('<div>').addClass('very-fast reveal full');
@@ -116,8 +113,8 @@
         if(day != 'permanent'){
           _count += 1;
           if (_count>3 && !_printAll){
-            var _seeAll = $('<a>').attr('href','#').text('ver todos').addClass('see-all-event-page');
-            var _seeAllContainer = $('<div>').append('... ',_seeAll).css('margin','-0.7rem 0 -0.3rem 0');
+            var _seeAll = $('<a>').attr('href','#').text('ver todos');
+            var _seeAllContainer = $('<div>').append('... ',_seeAll).css('margin','-0.4rem 0 -0.2rem 0').addClass('see-all-event-page');
             _timeContent.append(_seeAllContainer);
             _seeAll.click(function(){
               _printAll = true;

@@ -62,7 +62,7 @@
       var _event = profile.events[0];
       _event.organizer = profile.name;
 
-      var _eventCard = Pard.Widgets.EventInfoCard(_event);
+      var _eventCard = Pard.Widgets.EventInfoCardDistrito(_event);
       _eventBoxContainer.append(_eventBoxContent.append(_eventCard.render()));
       _createdWidget.append(_eventBoxContainer);
       

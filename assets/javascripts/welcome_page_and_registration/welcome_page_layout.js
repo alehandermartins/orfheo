@@ -46,7 +46,7 @@
     // var _createdWidget = $('<div>').addClass('fast reveal full'); 
     // var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('container-header');
-    var _content = $('<div>');
+    var _content = $('<div>').addClass('content-loginSinUp-header');
     var _logo = $('<a>').attr({
       'href': '#'
     }).append($('<div>').addClass('logo-welcomePage'));
