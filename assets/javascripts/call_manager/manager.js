@@ -2241,8 +2241,8 @@
       var _createSpaceCaller = $('<div>').html(_spaceButtonHtml).addClass('create-space-proposal-call-page-btn');
       var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
-      //var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateOwnSpaceProposal(call, _spacesList)});
-      //var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateOwnArtistProposal(call, _artistsList)});
+      var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateOwnSpaceProposal(call, _spacesList)});
+      var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateOwnProposal(the_event, _artistsList)});
 
       var _artistsList = $('<ul>').addClass('own-proposals-list').attr('id','artist-list-call-page');
       var _spacesList= $('<ul>').addClass('own-proposals-list').attr('id','space-list-call-page');
@@ -2423,9 +2423,9 @@
       }
     });
 
-    _tabs.append(_programTab, _tableTab, _qrTab);
+    _tabs.append( _tableTab, _proposalsTab, _programTab, _qrTab);
     _navigationContainer.append(_goToEventBtn, _tabs);
-    _panels.append(_programManager.render(), _tableManager.render().hide(), _qrManager.render().hide());
+    _panels.append(_programManager.render(), _tableManager.render().hide(), _proposalsManager.render().hide(), _qrManager.render().hide());
     _mainLarge.append(_navigationContainer, _title, _panels);
     _main.append(_mainLarge);
 

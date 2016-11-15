@@ -3,6 +3,98 @@
 (function(ns){
     ns.Widgets = ns.Widgets || {};  
 
+  ns.Widgets.CreateOwnProposal = function(the_event, callback){
+    
+    var _createdWidget = $('<div>');
+
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+    var _submitForm = {};
+    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+    var _invalidInput = $('<div>').addClass('not-filled-text');
+    var _preSelected = 'music';
+    var _closepopup = {};
+
+    var user_id = the_event.user_id;
+
+    _submitForm['call_id'] = the_event.call_id;
+    _submitForm['type'] = 'artist';
+    _submitForm['category'] = _preSelected;
+   
+    var _content = $('<form>').addClass('popup-form');
+
+    var _form = {};
+    var _requiredFields = [];
+
+    var _printForm = function(_selected){
+      _content.empty();
+      var _fieldset = $('<fieldset>');
+      _requiredFields = Pard.Forms.CreateArtistProposal(_selected).requiredFields();
+      _form = Pard.Forms.CreateArtistProposal(_selected).render();
+      _form['email'].input.setVal('hola@beniconfusionfest.es');
+      _form['phone'].input.setVal('000 000 000');
+      for(var field in _form){
+        _content.append($('<div>').addClass('callPage-createArtistProposal' ).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+      };
+      _submitForm['category'] = _selected;
+    }
+     
+
+    var categorySelectCallback = function(){
+      var _selected = $(this).val();
+      _printForm(_selected);
+    };
+
+    var _categorySelector = Pard.Widgets.OrfheoArtCatSelector(categorySelectCallback);
+    var _categoryLabel = $('<label>').text('Selecciona una categoría *');
+
+    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
+
+    _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
+    _printForm(_preSelected);
+   
+    var _filled = function(){
+      var _check = true;
+      for(var field in _form){
+        if ($.inArray(field, _requiredFields) >= 0 ){
+          if(!(_form[field].input.getVal())) {
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;
+          }
+        }
+      }
+      if (_check) _invalidInput.empty();
+      return _check;    
+    };
+
+
+    var _getVal = function(url){
+      for(var field in _form){
+         _submitForm[field] = _form[field].input.getVal();
+      };
+      return _submitForm;
+    }
+
+    submitButton.on('click',function(){
+      if(_filled() == true){
+        var _ownProposal = _getVal();
+        Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
+        _closepopup();
+      }
+    });
+  
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _closepopup = callback;
+      }
+    }
+  }
+    
+
 
   ns.Widgets.ProposalsPanelContent = function(call) {
 
@@ -381,35 +473,11 @@
 
     var user_id = call.user_id;
 
-   	// var profile_id = profile.profile_id;
-    // var _thumbnail = $('<div>');
-    // var _url = [];
-
-    // var _folder = user_id + '/' + profile_id + '/photos';
-    // var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 4);
-
-    // var _photosLabel = $('<label>').text('Fotos de tu arte (máximo 4, tamaño inferior a 500kb)').css({
-    //   'padding-top': '0.5rem'
-    // });
-    // var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail).css('margin-bottom','1rem');
-
-    // _submitForm['user_id'] = user_id;
+   
     _submitForm['call_id'] = call.call_id;
-    // _submitForm['profile_id'] = '26f6fc6d-ac81-451b-bd73-ee035e67538c';
     _submitForm['type'] = 'artist';
     _submitForm['category'] = _preSelected;
-    // _submitForm['description'] = '';
-
-    // _submitForm['phone'] = '000000000';
-    // _submitForm['email'] = 'email@email.email';
-    // _submitForm['conditions'] = "true";
-    // _submitForm['repeat'] = "true";
-    // _submitForm['waiting_list'] = 'true';
-    // _submitForm['city'] = 'vvv';
-    // _submitForm['zip_code'] = 000000;
-    // _submitForm['description'] = 'bla bla bla';
-
-
+   
     var _content = $('<form>').addClass('popup-form');
 
     var _form = {};
@@ -435,9 +503,7 @@
     };
 
     var _categorySelector = Pard.Widgets.OrfheoArtCatSelector(categorySelectCallback);
-    // var _nameInput = Pard.Widgets.Input('','text');
     var _categoryLabel = $('<label>').text('Selecciona una categoría *');
-    // var _nameLabel = $('<label>').text('Nombre Artístico *');
 
     var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
 
@@ -464,29 +530,17 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      // _submitForm['photos'] = url;
       return _submitForm;
     }
-
-    // var _send = function(url){
-    //   Pard.Backend.sendProposal(_getVal(url), Pard.Events.SendProposal);
-    // }
 
     submitButton.on('click',function(){
       if(_filled() == true){
         var _ownProposal = _getVal();
         Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
-        // var proposals = Pard.CachedProposals;
-        // var _proposalContainer = $('<li>');
-        // var _artistProposal = Pard.Widgets.PrintOwnProposal(proposals[proposals.length -1], _proposalContainer);
-        // artistsList.prepend(_proposalContainer.append(_artistProposal.render()));
         _closepopup();
       }
     });
-    // _photos.cloudinary().bind('cloudinarydone', function(e, data){
-    //   _url.push(data['result']['public_id']);
-    //   if(_url.length >= _photos.dataLength()) _send(_url);
-    // });
+  
 
     return {
       render: function(){
