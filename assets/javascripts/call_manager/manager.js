@@ -2265,8 +2265,41 @@
       var _createSpaceCaller = $('<div>').html(_spaceButtonHtml).addClass('create-space-proposal-call-page-btn');
       var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
-      var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateOwnSpaceProposal(call, _spacesList)});
-      var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateOwnProposal(the_event, _artistsList)});
+      var _forms;
+      
+      var _callbackCreatedProposal = function(){
+
+      }
+
+      var _openPopupForm = function(type){
+        var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
+        _content.empty();
+        $('body').append(_content);
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent('Crea una propuesta', Pard.Widgets.CreateOwnProposal(_forms[type], the_event, _callbackCreatedProposal));
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
+      }
+      
+      _createArtistCaller.click(function(){
+        if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
+          _forms = data.forms;
+          _openPopupForm('artist');
+        })
+        else _openPopupForm('artist');
+      });
+
+      _createSpaceCaller.click(function(){
+        if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
+          _forms = data.forms;
+          _openPopupForm('space');
+        })
+        else _openPopupForm('space');
+      });
 
       var _artistsList = $('<ul>').addClass('own-proposals-list').attr('id','artist-list-call-page');
       var _spacesList= $('<ul>').addClass('own-proposals-list').attr('id','space-list-call-page');
