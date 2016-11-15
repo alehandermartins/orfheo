@@ -2272,9 +2272,9 @@
       _createSpaceCaller.click(function(){
         if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;
-          _openPopupForm('artist');
+          _openPopupForm('space');
         })
-        else _openPopupForm('artist');
+        else _openPopupForm('space');
       });
 
       var _artistsList = $('<ul>').addClass('own-proposals-list').attr('id','artist-list-call-page');

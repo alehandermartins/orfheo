@@ -5,7 +5,83 @@
 
   ns.Widgets.CreateOwnProposal = function(forms, the_event, callbackCreatedProposal){
 
-    var _createdWidget = $('<div>');   
+    var _createdWidget = $('<div>');
+    
+    if(!(forms)){
+
+    }
+    else{
+
+      var _typeFormsCatArray = Object.keys(forms);
+    
+      var _formTypeConstructor = Pard.Widgets.PrintOwnProposalForm;
+
+      var _outerFormBox = $('<div>');
+      var _formTypeSelectorCont = $('<div>');
+      var _formTypeOptionsCont = $('<div>');
+      var _contentSel = $('<div>');
+      var _formTypes = [];
+      var _acceptedCategories = [];
+      var _formTypeSelector = $('<select>');
+      var _emptyOption = $('<option>').text('Selecciona como quieres apuntarte').val('');
+      _formTypeSelector.append(_emptyOption);
+      
+      for (var typeForm in forms){
+        _formTypes.push(typeForm);
+        _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
+        forms[typeForm].category.args[1].forEach(function(cat){
+          if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
+        });
+      };  
+
+      _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector),_formTypeOptionsCont);
+
+      _formTypeSelector.select2({
+        minimumResultsForSearch: Infinity,
+        dropdownCssClass: 'orfheoTypeFormSelector',
+        placeholder: "Selecciona como quieres apuntarte"
+        // allowClear: true
+      });
+
+
+      _formTypeSelector.on('change',function(){
+        if (_formTypeSelector.val()){
+          $('#popupForm').removeClass('top-position');
+          // $('.content-form-selected').removeClass('content-form-selected');
+          _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+          // if (_t2) _t2.show();
+          _printForm(_formTypeSelector);
+        }
+      });
+
+      var _send = function(){};
+
+      var _printForm = function(formTypeSelector, production){
+        _contentSel.empty();
+        _production_id = false;
+        var _typeFormSelected = formTypeSelector.val();
+        var _formWidget = _formTypeConstructor(forms[_typeFormSelected], callbackCreatedProposal);
+        _formWidget.setCallback(function(){
+          _closepopup();
+        });
+        _formWidget.setSend(_send);
+        if (production) _formWidget.setVal(production); 
+        _contentSel.append(_formWidget.render());
+      };
+
+
+
+      // if (profile.category){
+      //   var _profileCategory = Pard.Widgets.Dictionary(profile.category).render();
+      //   if ($.inArray(_profileCategory, _formTypes)>-1){
+      //     _formTypeSelector.val(_profileCategory);
+      //     _formTypeSelector.trigger('change');
+      //     _formTypeSelector.attr('disabled',true);
+      //   }
+      // }
+
+      _createdWidget.append(_outerFormBox.append(_contentSel));
+    } 
 
     return {
       render: function(){

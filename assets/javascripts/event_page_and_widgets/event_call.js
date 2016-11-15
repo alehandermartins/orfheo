@@ -173,10 +173,7 @@
       var _closepopup = {};
       var _production_id;
 
-      var _formTypeConstructor = {
-        artist: Pard.Widgets.CallForm,
-        space: Pard.Widgets.CallForm
-      };
+      var _formTypeConstructor = Pard.Widgets.CallForm;
 
       var _outerFormBox = $('<div>');
       var _formTypeSelectorCont = $('<div>');
@@ -246,7 +243,7 @@
                 _production_id = production.production_id;
                 var _catProduction = Pard.Widgets.Dictionary(production.category).render();
                 if (forms[profile.type][_catProduction]){
-                  var _form = _formTypeConstructor[profile.type](forms[profile.type][_catProduction], profile, _catProduction, _production_id, callbackSendProposal);
+                  var _form = _formTypeConstructor(forms[profile.type][_catProduction], profile, _catProduction, _production_id, callbackSendProposal);
                   _formTypeSelector.val(_catProduction).trigger('change');
                   _formTypeSelector.attr('disabled',true);
                   _t2.hide();
@@ -311,7 +308,7 @@
         _contentSel.empty();
         _production_id = false;
         var _typeFormSelected = formTypeSelector.val();
-        var _form = _formTypeConstructor[profile.type](forms[profile.type][_typeFormSelected], profile, _typeFormSelected, _production_id, callbackSendProposal);
+        var _form = _formTypeConstructor(forms[profile.type][_typeFormSelected], profile, _typeFormSelected, _production_id, callbackSendProposal);
         _form.setCallback(function(){
           _closepopup();
         });

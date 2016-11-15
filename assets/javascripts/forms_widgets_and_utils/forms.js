@@ -516,12 +516,43 @@
       'other': _modifyShowFields
     };
 
+    var _createOwnExpoFields = ['name', 'title', 'short_description', 'email', 'phone'];
+    var _createOwnShowFields = ['name', 'title', 'short_description', 'duration', 'availability', 'children', 'email', 'phone'];
+    var _createOwnStreetArtFields = ['name', 'title', 'short_description', 'availability', 'email', 'phone'];
+
+    var _createOwnProposalFields = {
+      'expo': _createOwnExpoFields,
+      'music': _createOwnShowFields,
+      'arts': _createOwnShowFields,
+      'other': _createOwnShowFields,
+      'poetry': _createOwnShowFields,
+      'street_art': _createOwnStreetArtFields,
+      'workshop': _createOwnShowFields,
+      'gastronomy': _createOwnShowFields,
+      'audiovisual': _createOwnShowFields,
+    };
+
+    // var _createProductionFields = {
+    //   'expo': _createExpoFields,
+    //   'music': _createShowFields,
+    //   'arts': _createShowFields,
+    //   'poetry': _createShowFields,
+    //   'street_art': _createStreetArtFields,
+    //   'workshop': _createShowFields,
+    //   'audiovisual': _createShowFields,
+    //   'gastronomy': _createShowFields,
+    //   'other': _createShowFields
+    // };
+
     return {
       createProduction: function(){
         return _createProductionFields[categorySelected];
       },
       modifyProduction: function(){
         return _modifyProductionFields[categorySelected];
+      },
+      createOwnProposal: function(){
+        return _createOwnProposalFields[categorySelected];        
       }
     }    
 
