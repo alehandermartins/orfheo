@@ -38,6 +38,18 @@ module Repos
         event
       end
 
+      def get_events
+        grab({}).map{ |event|
+          event[:program] = arrange_program event, event[:program]
+          event.delete(:artists)
+          event.delete(:whitelist)
+          event.delete(:spaces)
+          event.delete(:partners)
+          event.delete(:qr)
+          event
+        }
+      end
+
       def get_event_owner event_id
         event = grab({event_id: event_id}).first
         event[:user_id]
@@ -102,7 +114,7 @@ module Repos
 
       def amend_artist proposal_id, amend
         event = grab({"artists.proposals.proposal_id": proposal_id}, {'artists.proposals': true}).first
-        proposals = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| 
+        proposals = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal|
           proposal[:amend] = amend if proposal[:proposal_id] == proposal_id
           proposal[:proposal_id] == proposal_id
         }}[:proposals]
@@ -233,6 +245,7 @@ module Repos
           event.delete(:whitelist)
           event.delete(:spaces)
           event.delete(:program)
+          event.delete(:partners)
           event.delete(:qr)
           event
         }
@@ -242,7 +255,7 @@ module Repos
         events = grab({ "artists.profile_id": profile_id})
         events.map{ |event|
           proposals = event[:artists].select{ |proposal| proposal[:profile_id] == profile_id}.first[:proposals]
-          proposals.each{ |proposal| 
+          proposals.each{ |proposal|
             proposal[:event_id] = event[:event_id]
             proposal[:event_name] = event[:name]
             proposal[:call_id] = event[:call_id]
@@ -264,7 +277,7 @@ module Repos
       end
 
       def my_program profile_id
-        events = grab({ "$or": [{ "program.participant_id": profile_id}, {"program.host_id": profile_id}]}) 
+        events = grab({ "$or": [{ "program.participant_id": profile_id}, {"program.host_id": profile_id}]})
         events.map{ |event|
           next if event[:published] == 'false'
           event[:eventTime].delete(:permanent)

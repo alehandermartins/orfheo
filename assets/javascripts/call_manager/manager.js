@@ -2132,7 +2132,7 @@
 
           _rfhCol.append(_icon);
           _nameCol.html(_name);
-          _categoryCol.html(proposal.category);
+          _categoryCol.html(Pard.Widgets.Dictionary(proposal.category).render());
           _titleCol.html(proposal.title);
           _emailCol.html(artist.email);
           _phoneCol.html(artist.phone);

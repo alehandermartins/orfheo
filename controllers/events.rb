@@ -15,7 +15,7 @@ class EventsController < BaseController
     performance = Forms::Events.new(params, session[:identity]).create_performance(performance_id)
     check_participants! event_id, performance
     Repos::Events.add_performance event_id, performance
-    
+
     success ({performance_id: performance_id})
   end
 
@@ -35,6 +35,11 @@ class EventsController < BaseController
     check_event_ownership! event_id
     Repos::Events.delete_performance event_id, performance_id
     success
+  end
+
+  post '/events' do
+    events = Repos::Events.get_events
+    success ({events: events})
   end
 
   get '/event' do

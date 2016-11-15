@@ -3,7 +3,7 @@
 (function(ns){
 
   ns.Backend = (function(){
- 
+
     var _send = function(url, data, callback){
       $.ajax({
         url: url,
@@ -107,7 +107,7 @@
     };
 
     var _createProduction = function(form, callback){
-      _send(       
+      _send(
         '/users/create_production',
         form,
         callback
@@ -115,7 +115,7 @@
     };
 
     var _modifyProduction = function(form, callback){
-      _send(       
+      _send(
         '/users/modify_production',
         form,
         callback
@@ -123,7 +123,7 @@
     };
 
     var _searchProfiles = function(tags, shown, event_id, callback){
-      _send(       
+      _send(
         '/search/results',
         {
           query: tags,
@@ -135,7 +135,7 @@
     };
 
     var _searchProgram = function(event_id, tags, filters, date, time, callback){
-      _send(       
+      _send(
         '/search/results_program',
         {
           event_id: event_id,
@@ -149,7 +149,7 @@
     };
 
     var _searchProgramNow = function(event_id, callback){
-      _send(       
+      _send(
         '/search/program_now',
         {
           event_id: event_id
@@ -159,7 +159,7 @@
     };
 
     var _deleteProposal = function(proposal_id, event_id, callback){
-      _send(       
+      _send(
         '/users/delete_proposal',
         {
           proposal_id: proposal_id,
@@ -167,10 +167,10 @@
         },
         callback
       );
-    }; 
+    };
 
     var _deleteProduction = function(production_id, callback){
-      _send(       
+      _send(
         '/users/delete_production',
         {
           production_id: production_id
@@ -180,7 +180,7 @@
     };
 
     var _deleteProfile = function(profile_id, callback){
-      _send(       
+      _send(
         '/users/delete_profile',
         {
           profile_id: profile_id
@@ -190,7 +190,7 @@
     };
 
     var _deleteUser = function(callback){
-      _send(       
+      _send(
         '/users/delete_user',
         {},
         callback
@@ -199,7 +199,7 @@
 
     var _amendArtistProposal = function(proposal_id, event_id, amend, callback){
       console.log(amend);
-      _send(       
+      _send(
         '/users/amend_artist_proposal',
         {
           proposal_id: proposal_id,
@@ -211,7 +211,7 @@
     };
 
     var _amendSpaceProposal = function(proposal_id, event_id, amend, callback){
-      _send(       
+      _send(
         '/users/amend_space_proposal',
         {
           proposal_id: proposal_id,
@@ -240,7 +240,7 @@
 
     var _whitelist = function(call_id, whitelist, callback){
       console.log(whitelist);
-      _send(       
+      _send(
         '/users/add_whitelist',
         {
           call_id: 'b5bc4203-9379-4de0-856a-55e1e5f3fac6',
@@ -251,7 +251,7 @@
     };
 
     var _program = function(event_id, program, order, callback){
-      _send(       
+      _send(
         '/users/program',
         {
           event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
@@ -263,7 +263,7 @@
     };
 
     var _getCallForms = function(call_id, callback){
-      _send(       
+      _send(
         '/forms',
         {
           call_id: call_id
@@ -273,7 +273,7 @@
     };
 
     var _sendOwnProposal = function(form, callback){
-      _send(       
+      _send(
         '/users/own_proposal',
         form,
         callback
@@ -281,8 +281,16 @@
     };
 
     var _listProfiles = function(callback){
-      _send(       
+      _send(
         '/users/list_profiles',
+        {},
+        callback
+      );
+    }
+
+    var _events = function(callback){
+      _send(
+        '/events',
         {},
         callback
       );
@@ -314,7 +322,8 @@
       whitelist: _whitelist,
       program: _program,
       getCallForms: _getCallForms,
-      listProfiles: _listProfiles
+      listProfiles: _listProfiles,
+      events: _events
     };
   }());
 
