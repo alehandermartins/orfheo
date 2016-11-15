@@ -351,6 +351,8 @@
       Pard.Spaces.forEach(function(space){
         order.push(space.proposal_id);
       });
+      console.log(program);
+      console.log(order);
 
       Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
     }).render().addClass('submit-program-btn-call-manager');

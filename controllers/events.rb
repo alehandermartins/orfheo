@@ -42,6 +42,15 @@ class EventsController < BaseController
     success ({events: events})
   end
 
+  post '/users/save_program' do
+    scopify event_id: true, program: true, order: true
+    arrangedProgram = Util.arrayify_hash program
+    arrangedOrder = order || []
+    check_event_ownership! event_id
+    Repos::Events.save_program event_id, arrangedProgram, arrangedOrder
+    success
+  end
+
   get '/event' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
     event = Repos::Events.get_event params[:id]

@@ -250,11 +250,11 @@
       );
     };
 
-    var _program = function(event_id, program, order, callback){
+    var _saveProgram = function(event_id, program, order, callback){
       _send(
-        '/users/program',
+        '/users/save_program',
         {
-          event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
+          event_id: event_id,
           program: program,
           order: order
         },
@@ -320,7 +320,7 @@
       modifyArtistProposal: _modifyArtistProposal,
       modifySpaceProposal: _modifySpaceProposal,
       whitelist: _whitelist,
-      program: _program,
+      saveProgram: _saveProgram,
       getCallForms: _getCallForms,
       listProfiles: _listProfiles,
       events: _events

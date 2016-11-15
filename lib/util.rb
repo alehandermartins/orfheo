@@ -43,7 +43,7 @@ module Util
       return hash unless hash.is_a? Hash
       hash.map do |k, v|
         string_keyed_hash_to_symbolized(v)
-      end      
+      end
     end
 
     def translate array

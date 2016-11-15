@@ -95,6 +95,9 @@
       var _buttonsContainer = $('<div>').addClass('buttons-container-call-manager');
 
       var _toolsContainer = $('<div>').addClass('tools-buttons-container');
+      var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container-tablePanel');
+      _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn);
+
       var _daySelectorContainer = $('<div>').addClass('day-selector-container-call-manager');
       var _daySelector = $('<select>');
 
@@ -296,6 +299,8 @@
       var _performance;
       var lastArtist;
       var _closePopup;
+
+
 
       var Artist = function(artist){
         var program = {};
@@ -1329,7 +1334,8 @@
           addToPrograms: _addToPrograms,
           loadPerformance: _loadToPrograms,
           destroy: _destroy,
-          performanceManager: PerformanceManager
+          performanceManager: PerformanceManager,
+          show: performance
         }
       }
 
@@ -1683,7 +1689,8 @@
           destroy: _destroy,
           loadPerformance: _loadToPrograms,
           performanceManager: PerformanceManager,
-          loadDates: _loadDates
+          loadDates: _loadDates,
+          show: performance
         }
       }
 
@@ -1933,8 +1940,25 @@
       });
       if(spaces.length > 0 && spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
 
+      var _submitBtn = Pard.Widgets.Button('', function(){
+        var program = [];
+        Object.keys(_program).forEach(function(performance_id){
+          program.push(_program[performance_id].show);
+        });
+
+        var order = [];
+        spaces.forEach(function(space){
+          order.push(space.profile_id);
+        });
+
+        console.log(program);
+        console.log(order);
+        Pard.Backend.saveProgram(the_event.event_id, program, order, Pard.Events.SaveProgram);
+      }).render().addClass('submit-program-btn-call-manager');
+      _submitBtn.append(Pard.Widgets.IconManager('save').render());
+      _submitBtnContainer.append(_submitBtn);
+
        _toolsContainer.append(ToolsDropdownMenu().render());
-      // _buttonsContainer.append(_toolsContainer);
       _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
       _createdWidget.append(_selectors.append(_daySelectorContainer, _spaceSelectorContainer, _toolsContainer, _showArtists));
       _createdWidget.append(_tableBox);
