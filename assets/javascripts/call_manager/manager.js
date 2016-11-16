@@ -44,11 +44,11 @@
       var _timeTableContainer = $('<div>').addClass('time-table-call-manager');
       var _tableContainer = $('<div>').addClass('tableContainer table-container-call-manager');
       var _artistsList = $('<ul>').addClass('accordion').attr({'data-accordion':'', 'role': 'tablist'}).attr({'id':'artistAccordeon'});
-      var _artistsListContainer =  $('<div>').addClass('artist-list-container-call-manager');
+      var _artistsListContainer =  $('<div>').addClass('artist-list-container-call-manager').css({
+        'height':(hours.length -1) * 40
+      });
       _artistsListContainer.append(_artistsList);
       var _artistsBlock = $('<div>').addClass('artist-accordeon-call-manager is-active');
-
- 
 
       var _scrollLeftBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_left').render().addClass('navigation-btn-icon'));
       var _scrollRightBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_right').render().addClass('navigation-btn-icon'));

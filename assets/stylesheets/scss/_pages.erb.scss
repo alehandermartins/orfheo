@@ -1806,7 +1806,8 @@ Program Manager Tab
   height:  calc(100% - 2.5rem);
   border-top: 1px solid #aaa;
   /* width: 13rem; */
-  max-height: 85vh;
+  /* height: 85vh; */
+  background-color: white;
 }
 
 .artists-selector-container-call-manager{
@@ -2123,7 +2124,7 @@ tr.permanent-row-program-table-call-manager td{
 
 .artists-dropdown-icon-call-manager{
   display: inline-block;
-  width: 2rem;
+  width: 1.5rem;
   vertical-align: middle;
 }
 
