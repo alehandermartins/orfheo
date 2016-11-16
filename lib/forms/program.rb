@@ -1,24 +1,30 @@
-class Forms::Program < Forms::Base
-  
-  def create
-    scopify
-    program.map{ |performance|
-      performance = create_model_from_performance performance
+class Program
+
+  def initialize params
+    performances = Util.arrayify_hash params[:program]
+    @program = performances.map{ |performance|
+      check_fields performance
+      new_performance performance
     }
   end
 
-  private
-  def scopify
-    params[:program] = Util.arrayify_hash params[:program]
-    raise Pard::Invalid::Params if params[:event_id].blank?
-    [:event_id, :program].each do |param|
-      self.send(:define_singleton_method, param) {
-        params[param]
-      }
-    end
+  def check_fields performance
+  raise Pard::Invalid::Params if mandatory.any?{ |field|
+    performance[field].blank?
+  }
   end
 
-  def create_model_from_performance performance
+  def [] key
+    program[key]
+  end
+
+  def to_a
+    program
+  end
+
+  private
+  attr_reader :program
+  def new_performance performance
     {
       performance_id: performance[:performance_id],
       date: performance[:date],
@@ -31,5 +37,18 @@ class Forms::Program < Forms::Base
       comments: performance[:comments],
       confirmed: performance[:confirmed]
     }
+  end
+
+  def mandatory
+    [
+      :performance_id,
+      :date,
+      :permanent,
+      :time,
+      :participant_id,
+      :participant_proposal_id,
+      :host_id,
+      :host_proposal_id
+    ]
   end
 end

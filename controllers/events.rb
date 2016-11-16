@@ -43,11 +43,12 @@ class EventsController < BaseController
   end
 
   post '/users/save_program' do
-    scopify event_id: true, program: true, order: true
-    arrangedProgram = Util.arrayify_hash program
-    arrangedOrder = order || []
+    scopify event_id: true, order: true
     check_event_ownership! event_id
-    Repos::Events.save_program event_id, arrangedProgram, arrangedOrder
+
+    program = Program.new(params)
+    arrangedOrder = Util.arrayify_hash order
+    Repos::Events.save_program event_id, program.to_a, arrangedOrder
     success
   end
 
