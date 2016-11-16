@@ -1261,7 +1261,7 @@
           });
 
           endTime.on('change', function(){
-            var oldEnd = _performance['time'][1];
+            var oldEnd = performance['time'][1];
             var newEnd = parseInt(endTime.val());
             card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
             performance['time'][1] = newEnd;
@@ -1340,6 +1340,10 @@
       }
 
       var PermanentPerformance = function(performance){
+
+        performance.time[0] = parseInt(performance.time[0]);
+        performance.time[1] = parseInt(performance.time[1]);
+
         var PerformanceCard = function(){
           var _createdWidget = $('<div>');
           var color = Pard.Widgets.CategoryColor(performance.participant_category);
@@ -1483,6 +1487,7 @@
               daySelector.append(date);
             }
           });
+          daySelector.val(performance.date);
           if(daySelector.children().length <= 1) daySelector.attr('disabled', true);
         }
 
