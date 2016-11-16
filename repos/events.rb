@@ -289,7 +289,7 @@ module Repos
       def my_program profile_id
         events = grab({ "$or": [{ "program.participant_id": profile_id}, {"program.host_id": profile_id}]})
         events.map{ |event|
-          next if event[:published] == 'false'
+          next if event[:published] == false
           event[:eventTime].delete(:permanent)
           my_performances = event[:program].select{|performance| performance[:participant_id] == profile_id || performance[:host_id] == profile_id}
           {

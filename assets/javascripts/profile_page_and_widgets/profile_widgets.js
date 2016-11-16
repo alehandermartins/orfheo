@@ -9,9 +9,9 @@
 
     var _photoContainer = $('<div>');
 
-    if (profile.photos && !(profile.profile_picture)){ 
+    if (profile.photos && !(profile.profile_picture)){
       profile.profile_picture = [profile.photos[0]];
-      profile.photos.shift(); 
+      profile.photos.shift();
     }
 
     if(profile.profile_picture){
@@ -19,11 +19,11 @@
       { format: 'jpg', width: 750, height: 220,
       crop: 'fill', effect: 'saturation:50' });
       _photoContainer.addClass('section-profilePhoto-container').append(_img);
-      var _popup 
+      var _popup
 
       _img.one('mouseover', function(){
         var _popupImg = $.cloudinary.image(profile['profile_picture'][0],{ format: 'jpg',  width: 750, effect: 'saturation:50' });
-        var _popupWidget = $('<div>').addClass('fast reveal full');    
+        var _popupWidget = $('<div>').addClass('fast reveal full');
         var _outerContainer = $('<div>').addClass('vcenter-outer');
         var _innerContainer = $('<div>').addClass('vcenter-inner');
         var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
@@ -48,15 +48,15 @@
 
     sectionHeader.append(_photoContainer);
 
-    
+
     if(profile['name'] != null) sectionHeader.append( $('<div>').addClass('title-profile-section-container').append($('<h3>').text(profile['name']).addClass('text-title-profile-section')));
- 
+
   }
 
 
   ns.Widgets.ModifySectionContent = function (_modifyBtn, profileColor){
     var _createdWidget = $('<div>');
-  
+
     var _iconColor = Pard.Widgets.IconColor(profileColor).render();
 
     _modifyBtn.css({color: _iconColor});
@@ -69,7 +69,7 @@
      _modifyBtn.hover(
       function(){
         _triangle.css({'border-top': '70px solid rgb('+_profileColorRgba[0]+','+_profileColorRgba[1]+','+_profileColorRgba[2]+')'});
-      }, 
+      },
       function(){
         _triangle.css({'border-top': '70px solid '+profileColor});
       });
@@ -94,15 +94,15 @@
     var _socialIcons;
     var _personalWebs = $('<div>');
     var _socials = $('<span>');
-   
+
     _webArray.forEach(function(elem){
       if (elem['provider'] != 'my_web'){
         var _iconSocial = Pard.Widgets.IconManager('icon_social').render().addClass('icon-in-box mySocials-icon-info-box');
         var _iconImg = Pard.Widgets.IconManager(elem['provider']).render();
-        _iconImg.addClass('social-icon-fa')        
+        _iconImg.addClass('social-icon-fa')
         var _iconA = $('<a>').attr({
           href: elem['url'],
-          target: '_blank'            
+          target: '_blank'
         }).append(_iconImg);
         _socials.append(_iconA);
         _socialIcons = $('<div>').append($('<div>').addClass('information-contact-icon-column').append(_iconSocial), $('<p>').addClass('information-contact-text-column').append(_socials));
@@ -112,7 +112,7 @@
         var _url = elem['url'];
         var _link = $('<a>').attr({
           href: elem['url'],
-          target: '_blank'            
+          target: '_blank'
         }).css({
           'word-wrap': 'break-word',
         });
@@ -122,10 +122,10 @@
           }
         })
         _link.text(_url);
-       _personalWebs.append($('<div>').append(_iconLink.addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append(_link)));        
+       _personalWebs.append($('<div>').append(_iconLink.addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append(_link)));
       }
     });
-    
+
     if (_socialIcons)  _createdWidget.append(_socialIcons);
     if (_personalWebs.html()) _createdWidget.append(_personalWebs);
 
@@ -133,8 +133,8 @@
       render: function(){
         return _createdWidget;
       }
-    } 
-  } 
+    }
+  }
 
   ns.Widgets.ProgramProfile = function(program, type){
     var _programBoxContainer = $('<div>').addClass('section-box-container');
@@ -146,7 +146,8 @@
     var _day;
     var _permanentBlock;
     var _showBlock;
-    Pard.Widgets.ReorderProgramCrono(program).forEach(function(performance){
+
+    Pard.Widgets.ReorderProgramCrono(program.shows).forEach(function(performance){
       if (!(_day) || _day != moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM')) {
         _dayBlock = $('<div>');
         _showBlock = $('<div>');
@@ -157,7 +158,7 @@
         _dayBlock.append(_showBlock,_permanentBlock)
       }
       if (performance.permanent == 'false') _showBlock.append(Pard.Widgets.ProgramCardProfile(performance,type).render());
-      else if (performance.permanent == 'true') _permanentBlock.append(Pard.Widgets.ProgramCardProfile(performance,type).render());        
+      else if (performance.permanent == 'true') _permanentBlock.append(Pard.Widgets.ProgramCardProfile(performance,type).render());
       _programContent.append(_dayBlock);
     });
     _programBoxContainer.append(_programContent);
@@ -184,11 +185,11 @@
      //    }
      //    else if (performance.permanent == 'true'){
      //      if (_permanentObj[performance.participant_proposal_id]) _permanentObj[performance.participant_proposal_id].push(performance);
-     //      else _permanentObj[performance.participant_proposal_id] = [performance]; 
+     //      else _permanentObj[performance.participant_proposal_id] = [performance];
      //    }
      //  });
      //  for (var proposal in _permanentObj){
-     //    var _days = ''; 
+     //    var _days = '';
      //    _permanentObj[proposal].forEach(function(expo, index){
      //      if (index == _permanentObj[proposal].length -1 ) _days = _days +'y '+ moment(expo.time[0], 'x').locale('es').format('dddd DD MMMM');
      //      else _days = _days + moment(expo.time[0], 'x').locale('es').format('dddd DD')+' ' ;
@@ -208,7 +209,7 @@
   }
 
   ns.Widgets.PastEventArtist = function(participation, type){
-    
+
     var _eventName = $('<a>').attr('href','/event?id='+participation.event_id).text(participation.event_name).addClass('eventName-pastEventBlock');
     var _eventProposals = $('<ul>').css({'list-style-type':'none','margin-left':'0.5rem'});
     var _permanentShows = {};
@@ -224,7 +225,7 @@
         var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
         var _host;
         if (show.host_id.indexOf('own') >-1) _host = $('<span>').text(show.host_name).css('text-decoration','underline');
-        else _host = $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name); 
+        else _host = $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name);
         var _place = $('<span>').append(Pard.Widgets.IconManager('space').render().addClass('iconProfile-pastEventBlock'),_host);
         var _proposal = $('<li>').append(_day,' ',_category, _title, ' / ',_place).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
@@ -259,7 +260,7 @@
   }
 
   ns.Widgets.PastEventSpace = function(participation){
-    
+
     var _eventName = $('<a>').attr('href','/event?id='+participation.event_id).text(participation.event_name).addClass('eventName-pastEventBlock');
     var _eventProposals = $('<ul>').css({'list-style-type':'none','margin-left':'0.5rem'});
     var _permanentShows = [];
@@ -283,13 +284,13 @@
         var _proposal = $('<li>').append(_day,' ',_artists).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
         _artistByDay[day].forEach(function(show, index){
-          if (index < 1){ 
+          if (index < 1){
             _artists.append($('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
           }
           else if (show.participant_id != participation.shows[index-1].participant_id){
             _artists.append(' - ', $('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
           }
-        })  
+        })
       }
     }
 
@@ -305,7 +306,7 @@
         var _nd = new Date(show.date);
         if(_nd.getTime()<_id.getTime()) _id = _nd;
         else if(_nd.getTime()>_fd.getTime()) _fd = _nd;
-        if (index < 1){ 
+        if (index < 1){
             _artists.append($('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
             _participantsArray.push(show.participant_id);
         }
@@ -330,7 +331,7 @@
     var _time = $('<div>').append(moment(performance.time[0], 'x').locale('es').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm')).css('text-transform','capitalize');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
-    
+
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
     var _host = $('<a>').text(performance.host_name);
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id});
@@ -339,15 +340,15 @@
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id});
     else _participant.addClass('participant-program-card-own').attr({'href': '#'});
     var _children = '';
-    if (performance.children == 'true') _children = $('<div>').append(Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'), 'Infantil'); 
+    if (performance.children == 'true') _children = $('<div>').append(Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'), 'Infantil');
     var _shortDescription = performance.short_description;
-      
+
     var _titleRow = $('<div>');
     var _descriptionRow = $('<div>').addClass('descriptionRow-profile-programCard');
     var _hostRow = $('<div>');
     var _participantRow = $('<div>');
-    _titleRow.append(_time, _participantCatIcon, Pard.Widgets.Dictionary(performance.participant_category).render(), _children);      
-    _descriptionRow.append($('<p>').append( _title), $('<p>').append(_shortDescription).addClass('short-description-program-card'));      
+    _titleRow.append(_time, _participantCatIcon, Pard.Widgets.Dictionary(performance.participant_category).render(), _children);
+    _descriptionRow.append($('<p>').append( _title), $('<p>').append(_shortDescription).addClass('short-description-program-card'));
     _hostRow.append($('<p>').append(Pard.Widgets.IconManager('space').render().addClass('participant-category-icon'), _host));
     _participantRow.append($('<p>').append(Pard.Widgets.IconManager('artist').render().addClass('participant-category-icon'), _participant));
     var _col1 = $('<div>').addClass('col1-program-card-profile');
@@ -366,7 +367,7 @@
     }
   }
 
-  
-  
+
+
 }(Pard || {}));
 
