@@ -692,8 +692,18 @@ button{
 }
 
 .submit-program-btn-call-manager{
-  padding: 0px 8px;
+  /* padding: 0px 8px; */
   vertical-align: middle;
+  height: 22px;
+  width: 35px;
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  .material-icons{
+    font-size: 22px;
+  }
+  
 }
 /* 
 .out-of-program-btn {
@@ -1808,13 +1818,13 @@ table.dataTable thead .sorting {
 
 
 .cursor_grab{
-  cursor: -webkit-grab; 
-  cursor:-moz-grab;
-  cursor: grab;
+  cursor: -webkit-grab !important;; 
+  cursor:-moz-grab !important;;
+  cursor: grab !important;
 }
 
 .cursor_move{
-  cursor: move;
+  cursor: move !important;
 }
 
 

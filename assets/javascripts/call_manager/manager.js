@@ -43,9 +43,12 @@
 
       var _timeTableContainer = $('<div>').addClass('time-table-call-manager');
       var _tableContainer = $('<div>').addClass('tableContainer table-container-call-manager');
-      var _artistsBlock = $('<ul>').addClass('accordion is-active').attr({'data-accordion':'', 'role': 'tablist', 'id':'artistAccordeon'}).addClass('artist-accordeon-call-manager');
+      var _artistsList = $('<ul>').addClass('accordion').attr({'data-accordion':'', 'role': 'tablist'}).attr({'id':'artistAccordeon'});
+      var _artistsListContainer =  $('<div>').addClass('artist-list-container-call-manager');
+      _artistsListContainer.append(_artistsList);
+      var _artistsBlock = $('<div>').addClass('artist-accordeon-call-manager is-active');
 
-      var _artistsList = $('<div>').addClass('artist-list-container-call-manager');
+ 
 
       var _scrollLeftBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_left').render().addClass('navigation-btn-icon'));
       var _scrollRightBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_right').render().addClass('navigation-btn-icon'));
@@ -95,8 +98,9 @@
       var _buttonsContainer = $('<div>').addClass('buttons-container-call-manager');
 
       var _toolsContainer = $('<div>').addClass('tools-buttons-container');
-      var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container-tablePanel');
-      _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'),_submitBtn);
+      var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container');
+      // _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'))
+      // _submitBtnContainer.append(_submitBtn);
 
       var _daySelectorContainer = $('<div>').addClass('day-selector-container-call-manager');
       var _daySelector = $('<select>');
@@ -309,8 +313,8 @@
         var Accordion = function(){
           var container = $('<div>').css({'padding': 0});
           var accordionNav = $('<li>').addClass('accordion-item');
-          var aHref = $('<a>').addClass('accordion-title').text(artist.name);
-          var _artistMenuDropdown = ArtistDropdownMenu(artist).render();
+          var aHref = $('<div>').append($('<a>').attr('href','#').text(artist.name)).addClass('accordion-title'); 
+          var _artistMenuDropdown = $('<div>').append(ArtistDropdownMenu(artist).render());
           _artistMenuDropdown.addClass('artists-dropdown-icon-call-manager');
           var content = $('<div>').addClass('accordion-content').css({'padding': 0});
 
@@ -319,13 +323,15 @@
             content.append(_proposals[proposal.proposal_id].render());
           });
 
-          accordionNav.append(aHref.append(_artistMenuDropdown));
+          accordionNav.append(aHref,_artistMenuDropdown);
           container.append(accordionNav, content);
 
           accordionNav.on('click', function(){
             content.slideToggle();
             if(lastArtist != content){
               content.addClass('is-active');
+              $('.selected-accordionItem').removeClass('selected-accordionItem');
+              accordionNav.addClass('selected-accordionItem');
               if(lastArtist && lastArtist.hasClass('is-active')){
                 lastArtist.slideToggle();
                 lastArtist.removeClass('is-active');
@@ -333,6 +339,7 @@
             }
             else{
               content.removeClass('is-active');
+              $('.selected-accordionItem').removeClass('selected-accordionItem');
             }
             lastArtist = content;
           });
@@ -355,6 +362,9 @@
           else{ card.removeClass('artist-not-available-call-manager'); }
 
           card.addClass('proposal-card-container-call-manager cursor_grab');
+          card.mouseover(function(){
+            if (card.hasClass('cursor_move')) card.removeClass('cursor_move').addClass('cursor_grab');
+          });
           card.mousedown(function(){
             card.removeClass('cursor_grab').addClass('cursor_move');
           });
@@ -376,6 +386,7 @@
           card.draggable({
             revert: 'invalid',
             helper: function(){
+              console.log('heler')
               return Pard.Widgets.CardHelper(proposal).render();
             },
             appendTo: '.tableContainer',
@@ -383,6 +394,7 @@
             snapMode: 'inner',
             snapTolerance: 5,
             grid: [ 10, 10 ],
+            cursor: 'move',
             start: function(event, ui){
               _performance = {
                 participant_id: artist.profile_id,
@@ -393,17 +405,17 @@
                 availability: proposal.availability,
                 participant_name: artist.name
               }
-              $('.accordion').toggle('slide', {direction: 'right'}, 500);
+              _artistsBlock.toggle('slide', {direction: 'right'}, 500);
             },
             stop:function(){
-              $('.accordion').toggle('slide', {direction: 'right'}, 500);
+              _artistsBlock.toggle('slide', {direction: 'right'}, 500);
             }
           });
 
           card.append(circleColumn, titleColumn);
 
           var rgb = Pard.Widgets.IconColor(color).rgb();
-          card.css({border: 'solid 3px' + color});
+          card.css({border: 'solid 2px' + color});
           card.hover(
             function(){
               $(this).css({'box-shadow': '0 0 2px 1px'+ color});
@@ -1081,14 +1093,16 @@
               _card.removeClass('cursor_grab').addClass('cursor_move');
               _performance = performance;
               ui.helper.data('dropped', false);
-              if($('.accordion').hasClass('is-active')){
-                $('.accordion').toggle('slide', {direction: 'right'}, 500);
-                $('.accordion').removeClass('is-active');
+              if(_artistsBlock.hasClass('is-active')){
+                _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+                _artistsBlock.removeClass('is-active');
               }
               _card.css({'opacity': '0.4'});
             },
             stop:function(event, ui){
               _card.removeClass('cursor_move').addClass('cursor_grab');
+              _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+              _artistsBlock.addClass('is-active');
               _card.css({'opacity': '1'});
               //The card and performance is destroyed if dropped out
               if(ui.helper.data('dropped') == false){
@@ -1386,16 +1400,19 @@
             helper: 'clone',
             grid: [ 10, 10 ],
             start: function(event, ui){
+              console.log('start')
               _card.removeClass('cursor_grab').addClass('cursor_move');
               _performance = performance;
               ui.helper.data('dropped', false);
-              if($('.accordion').hasClass('is-active')){
-                $('.accordion').toggle('slide', {direction: 'right'}, 500);
-                $('.accordion').removeClass('is-active');
+              if(_artistsBlock.hasClass('is-active')){
+                _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+                _artistsBlock.removeClass('is-active');
               }
               _card.css({'opacity': '0.4'});
             },
             stop:function(event, ui){
+              _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+              _artistsBlock.addClass('is-active');
               _card.removeClass('cursor_move').addClass('cursor_grab');
               _card.css({'opacity': '1'});
               //The card and performance is destroyed if dropped out
@@ -1917,7 +1934,7 @@
         _menu.append(_outOfprogramBtn, _orderSpaceBtn);
         var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
         var _iconDropdownMenu = $('<li>').append(
-          $('<a>').attr('href','#').append(
+          $('<button>').attr('type','button').append(
             Pard.Widgets.IconManager('tools').render()
             )
           ,_menu
@@ -1931,7 +1948,7 @@
         }
       }
 
-      _artistsBlock.append(_artistSelectorContainer, _artistsList);
+      _artistsBlock.append(_artistSelectorContainer, _artistsListContainer);
       artists.forEach(function(artist){
         _artists[artist.profile_id] = new Artist(artist);
         _artistsList.append(_artists[artist.profile_id].accordion);
@@ -1942,6 +1959,8 @@
         _shownSpaces.push(space);
       });
       if(spaces.length > 0 && spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
+
+       var _submitBtnText = $('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager');
 
       var _submitBtn = Pard.Widgets.Button('', function(){
         var program = [];
@@ -1957,11 +1976,12 @@
         Pard.Backend.saveProgram(the_event.event_id, program, order, Pard.Events.SaveProgram);
       }).render().addClass('submit-program-btn-call-manager');
       _submitBtn.append(Pard.Widgets.IconManager('save').render());
+      // _submitBtnContainer.append(_submitBtnText)
       _submitBtnContainer.append(_submitBtn);
 
        _toolsContainer.append(ToolsDropdownMenu().render());
       _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
-      _createdWidget.append(_selectors.append(_daySelectorContainer, _spaceSelectorContainer, _toolsContainer, _submitBtnContainer, _showArtists));
+      _createdWidget.append(_buttonsContainer.append( _toolsContainer, _submitBtnContainer), _selectors.append(_daySelectorContainer, _spaceSelectorContainer,  _showArtists));
       _createdWidget.append(_tableBox);
 
       if(the_event.program){

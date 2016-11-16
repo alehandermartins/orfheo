@@ -13,7 +13,8 @@
     var _card =$('<div>').addClass('dragging-card-call-manager').css({
       'width': _width,
       'height': duration,
-      'border-color':color
+      'border-color':color,
+      'cursor': 'move'
     });
     var _title = $('<p>').addClass('proposal-title-card-call-manager').append($('<a>').attr('href','#').text(Pard.Widgets.CutString(proposal.title, 35)).removeClass('cursor_move').addClass('cursor_move'));
     _card.append(_title.css({

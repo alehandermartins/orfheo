@@ -1758,26 +1758,55 @@ Program Manager Tab
   width: 55rem;
 }
 
+
+.selected-accordionItem{
+  background-color: $grey-1;  
+}
+
+/* #e6e6e6 */
 .artist-accordeon-call-manager{
   position: absolute;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   right: 0;
   top:0;
   width: 13rem;
   border: 1px solid;
   z-index: 4;
-  min-height: 90vh;
-  max-height: 90vh;
+/*   min-height: 90vh;
+  max-height: 90vh; */
+  .accordion-item{
+    height: 3rem;
+    border-bottom: 1px solid $grey-2;
+    cursor: pointer;
+  }
+  .accordion-item:hover{
+    background-color: $grey-1;
+  }
+  li.accordion-item .accordion-title{
+    padding: 0 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+    width: 10rem;
+    border: none;
+    a {
+      color: #000000;
+    }
+  }
+}
+
+.accordion-title:hover{
+  background-color: transparent;
 }
 
 .artist-list-container-call-manager{
-  /* overflow-y: scroll; */
+  overflow-y: auto;
   overflow-x: hidden;
   height:  -moz-calc(100% - 2.5rem);
   height:  -webkit-calc(100% - 2.5rem);
   height:  calc(100% - 2.5rem);
   border-top: 1px solid #aaa;
   /* width: 13rem; */
+  max-height: 85vh;
 }
 
 .artists-selector-container-call-manager{
@@ -1851,16 +1880,9 @@ Program Manager Tab
   background: white;
 }
 
-.submit-program-btn-container{
-  font-size: 0.875rem;
-  position: absolute;
-  right: 1rem;
-  /* top: -3rem; */
-  height: 2.5rem;
-}
 
 .submit-program-btn-container-tablePanel{
-  font-size: 0.875rem;
+  /* font-size: 0.875rem; */
   position: absolute;
   left: 0.6rem;
   /* top: 13rem; */
@@ -1891,7 +1913,7 @@ Program Manager Tab
   position: relative;
   width: 100%;
   cursor: grab; 
-  min-height: 3.75rem;
+  min-height: 3rem;
   display: block;
 }
 
@@ -2100,20 +2122,15 @@ tr.permanent-row-program-table-call-manager td{
 }
 
 .artists-dropdown-icon-call-manager{
-  position: absolute;
-  right: 0.2rem;
-  top: 0.4rem;
+  display: inline-block;
+  width: 2rem;
+  vertical-align: middle;
 }
 
 .artist-list-container-call-manager .accordion-title::before{
   content: none;
 }
 
-.artist-list-container-call-manager .accordion-title{
-  padding-right: 1.9rem;
-  padding-left: 0.7rem;
-  color: #000000;
-}
 
 .artist-list-container-call-manager .is-dropdown-submenu, .space-column-header .is-dropdown-submenu{
   min-width: 160px;
@@ -2124,12 +2141,7 @@ tr.permanent-row-program-table-call-manager td{
 }
 
 .artist-list-container-call-manager .menu > li > a{
-    padding: 7px 0px ;
-
-}
-
-.artist-list-container-call-manager .menu > li > a{
-    padding: 7px 0px ;
+    padding: 11px 0px ;
 
 }
 
@@ -2179,8 +2191,8 @@ tr.permanent-row-program-table-call-manager td{
 .tools-buttons-container{
   position: absolute;
   display: inline-block;
-  right: 0rem;
-  margin-top: -2.6rem;
+  right: 3rem;
+  top: 2px;
   span{
     font-size: $almostNormalSize;
     margin-right: 0.5rem;
@@ -2189,14 +2201,21 @@ tr.permanent-row-program-table-call-manager td{
     display: inline-block;
     vertical-align: middle;
   }
-  a {
+  button {
+    @extend .pard-btn;
+    padding: 0;
     color:  white;
     background: black;
-    padding: 3px 0.5rem !important; 
+    padding: 0 !important;  
+    height: 22px;
+    width: 35px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
   }
   span.material-icons{
-    font-size: 1.3rem;
-    margin: 0;
+    font-size: 1.1rem;
+    margin: 3px 0 0 0;
     @include border-radius($element-border-radius);
   }
   li.is-dropdown-submenu-item{
@@ -2204,13 +2223,25 @@ tr.permanent-row-program-table-call-manager td{
     padding: 0.15rem 0.4rem;
     cursor: pointer;
   }
+  .dropdown.menu:not(.vertical) .is-dropdown-submenu.first-sub{
+    margin-top: 0.2rem;
+  }
+}
+
+
+.submit-program-btn-container{
+  /* font-size: 0.875rem; */
+  position: absolute;
+  right: 0;
+
+  /* height: 2.5rem; */
 }
 
 .buttons-container-call-manager{
   position: relative;
-  height: 3rem;
+  height: 2rem;
   margin-top: -2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 /*===============================================
