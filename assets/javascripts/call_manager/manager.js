@@ -642,7 +642,6 @@
           _titleText.on('click', function(){
             if (!(_forms)) {
               Pard.Backend.getCallForms(the_event.call_id, function(data){
-              console.log(data);
                 _forms = data.forms;
                 Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category],the_event.name);
               });
@@ -697,6 +696,7 @@
               }
 
               if(day == 'permanent'){
+                _performance.permanent = 'true';
                 if(_performance.performance_id){
                   var artistProgram = _artists[_performance.participant_id].program;
                   var performances = Object.keys(artistProgram).map(function(performance_id){
@@ -713,7 +713,6 @@
                   });
                 }
                 else{
-                  _performance.permanent = 'true';
                   var myPerformances = Object.keys(program).map(function(performance_id){
                     return program[performance_id];
                   });
@@ -961,7 +960,7 @@
           if(performance.permanent == 'false') _columns[performance.date].append(programCard);
           else{
             if(Object.keys(program).every(function(performance_id){
-              return program[performance_id].participant_proposal_id != performance.participant_proposal_id;
+              return program[performance_id].permanent == 'false' || program[performance_id].participant_proposal_id != performance.participant_proposal_id;
             })){
               _columns['permanent'].append(programCard);
             }
@@ -1341,7 +1340,6 @@
       }
 
       var PermanentPerformance = function(performance){
-
         var PerformanceCard = function(){
           var _createdWidget = $('<div>');
           var color = Pard.Widgets.CategoryColor(performance.participant_category);
@@ -1444,7 +1442,6 @@
           performances = performances.filter(function(show){
             return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id);
           });
-          console.log(performances);
           performances.forEach(function(show){
             performancesBox.append(_program[show.performance_id].performanceManager(saveMethod).render());
           });
@@ -1952,8 +1949,6 @@
           order.push(space.profile_id);
         });
 
-        console.log(program);
-        console.log(order);
         Pard.Backend.saveProgram(the_event.event_id, program, order, Pard.Events.SaveProgram);
       }).render().addClass('submit-program-btn-call-manager');
       _submitBtn.append(Pard.Widgets.IconManager('save').render());
@@ -1961,7 +1956,7 @@
 
        _toolsContainer.append(ToolsDropdownMenu().render());
       _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
-      _createdWidget.append(_selectors.append(_daySelectorContainer, _spaceSelectorContainer, _toolsContainer, _showArtists));
+      _createdWidget.append(_selectors.append(_daySelectorContainer, _spaceSelectorContainer, _toolsContainer, _submitBtnContainer, _showArtists));
       _createdWidget.append(_tableBox);
 
       if(the_event.program){
@@ -2267,7 +2262,7 @@
       var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
       var _forms;
-      
+
       var _callbackCreatedProposal = function(){
 
       }
@@ -2285,7 +2280,7 @@
         _content.append(_message.render());
         _popup.open();
       }
-      
+
       _createArtistCaller.click(function(){
         if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;

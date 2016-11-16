@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets = ns.Widgets || {};  
+  ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.EventAside = function(sectionContainer) {
 
@@ -43,15 +43,15 @@
           $(this).addClass('aside-event-nav-btn-selected');
         });
         var _participants;
-        if (_contentShown){ 
+        if (_contentShown){
           _explore.one('click', function(){
             _participants = Pard.Widgets.ParticipantEventPage(Pard.CachedEvent.event_id);
-            _exploreContent.append(_participants.render());     
+            _exploreContent.append(_participants.render());
           });
         }
         else{
           _participants = Pard.Widgets.ParticipantEventPage(Pard.CachedEvent.event_id);
-          _exploreContent.append(_participants.render());     
+          _exploreContent.append(_participants.render());
           var _contentShown = _exploreContent;
         }
         _buttonContainer.append(_explore)
@@ -90,7 +90,7 @@
       });
       _partner.one('click', function(){
         if(_participants) _participants.deactivate();
-      _partnerContent.append(Pard.Widgets.PartnerTab(Pard.CachedEvent.partners));      
+      _partnerContent.append(Pard.Widgets.PartnerTab(Pard.CachedEvent.partners));
       });
       var _partnerContent = $('<div>').attr('id', 'partner-event-page');
       _partnerContent.hide();
@@ -106,7 +106,7 @@
       _contentShown = $('#'+id_selected);
       _contentShown.show();
     }
-    
+
     var _title = Pard.Widgets.EventTitle();
 
     sectionContainer.append(_title, _programContent, _exploreContent, _infoContent, _partnerContent).addClass('profiles-user-section-content');
@@ -186,7 +186,13 @@
   }
 
   ns.Widgets.ProgramEventPage = function(){
-    var eventDates = ['2016-10-15', '2016-10-16'];
+    the_event = Pard.CachedEvent;
+    var eventDates = [];
+    Object.keys(the_event.eventTime).forEach(function(date){
+      if(date == 'permanent') return;
+      eventDates.push(date);
+    });
+    console.log(eventDates);
     var eventCategories = {
       participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Poesía', 'Street Art', 'Taller', 'Otros'],
       hosts: ['Asociación Cultural', 'Espacio Exterior', 'Espacio Particular', 'Local Comercial'],
@@ -215,7 +221,7 @@
     var _chooseText = $('<span>').text('Ordena por');
     _chooseOrderBox.append($('<div>').append(_chooseText, _chooseOrderSelect).css('float','right'));
 
-    var _types = ['Horario', 'Espacio'];  
+    var _types = ['Horario', 'Espacio'];
     var _tagsTypes = [];
     _types.forEach(function(type){
       _tagsTypes.push({id: type, text:type});
@@ -229,7 +235,7 @@
       data: _tagsTypes,
       minimumResultsForSearch: -1
     }).on('change', function(){
-        _searchResult.empty();  
+        _searchResult.empty();
         _printProgram = _printProgramDictionary[_chooseOrder.select2('data')[0].id];
         _search();
     });
@@ -249,9 +255,6 @@
     _daySelectorContainer.append(_daySelector);
 
     var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page').attr('type','button');
-
-    _programNow.attr('disabled',true).addClass('disabled-button');
-
 
     var extraDate;
     _programNow.on('click', function(){
@@ -313,7 +316,7 @@
       _content.append(_message.render());
       _popup.open();
     });
-    
+
     var map = $('<div>').attr('id', 'gmap');
     map.css({'width': '100%', 'height': '250px'});
     var gmap;
@@ -352,11 +355,11 @@
     });
 
     var _sCont = $('<div>');
-  
+
     _searchWidgetsContainer.append(_sCont.append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
-    
+
     _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _searchResult);
-    
+
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
       allowClear:false,
@@ -407,11 +410,11 @@
               if(_filters[key][category] == true) filters[key].push(Pard.Widgets.Dictionary(category).render());
             });
           });
-          
+
           return {
             query: _query,
             page: params.page,
-            event_id: 'a5bc4203-9379-4de0-856a-55e1e5f3fac6',
+            event_id: the_event.event_id,
             filters: filters
           };
         },
@@ -427,7 +430,7 @@
       },
       multiple: true,
       tags: true,
-      // tokenSeparators: [';', '\n', '\t'],   
+      // tokenSeparators: [';', '\n', '\t'],
       templateResult: formatResource
     }).on("select2:select", function(e) {
       if(_searchWidget.select2('data') != false){
@@ -441,11 +444,11 @@
     var _search = function(){
       var spinner =  new Spinner().spin();
       $.wait(
-        '', 
+        '',
         function(){
-          _searchResult.empty();  
-          _searchResult.append(spinner.el); 
-        }, 
+          _searchResult.empty();
+          _searchResult.append(spinner.el);
+        },
         function(){
           var tags = [];
           var _dataArray = _searchWidget.select2('data');
@@ -469,7 +472,7 @@
             _time = _date.getTime();
           }
 
-          Pard.Backend.searchProgram('a5bc4203-9379-4de0-856a-55e1e5f3fac6', tags, filters, _day, _time, function(data){
+          Pard.Backend.searchProgram(the_event.event_id, tags, filters, _day, _time, function(data){
 
             _program = data.program;
             _data = [];
@@ -506,7 +509,7 @@
           _searchWidget.select2("close");
           $(':focus').blur();
           $('body').click();
-          if ($(window).width() < 640)  $('.whole-container').scrollTop(110);   
+          if ($(window).width() < 640)  $('.whole-container').scrollTop(110);
 
         }
       );
@@ -524,7 +527,7 @@
         var _distanceInputTop = _searchWidget.offset().top;
         var _scroolTop = $('.whole-container').scrollTop();
         var _headerHeight = $('header').height();
-        var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
+        var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10;
         $('.whole-container').scrollTop(_distanceToDo);
       }
     });
@@ -592,11 +595,11 @@
       }
     }
   }
- 
+
   ns.Widgets.EventSection = function(content) {
 
     var _content = content.addClass('user-grid-element-content');
-    
+
     return{
       render: function(){
         return _content;
