@@ -363,6 +363,16 @@
 
   ns.Forms.Proposal = {
     space:{
+      name: {
+        "type" : "mandatory",
+        "label" : "Nombre",
+        "input" : "Input",
+        "args" : [ 
+                  "", 
+                  "text"
+                ],
+        "helptext" : ""
+      },
       email: {
         "type" : "mandatory",
         "label" : "Correo",
@@ -389,6 +399,28 @@
         "args" : [ 
                   'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
                   4
+                ],
+        "helptext" : ""
+      }
+    },
+    artist: {
+      name: {
+        "type" : "mandatory",
+        "label" : "Nombre",
+        "input" : "Input",
+        "args" : [ 
+                  "", 
+                  "text"
+                ],
+        "helptext" : ""
+      },
+      email: {
+        "type" : "mandatory",
+        "label" : "Correo",
+        "input" : "Input",
+        "args" : [ 
+                  "", 
+                  "text"
                 ],
         "helptext" : ""
       }

@@ -3,7 +3,7 @@
 (function(ns){
     ns.Widgets = ns.Widgets || {};  
 
-  ns.Widgets.CreateOwnProposal = function(forms, the_event, callbackCreatedProposal){
+  ns.Widgets.CreateOwnProposal = function(forms, profileType, the_event, callbackCreatedProposal){
 
     var _createdWidget = $('<div>');
     
@@ -14,7 +14,7 @@
 
       var _typeFormsCatArray = Object.keys(forms);
     
-      var _formTypeConstructor = Pard.Widgets.PrintOwnProposalForm;
+      var _formConstructor = Pard.Widgets.PrintOwnProposalForm;
 
       var _outerFormBox = $('<div>');
       var _formTypeSelectorCont = $('<div>');
@@ -54,18 +54,18 @@
         }
       });
 
-      var _send = function(){};
+      var _send = function(){console.log('callbackCreatedProposal');};
 
-      var _printForm = function(formTypeSelector, production){
+      var _printForm = function(formTypeSelector, profile){
         _contentSel.empty();
         _production_id = false;
         var _typeFormSelected = formTypeSelector.val();
-        var _formWidget = _formTypeConstructor(forms[_typeFormSelected], callbackCreatedProposal);
+        var _formWidget = _formConstructor(forms[_typeFormSelected], profileType);
         _formWidget.setCallback(function(){
           _closepopup();
         });
         _formWidget.setSend(_send);
-        if (production) _formWidget.setVal(production); 
+        if (profile) _formWidget.setVal(profile); 
         _contentSel.append(_formWidget.render());
       };
 
@@ -183,9 +183,19 @@
   //   }
   // }
 
-  ns.Widgets.PrintOwnProposalForm = function(form){
+  ns.Widgets.PrintOwnProposalForm = function(form, profileType){
+    var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability'];
 
-    var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
+    var _additionalForm = Pard.Forms.Proposal[profileType];
+
+
+    // var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
+    // if (form['category']['args'][1].length == 1){
+    //   var _orfheoFields = Pard.Forms.FieldsForms(form['category']['args'][1]).createOwnProposal();
+    // }
+    // else{
+
+    // }
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
 
     var _send = function(){};
@@ -205,13 +215,17 @@
 
     var _displayAllBtn = $('<a>').attr('href','#').text('Todos los campos');
 
-    var _containerOrfheoFields = $('<div>')
-    var _containerCustom = $('<div>');
-    var _containerCustomFields = $('<div>');
-    _containerCustom.append(_displayAllBtn, _containerCustomFields);
-    _formContainer.append(_containerOrfheoFields, _containerCustom);
+    var _containerMandatoryFields = $('<div>')
+    var _containerOptionalFields = $('<div>');
+    var _optionalFields = $('<div>');
+    _containerOptionalFields.append(_displayAllBtn, _optionalFields);
+    _formContainer.append(_containerMandatoryFields, _containerOptionalFields);
 
-    Object.keys(form).forEach(function(field){
+    for (var field in _additionalForm){
+      form[field] = _additionalForm[field];
+    }
+
+    var _printField = function(field){
       _form[field] = {};
       _form[field]['type'] = form[field].type;
       if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
@@ -235,16 +249,16 @@
           _url.push(data['result']['public_id']);
           if(_url.length >= _photos.dataLength()) _send();
         });
-      _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','3rem'));
+      _optionalFields.prepend(_photosContainer);
       }
       else if (field == 'category'){
-        if (profile.category){
-          _orfheoCategory = profile.category;
-        }
-        else{ 
+        // if (profile.category){
+        //   _orfheoCategory = profile.category;
+        // }
+        // else{ 
           if (form[field].args[1].length>1){
             var _formField = $('<div>');
-            _containerOrfheoFields.append(
+            _containerMandatoryFields.append(
             _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
               _form[field].label.render(),
               _form[field].input.render())
@@ -254,7 +268,7 @@
           else{
             _orfheoCategory = form[field].args[1][0]; 
           }
-        }
+        // }
       }
       else{
         if (form[field].input == 'TextAreaCounter'){
@@ -265,7 +279,8 @@
           var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
           if (form[field]['helptext'].length) {
             if (field == 'conditions') {
-              var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
+              // var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
+              return false;
             }
             else {
               var _helptextfield = _form[field].helptext.render();
@@ -299,12 +314,21 @@
             _form[field].helptext.render().css('margin-top', 5);
           }
         }
-        if($.isNumeric(field)) _containerCustomFields.append(_formField);
-        else _containerOrfheoFields.append(_formField);
+        if($.isNumeric(field)) _optionalFields.append(_formField);
+        else if ($.inArray(field, _mandatoryFields)<0)_optionalFields.prepend(_formField);
+        else _containerMandatoryFields.append(_formField);
       }
+    }
+
+    _mandatoryFields.forEach(function(field){
+      if ($.inArray(field,Object.keys(form))>-1) _printField(field);
     });
 
-    // _containerCustomFields.append(_conditions);
+    Object.keys(form).forEach(function(field){
+      if ($.inArray(field,_mandatoryFields)<0)  _printField(field);
+    });
+
+    // _optionalFields.append(_conditions);
 
 
     var _filled = function(){
@@ -329,7 +353,6 @@
       _submitForm['type'] = profile.type;
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = formTypeSelected;
-      if (production_id) _submitForm['production_id'] = production_id; 
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
       return _submitForm;
     }

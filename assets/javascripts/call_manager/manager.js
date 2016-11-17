@@ -2297,7 +2297,7 @@
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        var _message = Pard.Widgets.PopupContent('Crea una propuesta', Pard.Widgets.CreateOwnProposal(_forms[type], the_event, _callbackCreatedProposal));
+        var _message = Pard.Widgets.PopupContent('Crea una propuesta', Pard.Widgets.CreateOwnProposal(_forms[type], type, the_event, _callbackCreatedProposal));
         _message.setCallback(function(){
           _content.remove();
           _popup.close();
