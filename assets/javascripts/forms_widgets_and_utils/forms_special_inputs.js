@@ -232,27 +232,29 @@
 
     var _colorPicker = $('<input>').attr({'type': 'text', 'value': '#000000'});
 
-    
-
     _createdWidget.append(_colorPicker);
+
+     _colorPicker.spectrum({
+        chooseText: "OK",
+        cancelText: "cancel",
+        preferredFormat: "hex",
+        move: function(color){
+          _colorPicker.val(color);
+        }
+      });
 
    return{
       render: function(){
-        _colorPicker.spectrum({
-          chooseText: "OK",
-          cancelText: "cancel",
-          preferredFormat: "hex",
-          move: function(color){
-            _colorPicker.val(color);
-          }
-        });
+       
         return _createdWidget;
       },
       getVal: function(){
         return _colorPicker.val(); 
       },
       setVal: function(colorPicked){
-        _colorPicker.val(colorPicked);
+        _colorPicker.spectrum({
+          color: colorPicked
+        });
       },
       addWarning: function(){
         _colorPicker.addClass('warning');

@@ -33,7 +33,7 @@
     var user_id = Pard.ProfileManager.getUserId();
     var profile_id = profile.profile_id;
 
-    _formWidget.setVal(profile);
+    _formWidget.setVal(profile); 
 
      var _deleteProfileCaller = $('<a>').attr('href','#').text('Elimina el perfil').addClass('deleteProfile-caller');
 

@@ -1096,7 +1096,7 @@
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 
-                        "salas de actuaciones", 
+                        "salas de exposición", 
                         "locales de restauración", 
                         "comercios"
                     ]
@@ -2105,7 +2105,7 @@
         }
     },
     "space" : {
-        "Espacio colaborador" : {
+        "Espacio sin actividad programada" : {
             "category" : {
                 "type" : "mandatory",
                 "label" : "Selecciona tu tipo de espacio",
@@ -2189,7 +2189,7 @@
                 "helptext" : "https://distrito008.es/"
             }
         },
-        "Espacio con actividad" : {
+        "Espacio con actividad programada" : {
             "category" : {
                 "type" : "mandatory",
                 "label" : "Selecciona tu tipo de espacio",
@@ -2279,8 +2279,8 @@
                 "helptext" : "Elige si prefieres desarrollar en tu local una actividad propia, de vuestra creación, o una actividad programada por la organización del Festival según tus preferencias y posibilidades del espacio que dispones. Si eliges la opción de actividad propia deberéis rellenar un formulario como Artista, la propuesta deberá pasar por el filtro de la organización."
             },
             "3" : {
-                "type" : "otional",
-                "label" : "Categoría de actividad (sólo para espacios con actividad propia) *",
+                "type" : "mandatory",
+                "label" : "Categoría de actividad",
                 "input" : "MultipleSelector",
                 "args" : [ 
                     [ 

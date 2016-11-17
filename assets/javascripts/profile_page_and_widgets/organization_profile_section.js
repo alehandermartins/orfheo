@@ -128,9 +128,8 @@
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
       if(profile.events) profile.events.forEach(function(_event){
-        var _manageCallBtn =  $('<a>').addClass('manage-call-btn').attr('href','/event_manager?id='+ _event.event_id).text('Gestiona convocatoria').attr('type','button');        
-        _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
-        // _callsBoxContainer.append( $('<p>').append(_manageCallBtn).addClass('callToActionBtn-container-eventCard'));
+        var _manageCallBtn =  $('<a>').addClass('navigation-btn-callPage').attr('href','/event_manager?id='+ _event.event_id).text('Gestiona convocatoria');        
+        _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('toCallPage-container-eventCard'));
       });
     }
 

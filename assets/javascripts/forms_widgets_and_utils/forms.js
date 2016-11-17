@@ -501,9 +501,9 @@
       'other': _createShowFields
     };
 
-    var _modifyExpoFields = ['title', 'short_description', 'description','links','photos'];
-    var _modifyShowFields = ['title', 'short_description', 'description', 'duration', 'children','links','photos'];
-    var _modifyStreetArtFields = ['title', 'short_description', 'description','links','photos'];
+    var _modifyExpoFields = ['title', 'short_description', 'description'];
+    var _modifyShowFields = ['title', 'short_description', 'description', 'duration', 'children'];
+    var _modifyStreetArtFields = ['title', 'short_description', 'description'];
     var _modifyProductionFields = {
       'expo': _modifyExpoFields,
       'music': _modifyShowFields,

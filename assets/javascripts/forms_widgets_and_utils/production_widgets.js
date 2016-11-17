@@ -98,6 +98,7 @@
       _catSelector.disable();
       var _fieldsForm = Pard.Forms.FieldsForms(catSelected).modifyProduction();
       var _form = {};
+      console.log(_fieldsForm);
       _fieldsForm.forEach(function(field){
         _form[field] = _genericForm[field];
       });
