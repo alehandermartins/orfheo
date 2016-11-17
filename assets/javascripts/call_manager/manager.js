@@ -2362,13 +2362,13 @@
         }
       });
 
-      //var _whiteList = Pard.Widgets.WhiteList(call);
+      var _whiteList = Pard.Widgets.WhiteList(the_event);
       // var _buttons = $('<div>').append(_spacePopup.render(), _artistPopup.render()).addClass('buttonsCOntainer-call-page');
 
       _artistsOwnBox.append(_createArtistCaller, _artistsList);
       _spacesOwnBox.append(_createSpaceCaller, _spacesList);
       _addProposalBox.append(_addProposalText, _artistsOwnBox, _spacesOwnBox);
-      _whiteListBox.append(_whiteListText);
+      _whiteListBox.append(_whiteListText, _whiteList.render());
       _createdWidget.append(_addProposalBox, _whiteListBox);
 
       return {
