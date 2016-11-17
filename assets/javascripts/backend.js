@@ -106,6 +106,24 @@
       );
     };
 
+    var _sendArtistOwnProposal = function(form, callback){
+      console.log('sendArtistOwnProposal')
+      _send(
+        '/users/send_artist_own_proposal',
+        form,
+        callback
+      );
+    };
+
+    var _sendSpaceOwnProposal = function(form, callback){
+      console.log('sendSpaceOwnProposal');
+      _send(
+        '/users/send_space_own_proposal',
+        form,
+        callback
+      );
+    };
+
     var _createProduction = function(form, callback){
       _send(
         '/users/create_production',
@@ -307,7 +325,8 @@
       modifyProfile: _modifyProfile,
       sendArtistProposal: _sendArtistProposal,
       sendSpaceProposal: _sendSpaceProposal,
-      sendOwnProposal: _sendOwnProposal,
+      sendArtistOwnProposal: _sendArtistOwnProposal,
+      sendSpaceOwnProposal: _sendSpaceOwnProposal,
       createProduction: _createProduction,
       modifyProduction: _modifyProduction,
       searchProfiles: _searchProfiles,
