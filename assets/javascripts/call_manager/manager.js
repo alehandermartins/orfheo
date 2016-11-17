@@ -2294,8 +2294,14 @@
           var _proposal = data.call.proposals[data.call.proposals.length -1];
           var _proposalContainer = $('<li>');
           var _printedProposal = Pard.Widgets.PrintOwnProposal(_proposal, _proposalContainer); 
-          if (_proposal.type == 'space') _spacesList.prepend(_proposalContainer.append(_printedProposal.render()));
-          else _artistsList.prepend(_proposalContainer.append(_printedProposal.render()));
+          if (_proposal.type == 'space'){ 
+            _spacesList.prepend(_proposalContainer.append(_printedProposal.render()));
+            _proposalsManager.addSpace(_proposal)
+          }
+          else {
+            _artistsList.prepend(_proposalContainer.append(_printedProposal.render()));
+            _proposalsManager.addArtist(_proposal);
+          }
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
         }
         else{

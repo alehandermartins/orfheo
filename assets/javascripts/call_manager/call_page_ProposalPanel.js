@@ -213,7 +213,7 @@
     var spinner =  new Spinner();
     var _photos;
     var _orfheoCategory;
-    // var _conditions;
+    var _profile_own_id;
 
     var _displayAllBtn = $('<a>').attr('href','#').text('Todos los campos');
     var _containerMandatoryFields = $('<div>')
@@ -355,9 +355,10 @@
       };
       _submitForm['call_id'] = Pard.CachedEvent.call_id;
       _submitForm['event_id'] = Pard.CachedEvent.event_id;
-      _submitForm['profile_id'] = Pard.CachedEvent.profile_id;
       _submitForm['conditions'] = true;
       _submitForm['type'] = profileType;
+      if (!(_submitForm['description']))_submitForm['description'] = '_';
+      if (profile_own_id)  _submitForm['profile_id'] = _profile_own_id;
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = formTypeSelected;
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
