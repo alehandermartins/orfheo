@@ -84,13 +84,13 @@ class CallsController < BaseController
     scopify event_id: true, proposal_id: true
     check_event_exists! event_id
     check_proposal_exists! proposal_id
-    
+
     event = Repos::Events.get_event(event_id)
     proposal = Repos::Events.get_artist_proposal(proposal_id)
     check_proposal_access! event[:user_id], proposal[:user_id]
     check_deadline! event_id
     Repos::Events.delete_artist_proposal proposal_id
-    
+
     send_rejection_mail(event, proposal[:user_id], proposal[:title]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
     success
   end
@@ -105,7 +105,7 @@ class CallsController < BaseController
     check_proposal_access! event[:user_id], proposal[:user_id]
     check_deadline! event_id
     Repos::Events.delete_space_proposal proposal_id
-    
+
     send_rejection_mail(event, proposal[:user_id], proposal[:name]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
     success
   end
@@ -119,7 +119,7 @@ class CallsController < BaseController
     form = get_artist_form call_id, form_category
     proposal = ArtistOwnProposal.new(params, session[:identity], form)
     Repos::Events.add_artist event_id, proposal.to_h
-    success
+    success({artist: proposal.to_h})
   end
 
   post '/users/send_space_own_proposal' do
@@ -131,7 +131,7 @@ class CallsController < BaseController
     form = get_space_form call_id, form_category
     proposal = SpaceOwnProposal.new(params, session[:identity], form)
     Repos::Events.add_space event_id, proposal.to_h
-    success
+    success({space: proposal.to_h})
   end
 
   post '/users/add_whitelist' do

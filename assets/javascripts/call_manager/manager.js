@@ -313,7 +313,7 @@
         var Accordion = function(){
           var container = $('<div>').css({'padding': 0});
           var accordionNav = $('<li>').addClass('accordion-item');
-          var aHref = $('<div>').append($('<a>').attr('href','#').text(artist.name)).addClass('accordion-title'); 
+          var aHref = $('<div>').append($('<a>').attr('href','#').text(artist.name)).addClass('accordion-title');
           var _artistMenuDropdown = $('<div>').append(ArtistDropdownMenu(artist).render());
           _artistMenuDropdown.addClass('artists-dropdown-icon-call-manager');
           var content = $('<div>').addClass('accordion-content').css({'padding': 0});
@@ -2294,21 +2294,21 @@
         if(data['status'] == 'success') {
           var _proposal = _createOwnProposalWidget.getVal();
           var _proposalContainer = $('<li>');
-          var _printedProposal = Pard.Widgets.PrintOwnProposal(_proposal, _proposalContainer); 
-          if (_proposal.type == 'space'){ 
+          var _printedProposal = Pard.Widgets.PrintOwnProposal(_proposal, _proposalContainer);
+          if (_proposal.type == 'space'){
             _spacesList.prepend(_proposalContainer.append(_printedProposal.render()));
-            // _programManager.addSpace(_proposal)
+            _programManager.addSpace(data.space)
           }
           else if (_proposal.type == 'artist'){
             _artistsList.prepend(_proposalContainer.append(_printedProposal.render()));
-            // _programManager.addArtist(_proposal);
+            _programManager.addArtist(data.artist);
           }
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
         }
         else{
           Pard.Widgets.Alert('',Pard.Widgets.Dictionary(data.reason).render());
           // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
-        }  
+        }
       }
 
       var _closePopupForm = function(){};
@@ -2318,7 +2318,7 @@
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(_forms[type], type, _callbackCreatedProposal);  
+        _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(_forms[type], type, _callbackCreatedProposal);
         var _message = Pard.Widgets.PopupContent('Crea una propuesta', _createOwnProposalWidget);
         _message.setCallback(function(){
           _content.remove();
@@ -2363,7 +2363,7 @@
           // _artistProposal.setDeleteProposalCallback(_proposalContainer);
         }
       })
-      
+
       the_event.spaces.forEach(function(proposal){
         var lastElement = proposal.profile_id.split('-').pop();
         if (lastElement == 'own') {
