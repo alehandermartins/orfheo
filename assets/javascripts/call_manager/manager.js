@@ -2286,7 +2286,6 @@
       var _createSpaceCaller = $('<div>').html(_spaceButtonHtml).addClass('create-space-proposal-call-page-btn');
       var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
-      var _forms;
       var _createOwnProposalWidget;
 
       var _callbackCreatedProposal = function(data){
@@ -2353,13 +2352,52 @@
 
       // var _artistProposalsList = [];
 
+      var _closePopupOwnSentProposal = function(){};
+
+      var _sentOwnProposal;
+
+      var _callbackOwnPrintedProposal = function(){};
+
+      var _popupOwnSentProposal = function(proposal, type, proposalContainer){
+        var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
+        _content.empty();
+        $('body').append(_content);
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        _sentOwnProposal = Pard.Widgets.PrintOwnProposal(proposal, _forms[type], proposalContainer);  
+        var _message = Pard.Widgets.PopupContent(Pard.CachedEvent.name, _sentOwnProposal);
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _closePopupOwnSentProposal = function(){_popup.close();};
+        _popup.open();
+      }
+
+      var _addProposal = function(proposal, type, proposalContainer){
+        var _proposalListed = $('<span>');
+        if (proposal['title']) var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']+' - ' + proposal['title']);
+        else var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
+        
+        _namePopupCaller.click(function(){
+          if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
+          _forms = data.forms;
+          _popupOwnSentProposal(proposal, type, proposalContainer);  
+        })
+        else _popupOwnSentProposal(proposal, type, proposalContainer);
+        });
+
+        _proposalListed.append(_namePopupCaller);
+        return _proposalListed;
+      }
+
       the_event.artists.forEach(function(proposal){
         var lastElement = proposal.profile_id.split('-').pop();
         if (lastElement == 'own') {
           var _proposalContainer = $('<li>');
-          var _artistProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);
+          var _artistProposal = _addProposal(proposal, 'artist', _proposalContainer);
           // _artistProposalsList.push(_artistProposal);
-          _artistsList.prepend(_proposalContainer.append(_artistProposal.render()));
+          _artistsList.prepend(_proposalContainer.append(_artistProposal));
           // _artistProposal.setDeleteProposalCallback(_proposalContainer);
         }
       })
@@ -2368,8 +2406,8 @@
         var lastElement = proposal.profile_id.split('-').pop();
         if (lastElement == 'own') {
           var _proposalContainer = $('<li>');
-          var _spaceProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);
-          _spacesList.prepend(_proposalContainer.append(_spaceProposal.render()));
+          var _spaceProposal = _addProposal(proposal, 'space', _proposalContainer);
+          _spacesList.prepend(_proposalContainer.append(_spaceProposal));
         }
       });
 
