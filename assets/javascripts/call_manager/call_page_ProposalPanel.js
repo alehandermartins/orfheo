@@ -430,7 +430,7 @@
   }
     
 
-  // ns.Widgets.PrintOwnProposal = function(proposal, artistProposalContainer){
+  // ns.Widgets.PrintOwnProposal = function(proposal, proposalContainer){
   //   console.log(proposal);
   //   var _createdWidget = $('<span>');
 
@@ -444,7 +444,7 @@
   //   }      
   //   else _form = Pard.Forms.SpaceCall();
 
-  //   var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, Pard.ChachedEvent.name, function(){return Pard.Widgets.PrintOwnProposalMessage(proposal, _form.render(), artistProposalContainer)});
+  //   var _popup = Pard.Widgets.PopupCreator(_namePopupCaller, Pard.ChachedEvent.name, function(){return Pard.Widgets.PrintOwnProposalMessage(proposal, _form.render(), proposalContainer)});
 
   //   _createdWidget.append(_popup.render());
     
@@ -456,15 +456,15 @@
   // }
 
   ns.Widgets.PrintOwnProposal = function(proposal, form,proposalContainer){
+    console.log(proposalContainer);
     var _createdWidget = $('<div>');
-    console.log(proposal);
     var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form[proposal.form_category]).render();
 
     var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina esta propuesta').addClass('deleteProfile-caller');
 
     var closepopup;
 
-    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, closepopup, poposalContainer)}, 'alert-container-full');
+    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, closepopup, proposalContainer)}, 'alert-container-full');
 
     _createdWidget.append(_proposalPrinted, _deleteProposal.render());
 
@@ -479,7 +479,7 @@
 
   }
 
-  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup, artistProposalContainer){  
+  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup, proposalContainer){  
     
     var _createdWidget = $('<div>');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
@@ -490,25 +490,6 @@
     _yesBtn.click(function(){
       $('body').append(spinnerDeleteProposal.el);
       Pard.Backend.deleteProposal(proposal_id, _deleteProposalCallback);
-      // artistProposalContainer.remove();
-      // var _proposals = Pard.CachedProposals;
-      // var _index;
-      // _proposals.some(function(proposal, index){ 
-      //   if (proposal.proposal_id == proposal_id ) {
-      //     _index = index;
-      //     return true;
-      //   }
-      // });
-      // _proposals.splice(_index, 1);
-      // Pard.CachedProposals = _proposals;
-      // $('#tablePanel').empty();
-      // $('#tablePanel').append(Pard.Widgets.TablePanelContent().render());
-      // $('#programPanel').empty();
-      // Pard.CachedCall.proposals = _proposals;
-      // Pard.Widgets.Program = [];
-      // Pard.Spaces = [];
-      // Pard.ShownSpaces = [];
-      // Pard.Artists = {};
       closepopup();
     });
 
@@ -517,7 +498,7 @@
         $.wait(
           '', 
           function(){
-            artistProposalContainer.remove();
+            proposalContainer.remove();
             var _proposals = Pard.CachedProposals;
             var _index;
             _proposals.some(function(proposal, index){ 
