@@ -258,10 +258,11 @@
 
     var _whitelist = function(call_id, whitelist, callback){
       console.log(whitelist);
+      console.log(call_id);
       _send(
         '/users/add_whitelist',
         {
-          call_id: 'b5bc4203-9379-4de0-856a-55e1e5f3fac6',
+          event_id: call_id,
           whitelist: whitelist
         },
         callback

@@ -12,7 +12,7 @@
     var _opening = new Date(parseInt(Pard.CachedEvent.start));
     var _closing = new Date(parseInt(Pard.CachedEvent.deadline));
     var _now = new Date();
-    if((_opening.getTime()<_now.getTime() && _now.getTime()<_closing.getTime()) || Pard.UserStatus['status']=='owner'){
+    if((_opening.getTime()<_now.getTime() && _now.getTime()<_closing.getTime()) || Pard.UserStatus['status']=='owner' || Pard.CachedEvent.whitelisted){
     var _callToAction = $('<button>').attr('type','button').html('¡Apúntate!').addClass('signUp-button-welcome-section button-event-header');
     _callToAction.on('click',function(){
       if (Pard.UserStatus['status'] == 'outsider'){

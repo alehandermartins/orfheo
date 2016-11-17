@@ -427,74 +427,74 @@
     
 
 
-  ns.Widgets.ProposalsPanelContent = function(call) {
+  // ns.Widgets.ProposalsPanelContent = function(call) {
 
-    var proposals = Pard.CachedProposals;
+  //   var proposals = Pard.CachedProposals;
   	
-    var _createdWidget = $('<div>');
+  //   var _createdWidget = $('<div>');
 
-    var _addProposalBox = $('<div>').addClass('add-proposal-box');
-    var _whiteListBox = $('<div>').addClass('white-list-box');
+  //   var _addProposalBox = $('<div>').addClass('add-proposal-box');
+  //   var _whiteListBox = $('<div>').addClass('white-list-box');
 
-    var _addProposalText = $('<p>').text('Añade propuestas a tu convocatoria para que puedas insertarlas en la programación').addClass('initial-text-proposalPanel');
-    var _whiteListText = $('<p>').text('Habilita usuarios para que puedan enviar una propuesta en cualquier momento').addClass('initial-text-proposalPanel');
+  //   var _addProposalText = $('<p>').text('Añade propuestas a tu convocatoria para que puedas insertarlas en la programación').addClass('initial-text-proposalPanel');
+  //   var _whiteListText = $('<p>').text('Habilita usuarios para que puedan enviar una propuesta en cualquier momento').addClass('initial-text-proposalPanel');
 
-    var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('create-profile-btn-icon');
-    var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
-    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista').addClass('create-profile-btn-text'));
-    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio').addClass('create-profile-btn-text'));
+  //   var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('create-profile-btn-icon');
+  //   var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
+  //   var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista').addClass('create-profile-btn-text'));
+  //   var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio').addClass('create-profile-btn-text'));
 
 
-  	var _createSpaceCaller = $('<div>').html(_spaceButtonHtml).addClass('create-space-proposal-call-page-btn');
+  // 	var _createSpaceCaller = $('<div>').html(_spaceButtonHtml).addClass('create-space-proposal-call-page-btn');
 
-  	var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
+  // 	var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
-    var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateOwnSpaceProposal(call, _spacesList)});
+  //   var _spacePopup = Pard.Widgets.PopupCreator(_createSpaceCaller, 'Crea un espacio', function(){ return Pard.Widgets.CreateOwnSpaceProposal(call, _spacesList)});
 
-    var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateOwnArtistProposal(call, _artistsList)});
+  //   var _artistPopup = Pard.Widgets.PopupCreator(_createArtistCaller, 'Crea una propuesta artística', function(){ return Pard.Widgets.CreateOwnArtistProposal(call, _artistsList)});
 
-    var _artistsList = $('<ul>').addClass('own-proposals-list').attr('id','artist-list-call-page');
-    // .attr({'style':'list-style-type:none'})
-    var _spacesList= $('<ul>').addClass('own-proposals-list').attr('id','space-list-call-page');
+  //   var _artistsList = $('<ul>').addClass('own-proposals-list').attr('id','artist-list-call-page');
+  //   // .attr({'style':'list-style-type:none'})
+  //   var _spacesList= $('<ul>').addClass('own-proposals-list').attr('id','space-list-call-page');
 
-    var _spacesOwnBox = $('<div>').addClass('ownBox-call-manager');
-    var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
+  //   var _spacesOwnBox = $('<div>').addClass('ownBox-call-manager');
+  //   var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
 
-    // var _artistProposalsList = [];
+  //   // var _artistProposalsList = [];
 
-    proposals.forEach(function(proposal){
-      var lastElement = proposal.profile_id.split('-').pop();
-      if (lastElement == 'own') {
-        var _proposalContainer = $('<li>');
-        if (proposal.type == 'artist'){
-          var _artistProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);
-          // _artistProposalsList.push(_artistProposal);
-          _artistsList.prepend(_proposalContainer.append(_artistProposal.render()));
-          // _artistProposal.setDeleteProposalCallback(_proposalContainer);
-        }
-        else{
-          var _spaceProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);
-          _spacesList.prepend(_proposalContainer.append(_spaceProposal.render()));
-        }
-      }
-    });
+  //   proposals.forEach(function(proposal){
+  //     var lastElement = proposal.profile_id.split('-').pop();
+  //     if (lastElement == 'own') {
+  //       var _proposalContainer = $('<li>');
+  //       if (proposal.type == 'artist'){
+  //         var _artistProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);
+  //         // _artistProposalsList.push(_artistProposal);
+  //         _artistsList.prepend(_proposalContainer.append(_artistProposal.render()));
+  //         // _artistProposal.setDeleteProposalCallback(_proposalContainer);
+  //       }
+  //       else{
+  //         var _spaceProposal = Pard.Widgets.PrintOwnProposal(proposal, _proposalContainer);
+  //         _spacesList.prepend(_proposalContainer.append(_spaceProposal.render()));
+  //       }
+  //     }
+  //   });
 
-    var _whiteList = Pard.Widgets.WhiteList(call);
+  //   var _whiteList = Pard.Widgets.WhiteList(call);
 
-    // var _buttons = $('<div>').append(_spacePopup.render(), _artistPopup.render()).addClass('buttonsCOntainer-call-page');
+  //   // var _buttons = $('<div>').append(_spacePopup.render(), _artistPopup.render()).addClass('buttonsCOntainer-call-page');
     
-    _spacesOwnBox.append(_spacePopup.render().addClass('buttonsCOntainer-call-page'), _spacesList);
-    _artistsOwnBox.append(_artistPopup.render().addClass('buttonsCOntainer-call-page'), _artistsList);
-    _addProposalBox.append(_addProposalText, _artistsOwnBox, _spacesOwnBox);
-    _whiteListBox.append(_whiteListText, _whiteList.render());	
-    _createdWidget.append(_addProposalBox, _whiteListBox);
+  //   _spacesOwnBox.append(_spacePopup.render().addClass('buttonsCOntainer-call-page'), _spacesList);
+  //   _artistsOwnBox.append(_artistPopup.render().addClass('buttonsCOntainer-call-page'), _artistsList);
+  //   _addProposalBox.append(_addProposalText, _artistsOwnBox, _spacesOwnBox);
+  //   _whiteListBox.append(_whiteListText, _whiteList.render());	
+  //   _createdWidget.append(_addProposalBox, _whiteListBox);
 
-  	return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
+  // 	return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     }
+  //   }
+  // }
 
   ns.Widgets.PrintOwnProposal = function(proposal, artistProposalContainer){
     var _createdWidget = $('<span>');
@@ -663,248 +663,257 @@
   }
 
 
-  ns.Widgets.CreateOwnSpaceProposal = function(call, spacesList){
-  	var _createdWidget = $('<div>');
+  // ns.Widgets.CreateOwnSpaceProposal = function(call, spacesList){
+  // 	var _createdWidget = $('<div>');
 
-  	var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
-    var _submitForm = {};
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var _invalidInput = $('<div>').addClass('not-filled-text');
-    var _preSelected = 'music';
-    var _closepopup = {};
+  // 	var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+  //   var _submitForm = {};
+  //   var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+  //   var _invalidInput = $('<div>').addClass('not-filled-text');
+  //   var _preSelected = 'music';
+  //   var _closepopup = {};
 
-    var user_id = call.user_id;
+  //   var user_id = call.user_id;
 
-    _submitForm['call_id'] = call.call_id;
+  //   _submitForm['call_id'] = call.call_id;
 
-    _submitForm['type'] = 'space';
-    _submitForm['category'] = _preSelected;
+  //   _submitForm['type'] = 'space';
+  //   _submitForm['category'] = _preSelected;
 
-    var _content = $('<form>').addClass('popup-form');
+  //   var _content = $('<form>').addClass('popup-form');
 
-   	var _fieldset = $('<fieldset>');
-   	var _requiredFields = Pard.Forms.CreateSpaceProposal().requiredFields();
-    var _form = Pard.Forms.CreateSpaceProposal().render();
-    _form['email'].input.setVal('hola@beniconfusionfest.es');
-    _form['phone'].input.setVal('000 000 000');
-    for(var field in _form){
-    	_content.append($('<div>').addClass('callPage-createSpaceProposal'	).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
-    };
+  //  	var _fieldset = $('<fieldset>');
+  //  	var _requiredFields = Pard.Forms.CreateSpaceProposal().requiredFields();
+  //   var _form = Pard.Forms.CreateSpaceProposal().render();
+  //   _form['email'].input.setVal('hola@beniconfusionfest.es');
+  //   _form['phone'].input.setVal('000 000 000');
+  //   for(var field in _form){
+  //   	_content.append($('<div>').addClass('callPage-createSpaceProposal'	).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+  //   };
 
 
-    _createdWidget.append(_content, _invalidInput, _submitBtnContainer.append(submitButton));
+  //   _createdWidget.append(_content, _invalidInput, _submitBtnContainer.append(submitButton));
    
-    var _filled = function(){
-      var _check = true;
-      for(var field in _form){
-        if ($.inArray(field, _requiredFields) >= 0 ){
-          if(!(_form[field].input.getVal())) {
-            _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
-            _check = false;
-          }
-      	}
-  		}
-      if (_check) _invalidInput.empty();
-      return _check;    
-    };
+  //   var _filled = function(){
+  //     var _check = true;
+  //     for(var field in _form){
+  //       if ($.inArray(field, _requiredFields) >= 0 ){
+  //         if(!(_form[field].input.getVal())) {
+  //           _form[field].input.addWarning();
+  //           _invalidInput.text('Por favor, revisa los campos obligatorios.');
+  //           _check = false;
+  //         }
+  //     	}
+  // 		}
+  //     if (_check) _invalidInput.empty();
+  //     return _check;    
+  //   };
 
 
-    var _getVal = function(url){
-      for(var field in _form){
-         _submitForm[field] = _form[field].input.getVal();
-      };
-      return _submitForm;
-    }
+  //   var _getVal = function(url){
+  //     for(var field in _form){
+  //        _submitForm[field] = _form[field].input.getVal();
+  //     };
+  //     return _submitForm;
+  //   }
 
-    var _closepopup = function(){};
+  //   var _closepopup = function(){};
 
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        var spinner =  new Spinner().spin();
-      // $.wait(
-      //   '', 
-      //   function(){
-          $('body').append(spinner.el);
-          submitButton.attr('disabled',true);
-          var _sentProposalEvent = function(data){
-            $.wait(
-              '', 
-              function(){
-                Pard.Events.SendOwnProposal(data);
-              },
-              function(){
-                submitButton.attr('disabled',false);
-                _closepopup();
-                spinner.stop();}
-            )
-          }
-          var _ownProposal = _getVal();
-          var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _ownProposal.address.route + "+" + _ownProposal.address.street_number + "+" + _ownProposal.address.locality + "+" + _ownProposal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-            $.post(uri, function(data){
-              if(data.status == "OK" && data.results.length > 0){
-                _ownProposal['address']['location'] = data.results[0].geometry.location;
-               Pard.Backend.sendOwnProposal(_ownProposal, _sentProposalEvent);
-              }
-              else {
-                spinner.stop();
-                submitButton.attr('disabled',false);
-                var _content = $('<div>').addClass('very-fast reveal full');
-                _content.empty();
-                $('body').append(_content);
-                var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-                var _closepopupAlert = function(){
-                  _popup.close();
-                }
-                var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_ownProposal, _closepopupAlert, function(){
-                    Pard.Backend.sendOwnProposal(_ownProposal,_sentProposalEvent);
-                  }));
-                _message.setCallback(function(){
-                  _content.remove();
-                  _popup.close();
-                }); 
-                _content.append(_message.render());
-                _popup.open();
+  //   submitButton.on('click',function(){
+  //     if(_filled() == true){
+  //       var spinner =  new Spinner().spin();
+  //     // $.wait(
+  //     //   '', 
+  //     //   function(){
+  //         $('body').append(spinner.el);
+  //         submitButton.attr('disabled',true);
+  //         var _sentProposalEvent = function(data){
+  //           $.wait(
+  //             '', 
+  //             function(){
+  //               Pard.Events.SendOwnProposal(data);
+  //             },
+  //             function(){
+  //               submitButton.attr('disabled',false);
+  //               _closepopup();
+  //               spinner.stop();}
+  //           )
+  //         }
+  //         var _ownProposal = _getVal();
+  //         var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _ownProposal.address.route + "+" + _ownProposal.address.street_number + "+" + _ownProposal.address.locality + "+" + _ownProposal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+  //           $.post(uri, function(data){
+  //             if(data.status == "OK" && data.results.length > 0){
+  //               _ownProposal['address']['location'] = data.results[0].geometry.location;
+  //              Pard.Backend.sendOwnProposal(_ownProposal, _sentProposalEvent);
+  //             }
+  //             else {
+  //               spinner.stop();
+  //               submitButton.attr('disabled',false);
+  //               var _content = $('<div>').addClass('very-fast reveal full');
+  //               _content.empty();
+  //               $('body').append(_content);
+  //               var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+  //               var _closepopupAlert = function(){
+  //                 _popup.close();
+  //               }
+  //               var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_ownProposal, _closepopupAlert, function(){
+  //                   Pard.Backend.sendOwnProposal(_ownProposal,_sentProposalEvent);
+  //                 }));
+  //               _message.setCallback(function(){
+  //                 _content.remove();
+  //                 _popup.close();
+  //               }); 
+  //               _content.append(_message.render());
+  //               _popup.open();
 
-              }
-            });
-          // },
+  //             }
+  //           });
+  //         // },
 
-      }
-    });
+  //     }
+  //   });
 
-    // _photos.cloudinary().bind('cloudinarydone', function(e, data){
-    //   _url.push(data['result']['public_id']);
-    //   if(_url.length >= _photos.dataLength()) _send(_url);
-    // });
+  //   // _photos.cloudinary().bind('cloudinarydone', function(e, data){
+  //   //   _url.push(data['result']['public_id']);
+  //   //   if(_url.length >= _photos.dataLength()) _send(_url);
+  //   // });
      
 
-  	return {
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-      _closepopup = callback;      	
-      }
-    }  	
-  }
+  // 	return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     setCallback: function(callback){
+  //     _closepopup = callback;      	
+  //     }
+  //   }  	
+  // }
 
 
 
-  ns.Widgets.CreateOwnArtistProposal = function(call, artistsList){
+  // ns.Widgets.CreateOwnArtistProposal = function(call, artistsList){
 
-  	var _createdWidget = $('<div>');
+  // 	var _createdWidget = $('<div>');
 
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
-    var _submitForm = {};
-    var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var _invalidInput = $('<div>').addClass('not-filled-text');
-    var _preSelected = 'music';
-    var _closepopup = {};
+  //   var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+  //   var _submitForm = {};
+  //   var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
+  //   var _invalidInput = $('<div>').addClass('not-filled-text');
+  //   var _preSelected = 'music';
+  //   var _closepopup = {};
 
-    var user_id = call.user_id;
+  //   var user_id = call.user_id;
 
    
-    _submitForm['call_id'] = call.call_id;
-    _submitForm['type'] = 'artist';
-    _submitForm['category'] = _preSelected;
+  //   _submitForm['call_id'] = call.call_id;
+  //   _submitForm['type'] = 'artist';
+  //   _submitForm['category'] = _preSelected;
    
-    var _content = $('<form>').addClass('popup-form');
+  //   var _content = $('<form>').addClass('popup-form');
 
-    var _form = {};
-    var _requiredFields = [];
+  //   var _form = {};
+  //   var _requiredFields = [];
 
-    var _printForm = function(_selected){
-    	_content.empty();
-	   	var _fieldset = $('<fieldset>');
-	   	_requiredFields = Pard.Forms.CreateArtistProposal(_selected).requiredFields();
-      _form = Pard.Forms.CreateArtistProposal(_selected).render();
-      _form['email'].input.setVal('hola@beniconfusionfest.es');
-      _form['phone'].input.setVal('000 000 000');
-      for(var field in _form){
-      	_content.append($('<div>').addClass('callPage-createArtistProposal'	).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
-      };
-      _submitForm['category'] = _selected;
-    }
+  //   var _printForm = function(_selected){
+  //   	_content.empty();
+	 //   	var _fieldset = $('<fieldset>');
+	 //   	_requiredFields = Pard.Forms.CreateArtistProposal(_selected).requiredFields();
+  //     _form = Pard.Forms.CreateArtistProposal(_selected).render();
+  //     _form['email'].input.setVal('hola@beniconfusionfest.es');
+  //     _form['phone'].input.setVal('000 000 000');
+  //     for(var field in _form){
+  //     	_content.append($('<div>').addClass('callPage-createArtistProposal'	).append(_form[field]['label'].render().append(_form[field]['input'].render()),_form[field]['helptext'].render()));
+  //     };
+  //     _submitForm['category'] = _selected;
+  //   }
      
 
-    var categorySelectCallback = function(){
-      var _selected = $(this).val();
-      _printForm(_selected);
-    };
+  //   var categorySelectCallback = function(){
+  //     var _selected = $(this).val();
+  //     _printForm(_selected);
+  //   };
 
-    var _categorySelector = Pard.Widgets.OrfheoArtCatSelector(categorySelectCallback);
-    var _categoryLabel = $('<label>').text('Selecciona una categoría *');
+  //   var _categorySelector = Pard.Widgets.OrfheoArtCatSelector(categorySelectCallback);
+  //   var _categoryLabel = $('<label>').text('Selecciona una categoría *');
 
-    var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
+  //   var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render())).addClass('popup-categorySelector');
 
-    _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
-    _printForm(_preSelected);
+  //   _createdWidget.append(_category, _content, _invalidInput, _submitBtnContainer.append(submitButton));
+  //   _printForm(_preSelected);
    
-    var _filled = function(){
-      var _check = true;
-      for(var field in _form){
-        if ($.inArray(field, _requiredFields) >= 0 ){
-          if(!(_form[field].input.getVal())) {
-            _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
-            _check = false;
-          }
-      	}
-  		}
-      if (_check) _invalidInput.empty();
-      return _check;    
-    };
+  //   var _filled = function(){
+  //     var _check = true;
+  //     for(var field in _form){
+  //       if ($.inArray(field, _requiredFields) >= 0 ){
+  //         if(!(_form[field].input.getVal())) {
+  //           _form[field].input.addWarning();
+  //           _invalidInput.text('Por favor, revisa los campos obligatorios.');
+  //           _check = false;
+  //         }
+  //     	}
+  // 		}
+  //     if (_check) _invalidInput.empty();
+  //     return _check;    
+  //   };
 
 
-    var _getVal = function(url){
-      for(var field in _form){
-         _submitForm[field] = _form[field].input.getVal();
-      };
-      return _submitForm;
-    }
+  //   var _getVal = function(url){
+  //     for(var field in _form){
+  //        _submitForm[field] = _form[field].input.getVal();
+  //     };
+  //     return _submitForm;
+  //   }
 
-    submitButton.on('click',function(){
-      if(_filled() == true){
-        var _ownProposal = _getVal();
-        Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
-        _closepopup();
-      }
-    });
+  //   submitButton.on('click',function(){
+  //     if(_filled() == true){
+  //       var _ownProposal = _getVal();
+  //       Pard.Backend.sendOwnProposal(_ownProposal, Pard.Events.SendOwnProposal);
+  //       _closepopup();
+  //     }
+  //   });
   
 
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-        _closepopup = callback;
-      }
-    }
-  }
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     setCallback: function(callback){
+  //       _closepopup = callback;
+  //     }
+  //   }
+  // }
 
 
-  ns.Widgets.WhiteList = function(call){
+  ns.Widgets.WhiteList = function(the_event){
   	var _createdWidget = $('<div>');
     var _emailsNames = [{id:'', text:''}];
     var _namesList = [];
     var _emailsList = [];
-    call.proposals.forEach(function(proposal){
-    	var email = {id: proposal.email, text: proposal.email};
-    	if($.inArray(proposal.email, _emailsList) < 0) {
-    		_emailsNames.push(email);
-    		_emailsList.push(proposal.email);
-    	}
-    	var name = {id: proposal.email, text: proposal['name']};
-    	if($.inArray(proposal['name'], _namesList) < 0){
-    	  _emailsNames.push(name);
-    		_namesList.push(proposal['name']);
-    	}
+
+    var _makeList = function(proposal){
+      var email = {id: proposal.email, text: proposal.email};
+      if($.inArray(proposal.email, _emailsList) < 0) {
+        _emailsNames.push(email);
+        _emailsList.push(proposal.email);
+      }
+      var name = {id: proposal.email, text: proposal['name']};
+      if($.inArray(proposal['name'], _namesList) < 0){
+        _emailsNames.push(name);
+        _namesList.push(proposal['name']);
+      }
+    }
+
+    the_event.artists.forEach(function(proposal){
+      _makeList(proposal);
+    });
+
+    the_event.spaces.forEach(function(proposal){
+      _makeList(proposal);
     });
 
     var _emailNameInput = Pard.Widgets.WhiteListInput(_emailsNames);
 
-    _emailNameInput.setVal(call.whitelist);
+    _emailNameInput.setVal(the_event.whitelist);
 
 		var _submitBtnContainer = $('<div>').addClass('submit-whitelist-call-manager-container');
    	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
@@ -918,9 +927,8 @@
   
     var _sendWhiteList = function(){
       var _wl = _emailNameInput.getVal();      
-      Pard.Backend.whitelist(call.call_id, _wl, Pard.Events.WhiteList);      
+      Pard.Backend.whitelist(the_event.event_id, _wl, Pard.Events.WhiteList);      
     }
-
 
 	 	_submitBtnContainer.append(_successBox, _submitBtn.render());
 

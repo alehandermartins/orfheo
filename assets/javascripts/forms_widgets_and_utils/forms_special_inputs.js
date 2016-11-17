@@ -1327,11 +1327,15 @@ ns.Widgets.InputAddressSpace = function(label){
           _inputs.splice(_index, 1);
           var _indexR = -1;
           _results.some(function(result, index){            
-            if(result.email == _newInput.getVal()){           _indexR = index;
+            if(result.email == _newInput.getVal()){
+              _indexR = index;
               return true;
             }
           });             
-          if (_indexR > -1){ _results.splice(_indexR, 1);}
+          if (_indexR > -1){ 
+            _results.splice(_indexR, 1);
+            _emails.splice(_indexR, 1);
+          }
           _container.empty();
           $('#successBox-whiteList').empty();
         });
