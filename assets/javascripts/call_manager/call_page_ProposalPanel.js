@@ -12,9 +12,9 @@
     }
     else{
 
-      var _typeFormsCatArray = Object.keys(forms);
-    
+      var _typeFormsCatArray = Object.keys(forms);   
       var _formConstructor = Pard.Widgets.PrintOwnProposalForm;
+      var _formWidget;
 
       var _outerFormBox = $('<div>');
       var _formTypeSelectorCont = $('<div>');
@@ -54,17 +54,20 @@
         }
       });
 
-
       var _printForm = function(formTypeSelector, profile){
         _contentSel.empty();
         _production_id = false;
         var _typeFormSelected = formTypeSelector.val();
-        var _formWidget = _formConstructor(forms[_typeFormSelected], profileType, _typeFormSelected);
+        _formWidget = _formConstructor(forms[_typeFormSelected], profileType, _typeFormSelected);
         _formWidget.setCallback(function(){
           _closepopup();
         });
         var _send = function(){
-          Pard.Backend.sendOwnProposal(_formWidget.getVal(), function(){console.log('callbackCreatedProposal')})
+          var _submitForm = _formWidget.getVal();
+          console.log('send')
+          console.log(_submitForm);
+          if (profileType == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm,callbackCreatedProposal);
+          else if (profileType == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm,callbackCreatedProposal);
         };
         _formWidget.setSend(_send);
         if (profile) _formWidget.setVal(profile); 
@@ -91,6 +94,9 @@
       },
       setCallback: function(callback){
         _closepopup = callback;
+      },
+      getVal: function(){
+        return _formWidget.getVal();
       }
     }
 
@@ -358,11 +364,10 @@
       _submitForm['conditions'] = true;
       _submitForm['type'] = profileType;
       if (!(_submitForm['description']))_submitForm['description'] = '_';
-      if (profile_own_id)  _submitForm['profile_id'] = _profile_own_id;
+      if (_profile_own_id)  _submitForm['profile_id'] = _profile_own_id;
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = formTypeSelected;
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
-      console.log(_submitForm);
       return _submitForm;
     }
 
@@ -416,7 +421,7 @@
         _closepopup = callback;
       },
       getVal: function(){
-      _getVal();
+        return _getVal();
       },
       setVal: function(production){
         for(var field in production){

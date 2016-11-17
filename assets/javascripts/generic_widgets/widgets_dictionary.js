@@ -161,6 +161,7 @@
       'Street Art': 'street_art',
       'Taller':'workshop',
       'Otros': 'other',
+      'Gastronomía':'gastronomy',
       'Infantil':'children'
     }
 

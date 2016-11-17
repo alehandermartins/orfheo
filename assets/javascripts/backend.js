@@ -89,7 +89,6 @@
     };
 
     var _sendArtistProposal = function(form, callback){
-      console.log('sendArtistProposal')
       _send(
         '/users/send_artist_proposal',
         form,
@@ -107,7 +106,6 @@
     };
 
     var _sendArtistOwnProposal = function(form, callback){
-      console.log('sendArtistOwnProposal')
       _send(
         '/users/send_artist_own_proposal',
         form,
@@ -291,13 +289,13 @@
       );
     };
 
-    var _sendOwnProposal = function(form, callback){
-      _send(
-        '/users/own_proposal',
-        form,
-        callback
-      );
-    };
+    // var _sendOwnProposal = function(form, callback){
+    //   _send(
+    //     '/users/own_proposal',
+    //     form,
+    //     callback
+    //   );
+    // };
 
     var _listProfiles = function(callback){
       _send(
