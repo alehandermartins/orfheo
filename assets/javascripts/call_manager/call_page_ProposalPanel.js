@@ -3,7 +3,7 @@
 (function(ns){
     ns.Widgets = ns.Widgets || {};  
 
-  ns.Widgets.CreateOwnProposal = function(forms, profileType, the_event, callbackCreatedProposal){
+  ns.Widgets.CreateOwnProposal = function(forms, profileType, callbackCreatedProposal){
 
     var _createdWidget = $('<div>');
     
@@ -54,16 +54,18 @@
         }
       });
 
-      var _send = function(){console.log('callbackCreatedProposal');};
 
       var _printForm = function(formTypeSelector, profile){
         _contentSel.empty();
         _production_id = false;
         var _typeFormSelected = formTypeSelector.val();
-        var _formWidget = _formConstructor(forms[_typeFormSelected], profileType);
+        var _formWidget = _formConstructor(forms[_typeFormSelected], profileType, _typeFormSelected);
         _formWidget.setCallback(function(){
           _closepopup();
         });
+        var _send = function(){
+          Pard.Backend.sendOwnProposal(_formWidget.getVal(), function(){console.log('callbackCreatedProposal')})
+        };
         _formWidget.setSend(_send);
         if (profile) _formWidget.setVal(profile); 
         _contentSel.append(_formWidget.render());
@@ -183,7 +185,7 @@
   //   }
   // }
 
-  ns.Widgets.PrintOwnProposalForm = function(form, profileType){
+  ns.Widgets.PrintOwnProposalForm = function(form, profileType, formTypeSelected){
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability'];
 
     var _additionalForm = Pard.Forms.Proposal[profileType];
@@ -214,12 +216,16 @@
     // var _conditions;
 
     var _displayAllBtn = $('<a>').attr('href','#').text('Todos los campos');
-
     var _containerMandatoryFields = $('<div>')
     var _containerOptionalFields = $('<div>');
-    var _optionalFields = $('<div>');
+    var _optionalFields = $('<div>').hide();
     _containerOptionalFields.append(_displayAllBtn, _optionalFields);
     _formContainer.append(_containerMandatoryFields, _containerOptionalFields);
+
+    _displayAllBtn.on('click', function(){
+      _optionalFields.show();
+      _displayAllBtn.remove();
+    });
 
     for (var field in _additionalForm){
       form[field] = _additionalForm[field];
@@ -228,7 +234,7 @@
     var _printField = function(field){
       _form[field] = {};
       _form[field]['type'] = form[field].type;
-      if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+      if($.inArray(field, _mandatoryFields)>-1) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
       else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
       if (form[field]['input']=='CheckBox') {
         form[field].args[0] = form[field].label;
@@ -334,7 +340,7 @@
     var _filled = function(){
       var _check = true;
       for(var field in _form){
-        if(_form[field].type == 'mandatory' && !(_form[field].input.getVal()) && field != 'category'){
+        if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
           _form[field].input.addWarning();
           _invalidInput.text('Por favor, revisa los campos obligatorios.');
           _check = false;
@@ -349,11 +355,13 @@
       };
       _submitForm['call_id'] = Pard.CachedEvent.call_id;
       _submitForm['event_id'] = Pard.CachedEvent.event_id;
-      _submitForm['profile_id'] = profile.profile_id;
-      _submitForm['type'] = profile.type;
+      _submitForm['profile_id'] = Pard.CachedEvent.profile_id;
+      _submitForm['conditions'] = true;
+      _submitForm['type'] = profileType;
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = formTypeSelected;
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
+      console.log(_submitForm);
       return _submitForm;
     }
 
@@ -366,9 +374,14 @@
           $('body').append(spinner.el);
           submitButton.attr('disabled',true);
           if(_filled() == true){
-            if(_photos.dataLength() == false) _send();
+            if(_photos){
+              if(_photos.dataLength() == false) _send();
+              else{
+                _photos.submit();
+              }
+            }
             else{
-              _photos.submit();
+              _send();
             }
           }
           else(spinner.stop());
@@ -402,10 +415,7 @@
         _closepopup = callback;
       },
       getVal: function(){
-      for(var field in _form){
-         _submitForm[field] = _form[field].input.getVal();
-      }
-      return _submitForm;
+      _getVal();
       },
       setVal: function(production){
         for(var field in production){

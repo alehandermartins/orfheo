@@ -183,7 +183,7 @@ Pard.EventManager = function(the_event){
     $('body').append(_whole);
     $(document).foundation();
   });
-
+  console.log(the_event);
   Pard.CachedEvent = the_event;
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
