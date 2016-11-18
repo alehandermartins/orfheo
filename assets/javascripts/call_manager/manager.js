@@ -2294,21 +2294,34 @@
       var _closePopupForm = function(){};
 
       var _callbackCreatedProposal = function(data){
-        console.log(data);
         if(data['status'] == 'success') {
           var _proposal = _createOwnProposalWidget.getVal();
           var _proposalContainer = $('<li>');
           if (Object.keys(data)[1] == 'space'){
-            _spacesList.prepend(_proposalContainer.append(_newListedItem(data['space'], 'space', _proposalContainer)));
-            _programManager.addSpace(data.space)
+            var _space = data['space'];
+            _ownSpaces.push(spaces);
+            var _proposalContainer = $('<li>').append(Pard.Widgets.IconManager('space').render()).addClass('own-spaceProposal-container');
+            var _spaceProposal = _newListedItem(_space, _space.profile_id, 'space', _proposalContainer);
+            _spacesList.prepend(_proposalContainer.append(_spaceProposal));
+            _programManager.addSpace(_space);
           }
           else if (_proposal.type == 'artist'){
-            // ATT --> corregir por si algun artista tiene más proposals
+            var _artist = data['artist'];
             var _proposalContainer = $('<li>');
-            var _artistProposal = _newListedItem(data['artist'].proposals[0], 'artist', _proposalContainer);
-            var _idList = '#artistProposalsList-'+data['artist'].profile_id;
-            $(_idList).children('ul').append(_proposalContainer.append(_artistProposal));
-            _programManager.addArtist(data.artist);
+            var _artistProposal = _newListedItem(_artist.proposals[0], _artist.profile_id, 'artist', _proposalContainer);
+            var _idList = '#artistProposalsList-'+_artist.profile_id;
+            if ($(_idList).length){
+              $(_idList).children('ul').append(_proposalContainer.append(_artistProposal));
+            }
+            else {
+              _ownArtists.push(_artist);
+              var _artistContainer = $('<li>').attr('id','artistProposalsList-'+_artist.profile_id).append(Pard.Widgets.IconManager('artist').render(),$('<span>').text(_artist.name).addClass('artistName')).addClass('own-artistProposals-container');
+              var _artistProposalsList = $('<ul>');
+              _artistContainer.append(_artistProposalsList);
+              _artistsList.prepend(_artistContainer);
+              _artistProposalsList.prepend(_artistProposal);
+            }
+            _programManager.addArtist(_artist);
           }
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
         }
@@ -2357,12 +2370,12 @@
       var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
 
 
-      var _popupOwnSentProposal = function(proposal, type, proposalContainer){
+      var _popupOwnSentProposal = function(proposal, profile_id, type, proposalContainer){
         var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        _printedOwnProposal = Pard.Widgets.PrintOwnProposal(proposal, _forms[type]);
+        _printedOwnProposal = Pard.Widgets.PrintOwnProposal(proposal, _forms[type], type);
         _printedOwnProposal.setDeleteProposalCallback(function(data){
           console.log(data);
           if (data['status'] == 'success'){
@@ -2371,13 +2384,19 @@
             function(){
               proposalContainer.remove();
               if (type == 'artist') {
-                _programManager.deleteArtist(proposal.profile_id, proposal.proposal_id);
-                var _idList = '#artistProposalsList-'+data['artist'].profile_id;
-                console.log($(_idList).children('ul').html());
-                if (!($(_idList).children('ul').html())) $(_idList).remove()
+                _programManager.deleteArtist(profile_id, proposal.proposal_id);
+                var _idList = '#artistProposalsList-'+profile_id;
+                if ($(_idList).children('ul').is(':empty')){
+                  $(_idList).remove();
+                  var _index; 
+                  _ownArtists.forEach(function(artist, index){
+                    if (artist.profile_id == profile_id)  _index = index; 
+                  });
+                  _ownArtists.splice(_index, 1);
+                }
               }
               else if (type == 'space') {
-                _programManager.deleteSpace(proposal.profile_id);
+                _programManager.deleteSpace(profile_id);
               }
             },
             function(){
@@ -2412,7 +2431,7 @@
       }
 
 
-      var _newListedItem = function(proposal, type, proposalContainer){
+      var _newListedItem = function(proposal, profile_id, type, proposalContainer){
         var _proposalListed = $('<span>');
         var _namePopupCaller = $('<a>').attr({'href':'#'})
         if (proposal['title'])  _proposalListed.append(Pard.Widgets.IconManager(proposal['category']).render().addClass('artIcon'), _namePopupCaller.text(proposal['title']).addClass('artTitle'));
@@ -2420,9 +2439,9 @@
         _namePopupCaller.click(function(){
           if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;
-          _popupOwnSentProposal(proposal, type, proposalContainer);  
+          _popupOwnSentProposal(proposal, profile_id, type, proposalContainer);  
         })
-        else _popupOwnSentProposal(proposal, type, proposalContainer);
+        else _popupOwnSentProposal(proposal, profile_id, type, proposalContainer);
         });
 
         _proposalListed.append(_namePopupCaller);
@@ -2440,18 +2459,18 @@
           _artistsList.prepend(_artistContainer);
           artist.proposals.forEach(function(proposal){
             var _proposalContainer = $('<li>');
-            var _artistProposal = _newListedItem(proposal, 'artist', _proposalContainer);
+            var _artistProposal = _newListedItem(proposal, artist.profile_id, 'artist', _proposalContainer);
             _artistProposalsList.append(_proposalContainer.append(_artistProposal));
           })
         }
       })  
 
-      the_event.spaces.forEach(function(proposal){
-        var lastElement = proposal.profile_id.split('-').pop();
+      the_event.spaces.forEach(function(space){
+        var lastElement = space.profile_id.split('-').pop();
         if (lastElement == 'own') {
           _ownSpaces.push(spaces);
           var _proposalContainer = $('<li>').append(Pard.Widgets.IconManager('space').render()).addClass('own-spaceProposal-container');
-          var _spaceProposal = _newListedItem(proposal, 'space', _proposalContainer);
+          var _spaceProposal = _newListedItem(space, space.profile_id, 'space', _proposalContainer);
           _spacesList.prepend(_proposalContainer.append(_spaceProposal));
         }
       });

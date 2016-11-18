@@ -479,7 +479,7 @@
   //   }
   // }
 
-  ns.Widgets.PrintOwnProposal = function(proposal, form){
+  ns.Widgets.PrintOwnProposal = function(proposal, form, participantType){
     var _createdWidget = $('<div>');
     var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form[proposal.form_category]).render();
 
@@ -489,7 +489,7 @@
     var deleteCallback = function(){};
     var modifyCallback = function(){};
 
-    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, closepopup, deleteCallback)}, 'alert-container-full');
+    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, participantType, closepopup, deleteCallback)}, 'alert-container-full');
 
     _createdWidget.append(_proposalPrinted, _deleteProposal.render());
 
@@ -509,17 +509,21 @@
     }
   }
 
-  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup, deleteCallback){  
+  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, participantType, closepopup, deleteCallback){  
     
     var _createdWidget = $('<div>');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 
     var spinnerDeleteProposal =  new Spinner().spin();
+    var _deleteProposalBackend = {
+      artist: Pard.Backend.deleteArtistProposal,
+      space: Pard.Backend.deleteSpaceProposal
+    }
 
     _yesBtn.click(function(){
       $('body').append(spinnerDeleteProposal.el);
-      Pard.Backend.deleteProposal(proposal_id, Pard.CachedEvent.event_id, function(data){
+      _deleteProposalBackend[participantType](proposal_id, Pard.CachedEvent.event_id, function(data){
         deleteCallback(data); 
         spinnerDeleteProposal.stop();
         closepopup();
