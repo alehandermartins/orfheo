@@ -2284,6 +2284,9 @@
       var _createSpaceCaller = $('<div>').html(_spaceButtonHtml).addClass('create-space-proposal-call-page-btn');
       var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
+      var _ownArtists = [];
+      var _ownSpaces = [];
+
       var _createOwnProposalWidget;
       var _printedOwnProposal;
       var _closePopupOwnSentProposal = function(){};
@@ -2291,6 +2294,7 @@
       var _closePopupForm = function(){};
 
       var _callbackCreatedProposal = function(data){
+        console.log(data);
         if(data['status'] == 'success') {
           var _proposal = _createOwnProposalWidget.getVal();
           var _proposalContainer = $('<li>');
@@ -2330,17 +2334,17 @@
       _createArtistCaller.click(function(){
         if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;
-          _openPopupForm('artist', the_event.artists);
+          _openPopupForm('artist', _ownArtists);
         })
-        else _openPopupForm('artist', the_event.artists);
+        else _openPopupForm('artist', _ownArtists);
       });
 
       _createSpaceCaller.click(function(){
         if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;
-          _openPopupForm('space', the_event.spaces);
+          _openPopupForm('space', []);
         })
-        else _openPopupForm('space', the_event.spaces);
+        else _openPopupForm('space', []);
       });
 
       var _artistsList = $('<ul>').addClass('own-proposals-list').attr('id','artist-list-call-page');
@@ -2400,8 +2404,9 @@
 
       var _newListedItem = function(proposal, type, proposalContainer){
         var _proposalListed = $('<span>');
-        if (proposal['title']) var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']+' - ' + proposal['title']);
-        else var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
+        var _namePopupCaller = $('<a>').attr({'href':'#'})
+        if (proposal['title']) _namePopupCaller.text(proposal['name']+' - ' + proposal['title']);
+        else _namePopupCaller.text(proposal['name']);
         _namePopupCaller.click(function(){
           if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;
@@ -2414,9 +2419,11 @@
         return _proposalListed;
       }
 
+
       the_event.artists.forEach(function(artist){
         var lastElement = artist.profile_id.split('-').pop();
         if (lastElement == 'own') {
+          _ownArtists.push(artist);
           artist.proposals.forEach(function(proposal){
             var _proposalContainer = $('<li>');
             var _artistProposal = _newListedItem(proposal, 'artist', _proposalContainer);
@@ -2430,6 +2437,7 @@
       the_event.spaces.forEach(function(proposal){
         var lastElement = proposal.profile_id.split('-').pop();
         if (lastElement == 'own') {
+          _ownSpaces.push(spaces);
           var _proposalContainer = $('<li>');
           var _spaceProposal = _newListedItem(proposal, 'space', _proposalContainer);
           _spacesList.prepend(_proposalContainer.append(_spaceProposal));

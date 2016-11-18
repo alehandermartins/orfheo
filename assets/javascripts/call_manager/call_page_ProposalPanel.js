@@ -8,17 +8,48 @@
     var _createdWidget = $('<div>');
 
     var _typeFormsCatArray = Object.keys(forms);   
-    var _formConstructor = Pard.Widgets.PrintOwnProposalForm;
     var _formWidget;
+    var _profile_own;
 
     var _outerFormBox = $('<div>');
     var _participantsSelectorCont = $('<div>');
+    var _participantsSelector = $('<select>');
     var _formTypeSelectorCont = $('<div>');
     var _contentSel = $('<div>');
-    var _formTypes = [];
+    // var _formTypes = [];
     var _formTypeSelector = $('<select>');
     var _emptyOption = $('<option>').text('Selecciona como quieres apuntarte').val('');
     _formTypeSelector.append(_emptyOption);
+
+    _participantsSelectorCont.append(_participantsSelector);
+    var _emptyOptionParticpant = {
+      name: '',
+      email:'',
+      phone:''
+    };
+    var _dataParticipants = [{id:'',text:'', participant: _emptyOptionParticpant}]
+    participants.forEach(function(participant){
+      _dataParticipants.push({
+        id: participant.profile_id,
+        text: participant.name,
+        participant: participant
+      })
+    });
+    var _placeholderParticipantSelector = "Selecciona el "+Pard.Widgets.Dictionary(participantType).render();
+    
+    _participantsSelector.select2({
+      data: _dataParticipants,
+      minimumResultsForSearch: Infinity,
+      dropdownCssClass: 'orfheoTypeFormSelector',
+      placeholder: _placeholderParticipantSelector,
+      allowClear: true
+    });
+
+    _participantsSelector.on('change',function(){
+      _profile_own = _participantsSelector.select2('data')[0].participant;
+      if (_formWidget) _formWidget.setVal(_profile_own);
+    });
+
     
     for (var typeForm in forms){
       // _formTypes.push(typeForm);
@@ -37,7 +68,6 @@
       // allowClear: true
     });
 
-
     _formTypeSelector.on('change',function(){
       if (_formTypeSelector.val()){
         $('#popupForm').removeClass('top-position');
@@ -52,17 +82,18 @@
       _contentSel.empty();
       _production_id = false;
       var _typeFormSelected = formTypeSelector.val();
-      _formWidget = _formConstructor(forms[_typeFormSelected], participantType, participants, _typeFormSelected);
+      _formWidget = Pard.Widgets.PrintOwnProposalForm(forms[_typeFormSelected], participantType, _typeFormSelected);
       _formWidget.setCallback(function(){
         _closepopup();
       });
       var _send = function(){
         var _submitForm = _formWidget.getVal();
+        if (_profile_own && _profile_own.profile_id)  _submitForm['profile_id'] = _profile_own.profile_id;
         if (participantType == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, callbackCreatedProposal);
         else if (participantType == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm,callbackCreatedProposal);
       };
       _formWidget.setSend(_send);
-      if (profile_own) _formWidget.setVal(profiel_own); 
+      if (_profile_own) _formWidget.setVal(_profile_own); 
       _contentSel.append(_formWidget.render());
     };
 
@@ -74,6 +105,10 @@
     //     _formTypeSelector.attr('disabled',true);
     //   }
     // }
+
+    if (participants.length) {
+      _createdWidget.append(_participantsSelectorCont); 
+    }
 
     _createdWidget.append(_outerFormBox.append(_contentSel));
 
@@ -180,7 +215,7 @@
   //   }
   // }
 
-  ns.Widgets.PrintOwnProposalForm = function(form, participantType, formTypeSelected, profile_own_id){
+  ns.Widgets.PrintOwnProposalForm = function(form, participantType, formTypeSelected){
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability'];
 
     var _additionalForm = Pard.Forms.Proposal[participantType];
@@ -352,7 +387,6 @@
       _submitForm['conditions'] = true;
       _submitForm['type'] = participantType;
       if (!(_submitForm['description']))_submitForm['description'] = '_';
-      if (profile_own_id)  _submitForm['profile_id'] = profile_own_id;
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = formTypeSelected;
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
