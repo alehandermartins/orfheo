@@ -3,88 +3,79 @@
 (function(ns){
     ns.Widgets = ns.Widgets || {};  
 
-  ns.Widgets.CreateOwnProposal = function(forms, profileType, callbackCreatedProposal){
+  ns.Widgets.CreateOwnProposal = function(forms, participantType, participants, callbackCreatedProposal){
 
     var _createdWidget = $('<div>');
+
+    var _typeFormsCatArray = Object.keys(forms);   
+    var _formConstructor = Pard.Widgets.PrintOwnProposalForm;
+    var _formWidget;
+
+    var _outerFormBox = $('<div>');
+    var _participantsSelectorCont = $('<div>');
+    var _formTypeSelectorCont = $('<div>');
+    var _contentSel = $('<div>');
+    var _formTypes = [];
+    var _formTypeSelector = $('<select>');
+    var _emptyOption = $('<option>').text('Selecciona como quieres apuntarte').val('');
+    _formTypeSelector.append(_emptyOption);
     
-    if(!(forms)){
+    for (var typeForm in forms){
+      // _formTypes.push(typeForm);
+      _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
+      // forms[typeForm].category.args[1].forEach(function(cat){
+      //   if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
+      // });
+    };  
 
-    }
-    else{
+    _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector));
 
-      var _typeFormsCatArray = Object.keys(forms);   
-      var _formConstructor = Pard.Widgets.PrintOwnProposalForm;
-      var _formWidget;
+    _formTypeSelector.select2({
+      minimumResultsForSearch: Infinity,
+      dropdownCssClass: 'orfheoTypeFormSelector',
+      placeholder: "Selecciona como quieres apuntarte"
+      // allowClear: true
+    });
 
-      var _outerFormBox = $('<div>');
-      var _formTypeSelectorCont = $('<div>');
-      var _formTypeOptionsCont = $('<div>');
-      var _contentSel = $('<div>');
-      var _formTypes = [];
-      var _acceptedCategories = [];
-      var _formTypeSelector = $('<select>');
-      var _emptyOption = $('<option>').text('Selecciona como quieres apuntarte').val('');
-      _formTypeSelector.append(_emptyOption);
-      
-      for (var typeForm in forms){
-        _formTypes.push(typeForm);
-        _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
-        forms[typeForm].category.args[1].forEach(function(cat){
-          if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
-        });
-      };  
 
-      _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector),_formTypeOptionsCont);
+    _formTypeSelector.on('change',function(){
+      if (_formTypeSelector.val()){
+        $('#popupForm').removeClass('top-position');
+        // $('.content-form-selected').removeClass('content-form-selected');
+        _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+        // if (_t2) _t2.show();
+        _printForm(_formTypeSelector);
+      }
+    });
 
-      _formTypeSelector.select2({
-        minimumResultsForSearch: Infinity,
-        dropdownCssClass: 'orfheoTypeFormSelector',
-        placeholder: "Selecciona como quieres apuntarte"
-        // allowClear: true
+    var _printForm = function(formTypeSelector){
+      _contentSel.empty();
+      _production_id = false;
+      var _typeFormSelected = formTypeSelector.val();
+      _formWidget = _formConstructor(forms[_typeFormSelected], participantType, participants, _typeFormSelected);
+      _formWidget.setCallback(function(){
+        _closepopup();
       });
-
-
-      _formTypeSelector.on('change',function(){
-        if (_formTypeSelector.val()){
-          $('#popupForm').removeClass('top-position');
-          // $('.content-form-selected').removeClass('content-form-selected');
-          _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-          // if (_t2) _t2.show();
-          _printForm(_formTypeSelector);
-        }
-      });
-
-      var _printForm = function(formTypeSelector, profile){
-        _contentSel.empty();
-        _production_id = false;
-        var _typeFormSelected = formTypeSelector.val();
-        _formWidget = _formConstructor(forms[_typeFormSelected], profileType, _typeFormSelected);
-        _formWidget.setCallback(function(){
-          _closepopup();
-        });
-        var _send = function(){
-          var _submitForm = _formWidget.getVal();
-          if (profileType == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm,callbackCreatedProposal);
-          else if (profileType == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm,callbackCreatedProposal);
-        };
-        _formWidget.setSend(_send);
-        if (profile) _formWidget.setVal(profile); 
-        _contentSel.append(_formWidget.render());
+      var _send = function(){
+        var _submitForm = _formWidget.getVal();
+        if (participantType == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, callbackCreatedProposal);
+        else if (participantType == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm,callbackCreatedProposal);
       };
+      _formWidget.setSend(_send);
+      if (profile_own) _formWidget.setVal(profiel_own); 
+      _contentSel.append(_formWidget.render());
+    };
 
+    // if (profile.category){
+    //   var _profileCategory = Pard.Widgets.Dictionary(profile.category).render();
+    //   if ($.inArray(_profileCategory, _formTypes)>-1){
+    //     _formTypeSelector.val(_profileCategory);
+    //     _formTypeSelector.trigger('change');
+    //     _formTypeSelector.attr('disabled',true);
+    //   }
+    // }
 
-
-      // if (profile.category){
-      //   var _profileCategory = Pard.Widgets.Dictionary(profile.category).render();
-      //   if ($.inArray(_profileCategory, _formTypes)>-1){
-      //     _formTypeSelector.val(_profileCategory);
-      //     _formTypeSelector.trigger('change');
-      //     _formTypeSelector.attr('disabled',true);
-      //   }
-      // }
-
-      _createdWidget.append(_outerFormBox.append(_contentSel));
-    } 
+    _createdWidget.append(_outerFormBox.append(_contentSel));
 
     return {
       render: function(){
@@ -189,10 +180,10 @@
   //   }
   // }
 
-  ns.Widgets.PrintOwnProposalForm = function(form, profileType, formTypeSelected){
+  ns.Widgets.PrintOwnProposalForm = function(form, participantType, formTypeSelected, profile_own_id){
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability'];
 
-    var _additionalForm = Pard.Forms.Proposal[profileType];
+    var _additionalForm = Pard.Forms.Proposal[participantType];
 
 
     // var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
@@ -217,7 +208,6 @@
     var spinner =  new Spinner();
     var _photos;
     var _orfheoCategory;
-    var _profile_own_id;
 
     var _displayAllBtn = $('<a>').attr('href','#').text('Todos los campos');
     var _containerMandatoryFields = $('<div>')
@@ -360,9 +350,9 @@
       _submitForm['call_id'] = Pard.CachedEvent.call_id;
       _submitForm['event_id'] = Pard.CachedEvent.event_id;
       _submitForm['conditions'] = true;
-      _submitForm['type'] = profileType;
+      _submitForm['type'] = participantType;
       if (!(_submitForm['description']))_submitForm['description'] = '_';
-      if (_profile_own_id)  _submitForm['profile_id'] = _profile_own_id;
+      if (profile_own_id)  _submitForm['profile_id'] = profile_own_id;
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = formTypeSelected;
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
@@ -502,61 +492,6 @@
       });
     });
      
-
-    //  var _deleteProposalCallback = function(data){
-    //   if (data['status'] == 'success'){
-    //     $.wait(
-    //       '', 
-    //       function(){
-    //         proposalContainer.remove();
-    //         var _proposals = Pard.CachedProposals;
-    //         var _index;
-    //         _proposals.some(function(proposal, index){ 
-    //           if (proposal.proposal_id == proposal_id ) {
-    //             _index = index;
-    //             return true;
-    //           }
-    //         });
-    //         _proposals.splice(_index, 1);
-    //         Pard.CachedProposals = _proposals;
-    //         var _indexP = [];
-    //         Pard.CachedCall.program.forEach(function(show, index){
-    //           if (show.participant_proposal_id == proposal_id || show.host_proposal_id == proposal_id) {
-    //             _indexP.push(index);
-    //           }
-    //         });
-    //         _indexP.forEach(function(pos, ind){
-    //           var _currentPos = pos - ind;
-    //           Pard.CachedCall.program.splice(_currentPos,1);
-    //         });
-
-    //         $('#tablePanel').empty();
-    //         $('#programPanel').empty();
-    //         Pard.Widgets.Program = [];
-    //         Pard.Spaces = [];
-    //         Pard.ShownSpaces = [];
-    //         Pard.Artists = {}; 
-    //       },
-    //       function(){
-    //         spinnerDeleteProposal.stop();
-    //         Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
-    //       }
-    //     )
-    //   }
-    //   else{
-    //     var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
-    //     if (typeof _dataReason == 'object'){
-    //       spinnerDeleteProposal.stop();
-    //       Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
-    //   }
-    //   else{
-    //     console.log(data.reason);
-    //     spinnerDeleteProposal.stop();
-    //     Pard.Widgets.Alert('', _dataReason, location.reload());
-    //   }
-    // }
-    // }
-
     var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
 
     _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn));

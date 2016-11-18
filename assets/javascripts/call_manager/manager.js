@@ -2310,15 +2310,13 @@
           // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
         }
       }
-
-      
-
-      var _openPopupForm = function(type){
+     
+      var _openPopupForm = function(type, participants){
         var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(_forms[type], type, _callbackCreatedProposal);
+        _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(_forms[type], type, participants, _callbackCreatedProposal);
         var _message = Pard.Widgets.PopupContent('Crea una propuesta', _createOwnProposalWidget);
         _message.setCallback(function(){
           _content.remove();
@@ -2332,17 +2330,17 @@
       _createArtistCaller.click(function(){
         if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;
-          _openPopupForm('artist');
+          _openPopupForm('artist', the_event.artists);
         })
-        else _openPopupForm('artist');
+        else _openPopupForm('artist', the_event.artists);
       });
 
       _createSpaceCaller.click(function(){
         if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;
-          _openPopupForm('space');
+          _openPopupForm('space', the_event.spaces);
         })
-        else _openPopupForm('space');
+        else _openPopupForm('space', the_event.spaces);
       });
 
       var _artistsList = $('<ul>').addClass('own-proposals-list').attr('id','artist-list-call-page');
@@ -2404,7 +2402,6 @@
         var _proposalListed = $('<span>');
         if (proposal['title']) var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']+' - ' + proposal['title']);
         else var _namePopupCaller = $('<a>').attr({'href':'#'}).text(proposal['name']);
-        
         _namePopupCaller.click(function(){
           if (!(_forms)) Pard.Backend.getCallForms(the_event.call_id, function(data){
           _forms = data.forms;
