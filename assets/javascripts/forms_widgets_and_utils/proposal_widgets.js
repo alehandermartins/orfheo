@@ -300,13 +300,20 @@
     }
 
 
-  ns.Widgets.DisplayPopupProposal = function(proposal, form, popupTitle){
+  ns.Widgets.DisplayPopupProposal = function(proposal, form, type, popupTitle){
     var _content = $('<div>').addClass('very-fast reveal full');
     _content.empty();
     $('body').append(_content);
 
     var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-    var _message = Pard.Widgets.PopupContent(popupTitle, Pard.Widgets.PrintProposal(proposal, form));
+    var _proposalPrinted = Pard.Widgets.ManageProposal(proposal, form, type);
+    _proposalPrinted.setDeleteProposalCallback(function(data){
+      deleteCallback(data);
+    }); 
+    _proposalPrinted.setModifyProposalCallback(function(){
+      modifyCallback();
+    }); 
+    var _message = Pard.Widgets.PopupContent(popupTitle, _proposalPrinted);
     _message.setCallback(function(){
       _content.remove();
       _popup.close();
@@ -319,7 +326,18 @@
       _message.appendToContent(_element);
     }
     _content.append(_message.render());
-    _popup.open();
+
+    return{
+      open: function(){
+        _popup.open();
+      },
+      setDeleteProposalCallback: function(callback){
+        deleteCallback = callback;
+      },
+      setModifyProposalCallback: function(callback){
+        modifyCallback = callback;
+      }
+    }
   }
 
 

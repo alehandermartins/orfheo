@@ -1719,6 +1719,7 @@ p.initial-text-proposalPanel{
 }
 
 .own-proposals-list {
+  margin-top: 2rem;
   list-style: none;
   margin-left: 0;
   .material-icons{
@@ -1739,11 +1740,16 @@ p.initial-text-proposalPanel{
 
 .own-artistProposals-container{
   margin-top: 1rem;
+
+    line-height: 1.2rem;
   li{
     margin-top: 0.4rem;
   }
   .artistName{
     font-weight: bold;
+    display: inline-block;
+    width: 12.2rem;
+    vertical-align: top;
   }
   .artIcon{
     display: inline-block;
@@ -1751,6 +1757,8 @@ p.initial-text-proposalPanel{
   }
   .artTitle{
     display: inline-block;
+    width: 12.2rem;
+    vertical-align: top;
   }
 }
 

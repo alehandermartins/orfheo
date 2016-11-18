@@ -12,6 +12,8 @@
         data: data,
       })
       .done(function(data) {
+        console.log(data);
+        console.log(callback);
         if (callback)
           callback(data);
       })
