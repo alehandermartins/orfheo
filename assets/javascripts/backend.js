@@ -174,9 +174,20 @@
       );
     };
 
-    var _deleteProposal = function(proposal_id, event_id, callback){
+    var _deleteArtistProposal = function(proposal_id, event_id, callback){
       _send(
-        '/users/delete_proposal',
+        '/users/delete_artist_proposal',
+        {
+          proposal_id: proposal_id,
+          event_id: event_id
+        },
+        callback
+      );
+    };
+
+    var _deleteSpaceProposal = function(proposal_id, event_id, callback){
+      _send(
+        '/users/delete_space_proposal',
         {
           proposal_id: proposal_id,
           event_id: event_id
@@ -214,7 +225,6 @@
     };
 
     var _amendArtistProposal = function(proposal_id, event_id, amend, callback){
-      console.log(amend);
       _send(
         '/users/amend_artist_proposal',
         {
@@ -238,7 +248,9 @@
       );
     };
 
-    var _modifyArtistProposal = function(form, callback){
+    var _modifyArtistProposal = function(event_id, call_id, form, callback){
+      form['event_id'] = event_id;
+      form['call_id'] = call_id;
       _send(
         '/users/modify_artist_proposal',
         form,
@@ -246,7 +258,9 @@
       );
     };
 
-    var _modifySpaceProposal = function(form, callback){
+    var _modifySpaceProposal = function(event_id, call_id, form, callback){
+      form['event_id'] = event_id;
+      form['call_id'] = call_id;
       _send(
         '/users/modify_space_proposal',
         form,
@@ -289,14 +303,6 @@
       );
     };
 
-    // var _sendOwnProposal = function(form, callback){
-    //   _send(
-    //     '/users/own_proposal',
-    //     form,
-    //     callback
-    //   );
-    // };
-
     var _listProfiles = function(callback){
       _send(
         '/users/list_profiles',
@@ -329,7 +335,8 @@
       modifyProduction: _modifyProduction,
       searchProfiles: _searchProfiles,
       searchProgram: _searchProgram,
-      deleteProposal: _deleteProposal,
+      deleteArtistProposal: _deleteArtistProposal,
+      deleteSpaceProposal: _deleteSpaceProposal,
       deleteProduction: _deleteProduction,
       deleteProfile: _deleteProfile,
       deleteUser: _deleteUser,
