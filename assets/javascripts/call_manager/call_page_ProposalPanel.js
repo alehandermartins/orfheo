@@ -455,16 +455,17 @@
   //   }
   // }
 
-  ns.Widgets.PrintOwnProposal = function(proposal, form,proposalContainer){
-    console.log(proposalContainer);
+  ns.Widgets.PrintOwnProposal = function(proposal, form){
     var _createdWidget = $('<div>');
     var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form[proposal.form_category]).render();
 
     var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina esta propuesta').addClass('deleteProfile-caller');
 
-    var closepopup;
+    var closepopup = function(){};
+    var deleteCallback = function(){};
+    var modifyCallback = function(){};
 
-    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, closepopup, proposalContainer)}, 'alert-container-full');
+    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, closepopup, deleteCallback)}, 'alert-container-full');
 
     _createdWidget.append(_proposalPrinted, _deleteProposal.render());
 
@@ -474,12 +475,17 @@
       },
       setCallback: function(callback){
         closepopup = callback;
+      }, 
+      setDeleteProposalCallback: function(callback){
+        deleteCallback = callback;
+      },
+      setModifyProposalCallback: function(callback){
+        modifyCallback = callback;
       }
     }
-
   }
 
-  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup, proposalContainer){  
+  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, closepopup, deleteCallback){  
     
     var _createdWidget = $('<div>');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
@@ -489,63 +495,67 @@
 
     _yesBtn.click(function(){
       $('body').append(spinnerDeleteProposal.el);
-      Pard.Backend.deleteProposal(proposal_id, _deleteProposalCallback);
-      closepopup();
-    });
-
-     var _deleteProposalCallback = function(data){
-      if (data['status'] == 'success'){
-        $.wait(
-          '', 
-          function(){
-            proposalContainer.remove();
-            var _proposals = Pard.CachedProposals;
-            var _index;
-            _proposals.some(function(proposal, index){ 
-              if (proposal.proposal_id == proposal_id ) {
-                _index = index;
-                return true;
-              }
-            });
-            _proposals.splice(_index, 1);
-            Pard.CachedProposals = _proposals;
-            var _indexP = [];
-            Pard.CachedCall.program.forEach(function(show, index){
-              if (show.participant_proposal_id == proposal_id || show.host_proposal_id == proposal_id) {
-                _indexP.push(index);
-              }
-            });
-            _indexP.forEach(function(pos, ind){
-              var _currentPos = pos - ind;
-              Pard.CachedCall.program.splice(_currentPos,1);
-            });
-
-            $('#tablePanel').empty();
-            $('#programPanel').empty();
-            Pard.Widgets.Program = [];
-            Pard.Spaces = [];
-            Pard.ShownSpaces = [];
-            Pard.Artists = {}; 
-          },
-          function(){
-            spinnerDeleteProposal.stop();
-            Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
-          }
-        )
-      }
-      else{
-        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
-        if (typeof _dataReason == 'object'){
-          spinnerDeleteProposal.stop();
-          Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
-      }
-      else{
-        console.log(data.reason);
+      Pard.Backend.deleteProposal(proposal_id, Pard.CachedEvent.event_id, function(data){
+        deleteCallback(data); 
         spinnerDeleteProposal.stop();
-        Pard.Widgets.Alert('', _dataReason, location.reload());
-      }
-    }
-    }
+        closepopup();
+      });
+    });
+     
+
+    //  var _deleteProposalCallback = function(data){
+    //   if (data['status'] == 'success'){
+    //     $.wait(
+    //       '', 
+    //       function(){
+    //         proposalContainer.remove();
+    //         var _proposals = Pard.CachedProposals;
+    //         var _index;
+    //         _proposals.some(function(proposal, index){ 
+    //           if (proposal.proposal_id == proposal_id ) {
+    //             _index = index;
+    //             return true;
+    //           }
+    //         });
+    //         _proposals.splice(_index, 1);
+    //         Pard.CachedProposals = _proposals;
+    //         var _indexP = [];
+    //         Pard.CachedCall.program.forEach(function(show, index){
+    //           if (show.participant_proposal_id == proposal_id || show.host_proposal_id == proposal_id) {
+    //             _indexP.push(index);
+    //           }
+    //         });
+    //         _indexP.forEach(function(pos, ind){
+    //           var _currentPos = pos - ind;
+    //           Pard.CachedCall.program.splice(_currentPos,1);
+    //         });
+
+    //         $('#tablePanel').empty();
+    //         $('#programPanel').empty();
+    //         Pard.Widgets.Program = [];
+    //         Pard.Spaces = [];
+    //         Pard.ShownSpaces = [];
+    //         Pard.Artists = {}; 
+    //       },
+    //       function(){
+    //         spinnerDeleteProposal.stop();
+    //         Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
+    //       }
+    //     )
+    //   }
+    //   else{
+    //     var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+    //     if (typeof _dataReason == 'object'){
+    //       spinnerDeleteProposal.stop();
+    //       Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+    //   }
+    //   else{
+    //     console.log(data.reason);
+    //     spinnerDeleteProposal.stop();
+    //     Pard.Widgets.Alert('', _dataReason, location.reload());
+    //   }
+    // }
+    // }
 
     var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
 

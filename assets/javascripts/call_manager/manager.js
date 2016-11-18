@@ -2008,7 +2008,7 @@
         addArtist: function(artist){
           if(artist.profile_id in _artists) _artists[artist.profile_id].addProposal(artist.proposals[0]);
           else{_artists[artist.profile_id] = new Artist(artist);
-            _artistsList.append(_artists[artist.profile_id].accordion);
+            _artistsList.append(_artists[artist.profile_id].accordion.foundation());
             artists.push(artist);
             var _id = _artistSelector.val();
              _loadArtistSelector();
@@ -2285,7 +2285,7 @@
       var _createArtistCaller = $('<div>').html(_artistButtonHtml).addClass('create-artist-proposal-call-page-btn');
 
       var _createOwnProposalWidget;
-      var _sentOwnProposal;
+      var _printedOwnProposal;
       var _closePopupOwnSentProposal = function(){};
       var _callbackOwnPrintedProposal = function(){};
       var _closePopupForm = function(){};
@@ -2299,7 +2299,8 @@
             _programManager.addSpace(data.space)
           }
           else if (_proposal.type == 'artist'){
-            _artistsList.prepend(_proposalContainer.append(_proposalContainer.append(_newListedItem(data['artist'], 'artist', _proposalContainer))));
+            // ATT --> corregir por si algun artista tiene más proposals
+            _artistsList.prepend(_proposalContainer.append(_proposalContainer.append(_newListedItem(data['artist'].proposals[0], 'artist', _proposalContainer))));
             _programManager.addArtist(data.artist);
           }
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
@@ -2350,15 +2351,45 @@
       var _spacesOwnBox = $('<div>').addClass('ownBox-call-manager');
       var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
 
-      // var _artistProposalsList = [];
 
       var _popupOwnSentProposal = function(proposal, type, proposalContainer){
         var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        _sentOwnProposal = Pard.Widgets.PrintOwnProposal(proposal, _forms[type], proposalContainer);  
-        var _message = Pard.Widgets.PopupContent(Pard.CachedEvent.name, _sentOwnProposal);
+        _printedOwnProposal = Pard.Widgets.PrintOwnProposal(proposal, _forms[type]);
+        _printedOwnProposal.setDeleteProposalCallback(function(data){
+          console.log(data);
+          if (data['status'] == 'success'){
+          $.wait(
+            '', 
+            function(){
+              if (type == 'artist') _programManager.deleteArtist(proposal.profile_id, proposal.proposal_id);
+              else if (type == 'space') _programManager.deleteSpace(proposal.profile_id);
+              proposalContainer.remove();
+            },
+            function(){
+              Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
+            }
+          )
+          }
+          else{
+            var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+            if (typeof _dataReason == 'object'){
+              spinnerDeleteProposal.stop();
+              Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+            }
+            else{
+              console.log(data.reason);
+              spinnerDeleteProposal.stop();
+              Pard.Widgets.Alert('', _dataReason, location.reload());
+            }
+          }
+        });
+        _printedOwnProposal.setModifyProposalCallback(function(){
+          console.log('modify')
+        });
+        var _message = Pard.Widgets.PopupContent(Pard.CachedEvent.name, _printedOwnProposal);
         _message.setCallback(function(){
           _content.remove();
           _popup.close();
@@ -2367,6 +2398,7 @@
         _closePopupOwnSentProposal = function(){_popup.close();};
         _popup.open();
       }
+
 
       var _newListedItem = function(proposal, type, proposalContainer){
         var _proposalListed = $('<span>');
