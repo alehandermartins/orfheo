@@ -1712,8 +1712,50 @@ p.initial-text-proposalPanel{
 }
 
 .own-proposals-list li{
-  margin-bottom: 0.5rem;
   font-size: $almostNormalSize;
+  ul{
+    list-style: none;
+  }
+}
+
+.own-proposals-list {
+  list-style: none;
+  margin-left: 0;
+  .material-icons{
+    font-size: 0.8rem;  
+    vertical-align: -0.1rem;
+    margin-right: 0.5rem;
+  }
+  .icon-book-open, .icon-theatre{
+    font-size: 0.6rem;
+    margin-right: 0.4rem;   
+  }
+  .fa-cubes{
+    font-size: 0.6rem;
+    vertical-align: 0.1rem;
+    margin-right: 0.5rem;
+  }
+}
+
+.own-artistProposals-container{
+  margin-top: 1rem;
+  li{
+    margin-top: 0.4rem;
+  }
+  .artistName{
+    font-weight: bold;
+  }
+  .artIcon{
+    display: inline-block;
+    width: 1rem;
+  }
+  .artTitle{
+    display: inline-block;
+  }
+}
+
+.own-spaceProposal-container{
+  margin-top: 1rem;
 }
 
  
