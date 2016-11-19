@@ -337,11 +337,16 @@
       }
     }
   }
-    
 
-  ns.Widgets.ManageProposal = function(proposal, form, participantType){
-    var _createdWidget = $('<div>');
-    var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form).render();
+  ns.Widgets.DisplayPopupProposal = function(proposal, form, type, popupTitle){
+
+    var _content = $('<div>').addClass('very-fast reveal full');
+    _content.empty();
+    $('body').append(_content);
+
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+
+    var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
 
     var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina esta propuesta').addClass('deleteProfile-caller');
 
@@ -349,18 +354,32 @@
     var deleteCallback = function(){};
     var modifyCallback = function(){};
 
-    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, participantType, closepopup, deleteCallback)}, 'alert-container-full');
+    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, type, function(){_popup.close()}, deleteCallback)}, 'alert-container-full');
 
-    _createdWidget.append(_proposalPrinted, _deleteProposal.render());
+    var _message = Pard.Widgets.PopupContent(popupTitle, _proposalPrinted);
+    _message.setCallback(function(){
+      _content.remove();
+      _popup.close();
+    });
+    
+    if (proposal.amend){
+      var _label = $('<span>').addClass('myProposals-field-label').text('Enmienda:').css('display', 'block');
+      var _text = $('<span>').text(' ' + proposal.amend);
+      var _element = $('<div>').append($('<p>').append(_label, _text));
+      _message.appendToContent(_element);
+    };
+
+    var _actionBtnContainer = $('<div>').append( _deleteProposal.render().prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'))).addClass('actionButton-container-popup');
+
+    _message.prependToContent(_actionBtnContainer);
+    _content.append(_message.render());
 
     return{
-      render: function(){
-        return _createdWidget;
+      open: function(){
+        _popup.open();
       },
-      setCallback: function(callback){
-        closepopup = callback;
-      }, 
       setDeleteProposalCallback: function(callback){
+        console.log('setdelete');
         deleteCallback = callback;
       },
       setModifyProposalCallback: function(callback){
@@ -368,6 +387,8 @@
       }
     }
   }
+
+    
 
   ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, participantType, closepopup, deleteCallback){  
     

@@ -135,6 +135,9 @@
       },
       appendToContent: function(_additionalContent){
         _sectionContainer.append(_additionalContent);
+      },
+      prependToContent: function(_additionalContent){
+        _sectionContainer.prepend(_additionalContent);
       }
     }
   }

@@ -122,7 +122,7 @@
       var _deleteProposalCaller = $('<a>').attr('href','#').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller');
       var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteMyProposalMessage(proposal, profileType, closepopup)});
       _createdWidget.append(_postData);
-      _createdWidget.append(_deleteProposal.render());
+      _createdWidget.append(_deleteProposal.render().prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete')));
     }
 
 
@@ -300,46 +300,7 @@
     }
 
 
-  ns.Widgets.DisplayPopupProposal = function(proposal, form, type, popupTitle){
-    var _content = $('<div>').addClass('very-fast reveal full');
-    _content.empty();
-    $('body').append(_content);
-
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-    var _proposalPrinted = Pard.Widgets.ManageProposal(proposal, form, type);
-    _proposalPrinted.setDeleteProposalCallback(function(data){
-      deleteCallback(data);
-    }); 
-    _proposalPrinted.setModifyProposalCallback(function(){
-      modifyCallback();
-    }); 
-    var _message = Pard.Widgets.PopupContent(popupTitle, _proposalPrinted);
-    _message.setCallback(function(){
-      _content.remove();
-      _popup.close();
-    });
-    
-    if (proposal.amend){
-      var _label = $('<span>').addClass('myProposals-field-label').text('Enmienda:').css('display', 'block');
-      var _text = $('<span>').text(' ' + proposal.amend);
-      var _element = $('<div>').append($('<p>').append(_label, _text));
-      _message.appendToContent(_element);
-    }
-    _content.append(_message.render());
-
-    return{
-      open: function(){
-        _popup.open();
-      },
-      setDeleteProposalCallback: function(callback){
-        deleteCallback = callback;
-      },
-      setModifyProposalCallback: function(callback){
-        modifyCallback = callback;
-      }
-    }
-  }
-
+  
 
   ns.Widgets.DeleteMyProposalMessage = function(proposal, profileType, closepopup){  
     var _createdWidget = $('<div>');

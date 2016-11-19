@@ -71,6 +71,7 @@
       _timeTableContainer.append(_scrollers);
 
       var _tables = {};
+      var _columnsSpaces = {};
 
       var _timeTable = $('<div>');
       hours.forEach(function(hour, hourIndex){
@@ -89,10 +90,17 @@
           'height': hours.length * 40 + 2,
           'white-space':'nowrap'
         });
+        var _emptyColumn = $('<div>').css({
+          'display': 'inline-block',
+          'width': '11rem',
+        });
+        _columnsSpaces[day] =$('<div>').css('display','inline-block');
         _tables[day] = _table;
-        if(index == 0) _tableContainer.append(_tables[day]);
-        else{ _tableContainer.append(_tables[day].hide());}
+        if(index == 0) _tableContainer.append(_tables[day].append(_columnsSpaces[day], _emptyColumn));
+        else{ _tableContainer.append(_tables[day].append(_columnsSpaces[day], _emptyColumn).hide());}
       });
+
+      
 
       var _selectors = $('<div>').addClass('selectors-call-manager');
       var _buttonsContainer = $('<div>').addClass('buttons-container-call-manager');
@@ -1017,7 +1025,7 @@
 
         Object.keys(eventTime).forEach(function(day){
           _columns[day] = SpaceColumn(day).render();
-          _tables[day].append(_columns[day]);
+          _columnsSpaces[day].append(_columns[day]);
         });
 
         return {
@@ -2054,7 +2062,9 @@
         addSpace: function(space){
           if(!(space.profile_id in _spaces)){
             _spaces[space.profile_id] = new Space(space);
-            $(document).foundation();
+            Object.keys(eventTime).forEach(function(day){
+              _spaces[space.profile_id].columns[day].foundation();
+            });
             spaces.push(space);
             var _id = _spaceSelector.val();
             _loadSpaceSelector();
