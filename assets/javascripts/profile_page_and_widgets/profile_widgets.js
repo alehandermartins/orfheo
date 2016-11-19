@@ -214,6 +214,9 @@
     var _eventProposals = $('<ul>').css({'list-style-type':'none','margin-left':'0.5rem'});
     var _permanentShows = {};
     participation.shows.forEach(function(show, index){
+      var _host;
+      if (show.host_id.indexOf('own') >-1) _host = $('<span>').text(show.host_name).css('text-decoration','underline');
+      else _host = $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name);
       if(show.permanent == 'true'){
         if (_permanentShows[show.participant_proposal_id]) _permanentShows[show.participant_proposal_id].push(show);
         else _permanentShows[show.participant_proposal_id] = [show];
@@ -223,9 +226,6 @@
         var _day = $('<span>').text(_date+':');
         var _title = $('<span>').text(show.title).addClass('title-pastEventBlock');
         var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
-        var _host;
-        if (show.host_id.indexOf('own') >-1) _host = $('<span>').text(show.host_name).css('text-decoration','underline');
-        else _host = $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name);
         var _place = $('<span>').append(Pard.Widgets.IconManager('space').render().addClass('iconProfile-pastEventBlock'),_host);
         var _proposal = $('<li>').append(_day,' ',_category, _title, ' / ',_place).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
@@ -236,6 +236,9 @@
       for (var instalation in _permanentShows){
         var _showArray = _permanentShows[instalation];
         var show = _showArray[0];
+        var _host;
+        if (show.host_id.indexOf('own') >-1) _host = $('<span>').text(show.host_name).css('text-decoration','underline');
+        else _host = $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name);
         var _init_date = moment(new Date(_showArray[0].date)).locale('es').format('DD MMMM YYYY');
         var _day = $('<span>').append(_init_date);
         if (_showArray.length>1) {
@@ -247,7 +250,7 @@
         }
         var _title = $('<span>').text(show.title).addClass('title-pastEventBlock');
         var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
-        var _place = $('<span>').append(Pard.Widgets.IconManager('space').render().addClass('iconProfile-pastEventBlock'), $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name));
+        var _place = $('<span>').append(Pard.Widgets.IconManager('space').render().addClass('iconProfile-pastEventBlock'), _host);
         var _proposal = $('<li>').append(_day,' ',_category, _title, ' / ',_place).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
       }
@@ -284,11 +287,14 @@
         var _proposal = $('<li>').append(_day,' ',_artists).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
         _artistByDay[day].forEach(function(show, index){
+          var _artistName;
+          if (show.participant_id.indexOf('own') >-1) _artistName = $('<span>').text(show.participant_name).css('text-decoration','underline');
+          else _artistName = $('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name);
           if (index < 1){
-            _artists.append($('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
+            _artists.append(_artistName);
           }
           else if (show.participant_id != participation.shows[index-1].participant_id){
-            _artists.append(' - ', $('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
+            _artists.append(' - ', _artistName);
           }
         })
       }
@@ -306,12 +312,15 @@
         var _nd = new Date(show.date);
         if(_nd.getTime()<_id.getTime()) _id = _nd;
         else if(_nd.getTime()>_fd.getTime()) _fd = _nd;
+        var _artistName;
+        if (show.participant_id.indexOf('own') >-1) _artistName = $('<span>').text(show.participant_name).css('text-decoration','underline');
+        else _artistName = $('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name);
         if (index < 1){
-            _artists.append($('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
+            _artists.append(_artistName);
             _participantsArray.push(show.participant_id);
         }
         else if ($.inArray(show.participant_id, _participantsArray)<0){
-          _artists.append(' - ', $('<a>').attr('href','/profile?id='+show.participant_id).text(show.participant_name));
+          _artists.append(' - ', _artistName);
           _participantsArray.push(show.participant_id);
         }
       })

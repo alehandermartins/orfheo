@@ -46,6 +46,7 @@
     }
 
     var _popupMessageSentProposal = function(data){
+      console.log(data);
       var _container = $('<div>')
       var _closepopup = function(){};
       var _message = $('<div>').append($('<h4>').text('¡Genial!').addClass('success-inscription-title'),$('<h5>').text('Te has inscrito correctamente.').css({
@@ -53,7 +54,7 @@
         'margin-bottom': '2rem'
       }));
       var _toProfilePageBtn = Pard.Widgets.Button('Ve a pagína de perfil', function(){
-          location.href = '/profile?id=' + data['profile_id'];  
+          location.href = '/profile?id=' + data['proposal']['profile_id'];  
       }).render().addClass('success-inscription-btn');
       var _sendOtherProposal = Pard.Widgets.Button('Envía otra propuesta', function(){
           _closepopup();
@@ -77,7 +78,7 @@
       _card.removeAttr('href');
       _card.attr('href','#');
       _card.click(function(){
-        if (profile.type == 'space' && profile.proposals && profile.proposals[0]) Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en el conFusión 2016. ');
+        if (profile.type == 'space' && profile.proposals && profile.proposals[0]) Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en '+Pard.CachedEvent.name);
         else{
           Pard.Widgets.GetCallForms(_forms, profile, _closeListProfilePopup, _callbackSendProposal);
         }

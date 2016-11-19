@@ -216,6 +216,12 @@
 
     var _createdWidget = $('<div>');
 
+    var _newDistrito008Call = Pard.Widgets.Distrito008Call('21-11-2016');
+    _createdWidget.append(_newDistrito008Call.render());
+
+    var _orfheoSecondMex = Pard.Widgets.OrfheoSecondMessage('20-11-2016');
+    _createdWidget.append(_orfheoSecondMex.render());
+
     var _newsConfusionProgramOnline = Pard.Widgets.ConfusionProgramOnline('18-09-2016');
     _createdWidget.append(_newsConfusionProgramOnline.render());
 

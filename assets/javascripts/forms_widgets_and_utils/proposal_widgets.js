@@ -120,7 +120,7 @@
       }
 
       var _deleteProposalCaller = $('<a>').attr('href','#').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller');
-      var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteMyProposalMessage(proposal, closepopup)});
+      var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteMyProposalMessage(proposal, profileType, closepopup)});
       _createdWidget.append(_postData);
       _createdWidget.append(_deleteProposal.render());
     }
@@ -341,15 +341,20 @@
   }
 
 
-  ns.Widgets.DeleteMyProposalMessage = function(proposal, closepopup){  
+  ns.Widgets.DeleteMyProposalMessage = function(proposal, profileType, closepopup){  
     var _createdWidget = $('<div>');
     var _message = $('<p>').text('Confirmando, tu propuesta será retirada de la convocatoria de '+proposal.event_name+ ' y por lo tanto no podrá ser seleccionada.');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 
+    var _deleteProposalBackend = {
+      artist: Pard.Backend.deleteArtistProposal,
+      space: Pard.Backend.deleteSpaceProposal
+    }    
+
     _yesBtn.click(function(){
-      Pard.Backend.deleteProposal(proposal.proposal_id, proposal.event_id, Pard.Events.DeleteProposal);
-        closepopup();
+      _deleteProposalBackend[profileType](proposal.proposal_id, proposal.event_id, Pard.Events.DeleteProposal);
+      closepopup();
     });
 
     var _buttonsContainer = $('<div>').addClass('yes-no-button-container');

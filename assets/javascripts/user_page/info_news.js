@@ -150,7 +150,7 @@
         return _newsContainer;
       }
     }
-  }
+  } 
 
   ns.Widgets.Distrito008Call = function(date){
      var _newsContainer = $('<div>').addClass('news-box-welcome-page');
@@ -404,5 +404,47 @@
     	}
     }
 	}
+
+    ns.Widgets.OrfheoSecondMessage = function(date){
+
+    var _newsOrfheoContainer = $('<div>').addClass('news-box-welcome-page ');
+    var _cardOrfheoContainer = $('<span>').addClass('card-container-news');
+    var _orfheoCard =$('<a>').attr({href: '#'}).addClass('profileCard').css('cursor','default');
+    var _color = 'rgb(56, 133, 255)';
+    _orfheoCard.css({border: 'solid 3px'+_color});
+    _orfheoCard.hover(
+      function(){
+        $(this).css({
+        'box-shadow': '0 0 2px 1px'+ _color
+        // 'background': 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+'.1'+ ')'
+      });
+      },
+      function(){
+        $(this).css({
+          'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
+          // 'background':'white'
+        });
+      }
+    );
+    var _orfheoLogo = $('<div>').addClass('orfheo-logo-card');
+    _orfheoCard.append(_orfheoLogo);
+    _cardOrfheoContainer.append(_orfheoCard);
+    var _infoOrfheoBox = $('<div>').addClass('info-box-news-welcome-page');
+    var _infoOrfheoTitle = $('<div>').append($('<h4>').text('¡Lanza y gestiona una convocatoria en orfheo!').addClass('info-title-news-user'));
+    var _mexOrfheo = $('<div>').append($('<p>').html('Si quieres crear un perfil organización, organizar un evento y involucrar a la comunidad de orfheo, contactános a <a href="mailto:info@orfheo.org">info@orfheo.org</a>.'), $('<p>').html('Podrás lanzar tu convocatoria y acceder a la potente herramienta de gestión que te permitirá consultar, organizar y cruzar en un programa, de manera rápida y sencilla, todos los datos recibidos.'));
+    _infoOrfheoBox.append(_cardOrfheoContainer)
+    if (date) {
+        var _dateOrfheo = $('<div>').append($('<span>').text(date).addClass('news-date')).addClass('news-date-container');
+        _infoOrfheoBox.append(_dateOrfheo);
+    }
+    _infoOrfheoBox.append(_infoOrfheoTitle, _mexOrfheo);
+    _newsOrfheoContainer.append(_infoOrfheoBox);
+
+    return{
+        render: function(){
+            return _newsOrfheoContainer;
+        }
+    }
+    }
 
 }(Pard || {}));
