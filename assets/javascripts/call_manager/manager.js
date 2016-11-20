@@ -100,7 +100,7 @@
         else{ _tableContainer.append(_tables[day].append(_columnsSpaces[day], _emptyColumn).hide());}
       });
 
-      
+
 
       var _selectors = $('<div>').addClass('selectors-call-manager');
       var _buttonsContainer = $('<div>').addClass('buttons-container-call-manager');
@@ -446,21 +446,23 @@
                 _forms = data.forms;
                 var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
                 _popupDisplayed.setDeleteProposalCallback(function(data){
-                  if (data['status'] == 'success'){ 
+                  if (data['status'] == 'success'){
                     _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
+                    _tableManager.deleteArtist(proposal.proposal_id);
                   }
                   else{
                     Pard.Widgets.Alert('',data.reason);
                   }
-                }); 
+                });
                 _popupDisplayed.open();
               });
             }
             else{
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
-                if (data['status'] == 'success'){ 
+                if (data['status'] == 'success'){
                   _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
+                  _tableManager.deleteArtist(proposal.proposal_id);
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
@@ -682,8 +684,9 @@
                 _forms = data.forms;
                 var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
                 _popupDisplayed.setDeleteProposalCallback(function(data){
-                  if (data['status'] == 'success'){ 
+                  if (data['status'] == 'success'){
                     _programManager.deleteSpace(space.profile_id);
+                    _tableManager.deleteSpace(space.profile_id);
                   }
                   else{
                     Pard.Widgets.Alert('',data.reason);
@@ -695,8 +698,9 @@
             else{
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
-                if (data['status'] == 'success'){ 
+                if (data['status'] == 'success'){
                   _programManager.deleteSpace(space.profile_id);
+                  _tableManager.deleteSpace(space.profile_id);
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
@@ -2150,8 +2154,8 @@
       _dataTables.spaces = Pard.Widgets.SpacesTable();
       _dataTables.artists = Pard.Widgets.ArtistsTable();
 
-      spaces.forEach(function(space){
-        var _row = $('<tr>');
+      var spaceRow = function(space){
+        var _row = $('<tr>').attr('id', space.profile_id);
         var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
         var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
         var _addressCol = $('<td>').addClass('column-call-manager-table column-address');
@@ -2176,8 +2180,9 @@
               _forms = data.forms;
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
-                if (data['status'] == 'success'){ 
+                if (data['status'] == 'success'){
                   _programManager.deleteSpace(space.profile_id);
+                  _tableManager.deleteSpace(profile_id);
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
@@ -2189,8 +2194,9 @@
           else{
             var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
             _popupDisplayed.setDeleteProposalCallback(function(data){
-              if (data['status'] == 'success'){ 
+              if (data['status'] == 'success'){
                 _programManager.deleteSpace(space.profile_id);
+                _tableManager.deleteSpace(profile_id);
               }
               else{
                 Pard.Widgets.Alert('',data.reason);
@@ -2207,70 +2213,79 @@
         _phoneCol.html(space.phone);
 
         _row.append(_rfhCol, _nameCol, _addressCol, _emailCol, _phoneCol);
-        _dataTables.spaces.tbody.append(_row);
-      });
+        return _row;
+      }
 
-      artists.forEach(function(artist){
-        artist.proposals.forEach(function(proposal){
-          var _row = $('<tr>');
-          var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
-          var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
-          var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
-          var _titleCol = $('<th>').addClass('column-call-manager-table column-title').text('Título');
-          var _emailCol = $('<td>').addClass('column-call-manager-table column-email');
-          var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone');
+      var proposalRow = function(artist, proposal){
+        var _row = $('<tr>').attr('id', proposal.proposal_id);
+        var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
+        var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
+        var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
+        var _titleCol = $('<th>').addClass('column-call-manager-table column-title').text('Título');
+        var _emailCol = $('<td>').addClass('column-call-manager-table column-email');
+        var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone');
 
-          var _icon = $('<a>').append(Pard.Widgets.IconManager('artist').render());
-          _icon.attr({'href': '/profile?id=' + artist.profile_id, 'target':'_blank'});
-          var _name = $('<a>').attr({'href':'#'}).text(artist.name);
-          proposal.name = artist.name;
-          proposal.phone = artist.phone;
-          proposal.email = artist.email;
-          _name.on('click', function(){
-            if (!(_forms)) {
-              Pard.Backend.getCallForms(the_event.call_id, function(data){
-                _forms = data.forms;
-                var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
-                _popupDisplayed.setDeleteProposalCallback(function(data){
-                  if (data['status'] == 'success'){ 
-                    _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
-                  }
-                  else{
-                    Pard.Widgets.Alert('',data.reason);
-                  }
-                });
-                _popupDisplayed.open();
-              });
-            }
-            else{
+        var _icon = $('<a>').append(Pard.Widgets.IconManager('artist').render());
+        _icon.attr({'href': '/profile?id=' + artist.profile_id, 'target':'_blank'});
+        var _name = $('<a>').attr({'href':'#'}).text(artist.name);
+        proposal.name = artist.name;
+        proposal.phone = artist.phone;
+        proposal.email = artist.email;
+        _name.on('click', function(){
+          if (!(_forms)) {
+            Pard.Backend.getCallForms(the_event.call_id, function(data){
+              _forms = data.forms;
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
-                if (data['status'] == 'success'){ 
+                if (data['status'] == 'success'){
                   _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
+
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
                 }
-              });  
+              });
               _popupDisplayed.open();
-            }
-          });
+            });
+          }
+          else{
+            var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
+            _popupDisplayed.setDeleteProposalCallback(function(data){
+              if (data['status'] == 'success'){
+                _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
+              }
+              else{
+                Pard.Widgets.Alert('',data.reason);
+              }
+            });
+            _popupDisplayed.open();
+          }
+        });
 
-          _rfhCol.append(_icon);
-          _nameCol.html(_name);
-          _categoryCol.html(Pard.Widgets.Dictionary(proposal.category).render());
-          _titleCol.html(proposal.title);
-          _emailCol.html(artist.email);
-          _phoneCol.html(artist.phone);
+        _rfhCol.append(_icon);
+        _nameCol.html(_name);
+        _categoryCol.html(Pard.Widgets.Dictionary(proposal.category).render());
+        _titleCol.html(proposal.title);
+        _emailCol.html(artist.email);
+        _phoneCol.html(artist.phone);
 
-          _row.append(_rfhCol, _nameCol, _categoryCol, _titleCol, _emailCol, _phoneCol);
-          _dataTables.artists.tbody.append(_row);
+        _row.append(_rfhCol, _nameCol, _categoryCol, _titleCol, _emailCol, _phoneCol);
+        return _row;
+      }
+
+      spaces.forEach(function(space){
+        _dataTables.spaces.tbody.append(spaceRow(space));
+      });
+
+      artists.forEach(function(artist){
+        artist.proposals.forEach(function(proposal){
+          _dataTables.artists.tbody.append(proposalRow(artist, proposal));
         });
       });
 
       $(document).ready(function() {
         Object.keys(_dataTables).forEach(function(type){
-          _dataTables[type].table.DataTable({
+          _dataTables[type].table = _dataTables[type].table.DataTable({
             "language":{
             "lengthMenu": " Resultados por página _MENU_",
             "zeroRecords": "Ningún resultado",
@@ -2349,6 +2364,18 @@
       return {
         render: function(){
           return _createdWidget;
+        },
+        addArtist: function(artist){
+          _dataTables.artists.table.row.add(proposalRow(artist, artist.proposals[0])).draw();
+        },
+        addSpace: function(space){
+          _dataTables.spaces.table.row.add(spaceRow(space)).draw();
+        },
+        deleteArtist: function(proposal_id){
+          _dataTables.artists.table.row(document.getElementById(proposal_id)).remove().draw();
+        },
+        deleteSpace: function(profile_id){
+          _dataTables.spaces.table.row(document.getElementById(profile_id)).remove().draw();
         }
       }
     }
@@ -2387,6 +2414,7 @@
             var _spaceProposal = _newListedItem(_space, _space.profile_id, 'space', _proposalContainer);
             _spacesList.prepend(_proposalContainer.append(_spaceProposal));
             _programManager.addSpace(_space);
+            _tableManager.addSpace(_space);
           }
           else if (_proposal.type == 'artist'){
             var _artist = data['artist'];
@@ -2405,6 +2433,7 @@
               _artistProposalsList.prepend(_artistProposal);
             }
             _programManager.addArtist(_artist);
+            _tableManager.addArtist(_artist);
           }
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
         }
@@ -2413,7 +2442,7 @@
           // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
         }
       }
-     
+
       var _openPopupForm = function(type, participants){
         var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
         _content.empty();
@@ -2456,23 +2485,25 @@
         console.log(data);
           if (data['status'] == 'success'){
           $.wait(
-            '', 
+            '',
             function(){
               proposalContainer.remove();
               if (type == 'artist') {
                 _programManager.deleteArtist(profile_id, proposal.proposal_id);
+                _tableManager.deleteArtist(proposal.proposal_id);
                 var _idList = '#artistProposalsList-'+profile_id;
                 if ($(_idList).children('ul').is(':empty')){
                   $(_idList).remove();
-                  var _index; 
+                  var _index;
                   _ownArtists.forEach(function(artist, index){
-                    if (artist.profile_id == profile_id)  _index = index; 
+                    if (artist.profile_id == profile_id)  _index = index;
                   });
                   _ownArtists.splice(_index, 1);
                 }
               }
               else if (type == 'space') {
                 _programManager.deleteSpace(profile_id);
+                _tableManager.deleteSpace(profile_id);
               }
             },
             function(){
@@ -2544,7 +2575,7 @@
             _artistProposalsList.append(_proposalContainer.append(_artistProposal));
           })
         }
-      })  
+      })
 
       the_event.spaces.forEach(function(space){
         var lastElement = space.profile_id.split('-').pop();
@@ -2577,108 +2608,6 @@
     var _proposalsManager = ProposalsManager();
     var _qrManager = Pard.Widgets.QRManager(the_event.qr);
 
-    var newArtist = {
-      "user_id" : "db3822e5-eb3a-4ebf-81c7-58b245129195",
-      "email" : "trencadisx2@gmail.com",
-      "profile_id" : "431fe94b-c05d-493a-a40e-f411fd7506cd",
-      "name" : "Trencadiss",
-      "phone" : "680569013",
-      "address" : {
-        "locality" : "Barcelona",
-        "postal_code" : "08004"
-      },
-      "proposals" : [
-        {
-          "production_id" : "f3d62e6f-f68d-4c46-bee9-443e17cd79aa",
-          "proposal_id" : "f63f1f4d-fd26-4fe0-a131-4393195d1cd1",
-          "category" : "music",
-          "title" : "Trencadiss",
-          "description" : "Un concierto acústico de nuestras propias canciones y alguna versión. Dos guitarras, dos voces. Dos músicos. \n",
-          "short_description" : "Trencadiss. Grupo indie pop rock. Barcelona. Concierto acústico. ",
-          "conditions" : "true",
-          "children" : "false",
-          "sharing" : "dos micrófonos, cables y dos pies de micro",
-          "needs" : "Un equipo de voces. ",
-          "waiting_list" : "false",
-          "duration" : "45",
-          "availability" : [
-              "2016-10-15"
-          ],
-          "components" : "2",
-          "repeat" : "true"
-        }
-      ]
-    }
-
-    var newArtist2 = {
-      "user_id" : "db3822e5-eb3a-4ebf-81c7-58b245129195",
-      "email" : "trencadisx2@gmail.com",
-      "profile_id" : "431fe94b-c05d-493a-a40e-f411fd7506cd",
-      "name" : "Trencadiss",
-      "phone" : "680569013",
-      "address" : {
-        "locality" : "Barcelona",
-        "postal_code" : "08004"
-      },
-      "proposals" : [
-        {
-          "production_id" : "f3d62e6f-f68d-4c46-bee9-443e17cd79aa",
-          "proposal_id" : "f63f1f4d-fd26-4fe0-a131-4393195d1cd2",
-          "category" : "music",
-          "title" : "Trencadiss",
-          "description" : "Un concierto acústico de nuestras propias canciones y alguna versión. Dos guitarras, dos voces. Dos músicos. \n",
-          "short_description" : "Trencadiss. Grupo indie pop rock. Barcelona. Concierto acústico. ",
-          "conditions" : "true",
-          "children" : "false",
-          "sharing" : "dos micrófonos, cables y dos pies de micro",
-          "needs" : "Un equipo de voces. ",
-          "waiting_list" : "false",
-          "duration" : "45",
-          "availability" : [
-              "2016-10-15"
-          ],
-          "components" : "2",
-          "repeat" : "true"
-        }
-      ]
-    }
-
-    var newSpace = {
-      "responsible" : "riccardo toto",
-      "description" : "- pasillo largo y estrecho donde se puede exponer (15m2)\n- salon con ventanas al patio (8 m2)\n- un patio interior para conciertitos, poesia, teatro.\n",
-      "availability" : [
-          "2016-10-15",
-          "2016-10-16"
-      ],
-      "phone" : "633753471",
-      "sharing" : "un equipo de sonido pequeno, una nevera de bar, escaleras, herramientas, agua, tomas de luz, sillas, una mesa, 2 mesitas, un mueble/barra",
-      "own" : "posible infopoint, espacio jolly",
-      "un_wanted" : "mejor no hacer actividades y mantener el espacio util para cosas del ultimo momento y para con tranuqilidad ;)",
-      "conditions" : null,
-      "user_id" : "a6e3b8df-2088-4c4c-a67c-c8939afbeb63",
-      "email" : "riccardo.toto@gmail.com",
-      "profile_id" : "1074d199-5f90-4530-865a-7289d2e73725",
-      "proposal_id" : "fd2727fe-bfb7-4411-aa29-9e4443663d49",
-      "category" : "home",
-      "address" : {
-        "route" : "Carrer de la Mare de Déu de l'Assumpció",
-        "street_number" : "4",
-        "door" : "b",
-        "locality" : "València",
-        "country" : "Spain",
-        "postal_code" : "46020",
-        "location" : {
-            "lat" : 39.4863166,
-            "lng" : -0.3598083
-        }
-      },
-      "name" : "4b"
-    }
-
-    //_programManager.addSpace(newSpace);
-    //_programManager.deleteSpace(newSpace.profile_id);
-    //_programManager.addArtist(newArtist2);
-    //_programManager.deleteArtist(newArtist.profile_id, "f63f1f4d-fd26-4fe0-a131-4393195d1cd1");
 
     var _lastSelectedPanel = _programManager;
     _programTab.on('click', function(){
