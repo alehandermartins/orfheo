@@ -184,8 +184,8 @@
         }
         Pard.ColumnWidth = 176;
         if(_shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
-        _shownSpaces.forEach(function(space){
-          _spaces[space.profile_id].alignPerformances(_daySelector.val());
+        _shownSpaces.forEach(function(space, index){
+          _spaces[space.profile_id].alignPerformances(_daySelector.val(), index);
         });
       }
 
@@ -256,9 +256,10 @@
         _shownSpaces = [];
         Pard.ColumnWidth = 176;
         if(spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
-        spaces.forEach(function(space){
+        spaces.forEach(function(space, index){
+          var position = Pard.ColumnWidth * index + 1;
           _spaces[space.profile_id].showColumns();
-          _spaces[space.profile_id].alignPerformances(_daySelector.val());
+          _spaces[space.profile_id].alignPerformances(position);
           _shownSpaces.push(space);
         });
         $(this).val("");
@@ -312,11 +313,10 @@
       var lastArtist;
       var _closePopup;
 
-
-
       var Artist = function(artist){
         var program = {};
         var _proposals = {};
+        var _conflictContent;
 
         var Accordion = function(){
           var container = $('<div>').css({'padding': 0});
@@ -447,8 +447,7 @@
                 var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
                 _popupDisplayed.setDeleteProposalCallback(function(data){
                   if (data['status'] == 'success'){
-                    _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
-                    _tableManager.deleteArtist(proposal.proposal_id);
+                    deleteArtist(artist.profile_id, proposal.proposal_id);
                   }
                   else{
                     Pard.Widgets.Alert('',data.reason);
@@ -461,8 +460,7 @@
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
                 if (data['status'] == 'success'){
-                  _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
-                  _tableManager.deleteArtist(proposal.proposal_id);
+                  deleteArtist(artist.profile_id, proposal.proposal_id);
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
@@ -577,17 +575,20 @@
           if($.inArray(performance_to_check, _conflictPerformances) >= 0){
             //Closing active performanceManager
             if(_closePopup) _closePopup();
-            var _content = $('<div>').addClass('very-fast reveal full');
-            _content.empty();
-            $('body').append(_content);
+            _closePopup = function(){
+              _conflictContent.remove();
+            }
+            _conflictContent = $('<div>').addClass('very-fast reveal full');
+            _conflictContent.empty();
+            $('body').append(_conflictContent);
 
-            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _popup = new Foundation.Reveal(_conflictContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
             var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist, program, _spaces, _program), 'space-program-popup-call-manager');
             _message.setCallback(function(){
-              _content.remove();
+              _conflictContent.remove();
               _popup.close();
             });
-            _content.append(_message.render());
+            _conflictContent.append(_message.render());
             _popup.open();
           }
         }
@@ -685,8 +686,7 @@
                 var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
                 _popupDisplayed.setDeleteProposalCallback(function(data){
                   if (data['status'] == 'success'){
-                    _programManager.deleteSpace(space.profile_id);
-                    _tableManager.deleteSpace(space.profile_id);
+                    deleteSpace(space.profile_id);
                   }
                   else{
                     Pard.Widgets.Alert('',data.reason);
@@ -699,8 +699,7 @@
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
                 if (data['status'] == 'success'){
-                  _programManager.deleteSpace(space.profile_id);
-                  _tableManager.deleteSpace(space.profile_id);
+                  deleteSpace(space.profile_id);
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
@@ -1046,8 +1045,7 @@
               _columns[date].hide();
             });
           },
-          alignPerformances: function(day){
-            var position = _columns[day].position().left + 1;
+          alignPerformances: function(position){
             Object.keys(eventTime).forEach(function(date){
               _columns[date].css('width', Pard.ColumnWidth);
             });
@@ -2036,17 +2034,10 @@
           else{_program[performance.performance_id] = new Performance(performance);}
           _program[performance.performance_id].loadPerformance();
         });
-        var align = function(){
-          setTimeout(function(){
-            if(spaces.length < 2 || _spaces[spaces[1].profile_id].columns[_daySelector.val()].position().left != 0){
-              Object.keys(_spaces).forEach(function(profile_id){
-                _spaces[profile_id].alignPerformances(_daySelector.val());
-              });
-            }
-            else{align();}
-          }, 500);
-        }
-        align();
+        spaces.forEach(function(space, index){
+          var position = Pard.ColumnWidth * index + 1;
+          _spaces[space.profile_id].alignPerformances(position);
+        });
       }
 
     	return {
@@ -2181,8 +2172,7 @@
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
                 if (data['status'] == 'success'){
-                  _programManager.deleteSpace(space.profile_id);
-                  _tableManager.deleteSpace(profile_id);
+                  deleteSpace(space.profile_id);
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
@@ -2195,8 +2185,7 @@
             var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
             _popupDisplayed.setDeleteProposalCallback(function(data){
               if (data['status'] == 'success'){
-                _programManager.deleteSpace(space.profile_id);
-                _tableManager.deleteSpace(profile_id);
+                deleteSpace(space.profile_id);
               }
               else{
                 Pard.Widgets.Alert('',data.reason);
@@ -2238,7 +2227,7 @@
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
                 if (data['status'] == 'success'){
-                  _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
+                  deleteArtist(artist.profile_id, proposal.proposal_id);
 
                 }
                 else{
@@ -2252,7 +2241,7 @@
             var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
             _popupDisplayed.setDeleteProposalCallback(function(data){
               if (data['status'] == 'success'){
-                _programManager.deleteArtist(artist.profile_id, proposal.proposal_id);
+                deleteArtist(artist.profile_id, proposal.proposal_id);
               }
               else{
                 Pard.Widgets.Alert('',data.reason);
@@ -2397,44 +2386,64 @@
       var _ownArtists = [];
       var _ownSpaces = [];
 
+      var _artistsContainers = {}
+      var _spacesContainers = {}
+
       var _createOwnProposalWidget;
       var _printedOwnProposal;
       var _closePopupOwnSentProposal = function(){};
       var _callbackOwnPrintedProposal = function(){};
       var _closePopupForm = function(){};
 
+      var _addSpace = function(space){
+        _ownSpaces.push(space);
+        var _proposalContainer = $('<li>').append(Pard.Widgets.IconManager('space').render()).addClass('own-spaceProposal-container');
+        _spacesContainers[space.profile_id] = _proposalContainer;
+        var _spaceProposal = _newListedItem(space, space.profile_id, 'space', _proposalContainer);
+        _spacesList.prepend(_proposalContainer.append(_spaceProposal));
+      }
+
+      var _addArtist = function(artist){
+        _artistsContainers[artist.profile_id] = _artistsContainers[artist.profile_id] || {};
+        var _proposalContainer = $('<li>');
+        var _artistProposal = _newListedItem(artist.proposals[0], artist.profile_id, 'artist', _proposalContainer);
+        if(Object.keys(_artistsContainers[artist.profile_id]) != 0){
+          _artistsContainers[artist.profile_id].ul.append(_proposalContainer.append(_artistProposal));
+        }
+        else {
+          _ownArtists.push(artist);
+          var _artistContainer = $('<li>').append(Pard.Widgets.IconManager('artist').render(),$('<span>').text(artist.name).addClass('artistName')).addClass('own-artistProposals-container');
+          var _artistProposalsList = $('<ul>');
+          _artistsContainers[artist.profile_id].li = _artistContainer;
+          _artistsContainers[artist.profile_id].ul = _artistProposalsList;
+          _artistContainer.append(_artistProposalsList);
+          _artistsList.prepend(_artistContainer);
+          _artistProposalsList.prepend(_artistProposal);
+        }
+        _artistsContainers[artist.profile_id][artist.proposals[0].proposal_id] = _proposalContainer;
+      }
+
+      var _deleteSpace = function(profile_id){
+        _spacesContainers[profile_id].remove();
+        delete _spacesContainers[profile_id];
+      }
+
+      var _deleteArtist = function(profile_id, proposal_id){
+        _artistsContainers[profile_id][proposal_id].remove();
+        delete _artistsContainers[profile_id][proposal_id];
+        if(Object.keys(_artistsContainers[profile_id]).length == 2){
+          _artistsContainers[profile_id].li.remove();
+          delete _artistsContainers[profile_id];
+          _ownArtists = _ownArtists.filter(function(artist){
+            return profile_id != artist.profile_id;
+          });
+        }
+      }
+
       var _callbackCreatedProposal = function(data){
         if(data['status'] == 'success') {
-          var _proposal = _createOwnProposalWidget.getVal();
-          var _proposalContainer = $('<li>');
-          if (Object.keys(data)[1] == 'space'){
-            var _space = data['space'];
-            _ownSpaces.push(spaces);
-            var _proposalContainer = $('<li>').append(Pard.Widgets.IconManager('space').render()).addClass('own-spaceProposal-container');
-            var _spaceProposal = _newListedItem(_space, _space.profile_id, 'space', _proposalContainer);
-            _spacesList.prepend(_proposalContainer.append(_spaceProposal));
-            _programManager.addSpace(_space);
-            _tableManager.addSpace(_space);
-          }
-          else if (_proposal.type == 'artist'){
-            var _artist = data['artist'];
-            var _proposalContainer = $('<li>');
-            var _artistProposal = _newListedItem(_artist.proposals[0], _artist.profile_id, 'artist', _proposalContainer);
-            var _idList = '#artistProposalsList-'+_artist.profile_id;
-            if ($(_idList).length){
-              $(_idList).children('ul').append(_proposalContainer.append(_artistProposal));
-            }
-            else {
-              _ownArtists.push(_artist);
-              var _artistContainer = $('<li>').attr('id','artistProposalsList-'+_artist.profile_id).append(Pard.Widgets.IconManager('artist').render(),$('<span>').text(_artist.name).addClass('artistName')).addClass('own-artistProposals-container');
-              var _artistProposalsList = $('<ul>');
-              _artistContainer.append(_artistProposalsList);
-              _artistsList.prepend(_artistContainer);
-              _artistProposalsList.prepend(_artistProposal);
-            }
-            _programManager.addArtist(_artist);
-            _tableManager.addArtist(_artist);
-          }
+          if (Object.keys(data)[1] == 'space') addSpace(data.space);
+          else if (Object.keys(data)[1] == 'artist'){addArtist(data.artist);}
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
         }
         else{
@@ -2482,54 +2491,30 @@
       var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
 
       var _deleteProposalCallback = function(proposal, profile_id, type, proposalContainer, data){
-        console.log(data);
-          if (data['status'] == 'success'){
-          $.wait(
-            '',
-            function(){
-              proposalContainer.remove();
-              if (type == 'artist') {
-                _programManager.deleteArtist(profile_id, proposal.proposal_id);
-                _tableManager.deleteArtist(proposal.proposal_id);
-                var _idList = '#artistProposalsList-'+profile_id;
-                if ($(_idList).children('ul').is(':empty')){
-                  $(_idList).remove();
-                  var _index;
-                  _ownArtists.forEach(function(artist, index){
-                    if (artist.profile_id == profile_id)  _index = index;
-                  });
-                  _ownArtists.splice(_index, 1);
-                }
-              }
-              else if (type == 'space') {
-                _programManager.deleteSpace(profile_id);
-                _tableManager.deleteSpace(profile_id);
-              }
-            },
-            function(){
-              Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
-            }
-          )
+        if (data['status'] == 'success'){
+        $.wait(
+          '',
+          function(){
+            if (type == 'artist') deleteArtist(profile_id, proposal.proposal_id);
+            else if (type == 'space') {deleteSpace(profile_id);}
+          },
+          function(){
+            Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
+          }
+        )
+        }
+        else{
+          var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+          spinnerDeleteProposal.stop();
+          if (typeof _dataReason == 'object'){
+            Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
           }
           else{
-            var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
-            if (typeof _dataReason == 'object'){
-              spinnerDeleteProposal.stop();
-              Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
-            }
-            else{
-              console.log(data.reason);
-              spinnerDeleteProposal.stop();
-              Pard.Widgets.Alert('', _dataReason, location.reload());
-            }
+            console.log(data.reason);
+            Pard.Widgets.Alert('', _dataReason, location.reload());
           }
-          // return {
-          //   render: function(_data){
-          //     data = _data;
-          //   }
-          // }
         }
-
+      }
 
       var _newListedItem = function(proposal, profile_id, type, proposalContainer){
         var _proposalListed = $('<span>');
@@ -2560,28 +2545,32 @@
         return _proposalListed;
       }
 
-
-      the_event.artists.forEach(function(artist){
+      artists.forEach(function(artist){
         var lastElement = artist.profile_id.split('-').pop();
         if (lastElement == 'own') {
+          _artistsContainers[artist.profile_id] = {};
           _ownArtists.push(artist);
-          var _artistContainer = $('<li>').attr('id','artistProposalsList-'+artist.profile_id).append(Pard.Widgets.IconManager('artist').render(),$('<span>').text(Pard.Widgets.CutString(artist['name'],55)).addClass('artistName')).addClass('own-artistProposals-container');
+          var _artistContainer = $('<li>').append(Pard.Widgets.IconManager('artist').render(),$('<span>').text(Pard.Widgets.CutString(artist['name'],55)).addClass('artistName')).addClass('own-artistProposals-container');
           var _artistProposalsList = $('<ul>');
+          _artistsContainers[artist.profile_id].li = _artistContainer;
+          _artistsContainers[artist.profile_id].ul = _artistProposalsList;
           _artistContainer.append(_artistProposalsList);
           _artistsList.prepend(_artistContainer);
           artist.proposals.forEach(function(proposal){
             var _proposalContainer = $('<li>');
+            _artistsContainers[artist.profile_id][proposal.proposal_id] = _proposalContainer;
             var _artistProposal = _newListedItem(proposal, artist.profile_id, 'artist', _proposalContainer);
             _artistProposalsList.append(_proposalContainer.append(_artistProposal));
           })
         }
       })
 
-      the_event.spaces.forEach(function(space){
+      spaces.forEach(function(space){
         var lastElement = space.profile_id.split('-').pop();
         if (lastElement == 'own') {
-          _ownSpaces.push(spaces);
+          _ownSpaces.push(space);
           var _proposalContainer = $('<li>').append(Pard.Widgets.IconManager('space').render()).addClass('own-spaceProposal-container');
+          _spacesContainers[space.profile_id] = _proposalContainer;
           var _spaceProposal = _newListedItem(space, space.profile_id, 'space', _proposalContainer);
           _spacesList.prepend(_proposalContainer.append(_spaceProposal));
         }
@@ -2599,7 +2588,11 @@
       return {
         render: function(){
           return _createdWidget;
-        }
+        },
+        addArtist: _addArtist,
+        addSpace: _addSpace,
+        deleteArtist: _deleteArtist,
+        deleteSpace: _deleteSpace
       }
     }
 
@@ -2608,6 +2601,30 @@
     var _proposalsManager = ProposalsManager();
     var _qrManager = Pard.Widgets.QRManager(the_event.qr);
 
+
+    var addArtist = function(artist){
+      _programManager.addArtist(artist);
+      _tableManager.addArtist(artist);
+      _proposalsManager.addArtist(artist);
+    }
+
+    var addSpace = function(space){
+     _programManager.addSpace(space);
+     _tableManager.addSpace(space);
+     _proposalsManager.addSpace(space);
+    }
+
+    var deleteArtist = function(profile_id, proposal_id){
+      _programManager.deleteArtist(profile_id, proposal_id);
+      _tableManager.deleteArtist(proposal_id);
+      _proposalsManager.deleteArtist(profile_id, proposal_id);
+    }
+
+    var deleteSpace = function(profile_id){
+      _programManager.deleteSpace(profile_id);
+      _tableManager.deleteSpace(profile_id);
+      _proposalsManager.deleteSpace(profile_id);
+    }
 
     var _lastSelectedPanel = _programManager;
     _programTab.on('click', function(){
