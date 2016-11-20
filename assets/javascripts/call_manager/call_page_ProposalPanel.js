@@ -269,7 +269,6 @@
       };
       _submitForm['call_id'] = Pard.CachedEvent.call_id;
       _submitForm['event_id'] = Pard.CachedEvent.event_id;
-      _submitForm['conditions'] = true;
       _submitForm['type'] = participantType;
       if (!(_submitForm['description']))_submitForm['description'] = '_';
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
