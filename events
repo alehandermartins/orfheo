@@ -8,9 +8,9 @@
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fac6",
     "name" : "VII Distrito 008. Festival Urbano de Extramurs",
     "baseline" : "Somos Barrio / Som Barri",
-    "img" : "distrito008_eojj5t",
+    "img" : "imagen_convocatoria_def-03-min_uvkkvr",
     "place": "Extramurs - Valencia",
-    "conditions":"https://distrito008.es/",
+    "conditions":"https://docs.google.com/document/d/1JR8e7zlhcT46Mu15Nto3n1luCzAuqfbZVAQ0nUbv5Pw/edit",
     "address":{
       "locality":"Extramurs - Valencia",
       "postal_code": "46008"
@@ -21,6 +21,26 @@
       name: 'PICUV',
       link: 'https://www.facebook.com/picuv/?fref=ts',
       img: 'Logo_PICUV_qptegh'
+    },
+    {
+      name: ' Acomex. Asociación de Comerciantes de Extramuros',
+      link: 'http://www.acomexvalencia.com',
+      img: 'Acomex_xikclr'
+    },
+    {
+      name: 'Barreira. Arte + Diseño',
+      link: 'http://barreira.edu.es',
+      img: 'logo_barreira_sin_fondo_h9owz3'
+    },
+    {
+      name: 'el Botànic es mou',
+      link: 'http://elbotanicesmou.valencia.es/ca/',
+      img: 'logo_el_botanic_es_mou_wmuq3m'
+    },
+    {
+      name: 'Jardí Botànic Universitat de València',
+      link: ' http://www.jardibotanic.org',
+      img: 'botanico_ki5fsb'
     }
     ],
     "eventTime" : {

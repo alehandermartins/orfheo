@@ -56,7 +56,7 @@
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fac6",
     "name" : "VII Distrito 008. Festival Urbano de Extramurs",
     "baseline" : "Somos Barrio / Som Barri",
-    "img" : "distrito008_eojj5t",
+    "img" : "imagen_convocatoria_def-03-min_uvkkvr",
     "place": "Extramurs - Valencia",
     "address":{
       "locality":"Extramurs - Valencia",

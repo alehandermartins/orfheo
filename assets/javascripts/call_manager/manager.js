@@ -2424,19 +2424,23 @@
       }
 
       var _deleteSpace = function(profile_id){
-        _spacesContainers[profile_id].remove();
-        delete _spacesContainers[profile_id];
+        if (_spacesContainers[profile_id]){
+          _spacesContainers[profile_id].remove();
+          delete _spacesContainers[profile_id];
+        }
       }
 
       var _deleteArtist = function(profile_id, proposal_id){
-        _artistsContainers[profile_id][proposal_id].remove();
-        delete _artistsContainers[profile_id][proposal_id];
-        if(Object.keys(_artistsContainers[profile_id]).length == 2){
-          _artistsContainers[profile_id].li.remove();
-          delete _artistsContainers[profile_id];
-          _ownArtists = _ownArtists.filter(function(artist){
-            return profile_id != artist.profile_id;
-          });
+        if (_artistsContainers[profile_id]){
+          _artistsContainers[profile_id][proposal_id].remove();
+          delete _artistsContainers[profile_id][proposal_id];
+          if(Object.keys(_artistsContainers[profile_id]).length == 2){
+            _artistsContainers[profile_id].li.remove();
+            delete _artistsContainers[profile_id];
+            _ownArtists = _ownArtists.filter(function(artist){
+              return profile_id != artist.profile_id;
+            });
+          }
         }
       }
 
