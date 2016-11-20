@@ -184,8 +184,8 @@
         }
         Pard.ColumnWidth = 176;
         if(_shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
-        _shownSpaces.forEach(function(space){
-          _spaces[space.profile_id].alignPerformances(_daySelector.val());
+        _shownSpaces.forEach(function(space, index){
+          _spaces[space.profile_id].alignPerformances(_daySelector.val(), index);
         });
       }
 
@@ -256,9 +256,10 @@
         _shownSpaces = [];
         Pard.ColumnWidth = 176;
         if(spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
-        spaces.forEach(function(space){
+        spaces.forEach(function(space, index){
+          var position = Pard.ColumnWidth * index + 1;
           _spaces[space.profile_id].showColumns();
-          _spaces[space.profile_id].alignPerformances(_daySelector.val());
+          _spaces[space.profile_id].alignPerformances(position);
           _shownSpaces.push(space);
         });
         $(this).val("");
@@ -312,11 +313,10 @@
       var lastArtist;
       var _closePopup;
 
-
-
       var Artist = function(artist){
         var program = {};
         var _proposals = {};
+        var _conflictContent;
 
         var Accordion = function(){
           var container = $('<div>').css({'padding': 0});
@@ -575,17 +575,20 @@
           if($.inArray(performance_to_check, _conflictPerformances) >= 0){
             //Closing active performanceManager
             if(_closePopup) _closePopup();
-            var _content = $('<div>').addClass('very-fast reveal full');
-            _content.empty();
-            $('body').append(_content);
+            _closePopup = function(){
+              _conflictContent.remove();
+            }
+            _conflictContent = $('<div>').addClass('very-fast reveal full');
+            _conflictContent.empty();
+            $('body').append(_conflictContent);
 
-            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _popup = new Foundation.Reveal(_conflictContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
             var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist, program, _spaces, _program), 'space-program-popup-call-manager');
             _message.setCallback(function(){
-              _content.remove();
+              _conflictContent.remove();
               _popup.close();
             });
-            _content.append(_message.render());
+            _conflictContent.append(_message.render());
             _popup.open();
           }
         }
@@ -1042,8 +1045,7 @@
               _columns[date].hide();
             });
           },
-          alignPerformances: function(day){
-            var position = _columns[day].position().left + 1;
+          alignPerformances: function(position){
             Object.keys(eventTime).forEach(function(date){
               _columns[date].css('width', Pard.ColumnWidth);
             });
@@ -2032,17 +2034,10 @@
           else{_program[performance.performance_id] = new Performance(performance);}
           _program[performance.performance_id].loadPerformance();
         });
-        var align = function(){
-          setTimeout(function(){
-            if(spaces.length < 2 || _spaces[spaces[1].profile_id].columns[_daySelector.val()].position().left != 0){
-              Object.keys(_spaces).forEach(function(profile_id){
-                _spaces[profile_id].alignPerformances(_daySelector.val());
-              });
-            }
-            else{align();}
-          }, 500);
-        }
-        align();
+        spaces.forEach(function(space, index){
+          var position = Pard.ColumnWidth * index + 1;
+          _spaces[space.profile_id].alignPerformances(position);
+        });
       }
 
     	return {
@@ -2510,13 +2505,12 @@
         }
         else{
           var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+          spinnerDeleteProposal.stop();
           if (typeof _dataReason == 'object'){
-            spinnerDeleteProposal.stop();
             Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
           }
           else{
             console.log(data.reason);
-            spinnerDeleteProposal.stop();
             Pard.Widgets.Alert('', _dataReason, location.reload());
           }
         }
