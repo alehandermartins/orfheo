@@ -17,7 +17,7 @@ class LoginController < BaseController
   end
 
   post '/login_attempt' do
-    scopify email: true, password: true, event_id: true
+    scopify email: true, password: true
     check_params email, password
     check_existing_user email
     user_id = user_id_for email, password

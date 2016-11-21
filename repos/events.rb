@@ -109,8 +109,7 @@ module Repos
         event = grab({event_id: event_id}).first
         email = Repos::Users.grab({user_id: user_id})[:email]
         return true if event[:user_id] == user_id || event[:whitelist].any?{ |whitelisted| whitelisted[:email] == email }
-        return true
-        #event[:start].to_i < Time.now.to_i && event[:deadline].to_i > Time.now.to_i
+        event[:start].to_i/1000 < Time.now.to_i && event[:deadline].to_i/1000 > Time.now.to_i
       end
 
       def amend_artist proposal_id, amend

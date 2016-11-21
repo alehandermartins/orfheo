@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets = ns.Widgets || {};  
+  ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.EventTitle = function(){
     var _createdWidget = $('<div>').addClass('title-infoTab-event-page-container');
@@ -20,10 +20,10 @@
         _popupContent.empty();
         $('body').append(_popupContent);
         var _popup = new Foundation.Reveal(_popupContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        var _signUpEventMessage =  Pard.Widgets.PopupContent('Para apuntarte necesitas hacer antes el login', Pard.Widgets.LoginEvent(Pard.CachedEvent.event_id));  
+        var _signUpEventMessage =  Pard.Widgets.PopupContent('Para apuntarte necesitas hacer antes el login', Pard.Widgets.LoginEvent(Pard.CachedEvent.event_id));
         _signUpEventMessage.setCallback(function(){});
         _popupContent.append(_signUpEventMessage.render());
-        _popup.open();  
+        _popup.open();
     }
       else{
        Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, _callToAction).render);
@@ -43,7 +43,7 @@
    ns.Widgets.EventInfo = function(){
 
     var _eventInfo = Pard.CachedEvent;
-    
+
     var _createdWidget = $('<div>');
     var _header = $('<div>');
     var _daysArray = [];
@@ -57,10 +57,10 @@
       _callText.append($('<p>').html('Apertura convocatoria '+moment(_opening).locale('es').format('dddd DD MMMM')));
     }
     else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
-      var _callopened = $('<a>').attr({'href':'#'}).text('Convocatoria abierta');
-      _callopened.click(function(){
-          Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(_eventInfo, _callopened).render);
-      });
+      var _callopened = $('<span>').text('Convocatoria abierta');
+      // _callopened.click(function(){
+      //     Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(_eventInfo, _callopened).render);
+      // });
       _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
     }
     else if(_now.getTime()>_closing.getTime()){
@@ -87,7 +87,7 @@
     var _whereText = $('<div>').append($('<p>').append(_location)).addClass('info-text-header-infoTab-event');
     var _where = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('location').render()).addClass('iconContainer-infoHeader-event-page'), _whereText).addClass('element-headerTitle-infoTab-event');
     _where.css({'border-right': '1px solid #bebebe'});
-    
+
     var _organizer = $('<a>').append(Pard.Widgets.FitInBox($('<p>').append('Organiza ', _eventInfo.organizer),181,55).render().text().substring(9));
     _organizer.attr({
       href: '/profile?id=' + _eventInfo.profile_id,
@@ -98,7 +98,7 @@
     _who.css({'border-right': '1px solid #bebebe'});
 
     var _h1 = $('<div>').append(_who, _where, _callStatus);
-    
+
     var _conditionsText = $('<div>').addClass('info-text-header-infoTab-event')
     if (_eventInfo.conditions) _conditionsText.append($('<a>').attr({'href':_eventInfo.conditions,'target':'_blank'}).append('Bases de participación'));
     else _conditionsText.append($('<p>').text('Sin condiciones de participación'));
@@ -109,7 +109,7 @@
     var _printAll = false;
     var _h2 = $('<div>').addClass('h2-event-page');
     _h2.append($('<div>').append(Pard.Widgets.IconManager('clock').render().addClass('iconContainer-infoHeader-event-page'), _timeContent).addClass('timeContainer-infoTab-event')  , _callConditions);
-    
+
     var _printDaysCalendar = function(){
       _timeContent.empty();
         for (var day in _eventInfo.eventTime){
@@ -164,13 +164,13 @@
       render: function(){
         return _createdWidget;
       }
-    } 
+    }
   }
 
 
   ns.Widgets.PartnerTab = function(partnersArray){
     var _partnerTab = $('<div>').css('margin-top','2.5rem');
-   
+
     partnersArray.forEach(function(partner){
       _partnerTab.append(Pard.Widgets.PartnerCard(partner));
     });
@@ -219,5 +219,5 @@
 
 
 
- 
+
 }(Pard || {}));

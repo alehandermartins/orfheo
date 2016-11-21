@@ -9,12 +9,12 @@ class ArtistProposal
 
   def check_fields params, form
     raise Pard::Invalid::Params unless form.all?{ |field, entry|
-      correct_entry? params[field], entry[:type]  
+      correct_entry? params[field], entry[:type]
     }
   end
 
   def correct_entry? value, type
-    return !value.blank? if type == 'mandatory' 
+    return !value.blank? if type == 'mandatory'
     true
   end
 
