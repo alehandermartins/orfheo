@@ -265,13 +265,15 @@ Header
 
 /*GENERAL*/
 
+.top-bar-right .input-login{
+  float: right; 
 
+} 
 
 
 .input-login {
  @include breakpoint(small down){
     display: block;
-    float: right; 
     padding-top: 0.5rem;
     .input-login-field {
       margin-bottom: 0.1rem;
@@ -1620,13 +1622,15 @@ div.dataTables_wrapper div.dataTables_filter input{
 
 .success-icon-check-call-manager{
   color: $green-pard;
-  font-size: 1.5rem;
-  vertical-align: middle;
+  font-size: 1rem;
+  vertical-align: top;
+  margin-right: -0.1rem;
 }
 
 .success-check-call-manager{
   color: $green-pard;
   display: inline-block;
+  font-size: $almostNormalSize;
 }
 
 .search-input-call-manager-container  .select2-selection.select2-selection--multiple {
@@ -1709,6 +1713,14 @@ p.initial-text-proposalPanel{
 
 .typeOwnproposal-icon-call-page{
   margin-right: 1rem;
+}
+
+.popupOwnProposal{
+  margin-top: 1.5rem;
+  min-height: 2.5rem;
+  .t-popupOwn{
+    margin-top: 1rem;
+  }
 }
 
 .buttonsCOntainer-call-page{

@@ -234,11 +234,11 @@
   ns.Events.SaveProgram = function(data){
     $('.save-text-call-manager').empty();
     if(data['status'] == 'success') {
-      $('.save-text-call-manager').append($('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
-        setTimeout(function(){
-          $('.save-text-call-manager').empty();
-          $('.save-text-call-manager').html('Guarda </br>los cambios');
-        }, 3000);
+      // $('.save-text-call-manager').append($('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
+      //   setTimeout(function(){
+      //     $('.save-text-call-manager').empty();
+      //     $('.save-text-call-manager').html('Guarda </br>los cambios');
+      //   }, 3000);
     }
     else{
       console.log('error');

@@ -2004,10 +2004,29 @@
       });
       if(spaces.length > 0 && spaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / spaces.length;
 
-       var _submitBtnText = $('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager');
+      // var _submitBtnText = $('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager');
+      var _submitBtn;
+      var _successIcon = $('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager');
 
-      var _submitBtn = Pard.Widgets.Button('', function(){
+      var _saveProgramCallback = function(data){
+         if(data['status'] == 'success') {
+          _submitBtn.hide();
+          _successIcon.show();
+          setTimeout(function(){
+              _successIcon.hide();
+              _submitBtn.show();
+              _submitBtn.attr('disabled',false).removeClass('disabled-button');
+            }, 3000);
+        }
+        else{
+          console.log('error');
+          Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();});
+        }  
+      }
+
+      _submitBtn = Pard.Widgets.Button('', function(){
         var program = [];
+        _submitBtn.attr('disabled',true).addClass('disabled-button');
         Object.keys(_program).forEach(function(performance_id){
           program.push(_program[performance_id].show);
         });
@@ -2017,11 +2036,11 @@
           order.push(space.profile_id);
         });
 
-        Pard.Backend.saveProgram(the_event.event_id, program, order, Pard.Events.SaveProgram);
+        Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);
       }).render().addClass('submit-program-btn-call-manager');
       _submitBtn.append(Pard.Widgets.IconManager('save').render());
       // _submitBtnContainer.append(_submitBtnText)
-      _submitBtnContainer.append(_submitBtn);
+      _submitBtnContainer.append(_submitBtn, _successIcon.hide());
 
        _toolsContainer.append(ToolsDropdownMenu().render());
       _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
@@ -2462,7 +2481,7 @@
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
         _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(_forms[type], type, participants, _callbackCreatedProposal);
-        var _message = Pard.Widgets.PopupContent('Crea una propuesta', _createOwnProposalWidget);
+        var _message = Pard.Widgets.PopupContent('Crea y enscribe una propuesta de tipo '+Pard.Widgets.Dictionary(type).render().toLowerCase(), _createOwnProposalWidget);
         _message.setCallback(function(){
           _content.remove();
           _popup.close();
@@ -2631,8 +2650,11 @@
     }
 
     var _lastSelectedPanel = _programManager;
+    _programTab.addClass('tab-selected')
     _programTab.on('click', function(){
       if(_lastSelectedPanel != _programManager){
+        $('.tab-selected').removeClass('tab-selected');
+        _programTab.addClass('tab-selected');
         _lastSelectedPanel.render().hide();
         _programManager.render().show();
         _lastSelectedPanel = _programManager;
@@ -2640,6 +2662,8 @@
     });
     _tableTab.on('click', function(){
       if(_lastSelectedPanel != _tableManager){
+        $('.tab-selected').removeClass('tab-selected');
+        _tableTab.addClass('tab-selected');
         _lastSelectedPanel.render().hide();
         _tableManager.render().show();
         _lastSelectedPanel = _tableManager;
@@ -2647,6 +2671,8 @@
     });
     _proposalsTab.on('click', function(){
       if(_lastSelectedPanel != _proposalsManager){
+        $('.tab-selected').removeClass('tab-selected');
+        _proposalsTab.addClass('tab-selected');
         _lastSelectedPanel.render().hide();
         _proposalsManager.render().show();
         _lastSelectedPanel = _proposalsManager;
@@ -2654,6 +2680,8 @@
     });
     _qrTab.on('click', function(){
       if(_lastSelectedPanel != _qrManager){
+        $('.tab-selected').removeClass('tab-selected');
+        _qrTab.addClass('tab-selected');
         _lastSelectedPanel.render().hide();
         _qrManager.render().show();
         _lastSelectedPanel = _qrManager;

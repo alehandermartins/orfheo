@@ -5,7 +5,7 @@
 
   ns.Widgets.CreateOwnProposal = function(forms, participantType, participants, callbackCreatedProposal){
 
-    var _createdWidget = $('<div>');
+    var _createdWidget = $('<div>').addClass('popupOwnProposal');
 
     var _typeFormsCatArray = Object.keys(forms);   
     var _formWidget;
@@ -18,10 +18,12 @@
     var _contentSel = $('<div>');
     // var _formTypes = [];
     var _formTypeSelector = $('<select>');
-    var _emptyOption = $('<option>').text('Selecciona como quieres apuntarte').val('');
+    var _emptyOption = $('<option>').text('').val('');
     _formTypeSelector.append(_emptyOption);
+    var _t1 = $('<p>').text('Añade otra propuesta a un artista que ya has creado').addClass('t-popupOwn');
+    var _t2 = $('<p>').text('...o crea algo nuevo').addClass('t-popupOwn');
 
-    _participantsSelectorCont.append(_participantsSelector);
+    _participantsSelectorCont.append(_t1, _participantsSelector, _t2);
     var _emptyOptionParticpant = {
       name: '',
       email:'',
@@ -47,6 +49,9 @@
 
     _participantsSelector.on('change',function(){
       _profile_own = _participantsSelector.select2('data')[0].participant;
+      console.log(_profile_own);
+      if(_profile_own.profile_id) _t2.text('');
+      else _t2.text('...o crea algo nuevo');
       if (_formWidget) _formWidget.setVal(_profile_own);
     });
 
@@ -60,7 +65,7 @@
     _formTypeSelector.select2({
       minimumResultsForSearch: Infinity,
       dropdownCssClass: 'orfheoTypeFormSelector',
-      placeholder: "Selecciona como quieres apuntarte"
+      placeholder: "Selecciona la categoría de la propuesta"
       // allowClear: true
     });
 
@@ -133,7 +138,7 @@
     var _photos;
     var _orfheoCategory;
 
-    var _displayAllBtn = $('<a>').attr('href','#').text('Todos los campos');
+    var _displayAllBtn = $('<a>').attr('href','#').text('Muestra todos los campos').css('font-size','0.75rem');
     var _containerMandatoryFields = $('<div>')
     var _containerOptionalFields = $('<div>');
     var _optionalFields = $('<div>').hide();
