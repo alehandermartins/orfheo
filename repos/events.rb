@@ -108,7 +108,7 @@ module Repos
       def proposal_on_time? event_id, user_id
         event = grab({event_id: event_id}).first
         email = Repos::Users.grab({user_id: user_id})[:email]
-        return true if event[:user_id] == user_id || event[:whitelist].include?(email)
+        return true if event[:user_id] == user_id || event[:whitelist].any?{ |whitelisted| whitelisted[:email] == email }
         event[:start].to_i < Time.now.to_i && event[:deadline].to_i > Time.now.to_i
       end
 
