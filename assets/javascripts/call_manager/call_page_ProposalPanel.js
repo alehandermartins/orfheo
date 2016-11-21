@@ -341,6 +341,9 @@
         for(var field in production){
           if (_form[field]) _form[field].input.setVal(production[field]);
         }
+      },
+      showAll: function(){
+        _displayAllBtn.trigger('click');
       }
     }
   }
@@ -372,13 +375,14 @@
       _content.empty();
       var _formWidget = Pard.Widgets.OwnProposalForm(form, type, proposal.form_category);
       _formWidget.setVal(proposal);
+      _formWidget.showAll();
       _formWidget.setSend(function(){
         var _submitForm = _formWidget.getVal();
         _submitForm['proposal_id'] = proposal.proposal_id;
         console.log(_submitForm);
         _modifyProposalBackend[type](Pard.CachedEvent.event_id, Pard.CachedEvent.call_id, _submitForm, modifyCallback);
       });
-       var _message = Pard.Widgets.PopupContent(popupTitle, _formWidget);
+      var _message = Pard.Widgets.PopupContent(popupTitle, _formWidget);
       _message.setCallback(function(){
         _content.remove();
         _popup.close();
