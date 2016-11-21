@@ -249,9 +249,11 @@
         return _createdWidget;
       },
       getVal: function(){
-        return _colorPicker.val(); 
+        console.log(_colorPicker.val());
+        return _colorPicker.spectrum('get').toHexString(); 
       },
       setVal: function(colorPicked){
+        console.log(colorPicked);
         _colorPicker.spectrum({
           color: colorPicked
         });
