@@ -5,7 +5,7 @@
 
   ns.Widgets.CreateOwnProposal = function(forms, participantType, participants, callbackCreatedProposal){
 
-    var _createdWidget = $('<div>');
+    var _createdWidget = $('<div>').addClass('popupOwnProposal');
 
     var _typeFormsCatArray = Object.keys(forms);   
     var _formWidget;
@@ -18,10 +18,12 @@
     var _contentSel = $('<div>');
     // var _formTypes = [];
     var _formTypeSelector = $('<select>');
-    var _emptyOption = $('<option>').text('Selecciona como quieres apuntarte').val('');
+    var _emptyOption = $('<option>').text('').val('');
     _formTypeSelector.append(_emptyOption);
+    var _t1 = $('<p>').text('Añade otra propuesta a un artista que ya has creado').addClass('t-popupOwn');
+    var _t2 = $('<p>').text('...o crea algo nuevo').addClass('t-popupOwn');
 
-    _participantsSelectorCont.append(_participantsSelector);
+    _participantsSelectorCont.append(_t1, _participantsSelector, _t2);
     var _emptyOptionParticpant = {
       name: '',
       email:'',
@@ -47,6 +49,9 @@
 
     _participantsSelector.on('change',function(){
       _profile_own = _participantsSelector.select2('data')[0].participant;
+      console.log(_profile_own);
+      if(_profile_own.profile_id) _t2.text('');
+      else _t2.text('...o crea algo nuevo');
       if (_formWidget) _formWidget.setVal(_profile_own);
     });
 
@@ -60,7 +65,7 @@
     _formTypeSelector.select2({
       minimumResultsForSearch: Infinity,
       dropdownCssClass: 'orfheoTypeFormSelector',
-      placeholder: "Selecciona como quieres apuntarte"
+      placeholder: "Selecciona la categoría de la propuesta"
       // allowClear: true
     });
 
@@ -106,6 +111,9 @@
       },
       getVal: function(){
         return _formWidget.getVal();
+      }, 
+      setVal: function(proposal){
+        _formWidget.setVal(proposal);
       }
     }
 
@@ -117,7 +125,7 @@
 
     var _additionalForm = Pard.Forms.Proposal[participantType];
 
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
     var _send = function(){};
 
@@ -133,7 +141,7 @@
     var _photos;
     var _orfheoCategory;
 
-    var _displayAllBtn = $('<a>').attr('href','#').text('Todos los campos');
+    var _displayAllBtn = $('<a>').attr('href','#').text('Muestra todos los campos').css('font-size','0.75rem');
     var _containerMandatoryFields = $('<div>')
     var _containerOptionalFields = $('<div>');
     var _optionalFields = $('<div>').hide();
@@ -333,6 +341,9 @@
         for(var field in production){
           if (_form[field]) _form[field].input.setVal(production[field]);
         }
+      },
+      showAll: function(){
+        _displayAllBtn.trigger('click');
       }
     }
   }
@@ -347,13 +358,37 @@
 
     var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
 
-    var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina esta propuesta').addClass('deleteProfile-caller');
+    var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
+    var _modifyProposal = $('<a>').attr('href','#').text('Modifica').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'));
 
     var closepopup = function(){};
     var deleteCallback = function(){};
     var modifyCallback = function(){};
 
     var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, type, function(){_popup.close()}, deleteCallback)}, 'alert-container-full');
+    
+    var _modifyProposalBackend = {
+      artist: Pard.Backend.modifyArtistProposal,
+      space: Pard.Backend.modifySpaceProposal
+    }
+    _modifyProposal.click(function(){
+      _content.empty();
+      var _formWidget = Pard.Widgets.OwnProposalForm(form, type, proposal.form_category);
+      _formWidget.setVal(proposal);
+      _formWidget.showAll();
+      _formWidget.setSend(function(){
+        var _submitForm = _formWidget.getVal();
+        _submitForm['proposal_id'] = proposal.proposal_id;
+        console.log(_submitForm);
+        _modifyProposalBackend[type](Pard.CachedEvent.event_id, Pard.CachedEvent.call_id, _submitForm, modifyCallback);
+      });
+      var _message = Pard.Widgets.PopupContent(popupTitle, _formWidget);
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+    });
 
     var _message = Pard.Widgets.PopupContent(popupTitle, _proposalPrinted);
     _message.setCallback(function(){
@@ -368,9 +403,13 @@
       _message.appendToContent(_element);
     };
 
-    var _actionBtnContainer = $('<div>').append( _deleteProposal.render().prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'))).addClass('actionButton-container-popup');
+    var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposal.render()).addClass('actionButton-container-popup');
 
     _message.prependToContent(_actionBtnContainer);
+    if (proposal.proposal_id.indexOf("own") >= 0) {
+      var _warningOwnText = $('<p>').text('Propuesta creada por los organizadoores de la convocatoria');
+      _message.prependToContent(_warningOwnText);
+    }
     _content.append(_message.render());
 
     return{
@@ -378,12 +417,11 @@
         _popup.open();
       },
       setDeleteProposalCallback: function(callback){
-        console.log('setdelete');
         deleteCallback = callback;
       },
       setModifyProposalCallback: function(callback){
         modifyCallback = callback;
-      }
+      }    
     }
   }
 

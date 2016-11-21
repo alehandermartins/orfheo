@@ -167,8 +167,8 @@
       getVal: function(){
         return _createdWidget.val();
       },
-      setVal: function(value){
-        _createdWidget.val(value);
+      setVal: function(values){
+        _createdWidget.multipleSelect("setSelects", values);
       },
       addWarning: function(){
         _createdWidget.next().find('.ms-choice').addClass('warning');
@@ -191,9 +191,12 @@
 
   ns.Widgets.MultipleDaysSelector = function(millisecValues, callback){
     var _createdWidget = $('<select>').attr("multiple", "multiple");
+    var _arrayDays = [];
     millisecValues.forEach(function(value){
-      var _day = moment(new Date(parseInt(value))).locale('es').format('dddd DD/MM/YYYY');
+      var _newDate = new Date(parseInt(value));
+      var _day = moment(_newDate).locale('es').format('dddd DD/MM/YYYY');
       _createdWidget.append($('<option>').text(_day).val(value));
+      _arrayDays.push(moment(_newDate).locale('es').format('YYYY-MM-DD'));
     });
     
     _createdWidget.on('change',function(){
@@ -220,8 +223,13 @@
           return false;
         }
       },
-      setVal: function(value){
-        _createdWidget.val(value);
+      setVal: function(values){
+        var _values = [];
+        values.forEach(function(value){
+          var _index = _arrayDays.indexOf(value);
+          if (_index>-1) _values.push(millisecValues[_index]);
+        });
+        _createdWidget.multipleSelect("setSelects", _values);
       },
       addWarning: function(){
         _createdWidget.next().find('.ms-choice').addClass('warning');
