@@ -111,6 +111,9 @@
       },
       getVal: function(){
         return _formWidget.getVal();
+      }, 
+      setVal: function(proposal){
+        _formWidget.setVal(proposal);
       }
     }
 
@@ -122,7 +125,7 @@
 
     var _additionalForm = Pard.Forms.Proposal[participantType];
 
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
     var _send = function(){};
 
@@ -352,13 +355,36 @@
 
     var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
 
-    var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina esta propuesta').addClass('deleteProfile-caller');
+    var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
+    var _modifyProposal = $('<a>').attr('href','#').text('Modifica').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'));
 
     var closepopup = function(){};
     var deleteCallback = function(){};
     var modifyCallback = function(){};
 
     var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, type, function(){_popup.close()}, deleteCallback)}, 'alert-container-full');
+    
+    var _modifyProposalBackend = {
+      artist: Pard.Backend.modifyArtistProposal,
+      space: Pard.Backend.modifySpaceProposal
+    }
+    _modifyProposal.click(function(){
+      _content.empty();
+      var _formWidget = Pard.Widgets.OwnProposalForm(form, type, proposal.form_category);
+      _formWidget.setVal(proposal);
+      _formWidget.setSend(function(){
+        var _submitForm = _formWidget.getVal();
+        _submitForm['proposal_id'] = proposal.proposal_id;
+        console.log(_submitForm);
+        _modifyProposalBackend[type](Pard.CachedEvent.event_id, Pard.CachedEvent.call_id, _submitForm, modifyCallback);
+      });
+       var _message = Pard.Widgets.PopupContent(popupTitle, _formWidget);
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+    });
 
     var _message = Pard.Widgets.PopupContent(popupTitle, _proposalPrinted);
     _message.setCallback(function(){
@@ -373,9 +399,13 @@
       _message.appendToContent(_element);
     };
 
-    var _actionBtnContainer = $('<div>').append( _deleteProposal.render().prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'))).addClass('actionButton-container-popup');
+    var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposal.render()).addClass('actionButton-container-popup');
 
     _message.prependToContent(_actionBtnContainer);
+    if (proposal.proposal_id.indexOf("own") >= 0) {
+      var _warningOwnText = $('<p>').text('Propuesta creada por los organizadoores de la convocatoria');
+      _message.prependToContent(_warningOwnText);
+    }
     _content.append(_message.render());
 
     return{
@@ -383,12 +413,11 @@
         _popup.open();
       },
       setDeleteProposalCallback: function(callback){
-        console.log('setdelete');
         deleteCallback = callback;
       },
       setModifyProposalCallback: function(callback){
         modifyCallback = callback;
-      }
+      }    
     }
   }
 

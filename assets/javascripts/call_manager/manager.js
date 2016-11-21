@@ -2528,7 +2528,32 @@
         }
         else{
           var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
-          spinnerDeleteProposal.stop();
+          if (typeof _dataReason == 'object'){
+            Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+          }
+          else{
+            console.log(data.reason);
+            Pard.Widgets.Alert('', _dataReason, location.reload());
+          }
+        }
+      }
+
+      var _modifyProposalCallback = function(data){
+        console.log(data);
+        if (data['status'] == 'success'){
+        $.wait(
+          '',
+          function(){
+            if (type == 'artist') console.log('modify');
+            else if (type == 'space') console.log('modify');
+          },
+          function(){
+            Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
+          }
+        )
+        }
+        else{
+          var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
           if (typeof _dataReason == 'object'){
             Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
           }
@@ -2549,17 +2574,19 @@
             Pard.Backend.getCallForms(the_event.call_id, function(data){
               _forms = data.forms;
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms[type][proposal.form_category], type, the_event.name);
-              _popupDisplayed.setDeleteProposalCallback(function(dataDelete){
-                console.log(dataDelete);
-                _deleteProposalCallback(proposal, profile_id, type, proposalContainer, dataDelete);
-              })
+              _popupDisplayed.setDeleteProposalCallback(function(data){
+                _deleteProposalCallback(proposal, profile_id, type, proposalContainer, data);
+              });
+              _popupDisplayed.setModifyProposalCallback(function(data){
+                _modifyProposalCallback(data);
+              });
               _popupDisplayed.open();
             })
           }
           else {
             var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms[type][proposal.form_category], type, the_event.name);
-            _popupDisplayed.setDeleteProposalCallback(function( dataDelete){
-              _deleteProposalCallback(proposal, profile_id, type, proposalContainer, dataDelete );
+            _popupDisplayed.setDeleteProposalCallback(function( data){
+              _deleteProposalCallback(proposal, profile_id, type, proposalContainer, data );
             });
             _popupDisplayed.open();
           }

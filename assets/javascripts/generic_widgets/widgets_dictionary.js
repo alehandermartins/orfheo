@@ -20,6 +20,7 @@
       other: {icon: '&#xE155;', className: 'material-icons'},
       gastronomy: {icon:'&#xE556;', className:'material-icons' },
       modify_section_content: {icon: '&#xE150;', className: 'material-icons'},
+      modify:{icon: '&#xE150;', className: 'material-icons'},
       information: {icon: '&#xE061;', className: 'material-icons'},
       city_artist: {icon: '&#xE55F;', className: 'material-icons'},
       address_space: {icon: '&#xE55F;', className: 'material-icons'},

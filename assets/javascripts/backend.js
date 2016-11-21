@@ -12,8 +12,6 @@
         data: data,
       })
       .done(function(data) {
-        console.log(data);
-        console.log(callback);
         if (callback)
           callback(data);
       })
@@ -99,7 +97,6 @@
     };
 
     var _sendSpaceProposal = function(form, callback){
-      console.log('sendSpaceProposal');
       _send(
         '/users/send_space_proposal',
         form,
@@ -116,7 +113,6 @@
     };
 
     var _sendSpaceOwnProposal = function(form, callback){
-      console.log('sendSpaceOwnProposal');
       _send(
         '/users/send_space_own_proposal',
         form,
@@ -271,8 +267,6 @@
     };
 
     var _whitelist = function(call_id, whitelist, callback){
-      console.log(whitelist);
-      console.log(call_id);
       _send(
         '/users/add_whitelist',
         {
