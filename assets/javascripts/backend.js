@@ -4,7 +4,8 @@
 
   ns.Backend = (function(){
 
-    var _send = function(url, data, callback){
+    var _send = function(url, data, callback, callbackFail){
+      var _attemps = 0;
       $.ajax({
         url: url,
         type: 'POST',
@@ -16,8 +17,16 @@
           callback(data);
       })
       .fail(function() {
-        Pard.Widgets.Alert('¡Error en el servidor!', '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste contacta con  <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org.</p>', function(){location.reload();});
-        console.log("error");
+        if (callbackFail && _attemps <4){
+          _attemps = _attemps +1;
+          callbackFail();
+        }
+        else{
+          Pard.Widgets.Alert('¡Error en el servidor!', '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste contacta con  <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org.</p>', function(){
+            // location.reload();
+          });
+          console.log("error");
+        }
       });
     };
 
