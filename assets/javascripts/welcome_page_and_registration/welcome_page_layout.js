@@ -149,7 +149,7 @@
 
     var _info2 = $('<div>').addClass('aside-text-welcome-page-container');
 
-    _info2.append($('<h4>').text('Si quieres lanzar y gestionar una convocatoria en la comunidad contactános a info@orfheo.org')).css('margin-top','3.5rem');
+    _info2.append($('<p>').html('En la comunidad de orfheo es posible <strong>lanzar y gestionar convocatorias</strong> artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro. Para hacerlo, contacta <a href= "mailto:info@orfheo.org">info@orfheo.org</a>')).css('margin-top','3.5rem');
 
       _asideContainer.append(_info, _signUpButton, _info2);
 

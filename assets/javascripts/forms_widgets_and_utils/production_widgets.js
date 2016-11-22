@@ -146,7 +146,8 @@
     }
   }
 
-  ns.Widgets.DeleteProductionMessage = function(production_id, closepoup){  
+  ns.Widgets.DeleteProductionMessage = function(production_id, closepopup){ 
+    var _closeConfirmationPopup = function(){}
     
     var _createdWidget = $('<div>');
     var _message = $('<p>').text('Confirmando, tu proyecto artístico se eliminará de tu portfolio. Esa acción no afectará a tu inscripción en convocatorias. ');
@@ -155,7 +156,12 @@
 
     _yesBtn.click(function(){
       Pard.Backend.deleteProduction(production_id, Pard.Events.DeleteProduction);
-        closepopup();
+      _closeConfirmationPopup();
+      closepopup();
+    });
+
+    _noBtn.click(function(){
+      _closeConfirmationPopup();
     });
 
     var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
@@ -167,12 +173,7 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        _noBtn.click(function(){
-          callback();
-        });
-        _yesBtn.click(function(){
-          callback()
-        });
+        _closeConfirmationPopup = callback;
       }
     }
   }
