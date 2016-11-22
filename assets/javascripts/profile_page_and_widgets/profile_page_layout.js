@@ -238,7 +238,6 @@
     sectionContent.empty();
 
     var profile = Pard.ProfileManager.getProfile(profile_id);
-    console.log(profile);
     var userStatus = Pard.UserStatus['status'];
 
     var productionContent = $('<div>').attr('id','_productionsContent');

@@ -9,13 +9,16 @@
     var _createdWidget = $('<div>');
 
     var _eventNames = [];
-    var _forms;
+    var _forms = {};
     var _callProposals = profile.proposals;
     
     var _listProposals = $('<ul>');
 
     _callProposals.forEach(function(proposal){
       proposal.name = profile.name;
+      
+      //necesary for conFusión proposal that do not have form category
+      if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
 
       if ($.inArray(proposal.event_name, _eventNames)<0) {
         var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
@@ -29,14 +32,14 @@
       var _proposalItem = $('<li>').append( _caller);
       _listProposals.append(_proposalItem); 
       _caller.click(function(){
-        if (!(_forms)) {
+        if (!(_forms[proposal.call_id])) {
           Pard.Backend.getCallForms(proposal.call_id, function(data){
-            _forms = data.forms;
-            _displayPopup(proposal, _forms[profile.type][proposal.form_category], proposal.event_name);
+            _forms[proposal.call_id] = data.forms;
+            _displayPopup(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], proposal.event_name);
           });
         }
         else{
-          _displayPopup(proposal, _forms[profile.type][proposal.form_category], profile.type, proposal.event_name);
+          _displayPopup(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], proposal.event_name);
         }       
       });
     });
