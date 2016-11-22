@@ -79,7 +79,7 @@ module Repos
       end
 
       def add_artist event_id, artist
-        if @@events_collection.count("artists.profile_id": artist[:profile_id]) == 0
+        if @@events_collection.count(event_id: event_id, "artists.profile_id": artist[:profile_id]) == 0
           @@events_collection.update_one({event_id: event_id},{
             "$push": {artists: artist}
           })
