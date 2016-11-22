@@ -1975,7 +1975,7 @@
           }
         }
 
-        _menu.append(_outOfprogramBtn, _orderSpaceBtn);
+        _menu.append(_outOfprogramBtn);
         var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
         var _iconDropdownMenu = $('<li>').append(
           $('<button>').attr('type','button').append(
@@ -2021,7 +2021,7 @@
         else{
           console.log('error');
           Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();});
-        }  
+        }
       }
 
       _submitBtn = Pard.Widgets.Button('', function(){
