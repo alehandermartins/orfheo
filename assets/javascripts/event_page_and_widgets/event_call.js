@@ -72,14 +72,24 @@
     }
               
     profiles.forEach(function(profile){
+      console.log(profile);
       var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
       var _card = Pard.Widgets.CreateCard(profile).render();
       // var _card = $('<button>').text(profile.name);
       _card.removeAttr('href');
       _card.attr('href','#');
       _card.click(function(){
-        if (profile.type == 'space' && profile.proposals && profile.proposals[0]) Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en '+Pard.CachedEvent.name);
-        else{
+        var _check = true;
+        if (profile.type == 'space' && profile.proposals && profile.proposals[0]){
+          profile.proposals.some(function(proposal){
+            if (proposal.event_id == Pard.CachedEvent.event_id) {
+              Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en '+Pard.CachedEvent.name);
+              _check = false;
+              return true;
+            }
+          }); 
+        }
+        if (_check){
           Pard.Widgets.GetCallForms(_forms, profile, _closeListProfilePopup, _callbackSendProposal);
         }
       });

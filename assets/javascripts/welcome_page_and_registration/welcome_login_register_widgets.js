@@ -180,7 +180,7 @@
     }
   
   }
-
+ 
  
   ns.Widgets.RecoveryMessage = function(){
     var _createdWidget = $('<div>');

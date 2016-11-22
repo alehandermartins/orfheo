@@ -15,7 +15,8 @@
     var _listProposals = $('<ul>');
 
     _callProposals.forEach(function(proposal){
-      proposal.name = profile.name
+      proposal.name = profile.name;
+
       if ($.inArray(proposal.event_name, _eventNames)<0) {
         var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
         _listProposals = $('<ul>');

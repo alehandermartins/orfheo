@@ -57,12 +57,7 @@
           }
         }
 
-        if (_checkInput()){
-          _fields['button'].enable();
-        }
-        else{
-          _fields['button'].disable();
-        }
+        _checkInput();
 
       });
     });
@@ -70,7 +65,7 @@
     _fields['button'] = Pard.Widgets.Button('OK');
     _fields['button'].setClass('recoveryPasswd-popup-button');
 
-     _fields['button'].disable();
+     // _fields['button'].disable();
 
      var _form = $('<form>');
 
@@ -96,6 +91,9 @@
                 _invalidInput.text(data.reason);
               }
             });
+          }
+          else{
+            _invalidInput.text('Comprueba bien que las contraseñas sean iguales y tengan minímo 8 caracteres');
           }
         });
       }
