@@ -1,13 +1,13 @@
 'use strict';
 
 (function(ns){
-    ns.Widgets = ns.Widgets || {};  
+    ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.CreateOwnProposal = function(forms, participantType, participants, callbackCreatedProposal){
 
     var _createdWidget = $('<div>').addClass('popupOwnProposal');
 
-    var _typeFormsCatArray = Object.keys(forms);   
+    var _typeFormsCatArray = Object.keys(forms);
     var _formWidget;
     var _profile_own;
 
@@ -38,7 +38,7 @@
       })
     });
     var _placeholderParticipantSelector = "Selecciona el "+Pard.Widgets.Dictionary(participantType).render();
-    
+
     _participantsSelector.select2({
       data: _dataParticipants,
       minimumResultsForSearch: Infinity,
@@ -55,10 +55,10 @@
       if (_formWidget) _formWidget.setVal(_profile_own);
     });
 
-    
+
     for (var typeForm in forms){
       _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
-    };  
+    };
 
     _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector));
 
@@ -92,12 +92,12 @@
         else if (participantType == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm,callbackCreatedProposal);
       };
       _formWidget.setSend(_send);
-      if (_profile_own) _formWidget.setVal(_profile_own); 
+      if (_profile_own) _formWidget.setVal(_profile_own);
       _contentSel.append(_formWidget.render());
     };
 
     if (participants.length) {
-      _createdWidget.append(_participantsSelectorCont); 
+      _createdWidget.append(_participantsSelectorCont);
     }
 
     _createdWidget.append(_outerFormBox.append(_contentSel));
@@ -111,14 +111,14 @@
       },
       getVal: function(){
         return _formWidget.getVal();
-      }, 
+      },
       setVal: function(proposal){
         _formWidget.setVal(proposal);
       }
     }
 
   }
-    
+
 
   ns.Widgets.OwnProposalForm = function(form, participantType, formTypeSelected){
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability'];
@@ -187,7 +187,7 @@
         // if (profile.category){
         //   _orfheoCategory = profile.category;
         // }
-        // else{ 
+        // else{
           if (form[field].args[1].length>1){
             var _formField = $('<div>');
             _containerMandatoryFields.append(
@@ -198,7 +198,7 @@
             if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
           }
           else{
-            _orfheoCategory = form[field].args[1][0]; 
+            _orfheoCategory = form[field].args[1][0];
           }
         // }
       }
@@ -218,7 +218,7 @@
             }
             _helptextfield.css({'margin-top':'0'});
             _formField.append(_helptextfield);
-          }  
+          }
         }
         else{
           if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
@@ -267,7 +267,7 @@
           _invalidInput.text('Por favor, revisa los campos obligatorios.');
           _check = false;
         }
-      } 
+      }
       return _check;
     }
 
@@ -290,7 +290,7 @@
       spinner.spin();
       $.wait(
         '',
-        function(){ 
+        function(){
           $('body').append(spinner.el);
           submitButton.attr('disabled',true);
           if(_filled() == true){
@@ -310,14 +310,14 @@
           setTimeout(
             function(){
               submitButton.attr('disabled',false);
-              spinner.stop(); 
-            }, 
+              spinner.stop();
+            },
             1000
           );
         }
       )
     });
-    
+
     _submitBtnContainer.append(submitButton);
     _formContainer.append(_invalidInput, _submitBtnContainer);
 
@@ -366,7 +366,7 @@
     var modifyCallback = function(){};
 
     var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, type, function(){_popup.close()}, deleteCallback)}, 'alert-container-full');
-    
+
     var _modifyProposalBackend = {
       artist: Pard.Backend.modifyArtistProposal,
       space: Pard.Backend.modifySpaceProposal
@@ -395,7 +395,7 @@
       _content.remove();
       _popup.close();
     });
-    
+
     if (proposal.amend){
       var _label = $('<span>').addClass('myProposals-field-label').text('Enmienda:').css('display', 'block');
       var _text = $('<span>').text(' ' + proposal.amend);
@@ -403,7 +403,8 @@
       _message.appendToContent(_element);
     };
 
-    var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposal.render()).addClass('actionButton-container-popup');
+    //var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposal.render()).addClass('actionButton-container-popup');
+    var _actionBtnContainer = $('<div>').append(_deleteProposal.render()).addClass('actionButton-container-popup');
 
     _message.prependToContent(_actionBtnContainer);
     if (proposal.proposal_id.indexOf("own") >= 0) {
@@ -421,14 +422,14 @@
       },
       setModifyProposalCallback: function(callback){
         modifyCallback = callback;
-      }    
+      }
     }
   }
 
-    
 
-  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, participantType, closepopup, deleteCallback){  
-    
+
+  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, participantType, closepopup, deleteCallback){
+
     var _createdWidget = $('<div>');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
@@ -442,12 +443,12 @@
     _yesBtn.click(function(){
       $('body').append(spinnerDeleteProposal.el);
       _deleteProposalBackend[participantType](proposal_id, Pard.CachedEvent.event_id, function(data){
-        deleteCallback(data); 
+        deleteCallback(data);
         spinnerDeleteProposal.stop();
         closepopup();
       });
     });
-     
+
     var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
 
     _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn));
@@ -508,10 +509,10 @@
      function(){
       _sendWhiteList();
     });
-  
+
     var _sendWhiteList = function(){
-      var _wl = _emailNameInput.getVal();      
-      Pard.Backend.whitelist(the_event.event_id, _wl, Pard.Events.WhiteList);      
+      var _wl = _emailNameInput.getVal();
+      Pard.Backend.whitelist(the_event.event_id, _wl, Pard.Events.WhiteList);
     }
 
 	 	_submitBtnContainer.append(_successBox, _submitBtn.render());
