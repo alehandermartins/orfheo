@@ -503,7 +503,7 @@
     var spinnerCallbackFail; 
 
     var _send = function(){
-      // var _submitForm = _getVal();
+      var _submitForm = _getVal();
       // var _attemps = 0;
       // var _callbackFail = function(_attemps){
       //   if (!(spinnerCallbackFail)){ 

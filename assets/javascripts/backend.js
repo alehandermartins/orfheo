@@ -94,21 +94,19 @@
       );
     };
 
-    var _sendArtistProposal = function(form, callback, callbackFail){
+    var _sendArtistProposal = function(form, callback){
       _send(
         '/users/send_artist_proposal',
         form,
-        callback,
-        callbackFail
+        callback
       );
     };
 
-    var _sendSpaceProposal = function(form, callback,callbackFail){
+    var _sendSpaceProposal = function(form, callback){
       _send(
         '/users/send_space_proposal',
         form,
-        callback,
-        callbackFail
+        callback
       );
     };
 
