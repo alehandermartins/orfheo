@@ -13,7 +13,7 @@
     var _closing = new Date(parseInt(Pard.CachedEvent.deadline));
     var _now = new Date();
     if((_opening.getTime()<_now.getTime() && _now.getTime()<_closing.getTime()) || Pard.UserStatus['status']=='owner' || Pard.CachedEvent.whitelisted){
-    var _callToAction = $('<button>').attr('type','button').html('¡Apúntate!').addClass('signUp-button-welcome-section button-event-header');
+    var _callToAction = $('<button>').attr({'type':'button', 'id':'callToActio-eventHeader'}).html('¡Apúntate!').addClass('signUp-button-welcome-section button-event-header');
     _callToAction.on('click',function(){
       if (Pard.UserStatus['status'] == 'outsider'){
         var _popupContent = $('<div>').addClass('very-fast reveal full');
@@ -57,10 +57,10 @@
       _callText.append($('<p>').html('Apertura convocatoria '+moment(_opening).locale('es').format('dddd DD MMMM')));
     }
     else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
-      var _callopened = $('<span>').text('Convocatoria abierta');
-      // _callopened.click(function(){
-      //     Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(_eventInfo, _callopened).render);
-      // });
+      var _callopened = $('<a>').text('Convocatoria abierta');
+      _callopened.click(function(){
+          $('#callToActio-eventHeader').trigger('click');
+      });
       _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
     }
     else if(_now.getTime()>_closing.getTime()){

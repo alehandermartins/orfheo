@@ -185,7 +185,6 @@
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _innerContainer = $('<div>').addClass('vcenter-inner');
 
-
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
     _closeBtn.append($('<span>').html('&times;'));
 
@@ -208,11 +207,10 @@
       _popup.open();
     });
 
-
     var _infoBox = $('<div>').addClass('info-box-news-welcome-page');
     var _infoTitle = $('<div>').append($('<h4>').append($('<a>').text(event.name).attr('href','/event?id='+event.event_id).css({'vertical-align':'0'})).addClass('eventName-event-card'));
     var _baseline = $('<div>').append($('<p>').text(event.baseline)).addClass('baseline-event-info-card').css('font-size','1rem');
-    var _organizer = $('<div>').append($('<p>').text('Organiza: ').append($('<a>').text(event.organizer).attr({'href': '/profile?id='+event.organizer_id}))).css({'font-size':'1rem'});
+    var _organizer = $('<div>').append($('<p>').text('Organiza: ').append($('<a>').text(event.organizer).attr({'href': '/profile?id='+event.profile_id}))).css({'font-size':'1rem'});
     var _eventdays = '';
     var _dayArray = [];
     for (var key in event.eventTime) {
@@ -229,7 +227,13 @@
 
     var _status = $('<div>').addClass('status-eventCard');
     var _now = new Date();
-    if (event.published){
+    var _lastDayOfEvent = event.eventTime[Object.keys(event.eventTime)
+    [Object.keys(event.eventTime).length-2]];
+    var _endEvent = parseInt(_lastDayOfEvent[_lastDayOfEvent.length-1]);
+    if (_now.getTime()>_endEvent+ 604800000) {
+        _status.append('Evento terminado')
+    }
+    else if (event.published){
       var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id='+event.event_id).addClass('toEventPageBtn-event-info-card');
         _status.append(_toEventPageBtn);
     }
