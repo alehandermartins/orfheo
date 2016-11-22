@@ -480,7 +480,7 @@
 
   ns.Widgets.ErrorMessage = function(){
     Pard.Widgets.Alert('Error en el servidor', '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste no olvides que estamos a tu disposición para ayudarte.  Escríbenos a  <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org</a> o contactános a la chat de nuestra <a href="https://www.facebook.com/orfheo.org", target="_blank">página facebook.</a></p>', function(){
-      location.reload();
+      // location.reload();
     });
   }
 
