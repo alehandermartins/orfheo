@@ -1402,29 +1402,6 @@ select.category-input{
   }
 
 
-  .MultipleSelector-FormField select, .MultipleDaysSelector-FormField select{
-    width: 100% !important;
-    outline: none !important;
-
-  }
-
-  .MultipleSelector-FormField .ms-choice, .MultipleDaysSelector-FormField .ms-choice{
-      @include border-radius($element-border-radius);
-      font-size: $almostNormalSize;
-      width: 100%;
-      height: 34px;
-      span{
-        padding: 4px 8px;
-      }
-      div{
-        top:  4px;
-      }
-  }
-
-  .MultipleSelector-FormField .ms-parent, .MultipleDaysSelector-FormField .ms-parent{
-      width: 100% !important;
-  }
-
   .own-SpaceCall, .un_wanted-SpaceCall, .sharing-SpaceCall, .conditions-SpaceCall{
     margin-bottom: 1.5rem;
   }
@@ -1497,6 +1474,32 @@ select.category-input{
    margin-bottom:1rem;
   }
 }
+
+
+
+.MultipleSelector-FormField select, .MultipleDaysSelector-FormField select{
+  width: 100% !important;
+  outline: none !important;
+
+}
+
+.MultipleSelector-FormField .ms-choice, .MultipleDaysSelector-FormField .ms-choice{
+    @include border-radius($element-border-radius);
+    font-size: $almostNormalSize;
+    width: 100%;
+    height: 34px;
+    span{
+      padding: 4px 8px;
+    }
+    div{
+      top:  4px;
+    }
+}
+
+.MultipleSelector-FormField .ms-parent, .MultipleDaysSelector-FormField .ms-parent{
+    width: 100% !important;
+}
+
 
 
 .deleteProfile-caller{

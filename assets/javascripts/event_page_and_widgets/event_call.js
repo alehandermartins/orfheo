@@ -499,16 +499,37 @@
       space: Pard.Backend.sendSpaceProposal 
     }
 
+    var spinner = new Spinner();  
+    var spinnerCallbackFail; 
+
     var _send = function(){
-      _backEndDictionary[profile.type](_getVal(), function(data){callbackSendProposal(data);
-        _closepopup();
-      });
+      var _submitForm = _getVal();
+      var _attemps = 0;
+      var _callbackFail = function(_attemps){
+        if (!(spinnerCallbackFail)){ 
+          spinner.stop();
+          spinnerCallbackFail = new Spinner();
+          spinnerCallbackFail.spin();
+          $('body').append(spinnerCallbackFail.el);
+        }
+        if (_attemps<4){
+          _attemps = _attemps +1;
+          setTimeout(function(){ _backEndDictionary[profile.type](_submitForm,function(data){
+            callbackSendProposal(data); _closepopup(); spinnerCallbackFail.stop();}, function(){_callbackFail(_attemps)})
+          }, 1000);
+        }
+        else{
+          spinnerCallbackFail.stop();
+          Pard.Widgets.ErrorMessage();
+        }
+      }
+    _backEndDictionary[profile.type](_submitForm,function(data){
+        callbackSendProposal(data); _closepopup();}, function(){_callbackFail(_attemps)})
     }
 
     var _closepopup = {};
 
-    submitButton.on('click',function(){
-      var spinner = new Spinner();
+    submitButton.on('click',function(){ 
       spinner.spin();
       $.wait(
         '', 

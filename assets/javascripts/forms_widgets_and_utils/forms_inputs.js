@@ -21,10 +21,12 @@
       if($(window).width()<1024){
         if ($('.reveal[aria-hidden="false"]').html()){
           var _distanceInputTop = _input.offset().top;
-          var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
-          var _headerHeight = $('header').height();
-          var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
-          $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
+          var _popupOpened = _input.closest('.reveal[aria-hidden="false"]');
+          var _scroolTop = _popupOpened.scrollTop();
+          // var _headerHeight = $('header').height();
+          console.log(_scroolTop);
+          var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+          _popupOpened.scrollTop(_distanceToDo);
         }
       }
     });

@@ -17,15 +17,12 @@
           callback(data);
       })
       .fail(function() {
-        if (callbackFail && _attemps <4){
-          _attemps = _attemps +1;
+        console.log("error");
+        if (callbackFail){
           callbackFail();
         }
         else{
-          Pard.Widgets.Alert('¡Error en el servidor!', '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste contacta con  <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org.</p>', function(){
-            // location.reload();
-          });
-          console.log("error");
+          Pard.Widgets.ErrorMessage();
         }
       });
     };
@@ -97,19 +94,21 @@
       );
     };
 
-    var _sendArtistProposal = function(form, callback){
+    var _sendArtistProposal = function(form, callback, callbackFail){
       _send(
         '/users/send_artist_proposal',
         form,
-        callback
+        callback,
+        callbackFail
       );
     };
 
-    var _sendSpaceProposal = function(form, callback){
+    var _sendSpaceProposal = function(form, callback,callbackFail){
       _send(
         '/users/send_space_proposal',
         form,
-        callback
+        callback,
+        callbackFail
       );
     };
 
