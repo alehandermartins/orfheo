@@ -207,7 +207,7 @@
                 "input" : "Input",
                 "args" : [ 
                     "", 
-                    "number"
+                    "text"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
@@ -446,7 +446,7 @@
                 "input" : "Input",
                 "args" : [ 
                     "", 
-                    "number"
+                    "text"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
@@ -715,7 +715,7 @@
                 "input" : "Input",
                 "args" : [ 
                     "", 
-                    "number"
+                    "text"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
@@ -966,7 +966,7 @@
                 "input" : "Input",
                 "args" : [ 
                     "", 
-                    "number"
+                    "text"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
@@ -1322,7 +1322,7 @@
                 "input" : "Input",
                 "args" : [ 
                     "", 
-                    "number"
+                    "text"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
@@ -1541,7 +1541,7 @@
                 "input" : "Input",
                 "args" : [ 
                     "", 
-                    "number"
+                    "text"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
@@ -1789,7 +1789,7 @@
                 "input" : "Input",
                 "args" : [ 
                     "", 
-                    "number"
+                    "text"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
@@ -2068,7 +2068,7 @@
                 "input" : "Input",
                 "args" : [ 
                     "", 
-                    "number"
+                    "text"
                 ],
                 "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
             },
