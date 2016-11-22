@@ -2381,39 +2381,61 @@
       }
     }
 
-    var _programManager = ProgramManager();
-    var _tableManager = Pard.Widgets.TableManager(artists, spaces);
-    var _proposalsManager = ProposalsManager();
-    var _qrManager = Pard.Widgets.QRManager(the_event.qr);
-
+   
     // _tableManager.setArtists(artists);
     // _tableManager.setSpaces(spaces);
 
 
 
-    var addArtist = function(artist){
-      _programManager.addArtist(artist);
-      _tableManager.addArtist(artist);
-      _proposalsManager.addArtist(artist);
+    var interactions = function(){
+
+      var _addArtist = function(artist){
+        _programManager.addArtist(artist);
+        _tableManager.addArtist(artist);
+        _proposalsManager.addArtist(artist);
+      }
+
+      var _addSpace = function(space){
+       _programManager.addSpace(space);
+       _tableManager.addSpace(space);
+       _proposalsManager.addSpace(space);
+      }
+
+      var _deleteArtist = function(profile_id, proposal_id){
+        _programManager.deleteArtist(profile_id, proposal_id);
+        _tableManager.deleteArtist(proposal_id);
+        _proposalsManager.deleteArtist(profile_id, proposal_id);
+      }
+
+      var _deleteSpace = function(profile_id){
+        _programManager.deleteSpace(profile_id);
+        _tableManager.deleteSpace(profile_id);
+        _proposalsManager.deleteSpace(profile_id);
+      }
+
+      return{
+        addArtist: _addArtist,
+        addSpace: _addSpace,
+        deleteArtist: _deleteArtist,
+        deleteSpace: _deleteSpace
+      }
+
     }
 
-    var addSpace = function(space){
-     _programManager.addSpace(space);
-     _tableManager.addSpace(space);
-     _proposalsManager.addSpace(space);
-    }
+    var _interactions = interactions();
 
-    var deleteArtist = function(profile_id, proposal_id){
-      _programManager.deleteArtist(profile_id, proposal_id);
-      _tableManager.deleteArtist(proposal_id);
-      _proposalsManager.deleteArtist(profile_id, proposal_id);
-    }
+    var addArtist = _interactions.addArtist;
+    var addSpace = _interactions.addSpace;
+    var deleteArtist = _interactions.deleteArtist;
+    var deleteSpace = _interactions.deleteSpace;
 
-    var deleteSpace = function(profile_id){
-      _programManager.deleteSpace(profile_id);
-      _tableManager.deleteSpace(profile_id);
-      _proposalsManager.deleteSpace(profile_id);
-    }
+
+
+    var _programManager = ProgramManager();
+    var _tableManager = Pard.Widgets.TableManager(_interactions);
+    var _proposalsManager = ProposalsManager();
+    var _qrManager = Pard.Widgets.QRManager(the_event.qr);
+
 
     var _lastSelectedPanel = _programManager;
     _programTab.addClass('tab-selected')

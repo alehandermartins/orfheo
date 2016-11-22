@@ -5,11 +5,22 @@
   ns.Widgets = ns.Widgets || {};
 
 
-  ns.Widgets.TableManager = function(artists, spaces){
+  ns.Widgets.TableManager = function(interactions){
+    var addArtist = interactions.addArtist;
+    var addSpace = interactions.addSpace;
+    var deleteArtist = interactions.deleteArtist;
+    var deleteSpace = interactions.deleteSpace;
+    var the_event = Pard.CachedEvent;
+    var artists = the_event.artists;
+    var spaces = the_event.spaces;
+
+
+
     var _createdWidget = $('<div>');
       var _typeSelectorBox = $('<div>').addClass('types-selector-call-manager');
       var _typeSelector = $('<select>');
 
+      var _forms;
       // var spaces = [];
       // var artists = [];
 
