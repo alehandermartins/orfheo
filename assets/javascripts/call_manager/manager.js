@@ -2437,8 +2437,8 @@
     var _qrManager = Pard.Widgets.QRManager(the_event.qr);
 
 
-    var _lastSelectedPanel = _programManager;
-    _programTab.addClass('tab-selected')
+    var _lastSelectedPanel = _tableManager;
+    _tableTab.addClass('tab-selected')
     _programTab.on('click', function(){
       if(_lastSelectedPanel != _programManager){
         $('.tab-selected').removeClass('tab-selected');
@@ -2478,7 +2478,7 @@
 
     _tabs.append( _tableTab, _proposalsTab, _programTab, _qrTab);
     _navigationContainer.append(_goToEventBtn, _tabs);
-    _panels.append(_programManager.render(), _tableManager.render().hide(), _proposalsManager.render().hide(), _qrManager.render().hide());
+    _panels.append(_programManager.render().hide(), _tableManager.render(), _proposalsManager.render().hide(), _qrManager.render().hide());
     _mainLarge.append(_navigationContainer, _title, _panels);
     _main.append(_mainLarge);
 
