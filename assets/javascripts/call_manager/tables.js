@@ -4,8 +4,9 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.ArtistsTable = function(artistForms) {
-    
+  ns.Widgets.ArtistsTable = function(form) {
+
+    var the_event = Pard.CachedEvent;    
 
     var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0", 'width':"950px"});
     var _tbody = $('<tbody>');
@@ -15,31 +16,66 @@
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
 
-    var _rfhCol = $('<th>').addClass('column-call-manager-table column-rfh').text('rfh');
-    var _nameCol = $('<th>').addClass('column-call-manager-table column-name').text('Nombre');
-    var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
-    var _titleCol = $('<th>').addClass('column-call-manager-table column-title').text('Título');
-    var _emailCol = $('<th>').addClass('column-call-manager-table column-email').text('Email');
-    var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone').text('Teléfono');
-    var _rfhFoot = $('<th>').addClass('column-call-manager-table column-rfh').text('rfh');
-    var _nameFoot = $('<th>').addClass('column-call-manager-table column-name').text('Nombre');
-    var _categoryFoot = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
-    var _titleFoot = $('<th>').addClass('column-call-manager-table column-title').text('Título');;
-    var _emailFoot = $('<th>').addClass('column-call-manager-table column-email').text('Email');
-    var _phoneFoot = $('<th>').addClass('column-call-manager-table column-phone').text('Teléfono');
+    var _orfheoFields = ['rfh','name', 'subcategory','address', 'title','short_description','description','duration','availability','phone','email'];
 
-    _titleRow.append(_rfhCol);
-    _titleRow.append(_nameCol);
-    _titleRow.append(_categoryCol);
-    _titleRow.append(_titleCol);
-    _titleRow.append(_emailCol);
-    _titleRow.append(_phoneCol);
-    _titleRowFoot.append(_rfhFoot);
-    _titleRowFoot.append(_nameFoot);
-    _titleRowFoot.append(_categoryFoot);
-    _titleRowFoot.append(_titleFoot);
-    _titleRowFoot.append(_emailFoot);
-    _titleRowFoot.append(_phoneFoot);
+    form.rfh = {
+      "label" : "rfh",
+      "input" : "rfh"
+    }
+    form.name = {
+      "label" : "Nombre",
+      "input" : "Input",
+      "args" : [ 
+                "", 
+                "text"
+              ]   
+    }
+
+    _orfheoFields.forEach(function(field){
+      if (form[field]){
+        var _label = form[field][label];
+        var _colTitle = $('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        _titleRow.append(_colTitle);
+        var _colFoot = ('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        _titleRowFoot.append(_colFoot);
+      }
+    });
+
+    for (var field in form){
+      if ($.isNumeric(field)){
+        var _label = form[field][label];
+        var _colTitle = $('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        _titleRow.append(_colTitle);
+        var _colFoot = ('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        _titleRowFoot.append(_colFoot);
+      }
+    }
+
+    // var _rfhCol = $('<th>').addClass('column-call-manager-table column-rfh').text('rfh');
+    // var _nameCol = $('<th>').addClass('column-call-manager-table column-name').text('Nombre');
+    // var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
+    // var _titleCol = $('<th>').addClass('column-call-manager-table column-title').text('Título');
+    // var _emailCol = $('<th>').addClass('column-call-manager-table column-email').text('Email');
+    // var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone').text('Teléfono');
+    // var _rfhFoot = $('<th>').addClass('column-call-manager-table column-rfh').text('rfh');
+    // var _nameFoot = $('<th>').addClass('column-call-manager-table column-name').text('Nombre');
+    // var _categoryFoot = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
+    // var _titleFoot = $('<th>').addClass('column-call-manager-table column-title').text('Título');;
+    // var _emailFoot = $('<th>').addClass('column-call-manager-table column-email').text('Email');
+    // var _phoneFoot = $('<th>').addClass('column-call-manager-table column-phone').text('Teléfono');
+
+    // _titleRow.append(_rfhCol);
+    // _titleRow.append(_nameCol);
+    // _titleRow.append(_categoryCol);
+    // _titleRow.append(_titleCol);
+    // _titleRow.append(_emailCol);
+    // _titleRow.append(_phoneCol);
+    // _titleRowFoot.append(_rfhFoot);
+    // _titleRowFoot.append(_nameFoot);
+    // _titleRowFoot.append(_categoryFoot);
+    // _titleRowFoot.append(_titleFoot);
+    // _titleRowFoot.append(_emailFoot);
+    // _titleRowFoot.append(_phoneFoot);
 
     _table.append(_thead.append(_titleRow));
     _table.append(_tfoot.append(_titleRowFoot));
@@ -48,6 +84,27 @@
 
     var proposalRow = function(artist, proposal){
       var _row = $('<tr>').attr('id', 'tableRow-'+proposal.proposal_id);
+
+      _orfheoFields.forEach(function(field){
+      if (form[field]){
+        var _label = form[field][label];
+        var _colTitle = $('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        _titleRow.append(_colTitle);
+        var _colFoot = ('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        _titleRowFoot.append(_colFoot);
+        }
+      });
+
+      for (var field in form){
+        if ($.isNumeric(field)){
+          var _label = form[field][label];
+          var _colTitle = $('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+          _titleRow.append(_colTitle);
+          var _colFoot = ('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+          _titleRowFoot.append(_colFoot);
+        }
+      }
+
       var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
       var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
       var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
@@ -62,24 +119,7 @@
       proposal.phone = artist.phone;
       proposal.email = artist.email;
       _name.on('click', function(){
-        if (!(_forms)) {
-          Pard.Backend.getCallForms(the_event.call_id, function(data){
-            _forms = data.forms;
-            var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
-            _popupDisplayed.setDeleteProposalCallback(function(data){
-              if (data['status'] == 'success'){
-                deleteArtist(artist.profile_id, proposal.proposal_id);
-
-              }
-              else{
-                Pard.Widgets.Alert('',data.reason);
-              }
-            });
-            _popupDisplayed.open();
-          });
-        }
-        else{
-          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
+          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, form, 'artist', the_event.name);
           _popupDisplayed.setDeleteProposalCallback(function(data){
             if (data['status'] == 'success'){
               deleteArtist(artist.profile_id, proposal.proposal_id);
@@ -89,7 +129,6 @@
             }
           });
           _popupDisplayed.open();
-        }
       });
 
       _rfhCol.append(_icon);
@@ -112,8 +151,11 @@
     }
   }
 
-  ns.Widgets.SpacesTable = function() {
+  ns.Widgets.SpacesTable = function(form) {
     var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0", 'width':"950px"});
+
+    var the_event = Pard.CachedEvent;    
+
     var _tbody = $('<tbody>');
 
     var _thead = $('<thead>');
@@ -169,23 +211,23 @@
       }).text(_addressText);
 
       _name.on('click', function(){
-        if (!(_forms)) {
-          Pard.Backend.getCallForms(the_event.call_id, function(data){
-            _forms = data.forms;
-            var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
-            _popupDisplayed.setDeleteProposalCallback(function(data){
-              if (data['status'] == 'success'){
-                deleteSpace(space.profile_id);
-              }
-              else{
-                Pard.Widgets.Alert('',data.reason);
-              }
-            })
-            _popupDisplayed.open();
-          });
-        }
-        else{
-          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
+        // if (!(_forms)) {
+        //   Pard.Backend.getCallForms(the_event.call_id, function(data){
+        //     _forms = data.forms;
+        //     var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
+        //     _popupDisplayed.setDeleteProposalCallback(function(data){
+        //       if (data['status'] == 'success'){
+        //         deleteSpace(space.profile_id);
+        //       }
+        //       else{
+        //         Pard.Widgets.Alert('',data.reason);
+        //       }
+        //     })
+        //     _popupDisplayed.open();
+        //   });
+        // }
+        // else{
+          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, form, 'space', the_event.name);
           _popupDisplayed.setDeleteProposalCallback(function(data){
             if (data['status'] == 'success'){
               deleteSpace(space.profile_id);
@@ -195,7 +237,7 @@
             }
           });
           _popupDisplayed.open();
-        }
+        // }
       });
       _rfhCol.append(_icon);
       _nameCol.html(_name);

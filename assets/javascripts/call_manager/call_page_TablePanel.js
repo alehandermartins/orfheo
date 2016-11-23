@@ -98,11 +98,15 @@
    
 
       spaces.forEach(function(space){
+        // necesary for proposals conFusion withput form cat
+        if (!(space.form_category)) space.form_category = Pard.Widgets.Dictionary(space.category).render();
         _dataTables.spaces[space.form_category].addRow(space);
       });
 
       artists.forEach(function(artist){
         artist.proposals.forEach(function(proposal){
+          // necesary for proposals conFusion withput form cat
+          if (!(proposal.form_category))proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
           _dataTables.artists[proposal.form_category].addRow(artist, proposal);
         });
       });
