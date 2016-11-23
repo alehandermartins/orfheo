@@ -6,10 +6,10 @@
 
 
   ns.Widgets.TableManager = function(interactions){
+
     var addArtist = interactions.addArtist;
     var addSpace = interactions.addSpace;
-    var deleteArtist = interactions.deleteArtist;
-    var deleteSpace = interactions.deleteSpace;
+    
     var the_event = Pard.CachedEvent;
     var artists = the_event.artists;
     var spaces = the_event.spaces;
@@ -67,7 +67,7 @@
       _dataTables.artists = {};
       var _artistsData = [];
       for (var formcat in _artistForms){
-        _dataTables.artists[formcat] = Pard.Widgets.ArtistsTable(_artistForms[formcat]);
+        _dataTables.artists[formcat] = Pard.Widgets.ArtistsTable(_artistForms[formcat], interactions);
         _artistsData.push({id:formcat, text:formcat, form: _dataTables.artists[formcat]})
         _tablesContainer.artists.append(_dataTables.artists[formcat].table);
       }
@@ -85,7 +85,7 @@
       _dataTables.spaces = {};
       var _spacesData= [];
       for (var formcat in _spaceForms){
-        _dataTables.spaces[formcat] = Pard.Widgets.SpacesTable(_spaceForms[formcat]);
+        _dataTables.spaces[formcat] = Pard.Widgets.SpacesTable(_spaceForms[formcat], interactions);
         _tablesContainer.spaces.append(_dataTables.spaces[formcat].table);
         _spacesData.push({id:formcat, text:formcat, form: _dataTables.spaces[formcat]});
       }
@@ -113,8 +113,7 @@
 
 
       _createdWidget.append(_typeSelectorBox, _tablesContainer.artists, _tablesContainer.spaces);
-    
-
+      
       $(document).ready(function() {
         for (var type in _dataTables){
           Object.keys(_dataTables[type]).forEach(function(formcat){
@@ -138,15 +137,16 @@
             fixedHeader: {
               header: true
             },
+            "autoWidth": false,
             "scrollX": true,
             "scrollY": "90vh",
             "paging": false,
             "scrollCollapse": true,
             // 'responsive': true,
             // 'colReorder': true,
-            // "columnDefs": [
-            //   { "visible": false, "targets": _hiddenColumnsArray }
-            //   ],
+            "columnDefs": [
+              { "visible": false, "targets": _dataTables[type][formcat].hiddenColumns}
+              ],
             // keys: true,
             dom: 'Bfrtip',
             buttons: [
@@ -165,6 +165,34 @@
                 filename: 'Tabla_espacios'
 
               },
+
+              {
+                extend: 'colvis',
+                text: 'Columnas',
+                collectionLayout: 'fixed',
+              //  postfixButtons: [  
+              //  {
+              //   extend: 'colvisRestore',
+              //   text: 'Configuración incial',
+              //   show: ':hidden'
+              // }],
+              prefixButtons: [{
+                extend: 'colvisGroup',
+                text: 'Selecciona todo',
+                show: ':hidden'
+              },
+              {
+                extend: 'colvisGroup',
+                text: 'Desmarca todo',
+                hide: ':visible'
+              },
+              {
+                extend: 'colvisRestore',
+                text: 'Configuración incial',
+                show: ':hidden'
+              }]
+              },
+                      
               // {
               //   extend: 'pdf',
               //   exportOptions: {
@@ -184,11 +212,11 @@
               //   title: _titleFile[_selected]
               // }
             ]
+        
             });
           });
         }
       });
-    //_spaceTable.columns.adjust().draw(true);
     });
 
 
@@ -902,7 +930,6 @@
       ],
       "scrollX": true,
       "scrollY": "90vh",
-      "bAutoWidth": false,
       "paging": false,
       "scrollCollapse": true,
       // 'responsive': true,

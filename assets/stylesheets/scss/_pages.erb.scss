@@ -1414,6 +1414,65 @@ table.table-proposal.dataTable thead th, table.table-proposal.dataTable tfoot th
   border: none;
 }
 
+div.dt-button-collection{
+  max-height: 70%;
+  overflow-y: auto;
+  width: 32rem;
+  @include border-radius($element-border-radius); 
+  .dt-button.buttons-colvisGroup, .dt-button.buttons-colvisRestore{
+    /* width: 47.6%; */
+    margin: 0.15rem 0.4rem 0.5rem;  
+    display: inline-block;
+  }
+  a.dt-button.buttons-columnVisibility:not(.disabled){
+    width: 31%;
+    margin: 0.15rem 0.35rem;  
+    display: inline-block;
+    color:  black;
+    font-weight: normal;
+    @include border-radius($element-border-radius);
+    background-color: white;
+    background-image: none;
+    box-shadow: none;
+    border: 1px solid $grey-2;
+    /* :hover{
+      box-shadow: none;
+      color: black;
+      font-weight: bold;
+      background-image: none;
+      background-color: $grey-1;
+    } */
+    
+  }
+  a.dt-button.buttons-columnVisibility.active:not(.disabled){
+    color: black;
+    font-weight: bold;
+    background-image: none;
+    background-color: $grey-1;
+  }
+  a.dt-button.buttons-columnVisibility:active:not(.disabled):hover:not(.disabled){
+    background-image: none;
+    box-shadow: none;
+    background-color:  $grey-1;
+    /* background: none; */
+
+  }
+/*   a.dt-button.buttons-columnVisibility:not(.disabled):hover:not(.disabled){
+    box-shadow: inset 1px 1px 3px #999999;
+    color: black;
+    font-weight: bold;
+    background-image: none;
+    background-color: $grey-1;
+  } */
+  a.dt-button.buttons-columnVisibility.active:not(.disabled):hover:not(.disabled){
+    box-shadow: none;
+    /* background-color: white;
+    font-weight: normal; */
+  }
+}
+
+
+
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
   background: none;
   border: none;
@@ -1477,30 +1536,34 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 
 
 .column-call-manager-table{
-  min-width: 8rem;
+  /* min-width: 8rem; */
   white-space: normal;
 }
 
-.column-call-manager-table.column-link_orfheo{
+
+.column-call-manager-table.column-TextArea, .column-call-manager-table.column-TextAreaCounter{
+  min-width: 16rem;
+  width: 16rem !important;
+}
+
+.column-call-manager-table.column-Inputtext{
+  min-width: 11rem !important;
+  width: 11rem !important;
+}
+
+.column-call-manager-table.column-rfh{
   min-width: 1.5rem;
   width: 1.5rem !important;
 }
 
-.column-call-manager-table.column-description, .column-call-manager-table.column-needs, .column-call-manager-table.column-short_description, .column-call-manager-table.column-own, .column-call-manager-table.column-un_wanted, .column-call-manager-table.column-amend, .column-call-manager-table.column-sharing,  .column-call-manager-table.column-address, .column-call-manager-table.column-email{
-  min-width: 16rem;
-  width: 16rem !important;
-  white-space: normal;
+
+.column-call-manager-table.column-Selector{
+  min-width: 7rem !important;
+  width: 7rem !important;
 }
 
-.column-call-manager-table.column-title{
-  width: 11rem !important;
-}
-
-.column-call-manager-table.column-name{
-  width: 11rem !important;
-}
-
-.column-call-manager-table.column-category{
+.column-call-manager-table.column-InputTel{
+  min-width: 7rem !important;
   width: 7rem !important;
 }
 

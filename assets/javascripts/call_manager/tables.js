@@ -4,9 +4,10 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.ArtistsTable = function(form) {
+  ns.Widgets.ArtistsTable = function(form, interactions) {
 
-    var the_event = Pard.CachedEvent;    
+    var the_event = Pard.CachedEvent;
+    var deleteArtist = interactions.deleteArtist;    
 
     var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0", 'width':"950px"});
     var _tbody = $('<tbody>');
@@ -16,7 +17,14 @@
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
 
-    var _orfheoFields = ['rfh','name', 'subcategory','address', 'title','short_description','description','duration','availability','phone','email'];
+    // var _orfheoFields = ['rfh','name', 'subcategory','address', 'title','short_description','description','duration','availability','phone','email'];
+    // var _shownColumns = ['rfh','name', 'subcategory','address', 'title','short_description','phone','email'];
+
+    var _orfheoFields = ['rfh','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email'];
+    var _shownColumns = ['rfh','name', 'title','short_description','phone','email'];
+    var _notMandatoryFields = ['children', 'duration','availability']
+
+    var _hiddenColumns = [];
 
     form.rfh = {
       "label" : "rfh",
@@ -30,52 +38,54 @@
                 "text"
               ]   
     }
+    form.email = {
+      "label" : "Email",
+      "input" : "Input",
+      "args" : [ 
+                "", 
+                "text"
+              ]   
+    }
+
+    if (!(form.subcategory)) form.subcategory = {
+        "label" : "Categoría en el evento",
+        "input" : "Selector",
+      }
+
+    var _colPosition = 0;
 
     _orfheoFields.forEach(function(field){
-      if (form[field]){
-        var _label = form[field][label];
-        var _colTitle = $('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+      console.log(field);
+      console.log(form[field])
+      if ($.inArray(field, _notMandatoryFields)>-1 && !(form[field])){
+        return false;
+      }
+      else {
+        if ($.inArray(field, _shownColumns)<0) _hiddenColumns.push(_colPosition);
+        _colPosition += 1;
+        var _label = form[field]['label'];
+        var _colTitle = $('<th>').text(_label).addClass('column-call-manager-table');
+        // if (form[field]['input'] == 'Input') _colTitle.addClass('column-'+form[field]['input']+form[field]['args'][1]);
+        // else _colTitle.addClass('column-'+form[field]['input']);
         _titleRow.append(_colTitle);
-        var _colFoot = ('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        var _colFoot = $('<th>').addClass('column-call-manager-table').text(_label);
         _titleRowFoot.append(_colFoot);
       }
     });
 
     for (var field in form){
       if ($.isNumeric(field)){
-        var _label = form[field][label];
-        var _colTitle = $('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        if ($.inArray(field, _shownColumns)<0) _hiddenColumns.push(_colPosition);
+         _colPosition += 1;
+        var _label = form[field]['label'];
+        var _colTitle = $('<th>').text(_label).addClass('column-call-manager-table');;
+        // if (form[field]['input'] == 'Input') _colTitle.addClass('column-'+form[field]['input']+form[field]['args'][1]);
+        // else _colTitle.addClass('column-'+form[field]['input']);
         _titleRow.append(_colTitle);
-        var _colFoot = ('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
+        var _colFoot = $('<th>').addClass('column-call-manager-table column-'+form[field]['input']).text(_label);
         _titleRowFoot.append(_colFoot);
       }
     }
-
-    // var _rfhCol = $('<th>').addClass('column-call-manager-table column-rfh').text('rfh');
-    // var _nameCol = $('<th>').addClass('column-call-manager-table column-name').text('Nombre');
-    // var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
-    // var _titleCol = $('<th>').addClass('column-call-manager-table column-title').text('Título');
-    // var _emailCol = $('<th>').addClass('column-call-manager-table column-email').text('Email');
-    // var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone').text('Teléfono');
-    // var _rfhFoot = $('<th>').addClass('column-call-manager-table column-rfh').text('rfh');
-    // var _nameFoot = $('<th>').addClass('column-call-manager-table column-name').text('Nombre');
-    // var _categoryFoot = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
-    // var _titleFoot = $('<th>').addClass('column-call-manager-table column-title').text('Título');;
-    // var _emailFoot = $('<th>').addClass('column-call-manager-table column-email').text('Email');
-    // var _phoneFoot = $('<th>').addClass('column-call-manager-table column-phone').text('Teléfono');
-
-    // _titleRow.append(_rfhCol);
-    // _titleRow.append(_nameCol);
-    // _titleRow.append(_categoryCol);
-    // _titleRow.append(_titleCol);
-    // _titleRow.append(_emailCol);
-    // _titleRow.append(_phoneCol);
-    // _titleRowFoot.append(_rfhFoot);
-    // _titleRowFoot.append(_nameFoot);
-    // _titleRowFoot.append(_categoryFoot);
-    // _titleRowFoot.append(_titleFoot);
-    // _titleRowFoot.append(_emailFoot);
-    // _titleRowFoot.append(_phoneFoot);
 
     _table.append(_thead.append(_titleRow));
     _table.append(_tfoot.append(_titleRowFoot));
@@ -84,61 +94,54 @@
 
     var proposalRow = function(artist, proposal){
       var _row = $('<tr>').attr('id', 'tableRow-'+proposal.proposal_id);
+      proposal.name = artist.name;
+      proposal.phone = artist.phone;
+      proposal.email = artist.email;
 
       _orfheoFields.forEach(function(field){
-      if (form[field]){
-        var _label = form[field][label];
-        var _colTitle = $('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
-        _titleRow.append(_colTitle);
-        var _colFoot = ('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
-        _titleRowFoot.append(_colFoot);
+        
+        if (form[field]){
+          var _col = $('<td>').addClass('column-call-manager-table'); 
+          if (form[field]['input'] == 'Input') _col.addClass('column-'+form[field]['input']+form[field]['args'][1]);
+          else _col.addClass('column-'+form[field]['input']);
+          _row.append(_col);
+          var _info = '';
+          if(field == 'rfh'){
+            if (artist.profile_id.indexOf('own')<0) _info = $('<a>').append(Pard.Widgets.IconManager('artist').render()).attr({'href':'/profile?id='+artist.profile_id, 'target':'_blank'});
+            else _info = $('<p>').append(Pard.Widgets.IconManager('artist').render());
+          }
+          else if (field == 'name'){
+            _info = $('<a>').attr({'href':'#'}).text(artist.name);
+            _info.on('click', function(){
+              var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, form, 'artist', the_event.name);
+              _popupDisplayed.setDeleteProposalCallback(function(data){
+                if (data['status'] == 'success'){
+                  deleteArtist(artist.profile_id, proposal.proposal_id);
+                }
+                else{
+                  Pard.Widgets.Alert('',data.reason);
+                }
+              });
+              _popupDisplayed.open();
+            });
+          }
+          else if (proposal[field]) {
+            _info = proposal[field];
+          }
+          _col.append(_info);
         }
       });
 
       for (var field in form){
         if ($.isNumeric(field)){
-          var _label = form[field][label];
-          var _colTitle = $('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
-          _titleRow.append(_colTitle);
-          var _colFoot = ('<th>').addClass('column-call-manager-table column-'form[field][input]).text(_label);
-          _titleRowFoot.append(_colFoot);
+          var _col = $('<td>').addClass('column-call-manager-table'); 
+          if (form[field]['input'] == 'Input') _col.addClass('column-'+form[field]['input']+form[field]['args'][1]);
+          else _col.addClass('column-'+form[field]['input']);
+          if (proposal[field]) _col.text(proposal[field]);
+          _row.append(_col);
         }
       }
 
-      var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
-      var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
-      var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
-      var _titleCol = $('<th>').addClass('column-call-manager-table column-title').text('Título');
-      var _emailCol = $('<td>').addClass('column-call-manager-table column-email');
-      var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone');
-
-      var _icon = $('<a>').append(Pard.Widgets.IconManager('artist').render());
-      _icon.attr({'href': '/profile?id=' + artist.profile_id, 'target':'_blank'});
-      var _name = $('<a>').attr({'href':'#'}).text(artist.name);
-      proposal.name = artist.name;
-      proposal.phone = artist.phone;
-      proposal.email = artist.email;
-      _name.on('click', function(){
-          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, form, 'artist', the_event.name);
-          _popupDisplayed.setDeleteProposalCallback(function(data){
-            if (data['status'] == 'success'){
-              deleteArtist(artist.profile_id, proposal.proposal_id);
-            }
-            else{
-              Pard.Widgets.Alert('',data.reason);
-            }
-          });
-          _popupDisplayed.open();
-      });
-
-      _rfhCol.append(_icon);
-      _nameCol.html(_name);
-      _categoryCol.html(Pard.Widgets.Dictionary(proposal.category).render());
-      _titleCol.html(proposal.title);
-      _emailCol.html(artist.email);
-      _phoneCol.html(artist.phone);
-
-      _row.append(_rfhCol, _nameCol, _categoryCol, _titleCol, _emailCol, _phoneCol);
       return _row;
     }
 
@@ -147,11 +150,16 @@
       addRow: function(artist, proposal){
         _tbody.append(proposalRow(artist, proposal))
       },
-      proposalRow: proposalRow
+      proposalRow: proposalRow,
+      hiddenColumns: _hiddenColumns
     }
   }
 
-  ns.Widgets.SpacesTable = function(form) {
+  ns.Widgets.SpacesTable = function(form, interactions) {
+    var deleteSpace = interactions.deleteSpace;
+    var _hiddenColumns = [];
+
+
     var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0", 'width':"950px"});
 
     var the_event = Pard.CachedEvent;    
@@ -255,7 +263,8 @@
       addRow: function(space){
         _tbody.append(spaceRow(space));
       },
-      spaceRow: spaceRow
+      spaceRow: spaceRow,
+      hiddenColumns: _hiddenColumns
     }
   }
 
