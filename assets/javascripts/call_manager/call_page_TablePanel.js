@@ -7,8 +7,8 @@
 
   ns.Widgets.TableManager = function(interactions){
 
-    var addArtist = interactions.addArtist;
-    var addSpace = interactions.addSpace;
+    // var addArtist = interactions.addArtist;
+    // var addSpace = interactions.addSpace;
     
     var the_event = Pard.CachedEvent;
     var artists = the_event.artists;
@@ -16,109 +16,97 @@
     var _createdWidget = $('<div>');
     var _typeSelectorBox = $('<div>').addClass('types-selector-call-manager');
     var _typeSelector = $('<select>'); 
-
-    var _forms;
-  
-    var _dataTables = {}
-    var _tablesContainer = {}
-
-    var _tags = [];
-    _tags.push({
-      id: 'artists',
-      text: 'Artistas',
-      icon: 'artist'
-    });
-    _tags.push({
-      id: 'spaces',
-      text: 'Espacios',
-      icon: 'space',
-    });
     _typeSelectorBox.append(_typeSelector);
+    var _forms;
+    var _formTypes = ['artist','space']
+  
+    var _dataTables = {};
+    var _tablesContainer = {};
+    var _selectorOptions = {};
+    var _tags = [];
 
-    _typeSelector.select2({
-      data: _tags,
-      templateResult: Pard.Widgets.FormatResource,
-      minimumResultsForSearch: -1
+    _tablesContainer['allProposals'] = $('<div>'); 
+    _tags.push({
+      id: 'allProposals',
+      text: 'Todas las propuestas',
+      table: _tablesContainer['allProposals']
     });
 
-    var lastTypeSelected = 'artists'
-    _typeSelector.on('select2:select', function(){
-      var _data = _typeSelector.select2('data')[0];
-      if(_data['id'] != lastTypeSelected){
-        _tablesContainer[lastTypeSelected].hide();
-        _tablesContainer[_data['id']].show();
-        lastTypeSelected = _data['id'];
-      }
-    });
+    var _TablePrinter = {
+      artist: Pard.Widgets.ArtistsTable,
+      space: Pard.Widgets.SpacesTable
+    }
 
-    _tablesContainer.spaces = $('<div>');
-    _tablesContainer.artists = $('<div>');
+    var _typesDictionary = {
+      artist: 'Artistas',
+      space: 'Espacios'
+    }
 
-     Pard.Backend.getCallForms(the_event.call_id, function(data){
+
+    Pard.Backend.getCallForms(the_event.call_id, function(data){
       _forms = data.forms;
 
-      var _spaceForms = _forms['space'];
-      var _artistForms = _forms['artist'];
+      
+      _formTypes.forEach(function(type){
+        if (_forms[type]){
+          // _tablesContainer[type] = $('<div>');
+          // _dataTables[type] = {};
+          _selectorOptions[type] = [];
+          for (var formcat in _forms[type]){
+            _tablesContainer[formcat] = $('<div>');
+            _dataTables[formcat] = Pard.Widgets.PrintTable(type, _forms[type][formcat], interactions);
+            _selectorOptions[type].push({id:formcat, text:formcat, table: _dataTables[formcat]})
+            _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
+          }
+          _tags.push({
+            text: _typesDictionary[type],
+            icon: type,
+            children: _selectorOptions[type]
+          });
+        }
+      });  
 
-      var _tableArtistsSelector = $('<select>');
-      var _artistSelectorContainer = $('<div>');
-      _artistSelectorContainer.append(_tableArtistsSelector);
-      _tablesContainer.artists.append(_artistSelectorContainer);
-      _dataTables.artists = {};
-      var _artistsData = [];
-      for (var formcat in _artistForms){
-        _dataTables.artists[formcat] = Pard.Widgets.ArtistsTable(_artistForms[formcat], interactions);
-        _artistsData.push({id:formcat, text:formcat, form: _dataTables.artists[formcat]})
-        _tablesContainer.artists.append(_dataTables.artists[formcat].table);
-      }
-      _tableArtistsSelector.select2({
-        data: _artistsData,
-        minimumResultsForSearch: Infinity,
-        dropdownCssClass: 'orfheoTypeFormSelector'
-      });
-
-
-      var _tableSpacesSelector = $('<select>');
-      var _spaceSelectorContainer = $('<div>');
-      _spaceSelectorContainer.append(_tableSpacesSelector);
-      _tablesContainer.spaces.append(_spaceSelectorContainer); 
-      _dataTables.spaces = {};
-      var _spacesData= [];
-      for (var formcat in _spaceForms){
-        _dataTables.spaces[formcat] = Pard.Widgets.SpacesTable(_spaceForms[formcat], interactions);
-        _tablesContainer.spaces.append(_dataTables.spaces[formcat].table);
-        _spacesData.push({id:formcat, text:formcat, form: _dataTables.spaces[formcat]});
-      }
-      _tablesContainer.spaces.hide();
-      _tableSpacesSelector.select2({
-        data: _spacesData,
-        minimumResultsForSearch: Infinity,
-        dropdownCssClass: 'orfheoTypeFormSelector'
-      });
-   
-
-      spaces.forEach(function(space){
+      spaces.forEach(function(proposal){
         // necesary for proposals conFusion withput form cat
-        if (!(space.form_category)) space.form_category = Pard.Widgets.Dictionary(space.category).render();
-        _dataTables.spaces[space.form_category].addRow(space);
+        if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
+        _dataTables[proposal.form_category].addRow(proposal);
       });
-
-      artists.forEach(function(artist){
-        artist.proposals.forEach(function(proposal){
+      artists.forEach(function(profile){
+        profile.proposals.forEach(function(proposal){
           // necesary for proposals conFusion withput form cat
-          if (!(proposal.form_category))proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
-          _dataTables.artists[proposal.form_category].addRow(artist, proposal);
+          if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
+          _dataTables[proposal.form_category].addRow( proposal, profile);
         });
       });
 
+      _createdWidget.append(_typeSelectorBox);
+      for (var table in _tablesContainer) {
+        _createdWidget.append(_tablesContainer[table]);
+      }
 
-      _createdWidget.append(_typeSelectorBox, _tablesContainer.artists, _tablesContainer.spaces);
-      
+      _typeSelector.select2({
+        data: _tags,
+        templateResult: Pard.Widgets.FormatResource,
+        minimumResultsForSearch: Infinity
+        // dropdownCssClass: 'orfheoTypeFormSelector'
+      });
+      var lastTypeSelected = 'allProposals';
+      _typeSelector.on('select2:select', function(){
+        var _data = _typeSelector.select2('data')[0];
+        console.log(_data); 
+        if(_data['id'] != lastTypeSelected){
+          _tablesContainer[lastTypeSelected].hide();
+          _tablesContainer[_data['id']].show();
+          lastTypeSelected = _data['id'];
+        }
+      });
+
       $(document).ready(function() {
-        for (var type in _dataTables){
-          Object.keys(_dataTables[type]).forEach(function(formcat){
-            _dataTables[type][formcat].table = _dataTables[type][formcat].table.DataTable({
-              "language":{
+        // for (var type in _dataTables){ 
+        Object.keys(_dataTables).forEach(function(typeTable){
+          if (typeTable != 'allProposals'){
+            _dataTables[typeTable].table = _dataTables[typeTable].table.DataTable({
+            "language":{
               "lengthMenu": " Resultados por página _MENU_",
               "zeroRecords": "Ningún resultado",
               "info": "",
@@ -138,6 +126,7 @@
               header: true
             },
             "autoWidth": false,
+            "bAutoWidth": false,
             "scrollX": true,
             "scrollY": "90vh",
             "paging": false,
@@ -145,7 +134,7 @@
             // 'responsive': true,
             // 'colReorder': true,
             "columnDefs": [
-              { "visible": false, "targets": _dataTables[type][formcat].hiddenColumns}
+              { "visible": false, "targets": _dataTables[typeTable].hiddenColumns}
               ],
             // keys: true,
             dom: 'Bfrtip',
@@ -165,33 +154,32 @@
                 filename: 'Tabla_espacios'
 
               },
-
               {
                 extend: 'colvis',
                 text: 'Columnas',
                 collectionLayout: 'fixed',
-              //  postfixButtons: [  
-              //  {
-              //   extend: 'colvisRestore',
-              //   text: 'Configuración incial',
-              //   show: ':hidden'
-              // }],
-              prefixButtons: [{
-                extend: 'colvisGroup',
-                text: 'Selecciona todo',
-                show: ':hidden'
-              },
-              {
-                extend: 'colvisGroup',
-                text: 'Desmarca todo',
-                hide: ':visible'
-              },
-              {
-                extend: 'colvisRestore',
-                text: 'Configuración incial',
-                show: ':hidden'
-              }]
-              },
+                //  postfixButtons: [  
+                //  {
+                //   extend: 'colvisRestore',
+                //   text: 'Configuración incial',
+                //   show: ':hidden'
+                // }],
+                prefixButtons: [{
+                  extend: 'colvisGroup',
+                  text: 'Selecciona todo',
+                  show: ':hidden'
+                },
+                {
+                  extend: 'colvisGroup',
+                  text: 'Desmarca todo',
+                  hide: ':visible'
+                },
+                {
+                  extend: 'colvisRestore',
+                  text: 'Configuración incial',
+                  show: ':hidden'
+                }]
+              }
                       
               // {
               //   extend: 'pdf',
@@ -211,15 +199,18 @@
               //   },
               //   title: _titleFile[_selected]
               // }
-            ]
-        
+              ]
             });
-          });
-        }
+          }
+          else{
+
+          }
+        });
       });
+    
     });
 
-
+    console.log(_dataTables);
     return {
       render: function(){
         return _createdWidget;
@@ -232,25 +223,283 @@
       // },
       addArtist: function(artist){
         var proposal = artist.proposals[0];
-        _dataTables.artists[proposal.form_category].table.row.add(_dataTables.artists[proposal.form_category].proposalRow(artist, proposal)).draw();
+        _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
       },
-      addSpace: function(space){
-        _dataTables.spaces[space.form_category].table.row.add(_dataTables.spaces[space.form_category].spaceRow(space)).draw();
+      addSpace: function(spaceProposal){
+        _dataTables[spaceProposal.form_category].table.row.add(_dataTables[spaceProposal.form_category].proposalRow(spaceProposal)).draw();
       },
       deleteArtist: function(proposal_id){
-        for (var categoryTable in _dataTables.artists){
-          var _row = _dataTables.artists[categoryTable].table.row('#tableRow-'+proposal_id);
+        for (var categoryTable in _dataTables){
+          console.log('#proposalRow-'+proposal_id);
+          console.log(categoryTable);
+          var _row = _dataTables[categoryTable].table.row('#proposalRow-'+proposal_id);
+          console.log(_row.index());
           if (_row && _row.index()>-1) _row.remove().draw();
         }
       },
       deleteSpace: function(profile_id){
-        for (var categoryTable in _dataTables.spaces){
-          var _row = _dataTables.spaces[categoryTable].table.row('#tableRow-'+profile_id);
+        for (var categoryTable in _dataTables){
+          console.log('#proposalRow-'+profile_id);
+          console.log(categoryTable);
+          var _row = _dataTables[categoryTable].table.row('#proposalRow-'+profile_id);
+          console.log(_row.index());
           if (_row && _row.index()>-1) _row.remove().draw();
         }
+        // for (var categoryTable in _dataTables){
+        //   var _row = _dataTables[categoryTable].table.row('#proposalRow-'+profile_id);
+        //   if (_row && _row.index()>-1) _row.remove().draw();
+        // }
       }
     }
   }
+
+
+  // ns.Widgets.TableManager = function(interactions){
+
+  //   var addArtist = interactions.addArtist;
+  //   var addSpace = interactions.addSpace;
+    
+  //   var the_event = Pard.CachedEvent;
+  //   var artists = the_event.artists;
+  //   var spaces = the_event.spaces;
+  //   var _createdWidget = $('<div>');
+  //   var _typeSelectorBox = $('<div>').addClass('types-selector-call-manager');
+  //   var _typeSelector = $('<select>'); 
+
+  //   var _forms;
+  
+  //   var _dataTables = {}
+  //   var _tablesContainer = {}
+
+  //   var _tags = [];
+  //   _tags.push({
+  //     id: 'artists',
+  //     text: 'Artistas',
+  //     icon: 'artist'
+  //   });
+  //   _tags.push({
+  //     id: 'spaces',
+  //     text: 'Espacios',
+  //     icon: 'space',
+  //   });
+  //   _typeSelectorBox.append(_typeSelector);
+
+  //   _typeSelector.select2({
+  //     data: _tags,
+  //     templateResult: Pard.Widgets.FormatResource,
+  //     minimumResultsForSearch: -1
+  //   });
+
+  //   var lastTypeSelected = 'artists'
+  //   _typeSelector.on('select2:select', function(){
+  //     var _data = _typeSelector.select2('data')[0];
+  //     if(_data['id'] != lastTypeSelected){
+  //       _tablesContainer[lastTypeSelected].hide();
+  //       _tablesContainer[_data['id']].show();
+  //       lastTypeSelected = _data['id'];
+  //     }
+  //   });
+
+  //   _tablesContainer.spaces = $('<div>');
+  //   _tablesContainer.artists = $('<div>');
+
+  //    Pard.Backend.getCallForms(the_event.call_id, function(data){
+  //     _forms = data.forms;
+
+  //     var _spaceForms = _forms['space'];
+  //     var _artistForms = _forms['artist'];
+
+  //     var _tableArtistsSelector = $('<select>');
+  //     var _artistSelectorContainer = $('<div>');
+  //     _artistSelectorContainer.append(_tableArtistsSelector);
+  //     _tablesContainer.artists.append(_artistSelectorContainer);
+  //     _dataTables.artists = {};
+  //     var _artistsData = [];
+  //     for (var formcat in _artistForms){
+  //       _dataTables.artists[formcat] = Pard.Widgets.ArtistsTable(_artistForms[formcat], interactions);
+  //       _artistsData.push({id:formcat, text:formcat, form: _dataTables.artists[formcat]})
+  //       _tablesContainer.artists.append(_dataTables.artists[formcat].table);
+  //     }
+  //     _tableArtistsSelector.select2({
+  //       data: _artistsData,
+  //       minimumResultsForSearch: Infinity,
+  //       dropdownCssClass: 'orfheoTypeFormSelector'
+  //     });
+
+
+  //     var _tableSpacesSelector = $('<select>');
+  //     var _spaceSelectorContainer = $('<div>');
+  //     _spaceSelectorContainer.append(_tableSpacesSelector);
+  //     _tablesContainer.spaces.append(_spaceSelectorContainer); 
+  //     _dataTables.spaces = {};
+  //     var _spacesData= [];
+  //     for (var formcat in _spaceForms){
+  //       _dataTables.spaces[formcat] = Pard.Widgets.SpacesTable(_spaceForms[formcat], interactions);
+  //       _tablesContainer.spaces.append(_dataTables.spaces[formcat].table);
+  //       _spacesData.push({id:formcat, text:formcat, form: _dataTables.spaces[formcat]});
+  //     }
+  //     _tablesContainer.spaces.hide();
+  //     _tableSpacesSelector.select2({
+  //       data: _spacesData,
+  //       minimumResultsForSearch: Infinity,
+  //       dropdownCssClass: 'orfheoTypeFormSelector'
+  //     });
+   
+
+  //     spaces.forEach(function(space){
+  //       // necesary for proposals conFusion withput form cat
+  //       if (!(space.form_category)) space.form_category = Pard.Widgets.Dictionary(space.category).render();
+  //       _dataTables.spaces[space.form_category].addRow(space);
+  //     });
+
+  //     artists.forEach(function(artist){
+  //       artist.proposals.forEach(function(proposal){
+  //         // necesary for proposals conFusion withput form cat
+  //         if (!(proposal.form_category))proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
+  //         _dataTables.artists[proposal.form_category].addRow(artist, proposal);
+  //       });
+  //     });
+
+
+  //     _createdWidget.append(_typeSelectorBox, _tablesContainer.artists, _tablesContainer.spaces);
+      
+  //     $(document).ready(function() {
+  //       for (var type in _dataTables){
+  //         Object.keys(_dataTables[type]).forEach(function(formcat){
+  //           _dataTables[type][formcat].table = _dataTables[type][formcat].table.DataTable({
+  //             "language":{
+  //             "lengthMenu": " Resultados por página _MENU_",
+  //             "zeroRecords": "Ningún resultado",
+  //             "info": "",
+  //             "infoEmpty": "Ningúna información disponible",
+  //             "infoFiltered": "(filtered from _MAX_ total records)",
+  //             "search": "Busca",
+  //             "paginate": {
+  //               "first":      "Primera",
+  //               "last":       "Última",
+  //               "next":       "Siguiente",
+  //               "previous":   "Anterior"
+  //             },
+  //            "search": "_INPUT_",
+  //             "searchPlaceholder": "Busca"
+  //           },
+  //           fixedHeader: {
+  //             header: true
+  //           },
+  //           "autoWidth": false,
+  //           "scrollX": true,
+  //           "scrollY": "90vh",
+  //           "paging": false,
+  //           "scrollCollapse": true,
+  //           // 'responsive': true,
+  //           // 'colReorder': true,
+  //           "columnDefs": [
+  //             { "visible": false, "targets": _dataTables[type][formcat].hiddenColumns}
+  //             ],
+  //           // keys: true,
+  //           dom: 'Bfrtip',
+  //           buttons: [
+  //             {
+  //                 extend: 'copy',
+  //                 text: 'Copia',
+  //                 exportOptions: {
+  //                     columns: ':visible'
+  //                 }
+  //             },
+  //             {
+  //               extend: 'excel',
+  //               exportOptions: {
+  //                   columns: ':visible'
+  //               },
+  //               filename: 'Tabla_espacios'
+
+  //             },
+
+  //             {
+  //               extend: 'colvis',
+  //               text: 'Columnas',
+  //               collectionLayout: 'fixed',
+  //             //  postfixButtons: [  
+  //             //  {
+  //             //   extend: 'colvisRestore',
+  //             //   text: 'Configuración incial',
+  //             //   show: ':hidden'
+  //             // }],
+  //             prefixButtons: [{
+  //               extend: 'colvisGroup',
+  //               text: 'Selecciona todo',
+  //               show: ':hidden'
+  //             },
+  //             {
+  //               extend: 'colvisGroup',
+  //               text: 'Desmarca todo',
+  //               hide: ':visible'
+  //             },
+  //             {
+  //               extend: 'colvisRestore',
+  //               text: 'Configuración incial',
+  //               show: ':hidden'
+  //             }]
+  //             },
+                      
+  //             // {
+  //             //   extend: 'pdf',
+  //             //   exportOptions: {
+  //             //       columns: ':visible'
+  //             //   },
+  //             //   orientation: 'landscape',
+  //             //   filename: _titleFile[_selected]
+  //             // }
+  //             // {
+  //             //   extend: 'print',
+  //             //   text: 'Imprime',
+  //             //   exportOptions: {
+  //             //     modifier: {
+  //             //         page: 'current'
+  //             //     }
+  //             //   },
+  //             //   title: _titleFile[_selected]
+  //             // }
+  //           ]
+        
+  //           });
+  //         });
+  //       }
+  //     });
+  //   });
+
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     },
+  //     // setArtists: function(artists){
+  //     //   artists = artists;
+  //     // }, 
+  //     // setSpaces: function(spaces){
+  //     //   spaces = spaces;
+  //     // },
+  //     addArtist: function(artist){
+  //       var proposal = artist.proposals[0];
+  //       _dataTables.artists[proposal.form_category].table.row.add(_dataTables.artists[proposal.form_category].proposalRow(artist, proposal)).draw();
+  //     },
+  //     addSpace: function(space){
+  //       _dataTables.spaces[space.form_category].table.row.add(_dataTables.spaces[space.form_category].spaceRow(space)).draw();
+  //     },
+  //     deleteArtist: function(proposal_id){
+  //       for (var categoryTable in _dataTables.artists){
+  //         var _row = _dataTables.artists[categoryTable].table.row('#tableRow-'+proposal_id);
+  //         if (_row && _row.index()>-1) _row.remove().draw();
+  //       }
+  //     },
+  //     deleteSpace: function(profile_id){
+  //       for (var categoryTable in _dataTables.spaces){
+  //         var _row = _dataTables.spaces[categoryTable].table.row('#tableRow-'+profile_id);
+  //         if (_row && _row.index()>-1) _row.remove().draw();
+  //       }
+  //     }
+  //   }
+  // }
 
   ns.Widgets.CallMainLayout = function(call){
   	var _main = $('<main>').addClass('main-call-page');

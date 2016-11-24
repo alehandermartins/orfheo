@@ -1534,9 +1534,16 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 } 
  */
 
+.dataTables_scrollBody tbody td{
+  padding: 0.5rem 0.625rem !important ;
+}
+
+.dataTables_scrollHead thead th, .dataTables_scrollFootInner tfoot th{
+    padding: 0.5rem 1.625rem 0.5rem 0.5rem !important;
+}
+
 
 .column-call-manager-table{
-  /* min-width: 8rem; */
   white-space: normal;
 }
 
@@ -1546,14 +1553,14 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   width: 16rem !important;
 }
 
-.column-call-manager-table.column-Inputtext{
+.column-call-manager-table.column-Inputtext, .column-call-manager-table.column-InputAddress{
   min-width: 11rem !important;
   width: 11rem !important;
 }
 
 .column-call-manager-table.column-rfh{
-  min-width: 1.5rem;
-  width: 1.5rem !important;
+  min-width: 1rem;
+  width: 1rem !important;
 }
 
 
@@ -1563,8 +1570,8 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 }
 
 .column-call-manager-table.column-InputTel{
-  min-width: 7rem !important;
-  width: 7rem !important;
+  min-width: 6rem !important;
+  width: 6rem !important;
 }
 
 
@@ -2085,6 +2092,7 @@ Program Manager Tab
   display: inline-block;
   width: 11rem;
   border: 1px solid;
+
   /* overflow-y: hidden; */
 }
 
