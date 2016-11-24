@@ -1535,7 +1535,7 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
  */
 
 .dataTables_scrollBody tbody td{
-  padding: 0.5rem 0.625rem !important ;
+  padding: 0.2rem 0.625rem !important ;
 }
 
 .dataTables_scrollHead thead th, .dataTables_scrollFootInner tfoot th{
@@ -1554,13 +1554,13 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 }
 
 .column-call-manager-table.column-Inputtext, .column-call-manager-table.column-InputAddress{
-  min-width: 11rem !important;
-  width: 11rem !important;
+  min-width: 10.5rem !important;
+  width: 10.5rem !important;
 }
 
 .column-call-manager-table.column-rfh{
-  min-width: 1rem;
-  width: 1rem !important;
+  min-width: 1.5rem;
+  width: 1.5rem !important;
 }
 
 

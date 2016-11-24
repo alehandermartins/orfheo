@@ -74,12 +74,13 @@
 
     var _initMex = $('<div>').append($('<p>').html('...hacerlo,  por supuesto,  <strong>es libre y gratuito :) </strong>')).addClass('register-form-init-mex');
 
-    // var _initMex = $('<div>').append($('<p>').html('...tendrás acceso a tus datos de la convocatoria, podrás enviar más propuestas, enmendar las que has enviado, cambiar la información sobre ti para que el público pueda conocerte... hacerlo,  <strong> por supuesto, es libre y gratuito :) </strong>')).addClass('register-form-init-mex');
 
+    var _termsAndCondtions = $('<a>').text('condiciones generales');
+    _termsAndCondtions.click(function(){
+      Pard.Widgets.BigAlert('', Pard.Widgets.TermsAndConditionsMessage().render());
+    })
 
-    var _termsAndCondtions = $('<a>').attr('href','#').text('condiciones generales');
-    var _termsAndCondtionsPopup = Pard.Widgets.PopupCreator(_termsAndCondtions,'', function(){return Pard.Widgets.TermsAndConditionsMessage();});
-    var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestras ', _termsAndCondtionsPopup.render(), '.')).addClass('register-form-final-mex');
+    var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestras ', _termsAndCondtions, '.')).addClass('register-form-final-mex');
 
     _createdWidget.append(_initMex, _emailLabel, _confEmailLabel, _passwdLabel, _invalidInput, _fields['button'].render(), _finalMex);
 

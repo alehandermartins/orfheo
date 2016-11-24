@@ -25,28 +25,23 @@
     var _selectorOptions = {};
     var _tags = [];
 
-    _tablesContainer['allProposals'] = $('<div>'); 
     _tags.push({
       id: 'allProposals',
       text: 'Todas las propuestas',
       table: _tablesContainer['allProposals']
     });
 
-    var _TablePrinter = {
-      artist: Pard.Widgets.ArtistsTable,
-      space: Pard.Widgets.SpacesTable
-    }
-
     var _typesDictionary = {
       artist: 'Artistas',
-      space: 'Espacios'
+      space: 'Espacios' 
     }
-
 
     Pard.Backend.getCallForms(the_event.call_id, function(data){
       _forms = data.forms;
 
-      
+      _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(_forms, interactions);
+      _tablesContainer['allProposals'] = $('<div>').append(_dataTables['allProposals'].table);
+
       _formTypes.forEach(function(type){
         if (_forms[type]){
           // _tablesContainer[type] = $('<div>');
@@ -65,17 +60,19 @@
           });
         }
       });  
-
+      
       spaces.forEach(function(proposal){
         // necesary for proposals conFusion withput form cat
         if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
         _dataTables[proposal.form_category].addRow(proposal);
+        _dataTables['allProposals'].addRow('space', proposal);
       });
       artists.forEach(function(profile){
         profile.proposals.forEach(function(proposal){
           // necesary for proposals conFusion withput form cat
           if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
-          _dataTables[proposal.form_category].addRow( proposal, profile);
+          _dataTables[proposal.form_category].addRow(proposal, profile);
+          _dataTables['allProposals'].addRow('artist', proposal, profile);
         });
       });
 
@@ -203,7 +200,72 @@
             });
           }
           else{
+            _dataTables[typeTable].table = _dataTables[typeTable].table.DataTable({
+            "language":{
+              "lengthMenu": " Resultados por página _MENU_",
+              "zeroRecords": "Ningún resultado",
+              "info": "",
+              "infoEmpty": "Ningúna información disponible",
+              "infoFiltered": "(filtered from _MAX_ total records)",
+              "search": "Busca",
+              "paginate": {
+                "first":      "Primera",
+                "last":       "Última",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+              },
+             "search": "_INPUT_",
+              "searchPlaceholder": "Busca"
+            },
+            fixedHeader: {
+              header: true
+            },
+            "autoWidth": false,
+            "bAutoWidth": false,
+            "scrollX": true,
+            "scrollY": "90vh",
+            "paging": false,
+            "scrollCollapse": true,
+            "columnDefs": [
+              { "visible": false, "targets": _dataTables[typeTable].hiddenColumns}
+              ],
+            dom: 'Bfrtip',
+            buttons: [
+              {
+                  extend: 'copy',
+                  text: 'Copia',
+                  exportOptions: {
+                      columns: ':visible'
+                  }
+              },
+              {
+                extend: 'excel',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                filename: 'Tabla_espacios'
 
+              },                      
+              {
+                extend: 'pdf',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                orientation: 'landscape',
+                filename: 'Artistas_Espacios'
+              }
+              // {
+              //   extend: 'print',
+              //   text: 'Imprime',
+              //   exportOptions: {
+              //     modifier: {
+              //         page: 'current'
+              //     }
+              //   },
+              //   title: _titleFile[_selected]
+              // }
+              ]
+            });
           }
         });
       });
@@ -224,14 +286,14 @@
       addArtist: function(artist){
         var proposal = artist.proposals[0];
         _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
+        _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
       },
-      addSpace: function(spaceProposal){
-        _dataTables[spaceProposal.form_category].table.row.add(_dataTables[spaceProposal.form_category].proposalRow(spaceProposal)).draw();
+      addSpace: function(proposal){
+        _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal)).draw();
+        _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('space', proposal)).draw();
       },
       deleteArtist: function(proposal_id){
         for (var categoryTable in _dataTables){
-          console.log('#proposalRow-'+proposal_id);
-          console.log(categoryTable);
           var _row = _dataTables[categoryTable].table.row('#proposalRow-'+proposal_id);
           console.log(_row.index());
           if (_row && _row.index()>-1) _row.remove().draw();
@@ -239,8 +301,6 @@
       },
       deleteSpace: function(profile_id){
         for (var categoryTable in _dataTables){
-          console.log('#proposalRow-'+profile_id);
-          console.log(categoryTable);
           var _row = _dataTables[categoryTable].table.row('#proposalRow-'+profile_id);
           console.log(_row.index());
           if (_row && _row.index()>-1) _row.remove().draw();

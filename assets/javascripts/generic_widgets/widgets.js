@@ -6,7 +6,7 @@
 
 
   ns.Widgets.BigAlert = function(title, content, contentClass, callback){
-
+    console.log('alert')
     var _createdWidget = $('<div>').addClass('fast reveal full');
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
@@ -22,6 +22,7 @@
     _closeBtn.click(function(){
       if (callback) callback();
       _popup.close();
+      _createdWidget.remove();
     });
 
     _header.append(_title, _closeBtn);
@@ -52,6 +53,7 @@
     _closeBtn.click(function(){
       if (callback) callback();
       _popup.close();
+      _createdWidget.remove();
     });
  
     _header.append(_title, _closeBtn);
