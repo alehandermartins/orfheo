@@ -6,8 +6,6 @@
 
   ns.Widgets.PrintTable = function(type, form, the_event, interactions) {
 
-    // var the_event = Pard.CachedEvent;
-
     var form = $.extend(true, {}, form);
     
     var deletePoposal = {
