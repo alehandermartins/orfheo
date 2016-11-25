@@ -251,6 +251,8 @@
       }
     }
 
+    console.log(form);
+
     _mandatoryFields.forEach(function(field){
       if ($.inArray(field,Object.keys(form))>-1) _printField(field);
     });
@@ -403,8 +405,8 @@
       _message.appendToContent(_element);
     };
 
-    //var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposal.render()).addClass('actionButton-container-popup');
-    var _actionBtnContainer = $('<div>').append(_deleteProposal.render()).addClass('actionButton-container-popup');
+    var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposal.render()).addClass('actionButton-container-popup');
+    // var _actionBtnContainer = $('<div>').append(_deleteProposal.render()).addClass('actionButton-container-popup');
 
     _message.prependToContent(_actionBtnContainer);
     if (proposal.proposal_id.indexOf("own") >= 0) {

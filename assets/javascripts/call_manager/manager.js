@@ -2679,7 +2679,7 @@
     var deleteSpace = _interactions.deleteSpace;
 
     var _programManager = ProgramManager();
-    var _tableManager = TableManager();
+    var _tableManager = Pard.Widgets.TableManager(the_event, interactions);
     var _proposalsManager = ProposalsManager();
     var _qrManager = Pard.Widgets.QRManager(the_event.qr);
 

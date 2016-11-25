@@ -141,8 +141,7 @@
 
 
   ns.Widgets.PrintProposal = function(proposal, form){
-    console.log(form);
-    console.log(proposal);
+
     var _createdWidget = $('<div>');
     var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
 

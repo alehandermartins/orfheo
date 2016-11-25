@@ -1535,7 +1535,7 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
  */
 
 .dataTables_scrollBody tbody td{
-  padding: 0.2rem 0.625rem !important ;
+  padding: 0.2rem 0.5rem !important ;
 }
 
 .dataTables_scrollHead thead th, .dataTables_scrollFootInner tfoot th{
@@ -1553,20 +1553,35 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   width: 16rem !important;
 }
 
-.column-call-manager-table.column-Inputtext, .column-call-manager-table.column-InputAddress{
+.column-call-manager-table.column-EmailInput{
+  min-width: 11.5rem;
+  width: 11.5rem !important;
+}
+
+.column-call-manager-table.column-Inputtext{
   min-width: 10.5rem !important;
   width: 10.5rem !important;
 }
 
+.column-call-manager-table.column-InputAddress{
+  min-width: 11.5rem !important;
+  width: 11.5rem !important;
+}
+
 .column-call-manager-table.column-rfh{
-  min-width: 1.5rem;
-  width: 1.5rem !important;
+  min-width: 1.2rem;
+  width: 1.2rem !important;
+}
+
+.column-call-manager-table.column-CheckBox{
+  min-width: 4rem;
+  width: 4rem !important;
 }
 
 
-.column-call-manager-table.column-Selector{
-  min-width: 7rem !important;
-  width: 7rem !important;
+.column-call-manager-table.column-Selector, .column-call-manager-table.column-MultipleSelector, .column-call-manager-table.column-MultipleDaysSelector{
+  min-width: 6.5rem !important;
+  width: 6.5rem !important;
 }
 
 .column-call-manager-table.column-InputTel{

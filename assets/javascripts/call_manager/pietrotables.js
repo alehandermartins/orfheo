@@ -4,10 +4,12 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.PrintTable = function(type, form, interactions) {
+  ns.Widgets.PrintTable = function(type, form, the_event, interactions) {
 
-    var the_event = Pard.CachedEvent;
+    // var the_event = Pard.CachedEvent;
 
+    var form = $.extend(true, {}, form);
+    
     var deletePoposal = {
       artist: interactions.deleteArtist,
       space: interactions.deleteSpace
@@ -35,8 +37,8 @@
       space: ['rfh','name', 'subcategory','address', 'description','availability','phone','email']
     }
     var _shownColumns = {
-      artist: ['rfh','name', 'title','short_description','phone','email'],
-      space: ['rfh','name', 'subcategory','address', 'phone','email']
+      artist: ['rfh','name', 'title','short_description','duration','availability','phone','email'],
+      space: ['rfh','name', 'subcategory','address','availability', 'phone','email']
     }
 
     var _hiddenColumns = [];
@@ -55,11 +57,7 @@
     }
     form.email = {
       "label" : "Email",
-      "input" : "Input",
-      "args" : [
-                "",
-                "text"
-              ]
+      "input" : "EmailInput",
     }
     if (!(form.address)) form.address ={
       "label": "Dirección",
@@ -69,39 +67,38 @@
       "label": "Descripción",
       "input" : "TextArea"
     }
-
     if (!(form.subcategory)) form.subcategory = {
         "label" : "Categoría en el evento",
         "input" : "Selector",
-      }
+    }
 
     var _colPosition = 0;
+
+    var _printTitleAndFoot = function(field){
+      var _label = form[field]['label'];
+      var _colTitle = $('<th>').text(_label).addClass('column-call-manager-table');
+      if (form[field]['input'] == 'Input') _colTitle.addClass('column-'+form[field]['input']+form[field]['args'][1]);
+      else _colTitle.addClass('column-'+form[field]['input']);
+      _titleRow.append(_colTitle);
+      var _colFoot = $('<th>').addClass('column-call-manager-table').text(_label);
+      if (form[field]['input'] == 'Input') _colFoot.addClass('column-'+form[field]['input']+form[field]['args'][1]);
+      else _colFoot.addClass('column-'+form[field]['input']);
+      _titleRowFoot.append(_colFoot);
+    }
 
     _orfheoFields[type].forEach(function(field){
       if (form[field]){
         if ($.inArray(field, _shownColumns[type])<0) _hiddenColumns.push(_colPosition);
         _colPosition += 1;
-        var _label = form[field]['label'];
-        var _colTitle = $('<th>').text(_label).addClass('column-call-manager-table');
-        if (form[field]['input'] == 'Input') _colTitle.addClass('column-'+form[field]['input']+form[field]['args'][1]);
-        else _colTitle.addClass('column-'+form[field]['input']);
-        _titleRow.append(_colTitle);
-        var _colFoot = $('<th>').addClass('column-call-manager-table').text(_label);
-        if (form[field]['input'] == 'Input') _colFoot.addClass('column-'+form[field]['input']+form[field]['args'][1]);
-        else _colFoot.addClass('column-'+form[field]['input']);
-        _titleRowFoot.append(_colFoot);
+        _printTitleAndFoot(field);
       }
     });
 
     for (var field in form){
       if ($.isNumeric(field)){
-        if ($.inArray(field, _shownColumns)<0) _hiddenColumns.push(_colPosition);
-         _colPosition += 1;
-        var _label = form[field]['label'];
-        var _colTitle = $('<th>').text(_label).addClass('column-call-manager-table');;
-        _titleRow.append(_colTitle);
-        var _colFoot = $('<th>').addClass('column-call-manager-table column-'+form[field]['input']).text(_label);
-        _titleRowFoot.append(_colFoot);
+        _hiddenColumns.push(_colPosition);
+        _colPosition += 1;
+        _printTitleAndFoot(field);
       }
     }
 
@@ -112,6 +109,8 @@
 
     var proposalRow = function(proposal, profile){
       var _row = $('<tr>');
+      var proposal = $.extend(true, {}, proposal);
+      
       if (profile) {
         proposal.name = profile.name;
         proposal.phone = profile.phone;
@@ -152,6 +151,27 @@
               _popupDisplayed.open();
             });
           }
+          else if (field == 'address'){
+            _info = $('<a>');
+            var _address = ' ';
+            if (proposal['address']['route']) _address +=  proposal['address']['route']+ ' ';
+            if (proposal['address']['street_number']) _address += ' '+proposal['address']['street_number']+',  ';
+            if (proposal['address']['door']) _address += ', puerta/piso '+proposal['address']['door']+',  ';
+            _address += proposal['address']['postal_code']+', '+proposal['address']['locality'];
+            _info.attr({
+              'href':'http://maps.google.com/maps?q='+_address,
+              target: '_blank'}).text(_address);
+          }
+          else if (field=='duration') {
+            _info = proposal[field]+' min';
+          }
+          else if (field=='availability') {
+            _info = '';
+            proposal[field].forEach(function(day){
+              _info += moment(new Date(day)).locale('es').format('DD MMMM, ');
+            });
+            _info = _info.substring(0, _info.length-2);
+          }
           else if (proposal[field]) {
             _info = proposal[field];
           }
@@ -182,7 +202,7 @@
     }
   }
 
-  ns.Widgets.PrintTableAllProposal = function(forms, interactions){
+  ns.Widgets.PrintTableAllProposal = function(forms, the_event, interactions){
 
     var the_event = Pard.CachedEvent;
 
@@ -227,11 +247,7 @@
     }
     form.email = {
       "label" : "Email",
-      "input" : "Input",
-      "args" : [
-                "",
-                "text"
-              ]
+      "input" : "EmailInput",
     }
     form.phone ={
       "label": "Teléfono",

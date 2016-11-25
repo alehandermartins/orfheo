@@ -6,5 +6,6 @@
 // = require ./manager
 // = require ./space_program
 // = require ./tables
+// = require ./pietrotables
 // = require ./utils
 // = require ./bus
