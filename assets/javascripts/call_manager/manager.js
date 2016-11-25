@@ -2059,19 +2059,20 @@
         });
       }
 
+      Pard.Bus.on('addArtist', function(artist){
+        if(artist.profile_id in _artists) _artists[artist.profile_id].addProposal(artist.proposals[0]);
+        else{_artists[artist.profile_id] = new Artist(artist);
+          _artistsList.append(_artists[artist.profile_id].accordion.foundation());
+          artists.push(artist);
+          var _id = _artistSelector.val();
+           _loadArtistSelector();
+          _artistSelector.trigger('reload', [_id]);
+        }
+      });
+
     	return {
         render: function(){
           return _createdWidget;
-        },
-        addArtist: function(artist){
-          if(artist.profile_id in _artists) _artists[artist.profile_id].addProposal(artist.proposals[0]);
-          else{_artists[artist.profile_id] = new Artist(artist);
-            _artistsList.append(_artists[artist.profile_id].accordion.foundation());
-            artists.push(artist);
-            var _id = _artistSelector.val();
-             _loadArtistSelector();
-            _artistSelector.trigger('reload', [_id]);
-          }
         },
         addSpace: function(space){
           if(!(space.profile_id in _spaces)){
@@ -2370,18 +2371,21 @@
       _whiteListBox.append(_whiteListText, _whiteList.render());
       _createdWidget.append(_addProposalBox, _whiteListBox);
 
+      Pard.Bus.on('addArtist', function(artist){
+        _addArtist(artist);
+      });
+
       return {
         render: function(){
           return _createdWidget;
         },
-        addArtist: _addArtist,
         addSpace: _addSpace,
         deleteArtist: _deleteArtist,
         deleteSpace: _deleteSpace
       }
     }
 
-   
+
     // _tableManager.setArtists(artists);
     // _tableManager.setSpaces(spaces);
 
@@ -2390,9 +2394,8 @@
     var interactions = function(){
 
       var _addArtist = function(artist){
-        _programManager.addArtist(artist);
+        Pard.Bus.trigger('addArtist', artist);
         _tableManager.addArtist(artist);
-        _proposalsManager.addArtist(artist);
       }
 
       var _addSpace = function(space){
