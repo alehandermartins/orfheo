@@ -447,7 +447,7 @@
                 var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
                 _popupDisplayed.setDeleteProposalCallback(function(data){
                   if (data['status'] == 'success'){
-                    deleteArtist(artist.profile_id, proposal.proposal_id);
+                    Pard.Bus.trigger('deleteArtist', {'profile_id': artist.profile_id, 'proposal_id': proposal.proposal_id});
                   }
                   else{
                     Pard.Widgets.Alert('',data.reason);
@@ -460,7 +460,7 @@
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
                 if (data['status'] == 'success'){
-                  deleteArtist(artist.profile_id, proposal.proposal_id);
+                  Pard.Bus.trigger('deleteArtist', {'profile_id': artist.profile_id, 'proposal_id': proposal.proposal_id});
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
@@ -686,7 +686,7 @@
                 var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
                 _popupDisplayed.setDeleteProposalCallback(function(data){
                   if (data['status'] == 'success'){
-                    deleteSpace(space.profile_id);
+                    Pard.Bus.trigger('deleteSpace', {'profile_id': space.profile_id});
                   }
                   else{
                     Pard.Widgets.Alert('',data.reason);
@@ -699,7 +699,7 @@
               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
               _popupDisplayed.setDeleteProposalCallback(function(data){
                 if (data['status'] == 'success'){
-                  deleteSpace(space.profile_id);
+                  Pard.Bus.trigger('deleteSpace', {'profile_id': space.profile_id});
                 }
                 else{
                   Pard.Widgets.Alert('',data.reason);
@@ -2070,50 +2070,53 @@
         }
       });
 
+      Pard.Bus.on('addSpace', function(space){
+        if(!(space.profile_id in _spaces)){
+          _spaces[space.profile_id] = new Space(space);
+          Object.keys(eventTime).forEach(function(day){
+            _spaces[space.profile_id].columns[day].foundation();
+          });
+          spaces.push(space);
+          var _id = _spaceSelector.val();
+          _loadSpaceSelector();
+          _spaceSelector.trigger('reload', [_id]);
+        }
+      });
+
+      Pard.Bus.on('deleteArtist', function(artist){
+        if(artist.profile_id in _artists){
+          var artistProgram = _artists[artist.profile_id].program;
+          Object.keys(artistProgram).forEach(function(performance_id){
+            if(artistProgram[performance_id].participant_proposal_id == artist.proposal_id) _program[performance_id].destroy();
+          });
+          _artists[artist.profile_id].deleteProposal(artist.proposal_id);
+          var _id = _artistSelector.val();
+          _loadArtistSelector();
+          _artistSelector.trigger('reload', [_id]);
+        }
+      });
+
+      Pard.Bus.on('deleteSpace', function(space){
+        if(space.profile_id in _spaces){
+          spaces = spaces.filter(function(_space){
+            return _space.profile_id != space.profile_id;
+          });
+          Object.keys(eventTime).forEach(function(day){
+            _spaces[space.profile_id].columns[day].remove();
+          });
+          Object.keys(_spaces[space.profile_id].program).forEach(function(performance_id){
+            _program[performance_id].destroy();
+          });
+          delete _spaces[space.profile_id];
+          var _id = _spaceSelector.val();
+          _loadSpaceSelector();
+          _spaceSelector.trigger('reload', [_id]);
+        }
+      });
+
     	return {
         render: function(){
           return _createdWidget;
-        },
-        addSpace: function(space){
-          if(!(space.profile_id in _spaces)){
-            _spaces[space.profile_id] = new Space(space);
-            Object.keys(eventTime).forEach(function(day){
-              _spaces[space.profile_id].columns[day].foundation();
-            });
-            spaces.push(space);
-            var _id = _spaceSelector.val();
-            _loadSpaceSelector();
-            _spaceSelector.trigger('reload', [_id]);
-          }
-        },
-        deleteArtist: function(profile_id, proposal_id){
-          if(profile_id in _artists){
-            var artistProgram = _artists[profile_id].program;
-            Object.keys(artistProgram).forEach(function(performance_id){
-              if(artistProgram[performance_id].participant_proposal_id == proposal_id) _program[performance_id].destroy();
-            });
-            _artists[profile_id].deleteProposal(proposal_id);
-            var _id = _artistSelector.val();
-            _loadArtistSelector();
-            _artistSelector.trigger('reload', [_id]);
-          }
-        },
-        deleteSpace: function(profile_id){
-          if(profile_id in _spaces){
-            spaces = spaces.filter(function(space){
-              return space.profile_id != profile_id;
-            });
-            Object.keys(eventTime).forEach(function(day){
-              _spaces[profile_id].columns[day].remove();
-            });
-            Object.keys(_spaces[profile_id].program).forEach(function(performance_id){
-              _program[performance_id].destroy();
-            });
-            delete _spaces[profile_id];
-            var _id = _spaceSelector.val();
-            _loadSpaceSelector();
-            _spaceSelector.trigger('reload', [_id]);
-          }
         },
         deletePerformance: function(performance_id){
           if(performance_id in _program){
@@ -2125,252 +2128,256 @@
 
     var TableManager = function(){
 
-       var _createdWidget = $('<div>');
-     var _typeSelectorBox = $('<div>').addClass('types-selector-call-manager');
-     var _typeSelector = $('<select>');
+      var _createdWidget = $('<div>');
+      var _typeSelectorBox = $('<div>').addClass('types-selector-call-manager');
+      var _typeSelector = $('<select>');
 
-     var _dataTables = {}
-     var _tablesContainer = {}
+      var _dataTables = {}
+      var _tablesContainer = {}
 
-     var _tags = [];
+      var _tags = [];
 
-     _tags.push({
-       id: 'artists',
-       text: 'Artistas',
-       icon: 'artist'
-     });
+      _tags.push({
+        id: 'artists',
+        text: 'Artistas',
+        icon: 'artist'
+      });
 
-     _tags.push({
-       id: 'spaces',
-       text: 'Espacios',
-       icon: 'space',
-     });
+      _tags.push({
+        id: 'spaces',
+        text: 'Espacios',
+        icon: 'space',
+      });
 
-     _typeSelectorBox.append(_typeSelector);
+      _typeSelectorBox.append(_typeSelector);
 
-     _typeSelector.select2({
-       data: _tags,
-       templateResult: Pard.Widgets.FormatResource,
-       minimumResultsForSearch: -1
-     });
+      _typeSelector.select2({
+        data: _tags,
+        templateResult: Pard.Widgets.FormatResource,
+        minimumResultsForSearch: -1
+      });
 
-     var lastTypeSelected = 'artists'
+      var lastTypeSelected = 'artists'
 
-     _typeSelector.on('select2:select', function(){
-       var _data = _typeSelector.select2('data')[0];
-       if(_data['id'] != lastTypeSelected){
-         _tablesContainer[lastTypeSelected].hide();
-         _tablesContainer[_data['id']].show();
-         lastTypeSelected = _data['id'];
-       }
-     });
+      _typeSelector.on('select2:select', function(){
+        var _data = _typeSelector.select2('data')[0];
+        if(_data['id'] != lastTypeSelected){
+          _tablesContainer[lastTypeSelected].hide();
+          _tablesContainer[_data['id']].show();
+          lastTypeSelected = _data['id'];
+        }
+      });
 
-     _tablesContainer.spaces = $('<div>');
-     _tablesContainer.artists = $('<div>');
-     _dataTables.spaces = Pard.Widgets.SpacesTable();
-     _dataTables.artists = Pard.Widgets.ArtistsTable();
-
-
-     var spaceRow = function(space){
-       var _row = $('<tr>').attr('id', space.profile_id);
-       var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
-       var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
-       var _addressCol = $('<td>').addClass('column-call-manager-table column-address');
-       var _emailCol = $('<td>').addClass('column-call-manager-table column-email');
-       var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone');
+      _tablesContainer.spaces = $('<div>');
+      _tablesContainer.artists = $('<div>');
+      _dataTables.spaces = Pard.Widgets.SpacesTable();
+      _dataTables.artists = Pard.Widgets.ArtistsTable();
 
 
-       var _icon = $('<a>').append(Pard.Widgets.IconManager('space').render());
-       _icon.attr({'href': '/profile?id=' + space.profile_id, 'target':'_blank'});
-       var _name = $('<a>').attr({'href':'#'}).text(space.name);
-       var _addressText = ' '+ space['address']['route'] + ' ' + space['address']['street_number'];
-       if (space['address']['door']) _addressText += ', puerta/piso ' + space['address']['door'];
-       _addressText += ', ' + space['address']['locality'];
-       var _aStr = space['address']['route'] + ' ' + space['address']['street_number'] + ', ' + space['address']['locality'] + ' ' + space['address']['country'];
-       var _address = $('<a>').attr({
-         href: 'http://maps.google.com/maps?q=' + _aStr,
-         target: '_blank'
-       }).text(_addressText);
+      var spaceRow = function(space){
+        var _row = $('<tr>').attr('id', space.profile_id);
+        var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
+        var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
+        var _addressCol = $('<td>').addClass('column-call-manager-table column-address');
+        var _emailCol = $('<td>').addClass('column-call-manager-table column-email');
+        var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone');
 
-       _name.on('click', function(){
-         if (!(_forms)) {
-           Pard.Backend.getCallForms(the_event.call_id, function(data){
-             _forms = data.forms;
+
+         var _icon = $('<a>').append(Pard.Widgets.IconManager('space').render());
+         _icon.attr({'href': '/profile?id=' + space.profile_id, 'target':'_blank'});
+         var _name = $('<a>').attr({'href':'#'}).text(space.name);
+         var _addressText = ' '+ space['address']['route'] + ' ' + space['address']['street_number'];
+         if (space['address']['door']) _addressText += ', puerta/piso ' + space['address']['door'];
+         _addressText += ', ' + space['address']['locality'];
+         var _aStr = space['address']['route'] + ' ' + space['address']['street_number'] + ', ' + space['address']['locality'] + ' ' + space['address']['country'];
+         var _address = $('<a>').attr({
+           href: 'http://maps.google.com/maps?q=' + _aStr,
+           target: '_blank'
+         }).text(_addressText);
+
+         _name.on('click', function(){
+           if (!(_forms)) {
+             Pard.Backend.getCallForms(the_event.call_id, function(data){
+               _forms = data.forms;
+               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
+               _popupDisplayed.setDeleteProposalCallback(function(data){
+                 if (data['status'] == 'success'){
+                   Pard.Bus.trigger('deleteSpace', {'profile_id': space.profile_id});
+                 }
+                 else{
+                   Pard.Widgets.Alert('',data.reason);
+                 }
+               })
+               _popupDisplayed.open();
+             });
+           }
+           else{
              var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
              _popupDisplayed.setDeleteProposalCallback(function(data){
                if (data['status'] == 'success'){
-                 deleteSpace(space.profile_id);
-               }
-               else{
-                 Pard.Widgets.Alert('',data.reason);
-               }
-             })
-             _popupDisplayed.open();
-           });
-         }
-         else{
-           var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
-           _popupDisplayed.setDeleteProposalCallback(function(data){
-             if (data['status'] == 'success'){
-               deleteSpace(space.profile_id);
-             }
-             else{
-               Pard.Widgets.Alert('',data.reason);
-             }
-           });
-           _popupDisplayed.open();
-         }
-       });
-
-       _rfhCol.append(_icon);
-       _nameCol.html(_name);
-       _addressCol.append(_address);
-       _emailCol.html(space.email);
-       _phoneCol.html(space.phone);
-       _row.append(_rfhCol, _nameCol, _addressCol, _emailCol, _phoneCol);
-       return _row;
-     }
-
-     var proposalRow = function(artist, proposal){
-
-       var _row = $('<tr>').attr('id', proposal.proposal_id);
-       var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
-       var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
-       var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
-       var _titleCol = $('<th>').addClass('column-call-manager-table column-title').text('Título');
-       var _emailCol = $('<td>').addClass('column-call-manager-table column-email');
-       var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone');
-
-       var _icon = $('<a>').append(Pard.Widgets.IconManager('artist').render());
-       _icon.attr({'href': '/profile?id=' + artist.profile_id, 'target':'_blank'});
-       var _name = $('<a>').attr({'href':'#'}).text(artist.name);
-       proposal.name = artist.name;
-       proposal.phone = artist.phone;
-       proposal.email = artist.email;
-       _name.on('click', function(){
-         if (!(_forms)) {
-           Pard.Backend.getCallForms(the_event.call_id, function(data){
-             _forms = data.forms;
-             var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
-             _popupDisplayed.setDeleteProposalCallback(function(data){
-               if (data['status'] == 'success'){
-                 deleteArtist(artist.profile_id, proposal.proposal_id);
+                 Pard.Bus.trigger('deleteSpace', {'profile_id': space.profile_id});
                }
                else{
                  Pard.Widgets.Alert('',data.reason);
                }
              });
              _popupDisplayed.open();
-           });
-         }
-         else{
-           var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
-           _popupDisplayed.setDeleteProposalCallback(function(data){
-             if (data['status'] == 'success'){
-               deleteArtist(artist.profile_id, proposal.proposal_id);
-             }
-             else{
-               Pard.Widgets.Alert('',data.reason);
-             }
-           });
-           _popupDisplayed.open();
-         }
-       });
+           }
+         });
 
-       _rfhCol.append(_icon);
-       _nameCol.html(_name);
-       _categoryCol.html(Pard.Widgets.Dictionary(proposal.category).render());
-       _titleCol.html(proposal.title);
-       _emailCol.html(artist.email);
-       _phoneCol.html(artist.phone);
+         _rfhCol.append(_icon);
+         _nameCol.html(_name);
+         _addressCol.append(_address);
+         _emailCol.html(space.email);
+         _phoneCol.html(space.phone);
+         _row.append(_rfhCol, _nameCol, _addressCol, _emailCol, _phoneCol);
+         return _row;
+       }
 
-       _row.append(_rfhCol, _nameCol, _categoryCol, _titleCol, _emailCol, _phoneCol);
-       return _row;
-     }
+        var proposalRow = function(artist, proposal){
 
-    spaces.forEach(function(space){
-      _dataTables.spaces.tbody.append(spaceRow(space));
-    });
+         var _row = $('<tr>').attr('id', proposal.proposal_id);
+         var _rfhCol = $('<td>').addClass('column-call-manager-table column-rfh');
+         var _nameCol = $('<td>').addClass('column-call-manager-table column-name');
+         var _categoryCol = $('<th>').addClass('column-call-manager-table column-category').text('Categoría');
+         var _titleCol = $('<th>').addClass('column-call-manager-table column-title').text('Título');
+         var _emailCol = $('<td>').addClass('column-call-manager-table column-email');
+         var _phoneCol = $('<th>').addClass('column-call-manager-table column-phone');
 
-    artists.forEach(function(artist){
-      artist.proposals.forEach(function(proposal){
-        _dataTables.artists.tbody.append(proposalRow(artist, proposal));
+         var _icon = $('<a>').append(Pard.Widgets.IconManager('artist').render());
+         _icon.attr({'href': '/profile?id=' + artist.profile_id, 'target':'_blank'});
+         var _name = $('<a>').attr({'href':'#'}).text(artist.name);
+         proposal.name = artist.name;
+         proposal.phone = artist.phone;
+         proposal.email = artist.email;
+         _name.on('click', function(){
+           if (!(_forms)) {
+             Pard.Backend.getCallForms(the_event.call_id, function(data){
+               _forms = data.forms;
+               var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
+               _popupDisplayed.setDeleteProposalCallback(function(data){
+                if (data['status'] == 'success'){
+                  Pard.Bus.trigger('deleteArtist', {'profile_id': artist.profile_id, 'proposal_id': proposal.proposal_id});
+                }
+                else{
+                   Pard.Widgets.Alert('',data.reason);
+                 }
+               });
+               _popupDisplayed.open();
+             });
+           }
+           else{
+             var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
+             _popupDisplayed.setDeleteProposalCallback(function(data){
+               if (data['status'] == 'success'){
+                 Pard.Bus.trigger('deleteArtist', {'profile_id': artist.profile_id, 'proposal_id': proposal.proposal_id});
+               }
+               else{
+                 Pard.Widgets.Alert('',data.reason);
+               }
+             });
+             _popupDisplayed.open();
+           }
+         });
+
+        _rfhCol.append(_icon);
+        _nameCol.html(_name);
+        _categoryCol.html(Pard.Widgets.Dictionary(proposal.category).render());
+        _titleCol.html(proposal.title);
+        _emailCol.html(artist.email);
+        _phoneCol.html(artist.phone);
+
+        _row.append(_rfhCol, _nameCol, _categoryCol, _titleCol, _emailCol, _phoneCol);
+        return _row;
+      }
+
+      spaces.forEach(function(space){
+        _dataTables.spaces.tbody.append(spaceRow(space));
       });
-    });
 
-    $(document).ready(function() {
-       Object.keys(_dataTables).forEach(function(type){
-         _dataTables[type].table = _dataTables[type].table.DataTable({
-           "language":{
-           "lengthMenu": " Resultados por página _MENU_",
-           "zeroRecords": "Ningún resultado",
-           "info": "",
-           "infoEmpty": "Ningúna información disponible",
-           "infoFiltered": "(filtered from _MAX_ total records)",
-           "search": "Busca",
-           "paginate": {
-             "first":      "Primera",
-             "last":       "Última",
-             "next":       "Siguiente",
-             "previous":   "Anterior"
-          },
-         "search": "_INPUT_",
-         "searchPlaceholder": "Busca"
-        },
-        fixedHeader: {
-          header: true
-        },
-        "scrollX": true,
-        "scrollY": "90vh",
-        "paging": false,
-        "scrollCollapse": true,
-        // 'responsive': true,
-        // 'colReorder': true,
-        // "columnDefs": [
-        //   { "visible": false, "targets": _hiddenColumnsArray }
-        //   ],
-        // keys: true,
-        dom: 'Bfrtip',
-        buttons: [
-         {
-              extend: 'copy',
-              text: 'Copia',
-              exportOptions: {
-                  columns: ':visible'
-              }
-          },
-          {
-            extend: 'excel',
-            exportOptions: {
-                columns: ':visible'
-            },
-            filename: 'Tabla_espacios'
-          },
-        ]
+      artists.forEach(function(artist){
+        artist.proposals.forEach(function(proposal){
+          _dataTables.artists.tbody.append(proposalRow(artist, proposal));
         });
       });
-    });
-    //_spaceTable.columns.adjust().draw(true);
-    _tablesContainer.artists.append(_dataTables.artists.table);
-    _tablesContainer.spaces.append(_dataTables.spaces.table);
-    _tablesContainer.spaces.hide();
-    _createdWidget.append(_typeSelectorBox, _tablesContainer.artists, _tablesContainer.spaces);
+
+      $(document).ready(function() {
+         Object.keys(_dataTables).forEach(function(type){
+           _dataTables[type].table = _dataTables[type].table.DataTable({
+             "language":{
+             "lengthMenu": " Resultados por página _MENU_",
+             "zeroRecords": "Ningún resultado",
+             "info": "",
+             "infoEmpty": "Ningúna información disponible",
+             "infoFiltered": "(filtered from _MAX_ total records)",
+             "search": "Busca",
+             "paginate": {
+               "first":      "Primera",
+               "last":       "Última",
+               "next":       "Siguiente",
+               "previous":   "Anterior"
+            },
+           "search": "_INPUT_",
+           "searchPlaceholder": "Busca"
+          },
+          fixedHeader: {
+            header: true
+          },
+          "scrollX": true,
+          "scrollY": "90vh",
+          "paging": false,
+          "scrollCollapse": true,
+          // 'responsive': true,
+          // 'colReorder': true,
+          // "columnDefs": [
+          //   { "visible": false, "targets": _hiddenColumnsArray }
+          //   ],
+          // keys: true,
+          dom: 'Bfrtip',
+          buttons: [
+           {
+                extend: 'copy',
+                text: 'Copia',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+              extend: 'excel',
+              exportOptions: {
+                  columns: ':visible'
+              },
+              filename: 'Tabla_espacios'
+            },
+          ]
+          });
+        });
+      });
+      //_spaceTable.columns.adjust().draw(true);
+      _tablesContainer.artists.append(_dataTables.artists.table);
+      _tablesContainer.spaces.append(_dataTables.spaces.table);
+      _tablesContainer.spaces.hide();
+      _createdWidget.append(_typeSelectorBox, _tablesContainer.artists, _tablesContainer.spaces);
+
+      Pard.Bus.on('addArtist', function(artist){
+        _dataTables.artists.table.row.add(proposalRow(artist, artist.proposals[0])).draw();
+      });
+
+      Pard.Bus.on('addSpace', function(space){
+        _dataTables.spaces.table.row.add(spaceRow(space)).draw();
+      });
+
+      Pard.Bus.on('deleteArtist', function(artist){
+        _dataTables.artists.table.row(document.getElementById(artist.proposal_id)).remove().draw();
+      });
+
+      Pard.Bus.on('deleteSpace', function(space){
+        _dataTables.spaces.table.row(document.getElementById(space.profile_id)).remove().draw();
+      });
 
       return {
         render: function(){
           return _createdWidget;
-        },
-        addArtist: function(artist){
-          _dataTables.artists.table.row.add(proposalRow(artist, artist.proposals[0])).draw();
-        },
-        addSpace: function(space){
-          _dataTables.spaces.table.row.add(spaceRow(space)).draw();
-        },
-        deleteArtist: function(proposal_id){
-          _dataTables.artists.table.row(document.getElementById(proposal_id)).remove().draw();
-        },
-        deleteSpace: function(profile_id){
-          _dataTables.spaces.table.row(document.getElementById(profile_id)).remove().draw();
         }
       }
     }
@@ -2430,22 +2437,22 @@
         _artistsContainers[artist.profile_id][artist.proposals[0].proposal_id] = _proposalContainer;
       }
 
-      var _deleteSpace = function(profile_id){
-        if (_spacesContainers[profile_id]){
-          _spacesContainers[profile_id].remove();
-          delete _spacesContainers[profile_id];
+      var _deleteSpace = function(space){
+        if (_spacesContainers[space.profile_id]){
+          _spacesContainers[space.profile_id].remove();
+          delete _spacesContainers[space.profile_id];
         }
       }
 
-      var _deleteArtist = function(profile_id, proposal_id){
-        if (_artistsContainers[profile_id]){
-          _artistsContainers[profile_id][proposal_id].remove();
-          delete _artistsContainers[profile_id][proposal_id];
-          if(Object.keys(_artistsContainers[profile_id]).length == 2){
-            _artistsContainers[profile_id].li.remove();
-            delete _artistsContainers[profile_id];
-            _ownArtists = _ownArtists.filter(function(artist){
-              return profile_id != artist.profile_id;
+      var _deleteArtist = function(artist){
+        if (_artistsContainers[artist.profile_id]){
+          _artistsContainers[artist.profile_id][artist.proposal_id].remove();
+          delete _artistsContainers[artist.profile_id][artist.proposal_id];
+          if(Object.keys(_artistsContainers[artist.profile_id]).length == 2){
+            _artistsContainers[artist.profile_id].li.remove();
+            delete _artistsContainers[artist.profile_id];
+            _ownArtists = _ownArtists.filter(function(_artist){
+              return artist.profile_id != _artist.profile_id;
             });
           }
         }
@@ -2453,8 +2460,8 @@
 
       var _callbackCreatedProposal = function(data){
         if(data['status'] == 'success') {
-          if (Object.keys(data)[1] == 'space') addSpace(data.space);
-          else if (Object.keys(data)[1] == 'artist'){addArtist(data.artist);}
+          if (Object.keys(data)[1] == 'space') Pard.Bus.trigger('addSpace', data.space);
+          else if (Object.keys(data)[1] == 'artist'){Pard.Bus.trigger('addArtist', data.artist);}
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
         }
         else{
@@ -2506,8 +2513,8 @@
         $.wait(
           '',
           function(){
-            if (type == 'artist') deleteArtist(profile_id, proposal.proposal_id);
-            else if (type == 'space') {deleteSpace(profile_id);}
+            if (type == 'artist') deleteArtist({'profile_id': profile_id, 'proposal_id': proposal.proposal_id});
+            else if (type == 'space') {deleteSpace({'profile_id': profile_id});}
           },
           function(){
             Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
@@ -2627,62 +2634,32 @@
         _addArtist(artist);
       });
 
+      Pard.Bus.on('addSpace', function(space){
+        _addSpace(space);
+      });
+
+      Pard.Bus.on('deleteArtist', function(artist){
+        _deleteArtist(artist);
+      });
+
+      Pard.Bus.on('deleteSpace', function(space){
+        _deleteSpace(space);
+      });
+
+
       return {
         render: function(){
           return _createdWidget;
-        },
-        addSpace: _addSpace,
-        deleteArtist: _deleteArtist,
-        deleteSpace: _deleteSpace
+        }
       }
     }
-
-    var interactions = function(){
-
-      var _addArtist = function(artist){
-        Pard.Bus.trigger('addArtist', artist);
-        _tableManager.addArtist(artist);
-      }
-
-      var _addSpace = function(space){
-       _programManager.addSpace(space);
-       _tableManager.addSpace(space);
-       _proposalsManager.addSpace(space);
-      }
-
-      var _deleteArtist = function(profile_id, proposal_id){
-        _programManager.deleteArtist(profile_id, proposal_id);
-        _tableManager.deleteArtist(proposal_id);
-        _proposalsManager.deleteArtist(profile_id, proposal_id);
-      }
-
-      var _deleteSpace = function(profile_id){
-        _programManager.deleteSpace(profile_id);
-        _tableManager.deleteSpace(profile_id);
-        _proposalsManager.deleteSpace(profile_id);
-      }
-
-      return{
-        addArtist: _addArtist,
-        addSpace: _addSpace,
-        deleteArtist: _deleteArtist,
-        deleteSpace: _deleteSpace
-      }
-
-    }
-
-    var _interactions = interactions();
-
-    var addArtist = _interactions.addArtist;
-    var addSpace = _interactions.addSpace;
-    var deleteArtist = _interactions.deleteArtist;
-    var deleteSpace = _interactions.deleteSpace;
 
     var _programManager = ProgramManager();
-    var _tableManager = Pard.Widgets.TableManager(the_event, interactions);
+    //var _tableManager = Pard.Widgets.TableManager(the_event, interactions);
+
+    var _tableManager = TableManager();
     var _proposalsManager = ProposalsManager();
     var _qrManager = Pard.Widgets.QRManager(the_event.qr);
-
 
     var _lastSelectedPanel = _tableManager;
     _tableTab.addClass('tab-selected')
