@@ -71,8 +71,9 @@ class EventsController < BaseController
   get '/event_manager' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
     event = Repos::Events.get_event params[:id]
+    forms = Repos::Calls.get_forms event[:call_id]
     halt erb(:not_found) unless event[:user_id] == session[:identity]
-    erb :event_manager, :locals => {:eventt => event.to_json}
+    erb :event_manager, :locals => {:the_event => event.to_json, :forms => forms.to_json}
   end
 
   private

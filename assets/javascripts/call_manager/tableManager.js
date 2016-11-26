@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.TableManager = function(the_event){
+  ns.TableManager = function(the_event, forms){
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;
@@ -74,35 +74,18 @@
          target: '_blank'
        }).text(_addressText);
 
-       _name.on('click', function(){
-         if (!(_forms)) {
-           Pard.Backend.getCallForms(the_event.call_id, function(data){
-             _forms = data.forms;
-             var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
-             _popupDisplayed.setDeleteProposalCallback(function(data){
-               if (data['status'] == 'success'){
-                 Pard.Bus.trigger('deleteSpace', {'profile_id': space.profile_id});
-               }
-               else{
-                 Pard.Widgets.Alert('',data.reason);
-               }
-             })
-             _popupDisplayed.open();
-           });
-         }
-         else{
-           var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, _forms['space'][space.form_category], 'space', the_event.name);
-           _popupDisplayed.setDeleteProposalCallback(function(data){
-             if (data['status'] == 'success'){
-               Pard.Bus.trigger('deleteSpace', {'profile_id': space.profile_id});
-             }
-             else{
-               Pard.Widgets.Alert('',data.reason);
-             }
-           });
-           _popupDisplayed.open();
-         }
-       });
+      _name.on('click', function(){
+        var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, forms['space'][space.form_category], 'space', the_event.name);
+        _popupDisplayed.setDeleteProposalCallback(function(data){
+          if (data['status'] == 'success'){
+            Pard.Bus.trigger('deleteSpace', {'profile_id': space.profile_id});
+          }
+          else{
+            Pard.Widgets.Alert('',data.reason);
+          }
+        });
+        _popupDisplayed.open();
+      });
 
        _rfhCol.append(_icon);
        _nameCol.html(_name);
@@ -130,33 +113,16 @@
        proposal.phone = artist.phone;
        proposal.email = artist.email;
        _name.on('click', function(){
-         if (!(_forms)) {
-           Pard.Backend.getCallForms(the_event.call_id, function(data){
-             _forms = data.forms;
-             var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
-             _popupDisplayed.setDeleteProposalCallback(function(data){
-              if (data['status'] == 'success'){
-                Pard.Bus.trigger('deleteArtist', {'profile_id': artist.profile_id, 'proposal_id': proposal.proposal_id});
-              }
-              else{
-                 Pard.Widgets.Alert('',data.reason);
-               }
-             });
-             _popupDisplayed.open();
-           });
-         }
-         else{
-           var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, _forms['artist'][proposal.form_category], 'artist', the_event.name);
-           _popupDisplayed.setDeleteProposalCallback(function(data){
-             if (data['status'] == 'success'){
-               Pard.Bus.trigger('deleteArtist', {'profile_id': artist.profile_id, 'proposal_id': proposal.proposal_id});
-             }
-             else{
-               Pard.Widgets.Alert('',data.reason);
-             }
-           });
-           _popupDisplayed.open();
-         }
+         var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, forms['artist'][proposal.form_category], 'artist', the_event.name);
+         _popupDisplayed.setDeleteProposalCallback(function(data){
+          if (data['status'] == 'success'){
+            Pard.Bus.trigger('deleteArtist', {'profile_id': artist.profile_id, 'proposal_id': proposal.proposal_id});
+          }
+          else{
+             Pard.Widgets.Alert('',data.reason);
+           }
+         });
+         _popupDisplayed.open();
        });
 
       _rfhCol.append(_icon);

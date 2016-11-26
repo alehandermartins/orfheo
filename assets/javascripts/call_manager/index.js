@@ -10,4 +10,5 @@
 // = require ./bus
 // = require ./programManager
 // = require ./tableManager
+// = require ./proposalsManager
 // = require ./qrManager

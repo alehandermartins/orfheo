@@ -178,7 +178,7 @@ Pard.Outsider = function(profiles){
   $('body').append(_whole);
 }
 
-Pard.EventManager = function(the_event){
+Pard.EventManager = function(the_event, forms){
   $(window).ready(function(){
     $('body').append(_whole);
     $(document).foundation();
@@ -186,7 +186,7 @@ Pard.EventManager = function(the_event){
 
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
-  var _main = Pard.Widgets.Manager(the_event);
+  var _main = Pard.Widgets.Manager(the_event, forms);
   var _footer = Pard.Widgets.Footer();
 
   $(_whole).append(_header.render(), _main.render(), _footer.render());
