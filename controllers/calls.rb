@@ -55,27 +55,30 @@ class CallsController < BaseController
   end
 
   post '/users/modify_artist_proposal' do
-    scopify event_id: true, call_id: true, proposal_id: true, category: true, form_category: true
+    scopify event_id: true, call_id: true, profile_id: true, proposal_id: true, category: true, form_category: true
     check_event_ownership! event_id
     check_proposal_exists! proposal_id
     check_call_exists! call_id
     check_artist_category! category
 
     form = get_artist_form call_id, form_category
-    proposal = ArtistProposal.new(params, session[:identity], form)
+    proposal = ArtistOwnProposal.new(params, session[:identity], form) if profile_id.split('-').last == 'own'
+    proposal = ArtistProposal.new(params, session[:identity], form) unless profile_id.split('-').last == 'own'
     Repos::Events.modify_artist proposal.to_h
     success
   end
 
   post '/users/modify_space_proposal' do
-    scopify event_id: true, call_id: true, proposal_id: true, category: true, form_category: true
+    scopify event_id: true, call_id: true, profile_id: true, proposal_id: true, category: true, form_category: true
     check_event_ownership! event_id
     check_proposal_exists! proposal_id
     check_call_exists! call_id
     check_space_category! category
 
     form = get_space_form call_id, form_category
-    proposal = SpaceProposal.new(params, session[:identity], form)
+    proposal = SpaceOwnProposal.new(params, session[:identity], form) if profile_id.split('-').last == 'own'
+    proposal = SpaceProposal.new(params, session[:identity], form) unless profile_id.split('-').last == 'own'
+
     Repos::Events.modify_space proposal.to_h
     success
   end

@@ -1986,7 +1986,7 @@
     // _submitBtnContainer.append(_submitBtnText)
     _submitBtnContainer.append(_submitBtn, _successIcon.hide());
 
-     _toolsContainer.append(ToolsDropdownMenu().render());
+    _toolsContainer.append(ToolsDropdownMenu().render());
     _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
     _createdWidget.append(_buttonsContainer.append( _toolsContainer, _submitBtnContainer), _selectors.append(_daySelectorContainer, _spaceSelectorContainer,  _showArtists));
     _createdWidget.append(_tableBox);
