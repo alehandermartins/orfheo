@@ -22,7 +22,7 @@ Pard.ProfileManager = {
         if (profile.productions) profile.productions.push(production);
         else profile['productions'] = [production];
       }
-    }); 
+    });
   },
   getProduction: function(production_id){
     var profiles =  Pard.CachedProfiles;
@@ -86,9 +86,9 @@ Pard.Welcome = function(){
 
   var _footer = Pard.Widgets.Footer();
   var _whole = $('<div>').addClass('whole-container');
-  
+
   _whole.append(_header.render(), _main.render().addClass('outsider-main'), _footer.render().addClass('footer-outsider'));
-  
+
   $('body').append(_whole);
 
   $(document).ready(function(){
@@ -100,7 +100,7 @@ Pard.Users = function(profiles){
 
   console.log(profiles);
   Pard.CachedProfiles = profiles;
-  
+
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
@@ -111,7 +111,7 @@ Pard.Users = function(profiles){
   // If no profile trigger popup CreateProfile (do not delete!)
   // $(document).ready( function(){
   //   if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
-  // }); 
+  // });
 
   $('body').append(_whole);
 
@@ -125,7 +125,7 @@ Pard.Profile = function(profiles){
   var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
-    var _footer = Pard.Widgets.Footer();      
+    var _footer = Pard.Widgets.Footer();
     var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
@@ -145,13 +145,13 @@ Pard.Visitor = function(profiles){
   var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
-    var _footer = Pard.Widgets.Footer();      
+    var _footer = Pard.Widgets.Footer();
     var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){$(document).foundation()});
-  } 
+  }
 
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
@@ -166,13 +166,13 @@ Pard.Outsider = function(profiles){
   var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
-    var _footer = Pard.Widgets.Footer();      
+    var _footer = Pard.Widgets.Footer();
     var _header = Pard.Widgets.LoginHeader();
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
      $(document).ready(function(){$(document).foundation()});
-  } 
+  }
 
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
@@ -183,8 +183,7 @@ Pard.EventManager = function(the_event){
     $('body').append(_whole);
     $(document).foundation();
   });
-  console.log(the_event);
-  Pard.CachedEvent = the_event;
+
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
   var _main = Pard.Widgets.Manager(the_event);
@@ -198,7 +197,7 @@ Pard.EventManager = function(the_event){
 Pard.Event = function(the_event, status){
   console.log(the_event);
   console.log(status);
-  //Address 
+  //Address
   //http://localhost:3000/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6
   Pard.UserStatus['status'] = status;
 
@@ -236,7 +235,7 @@ Pard.Chat = function(){
     //var handle = $("#input-handle")[0].value;
     var text   = _inputText.val();
     ws.send(JSON.stringify(text));
-  });  
+  });
   var _chatText = $('<div>');
 
   ws.onopen = function()

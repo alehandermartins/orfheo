@@ -2,9 +2,7 @@
 
 (function(ns){
 
-  ns.Widgets = ns.Widgets || {};  
-
-  ns.Widgets.QRManager = function(qr) {
+  ns.qrManager = function(qr) {
     var _createdWidget = $('<div>');
     var _img = $.cloudinary.image(qr,{ format: 'png', width: 350 , effect: 'saturation:50' });
     _createdWidget.append(_img);
