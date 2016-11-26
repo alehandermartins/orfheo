@@ -350,7 +350,7 @@
     }
   }
 
-  ns.Widgets.DisplayPopupProposal = function(proposal, form, type, popupTitle){
+  ns.Widgets.DisplayPopupProposal = function(proposal, form, type, popupTitle, event_id, call_id){
 
     var _content = $('<div>').addClass('very-fast reveal full');
     _content.empty();
@@ -363,9 +363,24 @@
     var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
     var _modifyProposal = $('<a>').attr('href','#').text('Modifica').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'));
 
-    var closepopup = function(){};
-    var deleteCallback = function(){};
+    var deleteCallback = function(data){
+      if (data['status'] == 'success'){
+        if (type == 'artist') Pard.Bus.trigger('deleteArtist', {'profile_id': profile_id, 'proposal_id': proposal.proposal_id});
+        else if (type == 'space') Pard.Bus.trigger('deleteSpace', {'profile_id': profile_id});
+        Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
+      }
+      else{
+        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+        if (typeof _dataReason == 'object')
+          Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+        else{
+          console.log(data.reason);
+          Pard.Widgets.Alert('', _dataReason, location.reload());
+        }
+      }
+    }
     var modifyCallback = function(){};
+    var closepopup = function(){};
 
     var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, type, function(){_popup.close()}, deleteCallback)}, 'alert-container-full');
 
@@ -382,7 +397,7 @@
         var _submitForm = _formWidget.getVal();
         _submitForm['proposal_id'] = proposal.proposal_id;
         console.log(_submitForm);
-        _modifyProposalBackend[type](Pard.CachedEvent.event_id, Pard.CachedEvent.call_id, _submitForm, modifyCallback);
+        _modifyProposalBackend[type](event_id, call_id, _submitForm, modifyCallback);
       });
       var _message = Pard.Widgets.PopupContent(popupTitle, _formWidget);
       _message.setCallback(function(){
@@ -418,12 +433,6 @@
     return{
       open: function(){
         _popup.open();
-      },
-      setDeleteProposalCallback: function(callback){
-        deleteCallback = callback;
-      },
-      setModifyProposalCallback: function(callback){
-        modifyCallback = callback;
       }
     }
   }

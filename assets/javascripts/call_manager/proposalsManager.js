@@ -123,50 +123,16 @@
     var _spacesOwnBox = $('<div>').addClass('ownBox-call-manager');
     var _artistsOwnBox = $('<div>').addClass('ownBox-call-manager');
 
-    var _deleteProposalCallback = function(proposal, profile_id, type, proposalContainer, data){
-      if (data['status'] == 'success'){
-      $.wait(
-        '',
-        function(){
-          if (type == 'artist') deleteArtist({'profile_id': profile_id, 'proposal_id': proposal.proposal_id});
-          else if (type == 'space') {deleteSpace({'profile_id': profile_id});}
-        },
-        function(){
-          Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
-        }
-      )
-      }
-      else{
-        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
-        if (typeof _dataReason == 'object'){
-          Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
-        }
-        else{
-          console.log(data.reason);
-          Pard.Widgets.Alert('', _dataReason, location.reload());
-        }
-      }
-    }
-
     var _modifyProposalCallback = function(data){
-      console.log(data);
       if (data['status'] == 'success'){
-      $.wait(
-        '',
-        function(){
-          if (type == 'artist') console.log('modify');
-          else if (type == 'space') console.log('modify');
-        },
-        function(){
-          Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
-        }
-      )
+        if (type == 'artist') console.log('modify');
+        else if (type == 'space') console.log('modify');
+        Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
-        if (typeof _dataReason == 'object'){
+        if (typeof _dataReason == 'object')
           Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
-        }
         else{
           console.log(data.reason);
           Pard.Widgets.Alert('', _dataReason, location.reload());
@@ -180,13 +146,7 @@
       if (proposal['title'])  _proposalListed.append(Pard.Widgets.IconManager(proposal['category']).render().addClass('artIcon'), _namePopupCaller.text(Pard.Widgets.CutString(proposal['title'],55)).addClass('artTitle'));
       else _namePopupCaller.text(Pard.Widgets.CutString(proposal['name'],55));
       _namePopupCaller.click(function(){
-        var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, forms[type][proposal.form_category], type, the_event.name);
-        _popupDisplayed.setDeleteProposalCallback(function(data){
-          _deleteProposalCallback(proposal, profile_id, type, proposalContainer, data);
-        });
-        _popupDisplayed.setModifyProposalCallback(function(data){
-          _modifyProposalCallback(data);
-        });
+        var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, forms[type][proposal.form_category], type, the_event.name, the_event.event_id, the_event.call_id);
         _popupDisplayed.open();
       });
       _proposalListed.append(_namePopupCaller);

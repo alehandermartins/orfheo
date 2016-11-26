@@ -418,15 +418,7 @@
 
         //Proposal form info
         titleText.on('click', function(){
-          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, forms['artist'][proposal.form_category], 'artist', the_event.name);
-          _popupDisplayed.setDeleteProposalCallback(function(data){
-            if (data['status'] == 'success'){
-              Pard.Bus.trigger('deleteArtist', {'profile_id': artist.profile_id, 'proposal_id': proposal.proposal_id});
-            }
-            else{
-              Pard.Widgets.Alert('',data.reason);
-            }
-          });
+          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, forms['artist'][proposal.form_category], 'artist', the_event.name, the_event.event_id, the_event.call_id);
           _popupDisplayed.open();
         });
 
@@ -641,15 +633,7 @@
 
         //Popup showing the space form
         _titleText.on('click', function(){
-          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, forms['space'][space.form_category], 'space', the_event.name);
-          _popupDisplayed.setDeleteProposalCallback(function(data){
-            if (data['status'] == 'success'){
-              Pard.Bus.trigger('deleteSpace', {'profile_id': space.profile_id});
-            }
-            else{
-              Pard.Widgets.Alert('',data.reason);
-            }
-          });
+          var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, forms['space'][space.form_category], 'space', the_event.name, the_event.event_id, the_event.call_id);
           _popupDisplayed.open();
         });
 
