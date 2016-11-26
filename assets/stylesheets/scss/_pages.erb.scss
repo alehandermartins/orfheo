@@ -1214,6 +1214,7 @@ Production Section
   }
 }
 
+
 .createProductionForm .selection{
   font-size: 1rem;
   .iconCategory-select2{
@@ -1414,10 +1415,21 @@ table.table-proposal.dataTable thead th, table.table-proposal.dataTable tfoot th
   border: none;
 }
 
-div.dt-button-collection{
+div.dt-button-collection.button-list{
+  @include border-radius($element-border-radius); 
+  max-height: 70%;
+  overflow-y: auto;
+  padding: 0.1rem 0.3rem;
+  .dt-button{
+    margin: 0.2rem 0rem;  
+  }
+}
+
+div.dt-button-collection.big_layout{
   max-height: 70%;
   overflow-y: auto;
   width: 32rem;
+ 
   @include border-radius($element-border-radius); 
   .dt-button.buttons-colvisGroup, .dt-button.buttons-colvisRestore{
     /* width: 47.6%; */
@@ -1434,15 +1446,7 @@ div.dt-button-collection{
     background-color: white;
     background-image: none;
     box-shadow: none;
-    border: 1px solid $grey-2;
-    /* :hover{
-      box-shadow: none;
-      color: black;
-      font-weight: bold;
-      background-image: none;
-      background-color: $grey-1;
-    } */
-    
+    border: 1px solid $grey-2;    
   }
   a.dt-button.buttons-columnVisibility.active:not(.disabled){
     color: black;
@@ -1454,20 +1458,10 @@ div.dt-button-collection{
     background-image: none;
     box-shadow: none;
     background-color:  $grey-1;
-    /* background: none; */
 
   }
-/*   a.dt-button.buttons-columnVisibility:not(.disabled):hover:not(.disabled){
-    box-shadow: inset 1px 1px 3px #999999;
-    color: black;
-    font-weight: bold;
-    background-image: none;
-    background-color: $grey-1;
-  } */
   a.dt-button.buttons-columnVisibility.active:not(.disabled):hover:not(.disabled){
     box-shadow: none;
-    /* background-color: white;
-    font-weight: normal; */
   }
 }
 
@@ -1592,12 +1586,30 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 
 .types-selector-call-manager{
   margin-bottom: 2.5rem;
-  width: 17rem;
+  width: 20rem;
   display: inline-block;
   margin-right: 3rem;
   margin-right: 9rem;
 
+  .select2-selection__placeholder{
+    color: #444 !important;
+  }
+
 }
+
+
+.orfheoTableSelector{
+  li.select2-results__option{
+    padding: 0 6px;  
+    /* max-height: 22px; */
+    /* font-size: $almostNormalSize; */
+  }
+  input.select2-search__field {
+    margin-bottom: 0;
+    height: 2.2rem;
+  }
+}
+
 
 .select-category-container-call-manager{
   width: 17rem;
@@ -1621,7 +1633,6 @@ span.select2-container--default .select2-selection--single{
 
 div.dt-buttons{
   float: right;
-  margin-right: 2rem;
   top: 0.5rem;
 }
 
@@ -1644,6 +1655,24 @@ a.dt-button{
   border: none;  
   margin-left: 0.2rem;
   margin-top: 0.5rem;
+}
+
+.changeColumnsBtn, .ExportCollectionBtn{
+    @extend .pard-btn;
+    padding: 0;
+    color:  white;
+    background: black;
+    padding: 0 !important;  
+    height: 22px;
+    width: 35px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+  span.material-icons{
+    font-size: 1.1rem;
+    margin: 3px 0 0 0;
+    @include border-radius($element-border-radius);
+  }
 }
 
 

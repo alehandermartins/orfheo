@@ -7,10 +7,6 @@
 
   ns.Widgets.TableManager = function(the_event, interactions){
 
-    // var addArtist = interactions.addArtist;
-    // var addSpace = interactions.addSpace;
-    
-    // var the_event = Pard.CachedEvent;
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var _createdWidget = $('<div>');
@@ -27,8 +23,7 @@
 
     _tags.push({
       id: 'allProposals',
-      text: 'Todas las propuestas',
-      table: _tablesContainer['allProposals']
+      text: 'Todas las propuestas'
     });
 
     var _typesDictionary = {
@@ -43,8 +38,6 @@
 
       _formTypes.forEach(function(type){
         if (_forms[type]){
-          // _tablesContainer[type] = $('<div>');
-          // _dataTables[type] = {};
           _selectorOptions[type] = [];
           for (var formcat in _forms[type]){
             _tablesContainer[formcat] = $('<div>');
@@ -83,19 +76,51 @@
       _typeSelector.select2({
         data: _tags,
         templateResult: Pard.Widgets.FormatResource,
-        minimumResultsForSearch: Infinity
-        // dropdownCssClass: 'orfheoTypeFormSelector'
+        allowClear: true,
+         placeholder: {
+          id: 'allProposals', // the value of the option
+          text: 'Todas las propuestas'
+        },
+        // minimumResultsForSearch: Infinity
+        dropdownCssClass: 'orfheoTableSelector'
       });
       var lastTypeSelected = 'allProposals';
-      _typeSelector.on('select2:select', function(){
+      _typeSelector.on('change', function(){
         var _data = _typeSelector.select2('data')[0];
-        console.log(_data); 
         if(_data['id'] != lastTypeSelected){
           _tablesContainer[lastTypeSelected].hide();
           _tablesContainer[_data['id']].show();
           lastTypeSelected = _data['id'];
         }
       });
+      _typeSelector.on("select2:unselecting", function (e) {
+        _typeSelector.on('select2:opening', function(e) {
+          e.preventDefault();
+        }); 
+        setTimeout(function() {
+          _typeSelector.off('select2:opening');
+        }, 1);
+      });
+
+      var _emailWidgetsBtn = $('<button>').append(Pard.Widgets.IconManager('mailinglist').render()).attr('type','button');
+      _emailWidgetsBtn.click(function(){
+        Pard.Widgets.BigAlert('', Pard.Widgets.MailinglistMaker());
+      });
+
+      var _copyEmailBtn = $('<button>').attr('type','button').text('Exporta lista de correos'); 
+
+      _copyEmailBtn.click(function(){
+        var columnData = _dataTables['allProposals'].table.column(5, { search:'applied' }).data().unique();
+        var _emailList = '';
+        console.log(columnData.length);
+        columnData.each(function(email){
+          _emailList += email+', ';
+        });
+        _emailList = _emailList.substring(0,_emailList.length-2)
+        Pard.Widgets.CopyToClipboard(_emailList);
+      });
+
+      _tablesContainer['allProposals'].prepend(_copyEmailBtn);
 
       $(document).ready(function() {
         // for (var type in _dataTables){ 
@@ -134,32 +159,23 @@
               ],
             // keys: true,
             dom: 'Bfrtip',
+            // dom: {
+            //   collection: {
+            //   tag: 'ul',
+            //   className: 'dt-button-collection f-dropdown open',
+            //   button: {
+            //   tag: 'a',
+            //   className: 'small'
+            //   }
+            //   }
+            //   },
             buttons: [
               {
-                  extend: 'copy',
-                  text: 'Copia',
-                  exportOptions: {
-                      columns: ':visible'
-                  }
-              },
-              {
-                extend: 'excel',
-                exportOptions: {
-                    columns: ':visible'
-                },
-                filename: 'Tabla_espacios'
-
-              },
-              {
                 extend: 'colvis',
-                text: 'Columnas',
-                collectionLayout: 'fixed',
-                //  postfixButtons: [  
-                //  {
-                //   extend: 'colvisRestore',
-                //   text: 'Configuración incial',
-                //   show: ':hidden'
-                // }],
+                text: Pard.Widgets.IconManager('visibility').render(),
+                className: 'changeColumnsBtn',
+                collectionLayout: 'fixed big_layout',
+                fade: 200,
                 prefixButtons: [{
                   extend: 'colvisGroup',
                   text: 'Selecciona todo',
@@ -175,26 +191,41 @@
                   text: 'Configuración incial',
                   show: ':hidden'
                 }]
+              },
+              {
+                extend: 'collection',
+                text:  Pard.Widgets.IconManager('export').render(),
+                className: 'ExportCollectionBtn',
+                collectionLayout: 'button-list',
+                // backgroundClassName: 'ExportCollection-background',
+                autoClose: true,
+                fade: 200,
+                // background: false,
+                buttons: [
+                  {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    filename: 'Tabla-'+typeTable
+                  },
+                  {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    orientation: 'landscape',
+                    filename: 'Tabla-'+typeTable
+                  },
+                  {
+                    extend: 'copy',
+                    text: 'Copia',
+                    exportOptions: {
+                    columns: ':visible'
+                  }
+                  }
+                ]
               }
-                      
-              // {
-              //   extend: 'pdf',
-              //   exportOptions: {
-              //       columns: ':visible'
-              //   },
-              //   orientation: 'landscape',
-              //   filename: _titleFile[_selected]
-              // }
-              // {
-              //   extend: 'print',
-              //   text: 'Imprime',
-              //   exportOptions: {
-              //     modifier: {
-              //         page: 'current'
-              //     }
-              //   },
-              //   title: _titleFile[_selected]
-              // }
               ]
             });
           }
@@ -231,39 +262,40 @@
             dom: 'Bfrtip',
             buttons: [
               {
-                  extend: 'copy',
-                  text: 'Copia',
-                  exportOptions: {
+                extend: 'collection',
+                text:  Pard.Widgets.IconManager('export').render(),
+                className: 'ExportCollectionBtn',
+                autoClose: true,
+                fade: 200,
+                collectionLayout: 'button-list',
+                // background: false,
+                buttons: [
+                  {
+                    extend: 'excel',
+                    text:'Exporta Excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    filename: 'Tabla-'+typeTable
+                  },
+                  {
+                    extend: 'pdf',
+                    text:'Crea PDF',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    orientation: 'landscape',
+                    filename: 'Tabla-'+typeTable
+                  },
+                  {
+                    extend: 'copy',
+                    text: 'Copia los datos',
+                    exportOptions: {
                       columns: ':visible'
+                    }
                   }
-              },
-              {
-                extend: 'excel',
-                exportOptions: {
-                    columns: ':visible'
-                },
-                filename: 'Tabla_espacios'
-
-              },                      
-              {
-                extend: 'pdf',
-                exportOptions: {
-                    columns: ':visible'
-                },
-                orientation: 'landscape',
-                filename: 'Artistas_Espacios'
-              }
-              // {
-              //   extend: 'print',
-              //   text: 'Imprime',
-              //   exportOptions: {
-              //     modifier: {
-              //         page: 'current'
-              //     }
-              //   },
-              //   title: _titleFile[_selected]
-              // }
-              ]
+                  ]
+              }]
             });
           }
         });
