@@ -5,7 +5,7 @@
   ns.Widgets = ns.Widgets || {};
 
 
-  ns.Widgets.TableManager = function(the_event, forms){
+  ns.Widgets.TableManager = function(the_event, forms, displayer){
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;
@@ -30,7 +30,7 @@
       space: 'Espacios' 
     }
 
-    _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(forms, the_event);
+    _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(forms, displayer);
     _tablesContainer['allProposals'] = $('<div>').append(_dataTables['allProposals'].table);
 
     _formTypes.forEach(function(type){
@@ -38,7 +38,7 @@
         _selectorOptions[type] = [];
         for (var formcat in forms[type]){
           _tablesContainer[formcat] = $('<div>');
-          _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat], the_event);
+          _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat], displayer);
           _selectorOptions[type].push({id:formcat, text:formcat, table: _dataTables[formcat]})
           _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
         }
@@ -51,15 +51,18 @@
     });  
     
     spaces.forEach(function(proposal){
+      var _proposal = $.extend(true, {}, proposal);
       // necesary for proposals conFusion withput form cat
-      if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
+      proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
+      proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
+      _proposal.type = 'space';
       _dataTables[proposal.form_category].addRow(proposal);
       _dataTables['allProposals'].addRow('space', proposal);
     });
     artists.forEach(function(profile){
       profile.proposals.forEach(function(proposal){
-        // necesary for proposals conFusion withput form cat
-        if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
+        proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
+        proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
         _dataTables[proposal.form_category].addRow(proposal, profile);
         _dataTables['allProposals'].addRow('artist', proposal, profile);
       });
@@ -297,34 +300,34 @@
         }
       });
     });
+    
+    
+    Pard.Bus.on('addArtist', function(artist){
+      var proposal = artist.proposals[0];
+      _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
+      _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
+    });
+    Pard.Bus.on('addSpace', function(space){
+      _dataTables[space.form_category].table.row.add(_dataTables[space.form_category].proposalRow(space)).draw();
+      _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('space', space)).draw();
+    });
+    Pard.Bus.on('deleteArtist', function(artist){
+      for (var categoryTable in _dataTables){
+        var _row = _dataTables[categoryTable].table.row('#proposalRow-'+artist.proposal_id);
+        if (_row && _row.index()>-1) _row.remove().draw();
+      }
+    });
+    Pard.Bus.on('deleteSpace', function(space){
+      for (var categoryTable in _dataTables){
+        var _row = _dataTables[categoryTable].table.row('#proposalRow-'+space.profile_id);
+        if (_row && _row.index()>-1) _row.remove().draw();
+      }
+    });
+    
   
-
     return {
       render: function(){
         return _createdWidget;
-      },
-      addArtist: function(artist){
-        var proposal = artist.proposals[0];
-        _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
-        _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
-      },
-      addSpace: function(proposal){
-        _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal)).draw();
-        _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('space', proposal)).draw();
-      },
-      deleteArtist: function(proposal_id){
-        for (var categoryTable in _dataTables){
-          var _row = _dataTables[categoryTable].table.row('#proposalRow-'+proposal_id);
-          console.log(_row.index());
-          if (_row && _row.index()>-1) _row.remove().draw();
-        }
-      },
-      deleteSpace: function(profile_id){
-        for (var categoryTable in _dataTables){
-          var _row = _dataTables[categoryTable].table.row('#proposalRow-'+profile_id);
-          console.log(_row.index());
-          if (_row && _row.index()>-1) _row.remove().draw();
-        }
       }
     }
   }

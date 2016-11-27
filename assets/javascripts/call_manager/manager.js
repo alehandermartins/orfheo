@@ -31,8 +31,8 @@
 
 
     var _programManager = Pard.ProgramManager(the_event, _displayer);
-    //var _tableManager = Pard.Widgets.TableManager(the_event, forms);
-    var _tableManager = Pard.TableManager(the_event, _displayer);
+    var _tableManager = Pard.Widgets.TableManager(the_event, forms, _displayer);
+    // var _tableManager = Pard.TableManager(the_event, _displayer);
     var _proposalsManager = Pard.ProposalsManager(the_event, _displayer);
     var _qrManager = Pard.qrManager(the_event.qr);
 

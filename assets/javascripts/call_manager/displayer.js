@@ -16,28 +16,27 @@
       _content.empty();
       $('body').append(_content);
 
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _mainPopup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
 
       var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
       var _modifyProposal = $('<a>').attr('href','#').text('Modifica').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'));
 
       _deleteProposalCaller.on('click', function(){
-        var _content = $('<div>').addClass('very-fast reveal full');
-        _content.empty();
-        $('body').append(_content);
-
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        var _message = Pard.Widgets.PopupContent('¿Estás seguro/a?',  confirmPopup(), function(){_popup.close()}, deleteCallback, 'alert-container-full');
+        var _deleteContent = $('<div>').addClass('very-fast reveal full');
+        _deleteContent.empty();
+        $('body').append(_deleteContent);
+        var _confirmPopup = new Foundation.Reveal(_deleteContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent('¿Estás seguro/a?',  confirmPopupContent(), 'alert-container-full');
         _message.setCallback(function(){
-          _content.remove();
-          _popup.close();
+          _deleteContent.remove();
+          _confirmPopup.close();
         });
-        _content.append(_message.render());
-        _popup.open();
+        _deleteContent.append(_message.render());
+        _confirmPopup.open();
       });
 
-      var confirmPopup = function(){
+      var confirmPopupContent = function(){
         var _createdWidget = $('<div>');
         var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
         var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
@@ -47,15 +46,6 @@
           artist: Pard.Backend.deleteArtistProposal,
           space: Pard.Backend.deleteSpaceProposal
         }
-
-        _yesBtn.click(function(){
-          $('body').append(spinnerDeleteProposal.el);
-          _deleteProposalBackend[type](proposal.proposal_id, event_id, function(data){
-            deleteCallback(data);
-            spinnerDeleteProposal.stop();
-            closepopup();
-          });
-        });
 
         var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
 
@@ -70,7 +60,14 @@
               callback();
             });
             _yesBtn.click(function(){
-              callback()
+              $('body').append(spinnerDeleteProposal.el);
+              _deleteProposalBackend[type](proposal.proposal_id, event_id, function(data){
+                deleteCallback(data);
+                spinnerDeleteProposal.stop();
+                _mainPopup.close();
+                _content.remove()
+                callback();
+              });
             });
           }
         }
@@ -113,7 +110,7 @@
         var _message = Pard.Widgets.PopupContent(eventName, _formWidget);
         _message.setCallback(function(){
           _content.remove();
-          _popup.close();
+          _mainPopup.close();
         });
         _content.append(_message.render());
       });
@@ -121,7 +118,7 @@
       var _message = Pard.Widgets.PopupContent(eventName, _proposalPrinted);
       _message.setCallback(function(){
         _content.remove();
-        _popup.close();
+        _mainPopup.close();
       });
 
       if (proposal.amend){
@@ -141,7 +138,7 @@
       }
       _content.append(_message.render());
 
-      _popup.open();
+      _mainPopup.open();
     }
 
     return{
