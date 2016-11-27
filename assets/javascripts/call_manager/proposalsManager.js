@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.ProposalsManager = function(the_event, forms){
+  ns.ProposalsManager = function(the_event, displayer){
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;

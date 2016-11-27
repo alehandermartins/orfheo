@@ -12,3 +12,4 @@
 // = require ./tableManager
 // = require ./proposalsManager
 // = require ./qrManager
+// = require ./displayer

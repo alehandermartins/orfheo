@@ -27,10 +27,13 @@
     var _proposalsTab = $('<li>').append(_proposalsTabTitle);
     var _qrTab = $('<li>').append(_qrTabTitle);
 
-    var _programManager = Pard.ProgramManager(the_event, forms);
-    var _tableManager = Pard.Widgets.TableManager(the_event, forms);
-    // var _tableManager = Pard.TableManager(the_event, forms);
-    var _proposalsManager = Pard.ProposalsManager(the_event, forms);
+    var _displayer = Pard.Displayer(the_event, forms);
+
+
+    var _programManager = Pard.ProgramManager(the_event, _displayer);
+    //var _tableManager = Pard.Widgets.TableManager(the_event, forms);
+    var _tableManager = Pard.TableManager(the_event, _displayer);
+    var _proposalsManager = Pard.ProposalsManager(the_event, _displayer);
     var _qrManager = Pard.qrManager(the_event.qr);
 
     var _lastSelectedPanel = _tableManager;

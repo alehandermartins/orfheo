@@ -95,7 +95,7 @@ class CallsController < BaseController
     Repos::Events.delete_artist_proposal proposal_id
 
     send_rejection_mail(event, proposal[:user_id], proposal[:title]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
-    success
+    success({profile_id: proposal[:profile_id], proposal_id: proposal[:proposal_id]})
   end
 
   post '/users/delete_space_proposal' do
@@ -110,7 +110,7 @@ class CallsController < BaseController
     Repos::Events.delete_space_proposal proposal_id
 
     send_rejection_mail(event, proposal[:user_id], proposal[:name]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
-    success
+    success({profile_id: proposal[:profile_id]})
   end
 
   post '/users/send_artist_own_proposal' do
