@@ -28,9 +28,8 @@
     var _qrTab = $('<li>').append(_qrTabTitle);
 
     var _programManager = Pard.ProgramManager(the_event, forms);
-    //var _tableManager = Pard.Widgets.TableManager(the_event, interactions);
-
-    var _tableManager = Pard.TableManager(the_event, forms);
+    var _tableManager = Pard.Widgets.TableManager(the_event, forms);
+    // var _tableManager = Pard.TableManager(the_event, forms);
     var _proposalsManager = Pard.ProposalsManager(the_event, forms);
     var _qrManager = Pard.qrManager(the_event.qr);
 

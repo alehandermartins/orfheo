@@ -352,6 +352,8 @@
 
   ns.Widgets.DisplayPopupProposal = function(proposal, form, type, popupTitle){
 
+    console.log(popupTitle)
+
     var _content = $('<div>').addClass('very-fast reveal full');
     _content.empty();
     $('body').append(_content);
