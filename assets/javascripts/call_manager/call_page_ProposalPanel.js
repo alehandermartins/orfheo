@@ -352,23 +352,74 @@
 
   ns.Widgets.DisplayPopupProposal = function(proposal, form, type, popupTitle, event_id, call_id){
 
-    console.log(popupTitle)
-
     var _content = $('<div>').addClass('very-fast reveal full');
     _content.empty();
     $('body').append(_content);
 
     var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-
     var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
 
     var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
     var _modifyProposal = $('<a>').attr('href','#').text('Modifica').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'));
 
+    _deleteProposalCaller.on('click', function(){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent('¿Estás seguro/a?',  confirmPopup(), function(){_popup.close()}, deleteCallback, 'alert-container-full');
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    });
+
+    var confirmPopup = function(){
+      var _createdWidget = $('<div>');
+      var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
+      var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+
+      var spinnerDeleteProposal =  new Spinner().spin();
+      var _deleteProposalBackend = {
+        artist: Pard.Backend.deleteArtistProposal,
+        space: Pard.Backend.deleteSpaceProposal
+      }
+
+      _yesBtn.click(function(){
+        $('body').append(spinnerDeleteProposal.el);
+        _deleteProposalBackend[type](proposal.proposal_id, event_id, function(data){
+          deleteCallback(data);
+          spinnerDeleteProposal.stop();
+          closepopup();
+        });
+      });
+
+      var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
+
+      _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn));
+
+      return {
+        render: function(){
+          return _createdWidget;
+        },
+        setCallback: function(callback){
+          _noBtn.click(function(){
+            callback();
+          });
+          _yesBtn.click(function(){
+            callback()
+          });
+        }
+      }
+    }
+
     var deleteCallback = function(data){
       if (data['status'] == 'success'){
-        if (type == 'artist') Pard.Bus.trigger('deleteArtist', {'profile_id': profile_id, 'proposal_id': proposal.proposal_id});
-        else if (type == 'space') Pard.Bus.trigger('deleteSpace', {'profile_id': profile_id});
+        if (type == 'artist') Pard.Bus.trigger('deleteArtist', data);
+        else if (type == 'space') Pard.Bus.trigger('deleteSpace', data);
         Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
       }
       else{
@@ -383,8 +434,6 @@
     }
     var modifyCallback = function(){};
     var closepopup = function(){};
-
-    var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteOwnProposalMessage(proposal.proposal_id, type, function(){_popup.close()}, deleteCallback)}, 'alert-container-full');
 
     var _modifyProposalBackend = {
       artist: Pard.Backend.modifyArtistProposal,
@@ -422,7 +471,7 @@
       _message.appendToContent(_element);
     };
 
-    var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposal.render()).addClass('actionButton-container-popup');
+    var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposalCaller).addClass('actionButton-container-popup');
     // var _actionBtnContainer = $('<div>').append(_deleteProposal.render()).addClass('actionButton-container-popup');
 
     _message.prependToContent(_actionBtnContainer);

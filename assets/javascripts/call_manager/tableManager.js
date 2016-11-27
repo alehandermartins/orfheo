@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.TableManager = function(the_event, forms){
+  ns.TableManager = function(the_event, displayer){
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;
@@ -75,8 +75,7 @@
        }).text(_addressText);
 
       _name.on('click', function(){
-        var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(space, forms['space'][space.form_category], 'space', the_event.name, the_event.event_id, the_event.call_id);
-        _popupDisplayed.open();
+        displayer.displayProposal(space, 'space');
       });
 
        _rfhCol.append(_icon);
@@ -105,8 +104,7 @@
        proposal.phone = artist.phone;
        proposal.email = artist.email;
        _name.on('click', function(){
-         var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, forms['artist'][proposal.form_category], 'artist', the_event.name, the_event.event_id, the_event.call_id);
-         _popupDisplayed.open();
+         displayer.displayProposal(proposal, 'artist');
        });
 
       _rfhCol.append(_icon);
