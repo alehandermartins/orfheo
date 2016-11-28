@@ -174,7 +174,7 @@
               text: Pard.Widgets.IconManager('mailinglist').render(),
               className: 'mailinglistBtn',
               action: function(){
-                var columnData = _dataTables[typeTable].table.column(9, { search:'applied' }).data().unique();
+                var columnData = _dataTables[typeTable].table.column(_dataTables[typeTable].emailColumn, { search:'applied' }).data().unique();
                 console.log(columnData)
                 var _emailList = '';
                 columnData.each(function(email){

@@ -40,6 +40,7 @@
 
     var _colPosition = 0;
     var _hiddenColumns = [];
+    var _emailColumn;
 
     var _printTitleAndFoot = function(field){
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
@@ -54,10 +55,11 @@
       _titleRowFoot.append(_colFoot);
     }
 
-    _orfheoFields[type].forEach(function(field){
+    _orfheoFields[type].forEach(function(field, index){
       if (_form[field] || $.inArray(field, _mandatoryFields[type])>-1){
         if ($.inArray(field, _shownColumns[type])<0) _hiddenColumns.push(_colPosition);
         _colPosition += 1;
+        if (field == 'email') _emailColumn = index;
         _printTitleAndFoot(field);
       }
     });
@@ -108,6 +110,7 @@
 
       return _row;
     }
+    console.log(_emailColumn)
 
     return {
       table: _table,
@@ -115,7 +118,8 @@
         _tbody.append(proposalRow(proposal, profile))
       },
       proposalRow: proposalRow,
-      hiddenColumns: _hiddenColumns
+      hiddenColumns: _hiddenColumns,
+      emailColumn: _emailColumn
     }
   }
 
