@@ -140,8 +140,47 @@
       _mainPopup.open();
     }
 
+    var _createOwnProposal = function(type, participants){
+      var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
+      _content.empty();
+      $('body').append(_content);
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+
+      var _callbackCreatedProposal = function(data){
+        if(data['status'] == 'success') {
+          if (Object.keys(data)[1] == 'space') Pard.Bus.trigger('addSpace', data.space);
+          else if (Object.keys(data)[1] == 'artist'){Pard.Bus.trigger('addArtist', data.artist);}
+          Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
+        }
+        else{
+          Pard.Widgets.Alert('',Pard.Widgets.Dictionary(data.reason).render());
+          // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
+        }
+      }
+
+      var _sendProposal = function(){
+        var _submitForm = _createOwnProposalWidget.getVal();
+        _submitForm['call_id'] = the_event.call_id;
+        _submitForm['event_id'] = the_event.event_id;
+        if (type == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, _callbackCreatedProposal);
+        else if (type == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm, _callbackCreatedProposal);
+      };
+
+      _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(forms[type], type, participants);
+      _createOwnProposalWidget.setSend(_sendProposal);
+      var _message = Pard.Widgets.PopupContent('Crea y enscribe una propuesta de tipo '+Pard.Widgets.Dictionary(type).render().toLowerCase(), _createOwnProposalWidget);
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _closePopupForm = function(){_popup.close();};
+      _popup.open();
+    }
+
     return{
-      displayProposal: _displayProposal
+      displayProposal: _displayProposal,
+      createOwnProposal: _createOwnProposal
     }
   }
 

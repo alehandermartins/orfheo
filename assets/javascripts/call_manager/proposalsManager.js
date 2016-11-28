@@ -81,33 +81,8 @@
       }
     }
 
-    var _callbackCreatedProposal = function(data){
-      if(data['status'] == 'success') {
-        if (Object.keys(data)[1] == 'space') Pard.Bus.trigger('addSpace', data.space);
-        else if (Object.keys(data)[1] == 'artist'){Pard.Bus.trigger('addArtist', data.artist);}
-        Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
-      }
-      else{
-        Pard.Widgets.Alert('',Pard.Widgets.Dictionary(data.reason).render());
-        // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
-      }
-    }
 
-    var _openPopupForm = function(type, participants){
-      var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
-      _content.empty();
-      $('body').append(_content);
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(forms[type], type, participants, _callbackCreatedProposal);
-      var _message = Pard.Widgets.PopupContent('Crea y enscribe una propuesta de tipo '+Pard.Widgets.Dictionary(type).render().toLowerCase(), _createOwnProposalWidget);
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      });
-      _content.append(_message.render());
-      _closePopupForm = function(){_popup.close();};
-      _popup.open();
-    }
+    var _openPopupForm = displayer.createOwnProposal;
 
     _createArtistCaller.click(function(){
       _openPopupForm('artist', _ownArtists);
@@ -146,8 +121,7 @@
       if (proposal['title'])  _proposalListed.append(Pard.Widgets.IconManager(proposal['category']).render().addClass('artIcon'), _namePopupCaller.text(Pard.Widgets.CutString(proposal['title'],55)).addClass('artTitle'));
       else _namePopupCaller.text(Pard.Widgets.CutString(proposal['name'],55));
       _namePopupCaller.click(function(){
-        var _popupDisplayed = Pard.Widgets.DisplayPopupProposal(proposal, forms[type][proposal.form_category], type, the_event.name, the_event.event_id, the_event.call_id);
-        _popupDisplayed.open();
+        displayer.displayProposal(proposal, type);
       });
       _proposalListed.append(_namePopupCaller);
       return _proposalListed;
