@@ -30,7 +30,7 @@
       space: 'Espacios' 
     }
 
-    _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(forms, displayer);
+    _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(displayer);
     _tablesContainer['allProposals'] = $('<div>').append(_dataTables['allProposals'].table);
 
     _formTypes.forEach(function(type){
@@ -102,32 +102,20 @@
       }, 1);
     });
 
-    var _emailWidgetsBtn = $('<button>').append(Pard.Widgets.IconManager('mailinglist').render()).attr('type','button');
-    _emailWidgetsBtn.click(function(){
-      Pard.Widgets.BigAlert('', Pard.Widgets.MailinglistMaker());
-    });
-
-    var _copyEmailBtn = $('<button>').attr('type','button').text('Exporta lista de correos'); 
-
-    _copyEmailBtn.click(function(){
-      var columnData = _dataTables['allProposals'].table.column(5, { search:'applied' }).data().unique();
-      var _emailList = '';
-      console.log(columnData.length);
-      columnData.each(function(email){
-        _emailList += email+', ';
-      });
-      _emailList = _emailList.substring(0,_emailList.length-2)
-      Pard.Widgets.CopyToClipboard(_emailList);
-    });
-
-    _tablesContainer['allProposals'].prepend(_copyEmailBtn);
-
     $(document).ready(function() {
       // for (var type in _dataTables){ 
       Object.keys(_dataTables).forEach(function(typeTable){
         if (typeTable != 'allProposals'){
           _dataTables[typeTable].table = _dataTables[typeTable].table.DataTable({
           "language":{
+            buttons: {
+                copyTitle: 'Copia tabla',
+                copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                copySuccess: {
+                    _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
+                    1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+                }
+            },
             "lengthMenu": " Resultados por página _MENU_",
             "zeroRecords": "Ningún resultado",
             "info": "",
@@ -159,16 +147,6 @@
             ],
           // keys: true,
           dom: 'Bfrtip',
-          // dom: {
-          //   collection: {
-          //   tag: 'ul',
-          //   className: 'dt-button-collection f-dropdown open',
-          //   button: {
-          //   tag: 'a',
-          //   className: 'small'
-          //   }
-          //   }
-          //   },
           buttons: [
             {
               extend: 'colvis',
@@ -191,6 +169,22 @@
                 text: 'Configuración incial',
                 show: ':hidden'
               }]
+            },
+            {
+              text: Pard.Widgets.IconManager('mailinglist').render(),
+              className: 'mailinglistBtn',
+              action: function(){
+                var columnData = _dataTables[typeTable].table.column(9, { search:'applied' }).data().unique();
+                console.log(columnData)
+                var _emailList = '';
+                columnData.each(function(email){
+                  _emailList += email+', ';
+                });
+                _emailList = _emailList.substring(0,_emailList.length-2)
+                Pard.Widgets.CopyToClipboard(_emailList);
+                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              }
             },
             {
               extend: 'collection',
@@ -232,6 +226,14 @@
         else{
           _dataTables[typeTable].table = _dataTables[typeTable].table.DataTable({
           "language":{
+            buttons: {
+                copyTitle: 'Copia tabla',
+                copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                copySuccess: {
+                    _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
+                    1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+                }
+            },
             "lengthMenu": " Resultados por página _MENU_",
             "zeroRecords": "Ningún resultado",
             "info": "",
@@ -261,6 +263,21 @@
             ],
           dom: 'Bfrtip',
           buttons: [
+            {
+              text: Pard.Widgets.IconManager('mailinglist').render(),
+              className: 'mailinglistBtn',
+              action: function(){
+                var columnData = _dataTables['allProposals'].table.column(5, { search:'applied' }).data().unique();
+                var _emailList = '';
+                columnData.each(function(email){
+                  _emailList += email+', ';
+                });
+                _emailList = _emailList.substring(0,_emailList.length-2)
+                Pard.Widgets.CopyToClipboard(_emailList);
+                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              }
+            },
             {
               extend: 'collection',
               text:  Pard.Widgets.IconManager('export').render(),
@@ -295,6 +312,7 @@
                   }
                 }
                 ]
+
             }]
           });
         }
@@ -331,6 +349,34 @@
       }
     }
   }
+
+
+  ns.Widgets.CopyPopup = function(title, content){
+    var _createdWidget = $('<div>').addClass('fast reveal full').css('background','transparent');    
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _innerContainer = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>').addClass('dt-button-info');
+    var _title = $('<h2>').text(title);
+    // var _sectionContainer = $('<div>'); 
+    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+    _closeBtn.append($('<span>').html('&times;'));
+
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', close_on_background_click: true});
+
+    // _sectionContainer.append(_title, content);
+    _popupContent.append(_title, content);
+    _innerContainer.append(_popupContent);
+    _createdWidget.append(_outerContainer.append(_innerContainer));
+
+    $('body').append(_createdWidget);
+
+    _createdWidget.click(function(){_popup.close()});
+
+    _popup.open();
+    setTimeout(function(){_popup.close()},2500);
+
+  };
+
 
 
 

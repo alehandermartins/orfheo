@@ -40,11 +40,7 @@
     return succeed;
   }
 
-  ns.Widgets.MailinglistMaker = function(){};
-
-
   ns.Widgets.BigAlert = function(title, content, contentClass, callback){
-    console.log('alert')
     var _createdWidget = $('<div>').addClass('fast reveal full');
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');

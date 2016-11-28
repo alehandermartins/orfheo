@@ -129,8 +129,7 @@
       };
 
       var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposalCaller).addClass('actionButton-container-popup');
-      // var _actionBtnContainer = $('<div>').append(_deleteProposal.render()).addClass('actionButton-container-popup');
-
+  
       _message.prependToContent(_actionBtnContainer);
       if (proposal.proposal_id.indexOf("own") >= 0) {
         var _warningOwnText = $('<p>').text('Propuesta creada por los organizadoores de la convocatoria');
@@ -145,4 +144,6 @@
       displayProposal: _displayProposal
     }
   }
+
+
 }(Pard || {}));

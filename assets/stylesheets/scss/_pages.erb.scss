@@ -1657,7 +1657,7 @@ a.dt-button{
   margin-top: 0.5rem;
 }
 
-.changeColumnsBtn, .ExportCollectionBtn{
+.changeColumnsBtn, .ExportCollectionBtn, .mailinglistBtn{
     @extend .pard-btn;
     padding: 0;
     color:  white;
@@ -1673,6 +1673,23 @@ a.dt-button{
     margin: 3px 0 0 0;
     @include border-radius($element-border-radius);
   }
+}
+
+.mailinglist-popup{
+  text-align: center;
+  /* max-width: 16rem; */
+  .popup-content{
+    margin: 0;
+  }
+  .success-icon-check-call-manager{
+    font-size: 2rem;
+    .material-icons{
+      font-size: 2.5rem;
+    }
+  }
+/*   div{
+    margin-bottom: 1rem;
+  } */
 }
 
 
