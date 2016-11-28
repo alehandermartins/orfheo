@@ -1837,3 +1837,29 @@ table.dataTable thead .sorting {
   position: fixed !important;
 }
 
+/*====================================== 
+TOOLTIP 
+========================================*/
+
+/* .orfheo-tooltip{
+  @include border-radius($element-border-radius);
+}
+
+.orfheo-tooltip-content{
+  background: black;
+  color:  white;
+  font-size: $smallSize;
+}
+ */
+
+.orfheo-tooltip{
+  @include border-radius($element-border-radius);
+  background: black;
+  color:  white;
+  border: none;
+  box-shadow: none;
+  font-size: $smallSize;
+  padding: 0.2rem 0.5rem;
+  margin-top: 0;
+}
+

@@ -317,6 +317,12 @@
           });
         }
       });
+      // var _exportTooltip = $('<span>').text('Exporta');
+      // $('body').append(_exportTooltip);
+      // new Foundation.Tooltip(_exportTooltip, {selector: '.ExportCollectionBtn'});
+      $('.ExportCollectionBtn').attr('title','Exporta los dato de la tabla').tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:500}, position:{collision:'fit', my: 'left top+5px'}});
+      $('.mailinglistBtn').attr('title','Copia lista de correos').tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:500}, position:{collision:'fit', my: 'left+5px top+5px'}});
+      $('.changeColumnsBtn').attr('title','Muestra/Esconde columnas').tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:500}, position:{collision:'fit', my: 'left+5px top+5px'}});
     });
     
     
