@@ -252,9 +252,8 @@
       );
     };
 
-    var _modifyArtistProposal = function(event_id, call_id, form, callback){
-      form['event_id'] = event_id;
-      form['call_id'] = call_id;
+    var _modifyArtistProposal = function(form, callback){
+      console.log(form)
       _send(
         '/users/modify_artist_proposal',
         form,
@@ -262,9 +261,8 @@
       );
     };
 
-    var _modifySpaceProposal = function(event_id, call_id, form, callback){
-      form['event_id'] = event_id;
-      form['call_id'] = call_id;
+    var _modifySpaceProposal = function(form, callback){
+      console.log(form)
       _send(
         '/users/modify_space_proposal',
         form,

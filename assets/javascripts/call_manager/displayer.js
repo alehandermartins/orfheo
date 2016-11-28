@@ -89,7 +89,23 @@
           }
         }
       }
-      var modifyCallback = function(){};
+
+      var modifyCallback = function(data){
+        console.log(data);
+        if (data['status'] == 'success'){
+          console.log('changed');
+        }
+        else{
+          var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+          if (typeof _dataReason == 'object')
+            Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+          else{
+            console.log(data.reason);
+            Pard.Widgets.Alert('', _dataReason);
+          }
+        }
+      };
+
       var closepopup = function(){};
 
       var _modifyProposalBackend = {
@@ -104,8 +120,9 @@
         _formWidget.setSend(function(){
           var _submitForm = _formWidget.getVal();
           _submitForm['proposal_id'] = proposal.proposal_id;
-          console.log(_submitForm);
-          _modifyProposalBackend[type](event_id, call_id, _submitForm, modifyCallback);
+          _submitForm['event_id'] = event_id;
+          _submitForm['call_id'] = call_id, 
+          _modifyProposalBackend[type](_submitForm, modifyCallback);
         });
         var _message = Pard.Widgets.PopupContent(eventName, _formWidget);
         _message.setCallback(function(){
@@ -128,7 +145,9 @@
         _message.appendToContent(_element);
       };
 
-      var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposalCaller).addClass('actionButton-container-popup');
+      var _actionBtnContainer = $('<div>').addClass('actionButton-container-popup');
+      // _actionBtnContainer.append(_modifyProposal);
+      _actionBtnContainer.append(_deleteProposalCaller);
   
       _message.prependToContent(_actionBtnContainer);
       if (proposal.proposal_id.indexOf("own") >= 0) {
@@ -160,8 +179,8 @@
 
       var _sendProposal = function(){
         var _submitForm = _createOwnProposalWidget.getVal();
-        _submitForm['call_id'] = the_event.call_id;
-        _submitForm['event_id'] = the_event.event_id;
+        _submitForm['call_id'] = call_id;
+        _submitForm['event_id'] = event_id;
         if (type == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, _callbackCreatedProposal);
         else if (type == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm, _callbackCreatedProposal);
       };
