@@ -234,7 +234,8 @@
               });
             }
             else{
-              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+              _form[field].input.render().multipleSelect({
+                placeholder: "Selecciona una o más opciones",
                 selectAll: false,
                 countSelected: false,
                 allSelected: false
@@ -249,8 +250,6 @@
       }
     }
 
-    console.log(form);
-
     _mandatoryFields.forEach(function(field){
       if ($.inArray(field,Object.keys(form))>-1) _printField(field);
     });
@@ -262,6 +261,7 @@
     var _filled = function(){
       var _check = true;
       for(var field in _form){
+        if (field == 'address') console.log(_form[field].input.getVal())
         if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
           _form[field].input.addWarning();
           _invalidInput.text('Por favor, revisa los campos obligatorios.');

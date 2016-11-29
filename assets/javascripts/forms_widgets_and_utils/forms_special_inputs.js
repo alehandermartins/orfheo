@@ -346,12 +346,12 @@ ns.Widgets.InputAddressSpace = function(label){
     };
 
     var _inputForm = {
-      route: Pard.Widgets.Input('Calle','text', function(){_inputForm.route.removeWarning();}),
-      street_number: Pard.Widgets.Input('Numero', 'text', function(){_inputForm.street_number.removeWarning();}),
-      door: Pard.Widgets.Input('Piso / Puerta', 'text', function(){_inputForm.door.removeWarning();}),
-      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning();}),
-      country: Pard.Widgets.Input('País','text', function(){_inputForm.country.removeWarning();}),
-      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();})
+      route: Pard.Widgets.Input('Calle','text', function(){_inputForm.route.removeWarning();}, function(){_checkLocation();}),
+      street_number: Pard.Widgets.Input('Numero', 'text', function(){_inputForm.street_number.removeWarning();}, function(){_checkLocation();}),
+      door: Pard.Widgets.Input('Piso / Puerta', 'text', function(){_inputForm.door.removeWarning();}, function(){_checkLocation();}),
+      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning();}, function(){_checkLocation();}),
+      country: Pard.Widgets.Input('País','text', function(){_inputForm.country.removeWarning();}, function(){_checkLocation();}),
+      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();}, function(){_checkLocation();} )
     }
 
     for (var field in _inputForm) _inputForm[field].setClass(field+'-addressForm');
@@ -392,6 +392,7 @@ ns.Widgets.InputAddressSpace = function(label){
           }
         }
       }
+      addressValue();
     }
 
     var addressValue = function(){
@@ -399,30 +400,33 @@ ns.Widgets.InputAddressSpace = function(label){
       var _check = true;
       for (var field in _inputForm){
         _addressValues[field] = _inputForm[field].getVal();
-      }
-      if(_geocod) _addressValues['location'] = _geocod;
+      }      
       ['route', 'street_number', 'locality', 'postal_code'].forEach(function(field){
         if (!(_addressValues[field])) {
           _inputForm[field].addWarning();
           _check = '';
         }
-      })
+      });
       if (_check){
+        if(_geocod) _addressValues['location'] = _geocod;
         return _addressValues;
-      } 
-      return _check;
+      }
+      else{
+        return _check;
+      }
     }
  
     var _placeForm = $('<div>').append(_inputPlace);
     for (var key in _inputForm){_placeForm.append(_inputForm[key].render().attr({disabled: 'true'}))};
 
     var _mapCheckContainer = $('<div>').css({'margin-bottom':'-2.5rem'});
-    var _seeMapText = $('<a>').text('Comprueba la localización en el mapa').attr('href','#');         
+    // var _seeMapText = $('<a>').text('Comprueba la localización en el mapa').attr('href','#');         
     var _map = $('<div>').attr('id', 'gmapProfile');
     var _errorBox = $('<div>');
     var _geocodCont = $('<div>').addClass('geocod-container-adrees-imput');
     var _mapBox = $('<div>').append(_map, _geocodCont);
-    _mapCheckContainer.append($('<div>').append(_seeMapText).css({'text-align':'right','font-size':'0.8125rem', 'margin-top':'0.4rem'}), _errorBox, _mapBox);
+    // _mapCheckContainer.append($('<div>').append(_seeMapText).css({'text-align':'right','font-size':'0.8125rem', 'margin-top':'0.4rem'}), _errorBox, _mapBox);
+    _mapCheckContainer.append(_errorBox, _mapBox);
     var geomap;
     var _geocod;
     var _check = true;
@@ -430,56 +434,35 @@ ns.Widgets.InputAddressSpace = function(label){
     var _lonField = Pard.Widgets.Input('','text');
     var _hereBtn = $('<a>').text('aquí').attr('href','#');
 
-    _seeMapText.on('click',function(){
+    var _checkLocation = function(location){
       _errorBox.empty()
-      // _mapCheckContainer.append();
       var _addressInserted = addressValue();
-      var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressInserted.route + "+" + _addressInserted.street_number + "+" + _addressInserted.locality + "+" + _addressInserted.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-      var _location;
-      $.post(uri, function(data){
-        if(data.status == "OK" && data.results.length > 0){
-          _geocod = data.results[0].geometry.location;
-          _map.addClass('map-inputAddressWidgets');
-          _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
-
-          if (_check){ 
-            geomap = new Maplace({
-              locations: _location,
-              map_div: '#gmapProfile',
-              map_options: {
-                mapTypeControl: false
-              }
-            }).Load();
-            var _geocodField = $('<div>');
-            var _latLabel = $('<label>').text('Latitud').append(_latField.render());
-            var _lonLabel = $('<label>').text('Longitud').append(_lonField.render());
-            var _geoCodText = $('<p>').append('Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ', _hereBtn,'.').css({'font-size':'0.875rem','margin-top':'0.4rem'});
-            _hereBtn.click(function(){
-              _geocod = {lat: _latField.getVal(), lng: _lonField.getVal()};
-              _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
-              geomap.SetLocations(_location, true);
-            });
-            _geocodCont.append(_latLabel, _lonLabel, _geoCodText)
-            _check = false;
+      if (_addressInserted){
+        var _spinnerCheckLocation = new Spinner();
+        _spinnerCheckLocation.spin();
+        $('body').append(_spinnerCheckLocation.el);
+        var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressInserted.route + "+" + _addressInserted.street_number + "+" + _addressInserted.locality + "+" + _addressInserted.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
+        var _location;
+        $.post(uri, function(data){
+          if(data.status == "OK" && data.results.length > 0){
+            _geocod = data.results[0].geometry.location;
+            _displayMap(_geocod);
           }
-          _mapBox.css({'padding-bottom':'2rem', 'margin-top':'0.5rem'})
-          _latField.setVal(_geocod.lat);
-          _lonField.setVal(_geocod.lng); 
-          geomap.SetLocations(_location, true);
-        }
-        else{
-          _errorBox.append($('<p>').text('¡Atención! Google no reconoce la dirección insertada: corrígela, si quieres que sea localizada correctamente.').css({
-            'color':'red',
-            'margin-bottom':'0'
-          }));
-          if (_latField && _lonField) {
-            _latField.setVal('');
-            _lonField.setVal('');
-            _hereBtn.trigger('click');
-          }          
-        }
-      });
-    });
+          else{
+            _errorBox.append($('<p>').text('¡Atención! Google no reconoce la dirección insertada: corrígela, si quieres que sea localizada correctamente.').css({
+              'color':'red',
+              'margin-bottom':'0'
+            }));
+            if (_latField && _lonField) {
+              _latField.setVal('');
+              _lonField.setVal('');
+              _hereBtn.trigger('click');
+            }          
+          }
+          _spinnerCheckLocation.stop();
+        });
+      }
+    }
 
     _placeForm.append(_mapCheckContainer);
 
@@ -495,34 +478,44 @@ ns.Widgets.InputAddressSpace = function(label){
 
     var _displayMap = function(location){
       _geocod = location;
-      var _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
-      if (_check){ 
-        _map.css({'width': '21rem', 'height': '13rem', 'display':'inline-block'});
-        _mapBox.css({'padding-bottom':'2rem', 'margin-top':'0.5rem'}); 
-        geomap = new Maplace({
-          locations: _location,
-          map_div: '#gmapProfile',
-          map_options: {
-            mapTypeControl: false
-          }
-        }).Load();
-        var _geocodField = $('<div>');
+      if (location){ 
+        _map.addClass('map-inputAddressWidgets');
+        _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
+        if (_check){ 
+          geomap = new Maplace({
+            locations: _location,
+            map_div: '#gmapProfile',
+            map_options: {
+              mapTypeControl: false
+            }
+          }).Load();
+          var _geocodField = $('<div>');
+          var _latLabel = $('<label>').text('Latitud').append(_latField.render());
+          var _lonLabel = $('<label>').text('Longitud').append(_lonField.render());
+          var _geoCodText = $('<p>').append('Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ', _hereBtn,'.').css({'font-size':'0.875rem','margin-top':'0.4rem'});
+          _hereBtn.click(function(){
+            _geocod = {lat: _latField.getVal(), lng: _lonField.getVal()};
+            _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
+            geomap.SetLocations(_location, true);
+          });
+          _geocodCont.append(_latLabel, _lonLabel, _geoCodText)
+          _check = false;
+        }
+        _mapBox.css({'padding-bottom':'2rem', 'margin-top':'0.5rem'})
         _latField.setVal(_geocod.lat);
-        _lonField.setVal(_geocod.lng);
-        var _latLabel = $('<label>').text('Latitud').append(_latField.render());
-        var _lonLabel = $('<label>').text('Longitud').append(_lonField.render());
-        var _geoCodText = $('<p>').append('Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ', _hereBtn,'.');
-        _hereBtn.click(function(){
-          _geocod = {lat: _latField.getVal(), lng: _lonField.getVal()};
-          _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
-          geomap.SetLocations(_location, true);
-        });
-        // geomap.SetLocations(_location, true);
-        _geocodCont.append(_latLabel, _lonLabel, _geoCodText)
-        _check = false;
+        _lonField.setVal(_geocod.lng); 
+        geomap.SetLocations(_location, true);
       }
       else{
-        geomap.SetLocations(_location, true);
+        _errorBox.append($('<p>').text('¡Atención! Google no reconoce la dirección insertada: corrígela, si quieres que sea localizada correctamente.').css({
+          'color':'red',
+          'margin-bottom':'0'
+        }));
+        if (_latField && _lonField) {
+          _latField.setVal('');
+          _lonField.setVal('');
+          _hereBtn.trigger('click');
+        }          
       }
     }
 
@@ -531,22 +524,26 @@ ns.Widgets.InputAddressSpace = function(label){
         return _placeForm;
       },
       getVal: function(){
-        return addressValue();
+        var _addressSubmitted = addressValue();
+        return _addressSubmitted;
       },
       setVal: function(_val){
+        console.log(_val);
         for(var field in _inputForm) {
           _inputForm[field].setAttr('disabled', false);
           _inputForm[field].setVal(_val[field]);
         }
+       setTimeout(function(){
+          var _location;
+          _check = true; 
+          _displayMap(_val.location);
+        }, 500)
       },
       addWarning: function(){
         addressValue();
       },
       getLocation: function(){
         return _geocod;
-      },
-      displayMap: function(location){
-        _displayMap(location);
       }
     }
   }

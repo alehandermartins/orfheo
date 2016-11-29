@@ -99,7 +99,7 @@
       } 
       return _check;
     }
-
+ 
     submitButton.on('click',function(){
       spinner.spin();
       $.wait(

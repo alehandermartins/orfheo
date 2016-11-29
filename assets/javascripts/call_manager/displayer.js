@@ -193,7 +193,10 @@
         _popup.close();
       });
       _content.append(_message.render());
-      _closePopupForm = function(){_popup.close();};
+      _closePopupForm = function(){
+        _popup.close();
+        _content.remove();
+      };
       _popup.open();
     }
 

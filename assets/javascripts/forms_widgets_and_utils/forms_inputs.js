@@ -12,7 +12,6 @@
       _input.removeClass('warning');
       if(oninputcallback) oninputcallback();
     });
-
     _input.on('change', function(){
       if(onchangecallback) onchangecallback();
     });

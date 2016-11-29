@@ -1904,7 +1904,7 @@
       _menu.append(_outOfprogramBtn);
       var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
-        $('<button>').attr('type','button').append(
+        $('<button>').attr({'type':'button', 'title':'Menu de herramientas'}).append(
           Pard.Widgets.IconManager('tools').render()
           )
         ,_menu
@@ -1964,7 +1964,7 @@
 
       Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);
     }).render().addClass('submit-program-btn-call-manager');
-    _submitBtn.append(Pard.Widgets.IconManager('save').render());
+    _submitBtn.append(Pard.Widgets.IconManager('save').render().attr('title','Guarda el programa'));
     // _submitBtnContainer.append(_submitBtnText)
     _submitBtnContainer.append(_submitBtn, _successIcon.hide());
 
