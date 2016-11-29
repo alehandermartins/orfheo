@@ -119,7 +119,8 @@
       },
       proposalRow: proposalRow,
       hiddenColumns: _hiddenColumns,
-      emailColumn: _emailColumn
+      emailColumn: _emailColumn,
+      form: form
     }
   }
 

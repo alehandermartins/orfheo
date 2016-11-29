@@ -1610,6 +1610,30 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   }
 }
 
+.columnFilterSelector{
+    li.select2-results__option{
+    padding: 0 6px;  
+    /* max-height: 22px; */
+    /* font-size: $almostNormalSize; */
+  }
+  input.select2-search__field {
+    margin-bottom: 0;
+    height: 2.2rem;
+  }
+  
+
+}
+
+th.column-call-manager-table {
+  .select2-selection__rendered{
+    padding-left: 4px !important;
+    /* padding-right: 15px !important  ; */
+  }
+  .select2-selection__placeholder{
+    color: black !important;
+  }
+}
+
 
 .select-category-container-call-manager{
   width: 17rem;
@@ -1632,8 +1656,9 @@ span.select2-container--default .select2-selection--single{
 }
 
 div.dt-buttons{
-  float: right;
-  top: 0.5rem;
+  position: absolute;
+  right: 0;
+  z-index: 1;
 }
 
 a.dt-button:hover:not(.disabled){
@@ -1702,16 +1727,26 @@ a.dt-button{
 }
 
 
-div.dataTables_wrapper div.dataTables_filter label{
+/* div.dataTables_wrapper div.dataTables_filter label{
   margin-right: 12rem;
   margin-bottom: 1rem;
-}
+} */
 
-div.dataTables_wrapper div.dataTables_filter input{
-  width: 25rem !important;
-  font-size: $almostNormalSize;
+div.dataTables_wrapper div.dataTables_filter{
+  width: 100%;
+  position: relative;
+  margin-bottom: 1rem;
+  height: 2rem;
+  label{
+    @include horizontal-center;
+  }
+  input{
+    width: 20rem !important;
+    height: auto;
+    font-size: $almostNormalSize;
+      /* @include horizontal-center; */
+    }
 }
-
 .allCheckBoxesBox{
   display: inline-block;
   position: absolute;

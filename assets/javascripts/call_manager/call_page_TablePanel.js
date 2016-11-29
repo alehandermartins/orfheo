@@ -220,7 +220,41 @@
                 }
               ]
             }
-            ]
+          ],
+          initComplete: function () {
+            if (_dataTables[typeTable].form.subcategory && _dataTables[typeTable].form.subcategory.args[0].length>1){
+                this.api().column(2).every(function () {
+                  var column = this;
+                  var select = $('<select>').append($('<option>').attr('value','').text(' '))
+                      .appendTo( $(column.header()).empty() );  
+                  column.data().unique().sort().each( function ( d, j ) {
+                      select.append( '<option value="'+d+'">'+d+'</option>' )
+                  } );
+                  
+                  select.select2({
+                    allowClear: true,
+                    placeholder: {
+                      id: '', // the value of the option
+                      text: 'Categoría'
+                    },
+                    minimumResultsForSearch: Infinity,
+                    dropdownCssClass: 'columnFilterSelector'
+                  }).on( 'change', function () {
+                          var val = $.fn.dataTable.util.escapeRegex(
+                              select.val()
+                          );
+                          column
+                              .search( val ? '^'+val+'$' : '', true, false )
+                              .draw();
+                      } );
+
+                  $('th .select2').click(function(e){
+                    e.stopPropagation();
+                    console.log('stop');
+                  });
+                });
+              }
+            }
           });
         }
         else{
@@ -312,7 +346,6 @@
                   }
                 }
                 ]
-
             }]
           });
         }
