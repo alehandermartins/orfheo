@@ -60,6 +60,7 @@
         if ($.inArray(field, _shownColumns[type])<0) _hiddenColumns.push(_colPosition);
         _colPosition += 1;
         if (field == 'email') _emailColumn = index;
+        if (field == 'subcategory') _subcategoryColumn = index;
         _printTitleAndFoot(field);
       }
     });
@@ -110,7 +111,6 @@
 
       return _row;
     }
-    console.log(_emailColumn)
 
     return {
       table: _table,
@@ -120,7 +120,7 @@
       proposalRow: proposalRow,
       hiddenColumns: _hiddenColumns,
       emailColumn: _emailColumn,
-      form: form
+      subcategoryColumn: _subcategoryColumn
     }
   }
 
@@ -142,7 +142,7 @@
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
 
-    var _orfheoFields = ['type','name', 'subcategory', 'titleAddress', 'phone','email'];
+    var _orfheoFields = ['type','name', 'subcategory', 'titleAddress', 'phone','email', 'hiddenType'];
 
     var _form = {}
 
@@ -273,6 +273,18 @@
       },
       label : "Titúlo / Dirección",
       input : "Inputtext"
+    },
+    hiddenType:{
+      info: function(proposal, displayer){
+        var types = {
+          artist: 'Artistas',
+          space: 'Espacios',
+          organization: 'Organizaciones'
+        }
+        return types[proposal.type];
+      },
+      label:'hiddenType',
+      input: 'hiddenType'
     }
   }
 

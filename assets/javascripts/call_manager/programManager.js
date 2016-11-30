@@ -1953,6 +1953,7 @@
     _submitBtn = Pard.Widgets.Button('', function(){
       var program = [];
       _submitBtn.attr('disabled',true).addClass('disabled-button');
+      $('div.ui-tooltip').remove();
       Object.keys(_program).forEach(function(performance_id){
         program.push(_program[performance_id].show);
       });
@@ -1964,7 +1965,7 @@
 
       Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);
     }).render().addClass('submit-program-btn-call-manager');
-    _submitBtn.append(Pard.Widgets.IconManager('save').render().attr('title','Guarda el programa'));
+    _submitBtn.append(Pard.Widgets.IconManager('save').render()).attr('title','Guarda el programa');
     // _submitBtnContainer.append(_submitBtnText)
     _submitBtnContainer.append(_submitBtn, _successIcon.hide());
 

@@ -6,7 +6,7 @@
 
 
   ns.Widgets.TableManager = function(the_event, forms, displayer){
-
+    console.log(forms);
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var _createdWidget = $('<div>');
@@ -94,12 +94,15 @@
       }
     });
     _typeSelector.on("select2:unselecting", function (e) {
+      $(document).tooltip('destroy');
+      $('.select2-selection__rendered').removeAttr('title');
+      $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
       _typeSelector.on('select2:opening', function(e) {
         e.preventDefault();
       }); 
       setTimeout(function() {
         _typeSelector.off('select2:opening');
-      }, 1);
+      }, 10);
     });
 
     $(document).ready(function() {
@@ -222,24 +225,16 @@
             }
           ],
           initComplete: function () {
-            if (_dataTables[typeTable].form.subcategory && _dataTables[typeTable].form.subcategory.args[0].length>1){
-                this.api().column(2).every(function () {
-                  var column = this;
-                  var select = $('<select>').append($('<option>').attr('value','').text(' '))
-                      .appendTo( $(column.header()).empty() );  
+              this.api().column(_dataTables[typeTable].subcategoryColumn).every(function () {
+                var column = this;
+                if (column.data().unique().length>1){
+                  var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
+                  var select = $('<select>').append($('<option>').attr('value','').text(''))
+                      .appendTo(_selectContainer.appendTo($(column.header()).text('Categoría')));  
                   column.data().unique().sort().each( function ( d, j ) {
                       select.append( '<option value="'+d+'">'+d+'</option>' )
                   } );
-                  
-                  select.select2({
-                    allowClear: true,
-                    placeholder: {
-                      id: '', // the value of the option
-                      text: 'Categoría'
-                    },
-                    minimumResultsForSearch: Infinity,
-                    dropdownCssClass: 'columnFilterSelector'
-                  }).on( 'change', function () {
+                  select.on( 'change', function () {
                           var val = $.fn.dataTable.util.escapeRegex(
                               select.val()
                           );
@@ -248,12 +243,11 @@
                               .draw();
                       } );
 
-                  $('th .select2').click(function(e){
+                  select.click(function(e){
                     e.stopPropagation();
-                    console.log('stop');
                   });
-                });
-              }
+                }
+              });
             }
           });
         }
@@ -293,7 +287,7 @@
           "paging": false,
           "scrollCollapse": true,
           "columnDefs": [
-            { "visible": false, "targets": _dataTables[typeTable].hiddenColumns}
+            { "visible": false, "targets":[6]}
             ],
           dom: 'Bfrtip',
           buttons: [
@@ -346,7 +340,57 @@
                   }
                 }
                 ]
-            }]
+            }],
+            initComplete: function () {
+              this.api().columns(2).every(function () {
+                var column = this;
+                if (column.data().unique().length>1){
+                  var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
+                  var select = $('<select>').append($('<option>').attr('value','').text(''))
+                      .appendTo(_selectContainer.appendTo($(column.header()).text('Categoría')));  
+                  column.data().unique().sort().each( function ( d, j ) {
+                      select.append( '<option value="'+d+'">'+d+'</option>' )
+                  } );
+                  select.on( 'change', function () {
+                          var val = $.fn.dataTable.util.escapeRegex(
+                              select.val()
+                          );
+                          column
+                              .search( val ? '^'+val+'$' : '', true, false )
+                              .draw();
+                      } );
+
+                  select.click(function(e){
+                    e.stopPropagation();
+                  });
+                }
+              });
+              var colTosearch = this.api().columns(6, { search:'applied' });
+              this.api().columns(0).every(function () {
+                var rfhCol = this;
+                console.log(colTosearch.data().eq( 0 ).unique().sort());
+                if (colTosearch.data().eq( 0 ).unique().length>1){
+                  var _selectContainer = $('<div>').addClass('select-container-datatableColumn rfh-selector');
+                  var select = $('<select>').append($('<option>').attr('value','').text(''))
+                      .appendTo(_selectContainer.appendTo($(rfhCol.header())));  
+                  colTosearch.data().eq( 0 ).unique().sort().each( function ( d, j ) {
+                      select.append( '<option value="'+d+'">'+d+'</option>' )
+                  } );
+                  select.on( 'change', function () {
+                          var val = $.fn.dataTable.util.escapeRegex(
+                              select.val()
+                          );
+                          colTosearch
+                              .search( val ? '^'+val+'$' : '', true, false )
+                              .draw();
+                      } );
+
+                  select.click(function(e){
+                    e.stopPropagation();
+                  });
+                }
+              });
+            }
           });
         }
       });

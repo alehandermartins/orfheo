@@ -1615,23 +1615,41 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
     padding: 0 6px;  
     /* max-height: 22px; */
     /* font-size: $almostNormalSize; */
-  }
-  input.select2-search__field {
-    margin-bottom: 0;
-    height: 2.2rem;
-  }
-  
-
+  } 
 }
 
 th.column-call-manager-table {
-  .select2-selection__rendered{
+/*   .select2-selection__rendered{
     padding-left: 4px !important;
-    /* padding-right: 15px !important  ; */
   }
   .select2-selection__placeholder{
     color: black !important;
   }
+  .select2-container{
+    width: 7rem !important;
+    max-width: none !important;
+  } */
+  .select-container-datatableColumn{
+    width: 106%;
+    margin-left: -0.4rem;
+    position: relative;
+    height: 1.1rem;
+  }
+  select{
+    width: 100%;
+    padding: 0;
+    padding-left: 0.2rem;
+    padding-right: 0.1rem;
+    font-size: 0.75rem;
+    margin: 0;
+    height: 1.1rem;
+    position: absolute;
+    top: 0.25rem;
+  }
+
+/*   .rfh-selector{
+    width: 2rem;
+  } */
 }
 
 
