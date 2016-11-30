@@ -6,7 +6,6 @@
 
 
   ns.Widgets.TableManager = function(the_event, forms, displayer){
-    console.log(forms);
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var _createdWidget = $('<div>');
@@ -18,6 +17,7 @@
     var _dataTables = {};
     var _tablesContainer = {};
     var _selectorOptions = {};
+    var _proposalsNumber = {};
     var _tags = [];
 
     _tags.push({
@@ -39,8 +39,9 @@
         for (var formcat in forms[type]){
           _tablesContainer[formcat] = $('<div>');
           _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat], displayer);
-          _selectorOptions[type].push({id:formcat, text:formcat, table: _dataTables[formcat]})
+          _selectorOptions[type].push({id:formcat, text:formcat})
           _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
+           _proposalsNumber[formcat] = 0;
         }
         _tags.push({
           text: _typesDictionary[type],
@@ -51,11 +52,11 @@
     });  
     
     spaces.forEach(function(proposal){
-      var _proposal = $.extend(true, {}, proposal);
+      // var _proposal = $.extend(true, {}, proposal);
       // necesary for proposals conFusion withput form cat
       proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
       proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
-      _proposal.type = 'space';
+      _proposalsNumber[proposal.form_category] = _proposalsNumber[proposal.form_category] + 1 || 1;
       _dataTables[proposal.form_category].addRow(proposal);
       _dataTables['allProposals'].addRow('space', proposal);
     });
@@ -63,10 +64,17 @@
       profile.proposals.forEach(function(proposal){
         proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
         proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
+        _proposalsNumber[proposal.form_category] = _proposalsNumber[proposal.form_category] + 1;
         _dataTables[proposal.form_category].addRow(proposal, profile);
         _dataTables['allProposals'].addRow('artist', proposal, profile);
       });
     });
+
+    for (var type in _selectorOptions){
+      _selectorOptions[type].forEach(function(tag){
+        tag.text += '     ('+_proposalsNumber[tag.id]+')';
+      });
+    }
 
     _createdWidget.append(_typeSelectorBox);
     for (var table in _tablesContainer) {
@@ -76,10 +84,12 @@
     _typeSelector.select2({
       data: _tags,
       templateResult: Pard.Widgets.FormatResource,
+      templateSelection: function(val){return val.text.substring(0, val.text.length-3)},
+      // formatResult: function(val){return val.text+'eeee'},
       allowClear: true,
        placeholder: {
         id: 'allProposals', // the value of the option
-        text: 'Todas las propuestas'
+        text: 'Todas las propuestas...'
       },
       // minimumResultsForSearch: Infinity
       dropdownCssClass: 'orfheoTableSelector'
@@ -388,6 +398,28 @@
                   select.click(function(e){
                     e.stopPropagation();
                   });
+                  //   select.select2({
+                  //   allowClear: true,
+                  //   placeholder: {
+                  //     id: '', // the value of the option
+                  //     text: 'Categoría'
+                  //   },
+                  //   minimumResultsForSearch: Infinity,
+                  //   dropdownCssClass: 'columnFilterSelector'
+                  // }).on( 'change', function () {
+                  //         var val = $.fn.dataTable.util.escapeRegex(
+                  //             select.val()
+                  //         );
+                  //         colTosearch
+                  //             .search( val ? '^'+val+'$' : '', true, false )
+                  //             .draw();
+                  //     } );
+
+                  // $('th .select2').click(function(e){
+                  //   e.stopPropagation();
+                  //   console.log('stop');
+                  // });
+
                 }
               });
             }

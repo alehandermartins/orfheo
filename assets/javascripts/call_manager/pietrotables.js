@@ -41,6 +41,8 @@
     var _colPosition = 0;
     var _hiddenColumns = [];
     var _emailColumn;
+    var _subcategoryColumn;
+    // var _proposalsNumber = 0;
 
     var _printTitleAndFoot = function(field){
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
@@ -79,6 +81,7 @@
     _table.append(_tbody);
 
     var proposalRow = function(proposal, profile){
+      // _proposalsNumber += 1;
       var _proposal = $.extend(true, {}, proposal);
       _proposal.name = _proposal.name || profile.name;
       _proposal.phone = _proposal.phone || profile.phone;
