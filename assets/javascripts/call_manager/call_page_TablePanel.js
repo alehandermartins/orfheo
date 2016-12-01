@@ -150,7 +150,7 @@
           "autoWidth": false,
           "bAutoWidth": false,
           "scrollX": true,
-          "scrollY": "90vh",
+          "scrollY": "85vh",
           "paging": false,
           "scrollCollapse": true,
           // 'responsive': true,
@@ -293,7 +293,7 @@
           "autoWidth": false,
           "bAutoWidth": false,
           "scrollX": true,
-          "scrollY": "90vh",
+          "scrollY": "85vh",
           "paging": false,
           "scrollCollapse": true,
           "columnDefs": [
