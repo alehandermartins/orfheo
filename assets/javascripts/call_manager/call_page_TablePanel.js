@@ -48,11 +48,11 @@
           icon: type,
           children: _selectorOptions[type]
         });
+
       }
     });  
     
     spaces.forEach(function(proposal){
-      // var _proposal = $.extend(true, {}, proposal);
       // necesary for proposals conFusion withput form cat
       proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
       proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
@@ -69,12 +69,6 @@
         _dataTables['allProposals'].addRow('artist', proposal, profile);
       });
     });
-
-    // for (var type in _selectorOptions){
-    //   _selectorOptions[type].forEach(function(tag){
-    //     tag.text += ' ('+_proposalsNumber[tag.id]+')';
-    //   });
-    // }
 
     _createdWidget.append(_typeSelectorBox);
     for (var table in _tablesContainer) {
@@ -100,14 +94,11 @@
     _typeSelector.select2({
       data: _tags,
       templateResult:_formatResource,
-      // templateSelection: function(val){return val.text.substring(0, val.text.length-3)},
-      // formatResult: function(val){return val.text+'eeee'},
       allowClear: true,
        placeholder: {
-        id: 'allProposals', // the value of the option
+        id: 'allProposals',
         text: 'Todas las propuestas'
       },
-      // minimumResultsForSearch: Infinity
       dropdownCssClass: 'orfheoTableSelector'
     });
     var lastTypeSelected = 'allProposals';
@@ -131,9 +122,38 @@
       }, 10);
     });
 
+
+    var _filtersWidgets = function(colTosearch, typeTable) {
+      var _ownCheckbox = $('<input>').attr({ type: 'checkbox', 'value': true}).on('change', function(){
+            var val = '';
+            if (_receivedCheckbox.is(":checked")) _receivedCheckbox.prop("checked", false);
+            if(_ownCheckbox.is(":checked")) val = 'own';
+           colTosearch.search(val).draw(); 
+          });
+          var _labelOwn = $('<label>').html('creadas').css({'display':'inline', 'cursor':'pointer'}).on('click', function(){
+              _ownCheckbox.prop("checked", !_ownCheckbox.prop("checked"));
+              _ownCheckbox.trigger('change');
+            });
+          var _receivedCheckbox = $('<input>').attr({ type: 'checkbox', 'value': true}).on('change', function(){
+            var val = '';
+            if(_ownCheckbox.is(":checked")) _ownCheckbox.prop("checked", false);
+            if(_receivedCheckbox.is(':checked')) val = 'received';
+            colTosearch.search(val).draw();
+          });
+          var _labelReceived = $('<label>').html('recibidas').css({'display':'inline', 'cursor':'pointer'}).on('click', function(){
+            console.log('receiveLabel')
+              _receivedCheckbox.prop("checked", !_receivedCheckbox.prop("checked"));
+              _receivedCheckbox.trigger('change');
+            });
+         
+          var _filtersContainer = $('<div>').append($('<span>').append('Filtra: ').css({'font-size':'0.875rem', 'margin-right':'0.5rem'}), $('<span>').append(_ownCheckbox, _labelOwn), $('<span>').append(_receivedCheckbox, _labelReceived)).addClass('ownReceivedFilters-call-page');
+          _tablesContainer[typeTable].prepend($('<div>').append(_filtersContainer).css('position','relative'));
+    }
+
+
     $(document).ready(function() {
-      // for (var type in _dataTables){ 
       Object.keys(_dataTables).forEach(function(typeTable){
+        
         if (typeTable != 'allProposals'){
           _dataTables[typeTable].table = _dataTables[typeTable].table.DataTable({
           "language":{
@@ -173,12 +193,14 @@
           // 'colReorder': true,
           "columnDefs": [
             { "visible": false, "targets": _dataTables[typeTable].hiddenColumns}
-            ],
+          ],
+          "order": [1,'asc'],
           // keys: true,
           dom: 'Bfrtip',
           buttons: [
             {
               extend: 'colvis',
+              columns: ':gt(0)',
               text: Pard.Widgets.IconManager('visibility').render(),
               className: 'changeColumnsBtn',
               collectionLayout: 'fixed big_layout',
@@ -204,7 +226,6 @@
               className: 'mailinglistBtn',
               action: function(){
                 var columnData = _dataTables[typeTable].table.column(_dataTables[typeTable].emailColumn, { search:'applied' }).data().unique();
-                console.log(columnData)
                 var _emailList = '';
                 columnData.each(function(email){
                   _emailList += email+', ';
@@ -251,7 +272,8 @@
             }
           ],
           initComplete: function () {
-              this.api().column(_dataTables[typeTable].subcategoryColumn).every(function () {
+            _filtersWidgets(this.api().columns(0, { search:'applied' }), typeTable);
+            this.api().column(_dataTables[typeTable].subcategoryColumn).every(function () {
                 var column = this;
                 if (column.data().unique().length>1){
                   var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
@@ -313,15 +335,16 @@
           "paging": false,
           "scrollCollapse": true,
           "columnDefs": [
-            { "visible": false, "targets":[6]}
-            ],
+            { "visible": false, "targets":[0,1]}
+          ],
+          "order": [1, 'asc'],
           dom: 'Bfrtip',
           buttons: [
             {
               text: Pard.Widgets.IconManager('mailinglist').render(),
               className: 'mailinglistBtn',
               action: function(){
-                var columnData = _dataTables['allProposals'].table.column(5, { search:'applied' }).data().unique();
+                var columnData = _dataTables['allProposals'].table.column(6, { search:'applied' }).data().unique();
                 var _emailList = '';
                 columnData.each(function(email){
                   _emailList += email+', ';
@@ -368,7 +391,7 @@
                 ]
             }],
             initComplete: function () {
-              this.api().columns(2).every(function () {
+              this.api().columns(4).every(function () {
                 var column = this;
                 if (column.data().unique().length>1){
                   var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
@@ -391,25 +414,26 @@
                   });
                 }
               });
-              var colTosearch = this.api().columns(6, { search:'applied' });
-              this.api().columns(0).every(function () {
-                var rfhCol = this;
-                console.log(colTosearch.data().eq( 0 ).unique().sort());
-                if (colTosearch.data().eq( 0 ).unique().length>1){
+              _filtersWidgets(this.api().columns(0, { search:'applied' }), typeTable);
+              var colTosearch = this.api().columns(1, { search:'applied' });
+              // this.api().columns(1).every(function () {
+                var rfhCol = this.api().columns(2);
+                if (Object.keys(forms).length>2){
                   var _selectContainer = $('<div>').addClass('select-container-datatableColumn rfh-selector');
                   var select = $('<select>').append($('<option>').attr('value','').text(''))
-                      .appendTo(_selectContainer.appendTo($(rfhCol.header())));  
-                  colTosearch.data().eq( 0 ).unique().sort().each( function ( d, j ) {
-                      select.append( '<option value="'+d+'">'+d+'</option>' )
-                  } );
+                      .appendTo(_selectContainer.appendTo($(rfhCol.header())));
+                  var types = {
+                    artist: 'Artistas',
+                    space: 'Espacios',
+                    organization: 'Organizaciones'
+                  }  
+                  for(var _formType in forms){
+                    if (types[_formType])  select.append($('<option>').attr('value', _formType).text(types[_formType]));
+                  };
                   select.on( 'change', function () {
-                          var val = $.fn.dataTable.util.escapeRegex(
-                              select.val()
-                          );
-                          colTosearch
-                              .search( val ? '^'+val+'$' : '', true, false )
-                              .draw();
-                      } );
+                    var val =  select.val();
+                    colTosearch.search(val).draw();
+                  } );
 
                   select.click(function(e){
                     e.stopPropagation();
@@ -437,7 +461,7 @@
                   // });
 
                 }
-              });
+              // });
             }
           });
         }
@@ -469,7 +493,6 @@
       }
     });
     Pard.Bus.on('deleteSpace', function(space){
-      console.log(space);
       for (var categoryTable in _dataTables){
         var _row = _dataTables[categoryTable].table.row('#proposalRow-'+space.profile_id);
         if (_row && _row.index()>-1) {

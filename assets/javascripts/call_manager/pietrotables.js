@@ -24,13 +24,13 @@
     var _titleRowFoot = $('<tr>');
     // All non numeric field used by orfheo --> vector needed for ordering
     var _orfheoFields = {
-      artist: ['type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email'],
-      space: ['type','name', 'subcategory','address', 'description','availability','phone','email']
+      artist: ['proposal_id','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email'],
+      space: ['proposal_id', 'type','name', 'subcategory','address', 'description','availability','phone','email']
     }
     //Mandatory fields that are not asked in forms
     var _mandatoryFields = {
-     artist: ['type', 'name', 'email', 'subcategory'],
-     space: ['type', 'name', 'email', 'address', 'description', 'subcategory']
+     artist: ['proposal_id', 'type', 'name', 'email', 'subcategory'],
+     space: ['hiddenType', 'type', 'name', 'email', 'address', 'description', 'subcategory']
     }
     // The columns I want to see in table as default
     var _shownColumns = {
@@ -146,7 +146,7 @@
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
 
-    var _orfheoFields = ['type','name', 'subcategory', 'titleAddress', 'phone','email', 'hiddenType'];
+    var _orfheoFields = ['proposal_id','hiddenType','type','name', 'subcategory', 'titleAddress', 'phone','email'];
 
     var _form = {}
 
@@ -280,17 +280,19 @@
       input : "Inputtext"
     },
     hiddenType:{
-      info: function(proposal, displayer){
-        var types = {
-          artist: 'Artistas',
-          space: 'Espacios',
-          organization: 'Organizaciones'
-        }
-        return types[proposal.type];
+      info: function(proposal){
+        return proposal.type; 
       },
       label:'hiddenType',
-      input: 'hiddenType'
-    }
+      input: 'Inputtex'
+    },
+    proposal_id:{
+      info: function(proposal){
+        return proposal.proposal_id.indexOf('own')>-1 ? 'own' : 'received'; 
+      },
+      label:'proposal_id',
+      input: 'Inputtex'
+    },
   }
 
 
