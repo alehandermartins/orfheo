@@ -70,26 +70,42 @@
       });
     });
 
-    for (var type in _selectorOptions){
-      _selectorOptions[type].forEach(function(tag){
-        tag.text += '     ('+_proposalsNumber[tag.id]+')';
-      });
-    }
+    // for (var type in _selectorOptions){
+    //   _selectorOptions[type].forEach(function(tag){
+    //     tag.text += ' ('+_proposalsNumber[tag.id]+')';
+    //   });
+    // }
 
     _createdWidget.append(_typeSelectorBox);
     for (var table in _tablesContainer) {
       _createdWidget.append(_tablesContainer[table]);
     }
 
+    var _formatResource = function(resource){
+      var _text = resource.text;
+      if (_proposalsNumber[resource.id]) _text += ' ('+_proposalsNumber[resource.id]+')';
+      var _label = $('<span>').text(_text);
+      if(resource.icon){
+        var _icon = Pard.Widgets.IconManager(resource.icon).render();
+        _label.append(_icon);
+        _icon.css({
+          position: 'relative',
+          left: '5px',
+          top: '5px',
+        });
+      }
+      return _label;
+    }
+
     _typeSelector.select2({
       data: _tags,
-      templateResult: Pard.Widgets.FormatResource,
-      templateSelection: function(val){return val.text.substring(0, val.text.length-3)},
+      templateResult:_formatResource,
+      // templateSelection: function(val){return val.text.substring(0, val.text.length-3)},
       // formatResult: function(val){return val.text+'eeee'},
       allowClear: true,
        placeholder: {
         id: 'allProposals', // the value of the option
-        text: 'Todas las propuestas...'
+        text: 'Todas las propuestas'
       },
       // minimumResultsForSearch: Infinity
       dropdownCssClass: 'orfheoTableSelector'
@@ -436,21 +452,30 @@
       var proposal = artist.proposals[0];
       _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
       _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
+      _proposalsNumber[proposal.form_category] += 1;
     });
     Pard.Bus.on('addSpace', function(space){
       _dataTables[space.form_category].table.row.add(_dataTables[space.form_category].proposalRow(space)).draw();
       _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('space', space)).draw();
+      _proposalsNumber[proposal.form_category] += 1;
     });
     Pard.Bus.on('deleteArtist', function(artist){
       for (var categoryTable in _dataTables){
         var _row = _dataTables[categoryTable].table.row('#proposalRow-'+artist.proposal_id);
-        if (_row && _row.index()>-1) _row.remove().draw();
+        if (_row && _row.index()>-1) {
+          _row.remove().draw();
+          if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
+        }
       }
     });
     Pard.Bus.on('deleteSpace', function(space){
+      console.log(space);
       for (var categoryTable in _dataTables){
         var _row = _dataTables[categoryTable].table.row('#proposalRow-'+space.profile_id);
-        if (_row && _row.index()>-1) _row.remove().draw();
+        if (_row && _row.index()>-1) {
+          _row.remove().draw();
+          if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
+        }
       }
     });
     

@@ -89,7 +89,8 @@
       _proposal.profile_id = _proposal.profile_id || profile.profile_id;
       _proposal.type = type;
       var _row = $('<tr>');
-      _row.attr('id', 'proposalRow-'+proposal.proposal_id);
+      if (type == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
+      if (type == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
       _orfheoFields[type].forEach(function(field){
         if (_form[field] || $.inArray(field, _mandatoryFields[type])>-1){
           var _info = '';
@@ -181,7 +182,8 @@
       _proposal.type = profileType;
       // necesary for proposals conFusion withput form cat
       var _row = $('<tr>');
-      _row.attr('id', 'proposalRow-'+proposal.proposal_id);
+      if (profileType == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
+      if (profileType == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
       _orfheoFields.forEach(function(field){
         var _info = '';
         if(_form[field].info) _info = _form[field].info(_proposal, displayer);

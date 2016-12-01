@@ -289,37 +289,23 @@
 
     submitButton.on('click',function(){
       spinner.spin();
-      // $.wait(
-      //   '',
-      //   function(){
-          $('body').append(spinner.el);
-          submitButton.attr('disabled',true);
-          if(_filled() == true){
-            if(_photos){
-              if(_photos.dataLength() == false) _send();
-              else{
-                _photos.submit();
-              }
-            }
-            else{
-              _send();
-            }
-          }
+      $('body').append(spinner.el);
+      submitButton.attr('disabled',true);
+      if(_filled() == true){
+        if(_photos){
+          if(_photos.dataLength() == false) _send();
           else{
-            spinner.stop();
-            submitButton.attr('disabled',false);
+            _photos.submit();
           }
-      //   },
-      //   function(){
-      //     setTimeout(
-      //       function(){
-      //         submitButton.attr('disabled',false);
-      //         spinner.stop();
-      //       },
-      //       1000
-      //     );
-      //   }
-      // )
+        }
+        else{
+          _send();
+        }
+      }
+      else{
+        spinner.stop();
+        submitButton.attr('disabled',false);
+      }
     });
 
     _submitBtnContainer.append(submitButton);
