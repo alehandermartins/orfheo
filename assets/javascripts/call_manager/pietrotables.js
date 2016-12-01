@@ -30,7 +30,7 @@
     //Mandatory fields that are not asked in forms
     var _mandatoryFields = {
      artist: ['proposal_id', 'type', 'name', 'email', 'subcategory'],
-     space: ['hiddenType', 'type', 'name', 'email', 'address', 'description', 'subcategory']
+     space: ['proposal_id', 'type', 'name', 'email', 'address', 'description', 'subcategory']
     }
     // The columns I want to see in table as default
     var _shownColumns = {
@@ -41,8 +41,9 @@
     var _colPosition = 0;
     var _hiddenColumns = [];
     var _emailColumn;
+    var _emailIndex = 0;
     var _subcategoryColumn;
-    // var _proposalsNumber = 0;
+    var _subcategoryIndex = 0;
 
     var _printTitleAndFoot = function(field){
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
@@ -57,12 +58,14 @@
       _titleRowFoot.append(_colFoot);
     }
 
-    _orfheoFields[type].forEach(function(field, index){
+    _orfheoFields[type].forEach(function(field){
       if (_form[field] || $.inArray(field, _mandatoryFields[type])>-1){
         if ($.inArray(field, _shownColumns[type])<0) _hiddenColumns.push(_colPosition);
         _colPosition += 1;
-        if (field == 'email') _emailColumn = index;
-        if (field == 'subcategory') _subcategoryColumn = index;
+        if (field == 'email') _emailColumn = _emailIndex;
+        _emailIndex += 1;
+        if (field == 'subcategory') _subcategoryColumn = _subcategoryIndex;
+        _subcategoryIndex += 1;
         _printTitleAndFoot(field);
       }
     });

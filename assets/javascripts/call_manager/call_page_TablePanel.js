@@ -141,7 +141,6 @@
             colTosearch.search(val).draw();
           });
           var _labelReceived = $('<label>').html('recibidas').css({'display':'inline', 'cursor':'pointer'}).on('click', function(){
-            console.log('receiveLabel')
               _receivedCheckbox.prop("checked", !_receivedCheckbox.prop("checked"));
               _receivedCheckbox.trigger('change');
             });
@@ -225,7 +224,8 @@
               text: Pard.Widgets.IconManager('mailinglist').render(),
               className: 'mailinglistBtn',
               action: function(){
-                var columnData = _dataTables[typeTable].table.column(_dataTables[typeTable].emailColumn, { search:'applied' }).data().unique();
+                console.log(_dataTables[typeTable].emailColumn)
+                var columnData = _dataTables[typeTable].table.column(_dataTables[typeTable].emailColumn).data().unique();
                 var _emailList = '';
                 columnData.each(function(email){
                   _emailList += email+', ';
@@ -272,30 +272,25 @@
             }
           ],
           initComplete: function () {
-            _filtersWidgets(this.api().columns(0, { search:'applied' }), typeTable);
-            this.api().column(_dataTables[typeTable].subcategoryColumn).every(function () {
-                var column = this;
-                if (column.data().unique().length>1){
-                  var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
-                  var select = $('<select>').append($('<option>').attr('value','').text(''))
-                      .appendTo(_selectContainer.appendTo($(column.header()).text('Categoría')));  
-                  column.data().unique().sort().each( function ( d, j ) {
-                      select.append( '<option value="'+d+'">'+d+'</option>' )
-                  } );
-                  select.on( 'change', function () {
-                          var val = $.fn.dataTable.util.escapeRegex(
-                              select.val()
-                          );
-                          column
-                              .search( val ? '^'+val+'$' : '', true, false )
-                              .draw();
-                      } );
-
-                  select.click(function(e){
-                    e.stopPropagation();
-                  });
-                }
-              });
+            _filtersWidgets(this.api().column(0, { search:'applied' }), typeTable);
+              var _colCategry = this.api().column(_dataTables[typeTable].subcategoryColumn);
+              if (_colCategry.data().unique().length>1){
+                var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
+                var select = $('<select>').append($('<option>').attr('value','').text(''))
+                    .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+                _colCategry.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+                select.on( 'change', function () {
+                  var val = $.fn.dataTable.util.escapeRegex(
+                      select.val()
+                  );
+                  _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
+                });
+                select.click(function(e){
+                  e.stopPropagation();
+                });
+              }
             }
           });
         }
@@ -344,7 +339,7 @@
               text: Pard.Widgets.IconManager('mailinglist').render(),
               className: 'mailinglistBtn',
               action: function(){
-                var columnData = _dataTables['allProposals'].table.column(6, { search:'applied' }).data().unique();
+                var columnData = _dataTables['allProposals'].table.column(7, { search:'applied' }).data().unique();
                 var _emailList = '';
                 columnData.each(function(email){
                   _emailList += email+', ';
@@ -391,77 +386,50 @@
                 ]
             }],
             initComplete: function () {
-              this.api().columns(4).every(function () {
-                var column = this;
-                if (column.data().unique().length>1){
-                  var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
-                  var select = $('<select>').append($('<option>').attr('value','').text(''))
-                      .appendTo(_selectContainer.appendTo($(column.header()).text('Categoría')));  
-                  column.data().unique().sort().each( function ( d, j ) {
-                      select.append( '<option value="'+d+'">'+d+'</option>' )
-                  } );
-                  select.on( 'change', function () {
-                          var val = $.fn.dataTable.util.escapeRegex(
-                              select.val()
-                          );
-                          column
-                              .search( val ? '^'+val+'$' : '', true, false )
-                              .draw();
-                      } );
 
-                  select.click(function(e){
-                    e.stopPropagation();
-                  });
-                }
-              });
-              _filtersWidgets(this.api().columns(0, { search:'applied' }), typeTable);
-              var colTosearch = this.api().columns(1, { search:'applied' });
-              // this.api().columns(1).every(function () {
-                var rfhCol = this.api().columns(2);
-                if (Object.keys(forms).length>2){
-                  var _selectContainer = $('<div>').addClass('select-container-datatableColumn rfh-selector');
-                  var select = $('<select>').append($('<option>').attr('value','').text(''))
-                      .appendTo(_selectContainer.appendTo($(rfhCol.header())));
-                  var types = {
-                    artist: 'Artistas',
-                    space: 'Espacios',
-                    organization: 'Organizaciones'
-                  }  
-                  for(var _formType in forms){
-                    if (types[_formType])  select.append($('<option>').attr('value', _formType).text(types[_formType]));
-                  };
-                  select.on( 'change', function () {
-                    var val =  select.val();
-                    colTosearch.search(val).draw();
-                  } );
+              var _colCategry = this.api().column(4);
+              if (_colCategry.data().unique().length>1){
+                var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
+                var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
+                    .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+                _colCategry.data().unique().sort().each( function ( d, j ) {
+                    _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+                _selectCat.on( 'change', function () {
+                  var val = $.fn.dataTable.util.escapeRegex(
+                      _selectCat.val()
+                  );
+                  _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
+                });
+                _selectCat.click(function(e){
+                  e.stopPropagation();
+                });
+              }
 
-                  select.click(function(e){
-                    e.stopPropagation();
-                  });
-                  //   select.select2({
-                  //   allowClear: true,
-                  //   placeholder: {
-                  //     id: '', // the value of the option
-                  //     text: 'Categoría'
-                  //   },
-                  //   minimumResultsForSearch: Infinity,
-                  //   dropdownCssClass: 'columnFilterSelector'
-                  // }).on( 'change', function () {
-                  //         var val = $.fn.dataTable.util.escapeRegex(
-                  //             select.val()
-                  //         );
-                  //         colTosearch
-                  //             .search( val ? '^'+val+'$' : '', true, false )
-                  //             .draw();
-                  //     } );
+              _filtersWidgets(this.api().column(0, { search:'applied' }), typeTable);
 
-                  // $('th .select2').click(function(e){
-                  //   e.stopPropagation();
-                  //   console.log('stop');
-                  // });
+              var colType = this.api().column(1, { search:'applied' });
+              var rfhCol = this.api().column(2);
+              if (Object.keys(forms).length>2){
+                var _selectContainer = $('<div>').addClass('select-container-datatableColumn rfh-selector');
+                var selectType = $('<select>').append($('<option>').attr('value','').text('')).appendTo(_selectContainer.appendTo($(rfhCol.header())));
+                var types = {
+                  artist: 'Artistas',
+                  space: 'Espacios',
+                  organization: 'Organizaciones'
+                }  
+                for(var _formType in forms){
+                  if (types[_formType])  selectType.append($('<option>').attr('value', _formType).text(types[_formType]));
+                };
+                selectType.on( 'change', function () {
+                  var val =  selectType.val();
+                  colType.search(val).draw();
+                } );
 
-                }
-              // });
+                selectType.click(function(e){
+                  e.stopPropagation();
+                });
+              }
             }
           });
         }
