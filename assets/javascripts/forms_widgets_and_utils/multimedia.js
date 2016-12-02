@@ -54,7 +54,9 @@
     }
 
     Pard.Widgets.MultimediaDisplay(production, function(multimedia){
-      if(multimedia.video != false){
+      console.log('MultimediaDisplay')
+      if(multimedia['video'] != false){
+        console.log('multimedia.video')
         var _outerVideocontainer = $('<div>');
         var _videoContainer = $('<div>').addClass('video-production-container')
 
@@ -70,6 +72,8 @@
       };
 
       if(multimedia.audio != false){
+                console.log('multimedia.audio')
+
         var _outerAudiocontainer = $('<div>');
         var _audioContainer = $('<div>').addClass('image-production-container');
         var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
@@ -82,6 +86,8 @@
       }
 
       if(multimedia.image != false){
+                        console.log('multimedia.image')
+
         var _outerImagescontainer = $('<div>');
         var _imageContainer = $('<div>').addClass('image-production-container');
         var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));      
@@ -109,6 +115,7 @@
       var spinner = new Spinner();
       spinner.spin();
       $('body').append(spinner.el);
+     
       var multimedia = {};
       ['image', 'video', 'audio'].forEach(function(type){
         multimedia[type] = [];
@@ -116,6 +123,7 @@
 
       var _done = [];
       var _links = [];
+      var _linksTriedToBeDone = 0;
 
       if(production.photos){
         production.photos.forEach(function(photo){
@@ -135,41 +143,46 @@
 
       var _cloudinary = function(link){
 
-        var _img = $.cloudinary.image(link['url'],
-          { format: 'jpg', width: 350 , effect: 'saturation:50' });
+        var _img = $.cloudinary.image(
+          link['url'],
+          { format: 'jpg', width: 350 , effect: 'saturation:50' }
+        );
         multimedia[link['type']].push(_img[0]);
 
         // if ($(window).width()>750){
-          var _popupImg = $.cloudinary.image(link['url'],{ format: 'jpg',  width: 750, effect: 'saturation:50' });
+        var _popupImg = $.cloudinary.image(
+          link['url'],
+          { format: 'jpg',  width: 750, effect: 'saturation:50' }
+        );
 
-          var _createdWidget = $('<div>').addClass('fast reveal full');    
-          var _outerContainer = $('<div>').addClass('vcenter-outer');
-          var _innerContainer = $('<div>').addClass('vcenter-inner');
-          
+        var _createdWidget = $('<div>').addClass('fast reveal full');    
+        var _outerContainer = $('<div>').addClass('vcenter-outer');
+        var _innerContainer = $('<div>').addClass('vcenter-inner');
+        
 
-          var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
-          _closeBtn.append($('<span>').html('&times;'));
+        var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+        _closeBtn.append($('<span>').html('&times;'));
 
-          var _popup = new Foundation.Reveal(_createdWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_createdWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
 
-          _closeBtn.click(function(){
-            _popup.close();
-          });
+        _closeBtn.click(function(){
+          _popup.close();
+        });
 
-          var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
+        var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
 
-          _innerContainer.append(_popupContent);
-          _createdWidget.append(_outerContainer.append(_innerContainer));
+        _innerContainer.append(_popupContent);
+        _createdWidget.append(_outerContainer.append(_innerContainer));
 
-          _img.one('mouseover', function(){
-            $('body').append(_createdWidget)
-          });
+        _img.one('mouseover', function(){
+          $('body').append(_createdWidget)
+        });
 
-          _img.click(function(){
-            _popup.open();
-          });
+        _img.click(function(){
+          _popup.open();
+        });
 
-          _img.css({cursor:'zoom-in'});
+        _img.css({cursor:'zoom-in'});
         // }
         _done.push(link);
         _display();      
@@ -193,6 +206,9 @@
               _done.push(link);
               _display();
             }
+            else{
+              console.log(link);
+            }
         });
       }
 
@@ -205,33 +221,32 @@
       }
 
       var _facebook = function(link){
-        console.log(link);
-          var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
-          if (link['type'] == 'image'){
-            if ($(window).width() > 400) { 
-              _facebookMedia.attr({'data-width': '350'});
-            }
-            else{
-              _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de facebook')).css({'font-size':'12px', 'text-align': 'center'});
-            }
+        var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
+        if (link['type'] == 'image'){
+          if ($(window).width() > 400) { 
+            _facebookMedia.attr({'data-width': '350'});
           }
-          if (link['type'] == 'video') {
-            _facebookMedia = $('<div>').addClass('fb-video').attr('data-href', link['url']);
-            if ($(window).width() > 1024) {
-              _facebookMedia.attr({'data-width': '718', 'data-allowfullscreen':'true'}); 
-            }
-            else if ($(window).width() > 640) {
-              var _videoWidth = $(window).width()-254;
-              _facebookMedia.attr({'data-width': _videoWidth , 'data-allowfullscreen':'true'}); //It won't go below 350
-            }
-            else { 
-              var _videoWidth = $(window).width()-52;
-              _facebookMedia.attr({'data-width':_videoWidth, 'data-allowfullscreen':'true'});
-            }
-            // else{
-            //   _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Vídeo de facebook')).css({'font-size':'12px', 'text-align': 'center'});
-            // }
+          else{
+            _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de facebook')).css({'font-size':'12px', 'text-align': 'center'});
           }
+        }
+        if (link['type'] == 'video') {
+          _facebookMedia = $('<div>').addClass('fb-video').attr('data-href', link['url']);
+          if ($(window).width() > 1024) {
+            _facebookMedia.attr({'data-width': '718', 'data-allowfullscreen':'true'}); 
+          }
+          else if ($(window).width() > 640) {
+            var _videoWidth = $(window).width()-254;
+            _facebookMedia.attr({'data-width': _videoWidth , 'data-allowfullscreen':'true'}); //It won't go below 350
+          }
+          else { 
+            var _videoWidth = $(window).width()-52;
+            _facebookMedia.attr({'data-width':_videoWidth, 'data-allowfullscreen':'true'});
+          }
+          // else{
+          //   _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Vídeo de facebook')).css({'font-size':'12px', 'text-align': 'center'});
+          // }
+        }
         multimedia[link['type']].push(_facebookMedia);
         _done.push(link);
         _display();
@@ -306,25 +321,27 @@
         'bandcamp': _bandCamp
       }
 
-      var _display = function(){
-        if (_done.length == _links.length){
-         
-    $.wait(
-    '', 
-    function(){
+    var _display = function(){
+      // if (_done.length == _links.length)
+      if (_linksTriedToBeDone == _links.length){  
+        $.wait(
+        '', 
+        function(){
           callback(multimedia);
           },
           function(){
             spinner.stop();
-          });
-        }
+          }
+        );
       }
+    }
 
-      if(_links.length == 0) _display();
+    if(_links.length == 0)  spinner.stop();
 
-      _links.forEach(function(link){
-        _providers[link['provider']](link);
-      });
+    _links.forEach(function(link){
+      _linksTriedToBeDone +=1;
+      _providers[link['provider']](link);
+    });
    
   }
 
