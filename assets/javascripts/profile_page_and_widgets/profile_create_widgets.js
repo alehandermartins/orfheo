@@ -166,7 +166,7 @@
             Pard.Backend.createProfile(_submittedForm, function(data){
               callbackEvent(data);
               _closepopup();
-              _formWidget.stopSpinner();
+              _formWidget.Spinner().stop();
             });
         }
         else {
@@ -174,7 +174,7 @@
         }
       }
       else{
-        _formWidget.stopSpinner();
+        _formWidget.Spinner().stop();
         _submitButton.attr('disabled',false);
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
@@ -187,7 +187,7 @@
             if (callbackEvent)  Pard.Backend.createProfile(_submittedForm, function(data){
                 callbackEvent(data);
                 _closepopup();
-                _formWidget.stopSpinner();
+                _formWidget.Spinner().stop();
               });
             else Pard.Backend.createProfile(_submittedForm, Pard.Events.CreateProfile);
           }));
