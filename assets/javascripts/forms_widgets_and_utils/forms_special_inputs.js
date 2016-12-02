@@ -268,8 +268,8 @@
     }
   }
 
-  ns.Widgets.InputAddressArtist = function(){
 
+ns.Widgets.InputAddressArtist = function(){
     var componentForm = {
         locality: 'long_name',
         postal_code: 'short_name'
@@ -282,6 +282,7 @@
       for (var field in _inputForm){
         _addressValues[field] = _inputForm[field].getVal();
       }
+      return _addressValues;
       ['locality', 'postal_code'].forEach(function(field){
         if (!(_addressValues[field])) {
           _inputForm[field].addWarning();
@@ -321,9 +322,7 @@
       },
       getVal: function(){
         if ($.isEmptyObject(_addressValues)){ return false;}
-        else {
-          return _addressValues;
-        }
+        else {return _addressValues;}
       },
       setVal: function(_val){
         for(var field in _inputForm) {
@@ -337,8 +336,7 @@
       }
     }
   }
-
-   
+ 
   
 ns.Widgets.InputAddressSpace = function(label){
    
@@ -402,7 +400,6 @@ ns.Widgets.InputAddressSpace = function(label){
       addressValue();
     }
 
-
     var addressValue = function(){
       var _addressValues = {};
       var _check = true;
@@ -425,18 +422,7 @@ ns.Widgets.InputAddressSpace = function(label){
     }
  
     var _placeForm = $('<div>').append(_inputPlace);
-    for (var key in _inputForm){
-      _placeForm.append(
-      _inputForm[key].render()
-        .attr({disabled: 'true'})
-        .keypress(function (e) {
-          var key = e.which;
-          if(key == 13){
-            _checkLocation();
-          }
-        })
-      )   
-    };
+    for (var key in _inputForm){_placeForm.append(_inputForm[key].render().attr({disabled: 'true'}))};
 
     var _mapCheckContainer = $('<div>').css({'margin-bottom':'-2.5rem'});
     // var _seeMapText = $('<a>').text('Comprueba la localización en el mapa').attr('href','#');         
@@ -547,10 +533,10 @@ ns.Widgets.InputAddressSpace = function(label){
         return _addressSubmitted;
       },
       setVal: function(_val){
+        console.log(_val);
         for(var field in _inputForm) {
           _inputForm[field].setAttr('disabled', false);
           _inputForm[field].setVal(_val[field]);
-
         }
        setTimeout(function(){
           var _location;
