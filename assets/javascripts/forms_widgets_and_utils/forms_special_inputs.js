@@ -286,26 +286,27 @@ ns.Widgets.InputAddressArtist = function(){
       for (var field in _inputForm){
         _addressValues[field] = _inputForm[field].getVal();
       }
-      ['locality', 'postal_code'].forEach(function(field){
-        if (!(_addressValues[field])) {
-          _inputForm[field].addWarning();
-          _check = '';
-        }
-      })
-      if (_check){
-        var uri = "https://maps.googleapis.com/maps/api/geocode/json?address="  + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
-        $.get(uri, function(data){
-          if(data.status == "OK" && data.results.length > 0){
-            _addressValues.location = data.results[0].geometry.location;
-          }
-          else{
-            _addressValues.location ={};
-          }
-        });
-      } 
-      else {
-        _addressValues = {};
-      }
+      return _addressValues;
+      // ['locality', 'postal_code'].forEach(function(field){
+      //   if (!(_addressValues[field])) {
+      //     _inputForm[field].addWarning();
+      //     _check = '';
+      //   }
+      // })
+      // if (_check){
+      //   var uri = "https://maps.googleapis.com/maps/api/geocode/json?address="  + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+      //   $.get(uri, function(data){
+      //     if(data.status == "OK" && data.results.length > 0){
+      //       _addressValues.location = data.results[0].geometry.location;
+      //     }
+      //     else{
+      //       _addressValues.location ={};
+      //     }
+      //   });
+      // } 
+      // else {
+      //   _addressValues = {};
+      // }
     }
 
     var _inputForm = {
