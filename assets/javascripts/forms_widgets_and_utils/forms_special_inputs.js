@@ -282,7 +282,6 @@ ns.Widgets.InputAddressArtist = function(){
       for (var field in _inputForm){
         _addressValues[field] = _inputForm[field].getVal();
       }
-      return _addressValues;
       ['locality', 'postal_code'].forEach(function(field){
         if (!(_addressValues[field])) {
           _inputForm[field].addWarning();
@@ -321,8 +320,10 @@ ns.Widgets.InputAddressArtist = function(){
         return _placeForm;
       },
       getVal: function(){
-        if ($.isEmptyObject(_addressValues)){ return false;}
-        else {return _addressValues;}
+        var _artistAddress;
+        if ($.isEmptyObject(_addressValues)) _artistAddress = false;
+        else _artistAddress = _addressValues;
+        return _artistAddress;
       },
       setVal: function(_val){
         for(var field in _inputForm) {
