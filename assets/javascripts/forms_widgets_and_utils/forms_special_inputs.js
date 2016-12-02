@@ -394,8 +394,8 @@ ns.Widgets.InputAddressArtist = function(){
         return _placeForm;
       },
       getVal: function(){
-        if ($.isEmptyObject({_addressValues})) return false;
-        else return _addressValues;
+        if ($.isEmptyObject(_addressValues)){ return false;}
+        else {return _addressValues;}
       },
       setVal: function(_val){
         for(var field in _inputForm) {
