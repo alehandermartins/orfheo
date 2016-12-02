@@ -7,6 +7,7 @@
 
   ns.Widgets.TableManager = function(the_event, forms, displayer){
 
+    //shn
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var _createdWidget = $('<div>');
