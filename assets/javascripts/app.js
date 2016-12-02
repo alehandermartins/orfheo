@@ -182,7 +182,10 @@ Pard.EventManager = function(the_event, forms){
   $(window).ready(function(){
     $('body').append(_whole);
     $(document).foundation();
+    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
   });
+
+  console.log(the_event);
 
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());

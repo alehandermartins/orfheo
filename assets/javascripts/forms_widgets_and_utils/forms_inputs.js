@@ -12,7 +12,6 @@
       _input.removeClass('warning');
       if(oninputcallback) oninputcallback();
     });
-
     _input.on('change', function(){
       if(onchangecallback) onchangecallback();
     });
@@ -343,7 +342,7 @@
 
   ns.Widgets.CheckBox = function(label, value){
 
-    var _input = $('<input />').attr({ type: 'checkbox', 'value': value});
+    var _input = $('<input>').attr({ type: 'checkbox', 'value': value});
     var _label = $('<label>').html(label);
     _label.css('display','inline');
     var _createdWidget = $('<div>').append(_input,_label);

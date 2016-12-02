@@ -1152,8 +1152,11 @@ FORMS
 
 select, textarea, a{
     @include border-radius($element-border-radius);
-    outline: none;
+    outline: none !important;
 }
+
+select:-moz-focusring { color: transparent;
+                        text-shadow: 0 0 0 #000; }
 
 .popup-form button {
   outline: none;
