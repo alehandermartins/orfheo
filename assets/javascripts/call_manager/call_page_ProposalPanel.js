@@ -156,6 +156,7 @@
     }
 
     var _printField = function(field){
+
       _form[field] = {};
       _form[field]['type'] = form[field].type;
       if($.inArray(field, _mandatoryFields)>-1) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
@@ -166,26 +167,23 @@
       }
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
-
-      if (field == 'photos') {
-        var _thumbnail = $('<div>');
-        var _photosLabel = $('<label>').text(form[field].label);
-        var _photoWidget = _form[field].input;
-        var _photos = _photoWidget.getPhotos();
-        var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
-        if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
-        _photos.cloudinary().bind('cloudinarydone', function(e, data){
-          var _url = _photoWidget.getVal();
-          _url.push(data['result']['public_id']);
-          if(_url.length >= _photos.dataLength()) _send();
-        });
-      _optionalFields.prepend(_photosContainer);
-      }
-      else if (field == 'category'){
-        // if (profile.category){
-        //   _orfheoCategory = profile.category;
-        // }
-        // else{
+     
+      switch(field){
+        case 'photos':
+          var _thumbnail = $('<div>');
+          var _photosLabel = $('<label>').text(form[field].label);
+          var _photoWidget = _form[field].input;
+          var _photos = _photoWidget.getPhotos();
+          var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
+          if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
+          _photos.cloudinary().bind('cloudinarydone', function(e, data){
+            var _url = _photoWidget.getVal();
+            _url.push(data['result']['public_id']);
+            if(_url.length >= _photos.dataLength()) _send();
+          });
+          _optionalFields.prepend(_photosContainer);
+          break;
+        case 'category':
           if (form[field].args[1].length>1){
             var _formField = $('<div>');
             _containerMandatoryFields.append(
@@ -198,57 +196,60 @@
           else{
             _orfheoCategory = form[field].args[1][0];
           }
-        // }
-      }
-      else{
-        if (form[field].input == 'TextAreaCounter'){
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-                _form[field].label.render(),_form[field].input.render());
-        }
-        else if (form[field].input == 'CheckBox'){
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
-          if (form[field]['helptext'].length) {
-            if (field == 'conditions') {
-              return false;
-            }
-            else {
-              var _helptextfield = _form[field].helptext.render();
-            }
-            _helptextfield.css({'margin-top':'0'});
-            _formField.append(_helptextfield);
+          break;
+        case 'conditions': 
+          return false;
+          break;
+        default:
+          var _input = _form[field].input.render();
+          var _label = _form[field].label.render();
+          var _helptext = _form[field].helptext.render();
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
+          if($.isNumeric(field)) _optionalFields.append(_formField);
+          else if ($.inArray(field, _mandatoryFields)<0)_optionalFields.prepend(_formField);
+          else _containerMandatoryFields.append(_formField);
+          var _prepareFormField = function(){
+            _formField.append(_label,_input);
+            if (form[field]['helptext'].length) _formField.append(_helptext);
           }
-        }
-        else{
-          if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-            _form[field].label.render(),
-            _form[field].input.render()
-          )
-          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
-          if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
-            if (field == 'availability'){
-              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-                selectAllText: "Selecciona todo",
-                countSelected: false,
-                allSelected: "Disponible todos los días"
-              });
-            }
-            else{
-              _form[field].input.render().multipleSelect({
-                placeholder: "Selecciona una o más opciones",
-                selectAll: false,
-                countSelected: false,
-                allSelected: false
-              });
-            }
-            _form[field].helptext.render().css('margin-top', 5);
+          switch(form[field].input){
+            case 'TextAreaCounter':
+              _formField.append(_label,_input);
+              break;
+            case 'CheckBox':
+              _formField.append(_input);
+              if (form[field]['helptext'].length) {
+                _helptext.css({'margin-top':'0'});
+                _formField.append(_helptext);
+              }
+              break;
+            case 'TextArea':
+               _input.attr('rows', 4);
+              _prepareFormField();
+              break;
+            case 'MultipleSelector':
+            case 'MultipleDaysSelector':
+              _prepareFormField();
+              if (field == 'availability') _input.multipleSelect({
+                    placeholder: "Selecciona una o más opciones",
+                    selectAllText: "Selecciona todo",
+                    countSelected: false,
+                    allSelected: "Disponible todos los días"
+                  });
+              else  _input.multipleSelect({
+                    placeholder: "Selecciona una o más opciones",
+                    selectAll: false,
+                    countSelected: false,
+                    allSelected: false
+                  });
+              _helptext.css('margin-top', 5);
+              
+              break;
+            default:
+              _prepareFormField();
           }
-        }
-        if($.isNumeric(field)) _optionalFields.append(_formField);
-        else if ($.inArray(field, _mandatoryFields)<0)_optionalFields.prepend(_formField);
-        else _containerMandatoryFields.append(_formField);
       }
-    }
+    } 
 
     _mandatoryFields.forEach(function(field){
       if ($.inArray(field,Object.keys(form))>-1) _printField(field);
