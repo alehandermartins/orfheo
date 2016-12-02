@@ -153,29 +153,31 @@
       return _proposalListed;
     }
 
-    artists.forEach(function(artist){
-      var lastElement = artist.profile_id.split('-').pop();
+    Object.keys(artists).forEach(function(profile_id){
+      var lastElement = profile_id.split('-').pop();
       if (lastElement == 'own') {
-        _artistsContainers[artist.profile_id] = {};
+        var artist = artists[profile_id].artist;
+        _artistsContainers[profile_id] = {};
         _ownArtists.push(artist);
         var _artistContainer = $('<li>').append(Pard.Widgets.IconManager('artist').render(),$('<span>').text(Pard.Widgets.CutString(artist['name'],55)).addClass('artistName')).addClass('own-artistProposals-container');
         var _artistProposalsList = $('<ul>');
-        _artistsContainers[artist.profile_id].li = _artistContainer;
-        _artistsContainers[artist.profile_id].ul = _artistProposalsList;
+        _artistsContainers[profile_id].li = _artistContainer;
+        _artistsContainers[profile_id].ul = _artistProposalsList;
         _artistContainer.append(_artistProposalsList);
         _artistsList.prepend(_artistContainer);
         artist.proposals.forEach(function(proposal){
           var _proposalContainer = $('<li>');
-          _artistsContainers[artist.profile_id][proposal.proposal_id] = _proposalContainer;
-          var _artistProposal = _newListedItem(proposal, artist.profile_id, 'artist', _proposalContainer);
+          _artistsContainers[profile_id][proposal.proposal_id] = _proposalContainer;
+          var _artistProposal = _newListedItem(proposal, profile_id, 'artist', _proposalContainer);
           _artistProposalsList.append(_proposalContainer.append(_artistProposal));
         })
       }
     })
 
-    spaces.forEach(function(space){
-      var lastElement = space.profile_id.split('-').pop();
+   Object.keys(the_event.spaces).forEach(function(profile_id){
+      var lastElement = profile_id.split('-').pop();
       if (lastElement == 'own') {
+        var space = the_event.spaces[profile_id].space;
         _ownSpaces.push(space);
         var _proposalContainer = $('<li>').append(Pard.Widgets.IconManager('space').render()).addClass('own-spaceProposal-container');
         _spacesContainers[space.profile_id] = _proposalContainer;

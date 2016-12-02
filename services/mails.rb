@@ -47,6 +47,13 @@ module Services
             body: "<p> Lamentablemente, #{payload[:organizer]} ha rechazado tu propuesta \"#{payload[:title]}\" para el #{payload[:event_name]}</p> <p><a href=\"http://www.orfheo.org/\">Orfheo</a></p>"
           }
         end
+
+        def new_event user, payload
+          Pony.options = {
+            subject: 'Convocatoria VII Festival Extramurs Abierta!',
+            body: "<p> Orfheo te invita a inscribirte como participante en el VII Distrito 008 Festival Urbano de Extramurs!!!</p><p>Envía tu propuesta antes del 26 de diciembre, te lo ponemos muy fácil.</p><p>Puedes acceder a la convocatoria a través del siguiente link:</p><p><a href=\"http://www.orfheo.org/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6\">Orfheo/Extramurs</a></p>"
+          }
+        end
       end
     end
   end

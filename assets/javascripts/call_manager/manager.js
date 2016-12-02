@@ -29,10 +29,23 @@
 
     var _displayer = Pard.Displayer(the_event, forms);
 
+    var artists = {}
+    the_event.artists.forEach(function(artist){
+      artists[artist.profile_id] = new Pard.Artist(artist, _displayer);
+    });
+
+    var spaces = {}
+    the_event.spaces.forEach(function(space){
+      spaces[space.profile_id] = new Pard.Space(space, _displayer);
+    });
+
+    the_event.artists = artists;
+    the_event.spaces = spaces;
+    the_event.program = {}
 
     var _programManager = Pard.ProgramManager(the_event, _displayer);
-    var _tableManager = Pard.Widgets.TableManager(the_event, forms, _displayer);
-    // var _tableManager = Pard.TableManager(the_event, _displayer);
+    //var _tableManager = Pard.Widgets.TableManager(the_event, forms, _displayer);
+    var _tableManager = Pard.TableManager(the_event, _displayer);
     var _proposalsManager = Pard.ProposalsManager(the_event, _displayer);
     var _qrManager = Pard.qrManager(the_event.qr);
 

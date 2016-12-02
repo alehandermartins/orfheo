@@ -118,13 +118,13 @@
       return _row;
     }
 
-    spaces.forEach(function(space){
-      _dataTables.spaces.tbody.append(spaceRow(space));
+    Object.keys(the_event.spaces).forEach(function(profile_id){
+      _dataTables.spaces.tbody.append(spaceRow(the_event.spaces[profile_id].space));
     });
 
-    artists.forEach(function(artist){
-      artist.proposals.forEach(function(proposal){
-        _dataTables.artists.tbody.append(proposalRow(artist, proposal));
+    Object.keys(artists).forEach(function(profile_id){
+      artists[profile_id].proposals.forEach(function(proposal){
+        _dataTables.artists.tbody.append(proposalRow(artists[profile_id].artist, proposal));
       });
     });
 

@@ -31,7 +31,7 @@
       _createdWidget.empty();
 
       var myPerformances = Object.keys(program).map(function(performance_id){
-        return program[performance_id];
+        return program[performance_id].show;
       });
 
       if (myPerformances) myPerformances = Pard.Widgets.ReorderProgramCrono(myPerformances);

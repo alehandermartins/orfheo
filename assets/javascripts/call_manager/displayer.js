@@ -8,6 +8,43 @@
     var call_id = the_event.call_id;
     var eventName = the_event.name;
 
+
+    var _displayArtistProgram = function(profile_id){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var artist = the_event.artists[profile_id].artist;
+      var myprogram = the_event.artists[profile_id].program;
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist, myprogram, the_event.spaces, the_event.program), 'space-program-popup-call-manager');
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    }
+
+    var _displaySpaceProgram = function(profile_id){
+      var _content = $('<div>').addClass('very-fast reveal full');
+      _content.empty();
+      $('body').append(_content);
+
+      var space = the_event.spaces[profile_id].space;
+      var myprogram = the_event.spaces[profile_id].program;
+
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _message = Pard.Widgets.PopupContent(space.name, Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program), 'space-program-popup-call-manager');
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _popup.open();
+    }
+
     var _displayProposal = function(proposal, type){
 
       var form = forms[type][proposal.form_category];
@@ -142,7 +179,9 @@
     }
 
     return{
-      displayProposal: _displayProposal
+      displayProposal: _displayProposal,
+      displayArtistProgram: _displayArtistProgram,
+      displaySpaceProgram: _displaySpaceProgram
     }
   }
 }(Pard || {}));

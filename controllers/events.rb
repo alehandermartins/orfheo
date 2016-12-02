@@ -76,6 +76,23 @@ class EventsController < BaseController
     erb :event_manager, :locals => {:the_event => event.to_json, :forms => forms.to_json}
   end
 
+  get '/conFusion' do
+    event = Repos::Events.get_event 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+    program = [event[:program].first, event[:program][1]]
+    program.map!{|performance| 
+      performance.delete(:comments)
+      performance.delete(:confirmed)
+      performance.delete(:participant_proposal_id)
+      performance.delete(:host_proposal_id)
+      performance
+    }
+    event_name = event[:name]
+    dates = event[:eventTime].keys
+    dates.pop
+    the_event = {name: event_name, dates: dates, shows: program}
+    success({event: the_event})
+  end
+
   private
   def check_participants! event_id, performance
     raise Pard::Invalid::UnexistingParticipants unless Repos::Events.performers_participate? event_id, performance

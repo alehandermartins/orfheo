@@ -532,6 +532,7 @@
 
 
   ns.Widgets.WhiteList = function(the_event){
+
   	var _createdWidget = $('<div>');
     var _emailsNames = [{id:'', text:''}];
     var _namesList = [];
@@ -550,12 +551,12 @@
       }
     }
 
-    the_event.artists.forEach(function(proposal){
-      _makeList(proposal);
+    Object.keys(the_event.artists).forEach(function(profile_id){
+      _makeList(the_event.artists[profile_id].artist);
     });
 
-    the_event.spaces.forEach(function(proposal){
-      _makeList(proposal);
+    Object.keys(the_event.spaces).forEach(function(profile_id){
+      _makeList(the_event.spaces[profile_id].space);
     });
 
     var _emailNameInput = Pard.Widgets.WhiteListInput(_emailsNames);

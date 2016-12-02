@@ -13,3 +13,6 @@
 // = require ./proposalsManager
 // = require ./qrManager
 // = require ./displayer
+// = require ./artist
+// = require ./space
+// = require ./program
