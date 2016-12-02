@@ -968,6 +968,10 @@ Profile Section
   margin: 1.5rem 0;
 }
 
+.proposalText-TextArea, .proposalText-TextAreaCounter{
+  display: block;
+}
+
 .trash-icon-delete{
   font-size: $almostNormalSize;
   vertical-align: -0.1rem;
@@ -1493,19 +1497,6 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
     font-size: 0.875rem;
 }
 
-/* .table-box-proposal-manager{
-  position: relative;
-  overflow: auto;
-  max-height: 90vh;
-  height: 90vh;
-  margin-top: 2rem;
-  border: 1px solid $grey-3;
-  table{
-    width: 100%;
-  }
-} */
-
-
 .table-box-proposal-manager{
   position: relative;
   overflow: auto;
@@ -1517,17 +1508,8 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 }
 
 .table-box-proposal-manager tbody{
-  max-height: 90vh;
   overflow: auto;
 }
-
-/* td.column-call-manager-table{
-  min-width: 10rem;
-}  */
-/* .column-call-manager-table{
-  min-width: 8rem;
-} 
- */
 
 .dataTables_scrollBody tbody td{
   padding: 0.2rem 0.5rem !important ;
@@ -1589,7 +1571,7 @@ th.column-call-manager-table{
 
 
 .types-selector-call-manager{
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   width: 20rem;
   display: inline-block;
   margin-right: 3rem;
@@ -1599,6 +1581,12 @@ th.column-call-manager-table{
     color: #444 !important;
   }
 
+}
+
+.ownReceivedFilters-call-page{
+  position: absolute;
+  top: 0.7rem;
+  z-index: 9;
 }
 
 
@@ -2007,7 +1995,6 @@ Program Manager Tab
 }
 
 .time-table-call-manager{
-  /* position: relative; */
   display: inline-block;
   width: 3rem;
 }
@@ -2034,8 +2021,6 @@ Program Manager Tab
   width: 13rem;
   border: 1px solid;
   z-index: 4;
-/*   min-height: 90vh;
-  max-height: 90vh; */
   .accordion-item{
     height: 3rem;
     border-bottom: 1px solid $grey-2;

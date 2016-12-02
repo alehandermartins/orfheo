@@ -10,6 +10,7 @@
     var _typeFormsCatArray = Object.keys(forms);
     var _formWidget;
     var _profile_own;
+    var _send = function(){};
 
     var _outerFormBox = $('<div>');
     var _participantsSelectorCont = $('<div>');
@@ -167,17 +168,20 @@
       }
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
+
+      var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
      
       switch(field){
         case 'photos':
           var _thumbnail = $('<div>');
           var _photosLabel = $('<label>').text(form[field].label);
           var _photoWidget = _form[field].input;
-          var _photos = _photoWidget.getPhotos();
+          _photos = _photoWidget.getPhotos();
           var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
           if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
           _photos.cloudinary().bind('cloudinarydone', function(e, data){
             var _url = _photoWidget.getVal();
+            console.log(_url);
             _url.push(data['result']['public_id']);
             if(_url.length >= _photos.dataLength()) _send();
           });
@@ -185,11 +189,11 @@
           break;
         case 'category':
           if (form[field].args[1].length>1){
-            var _formField = $('<div>');
             _containerMandatoryFields.append(
-            _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
-              _form[field].label.render(),
-              _form[field].input.render())
+              _formField.append(
+                _form[field].label.render(),
+                _form[field].input.render()
+              )
             )
             if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
           }
@@ -204,7 +208,6 @@
           var _input = _form[field].input.render();
           var _label = _form[field].label.render();
           var _helptext = _form[field].helptext.render();
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
           if($.isNumeric(field)) _optionalFields.append(_formField);
           else if ($.inArray(field, _mandatoryFields)<0)_optionalFields.prepend(_formField);
           else _containerMandatoryFields.append(_formField);
@@ -243,7 +246,6 @@
                     allSelected: false
                   });
               _helptext.css('margin-top', 5);
-              
               break;
             default:
               _prepareFormField();
@@ -287,34 +289,23 @@
 
     submitButton.on('click',function(){
       spinner.spin();
-      $.wait(
-        '',
-        function(){
-          $('body').append(spinner.el);
-          submitButton.attr('disabled',true);
-          if(_filled() == true){
-            if(_photos){
-              if(_photos.dataLength() == false) _send();
-              else{
-                _photos.submit();
-              }
-            }
-            else{
-              _send();
-            }
+      $('body').append(spinner.el);
+      submitButton.attr('disabled',true);
+      if(_filled() == true){
+        if(_photos){
+          if(_photos.dataLength() == false) _send();
+          else{
+            _photos.submit();
           }
-          else(spinner.stop());
-        },
-        function(){
-          setTimeout(
-            function(){
-              submitButton.attr('disabled',false);
-              spinner.stop();
-            },
-            1000
-          );
         }
-      )
+        else{
+          _send();
+        }
+      }
+      else{
+        spinner.stop();
+        submitButton.attr('disabled',false);
+      }
     });
 
     _submitBtnContainer.append(submitButton);
@@ -324,11 +315,16 @@
       render: function(){
         return _formContainer;
       },
-      Spinner: function(){
-        return spinner;
-      },
+      // Spinner: function(){
+      //   return spinner;
+      // },
       setSend: function(send){
-        _send = send
+        _send = function(){
+          send(function(){
+            spinner.stop();
+            submitButton.attr('disabled',false);
+          });
+        }
       },
       setCallback: function(callback){
         _closepopup = callback;
