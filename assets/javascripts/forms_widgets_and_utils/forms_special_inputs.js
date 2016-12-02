@@ -249,11 +249,9 @@
         return _createdWidget;
       },
       getVal: function(){
-        console.log(_colorPicker.val());
         return _colorPicker.spectrum('get').toHexString(); 
       },
       setVal: function(colorPicked){
-        console.log(colorPicked);
         _colorPicker.spectrum({
           color: colorPicked
         });
@@ -271,6 +269,7 @@
   }
 
   ns.Widgets.InputAddressArtist = function(){
+
     var componentForm = {
         locality: 'long_name',
         postal_code: 'short_name'
@@ -321,8 +320,10 @@
         return _placeForm;
       },
       getVal: function(){
-        if ($.isEmptyObject({_addressValues})) return false
-        else return _addressValues;
+        if ($.isEmptyObject(_addressValues)){ return false;}
+        else {
+          return _addressValues;
+        }
       },
       setVal: function(_val){
         for(var field in _inputForm) {
