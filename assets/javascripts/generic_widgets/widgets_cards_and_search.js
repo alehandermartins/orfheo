@@ -198,14 +198,20 @@
       }
     });
 
-    if ($(window).width()<640) {
-      _searchWidget.on('select2:opening', function(){
-        var _distanceInputTop = _searchInput.offset().top;
-        var _scroolTop = $('.whole-container').scrollTop();
-         var _distanceToDo = _distanceInputTop + _scroolTop - 120;
-        $('.whole-container').scrollTop(_distanceToDo);
-      });
-    }
+
+    // CODE TO FIX!!!
+
+    // if ($(window).width()<640) {
+    //   _searchWidget.on('select2:opening', function(){
+    //     var _distanceInputTop = _searchInput.offset().top;
+    //     var _scroolTop = $('.whole-container').scrollTop();
+    //      var _distanceToDo = _distanceInputTop + _scroolTop - 120;
+    //      console.log(_scroolTop);
+    //      console.log(_distanceInputTop);
+    //      console.log(_distanceToDo);
+    //     $('.whole-container').scrollTop(_distanceToDo);
+    //   });
+    // }
     
     var _search = function(){
 
