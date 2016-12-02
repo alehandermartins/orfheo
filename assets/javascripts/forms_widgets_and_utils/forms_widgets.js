@@ -99,33 +99,55 @@
       } 
       return _check;
     }
- 
+  
+    // submitButton.on('click',function(){
+    //   spinner.spin();
+    //   $.wait(
+    //     '',
+    //     function(){ 
+    //       $('body').append(spinner.el);
+    //       submitButton.attr('disabled',true);
+    //       if(_filled() == true){
+    //         if(_photos.dataLength() == false) _send();
+    //         else{
+    //           _photos.submit();
+    //         }
+    //       }
+    //       else(spinner.stop());
+    //     },
+    //     function(){
+    //       setTimeout(
+    //         function(){
+    //           submitButton.attr('disabled',false);
+    //           spinner.stop(); 
+    //         }, 
+    //         1000
+    //       );
+    //     }
+    //   )
+    // });
+
     submitButton.on('click',function(){
       spinner.spin();
-      $.wait(
-        '',
-        function(){ 
-          $('body').append(spinner.el);
-          submitButton.attr('disabled',true);
-          if(_filled() == true){
-            if(_photos.dataLength() == false) _send();
-            else{
-              _photos.submit();
-            }
+      $('body').append(spinner.el);
+      submitButton.attr('disabled',true);
+      if(_filled() == true){
+        if(_photos){
+          if(_photos.dataLength() == false) _send();
+          else{
+            _photos.submit();
           }
-          else(spinner.stop());
-        },
-        function(){
-          setTimeout(
-            function(){
-              submitButton.attr('disabled',false);
-              spinner.stop(); 
-            }, 
-            1000
-          );
         }
-      )
+        else{
+          _send();
+        }
+      }
+      else{
+        spinner.stop();
+        submitButton.attr('disabled',false);
+      }
     });
+
     
     _submitBtnContainer.append(submitButton);
     _formContainer.append(_invalidInput, _submitBtnContainer);
@@ -134,8 +156,9 @@
       render: function(){
         return _formContainer;
       },
-      Spinner: function(){
-        return spinner;
+      stopSpinner: function () {
+        spinner.stop();
+        submitButton.attr('disabled',false);
       },
       setSend: function(send){
         _send = send

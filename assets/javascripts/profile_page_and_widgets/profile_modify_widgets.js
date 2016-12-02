@@ -46,13 +46,13 @@
       _formVal['profile_id'] = profile.profile_id;
       _formVal['type'] = profile.type;
       _formVal['user_id'] = user_id;
-      console.log(_formVal);
       if (_formVal['address']['location'] && _formVal['address']['location']['lat'] && _formVal['address']['location']['lng']){
          Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
       }
       else{
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
+        _formWidget.stopSpinner();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
         var _closepopup2 = function(){
