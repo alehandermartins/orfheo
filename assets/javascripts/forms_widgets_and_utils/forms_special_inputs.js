@@ -476,9 +476,10 @@ ns.Widgets.InputAddressSpace = function(label){
       if ($('.reveal[aria-hidden="false"]').html() && $(window).width()<1024){
         var _distanceInputTop = _inputPlace.offset().top;
         var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
-        var _headerHeight = $('header').height();
-        var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
-        $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
+        var _popupOpened = _inputPlace.closest('.reveal[aria-hidden="false"]');
+        var _scroolTop = _popupOpened.scrollTop();
+        var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+        _popupOpened.scrollTop(_distanceToDo);
       }
     });
 
