@@ -394,11 +394,12 @@
         var _thumbnail = $('<div>');
         var _photosLabel = $('<label>').text(form[field].label);
         var _photoWidget = _form[field].input;
-        var _photos = _photoWidget.getPhotos();
+        _photos = _photoWidget.getPhotos();
         var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
         if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
         _photos.cloudinary().bind('cloudinarydone', function(e, data){
           var _url = _photoWidget.getVal();
+          console.log(_url)
           _url.push(data['result']['public_id']);
           if(_url.length >= _photos.dataLength()) _send();
         });
@@ -501,6 +502,7 @@
       _submitForm['form_category'] = formTypeSelected;
       if (production_id) _submitForm['production_id'] = production_id; 
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
+      console.log(_submitForm);
       return _submitForm;
     }
 
@@ -510,57 +512,39 @@
     }
 
     var spinner = new Spinner();  
-    var spinnerCallbackFail; 
+    var _closepopup = {};
+
 
     var _send = function(){
       var _submitForm = _getVal();
-      // var _attemps = 0;
-      // var _callbackFail = function(_attemps){
-      //   if (!(spinnerCallbackFail)){ 
-      //     spinner.stop();
-      //     spinnerCallbackFail = new Spinner();
-      //     spinnerCallbackFail.spin();
-      //     $('body').append(spinnerCallbackFail.el);
-      //   }
-      //   if (_attemps<4){
-      //     _attemps = _attemps +1;
-      //     setTimeout(function(){ _backEndDictionary[profile.type](_submitForm,function(data){
-      //       callbackSendProposal(data); _closepopup(); spinnerCallbackFail.stop();}, function(){_callbackFail(_attemps)})
-      //     }, 1000);
-      //   }
-      //   else{
-      //     spinnerCallbackFail.stop();
-      //     Pard.Widgets.ErrorMessage();
-      //   }
-      // }
-    _backEndDictionary[profile.type](_submitForm,function(data){
-        callbackSendProposal(data); _closepopup();})
+      _backEndDictionary[profile.type](_submitForm,function(data){
+        callbackSendProposal(data); 
+        _closepopup();
+        spinner.stop();
+        submitButton.attr('disabled',false);
+      })
     }
 
-    var _closepopup = {};
 
-    submitButton.on('click',function(){ 
+    submitButton.on('click',function(){
       spinner.spin();
-      $.wait(
-        '', 
-        function(){
-          $('body').append(spinner.el);
-          if(_filled() == true){
-            _send();
-          }
+      $('body').append(spinner.el);
+      submitButton.attr('disabled',true);
+      if(_filled() == true){
+        if(_photos){
+          if(_photos.dataLength() == false) _send(_callbackSent);
           else{
-            spinner.stop();
+            _photos.submit();
           }
-        },
-        function(){
-          setTimeout(
-            function(){
-              spinner.stop();
-            }, 
-            500
-          );
         }
-      );
+        else{
+          _send(_callbackSent);
+        }
+      }
+      else{
+        spinner.stop();
+        submitButton.attr('disabled',false);
+      }
     });
     
     _submitBtnContainer.append(submitButton);
@@ -582,6 +566,5 @@
       }
     }
   }
-
 
 }(Pard || {}));

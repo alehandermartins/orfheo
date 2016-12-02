@@ -1280,9 +1280,6 @@ SMALL!!!
  }
 }
 
-.proposal-pastEventBlock{
-  height: 1.5rem;
-}
 
 .eventName-pastEventBlock{
   /* font-size: 1rem; */
@@ -1494,7 +1491,8 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 .artist-out-of-program-popup-content div.dataTables_wrapper div.dataTables_filter input {
     width: 18rem !important;
     height: 2rem;
-    font-size: 0.875rem;
+    font-size: $almostNormalSize;
+    padding: 0.2rem 0.5rem;
 }
 
 .table-box-proposal-manager{
@@ -1737,11 +1735,6 @@ a.dt-button{
 }
 
 
-/* div.dataTables_wrapper div.dataTables_filter label{
-  margin-right: 12rem;
-  margin-bottom: 1rem;
-} */
-
 div.dataTables_wrapper div.dataTables_filter{
   width: 100%;
   position: relative;
@@ -1756,6 +1749,7 @@ div.dataTables_wrapper div.dataTables_filter{
     width: 18rem !important;
     height: 2rem;
     font-size: $almostNormalSize;
+    padding: 0.2rem 0.5rem;
     }
 }
 .allCheckBoxesBox{

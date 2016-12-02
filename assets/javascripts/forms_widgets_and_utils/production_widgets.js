@@ -20,7 +20,7 @@
       });
       var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
       var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton);
-      var _send = function(){
+      var _send = function(stopSpinner){
         var _submittForm;
         _submitForm = _formWidget.getVal();
         _submitForm['type'] = profile.type;
@@ -29,6 +29,7 @@
         Pard.Backend.createProduction(_submitForm, function(data){
           _createNewProdCallback(data);
           _closepopup();
+          stopSpinner();
         });
       }
       _formWidget.setSend(_send);    
@@ -104,7 +105,8 @@
       });
       var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
       var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton);
-      var _send = function(){
+      var _send = function(stopSpinner){
+        console.log(stopSpinner)
         var _submittForm;
         _submitForm = _formWidget.getVal();
         var user_id = Pard.ProfileManager.getUserId();
@@ -112,9 +114,10 @@
         _submitForm['production_id'] = production.production_id;
         _submitForm['profile_id'] = profile_id;
         _submitForm['category'] = catSelected;
-        Pard.Backend.modifyProduction(_getVal(), function(data){
+        Pard.Backend.modifyProduction(_submitForm, function(data){
           Pard.Events.ModifyProduction(data);
           _closepopup();
+          stopSpinner();
         });
       }
       _formWidget.setSend(_send);
