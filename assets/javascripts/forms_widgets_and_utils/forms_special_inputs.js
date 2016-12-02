@@ -287,31 +287,31 @@ ns.Widgets.InputAddressArtist = function(){
         _addressValues[field] = _inputForm[field].getVal();
       }
       return _addressValues;
-      // ['locality', 'postal_code'].forEach(function(field){
-      //   if (!(_addressValues[field])) {
-      //     _inputForm[field].addWarning();
-      //     _check = '';
-      //   }
-      // })
-      // if (_check){
-      //   var uri = "https://maps.googleapis.com/maps/api/geocode/json?address="  + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
-      //   $.get(uri, function(data){
-      //     if(data.status == "OK" && data.results.length > 0){
-      //       _addressValues.location = data.results[0].geometry.location;
-      //     }
-      //     else{
-      //       _addressValues.location ={};
-      //     }
-      //   });
-      // } 
-      // else {
-      //   _addressValues = {};
-      // }
+      ['locality', 'postal_code'].forEach(function(field){
+        if (!(_addressValues[field])) {
+          _inputForm[field].addWarning();
+          _check = '';
+        }
+      })
+      if (_check){
+        var uri = "https://maps.googleapis.com/maps/api/geocode/json?address="  + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+        $.get(uri, function(data){
+          if(data.status == "OK" && data.results.length > 0){
+            _addressValues.location = data.results[0].geometry.location;
+          }
+          else{
+            _addressValues.location ={};
+          }
+        });
+      } 
+      else {
+        _addressValues = {};
+      }
     }
 
     var _inputForm = {
-      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning();}, addressValue),
-      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();}, addressValue)
+      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning();}),
+      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();})
     }
 
     var _placeForm = $('<div>');
