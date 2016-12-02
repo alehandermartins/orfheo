@@ -142,24 +142,65 @@
 
   ns.Widgets.PrintProposal = function(proposal, form){
 
-    console.log(proposal);  
-
     var _createdWidget = $('<div>');
-    var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children'];
-    var sentProposalField = Pard.Widgets.sentProposalField(proposal);
+    var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability'];
 
     _orfheoFields.forEach(function(field){
       if (proposal[field]){
-        var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
-        var _fieldFormText = $('<span>');
-        var _proposalField = sentProposalField[field] || form[field];
-        _proposalField['text'] = _proposalField['text'] || proposal[field];
-        _proposalField['label'] = _proposalField['label'] || form[field]['label'];
-        _proposalField['input'] = _proposalField['input'] || '';
-        _fieldFormLabel.append(_proposalField['label'],':');
-        _fieldFormText.append(' ',_proposalField['text']).addClass('proposalText-'+_proposalField['input']);
-        var _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
+        _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
+        _fieldFormText = $('<span>');
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
+        if (field == 'name') {
+          _fieldFormLabel.text('Propuesta enviada por:');
+          _fieldFormText.text(' ' + proposal['name']).css('font-weight','bold');
+        }
+        else if (field == 'email') {
+          _fieldFormLabel.text('Correo:');
+          _fieldFormText .append($('<a>').attr('href','mailto:'+proposal[field]).text(' ' + proposal[field]));
+        }
+        else if (field == 'phone'){
+          _fieldFormLabel.text('Teléfono:');
+          _fieldFormText.text(' ' + proposal[field]);
+        }
+        else if(field == 'address'){
+          _fieldFormLabel.text('Dirección: ')
+          var _fieldText = $('<a>');
+          var _address = ' ';
+          if (proposal['address']['route']) _address +=  proposal['address']['route']+ ' ';
+          if (proposal['address']['street_number']) _address += ' '+proposal['address']['street_number']+',  ';
+          if (proposal['address']['door']) _address += ', puerta/piso '+proposal['address']['door']+',  ';
+          _address += proposal['address']['postal_code']+', '+proposal['address']['locality'];
+          _fieldText.text(_address).attr({
+              href: 'http://maps.google.com/maps?q='+_address,
+              target: '_blank'
+          })
+          _fieldFormText.append(_fieldText);
+        }
+        else if (field == 'description') {
+            _fieldFormLabel.text('Descripción:')
+            _fieldFormText.text(' ' + proposal[field]);
+            _fieldForm.addClass('proposalFieldPrinted-TextArea');
+        }
+        else if (field == 'subcategory') {
+            _fieldFormLabel.text('Categoría en el evento:');
+            _fieldFormText.text(' ' + proposal[field]);
+        }
+        else if (field == 'availability') {
+          _fieldFormLabel.text('Disponibilidad:');
+          var _list = $('<ul>');
+          proposal[field].forEach(function(val){
+            var _dayDate = new Date (val);
+            _list.append($('<li>').text(moment(_dayDate).locale('es').format('dddd DD')+' de '+moment(_dayDate).locale('es').format('MMMM YYYY')));
+          });  
+          _fieldFormText.append(_list);
+        }
+        else if (form[field]){
+          _fieldFormLabel.text(form[field].label+':');
+          var _text = ' ' + proposal[field];
+          if (field == 'duration' && $.isNumeric(proposal[field])) _text = _text + ' min';
+          _fieldFormText.append(_text);
+        }
       }
     });
 
@@ -180,9 +221,9 @@
 
     for(var field in proposal){
       if ($.isNumeric(field)){
-        var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
-        var _fieldFormText = $('<span>').addClass('proposalText-'+form[field]['input']);
-        var _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
+        _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
+        _fieldFormText = $('<span>');
+        _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
         _textLabel = form[field]['label'];          
         if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
@@ -210,69 +251,6 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-      }
-    }
-  }
-
-
-  ns.Widgets.sentProposalField = function(proposal){
-
-    var _address = function(){
-      var _address = ' ';
-      if (proposal['address']){
-        if (proposal['address']['route']) _address +=  proposal['address']['route']+ ' ';
-        if (proposal['address']['street_number']) _address += ' '+proposal['address']['street_number']+',  ';
-        if (proposal['address']['door']) _address += ', puerta/piso '+proposal['address']['door']+',  ';
-        _address += proposal['address']['postal_code']+', '+proposal['address']['locality'];
-      }
-      return _address;
-    };
-
-    var _availability = function(){
-      var _list = $('<ul>');
-      proposal['availability'].forEach(function(val){
-        var _dayDate = new Date (val);
-        _list.append($('<li>').text(moment(_dayDate).locale('es').format('dddd DD')+' de '+moment(_dayDate).locale('es').format('MMMM YYYY')));
-      });
-      return _list;
-    }  
-
-    var _duration = function(){
-      if (proposal['duration'] && $.isNumeric(proposal['duration'])) return  proposal['duration']+' min';
-    }
-
-    return {
-      'name': {
-        label: 'Propuesta enviada por',
-        text: $('<span>').append($('<strong>').append(proposal['name']), $('<div>').append(' (formulario: ',proposal['form_category'],')').css('font-size','0.875rem'))
-      },
-      'email': {
-        label: 'Correo',
-        text: $('<a>').attr('href','mailto:'+proposal['email']).text(proposal['email'])
-      },
-      'phone':{
-        label: 'Teléfono'
-      },
-      'address': {
-        label: 'Dirección',
-        text: $('<a>').text(_address()).attr({
-                href: 'http://maps.google.com/maps?q='+_address(),
-                target: '_blank'
-              })
-      },
-      'description': {
-        label: 'Descripción',
-        input: 'TextArea'
-      },
-      'subcategory': {
-        label: 'Categoría en el evento'
-      },
-      'availability': {
-        label: 'Disponibilidad',
-        text:  _availability()
-      },
-      'duration': {
-        text: _duration()
       }
     }
   }

@@ -270,15 +270,21 @@
     }
   }
 
-  ns.Widgets.InputAddressArtist = function(){
-    var componentForm = {
-        locality: 'long_name',
-        postal_code: 'short_name'
-      };
+ns.Widgets.InputAddressArtist = function(){
+  var componentForm = {
+      locality: 'long_name',
+      postal_code: 'short_name'
+    };
 
-    var _addressValues = {};
+    var _inputForm = {
+      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning();}),
+      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();})
+    }
+
+    // for (var field in _inputForm) _inputForm[field].setClass(field+'-artistForm');
 
     var addressValue = function(){
+      var _addressValues = {};
       var _check = true;
       for (var field in _inputForm){
         _addressValues[field] = _inputForm[field].getVal();
@@ -290,30 +296,21 @@
         }
       })
       if (_check){
-        var uri = "https://maps.googleapis.com/maps/api/geocode/json?address="  + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
-        $.get(uri, function(data){
-          if(data.status == "OK" && data.results.length > 0){
-            _addressValues.location = data.results[0].geometry.location;
-          }
-          else{
-            _addressValues.location ={};
-          }
-        });
+        // var uri = "https://maps.googleapis.com/maps/api/geocode/json?address=" + _addressValues.route + '+' + _addressValues.street_number + '+' + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
+        // $.get(uri, function(data){
+        //   if(data.status == "OK" && data.results.length > 0){
+        //     _addressValues.location = data.results[0].geometry.location;
+        //   }
+        // });
+        return _addressValues;
       } 
-      else {
-        _addressValues = {};
-      }
+      return _check;
     }
 
-    var _inputForm = {
-      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning();}, addressValue),
-      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();}, addressValue)
-    }
 
     var _placeForm = $('<div>');
     for (var field in _inputForm){
-      var _input = _inputForm[field].render();
-      _placeForm.append($('<div>').append(_input).addClass(field+'-ArtistForm'));
+      _placeForm.append($('<div>').append(_inputForm[field].render()).addClass(field+'-ArtistForm'));
     };
 
     return {
@@ -321,15 +318,12 @@
         return _placeForm;
       },
       getVal: function(){
-        if ($.isEmptyObject({_addressValues})) return false
-        else return _addressValues;
+        return addressValue();
       },
       setVal: function(_val){
         for(var field in _inputForm) {
           _inputForm[field].setVal(_val[field]);
-          _addressValues[field] = _val[field];
         }
-        _addressValues['location'] = _val['location'];
       },
       addWarning: function(){
         addressValue();
@@ -401,7 +395,6 @@ ns.Widgets.InputAddressSpace = function(label){
       addressValue();
     }
 
-
     var addressValue = function(){
       var _addressValues = {};
       var _check = true;
@@ -424,18 +417,7 @@ ns.Widgets.InputAddressSpace = function(label){
     }
  
     var _placeForm = $('<div>').append(_inputPlace);
-    for (var key in _inputForm){
-      _placeForm.append(
-      _inputForm[key].render()
-        .attr({disabled: 'true'})
-        .keypress(function (e) {
-          var key = e.which;
-          if(key == 13){
-            _checkLocation();
-          }
-        })
-      )   
-    };
+    for (var key in _inputForm){_placeForm.append(_inputForm[key].render().attr({disabled: 'true'}))};
 
     var _mapCheckContainer = $('<div>').css({'margin-bottom':'-2.5rem'});
     // var _seeMapText = $('<a>').text('Comprueba la localización en el mapa').attr('href','#');         
@@ -546,10 +528,10 @@ ns.Widgets.InputAddressSpace = function(label){
         return _addressSubmitted;
       },
       setVal: function(_val){
+        console.log(_val);
         for(var field in _inputForm) {
           _inputForm[field].setAttr('disabled', false);
           _inputForm[field].setVal(_val[field]);
-
         }
        setTimeout(function(){
           var _location;

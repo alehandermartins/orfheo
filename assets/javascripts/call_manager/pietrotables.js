@@ -24,13 +24,13 @@
     var _titleRowFoot = $('<tr>');
     // All non numeric field used by orfheo --> vector needed for ordering
     var _orfheoFields = {
-      artist: ['proposal_id','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email'],
-      space: ['proposal_id', 'type','name', 'subcategory','address', 'description','availability','phone','email']
+      artist: ['type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email'],
+      space: ['type','name', 'subcategory','address', 'description','availability','phone','email']
     }
     //Mandatory fields that are not asked in forms
     var _mandatoryFields = {
-     artist: ['proposal_id', 'type', 'name', 'email', 'subcategory'],
-     space: ['proposal_id', 'type', 'name', 'email', 'address', 'description', 'subcategory']
+     artist: ['type', 'name', 'email', 'subcategory'],
+     space: ['type', 'name', 'email', 'address', 'description', 'subcategory']
     }
     // The columns I want to see in table as default
     var _shownColumns = {
@@ -41,9 +41,8 @@
     var _colPosition = 0;
     var _hiddenColumns = [];
     var _emailColumn;
-    var _emailIndex = 0;
     var _subcategoryColumn;
-    var _subcategoryIndex = 0;
+    // var _proposalsNumber = 0;
 
     var _printTitleAndFoot = function(field){
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
@@ -58,14 +57,12 @@
       _titleRowFoot.append(_colFoot);
     }
 
-    _orfheoFields[type].forEach(function(field){
+    _orfheoFields[type].forEach(function(field, index){
       if (_form[field] || $.inArray(field, _mandatoryFields[type])>-1){
         if ($.inArray(field, _shownColumns[type])<0) _hiddenColumns.push(_colPosition);
         _colPosition += 1;
-        if (field == 'email') _emailColumn = _emailIndex;
-        _emailIndex += 1;
-        if (field == 'subcategory') _subcategoryColumn = _subcategoryIndex;
-        _subcategoryIndex += 1;
+        if (field == 'email') _emailColumn = index;
+        if (field == 'subcategory') _subcategoryColumn = index;
         _printTitleAndFoot(field);
       }
     });
@@ -92,8 +89,7 @@
       _proposal.profile_id = _proposal.profile_id || profile.profile_id;
       _proposal.type = type;
       var _row = $('<tr>');
-      if (type == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
-      if (type == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
+      _row.attr('id', 'proposalRow-'+proposal.proposal_id);
       _orfheoFields[type].forEach(function(field){
         if (_form[field] || $.inArray(field, _mandatoryFields[type])>-1){
           var _info = '';
@@ -149,7 +145,7 @@
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
 
-    var _orfheoFields = ['proposal_id','hiddenType','type','name', 'subcategory', 'titleAddress', 'phone','email'];
+    var _orfheoFields = ['type','name', 'subcategory', 'titleAddress', 'phone','email', 'hiddenType'];
 
     var _form = {}
 
@@ -185,8 +181,7 @@
       _proposal.type = profileType;
       // necesary for proposals conFusion withput form cat
       var _row = $('<tr>');
-      if (profileType == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
-      if (profileType == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
+      _row.attr('id', 'proposalRow-'+proposal.proposal_id);
       _orfheoFields.forEach(function(field){
         var _info = '';
         if(_form[field].info) _info = _form[field].info(_proposal, displayer);
@@ -283,19 +278,17 @@
       input : "Inputtext"
     },
     hiddenType:{
-      info: function(proposal){
-        return proposal.type; 
+      info: function(proposal, displayer){
+        var types = {
+          artist: 'Artistas',
+          space: 'Espacios',
+          organization: 'Organizaciones'
+        }
+        return types[proposal.type];
       },
       label:'hiddenType',
-      input: 'Inputtex'
-    },
-    proposal_id:{
-      info: function(proposal){
-        return proposal.proposal_id.indexOf('own')>-1 ? 'own' : 'received'; 
-      },
-      label:'proposal_id',
-      input: 'Inputtex'
-    },
+      input: 'hiddenType'
+    }
   }
 
 

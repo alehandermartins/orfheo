@@ -165,12 +165,11 @@
       $('body').append(_content);
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
 
-      var _callbackCreatedProposal = function(data, callback){
+      var _callbackCreatedProposal = function(data){
         if(data['status'] == 'success') {
           if (Object.keys(data)[1] == 'space') Pard.Bus.trigger('addSpace', data.space);
           else if (Object.keys(data)[1] == 'artist'){Pard.Bus.trigger('addArtist', data.artist);}
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
-          callback();
         }
         else{
           Pard.Widgets.Alert('',Pard.Widgets.Dictionary(data.reason).render());
@@ -178,12 +177,12 @@
         }
       }
 
-      var _sendProposal = function(callback){
+      var _sendProposal = function(){
         var _submitForm = _createOwnProposalWidget.getVal();
         _submitForm['call_id'] = call_id;
         _submitForm['event_id'] = event_id;
-        if (type == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
-        else if (type == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
+        if (type == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, _callbackCreatedProposal);
+        else if (type == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm, _callbackCreatedProposal);
       };
 
       _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(forms[type], type, participants);
