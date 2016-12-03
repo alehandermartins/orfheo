@@ -185,6 +185,7 @@
         _img.css({cursor:'zoom-in'});
         // }
         _done.push(link);
+         _linksTriedToBeDone +=1;
         _display();      
       }
 
@@ -204,10 +205,12 @@
               }
               multimedia[link['type']].push(_media);
               _done.push(link);
+               _linksTriedToBeDone +=1;
               _display();
             }
             else{
               console.log(link);
+               _linksTriedToBeDone +=1;
             }
         });
       }
@@ -217,6 +220,7 @@
         var _spotifyMedia = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + audio_id, 'frameborder': '0', 'allowtransparency': 'true'}).css('height','5rem');
         multimedia[link['type']].push(_spotifyMedia);
         _done.push(link);
+        _linksTriedToBeDone +=1;
         _display();
       }
 
@@ -249,6 +253,7 @@
         }
         multimedia[link['type']].push(_facebookMedia);
         _done.push(link);
+        _linksTriedToBeDone +=1;
         _display();
       }
 
@@ -259,6 +264,7 @@
         _createdWidget.append(_instagramMedia);
         multimedia[link['type']].push(_instagramMedia);
         _done.push(link);
+        _linksTriedToBeDone +=1;
         _display();
       }
 
@@ -273,6 +279,7 @@
         _createdWidget.append(_pinterestMedia);
         multimedia[link['type']].push(_pinterestMedia);
         _done.push(link);
+        _linksTriedToBeDone +=1;
         _display();
       }
 
@@ -286,6 +293,7 @@
         var _vineMedia = $('<iframe>').attr('src', link['url']);
         multimedia[link['type']].push(_vineMedia);
         _done.push(link);
+        _linksTriedToBeDone +=1;
         _display();
       }
 
@@ -303,6 +311,7 @@
           }
         });
         _done.push(link);
+        _linksTriedToBeDone +=1;
         _display();
       }
 
@@ -322,6 +331,7 @@
       }
 
     var _display = function(){
+      console.log(_linksTriedToBeDone);
       // if (_done.length == _links.length)
       if (_linksTriedToBeDone == _links.length){  
         $.wait(
@@ -339,7 +349,6 @@
     if(_links.length == 0)  spinner.stop();
 
     _links.forEach(function(link){
-      _linksTriedToBeDone +=1;
       _providers[link['provider']](link);
     });
    

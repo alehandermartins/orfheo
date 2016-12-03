@@ -97,6 +97,7 @@
       'poetry':{}, 
       'street_art':{}, 
       'workshop':{}, 
+      'gastronomy':{},
       'other':{}
     };
 
