@@ -166,7 +166,7 @@
             Pard.Backend.createProfile(_submittedForm, function(data){
               callbackEvent(data);
               _closepopup();
-              _formWidget.Spinner().stop();
+              _formWidget.stopSpinner();
             });
         }
         else {
@@ -174,48 +174,29 @@
         }
       }
       else{
-        var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _submittedForm.address.route + "+" + _submittedForm.address.street_number + "+" + _submittedForm.address.locality + "+" + _submittedForm.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-        $.post(uri, function(data){
-          if(data.status == "OK" && data.results.length > 0){
-            _submittedForm['address']['location'] = data.results[0].geometry.location;
-            if (callbackEvent){
-              Pard.Backend.createProfile(_submittedForm, function(data){
+        _formWidget.stopSpinner();
+        _submitButton.attr('disabled',false);
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _closepopupAlert = function(){
+          _popup.close();
+        }
+        var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_submittedForm, _closepopupAlert, function(){
+            if (callbackEvent)  Pard.Backend.createProfile(_submittedForm, function(data){
                 callbackEvent(data);
                 _closepopup();
-                _formWidget.Spinner().stop();
+                _formWidget.stopSpinner();
               });
-            }
-            else {
-              Pard.Backend.createProfile(_submittedForm, Pard.Events.CreateProfile);
-            }
-          }
-          else {
-            _formWidget.Spinner().stop();
-            _submitButton.attr('disabled',false);
-            var _content = $('<div>').addClass('very-fast reveal full');
-            _content.empty();
-            $('body').append(_content);
-            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-            var _closepopupAlert = function(){
-              _popup.close();
-            }
-            var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_submittedForm, _closepopupAlert, function(){
-                if (callbackEvent)  Pard.Backend.createProfile(_submittedForm, function(data){
-                    callbackEvent(data);
-                    _closepopup();
-                    _formWidget.Spinner().stop();
-                  });
-                else Pard.Backend.createProfile(_submittedForm, Pard.Events.CreateProfile);
-              }));
-            _message.setCallback(function(){
-              _content.remove();
-              _popup.close();
-            }); 
-            _content.append(_message.render());
-            _popup.open();
-
-          }
-        });
+            else Pard.Backend.createProfile(_submittedForm, Pard.Events.CreateProfile);
+          }));
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        }); 
+        _content.append(_message.render());
+        _popup.open();
       }
     }
 

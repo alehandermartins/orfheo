@@ -46,39 +46,29 @@
       _formVal['profile_id'] = profile.profile_id;
       _formVal['type'] = profile.type;
       _formVal['user_id'] = user_id;
-      console.log(_formVal);
       if (_formVal['address']['location'] && _formVal['address']['location']['lat'] && _formVal['address']['location']['lng']){
          Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
       }
       else{
-        var uri = Pard.Widgets.RemoveAccents("https://maps.googleapis.com/maps/api/geocode/json?address=" + _formVal.address.route + "+" + _formVal.address.street_number + "+" + _formVal.address.locality + "+" + _formVal.address.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg");
-        $.get(uri, function(data){
-          if(data.status == "OK" && data.results.length > 0){
-            _formVal.address.location = data.results[0].geometry.location;
-            Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
-            _closepopup();
-          }
-          else{
-            var _content = $('<div>').addClass('very-fast reveal full');
-            _content.empty();
-            $('body').append(_content);
-            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-            var _closepopup2 = function(){
-              _popup.close();
-            }
-            var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup2, function(){
-               Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
-              _closepopup();
-            }));
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        _formWidget.stopSpinner();
+        $('body').append(_content);
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _closepopup2 = function(){
+          _popup.close();
+        }
+        var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup2, function(){
+           Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
+          _closepopup();
+        }));
 
-            _message.setCallback(function(){
-              _content.remove();
-              _popup.close();
-            }); 
-            _content.append(_message.render());
-            _popup.open();
-          }
-        });
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        }); 
+        _content.append(_message.render());
+        _popup.open();
       }
     }
 

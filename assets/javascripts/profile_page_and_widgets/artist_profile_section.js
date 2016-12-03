@@ -10,6 +10,8 @@
     profile_id = profile_id || Pard.CachedProfiles[0].profile_id;
     var profile = Pard.ProfileManager.getProfile(profile_id);
     var userStatus = Pard.UserStatus['status'];
+
+    console.log(profile);
    
     Pard.Widgets.ProfileSectionHeader(sectionHeader, profile);
 

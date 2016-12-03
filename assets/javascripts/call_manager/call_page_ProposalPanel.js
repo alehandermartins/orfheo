@@ -3,13 +3,14 @@
 (function(ns){
     ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.CreateOwnProposal = function(forms, participantType, participants, callbackCreatedProposal){
+  ns.Widgets.CreateOwnProposal = function(forms, participantType, participants){
 
     var _createdWidget = $('<div>').addClass('popupOwnProposal');
 
     var _typeFormsCatArray = Object.keys(forms);
     var _formWidget;
     var _profile_own;
+    var _send = function(){};
 
     var _outerFormBox = $('<div>');
     var _participantsSelectorCont = $('<div>');
@@ -29,7 +30,7 @@
       email:'',
       phone:''
     };
-    var _dataParticipants = [{id:'',text:'', participant: _emptyOptionParticpant}]
+    var _dataParticipants = [{id:'',text:'', participant: _emptyOptionParticpant}];
     participants.forEach(function(participant){
       _dataParticipants.push({
         id: participant.profile_id,
@@ -49,7 +50,6 @@
 
     _participantsSelector.on('change',function(){
       _profile_own = _participantsSelector.select2('data')[0].participant;
-      console.log(_profile_own);
       if(_profile_own.profile_id) _t2.text('');
       else _t2.text('...o crea algo nuevo');
       if (_formWidget) _formWidget.setVal(_profile_own);
@@ -85,12 +85,6 @@
       _formWidget.setCallback(function(){
         _closepopup();
       });
-      var _send = function(){
-        var _submitForm = _formWidget.getVal();
-        if (_profile_own && _profile_own.profile_id)  _submitForm['profile_id'] = _profile_own.profile_id;
-        if (participantType == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, callbackCreatedProposal);
-        else if (participantType == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm,callbackCreatedProposal);
-      };
       _formWidget.setSend(_send);
       if (_profile_own) _formWidget.setVal(_profile_own);
       _contentSel.append(_formWidget.render());
@@ -110,10 +104,15 @@
         _closepopup = callback;
       },
       getVal: function(){
-        return _formWidget.getVal();
+        var _submitForm =  _formWidget.getVal();
+        if (_profile_own && _profile_own.profile_id)  _submitForm['profile_id'] = _profile_own.profile_id;
+        return _submitForm;
       },
       setVal: function(proposal){
         _formWidget.setVal(proposal);
+      }, 
+      setSend: function(send){
+        _send = send;
       }
     }
 
@@ -158,6 +157,7 @@
     }
 
     var _printField = function(field){
+
       _form[field] = {};
       _form[field]['type'] = form[field].type;
       if($.inArray(field, _mandatoryFields)>-1) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
@@ -169,89 +169,89 @@
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
 
-      if (field == 'photos') {
-        var _thumbnail = $('<div>');
-        var _photosLabel = $('<label>').text(form[field].label);
-        var _photoWidget = _form[field].input;
-        var _photos = _photoWidget.getPhotos();
-        var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
-        if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
-        _photos.cloudinary().bind('cloudinarydone', function(e, data){
-          var _url = _photoWidget.getVal();
-          _url.push(data['result']['public_id']);
-          if(_url.length >= _photos.dataLength()) _send();
-        });
-      _optionalFields.prepend(_photosContainer);
-      }
-      else if (field == 'category'){
-        // if (profile.category){
-        //   _orfheoCategory = profile.category;
-        // }
-        // else{
+      var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
+     
+      switch(field){
+        case 'photos':
+          var _thumbnail = $('<div>');
+          var _photosLabel = $('<label>').text(form[field].label);
+          var _photoWidget = _form[field].input;
+          _photos = _photoWidget.getPhotos();
+          var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
+          if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
+          _photos.cloudinary().bind('cloudinarydone', function(e, data){
+            var _url = _photoWidget.getVal();
+            console.log(_url);
+            _url.push(data['result']['public_id']);
+            if(_url.length >= _photos.dataLength()) _send();
+          });
+          _optionalFields.prepend(_photosContainer);
+          break;
+        case 'category':
           if (form[field].args[1].length>1){
-            var _formField = $('<div>');
             _containerMandatoryFields.append(
-            _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
-              _form[field].label.render(),
-              _form[field].input.render())
+              _formField.append(
+                _form[field].label.render(),
+                _form[field].input.render()
+              )
             )
             if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
           }
           else{
             _orfheoCategory = form[field].args[1][0];
           }
-        // }
-      }
-      else{
-        if (form[field].input == 'TextAreaCounter'){
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-                _form[field].label.render(),_form[field].input.render());
-        }
-        else if (form[field].input == 'CheckBox'){
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
-          if (form[field]['helptext'].length) {
-            if (field == 'conditions') {
-              return false;
-            }
-            else {
-              var _helptextfield = _form[field].helptext.render();
-            }
-            _helptextfield.css({'margin-top':'0'});
-            _formField.append(_helptextfield);
+          break;
+        case 'conditions': 
+          return false;
+          break;
+        default:
+          var _input = _form[field].input.render();
+          var _label = _form[field].label.render();
+          var _helptext = _form[field].helptext.render();
+          if($.isNumeric(field)) _optionalFields.append(_formField);
+          else if ($.inArray(field, _mandatoryFields)<0)_optionalFields.prepend(_formField);
+          else _containerMandatoryFields.append(_formField);
+          var _prepareFormField = function(){
+            _formField.append(_label,_input);
+            if (form[field]['helptext'].length) _formField.append(_helptext);
           }
-        }
-        else{
-          if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-            _form[field].label.render(),
-            _form[field].input.render()
-          )
-          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
-          if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
-            if (field == 'availability'){
-              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-                selectAllText: "Selecciona todo",
-                countSelected: false,
-                allSelected: "Disponible todos los días"
-              });
-            }
-            else{
-              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-                selectAll: false,
-                countSelected: false,
-                allSelected: false
-              });
-            }
-            _form[field].helptext.render().css('margin-top', 5);
+          switch(form[field].input){
+            case 'TextAreaCounter':
+              _formField.append(_label,_input);
+              break;
+            case 'CheckBox':
+              _formField.append(_input);
+              if (form[field]['helptext'].length) {
+                _helptext.css({'margin-top':'0'});
+                _formField.append(_helptext);
+              }
+              break;
+            case 'TextArea':
+               _input.attr('rows', 4);
+              _prepareFormField();
+              break;
+            case 'MultipleSelector':
+            case 'MultipleDaysSelector':
+              _prepareFormField();
+              if (field == 'availability') _input.multipleSelect({
+                    placeholder: "Selecciona una o más opciones",
+                    selectAllText: "Selecciona todo",
+                    countSelected: false,
+                    allSelected: "Disponible todos los días"
+                  });
+              else  _input.multipleSelect({
+                    placeholder: "Selecciona una o más opciones",
+                    selectAll: false,
+                    countSelected: false,
+                    allSelected: false
+                  });
+              _helptext.css('margin-top', 5);
+              break;
+            default:
+              _prepareFormField();
           }
-        }
-        if($.isNumeric(field)) _optionalFields.append(_formField);
-        else if ($.inArray(field, _mandatoryFields)<0)_optionalFields.prepend(_formField);
-        else _containerMandatoryFields.append(_formField);
       }
-    }
-
-    console.log(form);
+    } 
 
     _mandatoryFields.forEach(function(field){
       if ($.inArray(field,Object.keys(form))>-1) _printField(field);
@@ -264,6 +264,7 @@
     var _filled = function(){
       var _check = true;
       for(var field in _form){
+        if (field == 'address') console.log(_form[field].input.getVal())
         if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
           _form[field].input.addWarning();
           _invalidInput.text('Por favor, revisa los campos obligatorios.');
@@ -277,8 +278,6 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['call_id'] = Pard.CachedEvent.call_id;
-      _submitForm['event_id'] = Pard.CachedEvent.event_id;
       _submitForm['type'] = participantType;
       if (!(_submitForm['description']))_submitForm['description'] = '_';
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
@@ -290,34 +289,23 @@
 
     submitButton.on('click',function(){
       spinner.spin();
-      $.wait(
-        '',
-        function(){
-          $('body').append(spinner.el);
-          submitButton.attr('disabled',true);
-          if(_filled() == true){
-            if(_photos){
-              if(_photos.dataLength() == false) _send();
-              else{
-                _photos.submit();
-              }
-            }
-            else{
-              _send();
-            }
+      $('body').append(spinner.el);
+      submitButton.attr('disabled',true);
+      if(_filled() == true){
+        if(_photos){
+          if(_photos.dataLength() == false) _send();
+          else{
+            _photos.submit();
           }
-          else(spinner.stop());
-        },
-        function(){
-          setTimeout(
-            function(){
-              submitButton.attr('disabled',false);
-              spinner.stop();
-            },
-            1000
-          );
         }
-      )
+        else{
+          _send();
+        }
+      }
+      else{
+        spinner.stop();
+        submitButton.attr('disabled',false);
+      }
     });
 
     _submitBtnContainer.append(submitButton);
@@ -327,11 +315,16 @@
       render: function(){
         return _formContainer;
       },
-      Spinner: function(){
-        return spinner;
-      },
+      // Spinner: function(){
+      //   return spinner;
+      // },
       setSend: function(send){
-        _send = send
+        _send = function(){
+          send(function(){
+            spinner.stop();
+            submitButton.attr('disabled',false);
+          });
+        }
       },
       setCallback: function(callback){
         _closepopup = callback;
@@ -346,186 +339,6 @@
       },
       showAll: function(){
         _displayAllBtn.trigger('click');
-      }
-    }
-  }
-
-  ns.Widgets.DisplayPopupProposal = function(proposal, form, type, popupTitle, event_id, call_id){
-
-    var _content = $('<div>').addClass('very-fast reveal full');
-    _content.empty();
-    $('body').append(_content);
-
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-    var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
-
-    var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
-    var _modifyProposal = $('<a>').attr('href','#').text('Modifica').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'));
-
-    _deleteProposalCaller.on('click', function(){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent('¿Estás seguro/a?',  confirmPopup(), function(){_popup.close()}, deleteCallback, 'alert-container-full');
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      });
-      _content.append(_message.render());
-      _popup.open();
-    });
-
-    var confirmPopup = function(){
-      var _createdWidget = $('<div>');
-      var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
-      var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
-
-      var spinnerDeleteProposal =  new Spinner().spin();
-      var _deleteProposalBackend = {
-        artist: Pard.Backend.deleteArtistProposal,
-        space: Pard.Backend.deleteSpaceProposal
-      }
-
-      _yesBtn.click(function(){
-        $('body').append(spinnerDeleteProposal.el);
-        _deleteProposalBackend[type](proposal.proposal_id, event_id, function(data){
-          deleteCallback(data);
-          spinnerDeleteProposal.stop();
-          closepopup();
-        });
-      });
-
-      var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
-
-      _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn));
-
-      return {
-        render: function(){
-          return _createdWidget;
-        },
-        setCallback: function(callback){
-          _noBtn.click(function(){
-            callback();
-          });
-          _yesBtn.click(function(){
-            callback()
-          });
-        }
-      }
-    }
-
-    var deleteCallback = function(data){
-      if (data['status'] == 'success'){
-        if (type == 'artist') Pard.Bus.trigger('deleteArtist', data);
-        else if (type == 'space') Pard.Bus.trigger('deleteSpace', data);
-        Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
-      }
-      else{
-        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
-        if (typeof _dataReason == 'object')
-          Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
-        else{
-          console.log(data.reason);
-          Pard.Widgets.Alert('', _dataReason, location.reload());
-        }
-      }
-    }
-    var modifyCallback = function(){};
-    var closepopup = function(){};
-
-    var _modifyProposalBackend = {
-      artist: Pard.Backend.modifyArtistProposal,
-      space: Pard.Backend.modifySpaceProposal
-    }
-    _modifyProposal.click(function(){
-      _content.empty();
-      var _formWidget = Pard.Widgets.OwnProposalForm(form, type, proposal.form_category);
-      _formWidget.setVal(proposal);
-      _formWidget.showAll();
-      _formWidget.setSend(function(){
-        var _submitForm = _formWidget.getVal();
-        _submitForm['proposal_id'] = proposal.proposal_id;
-        console.log(_submitForm);
-        _modifyProposalBackend[type](event_id, call_id, _submitForm, modifyCallback);
-      });
-      var _message = Pard.Widgets.PopupContent(popupTitle, _formWidget);
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      });
-      _content.append(_message.render());
-    });
-
-    var _message = Pard.Widgets.PopupContent(popupTitle, _proposalPrinted);
-    _message.setCallback(function(){
-      _content.remove();
-      _popup.close();
-    });
-
-    if (proposal.amend){
-      var _label = $('<span>').addClass('myProposals-field-label').text('Enmienda:').css('display', 'block');
-      var _text = $('<span>').text(' ' + proposal.amend);
-      var _element = $('<div>').append($('<p>').append(_label, _text));
-      _message.appendToContent(_element);
-    };
-
-    var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposalCaller).addClass('actionButton-container-popup');
-    // var _actionBtnContainer = $('<div>').append(_deleteProposal.render()).addClass('actionButton-container-popup');
-
-    _message.prependToContent(_actionBtnContainer);
-    if (proposal.proposal_id.indexOf("own") >= 0) {
-      var _warningOwnText = $('<p>').text('Propuesta creada por los organizadoores de la convocatoria');
-      _message.prependToContent(_warningOwnText);
-    }
-    _content.append(_message.render());
-
-    return{
-      open: function(){
-        _popup.open();
-      }
-    }
-  }
-
-
-
-  ns.Widgets.DeleteOwnProposalMessage = function(proposal_id, participantType, closepopup, deleteCallback){
-
-    var _createdWidget = $('<div>');
-    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
-    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
-
-    var spinnerDeleteProposal =  new Spinner().spin();
-    var _deleteProposalBackend = {
-      artist: Pard.Backend.deleteArtistProposal,
-      space: Pard.Backend.deleteSpaceProposal
-    }
-
-    _yesBtn.click(function(){
-      $('body').append(spinnerDeleteProposal.el);
-      _deleteProposalBackend[participantType](proposal_id, Pard.CachedEvent.event_id, function(data){
-        deleteCallback(data);
-        spinnerDeleteProposal.stop();
-        closepopup();
-      });
-    });
-
-    var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
-
-    _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn));
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      setCallback: function(callback){
-        _noBtn.click(function(){
-          callback();
-        });
-        _yesBtn.click(function(){
-          callback()
-        });
       }
     }
   }

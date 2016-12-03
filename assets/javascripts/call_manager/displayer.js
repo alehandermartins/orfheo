@@ -126,7 +126,23 @@
           }
         }
       }
-      var modifyCallback = function(){};
+
+      var modifyCallback = function(data){
+        console.log(data);
+        if (data['status'] == 'success'){
+          console.log('changed');
+        }
+        else{
+          var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+          if (typeof _dataReason == 'object')
+            Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+          else{
+            console.log(data.reason);
+            Pard.Widgets.Alert('', _dataReason);
+          }
+        }
+      };
+
       var closepopup = function(){};
 
       var _modifyProposalBackend = {
@@ -141,8 +157,9 @@
         _formWidget.setSend(function(){
           var _submitForm = _formWidget.getVal();
           _submitForm['proposal_id'] = proposal.proposal_id;
-          console.log(_submitForm);
-          _modifyProposalBackend[type](event_id, call_id, _submitForm, modifyCallback);
+          _submitForm['event_id'] = event_id;
+          _submitForm['call_id'] = call_id, 
+          _modifyProposalBackend[type](_submitForm, modifyCallback);
         });
         var _message = Pard.Widgets.PopupContent(eventName, _formWidget);
         _message.setCallback(function(){
@@ -165,9 +182,10 @@
         _message.appendToContent(_element);
       };
 
-      var _actionBtnContainer = $('<div>').append(_modifyProposal, _deleteProposalCaller).addClass('actionButton-container-popup');
-      // var _actionBtnContainer = $('<div>').append(_deleteProposal.render()).addClass('actionButton-container-popup');
-
+      var _actionBtnContainer = $('<div>').addClass('actionButton-container-popup');
+      // _actionBtnContainer.append(_modifyProposal);
+      _actionBtnContainer.append(_deleteProposalCaller);
+  
       _message.prependToContent(_actionBtnContainer);
       if (proposal.proposal_id.indexOf("own") >= 0) {
         var _warningOwnText = $('<p>').text('Propuesta creada por los organizadoores de la convocatoria');
@@ -178,10 +196,55 @@
       _mainPopup.open();
     }
 
+    var _createOwnProposal = function(type, participants){
+      var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
+      _content.empty();
+      $('body').append(_content);
+      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+
+      var _callbackCreatedProposal = function(data, callback){
+        if(data['status'] == 'success') {
+          if (Object.keys(data)[1] == 'space') Pard.Bus.trigger('addSpace', data.space);
+          else if (Object.keys(data)[1] == 'artist'){Pard.Bus.trigger('addArtist', data.artist);}
+          Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
+          callback();
+        }
+        else{
+          Pard.Widgets.Alert('',Pard.Widgets.Dictionary(data.reason).render());
+          // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
+        }
+      }
+
+      var _sendProposal = function(callback){
+        var _submitForm = _createOwnProposalWidget.getVal();
+        _submitForm['call_id'] = call_id;
+        _submitForm['event_id'] = event_id;
+        if (type == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
+        else if (type == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
+      };
+
+      _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(forms[type], type, participants);
+      _createOwnProposalWidget.setSend(_sendProposal);
+      var _message = Pard.Widgets.PopupContent('Crea y enscribe una propuesta de tipo '+Pard.Widgets.Dictionary(type).render().toLowerCase(), _createOwnProposalWidget);
+      _message.setCallback(function(){
+        _content.remove();
+        _popup.close();
+      });
+      _content.append(_message.render());
+      _closePopupForm = function(){
+        _popup.close();
+        _content.remove();
+      };
+      _popup.open();
+    }
+
     return{
       displayProposal: _displayProposal,
       displayArtistProgram: _displayArtistProgram,
-      displaySpaceProgram: _displaySpaceProgram
+      displaySpaceProgram: _displaySpaceProgram,
+      createOwnProposal: _createOwnProposal
     }
   }
+
+
 }(Pard || {}));

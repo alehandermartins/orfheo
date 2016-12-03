@@ -291,7 +291,6 @@
       _performance = performance;
     });
 
-
     Pard.Bus.on('stop', function(performance){
       _artistsBlock.toggle('slide', {direction: 'right'}, 500);
       _artistsBlock.addClass('is-active');
@@ -517,7 +516,7 @@
       _menu.append(_outOfprogramBtn);
       var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
-        $('<button>').attr('type','button').append(
+        $('<button>').attr({'type':'button', 'title':'Menu de herramientas'}).append(
           Pard.Widgets.IconManager('tools').render()
           )
         ,_menu
@@ -589,6 +588,7 @@
     _submitBtn = Pard.Widgets.Button('', function(){
       var program = [];
       _submitBtn.attr('disabled',true).addClass('disabled-button');
+      $('div.ui-tooltip').remove();
       Object.keys(_program).forEach(function(performance_id){
         program.push(_program[performance_id].show);
       });
@@ -600,7 +600,7 @@
 
       Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);
     }).render().addClass('submit-program-btn-call-manager');
-    _submitBtn.append(Pard.Widgets.IconManager('save').render());
+    _submitBtn.append(Pard.Widgets.IconManager('save').render()).attr('title','Guarda el programa');
     // _submitBtnContainer.append(_submitBtnText)
     _submitBtnContainer.append(_submitBtn, _successIcon.hide());
 
