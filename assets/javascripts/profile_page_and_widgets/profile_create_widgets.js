@@ -166,7 +166,7 @@
             Pard.Backend.createProfile(_submittedForm, function(data){
               callbackEvent(data);
               _closepopup();
-              _formWidget.Spinner().stop();
+              _formWidget.stopSpinner();
             });
         }
         else {
@@ -174,7 +174,7 @@
         }
       }
       else{
-        _formWidget.Spinner().stop();
+        _formWidget.stopSpinner();
         _submitButton.attr('disabled',false);
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();

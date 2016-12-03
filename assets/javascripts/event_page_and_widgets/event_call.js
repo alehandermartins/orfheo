@@ -525,6 +525,11 @@
       })
     }
 
+    var _callbackSent = function(){
+      spinner.stop();
+      submitButton.attr('disabled',false);
+    }
+
 
     submitButton.on('click',function(){
       spinner.spin();
