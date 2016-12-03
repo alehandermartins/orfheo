@@ -187,7 +187,7 @@
             if (callbackEvent)  Pard.Backend.createProfile(_submittedForm, function(data){
                 callbackEvent(data);
                 _closepopup();
-                _formWidget.Spinner().stop();
+                _formWidget.stopSpinner();
               });
             else Pard.Backend.createProfile(_submittedForm, Pard.Events.CreateProfile);
           }));
