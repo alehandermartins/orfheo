@@ -32,6 +32,7 @@
     }
 
     var modify = function(performance){
+      the_event.spaces[performance.last_host].deletePerformance(performance);
       the_event.program[performance.performance_id].modify(performance);
       save(performance);
     }
@@ -346,10 +347,8 @@
 
     var PermanentPerformance = function(performance){
 
-
       var card = $('<div>').addClass('programHelper');
       card.addClass('dragged-card-call-manager cursor_grab');
-      card.addClass(performance.performance_id);
       card.mousedown(function(){
         card.removeClass('cursor_grab').addClass('cursor_move');
       });
@@ -362,6 +361,7 @@
         var shows = Object.keys(artistProgram).map(function(performance_id){
           return artistProgram[performance_id].show;
         });
+        if(!the_event.program[performance.performance_id]) performance.host_id = shows[0].host_id;
         shows = shows.filter(function(show){
           return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id && show.host_id == performance.host_id);
         });
@@ -477,7 +477,7 @@
       var daySelector = $('<select>');
       daySelector.css({'display': ' inline-block', 'width': '120'});
 
-      var performances;
+      var shows;
       var _loadDates = function(){
         daySelector.empty();
         daySelector.attr('disabled', false);
@@ -558,7 +558,7 @@
           save(performance);
           setStartTimes();
           setEndTimes();
-          performances.forEach(function(show){
+          shows.forEach(function(show){
             the_event.program[show.performance_id].loadDates();
           });
         });
@@ -625,13 +625,10 @@
         });
 
         removeInputButton.on('click', function(){
-          the_event.spaces[performance.host_id].deletePerformance(performance);
-          the_event.artists[performance.participant_id].deletePerformance(performance.performance_id);
-          card.remove();
           performanceBox.remove();
-          delete the_event.program[performance.performance_id];
-          performances.splice(performances.indexOf(performance), 1);
-          performances.forEach(function(show){
+          shows.splice(shows.indexOf(performance), 1);
+          destroy(performance);
+          shows.forEach(function(show){
             the_event.program[show.performance_id].loadDates();
           });
         });
@@ -675,7 +672,7 @@
       }
 
       var _destroy = function(){
-        card.remove();
+        if(artistShows().length == 0) card.remove();
       }
 
       var _modify = function(show){

@@ -7,12 +7,12 @@
 
     return {
       on: function(eventName, callback){
-        console.log('on', eventName);
+        //console.log('on', eventName);
         callbacks[eventName] = callbacks[eventName] || [];
         callbacks[eventName].push(callback);
       },
       trigger: function(eventName, data){
-        console.log('trigger', eventName, data);
+        //console.log('trigger', eventName, data);
         if (!callbacks[eventName])
           return;
         callbacks[eventName].forEach(function(callback){

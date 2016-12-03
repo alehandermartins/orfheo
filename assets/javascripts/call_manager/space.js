@@ -6,6 +6,7 @@
     var _columns = {};
     var program = {};
     var _performance;
+    var last_host;
 
     Pard.Bus.on('drag', function(performance){
       _performance = performance;
@@ -78,6 +79,7 @@
           //If the card is below the drop zone it adjustes to the low end
           var duration = ui.helper.height();
           if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
+          if (_performance.host_id) last_host = (' ' + _performance.host_id).slice(1);
 
           var create = function(performance){
             _addSpaceInfo(performance);
@@ -108,7 +110,7 @@
 
           var modifyPermanents = function(performance){
             performance.modifiables.forEach(function(performance_id){
-              show = {'performance_id': performance_id}
+              show = {'performance_id': performance_id, 'host_id': performance.host_id, 'permanent': 'true'}
               modify(show);
             });
           }
@@ -318,7 +320,10 @@
       alignPermanent();
     }
 
+
     var _addSpaceInfo = function(performance){
+      
+      performance.last_host = last_host;
       performance.host_id = space.profile_id;
       performance.host_proposal_id = space.proposal_id;
       performance.host_name = space.name;
@@ -363,20 +368,7 @@
       },
       deletePerformance: function(show){
         delete program[show.performance_id];
-        if(show.permanent == 'true'){
-          if(_columns['permanent'].find('.' + show.performance_id).length) {
-            _columns['permanent'].find('.' + show.performance_id).detach();
-            var myPerformances = Object.keys(program).map(function(performance_id){
-              return program[performance_id];
-            });
-            myPerformances = myPerformances.filter(function(_performance){
-              if(_performance.show.permanent == 'true' && _performance.show.participant_proposal_id == show.participant_proposal_id){
-                _columns['permanent'].append(_performance.card);
-                return;
-              }
-            });
-          }
-        }
+        if(show.permanent == 'true') return AlignPerformances(_columns['permanent'].position().left + 1);
         AlignPerformances(_columns[show.date].position().left + 1);
       },
       loadPerformance: _loadPerformance
