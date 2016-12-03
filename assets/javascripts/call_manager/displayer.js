@@ -149,6 +149,7 @@
         space: Pard.Backend.modifySpaceProposal
       }
       _modifyProposal.click(function(){
+        console.log(proposal);
         _content.empty();
         var _formWidget = Pard.Widgets.OwnProposalForm(form, type, proposal.form_category);
         _formWidget.setVal(proposal);

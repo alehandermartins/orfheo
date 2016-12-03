@@ -532,13 +532,13 @@
       submitButton.attr('disabled',true);
       if(_filled() == true){
         if(_photos){
-          if(_photos.dataLength() == false) _send(_callbackSent);
+          if(_photos.dataLength() == false) _send();
           else{
             _photos.submit();
           }
         }
         else{
-          _send(_callbackSent);
+          _send();
         }
       }
       else{
