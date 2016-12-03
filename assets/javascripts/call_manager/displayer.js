@@ -8,7 +8,6 @@
     var call_id = the_event.call_id;
     var eventName = the_event.name;
 
-
     var _displayArtistProgram = function(profile_id){
       var _content = $('<div>').addClass('very-fast reveal full');
       _content.empty();
@@ -158,7 +157,8 @@
           var _submitForm = _formWidget.getVal();
           _submitForm['proposal_id'] = proposal.proposal_id;
           _submitForm['event_id'] = event_id;
-          _submitForm['call_id'] = call_id, 
+          _submitForm['call_id'] = call_id;
+          _submitForm['profile_id'] = proposal.profile_id; 
           _modifyProposalBackend[type](_submitForm, modifyCallback);
         });
         var _message = Pard.Widgets.PopupContent(eventName, _formWidget);
@@ -183,7 +183,7 @@
       };
 
       var _actionBtnContainer = $('<div>').addClass('actionButton-container-popup');
-      // _actionBtnContainer.append(_modifyProposal);
+      _actionBtnContainer.append(_modifyProposal);
       _actionBtnContainer.append(_deleteProposalCaller);
   
       _message.prependToContent(_actionBtnContainer);

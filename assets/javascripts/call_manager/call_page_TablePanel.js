@@ -52,7 +52,8 @@
       }
     });  
     
-    spaces.forEach(function(proposal){
+    Object.keys(spaces).forEach(function(profile_id){
+      var proposal = spaces[profile_id].space;
       // necesary for proposals conFusion withput form cat
       proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
       proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
@@ -60,7 +61,8 @@
       _dataTables[proposal.form_category].addRow(proposal);
       _dataTables['allProposals'].addRow('space', proposal);
     });
-    artists.forEach(function(profile){
+    Object.keys(artists).forEach(function(profile_id){
+      var profile = artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
         proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
         proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
