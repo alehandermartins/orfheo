@@ -19,8 +19,9 @@
     });
 
     var save = function(performance){
-      the_event.spaces[performance.host_id].addPerformance(the_event.program[performance.performance_id]);
-      the_event.artists[performance.participant_id].addPerformance(the_event.program[performance.performance_id]);
+      var show = the_event.program[performance.performance_id].show;
+      the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
+      the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
     }
     
     var create = function(performance){
@@ -502,7 +503,6 @@
       }
 
       var manager = function(){
-
         var performanceBox = $('<div>');
         var performanceContainer = $('<div>').css('height', 40);
         var spaceSelector = $('<select>');
@@ -532,7 +532,7 @@
         _loadDates();
 
         Object.keys(the_event.spaces).forEach(function(profile_id){
-        	var space = the_event.spaces[profile_id];
+        	var space = the_event.spaces[profile_id].space;
           var spaceOption = $('<option>').val(profile_id).text(space.name);
           spaceSelector.append(spaceOption);
         });
@@ -555,9 +555,7 @@
           performance.time[0] = start.getTime();
           performance.time[1] = end.getTime();
 
-          the_event.spaces[performance.host_id].addPerformance(performance, card);
-          if(saveMethod == 'load') the_event.artists[performance.participant_id].loadPerformance(performance);
-          else{ the_event.artists[performance.participant_id].addPerformance(performance);}
+          save(performance);
           setStartTimes();
           setEndTimes();
           performances.forEach(function(show){

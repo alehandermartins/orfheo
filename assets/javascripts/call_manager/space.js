@@ -120,7 +120,7 @@
 
           if(day == 'permanent'){
             _performance.permanent = 'true';
-            if(_performance.performance_id) return modify(_performance)
+            if(_performance.performance_id) return modifyPermanents(_performance)
             createPermanents(_performance);
           }
           else{
@@ -329,13 +329,7 @@
     var _loadPerformance = function(performance){
       var show = performance.show;
       if(show.permanent == 'false') _columns[show.date].append(performance.card);
-      else{
-        if(Object.keys(program).every(function(performance_id){
-          return program[performance_id].show.permanent == 'false' || program[performance_id].show.participant_proposal_id != show.participant_proposal_id;
-        })){
-          _columns['permanent'].append(performance.card);
-        }
-      }
+      else _columns['permanent'].append(performance.card);
       program[show.performance_id] = performance;
     }
 
@@ -364,6 +358,7 @@
       },
       addPerformance: function(performance){
         _loadPerformance(performance);
+        if(performance.show.permanent == 'true') return AlignPerformances(_columns['permanent'].position().left + 1);
         AlignPerformances(_columns[performance.show.date].position().left + 1);
       },
       deletePerformance: function(show){
