@@ -211,6 +211,7 @@
             else{
               console.log(link);
                _linksTriedToBeDone +=1;
+               _display();
             }
         });
       }
