@@ -171,57 +171,57 @@
       }
     }
 
-    var checkConflicts = function(performance_to_check){
-      var _conflictPerformances = [];
-      var myPerformances = Object.keys(program).map(function(performance_id){
-        return program[performance_id];
-      });
+    // var checkConflicts = function(performance_to_check){
+    //   var _conflictPerformances = [];
+    //   var myPerformances = Object.keys(program).map(function(performance_id){
+    //     return program[performance_id];
+    //   });
 
-      if (myPerformances) myPerformances = Pard.Widgets.ReorderProgramCrono(myPerformances);
-      myPerformances.forEach(function(performance, index){
-        for(i = myPerformances.indexOf(performance) + 1; i < myPerformances.length; i++){
-          if(performance.permanent == 'true'){
-            if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id){
-              if(myPerformances[i].time[0] < performance.time[1]){
-                _conflictPerformances.push(performance);
-                _conflictPerformances.push(myPerformances[i]);
-              }
-            }
-          }
-          else if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id && myPerformances[i].permanent == 'true'){
-            if(myPerformances[i].time[0] < performance.time[1]){
-              _conflictPerformances.push(performance);
-              _conflictPerformances.push(myPerformances[i]);
-            }
-          }
-          else if(myPerformances[i].permanent == 'false'){
-            if(myPerformances[i].time[0] < performance.time[1]){
-              _conflictPerformances.push(performance);
-              _conflictPerformances.push(myPerformances[i]);
-            }
-          }
-        }
-      });
-      if($.inArray(performance_to_check, _conflictPerformances) >= 0){
-        //Closing active performanceManager
-        if(_closePopup) _closePopup();
-        _closePopup = function(){
-          _conflictContent.remove();
-        }
-        _conflictContent = $('<div>').addClass('very-fast reveal full');
-        _conflictContent.empty();
-        $('body').append(_conflictContent);
+    //   if (myPerformances) myPerformances = Pard.Widgets.ReorderProgramCrono(myPerformances);
+    //   myPerformances.forEach(function(performance, index){
+    //     for(i = myPerformances.indexOf(performance) + 1; i < myPerformances.length; i++){
+    //       if(performance.permanent == 'true'){
+    //         if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id){
+    //           if(myPerformances[i].time[0] < performance.time[1]){
+    //             _conflictPerformances.push(performance);
+    //             _conflictPerformances.push(myPerformances[i]);
+    //           }
+    //         }
+    //       }
+    //       else if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id && myPerformances[i].permanent == 'true'){
+    //         if(myPerformances[i].time[0] < performance.time[1]){
+    //           _conflictPerformances.push(performance);
+    //           _conflictPerformances.push(myPerformances[i]);
+    //         }
+    //       }
+    //       else if(myPerformances[i].permanent == 'false'){
+    //         if(myPerformances[i].time[0] < performance.time[1]){
+    //           _conflictPerformances.push(performance);
+    //           _conflictPerformances.push(myPerformances[i]);
+    //         }
+    //       }
+    //     }
+    //   });
+    //   if($.inArray(performance_to_check, _conflictPerformances) >= 0){
+    //     //Closing active performanceManager
+    //     if(_closePopup) _closePopup();
+    //     _closePopup = function(){
+    //       _conflictContent.remove();
+    //     }
+    //     _conflictContent = $('<div>').addClass('very-fast reveal full');
+    //     _conflictContent.empty();
+    //     $('body').append(_conflictContent);
 
-        var _popup = new Foundation.Reveal(_conflictContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist, program, _spaces, _program), 'space-program-popup-call-manager');
-        _message.setCallback(function(){
-          _conflictContent.remove();
-          _popup.close();
-        });
-        _conflictContent.append(_message.render());
-        _popup.open();
-      }
-    }
+    //     var _popup = new Foundation.Reveal(_conflictContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    //     var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist, program, _spaces, _program), 'space-program-popup-call-manager');
+    //     _message.setCallback(function(){
+    //       _conflictContent.remove();
+    //       _popup.close();
+    //     });
+    //     _conflictContent.append(_message.render());
+    //     _popup.open();
+    //   }
+    // }
 
     var _accordion = Accordion();
 
@@ -237,7 +237,6 @@
       },
       addPerformance: function(performance){
         program[performance.show.performance_id] = performance;
-        checkConflicts(performance);
       },
       deletePerformance: function(performance){
         delete program[performance.performance_id];

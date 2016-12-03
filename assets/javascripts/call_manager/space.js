@@ -84,6 +84,35 @@
             Pard.Bus.trigger('AddPerformance', performance);
           }
 
+          var createPermanents = function(performance){
+            var myShows = Object.keys(program).map(function(performance_id){
+              return program[performance_id].show;
+            });
+            myShows = myShows.filter(function(show){
+              return (show.permanent == 'true' && show.participant_proposal_id == _performance.participant_proposal_id);
+            });
+            Object.keys(_columns).forEach(function(date){
+              if(date == 'permanent') return;
+              if(myShows.every(function(show){
+                return show.date != date;
+              })){
+                var show = {}
+                for(var key in performance){
+                  show[key] = performance[key];
+                }
+                show.date = date;
+                create(show);
+              }
+            });
+          }
+
+          var modifyPermanents = function(performance){
+            performance.modifiables.forEach(function(performance_id){
+              show = {'performance_id': performance_id}
+              modify(show);
+            });
+          }
+
           var modify = function(performance){
             _addSpaceInfo(performance);
             Pard.Bus.trigger('ModifyPerformance', performance);
@@ -92,7 +121,7 @@
           if(day == 'permanent'){
             _performance.permanent = 'true';
             if(_performance.performance_id) return modify(_performance)
-            create(_performance);
+            createPermanents(_performance);
           }
           else{
             _performance.permanent = 'false';
@@ -228,40 +257,40 @@
     }
 
     var AlignPerformances = function(left){
-      var performances = Object.keys(program).map(function(performance_id){
-        return program[performance_id];
+      var shows = Object.keys(program).map(function(performance_id){
+        return program[performance_id].show;
       });
-      var permanentPerformances = performances.filter(function(performance){
-        return performance.permanent == 'true';
+      var permanentShows = shows.filter(function(show){
+        return show.permanent == 'true';
       });
 
       var align = function(){
-        performances = Pard.Widgets.ReorderProgram(performances);
-        if (performances.length == 0) return;
-        performances.forEach(function(performance){
-          if(performances.permanent == 'true' && spaceProgram[performance_id].participant_id != performance.participant_id) position += Pard.PermanentCardHeight;
+        shows = Pard.Widgets.ReorderProgram(shows);
+        if (shows.length == 0) return;
+        shows.forEach(function(performance){
+          if(shows.permanent == 'true' && spaceProgram[performance_id].participant_id != performance.participant_id) position += Pard.PermanentCardHeight;
         });
-        var firstPerformance = performances.shift();
+        var firstPerformance = shows.shift();
         var showStart = [firstPerformance.time[0]];
         var showEnd = [firstPerformance.time[1]];
-        program[firstPerformance.performance_id].performanceCard().css({
+        program[firstPerformance.performance_id].card.css({
           'width': Pard.ColumnWidth - 2,
           'left': left,
           'z-index': 0
         });
 
-        performances.forEach(function(performance){
+        shows.forEach(function(show){
           var _cardIndex = 0;
           showEnd.some(function(endTime, index){
-            if(performance.time[0] >= endTime){
+            if(show.time[0] >= endTime){
               _cardIndex = index;
               return true;
             }
             _cardIndex = index + 1;
           });
-          if(_cardIndex >= showEnd.length) showEnd.push(performance.time[1]);
-          else{ showEnd[_cardIndex] = performance.time[1];}
-          program[performance.performance_id].performanceCard().css({
+          if(_cardIndex >= showEnd.length) showEnd.push(show.time[1]);
+          else{ showEnd[_cardIndex] = show.time[1];}
+          program[show.performance_id].card.css({
             'width': (Pard.ColumnWidth - 2) - 10 * _cardIndex,
             'left': left + 10 * _cardIndex,
             'z-index': _cardIndex
@@ -270,18 +299,18 @@
       }
 
       var alignPermanent = function(){
-        if (permanentPerformances.length == 0) return;
+        if (permanentShows.length == 0) return;
         var position = 41;
         var proposal_ids = [];
 
-        permanentPerformances.forEach(function(performance){
-          if($.inArray(performance.participant_proposal_id, proposal_ids) < 0){
-            program[performance.performance_id].performanceCard().css({
+        permanentShows.forEach(function(show){
+          if($.inArray(show.participant_proposal_id, proposal_ids) < 0){
+            program[show.performance_id].card.css({
               'width': (Pard.ColumnWidth - 2),
               'left': left,
               'top': position + (proposal_ids.length * Pard.PermanentCardHeight)
             });
-            proposal_ids.push(performance.participant_proposal_id);
+            proposal_ids.push(show.participant_proposal_id);
           }
         });
       }

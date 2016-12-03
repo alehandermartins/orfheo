@@ -80,8 +80,6 @@
 
     var _toolsContainer = $('<div>').addClass('tools-buttons-container');
     var _submitBtnContainer = $('<div>').addClass('submit-program-btn-container');
-    // _submitBtnContainer.append($('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager'))
-    // _submitBtnContainer.append(_submitBtn);
 
     var _daySelectorContainer = $('<div>').addClass('day-selector-container-call-manager');
     var _daySelector = $('<select>');

@@ -11,8 +11,11 @@
     var _endMin = parseInt(the_event.eventTime['permanent'][1].split(':')[1]);
 
     Pard.Bus.on('AddPerformance', function(performance){
-      if(performance.permanent == 'false') return create(performance);
-      createPermanents(performance);
+      create(performance);
+    });
+
+    Pard.Bus.on('ModifyPerformance', function(performance){
+      modify(performance);
     });
 
     var save = function(performance){
@@ -27,57 +30,10 @@
       save(performance);
     }
 
-    var createPermanents = function(performance){
-      var myPerformances = Object.keys(the_event.spaces[performance.host_id].program).map(function(performance_id){
-        return the_event.spaces[performance.host_id].program[performance_id];
-      });
-      myPerformances = myPerformances.filter(function(_performance){
-        return (_performance.permanent == 'true' && _performance.participant_proposal_id == performance.participant_proposal_id && _performance.host_id == performance.host_id);
-      });
-      Object.keys(eventTime).forEach(function(date){
-        if(date == 'permanent') return false;
-        if(myPerformances.every(function(show){
-          return show.date != date;
-        })){
-          var start = new Date(date.split('-')[0],date.split('-')[1] -1,date.split('-')[2],_startHour, _startMin);
-          var end = new Date(date.split('-')[0],date.split('-')[1] -1,date.split('-')[2], _endHour, _endMin);
-          performance.date = date;
-          performance.time = [start.getTime(), end.getTime()];
-          var _performance = {};
-          Object.keys(performance).forEach(function(key){
-            _performance[key] = performance[key];
-          });
-          create(_performance);
-        }
-      });
-    }
-
-    Pard.Bus.on('ModifyPerformance', function(performance){
-      if(performance.permanent == 'false') return modify(performance);
-      modifyPermanents(performance);
-    });
-
     var modify = function(performance){
       the_event.program[performance.performance_id].modify(performance);
       save(performance);
     }
-
-    var modifyPermanents = function(performance){
-      var artistProgram = artists[performance.participant_id].program;
-      var performances = Object.keys(artistProgram).map(function(performance_id){
-        return artistProgram[performance_id];
-      });
-      performances = performances.filter(function(_performance){
-        return (_performance.permanent == 'true' && _performance.participant_proposal_id == performance.participant_proposal_id && _performance.host_id == performance.host_id);
-      });
-      performances.forEach(function(_performance){
-        modify(_performance);
-      });
-    }
-
-    Pard.Bus.on('deletePerformance', function(performance){
-      destroy(performance);
-    });
 
     var destroy = function(performance){
       if(the_event.program[performance.performance_id]){
@@ -88,19 +44,6 @@
       }
     }
 
-    var destroyPermanents = function(performance){
-      var artistProgram = the_event.artists[performance.participant_id].program;
-      var performances = Object.keys(artistProgram).map(function(performance_id){
-        return artistProgram[performance_id];
-      });
-      performances = performances.filter(function(show){
-        return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id && show.host_id == performance.host_id);
-      });
-      performances.forEach(function(show){
-        destroy(show);
-      }); 
-    }
-    
 		var Performance = function(performance){
 
       var card =$('<div>').addClass('programHelper');
@@ -196,7 +139,7 @@
           $('body').append(_content);
 
           var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PerformanceManager(performance, card));
+          var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager());
           _message.setCallback(function(){
             _content.remove();
             _popup.close();
@@ -209,13 +152,183 @@
         delete performance.duration;
         delete performance.maxHeight;
       }
-      
+
+      var manager = function(){
+        var performanceBox = $('<div>');
+        var performanceContainer = $('<div>').css('height', 40);
+        var daySelector = $('<select>');
+        var spaceSelector = $('<select>');
+        var startTime = $('<select>');
+        var endTime = $('<select>');
+        var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+        var commentsContainer = $('<div>');
+        var comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+
+        var confirmedContainer = $('<div>').css('height', 20);
+        var input = $('<input />').attr({type: 'checkbox'});
+        var label = $('<label>').html('Confirmado');
+        var confirmed = $('<div>').append(input, label);
+
+        daySelector.css({'display': ' inline-block', 'width': '120'});
+        spaceSelector.css({'display': ' inline-block', 'width': '250'});
+        startTime.css({'display': ' inline-block', 'width': '80'});
+        endTime.css({'display': ' inline-block', 'width': '80'});
+        confirmed.css('margin-left', 430);
+        label.css('display','inline');
+        comments.css('width', 530);
+
+        confirmedContainer.append(confirmed);
+        commentsContainer.append(comments);
+        performanceContainer.append(daySelector, spaceSelector, startTime, endTime, removeInputButton);
+        performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
+
+        Object.keys(eventTime).forEach(function(day){
+          if(day == 'permanent') return false;
+          var date = $('<option>').val(day).text(day);
+          daySelector.append(date);
+        });
+
+        Object.keys(the_event.spaces).forEach(function(profile_id){
+          var space = the_event.spaces[profile_id].space;
+          var spaceOption = $('<option>').val(profile_id).text(space.name);
+          spaceSelector.append(spaceOption);
+        });
+
+        daySelector.on('change', function(){
+          performance.date = daySelector.val();
+          var dateArray = daySelector.val().split('-');
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+
+          start.setUTCFullYear(parseInt(dateArray[0]));
+          end.setUTCFullYear(parseInt(dateArray[0]));
+
+          start.setUTCMonth(parseInt(dateArray[1] - 1));
+          end.setUTCMonth(parseInt(dateArray[1] - 1));
+
+          start.setUTCDate(parseInt(dateArray[2]));
+          end.setUTCDate(parseInt(dateArray[2]));
+
+          performance.time[0] = start.getTime();
+          performance.time[1] = end.getTime();
+
+          save(performance);
+          setStartTimes();
+          setEndTimes();
+        });
+
+        spaceSelector.on('change', function(){
+          performance.host_id = spaceSelector.val();
+          save(performance);
+        });
+
+        var setStartTimes = function(){
+          startTime.empty();
+
+          var dayStart = new Date(parseInt(eventTime[performance.date][0]));
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
+
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+          //Te max value for start is that that puts the end on the limit of the day
+          var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
+          while(dayStart <= maxStart){
+            var hours = dayStart.getHours();
+            var minutes = dayStart.getMinutes();
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
+            startTime.append(startOption);
+            dayStart.setMinutes(dayStart.getMinutes() + 15);
+          };
+          startTime.val(performance.time[0]);
+        };
+
+        var setEndTimes = function(){
+          endTime.empty();
+
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
+          var start = new Date(performance['time'][0]);
+          //The minimum end is the start plus 15 minutes
+          var minEnd = new Date(start.getTime() + 15 * 60000);
+
+          while(minEnd <= dayEnd){
+            var hours = minEnd.getHours();
+            var minutes = minEnd.getMinutes();4
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
+            endTime.append(endOption);
+
+            minEnd.setMinutes(minEnd.getMinutes() + 15);
+          };
+          endTime.val(performance['time'][1]);
+        };
+
+        startTime.on('change', function(){
+          var oldStart = performance['time'][0];
+          var newStart = parseInt(startTime.val());
+          card.css({'top': '+=' + (newStart - oldStart) / 90000});
+          performance['time'][0] = newStart;
+          performance['time'][1] = performance['time'][1] + (newStart - oldStart);
+          setEndTimes();
+          save(performance);
+        });
+
+        endTime.on('change', function(){
+          var oldEnd = performance['time'][1];
+          var newEnd = parseInt(endTime.val());
+          card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
+          performance['time'][1] = newEnd;
+          setStartTimes();
+          save(performance);
+        });
+
+        removeInputButton.on('click', function(){
+          destroy(performance);
+          _closePopup();
+        });
+
+        input.on('change', function(){
+          performance.confirmed = input.is(":checked");
+          if (performance.confirmed) card.find('.checker').append(Pard.Widgets.IconManager('done').render());
+          else card.find('.checker').empty();
+        });
+
+        comments.on('input', function(){
+          performance.comments = comments.val();
+          card.find('.commentIcon').empty();
+          if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+        });
+
+        daySelector.val(performance.date);
+        spaceSelector.val(performance.host_id);
+        setStartTimes();
+        setEndTimes();
+        comments.val(performance.comments);
+        input.prop('checked', performance.confirmed);
+
+        return {
+          render: function(){
+            return performanceBox;
+          },
+          setCallback: function(callback){
+            _closePopup = function(){
+              performanceBox.remove();
+              callback();
+            }
+          }
+        }
+      }
+        
       var _destroy = function(){
         card.remove();
       }
 
-      var _modify = function(_performance){
-      	performance = _performance;
+      var _modify = function(show){
+        for(var key in show){
+          performance[key] = show[key];  
+        }
       	fillCard(performance);
       }
 
@@ -224,185 +337,16 @@
       return {
         show: performance,
         card: card,
+        manager: manager,
         modify: _modify,
         destroy: _destroy
       }
     }
 
-    var PerformanceManager = function(performance, card){
-      var performanceBox = $('<div>');
-      var performanceContainer = $('<div>').css('height', 40);
-      var daySelector = $('<select>');
-      var spaceSelector = $('<select>');
-      var startTime = $('<select>');
-      var endTime = $('<select>');
-      var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
-      var commentsContainer = $('<div>');
-      var comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
-
-      var confirmedContainer = $('<div>').css('height', 20);
-      var input = $('<input />').attr({type: 'checkbox'});
-      var label = $('<label>').html('Confirmado');
-      var confirmed = $('<div>').append(input, label);
-
-      daySelector.css({'display': ' inline-block', 'width': '120'});
-      spaceSelector.css({'display': ' inline-block', 'width': '250'});
-      startTime.css({'display': ' inline-block', 'width': '80'});
-      endTime.css({'display': ' inline-block', 'width': '80'});
-      confirmed.css('margin-left', 430);
-      label.css('display','inline');
-      comments.css('width', 530);
-
-      confirmedContainer.append(confirmed);
-      commentsContainer.append(comments);
-      performanceContainer.append(daySelector, spaceSelector, startTime, endTime, removeInputButton);
-      performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
-
-      Object.keys(eventTime).forEach(function(day){
-        if(day == 'permanent') return false;
-        var date = $('<option>').val(day).text(day);
-        daySelector.append(date);
-      });
-
-      Object.keys(the_event.spaces).forEach(function(profile_id){
-        var space = the_event.spaces[profile_id].space;
-        var spaceOption = $('<option>').val(profile_id).text(space.name);
-        spaceSelector.append(spaceOption);
-      });
-
-      daySelector.on('change', function(){
-        performance.date = daySelector.val();
-        var dateArray = daySelector.val().split('-');
-        var start = new Date(performance.time[0]);
-        var end = new Date(performance.time[1]);
-
-        start.setUTCFullYear(parseInt(dateArray[0]));
-        end.setUTCFullYear(parseInt(dateArray[0]));
-
-        start.setUTCMonth(parseInt(dateArray[1] - 1));
-        end.setUTCMonth(parseInt(dateArray[1] - 1));
-
-        start.setUTCDate(parseInt(dateArray[2]));
-        end.setUTCDate(parseInt(dateArray[2]));
-
-        performance.time[0] = start.getTime();
-        performance.time[1] = end.getTime();
-
-        _savePerformance(performance);
-        setStartTimes();
-        setEndTimes();
-      });
-
-      spaceSelector.on('change', function(){
-        performance.host_id = spaceSelector.val();
-        _savePerformance(performance);
-      });
-
-      var setStartTimes = function(){
-        startTime.empty();
-
-        var dayStart = new Date(parseInt(eventTime[performance.date][0]));
-        var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
-
-        var start = new Date(performance.time[0]);
-        var end = new Date(performance.time[1]);
-        //Te max value for start is that that puts the end on the limit of the day
-        var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
-        while(dayStart <= maxStart){
-          var hours = dayStart.getHours();
-          var minutes = dayStart.getMinutes();
-          if(hours < 10) hours = '0' + hours;
-          if(minutes < 10) minutes = '0' + minutes;
-          var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
-          startTime.append(startOption);
-          dayStart.setMinutes(dayStart.getMinutes() + 15);
-        };
-        startTime.val(performance.time[0]);
-      };
-
-      var setEndTimes = function(){
-        endTime.empty();
-
-        var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
-        var start = new Date(performance['time'][0]);
-        //The minimum end is the start plus 15 minutes
-        var minEnd = new Date(start.getTime() + 15 * 60000);
-
-        while(minEnd <= dayEnd){
-          var hours = minEnd.getHours();
-          var minutes = minEnd.getMinutes();4
-          if(hours < 10) hours = '0' + hours;
-          if(minutes < 10) minutes = '0' + minutes;
-          var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
-          endTime.append(endOption);
-
-          minEnd.setMinutes(minEnd.getMinutes() + 15);
-        };
-        endTime.val(performance['time'][1]);
-      };
-
-
-      startTime.on('change', function(){
-        var oldStart = performance['time'][0];
-        var newStart = parseInt(startTime.val());
-        card.css({'top': '+=' + (newStart - oldStart) / 90000});
-        performance['time'][0] = newStart;
-        performance['time'][1] = performance['time'][1] + (newStart - oldStart);
-        setEndTimes();
-        _savePerformance(performance);
-      });
-
-      endTime.on('change', function(){
-        var oldEnd = performance['time'][1];
-        var newEnd = parseInt(endTime.val());
-        card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
-        performance['time'][1] = newEnd;
-        setStartTimes();
-        _savePerformance(performance);
-      });
-
-      removeInputButton.on('click', function(){
-        destroy(performance);
-        _closePopup();
-      });
-
-      input.on('change', function(){
-        performance.confirmed = input.is(":checked");
-        if (performance.confirmed) card.find('.checker').append(Pard.Widgets.IconManager('done').render());
-        else card.find('.checker').empty();
-        _savePerformance(performance);
-      });
-
-      comments.on('input', function(){
-        performance.comments = comments.val();
-        card.find('.commentIcon').empty();
-        if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
-        _savePerformance(performance);
-      });
-
-      daySelector.val(performance.date);
-      spaceSelector.val(performance.host_id);
-      setStartTimes();
-      setEndTimes();
-      comments.val(performance.comments);
-      input.prop('checked', performance.confirmed);
-
-      return {
-        render: function(){
-          return performanceBox;
-        },
-        setCallback: function(callback){
-          _closePopup = function(){
-            performanceBox.remove();
-            callback();
-          }
-        }
-      }
-    }
-
     var PermanentPerformance = function(performance){
 
-      var card =$('<div>').addClass('programHelper');
+
+      var card = $('<div>').addClass('programHelper');
       card.addClass('dragged-card-call-manager cursor_grab');
       card.addClass(performance.performance_id);
       card.mousedown(function(){
@@ -412,6 +356,17 @@
         card.removeClass('cursor_move').addClass('cursor_grab');
       });
 
+      var artistShows = function(){
+        var artistProgram = the_event.artists[performance.participant_id].program;
+        var shows = Object.keys(artistProgram).map(function(performance_id){
+          return artistProgram[performance_id].show;
+        });
+        shows = shows.filter(function(show){
+          return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id && show.host_id == performance.host_id);
+        });
+        return shows;
+      }
+
       card.draggable({
         revert: false,
         helper: 'clone',
@@ -420,17 +375,30 @@
           card.removeClass('cursor_grab').addClass('cursor_move');
           card.css({'opacity': '0.4'});
           ui.helper.data('dropped', false);
+          performance.modifiables = [];
+          artistShows().forEach(function(show){
+            performance.modifiables.push(show.performance_id);
+          });
           Pard.Bus.trigger('drag', performance);
         },
         stop:function(event, ui){
           card.removeClass('cursor_move').addClass('cursor_grab');
           card.css({'opacity': '1'});
           Pard.Bus.trigger('stop');
-          if(ui.helper.data('dropped') == false) destroyPermanents(performance);
+          if(ui.helper.data('dropped') == false){
+            artistShows().forEach(function(show){
+              destroy(show);
+            }); 
+          }
         }
       });
 
-      var fillCard = function(){
+      var date = performance.date;
+      var start = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _startHour, _startMin);
+      var end = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _endHour, _endMin);
+      performance.time = [start.getTime(), end.getTime()];
+
+      var fillCard = function(performance){
 
         performance.time[0] = parseInt(performance.time[0]);
         performance.time[1] = parseInt(performance.time[1]);
@@ -467,7 +435,7 @@
           $('body').append(_content);
 
           var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', Manager());
+          var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager());
           _message.setCallback(function(){
             _content.remove();
             _popup.close();
@@ -475,25 +443,21 @@
           _content.append(_message.render());
           _popup.open();
         });
-
-        return {
-          render: function(){
-            return _card;
-          }
-        }
       }
 
-      var Manager = function(saveMethod){
+      
+      var PermanentManager = function(saveMethod){
+
         var performancesBox = $('<div>').css('padding', 0);
         var artistProgram = the_event.artists[performance.participant_id].program;
-        var performances = Object.keys(artistProgram).map(function(performance_id){
-          return artistProgram[performance_id];
+        var shows = Object.keys(artistProgram).map(function(performance_id){
+          return artistProgram[performance_id].show;
         });
-        performances = performances.filter(function(show){
+        shows = shows.filter(function(show){
           return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id);
         });
-        performances.forEach(function(show){
-          performancesBox.append(the_event.program[show.performance_id].performanceManager(saveMethod).render());
+        shows.forEach(function(show){
+          performancesBox.append(the_event.program[show.performance_id].manager().render());
         });
 
         return {
@@ -517,13 +481,13 @@
         daySelector.empty();
         daySelector.attr('disabled', false);
         var artistProgram = the_event.artists[performance.participant_id].program;
-        performances = Object.keys(artistProgram).map(function(performance_id){
-          return artistProgram[performance_id];
+        shows = Object.keys(artistProgram).map(function(performance_id){
+          return artistProgram[performance_id].show;
         });
-        performances = performances.filter(function(show){
+        shows = shows.filter(function(show){
           return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id);
         });
-        var dates = performances.map(function(show){
+        var dates = shows.map(function(show){
           return show.date;
         });
         Object.keys(eventTime).forEach(function(day){
@@ -537,7 +501,8 @@
         if(daySelector.children().length <= 1) daySelector.attr('disabled', true);
       }
 
-      var PerformanceManager = function(saveMethod){
+      var manager = function(){
+
         var performanceBox = $('<div>');
         var performanceContainer = $('<div>').css('height', 40);
         var spaceSelector = $('<select>');
@@ -711,24 +676,36 @@
         }
       }
 
-      var card = PerformanceCard().render();
-
-      var _loadToPrograms = function(){
-        the_event.spaces[performance.host_id].addPerformance(performance, card);
-        the_event.artists[performance.participant_id].loadPerformance(performance);
-      }
-
       var _destroy = function(){
         card.remove();
       }
 
+      var _modify = function(show){
+        for(var key in show){
+          performance[key] = show[key];  
+        }
+        fillCard(performance);
+      }
+
+      var hostPerformances = Object.keys(the_event.spaces[performance.host_id].program).map(function(performance_id){
+        return the_event.spaces[performance.host_id].program[performance_id];
+      });
+
+      hostPerformances = hostPerformances.filter(function(hostPerformance){
+        return (hostPerformance.show.permanent == 'true' && hostPerformance.show.participant_proposal_id == performance.participant_proposal_id);
+      });
+
+      if(hostPerformances.length != 0) card = hostPerformances[0].card;
+      
+      else fillCard(performance);
+
       return {
+        show: performance,
         card: card,
-        destroy: _destroy,
-        loadPerformance: _loadToPrograms,
-        performanceManager: PerformanceManager,
+        manager: manager,
         loadDates: _loadDates,
-        show: performance
+        modify: _modify,
+        destroy: _destroy
       }
     }
 	}

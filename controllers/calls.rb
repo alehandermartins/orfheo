@@ -78,7 +78,6 @@ class CallsController < BaseController
     form = get_space_form call_id, form_category
     proposal = SpaceOwnProposal.new(params, session[:identity], form) if profile_id.split('-').last == 'own'
     proposal = SpaceProposal.new(params, session[:identity], form) unless profile_id.split('-').last == 'own'
-
     Repos::Events.modify_space proposal.to_h
     success
   end

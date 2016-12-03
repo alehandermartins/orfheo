@@ -252,7 +252,7 @@
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        var _message = Pard.Widgets.PopupContent(show.title + ' (' + show.participant_name + ')', _program[show.performance_id].performanceManager());
+        var _message = Pard.Widgets.PopupContent(show.title + ' (' + show.participant_name + ')', _program[show.performance_id].manager());
         _message.setCallback(function(){
           _printSpaceProgram(space, program, _program);
           _content.remove();
