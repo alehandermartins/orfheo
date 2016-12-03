@@ -192,7 +192,8 @@
       //Youtube, Vimeo, Flickr, Twitter, Soundcloud
       var _oembed = function(link){
         $.getJSON("https://noembed.com/embed?callback=?",
-          {"format": "json", "url": link['url']}, function (data) {               
+          {"format": "json", "url": link['url']}, function (data) {
+            console.log(data);              
             if (!('error' in data)){
               var _media = data.html;
               if(link['provider'] == 'flickr'){
