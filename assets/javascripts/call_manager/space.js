@@ -334,7 +334,13 @@
     var _loadPerformance = function(performance){
       var show = performance.show;
       if(show.permanent == 'false') _columns[show.date].append(performance.card);
-      else _columns['permanent'].append(performance.card);
+      else{
+        if(Object.keys(program).every(function(performance_id){
+          return program[performance_id].show.permanent == 'false' || program[performance_id].show.participant_proposal_id != show.participant_proposal_id;
+        })){
+          _columns['permanent'].append(performance.card);
+        }
+      }      
       program[show.performance_id] = performance;
     }
 
@@ -368,7 +374,21 @@
       },
       deletePerformance: function(show){
         delete program[show.performance_id];
-        if(show.permanent == 'true') return AlignPerformances(_columns['permanent'].position().left + 1);
+        if(show.permanent == 'true'){
+          if(_columns['permanent'].find('.' + show.performance_id).length) {
+            _columns['permanent'].find('.' + show.performance_id).detach();
+            var myPerformances = Object.keys(program).map(function(performance_id){
+              return program[performance_id].show;
+            });
+            myPerformances.some(function(_show){
+              if(_show.permanent == 'true' && _show.participant_proposal_id == show.participant_proposal_id){
+                _columns['permanent'].append(program[_show.performance_id].card);
+                return _show.permanent == 'true' && _show.participant_proposal_id == show.participant_proposal_id;
+              }
+            });
+          }
+          return AlignPerformances(_columns['permanent'].position().left + 1);
+        }
         AlignPerformances(_columns[show.date].position().left + 1);
       },
       loadPerformance: _loadPerformance
