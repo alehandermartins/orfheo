@@ -9,6 +9,48 @@
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var _createdWidget = $('<div>');
+    var _ownArtists = [];
+
+    // OWN PROPOSALS
+
+    var _createProposals = {
+      artist: function(){
+          var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('createOwnprofile-btn-icon');
+          var _plusA = Pard.Widgets.IconManager('add_circle').render().addClass('plusSymbol-CreateOwnProfile');
+          return $('<div>').append(_artistIcon, _plusA).addClass('create-artist-proposal-call-page-btn')
+          .attr('title','Crea y añade una propuesta artista')
+          .click(function(){
+            _openPopupForm('artist', _ownArtists);
+          });
+        },
+      space: function(){
+          var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('createOwnprofile-btn-icon');
+          var _plusS = Pard.Widgets.IconManager('add_circle').render().addClass('plusSymbol-CreateOwnProfile');
+          return $('<div>').append(_spaceIcon, _plusS).addClass('create-space-proposal-call-page-btn')
+          .attr('title','Crea y añade una propuesta espacio')
+          .click(function(){
+            _openPopupForm('space', []);
+          });
+        }
+    }
+   
+    var _createProposalsInnerCont = $('<div>').addClass('innerCreateProposals-Cont');
+    var _createProposalsCont = $('<div>').append(_createProposalsInnerCont).addClass('createProposalsContainer-call-page');
+    // var _createProposalsText = $('<span>').text('Crea prepuestas:').css('font-size','0.875rem')
+    // _createProposalsInnerCont.append(_createProposalsText);
+    var _openPopupForm = displayer.createOwnProposal;
+    var _deleteOwnArtist = function(artist){
+      _ownArtists = _ownArtists.filter(function(_artist){
+        return artist.profile_id != _artist.profile_id;
+      });
+    }
+    var _addOwnArtist = function(artist){
+      _ownArtists.push(artist);
+    }
+    _createdWidget.append(_createProposalsCont);
+
+    // TABLES SELECTOR
+
     var _typeSelectorBox = $('<div>').addClass('types-selector-call-manager');
     var _typeSelector = $('<select>'); 
     _typeSelectorBox.append(_typeSelector);
@@ -48,9 +90,11 @@
           icon: type,
           children: _selectorOptions[type]
         });
-
+        _createProposalsInnerCont.append(_createProposals[type]());
       }
     });  
+
+    //FILL THE TABLES
     
     Object.keys(spaces).forEach(function(profile_id){
       var proposal = spaces[profile_id].space;
@@ -62,6 +106,12 @@
       _dataTables['allProposals'].addRow('space', proposal);
     });
     Object.keys(artists).forEach(function(profile_id){
+      var lastIdElement = profile_id.split('-').pop();
+      if (profile_id.indexOf('own')>-1) {
+        var ownArtist = artists[profile_id].artist;
+        _ownArtists.push(ownArtist);
+        console.log(_ownArtists);
+      }
       var profile = artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
         proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
@@ -71,6 +121,9 @@
         _dataTables['allProposals'].addRow('artist', proposal, profile);
       });
     });
+
+
+    //SELECT2 SELECTOR TABLES
 
     _createdWidget.append(_typeSelectorBox);
     for (var table in _tablesContainer) {
@@ -150,6 +203,8 @@
           var _filtersContainer = $('<div>').append($('<span>').append('Filtra: ').css({'font-size':'0.875rem', 'margin-right':'0.5rem'}), $('<span>').append(_ownCheckbox, _labelOwn), $('<span>').append(_receivedCheckbox, _labelReceived)).addClass('ownReceivedFilters-call-page');
           _tablesContainer[typeTable].prepend($('<div>').append(_filtersContainer).css('position','relative'));
     }
+
+    //DATATABLES
 
 
     $(document).ready(function() {
@@ -363,7 +418,7 @@
               buttons: [
                 {
                   extend: 'excel',
-                  text:'Exporta Excel',
+                  text:'Excel',
                   exportOptions: {
                       columns: ':visible'
                   },
@@ -371,7 +426,7 @@
                 },
                 {
                   extend: 'pdf',
-                  text:'Crea PDF',
+                  text:'PDF',
                   exportOptions: {
                       columns: ':visible'
                   },
@@ -380,7 +435,7 @@
                 },
                 {
                   extend: 'copy',
-                  text: 'Copia los datos',
+                  text: 'Copia',
                   exportOptions: {
                     columns: ':visible'
                   }
@@ -447,6 +502,7 @@
       _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
       _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
       _proposalsNumber[proposal.form_category] += 1;
+      _addOwnArtist(artist);
     });
     Pard.Bus.on('addSpace', function(space){
       _dataTables[space.form_category].table.row.add(_dataTables[space.form_category].proposalRow(space)).draw();
@@ -461,6 +517,7 @@
           if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
         }
       }
+      _deleteOwnArtist(artist);
     });
     Pard.Bus.on('deleteSpace', function(space){
       for (var categoryTable in _dataTables){

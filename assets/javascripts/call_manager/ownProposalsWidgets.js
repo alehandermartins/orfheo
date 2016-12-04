@@ -17,7 +17,6 @@
     var _participantsSelector = $('<select>');
     var _formTypeSelectorCont = $('<div>');
     var _contentSel = $('<div>');
-    // var _formTypes = [];
     var _formTypeSelector = $('<select>');
     var _emptyOption = $('<option>').text('').val('');
     _formTypeSelector.append(_emptyOption);
@@ -66,7 +65,6 @@
       minimumResultsForSearch: Infinity,
       dropdownCssClass: 'orfheoTypeFormSelector',
       placeholder: "Selecciona la categoría de la propuesta"
-      // allowClear: true
     });
 
     _formTypeSelector.on('change',function(){
@@ -137,7 +135,7 @@
 
     var _closepopup = {};
     var spinner =  new Spinner();
-    var _photos;
+    // var _photos;
     var _orfheoCategory;
 
     var _displayAllBtn = $('<a>').attr('href','#').text('Muestra todos los campos').css('font-size','0.75rem');
@@ -173,19 +171,20 @@
      
       switch(field){
         case 'photos':
-          var _thumbnail = $('<div>');
-          var _photosLabel = $('<label>').text(form[field].label);
-          var _photoWidget = _form[field].input;
-          _photos = _photoWidget.getPhotos();
-          var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
-          if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
-          _photos.cloudinary().bind('cloudinarydone', function(e, data){
-            var _url = _photoWidget.getVal();
-            console.log(_url);
-            _url.push(data['result']['public_id']);
-            if(_url.length >= _photos.dataLength()) _send();
-          });
-          _optionalFields.prepend(_photosContainer);
+        case 'links':
+          // var _thumbnail = $('<div>');
+          // var _photosLabel = $('<label>').text(form[field].label);
+          // var _photoWidget = _form[field].input;
+          // _photos = _photoWidget.getPhotos();
+          // var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
+          // if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
+          // _photos.cloudinary().bind('cloudinarydone', function(e, data){
+          //   var _url = _photoWidget.getVal();
+          //   console.log(_url);
+          //   _url.push(data['result']['public_id']);
+          //   if(_url.length >= _photos.dataLength()) _send();
+          // });
+          // _optionalFields.prepend(_photosContainer);
           break;
         case 'category':
           if (form[field].args[1].length>1){
@@ -292,15 +291,16 @@
       $('body').append(spinner.el);
       submitButton.attr('disabled',true);
       if(_filled() == true){
-        if(_photos){
-          if(_photos.dataLength() == false) _send();
-          else{
-            _photos.submit();
-          }
-        }
-        else{
-          _send();
-        }
+        _send();
+        // if(_photos){
+        //   if(_photos.dataLength() == false) _send();
+        //   else{
+        //     _photos.submit();
+        //   }
+        // }
+        // else{
+        //   _send();
+        // }
       }
       else{
         spinner.stop();
@@ -315,9 +315,6 @@
       render: function(){
         return _formContainer;
       },
-      // Spinner: function(){
-      //   return spinner;
-      // },
       setSend: function(send){
         _send = function(){
           send(function(){
@@ -343,66 +340,6 @@
     }
   }
 
-
-  ns.Widgets.WhiteList = function(the_event){
-
-  	var _createdWidget = $('<div>');
-    var _emailsNames = [{id:'', text:''}];
-    var _namesList = [];
-    var _emailsList = [];
-
-    var _makeList = function(proposal){
-      var email = {id: proposal.email, text: proposal.email};
-      if($.inArray(proposal.email, _emailsList) < 0) {
-        _emailsNames.push(email);
-        _emailsList.push(proposal.email);
-      }
-      var name = {id: proposal.email, text: proposal['name']};
-      if($.inArray(proposal['name'], _namesList) < 0){
-        _emailsNames.push(name);
-        _namesList.push(proposal['name']);
-      }
-    }
-
-    Object.keys(the_event.artists).forEach(function(profile_id){
-      _makeList(the_event.artists[profile_id].artist);
-    });
-
-    Object.keys(the_event.spaces).forEach(function(profile_id){
-      _makeList(the_event.spaces[profile_id].space);
-    });
-
-    var _emailNameInput = Pard.Widgets.WhiteListInput(_emailsNames);
-
-    _emailNameInput.setVal(the_event.whitelist);
-
-		var _submitBtnContainer = $('<div>').addClass('submit-whitelist-call-manager-container');
-   	var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
-   	_submitBtnOuterContainer.append(_submitBtnContainer);
-   	var _successBox = $('<span>').attr({id:'successBox-whiteList'});
-
-   	var _submitBtn = Pard.Widgets.Button('Guarda los cambios',
-     function(){
-      _sendWhiteList();
-    });
-
-    var _sendWhiteList = function(){
-      var _wl = _emailNameInput.getVal();
-      Pard.Backend.whitelist(the_event.event_id, _wl, Pard.Events.WhiteList);
-    }
-
-	 	_submitBtnContainer.append(_successBox, _submitBtn.render());
-
-    var _emailNameImputRendered = _emailNameInput.render();
-
-    _createdWidget.append(_submitBtnOuterContainer, $('<label>').append(_emailNameImputRendered));
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
 
 
 }(Pard || {}));

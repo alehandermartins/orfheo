@@ -150,7 +150,7 @@
       }
       _modifyProposal.click(function(){
         console.log(proposal);
-        _content.empty();
+        _messageProposalPrintedRendered.hide();
         var _formWidget = Pard.Widgets.OwnProposalForm(form, type, proposal.form_category);
         _formWidget.setVal(proposal);
         _formWidget.showAll();
@@ -162,16 +162,26 @@
           _submitForm['profile_id'] = proposal.profile_id; 
           _modifyProposalBackend[type](_submitForm, modifyCallback);
         });
-        var _message = Pard.Widgets.PopupContent(eventName, _formWidget);
-        _message.setCallback(function(){
+        var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
+        _modifyMessage.prependToContent($('<p>').text('Formulario: '+proposal.form_category).css('margin-bottom','-0.5rem'));
+        _modifyMessage.appendToContent(Pard.Widgets.Button(
+          'Anula',
+          function(){
+            _modifyMessageRendered.remove();
+            _messageProposalPrintedRendered.show();
+          }).render()
+          .addClass('cancelBtn-modifyProposalForm')
+        );
+        _modifyMessage.setCallback(function(){
           _content.remove();
           _mainPopup.close();
         });
-        _content.append(_message.render());
+        var _modifyMessageRendered = _modifyMessage.render()
+        _content.append(_modifyMessageRendered);
       });
 
-      var _message = Pard.Widgets.PopupContent(eventName, _proposalPrinted);
-      _message.setCallback(function(){
+      var _messageProposalPrinted = Pard.Widgets.PopupContent(eventName, _proposalPrinted);
+      _messageProposalPrinted.setCallback(function(){
         _content.remove();
         _mainPopup.close();
       });
@@ -180,19 +190,20 @@
         var _label = $('<span>').addClass('myProposals-field-label').text('Enmienda:').css('display', 'block');
         var _text = $('<span>').text(' ' + proposal.amend);
         var _element = $('<div>').append($('<p>').append(_label, _text));
-        _message.appendToContent(_element);
+        _messageProposalPrinted.appendToContent(_element);
       };
 
       var _actionBtnContainer = $('<div>').addClass('actionButton-container-popup');
       _actionBtnContainer.append(_modifyProposal);
       _actionBtnContainer.append(_deleteProposalCaller);
   
-      _message.prependToContent(_actionBtnContainer);
+      _messageProposalPrinted.prependToContent(_actionBtnContainer);
       if (proposal.proposal_id.indexOf("own") >= 0) {
         var _warningOwnText = $('<p>').text('Propuesta creada por los organizadoores de la convocatoria');
-        _message.prependToContent(_warningOwnText);
+        _messageProposalPrinted.prependToContent(_warningOwnText);
       }
-      _content.append(_message.render());
+      var _messageProposalPrintedRendered = _messageProposalPrinted.render();
+      _content.append(_messageProposalPrintedRendered);
 
       _mainPopup.open();
     }

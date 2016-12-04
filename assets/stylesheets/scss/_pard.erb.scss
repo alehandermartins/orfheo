@@ -413,6 +413,7 @@ button{
   vertical-align: bottom;
 }
 
+
 .login-btn{
   @extend .pard-btn;
   padding: 0.3rem 0.65rem;
@@ -655,21 +656,46 @@ button{
   }
 }
 
+.createOwnprofile-btn-icon{
+  font-size: 1.5rem;
+}
+
+.plusSymbol-CreateOwnProfile{
+  font-size: .9rem;
+  margin-left: -.3rem;
+}
+
 
 .create-space-proposal-call-page-btn, .create-artist-proposal-call-page-btn{
   cursor: pointer;
-  padding: 0.4rem 1.5rem;
+  padding: 0;
   text-align: center;
-  width: 100%;
-  border: 2px solid transparent;
-  margin-right: 2rem;
-  border: 2px solid $grey-1;
-  font-weight: bold;
+  width: 3.2em;
+  margin-left: 1.5rem;
+  border: 1px solid $grey-2;
   display: inline-block;
+  max-height: 1.7rem;
 }
 
 .create-space-proposal-call-page-btn:hover, .create-artist-proposal-call-page-btn:hover{
     background: $grey-1;
+}
+
+.iconButton-CallPage{
+  @extend .pard-btn;
+  padding: 0;
+  height: 22px;
+  width: 35px;
+  color: white !important;
+  text-align: center;
+  .material-icons{
+    font-size: 22px;
+  }
+}
+
+.dowloadQR-btn{
+  vertical-align: top;
+  margin-left: 1rem;
 }
 
 .success-inscription-btn{
