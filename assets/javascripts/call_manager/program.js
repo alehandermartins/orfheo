@@ -49,9 +49,34 @@
 		var Performance = function(performance){
 
       var card =$('<div>').addClass('programHelper');
+      var _title = $('<p>').addClass('proposal-title-card-call-manager');
+      var _confirmationCheckContainer = $('<span>').addClass('checker');
+      var _titleText = $('<a>').attr('href','#');
+      var _commentIconContainer = $('<span>').addClass('commentIcon');
+      var _titleTextLong, _confirmationCheck, _commentIcon;
+
+      _confirmationCheckContainer.append(_confirmationCheck);
+      _commentIconContainer.append(_commentIcon);
+      _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
+      
+      _titleText.on('click', function(){
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager());
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
+      });
+
+      card.append(_title.css({'position': 'absolute'}));
       card.addClass('dragged-card-call-manager cursor_grab');
       card.mousedown(function(){
-        card.removeClass('cursor_grab').addClass('cursor_move');
       });
       card.mouseup(function(){
         card.removeClass('cursor_move').addClass('cursor_grab');
@@ -107,19 +132,11 @@
           'box-shadow': 'inset 0 0 1px '
         });
 
-        var _title = $('<p>').addClass('proposal-title-card-call-manager');
-        var _titleTextLong = performance.participant_name + ' - ' + performance.title;
-        var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
-        var _confirmationCheck = '';
-        var _confirmationCheckContainer = $('<span>').addClass('checker');
+        _titleTextLong = performance.participant_name + ' - ' + performance.title;
+        _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
+        _confirmationCheck = '';
         if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render();
-        _confirmationCheckContainer.append(_confirmationCheck);
-        var _commentIcon = '';
-        var _commentIconContainer = $('<span>').addClass('commentIcon');
         if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render());
-        _commentIconContainer.append(_commentIcon);
-        _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
-        card.append(_title.css({'position': 'absolute'}));
 
         card.resizable({
           resize: function(event, ui) {
@@ -128,26 +145,10 @@
           maxHeight: performance.maxHeight,
           grid: 10,
           stop: function(event, ui){
-            console.log(performance.time);
             var duration = new Date(performance.time[0]);
             duration.setMinutes(duration.getMinutes() + ui.size.height * 1.5);
             performance.time[1] = duration.getTime();
           }
-        });
-
-        _titleText.on('click', function(){
-          var _content = $('<div>').addClass('very-fast reveal full');
-          _content.empty();
-          $('body').append(_content);
-
-          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager());
-          _message.setCallback(function(){
-            _content.remove();
-            _popup.close();
-          });
-          _content.append(_message.render());
-          _popup.open();
         });
 
         delete performance.position;
@@ -348,6 +349,32 @@
     var PermanentPerformance = function(performance){
 
       var card = $('<div>').addClass('programHelper');
+      var _title = $('<p>').addClass('proposal-title-card-call-manager');
+      var _confirmationCheckContainer = $('<span>').addClass('checker');
+      var _titleText = $('<a>').attr('href','#');
+      var _commentIconContainer = $('<span>').addClass('commentIcon');
+      var _titleTextLong, _confirmationCheck, _commentIcon;
+
+      _confirmationCheckContainer.append(_confirmationCheck);
+      _commentIconContainer.append(_commentIcon);
+      _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
+
+      _titleText.on('click', function(){
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager());
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
+      });
+
+      card.append(_title.css({'position': 'absolute'}));
       card.addClass('dragged-card-call-manager cursor_grab');
       card.mousedown(function(){
         card.removeClass('cursor_grab').addClass('cursor_move');
@@ -356,17 +383,22 @@
         card.removeClass('cursor_move').addClass('cursor_grab');
       });
 
-      var artistShows = function(){
-        var artistProgram = the_event.artists[performance.participant_id].program;
-        var shows = Object.keys(artistProgram).map(function(performance_id){
-          return artistProgram[performance_id].show;
-        });
-        if(!the_event.program[performance.performance_id]) performance.host_id = shows[0].host_id;
-        shows = shows.filter(function(show){
-          return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id && show.host_id == performance.host_id);
-        });
-        return shows;
-      }
+      card.draggable({
+        revert: false,
+        helper: 'clone',
+        grid: [ 10, 10 ],
+        start: function(event, ui){
+          card.removeClass('cursor_grab').addClass('cursor_move');
+          card.css({'opacity': '0.4'});
+          ui.helper.data('dropped', false);
+          Pard.Bus.trigger('drag', performance);
+        },
+        stop:function(event, ui){
+          card.removeClass('cursor_move').addClass('cursor_grab');
+          card.css({'opacity': '1'});
+          if(ui.helper.data('dropped') == false) destroy(performance);
+        }
+      });
 
       card.draggable({
         revert: false,
@@ -394,6 +426,18 @@
         }
       });
 
+      var artistShows = function(){
+        var artistProgram = the_event.artists[performance.participant_id].program;
+        var shows = Object.keys(artistProgram).map(function(performance_id){
+          return artistProgram[performance_id].show;
+        });
+        if(!the_event.program[performance.performance_id]) performance.host_id = shows[0].host_id;
+        shows = shows.filter(function(show){
+          return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id && show.host_id == performance.host_id);
+        });
+        return shows;
+      }
+
       var date = performance.date;
       var start = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _startHour, _startMin);
       var end = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _endHour, _endMin);
@@ -415,37 +459,11 @@
           'box-shadow': 'inset 0 0 1px '
         });
         
-        var _title = $('<p>').addClass('proposal-title-card-call-manager');
-        var _titleTextLong = performance.participant_name + ' - ' + performance.title;
-        var _titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(_titleTextLong, 35));
-        var _confirmationCheck = '';
-        var _confirmationCheckContainer = $('<span>').addClass('checker');
+        _titleTextLong = performance.participant_name + ' - ' + performance.title;
+        _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
         if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render();
-        _confirmationCheckContainer.append(_confirmationCheck);
-        var _commentIcon = '';
-        var _commentIconContainer = $('<span>').addClass('commentIcon');
         if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render());
-        _commentIconContainer.append(_commentIcon);
-        _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
-        card.append(_title.css({'position': 'absolute'}));
-
-        //On click the performance shows its program
-        _titleText.on('click', function(){
-          var _content = $('<div>').addClass('very-fast reveal full');
-          _content.empty();
-          $('body').append(_content);
-
-          var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-          var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager());
-          _message.setCallback(function(){
-            _content.remove();
-            _popup.close();
-          });
-          _content.append(_message.render());
-          _popup.open();
-        });
       }
-
       
       var PermanentManager = function(saveMethod){
 
