@@ -18,14 +18,14 @@
     var _panels = $('<div>').css('padding', 0);
 
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
-    var _tableTabTitle =  $('<a>').attr({href: "#"}).text('Tabla');
-    var _proposalsTabTitle =  $('<a>').attr({href: "#"}).text('Propuestas');
-    var _qrTabTitle =  $('<a>').attr({href: "#"}).text('QR');
+    var _tableTabTitle =  $('<a>').attr({href: "#"}).text('Propuestas');
+    // var _proposalsTabTitle =  $('<a>').attr({href: "#"}).text('Propuestas');
+    var _utilsTabTitle =  $('<a>').attr({href: "#"}).text('Utiles');
 
     var _programTab = $('<li>').append(_programTabTitle);
     var _tableTab = $('<li>').append(_tableTabTitle);
-    var _proposalsTab = $('<li>').append(_proposalsTabTitle);
-    var _qrTab = $('<li>').append(_qrTabTitle);
+    // var _proposalsTab = $('<li>').append(_proposalsTabTitle);
+    var _utilsTab = $('<li>').append(_utilsTabTitle);
 
     var _displayer = Pard.Displayer(the_event, forms);
 
@@ -45,9 +45,7 @@
 
     var _programManager = Pard.ProgramManager(the_event, _displayer);
     var _tableManager = Pard.Widgets.TableManager(the_event, forms, _displayer);
-    //var _tableManager = Pard.TableManager(the_event, _displayer);
-    var _proposalsManager = Pard.ProposalsManager(the_event, _displayer);
-    var _qrManager = Pard.qrManager(the_event.qr);
+    var _utilsManager = Pard.utilsManager(the_event);
 
     var _lastSelectedPanel = _tableManager;
     _tableTab.addClass('tab-selected')
@@ -69,28 +67,19 @@
         _lastSelectedPanel = _tableManager;
       }
     });
-    _proposalsTab.on('click', function(){
-      if(_lastSelectedPanel != _proposalsManager){
+    _utilsTab.on('click', function(){
+      if(_lastSelectedPanel != _utilsManager){
         $('.tab-selected').removeClass('tab-selected');
-        _proposalsTab.addClass('tab-selected');
+        _utilsTab.addClass('tab-selected');
         _lastSelectedPanel.render().hide();
-        _proposalsManager.render().show();
-        _lastSelectedPanel = _proposalsManager;
-      }
-    });
-    _qrTab.on('click', function(){
-      if(_lastSelectedPanel != _qrManager){
-        $('.tab-selected').removeClass('tab-selected');
-        _qrTab.addClass('tab-selected');
-        _lastSelectedPanel.render().hide();
-        _qrManager.render().show();
-        _lastSelectedPanel = _qrManager;
+        _utilsManager.render().show();
+        _lastSelectedPanel = _utilsManager;
       }
     });
 
-    _tabs.append( _tableTab, _proposalsTab, _programTab, _qrTab);
+    _tabs.append( _tableTab, _programTab, _utilsTab);
     _navigationContainer.append(_goToEventBtn, _tabs);
-    _panels.append(_programManager.render().hide(), _tableManager.render(), _proposalsManager.render().hide(), _qrManager.render().hide());
+    _panels.append(_programManager.render().hide(), _tableManager.render(), _utilsManager.render().hide());
     _mainLarge.append(_navigationContainer, _title, _panels);
     _main.append(_mainLarge);
 

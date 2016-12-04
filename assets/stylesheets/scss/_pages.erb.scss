@@ -1572,11 +1572,12 @@ th.column-call-manager-table{
 
 
 .types-selector-call-manager{
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   width: 20rem;
   display: inline-block;
   margin-right: 3rem;
   margin-right: 9rem;
+  margin-top: .5rem;
 
   .select2-selection__placeholder{
     color: #444 !important;
@@ -1612,16 +1613,7 @@ th.column-call-manager-table{
 }
 
 th.column-call-manager-table {
-/*   .select2-selection__rendered{
-    padding-left: 4px !important;
-  }
-  .select2-selection__placeholder{
-    color: black !important;
-  }
-  .select2-container{
-    width: 7rem !important;
-    max-width: none !important;
-  } */
+
   .select-container-datatableColumn{
     width: 106%;
     margin-left: -0.4rem;
@@ -1737,11 +1729,6 @@ a.dt-button{
   text-shadow: none;
 }
 
-
-/* div.dataTables_wrapper div.dataTables_filter label{
-  margin-right: 12rem;
-  margin-bottom: 1rem;
-} */
 
 div.dataTables_wrapper div.dataTables_filter{
   width: 100%;
@@ -1965,6 +1952,16 @@ p.initial-text-proposalPanel{
 
 .own-spaceProposal-container{
   margin-top: 1rem;
+}
+
+.createProposalsContainer-call-page{
+  position: relative;
+}
+
+.innerCreateProposals-Cont{
+  position: absolute;
+  right: 0;
+  top: -1rem;
 }
 
  

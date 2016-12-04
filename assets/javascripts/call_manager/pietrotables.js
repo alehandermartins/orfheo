@@ -122,7 +122,7 @@
     return {
       table: _table,
       addRow: function(proposal, profile){
-        _tbody.append(proposalRow(proposal, profile))
+        _tbody.prepend(proposalRow(proposal, profile))
       },
       proposalRow: proposalRow,
       hiddenColumns: _hiddenColumns,
@@ -204,7 +204,7 @@
     return {
       table: _table,
       addRow: function(profileType, proposal, profile){
-        _tbody.append(proposalRow(profileType, proposal, profile))
+        _tbody.prepend(proposalRow(profileType, proposal, profile))
       },
       proposalRow: proposalRow
     }
