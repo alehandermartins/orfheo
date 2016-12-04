@@ -1159,7 +1159,6 @@ Production Section
 }
 
 
-
 #inline_player.inline_player{
   max-width: 100%;
 }
@@ -1753,15 +1752,24 @@ div.dataTables_wrapper div.dataTables_filter{
   right: 0;
 }
 
-.title-colText-call-manager{
-  cursor: pointer;
-}
 
 .submit-whitelist-call-manager-container{
   position:absolute;
   right: 0;
   height: 2.5rem;
   top: 2.4rem;
+}
+
+.whiteListedContainer-call-page{
+  margin-top: 2.2rem;
+  overflow-x: hidden;
+  direction: rtl;
+  overflow-y: auto;
+  max-height: 55vh;
+  .innerWhitelistedCont{
+    direction: ltr; 
+    padding: 3px;
+  }
 }
 
 .submit-btn-outer-container-call-manager{
@@ -1771,19 +1779,6 @@ div.dataTables_wrapper div.dataTables_filter{
   font-size: $almostNormalSize;
 }
 
-#succes-box-call-manager, #successBox-whiteList{
-  display: inline-block;
-  vertical-align: middle;
-  height: 1.5rem;
-}
-
-#successBox-whiteList{
-  margin-right: 1rem;
-}
-
-#succes-box-call-manager{
-  margin-left: 1rem;
-}
 
 .success-icon-check-call-manager{
   color: $green-pard;
@@ -1798,34 +1793,33 @@ div.dataTables_wrapper div.dataTables_filter{
   font-size: $almostNormalSize;
 }
 
-.search-input-call-manager-container  .select2-selection.select2-selection--multiple {
+/* .search-input-call-manager-container  .select2-selection.select2-selection--multiple {
   min-height: 2.4rem;
 }
 
 .search-input-call-manager-container .select2-container .select2-search--inline .select2-search__field{
   font-size: $almostNormalSize;
-}
+} */
 
 #tablePanel, #proposalsPanel {
   margin-bottom: $pard-grid-spacing;
 }
 
-.add-proposal-box, .white-list-box{
+.qr-box, .white-list-box{
   display: inline-block;
 }
 
-.add-proposal-box{
+.qr-box{
   width: 60%;
-  padding-right: 2rem;
-  /* border-right: 1px solid $grey-3; */
+  padding-left: 2rem;
   vertical-align: top;
 
 }
 
 .white-list-box{
   width: 40%;
-  padding-left: 2rem;
-  border-left: 1px solid $grey-3;
+  padding-right: 2rem;
+  border-right: 1px solid $grey-3;
   vertical-align: top;
 
 }
@@ -1851,21 +1845,21 @@ div.dataTables_wrapper div.dataTables_filter{
   background-color: rgba(212, 185, 41, 0.5) !important;;
 }
 
-.callPage-createSpaceProposal{
+/* .callPage-createSpaceProposal{
   margin-top: 1.5rem;
 }
+ */
 
-
-.callPage-createArtistProposal{
+/* .callPage-createArtistProposal{
   margin-bottom: 1.5rem;
-} 
+}  */
 
-
+/* 
 .callPage-createArtistProposal input.phone-input,  .callPage-createSpaceProposal input.phone-input {
   width: 13rem;
   display: inline-block;
   margin-left: 1.5rem;
-} 
+}  */
 
 .popup-categorySelector{
   margin-top: 2rem;

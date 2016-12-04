@@ -681,14 +681,21 @@ button{
     background: $grey-1;
 }
 
-.saveBtn-whitelist{
+.iconButton-CallPage{
+  @extend .pard-btn;
   padding: 0;
   height: 22px;
   width: 35px;
+  color: white !important;
   text-align: center;
   .material-icons{
     font-size: 22px;
   }
+}
+
+.dowloadQR-btn{
+  vertical-align: top;
+  margin-left: 1rem;
 }
 
 .success-inscription-btn{

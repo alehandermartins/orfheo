@@ -415,7 +415,7 @@
               buttons: [
                 {
                   extend: 'excel',
-                  text:'Exporta Excel',
+                  text:'Excel',
                   exportOptions: {
                       columns: ':visible'
                   },
@@ -423,7 +423,7 @@
                 },
                 {
                   extend: 'pdf',
-                  text:'Crea PDF',
+                  text:'PDF',
                   exportOptions: {
                       columns: ':visible'
                   },
@@ -432,7 +432,7 @@
                 },
                 {
                   extend: 'copy',
-                  text: 'Copia los datos',
+                  text: 'Copia',
                   exportOptions: {
                     columns: ':visible'
                   }
