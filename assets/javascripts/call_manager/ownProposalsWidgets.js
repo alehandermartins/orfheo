@@ -17,7 +17,6 @@
     var _participantsSelector = $('<select>');
     var _formTypeSelectorCont = $('<div>');
     var _contentSel = $('<div>');
-    // var _formTypes = [];
     var _formTypeSelector = $('<select>');
     var _emptyOption = $('<option>').text('').val('');
     _formTypeSelector.append(_emptyOption);
@@ -66,7 +65,6 @@
       minimumResultsForSearch: Infinity,
       dropdownCssClass: 'orfheoTypeFormSelector',
       placeholder: "Selecciona la categoría de la propuesta"
-      // allowClear: true
     });
 
     _formTypeSelector.on('change',function(){
@@ -137,7 +135,7 @@
 
     var _closepopup = {};
     var spinner =  new Spinner();
-    var _photos;
+    // var _photos;
     var _orfheoCategory;
 
     var _displayAllBtn = $('<a>').attr('href','#').text('Muestra todos los campos').css('font-size','0.75rem');
@@ -173,19 +171,20 @@
      
       switch(field){
         case 'photos':
-          var _thumbnail = $('<div>');
-          var _photosLabel = $('<label>').text(form[field].label);
-          var _photoWidget = _form[field].input;
-          _photos = _photoWidget.getPhotos();
-          var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
-          if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
-          _photos.cloudinary().bind('cloudinarydone', function(e, data){
-            var _url = _photoWidget.getVal();
-            console.log(_url);
-            _url.push(data['result']['public_id']);
-            if(_url.length >= _photos.dataLength()) _send();
-          });
-          _optionalFields.prepend(_photosContainer);
+        case 'links':
+          // var _thumbnail = $('<div>');
+          // var _photosLabel = $('<label>').text(form[field].label);
+          // var _photoWidget = _form[field].input;
+          // _photos = _photoWidget.getPhotos();
+          // var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
+          // if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
+          // _photos.cloudinary().bind('cloudinarydone', function(e, data){
+          //   var _url = _photoWidget.getVal();
+          //   console.log(_url);
+          //   _url.push(data['result']['public_id']);
+          //   if(_url.length >= _photos.dataLength()) _send();
+          // });
+          // _optionalFields.prepend(_photosContainer);
           break;
         case 'category':
           if (form[field].args[1].length>1){
@@ -292,15 +291,16 @@
       $('body').append(spinner.el);
       submitButton.attr('disabled',true);
       if(_filled() == true){
-        if(_photos){
-          if(_photos.dataLength() == false) _send();
-          else{
-            _photos.submit();
-          }
-        }
-        else{
-          _send();
-        }
+        _send();
+        // if(_photos){
+        //   if(_photos.dataLength() == false) _send();
+        //   else{
+        //     _photos.submit();
+        //   }
+        // }
+        // else{
+        //   _send();
+        // }
       }
       else{
         spinner.stop();
@@ -315,9 +315,6 @@
       render: function(){
         return _formContainer;
       },
-      // Spinner: function(){
-      //   return spinner;
-      // },
       setSend: function(send){
         _send = function(){
           send(function(){

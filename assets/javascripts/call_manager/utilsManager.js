@@ -13,7 +13,6 @@
 
     var _qrimg = $.cloudinary.image(the_event.qr,{ format: 'png', width: 80 , effect: 'saturation:50' });
     var _qrText = $('<p>').text('Descarga y difunde el codigo QR de la página de tu evento en orfheo').addClass('initial-text-proposalPanel');
-    console.log(_qrimg[0].src);
     var _downloadBtn = $('<a>').append(Pard.Widgets.IconManager('export').render())
     .attr({
       'href': _qrimg[0].src,

@@ -20,7 +20,7 @@
           return $('<div>').append(_artistIcon, _plusA).addClass('create-artist-proposal-call-page-btn')
           .attr('title','Crea y añade una propuesta artista')
           .click(function(){
-            _openPopupForm('artist', []);
+            _openPopupForm('artist', _ownArtists);
           });
         },
       space: function(){
@@ -36,6 +36,8 @@
    
     var _createProposalsInnerCont = $('<div>').addClass('innerCreateProposals-Cont');
     var _createProposalsCont = $('<div>').append(_createProposalsInnerCont).addClass('createProposalsContainer-call-page');
+    // var _createProposalsText = $('<span>').text('Crea prepuestas:').css('font-size','0.875rem')
+    // _createProposalsInnerCont.append(_createProposalsText);
     var _openPopupForm = displayer.createOwnProposal;
     var _deleteOwnArtist = function(artist){
       _ownArtists = _ownArtists.filter(function(_artist){
@@ -105,9 +107,10 @@
     });
     Object.keys(artists).forEach(function(profile_id){
       var lastIdElement = profile_id.split('-').pop();
-      if (lastIdElement == 'own') {
+      if (profile_id.indexOf('own')>-1) {
         var ownArtist = artists[profile_id].artist;
         _ownArtists.push(ownArtist);
+        console.log(_ownArtists);
       }
       var profile = artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
