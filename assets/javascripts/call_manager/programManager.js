@@ -1389,8 +1389,8 @@
       save(_program[performance_id].show);
     });
 
-    Object.keys(the_event.spaces).forEach(function(profile_id){
-      the_event.spaces[profile_id].alignPerformances();
+    Object.keys(the_event.spaces).forEach(function(profile_id, index){
+      the_event.spaces[profile_id].alignPerformances(index);
     });
 
     Pard.Bus.on('addArtist', function(artist){

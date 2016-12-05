@@ -224,14 +224,15 @@
       }
     }
 
-    var AlignPerformances = function(){
-      var left;
-      Object.keys(_columns).some(function(date){
-        if(_columns[date].is(':visible')){
-          left = _columns[date].position().left + 1;
-          return true;
-        }
-      });
+    var AlignPerformances = function(left){
+      if(!left){
+        Object.keys(_columns).some(function(date){
+          if(_columns[date].is(':visible')){
+            left = _columns[date].position().left + 1;
+            return true;
+          }
+        });
+      }
 
       var shows = Object.keys(program).map(function(performance_id){
         return program[performance_id].show;
@@ -334,11 +335,13 @@
           _columns[date].hide();
         });
       },
-      alignPerformances: function(){
+      alignPerformances: function(index){
+        var position;
         Object.keys(_columns).forEach(function(date){
           _columns[date].css('width', Pard.ColumnWidth);
         });
-        AlignPerformances();
+        if(index) position = Pard.ColumnWidth * index + 1;
+        AlignPerformances(position);
       },
       addPerformance: function(performance){
         _loadPerformance(performance);
