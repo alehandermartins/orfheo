@@ -6,6 +6,7 @@
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;
+    var order = [];
 
     var timeManager = Pard.Widgets.TimeManager(the_event.eventTime);
     var hours = timeManager.hours;
@@ -282,6 +283,28 @@
     var _endHour = parseInt(the_event.eventTime['permanent'][1].split(':')[0]);
     var _endMin = parseInt(the_event.eventTime['permanent'][1].split(':')[1]);
 
+    Pard.Bus.on('spaceDrag', function(drag){
+      var index = _shownSpaces.indexOf(drag.space);
+      if(drag.direction == 'right' && index < _shownSpaces.length - 1){
+        Object.keys(eventTime).forEach(function(date){
+          the_event.spaces[_shownSpaces[index + 1]].columns[date].after(the_event.spaces[_shownSpaces[index]].columns[date]);
+        });
+        the_event.spaces[_shownSpaces[index + 1]].alignPerformances();
+        the_event.spaces[_shownSpaces[index]].alignPerformances();
+        _shownSpaces.splice(index + 1, 0, _shownSpaces.splice(index, 1)[0]);
+      }
+
+      if(drag.direction == 'left' && index > 0){
+        Object.keys(eventTime).forEach(function(date){
+          the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index - 1]].columns[date]);
+        });
+        the_event.spaces[_shownSpaces[index - 1]].alignPerformances();
+        the_event.spaces[_shownSpaces[index]].alignPerformances();
+        _shownSpaces.splice(index - 1, 0, _shownSpaces.splice(index, 1)[0]);
+      }
+    });
+    
+
     Pard.Bus.on('drag', function(performance){
       if(_artistsBlock.hasClass('is-active')){
         _artistsBlock.toggle('slide', {direction: 'right'}, 500);
@@ -512,7 +535,8 @@
           var space = the_event.spaces[spaceSelector.val()].space;
           performance.host_name = space.name;
           performance.address = space.address;
-          performance.host_category = space.category;
+          performance.host_category = space.category;ç
+          performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
           save(performance, check);
         });
@@ -860,6 +884,7 @@
           performance.host_name = space.name;
           performance.address = space.address;
           performance.host_category = space.category;
+          performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
           save(performance, check);
         });
@@ -1157,6 +1182,9 @@
         }
 
         var _listSortable = $('<ul>');
+        var _orderButtonsContainer = $('<div>').addClass('order-buttons-container');
+        var _orderText = $('<span>').text('Ordena por:');
+
         _listSortable.sortable({cursor: "move"});
         _listSortable.disableSelection();
 
@@ -1166,16 +1194,13 @@
           return _spaceCard
         }
 
-        var spaces = Object.keys(the_event.spaces).map(function(profile_id){
+        var spaces = order.map(function(profile_id){
           return the_event.spaces[profile_id].space;
         });
 
         spaces.forEach(function(space, index){
           _listSortable.append(_printSpaceCard(space, index));
         });
-
-        var _orderButtonsContainer = $('<div>').addClass('order-buttons-container');
-        var _orderText = $('<span>').text('Ordena por:');
 
         var _alphaBtn = Pard.Widgets.Button('A --> Z', function(){
           _listSortable.empty();
@@ -1208,15 +1233,17 @@
         });
 
         var _OKbtn = Pard.Widgets.Button('OK', function(){
-          var list = _listSortable.sortable('toArray');
-          list.forEach(function(profile_id, index){
-            if(index == list.length - 1) return;
+          _spaceSelector.trigger('select2:unselecting');
+          order = _listSortable.sortable('toArray');
+          _shownSpaces = _listSortable.sortable('toArray');
+          _shownSpaces.forEach(function(profile_id, index){
+            if(index == _shownSpaces.length - 1) return;
             Object.keys(eventTime).forEach(function(date){
-              the_event.spaces[list[index]].columns[date].after(the_event.spaces[list[index + 1]].columns[date]);
+              the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index + 1]].columns[date]);
             });
           });
 
-          list.forEach(function(profile_id){
+          _shownSpaces.forEach(function(profile_id){
             the_event.spaces[profile_id].alignPerformances();
           });
           _closePopup();
@@ -1284,6 +1311,7 @@
         the_event.spaces[profile_id].addColumn(day, height);
         _tables[day].append(the_event.spaces[profile_id].columns[day]);
       });
+      order.push(profile_id);
       _shownSpaces.push(profile_id);
     });
     if(_shownSpaces.length > 0 && _shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
@@ -1311,14 +1339,10 @@
       var program = [];
       _submitBtn.attr('disabled',true).addClass('disabled-button');
       $('div.ui-tooltip').remove();
-      Object.keys(_program).forEach(function(performance_id){
-        program.push(_program[performance_id].show);
+      Object.keys(the_event.program).forEach(function(performance_id){
+        program.push(the_event.program[performance_id].show);
       });
-
-      var order = [];
-      Object.keys(spaces).forEach(function(key){
-        order.push(spaces[key].space.profile_id);
-      });
+      console.log(program);
 
       Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);
     }).render().addClass('submit-program-btn-call-manager');
