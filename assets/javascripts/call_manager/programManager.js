@@ -1313,8 +1313,8 @@
       });
 
       var order = [];
-      spaces.forEach(function(space){
-        order.push(space.profile_id);
+      Object.keys(spaces).forEach(function(key){
+        order.push(spaces[key].space.profile_id);
       });
 
       Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);

@@ -70,14 +70,16 @@
         if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
         if(form[field]['input'] == 'MultipleSelector'){
           if (field == 'availability'){
-            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+            _form[field].input.render().multipleSelect({      
+              placeholder: "Selecciona una o más opciones",
               selectAllText: "Selecciona todo",
               countSelected: false,
               allSelected: "Disponible todos los días"
             });
           }
           else{
-            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+            _form[field].input.render().multipleSelect({      
+              placeholder: "Selecciona una o más opciones",
               selectAll: false,
               countSelected: false,
               allSelected: false
@@ -100,32 +102,6 @@
       return _check;
     }
   
-    // submitButton.on('click',function(){
-    //   spinner.spin();
-    //   $.wait(
-    //     '',
-    //     function(){ 
-    //       $('body').append(spinner.el);
-    //       submitButton.attr('disabled',true);
-    //       if(_filled() == true){
-    //         if(_photos.dataLength() == false) _send();
-    //         else{
-    //           _photos.submit();
-    //         }
-    //       }
-    //       else(spinner.stop());
-    //     },
-    //     function(){
-    //       setTimeout(
-    //         function(){
-    //           submitButton.attr('disabled',false);
-    //           spinner.stop(); 
-    //         }, 
-    //         1000
-    //       );
-    //     }
-    //   )
-    // });
 
     var _callbackSent = function(){
       spinner.stop();
