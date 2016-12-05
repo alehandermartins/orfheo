@@ -1166,6 +1166,10 @@
           return _spaceCard
         }
 
+        var spaces = Object.keys(the_event.spaces).map(function(profile_id){
+          return the_event.spaces[profile_id].space;
+        });
+
         spaces.forEach(function(space, index){
           _listSortable.append(_printSpaceCard(space, index));
         });
@@ -1204,19 +1208,18 @@
         });
 
         var _OKbtn = Pard.Widgets.Button('OK', function(){
-          // _shownSpaces = [];
-          // var list = _listSortable.sortable('toArray'));
-          // spaces.forEach(function(space, index){
-          //   _shownSpaces.push(space);
-          //   if(index >= spaces.length - 1) return;
-          //   Object.keys(eventTime).forEach(function(date){
-          //     _spaces[space.profile_id].columns[date].after(_spaces[spaces[(index + 1)].profile_id].columns[date]);
-          //   });
-          // });
-          // spaces.forEach(function(space, index){
-          //   _spaces[space.profile_id].alignPerformances(_daySelector.val());
-          // });
-          // _closePopup();
+          var list = _listSortable.sortable('toArray');
+          list.forEach(function(profile_id, index){
+            if(index == list.length - 1) return;
+            Object.keys(eventTime).forEach(function(date){
+              the_event.spaces[list[index]].columns[date].after(the_event.spaces[list[index + 1]].columns[date]);
+            });
+          });
+
+          list.forEach(function(profile_id){
+            the_event.spaces[profile_id].alignPerformances();
+          });
+          _closePopup();
         });
 
         var _OKbtnContainer = $('<div>').addClass('OK-btn-container-popup');
@@ -1233,7 +1236,7 @@
         }
       }
 
-      _menu.append(_outOfprogramBtn);
+      _menu.append(_outOfprogramBtn, _orderSpaceBtn);
       var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
         $('<button>').attr({'type':'button', 'title':'Menu de herramientas'}).append(
