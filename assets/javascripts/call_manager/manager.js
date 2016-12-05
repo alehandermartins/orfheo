@@ -41,7 +41,6 @@
 
     the_event.artists = artists;
     the_event.spaces = spaces;
-    the_event.program = {}
 
     var _programManager = Pard.ProgramManager(the_event, _displayer);
     var _tableManager = Pard.Widgets.TableManager(the_event, forms, _displayer);

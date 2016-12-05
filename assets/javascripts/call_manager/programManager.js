@@ -12,8 +12,6 @@
     the_event.eventTime = timeManager.eventTime;
     var eventTime = the_event.eventTime;
 
-    var _program = Pard.Program(the_event);  
-
     var _createdWidget = $('<div>').attr('id', 'programPanel').addClass('program-panel-call-manager');
     var _tableBox = $('<div>').addClass('table-box-call-manager');
 
@@ -155,9 +153,8 @@
       }
       Pard.ColumnWidth = 176;
       if(_shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
-      _shownSpaces.forEach(function(profile_id, index){
-        var position = Pard.ColumnWidth * index + 1;
-        the_event.spaces[profile_id].alignPerformances(position);
+      _shownSpaces.forEach(function(profile_id){
+        the_event.spaces[profile_id].alignPerformances();
       });
     }
 
@@ -228,10 +225,9 @@
       _shownSpaces = [];
       Pard.ColumnWidth = 176;
       if(Object.keys(the_event.spaces).length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / Object.keys(the_event.spaces).length;
-      Object.keys(the_event.spaces).forEach(function(profile_id, index){
-        var position = Pard.ColumnWidth * index + 1;
+      Object.keys(the_event.spaces).forEach(function(profile_id){
         the_event.spaces[profile_id].showColumns();
-        the_event.spaces[profile_id].alignPerformances(position);
+        the_event.spaces[profile_id].alignPerformances();
         _shownSpaces.push(profile_id);
       });
       $(this).val("");
@@ -278,23 +274,747 @@
     });
 
     var _program = {};
-
-    var _performance;
     var lastArtist;
-    var _closePopup;
+    var _closePopup = function(){}
+
+    var _startHour = parseInt(the_event.eventTime['permanent'][0].split(':')[0]);
+    var _startMin = parseInt(the_event.eventTime['permanent'][0].split(':')[1]);
+    var _endHour = parseInt(the_event.eventTime['permanent'][1].split(':')[0]);
+    var _endMin = parseInt(the_event.eventTime['permanent'][1].split(':')[1]);
 
     Pard.Bus.on('drag', function(performance){
       if(_artistsBlock.hasClass('is-active')){
         _artistsBlock.toggle('slide', {direction: 'right'}, 500);
         _artistsBlock.removeClass('is-active');
       }
-      _performance = performance;
     });
 
     Pard.Bus.on('stop', function(performance){
       _artistsBlock.toggle('slide', {direction: 'right'}, 500);
       _artistsBlock.addClass('is-active');
     });
+
+    Pard.Bus.on('AddPerformance', function(performance){
+      create(performance, true);
+    });
+
+    Pard.Bus.on('ModifyPerformance', function(performance){
+      modify(performance, true);
+    });
+
+    var save = function(performance, check){
+      var show = the_event.program[performance.performance_id].show;
+      the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
+      the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
+      if (check) checkConflicts(show);
+    }
+    
+    var create = function(performance, check){
+      performance.performance_id = Pard.Widgets.GenerateUUID();
+      if(performance.permanent == 'true') the_event.program[performance.performance_id] = new PermanentPerformance(performance);
+      else{the_event.program[performance.performance_id] = new Performance(performance);}
+      save(performance, check);
+    }
+
+    var modify = function(performance, check){
+      var show = the_event.program[performance.performance_id].show;
+      the_event.spaces[performance.last_host].deletePerformance(show);
+      the_event.program[performance.performance_id].modify(performance);
+      save(the_event.program[performance.performance_id].show, check);
+    }
+
+    var destroy = function(performance){
+      if(the_event.program[performance.performance_id]){
+        the_event.spaces[performance.host_id].deletePerformance(performance);
+        the_event.artists[performance.participant_id].deletePerformance(performance);
+        the_event.program[performance.performance_id].destroy();
+        delete the_event.program[performance.performance_id];
+      }
+    }
+
+    var Performance = function(performance){
+
+      var card =$('<div>').addClass('programHelper');
+      var _title = $('<p>').addClass('proposal-title-card-call-manager');
+      var _confirmationCheckContainer = $('<span>').addClass('checker');
+      var _titleText = $('<a>').attr('href','#');
+      var _commentIconContainer = $('<span>').addClass('commentIcon');
+      var _titleTextLong, _confirmationCheck, _commentIcon;
+
+      _confirmationCheckContainer.append(_confirmationCheck);
+      _commentIconContainer.append(_commentIcon);
+      _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
+      
+      _titleText.on('click', function(){
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager(true));
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
+      });
+
+      card.append(_title.css({'position': 'absolute'}));
+      card.addClass('dragged-card-call-manager cursor_grab');
+      card.mousedown(function(){
+      });
+      card.mouseup(function(){
+        card.removeClass('cursor_move').addClass('cursor_grab');
+      });
+
+      card.draggable({
+        revert: false,
+        helper: 'clone',
+        grid: [ 10, 10 ],
+        start: function(event, ui){
+          card.removeClass('cursor_grab').addClass('cursor_move');
+          card.css({'opacity': '0.4'});
+          ui.helper.data('dropped', false);
+          Pard.Bus.trigger('drag', performance);
+        },
+        stop:function(event, ui){
+          card.removeClass('cursor_move').addClass('cursor_grab');
+          card.css({'opacity': '1'});
+          if(ui.helper.data('dropped') == false) destroy(performance);
+        }
+      });
+
+      var fillCard = function(performance){
+
+        var color = Pard.Widgets.CategoryColor(performance.participant_category);
+
+        if(performance.position){
+          var start = new Date(parseInt(eventTime[performance.date][0]));
+          start.setMinutes(start.getMinutes() + (performance.position - 41) * 1.5);
+          var end = new Date(start.getTime());
+          end.setMinutes(start.getMinutes() + performance.duration * 1.5);
+          performance.time = [start.getTime(), end.getTime()];
+        }
+        else{
+          var dayStart = parseInt(eventTime[performance.date][0]);
+          performance.time[0] = parseInt(performance.time[0]);
+          performance.time[1] = parseInt(performance.time[1]);
+          //10 pixels = 15 min
+          var start = (performance.time[0] - dayStart) / 90000;
+          var end = (performance.time[1] - dayStart) / 90000;
+          performance.position = start + 41;
+          performance.duration = (end - start);
+        }
+
+        card.css({
+          'position': 'absolute',
+          'display': 'inline-block',
+          'width': Pard.ColumnWidth - 2,
+          'top': performance.position,
+          'height': performance.duration,
+          'background': color,
+          'white-space': 'normal',
+          'box-shadow': 'inset 0 0 1px '
+        });
+
+        _titleTextLong = performance.participant_name + ' - ' + performance.title;
+        _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
+        _confirmationCheck = '';
+        if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render();
+        if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render());
+
+        card.resizable({
+          resize: function(event, ui) {
+            ui.size.width = ui.originalSize.width;
+          },
+          maxHeight: performance.maxHeight,
+          grid: 10,
+          stop: function(event, ui){
+            var duration = new Date(performance.time[0]);
+            duration.setMinutes(duration.getMinutes() + ui.size.height * 1.5);
+            performance.time[1] = duration.getTime();
+            save(performance, true);
+          }
+        });
+
+        delete performance.position;
+        delete performance.duration;
+        delete performance.maxHeight;
+      }
+
+      var manager = function(check){
+        var performanceBox = $('<div>');
+        var performanceContainer = $('<div>').css('height', 40);
+        var daySelector = $('<select>');
+        var spaceSelector = $('<select>');
+        var startTime = $('<select>');
+        var endTime = $('<select>');
+        var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+        var commentsContainer = $('<div>');
+        var comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+
+        var confirmedContainer = $('<div>').css('height', 20);
+        var input = $('<input />').attr({type: 'checkbox'});
+        var label = $('<label>').html('Confirmado');
+        var confirmed = $('<div>').append(input, label);
+
+        daySelector.css({'display': ' inline-block', 'width': '120'});
+        spaceSelector.css({'display': ' inline-block', 'width': '250'});
+        startTime.css({'display': ' inline-block', 'width': '80'});
+        endTime.css({'display': ' inline-block', 'width': '80'});
+        confirmed.css('margin-left', 430);
+        label.css('display','inline');
+        comments.css('width', 530);
+
+        confirmedContainer.append(confirmed);
+        commentsContainer.append(comments);
+        performanceContainer.append(daySelector, spaceSelector, startTime, endTime, removeInputButton);
+        performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
+
+        Object.keys(eventTime).forEach(function(day){
+          if(day == 'permanent') return false;
+          var date = $('<option>').val(day).text(day);
+          daySelector.append(date);
+        });
+
+        Object.keys(the_event.spaces).forEach(function(profile_id){
+          var space = the_event.spaces[profile_id].space;
+          var spaceOption = $('<option>').val(profile_id).text(space.name);
+          spaceSelector.append(spaceOption);
+        });
+
+        daySelector.on('change', function(){
+          performance.date = daySelector.val();
+          var dateArray = daySelector.val().split('-');
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+
+          start.setUTCFullYear(parseInt(dateArray[0]));
+          end.setUTCFullYear(parseInt(dateArray[0]));
+
+          start.setUTCMonth(parseInt(dateArray[1] - 1));
+          end.setUTCMonth(parseInt(dateArray[1] - 1));
+
+          start.setUTCDate(parseInt(dateArray[2]));
+          end.setUTCDate(parseInt(dateArray[2]));
+
+          performance.time[0] = start.getTime();
+          performance.time[1] = end.getTime();
+
+          save(performance, check);
+          setStartTimes();
+          setEndTimes();
+        });
+
+        spaceSelector.on('change', function(){
+          the_event.spaces[performance.host_id].deletePerformance(performance);
+          var space = the_event.spaces[spaceSelector.val()].space;
+          performance.host_name = space.name;
+          performance.address = space.address;
+          performance.host_category = space.category;
+          performance.host_id = spaceSelector.val();
+          save(performance, check);
+        });
+
+        var setStartTimes = function(){
+          startTime.empty();
+
+          var dayStart = new Date(parseInt(eventTime[performance.date][0]));
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
+
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+          //Te max value for start is that that puts the end on the limit of the day
+          var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
+          while(dayStart <= maxStart){
+            var hours = dayStart.getHours();
+            var minutes = dayStart.getMinutes();
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
+            startTime.append(startOption);
+            dayStart.setMinutes(dayStart.getMinutes() + 15);
+          };
+          startTime.val(performance.time[0]);
+        };
+
+        var setEndTimes = function(){
+          endTime.empty();
+
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
+          var start = new Date(performance['time'][0]);
+          //The minimum end is the start plus 15 minutes
+          var minEnd = new Date(start.getTime() + 15 * 60000);
+
+          while(minEnd <= dayEnd){
+            var hours = minEnd.getHours();
+            var minutes = minEnd.getMinutes();4
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
+            endTime.append(endOption);
+
+            minEnd.setMinutes(minEnd.getMinutes() + 15);
+          };
+          endTime.val(performance['time'][1]);
+        };
+
+        startTime.on('change', function(){
+          var oldStart = performance['time'][0];
+          var newStart = parseInt(startTime.val());
+          card.css({'top': '+=' + (newStart - oldStart) / 90000});
+          performance['time'][0] = newStart;
+          performance['time'][1] = performance['time'][1] + (newStart - oldStart);
+          setEndTimes();
+          save(performance, check);
+        });
+
+        endTime.on('change', function(){
+          var oldEnd = performance['time'][1];
+          var newEnd = parseInt(endTime.val());
+          card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
+          performance['time'][1] = newEnd;
+          setStartTimes();
+          save(performance, check);
+        });
+
+        removeInputButton.on('click', function(){
+          destroy(performance);
+          _closePopup();
+        });
+
+        input.on('change', function(){
+          performance.confirmed = input.is(":checked");
+          if (performance.confirmed) card.find('.checker').append(Pard.Widgets.IconManager('done').render());
+          else card.find('.checker').empty();
+        });
+
+        comments.on('input', function(){
+          performance.comments = comments.val();
+          card.find('.commentIcon').empty();
+          if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+        });
+
+        daySelector.val(performance.date);
+        spaceSelector.val(performance.host_id);
+        setStartTimes();
+        setEndTimes();
+        comments.val(performance.comments);
+        input.prop('checked', performance.confirmed);
+
+        return {
+          render: function(){
+            return performanceBox;
+          },
+          setCallback: function(callback){
+            _closePopup = function(){
+              performanceBox.remove();
+              callback();
+            }
+          }
+        }
+      }
+        
+      var _destroy = function(){
+        card.remove();
+      }
+
+      var _modify = function(show){
+        for(var key in show){
+          performance[key] = show[key];  
+        }
+        fillCard(performance);
+      }
+
+      fillCard(performance);
+
+      return {
+        show: performance,
+        card: card,
+        manager: manager,
+        modify: _modify,
+        destroy: _destroy
+      }
+    }
+
+    var PermanentPerformance = function(performance){
+
+      var daySelector = $('<select>');
+      daySelector.css({'display': ' inline-block', 'width': '120'});
+      var shows;
+
+      if(performance.time){
+        performance.time[0] = parseInt(performance.time[0]);
+        performance.time[1] = parseInt(performance.time[1]);
+      }
+      else{
+        var date = performance.date;
+        var start = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _startHour, _startMin);
+        var end = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _endHour, _endMin);
+        performance.time = [start.getTime(), end.getTime()];
+      }
+      
+      var _title = $('<p>').addClass('proposal-title-card-call-manager');
+      var _confirmationCheckContainer = $('<span>').addClass('checker');
+      var _titleText = $('<a>').attr('href','#');
+      var _commentIconContainer = $('<span>').addClass('commentIcon');
+      var _titleTextLong, _confirmationCheck, _commentIcon;
+
+      _confirmationCheckContainer.append(_confirmationCheck);
+      _commentIconContainer.append(_commentIcon);
+      _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
+
+      _titleText.on('click', function(){
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager(true));
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
+      });
+
+      var _card = $('<div>').addClass('programHelper');
+      _card.append(_title.css({'position': 'absolute'}));
+      _card.addClass('dragged-card-call-manager cursor_grab');
+      _card.addClass(performance.performance_id);
+      _card.mousedown(function(){
+        _card.removeClass('cursor_grab').addClass('cursor_move');
+      });
+      _card.mouseup(function(){
+        _card.removeClass('cursor_move').addClass('cursor_grab');
+      });
+
+      _card.draggable({
+        revert: false,
+        helper: 'clone',
+        grid: [ 10, 10 ],
+        start: function(event, ui){
+          _card.removeClass('cursor_grab').addClass('cursor_move');
+          _card.css({'opacity': '0.4'});
+          ui.helper.data('dropped', false);
+          performance.modifiables = [];
+          artistShows().forEach(function(show){
+            performance.modifiables.push(show.performance_id);
+          });
+          Pard.Bus.trigger('drag', performance);
+        },
+        stop:function(event, ui){
+          _card.removeClass('cursor_move').addClass('cursor_grab');
+          _card.css({'opacity': '1'});
+          Pard.Bus.trigger('stop');
+          if(ui.helper.data('dropped') == false){
+            artistShows().forEach(function(show){
+              destroy(show);
+            }); 
+          }
+        }
+      });
+
+        
+      var fillCard = function(performance){
+        var color = Pard.Widgets.CategoryColor(performance.participant_category);
+        _card.css({
+          'position': 'absolute',
+          'display': 'inline-block',
+          'width': Pard.ColumnWidth - 2,
+          'height': Pard.PermanentCardHeight,
+          'background': color,
+          'white-space': 'normal',
+          'box-shadow': 'inset 0 0 1px '
+        });
+        
+        var _titleTextLong = performance.participant_name + ' - ' + performance.title;
+        _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
+
+        if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render();
+        if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render());
+      }
+      
+      var PermanentManager = function(check){
+
+        var performancesBox = $('<div>').css('padding', 0);
+        artistShows().forEach(function(show){
+          performancesBox.append(the_event.program[show.performance_id].manager(check).render());
+        });
+
+        return {
+          render: function(){
+            return performancesBox;
+          },
+          setCallback: function(callback){
+            _closePopup = function(){
+              performancesBox.remove();
+              callback();
+            }
+          }
+        }
+      }
+      
+      var artistShows = function(){
+        var artistProgram = the_event.artists[performance.participant_id].program;
+        var shows = Object.keys(artistProgram).map(function(performance_id){
+          return artistProgram[performance_id].show;
+        });
+        if(!the_event.program[performance.performance_id]) performance.host_id = shows[0].host_id;
+        shows = shows.filter(function(show){
+          return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id && show.host_id == performance.host_id);
+        });
+        return shows;
+      }
+
+      var _loadDates = function(){
+        daySelector.empty();
+        daySelector.attr('disabled', false);
+        var artistProgram = the_event.artists[performance.participant_id].program;
+        shows = Object.keys(artistProgram).map(function(performance_id){
+          return artistProgram[performance_id].show;
+        });
+        shows = shows.filter(function(show){
+          return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id);
+        });
+        var dates = shows.map(function(show){
+          return show.date;
+        });
+        Object.keys(eventTime).forEach(function(day){
+          if(day == 'permanent') return false;
+          if($.inArray(day, dates) < 0 || day == performance.date){
+            var date = $('<option>').val(day).text(day);
+            daySelector.append(date);
+          }
+        });
+        daySelector.val(performance.date);
+        if(daySelector.children().length <= 1) daySelector.attr('disabled', true);
+      }
+
+      var manager = function(check){
+        var performanceBox = $('<div>');
+        var performanceContainer = $('<div>').css('height', 40);
+        var spaceSelector = $('<select>');
+        var startTime = $('<select>');
+        var endTime = $('<select>');
+        var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+        var commentsContainer = $('<div>');
+        var comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+
+        var confirmedContainer = $('<div>').css('height', 20);
+        var input = $('<input />').attr({type: 'checkbox'});
+        var label = $('<label>').html('Confirmado');
+        var confirmed = $('<div>').append(input, label);
+
+        spaceSelector.css({'display': ' inline-block', 'width': '250'});
+        startTime.css({'display': ' inline-block', 'width': '80'});
+        endTime.css({'display': ' inline-block', 'width': '80'});
+        confirmed.css('margin-left', 430);
+        label.css('display','inline');
+        comments.css('width', 530);
+
+        confirmedContainer.append(confirmed);
+        commentsContainer.append(comments);
+        performanceContainer.append(daySelector, spaceSelector, startTime, endTime, removeInputButton);
+        performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
+
+        _loadDates();
+
+        Object.keys(the_event.spaces).forEach(function(profile_id){
+          var space = the_event.spaces[profile_id].space;
+          var spaceOption = $('<option>').val(profile_id).text(space.name);
+          spaceSelector.append(spaceOption);
+        });
+
+        daySelector.on('change', function(){
+          performance.date = daySelector.val();
+          var dateArray = daySelector.val().split('-');
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+
+          start.setUTCFullYear(parseInt(dateArray[0]));
+          end.setUTCFullYear(parseInt(dateArray[0]));
+
+          start.setUTCMonth(parseInt(dateArray[1] - 1));
+          end.setUTCMonth(parseInt(dateArray[1] - 1));
+
+          start.setUTCDate(parseInt(dateArray[2]));
+          end.setUTCDate(parseInt(dateArray[2]));
+
+          performance.time[0] = start.getTime();
+          performance.time[1] = end.getTime();
+
+          save(performance, check);
+          setStartTimes();
+          setEndTimes();
+          shows.forEach(function(show){
+            the_event.program[show.performance_id].loadDates();
+          });
+        });
+
+        spaceSelector.on('change', function(){
+          the_event.spaces[performance.host_id].deletePerformance(performance);
+          var space = the_event.spaces[spaceSelector.val()].space;
+          performance.host_name = space.name;
+          performance.address = space.address;
+          performance.host_category = space.category;
+          performance.host_id = spaceSelector.val();
+          save(performance, check);
+        });
+
+        var setStartTimes = function(){
+          startTime.empty();
+          var dayStart = new Date(parseInt(eventTime[performance.date][0]));
+          var maxStart = new Date(parseInt(performance.time[1]));
+          maxStart.setMinutes(maxStart.getMinutes() - 15);
+
+          while(dayStart <= maxStart){
+            var hours = dayStart.getHours();
+            var minutes = dayStart.getMinutes();
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
+            startTime.append(startOption);
+            dayStart.setMinutes(dayStart.getMinutes() + 15);
+          };
+          startTime.val(performance.time[0]);
+        }
+
+        var setEndTimes = function(){
+          endTime.empty();
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
+          var minEnd = new Date(parseInt(performance.time[0]) + 15 * 60000);
+
+          while(minEnd <= dayEnd){
+            var hours = minEnd.getHours();
+            var minutes = minEnd.getMinutes();
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
+            endTime.append(endOption);
+
+            minEnd.setMinutes(minEnd.getMinutes() + 15);
+          };
+          endTime.val(performance.time[1]);
+        }
+
+        startTime.on('change', function(){
+          performance.time[0] = parseInt(startTime.val());
+          setEndTimes();
+          save(performance, check);  
+        });
+
+        endTime.on('change', function(){
+          performance.time[1] = parseInt(endTime.val());
+          setStartTimes();
+          save(performance, check);
+        });
+
+        removeInputButton.on('click', function(){
+          performanceBox.remove();
+          shows.splice(shows.indexOf(performance), 1);
+          destroy(performance);
+          shows.forEach(function(show){
+            the_event.program[show.performance_id].loadDates();
+          });
+        });
+
+        input.on('change', function(){
+          performance.confirmed = input.is(":checked");
+          if (performance.confirmed) _card.find('.checker').append(Pard.Widgets.IconManager('done').render());
+          else _card.find('.checker').empty();
+          save(performance);
+        });
+
+        comments.on('input', function(){
+          performance.comments = comments.val();
+          _card.find('.commentIcon').empty();
+          if (performance.comments) _card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+          save(performance);
+        });
+
+        daySelector.val(performance.date);
+        spaceSelector.val(performance.host_id);
+        setStartTimes();
+        setEndTimes();
+        comments.val(performance.comments);
+        input.prop('checked', performance.confirmed);
+
+        return {
+          render: function(){
+            return performanceBox;
+          },
+          setCallback: function(callback){
+            _closePopup = function(){
+              performanceBox.remove();
+              callback();
+            }
+          }
+        }
+      }
+
+      var _destroy = function(){
+        _card.remove();
+      }
+
+      var _modify = function(show){
+        for(var key in show){
+          performance[key] = show[key];  
+        }
+      }
+
+      fillCard(performance);
+
+      return {
+        show: performance,
+        card: _card,
+        manager: manager,
+        modify: _modify,
+        destroy: _destroy,
+        loadDates: _loadDates,
+      }
+    }
+
+    var checkConflicts = function(performance_to_check){
+      var _conflictPerformances = [];
+      var artistProgram = the_event.artists[performance_to_check.participant_id].program;
+      var myPerformances = Object.keys(artistProgram).map(function(performance_id){
+        return artistProgram[performance_id].show;
+      });
+
+      if (myPerformances) myPerformances = Pard.Widgets.ReorderProgramCrono(myPerformances);
+      myPerformances.forEach(function(performance, index){
+        for(i = myPerformances.indexOf(performance) + 1; i < myPerformances.length; i++){
+          if(performance.permanent == 'true'){
+            if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id){
+              if(myPerformances[i].time[0] < performance.time[1]){
+                _conflictPerformances.push(performance);
+                _conflictPerformances.push(myPerformances[i]);
+              }
+            }
+          }
+          else if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id && myPerformances[i].permanent == 'true'){
+            if(myPerformances[i].time[0] < performance.time[1]){
+              _conflictPerformances.push(performance);
+              _conflictPerformances.push(myPerformances[i]);
+            }
+          }
+          else if(myPerformances[i].permanent == 'false'){
+            if(myPerformances[i].time[0] < performance.time[1]){
+              _conflictPerformances.push(performance);
+              _conflictPerformances.push(myPerformances[i]);
+            }
+          }
+        }
+      });
+      if($.inArray(performance_to_check, _conflictPerformances) >= 0){
+        if(_closePopup) _closePopup();
+        displayer.close();
+        displayer.displayArtistProgram(performance_to_check.participant_id);
+      }
+    }
 
     var ToolsDropdownMenu = function(){
       var _menu = $('<ul>').addClass('menu');
@@ -609,23 +1329,27 @@
     _createdWidget.append(_buttonsContainer.append( _toolsContainer, _submitBtnContainer), _selectors.append(_daySelectorContainer, _spaceSelectorContainer,  _showArtists));
     _createdWidget.append(_tableBox);
 
-    // if(the_event.program){
-    //   the_event.program.forEach(function(performance){
-    //     if(performance.permanent == 'true') _program[performance.performance_id] = new PermanentPerformance(performance);
-    //     else{_program[performance.performance_id] = new Performance(performance);}
-    //     _program[performance.performance_id].loadPerformance();
-    //   });
-    //   Object.keys(the_event.spaces).forEach(function(profile_id, index){
-    //     var position = Pard.ColumnWidth * index + 1;
-    //     the_event.spaces[profile_id].alignPerformances(position);
-    //   });
-    // }
+
+    if(the_event.program){
+      the_event.program.forEach(function(performance){
+        if(performance.permanent == 'true') _program[performance.performance_id] = new PermanentPerformance(performance);
+        else _program[performance.performance_id] = new Performance(performance);
+      });
+    }
+
+    the_event.program = _program;
+    Object.keys(_program).forEach(function(performance_id){
+      save(_program[performance_id].show);
+    });
+
+    Object.keys(the_event.spaces).forEach(function(profile_id){
+      the_event.spaces[profile_id].alignPerformances();
+    });
 
     Pard.Bus.on('addArtist', function(artist){
       if(artist.profile_id in artists) artists[artist.profile_id].addProposal(artist.proposals[0]);
       else{artists[artist.profile_id] = new Artist(artist);
         _artistsList.append(artists[artist.profile_id].accordion.foundation());
-        artists.push(artist);
         var _id = _artistSelector.val();
          _loadArtistSelector();
         _artistSelector.trigger('reload', [_id]);

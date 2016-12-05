@@ -14,4 +14,3 @@
 // = require ./displayer
 // = require ./artist
 // = require ./space
-// = require ./program

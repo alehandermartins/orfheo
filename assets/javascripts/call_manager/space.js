@@ -258,7 +258,15 @@
       }
     }
 
-    var AlignPerformances = function(left){
+    var AlignPerformances = function(){
+      var left;
+      Object.keys(_columns).some(function(date){
+        if(_columns[date].is(':visible')){
+          left = _columns[date].position().left + 1;
+          return true;
+        }
+      });
+
       var shows = Object.keys(program).map(function(performance_id){
         return program[performance_id].show;
       });
@@ -292,9 +300,10 @@
           });
           if(_cardIndex >= showEnd.length) showEnd.push(show.time[1]);
           else{ showEnd[_cardIndex] = show.time[1];}
+          console.log(left);
           program[show.performance_id].card.css({
             'width': (Pard.ColumnWidth - 2) - 10 * _cardIndex,
-            'left': left + 10 * _cardIndex,
+            'left': left,
             'z-index': _cardIndex
           });
         });
@@ -322,10 +331,8 @@
 
 
     var _addSpaceInfo = function(performance){
-      
       performance.last_host = last_host;
       performance.host_id = space.profile_id;
-      performance.host_proposal_id = space.proposal_id;
       performance.host_name = space.name;
       performance.address = space.address;
       performance.host_category = space.category;
@@ -361,16 +368,15 @@
           _columns[date].hide();
         });
       },
-      alignPerformances: function(position){
+      alignPerformances: function(){
         Object.keys(_columns).forEach(function(date){
           _columns[date].css('width', Pard.ColumnWidth);
         });
-        AlignPerformances(position);
+        AlignPerformances();
       },
       addPerformance: function(performance){
         _loadPerformance(performance);
-        if(performance.show.permanent == 'true') return AlignPerformances(_columns['permanent'].position().left + 1);
-        AlignPerformances(_columns[performance.show.date].position().left + 1);
+        AlignPerformances();
       },
       deletePerformance: function(show){
         delete program[show.performance_id];
@@ -387,9 +393,8 @@
               }
             });
           }
-          return AlignPerformances(_columns['permanent'].position().left + 1);
         }
-        AlignPerformances(_columns[show.date].position().left + 1);
+        AlignPerformances();
       },
       loadPerformance: _loadPerformance
     }
