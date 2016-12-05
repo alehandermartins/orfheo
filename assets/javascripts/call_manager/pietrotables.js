@@ -173,7 +173,6 @@
 
     _table.append(_thead.append(_titleRow));
     _table.append(_tfoot.append(_titleRowFoot));
-
     _table.append(_tbody);
 
     var proposalRow = function(profileType, proposal, profile){
@@ -209,8 +208,6 @@
       proposalRow: proposalRow
     }
   }
-
-
 
   ns.Widgets.InfoTab = {
     type: {
@@ -296,6 +293,199 @@
       label:'proposal_id',
       input: 'Inputtex'
     },
+  }
+
+
+
+  ns.Widgets.ProgramTable = function(program){
+    console.log(program);
+
+    var _createdWidget = $('<div>');
+    var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0"}).css({
+      'margin': '0 auto',
+      'width': '100%',
+      'clear': 'both',
+      'table-layout': 'fixed',
+      'word-wrap':'break-word',
+    });
+    var _tbody = $('<tbody>');
+
+    var _thead = $('<thead>');
+    var _titleRow = $('<tr>');
+    var _tfoot = $('<tfoot>');
+    var _titleRowFoot = $('<tr>');
+
+    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','children','phone','email','confirmed'];
+    var _shownColumns = ['day','time','artist','category','title','short_description','space'];
+    var _hiddenColumns = [];
+    var _outerTableContainer = $('<div>');
+    var _tableBox = $('<div>').addClass('table-box-call-manager-page');
+
+    _table.append(_thead.append(_titleRow));
+    _table.append(_tfoot.append(_titleRowFoot));
+    _table.append(_tbody);
+
+
+    _columns.forEach(function(field, index){
+      if ($.inArray(field, _shownColumns) == -1) _hiddenColumns.push(index);
+      var _titleCol = $('<th>')
+      if (field == 'email') _titleCol.text('Email artista');
+      else if (field == 'phone') _titleCol.text('Tél. artista');
+      else var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+      _titleCol.addClass('column-table-program-call-manager column-'+field);
+      _titleRow.append(_titleCol);
+      var _footCol = $('<th>').text(Pard.Widgets.Dictionary(field).render())
+      .addClass('column-table-program-call-manager column-'+field);
+      _titleRowFoot.append(_footCol);
+    });
+
+    _outerTableContainer.append(_tableBox.append(_table)).css('position','relative');
+    _createdWidget.append(_outerTableContainer);
+
+    _table = _table.DataTable({
+      "language":{
+      buttons: {
+          copyTitle: 'Copia tabla',
+          copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+          copySuccess: {
+              _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
+              1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+          }
+      },
+      "lengthMenu": " Resultados por página _MENU_",
+      "zeroRecords": "Ningún resultado",
+      "info": "",
+      "infoEmpty": "Ningúna información disponible",
+      "infoFiltered": "(filtered from _MAX_ total records)",
+      "search": "Busca",
+      "paginate": {
+        "first":      "Primera",
+        "last":       "Última",
+        "next":       "Siguiente",
+        "previous":   "Anterior"
+      },
+     "search": "_INPUT_",
+      "searchPlaceholder": "Busca"
+    },
+    fixedHeader: {
+      header: true
+    },
+    "autoWidth": false,
+    "bAutoWidth": false,
+    "scrollX": true,
+    "scrollY": "85vh",
+    "paging": false,
+    "scrollCollapse": true,
+    // 'responsive': true,
+    // 'colReorder': true,
+    "columnDefs": [
+      { "visible": false, "targets": _hiddenColumns}
+    ],
+    "order": [1,'asc'],
+    // keys: true,
+    dom: 'Bfrtip',
+    buttons: [
+      {
+        extend: 'colvis',
+        // columns: ':gt(0)',
+        text: Pard.Widgets.IconManager('visibility').render(),
+        className: 'changeColumnsBtn',
+        collectionLayout: 'fixed big_layout',
+        fade: 200,
+        prefixButtons: [{
+          extend: 'colvisGroup',
+          text: 'Selecciona todo',
+          show: ':hidden'
+        },
+        {
+          extend: 'colvisGroup',
+          text: 'Desmarca todo',
+          hide: ':visible'
+        },
+        {
+          extend: 'colvisRestore',
+          text: 'Configuración incial',
+          show: ':hidden'
+        }]
+      },
+      {
+        text: Pard.Widgets.IconManager('mailinglist').render(),
+        className: 'mailinglistBtn',
+        action: function(){
+          var columnData = _table.column(12).data().unique();
+          var _emailList = '';
+          columnData.each(function(email){
+            _emailList += email+', ';
+          });
+          _emailList = _emailList.substring(0,_emailList.length-2)
+          Pard.Widgets.CopyToClipboard(_emailList);
+          var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+          Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+        }
+      },
+      {
+        extend: 'collection',
+        text:  Pard.Widgets.IconManager('export').render(),
+        className: 'ExportCollectionBtn',
+        collectionLayout: 'button-list',
+        // backgroundClassName: 'ExportCollection-background',
+        autoClose: true,
+        fade: 200,
+        // background: false,
+        buttons: [
+          {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            },
+            filename: 'Programación'
+          },
+          {
+            extend: 'pdf',
+            exportOptions: {
+                columns: ':visible'
+            },
+            orientation: 'landscape',
+            filename: 'programación',
+            title: 'Programación'
+
+          },
+          {
+            extend: 'copy',
+            text: 'Copia',
+            exportOptions: {
+            columns: ':visible'
+          }
+          }
+        ]
+      }
+    ],
+    initComplete: function () {
+       var _colCategry = this.api().column(3);
+        if (_colCategry.data().unique().length>1){
+          var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
+          var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
+              .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+          _colCategry.data().unique().sort().each( function ( d, j ) {
+              _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
+          } );
+          _selectCat.on( 'change', function () {
+            var val = $.fn.dataTable.util.escapeRegex(
+                _selectCat.val()
+            );
+            _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
+          });
+          _selectCat.click(function(e){
+            e.stopPropagation();
+          });
+        }
+      }
+    });
+    
+
+    return {
+      table: _createdWidget
+    }
   }
 
 

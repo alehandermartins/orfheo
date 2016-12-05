@@ -1963,6 +1963,10 @@ p.initial-text-proposalPanel{
 Program Manager Tab
 --------------------------- */
 
+.switcherContainer-callPage{
+  width: 14rem;
+  display: inline-block;
+}
 
 .checker {
   float: right;
@@ -2481,7 +2485,7 @@ tr.permanent-row-program-table-call-manager td{
 .buttons-container-call-manager{
   position: relative;
   height: 2rem;
-  margin-top: -2rem;
+  /* margin-top: -2rem; */
   margin-bottom: 0.5rem;
 }
 

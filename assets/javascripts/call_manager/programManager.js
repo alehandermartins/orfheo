@@ -1285,7 +1285,6 @@
     });
     if(_shownSpaces.length > 0 && _shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
 
-    // var _submitBtnText = $('<p>').html('Guarda </br>los cambios').addClass('save-text-call-manager');
     var _submitBtn;
     var _successIcon = $('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager');
 
@@ -1321,13 +1320,34 @@
       Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);
     }).render().addClass('submit-program-btn-call-manager');
     _submitBtn.append(Pard.Widgets.IconManager('save').render()).attr('title','Guarda el programa');
-    // _submitBtnContainer.append(_submitBtnText)
     _submitBtnContainer.append(_submitBtn, _successIcon.hide());
+
+    var _managerView = $('<div>');
+    var _viewSelected = _managerView;
+    var _tableView = $('<div>').hide();
+    var _programTable = Pard.Widgets.ProgramTable(_program);
+    _tableView.append(_programTable.table);
+    var _switcher = $('<div>')
+    var _viewSelector = $('<select>');
+    var _viewSelectorContainer = $('<div>').addClass('switcherContainer-callPage').append(_viewSelector);
+    // _switcher.append($('<p>').text('Ver como: ').css({'margin-right':'1rem', 'display':'inline', 'font-size': '0.875rem'}));
+    _switcher.append(_viewSelectorContainer).css('margin-bottom', '0.5rem');
+    var _viewTags = [{id:'manager', text:'Herramienta de gestión', view:_managerView},{id:'table',text:'Tabla', view:_tableView}];
+    _viewSelector.select2({
+      data: _viewTags,
+      minimumResultsForSearch: Infinity,
+      dropdownCssClass: 'orfheoTableSelector'
+    })
+    .on('select2:select', function(){
+      _viewSelected.hide();
+      _viewSelected = _viewSelector.select2('data')[0].view.show();
+    });
 
     _toolsContainer.append(ToolsDropdownMenu().render());
     _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
-    _createdWidget.append(_buttonsContainer.append( _toolsContainer, _submitBtnContainer), _selectors.append(_daySelectorContainer, _spaceSelectorContainer,  _showArtists));
-    _createdWidget.append(_tableBox);
+    _managerView.append( _selectors.append(_daySelectorContainer, _spaceSelectorContainer,  _showArtists));
+    _managerView.append(_tableBox);
+    _createdWidget.append(_switcher,_buttonsContainer.append(_toolsContainer, _submitBtnContainer), _managerView, _tableView)
 
 
     if(the_event.program){
