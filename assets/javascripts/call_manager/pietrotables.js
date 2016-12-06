@@ -276,7 +276,7 @@
         if (proposal.title) return proposal['title'];
         else if (proposal.address) return Pard.Widgets.InfoTab['address'].info(proposal, displayer);
       },
-      label : "Titúlo / Dirección",
+      label : "Título / Dirección",
       input : "Inputtext"
     },
     hiddenType:{
