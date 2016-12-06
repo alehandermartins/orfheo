@@ -154,8 +154,8 @@
       }
       Pard.ColumnWidth = 176;
       if(_shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
-      _shownSpaces.forEach(function(profile_id){
-        the_event.spaces[profile_id].alignPerformances();
+      _shownSpaces.forEach(function(profile_id, index){
+        the_event.spaces[profile_id].alignPerformances(index);
       });
     }
 
@@ -163,7 +163,7 @@
       var _data = _artistSelector.select2('data')[0];
       if(_data['type'] == 'category'){
         Object.keys(artists).forEach(function(profile_id){
-          if (artists[profile_id].proposals().some(function(proposal){
+          if (artists[profile_id].artist.proposals.some(function(proposal){
             return proposal.category == _data['id'];
           })) artists[profile_id].accordion.show();
           else{artists[profile_id].accordion.hide();}
@@ -226,9 +226,9 @@
       _shownSpaces = [];
       Pard.ColumnWidth = 176;
       if(order.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / order.length;
-      order.forEach(function(profile_id){
+      order.forEach(function(profile_id, index){
         the_event.spaces[profile_id].showColumns();
-        the_event.spaces[profile_id].alignPerformances();
+        the_event.spaces[profile_id].alignPerformances(index);
         _shownSpaces.push(profile_id);
       });
       $(this).val("");
@@ -1093,7 +1093,7 @@
 
         var _tbody = $('<tbody>');
         Object.keys(artists).forEach(function(profile_id){
-          var proposals = artists[profile_id].proposals();
+          var proposals = artists[profile_id].artist.proposals;
           var artistProgram = artists[profile_id].program;
           var program = Object.keys(artistProgram).map(function(performance_id){
             return artistProgram[performance_id];
@@ -1402,7 +1402,7 @@
         return _createdWidget;
       },
       addArtist: function(artist){
-        if(the_event.artists[artist.profile_id].proposals().length == 1){
+        if(the_event.artists[artist.profile_id].artist.proposals.length == 1){
           _addAccordion(artist.profile_id);
           artists[artist.profile_id].accordion.foundation();
         }

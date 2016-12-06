@@ -177,9 +177,6 @@
     return{
       artist: artist,
       accordion: _accordion.render(),
-      proposals: function(){
-        return artist.proposals;
-      },
       program: program,
       setDay: function(day){
         Object.keys(_proposals).forEach(function(proposal_id){

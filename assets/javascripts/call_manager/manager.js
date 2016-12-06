@@ -88,11 +88,9 @@
     });
 
     Pard.Bus.on('addSpace', function(space){
-      if(!(the_event.spaces[space.profile_id])){
-        the_event.spaces[space.profile_id] = new Pard.Space(space, _displayer);
-        _programManager.addSpace(space);
-        _tableManager.addSpace(space);
-      }
+      the_event.spaces[space.profile_id] = new Pard.Space(space, _displayer);
+      _programManager.addSpace(space);
+      _tableManager.addSpace(space);
     });
 
     Pard.Bus.on('deleteArtist', function(artist){
@@ -100,7 +98,7 @@
         the_event.artists[artist.profile_id].deleteProposal(artist.proposal_id);
         _programManager.deleteArtist(artist);
         _tableManager.deleteArtist(artist);
-        if(the_event.artists[artist.profile_id].proposals().length == 0) delete the_event.artists[artist.profile_id];
+        if(the_event.artists[artist.profile_id].artist.proposals.length == 0) delete the_event.artists[artist.profile_id];
       }
     });
 
