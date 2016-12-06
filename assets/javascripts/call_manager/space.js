@@ -269,7 +269,7 @@
           else{ showEnd[_cardIndex] = show.time[1];}
           program[show.performance_id].card.css({
             'width': (Pard.ColumnWidth - 2) - 10 * _cardIndex,
-            'left': left,
+            'left': left + 10 * _cardIndex,
             'z-index': _cardIndex
           });
         });
@@ -333,6 +333,11 @@
       hideColumns: function(){
         Object.keys(_columns).forEach(function(date){
           _columns[date].hide();
+        });
+      },
+      deleteColumns: function(){
+        Object.keys(_columns).forEach(function(date){
+          _columns[date].remove();
         });
       },
       alignPerformances: function(index){

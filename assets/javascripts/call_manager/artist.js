@@ -125,7 +125,8 @@
           else{
             card.removeClass('artist-not-available-call-manager');
           }
-        }
+        },
+        proposal: proposal
       }
     }
 
@@ -176,7 +177,9 @@
     return{
       artist: artist,
       accordion: _accordion.render(),
-      proposals: artist.proposals,
+      proposals: function(){
+        return artist.proposals;
+      },
       program: program,
       setDay: function(day){
         Object.keys(_proposals).forEach(function(proposal_id){
@@ -189,11 +192,8 @@
       deletePerformance: function(performance){
         delete program[performance.performance_id];
       },
-      loadPerformance: function(performance){
-        program[performance.performance_id] = performance;
-      },
       addProposal: function(proposal){
-        artist.proposals.push(proposal);
+        proposals.push(proposal);
         _proposals[proposal.proposal_id] = new ProposalCard(proposal);
         _accordion.addProposal(_proposals[proposal.proposal_id]);
       },
@@ -201,18 +201,10 @@
         if(proposal_id in _proposals){
           _proposals[proposal_id].render().remove();
           delete _proposals[proposal_id];
-          if(Object.keys(_proposals) == 0){
-            artists = artists.filter(function(stored_artist){
-              return artist.profile_id != stored_artist.profile_id;
-            });
-            _accordion.render().remove();
-            delete _artists[artist.profile_id];
-          }
-          else{
-            artist.proposals.filter(function(proposal){
-              return proposal.proposal_id != proposal_id;
-            });
-          }
+          if(Object.keys(_proposals) == 0) _accordion.render().remove();
+          artist.proposals = artist.proposals.filter(function(proposal){
+            return proposal.proposal_id != proposal_id;
+          });
         }
       }
     }

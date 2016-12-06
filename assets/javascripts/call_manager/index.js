@@ -1,5 +1,4 @@
 // = require ./artist_program
-// = require ./call_page_TablePanel
 // = require ./helpers
 // = require ./manager
 // = require ./space_program

@@ -19,12 +19,10 @@
 
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
     var _tableTabTitle =  $('<a>').attr({href: "#"}).text('Propuestas');
-    // var _proposalsTabTitle =  $('<a>').attr({href: "#"}).text('Propuestas');
     var _utilsTabTitle =  $('<a>').attr({href: "#"}).text('Utiles');
 
     var _programTab = $('<li>').append(_programTabTitle);
     var _tableTab = $('<li>').append(_tableTabTitle);
-    // var _proposalsTab = $('<li>').append(_proposalsTabTitle);
     var _utilsTab = $('<li>').append(_utilsTabTitle);
 
     var _displayer = Pard.Displayer(the_event, forms);
@@ -47,7 +45,7 @@
     var _utilsManager = Pard.utilsManager(the_event);
 
     var _lastSelectedPanel = _tableManager;
-    _tableTab.addClass('tab-selected')
+    _tableTab.addClass('tab-selected');
     _programTab.on('click', function(){
       if(_lastSelectedPanel != _programManager){
         $('.tab-selected').removeClass('tab-selected');
@@ -81,6 +79,39 @@
     _panels.append(_programManager.render().hide(), _tableManager.render(), _utilsManager.render().hide());
     _mainLarge.append(_navigationContainer, _title, _panels);
     _main.append(_mainLarge);
+
+    Pard.Bus.on('addArtist', function(artist){
+      if(the_event.artists[artist.profile_id]) the_event.artists[artist.profile_id].addProposal(artist.proposals[0]);
+      else the_event.artists[artist.profile_id] = new Pard.Artist(artist, _displayer);
+      _programManager.addArtist(artist);
+      _tableManager.addArtist(artist);
+    });
+
+    Pard.Bus.on('addSpace', function(space){
+      if(!(the_event.spaces[space.profile_id])){
+        the_event.spaces[space.profile_id] = new Pard.Space(space, _displayer);
+        _programManager.addSpace(space);
+        _tableManager.addSpace(space);
+      }
+    });
+
+    Pard.Bus.on('deleteArtist', function(artist){
+      if(the_event.artists[artist.profile_id]){
+        the_event.artists[artist.profile_id].deleteProposal(artist.proposal_id);
+        _programManager.deleteArtist(artist);
+        _tableManager.deleteArtist(artist);
+        if(the_event.artists[artist.profile_id].proposals().length == 0) delete the_event.artists[artist.profile_id];
+      }
+    });
+
+    Pard.Bus.on('deleteSpace', function(space){
+      if(the_event.spaces[space.profile_id]){
+        the_event.spaces[space.profile_id].deleteColumns();
+        _programManager.deleteSpace(space);
+        //_tableManager.deleteSpace(space);
+        delete the_event.spaces[space.profile_id];
+      }
+    });
 
     return {
       render: function(){
