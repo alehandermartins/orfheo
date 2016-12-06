@@ -103,7 +103,7 @@
       _fieldsForm.forEach(function(field){
         _form[field] = _genericForm[field];
       });
-      var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+      var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
       var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton);
       var _send = function(callback){
         var _submittForm;
