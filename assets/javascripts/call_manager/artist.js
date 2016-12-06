@@ -104,6 +104,7 @@
       proposal.name = artist.name;
       proposal.phone = artist.phone;
       proposal.email = artist.email;
+      proposal.profile_id = artist.profile_id;
       //needed for conFusion 2016 proposals
       if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
 
