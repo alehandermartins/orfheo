@@ -155,56 +155,22 @@
           var originalPosition = $(this).data("uiDraggable").originalPosition;
           var position = ui.position.left;
 
-          //If the position of the column increases in more than a half of its with we switch columns
           if (position > (originalPosition.left + Pard.ColumnWidth / 2)){
-            var index = _shownSpaces.indexOf(space);
-            if(index < _shownSpaces.length - 1){
-              Object.keys(_columns).forEach(function(date){
-                _spaces[_shownSpaces[index + 1].profile_id].columns[date].after(_columns[date]);
-                _spaces[_shownSpaces[index + 1].profile_id].columns[date].find('.programHelper').css({left: '-=' + Pard.ColumnWidth + "px"});
-                _columns[date].find('.programHelper').css({left: '+=' + Pard.ColumnWidth + "px"});
-              });
-
-              var spaceIndex = spaces.indexOf(space);
-              var nextSpaceIndex = spaces.indexOf(_shownSpaces[index + 1]);
-              spaces.splice(spaceIndex, 1);
-              spaces.splice(nextSpaceIndex, 0, space);
-
-              //Repositioning elements in ShownSpaces array
-              _shownSpaces.splice(index + 1, 0, _shownSpaces.splice(index, 1)[0]);
-
-              //Recalculatig original position for the stop animation
-              $(this).data("uiDraggable").originalPosition = {
-                top : originalPosition.top,
-                left : originalPosition.left + Pard.ColumnWidth
-              }
+            Pard.Bus.trigger('spaceDrag', {'direction': 'right', 'space': space.profile_id});
+            $(this).data("uiDraggable").originalPosition = {
+              top : originalPosition.top,
+              left : originalPosition.left + Pard.ColumnWidth
             }
           }
-          //Same as before but with previous column
           if (position < (originalPosition.left - Pard.ColumnWidth / 2)){
-            var index = _shownSpaces.indexOf(space);
-            if(index > 0){
-              Object.keys(_columns).forEach(function(date){
-                _columns[date].after(_spaces[_shownSpaces[index - 1].profile_id].columns[date]);
-                _spaces[_shownSpaces[index - 1].profile_id].columns[date].find('.programHelper').css({left: '+=' + Pard.ColumnWidth + "px"});
-                _columns[date].find('.programHelper').css({left: '-=' + Pard.ColumnWidth + "px"});
-              });
-
-              var spaceIndex = spaces.indexOf(space);
-              var prevSpaceIndex = spaces.indexOf(_shownSpaces[index - 1]);
-              spaces.splice(spaceIndex, 1);
-              spaces.splice(prevSpaceIndex, 0, space);
-
-              _shownSpaces.splice(index - 1, 0, _shownSpaces.splice(index, 1)[0]);
-
-              $(this).data("uiDraggable").originalPosition = {
-                top : originalPosition.top,
-                left : originalPosition.left - Pard.ColumnWidth
-              }
+            Pard.Bus.trigger('spaceDrag', {'direction': 'left', 'space': space.profile_id});
+            $(this).data("uiDraggable").originalPosition = {
+              top : originalPosition.top,
+              left : originalPosition.left - Pard.ColumnWidth
             }
           }
         },
-        stop:function(event, ui){
+        stop: function(event, ui){
           _spaceHeader.removeClass('cursor_move').addClass('cursor_grab');
           _spaceHeader.mousedown(function(){
             _spaceHeader.removeClass('cursor_grab').addClass('cursor_move');
@@ -258,14 +224,15 @@
       }
     }
 
-    var AlignPerformances = function(){
-      var left;
-      Object.keys(_columns).some(function(date){
-        if(_columns[date].is(':visible')){
-          left = _columns[date].position().left + 1;
-          return true;
-        }
-      });
+    var AlignPerformances = function(left){
+      if(!left){
+        Object.keys(_columns).some(function(date){
+          if(_columns[date].is(':visible')){
+            left = _columns[date].position().left + 1;
+            return true;
+          }
+        });
+      }
 
       var shows = Object.keys(program).map(function(performance_id){
         return program[performance_id].show;
@@ -300,7 +267,6 @@
           });
           if(_cardIndex >= showEnd.length) showEnd.push(show.time[1]);
           else{ showEnd[_cardIndex] = show.time[1];}
-          console.log(left);
           program[show.performance_id].card.css({
             'width': (Pard.ColumnWidth - 2) - 10 * _cardIndex,
             'left': left,
@@ -336,6 +302,7 @@
       performance.host_name = space.name;
       performance.address = space.address;
       performance.host_category = space.category;
+      performance.host_proposal_id = space.proposal_id;
     }
 
     var _loadPerformance = function(performance){
@@ -368,11 +335,13 @@
           _columns[date].hide();
         });
       },
-      alignPerformances: function(){
+      alignPerformances: function(index){
+        var position;
         Object.keys(_columns).forEach(function(date){
           _columns[date].css('width', Pard.ColumnWidth);
         });
-        AlignPerformances();
+        if(index) position = Pard.ColumnWidth * index + 1;
+        AlignPerformances(position);
       },
       addPerformance: function(performance){
         _loadPerformance(performance);
