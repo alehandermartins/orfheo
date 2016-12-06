@@ -22,7 +22,6 @@
           var _distanceInputTop = _input.offset().top;
           var _popupOpened = _input.closest('.reveal[aria-hidden="false"]');
           var _scroolTop = _popupOpened.scrollTop();
-          // var _headerHeight = $('header').height();
           console.log(_scroolTop);
           var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
           _popupOpened.scrollTop(_distanceToDo);
@@ -252,7 +251,7 @@
 
 
   ns.Widgets.TextArea = function(label, Nrows){
-    // var _createdWidget = $('<div>');
+
     var _textarea = $('<textarea>').attr({placeholder: label})
     if (Nrows)_textarea.attr({'rows': parseInt(Nrows)});
 
@@ -263,15 +262,11 @@
         if ($('.reveal[aria-hidden="false"]').html()){
           var _distanceInputTop = _textarea.offset().top;
           var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
-          var _headerHeight = $('header').height();
-          var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
+          var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
           $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
         }
       }
     });
-
-
-    // _createdWidget.append(_textarea);
 
     return {
       render: function(){

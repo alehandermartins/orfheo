@@ -352,7 +352,6 @@
                   Pard.Spaces.forEach(function(space){
                     order.push(space.proposal_id);
                   });
-                  // Pard.Backend.program(' ', program, order, Pard.Events.SaveProgram);
                   Pard.CachedCall.program = program;
                   Pard.Spaces = [];
                   Pard.ShownSpaces = [];

@@ -35,8 +35,7 @@
 
     _formWidget.setVal(profile); 
 
-     var _deleteProfileCaller = $('<a>').attr('href','#').text('Elimina el perfil').addClass('deleteProfile-caller');
-
+     var _deleteProfileCaller = $('<a>').attr('href','#').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina el perfil').addClass('deleteProfile-caller');
     var _deleteProfile = Pard.Widgets.PopupCreator(_deleteProfileCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProfileMessage(profile.profile_id)});
 
     var _closepopup = function(){};
@@ -88,7 +87,7 @@
   ns.Widgets.DeleteProfileMessage = function(profile_id){  
     
     var _createdWidget = $('<div>');
-    var _message = $('<p>').text('Confirmando, tu perfil será eliminado y con ello todos su contenidos. Sin embargo, no se cancelarán las propuestas enviada a convocatorias.');
+    var _message = $('<p>').text('Confirmando, tu perfil será eliminado y con ello todos sus contenidos. Sin embargo, no se cancelarán las propuestas enviadas a convocatorias.');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 

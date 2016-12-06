@@ -202,8 +202,9 @@
       _searchWidget.on('select2:opening', function(){
         var _distanceInputTop = _searchInput.offset().top;
         var _scroolTop = $('.whole-container').scrollTop();
-        var _headerHeight = $('header').height();
-        var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
+        var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+        // var _headerHeight = $('header').height();
+        // var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10; 
         $('.whole-container').scrollTop(_distanceToDo);
       });
     }

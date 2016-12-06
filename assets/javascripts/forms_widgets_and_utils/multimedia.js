@@ -106,225 +106,247 @@
   }
  
   ns.Widgets.MultimediaDisplay = function(production, callback){
-      var spinner = new Spinner();
-      spinner.spin();
-      $('body').append(spinner.el);
-      var multimedia = {};
-      ['image', 'video', 'audio'].forEach(function(type){
-        multimedia[type] = [];
+    var spinner = new Spinner();
+    spinner.spin();
+    $('body').append(spinner.el);
+   
+    var multimedia = {};
+    ['image', 'video', 'audio'].forEach(function(type){
+      multimedia[type] = [];
+    });
+
+    var _done = [];
+    var _links = [];
+    var _linksTriedToBeDone = 0;
+
+    if(production.photos){
+      production.photos.forEach(function(photo){
+        _links.push({
+          url: photo,
+          provider: 'cloudinary',
+          type: 'image'
+        });
+      });
+    }
+
+    if(production.links){
+      Object.keys(production.links).map(function(index){
+        _links.push(production.links[index]);
+      });
+    }
+
+    var _cloudinary = function(link){
+
+      var _img = $.cloudinary.image(
+        link['url'],
+        { format: 'jpg', width: 350 , effect: 'saturation:50' }
+      );
+      multimedia[link['type']].push(_img[0]);
+
+      // if ($(window).width()>750){
+      var _popupImg = $.cloudinary.image(
+        link['url'],
+        { format: 'jpg',  width: 750, effect: 'saturation:50' }
+      );
+
+      var _createdWidget = $('<div>').addClass('fast reveal full');    
+      var _outerContainer = $('<div>').addClass('vcenter-outer');
+      var _innerContainer = $('<div>').addClass('vcenter-inner');
+      
+
+      var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+      _closeBtn.append($('<span>').html('&times;'));
+
+      var _popup = new Foundation.Reveal(_createdWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
+
+      _closeBtn.click(function(){
+        _popup.close();
       });
 
-      var _done = [];
-      var _links = [];
+      var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
 
-      if(production.photos){
-        production.photos.forEach(function(photo){
-          _links.push({
-            url: photo,
-            provider: 'cloudinary',
-            type: 'image'
-          });
-        });
-      }
+      _innerContainer.append(_popupContent);
+      _createdWidget.append(_outerContainer.append(_innerContainer));
 
-      if(production.links){
-        Object.keys(production.links).map(function(index){
-          _links.push(production.links[index]);
-        });
-      }
+      _img.one('mouseover', function(){
+        $('body').append(_createdWidget)
+      });
 
-      var _cloudinary = function(link){
+      _img.click(function(){
+        _popup.open();
+      });
 
-        var _img = $.cloudinary.image(link['url'],
-          { format: 'jpg', width: 350 , effect: 'saturation:50' });
-        multimedia[link['type']].push(_img[0]);
+      _img.css({cursor:'zoom-in'});
+      // }
+      _done.push(link);
+       _linksTriedToBeDone +=1;
+      _display();      
+    }
 
-        // if ($(window).width()>750){
-          var _popupImg = $.cloudinary.image(link['url'],{ format: 'jpg',  width: 750, effect: 'saturation:50' });
-
-          var _createdWidget = $('<div>').addClass('fast reveal full');    
-          var _outerContainer = $('<div>').addClass('vcenter-outer');
-          var _innerContainer = $('<div>').addClass('vcenter-inner');
-          
-
-          var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
-          _closeBtn.append($('<span>').html('&times;'));
-
-          var _popup = new Foundation.Reveal(_createdWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
-
-          _closeBtn.click(function(){
-            _popup.close();
-          });
-
-          var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
-
-          _innerContainer.append(_popupContent);
-          _createdWidget.append(_outerContainer.append(_innerContainer));
-
-          _img.one('mouseover', function(){
-            $('body').append(_createdWidget)
-          });
-
-          _img.click(function(){
-            _popup.open();
-          });
-
-          _img.css({cursor:'zoom-in'});
-        // }
-        _done.push(link);
-        _display();      
-      }
-
-      //Youtube, Vimeo, Flickr, Twitter, Soundcloud
-      var _oembed = function(link){
-        $.getJSON("https://noembed.com/embed?callback=?",
-          {"format": "json", "url": link['url']}, function (data) {               
-            if (!('error' in data)){
-              var _media = data.html;
-              if(link['provider'] == 'flickr'){
-                var _src = '';
-                data.html.split('"').forEach(function(string){
-                  if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
-                });
-                _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
-                _media.addClass('flickr-embed-image-iframe');
-              }
-              multimedia[link['type']].push(_media);
-              _done.push(link);
-              _display();
+    //Youtube, Vimeo, Flickr, Twitter, Soundcloud
+    var _oembed = function(link){
+      $.getJSON("https://noembed.com/embed?callback=?",
+        {"format": "json", "url": link['url']}, function (data) {
+          console.log(data);              
+          if (!('error' in data)){
+            var _media = data.html;
+            if(link['provider'] == 'flickr'){
+              var _src = '';
+              data.html.split('"').forEach(function(string){
+                if(string.match('https://noembed.com/i/')) _src = string.replace('https://noembed.com/i/','');
+              });
+              _media = $('<a>').append($('<img>').attr('src',_src)).attr({'href': link['url'], 'data-flickr-embed':'true', 'target':'_blank'});
+              _media.addClass('flickr-embed-image-iframe');
             }
-        });
-      }
-
-      var _spotify = function(link){
-        var audio_id = link['url'].split('/').pop();
-        var _spotifyMedia = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + audio_id, 'frameborder': '0', 'allowtransparency': 'true'}).css('height','5rem');
-        multimedia[link['type']].push(_spotifyMedia);
-        _done.push(link);
-        _display();
-      }
-
-      var _facebook = function(link){
-        console.log(link);
-          var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
-          if (link['type'] == 'image'){
-            if ($(window).width() > 400) { 
-              _facebookMedia.attr({'data-width': '350'});
-            }
-            else{
-              _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de facebook')).css({'font-size':'12px', 'text-align': 'center'});
-            }
+            multimedia[link['type']].push(_media);
+            _done.push(link);
+             _linksTriedToBeDone +=1;
+            _display();
           }
-          if (link['type'] == 'video') {
-            _facebookMedia = $('<div>').addClass('fb-video').attr('data-href', link['url']);
-            if ($(window).width() > 1024) {
-              _facebookMedia.attr({'data-width': '718', 'data-allowfullscreen':'true'}); 
-            }
-            else if ($(window).width() > 640) {
-              var _videoWidth = $(window).width()-254;
-              _facebookMedia.attr({'data-width': _videoWidth , 'data-allowfullscreen':'true'}); //It won't go below 350
-            }
-            else { 
-              var _videoWidth = $(window).width()-52;
-              _facebookMedia.attr({'data-width':_videoWidth, 'data-allowfullscreen':'true'});
-            }
-            // else{
-            //   _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Vídeo de facebook')).css({'font-size':'12px', 'text-align': 'center'});
-            // }
+          else{
+            console.log(link);
+             _linksTriedToBeDone +=1;
+             _display();
           }
-        multimedia[link['type']].push(_facebookMedia);
-        _done.push(link);
-        _display();
-      }
+      });
+    }
 
-      var _instagram = function(link, id, elementClass, profiles){
-        var _createdWidget = $('<div>');
-        var _instagramphoto = $('<a>').attr('href', link['url']);
-        var _instagramMedia = $('<blockquote>').addClass('instagram-media').append(_instagramphoto);
-        _createdWidget.append(_instagramMedia);
-        multimedia[link['type']].push(_instagramMedia);
-        _done.push(link);
-        _display();
-      }
+    var _spotify = function(link){
+      var audio_id = link['url'].split('/').pop();
+      var _spotifyMedia = $('<iframe>').attr({'src': 'https://embed.spotify.com/?uri=spotify:track:' + audio_id, 'frameborder': '0', 'allowtransparency': 'true'}).css('height','5rem');
+      multimedia[link['type']].push(_spotifyMedia);
+      _done.push(link);
+      _linksTriedToBeDone +=1;
+      _display();
+    }
 
-      var _pinterest = function(link, id, elementClass, profiles){
-        var _createdWidget = $('<div>');
-        if ($(window).width() > 290) {
-          var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'medium'});
+    var _facebook = function(link){
+      var _facebookMedia = $('<div>').addClass('fb-post').attr('data-href', link['url']);
+      if (link['type'] == 'image'){
+        if ($(window).width() > 400) { 
+          _facebookMedia.attr({'data-width': '350'});
         }
         else{
-          var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'small'});
+          _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Imagen de facebook')).css({'font-size':'12px', 'text-align': 'center'});
         }
-        _createdWidget.append(_pinterestMedia);
-        multimedia[link['type']].push(_pinterestMedia);
-        _done.push(link);
-        _display();
       }
-
-      var _vine = function(link, id, elementClass, profiles){
-        if(link['url'].split('/').pop() != 'embed' && link['url'].split('/').pop() != 'simple') {
-          link['url'] += '/embed/simple';
+      if (link['type'] == 'video') {
+        _facebookMedia = $('<div>').addClass('fb-video').attr('data-href', link['url']);
+        if ($(window).width() > 1024) {
+          _facebookMedia.attr({'data-width': '718', 'data-allowfullscreen':'true'}); 
         }
-        if (link['url'].split('/').pop() != 'simple'){
-          link['url'] += '/simple';
+        else if ($(window).width() > 640) {
+          var _videoWidth = $(window).width()-254;
+          _facebookMedia.attr({'data-width': _videoWidth , 'data-allowfullscreen':'true'}); //It won't go below 350
         }
-        var _vineMedia = $('<iframe>').attr('src', link['url']);
-        multimedia[link['type']].push(_vineMedia);
-        _done.push(link);
-        _display();
+        else { 
+          var _videoWidth = $(window).width()-52;
+          _facebookMedia.attr({'data-width':_videoWidth, 'data-allowfullscreen':'true'});
+        }
+        // else{
+        //   _facebookMedia = $('<div>').addClass('images-title-box').append($('<a>').attr({'href': link['url'], target:'_blank'}).text('Vídeo de facebook')).css({'font-size':'12px', 'text-align': 'center'});
+        // }
       }
+      multimedia[link['type']].push(_facebookMedia);
+      _done.push(link);
+      _linksTriedToBeDone +=1;
+      _display();
+    }
 
+    var _instagram = function(link, id, elementClass, profiles){
+      var _createdWidget = $('<div>');
+      var _instagramphoto = $('<a>').attr('href', link['url']);
+      var _instagramMedia = $('<blockquote>').addClass('instagram-media').append(_instagramphoto);
+      _createdWidget.append(_instagramMedia);
+      multimedia[link['type']].push(_instagramMedia);
+      _done.push(link);
+      _linksTriedToBeDone +=1;
+      _display();
+    }
 
-
-      var _bandCamp = function(link, id, elementClass, profiles){
-        var _bandCamp_url = '';
-        link['url'].split('"').forEach(function(string){
-          if(string.match('EmbeddedPlayer')){
-            var _bandCampMedia = $('<div>').html(link['url']);
-            if(string.match('large') && !(string.match('small'))){
-              _bandCampMedia.addClass('large-bandcamp-audio-player')
-            };
-            multimedia[link['type']].push(_bandCampMedia);
-          }
-        });
-        _done.push(link);
-        _display();
+    var _pinterest = function(link, id, elementClass, profiles){
+      var _createdWidget = $('<div>');
+      if ($(window).width() > 290) {
+        var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'medium'});
       }
-
-      var _providers = {
-        'cloudinary': _cloudinary,
-        'youtube': _oembed,
-        'vimeo': _oembed,
-        'flickr': _oembed,
-        'twitter': _oembed,
-        'soundcloud': _oembed,
-        'spotify': _spotify,
-        'facebook': _facebook,
-        'instagram': _instagram,
-        'pinterest': _pinterest,
-        'vine': _vine,
-        'bandcamp': _bandCamp
+      else{
+        var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'small'});
       }
+      _createdWidget.append(_pinterestMedia);
+      multimedia[link['type']].push(_pinterestMedia);
+      _done.push(link);
+      _linksTriedToBeDone +=1;
+      _display();
+    }
 
-      var _display = function(){
-        if (_done.length == _links.length){
-         
-    $.wait(
-    '', 
-    function(){
+    var _vine = function(link, id, elementClass, profiles){
+      if(link['url'].split('/').pop() != 'embed' && link['url'].split('/').pop() != 'simple') {
+        link['url'] += '/embed/simple';
+      }
+      if (link['url'].split('/').pop() != 'simple'){
+        link['url'] += '/simple';
+      }
+      var _vineMedia = $('<iframe>').attr('src', link['url']);
+      multimedia[link['type']].push(_vineMedia);
+      _done.push(link);
+      _linksTriedToBeDone +=1;
+      _display();
+    }
+
+
+
+    var _bandCamp = function(link, id, elementClass, profiles){
+      var _bandCamp_url = '';
+      link['url'].split('"').forEach(function(string){
+        if(string.match('EmbeddedPlayer')){
+          var _bandCampMedia = $('<div>').html(link['url']);
+          if(string.match('large') && !(string.match('small'))){
+            _bandCampMedia.addClass('large-bandcamp-audio-player')
+          };
+          multimedia[link['type']].push(_bandCampMedia);
+        }
+      });
+      _done.push(link);
+      _linksTriedToBeDone +=1;
+      _display();
+    }
+
+    var _providers = {
+      'cloudinary': _cloudinary,
+      'youtube': _oembed,
+      'vimeo': _oembed,
+      'flickr': _oembed,
+      'twitter': _oembed,
+      'soundcloud': _oembed,
+      'spotify': _spotify,
+      'facebook': _facebook,
+      'instagram': _instagram,
+      'pinterest': _pinterest,
+      'vine': _vine,
+      'bandcamp': _bandCamp
+    }
+
+    var _display = function(){
+      console.log(_linksTriedToBeDone);
+      // if (_done.length == _links.length)
+      if (_linksTriedToBeDone == _links.length){  
+        $.wait(
+        '', 
+        function(){
           callback(multimedia);
           },
           function(){
             spinner.stop();
-          });
-        }
+          }
+        );
       }
+    }
 
-      if(_links.length == 0) _display();
+    if(_links.length == 0)  spinner.stop();
 
-      _links.forEach(function(link){
-        _providers[link['provider']](link);
-      });
+    _links.forEach(function(link){
+      _providers[link['provider']](link);
+    });
    
   }
 

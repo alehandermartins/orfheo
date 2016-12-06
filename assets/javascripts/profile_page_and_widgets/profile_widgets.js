@@ -14,13 +14,22 @@
       profile.photos.shift();
     }
 
+    var _img;
+
     if(profile.profile_picture){
-      var _img = $.cloudinary.image(profile['profile_picture'][0],
-      { format: 'jpg', width: 750, height: 220,
-      crop: 'fill', effect: 'saturation:50' });
+      _img = $.cloudinary.image(profile['profile_picture'][0],
+      { 
+        format: 'jpg', 
+        width: 750, 
+        height: 220,
+        crop: 'fill', 
+        effect: 'saturation:50' 
+      });
+    }
+
+    if (_img && _img[0].naturalHeight){
       _photoContainer.addClass('section-profilePhoto-container').append(_img);
       var _popup
-
       _img.one('mouseover', function(){
         var _popupImg = $.cloudinary.image(profile['profile_picture'][0],{ format: 'jpg',  width: 750, effect: 'saturation:50' });
         var _popupWidget = $('<div>').addClass('fast reveal full');

@@ -50,7 +50,7 @@
       var _catSelected = _categorySelector.getVal();
       _printForm(_catSelected);
     };
-    var _categorySelector = Pard.Widgets.OrfheoArtCatSelect2(categorySelectCallback);
+    var _categorySelector = Pard.Widgets.OrfheoArtCatSelect(categorySelectCallback);
     var _categoryLabel = $('<label>').text('Selecciona una categoría *');
     var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render()));
 
@@ -94,7 +94,7 @@
 
     var _printForm = function(catSelected){
       _content.empty();
-      var _catSelector = Pard.Widgets.OrfheoArtCatSelect2();
+      var _catSelector = Pard.Widgets.OrfheoArtCatSelect();
       _catSelector.setVal(catSelected);
       _catSelector.disable();
       var _fieldsForm = Pard.Forms.FieldsForms(catSelected).modifyProduction();
@@ -132,7 +132,7 @@
 
     _printForm(production.category);
 
-    var _deleteProductionCaller = $('<a>').attr('href','#').text('Elimina este proyecto artístico').addClass('deleteProfile-caller');
+    var _deleteProductionCaller = $('<a>').attr('href','#').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina este proyecto artístico').addClass('deleteProfile-caller');
 
     var _deleteProduction = Pard.Widgets.PopupCreator(_deleteProductionCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProductionMessage(production.production_id, _closepopup)});
 

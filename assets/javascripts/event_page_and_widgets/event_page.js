@@ -526,8 +526,7 @@
       if ($(window).width() < 640 ) {
         var _distanceInputTop = _searchWidget.offset().top;
         var _scroolTop = $('.whole-container').scrollTop();
-        var _headerHeight = $('header').height();
-        var _distanceToDo = _distanceInputTop + _scroolTop - _headerHeight - 10;
+        var _distanceToDo = _distanceInputTop + _scroolTop - 120;
         $('.whole-container').scrollTop(_distanceToDo);
       }
     });

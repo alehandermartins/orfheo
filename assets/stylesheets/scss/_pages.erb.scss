@@ -1,11 +1,13 @@
 /*===============================================
 NEW WELCOME PAGE
 ================================================*/
+
 .loginHeader-AllPage{
   width: 100%;
   height: 100%;
   background-color: white;
   position: relative;
+  overflow-y: hidden;
 }
 
 .container-header{
@@ -694,12 +696,6 @@ Aside
   padding: 0.2rem;
 }
 
-.verticalAlign{
-  @include vertical-align();
-}
-
-
-
 
 .profile-nav-circle-selected{
   @include pardCircle(2.2rem);
@@ -1001,8 +997,32 @@ Production Section
   position: relative;
 }
 
+.links-accepted-container{
+  position:relative;
+  width: 100%;
+  margin-top: -1rem;
+  padding-bottom: 0.9rem;
+  @include breakpoint(small down){
+    margin-top: -0.5rem;
+  }
+}
+
+.add-multimedia-input-field{
+  width: -moz-calc(100% - 2rem);
+  width: -webkit-calc(100% - 2rem);
+  width: calc(100% - 2rem);
+  display: inline-block;
+}
+
 .multimedia-icon-title-box{
   font-size: 1.4rem;
+}
+
+.multimedia-manager-photos-container{
+  margin-bottom: 1.5rem;
+  .browse-btn{
+    margin-bottom: 1.3rem;
+  }
 }
 
 .video-production-container{
@@ -1344,12 +1364,10 @@ CALL PAGE
   @include border-radius($element-border-radius);
   padding: 0.25rem 0.4rem; 
   font-size: $smallSize;
-  /* background-color: white; */
 }
 
 
 .tab-selected{
-  /* background: $grey-1; */
   font-weight: bold;
   a {
     color: black;
@@ -1357,11 +1375,6 @@ CALL PAGE
   }
 }
 
-/* .switcher-menu-call-page li.tab-selected{
-  border-bottom: 2px solid $grey-3 !important;
-  border-left: 2px solid $grey-3;
-  box-shadow: -1px 1px 2px $grey-3;
-} */
 
 .menu.simple.tabs-menu li{
   margin-right:0.25rem;
@@ -1381,13 +1394,8 @@ CALL PAGE
 .table-proposal {
   font-size: 12px;
   margin-bottom: 0;
-  /* border: 1px solid $grey-3; */
-
 }
 
-/* .table-proposal tbody tr{
-  border-top: 1px solid $grey-3;
-} */
 
 .table-proposal thead {
   font-size: 14px;
@@ -1705,7 +1713,6 @@ a.dt-button{
 
 .mailinglist-popup{
   text-align: center;
-  /* max-width: 16rem; */
   .popup-content{
     margin: 0;
   }
@@ -1715,9 +1722,6 @@ a.dt-button{
       font-size: 2.5rem;
     }
   }
-/*   div{
-    margin-bottom: 1rem;
-  } */
 }
 
 
@@ -1736,7 +1740,6 @@ div.dataTables_wrapper div.dataTables_filter{
   margin-bottom: 1rem;
   height: 2rem;
   label{
-    /* @include horizontal-center; */
     position: absolute;
     right: 11rem;
   }
@@ -1746,13 +1749,6 @@ div.dataTables_wrapper div.dataTables_filter{
     font-size: $almostNormalSize;
     }
 }
-.allCheckBoxesBox{
-  display: inline-block;
-  position: absolute;
-  top: 0.5rem;
-  right: 0;
-}
-
 
 .submit-whitelist-call-manager-container{
   position:absolute;
@@ -1794,17 +1790,6 @@ div.dataTables_wrapper div.dataTables_filter{
   font-size: $almostNormalSize;
 }
 
-/* .search-input-call-manager-container  .select2-selection.select2-selection--multiple {
-  min-height: 2.4rem;
-}
-
-.search-input-call-manager-container .select2-container .select2-search--inline .select2-search__field{
-  font-size: $almostNormalSize;
-} */
-
-#tablePanel, #proposalsPanel {
-  margin-bottom: $pard-grid-spacing;
-}
 
 .qr-box, .white-list-box{
   display: inline-block;
@@ -1814,7 +1799,6 @@ div.dataTables_wrapper div.dataTables_filter{
   width: 60%;
   padding-left: 2rem;
   vertical-align: top;
-
 }
 
 .white-list-box{
@@ -1822,7 +1806,6 @@ div.dataTables_wrapper div.dataTables_filter{
   padding-right: 2rem;
   border-right: 1px solid $grey-3;
   vertical-align: top;
-
 }
 
 .input-whiteList-container{
@@ -1833,7 +1816,6 @@ div.dataTables_wrapper div.dataTables_filter{
 
 .input-whiteList-container .select2-selection.select2-selection--multiple{
     font-size: 14px;
-
 }
 
 .add-whiteList-input-field{
@@ -1846,34 +1828,10 @@ div.dataTables_wrapper div.dataTables_filter{
   background-color: rgba(212, 185, 41, 0.5) !important;;
 }
 
-/* .callPage-createSpaceProposal{
-  margin-top: 1.5rem;
-}
- */
-
-/* .callPage-createArtistProposal{
-  margin-bottom: 1.5rem;
-}  */
-
-/* 
-.callPage-createArtistProposal input.phone-input,  .callPage-createSpaceProposal input.phone-input {
-  width: 13rem;
-  display: inline-block;
-  margin-left: 1.5rem;
-}  */
-
-.popup-categorySelector{
-  margin-top: 2rem;
-}
-
-
 p.initial-text-proposalPanel{
   margin-bottom: 2rem;
 }
 
-.typeOwnproposal-icon-call-page{
-  margin-right: 1rem;
-}
 
 .popupOwnProposal{
   margin-top: 1.5rem;
@@ -1885,72 +1843,6 @@ p.initial-text-proposalPanel{
 
 .buttonsCOntainer-call-page{
   margin-bottom: 1.5rem;
-}
-
-.ownBox-call-manager{
-  display: inline-block;
-  width: 50%;
-  vertical-align:top;
-  padding: 0 1rem;
-}
-
-.own-proposals-list li{
-  font-size: $almostNormalSize;
-  ul{
-    list-style: none;
-  }
-}
-
-.own-proposals-list {
-  margin-top: 2rem;
-  list-style: none;
-  margin-left: 0;
-  .material-icons{
-    font-size: 0.8rem;  
-    vertical-align: -0.1rem;
-    margin-right: 0.5rem;
-  }
-  .icon-book-open, .icon-theatre{
-    font-size: 0.6rem;
-    margin-right: 0.4rem;   
-  }
-  .fa-cubes{
-    font-size: 0.6rem;
-    vertical-align: 0.1rem;
-    margin-right: 0.5rem;
-  }
-}
-
-.own-artistProposals-container{
-  margin-top: 1rem;
-
-    line-height: 1.2rem;
-  li{
-    margin-top: 0.4rem;
-  }
-  .artistName{
-    font-weight: bold;
-    display: inline-block;
-    width: 12.2rem;
-    vertical-align: top;
-  }
-  .artIcon{
-    display: inline-block;
-    width: 1rem;
-  }
-  .artTitle{
-    display: inline-block;
-    width: 12.2rem;
-    vertical-align: top;
-  }
-}
-
-.own-spaceProposal-container{
-  margin-top: 1rem;
-}
-
-.createProposalsContainer-call-page{
-  position: relative;
 }
 
 .innerCreateProposals-Cont{
@@ -1970,7 +1862,7 @@ Program Manager Tab
   display: inline-block;
 }
 
-.checker {
+.checker{
   float: right;
   margin-right: 0.2rem;
 }
@@ -1979,7 +1871,7 @@ Program Manager Tab
   font-weight: bold;
  }
 
-.commentIcon {
+.commentIcon{
   float: right;
   margin-right: 0.2rem;
 }
@@ -1998,7 +1890,6 @@ Program Manager Tab
 }
 
 .table-container-call-manager{
-  /* overflow-x: scroll; */
   overflow-y: hidden;
   position: relative;
   display: inline-block;
@@ -2010,10 +1901,8 @@ Program Manager Tab
   background-color: $grey-1;  
 }
 
-/* #e6e6e6 */
 .artist-accordeon-call-manager{
   position: absolute;
-  /* overflow-y: auto; */
   right: 0;
   top:0;
   width: 13rem;
@@ -2050,8 +1939,6 @@ Program Manager Tab
   height:  -webkit-calc(100% - 2.5rem);
   height:  calc(100% - 2.5rem);
   border-top: 1px solid #aaa;
-  /* width: 13rem; */
-  /* height: 85vh; */
   background-color: white;
 }
 
@@ -2119,42 +2006,12 @@ Program Manager Tab
 }
 
 
-.last-white-column-table-manager{
-  display: inline-block;
-  height: 575px;
-  vertical-align: 15px;
-  background: white;
-}
-
-
-.submit-program-btn-container-tablePanel{
-  /* font-size: 0.875rem; */
-  position: absolute;
-  left: 0.6rem;
-  /* top: 13rem; */
-  height: 2.5rem;
-  z-index: 1;  
-}
-
-.save-text-call-manager{
-  margin-right: 0.5rem;
-  display: inline-block;
-  margin-bottom: 0;
-  text-align: right;
-  line-height: 1.2rem;
-  height: 2.5rem;
-  vertical-align: middle;
-  width: 75px;
-}
-
 .space-not-available-call-manager,.artist-not-available-call-manager{
   opacity:0.4;
   background: $grey-2;
-/* repeating-linear-gradient(45deg,$grey-4, $grey-4 10px,$grey-1 10px,$grey-1 20px); */
 }
 
 .proposal-card-container-call-manager{
-  /* background: $grey-1; */
   padding: 0.1rem 0.1rem;
   position: relative;
   width: 100%;
@@ -2167,8 +2024,6 @@ Program Manager Tab
   line-height: 1rem;
   font-size: 0.75rem;
   margin-bottom: 0;
-  /* cursor: pointer; */
-  /* cursor: pointer; */
   a{
     color: black;
     margin-right: 0.2rem;
@@ -2186,7 +2041,6 @@ Program Manager Tab
 
 .dragged-card-call-manager{
   white-space: normal;
-  /* cursor:grab; */
   position: absolute;
 }
 
@@ -2194,8 +2048,6 @@ Program Manager Tab
   display: inline-block;
   width: 11rem;
   border: 1px solid;
-
-  /* overflow-y: hidden; */
 }
 
 .space-name-container-call-manager{
@@ -2223,7 +2075,6 @@ Program Manager Tab
   padding: 0;
   background-color: $grey-2;
   height: 2.5rem;
-  /* cursor: pointer; */
   text-align: center;
   width: 100%;
   padding: 0.2rem;
@@ -2264,28 +2115,23 @@ Program Manager Tab
 }
 
 .column-space-program-call-manager.column-time,.column-space-program-call-manager.column-phone, .column-artist-program-call-manager.column-time, .column-artist-program-call-manager.column-phone {
-  /* width: 3rem; */
   max-width: 105px;
 }
 
 
  .column-space-program-call-manager.column-email, .column-artist-program-call-manager.column-email {
-  /* width: 5rem; */
   width: 120px;
 }
 
 .column-space-program-call-manager.column-name, .column-artist-program-call-manager.column-name{
-  /* width: 6rem; */
   width: 140px;
 }
 
 .column-space-program-call-manager.column-short_description, .column-artist-program-call-manager.column-address {
-  /* width: 10rem; */
   width: 210px;
 }
 
 .column-table-program-call-manager.column-short_description {
-  /* width: 10rem; */
   width: 190px !important;
 }
 
@@ -2299,7 +2145,6 @@ Program Manager Tab
 
 
 .column-artist-program-call-manager.column-title,.column-space-program-call-manager.column-title{
-  /* width: 10rem; */
   width: 170px;
 }
 
@@ -2323,18 +2168,12 @@ th.column-table-program-call-manager.column-confirmed {
 
 table.program-table{
   table-layout:fixed;
-/* width: 950px; */
 }
 
 table.program-table tfoot th{
   padding-left: 10px !important;
   padding-right: 24px !important;
 }
-
-/* .day-row-program-table-call-manager{
-  font-weight: bold;
-  color: white;
-} */
 
 .day-row-program-table-call-manager td{
   background: $grey-4;
@@ -2345,7 +2184,6 @@ table.program-table tfoot th{
 .permanent-row-program-table-call-manager td{
   background: $grey-2;
   font-weight: bold;
-  /* color: white; */
   padding-bottom: 0;
   padding-top: 0;
 }
@@ -2378,7 +2216,6 @@ tr.permanent-row-program-table-call-manager td{
   content: none;
 }
 
-
 .artist-list-container-call-manager .is-dropdown-submenu, .space-column-header .is-dropdown-submenu{
   min-width: 160px;
 }
@@ -2389,19 +2226,15 @@ tr.permanent-row-program-table-call-manager td{
 
 .artist-list-container-call-manager .menu > li > a{
     padding: 11px 0px ;
-
 }
-
 
 .artist-list-container-call-manager li.is-dropdown-submenu-item a{
     padding: 7px 8px ;
-
 }
 
 .checkBoxesBox-call-manager-table{
   margin-bottom: 1rem;
 }
-
 
 .sortable-space-card{
   display: inline-block;
@@ -2414,9 +2247,7 @@ tr.permanent-row-program-table-call-manager td{
   text-align: center;
   color: black;
   font-weight: normal;
-  /* word-break: break-all; */
 }
-
 
 .order-buttons-container{
   margin-bottom: 1rem;
@@ -2475,45 +2306,21 @@ tr.permanent-row-program-table-call-manager td{
   }
 }
 
-
 .submit-program-btn-container{
-  /* font-size: 0.875rem; */
   position: absolute;
   right: 0;
-
-  /* height: 2.5rem; */
 }
 
 .buttons-container-call-manager{
   position: relative;
   height: 2rem;
-  /* margin-top: -2rem; */
   margin-bottom: 0.5rem;
 }
+
 
 /*===============================================
 ORGANIZATION PAGE
 ================================================*/
-
-
-.manage-call-text{
-  text-transform: uppercase;
-  /* padding: 0 $inner-spacing; */
-  margin-bottom: 0.5rem;
-}
-
-.manage-call-btn-text{
-  margin-left: 0.75rem;
-  font-weight: bold;
-  vertical-align: 0.2rem;
-}
-
-.call-proposals-title{
-  text-align: center;
-  margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
-  font-weight: bold;
-}
 
 .success-inscription-title{
   color: rgb(76, 182, 50); 
@@ -2544,7 +2351,6 @@ ORGANIZATION PAGE
   margin-top: .5rem;
 }
 
-
 .eventDate-event-info-card{
   text-align: right;
 }
@@ -2560,9 +2366,6 @@ ORGANIZATION PAGE
   clear: both;
   margin-top: 1rem;
   text-align: right;
- /*  a{
-    color:  white;
-  } */
 }
 
 .status-eventCard{
@@ -2585,7 +2388,6 @@ EVENT PAGE
   }
 }
 
-
 .aside-event-nav-btn {
   cursor: pointer;
   width: 100%;  
@@ -2599,7 +2401,6 @@ EVENT PAGE
   font-weight: bold;
   text-decoration: underline;
   font-weight: bold;
-  /* color: white; */
 }
 
 .aside-event-nav-btn:hover{
@@ -2698,11 +2499,6 @@ EVENT PAGE
   }
 }
 
-/* p.info-text-header-infoTab-event{
-    line-height: 1.2rem;
-    margin: 0;
-}
- */
 .textContainer-infoTab-event-page{
   @include breakpoint(medium){
    margin-top: 2rem;
@@ -2717,8 +2513,6 @@ EVENT PAGE
   text-transform: uppercase;
   margin: 1.5rem 0;
 }
-
-
 
 .program-card-container, .programBySpace-card-container, .program-card-container-profile{
   @include breakpoint(large){
@@ -2747,7 +2541,6 @@ EVENT PAGE
   display: inline-block;
   vertical-align: top;
   position: relative;
-  /* margin-bottom: 1rem; */
 }
 
 .col1-program-card{
@@ -2780,23 +2573,15 @@ EVENT PAGE
 
 .hostNum-smallScreen-program{
   display: inline-block;
-  /* width: 2.5rem; */
   text-align: center;
   margin-right: 1.2rem;
 }
 
 .hostNum-smallScreen-program img{
-  /* margin-bottom: -0.6rem; */
   vertical-align: 0 !important;
 }
 
-.titleHostContainer-container-event-page{
-  /* display: inline-block; */
-}
-
-
 .title-program-card{
-  /* background: $blue-pard; */
   background: $grey-4;
   color: white;
   padding: 0 0.1rem;
@@ -2819,10 +2604,8 @@ EVENT PAGE
 }
 
 .host-program-card{
-  /* color: $blue-pard; */
   color:  #4389f8;
 }
-
 
 a.host-program-card-own {  
   text-decoration: underline;
@@ -2831,55 +2614,35 @@ a.host-program-card-own {
 
 a.participant-program-card-own {
   font-weight: bold;
-  /* text-decoration: underline; */
   color: black;
 }
 
 .host-number-program-card{
   @include breakpoint(medium down){
-    /* float: right; */
     margin-right: 0.8rem;
   }
 }
 
 .host-program-card-own:hover{
   cursor: default;
-  /* color:  #4389f8; */
 }
 
 .participant-program-card-own:hover{
   cursor: default;
-  /* color:  $blue-pard; */
 }
 
-/* 
-.host-program-card{
-  font-size: $almostNormalSize;
-}
- */
 .host-category-program-card{
   font-size: $almostNormalSize;
 }
 
 .participant-category-icon{
   margin-right: 0.3rem;
-/*   @include breakpoint(medium down){
-    float: right;
-  } */
- /*  @include breakpoint (large){
-    float:right; 
-    margin-right:0.7rem;
-  } */
 }
 
 
 .icon-children-program{
   font-size: 1.1rem;
   margin-bottom: -0.3rem;
- /*  @include breakpoint (large){
-    float:right; 
-    margin-right:0.5rem;
-  } */
 }
 
 
@@ -2903,7 +2666,6 @@ a.participant-program-card-own {
 
 .searchWidgetsContainer-event-page{
   z-index: 999;
-  /* background:  white; */
   @include breakpoint(large){
     padding: 0 3.8rem 0 3.8rem;
     width: 45rem;
@@ -2919,7 +2681,6 @@ a.participant-program-card-own {
 .searchWidgetsContainer-event-page .select2-selection.select2-selection--multiple{
    @include breakpoint (small down){
     font-size: $almostNormalSize;
-    /* min-height: 2rem; */
   }
 }
 
@@ -2949,9 +2710,7 @@ a.participant-program-card-own {
 
 .title-program-event-page{
   margin-top: .5rem;
-  /* margin-bottom: 1.5rem; */
   color:   $grey-4;
-  /* text-align: center; */
 }
 
 .active{
@@ -2962,8 +2721,6 @@ a.participant-program-card-own {
 .filter-checkbox-event-page{
   cursor: pointer;
   margin-bottom: -0.2rem;
-  /* display: inline-block; */
-  /* height: 1.5rem; */
 }
 
 .filter-checkbox-event-page label, .filter-checkbox-event-page input{
@@ -3042,26 +2799,24 @@ a.participant-program-card-own {
   display: none !important;
 }
 
-
 .OK-btn-container-popup{
   position: relative;
   height: 2rem;
 }
 
 @media only screen and #{breakpoint(large)} { 
+  .col2-program-card-profile, .col1-program-card-profile{
+    display: inline-block;
+    vertical-align: top;
+  }
 
-.col2-program-card-profile, .col1-program-card-profile{
-  display: inline-block;
-  vertical-align: top;
-}
+  .col1-program-card-profile{
+    width: 10rem;
+  }
 
-.col1-program-card-profile{
-  width: 10rem;
-}
-
-.col2-program-card-profile{
-  width: 35rem;
-}
+  .col2-program-card-profile{
+    width: 35rem;
+  }
 }
 
 .descriptionRow-profile-programCard p{
@@ -3075,7 +2830,6 @@ a.participant-program-card-own {
   margin-bottom: 1rem;
   color:  $grey-4;
 }
-
 
 .partnerName-event-page{
   text-align: center;
@@ -3102,8 +2856,6 @@ a.participant-program-card-own {
   }
 }
 
-
-
 .browser-alert{
   background-color: rgba(252, 230, 226, 0.9);
   padding: 0.5rem 2rem;
@@ -3116,7 +2868,6 @@ a.participant-program-card-own {
 
 .crowdfunding-alert{
   background-color: rgba(255, 255, 5, 0.9);
-  /* background-color: #faffbd; */
   padding: 1rem 2rem;
   position: fixed;
   bottom: 0;
@@ -3132,17 +2883,14 @@ a.participant-program-card-own {
 
 .closeBtn-browser-alert{
   margin: -0.5rem 0px 0px 1.5rem;
-  /* @include breakpoint(medium down){ */
-    float: right;
-    position: relative;
-  /* } */
+  float: right;
+  position: relative;
 }
 
 .text-event-page-info{
   @include breakpoint(medium){
     display: inline;
-/*     float: right; 
- */  }
+  }
 }
 
 .image-evet-page-info{
@@ -3162,11 +2910,6 @@ a.participant-program-card-own {
 }
 
 .img-event-info-p{
-/*   @include breakpoint(large){
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  } */
-
   border: 1px solid $grey-2;
   @include breakpoint(small down){
     @include horizontal-center; 
@@ -3185,14 +2928,12 @@ a.participant-program-card-own {
   font-weight: bold;
 }
 
-
 .prodContainer-event-page{
   margin-bottom: 1rem;
 }
 
 .btn-container-header-event{
   width: 100%;
-  /* text-align: center; */
   position: relative;
   @include breakpoint (large){
     display: inline-block;
@@ -3235,7 +2976,6 @@ a.participant-program-card-own {
   width: 7.43rem;
   border: 1px solid $grey-2;
   text-align: center;
-  /* height: 2rem; */
 }
 
 .date-calendar-box{
@@ -3276,7 +3016,6 @@ a.participant-program-card-own {
 .signUpCont-eventLogin{
     margin-top: 1rem;
 }
-
 
 .navigation-outside-event-page{
   padding: 0 0.75rem;

@@ -437,7 +437,7 @@
   }
 
 
-  ns.Widgets.OrfheoArtCatSelect2 = function(callback){
+  ns.Widgets.OrfheoArtCatSelect = function(callback){
     var _createdWidget = $('<div>');
     var _selector = $('<select>');
     var _searchTags = [];
@@ -482,33 +482,12 @@
       },
       disable: function(){
         _selector.attr('disabled',true);
-        // _selector.select2().enable(false);
       },
       enable: function(){
         _selector.attr('disabled',false);
       },
       setCallback: function(callback){
         _selector.on('select2:select', function(){callback()});
-      }
-    }
-  }
-
-  ns.Widgets.OrfheoArtCatSelector = function(categorySelectCallback){
-
-    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other'];
-    var _labelsCategories = [];
-    _valuesCategories.forEach(function(cat){
-      // var _icon = Pard.Widgets.IconManager(cat).render().addClass('orfheoOption-icon');
-      var _text = Pard.Widgets.Dictionary(cat).render();
-      _labelsCategories.push(_text);
-    });
-    var _createdWidget = Pard.Widgets.Selector(_labelsCategories, _valuesCategories, categorySelectCallback);
-
-    // _createdWidget.setClass('category-input');
-
-    return {
-      render: function(){
-        return _createdWidget.render();
       }
     }
   }

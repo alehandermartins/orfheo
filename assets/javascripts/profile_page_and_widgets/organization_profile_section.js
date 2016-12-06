@@ -65,12 +65,6 @@
       var _eventCard = Pard.Widgets.EventInfoCardDistrito(_event);
       _eventBoxContainer.append(_eventBoxContent.append(_eventCard.render()));
       _createdWidget.append(_eventBoxContainer);
-      
-      //-------------------------------------------------------------------
-      // var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page', profile.calls[0].event_id);
-      // var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
-      // _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
-      //--------------------------------------------------------------
     }
 
 
