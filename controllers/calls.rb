@@ -60,7 +60,6 @@ class CallsController < BaseController
     check_proposal_exists! proposal_id
     check_call_exists! call_id
     check_artist_category! category
-    puts profile_id
 
     form = get_artist_form call_id, form_category
     proposal = ArtistOwnProposal.new(params, session[:identity], form) if profile_id.split('-').last == 'own'

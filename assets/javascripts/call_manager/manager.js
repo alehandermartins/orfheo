@@ -106,7 +106,7 @@
       if(the_event.spaces[space.profile_id]){
         the_event.spaces[space.profile_id].deleteColumns();
         _programManager.deleteSpace(space);
-        //_tableManager.deleteSpace(space);
+        _tableManager.deleteSpace(space);
         delete the_event.spaces[space.profile_id];
       }
     });
