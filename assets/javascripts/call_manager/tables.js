@@ -303,7 +303,6 @@
 
 
   ns.Widgets.ProgramTable = function(program){
-    console.log(program)
 
     var _createdWidget = $('<div>');
     var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0"}).css({
@@ -314,15 +313,15 @@
       'word-wrap':'break-word',
     });
     var _tbody = $('<tbody>');
-
     var _thead = $('<thead>');
     var _titleRow = $('<tr>');
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
+    var _infoProgram = Pard.Widgets.ProgramTableInfo();
 
     //REMEMBER children ---> publico del espectacúlo
 
-    var _columns = ['date','time','participant_name','participant_category','title','short_description','order','host_name','host_category','comments','phone','email','confirmed'];
+    var _columns = ['cronoOrder','date','time','participant_name','participant_email','participant_category','title','short_description','order','host_name','host_email','host_category','comments','phone','confirmed'];
     var _shownColumns = ['date','time','participant_name','participant_category','title','short_description','host_name'];
     var _hiddenColumns = [];
     var _outerTableContainer = $('<div>');
@@ -332,17 +331,19 @@
     _table.append(_tfoot.append(_titleRowFoot));
     _table.append(_tbody);
 
-
     _columns.forEach(function(field, index){
       if ($.inArray(field, _shownColumns) == -1) _hiddenColumns.push(index);
-      var _titleCol = $('<th>')
-      if (field == 'email') _titleCol.text('Email artista');
-      else if (field == 'phone') _titleCol.text('Tél. artista');
-      else var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
-      _titleCol.addClass('column-table-program-call-manager column-'+field);
-      _titleRow.append(_titleCol);
-      var _footCol = $('<th>').text(Pard.Widgets.Dictionary(field).render())
-      .addClass('column-table-program-call-manager column-'+field);
+      var _titleCol = $('<th>').addClass('column-table-program-call-manager column-'+field);
+      var _footCol = $('<th>') .addClass('column-table-program-call-manager column-'+field);
+      if (_infoProgram[field]) {
+        _titleCol.text(_infoProgram[field].label);
+        _footCol.text(_infoProgram[field].label);
+      }
+      else {
+        _titleCol.text(Pard.Widgets.Dictionary(field).render());
+        _footCol.text(Pard.Widgets.Dictionary(field).render());
+      }
+      _titleRow.append(_titleCol);     
       _titleRowFoot.append(_footCol);
     });
 
@@ -350,9 +351,9 @@
       var _show = $.extend(true, {}, show);
       var _row = $('<tr>').attr('id', 'programTable-'+show.performance_id);
       _columns.forEach(function(field){
-        // var _info = '';
-        // if(_form[field].info) _info = _form[field].info(_proposal, displayer);
-        _info = _show[field];
+        var _info = '';
+        if(_infoProgram[field] && _infoProgram[field].info) _info = _infoProgram[field].info(show, program);
+        else _info = _show[field];
         var _col = $('<td>').addClass('column-call-manager-table');
         _col.addClass('column-'+field);
         _row.append(_col);
@@ -361,11 +362,6 @@
 
       return _row;
     }
-
-    for(var performance_id in program){
-      var show = program[performance_id].show;
-      _tbody.append(showRow(show))
-    };
     
     _outerTableContainer.append(_tableBox.append(_table)).css('position','relative');
     _createdWidget.append(_outerTableContainer);
@@ -409,13 +405,13 @@
     "columnDefs": [
       { "visible": false, "targets": _hiddenColumns}
     ],
-    "order": [1,'asc'],
+    "order": [0,'asc'],
     // keys: true,
     dom: 'Bfrtip',
     buttons: [
       {
         extend: 'colvis',
-        // columns: ':gt(0)',
+        columns: ':gt(0)',
         text: Pard.Widgets.IconManager('visibility').render(),
         className: 'changeColumnsBtn',
         collectionLayout: 'fixed big_layout',
@@ -440,7 +436,7 @@
         text: Pard.Widgets.IconManager('mailinglist').render(),
         className: 'mailinglistBtn',
         action: function(){
-          var columnData = _table.column(12).data().unique();
+          var columnData = _table.column(_columns.indexOf('participant_email')).data().unique();
           var _emailList = '';
           columnData.each(function(email){
             _emailList += email+', ';
@@ -491,6 +487,10 @@
     });
 
     var _colSelectors = {
+      confirmed: {
+        column: _table.column(_columns.indexOf('confirmed')),
+        select: $('<select>').append($('<option>').attr('value','').text(''))
+      },
       participant_category: {
         column: _table.column(_columns.indexOf('participant_category')),
         select: $('<select>').append($('<option>').attr('value','').text(''))
@@ -501,20 +501,17 @@
       }
     }
 
-
     var _loadSelectors = function () {
       Object.keys(_colSelectors).forEach(function(col){
-        console.log(_colSelectors[col].select.html())
         var _colCategry = _colSelectors[col].column;
         var _ival = _colSelectors[col].select.val();
         _colSelectors[col].select = $('<select>').append($('<option>').attr('value','').text(''));
         var _selectCat = _colSelectors[col].select;
-        console.log(_ival);
-        $(_colCategry.header()).empty().text(col);
+        $(_colCategry.header()).empty().text(_infoProgram[col].label);
         if (_colCategry.data().unique().length>1){
           var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
           var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
-              .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));
+              .appendTo(_selectContainer.appendTo($(_colCategry.header())));
           _selectCat.on( 'change', function () {
             var val = $.fn.dataTable.util.escapeRegex(_selectCat.val());
             _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
@@ -534,6 +531,7 @@
     
     $(document).ready(function(){
       _loadSelectors();
+      _infoProgram.setProgram(program);
     })
 
     return {
@@ -544,5 +542,78 @@
     }
   }
 
+  ns.Widgets.ProgramTableInfo = function(){
+    var _program = {};
+    return{
+      date: {
+        info: function(show){
+          return moment(new Date(show['date'])).locale('es').format('DD-MM-YYYY');
+        },
+        label: 'Día'
+      },
+      participant_category:{
+        label: 'Categoría artista'
+      },
+      host_category:{
+        label: 'Categoría espacio'
+      },
+      time:{
+        info: function(show){
+          var start = moment(new Date(show.time[0])).locale('es').format('HH:mm');
+          var end = moment(new Date(show.time[1])).locale('es').format('HH:mm');
+          return start+'-'+end;
+        },
+        label:'Horario'
+      },
+      participant_name:{
+        label: 'Artista'
+      },
+      host_name: {
+        label:'Espacio'
+      },
+      order:{
+        info: function(show){
+          return parseInt(show['order']) + 1;
+        },
+        label: 'Num. Esp.'
+      },
+      participant_email:{
+        label: 'Email artista'
+      },
+      host_email:{
+        label: 'Email espacio'
+      },
+      cronoOrder:{
+        label:'',
+        info: function(show){
+          return show['time'][0];
+        }
+      },
+      confirmed:{
+        label: 'Confirmado',
+        info: function(show){
+          return  show['confirmed'] ? 'Sí' : 'No'
+        }
+      },
+      title: {
+        label: 'Título',
+        info: function(show){
+          var _info = $('<a>').attr('href','#')
+          .text(show['title'])
+          .click(function(){
+            console.log(_program);
+            _program[show.performance_id].showPopup();
+          })
+          return _info;
+        }
+      },
+      setProgram: function(program){
+        _program = program;
+      }
+    }
+  }
+
+// (field == 'email') _titleCol.text('Email artista');
+      // else if (field == 'phone') _titleCol.text('Tél. artista');
 
 }(Pard || {}));

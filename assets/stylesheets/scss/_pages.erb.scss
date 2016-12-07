@@ -2103,13 +2103,9 @@ Program Manager Tab
   width: 100px;
 }
 
-.column-table-program-call-manager.column-host_category{
-  /* width: 4rem; */
-  width: 65px;
-}
 
-.column-table-program-call-manager.column-participant_category{
-  width: 65px !important;
+.column-table-program-call-manager.column-participant_category, .column-table-program-call-manager.column-host_category{
+  width: 70px !important;
 }
 
 .column-table-program-call-manager.column-order{
@@ -2135,7 +2131,7 @@ Program Manager Tab
 }
 
 .column-table-program-call-manager.column-short_description {
-  width: 190px !important;
+  width: 185px !important;
 }
 
 .column-table-program-call-manager.column-email{
@@ -2144,6 +2140,7 @@ Program Manager Tab
 
 .column-table-program-call-manager.column-phone{
   width:  6rem !important;
+  min-width: 6rem !important;
 }
 
 
@@ -2153,19 +2150,23 @@ Program Manager Tab
 
 
 th.column-table-program-call-manager.column-title, th.column-table-program-call-manager.column-comments{
+  min-width: 130px !important;
   width: 130px !important;
 }
 
  th.column-table-program-call-manager.column-participant_name, th.column-table-program-call-manager.column-host_name{
   width: 110px !important;
+  min-width: 110px !important;
 }
 
 
 th.column-table-program-call-manager.column-confirmed {
   width: 80px !important;
+  min-width: 80px !important;
 }
  th.column-table-program-call-manager.column-time, th.column-table-program-call-manager.column-date{
   width: 53px !important;
+  min-width: 53px !important;
 }
 
 

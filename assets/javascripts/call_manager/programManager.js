@@ -2,12 +2,13 @@
 
 (function(ns){
 
-  ns.ProgramManager = function(the_event, displayer){
+  ns.ProgramManager = function(the_event){
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var order = [];
-    var _programTable = Pard.Widgets.ProgramTable({});
+    var _program = {};
+    var _programTable = Pard.Widgets.ProgramTable(_program);
 
     var timeManager = Pard.Widgets.TimeManager(the_event.eventTime);
     var hours = timeManager.hours;
@@ -275,7 +276,6 @@
       }
     });
 
-    var _program = {};
     var lastArtist;
     var _closePopup = function(){}
 
@@ -384,7 +384,6 @@
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
         $('body').append(_content);
-
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
         var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager(true));
         _message.setCallback(function(){
@@ -550,7 +549,7 @@
           performance.host_name = space.name;
           performance.host_email = space.email;
           performance.address = space.address;
-          performance.host_category = space.category;ç
+          performance.host_category = space.category;
           performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
           save(performance, check);
@@ -627,12 +626,14 @@
           performance.confirmed = input.is(":checked");
           if (performance.confirmed) card.find('.checker').append(Pard.Widgets.IconManager('done').render());
           else card.find('.checker').empty();
+          save(performance);
         });
 
         comments.on('input', function(){
           performance.comments = comments.val();
           card.find('.commentIcon').empty();
           if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+          save(performance);
         });
 
         daySelector.val(performance.date);
@@ -673,7 +674,8 @@
         card: card,
         manager: manager,
         modify: _modify,
-        destroy: _destroy
+        destroy: _destroy,
+        showPopup: function(){ _titleText.trigger('click')}
       }
     }
 
@@ -1018,6 +1020,7 @@
         modify: _modify,
         destroy: _destroy,
         loadDates: _loadDates,
+        showPopup: function(){ _titleText.trigger('click')}
       }
     }
 
