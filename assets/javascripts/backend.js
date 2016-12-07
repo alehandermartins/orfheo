@@ -18,6 +18,7 @@
       })
       .fail(function() {
         console.log("error");
+        $('.spinner').remove();
         if (callbackFail){
           callbackFail();
         }

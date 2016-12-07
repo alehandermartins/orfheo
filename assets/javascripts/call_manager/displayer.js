@@ -9,18 +9,18 @@
     var eventName = the_event.name;
 
     var _content = $('<div>').addClass('very-fast reveal full');
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-
+    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    $(document).ready(function(){
+      $('body').append(_content);
+    })
 
     var _displayArtistProgram = function(profile_id){
-      _content.empty();
-      $('body').append(_content);
 
       var artist = the_event.artists[profile_id].artist;
       var myprogram = the_event.artists[profile_id].program;
       var _message = Pard.Widgets.PopupContent(artist.name, Pard.Widgets.ArtistProgram(artist, myprogram, the_event.spaces, the_event.program), 'space-program-popup-call-manager');
       _message.setCallback(function(){
-        _content.remove();
+        _content.empty();
         _popup.close();
       });
       _content.append(_message.render());
@@ -28,15 +28,13 @@
     }
 
     var _displaySpaceProgram = function(profile_id){
-      _content.empty();
-      $('body').append(_content);
 
       var space = the_event.spaces[profile_id].space;
       var myprogram = the_event.spaces[profile_id].program;
 
       var _message = Pard.Widgets.PopupContent(space.name, Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program), 'space-program-popup-call-manager');
       _message.setCallback(function(){
-        _content.remove();
+        _content.empty();
         _popup.close();
       });
       _content.append(_message.render());
@@ -47,12 +45,7 @@
 
       var form = forms[type][proposal.form_category];
 
-      _content.empty();
-      $('body').append(_content);
-
-      var _mainPopup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
-
       var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
       var _modifyProposal = $('<a>').attr('href','#').text('Modifica').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'));
 
@@ -98,8 +91,8 @@
               _deleteProposalBackend[type](proposal.proposal_id, event_id, function(data){
                 deleteCallback(data);
                 spinnerDeleteProposal.stop();
-                _mainPopup.close();
-                _content.remove()
+                _popup.close();
+                _content.empty();
                 callback();
               });
             });
@@ -141,7 +134,7 @@
         }
       };
 
-      var closepopup = function(){};
+      // var closepopup = function(){};
 
       var _modifyProposalBackend = {
         artist: Pard.Backend.modifyArtistProposal,
@@ -172,8 +165,8 @@
           .addClass('cancelBtn-modifyProposalForm')
         );
         _modifyMessage.setCallback(function(){
-          _content.remove();
-          _mainPopup.close();
+          _content.empty();
+          _popup.close();
         });
         var _modifyMessageRendered = _modifyMessage.render()
         _content.append(_modifyMessageRendered);
@@ -181,8 +174,8 @@
 
       var _messageProposalPrinted = Pard.Widgets.PopupContent(eventName, _proposalPrinted);
       _messageProposalPrinted.setCallback(function(){
-        _content.remove();
-        _mainPopup.close();
+        _content.empty();
+        _popup.close();
       });
 
       if (proposal.amend){
@@ -204,14 +197,13 @@
       var _messageProposalPrintedRendered = _messageProposalPrinted.render();
       _content.append(_messageProposalPrintedRendered);
 
-      _mainPopup.open();
+      _popup.open();
     }
 
     var _createOwnProposal = function(type, participants){
-      var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
-      _content.empty();
-      $('body').append(_content);
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _contentCreateOwn = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
+      $('body').append(_contentCreateOwn);
+      var _popup = new Foundation.Reveal(_contentCreateOwn, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
 
       var _callbackCreatedProposal = function(data, callback){
         if(data['status'] == 'success') {
@@ -222,7 +214,6 @@
         }
         else{
           Pard.Widgets.Alert('',Pard.Widgets.Dictionary(data.reason).render());
-          // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
         }
       }
 
@@ -238,13 +229,13 @@
       _createOwnProposalWidget.setSend(_sendProposal);
       var _message = Pard.Widgets.PopupContent('Crea y enscribe una propuesta de tipo '+Pard.Widgets.Dictionary(type).render().toLowerCase(), _createOwnProposalWidget);
       _message.setCallback(function(){
-        _content.remove();
+        _contentCreateOwn.remove();
         _popup.close();
       });
-      _content.append(_message.render());
+      _contentCreateOwn.append(_message.render());
       _closePopupForm = function(){
         _popup.close();
-        _content.remove();
+        _contentCreateOwn.remove();
       };
       _popup.open();
     }
