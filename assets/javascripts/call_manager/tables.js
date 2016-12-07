@@ -487,34 +487,60 @@
           }
         ]
       }
-    ],
-    initComplete: function () {
-       var _colCategry = this.api().column(3);
+    ]
+    });
+
+    var _colSelectors = {
+      participant_category: {
+        column: _table.column(_columns.indexOf('participant_category')),
+        select: $('<select>').append($('<option>').attr('value','').text(''))
+      },
+      host_category: {
+        column: _table.column(_columns.indexOf('host_category')),
+        select: $('<select>').append($('<option>').attr('value','').text(''))
+      }
+    }
+
+
+    var _loadSelectors = function () {
+      Object.keys(_colSelectors).forEach(function(col){
+        console.log(_colSelectors[col].select.html())
+        var _colCategry = _colSelectors[col].column;
+        var _ival = _colSelectors[col].select.val();
+        _colSelectors[col].select = $('<select>').append($('<option>').attr('value','').text(''));
+        var _selectCat = _colSelectors[col].select;
+        console.log(_ival);
+        $(_colCategry.header()).empty().text(col);
         if (_colCategry.data().unique().length>1){
           var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
           var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
-              .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
-          _colCategry.data().unique().sort().each( function ( d, j ) {
-              _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
-          } );
+              .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));
           _selectCat.on( 'change', function () {
-            var val = $.fn.dataTable.util.escapeRegex(
-                _selectCat.val()
-            );
+            var val = $.fn.dataTable.util.escapeRegex(_selectCat.val());
             _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
           });
+          _colCategry.data().unique().sort().each( function ( d, j ) {
+              _selectCat.append( '<option value="'+d+'">'+d+'</option>' );
+              if (d == _ival) _selectCat.val(d);
+          } );
           _selectCat.click(function(e){
             e.stopPropagation();
           });
         }
-      }
-    });
+        _selectCat.trigger('change');
+        _colSelectors[col].select = _selectCat;
+      })
+    }
     
+    $(document).ready(function(){
+      _loadSelectors();
+    })
 
     return {
       table: _table,
       render: _createdWidget,
-      showRow: showRow
+      showRow: showRow,
+      loadSelectors: _loadSelectors
     }
   }
 

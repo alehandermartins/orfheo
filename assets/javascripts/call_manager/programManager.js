@@ -332,7 +332,7 @@
       the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
       if (check) checkConflicts(show);
       var _row = _programTable.table.row('#programTable-' + show.performance_id);
-       if (_row && _row.index()>-1) _row.remove().draw();
+       if (_row && _row.index()>-1) _row.remove();
       _programTable.table.row.add(_programTable.showRow(show)).draw();
       console.log('saveFunction')
     }
@@ -341,7 +341,9 @@
       performance.performance_id = Pard.Widgets.GenerateUUID();
       if(performance.permanent == 'true') the_event.program[performance.performance_id] = new PermanentPerformance(performance);
       else{the_event.program[performance.performance_id] = new Performance(performance);}
+      console.log('create');
       save(performance, check);
+      _programTable.loadSelectors();
     }
 
     var modify = function(performance, check){
@@ -349,6 +351,7 @@
       the_event.spaces[performance.last_host].deletePerformance(show);
       the_event.program[performance.performance_id].modify(performance);
       save(the_event.program[performance.performance_id].show, check);
+      _programTable.loadSelectors();
     }
 
     var destroy = function(performance){
@@ -361,6 +364,7 @@
       var _row = _programTable.table.row('#programTable-' + performance.performance_id);
       if (_row && _row.index()>-1) _row.remove().draw();
       console.log('destroyPerformance')
+      _programTable.loadSelectors();
     }
 
     var Performance = function(performance){
