@@ -210,7 +210,6 @@
     var _selectCatReload = function(){
       Object.keys(_subcategorySelector).forEach(function(typeTable){
         var _ival = _subcategorySelector[typeTable].val();
-        console.log(_ival);
         _subcategorySelector[typeTable] = $('<select>').append($('<option>').attr('value','').text(''));
         var _colCategry = _dataTables[typeTable].table.column(_dataTables[typeTable].subcategoryColumn);
         $(_colCategry.header()).empty().text('Categoría en el evento');
