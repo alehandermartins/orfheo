@@ -235,14 +235,6 @@
       })
     }
 
-    // var _colCategry = this.api().column(_dataTables[typeTable].subcategoryColumn);
-    //           if (_colCategry.data().unique().length>1){
-    //             var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
-    //             var select = $('<select>').append($('<option>').attr('value','').text(''))
-    //                 .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
-    //             _colCategry.data().unique().sort().each( function ( d, j ) {
-    //                 select.append( '<option value="'+d+'">'+d+'</option>' )
-    //             } );
 
     $(document).ready(function() {
       Object.keys(_dataTables).forEach(function(typeTable){

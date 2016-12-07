@@ -7,6 +7,7 @@
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var order = [];
+    var _programTable = Pard.Widgets.ProgramTable({});
 
     var timeManager = Pard.Widgets.TimeManager(the_event.eventTime);
     var hours = timeManager.hours;
@@ -330,6 +331,10 @@
       the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
       the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
       if (check) checkConflicts(show);
+      var _row = _programTable.table.row('#programTable-' + show.performance_id);
+       if (_row && _row.index()>-1) _row.remove().draw();
+      _programTable.table.row.add(_programTable.showRow(show)).draw();
+      console.log('saveFunction')
     }
     
     var create = function(performance, check){
@@ -353,6 +358,9 @@
         the_event.program[performance.performance_id].destroy();
         delete the_event.program[performance.performance_id];
       }
+      var _row = _programTable.table.row('#programTable-' + performance.performance_id);
+      if (_row && _row.index()>-1) _row.remove().draw();
+      console.log('destroyPerformance')
     }
 
     var Performance = function(performance){
@@ -1425,11 +1433,29 @@
     _submitBtn.append(Pard.Widgets.IconManager('save').render()).attr('title','Guarda el programa');
     _submitBtnContainer.append(_submitBtn, _successIcon.hide());
 
+   
+    if(the_event.program){
+      the_event.program.forEach(function(performance){
+        if(performance.permanent == 'true') _program[performance.performance_id] = new PermanentPerformance(performance);
+        else _program[performance.performance_id] = new Performance(performance);
+      });
+    }
+
+    the_event.program = _program;
+    Object.keys(_program).forEach(function(performance_id){
+      save(_program[performance_id].show);
+    });
+
+    Object.keys(the_event.spaces).forEach(function(profile_id, index){
+      the_event.spaces[profile_id].alignPerformances(index);
+    });
+
+
     var _managerView = $('<div>');
     var _viewSelected = _managerView;
     var _tableView = $('<div>').hide();
-    var _programTable = Pard.Widgets.ProgramTable(_program);
-    _tableView.append(_programTable.table);
+    // _programTable = Pard.Widgets.ProgramTable(_program);
+    _tableView.append(_programTable.render);
     var _switcher = $('<div>')
     var _viewSelector = $('<select>');
     var _viewSelectorContainer = $('<div>').addClass('switcherContainer-callPage').append(_viewSelector);
@@ -1452,21 +1478,6 @@
     _createdWidget.append(_switcher,_buttonsContainer.append(_toolsContainer, _submitBtnContainer), _managerView, _tableView)
 
 
-    if(the_event.program){
-      the_event.program.forEach(function(performance){
-        if(performance.permanent == 'true') _program[performance.performance_id] = new PermanentPerformance(performance);
-        else _program[performance.performance_id] = new Performance(performance);
-      });
-    }
-
-    the_event.program = _program;
-    Object.keys(_program).forEach(function(performance_id){
-      save(_program[performance_id].show);
-    });
-
-    Object.keys(the_event.spaces).forEach(function(profile_id, index){
-      the_event.spaces[profile_id].alignPerformances(index);
-    });
 
   	return {
       render: function(){
