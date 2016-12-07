@@ -127,7 +127,8 @@
       var modifyCallback = function(data){
         console.log(data);
         if (data['status'] == 'success'){
-          console.log('changed');
+          if (type == 'artist') Pard.Bus.trigger('modifyArtist', data.proposal);
+          else if (type == 'space') Pard.Bus.trigger('modifySpace', data.proposal);
         }
         else{
           var _dataReason = Pard.Widgets.Dictionary(data.reason).render();

@@ -35,7 +35,7 @@
 
     var ProposalCard = function(proposal){
       var card = $('<div>').addClass('proposalCard');
-      var color = Pard.Widgets.CategoryColor(proposal.category);
+      var color, rgb, colorIcon;
 
       card.addClass('proposal-card-container-call-manager cursor_grab');
       card.mouseover(function(){
@@ -49,13 +49,12 @@
       });
 
       var circleColumn = $('<div>').addClass('icon-column');
-      var profileCircle = $('<div>').addClass('profile-nav-circle-selected').css({'background-color': color});
+      var profileCircle = $('<div>').addClass('profile-nav-circle-selected');
       var titleColumn = $('<div>').addClass('name-column profile-name-column');
       var title = $('<p>').addClass('proposal-title-card-call-manager');
-      var titleText = $('<a>').attr('href','#').text(Pard.Widgets.CutString(proposal.title, 35));
-      var icon = $('<div>').append(Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon'));
-      var colorIcon = Pard.Widgets.IconColor(color).render();
-      icon.css({color: colorIcon});
+      var titleText = $('<a>').attr('href','#');
+      var _icon = '';
+      var icon = $('<div>');
       circleColumn.append($('<div>').addClass('nav-icon-production-container').append(profileCircle.append(icon)));
       titleColumn.append(title.append(titleText));
 
@@ -89,28 +88,48 @@
 
       card.append(circleColumn, titleColumn);
 
-      var rgb = Pard.Widgets.IconColor(color).rgb();
-      card.css({border: 'solid 2px' + color});
-      card.hover(
-        function(){
-          $(this).css({'box-shadow': '0 0 2px 1px'+ color});
-        },
-        function(){
-          $(this).css({'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'});
-        }
-      );
-
       //Needed for displaying info
       proposal.name = artist.name;
       proposal.phone = artist.phone;
       proposal.email = artist.email;
       proposal.profile_id = artist.profile_id;
       //needed for conFusion 2016 proposals
-      if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
 
       titleText.on('click', function(){
       	displayer.displayProposal(proposal, 'artist');
       });
+
+      _fillCard = function(proposal){
+        color = Pard.Widgets.CategoryColor(proposal.category);
+        profileCircle.css({'background-color': color});
+        titleText.text(Pard.Widgets.CutString(proposal.title, 35));
+
+        _icon = Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon');
+        icon.append(_icon);
+        colorIcon = Pard.Widgets.IconColor(color).render();
+        icon.css({color: colorIcon});
+
+        rgb = Pard.Widgets.IconColor(color).rgb();
+        card.css({border: 'solid 2px' + color});
+        card.hover(
+          function(){
+            $(this).css({'box-shadow': '0 0 2px 1px'+ color});
+          },
+          function(){
+            $(this).css({'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'});
+          }
+        );
+        if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
+      }
+
+      var _modify = function(new_proposal){
+        for(var key in new_proposal){
+          proposal[key] = new_proposal[key];
+        }
+        _fillCard(proposal);
+      }
+
+      _fillCard(proposal);
 
       return {
         render: function(){
@@ -127,7 +146,7 @@
             card.removeClass('artist-not-available-call-manager');
           }
         },
-        proposal: proposal
+        modify: _modify
       }
     }
 
@@ -203,6 +222,15 @@
           artist.proposals = artist.proposals.filter(function(proposal){
             return proposal.proposal_id != proposal_id;
           });
+        }
+      },
+      modifyProposal: function(proposal){
+        if(proposal.proposal_id in _proposals){
+          artist.proposals = artist.proposals.filter(function(_proposal){
+            return _proposal.proposal_id != proposal.proposal_id;
+          });
+          artist.proposals.push(proposal);
+          _proposals[proposal.proposal_id].modify(proposal);
         }
       }
     }
