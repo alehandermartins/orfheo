@@ -303,7 +303,7 @@
 
 
   ns.Widgets.ProgramTable = function(program){
-    console.log(program);
+    console.log(program)
 
     var _createdWidget = $('<div>');
     var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0"}).css({
@@ -320,8 +320,10 @@
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
 
-    var _columns = ['day','time','artist','category','title','short_description','space_number','space','space_category','comments','children','phone','email','confirmed'];
-    var _shownColumns = ['day','time','artist','category','title','short_description','space'];
+    //REMEMBER children ---> publico del espectacúlo
+
+    var _columns = ['date','time','participant_name','participant_category','title','short_description','order','host_name','host_category','comments','phone','email','confirmed'];
+    var _shownColumns = ['date','time','participant_name','participant_category','title','short_description','host_name'];
     var _hiddenColumns = [];
     var _outerTableContainer = $('<div>');
     var _tableBox = $('<div>').addClass('table-box-call-manager-page');
@@ -344,6 +346,27 @@
       _titleRowFoot.append(_footCol);
     });
 
+     var showRow = function(show){
+      var _show = $.extend(true, {}, show);
+      var _row = $('<tr>').attr('id', 'programTable-'+show.performance_id);
+      _columns.forEach(function(field){
+        // var _info = '';
+        // if(_form[field].info) _info = _form[field].info(_proposal, displayer);
+        _info = _show[field];
+        var _col = $('<td>').addClass('column-call-manager-table');
+        _col.addClass('column-'+field);
+        _row.append(_col);
+        _col.append(_info);
+      });
+
+      return _row;
+    }
+
+    for(var performance_id in program){
+      var show = program[performance_id].show;
+      _tbody.append(showRow(show))
+    };
+    
     _outerTableContainer.append(_tableBox.append(_table)).css('position','relative');
     _createdWidget.append(_outerTableContainer);
 
@@ -489,7 +512,9 @@
     
 
     return {
-      table: _createdWidget
+      table: _table,
+      render: _createdWidget,
+      showRow: showRow
     }
   }
 

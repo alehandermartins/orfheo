@@ -2103,16 +2103,16 @@ Program Manager Tab
   width: 100px;
 }
 
-.column-table-program-call-manager.column-space_category{
+.column-table-program-call-manager.column-host_category{
   /* width: 4rem; */
   width: 65px;
 }
 
-.column-table-program-call-manager.column-category{
+.column-table-program-call-manager.column-participant_category{
   width: 65px !important;
 }
 
-.column-table-program-call-manager.column-space_number{
+.column-table-program-call-manager.column-order{
   /* width: 4rem; */
   width: 50px;
 }
@@ -2156,7 +2156,7 @@ th.column-table-program-call-manager.column-title, th.column-table-program-call-
   width: 130px !important;
 }
 
- th.column-table-program-call-manager.column-artist, th.column-table-program-call-manager.column-space{
+ th.column-table-program-call-manager.column-participant_name, th.column-table-program-call-manager.column-host_name{
   width: 110px !important;
 }
 
@@ -2164,7 +2164,7 @@ th.column-table-program-call-manager.column-title, th.column-table-program-call-
 th.column-table-program-call-manager.column-confirmed {
   width: 80px !important;
 }
- th.column-table-program-call-manager.column-time, th.column-table-program-call-manager.column-day{
+ th.column-table-program-call-manager.column-time, th.column-table-program-call-manager.column-date{
   width: 53px !important;
 }
 
