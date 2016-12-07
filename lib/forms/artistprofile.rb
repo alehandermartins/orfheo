@@ -6,7 +6,7 @@ class ArtistProfile
   end
 
   def check_fields params
-  raise Pard::Invalid::Params if mandatory.any?{ |field|z
+  raise Pard::Invalid::Params if mandatory.any?{ |field|
     params[field].blank?
   }
   end

@@ -34,9 +34,9 @@ class ArtistProposal
       user_id: user[:user_id],
       profile_id: profile[:profile_id],
       email: user[:email],
-      name: profile[:name],
-      address: profile[:address],
-      phone: params[:phone],
+      name: params[:name] || profile[:name],
+      address: params[:address] || profile[:address],
+      phone: params[:phone] || profile[:phone],
       proposals: [proposal]
     }
   end
