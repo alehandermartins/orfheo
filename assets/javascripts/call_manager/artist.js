@@ -99,7 +99,7 @@
       	displayer.displayProposal(proposal, 'artist');
       });
 
-      _fillCard = function(proposal){
+      var _fillCard = function(proposal){
         color = Pard.Widgets.CategoryColor(proposal.category);
         profileCircle.css({'background-color': color});
         titleText.text(Pard.Widgets.CutString(proposal.title, 35));

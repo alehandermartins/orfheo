@@ -135,13 +135,14 @@ module Repos
         profile_id = artist[:profile_id]
         new_proposal = artist[:proposals].first
         event = grab({"artists.proposals.proposal_id": new_proposal[:proposal_id]}).first
-        proposals = event[:artists].detect{|artist| artist[:profile_id] == profile_id}[:proposals]
-        proposals.map!{ |proposal|
+        proposals = event[:artists].detect{|event_artist| event_artist[:profile_id] == profile_id}[:proposals]
+        modified_proposals = proposals.map{ |proposal|
           proposal = new_proposal if proposal[:proposal_id] == new_proposal[:proposal_id]
+          proposal
         }
         @@events_collection.update_one({"artists.profile_id": profile_id},
           {
-            "$set": {'artists.$.proposals': proposals}
+            "$set": {'artists.$.proposals': modified_proposals}
           })
       end
 

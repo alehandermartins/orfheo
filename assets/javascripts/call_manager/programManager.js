@@ -988,6 +988,7 @@
         for(var key in show){
           performance[key] = show[key];  
         }
+        fillCard(performance);
       }
 
       fillCard(performance);
@@ -1509,8 +1510,9 @@
       modifyArtist: function(artist){
         var artistProgram = the_event.artists[artist.profile_id].program;
         Object.keys(artistProgram).forEach(function(performance_id){
-          if(artistProgram[performance_id].show.participant_proposal_id == artist.proposal_id){
+          if(artistProgram[performance_id].show.participant_proposal_id == artist.proposals[0].proposal_id){
             var performance = {
+              last_host: artistProgram[performance_id].show.host_id,
               performance_id: performance_id,
               title: artist.proposals[0].title,
               short_description: artist.proposals[0].short_description,
