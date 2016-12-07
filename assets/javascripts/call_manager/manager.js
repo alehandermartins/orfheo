@@ -14,7 +14,7 @@
     var _goToEventBtn = $('<a>').attr('href','/event?id='+ the_event.event_id).text('Página evento');
     _goToEventBtn.addClass('toEventPage-btn-callPage');
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
-    var _title = $('<h4>').text('Gestiona la Convocatoria').css({'margin-top':'1.5rem', 'margin-bottom':'2.5rem'});
+    var _title = $('<span>').text('Gestiona').addClass('title-call-page')
     var _panels = $('<div>').css('padding', 0);
 
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
@@ -75,9 +75,9 @@
     });
 
     _tabs.append( _tableTab, _programTab, _utilsTab);
-    _navigationContainer.append(_goToEventBtn, _tabs);
+    _navigationContainer.append(_goToEventBtn, _title, _tabs);
     _panels.append(_programManager.render().hide(), _tableManager.render(), _utilsManager.render().hide());
-    _mainLarge.append(_navigationContainer, _title, _panels);
+    _mainLarge.append(_navigationContainer, _panels);
     _main.append(_mainLarge);
 
     Pard.Bus.on('addArtist', function(artist){

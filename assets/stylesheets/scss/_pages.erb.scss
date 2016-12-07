@@ -1354,7 +1354,14 @@ CALL PAGE
 .navigation-container-call-page{
   position: relative;
   padding:  0 0.5rem 0.2rem 0.5rem;;
- border-bottom: 1px solid $grey-2;
+  border-bottom: 1px solid $grey-2;
+  margin-bottom: 3rem;
+}
+
+.title-call-page{
+  position: absolute;
+  top: 0.15rem;
+  right: 15rem;
 }
 
 .menu.simple.tabs-menu.switcher-menu-call-page li{
@@ -1579,18 +1586,14 @@ th.column-call-manager-table{
 
 
 .types-selector-call-manager{
-  margin-top: -0.5rem;
   margin-bottom: 3rem;
   width: 20rem;
   display: inline-block;
   margin-right: 3rem;
   margin-right: 9rem;
-  margin-top: .5rem;
-
   .select2-selection__placeholder{
     color: #444 !important;
   }
-
 }
 
 .ownReceivedFilters-call-page{
@@ -1620,14 +1623,11 @@ th.column-call-manager-table{
   } 
 }
 
-th.column-call-manager-table {
-
-  .select-container-datatableColumn{
-    width: 106%;
-    margin-left: -0.4rem;
-    position: relative;
-    height: 1.1rem;
-  }
+.select-container-datatableColumn{
+  width: 106%;
+  margin-left: -0.4rem;
+  position: relative;
+  height: 1.1rem;
   select{
     width: 100%;
     padding: 0;
@@ -1639,10 +1639,10 @@ th.column-call-manager-table {
     position: absolute;
     top: 0.25rem;
   }
+}
 
-  .rfh-selector{
-    width: 1.8rem;
-  }
+.rfh-selector{
+  width: 1.8rem;
 }
 
 
@@ -1848,7 +1848,7 @@ p.initial-text-proposalPanel{
 .innerCreateProposals-Cont{
   position: absolute;
   right: 0;
-  top: 0.7rem;
+  top: 0.2rem;
   left: 24rem;
 }
 
@@ -2097,7 +2097,6 @@ Program Manager Tab
 .column-table-program-call-manager{
   white-space: normal;
 }
-
 
 .column-space-program-call-manager.column-category{
   /* width: 4rem; */

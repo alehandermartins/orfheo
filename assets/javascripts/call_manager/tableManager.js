@@ -197,9 +197,9 @@
               _receivedCheckbox.prop("checked", !_receivedCheckbox.prop("checked"));
               _receivedCheckbox.trigger('change');
             });
-         
-          var _filtersContainer = $('<div>').append($('<span>').append('Filtra: ').css({'font-size':'0.875rem', 'margin-right':'0.5rem'}), $('<span>').append(_ownCheckbox, _labelOwn), $('<span>').append(_receivedCheckbox, _labelReceived)).addClass('ownReceivedFilters-call-page');
-          _tablesContainer[typeTable].prepend($('<div>').append(_filtersContainer).css('position','relative'));
+          // $('<span>').append('Filtra: ').css({'font-size':'0.875rem', 'margin-right':'0.5rem'}),
+          var _filtersContainer = $('<div>').append($('<span>').append(_ownCheckbox, _labelOwn), $('<span>').append(_receivedCheckbox, _labelReceived)).addClass('ownReceivedFilters-call-page');
+          _tablesContainer[typeTable].prepend($('<div>').append(_filtersContainer).css({'position':'relative', 'margin-left':'0.5rem'}));
     }
 
     //DATATABLES
@@ -494,6 +494,7 @@
       $('.changeColumnsBtn').attr('title','Muestra/Esconde columnas')
     });
     
+
     return {
       render: function(){
         return _createdWidget;

@@ -110,7 +110,7 @@
       category:'Categoría',
       email:'Email',
       phone: 'Teléfono',
-      title: 'Titúlo',
+      title: 'Título',
       short_description: 'Descripción breve',
       description: 'Descripción',
       duration: 'Duración (minutos)',
