@@ -35,10 +35,10 @@ class SpaceProposal
       email: user[:email],
       proposal_id: params[:proposal_id] || SecureRandom.uuid,
       category: profile[:category],
-      name: profile[:name],
-      address: profile[:address],
+      name: params[:name] || profile[:name],
+      address: params[:address] || profile[:address],
       description: profile[:bio],
-      phone: params[:phone],
+      phone: params[:phone] || profile[:phone],
       subcategory: params[:subcategory],
       form_category: params[:form_category]
     }

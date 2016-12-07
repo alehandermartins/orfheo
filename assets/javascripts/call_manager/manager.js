@@ -117,6 +117,12 @@
       //_tableManager.modifyArtist(artist);
     });
 
+    Pard.Bus.on('modifySpace', function(space){
+      if(the_event.spaces[space.profile_id]) the_event.spaces[space.profile_id].modify(space);
+      _programManager.modifySpace(space);
+      //_tableManager.modifySpace(space);
+    });
+
     return {
       render: function(){
         return _main;
