@@ -158,7 +158,10 @@
       "input" : "InputTel"
     }
 
-    _orfheoFields.forEach(function(field){
+    var _subcategoryColumn;
+
+    _orfheoFields.forEach(function(field, index){
+      if(field == 'subcategory') _subcategoryColumn = index; 
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
       var _label = _form[field]['label'];
       var _colTitle = $('<th>').append(_label).addClass('column-call-manager-table');
@@ -205,7 +208,8 @@
       addRow: function(profileType, proposal, profile){
         _tbody.prepend(proposalRow(profileType, proposal, profile))
       },
-      proposalRow: proposalRow
+      proposalRow: proposalRow,
+      subcategoryColumn: _subcategoryColumn
     }
   }
 

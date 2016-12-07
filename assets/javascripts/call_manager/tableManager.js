@@ -60,6 +60,7 @@
     var _tablesContainer = {};
     var _selectorOptions = {};
     var _proposalsNumber = {};
+    var _subcategorySelector = {};
     var _tags = [];
 
     _tags.push({
@@ -74,6 +75,7 @@
 
     _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(displayer);
     _tablesContainer['allProposals'] = $('<div>').append(_dataTables['allProposals'].table);
+    _subcategorySelector['allProposals'] = $('<select>');
 
     _formTypes.forEach(function(type){
       if (forms[type]){
@@ -83,7 +85,8 @@
           _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat], displayer);
           _selectorOptions[type].push({id:formcat, text:formcat})
           _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
-           _proposalsNumber[formcat] = 0;
+          _proposalsNumber[formcat] = 0;
+          _subcategorySelector[formcat] = $('<select>');
         }
         _tags.push({
           text: _typesDictionary[type],
@@ -204,145 +207,181 @@
 
     //DATATABLES
 
+    var _selectCatReload = function(){
+      Object.keys(_subcategorySelector).forEach(function(typeTable){
+        var _ival = _subcategorySelector[typeTable].val();
+        console.log(_ival);
+        _subcategorySelector[typeTable] = $('<select>').append($('<option>').attr('value','').text(''));
+        var _colCategry = _dataTables[typeTable].table.column(_dataTables[typeTable].subcategoryColumn);
+        $(_colCategry.header()).empty().text('Categoría en el evento');
+        _subcategorySelector[typeTable].on( 'change', function () {
+          var val = $.fn.dataTable.util.escapeRegex(
+              _subcategorySelector[typeTable].val()
+          );
+          _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
+        });
+        if (_colCategry.data().unique().length>1){
+          var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
+          _subcategorySelector[typeTable].appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría'))); 
+          _colCategry.data().unique().each( function ( d, j ) {
+              _subcategorySelector[typeTable].append( '<option value="'+d+'">'+d+'</option>' )
+              if (d == _ival) _subcategorySelector[typeTable].val(d);
+          } );
+          _subcategorySelector[typeTable].click(function(e){
+            e.stopPropagation();
+          });
+        }
+        _subcategorySelector[typeTable].trigger('change');
+      })
+    }
+
+    // var _colCategry = this.api().column(_dataTables[typeTable].subcategoryColumn);
+    //           if (_colCategry.data().unique().length>1){
+    //             var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
+    //             var select = $('<select>').append($('<option>').attr('value','').text(''))
+    //                 .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+    //             _colCategry.data().unique().sort().each( function ( d, j ) {
+    //                 select.append( '<option value="'+d+'">'+d+'</option>' )
+    //             } );
 
     $(document).ready(function() {
       Object.keys(_dataTables).forEach(function(typeTable){
         
         if (typeTable != 'allProposals'){
           _dataTables[typeTable].table = _dataTables[typeTable].table.DataTable({
-          "language":{
-            buttons: {
-                copyTitle: 'Copia tabla',
-                copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
-                copySuccess: {
-                    _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-                    1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+            "language":{
+              buttons: {
+                  copyTitle: 'Copia tabla',
+                  copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                  copySuccess: {
+                      _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
+                      1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+                  }
+              },
+              "lengthMenu": " Resultados por página _MENU_",
+              "zeroRecords": "Ningún resultado",
+              "info": "",
+              "infoEmpty": "Ningúna información disponible",
+              "infoFiltered": "(filtered from _MAX_ total records)",
+              "search": "Busca",
+              "paginate": {
+                "first":      "Primera",
+                "last":       "Última",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+              },
+             "search": "_INPUT_",
+              "searchPlaceholder": "Busca"
+            },
+            fixedHeader: {
+              header: true
+            },
+            "autoWidth": false,
+            "bAutoWidth": false,
+            "scrollX": true,
+            "scrollY": "85vh",
+            "paging": false,
+            "scrollCollapse": true,
+            // 'responsive': true,
+            // 'colReorder': true,
+            "columnDefs": [
+              { "visible": false, "targets": _dataTables[typeTable].hiddenColumns}
+            ],
+            "order": [1,'asc'],
+            // keys: true,
+            dom: 'Bfrtip',
+            buttons: [
+              {
+                extend: 'colvis',
+                columns: ':gt(0)',
+                text: Pard.Widgets.IconManager('visibility').render(),
+                className: 'changeColumnsBtn',
+                collectionLayout: 'fixed big_layout',
+                fade: 200,
+                prefixButtons: [{
+                  extend: 'colvisGroup',
+                  text: 'Selecciona todo',
+                  show: ':hidden'
+                },
+                {
+                  extend: 'colvisGroup',
+                  text: 'Desmarca todo',
+                  hide: ':visible'
+                },
+                {
+                  extend: 'colvisRestore',
+                  text: 'Configuración incial',
+                  show: ':hidden'
+                }]
+              },
+              {
+                text: Pard.Widgets.IconManager('mailinglist').render(),
+                className: 'mailinglistBtn',
+                action: function(){
+                  console.log(_dataTables[typeTable].emailColumn)
+                  var columnData = _dataTables[typeTable].table.column(_dataTables[typeTable].emailColumn).data().unique();
+                  var _emailList = '';
+                  columnData.each(function(email){
+                    _emailList += email+', ';
+                  });
+                  _emailList = _emailList.substring(0,_emailList.length-2)
+                  Pard.Widgets.CopyToClipboard(_emailList);
+                  var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                  Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
                 }
-            },
-            "lengthMenu": " Resultados por página _MENU_",
-            "zeroRecords": "Ningún resultado",
-            "info": "",
-            "infoEmpty": "Ningúna información disponible",
-            "infoFiltered": "(filtered from _MAX_ total records)",
-            "search": "Busca",
-            "paginate": {
-              "first":      "Primera",
-              "last":       "Última",
-              "next":       "Siguiente",
-              "previous":   "Anterior"
-            },
-           "search": "_INPUT_",
-            "searchPlaceholder": "Busca"
-          },
-          fixedHeader: {
-            header: true
-          },
-          "autoWidth": false,
-          "bAutoWidth": false,
-          "scrollX": true,
-          "scrollY": "85vh",
-          "paging": false,
-          "scrollCollapse": true,
-          // 'responsive': true,
-          // 'colReorder': true,
-          "columnDefs": [
-            { "visible": false, "targets": _dataTables[typeTable].hiddenColumns}
-          ],
-          "order": [1,'asc'],
-          // keys: true,
-          dom: 'Bfrtip',
-          buttons: [
-            {
-              extend: 'colvis',
-              columns: ':gt(0)',
-              text: Pard.Widgets.IconManager('visibility').render(),
-              className: 'changeColumnsBtn',
-              collectionLayout: 'fixed big_layout',
-              fade: 200,
-              prefixButtons: [{
-                extend: 'colvisGroup',
-                text: 'Selecciona todo',
-                show: ':hidden'
               },
               {
-                extend: 'colvisGroup',
-                text: 'Desmarca todo',
-                hide: ':visible'
-              },
-              {
-                extend: 'colvisRestore',
-                text: 'Configuración incial',
-                show: ':hidden'
-              }]
-            },
-            {
-              text: Pard.Widgets.IconManager('mailinglist').render(),
-              className: 'mailinglistBtn',
-              action: function(){
-                console.log(_dataTables[typeTable].emailColumn)
-                var columnData = _dataTables[typeTable].table.column(_dataTables[typeTable].emailColumn).data().unique();
-                var _emailList = '';
-                columnData.each(function(email){
-                  _emailList += email+', ';
-                });
-                _emailList = _emailList.substring(0,_emailList.length-2)
-                Pard.Widgets.CopyToClipboard(_emailList);
-                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+                extend: 'collection',
+                text:  Pard.Widgets.IconManager('export').render(),
+                className: 'ExportCollectionBtn',
+                collectionLayout: 'button-list',
+                // backgroundClassName: 'ExportCollection-background',
+                autoClose: true,
+                fade: 200,
+                // background: false,
+                buttons: [
+                  {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    filename: 'Tabla-'+typeTable
+                  },
+                  {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    orientation: 'landscape',
+                    filename: 'Tabla-'+typeTable
+                  },
+                  {
+                    extend: 'copy',
+                    text: 'Copia',
+                    exportOptions: {
+                    columns: ':visible'
+                  }
+                  }
+                ]
               }
-            },
-            {
-              extend: 'collection',
-              text:  Pard.Widgets.IconManager('export').render(),
-              className: 'ExportCollectionBtn',
-              collectionLayout: 'button-list',
-              // backgroundClassName: 'ExportCollection-background',
-              autoClose: true,
-              fade: 200,
-              // background: false,
-              buttons: [
-                {
-                  extend: 'excel',
-                  exportOptions: {
-                      columns: ':visible'
-                  },
-                  filename: 'Tabla-'+typeTable
-                },
-                {
-                  extend: 'pdf',
-                  exportOptions: {
-                      columns: ':visible'
-                  },
-                  orientation: 'landscape',
-                  filename: 'Tabla-'+typeTable
-                },
-                {
-                  extend: 'copy',
-                  text: 'Copia',
-                  exportOptions: {
-                  columns: ':visible'
-                }
-                }
-              ]
-            }
-          ],
-          initComplete: function () {
-            _filtersWidgets(this.api().column(0, { search:'applied' }), typeTable);
+            ],
+            initComplete: function () {
+              _filtersWidgets(this.api().column(0, { search:'applied' }), typeTable);
               var _colCategry = this.api().column(_dataTables[typeTable].subcategoryColumn);
               if (_colCategry.data().unique().length>1){
                 var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
-                var select = $('<select>').append($('<option>').attr('value','').text(''))
+                _subcategorySelector[typeTable].append($('<option>').attr('value','').text(''))
                     .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
                 _colCategry.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                    _subcategorySelector[typeTable].append( '<option value="'+d+'">'+d+'</option>' )
                 } );
-                select.on( 'change', function () {
+                _subcategorySelector[typeTable].on( 'change', function () {
                   var val = $.fn.dataTable.util.escapeRegex(
-                      select.val()
+                      _subcategorySelector[typeTable].val()
                   );
                   _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
                 });
-                select.click(function(e){
+                _subcategorySelector[typeTable].click(function(e){
                   e.stopPropagation();
                 });
               }
@@ -351,112 +390,112 @@
         }
         else{
           _dataTables[typeTable].table = _dataTables[typeTable].table.DataTable({
-          "language":{
-            buttons: {
-                copyTitle: 'Copia tabla',
-                copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
-                copySuccess: {
-                    _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-                    1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
-                }
-            },
-            "lengthMenu": " Resultados por página _MENU_",
-            "zeroRecords": "Ningún resultado",
-            "info": "",
-            "infoEmpty": "Ningúna información disponible",
-            "infoFiltered": "(filtered from _MAX_ total records)",
-            "search": "Busca",
-            "paginate": {
-              "first":      "Primera",
-              "last":       "Última",
-              "next":       "Siguiente",
-              "previous":   "Anterior"
-            },
-           "search": "_INPUT_",
-            "searchPlaceholder": "Busca"
-          },
-          fixedHeader: {
-            header: true
-          },
-          "autoWidth": false,
-          "bAutoWidth": false,
-          "scrollX": true,
-          "scrollY": "85vh",
-          "paging": false,
-          "scrollCollapse": true,
-          "columnDefs": [
-            { "visible": false, "targets":[0,1]}
-          ],
-          "order": [1, 'asc'],
-          dom: 'Bfrtip',
-          buttons: [
-            {
-              text: Pard.Widgets.IconManager('mailinglist').render(),
-              className: 'mailinglistBtn',
-              action: function(){
-                var columnData = _dataTables['allProposals'].table.column(7, { search:'applied' }).data().unique();
-                var _emailList = '';
-                columnData.each(function(email){
-                  _emailList += email+', ';
-                });
-                _emailList = _emailList.substring(0,_emailList.length-2)
-                Pard.Widgets.CopyToClipboard(_emailList);
-                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
-              }
-            },
-            {
-              extend: 'collection',
-              text:  Pard.Widgets.IconManager('export').render(),
-              className: 'ExportCollectionBtn',
-              autoClose: true,
-              fade: 200,
-              collectionLayout: 'button-list',
-              // background: false,
-              buttons: [
-                {
-                  extend: 'excel',
-                  text:'Excel',
-                  exportOptions: {
-                      columns: ':visible'
-                  },
-                  filename: 'Tabla-'+typeTable
-                },
-                {
-                  extend: 'pdf',
-                  text:'PDF',
-                  exportOptions: {
-                      columns: ':visible'
-                  },
-                  orientation: 'landscape',
-                  filename: 'Tabla-'+typeTable
-                },
-                {
-                  extend: 'copy',
-                  text: 'Copia',
-                  exportOptions: {
-                    columns: ':visible'
+            "language":{
+              buttons: {
+                  copyTitle: 'Copia tabla',
+                  copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                  copySuccess: {
+                      _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
+                      1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
                   }
+              },
+              "lengthMenu": " Resultados por página _MENU_",
+              "zeroRecords": "Ningún resultado",
+              "info": "",
+              "infoEmpty": "Ningúna información disponible",
+              "infoFiltered": "(filtered from _MAX_ total records)",
+              "search": "Busca",
+              "paginate": {
+                "first":      "Primera",
+                "last":       "Última",
+                "next":       "Siguiente",
+                "previous":   "Anterior"
+              },
+             "search": "_INPUT_",
+              "searchPlaceholder": "Busca"
+            },
+            fixedHeader: {
+              header: true
+            },
+            "autoWidth": false,
+            "bAutoWidth": false,
+            "scrollX": true,
+            "scrollY": "85vh",
+            "paging": false,
+            "scrollCollapse": true,
+            "columnDefs": [
+              { "visible": false, "targets":[0,1]}
+            ],
+            "order": [1, 'asc'],
+            dom: 'Bfrtip',
+            buttons: [
+              {
+                text: Pard.Widgets.IconManager('mailinglist').render(),
+                className: 'mailinglistBtn',
+                action: function(){
+                  var columnData = _dataTables['allProposals'].table.column(7, { search:'applied' }).data().unique();
+                  var _emailList = '';
+                  columnData.each(function(email){
+                    _emailList += email+', ';
+                  });
+                  _emailList = _emailList.substring(0,_emailList.length-2)
+                  Pard.Widgets.CopyToClipboard(_emailList);
+                  var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                  Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
                 }
-                ]
-            }],
+              },
+              {
+                extend: 'collection',
+                text:  Pard.Widgets.IconManager('export').render(),
+                className: 'ExportCollectionBtn',
+                autoClose: true,
+                fade: 200,
+                collectionLayout: 'button-list',
+                // background: false,
+                buttons: [
+                  {
+                    extend: 'excel',
+                    text:'Excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    filename: 'Tabla-'+typeTable
+                  },
+                  {
+                    extend: 'pdf',
+                    text:'PDF',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                    orientation: 'landscape',
+                    filename: 'Tabla-'+typeTable
+                  },
+                  {
+                    extend: 'copy',
+                    text: 'Copia',
+                    exportOptions: {
+                      columns: ':visible'
+                    }
+                  }
+                  ]
+              }
+            ],
             initComplete: function () {
-
-              var _colCategry = this.api().column(4);
+              var _colCategry = this.api().column(_dataTables[typeTable].subcategoryColumn);
               if (_colCategry.data().unique().length>1){
                 var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
-                var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
+                _subcategorySelector[typeTable].append($('<option>').attr('value','').text(''))
                     .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
-                _colCategry.data().unique().sort().each( function ( d, j ) {
-                    _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
+                _colCategry.data().unique().each( function ( d, j ) {
+                    _subcategorySelector[typeTable].append( '<option value="'+d+'">'+d+'</option>' )
                 } );
-                _selectCat.on( 'change', function () {
+                _subcategorySelector[typeTable].on( 'change', function () {
                   var val = $.fn.dataTable.util.escapeRegex(
-                      _selectCat.val()
+                      _subcategorySelector[typeTable].val()
                   );
                   _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
                 });
-                _selectCat.click(function(e){
+                _subcategorySelector[typeTable].click(function(e){
                   e.stopPropagation();
                 });
               }
@@ -505,11 +544,13 @@
         _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
         _proposalsNumber[proposal.form_category] += 1;
         if (artist.profile_id.indexOf('own') >- 1) _addOwnArtist(artist);
+        _selectCatReload();
       },
       addSpace: function(space){
         _dataTables[space.form_category].table.row.add(_dataTables[space.form_category].proposalRow(space)).draw();
         _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('space', space)).draw();
         _proposalsNumber[space.form_category] += 1;
+        _selectCatReload();
       },
       deleteArtist: function(artist){
         for (var categoryTable in _dataTables){
@@ -519,7 +560,8 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
-        if (artist.profile_id.indexOf('own') >- 1) _deleteOwnArtist(artist);  
+        if (artist.profile_id.indexOf('own') >- 1) _deleteOwnArtist(artist); 
+        _selectCatReload(); 
       },
       deleteSpace: function(space){
         for (var categoryTable in _dataTables){
@@ -529,6 +571,7 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
+        _selectCatReload();
       }
     }
   }
