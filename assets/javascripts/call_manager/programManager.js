@@ -1081,6 +1081,21 @@
         _popup.open();
       });
 
+      var _spaceOutOfprogramBtn = $('<li>').text('Espacios sin programación');
+      _spaceOutOfprogramBtn.on('click', function(){
+        var _content = $('<div>').addClass('very-fast reveal full');
+        _content.empty();
+        $('body').append(_content);
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _message = Pard.Widgets.PopupContent('Espacios fuera del programa', SpaceOutOfProgram());
+        _message.setCallback(function(){
+          _content.remove();
+          _popup.close();
+        });
+        _content.append(_message.render());
+        _popup.open();
+      });
+
       var _orderSpaceBtn = $('<li>').text('Ordena Espacios');
       _orderSpaceBtn.on('click', function(){
         var _content = $('<div>').addClass('very-fast reveal full');
@@ -1223,27 +1238,139 @@
           }
         });
 
-        // var _filterCategoryContainer = $('<div>').addClass('select-category-container-artistOutOfProgram');
-        // var _filterCategory = $('<select>');
-        // var _searchTags = [{id:'all', 'text':'Todas las categorias'}];
-        // ['arts', 'audiovisual', 'expo','music', 'street_art','workshop', 'other'].forEach(function(cat){
-        //   _searchTags.push({id:cat, text: Pard.Widgets.Dictionary(cat).render(), icon: cat});
-        // });
+        return {
+          render: function(){
+            setTimeout(function(){
+              $('.mailNoProgram').attr('title','Crea y copia lista de correos'); 
+              console.log( $('.mailNoProgram'))
+            },500)
+            return _createdWidget;
+          },
+          setCallback: function(callback){
+            callback;
+          }
+        }
+      }
 
-        // _filterCategoryContainer.append(_filterCategory);
-        // _filterCategory.select2({
-        //   data: _searchTags,
-        //   templateResult: Pard.Widgets.FormatResource
-        // });
+      var SpaceOutOfProgram = function(){
+        var _createdWidget = $('<div>').addClass('artist-out-of-program-popup-content');
+        var columns = ['name', 'address', 'subcategory', 'email'];
+        var _tableCreated = $('<table>').addClass('table-proposal stripe row-border artist-out-of-program-table').attr({'cellspacing':"0"}).css({
+          'margin': '0 auto',
+          'width': '100%',
+          'clear': 'both',
+          'table-layout': 'fixed',
+          'word-wrap':'break-word',
+        });
 
+        var _thead = $('<thead>');
+        var _titleRow = $('<tr>')
+        var _tfoot = $('<tfoot>');
+        var _titleRowFoot = $('<tr>');
+        columns.forEach(function(field){
+          var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+          var _titleFoot = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+          _titleRow.append(_titleCol);
+          _titleRowFoot.append(_titleFoot);
+        });
+        _tableCreated.append(_thead.append(_titleRow));
+        _tableCreated.append(_tfoot.append(_titleRowFoot));
 
-        // _filterCategory.on('select2:select',function(){
-        //   var _cat =  _filterCategory.select2('data')[0];
-        //   if (_cat.id == 'all') _dataTable.columns( 2 ).search('').draw();
-        //   else _dataTable.columns( 2 ).search(_cat.text).draw();
-        // });
+        var _tbody = $('<tbody>');
+        Object.keys(spaces).forEach(function(profile_id){
+          var spaceProgram = spaces[profile_id].program;
+          var noSelected = [];
+          if(Object.keys(spaceProgram).length == 0) noSelected.push(spaces[profile_id].space);
+            
+          noSelected.forEach(function(proposal){
+            proposal.type = 'space';
+            proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
+            var _row = $('<tr>');
+            columns.forEach(function(field){
+              var _info;
+              if (field == 'name') _info = Pard.Widgets.InfoTab[field].info(proposal, displayer);
+              else  _info= proposal[field];
+              var _col = $('<td>').append(_info);
+              _row.append(_col);
+              _tbody.append(_row);
+            });
+          });
+        });
 
-        // _createdWidget.prepend(_filterCategoryContainer);
+        _tableCreated.append(_tbody);
+        _createdWidget.append(_tableCreated);
+
+        var _dataTable;
+        _dataTable = _tableCreated.DataTable({
+          "language":{
+            buttons: {
+                copyTitle: 'Copia tabla',
+                copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                copySuccess: {
+                    _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
+                    1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+                }
+            },
+            "lengthMenu": " Resultados por página _MENU_",
+            "zeroRecords": "Ningún resultado",
+            "info": "",
+            "infoEmpty": "Ningúna información disponible",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "search": "Busca",
+            "search": "_INPUT_",
+            "searchPlaceholder": "Busca"
+          },
+          fixedHeader: {
+            header: true
+          },
+          "columnDefs": [
+            { "visible": false, "targets":[3]}
+          ],
+          "order": [],
+          "scrollY": "85vh",
+          "bAutoWidth": false,
+          "paging": false,
+          "scrollCollapse": true,
+          aaSorting: [],
+          dom: 'Bfrtip',
+          buttons: [
+            {
+              text: Pard.Widgets.IconManager('mailinglist').render(),
+              className: 'mailinglistBtn mailNoProgram',
+              action: function(){
+                var columnData = _dataTable.column(3, { search:'applied' }).data().unique();
+                var _emailList = '';
+                columnData.each(function(email){
+                  _emailList += email+', ';
+                });
+                _emailList = _emailList.substring(0,_emailList.length-2)
+                Pard.Widgets.CopyToClipboard(_emailList);
+                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              }
+            }
+          ],
+          initComplete: function () {
+            var _colCategry = this.api().column(2);
+            if (_colCategry.data().unique().length>1){
+              var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
+              var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
+                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+              _colCategry.data().unique().sort().each( function ( d, j ) {
+                  _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
+              } );
+              _selectCat.on( 'change', function () {
+                var val = $.fn.dataTable.util.escapeRegex(
+                    _selectCat.val()
+                );
+                _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
+              });
+              _selectCat.click(function(e){
+                e.stopPropagation();
+              });
+            }
+          }
+        });
 
         return {
           render: function(){
@@ -1350,7 +1477,7 @@
         }
       }
 
-      _menu.append(_outOfprogramBtn, _orderSpaceBtn);
+      _menu.append(_outOfprogramBtn, _spaceOutOfprogramBtn, _orderSpaceBtn);
       var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
         $('<button>').attr({'type':'button', 'title':'Menu de herramientas'}).append(
