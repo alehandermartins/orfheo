@@ -60,12 +60,13 @@ class CallsController < BaseController
     check_proposal_exists! proposal_id
     check_call_exists! call_id
     check_artist_category! category
+    old_proposal = Repos::Events.get_artist_proposal(proposal_id)
 
     form = get_artist_form call_id, form_category
     proposal = ArtistOwnProposal.new(params, session[:identity], form) if profile_id.split('-').last == 'own'
-    proposal = ArtistProposal.new(params, session[:identity], form) unless profile_id.split('-').last == 'own'
+    proposal = ArtistProposal.new(params, old_proposal[:user_id], form) unless profile_id.split('-').last == 'own'
     Repos::Events.modify_artist proposal.to_h
-    success
+    success ({proposal: proposal.to_h})
   end
 
   post '/users/modify_space_proposal' do
@@ -74,12 +75,13 @@ class CallsController < BaseController
     check_proposal_exists! proposal_id
     check_call_exists! call_id
     check_space_category! category
+    old_proposal = Repos::Events.get_space_proposal(proposal_id)
 
     form = get_space_form call_id, form_category
     proposal = SpaceOwnProposal.new(params, session[:identity], form) if profile_id.split('-').last == 'own'
-    proposal = SpaceProposal.new(params, session[:identity], form) unless profile_id.split('-').last == 'own'
+    proposal = SpaceProposal.new(params, old_proposal[:user_id], form) unless profile_id.split('-').last == 'own'
     Repos::Events.modify_space proposal.to_h
-    success
+    success ({proposal: proposal.to_h})
   end
 
   post '/users/delete_artist_proposal' do

@@ -988,6 +988,7 @@
         for(var key in show){
           performance[key] = show[key];  
         }
+        fillCard(performance);
       }
 
       fillCard(performance);
@@ -1505,6 +1506,27 @@
         var _id = _spaceSelector.val();
         _loadSpaceSelector();
         _spaceSelector.trigger('reload', [_id]);
+      },
+      modifyArtist: function(artist){
+        var artistProgram = the_event.artists[artist.profile_id].program;
+        Object.keys(artistProgram).forEach(function(performance_id){
+          if(artistProgram[performance_id].show.participant_proposal_id == artist.proposals[0].proposal_id){
+            var performance = {
+              last_host: artistProgram[performance_id].show.host_id,
+              performance_id: performance_id,
+              title: artist.proposals[0].title,
+              short_description: artist.proposals[0].short_description,
+              participant_category: artist.proposals[0].category,
+              availability: artist.proposals[0].availability,
+              participant_name: artist.name
+            } 
+            modify(performance);
+          }
+        });
+        var _id = _artistSelector.val();
+        _loadArtistSelector();
+        _artistSelector.trigger('reload', [_id]);
+        the_event.artists[artist.profile_id].setDay(_daySelector.val());
       }
     }
   }

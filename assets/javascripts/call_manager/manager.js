@@ -111,6 +111,12 @@
       }
     });
 
+    Pard.Bus.on('modifyArtist', function(artist){
+      if(the_event.artists[artist.profile_id]) the_event.artists[artist.profile_id].modifyProposal(artist.proposals[0]);
+      _programManager.modifyArtist(artist);
+      //_tableManager.modifyArtist(artist);
+    });
+
     return {
       render: function(){
         return _main;
