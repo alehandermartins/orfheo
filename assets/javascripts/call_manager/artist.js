@@ -77,7 +77,8 @@
             short_description: proposal.short_description,
             participant_category: proposal.category,
             availability: proposal.availability,
-            participant_name: artist.name
+            participant_name: artist.name,
+            participant_email: artist.email
           }
           Pard.Bus.trigger('drag', _performance);
         },

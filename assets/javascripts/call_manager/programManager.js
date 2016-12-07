@@ -428,6 +428,8 @@
           var end = (performance.time[1] - dayStart) / 90000;
           performance.position = start + 41;
           performance.duration = (end - start);
+          performance.participant_email = the_event.artists[performance.participant_id].artist.email;
+          performance.host_email = the_event.spaces[performance.host_id].space.email;
         }
 
         card.css({
@@ -534,6 +536,7 @@
           the_event.spaces[performance.host_id].deletePerformance(performance);
           var space = the_event.spaces[spaceSelector.val()].space;
           performance.host_name = space.name;
+          performance.host_email = space.email;
           performance.address = space.address;
           performance.host_category = space.category;ç
           performance.host_proposal_id = space.proposal_id;
@@ -671,6 +674,8 @@
       if(performance.time){
         performance.time[0] = parseInt(performance.time[0]);
         performance.time[1] = parseInt(performance.time[1]);
+        performance.participant_email = the_event.artists[performance.participant_id].artist.email;
+        performance.host_email = the_event.spaces[performance.host_id].space.email;
       }
       else{
         var date = performance.date;
@@ -882,6 +887,7 @@
           the_event.spaces[performance.host_id].deletePerformance(performance);
           var space = the_event.spaces[spaceSelector.val()].space;
           performance.host_name = space.name;
+          performance.host_email = space.email;
           performance.address = space.address;
           performance.host_category = space.category;
           performance.host_proposal_id = space.proposal_id;
@@ -1518,7 +1524,8 @@
               short_description: artist.proposals[0].short_description,
               participant_category: artist.proposals[0].category,
               availability: artist.proposals[0].availability,
-              participant_name: artist.name
+              participant_name: artist.name,
+              participant_email: artist.email
             } 
             modify(performance);
           }
