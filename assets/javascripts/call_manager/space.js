@@ -299,6 +299,7 @@
     var _addSpaceInfo = function(performance){
       performance.last_host = last_host;
       performance.host_id = space.profile_id;
+      performance.host_email = space.email;
       performance.host_name = space.name;
       performance.address = space.address;
       performance.host_category = space.category;
