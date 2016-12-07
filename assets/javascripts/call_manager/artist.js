@@ -11,7 +11,7 @@
       var container = $('<div>').css({'padding': 0});
       var accordionNav = $('<li>').addClass('accordion-item');
       var aHref = $('<div>').append($('<a>').attr('href','#').text(artist.name)).addClass('accordion-title');
-      var _artistMenuDropdown = $('<div>').append(ArtistDropdownMenu(artist).render());
+      var _artistMenuDropdown = $('<div>').append(ArtistDropdownMenu().render());
       _artistMenuDropdown.addClass('artists-dropdown-icon-call-manager');
       var content = $('<div>').addClass('accordion-content').css({'padding': 0});
 

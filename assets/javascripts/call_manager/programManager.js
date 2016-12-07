@@ -1526,7 +1526,7 @@
               availability: artist.proposals[0].availability,
               participant_name: artist.name,
               participant_email: artist.email
-            } 
+            }
             modify(performance);
           }
         });
@@ -1534,6 +1534,23 @@
         _loadArtistSelector();
         _artistSelector.trigger('reload', [_id]);
         the_event.artists[artist.profile_id].setDay(_daySelector.val());
+      },
+      modifySpace: function(space){
+        var spaceProgram = the_event.spaces[space.profile_id].program;
+        Object.keys(spaceProgram).forEach(function(performance_id){
+          var performance = {
+            last_host: space.profile_id,
+            performance_id: performance_id,
+            host_category: space.category,
+            host_name: space.name,
+            address: space.address,
+            host_email: space.email
+          } 
+          modify(performance);
+        });
+        var _id = _spaceSelector.val();
+        _loadSpaceSelector();
+        _spaceSelector.trigger('reload', [_id]);
       }
     }
   }

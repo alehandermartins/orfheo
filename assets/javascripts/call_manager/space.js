@@ -3,6 +3,7 @@
 (function(ns){
 
   ns.Space = function(space, displayer){
+    var columns = {};
     var _columns = {};
     var program = {};
     var _performance;
@@ -23,7 +24,7 @@
       });
 
       var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header cursor_grab');
-      var _icon = SpaceDropdownMenu(space).render();
+      var _icon = SpaceDropdownMenu().render();
       var _menuIcon = $('<div>').append(_icon);
       _menuIcon.css({
         'display': 'inline-block',
@@ -182,14 +183,21 @@
         }
       });
 
+      var _modify = function(space){
+        _titleText.text(Pard.Widgets.CutString(space.name, 35));
+        if( day != 'permanent' && $.inArray(day, space.availability) < 0) _spaceCol.addClass('space-not-available-call-manager');
+        else{_spaceCol.removeClass('space-not-available-call-manager');}
+      }
+
       return {
         render: function(){
           return _spaceCol;
-        }
+        },
+        modify: _modify
       }
     }
 
-    var SpaceDropdownMenu = function(space){
+    var SpaceDropdownMenu = function(){
 
       var _menu = $('<ul>').addClass('menu');
       var _profileLink = $('<li>');
@@ -324,7 +332,8 @@
       columns: _columns,
       program: program,
       addColumn: function(day, height){
-        _columns[day] = SpaceColumn(day, height).render();  
+        columns[day] = SpaceColumn(day, height);
+        _columns[day] = columns[day].render();  
       },
       showColumns: function(){
         Object.keys(_columns).forEach(function(date){
@@ -339,6 +348,14 @@
       deleteColumns: function(){
         Object.keys(_columns).forEach(function(date){
           _columns[date].remove();
+        });
+      },
+      modify: function(new_space){
+        for(var key in new_space){
+          space[key] = new_space[key];
+        }
+        Object.keys(_columns).forEach(function(date){
+          columns[date].modify(space);
         });
       },
       alignPerformances: function(index){
