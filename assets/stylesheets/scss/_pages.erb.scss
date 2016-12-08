@@ -2094,23 +2094,12 @@ Program Manager Tab
 }
 
 .column-space-program-call-manager, .column-artist-program-call-manager,
-.column-table-program-call-manager{
+{
   white-space: normal;
 }
 
 .column-space-program-call-manager.column-category{
-  /* width: 4rem; */
   width: 100px;
-}
-
-
-.column-table-program-call-manager.column-participant_category, .column-table-program-call-manager.column-host_category{
-  width: 70px !important;
-}
-
-.column-table-program-call-manager.column-order{
-  /* width: 4rem; */
-  width: 50px;
 }
 
 .column-space-program-call-manager.column-time,.column-space-program-call-manager.column-phone, .column-artist-program-call-manager.column-time, .column-artist-program-call-manager.column-phone {
@@ -2130,54 +2119,52 @@ Program Manager Tab
   width: 210px;
 }
 
-.column-table-program-call-manager.column-short_description {
-  width: 185px !important;
-}
-
-.column-table-program-call-manager.column-email{
-  width: 16rem !important;
-}
-
-.column-table-program-call-manager.column-phone{
-  width:  6rem !important;
-  min-width: 6rem !important;
-}
-
-
 .column-artist-program-call-manager.column-title,.column-space-program-call-manager.column-title{
   width: 170px;
 }
 
+/* TABLA PROGRAMA GENERAL CALL-PAGE */
 
-th.column-table-program-call-manager.column-title, th.column-table-program-call-manager.column-comments{
-  min-width: 130px !important;
-  width: 130px !important;
+.column-participant_category, .column-host_category{
+  min-width: 6.5rem !important;
+  width: 6.5rem !important;
 }
 
- th.column-table-program-call-manager.column-participant_name, th.column-table-program-call-manager.column-host_name{
-  width: 110px !important;
-  min-width: 110px !important;
+.column-order{
+  width: 50px;
 }
 
+.column-short_description {
+  width: 185px !important;
+  min-width: 185px !important;
+}
 
-th.column-table-program-call-manager.column-confirmed {
+.column-host_email, .column-participant_email{
+  width:  11.5rem !important;
+  min-width: 11.5rem !important;
+}
+
+.column-title, .column-comments{
+  min-width: 155px !important;
+  width: 155px !important;
+}
+
+.column-participant_name, .column-host_name{
+  width: 120px !important;
+  min-width: 120px !important;
+}
+
+.column-confirmed {
   width: 80px !important;
   min-width: 80px !important;
 }
- th.column-table-program-call-manager.column-time, th.column-table-program-call-manager.column-date{
+
+.column-time, .column-date{
   width: 53px !important;
   min-width: 53px !important;
 }
 
-
-table.program-table{
-  table-layout:fixed;
-}
-
-table.program-table tfoot th{
-  padding-left: 10px !important;
-  padding-right: 24px !important;
-}
+/* ------------------------------------------------------------- */
 
 .day-row-program-table-call-manager td{
   background: $grey-4;

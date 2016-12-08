@@ -674,8 +674,7 @@
         card: card,
         manager: manager,
         modify: _modify,
-        destroy: _destroy,
-        showPopup: function(){ _titleText.trigger('click')}
+        destroy: _destroy
       }
     }
 
@@ -1019,8 +1018,7 @@
         manager: manager,
         modify: _modify,
         destroy: _destroy,
-        loadDates: _loadDates,
-        showPopup: function(){ _titleText.trigger('click')}
+        loadDates: _loadDates
       }
     }
 

@@ -321,8 +321,8 @@
 
     //REMEMBER children ---> publico del espectacúlo
 
-    var _columns = ['cronoOrder','date','time','participant_name','participant_email','participant_category','title','short_description','order','host_name','host_email','host_category','comments','phone','confirmed'];
-    var _shownColumns = ['date','time','participant_name','participant_category','title','short_description','host_name'];
+    var _columns = ['cronoOrder','date','time','participant_name','participant_email','participant_category','title','short_description','order','host_name','host_email','host_category','comments','confirmed'];
+    var _shownColumns = ['date','time','participant_name','participant_category','title','host_name', 'host_category'];
     var _hiddenColumns = [];
     var _outerTableContainer = $('<div>');
     var _tableBox = $('<div>').addClass('table-box-call-manager-page');
@@ -333,8 +333,8 @@
 
     _columns.forEach(function(field, index){
       if ($.inArray(field, _shownColumns) == -1) _hiddenColumns.push(index);
-      var _titleCol = $('<th>').addClass('column-table-program-call-manager column-'+field);
-      var _footCol = $('<th>') .addClass('column-table-program-call-manager column-'+field);
+      var _titleCol = $('<th>').addClass('column-call-manager-table column-'+field);
+      var _footCol = $('<th>') .addClass('column-call-manager-table column-'+field);
       if (_infoProgram[field]) {
         _titleCol.text(_infoProgram[field].label);
         _footCol.text(_infoProgram[field].label);
@@ -348,6 +348,7 @@
     });
 
      var showRow = function(show){
+      console.log(show)
       var _show = $.extend(true, {}, show);
       var _row = $('<tr>').attr('id', 'programTable-'+show.performance_id);
       _columns.forEach(function(field){
@@ -435,17 +436,56 @@
       {
         text: Pard.Widgets.IconManager('mailinglist').render(),
         className: 'mailinglistBtn',
-        action: function(){
-          var columnData = _table.column(_columns.indexOf('participant_email')).data().unique();
-          var _emailList = '';
-          columnData.each(function(email){
-            _emailList += email+', ';
-          });
-          _emailList = _emailList.substring(0,_emailList.length-2)
-          Pard.Widgets.CopyToClipboard(_emailList);
-          var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-          Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
-        }
+        extend: 'collection',
+        collectionLayout: 'button-list',
+        autoClose: true,
+        fade: 200,
+        buttons: [
+          {
+            text: 'Email artistas',
+            action: function(){
+              var columnData = _table.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
+              var _emailList = '';
+              columnData.each(function(email){
+                _emailList += email+', ';
+              });
+              _emailList = _emailList.substring(0,_emailList.length-2)
+              Pard.Widgets.CopyToClipboard(_emailList);
+              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+            }
+          },
+          {
+            text: 'Email espacios',
+            action: function(){
+              var columnData = _table.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
+              var _emailList = '';
+              columnData.each(function(email){
+                _emailList += email+', ';
+              });
+              _emailList = _emailList.substring(0,_emailList.length-2)
+              Pard.Widgets.CopyToClipboard(_emailList);
+              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+            }
+          },
+          {
+            text: 'Email artist. y esp.',
+            action: function(){
+              var columnArtData = _table.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
+              var columnEspData = _table.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
+              var columnData = $.merge(columnArtData, columnEspData).unique();
+              var _emailList = '';
+              columnData.each(function(email){
+                _emailList += email+', ';
+              });
+              _emailList = _emailList.substring(0,_emailList.length-2)
+              Pard.Widgets.CopyToClipboard(_emailList);
+              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+            }
+          }
+        ]
       },
       {
         extend: 'collection',
@@ -498,6 +538,10 @@
       host_category: {
         column: _table.column(_columns.indexOf('host_category')),
         select: $('<select>').append($('<option>').attr('value','').text(''))
+      },
+      date:{
+        column: _table.column(_columns.indexOf('date')),
+        select: $('<select>').append($('<option>').attr('value','').text(''))
       }
     }
 
@@ -516,7 +560,7 @@
             var val = $.fn.dataTable.util.escapeRegex(_selectCat.val());
             _colCategry.search( val ? '^'+val+'$' : '', true, false ).draw();
           });
-          _colCategry.data().unique().sort().each( function ( d, j ) {
+          _colCategry.data().unique().each( function ( d, j ) {
               _selectCat.append( '<option value="'+d+'">'+d+'</option>' );
               if (d == _ival) _selectCat.val(d);
           } );
@@ -552,10 +596,10 @@
         label: 'Día'
       },
       participant_category:{
-        label: 'Categoría artista'
+        label: 'Categoría art.'
       },
       host_category:{
-        label: 'Categoría espacio'
+        label: 'Categoría esp.'
       },
       time:{
         info: function(show){
@@ -575,7 +619,7 @@
         info: function(show){
           return parseInt(show['order']) + 1;
         },
-        label: 'Num. Esp.'
+        label: 'Num. esp.'
       },
       participant_email:{
         label: 'Email artista'
@@ -601,8 +645,17 @@
           var _info = $('<a>').attr('href','#')
           .text(show['title'])
           .click(function(){
-            console.log(_program);
-            _program[show.performance_id].showPopup();
+            var _content = $('<div>').addClass('very-fast reveal full');
+            _content.empty();
+            $('body').append(_content);
+            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+            var _message = Pard.Widgets.PopupContent(show.title +' (' + show.participant_name + ')', _program[show.performance_id].manager(true));
+            _message.setCallback(function(){
+              _content.remove();
+              _popup.close();
+            });
+            _content.append(_message.render());
+            _popup.open();
           })
           return _info;
         }
