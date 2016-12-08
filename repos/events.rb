@@ -315,8 +315,8 @@ module Repos
         program.map{ |performance|
           artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
           artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
-          space = event[:spaces].select{ |participant| participant[:profile_id] == performance[:host_id]}.first
-          order = event[:spaces].index{ |space| space[:profile_id] == performance[:host_id] }
+          space = event[:spaces].select{ |host| host[:profile_id] == performance[:host_id]}.first
+          order = event[:spaces].index{ |host| host[:profile_id] == performance[:host_id] }
           performance.merge! host_name: space[:name]
           performance.merge! address: space[:address]
           performance.merge! host_category: space[:category]
