@@ -132,7 +132,7 @@ module Repos
       end
 
       def modify_artist artist
-        event = grab({"artists.profile_id": artist[:profile_id]}).first
+        event = grab({"artists.proposals.proposal_id": artist[:proposals].first[:proposal_id]}).first
         proposals = event[:artists].detect{|event_artist| event_artist[:profile_id] == artist[:profile_id]}[:proposals]
         modified_proposals = proposals.map{ |proposal|
           proposal = artist[:proposals].first if proposal[:proposal_id] == artist[:proposals].first[:proposal_id]
@@ -165,13 +165,6 @@ module Repos
         @@events_collection.update_one({"spaces.profile_id": profile_id},
           {
             "$set": {'spaces.$.name': space[:name], 'spaces.$.address': space[:address], 'spaces.$.category': space[:category], 'spaces.$.description': space[:description]}
-          })
-      end
-
-      def delete_artist profile_id
-        @@events_collection.update_one({"artists.profile_id": profile_id},
-          {
-            "$pull": {'artists': {'profile_id': profile_id}}
           })
       end
 
