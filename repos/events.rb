@@ -138,7 +138,7 @@ module Repos
           proposal = artist[:proposals].first if proposal[:proposal_id] == artist[:proposals].first[:proposal_id]
           proposal
         }
-        @@events_collection.update_one({"artists.profile_id": artist[:profile_id]},
+        @@events_collection.update_one({"artists.proposals.proposal_id": artist[:proposals].first[:proposal_id]},
           {
             "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address], 'artists.$.phone': artist[:phone], 'artists.$.proposals': modified_proposals}
           })
@@ -307,6 +307,8 @@ module Repos
       def arrange_program event, program
         program.map{ |performance|
           artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
+          puts event[:name]
+          puts artist
           artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
           space = event[:spaces].select{ |host| host[:profile_id] == performance[:host_id]}.first
           order = event[:spaces].index{ |host| host[:profile_id] == performance[:host_id] }
