@@ -2,7 +2,7 @@
 
 (function(ns){
 
-  ns.ProgramManager = function(the_event){
+  ns.ProgramManager = function(the_event, displayer){
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;
@@ -1661,19 +1661,18 @@
       modifyArtist: function(artist){
         var artistProgram = the_event.artists[artist.profile_id].program;
         Object.keys(artistProgram).forEach(function(performance_id){
-          if(artistProgram[performance_id].show.participant_proposal_id == artist.proposals[0].proposal_id){
-            var performance = {
-              last_host: artistProgram[performance_id].show.host_id,
-              performance_id: performance_id,
-              title: artist.proposals[0].title,
-              short_description: artist.proposals[0].short_description,
-              participant_category: artist.proposals[0].category,
-              availability: artist.proposals[0].availability,
-              participant_name: artist.name,
-              participant_email: artist.email
-            }
-            modify(performance);
+          var performance = {
+            performance_id: performance_id,
+            last_host: artistProgram[performance_id].show.host_id,
+            participant_name: artist.name
           }
+          if(artistProgram[performance_id].show.participant_proposal_id == artist.proposals[0].proposal_id){
+            performance.title = artist.proposals[0].title
+            performance.short_description = artist.proposals[0].short_description
+            performance.participant_category = artist.proposals[0].category
+            performance.availability = artist.proposals[0].availability
+          }
+          modify(performance);
         });
         var _id = _artistSelector.val();
         _loadArtistSelector();
@@ -1684,12 +1683,11 @@
         var spaceProgram = the_event.spaces[space.profile_id].program;
         Object.keys(spaceProgram).forEach(function(performance_id){
           var performance = {
-            last_host: space.profile_id,
             performance_id: performance_id,
+            last_host: space.profile_id,
             host_category: space.category,
             host_name: space.name,
-            address: space.address,
-            host_email: space.email
+            address: space.address
           } 
           modify(performance);
         });

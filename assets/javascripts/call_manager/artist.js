@@ -5,12 +5,12 @@
 	ns.Artist = function(artist, displayer){
     var program = {};
     var _proposals = {};
-    var _conflictContent;
 
     var Accordion = function(){
       var container = $('<div>').css({'padding': 0});
       var accordionNav = $('<li>').addClass('accordion-item');
-      var aHref = $('<div>').append($('<a>').attr('href','#').text(artist.name)).addClass('accordion-title');
+      var artistName = $('<a>').attr('href','#').text(artist.name);
+      var aHref = $('<div>').append(artistName).addClass('accordion-title');
       var _artistMenuDropdown = $('<div>').append(ArtistDropdownMenu().render());
       _artistMenuDropdown.addClass('artists-dropdown-icon-call-manager');
       var content = $('<div>').addClass('accordion-content').css({'padding': 0});
@@ -29,6 +29,12 @@
         },
         addProposal: function(proposalCard){
           content.append(proposalCard.render());
+        },
+        modify: function(new_artist){
+          artistName.text(new_artist.name);
+          Object.keys(_proposals).forEach(function(proposal_id){
+            _proposals[proposal_id].modify(new_artist);
+          });
         }
       }
     }
@@ -123,11 +129,17 @@
         if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
       }
 
-      var _modify = function(new_proposal){
-        for(var key in new_proposal){
-          proposal[key] = new_proposal[key];
+      var _modify = function(new_artist){
+        proposal.name = new_artist.name;
+        proposal.phone = new_artist.phone;
+        proposal.email = new_artist.email;
+        proposal.profile_id = new_artist.profile_id;
+        
+        var new_proposal = new_artist.proposals[0];
+        if(new_proposal.proposal_id == proposal.proposal_id){
+          for(var key in new_proposal) proposal[key] = new_proposal[key];
+          _fillCard(proposal);
         }
-        _fillCard(proposal);
       }
 
       _fillCard(proposal);
@@ -225,14 +237,15 @@
           });
         }
       },
-      modifyProposal: function(proposal){
-        if(proposal.proposal_id in _proposals){
-          artist.proposals = artist.proposals.filter(function(_proposal){
-            return _proposal.proposal_id != proposal.proposal_id;
-          });
-          artist.proposals.push(proposal);
-          _proposals[proposal.proposal_id].modify(proposal);
+      modify: function(new_artist){
+        for(var key in new_artist){
+          if (key != 'proposals') artist[key] = new_artist[key];
         }
+        artist.proposals = artist.proposals.filter(function(proposal){
+          return proposal.proposal_id != new_artist.proposals[0].proposal_id;
+        });
+        artist.proposals.push(new_artist.proposals[0]);
+        _accordion.modify(new_artist);
       }
     }
   }
