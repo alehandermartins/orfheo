@@ -142,7 +142,9 @@
 
   ns.Widgets.PrintProposal = function(proposal, form){
 
-    console.log(proposal);  
+    console.log(proposal.title);
+
+    var form = $.extend(true, {}, form);  
 
     var _createdWidget = $('<div>');
     var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children'];
@@ -150,10 +152,14 @@
 
     _orfheoFields.forEach(function(field){
       if (proposal[field]){
+        console.log(proposal[field]);
+        console.log(sentProposalField[field]);
         var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
         var _fieldFormText = $('<span>');
         var _proposalField = sentProposalField[field] || form[field];
+        console.log(_proposalField)
         _proposalField['text'] = _proposalField['text'] || proposal[field];
+        console.log(_proposalField['text'])
         _proposalField['label'] = _proposalField['label'] || form[field]['label'];
         _proposalField['input'] = _proposalField['input'] || '';
         _fieldFormLabel.append(_proposalField['label'],':');

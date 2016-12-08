@@ -155,7 +155,7 @@
           // download: 'open',
           orientation: 'landscape',
           filename: 'programa '+space.name,
-          title: _spaceName + ' - Programación conFusión 2016',
+          title: _spaceName,
           message: '__MESSAGE__',
           footer: true,
           customize: function ( doc ) {

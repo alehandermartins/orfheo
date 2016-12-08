@@ -43,6 +43,8 @@
 
     var _displayProposal = function(proposal, type){
 
+      console.log(proposal)
+
       var form = forms[type][proposal.form_category];
 
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
@@ -118,7 +120,6 @@
       }
 
       var modifyCallback = function(data){
-        console.log(data);
         if (data['status'] == 'success'){
           if (type == 'artist') Pard.Bus.trigger('modifyArtist', data.proposal);
           else if (type == 'space') Pard.Bus.trigger('modifySpace', data.proposal);
@@ -145,13 +146,33 @@
         var _formWidget = Pard.Widgets.OwnProposalForm(form, type, proposal.form_category);
         _formWidget.setVal(proposal);
         _formWidget.showAll();
-        _formWidget.setSend(function(){
+        _formWidget.setSend(function(stopSpinner){
           var _submitForm = _formWidget.getVal();
           _submitForm['proposal_id'] = proposal.proposal_id;
           _submitForm['event_id'] = event_id;
           _submitForm['call_id'] = call_id;
           _submitForm['profile_id'] = proposal.profile_id; 
-          _modifyProposalBackend[type](_submitForm, modifyCallback);
+          _modifyProposalBackend[type](_submitForm, 
+            function(data){
+              console.log(data);
+              modifyCallback(data);
+              _content.empty();
+              if (type == 'space') {
+                var _proposal = data.proposal;
+              }
+              else {
+                var _artist = data.proposal;
+                var _proposal = data.proposal.proposals[0];
+                _proposal.name = _artist.name;
+                _proposal.email = _artist.email;
+                _proposal.profile_id = _artist.profile_id;
+              }
+              _proposal.form_category = _proposal.form_category || Pard.Widgets.Dictionary(_proposal.category).render();
+              _proposal.subcategory = _proposal.subcategory || Pard.Widgets.Dictionary(_proposal.category).render();
+              _displayProposal(_proposal, type);
+              stopSpinner();
+            }
+          );
         });
         var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
         _modifyMessage.prependToContent($('<p>').text('Formulario: '+proposal.form_category).css('margin-bottom','-0.5rem'));
@@ -190,7 +211,7 @@
   
       _messageProposalPrinted.prependToContent(_actionBtnContainer);
       if (proposal.proposal_id.indexOf("own") >= 0) {
-        var _warningOwnText = $('<p>').text('Propuesta creada por los organizadoores de la convocatoria');
+        var _warningOwnText = $('<p>').text('Propuesta creada por los organizadores de la convocatoria');
         _messageProposalPrinted.prependToContent(_warningOwnText);
       }
       var _messageProposalPrintedRendered = _messageProposalPrinted.render();

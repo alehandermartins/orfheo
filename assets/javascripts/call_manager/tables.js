@@ -499,27 +499,40 @@
         buttons: [
           {
             extend: 'excel',
+            text:'Excel',
+            customizeData: function(doc) {
+              doc.header.forEach(function(t, i){
+                if (t.indexOf('Categoría')>-1) doc.header[i] = 'Categoría'
+              });
+            },
             exportOptions: {
                 columns: ':visible'
             },
-            filename: 'Programación'
+            filename: 'Programa'
           },
           {
             extend: 'pdf',
+            text:'PDF',
+            customize: function(doc) {
+              doc.content[1].table.body[0].forEach(function(colTitle){
+                if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
+                colTitle.alignment = 'left';
+                colTitle.margin = [2,2,2,2];
+              }) 
+            },
             exportOptions: {
-                columns: ':visible'
+              columns: ':visible',
             },
             orientation: 'landscape',
-            filename: 'programación',
-            title: 'Programación'
-
+            filename: 'Programa'
           },
           {
             extend: 'copy',
             text: 'Copia',
+            header: false,
             exportOptions: {
-            columns: ':visible'
-          }
+              columns:  ':visible',
+            }
           }
         ]
       }

@@ -333,6 +333,12 @@
                 buttons: [
                   {
                     extend: 'excel',
+                    text:'Excel',
+                    customizeData: function(doc) {
+                      doc.header.forEach(function(t, i){
+                        if (t.indexOf('Categoría')>-1) doc.header[i] = 'Categoría'
+                      });
+                    },
                     exportOptions: {
                         columns: ':visible'
                     },
@@ -340,8 +346,16 @@
                   },
                   {
                     extend: 'pdf',
+                    text:'PDF',
+                    customize: function(doc) {
+                      doc.content[1].table.body[0].forEach(function(colTitle){
+                        if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
+                        colTitle.alignment = 'left';
+                        colTitle.margin = [2,2,2,2];
+                      }) 
+                    },
                     exportOptions: {
-                        columns: ':visible'
+                      columns: ':visible',
                     },
                     orientation: 'landscape',
                     filename: 'Tabla-'+typeTable
@@ -349,9 +363,10 @@
                   {
                     extend: 'copy',
                     text: 'Copia',
+                    header: false,
                     exportOptions: {
-                    columns: ':visible'
-                  }
+                      columns:  ':visible',
+                    }
                   }
                 ]
               }
@@ -387,7 +402,7 @@
                   copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
                   copySuccess: {
                       _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-                      1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+                      1: '<strong>Copiada una fila</strong> de datos al portapapeles'
                   }
               },
               "lengthMenu": " Resultados por página _MENU_",
@@ -447,16 +462,28 @@
                   {
                     extend: 'excel',
                     text:'Excel',
+                    customizeData: function(doc) {
+                      doc.header.forEach(function(t, i){
+                        if (t.indexOf('Categoría')>-1) doc.header[i] = 'Categoría'
+                      });
+                    },
                     exportOptions: {
-                        columns: ':visible'
+                        columns: ':visible :gt(0)'
                     },
                     filename: 'Tabla-'+typeTable
                   },
                   {
                     extend: 'pdf',
                     text:'PDF',
+                    customize: function(doc) {
+                      doc.content[1].table.body[0].forEach(function(colTitle){
+                        if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
+                        colTitle.alignment = 'left';
+                        colTitle.margin = [2,2,2,2];
+                      }) 
+                    },
                     exportOptions: {
-                        columns: ':visible'
+                      columns: ':visible :gt(0)',
                     },
                     orientation: 'landscape',
                     filename: 'Tabla-'+typeTable
@@ -464,11 +491,12 @@
                   {
                     extend: 'copy',
                     text: 'Copia',
+                    header: false,
                     exportOptions: {
-                      columns: ':visible'
+                      columns:  ':visible :gt(0)',
                     }
                   }
-                  ]
+                ]
               }
             ],
             initComplete: function () {
@@ -578,16 +606,15 @@
         _selectCatReload();
       },
       modifyArtist: function(artist){
-        console.log(artist)
+        var proposal = artist.proposals[0];
         for (var categoryTable in _dataTables){
-          var _row = _dataTables[categoryTable].table.row('#proposalRow-' + artist.proposal_id);
+          var _row = _dataTables[categoryTable].table.row('#proposalRow-' + proposal.proposal_id);
           if (_row && _row.index()>-1) {
             _row.remove().draw();
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
         if (artist.profile_id.indexOf('own') >- 1) _deleteOwnArtist(artist); 
-        var proposal = artist.proposals[0];
         _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
         _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
         _proposalsNumber[proposal.form_category] += 1;

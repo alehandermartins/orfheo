@@ -175,7 +175,7 @@
           // download: 'open',
           orientation: 'landscape',
           filename: 'programa '+ artist.name,
-          title: artist.name + ' - Programación conFusión 2016',
+          title: artist.name,
           footer: true,
           customize: function ( doc ) {
             doc.content.forEach(function(content) {

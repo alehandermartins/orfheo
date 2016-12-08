@@ -254,7 +254,6 @@
     };
 
     var _modifyArtistProposal = function(form, callback){
-      console.log(form)
       _send(
         '/users/modify_artist_proposal',
         form,
@@ -263,7 +262,6 @@
     };
 
     var _modifySpaceProposal = function(form, callback){
-      console.log(form)
       _send(
         '/users/modify_space_proposal',
         form,
