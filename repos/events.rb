@@ -154,7 +154,7 @@ module Repos
 
       def update_artist artist
         profile_id = artist[:profile_id]
-        @@events_collection.update_one({"artists.profile_id": profile_id},
+        @@events_collection.update_many({"artists.profile_id": profile_id},
           {
             "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address]}
           })
@@ -162,7 +162,7 @@ module Repos
 
       def update_space space
         profile_id = space[:profile_id]
-        @@events_collection.update_one({"spaces.profile_id": profile_id},
+        @@events_collection.update_many({"spaces.profile_id": profile_id},
           {
             "$set": {'spaces.$.name': space[:name], 'spaces.$.address': space[:address], 'spaces.$.category': space[:category], 'spaces.$.description': space[:description]}
           })
@@ -176,13 +176,20 @@ module Repos
           })
       end
 
+      def delete_artist event_id, profile_id
+        @@events_collection.update_one({event_id: event_id},
+          {
+            "$pull": {'artists': {'profile_id' => profile_id}}
+          })
+      end
+
       def delete_artist_proposal proposal_id
         delete_performances proposal_id
         event = grab({"artists.proposals.proposal_id": proposal_id}).first
         artist = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}
         proposals = artist[:proposals]
         proposals.select!{|proposal| proposal[:proposal_id] != proposal_id}
-        return delete_artist artist[:profile_id] if proposals.blank?
+        return delete_artist(event[:event_id], artist[:profile_id]) if proposals.blank?
         @@events_collection.update_one({"artists.proposals.proposal_id": proposal_id},
           {
             "$set": {'artists.$.proposals': proposals}
@@ -307,8 +314,6 @@ module Repos
       def arrange_program event, program
         program.map{ |performance|
           artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
-          puts event[:name]
-          puts artist
           artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
           space = event[:spaces].select{ |host| host[:profile_id] == performance[:host_id]}.first
           order = event[:spaces].index{ |host| host[:profile_id] == performance[:host_id] }
