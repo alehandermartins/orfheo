@@ -436,17 +436,56 @@
       {
         text: Pard.Widgets.IconManager('mailinglist').render(),
         className: 'mailinglistBtn',
-        action: function(){
-          var columnData = _table.column(_columns.indexOf('participant_email')).data().unique();
-          var _emailList = '';
-          columnData.each(function(email){
-            _emailList += email+', ';
-          });
-          _emailList = _emailList.substring(0,_emailList.length-2)
-          Pard.Widgets.CopyToClipboard(_emailList);
-          var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-          Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
-        }
+        extend: 'collection',
+        collectionLayout: 'button-list',
+        autoClose: true,
+        fade: 200,
+        buttons: [
+          {
+            text: 'Email artistas',
+            action: function(){
+              var columnData = _table.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
+              var _emailList = '';
+              columnData.each(function(email){
+                _emailList += email+', ';
+              });
+              _emailList = _emailList.substring(0,_emailList.length-2)
+              Pard.Widgets.CopyToClipboard(_emailList);
+              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+            }
+          },
+          {
+            text: 'Email espacios',
+            action: function(){
+              var columnData = _table.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
+              var _emailList = '';
+              columnData.each(function(email){
+                _emailList += email+', ';
+              });
+              _emailList = _emailList.substring(0,_emailList.length-2)
+              Pard.Widgets.CopyToClipboard(_emailList);
+              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+            }
+          },
+          {
+            text: 'Email artist. y esp.',
+            action: function(){
+              var columnArtData = _table.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
+              var columnEspData = _table.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
+              var columnData = $.merge(columnArtData, columnEspData).unique();
+              var _emailList = '';
+              columnData.each(function(email){
+                _emailList += email+', ';
+              });
+              _emailList = _emailList.substring(0,_emailList.length-2)
+              Pard.Widgets.CopyToClipboard(_emailList);
+              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+            }
+          }
+        ]
       },
       {
         extend: 'collection',

@@ -310,7 +310,7 @@
                 className: 'mailinglistBtn',
                 action: function(){
                   console.log(_dataTables[typeTable].emailColumn)
-                  var columnData = _dataTables[typeTable].table.column(_dataTables[typeTable].emailColumn).data().unique();
+                  var columnData = _dataTables[typeTable].table.column(_dataTables[typeTable].emailColumn, { search:'applied' }).data().unique();
                   var _emailList = '';
                   columnData.each(function(email){
                     _emailList += email+', ';
