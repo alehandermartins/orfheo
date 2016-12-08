@@ -114,13 +114,13 @@
     Pard.Bus.on('modifyArtist', function(artist){
       if(the_event.artists[artist.profile_id]) the_event.artists[artist.profile_id].modify(artist);
       _programManager.modifyArtist(artist);
-      //_tableManager.modifyArtist(artist);
+      _tableManager.modifyArtist(artist);
     });
 
     Pard.Bus.on('modifySpace', function(space){
       if(the_event.spaces[space.profile_id]) the_event.spaces[space.profile_id].modify(space);
       _programManager.modifySpace(space);
-      //_tableManager.modifySpace(space);
+      _tableManager.modifySpace(space);
     });
 
     return {

@@ -563,7 +563,37 @@
           }
         }
         _selectCatReload();
-      }
+      },
+      modifySpace: function(space){
+        for (var categoryTable in _dataTables){
+          var _row = _dataTables[categoryTable].table.row('#proposalRow-' + space.profile_id);
+          if (_row && _row.index()>-1) {
+            _row.remove().draw();
+            if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
+          }
+        }
+        _dataTables[space.form_category].table.row.add(_dataTables[space.form_category].proposalRow(space)).draw();
+        _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('space', space)).draw();
+        _proposalsNumber[space.form_category] += 1;
+        _selectCatReload();
+      },
+      modifyArtist: function(artist){
+        console.log(artist)
+        for (var categoryTable in _dataTables){
+          var _row = _dataTables[categoryTable].table.row('#proposalRow-' + artist.proposal_id);
+          if (_row && _row.index()>-1) {
+            _row.remove().draw();
+            if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
+          }
+        }
+        if (artist.profile_id.indexOf('own') >- 1) _deleteOwnArtist(artist); 
+        var proposal = artist.proposals[0];
+        _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
+        _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
+        _proposalsNumber[proposal.form_category] += 1;
+        if (artist.profile_id.indexOf('own') >- 1) _addOwnArtist(artist);
+        _selectCatReload();
+      },
     }
   }
 
