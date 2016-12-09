@@ -970,7 +970,7 @@ Profile Section
 
 .trash-icon-delete{
   font-size: $almostNormalSize;
-  vertical-align: -0.1rem;
+  vertical-align: -0.2rem;
   margin-right: 0.2rem;
 }
 
@@ -986,7 +986,7 @@ Profile Section
       vertical-align: top;
     }
     .trash-icon-delete{
-      vertical-align: 0.1rem;
+      /* vertical-align: -0.1rem; */
     }
   }
 }
@@ -1517,6 +1517,10 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   float: right;
 }
 
+.artist-out-of-program-popup-content{
+  margin-top: 2rem;
+}
+
 .artist-out-of-program-popup-content div.dataTables_wrapper div.dataTables_filter input {
     width: 18rem !important;
     height: 2rem;
@@ -1666,16 +1670,13 @@ th.column-call-manager-table{
   left: 22.5rem;
 }
 
-
 span.select2-container--default .select2-selection--single{
-  /* @include border-radius(0.125rem);
-  height:2.43rem; */
   outline: none;
-  /* border: 1px solid #cacaca; */
 }
 
 .table-box-call-manager-page{
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
+  margin-top: -0.35rem;
 }
 
 div.dt-buttons{
@@ -1994,13 +1995,15 @@ Program Manager Tab
 
 .selectors-call-manager{
   position: relative;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1.5rem; */
+  margin-bottom: 2rem;
+  margin-top: 3rem;
 }
 
 .day-selector-container-call-manager{
   display: inline-block;
   width: 9rem;
-  margin-left: 4rem;
+  margin-left: 19rem;
 }
 
 .space-selector-container-call-manager{
@@ -2271,9 +2274,9 @@ tr.permanent-row-program-table-call-manager td{
 
 .tools-buttons-container{
   position: absolute;
-  display: inline-block;
-  right: 3rem;
-  top: 2px;
+  left: 6rem;
+  top: 2px; 
+  z-index: 10;
   span{
     font-size: $almostNormalSize;
     margin-right: 0.5rem;
@@ -2310,14 +2313,16 @@ tr.permanent-row-program-table-call-manager td{
 }
 
 .submit-program-btn-container{
-  position: absolute;
-  right: 0;
+  position: absolute; 
+  z-index: 10;
+  left: 3rem;
 }
 
 .buttons-container-call-manager{
   position: relative;
-  height: 2rem;
-  margin-bottom: 0.5rem;
+  margin-top: 2.5rem;
+/*   height: 2rem;
+  margin-bottom: 0.5rem; */
 }
 
 
