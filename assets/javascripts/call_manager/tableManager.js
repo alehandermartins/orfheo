@@ -38,13 +38,13 @@
     var _createProposalsCont = $('<div>').append(_createProposalsInnerCont).addClass('createProposalsContainer-call-page');
     var _openPopupForm = displayer.createOwnProposal;
     var _deleteOwnArtist = function(artist){
-      console.log(_ownArtists[artist.profile_id])
-      if (_ownArtists[artist.profile_id] && _ownArtists[artist.profile_id].proposals.length == 0) delete _ownArtists[artist.profile_id];
+      if (_ownArtists[artist.profile_id] && _ownArtists[artist.profile_id].proposals.length == 0){
+        delete _ownArtists[artist.profile_id];
+      } 
     }
     var _addOwnArtist = function(artist){
       if (_ownArtists[artist.profile_id]) _ownArtists[artist.profile_id].proposals.push(artist.proposals[0]);
       else _ownArtists[artist.profile_id] = artist;
-        console.log(_ownArtists);
     }
     _createdWidget.append(_createProposalsCont);
 
@@ -108,10 +108,7 @@
       _dataTables['allProposals'].addRow('space', proposal);
     });
     Object.keys(artists).forEach(function(profile_id){
-      if (profile_id.indexOf('own')>-1) {
-        var ownArtist = artists[profile_id].artist;
-        _ownArtists[ownArtist.profile_id] = ownArtist;
-      }
+      if (profile_id.indexOf('own')>-1) _ownArtists[profile_id] = the_event.artists[profile_id].artist;
       var profile = artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
         proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
@@ -199,7 +196,6 @@
               _receivedCheckbox.prop("checked", !_receivedCheckbox.prop("checked"));
               _receivedCheckbox.trigger('change');
             });
-          // $('<span>').append('Filtra: ').css({'font-size':'0.875rem', 'margin-right':'0.5rem'}),
           var _filtersContainer = $('<div>').append($('<span>').append(_ownCheckbox, _labelOwn), $('<span>').append(_receivedCheckbox, _labelReceived)).addClass('ownReceivedFilters-call-page');
           _tablesContainer[typeTable].prepend($('<div>').append(_filtersContainer).css({'position':'relative', 'margin-left':'0.5rem'}));
     }
@@ -613,11 +609,9 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
-        if (artist.profile_id.indexOf('own') >- 1) _deleteOwnArtist(artist); 
         _dataTables[proposal.form_category].table.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
         _dataTables['allProposals'].table.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
         _proposalsNumber[proposal.form_category] += 1;
-        if (artist.profile_id.indexOf('own') >- 1) _addOwnArtist(artist);
         _selectCatReload();
       },
     }

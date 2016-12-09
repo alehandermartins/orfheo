@@ -174,19 +174,6 @@
       switch(field){
         case 'photos':
         case 'links':
-          // var _thumbnail = $('<div>');
-          // var _photosLabel = $('<label>').text(form[field].label);
-          // var _photoWidget = _form[field].input;
-          // _photos = _photoWidget.getPhotos();
-          // var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
-          // if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
-          // _photos.cloudinary().bind('cloudinarydone', function(e, data){
-          //   var _url = _photoWidget.getVal();
-          //   console.log(_url);
-          //   _url.push(data['result']['public_id']);
-          //   if(_url.length >= _photos.dataLength()) _send();
-          // });
-          // _optionalFields.prepend(_photosContainer);
           break;
         case 'category':
           if (form[field].args[1].length>1){
@@ -294,15 +281,6 @@
       submitButton.attr('disabled',true);
       if(_filled() == true){
         _send();
-        // if(_photos){
-        //   if(_photos.dataLength() == false) _send();
-        //   else{
-        //     _photos.submit();
-        //   }
-        // }
-        // else{
-        //   _send();
-        // }
       }
       else{
         spinner.stop();
@@ -336,8 +314,13 @@
           if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
       },
-      disableEmail: function(){
-        _form['email'].input.disable();
+      disableFields: function(){
+        _form['email'].input.setVal('El correo no se puede modificar');
+        _form['email'].input.disable()
+        _form['email'].input.setClass('text-warning');
+        _form['name'].input.setVal('El nombre sólo lo puede moficar el relativo perfil desde su página')
+        _form['name'].input.disable()
+        _form['name'].input.setClass('text-warning');
       },
       showAll: function(){
         _displayAllBtn.trigger('click');

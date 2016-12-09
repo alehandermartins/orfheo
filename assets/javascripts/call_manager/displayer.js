@@ -145,7 +145,11 @@
         _messageProposalPrintedRendered.hide();
         var _formWidget = Pard.Widgets.OwnProposalForm(form, type, _proposal.form_category);
         _formWidget.setVal(_proposal);
-        if (proposal.proposal_id.indexOf('own')<0) _formWidget.disableEmail();
+        if (proposal.proposal_id.indexOf('own')<0) {
+          _formWidget.disableFields();
+          _submitForm['name'] = _proposal.name;
+          _submitForm['email'] = _proposal.email;
+        }
         _formWidget.showAll();
         _formWidget.setSend(function(stopSpinner){
           var _submitForm = _formWidget.getVal();
