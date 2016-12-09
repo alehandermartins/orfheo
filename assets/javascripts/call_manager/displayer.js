@@ -43,9 +43,9 @@
 
     var _displayProposal = function(proposal, type){
 
-      console.log(proposal)
+      var _proposal = $.extend(true, {}, proposal);
 
-      var form = forms[type][proposal.form_category];
+      var form = forms[type][_proposal.form_category];
 
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
       var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
@@ -90,7 +90,7 @@
             });
             _yesBtn.click(function(){
               $('body').append(spinnerDeleteProposal.el);
-              _deleteProposalBackend[type](proposal.proposal_id, event_id, function(data){
+              _deleteProposalBackend[type](_proposal.proposal_id, event_id, function(data){
                 deleteCallback(data);
                 spinnerDeleteProposal.stop();
                 _popup.close();
@@ -143,39 +143,39 @@
       }
       _modifyProposal.click(function(){
         _messageProposalPrintedRendered.hide();
-        var _formWidget = Pard.Widgets.OwnProposalForm(form, type, proposal.form_category);
-        _formWidget.setVal(proposal);
+        var _formWidget = Pard.Widgets.OwnProposalForm(form, type, _proposal.form_category);
+        _formWidget.setVal(_proposal);
+        if (proposal.proposal_id.indexOf('own')<0) _formWidget.disableEmail();
         _formWidget.showAll();
         _formWidget.setSend(function(stopSpinner){
           var _submitForm = _formWidget.getVal();
-          _submitForm['proposal_id'] = proposal.proposal_id;
+          _submitForm['proposal_id'] = _proposal.proposal_id;
           _submitForm['event_id'] = event_id;
           _submitForm['call_id'] = call_id;
-          _submitForm['profile_id'] = proposal.profile_id; 
+          _submitForm['profile_id'] = _proposal.profile_id; 
           _modifyProposalBackend[type](_submitForm, 
             function(data){
-              console.log(data);
               modifyCallback(data);
               _content.empty();
               if (type == 'space') {
-                var _proposal = data.proposal;
+                var _modifiedProposal = data.proposal;
               }
               else {
                 var _artist = data.proposal;
-                var _proposal = data.proposal.proposals[0];
-                _proposal.name = _artist.name;
-                _proposal.email = _artist.email;
-                _proposal.profile_id = _artist.profile_id;
+                var _modifiedProposal = data.proposal.proposals[0];
+                _modifiedProposal.name = _artist.name;
+                _modifiedProposal.email = _artist.email;
+                _modifiedProposal.profile_id = _artist.profile_id;
               }
-              _proposal.form_category = _proposal.form_category || Pard.Widgets.Dictionary(_proposal.category).render();
-              _proposal.subcategory = _proposal.subcategory || Pard.Widgets.Dictionary(_proposal.category).render();
-              _displayProposal(_proposal, type);
+              _modifiedProposal.form_category = _modifiedProposal.form_category || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
+              _modifiedProposal.subcategory = _modifiedProposal.subcategory || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
+              _displayProposal(_modifiedProposal, type);
               stopSpinner();
             }
           );
         });
         var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
-        _modifyMessage.prependToContent($('<p>').text('Formulario: '+proposal.form_category).css('margin-bottom','-0.5rem'));
+        _modifyMessage.prependToContent($('<p>').text('Formulario: '+_proposal.form_category).css('margin-bottom','-0.5rem'));
         _modifyMessage.appendToContent(Pard.Widgets.Button(
           'Anula',
           function(){
@@ -198,9 +198,9 @@
         _popup.close();
       });
 
-      if (proposal.amend){
+      if (_proposal.amend){
         var _label = $('<span>').addClass('myProposals-field-label').text('Enmienda:').css('display', 'block');
-        var _text = $('<span>').text(' ' + proposal.amend);
+        var _text = $('<span>').text(' ' + _proposal.amend);
         var _element = $('<div>').append($('<p>').append(_label, _text));
         _messageProposalPrinted.appendToContent(_element);
       };
@@ -210,7 +210,7 @@
       _actionBtnContainer.append(_deleteProposalCaller);
   
       _messageProposalPrinted.prependToContent(_actionBtnContainer);
-      if (proposal.proposal_id.indexOf("own") >= 0) {
+      if (_proposal.proposal_id.indexOf("own") >= 0) {
         var _warningOwnText = $('<p>').text('Propuesta creada por los organizadores de la convocatoria');
         _messageProposalPrinted.prependToContent(_warningOwnText);
       }

@@ -30,13 +30,15 @@
       phone:''
     };
     var _dataParticipants = [{id:'',text:'', participant: _emptyOptionParticpant}];
-    participants.forEach(function(participant){
+    Object.keys(participants).forEach(function(key){
+      var participant = participants[key];
       _dataParticipants.push({
         id: participant.profile_id,
         text: participant.name,
         participant: participant
       })
     });
+
     var _placeholderParticipantSelector = "Selecciona el "+Pard.Widgets.Dictionary(participantType).render();
 
     _participantsSelector.select2({
@@ -88,7 +90,7 @@
       _contentSel.append(_formWidget.render());
     };
 
-    if (participants.length) {
+    if (Object.keys(participants).length) {
       _createdWidget.append(_participantsSelectorCont);
     }
 
@@ -329,10 +331,13 @@
       getVal: function(){
         return _getVal();
       },
-      setVal: function(production){
-        for(var field in production){
-          if (_form[field]) _form[field].input.setVal(production[field]);
+      setVal: function(proposal){
+        for(var field in proposal){
+          if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
+      },
+      disableEmail: function(){
+        _form['email'].input.disable();
       },
       showAll: function(){
         _displayAllBtn.trigger('click');

@@ -9,7 +9,7 @@
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var _createdWidget = $('<div>');
-    var _ownArtists = [];
+    var _ownArtists = {};
 
     // OWN PROPOSALS
 
@@ -36,16 +36,15 @@
    
     var _createProposalsInnerCont = $('<div>').addClass('innerCreateProposals-Cont');
     var _createProposalsCont = $('<div>').append(_createProposalsInnerCont).addClass('createProposalsContainer-call-page');
-    // var _createProposalsText = $('<span>').text('Crea prepuestas:').css('font-size','0.875rem')
-    // _createProposalsInnerCont.append(_createProposalsText);
     var _openPopupForm = displayer.createOwnProposal;
     var _deleteOwnArtist = function(artist){
-      _ownArtists = _ownArtists.filter(function(_artist){
-        return artist.profile_id != _artist.profile_id;
-      });
+      console.log(_ownArtists[artist.profile_id])
+      if (_ownArtists[artist.profile_id] && _ownArtists[artist.profile_id].proposals.length == 0) delete _ownArtists[artist.profile_id];
     }
     var _addOwnArtist = function(artist){
-      _ownArtists.push(artist);
+      if (_ownArtists[artist.profile_id]) _ownArtists[artist.profile_id].proposals.push(artist.proposals[0]);
+      else _ownArtists[artist.profile_id] = artist;
+        console.log(_ownArtists);
     }
     _createdWidget.append(_createProposalsCont);
 
@@ -111,7 +110,7 @@
     Object.keys(artists).forEach(function(profile_id){
       if (profile_id.indexOf('own')>-1) {
         var ownArtist = artists[profile_id].artist;
-        _ownArtists.push(ownArtist);
+        _ownArtists[ownArtist.profile_id] = ownArtist;
       }
       var profile = artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){

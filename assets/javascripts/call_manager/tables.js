@@ -302,7 +302,7 @@
 
 
 
-  ns.Widgets.ProgramTable = function(program){
+  ns.Widgets.ProgramTable = function(program, displayer){
 
     var _createdWidget = $('<div>');
     var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0"}).css({
@@ -317,7 +317,7 @@
     var _titleRow = $('<tr>');
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
-    var _infoProgram = Pard.Widgets.ProgramTableInfo();
+    var _infoProgram = Pard.Widgets.ProgramTableInfo(program, displayer);
 
     //REMEMBER children ---> publico del espectacúlo
 
@@ -348,7 +348,6 @@
     });
 
      var showRow = function(show){
-      console.log(show)
       var _show = $.extend(true, {}, show);
       var _row = $('<tr>').attr('id', 'programTable-'+show.performance_id);
       _columns.forEach(function(field){
@@ -588,7 +587,7 @@
     
     $(document).ready(function(){
       _loadSelectors();
-      _infoProgram.setProgram(program);
+      // _infoProgram.setProgram(program);
     })
 
     return {
@@ -599,8 +598,8 @@
     }
   }
 
-  ns.Widgets.ProgramTableInfo = function(){
-    var _program = {};
+  ns.Widgets.ProgramTableInfo = function(program, displayer){
+
     return{
       date: {
         info: function(show){
@@ -623,9 +622,15 @@
         label:'Horario'
       },
       participant_name:{
+        info: function(show){
+          return $('<a>').attr('href','#').text(show.participant_name).click(function(){displayer.displayArtistProgram(show.participant_id)});
+        },
         label: 'Artista'
       },
       host_name: {
+        info: function(show){
+          return $('<a>').attr('href','#').text(show.host_name).click(function(){displayer.displaySpaceProgram(show.host_id)});
+        },
         label:'Espacio'
       },
       order:{
@@ -655,6 +660,7 @@
       title: {
         label: 'Título',
         info: function(show){
+          // return $('<a>').attr('href','#').text(show.title).click(function(){program[show.performance_id].showPopup();})
           var _info = $('<a>').attr('href','#')
           .text(show['title'])
           .click(function(){
@@ -662,7 +668,7 @@
             _content.empty();
             $('body').append(_content);
             var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-            var _message = Pard.Widgets.PopupContent(show.title +' (' + show.participant_name + ')', _program[show.performance_id].manager(true));
+            var _message = Pard.Widgets.PopupContent(show.title +' (' + show.participant_name + ')', program[show.performance_id].manager(true));
             _message.setCallback(function(){
               _content.remove();
               _popup.close();
@@ -672,9 +678,6 @@
           })
           return _info;
         }
-      },
-      setProgram: function(program){
-        _program = program;
       }
     }
   }

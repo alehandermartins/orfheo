@@ -51,6 +51,9 @@
       },
       setAttr: function(attribute, value){
         _input.attr(attribute,value);
+      },
+      disable: function(){
+        _input.prop('disabled', true);
       }
     }
   };

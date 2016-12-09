@@ -8,7 +8,7 @@
     var spaces = the_event.spaces;
     var order = [];
     var _program = {};
-    var _programTable = Pard.Widgets.ProgramTable(_program);
+    var _programTable = Pard.Widgets.ProgramTable(_program, displayer);
 
     var timeManager = Pard.Widgets.TimeManager(the_event.eventTime);
     var hours = timeManager.hours;
@@ -334,7 +334,7 @@
       var _row = _programTable.table.row('#programTable-' + show.performance_id);
        if (_row && _row.index()>-1) _row.remove();
       _programTable.table.row.add(_programTable.showRow(show)).draw();
-      console.log('saveFunction')
+      console.log('save')
     }
     
     var create = function(performance, check){
@@ -397,6 +397,7 @@
       card.append(_title.css({'position': 'absolute'}));
       card.addClass('dragged-card-call-manager cursor_grab');
       card.mousedown(function(){
+        card.removeClass('cursor_grab').addClass('cursor_move');
       });
       card.mouseup(function(){
         card.removeClass('cursor_move').addClass('cursor_grab');
@@ -675,6 +676,7 @@
         manager: manager,
         modify: _modify,
         destroy: _destroy
+        // showPopup: function(){_titleText.trigger('click')}
       }
     }
 
@@ -1019,6 +1021,7 @@
         modify: _modify,
         destroy: _destroy,
         loadDates: _loadDates
+        // showPopup: function(){_titleText.trigger('click')}
       }
     }
 
