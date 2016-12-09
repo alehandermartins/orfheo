@@ -211,8 +211,8 @@
       };
 
       var _actionBtnContainer = $('<div>').addClass('actionButton-container-popup');
-      _actionBtnContainer.append(_modifyProposal);
-      _actionBtnContainer.append(_deleteProposalCaller);
+      _actionBtnContainer.append($('<span>').append(_modifyProposal).addClass('element-actionButton'));
+      _actionBtnContainer.append($('<span>').append(_deleteProposalCaller).addClass('element-actionButton').css({ 'border-left':'1px solid #bebebe' }));
   
       _messageProposalPrinted.prependToContent(_actionBtnContainer);
       if (_proposal.proposal_id.indexOf("own") >= 0) {

@@ -976,7 +976,19 @@ Profile Section
 
 .actionButton-container-popup{
   text-align: right;
-  margin-bottom: -1rem;
+  margin-bottom: -1.5rem;
+  .element-actionButton{
+    display: inline-block;
+    padding: 0 0.7rem;
+    height: 1rem;
+    vertical-align: top;
+    a{
+      vertical-align: top;
+    }
+    .trash-icon-delete{
+      vertical-align: 0.1rem;
+    }
+  }
 }
 
 /*-----------------

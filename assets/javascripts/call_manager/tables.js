@@ -24,13 +24,13 @@
     var _titleRowFoot = $('<tr>');
     // All non numeric field used by orfheo --> vector needed for ordering
     var _orfheoFields = {
-      artist: ['proposal_id','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email'],
-      space: ['proposal_id', 'type','name', 'subcategory','address', 'description','availability','phone','email']
+      artist: ['profile_id','proposalNumber','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email'],
+      space: ['profile_id','proposalNumber', 'type','name', 'subcategory','address', 'description','availability','phone','email']
     }
     //Mandatory fields that are not asked in forms
     var _mandatoryFields = {
-     artist: ['proposal_id', 'type', 'name', 'email', 'subcategory'],
-     space: ['proposal_id', 'type', 'name', 'email', 'address', 'description', 'subcategory']
+     artist: ['profile_id','proposalNumber', 'type', 'name', 'email', 'subcategory'],
+     space: ['profile_id','proposalNumber', 'type', 'name', 'email', 'address', 'description', 'subcategory']
     }
     // The columns I want to see in table as default
     var _shownColumns = {
@@ -45,6 +45,7 @@
     var _subcategoryColumn;
     var _subcategoryIndex = 0;
     var _tableFields = [];
+    var proposalNumber = 0;
 
     var _printTitleAndFoot = function(field){
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
@@ -86,12 +87,14 @@
     _table.append(_tbody);
 
     var proposalRow = function(proposal, profile){
-      // _proposalsNumber += 1;
+      proposalNumber += 1;
       var _proposal = $.extend(true, {}, proposal);
-      _proposal.name = _proposal.name || profile.name;
-      _proposal.phone = _proposal.phone || profile.phone;
-      _proposal.email = _proposal.email || profile.email;
-      _proposal.profile_id = _proposal.profile_id || profile.profile_id;
+      if(profile){
+        _proposal.name = profile.name;
+        _proposal.phone = profile.phone;
+        _proposal.email =  profile.email;
+        _proposal.profile_id = profile.profile_id;
+      }
       _proposal.type = type;
       var _row = $('<tr>');
       if (type == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
@@ -99,7 +102,7 @@
       _orfheoFields[type].forEach(function(field){
         if (_form[field] || $.inArray(field, _mandatoryFields[type])>-1){
           var _info = '';
-          if(_form[field].info) _info = _form[field].info(_proposal, displayer);
+          if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber);
           else _info = _proposal[field];
           var _col = $('<td>').addClass('column-call-manager-table');
           if (_form[field]['input'] == 'Input') _col.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
@@ -152,7 +155,7 @@
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
 
-    var _orfheoFields = ['proposal_id','hiddenType','type','name', 'subcategory', 'titleAddress', 'phone','email'];
+    var _orfheoFields = ['profile_id','hiddenType','proposalNumber','type','name', 'subcategory', 'titleAddress', 'phone','email'];
 
     var _form = {}
 
@@ -162,10 +165,13 @@
     }
 
     var _subcategoryColumn;
+    var _emailColumn;
     var _tableFields = [];
+    var proposalNumber = 0;
 
     _orfheoFields.forEach(function(field, index){
       if(field == 'subcategory') _subcategoryColumn = index; 
+      if(field == 'email') _emailColumn = index;
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
       var _label = _form[field]['label'];
       var _colTitle = $('<th>').append(_label).addClass('column-call-manager-table');
@@ -184,11 +190,14 @@
     _table.append(_tbody);
 
     var proposalRow = function(profileType, proposal, profile){
+      proposalNumber += 1;
       var _proposal = $.extend(true, {}, proposal);
-      _proposal.name = _proposal.name || profile.name;
-      _proposal.phone = _proposal.phone || profile.phone;
-      _proposal.email = _proposal.email || profile.email;
-      _proposal.profile_id = _proposal.profile_id || profile.profile_id;
+      if (profile){
+        _proposal.name =  profile.name;
+        _proposal.phone = profile.phone;
+        _proposal.email =  profile.email;
+        _proposal.profile_id =  profile.profile_id;
+      }
       _proposal.type = profileType;
       // necesary for proposals conFusion withput form cat
       var _row = $('<tr>');
@@ -196,7 +205,7 @@
       if (profileType == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
       _orfheoFields.forEach(function(field){
         var _info = '';
-        if(_form[field].info) _info = _form[field].info(_proposal, displayer);
+        if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber);
         else _info = _proposal[field];
         var _col = $('<td>').addClass('column-call-manager-table');
         if (_form[field]['input'] == 'Input') _col.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
@@ -214,6 +223,7 @@
         _tbody.prepend(proposalRow(profileType, proposal, profile))
       },
       proposalRow: proposalRow,
+      emailColumn: _emailColumn,
       subcategoryColumn: _subcategoryColumn,
       tableFields: _tableFields
     }
@@ -297,13 +307,20 @@
       label:'hiddenType',
       input: 'Inputtex'
     },
-    proposal_id:{
+    profile_id:{
       info: function(proposal){
-        return proposal.proposal_id.indexOf('own')>-1 ? 'own' : 'received'; 
+        return proposal.profile_id.indexOf('own')>-1 ? proposal.profile_id : proposal.profile_id+'received'; 
       },
-      label:'proposal_id',
+      label:'profile_id',
       input: 'Inputtex'
     },
+  proposalNumber:{
+    info: function(p, d, proposalNumber){
+      return proposalNumber;
+    },
+    label:'proposalNumber',
+    input:'Selector'
+  }
   }
 
 

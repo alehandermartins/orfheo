@@ -273,13 +273,13 @@
             "columnDefs": [
               { "visible": false, "targets": _dataTables[typeTable].hiddenColumns}
             ],
-            "order": [1,'asc'],
+            "order": [1, 'desc'],
             // keys: true,
             dom: 'Bfrtip',
             buttons: [
               {
                 extend: 'colvis',
-                columns: ':gt(0)',
+                columns: ':gt(1)',
                 text: Pard.Widgets.IconManager('visibility').render(),
                 className: 'changeColumnsBtn',
                 collectionLayout: 'fixed big_layout',
@@ -304,7 +304,6 @@
                 text: Pard.Widgets.IconManager('mailinglist').render(),
                 className: 'mailinglistBtn',
                 action: function(){
-                  console.log(_dataTables[typeTable].emailColumn)
                   var columnData = _dataTables[typeTable].DataTable.column(_dataTables[typeTable].emailColumn, { search:'applied' }).data().unique();
                   var _emailList = '';
                   columnData.each(function(email){
@@ -425,16 +424,16 @@
             "paging": false,
             "scrollCollapse": true,
             "columnDefs": [
-              { "visible": false, "targets":[0,1]}
+              { "visible": false, "targets":[0,1,2]}
             ],
-            "order": [1, 'asc'],
+            "order": [2, 'desc'],
             dom: 'Bfrtip',
             buttons: [
               {
                 text: Pard.Widgets.IconManager('mailinglist').render(),
                 className: 'mailinglistBtn',
                 action: function(){
-                  var columnData = _dataTables['allProposals'].DataTable.column(7, { search:'applied' }).data().unique();
+                  var columnData = _dataTables['allProposals'].DataTable.column(_dataTables['allProposals'].emailColumn, { search:'applied' }).data().unique();
                   var _emailList = '';
                   columnData.each(function(email){
                     _emailList += email+', ';
@@ -517,7 +516,7 @@
               _filtersWidgets(this.api().column(0, { search:'applied' }), typeTable);
 
               var colType = this.api().column(1, { search:'applied' });
-              var rfhCol = this.api().column(2);
+              var rfhCol = this.api().column(3);
               if (Object.keys(forms).length>2){
                 var _selectContainer = $('<div>').addClass('select-container-datatableColumn rfh-selector');
                 var selectType = $('<select>').append($('<option>').attr('value','').text('')).appendTo(_selectContainer.appendTo($(rfhCol.header())));
@@ -595,25 +594,23 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
-        _dataTables[space.form_category].DataTable.row.add(_dataTables[space.form_category].proposalRow(space)).draw();
-        _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('space', space)).draw();
+        _dataTables[space.form_category].DataTable.row.add(_dataTables[space.form_category].proposalRow(space)).order([1,'desc']).draw();
+        _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('space', space)).order([2,'desc']).draw();
         _proposalsNumber[space.form_category] += 1;
         _selectCatReload();
       },
       modifyArtist: function(artist){
-        var proposal = artist.proposals[0];
-        for (var categoryTable in _dataTables){
-          var _row = _dataTables[categoryTable].DataTable.row('#proposalRow-' + proposal.proposal_id);
-          if (_row && _row.index()>-1) {
-            _row.remove().draw();
-            if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
-          }
-        }
-        _dataTables[proposal.form_category].DataTable.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
-        _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
-        _proposalsNumber[proposal.form_category] += 1;
+        var profile = the_event.artists[artist.profile_id].artist;
+        profile.proposals.forEach(function(proposal){
+          proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
+          proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render(); 
+          _dataTables['allProposals'].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();
+          _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, profile)).order([2,'desc']).draw();
+          _dataTables[proposal.form_category].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();
+          _dataTables[proposal.form_category].DataTable.row.add(_dataTables[proposal.form_category].proposalRow(proposal, profile)).order([1,'desc']).draw();
+        });
         _selectCatReload();
-      },
+      }
     }
   }
 
