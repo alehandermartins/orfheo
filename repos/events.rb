@@ -10,9 +10,17 @@ module Repos
             if artist[:profile_id].split('-').last == 'own'
               artist[:own] = true
               artist[:profile_id] = artist[:profile_id].split('-own').first
-              artist[:proposals].each{ |proposal|
+              artist[:proposals].map!{ |proposal|
                 proposal[:own] = true
                 proposal[:proposal_id] = proposal[:proposal_id].split('-own').first
+                proposal
+              }
+            end
+            if event[:event_id] == 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+              artist[:proposals].map!{ |proposal|
+                proposal[:subcategory] = proposal[:category]
+                proposal[:form_category] = proposal[:category]
+                proposal
               }
             end
             artist
@@ -22,6 +30,10 @@ module Repos
               space[:own] = true
               space[:profile_id] = space[:profile_id].split('-own').first
               space[:proposal_id] = space[:proposal_id].split('-own').first
+            end
+            if event[:event_id] == 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+              space[:subcategory] = space[:category]
+              space[:form_category] = space[:category]
             end
             space
           }
