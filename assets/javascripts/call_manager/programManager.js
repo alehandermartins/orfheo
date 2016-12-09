@@ -8,7 +8,6 @@
     var spaces = the_event.spaces;
     var order = [];
     var _program = {};
-    //var _programTable = Pard.Widgets.ProgramTable(_program, displayer);
 
     var timeManager = Pard.Widgets.TimeManager(the_event.eventTime);
     var hours = timeManager.hours;
@@ -331,10 +330,9 @@
       the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
       the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
       if (check) checkConflicts(show);
-      // var _row = _programTable.table.row('#programTable-' + show.performance_id);
-      //  if (_row && _row.index()>-1) _row.remove();
-      // _programTable.table.row.add(_programTable.showRow(show)).draw();
-      // console.log('save')
+      if (_programTable){
+        _programTable.save(show);
+      }
     }
     
     var create = function(performance, check){
@@ -352,6 +350,7 @@
       the_event.program[performance.performance_id].modify(performance);
       save(the_event.program[performance.performance_id].show, check);
       _programTable.loadSelectors();
+      console.log('modify')
     }
 
     var destroy = function(performance){
@@ -361,9 +360,7 @@
         the_event.program[performance.performance_id].destroy();
         delete the_event.program[performance.performance_id];
       }
-      var _row = _programTable.table.row('#programTable-' + performance.performance_id);
-      if (_row && _row.index()>-1) _row.remove().draw();
-      console.log('destroyPerformance')
+      _programTable.destroy(performance.performance_id);
       _programTable.loadSelectors();
     }
 
@@ -1589,8 +1586,11 @@
     var _managerView = $('<div>');
     var _viewSelected = _managerView;
     var _tableView = $('<div>').hide();
-    // _programTable = Pard.Widgets.ProgramTable(_program);
-    //_tableView.append(_programTable.render);
+    var _programTable ;
+    $(document).ready(function(){
+      _programTable = Pard.Widgets.ProgramTable(_program, displayer);
+      _tableView.append(_programTable.render);
+    })
     var _switcher = $('<div>')
     var _viewSelector = $('<select>');
     var _viewSelectorContainer = $('<div>').addClass('switcherContainer-callPage').append(_viewSelector);

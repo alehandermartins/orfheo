@@ -389,196 +389,7 @@
     _outerTableContainer.append(_tableBox.append(_table)).css('position','relative');
     _createdWidget.append(_outerTableContainer);
 
-    _table = _table.DataTable({
-      "language":{
-      buttons: {
-          copyTitle: 'Copia tabla',
-          copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
-          copySuccess: {
-              _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-              1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
-          }
-      },
-      "lengthMenu": " Resultados por página _MENU_",
-      "zeroRecords": "Ningún resultado",
-      "info": "",
-      "infoEmpty": "Ningúna información disponible",
-      "infoFiltered": "(filtered from _MAX_ total records)",
-      "search": "Busca",
-      "paginate": {
-        "first":      "Primera",
-        "last":       "Última",
-        "next":       "Siguiente",
-        "previous":   "Anterior"
-      },
-     "search": "_INPUT_",
-      "searchPlaceholder": "Busca"
-    },
-    fixedHeader: {
-      header: true
-    },
-    "autoWidth": false,
-    "bAutoWidth": false,
-    "scrollX": true,
-    "scrollY": "85vh",
-    "paging": false,
-    "scrollCollapse": true,
-    // 'responsive': true,
-    // 'colReorder': true,
-    "columnDefs": [
-      { "visible": false, "targets": _hiddenColumns}
-    ],
-    "order": [0,'asc'],
-    // keys: true,
-    dom: 'Bfrtip',
-    buttons: [
-      {
-        extend: 'colvis',
-        columns: ':gt(0)',
-        text: Pard.Widgets.IconManager('visibility').render(),
-        className: 'changeColumnsBtn',
-        collectionLayout: 'fixed big_layout',
-        fade: 200,
-        prefixButtons: [{
-          extend: 'colvisGroup',
-          text: 'Selecciona todo',
-          show: ':hidden'
-        },
-        {
-          extend: 'colvisGroup',
-          text: 'Desmarca todo',
-          hide: ':visible'
-        },
-        {
-          extend: 'colvisRestore',
-          text: 'Configuración incial',
-          show: ':hidden'
-        }]
-      },
-      {
-        text: Pard.Widgets.IconManager('mailinglist').render(),
-        className: 'mailinglistBtn',
-        extend: 'collection',
-        collectionLayout: 'button-list',
-        autoClose: true,
-        fade: 200,
-        buttons: [
-          {
-            text: 'Email artistas',
-            action: function(){
-              var columnData = _table.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
-              var _emailList = '';
-              columnData.each(function(email){
-                _emailList += email+', ';
-              });
-              _emailList = _emailList.substring(0,_emailList.length-2)
-              Pard.Widgets.CopyToClipboard(_emailList);
-              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
-            }
-          },
-          {
-            text: 'Email espacios',
-            action: function(){
-              var columnData = _table.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
-              var _emailList = '';
-              columnData.each(function(email){
-                _emailList += email+', ';
-              });
-              _emailList = _emailList.substring(0,_emailList.length-2)
-              Pard.Widgets.CopyToClipboard(_emailList);
-              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
-            }
-          },
-          {
-            text: 'Email artist. y esp.',
-            action: function(){
-              var columnArtData = _table.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
-              var columnEspData = _table.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
-              var columnData = $.merge(columnArtData, columnEspData).unique();
-              var _emailList = '';
-              columnData.each(function(email){
-                _emailList += email+', ';
-              });
-              _emailList = _emailList.substring(0,_emailList.length-2)
-              Pard.Widgets.CopyToClipboard(_emailList);
-              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
-            }
-          }
-        ]
-      },
-      {
-        extend: 'collection',
-        text:  Pard.Widgets.IconManager('export').render(),
-        className: 'ExportCollectionBtn',
-        collectionLayout: 'button-list',
-        // backgroundClassName: 'ExportCollection-background',
-        autoClose: true,
-        fade: 200,
-        // background: false,
-        buttons: [
-          {
-            extend: 'excel',
-            text:'Excel',
-            customizeData: function(doc) {
-              doc.header.forEach(function(t, i){
-                if (t.indexOf('Categoría')>-1) doc.header[i] = 'Categoría'
-              });
-            },
-            exportOptions: {
-                columns: ':visible'
-            },
-            filename: 'Programa'
-          },
-          {
-            extend: 'pdf',
-            text:'PDF',
-            customize: function(doc) {
-              doc.content[1].table.body[0].forEach(function(colTitle){
-                if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
-                colTitle.alignment = 'left';
-                colTitle.margin = [2,2,2,2];
-              }) 
-            },
-            exportOptions: {
-              columns: ':visible',
-            },
-            orientation: 'landscape',
-            filename: 'Programa'
-          },
-          {
-            extend: 'copy',
-            text: 'Copia',
-            header: false,
-            exportOptions: {
-              columns:  ':visible',
-            }
-          }
-        ]
-      }
-    ]
-    });
-
-    var _colSelectors = {
-      confirmed: {
-        column: _table.column(_columns.indexOf('confirmed')),
-        select: $('<select>').append($('<option>').attr('value','').text(''))
-      },
-      participant_category: {
-        column: _table.column(_columns.indexOf('participant_category')),
-        select: $('<select>').append($('<option>').attr('value','').text(''))
-      },
-      host_category: {
-        column: _table.column(_columns.indexOf('host_category')),
-        select: $('<select>').append($('<option>').attr('value','').text(''))
-      },
-      date:{
-        column: _table.column(_columns.indexOf('date')),
-        select: $('<select>').append($('<option>').attr('value','').text(''))
-      }
-    }
+    var _colSelectors = {};
 
     var _loadSelectors = function () {
       Object.keys(_colSelectors).forEach(function(col){
@@ -608,16 +419,224 @@
       })
     }
     
+
     $(document).ready(function(){
+      for (var id in program){
+        _tbody.append(showRow(program[id].show))
+      }
+
+      _dataTable = _table.DataTable({
+        "language":{
+        buttons: {
+            copyTitle: 'Copia tabla',
+            copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+            copySuccess: {
+                _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
+                1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+            }
+        },
+        "lengthMenu": " Resultados por página _MENU_",
+        "zeroRecords": "Ningún resultado",
+        "info": "",
+        "infoEmpty": "Ningúna información disponible",
+        "infoFiltered": "(filtered from _MAX_ total records)",
+        "search": "Busca",
+        "paginate": {
+          "first":      "Primera",
+          "last":       "Última",
+          "next":       "Siguiente",
+          "previous":   "Anterior"
+        },
+       "search": "_INPUT_",
+        "searchPlaceholder": "Busca"
+      },
+      fixedHeader: {
+        header: true
+      },
+      "autoWidth": false,
+      "bAutoWidth": false,
+      "scrollX": true,
+      "scrollY": "85vh",
+      "paging": false,
+      "scrollCollapse": true,
+      // 'responsive': true,
+      // 'colReorder': true,
+      "columnDefs": [
+        { "visible": false, "targets": _hiddenColumns}
+      ],
+      "order": [0,'asc'],
+      // keys: true,
+      dom: 'Bfrtip',
+      buttons: [
+        {
+          extend: 'colvis',
+          columns: ':gt(0)',
+          text: Pard.Widgets.IconManager('visibility').render(),
+          className: 'changeColumnsBtn',
+          collectionLayout: 'fixed big_layout',
+          fade: 200,
+          prefixButtons: [{
+            extend: 'colvisGroup',
+            text: 'Selecciona todo',
+            show: ':hidden'
+          },
+          {
+            extend: 'colvisGroup',
+            text: 'Desmarca todo',
+            hide: ':visible'
+          },
+          {
+            extend: 'colvisRestore',
+            text: 'Configuración incial',
+            show: ':hidden'
+          }]
+        },
+        {
+          text: Pard.Widgets.IconManager('mailinglist').render(),
+          className: 'mailinglistBtn',
+          extend: 'collection',
+          collectionLayout: 'button-list',
+          autoClose: true,
+          fade: 200,
+          buttons: [
+            {
+              text: 'Email artistas',
+              action: function(){
+                var columnData = _dataTable.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
+                var _emailList = '';
+                columnData.each(function(email){
+                  _emailList += email+', ';
+                });
+                _emailList = _emailList.substring(0,_emailList.length-2)
+                Pard.Widgets.CopyToClipboard(_emailList);
+                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              }
+            },
+            {
+              text: 'Email espacios',
+              action: function(){
+                var columnData = _dataTable.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
+                var _emailList = '';
+                columnData.each(function(email){
+                  _emailList += email+', ';
+                });
+                _emailList = _emailList.substring(0,_emailList.length-2)
+                Pard.Widgets.CopyToClipboard(_emailList);
+                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              }
+            },
+            {
+              text: 'Email artist. y esp.',
+              action: function(){
+                var columnArtData = _dataTable.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
+                var columnEspData = _dataTable.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
+                var columnData = $.merge(columnArtData, columnEspData).unique();
+                var _emailList = '';
+                columnData.each(function(email){
+                  _emailList += email+', ';
+                });
+                _emailList = _emailList.substring(0,_emailList.length-2)
+                Pard.Widgets.CopyToClipboard(_emailList);
+                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              }
+            }
+          ]
+        },
+        {
+          extend: 'collection',
+          text:  Pard.Widgets.IconManager('export').render(),
+          className: 'ExportCollectionBtn',
+          collectionLayout: 'button-list',
+          // backgroundClassName: 'ExportCollection-background',
+          autoClose: true,
+          fade: 200,
+          // background: false,
+          buttons: [
+            {
+              extend: 'excel',
+              text:'Excel',
+              customizeData: function(doc) {
+                doc.header.forEach(function(t, i){
+                  if (t.indexOf('Categoría')>-1) doc.header[i] = 'Categoría'
+                });
+              },
+              exportOptions: {
+                  columns: ':visible'
+              },
+              filename: 'Programa'
+            },
+            {
+              extend: 'pdf',
+              text:'PDF',
+              customize: function(doc) {
+                doc.content[1].table.body[0].forEach(function(colTitle){
+                  if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
+                  colTitle.alignment = 'left';
+                  colTitle.margin = [2,2,2,2];
+                }) 
+              },
+              exportOptions: {
+                columns: ':visible',
+              },
+              orientation: 'landscape',
+              filename: 'Programa'
+            },
+            {
+              extend: 'copy',
+              text: 'Copia',
+              header: false,
+              exportOptions: {
+                columns:  ':visible',
+              }
+            }
+          ]
+        }
+      ]
+      });
+
+      _colSelectors = {
+        confirmed: {
+          column: _dataTable.column(_columns.indexOf('confirmed')),
+          select: $('<select>').append($('<option>').attr('value','').text(''))
+        },
+        participant_category: {
+          column: _dataTable.column(_columns.indexOf('participant_category')),
+          select: $('<select>').append($('<option>').attr('value','').text(''))
+        },
+        host_category: {
+          column: _dataTable.column(_columns.indexOf('host_category')),
+          select: $('<select>').append($('<option>').attr('value','').text(''))
+        },
+        date:{
+          column: _dataTable.column(_columns.indexOf('date')),
+          select: $('<select>').append($('<option>').attr('value','').text(''))
+        }
+      }
+
       _loadSelectors();
-      // _infoProgram.setProgram(program);
+      console.log(program);
     })
+
 
     return {
       table: _table,
       render: _createdWidget,
       showRow: showRow,
-      loadSelectors: _loadSelectors
+      loadSelectors: _loadSelectors,
+      save: function(show){
+        var _row = _dataTable.row('#programTable-' + show.performance_id);
+         if (_row && _row.index()>-1) _row.remove();
+        _dataTable.row.add(showRow(show)).order([0,'asc']).draw();
+        console.log('save')
+      },
+      destroy: function(performance_id){
+        _dataTable.row('#programTable-' + performance_id).remove().draw();
+        _loadSelectors();
+        console.log('destroyPerformance');
+      }
     }
   }
 
