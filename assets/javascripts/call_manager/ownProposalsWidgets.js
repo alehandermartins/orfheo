@@ -315,12 +315,12 @@
         }
       },
       disableFields: function(){
-        _form['email'].input.setVal('El correo no se puede modificar');
+        // _form['email'].input.setVal('El correo no se puede modificar');
         _form['email'].input.disable()
-        _form['email'].input.setClass('text-warning');
-        _form['name'].input.setVal('El nombre sólo lo puede moficar el relativo perfil desde su página')
-        _form['name'].input.disable()
-        _form['name'].input.setClass('text-warning');
+        // _form['email'].input.setClass('text-warning');
+        // _form['name'].input.setVal('El nombre sólo lo puede moficar el relativo perfil desde su página')
+        // _form['name'].input.disable()
+        // _form['name'].input.setClass('text-warning');
       },
       showAll: function(){
         _displayAllBtn.trigger('click');

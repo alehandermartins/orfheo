@@ -44,6 +44,7 @@
     var _emailIndex = 0;
     var _subcategoryColumn;
     var _subcategoryIndex = 0;
+    var _tableFields = [];
 
     var _printTitleAndFoot = function(field){
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
@@ -56,6 +57,7 @@
       if (_form[field]['input'] == 'Input') _colFoot.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
       else _colFoot.addClass('column-'+_form[field]['input']);
       _titleRowFoot.append(_colFoot);
+      _tableFields.push(field);
     }
 
     _orfheoFields[type].forEach(function(field){
@@ -127,7 +129,8 @@
       proposalRow: proposalRow,
       hiddenColumns: _hiddenColumns,
       emailColumn: _emailColumn,
-      subcategoryColumn: _subcategoryColumn
+      subcategoryColumn: _subcategoryColumn,
+      tableFields: _tableFields
     }
   }
 
@@ -159,6 +162,7 @@
     }
 
     var _subcategoryColumn;
+    var _tableFields = [];
 
     _orfheoFields.forEach(function(field, index){
       if(field == 'subcategory') _subcategoryColumn = index; 
@@ -172,6 +176,7 @@
       if (_form[field]['input'] == 'Input') _colFoot.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
       else _colFoot.addClass('column-'+_form[field]['input']);
       _titleRowFoot.append(_colFoot);
+      _tableFields.push(field);
     });
 
     _table.append(_thead.append(_titleRow));
@@ -209,7 +214,8 @@
         _tbody.prepend(proposalRow(profileType, proposal, profile))
       },
       proposalRow: proposalRow,
-      subcategoryColumn: _subcategoryColumn
+      subcategoryColumn: _subcategoryColumn,
+      tableFields: _tableFields
     }
   }
 
