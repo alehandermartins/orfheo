@@ -233,8 +233,8 @@
   ns.Widgets.InfoTab = {
     type: {
       info: function(proposal){
-        if (proposal.profile_id.indexOf('own')<0) return  $('<a>').append(Pard.Widgets.IconManager(proposal.type).render()).attr({'href':'/profile?id='+proposal.profile_id, 'target':'_blank'});
-        else return Pard.Widgets.IconManager(proposal.type).render();
+        if (proposal.own) return Pard.Widgets.IconManager(proposal.type).render(); 
+        else return $('<a>').append(Pard.Widgets.IconManager(proposal.type).render()).attr({'href':'/profile?id='+proposal.profile_id, 'target':'_blank'});
       },
       label: 'rfh',
       input: 'type'
@@ -309,7 +309,7 @@
     },
     profile_id:{
       info: function(proposal){
-        return proposal.profile_id.indexOf('own')>-1 ? proposal.profile_id : proposal.profile_id+'received'; 
+        return proposal.own ? proposal.profile_id+'own' : proposal.profile_id+'received'; 
       },
       label:'profile_id',
       input: 'Inputtex'

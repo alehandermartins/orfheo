@@ -108,8 +108,9 @@
       _dataTables['allProposals'].addRow('space', proposal);
     });
     Object.keys(artists).forEach(function(profile_id){
-      if (profile_id.indexOf('own')>-1) _ownArtists[profile_id] = the_event.artists[profile_id].artist;
+     
       var profile = artists[profile_id].artist;
+      if (profile.own) _ownArtists[profile_id] = the_event.artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
         proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
         proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
@@ -556,7 +557,7 @@
         _dataTables[proposal.form_category].DataTable.row.add(_dataTables[proposal.form_category].proposalRow(proposal, artist)).draw();
         _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, artist)).draw();
         _proposalsNumber[proposal.form_category] += 1;
-        if (artist.profile_id.indexOf('own') >- 1) _addOwnArtist(artist);
+        if (artist.own) _addOwnArtist(artist);
         _selectCatReload();
       },
       addSpace: function(space){
@@ -573,7 +574,7 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
-        if (artist.profile_id.indexOf('own') >- 1) _deleteOwnArtist(artist); 
+        if (artist.own) _deleteOwnArtist(artist); 
         _selectCatReload(); 
       },
       deleteSpace: function(space){
