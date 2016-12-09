@@ -1568,6 +1568,8 @@
    
     if(the_event.program){
       the_event.program.forEach(function(performance){
+        if (performance.participant_id.indexOf('-own') > 0) performance.participant_id = performance.participant_id.substring(0 , performance.participant_id.indexOf('-own'));
+        if (performance.host_id.indexOf('-own') > 0) performance.host_id = performance.host_id.substring(0 , performance.host_id.indexOf('-own'));
         if(performance.permanent == 'true') _program[performance.performance_id] = new PermanentPerformance(performance);
         else _program[performance.performance_id] = new Performance(performance);
       });
