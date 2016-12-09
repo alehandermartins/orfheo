@@ -8,7 +8,7 @@
     var spaces = the_event.spaces;
     var order = [];
     var _program = {};
-    var _programTable = Pard.Widgets.ProgramTable(_program, displayer);
+    //var _programTable = Pard.Widgets.ProgramTable(_program, displayer);
 
     var timeManager = Pard.Widgets.TimeManager(the_event.eventTime);
     var hours = timeManager.hours;
@@ -331,10 +331,10 @@
       the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
       the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
       if (check) checkConflicts(show);
-      var _row = _programTable.table.row('#programTable-' + show.performance_id);
-       if (_row && _row.index()>-1) _row.remove();
-      _programTable.table.row.add(_programTable.showRow(show)).draw();
-      console.log('save')
+      // var _row = _programTable.table.row('#programTable-' + show.performance_id);
+      //  if (_row && _row.index()>-1) _row.remove();
+      // _programTable.table.row.add(_programTable.showRow(show)).draw();
+      // console.log('save')
     }
     
     var create = function(performance, check){
@@ -1590,7 +1590,7 @@
     var _viewSelected = _managerView;
     var _tableView = $('<div>').hide();
     // _programTable = Pard.Widgets.ProgramTable(_program);
-    _tableView.append(_programTable.render);
+    //_tableView.append(_programTable.render);
     var _switcher = $('<div>')
     var _viewSelector = $('<select>');
     var _viewSelectorContainer = $('<div>').addClass('switcherContainer-callPage').append(_viewSelector);

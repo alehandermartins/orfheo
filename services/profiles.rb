@@ -13,6 +13,8 @@ module Services
         delete_productions profile if profile.has_key? :productions
         old_pictures = get_pictures(profile)
         Util.destroy_old_pictures old_pictures, {}
+        Repos::Events.delete_artist_profile profile_id if profile[:type] == 'artist'
+        Repos::Events.delete_space_profile profile_id if profile[:type] == 'space'
         Repos::Profiles.delete_profile profile_id
       end
 
