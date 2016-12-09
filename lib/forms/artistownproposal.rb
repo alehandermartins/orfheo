@@ -31,20 +31,22 @@ class ArtistOwnProposal
     proposal = new_proposal params, form
     artist_proposal = {
       user_id: user_id,
-      profile_id: params[:profile_id] || (SecureRandom.uuid + '-own'),
+      profile_id: params[:profile_id] || (SecureRandom.uuid),
       email: params[:email],
       name: params[:name],
       phone: params[:phone],
-      proposals: [proposal]
+      proposals: [proposal],
+      own: true
     }
   end
 
   def new_proposal params, form
     proposal = {
-      proposal_id: params[:proposal_id] || (SecureRandom.uuid + '-own'),
+      proposal_id: params[:proposal_id] || (SecureRandom.uuid),
       category: params[:category],
       subcategory: params[:subcategory],
-      form_category: params[:form_category]
+      form_category: params[:form_category],
+      own: true
     }
     form.each{ |field, content| proposal[field] = params[field]}
     proposal

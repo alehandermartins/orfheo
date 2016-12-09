@@ -4,6 +4,45 @@ module Repos
 
       def for db
         @@events_collection = db['events']
+        events = grab({})
+        events.each{ |event|
+          event[:artists].map!{ |artist|
+            if artist[:profile_id].split('-').last == 'own'
+              artist[:own] = true
+              artist[:profile_id] = artist[:profile_id].split('-own').first
+              artist[:proposals].each{ |proposal|
+                proposal[:own] = true
+                proposal[:proposal_id] = proposal[:proposal_id].split('-own').first
+              }
+            end
+            artist
+          }
+          event[:spaces].map!{ |space|
+            if space[:profile_id].split('-').last == 'own'
+              space[:own] = true
+              space[:profile_id] = space[:profile_id].split('-own').first
+              space[:proposal_id] = space[:proposal_id].split('-own').first
+            end
+            space
+          }
+          event[:program].map!{ |performance|
+            if performance[:participant_id].split('-').last == 'own'
+              performance[:participant_id] = performance[:participant_id].split('-own').first
+              performance[:participant_proposal_id] = performance[:participant_proposal_id].split('-own').first
+            end
+
+            if performance[:host_id].split('-').last == 'own'
+              performance[:host_id] = performance[:host_id].split('-own').first
+              performance[:host_proposal_id] = performance[:host_proposal_id].split('-own').first
+            end
+            performance
+          }
+
+          @@events_collection.update_one({event_id: event[:event_id]},
+          {
+            "$set": {artists: event[:artists], spaces: event[:spaces], program: event[:program]}
+          })
+        }
       end
 
       def add event
@@ -194,6 +233,33 @@ module Repos
           {
             "$set": {'artists.$.proposals': proposals}
           })
+      end
+
+      def delete_artist_profile profile_id
+        events = grab({"artists.profile_id": profile_id})
+        events.each{ |event|
+          artist = event[:artists].detect{|artist| artist[:profile_id] == profile_id}
+          proposals = artist[:proposals]
+          modified_proposals = proposals.map {|proposal|
+            proposal[:own] = true
+            proposal
+          }
+          @@events_collection.update_one({event_id: event[:event_id], 'artists.profile_id': profile_id},
+          {
+            "$set": {'artists.$.own': 'true', 'artists.$.proposals': modified_proposals}
+          })
+        }
+      end
+
+      def delete_space_profile profile_id
+        events = grab({"spaces.profile_id": profile_id})
+        events.each{ |event|
+          space = event[:spaces].detect{|space| space[:profile_id] == profile_id}
+          @@events_collection.update_one({event_id: event[:event_id], 'spaces.profile_id': profile_id},
+          {
+            "$set": {'spaces.$.own': 'true'}
+          })
+        }
       end
 
       def save_program event_id, program, order

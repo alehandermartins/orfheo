@@ -30,16 +30,17 @@ class SpaceOwnProposal
   def new_space params, user_id, form
     space_proposal = {
       user_id: user_id,
-      profile_id: params[:profile_id] || (SecureRandom.uuid + '-own'),
+      profile_id: params[:profile_id] || (SecureRandom.uuid),
       email: params[:email],
       name: params[:name],
       address: params[:address],
-      proposal_id: params[:proposal_id] || (SecureRandom.uuid + '-own'),
+      proposal_id: params[:proposal_id] || (SecureRandom.uuid),
       category: params[:category],
       description: params[:description],
       phone: params[:phone],
       subcategory: params[:subcategory],
-      form_category: params[:form_category]
+      form_category: params[:form_category],
+      own: true
     }
     form.each{ |field, content| space_proposal[field] = params[field]} 
     space_proposal
