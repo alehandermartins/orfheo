@@ -215,7 +215,7 @@
       _actionBtnContainer.append($('<span>').append(_deleteProposalCaller).addClass('element-actionButton').css({ 'border-left':'1px solid #bebebe' }));
   
       _messageProposalPrinted.prependToContent(_actionBtnContainer);
-      if (_proposal.proposal_id.indexOf("own") >= 0) {
+      if (_proposal.own) {
         var _warningOwnText = $('<p>').text('Propuesta creada por los organizadores de la convocatoria');
         _messageProposalPrinted.prependToContent(_warningOwnText);
       }

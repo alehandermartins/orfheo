@@ -503,7 +503,8 @@
 
         confirmedContainer.append(confirmed);
         commentsContainer.append(comments);
-        performanceContainer.append(daySelector, spaceSelector, startTime, endTime, removeInputButton);
+        var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector);
+        performanceContainer.append(daySelector, spaceSelectorContainer, startTime, endTime, removeInputButton);
         performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
 
         Object.keys(eventTime).forEach(function(day){
@@ -551,6 +552,10 @@
           performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
           save(performance, check);
+        });
+
+        spaceSelector.select2({
+          dropdownCssClass: 'orfheoTableSelector'
         });
 
         var setStartTimes = function(){
@@ -849,7 +854,7 @@
         var label = $('<label>').html('Confirmado');
         var confirmed = $('<div>').append(input, label);
 
-        spaceSelector.css({'display': ' inline-block', 'width': '250'});
+        var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector);
         startTime.css({'display': ' inline-block', 'width': '80'});
         endTime.css({'display': ' inline-block', 'width': '80'});
         confirmed.css('margin-left', 430);
@@ -858,7 +863,7 @@
 
         confirmedContainer.append(confirmed);
         commentsContainer.append(comments);
-        performanceContainer.append(daySelector, spaceSelector, startTime, endTime, removeInputButton);
+        performanceContainer.append(daySelector, spaceSelectorContainer, startTime, endTime, removeInputButton);
         performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
 
         _loadDates();
@@ -905,6 +910,10 @@
           performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
           save(performance, check);
+        });
+
+        spaceSelector.select2({
+          dropdownCssClass: 'orfheoTableSelector'
         });
 
         var setStartTimes = function(){
@@ -1066,7 +1075,7 @@
 
       var _outOfprogramBtn = $('<li>').text('Propuestas sin programación');
       _outOfprogramBtn.on('click', function(){
-        var _content = $('<div>').addClass('very-fast reveal full');
+        var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
@@ -1081,7 +1090,7 @@
 
       var _spaceOutOfprogramBtn = $('<li>').text('Espacios sin programación');
       _spaceOutOfprogramBtn.on('click', function(){
-        var _content = $('<div>').addClass('very-fast reveal full');
+        var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
@@ -1146,7 +1155,6 @@
             });
           });
           noSelected.forEach(function(proposal){
-            console.log(proposal)
             proposal.type = 'artist';
             proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');
@@ -1281,12 +1289,13 @@
           if(Object.keys(spaceProgram).length == 0) noSelected.push(spaces[profile_id].space);
             
           noSelected.forEach(function(proposal){
+            console.log(proposal)
             proposal.type = 'space';
             proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');
             columns.forEach(function(field){
               var _info;
-              if (field == 'name') _info = Pard.Widgets.InfoTab[field].info(proposal, displayer);
+              if (field == 'name' || field == 'address') _info = Pard.Widgets.InfoTab[field].info(proposal, displayer);
               else  _info= proposal[field];
               var _col = $('<td>').append(_info);
               _row.append(_col);
@@ -1374,7 +1383,6 @@
           render: function(){
             setTimeout(function(){
               $('.mailNoProgram').attr('title','Crea y copia lista de correos'); 
-              console.log( $('.mailNoProgram'))
             },500)
             return _createdWidget;
           },
@@ -1612,7 +1620,10 @@
     _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
     _managerView.append( _selectors.append(_daySelectorContainer, _spaceSelectorContainer,  _showArtists));
     _managerView.append(_tableBox);
-    _createdWidget.append(_switcher,_buttonsContainer.append(_toolsContainer, _submitBtnContainer), _managerView, _tableView)
+    // var _innerBtnContainer = $('<div>').append(_toolsContainer, _submitBtnContainer).addClass('innerBtnContainer-programManager');
+    // _buttonsContainer.append(_innerBtnContainer);
+    _buttonsContainer.append(_toolsContainer, _submitBtnContainer)
+    _createdWidget.append(_switcher,_buttonsContainer, _managerView, _tableView)
 
 
 
