@@ -137,7 +137,7 @@
       _shownSpaces = [];
       if(_data['type'] == 'category'){
         order.forEach(function(profile_id){
-          if(the_event.spaces[profile_id].space.category == _data['id']){
+          if(the_event.spaces[profile_id].space.subcategory == _data['id']){
             the_event.spaces[profile_id].showColumns();
             _shownSpaces.push(profile_id);
           }
@@ -165,7 +165,7 @@
       if(_data['type'] == 'category'){
         Object.keys(artists).forEach(function(profile_id){
           if (artists[profile_id].artist.proposals.some(function(proposal){
-            return proposal.category == _data['id'];
+            return proposal.subcategory == _data['id'];
           })) artists[profile_id].accordion.show();
           else{artists[profile_id].accordion.hide();}
         });
@@ -182,8 +182,17 @@
     }
 
     var _loadSpaceSelector = function(){
-      spaceProposals = Pard.Widgets.SpaceProposals();
+      spaceProposals = [];
+      var categories = [];
       Object.keys(the_event.spaces).forEach(function(profile_id){
+        if(categories.indexOf(the_event.spaces[profile_id].space.subcategory) < 0){
+            spaceProposals.unshift({
+            type: 'category',
+            id: the_event.spaces[profile_id].space.subcategory,
+            text: the_event.spaces[profile_id].space.subcategory
+          });
+          categories.push(the_event.spaces[profile_id].space.subcategory);
+        }
         spaceProposals.push({
           type: 'profile',
           id: profile_id,
@@ -200,8 +209,19 @@
     }
 
     var _loadArtistSelector = function(){
-      artistProposals = Pard.Widgets.ArtistProposals();
+      artistProposals = [];
+      var categories = [];
       Object.keys(the_event.artists).forEach(function(profile_id){
+        the_event.artists[profile_id].artist.proposals.forEach(function(proposal){
+          if(categories.indexOf(proposal.subcategory) < 0){
+              artistProposals.unshift({
+              type: 'category',
+              id: proposal.subcategory,
+              text: proposal.subcategory
+            });
+            categories.push(proposal.subcategory);
+          }    
+        })
         artistProposals.push({
           id: profile_id,
           text: the_event.artists[profile_id].artist.name
