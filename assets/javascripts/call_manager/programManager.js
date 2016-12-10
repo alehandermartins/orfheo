@@ -289,8 +289,8 @@
         Object.keys(eventTime).forEach(function(date){
           the_event.spaces[_shownSpaces[index + 1]].columns[date].after(the_event.spaces[_shownSpaces[index]].columns[date]);
         });
-        the_event.spaces[_shownSpaces[index + 1]].alignPerformances(index + 1);
-        the_event.spaces[_shownSpaces[index]].alignPerformances(index);
+        the_event.spaces[_shownSpaces[index + 1]].alignPerformances(index);
+        the_event.spaces[_shownSpaces[index]].alignPerformances(index + 1);
         _shownSpaces.splice(index + 1, 0, _shownSpaces.splice(index, 1)[0]);
       }
 
@@ -298,8 +298,8 @@
         Object.keys(eventTime).forEach(function(date){
           the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index - 1]].columns[date]);
         });
-        the_event.spaces[_shownSpaces[index - 1]].alignPerformances(index - 1);
-        the_event.spaces[_shownSpaces[index]].alignPerformances(index);
+        the_event.spaces[_shownSpaces[index - 1]].alignPerformances(index);
+        the_event.spaces[_shownSpaces[index]].alignPerformances(index - 1);
         _shownSpaces.splice(index - 1, 0, _shownSpaces.splice(index, 1)[0]);
       }
     });
@@ -554,9 +554,9 @@
           save(performance, check);
         });
 
-        spaceSelector.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
+        // spaceSelector.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
 
         var setStartTimes = function(){
           startTime.empty();
@@ -1587,11 +1587,6 @@
     Object.keys(_program).forEach(function(performance_id){
       save(_program[performance_id].show);
     });
-
-    Object.keys(the_event.spaces).forEach(function(profile_id, index){
-      the_event.spaces[profile_id].alignPerformances(index);
-    });
-
 
     var _managerView = $('<div>');
     var _viewSelected = _managerView;

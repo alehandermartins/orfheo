@@ -235,15 +235,6 @@
 
     var AlignPerformances = function(){
       var left = Pard.ColumnWidth * index + 1;
-      // if(!left){
-      //   Object.keys(_columns).some(function(date){
-      //     if(_columns[date].is(':visible')){
-      //       left = _columns[date].position().left + 1;
-      //       return true;
-      //     }
-      //   });
-      // }
-
       var shows = Object.keys(program).map(function(performance_id){
         return program[performance_id].show;
       });
@@ -364,7 +355,7 @@
         Object.keys(_columns).forEach(function(date){
           _columns[date].css('width', Pard.ColumnWidth);
         });
-        if(new_index) index = new_index;
+        if(new_index !== 'undefined') index = new_index;
         AlignPerformances();
       },
       addPerformance: function(performance){
