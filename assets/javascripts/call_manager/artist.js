@@ -82,6 +82,7 @@
             title: proposal.title,
             short_description: proposal.short_description,
             participant_category: proposal.category,
+            participant_subcategory: proposal.subcategory,
             availability: proposal.availability,
             participant_name: artist.name,
             participant_email: artist.email

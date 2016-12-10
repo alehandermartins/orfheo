@@ -18,8 +18,8 @@ module Repos
             end
             if event[:event_id] == 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
               artist[:proposals].map!{ |proposal|
-                proposal[:subcategory] = proposal[:category]
-                proposal[:form_category] = proposal[:category]
+                proposal[:subcategory] = translate(proposal[:category])
+                proposal[:form_category] = translate(proposal[:category])
                 proposal
               }
             end
@@ -32,8 +32,8 @@ module Repos
               space[:proposal_id] = space[:proposal_id].split('-own').first
             end
             if event[:event_id] == 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
-              space[:subcategory] = space[:category]
-              space[:form_category] = space[:category]
+              space[:subcategory] = translate(space[:category])
+              space[:form_category] = translate(space[:category])
             end
             space
           }
@@ -55,6 +55,26 @@ module Repos
             "$set": {artists: event[:artists], spaces: event[:spaces], program: event[:program]}
           })
         }
+      end
+
+      def translate text
+        dictionary = {
+          cultural_ass: 'Asociación Cultural',
+          commercial: 'Local Comercial',
+          home: 'Espacio Particular',
+          open_air: 'Espacio Exterior',
+          music: 'Música',
+          arts: 'Artes Escénicas',
+          expo: 'Exposición',
+          poetry: 'Poesía',
+          audiovisual: 'Audiovisual',
+          street_art: 'Street Art',
+          workshop: 'Taller',
+          other: 'Otros',
+          gastronomy: 'Gastronomía'
+        }
+        return dictionary[text.to_sym] if(dictionary.has_key? [text.to_sym])
+        dictionary[text.to_sym]
       end
 
       def add event
@@ -400,11 +420,13 @@ module Repos
           performance.merge! host_name: space[:name]
           performance.merge! address: space[:address]
           performance.merge! host_category: space[:category]
+          performance.merge! host_subcategory: space[:subcategory]
           performance.merge! participant_name: artist[:name]
           performance.merge! title: artist_proposal[:title]
           performance.merge! short_description: artist_proposal[:short_description]
           performance.merge! children: artist_proposal[:children]
           performance.merge! participant_category: artist_proposal[:category]
+          performance.merge! participant_subcategory: artist_proposal[:subcategory]
           performance.merge! order: order
         }
       end

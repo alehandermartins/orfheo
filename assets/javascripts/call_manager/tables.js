@@ -344,8 +344,8 @@
 
     //REMEMBER children ---> publico del espectacúlo
 
-    var _columns = ['cronoOrder','date','time','participant_name','participant_email','participant_category','title','short_description','order','host_name','host_email','host_category','comments','confirmed'];
-    var _shownColumns = ['date','time','participant_name','participant_category','title','host_name', 'host_category'];
+    var _columns = ['cronoOrder','date','time','participant_name','participant_email','participant_subcategory','title','short_description','order','host_name','host_email','host_subcategory','comments','confirmed'];
+    var _shownColumns = ['date','time','participant_name','participant_subcategory','title','host_name', 'host_subcategory'];
     var _hiddenColumns = [];
     var _outerTableContainer = $('<div>');
     var _tableBox = $('<div>').addClass('table-box-call-manager-page');
@@ -602,12 +602,12 @@
           column: _dataTable.column(_columns.indexOf('confirmed')),
           select: $('<select>').append($('<option>').attr('value','').text(''))
         },
-        participant_category: {
-          column: _dataTable.column(_columns.indexOf('participant_category')),
+        participant_subcategory: {
+          column: _dataTable.column(_columns.indexOf('participant_subcategory')),
           select: $('<select>').append($('<option>').attr('value','').text(''))
         },
-        host_category: {
-          column: _dataTable.column(_columns.indexOf('host_category')),
+        host_subcategory: {
+          column: _dataTable.column(_columns.indexOf('host_subcategory')),
           select: $('<select>').append($('<option>').attr('value','').text(''))
         },
         date:{
@@ -649,10 +649,10 @@
         },
         label: 'Día'
       },
-      participant_category:{
+      participant_subcategory:{
         label: 'Categoría art.'
       },
-      host_category:{
+      host_subcategory:{
         label: 'Categoría esp.'
       },
       time:{

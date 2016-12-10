@@ -304,6 +304,7 @@
       performance.host_name = space.name;
       performance.address = space.address;
       performance.host_category = space.category;
+      performance.host_subcategory = space.subcategory;
       performance.host_proposal_id = space.proposal_id;
     }
 

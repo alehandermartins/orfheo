@@ -569,6 +569,7 @@
           performance.host_email = space.email;
           performance.address = space.address;
           performance.host_category = space.category;
+          performance.host_subcategory = space.subcategory;
           performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
           save(performance, check);
@@ -927,6 +928,7 @@
           performance.host_email = space.email;
           performance.address = space.address;
           performance.host_category = space.category;
+          performance.host_subcategory = space.subcategory;
           performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
           save(performance, check);
@@ -1696,10 +1698,11 @@
             participant_name: artist.name
           }
           if(artistProgram[performance_id].show.participant_proposal_id == artist.proposals[0].proposal_id){
-            performance.title = artist.proposals[0].title
-            performance.short_description = artist.proposals[0].short_description
-            performance.participant_category = artist.proposals[0].category
-            performance.availability = artist.proposals[0].availability
+            performance.title = artist.proposals[0].title;
+            performance.short_description = artist.proposals[0].short_description;
+            performance.participant_category = artist.proposals[0].category;
+            performance.participant_subcategory = artist.proposals[0].subcategory;
+            performance.availability = artist.proposals[0].availability;
           }
           modify(performance);
         });
@@ -1715,6 +1718,7 @@
             performance_id: performance_id,
             last_host: space.profile_id,
             host_category: space.category,
+            host_subcategory: space.subcategory,
             host_name: space.name,
             address: space.address
           } 
