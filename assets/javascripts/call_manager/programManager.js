@@ -289,8 +289,8 @@
         Object.keys(eventTime).forEach(function(date){
           the_event.spaces[_shownSpaces[index + 1]].columns[date].after(the_event.spaces[_shownSpaces[index]].columns[date]);
         });
-        the_event.spaces[_shownSpaces[index + 1]].alignPerformances();
-        the_event.spaces[_shownSpaces[index]].alignPerformances();
+        the_event.spaces[_shownSpaces[index + 1]].alignPerformances(index + 1);
+        the_event.spaces[_shownSpaces[index]].alignPerformances(index);
         _shownSpaces.splice(index + 1, 0, _shownSpaces.splice(index, 1)[0]);
       }
 
@@ -298,8 +298,8 @@
         Object.keys(eventTime).forEach(function(date){
           the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index - 1]].columns[date]);
         });
-        the_event.spaces[_shownSpaces[index - 1]].alignPerformances();
-        the_event.spaces[_shownSpaces[index]].alignPerformances();
+        the_event.spaces[_shownSpaces[index - 1]].alignPerformances(index - 1);
+        the_event.spaces[_shownSpaces[index]].alignPerformances(index);
         _shownSpaces.splice(index - 1, 0, _shownSpaces.splice(index, 1)[0]);
       }
     });
@@ -1455,8 +1455,8 @@
             });
           });
 
-          _shownSpaces.forEach(function(profile_id){
-            the_event.spaces[profile_id].alignPerformances();
+          _shownSpaces.forEach(function(profile_id, index){
+            the_event.spaces[profile_id].alignPerformances(index);
           });
           _closePopup();
         });
