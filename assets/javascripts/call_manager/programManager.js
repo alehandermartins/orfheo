@@ -345,43 +345,44 @@
       modify(performance, true);
     });
 
-    var save = function(performance, check){
+    var save = function(performance, check, permanent){
+      console.log('save')
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
       the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
       if (check) checkConflicts(show);
       if (_programTable){
-        _programTable.save(show);
+        _programTable.save(show, permanent);
       }
     }
     
     var create = function(performance, check){
+      console.log('create');
       performance.performance_id = Pard.Widgets.GenerateUUID();
       if(performance.permanent == 'true') the_event.program[performance.performance_id] = new PermanentPerformance(performance);
       else{the_event.program[performance.performance_id] = new Performance(performance);}
-      console.log('create');
-      save(performance, check);
-      _programTable.loadSelectors();
+      if (performance.permanent == 'true') var permanent = true;
+      save(performance, check, permanent);
     }
 
     var modify = function(performance, check){
+      console.log('modify');
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[performance.last_host].deletePerformance(show);
       the_event.program[performance.performance_id].modify(performance);
-      save(the_event.program[performance.performance_id].show, check);
-      _programTable.loadSelectors();
-      console.log('modify')
+      if (performance.permanent == 'true') var permanent = true;
+      save(the_event.program[performance.performance_id].show, check, permanent);      
     }
 
     var destroy = function(performance){
+      console.log('destroy');
       if(the_event.program[performance.performance_id]){
         the_event.spaces[performance.host_id].deletePerformance(performance);
         the_event.artists[performance.participant_id].deletePerformance(performance);
         the_event.program[performance.performance_id].destroy();
         delete the_event.program[performance.performance_id];
+        _programTable.destroy(performance.performance_id);
       }
-      _programTable.destroy(performance.performance_id);
-      _programTable.loadSelectors();
     }
 
     var Performance = function(performance){
@@ -513,18 +514,17 @@
         var label = $('<label>').html('Confirmado');
         var confirmed = $('<div>').append(input, label);
 
-        daySelector.css({'display': ' inline-block', 'width': '120'});
-        spaceSelector.css({'display': ' inline-block', 'width': '250'});
-        startTime.css({'display': ' inline-block', 'width': '80'});
-        endTime.css({'display': ' inline-block', 'width': '80'});
+        var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).append(daySelector);
+        var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector);
+        var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime);
+        var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime);
         confirmed.css('margin-left', 430);
         label.css('display','inline');
         comments.css('width', 530);
-
         confirmedContainer.append(confirmed);
         commentsContainer.append(comments);
         var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector);
-        performanceContainer.append(daySelector, spaceSelectorContainer, startTime, endTime, removeInputButton);
+        performanceContainer.append(daySelectorContainer, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
         performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
 
         Object.keys(eventTime).forEach(function(day){
@@ -576,6 +576,15 @@
         });
 
         // spaceSelector.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // daySelector.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // startTime.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // endTime.select2({
         //   dropdownCssClass: 'orfheoTableSelector'
         // });
 
@@ -699,7 +708,6 @@
         manager: manager,
         modify: _modify,
         destroy: _destroy
-        // showPopup: function(){_titleText.trigger('click')}
       }
     }
 
@@ -876,15 +884,15 @@
         var confirmed = $('<div>').append(input, label);
 
         var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector);
-        startTime.css({'display': ' inline-block', 'width': '80'});
-        endTime.css({'display': ' inline-block', 'width': '80'});
+        var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime);
+        var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime);
         confirmed.css('margin-left', 430);
         label.css('display','inline');
         comments.css('width', 530);
 
         confirmedContainer.append(confirmed);
         commentsContainer.append(comments);
-        performanceContainer.append(daySelector, spaceSelectorContainer, startTime, endTime, removeInputButton);
+        performanceContainer.append(daySelector, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
         performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
 
         _loadDates();
@@ -934,9 +942,15 @@
           save(performance, check);
         });
 
-        spaceSelector.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
+        // spaceSelector.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // startTime.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // endTime.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
 
         var setStartTimes = function(){
           startTime.empty();
@@ -1615,7 +1629,8 @@
     var _tableView = $('<div>').hide();
     var _programTable ;
     $(document).ready(function(){
-      _programTable = Pard.Widgets.ProgramTable(_program, displayer);
+      var infoProgram = Pard.Widgets.ProgramTableInfo(_program, displayer);
+      _programTable = Pard.Widgets.ProgramTable(infoProgram, the_event);
       _tableView.append(_programTable.render);
     })
     var _switcher = $('<div>')

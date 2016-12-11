@@ -89,6 +89,7 @@
           }
 
           var createPermanents = function(performance){
+            var _permanetIds = [];
             var myShows = Object.keys(program).map(function(performance_id){
               return program[performance_id].show;
             });
@@ -106,8 +107,11 @@
                 }
                 show.date = date;
                 create(show);
+                _permanetIds.push(show.performance_id);
               }
             });
+            console.log('createPermanents')
+            Pard.Bus.trigger('CreatePermanentsTable', _permanetIds);
           }
 
           var modifyPermanents = function(performance){
@@ -115,6 +119,8 @@
               show = {'performance_id': performance_id, 'host_id': performance.host_id, 'permanent': 'true'}
               modify(show);
             });
+            console.log('modifyPermanents')
+            Pard.Bus.trigger('ModifyPermanentsTable', performance);
           }
 
           var modify = function(performance){
