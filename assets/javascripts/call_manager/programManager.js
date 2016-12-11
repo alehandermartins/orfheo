@@ -183,16 +183,14 @@
 
     var _loadSpaceSelector = function(){
       spaceProposals = [];
-      var categories = [];
+      Object.keys(the_event.categories.space).forEach(function(category){
+        spaceProposals.push({
+          type: 'category',
+          id: category,
+          text: category
+        });
+      });
       Object.keys(the_event.spaces).forEach(function(profile_id){
-        if(categories.indexOf(the_event.spaces[profile_id].space.subcategory) < 0){
-            spaceProposals.unshift({
-            type: 'category',
-            id: the_event.spaces[profile_id].space.subcategory,
-            text: the_event.spaces[profile_id].space.subcategory
-          });
-          categories.push(the_event.spaces[profile_id].space.subcategory);
-        }
         spaceProposals.push({
           type: 'profile',
           id: profile_id,
@@ -210,18 +208,15 @@
 
     var _loadArtistSelector = function(){
       artistProposals = [];
-      var categories = [];
+      Object.keys(the_event.categories.artist).forEach(function(category){
+        artistProposals.push({
+          type: 'category',
+          id: category,
+          icon: the_event.categories.artist[category].icon,
+          text: category
+        });
+      });
       Object.keys(the_event.artists).forEach(function(profile_id){
-        the_event.artists[profile_id].artist.proposals.forEach(function(proposal){
-          if(categories.indexOf(proposal.subcategory) < 0){
-              artistProposals.unshift({
-              type: 'category',
-              id: proposal.subcategory,
-              text: proposal.subcategory
-            });
-            categories.push(proposal.subcategory);
-          }    
-        })
         artistProposals.push({
           id: profile_id,
           text: the_event.artists[profile_id].artist.name

@@ -6,6 +6,99 @@ module Repos
         @@events_collection = db['events']
         events = grab({})
         events.each{ |event|
+          if event[:event_id] == 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+            event[:categories] = {
+              artist: {
+                'Música' => {
+                  icon: 'music'
+                },
+                'Artes Escénicas'=> {
+                  icon: 'arts'
+                },
+                'Exposición'=> {
+                  icon: 'expo'
+                },
+                'Poesía'=> {
+                  icon: 'poetry'
+                },
+                'Audiovisual'=> {
+                  icon: 'audiovisual'
+                },
+                'Street Art'=> {
+                  icon: 'street_art'
+                },
+                'Taller'=> {
+                  icon: 'workshop'
+                },
+                'Otros'=> {
+                  icon: 'other'
+                },
+                'Gastronomía'=> {
+                  icon: 'gastronomy'
+                }
+              },
+              space: {
+                'Asociación Cultural' => {
+                  icon: ''
+                },
+                'Local Comercial' => {
+                  icon: ''
+                },
+                'Espacio Particular' => {
+                  icon: ''
+                },
+                'Espacio Exterior' => {
+                  icon: ''
+                }
+              }
+            }
+          else 
+            event[:categories] = {
+              artist: {
+                'Música' => {
+                  icon: 'music'
+                },
+                'Artes Escénicas'=> {
+                  icon: 'arts'
+                },
+                'Exposición'=> {
+                  icon: 'expo'
+                },
+                'Poesía'=> {
+                  icon: 'poetry'
+                },
+                'Audiovisual'=> {
+                  icon: 'audiovisual'
+                },
+                'Street Art'=> {
+                  icon: 'street_art'
+                },
+                'Taller'=> {
+                  icon: 'workshop'
+                },
+                'Otros'=> {
+                  icon: 'other'
+                },
+                'Gastronomía'=> {
+                  icon: 'gastronomy'
+                }
+              },
+              space: {
+                'Restauración y Clubs' => {
+                  icon: ''
+                },
+                'Arte, Cultura y Diseño' => {
+                  icon: ''
+                },
+                'Espacio Particular' => {
+                  icon: ''
+                },
+                'Tiendas y Servicios' => {
+                  icon: ''
+                }
+              }
+            }
+          end
           event[:artists].map!{ |artist|
             if artist[:profile_id].split('-').last == 'own'
               artist[:own] = true
@@ -52,7 +145,7 @@ module Repos
 
           @@events_collection.update_one({event_id: event[:event_id]},
           {
-            "$set": {artists: event[:artists], spaces: event[:spaces], program: event[:program]}
+            "$set": {artists: event[:artists], spaces: event[:spaces], program: event[:program], categories: event[:categories]}
           })
         }
       end
