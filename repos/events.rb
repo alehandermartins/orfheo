@@ -128,6 +128,8 @@ module Repos
               space[:subcategory] = translate(space[:category])
               space[:form_category] = translate(space[:category])
             end
+            space[:subcategory] = 'Espacio Particular' if space[:subcategory] == 'Espacio particular'
+            space[:subcategory] = 'Tiendas y Servicios' if space[:subcategory] == 'Tiendas y servicios'
             space
           }
           event[:program].map!{ |performance|

@@ -132,6 +132,7 @@
   ns.Widgets.Filters = function(filters, callback){
     var _createdWidget = $('<div>');
     var _closepopup;
+    var the_event = Pard.CachedEvent;
 
     var _labels = {
       'participants': 'Categorias Artísticas',
@@ -155,7 +156,9 @@
           filters[key][filter] = _input.is(":checked");
           callback(filters);
         });
-        var _label = $('<label>').append(filter,' ',Pard.Widgets.IconManager(Pard.Widgets.Dictionary(filter).render()).render().addClass('participant-category-icon'));
+        var _label = $('<label>');
+        if(key == 'participants') _label.append(filter,' ',Pard.Widgets.IconManager(the_event.categories.artist[filter].icon).render().addClass('participant-category-icon'));
+        else _label.append(filter); 
         _label.css('display','inline');
         var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');
         _filter.on('click',function(){
@@ -194,8 +197,8 @@
     });
     console.log(eventDates);
     var eventCategories = {
-      participants: ['Artes Escénicas', 'Audiovisual', 'Exposición', 'Música', 'Poesía', 'Street Art', 'Taller', 'Otros'],
-      hosts: ['Asociación Cultural', 'Espacio Exterior', 'Espacio Particular', 'Local Comercial'],
+      participants: Object.keys(the_event.categories.artist),
+      hosts: Object.keys(the_event.categories.space),
       other: ['Infantil']
     }
     var _filters = {};
@@ -407,7 +410,7 @@
           Object.keys(_filters).forEach(function(key){
             filters[key] = [];
             Object.keys(_filters[key]).forEach(function(category){
-              if(_filters[key][category] == true) filters[key].push(Pard.Widgets.Dictionary(category).render());
+              if(_filters[key][category] == true) filters[key].push(category);
             });
           });
 
@@ -460,7 +463,7 @@
           Object.keys(_filters).forEach(function(key){
             filters[key] = [];
             Object.keys(_filters[key]).forEach(function(category){
-              if(_filters[key][category] == true) filters[key].push(Pard.Widgets.Dictionary(category).render());
+              if(_filters[key][category] == true) filters[key].push(category);
             });
           });
 
