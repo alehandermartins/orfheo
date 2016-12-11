@@ -136,8 +136,8 @@
 
     var _labels = {
       'participants': 'Categorias Artísticas',
-      'hosts': 'Categorias Espacios',
-      'other': 'Otros'
+      'hosts': 'Categorias Espacios'
+      //'other': 'Otros'
     }
 
     Object.keys(filters).forEach(function(key){
@@ -198,8 +198,8 @@
     console.log(eventDates);
     var eventCategories = {
       participants: Object.keys(the_event.categories.artist),
-      hosts: Object.keys(the_event.categories.space),
-      other: ['Infantil']
+      hosts: Object.keys(the_event.categories.space)
+      //other: ['Infantil']
     }
     var _filters = {};
 
