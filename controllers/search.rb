@@ -22,17 +22,16 @@ class SearchController < BaseController
   post '/suggest_program' do
     scopify query: true, event_id: true, filters: true
     queriable_tags = get_query query
-    translated_filters = get_filters filters
-    results = Services::Search.get_program_suggestions event_id, queriable_tags, translated_filters
+    queriable_filters = get_filters filters
+    results = Services::Search.get_program_suggestions event_id, queriable_tags, queriable_filters
     success({items: results})
   end
 
   post '/results_program' do
     scopify query: true, event_id: true, filters: true, date: true, time: true
     tags = get_query query
-    puts filters
-    translated_filters = get_filters filters
-    results = Services::Search.get_program_results event_id, tags, translated_filters, date, time
+    queriable_filters = get_filters filters
+    results = Services::Search.get_program_results event_id, tags, queriable_filters, date, time
     success({program: results})
   end
 
@@ -48,7 +47,7 @@ class SearchController < BaseController
     raise Pard::Invalid::FilterParams unless params.is_a?(Hash) && params.values.all?{ |selections| selections.is_a?(Array)}
     params = Util.string_keyed_hash_to_symbolized params
     params.map{ |key, value|
-      [key, Util.translate(value)]
+      [key, value]
     }.to_h
   end
 
