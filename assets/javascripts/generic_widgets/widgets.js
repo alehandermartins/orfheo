@@ -41,7 +41,7 @@
   }
 
   ns.Widgets.BigAlert = function(title, content, contentClass, callback){
-    var _createdWidget = $('<div>').addClass('fast reveal full');
+    var _createdWidget = $('<div>').addClass('very-fast reveal full');
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>');
@@ -58,7 +58,6 @@
       _popup.close();
       _createdWidget.remove();
     });
-
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);
     _popupContent.append(_header, _sectionContainer);
@@ -72,7 +71,7 @@
 
   ns.Widgets.Alert = function(title, content, callback){
 
-    var _createdWidget = $('<div>').addClass('fast reveal full');    
+    var _createdWidget = $('<div>').addClass('very-fast reveal full');    
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _innerContainer = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>').addClass('alert-container-full');

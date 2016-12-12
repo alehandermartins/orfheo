@@ -183,14 +183,16 @@
 
     var _loadSpaceSelector = function(){
       spaceProposals = [];
-      Object.keys(the_event.categories.space).forEach(function(category){
-        spaceProposals.push({
-          type: 'category',
-          id: category,
-          text: category
-        });
-      });
+      var categories = [];
       Object.keys(the_event.spaces).forEach(function(profile_id){
+        if(categories.indexOf(the_event.spaces[profile_id].space.subcategory) < 0){
+            spaceProposals.unshift({
+            type: 'category',
+            id: the_event.spaces[profile_id].space.subcategory,
+            text: the_event.spaces[profile_id].space.subcategory
+          });
+          categories.push(the_event.spaces[profile_id].space.subcategory);
+        }
         spaceProposals.push({
           type: 'profile',
           id: profile_id,
@@ -208,15 +210,18 @@
 
     var _loadArtistSelector = function(){
       artistProposals = [];
-      Object.keys(the_event.categories.artist).forEach(function(category){
-        artistProposals.push({
-          type: 'category',
-          id: category,
-          icon: the_event.categories.artist[category].icon,
-          text: category
-        });
-      });
+      var categories = [];
       Object.keys(the_event.artists).forEach(function(profile_id){
+        the_event.artists[profile_id].artist.proposals.forEach(function(proposal){
+          if(categories.indexOf(proposal.subcategory) < 0){
+              artistProposals.unshift({
+              type: 'category',
+              id: proposal.subcategory,
+              text: proposal.subcategory
+            });
+            categories.push(proposal.subcategory);
+          }    
+        })
         artistProposals.push({
           id: profile_id,
           text: the_event.artists[profile_id].artist.name
@@ -518,81 +523,23 @@
         comments.css('width', 530);
         confirmedContainer.append(confirmed);
         commentsContainer.append(comments);
+        var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector);
         performanceContainer.append(daySelectorContainer, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
         performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
 
         Object.keys(eventTime).forEach(function(day){
           if(day == 'permanent') return false;
-          var _textDay = moment(new Date(day)).locale('es').format('DD-MM-YYYY');
-          var date = $('<option>').val(day).text(_textDay);
+          var date = $('<option>').val(day).text(day);
           daySelector.append(date);
         });
 
-        var spaceOptions = [];
-
         Object.keys(the_event.spaces).forEach(function(profile_id){
           var space = the_event.spaces[profile_id].space;
-          spaceOptions.push({id: profile_id, text:space.name});
+          var spaceOption = $('<option>').val(profile_id).text(space.name);
+          spaceSelector.append(spaceOption);
         });
 
-        var setStartTimes = function(){
-          startTime.empty();
-
-          var dayStart = new Date(parseInt(eventTime[performance.date][0]));
-          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
-
-          var start = new Date(performance.time[0]);
-          var end = new Date(performance.time[1]);
-          //Te max value for start is that that puts the end on the limit of the day
-          var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
-          while(dayStart <= maxStart){
-            var hours = dayStart.getHours();
-            var minutes = dayStart.getMinutes();
-            if(hours < 10) hours = '0' + hours;
-            if(minutes < 10) minutes = '0' + minutes;
-            var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
-            startTime.append(startOption);
-            dayStart.setMinutes(dayStart.getMinutes() + 15);
-          };
-          startTime.val(performance.time[0]).trigger('change');
-        };
-
-        var setEndTimes = function(){
-          endTime.empty();
-
-          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
-          var start = new Date(performance['time'][0]);
-          //The minimum end is the start plus 15 minutes
-          var minEnd = new Date(start.getTime() + 15 * 60000);
-
-          while(minEnd <= dayEnd){
-            var hours = minEnd.getHours();
-            var minutes = minEnd.getMinutes();4
-            if(hours < 10) hours = '0' + hours;
-            if(minutes < 10) minutes = '0' + minutes;
-            var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
-            endTime.append(endOption);
-
-            minEnd.setMinutes(minEnd.getMinutes() + 15);
-          };
-          endTime.val(performance['time'][1]).trigger('change');
-        };
-
-        spaceSelector.select2({
-          data: spaceOptions,
-          dropdownCssClass: 'orfheoTableSelector'
-        });
-        daySelector.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
-        startTime.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
-        endTime.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
-
-        daySelector.on('select2:select', function(){
+        daySelector.on('change', function(){
           performance.date = daySelector.val();
           var dateArray = daySelector.val().split('-');
           var start = new Date(performance.time[0]);
@@ -615,7 +562,7 @@
           setEndTimes();
         });
 
-        spaceSelector.on('select2:select', function(){
+        spaceSelector.on('change', function(){
           the_event.spaces[performance.host_id].deletePerformance(performance);
           var space = the_event.spaces[spaceSelector.val()].space;
           performance.host_name = space.name;
@@ -628,9 +575,63 @@
           save(performance, check);
         });
 
-        
+        // spaceSelector.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // daySelector.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // startTime.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // endTime.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
 
-        startTime.on('select2:select', function(){
+        var setStartTimes = function(){
+          startTime.empty();
+
+          var dayStart = new Date(parseInt(eventTime[performance.date][0]));
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
+
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+          //Te max value for start is that that puts the end on the limit of the day
+          var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
+          while(dayStart <= maxStart){
+            var hours = dayStart.getHours();
+            var minutes = dayStart.getMinutes();
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
+            startTime.append(startOption);
+            dayStart.setMinutes(dayStart.getMinutes() + 15);
+          };
+          startTime.val(performance.time[0]);
+        };
+
+        var setEndTimes = function(){
+          endTime.empty();
+
+          var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
+          var start = new Date(performance['time'][0]);
+          //The minimum end is the start plus 15 minutes
+          var minEnd = new Date(start.getTime() + 15 * 60000);
+
+          while(minEnd <= dayEnd){
+            var hours = minEnd.getHours();
+            var minutes = minEnd.getMinutes();4
+            if(hours < 10) hours = '0' + hours;
+            if(minutes < 10) minutes = '0' + minutes;
+            var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
+            endTime.append(endOption);
+
+            minEnd.setMinutes(minEnd.getMinutes() + 15);
+          };
+          endTime.val(performance['time'][1]);
+        };
+
+        startTime.on('change', function(){
           var oldStart = performance['time'][0];
           var newStart = parseInt(startTime.val());
           card.css({'top': '+=' + (newStart - oldStart) / 90000});
@@ -640,7 +641,7 @@
           save(performance, check);
         });
 
-        endTime.on('select2:select', function(){
+        endTime.on('change', function(){
           var oldEnd = performance['time'][1];
           var newEnd = parseInt(endTime.val());
           card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
@@ -668,10 +669,10 @@
           save(performance);
         });
 
+        daySelector.val(performance.date);
+        spaceSelector.val(performance.host_id);
         setStartTimes();
         setEndTimes();
-        daySelector.val(performance.date).trigger('change');
-        spaceSelector.val(performance.host_id).trigger('change');
         comments.val(performance.comments);
         input.prop('checked', performance.confirmed);
 
@@ -712,7 +713,8 @@
 
     var PermanentPerformance = function(performance){
 
-      var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'})
+      var daySelector = $('<select>');
+      daySelector.css({'display': ' inline-block', 'width': '120'});
       var shows;
 
       if(performance.time){
@@ -842,41 +844,9 @@
         return shows;
       }
 
-      var daySelector; 
-      var startTime = function(){};
-      var endTime = function(){};
-
-      var _loadDates = function(check){
-        daySelector = $('<select>');
-        daySelectorContainer.empty().append(daySelector);
-        daySelector.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        })
-          .on('select2:select', function(){
-            performance.date = daySelector.val();
-            var dateArray = daySelector.val().split('-');
-            var start = new Date(performance.time[0]);
-            var end = new Date(performance.time[1]);
-
-            start.setUTCFullYear(parseInt(dateArray[0]));
-            end.setUTCFullYear(parseInt(dateArray[0]));
-
-            start.setUTCMonth(parseInt(dateArray[1] - 1));
-            end.setUTCMonth(parseInt(dateArray[1] - 1));
-
-            start.setUTCDate(parseInt(dateArray[2]));
-            end.setUTCDate(parseInt(dateArray[2]));
-
-            performance.time[0] = start.getTime();
-            performance.time[1] = end.getTime();
-
-            save(performance, check);
-            setStartTimes();
-            setEndTimes();
-            shows.forEach(function(show){
-              the_event.program[show.performance_id].loadDates(check);
-            });
-          });
+      var _loadDates = function(){
+        daySelector.empty();
+        daySelector.attr('disabled', false);
         var artistProgram = the_event.artists[performance.participant_id].program;
         shows = Object.keys(artistProgram).map(function(performance_id){
           return artistProgram[performance_id].show;
@@ -890,15 +860,12 @@
         Object.keys(eventTime).forEach(function(day){
           if(day == 'permanent') return false;
           if($.inArray(day, dates) < 0 || day == performance.date){
-            var _textDay = moment(new Date(day)).locale('es').format('DD-MM-YYYY');
-            var date = $('<option>').val(day).text(_textDay);
+            var date = $('<option>').val(day).text(day);
             daySelector.append(date);
           }
         });
-        daySelector.val(performance.date).trigger('change');
-        if(daySelector.children().length <= 1) {
-          daySelector.select2("enable",false)
-        }
+        daySelector.val(performance.date);
+        if(daySelector.children().length <= 1) daySelector.attr('disabled', true);
       }
 
       var manager = function(check){
@@ -925,8 +892,10 @@
 
         confirmedContainer.append(confirmed);
         commentsContainer.append(comments);
-        performanceContainer.append(daySelectorContainer, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
+        performanceContainer.append(daySelector, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
         performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
+
+        _loadDates();
 
         Object.keys(the_event.spaces).forEach(function(profile_id){
           var space = the_event.spaces[profile_id].space;
@@ -934,17 +903,33 @@
           spaceSelector.append(spaceOption);
         });
 
-        spaceSelector.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
-        startTime.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
-        endTime.select2({
-          dropdownCssClass: 'orfheoTableSelector'
+        daySelector.on('change', function(){
+          performance.date = daySelector.val();
+          var dateArray = daySelector.val().split('-');
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+
+          start.setUTCFullYear(parseInt(dateArray[0]));
+          end.setUTCFullYear(parseInt(dateArray[0]));
+
+          start.setUTCMonth(parseInt(dateArray[1] - 1));
+          end.setUTCMonth(parseInt(dateArray[1] - 1));
+
+          start.setUTCDate(parseInt(dateArray[2]));
+          end.setUTCDate(parseInt(dateArray[2]));
+
+          performance.time[0] = start.getTime();
+          performance.time[1] = end.getTime();
+
+          save(performance, check);
+          setStartTimes();
+          setEndTimes();
+          shows.forEach(function(show){
+            the_event.program[show.performance_id].loadDates();
+          });
         });
 
-        spaceSelector.on('select2:select', function(){
+        spaceSelector.on('change', function(){
           the_event.spaces[performance.host_id].deletePerformance(performance);
           var space = the_event.spaces[spaceSelector.val()].space;
           performance.host_name = space.name;
@@ -957,7 +942,17 @@
           save(performance, check);
         });
 
-        setStartTimes = function(){
+        // spaceSelector.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // startTime.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+        // endTime.select2({
+        //   dropdownCssClass: 'orfheoTableSelector'
+        // });
+
+        var setStartTimes = function(){
           startTime.empty();
           var dayStart = new Date(parseInt(eventTime[performance.date][0]));
           var maxStart = new Date(parseInt(performance.time[1]));
@@ -972,10 +967,10 @@
             startTime.append(startOption);
             dayStart.setMinutes(dayStart.getMinutes() + 15);
           };
-          startTime.val(performance.time[0]).trigger('change');
+          startTime.val(performance.time[0]);
         }
 
-        setEndTimes = function(){
+        var setEndTimes = function(){
           endTime.empty();
           var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
           var minEnd = new Date(parseInt(performance.time[0]) + 15 * 60000);
@@ -990,16 +985,16 @@
 
             minEnd.setMinutes(minEnd.getMinutes() + 15);
           };
-          endTime.val(performance.time[1]).trigger('change');
+          endTime.val(performance.time[1]);
         }
 
-        startTime.on('select2:select', function(){
+        startTime.on('change', function(){
           performance.time[0] = parseInt(startTime.val());
           setEndTimes();
           save(performance, check);  
         });
 
-        endTime.on('select2:select', function(){
+        endTime.on('change', function(){
           performance.time[1] = parseInt(endTime.val());
           setStartTimes();
           save(performance, check);
@@ -1010,7 +1005,7 @@
           shows.splice(shows.indexOf(performance), 1);
           destroy(performance);
           shows.forEach(function(show){
-            the_event.program[show.performance_id].loadDates(check);
+            the_event.program[show.performance_id].loadDates();
           });
         });
 
@@ -1028,9 +1023,8 @@
           save(performance);
         });
 
-        _loadDates(check);
-        daySelector.val(performance.date).trigger('change');
-        spaceSelector.val(performance.host_id).trigger('change');
+        daySelector.val(performance.date);
+        spaceSelector.val(performance.host_id);
         setStartTimes();
         setEndTimes();
         comments.val(performance.comments);
@@ -1115,7 +1109,7 @@
     var ToolsDropdownMenu = function(){
       var _menu = $('<ul>').addClass('menu');
 
-      var _outOfprogramBtn = $('<li>').text('Propuestas sin programación');
+      var _outOfprogramBtn = $('<li>').text('Propuestas sin programaciÃ³n');
       _outOfprogramBtn.on('click', function(){
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
@@ -1130,7 +1124,7 @@
         _popup.open();
       });
 
-      var _spaceOutOfprogramBtn = $('<li>').text('Espacios sin programación');
+      var _spaceOutOfprogramBtn = $('<li>').text('Espacios sin programaciÃ³n');
       _spaceOutOfprogramBtn.on('click', function(){
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
@@ -1225,10 +1219,10 @@
                     1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
                 }
             },
-            "lengthMenu": " Resultados por página _MENU_",
-            "zeroRecords": "Ningún resultado",
+            "lengthMenu": " Resultados por pÃ¡gina _MENU_",
+            "zeroRecords": "NingÃºn resultado",
             "info": "",
-            "infoEmpty": "Ningúna información disponible",
+            "infoEmpty": "NingÃºna informaciÃ³n disponible",
             "infoFiltered": "(filtered from _MAX_ total records)",
             "search": "Busca",
             "search": "_INPUT_",
@@ -1269,7 +1263,7 @@
             if (_colCategry.data().unique().length>1){
               var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
               var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
-                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('CategorÃ­a')));  
               _colCategry.data().unique().sort().each( function ( d, j ) {
                   _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
               } );
@@ -1360,10 +1354,10 @@
                     1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
                 }
             },
-            "lengthMenu": " Resultados por página _MENU_",
-            "zeroRecords": "Ningún resultado",
+            "lengthMenu": " Resultados por pÃ¡gina _MENU_",
+            "zeroRecords": "NingÃºn resultado",
             "info": "",
-            "infoEmpty": "Ningúna información disponible",
+            "infoEmpty": "NingÃºna informaciÃ³n disponible",
             "infoFiltered": "(filtered from _MAX_ total records)",
             "search": "Busca",
             "search": "_INPUT_",
@@ -1404,7 +1398,7 @@
             if (_colCategry.data().unique().length>1){
               var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
               var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
-                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('CategorÃ­a')));  
               _colCategry.data().unique().sort().each( function ( d, j ) {
                   _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
               } );
@@ -1474,7 +1468,7 @@
           });
         });
 
-        var _catOrderBtn = Pard.Widgets.Button('Categoría', function(){
+        var _catOrderBtn = Pard.Widgets.Button('CategorÃ­a', function(){
           _listSortable.empty();
           var _catArrays = {
             home: [],
@@ -1597,7 +1591,7 @@
       }
       else{
         console.log('error');
-        Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();});
+        Pard.Widgets.Alert('Â¡Error!', 'No se ha podido guardar los datos', function(){location.reload();});
       }
     }
 
@@ -1635,7 +1629,7 @@
     var _tableView = $('<div>').hide();
     var _programTable ;
     $(document).ready(function(){
-      var infoProgram = Pard.Widgets.ProgramTableInfo(the_event, displayer);
+      var infoProgram = Pard.Widgets.ProgramTableInfo(_program, displayer);
       _programTable = Pard.Widgets.ProgramTable(infoProgram, the_event);
       _tableView.append(_programTable.render);
     })
@@ -1643,7 +1637,7 @@
     var _viewSelector = $('<select>');
     var _viewSelectorContainer = $('<div>').addClass('switcherContainer-callPage').append(_viewSelector);
     _switcher.append(_viewSelectorContainer).css('margin-bottom', '0.5rem');
-    var _viewTags = [{id:'manager', text:'Herramienta de gestión', view:_managerView},{id:'table',text:'Tabla', view:_tableView}];
+    var _viewTags = [{id:'manager', text:'Herramienta de gestiÃ³n', view:_managerView},{id:'table',text:'Tabla', view:_tableView}];
     _viewSelector.select2({
       data: _viewTags,
       minimumResultsForSearch: Infinity,

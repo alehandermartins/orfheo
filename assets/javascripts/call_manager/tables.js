@@ -667,7 +667,7 @@
     }
   }
 
-  ns.Widgets.ProgramTableInfo = function(program, displayer){
+  ns.Widgets.ProgramTableInfo = function(the_event, displayer){
 
     return{
       date: {
@@ -729,21 +729,20 @@
       title: {
         label: 'Título',
         info: function(show){
-          // return $('<a>').attr('href','#').text(show.title).click(function(){program[show.performance_id].showPopup();})
           var _info = $('<a>').attr('href','#')
           .text(show['title'])
           .click(function(){
-            var _content = $('<div>').addClass('very-fast reveal full');
-            _content.empty();
-            $('body').append(_content);
-            var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-            var _message = Pard.Widgets.PopupContent(show.title +' (' + show.participant_name + ')', program[show.performance_id].manager(true));
-            _message.setCallback(function(){
-              _content.remove();
-              _popup.close();
-            });
-            _content.append(_message.render());
-            _popup.open();
+            if (show.permanent == 'true') {
+              var artistProgram = the_event.artists[show.participant_id].program;
+              var performancesBox = $('<div>').css('padding', 0);
+              for (var performance_id in artistProgram){
+                performancesBox.append(artistProgram[performance_id].manager(true).render());
+              };
+              Pard.Widgets.BigAlert(show.title +' (' + show.participant_name + ')', performancesBox);
+            }
+            else  {
+              Pard.Widgets.BigAlert(show.title +' (' + show.participant_name + ')', the_event.program[show.performance_id].manager(true).render());
+            }
           })
           return _info;
         }
