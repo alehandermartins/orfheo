@@ -369,14 +369,14 @@
       save(the_event.program[performance.performance_id].show, check, permanent);      
     }
 
-    var destroy = function(performance){
-      console.log('destroy');
+    var destroy = function(performance, permanent){
+      console.log('destroy'+permanent);
       if(the_event.program[performance.performance_id]){
         the_event.spaces[performance.host_id].deletePerformance(performance);
         the_event.artists[performance.participant_id].deletePerformance(performance);
         the_event.program[performance.performance_id].destroy();
         delete the_event.program[performance.performance_id];
-        _programTable.destroy(performance.performance_id);
+        _programTable.destroy(performance.performance_id, permanent);
       }
     }
 
@@ -783,9 +783,12 @@
           _card.css({'opacity': '1'});
           Pard.Bus.trigger('stop');
           if(ui.helper.data('dropped') == false){
-            artistShows().forEach(function(show){
-              destroy(show);
+            var _artistShows = artistShows();
+            var permanent = true;
+            _artistShows.forEach(function(show){
+              destroy(show, permanent);
             }); 
+            Pard.Bus.trigger('DestroyPermanentTable', _artistShows)
           }
         }
       });

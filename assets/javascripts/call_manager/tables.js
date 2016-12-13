@@ -394,6 +394,7 @@
       var _colCategry = colSelector.column;
       var _ival = colSelector.select.val();
       colSelector.select = $('<select>').append($('<option>').attr('value','').text(''));
+      var _options = [];
       $(_colCategry.header()).empty().text(infoProgram[col].label);
       if (_colCategry.data().unique().length>1){
         var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
@@ -404,20 +405,26 @@
           });
         _colCategry.data().unique().each( function ( d, j ) {
             colSelector.select.append( '<option value="'+d+'">'+d+'</option>' );
+            _options.push(d);
             if (d == _ival) colSelector.select.val(d);
         } );
         colSelector.select.click(function(e){
           e.stopPropagation();
         });
       }
+      colSelector.options = _options;
       colSelector.select.trigger('change');
     }
 
     var _reloadSelectors = function(){
       Object.keys(_colSelectors).forEach(function(col){
-        if (_colSelectors[col].column.data().unique().length != _colSelectors[col].select.children('option').length - 1){
+        var _columnData = [];
+        _colSelectors[col].column.data().unique().each(function(value){
+            typeof value === 'string' ? _columnData.push(value) : false
+        });
+        if (_columnData.sort().toString() != _colSelectors[col].options.sort().toString()){
           _loadSelector(_colSelectors[col], col);
-          console.log('reload')
+          console.log('reload-'+col)
         }
       })
     }
@@ -498,7 +505,7 @@
     "columnDefs": [
       { "visible": false, "targets": _hiddenColumns}
     ],
-    "order": [0,'asc'],
+    "orderFixed": [0,'asc'],
     // keys: true,
     dom: 'Bfrtip',
     buttons: [
@@ -637,19 +644,23 @@
     _colSelectors = {
       confirmed: {
         column: _dataTable.column(_columns.indexOf('confirmed')),
-        select: $('<select>').append($('<option>').attr('value','').text(''))
+        select: $('<select>').append($('<option>').attr('value','').text('')),
+        options: []
       },
       participant_subcategory: {
         column: _dataTable.column(_columns.indexOf('participant_subcategory')),
-        select: $('<select>').append($('<option>').attr('value','').text(''))
+        select: $('<select>').append($('<option>').attr('value','').text('')),
+        options: []
       },
       host_subcategory: {
         column: _dataTable.column(_columns.indexOf('host_subcategory')),
-        select: $('<select>').append($('<option>').attr('value','').text(''))
+        select: $('<select>').append($('<option>').attr('value','').text('')),
+        options: []
       },
       date:{
         column: _dataTable.column(_columns.indexOf('date')),
-        select: $('<select>').append($('<option>').attr('value','').text(''))
+        select: $('<select>').append($('<option>').attr('value','').text('')),
+        options: []
       }
     }
 
@@ -659,7 +670,6 @@
 
     Pard.Bus.on('ModifyPermanentsTable', function(performances){
       performances.modifiables.forEach(function(performance_id){
-        console.log(performance_id)
         var _show = the_event.program[performance_id].show;
         _dataTable.row('#programTable-' + performance_id).remove();
         _dataTable.row.add(showRow(_show));
@@ -680,6 +690,15 @@
       console.log('CreatePermanentsTable');
     });
 
+    Pard.Bus.on('DestroyPermanentTable', function(artistShows){
+      for(var show in artistShows){
+        _dataTable.row('#programTable-' + show.performance_id).remove();
+      }
+      _dataTable.order([0,'asc']).draw();
+      console.log('DestroyPermanentTable')
+    });
+
+
 
     return {
       table: _table,
@@ -694,17 +713,19 @@
           _reloadSelectors();
         }
       },
-      destroy: function(performance_id){
-        _dataTable.row('#programTable-' + performance_id).remove().draw();
-        _reloadSelectors();
-        console.log('DestroyNormalTable');
+      destroy: function(performance_id, permanent){
+        if (!(permanent)){
+          _dataTable.row('#programTable-' + performance_id).remove().draw();
+          _reloadSelectors();
+          console.log('DestroyNormalTable');
+        }
       }
     }
   }
 
   ns.Widgets.ProgramTableInfo = function(the_event, displayer){
     var _cronoOrder = function(show){
-      return Object.keys(the_event.eventTime).indexOf(show.date)+show.permanent+show.time[0];
+      return Object.keys(the_event.eventTime).indexOf(show.date)+show.permanent+show.time[0]+show.time[1];
     } 
     return{
       date: {
@@ -786,8 +807,5 @@
       }
     }
   }
-
-// (field == 'email') _titleCol.text('Email artista');
-      // else if (field == 'phone') _titleCol.text('Tél. artista');
 
 }(Pard || {}));
