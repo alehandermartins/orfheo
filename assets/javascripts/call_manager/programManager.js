@@ -1658,9 +1658,9 @@
     _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
     _managerView.append( _selectors.append(_daySelectorContainer, _spaceSelectorContainer,  _showArtists));
     _managerView.append(_tableBox);
-    // var _innerBtnContainer = $('<div>').append(_toolsContainer, _submitBtnContainer).addClass('innerBtnContainer-programManager');
-    // _buttonsContainer.append(_innerBtnContainer);
-    _buttonsContainer.append(_toolsContainer, _submitBtnContainer)
+    var _innerBtnContainer = $('<div>').append(_toolsContainer,_submitBtnContainer).addClass('innerBtnContainer-programManager');
+    _buttonsContainer.append(_innerBtnContainer);
+    // _buttonsContainer.append(_toolsContainer, _submitBtnContainer)
     _createdWidget.append(_switcher,_buttonsContainer, _managerView, _tableView)
 
 

@@ -346,7 +346,7 @@
     var _columns = ['cronoOrder','date','time','participant_name','participant_email','participant_subcategory','title','short_description','order','host_name','host_email','host_subcategory','comments','confirmed'];
     var _shownColumns = ['date','time','participant_name','participant_subcategory','title','host_name', 'host_subcategory'];
     var _hiddenColumns = [];
-    var _outerTableContainer = $('<div>');
+    var _outerTableContainer = $('<div>').css('margin-top','3.35rem');
     var _tableBox = $('<div>').addClass('table-box-call-manager-page');
 
     _table.append(_thead.append(_titleRow));
@@ -421,13 +421,45 @@
         }
       })
     }
-    
 
     for (var id in the_event.program){
       _tbody.append(showRow(the_event.program[id].show))
     }
 
-    _dataTable = _table.DataTable({
+
+    var _filtersWidgets = function(colTosearch) {
+      var _showCheckbox = $('<input>').attr({ type: 'checkbox', 'value': true})
+        .on('change', function(){
+          var val = '';
+          if (_permanentCheckbox.is(":checked")) _permanentCheckbox.prop("checked", false);
+          if(_showCheckbox.is(":checked")) val = 'false';
+         colTosearch.search(val).draw(); 
+        });
+      var _labelShow = $('<label>').html('puntuales').css({'display':'inline', 'cursor':'pointer'})
+        .on('click', function(){
+          _showCheckbox.prop("checked", !_showCheckbox.prop("checked"));
+          _showCheckbox.trigger('change');
+        });
+      var _permanentCheckbox = $('<input>').attr({ type: 'checkbox', 'value': true})
+        .on('change', function(){
+          var val = '';
+          if(_showCheckbox.is(":checked")) _showCheckbox.prop("checked", false);
+          if(_permanentCheckbox.is(':checked')) val = 'true';
+          colTosearch.search(val).draw();
+        });
+      var _labelPermanent = $('<label>').html('permanentes').css({'display':'inline', 'cursor':'pointer'})
+        .on('click', function(){
+          _permanentCheckbox.prop("checked", !_permanentCheckbox.prop("checked"));
+          _permanentCheckbox.trigger('change');
+        });
+      var _filtersContainer = $('<div>').append(
+        $('<span>').append(_showCheckbox, _labelShow), 
+        $('<span>').append(_permanentCheckbox, _labelPermanent))
+        .addClass('permanetFilters-call-page');
+      _outerTableContainer.prepend($('<div>').append(_filtersContainer).css({'position':'relative', 'margin-left':'0.5rem'}));
+    }
+
+    var _dataTable = _table.DataTable({
       "language":{
       buttons: {
           copyTitle: 'Copia tabla',
@@ -596,7 +628,10 @@
           }
         ]
       }
-    ]
+    ],
+    initComplete: function () {
+      _filtersWidgets(this.api().column(0, { search:'applied' }));
+    }
     });
 
     _colSelectors = {
@@ -668,7 +703,9 @@
   }
 
   ns.Widgets.ProgramTableInfo = function(the_event, displayer){
-
+    var _cronoOrder = function(show){
+      return Object.keys(the_event.eventTime).indexOf(show.date)+show.permanent+show.time[0];
+    } 
     return{
       date: {
         info: function(show){
@@ -717,7 +754,7 @@
       cronoOrder:{
         label:'',
         info: function(show){
-          return show['time'][0];
+          return _cronoOrder(show);
         }
       },
       confirmed:{

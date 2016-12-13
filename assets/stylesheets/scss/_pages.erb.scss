@@ -1618,7 +1618,6 @@ th.column-call-manager-table{
   z-index: 9;
 }
 
-
 .orfheoTableSelector{
   li.select2-results__option{
     padding: 0 6px;  
@@ -2003,7 +2002,7 @@ Program Manager Tab
 .day-selector-container-call-manager{
   display: inline-block;
   width: 9rem;
-  margin-left: 19rem;
+  margin-left: 17rem;
 }
 
 .space-selector-container-call-manager{
@@ -2273,9 +2272,11 @@ tr.permanent-row-program-table-call-manager td{
 }
 
 .tools-buttons-container{
-  position: absolute;
-  left: 6rem;
-  top: 2px; 
+  /* position: absolute; */
+  /* left: 6rem; */
+  /* top: 2px;  */
+  margin-right: 1rem;
+  display: inline-block;
   z-index: 10;
   span{
     font-size: $almostNormalSize;
@@ -2313,9 +2314,12 @@ tr.permanent-row-program-table-call-manager td{
 }
 
 .submit-program-btn-container{
-  position: absolute; 
+  /* position: absolute;  */
   z-index: 10;
-  left: 3rem;
+  /* left: 3rem; */
+  display: inline-block;
+  vertical-align: 0.2rem;
+  /* margin-right: 1.5rem; */
 }
 
 .buttons-container-call-manager{
@@ -2323,6 +2327,21 @@ tr.permanent-row-program-table-call-manager td{
   margin-top: 2.5rem;
 /*   height: 2rem;
   margin-bottom: 0.5rem; */
+}
+
+.innerBtnContainer-programManager{
+  display: inline-block;
+  position: absolute;
+  top: -4rem;
+  right: 0;
+  /* left: 17rem; */
+}
+
+.permanetFilters-call-page{
+  position: absolute;
+  top: 0.7rem;
+  z-index: 9;
+  /* left: 12.5rem; */
 }
 
 

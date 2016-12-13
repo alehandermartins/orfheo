@@ -48,8 +48,9 @@
       var form = forms[type][_proposal.form_category];
 
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
-      var _deleteProposalCaller = $('<a>').attr('href','#').text('Elimina').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'));
-      var _modifyProposal = $('<a>').attr('href','#').text('Modifica').addClass('deleteProfile-caller').prepend(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'));
+      var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
+      var _deleteProposalCaller = $('<a>').attr('href','#').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), $('<span>').text('Elimina')).addClass('deleteProfile-caller');
+      var _modifyProposal = $('<a>').attr('href','#').append(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'), $('<span>').text('Modifica')).addClass('deleteProfile-caller');
 
       _deleteProposalCaller.on('click', function(){
         var _deleteContent = $('<div>').addClass('very-fast reveal full');
