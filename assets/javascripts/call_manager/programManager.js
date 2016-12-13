@@ -340,43 +340,39 @@
       modify(performance, true);
     });
 
-    var save = function(performance, check, permanent){
-      console.log('save')
+    var save = function(performance, check, multipleChanges){
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
       the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
       if (check) checkConflicts(show);
       if (_programTable){
-        _programTable.save(show, permanent);
+        _programTable.save(show, multipleChanges);
       }
     }
     
     var create = function(performance, check){
-      console.log('create');
       performance.performance_id = Pard.Widgets.GenerateUUID();
       if(performance.permanent == 'true') the_event.program[performance.performance_id] = new PermanentPerformance(performance);
       else{the_event.program[performance.performance_id] = new Performance(performance);}
-      if (performance.permanent == 'true') var permanent = true;
-      save(performance, check, permanent);
+      if (performance.permanent == 'true') var multipleChanges = true;
+      save(performance, check, multipleChanges);
     }
 
-    var modify = function(performance, check){
-      console.log('modify');
+    var modify = function(performance, check, multipleChanges){
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[performance.last_host].deletePerformance(show);
       the_event.program[performance.performance_id].modify(performance);
-      if (performance.permanent == 'true') var permanent = true;
-      save(the_event.program[performance.performance_id].show, check, permanent);      
+      if (performance.permanent == 'true') multipleChanges = true;
+      save(the_event.program[performance.performance_id].show, check, multipleChanges);      
     }
 
-    var destroy = function(performance, permanent){
-      console.log('destroy'+permanent);
+    var destroy = function(performance, multipleChanges){
       if(the_event.program[performance.performance_id]){
         the_event.spaces[performance.host_id].deletePerformance(performance);
         the_event.artists[performance.participant_id].deletePerformance(performance);
         the_event.program[performance.performance_id].destroy();
         delete the_event.program[performance.performance_id];
-        _programTable.destroy(performance.performance_id, permanent);
+        _programTable.destroy(performance.performance_id, multipleChanges);
       }
     }
 
@@ -471,6 +467,7 @@
         _titleTextLong = performance.participant_name + ' - ' + performance.title;
         _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
         _confirmationCheck = '';
+        _commentIconContainer.empty();
         if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render();
         if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render());
 
@@ -808,7 +805,7 @@
         
         var _titleTextLong = performance.participant_name + ' - ' + performance.title;
         _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
-
+        _commentIconContainer.empty();
         if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render();
         if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render());
       }
@@ -1695,25 +1692,36 @@
         _spaceSelector.trigger('reload', [_id]);
       },
       deleteArtist: function(artist){
+        var _performancesToDelete = [];
         var artistProgram = the_event.artists[artist.profile_id].program;
         Object.keys(artistProgram).forEach(function(performance_id){
-          if(artistProgram[performance_id].show.participant_proposal_id == artist.proposal_id) destroy(artistProgram[performance_id].show);
+          if(artistProgram[performance_id].show.participant_proposal_id == artist.proposal_id) {
+            destroy(artistProgram[performance_id].show, true);
+            _performancesToDelete.push(performance_id);
+          }
         });
         var _id = _artistSelector.val();
         _loadArtistSelector();
         _artistSelector.trigger('reload', [_id]);
+        _programTable.deleteArtist(_performancesToDelete);
       },
       deleteSpace: function(space){
+        var _performancesToDelete = [];
         var spaceProgram = the_event.spaces[space.profile_id].program;
         Object.keys(spaceProgram).forEach(function(performance_id){
-          if(spaceProgram[performance_id].show.host_id == space.profile_id) destroy(spaceProgram[performance_id].show);
+          if(spaceProgram[performance_id].show.host_id == space.profile_id){
+            destroy(spaceProgram[performance_id].show);
+            _performancesToDelete.push(performance_id);
+          }
         });
         order.splice(order.indexOf(space.profile_id), 1);
         var _id = _spaceSelector.val();
         _loadSpaceSelector();
         _spaceSelector.trigger('reload', [_id]);
+        _programTable.deleteSpace(_performancesToDelete);
       },
       modifyArtist: function(artist){
+        var _performancesToModify = [];
         var artistProgram = the_event.artists[artist.profile_id].program;
         Object.keys(artistProgram).forEach(function(performance_id){
           var performance = {
@@ -1728,14 +1736,17 @@
             performance.participant_subcategory = artist.proposals[0].subcategory;
             performance.availability = artist.proposals[0].availability;
           }
-          modify(performance);
+          modify(performance, undefined ,true);
+          _performancesToModify.push(performance_id);
         });
         var _id = _artistSelector.val();
         _loadArtistSelector();
         _artistSelector.trigger('reload', [_id]);
         the_event.artists[artist.profile_id].setDay(_daySelector.val());
+        _programTable.modifyArtist(_performancesToModify);
       },
       modifySpace: function(space){
+        var _performancesToModify = [];
         var spaceProgram = the_event.spaces[space.profile_id].program;
         Object.keys(spaceProgram).forEach(function(performance_id){
           var performance = {
@@ -1746,11 +1757,13 @@
             host_name: space.name,
             address: space.address
           } 
-          modify(performance);
+          modify(performance,performance, undefined ,true);
+          _performancesToModify.push(performance_id);
         });
         var _id = _spaceSelector.val();
         _loadSpaceSelector();
         _spaceSelector.trigger('reload', [_id]);
+        _programTable.modifySpace(_performancesToModify);
       }
     }
   }

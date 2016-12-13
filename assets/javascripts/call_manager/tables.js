@@ -424,7 +424,6 @@
         });
         if (_columnData.sort().toString() != _colSelectors[col].options.sort().toString()){
           _loadSelector(_colSelectors[col], col);
-          console.log('reload-'+col)
         }
       })
     }
@@ -676,7 +675,6 @@
       })
       _reloadSelectors();
       _dataTable.order([0,'asc']).draw();
-      console.log('ModifyPermanentsTable');
     });
 
 
@@ -687,15 +685,13 @@
       });
       _reloadSelectors();
       _dataTable.order([0,'asc']).draw();
-      console.log('CreatePermanentsTable');
     });
 
     Pard.Bus.on('DestroyPermanentTable', function(artistShows){
-      for(var show in artistShows){
+      artistShows.forEach(function(show){
         _dataTable.row('#programTable-' + show.performance_id).remove();
-      }
+      });
       _dataTable.order([0,'asc']).draw();
-      console.log('DestroyPermanentTable')
     });
 
 
@@ -705,20 +701,47 @@
       render: _createdWidget,
       showRow: showRow,
       // loadSelectors: _loadSelectors,
-      save: function(show, permanent){
-        if (!(permanent)){
-          console.log('SaveNormalTable')
+      save: function(show, multipleChanges){
+        if (!(multipleChanges)){
           _dataTable.row('#programTable-' + show.performance_id).remove();
           _dataTable.row.add(showRow(show)).order([0,'asc']).draw();
           _reloadSelectors();
         }
       },
-      destroy: function(performance_id, permanent){
-        if (!(permanent)){
+      destroy: function(performance_id, multipleChanges){
+        if (!(multipleChanges)){
           _dataTable.row('#programTable-' + performance_id).remove().draw();
           _reloadSelectors();
-          console.log('DestroyNormalTable');
         }
+      },
+      deleteArtist: function(performancesToDelete){
+        performancesToDelete.forEach(function(performance_id){
+          _dataTable.row('#programTable-' + performance_id).remove();
+        });
+        _dataTable.draw(); 
+      },
+      deleteSpace: function(performancesToDelete){
+        performancesToDelete.forEach(function(performance_id){
+          _dataTable.row('#programTable-' + performance_id).remove();
+        });
+        _dataTable.draw();
+      },
+      modifyArtist:function(performancesToModify){
+        performancesToModify.forEach(function(performance_id){
+          var _show = the_event.program[performance_id].show;
+          _dataTable.row('#programTable-' + performance_id).remove();
+          _dataTable.row.add(showRow(_show))
+        });
+        _dataTable.draw();
+      },
+      modifySpace: function(performancesToModify){
+        performancesToModify.forEach(function(performance_id){
+          var _show = the_event.program[performance_id].show;
+          _dataTable.row('#programTable-' + performance_id).remove();
+          _dataTable.row.add(showRow(_show))
+        });
+        _dataTable.draw();
+
       }
     }
   }
