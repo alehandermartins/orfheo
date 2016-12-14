@@ -45,7 +45,15 @@ small:80% -> 12.8px / 0.8rem
 //   position:relative;
 //   } */
 
-
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+     -khtml-user-select: none; /* Konqueror */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
 
 
 html, body{
@@ -774,6 +782,16 @@ a.navigation-btn-callPage{
   font-size: 0.875rem;
 }
 
+
+.chain-unchain-button{
+  @extend .pard-btn;
+  height: 22px;
+  width: 35px;
+  text-align: center;
+  padding: 0;
+  /* color: $blue-pard; */
+  font-size: 1.1rem;
+}
 
 /*===============================================
 COMPONENTS

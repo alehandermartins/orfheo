@@ -116,6 +116,7 @@
     var _shownSpaces = [];
 
     _daySelector.select2({
+      dropdownCssClass:'orfheoTableSelector',
       minimumResultsForSearch: Infinity,
       allowClear:false,
       templateResult: Pard.Widgets.FormatResource
@@ -203,6 +204,7 @@
         allowClear: true,
         data: spaceProposals,
         templateResult: Pard.Widgets.FormatResource,
+        dropdownCssClass: 'orfheoTableSelector'
       });
     }
 
@@ -227,6 +229,7 @@
         data: artistProposals,
         allowClear: true,
         templateResult: Pard.Widgets.FormatResource,
+        dropdownCssClass:'orfheoTableSelector'
       });
     }
 
@@ -383,10 +386,8 @@
       var _confirmationCheckContainer = $('<span>').addClass('checker');
       var _titleText = $('<a>').attr('href','#');
       var _commentIconContainer = $('<span>').addClass('commentIcon');
-      var _titleTextLong, _confirmationCheck, _commentIcon;
+      var _titleTextLong;
 
-      _confirmationCheckContainer.append(_confirmationCheck);
-      _commentIconContainer.append(_commentIcon);
       _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
       
       _titleText.on('click', function(){
@@ -394,13 +395,13 @@
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        _popup.open();
         var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager(true));
         _message.setCallback(function(){
           _content.remove();
           _popup.close();
         });
         _content.append(_message.render());
-        _popup.open();
       });
 
       card.append(_title.css({'position': 'absolute'}));
@@ -466,9 +467,9 @@
 
         _titleTextLong = performance.participant_name + ' - ' + performance.title;
         _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
-        _confirmationCheck = '';
         _commentIconContainer.empty();
-        if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render();
+        _confirmationCheckContainer.empty();
+        if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheckContainer.append(Pard.Widgets.IconManager('done').render());
         if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render());
 
         card.resizable({
@@ -506,10 +507,10 @@
         var label = $('<label>').html('Confirmado');
         var confirmed = $('<div>').append(input, label);
 
-        var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).append(daySelector);
-        var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector);
-        var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime);
-        var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime);
+        var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).append(daySelector).addClass('noselect');
+        var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector).addClass('noselect');
+        var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime).addClass('noselect');
+        var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime).addClass('noselect');
         confirmed.css('margin-left', 430);
         label.css('display','inline');
         comments.css('width', 530);
@@ -709,7 +710,7 @@
 
     var PermanentPerformance = function(performance){
 
-      var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'})
+      var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).addClass('noselect');
       var shows;
 
       if(performance.time){
@@ -729,25 +730,22 @@
       var _confirmationCheckContainer = $('<span>').addClass('checker');
       var _titleText = $('<a>').attr('href','#');
       var _commentIconContainer = $('<span>').addClass('commentIcon');
-      var _titleTextLong, _confirmationCheck, _commentIcon;
+      var _titleTextLong;
 
-      _confirmationCheckContainer.append(_confirmationCheck);
-      _commentIconContainer.append(_commentIcon);
       _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
 
       _titleText.on('click', function(){
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
         $('body').append(_content);
-
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        _popup.open();
         var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager(true));
         _message.setCallback(function(){
           _content.remove();
           _popup.close();
         });
         _content.append(_message.render());
-        _popup.open();
       });
 
       var _card = $('<div>').addClass('programHelper');
@@ -781,11 +779,11 @@
           Pard.Bus.trigger('stop');
           if(ui.helper.data('dropped') == false){
             var _artistShows = artistShows();
-            var permanent = true;
+            var multipleChanges = true;
             _artistShows.forEach(function(show){
-              destroy(show, permanent);
+              destroy(show, multipleChanges);
             }); 
-            Pard.Bus.trigger('DestroyPermanentTable', _artistShows)
+            Pard.Bus.trigger('DestroyPermanentTable', _artistShows);
           }
         }
       });
@@ -806,28 +804,9 @@
         var _titleTextLong = performance.participant_name + ' - ' + performance.title;
         _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
         _commentIconContainer.empty();
-        if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheck = Pard.Widgets.IconManager('done').render();
+        _confirmationCheckContainer.empty();
+        if (performance.confirmed == 'true' || performance.confirmed == true) _confirmationCheckContainer.append(Pard.Widgets.IconManager('done').render());
         if (performance.comments) _commentIconContainer.append(Pard.Widgets.IconManager('comments').render());
-      }
-      
-      var PermanentManager = function(check){
-
-        var performancesBox = $('<div>').css('padding', 0);
-        artistShows().forEach(function(show){
-          performancesBox.append(the_event.program[show.performance_id].manager(check).render());
-        });
-
-        return {
-          render: function(){
-            return performancesBox;
-          },
-          setCallback: function(callback){
-            _closePopup = function(){
-              performancesBox.remove();
-              callback();
-            }
-          }
-        }
       }
       
       var artistShows = function(){
@@ -843,8 +822,6 @@
       }
 
       var daySelector; 
-      var startTime = function(){};
-      var endTime = function(){};
 
       var _loadDates = function(check){
         daySelector = $('<select>');
@@ -905,8 +882,8 @@
         var performanceBox = $('<div>');
         var performanceContainer = $('<div>').css('height', 40);
         var spaceSelector = $('<select>');
-        var startTime = $('<select>');
-        var endTime = $('<select>');
+        var startTime;
+        var endTime;
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var commentsContainer = $('<div>');
         var comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
@@ -916,9 +893,9 @@
         var label = $('<label>').html('Confirmado');
         var confirmed = $('<div>').append(input, label);
 
-        var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector);
-        var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime);
-        var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime);
+        var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector).addClass('noselect');
+        var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).addClass('noselect');
+        var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).addClass('noselect');
         confirmed.css('margin-left', 430);
         label.css('display','inline');
         comments.css('width', 530);
@@ -936,89 +913,105 @@
 
         spaceSelector.select2({
           dropdownCssClass: 'orfheoTableSelector'
-        });
-        startTime.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
-        endTime.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        });
+        })
+          .on('select2:select', function(e, multipleChanges){
+            console.log(multipleChanges)
+            console.log('select2')
+            the_event.spaces[performance.host_id].deletePerformance(performance);
+            var space = the_event.spaces[spaceSelector.val()].space;
+            performance.host_name = space.name;
+            performance.host_email = space.email;
+            performance.address = space.address;
+            performance.host_category = space.category;
+            performance.host_subcategory = space.subcategory;
+            performance.host_proposal_id = space.proposal_id;
+            performance.host_id = spaceSelector.val();
+            save(performance, check, multipleChanges);
+          });
 
-        spaceSelector.on('select2:select', function(){
-          the_event.spaces[performance.host_id].deletePerformance(performance);
-          var space = the_event.spaces[spaceSelector.val()].space;
-          performance.host_name = space.name;
-          performance.host_email = space.email;
-          performance.address = space.address;
-          performance.host_category = space.category;
-          performance.host_subcategory = space.subcategory;
-          performance.host_proposal_id = space.proposal_id;
-          performance.host_id = spaceSelector.val();
-          save(performance, check);
-        });
-
-        setStartTimes = function(){
-          startTime.empty();
+        var setStartTimes = function(){
+          startTimeContainer.empty();
+          startTime = $('<select>');
+          startTimeContainer.append(startTime);
           var dayStart = new Date(parseInt(eventTime[performance.date][0]));
-          var maxStart = new Date(parseInt(performance.time[1]));
+          var maxStart = new Date(parseInt(eventTime[performance.date][1]));
+          // var maxStart = new Date(parseInt(performance.time[1]));
           maxStart.setMinutes(maxStart.getMinutes() - 15);
-
+          var _startOptions = [];
           while(dayStart <= maxStart){
-            var hours = dayStart.getHours();
-            var minutes = dayStart.getMinutes();
-            if(hours < 10) hours = '0' + hours;
-            if(minutes < 10) minutes = '0' + minutes;
-            var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
-            startTime.append(startOption);
+            _startOptions.push({
+              id: moment(dayStart).locale('es').format('HH:mm'), 
+              text: moment(dayStart).locale('es').format('HH:mm'),
+              time:  dayStart.getTime()
+            })
             dayStart.setMinutes(dayStart.getMinutes() + 15);
           };
-          startTime.val(performance.time[0]).trigger('change');
+          startTime.select2({
+            data: _startOptions,
+            dropdownCssClass: 'orfheoTableSelector'
+          })
+            .on('select2:select', function(e, multipleChanges){
+              performance.time[0] = parseInt(startTime.select2('data')[0].time);
+              // setEndTimes();
+              if (performance.time[0] >= performance.time[1]) {
+                performance.time[1] = performance.time[0] + 15*60000;
+                endTime.val(moment(performance.time[1]).locale('es').format('HH:mm'))
+                  .trigger('change')
+                  .trigger('select2:select');
+              }
+              save(performance, check, multipleChanges);  
+            });
+          startTime.val(moment(performance.time[0]).locale('es').format('HH:mm')).trigger('change');
         }
 
-        setEndTimes = function(){
-          endTime.empty();
+        var setEndTimes = function(){
+          endTimeContainer.empty();
+          endTime = $('<select>');
+          endTimeContainer.append(endTime);
           var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
-          var minEnd = new Date(parseInt(performance.time[0]) + 15 * 60000);
-
+          // var minEnd = new Date(parseInt(performance.time[0]) + 15 * 60000);
+          var minEnd = new Date(parseInt(eventTime[performance.date][0] + 15*60000));
+          var _endOptions = [];
           while(minEnd <= dayEnd){
-            var hours = minEnd.getHours();
-            var minutes = minEnd.getMinutes();
-            if(hours < 10) hours = '0' + hours;
-            if(minutes < 10) minutes = '0' + minutes;
-            var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
-            endTime.append(endOption);
-
+            _endOptions.push({
+              time: minEnd.getTime(), 
+              id: moment(minEnd).locale('ese').format('HH:mm'),
+              text: moment(minEnd).locale('ese').format('HH:mm')
+            });
             minEnd.setMinutes(minEnd.getMinutes() + 15);
           };
-          endTime.val(performance.time[1]).trigger('change');
+          endTime.select2({
+            data: _endOptions,
+            dropdownCssClass: 'orfheoTableSelector'
+          })
+            .on('select2:select', function(e, multipleChanges){
+              performance.time[1] = parseInt(endTime.select2('data')[0].time);
+              // setStartTimes();
+              if (performance.time[1] <= performance.time[0]) {
+                performance.time[0] = performance.time[1] - 15*60000;
+                startTime.val(moment(performance.time[0]).locale('es').format('HH:mm'))
+                  .trigger('change')
+                  .trigger('select2:select');
+              }
+              save(performance, check, multipleChanges);
+            });
+          endTime.val(moment(performance.time[1]).locale('es').format('HH:mm')).trigger('change');
         }
 
-        startTime.on('select2:select', function(){
-          performance.time[0] = parseInt(startTime.val());
-          setEndTimes();
-          save(performance, check);  
-        });
-
-        endTime.on('select2:select', function(){
-          performance.time[1] = parseInt(endTime.val());
-          setStartTimes();
-          save(performance, check);
-        });
-
-        removeInputButton.on('click', function(){
+        removeInputButton.on('click', function(e, multipleChanges){
           performanceBox.remove();
           shows.splice(shows.indexOf(performance), 1);
-          destroy(performance);
+          destroy(performance, multipleChanges);
           shows.forEach(function(show){
             the_event.program[show.performance_id].loadDates(check);
           });
         });
 
-        input.on('change', function(){
+        input.on('change', function(e, multipleChanges){
           performance.confirmed = input.is(":checked");
           if (performance.confirmed) _card.find('.checker').append(Pard.Widgets.IconManager('done').render());
           else _card.find('.checker').empty();
-          save(performance);
+          save(performance, null, multipleChanges);
         });
 
         comments.on('input', function(){
@@ -1028,6 +1021,7 @@
           save(performance);
         });
 
+        var _endTimeCallback = function(){};
         _loadDates(check);
         daySelector.val(performance.date).trigger('change');
         spaceSelector.val(performance.host_id).trigger('change');
@@ -1043,6 +1037,161 @@
           setCallback: function(callback){
             _closePopup = function(){
               performanceBox.remove();
+              callback();
+            }
+          },
+          spaceSelector: spaceSelector,
+          input: input,
+          startTime: startTime,
+          endTime: endTime, 
+          removeInputButton: removeInputButton,
+          setEndTimeCallback: function(endTimeCallback){
+            _endTimeCallback = endTimeCallback;
+          }
+        }
+      }
+
+      var PermanentManager = function(check){
+        var performancesBox = $('<div>').css({'padding': '0', 'margin-top':'1.5rem'});
+        var _all = $('<button>')
+          .append(Pard.Widgets.IconManager('chained').render())
+          .attr({'type':'button', 'title':'Encadena los cambios'})
+          .addClass('chain-unchain-button')
+          .tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+        var _cachedManagers = [];
+        var _managers = {};
+        _managers.chained = false;
+        _managers.collection = {};
+        _all.click(function(){
+          if (_managers.chained) {
+            _managers.chained = false;
+            _all.empty()
+              .append(Pard.Widgets.IconManager('chained').render())  
+              .tooltip('destroy')
+              .attr({'title':'Encadena los cambios'})
+              .tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+            $('.chain').hide();
+          }
+          else {
+            _managers.chained = true;
+            _all.empty()
+              .append(Pard.Widgets.IconManager('unchained').render())
+              .tooltip('destroy')
+              .attr({'title':'Desencadena los cambios'})
+              .tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+            $('.chain').show();
+          }
+        });
+        performancesBox.append(_all);
+        var _artistShows = artistShows();
+        _artistShows.forEach(function(show, index){
+          var _manager = the_event.program[show.performance_id].manager(check);
+          _managers.collection[show.performance_id] = {manager: _manager};
+          _manager.spaceSelector.on('select2:select',function(e, state){
+            console.log(_managers)
+            if (!(state) && _managers.chained){
+              var val = _manager.spaceSelector.val();
+              for (var id in _managers.collection){
+                var manager = _managers.collection[id].manager;
+                if (_manager != manager){
+                  manager.spaceSelector.val(val)
+                    .trigger('change')
+                    .trigger('select2:select', [true]);
+                }
+              }
+              var _performances = {};
+              _performances.modifiables = artistShows().map(function(show){
+                return  show.performance_id; 
+              });
+              Pard.Bus.trigger('ModifyPermanentsTable', _performances);
+            }
+          });
+
+          _manager.startTime.on('select2:select',function(e, state){
+            if (!(state) && _managers.chained){
+              var val = _manager.startTime.val();
+              for (var id in _managers.collection){
+                var manager = _managers.collection[id].manager;
+                if (_manager != manager){
+                  manager.startTime.val(val)
+                  .trigger('change')
+                  .trigger('select2:select', [true]);
+                }
+              }
+              var _performances = {};
+              _performances.modifiables = artistShows().map(function(show){
+                  return  show.performance_id; 
+              });
+              Pard.Bus.trigger('ModifyPermanentsTable', _performances);
+            }          
+          });
+
+          _manager.endTime.on('select2:select',function(e, state){
+            if (!(state) && _managers.chained){
+              var val = _manager.endTime.val();
+              for (var id in _managers.collection){
+                var manager = _managers.collection[id].manager;
+                if (_manager != manager){
+                  manager.endTime.val(val)
+                  .trigger('change')
+                  .trigger('select2:select', [true]);
+                }
+              }
+              var _performances = {};
+              _performances.modifiables = artistShows().map(function(show){
+                  return  show.performance_id; 
+              });
+              Pard.Bus.trigger('ModifyPermanentsTable', _performances);
+            }          
+          });
+
+          _manager.input.click(function(){
+            for (var id in _managers.collection){
+              var manager = _managers.collection[id].manager;
+              if (manager != _manager){
+                manager.input.prop("checked", _manager.input.is(":checked"));
+                manager.input.trigger('change',[true]);
+              }
+            }
+            var _performances = {};
+            _performances.modifiables = artistShows().map(function(show){
+                return  show.performance_id; 
+              });
+            Pard.Bus.trigger('ModifyPermanentsTable', _performances);
+          });
+
+          _manager.removeInputButton.click(function(e, state){
+            if (!(state) && _managers.chained){
+              Pard.Bus.trigger('DestroyPermanentTable', artistShows());
+              $('.chain').remove(); 
+              for (var id in _managers.collection){
+                var manager = _managers.collection[id].manager;
+                if (manager != _manager) {
+                  manager.removeInputButton.trigger('click', [true]);
+                }
+              }; 
+            }
+            _managers.collection[show.performance_id].chainIcon.remove();
+            delete _managers.collection[show.performance_id];
+          });
+          performancesBox.append(_manager.render());
+          var _chainIcon = $('<div>').append(Pard.Widgets.IconManager('chained').render().addClass('chain').hide()).addClass('chain-container');
+            _managers.collection[show.performance_id].chainIcon = _chainIcon;
+          if(index != _artistShows.length -1){ 
+            performancesBox.append(_chainIcon);
+          }else{
+            var _mask = $('<div>').append($('<div>').addClass('mask-PermanentManager-IconChain chain')).css('position','relative');
+            performancesBox.append(_mask);
+          }
+        });
+
+        return {
+          render: function(){
+            return performancesBox;
+          },
+          setCallback: function(callback){
+            _closePopup = function(){
+              performancesBox.remove();
               callback();
             }
           }
@@ -1068,8 +1217,8 @@
         manager: manager,
         modify: _modify,
         destroy: _destroy,
-        loadDates: _loadDates
-        // showPopup: function(){_titleText.trigger('click')}
+        loadDates: _loadDates,
+        permanentManager: PermanentManager
       }
     }
 
@@ -1113,7 +1262,7 @@
     }
 
     var ToolsDropdownMenu = function(){
-      var _menu = $('<ul>').addClass('menu');
+      var _menu = $('<ul>').addClass('menu').css({'min-width': '13rem'});
 
       var _outOfprogramBtn = $('<li>').text('Propuestas sin programación');
       _outOfprogramBtn.on('click', function(){
@@ -1436,12 +1585,6 @@
 
       var OrderSpace = function(spaceSelector){
         var _createdWidget = $('<div>');
-        var _dictionaryColor = {
-          home: 'rgb(240, 239, 179)',
-          commercial: 'rgb(196, 245, 239)',
-          open_air: 'rgb(218, 227, 251)',
-          cultural_ass: 'rgb(238, 212, 246)'
-        }
 
         var _listSortable = $('<ul>');
         var _orderButtonsContainer = $('<div>').addClass('order-buttons-container');
@@ -1452,7 +1595,16 @@
 
         var _printSpaceCard = function(space, index){
           var _order = index + 1;
-          var _spaceCard = $('<li>').text(_order + '. ' + space.name).addClass('ui-state-default sortable-space-card').css('background', _dictionaryColor[space.category]).attr('id', space.profile_id);
+          var _spaceCard = $('<li>').text(_order + '. ' + space.name)
+          .addClass('ui-state-default sortable-space-card cursor_grab')
+          .css('background', _dictionaryColor[space.subcategory])
+          .attr('id', space.profile_id)
+          .mousedown(function(){
+            _spaceCard.removeClass('cursor_grab').addClass('cursor_move');
+          })
+          .mouseup(function(){
+            _spaceCard.removeClass('cursor_move').addClass('cursor_grab');
+          });
           return _spaceCard
         }
 
@@ -1460,8 +1612,13 @@
           return the_event.spaces[profile_id].space;
         });
 
+        var _dictionaryColor = Pard.Widgets.DictionaryColor(the_event);
+        var _catArrays = {};
+
         spaces.forEach(function(space, index){
           _listSortable.append(_printSpaceCard(space, index));
+          if (!(_catArrays[space.subcategory])) _catArrays[space.subcategory] = [space];
+          else _catArrays[space.subcategory].push(space);
         });
 
         var _alphaBtn = Pard.Widgets.Button('A --> Z', function(){
@@ -1476,15 +1633,6 @@
 
         var _catOrderBtn = Pard.Widgets.Button('Categoría', function(){
           _listSortable.empty();
-          var _catArrays = {
-            home: [],
-            cultural_ass: [],
-            commercial:[],
-            open_air:[]
-          }
-          spaces.forEach(function(spa){
-            _catArrays[spa.category].push(spa);
-          });
           spaces = [];
           for (var cat in _catArrays){
             spaces = spaces.concat(_catArrays[cat]);
@@ -1504,17 +1652,18 @@
               the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index + 1]].columns[date]);
             });
           });
-
           _shownSpaces.forEach(function(profile_id, index){
             the_event.spaces[profile_id].alignPerformances(index);
           });
           _closePopup();
+          console.log(the_event.spaces)
         });
 
-        var _OKbtnContainer = $('<div>').addClass('OK-btn-container-popup');
+        var _OKbtnContainer = $('<div>').addClass('OK-btn-container');
         _OKbtnContainer.append(_OKbtn.render());
-        _orderButtonsContainer.append(_catOrderBtn.render(), _alphaBtn.render(),  _orderText);
-        _createdWidget.append(_orderButtonsContainer, _listSortable, _OKbtnContainer);
+        _orderButtonsContainer.append(_orderText, _alphaBtn.render(), _catOrderBtn.render(), _OKbtnContainer);
+        _createdWidget.append(_orderButtonsContainer, _listSortable);
+
         return {
           render: function(){
             return _createdWidget;
@@ -1736,7 +1885,7 @@
             performance.participant_subcategory = artist.proposals[0].subcategory;
             performance.availability = artist.proposals[0].availability;
           }
-          modify(performance, undefined ,true);
+          modify(performance, null ,true);
           _performancesToModify.push(performance_id);
         });
         var _id = _artistSelector.val();
@@ -1757,7 +1906,7 @@
             host_name: space.name,
             address: space.address
           } 
-          modify(performance,performance, undefined ,true);
+          modify(performance,performance, null ,true);
           _performancesToModify.push(performance_id);
         });
         var _id = _spaceSelector.val();

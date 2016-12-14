@@ -675,6 +675,7 @@
       })
       _reloadSelectors();
       _dataTable.order([0,'asc']).draw();
+      console.log('ModifyPermanentsTable')
     });
 
 
@@ -692,6 +693,7 @@
         _dataTable.row('#programTable-' + show.performance_id).remove();
       });
       _dataTable.order([0,'asc']).draw();
+      console.log('DestroyPermanentTable');
     });
 
 
@@ -706,6 +708,7 @@
           _dataTable.row('#programTable-' + show.performance_id).remove();
           _dataTable.row.add(showRow(show)).order([0,'asc']).draw();
           _reloadSelectors();
+          console.log('saveNormal')
         }
       },
       destroy: function(performance_id, multipleChanges){
@@ -816,10 +819,8 @@
             if (show.permanent == 'true') {
               var artistProgram = the_event.artists[show.participant_id].program;
               var performancesBox = $('<div>').css('padding', 0);
-              for (var performance_id in artistProgram){
-                performancesBox.append(artistProgram[performance_id].manager(true).render());
-              };
               Pard.Widgets.BigAlert(show.title +' (' + show.participant_name + ')', performancesBox);
+              performancesBox.append(artistProgram[show.performance_id].permanentManager(true).render());
             }
             else  {
               Pard.Widgets.BigAlert(show.title +' (' + show.participant_name + ')', the_event.program[show.performance_id].manager(true).render());

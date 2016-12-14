@@ -58,7 +58,8 @@
 
       circle_arrow_up: {icon:'', className:'fa fa-arrow-circle-up'},
 
-
+      chained: {icon:'', className: 'fa fa-link'},
+      unchained: {icon:'', className: 'fa fa-chain-broken'},
       open_call: {icon:'', className: 'fa fa-bullhorn'},
       arrow_circle_right: {icon:'', className: 'fa fa-arrow-circle-right'},
       arrow_circle_left: {icon:'', className: 'fa fa-arrow-circle-left'},

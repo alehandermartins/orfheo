@@ -46,6 +46,17 @@
     return _dictionary[category];
   }
 
+  ns.Widgets.DictionaryColor = function(the_event){
+    var spaceCategories = the_event.categories.space; 
+    var _dictionaryColor = {};
+    var _library = ['rgb(240, 239, 179)','rgb(196, 245, 239)', 'rgb(218, 227, 251)','rgb(238, 212, 246)', 'rgb(198, 128, 93)', 'rgb(147, 135, 219)', 'rgb(154, 219, 135)', 'rgb(135, 191, 219)','rgb(92, 152, 237)', 'rgb(237, 92, 174)'];
+    Object.keys(spaceCategories).forEach(function(cat, index){
+      if (_library[index]) _dictionaryColor[cat] = _library[index];
+      else _dictionaryColor[cat] = '#f6f6f6';
+    });
+    return _dictionaryColor;
+  }
+
   ns.Widgets.BorderCategoryColor = function(category){
     var _dictionary = {
       'music': 'rgb(6, 105, 204)',

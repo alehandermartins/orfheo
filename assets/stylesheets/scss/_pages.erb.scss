@@ -2255,19 +2255,23 @@ tr.permanent-row-program-table-call-manager td{
 }
 
 .order-buttons-container{
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   margin-top: 1rem;
   height: 2rem;
   button {
     font-size: $almostNormalSize;
-    margin-right: 2rem;
+    margin-left: 2rem;
     padding: 0.2rem 0;
     width: 6rem;
-    float: right;
   }
-  span {
-    float: right;
-    margin-right: 2rem;
+  .OK-btn-container{
+    text-align: right;
+    margin-bottom: 1rem;
+    button{
+      width: auto;
+      padding: 0.4rem 1rem;
+      margin-right: 0.6rem;
+    }
   }
 }
 
@@ -2344,6 +2348,20 @@ tr.permanent-row-program-table-call-manager td{
   /* left: 12.5rem; */
 }
 
+.chain-container{
+  margin: -0.3rem 0px -0.7rem;
+  font-size: 0.8rem;
+  color: $grey-4;
+  height: 20px;
+}
+
+.mask-PermanentManager-IconChain{
+  position: absolute;
+  background: white;
+  height: 1.5rem;
+  width: 100%;
+  bottom: -11px;
+}
 
 /*===============================================
 ORGANIZATION PAGE
