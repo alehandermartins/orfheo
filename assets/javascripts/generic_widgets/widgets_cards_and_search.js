@@ -308,7 +308,7 @@
       });
       },
       function(){
-        _card.css({'border': '3px solid'+profile.color, 
+        _card.css({'border': '2px solid'+profile.color, 
           'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
           // 'background':'white'
         });
@@ -324,7 +324,7 @@
 
     if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
-        { format: 'jpg', width: 164, height: 60,
+        { format: 'jpg', width: 170, height: 112,
           crop: 'fill', effect: 'saturation:50' });
       _photoContainer.append(_photo);
     };
@@ -342,6 +342,7 @@
     else _profilecity = profile.address.locality; 
     if (_profilecity.length>24) _profilecity = _profilecity.substring(0,21)+'...';
     var _city = $('<div>').addClass('locality-profileCard').html(_profilecity);
+    var _hline = $('<hr>').addClass('hline-profileCard');
     var _category = $('<div>').addClass('category-profileCard');
     var _categories = '- ';
     var _keys = Object.keys(profile);
@@ -357,13 +358,13 @@
     }
     else if (profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
 // CONFUSION ----> INFO HARDCODED!!
-    else if (profile.profile_id == 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83') _categories += 'Festival' + ' - '
+    // else if (profile.profile_id == 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83') _categories += 'Festival' + ' - '
 // TO BE CHANGED WHEN CORGANIZATION CATEGORIES DEFINED
 
     if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
     _category.html(_categories);
     _circle.append(_icon);
-    _card.append(_photoContainer, _circle, _name, _city, _category);
+    _card.append(_photoContainer, _circle, _name, _hline, _city, _category);
     
     return {
       render: function(){
