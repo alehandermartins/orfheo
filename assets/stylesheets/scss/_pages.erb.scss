@@ -611,27 +611,23 @@ User Section
 .addCircle-create-profile-card{
   color: black;
   @include horizontal-center;
-  font-size: 2.6rem;
-  margin-top: 2.3rem;
+  font-size: 2.3rem;
+  margin-top: 52%;
   position: relative;
   @include breakpoint(small down) {
-    font-size: 2rem;
+    font-size: 4vh;
     margin-top: 1.5rem;
   }
 }
 
 .create-profile-card-text{
-  margin-top: 1rem;
+  margin-top: 0.2rem;
   text-align: center;
   color: black;
   font-weight: bold;
-  padding-bottom: 3.4rem;
-  @include breakpoint (medium){
-    border-bottom: 1px solid #A0A09F;
-  }
+  padding-bottom: 3%;
   @include breakpoint(small down) {
-    font-size: 3vw;
-    margin-top: 0.8rem;
+    font-size: 2.3vw;
   }
 }
 
