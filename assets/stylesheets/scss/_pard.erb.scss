@@ -870,6 +870,7 @@ Profile Card
 .card-container{
   display: inline-block;
   padding: 0 1.046rem;
+  vertical-align: top;
   @include breakpoint(410 down) {
     display: block;
     @include horizontal-center;
@@ -912,7 +913,7 @@ Profile Card
 
 .name-profileCard{
   font-weight: bold;
-  padding: 0 3px;
+  padding: 0 4px;
   @include breakpoint(medium){
     padding-left: 1px;
     padding-right:1px;
@@ -931,7 +932,7 @@ Profile Card
   display:block;
   text-align:center;
   color: $grey-4;
-  padding: 8.3% 3px;
+  padding: 8.3% 4px;
 }
 
 
@@ -940,7 +941,7 @@ Profile Card
   color: $grey-4;
   text-align: center; 
   display:block;
-  padding: 7% 3px;
+  padding: 8% 4px 6% 4px ;
   background-color:$grey-1;
 }
 
@@ -955,6 +956,72 @@ Profile Card
     margin: 0;
   }
 }
+
+
+
+/*-----------------
+Event Card
+-------------------*/
+
+.eventCard{
+  position: relative;
+  display: inline-block;
+  width: 478px;
+  height: 268px;
+  padding: 8px 8px 0 8px;
+  box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.6);
+  @include border-radius(5px);
+  .baseline-eventCard{
+    font-size: $almostNormalSize;
+  }
+  h6{
+    margin: 0;
+  }
+  .baseline-eventCard{
+    margin-bottom: 0.5rem;
+  }
+  .imgContainer-eventCard{
+    vertical-align: top;
+    width: 122px;
+    min-height: 168px;
+    display: inline-block;
+    border: 1px solid $grey-3;
+  }
+  .info-eventCard{
+    /* height: 168px; */
+    width: 338px;
+    display: inline-block;
+    padding-left: 8px;
+    font-size: $smallSize;
+    line-height: 0.9rem;
+    vertical-align: middle;
+    .icon-container{
+      text-align: center;
+      display: inline-block;
+      width: 24px;
+      vertical-align: middle;
+      .circle-eventOrganizer{
+        @include border-radius(50%);
+        width: 1rem;
+        height: 1rem;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+    .text-container{
+      display: inline-block;
+      vertical-align: middle;
+      width: 306px;
+      padding-left: 8px
+    }
+  }
+  .footer-eventCard{
+    font-size: $smallSize;
+    line-height: 0.9rem;
+  }
+}
+
+
 
 
 /*-----------------

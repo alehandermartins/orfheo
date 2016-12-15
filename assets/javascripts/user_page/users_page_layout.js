@@ -157,7 +157,7 @@
     .one('click',function(){
       _eventsContent.append(Pard.Widgets.UserEvents().render());
     });
-    var _eventsContent = $('<div>').attr('id', 'events-user-page');
+    var _eventsContent = $('<div>').attr('id', 'events-user-page').addClass('profiles-user-section-content');
     _newsContent.hide();
 
     var _contentShowHide = function(id_selected){
@@ -172,7 +172,7 @@
     var _buttonContainer = $('<div>').addClass('create-profile-container');
     
     _buttonContainer.append(_profiles, _explore, _events, _news);
-    sectionContainer.append(_myProfiles, _exploreContent, _newsContent);
+    sectionContainer.append(_myProfiles, _exploreContent, _eventsContent, _newsContent);
     _createdWidget.append(_buttonContainer);
 
     return{
@@ -251,9 +251,13 @@
   ns.Widgets.UserEvents = function(){
     var _createdWidget = $('<div>');
     Pard.Backend.events(function(data){   
-      var events = data;
-      console.log(events)
+      var events = data.events;
+      events.forEach(function(event){
+        var _eventCardContainer = $('<div>').append(Pard.Widgets.EventCard(event));
+        _createdWidget.append(_eventCardContainer);
+      })
     });
+
     return{
       render: function(){
         return _createdWidget;

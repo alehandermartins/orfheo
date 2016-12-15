@@ -291,8 +291,6 @@
     }
   }
 
-
-
   ns.Widgets.CreateCard = function(profile){
 
     var _card =$('<a>').attr({
@@ -344,7 +342,7 @@
     var _city = $('<div>').addClass('locality-profileCard').html(_profilecity);
     var _hline = $('<hr>').addClass('hline-profileCard');
     var _category = $('<div>').addClass('category-profileCard');
-    var _categories = '- ';
+    var _categories = ''; 
     var _keys = Object.keys(profile);
 
     if ('productions' in profile){
@@ -352,16 +350,16 @@
       profile.productions.forEach(function(production){
         if (production.category && $.inArray(production.category, _catArray)){
           _catArray.push(production.category);
-          _categories += Pard.Widgets.Dictionary(production.category).render() + ' - ';
+          _categories += Pard.Widgets.Dictionary(production.category).render() + ', ';
         }
       })
     }
-    else if (profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
-// CONFUSION ----> INFO HARDCODED!!
-    // else if (profile.profile_id == 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83') _categories += 'Festival' + ' - '
-// TO BE CHANGED WHEN CORGANIZATION CATEGORIES DEFINED
+    else if (profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render()+ ', ';;}
 
-    if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
+    if (_categories.length>28)  _categories = _categories.substring(0,27)+'...';
+    else{
+      _categories = _categories.substring(0, _categories.length-2)
+    }
     _category.html(_categories);
     _circle.append(_icon);
     _card.append(_photoContainer, _circle, _name, _hline, _city, _category);
@@ -372,5 +370,42 @@
       }
     }
   }
+
+  ns.Widgets.EventCard = function(event){
+    console.log(event);
+    var _card = $('<div>').addClass('eventCard');
+    
+    var _name = $('<a>').addClass('name-eventCard').append($('<h6>').text(event.name)).attr({'href':'/event?id='+ event.event_id});
+    var _baseline = $('<div>').addClass('baseline-eventCard').text(event.baseline);
+    
+    var _imgContainer = $('<div>').addClass('imgContainer-eventCard');
+    var _img = $.cloudinary.image(event['img'],
+        { format: 'jpg', width: 130, height: 170,
+          crop: 'fit', effect: 'saturation:50' });
+    _imgContainer.append(_img);
+    
+    var _infoContainer = $('<div>').addClass('info-eventCard');
+    var _organzerIcon = $('<div>').addClass('icon-container')
+      .append($('<span>').css({
+          'background': 'grey'
+        }).addClass('circle-eventOrganizer')
+    );
+    var _organizerText = $('<div>').append($('<span>').text('Organiza '), $('<a>').text(event.organizer).attr('href', '/profile?id='+event.profile_id)).addClass('text-container');
+    var _organizer = $('<div>').append(_organzerIcon, _organizerText);
+    _infoContainer.append(_organizer);
+
+    var _footer = $('<div>').addClass('footer-eventCard');
+    var _categories = '';
+    for (var cat in event.categories.artist){
+      _categories += cat + ', ';
+    };
+    _categories = _categories.substring(0,_categories.length-2)
+    _footer.append(_categories);
+    
+    _card.append(_name, _baseline, _imgContainer, _infoContainer, _footer);
+
+    return _card;  
+  }
+
 
 }(Pard || {}));
