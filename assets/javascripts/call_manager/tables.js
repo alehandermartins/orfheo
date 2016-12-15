@@ -328,7 +328,7 @@
   ns.Widgets.ProgramTable = function(infoProgram, the_event){
 
     var _createdWidget = $('<div>');
-    var _table = $('<table>').addClass('table-proposal stripe row-border ').attr({'cellspacing':"0"}).css({
+    var _table = $('<table>').addClass('table-program stripe row-border ').attr({'cellspacing':"0"}).css({
       'margin': '0 auto',
       'width': '100%',
       'clear': 'both',
@@ -502,9 +502,10 @@
     // 'responsive': true,
     // 'colReorder': true,
     "columnDefs": [
-      { "visible": false, "targets": _hiddenColumns}
+      { "visible": false, "targets": _hiddenColumns},
+      {'orderable':false, 'targets':[1,2,4,5,7,10,11,13]}
     ],
-    "orderFixed": [0,'asc'],
+    "order": [0,'asc'],
     // keys: true,
     dom: 'Bfrtip',
     buttons: [
@@ -518,7 +519,7 @@
         prefixButtons: [{
           extend: 'colvisGroup',
           text: 'Selecciona todo',
-          show: ':hidden'
+          show: ':gt(0):hidden'
         },
         {
           extend: 'colvisGroup',
@@ -696,7 +697,21 @@
       console.log('DestroyPermanentTable');
     });
 
-
+    // var _downIcon = Pard.Widgets.IconManager('arrowDropDown').render().addClass('downIcon');
+    // var _upIcon = Pard.Widgets.IconManager('arrowDropUp').render().addClass('upIcon');
+    var _sortIcon = Pard.Widgets.IconManager('sort').render().addClass('sortIcon');
+    var _timeIcon = Pard.Widgets.IconManager('time').render().addClass('timeIcon');
+    var _reorderIcon = $('<span>').append(_timeIcon, _sortIcon).addClass('reorderIcon');
+    var orderBtn = $('<button>').attr({
+      'type':'button',
+      'title':'Ordena cronológicamente'
+      })
+      .append(_reorderIcon)
+      .click(function(){
+        _dataTable.order([0,'asc']).draw();
+      })
+    var _orderBtnContainer = $('<div>').addClass('orderBtn-programTable-container').append(orderBtn);
+    _outerTableContainer.prepend($('<div>').append(_orderBtnContainer).css('position','relative'));
 
     return {
       table: _table,

@@ -19,10 +19,11 @@
       email: 'Email'
     };
 
-    var _infoSpace = space.address.route+ ' ' + space.address.street_number + ' - tel. ' + space.phone + ' (' + space.responsible + ') '+' - email: '+ space.email;
-    var _spaceName = space.name + ' (' + Pard.Widgets.Dictionary(space.category).render() + ')';
+    var _infoSpace = space.address.route+ ' ' + space.address.street_number + ' - tel. ' + space.phone +' - email: '+ space.email;
+    var _spaceName = space.name + ' (' + space.subcategory + ')';
     var _infoSpaceBox = $('<div>').addClass('info-box-popup-program');
     _infoSpaceBox.append($('<p>').append(_infoSpace));
+
 
     var _printSpaceProgram = function(space){
       var _rowPosition = 1;
@@ -58,6 +59,8 @@
       var _tbody = $('<tbody>');
       var lastDate;
       var lastType = 'false';
+
+      console.log(program);
 
       myPerformances.forEach(function(performance){
         if(performance.date != lastDate){
@@ -141,88 +144,144 @@
         "bSort": false,
         buttons: [
         {
-          extend: 'excel',
-          exportOptions: {
-              columns: ':visible'
-          },
-          filename: 'programa '+space.name
+          text: Pard.Widgets.IconManager('mailinglist').render(),
+          className: 'mailinglistBtn',
+          extend: 'collection',
+          collectionLayout: 'button-list',
+          autoClose: true,
+          fade: 200,
+          buttons: [
+            {
+              text: 'Email artistas',
+              action: function(){
+                var columnData = Object.keys(program).map(function(performance_id){
+                    return program[performance_id].show.participant_email;
+                  });
+                var _emailList = '';
+                columnData = Pard.Widgets.UniqueArray(columnData); 
+                columnData.forEach(function(email){
+                  _emailList += email+', ';
+                });
+                _emailList = _emailList.substring(0,_emailList.length-2)
+                Pard.Widgets.CopyToClipboard(_emailList);
+                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              }
+            },
+            {
+              text: 'Email artist. y esp.',
+              action: function(){
+                var columnData = Object.keys(program).map(function(performance_id){
+                    return program[performance_id].show.participant_email;
+                  });
+                columnData = Pard.Widgets.UniqueArray($.merge([space.email],columnData));
+                var _emailList = '';
+                columnData.forEach(function(email){
+                  _emailList += email+', ';
+                });
+                _emailList = _emailList.substring(0,_emailList.length-2)
+                Pard.Widgets.CopyToClipboard(_emailList);
+                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
+                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              }
+            }
+          ]
         },
         {
-          extend: 'pdf',
-          exportOptions: {
-              columns: ':visible'
-          },
-          // download: 'open',
-          orientation: 'landscape',
-          filename: 'programa '+space.name,
-          title: _spaceName,
-          message: '__MESSAGE__',
-          footer: true,
-          customize: function ( doc ) {
-            // doc.styles['table-row'] = {
-            //   'font-size': '16px',
-            //   'padding': '4px',
-            //   'border-top': '1px solid #dedede'
-            // }
-            doc.content.forEach(function(content) {
-            if (content.style == 'message') {
-              content.text = _infoSpace;
-              content.fontSize = 14;
-              content.margin = [0, 0, 0, 20];
-            }
-            if (content.style == 'title'){
-              content.fontSize = 16;
-              content.alignment= 'left';
-            }
-            });
-            doc.content[2].layout= 'lightHorizontalLines';
-            doc.content[2].table.widths = [ '9%', '15%', '10%', '16%', '25%','10%','15%'];
-            doc.content[2].table.body.forEach(function(row, rowNumber){
-              if (rowNumber == 0) {
-                row.forEach(function(cell, index){
-                  cell.alignment = 'left';
-                  cell.bold = true;
-                  cell.fillColor = '#ffffff';
-                  cell.color = '#000000';
-                  cell.margin = [2,2,2,2];
+          extend: 'collection',
+          text:  Pard.Widgets.IconManager('export').render(),
+          className: 'ExportCollectionBtn',
+          collectionLayout: 'button-list',
+          // backgroundClassName: 'ExportCollection-background',
+          autoClose: true,
+          fade: 200,
+          // background: false,
+            buttons: [        
+            {
+              extend: 'excel',
+              exportOptions: {
+                  columns: ':visible'
+              },
+              filename: 'programa '+space.name
+            },
+            {
+              extend: 'pdf',
+              exportOptions: {
+                  columns: ':visible'
+              },
+              // download: 'open',
+              orientation: 'landscape',
+              filename: 'programa '+space.name,
+              title: _spaceName,
+              message: '__MESSAGE__',
+              footer: true,
+              customize: function ( doc ) {
+                // doc.styles['table-row'] = {
+                //   'font-size': '16px',
+                //   'padding': '4px',
+                //   'border-top': '1px solid #dedede'
+                // }
+                doc.content.forEach(function(content) {
+                if (content.style == 'message') {
+                  content.text = _infoSpace;
+                  content.fontSize = 14;
+                  content.margin = [0, 0, 0, 20];
+                }
+                if (content.style == 'title'){
+                  content.fontSize = 16;
+                  content.alignment= 'left';
+                }
+                });
+                doc.content[2].layout= 'lightHorizontalLines';
+                doc.content[2].table.widths = [ '9%', '15%', '10%', '16%', '25%','10%','15%'];
+                doc.content[2].table.body.forEach(function(row, rowNumber){
+                  if (rowNumber == 0) {
+                    row.forEach(function(cell, index){
+                      cell.alignment = 'left';
+                      cell.bold = true;
+                      cell.fillColor = '#ffffff';
+                      cell.color = '#000000';
+                      cell.margin = [2,2,2,2];
+                    });
+                  }  
+                  else if ($.inArray (rowNumber, _dayRowPos) >-1){ row.forEach(function(cell, index){
+                      cell.fillColor = '#6f6f6f';
+                      cell.color = '#ffffff';
+                      cell.fontSize = 11;
+                      cell.bold = true;
+                      if (index == 0) cell.margin = [4,2,2,2];
+                      else cell.margin = [2,2,2,2];
+                    });
+                  }
+                  else if($.inArray (rowNumber, _permanentRowPos) >-1){ 
+                    row.forEach(function(cell, index){
+                      cell.fillColor = '#dedede';
+                      cell.bold = true;
+                      cell.bold = true;
+                      if (index == 0) cell.margin = [4,2,2,2];
+                      else cell.margin = [2,2,2,2];
+                    });
+                  }
+                  else if (rowNumber == doc.content[2].table.body.length -1){
+                    row.forEach(function(cell, index){
+                      cell.color = '#000000';
+                      cell.fillColor = '#ffffff';
+                      cell.margin = [0,15,2,2];
+                    })
+                  }
+                  else{
+                    row.forEach(function(cell, index){
+                      cell.fillColor = '#ffffff';
+                      cell.margin = [2,4,2,4];
+                      // cell.cellBorder = '1px solid red';
+                    });
+                  }
                 });
               }  
-              else if ($.inArray (rowNumber, _dayRowPos) >-1){ row.forEach(function(cell, index){
-                  cell.fillColor = '#6f6f6f';
-                  cell.color = '#ffffff';
-                  cell.fontSize = 11;
-                  cell.bold = true;
-                  if (index == 0) cell.margin = [4,2,2,2];
-                  else cell.margin = [2,2,2,2];
-                });
-              }
-              else if($.inArray (rowNumber, _permanentRowPos) >-1){ 
-                row.forEach(function(cell, index){
-                  cell.fillColor = '#dedede';
-                  cell.bold = true;
-                  cell.bold = true;
-                  if (index == 0) cell.margin = [4,2,2,2];
-                  else cell.margin = [2,2,2,2];
-                });
-              }
-              else if (rowNumber == doc.content[2].table.body.length -1){
-                row.forEach(function(cell, index){
-                  cell.color = '#000000';
-                  cell.fillColor = '#ffffff';
-                  cell.margin = [0,15,2,2];
-                })
-              }
-              else{
-                row.forEach(function(cell, index){
-                  cell.fillColor = '#ffffff';
-                  cell.margin = [2,4,2,4];
-                  // cell.cellBorder = '1px solid red';
-                });
-              }
-            });
-          }  
+            }
+          ]
         }
-        ]
+      ]      
       });
     }
 

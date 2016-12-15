@@ -288,7 +288,7 @@
                 prefixButtons: [{
                   extend: 'colvisGroup',
                   text: 'Selecciona todo',
-                  show: ':hidden'
+                  show: ':gt(1):hidden'
                 },
                 {
                   extend: 'colvisGroup',

@@ -4,6 +4,11 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
+  ns.Widgets.UniqueArray = function(array){
+    return $.grep(array, function(el, i){
+      return i === $.inArray(el, array); 
+    })
+  }
 
   ns.Widgets.CopyToClipboard = function(stringToCopy){
   console.log(stringToCopy)

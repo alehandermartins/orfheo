@@ -49,15 +49,18 @@
       organizer: {icon:'&#xE43B;', className:'material-icons' },
       comments: {icon:'&#xE0B9;', className:'material-icons' },
       tools: {icon:'&#xE869;', className:'material-icons' },
-      // conditions: {icon:'&#xE0E0;', className:'material-icons' },
       conditions: {icon:'&#xE53B;', className:'material-icons' },
       delete: {icon:'&#xE872;', className:'material-icons' },
+      time: {icon:'&#xE192;', className:'material-icons' },
+      arrowDropDown: {icon:'&#xE5C5;', className:'material-icons' },
+      arrowDropUp: {icon:'&#xE5C7;', className:'material-icons' },
 
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},
 
       circle_arrow_up: {icon:'', className:'fa fa-arrow-circle-up'},
 
+      sort: {icon:'', className: 'fa fa-sort'},      
       chained: {icon:'', className: 'fa fa-link'},
       unchained: {icon:'', className: 'fa fa-chain-broken'},
       open_call: {icon:'', className: 'fa fa-bullhorn'},

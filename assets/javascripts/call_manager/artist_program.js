@@ -159,78 +159,91 @@
         dom: 'Bfrtip',
         "searching": false,
         "bSort": false,
+
         buttons: [
-        {
-          extend: 'excel',
-          exportOptions: {
-              columns: ':visible'
-          },
-          filename: 'programa '+ artist.name
-        },
-        {
-          extend: 'pdf',
-          exportOptions: {
-              columns: ':visible'
-          },
-          // download: 'open',
-          orientation: 'landscape',
-          filename: 'programa '+ artist.name,
-          title: artist.name,
-          footer: true,
-          customize: function ( doc ) {
-            doc.content.forEach(function(content) {
-            if (content.style == 'title'){
-              content.fontSize = 16;
-              content.alignment= 'left';
-            }
-            });
-            doc.content[1].layout= 'lightHorizontalLines';
-            doc.content[1].table.widths = [ '10%', '20%', '18%', '25%','10%','18%'];
-            doc.content[1].table.body.forEach(function(row, rowNumber){
-              if (rowNumber == 0) {
-                row.forEach(function(cell, index){
-                  cell.alignment = 'left';
-                  cell.bold = true;
-                  cell.fillColor = '#ffffff';
-                  cell.color = '#000000';
-                  cell.margin = [2,2,2,2];
-                });
-              }  
-              else if ($.inArray (rowNumber, _dayRowPos) >-1){ row.forEach(function(cell, index){
-                  cell.fillColor = '#6f6f6f';
-                  cell.color = '#ffffff';
-                  cell.fontSize = 11;
-                  cell.bold = true;
-                  if (index == 0) cell.margin = [4,2,2,2];
-                  else cell.margin = [2,2,2,2];
-                });
+         {
+          extend: 'collection',
+          text:  Pard.Widgets.IconManager('export').render(),
+          className: 'ExportCollectionBtn',
+          collectionLayout: 'button-list',
+          // backgroundClassName: 'ExportCollection-background',
+          autoClose: true,
+          fade: 200,
+          // background: false,
+            buttons: [     
+              {
+                extend: 'excel',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                filename: 'programa '+ artist.name
+              },
+              {
+                extend: 'pdf',
+                exportOptions: {
+                    columns: ':visible'
+                },
+                // download: 'open',
+                orientation: 'landscape',
+                filename: 'programa '+ artist.name,
+                title: artist.name,
+                footer: true,
+                customize: function ( doc ) {
+                  doc.content.forEach(function(content) {
+                  if (content.style == 'title'){
+                    content.fontSize = 16;
+                    content.alignment= 'left';
+                  }
+                  });
+                  doc.content[1].layout= 'lightHorizontalLines';
+                  doc.content[1].table.widths = [ '10%', '20%', '18%', '25%','10%','18%'];
+                  doc.content[1].table.body.forEach(function(row, rowNumber){
+                    if (rowNumber == 0) {
+                      row.forEach(function(cell, index){
+                        cell.alignment = 'left';
+                        cell.bold = true;
+                        cell.fillColor = '#ffffff';
+                        cell.color = '#000000';
+                        cell.margin = [2,2,2,2];
+                      });
+                    }  
+                    else if ($.inArray (rowNumber, _dayRowPos) >-1){ row.forEach(function(cell, index){
+                        cell.fillColor = '#6f6f6f';
+                        cell.color = '#ffffff';
+                        cell.fontSize = 11;
+                        cell.bold = true;
+                        if (index == 0) cell.margin = [4,2,2,2];
+                        else cell.margin = [2,2,2,2];
+                      });
+                    }
+                    else if($.inArray (rowNumber, _permanentRowPos) >-1){ 
+                      row.forEach(function(cell, index){
+                        cell.fillColor = '#dedede';
+                        cell.bold = true;
+                        cell.bold = true;
+                        if (index == 0) cell.margin = [4,2,2,2];
+                        else cell.margin = [2,2,2,2];
+                      });
+                    }
+                    else if (rowNumber == doc.content[1].table.body.length -1){
+                      row.forEach(function(cell, index){
+                        cell.color = '#000000';
+                        cell.fillColor = '#ffffff';
+                        cell.margin = [0,15,2,2];
+                      })
+                    }
+                    else{
+                      row.forEach(function(cell, index){
+                        cell.fillColor = '#ffffff';
+                        cell.margin = [2,4,2,4];
+                        // cell.cellBorder = '1px solid red';
+                      });
+                    }
+                  });
+                }  
               }
-              else if($.inArray (rowNumber, _permanentRowPos) >-1){ 
-                row.forEach(function(cell, index){
-                  cell.fillColor = '#dedede';
-                  cell.bold = true;
-                  cell.bold = true;
-                  if (index == 0) cell.margin = [4,2,2,2];
-                  else cell.margin = [2,2,2,2];
-                });
-              }
-              else if (rowNumber == doc.content[1].table.body.length -1){
-                row.forEach(function(cell, index){
-                  cell.color = '#000000';
-                  cell.fillColor = '#ffffff';
-                  cell.margin = [0,15,2,2];
-                })
-              }
-              else{
-                row.forEach(function(cell, index){
-                  cell.fillColor = '#ffffff';
-                  cell.margin = [2,4,2,4];
-                  // cell.cellBorder = '1px solid red';
-                });
-              }
-            });
-          }  
-        }
+            ]
+          }
         ]
       });
     }

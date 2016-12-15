@@ -793,6 +793,8 @@ a.navigation-btn-callPage{
   font-size: 1.1rem;
 }
 
+
+
 /*===============================================
 COMPONENTS
 ================================================*/
@@ -1446,6 +1448,18 @@ ICONS
 
 .icon-book-open, .icon-theatre{
   font-size: 1.3rem;  
+}
+
+.reorderIcon{
+  .sortIcon{
+    font-size: .8rem;
+    vertical-align: middle;
+    margin-left: 0.1rem;
+  }
+  .timeIcon{
+    font-size: 1.2rem;
+    vertical-align: middle;
+  }
 }
 
 /*==============================================

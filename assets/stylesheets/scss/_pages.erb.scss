@@ -1546,6 +1546,10 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
   padding: 0.2rem 0.5rem !important ;
 }
 
+.dataTables_scrollBody thead{
+  display: none;
+}
+
 .dataTables_scrollHead thead th, .dataTables_scrollFootInner tfoot th{
     padding: 0.5rem 1.625rem 0.5rem 0.5rem !important;
 }
@@ -2026,7 +2030,7 @@ Program Manager Tab
 
 .space-not-available-call-manager,.artist-not-available-call-manager{
   opacity:0.4;
-  background: $grey-2;
+  background-color: $grey-2;
 }
 
 .proposal-card-container-call-manager{
@@ -2105,6 +2109,13 @@ Program Manager Tab
 .table-space-program{
   max-width: 100%;
   overflow: auto; 
+  table{
+    margin-top: 2.5rem !important;
+  }
+  div.dt-buttons{
+    top:  -2.5rem !important;
+    margin-right: 0 !important;
+  }
 }
 
 .column-space-program-call-manager, .column-artist-program-call-manager,
@@ -2139,9 +2150,33 @@ Program Manager Tab
 
 /* TABLA PROGRAMA GENERAL CALL-PAGE */
 
+.table-program {
+  font-size: 12px;
+  margin-bottom: 0;
+  .select-container-datatableColumn{
+    width: 100%;
+    margin-left: -0.2rem;
+  }
+}
+
+
+.table-program thead {
+  font-size: 14px;
+  font-weight: bold;
+  background: #ffffff;
+}
+
+table.table-program.dataTable thead th, table.table-program.dataTable tfoot th{
+  padding: 0.5rem !important;
+}
+
+.table-program tfoot {
+  background: #ffffff;
+}
+
 .column-participant_subcategory, .column-host_subcategory{
-  min-width: 6.5rem !important;
-  width: 6.5rem !important;
+  min-width: 7rem !important;
+  width: 7rem !important;
 }
 
 .column-order{
@@ -2159,13 +2194,13 @@ Program Manager Tab
 }
 
 .column-title, .column-comments{
-  min-width: 155px !important;
-  width: 155px !important;
+  min-width: 185px !important;
+  width: 185px !important;
 }
 
 .column-participant_name, .column-host_name{
-  width: 120px !important;
-  min-width: 120px !important;
+  width: 140px !important;
+  min-width: 140px !important;
 }
 
 .column-confirmed {
@@ -2174,8 +2209,8 @@ Program Manager Tab
 }
 
 .column-time, .column-date{
-  width: 53px !important;
-  min-width: 53px !important;
+  width: 74px !important;
+  min-width: 74px !important;
 }
 
 /* ------------------------------------------------------------- */
@@ -2343,9 +2378,15 @@ tr.permanent-row-program-table-call-manager td{
 
 .permanetFilters-call-page{
   position: absolute;
-  top: 0.7rem;
+  top: 0.3rem;
   z-index: 9;
-  /* left: 12.5rem; */
+  left: 4.5rem;
+  padding-left: 2.5rem;
+  padding-top: 0.3rem;
+  border-left: 1px solid $grey-4;
+  input{
+    margin-bottom: 0;
+  }
 }
 
 .chain-container{
@@ -2361,6 +2402,21 @@ tr.permanent-row-program-table-call-manager td{
   height: 1.5rem;
   width: 100%;
   bottom: -11px;
+}
+
+.orderBtn-programTable-container{
+  position: absolute;
+  z-index: 10;
+  left: 0rem;
+  top: 0.4rem;
+  button{
+    @extend .pard-btn;
+    height: 22px;
+    width: 35px;
+    text-align: center;
+    padding: 0;
+    position: relative;
+  }
 }
 
 /*===============================================
