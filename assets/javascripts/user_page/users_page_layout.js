@@ -253,8 +253,8 @@
     Pard.Backend.events(function(data){   
       var events = data.events;
       events.forEach(function(event){
-        var _eventCardContainer = $('<div>').append(Pard.Widgets.EventCard(event));
-        _createdWidget.append(_eventCardContainer);
+        var _eventCardContainer = $('<div>').append($('<div>').append(Pard.Widgets.EventCard(event)).addClass('eventCard-container-userPage')).addClass('outer-eventCard-container-userPage');
+        _createdWidget.prepend(_eventCardContainer);
       })
     });
 

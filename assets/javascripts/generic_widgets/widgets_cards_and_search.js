@@ -96,7 +96,8 @@
       'music':{},
       'poetry':{}, 
       'street_art':{}, 
-      'workshop':{}, 
+      'workshop':{},
+      'gastronomy':{}, 
       'other':{}
     };
 
@@ -374,7 +375,8 @@
   ns.Widgets.EventCard = function(event){
     console.log(event);
     var _card = $('<div>').addClass('eventCard');
-    
+    var _headerAndSection = $('<div>').addClass('headerAndSection-eventCard');
+
     var _name = $('<a>').addClass('name-eventCard').append($('<h6>').text(event.name)).attr({'href':'/event?id='+ event.event_id});
     var _baseline = $('<div>').addClass('baseline-eventCard').text(event.baseline);
     
@@ -385,14 +387,66 @@
     _imgContainer.append(_img);
     
     var _infoContainer = $('<div>').addClass('info-eventCard');
+   
     var _organzerIcon = $('<div>').addClass('icon-container')
       .append($('<span>').css({
-          'background': 'grey'
+          'background': '#bebebe'
         }).addClass('circle-eventOrganizer')
     );
     var _organizerText = $('<div>').append($('<span>').text('Organiza '), $('<a>').text(event.organizer).attr('href', '/profile?id='+event.profile_id)).addClass('text-container');
-    var _organizer = $('<div>').append(_organzerIcon, _organizerText);
-    _infoContainer.append(_organizer);
+    var _organizer = $('<div>').append(_organzerIcon, _organizerText).addClass('info-element-eventCard');
+   
+    var _placeIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('location').render());
+    var _placeText = $('<div>').append($('<a>')
+        .attr({
+          href: 'http://maps.google.com/maps?q='+event['address']['locality']+' '+event['address']['postal_code'],
+          target: '_blank'
+        })
+        .text(event['address']['locality']))
+      .addClass('text-container');
+    var _place = $('<div>').append(_placeIcon, _placeText).addClass('info-element-eventCard');
+   
+    var _dateIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('calendar').render());
+    var _startDate = new Date(Object.keys(event.eventTime)[0]);
+    var _endDate = new Date(Object.keys(event.eventTime)[Object.keys(event.eventTime).length-2]);
+    var _dateText = $('<div>').append($('<span>').text(moment(_startDate).locale('es').format('DD')+'-'+moment(_endDate).locale('es').format('DD MMMM YYYY'))).addClass('text-container'); 
+    var _date = $('<div>').append(_dateIcon, _dateText).addClass('info-element-eventCard');
+    
+    var _callIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('open_call').render());
+    var _callText = $('<div>').addClass('text-container'); 
+    var _profileTypes = {
+      artist: 'artistas',
+      space: 'espacios',
+      organization: 'organizaciones'
+    }
+    var _participants = '';
+    for (var profileType in event.categories){
+      _participants += _profileTypes[profileType]+', ';
+    }
+    _participants = _participants.substring(0, _participants.length-2);
+    var _now = new Date();
+    if (_now.getTime()>_endDate.getTime()+ 86400000) {
+        _callText.append('Evento terminado')
+    }
+    else if (event.published){
+      var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id='+event.event_id);
+      _callText.append(_toEventPageBtn);
+    }
+    else if (_now.getTime() < parseInt(event.start)){
+      _callText.append($('<p>').text('Apertura convocatoria: ',moment(parseInt(parseInt(event.start))).locale('es').format('DD MMMM YYYY')), $('<p>').text('para '+_participants));
+    }
+    else if (_now.getTime() < parseInt(event.deadline)){
+      _callText.append($('<p>').append($('<a>').text('Convocatoria abierta').attr({'href':'/event?id='+ event.event_id}),$('<span>').text(' hasta el '+ moment(parseInt(event.deadline)).locale('es').format('DD-MM-YYYY'))),$('<p>').text('para '+_participants));
+    }
+    else{
+       _callText.append('Convocatoria cerrada');
+    }
+    var _call = $('<div>').append(_callIcon, _callText).addClass('info-element-eventCard');
+    var _conditionIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('conditions').render());
+    var _conditionText = $('<div>').append($('<a>').text('Bases de participación').attr({'href':event.conditions,'target':'_blank'})).addClass('text-container'); 
+    var _conditions = $('<div>').append(_conditionIcon, _conditionText).addClass('info-element-eventCard');
+
+    _infoContainer.append(_organizer, _place, _date, _call, _conditions);
 
     var _footer = $('<div>').addClass('footer-eventCard');
     var _categories = '';
@@ -400,9 +454,9 @@
       _categories += cat + ', ';
     };
     _categories = _categories.substring(0,_categories.length-2)
-    _footer.append(_categories);
+    _footer.append($('<p>').append(_categories));
     
-    _card.append(_name, _baseline, _imgContainer, _infoContainer, _footer);
+    _card.append(_headerAndSection.append(_name, _baseline, _imgContainer, _infoContainer), _footer);
 
     return _card;  
   }

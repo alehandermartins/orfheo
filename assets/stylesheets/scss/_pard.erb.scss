@@ -816,7 +816,7 @@ Profile Card
   position:relative;
   margin:0 auto;
   font-size: 12px;
-
+  border: 2px solid;
   @include breakpoint(medium){
     width: 174px;
     height: 14.25rem;
@@ -824,25 +824,25 @@ Profile Card
   }
   
   @include breakpoint(small down) {
-    width: 31vw;
-    height: 39vw;
+    width: 35vw;
+    height: 44vw;
     padding: 1px;
     .circleProfile {
-      height:5vw;
-      width: 5vw;
+      height:5.65vw;
+      width: 5.65vw;
       .material-icons{
-        font-size: 4vw;
+        font-size: 4.5vw;
       }
     }
     .name-profileCard{
-      font-size: 2.3vw;
+      font-size: 2.6vw;
       line-height: 2.5vw;
     }
     .locality-profileCard{
-      font-size: 2.2vw;
+      font-size: 2.3vw;
     }
     .category-profileCard{
-      font-size: 2.2vw;
+      font-size: 2.3vw;
     }
     .hline-profileCard{
       margin-top: 2.5% !important;
@@ -854,14 +854,11 @@ Profile Card
     cursor:pointer; 
 } 
 
-.profileCard{
-  border: 2px solid;
-}
-
 .position-profileCard-login{
   position:relative;
   margin-top:0.9rem;
   margin-bottom: 1rem; 
+  vertical-align: top;
   @include breakpoint(small down) {
   position:relative;
   }
@@ -881,6 +878,7 @@ Profile Card
 .card-container-popup{
   display: inline-block;
   padding: 0 0.6rem;
+  vertical-align: top;
   @include breakpoint(410 down) {
     @include horizontal-center;
     display: block;
@@ -967,61 +965,99 @@ Event Card
   position: relative;
   display: inline-block;
   width: 478px;
-  height: 268px;
-  padding: 8px 8px 0 8px;
+  height: 280px;
   box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.6);
   @include border-radius(5px);
-  .baseline-eventCard{
-    font-size: $almostNormalSize;
-  }
-  h6{
-    margin: 0;
-  }
-  .baseline-eventCard{
-    margin-bottom: 0.5rem;
-  }
-  .imgContainer-eventCard{
-    vertical-align: top;
-    width: 122px;
-    min-height: 168px;
-    display: inline-block;
-    border: 1px solid $grey-3;
-  }
-  .info-eventCard{
-    /* height: 168px; */
-    width: 338px;
-    display: inline-block;
-    padding-left: 8px;
-    font-size: $smallSize;
-    line-height: 0.9rem;
-    vertical-align: middle;
-    .icon-container{
-      text-align: center;
+  .headerAndSection-eventCard{
+    padding: 10px 10px 0 10px;
+    margin-bottom: 8px;
+    .baseline-eventCard{
+      font-size: $almostNormalSize;
+    }
+    h6{
+      margin: 0;
+    }
+    .baseline-eventCard{
+      margin-bottom: 0.5rem;
+    }
+    .imgContainer-eventCard{
+      vertical-align: top;
+      width: 122px;
+      height: 172px;
       display: inline-block;
-      width: 24px;
+      border: 1px solid $grey-3;
+    }
+    .info-eventCard{
+      /* height: 168px; */
+      width: 334px;
+      display: inline-block;
+      padding-left: 10px;
+      font-size: $smallSize;
+      line-height: 0.9rem;
       vertical-align: middle;
-      .circle-eventOrganizer{
-        @include border-radius(50%);
-        width: 1rem;
-        height: 1rem;
-        display: inline-block;
+      .material-icons{
         vertical-align: middle;
       }
-    }
-    .text-container{
-      display: inline-block;
-      vertical-align: middle;
-      width: 306px;
-      padding-left: 8px
+      .info-element-eventCard{
+        height: 30px;
+        margin-top: 4.5px;
+      }
+      .icon-container{
+        text-align: center;
+        display: inline-block;
+        width: 24px;
+        vertical-align: middle;
+        color: $grey-3;
+        .fa{
+          font-size: 1.1rem;
+        }
+      }
+      .text-container{
+        display: inline-block;
+        vertical-align: middle;
+        width: 300px;
+        padding-left: 10px
+      }
     }
   }
   .footer-eventCard{
+    position: relative;
+    padding: 0 10px;
     font-size: $smallSize;
+    line-height: 0.9rem;
+    background: $grey-1;
+    height: 35px;
+    border-radius: 0 0 5px 5px;
+    p{
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  p {
+    margin: 0;
     line-height: 0.9rem;
   }
 }
 
+.circle-eventOrganizer{
+  @include border-radius(50%);
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+}
 
+.outer-eventCard-container-userPage{
+  position: relative;
+  height: 280px;
+  width: 100%;
+  margin: 1.5rem 0 3rem 0;
+  .eventCard-container-userPage{
+    @include horizontal-center;
+  }
+}
 
 
 /*-----------------
