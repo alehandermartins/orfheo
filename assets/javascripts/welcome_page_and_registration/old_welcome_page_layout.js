@@ -27,7 +27,6 @@
     }
   }
 
-
   ns.Widgets.LoginSection = function (content) {
 
     content.empty();
@@ -57,5 +56,4 @@
 
 
 }(Pard || {}));
-
 
