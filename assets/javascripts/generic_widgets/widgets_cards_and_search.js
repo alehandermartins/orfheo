@@ -375,14 +375,14 @@
   ns.Widgets.EventCard = function(event){
     console.log(event);
     var _card = $('<div>').addClass('eventCard');
-    var _headerAndSection = $('<div>').addClass('headerAndSection-eventCard');
+    var _header = $('<div>').addClass('header-eventCard');
 
     var _name = $('<a>').addClass('name-eventCard').append($('<h6>').text(event.name)).attr({'href':'/event?id='+ event.event_id});
     var _baseline = $('<div>').addClass('baseline-eventCard').text(event.baseline);
     
     var _imgContainer = $('<div>').addClass('imgContainer-eventCard');
     var _img = $.cloudinary.image(event['img'],
-        { format: 'jpg', width: 130, height: 170,
+        { format: 'jpg', width: 152, height: 200,
           crop: 'fit', effect: 'saturation:50' });
     _imgContainer.append(_img);
     
@@ -420,9 +420,11 @@
       organization: 'organizaciones'
     }
     var _participants = '';
-    for (var profileType in event.categories){
-      _participants += _profileTypes[profileType]+', ';
-    }
+    Object.keys(event.categories).forEach(function(profileType, i){
+      _participants += _profileTypes[profileType];
+      if (i == Object.keys(event.categories).length-2) _participants += 'y ';
+      else _participants += ', '
+    })
     _participants = _participants.substring(0, _participants.length-2);
     var _now = new Date();
     if (_now.getTime()>_endDate.getTime()+ 86400000) {
@@ -456,7 +458,7 @@
     _categories = _categories.substring(0,_categories.length-2)
     _footer.append($('<p>').append(_categories));
     
-    _card.append(_headerAndSection.append(_name, _baseline, _imgContainer, _infoContainer), _footer);
+    _card.append(_header.append(_name, _baseline), _imgContainer, _infoContainer, _footer);
 
     return _card;  
   }

@@ -968,9 +968,8 @@ Event Card
   height: 280px;
   box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.6);
   @include border-radius(5px);
-  .headerAndSection-eventCard{
+  .header-eventCard{
     padding: 10px 10px 0 10px;
-    margin-bottom: 8px;
     .baseline-eventCard{
       font-size: $almostNormalSize;
     }
@@ -980,44 +979,50 @@ Event Card
     .baseline-eventCard{
       margin-bottom: 0.5rem;
     }
-    .imgContainer-eventCard{
-      vertical-align: top;
-      width: 122px;
-      height: 172px;
-      display: inline-block;
-      border: 1px solid $grey-3;
-    }
-    .info-eventCard{
-      /* height: 168px; */
-      width: 334px;
-      display: inline-block;
-      padding-left: 10px;
-      font-size: $smallSize;
-      line-height: 0.9rem;
+  }
+  .imgContainer-eventCard{
+    margin-left: 10px;
+    margin-bottom: 8px;
+    vertical-align: top;
+    width: 122px;
+    height: 172px;
+    display: inline-block;
+    border: 1px solid $grey-3;
+    text-align: center;
+  }
+  .info-eventCard{
+    height: 172px;
+    margin-bottom: 8px;
+    width: 334px;
+    display: inline-block;
+    padding-left:10px;
+    font-size: $smallSize;
+    line-height: 0.9rem;
+    vertical-align: middle;
+    .material-icons{
       vertical-align: middle;
-      .material-icons{
-        vertical-align: middle;
+    }
+    .info-element-eventCard{
+      height: 30px;
+      margin-top: 4.5px;
+    }
+    .icon-container{
+      text-align: center;
+      display: inline-block;
+      width: 24px;
+      vertical-align: middle;
+      color: $grey-3;
+      .fa{
+        font-size: 1.1rem;
       }
-      .info-element-eventCard{
-        height: 30px;
-        margin-top: 4.5px;
-      }
-      .icon-container{
-        text-align: center;
-        display: inline-block;
-        width: 24px;
-        vertical-align: middle;
-        color: $grey-3;
-        .fa{
-          font-size: 1.1rem;
-        }
-      }
-      .text-container{
-        display: inline-block;
-        vertical-align: middle;
-        width: 300px;
-        padding-left: 10px
-      }
+    }
+    .text-container{
+      display: inline-block;
+      vertical-align: middle;
+      width: -moz-calc(100% - 24px);
+      width: -webkit-calc(100% - 24px);
+      width: calc(100% - 24px);
+      padding-left: 10px;
     }
   }
   .footer-eventCard{
@@ -1039,6 +1044,39 @@ Event Card
     margin: 0;
     line-height: 0.9rem;
   }
+  @include breakpoint(750px down){
+    width: 100%;
+    height: auto;
+    .header-eventCard{
+      /* display: inline-block; */
+      /* width: 60%; */
+      /* padding: 10vw 4% 0 4%; */
+    }
+    .imgContainer-eventCard{
+      width: 32%;
+      height: auto;
+      margin: 10px 0 10px 4%;
+    }
+    .info-eventCard{
+      width: 60%;
+      margin-top: 0.5rem;
+      height: auto;
+      .info-element-eventCard{
+        height: auto;
+        margin-bottom: 6px;
+        margin-top: 0;
+      }
+    }
+    .footer-eventCard{
+      height: auto;
+      p{
+        padding: 10px;
+        position: relative;
+        top: none;
+        transform: none;
+      }
+    }
+  }
 }
 
 .circle-eventOrganizer{
@@ -1050,13 +1088,15 @@ Event Card
 }
 
 .outer-eventCard-container-userPage{
-  position: relative;
-  height: 280px;
-  width: 100%;
-  margin: 1.5rem 0 3rem 0;
-  .eventCard-container-userPage{
-    @include horizontal-center;
+  @include breakpoint(750px up){
+    position: relative;
+    height: 280px;
+    width: 100%;
+    .eventCard-container-userPage{
+      @include horizontal-center;
+    }
   }
+  margin: 1.5rem 0 3rem 0;
 }
 
 
