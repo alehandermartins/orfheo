@@ -56,7 +56,6 @@
     var _sectionContent = $('<div>').attr('id','_sectionContent');
     var _sectionHeader = $('<div>');
 
-    // Pard.Widgets.ProfileSection(profiles[0]['type']).render()(_sectionHeader, profiles[0].profile_id);
     Pard.Widgets.ProfileAside(_sectionHeader, _sectionContent, _asideContent);
 
     _offCanvasSection.append(_sectionContainer.append(_sectionHeader, _sectionContent));

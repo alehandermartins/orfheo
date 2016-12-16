@@ -250,10 +250,14 @@
 
   ns.Widgets.UserEvents = function(){
     var _createdWidget = $('<div>');
+    var _myProfilesId = Pard.CachedProfiles.map(function(profile){
+      return profile.profile_id
+    });
     Pard.Backend.events(function(data){   
       var events = data.events;
       events.forEach(function(event){
-        var _eventCardContainer = $('<div>').append($('<div>').append(Pard.Widgets.EventCard(event)).addClass('eventCard-container-userPage')).addClass('outer-eventCard-container-userPage');
+        var _myEvent = ($.inArray(event.profile_id, _myProfilesId))>-1;
+        var _eventCardContainer = $('<div>').append($('<div>').append(Pard.Widgets.EventCard(event, _myEvent)).addClass('eventCard-container-userPage')).addClass('outer-eventCard-container-userPage');
         _createdWidget.prepend(_eventCardContainer);
       })
     });

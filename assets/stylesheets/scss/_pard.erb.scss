@@ -522,8 +522,6 @@ button{
 
 }
 
-
-
 .modify-content-button{
   position: absolute;
   top: -4px;
@@ -970,6 +968,7 @@ Event Card
   @include border-radius(5px);
   .header-eventCard{
     padding: 10px 10px 0 10px;
+    position: relative;
     .baseline-eventCard{
       font-size: $almostNormalSize;
     }
@@ -989,6 +988,9 @@ Event Card
     display: inline-block;
     border: 1px solid $grey-3;
     text-align: center;
+    img{
+      cursor: pointer;
+    }
   }
   .info-eventCard{
     height: 172px;
@@ -1031,7 +1033,7 @@ Event Card
     font-size: $smallSize;
     line-height: 0.9rem;
     background: $grey-1;
-    height: 35px;
+    height: 36px;
     border-radius: 0 0 5px 5px;
     p{
       display: block;
@@ -1043,6 +1045,11 @@ Event Card
   p {
     margin: 0;
     line-height: 0.9rem;
+  }
+  .btn-container{
+    position: absolute;
+    right: 6px;
+    top: 6px;
   }
   @include breakpoint(750px down){
     width: 100%;
@@ -1099,6 +1106,35 @@ Event Card
   margin: 1.5rem 0 3rem 0;
 }
 
+
+.manageCallBtn-eventCard{
+  position: absolute;
+  top:0;
+  right:0;
+  width: 0;
+  height: 0;
+  border: 0 solid transparent;
+  border-left-width: 50px;
+  border-right-width: 0px;
+  border-top: 50px solid rgba(222, 222, 222, 0.33);
+  width:0;
+}
+
+.manageCallIcon{
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  z-index: 2;
+  .callIcon{
+    font-size: 0.6rem;
+    position: absolute;
+    left: 0.9rem;
+  }
+  .toolsIcon{
+    font-size: 1.2rem;
+    position: absolute;
+  }
+}
 
 /*-----------------
 Dropdown

@@ -2419,6 +2419,10 @@ tr.permanent-row-program-table-call-manager td{
 ORGANIZATION PAGE
 ================================================*/
 
+.card-container-profilePage{
+  margin: 1.5rem 7rem;
+}
+
 .success-inscription-title{
   color: rgb(76, 182, 50); 
   margin-top: -1rem; 
@@ -2429,7 +2433,7 @@ ORGANIZATION PAGE
 .eventImage-event-info-card{
   border: 1px solid $grey-2;
   a {
-    cursor: zoom-in;
+    cursor: pointer;
   }
   @include breakpoint(medium down){
     width: 7rem;

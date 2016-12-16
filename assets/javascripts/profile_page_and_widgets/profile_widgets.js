@@ -48,7 +48,7 @@
         _popup.open();
       });
 
-      _img.css({cursor:'zoom-in'});
+      _img.css({cursor:'pointer'});
     }
     else{
       _photoContainer.css({'background-color': profile.color}).addClass('section-profilePhoto-container-noPhoto');
