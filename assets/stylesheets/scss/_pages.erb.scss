@@ -63,7 +63,10 @@ NAV WELCOME PAGE
   a.loginText{
     color: white;
   }
-  a.loginText:hover, .cliked{
+  a.loginText:hover{
+    color: $grey-1;
+  }
+  a.loginText.clicked{
     color: $grey-2;
   }
   .signUp-welcomePage{
@@ -72,6 +75,23 @@ NAV WELCOME PAGE
   }
 }
 
+.navMenuHeader{
+  margin: 0;
+  li{
+    display: inline-block;
+    text-transform: uppercase;
+    margin: 0 1rem;
+    a{
+      color: white;
+    }
+  }
+}
+
+.navMenuHeader-container{
+  @include horizontal-center;
+  top: 0.9rem;
+  height: 1.5rem;
+}
 
 /*===============================================
 NEW WELCOME PAGE

@@ -27,11 +27,14 @@ ns.Widgets = ns.Widgets || {};
     _login.append($('<li>').append(_loginText, _loginWidget));
     _loginContainer.append(_login, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));
 
-  
+  	var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
+  	var _navMenu = $('<ul>').addClass('navMenuHeader');
+  	var _profilesBtn = $('<li>').append($('<a>').text('Perfiles').attr('href','#'));
+  	var _eventsBtn = $('<li>').append($('<a>').text('Eventos').attr('href','#'));
+  	var _newsBtn = $('<li>').append($('<a>').text('Novedades').attr('href','#'));
+  	_navMenuContainer.append(_navMenu.append(_profilesBtn, _eventsBtn, _newsBtn));
 
-
-
-    _content.append(_logoContainer, _loginContainer)
+    _content.append(_logoContainer, _navMenuContainer, _loginContainer)
     _createdWidget.append(_container.append(_content));
 
     return {
