@@ -151,36 +151,54 @@ main.mainWelcomePage{
   }
 }
 
-/* .mainProfileCard-entryDiv{
-  width: 174px;
-  bottom: 0;
-}
-
-.line2ProfileCard-entryDiv{
-  width: 137px;
-}
-
-.line3ProfileCard-entryDiv{
-  width: 102px;
-}
-
-.line4ProfileCard-entryDiv{
-  width: 74px;
-  top: 0;
-} */
-
 .card-slider{
+  height: 240px;
+  width: 592px;
+  position: absolute;
+  @include horizontal-center;
+  .cardCont-cardSlider{
+    position: relative;
+    height: 240px;
+  }
   .slick-slide {
     width: 102px;
     height: 134px;
+    z-index: 1;
+    margin: 0 0.5rem;
+    a{
+      font-size: 9px;
+      cursor: default;
+    }
+    .icon-profileCircle .material-icons{
+      font-size: 14px;
+    }
   }
   .slick-slide.slick-active{
-    width: 137px;
-    height: 179px;
+    width: 146px;
+    height: 191px;
+    margin: 1.2rem -1.5rem 0 -1.5rem;
+    z-index: 2;
+    a{
+      font-size: 11px;
+      cursor: default;
+    }
+    .icon-profileCircle .material-icons{
+      font-size: 20px;
+    }
   }
   .slick-slide.slick-active.slick-center {
     width: 174px;
     height: 228px;
+    margin: 0;
+    z-index: 3;
+    margin-top: 0.5rem;
+    a {
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .icon-profileCircle .material-icons{
+      font-size: 24px; 
+    }
   }
 }
 

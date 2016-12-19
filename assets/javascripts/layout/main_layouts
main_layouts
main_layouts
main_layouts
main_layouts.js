@@ -40,8 +40,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _cardsContainer = $('<div>')
       .css({
-        'position':'relative',
-        'height': '250px'
+        'position':'relative'
       });
     var _cardSlider = $('<div>').addClass('card-slider');
     var _shown = [];
@@ -53,43 +52,28 @@ ns.Widgets = ns.Widgets || {};
           _toBeShown.push(profile);
         }      
       });
-      console.log(_toBeShown);
-      _toBeShown.forEach(function(profile){
-        var _profileCard = Pard.Widgets.CreateCard(profile).render();
-        var _cardCont = $('<div>');
-        _profileCard.attr('href','#').addClass('carousel');
+      _toBeShown.forEach(function(profile, index){
+        var _profileCard = Pard.Widgets.CreateCard(profile).render().addClass('carousel');
+        var _cardCont = $('<div>').addClass('cardCont-cardSlider');
+        if (index) _profileCard.attr('href','#');
+        else _cardCont.addClass('cardSelected')
+
         _cardCont.append(_profileCard);
         _cardSlider.append(_cardCont);
       });
       var _rgb = Pard.Widgets.IconColor(_toBeShown[0].color).rgb();
       var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+      var cardSelected = _toBeShown[0];
       _entryDiv.css({'background':_backColor});
-      $('.slick-center').click(function(){
-        window.location.replace('/profile?id='+_toBeShown[0].profile_id)
-      });
-      // for (var i=0; i<7; i++){
-      //   var _profileCard = Pard.Widgets.CreateCard(_toBeShown[i]).render();
-      //   var _cardCont = $('<div>');
-      //   _cardCont.append(_profileCard);
-      //   switch(i){
-      //     case 0:
-      //       _cardCont.addClass('mainProfileCard-entryDiv');
-      //       break;
-      //     case 1:
-      //     case 2:
-      //       _cardCont.addClass('line2ProfileCard-entryDiv');
-      //       break;
-      //     case 3:
-      //     case 4:
-      //       _cardCont.addClass('line3ProfileCard-entryDiv');
-      //       break;
-      //     case 5:
-      //     case 6:
-      //       _cardCont.addClass('line4ProfileCard-entryDiv');
-      //       break;
-      //   }
-      //   _cardSlider.append(_cardCont);
-      // };
+      // $('.slick-center .profileCard')
+      //   .on('centeredClick', function(){
+      //     window.location.replace('/profile?id='+cardSelected.profile_id);
+      //   })
+      //   .click(function(){
+      //     $('.slick-center').trigger('centeredClick');
+      //   })
+      //   .addClass('cardSelected');
+
       _cardsContainer.append(_cardSlider);
       _cardSlider.slick({
         centerMode: true,
@@ -98,6 +82,7 @@ ns.Widgets = ns.Widgets || {};
         slidesToShow: 3,
         arrows:false,
         focusOnSelect:true,
+        useTransform:false,
         responsive: [
           {
             breakpoint: 768,
@@ -121,15 +106,30 @@ ns.Widgets = ns.Widgets || {};
         // infinite: true,
         // slidesToShow: 3
       });
+      // _cardSlider.on('beforeChange',function(slick, current_slide){
+      //    $('.slick-center').off('centeredClick');
+      // });
       _cardSlider.on('afterChange',function(slick, current_slide){
         var cardSelected = _toBeShown[current_slide['currentSlide']];
+        $('.cardSelected a').attr('href','#');
+        $('.cardSelected').remove('cardSelected');
+        $('.slick-center a').attr('href','/profile?id='+cardSelected.profile_id);
+        $('.slick-center').addClass('cardSelected');
+
+        // $('.cardSelected').off('centeredClick').remove('cardSelected');
+        // $('.slick-center')
+        //   .on('centeredClick', function(){
+        //     window.location.replace('/profile?id='+cardSelected.profile_id);
+        //   })
+        //   .click(function(){
+        //     $('.slick-center').trigger('centeredClick');
+        //   })
+        //   .addClass('cardSelected');
+        
         var _rgb = Pard.Widgets.IconColor(cardSelected.color).rgb();
         var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
         _entryDiv.css({'background':_backColor});
-        $('.slick-center').click(function(){
-          window.location.replace('/profile?id='+cardSelected.profile_id)
-        });
-      })
+      });
     });
 
     _entryContent.append(_logoContainer, _cardsContainer);
