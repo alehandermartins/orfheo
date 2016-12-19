@@ -121,7 +121,7 @@ main.mainWelcomePage{
     height: -moz-calc(100vh - 5rem);
     height: -webkit-calc(100vh - 5rem);
     height: calc(100vh - 5rem);
-    min-height: 420px;
+    min-height: 460px;
     position: relative;
     .entryDiv-content{
       width: 100%;
@@ -206,6 +206,57 @@ main.mainWelcomePage{
   }
 }
 
+.littleTextDiv{
+  height: 6.2rem;
+  position: relative;
+  text-align: center;
+  margin: 0.5rem 0;
+  width: 100%;
+  background: $grey-1;
+  .welcomeSection-container{
+    padding: 2.1rem 0;
+  }
+}
+
+.actionDiv{
+  height: 25rem;
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin: 0.5rem 0;
+  background: $grey-1;
+  .welcomeSection-container{
+    padding: 1.5rem 0;
+  }
+}
+
+.contactDiv{
+  /* height: 25rem; */
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin: 0.5rem 0 1.5rem 0;
+  background: $grey-1;
+  .welcomeSection-container{
+    padding: 1.5rem 0;
+    position: relative;
+  }
+}
+
+
+.logo-contactDiv{
+  background-image: url(<%= image_path 'orfheologocolor.png' %>);
+  width: 150px;
+  height: 47px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include breakpoint(small down){ 
+    width: 100px;
+    height: 32px;
+  }
+  @include horizontal-center;
+  position: relative;
+}
 
 /*===============================================
 WELCOME PAGE 2

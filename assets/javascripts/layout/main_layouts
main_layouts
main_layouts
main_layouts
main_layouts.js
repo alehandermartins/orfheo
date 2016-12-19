@@ -76,7 +76,7 @@ ns.Widgets = ns.Widgets || {};
       _cardSlider.slick({
         centerMode: true,
         variableWidth: true,
-        centerPadding: '20px',
+        centerPadding:  0,
         slidesToShow: 3,
         arrows:false,
         focusOnSelect:true,
@@ -119,9 +119,20 @@ ns.Widgets = ns.Widgets || {};
     _entryContent.append(_logoContainer, _cardsContainer);
     _entryDiv.append(_entryContentContainer.append(_entryContent));
     
-    var _littleTextDiv= $('<div>');
-    var _actionDiv = $('<div>');
-    var _contactDiv = $('<div>'); 
+    var _littleTextDiv= $('<div>').addClass('littleTextDiv').append(
+      $('<div>').append($('<h5>').text('nuevas posibilidades creadas por conexiones y enlaces')).addClass('welcomeSection-container'));
+
+
+    var _actionDiv = $('<div>').addClass('actionDiv');
+    var _actionContainer = $('<div>').addClass('welcomeSection-container');
+
+    _actionDiv.append(_actionContainer);
+
+    var _contactDiv = $('<div>').addClass('contactDiv');
+    var _contactContainer = $('<div>').addClass('welcomeSection-container'); 
+    var _logoContact = $('<div>').addClass('logo-contactDiv');
+
+    _contactDiv.append(_contactContainer.append(_logoContact));
 
     _section.append(_entryDiv, _littleTextDiv, _actionDiv, _contactDiv);
 
