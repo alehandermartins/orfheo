@@ -57,7 +57,7 @@ ns.Widgets = ns.Widgets || {};
       _toBeShown.forEach(function(profile){
         var _profileCard = Pard.Widgets.CreateCard(profile).render();
         var _cardCont = $('<div>');
-        _profileCard.attr('href','#');
+        _profileCard.attr('href','#').addClass('carousel');
         _cardCont.append(_profileCard);
         _cardSlider.append(_cardCont);
       });
