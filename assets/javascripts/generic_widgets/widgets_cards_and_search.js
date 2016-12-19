@@ -96,8 +96,8 @@
       'music':{},
       'poetry':{}, 
       'street_art':{}, 
-      'workshop':{}, 
-      'gastronomy':{},
+      'workshop':{},
+      'gastronomy':{}, 
       'other':{}
     };
 
@@ -213,6 +213,7 @@
     //     $('.whole-container').scrollTop(_distanceToDo);
     //   });
     // }
+
     
     var _search = function(){
 
@@ -296,8 +297,6 @@
     }
   }
 
-
-
   ns.Widgets.CreateCard = function(profile){
 
     var _card =$('<a>').attr({
@@ -309,13 +308,11 @@
       function(){
         _card.css({
         'box-shadow': '0 0 2px 1px'+ profile.color
-        // 'background': 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+'.1'+ ')'
       });
       },
       function(){
-        _card.css({'border': '3px solid'+profile.color, 
+        _card.css({'border': '2px solid'+profile.color, 
           'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
-          // 'background':'white'
         });
       }
     );
@@ -329,7 +326,7 @@
 
     if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
-        { format: 'jpg', width: 164, height: 60,
+        { format: 'jpg', width: 170, height: 112,
           crop: 'fill', effect: 'saturation:50' });
       _photoContainer.append(_photo);
     };
@@ -339,36 +336,36 @@
     var _colorIcon = Pard.Widgets.IconColor(profile.color).render();
     _icon.css({color: _colorIcon});
     var _profilename = $('<span>').text(profile.name);
-    // if (_profilename.length>38) _profilename = _profilename.substring(0,35)+'...';
     var _name = Pard.Widgets.FitInBox(_profilename, 165, 45).render();
     _name.addClass('name-profileCard');
     var _profilecity;
     if (profile.city) _profilecity = profile.city;
     else _profilecity = profile.address.locality; 
-    if (_profilecity.length>24) _profilecity = _profilecity.substring(0,21)+'...';
+    if (_profilecity.length>28) _profilecity = _profilecity.substring(0,25)+'...';
     var _city = $('<div>').addClass('locality-profileCard').html(_profilecity);
+    var _hline = $('<hr>').addClass('hline-profileCard');
     var _category = $('<div>').addClass('category-profileCard');
-    var _categories = '- ';
+    var _categories = ''; 
     var _keys = Object.keys(profile);
 
     if ('productions' in profile){
       var _catArray = [];
       profile.productions.forEach(function(production){
-        if (production.category && $.inArray(production.category, _catArray)){
+        if (production.category && $.inArray(production.category, _catArray)<0){
           _catArray.push(production.category);
-          _categories += Pard.Widgets.Dictionary(production.category).render() + ' - ';
+          _categories += Pard.Widgets.Dictionary(production.category).render() + ', ';
         }
       })
     }
-    else if (profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render() + ' - ';}
-// CONFUSION ----> INFO HARDCODED!!
-    else if (profile.profile_id == 'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83') _categories += 'Festival' + ' - '
-// TO BE CHANGED WHEN CORGANIZATION CATEGORIES DEFINED
+    else if (profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render()+ ', ';;}
 
-    if (_categories.length>26)  _categories = _categories.substring(0,25)+'...';
+    if (_categories.length>28)  _categories = _categories.substring(0,27)+'...';
+    else{
+      _categories = _categories.substring(0, _categories.length-2)
+    }
     _category.html(_categories);
     _circle.append(_icon);
-    _card.append(_photoContainer, _circle, _name, _city, _category);
+    _card.append(_photoContainer, _circle, _name, _hline, _city, _category);
     
     return {
       render: function(){
@@ -376,5 +373,127 @@
       }
     }
   }
+
+  ns.Widgets.EventCard = function(event, owner){
+    console.log(owner);
+    var _card = $('<div>').addClass('eventCard');
+    var _header = $('<div>').addClass('header-eventCard');
+
+    var _name = $('<a>').addClass('name-eventCard').append($('<h6>').text(event.name)).attr({'href':'/event?id='+ event.event_id});
+    var _baseline = $('<div>').addClass('baseline-eventCard').text(event.baseline);
+    
+    var _imgContainer = $('<div>').addClass('imgContainer-eventCard');
+    var _img = $.cloudinary.image(event['img'],
+        { format: 'jpg', width: 152, height: 200,
+          crop: 'fit', effect: 'saturation:50' });
+    var _popup;
+    _img.one('mouseover', function(){
+      var _popupImg = $.cloudinary.image(event.img,{format: 'jpg',  width: 450, effect: 'saturation:50' });
+      var _popupWidget = $('<div>').addClass('very-fast reveal full');
+      var _outerContainer = $('<div>').addClass('vcenter-outer');
+      var _innerContainer = $('<div>').addClass('vcenter-inner');
+      var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+      _closeBtn.append($('<span>').html('&times;'));
+      _popup = new Foundation.Reveal(_popupWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
+      _closeBtn.click(function(){
+        _popup.close();
+      });
+      var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn).css('max-width','450px');
+      _innerContainer.append(_popupContent);
+      _popupWidget.append(_outerContainer.append(_innerContainer));
+      $('body').append(_popupWidget);
+    });
+    _img.click(function(){
+      _popup.open();
+    });
+    _imgContainer.append(_img);
+    
+    var _infoContainer = $('<div>').addClass('info-eventCard');
+   
+    var _organzerIcon = $('<div>').addClass('icon-container')
+      .append($('<span>').css({
+          'background': '#bebebe'
+        }).addClass('circle-eventOrganizer')
+    );
+    var _organizerText = $('<div>').append($('<span>').text('Organiza '), $('<a>').text(event.organizer).attr('href', '/profile?id='+event.profile_id)).addClass('text-container');
+    var _organizer = $('<div>').append(_organzerIcon, _organizerText).addClass('info-element-eventCard');
+   
+    var _placeIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('location').render());
+    var _placeText = $('<div>').append($('<a>')
+        .attr({
+          href: 'http://maps.google.com/maps?q='+event['address']['locality']+' '+event['address']['postal_code'],
+          target: '_blank'
+        })
+        .text(event['address']['locality']))
+      .addClass('text-container');
+    var _place = $('<div>').append(_placeIcon, _placeText).addClass('info-element-eventCard');
+   
+    var _dateIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('calendar').render());
+    var _startDate = new Date(Object.keys(event.eventTime)[0]);
+    var _endDate = new Date(Object.keys(event.eventTime)[Object.keys(event.eventTime).length-2]);
+    var _dateText = $('<div>').append($('<span>').text(moment(_startDate).locale('es').format('DD')+'-'+moment(_endDate).locale('es').format('DD MMMM YYYY'))).addClass('text-container'); 
+    var _date = $('<div>').append(_dateIcon, _dateText).addClass('info-element-eventCard');
+    
+    var _callIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('open_call').render());
+    var _callText = $('<div>').addClass('text-container'); 
+    var _profileTypes = {
+      artist: 'artistas',
+      space: 'espacios',
+      organization: 'organizaciones'
+    }
+    var _participants = '';
+    Object.keys(event.categories).forEach(function(profileType, i){
+      _participants += _profileTypes[profileType];
+      if (i == Object.keys(event.categories).length-2) _participants += 'y ';
+      else _participants += ', '
+    })
+    _participants = _participants.substring(0, _participants.length-2);
+    var _now = new Date();
+    if (_now.getTime()>_endDate.getTime()+ 86400000) {
+        _callText.append('Evento terminado')
+    }
+    else if (event.published){
+      var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id='+event.event_id);
+      _callText.append(_toEventPageBtn);
+    }
+    else if (_now.getTime() < parseInt(event.start)){
+      _callText.append($('<p>').text('Apertura convocatoria: ',moment(parseInt(parseInt(event.start))).locale('es').format('DD MMMM YYYY')), $('<p>').text('para '+_participants));
+    }
+    else if (_now.getTime() < parseInt(event.deadline)){
+      _callText.append($('<p>').append($('<a>').text('Convocatoria abierta').attr({'href':'/event?id='+ event.event_id}),$('<span>').text(' hasta el '+ moment(parseInt(event.deadline)).locale('es').format('DD-MM-YYYY'))),$('<p>').text('para '+_participants));
+    }
+    else{
+       _callText.append('Convocatoria cerrada');
+    }
+    var _call = $('<div>').append(_callIcon, _callText).addClass('info-element-eventCard');
+    var _conditionIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('conditions').render());
+    var _conditionText = $('<div>').append($('<a>').text('Bases de participación').attr({'href':event.conditions,'target':'_blank'})).addClass('text-container'); 
+    var _conditions = $('<div>').append(_conditionIcon, _conditionText).addClass('info-element-eventCard');
+
+    _infoContainer.append(_organizer, _place, _date, _call, _conditions);
+
+    var _footer = $('<div>').addClass('footer-eventCard');
+    var _categories = '';
+    for (var cat in event.categories.artist){
+      _categories += cat + ', ';
+    };
+    _categories = _categories.substring(0,_categories.length-2)
+    _footer.append($('<p>').append(_categories));
+
+    if (owner){
+      var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
+      var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
+      var _manageCallIcon = $('<div>').append(_callIcon, _toolIcon).addClass('manageCallIcon').attr('title','Gestiona convocatoria');
+      var _toCallPage = $('<div>').append($('<a>').append(_manageCallIcon).attr('href','/event_manager?id='+event.event_id)).addClass('btn-container');
+      var _triangle = $('<div>').addClass('manageCallBtn-eventCard').append();
+
+     _card.append(_triangle,_toCallPage);
+    }
+    
+    _card.append(_header.append(_name, _baseline), _imgContainer, _infoContainer, _footer);
+
+    return _card;  
+  }
+
 
 }(Pard || {}));

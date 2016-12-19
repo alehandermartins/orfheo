@@ -23,7 +23,7 @@
     var _createProfileCardContainer = $('<div>');
     var _createProfileCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
     var _color = '#6f6f6f';
-    _createProfileCard.css({border: 'solid 3px'+_color});
+    _createProfileCard.css({border: 'solid 2px'+_color});
     _createProfileCard.hover(
       function(){
         $(this).css({
@@ -37,9 +37,10 @@
       }
     );
 
+    var _hline = $('<hr>').addClass('hline-profileCard');
     var _addCircle = Pard.Widgets.IconManager('add_circle').render().addClass('addCircle-create-profile-card');
     var _text = $('<p>').text('Crea un perfil').addClass('create-profile-card-text');
-    _createProfileCard.append(_addCircle, _text)
+    _createProfileCard.append(_addCircle, _text, _hline);
 
     _createProfileCard.click(function(){
       var _caller = $('<button>');

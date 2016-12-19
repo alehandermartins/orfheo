@@ -14,13 +14,19 @@
       profile.photos.shift();
     }
 
+    var _img;
+
     if(profile.profile_picture){
-      var _img = $.cloudinary.image(profile['profile_picture'][0],
-      { format: 'jpg', width: 750, height: 220,
-      crop: 'fill', effect: 'saturation:50' });
+      _img =  $.cloudinary.image(profile['profile_picture'][0],
+        { 
+          format: 'jpg', 
+          width: 750, 
+          height: 220,
+          crop: 'fill', 
+          effect: 'saturation:50' 
+        });    
       _photoContainer.addClass('section-profilePhoto-container').append(_img);
       var _popup
-
       _img.one('mouseover', function(){
         var _popupImg = $.cloudinary.image(profile['profile_picture'][0],{ format: 'jpg',  width: 750, effect: 'saturation:50' });
         var _popupWidget = $('<div>').addClass('fast reveal full');
@@ -42,12 +48,17 @@
         _popup.open();
       });
 
-      _img.css({cursor:'zoom-in'});
+      _img.css({cursor:'pointer'});
     }
-    else _photoContainer.css({'background-color': profile.color}).addClass('section-profilePhoto-container-noPhoto');
+    else{
+      _photoContainer.css({'background-color': profile.color}).addClass('section-profilePhoto-container-noPhoto');
+    }
+
+    $(window).load(function(){
+      if (_img && !(_img[0].naturalHeight )) sectionHeader.empty().append($('<div>').css({'background-color': profile.color}).addClass('section-profilePhoto-container-noPhoto'));
+    })
 
     sectionHeader.append(_photoContainer);
-
 
     if(profile['name'] != null) sectionHeader.append( $('<div>').addClass('title-profile-section-container').append($('<h3>').text(profile['name']).addClass('text-title-profile-section')));
 

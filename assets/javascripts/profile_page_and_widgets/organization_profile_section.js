@@ -59,78 +59,17 @@
     if(profile.events && profile.events.length){ 
       var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
       var _eventBoxContent = $('<div>').addClass('box-content');
-      var _event = profile.events[0];
-      _event.organizer = profile.name;
-
-      var _eventCard = Pard.Widgets.EventInfoCardDistrito(_event);
-      _eventBoxContainer.append(_eventBoxContent.append(_eventCard.render()));
-      _createdWidget.append(_eventBoxContainer);
-      
-      //-------------------------------------------------------------------
-      // var _searchEngine = Pard.Widgets.SearchEngine('main-profile-page', profile.calls[0].event_id);
-      // var _callProposalsTitle = $('<div>').append($('<h5>').text('Descubre los participantes')).addClass('call-proposals-title');
-      // _callsBoxContent.append(_callProposalsTitle, _searchEngine.render());
-      //--------------------------------------------------------------
+      _createdWidget.append(_eventBoxContainer.append(_eventBoxContent));
+      profile.events.forEach(function(_event){
+        var _eventCard = Pard.Widgets.EventCard(_event, (userStatus === 'owner'));
+        var _eventCardContainer = $('<div>').append($('<div>').append(_eventCard).addClass('eventCard-container-userPage')).addClass('outer-eventCard-container-userPage')
+        _eventBoxContent.append(_eventCardContainer).css('margin-bottom','-1.5rem');;
+      });
     }
-
-
-    var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Convocatoria 2016', Pard.Widgets.IconManager('open_call').render()).render();
-    var _callsBoxContent = $('<div>').addClass('box-content');
-
-    if(profile.events) profile.events.forEach(function(_event){
-      var _callsInfoTitle = $('<p>').text('Convocatoria cerrada.').css('font-weight','bold');
-      var _callsInfoText = $('<p>').html('Pronto la programación interactiva.');
-      var _callsInfo = $('<div>').append(_callsInfoTitle, _callsInfoText);
-      _callsBoxContent.append(_callsInfo);
-
-
-      // if (profile.events && profile.events[0]){
-      //   var _button = $('<button>').html('Envía una propuesta').addClass('signUp-button-welcome-section');
-      //   var _listProfile = function(data){
-      //     if(data['status'] == 'success'){
-      //       var _caller = $('<button>');
-      //       var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, profile.events[0].event_id, _button)});
-      //       _caller.trigger('click');
-      //     }
-      //     else{
-      //       Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
-      //     }
-      //   }
-      //   _button.click(function(){
-      //     Pard.Backend.getCallForms(profile.events[0].call_id, function(data){
-      //     var _content = $('<div>').addClass('very-fast reveal full');
-      //     _content.empty();
-      //     $('body').append(_content);
-      //     var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      //     var _message = Pard.Widgets.PopupContent(profile.events[0].name, Pard.Widgets.FormManager(data.forms.artist));
-      //     _message.setCallback(function(){
-      //       _content.remove();
-      //       _popup.close();
-      //     });
-      //     _content.append(_message.render());
-      //     _popup.open();
-      //     });
-      //     //Pard.Backend.listProfiles(_listProfile);
-      //   });
-
-        
-      //   _eventBoxContent.append($('<p>').append(_button).addClass('callToActionBtn-container-eventCard'));
-      //   // _callsInfo.append(_button);
-      //   // _callsInfoTitle.removeAttr('style');
-      //   // _callsInfoText.empty();
-      //   // _callsInfoText.html('<strong> Sin embargo, la organización te ha habilitado para que puedas enviar propuestas fuera de tiempo.</strong>');
-      // }
-    });
-
-    // _createdWidget.append(_callsBoxContainer.append(_callsBoxContent));
 
     if (userStatus == 'owner'){
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
-      if(profile.events) profile.events.forEach(function(_event){
-        var _manageCallBtn =  $('<a>').addClass('navigation-btn-callPage').attr('href','/event_manager?id='+ _event.event_id).text('Gestiona convocatoria');        
-        _eventBoxContent.append( $('<p>').append(_manageCallBtn).addClass('toCallPage-container-eventCard'));
-      });
     }
 
 

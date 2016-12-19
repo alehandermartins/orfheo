@@ -4,6 +4,172 @@ module Repos
 
       def for db
         @@events_collection = db['events']
+        events = grab({})
+        events.each{ |event|
+          if event[:event_id] == 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+            event[:categories] = {
+              artist: {
+                'Música' => {
+                  icon: 'music'
+                },
+                'Artes Escénicas'=> {
+                  icon: 'arts'
+                },
+                'Exposición'=> {
+                  icon: 'expo'
+                },
+                'Poesía'=> {
+                  icon: 'poetry'
+                },
+                'Audiovisual'=> {
+                  icon: 'audiovisual'
+                },
+                'Street Art'=> {
+                  icon: 'street_art'
+                },
+                'Taller'=> {
+                  icon: 'workshop'
+                },
+                'Otros'=> {
+                  icon: 'other'
+                },
+                'Gastronomía'=> {
+                  icon: 'gastronomy'
+                }
+              },
+              space: {
+                'Asociación Cultural' => {
+                  icon: ''
+                },
+                'Local Comercial' => {
+                  icon: ''
+                },
+                'Espacio Particular' => {
+                  icon: ''
+                },
+                'Espacio Exterior' => {
+                  icon: ''
+                }
+              }
+            }
+          else 
+            event[:categories] = {
+              artist: {
+                'Música' => {
+                  icon: 'music'
+                },
+                'Artes Escénicas'=> {
+                  icon: 'arts'
+                },
+                'Exposición'=> {
+                  icon: 'expo'
+                },
+                'Poesía'=> {
+                  icon: 'poetry'
+                },
+                'Audiovisual'=> {
+                  icon: 'audiovisual'
+                },
+                'Street Art'=> {
+                  icon: 'street_art'
+                },
+                'Taller'=> {
+                  icon: 'workshop'
+                },
+                'Otros'=> {
+                  icon: 'other'
+                },
+                'Gastronomía'=> {
+                  icon: 'gastronomy'
+                }
+              },
+              space: {
+                'Restauración y Clubs' => {
+                  icon: ''
+                },
+                'Arte, Cultura y Diseño' => {
+                  icon: ''
+                },
+                'Espacio Particular' => {
+                  icon: ''
+                },
+                'Tiendas y Servicios' => {
+                  icon: ''
+                }
+              }
+            }
+          end
+          event[:artists].map!{ |artist|
+            if artist[:profile_id].split('-').last == 'own'
+              artist[:own] = true
+              artist[:profile_id] = artist[:profile_id].split('-own').first
+              artist[:proposals].map!{ |proposal|
+                proposal[:own] = true
+                proposal[:proposal_id] = proposal[:proposal_id].split('-own').first
+                proposal
+              }
+            end
+            if event[:event_id] == 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+              artist[:proposals].map!{ |proposal|
+                proposal[:subcategory] = translate(proposal[:category])
+                proposal[:form_category] = translate(proposal[:category])
+                proposal
+              }
+            end
+            artist
+          }
+          event[:spaces].map!{ |space|
+            if space[:profile_id].split('-').last == 'own'
+              space[:own] = true
+              space[:profile_id] = space[:profile_id].split('-own').first
+              space[:proposal_id] = space[:proposal_id].split('-own').first
+            end
+            if event[:event_id] == 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+              space[:subcategory] = translate(space[:category])
+              space[:form_category] = translate(space[:category])
+            end
+            space[:subcategory] = 'Espacio Particular' if space[:subcategory] == 'Espacio particular'
+            space[:subcategory] = 'Tiendas y Servicios' if space[:subcategory] == 'Tiendas y servicios'
+            space
+          }
+          event[:program].map!{ |performance|
+            if performance[:participant_id].split('-').last == 'own'
+              performance[:participant_id] = performance[:participant_id].split('-own').first
+              performance[:participant_proposal_id] = performance[:participant_proposal_id].split('-own').first
+            end
+
+            if performance[:host_id].split('-').last == 'own'
+              performance[:host_id] = performance[:host_id].split('-own').first
+              performance[:host_proposal_id] = performance[:host_proposal_id].split('-own').first
+            end
+            performance
+          }
+
+          @@events_collection.update_one({event_id: event[:event_id]},
+          {
+            "$set": {artists: event[:artists], spaces: event[:spaces], program: event[:program], categories: event[:categories]}
+          })
+        }
+      end
+
+      def translate text
+        dictionary = {
+          cultural_ass: 'Asociación Cultural',
+          commercial: 'Local Comercial',
+          home: 'Espacio Particular',
+          open_air: 'Espacio Exterior',
+          music: 'Música',
+          arts: 'Artes Escénicas',
+          expo: 'Exposición',
+          poetry: 'Poesía',
+          audiovisual: 'Audiovisual',
+          street_art: 'Street Art',
+          workshop: 'Taller',
+          other: 'Otros',
+          gastronomy: 'Gastronomía'
+        }
+        return dictionary[text.to_sym] if(dictionary.has_key? [text.to_sym])
+        dictionary[text.to_sym]
       end
 
       def add event
@@ -132,16 +298,15 @@ module Repos
       end
 
       def modify_artist artist
-        profile_id = artist[:profile_id]
-        new_proposal = artist[:proposals].first
-        event = grab({"artists.proposals.proposal_id": new_proposal[:proposal_id]}).first
-        proposals = event[:artists].detect{|artist| artist[:profile_id] == profile_id}[:proposals]
-        proposals.map!{ |proposal|
-          proposal = new_proposal if proposal[:proposal_id] == new_proposal[:proposal_id]
+        event = grab({"artists.proposals.proposal_id": artist[:proposals].first[:proposal_id]}).first
+        proposals = event[:artists].detect{|event_artist| event_artist[:profile_id] == artist[:profile_id]}[:proposals]
+        modified_proposals = proposals.map{ |proposal|
+          proposal = artist[:proposals].first if proposal[:proposal_id] == artist[:proposals].first[:proposal_id]
+          proposal
         }
-        @@events_collection.update_one({"artists.profile_id": profile_id},
+        @@events_collection.update_one({"artists.proposals.proposal_id": artist[:proposals].first[:proposal_id]},
           {
-            "$set": {'artists.$.proposals': proposals}
+            "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address], 'artists.$.phone': artist[:phone], 'artists.$.proposals': modified_proposals}
           })
       end
 
@@ -155,7 +320,7 @@ module Repos
 
       def update_artist artist
         profile_id = artist[:profile_id]
-        @@events_collection.update_one({"artists.profile_id": profile_id},
+        @@events_collection.update_many({"artists.profile_id": profile_id},
           {
             "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address]}
           })
@@ -163,16 +328,9 @@ module Repos
 
       def update_space space
         profile_id = space[:profile_id]
-        @@events_collection.update_one({"spaces.profile_id": profile_id},
+        @@events_collection.update_many({"spaces.profile_id": profile_id},
           {
             "$set": {'spaces.$.name': space[:name], 'spaces.$.address': space[:address], 'spaces.$.category': space[:category], 'spaces.$.description': space[:description]}
-          })
-      end
-
-      def delete_artist profile_id
-        @@events_collection.update_one({"artists.profile_id": profile_id},
-          {
-            "$pull": {'artists': {'profile_id': profile_id}}
           })
       end
 
@@ -184,17 +342,51 @@ module Repos
           })
       end
 
+      def delete_artist event_id, profile_id
+        @@events_collection.update_one({event_id: event_id},
+          {
+            "$pull": {'artists': {'profile_id' => profile_id}}
+          })
+      end
+
       def delete_artist_proposal proposal_id
         delete_performances proposal_id
         event = grab({"artists.proposals.proposal_id": proposal_id}).first
         artist = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}
         proposals = artist[:proposals]
         proposals.select!{|proposal| proposal[:proposal_id] != proposal_id}
-        return delete_artist artist[:profile_id] if proposals.blank?
+        return delete_artist(event[:event_id], artist[:profile_id]) if proposals.blank?
         @@events_collection.update_one({"artists.proposals.proposal_id": proposal_id},
           {
             "$set": {'artists.$.proposals': proposals}
           })
+      end
+
+      def delete_artist_profile profile_id
+        events = grab({"artists.profile_id": profile_id})
+        events.each{ |event|
+          artist = event[:artists].detect{|artist| artist[:profile_id] == profile_id}
+          proposals = artist[:proposals]
+          modified_proposals = proposals.map {|proposal|
+            proposal[:own] = true
+            proposal
+          }
+          @@events_collection.update_one({event_id: event[:event_id], 'artists.profile_id': profile_id},
+          {
+            "$set": {'artists.$.own': 'true', 'artists.$.proposals': modified_proposals}
+          })
+        }
+      end
+
+      def delete_space_profile profile_id
+        events = grab({"spaces.profile_id": profile_id})
+        events.each{ |event|
+          space = event[:spaces].detect{|space| space[:profile_id] == profile_id}
+          @@events_collection.update_one({event_id: event[:event_id], 'spaces.profile_id': profile_id},
+          {
+            "$set": {'spaces.$.own': 'true'}
+          })
+        }
       end
 
       def save_program event_id, program, order
@@ -316,16 +508,20 @@ module Repos
         program.map{ |performance|
           artist = event[:artists].select{ |participant| participant[:profile_id] == performance[:participant_id]}.first
           artist_proposal = artist[:proposals].select{ |proposal| proposal[:proposal_id] == performance[:participant_proposal_id]}.first
-          space = event[:spaces].select{ |participant| participant[:profile_id] == performance[:host_id]}.first
-          order = event[:spaces].index{ |space| space[:proposal_id] == performance[:host_proposal_id] }
+          space = event[:spaces].select{ |host| host[:profile_id] == performance[:host_id]}.first
+          order = event[:spaces].index{ |host| host[:profile_id] == performance[:host_id] }
+          performance[:participant_id] = performance[:participant_id] + '-own' if artist[:own] == true
+          performance[:host_id] = performance[:host_id] + '-own' if space[:own] == true
           performance.merge! host_name: space[:name]
           performance.merge! address: space[:address]
           performance.merge! host_category: space[:category]
+          performance.merge! host_subcategory: space[:subcategory]
           performance.merge! participant_name: artist[:name]
           performance.merge! title: artist_proposal[:title]
           performance.merge! short_description: artist_proposal[:short_description]
           performance.merge! children: artist_proposal[:children]
           performance.merge! participant_category: artist_proposal[:category]
+          performance.merge! participant_subcategory: artist_proposal[:subcategory]
           performance.merge! order: order
         }
       end

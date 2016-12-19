@@ -70,14 +70,16 @@
         if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
         if(form[field]['input'] == 'MultipleSelector'){
           if (field == 'availability'){
-            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+            _form[field].input.render().multipleSelect({      
+              placeholder: "Selecciona una o más opciones",
               selectAllText: "Selecciona todo",
               countSelected: false,
               allSelected: "Disponible todos los días"
             });
           }
           else{
-            _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+            _form[field].input.render().multipleSelect({      
+              placeholder: "Selecciona una o más opciones",
               selectAll: false,
               countSelected: false,
               allSelected: false
@@ -99,7 +101,6 @@
       } 
       return _check;
     }
-
 
     var _callbackSent = function(){
       spinner.stop();

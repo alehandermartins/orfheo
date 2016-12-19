@@ -50,6 +50,9 @@
       },
       setAttr: function(attribute, value){
         _input.attr(attribute,value);
+      },
+      disable: function(){
+        _input.prop('disabled', true);
       }
     }
   };
@@ -250,7 +253,7 @@
 
 
   ns.Widgets.TextArea = function(label, Nrows){
-    // var _createdWidget = $('<div>');
+
     var _textarea = $('<textarea>').attr({placeholder: label})
     if (Nrows)_textarea.attr({'rows': parseInt(Nrows)});
 
@@ -264,10 +267,12 @@
           var _scroolTop = _popupOpened.scrollTop();
           var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
           _popupOpened.scrollTop(_distanceToDo);
+          // var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
+          // var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+          // $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
         }
       }
     });
-
 
     return {
       render: function(){

@@ -78,8 +78,25 @@ Pard.ProposalsManager = {
   }
 }
 
-Pard.Welcome = function(){
+// Pard.Welcome = function(){
 
+//   var _header = Pard.Widgets.NavLoginHeader();
+//   var _main = Pard.Widgets.MainWelcomePage();
+
+//   var _footer = Pard.Widgets.Footer();
+//   var _whole = $('<div>').addClass('whole-container');
+
+//   _whole.append(_header.render(), _main.render().addClass('outsider-main'), _footer.render().addClass('footer-outsider'));
+
+//   $('body').append(_whole);
+
+//   $(document).ready(function(){
+//     $(document).foundation();
+//     $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+//   });
+// }
+
+Pard.Welcome = function(){
 
   var _header = Pard.Widgets.NewLoginHeader();
   var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
@@ -93,6 +110,7 @@ Pard.Welcome = function(){
 
   $(document).ready(function(){
     $(document).foundation();
+    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
   });
 }
 
@@ -108,14 +126,12 @@ Pard.Users = function(profiles){
 
   $(_whole).append(_header.render(), _main.render().addClass('main-welcome-page'), _footer.render());
 
-  // If no profile trigger popup CreateProfile (do not delete!)
-  // $(document).ready( function(){
-  //   if (profiles.length == 0) Pard.Widgets.CreateProfile().render().trigger('click');
-  // });
-
   $('body').append(_whole);
 
-  $(document).ready(function(){$(document).foundation()});
+  $(document).ready(function(){
+    $(document).foundation();
+    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+  });
 }
 
 Pard.Profile = function(profiles){
@@ -129,7 +145,10 @@ Pard.Profile = function(profiles){
     var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
-    $(document).ready(function(){$(document).foundation()});
+    $(document).ready(function(){
+      $(document).foundation();
+      $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+    });
   }
 
   Pard.Widgets.MultimediaScripts(_display);
@@ -150,7 +169,10 @@ Pard.Visitor = function(profiles){
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
-    $(document).ready(function(){$(document).foundation()});
+    $(document).ready(function(){
+      $(document).foundation();
+      $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+    });
   }
 
   Pard.Widgets.MultimediaScripts(_display);
@@ -171,7 +193,10 @@ Pard.Outsider = function(profiles){
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
-     $(document).ready(function(){$(document).foundation()});
+     $(document).ready(function(){
+      $(document).foundation();
+      $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+    });
   }
 
   Pard.Widgets.MultimediaScripts(_display);
@@ -199,9 +224,7 @@ Pard.EventManager = function(the_event, forms){
 
 Pard.Event = function(the_event, status){
   console.log(the_event);
-  console.log(status);
-  //Address
-  //http://localhost:3000/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6
+
   Pard.UserStatus['status'] = status;
 
   Pard.CachedProgram = the_event.program;
@@ -222,7 +245,10 @@ Pard.Event = function(the_event, status){
   // $(_whole).prepend(_alertContainer);
 
   $('body').append(_whole);
-  $(document).ready(function(){$(document).foundation()});
+  $(document).ready(function(){
+    $(document).foundation()
+    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+  });
 
 }
 
@@ -282,6 +308,9 @@ Pard.Chat = function(){
   _whole.append(_header.render(), _main.render().addClass('outsider-main'));
 
   $('body').append(_whole);
-  $(document).ready(function(){$(document).foundation()});
+  $(document).ready(function(){
+    $(document).foundation();
+    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+  });
 
 }

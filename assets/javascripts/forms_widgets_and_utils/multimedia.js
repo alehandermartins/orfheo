@@ -111,7 +111,7 @@
     }
   }
  
-  ns.Widgets.MultimediaDisplay = function(production, callback){
+   ns.Widgets.MultimediaDisplay = function(production, callback){
       var spinner = new Spinner();
       spinner.spin();
       $('body').append(spinner.el);
@@ -355,6 +355,7 @@
     });
    
   }
+
 
   ns.Widgets.MultimediaManager = function(production){
 

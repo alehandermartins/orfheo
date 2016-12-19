@@ -4,6 +4,11 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
+  ns.Widgets.UniqueArray = function(array){
+    return $.grep(array, function(el, i){
+      return i === $.inArray(el, array); 
+    })
+  }
 
   ns.Widgets.CopyToClipboard = function(stringToCopy){
   console.log(stringToCopy)
@@ -41,7 +46,7 @@
   }
 
   ns.Widgets.BigAlert = function(title, content, contentClass, callback){
-    var _createdWidget = $('<div>').addClass('fast reveal full');
+    var _createdWidget = $('<div>').addClass('very-fast reveal full');
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>');
@@ -58,7 +63,6 @@
       _popup.close();
       _createdWidget.remove();
     });
-
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);
     _popupContent.append(_header, _sectionContainer);
@@ -72,7 +76,7 @@
 
   ns.Widgets.Alert = function(title, content, callback){
 
-    var _createdWidget = $('<div>').addClass('fast reveal full');    
+    var _createdWidget = $('<div>').addClass('very-fast reveal full');    
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _innerContainer = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>').addClass('alert-container-full');
@@ -437,7 +441,7 @@
   }
 
 
-  ns.Widgets.OrfheoArtCatSelect2 = function(callback){
+  ns.Widgets.OrfheoArtCatSelect = function(callback){
     var _createdWidget = $('<div>');
     var _selector = $('<select>');
     var _searchTags = [];
@@ -482,33 +486,12 @@
       },
       disable: function(){
         _selector.attr('disabled',true);
-        // _selector.select2().enable(false);
       },
       enable: function(){
         _selector.attr('disabled',false);
       },
       setCallback: function(callback){
         _selector.on('select2:select', function(){callback()});
-      }
-    }
-  }
-
-  ns.Widgets.OrfheoArtCatSelector = function(categorySelectCallback){
-
-    var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other'];
-    var _labelsCategories = [];
-    _valuesCategories.forEach(function(cat){
-      // var _icon = Pard.Widgets.IconManager(cat).render().addClass('orfheoOption-icon');
-      var _text = Pard.Widgets.Dictionary(cat).render();
-      _labelsCategories.push(_text);
-    });
-    var _createdWidget = Pard.Widgets.Selector(_labelsCategories, _valuesCategories, categorySelectCallback);
-
-    // _createdWidget.setClass('category-input');
-
-    return {
-      render: function(){
-        return _createdWidget.render();
       }
     }
   }

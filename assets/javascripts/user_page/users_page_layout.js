@@ -115,7 +115,6 @@
     
     var _profiles = $('<div>').addClass('aside-user-nav-btn');
     _profiles.text('Tus perfiles');
-
     _profiles.click(function(){
       _contentShowHide('myprofiles-user-page');
       $(this).addClass('aside-user-nav-btn-selected');
@@ -149,6 +148,17 @@
     var _newsContent = $('<div>').attr('id', 'news-user-page');
     _newsContent.hide();
 
+    var _events = $('<div>').addClass('aside-user-nav-btn')
+    .text('Eventos')
+    .click(function(){
+      _contentShowHide('events-user-page');
+      $(this).addClass('aside-user-nav-btn-selected');
+    })
+    .one('click',function(){
+      _eventsContent.append(Pard.Widgets.UserEvents().render());
+    });
+    var _eventsContent = $('<div>').attr('id', 'events-user-page').addClass('profiles-user-section-content');
+    _newsContent.hide();
 
     var _contentShowHide = function(id_selected){
       $('.aside-user-nav-btn-selected').removeClass('aside-user-nav-btn-selected');
@@ -161,8 +171,8 @@
 
     var _buttonContainer = $('<div>').addClass('create-profile-container');
     
-    _buttonContainer.append(_profiles, _explore, _news);
-    sectionContainer.append(_myProfiles, _exploreContent, _newsContent);
+    _buttonContainer.append(_profiles, _explore, _events, _news);
+    sectionContainer.append(_myProfiles, _exploreContent, _eventsContent, _newsContent);
     _createdWidget.append(_buttonContainer);
 
     return{
@@ -238,7 +248,26 @@
     } 
   }  
 
+  ns.Widgets.UserEvents = function(){
+    var _createdWidget = $('<div>');
+    var _myProfilesId = Pard.CachedProfiles.map(function(profile){
+      return profile.profile_id
+    });
+    Pard.Backend.events(function(data){   
+      var events = data.events;
+      events.forEach(function(event){
+        var _myEvent = ($.inArray(event.profile_id, _myProfilesId))>-1;
+        var _eventCardContainer = $('<div>').append($('<div>').append(Pard.Widgets.EventCard(event, _myEvent)).addClass('eventCard-container-userPage')).addClass('outer-eventCard-container-userPage');
+        _createdWidget.prepend(_eventCardContainer);
+      })
+    });
 
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+    } 
+  }
 
   ns.Widgets.UserSection = function(content) {
 

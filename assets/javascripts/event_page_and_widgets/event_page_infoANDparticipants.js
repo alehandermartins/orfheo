@@ -94,7 +94,16 @@
       target: '_blank'
     });
     var _whoText = $('<div>').addClass('info-text-header-infoTab-event').append($('<p>').append('Organiza ', _organizer));
-    var _who = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('organizer').render()).addClass('iconContainer-infoHeader-event-page'), _whoText).addClass('element-headerTitle-infoTab-event');
+    var _organzerIcon = $('<div>').addClass('icon-container')
+      .append($('<span>').css({
+          'background': 'grey',
+          'border-radius': '50%',
+          'width': '1.1rem',
+          'height': '1.1rem',
+          'display': 'inline-block'
+        })
+    );
+    var _who = $('<div>').append(_organzerIcon.addClass('iconContainer-infoHeader-event-page'), _whoText).addClass('element-headerTitle-infoTab-event');
     _who.css({'border-right': '1px solid #bebebe'});
 
     var _h1 = $('<div>').append(_who, _where, _callStatus);
@@ -108,7 +117,7 @@
     var _count = 0;
     var _printAll = false;
     var _h2 = $('<div>').addClass('h2-event-page');
-    _h2.append($('<div>').append(Pard.Widgets.IconManager('clock').render().addClass('iconContainer-infoHeader-event-page'), _timeContent).addClass('timeContainer-infoTab-event')  , _callConditions);
+    _h2.append($('<div>').append(Pard.Widgets.IconManager('calendar').render().addClass('iconContainer-infoHeader-event-page').css('margin-top',0), _timeContent).addClass('timeContainer-infoTab-event')  , _callConditions);
 
     var _printDaysCalendar = function(){
       _timeContent.empty();

@@ -142,7 +142,7 @@
 
   ns.Widgets.PrintProposal = function(proposal, form){
 
-    console.log(proposal);  
+    var form = $.extend(true, {}, form);  
 
     var _createdWidget = $('<div>');
     var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children'];
@@ -230,7 +230,7 @@
 
     var _availability = function(){
       var _list = $('<ul>');
-      proposal['availability'].forEach(function(val){
+      if (proposal['availability']) proposal['availability'].forEach(function(val){
         var _dayDate = new Date (val);
         _list.append($('<li>').text(moment(_dayDate).locale('es').format('dddd DD')+' de '+moment(_dayDate).locale('es').format('MMMM YYYY')));
       });

@@ -217,59 +217,12 @@
     if (data['status'] == 'success'){
       Pard.Widgets.Alert('', 'Enmienda enviada correctamente.', function(){ location.reload(); });
     }
-    // else{
-    //   var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
-    //   if (typeof _dataReason == 'object'){
-    //     var _caller = $('<button>');
-    //     var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-    //     _caller.trigger('click');
-    //   }
-      else{
-        console.log(data.reason);
-        Pard.Widgets.Alert('', _dataReason);
-      }
-    // }
+    else{
+      console.log(data.reason);
+      Pard.Widgets.Alert('', _dataReason);
+    }
   }
 
-  ns.Events.SaveProgram = function(data){
-    $('.save-text-call-manager').empty();
-    if(data['status'] == 'success') {
-      // $('.save-text-call-manager').append($('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
-      //   setTimeout(function(){
-      //     $('.save-text-call-manager').empty();
-      //     $('.save-text-call-manager').html('Guarda </br>los cambios');
-      //   }, 3000);
-    }
-    else{
-      console.log('error');
-      Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();});
-    }  
-  }
-
-  ns.Events.SendOwnProposal = function(data){
-    if(data['status'] == 'success') {
-      console.log(data);
-      Pard.CachedProposals = data.call.proposals;
-      Pard.CachedCall.proposals= data.call.proposals;
-      Pard.Widgets.Program = [];
-      Pard.Spaces = [];
-      Pard.ShownSpaces = [];
-      Pard.Artists = {};
-      var _proposal = data.call.proposals[data.call.proposals.length -1];
-      var _proposalContainer = $('<li>');
-      var _printedProposal = Pard.Widgets.PrintOwnProposal(_proposal, _proposalContainer); 
-      if (_proposal.type == 'space') $('#space-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
-      else $('#artist-list-call-page').prepend(_proposalContainer.append(_printedProposal.render()));
-      Pard.Widgets.Alert('', 'Propuesta creada correctamente.');
-      $('#tablePanel').empty();
-      // $('#tablePanel').append(Pard.Widgets.TablePanelContent().render());
-      $('#programPanel').empty();
-    }
-    else{
-      Pard.Widgets.Alert('',data.reason);
-      // Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
-    }  
-  }
 
   ns.Events.DeleteOwnProposal = function(data){
     console.log(data);
@@ -291,20 +244,6 @@
   }
 
 
-  ns.Events.WhiteList = function(data){
-    console.log(data);
-    $('#successBox-whiteList').empty();
-    if(data['status'] == 'success'){
-      $('#successBox-whiteList').append($('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager'));
-      $('.new-input-selected-whitelist').removeClass('new-input-selected-whitelist');
-      setTimeout(function(){
-        $('#successBox-whiteList').empty();
-      }, 3000);
-    }
-    else{
-      Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
-    }  
-  }
 
   ns.Events.CreateProduction = function(data){
     if(data['status'] == 'success') {

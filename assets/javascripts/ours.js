@@ -3,7 +3,7 @@
 // = require backend
 // = require events
 
-
+// = require layout
 // = require call_manager
 // = require event_page_and_widgets
 // = require forms_widgets_and_utils

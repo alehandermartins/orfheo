@@ -3,7 +3,7 @@
 (function(ns){
 
   ns.Backend = (function(){
-
+          
     var _send = function(url, data, callback, callbackFail){
       var _attemps = 0;
       $.ajax({
@@ -18,6 +18,7 @@
       })
       .fail(function() {
         console.log("error");
+        $('.spinner').remove();
         if (callbackFail){
           callbackFail();
         }
@@ -253,7 +254,6 @@
     };
 
     var _modifyArtistProposal = function(form, callback){
-      console.log(form)
       _send(
         '/users/modify_artist_proposal',
         form,
@@ -262,7 +262,6 @@
     };
 
     var _modifySpaceProposal = function(form, callback){
-      console.log(form)
       _send(
         '/users/modify_space_proposal',
         form,

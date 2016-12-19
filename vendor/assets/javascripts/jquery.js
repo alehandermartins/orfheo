@@ -35,3 +35,5 @@
 
 //=require bowser.min
 //=require multiple-select
+
+// = require slick.min
