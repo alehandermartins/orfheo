@@ -7,6 +7,10 @@
 @import 'motion-ui';
 @import 'jquery.datepick';
 @import 'spectrum';
+/* @import 'slick';
+@import 'slick-theme'; */
+
+
 // @import 'layout';
 
 // @import 'fontello/css/fontello';
@@ -17,6 +21,10 @@
 
 // @import 'fontello-ie7';
 // @import 'fontello-ie7-codes';
+
+
+/* @import 'slick/slick';
+@import 'slick/slick-theme'; */
 
 
 
@@ -60,6 +68,7 @@
 
 @include motion-ui-transitions;
 @include motion-ui-animations;
+
 
 
 @import 'pard';

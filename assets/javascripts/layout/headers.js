@@ -10,16 +10,25 @@ ns.Widgets = ns.Widgets || {};
     var _container = $('<div>').addClass('containerNavHeader');
     var _content = $('<div>').addClass('contentNavHeader');
 
-    var _logo = $('<button>').append($('<div>').addClass('logoNavHeader')).attr('type','button');
+    var _showHide = function(id_){
+    	$('.selected').removeClass('selected');
+    	$('.visible').hide().removeClass('visible');
+    	$('#'+id_).addClass('visible').show();
+    }
+
+    var _logo = $('<button>').append($('<div>').addClass('logoNavHeader')).attr('type','button')
+    	.click(function(){
+    		$('.selected').addClass('selected');
+    		_showHide('welcomeSection');
+    	});
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
-    
+    _logo
     var _signUpButtonContainer = $('<div>').append(Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage')).addClass('signUpBtn-container');
-   	
     var _loginContainer = $('<div>').addClass('loginContainer');
     var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container'));
     var _loginWidget = $('<ul>').append(_loginInputs).addClass('container-loginNavHeader');
     var _login = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
-    var _loginText = $('<a>').attr({'href': '#'}).text('Login').addClass('loginText')
+    var _loginText = $('<a>').attr({'href': '#'}).text('Login ').addClass('loginText')
     	.click(function(){
     		if (_loginText.hasClass('clicked')) _loginText.removeClass('clicked');
     		else _loginText.addClass('clicked');
@@ -29,11 +38,24 @@ ns.Widgets = ns.Widgets || {};
 
   	var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
   	var _navMenu = $('<ul>').addClass('navMenuHeader');
-  	var _profilesBtn = $('<li>').append($('<a>').text('Perfiles').attr('href','#'));
-  	var _eventsBtn = $('<li>').append($('<a>').text('Eventos').attr('href','#'));
-  	var _newsBtn = $('<li>').append($('<a>').text('Novedades').attr('href','#'));
+  	var _profilesBtn = $('<li>').append($('<a>').text('Perfiles').attr('href','#'))
+  		.click(function(){
+  			$('.selected').addClass('selected');
+  			_showHide('profilesSection');
+  		});
+  	var _eventsBtn = $('<li>').append($('<a>').text('Eventos').attr('href','#'))
+  		.click(function(){
+  			$('.selected').addClass('selected');
+  			_showHide('eventsSection');
+  		});
+  	var _newsBtn = $('<li>').append($('<a>').text('Novedades').attr('href','#'))
+  		.click(function(){
+  			$('.selected').addClass('selected');;
+  			_showHide('newsSection');
+  		});
   	_navMenuContainer.append(_navMenu.append(_profilesBtn, _eventsBtn, _newsBtn));
 
+  	_logo.addClass('selected');
     _content.append(_logoContainer, _navMenuContainer, _loginContainer)
     _createdWidget.append(_container.append(_content));
 

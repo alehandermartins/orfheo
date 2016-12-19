@@ -1,12 +1,15 @@
 /*===============================================
 NAV WELCOME PAGE
 ================================================*/
+
 .navLoginHeader{
   width: 100%;
   position: fixed;
   top: 0;
   height: 3.3rem;
   background-color: black;
+  font-size: $almostNormalSize;
+  z-index: 2;
 }
 
 .containerNavHeader{
@@ -54,7 +57,7 @@ NAV WELCOME PAGE
 .loginContainer{
   position: absolute;
   right: 0;
-  top: 0.4rem;
+  top: 0.5rem;
   .menu{
     display: inline-block;
     vertical-align: middle;
@@ -89,12 +92,101 @@ NAV WELCOME PAGE
 
 .navMenuHeader-container{
   @include horizontal-center;
-  top: 0.9rem;
+  top: 1rem;
   height: 1.5rem;
 }
 
+main.mainWelcomePage{
+  margin: 0;
+  padding: 0;
+  section{
+    padding-top:3.3rem;
+    padding-bottom: 2rem;
+    min-height: 100vh;
+  }
+}
+
+
+.welcomeSection-layout{
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+  .welcomeSection-container{
+    width: 984px;
+    height: 100%;
+    @include horizontal-center; 
+  }
+  .entryDiv{
+    width: 100vw;
+    height: -moz-calc(100vh - 5rem);
+    height: -webkit-calc(100vh - 5rem);
+    height: calc(100vh - 5rem);
+    position: relative;
+    .entryDiv-content{
+      position: relative;
+      width: 100%;
+      min-height: 100%;
+      .entryLogoContainer{
+        @include horizontal-center;
+        /* top:  25%; */
+        div{
+          position: relative;
+        }
+      }
+    }
+  }
+}
+
+
+.mainLogo-welcomePage{
+  cursor: default;
+  background-image: url(<%= image_path 'orfheologonegro.png' %>);
+  width: 240px;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include breakpoint(small down){ 
+    width: 150px;
+    height: 50px;
+  }
+}
+
+/* .mainProfileCard-entryDiv{
+  width: 174px;
+  bottom: 0;
+}
+
+.line2ProfileCard-entryDiv{
+  width: 137px;
+}
+
+.line3ProfileCard-entryDiv{
+  width: 102px;
+}
+
+.line4ProfileCard-entryDiv{
+  width: 74px;
+  top: 0;
+} */
+
+.card-slider{
+  .slick-slide {
+    width: 102px;
+    height: 134px;
+  }
+  .slick-slide.slick-active{
+    width: 137px;
+    height: 179px;
+  }
+  .slick-slide.slick-active.slick-center {
+    width: 174px;
+    height: 228px;
+  }
+}
+
+
 /*===============================================
-NEW WELCOME PAGE
+WELCOME PAGE 2
 ================================================*/
 
 .loginHeader-AllPage{
@@ -315,9 +407,6 @@ WELCOME PAGE
     margin-top:0.5rem;
   }
 }
-
-
-
 
 
 /*------------------
