@@ -121,14 +121,15 @@ main.mainWelcomePage{
     height: -moz-calc(100vh - 5rem);
     height: -webkit-calc(100vh - 5rem);
     height: calc(100vh - 5rem);
+    min-height: 420px;
     position: relative;
     .entryDiv-content{
-      position: relative;
       width: 100%;
-      min-height: 100%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
       .entryLogoContainer{
         @include horizontal-center;
-        /* top:  25%; */
         div{
           position: relative;
         }
@@ -153,7 +154,7 @@ main.mainWelcomePage{
 
 .card-slider{
   height: 240px;
-  width: 592px;
+  width: 618px;
   position: absolute;
   @include horizontal-center;
   .cardCont-cardSlider{
@@ -164,7 +165,8 @@ main.mainWelcomePage{
     width: 102px;
     height: 134px;
     z-index: 1;
-    margin: 0 0.5rem;
+    margin: 0 0.7rem;
+    opacity: 0.85;
     a{
       font-size: 9px;
       cursor: default;
@@ -176,8 +178,9 @@ main.mainWelcomePage{
   .slick-slide.slick-active{
     width: 146px;
     height: 191px;
-    margin: 1.2rem -1.5rem 0 -1.5rem;
+    margin: 1.2rem -1.2rem 0 -1.2rem;
     z-index: 2;
+    opacity: 0.95;
     a{
       font-size: 11px;
       cursor: default;
@@ -192,6 +195,7 @@ main.mainWelcomePage{
     margin: 0;
     z-index: 3;
     margin-top: 0.5rem;
+    opacity: 1;
     a {
       font-size: 12px;
       cursor: pointer;

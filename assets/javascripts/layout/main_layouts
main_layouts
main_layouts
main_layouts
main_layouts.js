@@ -33,14 +33,20 @@ ns.Widgets = ns.Widgets || {};
       'href': '#'
     }).append($('<div>').addClass('mainLogo-welcomePage'));
     var _logoBaseline = $('<div>').append($('<p>').text('your cultural community')).addClass('logoBaseline-welcomePage');
-    var _logoContainer = $('<div>').append($('<div>').append(_logo, _logoBaseline).addClass('entryLogoContainer')).css({
-      'position': 'relative',
-      'height': '100px'
-    });
+    var _logoContainer = $('<div>')
+      .append($('<div>')
+        .append(_logo, _logoBaseline).addClass('entryLogoContainer')
+      )
+      .css({
+        'position': 'relative',
+        'height': '100px',
+        'margin-top':'1.5rem'
+      });
 
     var _cardsContainer = $('<div>')
       .css({
-        'position':'relative'
+        'position':'relative',
+        'margin-top':'4rem'
       });
     var _cardSlider = $('<div>').addClass('card-slider');
     var _shown = [];
@@ -65,14 +71,6 @@ ns.Widgets = ns.Widgets || {};
       var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
       var cardSelected = _toBeShown[0];
       _entryDiv.css({'background':_backColor});
-      // $('.slick-center .profileCard')
-      //   .on('centeredClick', function(){
-      //     window.location.replace('/profile?id='+cardSelected.profile_id);
-      //   })
-      //   .click(function(){
-      //     $('.slick-center').trigger('centeredClick');
-      //   })
-      //   .addClass('cardSelected');
 
       _cardsContainer.append(_cardSlider);
       _cardSlider.slick({
@@ -103,28 +101,14 @@ ns.Widgets = ns.Widgets || {};
             }
           }
         ]
-        // infinite: true,
-        // slidesToShow: 3
       });
-      // _cardSlider.on('beforeChange',function(slick, current_slide){
-      //    $('.slick-center').off('centeredClick');
-      // });
+
       _cardSlider.on('afterChange',function(slick, current_slide){
         var cardSelected = _toBeShown[current_slide['currentSlide']];
         $('.cardSelected a').attr('href','#');
         $('.cardSelected').remove('cardSelected');
         $('.slick-center a').attr('href','/profile?id='+cardSelected.profile_id);
         $('.slick-center').addClass('cardSelected');
-
-        // $('.cardSelected').off('centeredClick').remove('cardSelected');
-        // $('.slick-center')
-        //   .on('centeredClick', function(){
-        //     window.location.replace('/profile?id='+cardSelected.profile_id);
-        //   })
-        //   .click(function(){
-        //     $('.slick-center').trigger('centeredClick');
-        //   })
-        //   .addClass('cardSelected');
         
         var _rgb = Pard.Widgets.IconColor(cardSelected.color).rgb();
         var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
@@ -138,11 +122,6 @@ ns.Widgets = ns.Widgets || {};
     var _littleTextDiv= $('<div>');
     var _actionDiv = $('<div>');
     var _contactDiv = $('<div>'); 
-
-    var _logo = $('<a>').attr({
-      'href': '#'
-    }).append($('<div>').addClass('logo-welcomePage'));
-    var _logoBaseline = $('<div>').append($('<p>').text('your cultural community')).addClass('logoBaseline-welcomePage');
 
     _section.append(_entryDiv, _littleTextDiv, _actionDiv, _contactDiv);
 
