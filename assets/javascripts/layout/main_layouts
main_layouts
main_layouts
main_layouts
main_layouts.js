@@ -120,19 +120,50 @@ ns.Widgets = ns.Widgets || {};
     _entryDiv.append(_entryContentContainer.append(_entryContent));
     
     var _littleTextDiv= $('<div>').addClass('littleTextDiv').append(
-      $('<div>').append($('<h5>').text('nuevas posibilidades creadas por conexiones y enlaces')).addClass('welcomeSection-container'));
+      $('<div>').append($('<h5>').text('nuevas posibilidades culturales creadas por conexiones y enlaces')).addClass('welcomeSection-container'));
 
 
     var _actionDiv = $('<div>').addClass('actionDiv');
     var _actionContainer = $('<div>').addClass('welcomeSection-container');
-
-    _actionDiv.append(_actionContainer);
+    var _info1 = $('<div>').addClass('i-container');
+    var _info2 = $('<div>').addClass('i-container');
+    var _info3 = $('<div>').addClass('i-container');
+    var _innerCont = $('<div>').css({'width': '12rem'});
+    var _img1 = $('<div>').addClass('img1Box');
+    var _img2 = $('<div>').addClass('img2Box');
+    var _img3 = $('<div>').addClass('img3Box');
+    var _text1 = $('<div>').addClass('txtBox').append($('<p>').text('Aquí y ahora').css('font-weight','bold'), $('<p>').html('Descubre proyecto y déjate </br> conocer por lo que haces').addClass('txt_grey'));
+    var _text2 = $('<div>').addClass('txtBox').append($('<p>').text('Toma el control').css('font-weight','bold'), $('<p>').html('Lanza y gestiona </br> tu convocatoria').addClass('txt_grey'));
+    var _text3 = $('<div>').addClass('txtBox').append($('<p>').text('Hazlo').css('font-weight','bold'), $('<p>').html('Crea experiencias inolvidables </br> junto con los demás').addClass('txt_grey'));
+    _info1.append($('<div>').addClass('innerCont1').append(_img1, _text1));
+    _info2.append(_img2, _text2);
+    _info3.append($('<div>').addClass('innerCont3').append(_img3, _text3));
+    _actionDiv.append(_actionContainer.append(_info1, _info2, _info3));
 
     var _contactDiv = $('<div>').addClass('contactDiv');
     var _contactContainer = $('<div>').addClass('welcomeSection-container'); 
+    var _longText = $('<div>').append(
+      $('<p>').html('Un lugar donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, organizaciones, gestores culturales e instituciones </br>donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, y de dar valor a los proyectos mas allá de un solo encuentro. '),
+      $('<p>').html('Orfheo se basa en un concepto simple y potente: podemos hacer mas cosas juntos que por separado. </br> Creemos en el poder del compartir, en nuevas fronteras culturales posibles gracias al intercambio.'),
+      $('<p>').html('Actuar a nivel local y pensar en red globalmente de forma colaborativa es una oportunidad para compartir recursos, estimular, potenciar y crear nuevas posibilidades y enlaces.'),
+      $('<p>').html('<strong>TRABAJA EN RED CON Y PARA TU COMUNIDAD CULTURAL LOCAL </br> CONTACTANOS PARA LANZAR Y GESTIONAR TU CONVOCATORIA</strong>'),
+      $('<p>').html('<strong>En orfheo es posible lanzar y gestionar convocatorias artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro.</strong>')
+    ).addClass('longText');
     var _logoContact = $('<div>').addClass('logo-contactDiv');
+    var _contactForm = $('<div>').addClass('contactForm-container');
+    var _form = $('<form>');
+    var _nameInput = Pard.Widgets.Input('Nombre','text');
+    var _emailInput = Pard.Widgets.Input('Email','text');
+    var _subjectInput = Pard.Widgets.Input('Asunto','text');
+    var _mexInput = Pard.Widgets.TextArea('Mensaje',6);
+    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+      console.log(_nameInput.getVal());
+      console.log(_mexInput.getVal());
+    });
+    _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
+    _contactForm.append(_form, _submitBtn.render());
 
-    _contactDiv.append(_contactContainer.append(_logoContact));
+    _contactDiv.append(_contactContainer.append(_logoContact, _longText, _contactForm));
 
     _section.append(_entryDiv, _littleTextDiv, _actionDiv, _contactDiv);
 

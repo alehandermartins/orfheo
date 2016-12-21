@@ -161,6 +161,9 @@ main.mainWelcomePage{
     position: relative;
     height: 240px;
   }
+  .slick-list{
+      min-height: 240px;
+    }
   .slick-slide {
     width: 102px;
     height: 134px;
@@ -221,33 +224,110 @@ main.mainWelcomePage{
 .actionDiv{
   height: 25rem;
   position: relative;
-  width: 100%;
+  width: 100vw;
   text-align: center;
   margin: 0.5rem 0;
   background: $grey-1;
   .welcomeSection-container{
-    padding: 1.5rem 0;
+    padding: 5rem 0;
   }
+  .i-container{
+    width: 20.5rem;
+    height: 100%;
+    display: inline-block;
+    position: relative;
+  }
+  .innerCont1, .innerCont3{
+    position: absolute;
+    width: 12rem;
+    height: 100%;
+  }
+  .innerCont3{
+    right: 0;
+  }
+  .img1Box, .img2Box, .img3Box{
+    width: 5rem;
+    height: 5rem;
+    @include horizontal-center; 
+    top: 0;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  .img1Box{
+    background-image: url(<%= image_path 'orfheologonegro.png' %>);
+  }
+  .img2Box{
+    background-image: url(<%= image_path 'orfheologonegro.png' %>);
+  }
+  .img3Box{
+    background-image: url(<%= image_path 'orfheologonegro.png' %>);
+  }
+  .txtBox{
+    width: 12.1rem;
+    @include horizontal-center;
+    text-align: center;
+    bottom: 0;
+    .txt_grey{
+      font-size: $almostNormalSize;
+      color: $grey-4;
+    }
+  }
+
 }
 
 .contactDiv{
-  /* height: 25rem; */
   position: relative;
-  width: 100%;
-  text-align: center;
-  margin: 0.5rem 0 1.5rem 0;
+  width: 100vw;
+  margin-top: 0.5rem;
+  /* margin: 0.5rem 0 1.5rem 0; */
   background: $grey-1;
   .welcomeSection-container{
-    padding: 1.5rem 0;
+    padding: 5rem 0;
     position: relative;
+  }
+  .longText{
+    /* font-size: $almostNormalSize; */
+    color: $grey-4;
+    text-align: center;
+    @include horizontal-center;
+    position: relative;
+    width: 48rem;
+    margin-top: 4rem;
+    p{
+      margin-bottom: 1.5rem;
+    }
+  }
+  .contactForm-container{
+    width: 28rem;
+    text-align: center;
+    @include horizontal-center;
+    position: relative;
+    margin-top: 2.5rem;
+    input{
+      font-size: $almostNormalSize;
+      height: auto;
+      border: none;
+      box-shadow: none;
+    }
+    textarea{
+      font-size: $almostNormalSize;
+      border: none;
+      box-shadow: none;
+    }
+    button{
+      width: 9rem;
+      height: 3rem;
+      font-size: $almostNormalSize;
+      margin-top: 1rem;
+    }
   }
 }
 
 
 .logo-contactDiv{
   background-image: url(<%= image_path 'orfheologocolor.png' %>);
-  width: 150px;
-  height: 47px;
+  width: 144px;
+  height: 48px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   @include breakpoint(small down){ 
