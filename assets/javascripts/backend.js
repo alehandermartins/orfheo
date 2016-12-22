@@ -318,6 +318,19 @@
       );
     }
 
+    var _contact = function(name, email, subject, message, callback){
+      _send(
+        '/contact',
+        {
+          name: name,
+          email: email,
+          subject: subject,
+          message: message
+        },
+        callback
+      ); 
+    }
+
     return {
       register: _register,
       login: _login,
@@ -347,7 +360,8 @@
       saveProgram: _saveProgram,
       getCallForms: _getCallForms,
       listProfiles: _listProfiles,
-      events: _events
+      events: _events,
+      contact: _contact
     };
   }());
 

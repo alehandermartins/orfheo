@@ -54,6 +54,14 @@ module Services
             body: "<p> Orfheo te invita a inscribirte como participante en el VII Distrito 008 Festival Urbano de Extramurs!!!</p><p>Envía tu propuesta antes del 26 de diciembre, te lo ponemos muy fácil.</p><p>Puedes acceder a la convocatoria a través del siguiente link:</p><p><a href=\"http://www.orfheo.org/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6\">Orfheo/Extramurs</a></p>"
           }
         end
+
+        def contact user, payload
+          Pony.options = {
+            from: payload[:from],
+            subject: payload[:subject],
+            body: payload[:message]
+          }
+        end
       end
     end
   end
