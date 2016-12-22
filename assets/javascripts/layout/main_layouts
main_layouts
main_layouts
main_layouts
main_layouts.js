@@ -157,8 +157,11 @@ ns.Widgets = ns.Widgets || {};
     var _subjectInput = Pard.Widgets.Input('Asunto','text');
     var _mexInput = Pard.Widgets.TextArea('Mensaje',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      console.log(_nameInput.getVal());
-      console.log(_mexInput.getVal());
+      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
+        console.log(data);
+        console.log(_nameInput.getVal());
+        console.log(_mexInput.getVal());
+      });
     });
     _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
     _contactForm.append(_form, _submitBtn.render());

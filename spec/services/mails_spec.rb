@@ -29,6 +29,15 @@ describe Services::Mails do
     }
   }
 
+  let(:contact){
+    {
+      from: 'contacter@contact',
+      name: 'contacter',
+      subject: 'Contact',
+      message: 'message'
+    }
+  }
+
   let(:welcome_mail){Services::Mails.deliver_mail_to user, :welcome}
 
   describe 'Delivers mail' do
@@ -36,16 +45,16 @@ describe Services::Mails do
     it 'renders the receiver email' do
       expect(welcome_mail.to).to eq(['email@test.com'])
     end
-
-    it 'renders the sender' do
-      expect(welcome_mail.from).to eq(['no.reply.orfheo@gmail.com'])
-    end
   end
 
   describe 'Welcome mail' do
 
     it 'renders the subject' do
       expect(welcome_mail.subject).to eq('Bienvenido/a a Orfheo')
+    end
+
+    it 'renders the sender' do
+      expect(welcome_mail.from).to eq(["no.reply.orfheo@gmail.com"])
     end
 
     it 'assigns the validation code to the body' do
@@ -58,6 +67,10 @@ describe Services::Mails do
 
     it 'renders the subject' do
       expect(event_mail.subject).to eq('Bienvenido/a a Orfheo')
+    end
+
+    it 'renders the sender' do
+      expect(event_mail.from).to eq(["no.reply.orfheo@gmail.com"])
     end
 
     it 'assigns the validation code and event code to the body' do
@@ -73,6 +86,10 @@ describe Services::Mails do
       expect(password_mail.subject).to eq('Recupera tu cuenta')
     end
 
+    it 'renders the sender' do
+      expect(password_mail.from).to eq(["no.reply.orfheo@gmail.com"])
+    end
+
     it 'assigns the validation code to the body' do
       expect(password_mail.body).to include(validation_code)
     end
@@ -86,8 +103,29 @@ describe Services::Mails do
       expect(rejected_mail.subject).to eq('Propuesta rechazada')
     end
 
+    it 'renders the sender' do
+      expect(rejected_mail.from).to eq(["no.reply.orfheo@gmail.com"])
+    end
+
     it 'assigns the validation code to the body' do
       expect(rejected_mail.body).to include('Lamentablemente, organizer ha rechazado tu propuesta "title" para el event_name')
+    end
+  end
+
+  describe 'Contact' do
+
+    let(:contact_mail){ Services::Mails.deliver_mail_to user, :contact, contact}
+
+    it 'renders the subject' do
+      expect(contact_mail.subject).to eq('Contact')
+    end
+
+    it 'renders the sender' do
+      expect(contact_mail.from).to eq(['contacter@contact'])
+    end
+
+    it 'assigns the validation code to the body' do
+      expect(contact_mail.body).to include('<p>Mensaje de contacter</p><p>message</p>')
     end
   end
 end

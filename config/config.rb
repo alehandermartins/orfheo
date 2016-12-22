@@ -82,11 +82,9 @@ class BaseController < Sinatra::Base
       :key => 'rack.session',
       :secret => 'my_secret_cookie_session'
     }
-    #enable :sessions
   end
 
   options = {
-    :from => 'no.reply.orfheo@gmail.com',
     :headers => { 'Content-Type' => 'text/html' },
     :via => :smtp,
     :via_options => {
@@ -101,7 +99,6 @@ class BaseController < Sinatra::Base
   }
 
   # options = {
-  #   :from => 'no.reply.orfheo@gmail.com',
   #   :headers => { 'Content-Type' => 'text/html' },
   #   :via => :smtp,
   #   :via_options => {
@@ -119,8 +116,7 @@ class BaseController < Sinatra::Base
 
   configure :development, :test do
     @@db = Mongo::Client.new('mongodb://localhost:27017/Orfheo/cg_dev')
-    Pony.override_options = {:from => 'no.reply.orfheo@gmail.com', :via => :test }
-    Cloudinary.config do |config|
+    Pony.override_options = {:via => :test}
       config.cloud_name = 'hxgvncv7u'
       config.api_key = '844974134959653'
       config.api_secret = '2scRx2fF3Vuw1qS6tu0FGli69Po'
