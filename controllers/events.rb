@@ -78,8 +78,12 @@ class EventsController < BaseController
 
   get '/conFusion' do
     event = Repos::Events.get_event 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
-    program = [event[:program].first, event[:program][1]]
-    program.map!{|performance| 
+    program = event[:program]
+    program.map!{|performance|
+      performance[:participant_category] = performance[:participant_subcategory]
+      performance[:host_category] = performance[:host_subcategory]
+      performance.delete(:participant_subcategory)
+      performance.delete(:host_subcategory) 
       performance.delete(:comments)
       performance.delete(:confirmed)
       performance.delete(:participant_proposal_id)
