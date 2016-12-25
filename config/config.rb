@@ -117,6 +117,7 @@ class BaseController < Sinatra::Base
   configure :development, :test do
     @@db = Mongo::Client.new('mongodb://localhost:27017/Orfheo/cg_dev')
     Pony.override_options = {:via => :test}
+    Cloudinary.config do |config|
       config.cloud_name = 'hxgvncv7u'
       config.api_key = '844974134959653'
       config.api_secret = '2scRx2fF3Vuw1qS6tu0FGli69Po'
