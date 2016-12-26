@@ -19,7 +19,7 @@
 {"_id":{"$oid":"572a66fff70c930003000002"},"user_id":"392f87ee-f6aa-44df-9487-ad4f13998fe6","email":"alejandravega96@hotmail.com","password":"20039620a","validation":false,"validation_code":"4398ab0a-c0fe-4f56-b768-839d2b942049"}
 {"_id":{"$oid":"572a6eaef70c930003000003"},"user_id":"d2b16bd8-5d02-4f09-a60c-2d9cc38f11a6","email":"clemelies@gmail.com","password":"kankamomo","validation":true}
 {"_id":{"$oid":"572a8bac046d0a0003000001"},"user_id":"6d6efd9c-159c-4d6e-8084-f14ea0e54164","email":"alberto.delatorre@gmail.com","password":"c00lplace","validation":false,"validation_code":"60b2e5ae-c958-4409-9e1f-caab90119830"}
-{"_id":{"$oid":"572b0d0e9883bc0003000001"},"user_id":"94a7fad5-963e-46ae-9c09-aa14659bb288","email":"detripasaerosol@gmail.com","password":"malafama","validation":true,"validation_code":"b9166969-dcd2-42d1-953d-c5073517dad2"}
+{"_id":{"$oid":"572b0d0e9883bc0003000001"},"user_id":"94a7fad5-963e-46ae-9c09-aa14659bb288","email":"detripasaerosol@gmail.com","password":"malafama","validation":true}
 {"_id":{"$oid":"572b47d82b5e1a0003000001"},"user_id":"10083765-49f7-4a34-a671-359ee3e33097","email":"siduslx@gmail.com","password":"noestrella","validation":true}
 {"_id":{"$oid":"572b6170ebfa0e0003000001"},"user_id":"afafd91a-1289-4d00-b6fa-17dcbb6c89e9","email":"lidiacg13@gmail.com","password":"festival2016","validation":true,"validation_code":"43553e1b-ea52-4749-9d0c-1e7a297d8043"}
 {"_id":{"$oid":"572b6bf6ebfa0e0003000002"},"user_id":"b0cfd92c-8dd6-4422-b532-8d7bccf790c3","email":"jujureynaud@hotmail.com","password":"x7030903x","validation":true,"validation_code":"d7db31f7-1fed-44ce-ac84-ffc17198273c"}
@@ -27,7 +27,7 @@
 {"_id":{"$oid":"572bd6e7ff71ba0003000001"},"user_id":"fb364baf-ff57-437b-b41d-bd6fa536fd70","email":"inmagimenoalcover@gmail.com","password":"LCAbg361012","validation":true}
 {"_id":{"$oid":"572c5fafdc91b40003000001"},"user_id":"75b2efea-e06b-43cd-a783-d6c43030754d","email":"daniel-m-v@live.com","password":"confusion3#","validation":true}
 {"_id":{"$oid":"572c6689dc91b40003000002"},"user_id":"50180aaa-a684-4dbd-bfa2-8035315239a3","email":"arreuista@gmail.com","password":"beniconfusionfest","validation":true}
-{"_id":{"$oid":"572e33fdceb7dc0003000001"},"user_id":"e24417eb-d330-4262-9761-2a878d9ae685","email":"santycarbonel@gmail.com","password":"woolgraffitivalencia","validation":true}
+{"_id":{"$oid":"572e33fdceb7dc0003000001"},"user_id":"e24417eb-d330-4262-9761-2a878d9ae685","email":"santycarbonel@gmail.com","password":"uday1973","validation":true}
 {"_id":{"$oid":"572e6c8777487e0003000001"},"user_id":"9448f8ae-541f-4c38-90bf-ba3a9b90468c","email":"vivasara53@gmail.com","password":"adamcarson321","validation":true}
 {"_id":{"$oid":"572f45280853110003000001"},"user_id":"f6b0c007-d097-4e87-9368-9d7a31cbda65","email":"masdelomismoslg@hotmail.com","password":"quisicosas2","validation":false,"validation_code":"c01c7738-853d-4f2a-b4fe-7a2555a403dd"}
 {"_id":{"$oid":"572f4d140853110003000002"},"user_id":"fcd76e6e-331e-455d-9b61-643bf24d5e63","email":"cepuan@gmail.com","password":"cecilia2015","validation":true}
@@ -39,7 +39,7 @@
 {"_id":{"$oid":"57310d2e46cd250003000001"},"user_id":"ba2cb950-f797-4448-acd6-7198029ec7a6","email":"noelietta_lala@hotmail.com","password":"andreu89","validation":true,"validation_code":"0a524146-9336-4015-a95c-4827a830d9de"}
 {"_id":{"$oid":"5731a4d9ab63820003000001"},"user_id":"ce34b686-f8e7-4d37-ae7c-c1cfbfe4ec33","email":"quiquetellez@hotmail.com","password":"contrabajo74","validation":true,"validation_code":"9615ff3e-b661-4c74-b890-b10a76b2d128"}
 {"_id":{"$oid":"5731c388ab63820003000002"},"user_id":"aaaaecff-bed1-450f-bf4f-e9a8a09e00d8","email":"dyboski@hotmail.com","password":"claudia97","validation":true}
-{"_id":{"$oid":"57322679e8ccf60003000001"},"user_id":"af08d5d7-75e9-4167-be10-089d9de08e2b","email":"jjhedrosa@gmail.com","password":"pirupere","validation":true}
+{"_id":{"$oid":"57322679e8ccf60003000001"},"user_id":"af08d5d7-75e9-4167-be10-089d9de08e2b","email":"jjhedrosa@gmail.com","password":"pireciadansa2016","validation":true}
 {"_id":{"$oid":"5732f17db17e4b0003000001"},"user_id":"46713a34-b247-437c-a725-dc0e993a3264","email":"natemagoband@gmail.com","password":"rumbadumbadumba","validation":true,"validation_code":"f6e6ce98-743f-4837-bef9-cc19028a888e"}
 {"_id":{"$oid":"5732f223b17e4b0003000002"},"user_id":"a8814e2e-514f-45d0-818f-243ef3d9c7cb","email":"samadhisalud@gmail.com","password":"sancolumbano","validation":true,"validation_code":"838e70d8-cb6f-46f5-8f29-543761e5de82"}
 {"_id":{"$oid":"573318601129ba0003000001"},"user_id":"4bdb3b42-f4c8-4690-9792-34a268c2dd46","email":"an.torresaiz@gmail.com","password":"ichhassemeinleben","validation":true}
@@ -47,7 +47,7 @@
 {"_id":{"$oid":"57333fd11129ba0003000003"},"user_id":"273ebe66-f833-4c3c-8daf-79a6242894f5","email":"draregiobmob@gmail.com","password":"bukkakedepus","validation":true}
 {"_id":{"$oid":"5733640408b8120003000001"},"user_id":"0bc0390c-86aa-4b5a-8c1d-95d792dc5ce1","email":"santi.lacojadanza@gmail.com","password":"1976irake","validation":true,"validation_code":"20474aa8-ee05-43d2-a940-ad00484e32b9"}
 {"_id":{"$oid":"5733684008b8120003000002"},"user_id":"ba4c8dcf-024e-4c19-b084-0360bd8809f7","email":"elia.torrecilla@gmail.com","password":"49b-cCS-4oJ-Soh","validation":true,"validation_code":"ef13d514-5ecd-448e-a8d2-4e6c2b147cad"}
-{"_id":{"$oid":"5733c66e21cdad0003000001"},"user_id":"9d6711af-e240-49b2-a2a2-6f6a413549b7","email":"pietrogll@aol.com","password":"provaprova","validation":true}
+{"_id":{"$oid":"5733c66e21cdad0003000001"},"user_id":"9d6711af-e240-49b2-a2a2-6f6a413549b7","email":"pietrogll@aol.com","password":"pietrogll@aol.com","validation":true}
 {"_id":{"$oid":"573447c1009f640003000001"},"user_id":"0202e7e1-1fc2-434e-838c-dec1ca87b52a","email":"jazznoize@hotmail.com","password":"Murcia17","validation":true,"validation_code":"c8a06156-187a-4f91-b15f-74f69ed68f55"}
 {"_id":{"$oid":"573451f8009f640003000002"},"user_id":"bb35df51-60dd-4608-b402-2f3a94dff911","email":"institutogcu@gmail.com","password":"22071970","validation":true}
 {"_id":{"$oid":"5734cde7009f640003000003"},"user_id":"9cd1c582-ac7c-4d38-8899-5d62214310be","email":"noemi_vlc14@hotmail.com","password":"capitane14","validation":true,"validation_code":"da262dca-b080-4320-8f92-f28b0fcb1cde"}
@@ -81,7 +81,7 @@
 {"_id":{"$oid":"5746352c4c8e380003000001"},"user_id":"215c94d0-fcd3-49bb-8df5-f32b098d0462","email":"pablogabaldon@msn.com","password":"republica1931","validation":true}
 {"_id":{"$oid":"5746d7bfe9b93e0003000001"},"user_id":"90fdaf24-e7a9-4124-9218-6544120c4995","email":"denebv@gmail.com","password":"zxczxczxczxc","validation":true}
 {"_id":{"$oid":"5746e564e9b93e0003000002"},"user_id":"3450f23f-e692-46de-a400-6cc73c8cdfbc","email":"andreayseacabo@hotmail.com","password":"lapersiana","validation":true}
-{"_id":{"$oid":"574755c1e8e8440003000001"},"user_id":"9c29fafc-5c6c-45c7-9319-e930f3a18435","email":"marjesvannisan@yahoo.com","password":"jazminesdorados","validation":true}
+{"_id":{"$oid":"574755c1e8e8440003000001"},"user_id":"9c29fafc-5c6c-45c7-9319-e930f3a18435","email":"marjesvannisan@yahoo.com","password":"Pintoresenelmar","validation":true}
 {"_id":{"$oid":"5747708ae8e8440003000002"},"user_id":"a2fabdb9-8b52-4cf8-ba33-f3bfd922daf6","email":"sinmenosnimas@gmail.com","password":"blaucel1991","validation":true,"validation_code":"52834972-61c4-4ef2-83fc-f5af7d2bb2cd"}
 {"_id":{"$oid":"5747f6e54f6d860003000001"},"user_id":"6103ecd9-6860-4be8-a5a6-a44db27ee4e5","email":"Lujuasan@gmail.com","password":"artbeniass","validation":true}
 {"_id":{"$oid":"5747f9cd4f6d860003000002"},"user_id":"4e240266-d10b-4b80-8ee9-25b64ed446c5","email":"paumik6@gmail.com","password":"Hermano6","validation":true}
@@ -102,7 +102,7 @@
 {"_id":{"$oid":"574efd58b187a40003000006"},"user_id":"7ebdcb45-e432-4239-a6c2-5ea286b0d08c","email":"diegoniros@gmail.com","password":"DPm291097DPm","validation":false,"validation_code":"700ae0d5-219b-47e5-a8e1-0b21176ff15d"}
 {"_id":{"$oid":"574f55b01d101f0003000001"},"user_id":"1a0c7a82-8471-4854-b6ee-ba2d91f58115","email":"cristina.salmeron@hotmail.es","password":"09011979libertad","validation":true}
 {"_id":{"$oid":"574ffa1367168c0003000001"},"user_id":"b0b19813-5793-46d6-a770-5f6ea38adf01","email":"lachicaimperdible@hotmail.com","password":"macedonia1990","validation":true}
-{"_id":{"$oid":"5750044867168c0003000002"},"user_id":"94731fa9-ce9e-4e9c-b63d-cfa8ab848f0d","email":"micaldito@gmail.com","password":"miguelito","validation":true}
+{"_id":{"$oid":"5750044867168c0003000002"},"user_id":"94731fa9-ce9e-4e9c-b63d-cfa8ab848f0d","email":"micaldito@gmail.com","password":"maga1964","validation":true}
 {"_id":{"$oid":"5750347767168c0003000003"},"user_id":"97c26498-3516-4b8a-bcd2-9d9e1f6b4c16","email":"wehavetheflag@gmail.com","password":"carlomagno","validation":true}
 {"_id":{"$oid":"57504f3567168c0003000004"},"user_id":"998fce61-1177-4b02-a10f-e72414e3e20c","email":"galafontdemora@gmail.com","password":"26noviembre1989","validation":true}
 {"_id":{"$oid":"5751a90403093c0003000001"},"user_id":"5b25782a-d343-44de-940b-6dd9fc83dbbe","email":"carlagabarda@hotmail.com","password":"mononoke","validation":true}
@@ -177,7 +177,7 @@
 {"_id":{"$oid":"575da0c9165ef10003000001"},"user_id":"61c2ea93-9505-43fe-a4b8-a2823d8c2631","email":"danielrosell@gmail.com","password":"mesoreal19","validation":true}
 {"_id":{"$oid":"575dab22165ef10003000002"},"user_id":"af9a6ba8-a296-4c20-aaee-f58e3e541da6","email":"gmle77@hotmail.com","password":"cortazar1234","validation":true}
 {"_id":{"$oid":"575dcf10452f060003000001"},"user_id":"7f44853d-1c86-4af2-9356-56b7ab05fc9d","email":"descataloga2@hotmail.com","password":"confundi2","validation":true}
-{"_id":{"$oid":"575de3c9cf1a010003000001"},"user_id":"3727c1c3-cb38-4f3a-ae2e-16903425275a","email":"celia-k@hotmail.com","password":"artshow16","validation":true,"validation_code":"e514a9d9-72b8-4b68-9219-fe45f563f3c9"}
+{"_id":{"$oid":"575de3c9cf1a010003000001"},"user_id":"3727c1c3-cb38-4f3a-ae2e-16903425275a","email":"celia-k@hotmail.com","password":"artshow16","validation":true}
 {"_id":{"$oid":"575e5523e6b1cb0003000001"},"user_id":"5769508a-d751-41d4-b161-927b4d8e9c08","email":"pep.sales@uv.es","password":"kilame5kilame5","validation":true}
 {"_id":{"$oid":"575e7c99e6b1cb0003000002"},"user_id":"b365b33e-597f-491c-9374-a211ce41c7ae","email":"jovazgar@hotmail.com","password":"porqueunomasuno","validation":true}
 {"_id":{"$oid":"575e7e1ae6b1cb0003000003"},"user_id":"c09b48bd-f440-48a9-9b1a-099cbfe54a28","email":"tusilao@gmail.com","password":"INGELOSI1","validation":true}
@@ -189,7 +189,7 @@
 {"_id":{"$oid":"575e9509e6b1cb0003000009"},"user_id":"773082e0-e175-45cf-9cad-71d160862732","email":"nurcrespoperez@gmail.com","password":"conlimonisal","validation":true}
 {"_id":{"$oid":"575e97d7e6b1cb000300000a"},"user_id":"133bdff5-48ad-47b1-a730-591452f61c9b","email":"dialoga2.psicofilosofia@gmail.com","password":"stuartminion","validation":true}
 {"_id":{"$oid":"575e9a79e6b1cb000300000b"},"user_id":"184884fc-b4d1-46e5-8968-447259c65c31","email":"carolina.fdez.moreno@gmail.com","password":"926511957","validation":true}
-{"_id":{"$oid":"575e9b4be6b1cb000300000c"},"user_id":"6e2e8630-427c-422d-bdfe-b885b1552673","email":"contactmollusque@gmail.com","password":"confundidos","validation":true}
+{"_id":{"$oid":"575e9b4be6b1cb000300000c"},"user_id":"6e2e8630-427c-422d-bdfe-b885b1552673","email":"contactmollusque@gmail.com","password":"nautilus","validation":true}
 {"_id":{"$oid":"575ea798e6b1cb000300000d"},"user_id":"626de973-1da5-4907-ad1c-dd2f02d1a0a0","email":"santibayonart@gmail.com","password":"mecedoramecanica","validation":true}
 {"_id":{"$oid":"575eaebde6b1cb000300000e"},"user_id":"2dba5ab1-9b4d-4181-a3a4-e2a6e7f050ba","email":"azulprusia@hotmail.es","password":"maurothecat","validation":true}
 {"_id":{"$oid":"575eb0d1e6b1cb000300000f"},"user_id":"c6559838-38f6-4b0d-b115-e764970567ca","email":"pimpampume@gmail.com","password":"pimpampume","validation":true}
@@ -209,7 +209,7 @@
 {"_id":{"$oid":"575f1974e6b1cb000300001d"},"user_id":"c0409222-e8db-4327-bf2e-0288b831cb22","email":"xemayo@hotmail.com","password":"Hech0demen0s","validation":true}
 {"_id":{"$oid":"575f2c98e6b1cb000300001e"},"user_id":"14bdf539-717a-4296-8a95-1f2cc58d6b39","email":"dak.m24@gmail.com","password":"46anyrcepem","validation":true}
 {"_id":{"$oid":"575f3703e6b1cb000300001f"},"user_id":"b940db33-5ffc-40ca-a574-ec7b277851bc","email":"fpuertag@dib.upv.es","password":"123456Siete","validation":true}
-{"_id":{"$oid":"575f42b5e6b1cb0003000020"},"user_id":"d9952795-dc4f-40ec-a335-96af924f433e","email":"janitorscanoson79@outlook.es","password":"cabezuelo1979","validation":true}
+{"_id":{"$oid":"575f42b5e6b1cb0003000020"},"user_id":"d9952795-dc4f-40ec-a335-96af924f433e","email":"janitorscanoson79@outlook.es","password":"grupoaudiovisualjanitors1979","validation":true}
 {"_id":{"$oid":"575f97d5d687d60003000001"},"user_id":"3d4c2542-22fa-4030-8d87-f771a1b518f2","email":"borisolver@gmail.com","password":"redbobband","validation":true}
 {"_id":{"$oid":"575fc91dd687d60003000002"},"user_id":"bb074c21-651f-4786-bd00-dd8245b37d04","email":"juventudeslibertariasmasanasa@gmail.com","password":"darioyalbamolan23","validation":true}
 {"_id":{"$oid":"575fd116d687d60003000003"},"user_id":"8df346eb-bbf6-4a60-af92-612d29e295ce","email":"arbretbenimaclet@gmail.com","password":"roma2007!","validation":true}
@@ -253,7 +253,7 @@
 {"_id":{"$oid":"57615c86b09bb9000300000d"},"user_id":"ba6abdb2-4ae9-456a-ada6-7c2d188c1104","email":"alba.gomezb.89@gmail.com","password":"gobarrero89","validation":true}
 {"_id":{"$oid":"57616133b09bb9000300000e"},"user_id":"196d62fd-17bb-4589-8ed4-a4b6c422dc47","email":"zetstudio13@gmail.com","password":"violetavampiro","validation":true}
 {"_id":{"$oid":"576172a1b09bb9000300000f"},"user_id":"d6de0823-301b-4ceb-b7be-f165edca85ab","email":"bagpez@gmail.com","password":"1819blnk","validation":true}
-{"_id":{"$oid":"576178fbb09bb90003000010"},"user_id":"56e27bd4-6254-414c-ae8c-5df101169e90","email":"adrian.gdelcampo@gmail.com","password":"wlk000alone69","validation":true}
+{"_id":{"$oid":"576178fbb09bb90003000010"},"user_id":"56e27bd4-6254-414c-ae8c-5df101169e90","email":"adrian.gdelcampo@gmail.com","password":"walk000alone69","validation":true}
 {"_id":{"$oid":"57617b94b09bb90003000011"},"user_id":"69aa568c-e827-4b08-ad4b-0994af090810","email":"mundocarioca@live.com","password":"kiwidomori2016","validation":true}
 {"_id":{"$oid":"576197ffb09bb90003000012"},"user_id":"0aec5217-36ae-425e-b547-7af34ca602ea","email":"sinpropinarock@gmail.com","password":"pagarestemescabrones","validation":true}
 {"_id":{"$oid":"5761983eb09bb90003000013"},"user_id":"8aea456c-29b2-442b-837d-5798a6e16ce0","email":"liber.21@hotmail.com","password":"llllll78","validation":true}
@@ -332,7 +332,7 @@
 {"_id":{"$oid":"58034f2abdcfe00003000001"},"user_id":"b3a28810-9a24-41bc-be76-c5b912825322","email":"orofinovirginia@gmail.com","password":"virginia38","validation":true}
 {"_id":{"$oid":"58035be0b1df670003000001"},"user_id":"65343463-15b5-4e08-8ee4-3725b4db04d7","email":"recordablemente@gmail.com","password":"618137844","validation":true}
 {"_id":{"$oid":"5804f7cb801dd70003000001"},"user_id":"59b184d5-8060-4c6f-9d33-fb97925975ad","email":"robertamarangon1993@gmail.com","password":"Atrebor.93","validation":false,"validation_code":"7160ec3a-484f-445a-861d-090bc03ce0da"}
-{"_id":{"$oid":"58051f66801dd70003000002"},"user_id":"9145f1c5-81a2-4a00-a9f8-59f6b42c8adb","email":"correodejosepsilla@gmail.com","password":"clownjosep7435","validation":true}
+{"_id":{"$oid":"58051f66801dd70003000002"},"user_id":"9145f1c5-81a2-4a00-a9f8-59f6b42c8adb","email":"correodejosepsilla@gmail.com","password":"orfheonjosep7435","validation":true}
 {"_id":{"$oid":"58246a3cd22df0000401f3dc"},"user_id":"98668778-f7ff-435a-97db-eb666004ad43","email":"laia_folch@hotmail.com","password":"buenosdias","validation":true}
 {"_id":{"$oid":"5824d69bd22df0000401f3dd"},"user_id":"bbeba06b-1f30-408d-a1bc-14c9f98efe2j","email":"distrito008valencia@gmail.com","password":"masalladelosmuros","validation":true}
 {"_id":{"$oid":"5832d5c849883f00042d68dc"},"user_id":"ff293016-4c48-4cef-b4a6-ec5a4dc978f8","email":"estrellajover@gmail.com","password":"recorcholis123","validation":true}
@@ -360,3 +360,38 @@
 {"_id":{"$oid":"58405ef6d8e72b0004f276d0"},"user_id":"47b90008-7805-4ff3-a103-da083d14f8c2","email":"anourestaurante@gmail.com","password":"963912986anou","validation":true}
 {"_id":{"$oid":"584083c4d8e72b0004f276d1"},"user_id":"aad34d86-574e-4fed-989b-f1fcd13fc532","email":"mcarmendebon@gmail.com","password":"Mensin1968","validation":true}
 {"_id":{"$oid":"5840d105e1a0d60004c31b73"},"user_id":"41f7e262-9e8d-42c0-931c-e44f5a9643af","email":"alfonsoriera93@hotmail.com","password":"aaaaaaaa","validation":true}
+{"_id":{"$oid":"584260e95a17b10004c10fcb"},"user_id":"7d335449-5f22-498b-8b74-b2dccb2f6c03","email":"alejandra@nuscaa-ceramicas.com","password":"Tacobebe1","validation":false,"validation_code":"8c3052ba-7bb9-4f4e-8795-d00a1ac5d628"}
+{"_id":{"$oid":"584261ee5a17b10004c10fcc"},"user_id":"805a2a9d-2159-4e19-861f-d0de1240f736","email":"ale.nuscaa@gmail.com","password":"Tacobebe1","validation":true}
+{"_id":{"$oid":"5842e393757a5b00040de96e"},"user_id":"7f624822-9391-423d-88cf-5ce3764d5424","email":"guillermodenaire@hotmail.com","password":"mortadela1","validation":true}
+{"_id":{"$oid":"58447cdb6e7ebd00048eda68"},"user_id":"c251ceb2-04cf-439b-9d02-520c20e4182b","email":"pifades@gmail.com","password":"orfheoafrica","validation":true}
+{"_id":{"$oid":"5844b20b6e7ebd00048eda69"},"user_id":"3a5762bd-8814-43b6-a581-9eed89a39ce5","email":"c_gimeno_96@hotmail.es","password":"1porSiempre","validation":true}
+{"_id":{"$oid":"5846874e85d4d4000459b57f"},"user_id":"9d5bf132-088d-4919-8998-85c5d1f8debc","email":"info@ciacai.com","password":"noeslaboca","validation":true}
+{"_id":{"$oid":"5846e66b85d4d4000459b580"},"user_id":"75e0920b-459a-4676-aa70-59fbd4cd9aea","email":"fabriziopotestad@gmail.com","password":"oyagutro76","validation":true}
+{"_id":{"$oid":"584715d6c22366000456ab4a"},"user_id":"1eaa3845-9898-4309-b956-229646c2ed8d","email":"greenbed@hotmail.com","password":"chimpongo","validation":true}
+{"_id":{"$oid":"58472ea4c22366000456ab4b"},"user_id":"4c7a51eb-6015-4d94-93e5-9a44ad756a1d","email":"larockeriavalencia@gmail.com","password":"larockeriarockbar","validation":true}
+{"_id":{"$oid":"5847307cc22366000456ab4c"},"user_id":"93912750-f8bc-426c-97b0-f2c2e598ec5d","email":"minidisckmusic@gmail.com","password":"japanesefalcon","validation":true}
+{"_id":{"$oid":"5847e419c22366000456ab4d"},"user_id":"4d827e5b-d974-4768-9054-8b5feb78cd65","email":"grocteatre@gmail.com","password":"447za14m","validation":true}
+{"_id":{"$oid":"5847ee66c22366000456ab4e"},"user_id":"ede5e007-8cf8-455d-9998-1755e9da250f","email":"Info@eduardobermejo.com","password":"34434334","validation":true}
+{"_id":{"$oid":"5847f165c22366000456ab4f"},"user_id":"7fd7b534-9120-48d0-8fa8-7246c3309c1e","email":"raul@tallerdelutheria.com","password":"Rinaldo1264","validation":true}
+{"_id":{"$oid":"584806f4c22366000456ab50"},"user_id":"b6a88da0-ad29-4c20-8780-2c49ea578fd8","email":"closepaints@gmail.com","password":"molomazo1625","validation":true}
+{"_id":{"$oid":"58482b95c22366000456ab51"},"user_id":"41fef93a-7f1d-4bed-9fe3-b84fcf122baf","email":"nickelsband@gmail.com","password":"niqueladossomos33","validation":true}
+{"_id":{"$oid":"584944e555cc9b0004bb9cde"},"user_id":"7eadd446-6e92-4f60-82f0-388eafd40d6b","email":"sondacigrupo@gmail.com","password":"la negra tomasa","validation":true}
+{"_id":{"$oid":"58497c4355cc9b0004bb9cdf"},"user_id":"397e0814-1f4b-4485-915a-de1c547af8f3","email":"miguel@pinkintruder.com","password":"8nn08555","validation":true}
+{"_id":{"$oid":"584aa1df4e005b0004bc4d53"},"user_id":"8cf2f2c6-c506-4b56-8077-11a43e4aedab","email":"louisianaliquor@gmail.com","password":"niqueladossomos33","validation":true}
+{"_id":{"$oid":"584aa9d64e005b0004bc4d54"},"user_id":"3b2a5ce1-7c1a-408a-b496-6502c138d996","email":"jordi@bigthingmusic.com","password":"millerssin","validation":true}
+{"_id":{"$oid":"584ae0004e005b0004bc4d55"},"user_id":"fb3f93f5-7f6d-41df-8e8a-34d74f956250","email":"ana.roussel@gmail.com","password":"hannadistrito","validation":true}
+{"_id":{"$oid":"584eb12d934c2d0004767505"},"user_id":"c3d4b3d3-c8b3-48ef-af4d-e74fffc058d6","email":"signos.asociacion@gmail.com","password":"11vidass","validation":true}
+{"_id":{"$oid":"585135409a34050004eef549"},"user_id":"a3a11caa-2fa1-482f-928c-688430034b27","email":"elisabetta.valci@yahoo.it","password":"besebetta.","validation":true}
+{"_id":{"$oid":"58526fe07805ad0004ff2457"},"user_id":"b94a87ab-ff59-4e71-8edb-376b7676b1fa","email":"stratosvalenciavlc@hotmail.com","password":"doremifasol8","validation":true}
+{"_id":{"$oid":"585290c27805ad0004ff2458"},"user_id":"3f0b7750-31a2-4d58-8d63-7d24f22692dd","email":"ferran@fadunito.com","password":"fadunito","validation":true}
+{"_id":{"$oid":"5854033c48ffbf000426761c"},"user_id":"e920e441-29af-42fd-8f1d-0818c416d48d","email":"estudiopepino@gmail.com","password":"benimaclet","validation":true}
+{"_id":{"$oid":"585429b65107d700048b7873"},"user_id":"b1861af9-4199-4300-bc26-d4a878a1b56f","email":"soyjoel@gmail.com","password":"soyorfeao","validation":true}
+{"_id":{"$oid":"58557ece5107d700048b7874"},"user_id":"681fa72c-611b-405b-a61f-0a95ddafed78","email":"Joanfusrock@gmail.com","password":"sareta12","validation":true}
+{"_id":{"$oid":"5856ac3e339ac20004beaf20"},"user_id":"98548a46-c2cf-4ca6-995c-5b4ced4dc96d","email":"macarmur@gmail.com","password":"bfr5353V2016(==)","validation":true}
+{"_id":{"$oid":"5857b839dd24c80004efc4ae"},"user_id":"86dce753-15d9-4654-a9ee-d27de675fe19","email":"voletemps@gmail.com","password":"saramunku","validation":true}
+{"_id":{"$oid":"5857d9b4dd24c80004efc4af"},"user_id":"42f366c2-9096-4c59-8c5b-d9c660e769fa","email":"latracaderibes@gmail.com","password":"hardkore17","validation":true}
+{"_id":{"$oid":"58593117b7143e0004c62cc1"},"user_id":"3bec3f00-eea3-43cb-9665-cd26ba5761a3","email":"maria.cavagnero@gmail.com","password":"marytir2016","validation":true}
+{"_id":{"$oid":"585bb713390540000442eac4"},"user_id":"53d2483d-6c2e-4bb6-99db-0220d4d3ac4d","email":"asociacionculturalgran.hado@gmail.com","password":"destino710","validation":true}
+{"_id":{"$oid":"585c1cd6390540000442eac5"},"user_id":"c0ee5661-0904-46dc-bb36-a424e9a2d13f","email":"continental.tienda@gmail.com","password":"Distrito008VII","validation":true}
+{"_id":{"$oid":"585cea04390540000442eac6"},"user_id":"5ba007cf-e7f6-4bb8-a59f-0ae83365edf7","email":"csm.djp@gmail.com","password":"Fingertalk01","validation":true}
+{"_id":{"$oid":"585d180fc4553100046ad316"},"user_id":"7578dc86-5035-4591-9b31-2617618f2268","email":"mariadolzgarcia@gmail.com","password":"mariadolcetaaa","validation":true}

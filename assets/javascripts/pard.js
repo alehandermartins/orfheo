@@ -28,21 +28,21 @@ var DetectTrackingProtection = function(){
 	var _alertContainer = $('<div>');
 	$('body').prepend(_alertContainer);
 	$.wait(
-    '', 
+    '',
     function(){
        $('<img/>')
 	        .attr("src", "http://apps.facebook.com/favicon.ico")
 	        .load(function(){
-	        	canreach = true; 
+	        	canreach = true;
 	        	_alertContainer.remove()
 	        })
 	        .css("display", "none")
 	        .appendTo($('body'));
-    }, 
+    },
     function(){
       $(window).load(function(){
-        setTimeout(function(){	
-        	if (!(canreach)) { 	
+        setTimeout(function(){
+        	if (!(canreach)) {
 					var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
 					var _alertText = $('<p>').html('No se pueden cargar correctamente todos los contenidos de esta  página. Es muy probable que sea por tener habilitada la función de "tracking protection" del navegador. Para una mejor experiencia, se recomienda desactivarla.').addClass('text-browser-alert');
 					_alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('browser-alert callout').attr('data-closable','');
@@ -52,5 +52,25 @@ var DetectTrackingProtection = function(){
     }
   );
 }
-DetectTrackingProtection();
 
+var CookieAlert = function(){
+  var _alertContainer = $('<div>');
+  $('body').prepend(_alertContainer);
+  $(window).load(function(){
+    //Descomentar la siguiente linea para borrar localStorage y poder hacer pruebas
+    //localStorage['orfheo'] = JSON.stringify('');
+    var orfheoStorage = JSON.parse(localStorage['orfheo']);
+    if(!orfheoStorage) {
+      orfheoStorage = {}
+      var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('Acepto').attr('aria-hidden','true'));
+      _closeButton.on('click', function(){
+        orfheoStorage['cookies'] = true;
+        localStorage['orfheo'] = JSON.stringify(orfheoStorage);
+      });
+      var _alertText = $('<p>').html('Nos obligan a molestarte con la obviedad de que este sitio usa cookies.').addClass('text-browser-alert');
+      _alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('browser-alert callout').attr('data-closable','');
+    }
+  });
+}
+DetectTrackingProtection();
+CookieAlert();
