@@ -44,6 +44,8 @@ NAV WELCOME PAGE
 .container-loginNavHeader{
   width: 17rem;
   height: 13.5rem;
+  top: 27px !important;
+  left: -220px !important;
   form{
     margin: 0;
     @include horizontal-center;
@@ -57,19 +59,17 @@ NAV WELCOME PAGE
 .loginContainer{
   position: absolute;
   right: 0;
-  top: 0.5rem;
-  .menu{
+  top: 0.8rem;
+  .loginText{
+    color: white;
     display: inline-block;
     vertical-align: middle;
-    margin-right: 0.5rem;
+    margin-right: 1.5rem;
   }
-  a.loginText{
-    color: white;
-  }
-  a.loginText:hover{
+  .loginText:hover{
     color: $grey-1;
   }
-  a.loginText.clicked{
+  .loginText.clicked{
     color: $grey-2;
   }
   .signUp-welcomePage{
@@ -83,7 +83,7 @@ NAV WELCOME PAGE
   li{
     display: inline-block;
     text-transform: uppercase;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
     a{
       color: white;
     }
@@ -3478,8 +3478,3 @@ CROWDFUNDING
   }
 }
 
-
-
-.pdfTableHeader{
-  
-}

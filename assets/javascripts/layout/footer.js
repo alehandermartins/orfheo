@@ -19,7 +19,6 @@ ns.Widgets = ns.Widgets || {};
 
     var _langMessage = Pard.Widgets.LanguagesMessage();
     var _langCaller = $('<a>').attr('href','#').html('Idiomas');
-    // _languages.click(function(){Pard.Widgets.Alert('',_langMessage)});
     var _langPopup = Pard.Widgets.PopupCreator(_langCaller, '', function(){return _langMessage});
     var _languages = _langPopup.render();
     _languages.addClass('footer-text-link');
@@ -36,10 +35,24 @@ ns.Widgets = ns.Widgets || {};
 
     _leftContent.append(_information, _termsAndConditions, _languages);
 
-    var _project = $('<span>').text('orfheo proyecto comunitario');
-    var _place = $('<span>').text('Benimaclet, Valencia 2016');
+    // var _project = $('<span>').text('orfheo proyecto comunitario');
+    // var _place = $('<span>').text('Benimaclet, Valencia 2016');
+    var _content = $('<div>').addClass('very-fast reveal full');
+    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    $(document).ready(function(){
+      $('body').append(_content);
+    });
+    var _contactaOrfheo = $('<span>').append($('<a>').text('contacta orfheo').attr('href','#'))
+      .css({'font-size': '14px'})
+      .one('click',function(){
+        _content.append(Pard.Widgets.ContactInfo(_popup));
+      })
+      .on('click',function(){
+        _popup.open();
+      });
 
-    _rightContent.append(_project, ' | ', _place);
+    // _rightContent.append(_project, ' | ', _place);
+    _rightContent.append(_contactaOrfheo);
 
     _container.append(_leftContent,_rightContent);
     _grid.append(_container);
@@ -51,6 +64,84 @@ ns.Widgets = ns.Widgets || {};
       }
     }
   }
+
+
+  ns.Widgets.ContactInfo = function(_popup){
+
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>');
+    _popupContent.addClass('popup-container-full contactInfo-popup-bigalert'); 
+    var _sectionContainer = $('<section>').addClass('popup-content');
+   
+    var _closeBtn = $('<button>').addClass('close-button small-1 ')
+      .attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'})
+      .append($('<span>').attr('aria-hidden', true).html('&times;'));
+
+    _closeBtn.click(function(){
+      _popup.close();
+    });
+
+    var _header = $('<div>').addClass('header-contactInfo');
+    var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
+    var _menuContainer = $('<div>').addClass('menu-centered');
+    var _menu = $('<ul>').addClass('menu');
+    var _tecnicalSupport = $('<li>').text('Soporte técnico').click(function(){
+      $('.shown').hide();
+      _tecnicalSupportCont.show().addClass('shown');
+    });
+    var _colaboration = $('<li>').text('colabora').click(function(){
+      $('.shown').hide();
+      _colaborationCont.show().addClass('shown');
+    });
+    var _services = $('<li>').text('Servicios').click(function(){
+      $('.shown').hide();
+      _servicesCont.show().addClass('shown');
+    });
+    var _contact = $('<li>').text('Contacto').click(function(){
+      $('.shown').hide();
+      _contactCont.show().addClass('shown');
+    });
+    var _feedback = $('<li>').text('Feedback').click(function(){
+      $('.shown').hide();
+      _feedbackCont.show().addClass('shown');
+    });
+    _menuContainer.append(_menu.append(_tecnicalSupport, _colaboration, _services, _contact, _feedback));
+    _header.append(_logo, _menuContainer, _closeBtn);
+
+    var _tecnicalSupportCont = $('<div>').addClass('shown tecnicalSupport-contactInfo');
+    var _colaborationCont = $('<div>').hide().addClass('colaboration-contactInfo');
+    var _servicesCont = $('<div>').hide().addClass('services-contactInfo');
+    var _contactCont = $('<div>').hide().addClass('contact-contactInfo');
+    var _feedbackCont = $('<div>').hide().addClass('feedback-contactInfo');
+
+    var _titleTecn = $('<h5>').text('¿Como podemos ayudarte?');  
+    _tecnicalSupportCont.append(_titleTecn);
+    var _textColumn = $('<div>').append($('<p>').text('Estamos aquí para proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.'), $('<p>').text('Te contestaremos enseguida.'), $('<p>').text(':)')).addClass('half-col');
+    var _nameInput = Pard.Widgets.Input('Nombre*','text');
+    var _emailInput = Pard.Widgets.Input('Email*','text');
+    var _subjectInput = Pard.Widgets.Input('Asunto','text');
+    var _profileInput = Pard.Widgets.Input('Nombre del perfil orfheo en cuestión', 'text');
+    var _browserInput = Pard.Widgets.Input('Navegador que utilizas', 'text');
+    var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
+    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
+        console.log(data);
+        console.log(_nameInput.getVal());
+        console.log(_mexInput.getVal());
+      });
+    });
+    var _formColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _profileInput.render(), _browserInput.render(), _mexInput.render()), _submitBtn.render()).addClass('half-col');
+    _tecnicalSupportCont.append(_textColumn, _formColumn);
+
+    _sectionContainer.append(_tecnicalSupportCont, _colaborationCont, _servicesCont, _contactCont, _feedbackCont);
+
+    _popupContent.append(_header, _sectionContainer);
+    _outerContainer.append(_container.append(_popupContent));
+
+    return _outerContainer;
+  }
+
 
   ns.Widgets.LanguagesMessage = function (){
     var _createdWidget = $('<div>');
