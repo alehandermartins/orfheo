@@ -157,6 +157,12 @@
 
     var _part5 = $('<div>').append(_subtitle5, _mex5).addClass('conditions-par');
 
+    var _subtitle5_5 = $('<h5>').text('Sostenibilidad del proyecto:').addClass('subtitle-conditions');
+
+    var _mex5_5  = '<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos después de haber analizado el tipo de evento que se quiere organizar.</p>'
+
+    var _part5_5 = $('<div>').append(_subtitle5_5, _mex5_5).addClass('conditions-par');
+
 
     var _subtitle6 = $('<h5>').text('Actualizaciones:').addClass('subtitle-conditions');
 
@@ -170,7 +176,7 @@
     var _finalMex = $('<div>').html('<p> Si tienes preguntas o sugerencias  envía un correo electrónico a <a href="mailto:info@orfheo.org"> info@orfheo.org</a>.</p> <p> Gracias por leer hasta aquí. Esperamos que disfrutes dentro y fuera orfheo. </br> Tu participación al crear, mantener y mejorar este lugar es imprescindible. </p> <p> Apreciamos que te hayas tomado tu tiempo para informarte sobre el proyecto, y te agradecemos que contribuyas. Mediante lo que haces, estás ayudando a construir algo realmente importante, no sólamente una conexión de proyectos compartidos de manera colaborativa, sino también una vibrante comunidad enfocada en una muy noble meta. </p>')
 
 
-    _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part6, _subtitle7, _finalMex);
+    _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part5_5, _part6, _subtitle7, _finalMex);
 
     return{
       render: function(){

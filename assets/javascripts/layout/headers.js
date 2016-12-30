@@ -11,16 +11,13 @@ ns.Widgets = ns.Widgets || {};
     var _content = $('<div>').addClass('contentNavHeader');
 
     var _showHide = function(id_){
-    	$('.selected').removeClass('selected');
     	$('.visible').hide().removeClass('visible');
     	$('#'+id_).addClass('visible').show();
     }
 
-
-
     var _logo = $('<button>').append($('<div>').addClass('logoNavHeader')).attr('type','button')
     	.click(function(){
-    		$('.selected').addClass('selected');
+    		$('.selected').removeClass('selected');
     		_showHide('welcomeSection');
     	});
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
@@ -57,17 +54,20 @@ ns.Widgets = ns.Widgets || {};
   	var _navMenu = $('<ul>').addClass('navMenuHeader');
   	var _profilesBtn = $('<li>').append($('<a>').text('Perfiles').attr('href','#'))
   		.click(function(){
-  			$('.selected').addClass('selected');
+  			$('.selected').removeClass('selected');
+  			_profilesBtn.addClass('selected');
   			_showHide('profilesSection');
   		});
   	var _eventsBtn = $('<li>').append($('<a>').text('Eventos').attr('href','#'))
   		.click(function(){
-  			$('.selected').addClass('selected');
+  			$('.selected').removeClass('selected');
+  			_eventsBtn.addClass('selected');
   			_showHide('eventsSection');
   		});
   	var _newsBtn = $('<li>').append($('<a>').text('Novedades').attr('href','#'))
   		.click(function(){
-  			$('.selected').addClass('selected');;
+  			$('.selected').removeClass('selected');
+  			_newsBtn.addClass('selected');
   			_showHide('newsSection');
   		});
   	_navMenuContainer.append(_navMenu.append(_profilesBtn, _eventsBtn, _newsBtn));

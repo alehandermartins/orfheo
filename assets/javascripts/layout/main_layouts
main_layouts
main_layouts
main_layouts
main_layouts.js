@@ -60,11 +60,15 @@ ns.Widgets = ns.Widgets || {};
       });
       _toBeShown.forEach(function(profile, index){
         var _profileCard = Pard.Widgets.CreateCard(profile).render().addClass('carousel');
+        _profileCard.off('hover');
+
         var _cardCont = $('<div>').addClass('cardCont-cardSlider');
         if (index) _profileCard.attr('href','#');
-        else _cardCont.addClass('cardSelected')
+        else _cardCont.addClass('cardSelected');
 
-        _cardCont.append(_profileCard);
+        _cardCont.append(_profileCard).css({'color': '0 0 2px 1px'+ profile.color});
+       _profileCard.off('hover').addClass('profileCard-hoverInherit');
+
         _cardSlider.append(_cardCont);
       });
       var _rgb = Pard.Widgets.IconColor(_toBeShown[0].color).rgb();

@@ -304,7 +304,7 @@
     }).addClass('profileCard');
     var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
     _card.css({'border-color': profile.color});
-    _card.hover(
+    _card.on('hover',
       function(){
         _card.css({
         'box-shadow': '0 0 2px 1px'+ profile.color
