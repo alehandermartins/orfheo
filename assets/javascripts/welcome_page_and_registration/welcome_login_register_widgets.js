@@ -75,10 +75,13 @@
     var _initMex = $('<div>').append($('<p>').html('...hacerlo,  por supuesto,  <strong>es libre y gratuito :) </strong>')).addClass('register-form-init-mex');
 
 
-    var _termsAndCondtions = $('<a>').text('condiciones generales');
-    _termsAndCondtions.click(function(){
-      Pard.Widgets.BigAlert('', Pard.Widgets.TermsAndConditionsMessage().render());
-    })
+    var _termsAndCondtions = $('<a>')
+      .attr('href','#')
+      .text('condiciones generales')
+      .click(function(){
+        console.log('clicked');
+        Pard.Widgets.BigAlert('', Pard.Widgets.TermsAndConditionsMessage().render());
+      });
 
     var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestras ', _termsAndCondtions, '.')).addClass('register-form-final-mex');
 
@@ -460,12 +463,13 @@
 
   ns.Widgets.SignUpButton = function(){
  
-    var _signUpMessage =  Pard.Widgets.Registration();    
-    var _caller = $('<button>').attr({type:'button'}).html('Únete');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Empieza creando una cuenta...', function(){return _signUpMessage});
-
-    var _signUpButton = _popup.render();
-   
+    var _signUpMessage =  Pard.Widgets.Registration().render();    
+    var _signUpButton = $('<button>')
+      .attr({type:'button'}).html('Únete')
+      .click(function(){
+        Pard.Widgets.BigAlert('Empieza creando una cuenta...', _signUpMessage);    
+      });
+    
     return{
       render: function(){
         return _signUpButton;

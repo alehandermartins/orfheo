@@ -22,7 +22,6 @@ ns.Widgets = ns.Widgets || {};
     	});
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
 
-    var _signUpButtonContainer = $('<div>').append(Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage')).addClass('signUpBtn-container');
     var _loginContainer = $('<div>').addClass('loginContainer');
     var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
    	
@@ -31,24 +30,22 @@ ns.Widgets = ns.Widgets || {};
     		if (_loginText.hasClass('clicked')) _loginText.removeClass('clicked');
     		else _loginText.addClass('clicked');
     	});
+
     var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':''});
 
-    _loginContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));
-   	// $(document).ready(function(){
-    // var _login = new Foundation.Dropdown($('#loginDropDown'));
-    // })
-
-    // var _loginContainer = $('<div>').addClass('loginContainer');
-    // var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
-    // var _loginWidget = $('<ul>').append(_loginInputs).addClass('container-loginNavHeader');
-    // var _login = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true,  'data-close-on-click-inside':false, 'data-close-on-click':false});
-    // var _loginText = $('<a>').attr({'href': '#'}).text('Login ').addClass('loginText')
+    // var _loginText = $('<button>').attr({'type': 'button'}).text('Login ').addClass('loginText')
     // 	.click(function(){
+    // 		var _loginDropDown = new Foundation.Dropdown($('#loginDropDown'),{});
+    // 		_loginDropDown.foundation('open');
     // 		if (_loginText.hasClass('clicked')) _loginText.removeClass('clicked');
     // 		else _loginText.addClass('clicked');
     // 	});
-    // _login.append($('<li>').append(_loginText, _loginWidget));
-    // _loginContainer.append(_login, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));
+    // var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown'});
+
+    _loginContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));
+
+    
+
 
   	var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
   	var _navMenu = $('<ul>').addClass('navMenuHeader');
