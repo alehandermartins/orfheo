@@ -52,13 +52,22 @@
 
     var _menu = $('<ul>').addClass('menu');
 
-    var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#'));
+    var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#/'));
 
-    var _modifyPassword = $('<li>').append(Pard.Widgets.ModifyPassword().render().attr('href','#'));
+    var _modifyPassword = $('<li>').append(Pard.Widgets.ModifyPassword().render().attr('href','#/'));
 
-    var _dCaller = $('<a>').attr('href','#').text('Elimina mi cuenta');
-    var _deleteCaller = Pard.Widgets.PopupCreator(_dCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteUserMessage()});
-    var _deleteUser = $('<li>').append(_deleteCaller.render());
+    var _deleteUserPopup;
+    var _deleteUserMex = Pard.Widgets.DeleteUserMessage();
+    var _deleteCaller = $('<a>').attr('href','#/').text('Elimina mi cuenta')
+      .one('click', function(){
+        _deleteUserPopup = Pard.Widgets.Popup();
+        _deleteUserMex.setCallback(function(){_deleteUserPopup.close()});
+        _deleteUserPopup.setContent('¿Estás seguro/a?',_deleteUserMex.render());
+      })
+      .click(function(){
+        _deleteUserPopup.open();
+      });
+    var _deleteUser = $('<li>').append(_deleteCaller);
 
 		_menu.append(_deleteUser, _modifyPassword,  _logout);
 		var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});

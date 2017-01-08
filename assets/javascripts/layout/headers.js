@@ -33,19 +33,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':''});
 
-    // var _loginText = $('<button>').attr({'type': 'button'}).text('Login ').addClass('loginText')
-    // 	.click(function(){
-    // 		var _loginDropDown = new Foundation.Dropdown($('#loginDropDown'),{});
-    // 		_loginDropDown.foundation('open');
-    // 		if (_loginText.hasClass('clicked')) _loginText.removeClass('clicked');
-    // 		else _loginText.addClass('clicked');
-    // 	});
-    // var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown'});
-
-    _loginContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));
-
-    
-
+    _loginContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));  
 
   	var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
   	var _navMenu = $('<ul>').addClass('navMenuHeader');

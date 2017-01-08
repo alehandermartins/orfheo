@@ -7,6 +7,20 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.Footer = function(){
 
+    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+      console.log($('.reveal[aria-hidden="false"]').length)
+      if (!($('.reveal[aria-hidden="false"]').length)){
+        $('html').removeClass('overflowHidden');
+        // $('.reveal[aria-hidden="true"]').remove();
+      }
+      // if (!($('body').hasClass('is-reveal-open'))) $('html').removeClass('overflowHidden');
+
+    });
+
+    $(document).on('open.zf.reveal', function(){
+      $('html').addClass('overflowHidden');
+    });
+
     var _createdWidget = $('<footer>').addClass('footer-bar');
     var userStatus = Pard.UserStatus['status'];
 
@@ -17,42 +31,69 @@ ns.Widgets = ns.Widgets || {};
     var _leftContent = $('<div>').addClass('left-bar-content  footer-left');
     var _rightContent = $('<div>').addClass('right-bar-content footer-right');
 
-    var _langMessage = Pard.Widgets.LanguagesMessage();
-    var _langCaller = $('<a>').attr('href','#').html('Idiomas');
-    var _langPopup = Pard.Widgets.PopupCreator(_langCaller, '', function(){return _langMessage});
-    var _languages = _langPopup.render();
-    _languages.addClass('footer-text-link');
+    var _langPopup;
+    var _languages = $('<a>').attr('href','#/')
+      .html('Idiomas')
+      .addClass('footer-text-link')
+      .one('click',function(){
+        var _langMessage = Pard.Widgets.LanguagesMessage().render();
+        _langPopup = Pard.Widgets.Popup();
+        _langPopup.setContent('', _langMessage);
+      })
+      .on('click', function(){
+        _langPopup.open();
+      });
 
-    var _termsAndConditionsCaller = $('<a>').attr('href','#').html('Condiciones generales');
-    var _termsAndConditionsMessage = Pard.Widgets.TermsAndConditionsMessage();
-    var _termsAndConditionsPopup = Pard.Widgets.PopupCreator(_termsAndConditionsCaller, '', function(){return _termsAndConditionsMessage});
-    var _termsAndConditions = _termsAndConditionsPopup.render().addClass('footer-text-link');
+    var _termsAndConditionsPopup;
+    var _termsAndConditions = $('<a>').attr('href','#/')
+      .html('Condiciones generales')
+      .addClass('footer-text-link')
+      .one('click',function(){
+        var _termsAndConditionsMessage = Pard.Widgets.TermsAndConditionsMessage().render();
+        _termsAndConditionsPopup = Pard.Widgets.Popup();
+        _termsAndConditionsPopup.setContent('', _termsAndConditionsMessage);
+      })
+      .on('click',function(){
+        _termsAndConditionsPopup.open();
+      });
 
-    var _infoMessage =  Pard.Widgets.ProjectInfoMessage();    
-    var _infoCaller = $('<a>').attr('href','#').html('Todo sobre el proyecto');
-    var _infoPopup = Pard.Widgets.PopupCreator(_infoCaller, '', function(){return _infoMessage});
-    var _information = _infoPopup.render().addClass('footer-text-link');
+       
+    var _infoPopup;
+    var _information = $('<a>').attr('href','#/')
+      .html('Todo sobre el proyecto')
+      .addClass('footer-text-link')
+      .one('click',function(){
+        var _infoMessage =  Pard.Widgets.ProjectInfoMessage().render();
+        _infoPopup = Pard.Widgets.Popup();
+        _infoPopup.setContent('', _infoMessage);
+      })
+      .on('click',function(){
+        _infoPopup.open();
+      });
 
     _leftContent.append(_information, _termsAndConditions, _languages);
 
     // var _project = $('<span>').text('orfheo proyecto comunitario');
     // var _place = $('<span>').text('Benimaclet, Valencia 2016');
     var _content = $('<div>').addClass('very-fast reveal full');
-    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+   
     $(document).ready(function(){
       $('body').append(_content);
     });
-    var _contactaOrfheo = $('<span>').append($('<a>').text('contacta orfheo').attr('href','#'))
+    var _contactPopup
+    var _contactaOrfheo = $('<span>').append($('<a>').text('contacta orfheo')
+      .attr('href','#/'))
       .css({
         'font-size': '14px',
         'margin-top': '-0.2rem',
         'display': 'inline-block'
       })
       .one('click',function(){
-        _content.append(Pard.Widgets.ContactInfo(_popup));
+        _contactPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
+        _content.append(Pard.Widgets.ContactInfo(_contactPopup));
       })
       .on('click',function(){
-        _popup.open();
+        _contactPopup.open();
       });
 
     // _rightContent.append(_project, ' | ', _place);
@@ -223,9 +264,6 @@ ns.Widgets = ns.Widgets || {};
     return {
       render: function(){ 
         return _createdWidget;
-      },
-      setCallback: function(callback){
-        
       }
     }
   }
@@ -271,9 +309,6 @@ ns.Widgets = ns.Widgets || {};
     return {
       render: function(){ 
         return _createdWidget
-      },
-      setCallback: function(callback){
-        
       }
     }
   }

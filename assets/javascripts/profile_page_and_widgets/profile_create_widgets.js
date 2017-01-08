@@ -21,7 +21,7 @@
   ns.Widgets.CreateProfileCard = function(callbackEvent, allowedProfile){
 
     var _createProfileCardContainer = $('<div>');
-    var _createProfileCard =$('<a>').attr({href: '#'}).addClass('profileCard position-profileCard-login');
+    var _createProfileCard =$('<a>').attr({href: '#/'}).addClass('profileCard position-profileCard-login');
     var _color = '#6f6f6f';
     _createProfileCard.css({border: 'solid 2px'+_color});
     _createProfileCard.hover(
@@ -42,11 +42,17 @@
     var _text = $('<p>').text('Crea un perfil').addClass('create-profile-card-text');
     _createProfileCard.append(_addCircle, _text, _hline);
 
-    _createProfileCard.click(function(){
-      var _caller = $('<button>');
-      var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea un perfil en orfheo', function(){ return Pard.Widgets.CreateProfileMessage(callbackEvent, allowedProfile)});
-      _caller.trigger('click');
-    });
+    var _createProfilePopup;
+    _createProfileCard
+      .one('click', function(){
+        _createProfilePopup = Pard.Widgets.Popup()
+      })
+      .click(function(){
+        var _createProfileMex = Pard.Widgets.CreateProfileMessage(callbackEvent, allowedProfile);
+        _createProfileMex.setCallback(function(){_createProfilePopup.close()});
+        _createProfilePopup.setContent('Crea un perfil en orfheo', _createProfileMex.render());
+        _createProfilePopup.open();
+      });
     _createProfileCardContainer.append(_createProfileCard);
 
     return {
@@ -124,11 +130,20 @@
       organization: 'Organización'
     }
 
-    var _caller = $('<div>').html(_buttonDesign[type]);
-    
-    var _popup = Pard.Widgets.PopupCreator(_caller, _popupTitle[type], function(){ return Pard.Widgets.CreateTypeProfileMessage(type, callbackEvent)});
-
-    var _createdWidget = _popup.render();
+    var _createTypeProfilePopup;
+    var _createdWidget = $('<div>').html(_buttonDesign[type])
+      .one('click', function(){
+        _createTypeProfilePopup = Pard.Widgets.Popup();
+      })
+      .click(function(){
+        var _createTypeProfileMex =  Pard.Widgets.CreateTypeProfileMessage(type, callbackEvent);
+        _createTypeProfileMex.setCallback(function(){_createProfilePopup.close()});
+        _createTypeProfilePopup.setContent(_popupTitle[type], _createTypeProfileMex.render());
+        _createTypeProfilePopup.setCallback(function(){
+          setTimeout(function(){_createTypeProfilePopup.destroy();
+        }, 500)});
+        _createTypeProfilePopup.open();
+      });
 
     return {
       render: function(){
@@ -209,7 +224,6 @@
         return _createdWidget;
       },
       setCallback: function(callback){
-        console.log(callback);
         _closepopup = callback;
       }
     }

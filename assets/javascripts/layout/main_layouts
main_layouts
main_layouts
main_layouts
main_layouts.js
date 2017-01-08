@@ -9,8 +9,14 @@ ns.Widgets = ns.Widgets || {};
     var _main = $('<main>').addClass('mainWelcomePage');
 
     var _welcomeSection = Pard.Widgets.WelcomeSection().attr('id','welcomeSection').addClass('visible');
-    var _profiles= $('<section>').attr('id','profilesSection').hide();
+
+    var _profiles= $('<section>')
+      .append(Pard.Widgets.ProfilesWelcomeSection().render())
+      .addClass('welcomeSection-layout')
+      .attr('id','profilesSection').hide();
+    
     var _events = $('<section>').attr('id','eventsSection').hide();
+    
     var _news = $('<section>').attr('id','newsSection').hide();
 
     _main.append(_welcomeSection, _profiles, _events, _news);
@@ -19,6 +25,291 @@ ns.Widgets = ns.Widgets || {};
       render: function(){
         return _main;
       }
+    }
+  }
+
+  ns.Widgets.ProfilesWelcomeSection = function(){
+    var _createdWidget = $('<div>')
+    var _cards = $('<div>').addClass('welcomeSection-container');
+    var _searchResult = $('<div>').addClass('search-results-WelcomePage');
+    var _searchWidget = $('<select>');
+
+
+    function formatResource (resource) {
+      if(!resource.id) return resource.text;
+      var _label = $('<span>').text(resource.text);
+      if(resource.type == 'city') var _icon = Pard.Widgets.IconManager('city_artist').render();
+      else { var _icon = Pard.Widgets.IconManager(resource.icon).render();}
+      _label.append(_icon);
+      _icon.css({
+        position: 'relative',
+        left: '5px',
+        top: '5px',
+      });
+      return _label;
+    };
+ 
+    var _shown = [];
+    var tags = [];
+    var _toBeShown = [];
+    var _noMoreResults = false;
+
+    Pard.Backend.searchProfiles([], [], '', function(data){
+      _toBeShown = [];
+      data.profiles.forEach(function(profile){
+        if ($.inArray(profile.profile_id, _shown) == -1) {
+          _shown.push(profile.profile_id);
+          _toBeShown.push(profile);
+        }      
+      });
+      _toBeShown.forEach(function(profile){
+        _searchResult.append(
+          $('<div>').addClass('card-container-WelcomePage')
+            .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
+            .attr({
+              target: '_blank'
+            })
+          )
+        );
+      });
+
+      $('.whole-container').scroll(function(){
+        console.log($('.whole-container').scrollTop());
+        console.log($(window).height());
+        console.log($('.search-results-WelcomePage').height());
+        if ($('.search-results-WelcomePage').height() + 84 +130 - $(window).height() - $('.whole-container').scrollTop() <= 100 ){
+          if(!_searchWidget.hasClass('active')){
+            _searchWidget.addClass('active');
+            var spinner =  new Spinner({top: _searchResult.height()}).spin();
+            $.wait(
+              '', 
+              function(){
+              if (!(_noMoreResults)) _searchResult.append(spinner.el); 
+              }, 
+              function(){
+                tags = [];
+                _searchWidget.select2('data').forEach(function(tag){
+                  tags.push(tag.text);
+                });
+                Pard.Backend.searchProfiles(tags, _shown, '', function(data){
+                  _toBeShown = [];
+                  data.profiles.forEach(function(profile){
+                    if ($.inArray(profile.profile_id, _shown) == -1) {
+                      _shown.push(profile.profile_id);
+                      _toBeShown.push(profile);
+                    }      
+                  });
+                  if (_toBeShown.length) {
+                    _toBeShown.forEach(function(profile){
+                      _searchResult.append(
+                        $('<div>').addClass('card-container-WelcomePage')
+                          .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
+                          .attr({
+                            target: '_blank'
+                          })
+                        )
+                      );
+                    });
+                  }
+                  else{
+                    _noMoreResults = true;
+                  }
+                  spinner.stop();
+                  _searchWidget.removeClass('active');
+                });
+              }
+            );
+          }
+        }
+      });
+    });
+
+    var _searchInputContainer = $('<div>').addClass('search-input-WelcomePage-Container');
+    var _searchInput = $('<div>').append(_searchWidget).addClass('search-input-WelcomePage');
+    _searchInputContainer.append(_searchInput);
+
+    var _searchTagsBox = $('<div>').addClass('search-input search-tag-box');
+
+    var _artisticCatObj = {
+      'arts':{},
+      'audiovisual':{}, 
+      'expo':{}, 
+      'music':{},
+      'poetry':{}, 
+      'street_art':{}, 
+      'workshop':{},
+      'gastronomy':{}, 
+      'other':{}
+    };
+
+    var _spaceCatObj = {
+      'cultural_ass':{},
+      'commercial':{},
+      'home':{}, 
+      'open_air':{}
+    };
+
+    var _typeObj = {
+      'artist': _artisticCatObj, 
+      'space': _spaceCatObj, 
+      'organization': _organizationObj
+    };
+    
+    var _organizationObj = {};
+
+    var _objDictionary = function(data, obj){
+      for (var field in obj) {
+        if (data.toUpperCase() == Pard.Widgets.Dictionary(field).render().toUpperCase()) {return obj[field];}
+        else _objDictionary(Pard.Widgets.Dictionary(field).render(), obj[field]);
+      }
+    }
+
+
+    var _printTagFromObj = function(obj, field){
+      var _typeTag = $('<div>').addClass('suggested-tag-search-engine');
+      _typeTag.click(function(){
+        var _text = Pard.Widgets.Dictionary(field).render();
+        var option = new Option(_text, _text, true, true);
+        _searchWidget.append(option);
+        _searchWidget.trigger('change');
+        _printTags(obj[field]);
+      });
+      var _icon = Pard.Widgets.IconManager(field).render();
+      _icon.addClass('search-tag-icon');
+      var _tagSpan = $('<span>').css('vertical-align','middle');
+      _typeTag.append(_tagSpan.append(_icon, Pard.Widgets.Dictionary(field).render()));
+      _searchTagsBox.append(_typeTag);
+    };
+    
+    var _printTags = function(obj){   
+      _searchTagsBox.empty();   
+      for (var field in obj){
+        _printTagFromObj(obj, field);
+      }
+    }
+
+    _printTags(_typeObj);
+
+    _searchInputContainer.append(_searchTagsBox);
+    _cards.append(_searchResult);
+
+    _searchWidget.select2({
+      placeholder: 'Busca por tags',
+      ajax: {
+        url: '/search/suggest',
+        type: 'POST',
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          var _query = [];
+          _searchWidget.select2('data').forEach(function(element){
+            _query.push(element.id);
+          });
+          _query.push(params.term);
+          return {
+            query: _query,
+            page: params.page,
+            event_id: ''
+          };
+        },
+        processResults: function (data, params) {
+          params.page = params.page || 1;
+          return {
+            results: data.items,
+            pagination: {
+              more: (params.page * 30) < data.total_count
+            }
+          };
+        }
+      },
+      multiple: true,
+      tags: true,
+      tokenSeparators: [',', ' '],   
+      // createTag: function (tag) {
+      //   return {
+      //       id: tag.term,
+      //       text: tag.term,
+      //       isNew : true
+      //   };
+      // },
+      templateResult: formatResource,
+    }).on("select2:select", function(e) {
+      if(_searchWidget.select2('data') != false){
+        if(e.params.data.isNew){
+          $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
+        }
+      }
+    });
+
+    
+    var _search = function(){
+
+      var spinner =  new Spinner().spin();
+      $.wait(
+        '', 
+        function(){
+          _searchResult.empty();  
+          if (!(_noMoreResults)) _searchResult.append(spinner.el); 
+        }, 
+        function(){
+          _shown = [];
+          tags = [];
+
+          var _dataArray = _searchWidget.select2('data'); 
+          _dataArray.forEach(function(tag){
+            tags.push(tag.text);
+          });
+          Pard.Backend.searchProfiles(tags, _shown, '', function(data){
+            _toBeShown = [];
+            data.profiles.forEach(function(profile){
+              if ($.inArray(profile.profile_id, _shown) == -1) {
+                _shown.push(profile.profile_id);
+                _toBeShown.push(profile);
+              }      
+            });
+            if(_shown.length && _toBeShown.length){
+              _toBeShown.forEach(function(profile){
+                _searchResult.append(
+                  $('<div>').addClass('card-container-WelcomePage')
+                    .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
+                    .attr({
+                      target: '_blank'
+                    })
+                  )
+                );
+              });
+            }
+            else {
+              var _message = $('<h6>').text('Ningún resultado').css('color','#6f6f6f');
+              _searchResult.append(_message);
+              _noMoreResults = true;
+            }
+          });
+          if (_dataArray.length) _printTags(_objDictionary(_dataArray[_dataArray.length-1]['text'], _typeObj));
+          else _printTags(_typeObj);
+          spinner.stop();
+        }
+      );
+    }
+
+
+    _searchWidget.on('change', function(){
+      _noMoreResults = false;
+      _search();
+    });
+
+    _createdWidget.append(_searchInputContainer, _cards);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      },
+      activate: function(){
+        if(_searchWidget.hasClass('active')) _searchWidget.removeClass('active');
+      },
+      deactivate: function(){
+        if(!_searchWidget.hasClass('active')) _searchWidget.addClass('active');
+      },
     }
   }
 

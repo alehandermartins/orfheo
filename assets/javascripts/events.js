@@ -5,7 +5,7 @@
 
   ns.Events.Register = function(data){
     if (data['status'] == 'success'){
-      Pard.Widgets.Alert('','Te hemos enviado por correo un enlace para activar tu cuenta y acceder a la convocatoria a través de orfheo.');
+      Pard.Widgets.Alert('','Te hemos enviado por correo un enlace para activar tu cuenta.');
     }
     else {
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();

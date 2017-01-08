@@ -4,9 +4,11 @@ NAV WELCOME PAGE
 
 .navLoginHeader{
   width: 100%;
+  /* max-width: 100%; */
   position: fixed;
   top: 0;
   height: 3.3rem;
+  margin: auto;
   background-color: black;
   font-size: $almostNormalSize;
   z-index: 2;
@@ -113,7 +115,7 @@ main.mainWelcomePage{
 
 
 .welcomeSection-layout{
-  width: 100%;
+  width: 100vw;
   min-height: 100%;
   position: relative;
   .welcomeSection-container{
@@ -339,6 +341,29 @@ main.mainWelcomePage{
     width: 100px;
     height: 32px;
   }
+  @include horizontal-center;
+  position: relative;
+}
+
+
+.search-results-WelcomePage{
+  margin: 0 -0.95rem;
+}
+
+.card-container-WelcomePage{
+  padding: 0 0.9rem;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.search-input-WelcomePage-Container{
+  height: 130px;
+  background-color: black;
+  position: relative;
+}
+
+.search-input-WelcomePage{
+  width: 690px;
   @include horizontal-center;
   position: relative;
 }
@@ -806,6 +831,8 @@ grid-section content LogIn page
   margin-top: 2.5rem;
   min-height: 80vh;
 }
+
+
 
 .suggested-tag-search-engine{
   cursor: pointer;
@@ -1666,6 +1693,8 @@ OUTSIDER PAGE
   .outsider-header{
     position:fixed;
     padding-right:0.9rem;
+    top: 0;
+    left: 0;
   }
 
   .outsider-main{

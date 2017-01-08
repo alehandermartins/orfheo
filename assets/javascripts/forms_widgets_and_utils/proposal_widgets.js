@@ -26,39 +26,32 @@
         _createdWidget.append(_callName, _listProposals);
       }
       _eventNames.push(proposal.event_name);
-      var _caller = $('<a>').attr({href:'#'})
+      var _caller = $('<a>').attr({href:'#/'})
       if (proposal.title) _caller.text(proposal.title);
       else _caller.text('Formulario enviado');
       var _proposalItem = $('<li>').append( _caller);
       _listProposals.append(_proposalItem); 
-      _caller.click(function(){
-        if (!(_forms[proposal.call_id])) {
-          Pard.Backend.getCallForms(proposal.call_id, function(data){
-            _forms[proposal.call_id] = data.forms;
-            _displayPopup(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], proposal.event_name);
-          });
-        }
-        else{
-          _displayPopup(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], proposal.event_name);
-        }       
-      });
+      var _proposalPopup;
+      _caller
+        .one('click', function(){
+          _proposalPopup = Pard.Widgets.Popup();
+        })
+        .on('click', function(){
+          if (!(_forms[proposal.call_id])) {
+            Pard.Backend.getCallForms(proposal.call_id, function(data){
+              _forms[proposal.call_id] = data.forms;
+              _proposalPopup.setContent(proposal.event_name, Pard.Widgets.PrintMyProposal(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], profile.type, function(){_proposalPopup.close()}).render());
+              _proposalPopup.open();
+              
+            });
+          }
+          else{
+            _proposalPopup.setContent(proposal.event_name, Pard.Widgets.PrintMyProposal(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], profile.type, function(){_proposalPopup.close()}).render());
+            _proposalPopup.open();
+            
+          }       
+        })
     });
-
-
-    var _displayPopup = function(proposal, form, popupTitle){
-      var _content = $('<div>').addClass('very-fast reveal full');
-      _content.empty();
-      $('body').append(_content);
-
-      var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-      var _message = Pard.Widgets.PopupContent(popupTitle,Pard.Widgets.PrintMyProposal(proposal, form, profile.type, function(){_popup.close()}));
-      _message.setCallback(function(){
-        _content.remove();
-        _popup.close();
-      });
-      _content.append(_message.render());
-      _popup.open();
-    }
   
     return {
       render: function(){
@@ -78,7 +71,8 @@
     }
     var _deadline = new Date(parseInt(proposal.deadline));
     var _now = new Date();
-    if(_now.getTime() < _deadline.getTime()){
+    // if(_now.getTime() < _deadline.getTime()){
+      if(true){
       var _backendAmendProposal = {
         space: Pard.Backend.amendSpaceProposal,
         artist: Pard.Backend.amendArtistProposal
@@ -123,10 +117,17 @@
         _postData.append(_postDataLabel, _textArea, _sendButton);
       }
 
-      var _deleteProposalCaller = $('<a>').attr('href','#').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller');
-      var _deleteProposal = Pard.Widgets.PopupCreator(_deleteProposalCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteMyProposalMessage(proposal, profileType, closepopup)});
+      var _confirmPopup;
+      var _deleteProposal = $('<a>').attr('href','#/').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller')
+        .one('click', function(){
+        _confirmPopup = Pard.Widgets.Popup();
+        _confirmPopup.setContent('¿Estás seguro/a?', Pard.Widgets.DeleteMyProposalMessage(proposal, profileType, closepopup, function(){_confirmPopup.close();}).render());
+        })
+        .click(function(){
+          _confirmPopup.open();
+        });
       _createdWidget.append(_postData);
-      _createdWidget.append(_deleteProposal.render().prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete')));
+      _createdWidget.append(_deleteProposal.prepend(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete')));
     }
 
 
@@ -166,14 +167,13 @@
     if (proposal['photos'] || proposal['links']){
       var _multimediaContainer = $('<div>');
       _fieldFormLabel = $('<span>').addClass('myProposals-field-label').text('Multimedias:');
-      var _linkPhoto = $('<a>').text(' ver contenidos enviados').attr('href','#')
+      var _linkPhoto = $('<a>').text(' ver contenidos enviados').attr('href','#/')
       _fieldFormText = $('<span>').append(_linkPhoto);
       _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
       _createdWidget.append(_fieldForm);
       Pard.Widgets.MultimediaScripts(function(){});       
       _linkPhoto.click(function(){        
         if (!(_multimediaContainer.html())) Pard.Widgets.MultimediaDisplay(proposal, function(multimedia){Pard.Widgets.AddMultimediaContent(_multimediaContainer, multimedia)});
-
           Pard.Widgets.BigAlert('',_multimediaContainer,'multimedia-popup-bigalert');
       })
     }
@@ -327,7 +327,7 @@
 
   
 
-  ns.Widgets.DeleteMyProposalMessage = function(proposal, profileType, closepopup){  
+  ns.Widgets.DeleteMyProposalMessage = function(proposal, profileType, closepopup, closeConfirmPopup){  
     var _createdWidget = $('<div>');
     var _message = $('<p>').text('Confirmando, tu propuesta será retirada de la convocatoria de '+proposal.event_name+ ' y por lo tanto no podrá ser seleccionada.');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
@@ -341,6 +341,11 @@
     _yesBtn.click(function(){
       _deleteProposalBackend[profileType](proposal.proposal_id, proposal.event_id, Pard.Events.DeleteProposal);
       closepopup();
+      closeConfirmPopup();
+    });
+
+    _noBtn.click(function(){
+      closeConfirmPopup();
     });
 
     var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
@@ -350,14 +355,6 @@
     return {
       render: function(){
         return _createdWidget;
-      },
-      setCallback: function(callback){
-        _noBtn.click(function(){
-          callback();
-        });
-        _yesBtn.click(function(){
-          callback()
-        });
       }
     }
   }

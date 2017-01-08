@@ -73,11 +73,18 @@
 
   ns.Widgets.ModifyProduction = function(production){
 
-    var _caller = $('<button>').addClass('modify-content-button').attr({type: 'button'}).html(Pard.Widgets.IconManager('modify_section_content').render());
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Modifica tu proyecto artístico', function(){return Pard.Widgets.ModifyProductionMessage(production)});
-
-    var _createdWidget = _popup.render();
-
+    var _popup;
+    var _createdWidget = $('<button>').addClass('modify-content-button').attr({type: 'button'}).html(Pard.Widgets.IconManager('modify_section_content').render())
+      .one('click', function(){
+        _popup = Pard.Widgets.Popup();
+      })    
+      .click(function(){
+        var _content = Pard.Widgets.ModifyProductionMessage(production);
+        _content.setCallback(function(){_popup.close()});
+        _popup.setContent('Modifica tu proyecto artístico',_content.render());
+        _popup.open();
+      });
+   
     return {
       render: function(){
         return _createdWidget;
@@ -133,11 +140,19 @@
 
     _printForm(production.category);
 
-    var _deleteProductionCaller = $('<a>').attr('href','#').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina este proyecto artístico').addClass('deleteProfile-caller');
+    var _confirmationPopup; 
+    var _deleteProductionMessage = Pard.Widgets.DeleteProductionMessage(production.production_id, _closepopup);
+    _deleteProductionMessage.setCallback(function(){_confirmationPopup.close()});
+    _confirmationPopup.setContent('¿Estás seguro/a?', _deleteProductionMessage.render());
+    var _deleteProduction = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina este proyecto artístico').addClass('deleteProfile-caller')
+      .one('click', function(){
+        _confirmationPopup = Pard.Widgets.Popup();
+      })
+      .click(function(){
+        _confirmationPopup.open();
+      });
 
-    var _deleteProduction = Pard.Widgets.PopupCreator(_deleteProductionCaller, '¿Estás seguro/a?', function(){return Pard.Widgets.DeleteProductionMessage(production.production_id, _closepopup)});
-
-    _createdWidget.append(_initMex, _content, _deleteProduction.render());
+    _createdWidget.append(_initMex, _content, _deleteProduction);
 
     return {
       render: function(){

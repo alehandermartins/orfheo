@@ -377,10 +377,13 @@ ns.Widgets.InputAddressSpace = function(label){
       for (var component in _inputForm) {
         _inputForm[component].setVal('');
         _inputForm[component].setAttr('disabled', false);
-      }  
+      }
+      _inputPlace.on('focusout', function(){
+        _checkLocation();
+      });  
     });
 
-    FillInAddress = function(autocomplete, _inputForm) {
+    var FillInAddress = function(autocomplete, _inputForm) {
       var place = autocomplete.getPlace();
 
       for (var component in _inputForm) {
@@ -438,7 +441,7 @@ ns.Widgets.InputAddressSpace = function(label){
     var _check = true;
     var _latField = Pard.Widgets.Input('','text');
     var _lonField = Pard.Widgets.Input('','text');
-    var _hereBtn = $('<a>').text('aquí').attr('href','#');
+    var _hereBtn = $('<a>').text('aquí').attr('href','#/');
 
     var _checkLocation = function(location){
       _errorBox.empty()

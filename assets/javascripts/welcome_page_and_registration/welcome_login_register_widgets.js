@@ -4,6 +4,31 @@
 
   ns.Widgets = ns.Widgets || {};
 
+  ns.Widgets.SignUpButton = function(){
+    
+    var _signUpPopup; 
+    var _signUpPopupMessage;   
+    var _signUpButton = $('<button>')
+      .attr({type:'button'}).html('Únete')
+      .one('click',function(){
+        _signUpPopup = Pard.Widgets.Popup();
+        _signUpPopupMessage = Pard.Widgets.Registration();
+        _signUpPopupMessage.setCallback(function(){
+          _signUpPopup.close()});
+        _signUpPopup.setContent('Empieza creando una cuenta...', _signUpPopupMessage.render())
+      })
+      .click(function(){
+        _signUpPopupMessage.empty();
+        _signUpPopup.open();    
+      });
+    
+    return{
+      render: function(){
+        return _signUpButton;
+      }
+    }
+  }
+
   ns.Widgets.Registration = function(event_id){
 
     var _createdWidget = $('<form>').attr('autocomplete','on');
@@ -74,13 +99,16 @@
 
     var _initMex = $('<div>').append($('<p>').html('...hacerlo,  por supuesto,  <strong>es libre y gratuito :) </strong>')).addClass('register-form-init-mex');
 
-
+    var _termsAndCondtionsPopup;
     var _termsAndCondtions = $('<a>')
-      .attr('href','#')
+      .attr('href','#/')
       .text('condiciones generales')
+      .one('click', function(){
+        _termsAndCondtionsPopup = Pard.Widgets.Popup();
+        _termsAndCondtionsPopup.setContent('', Pard.Widgets.TermsAndConditionsMessage().render())
+      })
       .click(function(){
-        console.log('clicked');
-        Pard.Widgets.BigAlert('', Pard.Widgets.TermsAndConditionsMessage().render());
+        _termsAndCondtionsPopup.open();
       });
 
     var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestras ', _termsAndCondtions, '.')).addClass('register-form-final-mex');
@@ -114,6 +142,11 @@
           }
           else {return false};
         })
+      },
+      empty: function(){
+        _fields['email'].setVal('');
+        _fields['emailConf'].setVal('');  
+        _fields['password'].setVal('');
       }
     }
   }
@@ -238,11 +271,18 @@
 
     var _createdWidget = $('<form>').addClass('input-login').attr({autocomplete:'on'});
     var _emailRecovery = $('<span>').addClass('passwdRecovery');
-    var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
-
-    var _popup = Pard.Widgets.PopupCreator(_caller,'Recupera tu cuenta', function(){return Pard.Widgets.RecoveryMessage()});
-
-    _emailRecovery.append(_popup.render());
+    var _popup;
+    var _caller = $('<a>').attr('href','#/').text('¿Has olvidado la contraseña?')
+      .one('click',function(){
+        _popup = Pard.Widgets.Popup();
+      })
+      .click(function(){
+        var _recoveryMex = Pard.Widgets.RecoveryMessage();
+        _recoveryMex.setCallback(function(){_popup.close()});
+        _popup.setContent('Recupera tu cuenta', _recoveryMex.render());
+        _popup.open();
+      });
+    _emailRecovery.append(_caller);
 
     var _fields = {};
 
@@ -372,17 +412,23 @@
   }
 
 
-   ns.Widgets.LoginEvent = function(event_id){
+  ns.Widgets.LoginEvent = function(event_id){
 
     var _createdWidget = $('<form>').addClass('input-login').attr({autocomplete:'on'});
     var _emailRecovery = $('<div>').addClass('passwdRecovery-eventLogin');
-    var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
-    // var _caller = $('<a>').attr('href','#').text('Recupera contraseña');
 
-
-    var _popup = Pard.Widgets.PopupCreator(_caller,'Recupera tu cuenta', function(){return Pard.Widgets.RecoveryMessage()});
-
-    _emailRecovery.append(_popup.render());
+    var _popup;
+    var _caller = $('<a>').attr('href','#/').text('¿Has olvidado la contraseña?')
+      .one('click',function(){
+        _popup = Pard.Widgets.Popup();
+      })
+      .click(function(){
+        var _recoveryMex = Pard.Widgets.RecoveryMessage();
+        _recoveryMex.setCallback(function(){_popup.close()});
+        _popup.setContent('Recupera tu cuenta', _recoveryMex.render());
+        _popup.open();
+      });
+    _emailRecovery.append(_caller);
 
     var _fields = {};
 
@@ -438,16 +484,29 @@
 
     var _signUpContainer = $('<div>').addClass('signUpCont-eventLogin');
     var _signUpText = $('<h5>').text('Si no tienes una cuenta:').addClass('signUpText-eventLogin');
-    var _signUpMessage =  Pard.Widgets.Registration(event_id);    
-    var _caller = $('<button>').attr({type:'button'}).html('Crea una cuenta').addClass('signupButton-eventLogin');
+    var _signUpPopup;
+    var _signUpPopupMessage;
+    var _signUpButton = $('<button>')
+      .attr({type:'button'})
+      .html('Crea una cuenta')
+      .addClass('signupButton-eventLogin')
+      one('click', function(){
+        _signUpPopup = Pard.Widgets.Popup();
+        _signUpPopupMessage = Pard.Widgets.Registration(event_id);
+        _signUpPopupMessage.setCallback(_signUpPopup.close());
+        _signUpPopup.setContent('Crea una cuenta...', _signUpPopupMessage.render())
+      })
+      .click(function(){
+        _signUpPopupMessage.empty();
+        _signUpPopup.open();
+      });
     // _caller.click(function(){
     //   _signUpContainer.append(_signUpMessage.render().addClass('popup-form').css('margin-top', '1rem'));
     //   _caller.remove();
     // });
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Crea una cuenta...', function(){return _signUpMessage});
-    var _signUpButton = _popup.render();
+    
 
-    _signUpContainer.append(_signUpText,_caller);
+    _signUpContainer.append(_signUpText,_signUpButton);
     _createdWidget.append(_signUpContainer);
 
     return {
@@ -461,21 +520,7 @@
   }
 
 
-  ns.Widgets.SignUpButton = function(){
- 
-    var _signUpMessage =  Pard.Widgets.Registration().render();    
-    var _signUpButton = $('<button>')
-      .attr({type:'button'}).html('Únete')
-      .click(function(){
-        Pard.Widgets.BigAlert('Empieza creando una cuenta...', _signUpMessage);    
-      });
-    
-    return{
-      render: function(){
-        return _signUpButton;
-      }
-    }
-  }
+  
 
 
 }(Pard || {}));

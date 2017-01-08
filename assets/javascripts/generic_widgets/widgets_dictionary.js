@@ -195,11 +195,21 @@
       });
       
       var _emailRecovery = $('<div>');
-      var _caller = $('<a>').attr('href','#').text('¿Has olvidado la contraseña?');
+      var _caller = $('<a>').attr('href','#/').text('¿Has olvidado la contraseña?');
 
-      var _popup = Pard.Widgets.PopupCreator(_caller,'Recupera tu cuenta', function(){return Pard.Widgets.RecoveryMessage()});
-
-      _emailRecovery.append(_popup.render());
+      var _popup;
+      _caller
+        .one('click', function(){
+          _popup = Pard.Widgets.Popup();
+        })
+        .click(function(){
+          var _recoveryMessage = Pard.Widgets.RecoveryMessage();
+          _recoveryMessage.setCallback(function(){_popup.close()});
+          _popup.setContent('Recupera tu cuenta', _recoveryMessage.render());
+          _popup.open();
+        });
+      
+      _emailRecovery.append(_caller);
 
       _messageContainer.append(_message, _emailRecovery);
 
@@ -273,13 +283,18 @@
       });
       
       var _register = $('<div>');
-      var _caller = $('<button>').attr({type:'button'}).html('Regístrate')
-
-      
-      var _popup = Pard.Widgets.PopupCreator(_caller, 'Regístrate para continuar', function(){return Pard.Widgets.Registration()});
-
-      var _signUpButton = _popup.render();
-      _signUpButton.addClass('signupButton-alert');
+      var _registrationPopup;
+      var _signUpButton = $('<button>').attr({type:'button'}).html('Regístrate')
+        .one('click',function(){
+          _registrationPopup = Pard.Widgets.Popup();
+        })
+        .click(function(){
+          var _registrationMex = Pard.Widgets.Registration();
+          _registrationMex.setCallback(function(){_registrationPopup.close()});
+          _registrationPopup.setContent('Regístrate para continuar', _registrationMex.render());
+          _registrationPopup.open();
+        })
+        .addClass('signupButton-alert');
 
       var _btnContainer = $('<div>').addClass('signupButton-alert-container');
     
@@ -290,7 +305,7 @@
           return _messageContainer;
         },
         setCallback: function(callback){
-          _caller.on('click',function(){callback()});
+          _signUpButton.on('click',function(){callback()});
         }
       }
     }

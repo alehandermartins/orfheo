@@ -45,7 +45,55 @@
     return succeed;
   }
 
-  ns.Widgets.BigAlert = function(title, content, contentClass, callback){
+  ns.Widgets.Popup = function(){
+    var _createdWidget = $('<div>').addClass('very-fast reveal full');
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>');
+    _popupContent.addClass('popup-container-full'); 
+    var _sectionContainer = $('<section>').addClass('popup-content');
+    var _header = $('<div>').addClass('row popup-header');
+    var _title = $('<h4>').addClass('small-11 popup-title');
+    var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
+    var _callback;
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out',multipleOpened:true});
+    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'))
+      .click(function(){
+        if (_callback) _callback();
+        // _createdWidget.remove();
+        _popup.close();
+      });
+    _header.append(_title, _closeBtn);
+    _popupContent.append(_header, _sectionContainer);
+    _outerContainer.append(_container.append(_popupContent));
+    _createdWidget.append(_outerContainer);
+    $('body').append(_createdWidget);
+
+    return{
+      open: function(){
+        _popup.open();
+      },
+      close: function(){
+        _popup.close()
+      },
+      destroy: function(){
+        _popup.destroy();
+        _createdWidget.remove();
+      },
+      setContent: function(title, cont){
+        _title.html(title);
+        _sectionContainer.empty().append(cont);
+      },
+      setContentClass: function(contentClass){
+        _popupContent.addClass(contentClass);
+      },
+      setCallback: function(callback){
+        _callback = callback;
+      }
+    }
+  }
+
+  ns.Widgets.BigAlert = function(title, content, contentClass, callback, parentElement){
     var _createdWidget = $('<div>').addClass('very-fast reveal full');
     var _outerContainer = $('<div>').addClass('vcenter-outer');
     var _container = $('<div>').addClass('vcenter-inner');
@@ -56,19 +104,23 @@
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
     var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
-    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
-    _closeBtn.click(function(){
-      if (callback) callback();
-      _popup.close();
-      _createdWidget.remove();
-    });
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out',multipleOpened:true});
+    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'))
+      .click(function(){
+        if (callback) callback();
+        _popup.close();
+        setTimeout(function(){
+          _popup.destroy();
+          _createdWidget.remove();
+        }, 500)
+      });
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);
     _popupContent.append(_header, _sectionContainer);
     _outerContainer.append(_container.append(_popupContent));
     _createdWidget.append(_outerContainer);
-    $('body').append(_createdWidget);
+    if (parentElement) parentElement.append(_createdWidget);
+    else $('body').append(_createdWidget);
     _popup.open();
 
   }
@@ -83,16 +135,15 @@
     var _sectionContainer = $('<section>').addClass('popup-content').css('font-size','18px');
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
-    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
-    _closeBtn.append($('<span>').html('&times;'));
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
 
-    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-
-    _closeBtn.click(function(){
-      if (callback) callback();
-      _popup.close();
-      _createdWidget.remove();
-    });
+    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'})
+      .append($('<span>').html('&times;'))
+      .click(function(){
+        if (callback) callback();
+        _popup.close();
+        // _createdWidget.remove();
+      });
  
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);
@@ -111,21 +162,24 @@
 
     var _content = $('<div>').addClass('very-fast reveal full');
 
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out',multipleOpened:true});
 
     var _popupCaller = caller;
 
 
-    _popupCaller.one('click', function(){
+    _popupCaller.on('click', function(){
       $('body').append(_content);
     });
 
     _popupCaller.on('click', function(){
       _content.empty();
-      var _message = Pard.Widgets.PopupContent(title, message(), contentClass);
+      var _message = Pard.Widgets.PopupContent(title, message(), contentClass, _popup);
       _message.setCallback(function(){
         if (callback) callback();
         _popup.close();
+        // _popup.destroy();
+        // _content.remove();
+        console.log('closed')
       });
       _content.append(_message.render());
       _popup.open();
@@ -148,15 +202,13 @@
     var _sectionContainer = $('<section>').addClass('popup-content');
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').text(title);
-    var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
-
-    _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'));
 
     var _callback = function(){};
-
-    _closeBtn.click(function(){
-      _callback();
-    });
+    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'})
+      .append($('<span>').html('&times;'))
+      .click(function(){
+        _callback();
+      });
 
     _header.append(_title, _closeBtn);
 
