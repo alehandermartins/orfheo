@@ -35,7 +35,7 @@
 
       var _spacename = $('<div>');
       _spacename.addClass('space-name-container-call-manager');
-      var _titleText = $('<a>').attr('href','#');
+      var _titleText = $('<a>').attr('href','#/');
       _titleText.text(Pard.Widgets.CutString(space.name, 35));
       _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
       _spaceHeader.append(_spacename, _menuIcon);
@@ -214,7 +214,7 @@
       }).text('Perfil');
 
       var _programLink = $('<li>');
-      var _programCaller = $('<a>').attr('href','#').text('Programa');
+      var _programCaller = $('<a>').attr('href','#/').text('Programa');
       _programCaller.on('click', function(){
         displayer.displaySpaceProgram(space.profile_id);
       });
@@ -224,7 +224,7 @@
       _menu.append(_profileLink, _programLink);
       var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
-        $('<a>').attr('href','#').append(
+        $('<a>').attr('href','#/').append(
           $('<span>').html('&#xE8EE').addClass('material-icons settings-icon-dropdown-menu')
           )
         ,_menu

@@ -293,7 +293,7 @@
       var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
       var _categoryCol = $('<td>').addClass('column-artist-program-call-manager column-category');
       var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
-      var _namePopupCaller = $('<a>').attr({'href':'#'}).text(show.title);
+      var _namePopupCaller = $('<a>').attr({'href':'#/'}).text(show.title);
       var _shortDCol = $('<td>').addClass('column-artist-program-call-manager column-short_description');
       var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
       var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');

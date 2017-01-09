@@ -320,9 +320,7 @@ ns.Widgets = ns.Widgets || {};
     var _entryDiv = $('<div>').addClass('entryDiv');
     var _entryContentContainer = $('<div>').addClass('welcomeSection-container');
     var _entryContent = $('<div>').addClass('entryDiv-content');
-    var _logo = $('<a>').attr({
-      'href': '#'
-    }).append($('<div>').addClass('mainLogo-welcomePage'));
+    var _logo = $('<span>').append($('<div>').addClass('mainLogo-welcomePage'));
     var _logoBaseline = $('<div>').append($('<p>').text('your cultural community')).addClass('logoBaseline-welcomePage');
     var _logoContainer = $('<div>')
       .append($('<div>')
@@ -354,7 +352,7 @@ ns.Widgets = ns.Widgets || {};
         _profileCard.off('hover');
 
         var _cardCont = $('<div>').addClass('cardCont-cardSlider');
-        if (index) _profileCard.attr('href','#');
+        if (index) _profileCard.attr('href','#/');
         else _cardCont.addClass('cardSelected');
 
         _cardCont.append(_profileCard).css({'color': '0 0 2px 1px'+ profile.color});
@@ -400,7 +398,7 @@ ns.Widgets = ns.Widgets || {};
 
       _cardSlider.on('afterChange',function(slick, current_slide){
         var cardSelected = _toBeShown[current_slide['currentSlide']];
-        $('.cardSelected a').attr('href','#');
+        $('.cardSelected a').attr('href','#/');
         $('.cardSelected').remove('cardSelected');
         $('.slick-center a').attr('href','/profile?id='+cardSelected.profile_id);
         $('.slick-center').addClass('cardSelected');

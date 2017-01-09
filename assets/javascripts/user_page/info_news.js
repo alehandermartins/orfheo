@@ -176,7 +176,7 @@
   ns.Widgets.EventInfoCardDistrito = function(event){
     var _createdWidget = $('<div>');
     var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
-    var _logo = $('<a>').append($.cloudinary.image(event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
+    var _logo = $('<a>').append($.cloudinary.image(event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#/');
     _image.append(_logo);
 
     var _popupImg = $.cloudinary.image(event.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
@@ -264,7 +264,7 @@
   ns.Widgets.EventInfoCardWU = function(event){
     var _createdWidget = $('<div>');
     var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
-    var _logo = $('<a>').append($.cloudinary.image(event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#');
+    var _logo = $('<a>').append($.cloudinary.image(event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#/');
     _image.append(_logo);
 
     var _popupImg = $.cloudinary.image(event.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
@@ -371,7 +371,7 @@
 
     var _newsOrfheoContainer = $('<div>').addClass('news-box-welcome-page ');
     var _cardOrfheoContainer = $('<span>').addClass('card-container-news');
-    var _orfheoCard =$('<a>').attr({href: '#'}).addClass('profileCard').css('cursor','default');
+    var _orfheoCard =$('<a>').attr({href: '#/'}).addClass('profileCard').css('cursor','default');
     var _color = 'rgb(56, 133, 255)';
     _orfheoCard.css({border: 'solid 3px'+_color});
     _orfheoCard.hover(
@@ -413,7 +413,7 @@
 
     var _newsOrfheoContainer = $('<div>').addClass('news-box-welcome-page ');
     var _cardOrfheoContainer = $('<span>').addClass('card-container-news');
-    var _orfheoCard =$('<a>').attr({href: '#'}).addClass('profileCard').css('cursor','default');
+    var _orfheoCard =$('<a>').attr({href: '#/'}).addClass('profileCard').css('cursor','default');
     var _color = 'rgb(56, 133, 255)';
     _orfheoCard.css({border: 'solid 3px'+_color});
     _orfheoCard.hover(

@@ -358,15 +358,21 @@
 
 
   ns.Widgets.MultimediaManager = function(production){
-
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica o crea uno nuevo');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Gestiona tus contenidos multimedia', function(){return Pard.Widgets.MultimediaManagerMessage(production)});
-
-    var _createdWidget = _popup.render();
+    var _popup;
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica o crea uno nuevo')
+      .one('click', function(){
+        _popup = Pard.Widgets.Popup();
+      })
+      .click(function(){
+        var _multiMediaManagerPopupMex = Pard.Widgets.MultimediaManagerMessage(production);
+        _multiMediaManagerPopupMex.setCallback(function(){_popup.close()});
+        _popup.setContent('Gestiona tus contenidos multimedia', _multiMediaManagerPopupMex.render());
+        _popup.open();
+      });
 
     return {
       render: function(){
-        return _createdWidget;
+        return _caller;
       }
     }
   }
@@ -504,14 +510,14 @@
   }
 
   ns.Widgets.MultimediaAccepted = function(){
-    var _caller = $('<a>').text('Entradas aceptadas');
-    var _popup = Pard.Widgets.PopupCreator(_caller, 'Como añadir...', function(){return Pard.Widgets.MultimediaAcceptedMessage()});
-
-    var _createdWidget = _popup.render();
-
+    var _caller = $('<a>').text('Entradas aceptadas')
+      .click(function(){
+        Pard.Widgets.BigAlert('Como añadir...', Pard.Widgets.MultimediaAcceptedMessage().render());
+      });
+ 
     return {
       render: function(){
-        return _createdWidget;
+        return _caller;
       }
     } 
   }
@@ -579,8 +585,6 @@
      return {
       render: function(){
         return _createdWidget;
-      },
-      setCallback: function(callback){
       }
     }
   }

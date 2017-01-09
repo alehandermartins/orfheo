@@ -95,12 +95,12 @@
             _space =  performance.host_name;
             var _orderNum = performance.order + 1;
             // var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
-            var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/FE7569/'));
+            var _hostNum = $('<a>').attr('href','#/').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/FE7569/'));
 
           
             _hostNum.addClass('host-number-program-card');
             // var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol-programByspace')).css('position','relative');
-            var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/9933FF/'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol-programByspace')).css('position','relative');            
+            var _hostNumX = $('<a>').attr('href','#/').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/9933FF/'),$('<span>').html('&#xE888').addClass('material-icons x-host-number-simbol-programByspace')).css('position','relative');            
             var numberClick1Callback = function(){
               var _index;
               dataSpaces.some(function(space, pos){
@@ -129,7 +129,7 @@
             else _nameNumCont.append($('<span>').append(_hostNum));
             var _spaceName = $('<a>').append($('<h5>').append(_space)).addClass('space-name-title-program');
             if(performance.host_id.search('own')<0) _spaceName.attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
-            else _spaceName.attr('href','#').css({'color':'black', 'text-decoration':'underline','cursor':'default'});
+            else _spaceName.attr('href','#/').css({'color':'black', 'text-decoration':'underline','cursor':'default'});
             _spaceBlock.append(_nameNumCont.append(_spaceName));
           }
           var _performanceCard = Pard.Widgets.ProgramBySpaceCard(performance, host);
@@ -171,7 +171,7 @@
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
     var _participant = $('<a>').text(performance.participant_name);
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
-    else _participant.addClass('participant-program-card-own').attr({'href': '#'});
+    else _participant.addClass('participant-program-card-own').attr({'href': '#/'});
    
     var _children = '';
     if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- category-icon icon-children-program'); 
@@ -205,11 +205,11 @@
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
     // var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|FE7569|000000'));
-    var _hostNum = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/FE7569/'));
+    var _hostNum = $('<a>').attr('href','#/').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/FE7569/'));
     _hostNum.addClass('host-number-program-card');
     var _X = $('<span>').html('&#xE888').addClass('material-icons');
     // var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _orderNum + '|9933FF|000000'),_X).css('position','relative');
-    var _hostNumX = $('<a>').attr('href','#').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/9933FF/'),_X).css('position','relative');
+    var _hostNumX = $('<a>').attr('href','#/').append($('<img>').attr('src', 'http://www.googlemapsmarkers.com/v1/'+_orderNum+'/9933FF/'),_X).css('position','relative');
 
     var numberClick1Callback;
     var numberClick2Callback;
@@ -222,10 +222,10 @@
     var _title = $('<span>').text(performance.title).addClass('title-program-card');
     var _participant = $('<a>').text(performance.participant_name);
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
-    else _participant.addClass('participant-program-card-own').attr({'href': '#'});
+    else _participant.addClass('participant-program-card-own').attr({'href': '#/'});
     var _host = $('<a>').text(performance.host_name);
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
-    else _host.addClass('host-program-card-own').attr({'href': '#'});
+    else _host.addClass('host-program-card-own').attr({'href': '#/'});
     var _children = $('<span>');
     if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'); 
     var _shortDescription = performance.short_description;

@@ -59,9 +59,8 @@
     var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out',multipleOpened:true});
     _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'))
       .click(function(){
-        if (_callback) _callback();
-        // _createdWidget.remove();
         _popup.close();
+        if (_callback) _callback();
       });
     _header.append(_title, _closeBtn);
     _popupContent.append(_header, _sectionContainer);
@@ -112,7 +111,7 @@
         setTimeout(function(){
           _popup.destroy();
           _createdWidget.remove();
-        }, 500)
+        }, 500);
       });
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);
@@ -142,7 +141,10 @@
       .click(function(){
         if (callback) callback();
         _popup.close();
-        // _createdWidget.remove();
+        setTimeout(function(){
+          _popup.destroy();
+          _createdWidget.remove();
+        }, 500);
       });
  
     _header.append(_title, _closeBtn);

@@ -359,7 +359,7 @@
     }
     else if (profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render()+ ', ';;}
 
-    if (_categories.length>28)  _categories = _categories.substring(0,27)+'...';
+    if (_categories.length>28)  _categories = _categories.substring(0,25)+'...';
     else{
       _categories = _categories.substring(0, _categories.length-2)
     }

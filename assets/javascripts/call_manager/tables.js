@@ -241,7 +241,7 @@
     },
     name:{ 
       info: function(proposal, displayer) { 
-        return $('<a>').attr({'href':'#'}).append(proposal.name).on('click', function(){
+        return $('<a>').attr({'href':'#/'}).append(proposal.name).on('click', function(){
            displayer.displayProposal(proposal, proposal.type);
         });
       },
@@ -791,13 +791,13 @@
       },
       participant_name:{
         info: function(show){
-          return $('<a>').attr('href','#').text(show.participant_name).click(function(){displayer.displayArtistProgram(show.participant_id)});
+          return $('<a>').attr('href','#/').text(show.participant_name).click(function(){displayer.displayArtistProgram(show.participant_id)});
         },
         label: 'Artista'
       },
       host_name: {
         info: function(show){
-          return $('<a>').attr('href','#').text(show.host_name).click(function(){displayer.displaySpaceProgram(show.host_id)});
+          return $('<a>').attr('href','#/').text(show.host_name).click(function(){displayer.displaySpaceProgram(show.host_id)});
         },
         label:'Espacio'
       },
@@ -828,7 +828,7 @@
       title: {
         label: 'Título',
         info: function(show){
-          var _info = $('<a>').attr('href','#')
+          var _info = $('<a>').attr('href','#/')
           .text(show['title'])
           .click(function(){
             if (show.permanent == 'true') {

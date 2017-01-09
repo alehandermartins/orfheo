@@ -10,9 +10,21 @@
     else {
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);
@@ -29,9 +41,21 @@
     else {
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof  _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);
@@ -47,9 +71,21 @@
     else {
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);
@@ -67,9 +103,21 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{ 
         console.log(data.reason);
@@ -90,9 +138,21 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof  _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return  _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
@@ -110,9 +170,21 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof  _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return  _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);
@@ -129,9 +201,21 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);
@@ -148,9 +232,21 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);
@@ -166,9 +262,21 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);
@@ -184,9 +292,21 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);
@@ -202,9 +322,21 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-        _caller.trigger('click');
+        var _popup = Pard.Widgets.Popup();
+        _dataReason.setCallback(function(){
+          _popup.close();
+          setTimeout(function(){
+            _popup.destroy()
+           },500);
+        });
+        _popup.setContent('', _dataReason.render());
+        _popup.setContentClass('alert-container-full');
+        _popup.setCallback(function(){
+          setTimeout(function(){
+          _popup.destroy()
+        },500);
+        });
+        _popup.open();
       }
       else{
         console.log(data.reason);

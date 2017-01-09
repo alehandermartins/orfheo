@@ -8,9 +8,16 @@
     return {
       render: function(data){
         if(data['status'] == 'success'){
-          var _caller = $('<button>');
-          var _popup = Pard.Widgets.PopupCreator(_caller,'Inscribe un perfil ya creado', function(){return Pard.Widgets.ChooseProfileMessage(data.profiles, eventInfo, button)});
-          _caller.trigger('click');
+          var _popup = Pard.Widgets.Popup();
+          var _choosePorfileMex = Pard.Widgets.ChooseProfileMessage(data.profiles, eventInfo, button);
+          _choosePorfileMex.setCallback(function(){_popup.close()});
+          _popup.setContent('Inscribe un perfil ya creado', _choosePorfileMex.render());
+          _popup.setCallback(function(){
+            setTimeout(function(){
+              _popup.destroy()
+            },500)
+          });
+          _popup.open();
         }
         else{
           Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
@@ -27,16 +34,35 @@
 
     var _callbackSendProposal = function(data){
       if (data['status'] == 'success'){
-        var _caller = $('<button>');
-        var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _popupMessageSentProposal(data)});
-        _caller.trigger('click');
+        var _sentProposalMex = _popupMessageSentProposal(data);
+        _sentProposalMex.setCallback(function(){_popup.close()});
+        var _popup = Pard.Widgets.Popup();
+        _popup.setContent('',  _sentProposalMex.render());
+        _popup.setCallback(function(){
+          setTimeout(function(){
+            _popup.destroy()
+          },500);
+        });
+        _popup.open();
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
         if (typeof  _dataReason == 'object'){
-          var _caller = $('<button>');
-          var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return  _dataReason}, 'alert-container-full');
-          _caller.trigger('click');
+          var _popup = Pard.Widgets.Popup();
+          _dataReason.setCallback(function(){
+            _popup.close();
+            setTimeout(function(){
+              _popup.destroy()
+             },500);
+          });
+          _popup.setContent('', _dataReason.render());
+          _popup.setContentClass('alert-container-full');
+          _popup.setCallback(function(){
+            setTimeout(function(){
+            _popup.destroy()
+          },500);
+          });
+          _popup.open();
         }
         else{
           var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
@@ -72,12 +98,11 @@
     }
               
     profiles.forEach(function(profile){
-      console.log(profile);
       var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
       var _card = Pard.Widgets.CreateCard(profile).render();
       // var _card = $('<button>').text(profile.name);
       _card.removeAttr('href');
-      _card.attr('href','#');
+      _card.attr('href','#/');
       _card.click(function(){
         var _check = true;
         if (profile.type == 'space' && profile.proposals && profile.proposals[0]){
@@ -108,9 +133,21 @@
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
         if (typeof _dataReason == 'object'){
-          var _caller = $('<button>');
-          var _popup = Pard.Widgets.PopupCreator(_caller,'', function(){return _dataReason}, 'alert-container-full');
-          _caller.trigger('click');
+          var _popup = Pard.Widgets.Popup();
+          _dataReason.setCallback(function(){
+            _popup.close();
+            setTimeout(function(){
+              _popup.destroy()
+             },500)
+          });
+          _popup.setContent('', _dataReason.render());
+          _popup.setContentClass('alert-container-full');
+          _popup.setCallback(function(){
+            setTimeout(function(){
+              _popup.destroy()
+             },500);
+          });
+          _popup.open();
         }
         else{ 
           console.log(data.reason);
@@ -151,8 +188,11 @@
     var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
     var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(forms, profile, closeListProfilePopup, callbackSendProposal));
     _message.setCallback(function(){
-      _content.remove();
       _popup.close();
+      setTimeout(function(){
+        _popup.destroy();
+        _content.remove();
+      },500)
     });
     _content.append(_message.render());
     _popup.open();

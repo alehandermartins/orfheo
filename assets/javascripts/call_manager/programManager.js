@@ -384,7 +384,7 @@
       var card =$('<div>').addClass('programHelper');
       var _title = $('<p>').addClass('proposal-title-card-call-manager');
       var _confirmationCheckContainer = $('<span>').addClass('checker');
-      var _titleText = $('<a>').attr('href','#');
+      var _titleText = $('<a>').attr('href','#/');
       var _commentIconContainer = $('<span>').addClass('commentIcon');
       var _titleTextLong;
 
@@ -728,7 +728,7 @@
       
       var _title = $('<p>').addClass('proposal-title-card-call-manager');
       var _confirmationCheckContainer = $('<span>').addClass('checker');
-      var _titleText = $('<a>').attr('href','#');
+      var _titleText = $('<a>').attr('href','#/');
       var _commentIconContainer = $('<span>').addClass('commentIcon');
       var _titleTextLong;
 

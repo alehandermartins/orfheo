@@ -9,7 +9,7 @@
     var eventName = the_event.name;
 
     var _content = $('<div>').addClass('very-fast reveal full');
-    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
     $(document).ready(function(){
       $('body').append(_content);
     })
@@ -49,14 +49,14 @@
 
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
-      var _deleteProposalCaller = $('<a>').attr('href','#').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), $('<span>').text('Elimina')).addClass('deleteProfile-caller');
-      var _modifyProposal = $('<a>').attr('href','#').append(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'), $('<span>').text('Modifica')).addClass('deleteProfile-caller');
+      var _deleteProposalCaller = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), $('<span>').text('Elimina')).addClass('deleteProfile-caller');
+      var _modifyProposal = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'), $('<span>').text('Modifica')).addClass('deleteProfile-caller');
 
       _deleteProposalCaller.on('click', function(){
         var _deleteContent = $('<div>').addClass('very-fast reveal full');
         _deleteContent.empty();
         $('body').append(_deleteContent);
-        var _confirmPopup = new Foundation.Reveal(_deleteContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _confirmPopup = new Foundation.Reveal(_deleteContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         var _message = Pard.Widgets.PopupContent('¿Estás seguro/a?',  confirmPopupContent(), 'alert-container-full');
         _message.setCallback(function(){
           _deleteContent.remove();

@@ -9,7 +9,7 @@
     var Accordion = function(){
       var container = $('<div>').css({'padding': 0});
       var accordionNav = $('<li>').addClass('accordion-item');
-      var artistName = $('<a>').attr('href','#').text(artist.name);
+      var artistName = $('<a>').attr('href','#/').text(artist.name);
       var aHref = $('<div>').append(artistName).addClass('accordion-title');
       var _artistMenuDropdown = $('<div>').append(ArtistDropdownMenu().render());
       _artistMenuDropdown.addClass('artists-dropdown-icon-call-manager');
@@ -58,7 +58,7 @@
       var profileCircle = $('<div>').addClass('profile-nav-circle-selected');
       var titleColumn = $('<div>').addClass('name-column profile-name-column');
       var title = $('<p>').addClass('proposal-title-card-call-manager');
-      var titleText = $('<a>').attr('href','#');
+      var titleText = $('<a>').attr('href','#/');
       var _icon = '';
       var icon = $('<div>');
       circleColumn.append($('<div>').addClass('nav-icon-production-container').append(profileCircle.append(icon)));
@@ -173,7 +173,7 @@
       }).text('Perfil');
 
       var _programLink = $('<li>');
-      var _programCaller = $('<a>').attr('href','#').text('Programa');
+      var _programCaller = $('<a>').attr('href','#/').text('Programa');
 
       _programCaller.on('click', function(){
         displayer.displayArtistProgram(artist.profile_id);
@@ -191,7 +191,7 @@
       _menu.append(_profileLink, _programLink);
       var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
-        $('<a>').attr('href','#').append(
+        $('<a>').attr('href','#/').append(
           $('<span>').html('&#xE8EE').addClass('material-icons settings-icon-dropdown-menu')
           )
         ,_menu

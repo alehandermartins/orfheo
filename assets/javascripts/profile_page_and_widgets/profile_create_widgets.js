@@ -45,7 +45,7 @@
     var _createProfilePopup;
     _createProfileCard
       .one('click', function(){
-        _createProfilePopup = Pard.Widgets.Popup()
+        _createProfilePopup = Pard.Widgets.Popup();
       })
       .click(function(){
         var _createProfileMex = Pard.Widgets.CreateProfileMessage(callbackEvent, allowedProfile);
@@ -137,11 +137,18 @@
       })
       .click(function(){
         var _createTypeProfileMex =  Pard.Widgets.CreateTypeProfileMessage(type, callbackEvent);
-        _createTypeProfileMex.setCallback(function(){_createProfilePopup.close()});
+        _createTypeProfileMex.setCallback(
+          function(){_createTypeProfilePopup.close();
+          setTimeout(function(){
+            _createTypeProfilePopup.destroy();
+          }, 500)
+        });
         _createTypeProfilePopup.setContent(_popupTitle[type], _createTypeProfileMex.render());
         _createTypeProfilePopup.setCallback(function(){
-          setTimeout(function(){_createTypeProfilePopup.destroy();
-        }, 500)});
+          setTimeout(function(){
+            _createTypeProfilePopup.destroy();
+          }, 500)
+        });
         _createTypeProfilePopup.open();
       });
 

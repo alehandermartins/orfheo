@@ -140,7 +140,7 @@
     // var _photos;
     var _orfheoCategory;
 
-    var _displayAllBtn = $('<a>').attr('href','#').text('Muestra todos los campos').css('font-size','0.75rem');
+    var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
     var _containerMandatoryFields = $('<div>')
     var _containerOptionalFields = $('<div>');
     var _optionalFields = $('<div>').hide();

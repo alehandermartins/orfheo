@@ -15,7 +15,7 @@ ns.Widgets = ns.Widgets || {};
     	$('#'+id_).addClass('visible').show();
     }
 
-    var _logo = $('<button>').append($('<div>').addClass('logoNavHeader')).attr('type','button')
+    var _logo = $('<a>').append($('<div>').addClass('logoNavHeader')).attr('href','#')
     	.click(function(){
     		$('.selected').removeClass('selected');
     		_showHide('welcomeSection');
@@ -74,12 +74,12 @@ ns.Widgets = ns.Widgets || {};
     var _container = $('<div>').addClass('container-header');
     var _content = $('<div>').addClass('content-loginSinUp-header');
     var _logo = $('<a>').attr({
-      'href': '#'
+      'href': '#/'
     }).append($('<div>').addClass('logo-welcomePage'));
     var _logoBaseline = $('<div>').append($('<p>').text('your cultural community')).addClass('logoBaseline-welcomePage');
     var _signUpButtonContainer = $('<div>').append(Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage')).addClass('signUpBtn-container');
     var _loginContainer = $('<div>');
-    var _loginText = $('<a>').attr({'href': '#'}).text('Login').addClass('loginText-welcomePage');
+    var _loginText = $('<a>').attr({'href': '#/'}).text('Login').addClass('loginText-welcomePage');
     var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container'));
 
     _loginText.click(function(){

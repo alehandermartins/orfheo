@@ -24,7 +24,7 @@
         _signUpEventMessage.setCallback(function(){});
         _popupContent.append(_signUpEventMessage.render());
         _popup.open();
-    }
+      }
       else{
        Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, _callToAction).render);
       }
@@ -125,7 +125,7 @@
         if(day != 'permanent'){
           _count += 1;
           if (_count>3 && !_printAll){
-            var _seeAll = $('<a>').attr('href','#').text('ver todos');
+            var _seeAll = $('<a>').attr('href','#/').text('ver todos');
             var _seeAllContainer = $('<div>').append('... ',_seeAll).css('margin','-0.4rem 0 -0.2rem 0').addClass('see-all-event-page');
             _timeContent.append(_seeAllContainer);
             _seeAll.click(function(){
