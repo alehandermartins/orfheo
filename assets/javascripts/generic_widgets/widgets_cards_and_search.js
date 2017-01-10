@@ -43,8 +43,12 @@
         _searchResult.append(profileCard);
       });
 
-      $('.whole-container').scroll(function(){
-        if ($('.whole-container').scrollTop() + $(window).height() + 100 >= ($(_main_id).height() + $('.login-bar').height() + $('.footer-bar').height())){
+      var  _initialDistanceFromTop = $('.search-engine-container').offset().top;
+
+      $(window).scroll(function(){
+
+        if ($('.search-engine-container').height() - _initialDistanceFromTop - $(window).height() - $(window).scrollTop() <= 50 ){
+          console.log('call')
           if(!_searchWidget.hasClass('active')){
             _searchWidget.addClass('active');
             var spinner =  new Spinner({top: _searchResult.height()}).spin();

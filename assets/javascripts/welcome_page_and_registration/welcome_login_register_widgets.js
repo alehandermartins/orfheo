@@ -195,7 +195,7 @@
 
     var _subtitle5_5 = $('<h5>').text('Sostenibilidad del proyecto:').addClass('subtitle-conditions');
 
-    var _mex5_5  = '<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos después de haber analizado el tipo de evento que se quiere organizar.</p>'
+    var _mex5_5  = '<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida de las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos después de haber analizado el tipo de evento que se quiere organizar.</p>'
 
     var _part5_5 = $('<div>').append(_subtitle5_5, _mex5_5).addClass('conditions-par');
 

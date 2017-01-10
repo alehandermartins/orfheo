@@ -348,6 +348,8 @@ main.mainWelcomePage{
 
 .search-results-WelcomePage{
   margin: 0 -0.95rem;
+  padding-bottom: 3rem;
+  padding-top: 1rem;
 }
 
 .card-container-WelcomePage{
@@ -357,9 +359,10 @@ main.mainWelcomePage{
 }
 
 .search-input-WelcomePage-Container{
-  height: 130px;
+  height: 120px;
   background-color: black;
   position: relative;
+  padding-top: 0.7rem;
   .select2-container--default .select2-selection--multiple{
     border: none;
   }
@@ -833,6 +836,7 @@ grid-section content LogIn page
   }
   margin-top: 2.5rem;
   min-height: 80vh;
+  display:block;
 }
 
 
@@ -865,8 +869,20 @@ grid-section content LogIn page
 }
 
 .search-tag-box{
-  text-align: center;
+  text-align: center;  
+  overflow-x: auto;
+  height: 100%;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.search-tag-box-container{
   margin-top: $inner-spacing;
+  width: 984px;
+  @include horizontal-center; 
+  overflow-x: auto;
+  height: 2.8rem;
+  overflow-y: hidden;
 }
 
 

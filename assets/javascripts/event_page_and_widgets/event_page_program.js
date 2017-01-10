@@ -27,8 +27,8 @@
               }
             });
             gmap.ViewOnMap(_index+1);
-            if ($(window).width()>640) $('.whole-container').scrollTop(200);
-            else $('.whole-container').scrollTop(110);
+            if ($(window).width()>640) $(window).scrollTop(200);
+            else $(window).scrollTop(110);
             Pard.PrintProgram(program, dataSpaces[_index].title, gmap, dataSpaces);
           },
           function(){
@@ -110,8 +110,8 @@
                 }
               });
               gmap.ViewOnMap(_index + 1);
-              if ($(window).width()>640) $('.whole-container').scrollTop(200);
-              else $('.whole-container').scrollTop(110);
+              if ($(window).width()>640) $(window).scrollTop(200);
+              else $(window).scrollTop(110);
               Pard.PrintProgramSpaces(program, dataSpaces[_index].title, gmap, dataSpaces);
             };
             var numberClick2Callback = function(){

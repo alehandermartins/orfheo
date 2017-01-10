@@ -74,9 +74,6 @@ ns.Widgets = ns.Widgets || {};
       });
 
       $(window).scroll(function(){
-        console.log($(window).height());
-        console.log($('.search-results-WelcomePage').height());
-        console.log($(window).scrollTop())
         if ($('.search-results-WelcomePage').height() + 84 +130 - $(window).height() - $(window).scrollTop() <= 100 ){
           if(!_searchWidget.hasClass('active')){
             _searchWidget.addClass('active');
@@ -128,7 +125,8 @@ ns.Widgets = ns.Widgets || {};
     var _searchInput = $('<div>').append(_searchWidget).addClass('search-input-WelcomePage');
     _searchInputContainer.append(_searchInput);
 
-    var _searchTagsBox = $('<div>').addClass('search-input search-tag-box');
+    var _searchTagsBox = $('<div>').addClass('search-tag-box');
+    var _searchTagsBoxCont = $('<div>').addClass('search-tag-box-container');
 
     var _artisticCatObj = {
       'arts':{},
@@ -190,7 +188,7 @@ ns.Widgets = ns.Widgets || {};
 
     _printTags(_typeObj);
 
-    _searchInputContainer.append(_searchTagsBox);
+    _searchInputContainer.append(_searchTagsBoxCont.append(_searchTagsBox));
     _cards.append(_searchResult);
 
     _searchWidget.select2({

@@ -8,15 +8,10 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.Footer = function(){
 
     $(document).on('closed.zf.reveal', '[data-reveal]', function() {
-      console.log($('.reveal[aria-hidden="false"]').length)
       if (!($('.reveal[aria-hidden="false"]').length)){
         $('html').removeClass('overflowHidden');
-        // $('.reveal[aria-hidden="true"]').remove();
       }
-      // if (!($('body').hasClass('is-reveal-open'))) $('html').removeClass('overflowHidden');
-
     });
-
     $(document).on('open.zf.reveal', function(){
       $('html').addClass('overflowHidden');
     });

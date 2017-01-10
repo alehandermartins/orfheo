@@ -159,41 +159,6 @@
 
   };
 
-
-  ns.Widgets.PopupCreator = function(caller, title, message, contentClass, callback){
-
-    var _content = $('<div>').addClass('very-fast reveal full');
-
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out',multipleOpened:true});
-
-    var _popupCaller = caller;
-
-
-    _popupCaller.on('click', function(){
-      $('body').append(_content);
-    });
-
-    _popupCaller.on('click', function(){
-      _content.empty();
-      var _message = Pard.Widgets.PopupContent(title, message(), contentClass, _popup);
-      _message.setCallback(function(){
-        if (callback) callback();
-        _popup.close();
-        // _popup.destroy();
-        // _content.remove();
-        console.log('closed')
-      });
-      _content.append(_message.render());
-      _popup.open();
-    });
-
-    return {
-      render: function(){
-        return _popupCaller;
-      }
-    }
-  }
-
  
   ns.Widgets.PopupContent = function(title, content, contentClass){
     var _createdWidget = $('<div>').addClass('vcenter-outer');

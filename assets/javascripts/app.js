@@ -92,7 +92,14 @@ Pard.Welcome = function(){
 
   $(document).ready(function(){
     $(document).foundation();
-    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+      if (!($('.reveal[aria-hidden="false"]').length)){
+        $('html').removeClass('overflowHidden');
+      }
+    });
+    $(document).on('open.zf.reveal', function(){
+      $('html').addClass('overflowHidden');
+    });
   });
 }
 
@@ -130,7 +137,14 @@ Pard.Users = function(profiles){
 
   $(document).ready(function(){
     $(document).foundation();
-    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+      if (!($('.reveal[aria-hidden="false"]').length)){
+        $('html').removeClass('overflowHidden');
+      }
+    });
+    $(document).on('open.zf.reveal', function(){
+      $('html').addClass('overflowHidden');
+    });
   });
 }
 
@@ -148,6 +162,14 @@ Pard.Profile = function(profiles){
     $(document).ready(function(){
       $(document).foundation();
       $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+      $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+        if (!($('.reveal[aria-hidden="false"]').length)){
+          $('html').removeClass('overflowHidden');
+        }
+      });
+      $(document).on('open.zf.reveal', function(){
+        $('html').addClass('overflowHidden');
+      });
     });
   }
 
@@ -172,6 +194,14 @@ Pard.Visitor = function(profiles){
     $(document).ready(function(){
       $(document).foundation();
       $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+      $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+        if (!($('.reveal[aria-hidden="false"]').length)){
+          $('html').removeClass('overflowHidden');
+        }
+      });
+      $(document).on('open.zf.reveal', function(){
+        $('html').addClass('overflowHidden');
+      });
     });
   }
 
@@ -193,9 +223,18 @@ Pard.Outsider = function(profiles){
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
-     $(document).ready(function(){
+    
+    $(document).ready(function(){
       $(document).foundation();
       $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+      $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+        if (!($('.reveal[aria-hidden="false"]').length)){
+          $('html').removeClass('overflowHidden');
+        }
+      });
+      $(document).on('open.zf.reveal', function(){
+        $('html').addClass('overflowHidden');
+      });
     });
   }
 
@@ -204,11 +243,6 @@ Pard.Outsider = function(profiles){
 }
 
 Pard.EventManager = function(the_event, forms){
-  $(window).ready(function(){
-    $('body').append(_whole);
-    $(document).foundation();
-    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
-  });
 
   console.log(the_event);
 
@@ -218,6 +252,20 @@ Pard.EventManager = function(the_event, forms){
   var _footer = Pard.Widgets.Footer();
 
   $(_whole).append(_header.render(), _main.render(), _footer.render());
+
+  $(window).ready(function(){
+    $('body').append(_whole);
+    $(document).foundation();
+    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+      if (!($('.reveal[aria-hidden="false"]').length)){
+        $('html').removeClass('overflowHidden');
+      }
+    });
+    $(document).on('open.zf.reveal', function(){
+      $('html').addClass('overflowHidden');
+    });
+  });
 
 }
 
@@ -245,9 +293,18 @@ Pard.Event = function(the_event, status){
   // $(_whole).prepend(_alertContainer);
 
   $('body').append(_whole);
+
   $(document).ready(function(){
-    $(document).foundation()
+    $(document).foundation();
     $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+      if (!($('.reveal[aria-hidden="false"]').length)){
+        $('html').removeClass('overflowHidden');
+      }
+    });
+    $(document).on('open.zf.reveal', function(){
+      $('html').addClass('overflowHidden');
+    });
   });
 
 }
@@ -308,9 +365,18 @@ Pard.Chat = function(){
   _whole.append(_header.render(), _main.render().addClass('outsider-main'));
 
   $('body').append(_whole);
+
   $(document).ready(function(){
     $(document).foundation();
     $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+      if (!($('.reveal[aria-hidden="false"]').length)){
+        $('html').removeClass('overflowHidden');
+      }
+    });
+    $(document).on('open.zf.reveal', function(){
+      $('html').addClass('overflowHidden');
+    });
   });
 
 }
