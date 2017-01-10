@@ -70,8 +70,8 @@
 
      if (userStatus == 'outsider') {
         _main.addClass('outsider-main');
-       $('.whole-container').on('scroll',function() {
-       if ( _main.offset().top < 5){
+       $(window).on('scroll',function() {
+       if ( _main.offset().top - $(window).scrollTop() < 5){
         $('#register-outsider-header-button').show();        
        }
        else{

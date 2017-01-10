@@ -99,7 +99,7 @@
 
 
     var _contentShowHide = function(id_selected){
-      $('.whole-container').scrollTop(0);
+      $(window).scrollTop(0);
       $('.aside-event-nav-btn-selected').removeClass('aside-event-nav-btn-selected');
       _contentShown.hide();
       // var _selected = '#'+id_selected;
@@ -330,12 +330,12 @@
     _goUpBtn.addClass('hide-goUpBtn');
     $('body').append(_goUpBtn);
     _goUpBtn.on('click',function(){
-      $('.whole-container').scrollTop(0);
+      $(window).scrollTop(0);
     })
 
 
     if ($(window).width()<640){
-      Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 442, 0);
+      Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 452, 0);
     }
     else {
       Pard.Widgets.Sticker(_searchWidgetsContainer, 452, -10);
@@ -345,7 +345,7 @@
       if ($(window).width()<1024) {
           _searchWidgetsContainer.css({width: $('#program-event-page').width()});
       };
-      $('.whole-container').scroll(function(){
+      $(window).scroll(function(){
       if (_searchWidgetsContainer.hasClass('position-fixed')){
         if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
         if (_goUpBtn.hasClass('hide-goUpBtn')) _goUpBtn.removeClass('hide-goUpBtn');
@@ -512,7 +512,7 @@
           _searchWidget.select2("close");
           $(':focus').blur();
           $('body').click();
-          if ($(window).width() < 640)  $('.whole-container').scrollTop(110);
+          if ($(window).width() < 640)  $(window).scrollTop(110);
 
         }
       );
@@ -528,9 +528,9 @@
     _searchWidget.on('select2:opening',function(){
       if ($(window).width() < 640 ) {
         var _distanceInputTop = _searchWidget.offset().top;
-        var _scroolTop = $('.whole-container').scrollTop();
+        var _scroolTop = $(window).scrollTop();
         var _distanceToDo = _distanceInputTop + _scroolTop - 120;
-        $('.whole-container').scrollTop(_distanceToDo);
+        $(window).scrollTop(_distanceToDo);
       }
     });
 
@@ -576,14 +576,18 @@
         _message.setCallback(function(){
           if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
           else _filtersButton.removeClass('active');
-          _contentP.remove();
           _popup.close();
+          setTimeout(function(){
+            _contentP.remove();
+            _popup.destroy();
+          },500)
           _search();
         });
         _contentP.append(_message.render());
         _popup.open();
         _popup.close();
         _contentP.remove();
+        $('html').removeClass('overflowHidden');
         _search();
       }
       else{

@@ -237,79 +237,51 @@
   }
 
 
-  ns.Widgets.Sticker = function (elem, distanceFromHeader, stickyDistanceTop) {
+  ns.Widgets.Sticker = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
 
     var _diffI = 1;
-    var _distanceFromHeader = distanceFromHeader*(-1);
-    var _mainCol = '';
-
     $(document).ready(function(){
-    $('.whole-container').scroll(function(){
-      // if ($(window).width() > 1024) {
-        var _windowTop = $(elem).offset().top;
-        var _headerTop = $('header').offset().top;
-        var _fixedPosition = stickyDistanceTop;
-        var _distanceFromWindow = _windowTop -_fixedPosition;
+      $(window).scroll(function(){
+          var _elDistanceFromTop = $(elem).offset().top;
+          var _windowScroll = $(window).scrollTop();
+          var _distanceFromWindow = _elDistanceFromTop -_windowScroll;
 
-        // if (notLogged){
-        //   if (_distanceFromWindow*_diffI<0){
-        //     $(elem).css({position: 'fixed', 'top':'0', 'padding-top':stickyDistanceTop+'px', 'background': _mainCol[0]});
-        //     _diffI = -1;
-        //   }
-        //   if (_headerTop>_distanceFromHeader){
-        //       $(elem).css({'position':'', 'top':'', 'padding-top':'', background:''});
-        //       _diffI = +1;
-        //   }
-        // }
-        // else{
-          if (_distanceFromWindow*_diffI<0 && !($(elem).hasClass('position-fixed')))   {
+          if (_distanceFromWindow * _diffI < 0 && !($(elem).hasClass('position-fixed')))   {
+            console.log('fixed')
             $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
-            _diffI = -1;
+            _diffI = - 1;
           }
-          if (_headerTop>_distanceFromHeader && $(elem).hasClass('position-fixed')){
+          if (_windowScroll - initialDistanceFromHeader - stickyDistanceTop < 0 && $(elem).hasClass('position-fixed')){
+            console.log('release')
               $(elem).removeClass('position-fixed').css({'top':''});
-              _diffI = +1;
+              _diffI = 1;
           }
-        // }
-      // }
-    });
-  })
-
-    // $( window ).resize(function() {
-    //   $(elem).removeAttr('style');
-    // })
-
+    
+      });
+    })
   }
 
-  ns.Widgets.StickAndKickHeader = function (elem, distanceFromHeader, stickyDistanceTop) {
+  ns.Widgets.StickAndKickHeader = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
 
     var _diffI = 1;
-    var _distanceFromHeader = distanceFromHeader*(-1);
-    var _mainCol = '';
 
     $(document).ready(function(){
-      $('.whole-container').scroll(function(){
-      // if ($(window).width() > 1024) {
-        var _windowTop = $(elem).offset().top;
-        var _headerTop = $('header').offset().top;
-        var _fixedPosition = stickyDistanceTop;
-        var _distanceFromWindow = _windowTop -_fixedPosition;
-
+      $(window).scroll(function(){
+        var _elDistanceFromTop = $(elem).offset().top;
+        var _windowScroll = $(window).scrollTop();
+        var _distanceFromWindow = _elDistanceFromTop - $('header').height() -_windowScroll;
         if (_distanceFromWindow*_diffI<0 && !($(elem).hasClass('position-fixed'))){
+          console.log('fixed')
           $('.pard-header-container').hide();
-
           $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
           _diffI = -1;
         }
-        if (_headerTop>_distanceFromHeader && $(elem).hasClass('position-fixed')){
+        if (_windowScroll - initialDistanceFromHeader - stickyDistanceTop < 0 && $(elem).hasClass('position-fixed')){
+          console.log('release')
           $(elem).removeClass('position-fixed').css({'top':''});
           _diffI = +1;
           $('.pard-header-container').show();  
         }
-        // if (_distanceFromWindow*_diffI-0.5*$('.pard-header-container').height()<0){
-        //   console.log('FIX')
-        //    $('.pard-header-container').css('position','relative');
-        // }
       });
     })
   }

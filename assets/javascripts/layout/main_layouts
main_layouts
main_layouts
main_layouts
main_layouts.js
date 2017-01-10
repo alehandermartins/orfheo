@@ -73,11 +73,11 @@ ns.Widgets = ns.Widgets || {};
         );
       });
 
-      $('.whole-container').scroll(function(){
-        console.log($('.whole-container').scrollTop());
+      $(window).scroll(function(){
         console.log($(window).height());
         console.log($('.search-results-WelcomePage').height());
-        if ($('.search-results-WelcomePage').height() + 84 +130 - $(window).height() - $('.whole-container').scrollTop() <= 100 ){
+        console.log($(window).scrollTop())
+        if ($('.search-results-WelcomePage').height() + 84 +130 - $(window).height() - $(window).scrollTop() <= 100 ){
           if(!_searchWidget.hasClass('active')){
             _searchWidget.addClass('active');
             var spinner =  new Spinner({top: _searchResult.height()}).spin();
@@ -349,14 +349,14 @@ ns.Widgets = ns.Widgets || {};
       });
       _toBeShown.forEach(function(profile, index){
         var _profileCard = Pard.Widgets.CreateCard(profile).render().addClass('carousel');
-        _profileCard.off('hover');
+        // _profileCard.off( "mouseenter mouseleave");
 
         var _cardCont = $('<div>').addClass('cardCont-cardSlider');
         if (index) _profileCard.attr('href','#/');
         else _cardCont.addClass('cardSelected');
 
-        _cardCont.append(_profileCard).css({'color': '0 0 2px 1px'+ profile.color});
-       _profileCard.off('hover').addClass('profileCard-hoverInherit');
+        _cardCont.append(_profileCard).css({'color': profile.color});
+       _profileCard.addClass('profileCard-hoverInherit');
 
         _cardSlider.append(_cardCont);
       });

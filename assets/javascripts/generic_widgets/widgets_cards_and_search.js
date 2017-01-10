@@ -298,21 +298,27 @@
   }
 
   ns.Widgets.CreateCard = function(profile){
-
     var _card =$('<a>').attr({
       href: '/profile?id=' + profile['profile_id']
     }).addClass('profileCard');
     var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
-    _card.css({'border-color': profile.color});
-    _card.on('hover',
+    // _card.css({'border-color': profile.color});
+    _card.css({'border': '1px solid rgba(10, 10, 10, 0.2)'});
+
+    _card.hover(
       function(){
         _card.css({
-        'box-shadow': '0 0 2px 1px'+ profile.color
+          'border': '1px solid'+profile.color,
+        // 'box-shadow': '0 1px 3px 2px'+ profile.color
+         'box-shadow': '0 1px 2px 1px'+ profile.color
       });
       },
       function(){
-        _card.css({'border': '2px solid'+profile.color, 
-          'box-shadow': '0px 1px 2px 1px rgba(10, 10, 10, 0.2)'
+        _card.css({
+          // 'border': '2px solid'+profile.color, 
+          // 'box-shadow': '0 1px 2px 1px rgba(10, 10, 10, 0.2)'
+          'box-shadow': '0px 1px 3px 0px rgba(10, 10, 10, 0.2)',
+          'border': '1px solid rgba(10, 10, 10, 0.2)'
         });
       }
     );

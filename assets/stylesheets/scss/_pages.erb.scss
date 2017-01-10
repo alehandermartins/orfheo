@@ -160,8 +160,8 @@ main.mainWelcomePage{
 }
 
 .card-slider{
-  height: 240px;
-  width: 618px;
+  height: 250px;
+  width: 638px;
   position: absolute;
   @include horizontal-center;
   .cardCont-cardSlider{
@@ -172,13 +172,13 @@ main.mainWelcomePage{
       min-height: 240px;
     }
   .slick-slide {
-    width: 102px;
-    height: 134px;
+    width: 110px;
+    height: 144.5px;
     z-index: 1;
     margin: 0 0.7rem;
     opacity: 0.85;
     a{
-      font-size: 8.9px;
+      font-size: 8.3px;
       cursor: default;
     }
     .icon-profileCircle .material-icons{
@@ -192,7 +192,7 @@ main.mainWelcomePage{
     z-index: 2;
     opacity: 0.95;
     a{
-      font-size: 11px;
+      font-size: 10.5px;
       cursor: default;
     }
     .icon-profileCircle .material-icons{
@@ -360,6 +360,9 @@ main.mainWelcomePage{
   height: 130px;
   background-color: black;
   position: relative;
+  .select2-container--default .select2-selection--multiple{
+    border: none;
+  }
 }
 
 .search-input-WelcomePage{
@@ -838,13 +841,13 @@ grid-section content LogIn page
   cursor: pointer;
   /* color: $grey-4; */
   background: $grey-2;
-  border: 1px solid $grey-3;
-  font-weight: normal;
-  margin-right: $pard-grid-spacing;
+/*   border: 1px solid $grey-3;
+ */  font-weight: normal;
+  margin-right: 0.5rem  ;
   display: inline-block;
   font-size: $almostNormalSize;
-  padding: 0px 5px;
-  height: 1.5rem;
+  padding: 4px 9px;
+  height: 30px;
   margin-bottom: 0.2rem;
   @include border-radius(4px);
 
@@ -857,8 +860,8 @@ grid-section content LogIn page
 }
 
 .suggested-tag-search-engine:hover{
-  background: $grey-4;
-  color: white;
+  background: #c8c7c7;
+  /* color: white; */
 }
 
 .search-tag-box{
@@ -3137,6 +3140,7 @@ a.participant-program-card-own {
 
 .searchWidgetsContainer-event-page{
   z-index: 999;
+  width: 93.4vw;
   @include breakpoint(large){
     padding: 0 3.8rem 0 3.8rem;
     width: 45rem;
@@ -3146,7 +3150,7 @@ a.participant-program-card-own {
     padding-top: 1.5rem;
   }
   margin-bottom: 1.5rem;
-  width: 100%;
+  
 }
 
 .searchWidgetsContainer-event-page .select2-selection.select2-selection--multiple{

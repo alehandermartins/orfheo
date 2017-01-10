@@ -814,11 +814,12 @@ Profile Card
 -------------------*/
 
 .profileCard{
-  box-shadow: 0px 1px 2px 1px rgba(10, 10, 10, 0.2);
+  /* box-shadow: 0px 1px 2px 1px rgba(10, 10, 10, 0.2); */
+  box-shadow: 0px 1px 3px 0px rgba(10, 10, 10, 0.2);
   display: block;
   line-height: 0;
   transition: box-shadow 200ms ease-out;
-  color: black;
+  color: rgba(10, 10, 10, 0.2);
   outline:none;
   background: white;
   @include border-radius($element-border-radius);
@@ -860,7 +861,8 @@ Profile Card
 }
 
 .profileCard.profileCard-hoverInherit:hover{
-  box-shadow: 0px 1px 2px 1px;
+  /* 'box-shadow': '0 1px 3px 2px'+ profile.color */
+  box-shadow: 0px 1px 3px 2px;
   color: inherit;
 }
 
@@ -1770,6 +1772,17 @@ ICONS
 SEARCH // SELECT2
 ===============================================*/
 
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+  margin-top: 4px ;
+  border: none;
+  padding: 4px 9px;
+  font-size: $almostNormalSize;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+  margin-right: 6px;
+}
+
 .select2-results__message {
   display: none !important;
 }
@@ -1785,7 +1798,13 @@ SEARCH // SELECT2
 
 .select2-selection.select2-selection--multiple{
   font-size: 1rem;
-  min-height: 2.6rem; 
+  min-height: 2.45rem; 
+  max-height: 5rem;
+  overflow-y: auto;
+}
+
+.select2-container .select2-selection--multiple .select2-selection__rendered{
+  display: block;
 }
 
 
