@@ -175,7 +175,7 @@ main.mainWelcomePage{
     width: 110px;
     height: 144.5px;
     z-index: 1;
-    margin: 0 0.7rem;
+    margin: 0.1rem 0.7rem;
     opacity: 0.85;
     a{
       font-size: 8.3px;
@@ -213,6 +213,51 @@ main.mainWelcomePage{
     .icon-profileCircle .material-icons{
       font-size: 24px; 
     }
+  }
+}
+
+
+.smallCard-slide {
+  width: 110px;
+  height: 144.5px;
+  z-index: 1;
+  margin: 0.1rem 0.7rem;
+  opacity: 0.85;
+  a{
+    font-size: 8.3px;
+    cursor: default;
+  }
+  .icon-profileCircle .material-icons{
+    font-size: 14px;
+  }
+}
+.mediumCard-slide{
+  width: 146px;
+  height: 191px;
+  margin: 1.2rem -1.2rem 0 -1.2rem;
+  z-index: 2;
+  opacity: 0.95;
+  a{
+    font-size: 10.5px;
+    cursor: default;
+  }
+  .icon-profileCircle .material-icons{
+    font-size: 20px;
+  }
+}
+.normalCard-slide{
+  width: 174px;
+  height: 228px;
+  margin: 0;
+  z-index: 3;
+  margin-top: 0.5rem;
+  opacity: 1;
+  a {
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .icon-profileCircle .material-icons{
+    font-size: 24px; 
   }
 }
 
@@ -1935,7 +1980,8 @@ div.dataTables_wrapper div.dataTables_paginate, .dataTables_info{
 }
 
 .dataTables_scrollHead thead th, .dataTables_scrollFootInner tfoot th{
-    padding: 0.5rem 1.625rem 0.5rem 0.5rem !important;
+  /* padding: 0.5rem 1.625rem 0.5rem 0.5rem !important; */
+  padding: 0.5rem !important;
 }
 
 th.column-call-manager-table{
@@ -1948,18 +1994,18 @@ th.column-call-manager-table{
 
 
 .column-call-manager-table.column-TextArea, .column-call-manager-table.column-TextAreaCounter{
-  min-width: 16rem;
-  width: 16rem !important;
+  min-width: 17rem;
+  width: 17rem !important;
 }
 
 .column-call-manager-table.column-EmailInput{
-  min-width: 11.5rem;
-  width: 11.5rem !important;
+  min-width: 12.5rem;
+  width: 12.5rem !important;
 }
 
 .column-call-manager-table.column-Inputtext{
-  min-width: 10.5rem !important;
-  width: 10.5rem !important;
+  min-width: 12.5rem !important;
+  width: 12.5rem !important;
 }
 
 .column-call-manager-table.column-InputAddress{
@@ -1968,8 +2014,8 @@ th.column-call-manager-table{
 }
 
 .column-call-manager-table.column-type{
-  min-width: 1.2rem;
-  width: 1.2rem !important;
+  min-width: 2.3rem;
+  width: 2.3rem !important;
 }
 
 .column-call-manager-table.column-CheckBox{
@@ -1979,13 +2025,13 @@ th.column-call-manager-table{
 
 
 .column-call-manager-table.column-Selector, .column-call-manager-table.column-MultipleSelector, .column-call-manager-table.column-MultipleDaysSelector{
-  min-width: 6.5rem !important;
-  width: 6.5rem !important;
+  min-width: 7.2rem !important;
+  width: 7.2rem !important;
 }
 
 .column-call-manager-table.column-InputTel{
-  min-width: 6rem !important;
-  width: 6rem !important;
+  min-width: 6.5rem !important;
+  width: 6.5rem !important;
 }
 
 
@@ -2027,7 +2073,7 @@ th.column-call-manager-table{
 }
 
 .select-container-datatableColumn{
-  width: 106%;
+  width: 95%;
   margin-left: -0.4rem;
   position: relative;
   height: 1.1rem;

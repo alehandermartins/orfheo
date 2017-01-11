@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 (function(ns){
 
   ns.Widgets = ns.Widgets || {};  

@@ -19,6 +19,7 @@ ns.Widgets = ns.Widgets || {};
     	.click(function(){
     		$('.selected').removeClass('selected');
     		_showHide('welcomeSection');
+        if (_profilesSection) _profilesSection.deactivate();
     	});
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
 
@@ -37,23 +38,37 @@ ns.Widgets = ns.Widgets || {};
 
   	var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
   	var _navMenu = $('<ul>').addClass('navMenuHeader');
-  	var _profilesBtn = $('<li>').append($('<a>').text('Perfiles').attr('href','#'))
+  	var _profilesSection;
+    var _profilesBtn = $('<li>').append($('<a>').text('Perfiles').attr('href','#'))
+      .one('click', function(){
+        _profilesSection = Pard.Widgets.ProfilesWelcomeSection();
+        $('#profilesSection').append(_profilesSection.render());
+      })
   		.click(function(){
   			$('.selected').removeClass('selected');
   			_profilesBtn.addClass('selected');
   			_showHide('profilesSection');
+        _profilesSection.activate();
   		});
   	var _eventsBtn = $('<li>').append($('<a>').text('Eventos').attr('href','#'))
+      .one('click', function(){
+        $('#eventsSection').append(Pard.Widgets.EventsWelcomeSection().render());
+      })
   		.click(function(){
   			$('.selected').removeClass('selected');
   			_eventsBtn.addClass('selected');
   			_showHide('eventsSection');
+        if (_profilesSection) _profilesSection.deactivate();
   		});
   	var _newsBtn = $('<li>').append($('<a>').text('Novedades').attr('href','#'))
+     .one('click', function(){
+        $('#newsSection').append(Pard.Widgets.NewsWelcomeSection().render());
+      })
   		.click(function(){
   			$('.selected').removeClass('selected');
   			_newsBtn.addClass('selected');
   			_showHide('newsSection');
+        if (_profilesSection) _profilesSection.deactivate();
   		});
   	_navMenuContainer.append(_navMenu.append(_profilesBtn, _eventsBtn, _newsBtn));
 

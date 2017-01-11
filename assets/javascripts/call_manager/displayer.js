@@ -15,10 +15,25 @@
     })
 
     var _displayArtistProgram = function(profile_id){
-
       var artist = the_event.artists[profile_id].artist;
       var myprogram = the_event.artists[profile_id].program;
-      var _message = Pard.Widgets.PopupContent(artist.name + ' ('+artist.subcategory+')', Pard.Widgets.ArtistProgram(artist, myprogram, the_event.spaces, the_event.program), 'space-program-popup-call-manager');
+
+      console.log(myprogram);
+
+      var _popupTitle = '';
+      _popupTitle += artist.name 
+      if (!($.isEmptyObject(myprogram))){
+        _popupTitle += ' (';
+        var _artistCategories = [];
+        for (var performanceId in myprogram){
+          _artistCategories.push(myprogram[performanceId]['show']['participant_subcategory']);    
+        }
+        Pard.Widgets.UniqueArray(_artistCategories).forEach(function(cat){
+          _popupTitle += cat + ', ';
+        }); 
+        _popupTitle = _popupTitle.substring(0,_popupTitle.length - 2) + ')'
+      }
+      var _message = Pard.Widgets.PopupContent(_popupTitle, Pard.Widgets.ArtistProgram(artist, myprogram, the_event.spaces, the_event.program), 'space-program-popup-call-manager');
       _message.setCallback(function(){
         _content.empty();
         _popup.close();

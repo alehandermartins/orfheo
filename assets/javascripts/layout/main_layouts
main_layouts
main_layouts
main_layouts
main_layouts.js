@@ -5,19 +5,22 @@
      
 ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.MainWelcomePage = function(){
+  ns.Widgets.MainWelcomePage = function(profilesSection){
     var _main = $('<main>').addClass('mainWelcomePage');
 
     var _welcomeSection = Pard.Widgets.WelcomeSection().attr('id','welcomeSection').addClass('visible');
 
     var _profiles= $('<section>')
-      .append(Pard.Widgets.ProfilesWelcomeSection().render())
       .addClass('welcomeSection-layout')
       .attr('id','profilesSection').hide();
     
-    var _events = $('<section>').attr('id','eventsSection').hide();
+    var _events = $('<section>')
+      .addClass('welcomeSection-layout')
+      .attr('id','eventsSection').hide();
     
-    var _news = $('<section>').attr('id','newsSection').hide();
+    var _news = $('<section>')
+      .addClass('welcomeSection-layout')
+      .attr('id','newsSection').hide();
 
     _main.append(_welcomeSection, _profiles, _events, _news);
 
@@ -25,6 +28,64 @@ ns.Widgets = ns.Widgets || {};
       render: function(){
         return _main;
       }
+    }
+  }
+
+  ns.Widgets.NewsWelcomeSection = function(){
+    var _createdWidget = $('<div>')
+    var _cards = $('<div>').addClass('welcomeSection-container');
+    var _searchResult = $('<div>').addClass('search-results-WelcomePage');
+
+    _cards.append(_searchResult);
+
+    _createdWidget.append(_cards);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+      // ,
+      // activate: function(){
+      //   if(_searchWidget.hasClass('active')) _searchWidget.removeClass('active');
+      // },
+      // deactivate: function(){
+      //   if(!_searchWidget.hasClass('active')) _searchWidget.addClass('active');
+      // },
+    }
+  }
+
+  ns.Widgets.EventsWelcomeSection = function(){
+    var _createdWidget = $('<div>')
+    var _cards = $('<div>').addClass('welcomeSection-container');
+    var _searchResult = $('<div>').addClass('search-results-WelcomePage');
+
+    var _createdWidget = $('<div>');
+    if (Pard.UserStatus['status'] == 'owner') var _myProfilesId = Pard.CachedProfiles.map(function(profile){
+      return profile.profile_id
+    })
+    else var _myProfilesId = [];
+    Pard.Backend.events(function(data){   
+      var events = data.events;
+      events.forEach(function(event){
+        var _myEvent = ($.inArray(event.profile_id, _myProfilesId))>-1;
+        var _eventCardContainer = $('<div>').append($('<div>').append(Pard.Widgets.EventCard(event, _myEvent)).addClass('eventCard-container-welcomePage')).addClass('outer-eventCard-container-welcomePage');
+        _searchResult.prepend(_eventCardContainer);
+      })
+    }); 
+
+    _createdWidget.append(_cards.append(_searchResult));
+
+    return{
+      render: function(){
+        return _createdWidget;
+      }
+      // ,
+      // activate: function(){
+      //   if(_searchWidget.hasClass('active')) _searchWidget.removeClass('active');
+      // },
+      // deactivate: function(){
+      //   if(!_searchWidget.hasClass('active')) _searchWidget.addClass('active');
+      // },
     }
   }
 
@@ -365,6 +426,7 @@ ns.Widgets = ns.Widgets || {};
 
       _cardsContainer.append(_cardSlider);
       _cardSlider.slick({
+        draggable: false,
         centerMode: true,
         variableWidth: true,
         centerPadding:  0,
@@ -392,6 +454,12 @@ ns.Widgets = ns.Widgets || {};
             }
           }
         ]
+      });
+
+      _cardSlider.on('beforeChange', function(slick, currentSlide, nextSlide){
+        console.log(currentSlide)
+        console.log(nextSlide)
+        // $('.slick-center').addClass('mediumCard-slide');
       });
 
       _cardSlider.on('afterChange',function(slick, current_slide){
@@ -434,13 +502,15 @@ ns.Widgets = ns.Widgets || {};
     var _contactDiv = $('<div>').addClass('contactDiv');
     var _contactContainer = $('<div>').addClass('welcomeSection-container'); 
     var _longText = $('<div>').append(
-      $('<p>').html('Un lugar donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, organizaciones, gestores culturales e instituciones </br>donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, y de dar valor a los proyectos mas allá de un solo encuentro. '),
-      $('<p>').html('Orfheo se basa en un concepto simple y potente: podemos hacer mas cosas juntos que por separado. </br> Creemos en el poder del compartir, en nuevas fronteras culturales posibles gracias al intercambio.'),
-      $('<p>').html('Actuar a nivel local y pensar en red globalmente de forma colaborativa es una oportunidad para compartir recursos, estimular, potenciar y crear nuevas posibilidades y enlaces.'),
-      $('<p>').html('<strong>TRABAJA EN RED CON Y PARA TU COMUNIDAD CULTURAL LOCAL </br> CONTACTANOS PARA LANZAR Y GESTIONAR TU CONVOCATORIA</strong>'),
-      $('<p>').html('<strong>En orfheo es posible lanzar y gestionar convocatorias artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro.</strong>')
+      $('<p>').html('Una comunidad donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, espacios y organizaciones donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, </br> y de dar valor a los proyectos mas allá de un solo encuentro. '),
+      $('<p>').html('Orfheo se basa en un concepto simple y potente: podemos hacer mas cosas juntos que por separado.'),
+      // $('<p>').html('Actuar a nivel local y pensar en red globalmente de forma colaborativa es una oportunidad para compartir recursos, estimular, potenciar y crear nuevas posibilidades y enlaces.'),
+      $('<p>').html('<strong>CREA EN RED CON Y PARA TU COMUNIDAD CULTURAL LOCAL') 
+      // CONTACTANOS PARA LANZAR Y GESTIONAR TU CONVOCATORIA
+      // $('<p>').html('<strong>En orfheo es posible lanzar y gestionar convocatorias artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro.</strong>')
     ).addClass('longText');
     var _logoContact = $('<div>').addClass('logo-contactDiv');
+    
     var _contactForm = $('<div>').addClass('contactForm-container');
     var _form = $('<form>');
     var _nameInput = Pard.Widgets.Input('Nombre','text');
@@ -457,7 +527,7 @@ ns.Widgets = ns.Widgets || {};
     _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
     _contactForm.append(_form, _submitBtn.render());
 
-    _contactDiv.append(_contactContainer.append(_logoContact, _longText, _contactForm));
+    _contactDiv.append(_contactContainer.append(_logoContact, _longText));
 
     _section.append(_entryDiv, _littleTextDiv, _actionDiv, _contactDiv);
 

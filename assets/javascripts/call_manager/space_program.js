@@ -75,14 +75,14 @@
           var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
           _timeCol.append(moment(performance.date).locale('es').format('dddd').toUpperCase());
-          _titleCol.append(moment(performance.date).locale('es').format('DD-MM-YYYY'));
-          _nameCol.html('');
+          _nameCol.append(moment(performance.date).locale('es').format('DD-MM-YYYY'));
+          _titleCol.html('');
           _categoryCol.html('');
           _shortDCol.html('');
           _phoneCol.html('');
           _emailCol.html('');
 
-          _dayRow.append(_timeCol, _titleCol, _nameCol, _categoryCol, _shortDCol, _phoneCol, _emailCol);
+          _dayRow.append(_timeCol, _nameCol, _categoryCol, _titleCol, _shortDCol, _phoneCol, _emailCol);
           _tbody.append(_dayRow);
           _dayRowPos.push(_rowPosition);
           _rowPosition = _rowPosition + 1;
@@ -99,14 +99,14 @@
           var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
           var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
           _timeCol.append('Permanente');
-          _titleCol.append(moment(performance.date).locale('es').format('dddd'));
-          _nameCol.html('');
+          _nameCol.append(moment(performance.date).locale('es').format('dddd'));
+          _titleCol.html('');
           _categoryCol.html('');
           _shortDCol.html('');
           _phoneCol.html('');
           _emailCol.html('');
 
-          _permanentRow.append(_timeCol, _titleCol, _nameCol, _categoryCol, _shortDCol, _phoneCol, _emailCol);
+          _permanentRow.append(_timeCol, _nameCol, _categoryCol, _titleCol, _shortDCol, _phoneCol, _emailCol);
           _tbody.append(_permanentRow);
           _permanentRowPos.push(_rowPosition);
           _rowPosition = _rowPosition + 1;
@@ -321,7 +321,7 @@
         _popup.open();
       });
 
-      _row.append(_timeCol, _titleCol, _nameCol, _categoryCol, _shortDCol, _phoneCol, _emailCol);
+      _row.append(_timeCol,  _nameCol, _categoryCol, _titleCol,_shortDCol, _phoneCol, _emailCol);
       
       return _row;
     }

@@ -336,7 +336,7 @@
 
     if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
-        { format: 'jpg', width: 170, height: 112,
+        { format: 'jpg', width: 172, height: 112,
           crop: 'fill', effect: 'saturation:50' });
       _photoContainer.append(_photo);
     };
@@ -386,7 +386,10 @@
 
   ns.Widgets.EventCard = function(event, owner){
     console.log(owner);
-    var _card = $('<div>').addClass('eventCard');
+    var _card = $('<div>').addClass('eventCard')
+      .css({
+        'border-left-color': '#bebebe'
+      });
     var _header = $('<div>').addClass('header-eventCard');
 
     var _name = $('<a>').addClass('name-eventCard').append($('<h6>').text(event.name)).attr({'href':'/event?id='+ event.event_id});
