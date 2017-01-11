@@ -108,7 +108,7 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.ContactInfo = function(_popup){
 
-    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _outerContainer = $('<div>').addClass('vcenter-outer fullWidth');
     var _container = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>');
     _popupContent.addClass('popup-container-full contactInfo-popup-bigalert'); 
