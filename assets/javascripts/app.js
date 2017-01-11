@@ -103,23 +103,6 @@ Pard.Welcome = function(){
   });
 }
 
-// Pard.Welcome = function(){
-
-//   var _header = Pard.Widgets.NewLoginHeader();
-//   var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, Pard.Widgets.LoginSection);
-
-//   var _footer = Pard.Widgets.Footer();
-//   var _whole = $('<div>').addClass('whole-container');
-
-//   _whole.append(_header.render(), _main.render().addClass('outsider-main'), _footer.render().addClass('footer-outsider'));
-
-//   $('body').append(_whole);
-
-//   $(document).ready(function(){
-//     $(document).foundation();
-//     $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
-//   });
-// }
 
 Pard.Users = function(profiles){
 
@@ -128,7 +111,7 @@ Pard.Users = function(profiles){
 
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
-  var _main = Pard.Widgets.MainLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
+  var _main = Pard.Widgets.MainOffCanvasLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
   var _footer = Pard.Widgets.Footer();
 
   $(_whole).append(_header.render(), _main.render().addClass('main-welcome-page'), _footer.render());
@@ -282,7 +265,7 @@ Pard.Event = function(the_event, status){
   var _footer = Pard.Widgets.Footer();
   if(status == 'visitor' || status == 'owner') var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
   else{var _header = Pard.Widgets.LoginHeader();}
-  var _main = Pard.Widgets.MainLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
+  var _main = Pard.Widgets.MainOffCanvasLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
   _whole.append(_header.render().removeClass('outsider-header'), _main.render().addClass('main-welcome-page'), _footer.render().removeClass('footer-outsider'));
 
 
@@ -358,7 +341,16 @@ Pard.Chat = function(){
     }
   }
 
-  var _main = Pard.Widgets.MainLayout(Pard.Widgets.LoginAside, _chatSection);
+  var _aside = function(){
+    var _createdWidget = $('<div>').addClass('aside-container login-aside-container');
+    return{ 
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+  var _main = Pard.Widgets.MainOffCanvasLayout(_aside, _chatSection);
   var _whole = $('<div>').addClass('whole-container');
 
   var _header = Pard.Widgets.LoginHeader();

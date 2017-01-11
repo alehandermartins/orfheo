@@ -83,38 +83,7 @@ ns.Widgets = ns.Widgets || {};
     }
   }	
 
-	ns.Widgets.NewLoginHeader = function(){
-    var _createdWidget = $('<header>').addClass('loginHeader-AllPage full');
-
-    var _container = $('<div>').addClass('container-header');
-    var _content = $('<div>').addClass('content-loginSinUp-header');
-    var _logo = $('<a>').attr({
-      'href': '#/'
-    }).append($('<div>').addClass('logo-welcomePage'));
-    var _logoBaseline = $('<div>').append($('<p>').text('your cultural community')).addClass('logoBaseline-welcomePage');
-    var _signUpButtonContainer = $('<div>').append(Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage')).addClass('signUpBtn-container');
-    var _loginContainer = $('<div>');
-    var _loginText = $('<a>').attr({'href': '#/'}).text('Login').addClass('loginText-welcomePage');
-    var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container'));
-
-    _loginText.click(function(){
-      _loginText.remove();
-      _loginContainer.append(_loginInputs);
-    });
-    _content.append(_logo, _logoBaseline, _signUpButtonContainer);
-
-    var _loginWidget = $('<div>').append(_loginContainer, _loginText).addClass('container-loginHeader');
-
-    _createdWidget.append(_container.append(_content), _loginWidget);
-
-    return {
-      render : function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-   ns.Widgets.LoginHeader = function(){
+  ns.Widgets.LoginHeader = function(){
     
     var _createdWidget = $('<header>').addClass('login-bar outsider-header'
     );
