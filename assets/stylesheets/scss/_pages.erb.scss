@@ -417,6 +417,50 @@ main.mainWelcomePage{
   width: 690px;
   @include horizontal-center;
   position: relative;
+  ul.select2-selection__rendered{
+    padding: 0 2rem 0 3.6rem !important;
+  }
+}
+
+
+.rfhIcon-searchWidget{
+  background-image: url(<%= image_path 'orfheosimbolonegro.png' %>);
+  width: 1.7rem;
+  height: 1.2rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.rfhIcon-searchWidget-container{
+  width: 3rem;
+  height: 100%;
+  display: inline-block;
+  position: absolute;
+  left: 0rem;
+  top: 0rem;
+  border-right: 2px solid $grey-2;
+  /* margin: .3rem 0 1.2rem 0; */
+}
+
+.cleanIcon-searchWidget-container{
+  width: 2rem;
+  height: 2.45rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-block;
+}
+
+.cleanIcon-searchWidget{
+  font-size: 2rem;
+  margin-top: 0.25rem;
+  margin-left: 0.4rem;
+}
+
+.cleanIcon-searchWidget:hover{
+  color: rgba(0,0,0,.8);
 }
 
 /*===============================================

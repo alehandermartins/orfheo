@@ -156,7 +156,17 @@ ns.Widgets = ns.Widgets || {};
     });
 
     var _searchInputContainer = $('<div>').addClass('search-input-WelcomePage-Container');
-    var _searchInput = $('<div>').append(_searchWidget).addClass('search-input-WelcomePage');
+    var _rfhIcon = $('<div>').append($('<div>').addClass('rfhIcon-searchWidget')).addClass('rfhIcon-searchWidget-container');
+    var _cleanIcon = $('<div>')
+      .append($('<button>')
+        .attr('type','button')
+        .addClass('cleanIcon-searchWidget')
+        .html('&times;'))
+        .click(function(){
+          if (_searchWidget.val()) _searchWidget.val('').trigger('change');
+        })  
+      .addClass('cleanIcon-searchWidget-container');
+    var _searchInput = $('<div>').append(_searchWidget, _rfhIcon, _cleanIcon).addClass('search-input-WelcomePage');
     _searchInputContainer.append(_searchInput);
 
     var _searchTagsBox = $('<div>').addClass('search-tag-box');
