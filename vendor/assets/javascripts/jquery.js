@@ -37,4 +37,3 @@
 //=require multiple-select
 
 // = require slick.min
-//=require ftellipsis.min

@@ -516,29 +516,8 @@
     var _img = $.cloudinary.image(news.img,{ format: 'png', width: 228, height: 140, crop: 'fill', effect: 'saturation:50' });
     _image.append(_img);
 
-    // var _popupImg = $.cloudinary.image(news.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
-    // var _popupContainer = $('<div>').addClass('fast reveal full');
-    // var _outerContainer = $('<div>').addClass('vcenter-outer');
-    // var _innerContainer = $('<div>').addClass('vcenter-inner');
-    // var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
-    // _closeBtn.append($('<span>').html('&times;'));
-    // var _popup = new Foundation.Reveal(_popupContainer, {animationIn: 'fade-in', animationOut: 'fade-out'});
-    // _closeBtn.click(function(){
-    //   _popup.close();
-    // });
-    // var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
-    // _innerContainer.append(_popupContent);
-    // _popupContainer.append(_outerContainer.append(_innerContainer));
-    // _img.one('mouseover', function(){
-    //   $('body').append(_popupContainer)
-    // });
-    // _img.click(function(){
-    //   _popup.open();
-    // });
-
     var _info = $('<div>').addClass('infoContainer-newCard');
     var _title = $('<div>').append(news.title).addClass('title-newsCard');
-    // var _newsTxt = $('<p>').html(news.text);
     var _text = $('<div>').append(news.text).addClass('text-newsCard');
     var _date = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale('es').format('DD MMM YYYY'))).addClass('date-newsCard');
     _info.append(_title, _text);
@@ -619,7 +598,8 @@
       var _sectionContainer = $('<section>').addClass('popup-content');
       var _popupTitle = $('<h4>').html(news.title).addClass('title-popup-cardNews');
       var _popupText = $('<div>').html(news.text);
-      _sectionContainer.append(_popupTitle, _popupText);
+      var _popupDate = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale('es').format('DD MMM YYYY'))).addClass('popupDate-newsCard');
+      _sectionContainer.append(_popupTitle, _popupText, _popupDate);
 
       _popupContent.append(_header, _sectionContainer);
       _outerContainer.append(_container.append(_popupContent));

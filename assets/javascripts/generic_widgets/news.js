@@ -6,7 +6,13 @@ ns.Widgets = ns.Widgets || {};
 
 	ns.NewsArray = [
 		{
-			'title':'Convocatoria abierta VII Distrito 008 - Extramurs',
+			'title':'Estreno de la nueva versión de orfheo',
+			'text':'<p>Nuevo diseño, nueva herramienta de gestión de convocatorias, nuevas funcionalidades para artistas y espacios. </p><p>Como prometido, desde su lanzamiento, orfheo ha ido desarrollándose y mejorándose. La plataforma está lista para hospedar cualquier tipo de evento participativo y acompañar su organización en todas sus fases. La nueva herramienta de gestión no sólo permite ordenar, filtrar, consultar y descargar los datos recibidos de la convocatoria sino también modificar y eliminar las propuestas recibidas. Hacer y publicar el programa de un evento nunca ha sido tan rápido y sencillo. Definir para cada espacio su programación es tan fácil como arrastrar una tarjeta bajo su relativa columna. Sacar y personalizar listados de correo para cada categoría, programa o espacio cuesta tan solo un "click". </p><p>Los artistas pueden crearse un portfolio y inscribir sus contenidos a nuevas convocatorias sin tener que volver a editar sus datos. Los espacios pueden aprovechar de la nueva función de geolocalización para definir con precisión su posición en un mapa.</p> <p> El programa que se publica online es totalmente interactivo y permite explorar y navegar entre los perfiles de los participantes al evento.   </p> <p> La web se adapta perfectamente al tamaño de un móvil funcionando para el publico como la guía perfecta durante un evento.   </p>	',
+			'img': 'orfheologocolor_ygrccv',
+			'date': '1485169200000'
+		},
+		{
+			'title':'Convocatoria abierta VII Distrito 008 - Festival Urbano de Extramurs',
 			'text':'<p><a href ="/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6", target = "_blank">Convocatoria abierta</a> para artistas y espacios hasta el 26 de diciembre.</p>',
 			'img': 'imagen_convocatoria_def-03-min_uvkkvr',
 			'date': '1479726000000'
