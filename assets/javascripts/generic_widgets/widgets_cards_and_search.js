@@ -511,41 +511,130 @@
 
   ns.Widgets.NewsCard = function(news){
     var _newsCard  =$('<div>').addClass('newsCard');
-    console.log(news)
 
     var _image = $('<div>').addClass('imgContainer-newsCard');
     var _img = $.cloudinary.image(news.img,{ format: 'png', width: 228, height: 140, crop: 'fill', effect: 'saturation:50' });
     _image.append(_img);
 
-    var _popupImg = $.cloudinary.image(news.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
-    var _popupContainer = $('<div>').addClass('fast reveal full');
-    var _outerContainer = $('<div>').addClass('vcenter-outer');
-    var _innerContainer = $('<div>').addClass('vcenter-inner');
-    var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
-    _closeBtn.append($('<span>').html('&times;'));
-    var _popup = new Foundation.Reveal(_popupContainer, {animationIn: 'fade-in', animationOut: 'fade-out'});
-    _closeBtn.click(function(){
-      _popup.close();
-    });
-    var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
-    _innerContainer.append(_popupContent);
-    _popupContainer.append(_outerContainer.append(_innerContainer));
-    _img.one('mouseover', function(){
-      $('body').append(_popupContainer)
-    });
-    _img.click(function(){
-      _popup.open();
-    });
+    // var _popupImg = $.cloudinary.image(news.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });
+    // var _popupContainer = $('<div>').addClass('fast reveal full');
+    // var _outerContainer = $('<div>').addClass('vcenter-outer');
+    // var _innerContainer = $('<div>').addClass('vcenter-inner');
+    // var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+    // _closeBtn.append($('<span>').html('&times;'));
+    // var _popup = new Foundation.Reveal(_popupContainer, {animationIn: 'fade-in', animationOut: 'fade-out'});
+    // _closeBtn.click(function(){
+    //   _popup.close();
+    // });
+    // var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn);
+    // _innerContainer.append(_popupContent);
+    // _popupContainer.append(_outerContainer.append(_innerContainer));
+    // _img.one('mouseover', function(){
+    //   $('body').append(_popupContainer)
+    // });
+    // _img.click(function(){
+    //   _popup.open();
+    // });
 
     var _info = $('<div>').addClass('infoContainer-newCard');
-    var _title = $('<div>').html(news.title).addClass('title-newsCard');
-    var _text = $('<div>').append($('<p>').html(news.text)).addClass('text-newsCard');
-    console.log(new Date(parseInt(news.date)))
-    var _date  =$('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale('es').format('DD MMM YYYY'))).addClass('date-newsCard');
+    var _title = $('<div>').append(news.title).addClass('title-newsCard');
+    // var _newsTxt = $('<p>').html(news.text);
+    var _text = $('<div>').append(news.text).addClass('text-newsCard');
+    var _date = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale('es').format('DD MMM YYYY'))).addClass('date-newsCard');
+    _info.append(_title, _text);
+    
+    _newsCard.append(_image, _info);
 
-    _info.append(_title, _text, _date)
+    var _popupNews;
+    _image
+      .hover(
+        function(){
+          _title.css('text-decoration','underline');
+        },
+        function(){
+          _title.css('text-decoration','');
+        }
+      )
+      .one('click', function(){
+        if (!(_popupNews)){
+          _popupNews = _newsPopup(news);
+        }
+      })
+      .click(function(){
+        _popupNews.open();
+      });
+    _title
+      .one('click', function(){
+        if (!(_popupNews)){
+          _popupNews = _newsPopup(news);
+        }
+      })
+      .click(function(){
+        _popupNews.open();
+      });
 
-    _newsCard.append(_image, _info)
+    var _textBox = $('<div>').append(
+      $('<div>').html(news.title).css('font-weight','bold'),
+      $('<div>').append($('<p>').html(news.text)).css('font-size','12px')
+      )
+      .css({
+        'width':'220px'
+      });
+    $('body').append(_textBox);
+    var _height = _textBox.height();
+    _textBox.remove();
+    if (_height > 93) _newsCard.append(
+      $('<span>').addClass('dots-info-newsCard')
+        .append($('<button>').attr('type','button').html('&#10143'))
+        .one('click', function(){
+          if(!(_popupNews)) _popupNews = _newsPopup(news); 
+        })
+        .click(function(){
+          _popupNews.open();
+        })
+      );
+
+    _newsCard.append(_date);
+
+    var _newsPopup = function(news){
+
+      var _createdWidget = $('<div>').addClass('very-fast reveal full');
+      var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out',multipleOpened:true});
+
+      var _outerContainer = $('<div>').addClass('vcenter-outer');
+      var _container = $('<div>').addClass('vcenter-inner');
+      var _popupContent = $('<div>');
+      _popupContent.addClass('popup-container-full'); 
+
+      var _header = $('<div>').addClass('row popup-header');
+      var _popupImg = $('<div>').addClass('imagePopup-cardNews')
+        .append( $.cloudinary.image(news.img,{ format: 'jpg',  width: 750, height:460, crop: 'fill', effect: 'saturation:50' }));
+      var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
+      _closeBtn.append($('<span>').attr('aria-hidden', true).html('&times;'))
+        .click(function(){
+          _popup.close();
+        });
+      _header.append(_popupImg, _closeBtn);
+
+      var _sectionContainer = $('<section>').addClass('popup-content');
+      var _popupTitle = $('<h4>').html(news.title).addClass('title-popup-cardNews');
+      var _popupText = $('<div>').html(news.text);
+      _sectionContainer.append(_popupTitle, _popupText);
+
+      _popupContent.append(_header, _sectionContainer);
+      _outerContainer.append(_container.append(_popupContent));
+      _createdWidget.append(_outerContainer);
+      $('body').append(_createdWidget);
+
+      return{
+        open: function(){
+          _popup.open();
+        },
+        close: function(){
+          _popup.close()
+        }
+      }
+    }
 
     return _newsCard;
   }
