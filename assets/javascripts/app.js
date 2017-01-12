@@ -80,6 +80,8 @@ Pard.ProposalsManager = {
 
 Pard.Welcome = function(){
 
+  Pard.UserStatus['status'] = 'outsider';
+
   var _header = Pard.Widgets.NavLoginHeader();
   var _main = Pard.Widgets.MainWelcomePage();
 
@@ -106,15 +108,16 @@ Pard.Welcome = function(){
 
 Pard.Users = function(profiles){
 
-  console.log(profiles);
+  Pard.UserStatus['status'] = 'owner';
   Pard.CachedProfiles = profiles;
 
-  var _whole = $('<div>').addClass('whole-container');
-  var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
-  var _main = Pard.Widgets.MainOffCanvasLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
-  var _footer = Pard.Widgets.Footer();
+  var _header = Pard.Widgets.NavLoginHeader();
+  var _main = Pard.Widgets.MainUserPage();
 
-  $(_whole).append(_header.render(), _main.render().addClass('main-welcome-page'), _footer.render());
+  var _footer = Pard.Widgets.Footer();
+  var _whole = $('<div>').addClass('whole-container');
+
+  _whole.append(_header.render(), _main.render().addClass('outsider-main'), _footer.render());
 
   $('body').append(_whole);
 
@@ -130,6 +133,35 @@ Pard.Users = function(profiles){
     });
   });
 }
+
+
+// Pard.Users = function(profiles){
+
+//   console.log(profiles);
+//   Pard.CachedProfiles = profiles;
+//   Pard.UserStatus['status'] = 'owner';
+
+//   var _whole = $('<div>').addClass('whole-container');
+//   var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
+//   var _main = Pard.Widgets.MainOffCanvasLayout(Pard.Widgets.UserAside, Pard.Widgets.UserSection);
+//   var _footer = Pard.Widgets.Footer();
+
+//   $(_whole).append(_header.render(), _main.render().addClass('main-welcome-page'), _footer.render());
+
+//   $('body').append(_whole);
+
+//   $(document).ready(function(){
+//     $(document).foundation();
+//     $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+//       if (!($('.reveal[aria-hidden="false"]').length)){
+//         $('html').removeClass('overflowHidden');
+//       }
+//     });
+//     $(document).on('open.zf.reveal', function(){
+//       $('html').addClass('overflowHidden');
+//     });
+//   });
+// }
 
 Pard.Profile = function(profiles){
   Pard.CachedProfiles  = profiles;

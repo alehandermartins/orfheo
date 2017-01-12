@@ -21,7 +21,7 @@
   ns.Widgets.CreateProfileCard = function(callbackEvent, allowedProfile){
 
     var _createProfileCardContainer = $('<div>');
-    var _createProfileCard =$('<a>').attr({href: '#/'}).addClass('profileCard position-profileCard-login');
+    var _createProfileCard =$('<a>').attr({href: '#/'}).addClass('profileCard');
     var _color = '#6f6f6f';
     _createProfileCard.css({border: 'solid 2px'+_color});
     _createProfileCard.hover(

@@ -45,7 +45,7 @@ ns.Widgets = ns.Widgets || {};
 			'title':'¡conFusión en orfheo!',
 			'text':'<p>La organización del Benimaclet conFusión festival usará orfheo para gestionar la edición 2016. <a href = "/event?id=a5bc4203-9379-4de0-856a-55e1e5f3fac6", target = "_blank">Convocatoria abierta </a> desde el 1 de mayo hasta el 15 de junio.</p>',
 			'img': 'logoconf2016_min_vwcuio',
-			'date': '1486206000000'
+			'date': '1459764000000'
 		}
 
 	]

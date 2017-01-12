@@ -470,7 +470,7 @@ ns.Widgets = ns.Widgets || {};
     _entryDiv.append(_entryContentContainer.append(_entryContent));
     
     var _littleTextDiv= $('<div>').addClass('littleTextDiv').append(
-      $('<div>').append($('<h5>').text('nuevas posibilidades culturales creadas por conexiones y enlaces')).addClass('welcomeSection-container'));
+      $('<div>').append($('<h4>').text('Nuevas posibilidades culturales creadas por conexiones y enlaces')).addClass('welcomeSection-container'));
 
 
     var _actionDiv = $('<div>').addClass('actionDiv');
@@ -482,26 +482,25 @@ ns.Widgets = ns.Widgets || {};
     var _img1 = $('<div>').addClass('img1Box');
     var _img2 = $('<div>').addClass('img2Box');
     var _img3 = $('<div>').addClass('img3Box');
-    var _text1 = $('<div>').addClass('txtBox').append($('<p>').text('Aquí y ahora').css('font-weight','bold'), $('<p>').html('Descubre proyecto y déjate </br> conocer por lo que haces').addClass('txt_grey'));
-    var _text2 = $('<div>').addClass('txtBox').append($('<p>').text('Toma el control').css('font-weight','bold'), $('<p>').html('Lanza y gestiona </br> tu convocatoria').addClass('txt_grey'));
-    var _text3 = $('<div>').addClass('txtBox').append($('<p>').text('Hazlo').css('font-weight','bold'), $('<p>').html('Crea experiencias inolvidables </br> junto con los demás').addClass('txt_grey'));
+    var _text1 = $('<div>').addClass('txtBox').append($('<h4>').text('Aquí y ahora'), $('<p>').html('Descubre proyecto y déjate </br> conocer por lo que haces').addClass('txt_grey'));
+    var _text2 = $('<div>').addClass('txtBox').append($('<h4>').text('Toma el control'), $('<p>').html('Lanza y gestiona </br> tu convocatoria').addClass('txt_grey'));
+    var _text3 = $('<div>').addClass('txtBox').append($('<h4>').text('Hazlo'), $('<p>').html('Crea experiencias inolvidables </br> junto con los demás').addClass('txt_grey'));
     _info1.append($('<div>').addClass('innerCont1').append(_img1, _text1));
     _info2.append(_img2, _text2);
     _info3.append($('<div>').addClass('innerCont3').append(_img3, _text3));
     _actionDiv.append(_actionContainer.append(_info1, _info2, _info3));
 
-    var _contactDiv = $('<div>').addClass('contactDiv');
-    var _contactContainer = $('<div>').addClass('welcomeSection-container'); 
+    var _longTextDiv = $('<div>').addClass('contactDiv');
+    var _longTextContainer = $('<div>').addClass('welcomeSection-container'); 
     var _longText = $('<div>').append(
-      $('<p>').html('Una comunidad donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, espacios y organizaciones donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, </br> y de dar valor a los proyectos mas allá de un solo encuentro. '),
-      $('<p>').html('Orfheo se basa en un concepto simple y potente: podemos hacer mas cosas juntos que por separado.'),
-      // $('<p>').html('Actuar a nivel local y pensar en red globalmente de forma colaborativa es una oportunidad para compartir recursos, estimular, potenciar y crear nuevas posibilidades y enlaces.'),
-      $('<p>').html('<strong>CREA EN RED CON Y PARA TU COMUNIDAD CULTURAL LOCAL') 
+      $('<p>').html('Un lugar donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, espacios y organizaciones donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, </br> y de dar valor a los proyectos mas allá de un solo encuentro. '),
+      $('<p>').html('Orfheo se basa en un concepto simple y potente: podemos hacer mas cosas juntos que por separado.')
+      // $('<p>').html('Actuar a nivel local y pensar en red globalmente de forma colaborativa es una oportunidad para compartir recursos, estimular, potenciar y crear nuevas posibilidades y enlaces.'), 
       // CONTACTANOS PARA LANZAR Y GESTIONAR TU CONVOCATORIA
       // $('<p>').html('<strong>En orfheo es posible lanzar y gestionar convocatorias artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro.</strong>')
     ).addClass('longText');
-    var _logoContact = $('<div>').addClass('logo-contactDiv');
-    
+    var _titleLongText = $('<div>').append($('<h4>').html('Crea en red con tu comunidad cultural')).css('text-align','center');
+
     var _contactForm = $('<div>').addClass('contactForm-container');
     var _form = $('<form>');
     var _nameInput = Pard.Widgets.Input('Nombre','text');
@@ -518,9 +517,9 @@ ns.Widgets = ns.Widgets || {};
     _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
     _contactForm.append(_form, _submitBtn.render());
 
-    _contactDiv.append(_contactContainer.append(_logoContact, _longText));
+    _longTextDiv.append(_longTextContainer.append(_titleLongText));
 
-    _section.append(_entryDiv, _littleTextDiv, _actionDiv, _contactDiv);
+    _section.append(_entryDiv, _littleTextDiv, _actionDiv, _longTextDiv);
 
     return _section;
 

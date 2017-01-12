@@ -23,18 +23,27 @@ ns.Widgets = ns.Widgets || {};
     	});
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
 
-    var _loginContainer = $('<div>').addClass('loginContainer');
-    var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
-   	
-    var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login ').addClass('loginText')
-    	.click(function(){
-    		if (_loginText.hasClass('clicked')) _loginText.removeClass('clicked');
-    		else _loginText.addClass('clicked');
-    	});
+    var _rightContainer = $('<div>');
+    if (Pard.UserStatus['status'] == 'outsider'){
+      _rightContainer.addClass('loginContainer')
+      var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
+     	
+      var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login ').addClass('loginText')
+      	.click(function(){
+      		if (_loginText.hasClass('clicked')) _loginText.removeClass('clicked');
+      		else _loginText.addClass('clicked');
+      	});
 
-    var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':''});
+      var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':''});
 
-    _loginContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));  
+      _rightContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));  
+    }
+    else if (Pard.UserStatus['status'] == 'owner'){
+      _rightContainer.addClass('settingsContainer')
+      var _settingsDropdown = Pard.Widgets.UserDropdownMenu().render()
+        .addClass('settings-blackHeader')
+      _rightContainer.append(_settingsDropdown);
+    }
 
   	var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
   	var _navMenu = $('<ul>').addClass('navMenuHeader');
@@ -73,7 +82,7 @@ ns.Widgets = ns.Widgets || {};
   	_navMenuContainer.append(_navMenu.append(_profilesBtn, _eventsBtn, _newsBtn));
 
   	_logo.addClass('selected');
-    _content.append(_logoContainer, _navMenuContainer, _loginContainer)
+    _content.append(_logoContainer, _navMenuContainer, _rightContainer)
     _createdWidget.append(_container.append(_content));
 
     return {

@@ -31,6 +31,33 @@ ns.Widgets = ns.Widgets || {};
     }
   }
 
+  ns.Widgets.MainUserPage = function(profilesSection){
+    var _main = $('<main>').addClass('mainUserPage');
+
+    var _initSection = Pard.Widgets.UserInitSection().attr('id','welcomeSection').addClass('visible');
+
+    var _profiles= $('<section>')
+      .addClass('welcomeSection-layout')
+      .attr('id','profilesSection').hide();
+    
+    var _events = $('<section>')
+      .addClass('welcomeSection-layout')
+      .attr('id','eventsSection').hide();
+    
+    var _news = $('<section>')
+      .addClass('welcomeSection-layout')
+      .attr('id','newsSection').hide();
+
+    _main.append(_initSection, _profiles, _events, _news);
+
+    return {
+      render: function(){
+        return _main;
+      }
+    }
+  }
+
+
   ns.Widgets.ProfileMainLayout = function(){
 
     var profiles = Pard.CachedProfiles;

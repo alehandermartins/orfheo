@@ -517,7 +517,8 @@
     _image.append(_img);
 
     var _info = $('<div>').addClass('infoContainer-newCard');
-    var _title = $('<div>').append(news.title).addClass('title-newsCard');
+    var _cutTitle = Pard.Widgets.FitInBox($('<span>').append(news.title), 220, 48).render();
+    var _title = $('<div>').append(_cutTitle).addClass('title-newsCard');
     var _text = $('<div>').append(news.text).addClass('text-newsCard');
     var _date = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale('es').format('DD MMM YYYY'))).addClass('date-newsCard');
     _info.append(_title, _text);
@@ -563,7 +564,7 @@
     var _height = _textBox.height();
     _textBox.remove();
     if (_height > 93) _newsCard.append(
-      $('<span>').addClass('dots-info-newsCard')
+      $('<div>').addClass('dots-info-newsCard')
         .append($('<button>').attr('type','button').html('&#10143'))
         .one('click', function(){
           if(!(_popupNews)) _popupNews = _newsPopup(news); 
@@ -572,6 +573,8 @@
           _popupNews.open();
         })
       );
+
+    if(news.title.length<29) _title.css('margin-bottom','0.3rem');
 
     _newsCard.append(_date);
 

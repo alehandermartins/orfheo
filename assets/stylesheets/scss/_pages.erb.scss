@@ -122,6 +122,7 @@ main.mainWelcomePage{
     width: 984px;
     height: 100%;
     @include horizontal-center; 
+    position: relative;
   }
   .entryDiv{
     width: 100vw;
@@ -265,7 +266,7 @@ main.mainWelcomePage{
   height: 6.2rem;
   position: relative;
   text-align: center;
-  margin: 0.5rem 0;
+  margin: 0.4rem 0;
   width: 100%;
   background: $grey-1;
   .welcomeSection-container{
@@ -278,7 +279,7 @@ main.mainWelcomePage{
   position: relative;
   width: 100vw;
   text-align: center;
-  margin: 0.5rem 0;
+  margin: 0.4rem 0;
   background: $grey-1;
   .welcomeSection-container{
     padding: 5rem 0;
@@ -330,7 +331,7 @@ main.mainWelcomePage{
 .contactDiv{
   position: relative;
   width: 100vw;
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
   /* margin: 0.5rem 0 1.5rem 0; */
   background: $grey-1;
   .welcomeSection-container{
@@ -344,7 +345,7 @@ main.mainWelcomePage{
     @include horizontal-center;
     position: relative;
     width: 48rem;
-    margin-top: 4rem;
+    margin-top: 3rem;
     p{
       margin-bottom: 1.5rem;
     }
@@ -395,6 +396,7 @@ main.mainWelcomePage{
   margin: 0 -0.95rem;
   padding-bottom: 3rem;
   padding-top: 1rem;
+  position: relative;
 }
 
 .card-container-WelcomePage{
@@ -1033,6 +1035,24 @@ Header
   color: rgba(0,0,0,0.8);
 }
 
+.settings-blackHeader{
+  .settings-icon-dropdown-menu{
+    color: white;
+  }
+  .settings-icon-dropdown-menu:hover{
+    color: $grey-1;
+  }
+}
+
+.settingsContainer{
+  a.dropdownIconContainer{
+    padding: 0;
+  }
+  position: absolute;
+  right: 0;
+  top: .9rem;
+}
+
 /*-----------------------
 Aside content User page
 -------------------------*/
@@ -1074,6 +1094,19 @@ Aside content User page
 User Section
 --------------*/
 
+.myProfilesContainer{
+  text-align: center;
+}
+
+main.mainUserPage{
+  margin: 0;
+  padding: 0;
+  section{
+    padding-top:3.3rem;
+    min-height: 100vh;
+  }
+}
+
 .profiles-user-section-content{
   padding: 1.5rem;
   background: white;
@@ -1093,7 +1126,6 @@ User Section
 
 .addCircle-create-profile-card{
   color: black;
-  @include horizontal-center;
   font-size: 2.3rem;
   margin-top: 52%;
   position: relative;

@@ -47,6 +47,38 @@
     }
   }
 
+  ns.Widgets.UserInitSection = function(){
+    var _section = $('<section>').addClass('welcomeSection-layout');
+    var _myProfileDiv = $('<div>') .addClass('welcomeSection-container');
+    var _myProfileDivContainer = $('<div>').addClass('welcomeSection-container');
+    var _myprofileOuterCont = $('<div>').addClass('search-results-WelcomePage');
+    var _myProfileContent = $('<div>').addClass('myProfilesContainer');
+    var _myprofiles = Pard.CachedProfiles;
+    if (_myprofiles.length > 0){
+      _myprofiles.forEach(function(profile){
+        var _profileContainer = $('<div>').addClass('card-container-WelcomePage');
+        _myProfileContent.append(_profileContainer.append(Pard.Widgets.CreateCard(profile).render()));
+      })
+    }
+    var _createProfileCardContainer = Pard.Widgets.CreateProfileCard();
+    _myProfileContent.append(_createProfileCardContainer.render().addClass('card-container-WelcomePage'));
+    _myProfileDiv.append(_myprofileOuterCont.append(_myProfileContent));
+
+    var _littleTextDiv= $('<div>')
+      .append(
+        $('<div>').append(
+          Pard.Widgets.Button('lanza una convocatoria en orfheo').render()
+        ).addClass('welcomeSection-container')
+      )
+      .addClass('littleTextDiv');
+
+    _section.append(_myProfileDiv, _littleTextDiv);
+
+    return _section;
+
+  }
+  
+
 
   ns.Widgets.UserDropdownMenu = function(){     
 
@@ -72,8 +104,9 @@
 		_menu.append(_deleteUser, _modifyPassword,  _logout);
 		var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
 		var _iconDropdownMenu = $('<li>').append(
-      $('<a>').attr('href','#/').append(
-        $('<span>').html('&#xE8B8;').addClass('material-icons settings-icon-dropdown-menu')
+      $('<a>').attr('href','#/').addClass('dropdownIconContainer')
+        .append(
+          $('<span>').html('&#xE8B8;').addClass('material-icons settings-icon-dropdown-menu')
         )
       ,_menu
     );
