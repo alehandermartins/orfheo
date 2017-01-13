@@ -160,8 +160,9 @@
     var _forms;
     Pard.Backend.getCallForms(event_info.call_id, function(data){
       _forms = data.forms
-      _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile, Object.keys(_forms));
-      _createdWidget.append(_secondTitle, _createProfileCard.render().addClass('card-container-popup position-profileCard-login'));
+      _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile, Object.keys(_forms)).render();
+      var _createProfileCardContainer = $('<div>').append(_createProfileCard).addClass('card-container-popup');
+      _createdWidget.append(_secondTitle, _createProfileCardContainer);
     });
 
     // var _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile, data);

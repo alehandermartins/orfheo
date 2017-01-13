@@ -78,21 +78,21 @@
         _myProfileContent.append(_cardContainer.append(_card.addClass('position-profileCard-login')));
       })
     }
-    var _createProfileCardContainer = Pard.Widgets.CreateProfileCard().render();
-    _createProfileCardContainer.off('mouseenter mouseleave')
-     .hover(
-          function(){
-            _createProfileCardContainer.css({
-              'box-shadow': 'rgb(255, 255, 255) 0px 0px 5px 2px'
-            });
-          },
-          function(){
-            _createProfileCardContainer.css({
-              'box-shadow':''
-            });
-          }
-        )
-    _myProfileContent.append(_createProfileCardContainer.addClass('createProfileCard-userPage'));
+    var _createProfileCard = Pard.Widgets.CreateProfileCard().render();
+    // _createProfileCard.off('mouseenter mouseleave')
+    //  .hover(
+    //       function(){
+    //         _createProfileCard.css({
+    //           'box-shadow': 'rgb(255, 255, 255) 0px 0px 6px 3px'
+    //         });
+    //       },
+    //       function(){
+    //         _createProfileCard.css({
+    //           'box-shadow':''
+    //         });
+    //       }
+    //     )
+    _myProfileContent.append($('<div>').append(_createProfileCard).addClass('createProfileCard-userPage'));
     if (_myprofiles.length<5){
       _myprofileOuterCont.css({
         'padding-top': '-moz-calc((100vh - 250px - 60px)/2)',

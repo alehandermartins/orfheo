@@ -20,11 +20,14 @@
 
   ns.Widgets.CreateProfileCard = function(callbackEvent, allowedProfile){
 
-    var _createProfileCardContainer = $('<div>');
     var _createProfileCard =$('<a>').attr({href: '#/'}).addClass('profileCard');
+    var _upperBox = $('<div>').addClass('upperBox-cerateProfileCard');
+    var _downBox = $('<div>').addClass('downBox-cerateProfileCard');
     var _color = '#6f6f6f';
-    _createProfileCard.css({border: 'solid 2px'+_color});
-    _createProfileCardContainer.hover(
+    _createProfileCard.css({
+      border:'1px solid rgb(206, 206, 206)'
+    });
+    _createProfileCard.hover(
       function(){
         $(this).css({
         'box-shadow': '0 0 2px 1px'+ _color
@@ -37,10 +40,9 @@
       }
     );
 
-    var _hline = $('<hr>').addClass('hline-profileCard');
     var _addCircle = Pard.Widgets.IconManager('add_circle').render().addClass('addCircle-create-profile-card');
     var _text = $('<p>').text('Crea un perfil').addClass('create-profile-card-text');
-    _createProfileCard.append(_addCircle, _text, _hline);
+    _createProfileCard.append(_upperBox.append(_addCircle), _downBox.append(_text));
 
     var _createProfilePopup;
     _createProfileCard
@@ -53,11 +55,11 @@
         _createProfilePopup.setContent('Crea un perfil en orfheo', _createProfileMex.render());
         _createProfilePopup.open();
       });
-    _createProfileCardContainer.append(_createProfileCard);
+    _createProfileCard;
 
     return {
       render: function(){
-        return _createProfileCardContainer;
+        return _createProfileCard;
       }
     }
   }

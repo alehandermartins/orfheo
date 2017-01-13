@@ -895,7 +895,7 @@ Profile Card
 
 .card-container-popup{
   display: inline-block;
-  padding: 0 0.6rem;
+  margin: 1rem 0.6rem;
   vertical-align: top;
   @include breakpoint(410 down) {
     @include horizontal-center;
