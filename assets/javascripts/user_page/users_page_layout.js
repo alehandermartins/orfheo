@@ -49,19 +49,70 @@
 
   ns.Widgets.UserInitSection = function(){
     var _section = $('<section>').addClass('welcomeSection-layout');
-    var _myProfileDiv = $('<div>') .addClass('welcomeSection-container');
-    var _myProfileDivContainer = $('<div>').addClass('welcomeSection-container');
-    var _myprofileOuterCont = $('<div>').addClass('search-results-WelcomePage');
+    var _myProfileDiv = $('<div>') .addClass('myprofileDiv');
+    var _myprofileOuterCont = $('<div>').addClass('outerContainer-UserPage');
+    // var _myprofileInnerCont = $('<div>').addClass('innerContainer-UserPage');
     var _myProfileContent = $('<div>').addClass('myProfilesContainer');
     var _myprofiles = Pard.CachedProfiles;
     if (_myprofiles.length > 0){
       _myprofiles.forEach(function(profile){
-        var _profileContainer = $('<div>').addClass('card-container-WelcomePage');
-        _myProfileContent.append(_profileContainer.append(Pard.Widgets.CreateCard(profile).render()));
+        var _cardContainer = $('<div>').addClass('card-container-WelcomePage');
+        var _card = Pard.Widgets.CreateCard(profile).render();
+        _card.css({
+          // 'box-shadow': '0px 1px 3px 0px rgba(255, 255, 255,1)',
+          'border':'1px solid rgba(255, 255, 255)'
+        });
+        _card.off('mouseenter mouseleave')
+          .hover(
+            function(){
+              _card.css({
+                'box-shadow': 'rgb(255, 255, 255) 0px 0px 6px 3px'
+              });
+            },
+            function(){
+              _card.css({
+                'box-shadow':''
+              });
+            }
+          );
+        _myProfileContent.append(_cardContainer.append(_card.addClass('position-profileCard-login')));
       })
     }
-    var _createProfileCardContainer = Pard.Widgets.CreateProfileCard();
-    _myProfileContent.append(_createProfileCardContainer.render().addClass('card-container-WelcomePage'));
+    var _createProfileCardContainer = Pard.Widgets.CreateProfileCard().render();
+    _createProfileCardContainer.off('mouseenter mouseleave')
+     .hover(
+          function(){
+            _createProfileCardContainer.css({
+              'box-shadow': 'rgb(255, 255, 255) 0px 0px 5px 2px'
+            });
+          },
+          function(){
+            _createProfileCardContainer.css({
+              'box-shadow':''
+            });
+          }
+        )
+    _myProfileContent.append(_createProfileCardContainer.addClass('createProfileCard-userPage'));
+    if (_myprofiles.length<5){
+      _myprofileOuterCont.css({
+        'padding-top': '-moz-calc((100vh - 250px - 60px)/2)',
+        'padding-top': '-webkit-calc((100vh - 250px - 60px)/2))',
+        'padding-top':'calc((100vh - 250px - 60px)/2)',
+        'padding-bottom': '-moz-calc((100vh - 250px - 60px)/2)',
+        'padding-bottom': '-webkit-calc((100vh - 250px - 60px)/2))',
+        'padding-bottom':'calc((100vh - 250px - 60px)/2)'
+      });
+    }
+    else if (_myprofiles.length<10){
+      _myprofileOuterCont.css({
+        'padding-top': '-moz-calc((100vh - 516px - 60px)/2)',
+        'padding-top': '-webkit-calc((100vh - 516px - 60px)/2))',
+        'padding-top':'calc((100vh - 516px - 60px)/2)',
+        'padding-bottom': '-moz-calc((100vh - 516px - 60px)/2)',
+        'padding-bottom': '-webkit-calc((100vh - 516px - 60px)/2))',
+        'padding-bottom':'calc((100vh - 516px - 60px)/2)'
+      });
+    }
     _myProfileDiv.append(_myprofileOuterCont.append(_myProfileContent));
 
     var _littleTextDiv= $('<div>')

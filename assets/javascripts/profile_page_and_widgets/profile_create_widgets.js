@@ -24,7 +24,7 @@
     var _createProfileCard =$('<a>').attr({href: '#/'}).addClass('profileCard');
     var _color = '#6f6f6f';
     _createProfileCard.css({border: 'solid 2px'+_color});
-    _createProfileCard.hover(
+    _createProfileCardContainer.hover(
       function(){
         $(this).css({
         'box-shadow': '0 0 2px 1px'+ _color

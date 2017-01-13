@@ -305,25 +305,34 @@
     var _card =$('<a>').attr({
       href: '/profile?id=' + profile['profile_id']
     }).addClass('profileCard');
-    var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
-    // _card.css({'border-color': profile.color});
-    _card.css({'border': '1px solid rgba(10, 10, 10, 0.2)'});
-
+    // var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
+    // var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+    // var _cardCover = $('<div>').css({
+    //   'width':'100%',
+    //   'height':'100%',
+    //   'position':'absolute',
+    //   'top':'0',
+    //   'z-index':'100'
+    // });
     _card.hover(
       function(){
         _card.css({
           'border': '1px solid'+profile.color,
-        // 'box-shadow': '0 1px 3px 2px'+ profile.color
-         'box-shadow': '0 1px 2px 1px'+ profile.color
-      });
+          'box-shadow': '0 1px 2px 1px '+ profile.color
+          // 'box-shadow': '0px 0px 5px 1px '+ profile.color
+        });
+        // _cardCover.css({
+        //   'background-color': _backColor
+        // });
       },
       function(){
         _card.css({
-          // 'border': '2px solid'+profile.color, 
-          // 'box-shadow': '0 1px 2px 1px rgba(10, 10, 10, 0.2)'
           'box-shadow': '0px 1px 3px 0px rgba(10, 10, 10, 0.2)',
           'border': '1px solid rgba(10, 10, 10, 0.2)'
         });
+        // _cardCover.css({
+        //   'background-color': ''
+        // });
       }
     );
     
@@ -336,7 +345,7 @@
 
     if('profile_picture' in profile && profile.profile_picture != null){
       var _photo = $.cloudinary.image(profile['profile_picture'][0],
-        { format: 'jpg', width: 172, height: 112,
+        { format: 'jpg', width: 174, height: 112,
           crop: 'fill', effect: 'saturation:50' });
       _photoContainer.append(_photo);
     };

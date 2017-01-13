@@ -299,21 +299,21 @@ main.mainWelcomePage{
     right: 0;
   }
   .img1Box, .img2Box, .img3Box{
-    width: 5rem;
-    height: 5rem;
+    width: 6rem;
+    height: 6rem;
     @include horizontal-center; 
     top: 0;
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }
   .img1Box{
-    background-image: url(<%= image_path 'orfheologonegro.png' %>);
+    background-image: url(<%= image_path 'icona_home_1.png' %>);
   }
   .img2Box{
-    background-image: url(<%= image_path 'orfheologonegro.png' %>);
+    background-image: url(<%= image_path 'icona_home_2.png' %>);
   }
   .img3Box{
-    background-image: url(<%= image_path 'orfheologonegro.png' %>);
+    background-image: url(<%= image_path 'icona_home_3.png' %>);
   }
   .txtBox{
     width: 12.1rem;
@@ -400,7 +400,7 @@ main.mainWelcomePage{
 }
 
 .card-container-WelcomePage{
-  padding: 0 0.9rem;
+  margin: 0 0.9rem;
   display: inline-block;
   vertical-align: top;
 }
@@ -1094,10 +1094,6 @@ Aside content User page
 User Section
 --------------*/
 
-.myProfilesContainer{
-  text-align: center;
-}
-
 main.mainUserPage{
   margin: 0;
   padding: 0;
@@ -1105,6 +1101,37 @@ main.mainUserPage{
     padding-top:3.3rem;
     min-height: 100vh;
   }
+}
+
+.myprofileDiv{
+  width: 100%;
+  background-color: black;
+  min-height: -moz-calc(100vh - 2.5rem);
+  min-height: -webkit-calc(100vh - 2.5rem);
+  min-height: calc(100vh - 2.5rem);
+  position: relative;
+  padding: 1rem 0;
+}
+
+.outerContainer-UserPage{
+  margin: 0 auto;
+  width: 1014px; 
+  position: relative;
+}
+  
+
+.myProfilesContainer{
+  text-align: center;
+  position: relative;
+}
+
+.createProfileCard-userPage{
+  margin: 0.9rem 0.9rem 1rem 0.9rem;
+  display: inline-block;
+  a{
+    border: 1px solid rgb(206, 206, 206) !important;
+  }
+  transition: box-shadow 200ms ease-out;
 }
 
 .profiles-user-section-content{

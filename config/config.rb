@@ -68,6 +68,9 @@ class BaseController < Sinatra::Base
     sort_asc.png
     sort_desc.png
     multiple-select.png
+    icona_home_1.png
+    icona_home_2.png
+    icona_home_3.png
   )
 
   set :assets_prefix, %w(assets vendor/assets)
