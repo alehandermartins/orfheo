@@ -123,6 +123,21 @@
       _tableManager.modifySpace(space);
     });
 
+    var WebSocketManager = function(){
+
+      var scheme = "ws://";
+      var uri = scheme + window.document.location.host + "?channel=" + the_event.event_id;
+      var ws = new WebSocket(uri);
+
+      ws.onmessage = function(message) {
+        var data = JSON.parse(message.data);
+        if(data.status == 'success')
+          Pard.Bus.trigger(data.event, data.model);
+      }
+    }
+
+    WebSocketManager();
+
     return {
       render: function(){
         return _main;

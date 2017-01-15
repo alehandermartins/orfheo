@@ -17,7 +17,10 @@ class CallsController < BaseController
     form = get_artist_form call_id, form_category
     proposal = ArtistProposal.new(params, session[:identity], form)
     Repos::Events.add_artist event_id, proposal.to_h
-    success ({proposal: proposal.to_h})
+
+    message = {event: 'addArtist', model: proposal.to_h}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/send_space_proposal' do
@@ -31,7 +34,10 @@ class CallsController < BaseController
     form = get_space_form call_id, form_category
     proposal = SpaceProposal.new(params, session[:identity], form)
     Repos::Events.add_space event_id, proposal.to_h
-    success ({proposal: proposal.to_h})
+
+    message = {event: 'addSpace', model: proposal.to_h}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/amend_artist_proposal' do
@@ -123,7 +129,10 @@ class CallsController < BaseController
     form = get_artist_form call_id, form_category
     proposal = ArtistOwnProposal.new(params, session[:identity], form)
     Repos::Events.add_artist event_id, proposal.to_h
-    success({artist: proposal.to_h})
+    message = {event: 'addArtist', model: proposal.to_h}
+
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/send_space_own_proposal' do
@@ -135,7 +144,10 @@ class CallsController < BaseController
     form = get_space_form call_id, form_category
     proposal = SpaceOwnProposal.new(params, session[:identity], form)
     Repos::Events.add_space event_id, proposal.to_h
-    success({space: proposal.to_h})
+    message = {event: 'addSpace', model: proposal.to_h}
+
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/add_whitelist' do

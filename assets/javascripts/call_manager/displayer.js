@@ -248,8 +248,6 @@
 
       var _callbackCreatedProposal = function(data, callback){
         if(data['status'] == 'success') {
-          if (Object.keys(data)[1] == 'space') Pard.Bus.trigger('addSpace', data.space);
-          else if (Object.keys(data)[1] == 'artist'){Pard.Bus.trigger('addArtist', data.artist);}
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
           callback();
         }

@@ -80,7 +80,7 @@
         'margin-bottom': '2rem'
       }));
       var _toProfilePageBtn = Pard.Widgets.Button('Ve a pagína de perfil', function(){
-          location.href = '/profile?id=' + data['proposal']['profile_id'];  
+          location.href = '/profile?id=' + data.model['profile_id'];  
       }).render().addClass('success-inscription-btn');
       var _sendOtherProposal = Pard.Widgets.Button('Envía otra propuesta', function(){
           _closepopup();
