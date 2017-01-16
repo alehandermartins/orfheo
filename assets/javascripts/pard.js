@@ -58,17 +58,22 @@ var CookieAlert = function(){
   $('body').prepend(_alertContainer);
   $(window).load(function(){
     //Descomentar la siguiente linea para borrar localStorage y poder hacer pruebas
-    //localStorage['orfheo'] = JSON.stringify('');
+    localStorage['orfheo'] =  localStorage['orfheo'] || JSON.stringify('');
     var orfheoStorage = JSON.parse(localStorage['orfheo']);
     if(!orfheoStorage) {
       orfheoStorage = {}
-      var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('Acepto').attr('aria-hidden','true'));
+      var _closeButton = $('<button>').addClass('close-button closeBtn-coockies-callout').attr({'type':'button','data-close':''}).append($('<span>').html('Acepto').attr('aria-hidden','true'));
       _closeButton.on('click', function(){
         orfheoStorage['cookies'] = true;
         localStorage['orfheo'] = JSON.stringify(orfheoStorage);
       });
-      var _alertText = $('<p>').html('Nos obligan a molestarte con la obviedad de que este sitio usa cookies.').addClass('text-browser-alert');
-      _alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('browser-alert callout').attr('data-closable','');
+      var _coockiesPolicy = $('<a>').attr('href','#/')
+      	.text('política de cookies')
+      	.click(function(){
+      		Pard.Widgets.BigAlert('Política de cookies', Pard.Widgets.CoockiesPolicy());
+      	});
+      var _alertText = $('<p>').append('Para mejorar tu experiencia de navegación, orfheo almacena unas informaciones en tu navegador bajo forma de trozos de textos técnicamente llamados coockies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más informaciones puedes leer nuestra ', _coockiesPolicy,'.').addClass('text-browser-alert');
+      _alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('coockies-callout').attr('data-closable','');
     }
   });
 }

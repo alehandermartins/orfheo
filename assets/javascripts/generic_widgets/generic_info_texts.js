@@ -1,0 +1,148 @@
+'use strict';
+
+(function(ns){
+     
+ns.Widgets = ns.Widgets || {};
+
+	ns.Widgets.CoockiesPolicy = function(){
+		var _createdWidget = $('<div>').append(
+			$('<p>').text('Las cookies son un elemento informático, ampliamente usado en internet, que una página web instala en el navegador de quien la visita. Es decir, que cuando uno accede a una página web, esta envía información a Chrome, Firefox, Internet Explorer, Opera... y esta información se almacena en la memoria del mismo. La idea es que la página web pueda comprobar esa información en el futuro y utilizarla.'),
+      $('<p>').text('Orfheo utiliza coockies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guarda localmente informaciones para permitir un login más rápido y continuado, evitar la desconexión del sitio en caso de reinicio del servidor, recordar preferencias o elecciones durante todo el proceso de navegación.'),
+      $('<p>').text('En general, por como se estructura internet hoy en día, las coockies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar sus usuarios para que sepan lo que está ocurriendo. '),
+      $('<p>').text('La misma información de este popup está también en el apartado de condiciones de utilizo de la web. En caso de modificas se avisará a los ciudadanos de orfheo con suficiente antelación.')
+		);
+
+		return _createdWidget;
+	}
+
+
+	ns.Widgets.TermsAndConditionsMessage = function(){
+    var _createdWidget = $('<div>');
+
+    var _image = $('<div>').addClass('orfheo-symbol-popup');
+
+    var _web = $('<p>').text('orfheo.org').addClass('orfheo-web-popup');
+
+    var _title = $('<h4>').text('Condiciones generales').addClass('title-project-info');
+
+    var _lastModify = $('<div>').append($('<p>').text('Última actualización: 1 de Mayo 2016').addClass('conditions-lastModify')).addClass('conditions-par');
+    
+    var _part1 = $('<div>').html('<p> <strong>Te damos la bienvenida!</strong></p><p> <strong>Orfheo se basa en un principio potente: podemos hacer más cosas juntos que por separado.</strong></p><p>Son las personas como tú las que hacen posible que este lugar no solo exista, sino que también crezca y prospere. </br> Estas condiciones generales de uso explican el servicio y la relación entre los usuarios, los derechos y las responsabilidades recíprocas. </br> <strong> Ser parte de orfheo es gratuito </strong> y al hacerlo estás aceptando estas condiciones generales.</p>').addClass('conditions-par');
+
+
+    var _subtitle2 = $('<h5>').text('Principios generales:').addClass('subtitle-conditions');
+    var _mex2  = '<p>Orfheo no tiene normas firmes más allá de los principios generales enunciados aquí: <ul><li>Respeta a los ciudadanos de orfheo incluso cuando no estés de acuerdo con ellos. </li> <li> Comparte contenidos civilizadamente, evita los ataques personales y las generalizaciones asi como la publicación de enlaces o textos que puedan ser en sus contenidos ofensivos para la comunidad, racistas, sexistas, homófobos o que incitan a la violencia de cualquier tipo. </li> <li>  Actúa con buena fe, se abierto, acogedor e inclusivo.  </li> <li> Si no respetaras estos principios nos pondremos en contacto contigo para que nos puedas dar una explicación y juntos poder encontrar una solución. </li> </ul></p>'
+    var _part2 = $('<div>').append(_subtitle2, _mex2).addClass('conditions-par');
+
+
+    var _subtitle3 = $('<h5>').text('Nos comprometemos a:').addClass('subtitle-conditions');
+    var _mex3  = '<p><ul><li>Describir cómo puede usarse o compartirse tu información en estas condiciones generales. </li> <li> Usar las medidas razonables para mantener tu información sensible segura.  </li> <li>  Hacer disponible y dejar fluir en la comunidad la información que decidas compartir.  </li> <li> Impulsar valores tales como la solidaridad, el sentido de comunidad, la meritocracia, la equidad, el respeto y la armonía con el entorno.  </li> <li> Respetar y defender la comunidad de orfheo. </li> <li> Escuchar y acoger cualquier tipo de sugerencia y crítica constructiva. </li></ul></p>'	
+    var _part3 = $('<div>').append(_subtitle3, _mex3).addClass('conditions-par');
+
+
+    var _subtitle4 = $('<h5>').text('Términos de uso y Privacidad:').addClass('subtitle-conditions');
+    var _mex4  = '<p>Aquí te explicamos cómo recolectamos y compartimos tu información personal/datos/contenidos.<ul><li>Recolectamos muy poca información personal acerca de ti. </li> <li> No alquilamos ni vendemos tu información a terceros, es decir que no compartimos tus datos con terceras partes para propósitos de mercadeo.  </li> <li>  Cabe la posibilidad de que la información recogida en orfheo se comparta con terceros de acuerdo con nuestra ideología, cumpliendo con la ley y con la intención de traer beneficio a toda la comunidad.  </li> <li>Eres responsable de los contenidos que compartes y de sus medidas de privacidad.  </li> <li> Ocasionalmente te mandaremos correos electrónicos con respecto a información importante. </li> <li>  La calidad de los datos que nos proporcionas es útil para ti, para que podamos mejorar tu experiencia como usuario y poder desarrollar nuevas funciones, para que tu experiencia sea inolvidable. </li> <li> Todo lo que publicas en orfheo es público, puede ser visto y eventualmente usado por todo observador externo. </li> <li> Es posible que te pidamos nos proporciones información a través de una encuesta o retro-alimentación, pero nunca estarás obligado a participar en éstas. </li> <li> No necesitas crear una cuenta para explorar y visualizar cualquiera de los contenidos. </li> <li> Si creas una cuenta,  necesitas darnos sólo tu dirección de correo electrónico. </li> <li> Nadie es mas importante que nadie.  El orden de los resultados de búsqueda y los perfiles no se manipulan en ningún momento para que nadie ocupe una posición aventajada. </li> <li> Cualquier persona puede unirse y abandonar orfheo en cualquier momento.  Cancelando una cuenta, toda la información relacionada será borrada permanentemente.</li> </ul></p>'
+    var _part4 = $('<div>').append(_subtitle4, _mex4).addClass('conditions-par');
+
+
+    var _subtitle5 = $('<h5>').text('Publicidad:').addClass('subtitle-conditions');
+    var _mex5  = '<p>Ahora mismo no hay ninguna forma de publicidad dentro de orfheo. En un futuro, no se excluye la presencia de publicidad no molesta, relacionada con el mundo artístico-cultural, que pueda proporcionar información útil y valiosa para los ciudadanos. Consideramos que la publicidad puede ser eficaz sin ser molesta. Excluimos la presencia de publicidad en forma de ventanas emergentes que pueden interferir con la visualización de los contenidos de orfheo. </p>'
+    var _part5 = $('<div>').append(_subtitle5, _mex5).addClass('conditions-par');
+
+    var _subtitle5_5 = $('<h5>').text('Sostenibilidad del proyecto:').addClass('subtitle-conditions');
+    var _mex5_5  = '<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida de las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos después de haber analizado el tipo de evento que se quiere organizar.</p>'
+    var _part5_5 = $('<div>').append(_subtitle5_5, _mex5_5).addClass('conditions-par');
+
+    var _subtitle_coockies = $('<h5>').text('Política de coockies:').addClass('subtitle-conditions');
+    var _mex_coockies  = '<p> Las cookies son un elemento informático, ampliamente usado en internet, que una página web instala en el navegador de quien la visita. Es decir, que cuando uno accede a una página web, esta envía información a Chrome, Firefox, Internet Explorer, Opera... y esta información se almacena en la memoria del mismo. La idea es que la página web pueda comprobar esa información en el futuro y utilizarla.</br> Orfheo utiliza coockies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guarda localmente informaciones para permitir un login más rápido y continuado, evitar la desconexión del sitio en caso de reinicio del servidor, recordar preferencias o elecciones durante todo el proceso de navegación. </br> En general, por como se estructura internet hoy en día, las coockies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar sus usuarios para que sepan lo que está ocurriendo. </p>'
+    var _part_coockies = $('<div>').append(_subtitle_coockies, _mex_coockies).addClass('conditions-par');
+
+
+    var _subtitle6 = $('<h5>').text('Actualizaciones:').addClass('subtitle-conditions');
+
+    var _mex6  = '<p>Nos reservamos el derecho de modificar, si necesario, las condiciones generales para adaptarlas a futuras novedades y asumimos el deber y el compromiso de informar de los cambios a todos los ciudadanos  de orfheo, previamente y con tiempo, para que puedan conocer las actualizaciones de antemano.  </p>'
+
+    var _part6 = $('<div>').append(_subtitle6, _mex6).addClass('conditions-par');
+
+
+    var _subtitle7 = $('<h5>').text('¡Muchas gracias!').addClass('subtitle-conditions');
+
+    var _finalMex = $('<div>').html('<p> Si tienes preguntas o sugerencias  envía un correo electrónico a <a href="mailto:info@orfheo.org"> info@orfheo.org</a>.</p> <p> Gracias por leer hasta aquí. Esperamos que disfrutes dentro y fuera orfheo. </br> Tu participación al crear, mantener y mejorar este lugar es imprescindible. </p> <p> Apreciamos que te hayas tomado tu tiempo para informarte sobre el proyecto, y te agradecemos que contribuyas. Mediante lo que haces, estás ayudando a construir algo realmente importante, no sólamente una conexión de proyectos compartidos de manera colaborativa, sino también una vibrante comunidad enfocada en una muy noble meta. </p>')
+
+
+    _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part5_5, _part_coockies, _part6, _subtitle7, _finalMex);
+
+    return{
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+      }
+    }
+  
+  }
+ 
+ 
+
+	ns.Widgets.LanguagesMessage = function (){
+    var _createdWidget = $('<div>');
+    
+    var _val = $('<p>').append($('<div>').addClass('valencian-flag'), 'Ho sentim, però per falta de temps i mitjans, esta web està disponible només en castellà. Esperem poder-la prompte traduir a més idiomes.');
+    var _en = $('<p>').append($('<div>').addClass('english-flag'), 'We are sorry about this web being available only in Spanish. We hope to be able to extend it to other langages soon.');
+    var _ita = $('<p>').append($('<div>').addClass('italian-flag'), 'Ci dispiace peró finora, per mancanza di tempo e mezzi, questa web é disponibile sólo in castellano. Speriamo poterla presto estendere a piú lingue.');
+
+    _createdWidget.append(_val, _en, _ita);
+
+    return {
+      render: function(){ 
+        return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.ProjectInfoMessage = function (){
+    var _createdWidget = $('<div>');
+
+    var _image = $('<div>').addClass('orfheo-symbol-popup');
+
+    var _web = $('<p>').text('orfheo.org').addClass('orfheo-web-popup');
+
+    var _baseline = $('<h6>').html('La primera comunidad artístico-cultural </br> donde conocer proyectos, encontrarse y crear juntos</br> experiencias inolvidables').addClass('orfheo-baseline-popup');
+
+    var _title = $('<h4>').text('Todo sobre el proyecto').addClass('title-project-info');
+    var _message = $('<div>').html('<p> Hola, has encontrado un lugar que no estabas buscando. Bienvenido a orfheo! Queremos contarte por qué has llegado hasta aquí.</p> <p> A raíz de la experiencia vivida organizando el Benimaclet conFusión festival, algunos de nosotros, voluntarios, hemos tenido la posibilidad de reflexionar sobre los retos de un modelo cooperativo en relación con la difícil gestión de las muchas ofertas artístico-culturales que recoge el evento. </p> <p> Hemos pensado en lo que hacía falta, y lo hemos hecho. </p> <p> Estamos orgullosos de contar contigo porque orfheo, sin gente como tú, no es más que una voz, una llamada a la acción, que llega a ser realidad, y entonces comunidad, solamente gracias a todos sus ciudadanos. Una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro. </p> <p> Estás en tu comunidad online, donde lanzar una convocatoria artístico-cultural es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Es una herramienta, un mecanismo de gestión cultural donde descubrir a través de perfiles, enlaces y conexiones. </p> <p> Es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Creemos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio donde una cosa expone a otra con la misma idea con la cual se ha creado. </p> <p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen,  y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental  para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Te dejamos a ti imaginar un poco más lo necesario y el compartir con los demás experiencias inolvidables.</p>');
+
+    var _part1 = $('<div>').append(_title, _message);
+
+    var _subtitle = $('<h5>').text('Los pilares').addClass('subtitle-project-info');
+
+    var _part2 = $('<div>').append(_subtitle).addClass('part2-message-project-info');
+
+    var _list1 = $('<div>').html('<p>COMPARTIR <ul><li>Saber más el uno del otro significa aprender unos de otros. </li> <li> Compartimos nuestro valor donde valor = (experiencias + conocimientos) x actitud. </li> <li> Compartimos nuestras ideas e inspiraciones creativas con el fin de crear/inspirar experiencias enriquecedoras. </li> <li> Piensa en la comunidad y la comunidad pensará en ti. </li> </ul></p>');
+
+    var _list2 = $('<div>').html('<p>IDENTIDAD <ul><li>Defendemos el individuo como algo único, auténtico, un punto en el espacio. Valoramos el grupo, como en el círculo cromático,  en el cual se une y se define la identidad personal, un rasgo cultural, un matiz, un color. </li> <li> Desempeñamos un papel activo en el desarrollo de un mundo libre, que se innova gracias al pequeño esfuerzo colectivo de muchas personas. </li> </ul></p>');
+
+    var _list3 = $('<div>').html('<p>INFORMACIÓN <ul><li>La necesidad de información es más fuerte que todas las fronteras. Nos gustaría facilitar el acceso en tantos más idiomas posibles.  </li> <li> Queremos que tengas acceso a la información en cualquier lugar y en cualquier momento. </li> <li> No queremos que busques sino que encuentres en orfheo lo que esperabas encontrar. </li> </ul></p>');
+
+    var _list4 = $('<div>').html('<p>EXPERIENCIA <ul><li>Sal de la red: queremos dar la mejor experiencia posible a los usuarios por encima de nuestros proprios beneficios y objetivos internos, para que los procesos sean cada vez más rápidos, para que se pueda vivir en orfheo sólo el tiempo necesario y utilizar su información en la vida cotidiana. </li> <li> Pretendemos evolucionar hacia una interfaz y una estética limpia, clara y sencilla, utilizable por todos. </li> </ul></p>');
+
+    var _list5 = $('<div>').html('<p>ECONOMÍA <ul><li>Se puede ganar dinero siendo honestos y cuidando y defendiendo la comunidad. Con esta intención queremos hacer sostenible económicamente este proyecto y las vidas de quienes trabajan en ello. </li> </ul></p>');
+
+    var _list6  = $('<div>').html('<p>VISIÓN <ul><li>Creemos que afrontar un proyecto debería ser divertido y apasionante. Creemos que una cultura de trabajo adecuada promueve el talento y la creatividad.  Los logros del equipo, y los éxitos individuales contribuyen al éxito global. Tenemos  una visión creativa del trabajo, del ocio y de la vida. </li> <li> Todas las ideas interesantes que surgen en los más diferentes contextos se comentan, se analizan en profundidad y si hace falta se ponen en práctica con calidad.  </li> <li> Elegimos y construimos colaborativamente. Nuestra meta es la unidad, no la unanimidad. Tomamos decisiones con método, de forma genuina y utilizando el consenso. Tenemos discusiones abiertas, animadas por un procesos que llevan a acuerdos en un tiempo razonable. </li> <li> Nos fijamos objetivos que sabemos tal vez no poder alcanzar, porque estamos convencidos de que a lo largo del camino, los esfuerzos, por cumplirlos, nos llevarán a obtener resultados, quizás diferentes de los esperados, pero igualmente valiosos. </li> </ul></p>');
+
+     var _list7 = $('<div>').html('<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>');
+
+     var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
+
+    _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7, _thanks);
+
+    _createdWidget.append(_image, _web, _baseline, _part1, _part2);
+
+    return {
+      render: function(){ 
+        return _createdWidget
+      }
+    }
+  }
+
+}(Pard || {}));
