@@ -1326,8 +1326,6 @@ FOOTER
 }
 
 a.footer-text-link {
-  margin-right:2rem;
-  display: inline-block;
   color: white;
 }
 
@@ -1335,6 +1333,25 @@ a.footer-text-link {
 a.footer-text-link:hover{
   color: white;
   text-decoration: underline;
+}
+
+.rightFooter-menu{
+  font-size: $almostNormalSize;
+  margin: 0;
+  margin-top: -0.2rem;
+  li{
+    display: inline-block;
+    margin-left: 2rem;
+  }
+}
+
+.leftFooter-menu{
+  margin: 0;
+  margin-top: -0.1rem;
+  li{
+    display: inline-block;
+    margin-right: 2rem;
+  }
 }
 
 @media only screen and #{breakpoint(medium)} {
