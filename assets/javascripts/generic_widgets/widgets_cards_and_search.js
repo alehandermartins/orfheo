@@ -574,7 +574,7 @@
     _textBox.remove();
     if (_height > 93) _newsCard.append(
       $('<div>').addClass('dots-info-newsCard')
-        .append($('<button>').attr('type','button').html('&#10143'))
+        .append($('<button>').attr('type','button').html('&#xE409;').addClass('material-icons'))
         .one('click', function(){
           if(!(_popupNews)) _popupNews = _newsPopup(news); 
         })

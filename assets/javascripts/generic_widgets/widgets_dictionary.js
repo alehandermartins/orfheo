@@ -55,6 +55,8 @@
       arrowDropDown: {icon:'&#xE5C5;', className:'material-icons' },
       arrowDropUp: {icon:'&#xE5C7;', className:'material-icons' },
       calendar: {icon:'&#xE916;', className:'material-icons' },
+      sincro: {icon:'&#xE627;', className:'material-icons'},
+      chat_bubble:{icon:'&#xE0CB;', className:'material-icons'},
 
 
       // calendar: {icon:'&#8250;', className:'fa fa-calendar'}, &#xE53B

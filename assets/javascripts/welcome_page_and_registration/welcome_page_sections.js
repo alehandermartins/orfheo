@@ -478,7 +478,6 @@ ns.Widgets = ns.Widgets || {};
     var _info1 = $('<div>').addClass('i-container');
     var _info2 = $('<div>').addClass('i-container');
     var _info3 = $('<div>').addClass('i-container');
-    var _innerCont = $('<div>').css({'width': '12rem'});
     var _img1 = $('<div>').addClass('img1Box');
     var _img2 = $('<div>').addClass('img2Box');
     var _img3 = $('<div>').addClass('img3Box');
@@ -490,7 +489,7 @@ ns.Widgets = ns.Widgets || {};
     _info3.append($('<div>').addClass('innerCont3').append(_img3, _text3));
     _actionDiv.append(_actionContainer.append(_info1, _info2, _info3));
 
-    var _longTextDiv = $('<div>').addClass('contactDiv');
+    var _longTextDiv = $('<div>').addClass('littleTextDiv');
     var _longTextContainer = $('<div>').addClass('welcomeSection-container'); 
     // var _longText = $('<div>').append(
     //   $('<p>').html('Un lugar donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, espacios y organizaciones donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, </br> y de dar valor a los proyectos mas allá de un solo encuentro. '),
@@ -499,18 +498,43 @@ ns.Widgets = ns.Widgets || {};
       // CONTACTANOS PARA LANZAR Y GESTIONAR TU CONVOCATORIA
       // $('<p>').html('<strong>En orfheo es posible lanzar y gestionar convocatorias artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro.</strong>')
     // ).addClass('longText');
-    var _titleLongText = $('<div>').append($('<h4>').html('Crea en red con tu comunidad cultural')).css('text-align','center');
+    var _titleLongText = $('<h4>').html('Une a las personas:</br> Crea en red con tu comunidad cultural');
     _longTextDiv.append(_longTextContainer.append(_titleLongText));
 
     var _servicesDiv = $('<div>').addClass('servicesDiv');
     var _logoServices = $('<div>').addClass('logo-services');
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
     var _callService = $('<div>').addClass('i-container');
+    var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('proposals').render());
+    var _callTitle = $('<h4>').text('Involucra la comunidad');
+    var _callTxt = $('<p>').html('Crea un evento,</br> lanza una convocatoria, </br>utiliza la potente herramienta de gestión </br>y publica una programación interactiva');
+    _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));
     var _consulingService = $('<div>').addClass('i-container');
+    var _iconConsulingService = $('<div>').append(Pard.Widgets.IconManager('chat_bubble').render());
+    var _consulingTitle = $('<h4>').text('Asesoría creativa');
+    var _consulingTxt = $('<p>').html('Saca lo mejor de tu proyecto,</br> alimenta tu comunidad </br>y explora nuevas estrategias creativa durante el proceso');
+    _consulingService.append($('<div>').append(_iconConsulingService, _consulingTitle, _consulingTxt).addClass('consulingService-innerCont'));
     var _apiService = $('<div>').addClass('i-container');
-    var _findOutMore = $('<a>').text('Descubre más').attr('href','#/')  
-      .click(function(){
-        $('#servicios').trigger('click');
+    var _iconApiService = $('<div>').append(Pard.Widgets.IconManager('sincro').render());
+    var _apiTitle = $('<h4>').text('Conexión API');
+    var _apiTxt = $('<p>').text('Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga');
+    _apiService.append($('<div>').append(_iconApiService, _apiTitle, _apiTxt).addClass('apiService-innerCont'));
+
+    var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().css({
+      'vertical-align':'-0.5rem',
+      'margin-left':'0.5rem',
+      'font-size':'1.8rem'
+    });
+    var _findOutMore = $('<div>')
+      .append($('<a>').text('Descubre más').attr('href','#/')  
+        .click(function(){
+          $('#servicios').trigger('click');
+        })
+        .append(_findOutMoreIcon)
+      )
+      .css({
+        'text-align':'center',
+        'margin-top':'2.5rem'
       })
     _servicesInfoContainer.append(_callService,_consulingService,_apiService, _findOutMore); 
     var _textLogo = $('<div>').text('S e r v i c i o s').addClass('textLogo');
