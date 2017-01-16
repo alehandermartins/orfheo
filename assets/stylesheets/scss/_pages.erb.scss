@@ -284,12 +284,6 @@ main.mainWelcomePage{
   .welcomeSection-container{
     padding: 5rem 0;
   }
-  .i-container{
-    width: 20.5rem;
-    height: 100%;
-    display: inline-block;
-    position: relative;
-  }
   .innerCont1, .innerCont3{
     position: absolute;
     width: 12rem;
@@ -325,7 +319,13 @@ main.mainWelcomePage{
       color: $grey-4;
     }
   }
+}
 
+.i-container{
+  width: 20.5rem;
+  height: 100%;
+  display: inline-block;
+  position: relative;
 }
 
 .contactDiv{
@@ -350,7 +350,7 @@ main.mainWelcomePage{
       margin-bottom: 1.5rem;
     }
   }
-  .contactForm-container{
+ /*  .contactForm-container{
     width: 28rem;
     text-align: center;
     @include horizontal-center;
@@ -373,22 +373,33 @@ main.mainWelcomePage{
       font-size: $almostNormalSize;
       margin-top: 1rem;
     }
-  }
+  } */
 }
 
-
-.logo-contactDiv{
-  background-image: url(<%= image_path 'orfheologocolor.png' %>);
-  width: 144px;
-  height: 48px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  @include breakpoint(small down){ 
-    width: 100px;
-    height: 32px;
+.servicesDiv{
+  margin-top: 0.4rem;
+  background-color: black;
+  color: white;
+  padding: 2.5rem 0;
+  .logo-services{
+    background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
+    width: 144px;
+    height: 48px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+     @include breakpoint(small down){ 
+      width: 100px;
+      height: 32px;
+    }
+    @include horizontal-center;
+    position: relative;
   }
-  @include horizontal-center;
-  position: relative;
+  .textLogo{
+    text-align: center;
+    text-transform: uppercase;
+    font-size: $smallSize;
+    margin-bottom: 2.5rem;
+  }
 }
 
 

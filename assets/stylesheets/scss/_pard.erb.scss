@@ -1446,6 +1446,15 @@ a.footer-text-link:hover{
   border-radius: 0.125rem 0.125rem 0rem 0rem;
 }
 
+.textHeader-contactPopup{
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: -1.2rem;
+  font-size: $smallSize;
+  color: white;
+}
+
 .fullWidth{
   width: 100vw !important;
 }
@@ -1455,6 +1464,7 @@ a.footer-text-link:hover{
   position: relative;
   width: 100%;
   text-align: center;
+  margin-top: 0.3rem;
   li{
     margin: 0 0.2rem;
     display: inline-block;

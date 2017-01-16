@@ -492,34 +492,31 @@ ns.Widgets = ns.Widgets || {};
 
     var _longTextDiv = $('<div>').addClass('contactDiv');
     var _longTextContainer = $('<div>').addClass('welcomeSection-container'); 
-    var _longText = $('<div>').append(
-      $('<p>').html('Un lugar donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, espacios y organizaciones donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, </br> y de dar valor a los proyectos mas allá de un solo encuentro. '),
-      $('<p>').html('Orfheo se basa en un concepto simple y potente: podemos hacer mas cosas juntos que por separado.')
+    // var _longText = $('<div>').append(
+    //   $('<p>').html('Un lugar donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, espacios y organizaciones donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, </br> y de dar valor a los proyectos mas allá de un solo encuentro. '),
+    //   $('<p>').html('Orfheo se basa en un concepto simple y potente: podemos hacer mas cosas juntos que por separado.')
       // $('<p>').html('Actuar a nivel local y pensar en red globalmente de forma colaborativa es una oportunidad para compartir recursos, estimular, potenciar y crear nuevas posibilidades y enlaces.'), 
       // CONTACTANOS PARA LANZAR Y GESTIONAR TU CONVOCATORIA
       // $('<p>').html('<strong>En orfheo es posible lanzar y gestionar convocatorias artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro.</strong>')
-    ).addClass('longText');
+    // ).addClass('longText');
     var _titleLongText = $('<div>').append($('<h4>').html('Crea en red con tu comunidad cultural')).css('text-align','center');
-
-    var _contactForm = $('<div>').addClass('contactForm-container');
-    var _form = $('<form>');
-    var _nameInput = Pard.Widgets.Input('Nombre','text');
-    var _emailInput = Pard.Widgets.Input('Email','text');
-    var _subjectInput = Pard.Widgets.Input('Asunto','text');
-    var _mexInput = Pard.Widgets.TextArea('Mensaje',6);
-    var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
-        console.log(data);
-        console.log(_nameInput.getVal());
-        console.log(_mexInput.getVal());
-      });
-    });
-    _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
-    _contactForm.append(_form, _submitBtn.render());
-
     _longTextDiv.append(_longTextContainer.append(_titleLongText));
 
-    _section.append(_entryDiv, _littleTextDiv, _actionDiv, _longTextDiv);
+    var _servicesDiv = $('<div>').addClass('servicesDiv');
+    var _logoServices = $('<div>').addClass('logo-services');
+    var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
+    var _callService = $('<div>').addClass('i-container');
+    var _consulingService = $('<div>').addClass('i-container');
+    var _apiService = $('<div>').addClass('i-container');
+    var _findOutMore = $('<a>').text('Descubre más').attr('href','#/')  
+      .click(function(){
+        $('#servicios').trigger('click');
+      })
+    _servicesInfoContainer.append(_callService,_consulingService,_apiService, _findOutMore); 
+    var _textLogo = $('<div>').text('S e r v i c i o s').addClass('textLogo');
+    _servicesDiv.append(_logoServices, _textLogo, _servicesInfoContainer);
+
+    _section.append(_entryDiv, _littleTextDiv, _actionDiv, _longTextDiv, _servicesDiv);
 
     return _section;
 

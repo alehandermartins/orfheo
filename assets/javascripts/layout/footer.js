@@ -81,15 +81,13 @@ ns.Widgets = ns.Widgets || {};
     var _rightMenu = $('<ul>').addClass('rightFooter-menu');
 
     var _contactPopup;
-    var _contactInfo;
     var _contactaOrfheo = $('<li>').append($('<a>').text('Contacta')
       .attr('href','#/'))
       .one('click',function(){
         _contactPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        _contactInfo = Pard.Widgets.ContactInfo(_contactPopup);
       })
       .on('click',function(){
-        _content.empty().append(_contactInfo);
+        _content.empty().append(Pard.Widgets.ContactInfo(_contactPopup));
         _contactPopup.open();
       });
 
@@ -109,7 +107,10 @@ ns.Widgets = ns.Widgets || {};
     var _servicesPopup;
     var _servicesInfo;
     var _servicesOrfheo = $('<li>').append($('<a>').text('Servicios')
-      .attr('href','#/'))
+      .attr({
+        'href':'#/',
+        'id':'servicios'
+      }))
       .one('click',function(){
         _servicesPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _servicesInfo = Pard.Widgets.ServicesInfo(_servicesPopup);
@@ -151,13 +152,36 @@ ns.Widgets = ns.Widgets || {};
 
     var _header = $('<div>').addClass('header-contactInfo');
     var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
+    var _text = $('<div>').text('S e r v i c i o  s').addClass('textHeader-contactPopup');
    
-    _header.append(_logo, _closeBtn);
+    _header.append(_logo, _text, _closeBtn);
 
     var _servicesCont = $('<div>').addClass('services-contactInfo'); 
     var _titleServ = $('<h5>').text('¿Qué puedes hacer con orfheo?');  
     _servicesCont.append(_titleServ);
 
+    var _textColumn = $('<div>').append($('<p>').text('bla bla bla')).addClass('half-col');
+
+    var _formColumn = $('<div>').addClass('half-col');
+    var _contactForm = $('<div>').addClass('contactForm-container');
+    var _form = $('<form>');
+    var _nameInput = Pard.Widgets.Input('Nombre','text');
+    var _emailInput = Pard.Widgets.Input('Email','text');
+    var _subjectInput = Pard.Widgets.Input('Asunto','text');
+    var _mexInput = Pard.Widgets.TextArea('Mensaje',6);
+    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
+        console.log(data);
+        console.log(_nameInput.getVal());
+        console.log(_mexInput.getVal());
+      });
+    });
+    _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
+    _contactForm.append(_form, _submitBtn.render());
+    var _textFormCol = $('<div>').append($('<p>').text('buf buf buf'));
+    _formColumn.append(_textFormCol, _contactForm);
+
+    _servicesCont.append(_textColumn, _formColumn);
    
     _sectionContainer.append(_servicesCont);
 
@@ -168,7 +192,7 @@ ns.Widgets = ns.Widgets || {};
   }
 
 
-  ns.Widgets.ColaborationInfo = function(){
+  ns.Widgets.ColaborationInfo = function(_popup){
     var _outerContainer = $('<div>').addClass('vcenter-outer fullWidth');
     var _container = $('<div>').addClass('vcenter-inner');
     var _popupContent = $('<div>');
@@ -185,8 +209,9 @@ ns.Widgets = ns.Widgets || {};
 
     var _header = $('<div>').addClass('header-contactInfo');
     var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
-   
-    _header.append(_logo, _closeBtn);
+    var _text = $('<div>').text('C o l a b o r a').addClass('textHeader-contactPopup');
+      
+    _header.append(_logo, _closeBtn, _text);
 
     var _colaborationCont = $('<div>').addClass('colaboration-contactInfo');
     var _titleColab = $('<h5>').text('¿Quieres ser parte?');  
@@ -247,18 +272,6 @@ ns.Widgets = ns.Widgets || {};
       $('.shown').hide();
       _tecnicalSupportCont.show().addClass('shown');
     }).addClass('selected');
-    // var _colaboration = $('<li>').text('Colabora').click(function(){
-    //   $('.selected').removeClass('selected');
-    //   _colaboration.addClass('selected');
-    //   $('.shown').hide();
-    //   _colaborationCont.show().addClass('shown');
-    // });
-    // var _services = $('<li>').text('Servicios').click(function(){
-    //   $('.selected').removeClass('selected');
-    //   _services.addClass('selected');
-    //   $('.shown').hide();
-    //   _servicesCont.show().addClass('shown');
-    // });
     var _contact = $('<li>').text('Contacto').click(function(){
       $('.selected').removeClass('selected');
       _contact.addClass('selected');
@@ -272,7 +285,8 @@ ns.Widgets = ns.Widgets || {};
       _feedbackCont.show().addClass('shown');
     });
     _menuContainer.append(_menu.append(_tecnicalSupport, _feedback,  _contact));
-    _header.append(_logo, _menuContainer, _closeBtn);
+    var _text = $('<div>').text('C o n t a c t a').addClass('textHeader-contactPopup');
+    _header.append(_logo, _text, _menuContainer, _closeBtn);
 
     var _tecnicalSupportCont = $('<div>').addClass('shown tecnicalSupport-contactInfo');
     var _colaborationCont = $('<div>').hide().addClass('colaboration-contactInfo');
@@ -299,36 +313,13 @@ ns.Widgets = ns.Widgets || {};
     var _formColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _profileInput.render(), _browserInput.render(), _mexInput.render()), _submitBtn.render()).addClass('half-col');
     _tecnicalSupportCont.append(_textColumn, _formColumn);
 
-    // var _titleColab = $('<h5>').text('¿Quieres ser parte?');  
-    // _colaborationCont.append(_titleColab);
-    // var _textColumnColab = $('<div>')
-    //   .append(
-    //     $('<p>').text('Nos gustaría compartir conocimientos y seguir desarrollando este proyecto para que todos los ciudadanos de orfheo puedan siempre disfrutar de la comunidad y para dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen.'), 
-    //     $('<p>').text('Creemos que la inclusión inspira la innovación y por lo tanto siempre estamos abiertos a escuchar ideas para colaborar.'), 
-    //     $('<p>').append('Contáctanos a ', $('<a>').attr('href','mailto:info@orfheo.org').text('info@orfheo.org'))
-    //   )
-    //   .addClass('half-col');
-    //  var _listColumnCol = $('<div>')
-    //    .append(
-    //       $('<p>').text('Hay muchas formas de colaborar en orfheo:').css('margin-bottom','0.5rem'),
-    //       $('<ul>').append(
-    //         $('<li>').html('como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separados, no dudes en enviarnos tu propuesta de alianza.'),
-    //         $('<li>').html('como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.'),
-    //         $('<li>').html('como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envianos informaciones sobre ti.'),
-    //         $('<li>').html('como mecena: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.'),
-    //         $('<li>').html('como voluntario: </br>contáctanos si quieres aprender a través del desarrollo de orfheo o si ya tienes conocimientos y te estimula ofrecer tu tiempo a una noble causa.')
-    //       )
-    //     )
-    //    .addClass('half-col list-col');
-    //  _colaborationCont.append(_textColumnColab, _listColumnCol);
-
     var _titleServ = $('<h5>').text('¿Qué puedes hacer con orfheo?');  
     _servicesCont.append(_titleServ);
 
     var _titleContact = $('<h5>').text('¡Aquí estamos!');  
     _contactCont.append(_titleContact);
-    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (España) 46020</br> (0034) 633 753 471</br>info@orfheo.org').css({'text-align':'center'});
-    // <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>'
+    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (España) 46020</br> (0034) 633 753 471</br>info@orfheo.org</br> <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>').css({'text-align':'center'});
+
     _contactCont.append(_textContact);
 
     var _titleFeed = $('<h5>').text('¿Que tal te parece orfheo?');
