@@ -296,11 +296,6 @@
     var lastArtist;
     var _closePopup = function(){}
 
-    var _startHour = parseInt(the_event.eventTime['permanent'][0].split(':')[0]);
-    var _startMin = parseInt(the_event.eventTime['permanent'][0].split(':')[1]);
-    var _endHour = parseInt(the_event.eventTime['permanent'][1].split(':')[0]);
-    var _endMin = parseInt(the_event.eventTime['permanent'][1].split(':')[1]);
-
     Pard.Bus.on('spaceDrag', function(drag){
       var index = _shownSpaces.indexOf(drag.space);
       if(drag.direction == 'right' && index < _shownSpaces.length - 1){
@@ -434,25 +429,18 @@
 
         var color = Pard.Widgets.CategoryColor(performance.participant_category);
 
-        if(performance.position){
-          var start = new Date(parseInt(eventTime[performance.date][0]));
-          start.setMinutes(start.getMinutes() + (performance.position - 41) * 1.5);
-          var end = new Date(start.getTime());
-          end.setMinutes(start.getMinutes() + performance.duration * 1.5);
-          performance.time = [start.getTime(), end.getTime()];
-        }
-        else{
-          var dayStart = parseInt(eventTime[performance.date][0]);
-          performance.time[0] = parseInt(performance.time[0]);
-          performance.time[1] = parseInt(performance.time[1]);
-          //10 pixels = 15 min
-          var start = (performance.time[0] - dayStart) / 90000;
-          var end = (performance.time[1] - dayStart) / 90000;
-          performance.position = start + 41;
-          performance.duration = (end - start);
-          performance.participant_email = the_event.artists[performance.participant_id].artist.email;
-          performance.host_email = the_event.spaces[performance.host_id].space.email;
-        }
+        var dayStart = parseInt(eventTime[performance.date][0]);
+        var height = _tables[performance.date].height() - 42;
+        performance.time[0] = parseInt(performance.time[0]);
+        performance.time[1] = parseInt(performance.time[1]);
+        //10 pixels = 15 min
+        var start = (performance.time[0] - dayStart) / 90000;
+        var end = (performance.time[1] - dayStart) / 90000;
+        performance.position = start + 41;
+        performance.duration = (end - start);
+        performance.maxHeight = height - performance.position + 41;
+        performance.participant_email = the_event.artists[performance.participant_id].artist.email;
+        performance.host_email = the_event.spaces[performance.host_id].space.email;
 
         card.css({
           'position': 'absolute',
@@ -713,18 +701,10 @@
       var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).addClass('noselect');
       var shows;
 
-      if(performance.time){
-        performance.time[0] = parseInt(performance.time[0]);
-        performance.time[1] = parseInt(performance.time[1]);
-        performance.participant_email = the_event.artists[performance.participant_id].artist.email;
-        performance.host_email = the_event.spaces[performance.host_id].space.email;
-      }
-      else{
-        var date = performance.date;
-        var start = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _startHour, _startMin);
-        var end = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _endHour, _endMin);
-        performance.time = [start.getTime(), end.getTime()];
-      }
+      performance.time[0] = parseInt(performance.time[0]);
+      performance.time[1] = parseInt(performance.time[1]);
+      performance.participant_email = the_event.artists[performance.participant_id].artist.email;
+      performance.host_email = the_event.spaces[performance.host_id].space.email;
       
       var _title = $('<p>').addClass('proposal-title-card-call-manager');
       var _confirmationCheckContainer = $('<span>').addClass('checker');
@@ -1723,7 +1703,7 @@
     Object.keys(the_event.spaces).forEach(function(profile_id, index){
       Object.keys(eventTime).forEach(function(day){
         var height = _tables[day].height() - 42;
-        the_event.spaces[profile_id].addColumn(day, height);
+        the_event.spaces[profile_id].addColumn(day, height, eventTime[day]);
         _tables[day].append(the_event.spaces[profile_id].columns[day]);
       });
       order.push(profile_id);
@@ -1831,7 +1811,7 @@
       addSpace: function(space){
         Object.keys(eventTime).forEach(function(day){
           var height = _tables[day].height() - 42;
-          the_event.spaces[space.profile_id].addColumn(day, height);
+          the_event.spaces[space.profile_id].addColumn(day, height, eventTime[day]);
           _tables[day].append(the_event.spaces[space.profile_id].columns[day]);
           the_event.spaces[space.profile_id].columns[day].foundation();
         });

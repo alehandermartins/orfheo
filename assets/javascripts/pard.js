@@ -60,7 +60,6 @@ var CookieAlert = function(){
     //Descomentar la siguiente linea para borrar localStorage y poder hacer pruebas
     localStorage['orfheo'] =  localStorage['orfheo'] || JSON.stringify('');
     var orfheoStorage = JSON.parse(localStorage['orfheo']);
-    orfheoStorage = '';
     if(!orfheoStorage) {
       orfheoStorage = {}
       var _closeButton = $('<button>').addClass('close-button closeBtn-coockies-callout').attr({'type':'button','data-close':''}).append($('<span>').html('Acepto').attr('aria-hidden','true'));

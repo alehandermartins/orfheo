@@ -14,7 +14,7 @@
       _performance = performance;
     });
 
-    var SpaceColumn = function(day, height){
+    var SpaceColumn = function(day, height, dayTime){
       var _spaceCol = $('<div>').addClass('spaceCol');
       _spaceCol.css({
         'display': 'inline-block',
@@ -89,6 +89,11 @@
           }
 
           var createPermanents = function(performance){
+            var _startHour = parseInt(dayTime[0].split(':')[0]);
+            var _startMin = parseInt(dayTime[0].split(':')[1]);
+            var _endHour = parseInt(dayTime[1].split(':')[0]);
+            var _endMin = parseInt(dayTime[1].split(':')[1]);
+
             var _permanetIds = [];
             var myShows = Object.keys(program).map(function(performance_id){
               return program[performance_id].show;
@@ -106,6 +111,9 @@
                   show[key] = performance[key];
                 }
                 show.date = date;
+                var start = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _startHour, _startMin);
+                var end = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _endHour, _endMin);
+                show.time = [start.getTime(), end.getTime()];
                 create(show);
                 _permanetIds.push(show.performance_id);
               }
@@ -136,10 +144,12 @@
           else{
             _performance.permanent = 'false';
             _performance.date = day;
-            _performance.position = position;
-            _performance.duration = duration;
-            _performance.maxHeight = height - position + 41;
-            if(_performance.performance_id) return modify(_performance)
+            var start = new Date(parseInt(dayTime[0]));
+            start.setMinutes(start.getMinutes() + (position - 41) * 1.5);
+            var end = new Date(start.getTime());
+            end.setMinutes(start.getMinutes() + duration * 1.5);
+            _performance.time = [start.getTime(), end.getTime()];
+            if(_performance.performance_id) return modify(_performance);
             create(_performance);
           }
         }
@@ -331,8 +341,8 @@
       space: space,
       columns: _columns,
       program: program,
-      addColumn: function(day, height){
-        columns[day] = SpaceColumn(day, height);
+      addColumn: function(day, height, dayTime){
+        columns[day] = SpaceColumn(day, height, dayTime);
         _columns[day] = columns[day].render();  
       },
       showColumns: function(){
