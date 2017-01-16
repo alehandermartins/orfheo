@@ -44,8 +44,8 @@ NAV WELCOME PAGE
 }
 
 .container-loginNavHeader{
-  width: 17rem;
-  height: 13.5rem;
+  width: 17rem !important;;
+  height: 13.5rem !important;;
   top: 27px !important;
   left: -220px !important;
   form{
@@ -1044,14 +1044,44 @@ Header
   }
 }
 
-.settingsContainer{
-  a.dropdownIconContainer{
-    padding: 0;
-  }
+
+
+.rightContent-insideNavMenu{
   position: absolute;
   right: 0;
-  top: .9rem;
+  top: .7rem;
+  .rightMenu-navHeader{
+    margin: 0;
+    li{
+      display: inline-block;
+    }
+  }
+  .settingsContainer{
+  a.dropdownIconContainer{
+      padding: 0;
+      .material-icons{
+        font-size: 2rem;
+        margin-right: -0.4rem;
+      }
+    } 
+  }
+  .initText{
+    text-align: center;
+    margin-right: 1rem;
+    a{
+      color: white;
+    }
+  }
+  .initText:hover{
+    a{
+      color: $grey-1;
+    }
+  }
+/*   .selected{
+    color: $grey-2;
+  } */
 }
+
 
 /*-----------------------
 Aside content User page

@@ -19,6 +19,7 @@ ns.Widgets = ns.Widgets || {};
     	.click(function(){
     		$('.selected').removeClass('selected');
     		_showHide('welcomeSection');
+        // _init.addClass('selected');
         if (_profilesSection) _profilesSection.deactivate();
     	});
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
@@ -39,10 +40,23 @@ ns.Widgets = ns.Widgets || {};
       _rightContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));  
     }
     else if (Pard.UserStatus['status'] == 'owner'){
-      _rightContainer.addClass('settingsContainer')
-      var _settingsDropdown = Pard.Widgets.UserDropdownMenu().render()
-        .addClass('settings-blackHeader')
-      _rightContainer.append(_settingsDropdown);
+      var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
+      var _init = $('<li>')
+        .append($('<a>').attr('href','#')
+          .text('Inicio')
+          .click(function(){
+            $('.selected').removeClass('selected');
+            _init.addClass('selected');
+            _showHide('welcomeSection');
+            if (_profilesSection) _profilesSection.deactivate();
+          })
+        )
+        .addClass('initText');
+      var _settingsDropdown = $('<li>').addClass('settingsContainer')
+        .append(Pard.Widgets.UserDropdownMenu().render()
+          .addClass('settings-blackHeader')
+        );
+      _rightContainer.append(_rightMenu.append(_init, _settingsDropdown)).addClass('rightContent-insideNavMenu');
     }
 
   	var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
@@ -152,5 +166,48 @@ ns.Widgets = ns.Widgets || {};
       } 
     }
   }
+
+  ns.Widgets.InsideHeader = function(menuContainer){
+    var _createdWidget = $('<header>').addClass('user-bar');
+    var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
+    var _container = $('<div>').addClass('pard-header-container');
+
+    var _topContent = $('<div>').addClass('top-header-content');
+
+    var _topBarTitle = $('<div>').addClass('left-user-header-content');
+    var _logo = $('<a>').attr({
+      'href': '/'
+    }).append($('<div>').addClass('logo-header inside-header-logo'));
+    _topBarTitle.append(_logo);
+    _logo.click(function(){
+      location.href = /users/;
+    });
+   
+    var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
+
+    var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
+    var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
+    _elemOffCanvas.append(_iconOffCanvas, ' Menu').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
+    _elemOffCanvas.click(function(){$(window).scrollTop(0);});
+
+    _responsiveMenu.append(_elemOffCanvas);
+
+    var _topBarRight = $('<div>').addClass('right-user-header-content');
+
+    _topBarRight.append(menuContainer);
+
+    _topContent.append(_topBarTitle, _topBarRight);
+
+    _container.append(_topContent, _responsiveMenu);
+    _topBar.append(_container);
+    _createdWidget.append(_topBar);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      } 
+    }
+  }
+
 
 }(Pard || {}));
