@@ -60,6 +60,7 @@ var CookieAlert = function(){
     //Descomentar la siguiente linea para borrar localStorage y poder hacer pruebas
     localStorage['orfheo'] =  localStorage['orfheo'] || JSON.stringify('');
     var orfheoStorage = JSON.parse(localStorage['orfheo']);
+    orfheoStorage = '';
     if(!orfheoStorage) {
       orfheoStorage = {}
       var _closeButton = $('<button>').addClass('close-button closeBtn-coockies-callout').attr({'type':'button','data-close':''}).append($('<span>').html('Acepto').attr('aria-hidden','true'));
@@ -72,7 +73,7 @@ var CookieAlert = function(){
       	.click(function(){
       		Pard.Widgets.BigAlert('Política de cookies', Pard.Widgets.CoockiesPolicy());
       	});
-      var _alertText = $('<p>').append('Para mejorar tu experiencia de navegación, orfheo almacena unas informaciones en tu navegador bajo forma de trozos de textos técnicamente llamados coockies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más informaciones puedes leer nuestra ', _coockiesPolicy,'.').addClass('text-browser-alert');
+      var _alertText = $('<p>').append('Para mejorar tu experiencia de navegación, orfheo almacena información en tu navegador en forma de pequeños elementos de texto llamados cookies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más información puedes leer nuestra ', _coockiesPolicy,'.').addClass('text-browser-alert');
       _alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('coockies-callout').attr('data-closable','');
     }
   });

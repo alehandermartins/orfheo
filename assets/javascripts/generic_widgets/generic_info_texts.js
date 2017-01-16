@@ -7,9 +7,9 @@ ns.Widgets = ns.Widgets || {};
 	ns.Widgets.CoockiesPolicy = function(){
 		var _createdWidget = $('<div>').append(
 			$('<p>').text('Las cookies son un elemento informático, ampliamente usado en internet, que una página web instala en el navegador de quien la visita. Es decir, que cuando uno accede a una página web, esta envía información a Chrome, Firefox, Internet Explorer, Opera... y esta información se almacena en la memoria del mismo. La idea es que la página web pueda comprobar esa información en el futuro y utilizarla.'),
-      $('<p>').text('Orfheo utiliza coockies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guarda localmente informaciones para permitir un login más rápido y continuado, evitar la desconexión del sitio en caso de reinicio del servidor, recordar preferencias o elecciones durante todo el proceso de navegación.'),
-      $('<p>').text('En general, por como se estructura internet hoy en día, las coockies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar sus usuarios para que sepan lo que está ocurriendo. '),
-      $('<p>').text('La misma información de este popup está también en el apartado de condiciones de utilizo de la web. En caso de modificas se avisará a los ciudadanos de orfheo con suficiente antelación.')
+      $('<p>').text('Orfheo utiliza cookies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guarda localmente información para permitir un login más rápido y continuado, evitar la desconexión del sitio en caso de reinicio del servidor y recordar preferencias o elecciones durante todo el proceso de navegación.'),
+      $('<p>').text('En general, por como se estructura internet hoy en día, las cookies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar a sus usuarios para que sepan lo que está ocurriendo. '),
+      $('<p>').text('La misma información de este popup está también en el apartado de condiciones de uso de la web. En caso de modificación se avisará a los ciudadanos de orfheo con suficiente antelación.')
 		);
 
 		return _createdWidget;

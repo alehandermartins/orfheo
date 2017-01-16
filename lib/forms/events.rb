@@ -51,7 +51,7 @@ class Forms::Events < Forms::Base
       time: params[:time],
       permanent: params[:permanent],
       comments: params[:comments],
-      confirmed: false,
+      confirmed: params[:confirmed] || false,
     }
 	end
 end
