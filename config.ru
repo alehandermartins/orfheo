@@ -12,8 +12,7 @@ require './controllers/events'
 require './controllers/calls'
 require './controllers/search'
 require './controllers/forms'
-require './controllers/chat'
-require './services/chat'
+require './services/websocket'
 
 # require 'rack-livereload' if ENV['RACK_ENV'] == 'development'
 # use Rack::LiveReload, no_swf: true , min_delay: 2000, max_delay: 5000 if ENV['RACK_ENV'] == 'development'
@@ -26,7 +25,7 @@ use UsersController
 use ProfilesController
 use EventsController
 use CallsController
-use Services::Chat
+use Services::Websocket
 
 map '/' do
   run WelcomeController

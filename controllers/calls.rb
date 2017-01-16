@@ -17,7 +17,10 @@ class CallsController < BaseController
     form = get_artist_form call_id, form_category
     proposal = ArtistProposal.new(params, session[:identity], form)
     Repos::Events.add_artist event_id, proposal.to_h
-    success ({proposal: proposal.to_h})
+
+    message = {event: 'addArtist', model: proposal.to_h}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/send_space_proposal' do
@@ -31,7 +34,10 @@ class CallsController < BaseController
     form = get_space_form call_id, form_category
     proposal = SpaceProposal.new(params, session[:identity], form)
     Repos::Events.add_space event_id, proposal.to_h
-    success ({proposal: proposal.to_h})
+
+    message = {event: 'addSpace', model: proposal.to_h}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/amend_artist_proposal' do
@@ -66,7 +72,10 @@ class CallsController < BaseController
     proposal = ArtistOwnProposal.new(params, session[:identity], form) if old_proposal[:own] == true
     proposal = ArtistProposal.new(params, old_proposal[:user_id], form) unless old_proposal[:own] == true
     Repos::Events.modify_artist proposal.to_h
-    success ({proposal: proposal.to_h})
+
+    message = {event: 'modifyArtist', model: proposal.to_h}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/modify_space_proposal' do
@@ -81,7 +90,10 @@ class CallsController < BaseController
     proposal = SpaceOwnProposal.new(params, session[:identity], form) if old_proposal[:own] == true
     proposal = SpaceProposal.new(params, old_proposal[:user_id], form) unless old_proposal[:own] == true
     Repos::Events.modify_space proposal.to_h
-    success ({proposal: proposal.to_h})
+
+    message = {event: 'modifySpace', model: proposal.to_h}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/delete_artist_proposal' do
@@ -94,9 +106,12 @@ class CallsController < BaseController
     check_proposal_access! event[:user_id], proposal[:user_id]
     check_deadline! event_id
     Repos::Events.delete_artist_proposal proposal_id
-
     send_rejection_mail(event, proposal[:user_id], proposal[:title]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
-    success({profile_id: proposal[:profile_id], proposal_id: proposal[:proposal_id]})
+        
+
+    message = {event: 'deleteArtist', model: {profile_id: proposal[:profile_id], proposal_id: proposal[:proposal_id]}}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/delete_space_proposal' do
@@ -109,9 +124,11 @@ class CallsController < BaseController
     check_proposal_access! event[:user_id], proposal[:user_id]
     check_deadline! event_id
     Repos::Events.delete_space_proposal proposal_id
-
     send_rejection_mail(event, proposal[:user_id], proposal[:name]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
-    success({profile_id: proposal[:profile_id]})
+    
+    message = {event: 'deleteSpace', model: {profile_id: proposal[:profile_id]}}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/send_artist_own_proposal' do
@@ -123,7 +140,10 @@ class CallsController < BaseController
     form = get_artist_form call_id, form_category
     proposal = ArtistOwnProposal.new(params, session[:identity], form)
     Repos::Events.add_artist event_id, proposal.to_h
-    success({artist: proposal.to_h})
+    message = {event: 'addArtist', model: proposal.to_h}
+
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/send_space_own_proposal' do
@@ -135,7 +155,10 @@ class CallsController < BaseController
     form = get_space_form call_id, form_category
     proposal = SpaceOwnProposal.new(params, session[:identity], form)
     Repos::Events.add_space event_id, proposal.to_h
-    success({space: proposal.to_h})
+    message = {event: 'addSpace', model: proposal.to_h}
+
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/add_whitelist' do

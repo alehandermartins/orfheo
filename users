@@ -332,7 +332,7 @@
 {"_id":{"$oid":"58034f2abdcfe00003000001"},"user_id":"b3a28810-9a24-41bc-be76-c5b912825322","email":"orofinovirginia@gmail.com","password":"virginia38","validation":true}
 {"_id":{"$oid":"58035be0b1df670003000001"},"user_id":"65343463-15b5-4e08-8ee4-3725b4db04d7","email":"recordablemente@gmail.com","password":"618137844","validation":true}
 {"_id":{"$oid":"5804f7cb801dd70003000001"},"user_id":"59b184d5-8060-4c6f-9d33-fb97925975ad","email":"robertamarangon1993@gmail.com","password":"Atrebor.93","validation":false,"validation_code":"7160ec3a-484f-445a-861d-090bc03ce0da"}
-{"_id":{"$oid":"58051f66801dd70003000002"},"user_id":"9145f1c5-81a2-4a00-a9f8-59f6b42c8adb","email":"correodejosepsilla@gmail.com","password":"orfheonjosep7435","validation":true}
+{"_id":{"$oid":"58051f66801dd70003000002"},"user_id":"9145f1c5-81a2-4a00-a9f8-59f6b42c8adb","email":"correodejosepsilla@gmail.com","password":"orfheojosep7435","validation":true}
 {"_id":{"$oid":"58246a3cd22df0000401f3dc"},"user_id":"98668778-f7ff-435a-97db-eb666004ad43","email":"laia_folch@hotmail.com","password":"buenosdias","validation":true}
 {"_id":{"$oid":"5824d69bd22df0000401f3dd"},"user_id":"bbeba06b-1f30-408d-a1bc-14c9f98efe2j","email":"distrito008valencia@gmail.com","password":"masalladelosmuros","validation":true}
 {"_id":{"$oid":"5832d5c849883f00042d68dc"},"user_id":"ff293016-4c48-4cef-b4a6-ec5a4dc978f8","email":"estrellajover@gmail.com","password":"recorcholis123","validation":true}
@@ -395,3 +395,7 @@
 {"_id":{"$oid":"585c1cd6390540000442eac5"},"user_id":"c0ee5661-0904-46dc-bb36-a424e9a2d13f","email":"continental.tienda@gmail.com","password":"Distrito008VII","validation":true}
 {"_id":{"$oid":"585cea04390540000442eac6"},"user_id":"5ba007cf-e7f6-4bb8-a59f-0ae83365edf7","email":"csm.djp@gmail.com","password":"Fingertalk01","validation":true}
 {"_id":{"$oid":"585d180fc4553100046ad316"},"user_id":"7578dc86-5035-4591-9b31-2617618f2268","email":"mariadolzgarcia@gmail.com","password":"mariadolcetaaa","validation":true}
+{"_id":{"$oid":"58610c6b1b2a8f0004a4b912"},"user_id":"7bf32e26-665b-411f-a314-47692ded490f","email":"choferadrian@gmail.com","password":"morenolaSf","validation":true}
+{"_id":{"$oid":"58617cf51b2a8f0004a4b913"},"user_id":"bba95b22-15de-43e0-bfbf-5e458b82e426","email":"kanterol@gmail.com","password":"(==)qwerty7890","validation":true}
+{"_id":{"$oid":"586443f2798f0a0004a0166c"},"user_id":"b21d1f6e-1c77-41d7-933e-279ddc274cdd","email":"amagi.expos@gmail.com","password":"sanchisbergon","validation":true}
+{"_id":{"$oid":"5875044da44dcb00042f7461"},"user_id":"712a56be-4a8a-470e-ab7e-2ff4a57da3b1","email":"pasenyveancultura@gmail.com","password":"todonuevo","validation":true}

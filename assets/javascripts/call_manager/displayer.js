@@ -120,8 +120,6 @@
 
       var deleteCallback = function(data){
         if (data['status'] == 'success'){
-          if (type == 'artist') Pard.Bus.trigger('deleteArtist', data);
-          else if (type == 'space') Pard.Bus.trigger('deleteSpace', data);
           Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
         }
         else{
@@ -136,11 +134,7 @@
       }
 
       var modifyCallback = function(data){
-        if (data['status'] == 'success'){
-          if (type == 'artist') Pard.Bus.trigger('modifyArtist', data.proposal);
-          else if (type == 'space') Pard.Bus.trigger('modifySpace', data.proposal);
-        }
-        else{
+        if (data['status'] != 'success'){
           var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
           if (typeof _dataReason == 'object')
             Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
@@ -150,8 +144,6 @@
           }
         }
       };
-
-      // var closepopup = function(){};
 
       var _modifyProposalBackend = {
         artist: Pard.Backend.modifyArtistProposal,
@@ -179,11 +171,11 @@
               modifyCallback(data);
               _content.empty();
               if (type == 'space') {
-                var _modifiedProposal = data.proposal;
+                var _modifiedProposal = data.model;
               }
               else {
-                var _artist = data.proposal;
-                var _modifiedProposal = data.proposal.proposals[0];
+                var _artist = data.model;
+                var _modifiedProposal = data.model.proposals[0];
                 _modifiedProposal.name = _artist.name;
                 _modifiedProposal.email = _artist.email;
                 _modifiedProposal.profile_id = _artist.profile_id;
@@ -248,8 +240,6 @@
 
       var _callbackCreatedProposal = function(data, callback){
         if(data['status'] == 'success') {
-          if (Object.keys(data)[1] == 'space') Pard.Bus.trigger('addSpace', data.space);
-          else if (Object.keys(data)[1] == 'artist'){Pard.Bus.trigger('addArtist', data.artist);}
           Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
           callback();
         }
