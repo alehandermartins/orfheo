@@ -11,30 +11,35 @@ class EventsController < BaseController
     scopify event_id: true
     check_event_ownership! event_id
 
-    performance_id = SecureRandom.uuid
-    performance = Forms::Events.new(params, session[:identity]).create_performance(performance_id)
-    check_participants! event_id, performance
-    Repos::Events.add_performance event_id, performance
+    performance = Performance.new(params)
+    check_participants! event_id, performance.to_h
+    Repos::Events.add_performance event_id, performance.to_h
 
-    success ({performance_id: performance_id})
+    message = {event: 'addPerformance', model: performance.to_h}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/modify_performance' do
     scopify event_id: true, performance_id: true
     check_event_ownership! event_id
 
-    performance = Forms::Events.new(params, session[:identity]).create_performance(performance_id)
-    check_existing_performance! event_id, performance
-    Repos::Events.modify_performance event_id, performance
+    performance = Performance.new(params)
+    check_existing_performance! event_id, performance.to_h
+    Repos::Events.modify_performance event_id, performance.to_h
 
-    success ({performance_id: performance_id})
+    message = {event: 'modifyPerformance', model: performance.to_h}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/users/delete_performance' do
     scopify event_id: true, performance_id: true
     check_event_ownership! event_id
     Repos::Events.delete_performance event_id, performance_id
-    success
+    message = {event: 'deletePerformance', model: {performance_id: performance_id}}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   post '/events' do

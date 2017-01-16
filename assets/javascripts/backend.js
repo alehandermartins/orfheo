@@ -143,6 +143,32 @@
       );
     };
 
+    var _createPerformance = function(form, callback){
+      _send(
+        '/users/create_performance',
+        form,
+        callback
+      );
+    };
+
+    var _modifyPerformance = function(form, callback){
+      _send(
+        '/users/modify_performance',
+        form,
+        callback
+      );
+    };
+
+    var _deletePerformance = function(performance_id, callback){
+      _send(
+        '/users/delete_performance',
+        {
+          performance_id: performance_id
+        },
+        callback
+      );
+    };
+
     var _searchProfiles = function(tags, shown, event_id, callback){
       _send(
         '/search/results',
@@ -356,6 +382,9 @@
       amendSpaceProposal: _amendSpaceProposal,
       modifyArtistProposal: _modifyArtistProposal,
       modifySpaceProposal: _modifySpaceProposal,
+      createPerformance: _createPerformance,
+      modifyPerformance: _modifyPerformance,
+      deletePerformance: _deletePerformance,
       whitelist: _whitelist,
       saveProgram: _saveProgram,
       getCallForms: _getCallForms,
