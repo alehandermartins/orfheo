@@ -723,25 +723,6 @@ Header
   }
 }
 
-/*LARGE*/
-
-
-@media only screen and #{breakpoint(medium)} {
-  .login-bar{
-    @extend .pard-bar;
-    min-height: 5rem;
-    padding-top: 0.7rem; 
-  }
-  .user-bar{
-    @extend .pard-bar;
-    min-height: 4.5rem;
-    padding-top: auto; 
-  }
-  .login-bar, .user-bar{
-  border-bottom: 2px solid $grey-1;
-   box-shadow: 0 0 2px #f6f6f6;
-  }
-}
 
 /*GENERAL*/
 
@@ -1048,7 +1029,7 @@ Header
   color: rgba(0,0,0,0.8);
 }
 
-.settings-blackHeader{
+.black{
   .settings-icon-dropdown-menu{
     color: white;
   }
@@ -1069,12 +1050,11 @@ Header
       display: inline-block;
     }
   }
-  .settingsContainer{
+/*   .settingsContainer{
   a.dropdownIconContainer{
-      padding: 0;
-      
+      padding: 0; 
     } 
-  }
+  } */
   .initText{
     text-align: center;
     margin-right: 1rem;
@@ -1255,7 +1235,7 @@ Aside
   @include border-radius($layout-border-radius);
   display: block;
   background: $content-background;
-  margin-top: $pard-grid-spacing;
+  /* margin-top: $pard-grid-spacing; */
   padding: 0.2rem;
 }
 
@@ -2707,7 +2687,7 @@ Program Manager Tab
   padding: 0.2rem;
 }
 
-.space-column-header .menu > li > a{
+.space-column-header .menu> li > a{
   padding: 0.4rem;
 }
 

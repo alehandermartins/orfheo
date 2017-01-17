@@ -9,7 +9,7 @@
     var _section = $('<section>').addClass('welcomeSection-layout');
     var _myProfileDiv = $('<div>') .addClass('myprofileDiv');
     var _myprofileOuterCont = $('<div>').addClass('outerContainer-UserPage');
-    // var _myprofileInnerCont = $('<div>').addClass('innerContainer-UserPage');
+    
     var _myProfileContent = $('<div>').addClass('myProfilesContainer');
     var _myprofiles = Pard.CachedProfiles;
     if (_myprofiles.length > 0){
@@ -17,7 +17,6 @@
         var _cardContainer = $('<div>').addClass('card-container-WelcomePage');
         var _card = Pard.Widgets.CreateCard(profile).render();
         _card.css({
-          // 'box-shadow': '0px 1px 3px 0px rgba(255, 255, 255,1)',
           'border':'1px solid rgba(255, 255, 255)'
         });
         _card.off('mouseenter mouseleave')

@@ -97,14 +97,6 @@ ns.Widgets = ns.Widgets || {};
 
      if (userStatus == 'outsider') {
         _main.addClass('outsider-main');
-      //  $(window).on('scroll',function() {
-      //  if ( _main.offset().top - $(window).scrollTop() < 5){
-      //   $('#register-outsider-header-button').show();        
-      //  }
-      //  else{
-      //   $('#register-outsider-header-button').hide();
-      //  }
-      // });
      }
 
     return {

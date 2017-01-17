@@ -143,7 +143,7 @@ Pard.Profile = function(profiles){
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();
-    var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
+    var _header = Pard.Widgets.InsideHeader();
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){
@@ -174,7 +174,7 @@ Pard.Visitor = function(profiles){
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();
-    var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
+    var _header = Pard.Widgets.InsideHeader();
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
 
     _whole.append(_header.render(), _main,  _footer.render());
@@ -267,7 +267,7 @@ Pard.Event = function(the_event, status){
   var _whole = $('<div>').addClass('whole-container');
 
   var _footer = Pard.Widgets.Footer();
-  if(status == 'visitor' || status == 'owner') var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
+  if(status == 'visitor' || status == 'owner') var _header = Pard.Widgets.InsideHeader();
   else{var _header = Pard.Widgets.LoginHeader();}
   var _main = Pard.Widgets.MainOffCanvasLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
   _whole.append(

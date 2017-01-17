@@ -198,20 +198,22 @@ Grid and Bar
   }
 
 
-  .pard-bar {
+/*   .pard-bar {
     background: $content-background;
     width: 100%;
     z-index: 1;
-    .left-bar-content{
-      left:0;
-      display: inline-block;
-      position: absolute;
-    }
-    .right-bar-content{
-      display: inline-block;
-      position: absolute;
-      right:0;
-    }
+    
+  } */
+
+  .left-bar-content{
+    left:0;
+    display: inline-block;
+    position: absolute;
+  }
+  .right-bar-content{
+    display: inline-block;
+    position: absolute;
+    right:0;
   }
 
 }
@@ -1330,7 +1332,8 @@ FOOTER
 
 .footer-bar{
   width: 100%;
-  @extend .pard-bar;
+  background: $content-background;
+  z-index: 1;
   position:relative;
   background: black;
   color: $grey-2;

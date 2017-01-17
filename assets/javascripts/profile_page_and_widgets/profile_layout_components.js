@@ -6,27 +6,40 @@
 
   ns.Widgets.ProfileDropdownMenu = function(){     
 
-    var _menu = $('<ul>').addClass('menu');
+     $(document).on('show.zf.dropdown', function() {
+      _iconDropdownMenu.addClass('iconDropdown-clicked');
+    });
+    $(document).on('hide.zf.dropdown', function(){
+      _iconDropdownMenu.removeClass('iconDropdown-clicked');
 
+    });
+
+    var _createdWidget = $('<div>');       
+
+    var _menuContainer = $('<div>').addClass('dropdown-pane container-insideMenu').attr({'id':'insideMenuDropDown', 'data-close-on-click':true, 'data-dropdown':''});  
+    var _menu = $('<ul>').addClass('dropdownMenu');
+ 
     var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#/'));
 
-    var _modifyPassword = $('<li>').append(Pard.Widgets.ModifyPassword().render().attr('href','#/'));
+    var _modifyCaller = Pard.Widgets.ModifyPassword().render()
+      .attr('href','#/')
+      .click(function(){
+        _menuContainer.foundation('close');
+      });
+    var _modifyPassword = $('<li>').append(_modifyCaller);
 
+    _menuContainer.append(_menu.append(_modifyPassword,  _logout));
 
-    _menu.append(_modifyPassword,  _logout);
-    var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
-    var _iconDropdownMenu = $('<li>').append(
-      $('<a>').attr('href','#/').append(
-        $('<span>').html('&#xE8B8;').addClass('material-icons settings-icon-dropdown-menu')
-        )
-      ,_menu
-    );
+    var _iconDropdownMenu =  $('<button>')
+      .addClass('settings-icon-dropdown-menu')
+      .attr({'type': 'button', 'data-toggle':'insideMenuDropDown'})
+      .append($('<span>').html('&#xE5C5;').addClass('material-icons'));
 
-    _menuContainer.append(_iconDropdownMenu);
+    _createdWidget.append(_iconDropdownMenu, _menuContainer);
 
     return {
       render: function(){
-        return _menuContainer;
+        return _createdWidget;
       } 
     }
   }
@@ -37,21 +50,21 @@
     var _buttonContainer = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-    if (userStatus == 'outsider'){
-      var _signUpButton = Pard.Widgets.SignUpButton().render();
-      _signUpButton.addClass('signupButton-Outsider');
-      var _innerContainer = $('<div>');
-      _innerContainer.append(_signUpButton);
-      _innerContainer.addClass('signupButton-container-Outsider');
-      _buttonContainer.append(_innerContainer).addClass('outer-signupButton-container-Outsider');
-    }
-    else{      
-      var _toUserPageBtn = Pard.Widgets.Button('Página de usuario', function(){
-      location.href = /users/});      
-      _toUserPageBtn.setClass('toUserPage-btn');
-      _buttonContainer.append(_toUserPageBtn.render());
-      _buttonContainer.addClass('toUserPage-btn-container');
-    }
+    // if (userStatus == 'outsider'){
+    //   var _signUpButton = Pard.Widgets.SignUpButton().render();
+    //   _signUpButton.addClass('signupButton-Outsider');
+    //   var _innerContainer = $('<div>');
+    //   _innerContainer.append(_signUpButton);
+    //   _innerContainer.addClass('signupButton-container-Outsider');
+    //   _buttonContainer.append(_innerContainer).addClass('outer-signupButton-container-Outsider');
+    // }
+    // else{      
+    //   var _toUserPageBtn = Pard.Widgets.Button('Página de usuario', function(){
+    //   location.href = /users/});      
+    //   _toUserPageBtn.setClass('toUserPage-btn');
+    //   _buttonContainer.append(_toUserPageBtn.render());
+    //   _buttonContainer.addClass('toUserPage-btn-container');
+    // }
 
     var _asideNavContent  = $('<div>');
     asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
