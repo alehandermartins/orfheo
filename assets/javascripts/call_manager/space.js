@@ -84,11 +84,10 @@
           if (_performance.host_id) last_host = (' ' + _performance.host_id).slice(1);
 
           var create = function(performance){
-            performance.event_id = space.event_id;
             performance.last_host = last_host;
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
-            Pard.Backend.createPerformance(performance, function(data){
+            Pard.Backend.createPerformances(space.event_id, [performance], function(data){
               console.log(data.model);
             });
           }
@@ -141,7 +140,7 @@
             performance.last_host = last_host;
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
-            Pard.Backend.modifyPerformance(performance, function(data){
+            Pard.Backend.modifyPerformances(performance, function(data){
               console.log(data.model);
             });
           }

@@ -330,12 +330,16 @@
       _artistsBlock.addClass('is-active');
     });
 
-    Pard.Bus.on('addPerformance', function(performance){
-      create(performance, true);
+    Pard.Bus.on('addPerformance', function(performances){
+      performances.forEach(function(performance){
+        create(performance, true);
+      });
     });
 
-    Pard.Bus.on('modifyPerformance', function(performance){
-      modify(performance, true);
+    Pard.Bus.on('modifyPerformance', function(performances){
+      performances.forEach(function(performance){
+        modify(performance, true);
+      });
     });
 
     var save = function(performance, check, multipleChanges){

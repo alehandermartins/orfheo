@@ -143,17 +143,20 @@
       );
     };
 
-    var _createPerformance = function(form, callback){
+    var _createPerformances = function(event_id, program, callback){
       _send(
-        '/users/create_performance',
-        form,
+        '/users/create_performances',
+        {
+          event_id: event_id,
+          program: program
+        },
         callback
       );
     };
 
-    var _modifyPerformance = function(form, callback){
+    var _modifyPerformances = function(form, callback){
       _send(
-        '/users/modify_performance',
+        '/users/modify_performances',
         form,
         callback
       );
@@ -382,8 +385,8 @@
       amendSpaceProposal: _amendSpaceProposal,
       modifyArtistProposal: _modifyArtistProposal,
       modifySpaceProposal: _modifySpaceProposal,
-      createPerformance: _createPerformance,
-      modifyPerformance: _modifyPerformance,
+      createPerformances: _createPerformances,
+      modifyPerformances: _modifyPerformances,
       deletePerformance: _deletePerformance,
       whitelist: _whitelist,
       saveProgram: _saveProgram,

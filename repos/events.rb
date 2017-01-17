@@ -233,9 +233,9 @@ module Repos
         })
       end
 
-      def add_performance event_id, performance
+      def add_performances event_id, performances
         @@events_collection.update_one({event_id: event_id},{
-          "$push": {program: performance}
+          "$push": {program:  {"$each": performances}}
         })
       end
 
