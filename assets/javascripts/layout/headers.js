@@ -4,18 +4,18 @@
 
 ns.Widgets = ns.Widgets || {};
 
-	ns.Widgets.NavLoginHeader = function(){
-    var _createdWidget = $('<header>').addClass('navLoginHeader');
+	ns.Widgets.NavHeader = function(){
+    var _createdWidget = $('<header>').addClass('orfheoHeader black fixed');
 
-    var _container = $('<div>').addClass('containerNavHeader');
-    var _content = $('<div>').addClass('contentNavHeader');
+    var _container = $('<div>').addClass('pard-grid');
+    var _content = $('<div>').addClass('contentHeader');
 
     var _showHide = function(id_){
     	$('.visible').hide().removeClass('visible');
     	$('#'+id_).addClass('visible').show();
     }
 
-    var _logo = $('<a>').append($('<div>').addClass('logoNavHeader')).attr('href','#')
+    var _logo = $('<a>').append($('<div>').addClass('logo-header')).attr('href','#')
     	.click(function(){
     		$('.selected').removeClass('selected');
     		_showHide('welcomeSection');
@@ -31,8 +31,8 @@ ns.Widgets = ns.Widgets || {};
      	
       var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login ').addClass('loginText')
       	.click(function(){
-      		if (_loginText.hasClass('clicked')) _loginText.removeClass('clicked');
-      		else _loginText.addClass('clicked');
+      		if (_loginText.hasClass('iconDropdown-clicked')) _loginText.removeClass('iconDropdown-clicked');
+      		else _loginText.addClass('iconDropdown-clicked');
       	});
 
       var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':''});
@@ -104,53 +104,105 @@ ns.Widgets = ns.Widgets || {};
         return _createdWidget;
       }
     }
-  }	
+  }
+
+  // ns.Widgets.InnerHeader = function(){
+  //   var _createdWidget = $('<header>').addClass('orfheoHeader');
+
+  //   var _container = $('<div>').addClass('pard-grid');
+  //   var _content = $('<div>').addClass('contentHeader');
+
+  //   var _logo = $('<a>').append($('<div>').addClass('logoNavHeader')).attr('href','#')
+  //     .click(function(){
+  //       location.href = /users/;
+  //     });
+  //   var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
+
+  //   var _rightContainer = $('<div>');
+  //   if (Pard.UserStatus['status'] == 'outsider'){
+  //     _rightContainer.addClass('loginContainer')
+  //     var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
+      
+  //     var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login ').addClass('loginText')
+  //       .click(function(){
+  //         if (_loginText.hasClass('iconDropdown-clicked')) _loginText.removeClass('iconDropdown-clicked');
+  //         else _loginText.addClass('iconDropdown-clicked');
+  //       });
+
+  //     var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':''});
+
+  //     _rightContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));  
+  //   }
+  //   else {
+  //     var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
+  //     var _init = $('<li>')
+  //       .append($('<a>').attr('href','#')
+  //         .text('Inicio')
+  //         .click(function(){
+  //           location.href = /users/;
+  //         })
+  //       )
+  //       .addClass('initText');
+  //     var _settingsDropdown = $('<li>').addClass('settingsContainer')
+  //       .append(Pard.Widgets.UserDropdownMenu().render()
+  //         .addClass('settings-blackHeader')
+  //       );
+  //     _rightContainer.append(_rightMenu.append(_init, _settingsDropdown)).addClass('rightContent-insideNavMenu');
+  //   }
+
+  //   _logo.addClass('selected');
+  //   _content.append(_logoContainer, _rightContainer)
+  //   _createdWidget.append(_container.append(_content));
+
+  //   return {
+  //     render : function(){
+  //       return _createdWidget;
+  //     }
+  //   }
+  // } 	
+
 
   ns.Widgets.LoginHeader = function(){
     
-    var _createdWidget = $('<header>').addClass('login-bar outsider-header'
-    );
+    var _createdWidget = $('<header>').addClass('orfheoHeader fixed');
+
     var userStatus = Pard.UserStatus['status'];
    
-    var _topBar = $('<div>').addClass('top-bar pard-grid clearfix');
-    var _container = $('<div>').addClass('pard-header-container');
+    var _topBar = $('<div>').addClass('pard-grid  clearfix');
+    var _container = $('<div>').addClass('contentHeader');
     
     var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content')
     var _logo = $('<a>').attr({
       'href': '/'
     }).append($('<div>').addClass('logo-header'));
-    _topBarTitle.append(_logo);
-
-    if (userStatus == 'outsider') {
-      var _registerBtnOut = Pard.Widgets.SignUpButton().render().attr({ id: 'register-outsider-header-button'});
-      _topBarTitle.append(_registerBtnOut);
-      _registerBtnOut.hide();
-    }
-
-    var _signUpButtonForSmall = Pard.Widgets.SignUpButton().render();
-    _signUpButtonForSmall.addClass('signUpButtonForSmall');
-    _topBarTitle.append(_signUpButtonForSmall)
+     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
+    _topBarTitle.append(_logoContainer);
    
     var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
-
-    var _elemResponsive = $('<span>').addClass('float-right').attr({'data-responsive-toggle':'responsive-menu', 'data-hide-for': 'medium'}); 
-    var _iconLogin = $('<span>').addClass('menu-icon dark').css('margin-right','0.3rem');
-    // _iconLogin.attr('data-toggle','');
-    _elemResponsive.append($('<span>').append(_iconLogin,'Entra').attr('data-toggle','')).css('cursor','pointer');
-
 
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
     _elemOffCanvas.append(_iconOffCanvas, ' Descubre maś').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
     _elemOffCanvas.click(function(){$(window).scrollTop(0);});
 
-    _responsiveMenu.append(_elemResponsive, _elemOffCanvas);
+    _responsiveMenu.append(_elemOffCanvas);
 
     var _menuLogin = $('<div>').attr('id','responsive-menu');
     var _topBarRight = $('<div>').addClass('top-bar-right menu right-bar-content');
-    var _inputLogin = Pard.Widgets.Login().render();
+
+    var _rightContainer = $('<div>');
+    _rightContainer.addClass('loginContainer');
+    var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
     
-    _topBarRight.append(_inputLogin);
+    var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login').addClass('loginText')
+      .click(function(){
+        if (_loginText.hasClass('iconDropdown-clicked')) _loginText.removeClass('iconDropdown-clicked');
+        else _loginText.addClass('iconDropdown-clicked');
+      });
+    var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':''});
+    _rightContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUp-welcomePage'));  
+        
+    _topBarRight.append(_rightContainer);
     _menuLogin.append(_topBarRight);
 
     _container.append(_topBarTitle, _responsiveMenu, _menuLogin);
@@ -166,6 +218,8 @@ ns.Widgets = ns.Widgets || {};
       } 
     }
   }
+
+
 
   ns.Widgets.InsideHeader = function(menuContainer){
     var _createdWidget = $('<header>').addClass('user-bar');

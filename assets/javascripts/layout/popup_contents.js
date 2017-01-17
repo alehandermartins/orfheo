@@ -27,7 +27,7 @@ ns.Widgets = ns.Widgets || {};
     _header.append(_logo, _text, _closeBtn);
 
     var _servicesCont = $('<div>').addClass('services-contactInfo'); 
-    var _titleServ = $('<h5>').text('¿Qué puedes hacer con orfheo?');  
+    var _titleServ = $('<h5>').text('¿Qué te ofrece orfheo?');  
     _servicesCont.append(_titleServ);
 
     var _textColumn = $('<div>').append($('<p>').text('bla bla bla')).addClass('half-col');

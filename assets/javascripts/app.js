@@ -82,7 +82,7 @@ Pard.Welcome = function(){
 
   Pard.UserStatus['status'] = 'outsider';
 
-  var _header = Pard.Widgets.NavLoginHeader();
+  var _header = Pard.Widgets.NavHeader();
   var _main = Pard.Widgets.MainWelcomePage();
 
   var _footer = Pard.Widgets.Footer();
@@ -111,13 +111,13 @@ Pard.Users = function(profiles){
   Pard.UserStatus['status'] = 'owner';
   Pard.CachedProfiles = profiles;
 
-  var _header = Pard.Widgets.NavLoginHeader();
+  var _header = Pard.Widgets.NavHeader();
   var _main = Pard.Widgets.MainUserPage();
 
   var _footer = Pard.Widgets.Footer();
   var _whole = $('<div>').addClass('whole-container');
 
-  _whole.append(_header.render(), _main.render().addClass('outsider-main'), _footer.render());
+  _whole.append(_header.render(), _main.render(), _footer.render());
 
   $('body').append(_whole);
 
@@ -270,7 +270,11 @@ Pard.Event = function(the_event, status){
   if(status == 'visitor' || status == 'owner') var _header = Pard.Widgets.InsideHeader(Pard.Widgets.ProfileDropdownMenu().render());
   else{var _header = Pard.Widgets.LoginHeader();}
   var _main = Pard.Widgets.MainOffCanvasLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
-  _whole.append(_header.render().removeClass('outsider-header'), _main.render().addClass('main-welcome-page'), _footer.render().removeClass('footer-outsider'));
+  _whole.append(
+    _header.render(), 
+    _main.render().addClass('main-welcome-page').css('margin-bottom','0'),
+    _footer.render().removeClass('footer-outsider')
+  );
 
 
   //CROWDFUNDING MESSAGE

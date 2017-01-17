@@ -69,6 +69,8 @@ html, body{
 
 body {
  /* overflow: hidden !important; */
+  top: 0;
+  position: absolute;
 }
 
 
@@ -80,7 +82,9 @@ html{
 main {
   padding-top:1.8rem;
   padding-bottom:1.8rem;
-  min-height: 75vh;
+  min-height: -moz-calc(100vh - 5.3rem);
+  min-height: -webkit-calc(100vh - 5.3rem);
+  min-height: calc(100vh - 5.3rem);
   @include breakpoint(small down){
     padding-top:1.6rem;
   }
@@ -106,7 +110,7 @@ a.profileCard:hover{
 .whole-container {
 /*     overflow-y: scroll;
     overflow-x: hidden; */
-    height: 100%;
+     /* height: 100%; */
     max-height: 100%;
     display: block;
     position: relative;
@@ -206,19 +210,18 @@ Grid and Bar
     .right-bar-content{
       display: inline-block;
       position: absolute;
-      margin-right: 0.4rem;
       right:0;
     }
   }
 
 }
 
-@include breakpoint(large){
+/* @include breakpoint(large){
   .left-bar-content{
     margin-left:-0.5rem;
   } 
 }
-
+ */
 
 
 
@@ -442,7 +445,7 @@ button{
   padding: 0.4rem 0.8rem;
 }
 
-.signUpButtonForSmall{
+/* .signUpButtonForSmall{
   color: $element-color;
   font-weight: bold;
   background: $blue-pard;
@@ -456,7 +459,7 @@ button{
     display: none;
   }
 
-}
+} */
 
 #register-outsider-header-button{
   color: $element-color;
@@ -712,7 +715,7 @@ button{
 .goUpBtn-program-event-page{
   bottom: 2rem;
   font-size: 1.5rem;
-  position: absolute;
+  position: fixed;
   right: 15%;
   z-index: 999;
   color: rgba(0,0,0,0.5);
@@ -1286,7 +1289,40 @@ Dropdown
   text-decoration: none;
 }
 
+ul.dropdownMenu{
+  margin: 0;
+  list-style-type: none;
+  font-size: $almostNormalSize;
+  padding: 0;
+  li{
+    display: block !important;
+    a{
+      color: black;
+      padding: 0.7rem 1rem;
+      line-height: 1;
+      width: 100%;
+      display: block
+    }
+  }
+  li:hover{
+    background-color: $grey-1;
+  }
+}
 
+.iconDropdown-clicked{
+  color: $grey-4 !important;
+}
+
+.black .iconDropdown-clicked{
+  color: $grey-2 !important;
+}
+
+.container-insideMenu{
+  padding:  0;
+  width: 15rem;
+  left: -10.5rem !important;
+  top: 2rem !important;
+}
 
 /*==============================================
 FOOTER
@@ -1301,29 +1337,28 @@ FOOTER
   padding-bottom:0rem;
   bottom:0;
   font-size: $smallSize;
+  padding-top:0.5rem;
   @include breakpoint(medium) {  
     height:2rem;
   }
-  @include breakpoint(small){
-  padding-top:0.5rem;
-  padding-bottom:0.5rem;
+  @include breakpoint(small down){
   padding-left:0.75rem;
 
   }
   box-shadow: 0 0 2px black;
 }
 
-.footer-right{
+/* .footer-right{
   @include breakpoint(medium){
     padding-right:0.6rem;
   }
-}
+} */
 
-.footer-left{
+/* .footer-left{
   @include breakpoint(medium){
     padding-left:0.7rem;
   }
-}
+} */
 
 a.footer-text-link {
   color: white;
@@ -1358,12 +1393,12 @@ a.footer-text-link:hover{
 
 .footer-outsider{
   position:fixed;
-  .footer-left{
+/*   .footer-left{
     padding-left:0.1rem;
   }
   .footer-right{
     padding-right:0.1rem;
-  }
+  } */
 }
 
 }
@@ -2049,8 +2084,8 @@ IMAGES
 .logo-header{
   cursor: pointer;
   background-image: url(<%= image_path 'orfheologocolor.png' %>);
-  width: 110px;
-  height: 37px;
+  width: 77px;
+  height: 24px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   @include breakpoint(small down){ 

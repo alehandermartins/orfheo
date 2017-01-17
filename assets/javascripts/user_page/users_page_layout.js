@@ -88,13 +88,29 @@
   }
   
 
-  ns.Widgets.UserDropdownMenu = function(){     
+  ns.Widgets.UserDropdownMenu = function(){   
 
-    var _menu = $('<ul>').addClass('menu');
+    $(document).on('show.zf.dropdown', function() {
+      _iconDropdownMenu.addClass('iconDropdown-clicked');
+    });
+    $(document).on('hide.zf.dropdown', function(){
+      _iconDropdownMenu.removeClass('iconDropdown-clicked');
 
+    });
+
+    var _createdWidget = $('<div>');       
+
+    var _menuContainer = $('<div>').addClass('dropdown-pane container-insideMenu').attr({'id':'insideMenuDropDown', 'data-close-on-click':true, 'data-dropdown':''});  
+    var _menu = $('<ul>').addClass('dropdownMenu');
+ 
     var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#/'));
 
-    var _modifyPassword = $('<li>').append(Pard.Widgets.ModifyPassword().render().attr('href','#/'));
+    var _modifyCaller = Pard.Widgets.ModifyPassword().render()
+      .attr('href','#/')
+      .click(function(){
+        _menuContainer.foundation('close');
+      });
+    var _modifyPassword = $('<li>').append(_modifyCaller);
 
     var _deleteUserPopup;
     var _deleteUserMex = Pard.Widgets.DeleteUserMessage();
@@ -105,25 +121,23 @@
         _deleteUserPopup.setContent('¿Estás seguro/a?',_deleteUserMex.render());
       })
       .click(function(){
+        _menuContainer.foundation('close');
         _deleteUserPopup.open();
       });
     var _deleteUser = $('<li>').append(_deleteCaller);
 
-		_menu.append(_deleteUser, _modifyPassword,  _logout);
-		var _menuContainer = $('<ul>').addClass('dropdown menu').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
-		var _iconDropdownMenu = $('<li>').append(
-      $('<a>').attr('href','#/').addClass('dropdownIconContainer')
-        .append(
-          $('<span>').html('&#xE5C5;').addClass('material-icons settings-icon-dropdown-menu')
-        )
-      ,_menu
-    );
+		_menuContainer.append(_menu.append(_deleteUser, _modifyPassword,  _logout));
 
-    _menuContainer.append(_iconDropdownMenu);
+		var _iconDropdownMenu =  $('<button>')
+      .addClass('settings-icon-dropdown-menu')
+      .attr({'type': 'button', 'data-toggle':'insideMenuDropDown'})
+      .append($('<span>').html('&#xE5C5;').addClass('material-icons'));
+
+    _createdWidget.append(_iconDropdownMenu, _menuContainer);
 
   	return {
   		render: function(){
-  			return _menuContainer;
+  			return _createdWidget;
   		} 
   	}
   }

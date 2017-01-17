@@ -2,25 +2,30 @@
 NAV WELCOME PAGE
 ================================================*/
 
-.navLoginHeader{
+.orfheoHeader{
   width: 100%;
-  /* max-width: 100%; */
-  position: fixed;
+  background-color: white;
   top: 0;
   height: 3.3rem;
   margin: auto;
-  background-color: black;
   font-size: $almostNormalSize;
   z-index: 2;
+  position: relative;
+}
+.black{
+  background-color: black;
+}
+.fixed{
+  position: fixed;
 }
 
-.containerNavHeader{
+.containerHeader{
   width: 984px;
   height: 100%;
   @include horizontal-center; 
 }
 
-.contentNavHeader{
+.contentHeader{
   position: relative;
   width: 100%;
   height: 100%;
@@ -32,21 +37,19 @@ NAV WELCOME PAGE
   button{
     margin: 0;
   }
+  @include breakpoint(small down){ 
+    @include horizontal-center;
+  }
 }
 
-.logoNavHeader{
-  cursor: pointer;
+.black .logo-header{
   background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
-  width: 77px;
-  height: 24px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
 }
 
 .container-loginNavHeader{
   width: 17rem !important;;
   height: 13.5rem !important;;
-  top: 27px !important;
+  top: 2rem !important;
   left: -220px !important;
   form{
     margin: 0;
@@ -63,22 +66,27 @@ NAV WELCOME PAGE
   right: 0;
   top: 0.8rem;
   .loginText{
-    color: white;
+    color: black;
     display: inline-block;
     vertical-align: middle;
     margin-right: 1.5rem;
   }
   .loginText:hover{
-    color: $grey-1;
-  }
-  .loginText.clicked{
-    color: $grey-2;
+    color: rgba(0,0,0,.8);
   }
   .signUp-welcomePage{
     vertical-align: middle;
     display: inline-block;
   }
 }
+
+.black .loginText{
+  color: white;
+}
+.black .loginText:hover{
+  color: $grey-1;
+}
+
 
 .navMenuHeader{
   margin: 0;
@@ -119,9 +127,8 @@ main.mainWelcomePage{
   min-height: 100%;
   position: relative;
   .welcomeSection-container{
-    width: 984px;
+    @extend .pard-grid;
     height: 100%;
-    @include horizontal-center; 
     position: relative;
   }
   .entryDiv{
@@ -557,6 +564,13 @@ WELCOME PAGE 2
   @include border-radius($element-border-radius);
   background: $blue-pard;
   padding: 0.4rem 1.8rem;
+  @include breakpoint(small down){
+    position: absolute;
+    right: $inner-spacing;
+    top: $inner-spacing;
+    font-size: $almostNormalSize;
+    padding: 0.25rem 0.5rem;  
+  }
 }
 
 .signUp-welcomePage:hover{
@@ -1023,6 +1037,11 @@ Header
 
 .settings-icon-dropdown-menu{
   color: black;
+  .material-icons{
+    font-size: 2rem;
+    margin-right: -0.4rem;
+  }
+  padding:0;
 }
 
 .settings-icon-dropdown-menu:hover{
@@ -1034,7 +1053,7 @@ Header
     color: white;
   }
   .settings-icon-dropdown-menu:hover{
-    color: $grey-1;
+    color: $grey-2;
   }
 }
 
@@ -1053,28 +1072,37 @@ Header
   .settingsContainer{
   a.dropdownIconContainer{
       padding: 0;
-      .material-icons{
-        font-size: 2rem;
-        margin-right: -0.4rem;
-      }
+      
     } 
   }
   .initText{
     text-align: center;
     margin-right: 1rem;
+    vertical-align: 0.7rem;
     a{
-      color: white;
+      color: black;
     }
   }
   .initText:hover{
     a{
-      color: $grey-1;
+      color: rgba(0,0,0,.8);
     }
   }
 /*   .selected{
     color: $grey-2;
   } */
 }
+
+.black .initText a{
+  color: white;
+}
+
+.black .initText:hover{
+ a{
+    color: $grey-1
+  }
+}
+
 
 
 /*-----------------------
@@ -1179,7 +1207,7 @@ main.mainUserPage{
   color: black;
   font-size: 2.3rem;
   margin-top: 52%;
-  z-index:2;
+  z-index:1;
   @include horizontal-center;
   @include breakpoint(small down) {
     font-size: 4vh;
@@ -1908,7 +1936,7 @@ OUTSIDER PAGE
   }
 
   .outsider-main{
-    margin-top: 5rem;
+    margin-top: 3.3rem;
     margin-bottom: 2rem;
   }
 

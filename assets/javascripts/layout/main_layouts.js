@@ -97,14 +97,14 @@ ns.Widgets = ns.Widgets || {};
 
      if (userStatus == 'outsider') {
         _main.addClass('outsider-main');
-       $(window).on('scroll',function() {
-       if ( _main.offset().top - $(window).scrollTop() < 5){
-        $('#register-outsider-header-button').show();        
-       }
-       else{
-        $('#register-outsider-header-button').hide();
-       }
-      });
+      //  $(window).on('scroll',function() {
+      //  if ( _main.offset().top - $(window).scrollTop() < 5){
+      //   $('#register-outsider-header-button').show();        
+      //  }
+      //  else{
+      //   $('#register-outsider-header-button').hide();
+      //  }
+      // });
      }
 
     return {
@@ -145,6 +145,10 @@ ns.Widgets = ns.Widgets || {};
 
     _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
     _main.append(_mainLarge);
+
+    if (Pard.UserStatus['status'] == 'outsider') {
+        _main.addClass('outsider-main');
+    }
 
     return {
       render: function(){
