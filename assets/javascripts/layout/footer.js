@@ -23,8 +23,8 @@ ns.Widgets = ns.Widgets || {};
 
     var _grid = $('<div>').addClass('pard-grid');
     var _container= $('<div>').addClass('pard-container-relative');
-    var _leftContent = $('<div>').addClass('left-bar-content  footer-left');
-    var _rightContent = $('<div>').addClass('right-bar-content footer-right');
+    var _leftContent = $('<div>').addClass('footer-left');
+    var _rightContent = $('<div>').addClass('footer-right');
 
     var _leftMenu = $('<ul>').addClass('leftFooter-menu');
 

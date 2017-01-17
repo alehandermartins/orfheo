@@ -171,7 +171,7 @@ ns.Widgets = ns.Widgets || {};
     var _topBar = $('<div>').addClass('pard-grid  clearfix');
     var _container = $('<div>').addClass('contentHeader');
     
-    var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content')
+    var _topBarTitle = $('<div>')
     var _logo = $('<a>').attr({
       'href': '/'
     }).append($('<div>').addClass('logo-header'));
@@ -182,7 +182,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
-    _elemOffCanvas.append(_iconOffCanvas, ' Descubre maś').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
+    _elemOffCanvas.append(_iconOffCanvas).attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
     _elemOffCanvas.click(function(){$(window).scrollTop(0);});
 
     _responsiveMenu.append(_elemOffCanvas);
@@ -223,7 +223,7 @@ ns.Widgets = ns.Widgets || {};
     var _topBar = $('<div>').addClass('pard-grid  clearfix');
     var _container = $('<div>').addClass('contentHeader');
     
-    var _topBarTitle = $('<div>').addClass('block-for-medium left-bar-content')
+    var _topBarTitle = $('<div>')
     var _logo = $('<a>').attr({
       'href': '/'
     }).append($('<div>').addClass('logo-header'));
@@ -234,7 +234,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
-    _elemOffCanvas.append(_iconOffCanvas, ' Descubre maś').attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
+    _elemOffCanvas.append(_iconOffCanvas).attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
     _elemOffCanvas.click(function(){$(window).scrollTop(0);});
 
     _responsiveMenu.append(_elemOffCanvas);
