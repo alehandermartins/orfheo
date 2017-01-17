@@ -98,7 +98,7 @@
             var _endHour = parseInt(dayTime[1].split(':')[0]);
             var _endMin = parseInt(dayTime[1].split(':')[1]);
 
-            var _permanetIds = [];
+            var _performances = [];
             var myShows = Object.keys(program).map(function(performance_id){
               return program[performance_id].show;
             });
@@ -118,12 +118,15 @@
                 var start = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _startHour, _startMin);
                 var end = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _endHour, _endMin);
                 show.time = [start.getTime(), end.getTime()];
-                create(show);
-                _permanetIds.push(show.performance_id);
+                show.last_host = last_host;
+                show.host_id = space.profile_id;
+                show.host_proposal_id = space.proposal_id;
+                _performances.push(show);
               }
             });
-            console.log('createPermanents')
-            Pard.Bus.trigger('CreatePermanentsTable', _permanetIds);
+            Pard.Backend.createPerformances(space.event_id, _performances, function(data){
+              console.log(data.model);
+            });
           }
 
           var modifyPermanents = function(performance){

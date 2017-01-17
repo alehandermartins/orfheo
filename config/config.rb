@@ -33,7 +33,7 @@ require_relative '../lib/forms/artistownproposal'
 require_relative '../lib/forms/spaceownproposal'
 require_relative '../lib/forms/events'
 require_relative '../lib/forms/program'
-require_relative '../lib/forms/performance'
+require_relative '../lib/forms/performances'
 
 require_relative '../lib/users/user'
 require_relative '../lib/calls/call'

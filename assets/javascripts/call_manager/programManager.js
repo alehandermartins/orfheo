@@ -331,9 +331,13 @@
     });
 
     Pard.Bus.on('addPerformance', function(performances){
+      var _permanetIds = [];
       performances.forEach(function(performance){
         create(performance, true);
+        if(performance.permanent == 'true')
+          _permanetIds.push(performance.performance_id);
       });
+      Pard.Bus.trigger('CreatePermanentsTable', _permanetIds);
     });
 
     Pard.Bus.on('modifyPerformance', function(performances){
