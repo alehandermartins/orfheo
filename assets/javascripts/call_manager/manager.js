@@ -34,6 +34,7 @@
 
     var spaces = {}
     the_event.spaces.forEach(function(space){
+      space.event_id = the_event.event_id;
       spaces[space.profile_id] = new Pard.Space(space, _displayer);
     });
 
@@ -88,6 +89,7 @@
     });
 
     Pard.Bus.on('addSpace', function(space){
+      space.event_id = the_event.event_id;
       the_event.spaces[space.profile_id] = new Pard.Space(space, _displayer);
       _programManager.addSpace(space);
       _tableManager.addSpace(space);

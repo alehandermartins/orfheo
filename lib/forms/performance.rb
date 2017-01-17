@@ -8,6 +8,7 @@ class Performance
 
   def check_fields performance
   raise Pard::Invalid::Params if mandatory.any?{ |field|
+    puts field
     performance[field].blank?
   }
   end
@@ -39,7 +40,6 @@ class Performance
 
   def mandatory
     [
-      :performance_id,
       :date,
       :permanent,
       :time,

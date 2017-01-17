@@ -330,7 +330,7 @@
       _artistsBlock.addClass('is-active');
     });
 
-    Pard.Bus.on('AddPerformance', function(performance){
+    Pard.Bus.on('addPerformance', function(performance){
       create(performance, true);
     });
 
@@ -349,7 +349,8 @@
     }
     
     var create = function(performance, check){
-      performance.performance_id = Pard.Widgets.GenerateUUID();
+      the_event.spaces[performance.host_id].addSpaceInfo(performance);
+      the_event.artists[performance.participant_id].addArtistInfo(performance);
       if(performance.permanent == 'true') the_event.program[performance.performance_id] = new PermanentPerformance(performance);
       else{the_event.program[performance.performance_id] = new Performance(performance);}
       if (performance.permanent == 'true') var multipleChanges = true;
@@ -357,6 +358,8 @@
     }
 
     var modify = function(performance, check, multipleChanges){
+      the_event.spaces[performance.host_id].addSpaceInfo(performance);
+      the_event.artists[performance.participant_id].addArtistInfo(performance);
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[performance.last_host].deletePerformance(show);
       the_event.program[performance.performance_id].modify(performance);
@@ -1709,7 +1712,12 @@
       order.push(profile_id);
       _shownSpaces.push(profile_id);
     });
+    
     if(_shownSpaces.length > 0 && _shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
+    Object.keys(the_event.spaces).forEach(function(space){
+      the_event.spaces[space].alignPerformances();
+    });
+
 
     var _submitBtn;
     var _successIcon = $('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager');
@@ -1789,9 +1797,7 @@
     _managerView.append(_tableBox);
     var _innerBtnContainer = $('<div>').append(_toolsContainer,_submitBtnContainer).addClass('innerBtnContainer-programManager');
     _buttonsContainer.append(_innerBtnContainer);
-    // _buttonsContainer.append(_toolsContainer, _submitBtnContainer)
     _createdWidget.append(_switcher,_buttonsContainer, _managerView, _tableView)
-
 
 
   	return {

@@ -84,8 +84,13 @@
           if (_performance.host_id) last_host = (' ' + _performance.host_id).slice(1);
 
           var create = function(performance){
-            _addSpaceInfo(performance);
-            Pard.Bus.trigger('AddPerformance', performance);
+            performance.event_id = space.event_id;
+            performance.last_host = last_host;
+            performance.host_id = space.profile_id;
+            performance.host_proposal_id = space.proposal_id;
+            Pard.Backend.createPerformance(performance, function(data){
+              console.log(data.model);
+            });
           }
 
           var createPermanents = function(performance){
@@ -132,7 +137,10 @@
           }
 
           var modify = function(performance){
-            _addSpaceInfo(performance);
+            performance.event_id = space.event_id;
+            performance.last_host = last_host;
+            performance.host_id = space.profile_id;
+            performance.host_proposal_id = space.proposal_id;
             Pard.Bus.trigger('ModifyPerformance', performance);
           }
 
@@ -312,18 +320,6 @@
       alignPermanent();
     }
 
-
-    var _addSpaceInfo = function(performance){
-      performance.last_host = last_host;
-      performance.host_id = space.profile_id;
-      performance.host_email = space.email;
-      performance.host_name = space.name;
-      performance.address = space.address;
-      performance.host_category = space.category;
-      performance.host_subcategory = space.subcategory;
-      performance.host_proposal_id = space.proposal_id;
-    }
-
     var _loadPerformance = function(performance){
       var show = performance.show;
       if(show.permanent == 'false') _columns[show.date].append(performance.card);
@@ -374,6 +370,15 @@
         });
         if(new_index !== 'undefined') index = new_index;
         AlignPerformances();
+      },
+      addSpaceInfo: function(performance){
+        performance.event_id = space.event_id;
+        performance.last_host = last_host;
+        performance.host_email = space.email;
+        performance.host_name = space.name;
+        performance.address = space.address;
+        performance.host_category = space.category;
+        performance.host_subcategory = space.subcategory;
       },
       addPerformance: function(performance){
         _loadPerformance(performance);
