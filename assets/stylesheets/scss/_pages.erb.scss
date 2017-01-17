@@ -6,11 +6,14 @@ NAV WELCOME PAGE
   width: 100%;
   background-color: white;
   top: 0;
-  height: 3.3rem;
   margin: auto;
   font-size: $almostNormalSize;
-  z-index: 2;
+  z-index: 3;
   position: relative;
+  min-height: 3.3rem;
+  @include breakpoint(medium down){
+    padding: 0.5rem;
+  }
 }
 .black{
   background-color: black;
@@ -38,6 +41,7 @@ NAV WELCOME PAGE
     margin: 0;
   }
   @include breakpoint(small down){ 
+    /* margin-top: 0rem; */
     @include horizontal-center;
   }
 }
@@ -712,7 +716,6 @@ Header
   .block-for-medium {
     display: block;
     width: 100%;
-    padding-left: 0.5rem;
   }
   .login-bar, .user-bar{
     width: 100%;
@@ -1050,11 +1053,6 @@ Header
       display: inline-block;
     }
   }
-/*   .settingsContainer{
-  a.dropdownIconContainer{
-      padding: 0; 
-    } 
-  } */
   .initText{
     text-align: center;
     margin-right: 1rem;

@@ -92,6 +92,9 @@ main {
 
 header, footer, main{
   width: 100vw !important;
+/*   @include breakpoint(medium down){
+    width: calc(100vw - 2rem) !important;
+  } */
 }
 
 a, a:active, a:visited, a:hover {
@@ -108,9 +111,6 @@ a.profileCard:hover{
 } 
 
 .whole-container {
-/*     overflow-y: scroll;
-    overflow-x: hidden; */
-     /* height: 100%; */
     max-height: 100%;
     display: block;
     position: relative;
@@ -196,35 +196,7 @@ Grid and Bar
       margin-left:0.5rem;
     }
   }
-
-
-/*   .pard-bar {
-    background: $content-background;
-    width: 100%;
-    z-index: 1;
-    
-  } */
-
-  .left-bar-content{
-    left:0;
-    display: inline-block;
-    position: absolute;
-  }
-  .right-bar-content{
-    display: inline-block;
-    position: absolute;
-    right:0;
-  }
-
 }
-
-/* @include breakpoint(large){
-  .left-bar-content{
-    margin-left:-0.5rem;
-  } 
-}
- */
-
 
 
 /*ALL SCREEN*/
@@ -243,15 +215,46 @@ Grid and Bar
 .user-grid-element-content{
   width: 100%;
   background: $grey-1;
-  /* padding: $inner-spacing; */
-  /* padding-bottom:2rem; */
   min-height: 100vh;
   @include border-radius($layout-border-radius);
   position:relative;
 
 }
 
-
+.footer-left{
+  left:0;
+  display: inline-block;
+  position: absolute;
+  @include breakpoint(small down){
+    bottom: 1px;
+    width: 100%;
+    text-align: left;
+    .leftFooter-menu{
+      li{
+        margin-right: 5%;
+      }
+    }
+  }
+}
+.footer-right{
+  display: inline-block;
+  position: absolute;
+  right:0;
+  @include breakpoint(small down){
+    top: 5px;
+    padding-bottom: 2px;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid $grey-4;
+    .rightFooter-menu{
+      font-size: $smallSize;
+      li{
+        margin-right: 10%;
+        margin-left: 0;
+      }
+    }
+  }
+}
 
 
 .section-content{ 
@@ -264,9 +267,6 @@ Grid and Bar
   @include border-radius($layout-border-radius);
   position:relative;
 }
-
-
-
 
 .pard-header-container{
   position:relative;
@@ -287,7 +287,12 @@ Grid and Bar
 .pard-container-relative{
   position:relative;
   width: 100%;
+  height: 2rem;
+  padding-top:0.5rem;
+  @include breakpoint(small down){
+    min-height: 3rem;
   }
+}
 
 
 /*FOR MEDIUM AND SMALL: TRANSITION WHEN SCREEN <= 1024px*/
@@ -1337,31 +1342,17 @@ FOOTER
   position:relative;
   background: black;
   color: $grey-2;
-  padding-bottom:0rem;
   bottom:0;
   font-size: $smallSize;
-  padding-top:0.5rem;
   @include breakpoint(medium) {  
     height:2rem;
   }
-  @include breakpoint(small down){
-  padding-left:0.75rem;
-
-  }
   box-shadow: 0 0 2px black;
+  @include breakpoint(small down) {  
+    padding: 0.2rem 0.5rem;
+  }
 }
 
-/* .footer-right{
-  @include breakpoint(medium){
-    padding-right:0.6rem;
-  }
-} */
-
-/* .footer-left{
-  @include breakpoint(medium){
-    padding-left:0.7rem;
-  }
-} */
 
 a.footer-text-link {
   color: white;
@@ -1396,12 +1387,6 @@ a.footer-text-link:hover{
 
 .footer-outsider{
   position:fixed;
-/*   .footer-left{
-    padding-left:0.1rem;
-  }
-  .footer-right{
-    padding-right:0.1rem;
-  } */
 }
 
 }
@@ -2093,9 +2078,9 @@ IMAGES
   background-size: 100% 100%;
   @include breakpoint(small down){ 
     width: 66px;
-    height: 22px;
-    margin-top:0.3rem;
-    margin-bottom:0.7rem;
+    height: 20px;
+    margin-bottom:0.6rem;
+    margin-top: 0.1rem;
   }
 }
 

@@ -234,7 +234,7 @@ Pard.EventManager = function(the_event, forms){
   console.log(the_event);
 
   var _whole = $('<div>').addClass('whole-container');
-  var _header = Pard.Widgets.InsideHeader(Pard.Widgets.UserDropdownMenu().render());
+  var _header = Pard.Widgets.InsideHeader();
   var _main = Pard.Widgets.Manager(the_event, forms);
   var _footer = Pard.Widgets.Footer();
 
