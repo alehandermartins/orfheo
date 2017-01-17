@@ -4,12 +4,231 @@
      
 ns.Widgets = ns.Widgets || {};
 
+  ns.Widgets.ServicesInfo = function(_popup){
+
+    var _outerContainer = $('<div>').addClass('vcenter-outer fullWidth');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>');
+    _popupContent.addClass('popup-container-full contactInfo-popup-bigalert'); 
+    var _sectionContainer = $('<section>').addClass('popup-content');
+   
+    var _closeBtn = $('<button>').addClass('close-button small-1 ')
+      .attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'})
+      .append($('<span>').attr('aria-hidden', true).html('&times;'));
+
+    _closeBtn.click(function(){
+      _popup.close();
+    });
+
+    var _header = $('<div>').addClass('header-contactInfo');
+    var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
+    var _text = $('<div>').text('S e r v i c i o  s').addClass('textHeader-contactPopup');
+   
+    _header.append(_logo, _text, _closeBtn);
+
+    var _servicesCont = $('<div>').addClass('services-contactInfo'); 
+    var _titleServ = $('<h5>').text('¿Qué puedes hacer con orfheo?');  
+    _servicesCont.append(_titleServ);
+
+    var _textColumn = $('<div>').append($('<p>').text('bla bla bla')).addClass('half-col');
+
+    var _formColumn = $('<div>').addClass('half-col');
+    var _contactForm = $('<div>').addClass('contactForm-container');
+    var _form = $('<form>');
+    var _nameInput = Pard.Widgets.Input('Nombre','text');
+    var _emailInput = Pard.Widgets.Input('Email','text');
+    var _subjectInput = Pard.Widgets.Input('Asunto','text');
+    var _mexInput = Pard.Widgets.TextArea('Mensaje',6);
+    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
+        console.log(data);
+        console.log(_nameInput.getVal());
+        console.log(_mexInput.getVal());
+      });
+    });
+    _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
+    _contactForm.append(_form, _submitBtn.render());
+    var _textFormCol = $('<div>').append($('<p>').text('buf buf buf'));
+    _formColumn.append(_textFormCol, _contactForm);
+
+    _servicesCont.append(_textColumn, _formColumn);
+   
+    _sectionContainer.append(_servicesCont);
+
+    _popupContent.append(_header, _sectionContainer);
+    _outerContainer.append(_container.append(_popupContent));
+
+    return _outerContainer;
+  }
+
+
+  ns.Widgets.ColaborationInfo = function(_popup){
+    var _outerContainer = $('<div>').addClass('vcenter-outer fullWidth');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>');
+    _popupContent.addClass('popup-container-full contactInfo-popup-bigalert'); 
+    var _sectionContainer = $('<section>').addClass('popup-content');
+   
+    var _closeBtn = $('<button>').addClass('close-button small-1 ')
+      .attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'})
+      .append($('<span>').attr('aria-hidden', true).html('&times;'));
+
+    _closeBtn.click(function(){
+      _popup.close();
+    });
+
+    var _header = $('<div>').addClass('header-contactInfo');
+    var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
+    var _text = $('<div>').text('C o l a b o r a').addClass('textHeader-contactPopup');
+      
+    _header.append(_logo, _closeBtn, _text);
+
+    var _colaborationCont = $('<div>').addClass('colaboration-contactInfo');
+    var _titleColab = $('<h5>').text('¿Quieres ser parte?');  
+    _colaborationCont.append(_titleColab);
+    var _textColumnColab = $('<div>')
+      .append(
+        $('<p>').text('Nos gustaría compartir conocimientos y seguir desarrollando este proyecto para que todos los ciudadanos de orfheo puedan siempre disfrutar de la comunidad y para dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen.'), 
+        $('<p>').text('Creemos que la inclusión inspira la innovación y por lo tanto siempre estamos abiertos a escuchar ideas para colaborar.'), 
+        $('<p>').append('Contáctanos a ', $('<a>').attr('href','mailto:info@orfheo.org').text('info@orfheo.org'))
+      )
+      .addClass('half-col');
+     var _listColumnCol = $('<div>')
+       .append(
+          $('<p>').text('Hay muchas formas de colaborar en orfheo:').css('margin-bottom','0.5rem'),
+          $('<ul>').append(
+            $('<li>').html('como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separados, no dudes en enviarnos tu propuesta de alianza.'),
+            $('<li>').html('como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.'),
+            $('<li>').html('como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envianos informaciones sobre ti.'),
+            $('<li>').html('como mecena: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.'),
+            $('<li>').html('como voluntario: </br>contáctanos si quieres aprender a través del desarrollo de orfheo o si ya tienes conocimientos y te estimula ofrecer tu tiempo a una noble causa.')
+          )
+        )
+       .addClass('half-col list-col');
+     _colaborationCont.append(_textColumnColab, _listColumnCol);
+   
+    _sectionContainer.append(_colaborationCont);
+
+    _popupContent.append(_header, _sectionContainer);
+    _outerContainer.append(_container.append(_popupContent));
+
+    return _outerContainer;
+  }
+
+
+  ns.Widgets.ContactInfo = function(_popup){
+
+    var _outerContainer = $('<div>').addClass('vcenter-outer fullWidth');
+    var _container = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>');
+    _popupContent.addClass('popup-container-full contactInfo-popup-bigalert'); 
+    var _sectionContainer = $('<section>').addClass('popup-content');
+   
+    var _closeBtn = $('<button>').addClass('close-button small-1 ')
+      .attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'})
+      .append($('<span>').attr('aria-hidden', true).html('&times;'));
+
+    _closeBtn.click(function(){
+      _popup.close();
+    });
+
+    var _header = $('<div>').addClass('header-contactInfo');
+    var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
+    var _menuContainer = $('<div>').addClass('menu-centered');
+    var _menu = $('<ul>').addClass('menu');
+    var _tecnicalSupport = $('<li>').text('Soporte técnico').click(function(){
+      $('.selected').removeClass('selected');
+      _tecnicalSupport.addClass('selected');
+      $('.shown').hide();
+      _tecnicalSupportCont.show().addClass('shown');
+    }).addClass('selected');
+    var _contact = $('<li>').text('Contacto').click(function(){
+      $('.selected').removeClass('selected');
+      _contact.addClass('selected');
+      $('.shown').hide();
+      _contactCont.show().addClass('shown');
+    });
+    var _feedback = $('<li>').text('Feedback').click(function(){
+      $('.selected').removeClass('selected');
+      _feedback.addClass('selected');
+      $('.shown').hide();
+      _feedbackCont.show().addClass('shown');
+    });
+    _menuContainer.append(_menu.append(_tecnicalSupport, _feedback,  _contact));
+    var _text = $('<div>').text('C o n t a c t a').addClass('textHeader-contactPopup');
+    _header.append(_logo, _text, _menuContainer, _closeBtn);
+
+    var _tecnicalSupportCont = $('<div>').addClass('shown tecnicalSupport-contactInfo');
+    var _colaborationCont = $('<div>').hide().addClass('colaboration-contactInfo');
+    var _servicesCont = $('<div>').hide().addClass('services-contactInfo');
+    var _contactCont = $('<div>').hide().addClass('contact-contactInfo');
+    var _feedbackCont = $('<div>').hide().addClass('feedback-contactInfo');
+
+    var _titleTecn = $('<h5>').text('¿Como podemos ayudarte?');  
+    _tecnicalSupportCont.append(_titleTecn);
+    var _textColumn = $('<div>').append($('<p>').text('Estamos aquí para proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.'), $('<p>').text('Te contestaremos enseguida.'), $('<p>').text(':)')).addClass('half-col');
+    var _nameInput = Pard.Widgets.Input('Nombre*','text');
+    var _emailInput = Pard.Widgets.Input('Email*','text');
+    var _subjectInput = Pard.Widgets.Input('Asunto','text');
+    var _profileInput = Pard.Widgets.Input('Nombre del perfil orfheo en cuestión', 'text');
+    var _browserInput = Pard.Widgets.Input('Navegador que utilizas', 'text');
+    var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
+    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
+        console.log(data);
+        console.log(_nameInput.getVal());
+        console.log(_mexInput.getVal());
+      });
+    });
+    var _formColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _profileInput.render(), _browserInput.render(), _mexInput.render()), _submitBtn.render()).addClass('half-col');
+    _tecnicalSupportCont.append(_textColumn, _formColumn);
+
+    var _titleServ = $('<h5>').text('¿Qué puedes hacer con orfheo?');  
+    _servicesCont.append(_titleServ);
+
+    var _titleContact = $('<h5>').text('¡Aquí estamos!');  
+    _contactCont.append(_titleContact);
+    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (España) 46020</br> (0034) 633 753 471</br> <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>').css({'text-align':'center'});
+
+    _contactCont.append(_textContact);
+
+    var _titleFeed = $('<h5>').text('¿Que tal te parece orfheo?');
+    _feedbackCont.append(_titleFeed);
+    var _textFeedColumn = $('<div>')
+      .append(
+        $('<p>').text('Para poder mejorar es necesario ponerse en juego y ser cuestionados. Estaríamos encantados de saber que piensas de orfheo, que funcionalidades le faltan que te gustaría tener a tu alcance, que cambiarías, quitarías o añadirías... '), 
+        $('<p>').text('Cualquier critica constructiva es bienvenida, nos ayudará a proporcionarte un servicio mejor.'), 
+        $('<p>').text('¡Tu opinión es importante!')
+      ).addClass('half-col');
+    var _nameInput = Pard.Widgets.Input('Nombre*','text');
+    var _emailInput = Pard.Widgets.Input('Email*','text');
+    var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
+    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _mexInput.getVal(), function(data){
+        console.log(data);
+        console.log(_nameInput.getVal());
+        console.log(_mexInput.getVal());
+      });
+    });
+    var _formFeedColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _mexInput.render()), _submitBtn.render()).addClass('half-col');
+    _feedbackCont.append(_textFeedColumn, _formFeedColumn);
+
+
+    _sectionContainer.append(_tecnicalSupportCont, _contactCont, _feedbackCont);
+
+    _popupContent.append(_header, _sectionContainer);
+    _outerContainer.append(_container.append(_popupContent));
+
+    return _outerContainer;
+  }
+
+
 	ns.Widgets.CoockiesPolicy = function(){
-		var _createdWidget = $('<div>').append(
-			$('<p>').text('Las cookies son un elemento informático, ampliamente usado en internet, que una página web instala en el navegador de quien la visita. Es decir, que cuando uno accede a una página web, esta envía información a Chrome, Firefox, Internet Explorer, Opera... y esta información se almacena en la memoria del mismo. La idea es que la página web pueda comprobar esa información en el futuro y utilizarla.'),
-      $('<p>').text('Orfheo utiliza cookies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guarda localmente información para permitir un login más rápido y continuado, evitar la desconexión del sitio en caso de reinicio del servidor y recordar preferencias o elecciones durante todo el proceso de navegación.'),
-      $('<p>').text('En general, por como se estructura internet hoy en día, las cookies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar a sus usuarios para que sepan lo que está ocurriendo. '),
-      $('<p>').text('La misma información de este popup está también en el apartado de condiciones de uso de la web. En caso de modificación se avisará a los ciudadanos de orfheo con suficiente antelación.')
+	   var _createdWidget = $('<div>').append(
+		$('<p>').text('Las cookies son un elemento informático, ampliamente usado en internet, que una página web instala en el navegador de quien la visita. Es decir, que cuando uno accede a una página web, esta envía información a Chrome, Firefox, Internet Explorer, Opera... y esta información se almacena en la memoria del mismo. La idea es que la página web pueda comprobar esa información en el futuro y utilizarla.'),
+    $('<p>').text('Orfheo utiliza cookies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guarda localmente información para permitir un login más rápido y continuado, evitar la desconexión del sitio en caso de reinicio del servidor y recordar preferencias o elecciones durante todo el proceso de navegación.'),
+    $('<p>').text('En general, por como se estructura internet hoy en día, las cookies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar a sus usuarios para que sepan lo que está ocurriendo. '),
+    $('<p>').text('La misma información de este popup está también en el apartado de condiciones de uso de la web. En caso de modificación se avisará a los ciudadanos de orfheo con suficiente antelación.')
 		);
 
 		return _createdWidget;

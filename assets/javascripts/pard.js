@@ -62,7 +62,7 @@ var CookieAlert = function(){
     var orfheoStorage = JSON.parse(localStorage['orfheo']);
     if(!orfheoStorage) {
       orfheoStorage = {}
-      var _closeButton = $('<button>').addClass('close-button closeBtn-coockies-callout').attr({'type':'button','data-close':''}).append($('<span>').html('Acepto').attr('aria-hidden','true'));
+      var _closeButton = $('<button>').addClass('close-button closeBtn-coockies-callout').attr({'type':'button','data-close':''}).append($('<span>').html('Acepta').attr('aria-hidden','true'));
       _closeButton.on('click', function(){
         orfheoStorage['cookies'] = true;
         localStorage['orfheo'] = JSON.stringify(orfheoStorage);
