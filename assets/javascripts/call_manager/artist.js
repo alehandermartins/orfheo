@@ -78,14 +78,7 @@
         start: function(event, ui){
           var _performance =  {
             participant_id: artist.profile_id,
-            participant_proposal_id: proposal.proposal_id,
-            title: proposal.title,
-            short_description: proposal.short_description,
-            participant_category: proposal.category,
-            participant_subcategory: proposal.subcategory,
-            availability: proposal.availability,
-            participant_name: artist.name,
-            participant_email: artist.email
+            participant_proposal_id: proposal.proposal_id
           }
           Pard.Bus.trigger('drag', _performance);
         },
@@ -101,7 +94,6 @@
       proposal.phone = artist.phone;
       proposal.email = artist.email;
       proposal.profile_id = artist.profile_id;
-      //needed for conFusion 2016 proposals
 
       titleText.on('click', function(){
       	displayer.displayProposal(proposal, 'artist');
@@ -216,6 +208,18 @@
         Object.keys(_proposals).forEach(function(proposal_id){
           _proposals[proposal_id].setDay(day);
         });
+      },
+      addArtistInfo: function(performance){
+        var _proposal = artist.proposals.filter(function(proposal){
+          return proposal.proposal_id == performance.participant_proposal_id;
+        })[0];
+        performance.title = _proposal.title;
+        performance.short_description = _proposal.short_description;
+        performance.participant_category = _proposal.category;
+        performance.participant_subcategory = _proposal.subcategory;
+        performance.availability = _proposal.availability;
+        performance.participant_name = artist.name;
+        performance.participant_email = artist.email;
       },
       addPerformance: function(performance){
         program[performance.show.performance_id] = performance;
