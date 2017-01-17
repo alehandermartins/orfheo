@@ -141,7 +141,9 @@
             performance.last_host = last_host;
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
-            Pard.Bus.trigger('ModifyPerformance', performance);
+            Pard.Backend.modifyPerformance(performance, function(data){
+              console.log(data.model);
+            });
           }
 
           if(day == 'permanent'){

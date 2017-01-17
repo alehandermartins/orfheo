@@ -21,13 +21,16 @@ class EventsController < BaseController
   end
 
   post '/users/modify_performance' do
-    scopify event_id: true, performance_id: true
+    scopify event_id: true, last_host: true
+    puts last_host
     check_event_ownership! event_id
 
     performance = Performance.new(params)
     check_existing_performance! event_id, performance.to_h
     Repos::Events.modify_performance event_id, performance.to_h
 
+    performance.add_host last_host
+    puts performance.to_h
     message = {event: 'modifyPerformance', model: performance.to_h}
     Services::Clients.send_message(event_id, success(message))
     success(message)

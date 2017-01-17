@@ -334,7 +334,7 @@
       create(performance, true);
     });
 
-    Pard.Bus.on('ModifyPerformance', function(performance){
+    Pard.Bus.on('modifyPerformance', function(performance){
       modify(performance, true);
     });
 
@@ -358,10 +358,11 @@
     }
 
     var modify = function(performance, check, multipleChanges){
-      the_event.spaces[performance.host_id].addSpaceInfo(performance);
-      the_event.artists[performance.participant_id].addArtistInfo(performance);
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[performance.last_host].deletePerformance(show);
+
+      the_event.spaces[performance.host_id].addSpaceInfo(performance);
+      the_event.artists[performance.participant_id].addArtistInfo(performance);
       the_event.program[performance.performance_id].modify(performance);
       if (performance.permanent == 'true') multipleChanges = true;
       save(the_event.program[performance.performance_id].show, check, multipleChanges);      

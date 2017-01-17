@@ -8,9 +8,12 @@ class Performance
 
   def check_fields performance
   raise Pard::Invalid::Params if mandatory.any?{ |field|
-    puts field
     performance[field].blank?
   }
+  end
+
+  def add_host host
+    performance[:last_host] = host
   end
 
   def [] key
