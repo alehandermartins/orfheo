@@ -84,7 +84,7 @@
 
   ns.Widgets.EventInfoCard = function(the_event){
     var _createdWidget = $('<div>');
-    var _image = $('<div>').addClass('card-container-news eventImage-event-info-card');
+    var _image = $('<div>').addClass('cardContainer-ProfilePageEvent eventImage-event-info-card');
     var _logo = $('<a>').append($.cloudinary.image(the_event.img,{ format: 'png', width: 175, height: 228, crop: 'fill', effect: 'saturation:50' })).attr('href','#/');
     _image.append(_logo);
     var _popupImg = $.cloudinary.image(the_event.img,{ format: 'jpg',  width: 750, effect: 'saturation:50' });

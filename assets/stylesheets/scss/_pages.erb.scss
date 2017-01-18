@@ -1,119 +1,8 @@
 /*===============================================
-NAV WELCOME PAGE
+WELCOME PAGE
 ================================================*/
 
-.orfheoHeader{
-  width: 100%;
-  background-color: white;
-  top: 0;
-  margin: auto;
-  font-size: $almostNormalSize;
-  z-index: 3;
-  position: relative;
-  min-height: 3.3rem;
-  @include breakpoint(medium down){
-    padding: 0.5rem;
-  }
-}
-.black{
-  background-color: black;
-}
-.fixed{
-  position: fixed;
-}
 
-.containerHeader{
-  width: 984px;
-  height: 100%;
-  @include horizontal-center; 
-}
-
-.contentHeader{
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.logoBtn-navHeader{
-  display: inline-block;
-  margin-top: 0.8rem;
-  button{
-    margin: 0;
-  }
-  @include breakpoint(small down){ 
-    /* margin-top: 0rem; */
-    @include horizontal-center;
-  }
-}
-
-.black .logo-header{
-  background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
-}
-
-.container-loginNavHeader{
-  width: 17rem !important;;
-  height: 13.5rem !important;;
-  top: 2rem !important;
-  left: -220px !important;
-  form{
-    margin: 0;
-    @include horizontal-center;
-    top: 2rem;
-    input{
-      margin-bottom: 1rem;
-    }
-  }
-}
-
-.loginContainer{
-  position: absolute;
-  right: 0;
-  top: 0.8rem;
-  .loginText{
-    color: black;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 1.5rem;
-  }
-  .loginText:hover{
-    color: rgba(0,0,0,.8);
-  }
-  .signUp-welcomePage{
-    vertical-align: middle;
-    display: inline-block;
-  }
-}
-
-.black .loginText{
-  color: white;
-}
-.black .loginText:hover{
-  color: $grey-1;
-}
-
-
-.navMenuHeader{
-  margin: 0;
-  li{
-    display: inline-block;
-    text-transform: uppercase;
-    margin: 0 1.2rem;
-    min-width: 90px;
-    text-align: center;
-    a{
-      color: white;
-    }
-  }
-  .selected, li:hover{
-    font-weight: bold;
-  }
-}
-
-.navMenuHeader-container{
-  @include horizontal-center;
-  top: 1rem;
-  height: 1.5rem;
-}
 
 main.mainWelcomePage{
   margin: 0;
@@ -140,7 +29,7 @@ main.mainWelcomePage{
     height: -moz-calc(100vh - 5rem);
     height: -webkit-calc(100vh - 5rem);
     height: calc(100vh - 5rem);
-    min-height: 460px;
+    min-height: 575px;
     position: relative;
     .entryDiv-content{
       width: 100%;
@@ -168,6 +57,15 @@ main.mainWelcomePage{
   @include breakpoint(small down){ 
     width: 150px;
     height: 50px;
+  }
+}
+
+.logoBaseline-welcomePage{
+  width: 100%;
+  text-align: center;
+  font-size: $almostNormalSize;
+  p{
+    margin: -0.2rem 0;
   }
 }
 
@@ -475,212 +373,42 @@ main.mainWelcomePage{
   margin: 1rem 1.05rem;
 }
 
-/*===============================================
-WELCOME PAGE 2
-================================================*/
-
-.loginHeader-AllPage{
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  position: relative;
-  overflow-y: hidden;
+.callText-WelcomePage{
+  margin-top: 1rem;
+  display: block;
 }
 
-.container-header{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin-top: -2.5rem;
-}
-
-.content-loginSinUp-header{
-  position: relative;
-  text-align: center;
-}
-
-.container-loginHeader{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin-top: 9rem;
-  height: 13rem;
-}
-
-.login-container{
-  position: relative;
-  width: 240px;
-  margin-top: 2.5rem;
-  input.input-login-field{
-    width: 100%;
-    display: block;
-    font-size: $almostNormalSize;
-    height: 30px;
+.navigationIcon-findOutMore{
+  vertical-align: -0.5rem;
+  margin-left:0.5rem;
+  font-size:1.8rem;
   }
-  .login-btn{
-    float: right;
-    padding: 0.35rem 1.8rem;
-  }
-  .passwdRecovery{
-    /* margin-top: 1rem; */
-    float: none;
-    text-align: center;
-    display: inline-block;
-    width: 80%;
-    border-top: 1px solid $grey-2;
-    padding: 0.5rem;
-    margin-top: 0.1rem;
-    margin-left: 1.5rem;
-  }
-  .rememberMe-ckb label{
-    /* font-size: $almostNormalSize; */
-  }
-}
-
-
-.logo-welcomePage{
-  cursor: pointer;
-  background-image: url(<%= image_path 'orfheologocolor.png' %>);
-  width: 240px;
-  height: 80px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  @include breakpoint(small down){ 
-    width: 150px;
-    height: 50px;
-  }
-  @include horizontal-center;
-  position: relative;
-}
-
-.signUpBtn-container{
-  width: 100%;
-  text-align: center;
-  margin-top: 2.5rem;
-  margin-bottom: 0.8rem;
-}
-
-.signUp-welcomePage{
-  color: $element-color;
-  font-weight: bold;
-  @include border-radius($element-border-radius);
-  background: $blue-pard;
-  padding: 0.4rem 1.8rem;
-  @include breakpoint(small down){
-    position: absolute;
-    right: $inner-spacing;
-    top: $inner-spacing;
-    font-size: $almostNormalSize;
-    padding: 0.25rem 0.5rem;  
-  }
-}
-
-.signUp-welcomePage:hover{
-  background: rgba(56, 133, 255,0.8);
-}
-
-.loginText-welcomePage{
-  width: 100%;
-  text-align: center;
-  display: inline-block;
-}
-
-
-.logoBaseline-welcomePage{
-  width: 100%;
-  text-align: center;
-  font-size: $almostNormalSize;
-  p{
-    margin: -0.2rem 0;
-  }
-}
-
-/*===============================================
-WELCOME PAGE
-================================================*/
 
 .main-welcome-page{
   background: $grey-1;
 }
 
-
-.welcome-page-section{
-  background:$grey-1; 
-}
-
-
-/* .container-title-welcome-page{
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-  color: $grey-4;
-} */
-
-.aside-text-welcome-page-container{
-  color: $grey-4;
-  margin-top: $pard-grid-spacing;
-}
-
-.news-date{
-  float: right;
-  font-size: $almostNormalSize;
-  margin-bottom: 0.4rem;
-}
-
-.info-title-news-welcome, .info-title-news-user{
-  margin-bottom: 1rem;
-  font-weight: bold;
-}
-
-
-/* 
-.info-title-news-user{
-  margin-top: 1rem;
-  display: inline-block;
-}
- */
-.news-date-container{
-  height: 1rem;
+.signUpBtnWelcomePage{
+  @include horizontal-center;
   position: relative;
+  color: $element-color;
+  font-weight: bold;
+  @include border-radius($element-border-radius);
+  background: $blue-pard;
+  padding: .4rem 1.8rem;
+  margin-top: 2rem;
 }
 
-.news-box-welcome-page, .searchBox-welcome-page{
-  background:white; 
-  width: 100%;
+.signUpBtnWelcomePage:hover{
+  background: rgb(44, 106, 204);
+  /* rgba(56, 133, 255, 0.8); */
 }
 
-.searchBox-welcome-page{
-  padding: 1.5rem;
-}
 
-.news-box-welcome-page{
-  margin-bottom: $inner-spacing;
-  padding: 1.5rem;
-  font-size: 18px;
-  @include breakpoint (medium){
-    margin-bottom: $pard-grid-spacing;
-  }
-  
-}
+/*===============================================
+REGISTER 
+================================================*/
 
-.card-container-news{
-  float: left;
-  margin-right: 2rem;
-  /* display: inline-block; */
-  @include breakpoint(small down) {
-    margin-right: 1rem;
-  }
-}
-
-.search-titleBox-welcome-page{
-  padding: $inner-spacing $inner-spacing 0 $inner-spacing;
-}
-
-.info-box-news-welcome-page{
-
- min-height: 14.3rem  ;
-}
 
 .register-form-final-mex{
   font-size: $almostNormalSize;
@@ -699,151 +427,13 @@ WELCOME PAGE
 }
 
 
-.inside-header-logo{
-  @include breakpoint(large){ 
-    margin-top:0.5rem;
-  }
-}
-
-
-/*------------------
-Header
--------------------*/
-
-/*FOR MEDIUM AND SMALL: TRANSITION WHEN SCREEN <= 1024px*/
-
-@media only screen and #{breakpoint(small down)} { 
-  .block-for-medium {
-    display: block;
-    width: 100%;
-  }
-  .login-bar, .user-bar{
-    width: 100%;
-    background: $content-background;
-  }
-  .menu-icon-header{
-    margin-left:0.5rem;
-  }
-}
-
-
-/*GENERAL*/
-
-.top-bar-right .input-login{
-  float: right; 
-
-} 
-
-
-.input-login {
- @include breakpoint(small down){
-    display: block;
-    padding-top: 0.5rem;
-    .input-login-field {
-      margin-bottom: 0.1rem;
-    }
-  }
-  @include breakpoint(medium){
-    .input-login-field, .input-loginEvent-field {
-      display:inline-block;
-      margin-right:0.4rem;
-    }
-  }
-  @include breakpoint(large){
-    margin-right:-0.75rem;
-  }  
-  .input-login-field{
-    height: auto;
-    font-size: $smallSize;
-    width: 180px;
-    padding: 0.3rem
-  }
-  .input-loginEvent-field{
-    height: auto;
-    font-size: $almostNormalSize;
-    width: 14rem;
-    padding: 0.3rem
-  }
-}
-
-.dropdown.menu:not(.vertical) .is-dropdown-submenu.first-sub {
-    top: 100%;
-    left: auto;
-    right: 0;
-    z-index: 10;
-}
-
-.space-column-header .dropdown.menu:not(.vertical) .is-dropdown-submenu.first-sub {
-    top: 100%;
-    left: auto;
-    right: 0.3rem;
-    z-index: 10;
-}
-
-
-
-.rememberMe-ckb input{
-  width:auto;
-  margin-right:0;
-  margin-top: 0.2rem;
-}
-
-.rememberMe-ckb{
-  @include breakpoint(small down){
-    float: right;
-  }
-}
-
-.passwdRecovery{
-  @include breakpoint(small down){
-    display: block;
-    margin-top: 0.2rem;
-    white-space: nowrap;
-  }
-}
-
-.rememberMe-ckb {
-  @include breakpoint(medium){
-    width: 10rem;
-    display: block;
-    margin-left: 0.1rem;
-  }
-}
-
-.passwdRecovery, .rememberMe-ckb label{
-   font-size: $smallSize;
-}
-
-.passwdRecovery{
-  @include breakpoint(medium){
-    float: right;
-    margin-top: -1.3rem;
-    margin-right: 5rem;
-  } 
-}
-
-.passwdRecovery-eventLogin{
-  font-size: $smallSize;
-  @include breakpoint(medium){
-    float: right;
-    margin-top: -0.8rem;
-    margin-right: 13rem;
-  } 
-  @include breakpoint(small down){
-    display: block;
-    margin-top: 0.2rem;
-    white-space: nowrap;
-  }
-}
-
-
 
 /*-----------------------
 Aside content LogIn page
 -------------------------*/
 
 
-.info{
+/* .info{
   width: 100%;
   background: $content-background;
   @include border-radius($layout-border-radius);
@@ -854,43 +444,13 @@ Aside content LogIn page
   margin-bottom: 0;
 }
 
-.aside-container{
-  width: $pard-aside-width;
-  position:relative;
-  word-wrap: break-word;
-}
 
-.grid-aside-content{
-  padding: $inner-spacing;
-}
-
-.login-aside-container{
-/*   @include breakpoint(large){ 
-    position: fixed;
-  } */
-  @include breakpoint(medium down){ 
-    padding: $inner-spacing;
-  }
-}
+ */
 
 
 /*------------------------------
-grid-section content LogIn page
+SEARCH ENGINE
 --------------------------------*/
-
-.lateral-content-padding{
-  padding: 0 $inner-spacing; 
-}
-
-
-/* .ui-widget{
-  display: inline-block;
-  width: 14.5rem
-} */
-
-.display-inline{
-  display: inline-block; 
-}
 
 .search-engine-container{
   position: relative;
@@ -900,15 +460,6 @@ grid-section content LogIn page
 .search-tool-container{
   margin-top: 1rem;
 }
-
-/* 
-.searchEngine-text-welcome-page{
-  margin-bottom: 0.8rem;
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-}
- */
 
 .search-results{
    @include breakpoint(small down){
@@ -926,7 +477,6 @@ grid-section content LogIn page
   min-height: 80vh;
   display:block;
 }
-
 
 
 .suggested-tag-search-engine{
@@ -1022,8 +572,8 @@ Header
 .settings-icon-dropdown-menu{
   color: black;
   .material-icons{
-    font-size: 2rem;
-    margin-right: -0.4rem;
+    font-size: 2.1rem;
+    margin-right: -0.6rem;
   }
   padding:0;
 }
@@ -1046,7 +596,7 @@ Header
 .rightContent-insideNavMenu{
   position: absolute;
   right: 0;
-  top: .7rem;
+  top: .85rem;
   .rightMenu-navHeader{
     margin: 0;
     li{
@@ -1077,7 +627,7 @@ Header
 
 .black .initText:hover{
  a{
-    color: $grey-1
+    color: $grey-2
   }
 }
 
@@ -1928,7 +1478,9 @@ CALL PAGE
 
 .main-call-page{
   background: $grey-1;
-  min-height: 100%;
+  min-height:  -moz-calc(100vh - 5.3rem);
+  min-height:  -webkit-calc(100vh - 5.3rem);
+  min-height:  calc(100vh - 5.3rem);
 }
 
 .call-section{
@@ -3010,6 +2562,19 @@ ORGANIZATION PAGE
   margin: 1.5rem 7rem;
 }
 
+
+.info-box-news-welcome-page{
+ min-height: 14.3rem  ;
+}
+
+.cardContainer-ProfilePageEvent{
+  float: left;
+  margin-right: 2rem;
+  @include breakpoint(small down) {
+    margin-right: 1rem;
+  }
+}
+
 .success-inscription-title{
   color: rgb(76, 182, 50); 
   margin-top: -1rem; 
@@ -3083,6 +2648,12 @@ EVENT PAGE
   border-left: 4px solid transparent;
   margin-bottom: 0.3rem;
   text-transform: uppercase;
+}
+
+.aside-container{
+  width: $pard-aside-width;
+  position:relative;
+  word-wrap: break-word;
 }
 
 .aside-event-nav-btn-selected {

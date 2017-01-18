@@ -207,6 +207,7 @@
         _recoveryMex.setCallback(function(){_popup.close()});
         _popup.setContent('Recupera tu cuenta', _recoveryMex.render());
         _popup.open();
+        $('#loginDropDown').foundation('close');
       });
     _emailRecovery.append(_caller);
 

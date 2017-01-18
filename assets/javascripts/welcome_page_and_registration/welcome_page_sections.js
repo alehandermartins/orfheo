@@ -379,13 +379,16 @@ ns.Widgets = ns.Widgets || {};
       .css({
         'position': 'relative',
         'height': '100px',
-        'margin-top':'1.5rem'
+        'margin-top':'3.5rem'
       });
+
+    var _signUpBtn = Pard.Widgets.SignUpButton().render().addClass('signUpBtnWelcomePage')
 
     var _cardsContainer = $('<div>')
       .css({
         'position':'relative',
-        'margin-top':'4rem'
+        'margin-top':'3rem',
+        'padding-bottom':'1rem'
       });
     var _cardSlider = $('<div>').addClass('card-slider');
     var _shown = [];
@@ -466,11 +469,20 @@ ns.Widgets = ns.Widgets || {};
       });
     });
 
-    _entryContent.append(_logoContainer, _cardsContainer);
+    _entryContent.append(_logoContainer, _signUpBtn,  _cardsContainer);
     _entryDiv.append(_entryContentContainer.append(_entryContent));
     
+    var _titleLittleText = $('<h4>').text('Nuevas posibilidades culturales creadas por conexiones y enlaces');
+    var _callLittleText = $('<a>').attr('href','#/')
+      .text('Déjate inspirar')
+      .append(Pard.Widgets.IconManager('navigation_right').render()
+        .addClass('navigationIcon-findOutMore'))
+      .click(function(){
+        console.log('open popup')
+      })
+      .addClass('callText-WelcomePage');
     var _littleTextDiv= $('<div>').addClass('littleTextDiv').append(
-      $('<div>').append($('<h4>').text('Nuevas posibilidades culturales creadas por conexiones y enlaces')).addClass('welcomeSection-container'));
+      $('<div>').append(_titleLittleText, _callLittleText).addClass('welcomeSection-container'));
 
 
     var _actionDiv = $('<div>').addClass('actionDiv');
@@ -499,7 +511,15 @@ ns.Widgets = ns.Widgets || {};
       // $('<p>').html('<strong>En orfheo es posible lanzar y gestionar convocatorias artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro.</strong>')
     // ).addClass('longText');
     var _titleLongText = $('<h4>').html('Une a las personas:</br> Crea en red con tu comunidad cultural');
-    _longTextDiv.append(_longTextContainer.append(_titleLongText));
+    var _callLongText = $('<a>').attr('href','#/')
+      .text('Lanza y gestiona tu convocatoria en orfheo')
+      .append(Pard.Widgets.IconManager('navigation_right').render()
+        .addClass('navigationIcon-findOutMore'))
+      .click(function(){
+        console.log('open popup')
+      })
+      .addClass('callText-WelcomePage');
+    _longTextDiv.append(_longTextContainer.append(_titleLongText, _callLongText));
 
     var _servicesDiv = $('<div>').addClass('servicesDiv');
     var _logoServices = $('<div>').addClass('logo-services');
@@ -520,11 +540,7 @@ ns.Widgets = ns.Widgets || {};
     var _apiTxt = $('<p>').text('Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga');
     _apiService.append($('<div>').append(_iconApiService, _apiTitle, _apiTxt).addClass('apiService-innerCont'));
 
-    var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().css({
-      'vertical-align':'-0.5rem',
-      'margin-left':'0.5rem',
-      'font-size':'1.8rem'
-    });
+    var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().addClass('navigationIcon-findOutMore');
     var _findOutMore = $('<div>')
       .append($('<a>').text('Descubre más').attr('href','#/')  
         .click(function(){
@@ -540,7 +556,7 @@ ns.Widgets = ns.Widgets || {};
     var _textLogo = $('<div>').text('S e r v i c i o s').addClass('textLogo');
     _servicesDiv.append(_logoServices, _textLogo, _servicesInfoContainer);
 
-    _section.append(_entryDiv, _littleTextDiv, _actionDiv, _longTextDiv, _servicesDiv);
+    _section.append(_entryDiv,  _longTextDiv, _actionDiv,  _littleTextDiv, _servicesDiv);
 
     return _section;
 

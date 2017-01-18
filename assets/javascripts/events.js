@@ -42,8 +42,10 @@
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof  _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
+        $('body').off('click.zf.dropdown');
         _dataReason.setCallback(function(){
           _popup.close();
+          $('#loginDropDown').foundation('close');
           setTimeout(function(){
             _popup.destroy()
            },500);
@@ -51,14 +53,19 @@
         _popup.setContent('', _dataReason.render());
         _popup.setContentClass('alert-container-full');
         _popup.setCallback(function(){
+          $('#loginDropDown').foundation('close');
           setTimeout(function(){
-          _popup.destroy()
+            $('#loginDropDown').foundation('open');
+          },2);
+          setTimeout(function(){
+          _popup.destroy();
         },500);
         });
         _popup.open();
       }
       else{
         console.log(data.reason);
+        $('#loginDropDown').foundation('close');
         Pard.Widgets.Alert('', _dataReason);
       }
     };

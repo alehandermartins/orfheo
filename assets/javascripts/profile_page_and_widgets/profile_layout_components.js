@@ -6,7 +6,7 @@
 
   ns.Widgets.ProfileDropdownMenu = function(){     
 
-     $(document).on('show.zf.dropdown', function() {
+    $(document).on('show.zf.dropdown', function() {
       _iconDropdownMenu.addClass('iconDropdown-clicked');
     });
     $(document).on('hide.zf.dropdown', function(){

@@ -123,7 +123,7 @@ ns.Widgets = ns.Widgets || {};
     // _rightContent.append(_project, ' | ', _place);
     _rightContent.append(_rightMenu.append(_servicesOrfheo, _collabOrfheo,_contactaOrfheo));
 
-    _container.append(_leftContent,_rightContent);
+    _container.append(_leftContent, _rightContent);
     _grid.append(_container);
     _createdWidget.append(_grid);
 
