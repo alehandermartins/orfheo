@@ -82,9 +82,9 @@ html{
 main {
   padding-top:1.8rem;
   padding-bottom:1.8rem;
-  min-height: -moz-calc(100vh - 5.3rem);
-  min-height: -webkit-calc(100vh - 5.3rem);
-  min-height: calc(100vh - 5.3rem);
+  min-height: -moz-calc(100vh - 5.1rem);
+  min-height: -webkit-calc(100vh - 5.1rem);
+  min-height: calc(100vh - 5.1rem);
   @include breakpoint(small down){
     padding-top:1.6rem;
   }
@@ -284,15 +284,6 @@ Grid and Bar
   }
 }
 
-.pard-container-relative{
-  position:relative;
-  width: 100%;
-  height: 2rem;
-  padding-top:0.5rem;
-  @include breakpoint(small down){
-    min-height: 3rem;
-  }
-}
 
 
 /*FOR MEDIUM AND SMALL: TRANSITION WHEN SCREEN <= 1024px*/
@@ -1377,7 +1368,7 @@ HEADER
 }
 
 .black .logo-header{
-  background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
+  background-image: url(<%= image_path 'lettering_white_m.png' %>);
 }
 
 .container-loginNavHeader{
@@ -1665,6 +1656,113 @@ login
 
 
 
+/* --------------
+inside header
+---------------
+ */
+
+.right-user-header-content{
+  display: inline-block;
+  position: absolute;
+  @include breakpoint(large){
+    margin-right: -1.5rem;
+  }
+  right:0;
+}
+
+.left-user-header-content{
+  left:0;
+  display: inline-block;
+  position: absolute;
+  @include breakpoint(large){
+    margin-left:-0.5rem;
+  }
+  cursor: pointer;
+  @include breakpoint(small down){
+    margin-left: 0.5rem;
+  }
+
+}
+
+.top-header-content{
+  display: block;
+  width: 100%;
+  @include breakpoint(medium){
+    min-height: 3.5rem;
+  }
+  @include breakpoint(small down){
+    min-height: 2.3rem;
+  }
+}
+
+.settings-icon-dropdown-menu{
+  color: black;
+  .material-icons{
+    font-size: 2.1rem;
+    margin-right: -0.6rem;
+  }
+  padding:0;
+}
+
+.settings-icon-dropdown-menu:hover{
+  color: rgba(0,0,0,0.8);
+}
+
+.black{
+  .settings-icon-dropdown-menu{
+    color: white;
+  }
+  .settings-icon-dropdown-menu:hover{
+    color: $grey-2;
+  }
+}
+
+
+
+.rightContent-insideNavMenu{
+  position: absolute;
+  right: 0;
+  top: .85rem;
+  .rightMenu-navHeader{
+    margin: 0;
+    li{
+      display: inline-block;
+    }
+  }
+  .initText{
+    text-align: center;
+    margin-right: .2rem;
+    padding-right: .8rem;
+    border-right: 1px solid $grey-1;
+    vertical-align: 0.7rem;
+    height: 1.2rem;
+    a{
+      color: black;
+    }
+  }
+  .initText:hover{
+    a{
+      color: rgba(0,0,0,.8);
+    }
+  }
+}
+
+.black .initText {
+  border-color: $grey-4;
+  a{
+  color: white;
+  }
+}
+
+.black .initText:hover{
+ a{
+    color: $grey-2
+  }
+}
+
+
+
+
 /*==============================================
 FOOTER
 ===============================================*/
@@ -1679,13 +1777,24 @@ FOOTER
   bottom:0;
   font-size: $smallSize;
   @include breakpoint(medium) {  
-    height:2rem;
+    height:1.8rem;
   }
   box-shadow: 0 0 2px black;
   @include breakpoint(small down) {  
     padding: 0.2rem 0.5rem;
   }
 }
+
+.pard-container-relative{
+  position:relative;
+  width: 100%;
+  height: 1.8rem;
+  padding-top:0.3rem;
+  @include breakpoint(small down){
+    min-height: 3rem;
+  }
+}
+
 
 
 a.footer-text-link {
@@ -1701,7 +1810,6 @@ a.footer-text-link:hover{
 .rightFooter-menu{
   font-size: $smallSize;
   margin: 0;
-  margin-top: -0.2rem;
   li{
     display: inline-block;
     margin-left: 2rem;
@@ -1710,7 +1818,6 @@ a.footer-text-link:hover{
 
 .leftFooter-menu{
   margin: 0;
-  margin-top: -0.1rem;
   li{
     display: inline-block;
     margin-right: 2rem;
@@ -1784,7 +1891,7 @@ a.footer-text-link:hover{
 }
 
 .logoOrfheo-contactInfo{
-  background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
+  background-image: url(<%= image_path 'lettering_white_m.png' %>);
   width: 112px;
   height: 35px;
   background-repeat: no-repeat;
@@ -2381,7 +2488,7 @@ IMAGES
 
 
 .orfheo-symbol-image-searchEngine{
-  background-image: url(<%= image_path 'orfheosimbolonegro.png' %>);
+  background-image: url(<%= image_path 'logo_black_m.png' %>);
   width: 90px;
   height: 61px;
   background-repeat: no-repeat;
@@ -2392,20 +2499,10 @@ IMAGES
   /* margin-top: -2rem; */
 }
 
-.welcome-img-section-header {
-  background-image: url(<%= image_path 'logo_conFusion.png' %>);
-  width: 100%;
-  @include breakpoint(large){ height: 13.75rem; }
-  @include breakpoint(medium down){ height: 22vw;}
-  @include breakpoint(small down){ height: 30vw;}
-  background-repeat: no-repeat;
-  background-size: 95% 95%;
-
-}
 
 .logo-header{
   cursor: pointer;
-  background-image: url(<%= image_path 'orfheologonegro.png' %>);
+  background-image: url(<%= image_path 'lettering_black_m.png' %>);
   width: 77px;
   height: 24px;
   background-repeat: no-repeat;
@@ -2418,20 +2515,6 @@ IMAGES
   }
 }
 
-.orfheo-logo-card{
-  background-image: url(<%= image_path 'orfheologocolor.png' %>);
-  width: 120px;
-  height: 40px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  margin-top: 5rem;
-  @include horizontal-center;
-  @include breakpoint (small down){
-    width: 90px;
-    height: 30px;
-    margin-top: 3rem;
-  }
-}
 
 table.dataTable thead .sorting_asc {
     background-image: url(<%= image_path 'sort_asc.png' %>);
