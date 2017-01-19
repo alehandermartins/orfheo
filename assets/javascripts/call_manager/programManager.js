@@ -622,9 +622,11 @@
           performance.time[0] = start.getTime();
           performance.time[1] = end.getTime();
 
-          save(performance, check);
           setStartTimes();
           setEndTimes();
+          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            console.log('modify');
+          });
         });
 
         spaceSelector.on('select2:select', function(){
@@ -637,7 +639,9 @@
           performance.host_subcategory = space.subcategory;
           performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
-          save(performance, check);
+          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            console.log('modify');
+          });
         });
 
         
@@ -649,7 +653,9 @@
           performance['time'][0] = newStart;
           performance['time'][1] = performance['time'][1] + (newStart - oldStart);
           setEndTimes();
-          save(performance, check);
+          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            console.log('modify');
+          });
         });
 
         endTime.on('select2:select', function(){
@@ -658,7 +664,9 @@
           card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
           performance['time'][1] = newEnd;
           setStartTimes();
-          save(performance, check);
+          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            console.log('modify');
+          });
         });
 
         removeInputButton.on('click', function(){
@@ -671,14 +679,18 @@
           performance.confirmed = input.is(":checked");
           if (performance.confirmed) card.find('.checker').append(Pard.Widgets.IconManager('done').render());
           else card.find('.checker').empty();
-          save(performance);
+          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            console.log('modify');
+          });
         });
 
         comments.on('input', function(){
           performance.comments = comments.val();
           card.find('.commentIcon').empty();
           if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
-          save(performance);
+          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            console.log('modify');
+          });
         });
 
         setStartTimes();
