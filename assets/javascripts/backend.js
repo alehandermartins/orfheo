@@ -165,11 +165,12 @@
       );
     };
 
-    var _deletePerformance = function(performance_id, callback){
+    var _deletePerformances = function(event_id, program, callback){
       _send(
-        '/users/delete_performance',
+        '/users/delete_performances',
         {
-          performance_id: performance_id
+          event_id: event_id,
+          program: program
         },
         callback
       );
@@ -390,7 +391,7 @@
       modifySpaceProposal: _modifySpaceProposal,
       createPerformances: _createPerformances,
       modifyPerformances: _modifyPerformances,
-      deletePerformance: _deletePerformance,
+      deletePerformances: _deletePerformances,
       whitelist: _whitelist,
       saveProgram: _saveProgram,
       getCallForms: _getCallForms,

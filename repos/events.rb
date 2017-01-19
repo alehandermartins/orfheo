@@ -239,14 +239,6 @@ module Repos
         })
       end
 
-      def delete_performance event_id, performance_id
-        @@events_collection.update_one({ event_id: event_id },
-          {
-            "$pull": {'program': {'performance_id' => performance_id}}
-          }
-        )
-      end
-
       def delete_performances proposal_id
         @@events_collection.update_one({"$or": [{"artists.proposals.proposal_id": proposal_id},{"spaces.proposal_id": proposal_id}]},
           {

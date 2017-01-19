@@ -31,11 +31,18 @@ class EventsController < BaseController
     success(message)
   end
 
-  post '/users/delete_performance' do
-    scopify event_id: true, performance_id: true
+  post '/users/delete_performances' do
+    scopify event_id: true
     check_event_ownership! event_id
-    Repos::Events.delete_performance event_id, performance_id
-    message = {event: 'deletePerformance', model: {performance_id: performance_id}}
+
+    event = Repos::Events.get_event params[:event_id]
+    performances = Util.arrayify_hash params[:program]
+    ids = performances.map{ |performance| performance[:performance_id]}
+
+    program = event[:program].reject{ |performance| ids.include? performance[:performance_id]}
+
+    Repos::Events.save_program event_id, program
+    message = {event: 'deletePerformances', model: performances}
     Services::Clients.send_message(event_id, success(message))
     success(message)
   end

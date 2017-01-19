@@ -7,7 +7,6 @@
     var _columns = {};
     var program = {};
     var _performance;
-    var last_host;
     var index;
 
     Pard.Bus.on('drag', function(performance){
@@ -81,12 +80,8 @@
           //If the card is below the drop zone it adjustes to the low end
           var duration = ui.helper.height();
           if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
-          if (_performance.host_id)
-            last_host = _performance.host_id;
-          
 
           var create = function(performance){
-            performance.last_host = space.profile_id;
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
             Pard.Backend.createPerformances(space.event_id, [performance], function(data){
@@ -375,7 +370,6 @@
       },
       addSpaceInfo: function(performance){
         performance.event_id = space.event_id;
-        performance.last_host = last_host;
         performance.host_email = space.email;
         performance.host_name = space.name;
         performance.address = space.address;

@@ -352,6 +352,12 @@
       //Pard.Bus.trigger('ModifyPermanentsTable', performances);
     });
 
+    Pard.Bus.on('deletePerformances', function(performances){
+      performances.forEach(function(performance){
+        destroy(performance, true);
+      });
+    });
+
     var save = function(performance, check, multipleChanges){
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
@@ -437,7 +443,11 @@
         stop:function(event, ui){
           card.removeClass('cursor_move').addClass('cursor_grab');
           card.css({'opacity': '1'});
-          if(ui.helper.data('dropped') == false) destroy(performance);
+          if(ui.helper.data('dropped') == false){
+            Pard.Backend.deletePerformances(the_event.event_id, [performance], function(data){
+              console.log(data.model);
+            });
+          }
         }
       });
 
@@ -652,8 +662,9 @@
         });
 
         removeInputButton.on('click', function(){
-          destroy(performance);
+          Pard.Backend.deletePerformances(the_event.event_id, [performance], function(data){
           _closePopup();
+          });
         });
 
         input.on('change', function(){
@@ -1874,7 +1885,6 @@
         Object.keys(artistProgram).forEach(function(performance_id){
           var performance = {
             performance_id: performance_id,
-            last_host: artistProgram[performance_id].show.host_id,
             participant_name: artist.name
           }
           if(artistProgram[performance_id].show.participant_proposal_id == artist.proposals[0].proposal_id){
@@ -1899,7 +1909,6 @@
         Object.keys(spaceProgram).forEach(function(performance_id){
           var performance = {
             performance_id: performance_id,
-            last_host: space.profile_id,
             host_category: space.category,
             host_subcategory: space.subcategory,
             host_name: space.name,

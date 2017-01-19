@@ -28,10 +28,9 @@ class Performances
   end
 
   def to_save
-    performances_to_save = performances.each{ |performance| performance.except(:last_host)}
-    ids = performances_to_save.map{ |performance| performance[:performance_id]}
+    ids = performances.map{ |performance| performance[:performance_id]}
     program = event[:program].reject{ |performance| ids.include? performance[:performance_id]}
-    program + performances_to_save
+    program + performances
   end
 
   def to_a
@@ -51,8 +50,7 @@ class Performances
       host_id: performance[:host_id],
       host_proposal_id: performance[:host_proposal_id],
       comments: performance[:comments],
-      confirmed: performance[:confirmed],
-      last_host: performance[:last_host]
+      confirmed: performance[:confirmed]
     }
   end
 
