@@ -71,9 +71,9 @@ main.mainWelcomePage{
 
 .card-slider{
   height: 250px;
-  width: 638px;
-  position: absolute;
-  @include horizontal-center;
+  width: 655px;
+  position: relative;
+  margin: 0 auto;
   .cardCont-cardSlider{
     position: relative;
     height: 240px;
@@ -82,11 +82,13 @@ main.mainWelcomePage{
       min-height: 240px;
     }
   .slick-slide {
+    display: inline-block;
     width: 110px;
     height: 144.5px;
     z-index: 1;
     margin: 0.1rem 0.7rem;
     opacity: 0.85;
+    float: left;
     a{
       font-size: 8.3px;
       cursor: default;
@@ -95,7 +97,8 @@ main.mainWelcomePage{
       font-size: 14px;
     }
   }
-  .slick-slide.slick-active{
+  .slick-active{
+    float: left;
     width: 146px;
     height: 191px;
     margin: 1.2rem -1.2rem 0 -1.2rem;
@@ -109,7 +112,8 @@ main.mainWelcomePage{
       font-size: 20px;
     }
   }
-  .slick-slide.slick-center {
+  .slick-center {
+    float: left;
     width: 174px;
     height: 228px;
     margin: 0;
@@ -126,7 +130,7 @@ main.mainWelcomePage{
   }
 }
 
-
+/* 
 .smallCard-slide {
   width: 110px;
   height: 144.5px;
@@ -170,7 +174,7 @@ main.mainWelcomePage{
     font-size: 24px; 
   }
 }
-
+ */
 .littleTextDiv{
   position: relative;
   text-align: center;

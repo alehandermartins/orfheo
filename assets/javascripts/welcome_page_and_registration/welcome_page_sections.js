@@ -363,6 +363,8 @@ ns.Widgets = ns.Widgets || {};
     }
   }
 
+
+
   ns.Widgets.WelcomeSection = function(){
 
     var _section = $('<section>').addClass('welcomeSection-layout');
@@ -391,82 +393,45 @@ ns.Widgets = ns.Widgets || {};
         'padding-bottom':'1rem'
       });
     var _cardSlider = $('<div>').addClass('card-slider');
+    _cardsContainer.append(_cardSlider);
+
+    var _printCarousel = function(profilesArray){
+      _cardSlider.empty();
+      [10,11,0,1,2].forEach(function(index){
+        var profile = profilesArray[index];
+        var _profileCard = Pard.Widgets.CreateCard(profile).render()
+          .addClass('carousel')
+          .click(function(){
+            _cardSlider.fadeOut(function(){
+              var _reorderedProfilesArray = Pard.Widgets.ReorderArray(profilesArray, index).render();
+              _printCarousel(_reorderedProfilesArray);
+            })
+          })
+        var _cardCont = $('<div>').addClass('cardCont-cardSlider')
+          .append(_profileCard);
+        if (index) _profileCard.attr('href','#/');
+        if (index == 0) _cardCont.addClass('cardSelected slick-center');
+        else if (index == 1 || index == 11) _cardCont.addClass('slick-active');
+        else _cardCont.addClass('slick-slide');
+        _cardSlider.append(_cardCont);
+      });
+      var _rgb = Pard.Widgets.IconColor(profilesArray[0].color).rgb();
+      var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+      _entryDiv.css({'background':_backColor});
+      _cardSlider.fadeIn();
+    }
+
     var _shown = [];
+
     Pard.Backend.searchProfiles([], [], '', function(data){
-      var _toBeShown = [];
+      var _profilesArray = [];
       data.profiles.forEach(function(profile){
         if ($.inArray(profile.profile_id, _shown) == -1) {
           _shown.push(profile.profile_id);
-          _toBeShown.push(profile);
+          _profilesArray.push(profile);
         }      
       });
-      _toBeShown.forEach(function(profile, index){
-        var _profileCard = Pard.Widgets.CreateCard(profile).render().addClass('carousel');
-        // _profileCard.off( "mouseenter mouseleave");
-
-        var _cardCont = $('<div>').addClass('cardCont-cardSlider');
-        if (index) _profileCard.attr('href','#/');
-        else _cardCont.addClass('cardSelected');
-
-        _cardCont.append(_profileCard).css({'color': profile.color});
-       _profileCard.addClass('profileCard-hoverInherit');
-
-        _cardSlider.append(_cardCont);
-      });
-      var _rgb = Pard.Widgets.IconColor(_toBeShown[0].color).rgb();
-      var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
-      var cardSelected = _toBeShown[0];
-      _entryDiv.css({'background':_backColor});
-
-      _cardsContainer.append(_cardSlider);
-      _cardSlider.slick({
-        draggable: false,
-        centerMode: true,
-        variableWidth: true,
-        centerPadding:  0,
-        slidesToShow: 3,
-        arrows:false,
-        focusOnSelect:true,
-        useTransform:false,
-        responsive: [
-          {
-            breakpoint: 768,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              centerPadding: '40px',
-              slidesToShow: 3
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              centerPadding: '40px',
-              slidesToShow: 1
-            }
-          }
-        ]
-      });
-
-      _cardSlider.on('beforeChange', function(slick, currentSlide, nextSlide){
-        console.log(currentSlide)
-        console.log(nextSlide)
-        // $('.slick-center').addClass('mediumCard-slide');
-      });
-
-      _cardSlider.on('afterChange',function(slick, current_slide){
-        var cardSelected = _toBeShown[current_slide['currentSlide']];
-        $('.cardSelected a').attr('href','#/');
-        $('.cardSelected').remove('cardSelected');
-        $('.slick-center a').attr('href','/profile?id='+cardSelected.profile_id);
-        $('.slick-center').addClass('cardSelected');
-        
-        var _rgb = Pard.Widgets.IconColor(cardSelected.color).rgb();
-        var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
-        _entryDiv.css({'background':_backColor});
-      });
+      _printCarousel(_profilesArray);
     });
 
     _entryContent.append(_logoContainer, _signUpBtn,  _cardsContainer);
@@ -483,7 +448,6 @@ ns.Widgets = ns.Widgets || {};
       .addClass('callText-WelcomePage');
     var _littleTextDiv= $('<div>').addClass('littleTextDiv').append(
       $('<div>').append(_titleLittleText, _callLittleText).addClass('welcomeSection-container'));
-
 
     var _actionDiv = $('<div>').addClass('actionDiv');
     var _actionContainer = $('<div>').addClass('welcomeSection-container');
@@ -503,13 +467,6 @@ ns.Widgets = ns.Widgets || {};
 
     var _longTextDiv = $('<div>').addClass('littleTextDiv');
     var _longTextContainer = $('<div>').addClass('welcomeSection-container'); 
-    // var _longText = $('<div>').append(
-    //   $('<p>').html('Un lugar donde colores diferentes encuentran su unidad en la común saturación. </br>Un ecosistema participativo para artistas, espacios y organizaciones donde poder crear juntos. </br>Un mecanismo innovador capaz de <strong>informatizar la gestión del sistema artístico-cultural</strong>, </br> y de dar valor a los proyectos mas allá de un solo encuentro. '),
-    //   $('<p>').html('Orfheo se basa en un concepto simple y potente: podemos hacer mas cosas juntos que por separado.')
-      // $('<p>').html('Actuar a nivel local y pensar en red globalmente de forma colaborativa es una oportunidad para compartir recursos, estimular, potenciar y crear nuevas posibilidades y enlaces.'), 
-      // CONTACTANOS PARA LANZAR Y GESTIONAR TU CONVOCATORIA
-      // $('<p>').html('<strong>En orfheo es posible lanzar y gestionar convocatorias artístico-culturales para cualquier proyecto, espacio, iniciativa ciudadana, institución y organización, festival y todo tipo de evento o encuentro.</strong>')
-    // ).addClass('longText');
     var _titleLongText = $('<h4>').html('Une a las personas:</br> Crea en red con tu comunidad cultural');
     var _callLongText = $('<a>').attr('href','#/')
       .text('Lanza y gestiona tu convocatoria en orfheo')
@@ -561,6 +518,198 @@ ns.Widgets = ns.Widgets || {};
     return _section;
 
   }
+
+  // ns.Widgets.WelcomeSection = function(){
+
+  //   var _section = $('<section>').addClass('welcomeSection-layout');
+
+  //   var _entryDiv = $('<div>').addClass('entryDiv');
+  //   var _entryContentContainer = $('<div>').addClass('welcomeSection-container');
+  //   var _entryContent = $('<div>').addClass('entryDiv-content');
+  //   var _logo = $('<span>').append($('<div>').addClass('mainLogo-welcomePage'));
+  //   var _logoBaseline = $('<div>').append($('<p>').text('your cultural community')).addClass('logoBaseline-welcomePage');
+  //   var _logoContainer = $('<div>')
+  //     .append($('<div>')
+  //       .append(_logo, _logoBaseline).addClass('entryLogoContainer')
+  //     )
+  //     .css({
+  //       'position': 'relative',
+  //       'height': '100px',
+  //       'margin-top':'3.5rem'
+  //     });
+
+  //   var _signUpBtn = Pard.Widgets.SignUpButton().render().addClass('signUpBtnWelcomePage')
+
+  //   var _cardsContainer = $('<div>')
+  //     .css({
+  //       'position':'relative',
+  //       'margin-top':'3rem',
+  //       'padding-bottom':'1rem'
+  //     });
+  //   var _cardSlider = $('<div>').addClass('card-slider');
+  //   var _shown = [];
+  //   Pard.Backend.searchProfiles([], [], '', function(data){
+  //     var _toBeShown = [];
+  //     data.profiles.forEach(function(profile){
+  //       if ($.inArray(profile.profile_id, _shown) == -1) {
+  //         _shown.push(profile.profile_id);
+  //         _toBeShown.push(profile);
+  //       }      
+  //     });
+  //     _toBeShown.forEach(function(profile, index){
+  //       var _profileCard = Pard.Widgets.CreateCard(profile).render().addClass('carousel');
+  //       // _profileCard.off( "mouseenter mouseleave");
+
+  //       var _cardCont = $('<div>').addClass('cardCont-cardSlider');
+  //       if (index) _profileCard.attr('href','#/');
+  //       else _cardCont.addClass('cardSelected');
+
+  //       _cardCont.append(_profileCard).css({'color': profile.color});
+  //      _profileCard.addClass('profileCard-hoverInherit');
+
+  //       _cardSlider.append(_cardCont);
+  //     });
+  //     var _rgb = Pard.Widgets.IconColor(_toBeShown[0].color).rgb();
+  //     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+  //     var cardSelected = _toBeShown[0];
+  //     _entryDiv.css({'background':_backColor});
+
+  //     _cardsContainer.append(_cardSlider);
+  //     _cardSlider.slick({
+  //       draggable: false,
+  //       centerMode: true,
+  //       variableWidth: true,
+  //       centerPadding:  0,
+  //       slidesToShow: 3,
+  //       arrows:false,
+  //       focusOnSelect:true,
+  //       useTransform:false,
+  //       responsive: [
+  //         {
+  //           breakpoint: 768,
+  //           settings: {
+  //             arrows: false,
+  //             centerMode: true,
+  //             centerPadding: '40px',
+  //             slidesToShow: 3
+  //           }
+  //         },
+  //         {
+  //           breakpoint: 480,
+  //           settings: {
+  //             arrows: false,
+  //             centerMode: true,
+  //             centerPadding: '40px',
+  //             slidesToShow: 1
+  //           }
+  //         }
+  //       ]
+  //     });
+
+  //     _cardSlider.on('beforeChange', function(slick, currentSlide, nextSlide){
+  //       console.log(currentSlide)
+  //       console.log(nextSlide)
+  //       // $('.slick-center').addClass('mediumCard-slide');
+  //     });
+
+  //     _cardSlider.on('afterChange',function(slick, current_slide){
+  //       var cardSelected = _toBeShown[current_slide['currentSlide']];
+  //       $('.cardSelected a').attr('href','#/');
+  //       $('.cardSelected').remove('cardSelected');
+  //       $('.slick-center a').attr('href','/profile?id='+cardSelected.profile_id);
+  //       $('.slick-center').addClass('cardSelected');
+        
+  //       var _rgb = Pard.Widgets.IconColor(cardSelected.color).rgb();
+  //       var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+  //       _entryDiv.css({'background':_backColor});
+  //     });
+  //   });
+
+  //   _entryContent.append(_logoContainer, _signUpBtn,  _cardsContainer);
+  //   _entryDiv.append(_entryContentContainer.append(_entryContent));
+    
+  //   var _titleLittleText = $('<h4>').text('Nuevas posibilidades culturales creadas por conexiones y enlaces');
+  //   var _callLittleText = $('<a>').attr('href','#/')
+  //     .text('Déjate inspirar')
+  //     .append(Pard.Widgets.IconManager('navigation_right').render()
+  //       .addClass('navigationIcon-findOutMore'))
+  //     .click(function(){
+  //       console.log('open popup')
+  //     })
+  //     .addClass('callText-WelcomePage');
+  //   var _littleTextDiv= $('<div>').addClass('littleTextDiv').append(
+  //     $('<div>').append(_titleLittleText, _callLittleText).addClass('welcomeSection-container'));
+
+
+  //   var _actionDiv = $('<div>').addClass('actionDiv');
+  //   var _actionContainer = $('<div>').addClass('welcomeSection-container');
+  //   var _info1 = $('<div>').addClass('i-container');
+  //   var _info2 = $('<div>').addClass('i-container');
+  //   var _info3 = $('<div>').addClass('i-container');
+  //   var _img1 = $('<div>').addClass('img1Box');
+  //   var _img2 = $('<div>').addClass('img2Box');
+  //   var _img3 = $('<div>').addClass('img3Box');
+  //   var _text1 = $('<div>').addClass('txtBox').append($('<h4>').text('Aquí y ahora'), $('<p>').html('Descubre proyecto y déjate </br> conocer por lo que haces').addClass('txt_grey'));
+  //   var _text2 = $('<div>').addClass('txtBox').append($('<h4>').text('Toma el control'), $('<p>').html('Lanza y gestiona </br> tu convocatoria').addClass('txt_grey'));
+  //   var _text3 = $('<div>').addClass('txtBox').append($('<h4>').text('Hazlo'), $('<p>').html('Crea experiencias inolvidables </br> junto con los demás').addClass('txt_grey'));
+  //   _info1.append($('<div>').addClass('innerCont1').append(_img1, _text1));
+  //   _info2.append(_img2, _text2);
+  //   _info3.append($('<div>').addClass('innerCont3').append(_img3, _text3));
+  //   _actionDiv.append(_actionContainer.append(_info1, _info2, _info3));
+
+  //   var _longTextDiv = $('<div>').addClass('littleTextDiv');
+  //   var _longTextContainer = $('<div>').addClass('welcomeSection-container'); 
+  //   var _titleLongText = $('<h4>').html('Une a las personas:</br> Crea en red con tu comunidad cultural');
+  //   var _callLongText = $('<a>').attr('href','#/')
+  //     .text('Lanza y gestiona tu convocatoria en orfheo')
+  //     .append(Pard.Widgets.IconManager('navigation_right').render()
+  //       .addClass('navigationIcon-findOutMore'))
+  //     .click(function(){
+  //       console.log('open popup')
+  //     })
+  //     .addClass('callText-WelcomePage');
+  //   _longTextDiv.append(_longTextContainer.append(_titleLongText, _callLongText));
+
+  //   var _servicesDiv = $('<div>').addClass('servicesDiv');
+  //   var _logoServices = $('<div>').addClass('logo-services');
+  //   var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
+  //   var _callService = $('<div>').addClass('i-container');
+  //   var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('proposals').render());
+  //   var _callTitle = $('<h4>').text('Involucra la comunidad');
+  //   var _callTxt = $('<p>').html('Crea un evento,</br> lanza una convocatoria, </br>utiliza la potente herramienta de gestión </br>y publica una programación interactiva');
+  //   _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));
+  //   var _consulingService = $('<div>').addClass('i-container');
+  //   var _iconConsulingService = $('<div>').append(Pard.Widgets.IconManager('chat_bubble').render());
+  //   var _consulingTitle = $('<h4>').text('Asesoría creativa');
+  //   var _consulingTxt = $('<p>').html('Saca lo mejor de tu proyecto,</br> alimenta tu comunidad </br>y explora nuevas estrategias creativa durante el proceso');
+  //   _consulingService.append($('<div>').append(_iconConsulingService, _consulingTitle, _consulingTxt).addClass('consulingService-innerCont'));
+  //   var _apiService = $('<div>').addClass('i-container');
+  //   var _iconApiService = $('<div>').append(Pard.Widgets.IconManager('sincro').render());
+  //   var _apiTitle = $('<h4>').text('Conexión API');
+  //   var _apiTxt = $('<p>').text('Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga');
+  //   _apiService.append($('<div>').append(_iconApiService, _apiTitle, _apiTxt).addClass('apiService-innerCont'));
+
+  //   var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().addClass('navigationIcon-findOutMore');
+  //   var _findOutMore = $('<div>')
+  //     .append($('<a>').text('Descubre más').attr('href','#/')  
+  //       .click(function(){
+  //         $('#servicios').trigger('click');
+  //       })
+  //       .append(_findOutMoreIcon)
+  //     )
+  //     .css({
+  //       'text-align':'center',
+  //       'margin-top':'2.5rem'
+  //     })
+  //   _servicesInfoContainer.append(_callService,_consulingService,_apiService, _findOutMore); 
+  //   var _textLogo = $('<div>').text('S e r v i c i o s').addClass('textLogo');
+  //   _servicesDiv.append(_logoServices, _textLogo, _servicesInfoContainer);
+
+  //   _section.append(_entryDiv,  _longTextDiv, _actionDiv,  _littleTextDiv, _servicesDiv);
+
+  //   return _section;
+
+  // }
   
 
 }(Pard || {}));
