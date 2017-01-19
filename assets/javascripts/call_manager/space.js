@@ -120,7 +120,6 @@
                 var start = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _startHour, _startMin);
                 var end = new Date(date.split('-')[0], date.split('-')[1] -1, date.split('-')[2], _endHour, _endMin);
                 show.time = [start.getTime(), end.getTime()];
-                show.last_host = last_host;
                 show.host_id = space.profile_id;
                 show.host_proposal_id = space.proposal_id;
                 _performances.push(show);
@@ -139,7 +138,7 @@
           }
 
           var modify = function(performance){
-            performance.last_host = last_host;
+            Pard.Bus.trigger('deleteLastHost', performance);
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
             Pard.Backend.modifyPerformances(space.event_id, [performance], function(data){
@@ -388,10 +387,19 @@
         AlignPerformances();
       },
       deletePerformance: function(show){
+        console.log(show.host_name);
+        console.log(space.name);
+        console.log(program[show.performance_id]);
         delete program[show.performance_id];
+        console.log(_columns[show.date].find('.' + show.performance_id).length);
+        if(_columns[show.date].find('.' + show.performance_id).length){
+          console.log('miau');
+          _columns[show.date].find('.' + show.performance_id).detach();
+        }
         if(show.permanent == 'true'){
           if(_columns['permanent'].find('.' + show.performance_id).length) {
             _columns['permanent'].find('.' + show.performance_id).detach();
+            
             var myPerformances = Object.keys(program).map(function(performance_id){
               return program[performance_id].show;
             });
