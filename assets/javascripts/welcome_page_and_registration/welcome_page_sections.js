@@ -25,13 +25,6 @@ ns.Widgets = ns.Widgets || {};
       render: function(){
         return _createdWidget;
       }
-      // ,
-      // activate: function(){
-      //   if(_searchWidget.hasClass('active')) _searchWidget.removeClass('active');
-      // },
-      // deactivate: function(){
-      //   if(!_searchWidget.hasClass('active')) _searchWidget.addClass('active');
-      // },
     }
   }
 
@@ -54,19 +47,26 @@ ns.Widgets = ns.Widgets || {};
       })
     }); 
 
-    _createdWidget.append(_cards.append(_searchResult));
+    var _titleEventText = $('<h4>').text('Contáctanos para crear tu evento');
+    var _eventText = $('<button>').attr('type','button')
+      // .text('¡Hazlo ya!')
+      .append(Pard.Widgets.IconManager('navigation_right').render()
+        .addClass('navigationIcon-findOutMore'))
+      .click(function(){
+        $('#contactPopupBtn').trigger('click');
+      })
+      .addClass('callText-WelcomePage').css('margin-top','0');
+    var _textDiv = $('<div>').addClass('littleTextDiv').append(
+      $('<div>').append(_titleEventText.append(_eventText)).addClass('welcomeSection-container'));
+    _searchResult.css({
+      'min-height': 'calc(100vh - 5.1rem - 7.9rem)'
+    })
+    _createdWidget.append(_cards.append(_searchResult), _textDiv);
 
     return{
       render: function(){
         return _createdWidget;
       }
-      // ,
-      // activate: function(){
-      //   if(_searchWidget.hasClass('active')) _searchWidget.removeClass('active');
-      // },
-      // deactivate: function(){
-      //   if(!_searchWidget.hasClass('active')) _searchWidget.addClass('active');
-      // },
     }
   }
 
@@ -438,12 +438,12 @@ ns.Widgets = ns.Widgets || {};
     _entryDiv.append(_entryContentContainer.append(_entryContent));
     
     var _titleLittleText = $('<h4>').text('Nuevas posibilidades culturales creadas por conexiones y enlaces');
-    var _callLittleText = $('<a>').attr('href','#/')
+    var _callLittleText = $('<button>').attr('type','button')
       .text('Déjate inspirar')
       .append(Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
       .click(function(){
-        console.log('open popup')
+        $('#projectPopupBtn').trigger('click');
       })
       .addClass('callText-WelcomePage');
     var _littleTextDiv= $('<div>').addClass('littleTextDiv').append(
@@ -458,7 +458,7 @@ ns.Widgets = ns.Widgets || {};
     var _img2 = $('<div>').addClass('img2Box');
     var _img3 = $('<div>').addClass('img3Box');
     var _text1 = $('<div>').addClass('txtBox').append($('<h4>').text('Aquí y ahora'), $('<p>').html('Descubre proyecto y déjate </br> conocer por lo que haces').addClass('txt_grey'));
-    var _text2 = $('<div>').addClass('txtBox').append($('<h4>').text('Toma el control'), $('<p>').html('Lanza y gestiona </br> tu convocatoria').addClass('txt_grey'));
+    var _text2 = $('<div>').addClass('txtBox').append($('<h4>').text('Toma el control'), $('<p>').html('Involucra la comunidad, </br> lanza tu convocatoria').addClass('txt_grey'));
     var _text3 = $('<div>').addClass('txtBox').append($('<h4>').text('Hazlo'), $('<p>').html('Crea experiencias inolvidables </br> junto con los demás').addClass('txt_grey'));
     _info1.append($('<div>').addClass('innerCont1').append(_img1, _text1));
     _info2.append(_img2, _text2);
@@ -483,7 +483,8 @@ ns.Widgets = ns.Widgets || {};
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
     var _callService = $('<div>').addClass('i-container');
     var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('proposals').render());
-    var _callTitle = $('<h4>').text('Involucra la comunidad');
+    // var _callTitle = $('<h4>').text('Involucra la comunidad');
+    var _callTitle = $('<h4>').text('Plataforma de gestión');
     var _callTxt = $('<p>').html('Crea un evento,</br> lanza una convocatoria, </br>utiliza la potente herramienta de gestión </br>y publica una programación interactiva');
     _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));
     var _consulingService = $('<div>').addClass('i-container');

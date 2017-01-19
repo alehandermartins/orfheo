@@ -1428,15 +1428,15 @@ HEADER
     margin: 0 0 0 1.5rem;
     /* min-width: 90px; */
     text-align: center;
-    a{
+    a, button{
       color: white;
     }
-    a:hover{
+    a:hover, button:hover{
       color: $grey-2;
     }
   }
   .selected, .selected:hover{
-    a{
+    a, button{
       color: $grey-3;
     }
   }
@@ -1797,12 +1797,13 @@ FOOTER
 
 
 
-a.footer-text-link {
+button.footer-text-link {
   color: white;
+  cursor: pointer;
 }
 
 
-a.footer-text-link:hover{
+button.footer-text-link:hover{
   color: white;
   text-decoration: underline;
 }
@@ -1813,6 +1814,11 @@ a.footer-text-link:hover{
   li{
     display: inline-block;
     margin-left: 2rem;
+    color: $blue-pard;
+    cursor: pointer;
+  }
+  li:hover{
+    color: rgb(44, 106, 204);
   }
 }
 

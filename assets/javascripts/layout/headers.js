@@ -6,13 +6,6 @@ ns.Widgets = ns.Widgets || {};
 
 	ns.Widgets.NavHeader = function(){
 
-    $(document).on('show.zf.dropdown', function() {
-      _loginText.addClass('iconDropdown-clicked');
-    });
-    $(document).on('hide.zf.dropdown', function(){
-      _loginText.removeClass('iconDropdown-clicked');
-    });
-
     var _createdWidget = $('<header>').addClass('orfheoHeader black fixed');
 
     var _container = $('<div>').addClass('pard-grid');
@@ -37,34 +30,37 @@ ns.Widgets = ns.Widgets || {};
   	var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
   	var _navMenu = $('<ul>').addClass('navMenuHeader');
   	var _profilesSection;
-    var _profilesBtn = $('<li>').append($('<a>').text('Perfiles').attr('href','#'))
+    var _profilesBtn = $('<li>').append($('<button>').text('Perfiles').attr('type','button'))
       .one('click', function(){
         _profilesSection = Pard.Widgets.ProfilesWelcomeSection();
         $('#profilesSection').append(_profilesSection.render());
       })
   		.click(function(){
+        $(window).scrollTop(0); 
   			$('.selected').removeClass('selected');
   			_profilesBtn.addClass('selected');
   			_showHide('profilesSection');
         _profilesSection.activate();
   		});
       // .css('width','52px');
-  	var _eventsBtn = $('<li>').append($('<a>').text('Eventos').attr('href','#'))
+  	var _eventsBtn = $('<li>').append($('<button>').text('Eventos').attr('type','button'))
       .one('click', function(){
         $('#eventsSection').append(Pard.Widgets.EventsWelcomeSection().render());
       })
   		.click(function(){
+        $(window).scrollTop(0); 
   			$('.selected').removeClass('selected');
   			_eventsBtn.addClass('selected');
   			_showHide('eventsSection');
         if (_profilesSection) _profilesSection.deactivate();
   		});
       // .css('width','58px');
-  	var _newsBtn = $('<li>').append($('<a>').text('Novedades').attr('href','#'))
+  	var _newsBtn = $('<li>').append($('<button>').text('Novedades').attr('type','button'))
      .one('click', function(){
         $('#newsSection').append(Pard.Widgets.NewsWelcomeSection().render());
       })
   		.click(function(){
+        $(window).scrollTop(0); 
   			$('.selected').removeClass('selected');
   			_newsBtn.addClass('selected');
   			_showHide('newsSection');
@@ -84,27 +80,29 @@ ns.Widgets = ns.Widgets || {};
     if (Pard.UserStatus['status'] == 'outsider'){
       _rightContainer.addClass('loginContainer')
       var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
-      
       var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login').addClass('loginText')
         .append(Pard.Widgets.IconManager('arrowDropDown').render().addClass('arrowLoginDropdown'));
-
       var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':'', 'data-close-on-click':true});
-
       _rightContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUpHeader-welcomePage')); 
-
-      _content.append( _callBtn) 
+      _content.append( _callBtn)
+      $(document).on('show.zf.dropdown', function() {
+        _loginText.addClass('iconDropdown-clicked');
+      });
+      $(document).on('hide.zf.dropdown', function(){
+        _loginText.removeClass('iconDropdown-clicked');
+      });
     }
     else if (Pard.UserStatus['status'] == 'owner'){
       var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
       var _init = $('<li>')
-        .append($('<a>').attr('href','#')
+        .append($('<a>').attr('href','/')
           .text('Inicio')
-          .click(function(){
-            $('.selected').removeClass('selected');
-            _init.addClass('selected');
-            _showHide('welcomeSection');
-            if (_profilesSection) _profilesSection.deactivate();
-          })
+          // .click(function(){
+          //   $('.selected').removeClass('selected');
+          //   _init.addClass('selected');
+          //   _showHide('welcomeSection');
+          //   if (_profilesSection) _profilesSection.deactivate();
+          // })
         )
         .addClass('initText');
       var _settingsDropdown = $('<li>')

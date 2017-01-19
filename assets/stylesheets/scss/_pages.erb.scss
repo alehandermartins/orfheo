@@ -9,7 +9,7 @@ main.mainWelcomePage{
   padding: 0;
   section{
     padding-top:3.3rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1.8rem;
     min-height: 100vh;
   }
 }
@@ -379,8 +379,14 @@ main.mainWelcomePage{
 }
 
 .callText-WelcomePage{
+  margin: 0 auto;
   margin-top: 1rem;
-  display: block;
+  display: inline-block;
+  color: $blue-pard;
+}
+
+.callText-WelcomePage:hover{
+  color: rgba(56, 133, 255, 0.8);
 }
 
 .navigationIcon-findOutMore{
@@ -588,7 +594,9 @@ main.mainUserPage{
   padding: 0;
   section{
     padding-top:3.3rem;
-    min-height: 100vh;
+    min-height: -moz-calc(100vh - 1.8rem);
+    min-height: -webkit-calc(100vh - 1.8rem);
+    min-height: calc(100vh - 1.8rem);
   }
 }
 
