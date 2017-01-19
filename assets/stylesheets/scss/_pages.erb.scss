@@ -9,7 +9,7 @@ main.mainWelcomePage{
   padding: 0;
   section{
     padding-top:3.3rem;
-    padding-bottom: 2rem;
+    padding-bottom: 1.8rem;
     min-height: 100vh;
   }
 }
@@ -49,7 +49,7 @@ main.mainWelcomePage{
 
 .mainLogo-welcomePage{
   cursor: default;
-  background-image: url(<%= image_path 'orfheologonegro.png' %>);
+  background-image: url(<%= image_path 'lettering_black_m.png' %>);
   width: 240px;
   height: 80px;
   background-repeat: no-repeat;
@@ -251,7 +251,7 @@ main.mainWelcomePage{
   color: white;
   padding: 3rem 0;
   .logo-services{
-    background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
+    background-image: url(<%= image_path 'lettering_white_m.png' %>);
     width: 144px;
     height: 48px;
     background-repeat: no-repeat;
@@ -314,12 +314,12 @@ main.mainWelcomePage{
 
 .search-input-WelcomePage-Container{
   height: 120px;
-  background-color: black;
+  /* background-color: black; */
   position: relative;
-  padding-top: 0.7rem;
-  .select2-container--default .select2-selection--multiple{
+  padding-top: 2rem;
+  /* .select2-container--default .select2-selection--multiple{
     border: none;
-  }
+  } */
 }
 
 .search-input-WelcomePage{
@@ -333,7 +333,7 @@ main.mainWelcomePage{
 
 
 .rfhIcon-searchWidget{
-  background-image: url(<%= image_path 'orfheosimbolonegro.png' %>);
+  background-image: url(<%= image_path 'logo_black_m.png' %>);
   width: 1.7rem;
   height: 1.2rem;
   background-repeat: no-repeat;
@@ -348,8 +348,9 @@ main.mainWelcomePage{
   display: inline-block;
   position: absolute;
   left: 0rem;
-  top: 0rem;
-  border-right: 2px solid $grey-2;
+  top: 0.1rem;
+  height: 2.2rem;
+  border-right: 1px solid $grey-2;
   /* margin: .3rem 0 1.2rem 0; */
 }
 
@@ -378,8 +379,14 @@ main.mainWelcomePage{
 }
 
 .callText-WelcomePage{
+  margin: 0 auto;
   margin-top: 1rem;
-  display: block;
+  display: inline-block;
+  color: $blue-pard;
+}
+
+.callText-WelcomePage:hover{
+  color: rgba(56, 133, 255, 0.8);
 }
 
 .navigationIcon-findOutMore{
@@ -539,102 +546,6 @@ Header
 
 /* GENERAL*/
 
-.right-user-header-content{
-  display: inline-block;
-  position: absolute;
-  @include breakpoint(large){
-    margin-right: -1.5rem;
-  }
-  right:0;
-}
-
-.left-user-header-content{
-  left:0;
-  display: inline-block;
-  position: absolute;
-  @include breakpoint(large){
-    margin-left:-0.5rem;
-  }
-  cursor: pointer;
-  @include breakpoint(small down){
-    margin-left: 0.5rem;
-  }
-
-}
-
-.top-header-content{
-  display: block;
-  width: 100%;
-  @include breakpoint(medium){
-    min-height: 3.5rem;
-  }
-  @include breakpoint(small down){
-    min-height: 2.3rem;
-  }
-}
-
-.settings-icon-dropdown-menu{
-  color: black;
-  .material-icons{
-    font-size: 2.1rem;
-    margin-right: -0.6rem;
-  }
-  padding:0;
-}
-
-.settings-icon-dropdown-menu:hover{
-  color: rgba(0,0,0,0.8);
-}
-
-.black{
-  .settings-icon-dropdown-menu{
-    color: white;
-  }
-  .settings-icon-dropdown-menu:hover{
-    color: $grey-2;
-  }
-}
-
-
-
-.rightContent-insideNavMenu{
-  position: absolute;
-  right: 0;
-  top: .85rem;
-  .rightMenu-navHeader{
-    margin: 0;
-    li{
-      display: inline-block;
-    }
-  }
-  .initText{
-    text-align: center;
-    margin-right: 1rem;
-    vertical-align: 0.7rem;
-    a{
-      color: black;
-    }
-  }
-  .initText:hover{
-    a{
-      color: rgba(0,0,0,.8);
-    }
-  }
-/*   .selected{
-    color: $grey-2;
-  } */
-}
-
-.black .initText a{
-  color: white;
-}
-
-.black .initText:hover{
- a{
-    color: $grey-2
-  }
-}
-
 
 
 /*-----------------------
@@ -683,7 +594,9 @@ main.mainUserPage{
   padding: 0;
   section{
     padding-top:3.3rem;
-    min-height: 100vh;
+    min-height: -moz-calc(100vh - 1.8rem);
+    min-height: -webkit-calc(100vh - 1.8rem);
+    min-height: calc(100vh - 1.8rem);
   }
 }
 
@@ -1482,9 +1395,9 @@ CALL PAGE
 
 .main-call-page{
   background: $grey-1;
-  min-height:  -moz-calc(100vh - 5.3rem);
-  min-height:  -webkit-calc(100vh - 5.3rem);
-  min-height:  calc(100vh - 5.3rem);
+  min-height:  -moz-calc(100vh - 5.1rem);
+  min-height:  -webkit-calc(100vh - 5.1rem);
+  min-height:  calc(100vh - 5.1rem);
 }
 
 .call-section{

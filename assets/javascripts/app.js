@@ -276,13 +276,6 @@ Pard.Event = function(the_event, status){
     _footer.render().removeClass('footer-outsider')
   );
 
-
-  //CROWDFUNDING MESSAGE
-  // var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
-  // var _alertText = $('<p>').html('Este evento es gratuito y nadie gana nada, pero sí que tiene gastos y se mantiene solo por donaciones. La tuya también es necesaria: <a href="https://www.goteo.org/project/benimaclet-confusion-festival", target="_blank"> aporta a nuestro crowdfunding</a> ').addClass('text-browser-alert');
-  // var _alertContainer = $('<div>').append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('crowdfunding-alert callout').attr('data-closable','');
-  // $(_whole).prepend(_alertContainer);
-
   $('body').append(_whole);
 
   $(document).ready(function(){

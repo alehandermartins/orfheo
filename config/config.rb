@@ -54,16 +54,14 @@ class BaseController < Sinatra::Base
     ours.css
     ours.js
     jquery.js
-    logo_conFusion.png
     italian_flag.jpeg
     valencian_flag.png
     english_flag.png
-    orfheoiconocolor.png
-    orfheologocolor.png
-    orfheologonegro.png
-    orfheologoblanco_small.png
+    logo_black_xs.png
+    logo_black_m.png
+    lettering_black_m.png
+    lettering_white_m.png
     orfheosimbolocolor.png
-    orfheosimbolonegro.png
     orfheo_fb_preview.jpg
     sort_both.png
     sort_asc.png
