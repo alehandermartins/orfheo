@@ -12,25 +12,21 @@ class EventsController < BaseController
     check_event_ownership! event_id
 
     performances = Performances.new(params, event_id)
-    Repos::Events.add_performances event_id, performances.to_a
+    Repos::Events.save_program event_id, performances.to_save
 
-    message = {event: 'addPerformance', model: performances.to_a}
+    message = {event: 'addPerformances', model: performances.to_a}
     Services::Clients.send_message(event_id, success(message))
     success(message)
   end
 
   post '/users/modify_performances' do
-    scopify event_id: true, last_host: true
-    puts last_host
+    scopify event_id: true
     check_event_ownership! event_id
 
-    performance = Performance.new(params)
-    check_existing_performance! event_id, performance.to_h
-    Repos::Events.modify_performance event_id, performance.to_h
+    performances = Performances.new(params, event_id)
+    Repos::Events.save_program event_id, performances.to_save
 
-    performance.add_host last_host
-    puts performance.to_h
-    message = {event: 'modifyPerformance', model: performance.to_h}
+    message = {event: 'modifyPerformances', model: performances.to_a}
     Services::Clients.send_message(event_id, success(message))
     success(message)
   end
@@ -102,10 +98,5 @@ class EventsController < BaseController
     dates.pop
     the_event = {name: event_name, dates: dates, shows: program}
     success({event: the_event})
-  end
-
-  private
-  def check_existing_performance! event_id, performance
-    raise Pard::Invalid::UnexistingPerformance unless Repos::Events.performance_exists? event_id, performance
   end
 end

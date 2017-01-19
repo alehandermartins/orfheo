@@ -330,7 +330,7 @@
       _artistsBlock.addClass('is-active');
     });
 
-    Pard.Bus.on('addPerformance', function(performances){
+    Pard.Bus.on('addPerformances', function(performances){
       var _permanetIds = [];
       performances.forEach(function(performance){
         create(performance, true);
@@ -340,10 +340,11 @@
       Pard.Bus.trigger('CreatePermanentsTable', _permanetIds);
     });
 
-    Pard.Bus.on('modifyPerformance', function(performances){
+    Pard.Bus.on('modifyPerformances', function(performances){
       performances.forEach(function(performance){
         modify(performance, true);
       });
+      //Pard.Bus.trigger('ModifyPermanentsTable', performances);
     });
 
     var save = function(performance, check, multipleChanges){
@@ -367,6 +368,7 @@
 
     var modify = function(performance, check, multipleChanges){
       var show = the_event.program[performance.performance_id].show;
+      console.log(performance.last_host);
       the_event.spaces[performance.last_host].deletePerformance(show);
 
       the_event.spaces[performance.host_id].addSpaceInfo(performance);

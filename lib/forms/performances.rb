@@ -2,23 +2,36 @@ class Performances
 
   def initialize params, event_id
     program = Util.arrayify_hash params[:program]
-    event = Repos::Events.get_event event_id
-    @performances = program.map{ |show|
-      check_fields event, show
-      performance = new_performance show
+    @event = Repos::Events.get_event event_id
+    @performances = program.map{ |performance|
+      check_fields performance
+      new_performance performance
     }
   end
 
-  def check_fields event, performance
+  def check_fields performance
   raise Pard::Invalid::Params if mandatory.any?{ |field|
     performance[field].blank?
   }
-  check_participants event, performance
+  check_participants performance
   end
 
-  def check_participants event, performance
+  def check_participants performance
+    raise Pard::Invalid::UnexistingPerformance unless exists? performance
     raise Pard::Invalid::Params unless event[:artists].any?{|artist| artist[:profile_id] == performance[:participant_id]}    
     raise Pard::Invalid::Params unless event[:spaces].any?{|space| space[:profile_id] == performance[:host_id]}
+  end
+
+  def exists? performance
+    return true if performance[:performance_id].blank?
+    event[:program].any?{|show| show[:performance_id] == performance[:performance_id]}
+  end
+
+  def to_save
+    performances_to_save = performances.each{ |performance| performance.except(:last_host)}
+    ids = performances_to_save.map{ |performance| performance[:performance_id]}
+    program = event[:program].reject{ |performance| ids.include? performance[:performance_id]}
+    program + performances_to_save
   end
 
   def to_a
@@ -26,7 +39,7 @@ class Performances
   end
 
   private
-  attr_reader :performances
+  attr_reader :performances, :event
   def new_performance performance
     {
       performance_id: performance[:performance_id] || SecureRandom.uuid,
@@ -38,7 +51,8 @@ class Performances
       host_id: performance[:host_id],
       host_proposal_id: performance[:host_proposal_id],
       comments: performance[:comments],
-      confirmed: performance[:confirmed]
+      confirmed: performance[:confirmed],
+      last_host: performance[:last_host]
     }
   end
 

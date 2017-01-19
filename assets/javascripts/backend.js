@@ -154,10 +154,13 @@
       );
     };
 
-    var _modifyPerformances = function(form, callback){
+    var _modifyPerformances = function(event_id, program, callback){
       _send(
         '/users/modify_performances',
-        form,
+        {
+          event_id: event_id,
+          program: program
+        },
         callback
       );
     };

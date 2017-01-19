@@ -223,28 +223,20 @@ module Repos
         }
       end
 
-      def save_program event_id, program, order
-        event = grab({event_id: event_id}).first
-        program.select!{|show| performers_participate? event_id, show}
-        event[:spaces].each{|space| order.push(space[:profile_id]) unless order.include? space[:profile_id]}
-        spaces = event[:spaces].sort_by{|space| order.index(space[:profile_id])}
-        @@events_collection.update_one({event_id: event_id},{
-          "$set": {program: program, spaces: spaces}
-        })
-      end
+      # def save_program event_id, program, order
+      #   event = grab({event_id: event_id}).first
+      #   program.select!{|show| performers_participate? event_id, show}
+      #   event[:spaces].each{|space| order.push(space[:profile_id]) unless order.include? space[:profile_id]}
+      #   spaces = event[:spaces].sort_by{|space| order.index(space[:profile_id])}
+      #   @@events_collection.update_one({event_id: event_id},{
+      #     "$set": {program: program, spaces: spaces}
+      #   })
+      # end
 
-      def add_performances event_id, performances
+      def save_program event_id, program
         @@events_collection.update_one({event_id: event_id},{
-          "$push": {program:  {"$each": performances}}
+          "$set": {program: program}
         })
-      end
-
-      def modify_performance event_id, performance
-        @@events_collection.update_one({event_id: event_id, "program.performance_id": performance[:performance_id]},
-          {
-            "$set": {"program.$": performance}
-          },
-        {upsert: true})
       end
 
       def delete_performance event_id, performance_id

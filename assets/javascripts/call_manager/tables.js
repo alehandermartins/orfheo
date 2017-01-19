@@ -669,7 +669,7 @@
     });
 
     Pard.Bus.on('ModifyPermanentsTable', function(performances){
-      performances.modifiables.forEach(function(performance_id){
+      performances.forEach(function(performance_id){
         var _show = the_event.program[performance_id].show;
         _dataTable.row('#programTable-' + performance_id).remove();
         _dataTable.row.add(showRow(_show));
