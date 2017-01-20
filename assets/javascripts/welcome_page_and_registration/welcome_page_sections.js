@@ -400,8 +400,9 @@ ns.Widgets = ns.Widgets || {};
       [10,11,0,1,2].forEach(function(index){
         var profile = profilesArray[index];
         var _profileCard = Pard.Widgets.CreateCard(profile).render()
-          .addClass('carousel')
-          .click(function(){
+          .addClass('carousel');
+        if(index) _profileCard .click(
+          function(){
             _cardSlider.fadeOut(function(){
               var _reorderedProfilesArray = Pard.Widgets.ReorderArray(profilesArray, index).render();
               _printCarousel(_reorderedProfilesArray);
