@@ -1099,7 +1099,7 @@
           }
         });
         performancesBox.append(_all);
-        var _artistShows = artistShows();
+        var _artistShows = Pard.Widgets.ReorderProgramCrono(artistShows());
         _artistShows.forEach(function(show, index){
           var _manager = the_event.program[show.performance_id].manager(check);
           _managers.collection[show.performance_id] = {manager: _manager};
@@ -1111,6 +1111,11 @@
                 manager.daySelector.trigger('reload');
               }
             }
+            var _newOrder = Pard.Widgets.ReorderProgramCrono(artistShows());
+            _newOrder.forEach(function(show){
+              performancesBox.append(_managers.collection[show.performance_id].manager.render());
+              performancesBox.append(_managers.collection[show.performance_id].chainIcon);
+            });
           });
 
           _manager.spaceSelector.on('select2:select',function(e, state){
@@ -1221,7 +1226,7 @@
             performancesBox.append(_chainIcon);
           }else{
             var _mask = $('<div>').append($('<div>').addClass('mask-PermanentManager-IconChain chain')).css('position','relative');
-            performancesBox.append(_mask);
+            //performancesBox.append(_mask);
           }
         });
 
