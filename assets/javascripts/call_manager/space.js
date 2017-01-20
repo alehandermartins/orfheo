@@ -7,10 +7,15 @@
     var _columns = {};
     var program = {};
     var _performance;
+    var _performances;
     var index;
 
     Pard.Bus.on('drag', function(performance){
       _performance = performance;
+    });
+
+    Pard.Bus.on('dragPermanents', function(performances){
+      _performances = performances;
     });
 
     var SpaceColumn = function(day, height, dayTime){
@@ -90,7 +95,7 @@
             });
           }
 
-          var createPermanents = function(performance){
+          var createPermanents = function(performances){
             var _startHour = parseInt(dayTime[0].split(':')[0]);
             var _startMin = parseInt(dayTime[0].split(':')[1]);
             var _endHour = parseInt(dayTime[1].split(':')[0]);
@@ -127,30 +132,41 @@
             });
           }
 
-          var modifyPermanents = function(performance){
-            performance.modifiables.forEach(function(performance_id){
-            Pard.Backend.modifyPerformances(space.event_id, [performance], function(data){
-              var show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', show);
+          var modifyPermanents = function(performances){
+            var shows = performances.map(function(performance){
+              Pard.Bus.trigger('detachPerformance', performance);
+              var show = {}
+              for(var key in performance){
+                show[key] = performance[key];
+              }
+              show.host_id = space.profile_id;
+              show.host_proposal_id = space.proposal_id;
+              return show;
             });
-              show = {'performance_id': performance_id, 'host_id': performance.host_id, 'permanent': 'true'}
-              modify(show);
+
+            Pard.Backend.modifyPerformances(space.event_id, shows, function(data){
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
             });
           }
 
           var modify = function(performance){
-            Pard.Bus.trigger('deleteLastHost', performance);
-            performance.host_id = space.profile_id;
-            performance.host_proposal_id = space.proposal_id;
-            Pard.Backend.modifyPerformances(space.event_id, [performance], function(data){
-              var show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', show);
+            Pard.Bus.trigger('detachPerformance', performance);
+            var show = {}
+            for(var key in performance){
+              show[key] = performance[key];
+            }
+            show.host_id = space.profile_id;
+            show.host_proposal_id = space.proposal_id;
+            Pard.Backend.modifyPerformances(space.event_id, [show], function(data){
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
             });
           }
 
           if(day == 'permanent'){
             _performance.permanent = 'true';
-            if(_performance.performance_id) return modifyPermanents(_performance)
+            if(_performance.performance_id) return modifyPermanents(_performances)
             createPermanents(_performance);
           }
           else{

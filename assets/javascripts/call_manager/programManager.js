@@ -330,9 +330,8 @@
       _artistsBlock.addClass('is-active');
     });
 
-    Pard.Bus.on('deleteLastHost', function(performance){
-      var show = the_event.program[performance.performance_id].show;
-      the_event.spaces[performance.host_id].deletePerformance(show);
+    Pard.Bus.on('detachPerformance', function(performance){
+      the_event.spaces[performance.host_id].deletePerformance(performance);
     });
 
     Pard.Bus.on('checkConflicts', function(performance){
@@ -381,6 +380,8 @@
     }
 
     var modify = function(performance, multipleChanges){
+      var show = the_event.program[performance.performance_id].show;
+      the_event.spaces[show.host_id].deletePerformance(show);
       the_event.spaces[performance.host_id].addSpaceInfo(performance);
       the_event.artists[performance.participant_id].addArtistInfo(performance);
       the_event.program[performance.performance_id].modify(performance);
@@ -791,11 +792,12 @@
           _card.removeClass('cursor_grab').addClass('cursor_move');
           _card.css({'opacity': '0.4'});
           ui.helper.data('dropped', false);
-          performance.modifiables = [];
+          modifiables = [];
           artistShows().forEach(function(show){
-            performance.modifiables.push(show);
+            modifiables.push(show);
           });
           Pard.Bus.trigger('drag', performance);
+          Pard.Bus.trigger('dragPermanents', modifiables);
         },
         stop:function(event, ui){
           _card.removeClass('cursor_move').addClass('cursor_grab');
@@ -803,11 +805,9 @@
           Pard.Bus.trigger('stop');
           if(ui.helper.data('dropped') == false){
             var _artistShows = artistShows();
-            var multipleChanges = true;
-            _artistShows.forEach(function(show){
-              destroy(show, multipleChanges);
-            }); 
-            Pard.Bus.trigger('DestroyPermanentTable', _artistShows);
+            Pard.Backend.deletePerformances(the_event.event_id, _artistShows, function(data){
+              console.log(data.model);
+            });
           }
         }
       });
