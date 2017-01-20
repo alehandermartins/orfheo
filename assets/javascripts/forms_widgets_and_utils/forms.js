@@ -29,7 +29,7 @@
       bio:{
         "type" : "optional",
         "label" : "Biografía / Información",
-        "input" : "TextArea",
+        "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
                   4
@@ -91,7 +91,7 @@
       bio:{
         "type" : "mandatory",
         "label" : "Descripción / Información",
-        "input" : "TextArea",
+        "input" : "TextAreaEnriched",
         "args" : [ 
                   'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
                   4
@@ -154,12 +154,12 @@
       bio:{
         "type" : "optional",
         "label" : "Biografía / Información",
-        "input" : "TextArea",
+        "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
                   4
                 ],
-        "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        "helptext" : "Cualquier cosa que quieras compartir sobre la organización."
       },
       address:{
         "type" : "mandatory",
@@ -211,7 +211,7 @@
       bio:{
         "type" : "optional",
         "label" : "Biografía / Información",
-        "input" : "TextArea",
+        "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
                   4
@@ -283,7 +283,7 @@
       bio:{
         "type" : "mandatory",
         "label" : "Descripción / Información",
-        "input" : "TextArea",
+        "input" : "TextAreaEnriched",
         "args" : [ 
                   'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
                   4
@@ -329,12 +329,12 @@
       bio:{
         "type" : "optional",
         "label" : "Descripción / Información",
-        "input" : "TextArea",
+        "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
                   4
                 ],
-        "helptext" : "Cualquier cosa que quieras compartir sobre la organización"
+        "helptext" : "Cualquier cosa que quieras compartir sobre la organización."
       },
       address:{
         "type" : "mandatory",
@@ -395,7 +395,7 @@
       bio:{
         "type" : "mandatory",
         "label" : "Descripción / Información",
-        "input" : "TextArea",
+        "input" : "TextAreaEnriched",
         "args" : [ 
                   'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
                   4
@@ -441,7 +441,7 @@
     description: {
       'type':'mandatory',
       'label':'Descripción',
-      'input':'TextArea',
+      'input':'TextAreaEnriched',
       'args':['',4],
       'helptext': 'Decribe con más detalles tu propuesta artística.'
     },

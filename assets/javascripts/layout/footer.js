@@ -102,7 +102,7 @@ ns.Widgets = ns.Widgets || {};
     var _servicesOrfheo = $('<li>').append($('<a>').text('Servicios')
       .attr({
         'href':'#/',
-        'id':'servicios'
+        'id':'toServicesPage'
       }))
       .one('click',function(){
         _servicesPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});

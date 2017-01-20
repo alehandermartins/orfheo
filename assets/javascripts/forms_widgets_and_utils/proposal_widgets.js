@@ -262,7 +262,7 @@
       },
       'description': {
         label: 'Descripción',
-        input: 'TextArea'
+        input: 'TextAreaEnriched'
       },
       'subcategory': {
         label: 'Categoría en el evento'

@@ -502,7 +502,7 @@ ns.Widgets = ns.Widgets || {};
     var _findOutMore = $('<div>')
       .append($('<a>').text('Descubre más').attr('href','#/')  
         .click(function(){
-          $('#servicios').trigger('click');
+          $('#toServicesPage').trigger('click');
         })
         .append(_findOutMoreIcon)
       )

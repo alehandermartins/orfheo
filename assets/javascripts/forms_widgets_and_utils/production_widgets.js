@@ -143,10 +143,10 @@
     var _confirmationPopup; 
     var _deleteProductionMessage = Pard.Widgets.DeleteProductionMessage(production.production_id, _closepopup);
     _deleteProductionMessage.setCallback(function(){_confirmationPopup.close()});
-    _confirmationPopup.setContent('¿Estás seguro/a?', _deleteProductionMessage.render());
     var _deleteProduction = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina este proyecto artístico').addClass('deleteProfile-caller')
       .one('click', function(){
         _confirmationPopup = Pard.Widgets.Popup();
+        _confirmationPopup.setContent('¿Estás seguro/a?', _deleteProductionMessage.render());
       })
       .click(function(){
         _confirmationPopup.open();

@@ -47,6 +47,8 @@
     var _tableFields = [];
     var proposalNumber = 0;
 
+    console.log(form)
+
     var _printTitleAndFoot = function(field){
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
       var _label = _form[field]['label'];
@@ -236,7 +238,7 @@
         if (proposal.own) return Pard.Widgets.IconManager(proposal.type).render(); 
         else return $('<a>').append(Pard.Widgets.IconManager(proposal.type).render()).attr({'href':'/profile?id='+proposal.profile_id, 'target':'_blank'});
       },
-      label: 'rfh',
+      label: 'Perfil',
       input: 'type'
     },
     name:{ 
@@ -286,7 +288,7 @@
     },
     description : {
       label: "Descripción",
-      input : "TextArea"
+      input : "TextAreaEnriched"
     },
     subcategory : {
       label : "Categoría en el evento",

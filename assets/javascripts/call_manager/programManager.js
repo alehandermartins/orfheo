@@ -405,7 +405,9 @@
         _popup.open();
         var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager(true));
         _message.setCallback(function(){
-          _content.remove();
+          setTimeout(function(){
+            _content.remove();
+          },500);
           _popup.close();
         });
         _content.append(_message.render());
@@ -679,7 +681,9 @@
           },
           setCallback: function(callback){
             _closePopup = function(){
-              performanceBox.remove();
+              setTimeout(function(){
+                performanceBox.remove();
+              },500);
               callback();
             }
           }
@@ -734,7 +738,9 @@
         _popup.open();
         var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager(true));
         _message.setCallback(function(){
-          _content.remove();
+          setTimeout(function(){
+            _content.remove();
+          },500);
           _popup.close();
         });
         _content.append(_message.render());
@@ -1028,7 +1034,9 @@
           },
           setCallback: function(callback){
             _closePopup = function(){
-              performanceBox.remove();
+              setTimeout(function(){
+                performanceBox.remove();
+              },500);
               callback();
             }
           },
@@ -1183,7 +1191,9 @@
           },
           setCallback: function(callback){
             _closePopup = function(){
-              performancesBox.remove();
+              setTimeout(function(){
+                performanceBox.remove();
+              },500);
               callback();
             }
           }
@@ -1264,7 +1274,9 @@
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
         var _message = Pard.Widgets.PopupContent('Propuestas fuera del programa', ArtistOutOfProgram());
         _message.setCallback(function(){
-          _content.remove();
+          setTimeout(function(){
+            _content.remove();
+          },500);
           _popup.close();
         });
         _content.append(_message.render());
@@ -1279,7 +1291,9 @@
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
         var _message = Pard.Widgets.PopupContent('Espacios fuera del programa', SpaceOutOfProgram());
         _message.setCallback(function(){
-          _content.remove();
+          setTimeout(function(){
+            _content.remove();
+          },500);
           _popup.close();
         });
         _content.append(_message.render());
@@ -1294,7 +1308,9 @@
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
         var _message = Pard.Widgets.PopupContent('Ordena Espacios', OrderSpace());
         _message.setCallback(function(){
-          _content.remove();
+          setTimeout(function(){
+            _content.remove();
+          },500);
           _popup.close();
         });
         _content.append(_message.render());
