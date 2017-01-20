@@ -4,6 +4,13 @@ module Repos
 
       def for db
         @@events_collection = db['events']
+        events = grab({});
+        events.each{ |event|
+          profile = Repos::Profiles.get_profiles :profile, {profile_id: event[:profile_id]}
+          @@events_collection.update_one({event_id: event[:event_id]},{
+            "$set": {color: profile[:color]}
+          })
+        }
       end
 
       def add event
@@ -223,15 +230,14 @@ module Repos
         }
       end
 
-      # def save_program event_id, program, order
-      #   event = grab({event_id: event_id}).first
-      #   program.select!{|show| performers_participate? event_id, show}
-      #   event[:spaces].each{|space| order.push(space[:profile_id]) unless order.include? space[:profile_id]}
-      #   spaces = event[:spaces].sort_by{|space| order.index(space[:profile_id])}
-      #   @@events_collection.update_one({event_id: event_id},{
-      #     "$set": {program: program, spaces: spaces}
-      #   })
-      # end
+      def space_order event_id, order
+        event = grab({event_id: event_id}).first
+        event[:spaces].each{|space| order.push(space[:profile_id]) unless order.include? space[:profile_id]}
+        spaces = event[:spaces].sort_by{|space| order.index(space[:profile_id])}
+        @@events_collection.update_one({event_id: event_id},{
+          "$set": {spaces: spaces}
+        })
+      end
 
       def save_program event_id, program
         @@events_collection.update_one({event_id: event_id},{

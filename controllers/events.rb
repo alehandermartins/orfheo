@@ -52,14 +52,16 @@ class EventsController < BaseController
     success ({events: events})
   end
 
-  post '/users/save_program' do
+  post '/users/space_order' do
     scopify event_id: true, order: true
     check_event_ownership! event_id
 
-    program = Program.new(params, event_id)
-    arrangedOrder = Util.arrayify_hash order
-    Repos::Events.save_program event_id, program.to_a, arrangedOrder
-    success
+    new_order = Util.arrayify_hash order
+    Repos::Events.space_order event_id, new_order
+    
+    message = {event: 'orderSpaces', model: new_order}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   get '/event' do

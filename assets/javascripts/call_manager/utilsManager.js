@@ -82,24 +82,22 @@
 
     var _successIcon = $('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager').hide();
 
-
-
-  var whiteListSavedCallback = function(data){
-    console.log(data);
-    if(data['status'] == 'success'){
-      _submitBtn.hide();
-      _successIcon.show();
-      $('.new-input-selected-whitelist').removeClass('new-input-selected-whitelist');
-      setTimeout(
-        function(){
-          _submitBtn.show();
-          _successIcon.hide();
-        }, 2000);
+    var whiteListSavedCallback = function(data){
+      console.log(data);
+      if(data['status'] == 'success'){
+        _submitBtn.hide();
+        _successIcon.show();
+        $('.new-input-selected-whitelist').removeClass('new-input-selected-whitelist');
+        setTimeout(
+          function(){
+            _submitBtn.show();
+            _successIcon.hide();
+          }, 2000);
+      }
+      else{
+        Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
+      }  
     }
-    else{
-      Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
-    }  
-  }
 
     var _sendWhiteList = function(){
       var _wl = _emailNameInput.getVal();

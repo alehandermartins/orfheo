@@ -287,3 +287,9 @@ Pard.Event = function(the_event, status){
     });
   });
 }
+
+Pard.Services = function(){
+
+  var _main = $('<div>').text('Orfheo Services');
+  $('body').append(_main);
+}

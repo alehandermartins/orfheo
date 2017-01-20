@@ -164,9 +164,13 @@ class CallsController < BaseController
   post '/users/add_whitelist' do
     scopify event_id: true, whitelist: true
     check_event_ownership! event_id
+
     list = Util.arrayify_hash whitelist
     Repos::Events.add_whitelist event_id, list
-    success
+
+    message = {event: 'addWhitelist', model: list}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
   end
 
   private
