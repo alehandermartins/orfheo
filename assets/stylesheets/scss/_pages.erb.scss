@@ -8,7 +8,7 @@ main.mainWelcomePage{
   margin: 0;
   padding: 0;
   section{
-    padding-top:3.3rem;
+    /* padding-top:3.3rem; */
     padding-bottom: 1.8rem;
     min-height: 100vh;
   }
@@ -49,7 +49,7 @@ main.mainWelcomePage{
 
 .mainLogo-welcomePage{
   cursor: default;
-  background-image: url(<%= image_path 'lettering_black_m.png' %>);
+  background-image: url(<%= image_path 'lettering_black_xxl.png' %>);
   width: 240px;
   height: 80px;
   background-repeat: no-repeat;
@@ -251,7 +251,7 @@ main.mainWelcomePage{
   color: white;
   padding: 3rem 0;
   .logo-services{
-    background-image: url(<%= image_path 'lettering_white_m.png' %>);
+    background-image: url(<%= image_path 'lettering_white_xl.png' %>);
     width: 144px;
     height: 48px;
     background-repeat: no-repeat;
@@ -903,6 +903,10 @@ Profile Section
   padding: $inner-spacing;
   position: relative;
   font-size: $almostNormalSize;
+  p{
+    margin-bottom: 0.6rem;
+    line-height: 1.4rem;
+  }
 }
 
 .info-icon-title-box {
@@ -1017,6 +1021,13 @@ Profile Section
   display: block;
 }
 
+.proposalText-TextAreaEnriched{
+  display: block;
+  p, ul{
+    margin-bottom: .5rem;
+  }
+}
+
 .trash-icon-delete{
   font-size: $almostNormalSize;
   vertical-align: -0.2rem;
@@ -1046,6 +1057,7 @@ Production Section
 
 .short-description-text{
   font-weight: bold;
+  margin-bottom: .6rem;
 }
 
 
@@ -1382,7 +1394,9 @@ OUTSIDER PAGE
 
   .outsider-main{
     margin-top: 3.3rem;
-    margin-bottom: 2rem;
+    .section-content{
+      margin-bottom: $pard-grid-spacing;
+    }
   }
 
 }
@@ -1463,6 +1477,9 @@ CALL PAGE
 .table-proposal {
   font-size: 12px;
   margin-bottom: 0;
+  tbody p, ul{
+    margin-bottom: 0;
+  }
 }
 
 
@@ -1614,7 +1631,7 @@ th.column-call-manager-table{
 }
 
 
-.column-call-manager-table.column-TextArea, .column-call-manager-table.column-TextAreaCounter{
+.column-call-manager-table.column-TextArea, .column-call-manager-table.column-TextAreaCounter, .column-call-manager-table.column-TextAreaEnriched,{
   min-width: 17rem;
   width: 17rem !important;
 }
@@ -1637,6 +1654,11 @@ th.column-call-manager-table{
 .column-call-manager-table.column-type{
   min-width: 2.3rem;
   width: 2.3rem !important;
+}
+
+th.column-call-manager-table.column-type{
+  padding-left: .25rem !important;
+  padding-right: .75rem !important;
 }
 
 .column-call-manager-table.column-CheckBox{
@@ -1713,6 +1735,7 @@ th.column-call-manager-table{
 
 .rfh-selector{
   width: 1.8rem;
+  margin-left: 0;
 }
 
 

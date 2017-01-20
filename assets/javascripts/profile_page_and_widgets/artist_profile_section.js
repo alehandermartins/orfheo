@@ -58,7 +58,7 @@
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio');  
     if(profile['bio']){     
-      _bio.append($('<p>').text(profile['bio']));
+      _bio.append($('<div>').html(profile['bio']));
     }
     else{
       _bio.append('');
@@ -139,11 +139,11 @@
     var _info = $('<div>').addClass('information-bio');  
     var _addtionalInfo = $('<div>').addClass('information-contact');
 
-    var _shortDescription = $('<p>').text(production.short_description).addClass('short-description-text');  
+    var _shortDescription = $('<div>').html(production.short_description).addClass('short-description-text');  
     _info.append(_shortDescription)
  
     if(production['description']){     
-      var _description = $('<p>').text(production['description']);
+      var _description = $('<div>').html(production['description']);
       _info.append(_description);
     }
 

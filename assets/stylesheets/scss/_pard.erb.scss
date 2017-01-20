@@ -266,6 +266,7 @@ Grid and Bar
   padding-bottom:2rem;
   @include border-radius($layout-border-radius);
   position:relative;
+  /* margin-bottom: $pard-grid-spacing; */
 }
 
 .pard-header-container{
@@ -475,7 +476,7 @@ button{
   width: $pard-aside-width;
   z-index: 20;
   margin-bottom: -4.8rem;
-  padding-bottom:$pard-grid-spacing;
+  padding-bottom: $pard-grid-spacing;
 
 }
 
@@ -1334,7 +1335,7 @@ HEADER
   font-size: $almostNormalSize;
   z-index: 3;
   position: relative;
-  min-height: 3.3rem;
+  /* min-height: 5rem; */
   @include breakpoint(medium down){
     padding: 0.5rem;
   }
@@ -1346,6 +1347,13 @@ HEADER
   position: fixed;
 }
 
+.upperContainerHeader{
+  height: 100%;
+  width: 100%;
+  height: 3rem;
+  z-index: 2;
+}
+
 .containerHeader{
   width: 984px;
   height: 100%;
@@ -1354,12 +1362,18 @@ HEADER
 
 .contentHeader{
   position: relative;
+}
+
+.navBarHeader{
+  height: 5rem;
+  position: relative;
   width: 100%;
-  height: 100%;
+  padding-top: 3rem;
 }
 
 .logoBtn-navHeader{
   display: inline-block;
+  @include horizontal-center;
   margin-top: 0.8rem;
   /* @include horizontal-center; */
   button{
@@ -1368,7 +1382,7 @@ HEADER
 }
 
 .black .logo-header{
-  background-image: url(<%= image_path 'lettering_white_m.png' %>);
+  background-image: url(<%= image_path 'lettering_white_xl.png' %>);
 }
 
 .container-loginNavHeader{
@@ -1443,9 +1457,7 @@ HEADER
 }
 
 .navMenuHeader-container{
-  position: relative;
-  display: inline-block;
-  vertical-align: 1px;
+  @include horizontal-center;
 }
 
 .signUpBtn-container{
@@ -1520,7 +1532,7 @@ HEADER
   color: white;
   font-weight: bold;
   vertical-align: middle;
-  right: 12rem;
+  left: 0rem;
   top: .8rem;
   position: absolute;
 }
@@ -1897,7 +1909,7 @@ button.footer-text-link:hover{
 }
 
 .logoOrfheo-contactInfo{
-  background-image: url(<%= image_path 'lettering_white_m.png' %>);
+  background-image: url(<%= image_path 'lettering_white_xl.png' %>);
   width: 112px;
   height: 35px;
   background-repeat: no-repeat;
@@ -2009,6 +2021,22 @@ select, textarea, a{
 
 select:-moz-focusring { color: transparent;
                         text-shadow: 0 0 0 #000; }
+
+.TextAreaEnrichedContainer{
+  .trumbowyg-box{
+    min-height: 11rem;
+    margin: 0;
+  }
+  .trumbowyg-editor{
+    font-size: $almostNormalSize;
+    min-height: 11rem;
+    padding: .5rem;
+    p{
+      line-height: 1.2rem;
+      margin-bottom: 0.6rem;
+    }
+  }
+}
 
 .popup-form button {
   outline: none;
@@ -2480,7 +2508,7 @@ IMAGES
 ================================================*/
 
 .orfheo-symbol-popup{
-  background-image: url(<%= image_path 'orfheosimbolocolor.png' %>);
+  background-image: url(<%= image_path 'logo_black_xl.png' %>);
   width: 100px;
   height: 69px;
   background-repeat: no-repeat;
@@ -2508,7 +2536,7 @@ IMAGES
 
 .logo-header{
   cursor: pointer;
-  background-image: url(<%= image_path 'lettering_black_m.png' %>);
+  background-image: url(<%= image_path 'lettering_black_xxl.png' %>);
   width: 77px;
   height: 24px;
   background-repeat: no-repeat;

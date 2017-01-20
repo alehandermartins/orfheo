@@ -338,6 +338,78 @@
   }
 
 
+  ns.Widgets.TextAreaEnriched = function(label, Nrows){
+    console.log('TextAreaEnriched')
+    var _createdWidget = $('<div>');
+    var _textarea = $('<textarea>').attr({placeholder: label})
+    if (Nrows)_textarea.attr({'rows': parseInt(Nrows)});
+
+    _textarea.on('focus', function(){
+      if($(window).width()<1024){
+        if ($('.reveal[aria-hidden="false"]').html()){
+          var _distanceInputTop = _textarea.offset().top;
+          var _popupOpened = _textarea.closest('.reveal[aria-hidden="false"]');
+          var _scroolTop = _popupOpened.scrollTop();
+          var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+          _popupOpened.scrollTop(_distanceToDo);
+          // var _scroolTop = $('.reveal[aria-hidden="false"]').scrollTop();
+          // var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+          // $('.reveal[aria-hidden="false"]').scrollTop(_distanceToDo);
+        }
+      }
+    });
+
+    _createdWidget.append(_textarea).addClass('TextAreaEnrichedContainer');
+    // _createdWidget.on('focus', function(){
+    //   if (_textarea.trumbowyg('html')) _createdWidget.removeClass('warning');
+    // });
+
+    _textarea.trumbowyg({
+      btns: [
+        // ['viewHTML'],
+        // ['formatting'],
+         ['strong', 'em'],
+        // ['superscript', 'subscript'],
+        ['link'],
+        // ['insertImage'],
+        // 'btnGrp-justify',
+        'btnGrp-lists',
+        // ['horizontalRule'],
+        // ['removeformat'],
+        // ['fullscreen']
+      ],
+      autogrow: true
+    });
+
+    _textarea.on('tbwchange', function(){
+      _createdWidget.removeClass('warning');
+    });
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _textarea.trumbowyg('html');
+      },
+      setVal: function(value){
+        console.log(value)
+        _textarea.trumbowyg('html', value);
+      },
+      addWarning: function(){
+        _createdWidget.addClass('warning');
+      },
+      removeWarning: function(){
+        _createdWidget.removeClass('warning');
+      },
+      setClass: function(_class){
+        _textarea.addClass(_class);
+      }, 
+      setAttr: function(attribute, value){
+        _textarea.attr(attribute,value);
+      }
+    }
+  }
 
  
 

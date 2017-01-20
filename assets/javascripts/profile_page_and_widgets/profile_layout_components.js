@@ -393,7 +393,7 @@
   ns.Widgets.SectionBoxContainer = function(title, icon){
     var _boxContainer = $('<div>').addClass('section-box-container');
     var _titleContainer = $('<div>').addClass('title-box-container');
-    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(icon), $('<span>').text(title)));
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(icon), $('<span>').html(title)));
     _boxContainer.append(_titleContainer);
 
     return{

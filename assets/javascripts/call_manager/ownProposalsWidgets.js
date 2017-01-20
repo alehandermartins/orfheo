@@ -157,7 +157,6 @@
     }
 
     var _printField = function(field){
-
       _form[field] = {};
       _form[field]['type'] = form[field].type;
       if($.inArray(field, _mandatoryFields)>-1) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
@@ -174,7 +173,8 @@
       switch(field){
         case 'photos':
         case 'links':
-          break;
+        case 'bio':
+          break;  
         case 'category':
           if (form[field].args[1].length>1){
             _containerMandatoryFields.append(
@@ -311,6 +311,8 @@
       },
       setVal: function(proposal){
         for(var field in proposal){
+          console.log(field);
+          console.log(_form[field])
           if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
       },

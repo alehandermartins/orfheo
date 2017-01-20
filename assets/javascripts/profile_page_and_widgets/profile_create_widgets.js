@@ -195,7 +195,11 @@
             });
         }
         else {
-          Pard.Backend.createProfile(_submittedForm, Pard.Events.CreateProfile);
+          Pard.Backend.createProfile(_submittedForm, function(data){
+            Pard.Events.CreateProfile(data);
+            _formWidget.stopSpinner();
+            _submitButton.attr('disabled',false);
+          });
         }
       }
       else{
@@ -204,7 +208,7 @@
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
         $('body').append(_content);
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         var _closepopupAlert = function(){
           _popup.close();
         }

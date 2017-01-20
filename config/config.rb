@@ -57,11 +57,11 @@ class BaseController < Sinatra::Base
     italian_flag.jpeg
     valencian_flag.png
     english_flag.png
-    logo_black_xs.png
+    logo_favicon.ico
     logo_black_m.png
-    lettering_black_m.png
+    lettering_black_xxl.png
     lettering_white_m.png
-    orfheosimbolocolor.png
+    logo_black_xl.png
     orfheo_fb_preview.jpg
     sort_both.png
     sort_asc.png
