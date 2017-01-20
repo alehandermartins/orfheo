@@ -85,7 +85,8 @@
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
             Pard.Backend.createPerformances(space.event_id, [performance], function(data){
-              console.log(data.model);
+              var show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', show);
             });
           }
 
@@ -121,12 +122,17 @@
               }
             });
             Pard.Backend.createPerformances(space.event_id, _performances, function(data){
-              console.log(data.model);
+              var show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', show);
             });
           }
 
           var modifyPermanents = function(performance){
             performance.modifiables.forEach(function(performance_id){
+            Pard.Backend.modifyPerformances(space.event_id, [performance], function(data){
+              var show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', show);
+            });
               show = {'performance_id': performance_id, 'host_id': performance.host_id, 'permanent': 'true'}
               modify(show);
             });
@@ -137,7 +143,8 @@
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
             Pard.Backend.modifyPerformances(space.event_id, [performance], function(data){
-              console.log(data.model);
+              var show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', show);
             });
           }
 
@@ -381,13 +388,8 @@
         AlignPerformances();
       },
       deletePerformance: function(show){
-        console.log(show.host_name);
-        console.log(space.name);
-        console.log(program[show.performance_id]);
         delete program[show.performance_id];
-        console.log(_columns[show.date].find('.' + show.performance_id).length);
         if(_columns[show.date].find('.' + show.performance_id).length){
-          console.log('miau');
           _columns[show.date].find('.' + show.performance_id).detach();
         }
         if(show.permanent == 'true'){

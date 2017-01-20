@@ -668,33 +668,30 @@
       _loadSelector(_colSelectors[col], col);
     });
 
+    Pard.Bus.on('CreatePermanentsTable', function(performances){
+      performances.forEach(function(performance){
+        var _show = the_event.program[performance.performance_id].show
+        _dataTable.row.add(showRow(_show));
+      });
+      _reloadSelectors();
+      _dataTable.order([0,'asc']).draw();
+    });
+
     Pard.Bus.on('ModifyPermanentsTable', function(performances){
-      performances.forEach(function(performance_id){
-        var _show = the_event.program[performance_id].show;
-        _dataTable.row('#programTable-' + performance_id).remove();
+      performances.forEach(function(performance){
+        var _show = the_event.program[performance.performance_id].show;
+        _dataTable.row('#programTable-' + performance.performance_id).remove();
         _dataTable.row.add(showRow(_show));
       })
       _reloadSelectors();
       _dataTable.order([0,'asc']).draw();
-      console.log('ModifyPermanentsTable')
     });
 
-
-    Pard.Bus.on('CreatePermanentsTable', function(permanentsIds){
-      permanentsIds.forEach(function(performance_id){
-        var _show = the_event.program[performance_id].show
-        _dataTable.row.add(showRow(_show));
-      });
-      _reloadSelectors();
-      _dataTable.order([0,'asc']).draw();
-    });
-
-    Pard.Bus.on('DestroyPermanentTable', function(artistShows){
-      artistShows.forEach(function(show){
-        _dataTable.row('#programTable-' + show.performance_id).remove();
+    Pard.Bus.on('DestroyPermanentsTable', function(performances){
+      performances.forEach(function(performance){
+        _dataTable.row('#programTable-' + performance.performance_id).remove();
       });
       _dataTable.order([0,'asc']).draw();
-      console.log('DestroyPermanentTable');
     });
 
     // var _downIcon = Pard.Widgets.IconManager('arrowDropDown').render().addClass('downIcon');

@@ -330,59 +330,62 @@
       _artistsBlock.addClass('is-active');
     });
 
-    Pard.Bus.on('addPerformances', function(performances){
-      var _permanetIds = [];
-      performances.forEach(function(performance){
-        create(performance, true);
-        if(performance.permanent == 'true')
-          _permanetIds.push(performance.performance_id);
-      });
-      Pard.Bus.trigger('CreatePermanentsTable', _permanetIds);
-    });
-
     Pard.Bus.on('deleteLastHost', function(performance){
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[performance.host_id].deletePerformance(show);
     });
 
+    Pard.Bus.on('checkConflicts', function(performance){
+      checkConflicts(performance);
+    });
+
+    Pard.Bus.on('addPerformances', function(performances){
+      performances.forEach(function(performance){
+        create(performance);
+      });
+      if(performances[0].permanent == 'true')
+        Pard.Bus.trigger('CreatePermanentsTable', performances);
+    });
+
     Pard.Bus.on('modifyPerformances', function(performances){
       performances.forEach(function(performance){
-        modify(performance, true);
+        modify(performance);
       });
-      //Pard.Bus.trigger('ModifyPermanentsTable', performances);
+      if(performances[0].permanent == 'true')
+        Pard.Bus.trigger('ModifyPermanentsTable', performances);
     });
 
     Pard.Bus.on('deletePerformances', function(performances){
       performances.forEach(function(performance){
-        destroy(performance, true);
+        destroy(performance);
       });
+      if(performances[0].permanent == 'true')
+        Pard.Bus.trigger('DestroyPermanentsTable', performances);
     });
 
-    var save = function(performance, check, multipleChanges){
+    var save = function(performance, multipleChanges){
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[show.host_id].addPerformance(the_event.program[performance.performance_id]);
       the_event.artists[show.participant_id].addPerformance(the_event.program[performance.performance_id]);
-      if (check) checkConflicts(show);
-      if (_programTable){
+      if (_programTable)
         _programTable.save(show, multipleChanges);
-      }
     }
     
-    var create = function(performance, check){
+    var create = function(performance){
       the_event.spaces[performance.host_id].addSpaceInfo(performance);
       the_event.artists[performance.participant_id].addArtistInfo(performance);
       if(performance.permanent == 'true') the_event.program[performance.performance_id] = new PermanentPerformance(performance);
       else{the_event.program[performance.performance_id] = new Performance(performance);}
       if (performance.permanent == 'true') var multipleChanges = true;
-      save(performance, check, multipleChanges);
+      save(performance, multipleChanges);
     }
 
-    var modify = function(performance, check, multipleChanges){
+    var modify = function(performance, multipleChanges){
       the_event.spaces[performance.host_id].addSpaceInfo(performance);
       the_event.artists[performance.participant_id].addArtistInfo(performance);
       the_event.program[performance.performance_id].modify(performance);
       if (performance.permanent == 'true') multipleChanges = true;
-      save(the_event.program[performance.performance_id].show, check, multipleChanges);      
+      save(the_event.program[performance.performance_id].show, multipleChanges);      
     }
 
     var destroy = function(performance, multipleChanges){
@@ -496,7 +499,9 @@
             var duration = new Date(performance.time[0]);
             duration.setMinutes(duration.getMinutes() + ui.size.height * 1.5);
             performance.time[1] = duration.getTime();
-            save(performance, true);
+            Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+              checkConflicts(performance);
+            });
           }
         });
 
@@ -625,7 +630,7 @@
           setStartTimes();
           setEndTimes();
           Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+            if(check) checkConflicts(performance);
           });
         });
 
@@ -640,7 +645,7 @@
           performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
           Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+            if(check) checkConflicts(performance);
           });
         });
 
@@ -654,7 +659,7 @@
           performance['time'][1] = performance['time'][1] + (newStart - oldStart);
           setEndTimes();
           Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+            if(check) checkConflicts(performance);
           });
         });
 
@@ -665,7 +670,7 @@
           performance['time'][1] = newEnd;
           setStartTimes();
           Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+            if(check) checkConflicts(performance);
           });
         });
 
@@ -788,7 +793,7 @@
           ui.helper.data('dropped', false);
           performance.modifiables = [];
           artistShows().forEach(function(show){
-            performance.modifiables.push(show.performance_id);
+            performance.modifiables.push(show);
           });
           Pard.Bus.trigger('drag', performance);
         },
@@ -806,7 +811,6 @@
           }
         }
       });
-
         
       var fillCard = function(performance){
         var color = Pard.Widgets.CategoryColor(performance.participant_category);
@@ -1254,26 +1258,27 @@
           if(performance.permanent == 'true'){
             if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id){
               if(myPerformances[i].time[0] < performance.time[1]){
-                _conflictPerformances.push(performance);
-                _conflictPerformances.push(myPerformances[i]);
+                _conflictPerformances.push(performance.performance_id);
+                _conflictPerformances.push(myPerformances[i].performance_id);
               }
             }
           }
           else if(myPerformances[i].participant_proposal_id == performance.participant_proposal_id && myPerformances[i].permanent == 'true'){
             if(myPerformances[i].time[0] < performance.time[1]){
-              _conflictPerformances.push(performance);
-              _conflictPerformances.push(myPerformances[i]);
+              _conflictPerformances.push(performance.performance_id);
+              _conflictPerformances.push(myPerformances[i].performance_id);
             }
           }
           else if(myPerformances[i].permanent == 'false'){
             if(myPerformances[i].time[0] < performance.time[1]){
-              _conflictPerformances.push(performance);
-              _conflictPerformances.push(myPerformances[i]);
+              _conflictPerformances.push(performance.performance_id);
+              _conflictPerformances.push(myPerformances[i].performance_id);
             }
           }
         }
       });
-      if($.inArray(performance_to_check, _conflictPerformances) >= 0){
+
+      if($.inArray(performance_to_check.performance_id, _conflictPerformances) >= 0){
         if(_closePopup) _closePopup();
         displayer.close();
         displayer.displayArtistProgram(performance_to_check.participant_id);
@@ -1675,7 +1680,6 @@
             the_event.spaces[profile_id].alignPerformances(index);
           });
           _closePopup();
-          console.log(the_event.spaces)
         });
 
         var _OKbtnContainer = $('<div>').addClass('OK-btn-container');
@@ -1781,7 +1785,6 @@
       Object.keys(the_event.program).forEach(function(performance_id){
         program.push(the_event.program[performance_id].show);
       });
-      console.log(program);
 
       Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);
     }).render().addClass('submit-program-btn-call-manager');
