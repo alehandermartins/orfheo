@@ -449,7 +449,7 @@
           card.css({'opacity': '1'});
           if(ui.helper.data('dropped') == false){
             Pard.Backend.deletePerformances(the_event.event_id, [performance], function(data){
-              console.log(data.model);
+              console.log('delete');
             });
           }
         }
@@ -650,8 +650,6 @@
           });
         });
 
-        
-
         startTime.on('select2:select', function(){
           var oldStart = performance['time'][0];
           var newStart = parseInt(startTime.val());
@@ -727,6 +725,8 @@
         for(var key in show){
           performance[key] = show[key];  
         }
+        performance.time[0] = parseInt(performance.time[0]);
+        performance.time[1] = parseInt(performance.time[1]);
         fillCard(performance);
       }
 
@@ -742,9 +742,6 @@
     }
 
     var PermanentPerformance = function(performance){
-
-      var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).addClass('noselect');
-      var shows;
 
       performance.time[0] = parseInt(performance.time[0]);
       performance.time[1] = parseInt(performance.time[1]);
@@ -792,21 +789,16 @@
           _card.removeClass('cursor_grab').addClass('cursor_move');
           _card.css({'opacity': '0.4'});
           ui.helper.data('dropped', false);
-          modifiables = [];
-          artistShows().forEach(function(show){
-            modifiables.push(show);
-          });
           Pard.Bus.trigger('drag', performance);
-          Pard.Bus.trigger('dragPermanents', modifiables);
+          Pard.Bus.trigger('dragPermanents', artistShows());
         },
         stop:function(event, ui){
           _card.removeClass('cursor_move').addClass('cursor_grab');
           _card.css({'opacity': '1'});
           Pard.Bus.trigger('stop');
           if(ui.helper.data('dropped') == false){
-            var _artistShows = artistShows();
-            Pard.Backend.deletePerformances(the_event.event_id, _artistShows, function(data){
-              console.log(data.model);
+            Pard.Backend.deletePerformances(the_event.event_id, artistShows(), function(data){
+              console.log('delete');
             });
           }
         }
@@ -844,66 +836,11 @@
         return shows;
       }
 
-      var daySelector; 
-
-      var _loadDates = function(check){
-        daySelector = $('<select>');
-        daySelectorContainer.empty().append(daySelector);
-        daySelector.select2({
-          dropdownCssClass: 'orfheoTableSelector'
-        })
-          .on('select2:select', function(){
-            performance.date = daySelector.val();
-            var dateArray = daySelector.val().split('-');
-            var start = new Date(performance.time[0]);
-            var end = new Date(performance.time[1]);
-
-            start.setUTCFullYear(parseInt(dateArray[0]));
-            end.setUTCFullYear(parseInt(dateArray[0]));
-
-            start.setUTCMonth(parseInt(dateArray[1] - 1));
-            end.setUTCMonth(parseInt(dateArray[1] - 1));
-
-            start.setUTCDate(parseInt(dateArray[2]));
-            end.setUTCDate(parseInt(dateArray[2]));
-
-            performance.time[0] = start.getTime();
-            performance.time[1] = end.getTime();
-
-            save(performance, check);
-            setStartTimes();
-            setEndTimes();
-            shows.forEach(function(show){
-              the_event.program[show.performance_id].loadDates(check);
-            });
-          });
-        var artistProgram = the_event.artists[performance.participant_id].program;
-        shows = Object.keys(artistProgram).map(function(performance_id){
-          return artistProgram[performance_id].show;
-        });
-        shows = shows.filter(function(show){
-          return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id);
-        });
-        var dates = shows.map(function(show){
-          return show.date;
-        });
-        Object.keys(eventTime).forEach(function(day){
-          if(day == 'permanent') return false;
-          if($.inArray(day, dates) < 0 || day == performance.date){
-            var _textDay = moment(new Date(day)).locale('es').format('DD-MM-YYYY');
-            var date = $('<option>').val(day).text(_textDay);
-            daySelector.append(date);
-          }
-        });
-        daySelector.val(performance.date).trigger('change');
-        if(daySelector.children().length <= 1) {
-          daySelector.select2("enable",false)
-        }
-      }
-
       var manager = function(check){
         var performanceBox = $('<div>');
         var performanceContainer = $('<div>').css('height', 40);
+        var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).addClass('noselect');
+        var daySelector;
         var spaceSelector = $('<select>');
         var startTime;
         var endTime;
@@ -934,12 +871,67 @@
           spaceSelector.append(spaceOption);
         });
 
+        daySelector = $('<select>');
+        daySelectorContainer.append(daySelector);
+        daySelector.select2({
+          dropdownCssClass: 'orfheoTableSelector'
+        }).on('select2:select', function(){
+          performance.date = daySelector.val();
+          var dateArray = daySelector.val().split('-');
+          var start = new Date(performance.time[0]);
+          var end = new Date(performance.time[1]);
+
+          start.setUTCFullYear(parseInt(dateArray[0]));
+          end.setUTCFullYear(parseInt(dateArray[0]));
+
+          start.setUTCMonth(parseInt(dateArray[1] - 1));
+          end.setUTCMonth(parseInt(dateArray[1] - 1));
+
+          start.setUTCDate(parseInt(dateArray[2]));
+          end.setUTCDate(parseInt(dateArray[2]));
+
+          performance.time[0] = start.getTime();
+          performance.time[1] = end.getTime();
+          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            console.log('modify');
+          });
+          setStartTimes();
+          setEndTimes();
+        });
+
+        daySelector.on('reload', function(e, date){
+          daySelector.empty();
+          daySelector.select2("enable");
+          var artistProgram = the_event.artists[performance.participant_id].program;
+          var shows = Object.keys(artistProgram).map(function(performance_id){
+            return artistProgram[performance_id].show;
+          });
+          shows = shows.filter(function(show){
+            return (show.permanent == 'true' && show.participant_proposal_id == performance.participant_proposal_id);
+          });
+          var dates = shows.map(function(show){
+            return show.date;
+          });
+
+          if($.inArray(date, dates) >= 0) dates.splice(dates.indexOf(date), 1);
+          Object.keys(eventTime).forEach(function(day){
+            if(day == 'permanent') return false;
+            if($.inArray(day, dates) < 0 || day == performance.date){
+              var _textDay = moment(new Date(day)).locale('es').format('DD-MM-YYYY');
+              var date = $('<option>').val(day).text(_textDay);
+              daySelector.append(date);
+            }
+          });
+          daySelector.val(performance.date).trigger('change');
+          if(daySelector.children().length <= 1) {
+            daySelector.select2("enable",false)
+          }
+        });
+
         spaceSelector.select2({
           dropdownCssClass: 'orfheoTableSelector'
         })
-          .on('select2:select', function(e, multipleChanges){
-            console.log(multipleChanges)
-            console.log('select2')
+          .on('select2:select', function(){
             the_event.spaces[performance.host_id].deletePerformance(performance);
             var space = the_event.spaces[spaceSelector.val()].space;
             performance.host_name = space.name;
@@ -949,7 +941,6 @@
             performance.host_subcategory = space.subcategory;
             performance.host_proposal_id = space.proposal_id;
             performance.host_id = spaceSelector.val();
-            save(performance, check, multipleChanges);
           });
 
         var setStartTimes = function(){
@@ -973,18 +964,17 @@
             data: _startOptions,
             dropdownCssClass: 'orfheoTableSelector'
           })
-            .on('select2:select', function(e, multipleChanges){
+            .on('select2:select', function(){
               performance.time[0] = parseInt(startTime.select2('data')[0].time);
               // setEndTimes();
               if (performance.time[0] >= performance.time[1]) {
                 performance.time[1] = performance.time[0] + 15*60000;
-                endTime.val(moment(performance.time[1]).locale('es').format('HH:mm'))
+                endTime.val(moment(parseInt(performance.time[1])).locale('es').format('HH:mm'))
                   .trigger('change')
                   .trigger('select2:select');
               }
-              save(performance, check, multipleChanges);  
             });
-          startTime.val(moment(performance.time[0]).locale('es').format('HH:mm')).trigger('change');
+          startTime.val(moment(parseInt(performance.time[0])).locale('es').format('HH:mm')).trigger('change');
         }
 
         var setEndTimes = function(){
@@ -993,7 +983,7 @@
           endTimeContainer.append(endTime);
           var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
           // var minEnd = new Date(parseInt(performance.time[0]) + 15 * 60000);
-          var minEnd = new Date(parseInt(eventTime[performance.date][0] + 15*60000));
+          var minEnd = new Date(parseInt(eventTime[performance.date][0] + 15 * 60000));
           var _endOptions = [];
           while(minEnd <= dayEnd){
             _endOptions.push({
@@ -1007,45 +997,39 @@
             data: _endOptions,
             dropdownCssClass: 'orfheoTableSelector'
           })
-            .on('select2:select', function(e, multipleChanges){
+            .on('select2:select', function(){
               performance.time[1] = parseInt(endTime.select2('data')[0].time);
-              // setStartTimes();
               if (performance.time[1] <= performance.time[0]) {
-                performance.time[0] = performance.time[1] - 15*60000;
-                startTime.val(moment(performance.time[0]).locale('es').format('HH:mm'))
+                performance.time[0] = performance.time[1] - 15 * 60000;
+                startTime.val(moment(parseInt(performance.time[0])).locale('es').format('HH:mm'))
                   .trigger('change')
                   .trigger('select2:select');
               }
-              save(performance, check, multipleChanges);
             });
-          endTime.val(moment(performance.time[1]).locale('es').format('HH:mm')).trigger('change');
+          endTime.val(moment(parseInt(performance.time[1])).locale('es').format('HH:mm')).trigger('change');
         }
 
-        removeInputButton.on('click', function(e, multipleChanges){
+        removeInputButton.on('click', function(){
           performanceBox.remove();
-          shows.splice(shows.indexOf(performance), 1);
-          destroy(performance, multipleChanges);
-          shows.forEach(function(show){
-            the_event.program[show.performance_id].loadDates(check);
-          });
         });
 
-        input.on('change', function(e, multipleChanges){
+        input.on('change', function(){
           performance.confirmed = input.is(":checked");
           if (performance.confirmed) _card.find('.checker').append(Pard.Widgets.IconManager('done').render());
           else _card.find('.checker').empty();
-          save(performance, null, multipleChanges);
         });
 
-        comments.on('input', function(){
+        comments.on('change', function(){
           performance.comments = comments.val();
           _card.find('.commentIcon').empty();
           if (performance.comments) _card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
-          save(performance);
+          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            console.log('modify');
+          });
         });
 
         var _endTimeCallback = function(){};
-        _loadDates(check);
+        daySelector.trigger('reload');
         daySelector.val(performance.date).trigger('change');
         spaceSelector.val(performance.host_id).trigger('change');
         setStartTimes();
@@ -1063,6 +1047,7 @@
               callback();
             }
           },
+          daySelector: daySelector,
           spaceSelector: spaceSelector,
           input: input,
           startTime: startTime,
@@ -1110,8 +1095,17 @@
         _artistShows.forEach(function(show, index){
           var _manager = the_event.program[show.performance_id].manager(check);
           _managers.collection[show.performance_id] = {manager: _manager};
+
+          _manager.daySelector.on('select2:select',function(e, state){
+            for (var id in _managers.collection){
+              var manager = _managers.collection[id].manager;
+              if (_manager != manager){
+                manager.daySelector.trigger('reload');
+              }
+            }
+          });
+
           _manager.spaceSelector.on('select2:select',function(e, state){
-            console.log(_managers)
             if (!(state) && _managers.chained){
               var val = _manager.spaceSelector.val();
               for (var id in _managers.collection){
@@ -1119,14 +1113,17 @@
                 if (_manager != manager){
                   manager.spaceSelector.val(val)
                     .trigger('change')
-                    .trigger('select2:select', [true]);
+                    .trigger('select2:select');
                 }
               }
-              var _performances = {};
-              _performances.modifiables = artistShows().map(function(show){
-                return  show.performance_id; 
+              Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
+                console.log('modify');
               });
-              Pard.Bus.trigger('ModifyPermanentsTable', _performances);
+            }
+            else{
+              Pard.Backend.modifyPerformances(the_event.event_id, [show], function(data){
+                console.log('modify');
+              }); 
             }
           });
 
@@ -1138,15 +1135,18 @@
                 if (_manager != manager){
                   manager.startTime.val(val)
                   .trigger('change')
-                  .trigger('select2:select', [true]);
+                  .trigger('select2:select');
                 }
               }
-              var _performances = {};
-              _performances.modifiables = artistShows().map(function(show){
-                  return  show.performance_id; 
+              Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
+                console.log('modify');
               });
-              Pard.Bus.trigger('ModifyPermanentsTable', _performances);
-            }          
+            }
+            else{
+              Pard.Backend.modifyPerformances(the_event.event_id, [show], function(data){
+                console.log('modify');
+              }); 
+            }      
           });
 
           _manager.endTime.on('select2:select',function(e, state){
@@ -1157,15 +1157,18 @@
                 if (_manager != manager){
                   manager.endTime.val(val)
                   .trigger('change')
-                  .trigger('select2:select', [true]);
+                  .trigger('select2:select');
                 }
               }
-              var _performances = {};
-              _performances.modifiables = artistShows().map(function(show){
-                  return  show.performance_id; 
+              Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
+                console.log('modify');
               });
-              Pard.Bus.trigger('ModifyPermanentsTable', _performances);
-            }          
+            }
+            else{
+              Pard.Backend.modifyPerformances(the_event.event_id, [show], function(data){
+                console.log('modify');
+              }); 
+            }         
           });
 
           _manager.input.click(function(){
@@ -1173,27 +1176,33 @@
               var manager = _managers.collection[id].manager;
               if (manager != _manager){
                 manager.input.prop("checked", _manager.input.is(":checked"));
-                manager.input.trigger('change',[true]);
+                manager.input.trigger('change');
               }
             }
-            var _performances = {};
-            _performances.modifiables = artistShows().map(function(show){
-                return  show.performance_id; 
-              });
-            Pard.Bus.trigger('ModifyPermanentsTable', _performances);
+            Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
+              console.log('modify');
+            });
           });
 
           _manager.removeInputButton.click(function(e, state){
             if (!(state) && _managers.chained){
-              Pard.Bus.trigger('DestroyPermanentTable', artistShows());
-              $('.chain').remove(); 
-              for (var id in _managers.collection){
-                var manager = _managers.collection[id].manager;
-                if (manager != _manager) {
-                  manager.removeInputButton.trigger('click', [true]);
-                }
-              }; 
+              performancesBox.remove();
+              Pard.Backend.deletePerformances(the_event.event_id, artistShows(), function(data){
+                console.log('delete');
+              });
             }
+            else{
+              Pard.Backend.deletePerformances(the_event.event_id, [show], function(data){
+                _manager.removeInputButton.trigger('click');
+                for (var id in _managers.collection){
+                  var manager = _managers.collection[id].manager;
+                  if (_manager != manager){
+                    manager.daySelector
+                    .trigger('reload', [show.date]);
+                  }
+                }
+              }); 
+            }      
             _managers.collection[show.performance_id].chainIcon.remove();
             delete _managers.collection[show.performance_id];
           });
@@ -1229,6 +1238,8 @@
         for(var key in show){
           performance[key] = show[key];  
         }
+        performance.time[0] = parseInt(performance.time[0]);
+        performance.time[1] = parseInt(performance.time[1]);
         fillCard(performance);
       }
 
@@ -1240,7 +1251,6 @@
         manager: manager,
         modify: _modify,
         destroy: _destroy,
-        loadDates: _loadDates,
         permanentManager: PermanentManager
       }
     }
@@ -1504,7 +1514,6 @@
           if(Object.keys(spaceProgram).length == 0) noSelected.push(spaces[profile_id].space);
             
           noSelected.forEach(function(proposal){
-            console.log(proposal)
             proposal.type = 'space';
             proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');

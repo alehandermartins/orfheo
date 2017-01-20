@@ -95,7 +95,7 @@
             });
           }
 
-          var createPermanents = function(performances){
+          var createPermanents = function(performance){
             var _startHour = parseInt(dayTime[0].split(':')[0]);
             var _startMin = parseInt(dayTime[0].split(':')[1]);
             var _endHour = parseInt(dayTime[1].split(':')[0]);
@@ -126,10 +126,12 @@
                 _performances.push(show);
               }
             });
-            Pard.Backend.createPerformances(space.event_id, _performances, function(data){
-              var show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', show);
-            });
+            if(_performances.length > 0){
+              Pard.Backend.createPerformances(space.event_id, _performances, function(data){
+                var show = data.model.slice(-1).pop();
+                Pard.Bus.trigger('checkConflicts', show);
+              });
+            }
           }
 
           var modifyPermanents = function(performances){
