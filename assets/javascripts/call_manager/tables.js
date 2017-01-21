@@ -47,8 +47,6 @@
     var _tableFields = [];
     var proposalNumber = 0;
 
-    console.log(form)
-
     var _printTitleAndFoot = function(field){
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
       var _label = _form[field]['label'];

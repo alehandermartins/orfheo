@@ -33,8 +33,9 @@
     });
 
     var spaces = {}
-    the_event.spaces.forEach(function(space){
+    the_event.spaces.forEach(function(space, index){
       space.event_id = the_event.event_id;
+      space.index = index;
       spaces[space.profile_id] = new Pard.Space(space, _displayer);
     });
 
@@ -89,7 +90,10 @@
     });
 
     Pard.Bus.on('addSpace', function(space){
+      var index = Object.keys(the_event.spaces).length;
       space.event_id = the_event.event_id;
+      space.index = index;
+
       the_event.spaces[space.profile_id] = new Pard.Space(space, _displayer);
       _programManager.addSpace(space);
       _tableManager.addSpace(space);
@@ -123,6 +127,12 @@
       if(the_event.spaces[space.profile_id]) the_event.spaces[space.profile_id].modify(space);
       _programManager.modifySpace(space);
       _tableManager.modifySpace(space);
+    });
+
+    Pard.Bus.on('orderSpaces', function(order){
+      order.forEach(function(space_id, index){
+        the_event.spaces[space_id].reorder(index);
+      });
     });
 
     var WebSocketManager = function(){

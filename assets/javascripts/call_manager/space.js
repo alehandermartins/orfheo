@@ -8,7 +8,7 @@
     var program = {};
     var _performance;
     var _performances;
-    var index;
+    var columnsIndex;
 
     Pard.Bus.on('drag', function(performance){
       _performance = performance;
@@ -40,7 +40,7 @@
       var _spacename = $('<div>');
       _spacename.addClass('space-name-container-call-manager');
       var _titleText = $('<a>').attr('href','#/');
-      _titleText.text(Pard.Widgets.CutString(space.name, 35));
+      _titleText.text(Pard.Widgets.CutString((space.index + 1) + '. ' + space.name, 35));
       _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
       _spaceHeader.append(_spacename, _menuIcon);
       _spaceCol.append(_spaceHeader);
@@ -230,8 +230,8 @@
         }
       });
 
-      var _modify = function(space){
-        _titleText.text(Pard.Widgets.CutString(space.name, 35));
+      var _modify = function(){
+        _titleText.text(Pard.Widgets.CutString((space.index + 1) + '. ' + space.name, 35));
         if( day != 'permanent' && $.inArray(day, space.availability) < 0) _spaceCol.addClass('space-not-available-call-manager');
         else{_spaceCol.removeClass('space-not-available-call-manager');}
       }
@@ -280,7 +280,7 @@
     }
 
     var AlignPerformances = function(){
-      var left = Pard.ColumnWidth * index + 1;
+      var left = Pard.ColumnWidth * columnsIndex + 1;
       var shows = Object.keys(program).map(function(performance_id){
         return program[performance_id].show;
       });
@@ -383,14 +383,22 @@
           space[key] = new_space[key];
         }
         Object.keys(_columns).forEach(function(date){
-          columns[date].modify(space);
+          columns[date].modify();
+        });
+      },
+      reorder: function(new_index){
+        space.index = new_index;
+        Object.keys(_columns).forEach(function(date){
+          columns[date].modify();
         });
       },
       alignPerformances: function(new_index){
         Object.keys(_columns).forEach(function(date){
           _columns[date].css('width', Pard.ColumnWidth);
         });
-        if(new_index !== 'undefined') index = new_index;
+        if(typeof(new_index) !== 'undefined')
+          columnsIndex = new_index
+        
         AlignPerformances();
       },
       addSpaceInfo: function(performance){

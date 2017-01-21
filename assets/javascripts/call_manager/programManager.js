@@ -1697,19 +1697,21 @@
         });
 
         var _OKbtn = Pard.Widgets.Button('OK', function(){
-          _spaceSelector.trigger('select2:unselecting');
           order = _listSortable.sortable('toArray');
-          _shownSpaces = _listSortable.sortable('toArray');
-          _shownSpaces.forEach(function(profile_id, index){
-            if(index == _shownSpaces.length - 1) return;
-            Object.keys(eventTime).forEach(function(date){
-              the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index + 1]].columns[date]);
+          Pard.Backend.saveOrder(the_event.event_id, order, function(){
+            _spaceSelector.trigger('select2:unselecting');
+            _shownSpaces = _listSortable.sortable('toArray');
+            _shownSpaces.forEach(function(profile_id, index){
+              if(index == _shownSpaces.length - 1) return;
+              Object.keys(eventTime).forEach(function(date){
+                the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index + 1]].columns[date]);
+              });
             });
+            _shownSpaces.forEach(function(profile_id, index){
+              the_event.spaces[profile_id].alignPerformances(index);
+            });
+            _closePopup();
           });
-          _shownSpaces.forEach(function(profile_id, index){
-            the_event.spaces[profile_id].alignPerformances(index);
-          });
-          _closePopup();
         });
 
         var _OKbtnContainer = $('<div>').addClass('OK-btn-container');

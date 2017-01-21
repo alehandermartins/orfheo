@@ -372,6 +372,17 @@
       ); 
     }
 
+    var _saveOrder = function(event_id, order, callback){
+     _send(
+        '/users/space_order',
+        {
+          event_id: event_id,
+          order: order
+        },
+        callback
+      ); 
+    }
+
     return {
       register: _register,
       login: _login,
@@ -401,7 +412,7 @@
       modifyPerformances: _modifyPerformances,
       deletePerformances: _deletePerformances,
       whitelist: _whitelist,
-      saveProgram: _saveProgram,
+      saveOrder: _saveOrder,
       getCallForms: _getCallForms,
       listProfiles: _listProfiles,
       events: _events,
