@@ -224,6 +224,13 @@ ns.Widgets = ns.Widgets || {};
       });
     }
     else if (Pard.UserStatus['status'] == 'owner'){
+
+      Pard.Backend.header(function(data){
+        console.log(data);
+      });
+
+
+
       var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
       var _init = $('<li>')
         .append($('<a>').attr('href','/')

@@ -23,6 +23,12 @@ class UsersController < BaseController
     success
   end
 
+  post '/users/header' do
+    profiles = Repos::Profiles.get_profiles :my_user_profiles, {user_id: session[:identity]}
+    events = Repos::Events.my_user_events session[:identity]
+    success({profiles: profiles, events: events})
+  end
+
   private
   def modify_password new_password
     Services::Users.modify_password session[:identity], new_password

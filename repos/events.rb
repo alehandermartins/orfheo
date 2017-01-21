@@ -31,14 +31,6 @@ module Repos
         @@events_collection.count({"$or": [{"artists.proposals.proposal_id": proposal_id},{"spaces.proposal_id": proposal_id}]}) > 0
       end
 
-      def performance_exists? event_id, performance
-        @@events_collection.count({
-          event_id: event_id,
-          "program.performance_id": performance[:performance_id],
-          "artists.proposals.proposal_id": performance[:participant_proposal_id],
-          "spaces.profile_id": performance[:host_id]}) > 0
-      end
-
       def get_event event_id
         event = grab({event_id: event_id}).first
         event[:program] = arrange_program event, event[:program]
@@ -253,16 +245,20 @@ module Repos
         )
       end
 
-      def performers_participate? event_id, performance
-        @@events_collection.count({
-          event_id: event_id,
-          "artists.proposals.proposal_id": performance[:participant_proposal_id],
-          "spaces.profile_id": performance[:host_id]}) > 0
-      end
-
       def get_program event_id
         event = grab({event_id: event_id}).first
         arrange_program event, event[:program]
+      end
+
+      def my_user_events user_id
+        grab({user_id: user_id}).map{ |event|
+          {
+            event_id: event[:event_id],
+            name: event[:name],
+            img: event[:img],
+            color: event[:color]
+          }
+        }
       end
 
       def my_events profile_id

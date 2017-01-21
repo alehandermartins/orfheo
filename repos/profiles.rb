@@ -116,6 +116,20 @@ module Repos
             }
           end
 
+          def my_user_profiles args
+            profiles = grab({user_id: args[:user_id]})
+            profiles.map{ |profile|
+              img = profile[:profile_picture].first unless profile[:profile_picture].blank?
+              img = profile[:photos].first if profile[:profile_picture].blank? && !profile[:photos].blank?
+              {
+                profile_id: profile[:profile_id],
+                name: profile[:name],
+                img: img,
+                color: profile[:color]
+              }
+            }
+          end
+
           def visit_profiles args
             profiles = grab({user_id: args[:user_id]})
             profiles.each{ |profile|

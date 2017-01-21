@@ -364,6 +364,14 @@
       ); 
     }
 
+    var _header = function(callback){
+     _send(
+        '/users/header',
+        {},
+        callback
+      ); 
+    }
+
     return {
       register: _register,
       login: _login,
@@ -397,7 +405,8 @@
       getCallForms: _getCallForms,
       listProfiles: _listProfiles,
       events: _events,
-      contact: _contact
+      contact: _contact,
+      header: _header
     };
   }());
 
