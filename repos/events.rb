@@ -313,6 +313,19 @@ module Repos
         }.compact.sort_by{|event| event[:date]}.reverse
       end
 
+      def publish event_id
+        event = grab({event_id: event_id}).first
+        if event[:published] == 'false'
+          event[:published] = 'true'
+        else 
+          event[:published] = 'false'
+        end
+        @@events_collection.update_one({event_id: event_id},{
+          "$set": {published: event[:published]}
+        })
+        event[:published]
+      end
+
       private
       def grab query, projection = {}
         results = @@events_collection.find(query) if projection.blank?

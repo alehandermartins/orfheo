@@ -64,6 +64,17 @@ class EventsController < BaseController
     success(message)
   end
 
+  post '/users/publish' do
+    scopify event_id: true
+    check_event_ownership! event_id
+
+    status = Repos::Events.publish event_id
+    
+    message = {event: 'publishEvent', model: status}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
+  end
+
   get '/event' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
     event = Repos::Events.get_event params[:id]

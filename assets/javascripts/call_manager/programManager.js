@@ -72,8 +72,7 @@
       });
       var _emptyColumn = $('<div>').css({
         'display': 'inline-block',
-        'width': '11rem',
-        'z-index': '999'
+        'width': '11rem'
       });
       _tables[day] = _table;
       _emptySpaces[day] = _emptyColumn;
@@ -1824,7 +1823,7 @@
     var _submitBtn;
     var _successIcon = $('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager');
 
-    var _saveProgramCallback = function(data){
+    var _publishProgramCallback = function(data){
        if(data['status'] == 'success') {
         _submitBtn.hide();
         _successIcon.show();
@@ -1836,23 +1835,43 @@
       }
       else{
         console.log('error');
-        Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();});
+        Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
       }
     }
 
     _submitBtn = Pard.Widgets.Button('', function(){
-      var program = [];
       _submitBtn.attr('disabled',true).addClass('disabled-button');
       $('div.ui-tooltip').remove();
-      Object.keys(the_event.program).forEach(function(performance_id){
-        program.push(the_event.program[performance_id].show);
-      });
 
-      Pard.Backend.saveProgram(the_event.event_id, program, order, _saveProgramCallback);
+      Pard.Backend.publish(the_event.event_id, _publishProgramCallback);
     }).render().addClass('submit-program-btn-call-manager');
-    _submitBtn.append(Pard.Widgets.IconManager('save').render()).attr('title','Guarda el programa');
-    _submitBtnContainer.append(_submitBtn, _successIcon.hide());
 
+    var _publishStatus;
+    var _iconPublish;
+
+    var _setPublishStatus = function(){
+      if(the_event.published == 'false'){
+      _publishStatus = 'publish';
+      _submitBtn.attr('title','Publica el programa');
+      }
+      if(the_event.published == 'true'){
+        _publishStatus = 'unpublish';
+        _submitBtn.attr('title','Retira la publicación');
+      }
+      _iconPublish = Pard.Widgets.IconManager(_publishStatus).render();
+      _submitBtn.append(_iconPublish);
+    }
+    _setPublishStatus();
+    
+    Pard.Bus.on('publishEvent', function(status){
+      if(the_event.published != status){
+        _submitBtn.empty();
+        the_event.published = status;
+       _setPublishStatus()
+      }
+    });
+
+    _submitBtnContainer.append(_submitBtn, _successIcon.hide());
    
     if(the_event.program){
       the_event.program.forEach(function(performance){

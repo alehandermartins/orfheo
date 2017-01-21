@@ -58,6 +58,8 @@
       sincro: {icon:'&#xE627;', className:'material-icons'},
       chat_bubble:{icon:'&#xE0CB;', className:'material-icons'},
 
+      publish: {icon:'&#xE8CD;', className:'material-icons'},
+      unpublish: {icon:'&#xE92A;', className:'material-icons'},
 
       // calendar: {icon:'&#8250;', className:'fa fa-calendar'}, &#xE53B
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      

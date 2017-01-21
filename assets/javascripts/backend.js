@@ -383,6 +383,16 @@
       ); 
     }
 
+    var _publish = function(event_id, callback){
+     _send(
+        '/users/publish',
+        {
+          event_id: event_id
+        },
+        callback
+      ); 
+    }
+
     return {
       register: _register,
       login: _login,
@@ -413,6 +423,7 @@
       deletePerformances: _deletePerformances,
       whitelist: _whitelist,
       saveOrder: _saveOrder,
+      publish: _publish,
       getCallForms: _getCallForms,
       listProfiles: _listProfiles,
       events: _events,
