@@ -146,7 +146,7 @@ module Repos
             participant_ids = event[:program].map{ |performance|
               [performance[:participant_id], performance[:host_id]]
             }.flatten.compact.uniq
-            grab({profile_id: {"$in": participant_ids}})
+            grab({profile_id: {"$in": participant_ids}}).shuffle
           end
 
           def sort_profiles profiles, profile_id

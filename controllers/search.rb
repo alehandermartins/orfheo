@@ -150,7 +150,7 @@ class SearchController < BaseController
 
   def not_shown_profiles profiles, shown
     not_shown = profiles.reject{ |profile| shown.include? profile[:profile_id]}
-    not_shown.sort_by { |profile| profile[:profile_picture].blank? ? 1 : 0}
+    not_shown.sort_by { |profile| (profile[:profile_picture].blank? && profile[:photos].blank?) ? 1 : 0}
   end
 
   def get_suggestions_for matched_profiles, query
