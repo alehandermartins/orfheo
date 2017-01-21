@@ -33,29 +33,33 @@
       var _leftPos = _tableContainer.scrollLeft();
       $(_tableContainer).animate({
         scrollLeft: _leftPos + 528
-    }, 500);
+      }, 500);
     });
 
     _scrollLeftBtn.mousehold(500,function(){
       var _leftPos = _tableContainer.scrollLeft();
       $(_tableContainer).animate({
         scrollLeft: _leftPos - 528
-    }, 500);
+      }, 500);
     });
 
     var _scrollers = $('<div>').append( _scrollLeftBtn, _scrollRightBtn).addClass('scrollers-call-managers');
     _timeTableContainer.append(_scrollers);
 
     var _tables = {};
+    var _lines = [];
+    var _linesLength = 885;
     var _columnsSpaces = {};
+    var _emptySpaces = {};
 
     var _timeTable = $('<div>');
     hours.forEach(function(hour, hourIndex){
       if(hour < 10) hour = '0' + hour;
       var _time = $('<div>').html(hour + ':00').addClass('time-timeTable-call-manager');
       _time.css({top: 28 + hourIndex * 40 + "px"});
-      var _line = $('<hr>').addClass('line-timeTable-call-manager')
+      var _line = $('<hr>').addClass('line-timeTable-call-manager');
       _line.css({top: 20 + hourIndex * 40 + "px"});
+      _lines.push(_line);
       _timeTable.append(_time, _line);
     });
     _timeTableContainer.append(_timeTable);
@@ -69,8 +73,10 @@
       var _emptyColumn = $('<div>').css({
         'display': 'inline-block',
         'width': '11rem',
+        'z-index': '999'
       });
       _tables[day] = _table;
+      _emptySpaces[day] = _emptyColumn;
       if(index == 0) _tableContainer.append(_tables[day]);
       else _tableContainer.append(_tables[day].hide());
     });
@@ -129,7 +135,6 @@
       else{_timeTable.show();}
       _tables[_lastSelected].hide();
       _tables[_daySelector.val()].show();
-
       _lastSelected = _daySelector.val();
     });
 
@@ -155,7 +160,14 @@
         });
       }
       Pard.ColumnWidth = 176;
-      if(_shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
+      _linesLength = 885;
+      if(_shownSpaces.length < 4){
+        Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
+        _linesLength = Pard.ColumnWidth * _shownSpaces.length + 6;
+      }
+      _lines.forEach(function(line){
+        line.css('width', _linesLength);
+      });
       _shownSpaces.forEach(function(profile_id, index){
         the_event.spaces[profile_id].alignPerformances(index);
       });
@@ -243,12 +255,21 @@
 
     _spaceSelector.on("select2:unselecting", function(e){
       _shownSpaces = [];
+      Object.keys(the_event.spaces).forEach(function(space_id){
+        _shownSpaces.push(space_id);
+      });
       Pard.ColumnWidth = 176;
-      if(order.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / order.length;
+      _linesLength = 885;
+      if(_shownSpaces.length < 4){
+        Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
+        _linesLength = Pard.ColumnWidth * _shownSpaces.length + 6;
+      }
+      _lines.forEach(function(line){
+        line.css('width', _linesLength);
+      });
       order.forEach(function(profile_id, index){
         the_event.spaces[profile_id].showColumns();
         the_event.spaces[profile_id].alignPerformances(index);
-        _shownSpaces.push(profile_id);
       });
       $(this).val("");
       $(this).trigger('change');
@@ -1784,12 +1805,21 @@
       order.push(profile_id);
       _shownSpaces.push(profile_id);
     });
+
+    Object.keys(_tables).forEach(function(day){
+      _tables[day].append(_emptySpaces[day]);
+    });
     
-    if(_shownSpaces.length > 0 && _shownSpaces.length < 4) Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
+    if(_shownSpaces.length > 0 && _shownSpaces.length < 4){
+        Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
+        _linesLength = Pard.ColumnWidth * _shownSpaces.length + 6;
+      }
+    _lines.forEach(function(line){
+      line.css('width', _linesLength);
+    });
     Object.keys(the_event.spaces).forEach(function(space){
       the_event.spaces[space].alignPerformances();
     });
-
 
     var _submitBtn;
     var _successIcon = $('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager');
@@ -1889,7 +1919,7 @@
         Object.keys(eventTime).forEach(function(day){
           var height = _tables[day].height() - 42;
           the_event.spaces[space.profile_id].addColumn(day, height, eventTime[day]);
-          _tables[day].append(the_event.spaces[space.profile_id].columns[day]);
+          _emptySpaces[day].before(the_event.spaces[space.profile_id].columns[day]);
           the_event.spaces[space.profile_id].columns[day].foundation();
         });
         order.push(space.profile_id);
