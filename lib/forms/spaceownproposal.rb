@@ -1,11 +1,12 @@
 class SpaceOwnProposal
 
   def initialize params, user_id, form
-    check_fields params, form
+    check_fields params, user_id, form
     @space_proposal = new_space params, user_id, form
   end
 
-  def check_fields params, form
+  def check_fields params, user_id, form
+    raise Pard::Invalid::ExistingName unless Repos::Profiles.name_available?(user_id, params[:name])
     raise Pard::Invalid::Params unless form.all?{ |field, entry|
       correct_entry? params[field], entry[:type], field  
     }

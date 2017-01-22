@@ -35,7 +35,7 @@ class SpaceProposal
       email: user[:email],
       proposal_id: params[:proposal_id] || SecureRandom.uuid,
       category: profile[:category],
-      name: params[:name] || profile[:name],
+      name: profile[:name],
       address: params[:address] || profile[:address],
       description: profile[:bio],
       phone: params[:phone] || profile[:phone],

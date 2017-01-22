@@ -139,7 +139,7 @@ module Repos
         }
         @@events_collection.update_one({"artists.proposals.proposal_id": artist[:proposals].first[:proposal_id]},
           {
-            "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address], 'artists.$.phone': artist[:phone], 'artists.$.proposals': modified_proposals}
+            "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address], 'artists.$.phone': artist[:phone], 'artists.$.email': artist[:email], 'artists.$.proposals': modified_proposals}
           })
       end
 
