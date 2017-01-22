@@ -393,6 +393,16 @@
       ); 
     }
 
+    var _checkName = function(name, callback){
+      _send(
+        '/users/check_name',
+        {
+          name: name
+        },
+        callback
+      ); 
+    }
+
     return {
       register: _register,
       login: _login,
@@ -428,7 +438,8 @@
       listProfiles: _listProfiles,
       events: _events,
       contact: _contact,
-      header: _header
+      header: _header,
+      checkName: _checkName
     };
   }());
 

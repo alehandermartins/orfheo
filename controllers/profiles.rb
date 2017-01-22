@@ -1,5 +1,11 @@
 class ProfilesController < BaseController
 
+  post '/users/check_name' do
+    scopify name: true
+    status = Repos::Profiles.name_available?(session[:identity], name)
+    success({available: status})
+  end
+
   post '/users/create_profile' do
     scopify type: true, name: true
     check_type! type

@@ -815,5 +815,59 @@ ns.Widgets.InputAddressSpace = function(label){
     }
   }
 
+  ns.Widgets.InputName = function(){
+
+    var _input = $('<input>').attr({'type': 'text'});
+
+    _input.on('input', function(){
+      Pard.Backend.checkName(_input.val(), function(data){
+        _input.removeClass('warning');
+        _input.removeClass('available');
+        if(data.available == false) _input.addClass('warning');
+        if(data.available == true) _input.addClass('available');
+      })
+    });
+
+    _input.on('focus', function(){
+      if($(window).width()<1024){
+        if ($('.reveal[aria-hidden="false"]').html()){
+          var _distanceInputTop = _input.offset().top;
+          var _popupOpened = _input.closest('.reveal[aria-hidden="false"]');
+          var _scroolTop = _popupOpened.scrollTop();
+          var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+          _popupOpened.scrollTop(_distanceToDo);
+        }
+      }
+    });
+
+
+    return{
+      render: function(){
+        return _input;
+      },
+      getVal: function(){
+        return _input.val();
+      },
+      setVal: function(value){
+        _input.val(value);
+      },
+      addWarning: function(){
+        _input.addClass('warning');
+      },
+      removeWarning: function(){
+        _input.removeClass('warning');
+      },
+      setClass: function(_class){
+        _input.addClass(_class);
+      },
+      setAttr: function(attribute, value){
+        _input.attr(attribute,value);
+      },
+      disable: function(){
+        _input.prop('disabled', true);
+      }
+    }
+  }
+
 
 }(Pard || {}));

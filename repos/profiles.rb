@@ -14,7 +14,10 @@ module Repos
       end
 
       def name_available? user_id, name
-        @@profiles_collection.count(user_id: {"$ne": user_id}, name: name) == 0
+        name_to_check = name.gsub(/\s+/, "").downcase
+        profiles = grab({user_id: {"$ne": user_id}})
+        names = profiles.map{|profile| profile[:name].gsub(/\s+/, "").downcase}
+        !(names.include? name_to_check)
       end
 
       def add_production profile_id, production

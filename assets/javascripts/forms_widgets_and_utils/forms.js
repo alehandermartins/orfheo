@@ -9,11 +9,8 @@
       name: {
         "type" : "mandatory",
         "label" : "Nombre artistico",
-        "input" : "Input",
-        "args" : [ 
-                  "", 
-                  "text"
-                ],
+        "input" : "InputName",
+        "args" : [], 
         "helptext" : "Es el nombre de tu perfil de artista."
       },
       profile_picture:{
@@ -62,11 +59,8 @@
       name: {
         "type" : "mandatory",
         "label" : "Nombre del espacio",
-        "input" : "Input",
-        "args" : [ 
-                  "", 
-                  "text"
-                ],
+        "input" : "InputName",
+        "args" : [],
         "helptext" : "Es el nombre de tu perfil de espacio."
       },
       address:{
@@ -135,10 +129,8 @@
         "type" : "mandatory",
         "label" : "Nombre artistico",
         "input" : "Input",
-        "args" : [ 
-                  "", 
-                  "text"
-                ],
+        "input" : "InputName",
+        "args" : [],
         "helptext" : "Es el nombre de tu perfil de artista."
       },
       profile_picture:{
@@ -191,11 +183,8 @@
       name: {
         "type" : "mandatory",
         "label" : "Nombre artistico",
-        "input" : "Input",
-        "args" : [ 
-                  "", 
-                  "text"
-                ],
+        "input" : "InputName",
+        "args" : [],
         "helptext" : "Es el nombre de tu perfil de artista."
       },
       profile_picture:{
@@ -244,11 +233,8 @@
       name: {
         "type" : "mandatory",
         "label" : "Nombre del espacio",
-        "input" : "Input",
-        "args" : [ 
-                  "", 
-                  "text"
-                ],
+        "input" : "InputName",
+        "args" : [],
         "helptext" : "Es el nombre de tu perfil de espacio."
       },
       profile_picture:{
@@ -309,11 +295,8 @@
       name: {
         "type" : "mandatory",
         "label" : "Nombre artistico",
-        "input" : "Input",
-        "args" : [ 
-                  "", 
-                  "text"
-                ],
+        "input" : "InputName",
+        "args" : [],
         "helptext" : "Es el nombre de tu perfil de artista."
       },
       profile_picture:{
@@ -366,11 +349,8 @@
       name: {
         "type" : "mandatory",
         "label" : "Nombre",
-        "input" : "Input",
-        "args" : [ 
-                  "", 
-                  "text"
-                ],
+        "input" : "InputName",
+        "args" : [],
         "helptext" : ""
       },
       email: {
@@ -407,11 +387,8 @@
       name: {
         "type" : "mandatory",
         "label" : "Nombre",
-        "input" : "Input",
-        "args" : [ 
-                  "", 
-                  "text"
-                ],
+        "input" : "InputName",
+        "args" : [],
         "helptext" : ""
       },
       email: {
@@ -431,11 +408,8 @@
     title:{
         "type" : "mandatory",
         "label" : "Título de la propuesta artística",
-        "input" : "Input",
-        "args" : [ 
-                  '', 
-                  'text'
-                ],
+        "input" : "InputName",
+        "args" : [],
         "helptext" : ""
       },
     description: {
