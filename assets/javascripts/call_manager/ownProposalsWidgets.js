@@ -86,7 +86,10 @@
         _closepopup();
       });
       _formWidget.setSend(_send);
-      if (_profile_own) _formWidget.setVal(_profile_own);
+      if (_profile_own){
+        _formWidget.setVal(_profile_own);
+        _formWidget.disableFields();
+      }
       _contentSel.append(_formWidget.render());
     };
 
