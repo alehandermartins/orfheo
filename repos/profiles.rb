@@ -92,11 +92,7 @@ module Repos
           def profile args
             profile_id = args[:profile_id]
             profile = grab({profile_id: profile_id}).first
-            events = Repos::Events.my_events(profile_id)
-            proposals = Repos::Events.my_artist_proposals(profile_id) if profile[:type] == 'artist'
-            proposals = Repos::Events.my_space_proposals(profile_id) if profile[:type] == 'space'
-            program = Repos::Events.my_program(profile_id)
-            profile.merge! ({events: events, proposals: proposals, program: program})
+            profile.merge! (Repos::Events.my_info(profile_id, profile[:type]))
           end
 
           def production args
@@ -111,11 +107,7 @@ module Repos
             profiles = grab({user_id: args[:user_id]})
             sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
             profiles.each{ |profile|
-              events = Repos::Events.my_events(profile[:profile_id])
-              proposals = Repos::Events.my_artist_proposals(profile[:profile_id]) if profile[:type] == 'artist'
-              proposals = Repos::Events.my_space_proposals(profile[:profile_id]) if profile[:type] == 'space'
-              program = Repos::Events.my_program(profile[:profile_id])
-              profile.merge! ({events: events, proposals: proposals, program: program})
+              profile.merge! (Repos::Events.my_info(profile[:profile_id], profile[:type]))
             }
           end
 
@@ -136,9 +128,7 @@ module Repos
           def visit_profiles args
             profiles = grab({user_id: args[:user_id]})
             profiles.each{ |profile|
-              events = Repos::Events.my_events(profile[:profile_id])
-              program = Repos::Events.my_program(profile[:profile_id])
-              profile.merge! ({events: events, program: program})
+              profile.merge! (Repos::Events.otter_info(profile[:profile_id], profile[:type]))
             }
             profiles = sort_profiles(profiles, args[:profile_id]) unless args[:profile_id].nil?
             profiles

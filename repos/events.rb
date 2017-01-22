@@ -261,56 +261,22 @@ module Repos
         }
       end
 
-      def my_events profile_id
-        events = grab({profile_id: profile_id}).map{ |event|
-          event.delete(:artists)
-          event.delete(:whitelist)
-          event.delete(:spaces)
-          event.delete(:program)
-          event.delete(:partners)
-          event.delete(:qr)
-          event
-        }
+      def my_info profile_id, type
+        info = {}
+        events = grab({})
+        info[:proposals] = my_artist_proposals(events, profile_id) if type == 'artist'
+        info[:proposals] = my_space_proposals(events, profile_id) if type == 'space'
+        info[:program] = my_program(events, profile_id)
+        info[:events] = my_events(events, profile_id)
+        info
       end
 
-      def my_artist_proposals profile_id
-        events = grab({ "artists.profile_id": profile_id})
-        events.map{ |event|
-          proposals = event[:artists].select{ |proposal| proposal[:profile_id] == profile_id}.first[:proposals]
-          proposals.each{ |proposal|
-            proposal[:event_id] = event[:event_id]
-            proposal[:event_name] = event[:name]
-            proposal[:call_id] = event[:call_id]
-            proposal[:deadline] = event[:deadline]
-          }
-        }.flatten
-      end
-
-      def my_space_proposals profile_id
-        events = grab({ "spaces.profile_id": profile_id})
-        events.map{ |event|
-          proposal = event[:spaces].select{ |proposal| proposal[:profile_id] == profile_id}.first
-          proposal[:event_id] = event[:event_id]
-          proposal[:event_name] = event[:name]
-          proposal[:call_id] = event[:call_id]
-          proposal[:deadline] = event[:deadline]
-          proposal
-        }.flatten
-      end
-
-      def my_program profile_id
-        events = grab({ "$or": [{ "program.participant_id": profile_id}, {"program.host_id": profile_id}]})
-        events.map{ |event|
-          next if event[:published] == false
-          event[:eventTime].delete(:permanent)
-          my_performances = event[:program].select{|performance| performance[:participant_id] == profile_id || performance[:host_id] == profile_id}
-          {
-            event_id: event[:event_id],
-            event_name: event[:name],
-            date: event[:eventTime].keys.max.to_s,
-            shows: arrange_program(event, my_performances)
-          }
-        }.compact.sort_by{|event| event[:date]}.reverse
+      def otter_info profile_id, type
+        info = {}
+        events = grab({})
+        info[:program] = my_program(events, profile_id)
+        info[:events] = my_events(events, profile_id)
+        info
       end
 
       def publish event_id
@@ -335,6 +301,59 @@ module Repos
         results.map { |event|
          Util.string_keyed_hash_to_symbolized event
         }
+      end
+
+      def my_events events, profile_id
+        events = events.select{ |event| event[:profile_id] == profile_id}
+        events.map{ |event|
+          event.delete(:artists)
+          event.delete(:whitelist)
+          event.delete(:spaces)
+          event.delete(:program)
+          event.delete(:partners)
+          event.delete(:qr)
+          event
+        }
+      end
+
+      def my_artist_proposals events, profile_id
+        events.map{ |event|
+          proposals = event[:artists].select{ |proposal| proposal[:profile_id] == profile_id}.first[:proposals]
+          next if proposals.blank?
+          proposals.each{ |proposal|
+            proposal[:event_id] = event[:event_id]
+            proposal[:event_name] = event[:name]
+            proposal[:call_id] = event[:call_id]
+            proposal[:deadline] = event[:deadline]
+          }
+        }.compact.flatten
+      end
+
+      def my_space_proposals events, profile_id
+        events.map{ |event|
+          proposal = event[:spaces].select{ |proposal| proposal[:profile_id] == profile_id}.first
+          next if proposal.blank?
+          proposal[:event_id] = event[:event_id]
+          proposal[:event_name] = event[:name]
+          proposal[:call_id] = event[:call_id]
+          proposal[:deadline] = event[:deadline]
+          proposal
+        }.compact.flatten
+      end
+
+      def my_program events, profile_id
+        events.map{ |event|
+          next if event[:published] == false
+          event[:eventTime].delete(:permanent)
+          my_performances = event[:program].select{|performance| performance[:participant_id] == profile_id || performance[:host_id] == profile_id}
+          next if my_performances.blank?
+          {
+            event_id: event[:event_id],
+            event_name: event[:name],
+            date: event[:eventTime].keys.max.to_s,
+            shows: arrange_program(event, my_performances)
+          }
+        }.compact.sort_by{|event| event[:date]}.reverse
       end
 
       def arrange_program event, program
