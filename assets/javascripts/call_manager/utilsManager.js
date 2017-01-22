@@ -6,9 +6,9 @@
     var _createdWidget = $('<div>');
     
     var _whiteListBox = $('<div>').addClass('white-list-box');
-    var _whiteList = Pard.Widgets.WhiteList(the_event);
+    var _whiteList = Pard.Widgets.WhiteList(the_event).render();
     var _whiteListText = $('<p>').text('Habilita usuarios para que puedan enviar una propuesta en cualquier momento').addClass('initial-text-proposalPanel');
-    _whiteListBox.append(_whiteListText, _whiteList.render());
+    _whiteListBox.append(_whiteListText, _whiteList);
     _createdWidget.append(_whiteListBox);
 
     var _qrimg = $.cloudinary.image(the_event.qr,{ format: 'png', width: 80 , effect: 'saturation:50' });
@@ -25,7 +25,12 @@
     _qrBox.append(_qrText, _qrimg, _downloadBtn);
     _createdWidget.append(_qrBox);
 
-   
+   Pard.Bus.on('addWhitelist', function(whitelist){
+    the_event.whitelist = whitelist;
+    _whiteList.remove();
+    _whiteList = Pard.Widgets.WhiteList(the_event).render();
+    _whiteListBox.append(_whiteList);
+   });
 
     return {
       render: function(){
