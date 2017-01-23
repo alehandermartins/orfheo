@@ -147,8 +147,9 @@ ns.Widgets = ns.Widgets || {};
 
     var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
     var _navMenu = $('<ul>').addClass('navMenuHeader');
+    var _welcomeBtnText = $('<button>').attr('type','button')
     var _welcomeBtn = $('<li>')
-      .append($('<button>').text('Welcome').attr('type','button'))
+      .append(_welcomeBtnText)
       .click(function(){
         $(window).scrollTop(0); 
         $('.selected').removeClass('selected');
@@ -220,7 +221,8 @@ ns.Widgets = ns.Widgets || {};
     );
 
     if (Pard.UserStatus['status'] == 'outsider'){
-      _rightContainer.addClass('loginContainer')
+      _welcomeBtnText.text('Welcome');
+      _rightContainer.addClass('loginContainer');
       var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
       var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login').addClass('loginText')
         .append(Pard.Widgets.IconManager('arrowDropDown').render().addClass('arrowLoginDropdown'));
@@ -235,13 +237,10 @@ ns.Widgets = ns.Widgets || {};
       });
     }
     else if (Pard.UserStatus['status'] == 'owner'){
-
       Pard.Backend.header(function(data){
         console.log(data);
       });
-
-
-
+      _welcomeBtnText.text('Myhome');
       var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
       var _init = $('<li>')
         .append($('<a>').attr('href','/')

@@ -397,12 +397,15 @@
     console.log(owner);
     var _card = $('<div>').addClass('eventCard')
       .css({
-        'border-left-color': '#bebebe'
+        'border-left-color': event.color
       });
     var _header = $('<div>').addClass('header-eventCard');
 
-    var _name = $('<a>').addClass('name-eventCard').append($('<h6>').text(event.name)).attr({'href':'/event?id='+ event.event_id});
-    var _baseline = $('<div>').addClass('baseline-eventCard').text(event.baseline);
+    var _eventName = $('<h6>').text(event.name).addClass('name-eventCard');
+    var _eName =  Pard.Widgets.FitInBox(_eventName, 480, 40).render();
+    var _name = $('<a>').addClass('name-eventCard').append($('<h6>').append(_eName.text())).attr({'href':'/event?id='+ event.event_id});
+
+    // var _baseline = $('<div>').addClass('baseline-eventCard').text(event.baseline);
     
     var _imgContainer = $('<div>').addClass('imgContainer-eventCard');
     var _img = $.cloudinary.image(event['img'],
@@ -434,7 +437,7 @@
    
     var _organzerIcon = $('<div>').addClass('icon-container')
       .append($('<span>').css({
-          'background': '#bebebe'
+          'background': event.color
         }).addClass('circle-eventOrganizer')
     );
     var _organizerText = $('<div>').append($('<span>').text('Organiza '), $('<a>').text(event.organizer).attr('href', '/profile?id='+event.profile_id)).addClass('text-container');
@@ -488,31 +491,46 @@
        _callText.append('Convocatoria cerrada');
     }
     var _call = $('<div>').append(_callIcon, _callText).addClass('info-element-eventCard');
-    var _conditionIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('conditions').render());
-    var _conditionText = $('<div>').append($('<a>').text('Bases de participación').attr({'href':event.conditions,'target':'_blank'})).addClass('text-container'); 
-    var _conditions = $('<div>').append(_conditionIcon, _conditionText).addClass('info-element-eventCard');
-
-    _infoContainer.append(_organizer, _place, _date, _call, _conditions);
-
-    var _footer = $('<div>').addClass('footer-eventCard');
-    var _categories = '';
+    // var _conditionIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('conditions').render());
+    // var _conditionText = $('<div>').append($('<a>').text('Bases de participación').attr({'href':event.conditions,'target':'_blank'})).addClass('text-container'); 
+    // var _conditions = $('<div>').append(_conditionIcon, _conditionText).addClass('info-element-eventCard');
+    var _cats = '';
     for (var cat in event.categories.artist){
-      _categories += cat + ', ';
+      _cats += cat + ', ';
     };
-    _categories = _categories.substring(0,_categories.length-2)
-    _footer.append($('<p>').append(_categories));
+    _cats = _cats.substring(0,_cats.length-2);
+    var _catText = $('<div>').text(_cats).addClass('text-container'); 
+    var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('conditions').render());
+    var _categories = $('<div>').append(_catIcon, _catText).addClass('info-element-eventCard');
 
+
+    _infoContainer.append(_organizer, _place, _date, _call, _categories);
+
+    // var _footer = $('<div>').addClass('footer-eventCard');
+    // var _categories = '';
+    // for (var cat in event.categories.artist){
+    //   _categories += cat + ', ';
+    // };
+    // _categories = _categories.substring(0,_categories.length-2);
+    // _footer.append($('<p>').append(_categories));
+
+    var _triangle = $('<div>').addClass('manageCallBtn-eventCard')
+      .css({
+        'border-top-color': event.color
+      });
+    _card.append(_triangle);
+    
     if (owner){
       var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
       var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
       var _manageCallIcon = $('<div>').append(_callIcon, _toolIcon).addClass('manageCallIcon').attr('title','Gestiona convocatoria');
       var _toCallPage = $('<div>').append($('<a>').append(_manageCallIcon).attr('href','/event_manager?id='+event.event_id)).addClass('btn-container');
-      var _triangle = $('<div>').addClass('manageCallBtn-eventCard').append();
-
-     _card.append(_triangle,_toCallPage);
+     _card.append(_toCallPage);
     }
+
+   _card.append(_toCallPage);
     
-    _card.append(_header.append(_name, _baseline), _imgContainer, _infoContainer, _footer);
+    _card.append(_header.append(_name), _imgContainer, _infoContainer);
 
     return _card;  
   }
