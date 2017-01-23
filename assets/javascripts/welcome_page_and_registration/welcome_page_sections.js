@@ -59,7 +59,7 @@ ns.Widgets = ns.Widgets || {};
     var _textDiv = $('<div>').addClass('littleTextDiv').append(
       $('<div>').append(_titleEventText.append(_eventText)).addClass('welcomeSection-container'));
     _searchResult.css({
-      'min-height': 'calc(100vh - 5.1rem - 7.9rem)'
+      'min-height': 'calc(100vh - 4.5rem - 1.8rem - 7.9rem)'
     })
     _createdWidget.append(_cards.append(_searchResult), _textDiv);
 

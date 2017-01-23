@@ -9,6 +9,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _createdWidget = $('<footer>').addClass('footer-bar');
     var userStatus = Pard.UserStatus['status'];
+    var _innerFooterContainer = $('<div>').css('width','100vw');
 
     if (userStatus == 'outsider') _createdWidget.addClass('footer-outsider');
 
@@ -110,7 +111,7 @@ ns.Widgets = ns.Widgets || {};
 
     _container.append(_leftContent, _rightContent);
     _grid.append(_container);
-    _createdWidget.append(_grid);
+    _createdWidget.append(_innerFooterContainer.append(_grid));
 
     return{
       render: function(){

@@ -100,7 +100,7 @@
     var _createdWidget = $('<div>');       
 
     var _menuContainer = $('<div>').addClass('dropdown-pane container-insideMenu').attr({'id':'insideMenuDropDown', 'data-close-on-click':true, 'data-dropdown':''});  
-    var _menu = $('<ul>').addClass('dropdownMenu');
+    var _menu = $('<ul>').addClass('dropdownHeaderMenu');
  
     var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#/'));
 
@@ -125,7 +125,54 @@
       });
     var _deleteUser = $('<li>').append(_deleteCaller);
 
-		_menuContainer.append(_menu.append(_deleteUser, _modifyPassword,  _logout));
+    var _menuProfiles = $('<ul>').addClass('dropdownMenu menuProfiles');
+    var _menuEvents = $('<ul>').addClass('dropdownMenu menuEvents');
+    var _menuSettings = $('<ul>').addClass('dropdownMenu menuSettings')
+      .append(_deleteUser, _modifyPassword,  _logout);
+
+    Pard.Backend.header(function(data){
+      console.log(data);
+      if(data.status == 'success'){
+        data.profiles.forEach(function(profile){
+          var _circle = $('<div>').addClass('circleProfile-MenuHeader').css('background',profile.color);
+          var _profileName = $('<span>').text(profile.name);
+          _menuProfiles.append(
+            $('<li>').append($('<a>').append(_circle, _profileName).attr('href','/profile?id='+profile.profile_id)))
+            .click( function(){
+                _menuContainer.foundation('close');
+              }
+            )
+        });
+        _menuProfiles.append($('<li>').addClass('separator'));
+        data.events.forEach(function(event){
+          // console.log(event)
+          // var _img = $.cloudinary.image(event['img'], { format: 'jpg', width: 15, height: 20, crop: 'fill', effect: 'saturation:50' });
+          var en = event.name;
+          if (en.length>30) en = en.substring(0,29) + '...';
+          var _eventName = $('<span>').text(en)
+            .css({
+              'border-left':'2px solid '+ event.color,
+              'padding-left':'1rem'
+            });
+          _menuEvents.append(
+            $('<li>').append($('<a>').append(_eventName).attr('href','/event?id='+event.event_id)))
+            .click( function(){
+                _menuContainer.foundation('close');
+              }
+            )
+        });
+        _menuEvents.append($('<li>').addClass('separator'));
+      }
+      else{
+        console.log('error')
+      }
+    });
+
+		_menuContainer.append(_menu.append(
+      $('<li>').append(_menuProfiles),
+      $('<li>').append(_menuEvents),
+      $('<li>').append(_menuSettings)
+    ));
 
 		var _iconDropdownMenu =  $('<button>')
       .addClass('settings-icon-dropdown-menu')

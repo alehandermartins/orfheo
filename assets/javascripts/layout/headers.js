@@ -124,13 +124,13 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.NavHeader = function(){
 
-    var _createdWidget = $('<header>').addClass('orfheoHeader black');
+    var _createdWidget = $('<header>').addClass('orfheoHeader');
+    var _innerHeaderContainer = $('<div>').css('width','100vw');
     var _upperContainer = $('<div>').addClass('upperContainerHeader fixed black'); 
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');
-    
-    var _lowerContainer = $('<div>').addClass('navBarHeader black');
-    var _navBarContainer = $('<div>').addClass('pard-grid');    
-    var _navBar = $('<div>').addClass('');
+    var _lowerContainer = $('<div>').addClass('navBarHeader');
+    var _navBarContainer = $('<div>').addClass('navBarContainer black');
+    var _navBar = $('<div>').addClass('pard-grid');    
 
     var _showHide = function(id_){
       $('.visible').hide().removeClass('visible');
@@ -207,7 +207,7 @@ ns.Widgets = ns.Widgets || {};
 
     _upperContent.append(_logoContainer);
     _navBar.append(_navMenuContainer);
-    _createdWidget.append(
+    _innerHeaderContainer.append(
       _upperContainer.append(
         _upperContent
       ),
@@ -216,9 +216,12 @@ ns.Widgets = ns.Widgets || {};
         _navBarContainer.append(
           _navBar
         ),
-        _semicircleBottom
+        $('<div>').append(_semicircleBottom).addClass('semiCircleHeaderBottom-container')
       )
+
     );
+
+    _createdWidget.append(_innerHeaderContainer);
 
     if (Pard.UserStatus['status'] == 'outsider'){
       _welcomeBtnText.text('Welcome');
@@ -237,9 +240,6 @@ ns.Widgets = ns.Widgets || {};
       });
     }
     else if (Pard.UserStatus['status'] == 'owner'){
-      Pard.Backend.header(function(data){
-        console.log(data);
-      });
       _welcomeBtnText.text('Myhome');
       var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
       var _init = $('<li>')
