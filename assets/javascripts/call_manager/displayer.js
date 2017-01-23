@@ -74,8 +74,11 @@
         var _confirmPopup = new Foundation.Reveal(_deleteContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         var _message = Pard.Widgets.PopupContent('¿Estás seguro/a?',  confirmPopupContent(), 'alert-container-full');
         _message.setCallback(function(){
-          _deleteContent.remove();
           _confirmPopup.close();
+          setTimeout(
+            function(){
+              _deleteContent.remove();
+            },500);         
         });
         _deleteContent.append(_message.render());
         _confirmPopup.open();
@@ -233,7 +236,7 @@
     var _createOwnProposal = function(type, participants){
       var _contentCreateOwn = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
       $('body').append(_contentCreateOwn);
-      var _popup = new Foundation.Reveal(_contentCreateOwn, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+      var _popup = new Foundation.Reveal(_contentCreateOwn, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out',  multipleOpened:true});
 
       var _callbackCreatedProposal = function(data, callback){
         if(data['status'] == 'success') {
@@ -242,6 +245,7 @@
         }
         else{
           Pard.Widgets.Alert('',Pard.Widgets.Dictionary(data.reason).render());
+          callback();
         }
       }
 
@@ -257,13 +261,19 @@
       _createOwnProposalWidget.setSend(_sendProposal);
       var _message = Pard.Widgets.PopupContent('Crea y enscribe una propuesta de tipo '+Pard.Widgets.Dictionary(type).render().toLowerCase(), _createOwnProposalWidget);
       _message.setCallback(function(){
-        _contentCreateOwn.remove();
         _popup.close();
+        setTimeout(
+          function(){
+             _contentCreateOwn.remove();
+          },500);
       });
       _contentCreateOwn.append(_message.render());
       _closePopupForm = function(){
         _popup.close();
-        _contentCreateOwn.remove();
+        setTimeout(
+          function(){
+             _contentCreateOwn.remove();
+          },500);
       };
       _popup.open();
     }

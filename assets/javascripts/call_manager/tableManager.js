@@ -574,7 +574,7 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
-        if (artist.own) _deleteOwnArtist(artist); 
+        if (_ownArtists[artist.profile_id]) _deleteOwnArtist(artist); 
         _selectCatReload(); 
       },
       deleteSpace: function(space){
