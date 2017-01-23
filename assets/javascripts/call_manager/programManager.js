@@ -1367,18 +1367,35 @@
         _popup.open();
       });
 
+      
       var _orderSpaceBtn = $('<li>').text('Ordena Espacios');
       _orderSpaceBtn.on('click', function(){
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
         $('body').append(_content);
+        var OrderSpaceWidget = OrderSpace();
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        var _message = Pard.Widgets.PopupContent('Ordena Espacios', OrderSpace());
+        var _message = Pard.Widgets.PopupContent('Ordena Espacios', OrderSpaceWidget);
         _message.setCallback(function(){
           setTimeout(function(){
             _content.remove();
           },500);
-          _popup.close();
+
+          order = OrderSpaceWidget.getList();
+          Pard.Backend.saveOrder(the_event.event_id, order, function(){
+            _spaceSelector.trigger('select2:unselecting');
+            _shownSpaces = order;
+            _shownSpaces.forEach(function(profile_id, index){
+              if(index == _shownSpaces.length - 1) return;
+              Object.keys(eventTime).forEach(function(date){
+                the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index + 1]].columns[date]);
+              });
+            });
+            _shownSpaces.forEach(function(profile_id, index){
+              the_event.spaces[profile_id].alignPerformances(index);
+            });
+            _popup.close();
+          });
         });
         _content.append(_message.render());
         _popup.open();
@@ -1664,8 +1681,18 @@
         var _orderButtonsContainer = $('<div>').addClass('order-buttons-container');
         var _orderText = $('<span>').text('Ordena por:');
 
-        _listSortable.sortable({cursor: "move"});
+        _listSortable.sortable({
+          cursor: "move",
+          update: function(){
+            order = _listSortable.sortable('toArray');
+            order.forEach(function(space_id, index){
+              _spaceCards[space_id].index(index);
+            });
+          }
+        });
         _listSortable.disableSelection();
+
+        var _spaceCards = {}
 
         var _printSpaceCard = function(space, index){
           var _order = index + 1;
@@ -1679,7 +1706,14 @@
           .mouseup(function(){
             _spaceCard.removeClass('cursor_move').addClass('cursor_grab');
           });
-          return _spaceCard
+          return {
+            render: function(){
+              return _spaceCard;
+            },
+            index: function(index){
+              _spaceCard.text((index + 1) + '. ' + space.name);
+            }
+          }
         }
 
         var spaces = order.map(function(profile_id){
@@ -1690,7 +1724,9 @@
         var _catArrays = {};
 
         spaces.forEach(function(space, index){
-          _listSortable.append(_printSpaceCard(space, index));
+          var _spaceCard = _printSpaceCard(space, index);
+          _spaceCards[space.profile_id] = _spaceCard;
+          _listSortable.append(_spaceCard.render());
           if (!(_catArrays[space.subcategory])) _catArrays[space.subcategory] = [space];
           else _catArrays[space.subcategory].push(space);
         });
@@ -1700,8 +1736,9 @@
           spaces.sort(function(s1, s2){
             return s1.name.localeCompare(s2.name);
           });
-          spaces.forEach(function(sp, n){
-            _listSortable.append(_printSpaceCard(sp, n));
+          spaces.forEach(function(space, index){
+            _spaceCards[space.profile_id].index(index);
+            _listSortable.append(_spaceCards[space.profile_id].render());
           });
         });
 
@@ -1711,37 +1748,21 @@
           for (var cat in _catArrays){
             spaces = spaces.concat(_catArrays[cat]);
           }
-          spaces.forEach(function(sp, n){
-            _listSortable.append(_printSpaceCard(sp, n));
+          spaces.forEach(function(space, index){
+            _spaceCards[space.profile_id].index(index);
+            _listSortable.append(_spaceCards[space.profile_id].render());
           });
         });
 
-        var _OKbtn = Pard.Widgets.Button('OK', function(){
-          order = _listSortable.sortable('toArray');
-          Pard.Backend.saveOrder(the_event.event_id, order, function(){
-            _spaceSelector.trigger('select2:unselecting');
-            _shownSpaces = _listSortable.sortable('toArray');
-            _shownSpaces.forEach(function(profile_id, index){
-              if(index == _shownSpaces.length - 1) return;
-              Object.keys(eventTime).forEach(function(date){
-                the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index + 1]].columns[date]);
-              });
-            });
-            _shownSpaces.forEach(function(profile_id, index){
-              the_event.spaces[profile_id].alignPerformances(index);
-            });
-            _closePopup();
-          });
-        });
-
-        var _OKbtnContainer = $('<div>').addClass('OK-btn-container');
-        _OKbtnContainer.append(_OKbtn.render());
-        _orderButtonsContainer.append(_orderText, _alphaBtn.render(), _catOrderBtn.render(), _OKbtnContainer);
+        _orderButtonsContainer.append(_orderText, _alphaBtn.render(), _catOrderBtn.render());
         _createdWidget.append(_orderButtonsContainer, _listSortable);
 
         return {
           render: function(){
             return _createdWidget;
+          },
+          getList: function(){
+            return _listSortable.sortable('toArray');
           },
           setCallback: function(callback){
             _closePopup = callback
