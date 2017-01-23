@@ -52,22 +52,22 @@
     _myProfileContent.append($('<div>').append(_createProfileCard).addClass('createProfileCard-userPage'));
     if (_myprofiles.length<5){
       _myprofileOuterCont.css({
-        'padding-top': '-moz-calc((100vh - 250px - 60px)/2)',
-        'padding-top': '-webkit-calc((100vh - 250px - 60px)/2))',
-        'padding-top':'calc((100vh - 250px - 60px)/2)',
-        'padding-bottom': '-moz-calc((100vh - 250px - 60px)/2)',
-        'padding-bottom': '-webkit-calc((100vh - 250px - 60px)/2))',
-        'padding-bottom':'calc((100vh - 250px - 60px)/2)'
+        'padding-top': '-moz-calc((100vh - 280px - 73px)/2)',
+        'padding-top': '-webkit-calc((100vh - 280px - 73px)/2))',
+        'padding-top':'calc((100vh - 280px - 73px)/2)',
+        'padding-bottom': '-moz-calc((100vh - 280px - 73px)/2)',
+        'padding-bottom': '-webkit-calc((100vh - 280px - 73px)/2))',
+        'padding-bottom':'calc((100vh - 280px - 73px)/2)'
       });
     }
     else if (_myprofiles.length<10){
       _myprofileOuterCont.css({
-        'padding-top': '-moz-calc((100vh - 516px - 60px)/2)',
-        'padding-top': '-webkit-calc((100vh - 516px - 60px)/2))',
-        'padding-top':'calc((100vh - 516px - 60px)/2)',
-        'padding-bottom': '-moz-calc((100vh - 516px - 60px)/2)',
-        'padding-bottom': '-webkit-calc((100vh - 516px - 60px)/2))',
-        'padding-bottom':'calc((100vh - 516px - 60px)/2)'
+        'padding-top': '-moz-calc((100vh - 516px - 73px)/2)',
+        'padding-top': '-webkit-calc((100vh - 516px - 73px)/2))',
+        'padding-top':'calc((100vh - 516px - 73px)/2)',
+        'padding-bottom': '-moz-calc((100vh - 516px - 73px)/2)',
+        'padding-bottom': '-webkit-calc((100vh - 516px - 73px)/2))',
+        'padding-bottom':'calc((100vh - 516px - 73px)/2)'
       });
     }
     _myProfileDiv.append(_myprofileOuterCont.append(_myProfileContent));

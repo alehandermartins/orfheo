@@ -381,7 +381,7 @@ ns.Widgets = ns.Widgets || {};
       .css({
         'position': 'relative',
         'height': '100px',
-        'margin-top':'3.5rem'
+        'margin-top':'2rem'
       });
 
     var _signUpBtn = Pard.Widgets.SignUpButton().render().addClass('signUpBtnWelcomePage')
@@ -389,7 +389,7 @@ ns.Widgets = ns.Widgets || {};
     var _cardsContainer = $('<div>')
       .css({
         'position':'relative',
-        'margin-top':'3rem',
+        'margin-top':'2.5rem',
         'padding-bottom':'1rem'
       });
     var _cardSlider = $('<div>').addClass('card-slider');
@@ -469,7 +469,7 @@ ns.Widgets = ns.Widgets || {};
     var _longTextDiv = $('<div>').addClass('littleTextDiv');
     var _longTextContainer = $('<div>').addClass('welcomeSection-container'); 
     var _titleLongText = $('<h4>').html('Une a las personas:</br> Crea en red con tu comunidad cultural');
-    var _callLongText = $('<a>').attr('href','#/')
+    var _callLongText = $('<a>').attr('href','/services')
       .text('Lanza y gestiona tu convocatoria en orfheo')
       .append(Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
@@ -501,7 +501,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().addClass('navigationIcon-findOutMore');
     var _findOutMore = $('<div>')
-      .append($('<a>').text('Descubre más').attr('href','#/')  
+      .append($('<a>').text('Descubre más').attr('href','/services')  
         .click(function(){
           $('#toServicesPage').trigger('click');
         })

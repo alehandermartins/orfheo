@@ -50,8 +50,8 @@ main.mainWelcomePage{
 .mainLogo-welcomePage{
   cursor: default;
   background-image: url(<%= image_path 'lettering_black_xxl.png' %>);
-  width: 240px;
-  height: 80px;
+  width: 217px;
+  height: 72px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   @include breakpoint(small down){ 
@@ -407,7 +407,7 @@ main.mainWelcomePage{
   @include border-radius($element-border-radius);
   background: $blue-pard;
   padding: .4rem 1.8rem;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 .signUpBtnWelcomePage:hover{
@@ -593,7 +593,7 @@ main.mainUserPage{
   margin: 0;
   padding: 0;
   section{
-    padding-top:3.3rem;
+    /* padding-top:3.3rem; */
     min-height: -moz-calc(100vh - 1.8rem);
     min-height: -webkit-calc(100vh - 1.8rem);
     min-height: calc(100vh - 1.8rem);

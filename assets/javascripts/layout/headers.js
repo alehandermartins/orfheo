@@ -137,21 +137,29 @@ ns.Widgets = ns.Widgets || {};
       $('#'+id_).addClass('visible').show();
     }
 
-    var _logo = $('<a>').append($('<div>').addClass('logo-header')).attr('href','#')
-      .click(function(){
-        $('.selected').removeClass('selected');
-        _showHide('welcomeSection');
-        // _init.addClass('selected');
-        if (_profilesSection) _profilesSection.deactivate();
-      });
+    var _semicircleTop = $('<div>').addClass('semiCircleHeaderTop');
+    var _semicircleBottom = $('<div>').addClass('semiCircleHeaderBottom');
+
+    var _logo = $('<a>').append($('<div>').addClass('logo-header')).attr('href','/');
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
 
     var _rightContainer = $('<div>');
 
     var _navMenuContainer = $('<div>').addClass('navMenuHeader-container');
     var _navMenu = $('<ul>').addClass('navMenuHeader');
+    var _welcomeBtn = $('<li>')
+      .append($('<button>').text('Welcome').attr('type','button'))
+      .click(function(){
+        $(window).scrollTop(0); 
+        $('.selected').removeClass('selected');
+        _welcomeBtn.addClass('selected');
+        _showHide('welcomeSection');
+        if (_profilesSection) _profilesSection.deactivate();
+      })
+      .addClass('selected');
     var _profilesSection;
-    var _profilesBtn = $('<li>').append($('<button>').text('Perfiles').attr('type','button'))
+    var _profilesBtn = $('<li>')
+      .append($('<button>').text('Perfiles').attr('type','button'))
       .one('click', function(){
         _profilesSection = Pard.Widgets.ProfilesWelcomeSection();
         $('#profilesSection').append(_profilesSection.render());
@@ -164,7 +172,8 @@ ns.Widgets = ns.Widgets || {};
         _profilesSection.activate();
       });
       // .css('width','52px');
-    var _eventsBtn = $('<li>').append($('<button>').text('Eventos').attr('type','button'))
+    var _eventsBtn = $('<li>')
+      .append($('<button>').text('Eventos').attr('type','button'))
       .one('click', function(){
         $('#eventsSection').append(Pard.Widgets.EventsWelcomeSection().render());
       })
@@ -176,7 +185,8 @@ ns.Widgets = ns.Widgets || {};
         if (_profilesSection) _profilesSection.deactivate();
       });
       // .css('width','58px');
-    var _newsBtn = $('<li>').append($('<button>').text('Novedades').attr('type','button'))
+    var _newsBtn = $('<li>')
+      .append($('<button>').text('Novedades').attr('type','button'))
      .one('click', function(){
         $('#newsSection').append(Pard.Widgets.NewsWelcomeSection().render());
       })
@@ -188,23 +198,24 @@ ns.Widgets = ns.Widgets || {};
         if (_profilesSection) _profilesSection.deactivate();
       });
       // .css('width','79px');
-    _navMenuContainer.append(_navMenu.append(_profilesBtn, _eventsBtn, _newsBtn));
+    _navMenuContainer.append(_navMenu.append(_welcomeBtn, _profilesBtn, _eventsBtn, _newsBtn));
 
-    var _callBtn = $('<button>').attr('type','button')
+    var _callBtn = $('<a>').attr('href','/services')
       .text('Lanza tu convocatoria')
       .addClass('makeCallBtn');
 
-    _logo.addClass('selected');
     _upperContent.append(_logoContainer);
     _navBar.append(_navMenuContainer);
     _createdWidget.append(
       _upperContainer.append(
         _upperContent
-      ), 
+      ),
+      $('<div>').append(_semicircleTop).addClass('semiCircleHeaderTop-container'), 
       _lowerContainer.append(
         _navBarContainer.append(
           _navBar
-        )
+        ),
+        _semicircleBottom
       )
     );
 

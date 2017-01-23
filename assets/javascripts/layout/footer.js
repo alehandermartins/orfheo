@@ -101,17 +101,9 @@ ns.Widgets = ns.Widgets || {};
     var _servicesInfo;
     var _servicesOrfheo = $('<li>').append($('<a>').text('Servicios')
       .attr({
-        'href':'#/',
+        'href':'/services',
         'id':'toServicesPage'
       }))
-      .one('click',function(){
-        _servicesPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        _servicesInfo = Pard.Widgets.ServicesInfo(_servicesPopup);
-      })
-      .on('click',function(){
-        _content.empty().append(_servicesInfo);
-        _servicesPopup.open();
-      });
 
     // _rightContent.append(_project, ' | ', _place);
     _rightContent.append(_rightMenu.append(_servicesOrfheo,_contactaOrfheo));
