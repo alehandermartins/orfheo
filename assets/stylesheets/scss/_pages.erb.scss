@@ -17,7 +17,7 @@ main.mainWelcomePage{
 
 
 .welcomeSection-layout{
-  width: 100vw;
+  width: 100%;
   min-height: 100%;
   position: relative;
   .welcomeSection-container{
@@ -26,7 +26,7 @@ main.mainWelcomePage{
     position: relative;
   }
   .entryDiv{
-    width: 100vw;
+    width: 100%;
     height: -moz-calc(100vh - 5rem);
     height: -webkit-calc(100vh - 5rem);
     height: calc(100vh - 5rem);
@@ -193,7 +193,7 @@ main.mainWelcomePage{
 .actionDiv{
   height: 25rem;
   position: relative;
-  width: 100vw;
+  width: 100%;
   text-align: center;
   margin: 0.4rem 0;
   background: $grey-1;

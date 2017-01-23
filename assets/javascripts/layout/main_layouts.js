@@ -8,6 +8,8 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.MainWelcomePage = function(profilesSection){
     var _main = $('<main>').addClass('mainWelcomePage');
 
+    var _innerMainContainer = $('<div>').css('width','100vw');
+
     var _welcomeSection = Pard.Widgets.WelcomeSection().attr('id','welcomeSection').addClass('visible');
 
     var _profiles= $('<section>')
@@ -22,7 +24,7 @@ ns.Widgets = ns.Widgets || {};
       .addClass('welcomeSection-layout')
       .attr('id','newsSection').hide();
 
-    _main.append(_welcomeSection, _profiles, _events, _news);
+    _main.append(_innerMainContainer.append(_welcomeSection, _profiles, _events, _news));
 
     return {
       render: function(){
@@ -33,6 +35,8 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.MainUserPage = function(profilesSection){
     var _main = $('<main>').addClass('mainUserPage');
+
+    var _innerMainContainer = $('<div>').css('width','100vw');
 
     var _initSection = Pard.Widgets.UserInitSection().attr('id','welcomeSection').addClass('visible');
 
@@ -48,7 +52,7 @@ ns.Widgets = ns.Widgets || {};
       .addClass('welcomeSection-layout')
       .attr('id','newsSection').hide();
 
-    _main.append(_initSection, _profiles, _events, _news);
+    _main.append(_innerMainContainer.append(_initSection, _profiles, _events, _news));
 
     return {
       render: function(){
