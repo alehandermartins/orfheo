@@ -817,14 +817,29 @@ ns.Widgets.InputAddressSpace = function(label){
 
   ns.Widgets.InputName = function(){
 
+    var _createdWidget = $('<div>');
     var _input = $('<input>').attr({'type': 'text'});
+    var _error = $('<div>').text('Este nombre de perfil ya existe. Escoge otro para poder proceder.')
+      .css({
+        'color':'red',
+        'font-size':'12px',
+        'margin-bottom':'-1.15rem'
+      })
+      .hide();
 
     _input.on('input', function(){
       Pard.Backend.checkName(_input.val(), function(data){
         _input.removeClass('warning');
         _input.removeClass('available');
-        if(data.available == false) _input.addClass('warning');
-        if(data.available == true) _input.addClass('available');
+        _error.hide();
+        if(data.available == false) {
+          _input.addClass('warning');
+          _error.show();
+        };
+        if(data.available == true) {
+          _input.addClass('available');
+          _error.hide();
+        }
       })
     });
 
@@ -840,10 +855,11 @@ ns.Widgets.InputAddressSpace = function(label){
       }
     });
 
+    _createdWidget.append(_input, _error);
 
     return{
       render: function(){
-        return _input;
+        return _createdWidget;
       },
       getVal: function(){
         return _input.val();
