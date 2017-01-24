@@ -212,12 +212,10 @@
           var _distanceFromWindow = _elDistanceFromTop -_windowScroll;
 
           if (_distanceFromWindow * _diffI < 0 && !($(elem).hasClass('position-fixed')))   {
-            console.log('fixed')
             $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
             _diffI = - 1;
           }
           if (_windowScroll - initialDistanceFromHeader - stickyDistanceTop < 0 && $(elem).hasClass('position-fixed')){
-            console.log('release')
               $(elem).removeClass('position-fixed').css({'top':''});
               _diffI = 1;
           }
@@ -231,13 +229,14 @@
     var _diffI = 1;
 
     $(document).ready(function(){
+      console.log($(elem).offset().top);
       $(window).scroll(function(){
         var _elDistanceFromTop = $(elem).offset().top;
         var _windowScroll = $(window).scrollTop();
         var _distanceFromWindow = _elDistanceFromTop - $('header').height() -_windowScroll;
         if (_distanceFromWindow*_diffI<0 && !($(elem).hasClass('position-fixed'))){
           console.log('fixed')
-          $('.pard-header-container').hide();
+          $('.orfheoHeader').hide();
           $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
           _diffI = -1;
         }
@@ -245,7 +244,7 @@
           console.log('release')
           $(elem).removeClass('position-fixed').css({'top':''});
           _diffI = +1;
-          $('.pard-header-container').show();  
+          $('.orfheoHeader').show();  
         }
       });
     })

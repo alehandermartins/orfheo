@@ -263,12 +263,17 @@ Pard.Event = function(the_event, status){
   var _whole = $('<div>').addClass('whole-container');
 
   var _footer = Pard.Widgets.Footer();
-  if(status == 'visitor' || status == 'owner') var _header = Pard.Widgets.InsideHeader();
-  else{var _header = Pard.Widgets.LoginHeader();}
+  if(status == 'visitor' || status == 'owner') {
+    var _header = Pard.Widgets.InsideHeader();
+  }
+  else{
+    var _header = Pard.Widgets.LoginHeader();
+    _header.positionRelative();
+  }
   var _main = Pard.Widgets.MainOffCanvasLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
   _whole.append(
     _header.render(), 
-    _main.render().addClass('main-welcome-page').css('margin-bottom','0'),
+    _main.render().removeClass('outsider-main').addClass('inside-main').css('background','#f6f6f6'),
     _footer.render().removeClass('footer-outsider')
   );
 

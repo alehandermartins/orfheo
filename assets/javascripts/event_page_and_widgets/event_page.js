@@ -335,10 +335,10 @@
 
 
     if ($(window).width()<640){
-      Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 452, 0);
+      Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 399, 0);
     }
     else {
-      Pard.Widgets.Sticker(_searchWidgetsContainer, 452, -10);
+      Pard.Widgets.Sticker(_searchWidgetsContainer, 399, 0);
     }
 
     $(window).load(function(){

@@ -201,9 +201,12 @@ ns.Widgets = ns.Widgets || {};
       // .css('width','79px');
     _navMenuContainer.append(_navMenu.append(_welcomeBtn, _profilesBtn, _eventsBtn, _newsBtn));
 
-    var _callBtn = $('<a>').attr('href','/services')
-      .text('Lanza tu convocatoria')
+    var _callBtn = $('<div>')
+      .append($('<a>').attr('href','/services').text('Lanza tu convocatoria'))
       .addClass('makeCallBtn');
+
+    var _semicircleBottomContainer =  $('<div>').addClass('semiCircleHeaderBottom-container');
+    var _semicircleTopContainer = $('<div>').addClass('semiCircleHeaderTop-container fixed'); 
 
     _upperContent.append(_logoContainer);
     _navBar.append(_navMenuContainer);
@@ -211,12 +214,12 @@ ns.Widgets = ns.Widgets || {};
       _upperContainer.append(
         _upperContent
       ),
-      $('<div>').append(_semicircleTop).addClass('semiCircleHeaderTop-container'), 
+      _semicircleTopContainer.append(_semicircleTop),
       _lowerContainer.append(
         _navBarContainer.append(
           _navBar
         ),
-        $('<div>').append(_semicircleBottom).addClass('semiCircleHeaderBottom-container')
+      _semicircleBottomContainer.append(_semicircleBottom)
       )
 
     );
@@ -269,82 +272,90 @@ ns.Widgets = ns.Widgets || {};
 
     $(document).on('show.zf.dropdown', function() {
       _loginText.addClass('iconDropdown-clicked');
+      $('header').css('overflow','visible');
     });
     $(document).on('hide.zf.dropdown', function(){
       _loginText.removeClass('iconDropdown-clicked');
-    });
-    
+      $('header').css('overflow','hidden');
+    });   
+
     var _createdWidget = $('<header>').addClass('orfheoHeader fixed');
+    var _innerHeaderContainer = $('<div>').css('width','100vw');
+    var _upperContainer = $('<div>').addClass('upperContainerHeader black'); 
+    var _upperContent = $('<div>').addClass('pard-grid contentHeader');  
 
-    var userStatus = Pard.UserStatus['status'];
-   
-    var _topBar = $('<div>').addClass('pard-grid  clearfix');
-    var _container = $('<div>').addClass('contentHeader');
-    
-    var _topBarTitle = $('<div>')
-    var _logo = $('<a>').attr({
-      'href': '/'
-    }).append($('<div>').addClass('logo-header'));
-     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
-    _topBarTitle.append(_logoContainer);
-   
+    var _semicircleTop = $('<div>').addClass('semiCircleHeaderTop');
+    var _logo = $('<a>').append($('<div>').addClass('logo-header')).attr('href','/');
+    var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
+
     var _responsiveMenu = $('<span>').addClass('clearfix displayNone-for-large');
-
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
     _elemOffCanvas.append(_iconOffCanvas).attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
     _elemOffCanvas.click(function(){$(window).scrollTop(0);});
-
     _responsiveMenu.append(_elemOffCanvas);
 
     var _rightContainer = $('<div>');
     _rightContainer.addClass('loginContainer');
     var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
-    
     var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login').addClass('loginText')
       .append(Pard.Widgets.IconManager('arrowDropDown').render().addClass('arrowLoginDropdown'));
+    var _loginWidget = $('<div>').append(_loginInputs)
+      .addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':'', 'data-close-on-click':true});
+    _rightContainer.append(
+      _loginText, 
+      _loginWidget, 
+      Pard.Widgets.SignUpButton().render().addClass('signUpHeader-welcomePage')
+    );  
+    
+    var _semicircleTopContainer =  $('<div>').addClass('semiCircleHeaderTop-container fixed');
 
-    var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':'', 'data-close-on-click':true});
-    _rightContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUpHeader-welcomePage'));  
-        
-    _container.append(_topBarTitle, _responsiveMenu, _rightContainer);
-    _topBar.append(_container);
-    _createdWidget.append(_topBar);
+    _upperContent.append(
+      _logoContainer, 
+      _responsiveMenu, 
+      _rightContainer
+    );
+    _innerHeaderContainer.append(
+      _upperContainer.append(_upperContent),
+      _semicircleTopContainer.append(_semicircleTop)
+    );
+    _createdWidget.append(_innerHeaderContainer);
 
     return {
       render: function(){
         return _createdWidget;
       },
-      showRegisterBtn: function(){
-        _registerBtnOut.show();
-      } 
+      positionRelative: function(){
+        _createdWidget.removeClass('fixed');
+        _semicircleTopContainer.removeClass('fixed').addClass('semicirclePositionRelative');
+      }
     }
   }
 
-
-
   ns.Widgets.InsideHeader = function(){
+    $(document).on('show.zf.dropdown', function() {
+      _settingsDropdown.addClass('iconDropdown-clicked');
+      $('header').css('overflow','visible');
+    });
+    $(document).on('hide.zf.dropdown', function(){
+      _settingsDropdown.removeClass('iconDropdown-clicked');
+      $('header').css('overflow','hidden');
+    });   
+
     var _createdWidget = $('<header>').addClass('orfheoHeader');
+    var _innerHeaderContainer = $('<div>').css('width','100vw');
+    var _upperContainer = $('<div>').addClass('upperContainerHeader black'); 
+    var _upperContent = $('<div>').addClass('pard-grid contentHeader');  
 
-    var userStatus = Pard.UserStatus['status'];
-   
-    var _topBar = $('<div>').addClass('pard-grid  clearfix');
-    var _container = $('<div>').addClass('contentHeader');
-    
-    var _topBarTitle = $('<div>')
-    var _logo = $('<a>').attr({
-      'href': '/'
-    }).append($('<div>').addClass('logo-header'));
-     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
-    _topBarTitle.append(_logoContainer);
-   
-    var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
+    var _semicircleTop = $('<div>').addClass('semiCircleHeaderTop');
+    var _logo = $('<a>').append($('<div>').addClass('logo-header')).attr('href','/');
+    var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
 
+    var _responsiveMenu = $('<span>').addClass('clearfix displayNone-for-large');
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
     var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
     _elemOffCanvas.append(_iconOffCanvas).attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
     _elemOffCanvas.click(function(){$(window).scrollTop(0);});
-
     _responsiveMenu.append(_elemOffCanvas);
 
     var _rightContainer = $('<div>');
@@ -361,12 +372,176 @@ ns.Widgets = ns.Widgets || {};
       )
       .addClass('initText');
     var _settingsDropdown = $('<li>')
-      .append(Pard.Widgets.ProfileDropdownMenu().render());
-    _rightContainer.append(_rightMenu.append(_init, _settingsDropdown)).addClass('rightContent-insideNavMenu');
+      .append(Pard.Widgets.InsideDropdownMenu().render());
+    _rightContainer.append(_rightMenu.append(_init, _settingsDropdown)).addClass('rightContent-insideNavMenu');  
+    
+    var _semicircleTopContainer =  $('<div>').addClass('semiCircleHeaderTop-container semicirclePositionRelative');
 
-    _container.append(_topBarTitle, _responsiveMenu, _rightContainer);
-    _topBar.append(_container);
-    _createdWidget.append(_topBar);
+    _upperContent.append(
+      _logoContainer, 
+      _responsiveMenu, 
+      _rightContainer
+    );
+    _innerHeaderContainer.append(
+      _upperContainer.append(_upperContent),
+      _semicircleTopContainer.append(_semicircleTop)
+    );
+    _createdWidget.append(_innerHeaderContainer);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      }
+    }
+  }
+
+
+
+
+  // ns.Widgets.InsideHeader = function(){
+  //   var _createdWidget = $('<header>').addClass('orfheoHeader');
+
+  //   var userStatus = Pard.UserStatus['status'];
+   
+  //   var _topBar = $('<div>').addClass('pard-grid  clearfix');
+  //   var _container = $('<div>').addClass('contentHeader');
+    
+  //   var _topBarTitle = $('<div>')
+  //   var _logo = $('<a>').attr({
+  //     'href': '/'
+  //   }).append($('<div>').addClass('logo-header'));
+  //    var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
+  //   _topBarTitle.append(_logoContainer);
+   
+  //   var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
+  //   var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
+  //   var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
+  //   _elemOffCanvas.append(_iconOffCanvas).attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
+  //   _elemOffCanvas.click(function(){$(window).scrollTop(0);});
+
+  //   _responsiveMenu.append(_elemOffCanvas);
+
+  //   var _rightContainer = $('<div>');
+  //   var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
+  //   var _init = $('<li>')
+  //     .append($('<a>').attr('href','/')
+  //       .text('Inicio')
+  //       .click(function(){
+  //         $('.selected').removeClass('selected');
+  //         _init.addClass('selected');
+  //         _showHide('welcomeSection');
+  //         if (_profilesSection) _profilesSection.deactivate();
+  //       })
+  //     )
+  //     .addClass('initText');
+  //   var _settingsDropdown = $('<li>')
+  //     .append(Pard.Widgets.UserDropdownMenu().render());
+  //   _rightContainer.append(_rightMenu.append(_init, _settingsDropdown)).addClass('rightContent-insideNavMenu');
+
+  //   _container.append(_topBarTitle, _responsiveMenu, _rightContainer);
+  //   _topBar.append(_container);
+  //   _createdWidget.append(_topBar);
+
+  //   return {
+  //     render: function(){
+  //       return _createdWidget;
+  //     } 
+  //   }
+  // }
+
+  ns.Widgets.UserDropdownMenu = function(){   
+
+    $(document).on('show.zf.dropdown', function() {
+      _iconDropdownMenu.addClass('iconDropdown-clicked');
+    });
+    $(document).on('hide.zf.dropdown', function(){
+      _iconDropdownMenu.removeClass('iconDropdown-clicked');
+
+    });
+
+    var _createdWidget = $('<div>');       
+
+    var _menuContainer = $('<div>').addClass('dropdown-pane container-insideMenu').attr({'id':'insideMenuDropDown', 'data-close-on-click':true, 'data-dropdown':''});  
+    var _menu = $('<ul>').addClass('dropdownHeaderMenu');
+ 
+    var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#/'));
+
+    var _modifyCaller = Pard.Widgets.ModifyPassword().render()
+      .attr('href','#/')
+      .click(function(){
+        _menuContainer.foundation('close');
+      });
+    var _modifyPassword = $('<li>').append(_modifyCaller);
+
+    var _deleteUserPopup;
+    var _deleteUserMex = Pard.Widgets.DeleteUserMessage();
+    var _deleteCaller = $('<a>').attr('href','#/').text('Elimina mi cuenta')
+      .one('click', function(){
+        _deleteUserPopup = Pard.Widgets.Popup();
+        _deleteUserMex.setCallback(function(){_deleteUserPopup.close()});
+        _deleteUserPopup.setContent('¿Estás seguro/a?',_deleteUserMex.render());
+      })
+      .click(function(){
+        _menuContainer.foundation('close');
+        _deleteUserPopup.open();
+      });
+    var _deleteUser = $('<li>').append(_deleteCaller);
+
+    var _menuProfiles = $('<ul>').addClass('dropdownMenu menuProfiles');
+    var _menuEvents = $('<ul>').addClass('dropdownMenu menuEvents');
+    var _menuSettings = $('<ul>').addClass('dropdownMenu menuSettings')
+      .append(_deleteUser, _modifyPassword,  _logout);
+
+    Pard.Backend.header(function(data){
+      console.log(data);
+      if(data.status == 'success'){
+        data.profiles.forEach(function(profile){
+          var _circle = $('<div>').addClass('circleProfile-MenuHeader').css('background',profile.color);
+          var _profileName = $('<span>').text(profile.name);
+          _menuProfiles.append(
+            $('<li>').append($('<a>').append(_circle, _profileName).attr('href','/profile?id='+profile.profile_id)))
+            .click( function(){
+                _menuContainer.foundation('close');
+              }
+            )
+        });
+        _menuProfiles.append($('<li>').addClass('separator'));
+        data.events.forEach(function(event){
+          // console.log(event)
+          // var _img = $.cloudinary.image(event['img'], { format: 'jpg', width: 15, height: 20, crop: 'fill', effect: 'saturation:50' });
+          var en = event.name;
+          if (en.length>30) en = en.substring(0,29) + '...';
+          var _eventName = $('<span>').text(en)
+            .css({
+              'border-left':'2px solid '+ event.color,
+              'padding-left':'1rem'
+            });
+          _menuEvents.append(
+            $('<li>').append($('<a>').append(_eventName).attr('href','/event?id='+event.event_id)))
+            .click( function(){
+                _menuContainer.foundation('close');
+              }
+            )
+        });
+        _menuEvents.append($('<li>').addClass('separator'));
+      }
+      else{
+        console.log('error')
+      }
+    });
+
+    _menuContainer.append(_menu.append(
+      $('<li>').append(_menuProfiles),
+      $('<li>').append(_menuEvents),
+      $('<li>').append(_menuSettings)
+    ));
+
+    var _iconDropdownMenu =  $('<button>')
+      .addClass('settings-icon-dropdown-menu')
+      .attr({'type': 'button', 'data-toggle':'insideMenuDropDown'})
+      .append($('<span>').html('&#xE5C5;').addClass('material-icons'));
+
+    _createdWidget.append(_iconDropdownMenu, _menuContainer);
 
     return {
       render: function(){
@@ -374,6 +549,110 @@ ns.Widgets = ns.Widgets || {};
       } 
     }
   }
+
+
+  ns.Widgets.InsideDropdownMenu = function(){     
+
+   $(document).on('show.zf.dropdown', function() {
+      _iconDropdownMenu.addClass('iconDropdown-clicked');
+    });
+    $(document).on('hide.zf.dropdown', function(){
+      _iconDropdownMenu.removeClass('iconDropdown-clicked');
+
+    });
+
+    var _createdWidget = $('<div>');       
+
+    var _menuContainer = $('<div>').addClass('dropdown-pane container-insideMenu').attr({'id':'insideMenuDropDown', 'data-close-on-click':true, 'data-dropdown':''});  
+    var _menu = $('<ul>').addClass('dropdownHeaderMenu');
+ 
+    var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#/'));
+
+    var _modifyCaller = Pard.Widgets.ModifyPassword().render()
+      .attr('href','#/')
+      .click(function(){
+        _menuContainer.foundation('close');
+      });
+    var _modifyPassword = $('<li>').append(_modifyCaller);
+
+    // var _deleteUserPopup;
+    // var _deleteUserMex = Pard.Widgets.DeleteUserMessage();
+    // var _deleteCaller = $('<a>').attr('href','#/').text('Elimina mi cuenta')
+    //   .one('click', function(){
+    //     _deleteUserPopup = Pard.Widgets.Popup();
+    //     _deleteUserMex.setCallback(function(){_deleteUserPopup.close()});
+    //     _deleteUserPopup.setContent('¿Estás seguro/a?',_deleteUserMex.render());
+    //   })
+    //   .click(function(){
+    //     _menuContainer.foundation('close');
+    //     _deleteUserPopup.open();
+    //   });
+    // var _deleteUser = $('<li>').append(_deleteCaller);
+
+    var _menuProfiles = $('<ul>').addClass('dropdownMenu menuProfiles');
+    var _menuEvents = $('<ul>').addClass('dropdownMenu menuEvents');
+    var _menuSettings = $('<ul>').addClass('dropdownMenu menuSettings')
+      .append(_modifyPassword,  _logout);
+
+    Pard.Backend.header(function(data){
+      console.log(data);
+      if(data.status == 'success'){
+        data.profiles.forEach(function(profile){
+          var _circle = $('<div>').addClass('circleProfile-MenuHeader').css('background',profile.color);
+          var _profileName = $('<span>').text(profile.name);
+          _menuProfiles.append(
+            $('<li>').append($('<a>').append(_circle, _profileName).attr('href','/profile?id='+profile.profile_id)))
+            .click( function(){
+                _menuContainer.foundation('close');
+              }
+            )
+        });
+        _menuProfiles.append($('<li>').addClass('separator'));
+        data.events.forEach(function(event){
+          // console.log(event)
+          // var _img = $.cloudinary.image(event['img'], { format: 'jpg', width: 15, height: 20, crop: 'fill', effect: 'saturation:50' });
+          var en = event.name;
+          if (en.length>30) en = en.substring(0,29) + '...';
+          var _eventName = $('<span>').text(en)
+            .css({
+              'border-left':'2px solid '+ event.color,
+              'padding-left':'1rem'
+            });
+          _menuEvents.append(
+            $('<li>').append($('<a>').append(_eventName).attr('href','/event?id='+event.event_id)))
+            .click( function(){
+                _menuContainer.foundation('close');
+              }
+            )
+        });
+        _menuEvents.append($('<li>').addClass('separator'));
+      }
+      else{
+        console.log('error')
+      }
+    });
+
+    _menuContainer.append(_menu.append(
+      $('<li>').append(_menuProfiles),
+      $('<li>').append(_menuEvents),
+      $('<li>').append(_menuSettings)
+    ));
+
+    var _iconDropdownMenu =  $('<button>')
+      .addClass('settings-icon-dropdown-menu')
+      .attr({'type': 'button', 'data-toggle':'insideMenuDropDown'})
+      .append($('<span>').html('&#xE5C5;').addClass('material-icons'));
+
+    _createdWidget.append(_iconDropdownMenu, _menuContainer);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      } 
+    }
+  }
+
+
 
 
 }(Pard || {}));

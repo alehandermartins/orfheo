@@ -70,6 +70,7 @@ ns.Widgets = ns.Widgets || {};
     var _rgb = Pard.Widgets.IconColor(profiles[0]['color']).rgb();
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
     var _main = $('<main>').css({'background': _backColor});
+    var _innerMainContainer = $('<div>').css('width','100vw');
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
@@ -97,11 +98,14 @@ ns.Widgets = ns.Widgets || {};
     _offCanvasInner.append(_aside, _gridSpacing, _section);
 
     _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
-    _main.append(_mainLarge);
+    _main.append(_innerMainContainer.append(_mainLarge));
 
-     if (userStatus == 'outsider') {
-        _main.addClass('outsider-main');
-     }
+    if (userStatus == 'outsider') {
+      _main.addClass('outsider-main');
+    }
+    else{
+      _main.addClass('inside-main');
+    }
 
     return {
       render: function(){
