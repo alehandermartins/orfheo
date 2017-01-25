@@ -17,7 +17,8 @@
 
 
     if (Pard.CachedEvent.program.length){
-      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published){
+      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true'){
+        console.log(Pard.CachedEvent.published)
         var _program = $('<div>').addClass('aside-event-nav-btn');
         _program.text('Programa');
 

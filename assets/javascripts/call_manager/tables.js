@@ -830,12 +830,31 @@
           .click(function(){
             if (show.permanent == 'true') {
               var artistProgram = the_event.artists[show.participant_id].program;
-              var performancesBox = $('<div>').css('padding', 0);
-              Pard.Widgets.BigAlert(show.title +' (' + show.participant_name + ')', performancesBox);
-              performancesBox.append(artistProgram[show.performance_id].permanentManager(true).render());
+              var _externalPerformancesBox = $('<div>').css('padding', 0).addClass('noselect');
+              var _performancesPopup = Pard.Widgets.Popup();
+              _performancesPopup.setContent(show.title +' (' + show.participant_name + ')', _externalPerformancesBox);
+              var _content = artistProgram[show.performance_id].permanentManager(true);
+              _content.setCallback(function(){
+                _performancesPopup.close();
+                setTimeout(function(){
+                  _performancesPopup.destroy();
+                },500)
+              });
+              _externalPerformancesBox.append(_content.render());
+              _performancesPopup.open();
             }
             else  {
-              Pard.Widgets.BigAlert(show.title +' (' + show.participant_name + ')', the_event.program[show.performance_id].manager(true).render());
+              var _popupContent = the_event.program[show.performance_id].manager(true);
+              var _performancePopup = Pard.Widgets.Popup();
+              _popupContent.setCallback(function(){
+                _performancePopup.close();
+                setTimeout(
+                  function(){
+                    _performancePopup.destroy();
+                  },500)
+              });
+              _performancePopup.setContent(show.title +' (' + show.participant_name + ')', _popupContent.render())
+              _performancePopup.open();
             }
           })
           return _info;

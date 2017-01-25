@@ -493,7 +493,6 @@ ns.Widgets = ns.Widgets || {};
       .append(_deleteUser, _modifyPassword,  _logout);
 
     Pard.Backend.header(function(data){
-      console.log(data);
       if(data.status == 'success'){
         data.profiles.forEach(function(profile){
           var _circle = $('<div>').addClass('circleProfile-MenuHeader').css('background',profile.color);

@@ -534,7 +534,7 @@
       }
 
       var manager = function(check){
-        var performanceBox = $('<div>');
+        var performanceBox = $('<div>').addClass('noselect');
         var performanceContainer = $('<div>').css('height', 40);
         var daySelector = $('<select>');
         var spaceSelector = $('<select>');
@@ -732,9 +732,7 @@
           },
           setCallback: function(callback){
             _closePopup = function(){
-              setTimeout(function(){
-                performanceBox.remove();
-              },500);
+              performanceBox.remove();
               callback();
             }
           }
@@ -863,7 +861,7 @@
       }
 
       var manager = function(check){
-        var performanceBox = $('<div>');
+        var performanceBox = $('<div>').addClass('noselect');
         var performanceContainer = $('<div>').css('height', 40);
         var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).addClass('noselect');
         var daySelector;
@@ -1069,9 +1067,7 @@
           },
           setCallback: function(callback){
             _closePopup = function(){
-              setTimeout(function(){
-                performanceBox.remove();
-              },500);
+              performanceBox.remove();
               callback();
             }
           },
@@ -1088,7 +1084,7 @@
       }
 
       var PermanentManager = function(check){
-        var performancesBox = $('<div>').css({'padding': '0', 'margin-top':'1.5rem'});
+        var performancesBox = $('<div>').css({'padding': '0', 'margin-top':'1.5rem'}).addClass('noselect');
         var _all = $('<button>')
           .append(Pard.Widgets.IconManager('chained').render())
           .attr({'type':'button', 'title':'Encadena los cambios'})
@@ -1219,14 +1215,17 @@
 
           _manager.removeInputButton.click(function(e, state){
             if (!(state) && _managers.chained){
-              performancesBox.remove();
               Pard.Backend.deletePerformances(the_event.event_id, artistShows(), function(data){
+                performancesBox.remove();
+                _closePopup();
                 console.log('delete');
               });
             }
             else{
               Pard.Backend.deletePerformances(the_event.event_id, [show], function(data){
                 _manager.removeInputButton.trigger('click');
+                _managers.collection[show.performance_id].chainIcon.remove();
+                delete _managers.collection[show.performance_id];
                 for (var id in _managers.collection){
                   var manager = _managers.collection[id].manager;
                   if (_manager != manager){
@@ -1234,10 +1233,9 @@
                     .trigger('reload', [show.date]);
                   }
                 }
+                if ($.isEmptyObject(_managers.collection)) _closePopup();
               }); 
             }      
-            _managers.collection[show.performance_id].chainIcon.remove();
-            delete _managers.collection[show.performance_id];
           });
           performancesBox.append(_manager.render());
           var _chainIcon = $('<div>').append(Pard.Widgets.IconManager('chained').render().addClass('chain').hide()).addClass('chain-container');
@@ -1256,10 +1254,8 @@
           },
           setCallback: function(callback){
             _closePopup = function(){
-              setTimeout(function(){
-                performanceBox.remove();
-              },500);
-              callback();
+                // performanceBox.remove();
+                callback();
             }
           }
         }
