@@ -1388,13 +1388,11 @@
             _shownSpaces.forEach(function(profile_id, index){
               the_event.spaces[profile_id].alignPerformances(index);
             });
-            _programTable.reload(function(){
-              _popup.close();
+            _popup.close();
+            setTimeout(function(){
+              _content.remove();
               _orderSpaceSpinner.stop();
-              setTimeout(function(){
-                _content.remove();
-              },500);
-            });
+            },500);
           });
         });
         _content.append(_message.render());

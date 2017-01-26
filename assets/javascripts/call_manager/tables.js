@@ -668,6 +668,21 @@
       _loadSelector(_colSelectors[col], col);
     });
 
+    var _sortIcon = Pard.Widgets.IconManager('sort').render().addClass('sortIcon');
+    var _timeIcon = Pard.Widgets.IconManager('time').render().addClass('timeIcon');
+    var _reorderIcon = $('<span>').append(_timeIcon, _sortIcon).addClass('reorderIcon');
+    var orderBtn = $('<button>').attr({
+      'type':'button',
+      'title':'Ordena cronológicamente'
+      })
+      .append(_reorderIcon)
+      .click(function(){
+        _dataTable.order([0,'asc']).draw();
+      })
+    var _orderBtnContainer = $('<div>').addClass('orderBtn-programTable-container').append(orderBtn);
+    _outerTableContainer.prepend($('<div>').append(_orderBtnContainer).css('position','relative'));
+
+
     Pard.Bus.on('CreatePermanentsTable', function(performances){
       performances.forEach(function(performance){
         var _show = the_event.program[performance.performance_id].show
@@ -694,21 +709,14 @@
       _dataTable.order([0,'asc']).draw();
     });
 
-    // var _downIcon = Pard.Widgets.IconManager('arrowDropDown').render().addClass('downIcon');
-    // var _upIcon = Pard.Widgets.IconManager('arrowDropUp').render().addClass('upIcon');
-    var _sortIcon = Pard.Widgets.IconManager('sort').render().addClass('sortIcon');
-    var _timeIcon = Pard.Widgets.IconManager('time').render().addClass('timeIcon');
-    var _reorderIcon = $('<span>').append(_timeIcon, _sortIcon).addClass('reorderIcon');
-    var orderBtn = $('<button>').attr({
-      'type':'button',
-      'title':'Ordena cronológicamente'
-      })
-      .append(_reorderIcon)
-      .click(function(){
-        _dataTable.order([0,'asc']).draw();
-      })
-    var _orderBtnContainer = $('<div>').addClass('orderBtn-programTable-container').append(orderBtn);
-    _outerTableContainer.prepend($('<div>').append(_orderBtnContainer).css('position','relative'));
+    Pard.Bus.on('orderSpaces', function(){
+      _dataTable.clear();
+      for (var id in the_event.program){
+        _dataTable.row.add(showRow(the_event.program[id].show)); 
+      }
+      _dataTable.draw();
+    });
+
 
     return {
       table: _table,
@@ -756,17 +764,6 @@
         });
         _dataTable.draw();
 
-      },
-      reload:function(callback){
-        _dataTable.clear();
-        setTimeout(
-          function(){
-            for (var id in the_event.program){
-              _dataTable.row.add(showRow(the_event.program[id].show)); 
-            }
-            _dataTable.draw();
-            callback();
-          },100);
       }
     }
   }

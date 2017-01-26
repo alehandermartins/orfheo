@@ -2372,7 +2372,7 @@ tr.permanent-row-program-table-call-manager td{
   /* position: absolute; */
   /* left: 6rem; */
   /* top: 2px;  */
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
   display: inline-block;
   z-index: 10;
   span{
@@ -3040,8 +3040,10 @@ a.participant-program-card-own {
 .browser-alert{
   background-color: rgba(252, 230, 226, 0.9);
   padding: 0.5rem 2rem;
-  position: relative;
-  z-index: 3;
+  position: absolute;
+  z-index: 9;
+  width: 100%;
+  top: 0;
   @include breakpoint(small down){
     padding: 0.5rem;
   }
