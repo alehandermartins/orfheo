@@ -39,7 +39,6 @@
     }
   }
 
-
   ns.Widgets.WhiteList = function(the_event){
 
     var _createdWidget = $('<div>');
@@ -68,135 +67,64 @@
       _makeList(the_event.spaces[profile_id].space);
     });
 
-    var _emailNameInput = Pard.Widgets.WhiteListInput(_emailsNames);
-
-    _emailNameInput.setVal(the_event.whitelist);
-
-    var _submitBtnContainer = $('<div>').addClass('submit-whitelist-call-manager-container');
-    var _submitBtnOuterContainer = $('<div>').addClass('submit-btn-outer-container-call-manager');
-    _submitBtnOuterContainer.append(_submitBtnContainer);
-    var _BtnBox = $('<span>');
-
-    var _submitBtn = Pard.Widgets.Button(Pard.Widgets.IconManager('save').render(),
-     function(){
-      _sendWhiteList();
-    })
-    .render()
-    .addClass('iconButton-CallPage')
-    .attr('title','Guarda los cambios');
-
-    var _successIcon = $('<div>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager').hide();
-
-    var whiteListSavedCallback = function(data){
-      console.log(data);
-      if(data['status'] == 'success'){
-        _submitBtn.hide();
-        _successIcon.show();
-        $('.new-input-selected-whitelist').removeClass('new-input-selected-whitelist');
-        setTimeout(
-          function(){
-            _submitBtn.show();
-            _successIcon.hide();
-          }, 2000);
-      }
-      else{
-        Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', function(){location.reload();})
-      }  
-    }
-
-    var _sendWhiteList = function(){
-      var _wl = _emailNameInput.getVal();
-      Pard.Backend.whitelist(the_event.event_id, _wl, whiteListSavedCallback);
-    }
-
-    _submitBtnContainer.append(_BtnBox.append(_submitBtn, _successIcon));
-
-    var _emailNameImputRendered = _emailNameInput.render();
-
-    _createdWidget.append(_submitBtnOuterContainer, $('<label>').append(_emailNameImputRendered));
-
-    return {
-      render: function(){
-        return _createdWidget;
-      }
-    }
-  }
-
-
-  ns.Widgets.WhiteListInput = function(emailsNames){
-    
-    var _createdWidget = $('<div>'); 
-    var _results = [];
-    var _inputs = [];
     var _inputNameEmail = $('<select>');
     var _inputContainer = $('<div>').addClass('input-whiteList-container');
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
 
-    var _emails = [];
-
-    var _addnewInput = function(item, classNewInput){
-      if ($.inArray(item.email, _emails)>-1){
-        Pard.Widgets.Alert('','Este usuario ya está en la lista.');
-        return false;
-      }
-      else{
-        _emails.push(item.email);
-        var _container = $('<div>'); 
-        var _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);      
-        _newInput.setClass('add-whiteList-input-field');
-        if (classNewInput) _newInput.setClass(classNewInput);
-
-        _newInput.disable();      
-        _inputs.push([_newInput]);
-
-        var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
-
-        _container.append(_newInput.render(),  _removeInputButton);
-        _inputAddedContainer.prepend(_container);
-        _removeInputButton.on('click', function(){
-          var _index = _inputs.indexOf([_newInput]);
-          _inputs.splice(_index, 1);
-          var _indexR = -1;
-          _results.some(function(result, index){            
-            if(result.email == _newInput.getVal()){
-              _indexR = index;
-              return true;
-            }
-          });             
-          if (_indexR > -1){ 
-            _results.splice(_indexR, 1);
-            _emails.splice(_indexR, 1);
-          }
-          _container.empty();
-        });
-        return true;
-      }
-    }
-    
     var _outerListContainer = $('<div>').addClass('whiteListedContainer-call-page');
     var _inputAddedContainer = $('<div>').addClass('innerWhitelistedCont');
 
 
+    var _whiteEmails = [];
+    var _addInput = function(item){
+      _whiteEmails.push(item.email);
+      var _container = $('<div>'); 
+      var _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);      
+      _newInput.setClass('add-whiteList-input-field');
+
+      _newInput.disable();      
+      var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
+
+      _container.append(_newInput.render(),  _removeInputButton);
+      _inputAddedContainer.prepend(_container);
+      _removeInputButton.on('click', function(){
+        Pard.Backend.deleteWhitelist(the_event.event_id, item.email, function(){
+          console.log('deleteWhitelist');
+        });
+      });
+    }
+
+    the_event.whitelist.forEach(function(whitelisted){
+      _addInput(whitelisted);
+    });
+
     _addInputButton.on('click', function(){
       if (_inputNameEmail.val()){
         var _data = _inputNameEmail.select2('data');
-        var _info = {name_email: _data[0].text, email: _data[0].id};
-        if (_addnewInput(_info, 'new-input-selected-whitelist')) _results.push(_info);
-       _inputNameEmail.select2('val', '');
+        var name_email = _data[0].text;
+        var email = _data[0].id;
+        if ($.inArray(email, _whiteEmails) >= 0 ){
+          Pard.Widgets.Alert('','Este usuario ya está en la lista.');
+          return false;
+        }
+        Pard.Backend.addWhitelist(the_event.event_id, name_email, email, function(){
+          console.log('addWhitelist');
+        });
       }
     });
 
-    _createdWidget.append(_inputContainer.append(_inputNameEmail),_outerListContainer.append(_inputAddedContainer));
+    var _emptyEmail = $('<option>');
+    _inputNameEmail.append(_emptyEmail);
+    _inputContainer.append(_inputNameEmail),_outerListContainer.append(_inputAddedContainer);
 
     _inputNameEmail.select2({
       placeholder:'Email o Nombre de perfil',
-      data: emailsNames,
+      data: _emailsNames,
       allowClear: true,
       tags: true
     });
-
 
     _inputNameEmail.on('select2:select',function(){
       if (_inputNameEmail.select2('data')) _addInputButton.trigger('click');
@@ -211,26 +139,15 @@
       setTimeout(function() {$('input.select2-search__field').focus()},500);
     });
 
-
+    _inputContainer.append(_inputNameEmail);
+    _outerListContainer.append(_inputAddedContainer);
+    _createdWidget.append($('<label>').append(_inputContainer, _outerListContainer));
 
     return {
       render: function(){
- 
         return _createdWidget;
-      },
-      getVal: function(){
-        return _results;
-      },
-      setVal: function(values){
-        if(values == null || values == false) return true;
-        // values.forEach(function(item){
-        for (var item in values){  
-          _addnewInput(values[item]);
-          _results.push(values[item]);
-        };
       }
     }
   }
-
 
 }(Pard || {}));
