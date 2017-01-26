@@ -435,14 +435,14 @@
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
         $('body').append(_content);
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
         var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager(true));
         _message.setCallback(function(){
+          _popup.close();          
           setTimeout(function(){
             _content.remove();
           },500);
-          _popup.close();
         });
         _content.append(_message.render());
       });
@@ -782,14 +782,14 @@
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
         $('body').append(_content);
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
         var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager(true));
         _message.setCallback(function(){
+          _popup.close();
           setTimeout(function(){
             _content.remove();
           },500);
-          _popup.close();
         });
         _content.append(_message.render());
       });
@@ -1334,13 +1334,13 @@
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
         $('body').append(_content);
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         var _message = Pard.Widgets.PopupContent('Propuestas fuera del programa', ArtistOutOfProgram());
         _message.setCallback(function(){
+          _popup.close();
           setTimeout(function(){
             _content.remove();
           },500);
-          _popup.close();
         });
         _content.append(_message.render());
         _popup.open();
@@ -1351,13 +1351,13 @@
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
         $('body').append(_content);
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         var _message = Pard.Widgets.PopupContent('Espacios fuera del programa', SpaceOutOfProgram());
         _message.setCallback(function(){
+          _popup.close();
           setTimeout(function(){
             _content.remove();
           },500);
-          _popup.close();
         });
         _content.append(_message.render());
         _popup.open();
@@ -1370,7 +1370,7 @@
         _content.empty();
         $('body').append(_content);
         var OrderSpaceWidget = OrderSpace();
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         var _message = Pard.Widgets.PopupContent('Ordena Espacios', OrderSpaceWidget);
         _message.setCallback(function(){
           var _orderSpaceSpinner = new Spinner().spin();

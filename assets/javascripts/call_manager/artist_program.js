@@ -276,7 +276,7 @@
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
         $('body').append(_content);
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         var _message = Pard.Widgets.PopupContent(show.title + ' (' + artist.name + ')', _program[show.performance_id].manager(false));
         _message.setCallback(function(){
           _printArtistProgram(artist, program, _program);
