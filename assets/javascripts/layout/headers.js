@@ -150,7 +150,7 @@ ns.Widgets = ns.Widgets || {};
         _lowerContainer.css('display','none');
         _lowerContainer.slideDown(200);
         _arrowUp.show();
-      })
+      });
     var _arrowUp = $('<button>')
       .attr('type','button')
       .append(Pard.Widgets.IconManager('arrow_up').render())
@@ -163,6 +163,7 @@ ns.Widgets = ns.Widgets || {};
           _arrowUp.hide();
         });
       })
+      .hide();
     var _logo = $('<a>').append($('<div>').addClass('logo-header')).attr('href','/');
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
 

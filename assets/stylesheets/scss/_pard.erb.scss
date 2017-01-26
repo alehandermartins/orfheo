@@ -1413,7 +1413,6 @@ HEADER
   width: 100vw;
   height: 3rem;
   z-index: 2;
-  overflow: hidden;
 }
 
 .containerHeader{
@@ -1444,13 +1443,13 @@ HEADER
   overflow: hidden; */
 }
 
-.showNavBar{
+/* .showNavBar{
   position: fixed;
   top: 0;
   height: 5.5rem;
   overflow: hidden;
 }
-
+ */
 .logoBtn-navHeader{
   display: inline-block;
   @include horizontal-center;
