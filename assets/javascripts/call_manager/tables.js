@@ -757,13 +757,16 @@
         _dataTable.draw();
 
       },
-      reload:function(){
-        // _dataTable.clear();
-        console.log(the_event)
-        // for (var id in the_event.program){
-        //   _dataTable.row.add(showRow(the_event.program[id].show)); 
-        // }
-        // _dataTable.draw();
+      reload:function(callback){
+        _dataTable.clear();
+        setTimeout(
+          function(){
+            for (var id in the_event.program){
+              _dataTable.row.add(showRow(the_event.program[id].show)); 
+            }
+            _dataTable.draw();
+            callback();
+          },100);
       }
     }
   }

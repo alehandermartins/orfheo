@@ -57,6 +57,8 @@
       calendar: {icon:'&#xE916;', className:'material-icons' },
       sincro: {icon:'&#xE627;', className:'material-icons'},
       chat_bubble:{icon:'&#xE0CB;', className:'material-icons'},
+      arrow_down:{icon:'&#xE313;', className:'material-icons'},
+      arrow_up:{icon:'&#xE316;', className:'material-icons'},
 
       publish: {icon:'&#xE8CD;', className:'material-icons'},
       unpublish: {icon:'&#xE92A;', className:'material-icons'},

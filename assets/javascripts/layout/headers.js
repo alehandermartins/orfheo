@@ -126,7 +126,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _createdWidget = $('<header>').addClass('orfheoHeader');
     var _innerHeaderContainer = $('<div>').css('width','100vw');
-    var _upperContainer = $('<div>').addClass('upperContainerHeader fixed black'); 
+    var _upperContainer = $('<div>').addClass('upperContainerHeader fixed'); 
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');
     var _lowerContainer = $('<div>').addClass('navBarHeader');
     var _navBarContainer = $('<div>').addClass('navBarContainer black');
@@ -140,6 +140,30 @@ ns.Widgets = ns.Widgets || {};
     var _semicircleTop = $('<div>').addClass('semiCircleHeaderTop');
     var _semicircleBottom = $('<div>').addClass('semiCircleHeaderBottom');
 
+    var _arrowDown = $('<button>')
+      .attr('type','button')
+      .append(Pard.Widgets.IconManager('arrow_down').render())
+      .addClass('showNavMenu-header')
+      .click(function(){
+        _lowerContainer.addClass('fixedNavBar');
+        $('main').css('margin-top','4.5rem');
+        _lowerContainer.css('display','none');
+        _lowerContainer.slideDown(200);
+        _arrowUp.show();
+      });
+    var _arrowUp = $('<button>')
+      .attr('type','button')
+      .append(Pard.Widgets.IconManager('arrow_up').render())
+      .addClass('hideNavMenu-header')
+      .click(function(){
+        _lowerContainer.slideUp(200, function(){
+          _lowerContainer.removeClass('fixedNavBar');
+          $('main').css('margin-top','-1.5rem');
+          _lowerContainer.css('display','block');
+          _arrowUp.hide();
+        });
+      })
+      .hide();
     var _logo = $('<a>').append($('<div>').addClass('logo-header')).attr('href','/');
     var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
 
@@ -208,21 +232,33 @@ ns.Widgets = ns.Widgets || {};
     var _semicircleBottomContainer =  $('<div>').addClass('semiCircleHeaderBottom-container');
     var _semicircleTopContainer = $('<div>').addClass('semiCircleHeaderTop-container fixed'); 
 
+    var _navBar2 = 
+
+    _navBarContainer.append(_navBar)
     _upperContent.append(_logoContainer);
     _navBar.append(_navMenuContainer);
     _innerHeaderContainer.append(
       _upperContainer.append(
-        _upperContent
+        $('<div>').append(_upperContent).addClass('black').css('height','3rem'),
+        _navBar2
       ),
-      _semicircleTopContainer.append(_semicircleTop),
+      _semicircleTopContainer.append(_semicircleTop, _arrowDown),
       _lowerContainer.append(
-        _navBarContainer.append(
-          _navBar
-        ),
-      _semicircleBottomContainer.append(_semicircleBottom)
+        _navBarContainer,
+        _semicircleBottomContainer.append(_semicircleBottom, _arrowUp)
       )
-
     );
+
+     // _upperContainer.append(
+     //    _upperContent,
+     //    _lowerContainer.append(
+     //      _navBarContainer.append(
+     //        _navBar
+     //      ),
+     //      _semicircleBottomContainer.append(_semicircleBottom, _arrowUp)
+     //    )   
+     //  ),
+     //  _semicircleTopContainer.append(_semicircleTop, _arrowDown)
 
     _createdWidget.append(_innerHeaderContainer);
 
