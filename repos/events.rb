@@ -32,6 +32,10 @@ module Repos
       end
 
       def get_event event_id
+        grab({event_id: event_id}).first
+      end
+
+      def get_arranged_event event_id
         event = grab({event_id: event_id}).first
         event[:program] = arrange_program event, event[:program]
         event
