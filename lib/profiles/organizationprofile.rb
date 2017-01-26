@@ -27,6 +27,7 @@ class OrganizationProfile
       profile_id: params[:profile_id] || SecureRandom.uuid,
       name: params[:name],
       type: params[:type],
+      category: params[:category],
       address: params[:address],
       personal_web: params[:personal_web],
       color: params[:color],

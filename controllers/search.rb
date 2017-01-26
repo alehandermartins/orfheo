@@ -219,7 +219,8 @@ class SearchController < BaseController
       'street art',
       'taller',
       'gastronomia',
-      'otros'].include? text
+      'otros',
+      'festival'].include? text
   end
 
   def translate text
