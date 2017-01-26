@@ -391,6 +391,9 @@
         Object.keys(_columns).forEach(function(date){
           columns[date].modify();
         });
+        Object.keys(program).forEach(function(performance_id){
+          program[performance_id].modify({order: new_index});
+        });
       },
       alignPerformances: function(new_index){
         Object.keys(_columns).forEach(function(date){
@@ -408,6 +411,7 @@
         performance.address = space.address;
         performance.host_category = space.category;
         performance.host_subcategory = space.subcategory;
+        performance.order = space.index;
       },
       addPerformance: function(performance){
         _loadPerformance(performance);
