@@ -233,6 +233,9 @@ Grid and Bar
   left:0;
   display: inline-block;
   position: absolute;
+  ul{
+    display: inline-block;
+  }
   @include breakpoint(small down){
     bottom: 1px;
     width: 100%;
@@ -262,6 +265,17 @@ Grid and Bar
       }
     }
   }
+}
+
+.logoFooter{
+  margin-right: 2rem;
+  display: inline-block;
+  /* cursor: pointer; */
+  background-image: url(<%= image_path 'lettering_white_s.png' %>);
+  width: 42px;
+  height: 14px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 
@@ -1269,7 +1283,10 @@ newsCard
 .date-newsCard{
   font-size: $smallSize;
   color: $grey-4;
-  height: 20px;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: .2rem;
 }
 
 .imagePopup-cardNews{
@@ -1284,6 +1301,35 @@ newsCard
 
 .popupDate-newsCard{
   color: $grey-4;
+}
+
+.rfhLogo-news{
+  background-image: url(<%= image_path 'logo_black_m.png' %>);
+  width: 12px;
+  height: 8px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include horizontal-center;
+  top: 3px;
+}
+
+.whoCircle-news{
+  @include pardCircle(1.1rem);
+  display: inline-block;
+  border: 1px solid $grey-4;
+  position: relative;
+  vertical-align: middle;
+  margin-right: .5rem;
+}
+
+.publisherName-newsCard{
+  font-size: $smallSize;
+  vertical-align: middle;
+}
+
+.publisher-newsCard{
+  display: inline-block;
+  width: 60%;
 }
 
 /*-----------------
@@ -1523,6 +1569,7 @@ HEADER
   .selected, .selected:hover{
     a, button{
       color: $grey-3;
+      /* cursor: default; */
     }
   }
 }
@@ -1936,6 +1983,7 @@ button.footer-text-link:hover{
 .rightFooter-menu{
   font-size: $smallSize;
   margin: 0;
+  display: inline-block;
   li{
     display: inline-block;
     margin-left: 2rem;

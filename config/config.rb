@@ -62,6 +62,7 @@ class BaseController < Sinatra::Base
     logo_white_m.png
     lettering_black_xxl.png
     lettering_white_m.png
+    lettering_white_s.png
     logo_black_xl.png
     orfheo_fb_preview.jpg
     sort_both.png

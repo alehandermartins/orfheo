@@ -107,9 +107,10 @@ ns.Widgets = ns.Widgets || {};
       }))
 
     // _rightContent.append(_project, ' | ', _place);
+    var _logoFooter = $('<div>').addClass('logoFooter');
     _rightContent.append(_rightMenu.append(_servicesOrfheo,_contactaOrfheo));
 
-    _container.append(_leftContent, _rightContent);
+    _container.append(_leftContent.prepend(_logoFooter), _rightContent);
     _grid.append(_container);
     _createdWidget.append(_innerFooterContainer.append(_grid));
 
