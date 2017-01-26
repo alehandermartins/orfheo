@@ -50,7 +50,7 @@
 
     // TABLES SELECTOR
 
-    var _typeSelectorBox = $('<div>').addClass('types-selector-call-manager');
+    var _typeSelectorBox = $('<div>').addClass('types-selector-call-manager noselect');
     var _typeSelector = $('<select>'); 
     _typeSelectorBox.append(_typeSelector);
     var _formTypes = ['artist','space']
@@ -281,7 +281,7 @@
               {
                 extend: 'colvis',
                 columns: ':gt(1)',
-                text: Pard.Widgets.IconManager('visibility').render(),
+                text: Pard.Widgets.IconManager('visibility').render().attr('title','Muestra/Esconde columnas'),
                 className: 'changeColumnsBtn',
                 collectionLayout: 'fixed big_layout',
                 fade: 200,
@@ -302,7 +302,7 @@
                 }]
               },
               {
-                text: Pard.Widgets.IconManager('mailinglist').render(),
+                text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
                 className: 'mailinglistBtn',
                 action: function(){
                   var columnData = _dataTables[typeTable].DataTable.column(_dataTables[typeTable].emailColumn, { search:'applied' }).data().unique();
@@ -318,7 +318,7 @@
               },
               {
                 extend: 'collection',
-                text:  Pard.Widgets.IconManager('export').render(),
+                text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
                 className: 'ExportCollectionBtn',
                 collectionLayout: 'button-list',
                 // backgroundClassName: 'ExportCollection-background',
@@ -431,7 +431,7 @@
             dom: 'Bfrtip',
             buttons: [
               {
-                text: Pard.Widgets.IconManager('mailinglist').render(),
+                text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
                 className: 'mailinglistBtn',
                 action: function(){
                   var columnData = _dataTables['allProposals'].DataTable.column(_dataTables['allProposals'].emailColumn, { search:'applied' }).data().unique();
@@ -447,7 +447,7 @@
               },
               {
                 extend: 'collection',
-                text:  Pard.Widgets.IconManager('export').render(),
+                text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
                 className: 'ExportCollectionBtn',
                 autoClose: true,
                 fade: 200,

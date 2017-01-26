@@ -203,7 +203,7 @@
 
 
   ns.Widgets.Sticker = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
-
+    console.log(initialDistanceFromHeader)
     var _diffI = 1;
     $(document).ready(function(){
       $(window).scroll(function(){
@@ -211,11 +211,12 @@
           var _windowScroll = $(window).scrollTop();
           var _distanceFromWindow = _elDistanceFromTop -_windowScroll;
 
-          if (_distanceFromWindow * _diffI < 0 && !($(elem).hasClass('position-fixed')))   {
+          if (_distanceFromWindow * _diffI < stickyDistanceTop && !($(elem).hasClass('position-fixed')))   {
+            console.log('fixed')
             $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
             _diffI = - 1;
           }
-          if (_windowScroll - initialDistanceFromHeader - stickyDistanceTop < 0 && $(elem).hasClass('position-fixed')){
+          if (_windowScroll - initialDistanceFromHeader < stickyDistanceTop && $(elem).hasClass('position-fixed')){
               $(elem).removeClass('position-fixed').css({'top':''});
               _diffI = 1;
           }

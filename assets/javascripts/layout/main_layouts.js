@@ -115,11 +115,10 @@ ns.Widgets = ns.Widgets || {};
   }
 
 
-
-
   ns.Widgets.MainOffCanvasLayout = function(asideContent, sectionContent){
 
     var _main = $('<main>').attr('id','main-welcome-page');
+    var _innerMainContainer = $('<div>').css('width','100vw');
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
@@ -144,7 +143,7 @@ ns.Widgets = ns.Widgets || {};
     _offCanvasInner.append(_aside, _gridSpacing, _section);
 
     _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
-    _main.append(_mainLarge);
+    _main.append(_innerMainContainer.append(_mainLarge));
 
     if (Pard.UserStatus['status'] == 'outsider') {
         _main.addClass('outsider-main');

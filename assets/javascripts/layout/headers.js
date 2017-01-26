@@ -509,7 +509,7 @@ ns.Widgets = ns.Widgets || {};
           // console.log(event)
           // var _img = $.cloudinary.image(event['img'], { format: 'jpg', width: 15, height: 20, crop: 'fill', effect: 'saturation:50' });
           var en = event.name;
-          if (en.length>30) en = en.substring(0,29) + '...';
+          if (en.length>29) en = en.substring(0,27) + '...';
           var _eventName = $('<span>').text(en)
             .css({
               'border-left':'2px solid '+ event.color,
@@ -611,7 +611,7 @@ ns.Widgets = ns.Widgets || {};
           // console.log(event)
           // var _img = $.cloudinary.image(event['img'], { format: 'jpg', width: 15, height: 20, crop: 'fill', effect: 'saturation:50' });
           var en = event.name;
-          if (en.length>30) en = en.substring(0,29) + '...';
+          if (en.length>29) en = en.substring(0,27) + '...';
           var _eventName = $('<span>').text(en)
             .css({
               'border-left':'2px solid '+ event.color,

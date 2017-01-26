@@ -346,7 +346,7 @@
     var _columns = ['cronoOrder','date','time','participant_name','participant_email','participant_subcategory','title','short_description','order','host_name','host_email','host_subcategory','comments','confirmed'];
     var _shownColumns = ['date','time','participant_name','participant_subcategory','title','host_name', 'host_subcategory'];
     var _hiddenColumns = [];
-    var _outerTableContainer = $('<div>').css('margin-top','3.35rem');
+    var _outerTableContainer = $('<div>').css('margin-top','1.85rem');
     var _tableBox = $('<div>').addClass('table-box-call-manager-page');
 
     _table.append(_thead.append(_titleRow));
@@ -512,7 +512,7 @@
       {
         extend: 'colvis',
         columns: ':gt(0)',
-        text: Pard.Widgets.IconManager('visibility').render(),
+        text: Pard.Widgets.IconManager('visibility').render().attr('title','Muestra/Esconde columnas'),
         className: 'changeColumnsBtn',
         collectionLayout: 'fixed big_layout',
         fade: 200,
@@ -533,7 +533,7 @@
         }]
       },
       {
-        text: Pard.Widgets.IconManager('mailinglist').render(),
+        text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
         className: 'mailinglistBtn',
         extend: 'collection',
         collectionLayout: 'button-list',
@@ -588,7 +588,7 @@
       },
       {
         extend: 'collection',
-        text:  Pard.Widgets.IconManager('export').render(),
+        text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
         className: 'ExportCollectionBtn',
         collectionLayout: 'button-list',
         // backgroundClassName: 'ExportCollection-background',
@@ -720,7 +720,6 @@
           _dataTable.row('#programTable-' + show.performance_id).remove();
           _dataTable.row.add(showRow(show)).order([0,'asc']).draw();
           _reloadSelectors();
-          console.log('saveNormal')
         }
       },
       destroy: function(performance_id, multipleChanges){
@@ -757,6 +756,14 @@
         });
         _dataTable.draw();
 
+      },
+      reload:function(){
+        // _dataTable.clear();
+        console.log(the_event)
+        // for (var id in the_event.program){
+        //   _dataTable.row.add(showRow(the_event.program[id].show)); 
+        // }
+        // _dataTable.draw();
       }
     }
   }

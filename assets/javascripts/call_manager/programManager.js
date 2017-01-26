@@ -1373,10 +1373,8 @@
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
         var _message = Pard.Widgets.PopupContent('Ordena Espacios', OrderSpaceWidget);
         _message.setCallback(function(){
-          setTimeout(function(){
-            _content.remove();
-          },500);
-
+          var _orderSpaceSpinner = new Spinner().spin();
+          $('body').append(_orderSpaceSpinner.el);
           order = OrderSpaceWidget.getList();
           Pard.Backend.saveOrder(the_event.event_id, order, function(){
             _spaceSelector.trigger('select2:unselecting');
@@ -1390,7 +1388,12 @@
             _shownSpaces.forEach(function(profile_id, index){
               the_event.spaces[profile_id].alignPerformances(index);
             });
+            _programTable.reload();
             _popup.close();
+            _orderSpaceSpinner.stop();
+            setTimeout(function(){
+              _content.remove();
+            },500);
           });
         });
         _content.append(_message.render());
@@ -1766,7 +1769,51 @@
         }
       }
 
-      _menu.append(_outOfprogramBtn, _spaceOutOfprogramBtn, _orderSpaceBtn);
+      var _publishProgramCallback = function(data){
+        if(data['status'] == 'success') {
+          var _mexDictionary = {
+            'publish': 'El programa se ha publicado correctamente en la página de tu evento',
+            'unpublish': 'El programa se ha retirado de la página de tu evento'
+          };
+          Pard.Widgets.Alert('',_mexDictionary[_publishStatus]);
+        }
+        else{
+          console.log('error');
+          Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+        }
+      }
+
+      var _publishedBtn = $('<li>');
+      var _rgb = Pard.Widgets.IconColor(the_event.color).rgb();
+      var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+      var _setPublishStatus = function(){
+        if(the_event.published == 'false'){
+          _publishStatus = 'publish';
+          _publishedBtn.text('Publica el programa');
+          $('main').css('background','#f6f6f6')
+        }
+        if(the_event.published == 'true'){
+          _publishStatus = 'unpublish';
+          _publishedBtn.text('Retira el programa');
+          
+          $('main').css({'background': _backColor});
+        }
+      }
+      _setPublishStatus();
+
+      Pard.Bus.on('publishEvent', function(status){
+        if(the_event.published != status){
+          // _submitBtn.empty();
+          the_event.published = status;
+         _setPublishStatus();
+        }
+      });
+
+      _publishedBtn.on('click', function(){
+        Pard.Backend.publish(the_event.event_id, _publishProgramCallback);
+      });
+
+      _menu.append(_outOfprogramBtn, _spaceOutOfprogramBtn, _orderSpaceBtn, _publishedBtn);
       var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _iconDropdownMenu = $('<li>').append(
         $('<button>').attr({'type':'button', 'title':'Menu de herramientas'}).append(
@@ -1837,58 +1884,12 @@
       the_event.spaces[space].alignPerformances();
     });
 
-    var _submitBtn;
-    var _successIcon = $('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager');
+    // var _submitBtn;
+    // var _successIcon = $('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager');
 
-    var _publishProgramCallback = function(data){
-       if(data['status'] == 'success') {
-        _submitBtn.hide();
-        _successIcon.show();
-        setTimeout(function(){
-            _successIcon.hide();
-            _submitBtn.show();
-            _submitBtn.attr('disabled',false).removeClass('disabled-button');
-          }, 3000);
-      }
-      else{
-        console.log('error');
-        Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
-      }
-    }
+ 
 
-    _submitBtn = Pard.Widgets.Button('', function(){
-      _submitBtn.attr('disabled',true).addClass('disabled-button');
-      $('div.ui-tooltip').remove();
-
-      Pard.Backend.publish(the_event.event_id, _publishProgramCallback);
-    }).render().addClass('submit-program-btn-call-manager');
-
-    var _publishStatus;
-    var _iconPublish;
-
-    var _setPublishStatus = function(){
-      if(the_event.published == 'false'){
-      _publishStatus = 'publish';
-      _submitBtn.attr('title','Publica el programa');
-      }
-      if(the_event.published == 'true'){
-        _publishStatus = 'unpublish';
-        _submitBtn.attr('title','Retira la publicación');
-      }
-      _iconPublish = Pard.Widgets.IconManager(_publishStatus).render();
-      _submitBtn.append(_iconPublish);
-    }
-    _setPublishStatus();
-    
-    Pard.Bus.on('publishEvent', function(status){
-      if(the_event.published != status){
-        _submitBtn.empty();
-        the_event.published = status;
-       _setPublishStatus()
-      }
-    });
-
-    _submitBtnContainer.append(_submitBtn, _successIcon.hide());
+    // _submitBtnContainer.append(_submitBtn, _successIcon.hide());
    
     if(the_event.program){
       the_event.program.forEach(function(performance){
@@ -1915,7 +1916,7 @@
     })
     var _switcher = $('<div>')
     var _viewSelector = $('<select>');
-    var _viewSelectorContainer = $('<div>').addClass('switcherContainer-callPage').append(_viewSelector);
+    var _viewSelectorContainer = $('<div>').addClass('switcherContainer-callPage noselect').append(_viewSelector);
     _switcher.append(_viewSelectorContainer).css('margin-bottom', '0.5rem');
     var _viewTags = [{id:'manager', text:'Herramienta de gestión', view:_managerView},{id:'table',text:'Tabla', view:_tableView}];
     _viewSelector.select2({

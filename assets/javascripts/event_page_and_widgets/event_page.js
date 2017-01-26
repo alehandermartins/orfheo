@@ -5,20 +5,19 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.EventAside = function(sectionContainer) {
+    console.log(Pard.CachedEvent)
 
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
     var _buttonContainer = $('<div>').addClass('create-profile-container');
 
     if ($(window).width()>640){
-      if (Pard.UserStatus['status'] == 'outsider') Pard.Widgets.Sticker(_createdWidget, 83, 24);
-      else if (Pard.UserStatus['status'] == 'visitor') Pard.Widgets.Sticker(_createdWidget, 74, 24);
+      if (Pard.UserStatus['status'] == 'outsider') Pard.Widgets.Sticker(_createdWidget, 28.8, 24);
+      else  Pard.Widgets.Sticker(_createdWidget, 28.8, 24);
     }
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
 
-
     if (Pard.CachedEvent.program.length){
       if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true'){
-        console.log(Pard.CachedEvent.published)
         var _program = $('<div>').addClass('aside-event-nav-btn');
         _program.text('Programa');
 
@@ -190,7 +189,7 @@
   }
 
   ns.Widgets.ProgramEventPage = function(){
-    the_event = Pard.CachedEvent;
+    var the_event = Pard.CachedEvent;
     var eventDates = [];
     Object.keys(the_event.eventTime).forEach(function(date){
       if(date == 'permanent') return;
@@ -259,6 +258,12 @@
     _daySelectorContainer.append(_daySelector);
 
     var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page').attr('type','button');
+
+    var _now = new Date(); 
+    var _eventTimeKeys = Object.keys(the_event.eventTime);
+    var _eventEndTime = parseInt(the_event.eventTime[_eventTimeKeys[_eventTimeKeys.length-2]][1][1]);
+    var _eventStartTime = parseInt(the_event.eventTime[_eventTimeKeys[0]][0][0]);
+    if(_now.getTime() >_eventEndTime || _eventStartTime < _now.getTime()) _programNow.attr('disabled',true).addClass('disabled-button');
 
     var extraDate;
     _programNow.on('click', function(){

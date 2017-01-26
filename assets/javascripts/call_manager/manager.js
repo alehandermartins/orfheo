@@ -9,6 +9,10 @@
     var spaces = the_event.spaces;
 
     var _main = $('<main>').addClass('main-call-page');
+    var _rgb = Pard.Widgets.IconColor(the_event.color).rgb();
+    var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+    if (the_event.published == 'true') _main.css({'background': _backColor});
+    var _innerMainContainer = $('<div>').css('width','100vw');
     var _mainLarge = $('<section>').addClass('pard-grid call-section');
     var _navigationContainer = $('<div>').addClass('navigation-container-call-page');
     var _goToEventBtn = $('<a>').attr('href','/event?id='+ the_event.event_id).text('Página evento');
@@ -80,7 +84,7 @@
     _navigationContainer.append(_goToEventBtn, _title, _tabs);
     _panels.append(_programManager.render().hide(), _tableManager.render(), _utilsManager.render().hide());
     _mainLarge.append(_navigationContainer, _panels);
-    _main.append(_mainLarge);
+    _main.append(_innerMainContainer.append(_mainLarge));
 
     Pard.Bus.on('addArtist', function(artist){
       if(the_event.artists[artist.profile_id]) the_event.artists[artist.profile_id].addProposal(artist.proposals[0]);

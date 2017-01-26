@@ -2,16 +2,15 @@
 WELCOME PAGE
 ================================================*/
 
-
-
-main.mainWelcomePage{
+main.mainWelcomePage, main.mainUserPage{
   margin: 0;
   padding: 0;
-  margin-top: -.5rem;
+  margin-top: -1.5rem;
   section{
     /* padding-top:3.3rem; */
-    padding-bottom: 1.8rem;
-    min-height: 100vh;
+    min-height: -moz-calc(100vh - 1.8rem - 5.5rem);
+    min-height: -webkit-calc(100vh - 1.8rem - 5.5rem);
+    min-height: calc(100vh - 1.8rem - 5.5rem);
   }
 }
 
@@ -589,18 +588,6 @@ Aside content User page
 /*------------
 User Section
 --------------*/
-
-main.mainUserPage{
-  margin: 0;
-  padding: 0;
-  margin-top: -.5rem;
-  section{
-    /* padding-top:3.3rem; */
-    min-height: -moz-calc(100vh - 1.8rem - 4.5rem);
-    min-height: -webkit-calc(100vh - 1.8rem - 4.5rem);
-    min-height: calc(100vh - 1.8rem - 4.5rem);
-  }
-}
 
 .myprofileDiv{
   width: 100%;
@@ -1404,9 +1391,10 @@ CALL PAGE
 
 .main-call-page{
   background: $grey-1;
-  min-height:  -moz-calc(100vh - 5.1rem);
+  /* min-height:  -moz-calc(100vh - 5.1rem);
   min-height:  -webkit-calc(100vh - 5.1rem);
-  min-height:  calc(100vh - 5.1rem);
+  min-height:  calc(100vh - 5.1rem); */
+  margin-top: -.7rem;
 }
 
 .call-section{
@@ -1426,7 +1414,7 @@ CALL PAGE
   position: relative;
   padding:  0 0.5rem 0.2rem 0.5rem;;
   border-bottom: 1px solid $grey-2;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .title-call-page{
@@ -1674,7 +1662,7 @@ th.column-call-manager-table.column-type{
 
 
 .types-selector-call-manager{
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   width: 20rem;
   display: inline-block;
   margin-right: 3rem;
@@ -2069,9 +2057,8 @@ Program Manager Tab
 
 .selectors-call-manager{
   position: relative;
-  /* margin-bottom: 1.5rem; */
   margin-bottom: 2rem;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
 }
 
 .day-selector-container-call-manager{
@@ -2434,15 +2421,13 @@ tr.permanent-row-program-table-call-manager td{
 
 .buttons-container-call-manager{
   position: relative;
-  margin-top: 2.5rem;
-/*   height: 2rem;
-  margin-bottom: 0.5rem; */
+  /* margin-top: 2.5rem; */
 }
 
 .innerBtnContainer-programManager{
   display: inline-block;
   position: absolute;
-  top: -4rem;
+  top: -2.4rem;
   right: 0;
   /* left: 17rem; */
 }

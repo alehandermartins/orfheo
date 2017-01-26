@@ -85,7 +85,10 @@
       });
 
       var confirmPopupContent = function(){
+        console.log(proposal)
         var _createdWidget = $('<div>');
+        var _name = _proposal.name;
+        var _mex = $('<p>').text('Al eliminar la propuesta, se enviará de forma automatica una notifica por email a '+_name);
         var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
         var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
 
@@ -96,6 +99,8 @@
         }
 
         var _buttonsContainer = $('<div>').addClass('yes-no-button-container');
+
+        if (!(_proposal.own)) _createdWidget.append(_mex);
 
         _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn));
 

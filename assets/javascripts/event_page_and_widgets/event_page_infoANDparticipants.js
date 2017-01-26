@@ -96,7 +96,7 @@
     var _whoText = $('<div>').addClass('info-text-header-infoTab-event').append($('<p>').append('Organiza ', _organizer));
     var _organzerIcon = $('<div>').addClass('icon-container')
       .append($('<span>').css({
-          'background': 'grey',
+          'background': _eventInfo.color,
           'border-radius': '50%',
           'width': '1.1rem',
           'height': '1.1rem',
