@@ -31,6 +31,7 @@ require_relative '../lib/calls/spaceproposal'
 require_relative '../lib/calls/artistownproposal'
 require_relative '../lib/calls/spaceownproposal'
 require_relative '../lib/events/performances'
+require_relative '../lib/events/whitelist'
 
 require_relative '../lib/users/user'
 require_relative '../lib/calls/call'

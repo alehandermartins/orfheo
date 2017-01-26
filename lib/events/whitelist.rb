@@ -20,7 +20,7 @@ class Whitelist
   private
   attr_reader :whitelist, :event
   def new_whitelist whitelisted
-    event[:whitelist].reject{ |participant| participant[:email] == whitelisted[:email]}
+    event[:whitelist].reject!{ |participant| participant[:email] == whitelisted[:email]}
     event[:whitelist].push(whitelisted)
     event[:whitelist]
   end

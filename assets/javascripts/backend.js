@@ -302,12 +302,24 @@
       );
     };
 
-    var _whitelist = function(call_id, whitelist, callback){
+    var _addWhitelist = function(event_id, name_email, email, callback){
       _send(
         '/users/add_whitelist',
         {
-          event_id: call_id,
-          whitelist: whitelist
+          event_id: event_id,
+          name_email, name_email,
+          email: email
+        },
+        callback
+      );
+    };
+
+    var _deleteWhitelist = function(event_id, email, callback){
+      _send(
+        '/users/delete_whitelist',
+        {
+          event_id: event_id,
+          email: email
         },
         callback
       );
@@ -431,7 +443,8 @@
       createPerformances: _createPerformances,
       modifyPerformances: _modifyPerformances,
       deletePerformances: _deletePerformances,
-      whitelist: _whitelist,
+      addWhitelist: _addWhitelist,
+      deleteWhitelist: _deleteWhitelist,
       saveOrder: _saveOrder,
       publish: _publish,
       getCallForms: _getCallForms,

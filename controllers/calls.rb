@@ -162,13 +162,27 @@ class CallsController < BaseController
   end
 
   post '/users/add_whitelist' do
-    scopify event_id: true, whitelist: true
+    scopify event_id: true
     check_event_ownership! event_id
 
-    list = Util.arrayify_hash whitelist
-    Repos::Events.add_whitelist event_id, list
+    whitelist = Whitelist.new(params, event_id)
+    Repos::Events.add_whitelist event_id, whitelist.to_a
 
-    message = {event: 'addWhitelist', model: list}
+    message = {event: 'addWhitelist', model: whitelist.to_a}
+    Services::Clients.send_message(event_id, success(message))
+    success(message)
+  end
+
+  post '/users/delete_whitelist' do
+    scopify event_id: true, email: true
+    check_event_ownership! event_id
+
+    event = Repos::Events.get_event params[:event_id]
+    event[:whitelist].reject!{ |participant| participant[:email] ==  email}
+
+    Repos::Events.add_whitelist event_id, event[:whitelist]
+
+    message = {event: 'addWhitelist', model: event[:whitelist]}
     Services::Clients.send_message(event_id, success(message))
     success(message)
   end
