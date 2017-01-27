@@ -34,7 +34,6 @@ require_relative '../lib/events/performances'
 require_relative '../lib/events/whitelist'
 
 require_relative '../lib/users/user'
-require_relative '../lib/calls/call'
 require_relative '../lib/util'
 
 Faye::WebSocket.load_adapter('thin')

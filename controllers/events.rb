@@ -1,12 +1,5 @@
 class EventsController < BaseController
 
-  post '/users/create_event' do
-    event_id = SecureRandom.uuid
-    event = Forms::Events.new(params, session[:identity]).create(event_id)
-    Repos::Events.add event
-    success({event: event})
-  end
-
   post '/users/create_performances' do
     scopify event_id: true
     check_event_ownership! event_id
