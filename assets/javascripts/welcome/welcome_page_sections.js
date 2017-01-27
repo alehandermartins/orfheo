@@ -108,9 +108,9 @@ ns.Widgets = ns.Widgets || {};
         _searchResult.append(
           $('<div>').addClass('card-container-WelcomePage')
             .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
-            .attr({
-              target: '_blank'
-            })
+            // .attr({
+            //   target: '_blank'
+            // })
           )
         );
       });

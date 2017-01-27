@@ -6,6 +6,9 @@ main.mainWelcomePage, main.mainUserPage{
   margin: 0;
   padding: 0;
   margin-top: -1.5rem;
+  min-height: -moz-calc(100vh - 1.8rem - 5.5rem);
+  min-height: -webkit-calc(100vh - 1.8rem - 5.5rem);
+  min-height: calc(100vh - 1.8rem - 5.5rem);
   section{
     /* padding-top:3.3rem; */
     min-height: -moz-calc(100vh - 1.8rem - 5.5rem);
@@ -127,6 +130,9 @@ main.mainWelcomePage, main.mainUserPage{
     .icon-profileCircle .material-icons{
       font-size: 24px; 
     }
+  }
+  @include breakpoint(medium down){
+    display: none;
   }
 }
 
@@ -300,10 +306,19 @@ main.mainWelcomePage, main.mainUserPage{
 
 
 .search-results-WelcomePage{
-  margin: 0 -0.95rem;
+  @include breakpoint (large){
+    margin: 0 -0.95rem;
+  }
   padding-bottom: 3rem;
   padding-top: 1rem;
   position: relative;
+}
+
+#profilesSection .search-results-WelcomePage, #newsSection .search-results-WelcomePage{
+  text-align: center;
+  .newsCard-welcomePage-container{
+    text-align: left;
+  }
 }
 
 .card-container-WelcomePage{
@@ -326,6 +341,9 @@ main.mainWelcomePage, main.mainUserPage{
   width: 690px;
   @include horizontal-center;
   position: relative;
+  @include breakpoint (medium down){
+    width: 85%;
+  }
   ul.select2-selection__rendered{
     padding: 0 2rem 0 3.4rem !important;
   }
@@ -621,7 +639,9 @@ User Section
 
 .outerContainer-UserPage{
   margin: 0 auto;
-  width: 1014px; 
+  @include breakpoint(large){
+    width: 1014px; 
+  }
   position: relative;
 }
   
