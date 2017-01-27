@@ -9,7 +9,6 @@ var DetectBrowser = function(){
 		'Chrome': 42,
 		'Chromium': 42,
 		'Internet Explorer': 11,
-		// 'msedge':'11',
 		'Safari': 6,
 		'Opera': 39
 	}

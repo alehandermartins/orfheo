@@ -636,9 +636,25 @@
       var _popupTitle = $('<h4>').html(news.title).addClass('title-popup-cardNews');
       var _popupText = $('<div>').html(news.text);
       var _popupDate = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale('es').format('DD MMM YYYY'))).addClass('popupDate-newsCard');
-      _sectionContainer.append(_popupTitle, _popupText, _popupDate);
 
-      _popupContent.append(_header, _sectionContainer);
+      var _pupopPublisherName = $('<span>')
+        .text(news.publisher)
+        // .addClass('publisherNamePopup-newsCard');
+      var _rfhPopup = $('<div>').addClass('rfhLogo-newsPopup')
+      var _iconPopup = $('<div>')
+        .addClass('whoCircle-newsPopup')
+        .append(_rfhPopup);
+      var _publisherPopup = $('<div>')
+        .append(_iconPopup, _pupopPublisherName)
+        .addClass('publisher-newsCard');
+      var _footerPopup = $('<div>')
+        .css({
+        'position':'relative',
+        'height':'3.5rem'
+        })
+        .append(_publisherPopup, _popupDate);
+      _sectionContainer.append(_popupTitle, _popupText);
+      _popupContent.append(_header, _sectionContainer, _footerPopup);
       _outerContainer.append(_container.append(_popupContent));
       _createdWidget.append(_outerContainer);
       $('body').append(_createdWidget);

@@ -164,7 +164,8 @@ ns.Widgets = ns.Widgets || {};
     });
 
     var _searchInputContainer = $('<div>').addClass('search-input-WelcomePage-Container');
-    var _rfhIcon = $('<div>').append($('<div>').addClass('rfhIcon-searchWidget')).addClass('rfhIcon-searchWidget-container');
+    var _searchIcon = $('<div>').append(Pard.Widgets.IconManager('search').render()).addClass('searchIcon-searchWidget-container');
+    // $('<div>').addClass('rfhIcon-searchWidget')).addClass('rfhIcon-searchWidget-container'
     var _cleanIcon = $('<div>')
       .append($('<button>')
         .attr('type','button')
@@ -174,7 +175,7 @@ ns.Widgets = ns.Widgets || {};
           if (_searchWidget.val()) _searchWidget.val('').trigger('change');
         })  
       .addClass('cleanIcon-searchWidget-container');
-    var _searchInput = $('<div>').append(_searchWidget, _rfhIcon, _cleanIcon).addClass('search-input-WelcomePage');
+    var _searchInput = $('<div>').append(_searchWidget, _searchIcon, _cleanIcon).addClass('search-input-WelcomePage');
     _searchInputContainer.append(_searchInput);
 
     var _searchTagsBox = $('<div>').addClass('search-tag-box');

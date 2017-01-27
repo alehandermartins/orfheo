@@ -133,9 +133,24 @@ ns.Widgets = ns.Widgets || {};
     var _navBar = $('<div>').addClass('pard-grid');    
 
     var _showHide = function(id_){
+      if (_lowerContainer.hasClass('fixedNavBar')){
+        _lowerContainer.removeClass('fixedNavBar');
+        $('main').css('margin-top','-1.5rem');
+        _lowerContainer.css('display','block');
+        _arrowUp.hide();
+      }
       $('.visible').hide().removeClass('visible');
       $('#'+id_).addClass('visible').show();
     }
+
+    $(window).scroll(function(){
+      if($(window).scrollTop() == 0 && _lowerContainer.hasClass('fixedNavBar')){
+        _lowerContainer.removeClass('fixedNavBar');
+        $('main').css('margin-top','-1.5rem');
+        _lowerContainer.css('display','block');
+        _arrowUp.hide();
+      }
+    })
 
     var _semicircleTop = $('<div>').addClass('semiCircleHeaderTop');
     var _semicircleBottom = $('<div>').addClass('semiCircleHeaderBottom');

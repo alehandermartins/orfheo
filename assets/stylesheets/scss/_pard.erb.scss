@@ -1301,6 +1301,9 @@ newsCard
 
 .popupDate-newsCard{
   color: $grey-4;
+  display: inline-block;
+  position: absolute;
+  right: 0;
 }
 
 .rfhLogo-news{
@@ -1313,8 +1316,27 @@ newsCard
   top: 3px;
 }
 
+.rfhLogo-newsPopup{
+  background-image: url(<%= image_path 'logo_black_m.png' %>);
+  width: 15px;
+  height: 10px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include horizontal-center;
+  top: 5px;
+}
+
 .whoCircle-news{
   @include pardCircle(1.1rem);
+  display: inline-block;
+  border: 1px solid $grey-4;
+  position: relative;
+  vertical-align: middle;
+  margin-right: .5rem;
+}
+
+.whoCircle-newsPopup{
+  @include pardCircle(1.3rem);
   display: inline-block;
   border: 1px solid $grey-4;
   position: relative;
@@ -1428,7 +1450,7 @@ HEADER
 .navBarHeader{
   height: 6rem;
   position: relative;
-  width: 100%;
+  width: 100vw;
   padding-top: 2.8rem;
 }
 
