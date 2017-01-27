@@ -330,9 +330,9 @@ ns.Widgets = ns.Widgets || {};
       $('header').css('overflow','hidden');
     });   
 
-    var _createdWidget = $('<header>').addClass('orfheoHeader fixed');
+    var _createdWidget = $('<header>').addClass('orfheoHeader');
     var _innerHeaderContainer = $('<div>').css('width','100vw');
-    var _upperContainer = $('<div>').addClass('upperContainerHeader black'); 
+    var _upperContainer = $('<div>').addClass('upperContainerHeader black fixed'); 
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');  
 
     var _semicircleTop = $('<div>').addClass('semiCircleHeaderTop');
@@ -377,7 +377,7 @@ ns.Widgets = ns.Widgets || {};
         return _createdWidget;
       },
       positionRelative: function(){
-        _createdWidget.removeClass('fixed');
+        _upperContainer.removeClass('fixed');
         _semicircleTopContainer.removeClass('fixed').addClass('semicirclePositionRelative');
       }
     }

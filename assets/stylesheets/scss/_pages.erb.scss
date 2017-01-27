@@ -314,12 +314,12 @@ main.mainWelcomePage, main.mainUserPage{
 
 .search-input-WelcomePage-Container{
   height: 9rem;
-  background-color: $grey-4;
+  border-bottom: 1px solid $grey-3;
   position: relative;
   padding-top: 2rem;
-  .select2-container--default .select2-selection--multiple{
+  /* .select2-container--default .select2-selection--multiple{
     border: none;
-  }
+  }*/
 }
 
 .search-input-WelcomePage{
