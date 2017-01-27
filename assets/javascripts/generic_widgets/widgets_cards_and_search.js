@@ -622,7 +622,7 @@
       var _popupContent = $('<div>');
       _popupContent.addClass('popup-container-full'); 
 
-      var _header = $('<div>').addClass('row popup-header');
+      var _header = $('<div>').addClass('popup-header');
       var _popupImg = $('<div>').addClass('imagePopup-cardNews')
         .append( $.cloudinary.image(news.img,{ format: 'jpg',  width: 750, height:460, crop: 'fill', effect: 'saturation:50' }));
       var _closeBtn = $('<button>').addClass('close-button small-1 ').attr({'data-close': '', type: 'button', 'aria-label': 'Close alert'});
