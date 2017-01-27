@@ -322,8 +322,9 @@ module Repos
 
       def my_artist_proposals events, profile_id
         events.map{ |event|
-          proposals = event[:artists].select{ |proposal| proposal[:profile_id] == profile_id}.first[:proposals]
-          next if proposals.blank?
+          artist = event[:artists].detect{ |proposal| proposal[:profile_id] == profile_id}
+          next if artist.blank?
+          proposals = artist[:proposals]
           proposals.each{ |proposal|
             proposal[:event_id] = event[:event_id]
             proposal[:event_name] = event[:name]
@@ -335,7 +336,7 @@ module Repos
 
       def my_space_proposals events, profile_id
         events.map{ |event|
-          proposal = event[:spaces].select{ |proposal| proposal[:profile_id] == profile_id}.first
+          proposal = event[:spaces].detect{ |proposal| proposal[:profile_id] == profile_id}
           next if proposal.blank?
           proposal[:event_id] = event[:event_id]
           proposal[:event_name] = event[:name]
