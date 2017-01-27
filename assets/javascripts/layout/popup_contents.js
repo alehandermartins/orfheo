@@ -30,8 +30,14 @@ ns.Widgets = ns.Widgets || {};
     var _titleServ = $('<h5>').text('¿Qué te ofrece orfheo?');  
     _servicesCont.append(_titleServ);
 
-    var _textColumn = $('<div>').append($('<p>').text('bla bla bla')).addClass('half-col');
-
+    var _textColumn = $('<div>')
+      .append(
+        $('<p>').text('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, los servicios que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> gestión de procesos y grandes eventos participativos</strong>. En especifico, ponemos al alcance de cualquiera  '),
+        $('<h6>').append('Plataforma de gestión:'),
+        $('<p>').text('')
+      )
+      .addClass('half-col');
+    
     var _formColumn = $('<div>').addClass('half-col');
     var _contactForm = $('<div>').addClass('contactForm-container');
     var _form = $('<form>');
@@ -184,7 +190,13 @@ ns.Widgets = ns.Widgets || {};
 
     var _titleServ = $('<h5>').text('¿Qué te ofrece orfheo?');  
     _servicesCont.append(_titleServ);
-     var _textColumn = $('<div>').append($('<p>').text('bla bla bla')).addClass('half-col');
+     var _textColumn = $('<div>')
+      .append(
+        $('<p>').text('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, los servicios que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> gestión de procesos y grandes eventos participativos</strong>. En especifico, ponemos al alcance de cualquiera  '),
+        $('<h6>').append('Plataforma de gestión:'),
+        $('<p>').text('')
+      )
+      .addClass('half-col');
     var _formColumn = $('<div>').addClass('half-col');
     var _contactForm = $('<div>').addClass('contactForm-container');
     var _form = $('<form>');
