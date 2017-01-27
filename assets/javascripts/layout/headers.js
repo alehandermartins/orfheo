@@ -125,7 +125,7 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.NavHeader = function(){
 
     var _createdWidget = $('<header>').addClass('orfheoHeader');
-    var _innerHeaderContainer = $('<div>').css('width','100vw');
+    var _innerHeaderContainer = $('<div>').addClass('innerWrapperDiv');
     var _upperContainer = $('<div>').addClass('upperContainerHeader fixed'); 
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');
     var _lowerContainer = $('<div>').addClass('navBarHeader');
@@ -331,7 +331,7 @@ ns.Widgets = ns.Widgets || {};
     });   
 
     var _createdWidget = $('<header>').addClass('orfheoHeader');
-    var _innerHeaderContainer = $('<div>').css('width','100vw');
+    var _innerHeaderContainer = $('<div>').addClass('innerWrapperDiv');
     var _upperContainer = $('<div>').addClass('upperContainerHeader black fixed'); 
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');  
 
@@ -341,7 +341,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _responsiveMenu = $('<span>').addClass('clearfix displayNone-for-large');
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
-    var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
+    var _iconOffCanvas = $('<span>').addClass('menu-icon');
     _elemOffCanvas.append(_iconOffCanvas).attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
     _elemOffCanvas.click(function(){$(window).scrollTop(0);});
     _responsiveMenu.append(_elemOffCanvas);
@@ -394,7 +394,7 @@ ns.Widgets = ns.Widgets || {};
     });   
 
     var _createdWidget = $('<header>').addClass('orfheoHeader');
-    var _innerHeaderContainer = $('<div>').css('width','100vw');
+    var _innerHeaderContainer = $('<div>').addClass('innerWrapperDiv');
     var _upperContainer = $('<div>').addClass('upperContainerHeader black'); 
     var _upperContent = $('<div>').addClass('pard-grid contentHeader');  
 
@@ -404,7 +404,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _responsiveMenu = $('<span>').addClass('clearfix displayNone-for-large');
     var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
-    var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
+    var _iconOffCanvas = $('<span>').addClass('menu-icon');
     _elemOffCanvas.append(_iconOffCanvas).attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
     _elemOffCanvas.click(function(){$(window).scrollTop(0);});
     _responsiveMenu.append(_elemOffCanvas);
@@ -445,60 +445,6 @@ ns.Widgets = ns.Widgets || {};
       }
     }
   }
-
-
-
-
-  // ns.Widgets.InsideHeader = function(){
-  //   var _createdWidget = $('<header>').addClass('orfheoHeader');
-
-  //   var userStatus = Pard.UserStatus['status'];
-   
-  //   var _topBar = $('<div>').addClass('pard-grid  clearfix');
-  //   var _container = $('<div>').addClass('contentHeader');
-    
-  //   var _topBarTitle = $('<div>')
-  //   var _logo = $('<a>').attr({
-  //     'href': '/'
-  //   }).append($('<div>').addClass('logo-header'));
-  //    var _logoContainer = $('<div>').append(_logo).addClass('logoBtn-navHeader');
-  //   _topBarTitle.append(_logoContainer);
-   
-  //   var _responsiveMenu = $('<div>').addClass('clearfix displayNone-for-large');
-  //   var _elemOffCanvas = $('<span>').addClass('menu-icon-header');
-  //   var _iconOffCanvas = $('<span>').addClass('menu-icon dark');
-  //   _elemOffCanvas.append(_iconOffCanvas).attr({'data-toggle': 'offCanvas-navBar', 'close-on-click': true}).css('cursor','pointer');
-  //   _elemOffCanvas.click(function(){$(window).scrollTop(0);});
-
-  //   _responsiveMenu.append(_elemOffCanvas);
-
-  //   var _rightContainer = $('<div>');
-  //   var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
-  //   var _init = $('<li>')
-  //     .append($('<a>').attr('href','/')
-  //       .text('Inicio')
-  //       .click(function(){
-  //         $('.selected').removeClass('selected');
-  //         _init.addClass('selected');
-  //         _showHide('welcomeSection');
-  //         if (_profilesSection) _profilesSection.deactivate();
-  //       })
-  //     )
-  //     .addClass('initText');
-  //   var _settingsDropdown = $('<li>')
-  //     .append(Pard.Widgets.UserDropdownMenu().render());
-  //   _rightContainer.append(_rightMenu.append(_init, _settingsDropdown)).addClass('rightContent-insideNavMenu');
-
-  //   _container.append(_topBarTitle, _responsiveMenu, _rightContainer);
-  //   _topBar.append(_container);
-  //   _createdWidget.append(_topBar);
-
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     } 
-  //   }
-  // }
 
   ns.Widgets.UserDropdownMenu = function(){   
 

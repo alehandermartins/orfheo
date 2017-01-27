@@ -289,9 +289,16 @@
     var _createdWidget =  [];
 
     profiles.forEach(function(profile){
-      _createdWidget.push($('<div>').addClass('card-container').append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login').attr({
-      target: '_blank'
-      })));
+      _createdWidget.push(
+        $('<div>')
+          .addClass('card-container')
+          .append(Pard.Widgets.CreateCard(profile).render()
+            .addClass('position-profileCard-login')
+            // .attr({
+            //   target: '_blank'
+            // })
+          )
+        );
     });
 
     return{
@@ -404,8 +411,6 @@
     var _eventName = $('<h6>').text(event.name).addClass('name-eventCard');
     var _eName =  Pard.Widgets.FitInBox(_eventName, 480, 40).render();
     var _name = $('<a>').addClass('name-eventCard').append($('<h6>').append(_eName.text())).attr({'href':'/event?id='+ event.event_id});
-
-    // var _baseline = $('<div>').addClass('baseline-eventCard').text(event.baseline);
     
     var _imgContainer = $('<div>').addClass('imgContainer-eventCard');
     var _img = $.cloudinary.image(event['img'],
@@ -491,9 +496,7 @@
        _callText.append('Convocatoria cerrada');
     }
     var _call = $('<div>').append(_callIcon, _callText).addClass('info-element-eventCard');
-    // var _conditionIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('conditions').render());
-    // var _conditionText = $('<div>').append($('<a>').text('Bases de participación').attr({'href':event.conditions,'target':'_blank'})).addClass('text-container'); 
-    // var _conditions = $('<div>').append(_conditionIcon, _conditionText).addClass('info-element-eventCard');
+
     var _cats = '';
     for (var cat in event.categories.artist){
       _cats += cat + ', ';
@@ -505,14 +508,6 @@
 
 
     _infoContainer.append(_organizer, _place, _date, _call, _categories);
-
-    // var _footer = $('<div>').addClass('footer-eventCard');
-    // var _categories = '';
-    // for (var cat in event.categories.artist){
-    //   _categories += cat + ', ';
-    // };
-    // _categories = _categories.substring(0,_categories.length-2);
-    // _footer.append($('<p>').append(_categories));
 
     var _triangle = $('<div>').addClass('manageCallBtn-eventCard')
       .css({

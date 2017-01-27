@@ -8,7 +8,7 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.MainWelcomePage = function(profilesSection){
     var _main = $('<main>').addClass('mainWelcomePage');
 
-    var _innerMainContainer = $('<div>').css('width','100vw');
+    var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
     var _welcomeSection = Pard.Widgets.WelcomeSection().attr('id','welcomeSection').addClass('visible');
 
@@ -36,7 +36,7 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.MainUserPage = function(profilesSection){
     var _main = $('<main>').addClass('mainUserPage');
 
-    var _innerMainContainer = $('<div>').css('width','100vw');
+    var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
     var _initSection = Pard.Widgets.UserInitSection().attr('id','welcomeSection').addClass('visible');
 
@@ -70,7 +70,7 @@ ns.Widgets = ns.Widgets || {};
     var _rgb = Pard.Widgets.IconColor(profiles[0]['color']).rgb();
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
     var _main = $('<main>').css({'background': _backColor});
-    var _innerMainContainer = $('<div>').css('width','100vw');
+    var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
@@ -118,7 +118,7 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.MainOffCanvasLayout = function(asideContent, sectionContent){
 
     var _main = $('<main>').attr('id','main-welcome-page');
-    var _innerMainContainer = $('<div>').css('width','100vw');
+    var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});

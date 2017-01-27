@@ -9,7 +9,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _createdWidget = $('<footer>').addClass('footer-bar');
     var userStatus = Pard.UserStatus['status'];
-    var _innerFooterContainer = $('<div>').css('width','100vw');
+    var _innerFooterContainer = $('<div>').addClass('innerWrapperDiv');
 
     if (userStatus == 'outsider') _createdWidget.addClass('footer-outsider');
 
