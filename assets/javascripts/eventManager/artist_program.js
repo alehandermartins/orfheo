@@ -163,7 +163,7 @@
         buttons: [
          {
           extend: 'collection',
-          text:  Pard.Widgets.IconManager('export').render(),
+          text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
           className: 'ExportCollectionBtn',
           collectionLayout: 'button-list',
           // backgroundClassName: 'ExportCollection-background',
@@ -272,20 +272,47 @@
       _phoneCol.html(_spaces[show.host_id].space.phone);
       _emailCol.html(_spaces[show.host_id].space.email);
 
-      _namePopupCaller.on('click', function(){
-        var _content = $('<div>').addClass('very-fast reveal full');
-        _content.empty();
-        $('body').append(_content);
-        var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        var _message = Pard.Widgets.PopupContent(show.title + ' (' + artist.name + ')', _program[show.performance_id].manager(false));
-        _message.setCallback(function(){
-          _printArtistProgram(artist, program, _program);
-          _content.remove();
-          _popup.close();
-        });
-        _content.append(_message.render());
-        _popup.open();
-      });
+      _namePopupCaller
+        .click(function(){
+          if (show.permanent == 'true') {
+            var artistProgram = Object.keys(program).map(function(performance_id){
+              return program[performance_id].show;
+            });
+            var _externalPerformancesBox = $('<div>').css('padding', 0).addClass('noselect');
+            var _performancesPopup = Pard.Widgets.Popup();
+            _performancesPopup.setContent(show.title +' (' + show.participant_name + ')', _externalPerformancesBox);
+            var _content = _program[show.performance_id].permanentManager(false);
+            _content.setCallback(function(){
+              _performancesPopup.close();
+              setTimeout(function(){
+                _printArtistProgram(artist);
+                _performancesPopup.destroy();
+              },500)
+            });
+            _externalPerformancesBox.append(_content.render());
+            _performancesPopup.setCallback(function(){
+              setTimeout(function(){
+                _printArtistProgram(artist);
+                _performancesPopup.destroy();
+              },500)
+            });
+            _performancesPopup.open();
+          }
+          else  {
+            var _popupContent = _program[show.performance_id].manager(false);
+            var _performancePopup = Pard.Widgets.Popup();
+            _popupContent.setCallback(function(){
+              _performancePopup.close();
+              setTimeout(
+                function(){
+                  _printArtistProgram(artist);
+                  _performancePopup.destroy();
+                },500)
+            });
+            _performancePopup.setContent(show.title +' (' + show.participant_name + ')', _popupContent.render())
+            _performancePopup.open();
+          }
+        })
 
       _row.append(_timeCol, _titleCol, _nameCol, _addressCol, _phoneCol, _emailCol);
       

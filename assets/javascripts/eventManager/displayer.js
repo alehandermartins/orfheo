@@ -18,8 +18,6 @@
       var artist = the_event.artists[profile_id].artist;
       var myprogram = the_event.artists[profile_id].program;
 
-      console.log(myprogram);
-
       var _popupTitle = '';
       _popupTitle += artist.name 
       if (!($.isEmptyObject(myprogram))){
@@ -35,8 +33,8 @@
       }
       var _message = Pard.Widgets.PopupContent(_popupTitle, Pard.Widgets.ArtistProgram(artist, myprogram, the_event.spaces, the_event.program), 'space-program-popup-call-manager');
       _message.setCallback(function(){
-        _content.empty();
         _popup.close();
+        _content.empty();
       });
       _content.append(_message.render());
       _popup.open();
@@ -49,8 +47,8 @@
 
       var _message = Pard.Widgets.PopupContent(space.name + ' ('+space.subcategory+')', Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program), 'space-program-popup-call-manager');
       _message.setCallback(function(){
-        _content.empty();
         _popup.close();
+        _content.empty();
       });
       _content.append(_message.render());
       _popup.open();

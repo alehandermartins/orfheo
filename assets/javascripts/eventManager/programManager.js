@@ -1480,7 +1480,7 @@
           dom: 'Bfrtip',
           buttons: [
             {
-              text: Pard.Widgets.IconManager('mailinglist').render(),
+              text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
               className: 'mailinglistBtn mailNoProgram',
               action: function(){
                 var columnData = _dataTable.column(3, { search:'applied' }).data().unique();
@@ -1778,16 +1778,15 @@
       var _rgb = Pard.Widgets.IconColor(the_event.color).rgb();
       var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
       var _setPublishStatus = function(){
-        if(the_event.published == 'false'){
+        if(the_event.published == 'true' || the_event.published == true){
+          _publishStatus = 'unpublish';
+          _publishedBtn.text('Retira el programa');
+          $('main').css({'background': _backColor});
+        }
+        else{         
           _publishStatus = 'publish';
           _publishedBtn.text('Publica el programa');
           $('main').css('background','#f6f6f6')
-        }
-        if(the_event.published == 'true'){
-          _publishStatus = 'unpublish';
-          _publishedBtn.text('Retira el programa');
-          
-          $('main').css({'background': _backColor});
         }
       }
       _setPublishStatus();
