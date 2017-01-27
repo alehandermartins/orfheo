@@ -583,7 +583,7 @@
 
           var start = new Date(performance.time[0]);
           var end = new Date(performance.time[1]);
-          //Te max value for start is that that puts the end on the limit of the day
+          //The max value for start is that that puts the end on the limit of the day
           var maxStart = new Date(dayEnd.getTime() - end.getTime() + start.getTime());
           while(dayStart <= maxStart){
             var hours = dayStart.getHours();
@@ -973,7 +973,6 @@
           startTimeContainer.append(startTime);
           var dayStart = new Date(parseInt(eventTime[performance.date][0]));
           var maxStart = new Date(parseInt(eventTime[performance.date][1]));
-          // var maxStart = new Date(parseInt(performance.time[1]));
           maxStart.setMinutes(maxStart.getMinutes() - 15);
           var _startOptions = [];
           while(dayStart <= maxStart){
@@ -990,7 +989,6 @@
           })
             .on('select2:select', function(){
               performance.time[0] = parseInt(startTime.select2('data')[0].time);
-              // setEndTimes();
               if (performance.time[0] >= performance.time[1]) {
                 performance.time[1] = performance.time[0] + 15*60000;
                 endTime.val(moment(parseInt(performance.time[1])).locale('es').format('HH:mm'))
@@ -1006,7 +1004,6 @@
           endTime = $('<select>');
           endTimeContainer.append(endTime);
           var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
-          // var minEnd = new Date(parseInt(performance.time[0]) + 15 * 60000);
           var minEnd = new Date(parseInt(eventTime[performance.date][0] + 15 * 60000));
           var _endOptions = [];
           while(minEnd <= dayEnd){
@@ -1240,12 +1237,8 @@
           performancesBox.append(_manager.render());
           var _chainIcon = $('<div>').append(Pard.Widgets.IconManager('chained').render().addClass('chain').hide()).addClass('chain-container');
             _managers.collection[show.performance_id].chainIcon = _chainIcon;
-          if(index != _artistShows.length -1){ 
+          if(index != _artistShows.length -1)
             performancesBox.append(_chainIcon);
-          }else{
-            var _mask = $('<div>').append($('<div>').addClass('mask-PermanentManager-IconChain chain')).css('position','relative');
-            //performancesBox.append(_mask);
-          }
         });
 
         return {
@@ -1254,8 +1247,7 @@
           },
           setCallback: function(callback){
             _closePopup = function(){
-                // performanceBox.remove();
-                callback();
+              callback();
             }
           }
         }
@@ -1882,13 +1874,6 @@
     Object.keys(the_event.spaces).forEach(function(space){
       the_event.spaces[space].alignPerformances();
     });
-
-    // var _submitBtn;
-    // var _successIcon = $('<span>').append(Pard.Widgets.IconManager('done').render().addClass('success-icon-check-call-manager'), 'OK').addClass('success-check-call-manager');
-
- 
-
-    // _submitBtnContainer.append(_submitBtn, _successIcon.hide());
    
     if(the_event.program){
       the_event.program.forEach(function(performance){
