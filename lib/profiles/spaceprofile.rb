@@ -1,15 +1,16 @@
 class SpaceProfile
 
   def initialize params, user_id
-    check_fields params
+    check_fields! params, user_id
     @profile = new_profile params, user_id
   end
 
-  def check_fields params
+  def check_fields! params, user_id
   raise Pard::Invalid::Params if mandatory.any?{ |field|
     params[field].blank?
   }
   raise Pard::Invalid::Category unless correct_category? params[:category]
+  raise Pard::Invalid::ExistingName unless Repos::Profiles.name_available?(user_id, params[:name])
   end
 
   def [] key
