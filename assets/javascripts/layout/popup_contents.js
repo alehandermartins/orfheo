@@ -173,7 +173,9 @@ ns.Widgets = ns.Widgets || {};
       $('.shown').hide();
       _contactCont.show().addClass('shown');
     });
-    _menuContainer.append(_menu.append(_services, _tecnicalSupport, _feedback, _colaboration, _contact));
+    _menuContainer.append(_menu.append(
+      // _services, _tecnicalSupport, _feedback, _colaboration, 
+      _contact));
     var _text = $('<div>').text('C o n t a c t a').addClass('textHeader-contactPopup');
     _header.append(_logo, _text, _menuContainer, _closeBtn);
 
@@ -183,7 +185,8 @@ ns.Widgets = ns.Widgets || {};
       .addClass('tecnicalSupport-contactInfo');
     var _colaborationCont = $('<div>').hide()
       .addClass('colaboration-contactInfo');
-    var _contactCont = $('<div>').hide()
+    var _contactCont = $('<div>')
+      // .hide()
       .addClass('contact-contactInfo');
     var _feedbackCont = $('<div>').hide()
       .addClass('feedback-contactInfo');
@@ -288,7 +291,10 @@ ns.Widgets = ns.Widgets || {};
      _colaborationCont.append(_textColumnColab, _listColumnCol);
 
 
-    _sectionContainer.append(_servicesCont, _tecnicalSupportCont, _colaborationCont, _feedbackCont, _contactCont);
+    _sectionContainer.append(
+      // _servicesCont, _tecnicalSupportCont, _colaborationCont, _feedbackCont, 
+      _contactCont
+    );
 
     _popupContent.append(_header, _sectionContainer);
     _outerContainer.append(_container.append(_popupContent));

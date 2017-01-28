@@ -80,7 +80,10 @@
       )
       .addClass('littleTextDiv');
 
-    _section.append(_myProfileDiv, _littleTextDiv);
+    _section.append(
+      _myProfileDiv
+      // ,_littleTextDiv
+    );
 
     return _section;
 

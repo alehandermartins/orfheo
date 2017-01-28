@@ -85,19 +85,6 @@ ns.Widgets = ns.Widgets || {};
         })
       );
 
-    // var _collabPopup;
-    // var _colabInfo;
-    // var _collabOrfheo = $('<li>').append($('<a>').text('Colabora')
-    //   .attr('href','#/'))
-    //   .one('click',function(){
-    //     _collabPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-    //     _colabInfo = Pard.Widgets.ColaborationInfo(_collabPopup);
-    //   })
-    //   .on('click',function(){
-    //     _content.empty().append(_colabInfo);
-    //     _collabPopup.open();
-    //   });
-
     var _servicesPopup;
     var _servicesInfo;
     var _servicesOrfheo = $('<li>').append($('<a>').text('Servicios')
@@ -106,9 +93,13 @@ ns.Widgets = ns.Widgets || {};
         'id':'toServicesPage'
       }))
 
-    // _rightContent.append(_project, ' | ', _place);
     var _logoFooter = $('<div>').addClass('logoFooter');
-    _rightContent.append(_rightMenu.append(_servicesOrfheo,_contactaOrfheo));
+    _rightContent.append(
+      _rightMenu.append(
+        // _servicesOrfheo,
+        _contactaOrfheo
+      )
+    );
 
     _container.append(_leftContent.prepend(_logoFooter), _rightContent);
     _grid.append(_container);
