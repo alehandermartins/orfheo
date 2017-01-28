@@ -24,13 +24,13 @@
     var _titleRowFoot = $('<tr>');
     // All non numeric field used by orfheo --> vector needed for ordering
     var _orfheoFields = {
-      artist: ['profile_id','proposalNumber','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email'],
-      space: ['profile_id','proposalNumber', 'type','name', 'subcategory','address', 'description','availability','phone','email']
+      artist: ['profile_id','proposalNumber','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email','amend'],
+      space: ['profile_id','proposalNumber', 'type','name', 'subcategory','address', 'description','availability','phone','email','amend']
     }
     //Mandatory fields that are not asked in forms
     var _mandatoryFields = {
-     artist: ['profile_id','proposalNumber', 'type', 'name', 'email', 'subcategory'],
-     space: ['profile_id','proposalNumber', 'type', 'name', 'email', 'address', 'description', 'subcategory']
+     artist: ['profile_id','proposalNumber', 'type', 'name', 'email', 'subcategory','amend'],
+     space: ['profile_id','proposalNumber', 'type', 'name', 'email', 'address', 'description', 'subcategory','amend']
     }
     // The columns I want to see in table as default
     var _shownColumns = {
@@ -120,6 +120,11 @@
           _row.append(_col);
         }
       }
+
+      // var _col = $('<td>')
+      //   .addClass('column-call-manager-table column-TextAreaEnriched');
+      // if (proposal['amend']) _col.append(proposal['amend']);
+      // _row.append(_col);
 
       return _row;
     }
@@ -231,6 +236,15 @@
 
 
   ns.Widgets.InfoTab = {
+    amend:{
+      info: function(proposal){
+        console.log(proposal)
+        if (proposal.amend) return proposal.amend; 
+        else return '';
+      },
+      label: 'Enmienda',
+      input: 'TextAreaEnriched'
+    },
     type: {
       info: function(proposal){
         if (proposal.own) return Pard.Widgets.IconManager(proposal.type).render(); 

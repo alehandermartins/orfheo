@@ -1590,6 +1590,7 @@ HEADER
   position: absolute;
   right: 0;
   top: 0.75rem;
+  z-index: 2;
   .loginText{
     color: black;
     display: inline-block;
@@ -2012,7 +2013,6 @@ inside header
 MAIN
 ===============================================*/
 
-@media only screen and #{breakpoint(medium)} {
 
 .outsider-main{
   margin-top: 3rem;
@@ -2021,7 +2021,6 @@ MAIN
   }
 }
 
-}
 
 .inside-main{
   margin-top: -.7rem;
