@@ -1,14 +1,9 @@
 class ProfilesController < BaseController
 
-  post '/users/check_name' do
-    scopify :name
-    status = Repos::Profiles.name_available?(session[:identity], name)
-    success({available: status})
-  end
-
   post '/users/create_profile' do
-    scopify :type
+    scopify type: true, name: true
     check_type! type
+    name_available? name
 
     profile = ArtistProfile.new(params, session[:identity]) if type == 'artist'
     profile = SpaceProfile.new(params, session[:identity]) if type == 'space'
@@ -19,9 +14,10 @@ class ProfilesController < BaseController
   end
 
    post '/users/modify_profile' do
-    scopify :profile_id, :type
+    scopify profile_id: true, type: true, name: true
     check_type! type
     check_profile_ownership profile_id
+    name_available? name
 
     profile = ArtistProfile.new(params, session[:identity]) if type == 'artist'
     profile = SpaceProfile.new(params, session[:identity]) if type == 'space'
@@ -39,16 +35,16 @@ class ProfilesController < BaseController
   get '/profile' do
     halt erb(:not_found) unless Repos::Profiles.exists? params[:id]
     owner = Repos::Profiles.get_profile_owner params[:id]
-    status = status_for owner
-    profiles = Repos::Profiles.get_user_profiles(owner, params[:id]) if status == :owner
-    profiles = Repos::Profiles.get_visitor_profiles(owner, params[:id]) unless status == :owner
-
-    erb :profile, :locals => {profiles: profiles.to_json, status: status.to_json}
+    profiles = get_profiles owner, params[:id]
+    halt erb :outsider, :locals => {:profiles => profiles.to_json} if !session[:identity]
+    halt erb :visitor, :locals => {:profiles => profiles.to_json} if owner != session[:identity]
+    erb :profile, :locals => {:profiles => profiles.to_json} if owner == session[:identity]
   end
 
   post '/users/create_production' do
-    scopify :profile_id
+    scopify profile_id: true, category: true
     check_profile_ownership profile_id
+    check_artist_category! category
 
     production = Production.new(params, session[:identity])
     Repos::Profiles.add_production profile_id, production.to_h
@@ -56,8 +52,9 @@ class ProfilesController < BaseController
   end
 
   post '/users/modify_production' do
-    scopify :production_id
+    scopify production_id: true, category: true
     check_production_ownership! production_id
+    check_artist_category! category
 
     production = Production.new(params, session[:identity])
     old_pictures = Services::Profiles.production_old_pictures production_id
@@ -68,21 +65,21 @@ class ProfilesController < BaseController
   end
 
   post '/users/delete_production' do
-    scopify :production_id
+    scopify production_id: true
     check_production_ownership! production_id
     Services::Profiles.delete_production production_id
     success
   end
 
   post '/users/delete_profile' do
-    scopify :profile_id
+    scopify profile_id: true
     check_profile_ownership profile_id
     Services::Profiles.delete_profile profile_id
     success
   end
 
   post '/users/list_profiles'do
-    profiles = Repos::Profiles.get_user_profiles session[:identity]
+    profiles = Repos::Profiles.get_profiles :user_profiles, {user_id: session[:identity]}
     success({profiles: profiles})
   end
 
@@ -92,11 +89,15 @@ class ProfilesController < BaseController
     raise Pard::Invalid::ProductionOwnership unless Repos::Profiles.get_production_owner(production_id) == session[:identity]
   end
 
-  def status_for owner
-    return :owner if owner == session[:identity]
-    return :visitor if (!session[:identity].blank? && owner != session[:identity])
-    :outsider
-  end 
+  def get_profiles owner, profile_id
+    method = :visit_profiles
+    method = :user_profiles if owner == session[:identity]
+    Repos::Profiles.get_profiles method, {user_id: owner, profile_id: profile_id, requester: session[:identity]}
+  end
+
+  def name_available? name
+    raise Pard::Invalid::ExistingName unless Repos::Profiles.name_available?(session[:identity], name)
+  end
 end
 
  #kit = IMGKit.new('https://www.pinterest.com/pinterest/',{width: 1366, height: 768})

@@ -30,14 +30,8 @@ ns.Widgets = ns.Widgets || {};
     var _titleServ = $('<h5>').text('¿Qué te ofrece orfheo?');  
     _servicesCont.append(_titleServ);
 
-    var _textColumn = $('<div>')
-      .append(
-        $('<p>').text('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, los servicios que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> gestión de procesos y grandes eventos participativos</strong>. En especifico, ponemos al alcance de cualquiera  '),
-        $('<h6>').append('Plataforma de gestión:'),
-        $('<p>').text('')
-      )
-      .addClass('half-col');
-    
+    var _textColumn = $('<div>').append($('<p>').text('bla bla bla')).addClass('half-col');
+
     var _formColumn = $('<div>').addClass('half-col');
     var _contactForm = $('<div>').addClass('contactForm-container');
     var _form = $('<form>');
@@ -142,18 +136,17 @@ ns.Widgets = ns.Widgets || {};
     var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
     var _menuContainer = $('<div>').addClass('menu-centered');
     var _menu = $('<ul>').addClass('menu');
-    var _services = $('<li>').text('Servicios').click(function(){
-      $('.selected').removeClass('selected');
-      _services.addClass('selected');
-      $('.shown').hide();
-      _servicesCont.show().addClass('shown');
-    }).addClass('selected');
-    var _tecnicalSupport = $('<li>').text('Soporte técnico')
-    .click(function(){
+    var _tecnicalSupport = $('<li>').text('Soporte técnico').click(function(){
       $('.selected').removeClass('selected');
       _tecnicalSupport.addClass('selected');
       $('.shown').hide();
       _tecnicalSupportCont.show().addClass('shown');
+    }).addClass('selected');
+    var _contact = $('<li>').text('Contacto').click(function(){
+      $('.selected').removeClass('selected');
+      _contact.addClass('selected');
+      $('.shown').hide();
+      _contactCont.show().addClass('shown');
     });
     var _feedback = $('<li>').text('Feedback').click(function(){
       $('.selected').removeClass('selected');
@@ -161,64 +154,15 @@ ns.Widgets = ns.Widgets || {};
       $('.shown').hide();
       _feedbackCont.show().addClass('shown');
     });
-    var _colaboration = $('<li>').text('Colabora').click(function(){
-      $('.selected').removeClass('selected');
-      _colaboration.addClass('selected');
-      $('.shown').hide();
-      _colaborationCont.show().addClass('shown');
-    });
-    var _contact = $('<li>').text('Contacto').click(function(){
-      $('.selected').removeClass('selected');
-      _contact.addClass('selected');
-      $('.shown').hide();
-      _contactCont.show().addClass('shown');
-    });
-    _menuContainer.append(_menu.append(
-      // _services, _tecnicalSupport, _feedback, _colaboration, 
-      _contact));
+    _menuContainer.append(_menu.append(_tecnicalSupport, _feedback,  _contact));
     var _text = $('<div>').text('C o n t a c t a').addClass('textHeader-contactPopup');
     _header.append(_logo, _text, _menuContainer, _closeBtn);
 
-    var _servicesCont = $('<div>')
-      .addClass('shown services-contactInfo');
-    var _tecnicalSupportCont = $('<div>').hide()
-      .addClass('tecnicalSupport-contactInfo');
-    var _colaborationCont = $('<div>').hide()
-      .addClass('colaboration-contactInfo');
-    var _contactCont = $('<div>')
-      // .hide()
-      .addClass('contact-contactInfo');
-    var _feedbackCont = $('<div>').hide()
-      .addClass('feedback-contactInfo');
-
-    var _titleServ = $('<h5>').text('¿Qué te ofrece orfheo?');  
-    _servicesCont.append(_titleServ);
-     var _textColumn = $('<div>')
-      .append(
-        $('<p>').text('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, los servicios que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> gestión de procesos y grandes eventos participativos</strong>. En especifico, ponemos al alcance de cualquiera  '),
-        $('<h6>').append('Plataforma de gestión:'),
-        $('<p>').text('')
-      )
-      .addClass('half-col');
-    var _formColumn = $('<div>').addClass('half-col');
-    var _contactForm = $('<div>').addClass('contactForm-container');
-    var _form = $('<form>');
-    var _nameInput = Pard.Widgets.Input('Nombre','text');
-    var _emailInput = Pard.Widgets.Input('Email','text');
-    var _subjectInput = Pard.Widgets.Input('Asunto','text');
-    var _mexInput = Pard.Widgets.TextArea('Mensaje',6);
-    var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
-        console.log(data);
-        console.log(_nameInput.getVal());
-        console.log(_mexInput.getVal());
-      });
-    });
-    _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
-    _contactForm.append(_form, _submitBtn.render());
-    var _textFormCol = $('<div>').append($('<p>').text('buf buf buf'));
-    _formColumn.append(_textFormCol, _contactForm);
-    _servicesCont.append(_textColumn, _formColumn);
+    var _tecnicalSupportCont = $('<div>').addClass('shown tecnicalSupport-contactInfo');
+    var _colaborationCont = $('<div>').hide().addClass('colaboration-contactInfo');
+    var _servicesCont = $('<div>').hide().addClass('services-contactInfo');
+    var _contactCont = $('<div>').hide().addClass('contact-contactInfo');
+    var _feedbackCont = $('<div>').hide().addClass('feedback-contactInfo');
 
     var _titleTecn = $('<h5>').text('¿Como podemos ayudarte?');  
     _tecnicalSupportCont.append(_titleTecn);
@@ -238,6 +182,9 @@ ns.Widgets = ns.Widgets || {};
     });
     var _formColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _profileInput.render(), _browserInput.render(), _mexInput.render()), _submitBtn.render()).addClass('half-col');
     _tecnicalSupportCont.append(_textColumn, _formColumn);
+
+    var _titleServ = $('<h5>').text('¿Qué puedes hacer con orfheo?');  
+    _servicesCont.append(_titleServ);
 
     var _titleContact = $('<h5>').text('¡Aquí estamos!');  
     _contactCont.append(_titleContact);
@@ -266,35 +213,8 @@ ns.Widgets = ns.Widgets || {};
     var _formFeedColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _mexInput.render()), _submitBtn.render()).addClass('half-col');
     _feedbackCont.append(_textFeedColumn, _formFeedColumn);
 
-    var _colaborationCont = $('<div>').addClass('colaboration-contactInfo').hide();
-    var _titleColab = $('<h5>').text('¿Quieres ser parte?');  
-    _colaborationCont.append(_titleColab);
-    var _textColumnColab = $('<div>')
-      .append(
-        $('<p>').text('Nos gustaría compartir conocimientos y seguir desarrollando este proyecto para que todos los ciudadanos de orfheo puedan siempre disfrutar de la comunidad y para dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen.'), 
-        $('<p>').text('Creemos que la inclusión inspira la innovación y por lo tanto siempre estamos abiertos a escuchar ideas para colaborar.'), 
-        $('<p>').append('Contáctanos a ', $('<a>').attr('href','mailto:info@orfheo.org').text('info@orfheo.org'))
-      )
-      .addClass('half-col');
-     var _listColumnCol = $('<div>')
-       .append(
-          $('<p>').text('Hay muchas formas de colaborar en orfheo:').css('margin-bottom','0.5rem'),
-          $('<ul>').append(
-            $('<li>').html('como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separados, no dudes en enviarnos tu propuesta de alianza.'),
-            $('<li>').html('como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.'),
-            $('<li>').html('como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envianos informaciones sobre ti.'),
-            $('<li>').html('como mecena: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.'),
-            $('<li>').html('como voluntario: </br>contáctanos si quieres aprender a través del desarrollo de orfheo o si ya tienes conocimientos y te estimula ofrecer tu tiempo a una noble causa.')
-          )
-        )
-       .addClass('half-col list-col');
-     _colaborationCont.append(_textColumnColab, _listColumnCol);
 
-
-    _sectionContainer.append(
-      // _servicesCont, _tecnicalSupportCont, _colaborationCont, _feedbackCont, 
-      _contactCont
-    );
+    _sectionContainer.append(_tecnicalSupportCont, _contactCont, _feedbackCont);
 
     _popupContent.append(_header, _sectionContainer);
     _outerContainer.append(_container.append(_popupContent));
@@ -408,10 +328,10 @@ ns.Widgets = ns.Widgets || {};
 
     var _baseline = $('<h6>').html('La primera comunidad artístico-cultural </br> donde conocer proyectos, encontrarse y crear juntos</br> experiencias inolvidables').addClass('orfheo-baseline-popup');
 
-    // var _title = $('<h4>').text('Todo sobre el proyecto').addClass('title-project-info');
-    var _message = $('<div>').html('<p> Bienvenido a orfheo, </p> <p> una sitio especial, que llega a ser realidad, y entonces comunidad, gracias a todos sus ciudadanos. Orfheo es una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro. </p> <p> Estás en tu comunidad artistica online, donde lanzar tu convocatoria es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Tienes a tu alcanze una herramienta, un mecanismo de gestión cultural con el cual crear y organzar eventos, descubrir a través de perfiles, enlaces y conexiones, llevar a la realidad sueños y ideas. </p> <p> Orfheo es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Creemos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio donde una cosa expone a otra con la misma idea con la cual se ha creado. </p> <p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen,  y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental  para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Te dejamos a ti imaginar un poco más lo necesario y el compartir con los demás experiencias inolvidables.</p>');
+    var _title = $('<h4>').text('Todo sobre el proyecto').addClass('title-project-info');
+    var _message = $('<div>').html('<p> Hola, has encontrado un lugar que no estabas buscando. Bienvenido a orfheo! Queremos contarte por qué has llegado hasta aquí.</p> <p> A raíz de la experiencia vivida organizando el Benimaclet conFusión festival, algunos de nosotros, voluntarios, hemos tenido la posibilidad de reflexionar sobre los retos de un modelo cooperativo en relación con la difícil gestión de las muchas ofertas artístico-culturales que recoge el evento. </p> <p> Hemos pensado en lo que hacía falta, y lo hemos hecho. </p> <p> Estamos orgullosos de contar contigo porque orfheo, sin gente como tú, no es más que una voz, una llamada a la acción, que llega a ser realidad, y entonces comunidad, solamente gracias a todos sus ciudadanos. Una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro. </p> <p> Estás en tu comunidad online, donde lanzar una convocatoria artístico-cultural es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Es una herramienta, un mecanismo de gestión cultural donde descubrir a través de perfiles, enlaces y conexiones. </p> <p> Es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Creemos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio donde una cosa expone a otra con la misma idea con la cual se ha creado. </p> <p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen,  y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental  para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Te dejamos a ti imaginar un poco más lo necesario y el compartir con los demás experiencias inolvidables.</p>');
 
-    var _part1 = $('<div>').append(_message);
+    var _part1 = $('<div>').append(_title, _message);
 
     var _subtitle = $('<h5>').text('Los pilares').addClass('subtitle-project-info');
 
@@ -431,9 +351,9 @@ ns.Widgets = ns.Widgets || {};
 
      var _list7 = $('<div>').html('<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>');
 
-     // var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
+     var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
 
-    _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7);
+    _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7, _thanks);
 
     _createdWidget.append(_image, _web, _baseline, _part1, _part2);
 

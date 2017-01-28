@@ -15,7 +15,7 @@ module Services
       def event event_id
         {
           event_id: event_id,
-          event_name: Repos::Events.get_event(event_id)[:name]
+          event_name: Repos::Events.get_event_name(event_id)
         }
       end
 
@@ -46,7 +46,7 @@ module Services
       end
 
       def delete_user user_id
-        profiles = Repos::Profiles.get_user_profiles user_id
+        profiles = Repos::Profiles.get_profiles :user_profiles, {user_id: user_id}
         profiles.each{ |profile|
           Services::Profiles.delete_profile profile[:profile_id]
         }

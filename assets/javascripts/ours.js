@@ -4,12 +4,12 @@
 // = require events
 
 // = require layout
-// = require eventManager
-// = require event
-// = require forms
-// = require widgets
-// = require profiles
-// = require users
-// = require welcome
+// = require call_manager
+// = require event_page_and_widgets
+// = require forms_widgets_and_utils
+// = require generic_widgets
+// = require profile_page_and_widgets
+// = require user_page
+// = require welcome_page_and_registration
 
 

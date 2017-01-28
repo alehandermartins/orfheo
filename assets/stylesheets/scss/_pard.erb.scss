@@ -70,9 +70,7 @@ html, body{
 body {
  /* overflow: hidden !important; */
   top: 0;
-  left: 0;
   position: absolute;
-  width: 100%;
 }
 
 
@@ -84,17 +82,16 @@ html{
 main {
   padding-top:1.8rem;
   padding-bottom:1.8rem;
-  min-height: -moz-calc(100vh - 1.8rem - 3rem);
-  min-height: -webkit-calc(100vh - 1.8rem - 3rem);
-  min-height: calc(100vh - 1.8rem - 3rem);
+  min-height: -moz-calc(100vh - 5.3rem);
+  min-height: -webkit-calc(100vh - 5.3rem);
+  min-height: calc(100vh - 5.3rem);
   @include breakpoint(small down){
     padding-top:1.6rem;
   }
 }
 
 header, footer, main{
-  /* width: 100vw !important; */
-  overflow: hidden;
+  width: 100vw !important;
 /*   @include breakpoint(medium down){
     width: calc(100vw - 2rem) !important;
   } */
@@ -117,14 +114,6 @@ a.profileCard:hover{
     max-height: 100%;
     display: block;
     position: relative;
-    width: 100%;
-}
-
-.innerWrapperDiv{
-  width:100vw;
-  @include breakpoint(medium down){
-    width: 100%;
-  }
 }
 
 .very-fast {
@@ -136,10 +125,6 @@ a.profileCard:hover{
 
 .warning{
   border:1px solid red !important;
-}
-
-.available{
-  border:1px solid lime !important;
 }
 
 .checkBox-warning{
@@ -236,16 +221,39 @@ Grid and Bar
 
 }
 
-
-.logoFooter{
-  margin-right: 2rem;
+.footer-left{
+  left:0;
   display: inline-block;
-  /* cursor: pointer; */
-  background-image: url(<%= image_path 'lettering_white_s.png' %>);
-  width: 42px;
-  height: 14px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  position: absolute;
+  @include breakpoint(small down){
+    bottom: 1px;
+    width: 100%;
+    text-align: left;
+    .leftFooter-menu{
+      li{
+        margin-right: 5%;
+      }
+    }
+  }
+}
+.footer-right{
+  display: inline-block;
+  position: absolute;
+  right:0;
+  @include breakpoint(small down){
+    top: 5px;
+    padding-bottom: 2px;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid $grey-4;
+    .rightFooter-menu{
+      font-size: $smallSize;
+      li{
+        margin-right: 10%;
+        margin-left: 0;
+      }
+    }
+  }
 }
 
 
@@ -258,7 +266,6 @@ Grid and Bar
   padding-bottom:2rem;
   @include border-radius($layout-border-radius);
   position:relative;
-  /* margin-bottom: $pard-grid-spacing; */
 }
 
 .pard-header-container{
@@ -277,6 +284,15 @@ Grid and Bar
   }
 }
 
+.pard-container-relative{
+  position:relative;
+  width: 100%;
+  height: 2rem;
+  padding-top:0.5rem;
+  @include breakpoint(small down){
+    min-height: 3rem;
+  }
+}
 
 
 /*FOR MEDIUM AND SMALL: TRANSITION WHEN SCREEN <= 1024px*/
@@ -468,7 +484,7 @@ button{
   width: $pard-aside-width;
   z-index: 20;
   margin-bottom: -4.8rem;
-  padding-bottom: $pard-grid-spacing;
+  padding-bottom:$pard-grid-spacing;
 
 }
 
@@ -986,20 +1002,18 @@ Event Card
   position: relative;
   display: inline-block;
   width: 478px;
-  height: 14.25rem;
+  height: 280px;
   box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.6);
-  @include border-radius($element-border-radius);
+  @include border-radius(5px);
   border-left: 6px solid;
   .header-eventCard{
-    padding: 8px 12px;
+    padding: 8px 12px 0 12px;
     position: relative;
     .baseline-eventCard{
       font-size: $almostNormalSize;
     }
     h6{
       margin: 0;
-      font-weight: bold;
-      display: inline-block;
     }
     .baseline-eventCard{
       margin-bottom: 9px;
@@ -1074,14 +1088,8 @@ Event Card
   }
   .btn-container{
     position: absolute;
-    right: 13px;
+    right: 6px;
     top: 6px;
-    a{
-      color: $grey-2;
-    }
-    a:hover{
-      color: rgba(222,222,222,.8);
-    }
   }
   @include breakpoint(750px down){
     width: 100%;
@@ -1129,7 +1137,7 @@ Event Card
 .outer-eventCard-container-userPage{
   @include breakpoint(750px up){
     position: relative;
-    height: 14.25rem;
+    height: 280px;
     width: 100%;
     .eventCard-container-userPage{
       @include horizontal-center;
@@ -1142,7 +1150,7 @@ Event Card
   display: inline-block;
   @include breakpoint(750px up){
     position: relative;
-    height: 14.25rem;
+    height: 280px;
     /* width: 100%; */
   }
   .eventCard-container-welcomePage{
@@ -1167,17 +1175,16 @@ Event Card
 
 .manageCallIcon{
   position: relative;
-  width: 1rem;
-  height: 1rem;
-  z-index: 1;
-  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  z-index: 2;
   .callIcon{
-    font-size: 60%;
+    font-size: 0.6rem;
     position: absolute;
-    left: 90%;
+    left: 0.9rem;
   }
   .toolsIcon{
-    font-size: 120%;
+    font-size: 1.2rem;
     position: absolute;
   }
 }
@@ -1254,14 +1261,11 @@ newsCard
 .date-newsCard{
   font-size: $smallSize;
   color: $grey-4;
-  display: inline-block;
-  position: absolute;
-  right: 0;
-  top: .2rem;
+  height: 20px;
 }
 
 .imagePopup-cardNews{
-  height: auto;
+  height: 363px;
   margin-bottom: 1rem;
 }
 
@@ -1272,57 +1276,6 @@ newsCard
 
 .popupDate-newsCard{
   color: $grey-4;
-  display: inline-block;
-  position: absolute;
-  right: 0;
-}
-
-.rfhLogo-news{
-  background-image: url(<%= image_path 'logo_black_m.png' %>);
-  width: 12px;
-  height: 8px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  @include horizontal-center;
-  top: 3px;
-}
-
-.rfhLogo-newsPopup{
-  background-image: url(<%= image_path 'logo_black_m.png' %>);
-  width: 15px;
-  height: 10px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  @include horizontal-center;
-  top: 5px;
-}
-
-.whoCircle-news{
-  @include pardCircle(1.1rem);
-  display: inline-block;
-  border: 1px solid $grey-4;
-  position: relative;
-  vertical-align: middle;
-  margin-right: .5rem;
-}
-
-.whoCircle-newsPopup{
-  @include pardCircle(1.3rem);
-  display: inline-block;
-  border: 1px solid $grey-4;
-  position: relative;
-  vertical-align: middle;
-  margin-right: .5rem;
-}
-
-.publisherName-newsCard{
-  font-size: $smallSize;
-  vertical-align: middle;
-}
-
-.publisher-newsCard{
-  display: inline-block;
-  width: 60%;
 }
 
 /*-----------------
@@ -1378,71 +1331,28 @@ ul.dropdownMenu{
   top: 2rem !important;
 }
 
-.eventMananagerChoice{
-  background-color: #fefefe;
-  border: 1px solid #cacaca;
-  /* border-radius: 0.125rem; */
-  display: block;
-  font-size: $almostNormalSize;
-  /* padding: 1rem; */
-  position: absolute;
-  visibility: hidden;
-  width: 7rem;
-  z-index: 10;
-  right: 0;
-  ul{
-    margin-left: 0;
-  }
-  li a{
-    padding: .4rem !important;
-  }
-  .manageCallIcon{ 
-    font-size: 11px;
-    margin-right: .4rem;
-    vertical-align: middle;
-    .callIcon {
-      left: 60%;
-    }
-  }
-  .eventIcon{
-    font-size: 14px;
-    margin-right: .5rem;
-  }
-}
-
-.showEventManagerChoice{
-  visibility: visible !important;
-}
-
 /*==============================================
 HEADER
 ===============================================*/
 
 .orfheoHeader{
-  position:static !important;
   width: 100%;
+  background-color: white;
   top: 0;
   margin: auto;
   font-size: $almostNormalSize;
   z-index: 3;
+  position: relative;
+  min-height: 3.3rem;
+  @include breakpoint(medium down){
+    padding: 0.5rem;
+  }
 }
 .black{
   background-color: black;
 }
 .fixed{
   position: fixed;
-}
-
-.upperContainerHeader{
-  width: 100vw;
-  height: 3rem;
-  z-index: 2;
-  top:0;
-  .black{
-    @include breakpoint(medium down){
-    padding: 0px 0.5rem;
-    }
-  }
 }
 
 .containerHeader{
@@ -1453,118 +1363,21 @@ HEADER
 
 .contentHeader{
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.navBarHeader{
-  height: 6rem;
-  position: relative;
-  width: 100vw;
-  padding-top: 2.8rem;
-  z-index:1;
-}
-
-.navBarContainer{
-  height: 1.7rem;
-}
-
-.fixedNavBar{
-  position: fixed;
-  top: 0;
-/*   height: 0rem;
-  overflow: hidden; */
-}
-
-/* .showNavBar{
-  position: fixed;
-  top: 0;
-  height: 5.5rem;
-  overflow: hidden;
-}
- */
 .logoBtn-navHeader{
   display: inline-block;
-  @include horizontal-center;
   margin-top: 0.8rem;
-  position: relative;
-  z-index:2;
+  /* @include horizontal-center; */
   button{
     margin: 0;
   }
 }
 
-.showNavMenu-header{
-  color: white;
-  @include horizontal-center;
-  top: 3rem;
-  z-index:2;
-  .material-icons{
-    font-size: 19px;
-  }
-}
-
-.hideNavMenu-header{
-  color: white;
-  @include horizontal-center;
-  top: -.4rem;
-  .material-icons{
-    font-size: 19px;
-  }
-}
-
-
-.logo-header{
-  cursor: pointer;
-  /* background-image: url(<%= image_path 'lettering_black_xxl.png' %>); */
-  width: 34px;
-  height: 23px;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  @include breakpoint(small down){ 
-    width: 30px;
-    height: 20px;
-    margin-bottom:0.6rem;
-  }
-}
-
 .black .logo-header{
-  background-image: url(<%= image_path 'logo_white_m.png' %>);
-}
-
-.semiCircleHeaderTop, .semiCircleHeaderBottom{
-  background: black;
-  @include border-radius(50%);
-  width: 59px;
-  height: 59px;
-  @include horizontal-center;
-  
-}
-
-.semiCircleHeaderTop{
-  top: 4px;
-  position: relative;
-  z-index: 2;
-}
-
-.semiCircleHeaderBottom{
-  bottom: -1px;
-}
-
-.semiCircleHeaderTop-container{
-  width: 100vw;
-  top: -5px;
-  z-index: 1;
-}
-
-.semicirclePositionRelative{
-  position: relative;
-  margin-top: -48px;
-  /* margin-bottom: -3.2rem; */
-}
-
-.semiCircleHeaderBottom-container{
-  height: .55rem;
-  position: relative;
-  width: 100vw;
+  background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
 }
 
 .container-loginNavHeader{
@@ -1581,28 +1394,17 @@ HEADER
       margin-bottom: 1rem;
     }
   }
-  @include breakpoint(small down){
-    left: -280px !important;
-  }
 }
 
 .loginContainer{
   position: absolute;
   right: 0;
-  top: 0.75rem;
-  z-index: 2;
+  top: 0.85rem;
   .loginText{
     color: black;
     display: inline-block;
     vertical-align: -.4rem;
     margin-right: 1rem;
-    @include breakpoint (small down){
-      position: absolute;
-      top: -0.2rem;
-      right: 4rem;
-      width: 3.5rem;
-      margin: 0;
-    }
   }
   .loginText:hover{
     color: rgba(0,0,0,.8);
@@ -1632,33 +1434,27 @@ HEADER
   li{
     display: inline-block;
     text-transform: capitalize;
-    margin: 0 1rem;
+    margin: 0 0 0 1.5rem;
+    /* min-width: 90px; */
     text-align: center;
-    @include breakpoint (small down){
-      margin: 0 .5rem;
-    }
-    a, button{
+    a{
       color: white;
     }
-    a:hover, button:hover{
+    a:hover{
       color: $grey-2;
     }
   }
   .selected, .selected:hover{
-    a, button{
+    a{
       color: $grey-3;
-      /* cursor: default; */
     }
   }
 }
 
 .navMenuHeader-container{
-  @include horizontal-center;
-  z-index: 1;
-  @include breakpoint(small down){
-    width: 100%;
-    text-align: center;
-  }
+  position: relative;
+  display: inline-block;
+  vertical-align: 1px;
 }
 
 .signUpBtn-container{
@@ -1678,10 +1474,10 @@ HEADER
   vertical-align: middle;
   @include breakpoint(small down){
     position: absolute;
-    right: 0;
-    top: -.4rem;
+    right: $inner-spacing;
+    top: $inner-spacing;
     font-size: $almostNormalSize;
-    padding: 0.2rem 0.5rem;  
+    padding: 0.25rem 0.5rem;  
   }
 }
 
@@ -1700,7 +1496,6 @@ HEADER
   position: relative;
   width: 240px;
   margin-top: 2.5rem;
-  z-index: 2;
   input.input-login-field{
     width: 100%;
     display: block;
@@ -1728,45 +1523,19 @@ HEADER
 }
 
 .makeCallBtn{
-  /* background: #333333;
+  background: #333333;
   @include border-radius($element-border-radius);
   padding: .3rem .8rem;
   color: white;
   font-weight: bold;
   vertical-align: middle;
-  left: 0rem;
+  right: 12rem;
   top: .8rem;
-  position: absolute; */
-  left: 0rem;
-  top: 1.15rem;
   position: absolute;
-  display: inline-block;
-  /* color:  white; */
 }
 
-a.makeCallBtn:hover{
-  /* color: #212121; */
-}
-
-.dropdownHeaderMenu{
-  margin: 0;
-  width: 100%;
-  li{
-    width: 100%;
-  }
-  .separator{
-    width: 95%;
-    border-bottom: 1px solid $grey-1;
-    margin: 0 auto;
-  }
-  .circleProfile-MenuHeader{
-    @include border-radius(50%);
-    width: .6rem;
-    height: .6rem;
-    margin-right: .5rem;
-    display: inline-block;
-    vertical-align: middle;
-  }
+.makeCallBtn:hover{
+  background: #212121;
 }
 
 
@@ -1785,11 +1554,6 @@ login
   }
   .menu-icon-header{
     margin-left:0.5rem;
-  }
-  header .menu-icon{
-    position: absolute;
-    top: 1.1rem;
-    z-index: 3;
   }
 }
 
@@ -1901,131 +1665,6 @@ login
 
 
 
-/* --------------
-inside header
----------------
- */
-
-.right-user-header-content{
-  display: inline-block;
-  position: absolute;
-  @include breakpoint(large){
-    margin-right: -1.5rem;
-  }
-  right:0;
-}
-
-.left-user-header-content{
-  left:0;
-  display: inline-block;
-  position: absolute;
-  @include breakpoint(large){
-    margin-left:-0.5rem;
-  }
-  cursor: pointer;
-  @include breakpoint(small down){
-    margin-left: 0.5rem;
-  }
-
-}
-
-.top-header-content{
-  display: block;
-  width: 100%;
-  @include breakpoint(medium){
-    min-height: 3.5rem;
-  }
-  @include breakpoint(small down){
-    min-height: 2.3rem;
-  }
-}
-
-.settings-icon-dropdown-menu{
-  color: black;
-  .material-icons{
-    font-size: 2.1rem;
-    margin-right: -0.6rem;
-  }
-  padding:0;
-}
-
-.settings-icon-dropdown-menu:hover{
-  color: rgba(0,0,0,0.8);
-}
-
-.black{
-  .settings-icon-dropdown-menu{
-    color: white;
-  }
-  .settings-icon-dropdown-menu:hover{
-    color: $grey-2;
-  }
-}
-
-
-
-.rightContent-insideNavMenu{
-  position: absolute;
-  right: 0;
-  top: .7rem;
-  z-index: 2;
-  .rightMenu-navHeader{
-    margin: 0;
-    li{
-      display: inline-block;
-    }
-    @include breakpoint (medium down){
-      margin-right: .5rem;
-    }
-  }
-  .initText{
-    text-align: center;
-    margin-right: .2rem;
-    padding-right: .8rem;
-    border-right: 1px solid $grey-1;
-    vertical-align: 0.7rem;
-    height: 1.2rem;
-    a{
-      color: black;
-    }
-  }
-  .initText:hover{
-    a{
-      color: rgba(0,0,0,.8);
-    }
-  }
-}
-
-.black .initText {
-  border-color: $grey-4;
-  a{
-  color: white;
-  }
-}
-
-.black .initText:hover{
- a{
-    color: $grey-2
-  }
-}
-
-/*==============================================
-MAIN
-===============================================*/
-
-
-.outsider-main{
-  margin-top: 3rem;
-  .section-content{
-    margin-bottom: $pard-grid-spacing;
-  }
-}
-
-
-.inside-main{
-  margin-top: -.7rem;
-}
-
 /*==============================================
 FOOTER
 ===============================================*/
@@ -2040,7 +1679,7 @@ FOOTER
   bottom:0;
   font-size: $smallSize;
   @include breakpoint(medium) {  
-    height:1.8rem;
+    height:2rem;
   }
   box-shadow: 0 0 2px black;
   @include breakpoint(small down) {  
@@ -2048,89 +1687,35 @@ FOOTER
   }
 }
 
-.pard-container-relative{
-  position:relative;
-  width: 100%;
-  @include breakpoint(medium) {  
-    height:1.8rem;
-  }
-  padding-top:0.3rem;
-  @include breakpoint(small down){
-    min-height: 5.5rem;
-  }
+
+a.footer-text-link {
+  color: white;
 }
 
-.footer-left{
-  left:0;
-  display: inline-block;
-  position: absolute;
-  ul{
-    display: inline-block;
-  }
-  @include breakpoint(small down){
-    bottom: 1px;
-    width: 45%;
-    text-align: left;
-    .leftFooter-menu{
-      li{
-        display: block;
-      }
-    }
-  }
-}
-.footer-right{
-  display: inline-block;
-  position: absolute;
-  right:0;
-  @include breakpoint(small down){
-    top: 5px;
-    padding-bottom: 2px;
-    width: 45%;
-    text-align: right;
-    .rightFooter-menu{
-      font-size: $smallSize;
-      li{
-        display: block;
-      }
-    }
-  }
+
+a.footer-text-link:hover{
+  color: white;
+  text-decoration: underline;
 }
 
 .rightFooter-menu{
   font-size: $smallSize;
   margin: 0;
-  display: inline-block;
+  margin-top: -0.2rem;
   li{
     display: inline-block;
     margin-left: 2rem;
-    color: $blue-pard;
-    cursor: pointer;
-  }
-  li:hover{
-    color: rgb(44, 106, 204);
   }
 }
 
 .leftFooter-menu{
   margin: 0;
+  margin-top: -0.1rem;
   li{
     display: inline-block;
     margin-right: 2rem;
   }
 }
-
-button.footer-text-link {
-  color: white;
-  cursor: pointer;
-}
-
-
-button.footer-text-link:hover{
-  color: white;
-  text-decoration: underline;
-}
-
-
 
 @media only screen and #{breakpoint(medium)} {
 
@@ -2199,7 +1784,7 @@ button.footer-text-link:hover{
 }
 
 .logoOrfheo-contactInfo{
-  background-image: url(<%= image_path 'lettering_white_xl.png' %>);
+  background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
   width: 112px;
   height: 35px;
   background-repeat: no-repeat;
@@ -2311,22 +1896,6 @@ select, textarea, a{
 
 select:-moz-focusring { color: transparent;
                         text-shadow: 0 0 0 #000; }
-
-.TextAreaEnrichedContainer{
-  .trumbowyg-box{
-    min-height: 11rem;
-    margin: 0;
-  }
-  .trumbowyg-editor{
-    font-size: $almostNormalSize;
-    min-height: 11rem;
-    padding: .5rem;
-    p{
-      line-height: 1.2rem;
-      margin-bottom: 0.6rem;
-    }
-  }
-}
 
 .popup-form button {
   outline: none;
@@ -2798,7 +2367,7 @@ IMAGES
 ================================================*/
 
 .orfheo-symbol-popup{
-  background-image: url(<%= image_path 'logo_black_xl.png' %>);
+  background-image: url(<%= image_path 'orfheosimbolocolor.png' %>);
   width: 100px;
   height: 69px;
   background-repeat: no-repeat;
@@ -2812,7 +2381,7 @@ IMAGES
 
 
 .orfheo-symbol-image-searchEngine{
-  background-image: url(<%= image_path 'logo_black_m.png' %>);
+  background-image: url(<%= image_path 'orfheosimbolonegro.png' %>);
   width: 90px;
   height: 61px;
   background-repeat: no-repeat;
@@ -2821,6 +2390,47 @@ IMAGES
   position: relative;
   margin-bottom: 1.5rem;
   /* margin-top: -2rem; */
+}
+
+.welcome-img-section-header {
+  background-image: url(<%= image_path 'logo_conFusion.png' %>);
+  width: 100%;
+  @include breakpoint(large){ height: 13.75rem; }
+  @include breakpoint(medium down){ height: 22vw;}
+  @include breakpoint(small down){ height: 30vw;}
+  background-repeat: no-repeat;
+  background-size: 95% 95%;
+
+}
+
+.logo-header{
+  cursor: pointer;
+  background-image: url(<%= image_path 'orfheologonegro.png' %>);
+  width: 77px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include breakpoint(small down){ 
+    width: 66px;
+    height: 20px;
+    margin-bottom:0.6rem;
+    margin-top: 0.1rem;
+  }
+}
+
+.orfheo-logo-card{
+  background-image: url(<%= image_path 'orfheologocolor.png' %>);
+  width: 120px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin-top: 5rem;
+  @include horizontal-center;
+  @include breakpoint (small down){
+    width: 90px;
+    height: 30px;
+    margin-top: 3rem;
+  }
 }
 
 table.dataTable thead .sorting_asc {

@@ -1,7 +1,7 @@
 class FormsController < BaseController
 
   post '/' do
-  	scopify :call_id
+  	scopify call_id: true
     check_call_exists! call_id
     forms = Repos::Calls.get_forms call_id
     success({forms: forms})
