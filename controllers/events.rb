@@ -1,41 +1,45 @@
 class EventsController < BaseController
 
+  post '/users/create_event' do
+    event_id = SecureRandom.uuid
+    event = Forms::Events.new(params, session[:identity]).create(event_id)
+    Repos::Events.add event
+    success({event: event})
+  end
+
   post '/users/create_performances' do
-    scopify :event_id
+    scopify event_id: true
     check_event_ownership! event_id
 
     performances = Performances.new(params, event_id)
-    Repos::Events.save_program event_id, performances.to_save
+    Repos::Events.add_performances event_id, performances.to_a
 
-    message = {event: 'addPerformances', model: performances.to_a}
+    message = {event: 'addPerformance', model: performances.to_a}
     Services::Clients.send_message(event_id, success(message))
     success(message)
   end
 
   post '/users/modify_performances' do
-    scopify :event_id
+    scopify event_id: true, last_host: true
+    puts last_host
     check_event_ownership! event_id
 
-    performances = Performances.new(params, event_id)
-    Repos::Events.save_program event_id, performances.to_save
+    performance = Performance.new(params)
+    check_existing_performance! event_id, performance.to_h
+    Repos::Events.modify_performance event_id, performance.to_h
 
-    message = {event: 'modifyPerformances', model: performances.to_a}
+    performance.add_host last_host
+    puts performance.to_h
+    message = {event: 'modifyPerformance', model: performance.to_h}
     Services::Clients.send_message(event_id, success(message))
     success(message)
   end
 
-  post '/users/delete_performances' do
-    scopify :event_id
+  post '/users/delete_performance' do
+    scopify event_id: true, performance_id: true
     check_event_ownership! event_id
-
-    event = Repos::Events.get_event params[:event_id]
-    performances = Util.arrayify_hash params[:program]
-    ids = performances.map{ |performance| performance[:performance_id]}
-
-    program = event[:program].reject{ |performance| ids.include? performance[:performance_id]}
-
-    Repos::Events.save_program event_id, program
-    message = {event: 'deletePerformances', model: performances}
+    Repos::Events.delete_performance event_id, performance_id
+    message = {event: 'deletePerformance', model: {performance_id: performance_id}}
     Services::Clients.send_message(event_id, success(message))
     success(message)
   end
@@ -45,32 +49,19 @@ class EventsController < BaseController
     success ({events: events})
   end
 
-  post '/users/space_order' do
-    scopify :event_id, :order
+  post '/users/save_program' do
+    scopify event_id: true, order: true
     check_event_ownership! event_id
 
-    new_order = Util.arrayify_hash order
-    Repos::Events.space_order event_id, new_order
-    
-    message = {event: 'orderSpaces', model: new_order}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
-  end
-
-  post '/users/publish' do
-    scopify :event_id
-    check_event_ownership! event_id
-
-    status = Repos::Events.publish event_id
-    
-    message = {event: 'publishEvent', model: status}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    program = Program.new(params, event_id)
+    arrangedOrder = Util.arrayify_hash order
+    Repos::Events.save_program event_id, program.to_a, arrangedOrder
+    success
   end
 
   get '/event' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
-    event = Repos::Events.get_arranged_event params[:id]
+    event = Repos::Events.get_event params[:id]
     user = Repos::Users.grab({user_id: session[:identity]})
     event[:whitelisted] = false
     event[:whitelisted] = true if(session[:identity] == event[:user_id] || event[:whitelist].any?{|whitelisted| whitelisted[:email] == user[:email]})
@@ -86,14 +77,14 @@ class EventsController < BaseController
 
   get '/event_manager' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
-    event = Repos::Events.get_arranged_event params[:id]
+    event = Repos::Events.get_event params[:id]
     forms = Repos::Calls.get_forms event[:call_id]
     halt erb(:not_found) unless event[:user_id] == session[:identity]
     erb :event_manager, :locals => {:the_event => event.to_json, :forms => forms.to_json}
   end
 
   get '/conFusion' do
-    event = Repos::Events.get_arranged_event 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
+    event = Repos::Events.get_event 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
     program = event[:program]
     program.map!{|performance|
       performance[:participant_category] = performance[:participant_subcategory]
@@ -111,5 +102,10 @@ class EventsController < BaseController
     dates.pop
     the_event = {name: event_name, dates: dates, shows: program}
     success({event: the_event})
+  end
+
+  private
+  def check_existing_performance! event_id, performance
+    raise Pard::Invalid::UnexistingPerformance unless Repos::Events.performance_exists? event_id, performance
   end
 end

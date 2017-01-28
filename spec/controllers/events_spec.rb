@@ -116,7 +116,20 @@ describe EventsController do
     allow(Repos::Events).to receive(:performance_exists?).with(event_id, performance_model).and_return(true)
   }
 
-  describe 'Retrieve' do
+  describe 'Create' do
+
+    xit 'fails if the event already exists' do
+      post create_event_route, event
+      post create_event_route, event
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('existing_call')
+    end
+
+    it 'adds a new a event' do
+      expect(Repos::Events).to receive(:add).with(event_model)
+      post create_event_route, event
+      expect(parsed_response['status']).to eq('success')
+    end
 
     it 'retrieves all events' do
       expect(Repos::Events).to receive(:get_events)

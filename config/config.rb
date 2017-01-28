@@ -22,18 +22,21 @@ require_relative '../repos/profiles'
 require_relative '../repos/calls'
 require_relative '../repos/events'
 
-require_relative '../lib/profiles/artistprofile'
-require_relative '../lib/profiles/spaceprofile'
-require_relative '../lib/profiles/organizationprofile'
-require_relative '../lib/profiles/production'
-require_relative '../lib/calls/artistproposal'
-require_relative '../lib/calls/spaceproposal'
-require_relative '../lib/calls/artistownproposal'
-require_relative '../lib/calls/spaceownproposal'
-require_relative '../lib/events/performances'
-require_relative '../lib/events/whitelist'
+require_relative '../lib/forms/base'
+require_relative '../lib/forms/artistprofile'
+require_relative '../lib/forms/spaceprofile'
+require_relative '../lib/forms/organizationprofile'
+require_relative '../lib/forms/production'
+require_relative '../lib/forms/artistproposal'
+require_relative '../lib/forms/spaceproposal'
+require_relative '../lib/forms/artistownproposal'
+require_relative '../lib/forms/spaceownproposal'
+require_relative '../lib/forms/events'
+require_relative '../lib/forms/program'
+require_relative '../lib/forms/performances'
 
 require_relative '../lib/users/user'
+require_relative '../lib/calls/call'
 require_relative '../lib/util'
 
 Faye::WebSocket.load_adapter('thin')
@@ -51,16 +54,16 @@ class BaseController < Sinatra::Base
     ours.css
     ours.js
     jquery.js
+    logo_conFusion.png
     italian_flag.jpeg
     valencian_flag.png
     english_flag.png
-    logo_favicon.ico
-    logo_black_m.png
-    logo_white_m.png
-    lettering_black_xxl.png
-    lettering_white_m.png
-    lettering_white_s.png
-    logo_black_xl.png
+    orfheoiconocolor.png
+    orfheologocolor.png
+    orfheologonegro.png
+    orfheologoblanco_small.png
+    orfheosimbolocolor.png
+    orfheosimbolonegro.png
     orfheo_fb_preview.jpg
     sort_both.png
     sort_asc.png
@@ -131,13 +134,6 @@ class BaseController < Sinatra::Base
   configure :production, :deployment do
     @@db = Mongo::Client.new('mongodb://heroku_1qqrwjjv:6j1mh19jfgfn4up520imdbh3g8@ds055535.mongolab.com:55535/heroku_1qqrwjjv')
     Pony.override_options = options
-    Cloudinary.config do |config|
-      config.cloud_name = 'hxgvncv7u'
-      config.api_key = '844974134959653'
-      config.api_secret = '2scRx2fF3Vuw1qS6tu0FGli69Po'
-      config.cdn_subdomain = true
-      CLOUDINARY_URL = 'cloudinary://844974134959653:2scRx2fF3Vuw1qS6tu0FGli69Po@hxgvncv7u'
-    end
     puts 'configured for pdd'
   end
 

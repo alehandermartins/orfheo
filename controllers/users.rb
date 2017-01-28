@@ -7,7 +7,7 @@ class UsersController < BaseController
   end
 
   get '/users/' do
-    profiles = Repos::Profiles.get_user_profiles session[:identity]
+    profiles = Repos::Profiles.get_profiles :user_profiles, {user_id: session[:identity]}
     erb :users, :locals => {:profiles => profiles.to_json}
   end
 
@@ -21,12 +21,6 @@ class UsersController < BaseController
     Services::Users.delete_user session[:identity]
     session.delete(:identity)
     success
-  end
-
-  post '/users/header' do
-    profiles = Repos::Profiles.get_header_info session[:identity]
-    events = Repos::Events.get_header_info session[:identity]
-    success({profiles: profiles, events: events})
   end
 
   private

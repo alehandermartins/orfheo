@@ -1,7 +1,7 @@
 class SearchController < BaseController
 
   post '/suggest' do
-    scopify :query, :event_id
+    scopify query: true, event_id: true
     queriable_tags = get_query query
     tags = queriable_tags[0...-1]
     matched_profiles = query_profiles get_profiles(event_id), tags
@@ -11,7 +11,7 @@ class SearchController < BaseController
   end
 
   post '/results' do
-    scopify :query, :shown, :event_id
+    scopify query: true, shown: true, event_id: true
     tags = get_query query
     shown_profiles = check_params shown
     not_shown = not_shown_profiles get_profiles(event_id), shown_profiles
@@ -20,7 +20,7 @@ class SearchController < BaseController
   end
 
   post '/suggest_program' do
-    scopify :query, :event_id, :filters
+    scopify query: true, event_id: true, filters: true
     queriable_tags = get_query query
     queriable_filters = get_filters filters
     results = Services::Search.get_program_suggestions event_id, queriable_tags, queriable_filters
@@ -28,7 +28,7 @@ class SearchController < BaseController
   end
 
   post '/results_program' do
-    scopify :query, :event_id, :filters, :date, :time
+    scopify query: true, event_id: true, filters: true, date: true, time: true
     tags = get_query query
     queriable_filters = get_filters filters
     results = Services::Search.get_program_results event_id, tags, queriable_filters, date, time
@@ -58,8 +58,8 @@ class SearchController < BaseController
   end
 
   def get_profiles event_id
-    profiles = Repos::Profiles.get_event_profiles event_id unless event_id.blank?
-    profiles = Repos::Profiles.get_all if event_id.blank?
+    profiles = Repos::Profiles.get_profiles :event_profiles, {event_id: event_id} unless event_id.blank?
+    profiles = Repos::Profiles.get_profiles :all, nil if event_id.blank?
     profiles.reject!{ |profile| profile[:user_id] == session[:identity]} if session[:identity] && event_id.blank? 
     profiles
   end
@@ -150,7 +150,7 @@ class SearchController < BaseController
 
   def not_shown_profiles profiles, shown
     not_shown = profiles.reject{ |profile| shown.include? profile[:profile_id]}
-    not_shown.sort_by { |profile| (profile[:profile_picture].blank? && profile[:photos].blank?) ? 1 : 0}
+    not_shown.sort_by { |profile| profile[:profile_picture].blank? ? 1 : 0}
   end
 
   def get_suggestions_for matched_profiles, query
@@ -219,8 +219,7 @@ class SearchController < BaseController
       'street art',
       'taller',
       'gastronomia',
-      'otros',
-      'festival'].include? text
+      'otros'].include? text
   end
 
   def translate text

@@ -66,7 +66,7 @@ describe UsersController do
 
     it 'gets the profiles of the user and other profiles' do
       post login_route, user_hash
-      expect(Repos::Profiles).to receive(:get_user_profiles).with(user_id)
+      expect(Repos::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id})
       get users_route
     end
 

@@ -123,48 +123,6 @@ describe CallsController do
       children: nil
     }
   }
-
-  let(:artist_own){
-    {
-      user_id: user_id,
-      profile_id: profile_id,
-      email: 'email@test.com',
-      name: 'artist_name',
-      phone: 'phone',
-      own: true,
-      proposals: [{
-        proposal_id: proposal_id,
-        category: 'music',
-        title: 'title',
-        description: 'description',
-        short_description: 'short_description',
-        duration: 'duration',
-        '1': nil,
-        '2': nil,
-        form_category: 'music',
-        subcategory: 'music',
-        own: true
-      }]
-    }
-  }
-
-  let(:artist_own_proposal){
-    {
-      profile_id: profile_id,
-      event_id: event_id,
-      call_id: call_id,
-      email: 'email@test.com',
-      name: 'artist_name',
-      category: 'music',
-      title: 'title',
-      description: 'description',
-      short_description: 'short_description',
-      duration: 'duration',
-      phone: 'phone',
-      form_category: 'music',
-      subcategory: 'music'
-    }
-  }
   
   let(:space){
     {
@@ -261,8 +219,8 @@ describe CallsController do
     Services::Users.validated_user validation_code
     Repos::Users.add otter_user
     Services::Users.validated_user otter_validation_code
-    @db['events'].insert_one(event)
-    @db['calls'].insert_one(call)
+    Repos::Events.add(event)
+    Repos::Calls.add(call)
     post login_route, user_hash
     allow(SecureRandom).to receive(:uuid).and_return(profile_id)
   }
@@ -299,9 +257,7 @@ describe CallsController do
     end
 
     it 'fails if not the profile owner' do
-      post logout_route
-      post login_route, otter_user_hash
-      allow(Time).to receive(:now).and_return(1462054)
+      allow(Repos::Profiles).to receive(:get_profile_owner).with(profile_id).and_return('otter')
       post send_artist_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
@@ -319,6 +275,7 @@ describe CallsController do
     it 'fails if out of deadline' do
       post logout_route
       post login_route, otter_user_hash
+      allow(Repos::Profiles).to receive(:get_profile_owner).with(profile_id).and_return(otter_user_id)
       post send_artist_proposal_route, proposal
 
       expect(parsed_response['status']).to eq('fail')
@@ -337,13 +294,14 @@ describe CallsController do
       expect(Repos::Profiles).to receive(:add_production).with(profile_id, production)
       post send_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['profile_id']).to eq(profile_id)
     end
 
     it 'sends the proposal' do
       expect(Repos::Events).to receive(:add_artist).with(event_id, artist)
       post send_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
+      expect(parsed_response['profile_id']).to eq(profile_id)
     end
   end
 
@@ -352,6 +310,46 @@ describe CallsController do
     before(:each){
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
+
+    let(:artist_own){
+    {
+      user_id: user_id,
+      profile_id: profile_id + '-own',
+      email: 'email@test.com',
+      name: 'artist_name',
+      phone: 'phone',
+      proposals: [{
+        proposal_id: proposal_id + '-own',
+        category: 'music',
+        title: 'title',
+        description: 'description',
+        short_description: 'short_description',
+        duration: 'duration',
+        '1': nil,
+        '2': nil,
+        form_category: 'music',
+        subcategory: 'music'
+      }]
+    }
+  }
+
+  let(:artist_own_proposal){
+    {
+      profile_id: profile_id + '-own',
+      event_id: event_id,
+      call_id: call_id,
+      email: 'email@test.com',
+      name: 'artist_name',
+      category: 'music',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      duration: 'duration',
+      phone: 'phone',
+      form_category: 'music',
+      subcategory: 'music'
+    }
+  }
 
     it 'fails if it does not include mandatory orfheo fields' do
       artist_own_proposal.delete(:title)
@@ -371,7 +369,6 @@ describe CallsController do
       expect(Repos::Events).to receive(:add_artist).with(event_id, artist_own)
       post '/users/send_artist_own_proposal', artist_own_proposal
       expect(parsed_response['status']).to eq('success')
-       expect(parsed_response['model']).to eq(Util.stringify_hash(artist_own))
     end
   end
 
@@ -395,7 +392,7 @@ describe CallsController do
       expect(Repos::Events).to receive(:add_space).with(event_id, space)
       post send_space_proposal_route, space_proposal
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['model']).to eq(Util.stringify_hash(space))
+      expect(parsed_response['profile_id']).to eq(space_profile_id)
     end
   end
 
@@ -408,8 +405,8 @@ describe CallsController do
     let(:space_own){
     {
       user_id: user_id,
-      profile_id: space_profile_id,
-      proposal_id: proposal_id,
+      profile_id: space_profile_id + '-own',
+      proposal_id: proposal_id + '-own',
       email: 'email@test.com',
       name: 'space_name',
       address: 'address',
@@ -419,15 +416,14 @@ describe CallsController do
       '1': nil,
       '2': nil,
       form_category: 'home',
-      subcategory: 'home',
-      own: true
+      subcategory: 'home'
     }
   }
 
   let(:space_own_proposal){
     {
       user_id: user_id,
-      profile_id: space_profile_id,
+      profile_id: space_profile_id + '-own',
       event_id: event_id,
       call_id: call_id,
       email: 'email@test.com',
@@ -458,7 +454,6 @@ describe CallsController do
       expect(Repos::Events).to receive(:add_space).with(event_id, space_own)
       post '/users/send_space_own_proposal', space_own_proposal
       expect(parsed_response['status']).to eq('success')
-       expect(parsed_response['model']).to eq(Util.stringify_hash(space_own))
     end
   end
 
@@ -470,27 +465,17 @@ describe CallsController do
     }
 
     it 'fails if the proposal does not exist' do
-      post amend_artist_proposal_route, {event_id: event_id, call_id: call_id, proposal_id: proposal_id, amend: 'amend'}
+      post amend_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id, amend: 'amend'}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_proposal')
-    end
-
-    it 'fails if the user is out of time' do
-      post send_artist_proposal_route, proposal
-      post logout_route
-      post login_route, otter_user
-      post amend_artist_proposal_route, {event_id: event_id, call_id: call_id, proposal_id: proposal_id, amend: 'amend'}
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
     it 'fails if the user does not own the proposal' do
       post send_artist_proposal_route, proposal
       post logout_route
       post login_route, otter_user
-      allow(Time).to receive(:now).and_return(1462054)
-      post amend_artist_proposal_route, {event_id: event_id, call_id: call_id, proposal_id: proposal_id, amend: 'amend'}
+      allow(Repos::Events).to receive(:proposal_on_time?).and_return(true)
+      post amend_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id, amend: 'amend'}
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
@@ -498,11 +483,8 @@ describe CallsController do
 
     it 'amends the proposal' do
       post send_artist_proposal_route, proposal
-      artist[:proposals].first[:amend] = 'amend'
-      artist[:proposals].first[:production_id] = proposal_id
-      artist[:proposals].first[:proposal_id] = proposal_id
-      expect(Repos::Events).to receive(:modify_artist).with(artist)
-      post amend_artist_proposal_route, {event_id: event_id, call_id: call_id, proposal_id: proposal_id, amend: 'amend'}
+      expect(Repos::Events).to receive(:amend_artist).with(proposal_id, 'amend')
+      post amend_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id, amend: 'amend'}
       expect(parsed_response['status']).to eq('success')
     end
   end
@@ -526,6 +508,7 @@ describe CallsController do
       post logout_route
       post login_route, otter_user
       post create_profile_route, profile
+      allow(Repos::Events).to receive(:proposal_on_time?).and_return(true)
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
       post send_artist_proposal_route, proposal
       post modify_artist_proposal_route, proposal
@@ -544,19 +527,6 @@ describe CallsController do
       expect(Repos::Events).to receive(:modify_artist).with(artist)
       post modify_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
-    end
-
-    it 'modifies own proposal' do
-      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
-      post '/users/send_artist_own_proposal', artist_own_proposal
-      artist_own[:proposals].first[:title] = 'otter_title'
-      artist_own_proposal[:proposal_id] = proposal_id
-      artist_own_proposal[:title] = 'otter_title'
-      expect(Repos::Events).to receive(:modify_artist).with(artist_own)
-      post modify_artist_proposal_route, artist_own_proposal
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['model']).to eq(Util.stringify_hash(artist_own))
     end
   end
 
@@ -587,7 +557,7 @@ describe CallsController do
     end
 
     it 'allows proposal owner to delete and does not deliver rejection mail' do
-      allow(Time).to receive(:now).and_return(1462054)
+      allow(Repos::Events).to receive(:proposal_on_time?).and_return(true)
       expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
       expect(Services::Mails).not_to receive(:deliver_mail_to).with(hash_including(otter_user_hash), :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
       post delete_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id}
@@ -596,28 +566,10 @@ describe CallsController do
   end
 
   describe 'Whitelist' do
-
-    let(:whitelisted){
-      {
-        email: 'otter@otter.com', 
-        name_email: 'otter@otter.com'
-      }
-    }
-
     it 'stores a whitelist' do
-      expect(Repos::Events).to receive(:add_whitelist).with(event_id, [whitelisted])
-      post '/users/add_whitelist', {event_id: event_id, email: whitelisted[:email], name_email: whitelisted[:name_email]}
+      expect(Repos::Events).to receive(:add_whitelist).with(event_id, ['otter@otter.com'])
+      post '/users/add_whitelist', {event_id: event_id, whitelist: ['otter@otter.com']}
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['model']).to eq([Util.stringify_hash(whitelisted)])
-    end
-
-    it 'deletes a whitelisted' do
-      post '/users/add_whitelist', {event_id: event_id, email: whitelisted[:email], name_email: whitelisted[:name_email]}
-      
-      expect(Repos::Events).to receive(:add_whitelist).with(event_id, [])
-      post '/users/delete_whitelist', {event_id: event_id, email: whitelisted[:email]}
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['model']).to eq([])
     end
   end
 end

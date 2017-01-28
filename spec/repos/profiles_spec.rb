@@ -144,7 +144,7 @@ describe Repos::Profiles do
 
     let(:event){
       {
-        artists: [{profile_id: profile_id},{profile_id: 'otter_user_profile_id'}],
+        proposals: [{profile_id: profile_id},{profile_id: 'otter_user_profile_id'}],
         program: [{participant_id: profile_id, host_id: profile_id},{participant_id: 'otter_user_profile_id', host_id: profile_id}]
       }
     }
@@ -159,42 +159,20 @@ describe Repos::Profiles do
     }
 
     it 'returns a specific profile' do
-      result = Repos::Profiles.get_profile profile_id
-      expect(result).to eq(profile)
-    end
-
-    it 'returns an arranged profile' do
-      result = Repos::Profiles.get_arranged_profile profile_id
+      result = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
       profile.merge! events: []
       profile.merge! proposals: []
       profile.merge! program: []
       expect(result).to eq(profile)
     end
 
-    it 'returns header info' do
-      result = Repos::Profiles.get_header_info user_id
-      expect(result).to eq([
-        {
-          :profile_id => "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
-          :name => "artist_name",
-          :img => "profile.jpg",
-          :color=>nil
-       },
-       {
-          :profile_id => "my_otter_profile_id",
-          :name => "otter_artist_name",
-          :img => nil,
-          :color => nil}
-        ])
-    end
-
     it 'returns a specific production' do
-      result = Repos::Profiles.get_production production_id
+      result = Repos::Profiles.get_profiles :production, {production_id: production_id}
       expect(result).to eq(production)
     end
 
     it 'returns all the profiles' do
-      result = Repos::Profiles.get_all
+      result = Repos::Profiles.get_profiles :all
       expect(result.include? profile).to eq(true)
       expect(result.include? my_otter_profile).to eq(true)
       expect(result.include? otter_user_profile).to eq(true)
@@ -208,7 +186,7 @@ describe Repos::Profiles do
       my_otter_profile.merge! events: []
       my_otter_profile.merge! proposals: []
       my_otter_profile.merge! program: []
-      result = Repos::Profiles.get_user_profiles user_id, 'my_otter_profile_id'
+      result = Repos::Profiles.get_profiles :user_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end
 
@@ -217,13 +195,13 @@ describe Repos::Profiles do
       profile.merge! program: []
       my_otter_profile.merge! events: []
       my_otter_profile.merge! program: []
-      result = Repos::Profiles.get_visitor_profiles user_id, 'my_otter_profile_id'
+      result = Repos::Profiles.get_profiles :visit_profiles, {user_id: user_id, profile_id: 'my_otter_profile_id'}
       expect(result).to eq([my_otter_profile, profile])
     end
 
     it 'returns all profiles for an event' do
       allow(Repos::Events).to receive(:get_event).with('event_id').and_return(event)
-      result = Repos::Profiles.get_event_profiles 'event_id'
+      result = Repos::Profiles.get_profiles :event_profiles, {event_id: 'event_id'}
       expect(result).to include(profile, otter_user_profile)
     end
   end

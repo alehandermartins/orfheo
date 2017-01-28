@@ -108,7 +108,6 @@
       else if (data.profile_id) document.location = '/profile?id=' + data['profile_id'];
     }
     else{
-      $('.spinner').remove();
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();

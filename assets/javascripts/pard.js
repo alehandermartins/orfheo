@@ -9,7 +9,8 @@ var DetectBrowser = function(){
 		'Chrome': 42,
 		'Chromium': 42,
 		'Internet Explorer': 11,
-		'Safari': 9,
+		// 'msedge':'11',
+		'Safari': 20,
 		'Opera': 39
 	}
 	console.log(bowser.version);

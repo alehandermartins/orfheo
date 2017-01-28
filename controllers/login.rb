@@ -1,7 +1,7 @@
 class LoginController < BaseController
 
   post '/register_attempt' do
-    scopify :email, :password
+    scopify email: true, password: true
     check_params email, password
     check_non_existing_user email
     register_user params
@@ -17,7 +17,7 @@ class LoginController < BaseController
   end
 
   post '/login_attempt' do
-    scopify :email, :password
+    scopify email: true, password: true
     check_params email, password
     check_existing_user email
     user_id = user_id_for email, password
@@ -31,7 +31,7 @@ class LoginController < BaseController
   end
 
   post '/forgotten_password' do
-    scopify :email
+    scopify email: true
     check_invalid_email email
     check_existing_user email
     send_new_validation_code_to email
