@@ -7,7 +7,7 @@ class UsersController < BaseController
   end
 
   get '/users/' do
-    profiles = Repos::Profiles.get_profiles :user_profiles, {user_id: session[:identity]}
+    profiles = Repos::Profiles.get_user_profiles session[:identity]
     erb :users, :locals => {:profiles => profiles.to_json}
   end
 
@@ -24,8 +24,8 @@ class UsersController < BaseController
   end
 
   post '/users/header' do
-    profiles = Repos::Profiles.get_profiles :my_user_profiles, {user_id: session[:identity]}
-    events = Repos::Events.my_user_events session[:identity]
+    profiles = Repos::Profiles.get_header_info session[:identity]
+    events = Repos::Events.get_header_info session[:identity]
     success({profiles: profiles, events: events})
   end
 

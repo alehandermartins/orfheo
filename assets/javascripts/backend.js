@@ -5,7 +5,6 @@
   ns.Backend = (function(){
           
     var _send = function(url, data, callback, callbackFail){
-      var _attemps = 0;
       $.ajax({
         url: url,
         type: 'POST',
@@ -262,24 +261,27 @@
       );
     };
 
-    var _amendArtistProposal = function(proposal_id, event_id, amend, callback){
+    var _amendArtistProposal = function(proposal_id, event_id, call_id, amend, callback){
+      console.log(call_id);
       _send(
         '/users/amend_artist_proposal',
         {
           proposal_id: proposal_id,
-          event_id:event_id,
+          event_id: event_id,
+          call_id: call_id,
           amend: amend
         },
         callback
       );
     };
 
-    var _amendSpaceProposal = function(proposal_id, event_id, amend, callback){
+    var _amendSpaceProposal = function(proposal_id, event_id, call_id, amend, callback){
       _send(
         '/users/amend_space_proposal',
         {
           proposal_id: proposal_id,
-          event_id:event_id,
+          event_id: event_id,
+          call_id: call_id,
           amend: amend
         },
         callback

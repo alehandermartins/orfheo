@@ -12,10 +12,9 @@ class BaseController < Sinatra::Base
       message.to_json
     end
 
-    def scopify **param_projection
-      param_projection.each do |param, projection|
-        projection = param if projection == true
-        self.send(:define_singleton_method, projection) {
+    def scopify *param_projection
+      param_projection.each do |param|
+        self.send(:define_singleton_method, param) {
           params[param]
         }
       end
@@ -41,18 +40,6 @@ class BaseController < Sinatra::Base
 
     def check_type! type
       raise Pard::Invalid::Type unless ['artist', 'space', 'organization'].include? type
-    end
-
-    def check_artist_category! category
-      raise Pard::Invalid::Category unless ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other'].include? category
-    end
-
-    def check_space_category! category
-      raise Pard::Invalid::Category unless ['cultural_ass', 'home', 'commercial', 'open_air'].include? category
-    end
-
-    def check_type_and_category type
-      raise Pard::Invalid::Type unless ['artist', 'space', 'organization', 'music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'other'].include? type
     end
 
     def check_event_exists! event_id

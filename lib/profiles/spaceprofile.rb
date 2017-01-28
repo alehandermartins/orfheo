@@ -9,6 +9,7 @@ class SpaceProfile
   raise Pard::Invalid::Params if mandatory.any?{ |field|
     params[field].blank?
   }
+  raise Pard::Invalid::Category unless correct_category? params[:category]
   end
 
   def [] key
@@ -45,5 +46,14 @@ class SpaceProfile
       :color,
       :category,
     ]
+  end
+
+  def correct_category? category
+    [
+      'cultural_ass',
+      'home',
+      'commercial',
+      'open_air'
+    ].include? category
   end
 end

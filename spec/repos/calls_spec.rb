@@ -11,19 +11,8 @@ describe Repos::Calls do
   }
 
   before(:each){
-    Repos::Calls.add(call)
+    @db['calls'].insert_one(call)
   }
-
-  describe 'Add' do
-
-    it 'registers a new call' do
-      saved_entry = @db['calls'].find({}).first
-      expect(saved_entry).to include({
-        'user_id' => user_id,
-        'call_id' => call_id,
-      })
-    end
-  end
 
   describe 'Exists?' do
     it 'checks if matched element is already in any document' do

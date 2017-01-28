@@ -9,7 +9,7 @@ module Services
       end
 
       def delete_profile profile_id
-        profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
+        profile = Repos::Profiles.get_profile profile_id
         delete_productions profile if profile.has_key? :productions
         old_pictures = get_pictures(profile)
         Util.destroy_old_pictures old_pictures, {}
@@ -19,12 +19,12 @@ module Services
       end
 
       def profile_old_pictures profile_id
-        profile = Repos::Profiles.get_profiles :profile, {profile_id: profile_id}
+        profile = Repos::Profiles.get_profile profile_id
         get_pictures profile
       end
 
       def production_old_pictures production_id
-        production = Repos::Profiles.get_profiles :production, {production_id: production_id}
+        production = Repos::Profiles.get_production production_id
         get_pictures production
       end
 
