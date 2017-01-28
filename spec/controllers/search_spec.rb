@@ -103,7 +103,7 @@ describe SearchController do
   before(:each){
     Repos::Users.add user
     Services::Users.validated_user validation_code
-    allow(Repos::Profiles).to receive(:get_profiles).with(:all, nil).and_return([artist_profile, space_profile])
+    allow(Repos::Profiles).to receive(:get_all).and_return([artist_profile, space_profile])
   }
 
   describe 'Suggest' do

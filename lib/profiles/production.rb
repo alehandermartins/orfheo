@@ -9,6 +9,7 @@ class Production
   raise Pard::Invalid::Params if mandatory(params).any?{ |field|
     params[field].blank?
   }
+  raise Pard::Invalid::Category unless correct_category? params[:category]
   end
 
   def [] key
@@ -43,5 +44,19 @@ class Production
     ]
     fields.push(:duration) if(['music', 'arts', 'workshop', 'audiovisual', 'poetry'].include? params[:category])
     fields
+  end
+
+  def correct_category? category
+    [
+      'music', 
+      'arts', 
+      'expo', 
+      'poetry', 
+      'audiovisual', 
+      'street_art', 
+      'workshop', 
+      'gastronomy', 
+      'other'
+    ].include? category
   end
 end

@@ -1,7 +1,7 @@
 class EventsController < BaseController
 
   post '/users/create_performances' do
-    scopify event_id: true
+    scopify :event_id
     check_event_ownership! event_id
 
     performances = Performances.new(params, event_id)
@@ -13,7 +13,7 @@ class EventsController < BaseController
   end
 
   post '/users/modify_performances' do
-    scopify event_id: true
+    scopify :event_id
     check_event_ownership! event_id
 
     performances = Performances.new(params, event_id)
@@ -25,7 +25,7 @@ class EventsController < BaseController
   end
 
   post '/users/delete_performances' do
-    scopify event_id: true
+    scopify :event_id
     check_event_ownership! event_id
 
     event = Repos::Events.get_event params[:event_id]
@@ -46,7 +46,7 @@ class EventsController < BaseController
   end
 
   post '/users/space_order' do
-    scopify event_id: true, order: true
+    scopify :event_id, :order
     check_event_ownership! event_id
 
     new_order = Util.arrayify_hash order
@@ -58,7 +58,7 @@ class EventsController < BaseController
   end
 
   post '/users/publish' do
-    scopify event_id: true
+    scopify :event_id
     check_event_ownership! event_id
 
     status = Repos::Events.publish event_id

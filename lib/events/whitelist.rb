@@ -1,13 +1,13 @@
 class Whitelist
 
   def initialize params, event_id
-    check_fields params
+    check_fields! params
     @event = Repos::Events.get_event event_id
     whitelisted = new_whitelisted params
     @whitelist = new_whitelist whitelisted
   end
 
-  def check_fields params
+  def check_fields! params
   raise Pard::Invalid::Params if mandatory.any?{ |field|
     params[field].blank?
   }

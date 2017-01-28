@@ -92,8 +92,9 @@
           _textArea.on('input', function(){$(this).removeClass('warning')});
 
           _sendButton.click(function(){
-            if (_textArea.val()) {  
-              _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, _textArea.val(), Pard.Events.AmendProposal);
+            if (_textArea.val()) { 
+              console.log(proposal.call_id);
+              _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
               closepopup();
             }
             else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
@@ -109,7 +110,7 @@
         _textArea.on('input', function(){$(this).removeClass('warning')});
         _sendButton.click(function(){
           if (_textArea.val()) {
-           _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, _textArea.val(), Pard.Events.AmendProposal);
+           _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
            closepopup();
           }
           else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');

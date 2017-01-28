@@ -92,26 +92,14 @@ describe Repos::Events do
   }
 
   before(:each){
-    Repos::Events.add(event)
+    @db['events'].insert_one(event)
     event.delete(:_id)
   }
 
   describe 'Add' do
 
-    it 'registers a new event' do
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry).to include({
-        'user_id' => user_id,
-        'event_id' => event_id,
-      })
-    end
-
     it 'retrieves the owner of the event' do
       expect(Repos::Events.get_event_owner(event_id)).to eq(user_id)
-    end
-
-    it 'retrieves the name of the event' do
-      expect(Repos::Events.get_event_name(event_id)).to eq('event_name')
     end
 
     it 'retrieves all the events' do
@@ -136,32 +124,6 @@ describe Repos::Events do
       Repos::Events.add_space event_id, space
       expect(Repos::Events.proposal_exists? space_proposal_id).to eq(true)
     end
-
-    it 'gets the owner of an artist proposal' do
-      Repos::Events.add_artist event_id, artist
-      expect(Repos::Events.get_artist_proposal_owner proposal_id).to eq(user_id)
-    end
-
-    it 'gets the owner of a space proposal' do
-      Repos::Events.add_space event_id, space
-      expect(Repos::Events.get_space_proposal_owner space_proposal_id).to eq(user_id)
-    end
-
-    it 'checks if performers participate in an event' do
-      Repos::Events.add_artist event_id, artist
-      expect(Repos::Events.performers_participate? event_id, performance).to eq(false)
-      Repos::Events.add_space event_id, space
-      expect(Repos::Events.performers_participate? event_id, performance).to eq(true)
-    end
-
-    it 'checks if performance and performers exist' do
-      Repos::Events.add_artist event_id, artist
-      expect(Repos::Events.performance_exists? event_id, performance).to eq(false)
-      Repos::Events.add_space event_id, space
-      expect(Repos::Events.performance_exists? event_id, performance).to eq(false)
-      Repos::Events.add_performance event_id, performance
-      expect(Repos::Events.performance_exists? event_id, performance).to eq(true)
-    end
   end
 
   describe 'Add participants' do
@@ -185,12 +147,6 @@ describe Repos::Events do
         'profile_id' => profile_id,
         'proposals' => [Util.stringify_hash(artist_proposal), Util.stringify_hash(artist_proposal)]
       })
-    end
-
-    it 'checks deadline' do
-      expect(Repos::Events.proposal_on_time? event_id, 'otter').to eq(false)
-      allow(Time).to receive(:now).and_return(1462053601)
-      expect(Repos::Events.proposal_on_time? event_id, 'otter').to eq(true)
     end
 
     it 'adds a space' do
@@ -317,29 +273,6 @@ describe Repos::Events do
         'user_id' => user_id,
         'profile_id' => space_profile_id,
         'phone' => 'otter_phone'
-      })
-    end
-
-    it 'adds some amend to the artist proposal' do
-      artist[:profile_id] = 'otter'
-      Repos::Events.add_artist event_id, artist
-      Repos::Events.amend_artist proposal_id, 'amend'
-      artist_proposal.merge! amend: 'amend'
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['artists'].first).to include({
-        'user_id' => user_id,
-        'profile_id' => profile_id,
-        'proposals' => [Util.stringify_hash(artist_proposal)]
-      })
-    end
-
-    it 'adds some amend to the space proposal' do
-      Repos::Events.amend_space space_proposal_id, 'amend'
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['spaces'].first).to include({
-        'user_id' => user_id,
-        'profile_id' => space_profile_id,
-        'amend' => 'amend'
       })
     end
   end

@@ -183,6 +183,12 @@ describe ProfilesController do
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('existing_name')
     end
+
+    it 'updates events repo' do
+      post create_profile_route, profile
+      expect(Repos::Events).to receive(:update_artist).with(profile)
+      post modify_profile_route, profile
+    end
   end
 
   describe 'Create productions' do
@@ -261,7 +267,7 @@ describe ProfilesController do
     end
 
     it 'gets the profiles of the user' do
-      expect(Repos::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id, profile_id: profile_id, requester: user_id})
+      expect(Repos::Profiles).to receive(:get_user_profiles).with(user_id, profile_id)
       get profiles_route
     end
 
@@ -270,17 +276,17 @@ describe ProfilesController do
       expect(last_response.body).to include('Pard.Profile')
     end
 
-    it 'redirects user to outsider page if not logged in' do
+    it 'redirects user to profile page with reduced info if not the owner' do
       post logout_route
+      expect(Repos::Profiles).to receive(:get_visitor_profiles).with(user_id, profile_id)
       get profiles_route
-      expect(last_response.body).to include('Pard.Outsider')
     end
 
-    it 'redirects user to outsider page if not logged in' do
+    it 'redirects user to profile page with reduced info if not the owner(2)' do
       post logout_route
       post login_route, otter_user_hash
+      expect(Repos::Profiles).to receive(:get_visitor_profiles).with(user_id, profile_id)
       get profiles_route
-      expect(last_response.body).to include('Pard.Visitor')
     end
   end
 

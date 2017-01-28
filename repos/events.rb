@@ -6,15 +6,11 @@ module Repos
         @@events_collection = db['events']
         events = grab({});
         events.each{ |event|
-          profile = Repos::Profiles.get_profiles :profile, {profile_id: event[:profile_id]}
+          profile = Repos::Profiles.get_profile event[:profile_id]
           @@events_collection.update_one({event_id: event[:event_id]},{
             "$set": {color: profile[:color]}
           })
         }
-      end
-
-      def add event
-        @@events_collection.insert_one(event)
       end
 
       def exists? event_id
@@ -22,63 +18,8 @@ module Repos
         @@events_collection.count(event_id: event_id) > 0
       end
 
-      def get_event_name event_id
-        event = grab({event_id: event_id}).first
-        event[:name]
-      end
-
       def proposal_exists? proposal_id
         @@events_collection.count({"$or": [{"artists.proposals.proposal_id": proposal_id},{"spaces.proposal_id": proposal_id}]}) > 0
-      end
-
-      def get_event event_id
-        grab({event_id: event_id}).first
-      end
-
-      def get_arranged_event event_id
-        event = grab({event_id: event_id}).first
-        event[:program] = arrange_program event, event[:program]
-        event
-      end
-
-      def get_events
-        grab({}).map{ |event|
-          event[:program] = arrange_program event, event[:program]
-          event.delete(:artists)
-          event.delete(:whitelist)
-          event.delete(:spaces)
-          event.delete(:partners)
-          event.delete(:qr)
-          event
-        }
-      end
-
-      def get_event_owner event_id
-        event = grab({event_id: event_id}).first
-        event[:user_id]
-      end
-
-      def get_artist_proposal proposal_id
-        event = grab({"artists.proposals.proposal_id": proposal_id}).first
-        artist = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}
-        proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == proposal_id}
-        artist.delete(:proposals)
-        artist.merge proposal
-      end
-
-      def get_artist_proposal_owner proposal_id
-        event = grab({"artists.proposals.proposal_id": proposal_id}, {'artists.user_id': true, 'artists.proposals.proposal_id': true}).first
-        event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}[:user_id]
-      end
-
-      def get_space_proposal proposal_id
-        event = grab({'spaces.proposal_id': proposal_id}).first
-        event[:spaces].detect{|space| space[:proposal_id] == proposal_id}
-      end
-
-      def get_space_proposal_owner proposal_id
-        proposal = get_space_proposal proposal_id
-        proposal[:user_id]
       end
 
       def add_artist event_id, artist
@@ -100,38 +41,6 @@ module Repos
         @@events_collection.update_one({event_id: event_id},{
           "$push": {spaces: space}
         })
-      end
-
-      def add_whitelist event_id, whitelist
-        @@events_collection.update_one({event_id: event_id},{
-          "$set": {whitelist: whitelist}
-        })
-      end
-
-      def proposal_on_time? event_id, user_id
-        event = grab({event_id: event_id}).first
-        email = Repos::Users.grab({user_id: user_id})[:email]
-        return true if event[:user_id] == user_id || event[:whitelist].any?{ |whitelisted| whitelisted[:email] == email }
-        event[:start].to_i/1000 < Time.now.to_i && event[:deadline].to_i/1000 > Time.now.to_i
-      end
-
-      def amend_artist proposal_id, amend
-        event = grab({"artists.proposals.proposal_id": proposal_id}, {'artists.proposals': true}).first
-        proposals = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal|
-          proposal[:amend] = amend if proposal[:proposal_id] == proposal_id
-          proposal[:proposal_id] == proposal_id
-        }}[:proposals]
-        @@events_collection.update_one({"artists.proposals.proposal_id": proposal_id},
-          {
-            "$set": {'artists.$.proposals': proposals}
-          })
-      end
-
-      def amend_space proposal_id, amend
-        @@events_collection.update_one({ "spaces.proposal_id": proposal_id },
-          {
-            "$set": {"spaces.$.amend": amend}
-          })
       end
 
       def modify_artist artist
@@ -179,13 +88,6 @@ module Repos
           })
       end
 
-      def delete_artist event_id, profile_id
-        @@events_collection.update_one({event_id: event_id},
-          {
-            "$pull": {'artists': {'profile_id' => profile_id}}
-          })
-      end
-
       def delete_artist_proposal proposal_id
         delete_performances proposal_id
         event = grab({"artists.proposals.proposal_id": proposal_id}).first
@@ -196,6 +98,13 @@ module Repos
         @@events_collection.update_one({"artists.proposals.proposal_id": proposal_id},
           {
             "$set": {'artists.$.proposals': proposals}
+          })
+      end
+
+      def delete_artist event_id, profile_id
+        @@events_collection.update_one({event_id: event_id},
+          {
+            "$pull": {'artists': {'profile_id' => profile_id}}
           })
       end
 
@@ -226,15 +135,6 @@ module Repos
         }
       end
 
-      def space_order event_id, order
-        event = grab({event_id: event_id}).first
-        event[:spaces].each{|space| order.push(space[:profile_id]) unless order.include? space[:profile_id]}
-        spaces = event[:spaces].sort_by{|space| order.index(space[:profile_id])}
-        @@events_collection.update_one({event_id: event_id},{
-          "$set": {spaces: spaces}
-        })
-      end
-
       def save_program event_id, program
         @@events_collection.update_one({event_id: event_id},{
           "$set": {program: program}
@@ -249,12 +149,80 @@ module Repos
         )
       end
 
+      def space_order event_id, order
+        event = grab({event_id: event_id}).first
+        event[:spaces].each{|space| order.push(space[:profile_id]) unless order.include? space[:profile_id]}
+        spaces = event[:spaces].sort_by{|space| order.index(space[:profile_id])}
+        @@events_collection.update_one({event_id: event_id},{
+          "$set": {spaces: spaces}
+        })
+      end
+
+      def add_whitelist event_id, whitelist
+        @@events_collection.update_one({event_id: event_id},{
+          "$set": {whitelist: whitelist}
+        })
+      end
+
+      def publish event_id
+        event = grab({event_id: event_id}).first
+        if event[:published] == 'false'
+          event[:published] = 'true'
+        else 
+          event[:published] = 'false'
+        end
+        @@events_collection.update_one({event_id: event_id},{
+          "$set": {published: event[:published]}
+        })
+        event[:published]
+      end
+
+      def get_event event_id
+        grab({event_id: event_id}).first
+      end
+
+      def get_event_owner event_id
+        event = grab({event_id: event_id}).first
+        event[:user_id]
+      end
+
+      def get_arranged_event event_id
+        event = grab({event_id: event_id}).first
+        event[:program] = arrange_program event, event[:program]
+        event
+      end
+
+      def get_events
+        grab({}).map{ |event|
+          event[:program] = arrange_program event, event[:program]
+          event.delete(:artists)
+          event.delete(:whitelist)
+          event.delete(:spaces)
+          event.delete(:partners)
+          event.delete(:qr)
+          event
+        }
+      end
+
+      def get_artist_proposal proposal_id
+        event = grab({"artists.proposals.proposal_id": proposal_id}).first
+        artist = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}
+        proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == proposal_id}
+        artist.delete(:proposals)
+        artist.merge proposal
+      end
+
+      def get_space_proposal proposal_id
+        event = grab({'spaces.proposal_id': proposal_id}).first
+        event[:spaces].detect{|space| space[:proposal_id] == proposal_id}
+      end
+
       def get_program event_id
         event = grab({event_id: event_id}).first
         arrange_program event, event[:program]
       end
 
-      def my_user_events user_id
+      def get_header_info user_id
         grab({user_id: user_id}).map{ |event|
           {
             event_id: event[:event_id],
@@ -273,27 +241,6 @@ module Repos
         info[:program] = my_program(events, profile_id)
         info[:events] = my_events(events, profile_id)
         info
-      end
-
-      def otter_info profile_id, type
-        info = {}
-        events = grab({})
-        info[:program] = my_program(events, profile_id)
-        info[:events] = my_events(events, profile_id)
-        info
-      end
-
-      def publish event_id
-        event = grab({event_id: event_id}).first
-        if event[:published] == 'false'
-          event[:published] = 'true'
-        else 
-          event[:published] = 'false'
-        end
-        @@events_collection.update_one({event_id: event_id},{
-          "$set": {published: event[:published]}
-        })
-        event[:published]
       end
 
       private
