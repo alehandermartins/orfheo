@@ -387,12 +387,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _signUpBtn = Pard.Widgets.SignUpButton().render().addClass('signUpBtnWelcomePage')
 
-    var _cardsContainer = $('<div>')
-      .css({
-        'position':'relative',
-        'margin-top':'2.5rem',
-        'padding-bottom':'1rem'
-      });
+    var _cardsContainer = $('<div>').addClass('cardsContainerWelcomeDiv');
     var _cardSlider = $('<div>').addClass('card-slider');
     _cardsContainer.append(_cardSlider);
 
