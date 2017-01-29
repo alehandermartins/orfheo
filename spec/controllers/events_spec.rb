@@ -2,9 +2,8 @@ describe EventsController do
 
   let(:login_route){'/login/login_attempt'}
   let(:logout_route){'/login/logout'}
-  let(:create_event_route){'/users/create_event'}
-  let(:create_performance_route){'/users/create_performance'}
-  let(:modify_performance_route){'/users/modify_performance'}
+  let(:create_performance_route){'/users/create_performances'}
+  let(:modify_performance_route){'/users/modify_performances'}
 
    let(:user_hash){
     {
@@ -46,31 +45,25 @@ describe EventsController do
   }
 
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
-  let(:production_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:proposal_id){'pae01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:performance_id){'a11000e7-8f02-4542-a1c9-7f7aa18752ce'}
+  let(:otter_performance_id){'a11000e7-8f02-5542-a1c9-7f7aa18752ce'}
   let(:host_profile_id){'g11000e7-8f02-4542-a1c9-7f7aa18752ce'}
   let(:host_proposal_id){'hce01c94-4a2b-49ff-b6b6-dfd53e45bb80'}
   let(:event_id){'a5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
   let(:event){
     {
-      name: 'event_name'
-    }
-  }
-
-  let(:event_model){
-    {
+      event_id: event_id,
       user_id: user_id,
-      event_id: event_id
+      name: 'event_name',
+      program: []
     }
   }
 
   let(:performance){
     {
-      event_id: event_id,
       participant_id: profile_id,
-      participant_production_id: production_id,
       participant_proposal_id: proposal_id,
       host_id: host_profile_id,
       host_proposal_id: host_proposal_id,
@@ -89,21 +82,21 @@ describe EventsController do
     }
   }
 
-  let(:performance_model){
+  let(:otter_performance){
     {
-      performance_id: performance_id,
       participant_id: profile_id,
       participant_proposal_id: proposal_id,
       host_id: host_profile_id,
       host_proposal_id: host_proposal_id,
-      date: performance[:date],
-      time: performance[:time],
-      permanent: performance[:permanent],
-      comments: performance[:comments],
-      confirmed: false
+      date: '2016-16-10',
+      time: ['5', '7'],
+      permanent: 'false',
+      comments: 'comments',
     }
   }
 
+  let(:program){[performance, otter_performance]}
+  let(:params){{event_id: event_id, program: program}}
 
   before(:each){
     Repos::Users.add user
@@ -111,30 +104,23 @@ describe EventsController do
     Repos::Users.add otter_user
     Services::Users.validated_user otter_validation_code
     post login_route, user_hash
-    allow(SecureRandom).to receive(:uuid).and_return(event_id)
-    allow(Repos::Events).to receive(:performers_participate?).and_return(true)
-    allow(Repos::Events).to receive(:performance_exists?).with(event_id, performance_model).and_return(true)
+    @db['events'].insert_one(event)
   }
 
   describe 'Retrieve' do
 
     it 'retrieves all events' do
-      expect(Repos::Events).to receive(:get_events)
+      expect(Services::Events).to receive(:get_events)
       post '/events'
       expect(parsed_response['status']).to eq('success')
     end
   end
 
-  describe 'Create_performance' do
-
-    before(:each){
-      post create_event_route, event
-      allow(SecureRandom).to receive(:uuid).and_return(performance_id)
-    }
+  describe 'Create_performances' do
 
     it 'fails if the event does not exist' do
-      performance[:event_id] = 'otter'
-      post create_performance_route, performance
+      params[:event_id] = 'otter'
+      post create_performance_route, params
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_event')
@@ -142,17 +128,18 @@ describe EventsController do
 
     it 'fails if not the event owner' do
       allow(Repos::Events).to receive(:get_event_owner).with(event_id).and_return('otter')
-      post create_performance_route, performance
+      post create_performance_route, params
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
     it 'stores the performance' do
-      expect(Repos::Events).to receive(:add_performance).with(event_id, performance_model)
-      post create_performance_route, performance
+      expect(Repos::Events).to receive(:save_program).with(event_id, program)
+      post create_performance_route, params
+      ap parsed_response
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['performance_id']).to eq(performance_id)
+      expect(parsed_response['model']).to eq(Util.stringify_array(program))
     end
   end
 

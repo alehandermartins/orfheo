@@ -16,10 +16,10 @@ module Services
       def get_events
         events = get_all
         events.map{ |event|
-          event[:program] = arrange_program event, event[:program]
           event.delete(:artists)
-          event.delete(:whitelist)
           event.delete(:spaces)
+          event.delete(:program)
+          event.delete(:whitelist)
           event.delete(:partners)
           event.delete(:qr)
           event

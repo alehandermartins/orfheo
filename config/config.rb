@@ -16,6 +16,7 @@ require_relative '../services/mails'
 require_relative '../services/users'
 require_relative '../services/profiles'
 require_relative '../services/search'
+require_relative '../services/events'
 
 require_relative '../repos/users'
 require_relative '../repos/profiles'

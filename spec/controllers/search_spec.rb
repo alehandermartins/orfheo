@@ -178,13 +178,6 @@ describe SearchController do
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(artist_profile), Util.stringify_hash(space_profile)])
     end
 
-    it 'retrieves profiles form other users if logged in' do
-      post login_route, user_hash
-      post results_route, {query: ['valencia'], shown: []}
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['profiles']).to eq([Util.stringify_hash(space_profile)])
-    end
-
     it 'returns matching profiles' do
       post results_route, {query: ['music'], shown: []}
       expect(parsed_response['status']).to eq('success')
