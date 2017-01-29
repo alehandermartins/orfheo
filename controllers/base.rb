@@ -46,6 +46,12 @@ class BaseController < Sinatra::Base
       raise Pard::Invalid::UnexistingEvent unless Repos::Events.exists? event_id
     end
 
+    def status_for owner
+      return :owner if owner == session[:identity]
+      return :visitor if (!session[:identity].blank? && owner != session[:identity])
+      :outsider
+    end 
+
     private
     def build_message payload
       message = {status: :success}

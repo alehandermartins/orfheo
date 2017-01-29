@@ -91,12 +91,6 @@ class ProfilesController < BaseController
     raise Pard::Invalid::UnexistingProduction unless Repos::Profiles.production_exists? production_id
     raise Pard::Invalid::ProductionOwnership unless Repos::Profiles.get_production_owner(production_id) == session[:identity]
   end
-
-  def status_for owner
-    return :owner if owner == session[:identity]
-    return :visitor if (!session[:identity].blank? && owner != session[:identity])
-    :outsider
-  end 
 end
 
  #kit = IMGKit.new('https://www.pinterest.com/pinterest/',{width: 1366, height: 768})

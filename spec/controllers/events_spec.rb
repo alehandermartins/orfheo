@@ -236,44 +236,48 @@ describe EventsController do
 
     it 'deletes the performance' do
       post create_performance_route, params
-      expect(Repos::Events).to receive(:save_program).with(event_id, program)
-      post delete_performance_route, {event_id: event_id, performance_id: performance_id}
+      expect(Repos::Events).to receive(:save_program).with(event_id, [])
+      post delete_performance_route, {event_id: event_id, program: { 0 => {performance_id: performance_id}}}
       expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['model']).to eq(Util.stringify_array([{performance_id: performance_id}]))
     end
   end
 
-  describe 'Retrieves the program' do
-    let(:retrieve_program_route){'/event?id=' + event_id}
+  describe 'Access event page' do
+    let(:event_route){'/event?id=' + event_id}
 
-    it 'retrieves the program' do
-      allow(SecureRandom).to receive(:uuid).and_return(event_id)
-      post create_event_route, event
-      post create_performance_route, performance
-      expect(Repos::Events).to receive(:get_program).with(event_id)
-      get retrieve_program_route
+    it 'fails if the event does not exist' do
+      get '/event?id=otter'
+      expect(last_response.body).to include('Not Found')
+    end
+      
+    it 'retrieves the event' do
+      post create_performance_route, params
+      expect(Services::Events).to receive(:get_event).with(event_id, user_id).and_return({user_id: user_id})
+      get event_route
     end
   end
 
   describe 'Event Manager' do
 
-    let(:event_route){'/event_manager?id=' + event_id}
+    let(:manager_route){'/event_manager?id=' + event_id}
 
-    it 'redirects user to not found page if call does not exist' do
-      get event_route
+    it 'redirects user to not found page if event does not exist' do
+      get '/event_manager?id=otter'
       expect(last_response.body).to include('Not Found')
     end
 
     it 'redirects user to not found page if not owner of the call' do
-      post create_event_route, event
       post logout_route
       post login_route, otter_user_hash
-      get event_route
+      get manager_route
       expect(last_response.body).to include('Not Found')
     end
 
     it 'gets the call of the user' do
-      post create_event_route, event
-      get event_route
+      expect(Services::Events).to receive(:get_manager_event).with(event_id).and_return({user_id: user_id, call_id: 'call_id'})
+      expect(Repos::Calls).to receive(:get_forms).with('call_id').and_return(true)  
+      get manager_route
       expect(last_response.body).to include('Pard.EventManager')
     end
   end
