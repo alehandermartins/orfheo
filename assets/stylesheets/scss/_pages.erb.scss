@@ -15,6 +15,9 @@ main.mainWelcomePage, main.mainUserPage{
     min-height: -webkit-calc(100vh - 1.8rem - 5.5rem);
     min-height: calc(100vh - 1.8rem - 5.5rem);
   }
+  @include breakpoint (small down){
+    margin-top: 1.5rem;
+  }
 }
 
 
@@ -358,7 +361,7 @@ main.mainWelcomePage, main.mainUserPage{
 }
 
 .search-input-WelcomePage-Container{
-  height: 9rem;
+  min-height: 9rem;
   border-bottom: 1px solid $grey-3;
   position: relative;
   padding-top: 2rem;
@@ -582,7 +585,6 @@ SEARCH ENGINE
 
 .suggested-tag-search-engine:hover{
   background: #c8c7c7;
-  /* color: white; */
 }
 
 .search-tag-box{
@@ -600,6 +602,10 @@ SEARCH ENGINE
   overflow-x: auto;
   height: 2.8rem;
   overflow-y: hidden;
+  position: relative;
+  @include breakpoint(medium down){
+    width: 100%;
+  }
 }
 
 

@@ -415,8 +415,8 @@ ns.Widgets = ns.Widgets || {};
           _menuEvents.append(
             $('<li>').addClass("")
               .append(
-                $('<a>')
-                  .attr('href','#/')
+                $('<button>')
+                  .attr('type','button')
                   .append(_eventName)
                   .hover(
                     function(){

@@ -1350,7 +1350,7 @@ ul.dropdownMenu{
   padding: 0;
   li{
     display: block !important;
-    a{
+    a, button{
       color: black;
       padding: 0.7rem 1rem;
       line-height: 1;
@@ -1461,6 +1461,10 @@ HEADER
   width: 100vw;
   padding-top: 2.8rem;
   z-index:1;
+  @include breakpoint(small down){
+    position: fixed;
+    top: 0;
+  }
 }
 
 .navBarContainer{
