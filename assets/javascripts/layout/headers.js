@@ -360,6 +360,8 @@ ns.Widgets = ns.Widgets || {};
 
     _menuSettings .append(_modifyPassword,  _logout);
 
+    var _eventManagerChoice = $('<div>').addClass('eventMananagerChoice');
+
     Pard.Backend.header(function(data){
       if(data.status == 'success'){
         data.profiles.forEach(function(profile){
@@ -386,8 +388,7 @@ ns.Widgets = ns.Widgets || {};
           var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
           var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
           var _manageCallIcon = $('<span>').append(_callIcon, _toolIcon).addClass('manageCallIcon');
-              var _eventManagerChoice = $('<div>')
-            .addClass('eventMananagerChoice')
+          _eventManagerChoice
             .append(
               $('<ul>').append(
               $('<li>').append($('<a>').append(Pard.Widgets.IconManager('proposals').render().addClass('eventIcon'), 'Evento').attr('href','/event?id='+event.event_id))
