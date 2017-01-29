@@ -1760,36 +1760,43 @@
         }
       }
 
-      var _publishProgramCallback = function(data){
-        if(data['status'] == 'success') {
-          var _mexDictionary = {
-            'true': 'El programa se ha publicado correctamente en la página de tu evento',
-            'false': 'El programa se ha retirado de la página de tu evento'
-          };
-          Pard.Widgets.Alert('',_mexDictionary[the_event.published]);
-        }
-        else{
-          console.log('error');
-          Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+      var _publishProgramCallback =  {
+        publish: function(data){
+          if(data['status'] == 'success') {
+            var _mex = 'El programa se ha publicado correctamente en la página de tu evento';
+            Pard.Widgets.Alert('',_mex);
+          }
+          else{
+            console.log('error');
+            Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+          }
+        },
+        unpublish: function(data){
+          if(data['status'] == 'success') {
+            var _mex = 'El programa se ha retirado de la página de tu evento';
+            Pard.Widgets.Alert('',_mex);
+          }
+          else{
+            console.log('error');
+            Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+          }
         }
       }
 
       var _publishedBtn = $('<li>');
       var _rgb = Pard.Widgets.IconColor(the_event.color).rgb();
       var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
-      console.log(the_event)
+      var _publishStatus;
       var _setPublishStatus = function(){
         if(the_event.published == 'true'){
-          // _publishStatus = 'unpublish';
+          _publishStatus = 'unpublish';
           _publishedBtn.text('Retira el programa');
           $('main').css({'background': _backColor});
-          console.log(the_event.published)
         }
         else{         
-          // _publishStatus = 'publish';
+          _publishStatus = 'publish';
           _publishedBtn.text('Publica el programa');
           $('main').css('background','#f6f6f6');
-          console.log(the_event.published)
         }
       }
       _setPublishStatus();
@@ -1803,7 +1810,7 @@
       });
 
       _publishedBtn.on('click', function(){
-        Pard.Backend.publish(the_event.event_id, _publishProgramCallback);
+        Pard.Backend.publish(the_event.event_id, _publishProgramCallback[_publishStatus]);
       });
 
       _menu.append(_outOfprogramBtn, _spaceOutOfprogramBtn, _orderSpaceBtn, _publishedBtn);
