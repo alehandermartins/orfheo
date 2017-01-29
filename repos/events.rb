@@ -183,6 +183,14 @@ module Repos
         event[:spaces].detect{|space| space[:proposal_id] == proposal_id}
       end
 
+      def get_all
+        grab({})
+      end
+
+      def get_user_events user_id
+        grab({user_id: user_id})
+      end
+
       def get_event event_id
         grab({event_id: event_id}).first
       end
@@ -190,10 +198,6 @@ module Repos
       def get_event_owner event_id
         event = grab({event_id: event_id}).first
         event[:user_id]
-      end
-
-      def get_all
-        grab({})
       end
 
       private
