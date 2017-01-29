@@ -1763,10 +1763,10 @@
       var _publishProgramCallback = function(data){
         if(data['status'] == 'success') {
           var _mexDictionary = {
-            'publish': 'El programa se ha publicado correctamente en la página de tu evento',
-            'unpublish': 'El programa se ha retirado de la página de tu evento'
+            'true': 'El programa se ha publicado correctamente en la página de tu evento',
+            'false': 'El programa se ha retirado de la página de tu evento'
           };
-          Pard.Widgets.Alert('',_mexDictionary[_publishStatus]);
+          Pard.Widgets.Alert('',_mexDictionary[the_event.published]);
         }
         else{
           console.log('error');
@@ -1780,13 +1780,13 @@
       console.log(the_event)
       var _setPublishStatus = function(){
         if(the_event.published == 'true'){
-          _publishStatus = 'publish';
+          // _publishStatus = 'unpublish';
           _publishedBtn.text('Retira el programa');
           $('main').css({'background': _backColor});
           console.log(the_event.published)
         }
         else{         
-          _publishStatus = 'unpublish';
+          // _publishStatus = 'publish';
           _publishedBtn.text('Publica el programa');
           $('main').css('background','#f6f6f6');
           console.log(the_event.published)
