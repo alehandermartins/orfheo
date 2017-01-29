@@ -46,7 +46,7 @@ describe Services::Users do
     it 'delivers event email' do
       user_hash[:event_id] = 'event_id'
       allow(Repos::Events).to receive(:exists?).with('event_id').and_return(true)
-      allow(Repos::Events).to receive(:get_event_name).and_return('event_name')
+      allow(Repos::Events).to receive(:get_event).and_return({name: 'event_name'})
       expect(Services::Mails).to receive(:deliver_mail_to).with(hash_including(password: 'password', email: 'email@test.com'), :event, event)
       Services::Users.register user_hash
     end
@@ -123,7 +123,7 @@ describe Services::Users do
 
   describe 'Delete' do
     it 'deletes a user' do
-      expect(Repos::Profiles).to receive(:get_profiles).with(:user_profiles, {user_id: user_id}).and_return([{profile_id: 'user_profile'}])
+      expect(Repos::Profiles).to receive(:get_user_profiles).with(user_id).and_return([{profile_id: 'user_profile'}])
       expect(Services::Profiles).to receive(:delete_profile).with('user_profile').and_return(true)
       expect(Repos::Users).to receive(:delete_user).with(user_id)
       Services::Users.delete_user user_id

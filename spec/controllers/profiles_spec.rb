@@ -339,6 +339,7 @@ describe ProfilesController do
       allow(SecureRandom).to receive(:uuid).and_return(production_id)
       post create_production_route, production
 
+      allow(Cloudinary::Api).to receive(:delete_resources).with(['picture.jpg', 'otter_picture.jpg'])
       post delete_production_route, {production_id: production_id}
       expect(parsed_response['status']).to eq('success')
 
