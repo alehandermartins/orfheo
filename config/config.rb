@@ -59,6 +59,7 @@ class BaseController < Sinatra::Base
     logo_black_m.png
     logo_white_m.png
     lettering_black_xxl.png
+    lettering_white_xl.png
     lettering_white_m.png
     lettering_white_s.png
     logo_black_xl.png

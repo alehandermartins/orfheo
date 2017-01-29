@@ -16,7 +16,7 @@ main.mainWelcomePage, main.mainUserPage{
     min-height: calc(100vh - 1.8rem - 5.5rem);
   }
   @include breakpoint (small down){
-    margin-top: 1.5rem;
+    margin-top: 4.5rem;
   }
 }
 
