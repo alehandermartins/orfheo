@@ -22,21 +22,18 @@ require_relative '../repos/profiles'
 require_relative '../repos/calls'
 require_relative '../repos/events'
 
-require_relative '../lib/forms/base'
-require_relative '../lib/forms/artistprofile'
-require_relative '../lib/forms/spaceprofile'
-require_relative '../lib/forms/organizationprofile'
-require_relative '../lib/forms/production'
-require_relative '../lib/forms/artistproposal'
-require_relative '../lib/forms/spaceproposal'
-require_relative '../lib/forms/artistownproposal'
-require_relative '../lib/forms/spaceownproposal'
-require_relative '../lib/forms/events'
-require_relative '../lib/forms/program'
-require_relative '../lib/forms/performances'
+require_relative '../lib/profiles/artistprofile'
+require_relative '../lib/profiles/spaceprofile'
+require_relative '../lib/profiles/organizationprofile'
+require_relative '../lib/profiles/production'
+require_relative '../lib/calls/artistproposal'
+require_relative '../lib/calls/spaceproposal'
+require_relative '../lib/calls/artistownproposal'
+require_relative '../lib/calls/spaceownproposal'
+require_relative '../lib/events/performances'
+require_relative '../lib/events/whitelist'
 
 require_relative '../lib/users/user'
-require_relative '../lib/calls/call'
 require_relative '../lib/util'
 
 Faye::WebSocket.load_adapter('thin')
@@ -54,16 +51,16 @@ class BaseController < Sinatra::Base
     ours.css
     ours.js
     jquery.js
-    logo_conFusion.png
     italian_flag.jpeg
     valencian_flag.png
     english_flag.png
-    orfheoiconocolor.png
-    orfheologocolor.png
-    orfheologonegro.png
-    orfheologoblanco_small.png
-    orfheosimbolocolor.png
-    orfheosimbolonegro.png
+    logo_favicon.ico
+    logo_black_m.png
+    logo_white_m.png
+    lettering_black_xxl.png
+    lettering_white_m.png
+    lettering_white_s.png
+    logo_black_xl.png
     orfheo_fb_preview.jpg
     sort_both.png
     sort_asc.png

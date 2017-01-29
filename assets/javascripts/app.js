@@ -135,15 +135,20 @@ Pard.Users = function(profiles){
 }
 
 
-Pard.Profile = function(profiles){
+Pard.Profile = function(profiles, status){
   Pard.CachedProfiles  = profiles;
-  Pard.UserStatus['status'] = 'owner';
+  Pard.UserStatus['status'] = status;
 
   var _whole = $('<div>').addClass('whole-container');
 
   var _display = function(){
     var _footer = Pard.Widgets.Footer();
-    var _header = Pard.Widgets.InsideHeader();
+
+    if(status == 'visitor' || status == 'owner')
+      var _header = Pard.Widgets.InsideHeader();
+    else
+      var _header = Pard.Widgets.LoginHeader();
+
     var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
     _whole.append(_header.render(), _main,  _footer.render());
     $(document).ready(function(){
@@ -163,76 +168,8 @@ Pard.Profile = function(profiles){
   Pard.Widgets.MultimediaScripts(_display);
   $('body').append(_whole);
 };
-
-
-Pard.Visitor = function(profiles){
-
-  Pard.CachedProfiles  = profiles;
-  Pard.UserStatus['status'] = 'visitor';
-
-  var _whole = $('<div>').addClass('whole-container');
-
-  var _display = function(){
-    var _footer = Pard.Widgets.Footer();
-    var _header = Pard.Widgets.InsideHeader();
-    var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
-
-    _whole.append(_header.render(), _main,  _footer.render());
-    $(document).ready(function(){
-      $(document).foundation();
-      $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
-      $(document).on('closed.zf.reveal', '[data-reveal]', function() {
-        if (!($('.reveal[aria-hidden="false"]').length)){
-          $('html').removeClass('overflowHidden');
-        }
-      });
-      $(document).on('open.zf.reveal', function(){
-        $('html').addClass('overflowHidden');
-      });
-    });
-  }
-
-  Pard.Widgets.MultimediaScripts(_display);
-  $('body').append(_whole);
-};
-
-
-Pard.Outsider = function(profiles){
-
-  Pard.CachedProfiles  = profiles;
-  Pard.UserStatus['status'] = 'outsider';
-
-  var _whole = $('<div>').addClass('whole-container');
-
-  var _display = function(){
-    var _footer = Pard.Widgets.Footer();
-    var _header = Pard.Widgets.LoginHeader();
-    var _main = Pard.Widgets.ProfileMainLayout().render().attr({id: 'main-profile-page'});
-
-    _whole.append(_header.render(), _main,  _footer.render());
-    
-    $(document).ready(function(){
-      $(document).foundation();
-      $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
-      $(document).on('closed.zf.reveal', '[data-reveal]', function() {
-        if (!($('.reveal[aria-hidden="false"]').length)){
-          $('html').removeClass('overflowHidden');
-        }
-      });
-      $(document).on('open.zf.reveal', function(){
-        $('html').addClass('overflowHidden');
-      });
-    });
-  }
-
-  Pard.Widgets.MultimediaScripts(_display);
-  $('body').append(_whole);
-}
 
 Pard.EventManager = function(the_event, forms){
-
-  console.log(the_event);
-
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader();
   var _main = Pard.Widgets.Manager(the_event, forms);
@@ -258,8 +195,6 @@ Pard.EventManager = function(the_event, forms){
 
 
 Pard.Event = function(the_event, status){
-  console.log(the_event);
-
   Pard.UserStatus['status'] = status;
 
   Pard.CachedProgram = the_event.program;
@@ -267,21 +202,18 @@ Pard.Event = function(the_event, status){
   var _whole = $('<div>').addClass('whole-container');
 
   var _footer = Pard.Widgets.Footer();
-  if(status == 'visitor' || status == 'owner') var _header = Pard.Widgets.InsideHeader();
-  else{var _header = Pard.Widgets.LoginHeader();}
+  if(status == 'visitor' || status == 'owner')
+    var _header = Pard.Widgets.InsideHeader();
+  else{
+    var _header = Pard.Widgets.LoginHeader();
+    _header.positionRelative();
+  }
   var _main = Pard.Widgets.MainOffCanvasLayout(Pard.Widgets.EventAside, Pard.Widgets.EventSection);
   _whole.append(
     _header.render(), 
-    _main.render().addClass('main-welcome-page').css('margin-bottom','0'),
+    _main.render().removeClass('outsider-main').addClass('inside-main').css('background','#f6f6f6'),
     _footer.render().removeClass('footer-outsider')
   );
-
-
-  //CROWDFUNDING MESSAGE
-  // var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
-  // var _alertText = $('<p>').html('Este evento es gratuito y nadie gana nada, pero sí que tiene gastos y se mantiene solo por donaciones. La tuya también es necesaria: <a href="https://www.goteo.org/project/benimaclet-confusion-festival", target="_blank"> aporta a nuestro crowdfunding</a> ').addClass('text-browser-alert');
-  // var _alertContainer = $('<div>').append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('crowdfunding-alert callout').attr('data-closable','');
-  // $(_whole).prepend(_alertContainer);
 
   $('body').append(_whole);
 
@@ -297,4 +229,10 @@ Pard.Event = function(the_event, status){
       $('html').addClass('overflowHidden');
     });
   });
+}
+
+Pard.Services = function(){
+
+  var _main = $('<div>').text('Orfheo Services');
+  $('body').append(_main);
 }

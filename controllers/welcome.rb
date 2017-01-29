@@ -6,13 +6,12 @@ class WelcomeController < BaseController
   end
 
 	post '/contact' do
-		scopify email: true, name: true, subject: true, message: true 
+		scopify :email, :name, :subject, :message 
 		check_params! params
 		check_invalid_email email
 		deliver_contact_email email, name, subject, message
 		success
 	end
-
 
 	private
 	def check_params! params

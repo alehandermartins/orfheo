@@ -20,7 +20,6 @@
 //= require dataTables.foundation.min
 //= require responsive.dataTables.min
 //= require dataTables.keyTable.min
-
 //= require dataTables.buttons.min
 //= require buttons.flash.min
 //= require jszip.min
@@ -37,3 +36,7 @@
 //=require multiple-select
 
 // = require slick.min
+
+// = require trumbowyg.min
+
+

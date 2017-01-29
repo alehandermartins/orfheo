@@ -8,6 +8,8 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.MainWelcomePage = function(profilesSection){
     var _main = $('<main>').addClass('mainWelcomePage');
 
+    var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
+
     var _welcomeSection = Pard.Widgets.WelcomeSection().attr('id','welcomeSection').addClass('visible');
 
     var _profiles= $('<section>')
@@ -22,7 +24,7 @@ ns.Widgets = ns.Widgets || {};
       .addClass('welcomeSection-layout')
       .attr('id','newsSection').hide();
 
-    _main.append(_welcomeSection, _profiles, _events, _news);
+    _main.append(_innerMainContainer.append(_welcomeSection, _profiles, _events, _news));
 
     return {
       render: function(){
@@ -33,6 +35,8 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.MainUserPage = function(profilesSection){
     var _main = $('<main>').addClass('mainUserPage');
+
+    var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
     var _initSection = Pard.Widgets.UserInitSection().attr('id','welcomeSection').addClass('visible');
 
@@ -48,7 +52,7 @@ ns.Widgets = ns.Widgets || {};
       .addClass('welcomeSection-layout')
       .attr('id','newsSection').hide();
 
-    _main.append(_initSection, _profiles, _events, _news);
+    _main.append(_innerMainContainer.append(_initSection, _profiles, _events, _news));
 
     return {
       render: function(){
@@ -66,6 +70,7 @@ ns.Widgets = ns.Widgets || {};
     var _rgb = Pard.Widgets.IconColor(profiles[0]['color']).rgb();
     var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
     var _main = $('<main>').css({'background': _backColor});
+    var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
@@ -93,11 +98,14 @@ ns.Widgets = ns.Widgets || {};
     _offCanvasInner.append(_aside, _gridSpacing, _section);
 
     _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
-    _main.append(_mainLarge);
+    _main.append(_innerMainContainer.append(_mainLarge));
 
-     if (userStatus == 'outsider') {
-        _main.addClass('outsider-main');
-     }
+    if (userStatus == 'outsider') {
+      _main.addClass('outsider-main');
+    }
+    else{
+      _main.addClass('inside-main');
+    }
 
     return {
       render: function(){
@@ -107,11 +115,10 @@ ns.Widgets = ns.Widgets || {};
   }
 
 
-
-
   ns.Widgets.MainOffCanvasLayout = function(asideContent, sectionContent){
 
     var _main = $('<main>').attr('id','main-welcome-page');
+    var _innerMainContainer = $('<div>').addClass('innerWrapperDiv');
 
     var _offCanvasWrapper = $('<div>').addClass('off-canvas-wrapper');
     var _offCanvasInner = $('<div>').addClass('off-canvas-wrapper-inner').attr({'data-off-canvas-wrapper': ''});
@@ -136,7 +143,7 @@ ns.Widgets = ns.Widgets || {};
     _offCanvasInner.append(_aside, _gridSpacing, _section);
 
     _mainLarge.append(_offCanvasWrapper.append(_offCanvasInner));
-    _main.append(_mainLarge);
+    _main.append(_innerMainContainer.append(_mainLarge));
 
     if (Pard.UserStatus['status'] == 'outsider') {
         _main.addClass('outsider-main');

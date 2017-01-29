@@ -7,17 +7,9 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.Footer = function(){
 
-    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
-      if (!($('.reveal[aria-hidden="false"]').length)){
-        $('html').removeClass('overflowHidden');
-      }
-    });
-    $(document).on('open.zf.reveal', function(){
-      $('html').addClass('overflowHidden');
-    });
-
     var _createdWidget = $('<footer>').addClass('footer-bar');
     var userStatus = Pard.UserStatus['status'];
+    var _innerFooterContainer = $('<div>').addClass('innerWrapperDiv');
 
     if (userStatus == 'outsider') _createdWidget.addClass('footer-outsider');
 
@@ -29,7 +21,7 @@ ns.Widgets = ns.Widgets || {};
     var _leftMenu = $('<ul>').addClass('leftFooter-menu');
 
     var _langPopup;
-    var _languages = $('<a>').attr('href','#/')
+    var _languages = $('<button>').attr({'type':'button'})
       .html('Idiomas')
       .addClass('footer-text-link')
       .one('click',function(){
@@ -42,7 +34,7 @@ ns.Widgets = ns.Widgets || {};
       });
 
     var _termsAndConditionsPopup;
-    var _termsAndConditions = $('<a>').attr('href','#/')
+    var _termsAndConditions = $('<button>').attr({'type':'button'})
       .html('Condiciones')
       .addClass('footer-text-link')
       .one('click',function(){
@@ -56,7 +48,7 @@ ns.Widgets = ns.Widgets || {};
 
        
     var _infoPopup;
-    var _information = $('<a>').attr('href','#/')
+    var _information = $('<button>').attr({'type':'button', 'id':'projectPopupBtn'})
       .html('Proyecto')
       .addClass('footer-text-link')
       .one('click',function(){
@@ -81,51 +73,37 @@ ns.Widgets = ns.Widgets || {};
     var _rightMenu = $('<ul>').addClass('rightFooter-menu');
 
     var _contactPopup;
-    var _contactaOrfheo = $('<li>').append($('<a>').text('Contacta')
-      .attr('href','#/'))
-      .one('click',function(){
-        _contactPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-      })
-      .on('click',function(){
-        _content.empty().append(Pard.Widgets.ContactInfo(_contactPopup));
-        _contactPopup.open();
-      });
-
-    var _collabPopup;
-    var _colabInfo;
-    var _collabOrfheo = $('<li>').append($('<a>').text('Colabora')
-      .attr('href','#/'))
-      .one('click',function(){
-        _collabPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        _colabInfo = Pard.Widgets.ColaborationInfo(_collabPopup);
-      })
-      .on('click',function(){
-        _content.empty().append(_colabInfo);
-        _collabPopup.open();
-      });
+    var _contactaOrfheo = $('<li>')
+      .append($('<button>').text('Contacta')
+        .attr({'type':'button','id':'contactPopupBtn'})
+        .one('click',function(){
+          _contactPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
+        })
+        .on('click',function(){
+          _content.empty().append(Pard.Widgets.ContactInfo(_contactPopup));
+          _contactPopup.open();
+        })
+      );
 
     var _servicesPopup;
     var _servicesInfo;
     var _servicesOrfheo = $('<li>').append($('<a>').text('Servicios')
       .attr({
-        'href':'#/',
-        'id':'servicios'
+        'href':'/services',
+        'id':'toServicesPage'
       }))
-      .one('click',function(){
-        _servicesPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        _servicesInfo = Pard.Widgets.ServicesInfo(_servicesPopup);
-      })
-      .on('click',function(){
-        _content.empty().append(_servicesInfo);
-        _servicesPopup.open();
-      });
 
-    // _rightContent.append(_project, ' | ', _place);
-    _rightContent.append(_rightMenu.append(_servicesOrfheo, _collabOrfheo,_contactaOrfheo));
+    var _logoFooter = $('<div>').addClass('logoFooter');
+    _rightContent.append(
+      _rightMenu.append(
+        // _servicesOrfheo,
+        _contactaOrfheo
+      )
+    );
 
-    _container.append(_leftContent, _rightContent);
+    _container.append(_leftContent.prepend(_logoFooter), _rightContent);
     _grid.append(_container);
-    _createdWidget.append(_grid);
+    _createdWidget.append(_innerFooterContainer.append(_grid));
 
     return{
       render: function(){

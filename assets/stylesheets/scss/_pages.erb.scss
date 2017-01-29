@@ -2,21 +2,24 @@
 WELCOME PAGE
 ================================================*/
 
-
-
-main.mainWelcomePage{
+main.mainWelcomePage, main.mainUserPage{
   margin: 0;
   padding: 0;
+  margin-top: -1.5rem;
+  min-height: -moz-calc(100vh - 1.8rem - 5.5rem);
+  min-height: -webkit-calc(100vh - 1.8rem - 5.5rem);
+  min-height: calc(100vh - 1.8rem - 5.5rem);
   section{
-    padding-top:3.3rem;
-    padding-bottom: 2rem;
-    min-height: 100vh;
+    /* padding-top:3.3rem; */
+    min-height: -moz-calc(100vh - 1.8rem - 5.5rem);
+    min-height: -webkit-calc(100vh - 1.8rem - 5.5rem);
+    min-height: calc(100vh - 1.8rem - 5.5rem);
   }
 }
 
 
 .welcomeSection-layout{
-  width: 100vw;
+  width: 100%;
   min-height: 100%;
   position: relative;
   .welcomeSection-container{
@@ -25,11 +28,13 @@ main.mainWelcomePage{
     position: relative;
   }
   .entryDiv{
-    width: 100vw;
-    height: -moz-calc(100vh - 5rem);
-    height: -webkit-calc(100vh - 5rem);
-    height: calc(100vh - 5rem);
-    min-height: 575px;
+    width: 100%;
+    height: -moz-calc(100vh - 4.8rem);
+    height: -webkit-calc(100vh - 4.8rem);
+    height: calc(100vh - 4.8rem);
+    @include breakpoint(large){
+      min-height: 575px;
+    }
     position: relative;
     .entryDiv-content{
       width: 100%;
@@ -49,9 +54,9 @@ main.mainWelcomePage{
 
 .mainLogo-welcomePage{
   cursor: default;
-  background-image: url(<%= image_path 'orfheologonegro.png' %>);
-  width: 240px;
-  height: 80px;
+  background-image: url(<%= image_path 'lettering_black_xxl.png' %>);
+  width: 217px;
+  height: 72px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   @include breakpoint(small down){ 
@@ -128,6 +133,17 @@ main.mainWelcomePage{
       font-size: 24px; 
     }
   }
+  
+}
+
+.cardsContainerWelcomeDiv{
+  position:relative;
+  margin-top:2.5rem;
+  padding-bottom:1rem;
+  @include breakpoint(medium down){
+    display: none;
+  }
+ 
 }
 
 /* 
@@ -185,24 +201,29 @@ main.mainWelcomePage{
     margin: 0;
   }
   .welcomeSection-container{
-    padding: 2.5rem 0;
+    padding: 2.5rem .5rem;
   }
 }
 
 .actionDiv{
-  height: 25rem;
+  min-height: 22rem;
   position: relative;
-  width: 100vw;
+  width: 100%;
   text-align: center;
   margin: 0.4rem 0;
   background: $grey-1;
   .welcomeSection-container{
-    padding: 5rem 0;
+    padding: 4rem 0;
   }
   .innerCont1, .innerCont3{
     position: absolute;
     width: 12rem;
     height: 100%;
+    @include breakpoint(small down){
+      position: relative;
+      display: block;
+      width: 100%;
+    }
   }
   .innerCont3{
     right: 0;
@@ -214,6 +235,8 @@ main.mainWelcomePage{
     top: 0;
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    position: relative;
+    margin-bottom: .8rem;
   }
   .img1Box{
     background-image: url(<%= image_path 'icona_home_1.png' %>);
@@ -229,6 +252,7 @@ main.mainWelcomePage{
     @include horizontal-center;
     text-align: center;
     bottom: 0;
+    position: relative;
     .txt_grey{
       font-size: $almostNormalSize;
       color: $grey-4;
@@ -242,6 +266,12 @@ main.mainWelcomePage{
   display: inline-block;
   position: relative;
   vertical-align: top;
+  min-height: 13rem;
+  @include breakpoint(small down){
+    display: block;
+    width: 100%;
+    margin: 1rem 0;
+  }
 }
 
 
@@ -251,7 +281,7 @@ main.mainWelcomePage{
   color: white;
   padding: 3rem 0;
   .logo-services{
-    background-image: url(<%= image_path 'orfheologoblanco_small.png' %>);
+    background-image: url(<%= image_path 'lettering_white_xl.png' %>);
     width: 144px;
     height: 48px;
     background-repeat: no-repeat;
@@ -284,6 +314,10 @@ main.mainWelcomePage{
     margin-bottom: 1.5rem;
     color: $blue-pard;
   }
+  @include breakpoint(small down){
+    width: 100%;
+    padding: 1rem;
+  }
 }
 
 .callServices-innerCont{
@@ -300,10 +334,21 @@ main.mainWelcomePage{
 
 
 .search-results-WelcomePage{
-  margin: 0 -0.95rem;
+  @include breakpoint (large){
+    margin: 0 -0.95rem;
+  }
   padding-bottom: 3rem;
   padding-top: 1rem;
   position: relative;
+}
+
+#profilesSection .search-results-WelcomePage, #newsSection .search-results-WelcomePage{
+  @include breakpoint(small down){
+    text-align: center;
+    .newsCard-welcomePage-container{
+      text-align: left;
+    }
+  }
 }
 
 .card-container-WelcomePage{
@@ -313,44 +358,68 @@ main.mainWelcomePage{
 }
 
 .search-input-WelcomePage-Container{
-  height: 120px;
-  background-color: black;
+  height: 9rem;
+  border-bottom: 1px solid $grey-3;
   position: relative;
-  padding-top: 0.7rem;
-  .select2-container--default .select2-selection--multiple{
+  padding-top: 2rem;
+  /* .select2-container--default .select2-selection--multiple{
     border: none;
-  }
+  }*/
 }
 
 .search-input-WelcomePage{
   width: 690px;
   @include horizontal-center;
   position: relative;
+  @include breakpoint (medium down){
+    width: 85%;
+  }
   ul.select2-selection__rendered{
-    padding: 0 2rem 0 3.6rem !important;
+    padding: 0 2rem 0 3.4rem !important;
   }
 }
 
 
-.rfhIcon-searchWidget{
-  background-image: url(<%= image_path 'orfheosimbolonegro.png' %>);
+/* .rfhIcon-searchWidget{
+  background-image: url(<%= image_path 'logo_black_m.png' %>);
   width: 1.7rem;
   height: 1.2rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   margin-top: 0.5rem;
   margin-left: 0.5rem;
-}
+} */
 
-.rfhIcon-searchWidget-container{
+/* .rfhIcon-searchWidget-container{
   width: 3rem;
   height: 100%;
   display: inline-block;
   position: absolute;
   left: 0rem;
-  top: 0rem;
-  border-right: 2px solid $grey-2;
-  /* margin: .3rem 0 1.2rem 0; */
+  top: 0.1rem;
+  height: 2.2rem;
+  border-right: 1px solid $grey-2;
+}
+ */
+
+.searchIcon-searchWidget-container{
+  width: 2.6rem;
+  height: 100%;
+  display: inline-block;
+  position: absolute;
+  left: 0rem;
+  top: 0.1rem;
+  height: 2.2rem;
+  border-right: 1px solid $grey-2;
+  .material-icons{
+    margin: .3rem;
+    font-size: 1.9rem;
+    color:  $grey-4;
+    transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+  }
 }
 
 .cleanIcon-searchWidget-container{
@@ -374,12 +443,18 @@ main.mainWelcomePage{
 
 .newsCard-welcomePage-container{
   display: inline-block;
-  margin: 1rem 1.05rem;
+  margin: 1rem 1.05rem 1.5rem 1.05rem;
 }
 
 .callText-WelcomePage{
+  margin: 0 auto;
   margin-top: 1rem;
-  display: block;
+  display: inline-block;
+  color: $blue-pard;
+}
+
+.callText-WelcomePage:hover{
+  color: rgba(56, 133, 255, 0.8);
 }
 
 .navigationIcon-findOutMore{
@@ -400,7 +475,7 @@ main.mainWelcomePage{
   @include border-radius($element-border-radius);
   background: $blue-pard;
   padding: .4rem 1.8rem;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 .signUpBtnWelcomePage:hover{
@@ -539,102 +614,6 @@ Header
 
 /* GENERAL*/
 
-.right-user-header-content{
-  display: inline-block;
-  position: absolute;
-  @include breakpoint(large){
-    margin-right: -1.5rem;
-  }
-  right:0;
-}
-
-.left-user-header-content{
-  left:0;
-  display: inline-block;
-  position: absolute;
-  @include breakpoint(large){
-    margin-left:-0.5rem;
-  }
-  cursor: pointer;
-  @include breakpoint(small down){
-    margin-left: 0.5rem;
-  }
-
-}
-
-.top-header-content{
-  display: block;
-  width: 100%;
-  @include breakpoint(medium){
-    min-height: 3.5rem;
-  }
-  @include breakpoint(small down){
-    min-height: 2.3rem;
-  }
-}
-
-.settings-icon-dropdown-menu{
-  color: black;
-  .material-icons{
-    font-size: 2.1rem;
-    margin-right: -0.6rem;
-  }
-  padding:0;
-}
-
-.settings-icon-dropdown-menu:hover{
-  color: rgba(0,0,0,0.8);
-}
-
-.black{
-  .settings-icon-dropdown-menu{
-    color: white;
-  }
-  .settings-icon-dropdown-menu:hover{
-    color: $grey-2;
-  }
-}
-
-
-
-.rightContent-insideNavMenu{
-  position: absolute;
-  right: 0;
-  top: .85rem;
-  .rightMenu-navHeader{
-    margin: 0;
-    li{
-      display: inline-block;
-    }
-  }
-  .initText{
-    text-align: center;
-    margin-right: 1rem;
-    vertical-align: 0.7rem;
-    a{
-      color: black;
-    }
-  }
-  .initText:hover{
-    a{
-      color: rgba(0,0,0,.8);
-    }
-  }
-/*   .selected{
-    color: $grey-2;
-  } */
-}
-
-.black .initText a{
-  color: white;
-}
-
-.black .initText:hover{
- a{
-    color: $grey-2
-  }
-}
-
 
 
 /*-----------------------
@@ -678,15 +657,6 @@ Aside content User page
 User Section
 --------------*/
 
-main.mainUserPage{
-  margin: 0;
-  padding: 0;
-  section{
-    padding-top:3.3rem;
-    min-height: 100vh;
-  }
-}
-
 .myprofileDiv{
   width: 100%;
   background-color: black;
@@ -699,7 +669,9 @@ main.mainUserPage{
 
 .outerContainer-UserPage{
   margin: 0 auto;
-  width: 1014px; 
+  @include breakpoint(large){
+    width: 1014px; 
+  }
   position: relative;
 }
   
@@ -990,6 +962,10 @@ Profile Section
   padding: $inner-spacing;
   position: relative;
   font-size: $almostNormalSize;
+  p{
+    margin-bottom: 0.6rem;
+    line-height: 1.4rem;
+  }
 }
 
 .info-icon-title-box {
@@ -1104,6 +1080,13 @@ Profile Section
   display: block;
 }
 
+.proposalText-TextAreaEnriched{
+  display: block;
+  p, ul{
+    margin-bottom: .5rem;
+  }
+}
+
 .trash-icon-delete{
   font-size: $almostNormalSize;
   vertical-align: -0.2rem;
@@ -1133,6 +1116,7 @@ Production Section
 
 .short-description-text{
   font-weight: bold;
+  margin-bottom: .6rem;
 }
 
 
@@ -1467,11 +1451,6 @@ OUTSIDER PAGE
     left: 0;
   }
 
-  .outsider-main{
-    margin-top: 3.3rem;
-    margin-bottom: 2rem;
-  }
-
 }
 
 
@@ -1482,9 +1461,10 @@ CALL PAGE
 
 .main-call-page{
   background: $grey-1;
-  min-height:  -moz-calc(100vh - 5.3rem);
-  min-height:  -webkit-calc(100vh - 5.3rem);
-  min-height:  calc(100vh - 5.3rem);
+  /* min-height:  -moz-calc(100vh - 5.1rem);
+  min-height:  -webkit-calc(100vh - 5.1rem);
+  min-height:  calc(100vh - 5.1rem); */
+  margin-top: -.7rem;
 }
 
 .call-section{
@@ -1504,7 +1484,7 @@ CALL PAGE
   position: relative;
   padding:  0 0.5rem 0.2rem 0.5rem;;
   border-bottom: 1px solid $grey-2;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 
 .title-call-page{
@@ -1550,6 +1530,9 @@ CALL PAGE
 .table-proposal {
   font-size: 12px;
   margin-bottom: 0;
+  tbody p, ul{
+    margin-bottom: 0;
+  }
 }
 
 
@@ -1701,7 +1684,7 @@ th.column-call-manager-table{
 }
 
 
-.column-call-manager-table.column-TextArea, .column-call-manager-table.column-TextAreaCounter{
+.column-call-manager-table.column-TextArea, .column-call-manager-table.column-TextAreaCounter, .column-call-manager-table.column-TextAreaEnriched,{
   min-width: 17rem;
   width: 17rem !important;
 }
@@ -1726,6 +1709,11 @@ th.column-call-manager-table{
   width: 2.3rem !important;
 }
 
+th.column-call-manager-table.column-type{
+  padding-left: .25rem !important;
+  padding-right: .75rem !important;
+}
+
 .column-call-manager-table.column-CheckBox{
   min-width: 4rem;
   width: 4rem !important;
@@ -1744,7 +1732,7 @@ th.column-call-manager-table{
 
 
 .types-selector-call-manager{
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   width: 20rem;
   display: inline-block;
   margin-right: 3rem;
@@ -1800,6 +1788,7 @@ th.column-call-manager-table{
 
 .rfh-selector{
   width: 1.8rem;
+  margin-left: 0;
 }
 
 
@@ -2041,6 +2030,7 @@ Program Manager Tab
 .table-box-call-manager{
   position: relative;
   min-height: 90vh;
+  min-width: 960px;
 }
 
 .time-table-call-manager{
@@ -2137,9 +2127,8 @@ Program Manager Tab
 
 .selectors-call-manager{
   position: relative;
-  /* margin-bottom: 1.5rem; */
   margin-bottom: 2rem;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
 }
 
 .day-selector-container-call-manager{
@@ -2453,7 +2442,7 @@ tr.permanent-row-program-table-call-manager td{
   /* position: absolute; */
   /* left: 6rem; */
   /* top: 2px;  */
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
   display: inline-block;
   z-index: 10;
   span{
@@ -2502,15 +2491,13 @@ tr.permanent-row-program-table-call-manager td{
 
 .buttons-container-call-manager{
   position: relative;
-  margin-top: 2.5rem;
-/*   height: 2rem;
-  margin-bottom: 0.5rem; */
+  /* margin-top: 2.5rem; */
 }
 
 .innerBtnContainer-programManager{
   display: inline-block;
   position: absolute;
-  top: -4rem;
+  top: -2.4rem;
   right: 0;
   /* left: 17rem; */
 }
@@ -3123,8 +3110,10 @@ a.participant-program-card-own {
 .browser-alert{
   background-color: rgba(252, 230, 226, 0.9);
   padding: 0.5rem 2rem;
-  position: relative;
-  z-index: 3;
+  position: absolute;
+  z-index: 9;
+  width: 100%;
+  top: 0;
   @include breakpoint(small down){
     padding: 0.5rem;
   }
