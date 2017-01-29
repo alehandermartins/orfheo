@@ -256,7 +256,7 @@
       _timeRow.append($('<div>').append(_participantCatIcon, _children).addClass('icons-smallScreen-program'));
       var _titleRow = $('<div>').append(_title, ' ',_participant);
       var _hostRow = $('<div>');
-      _host.css('vertical-align','top')
+      _host.css('vertical-align','top');
       if (host) _hostRow.append(_hostNumX.addClass('hostNum-smallScreen-program'),_host);
       else _hostRow.append(_hostNum.addClass('hostNum-smallScreen-program'),_host);
       _progCard.append(_timeRow,_titleRow , _shortDescription,_hostRow);
@@ -273,7 +273,5 @@
       }
     }
   }
-
-  
 
 }(Pard || {}));

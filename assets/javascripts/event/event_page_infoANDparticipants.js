@@ -34,7 +34,7 @@
     _createdWidget.append(_titleContainer, _btnContainer);
     }
     else{
-      _createdWidget.append(_title)
+      _createdWidget.append(_title);
     }
 
     return _createdWidget;
@@ -71,7 +71,7 @@
     var _location = $('<a>').text(_eventInfo.place);
     if (!($.isEmptyObject(_eventInfo.address))){
       var _aStr = '';
-      if (_eventInfo['address']['route'] && _eventInfo['address']['street_number']) _aStr += _eventInfo['address']['route']+' '+_eventInfo['address']['street_number']+', '
+      if (_eventInfo['address']['route'] && _eventInfo['address']['street_number']) _aStr += _eventInfo['address']['route']+' '+_eventInfo['address']['street_number']+', ';
       _aStr += _eventInfo['address']['locality']+' '+_eventInfo['address']['postal_code'];
       _location.attr({
         href: 'http://maps.google.com/maps?q='+_aStr,
@@ -108,7 +108,7 @@
 
     var _h1 = $('<div>').append(_who, _where, _callStatus);
 
-    var _conditionsText = $('<div>').addClass('info-text-header-infoTab-event')
+    var _conditionsText = $('<div>').addClass('info-text-header-infoTab-event');
     if (_eventInfo.conditions) _conditionsText.append($('<a>').attr({'href':_eventInfo.conditions,'target':'_blank'}).append('Bases de participación'));
     else _conditionsText.append($('<p>').text('Sin condiciones de participación'));
     var _callConditions = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('conditions').render()).addClass('iconContainer-infoHeader-event-page'), _conditionsText).addClass('callConditions-infoTab-event');
@@ -210,7 +210,6 @@
 
     var _createdWidget = $('<div>');
     var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', event_id);
-    // 'a5bc4203-9379-4de0-856a-55e1e5f3fac6'
     _createdWidget.append( _searchEngine.render());
 
     return{

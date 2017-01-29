@@ -14,7 +14,7 @@
           _popup.setContent('Inscribe un perfil ya creado', _choosePorfileMex.render());
           _popup.setCallback(function(){
             setTimeout(function(){
-              _popup.destroy()
+              _popup.destroy();
             },500)
           });
           _popup.open();
@@ -40,7 +40,7 @@
         _popup.setContent('',  _sentProposalMex.render());
         _popup.setCallback(function(){
           setTimeout(function(){
-            _popup.destroy()
+            _popup.destroy();
           },500);
         });
         _popup.open();
@@ -52,14 +52,14 @@
           _dataReason.setCallback(function(){
             _popup.close();
             setTimeout(function(){
-              _popup.destroy()
+              _popup.destroy();
              },500);
           });
           _popup.setContent('', _dataReason.render());
           _popup.setContentClass('alert-container-full');
           _popup.setCallback(function(){
             setTimeout(function(){
-            _popup.destroy()
+            _popup.destroy();
           },500);
           });
           _popup.open();
@@ -73,7 +73,7 @@
 
     var _popupMessageSentProposal = function(data){
       console.log(data);
-      var _container = $('<div>')
+      var _container = $('<div>');
       var _closepopup = function(){};
       var _message = $('<div>').append($('<h4>').text('¡Genial!').addClass('success-inscription-title'),$('<h5>').text('Te has inscrito correctamente.').css({
         'text-align':'center',
@@ -108,7 +108,7 @@
         if (profile.type == 'space' && profile.proposals && profile.proposals[0]){
           profile.proposals.some(function(proposal){
             if (proposal.event_id == Pard.CachedEvent.event_id) {
-              Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en '+Pard.CachedEvent.name);
+              Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en '+ Pard.CachedEvent.name);
               _check = false;
               return true;
             }
@@ -137,14 +137,14 @@
           _dataReason.setCallback(function(){
             _popup.close();
             setTimeout(function(){
-              _popup.destroy()
+              _popup.destroy();
              },500)
           });
           _popup.setContent('', _dataReason.render());
           _popup.setContentClass('alert-container-full');
           _popup.setCallback(function(){
             setTimeout(function(){
-              _popup.destroy()
+              _popup.destroy();
              },500);
           });
           _popup.open();
@@ -159,15 +159,11 @@
     var _createProfileCard;
     var _forms;
     Pard.Backend.getCallForms(event_info.call_id, function(data){
-      _forms = data.forms
+      _forms = data.forms;
       _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile, Object.keys(_forms)).render();
       var _createProfileCardContainer = $('<div>').append(_createProfileCard).addClass('card-container-popup');
       _createdWidget.append(_secondTitle, _createProfileCardContainer);
     });
-
-    // var _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile, data);
-
-
 
     return {
       render: function(){
@@ -178,8 +174,6 @@
       }
     } 
   }
-
-
 
   ns.Widgets.GetCallForms = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     var eventInfo = Pard.CachedEvent;
@@ -210,8 +204,8 @@
       _typeFormsCatArray.forEach(function(type,index){
         if(type != 'call_id') {
           _okProfiles += ' '+Pard.Widgets.Dictionary(type).render().toLowerCase();
-          if (index<_typeFormsCatArray.length-2) _okProfiles+=','; 
-          else if (index == _typeFormsCatArray.length-2) _okProfiles+=' y'
+          if (index<_typeFormsCatArray.length-2) _okProfiles += ','; 
+          else if (index == _typeFormsCatArray.length-2) _okProfiles += ' y';
         }
       });
       _createdWidget.append($('<p>').text('ATENCIÓN, NO PUEDES CONTINUAR'), $('<p>').html('Esta convocatoría es solo para perfiles de<strong>'+_okProfiles+'</strong>. Selecciona o crea uno de de los tipos aceptados para seguir.').css({'font-size':'1rem'}));
@@ -219,9 +213,9 @@
     else{
       closeListProfilePopup();
 
-      var _initialMexText = 'Éste es el <strong>formulario</strong> para inscribir tu perfil <a href="/profile?id='+profile.profile_id+'", target="_blank">'+profile.name+'</a> en la convocatoria <strong> para '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase()+ 's de '+Pard.CachedEvent.organizer+'</strong>:'
+      var _initialMexText = 'Éste es el <strong>formulario</strong> para inscribir tu perfil <a href="/profile?id='+profile.profile_id+'", target="_blank">'+profile.name+'</a> en la convocatoria <strong> para '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase()+ 's de '+Pard.CachedEvent.organizer+'</strong>:';
       var _initialMex = $('<h6>').html(_initialMexText).css('margin-bottom','1.5rem');
-      _createdWidget.append(_initialMex); 
+      _createdWidget.append(_initialMex);
       var _closepopup = {};
       var _production_id;
 
@@ -271,7 +265,7 @@
             var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
             _iconColumn.css({
               'padding':'0.2rem'
-            })
+            });
             var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
             var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
             _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
@@ -325,7 +319,7 @@
                     }
                   }
                   _formTypeSelector.hide();
-                  _contentSel.empty()
+                  _contentSel.empty();
                   _formTypeOptionsSelector.on('change', function(){
                     _printForm(_formTypeOptionsSelector, production);
                   });
@@ -440,7 +434,6 @@
         if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
         _photos.cloudinary().bind('cloudinarydone', function(e, data){
           var _url = _photoWidget.getVal();
-          console.log(_url)
           _url.push(data['result']['public_id']);
           if(_url.length >= _photos.dataLength()) _send();
         });
@@ -468,7 +461,7 @@
       else{
         if (form[field].input == 'TextAreaCounter'){
           var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-                _form[field].label.render(),_form[field].input.render());
+            _form[field].label.render(),_form[field].input.render());
         }
         else if (form[field].input == 'CheckBox'){
           var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
@@ -543,7 +536,6 @@
       _submitForm['form_category'] = formTypeSelected;
       if (production_id) _submitForm['production_id'] = production_id; 
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
-      console.log(_submitForm);
       return _submitForm;
     }
 
@@ -591,7 +583,7 @@
     _submitBtnContainer.append(submitButton);
 
     _formContainer.append(_finalMessage, _invalidInput, _submitBtnContainer);
-    _createdWidget.append(_formContainer)
+    _createdWidget.append(_formContainer);
 
     return {
       render: function(){

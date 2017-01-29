@@ -5,7 +5,6 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.EventAside = function(sectionContainer) {
-    console.log(Pard.CachedEvent)
 
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
     var _buttonContainer = $('<div>').addClass('create-profile-container');
@@ -17,7 +16,8 @@
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
 
     if (Pard.CachedEvent.program.length){
-      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true'){
+      console.log(Pard.CachedEvent.published);
+      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == true){
         var _program = $('<div>').addClass('aside-event-nav-btn');
         _program.text('Programa');
 
@@ -54,12 +54,9 @@
           _exploreContent.append(_participants.render());
           var _contentShown = _exploreContent;
         }
-        _buttonContainer.append(_explore)
+        _buttonContainer.append(_explore);
        }
     }
-
-    // Pard.Backend.searchProfiles([], [], Pard.CachedEvent.event_id, function(data){console.log(data)});
-
 
     var _info = $('<div>').addClass('aside-event-nav-btn');
     _info.text('Informaciones');
@@ -102,7 +99,6 @@
       $(window).scrollTop(0);
       $('.aside-event-nav-btn-selected').removeClass('aside-event-nav-btn-selected');
       _contentShown.hide();
-      // var _selected = '#'+id_selected;
       _contentShown = $('#'+id_selected);
       _contentShown.show();
     }
@@ -118,7 +114,7 @@
       _toCallPageBtn.addClass('navigation-btn-callPage');
       var _toCallPageBtnContainer = $('<div>').addClass('navigation-outside-event-page');
       var _innerContNav =  $('<div>').addClass('navigation-innerCont-event-page');
-      _toCallPageBtnContainer.append(_innerContNav.append(_toCallPageBtn))
+      _toCallPageBtnContainer.append(_innerContNav.append(_toCallPageBtn));
       _createdWidget.append(_toCallPageBtnContainer);
     }
 
@@ -249,7 +245,7 @@
     eventDates.forEach(function(day){
       var _dayText = '';
       if ($(window).width()>640) _dayText = moment(day).locale('es').format('dddd, DD-MMM-YYYY');
-      else _dayText = moment(day).locale('es').format(' DD-MMM-YYYY')
+      else _dayText = moment(day).locale('es').format(' DD-MMM-YYYY');
 
       var _date = $('<option>').val(day).text(_dayText);
       _daySelector.append(_date);
@@ -277,7 +273,6 @@
       }
       else{
         _programNow.addClass('active fired');
-        // _programNow.html('Todo');
         if($.inArray(_day, eventDates) < 0){
           _daySelector.empty();
           extraDate = $('<option>').val(_day).text(moment(_day).locale('es').format('DD-MMM-YYYY'));
@@ -348,25 +343,24 @@
     }
 
     $(window).load(function(){
-      if ($(window).width()<1024) {
+      if ($(window).width()<1024){
           _searchWidgetsContainer.css({width: $('#program-event-page').width()});
-      };
+      }
       $(window).scroll(function(){
-      if (_searchWidgetsContainer.hasClass('position-fixed')){
-        if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
-        if (_goUpBtn.hasClass('hide-goUpBtn')) _goUpBtn.removeClass('hide-goUpBtn');
-      }
-      else {
-        if (_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')) _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
-        if (!(_goUpBtn.hasClass('hide-goUpBtn'))) _goUpBtn.addClass('hide-goUpBtn');
-      }
+        if (_searchWidgetsContainer.hasClass('position-fixed')){
+          if (!(_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')))_chooseOrderBox.addClass('chooseOrderSelect-additional-distance');
+          if (_goUpBtn.hasClass('hide-goUpBtn')) _goUpBtn.removeClass('hide-goUpBtn');
+        }
+        else {
+          if (_chooseOrderBox.hasClass('chooseOrderSelect-additional-distance')) _chooseOrderBox.removeClass('chooseOrderSelect-additional-distance');
+          if (!(_goUpBtn.hasClass('hide-goUpBtn'))) _goUpBtn.addClass('hide-goUpBtn');
+        }
       });
     });
 
     var _sCont = $('<div>');
 
     _searchWidgetsContainer.append(_sCont.append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
-
     _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _searchResult);
 
     _daySelector.select2({
@@ -496,7 +490,7 @@
                     lat:'',
                     lng:''
                   };
-                  performance.address.route = '¡ERROR EN LA GEOLOCALIZACION DEL ESPACIO!'
+                  performance.address.route = '¡ERROR EN LA GEOLOCALIZACION DEL ESPACIO!';
                 }
                 _data.push({
                   lat: performance.address.location.lat,
@@ -519,7 +513,6 @@
           $(':focus').blur();
           $('body').click();
           if ($(window).width() < 640)  $(window).scrollTop(110);
-
         }
       );
     }
@@ -551,13 +544,13 @@
           _host = Pard.Widgets.RemoveAccents(_data[index].title);
           var _iconNum = _data[index].order + 1;
           // marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
-          marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/')
+          marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/');
           _printProgram(_program, _host, gmap, _data);
         },
         afterOpenInfowindow: function(index, location, marker){
           var _iconNum = _data[index].order + 1;
           // marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|9933FF|000000');
-          marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/')
+          marker.setIcon('http://www.googlemapsmarkers.com/v1/'+_iconNum+'/9933FF/');
         },
         afterCloseClick: function(index){
           _host = '';
@@ -586,7 +579,7 @@
           setTimeout(function(){
             _contentP.remove();
             _popup.destroy();
-          },500)
+          },500);
           _search();
         });
         _contentP.append(_message.render());
