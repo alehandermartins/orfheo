@@ -18,7 +18,7 @@
     var _goToEventBtn = $('<a>').attr('href','/event?id='+ the_event.event_id).text('Página evento');
     _goToEventBtn.addClass('toEventPage-btn-callPage');
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
-    var _title = $('<span>').text('Gestiona').addClass('title-call-page')
+    var _title = $('<span>').text('Gestiona').addClass('title-call-page');
     var _panels = $('<div>').css('padding', 0);
 
     var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');

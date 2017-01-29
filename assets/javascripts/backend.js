@@ -262,7 +262,6 @@
     };
 
     var _amendArtistProposal = function(proposal_id, event_id, call_id, amend, callback){
-      console.log(call_id);
       _send(
         '/users/amend_artist_proposal',
         {
@@ -309,7 +308,7 @@
         '/users/add_whitelist',
         {
           event_id: event_id,
-          name_email, name_email,
+          name_email: name_email,
           email: email
         },
         callback

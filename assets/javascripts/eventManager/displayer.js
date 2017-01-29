@@ -19,7 +19,7 @@
       var myprogram = the_event.artists[profile_id].program;
 
       var _popupTitle = '';
-      _popupTitle += artist.name 
+      _popupTitle += artist.name; 
       if (!($.isEmptyObject(myprogram))){
         _popupTitle += ' (';
         var _artistCategories = [];
@@ -29,7 +29,7 @@
         Pard.Widgets.UniqueArray(_artistCategories).forEach(function(cat){
           _popupTitle += cat + ', ';
         }); 
-        _popupTitle = _popupTitle.substring(0,_popupTitle.length - 2) + ')'
+        _popupTitle = _popupTitle.substring(0,_popupTitle.length - 2) + ')';
       }
       var _message = Pard.Widgets.PopupContent(_popupTitle, Pard.Widgets.ArtistProgram(artist, myprogram, the_event.spaces, the_event.program), 'space-program-popup-call-manager');
       _message.setCallback(function(){
@@ -83,7 +83,6 @@
       });
 
       var confirmPopupContent = function(){
-        console.log(proposal)
         var _createdWidget = $('<div>');
         var _name = _proposal.name;
         var _mex = $('<p>').text('Al eliminar la propuesta, se enviará de forma automatica una notifica por email a '+_name);
@@ -204,7 +203,7 @@
           _content.empty();
           _popup.close();
         });
-        var _modifyMessageRendered = _modifyMessage.render()
+        var _modifyMessageRendered = _modifyMessage.render();
         _content.append(_modifyMessageRendered);
       });
 
@@ -291,6 +290,5 @@
       }
     }
   }
-
 
 }(Pard || {}));

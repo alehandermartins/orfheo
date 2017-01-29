@@ -8,7 +8,7 @@
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
-    var _columnsHeaders = ['time','title','name','address', 'phone', 'email']
+    var _columnsHeaders = ['time','title','name','address', 'phone', 'email'];
 
     var _columnsHeadersDictionary = {
       time: 'Horario',
@@ -287,14 +287,14 @@
               setTimeout(function(){
                 _printArtistProgram(artist);
                 _performancesPopup.destroy();
-              },500)
+              },500);
             });
             _externalPerformancesBox.append(_content.render());
             _performancesPopup.setCallback(function(){
               setTimeout(function(){
                 _printArtistProgram(artist);
                 _performancesPopup.destroy();
-              },500)
+              },500);
             });
             _performancesPopup.open();
           }
@@ -307,9 +307,9 @@
                 function(){
                   _printArtistProgram(artist);
                   _performancePopup.destroy();
-                },500)
+                },500);
             });
-            _performancePopup.setContent(show.title +' (' + show.participant_name + ')', _popupContent.render())
+            _performancePopup.setContent(show.title +' (' + show.participant_name + ')', _popupContent.render());
             _performancePopup.open();
           }
         })

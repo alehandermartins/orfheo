@@ -144,7 +144,7 @@
     var _orfheoCategory;
 
     var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
-    var _containerMandatoryFields = $('<div>')
+    var _containerMandatoryFields = $('<div>');
     var _containerOptionalFields = $('<div>');
     var _optionalFields = $('<div>').hide();
     _containerOptionalFields.append(_displayAllBtn, _optionalFields);
@@ -255,7 +255,7 @@
     var _filled = function(){
       var _check = true;
       for(var field in _form){
-        if (field == 'address') console.log(_form[field].input.getVal())
+        if (field == 'address') console.log(_form[field].input.getVal());
         if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
           _form[field].input.addWarning();
           _invalidInput.text('Por favor, revisa los campos obligatorios.');
@@ -319,7 +319,7 @@
       },
       disableFields: function(){
         // _form['email'].input.setVal('El correo no se puede modificar');
-        _form['email'].input.disable()
+        _form['email'].input.disable();
         // _form['email'].input.setClass('text-warning');
         //_form['name'].input.setVal('El nombre sólo lo puede moficar el relativo perfil desde su página')
         _form['name'].input.disable();
@@ -330,7 +330,5 @@
       }
     }
   }
-
-
 
 }(Pard || {}));
