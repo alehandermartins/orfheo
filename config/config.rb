@@ -118,13 +118,13 @@ class BaseController < Sinatra::Base
   configure :development, :test do
     @@db = Mongo::Client.new('mongodb://localhost:27017/Orfheo/cg_dev')
     Pony.override_options = {:via => :test}
-    Cloudinary.config do |config|
-      config.cloud_name = 'hxgvncv7u'
-      config.api_key = '844974134959653'
-      config.api_secret = '2scRx2fF3Vuw1qS6tu0FGli69Po'
-      config.cdn_subdomain = true
-      CLOUDINARY_URL = 'cloudinary://844974134959653:2scRx2fF3Vuw1qS6tu0FGli69Po@hxgvncv7u'
-    end
+    # Cloudinary.config do |config|
+    #   config.cloud_name = 'hxgvncv7u'
+    #   config.api_key = '844974134959653'
+    #   config.api_secret = '2scRx2fF3Vuw1qS6tu0FGli69Po'
+    #   config.cdn_subdomain = true
+    #   CLOUDINARY_URL = 'cloudinary://844974134959653:2scRx2fF3Vuw1qS6tu0FGli69Po@hxgvncv7u'
+    # end
     puts 'configured for dt'
   end
 

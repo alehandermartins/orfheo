@@ -4,13 +4,6 @@ module Repos
 
       def for db
         @@events_collection = db['events']
-        events = grab({});
-        events.each{ |event|
-          profile = Repos::Profiles.get_profile event[:profile_id]
-          @@events_collection.update_one({event_id: event[:event_id]},{
-            "$set": {color: profile[:color]}
-          })
-        }
       end
 
       def exists? event_id
