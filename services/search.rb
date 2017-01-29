@@ -4,14 +4,14 @@ module Services
 
 			def get_program_suggestions event_id, queriable_tags, filters
 				tags = queriable_tags[0...-1]
-				program = Repos::Events.get_program event_id
+				program = Services::Events.get_program event_id
 				matched_performances = query_program program, tags, filters
 				results = get_suggestions_for matched_performances, queriable_tags
 				sort_results results
 			end
 
 			def get_program_results event_id, tags, filters, date, time
-				program = Repos::Events.get_program event_id
+				program = Services::Events.get_program event_id
 				date_program = program.select{|performance| performance[:date] == date}
 				results = query_program date_program, tags, filters
 				results = select_now results, time unless time.blank?

@@ -65,7 +65,7 @@ module Repos
 
       def get_arranged_profile profile_id
         profile = grab({profile_id: profile_id}).first
-        profile.merge! (Repos::Events.my_info(profile_id, profile[:type]))
+        profile.merge! (Services::Events.get_my_info(profile_id, profile[:type]))
       end
 
       def get_header_info user_id
@@ -81,7 +81,7 @@ module Repos
         profiles = grab({user_id: user_id})
         sort_profiles(profiles, profile_id) unless profile_id.nil?
         profiles.each{ |profile|
-          profile.merge! (Repos::Events.my_info(profile[:profile_id], profile[:type]))
+          profile.merge! (Services::Events.get_my_info(profile[:profile_id], profile[:type]))
         }
       end
 
