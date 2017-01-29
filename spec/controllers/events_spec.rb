@@ -4,6 +4,7 @@ describe EventsController do
   let(:logout_route){'/login/logout'}
   let(:create_performance_route){'/users/create_performances'}
   let(:modify_performance_route){'/users/modify_performances'}
+  let(:delete_performance_route){'/users/delete_performances'}
 
    let(:user_hash){
     {
@@ -57,6 +58,8 @@ describe EventsController do
       event_id: event_id,
       user_id: user_id,
       name: 'event_name',
+      artists: [{profile_id: profile_id}],
+      spaces: [{profile_id: host_profile_id}],
       program: []
     }
   }
@@ -71,14 +74,7 @@ describe EventsController do
       time: ['3', '6'],
       permanent: 'false',
       comments: 'comments',
-      host_name: 'host_name',
-      address: 'host_address',
-      participant_name: 'artist_name',
-      title: 'title',
-      short_description: 'short_description',
-      children: 'true',
-      participant_category: 'artist_category',
-      host_category: 'host_category'
+      confirmed: nil
     }
   }
 
@@ -92,6 +88,7 @@ describe EventsController do
       time: ['5', '7'],
       permanent: 'false',
       comments: 'comments',
+      confirmed: nil
     }
   }
 
@@ -105,6 +102,7 @@ describe EventsController do
     Services::Users.validated_user otter_validation_code
     post login_route, user_hash
     @db['events'].insert_one(event)
+    allow(SecureRandom).to receive(:uuid).and_return(performance_id)
   }
 
   describe 'Retrieve' do
@@ -117,6 +115,33 @@ describe EventsController do
   end
 
   describe 'Create_performances' do
+
+    let(:program_to_store){
+      [{
+        performance_id: performance_id,
+        participant_id: profile_id,
+        participant_proposal_id: proposal_id,
+        host_id: host_profile_id,
+        host_proposal_id: host_proposal_id,
+        date: '2016-15-10',
+        time: ['3', '6'],
+        permanent: 'false',
+        comments: 'comments',
+        confirmed: nil
+      },
+      {
+        performance_id: performance_id,
+        participant_id: profile_id,
+        participant_proposal_id: proposal_id,
+        host_id: host_profile_id,
+        host_proposal_id: host_proposal_id,
+        date: '2016-16-10',
+        time: ['5', '7'],
+        permanent: 'false',
+        comments: 'comments',
+        confirmed: nil
+      }]
+    }
 
     it 'fails if the event does not exist' do
       params[:event_id] = 'otter'
@@ -134,27 +159,41 @@ describe EventsController do
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
-    it 'stores the performance' do
-      expect(Repos::Events).to receive(:save_program).with(event_id, program)
+    it 'fails if no participants' do
+      allow(Repos::Events).to receive(:get_event).and_return({artists: []})
       post create_performance_route, params
-      ap parsed_response
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
+    it 'fails if missing mandatory fields' do
+      performance[:participant_id] = nil
+      post create_performance_route, params
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
+    it 'stores the performance' do
+      expect(Repos::Events).to receive(:save_program).with(event_id, program_to_store)
+      post create_performance_route, params
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['model']).to eq(Util.stringify_array(program))
+      expect(parsed_response['model']).to eq(Util.stringify_array(program_to_store))
     end
   end
 
-  describe 'Modify_performance' do
+  describe 'Modify_performances' do
 
     before(:each){
-      post create_event_route, event
-      allow(SecureRandom).to receive(:uuid).and_return(performance_id)
-      post create_performance_route, performance
+      post create_performance_route, params
       performance[:performance_id] = performance_id
+      otter_performance[:performance_id] = performance_id
     }
 
     it 'fails if the event does not exist' do
-      performance[:event_id] = 'otter'
-      post modify_performance_route, performance
+      params[:event_id] = 'otter'
+      post modify_performance_route, params
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_event')
@@ -162,29 +201,30 @@ describe EventsController do
 
     it 'fails if not the event owner' do
       allow(Repos::Events).to receive(:get_event_owner).with(event_id).and_return('otter')
-      post modify_performance_route, performance
+      post modify_performance_route, params
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
+    it 'fails if the performace does not exist' do
+      performance[:performance_id] = 'otter'      
+      post modify_performance_route, params
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_performance')
+    end
+
     it 'modifies the performance' do
       performance[:date] = 'otter_date'
-      performance_model[:date] = performance[:date]
-      expect(Repos::Events).to receive(:modify_performance).with(event_id, performance_model)
-      post modify_performance_route, performance
+      expect(Repos::Events).to receive(:save_program).with(event_id, program)
+      post modify_performance_route, params
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['performance_id']).to eq(performance_id)
+      expect(parsed_response['model']).to eq(Util.stringify_array(program))
     end
   end
 
-  describe 'Delete_performance' do
-    let(:delete_performance_route){'/users/delete_performance'}
-
-    before(:each){
-      post create_event_route, event
-      allow(SecureRandom).to receive(:uuid).and_return(performance_id)
-    }
+  describe 'Delete_performances' do
 
     it 'fails if the user does not own the event' do
       allow(Repos::Events).to receive(:get_event_owner).with(event_id).and_return('otter')
@@ -195,8 +235,8 @@ describe EventsController do
     end
 
     it 'deletes the performance' do
-      post create_performance_route, performance
-      expect(Repos::Events).to receive(:delete_performance).with(event_id, performance_id)
+      post create_performance_route, params
+      expect(Repos::Events).to receive(:save_program).with(event_id, program)
       post delete_performance_route, {event_id: event_id, performance_id: performance_id}
       expect(parsed_response['status']).to eq('success')
     end
