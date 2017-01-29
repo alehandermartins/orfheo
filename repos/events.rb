@@ -236,6 +236,10 @@ module Repos
         info
       end
 
+      def get_all
+        grab({})
+      end
+
       private
       def grab query, projection = {}
         results = @@events_collection.find(query) if projection.blank?

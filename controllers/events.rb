@@ -41,7 +41,7 @@ class EventsController < BaseController
   end
 
   post '/events' do
-    events = Repos::Events.get_events
+    events = Services::Events.get_events
     success ({events: events})
   end
 

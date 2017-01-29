@@ -34,7 +34,6 @@ class CallsController < BaseController
 
   post '/users/amend_artist_proposal' do
     scopify :event_id, :call_id, :proposal_id, :amend
-    puts call_id
     check_event_exists! event_id
     check_call_exists! call_id
     check_proposal_exists! proposal_id
