@@ -6,4 +6,3 @@
 // = require ./multimedia
 // = require ./production_widgets
 // = require ./proposal_widgets
-
