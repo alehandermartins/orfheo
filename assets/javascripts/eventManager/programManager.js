@@ -1777,16 +1777,19 @@
       var _publishedBtn = $('<li>');
       var _rgb = Pard.Widgets.IconColor(the_event.color).rgb();
       var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+      console.log(the_event)
       var _setPublishStatus = function(){
-        if(the_event.published == 'true' || the_event.published == true){
-          _publishStatus = 'unpublish';
+        if(the_event.published == 'true'){
+          _publishStatus = 'publish';
           _publishedBtn.text('Retira el programa');
           $('main').css({'background': _backColor});
+          console.log(the_event.published)
         }
         else{         
-          _publishStatus = 'publish';
+          _publishStatus = 'unpublish';
           _publishedBtn.text('Publica el programa');
-          $('main').css('background','#f6f6f6')
+          $('main').css('background','#f6f6f6');
+          console.log(the_event.published)
         }
       }
       _setPublishStatus();

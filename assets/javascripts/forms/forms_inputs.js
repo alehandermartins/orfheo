@@ -364,6 +364,8 @@
     //   if (_textarea.trumbowyg('html')) _createdWidget.removeClass('warning');
     // });
 
+    $.trumbowyg.svgPath = 'icons.svg';
+
     _textarea.trumbowyg({
       btns: [
         // ['viewHTML'],
