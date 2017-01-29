@@ -70,6 +70,7 @@ class BaseController < Sinatra::Base
     icona_home_1.png
     icona_home_2.png
     icona_home_3.png
+    icons_trumbowyg.svg
   )
 
   set :assets_prefix, %w(assets vendor/assets)

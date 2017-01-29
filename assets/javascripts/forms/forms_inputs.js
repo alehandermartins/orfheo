@@ -360,11 +360,7 @@
     });
 
     _createdWidget.append(_textarea).addClass('TextAreaEnrichedContainer');
-    // _createdWidget.on('focus', function(){
-    //   if (_textarea.trumbowyg('html')) _createdWidget.removeClass('warning');
-    // });
-
-    $.trumbowyg.svgPath = 'icons.svg';
+    
 
     _textarea.trumbowyg({
       btns: [
@@ -375,12 +371,13 @@
         ['link'],
         // ['insertImage'],
         // 'btnGrp-justify',
-        'btnGrp-lists',
+        'btnGrp-lists'
         // ['horizontalRule'],
         // ['removeformat'],
         // ['fullscreen']
       ],
-      autogrow: true
+      autogrow: true,
+      svgPath : '/assets/icons_trumbowyg.svg'
     });
 
     _textarea.on('tbwchange', function(){
