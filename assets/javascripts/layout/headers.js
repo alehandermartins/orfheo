@@ -282,12 +282,6 @@ ns.Widgets = ns.Widgets || {};
     var _init = $('<li>')
       .append($('<a>').attr('href','/')
         .text('Inicio')
-        .click(function(){
-          $('.selected').removeClass('selected');
-          _init.addClass('selected');
-          _showHide('welcomeSection');
-          if (_profilesSection) _profilesSection.deactivate();
-        })
       )
       .addClass('initText');
     var _settingsDropdown = $('<li>')

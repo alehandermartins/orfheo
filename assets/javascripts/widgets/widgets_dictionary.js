@@ -148,6 +148,12 @@
       space_category:'Categoría espacio',
       artist_categories: 'Categorías artisticas',
       space_number: 'Numero espacio',
+      festival:'Festival',
+      association:'Asociación', 
+      ngo:'ONG', 
+      collective:'Colectivo', 
+      interprise:'Empresa', 
+      institution:'Institución',
       
       already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},

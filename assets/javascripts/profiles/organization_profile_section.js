@@ -70,11 +70,6 @@
       });
     }
 
-    if (userStatus == 'owner'){
-      var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
-      _createdWidget.append(_modifyProfile.render());
-    }
-
     var _programBoxContainer = $('<div>').addClass('section-box-container');
     var _titleContainer = $('<div>').addClass('title-box-container');
     _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Participación en eventos')));
