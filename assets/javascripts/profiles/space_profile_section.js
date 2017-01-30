@@ -24,8 +24,6 @@
 
   ns.Widgets.SpaceSectionContent = function(profile) {
 
-    console.log(profile);
-
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 

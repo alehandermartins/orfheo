@@ -72,7 +72,6 @@
     }
 
     var _popupMessageSentProposal = function(data){
-      console.log(data);
       var _container = $('<div>');
       var _closepopup = function(){};
       var _message = $('<div>').append($('<h4>').text('¡Genial!').addClass('success-inscription-title'),$('<h5>').text('Te has inscrito correctamente.').css({

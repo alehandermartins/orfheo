@@ -54,9 +54,7 @@
     }
 
     Pard.Widgets.MultimediaDisplay(production, function(multimedia){
-      console.log('MultimediaDisplay')
       if(multimedia['video'] != false){
-        console.log('multimedia.video')
         var _outerVideocontainer = $('<div>');
         var _videoContainer = $('<div>').addClass('video-production-container')
 
@@ -193,7 +191,6 @@
       var _oembed = function(link){
         $.getJSON("https://noembed.com/embed?callback=?",
           {"format": "json", "url": link['url']}, function (data) {
-            console.log(data);              
             if (!('error' in data)){
               var _media = data.html;
               if(link['provider'] == 'flickr'){

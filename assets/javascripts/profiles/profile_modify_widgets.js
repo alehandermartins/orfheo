@@ -54,6 +54,8 @@
       _formVal['profile_id'] = profile.profile_id;
       _formVal['type'] = profile.type;
       _formVal['user_id'] = user_id;
+      if (profile['links']) _formVal['links'] = profile.links;
+      if (profile['photos']) _formVal['photos'] = profile.photos;
       if (_formVal['address']['location'] && _formVal['address']['location']['lat'] && _formVal['address']['location']['lng']){
          Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
          callbackSent();

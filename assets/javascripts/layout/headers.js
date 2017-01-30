@@ -310,6 +310,8 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.InsideDropdownMenu = function(user){   
 
+    var _eventManagerChoice = $('<div>');
+
     $(document).on('show.zf.dropdown', function() {
       _iconDropdownMenu.addClass('iconDropdown-clicked');
     });
@@ -380,7 +382,7 @@ ns.Widgets = ns.Widgets || {};
           var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
           var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
           var _manageCallIcon = $('<span>').append(_callIcon, _toolIcon).addClass('manageCallIcon');
-              var _eventManagerChoice = $('<div>')
+          _eventManagerChoice
             .addClass('eventMananagerChoice')
             .append(
               $('<ul>').append(

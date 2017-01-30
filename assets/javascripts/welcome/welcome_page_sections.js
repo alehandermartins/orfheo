@@ -200,11 +200,21 @@ ns.Widgets = ns.Widgets || {};
       'open_air':{}
     };
 
+    var _organizationCatObj = {
+      'festival':{},
+      'association':{},
+      'institution':{},
+      'ngo':{},
+      'collective':{},
+      'interprise':{}
+    }
+
     var _typeObj = {
       'artist': _artisticCatObj, 
       'space': _spaceCatObj, 
-      'organization': _organizationObj
+      'organization': _organizationCatObj
     };
+    
     
     var _organizationObj = {};
 

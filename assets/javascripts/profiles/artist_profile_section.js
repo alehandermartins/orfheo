@@ -184,7 +184,6 @@
       _createdWidget.append(_multimediaContainer.render());
 
     }else if (production['photos'] || production['links']){
-      console.log(production)
       var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
       _createdWidget.append(_multimediaContainer.render());
     }

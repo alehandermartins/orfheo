@@ -9,10 +9,12 @@
 
     var _photoContainer = $('<div>');
 
-    if (profile.photos && !(profile.profile_picture)){
-      profile.profile_picture = [profile.photos[0]];
-      profile.photos.shift();
-    }
+    console.log(profile['profile_picture']);
+
+    // if (profile.photos && profile.profile_picture == null){
+    //   profile.profile_picture = [profile.photos[0]];
+    //   profile.photos.shift();
+    // }
 
     var _img;
 

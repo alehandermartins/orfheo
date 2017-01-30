@@ -677,8 +677,10 @@ User Section
   
 
 .myProfilesContainer{
-  text-align: center;
+  /* text-align: center; */
+  @include horizontal-center;
   position: relative;
+  display: inline-block;
 }
 
 .createProfileCard-userPage{

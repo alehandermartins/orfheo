@@ -155,10 +155,12 @@
       // },
       address:{
         "type" : "mandatory",
-        "label" : "Ciudad, Código postal y Barrio",
-        "input" : "InputAddressArtist",
-        "args" : null,
-        "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizar tu proyecto."
+        "label" : "Dirección de la sede de la organización",
+        "input" : "InputAddressSpace",
+        "args" : [
+                  'Ej: Carrer de la Murta 13, Valencia'
+                ],
+        "helptext" : ""
       },
       bio:{
         "type" : "optional",
@@ -349,10 +351,12 @@
       },
       address:{
         "type" : "mandatory",
-        "label" : "Ciudad, Código postal y Barrio",
-        "input" : "InputAddressArtist",
-        "args" : null,
-        "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizar tu proyecto."
+        "label" : "Dirección de la sede de la organización",
+        "input" : "InputAddressSpace",
+        "args" : [
+                  'Ej: Carrer de la Murta 13, Valencia'
+                ],
+        "helptext" : ""
       },
       bio:{
         "type" : "optional",

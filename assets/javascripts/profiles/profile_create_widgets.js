@@ -190,6 +190,10 @@
       var _submittedForm;
       _submittedForm = _formWidget.getVal();
       _submittedForm['type'] = type;
+      if (_submittedForm.photos){
+        _submittedForm['profile_picture'] = [_submittedForm['photos'][0]];
+        _submittedForm['photos'].shift();
+      }
       if (_submittedForm['address']['location'] && _submittedForm['address']['location']['lat'] && _submittedForm['address']['location']['lng']){
         if (callbackEvent){
             Pard.Backend.createProfile(_submittedForm, function(data){

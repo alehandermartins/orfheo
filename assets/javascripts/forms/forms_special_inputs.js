@@ -545,7 +545,6 @@ ns.Widgets.InputAddressSpace = function(label){
         return _addressSubmitted;
       },
       setVal: function(_val){
-        console.log(_val);
         for(var field in _inputForm) {
           _inputForm[field].setAttr('disabled', false);
           _inputForm[field].setVal(_val[field]);

@@ -112,14 +112,21 @@
       'open_air':{}
     };
 
+    var _organizationCatObj = {
+      'festival':{},
+      'association':{},
+      'institution':{},
+      'ngo':{},
+      'collective':{},
+      'interprise':{}
+    }
+
     var _typeObj = {
       'artist': _artisticCatObj, 
       'space': _spaceCatObj, 
-      'organization': _organizationObj
+      'organization': _organizationCatObj
     };
     
-    var _organizationObj = {};
-
     var _objDictionary = function(data, obj){
       for (var field in obj) {
         if (data.toUpperCase() == Pard.Widgets.Dictionary(field).render().toUpperCase()) {return obj[field];}
