@@ -2108,9 +2108,8 @@ FOOTER
     display: inline-block;
     margin-left: 2rem;
     color: $blue-pard;
-    cursor: pointer;
   }
-  li:hover{
+  li button:hover{
     color: rgb(44, 106, 204);
   }
 }

@@ -272,8 +272,8 @@
 ns.Widgets.InputAddressArtist = function(){
 
     var _inputForm = {
-      locality: Pard.Widgets.Input('Ciudad *','text', function(){_inputForm.locality.removeWarning(); addressValue();}),
-      postal_code: Pard.Widgets.Input('Código postal *','text', function(){_inputForm.postal_code.removeWarning(); addressValue();}),
+      locality: Pard.Widgets.Input('Ciudad*','text', function(){_inputForm.locality.removeWarning(); addressValue();}),
+      postal_code: Pard.Widgets.Input('Código postal*','text', function(){_inputForm.postal_code.removeWarning(); addressValue();}),
       neighborhood: Pard.Widgets.Input('Barrio (opcional)', 'text', function(){
         addressValue();
       })
