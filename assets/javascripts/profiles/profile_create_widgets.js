@@ -76,7 +76,7 @@
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
     var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-organization-btn-popup');
 
-    _spaceButton.append($('<p>').html('Alberga arte y posiciónate en el mapa de tu ciudad').css({
+    _spaceButton.append($('<p>').html('Alberga arte y posiciónate en el mapa cultural').css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));

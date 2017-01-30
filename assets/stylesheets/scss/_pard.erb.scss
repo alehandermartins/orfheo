@@ -384,6 +384,7 @@ button{
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     text-align: center;
+    vertical-align: top;
     @include breakpoint(medium){
       display: inline-block; 
       margin: 0rem 1.1rem; 

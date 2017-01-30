@@ -330,7 +330,6 @@
       }
 
     var _display = function(){
-      console.log(_linksTriedToBeDone);
       // if (_done.length == _links.length)
       if (_linksTriedToBeDone == _links.length){  
         $.wait(

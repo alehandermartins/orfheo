@@ -40,11 +40,12 @@
 
     _contact.append($('<div>').append(_typeIcon, _type));
 
-    var _location = '';
-    if (profile['address']['neighborhood']) _location += profile['address']['neighborhood']+' - ';
-    _location += profile['address']['locality'];
+    var _location = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality'];
+    // if (profile['address']['neighborhood']) _location += profile['address']['neighborhood']+' - ';
+    // _location += profile['address']['locality'];
+    var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+' '+profile['address']['country'];
     var _address = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
-      href: 'http://maps.google.com/maps?q='+profile['address']['locality']+' '+profile['address']['postal_code'],
+      href: 'http://maps.google.com/maps?q='+_aStr,
       target: '_blank'
       }).text(_location)));
 

@@ -107,16 +107,27 @@
     };
   };
 
-  ns.Widgets.Selector = function(labels, values, callback){
+  ns.Widgets.Selector = function(labels, values, callback, placeholder){
     var _createdWidget = $('<select>');
+    var _emptyOption = $('<option>');
+    if(placeholder) {
+      _emptyOption.attr({'value':'', 'disabled':'', 'selected':''}).text(placeholder).css('color','grey');
+      _createdWidget.append(_emptyOption).addClass('placeholderSelect');
+    }
     values.forEach(function(value, index){
       _createdWidget.append($('<option>').append(labels[index]).val(value));
     });
-     _createdWidget.on('change',function(){
+    _createdWidget.on('change',function(){
       if(callback) {
         var boundCallback = callback.bind(_createdWidget);
         boundCallback();
       };
+      _emptyOption.remove();
+      _createdWidget.removeClass('warning');
+    })
+    .one('click',function(){
+      _createdWidget.removeClass('placeholderSelect');
+      _emptyOption.empty();
     });
 
     return {

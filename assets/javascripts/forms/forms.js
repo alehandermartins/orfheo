@@ -78,7 +78,9 @@
         'input': 'Selector',
         'args': [
                 ['Asociación Cultural', 'Local Comercial', 'Espacio Particular', 'Espacio Exterior'],
-                ['cultural_ass', 'commercial', 'home', 'open_air']
+                ['cultural_ass', 'commercial', 'home', 'open_air'],
+                null,
+                'Selecciona'
               ] ,
         'helptext':''
       },
@@ -139,7 +141,9 @@
         'input': 'Selector',
         'args': [
                 ['Festival', 'Asociación', 'ONG', 'Colectivo', 'Empresa', 'Institución'],
-                ['festival', 'association', 'ngo', 'collective', 'interprise', 'institution']
+                ['festival', 'association', 'ngo', 'collective', 'interprise', 'institution'],
+                null,
+                'Selecciona'
               ] ,
         'helptext':''
       },
