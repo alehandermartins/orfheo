@@ -153,7 +153,7 @@ ns.Widgets = ns.Widgets || {};
         .append(Pard.Widgets.IconManager('arrowDropDown').render().addClass('arrowLoginDropdown'));
       var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':'', 'data-close-on-click':true});
       _rightContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUpHeader-welcomePage')); 
-      // _upperContent.append( _callBtn)
+      _upperContent.append( _callBtn)
       $(document).on('show.zf.dropdown', function() {
         _loginText.addClass('iconDropdown-clicked');
       });

@@ -480,7 +480,6 @@ ns.Widgets = ns.Widgets || {};
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
     var _callService = $('<div>').addClass('i-container');
     var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('proposals').render());
-    // var _callTitle = $('<h4>').text('Involucra la comunidad');
     var _callTitle = $('<h4>').text('Plataforma de gestión');
     var _callTxt = $('<p>').html('Crea un evento,</br> lanza una convocatoria, </br>utiliza la potente herramienta de gestión </br>y publica una programación interactiva');
     _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));
@@ -513,7 +512,7 @@ ns.Widgets = ns.Widgets || {};
 
     _section.append(
       _entryDiv  
-      // ,_longTextDiv, _actionDiv,  _littleTextDiv, _servicesDiv
+      ,_longTextDiv, _actionDiv,  _littleTextDiv, _servicesDiv
     );
 
     return _section;
