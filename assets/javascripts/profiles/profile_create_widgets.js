@@ -18,7 +18,7 @@
     }
   }
 
-  ns.Widgets.CreateProfileCard = function(callbackEvent, allowedProfile){
+  ns.Widgets.CreateProfileCard = function(popupTitle, popupContent){
 
     var _createProfileCard =$('<a>').attr({href: '#/'}).addClass('profileCard');
     var _upperBox = $('<div>').addClass('upperBox-cerateProfileCard');
@@ -45,14 +45,16 @@
     _createProfileCard.append(_upperBox.append(_addCircle), _downBox.append(_text));
 
     var _createProfilePopup;
-    _createProfileCard
-      .one('click', function(){
+    _createProfileCard  
+    .one('click',function(){
         _createProfilePopup = Pard.Widgets.Popup();
-      })
-      .click(function(){
-        var _createProfileMex = Pard.Widgets.CreateProfileMessage(callbackEvent, allowedProfile);
-        _createProfileMex.setCallback(function(){_createProfilePopup.close()});
-        _createProfilePopup.setContent('Crea un perfil', _createProfileMex.render());
+        popupContent.setCallback(
+          function(){
+            _createProfilePopup.close();
+          });
+        _createProfilePopup.setContent(popupTitle, popupContent.render());
+    })
+      .click(function(){      
         _createProfilePopup.open();
       });
     _createProfileCard;
@@ -65,13 +67,13 @@
   }
 
 
-  ns.Widgets.CreateProfileMessage = function(callbackEvent, allowedProfile){
-     var _createdWidget = $('<div>').css({
+  ns.Widgets.CreateProfileMessage = function(){
+    var _createdWidget = $('<div>').css({
       'margin-top': '1.5rem'
     });
 
-    var _spaceButton = Pard.Widgets.CreateTypeProfile('space', callbackEvent).render().addClass('create-space-btn-popup');
-    var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
+    var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render().addClass('create-space-btn-popup');
+    var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
     var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-organization-btn-popup');
 
     _spaceButton.append($('<p>').html('Alberga arte y posiciónate en el mapa de tu ciudad').css({
@@ -94,10 +96,7 @@
     }
     
     for (var typeProfile in _btnObj) {
-      if (allowedProfile){
-        if($.inArray(typeProfile,allowedProfile)>-1) _createdWidget.append(_btnObj[typeProfile]);
-      }
-      else {_createdWidget.append(_btnObj[typeProfile]);}
+      _createdWidget.append(_btnObj[typeProfile]);
     }
 
     return {
@@ -139,12 +138,10 @@
       organization: 'Organización'
     }
 
-    var _createTypeProfilePopup;
+    // var _createTypeProfilePopup;
     var _createdWidget = $('<div>').html(_buttonDesign[type])
-      .one('click', function(){
-        _createTypeProfilePopup = Pard.Widgets.Popup();
-      })
       .click(function(){
+        var _createTypeProfilePopup = Pard.Widgets.Popup(); 
         var _createTypeProfileMex =  Pard.Widgets.CreateTypeProfileMessage(type, callbackEvent);
         _createTypeProfileMex.setCallback(
           function(){_createTypeProfilePopup.close();

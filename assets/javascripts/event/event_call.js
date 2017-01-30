@@ -160,7 +160,11 @@
     var _forms;
     Pard.Backend.getCallForms(event_info.call_id, function(data){
       _forms = data.forms;
-      _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile, Object.keys(_forms)).render();
+      _createProfileCard = Pard.Widgets.CreateProfileCard(
+        'Crea un perfil y apúntate como:',
+        Pard.Widgets.CreateProfilePopupEvent(_createAndInscribeProfile,
+        Object.keys(_forms))
+      ).render();
       var _createProfileCardContainer = $('<div>').append(_createProfileCard).addClass('card-container-popup');
       _createdWidget.append(_secondTitle, _createProfileCardContainer);
     });
@@ -173,6 +177,60 @@
         _closeListProfilePopup = callback;
       }
     } 
+  }
+
+  ns.Widgets.CreateProfilePopupEvent = function(callbackEvent, allowedProfile){
+    var _createdWidget = $('<div>').css({
+      'margin-top': '1.5rem',
+      'text-align': 'center'
+    });
+
+    var _spaceButton = Pard.Widgets.CreateTypeProfile('space', callbackEvent).render().addClass('create-space-btn-popup');
+    var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
+    var _organizationButton = Pard.Widgets.CreateTypeProfile('organization', callbackEvent).render().addClass('create-organization-btn-popup');
+
+    _spaceButton.append($('<p>').html('Alberga actividades').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }));
+    _artistButton.append($('<p>').html('Enseña tu arte').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }));
+    _organizationButton.append($('<p>').html('Envía tu propuesta').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }));
+
+    var _btnObj = {
+      artist: _artistButton,
+      space: _spaceButton,
+      organization: _organizationButton
+    }
+    
+    for (var typeProfile in _btnObj) {
+      if (allowedProfile){
+        if($.inArray(typeProfile,allowedProfile)>-1) _createdWidget.append(_btnObj[typeProfile]);
+      }
+      else {_createdWidget.append(_btnObj[typeProfile]);}
+    }
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _spaceButton.on('click',function(){
+            callback();
+        });
+        _artistButton.on('click',function(){
+            callback();
+        });
+        _organizationButton.on('click',function(){
+          callback();
+        });
+      }
+    }
   }
 
   ns.Widgets.GetCallForms = function(forms, profile, closeListProfilePopup, callbackSendProposal){
