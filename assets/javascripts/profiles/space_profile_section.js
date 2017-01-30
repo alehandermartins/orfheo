@@ -120,8 +120,6 @@
       }
     }
   
-    
-
     return {
       render: function(){
         return _createdWidget;

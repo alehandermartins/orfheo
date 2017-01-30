@@ -402,7 +402,7 @@
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
    
-    if (production['type'] == 'space'){
+    if (production['type'] == 'space' || production['type'] == 'organization'){
       _submitForm['profile_id'] = production.profile_id;
     } 
     else{
@@ -458,7 +458,7 @@
 
     _formContainer.append(_photosContainer);
 
-    if (production['type'] == 'space'){
+    if (production['type'] == 'space' || production['type'] == 'organization'){
       var _send = function(photos, links){
       _submitForm['photos'] = photos;
       _submitForm['links'] = links;
