@@ -80,11 +80,11 @@
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));
-    _artistButton.append($('<p>').html('Enseña tu portfolio <br> y participas en eventos').css({
+    _artistButton.append($('<p>').html('Muestra tu portfolio <br> y participa en eventos').css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));
-    _organizationButton.append($('<p>').html('Dé a conocer tu proyecto y lanza convocatorias').css({
+    _organizationButton.append($('<p>').html('Da a conocer tu proyecto y lanza convocatorias').css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));

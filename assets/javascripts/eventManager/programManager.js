@@ -992,8 +992,7 @@
               if (performance.time[0] >= performance.time[1]) {
                 performance.time[1] = performance.time[0] + 15*60000;
                 endTime.val(moment(parseInt(performance.time[1])).locale('es').format('HH:mm'))
-                  .trigger('change')
-                  .trigger('select2:select');
+                  .trigger('change');
               }
             });
           startTime.val(moment(parseInt(performance.time[0])).locale('es').format('HH:mm')).trigger('change');
@@ -1023,8 +1022,7 @@
               if (performance.time[1] <= performance.time[0]) {
                 performance.time[0] = performance.time[1] - 15 * 60000;
                 startTime.val(moment(parseInt(performance.time[0])).locale('es').format('HH:mm'))
-                  .trigger('change')
-                  .trigger('select2:select');
+                  .trigger('change');
               }
             });
           endTime.val(moment(parseInt(performance.time[1])).locale('es').format('HH:mm')).trigger('change');
@@ -1153,6 +1151,7 @@
           });
 
           _manager.startTime.on('select2:select',function(e, state){
+            var shows = [show];
             if (!(state) && _managers.chained){
               var val = _manager.startTime.val();
               for (var id in _managers.collection){
