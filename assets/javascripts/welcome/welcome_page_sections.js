@@ -52,8 +52,16 @@ ns.Widgets = ns.Widgets || {};
       // .text('¡Hazlo ya!')
       .append(Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
-      .click(function(){
-        $('#contactPopupBtn').trigger('click');
+      .on('click', function(){
+        // $('#contactPopupBtn').trigger('click');
+        var _contactPopup = Pard.Widgets.Popup();
+        _contactPopup.setContent('', Pard.Widgets.ContactForm());
+        _contactPopup.setCallback(function(){
+          setTimeout(function(){
+            _contactPopup.destroy();
+          }, 500);
+        });
+        _contactPopup.open();
       })
       .addClass('callText-WelcomePage').css('margin-top','0');
     var _textDiv = $('<div>').addClass('littleTextDiv').append(

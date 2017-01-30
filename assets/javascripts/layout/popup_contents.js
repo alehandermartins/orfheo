@@ -32,7 +32,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _textColumn = $('<div>')
       .append(
-        $('<p>').text('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, los servicios que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> gestión de procesos y grandes eventos participativos</strong>. En especifico, ponemos al alcance de cualquiera  '),
+        $('<p>').html('blablabla'),
         $('<h6>').append('Plataforma de gestión:'),
         $('<p>').text('')
       )
@@ -174,49 +174,47 @@ ns.Widgets = ns.Widgets || {};
       _contactCont.show().addClass('shown');
     });
     _menuContainer.append(_menu.append(
-      // _services, _tecnicalSupport, _feedback, _colaboration, 
+      _services, _tecnicalSupport, _feedback, _colaboration, 
       _contact));
     var _text = $('<div>').text('C o n t a c t a').addClass('textHeader-contactPopup');
     _header.append(_logo, _text, _menuContainer, _closeBtn);
 
     var _servicesCont = $('<div>')
       .addClass('shown services-contactInfo');
-    var _tecnicalSupportCont = $('<div>').hide()
+    var _tecnicalSupportCont = $('<div>')
+      .hide()
       .addClass('tecnicalSupport-contactInfo');
-    var _colaborationCont = $('<div>').hide()
+    var _colaborationCont = $('<div>')
+      .hide()
       .addClass('colaboration-contactInfo');
     var _contactCont = $('<div>')
-      // .hide()
+      .hide()
       .addClass('contact-contactInfo');
-    var _feedbackCont = $('<div>').hide()
+    var _feedbackCont = $('<div>')
+      .hide()
       .addClass('feedback-contactInfo');
 
     var _titleServ = $('<h5>').text('¿Qué te ofrece orfheo?');  
     _servicesCont.append(_titleServ);
      var _textColumn = $('<div>')
       .append(
-        $('<p>').text('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, los servicios que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> gestión de procesos y grandes eventos participativos</strong>. En especifico, ponemos al alcance de cualquiera  '),
+        $('<p>').html('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, las posibilidades que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> gestión de procesos y grandes eventos participativos</strong>. En especifico, con orfheo puedes aprovechar los siguientes servicios:'),
         $('<h6>').append('Plataforma de gestión:'),
-        $('<p>').text('')
+        $('<p>').text('Una potente herramienta web innovativa que te permite lanzar tu convocatoria y gestionar todos los datos relativos con extrema facilidad y simplicidad. Podrás consultar, organizar, filtrar y modificar las propuestas recibidas así como podrás crear nuevas para insertarlas en tu programación. Hacer el programa de tu evento será tan facil como arrastrar tarjetas dentro de un calendario y sacar listados de correo para contactar con artistas y espacios te costará un solo click. Podrás publicar online un programa interactivo, actualizable en cada momento, que perfectamente se adapta a cualquier dispositivo móvil funcionando como la guía perfecta para tu publico.'),
+        $('<h6>').append('Asesoría creativa:'),
+        $('<p>').text('El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas extrategías creativas focalizadas en sacar y lograr lo máximo de tu comunidad cultural.'),
+        $('<h6>').append('Conexión API:'),
+        $('<p>').text('El servicio API te permite recibir y entonces utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sito web. Cualquier cambio que harás en orfheo se actualizará de forma automática y simultanea en todas las plataformas conectadas. Podrás disponer de todas tus informaciones siempre actualizada donde y cuando tu quieras.')
+          // .css({'margin-bottom':'2rem'}),
       )
       .addClass('half-col');
     var _formColumn = $('<div>').addClass('half-col');
-    var _contactForm = $('<div>').addClass('contactForm-container');
-    var _form = $('<form>');
-    var _nameInput = Pard.Widgets.Input('Nombre','text');
-    var _emailInput = Pard.Widgets.Input('Email','text');
-    var _subjectInput = Pard.Widgets.Input('Asunto','text');
-    var _mexInput = Pard.Widgets.TextArea('Mensaje',6);
-    var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
-        console.log(data);
-        console.log(_nameInput.getVal());
-        console.log(_mexInput.getVal());
-      });
-    });
-    _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
-    _contactForm.append(_form, _submitBtn.render());
-    var _textFormCol = $('<div>').append($('<p>').text('buf buf buf'));
+    var _contactForm = Pard.Widgets.ContactForm();
+    var _textFormCol = $('<div>').append(
+      // $('<h6>').append('Conexión API:'),
+      // $('<p>').text('El servicio API te permite recibir y entonces utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sito web. Cualquier cambio que harás en orfheo se actualizará de forma automática y simultanea en todas las plataformas conectadas. Podrás disponer de todas tus informaciones siempre actualizada donde y cuando tu quieras.').css({'margin-bottom':'2rem'}),
+      $('<p>').html('Para más informaciones, consulta nuestra <a href="/services", target="_blank"> pagína de servicios </a> y contáctanos a través del siguiente formulario:').css({'margin-bottom':'1.5rem'})
+    );
     _formColumn.append(_textFormCol, _contactForm);
     _servicesCont.append(_textColumn, _formColumn);
 
@@ -292,7 +290,7 @@ ns.Widgets = ns.Widgets || {};
 
 
     _sectionContainer.append(
-      // _servicesCont, _tecnicalSupportCont, _colaborationCont, _feedbackCont, 
+      _servicesCont, _tecnicalSupportCont, _colaborationCont, _feedbackCont, 
       _contactCont
     );
 
@@ -313,6 +311,30 @@ ns.Widgets = ns.Widgets || {};
 
 		return _createdWidget;
 	}
+
+
+  ns.Widgets.ContactForm = function(){
+    var _contactForm = $('<div>').addClass('contactForm-container');
+    var _form = $('<form>');
+    var _nameInput = Pard.Widgets.Input('Nombre *','text');
+    var _emailInput = Pard.Widgets.Input('Email *','text');
+    var _phoneInput = Pard.Widgets.InputTel('Numero de teléfono','text');
+    var _subjectInput = Pard.Widgets.Input('Asunto','text');
+    var _checkPhone = Pard.Widgets.CheckBox('Quiero ser contactado por teléfono','call_me_please');
+    var _checkHangout = Pard.Widgets.CheckBox('Quiero una cita por Hangout','hangout_me_please');
+    var _mexInput = Pard.Widgets.TextArea('Mensaje *',6);
+    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
+        console.log(data);
+        console.log(_nameInput.getVal());
+        console.log(_mexInput.getVal());
+      });
+    });
+    _form.append(_nameInput.render(), _emailInput.render(), _phoneInput.render(), _checkPhone.render(), _checkHangout.render(), _subjectInput.render(), _mexInput.render());
+    _contactForm.append(_form, _submitBtn.render());
+
+    return _contactForm;
+  }
 
 
 	ns.Widgets.TermsAndConditionsMessage = function(){

@@ -96,7 +96,7 @@ ns.Widgets = ns.Widgets || {};
     var _logoFooter = $('<div>').addClass('logoFooter');
     _rightContent.append(
       _rightMenu.append(
-        // _servicesOrfheo,
+        _servicesOrfheo,
         _contactaOrfheo
       )
     );
