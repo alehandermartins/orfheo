@@ -321,10 +321,11 @@
     organization:{
       name: {
         "type" : "mandatory",
-        "label" : "Nombre artistico",
+        "label" : "Nombre de la organización",
+        "input" : "Input",
         "input" : "InputName",
         "args" : [],
-        "helptext" : "Es el nombre de tu perfil de artista."
+        "helptext" : "Es el nombre de tu perfil organización."
       },
       profile_picture:{
         "type" : "optional",
@@ -335,10 +336,27 @@
                   1
                 ],
         "helptext" : ""
-            },
+      },
+      category: {
+        'type': 'mandatory',
+        'label': "Tipo de organización",
+        'input': 'Selector',
+        'args': [
+                ['Festival', 'Asociación', 'ONG', 'Colectivo', 'Empresa', 'Institución'],
+                ['festival', 'association', 'ngo', 'collective', 'interprise', 'institution']
+              ] ,
+        'helptext':''
+      },
+      address:{
+        "type" : "mandatory",
+        "label" : "Ciudad, Código postal y Barrio",
+        "input" : "InputAddressArtist",
+        "args" : null,
+        "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizar tu proyecto."
+      },
       bio:{
         "type" : "optional",
-        "label" : "Descripción / Información",
+        "label" : "Información / Proyecto",
         "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
@@ -346,19 +364,12 @@
                 ],
         "helptext" : "Cualquier cosa que quieras compartir sobre la organización."
       },
-      address:{
-        "type" : "mandatory",
-        "label" : "Ciudad y Código postal",
-        "input" : "InputAddressArtist",
-        "args" : null,
-        "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
-      },
       personal_web:{
         "type" : "optional",
         "label" : "Web personal y enlaces a redes sociales",
         "input" : "InputPersonalWeb",
         "args" : null,
-        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
       },
       color:{
         "type" : "optional",

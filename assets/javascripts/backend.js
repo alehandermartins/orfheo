@@ -79,6 +79,7 @@
     };
 
     var _createProfile = function(form, callback){
+      console.log(form)
       _send(
         '/users/create_profile',
         form,
