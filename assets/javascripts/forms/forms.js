@@ -77,8 +77,8 @@
         'label': "Tipo de espacio",
         'input': 'Selector',
         'args': [
-                ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'],
-                ['cultural_ass', 'commercial', 'home']
+                ['Asociación Cultural', 'Local Comercial', 'Espacio Particular', 'Espacio Exterior'],
+                ['cultural_ass', 'commercial', 'home', 'open_air']
               ] ,
         'helptext':''
       },
@@ -127,25 +127,35 @@
     organization:{
       name: {
         "type" : "mandatory",
-        "label" : "Nombre artistico",
+        "label" : "Nombre de la organización",
         "input" : "Input",
         "input" : "InputName",
         "args" : [],
-        "helptext" : "Es el nombre de tu perfil de artista."
+        "helptext" : "Es el nombre de tu perfil organización."
       },
-      profile_picture:{
-        "type" : "optional",
-        "label" : "Foto de perfil (máximo 500kb)",
-        "input" : "UploadPhotos",
-        "args" : [ 
-                  "/profile_picture", 
-                  1
-                ],
-        "helptext" : ""
-            },
+      category: {
+        'type': 'mandatory',
+        'label': "Tipo de organización",
+        'input': 'Selector',
+        'args': [
+                ['Festival', 'Asociación', 'ONG', 'Empresa', 'Institución'],
+                ['festival', 'ass', 'ngo', 'interprise', 'institution']
+              ] ,
+        'helptext':''
+      },
+      // profile_picture:{
+      //   "type" : "optional",
+      //   "label" : "Foto de perfil (máximo 500kb)",
+      //   "input" : "UploadPhotos",
+      //   "args" : [ 
+      //             "/profile_picture", 
+      //             1
+      //           ],
+      //   "helptext" : ""
+      // },
       bio:{
         "type" : "optional",
-        "label" : "Biografía / Información",
+        "label" : "Información / Proyecto",
         "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
@@ -158,14 +168,31 @@
         "label" : "Ciudad y Código postal",
         "input" : "InputAddressArtist",
         "args" : null,
-        "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizar tu proyecto."
       },
       personal_web:{
         "type" : "optional",
         "label" : "Web personal y enlaces a redes sociales",
         "input" : "InputPersonalWeb",
         "args" : null,
-        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
+      },
+      links : {
+        "type": "optional",
+        "label": 'Materiales online',
+        "input": "InputMultimedia",
+        "args": null,
+        "helptext": 'Añade vídeos, fotos y audios desde tus redes sociales.'
+      },
+      photos:{
+        "type" : "optional",
+        "label" : "Fotos del espacio (máximo 5, tamaño inferior a 500kb)",
+        "input" : "UploadPhotos",
+        "args" : [ 
+                  "/photos", 
+                  5
+                ],
+        "helptext" : "La primera foto será tu foto de perfil."
       },
       color:{
         "type" : "optional",

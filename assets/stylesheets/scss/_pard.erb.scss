@@ -378,7 +378,7 @@ button{
 }
 
 
-.create-artist-btn-popup, .create-space-btn-popup{
+.create-artist-btn-popup, .create-space-btn-popup, .create-organization-btn-popup{
     border: 2px solid $grey-2;
     cursor: pointer;    
     margin-bottom: 0.5rem;
@@ -386,19 +386,22 @@ button{
     text-align: center;
     @include breakpoint(medium){
       display: inline-block; 
-      margin-left: 4rem; 
-      width: 12rem;
+      margin: 0rem 1.1rem; 
+      width: 10rem;
     };
-
+    p{
+      font-size: $almostNormalSize;
+    }
 }
 
-.create-artist-btn-popup:hover, .create-space-btn-popup:hover{
+.create-artist-btn-popup:hover, .create-space-btn-popup:hover, .create-organization-btn-popup:hover{
       background-color: $grey-1;
     }
 
 .create-profile-btn-text{
-  margin-left:$inner-spacing;
+  /* margin-left:$inner-spacing; */
   font-weight: bold;
+  display: block;
 }
 
 .create-profile-btn-icon{
@@ -2413,15 +2416,22 @@ select:-moz-focusring { color: transparent;
 @media only screen and #{breakpoint(large)} {
 
   .locality-ArtistForm{
-    width: 17rem;
+    width: 13rem;
     display: inline-block;
-    margin-right: 3rem;   
+    margin-right: .5rem;   
   }
 
   .postal_code-ArtistForm{
-    width: 13rem;
-    display: inline-block;  
+    width: 10rem;
+    display: inline-block;
+    margin-right: .5rem;     
   }
+
+  .neighborhood-ArtistForm{
+    width: 13rem;
+    display: inline-block;
+/*     margin-right: .5rem;   
+ */  }
 
   .popup-form .route-addressForm, .popup-form .street_number-addressForm,.popup-form .door-addressForm, .multiMedia {
     font-size: $smallSize;

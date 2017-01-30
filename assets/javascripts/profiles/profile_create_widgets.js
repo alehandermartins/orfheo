@@ -52,7 +52,7 @@
       .click(function(){
         var _createProfileMex = Pard.Widgets.CreateProfileMessage(callbackEvent, allowedProfile);
         _createProfileMex.setCallback(function(){_createProfilePopup.close()});
-        _createProfilePopup.setContent('Crea un perfil en orfheo', _createProfileMex.render());
+        _createProfilePopup.setContent('Crea un perfil', _createProfileMex.render());
         _createProfilePopup.open();
       });
     _createProfileCard;
@@ -72,21 +72,25 @@
 
     var _spaceButton = Pard.Widgets.CreateTypeProfile('space', callbackEvent).render().addClass('create-space-btn-popup');
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
-    // var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-artist-btn-popup');
+    var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-organization-btn-popup');
 
-    _spaceButton.append($('<p>').text('Alberga eventos').css({
+    _spaceButton.append($('<p>').html('Alberga arte y posiciónate en el mapa de tu ciudad').css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
-    }))
-
-    _artistButton.append($('<p>').text('Enseña tu portfolio ').css({
+    }));
+    _artistButton.append($('<p>').html('Enseña tu portfolio <br> y participas en eventos').css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
-    }))
+    }));
+    _organizationButton.append($('<p>').html('Dé a conocer tu proyecto y lanza convocatorias').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }));
 
     var _btnObj = {
       artist: _artistButton,
-      space: _spaceButton
+      space: _spaceButton,
+      organization: _organizationButton
     }
     
     for (var typeProfile in _btnObj) {
@@ -106,6 +110,9 @@
         });
         _artistButton.on('click',function(){
             callback();
+        });
+        _organizationButton.on('click',function(){
+          callback();
         });
       }
     }
