@@ -138,8 +138,8 @@
         'label': "Tipo de organización",
         'input': 'Selector',
         'args': [
-                ['Festival', 'Asociación', 'ONG', 'Empresa', 'Institución'],
-                ['festival', 'ass', 'ngo', 'interprise', 'institution']
+                ['Festival', 'Asociación', 'ONG', 'Colectivo', 'Empresa', 'Institución'],
+                ['festival', 'association', 'ngo', 'collective', 'interprise', 'institution']
               ] ,
         'helptext':''
       },
@@ -153,6 +153,13 @@
       //           ],
       //   "helptext" : ""
       // },
+      address:{
+        "type" : "mandatory",
+        "label" : "Ciudad, Código postal y Barrio",
+        "input" : "InputAddressArtist",
+        "args" : null,
+        "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizar tu proyecto."
+      },
       bio:{
         "type" : "optional",
         "label" : "Información / Proyecto",
@@ -162,13 +169,6 @@
                   4
                 ],
         "helptext" : "Cualquier cosa que quieras compartir sobre la organización."
-      },
-      address:{
-        "type" : "mandatory",
-        "label" : "Ciudad y Código postal",
-        "input" : "InputAddressArtist",
-        "args" : null,
-        "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizar tu proyecto."
       },
       personal_web:{
         "type" : "optional",
@@ -186,7 +186,7 @@
       },
       photos:{
         "type" : "optional",
-        "label" : "Fotos del espacio (máximo 5, tamaño inferior a 500kb)",
+        "label" : "Fotos (máximo 5, tamaño inferior a 500kb)",
         "input" : "UploadPhotos",
         "args" : [ 
                   "/photos", 
@@ -236,10 +236,10 @@
       },
       address:{
         "type" : "mandatory",
-        "label" : "Ciudad y Código postal",
+        "label" : "Ciudad, Código postal y Barrio",
         "input" : "InputAddressArtist",
         "args" : null,
-        "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizarte para un posible contacto."
       },
       personal_web:{
         "type" : "optional",
@@ -288,8 +288,8 @@
         'label': "Tipo de espacio",
         'input': 'Selector',
         'args': [
-                ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular'],
-                ['cultural_ass', 'commercial', 'home']
+                ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular', 'Espacio Exterior'],
+                ['cultural_ass', 'commercial', 'home', 'open_air']
               ] ,
         'helptext':''
       },

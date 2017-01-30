@@ -2481,7 +2481,7 @@ select:-moz-focusring { color: transparent;
     }
   }
 
-  .createProfilePopup-artist .name-FormDiv, .createProfilePopup-organization .name-FormDiv{
+  .createProfilePopup-artist .name-FormDiv{
     @include breakpoint (large){
       width: 17rem;
       display: inline-block;
@@ -2491,6 +2491,13 @@ select:-moz-focusring { color: transparent;
     }
   }
 
+  .createProfilePopup-organization .name-FormDiv{
+    @include breakpoint (large){
+      width: 100%;
+      margin-top:2rem;
+      margin-bottom: 0;
+    }
+  }
   .modifyProfilePopup .photoContainer{
     @include breakpoint (large){
       display: inline-block;
@@ -2500,13 +2507,22 @@ select:-moz-focusring { color: transparent;
     }
   }
 
-  .createProfilePopup-artist .photoContainer, .createProfilePopup-organization .photoContainer{
+  .createProfilePopup-artist .photoContainer{
     @include breakpoint (large){
       display: inline-block;
       margin-left: 2rem;
       margin-left: 6rem;
       margin-top: 2rem;
     }
+  }
+
+  .createProfilePopup-organization .photoContainer{
+    /* @include breakpoint (large){
+      display: inline-block;
+      margin-left: 2rem;
+      margin-left: 6rem;
+      margin-top: 2rem;
+    } */
   }
 
   .m-artistCall{

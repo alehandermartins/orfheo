@@ -64,7 +64,8 @@
       _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
     }
     else if(_now.getTime()>_closing.getTime()){
-      _callText.append($('<p>').html('Cierre convocatoria '+ moment(_closing).locale('es').format('DD MMMM YYYY') ));
+      console.log('conv')
+      _callText.append($('<p>').html('Convocatoria cerrada (desde el '+ moment(_closing).locale('es').format('DD MMM YYYY')+')' ));
     }
     var _callStatus = $('<div>').append(_callIcon, _callText).addClass('element-headerTitle-infoTab-event');
 
