@@ -1132,25 +1132,24 @@
           });
 
           _manager.spaceSelector.on('select2:select',function(e, state){
+            var shows = [show];
             if (!(state) && _managers.chained){
               var val = _manager.spaceSelector.val();
               for (var id in _managers.collection){
                 var manager = _managers.collection[id].manager;
                 if (_manager != manager){
                   manager.spaceSelector.val(val)
-                    .trigger('change')
-                    .trigger('select2:select');
+                    .trigger('change');
+                  var _show = the_event.program[id].show;
+                  the_event.spaces[_show.host_id].deletePerformance(_show);
+                  _show.host_id = val;
+                  shows.push(_show);
                 }
               }
-              Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
-                console.log('modify');
-              });
             }
-            else{
-              Pard.Backend.modifyPerformances(the_event.event_id, [show], function(data){
-                console.log('modify');
-              }); 
-            }
+            Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
+              console.log('modify');
+            });
           });
 
           _manager.startTime.on('select2:select',function(e, state){
@@ -1160,8 +1159,7 @@
                 var manager = _managers.collection[id].manager;
                 if (_manager != manager){
                   manager.startTime.val(val)
-                  .trigger('change')
-                  .trigger('select2:select');
+                  .trigger('change');
                 }
               }
               Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
@@ -1176,25 +1174,21 @@
           });
 
           _manager.endTime.on('select2:select',function(e, state){
+            var shows = [show];
             if (!(state) && _managers.chained){
               var val = _manager.endTime.val();
               for (var id in _managers.collection){
                 var manager = _managers.collection[id].manager;
                 if (_manager != manager){
                   manager.endTime.val(val)
-                  .trigger('change')
-                  .trigger('select2:select');
+                  .trigger('change');
+                  var _show = the_event.program[id].show;
                 }
               }
-              Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
-                console.log('modify');
-              });
             }
-            else{
-              Pard.Backend.modifyPerformances(the_event.event_id, [show], function(data){
-                console.log('modify');
-              }); 
-            }         
+            Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
+              console.log('modify');
+            });
           });
 
           _manager.input.click(function(){
