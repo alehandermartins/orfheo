@@ -819,11 +819,14 @@ ns.Widgets.InputAddressSpace = function(label){
 
     var _createdWidget = $('<div>');
     var _input = $('<input>').attr({'type': 'text'});
-    var _error = $('<div>').text('Este nombre de perfil ya existe. Escoge otro para poder proceder.')
-      .css({
+    var _error = $('<div>').append($('<p>').text('Este nombre de perfil ya existe. Escoge otro para poder proceder.')
+        .css({
         'color':'red',
         'font-size':'12px',
-        'margin-bottom':'-1.15rem'
+        'line-height':'.9rem'
+      }))
+      .css({
+        'margin-bottom':'-.8rem',
       })
       .hide();
 
