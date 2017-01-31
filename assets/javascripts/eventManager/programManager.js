@@ -659,14 +659,8 @@
 
         spaceSelector.on('select2:select', function(){
           the_event.spaces[performance.host_id].deletePerformance(performance);
-          var space = the_event.spaces[spaceSelector.val()].space;
-          performance.host_name = space.name;
-          performance.host_email = space.email;
-          performance.address = space.address;
-          performance.host_category = space.category;
-          performance.host_subcategory = space.subcategory;
-          performance.host_proposal_id = space.proposal_id;
           performance.host_id = spaceSelector.val();
+          the_event.spaces[performance.host_id].addSpaceInfo(performance);
           Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
             if(check) checkConflicts(performance);
           });
@@ -784,7 +778,7 @@
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
-        var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager(true));
+        var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager(true, true));
         _message.setCallback(function(){
           _popup.close();
           setTimeout(function(){
@@ -860,7 +854,7 @@
         return shows;
       }
 
-      var manager = function(check){
+      var managerBox = function(check){
         var performanceBox = $('<div>').addClass('noselect');
         var performanceContainer = $('<div>').css('height', 40);
         var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).addClass('noselect');
@@ -961,6 +955,7 @@
         var _spaceSelect = function(host_id){
           the_event.spaces[performance.host_id].deletePerformance(performance);
           performance.host_id = host_id;
+          the_event.spaces[host_id].addSpaceInfo(performance);
         }
 
         spaceSelector.select2({
@@ -1102,14 +1097,13 @@
         }
       }
 
-      var PermanentManager = function(check){
-        var performancesBox = $('<div>').css({'padding': '0', 'margin-top':'1.5rem'}).addClass('noselect');
+      var PermanentManager = function(check, multiple){
+        var performancesBox = $('<div>').css({'padding': '0'}).addClass('noselect');
         var _all = $('<button>')
           .append(Pard.Widgets.IconManager('chained').render())
           .attr({'type':'button', 'title':'Encadena los cambios'})
           .addClass('chain-unchain-button')
           .tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
-        var _cachedManagers = [];
         var _managers = {};
         _managers.chained = false;
         _managers.collection = {};
@@ -1133,10 +1127,14 @@
             $('.chain').show();
           }
         });
-        performancesBox.append(_all);
-        var _artistShows = Pard.Widgets.ReorderProgramCrono(artistShows());
+        var _artistShows = [performance];
+        if (multiple){
+          performancesBox.css({'margin-top':'1.5rem'});
+          performancesBox.append(_all);
+         _artistShows = Pard.Widgets.ReorderProgramCrono(artistShows());
+        }
         _artistShows.forEach(function(show, index){
-          var _manager = the_event.program[show.performance_id].manager(check);
+          var _manager = the_event.program[show.performance_id].managerBox(check);
           _managers.collection[show.performance_id] = {manager: _manager};
 
           _manager.daySelector.on('select2:select',function(e, state){
@@ -1288,7 +1286,8 @@
       return {
         show: performance,
         card: _card,
-        manager: manager,
+        manager: PermanentManager,
+        managerBox: managerBox,
         modify: _modify,
         destroy: _destroy,
         permanentManager: PermanentManager
