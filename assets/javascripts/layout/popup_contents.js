@@ -53,7 +53,7 @@ ns.Widgets = ns.Widgets || {};
       });
     });
     _form.append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _mexInput.render());
-    _contactForm.append(_form, _submitBtn.render());
+    _contactForm.append(_form, _submitBtn.render().addClass('submit-button'));
     var _textFormCol = $('<div>').append($('<p>').text('buf buf buf'));
     _formColumn.append(_textFormCol, _contactForm);
 
@@ -234,7 +234,7 @@ ns.Widgets = ns.Widgets || {};
         console.log(_mexInput.getVal());
       });
     });
-    var _formColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _profileInput.render(), _browserInput.render(), _mexInput.render()), _submitBtn.render()).addClass('half-col');
+    var _formColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _profileInput.render(), _browserInput.render(), _mexInput.render()), _submitBtn.render().addClass('submit-button')).addClass('half-col');
     _tecnicalSupportCont.append(_textColumn, _formColumn);
 
     var _titleContact = $('<h5>').text('¡Aquí estamos!');  
@@ -261,7 +261,7 @@ ns.Widgets = ns.Widgets || {};
         console.log(_mexInput.getVal());
       });
     });
-    var _formFeedColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _mexInput.render()), _submitBtn.render()).addClass('half-col');
+    var _formFeedColumn = $('<div>').append($('<form>').append(_nameInput.render(), _emailInput.render(), _mexInput.render()), _submitBtn.render().addClass('submit-button')).addClass('half-col');
     _feedbackCont.append(_textFeedColumn, _formFeedColumn);
 
     var _colaborationCont = $('<div>').addClass('colaboration-contactInfo').hide();
@@ -319,9 +319,48 @@ ns.Widgets = ns.Widgets || {};
     var _nameInput = Pard.Widgets.Input('Nombre *','text');
     var _emailInput = Pard.Widgets.Input('Email *','text');
     var _phoneInput = Pard.Widgets.InputTel('Numero de teléfono','text');
+    var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes']).render();
+    var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector([' Mañana', 'Tarde']).render();
+    var _phoneDayAvailabilityCont  = $('<div>').append(_phoneDayAvailabilty).hide().addClass('availabilityContainer');
+    var _phonePeriodAvailabiltyCont = $('<div>').append(_phonePeriodAvailabilty).hide().addClass('availabilityContainer');
+    _phoneDayAvailabilty.multipleSelect({
+      placeholder: "Selecciona tu disponibilidad durante la semana",
+      selectAllText: "Todos los días",
+      countSelected: false,
+      allSelected: "Disponible todos los días"
+    });
+    _phonePeriodAvailabilty.multipleSelect({
+      placeholder: "Selecciona tu disponibilidad durante el día",
+      selectAllText: "Mañana y tarde",
+      countSelected: false,
+      allSelected: "Disponible mañana y tarde"
+    });
+    var _showHideAvailability = function(){
+      if (_checkPhone.getVal() || _checkHangout.getVal()){
+        _phoneDayAvailabilityCont.show();
+        _phonePeriodAvailabiltyCont.show();
+      }else{
+        _phoneDayAvailabilty.multipleSelect("uncheckAll");
+        _phonePeriodAvailabilty.multipleSelect("uncheckAll");
+        _phoneDayAvailabilityCont.hide();
+        _phonePeriodAvailabiltyCont.hide();
+      }
+    }
     var _subjectInput = Pard.Widgets.Input('Asunto','text');
-    var _checkPhone = Pard.Widgets.CheckBox('Quiero ser contactado por teléfono','call_me_please');
-    var _checkHangout = Pard.Widgets.CheckBox('Quiero una cita por Hangout','hangout_me_please');
+    var _checkPhone = Pard.Widgets.CheckBox(
+      'Quiero ser contactado por teléfono',
+      'call_me_please', 
+      function(){
+      _showHideAvailability();
+      }
+    );
+    var _checkHangout = Pard.Widgets.CheckBox(
+      'Quiero una cita por Hangout/Skype',
+      'hangout_me_please',
+      function(){
+        _showHideAvailability();
+      }
+    );
     var _mexInput = Pard.Widgets.TextArea('Mensaje *',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
       Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
@@ -330,8 +369,19 @@ ns.Widgets = ns.Widgets || {};
         console.log(_mexInput.getVal());
       });
     });
-    _form.append(_nameInput.render(), _emailInput.render(), _phoneInput.render(), _checkPhone.render(), _checkHangout.render(), _subjectInput.render(), _mexInput.render());
-    _contactForm.append(_form, _submitBtn.render());
+    _form.append(
+      _nameInput.render(), 
+      _emailInput.render(), 
+      _phoneInput.render(), 
+      _checkPhone.render().addClass('checkBox-contactForm'),
+      _checkHangout.render().addClass('checkBox-contactForm'),
+      _phoneDayAvailabilityCont, 
+      _phonePeriodAvailabiltyCont,
+      _subjectInput.render(), 
+      _mexInput.render());
+    _contactForm.append(_form, _submitBtn.render().addClass('submit-button'));
+
+    
 
     return _contactForm;
   }

@@ -2280,11 +2280,10 @@ button.footer-text-link:hover{
     width: 50%;
     display: inline-block;
     vertical-align: top;
-    button{
-      float:  right;
-      background: $green-pard;
-
-    }
+  }
+  .submit-button{
+    float:  right;
+    background: $green-pard;
   }
   .list-col{
     ul{
@@ -2293,6 +2292,17 @@ button.footer-text-link:hover{
         margin-bottom: 0.5rem;
       }
     }
+  }
+ .availabilityContainer{
+    margin-bottom: .5rem;
+    button{
+      font-size: $almostNormalSize;
+      /* height: 2rem; */
+      @include border-radius($element-border-radius);
+    }
+  }
+  .checkBox-contactForm{
+    margin: .4rem 0;
   }
   input, textarea{
     font-size: $almostNormalSize;

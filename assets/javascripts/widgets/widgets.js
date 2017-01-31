@@ -11,7 +11,6 @@
   }
 
   ns.Widgets.CopyToClipboard = function(stringToCopy){
-  console.log(stringToCopy)
     var targetId = "_hiddenCopyText_";
         target = document.getElementById(targetId);
         if (!target) {
@@ -203,7 +202,6 @@
 
 
   ns.Widgets.Sticker = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
-    console.log(initialDistanceFromHeader)
     var _diffI = 1;
     $(document).ready(function(){
       $(window).scroll(function(){
@@ -212,7 +210,6 @@
           var _distanceFromWindow = _elDistanceFromTop -_windowScroll;
 
           if (_distanceFromWindow * _diffI < stickyDistanceTop && !($(elem).hasClass('position-fixed')))   {
-            console.log('fixed')
             $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
             _diffI = - 1;
           }
@@ -230,19 +227,16 @@
     var _diffI = 1;
 
     $(document).ready(function(){
-      console.log($(elem).offset().top);
       $(window).scroll(function(){
         var _elDistanceFromTop = $(elem).offset().top;
         var _windowScroll = $(window).scrollTop();
         var _distanceFromWindow = _elDistanceFromTop - $('header').height() -_windowScroll;
         if (_distanceFromWindow*_diffI<0 && !($(elem).hasClass('position-fixed'))){
-          console.log('fixed')
           $('.orfheoHeader').hide();
           $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
           _diffI = -1;
         }
         if (_windowScroll - initialDistanceFromHeader - stickyDistanceTop < 0 && $(elem).hasClass('position-fixed')){
-          console.log('release')
           $(elem).removeClass('position-fixed').css({'top':''});
           _diffI = +1;
           $('.orfheoHeader').show();  
@@ -407,7 +401,6 @@
         var _positionLastWord = _text.lastIndexOf(" ");
         _text = _text.substring(0, _positionLastWord);
         textBox.text(_text + '...');
-        // if (textBox.height() == height){console.log('bb'); break; }
         height = textBox.height();
       }
     }

@@ -16,7 +16,6 @@
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
 
     if (Pard.CachedEvent.program.length){
-      console.log(Pard.CachedEvent.published);
       if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == true){
         var _program = $('<div>').addClass('aside-event-nav-btn');
         _program.text('Programa');
@@ -191,7 +190,6 @@
       if(date == 'permanent') return;
       eventDates.push(date);
     });
-    console.log(eventDates);
     var eventCategories = {
       participants: Object.keys(the_event.categories.artist),
       hosts: Object.keys(the_event.categories.space)
