@@ -128,6 +128,7 @@
       if (data['status'] == 'success'){
         var _profile = data.profile;
         Pard.Widgets.GetCallForms(_forms, _profile, _closeListProfilePopup, _callbackSendProposal); 
+        Pard.Bus.trigger('reloadMenuHeaderDropdown');
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();

@@ -159,9 +159,11 @@
   }
 
   ns.Widgets.MultipleSelector = function(values, callback){
-
+    console.log(values)
     var _createdWidget = $('<select>').attr("multiple", "multiple");
-    values.forEach(function(value){
+    values.forEach(function(value, index){
+      console.log(value)
+      console.log(index)
       _createdWidget.append($('<option>').text(value).val(value));
     });
     
@@ -422,14 +424,17 @@
 
  
 
-  ns.Widgets.CheckBox = function(label, value){
+  ns.Widgets.CheckBox = function(label, value, callback){
 
     var _input = $('<input>').attr({ type: 'checkbox', 'value': value});
     var _label = $('<label>').html(label);
     _label.css('display','inline');
     var _createdWidget = $('<div>').append(_input,_label);
 
-    _input.on('change', function(){(_input.removeClass('checkBox-warning'))});
+    _input.on('change', function(){
+      _input.removeClass('checkBox-warning');
+      if (callback) callback();
+    });
 
     return {
       render: function(){
