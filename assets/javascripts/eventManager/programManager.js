@@ -1889,8 +1889,8 @@
     _lines.forEach(function(line){
       line.css('width', _linesLength);
     });
-    Object.keys(the_event.spaces).forEach(function(space){
-      the_event.spaces[space].alignPerformances();
+    Object.keys(the_event.spaces).forEach(function(space, index){
+      the_event.spaces[space].alignPerformances(index);
     });
    
     if(the_event.program){
