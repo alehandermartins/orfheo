@@ -105,8 +105,8 @@ ns.Widgets = ns.Widgets || {};
           $('<ul>').append(
             $('<li>').html('como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separados, no dudes en enviarnos tu propuesta de alianza.'),
             $('<li>').html('como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.'),
-            $('<li>').html('como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envianos informaciones sobre ti.'),
-            $('<li>').html('como mecena: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.'),
+            $('<li>').html('como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envíanos información sobre ti.'),
+            $('<li>').html('como mecenas: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.'),
             $('<li>').html('como voluntario: </br>contáctanos si quieres aprender a través del desarrollo de orfheo o si ya tienes conocimientos y te estimula ofrecer tu tiempo a una noble causa.')
           )
         )
@@ -198,13 +198,13 @@ ns.Widgets = ns.Widgets || {};
     _servicesCont.append(_titleServ);
      var _textColumn = $('<div>')
       .append(
-        $('<p>').html('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, las posibilidades que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> gestión de procesos y grandes eventos participativos</strong>. En especifico, con orfheo puedes aprovechar los siguientes servicios:'),
+        $('<p>').html('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, las posibilidades que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> la gestión de procesos y grandes eventos participativos</strong>. En específico, con orfheo puedes aprovechar los siguientes servicios:'),
         $('<h6>').append('Plataforma de gestión:'),
-        $('<p>').text('Una potente herramienta web innovativa que te permite lanzar tu convocatoria y gestionar todos los datos relativos con extrema facilidad y simplicidad. Podrás consultar, organizar, filtrar y modificar las propuestas recibidas así como podrás crear nuevas para insertarlas en tu programación. Hacer el programa de tu evento será tan facil como arrastrar tarjetas dentro de un calendario y sacar listados de correo para contactar con artistas y espacios te costará un solo click. Podrás publicar online un programa interactivo, actualizable en cada momento, que perfectamente se adapta a cualquier dispositivo móvil funcionando como la guía perfecta para tu publico.'),
+        $('<p>').text('Una potente herramienta web innovativa que te permite lanzar tu convocatoria y gestionar todos los datos relativos con extrema facilidad y simplicidad. Podrás consultar, organizar, filtrar y modificar las propuestas recibidas así como podrás crear nuevas para insertarlas en tu programación. Hacer el programa de tu evento será tan facil como arrastrar tarjetas dentro de un calendario y sacar listados de correo para contactar con artistas y espacios te costará un solo click. Podrás publicar online un programa interactivo, actualizable en cada momento, que perfectamente se adapta a cualquier dispositivo móvil funcionando como la guía perfecta para tu público.'),
         $('<h6>').append('Asesoría creativa:'),
-        $('<p>').text('El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas extrategías creativas focalizadas en sacar y lograr lo máximo de tu comunidad cultural.'),
+        $('<p>').text('El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategías creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.'),
         $('<h6>').append('Conexión API:'),
-        $('<p>').text('El servicio API te permite recibir y entonces utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sito web. Cualquier cambio que harás en orfheo se actualizará de forma automática y simultanea en todas las plataformas conectadas. Podrás disponer de todas tus informaciones siempre actualizada donde y cuando tu quieras.')
+        $('<p>').text('El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sito web. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en todas las plataformas conectadas. Podrás disponer de toda tu información siempre actualizada donde y cuando tú quieras.')
           // .css({'margin-bottom':'2rem'}),
       )
       .addClass('half-col');
@@ -213,12 +213,12 @@ ns.Widgets = ns.Widgets || {};
     var _textFormCol = $('<div>').append(
       // $('<h6>').append('Conexión API:'),
       // $('<p>').text('El servicio API te permite recibir y entonces utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sito web. Cualquier cambio que harás en orfheo se actualizará de forma automática y simultanea en todas las plataformas conectadas. Podrás disponer de todas tus informaciones siempre actualizada donde y cuando tu quieras.').css({'margin-bottom':'2rem'}),
-      $('<p>').html('Para más informaciones, consulta nuestra <a href="/services", target="_blank"> pagína de servicios </a> y contáctanos a través del siguiente formulario:').css({'margin-bottom':'1.5rem'})
+      $('<p>').html('Para más información, consulta nuestra <a href="/services", target="_blank"> página de servicios </a> y contáctanos a través del siguiente formulario:').css({'margin-bottom':'1.5rem'})
     );
     _formColumn.append(_textFormCol, _contactForm);
     _servicesCont.append(_textColumn, _formColumn);
 
-    var _titleTecn = $('<h5>').text('¿Como podemos ayudarte?');  
+    var _titleTecn = $('<h5>').text('¿Cómo podemos ayudarte?');  
     _tecnicalSupportCont.append(_titleTecn);
     var _textColumn = $('<div>').append($('<p>').text('Estamos aquí para proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.'), $('<p>').text('Te contestaremos enseguida.'), $('<p>').text(':)')).addClass('half-col');
     var _nameInput = Pard.Widgets.Input('Nombre*','text');
@@ -228,7 +228,7 @@ ns.Widgets = ns.Widgets || {};
     var _browserInput = Pard.Widgets.Input('Navegador que utilizas', 'text');
     var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
+      Pard.Backend.techSupport(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _profileInput.getVal(), _browserInput.getVal(), _mexInput.getVal(), function(data){
         console.log(data);
         console.log(_nameInput.getVal());
         console.log(_mexInput.getVal());
@@ -243,19 +243,19 @@ ns.Widgets = ns.Widgets || {};
 
     _contactCont.append(_textContact);
 
-    var _titleFeed = $('<h5>').text('¿Que tal te parece orfheo?');
+    var _titleFeed = $('<h5>').text('¿Qué te parece orfheo?');
     _feedbackCont.append(_titleFeed);
     var _textFeedColumn = $('<div>')
       .append(
-        $('<p>').text('Para poder mejorar es necesario ponerse en juego y ser cuestionados. Estaríamos encantados de saber que piensas de orfheo, que funcionalidades le faltan que te gustaría tener a tu alcance, que cambiarías, quitarías o añadirías... '), 
-        $('<p>').text('Cualquier critica constructiva es bienvenida, nos ayudará a proporcionarte un servicio mejor.'), 
+        $('<p>').text('Para poder mejorar es necesario ponerse en juego y ser cuestionados. Estaríamos encantados de saber que piensas de orfheo, qué funcionalidades le faltan y te gustaría tener a tu alcance, qué cambiarías, quitarías o añadirías... '), 
+        $('<p>').text('Cualquier crítica constructiva es bienvenida, nos ayudará a proporcionarte un servicio mejor.'), 
         $('<p>').text('¡Tu opinión es importante!')
       ).addClass('half-col');
     var _nameInput = Pard.Widgets.Input('Nombre*','text');
     var _emailInput = Pard.Widgets.Input('Email*','text');
     var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _mexInput.getVal(), function(data){
+      Pard.Backend.feedback(_nameInput.getVal(), _emailInput.getVal(), _mexInput.getVal(), function(data){
         console.log(data);
         console.log(_nameInput.getVal());
         console.log(_mexInput.getVal());
@@ -278,10 +278,10 @@ ns.Widgets = ns.Widgets || {};
        .append(
           $('<p>').text('Hay muchas formas de colaborar en orfheo:').css('margin-bottom','0.5rem'),
           $('<ul>').append(
-            $('<li>').html('como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separados, no dudes en enviarnos tu propuesta de alianza.'),
-            $('<li>').html('como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.'),
-            $('<li>').html('como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envianos informaciones sobre ti.'),
-            $('<li>').html('como mecena: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.'),
+            $('<li>').html('como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separado, no dudes en enviarnos tu propuesta de alianza.'),
+            $('<li>').html('como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través de publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.'),
+            $('<li>').html('como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envíanos información sobre ti.'),
+            $('<li>').html('como mecenas: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.'),
             $('<li>').html('como voluntario: </br>contáctanos si quieres aprender a través del desarrollo de orfheo o si ya tienes conocimientos y te estimula ofrecer tu tiempo a una noble causa.')
           )
         )
@@ -319,7 +319,7 @@ ns.Widgets = ns.Widgets || {};
     var _nameInput = Pard.Widgets.Input('Nombre *','text');
     var _emailInput = Pard.Widgets.Input('Email *','text');
     var _phoneInput = Pard.Widgets.InputTel('Numero de teléfono','text');
-    var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes']).render();
+    var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']).render();
     var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector([' Mañana', 'Tarde']).render();
     var _phoneDayAvailabilityCont  = $('<div>').append(_phoneDayAvailabilty).hide().addClass('availabilityContainer');
     var _phonePeriodAvailabiltyCont = $('<div>').append(_phonePeriodAvailabilty).hide().addClass('availabilityContainer');
@@ -363,7 +363,21 @@ ns.Widgets = ns.Widgets || {};
     );
     var _mexInput = Pard.Widgets.TextArea('Mensaje *',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
+      var _contact;
+      if(_checkPhone.getVal() == true) _contact = 'phone';
+      if(_checkHangout.getVal() == true) _contact = 'hangout';
+      var businessForm = {
+        name: _nameInput.getVal(),
+        email: _emailInput.getVal(),
+        subject: _subjectInput.getVal(),
+        contact: _contact, 
+        phone: _phoneInput.getVal(),
+        dayAvailabilty: _phoneDayAvailabilty.val(),
+        periodAvailabilty: _phonePeriodAvailabilty.val(),
+        message: _mexInput.getVal()
+      }
+
+      Pard.Backend.business(businessForm, function(data){
         console.log(data);
         console.log(_nameInput.getVal());
         console.log(_mexInput.getVal());
@@ -424,7 +438,7 @@ ns.Widgets = ns.Widgets || {};
     var _mex5_5  = '<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida de las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos después de haber analizado el tipo de evento que se quiere organizar.</p>'
     var _part5_5 = $('<div>').append(_subtitle5_5, _mex5_5).addClass('conditions-par');
 
-    var _subtitle_coockies = $('<h5>').text('Política de coockies:').addClass('subtitle-conditions');
+    var _subtitle_coockies = $('<h5>').text('Política de cookies:').addClass('subtitle-conditions');
     var _mex_coockies  = '<p> Las cookies son un elemento informático, ampliamente usado en internet, que una página web instala en el navegador de quien la visita. Es decir, que cuando uno accede a una página web, esta envía información a Chrome, Firefox, Internet Explorer, Opera... y esta información se almacena en la memoria del mismo. La idea es que la página web pueda comprobar esa información en el futuro y utilizarla.</br> Orfheo utiliza coockies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guarda localmente informaciones para permitir un login más rápido y continuado, evitar la desconexión del sitio en caso de reinicio del servidor, recordar preferencias o elecciones durante todo el proceso de navegación. </br> En general, por como se estructura internet hoy en día, las coockies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar sus usuarios para que sepan lo que está ocurriendo. </p>'
     var _part_coockies = $('<div>').append(_subtitle_coockies, _mex_coockies).addClass('conditions-par');
 

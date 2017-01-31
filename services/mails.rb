@@ -60,11 +60,27 @@ module Services
           }
         end
 
-        def contact user, payload
+        def feedback user, payload
           Pony.options = {
             from: payload[:from],
-            subject: payload[:subject],
+            subject: 'feedback',
             body: "<p>Mensaje de #{payload[:name]}</p><p>#{payload[:message]}</p>"
+          }
+        end
+
+        def techSupport user, payload
+          Pony.options = {
+            from: payload[:from],
+            subject: 'techSupport',
+            body: "<p>Mensaje de #{payload[:name]}</p><p>Asunto: #{payload[:subject]}</p><p>Perfil: #{payload[:profile]}</p><p>Navegador: #{payload[:browser]}</p><p>#{payload[:message]}</p>"
+          }
+        end
+
+        def business user, payload
+          Pony.options = {
+            from: payload[:from],
+            subject: 'services',
+            body: "<p>Mensaje de #{payload[:name]}</p><p>Asunto: #{payload[:subject]}</p><p>Tipo de contacto: #{payload[:contact]}</p><p>Teléfono: #{payload[:phone]}</p><p>Disponibilidad: #{payload[:dayAvailability]}</p><p>Disponibilidad horaria: #{payload[:periodAvailability]}</p><p>#{payload[:message]}</p>"
           }
         end
       end

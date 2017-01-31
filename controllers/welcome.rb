@@ -5,11 +5,27 @@ class WelcomeController < BaseController
     erb :welcome
   end
 
-	post '/contact' do
-		scopify :email, :name, :subject, :message 
+  post '/feedback' do
+		scopify :email, :name, :message 
 		check_params! params
 		check_invalid_email email
-		deliver_contact_email email, name, subject, message
+		deliver_feedback_email email, name, message
+		success
+	end
+
+	post '/techSupport' do
+		scopify :email, :name, :subject, :profile, :browser, :message 
+		check_params! params
+		check_invalid_email email
+		deliver_techSupport_email email, name, subject, profile, browser, message
+		success
+	end
+
+	post '/business' do
+		scopify :email, :name, :subject, :contact, :phone, :dayAvailability, :periodAvailability, :message
+		check_params! params
+		check_invalid_email email
+		deliver_business_email email, name, subject, contact, phone, dayAvailability, periodAvailability, message
 		success
 	end
 
@@ -18,10 +34,25 @@ class WelcomeController < BaseController
 		raise Pard::Invalid::Params if params.any?{|param, value| value.blank?}	
 	end
 
-	def deliver_contact_email email, name, subject, message
-		user = {email: 'info@orfheo.org'}
-		payload = {from: email, name: name, subject: subject, message: message}
-		Services::Mails.deliver_mail_to user, :contact, payload
+	def deliver_feedback_email email, name, message
+		#user = {email: 'info@orfheo.org'}
+		user = {email: 'alehander.marti@gmail.com'}
+		payload = {from: email, name: name, message: message}
+		Services::Mails.deliver_mail_to user, :feedback, payload
+	end
+
+	def deliver_techSupport_email email, name, subject, profile, browser, message
+		#user = {email: 'info@orfheo.org'}
+		user = {email: 'alehander.marti@gmail.com'}
+		payload = {from: email, name: name, subject: subject, profile: profile, browser: browser, message: message}
+		Services::Mails.deliver_mail_to user, :techSupport, payload
+	end
+
+	def deliver_business_email email, name, subject, contact, phone, dayAvailability, periodAvailability, message
+		#user = {email: 'info@orfheo.org'}
+		user = {email: 'alehander.marti@gmail.com'}
+		payload = {from: email, name: name, subject: subject, contact: contact, phone: phone, dayAvailability: dayAvailability, periodAvailability: periodAvailability, message: message}
+		Services::Mails.deliver_mail_to user, :business, payload
 	end
 end
 
