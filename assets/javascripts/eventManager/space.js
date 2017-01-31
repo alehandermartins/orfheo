@@ -90,8 +90,7 @@
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
             Pard.Backend.createPerformances(space.event_id, [performance], function(data){
-              var show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', show);
+              console.log('create');
             });
           }
 
@@ -128,8 +127,7 @@
             });
             if(_performances.length > 0){
               Pard.Backend.createPerformances(space.event_id, _performances, function(data){
-                var show = data.model.slice(-1).pop();
-                Pard.Bus.trigger('checkConflicts', show);
+                console.log('create');
               });
             }
           }

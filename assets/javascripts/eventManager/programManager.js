@@ -364,6 +364,9 @@
       });
       if(performances[0].permanent == 'true')
         Pard.Bus.trigger('CreatePermanentsTable', performances);
+
+      var show = performances.slice(-1).pop();
+      checkConflicts(show);
     });
 
     Pard.Bus.on('modifyPerformances', function(performances){
@@ -922,7 +925,7 @@
           performance.date = daySelector.val();
           _changeDate(performance.time[0], performance.time[1]);
           Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+            if(check) checkConflicts(performance);
           });
         });
 
@@ -1173,7 +1176,8 @@
               }
             }
             Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
-              console.log('modify');
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
             });
           });
 
@@ -1192,7 +1196,8 @@
               }
             }
             Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
-              console.log('modify');
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
             });
           });
 
@@ -1211,7 +1216,8 @@
               }
             }
             Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
-              console.log('modify');
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
             });
           });
 
