@@ -22,16 +22,16 @@ class WelcomeController < BaseController
 	end
 
 	post '/business' do
-		scopify :email, :name, :subject, :contact, :phone, :dayAvailability, :periodAvailability, :message
+		scopify :email, :name, :subject, :contactPhone, :contactHangout, :phone, :dayAvailability, :periodAvailability, :message
 		check_params! params
 		check_invalid_email email
-		deliver_business_email email, name, subject, contact, phone, dayAvailability, periodAvailability, message
+		deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailability, periodAvailability, message
 		success
 	end
 
 	private
 	def check_params! params
-		raise Pard::Invalid::Params if params.any?{|param, value| value.blank?}	
+		raise Pard::Invalid::Params if [:email, :name, :message].any?{|field| params[field].blank?}	
 	end
 
 	def deliver_feedback_email email, name, message
@@ -48,10 +48,10 @@ class WelcomeController < BaseController
 		Services::Mails.deliver_mail_to user, :techSupport, payload
 	end
 
-	def deliver_business_email email, name, subject, contact, phone, dayAvailability, periodAvailability, message
+	def deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailability, periodAvailability, message
 		#user = {email: 'info@orfheo.org'}
 		user = {email: 'alehander.marti@gmail.com'}
-		payload = {from: email, name: name, subject: subject, contact: contact, phone: phone, dayAvailability: dayAvailability, periodAvailability: periodAvailability, message: message}
+		payload = {from: email, name: name, subject: subject, contactPhone: contactPhone, contactHangout: contactHangout, phone: phone, dayAvailability: dayAvailability, periodAvailability: periodAvailability, message: message}
 		Services::Mails.deliver_mail_to user, :business, payload
 	end
 end

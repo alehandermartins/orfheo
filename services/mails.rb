@@ -79,8 +79,8 @@ module Services
         def business user, payload
           Pony.options = {
             from: payload[:from],
-            subject: 'services',
-            body: "<p>Mensaje de #{payload[:name]}</p><p>Asunto: #{payload[:subject]}</p><p>Tipo de contacto: #{payload[:contact]}</p><p>Teléfono: #{payload[:phone]}</p><p>Disponibilidad: #{payload[:dayAvailability]}</p><p>Disponibilidad horaria: #{payload[:periodAvailability]}</p><p>#{payload[:message]}</p>"
+            subject: 'business',
+            body: "<p>Mensaje de #{payload[:name]}</p><p>Asunto: #{payload[:subject]}</p><p>Teléfono: #{payload[:phone]}</p><p>Contacto teléfono: #{payload[:contactPhone]}</p><p>Contacto Hangout: #{payload[:contactHangout]}</p><p>Disponibilidad: #{payload[:dayAvailability]}</p><p>Disponibilidad horaria: #{payload[:periodAvailability]}</p><p>#{payload[:message]}</p>"
           }
         end
       end

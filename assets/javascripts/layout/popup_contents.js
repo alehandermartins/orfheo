@@ -319,17 +319,17 @@ ns.Widgets = ns.Widgets || {};
     var _nameInput = Pard.Widgets.Input('Nombre *','text');
     var _emailInput = Pard.Widgets.Input('Email *','text');
     var _phoneInput = Pard.Widgets.InputTel('Numero de teléfono','text');
-    var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']).render();
-    var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector([' Mañana', 'Tarde']).render();
+    var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']);
+    var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector([' Mañana', 'Tarde']);
     var _phoneDayAvailabilityCont  = $('<div>').append(_phoneDayAvailabilty).hide().addClass('availabilityContainer');
     var _phonePeriodAvailabiltyCont = $('<div>').append(_phonePeriodAvailabilty).hide().addClass('availabilityContainer');
-    _phoneDayAvailabilty.multipleSelect({
+    _phoneDayAvailabilty.render().multipleSelect({
       placeholder: "Selecciona tu disponibilidad durante la semana",
       selectAllText: "Todos los días",
       countSelected: false,
       allSelected: "Disponible todos los días"
     });
-    _phonePeriodAvailabilty.multipleSelect({
+    _phonePeriodAvailabilty.render().multipleSelect({
       placeholder: "Selecciona tu disponibilidad durante el día",
       selectAllText: "Mañana y tarde",
       countSelected: false,
@@ -340,8 +340,8 @@ ns.Widgets = ns.Widgets || {};
         _phoneDayAvailabilityCont.show();
         _phonePeriodAvailabiltyCont.show();
       }else{
-        _phoneDayAvailabilty.multipleSelect("uncheckAll");
-        _phonePeriodAvailabilty.multipleSelect("uncheckAll");
+        _phoneDayAvailabilty.render().multipleSelect("uncheckAll");
+        _phonePeriodAvailabilty.render().multipleSelect("uncheckAll");
         _phoneDayAvailabilityCont.hide();
         _phonePeriodAvailabiltyCont.hide();
       }
@@ -363,17 +363,15 @@ ns.Widgets = ns.Widgets || {};
     );
     var _mexInput = Pard.Widgets.TextArea('Mensaje *',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      var _contact;
-      if(_checkPhone.getVal() == true) _contact = 'phone';
-      if(_checkHangout.getVal() == true) _contact = 'hangout';
       var businessForm = {
         name: _nameInput.getVal(),
         email: _emailInput.getVal(),
         subject: _subjectInput.getVal(),
-        contact: _contact, 
+        contactPhone: _checkPhone.getVal(),
+        contactHangout: _checkHangout.getVal(),
         phone: _phoneInput.getVal(),
-        dayAvailabilty: _phoneDayAvailabilty.val(),
-        periodAvailabilty: _phonePeriodAvailabilty.val(),
+        dayAvailabilty: _phoneDayAvailabilty.getVal(),
+        periodAvailabilty: _phonePeriodAvailabilty.getVal(),
         message: _mexInput.getVal()
       }
 
