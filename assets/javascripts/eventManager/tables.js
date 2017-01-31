@@ -238,7 +238,6 @@
   ns.Widgets.InfoTab = {
     amend:{
       info: function(proposal){
-        console.log(proposal)
         if (proposal.amend) return proposal.amend; 
         else return '';
       },
