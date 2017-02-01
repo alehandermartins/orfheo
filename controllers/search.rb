@@ -60,7 +60,6 @@ class SearchController < BaseController
   def get_profiles event_id
     profiles = Repos::Profiles.get_event_profiles event_id unless event_id.blank?
     profiles = Repos::Profiles.get_all if event_id.blank?
-    profiles.reject!{ |profile| profile[:user_id] == session[:identity]} if session[:identity] && event_id.blank? 
     profiles
   end
 
