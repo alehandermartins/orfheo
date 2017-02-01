@@ -510,7 +510,7 @@
     };
     _cats = _cats.substring(0,_cats.length-2);
     var _catText = $('<div>').text(_cats).addClass('text-container'); 
-    var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('conditions').render());
+    var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('tags').render().css('font-size','1.3rem'));
     var _categories = $('<div>').append(_catIcon, _catText).addClass('info-element-eventCard');
 
 
