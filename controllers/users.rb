@@ -25,7 +25,7 @@ class UsersController < BaseController
 
   post '/users/header' do
     profiles = Repos::Profiles.get_header_info session[:identity]
-    events = Repos::Events.get_header_info session[:identity]
+    events = Services::Events.get_header_info session[:identity]
     success({profiles: profiles, events: events})
   end
 

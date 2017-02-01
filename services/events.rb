@@ -2,23 +2,44 @@ module Services
   class Events
     class << self
 
-      def get_event event_id
+      def get_event event_id, user_id
+        user = Repos::Users.grab({user_id: user_id})
+        event = Repos::Events.get_event event_id
+        event[:program] = arrange_program event, event[:program]
+        event[:whitelisted] = false
+        event[:whitelisted] = true if(user_id == event[:user_id] || event[:whitelist].any?{|whitelisted| whitelisted[:email] == user[:email]})
+        event.delete(:artists)
+        event.delete(:whitelist)
+        event.delete(:spaces)
+        event.delete(:qr)
+        event
+      end
+
+      def get_manager_event event_id
         event = Repos::Events.get_event event_id
         event[:program] = arrange_program event, event[:program]
         event
       end
 
-      def get_events
-        events = get_all
-        events.map{ |event|
-          event[:program] = arrange_program event, event[:program]
-          event.delete(:artists)
-          event.delete(:whitelist)
-          event.delete(:spaces)
-          event.delete(:partners)
-          event.delete(:qr)
-          event
+      def get_app_event event_id
+        event = get_manager_event event_id
+        event[:program].map!{|performance|
+          performance[:participant_category] = performance[:participant_subcategory]
+          performance[:host_category] = performance[:host_subcategory]
+          performance.delete(:participant_subcategory)
+          performance.delete(:host_subcategory) 
+          performance.delete(:comments)
+          performance.delete(:confirmed)
+          performance.delete(:participant_proposal_id)
+          performance.delete(:host_proposal_id)
+          performance
         }
+
+        name = event[:name]
+        dates = event[:eventTime].keys
+        dates.pop
+        program = event[:program]
+        {name: name, dates: dates, shows: program}
       end
 
       def get_program event_id
@@ -26,14 +47,17 @@ module Services
         arrange_program event, event[:program]
       end
 
-      def get_my_info profile_id, type
-        info = {}
+      def get_events
         events = get_all
-        info[:proposals] = my_artist_proposals(events, profile_id) if type == 'artist'
-        info[:proposals] = my_space_proposals(events, profile_id) if type == 'space'
-        info[:program] = my_program(events, profile_id)
-        info[:events] = my_events(events, profile_id)
-        info
+        events.map{ |event|
+          event.delete(:artists)
+          event.delete(:spaces)
+          event.delete(:program)
+          event.delete(:whitelist)
+          event.delete(:partners)
+          event.delete(:qr)
+          event
+        }
       end
 
       def get_header_info user_id
@@ -46,6 +70,16 @@ module Services
             color: event[:color]
           }
         }
+      end
+
+      def get_my_info profile_id, type
+        info = {}
+        events = get_all
+        info[:proposals] = my_artist_proposals(events, profile_id) if type == 'artist'
+        info[:proposals] = my_space_proposals(events, profile_id) if type == 'space'
+        info[:program] = my_program(events, profile_id)
+        info[:events] = my_events(events, profile_id)
+        info
       end
 
       private
