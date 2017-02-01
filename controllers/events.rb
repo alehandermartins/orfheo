@@ -7,9 +7,9 @@ class EventsController < BaseController
     performances = Performances.new(params, event_id)
     Repos::Events.save_program event_id, performances.to_save
 
-    message = {event: 'addPerformances', model: performances.to_a, signature: signature}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'addPerformances', model: performances.to_a})
+    Services::Clients.send_message(event_id, message, signature)
+    message
   end
 
   post '/users/modify_performances' do
@@ -19,9 +19,9 @@ class EventsController < BaseController
     performances = Performances.new(params, event_id)
     Repos::Events.save_program event_id, performances.to_save
 
-    message = {event: 'modifyPerformances', model: performances.to_a, signature: signature}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'modifyPerformances', model: performances.to_a})
+    Services::Clients.send_message(event_id, message, signature)
+    message
   end
 
   post '/users/delete_performances' do
