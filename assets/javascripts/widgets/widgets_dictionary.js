@@ -60,9 +60,9 @@
       chat_bubble:{icon:'&#xE0CB;', className:'material-icons'},
       arrow_down:{icon:'&#xE313;', className:'material-icons'},
       arrow_up:{icon:'&#xE316;', className:'material-icons'},
-
       publish: {icon:'&#xE8CD;', className:'material-icons'},
       unpublish: {icon:'&#xE92A;', className:'material-icons'},
+      tags:{icon: '&#xE54E;', className:'material-icons'},
 
       // calendar: {icon:'&#8250;', className:'fa fa-calendar'}, &#xE53B
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
