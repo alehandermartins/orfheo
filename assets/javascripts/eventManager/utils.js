@@ -16,6 +16,8 @@
     return uuid;
   }
 
+  ns.Signature = ns.Widgets.GenerateUUID();
+
   ns.Widgets.FormatResource = function(resource) {
     var _label = $('<span>').text(resource.text);
     if(resource.icon){

@@ -86,11 +86,20 @@
           var duration = ui.helper.height();
           if(position + duration > colPosition + _time.height()) position = colPosition + _time.height() - duration;
 
+          var _sendForm = function(shows){
+            return {
+              event_id: space.event_id,
+              program: shows,
+              signature: Pard.Signature
+            }
+          }
+
           var create = function(performance){
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
-            Pard.Backend.createPerformances(space.event_id, [performance], function(data){
-              console.log('create');
+            Pard.Backend.createPerformances(_sendForm([performance]), function(data){
+              Pard.Bus.trigger(data.event, data.model);
+              Pard.Bus.trigger('checkConflicts', performance);
             });
           }
 
@@ -126,8 +135,10 @@
               }
             });
             if(_performances.length > 0){
-              Pard.Backend.createPerformances(space.event_id, _performances, function(data){
-                console.log('create');
+              Pard.Backend.createPerformances(_sendForm(_performances), function(data){
+                Pard.Bus.trigger(data.event, data.model);
+                var last_show = data.model.slice(-1).pop();
+                Pard.Bus.trigger('checkConflicts', last_show);
               });
             }
           }
@@ -155,17 +166,19 @@
 
             if(myShows.length > 0){
               Pard.Backend.deletePerformances(space.event_id, myShows, function(data){
-                Pard.Backend.modifyPerformances(space.event_id, shows, function(data){
+                Pard.Backend.modifyPerformances(_sendForm(shows), function(data){
+                  Pard.Bus.trigger(data.event, data.model);
                   var last_show = data.model.slice(-1).pop();
                   Pard.Bus.trigger('checkConflicts', last_show);
                 });
               });
             }
             else{
-              Pard.Backend.modifyPerformances(space.event_id, shows, function(data){
+              Pard.Backend.modifyPerformances(_sendForm(shows), function(data){
+                Pard.Bus.trigger(data.event, data.model);
                 var last_show = data.model.slice(-1).pop();
                 Pard.Bus.trigger('checkConflicts', last_show);
-              });  
+              });
             }
           }
 
@@ -177,9 +190,9 @@
             }
             show.host_id = space.profile_id;
             show.host_proposal_id = space.proposal_id;
-            Pard.Backend.modifyPerformances(space.event_id, [show], function(data){
-              var last_show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', last_show);
+            Pard.Backend.modifyPerformances(_sendForm([show]), function(data){
+              Pard.Bus.trigger(data.event, data.model);
+              Pard.Bus.trigger('checkConflicts', show);
             });
           }
 

@@ -143,24 +143,18 @@
       );
     };
 
-    var _createPerformances = function(event_id, program, callback){
+    var _createPerformances = function(form, callback){
       _send(
         '/users/create_performances',
-        {
-          event_id: event_id,
-          program: program
-        },
+        form,
         callback
       );
     };
 
-    var _modifyPerformances = function(event_id, program, callback){
+    var _modifyPerformances = function(form, callback){
       _send(
         '/users/modify_performances',
-        {
-          event_id: event_id,
-          program: program
-        },
+        form,
         callback
       );
     };

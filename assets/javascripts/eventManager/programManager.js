@@ -316,6 +316,14 @@
     var lastArtist;
     var _closePopup = function(){}
 
+    var _sendForm = function(shows){
+      return {
+        event_id: the_event.event_id,
+        program: shows,
+        signature: Pard.Signature
+      }
+    } 
+
     Pard.Bus.on('spaceDrag', function(drag){
       var index = _shownSpaces.indexOf(drag.space);
       if(drag.direction == 'right' && index < _shownSpaces.length - 1){
@@ -364,9 +372,6 @@
       });
       if(performances[0].permanent == 'true')
         Pard.Bus.trigger('CreatePermanentsTable', performances);
-
-      var show = performances.slice(-1).pop();
-      checkConflicts(show);
     });
 
     Pard.Bus.on('modifyPerformances', function(performances){
@@ -525,7 +530,8 @@
             var duration = new Date(performance.time[0]);
             duration.setMinutes(duration.getMinutes() + ui.size.height * 1.5);
             performance.time[1] = duration.getTime();
-            Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+            Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+              Pard.Bus.trigger(data.event, data.model);
               checkConflicts(performance);
             });
           }
@@ -655,7 +661,8 @@
 
           setStartTimes();
           setEndTimes();
-          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
             if(check) checkConflicts(performance);
           });
         });
@@ -664,7 +671,8 @@
           the_event.spaces[performance.host_id].deletePerformance(performance);
           performance.host_id = spaceSelector.val();
           the_event.spaces[performance.host_id].addSpaceInfo(performance);
-          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
             if(check) checkConflicts(performance);
           });
         });
@@ -676,7 +684,8 @@
           performance['time'][0] = newStart;
           performance['time'][1] = performance['time'][1] + (newStart - oldStart);
           setEndTimes();
-          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
             if(check) checkConflicts(performance);
           });
         });
@@ -687,7 +696,8 @@
           card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
           performance['time'][1] = newEnd;
           setStartTimes();
-          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
             if(check) checkConflicts(performance);
           });
         });
@@ -702,8 +712,8 @@
           performance.confirmed = input.is(":checked");
           if (performance.confirmed) card.find('.checker').append(Pard.Widgets.IconManager('done').render());
           else card.find('.checker').empty();
-          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
           });
         });
 
@@ -711,8 +721,8 @@
           performance.comments = comments.val();
           card.find('.commentIcon').empty();
           if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
-          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
           });
         });
 
@@ -924,7 +934,8 @@
         }).on('select2:select', function(){
           performance.date = daySelector.val();
           _changeDate(performance.time[0], performance.time[1]);
-          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
             if(check) checkConflicts(performance);
           });
         });
@@ -1066,8 +1077,8 @@
           performance.comments = comments.val();
           _card.find('.commentIcon').empty();
           if (performance.comments) _card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
-          Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
           });
         });
 
@@ -1175,9 +1186,10 @@
                 }
               }
             }
-            Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
+            Pard.Backend.modifyPerformances(_sendForm(shows), function(data){
+              Pard.Bus.trigger(data.event, data.model);
               var last_show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', last_show);
+              if(check) checkConflicts(last_show);
             });
           });
 
@@ -1195,9 +1207,10 @@
                 }
               }
             }
-            Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
+            Pard.Backend.modifyPerformances(_sendForm(shows), function(data){
+              Pard.Bus.trigger(data.event, data.model);
               var last_show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', last_show);
+              if(check) checkConflicts(last_show);
             });
           });
 
@@ -1215,9 +1228,10 @@
                 }
               }
             }
-            Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
+            Pard.Backend.modifyPerformances(_sendForm(shows), function(data){
+              Pard.Bus.trigger(data.event, data.model);
               var last_show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', last_show);
+              if(check) checkConflicts(last_show);
             });
           });
 
@@ -1229,8 +1243,8 @@
               manager.input.prop("checked", _manager.input.is(":checked"));
               manager.input.trigger('change');
             });
-            Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
-              console.log('modify');
+            Pard.Backend.modifyPerformances(_sendForm(artistShows()), function(data){
+              Pard.Bus.trigger(data.event, data.model);
             });
           });
 
@@ -1818,7 +1832,6 @@
 
       Pard.Bus.on('publishEvent', function(status){
         if(the_event.published != status){
-          // _submitBtn.empty();
           the_event.published = status;
          _setPublishStatus();
         }

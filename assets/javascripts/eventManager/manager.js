@@ -147,7 +147,7 @@
 
       ws.onmessage = function(message) {
         var data = JSON.parse(message.data);
-        if(data.status == 'success')
+        if(data.status == 'success' && data.signature != Pard.Signature)
           Pard.Bus.trigger(data.event, data.model);
       }
     }
