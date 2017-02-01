@@ -319,29 +319,34 @@ ns.Widgets = ns.Widgets || {};
     var _nameInput = Pard.Widgets.Input('Nombre*','text');
     var _emailInput = Pard.Widgets.Input('Email*','text');
     var _phoneInput = Pard.Widgets.InputTel('Numero de teléfono','text');
-    var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']).render();
-    var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector([' Mañana', 'Tarde']).render();
-    var _phoneDayAvailabilityCont  = $('<div>').append(_phoneDayAvailabilty).hide().addClass('availabilityContainer');
-    var _phonePeriodAvailabiltyCont = $('<div>').append(_phonePeriodAvailabilty).hide().addClass('availabilityContainer');
-    _phoneDayAvailabilty.multipleSelect({
-      placeholder: "Selecciona tu disponibilidad durante la semana",
-      selectAllText: "Todos los días",
-      countSelected: false,
-      allSelected: "Disponible todos los días"
-    });
-    _phonePeriodAvailabilty.multipleSelect({
-      placeholder: "Selecciona tu disponibilidad durante el día",
-      selectAllText: "Mañana y tarde",
-      countSelected: false,
-      allSelected: "Disponible mañana y tarde"
-    });
+    var _phoneDayAvailabilty = Pard.Widgets.GeneralMultipleSelector(
+      ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'], 
+      null, 
+      {
+        placeholder: "Selecciona tu disponibilidad durante el día",
+        selectAllText: "Mañana y tarde",
+        countSelected: false,
+        allSelected: "Disponible mañana y tarde"
+      });
+    var _phonePeriodAvailabilty = Pard.Widgets.GeneralMultipleSelector(
+      [' Mañana', 'Tarde'],
+      null,
+      {
+        placeholder: "Selecciona tu disponibilidad durante el día",
+        selectAllText: "Mañana y tarde",
+        countSelected: false,
+        allSelected: "Disponible mañana y tarde"
+      });
+    
+    var _phoneDayAvailabilityCont  = $('<div>').append(_phoneDayAvailabilty.render()).hide().addClass('availabilityContainer');
+    var _phonePeriodAvailabiltyCont = $('<div>').append(_phonePeriodAvailabilty.render()).hide().addClass('availabilityContainer');
     var _showHideAvailability = function(){
       if (_checkPhone.getVal() || _checkHangout.getVal()){
         _phoneDayAvailabilityCont.show();
         _phonePeriodAvailabiltyCont.show();
       }else{
-        _phoneDayAvailabilty.multipleSelect("uncheckAll");
-        _phonePeriodAvailabilty.multipleSelect("uncheckAll");
+        _phoneDayAvailabilty.deselectAll();
+        _phonePeriodAvailabilty.deselectAll();
         _phoneDayAvailabilityCont.hide();
         _phonePeriodAvailabiltyCont.hide();
       }
@@ -371,16 +376,16 @@ ns.Widgets = ns.Widgets || {};
         contactPhone: _checkPhone.getVal(),
         contactHangout: _checkHangout.getVal(),
         phone: _phoneInput.getVal(),
-        dayAvailabilty: _phoneDayAvailabilty.val(),
-        periodAvailabilty: _phonePeriodAvailabilty.val(),
+        dayAvailabilty: _phoneDayAvailabilty.getVal(),
+        periodAvailabilty: _phonePeriodAvailabilty.getVal(),
         message: _mexInput.getVal()
       }
-
-      Pard.Backend.business(businessForm, function(data){
-        console.log(data);
-        console.log(_nameInput.getVal());
-        console.log(_mexInput.getVal());
-      });
+      console.log(businessForm);
+      // Pard.Backend.business(businessForm, function(data){
+      //   console.log(data);
+      //   console.log(_nameInput.getVal());
+      //   console.log(_mexInput.getVal());
+      // });
     });
     _form.append(
       _nameInput.render(), 

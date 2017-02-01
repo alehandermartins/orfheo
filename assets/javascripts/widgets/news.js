@@ -7,7 +7,7 @@ ns.Widgets = ns.Widgets || {};
 	ns.NewsArray = [
 		{
 			'title':'Únete y crea un perfil organización',
-			'text':'<p>El perfil organización incluye festivales, asociaciones, colectivos, ONG, instituciones y empresas. Permite tato participar en convocatorias como <a href="/services", "target"="_blank">crear y gestionar eventos</a>. </p>	',
+			'text':'<p>El perfil organización incluye festivales, asociaciones, colectivos, ONG, federaciones, instituciones y empresas. Permite tato participar en convocatorias como <a href="/services", "target"="_blank">crear y gestionar eventos</a>. </p>	',
 			'img': 'createProfile_rfh_friiyw',
 			'date': '1485860400000',
 			'publisher': 'orfheo Team'

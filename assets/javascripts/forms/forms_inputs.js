@@ -200,6 +200,54 @@
     }
   }
 
+   ns.Widgets.GeneralMultipleSelector = function(values, callback, options){
+    var _createdWidget = $('<div>');
+    var _select = $('<select>').attr("multiple", "multiple");
+    values.forEach(function(value, index){
+      _select.append($('<option>').text(value).val(value));
+    });
+    _createdWidget.append(_select);
+    _select.on('change',function(){
+        _createdWidget.next().find('.ms-choice').removeClass('warning');
+      if(callback) {
+        var boundCallback = callback.bind(_select);
+        boundCallback();
+      };
+    });
+    var _options = options || {};
+    _select.multipleSelect(_options);
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      getVal: function(){
+        return _select.multipleSelect('getSelects');
+      },
+      setVal: function(values){
+        _select.multipleSelect('setSelects', values);
+      },
+      addWarning: function(){
+        _createdWidget.next().find('.ms-choice').addClass('warning');
+      },
+      removeWarning: function(){
+        _createdWidget.next().find('.ms-choice').removeClass('warning');
+      },
+      setClass: function(_class){
+        _createdWidget.addClass(_class);
+      },
+      deselectAll: function(){
+        _select.multipleSelect("uncheckAll")
+      },
+      enable: function(){
+        _select.attr('disabled',false);
+      },
+      disable: function(){
+        _select.attr('disabled',true);
+      }
+    }
+  }
+
 
   ns.Widgets.MultipleDaysSelector = function(millisecValues, callback){
     var _createdWidget = $('<select>').attr("multiple", "multiple");

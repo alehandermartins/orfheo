@@ -140,8 +140,8 @@
         'label': "Tipo de organización",
         'input': 'Selector',
         'args': [
-                ['Festival', 'Asociación', 'ONG', 'Colectivo', 'Empresa', 'Institución'],
-                ['festival', 'association', 'ngo', 'collective', 'interprise', 'institution'],
+                ['Festival', 'Asociación', 'ONG', 'Federación','Colectivo', 'Empresa', 'Institución'],
+                ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution'],
                 null,
                 'Selecciona'
               ] ,
@@ -348,8 +348,8 @@
         'label': "Tipo de organización",
         'input': 'Selector',
         'args': [
-                ['Festival', 'Asociación', 'ONG', 'Colectivo', 'Empresa', 'Institución'],
-                ['festival', 'association', 'ngo', 'collective', 'interprise', 'institution']
+                ['Festival', 'Asociación', 'ONG', 'Federación', 'Colectivo', 'Empresa', 'Institución'],
+                ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution']
               ] ,
         'helptext':''
       },

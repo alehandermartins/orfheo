@@ -232,7 +232,30 @@ Pard.Event = function(the_event, status){
 }
 
 Pard.Services = function(){
-
-  var _main = $('<div>').text('Orfheo Services');
+  var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
+  var _main = $('<div>').append(
+    $('<div>').append(
+      _logo,
+      $('<p>').text('S E R V I C I O S')
+        .css({
+          'font-size':'12px',
+          'margin-top':'-1.3rem'
+        }),
+      $('<h5>').html('Coming soon...')
+    )
+    .css({
+        'text-align':'center',
+        'top':'35%',
+        'color':'white',
+        'position':'absolute',
+        'width':'100%'
+      })
+    ).css({
+      'background':'black',
+      'position':'relative',
+      'height':'100vh',
+      'width':'100%',
+      'top':'0'
+    });
   $('body').append(_main);
 }
