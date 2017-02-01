@@ -316,9 +316,11 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.ContactForm = function(){
     var _contactForm = $('<div>').addClass('contactForm-container');
     var _form = $('<form>');
+    var _errorBox = $('<p>');
+    var _errorBoxCont = $('<div>').append(_errorBox);
     var _nameInput = Pard.Widgets.Input('Nombre*','text');
     var _emailInput = Pard.Widgets.Input('Email*','text');
-    var _phoneInput = Pard.Widgets.InputTel('Numero de teléfono','text');
+    var _phoneInput = Pard.Widgets.InputTelContactForm('Numero de teléfono','text');
     var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(
       ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']);
       _phoneDayAvailabilty.setOptions({
@@ -366,24 +368,56 @@ ns.Widgets = ns.Widgets || {};
       }
     );
     var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
+    var businessInputs = {
+      'name': _nameInput,
+      'email': _emailInput,
+      'subject': _subjectInput,
+      'contactPhone': _checkPhone,
+      'contactHangout': _checkHangout,
+      'phone': _phoneInput,
+      'dayAvailabilty': _phoneDayAvailabilty,
+      'periodAvailabilty': _phonePeriodAvailabilty,
+      'message': _mexInput
+    }
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      var businessForm = {
-        name: _nameInput.getVal(),
-        email: _emailInput.getVal(),
-        subject: _subjectInput.getVal(),
-        contactPhone: _checkPhone.getVal(),
-        contactHangout: _checkHangout.getVal(),
-        phone: _phoneInput.getVal(),
-        dayAvailabilty: _phoneDayAvailabilty.getVal(),
-        periodAvailabilty: _phonePeriodAvailabilty.getVal(),
-        message: _mexInput.getVal()
+      _errorBox.empty();
+      var businessForm = {};
+      for (var key in businessInputs){
+        businessForm[key] = businessInputs[key].getVal();
       }
-      console.log(businessForm);
-      // Pard.Backend.business(businessForm, function(data){
-      //   console.log(data);
-      //   console.log(_nameInput.getVal());
-      //   console.log(_mexInput.getVal());
-      // });
+      // var businessForm = {
+      //   name: _nameInput.getVal(),
+      //   email: _emailInput.getVal(),
+      //   subject: _subjectInput.getVal(),
+      //   contactPhone: _checkPhone.getVal(),
+      //   contactHangout: _checkHangout.getVal(),
+      //   phone: _phoneInput.getVal(),
+      //   dayAvailabilty: _phoneDayAvailabilty.getVal(),
+      //   periodAvailabilty: _phonePeriodAvailabilty.getVal(),
+      //   message: _mexInput.getVal()
+      // }
+      var filled = true;
+      ['name', 'email','subject','message'].forEach(function(field){
+        if (!(businessForm[field])){
+          businessInputs[field].addWarning();
+          filled = false;
+        }
+      });
+      if (filled){
+        Pard.Backend.business(businessForm, function(data){
+          console.log(data)
+          if (data['status'] == 'success'){
+            _submitBtn.hide();
+            _errorBox.empty().append('Mensaje enviado correctamente. Gracias por contactar con nosotros. Te contestaremos enseguida.').removeClass('error-text');
+          }
+          else{
+            _errorBox.empty().text('Mensaje no enviado: '+data.reason).addClass('error-text');
+          }
+        });
+      }
+      else{
+        _errorBox.empty().text('Mensaje no enviado. Por favor, revisa los campos obligatorios').addClass('error-text');
+      }
     });
     _form.append(
       _nameInput.render(), 
@@ -396,7 +430,7 @@ ns.Widgets = ns.Widgets || {};
       _projectWebInput.render(),
       _subjectInput.render(), 
       _mexInput.render());
-    _contactForm.append(_form, _submitBtn.render().addClass('submit-button'));
+    _contactForm.append(_form, _submitBtn.render().addClass('submit-button'), _errorBox);
 
     
 

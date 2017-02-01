@@ -121,6 +121,43 @@
   } 
 
 
+  ns.Widgets.InputTelContactForm = function(placeholder){
+
+    var checkPhone = function(){
+      var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
+      if(_inputTel.getVal()){
+        var notPattern = new RegExp (/[a-z]/);
+          if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
+        return _inputTel.getVal();
+      }
+    }
+
+    var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
+
+    return{
+      render: function(){
+        return _inputTel.render();
+      },
+      getVal: function(){
+        return _inputTel.getVal();
+      },
+      setVal: function(value){
+        _inputTel.setVal(value);
+      },
+      addWarning: function(){
+        _inputTel.addWarning();
+      },
+      removeWarning: function(){
+        _inputTel.removeWarning();
+      },
+      setClass: function(_class){
+        _inputTel.setClass(_class);
+      }
+    }
+  } 
+
+
+
   ns.Widgets.InputDate = function(placeholder,eventTime){
  	
   	var _inputDate = Pard.Widgets.Input(placeholder,'text');
