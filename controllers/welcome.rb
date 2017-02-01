@@ -35,22 +35,19 @@ class WelcomeController < BaseController
 	end
 
 	def deliver_feedback_email email, name, message
-		#user = {email: 'info@orfheo.org'}
-		user = {email: 'alehander.marti@gmail.com'}
+		user = {email: 'info@orfheo.org'}
 		payload = {from: email, name: name, message: message}
 		Services::Mails.deliver_mail_to user, :feedback, payload
 	end
 
 	def deliver_techSupport_email email, name, subject, profile, browser, message
-		#user = {email: 'info@orfheo.org'}
-		user = {email: 'alehander.marti@gmail.com'}
+		user = {email: 'info@orfheo.org'}
 		payload = {from: email, name: name, subject: subject, profile: profile, browser: browser, message: message}
 		Services::Mails.deliver_mail_to user, :techSupport, payload
 	end
 
 	def deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailability, periodAvailability, message
-		#user = {email: 'info@orfheo.org'}
-		user = {email: 'alehander.marti@gmail.com'}
+		user = {email: 'info@orfheo.org'}
 		payload = {from: email, name: name, subject: subject, contactPhone: contactPhone, contactHangout: contactHangout, phone: phone, dayAvailability: dayAvailability, periodAvailability: periodAvailability, message: message}
 		Services::Mails.deliver_mail_to user, :business, payload
 	end
