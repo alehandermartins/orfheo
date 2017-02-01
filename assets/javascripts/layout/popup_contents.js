@@ -43,7 +43,7 @@ ns.Widgets = ns.Widgets || {};
     var _form = $('<form>');
     var _nameInput = Pard.Widgets.Input('Nombre','text');
     var _emailInput = Pard.Widgets.Input('Email','text');
-    var _subjectInput = Pard.Widgets.Input('Asunto','text');
+    var _subjectInput = Pard.Widgets.Input('Asunto*','text');
     var _mexInput = Pard.Widgets.TextArea('Mensaje',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
       Pard.Backend.contact(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _mexInput.getVal(), function(data){
@@ -316,8 +316,8 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.ContactForm = function(){
     var _contactForm = $('<div>').addClass('contactForm-container');
     var _form = $('<form>');
-    var _nameInput = Pard.Widgets.Input('Nombre *','text');
-    var _emailInput = Pard.Widgets.Input('Email *','text');
+    var _nameInput = Pard.Widgets.Input('Nombre*','text');
+    var _emailInput = Pard.Widgets.Input('Email*','text');
     var _phoneInput = Pard.Widgets.InputTel('Numero de teléfono','text');
     var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']).render();
     var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector([' Mañana', 'Tarde']).render();
@@ -346,7 +346,8 @@ ns.Widgets = ns.Widgets || {};
         _phonePeriodAvailabiltyCont.hide();
       }
     }
-    var _subjectInput = Pard.Widgets.Input('Asunto','text');
+    var _projectWebInput = Pard.Widgets.Input('Enlace a web/redes sociales de tu proyecto','text');
+    var _subjectInput = Pard.Widgets.Input('Asunto*','text');
     var _checkPhone = Pard.Widgets.CheckBox(
       'Quiero ser contactado por teléfono',
       'call_me_please', 
@@ -361,7 +362,7 @@ ns.Widgets = ns.Widgets || {};
         _showHideAvailability();
       }
     );
-    var _mexInput = Pard.Widgets.TextArea('Mensaje *',6);
+    var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
       var businessForm = {
         name: _nameInput.getVal(),
@@ -389,6 +390,7 @@ ns.Widgets = ns.Widgets || {};
       _checkHangout.render().addClass('checkBox-contactForm'),
       _phoneDayAvailabilityCont, 
       _phonePeriodAvailabiltyCont,
+      _projectWebInput.render(),
       _subjectInput.render(), 
       _mexInput.render());
     _contactForm.append(_form, _submitBtn.render().addClass('submit-button'));
