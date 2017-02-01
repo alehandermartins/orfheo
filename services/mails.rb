@@ -64,7 +64,7 @@ module Services
           Pony.options = {
             from: payload[:from],
             subject: 'feedback',
-            body: "<p>Mensaje de #{payload[:name]}</p><p>#{payload[:message]}</p>"
+            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
           }
         end
 
@@ -72,7 +72,7 @@ module Services
           Pony.options = {
             from: payload[:from],
             subject: 'techSupport',
-            body: "<p>Mensaje de #{payload[:name]}</p><p>Asunto: #{payload[:subject]}</p><p>Perfil: #{payload[:profile]}</p><p>Navegador: #{payload[:browser]}</p><p>#{payload[:message]}</p>"
+            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Asunto:</b> #{payload[:subject]}</p><p><b>Perfil:</b> #{payload[:profile]}</p><p><b>Navegador:</b> #{payload[:browser]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
           }
         end
 
@@ -80,7 +80,7 @@ module Services
           Pony.options = {
             from: payload[:from],
             subject: 'business',
-            body: "<p>Mensaje de #{payload[:name]}</p><p>Asunto: #{payload[:subject]}</p><p>Teléfono: #{payload[:phone]}</p><p>Contacto teléfono: #{payload[:contactPhone]}</p><p>Contacto Hangout: #{payload[:contactHangout]}</p><p>Disponibilidad: #{payload[:dayAvailability]}</p><p>Disponibilidad horaria: #{payload[:periodAvailability]}</p><p>#{payload[:message]}</p>"
+            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Asunto:</b> #{payload[:subject]}</p><p><b>Teléfono:</b> #{payload[:phone]}</p><p>Contacto teléfono: #{payload[:contactPhone]}</p><p>Contacto Hangout: #{payload[:contactHangout]}</p><p><b>Disponibilidad:</b> #{payload[:dayAvailability]}</p><p><b>Disponibilidad horaria:</b> #{payload[:periodAvailability]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
           }
         end
       end

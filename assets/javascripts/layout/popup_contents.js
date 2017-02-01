@@ -319,17 +319,17 @@ ns.Widgets = ns.Widgets || {};
     var _nameInput = Pard.Widgets.Input('Nombre *','text');
     var _emailInput = Pard.Widgets.Input('Email *','text');
     var _phoneInput = Pard.Widgets.InputTel('Numero de teléfono','text');
-    var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']);
-    var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector([' Mañana', 'Tarde']);
+    var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']).render();
+    var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector([' Mañana', 'Tarde']).render();
     var _phoneDayAvailabilityCont  = $('<div>').append(_phoneDayAvailabilty).hide().addClass('availabilityContainer');
     var _phonePeriodAvailabiltyCont = $('<div>').append(_phonePeriodAvailabilty).hide().addClass('availabilityContainer');
-    _phoneDayAvailabilty.render().multipleSelect({
+    _phoneDayAvailabilty.multipleSelect({
       placeholder: "Selecciona tu disponibilidad durante la semana",
       selectAllText: "Todos los días",
       countSelected: false,
       allSelected: "Disponible todos los días"
     });
-    _phonePeriodAvailabilty.render().multipleSelect({
+    _phonePeriodAvailabilty.multipleSelect({
       placeholder: "Selecciona tu disponibilidad durante el día",
       selectAllText: "Mañana y tarde",
       countSelected: false,
@@ -340,8 +340,8 @@ ns.Widgets = ns.Widgets || {};
         _phoneDayAvailabilityCont.show();
         _phonePeriodAvailabiltyCont.show();
       }else{
-        _phoneDayAvailabilty.render().multipleSelect("uncheckAll");
-        _phonePeriodAvailabilty.render().multipleSelect("uncheckAll");
+        _phoneDayAvailabilty.multipleSelect("uncheckAll");
+        _phonePeriodAvailabilty.multipleSelect("uncheckAll");
         _phoneDayAvailabilityCont.hide();
         _phonePeriodAvailabiltyCont.hide();
       }
@@ -370,8 +370,8 @@ ns.Widgets = ns.Widgets || {};
         contactPhone: _checkPhone.getVal(),
         contactHangout: _checkHangout.getVal(),
         phone: _phoneInput.getVal(),
-        dayAvailabilty: _phoneDayAvailabilty.getVal(),
-        periodAvailabilty: _phonePeriodAvailabilty.getVal(),
+        dayAvailabilty: _phoneDayAvailabilty.val(),
+        periodAvailabilty: _phonePeriodAvailabilty.val(),
         message: _mexInput.getVal()
       }
 
