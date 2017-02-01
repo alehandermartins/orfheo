@@ -99,7 +99,8 @@
             performance.host_proposal_id = space.proposal_id;
             Pard.Backend.createPerformances(_sendForm([performance]), function(data){
               Pard.Bus.trigger(data.event, data.model);
-              Pard.Bus.trigger('checkConflicts', performance);
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
             });
           }
 
