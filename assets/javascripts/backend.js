@@ -365,15 +365,37 @@
       );
     }
 
-    var _contact = function(name, email, subject, message, callback){
+    var _feedback = function(name, email, message, callback){
       _send(
-        '/contact',
+        '/feedback',
+        {
+          name: name,
+          email: email,
+          message: message
+        },
+        callback
+      ); 
+    }
+
+    var _techSupport = function(name, email, subject, profile, browser, message, callback){
+      _send(
+        '/techSupport',
         {
           name: name,
           email: email,
           subject: subject,
+          profile: profile,
+          browser: browser,
           message: message
         },
+        callback
+      ); 
+    }
+
+    var _business = function(form, callback){
+      _send(
+        '/business',
+        form,
         callback
       ); 
     }
@@ -452,9 +474,11 @@
       getCallForms: _getCallForms,
       listProfiles: _listProfiles,
       events: _events,
-      contact: _contact,
       header: _header,
-      checkName: _checkName
+      checkName: _checkName,
+      feedback: _feedback,
+      techSupport: _techSupport,
+      business: _business
     };
   }());
 

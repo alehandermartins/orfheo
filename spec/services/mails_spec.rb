@@ -29,11 +29,36 @@ describe Services::Mails do
     }
   }
 
-  let(:contact){
+  let(:feedback){
     {
       from: 'contacter@contact',
       name: 'contacter',
-      subject: 'Contact',
+      message: 'message'
+    }
+  }
+
+  let(:techSupport){
+    {
+      from: 'contacter@contact',
+      name: 'contacter',
+      message: 'message',
+      subject: 'need_help',
+      profile: 'my_profile',
+      browser: 'firefox',
+      message: 'help'
+    }
+  }
+
+  let(:business){
+    {
+      from: 'contacter@contact',
+      name: 'contacter',
+      message: 'message',
+      subject: 'business',
+      contact: 'phone',
+      phone: '123456789',
+      dayAvailability: 'dayAvailability',
+      periodAvailability: 'periodAvailability',
       message: 'message'
     }
   }
@@ -107,25 +132,59 @@ describe Services::Mails do
       expect(rejected_mail.from).to eq(["no.reply.orfheo@gmail.com"])
     end
 
-    it 'assigns the validation code to the body' do
+    it 'assigns the message to the body' do
       expect(rejected_mail.body).to include('Lamentablemente, organizer ha rechazado tu propuesta "title" para el event_name')
     end
   end
 
-  describe 'Contact' do
+  describe 'Feedback' do
 
-    let(:contact_mail){ Services::Mails.deliver_mail_to user, :contact, contact}
+    let(:feedback_mail){ Services::Mails.deliver_mail_to user, :feedback, feedback}
 
     it 'renders the subject' do
-      expect(contact_mail.subject).to eq('Contact')
+      expect(feedback_mail.subject).to eq('feedback')
     end
 
     it 'renders the sender' do
-      expect(contact_mail.from).to eq(['contacter@contact'])
+      expect(feedback_mail.from).to eq(['contacter@contact'])
     end
 
-    it 'assigns the validation code to the body' do
-      expect(contact_mail.body).to include('<p>Mensaje de contacter</p><p>message</p>')
+    it 'assigns the message to the body' do
+      expect(feedback_mail.body).to include('<p>Mensaje de contacter</p><p>message</p>')
+    end
+  end
+
+  describe 'TechSupport' do
+
+    let(:tech_mail){ Services::Mails.deliver_mail_to user, :techSupport, techSupport}
+
+    it 'renders the subject' do
+      expect(tech_mail.subject).to eq('techSupport')
+    end
+
+    it 'renders the sender' do
+      expect(tech_mail.from).to eq(['contacter@contact'])
+    end
+
+    it 'assigns the message to the body' do
+      expect(tech_mail.body).to include('<p>Mensaje de contacter</p><p>Asunto: need_help</p><p>Perfil: my_profile</p><p>Navegador: firefox</p><p>help</p>')
+    end
+  end
+
+  describe 'Business' do
+
+    let(:business_mail){ Services::Mails.deliver_mail_to user, :business, business}
+
+    it 'renders the subject' do
+      expect(business_mail.subject).to eq('services')
+    end
+
+    it 'renders the sender' do
+      expect(business_mail.from).to eq(['contacter@contact'])
+    end
+
+    it 'assigns the message to the body' do
+      expect(business_mail.body).to include('<p>Mensaje de contacter</p><p>Asunto: business</p><p>Tipo de contacto: phone</p><p>Teléfono: 123456789</p><p>Disponibilidad: dayAvailability</p><p>Disponibilidad horaria: periodAvailability</p><p>message</p>')
     end
   end
 end

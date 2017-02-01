@@ -364,6 +364,9 @@
       });
       if(performances[0].permanent == 'true')
         Pard.Bus.trigger('CreatePermanentsTable', performances);
+
+      var show = performances.slice(-1).pop();
+      checkConflicts(show);
     });
 
     Pard.Bus.on('modifyPerformances', function(performances){
@@ -718,6 +721,9 @@
         daySelector.val(performance.date).trigger('change');
         spaceSelector.val(performance.host_id).trigger('change');
         comments.val(performance.comments);
+
+        if (performance.confirmed == 'true') performance.confirmed = true;
+        if (performance.confirmed == 'false') performance.confirmed = false;
         input.prop('checked', performance.confirmed);
 
         return {
@@ -919,7 +925,7 @@
           performance.date = daySelector.val();
           _changeDate(performance.time[0], performance.time[1]);
           Pard.Backend.modifyPerformances(the_event.event_id, [performance], function(data){
-            console.log('modify');
+            if(check) checkConflicts(performance);
           });
         });
 
@@ -1072,6 +1078,9 @@
         setStartTimes();
         setEndTimes();
         comments.val(performance.comments);
+
+        if (performance.confirmed == 'true') performance.confirmed = true;
+        if (performance.confirmed == 'false') performance.confirmed = false;
         input.prop('checked', performance.confirmed);
 
         return {
@@ -1167,7 +1176,8 @@
               }
             }
             Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
-              console.log('modify');
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
             });
           });
 
@@ -1186,8 +1196,9 @@
               }
             }
             Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
-              console.log('modify');
-            }); 
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
+            });
           });
 
           _manager.endTime.on('select2:select',function(e, state){
@@ -1205,22 +1216,20 @@
               }
             }
             Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
-              console.log('modify');
+              var last_show = data.model.slice(-1).pop();
+              Pard.Bus.trigger('checkConflicts', last_show);
             });
           });
 
           _manager.input.click(function(){
-            var shows = [show];
-            for (var id in _managers.collection){
-              var manager = _managers.collection[id].manager;
-              if (manager != _manager){
-                manager.input.prop("checked", _manager.input.is(":checked"));
-                manager.input.trigger('change');
-                var _show = the_event.program[id].show;
-                shows.push(_show);
-              }
-            }
-            Pard.Backend.modifyPerformances(the_event.event_id, shows, function(data){
+            artistShows().forEach(function(show, index){
+              var _show = the_event.program[show.performance_id].show;
+              var manager = the_event.program[show.performance_id].managerBox(check);
+              if(multiple) manager = _managers.collection[show.performance_id].manager;
+              manager.input.prop("checked", _manager.input.is(":checked"));
+              manager.input.trigger('change');
+            });
+            Pard.Backend.modifyPerformances(the_event.event_id, artistShows(), function(data){
               console.log('modify');
             });
           });
@@ -1886,8 +1895,8 @@
     _lines.forEach(function(line){
       line.css('width', _linesLength);
     });
-    Object.keys(the_event.spaces).forEach(function(space){
-      the_event.spaces[space].alignPerformances();
+    Object.keys(the_event.spaces).forEach(function(space, index){
+      the_event.spaces[space].alignPerformances(index);
     });
    
     if(the_event.program){

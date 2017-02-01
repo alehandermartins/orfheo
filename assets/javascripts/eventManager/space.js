@@ -90,8 +90,7 @@
             performance.host_id = space.profile_id;
             performance.host_proposal_id = space.proposal_id;
             Pard.Backend.createPerformances(space.event_id, [performance], function(data){
-              var show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', show);
+              console.log('create');
             });
           }
 
@@ -128,13 +127,13 @@
             });
             if(_performances.length > 0){
               Pard.Backend.createPerformances(space.event_id, _performances, function(data){
-                var show = data.model.slice(-1).pop();
-                Pard.Bus.trigger('checkConflicts', show);
+                console.log('create');
               });
             }
           }
 
           var modifyPermanents = function(performances){
+            var dates = [];
             var shows = performances.map(function(performance){
               Pard.Bus.trigger('detachPerformance', performance);
               var show = {}
@@ -143,13 +142,31 @@
               }
               show.host_id = space.profile_id;
               show.host_proposal_id = space.proposal_id;
+              dates.push(show.date);
               return show;
             });
 
-            Pard.Backend.modifyPerformances(space.event_id, shows, function(data){
-              var last_show = data.model.slice(-1).pop();
-              Pard.Bus.trigger('checkConflicts', last_show);
+            var myShows = Object.keys(program).map(function(performance_id){
+              return program[performance_id].show;
             });
+            myShows = myShows.filter(function(show){
+              return (show.permanent == 'true' && show.participant_proposal_id == _performance.participant_proposal_id && $.inArray(show.date, dates) >= 0);
+            });
+
+            if(myShows.length > 0){
+              Pard.Backend.deletePerformances(space.event_id, myShows, function(data){
+                Pard.Backend.modifyPerformances(space.event_id, shows, function(data){
+                  var last_show = data.model.slice(-1).pop();
+                  Pard.Bus.trigger('checkConflicts', last_show);
+                });
+              });
+            }
+            else{
+              Pard.Backend.modifyPerformances(space.event_id, shows, function(data){
+                var last_show = data.model.slice(-1).pop();
+                Pard.Bus.trigger('checkConflicts', last_show);
+              });  
+            }
           }
 
           var modify = function(performance){
