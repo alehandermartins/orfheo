@@ -18,7 +18,7 @@
     }
   }
 
-  ns.Widgets.CreateProfileCard = function(callbackEvent, allowedProfile){
+  ns.Widgets.CreateProfileCard = function(popupTitle, popupContent){
 
     var _createProfileCard =$('<a>').attr({href: '#/'}).addClass('profileCard');
     var _upperBox = $('<div>').addClass('upperBox-cerateProfileCard');
@@ -45,14 +45,16 @@
     _createProfileCard.append(_upperBox.append(_addCircle), _downBox.append(_text));
 
     var _createProfilePopup;
-    _createProfileCard
-      .one('click', function(){
+    _createProfileCard  
+    .one('click',function(){
         _createProfilePopup = Pard.Widgets.Popup();
-      })
-      .click(function(){
-        var _createProfileMex = Pard.Widgets.CreateProfileMessage(callbackEvent, allowedProfile);
-        _createProfileMex.setCallback(function(){_createProfilePopup.close()});
-        _createProfilePopup.setContent('Crea un perfil en orfheo', _createProfileMex.render());
+        popupContent.setCallback(
+          function(){
+            _createProfilePopup.close();
+          });
+        _createProfilePopup.setContent(popupTitle, popupContent.render());
+    })
+      .click(function(){      
         _createProfilePopup.open();
       });
     _createProfileCard;
@@ -65,35 +67,36 @@
   }
 
 
-  ns.Widgets.CreateProfileMessage = function(callbackEvent, allowedProfile){
-     var _createdWidget = $('<div>').css({
+  ns.Widgets.CreateProfileMessage = function(){
+    var _createdWidget = $('<div>').css({
       'margin-top': '1.5rem'
     });
 
-    var _spaceButton = Pard.Widgets.CreateTypeProfile('space', callbackEvent).render().addClass('create-space-btn-popup');
-    var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
-    // var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-artist-btn-popup');
+    var _spaceButton = Pard.Widgets.CreateTypeProfile('space').render().addClass('create-space-btn-popup');
+    var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
+    var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-organization-btn-popup');
 
-    _spaceButton.append($('<p>').text('Alberga eventos').css({
+    _spaceButton.append($('<p>').html('Alberga arte y posiciónate en el mapa cultural').css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
-    }))
-
-    _artistButton.append($('<p>').text('Enseña tu portfolio ').css({
+    }));
+    _artistButton.append($('<p>').html('Muestra tu portfolio <br> y participa en grandes eventos').css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
-    }))
+    }));
+    _organizationButton.append($('<p>').html('Da a conocer tu proyecto y lanza convocatorias').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }));
 
     var _btnObj = {
       artist: _artistButton,
-      space: _spaceButton
+      space: _spaceButton,
+      organization: _organizationButton
     }
     
     for (var typeProfile in _btnObj) {
-      if (allowedProfile){
-        if($.inArray(typeProfile,allowedProfile)>-1) _createdWidget.append(_btnObj[typeProfile]);
-      }
-      else {_createdWidget.append(_btnObj[typeProfile]);}
+      _createdWidget.append(_btnObj[typeProfile]);
     }
 
     return {
@@ -106,6 +109,9 @@
         });
         _artistButton.on('click',function(){
             callback();
+        });
+        _organizationButton.on('click',function(){
+          callback();
         });
       }
     }
@@ -132,12 +138,10 @@
       organization: 'Organización'
     }
 
-    var _createTypeProfilePopup;
+    // var _createTypeProfilePopup;
     var _createdWidget = $('<div>').html(_buttonDesign[type])
-      .one('click', function(){
-        _createTypeProfilePopup = Pard.Widgets.Popup();
-      })
       .click(function(){
+        var _createTypeProfilePopup = Pard.Widgets.Popup(); 
         var _createTypeProfileMex =  Pard.Widgets.CreateTypeProfileMessage(type, callbackEvent);
         _createTypeProfileMex.setCallback(
           function(){_createTypeProfilePopup.close();
@@ -186,6 +190,10 @@
       var _submittedForm;
       _submittedForm = _formWidget.getVal();
       _submittedForm['type'] = type;
+      if (_submittedForm.photos){
+        _submittedForm['profile_picture'] = [_submittedForm['photos'][0]];
+        _submittedForm['photos'].shift();
+      }
       if (_submittedForm['address']['location'] && _submittedForm['address']['location']['lat'] && _submittedForm['address']['location']['lng']){
         if (callbackEvent){
             Pard.Backend.createProfile(_submittedForm, function(data){

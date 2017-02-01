@@ -112,14 +112,21 @@
       'open_air':{}
     };
 
+    var _organizationCatObj = {
+      'festival':{},
+      'association':{},
+      'institution':{},
+      'ngo':{},
+      'collective':{},
+      'interprise':{}
+    }
+
     var _typeObj = {
       'artist': _artisticCatObj, 
       'space': _spaceCatObj, 
-      'organization': _organizationObj
+      'organization': _organizationCatObj
     };
     
-    var _organizationObj = {};
-
     var _objDictionary = function(data, obj){
       for (var field in obj) {
         if (data.toUpperCase() == Pard.Widgets.Dictionary(field).render().toUpperCase()) {return obj[field];}
@@ -503,7 +510,7 @@
     };
     _cats = _cats.substring(0,_cats.length-2);
     var _catText = $('<div>').text(_cats).addClass('text-container'); 
-    var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('conditions').render());
+    var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('tags').render().css('font-size','1.3rem'));
     var _categories = $('<div>').append(_catIcon, _catText).addClass('info-element-eventCard');
 
 
@@ -599,8 +606,10 @@
     if(news.title.length<29) _title.css('margin-bottom','0.3rem');
 
     var _publisherName = $('<span>').text(news.publisher).addClass('publisherName-newsCard');
-    var _rfh = $('<div>').addClass('rfhLogo-news')
-    var _icon = $('<div>').addClass('whoCircle-news').append(_rfh);
+    var _rfh = $('<div>').addClass('rfhLogo-news');
+    var _icon = $('<div>').addClass('icon-whoNews');
+    var _circle = $('<div>').addClass('whoCircle-news');
+    _icon.append(_circle, _rfh);
     var _publisher = $('<div>').append(_icon, _publisherName).addClass('publisher-newsCard');
     var _footerNewsCard = $('<div>').css('position','relative')
       .append(_publisher, _date);

@@ -24,8 +24,6 @@
 
   ns.Widgets.SpaceSectionContent = function(profile) {
 
-    console.log(profile);
-
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
@@ -91,9 +89,6 @@
 
     if (_programContent.html()) _createdWidget.append(_programBoxContainer);
 
-
-
-
     if (userStatus == 'owner'){
       var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
       if('proposals' in profile && profile.proposals != false){
@@ -120,8 +115,6 @@
       }
     }
   
-    
-
     return {
       render: function(){
         return _createdWidget;

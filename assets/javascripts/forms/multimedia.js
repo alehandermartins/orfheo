@@ -54,9 +54,7 @@
     }
 
     Pard.Widgets.MultimediaDisplay(production, function(multimedia){
-      console.log('MultimediaDisplay')
       if(multimedia['video'] != false){
-        console.log('multimedia.video')
         var _outerVideocontainer = $('<div>');
         var _videoContainer = $('<div>').addClass('video-production-container')
 
@@ -193,7 +191,6 @@
       var _oembed = function(link){
         $.getJSON("https://noembed.com/embed?callback=?",
           {"format": "json", "url": link['url']}, function (data) {
-            console.log(data);              
             if (!('error' in data)){
               var _media = data.html;
               if(link['provider'] == 'flickr'){
@@ -333,7 +330,6 @@
       }
 
     var _display = function(){
-      console.log(_linksTriedToBeDone);
       // if (_done.length == _links.length)
       if (_linksTriedToBeDone == _links.length){  
         $.wait(
@@ -402,7 +398,7 @@
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
    
-    if (production['type'] == 'space'){
+    if (production['type'] == 'space' || production['type'] == 'organization'){
       _submitForm['profile_id'] = production.profile_id;
     } 
     else{
@@ -458,7 +454,7 @@
 
     _formContainer.append(_photosContainer);
 
-    if (production['type'] == 'space'){
+    if (production['type'] == 'space' || production['type'] == 'organization'){
       var _send = function(photos, links){
       _submitForm['photos'] = photos;
       _submitForm['links'] = links;

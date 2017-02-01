@@ -30,6 +30,8 @@ class OrganizationProfile
       category: params[:category],
       address: params[:address],
       personal_web: params[:personal_web],
+      links: params[:links],
+      photos: params[:photos],
       color: params[:color],
       bio: params[:bio],
       profile_picture: params[:profile_picture]
@@ -40,7 +42,8 @@ class OrganizationProfile
     [
       :name,
       :address,
-      :color
+      :color,
+      :category
     ]
   end
 end

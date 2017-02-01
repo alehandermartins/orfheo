@@ -79,6 +79,7 @@
     };
 
     var _createProfile = function(form, callback){
+      console.log(form)
       _send(
         '/users/create_profile',
         form,
@@ -142,24 +143,18 @@
       );
     };
 
-    var _createPerformances = function(event_id, program, callback){
+    var _createPerformances = function(form, callback){
       _send(
         '/users/create_performances',
-        {
-          event_id: event_id,
-          program: program
-        },
+        form,
         callback
       );
     };
 
-    var _modifyPerformances = function(event_id, program, callback){
+    var _modifyPerformances = function(form, callback){
       _send(
         '/users/modify_performances',
-        {
-          event_id: event_id,
-          program: program
-        },
+        form,
         callback
       );
     };
@@ -364,15 +359,37 @@
       );
     }
 
-    var _contact = function(name, email, subject, message, callback){
+    var _feedback = function(name, email, message, callback){
       _send(
-        '/contact',
+        '/feedback',
+        {
+          name: name,
+          email: email,
+          message: message
+        },
+        callback
+      ); 
+    }
+
+    var _techSupport = function(name, email, subject, profile, browser, message, callback){
+      _send(
+        '/techSupport',
         {
           name: name,
           email: email,
           subject: subject,
+          profile: profile,
+          browser: browser,
           message: message
         },
+        callback
+      ); 
+    }
+
+    var _business = function(form, callback){
+      _send(
+        '/business',
+        form,
         callback
       ); 
     }
@@ -451,9 +468,11 @@
       getCallForms: _getCallForms,
       listProfiles: _listProfiles,
       events: _events,
-      contact: _contact,
       header: _header,
-      checkName: _checkName
+      checkName: _checkName,
+      feedback: _feedback,
+      techSupport: _techSupport,
+      business: _business
     };
   }());
 

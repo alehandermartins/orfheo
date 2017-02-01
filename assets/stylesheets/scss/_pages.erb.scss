@@ -683,8 +683,10 @@ User Section
   
 
 .myProfilesContainer{
-  text-align: center;
+  /* text-align: center; */
+  @include horizontal-center;
   position: relative;
+  display: inline-block;
 }
 
 .createProfileCard-userPage{
@@ -3300,3 +3302,8 @@ CROWDFUNDING
   }
 }
 
+
+
+.placeholderSelect{
+  color:  #987b7d;
+}

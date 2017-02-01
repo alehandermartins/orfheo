@@ -270,13 +270,16 @@
 
 
 ns.Widgets.InputAddressArtist = function(){
-    var componentForm = {
-        locality: 'long_name',
-        postal_code: 'short_name'
-      };
 
+    var _inputForm = {
+      locality: Pard.Widgets.Input('Ciudad*','text', function(){_inputForm.locality.removeWarning(); addressValue();}),
+      postal_code: Pard.Widgets.Input('Código postal*','text', function(){_inputForm.postal_code.removeWarning(); addressValue();}),
+      neighborhood: Pard.Widgets.Input('Barrio (opcional)', 'text', function(){
+        addressValue();
+      })
+    }
+  
     var _addressValues = {};
-
     var addressValue = function(){
       var _check = true;
       for (var field in _inputForm){
@@ -304,10 +307,7 @@ ns.Widgets.InputAddressArtist = function(){
       }
     }
 
-    var _inputForm = {
-      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning(); addressValue();}),
-      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning(); addressValue();})
-    }
+    
 
     var _placeForm = $('<div>');
     for (var field in _inputForm){
@@ -545,7 +545,6 @@ ns.Widgets.InputAddressSpace = function(label){
         return _addressSubmitted;
       },
       setVal: function(_val){
-        console.log(_val);
         for(var field in _inputForm) {
           _inputForm[field].setAttr('disabled', false);
           _inputForm[field].setVal(_val[field]);
@@ -819,11 +818,14 @@ ns.Widgets.InputAddressSpace = function(label){
 
     var _createdWidget = $('<div>');
     var _input = $('<input>').attr({'type': 'text'});
-    var _error = $('<div>').text('Este nombre de perfil ya existe. Escoge otro para poder proceder.')
-      .css({
+    var _error = $('<div>').append($('<p>').text('Este nombre de perfil ya existe. Escoge otro para poder proceder.')
+        .css({
         'color':'red',
         'font-size':'12px',
-        'margin-bottom':'-1.15rem'
+        'line-height':'.9rem'
+      }))
+      .css({
+        'margin-bottom':'-.8rem',
       })
       .hide();
 

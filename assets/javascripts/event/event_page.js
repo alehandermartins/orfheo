@@ -16,8 +16,12 @@
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
 
     if (Pard.CachedEvent.program.length){
-      console.log(Pard.CachedEvent.published);
       if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true'){
+        var _rgb = Pard.Widgets.IconColor(Pard.CachedEvent.color).rgb();
+        var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+        $(document).ready(function(){
+          $('main').css('background', _backColor);
+        });
         var _program = $('<div>').addClass('aside-event-nav-btn');
         _program.text('Programa');
 
@@ -191,7 +195,6 @@
       if(date == 'permanent') return;
       eventDates.push(date);
     });
-    console.log(eventDates);
     var eventCategories = {
       participants: Object.keys(the_event.categories.artist),
       hosts: Object.keys(the_event.categories.space)

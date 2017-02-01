@@ -6,9 +6,9 @@ module Services
         @@collection ||= []
       end
 
-      def send_message(channel, message)
+      def send_message channel, message, signature = nil
         collection.each{ |client|
-          client[:ws].send(message) if client[:channel] == channel
+          client[:ws].send(message) if client[:channel] == channel && client[:id] != signature
         }
         # channel_name = channel.gsub("#{base_channel}.", "")
         # # If the client has requested a subscription to this channel
@@ -39,7 +39,7 @@ module Services
     end
     
     def new_client
-      { :ws => nil, :channel => nil}
+      { :ws => nil, :channel => nil, :id => nil}
     end
     
     def setup_websocket_connection(env)
@@ -56,11 +56,13 @@ module Services
     def websocket_connection_open(ws, client, env)
       request = Rack::Request.new(env)
       channel = request.params["channel"]
+      id = request.params["id"]
 
       ws.on :open do |event|
 
         client[:ws] = ws
         client[:channel] = channel
+        client[:id] = id
 
         # # For every channel the client wants to subscribe to...
         # token = session [:identity] 

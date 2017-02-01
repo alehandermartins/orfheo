@@ -107,16 +107,27 @@
     };
   };
 
-  ns.Widgets.Selector = function(labels, values, callback){
+  ns.Widgets.Selector = function(labels, values, callback, placeholder){
     var _createdWidget = $('<select>');
+    var _emptyOption = $('<option>');
+    if(placeholder) {
+      _emptyOption.attr({'value':'', 'disabled':'', 'selected':''}).text(placeholder).css('color','grey');
+      _createdWidget.append(_emptyOption).addClass('placeholderSelect');
+    }
     values.forEach(function(value, index){
       _createdWidget.append($('<option>').append(labels[index]).val(value));
     });
-     _createdWidget.on('change',function(){
+    _createdWidget.on('change',function(){
       if(callback) {
         var boundCallback = callback.bind(_createdWidget);
         boundCallback();
       };
+      _emptyOption.remove();
+      _createdWidget.removeClass('warning');
+    })
+    .one('click',function(){
+      _createdWidget.removeClass('placeholderSelect');
+      _emptyOption.empty();
     });
 
     return {
@@ -148,75 +159,95 @@
   }
 
   ns.Widgets.MultipleSelector = function(values, callback){
-
-    var _createdWidget = $('<select>').attr("multiple", "multiple");
-    values.forEach(function(value){
-      _createdWidget.append($('<option>').text(value).val(value));
+    var _createdWidget = $('<div>');
+    var _select = $('<select>').attr("multiple", "multiple");
+    values.forEach(function(value, index){
+      _select.append($('<option>').text(value).val(value));
     });
-    
-    _createdWidget.on('change',function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
+    _createdWidget.append(_select);
+    _select.on('change',function(){
+        _select.next().find('.ms-choice').removeClass('warning');
       if(callback) {
-        var boundCallback = callback.bind(_createdWidget);
+        var boundCallback = callback.bind(_select);
         boundCallback();
       };
     });
-
+    var _options = {      
+      placeholder: "Selecciona una o más opciones",
+      selectAll: false,
+      countSelected: false,
+      allSelected: false
+    };
+    
     return {
       render: function(){
+        _select.multipleSelect(_options);
         return _createdWidget;
       },
+      setOptions: function(options){
+        _options = options;
+      },
       getVal: function(){
-        return _createdWidget.val();
+        return _select.val();
       },
       setVal: function(values){
-        _createdWidget.multipleSelect("setSelects", values);
+        _select.multipleSelect('setSelects', values);
       },
       addWarning: function(){
-        _createdWidget.next().find('.ms-choice').addClass('warning');
+        console.log('warning')
+        _select.next().find('.ms-choice').addClass('warning');
       },
       removeWarning: function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
+        _select.next().find('.ms-choice').removeClass('warning');
       },
       setClass: function(_class){
         _createdWidget.addClass(_class);
       },
+      deselectAll: function(){
+        _select.multipleSelect("uncheckAll")
+      },
       enable: function(){
-        _createdWidget.attr('disabled',false);
+        _select.attr('disabled',false);
       },
       disable: function(){
-        _createdWidget.attr('disabled',true);
+        _select.attr('disabled',true);
       }
     }
   }
 
-
+ 
   ns.Widgets.MultipleDaysSelector = function(millisecValues, callback){
-    var _createdWidget = $('<select>').attr("multiple", "multiple");
+    var _createdWidget = $('<div>');
+    var _select = $('<select>').attr("multiple", "multiple");
     var _arrayDays = [];
     millisecValues.forEach(function(value){
       var _newDate = new Date(parseInt(value));
       var _day = moment(_newDate).locale('es').format('dddd DD/MM/YYYY');
-      _createdWidget.append($('<option>').text(_day).val(value));
+      _select.append($('<option>').text(_day).val(value));
       _arrayDays.push(moment(_newDate).locale('es').format('YYYY-MM-DD'));
     });
-    
-    _createdWidget.on('change',function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
+    _createdWidget.append(_select);
+    _select.on('change',function(){
+        _select.next().find('.ms-choice').removeClass('warning');
       if(callback) {
-        var boundCallback = callback.bind(_createdWidget);
+        var boundCallback = callback.bind(_select);
         boundCallback();
       };
     });
+    var _options={};
 
     return {
       render: function(){
+        _select.multipleSelect(_options);
         return _createdWidget;
       },
+      setOptions: function(options){
+        _options = options;
+      },
       getVal: function(){
-        if(_createdWidget.val()) {
+        if(_select.val()) {
           var _daysArray = [];
-          _createdWidget.val().forEach(function(val){
+          _select.val().forEach(function(val){
             _daysArray.push(moment(new Date(parseInt(val))).locale('es').format('YYYY-MM-DD'));
           });
           return _daysArray;
@@ -231,22 +262,22 @@
           var _index = _arrayDays.indexOf(value);
           if (_index>-1) _values.push(millisecValues[_index]);
         });
-        _createdWidget.multipleSelect("setSelects", _values);
+        _select.multipleSelect("setSelects", _values);
       },
       addWarning: function(){
-        _createdWidget.next().find('.ms-choice').addClass('warning');
+        _select.next().find('.ms-choice').addClass('warning');
       },
       removeWarning: function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
+        _select.next().find('.ms-choice').removeClass('warning');
       },
       setClass: function(_class){
-        _createdWidget.addClass(_class);
+        _select.addClass(_class);
       },
       enable: function(){
-        _createdWidget.attr('disabled',false);
+        _select.attr('disabled',false);
       },
       disable: function(){
-        _createdWidget.attr('disabled',true);
+        _select.attr('disabled',true);
       }
     }
   }
@@ -339,7 +370,6 @@
 
 
   ns.Widgets.TextAreaEnriched = function(label, Nrows){
-    console.log('TextAreaEnriched')
     var _createdWidget = $('<div>');
     var _textarea = $('<textarea>').attr({placeholder: label})
     if (Nrows)_textarea.attr({'rows': parseInt(Nrows)});
@@ -394,7 +424,6 @@
         return _textarea.trumbowyg('html');
       },
       setVal: function(value){
-        console.log(value)
         _textarea.trumbowyg('html', value);
       },
       addWarning: function(){
@@ -414,14 +443,17 @@
 
  
 
-  ns.Widgets.CheckBox = function(label, value){
+  ns.Widgets.CheckBox = function(label, value, callback){
 
     var _input = $('<input>').attr({ type: 'checkbox', 'value': value});
     var _label = $('<label>').html(label);
     _label.css('display','inline');
     var _createdWidget = $('<div>').append(_input,_label);
 
-    _input.on('change', function(){(_input.removeClass('checkBox-warning'))});
+    _input.on('change', function(){
+      _input.removeClass('checkBox-warning');
+      if (callback) callback();
+    });
 
     return {
       render: function(){

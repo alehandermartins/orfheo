@@ -52,8 +52,16 @@ ns.Widgets = ns.Widgets || {};
       // .text('¡Hazlo ya!')
       .append(Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
-      .click(function(){
-        $('#contactPopupBtn').trigger('click');
+      .on('click', function(){
+        // $('#contactPopupBtn').trigger('click');
+        var _contactPopup = Pard.Widgets.Popup();
+        _contactPopup.setContent('', Pard.Widgets.ContactForm());
+        _contactPopup.setCallback(function(){
+          setTimeout(function(){
+            _contactPopup.destroy();
+          }, 500);
+        });
+        _contactPopup.open();
       })
       .addClass('callText-WelcomePage').css('margin-top','0');
     var _textDiv = $('<div>').addClass('littleTextDiv').append(
@@ -200,11 +208,21 @@ ns.Widgets = ns.Widgets || {};
       'open_air':{}
     };
 
+    var _organizationCatObj = {
+      'festival':{},
+      'association':{},
+      'institution':{},
+      'ngo':{},
+      'collective':{},
+      'interprise':{}
+    }
+
     var _typeObj = {
       'artist': _artisticCatObj, 
       'space': _spaceCatObj, 
-      'organization': _organizationObj
+      'organization': _organizationCatObj
     };
+    
     
     var _organizationObj = {};
 
@@ -480,7 +498,6 @@ ns.Widgets = ns.Widgets || {};
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
     var _callService = $('<div>').addClass('i-container');
     var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('proposals').render());
-    // var _callTitle = $('<h4>').text('Involucra la comunidad');
     var _callTitle = $('<h4>').text('Plataforma de gestión');
     var _callTxt = $('<p>').html('Crea un evento,</br> lanza una convocatoria, </br>utiliza la potente herramienta de gestión </br>y publica una programación interactiva');
     _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));

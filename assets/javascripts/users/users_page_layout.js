@@ -35,7 +35,7 @@
         _myProfileContent.append(_cardContainer.append(_card.addClass('position-profileCard-login')));
       })
     }
-    var _createProfileCard = Pard.Widgets.CreateProfileCard().render();
+    var _createProfileCard = Pard.Widgets.CreateProfileCard('Crea un perfil', Pard.Widgets.CreateProfileMessage()).render();
     _createProfileCard.off('mouseenter mouseleave')
      .hover(
           function(){

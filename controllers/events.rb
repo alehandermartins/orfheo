@@ -1,27 +1,27 @@
 class EventsController < BaseController
 
   post '/users/create_performances' do
-    scopify :event_id
+    scopify :event_id, :signature
     check_event_ownership! event_id
 
     performances = Performances.new(params, event_id)
     Repos::Events.save_program event_id, performances.to_save
 
-    message = {event: 'addPerformances', model: performances.to_a}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'addPerformances', model: performances.to_a})
+    Services::Clients.send_message(event_id, message, signature)
+    message
   end
 
   post '/users/modify_performances' do
-    scopify :event_id
+    scopify :event_id, :signature
     check_event_ownership! event_id
 
     performances = Performances.new(params, event_id)
     Repos::Events.save_program event_id, performances.to_save
 
-    message = {event: 'modifyPerformances', model: performances.to_a}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'modifyPerformances', model: performances.to_a})
+    Services::Clients.send_message(event_id, message, signature)
+    message
   end
 
   post '/users/delete_performances' do

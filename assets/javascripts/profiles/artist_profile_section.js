@@ -69,10 +69,13 @@
 
     _contact.append($('<div>').append(_typeIcon, _type));
 
+    var _location = '';
+    if (profile['address']['neighborhood']) _location += profile['address']['neighborhood']+' - ';
+    _location += profile['address']['locality'];
     var _address = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
       href: 'http://maps.google.com/maps?q='+profile['address']['locality']+' '+profile['address']['postal_code'],
       target: '_blank'
-      }).text(profile['address']['locality'])));
+      }).text(_location)));
 
     _contact.append(_address);
 
@@ -181,7 +184,6 @@
       _createdWidget.append(_multimediaContainer.render());
 
     }else if (production['photos'] || production['links']){
-      console.log(production)
       var _multimediaContainer = Pard.Widgets.MultimediaContent(production);
       _createdWidget.append(_multimediaContainer.render());
     }

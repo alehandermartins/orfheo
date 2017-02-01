@@ -282,16 +282,14 @@ ns.Widgets = ns.Widgets || {};
     var _init = $('<li>')
       .append($('<a>').attr('href','/')
         .text('Inicio')
-        .click(function(){
-          $('.selected').removeClass('selected');
-          _init.addClass('selected');
-          _showHide('welcomeSection');
-          if (_profilesSection) _profilesSection.deactivate();
-        })
       )
       .addClass('initText');
+    var _menuDropdown = Pard.Widgets.InsideDropdownMenu();
+    Pard.Bus.on('reloadMenuHeaderDropdown', function(){
+      _menuDropdown.reload();
+    });
     var _settingsDropdown = $('<li>')
-      .append(Pard.Widgets.InsideDropdownMenu().render());
+      .append(_menuDropdown.render());
     _rightContainer.append(_rightMenu.append(_init, _settingsDropdown)).addClass('rightContent-insideNavMenu');  
     
     var _semicircleTopContainer =  $('<div>').addClass('semiCircleHeaderTop-container semicirclePositionRelative');
@@ -315,6 +313,8 @@ ns.Widgets = ns.Widgets || {};
   }
 
   ns.Widgets.InsideDropdownMenu = function(user){   
+
+    var _eventManagerChoice = $('<div>');
 
     $(document).on('show.zf.dropdown', function() {
       _iconDropdownMenu.addClass('iconDropdown-clicked');
@@ -358,92 +358,95 @@ ns.Widgets = ns.Widgets || {};
       var _deleteUser = $('<li>').append(_deleteCaller).appendTo(_menuSettings);
     }
 
-    _menuSettings .append(_modifyPassword,  _logout);
+    _menuSettings.append(_modifyPassword,  _logout);
 
-    var _eventManagerChoice = $('<div>').addClass('eventMananagerChoice');
-
-    Pard.Backend.header(function(data){
-      if(data.status == 'success'){
-        data.profiles.forEach(function(profile){
-          var _circle = $('<div>').addClass('circleProfile-MenuHeader').css('background',profile.color);
-          var _profileName = $('<span>').text(profile.name);
-          _menuProfiles.append(
-            $('<li>').append($('<a>').append(_circle, _profileName).attr('href','/profile?id='+profile.profile_id)))
-            .click( function(){
-                _menuContainer.foundation('close');
-              }
-            )
-        });
-        _menuProfiles.append($('<li>').addClass('separator'));
-        data.events.forEach(function(event){
-          // console.log(event)
-          // var _img = $.cloudinary.image(event['img'], { format: 'jpg', width: 15, height: 20, crop: 'fill', effect: 'saturation:50' });
-          var en = event.name;
-          if (en.length>29) en = en.substring(0,27) + '...';
-          var _eventName = $('<span>').text(en)
-            .css({
-              'border-left':'2px solid '+ event.color,
-              'padding-left':'1rem'
-            });
-          var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
-          var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
-          var _manageCallIcon = $('<span>').append(_callIcon, _toolIcon).addClass('manageCallIcon');
-          _eventManagerChoice
-            .append(
-              $('<ul>').append(
-              $('<li>').append($('<a>').append(Pard.Widgets.IconManager('proposals').render().addClass('eventIcon'), 'Evento').attr('href','/event?id='+event.event_id))
+    var _loadProfielsEvents = function(){
+      Pard.Backend.header(function(data){
+        if(data.status == 'success'){
+          data.profiles.forEach(function(profile){
+            var _circle = $('<div>').addClass('circleProfile-MenuHeader').css('background',profile.color);
+            var _profileName = $('<span>').text(profile.name);
+            _menuProfiles.append(
+              $('<li>').append($('<a>').append(_circle, _profileName).attr('href','/profile?id='+profile.profile_id)))
               .click( function(){
-                  _eventManagerChoice.removeClass('showEventManagerChoice');
-                  _menuContainer.foundation('close');
-                }
-              ),
-              $('<li>').append($('<a>').append(_manageCallIcon, 'Manager').attr('href','/event_manager?id='+event.event_id))
-              .click( function(){
-                  _eventManagerChoice.removeClass('showEventManagerChoice');
                   _menuContainer.foundation('close');
                 }
               )
-            ))
-            .hover(
-              function(){
-                _eventManagerChoice.addClass('isOver');
-              },
-              function () {
-                _eventManagerChoice.removeClass('isOver showEventManagerChoice')
-              }
-            );
-          _menuEvents.append(
-            $('<li>').addClass("")
+          });
+          _menuProfiles.append($('<li>').addClass('separator'));
+          data.events.forEach(function(event){
+            // console.log(event)
+            // var _img = $.cloudinary.image(event['img'], { format: 'jpg', width: 15, height: 20, crop: 'fill', effect: 'saturation:50' });
+            var en = event.name;
+            if (en.length>29) en = en.substring(0,27) + '...';
+            var _eventName = $('<span>').text(en)
+              .css({
+                'border-left':'2px solid '+ event.color,
+                'padding-left':'1rem'
+              });
+            var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
+            var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
+            var _manageCallIcon = $('<span>').append(_callIcon, _toolIcon).addClass('manageCallIcon');
+            _eventManagerChoice
+              .addClass('eventMananagerChoice')
               .append(
-                $('<button>')
-                  .attr('type','button')
-                  .append(_eventName)
-                  .hover(
-                    function(){
-                      _eventManagerChoice.addClass('showEventManagerChoice');
-                    },
-                    function(){
-                      setTimeout(function(){
-                        if (!(_eventManagerChoice.hasClass('isOver'))) _eventManagerChoice.removeClass('showEventManagerChoice');
-                      },200)
-                      
-                    }
-                  )
-                  .click(function(){
-                     if (!(_eventManagerChoice.hasClass('showEventManagerChoice'))) _eventManagerChoice.addClass('showEventManagerChoice');
-                     else _eventManagerChoice.removeClass('showEventManagerChoice');
-                  })
-                  .css('cursor','default'),
-                _eventManagerChoice
-              )  
-          )
-        });
-        _menuEvents.append($('<li>').addClass('separator'));
-      }
-      else{
-        console.log('error')
-      }
-    });
+                $('<ul>').append(
+                $('<li>').append($('<a>').append(Pard.Widgets.IconManager('proposals').render().addClass('eventIcon'), 'Evento').attr('href','/event?id='+event.event_id))
+                .click( function(){
+                    _eventManagerChoice.removeClass('showEventManagerChoice');
+                    _menuContainer.foundation('close');
+                  }
+                ),
+                $('<li>').append($('<a>').append(_manageCallIcon, 'Manager').attr('href','/event_manager?id='+event.event_id))
+                .click( function(){
+                    _eventManagerChoice.removeClass('showEventManagerChoice');
+                    _menuContainer.foundation('close');
+                  }
+                )
+              ))
+              .hover(
+                function(){
+                  _eventManagerChoice.addClass('isOver');
+                },
+                function () {
+                  _eventManagerChoice.removeClass('isOver showEventManagerChoice')
+                }
+              );
+            _menuEvents.append(
+              $('<li>').addClass("")
+                .append(
+                  $('<a>')
+                    .attr('href','#/')
+                    .append(_eventName)
+                    .hover(
+                      function(){
+                        _eventManagerChoice.addClass('showEventManagerChoice');
+                      },
+                      function(){
+                        setTimeout(function(){
+                          if (!(_eventManagerChoice.hasClass('isOver'))) _eventManagerChoice.removeClass('showEventManagerChoice');
+                        },200)
+                        
+                      }
+                    )
+                    .click(function(){
+                       if (!(_eventManagerChoice.hasClass('showEventManagerChoice'))) _eventManagerChoice.addClass('showEventManagerChoice');
+                       else _eventManagerChoice.removeClass('showEventManagerChoice');
+                    })
+                    .css('cursor','default'),
+                  _eventManagerChoice
+                )  
+            )
+          });
+          _menuEvents.append($('<li>').addClass('separator'));
+        }
+        else{
+          console.log('error')
+        }
+      });
+    }
+
+    _loadProfielsEvents();
 
     _menuContainer.append(_menu.append(
       $('<li>').append(_menuProfiles),
@@ -461,7 +464,13 @@ ns.Widgets = ns.Widgets || {};
     return {
       render: function(){
         return _createdWidget;
-      } 
+      },
+      reload: function(){
+        _menuProfiles.empty();
+        _menuEvents.empty();
+        _eventManagerChoice.empty();
+        _loadProfielsEvents();
+      }
     }
   }
 

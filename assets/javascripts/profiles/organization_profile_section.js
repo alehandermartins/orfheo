@@ -35,15 +35,19 @@
       _bio.append('');
     }
 
-    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary('festival').render()));
+    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile.category).render()));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
 
     _contact.append($('<div>').append(_typeIcon, _type));
 
+    var _location = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality'];
+    // if (profile['address']['neighborhood']) _location += profile['address']['neighborhood']+' - ';
+    // _location += profile['address']['locality'];
+    var _aStr = profile['address']['route']+' '+profile['address']['street_number']+', '+profile['address']['locality']+' '+profile['address']['country'];
     var _address = $('<div>').append(Pard.Widgets.IconManager('city_artist').render().addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append($('<a>').attr({
-      href: 'http://maps.google.com/maps?q='+profile['address']['locality']+' '+profile['address']['postal_code'],
+      href: 'http://maps.google.com/maps?q='+_aStr,
       target: '_blank'
-      }).text(profile['address']['locality'])));
+      }).text(_location)));
 
     _contact.append(_address);
 
@@ -67,10 +71,55 @@
       });
     }
 
+    var _programBoxContainer = $('<div>').addClass('section-box-container');
+    var _titleContainer = $('<div>').addClass('title-box-container');
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Participación en eventos')));
+    var _programContent = $('<div>').addClass('box-content');
+    _programBoxContainer.append(_titleContainer,_programContent)
+
+    if (profile.program && profile.program.length){
+      var _now = new Date();
+      profile.program.forEach(function(eventProgram){
+        var _dayShow = new Date(eventProgram.date);
+        // si ha pasado menos de una semana
+        if(_now.getTime() < (_dayShow.getTime()+604800000)){
+          _createdWidget.prepend(Pard.Widgets.ProgramProfile(eventProgram,profile.type));
+        }
+        else{
+          _programContent.append(Pard.Widgets.PastEventSpace(eventProgram));
+        }
+      })
+    }
+
+    if (_programContent.html()) _createdWidget.append(_programBoxContainer);
+
+
     if (userStatus == 'owner'){
+      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
+      if('proposals' in profile && profile.proposals != false){
+        var _callsBoxContent = $('<div>').addClass('box-content');
+        var _myCallProposals = Pard.Widgets.MyCallProposals(profile);
+            _callsBoxContent.append(_myCallProposals.render()); 
+      }
+      else{
+          var _callsBoxContent = $('<div>').addClass('box-content');
+          var _callName = $('<p>').append('No estás inscrito en ninguna convocatoria activa en este periodo.').addClass('activities-box-call-name');
+          _callsBoxContent.append(_callName);
+      }     
+      _callsBoxContainer.append(_callsBoxContent);
+      _createdWidget.append(_callsBoxContainer);  
+
       var _modifyProfile = Pard.Widgets.ModifySectionContent(Pard.Widgets.ModifyProfile(profile).render(), profile['color']);
       _createdWidget.append(_modifyProfile.render());
+      var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
+      _createdWidget.append(_multimediaContainer.render());
+     }else{
+      if (profile['photos'] || profile['links']){        
+        var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
+        _createdWidget.append(_multimediaContainer.render());
+      }
     }
+  
 
 
     return {

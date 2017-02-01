@@ -72,7 +72,6 @@
     }
 
     var _popupMessageSentProposal = function(data){
-      console.log(data);
       var _container = $('<div>');
       var _closepopup = function(){};
       var _message = $('<div>').append($('<h4>').text('¡Genial!').addClass('success-inscription-title'),$('<h5>').text('Te has inscrito correctamente.').css({
@@ -129,6 +128,7 @@
       if (data['status'] == 'success'){
         var _profile = data.profile;
         Pard.Widgets.GetCallForms(_forms, _profile, _closeListProfilePopup, _callbackSendProposal); 
+        Pard.Bus.trigger('reloadMenuHeaderDropdown');
       }
       else{
         var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
@@ -160,7 +160,11 @@
     var _forms;
     Pard.Backend.getCallForms(event_info.call_id, function(data){
       _forms = data.forms;
-      _createProfileCard = Pard.Widgets.CreateProfileCard(_createAndInscribeProfile, Object.keys(_forms)).render();
+      _createProfileCard = Pard.Widgets.CreateProfileCard(
+        'Crea un perfil y apúntate como:',
+        Pard.Widgets.CreateProfilePopupEvent(_createAndInscribeProfile,
+        Object.keys(_forms))
+      ).render();
       var _createProfileCardContainer = $('<div>').append(_createProfileCard).addClass('card-container-popup');
       _createdWidget.append(_secondTitle, _createProfileCardContainer);
     });
@@ -173,6 +177,60 @@
         _closeListProfilePopup = callback;
       }
     } 
+  }
+
+  ns.Widgets.CreateProfilePopupEvent = function(callbackEvent, allowedProfile){
+    var _createdWidget = $('<div>').css({
+      'margin-top': '1.5rem',
+      'text-align': 'center'
+    });
+
+    var _spaceButton = Pard.Widgets.CreateTypeProfile('space', callbackEvent).render().addClass('create-space-btn-popup');
+    var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
+    var _organizationButton = Pard.Widgets.CreateTypeProfile('organization', callbackEvent).render().addClass('create-organization-btn-popup');
+
+    _spaceButton.append($('<p>').html('Alberga actividades').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }));
+    _artistButton.append($('<p>').html('Enseña tu arte').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }));
+    _organizationButton.append($('<p>').html('Envía tu propuesta').css({
+      'margin-top':'0.5rem',
+      'margin-bottom': '0'
+    }));
+
+    var _btnObj = {
+      artist: _artistButton,
+      space: _spaceButton,
+      organization: _organizationButton
+    }
+    
+    for (var typeProfile in _btnObj) {
+      if (allowedProfile){
+        if($.inArray(typeProfile,allowedProfile)>-1) _createdWidget.append(_btnObj[typeProfile]);
+      }
+      else {_createdWidget.append(_btnObj[typeProfile]);}
+    }
+
+    return {
+      render: function(){
+        return _createdWidget;
+      },
+      setCallback: function(callback){
+        _spaceButton.on('click',function(){
+            callback();
+        });
+        _artistButton.on('click',function(){
+            callback();
+        });
+        _organizationButton.on('click',function(){
+          callback();
+        });
+      }
+    }
   }
 
   ns.Widgets.GetCallForms = function(forms, profile, closeListProfilePopup, callbackSendProposal){
@@ -414,16 +472,16 @@
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envía');
 
     Object.keys(form).forEach(function(field){
-        _form[field] = {};
-        _form[field]['type'] = form[field].type;
-        if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
-        else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
-        if (form[field]['input']=='CheckBox') {
-          form[field].args[0] = form[field].label;
-          if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
-        }
-        _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
-        _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
+      _form[field] = {};
+      _form[field]['type'] = form[field].type;
+      if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+      else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
+      if (form[field]['input']=='CheckBox') {
+        form[field].args[0] = form[field].label;
+        if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
+      }
+      _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+      _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
 
       if (field == 'photos') {
         var _thumbnail = $('<div>');
@@ -477,29 +535,24 @@
           }  
         }
         else{
+          var _helpText = _form[field].helptext.render();
           if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-            _form[field].label.render(),
-            _form[field].input.render()
-          )
-          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
-          if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
+           if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
             if (field == 'availability'){
-              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+              _form[field].input.setOptions({      
+                placeholder: "Selecciona una o más opciones",
                 selectAllText: "Selecciona todo",
                 countSelected: false,
                 allSelected: "Disponible todos los días"
               });
             }
-            else{
-              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-                selectAll: false,
-                countSelected: false,
-                allSelected: false
-              });
-            }
-            _form[field].helptext.render().css('margin-top', 5);
+            _helpText.css('margin-top', 5);
           }
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+            _form[field].label.render(),
+            _form[field].input.render()
+          )
+          if (form[field]['helptext'].length) _formField.append(_helpText);
         }
         if($.isNumeric(field)) _containerCustomFields.append(_formField);
         else if (field != 'conditions')_containerOrfheoFields.append(_formField);

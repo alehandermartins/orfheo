@@ -378,27 +378,31 @@ button{
 }
 
 
-.create-artist-btn-popup, .create-space-btn-popup{
+.create-artist-btn-popup, .create-space-btn-popup, .create-organization-btn-popup{
     border: 2px solid $grey-2;
     cursor: pointer;    
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     text-align: center;
+    vertical-align: top;
     @include breakpoint(medium){
       display: inline-block; 
-      margin-left: 4rem; 
-      width: 12rem;
+      margin: 0rem 1.1rem; 
+      width: 10rem;
     };
-
+    p{
+      font-size: $almostNormalSize;
+    }
 }
 
-.create-artist-btn-popup:hover, .create-space-btn-popup:hover{
+.create-artist-btn-popup:hover, .create-space-btn-popup:hover, .create-organization-btn-popup:hover{
       background-color: $grey-1;
     }
 
 .create-profile-btn-text{
-  margin-left:$inner-spacing;
+  /* margin-left:$inner-spacing; */
   font-weight: bold;
+  display: block;
 }
 
 .create-profile-btn-icon{
@@ -1284,7 +1288,7 @@ newsCard
   background-repeat: no-repeat;
   background-size: 100% 100%;
   @include horizontal-center;
-  top: 3px;
+  top: 5px;
 }
 
 .rfhLogo-newsPopup{
@@ -1297,17 +1301,23 @@ newsCard
   top: 5px;
 }
 
-.whoCircle-news{
-  @include pardCircle(1.1rem);
-  display: inline-block;
-  border: 1px solid $grey-4;
+.icon-whoNews{
   position: relative;
+  height: 20px;
+  width: 20px;
   vertical-align: middle;
   margin-right: .5rem;
+  display: inline-block;
+}
+
+.whoCircle-news{
+  @include pardCircle(20px);
+  border: 1px solid $grey-4;
+  position: relative;
 }
 
 .whoCircle-newsPopup{
-  @include pardCircle(1.3rem);
+  @include pardCircle(25px);
   display: inline-block;
   border: 1px solid $grey-4;
   position: relative;
@@ -2108,9 +2118,8 @@ FOOTER
     display: inline-block;
     margin-left: 2rem;
     color: $blue-pard;
-    cursor: pointer;
   }
-  li:hover{
+  li button:hover{
     color: rgb(44, 106, 204);
   }
 }
@@ -2281,11 +2290,10 @@ button.footer-text-link:hover{
     width: 50%;
     display: inline-block;
     vertical-align: top;
-    button{
-      float:  right;
-      background: $green-pard;
-
-    }
+  }
+  .submit-button{
+    float:  right;
+    background: $green-pard;
   }
   .list-col{
     ul{
@@ -2294,6 +2302,17 @@ button.footer-text-link:hover{
         margin-bottom: 0.5rem;
       }
     }
+  }
+ .availabilityContainer{
+    margin-bottom: .5rem;
+    button{
+      font-size: $almostNormalSize;
+      /* height: 2rem; */
+      @include border-radius($element-border-radius);
+    }
+  }
+  .checkBox-contactForm{
+    margin: .4rem 0;
   }
   input, textarea{
     font-size: $almostNormalSize;
@@ -2417,15 +2436,22 @@ select:-moz-focusring { color: transparent;
 @media only screen and #{breakpoint(large)} {
 
   .locality-ArtistForm{
-    width: 17rem;
+    width: 13rem;
     display: inline-block;
-    margin-right: 3rem;   
+    margin-right: .5rem;   
   }
 
   .postal_code-ArtistForm{
-    width: 13rem;
-    display: inline-block;  
+    width: 10rem;
+    display: inline-block;
+    margin-right: .5rem;     
   }
+
+  .neighborhood-ArtistForm{
+    width: 13rem;
+    display: inline-block;
+/*     margin-right: .5rem;   
+ */  }
 
   .popup-form .route-addressForm, .popup-form .street_number-addressForm,.popup-form .door-addressForm, .multiMedia {
     font-size: $smallSize;
@@ -2475,7 +2501,7 @@ select:-moz-focusring { color: transparent;
     }
   }
 
-  .createProfilePopup-artist .name-FormDiv, .createProfilePopup-organization .name-FormDiv{
+  .createProfilePopup-artist .name-FormDiv{
     @include breakpoint (large){
       width: 17rem;
       display: inline-block;
@@ -2485,6 +2511,13 @@ select:-moz-focusring { color: transparent;
     }
   }
 
+  .createProfilePopup-organization .name-FormDiv{
+    @include breakpoint (large){
+      width: 100%;
+      margin-top:2rem;
+      margin-bottom: 0;
+    }
+  }
   .modifyProfilePopup .photoContainer{
     @include breakpoint (large){
       display: inline-block;
@@ -2494,13 +2527,22 @@ select:-moz-focusring { color: transparent;
     }
   }
 
-  .createProfilePopup-artist .photoContainer, .createProfilePopup-organization .photoContainer{
+  .createProfilePopup-artist .photoContainer{
     @include breakpoint (large){
       display: inline-block;
       margin-left: 2rem;
       margin-left: 6rem;
       margin-top: 2rem;
     }
+  }
+
+  .createProfilePopup-organization .photoContainer{
+    /* @include breakpoint (large){
+      display: inline-block;
+      margin-left: 2rem;
+      margin-left: 6rem;
+      margin-top: 2rem;
+    } */
   }
 
   .m-artistCall{
