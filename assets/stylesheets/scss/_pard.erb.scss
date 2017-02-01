@@ -1288,7 +1288,7 @@ newsCard
   background-repeat: no-repeat;
   background-size: 100% 100%;
   @include horizontal-center;
-  top: 3px;
+  top: 5px;
 }
 
 .rfhLogo-newsPopup{
@@ -1301,17 +1301,23 @@ newsCard
   top: 5px;
 }
 
-.whoCircle-news{
-  @include pardCircle(1.1rem);
-  display: inline-block;
-  border: 1px solid $grey-4;
+.icon-whoNews{
   position: relative;
+  height: 20px;
+  width: 20px;
   vertical-align: middle;
   margin-right: .5rem;
+  display: inline-block;
+}
+
+.whoCircle-news{
+  @include pardCircle(20px);
+  border: 1px solid $grey-4;
+  position: relative;
 }
 
 .whoCircle-newsPopup{
-  @include pardCircle(1.3rem);
+  @include pardCircle(25px);
   display: inline-block;
   border: 1px solid $grey-4;
   position: relative;

@@ -204,7 +204,7 @@ ns.Widgets = ns.Widgets || {};
         $('<h6>').append('Asesoría creativa:'),
         $('<p>').text('El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.'),
         $('<h6>').append('Conexión API:'),
-        $('<p>').text('El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sito web. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en todas las plataformas conectadas. Podrás disponer de toda tu información siempre actualizada donde y cuando tú quieras.')
+        $('<p>').text('El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sito web. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en todas las plataformas conectadas. Podrás disponer de toda tu información siempre actualizada, donde y cuando tú quieras.')
           // .css({'margin-bottom':'2rem'}),
       )
       .addClass('half-col');
