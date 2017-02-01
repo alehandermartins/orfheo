@@ -159,48 +159,6 @@
   }
 
   ns.Widgets.MultipleSelector = function(values, callback){
-    var _createdWidget = $('<select>').attr("multiple", "multiple");
-    values.forEach(function(value, index){
-      _createdWidget.append($('<option>').text(value).val(value));
-    });
-    
-    _createdWidget.on('change',function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
-      if(callback) {
-        var boundCallback = callback.bind(_createdWidget);
-        boundCallback();
-      };
-    });
-
-    return {
-      render: function(){
-        return _createdWidget;
-      },
-      getVal: function(){
-        return _createdWidget.val();
-      },
-      setVal: function(values){
-        _createdWidget.multipleSelect("setSelects", values);
-      },
-      addWarning: function(){
-        _createdWidget.next().find('.ms-choice').addClass('warning');
-      },
-      removeWarning: function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
-      },
-      setClass: function(_class){
-        _createdWidget.addClass(_class);
-      },
-      enable: function(){
-        _createdWidget.attr('disabled',false);
-      },
-      disable: function(){
-        _createdWidget.attr('disabled',true);
-      }
-    }
-  }
-
-   ns.Widgets.GeneralMultipleSelector = function(values, callback, options){
     var _createdWidget = $('<div>');
     var _select = $('<select>').attr("multiple", "multiple");
     values.forEach(function(value, index){
@@ -208,30 +166,39 @@
     });
     _createdWidget.append(_select);
     _select.on('change',function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
+        _select.next().find('.ms-choice').removeClass('warning');
       if(callback) {
         var boundCallback = callback.bind(_select);
         boundCallback();
       };
     });
-    var _options = options || {};
-    _select.multipleSelect(_options);
-
+    var _options = {      
+      placeholder: "Selecciona una o más opciones",
+      selectAll: false,
+      countSelected: false,
+      allSelected: false
+    };
+    
     return {
       render: function(){
+        _select.multipleSelect(_options);
         return _createdWidget;
       },
+      setOptions: function(options){
+        _options = options;
+      },
       getVal: function(){
-        return _select.multipleSelect('getSelects');
+        return _select.val();
       },
       setVal: function(values){
         _select.multipleSelect('setSelects', values);
       },
       addWarning: function(){
-        _createdWidget.next().find('.ms-choice').addClass('warning');
+        console.log('warning')
+        _select.next().find('.ms-choice').addClass('warning');
       },
       removeWarning: function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
+        _select.next().find('.ms-choice').removeClass('warning');
       },
       setClass: function(_class){
         _createdWidget.addClass(_class);
@@ -248,33 +215,39 @@
     }
   }
 
-
+ 
   ns.Widgets.MultipleDaysSelector = function(millisecValues, callback){
-    var _createdWidget = $('<select>').attr("multiple", "multiple");
+    var _createdWidget = $('<div>');
+    var _select = $('<select>').attr("multiple", "multiple");
     var _arrayDays = [];
     millisecValues.forEach(function(value){
       var _newDate = new Date(parseInt(value));
       var _day = moment(_newDate).locale('es').format('dddd DD/MM/YYYY');
-      _createdWidget.append($('<option>').text(_day).val(value));
+      _select.append($('<option>').text(_day).val(value));
       _arrayDays.push(moment(_newDate).locale('es').format('YYYY-MM-DD'));
     });
-    
-    _createdWidget.on('change',function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
+    _createdWidget.append(_select);
+    _select.on('change',function(){
+        _select.next().find('.ms-choice').removeClass('warning');
       if(callback) {
-        var boundCallback = callback.bind(_createdWidget);
+        var boundCallback = callback.bind(_select);
         boundCallback();
       };
     });
+    var _options={};
 
     return {
       render: function(){
+        _select.multipleSelect(_options);
         return _createdWidget;
       },
+      setOptions: function(options){
+        _options = options;
+      },
       getVal: function(){
-        if(_createdWidget.val()) {
+        if(_select.val()) {
           var _daysArray = [];
-          _createdWidget.val().forEach(function(val){
+          _select.val().forEach(function(val){
             _daysArray.push(moment(new Date(parseInt(val))).locale('es').format('YYYY-MM-DD'));
           });
           return _daysArray;
@@ -289,22 +262,22 @@
           var _index = _arrayDays.indexOf(value);
           if (_index>-1) _values.push(millisecValues[_index]);
         });
-        _createdWidget.multipleSelect("setSelects", _values);
+        _select.multipleSelect("setSelects", _values);
       },
       addWarning: function(){
-        _createdWidget.next().find('.ms-choice').addClass('warning');
+        _select.next().find('.ms-choice').addClass('warning');
       },
       removeWarning: function(){
-        _createdWidget.next().find('.ms-choice').removeClass('warning');
+        _select.next().find('.ms-choice').removeClass('warning');
       },
       setClass: function(_class){
-        _createdWidget.addClass(_class);
+        _select.addClass(_class);
       },
       enable: function(){
-        _createdWidget.attr('disabled',false);
+        _select.attr('disabled',false);
       },
       disable: function(){
-        _createdWidget.attr('disabled',true);
+        _select.attr('disabled',true);
       }
     }
   }

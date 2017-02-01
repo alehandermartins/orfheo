@@ -472,16 +472,16 @@
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envía');
 
     Object.keys(form).forEach(function(field){
-        _form[field] = {};
-        _form[field]['type'] = form[field].type;
-        if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
-        else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
-        if (form[field]['input']=='CheckBox') {
-          form[field].args[0] = form[field].label;
-          if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
-        }
-        _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
-        _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
+      _form[field] = {};
+      _form[field]['type'] = form[field].type;
+      if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+      else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
+      if (form[field]['input']=='CheckBox') {
+        form[field].args[0] = form[field].label;
+        if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
+      }
+      _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+      _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
 
       if (field == 'photos') {
         var _thumbnail = $('<div>');
@@ -535,29 +535,24 @@
           }  
         }
         else{
+          var _helpText = _form[field].helptext.render();
           if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-            _form[field].label.render(),
-            _form[field].input.render()
-          )
-          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
-          if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
+           if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
             if (field == 'availability'){
-              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
+              _form[field].input.setOptions({      
+                placeholder: "Selecciona una o más opciones",
                 selectAllText: "Selecciona todo",
                 countSelected: false,
                 allSelected: "Disponible todos los días"
               });
             }
-            else{
-              _form[field].input.render().multipleSelect({      placeholder: "Selecciona una o más opciones",
-                selectAll: false,
-                countSelected: false,
-                allSelected: false
-              });
-            }
-            _form[field].helptext.render().css('margin-top', 5);
+            _helpText.css('margin-top', 5);
           }
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+            _form[field].label.render(),
+            _form[field].input.render()
+          )
+          if (form[field]['helptext'].length) _formField.append(_helpText);
         }
         if($.isNumeric(field)) _containerCustomFields.append(_formField);
         else if (field != 'conditions')_containerOrfheoFields.append(_formField);
