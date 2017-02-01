@@ -31,7 +31,6 @@
       export: {icon: '&#xE2C4', className: 'material-icons'},
       mailinglist: {icon: '&#xE0D0', className: 'material-icons'},
       search: {icon: '&#xE8B6', className: 'material-icons'},
-      // current_event: {icon: '&#xE3EA;', className: 'material-icons'},
       current_event: {icon: '&#xE3AF;', className: 'material-icons'},  
       children: {icon: '&#xEB41;', className: 'material-icons'},
       duration: {icon: '&#xE425;', className: 'material-icons'},

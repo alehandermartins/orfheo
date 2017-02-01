@@ -407,8 +407,13 @@ ns.Widgets = ns.Widgets || {};
         Pard.Backend.business(businessForm, function(data){
           console.log(data)
           if (data['status'] == 'success'){
-            _submitBtn.hide();
-            _errorBox.empty().append('Mensaje enviado correctamente. Gracias por contactar con nosotros. Te contestaremos enseguida.').removeClass('error-text');
+            _submitBtn.disable();
+            _submitBtn.setClass('disabled-button');
+            _errorBox.empty().append(
+              Pard.Widgets.IconManager('done').render().addClass('success-icon-check-messageSent'),
+              $('<span>').text('Mensaje enviado correctamente.'),
+              $('<span>').html('Gracias por contactar con nosotros.<br> Te contestaremos cuanto antes :)')
+            ).removeClass('error-text');
           }
           else{
             _errorBox.empty().text('Mensaje no enviado: '+data.reason).addClass('error-text');
