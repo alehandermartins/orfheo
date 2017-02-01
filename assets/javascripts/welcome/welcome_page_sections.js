@@ -530,7 +530,7 @@ ns.Widgets = ns.Widgets || {};
 
     _section.append(
       _entryDiv  
-      ,_longTextDiv, _actionDiv,  _littleTextDiv, _servicesDiv
+      // ,_longTextDiv, _actionDiv,  _littleTextDiv, _servicesDiv
     );
 
     return _section;
