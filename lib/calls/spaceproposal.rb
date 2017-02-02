@@ -17,7 +17,6 @@ class SpaceProposal
     raise Pard::Invalid::Category unless correct_category? params[:category]
     raise Pard::Invalid::Deadline unless on_time?
     raise Pard::Invalid::UnexistingProfile if profile.blank?
-    raise Pard::Invalid::ProfileOwnership unless profile[:user_id] == user[:user_id]
   end
 
   def [] key
