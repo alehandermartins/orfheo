@@ -72,7 +72,7 @@ class CallsController < BaseController
     old_proposal = Repos::Events.get_artist_proposal(proposal_id)
 
     proposal = ArtistOwnProposal.new(session[:identity], call_id, params) if old_proposal[:own] == true
-    proposal = ArtistProposal.new(old_proposal[:user_id], event_id, call_id, params) unless old_proposal[:own] == true
+    proposal = ArtistProposal.new(old_proposal[:user_id], event_id, call_id, params, true) unless old_proposal[:own] == true
     Repos::Events.modify_artist proposal.to_h
 
     message = success({event: 'modifyArtist', model: proposal.to_h})
@@ -88,7 +88,7 @@ class CallsController < BaseController
     old_proposal = Repos::Events.get_space_proposal(proposal_id)
 
     proposal = SpaceOwnProposal.new(session[:identity], call_id, params) if old_proposal[:own] == true
-    proposal = SpaceProposal.new(old_proposal[:user_id], event_id, call_id, params) unless old_proposal[:own] == true
+    proposal = SpaceProposal.new(old_proposal[:user_id], event_id, call_id, params, true) unless old_proposal[:own] == true
     Repos::Events.modify_space proposal.to_h
 
     message = success({event: 'modifySpace', model: proposal.to_h})

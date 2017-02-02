@@ -1,12 +1,13 @@
 class ArtistProposal
 
-  def initialize user_id, event_id, call_id, params
+  def initialize user_id, event_id, call_id, params, req = nil
     @event = Repos::Events.get_event event_id
     @user = Repos::Users.grab({user_id: user_id})
     @profile = Repos::Profiles.get_profile params[:profile_id]
     @form = get_artist_form call_id, params[:form_category]
 
     check_fields! params
+    check_deadline! if req.blank?
     @artist_proposal = new_artist params
   end
 
@@ -15,8 +16,11 @@ class ArtistProposal
       correct_entry? params[field], entry[:type]
     }
     raise Pard::Invalid::Category unless correct_category? params[:category]
-    raise Pard::Invalid::Deadline unless on_time?
     raise Pard::Invalid::UnexistingProfile if profile.blank?
+  end
+
+  def check_deadline! 
+    raise Pard::Invalid::Deadline unless on_time?
   end
 
   def [] key
