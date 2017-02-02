@@ -170,6 +170,12 @@ Pard.Profile = function(profiles, status){
 };
 
 Pard.EventManager = function(the_event, forms){
+  var spinner = new Spinner();
+  spinner.spin();
+  $('body').append(spinner.el);
+  $(window).load(function(){
+    spinner.stop();
+  });
   var _whole = $('<div>').addClass('whole-container');
   var _header = Pard.Widgets.InsideHeader();
   var _main = Pard.Widgets.Manager(the_event, forms);

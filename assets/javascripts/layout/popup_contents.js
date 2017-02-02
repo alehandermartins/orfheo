@@ -382,20 +382,20 @@ ns.Widgets = ns.Widgets || {};
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
       _errorBox.empty();
       var businessForm = {};
-      for (var key in businessInputs){
-        businessForm[key] = businessInputs[key].getVal();
-      }
-      // var businessForm = {
-      //   name: _nameInput.getVal(),
-      //   email: _emailInput.getVal(),
-      //   subject: _subjectInput.getVal(),
-      //   contactPhone: _checkPhone.getVal(),
-      //   contactHangout: _checkHangout.getVal(),
-      //   phone: _phoneInput.getVal(),
-      //   dayAvailabilty: _phoneDayAvailabilty.getVal(),
-      //   periodAvailabilty: _phonePeriodAvailabilty.getVal(),
-      //   message: _mexInput.getVal()
+      // for (var key in businessInputs){
+      //   businessForm[key] = businessInputs[key].getVal();
       // }
+      var businessForm = {
+        name: _nameInput.getVal(),
+        email: _emailInput.getVal(),
+        subject: _subjectInput.getVal(),
+        contactPhone: _checkPhone.getVal(),
+        contactHangout: _checkHangout.getVal(),
+        phone: _phoneInput.getVal(),
+        dayAvailabilty: _phoneDayAvailabilty.getVal().join(),
+        periodAvailabilty: _phonePeriodAvailabilty.getVal().join(),
+        message: _mexInput.getVal()
+      }
       var filled = true;
       ['name', 'email','subject','message'].forEach(function(field){
         if (!(businessForm[field])){
