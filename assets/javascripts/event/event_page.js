@@ -364,7 +364,12 @@
     var _sCont = $('<div>');
 
     _searchWidgetsContainer.append(_sCont.append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
-    _createdWidget.append(map, _searchWidgetsContainer, _chooseOrderBox, _searchResult);
+    _createdWidget.append(
+      map, 
+     _searchWidgetsContainer, 
+      _chooseOrderBox, 
+      _searchResult
+    );
 
     _daySelector.select2({
       minimumResultsForSearch: Infinity,
@@ -531,8 +536,12 @@
       if ($(window).width() < 640 ) {
         var _distanceInputTop = _searchWidget.offset().top;
         var _scroolTop = $(window).scrollTop();
-        var _distanceToDo = _distanceInputTop + _scroolTop - 120;
-        $(window).scrollTop(_distanceToDo);
+        console.log(_distanceInputTop)
+        console.log(_scroolTop)
+
+        var _distanceToDo = _distanceInputTop - _scroolTop;
+        console.log(_distanceToDo)
+        if (_distanceInputTop - _scroolTop > 8) $(window).scrollTop(_distanceInputTop);
       }
     });
 
