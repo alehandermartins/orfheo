@@ -52,7 +52,10 @@
     _participantsSelector.on('change',function(){
       _profile_own = _participantsSelector.select2('data')[0].participant;
       if(_profile_own.profile_id) _t2.text('');
-      else _t2.text('...o crea algo nuevo');
+      else {
+        _t2.text('...o crea algo nuevo');
+        if (_formWidget) _formWidget.enableFields();
+      }
       if (_formWidget) _formWidget.setVal(_profile_own);
     });
 
@@ -320,12 +323,12 @@
         }
       },
       disableFields: function(){
-        // _form['email'].input.setVal('El correo no se puede modificar');
         _form['email'].input.disable();
-        // _form['email'].input.setClass('text-warning');
-        //_form['name'].input.setVal('El nombre sólo lo puede moficar el relativo perfil desde su página')
         _form['name'].input.disable();
-        //_form['name'].input.setClass('text-warning');
+       },
+      enableFields: function(){
+        _form['email'].input.enable();
+        _form['name'].input.enable();
       },
       showAll: function(){
         _displayAllBtn.trigger('click');

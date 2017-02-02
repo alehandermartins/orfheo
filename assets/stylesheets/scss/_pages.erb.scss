@@ -1473,13 +1473,15 @@ CALL PAGE
   min-height:  -webkit-calc(100vh - 5.1rem);
   min-height:  calc(100vh - 5.1rem); */
   margin-top: -.7rem;
+  padding: 0;
 }
 
 .call-section{
   background: white;
   padding: $inner-spacing;
   position: relative;
-  min-height: 100%;
+  min-height: 88.7vh;
+
 }
 
 .switcher-menu-call-page{

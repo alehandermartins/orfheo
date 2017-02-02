@@ -53,6 +53,9 @@
       },
       disable: function(){
         _input.prop('disabled', true);
+      },
+      enable: function(){
+        _input.prop('disabled', false);
       }
     }
   };
