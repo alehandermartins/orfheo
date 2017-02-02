@@ -561,9 +561,8 @@ ns.Widgets = ns.Widgets || {};
 
     var _web = $('<p>').text('orfheo.org').addClass('orfheo-web-popup');
 
-    var _baseline = $('<h6>').html('La primera comunidad artístico-cultural </br> donde conocer proyectos, encontrarse y crear juntos</br> experiencias inolvidables').addClass('orfheo-baseline-popup');
+    var _baseline = $('<h6>').html('Se pueden hacer más cosas juntos que por separado<br> ').addClass('orfheo-baseline-popup');
 
-    // var _title = $('<h4>').text('Todo sobre el proyecto').addClass('title-project-info');
     var _message = $('<div>').html('<p> Bienvenido a orfheo, </p> <p> una sitio especial, que llega a ser realidad, y entonces comunidad, gracias a todos sus ciudadanos. Orfheo es una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro. </p> <p> Estás en tu comunidad artistica online, donde lanzar tu convocatoria es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Tienes a tu alcanze una herramienta, un mecanismo de gestión cultural con el cual crear y organzar eventos, descubrir a través de perfiles, enlaces y conexiones, llevar a la realidad sueños y ideas. </p> <p> Orfheo es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Creemos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio donde una cosa expone a otra con la misma idea con la cual se ha creado. </p> <p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen,  y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental  para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Te dejamos a ti imaginar un poco más lo necesario y el compartir con los demás experiencias inolvidables.</p>');
 
     var _part1 = $('<div>').append(_message);
@@ -588,9 +587,19 @@ ns.Widgets = ns.Widgets || {};
 
      // var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
 
-    _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7);
+    _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7).hide();
 
-    _createdWidget.append(_image, _web, _baseline, _part1, _part2);
+    var _readMore = $('<a>').text('Leer más...')
+      .css({
+        'text-align':'right',
+        'font-size':'14px'
+      })
+      .click(function(){
+        _readMore.remove();
+        _part2.show();
+      })
+
+    _createdWidget.append(_image, _web, _baseline, _part1, _readMore,_part2);
 
     return {
       render: function(){ 
