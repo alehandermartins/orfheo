@@ -106,6 +106,9 @@
       },
       setClass: function(_class){
         _createdWidget.addClass(_class);
+      },
+      deleteClass: function(_class){
+        _createdWidget.removeClass(_class);
       }
     };
   };

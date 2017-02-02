@@ -53,7 +53,7 @@
   ns.Widgets.InputEmail = function(placeholder){
 
     var _checkInput = function(){
-      if(!regEx.test(_input.getVal())){
+      if(_input.getVal() && !regEx.test(_input.getVal())){
         _input.addWarning();
         return false;
       }
@@ -62,10 +62,13 @@
         return _input.getVal();
       }  
     }
+    var _removeWarning = function(){
+      _input.removeWarning();
+    }
 
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
 
-    var _input = Pard.Widgets.Input(placeholder, 'text', _checkInput);
+    var _input = Pard.Widgets.Input(placeholder, 'text', _removeWarning,_checkInput);
     
     return{
       render: function(){
