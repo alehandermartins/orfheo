@@ -15,9 +15,9 @@ class CallsController < BaseController
     proposal = ArtistProposal.new(session[:identity], event_id, call_id, params)
     Repos::Events.add_artist event_id, proposal.to_h
 
-    message = {event: 'addArtist', model: proposal.to_h}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'addArtist', model: proposal.to_h})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/send_space_proposal' do
@@ -29,9 +29,9 @@ class CallsController < BaseController
     proposal = SpaceProposal.new(session[:identity], event_id, call_id, params)
     Repos::Events.add_space event_id, proposal.to_h
 
-    message = {event: 'addSpace', model: proposal.to_h}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'addSpace', model: proposal.to_h})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/amend_artist_proposal' do
@@ -40,6 +40,8 @@ class CallsController < BaseController
     check_call_exists! call_id
     check_proposal_exists! proposal_id
     old_proposal = Repos::Events.get_artist_proposal(proposal_id)
+
+    check_proposal_ownership! old_proposal[:user_id]
     proposal = ArtistProposal.new(session[:identity], event_id, call_id, old_proposal)
     proposal.amend amend
 
@@ -53,6 +55,8 @@ class CallsController < BaseController
     check_call_exists! call_id
     check_proposal_exists! proposal_id
     old_proposal = Repos::Events.get_space_proposal(proposal_id)
+
+    check_proposal_ownership! old_proposal[:user_id]
     proposal = SpaceProposal.new(session[:identity], event_id, call_id, old_proposal)
     proposal.amend amend
 
@@ -68,12 +72,12 @@ class CallsController < BaseController
     old_proposal = Repos::Events.get_artist_proposal(proposal_id)
 
     proposal = ArtistOwnProposal.new(session[:identity], call_id, params) if old_proposal[:own] == true
-    proposal = ArtistProposal.new(session[:identity], event_id, call_id, params) unless old_proposal[:own] == true
+    proposal = ArtistProposal.new(old_proposal[:user_id], event_id, call_id, params) unless old_proposal[:own] == true
     Repos::Events.modify_artist proposal.to_h
 
-    message = {event: 'modifyArtist', model: proposal.to_h}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'modifyArtist', model: proposal.to_h})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/modify_space_proposal' do
@@ -84,12 +88,12 @@ class CallsController < BaseController
     old_proposal = Repos::Events.get_space_proposal(proposal_id)
 
     proposal = SpaceOwnProposal.new(session[:identity], call_id, params) if old_proposal[:own] == true
-    proposal = SpaceProposal.new(session[:identity], event_id, call_id, params) unless old_proposal[:own] == true
+    proposal = SpaceProposal.new(old_proposal[:user_id], event_id, call_id, params) unless old_proposal[:own] == true
     Repos::Events.modify_space proposal.to_h
 
-    message = {event: 'modifySpace', model: proposal.to_h}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'modifySpace', model: proposal.to_h})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/delete_artist_proposal' do
@@ -98,17 +102,16 @@ class CallsController < BaseController
     check_proposal_exists! proposal_id
 
     event = Repos::Events.get_event(event_id)
-    user = Repos::Users.grab({user_id: session[:identity]})
     proposal = Repos::Events.get_artist_proposal(proposal_id)
-    check_proposal_access! event[:user_id], user[:user_id]
+    check_proposal_access! event[:user_id], proposal[:user_id]
     
-    check_deadline! event, user
+    check_deadline! event, proposal[:email] if session[:identity] != event[:user_id]
     Repos::Events.delete_artist_proposal proposal_id
-    send_rejection_mail(event, proposal[:user_id], proposal[:title]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
+    send_rejection_mail(event, proposal) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
 
-    message = {event: 'deleteArtist', model: {profile_id: proposal[:profile_id], proposal_id: proposal[:proposal_id]}}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'deleteArtist', model: {profile_id: proposal[:profile_id], proposal_id: proposal[:proposal_id]}})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/delete_space_proposal' do
@@ -116,18 +119,18 @@ class CallsController < BaseController
     check_event_exists! event_id
     check_proposal_exists! proposal_id
 
-    event = Repos::Events.get_event(event_id)
     user = Repos::Users.grab({user_id: session[:identity]})
+    event = Repos::Events.get_event(event_id)
     proposal = Repos::Events.get_space_proposal(proposal_id)
-    check_proposal_access! event[:user_id], user[:user_id]
+    check_proposal_access! event[:user_id], proposal[:user_id]
 
-    check_deadline! event, user
+    check_deadline! event, proposal[:email] if session[:identity] != event[:user_id] 
     Repos::Events.delete_space_proposal proposal_id
-    send_rejection_mail(event, proposal[:user_id], proposal[:name]) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
+    send_rejection_mail(event, proposal) if (session[:identity] == event[:user_id] && session[:identity] != proposal[:user_id])
     
-    message = {event: 'deleteSpace', model: {profile_id: proposal[:profile_id]}}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'deleteSpace', model: {profile_id: proposal[:profile_id]}})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/send_artist_own_proposal' do
@@ -137,10 +140,10 @@ class CallsController < BaseController
 
     proposal = ArtistOwnProposal.new(session[:identity], call_id, params)
     Repos::Events.add_artist event_id, proposal.to_h
-    message = {event: 'addArtist', model: proposal.to_h}
-
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    
+    message = success({event: 'addArtist', model: proposal.to_h})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/send_space_own_proposal' do
@@ -150,10 +153,10 @@ class CallsController < BaseController
 
     proposal = SpaceOwnProposal.new(session[:identity], call_id, params)
     Repos::Events.add_space event_id, proposal.to_h
-    message = {event: 'addSpace', model: proposal.to_h}
-
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    
+    message = success({event: 'addSpace', model: proposal.to_h})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/add_whitelist' do
@@ -163,9 +166,9 @@ class CallsController < BaseController
     whitelist = Whitelist.new(params, event_id)
     Repos::Events.add_whitelist event_id, whitelist.to_a
 
-    message = {event: 'addWhitelist', model: whitelist.to_a}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'addWhitelist', model: whitelist.to_a})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   post '/users/delete_whitelist' do
@@ -177,9 +180,9 @@ class CallsController < BaseController
 
     Repos::Events.add_whitelist event_id, event[:whitelist]
 
-    message = {event: 'addWhitelist', model: event[:whitelist]}
-    Services::Clients.send_message(event_id, success(message))
-    success(message)
+    message = success({event: 'addWhitelist', model: event[:whitelist]})
+    Services::Clients.send_message(event_id, message)
+    message
   end
 
   private
@@ -195,18 +198,22 @@ class CallsController < BaseController
     raise Pard::Invalid::ProposalOwnership unless event_owner == session[:identity] || proposal_owner == session[:identity]
   end
 
-  def send_rejection_mail event, user_id, title
-    user = Repos::Users.grab({user_id: user_id})
-    payload = {organizer: event[:organizer], event_name: event[:name], title: title}
+  def check_proposal_ownership! proposal_owner
+    raise Pard::Invalid::ProposalOwnership unless proposal_owner == session[:identity]
+  end
+
+  def send_rejection_mail event, proposal
+    user = {email: proposal[:email]}
+    payload = {organizer: event[:organizer], event_name: event[:name], title: proposal[:title]}
     Services::Mails.deliver_mail_to user, :rejected, payload
   end
 
-  def check_deadline! event, user
-    raise Pard::Invalid::Deadline unless on_time?(event, user)
+  def check_deadline! event, email
+    raise Pard::Invalid::Deadline unless on_time?(event, email)
   end
 
-  def on_time? event, user
-    return true if event[:user_id] == user[:user_id] || event[:whitelist].any?{ |whitelisted| whitelisted[:email] == user[:email] }
+  def on_time? event, email
+    return true if event[:whitelist].any?{ |whitelisted| whitelisted[:email] == email }
     event[:start].to_i/1000 < Time.now.to_i && event[:deadline].to_i/1000 > Time.now.to_i
   end
 end
