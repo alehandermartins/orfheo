@@ -507,7 +507,7 @@ ns.Widgets = ns.Widgets || {};
     var _infoContainer = $('<div>').append(_info1, _info2, _info3)
     _actionDiv.append(_actionContainer.append(_titleContainer, _infoContainer));
 
-    var _titleLittleText = $('<h4>').html('El futuro está aquí:<br>eres tú junto con los demás').addClass('title-welcome').css('margin-bottom','1rem');
+    var _titleLittleText = $('<h4>').html('El futuro está aquí:<br>¡eres tú junto con los demás!').addClass('title-welcome').css('margin-bottom','1rem');
     // .text('Nuevas posibilidades culturales creadas por conexiones y enlaces');
     // var _littleText = $('<p>').html('Algunas veces lo has imaginado pero ahora es realidad...').css('margin-top','1.5rem')
     var _callLittleText = $('<button>').attr('type','button')
