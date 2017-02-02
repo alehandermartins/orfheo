@@ -4,6 +4,7 @@ class CallsController < BaseController
     scopify :event_id, :call_id, :profile_id, :production_id
     check_event_exists! event_id
     check_call_exists! call_id
+    check_profile_ownership profile_id
 
     if production_id.blank?
       production = Production.new(params, session[:identity])
@@ -20,9 +21,10 @@ class CallsController < BaseController
   end
 
   post '/users/send_space_proposal' do
-    scopify :event_id, :call_id
+    scopify :event_id, :call_id, :profile_id
     check_event_exists! event_id
     check_call_exists! call_id
+    check_profile_ownership profile_id
 
     proposal = SpaceProposal.new(session[:identity], event_id, call_id, params)
     Repos::Events.add_space event_id, proposal.to_h
@@ -98,7 +100,6 @@ class CallsController < BaseController
     event = Repos::Events.get_event(event_id)
     user = Repos::Users.grab({user_id: session[:identity]})
     proposal = Repos::Events.get_artist_proposal(proposal_id)
-
     check_proposal_access! event[:user_id], user[:user_id]
     
     check_deadline! event, user
