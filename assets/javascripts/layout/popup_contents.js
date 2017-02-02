@@ -190,7 +190,7 @@ ns.Widgets = ns.Widgets || {};
               .append(
                 Pard.Widgets.IconManager('done').render().addClass('success-icon-check-messageSent'),
                 $('<span>').text('Mensaje enviado correctamente. ').css('color','#4cb632'),
-                $('<span>').html('<br>Gracias por opinión :)')
+                $('<span>').html('<br>Gracias por tu opinión :)')
                   .css({
                     'color':'black',
                   })
