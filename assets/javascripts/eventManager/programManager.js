@@ -478,8 +478,8 @@
           card.removeClass('cursor_move').addClass('cursor_grab');
           card.css({'opacity': '1'});
           if(ui.helper.data('dropped') == false){
-            Pard.Backend.deletePerformances(the_event.event_id, [performance], function(data){
-              console.log('delete');
+            Pard.Backend.deletePerformances(_sendForm([performance]), function(data){
+              Pard.Bus.trigger(data.event, data.model);
             });
           }
         }
@@ -703,8 +703,9 @@
         });
 
         removeInputButton.on('click', function(){
-          Pard.Backend.deletePerformances(the_event.event_id, [performance], function(data){
-          _closePopup();
+          Pard.Backend.deletePerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
+            _closePopup();
           });
         });
 
@@ -831,8 +832,8 @@
           _card.css({'opacity': '1'});
           Pard.Bus.trigger('stop');
           if(ui.helper.data('dropped') == false){
-            Pard.Backend.deletePerformances(the_event.event_id, artistShows(), function(data){
-              console.log('delete');
+            Pard.Backend.deletePerformances(_sendForm(artistShows()), function(data){
+              Pard.Bus.trigger(data.event, data.model);
             });
           }
         }
@@ -1250,14 +1251,15 @@
 
           _manager.removeInputButton.click(function(e, state){
             if (!(state) && _managers.chained){
-              Pard.Backend.deletePerformances(the_event.event_id, artistShows(), function(data){
+              Pard.Backend.deletePerformances(_sendForm(artistShows()), function(data){
+                Pard.Bus.trigger(data.event, data.model);
                 performancesBox.remove();
                 _closePopup();
-                console.log('delete');
               });
             }
             else{
-              Pard.Backend.deletePerformances(the_event.event_id, [show], function(data){
+              Pard.Backend.deletePerformances(_sendForm([show]), function(data){
+                Pard.Bus.trigger(data.event, data.model);
                 _manager.removeInputButton.trigger('click');
                 _managers.collection[show.performance_id].chainIcon.remove();
                 delete _managers.collection[show.performance_id];
