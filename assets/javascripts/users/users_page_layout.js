@@ -82,7 +82,7 @@
 
     _section.append(
       _myProfileDiv
-      ,_littleTextDiv
+      // ,_littleTextDiv
     );
 
     return _section;

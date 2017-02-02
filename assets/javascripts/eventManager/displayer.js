@@ -156,7 +156,7 @@
       }
       _modifyProposal.click(function(){
         _messageProposalPrintedRendered.hide();
-        var _formWidget = Pard.Widgets.OwnProposalForm(form, type, _proposal.form_category);
+        var _formWidget = Pard.Widgets.OwnProposalForm(form, type, _proposal.form_category, (!proposal.own));
         _formWidget.setVal(_proposal);
         if (!proposal.own) _formWidget.disableFields();
       

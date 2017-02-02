@@ -606,8 +606,10 @@
     if(news.title.length<29) _title.css('margin-bottom','0.3rem');
 
     var _publisherName = $('<span>').text(news.publisher).addClass('publisherName-newsCard');
-    var _rfh = $('<div>').addClass('rfhLogo-news')
-    var _icon = $('<div>').addClass('whoCircle-news').append(_rfh);
+    var _rfh = $('<div>').addClass('rfhLogo-news');
+    var _icon = $('<div>').addClass('icon-whoNews');
+    var _circle = $('<div>').addClass('whoCircle-news');
+    _icon.append(_circle, _rfh);
     var _publisher = $('<div>').append(_icon, _publisherName).addClass('publisher-newsCard');
     var _footerNewsCard = $('<div>').css('position','relative')
       .append(_publisher, _date);

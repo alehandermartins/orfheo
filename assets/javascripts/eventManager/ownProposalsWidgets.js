@@ -122,11 +122,9 @@
   }
 
 
-  ns.Widgets.OwnProposalForm = function(form, participantType, formTypeSelected){
+  ns.Widgets.OwnProposalForm = function(form, participantType, formTypeSelected, received){
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability'];
-
     var _additionalForm = Pard.Forms.Proposal[participantType];
-
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
     var _send = function(){};
@@ -162,7 +160,8 @@
     var _printField = function(field){
       _form[field] = {};
       _form[field]['type'] = form[field].type;
-      if($.inArray(field, _mandatoryFields)>-1) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+      console.log(_form[field].type);
+      if($.inArray(field, _mandatoryFields)>-1 || (received && _form[field].type == 'mandatory')) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
       else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
       if (form[field]['input']=='CheckBox') {
         form[field].args[0] = form[field].label;
@@ -196,47 +195,41 @@
           return false;
           break;
         default:
-          var _input = _form[field].input.render();
+          var _input = _form[field].input;
           var _label = _form[field].label.render();
           var _helptext = _form[field].helptext.render();
           if($.isNumeric(field)) _optionalFields.append(_formField);
           else if ($.inArray(field, _mandatoryFields)<0)_optionalFields.prepend(_formField);
           else _containerMandatoryFields.append(_formField);
           var _prepareFormField = function(){
-            _formField.append(_label,_input);
+            _formField.append(_label,_input.render());
             if (form[field]['helptext'].length) _formField.append(_helptext);
           }
           switch(form[field].input){
             case 'TextAreaCounter':
-              _formField.append(_label,_input);
+              _formField.append(_label,_input.render());
               break;
             case 'CheckBox':
-              _formField.append(_input);
+              _formField.append(_input.render());
               if (form[field]['helptext'].length) {
                 _helptext.css({'margin-top':'0'});
                 _formField.append(_helptext);
               }
               break;
             case 'TextArea':
-               _input.attr('rows', 4);
+              _input.setAttr('rows', 4);
               _prepareFormField();
               break;
             case 'MultipleSelector':
             case 'MultipleDaysSelector':
-              _prepareFormField();
-              if (field == 'availability') _input.multipleSelect({
+              if (field == 'availability') _input.setOptions({
                     placeholder: "Selecciona una o más opciones",
                     selectAllText: "Selecciona todo",
                     countSelected: false,
                     allSelected: "Disponible todos los días"
-                  });
-              else  _input.multipleSelect({
-                    placeholder: "Selecciona una o más opciones",
-                    selectAll: false,
-                    countSelected: false,
-                    allSelected: false
-                  });
+                  })
               _helptext.css('margin-top', 5);
+              _prepareFormField();
               break;
             default:
               _prepareFormField();
@@ -255,11 +248,20 @@
     var _filled = function(){
       var _check = true;
       for(var field in _form){
-        if (field == 'address') console.log(_form[field].input.getVal());
-        if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
-          _form[field].input.addWarning();
-          _invalidInput.text('Por favor, revisa los campos obligatorios.');
-          _check = false;
+        // if (field == 'address') console.log(_form[field].input.getVal());
+        if (received){
+           if (_form[field].type == 'mandatory' && !(_form[field].input.getVal()) && field != 'category'){
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;
+          }
+        }
+        else{
+         if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
+            _form[field].input.addWarning();
+            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _check = false;
+          }
         }
       }
       return _check;

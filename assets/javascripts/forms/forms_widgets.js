@@ -62,31 +62,24 @@
       }
       else{
         var _genericField = $('<div>');
-        _formContainer.append(
-        _genericField.addClass(form[field].input + '-FormField' + ' call-form-field '+field+'-FormDiv').append(
-          _form[field].label.render(),
-          _form[field].input.render())
-        )
-        if (form[field]['helptext'].length) _genericField.append(_form[field].helptext.render());
-        if(form[field]['input'] == 'MultipleSelector'){
+        var _helpText = _form[field].helptext.render();
+        if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
           if (field == 'availability'){
-            _form[field].input.render().multipleSelect({      
+            _form[field].input.setOptions({      
               placeholder: "Selecciona una o más opciones",
               selectAllText: "Selecciona todo",
               countSelected: false,
               allSelected: "Disponible todos los días"
             });
           }
-          else{
-            _form[field].input.render().multipleSelect({      
-              placeholder: "Selecciona una o más opciones",
-              selectAll: false,
-              countSelected: false,
-              allSelected: false
-            });
-          }
-          _form[field].helptext.render().css('margin-top', 5);
+          _helpText.css('margin-top', 5);
         }
+        _formContainer.append(
+        _genericField.addClass(form[field].input + '-FormField' + ' call-form-field '+field+'-FormDiv').append(
+          _form[field].label.render(),
+          _form[field].input.render())
+        )
+        if (form[field]['helptext'].length) _genericField.append(_helpText);
       }
     }
 
