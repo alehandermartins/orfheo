@@ -70,6 +70,7 @@ class CallsController < BaseController
     check_call_exists! call_id
     check_proposal_exists! proposal_id
     old_proposal = Repos::Events.get_artist_proposal(proposal_id)
+    params[:amend] = old_proposal[:amend]
 
     proposal = ArtistOwnProposal.new(session[:identity], call_id, params) if old_proposal[:own] == true
     proposal = ArtistProposal.new(old_proposal[:user_id], event_id, call_id, params, true) unless old_proposal[:own] == true
@@ -86,6 +87,7 @@ class CallsController < BaseController
     check_call_exists! call_id
     check_proposal_exists! proposal_id
     old_proposal = Repos::Events.get_space_proposal(proposal_id)
+    params[:amend] = old_proposal[:amend]
 
     proposal = SpaceOwnProposal.new(session[:identity], call_id, params) if old_proposal[:own] == true
     proposal = SpaceProposal.new(old_proposal[:user_id], event_id, call_id, params, true) unless old_proposal[:own] == true

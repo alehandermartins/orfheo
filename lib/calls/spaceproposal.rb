@@ -50,7 +50,8 @@ class SpaceProposal
       description: profile[:bio],
       phone: params[:phone] || profile[:phone],
       subcategory: params[:subcategory],
-      form_category: params[:form_category]
+      form_category: params[:form_category],
+      amend: params[:amend]
     }
     form.each{ |field, content| space_proposal[field] = params[field]} 
     space_proposal
