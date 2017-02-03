@@ -2330,6 +2330,32 @@ button.footer-text-link:hover{
   }
 }
 
+.eventContactPopup{
+  .submit-button{
+    float:  right;
+    background: $green-pard;
+    margin-left: 1rem;
+  }
+  .contactForm-container{
+    margin-top: 2rem;
+    @include horizontal-center;
+    position: relative;
+    @include breakpoint(large){
+      width: 70%;
+    }
+    input, textarea, .availabilityContainer{
+      font-size: $almostNormalSize;
+      height: auto;
+      margin-bottom: .5rem;
+    }
+  }
+  .availabilityContainer{
+    margin: .4rem 0 1rem 0;
+    button{
+      @include border-radius($element-border-radius)
+    }
+  }
+}
 
 /*==============================================
 FORMS
@@ -2601,6 +2627,9 @@ select:-moz-focusring { color: transparent;
   font-size: $smallSize;
 }
 
+.ms-parent{
+  width: 100% !important;
+} 
 
 /*==============================================
 POPUP

@@ -215,56 +215,130 @@
     }
   }
 
-  // ns.Widgets.MultipleSelectorDate = function(eventTime, callback){
-  //   var _createdWidget = $('<select>').attr("multiple", "multiple");
-  //   var _dateMinMax = [];
-  //   for (var day in eventTime) {
-  //     var _dayHuman = moment(new Date(day)).locale('es').format('dd, DD-MM');
-  //     if (day != 'permanent') _dateMinMax.push(_dayHuman);
-  //   }
-  //   _dateMinMax.forEach(function(value){
-  //     _createdWidget.append($('<option>').text(value).val(value));
-  //   });
-  //    _createdWidget.on('change',function(){
-  //       _createdWidget.next().find('.ms-choice').removeClass('warning');
-  //     if(callback) {
-  //       var boundCallback = callback.bind(_createdWidget);
-  //       boundCallback();
-  //     };
-  //   });
+  ns.Widgets.MultipleSelector = function(values, callback){
+    var _createdWidget = $('<div>');
+    var _select = $('<select>').attr("multiple", "multiple");
+    values.forEach(function(value, index){
+      _select.append($('<option>').text(value).val(value));
+    });
+    _createdWidget.append(_select);
+    _select.on('change',function(){
+        _select.next().find('.ms-choice').removeClass('warning');
+      if(callback) {
+        var boundCallback = callback.bind(_select);
+        boundCallback();
+      };
+    });
+    var _options = {      
+      placeholder: "Selecciona una o más opciones",
+      selectAll: false,
+      countSelected: false,
+      allSelected: false
+    };
+    
+    return {
+      render: function(){
+        _select.multipleSelect(_options);
+        return _createdWidget;
+      },
+      setOptions: function(options){
+        _options = options;
+      },
+      getVal: function(){
+        return _select.val();
+      },
+      setVal: function(values){
+        _select.multipleSelect('setSelects', values);
+      },
+      addWarning: function(){
+        console.log('warning')
+        _select.next().find('.ms-choice').addClass('warning');
+      },
+      removeWarning: function(){
+        _select.next().find('.ms-choice').removeClass('warning');
+      },
+      setClass: function(_class){
+        _createdWidget.addClass(_class);
+      },
+      deselectAll: function(){
+        _select.multipleSelect("uncheckAll")
+      },
+      enable: function(){
+        _select.attr('disabled',false);
+      },
+      disable: function(){
+        _select.attr('disabled',true);
+      }
+    }
+  }
 
+ 
+  ns.Widgets.MultipleDaysSelector = function(millisecValues, callback){
+    var _createdWidget = $('<div>');
+    var _select = $('<select>').attr("multiple", "multiple");
+    var _arrayDays = [];
+    millisecValues.forEach(function(value){
+      var _newDate = new Date(parseInt(value));
+      var _day = moment(_newDate).locale('es').format('dddd DD/MM/YYYY');
+      _select.append($('<option>').text(_day).val(value));
+      _arrayDays.push(moment(_newDate).locale('es').format('YYYY-MM-DD'));
+    });
+    _createdWidget.append(_select);
+    _select.on('change',function(){
+        _select.next().find('.ms-choice').removeClass('warning');
+      if(callback) {
+        var boundCallback = callback.bind(_select);
+        boundCallback();
+      };
+    });
+    var _options={};
 
-  //   // _createdWidget.css({
-  //   //   'width': 300
-  //   // });
+    return {
+      render: function(){
+        _select.multipleSelect(_options);
+        return _createdWidget;
+      },
+      setOptions: function(options){
+        _options = options;
+      },
+      getVal: function(){
+        if(_select.val()) {
+          var _daysArray = [];
+          _select.val().forEach(function(val){
+            _daysArray.push(moment(new Date(parseInt(val))).locale('es').format('YYYY-MM-DD'));
+          });
+          return _daysArray;
+        }
+        else{
+          return false;
+        }
+      },
+      setVal: function(values){
+        var _values = [];
+        values.forEach(function(value){
+          var _index = _arrayDays.indexOf(value);
+          if (_index>-1) _values.push(millisecValues[_index]);
+        });
+        _select.multipleSelect("setSelects", _values);
+      },
+      addWarning: function(){
+        _select.next().find('.ms-choice').addClass('warning');
+      },
+      removeWarning: function(){
+        _select.next().find('.ms-choice').removeClass('warning');
+      },
+      setClass: function(_class){
+        _select.addClass(_class);
+      },
+      enable: function(){
+        _select.attr('disabled',false);
+      },
+      disable: function(){
+        _select.attr('disabled',true);
+      }
+    }
+  }
 
-  //   return {
-  //     render: function(){
-  //       return _createdWidget;
-  //     },
-  //     getVal: function(){
-  //       return _createdWidget.val();
-  //     },
-  //     setVal: function(value){
-  //       _createdWidget.val(value);
-  //     },
-  //     addWarning: function(){
-  //       _createdWidget.next().find('.ms-choice').addClass('warning');
-  //     },
-  //     removeWarning: function(){
-  //       _createdWidget.next().find('.ms-choice').removeClass('warning');
-  //     },
-  //     setClass: function(_class){
-  //       _createdWidget.addClass(_class);
-  //     },
-  //     enable: function(){
-  //       _createdWidget.attr('disabled',false);
-  //     },
-  //     disable: function(){
-  //       _createdWidget.attr('disabled',true);
-  //     }
-  //   }
-  // }
 
   ns.Widgets.InputColor = function(){
 
@@ -309,7 +383,7 @@
   }
 
 
-ns.Widgets.InputAddressArtist = function(){
+  ns.Widgets.InputAddressArtist = function(){
 
     var _inputForm = {
       locality: Pard.Widgets.Input('Ciudad*','text', function(){_inputForm.locality.removeWarning(); addressValue();}),
@@ -379,7 +453,7 @@ ns.Widgets.InputAddressArtist = function(){
   }
  
   
-ns.Widgets.InputAddressSpace = function(label){
+  ns.Widgets.InputAddressSpace = function(label){
    
     var autocomplete = {};
 

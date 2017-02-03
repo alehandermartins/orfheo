@@ -6,3 +6,4 @@
 // = require ./multimedia
 // = require ./production_widgets
 // = require ./proposal_widgets
+// = require ./contact_forms
