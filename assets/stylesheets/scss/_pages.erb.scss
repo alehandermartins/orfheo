@@ -316,8 +316,8 @@ main.mainWelcomePage, main.mainUserPage{
   position: relative;
 }
 
-#profilesSection .search-results-WelcomePage, #newsSection .search-results-WelcomePage{
-  @include breakpoint(small down){
+#profilesSection .search-results-WelcomePage, #newsSection .search-results-WelcomePage, .myProfilesContainer{
+  @include breakpoint(medium down){
     text-align: center;
     .newsCard-welcomePage-container{
       text-align: left;
@@ -688,7 +688,7 @@ User Section
   z-index:1;
   @include horizontal-center;
   @include breakpoint(small down) {
-    font-size: 4vh;
+    font-size: 6.4vw;
     margin-top: 49%;
   }
 }
