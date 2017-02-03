@@ -161,7 +161,7 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.EventContact = function(){
     var _createdWidget = $('<div>').addClass('eventContactPopup');
     var _itext = $('<div>').append(
-      $('<p>').html('Para crear un evento o simplemente para más informaciones, contáctanos a través del siguiente formulario:')
+      $('<p>').html('Para crear un evento o para más informaciones, contáctanos a través del siguiente formulario:')
     );
     var _ftext = $('<div>').append(
       $('<p>').html('Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong> (más información en nuestra <a href="/services", target="_blank"> página de servicios </a>).'))

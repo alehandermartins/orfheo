@@ -60,10 +60,25 @@
     _infoContentBox.append(_bio.prepend(_contact));
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
+    var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
+    var _eventBoxContent = $('<div>').addClass('box-content').css('min-height','2rem');
+    var _createEventBtn = Pard.Widgets.Button(
+      'Crea un evento', 
+      function(){
+         var _contactPopup = Pard.Widgets.Popup();
+        _contactPopup.setContent('Tus eventos en orfheo', Pard.Widgets.EventContact());
+        _contactPopup.setCallback(function(){
+          setTimeout(function(){
+            _contactPopup.destroy();
+          }, 500);
+        });
+        _contactPopup.open();
+      }
+    )
+    .render()
+    .addClass('createEventBtn-organizationPage')
+    _createdWidget.append(_eventBoxContainer.append(_createEventBtn, _eventBoxContent));
     if(profile.events && profile.events.length){ 
-      var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
-      var _eventBoxContent = $('<div>').addClass('box-content');
-      _createdWidget.append(_eventBoxContainer.append(_eventBoxContent));
       profile.events.forEach(function(_event){
         var _eventCard = Pard.Widgets.EventCard(_event, (userStatus === 'owner'));
         var _eventCardContainer = $('<div>').append($('<div>').append(_eventCard).addClass('eventCard-container-userPage')).addClass('outer-eventCard-container-userPage')

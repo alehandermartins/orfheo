@@ -565,7 +565,7 @@ button{
   @include breakpoint(large){
     position: absolute;
     right: 0.75rem;
-    top: 0.5rem;
+    top: 0.75rem;
   }
   font-size: $almostNormalSize;
   @include breakpoint(medium down){

@@ -2603,7 +2603,23 @@ ORGANIZATION PAGE
   }
 }
 
+.createEventBtn-organizationPage{
+  @include breakpoint(large){
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
+  }
+  font-size: $almostNormalSize;
+  @include breakpoint(medium down){
+    margin-top: $inner-spacing;
+    margin-left: $inner-spacing;
+  }
+  background: $blue-pard;
+}
 
+.createEventBtn-organizationPage:hover{
+  background: rgba(56, 133, 255,0.8);
+}
 
 /*===============================================
 EVENT PAGE
