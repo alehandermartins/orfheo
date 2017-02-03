@@ -90,7 +90,7 @@
     if (_programContent.html()) _createdWidget.append(_programBoxContainer);
 
     if (userStatus == 'owner'){
-      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();
+      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('open_call').render()).render();
       if('proposals' in profile && profile.proposals != false){
         var _callsBoxContent = $('<div>').addClass('box-content');
         var _mySpaceCallProposals = Pard.Widgets.MyCallProposals(profile);

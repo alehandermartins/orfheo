@@ -38,7 +38,7 @@
 
 
         var _explore = $('<div>').addClass('aside-event-nav-btn');
-        _explore.text('Participantes');
+        _explore.text('Comunidad');
         var _exploreContent = $('<div>').attr('id', 'participants-event-page');
         _exploreContent.hide();
         _explore.click(function(){

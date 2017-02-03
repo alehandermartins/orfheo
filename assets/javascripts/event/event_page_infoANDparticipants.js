@@ -45,7 +45,7 @@
     var _eventInfo = Pard.CachedEvent;
 
     var _createdWidget = $('<div>');
-    var _header = $('<div>');
+    var _header = $('<div>').addClass('borderTop-eventInfoTitle');
     var _daysArray = [];
     var _dateEvent = "";
     var _callText = $('<div>').addClass('info-text-header-infoTab-event');

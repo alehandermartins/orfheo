@@ -379,6 +379,14 @@ ns.Widgets = ns.Widgets || {};
         $('<li>').append(
         $('<a>').text('Email').attr('href','#/'))
         .click( function(){
+          var _contactPopup = Pard.Widgets.Popup();
+          _contactPopup.setContent('Contacta orfheo', Pard.Widgets.ContactOrfheo());
+          _contactPopup.setCallback(function(){
+            setTimeout(function(){
+              _contactPopup.destroy();
+            }, 500);
+          });
+          _contactPopup.open();
           _contactChoice.removeClass('showEventManagerChoice');
           _menuContainer.foundation('close');
         })

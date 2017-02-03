@@ -92,7 +92,7 @@
 
 
     if (userStatus == 'owner'){
-      var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('proposals').render()).render();    
+      var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('open_call').render()).render();    
       var _proposalsBoxContent = $('<div>').addClass('box-content');
     if(profile.proposals && profile.proposals.length){
         var _myCallProposals = Pard.Widgets.MyCallProposals(profile);

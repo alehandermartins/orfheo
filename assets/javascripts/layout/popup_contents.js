@@ -165,10 +165,20 @@ ns.Widgets = ns.Widgets || {};
     );
     var _ftext = $('<div>').append(
       $('<p>').html('Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong> (más información en nuestra <a href="/services", target="_blank"> página de servicios </a>).'))
-        .css('margin-top','1.5rem');
+        .css('margin-top','.5rem');
     var _contactForm = Pard.Widgets.BusinessForm(profileName);
     _createdWidget.append(_itext, _contactForm, _ftext);
 
+    return _createdWidget;
+  }
+
+
+  ns.Widgets.ContactOrfheo = function(){
+    var _createdWidget = $('<div>').addClass('eventContactPopup');
+    var _textColumn = $('<div>').append($('<p>').text('Estamos siempre disponibles proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.'), $('<p>').text('Envíanos un mensaje, te contestaremos enseguida :)'));
+    var _form = Pard.Widgets.ContactOrfheoForm();
+    var _formContainer = $('<div>').append(_form);
+    _createdWidget.append(_textColumn, _formContainer);
     return _createdWidget;
   }
 

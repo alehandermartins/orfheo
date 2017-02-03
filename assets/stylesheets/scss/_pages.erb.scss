@@ -6,9 +6,9 @@ main.mainWelcomePage, main.mainUserPage{
   margin: 0;
   padding: 0;
   margin-top: -1.5rem;
-  min-height: -moz-calc(100vh - 1.8rem - 5.5rem);
-  min-height: -webkit-calc(100vh - 1.8rem - 5.5rem);
-  min-height: calc(100vh - 1.8rem - 5.5rem);
+  min-height: -moz-calc(100vh - 1.8rem - 4.5rem);
+  min-height: -webkit-calc(100vh - 1.8rem - 4.5rem);
+  min-height: calc(100vh - 1.8rem - 4.5rem);
   section{
     /* padding-top:3.3rem; */
     min-height: -moz-calc(100vh - 1.8rem - 5.5rem);
@@ -2659,13 +2659,19 @@ EVENT PAGE
 .title-infoTab-event-page{
   text-align: center;
   margin-top: -0.5rem;
-  font-size: 2.1rem;
+  font-size: 1.8rem;
+  @include breakpoint (small down){
+    font-size: 1.4rem;
+  }
 }
 
 .title-infoTab-event-page-container{
-  border-bottom: 1px solid $grey-3;
   width: 100%;
   position: relative;
+}
+
+.borderTop-eventInfoTitle{ 
+  border-top: 1px solid $grey-3;
 }
 
 .bullhorn-icon-event-page{

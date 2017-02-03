@@ -462,7 +462,7 @@ ns.Widgets = ns.Widgets || {};
     _entryDiv.append(_entryContentContainer.append(_entryContent));
     
     var _profilesDiv = $('<div>').addClass('actionDiv');
-    var _titleProfiles = $('<h4>').html('¡Tu comunidad cultural te llama!<br>Entra en ofheo como:').addClass('title-welcome');
+    var _titleProfiles = $('<h4>').html('Tu comunidad cultural te llama<br>Entra en ofheo como:').addClass('title-welcome');
     var _profilesContainer = $('<div>').addClass('welcomeSection-container');
     var _artist = $('<div>').addClass('i-container');
     var _iconArtist = $('<div>').append(Pard.Widgets.IconManager('artist').render());
@@ -472,7 +472,7 @@ ns.Widgets = ns.Widgets || {};
     var _space = $('<div>').addClass('i-container');
     var _iconSpace = $('<div>').append(Pard.Widgets.IconManager('space').render());
     var _spaceTitle = $('<h4>').text('Espacio');
-    var _spaceTxt = $('<p>').html('Saca el maximo partido a tu espacio: alberga eventos artisticos<br> ¡Abre las puertas a la cultura!');
+    var _spaceTxt = $('<p>').html('Saca el maximo partido a tu espacio: alberga eventos artisticos:<br> abre las puertas a la cultura');
     _space.append($('<div>').append(_iconSpace, _spaceTitle, _spaceTxt).addClass('consulingService-innerCont'));
     var _organization = $('<div>').addClass('i-container');
     var _iconOrganization = $('<div>').append(Pard.Widgets.IconManager('organization').render());
@@ -516,11 +516,11 @@ ns.Widgets = ns.Widgets || {};
       })
       .addClass('callText-WelcomePage');
     // _longTextDiv.append(_longTextContainer.append(_titleLongText, _callLongText));
-    var _titleContainer = $('<div>').append(_titleLongText, _callLongText).css('margin-bottom','4.5rem');
+    var _titleContainer = $('<div>').append(_titleLongText).css('margin-bottom','4.5rem');
     var _infoContainer = $('<div>').append(_info1, _info2, _info3)
-    _actionDiv.append(_actionContainer.append(_titleContainer, _infoContainer));
+    _actionDiv.append(_actionContainer.append(_titleContainer, _infoContainer, _callLongText.css('margin-top','2.5rem')));
 
-    var _titleLittleText = $('<h4>').html('El futuro está aquí:<br>¡eres tú junto con los demás!').addClass('title-welcome').css('margin-bottom','1rem');
+    var _titleLittleText = $('<h4>').html('El futuro está aquí:<br>eres tú junto con los demás').addClass('title-welcome').css('margin-bottom','1rem');
     // .text('Nuevas posibilidades culturales creadas por conexiones y enlaces');
     // var _littleText = $('<p>').html('Algunas veces lo has imaginado pero ahora es realidad...').css('margin-top','1.5rem')
     var _callLittleText = $('<button>').attr('type','button')
