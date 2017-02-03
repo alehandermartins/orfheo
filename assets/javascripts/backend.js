@@ -159,13 +159,10 @@
       );
     };
 
-    var _deletePerformances = function(event_id, program, callback){
+    var _deletePerformances = function(form, callback){
       _send(
         '/users/delete_performances',
-        {
-          event_id: event_id,
-          program: program
-        },
+        form,
         callback
       );
     };

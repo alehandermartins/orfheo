@@ -166,10 +166,11 @@
             });
 
             if(myShows.length > 0){
-              Pard.Backend.deletePerformances(space.event_id, myShows, function(data){
-                Pard.Backend.modifyPerformances(_sendForm(shows), function(data){
-                  Pard.Bus.trigger(data.event, data.model);
-                  var last_show = data.model.slice(-1).pop();
+              Pard.Backend.deletePerformances(_sendForm(myShows), function(data){
+                Pard.Bus.trigger(data.event, data.model);
+                Pard.Backend.modifyPerformances(_sendForm(shows), function(new_data){
+                  Pard.Bus.trigger(new_data.event, new_data.model);
+                  var last_show = new_data.model.slice(-1).pop();
                   Pard.Bus.trigger('checkConflicts', last_show);
                 });
               });
