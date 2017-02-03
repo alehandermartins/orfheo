@@ -454,8 +454,8 @@
     title:{
         "type" : "mandatory",
         "label" : "Título de la propuesta artística",
-        "input" : "InputName",
-        "args" : [],
+        "input" : "Input",
+        "args" : ['', 'text'],
         "helptext" : ""
       },
     description: {

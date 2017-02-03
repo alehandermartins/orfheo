@@ -163,7 +163,6 @@
     var _printField = function(field){
       _form[field] = {};
       _form[field]['type'] = form[field].type;
-      console.log(_form[field].type);
       if($.inArray(field, _mandatoryFields)>-1 || (received && _form[field].type == 'mandatory')) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
       else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
       if (form[field]['input']=='CheckBox') {
@@ -253,18 +252,16 @@
       for(var field in _form){
         // if (field == 'address') console.log(_form[field].input.getVal());
         if (received){
-           if (_form[field].type == 'mandatory' && !(_form[field].input.getVal()) && field != 'category'){
+           if ($.isNumeric(field) && _form[field].type == 'mandatory' && !(_form[field].input.getVal())){
             _form[field].input.addWarning();
             _invalidInput.text('Por favor, revisa los campos obligatorios.');
             _check = false;
           }
         }
-        else{
-         if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
-            _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
-            _check = false;
-          }
+        if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
+          _form[field].input.addWarning();
+          _invalidInput.text('Por favor, revisa los campos obligatorios.');
+          _check = false;
         }
       }
       return _check;
