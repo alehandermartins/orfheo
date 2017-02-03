@@ -315,6 +315,7 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.InsideDropdownMenu = function(user){   
 
     var _eventManagerChoice = $('<div>');
+    var _contactChoice = $('<div>');
 
     $(document).on('show.zf.dropdown', function() {
       _iconDropdownMenu.addClass('iconDropdown-clicked');
@@ -322,6 +323,7 @@ ns.Widgets = ns.Widgets || {};
     $(document).on('hide.zf.dropdown', function(){
       _iconDropdownMenu.removeClass('iconDropdown-clicked');
       _eventManagerChoice.removeClass('showEventManagerChoice');
+      _contactChoice.removeClass('showEventManagerChoice');
     });
 
     var _createdWidget = $('<div>');       
@@ -342,6 +344,55 @@ ns.Widgets = ns.Widgets || {};
       });
     var _modifyPassword = $('<li>').append(_modifyCaller);
 
+    var _contact = $('<li>').append(
+      $('<a>')
+        .attr('href','#/')
+        .append('Contacta orfheo')
+        .hover(
+          function(){
+            _contactChoice.addClass('showEventManagerChoice');
+          },
+          function(){
+            setTimeout(function(){
+              if (!(_contactChoice.hasClass('isOver'))) _contactChoice.removeClass('showEventManagerChoice');
+            },200)
+            
+          }
+        )
+        .click(function(){
+           if (!(_contactChoice.hasClass('showEventManagerChoice'))) _contactChoice.addClass('showEventManagerChoice');
+           else _contactChoice.removeClass('showEventManagerChoice');
+        })
+        .css('cursor','default'),
+      _contactChoice
+    )
+
+    _contactChoice
+      .addClass('eventMananagerChoice')
+      .append(
+        $('<ul>').append(
+        $('<li>').append($('<a>').text('Facebook').attr({'href':'https://www.facebook.com/orfheo.org', 'target':'_blank'}))
+        .click( function(){
+          _contactChoice.removeClass('showEventManagerChoice');
+          _menuContainer.foundation('close');
+        }),
+        $('<li>').append(
+        $('<a>').text('Email').attr('href','#/'))
+        .click( function(){
+          _contactChoice.removeClass('showEventManagerChoice');
+          _menuContainer.foundation('close');
+        })
+      ))
+      .hover(
+        function(){
+          _contactChoice.addClass('isOver');
+        },
+        function () {
+          _contactChoice.removeClass('isOver showEventManagerChoice')
+        }
+      );
+      
+
     if (user){
       var _deleteUserPopup;
       var _deleteUserMex = Pard.Widgets.DeleteUserMessage();
@@ -358,7 +409,7 @@ ns.Widgets = ns.Widgets || {};
       var _deleteUser = $('<li>').append(_deleteCaller).appendTo(_menuSettings);
     }
 
-    _menuSettings.append(_modifyPassword,  _logout);
+    _menuSettings.append(_modifyPassword, _contact,  _logout);
 
     var _loadProfielsEvents = function(){
       Pard.Backend.header(function(data){

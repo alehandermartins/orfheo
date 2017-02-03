@@ -152,7 +152,7 @@
 
   }
 
-  ns.Widgets.BusinessForm = function(){
+  ns.Widgets.BusinessForm = function(profileName){
     var _contactForm = $('<div>').addClass('contactForm-container');
     var _form = $('<form>');
     var _errorBox = $('<p>');
@@ -231,6 +231,7 @@
       }
       if (businessForm['dayAvailabilty']) businessForm['dayAvailabilty'] = businessForm['dayAvailabilty'].join();
       if (businessForm['periodAvailabilty']) businessForm['periodAvailabilty'] = businessForm['periodAvailabilty'].join();
+      if (profileName) businessForm['name'] = businessForm['name'] + ' | '+profileName;
       var filled = true;
       ['name', 'email','subject','message'].forEach(function(field){
         if (!(businessForm[field])){

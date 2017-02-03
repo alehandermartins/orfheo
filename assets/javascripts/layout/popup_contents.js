@@ -158,7 +158,7 @@ ns.Widgets = ns.Widgets || {};
     return _outerContainer;
   }
 
-  ns.Widgets.EventContact = function(){
+  ns.Widgets.EventContact = function(profileName){
     var _createdWidget = $('<div>').addClass('eventContactPopup');
     var _itext = $('<div>').append(
       $('<p>').html('Para crear un evento o para más informaciones, contáctanos a través del siguiente formulario:')
@@ -166,7 +166,7 @@ ns.Widgets = ns.Widgets || {};
     var _ftext = $('<div>').append(
       $('<p>').html('Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong> (más información en nuestra <a href="/services", target="_blank"> página de servicios </a>).'))
         .css('margin-top','1.5rem');
-    var _contactForm = Pard.Widgets.BusinessForm();
+    var _contactForm = Pard.Widgets.BusinessForm(profileName);
     _createdWidget.append(_itext, _contactForm, _ftext);
 
     return _createdWidget;

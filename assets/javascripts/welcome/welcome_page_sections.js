@@ -79,7 +79,7 @@ ns.Widgets = ns.Widgets || {};
           .css('padding','2.5rem .5rem')
       );
     _searchResult.css({
-      'min-height': 'calc(100vh - 4.5rem - 1.8rem - 7.9rem)'
+      'min-height': 'calc(100vh - 4.5rem - 1.8rem - 7.7rem)'
     })
     _createdWidget.append(_cards.append(_searchResult), _textDiv);
 

@@ -63,10 +63,10 @@
     var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
     var _eventBoxContent = $('<div>').addClass('box-content').css('min-height','2rem');
     var _createEventBtn = Pard.Widgets.Button(
-      'Crea un evento', 
+      'Crea un evento y lanza una convocatoria', 
       function(){
          var _contactPopup = Pard.Widgets.Popup();
-        _contactPopup.setContent('Tus eventos en orfheo', Pard.Widgets.EventContact());
+        _contactPopup.setContent('Tus eventos en orfheo', Pard.Widgets.EventContact(profile.name));
         _contactPopup.setCallback(function(){
           setTimeout(function(){
             _contactPopup.destroy();
