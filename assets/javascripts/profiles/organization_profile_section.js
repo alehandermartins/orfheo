@@ -76,10 +76,11 @@
       }
     )
     .render()
-    .addClass('createEventBtn-organizationPage')
-    _createdWidget.append(_eventBoxContainer.append(_createEventBtn, _eventBoxContent));
-    if(profile.events && profile.events.length){ 
-      profile.events.forEach(function(_event){
+    .addClass('createEventBtn-organizationPage');
+    if(profile.events && profile.events.length || Pard.UserStatus['status'] == 'owner'){
+      if (Pard.UserStatus['status'] == 'owner') _eventBoxContainer.append(_createEventBtn); 
+      _createdWidget.append(_eventBoxContainer.append(_eventBoxContent));
+      if(profile.events) profile.events.forEach(function(_event){
         var _eventCard = Pard.Widgets.EventCard(_event, (userStatus === 'owner'));
         var _eventCardContainer = $('<div>').append($('<div>').append(_eventCard).addClass('eventCard-container-userPage')).addClass('outer-eventCard-container-userPage')
         _eventBoxContent.append(_eventCardContainer).css('margin-bottom','-1.5rem');;
