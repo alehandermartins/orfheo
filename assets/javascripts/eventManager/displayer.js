@@ -170,22 +170,27 @@
           _submitForm['profile_id'] = _proposal.profile_id; 
           _modifyProposalBackend[type](_submitForm, 
             function(data){
-              modifyCallback(data);
-              _content.empty();
-              if (type == 'space') {
-                var _modifiedProposal = data.model;
+              if (data.status != 'success'){
+                modifyCallback(data);
+                stopSpinner();
               }
-              else {
-                var _artist = data.model;
-                var _modifiedProposal = data.model.proposals[0];
-                _modifiedProposal.name = _artist.name;
-                _modifiedProposal.email = _artist.email;
-                _modifiedProposal.profile_id = _artist.profile_id;
+              else{
+                _content.empty();
+                if (type == 'space') {
+                  var _modifiedProposal = data.model;
+                }
+                else {
+                  var _artist = data.model;
+                  var _modifiedProposal = data.model.proposals[0];
+                  _modifiedProposal.name = _artist.name;
+                  _modifiedProposal.email = _artist.email;
+                  _modifiedProposal.profile_id = _artist.profile_id;
+                }
+                _modifiedProposal.form_category = _modifiedProposal.form_category || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
+                _modifiedProposal.subcategory = _modifiedProposal.subcategory || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
+                _displayProposal(_modifiedProposal, type);
+                stopSpinner();
               }
-              _modifiedProposal.form_category = _modifiedProposal.form_category || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
-              _modifiedProposal.subcategory = _modifiedProposal.subcategory || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
-              _displayProposal(_modifiedProposal, type);
-              stopSpinner();
             }
           );
         });
