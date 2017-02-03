@@ -16,7 +16,6 @@ class SpaceProposal
       correct_entry? params[field], entry[:type]
     }
     raise Pard::Invalid::Category unless correct_category? params[:category]
-    raise Pard::Invalid::Deadline unless on_time?
     raise Pard::Invalid::UnexistingProfile if profile.blank?
   end
 
