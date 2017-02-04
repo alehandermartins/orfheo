@@ -1,36 +1,35 @@
 class ArtistProposal
 
-  def initialize params
+  def initialize user_id, params
     @params = params
+    @user = Repos::Users.grab({user_id: user_id})
     @event = Repos::Events.get_event params[:event_id]
     raise Pard::Invalid::UnexistingEvent if event.blank?
     @artist = event[:artists].detect{|ev_artist| ev_artist[:proposals].any?{ |proposal| proposal[:proposal_id] == params[:proposal_id]}}
   end
 
-  def create user_id
-    @user = Repos::Users.grab({user_id: user_id})
+  def create
     @profile = Repos::Profiles.get_profile params[:profile_id]
     @form = get_artist_form
     check_fields!
 
     raise Pard::Invalid::UnexistingProfile if profile.blank?
-    raise Pard::Invalid::ProfileOwnership unless profile[:user_id] == user_id
+    raise Pard::Invalid::ProfileOwnership unless profile[:user_id] == user[:user_id]
     raise Pard::Invalid::Deadline unless on_time?
     @artist = new_artist
   end
 
-  def amend user_id
-    @user = Repos::Users.grab({user_id: user_id})
+  def amend
     raise Pard::Invalid::UnexistingProposal if artist.blank?
-    raise Pard::Invalid::ProposalOwnership unless artist[:user_id] == user_id
+    raise Pard::Invalid::ProposalOwnership unless artist[:user_id] == user[:user_id]
     raise Pard::Invalid::Deadline unless on_time?
     amend_arist
   end
 
-  def modify user_id
+  def modify
     @form = get_artist_form
     check_fields!
-    raise Pard::Invalid::EventOwnership unless event[:user_id] == user_id
+    raise Pard::Invalid::EventOwnership unless event[:user_id] == user[:user_id]
     modify_artist
   end
 
@@ -40,12 +39,11 @@ class ArtistProposal
     return true unless proposal[:own].blank?
   end
 
-  def delete user_id
-    @user = Repos::Users.grab({user_id: user_id})
+  def delete
     raise Pard::Invalid::UnexistingProposal if artist.blank?
-    raise Pard::Invalid::ProposalOwnership unless event[:user_id] == user_id || artist[:user_id] == user_id
-    raise Pard::Invalid::Deadline unless on_time? || event[:user_id] == user_id
-    send_rejection_mail if user_id == event[:user_id] && user_id != artist[:user_id]
+    raise Pard::Invalid::ProposalOwnership unless event[:user_id] == user[:user_id] || artist[:user_id] == user[:user_id]
+    raise Pard::Invalid::Deadline unless on_time? || event[:user_id] == user[:user_id]
+    send_rejection_mail if user[:user_id] == event[:user_id] && user[:user_id] != artist[:user_id]
   end
 
   def proposal_id

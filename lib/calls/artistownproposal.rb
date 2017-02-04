@@ -1,21 +1,20 @@
 class ArtistOwnProposal
 
-  def initialize params
+  def initialize user_id, params
+    @user_id = user_id
     @params = params
     @event = Repos::Events.get_event params[:event_id]
     raise Pard::Invalid::UnexistingEvent if event.blank?
     @artist = event[:artists].detect{|ev_artist| ev_artist[:proposals].any?{ |proposal| proposal[:proposal_id] == params[:proposal_id]}}
   end
 
-  def create user_id
-    @user_id = user_id
+  def create
     @form = get_artist_form
     check_fields!
     @artist = new_artist
   end
 
-  def modify user_id
-    @user_id = user_id
+  def modify
     @form = get_artist_form
     check_fields!
     modify_artist
