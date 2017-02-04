@@ -175,8 +175,8 @@
     var _nameInput = Pard.Widgets.Input('Nombre*','text');
     var _emailInput = Pard.Widgets.InputEmail('Email*');
     var _subjectInput = Pard.Widgets.Input('Asunto','text');
-    var _profileInput = Pard.Widgets.Input('Nombre del perfil orfheo en cuestión', 'text');
-    var _browserInput = Pard.Widgets.Input('Navegador que utilizas', 'text');
+    var _profileInput = Pard.Widgets.Input('Nombre de tu perfil en orfheo', 'text');
+    // var _browserInput = Pard.Widgets.Input('Navegador que utilizas', 'text');
     var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
     var _submitBtn = Pard.Widgets.Button('Envía', function(){
       _submitBtn.disable();
@@ -193,7 +193,8 @@
         }
       });
       if (filled){
-        Pard.Backend.techSupport(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _profileInput.getVal(), _browserInput.getVal(), _mexInput.getVal(), function(data){
+        var _profileName = Pard.UserInfo['userProfiles'] || _profileInput.getVal();
+        Pard.Backend.techSupport(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _profileName, Pard.UserInfo['browser'], _mexInput.getVal(), function(data){
           spinner.stop();
           if (data['status'] == 'success'){
             _submitBtnContainer.remove();
@@ -244,8 +245,11 @@
         'min-height':'3.2rem',
         'position':'relative'
       });
+    var _form = $('<form>').append(_nameInput.render(), _emailInput.render());
+    if (!Pard.UserInfo['userProfiles']) _form.append(_profileInput.render());
+    _form.append(_subjectInput.render(), _mexInput.render()); 
     var _formSupport = $('<div>').addClass('contactForm-container').append(
-      $('<form>').append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _profileInput.render(), _browserInput.render(), _mexInput.render()),
+      _form,
       _submitContainer.append(_errorBox, _submitBtnContainer) 
     )
 

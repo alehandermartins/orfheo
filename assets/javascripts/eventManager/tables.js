@@ -110,13 +110,20 @@
           _row.append(_col.append(_info));
         }
       });
-
+      var dictionaryCheckBox = {
+        false:'No',
+        true:'Sí'
+      }
       for (var field in _form){
         if ($.isNumeric(field)){
           var _col = $('<td>').addClass('column-call-manager-table');
           if (_form[field]['input'] == 'Input') _col.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
           else _col.addClass('column-'+_form[field]['input']);
-          if (proposal[field]) _col.append(proposal[field]);
+          if (proposal[field]){ 
+            if(form[field].input == 'CheckBox') _col.append( dictionaryCheckBox[proposal[field]]);
+            else if (Array.isArray(proposal[field])) _col.append(proposal[field].join(', '));
+            else _col.append(proposal[field]);
+          }
           _row.append(_col);
         }
       }

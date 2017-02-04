@@ -398,8 +398,7 @@ ns.Widgets = ns.Widgets || {};
         function () {
           _contactChoice.removeClass('isOver showEventManagerChoice')
         }
-      );
-      
+      );    
 
     if (user){
       var _deleteUserPopup;
@@ -421,8 +420,10 @@ ns.Widgets = ns.Widgets || {};
 
     var _loadProfielsEvents = function(){
       Pard.Backend.header(function(data){
+        var _profileList = ''
         if(data.status == 'success'){
           data.profiles.forEach(function(profile){
+            _profileList += profile.name+', '
             var _circle = $('<div>').addClass('circleProfile-MenuHeader').css('background',profile.color);
             var _profileName = $('<span>').text(profile.name);
             _menuProfiles.append(
@@ -432,6 +433,8 @@ ns.Widgets = ns.Widgets || {};
                 }
               )
           });
+          _profileList = _profileList.substring(0, _profileList.length - 2);
+          Pard.UserInfo['userProfiles'] = _profileList;
           _menuProfiles.append($('<li>').addClass('separator'));
           data.events.forEach(function(event){
             // console.log(event)

@@ -26,10 +26,7 @@
         for (var performanceId in myprogram){
           _artistCategories.push(myprogram[performanceId]['show']['participant_subcategory']);    
         }
-        Pard.Widgets.UniqueArray(_artistCategories).forEach(function(cat){
-          _popupTitle += cat + ', ';
-        }); 
-        _popupTitle = _popupTitle.substring(0,_popupTitle.length - 2) + ')';
+        _popupTitle += Pard.Widgets.UniqueArray(_artistCategories).join(', ')+ ')';
       }
       var _message = Pard.Widgets.PopupContent(_popupTitle, Pard.Widgets.ArtistProgram(artist, myprogram, the_event.spaces, the_event.program), 'space-program-popup-call-manager');
       _message.setCallback(function(){
@@ -60,7 +57,6 @@
 
       var form = forms[type][_proposal.form_category];
 
-      var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
       var _deleteProposalCaller = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), $('<span>').text('Elimina')).addClass('deleteProfile-caller');
       var _modifyProposal = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'), $('<span>').text('Modifica')).addClass('deleteProfile-caller');
