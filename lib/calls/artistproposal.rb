@@ -1,56 +1,87 @@
 class ArtistProposal
 
-  def initialize user_id, event_id, call_id, params, req = nil
-    @event = Repos::Events.get_event event_id
-    @user = Repos::Users.grab({user_id: user_id})
-    @profile = Repos::Profiles.get_profile params[:profile_id]
-    @form = get_artist_form call_id, params[:form_category]
-
-    check_fields! params
-    check_deadline! if req.blank?
-    @artist_proposal = new_artist params
+  def initialize params
+    @params = params
+    @event = Repos::Events.get_event params[:event_id]
+    raise Pard::Invalid::UnexistingEvent if event.blank?
+    @artist = event[:artists].detect{|ev_artist| ev_artist[:proposals].any?{ |proposal| proposal[:proposal_id] == params[:proposal_id]}}
   end
 
-  def check_fields! params
+  def create user_id
+    @user = Repos::Users.grab({user_id: user_id})
+    @profile = Repos::Profiles.get_profile params[:profile_id]
+    @form = get_artist_form params[:call_id], params[:form_category]
+    check_fields!
+
+    raise Pard::Invalid::UnexistingProfile if profile.blank?
+    raise Pard::Invalid::ProfileOwnership unless profile[:user_id] == user_id
+    raise Pard::Invalid::Deadline unless on_time?
+    @artist = new_artist
+  end
+
+  def amend user_id
+    @user = Repos::Users.grab({user_id: user_id})
+    raise Pard::Invalid::UnexistingProposal if artist.blank?
+    raise Pard::Invalid::ProposalOwnership unless artist[:user_id] == user_id
+    raise Pard::Invalid::Deadline unless on_time?
+    amend_arist
+  end
+
+  def modify user_id
+    @form = get_artist_form params[:call_id], params[:form_category]
+    check_fields!
+    raise Pard::Invalid::EventOwnership unless event[:user_id] == user_id
+    modify_artist
+  end
+
+  def own
+    raise Pard::Invalid::UnexistingProposal if artist.blank?
+    proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == params[:proposal_id]}
+    return true unless proposal[:own].blank?
+  end
+
+  def delete user_id
+    @user = Repos::Users.grab({user_id: user_id})
+    raise Pard::Invalid::UnexistingProposal if artist.blank?
+    raise Pard::Invalid::ProposalOwnership unless event[:user_id] == user_id || artist[:user_id] == user_id
+    raise Pard::Invalid::Deadline unless on_time? || event[:user_id] == user_id
+    send_rejection_mail if user_id == event[:user_id] && user_id != artist[:user_id]
+  end
+
+  def proposal_id
+    artist[:proposals].first[:proposal_id]
+  end
+ 
+  def [] key
+    artist[key]
+  end
+
+  def to_h
+    artist.to_h
+  end
+
+  private
+  attr_reader :artist, :event, :user, :profile, :form, :params
+  def check_fields!
     raise Pard::Invalid::Params unless form.all?{ |field, entry|
       correct_entry? params[field], entry[:type]
     }
     raise Pard::Invalid::Category unless correct_category? params[:category]
-    raise Pard::Invalid::UnexistingProfile if profile.blank?
   end
 
-  def check_deadline! 
-    raise Pard::Invalid::Deadline unless on_time?
-  end
-
-  def [] key
-    artist_proposal[key]
-  end
-
-  def amend amendment
-    artist_proposal[:proposals].first[:amend] = amendment
-  end
-
-  def to_h
-    artist_proposal.to_h
-  end
-
-  private
-  attr_reader :artist_proposal, :event, :user, :profile, :form
-  def new_artist params
-    proposal = new_proposal params
-    artist_proposal = {
+  def new_artist
+    artist = {
       user_id: user[:user_id],
       profile_id: profile[:profile_id],
       email: user[:email],
       name: profile[:name],
       address: params[:address] || profile[:address],
       phone: params[:phone] || profile[:phone],
-      proposals: [proposal]
+      proposals: [new_proposal]
     }
   end
 
-  def new_proposal params
+  def new_proposal
     proposal = {
       production_id: params[:production_id],
       proposal_id: params[:proposal_id] || SecureRandom.uuid,
@@ -65,6 +96,7 @@ class ArtistProposal
 
   def get_artist_form call_id, form_category
     forms = Repos::Calls.get_forms call_id
+    raise Pard::Invalid::UnexistingCall if forms.blank?
     categories = forms[:artist].keys
     raise Pard::Invalid::Params unless categories.include? form_category.to_sym
     forms[:artist][form_category.to_sym]
@@ -92,5 +124,24 @@ class ArtistProposal
   def on_time?
     return true if event[:user_id] == user[:user_id] || event[:whitelist].any?{ |whitelisted| whitelisted[:email] == user[:email] }
     event[:start].to_i/1000 < Time.now.to_i && event[:deadline].to_i/1000 > Time.now.to_i
+  end
+
+  def modify_artist
+    [:address, :phone].each{ |field| artist[field] = params[field] unless params[field].blank?}
+    proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == params[:proposal_id]}
+    proposal.each{ |field| proposal[field] = params[field] unless params[field].blank?}
+    artist[:proposals] = [proposal]
+  end
+
+  def amend_arist
+    proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == params[:proposal_id]}
+    proposal[:amend] = params[:amend]
+    artist[:proposals] = [proposal]
+  end
+
+  def send_rejection_mail
+    receiver = {email: artist[:email]}
+    payload = {organizer: event[:organizer], event_name: event[:name], title: artist[:proposals].first[:title]}
+    Services::Mails.deliver_mail_to receiver, :rejected, payload
   end
 end

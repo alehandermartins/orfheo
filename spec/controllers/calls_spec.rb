@@ -89,7 +89,8 @@ describe CallsController do
         '1': nil,
         '2': 'mandatory',
         form_category: 'music',
-        subcategory: 'music'
+        subcategory: 'music',
+        amend: 'amend'
       }]
     }
   }
@@ -97,7 +98,7 @@ describe CallsController do
   let(:proposal){
     {
       profile_id: profile_id,
-      event_id: event_id,
+      event_id: otter_event_id,
       call_id: call_id,
       category: 'music',
       title: 'title',
@@ -107,7 +108,8 @@ describe CallsController do
       phone: 'phone',
       form_category: 'music',
       subcategory: 'music',
-      '2': 'mandatory'
+      '2': 'mandatory',
+      amend: 'amend'
     }
   }
 
@@ -206,7 +208,7 @@ describe CallsController do
     {
       user_id: user_id,
       profile_id: space_profile_id,
-      event_id: event_id,
+      event_id: otter_event_id,
       call_id: call_id,
       phone: 'phone',
       category: 'home',
@@ -334,14 +336,6 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('invalid_category')
     end
 
-    it 'fails if out of deadline' do
-      proposal[:event_id] = otter_event_id
-      post send_artist_proposal_route, proposal
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('out_of_time_range')
-    end
-
     it 'fails if the call does not include the form category' do
       proposal[:form_category] = 'arts'
       post send_artist_proposal_route, proposal
@@ -352,12 +346,29 @@ describe CallsController do
 
     it 'adds a new production if non existing' do
       expect(Repos::Profiles).to receive(:add_production).with(profile_id, production)
+      allow(Time).to receive(:now).and_return(1462054)
       post send_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
     end
 
-    it 'sends the proposal' do
+    it 'fails if out of deadline' do
+      post send_artist_proposal_route, proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('out_of_time_range')
+    end
+
+    it 'does not fail out of deadline if event owner' do
+      proposal[:event_id] = event_id
       expect(Repos::Events).to receive(:add_artist).with(event_id, artist)
+      post send_artist_proposal_route, proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
+    end
+
+    it 'sends the proposal' do
+      expect(Repos::Events).to receive(:add_artist).with(otter_event_id, artist)
+      allow(Time).to receive(:now).and_return(1462054)
       post send_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
@@ -406,6 +417,70 @@ describe CallsController do
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_category')
+    end
+
+    it 'fails if the event does not exist' do
+      space_proposal[:event_id] = 'otter'
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_event')
+    end
+
+    it 'fails if the call does not exist' do
+      space_proposal[:call_id] = 'otter'
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_call')
+    end
+
+    it 'fails if the profile does not exist' do
+      space_proposal[:profile_id] = 'otter'
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_profile')
+    end
+
+    it 'fails if not the profile owner' do
+      post logout_route
+      post login_route, otter_user_hash
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'fails if wrong category' do
+      space_proposal[:category] = 'otter'
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_category')
+    end
+
+    it 'fails if out of deadline' do
+      space_proposal[:event_id] = otter_event_id
+      post send_space__proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('out_of_time_range')
+    end
+
+    it 'does not fail out of deadline if event owner' do
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['reason']).to eq('out_of_time_range')
+    end
+
+    it 'fails if the call does not include the form category' do
+      proposal[:form_category] = 'arts'
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
     end
 
     it 'sends the proposal' do
@@ -483,44 +558,54 @@ describe CallsController do
 
     before(:each){
       post create_profile_route, profile
+      artist[:proposals].first[:amend] = 'new_amend'
+      artist[:proposals].first[:production_id] = proposal_id
+      artist[:proposals].first[:proposal_id] = proposal_id
+      artist[:proposals].first[:amend] = 'new_amend'
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
+    let(:amend){
+      {
+        event_id: otter_event_id,
+        call_id: call_id,
+        proposal_id: proposal_id,
+        amend: 'new_amend'
+      }
+    }
+
     it 'fails if the proposal does not exist' do
-      post amend_artist_proposal_route, {event_id: event_id, call_id: call_id, proposal_id: proposal_id, amend: 'amend'}
+      post amend_artist_proposal_route, amend
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
 
     it 'fails if the user is out of time' do
-      proposal[:event_id] = otter_event_id
       allow(Time).to receive(:now).and_return(1462054)
       post send_artist_proposal_route, proposal
       allow(Time).to receive(:now).and_return(0)
-      post amend_artist_proposal_route, {event_id: otter_event_id, call_id: call_id, proposal_id: proposal_id, amend: 'amend'}
+      post amend_artist_proposal_route, amend
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
     it 'fails if the user does not own the proposal' do
+      allow(Time).to receive(:now).and_return(1462054)
       post send_artist_proposal_route, proposal
       post logout_route
       post login_route, otter_user
-      allow(Time).to receive(:now).and_return(1462054)
-      post amend_artist_proposal_route, {event_id: event_id, call_id: call_id, proposal_id: proposal_id, amend: 'amend'}
-
+      post amend_artist_proposal_route, amend
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
     it 'amends the proposal' do
+      allow(Time).to receive(:now).and_return(1462054)
       post send_artist_proposal_route, proposal
-      artist[:proposals].first[:amend] = 'amend'
-      artist[:proposals].first[:production_id] = proposal_id
-      artist[:proposals].first[:proposal_id] = proposal_id
+
       expect(Repos::Events).to receive(:modify_artist).with(artist)
-      post amend_artist_proposal_route, {event_id: event_id, call_id: call_id, proposal_id: proposal_id, amend: 'amend'}
+      post amend_artist_proposal_route, amend
       expect(parsed_response['status']).to eq('success')
     end
   end
@@ -528,23 +613,17 @@ describe CallsController do
   describe 'Modify_proposal' do
 
     before(:each){
-      allow(SecureRandom).to receive(:uuid).and_return(profile_id)
+      post create_profile_route, profile
       proposal[:production_id] = production_id
       proposal[:proposal_id] = proposal_id
+      artist[:proposals].first[:proposal_id] = proposal_id
+      proposal[:title] = 'otter_title'
+      artist[:proposals].first[:title] = 'otter_title'
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
-    it 'fails if the proposal does not exist' do
-      proposal[:proposal_id] = 'otter'
-      post modify_artist_proposal_route, proposal
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('non_existing_proposal')
-    end
-
     it 'fails if the user does not own the event' do
-      post logout_route
-      post login_route, otter_user
-      post create_profile_route, profile
-      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+      allow(Time).to receive(:now).and_return(1462054)
       post send_artist_proposal_route, proposal
       post modify_artist_proposal_route, proposal
 
@@ -552,31 +631,21 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
-    it 'modifies the proposal' do
-      post create_profile_route, profile
-      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
-      post send_artist_proposal_route, proposal
-      artist[:proposals].first[:title] = 'otter_title'
-      artist[:proposals].first[:proposal_id] = proposal_id
-      proposal[:title] = 'otter_title'
-      expect(Repos::Events).to receive(:modify_artist).with(artist)
+    it 'fails if the proposal does not exist' do
+      post logout_route
+      post login_route, otter_user_hash
+      proposal[:proposal_id] = 'otter'
       post modify_artist_proposal_route, proposal
-      expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
     end
 
-    it 'modifies a proposal you don"t own' do
-      post create_profile_route, profile
-      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+    it 'modifies the proposal' do
       allow(Time).to receive(:now).and_return(1462054)
-      proposal[:event_id] = otter_event_id
       post send_artist_proposal_route, proposal
-      artist[:proposals].first[:title] = 'otter_title'
-      artist[:proposals].first[:proposal_id] = proposal_id
-      proposal[:title] = 'otter_title'
-      expect(Repos::Events).to receive(:modify_artist).with(artist)
       post logout_route
-      post login_route, otter_user
+      post login_route, otter_user_hash
+      expect(Repos::Events).to receive(:modify_artist).with(artist)
       post modify_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
@@ -598,35 +667,41 @@ describe CallsController do
   describe 'Delete_proposal' do
 
     before(:each){
-      post logout_route
-      post login_route, otter_user
+      allow(SecureRandom).to receive(:uuid).and_return(profile_id)
       post create_profile_route, profile
-      artist[:email] = 'otter@otter.com'
-      artist[:user_id] = otter_user_id
-      artist[:proposals].first[:proposal_id] = proposal_id
-      Repos::Events.add_artist event_id, artist
+      allow(Time).to receive(:now).and_return(1462054)
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+      post send_artist_proposal_route, proposal
     }
 
+    it 'fails if the proposal does not exist' do
+      post delete_artist_proposal_route, {event_id: otter_event_id, proposal_id: 'otter'}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
+    end
+
     it 'fails if the user is out of time' do
-      post delete_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id}
+      allow(Time).to receive(:now).and_return(0)
+      post delete_artist_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
     it 'allows event owner to delete and delivers rejection mail' do
+      allow(Time).to receive(:now).and_return(0)
       post logout_route
-      post login_route, user
+      post login_route, otter_user_hash
       expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
-      expect(Services::Mails).to receive(:deliver_mail_to).with({email: 'otter@otter.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
-      post delete_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id}
+      expect(Services::Mails).to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
+      post delete_artist_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
     end
 
     it 'allows proposal owner to delete and does not deliver rejection mail' do
       allow(Time).to receive(:now).and_return(1462054)
       expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
-      expect(Services::Mails).not_to receive(:deliver_mail_to).with({email: 'otter@otter.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
-      post delete_artist_proposal_route, {event_id: event_id, proposal_id: proposal_id}
+      expect(Services::Mails).not_to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
+      post delete_artist_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
     end
   end

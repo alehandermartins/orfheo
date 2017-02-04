@@ -12,9 +12,7 @@ module Repos
       end
 
       def get_forms call_id
-        call = grab({call_id: call_id}).first
-        call.delete(:user_id)
-        call
+        grab({call_id: call_id}).first
       end
       
       private
