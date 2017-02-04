@@ -5,6 +5,7 @@ describe CallsController do
   let(:create_call_route){'/users/create_call'}
   let(:create_profile_route){'/users/create_profile'}
   let(:send_artist_proposal_route){'/users/send_artist_proposal'}
+  let(:send_artist_own_proposal_route){'/users/send_artist_own_proposal'}
   let(:send_space_proposal_route){'/users/send_space_proposal'}
   let(:amend_artist_proposal_route){'/users/amend_artist_proposal'}
   let(:amend_space_proposal_route){'/users/amend_space_proposal'}
@@ -381,29 +382,54 @@ describe CallsController do
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
+    it 'fails if the event does not exist' do
+      artist_own_proposal[:event_id] = 'otter'
+      post send_artist_own_proposal_route, artist_own_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_event')
+    end
+
+    it 'fails if the call does not exist' do
+      artist_own_proposal[:call_id] = 'otter'
+      post send_artist_own_proposal_route, artist_own_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_call')
+    end
+
+    it 'fails if not the event owner' do
+      post logout_route
+      post login_route, otter_user_hash
+      post send_artist_own_proposal_route, artist_own_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
     it 'fails if it does not include mandatory orfheo fields' do
       artist_own_proposal.delete(:title)
-      post '/users/send_artist_own_proposal', artist_own_proposal
+      post send_artist_own_proposal_route, artist_own_proposal
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_parameters')
     end
 
     it 'fails if it does not include profile mandatory orfheo fields' do
       artist_own_proposal.delete(:name)
-      post '/users/send_artist_own_proposal', artist_own_proposal
+      post send_artist_own_proposal_route, artist_own_proposal
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_parameters')
     end
 
     it 'sends own proposal' do
       expect(Repos::Events).to receive(:add_artist).with(event_id, artist_own)
-      post '/users/send_artist_own_proposal', artist_own_proposal
+      post send_artist_own_proposal_route, artist_own_proposal
       expect(parsed_response['status']).to eq('success')
        expect(parsed_response['model']).to eq(Util.stringify_hash(artist_own))
     end
   end
 
-  describe 'Send_space_proposal' do
+  xdescribe 'Send_space_proposal' do
 
     before(:each){
       allow(SecureRandom).to receive(:uuid).and_return(space_profile_id)
@@ -491,7 +517,7 @@ describe CallsController do
     end
   end
 
-  describe 'Sends own space proposal' do
+  xdescribe 'Sends own space proposal' do
 
     before(:each){
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
@@ -614,11 +640,9 @@ describe CallsController do
 
     before(:each){
       post create_profile_route, profile
-      proposal[:production_id] = production_id
       proposal[:proposal_id] = proposal_id
+      artist_own_proposal[:proposal_id] = proposal_id
       artist[:proposals].first[:proposal_id] = proposal_id
-      proposal[:title] = 'otter_title'
-      artist[:proposals].first[:title] = 'otter_title'
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
@@ -646,6 +670,9 @@ describe CallsController do
       post logout_route
       post login_route, otter_user_hash
       expect(Repos::Events).to receive(:modify_artist).with(artist)
+      proposal[:production_id] = production_id
+      proposal[:title] = 'otter_title'
+      artist[:proposals].first[:title] = 'otter_title'
       post modify_artist_proposal_route, proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
@@ -653,9 +680,8 @@ describe CallsController do
 
     it 'modifies own proposal' do
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
-      post '/users/send_artist_own_proposal', artist_own_proposal
+      post send_artist_own_proposal_route, artist_own_proposal
       artist_own[:proposals].first[:title] = 'otter_title'
-      artist_own_proposal[:proposal_id] = proposal_id
       artist_own_proposal[:title] = 'otter_title'
       expect(Repos::Events).to receive(:modify_artist).with(artist_own)
       post modify_artist_proposal_route, artist_own_proposal

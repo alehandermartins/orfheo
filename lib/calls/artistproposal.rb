@@ -10,7 +10,7 @@ class ArtistProposal
   def create user_id
     @user = Repos::Users.grab({user_id: user_id})
     @profile = Repos::Profiles.get_profile params[:profile_id]
-    @form = get_artist_form params[:call_id], params[:form_category]
+    @form = get_artist_form
     check_fields!
 
     raise Pard::Invalid::UnexistingProfile if profile.blank?
@@ -28,7 +28,7 @@ class ArtistProposal
   end
 
   def modify user_id
-    @form = get_artist_form params[:call_id], params[:form_category]
+    @form = get_artist_form
     check_fields!
     raise Pard::Invalid::EventOwnership unless event[:user_id] == user_id
     modify_artist
@@ -63,10 +63,10 @@ class ArtistProposal
   private
   attr_reader :artist, :event, :user, :profile, :form, :params
   def check_fields!
+    raise Pard::Invalid::Category unless correct_category?
     raise Pard::Invalid::Params unless form.all?{ |field, entry|
       correct_entry? params[field], entry[:type]
     }
-    raise Pard::Invalid::Category unless correct_category? params[:category]
   end
 
   def new_artist
@@ -94,12 +94,13 @@ class ArtistProposal
     proposal
   end
 
-  def get_artist_form call_id, form_category
-    forms = Repos::Calls.get_forms call_id
+  def get_artist_form
+    form_category = params[:form_category].to_sym
+    forms = Repos::Calls.get_forms params[:call_id]
     raise Pard::Invalid::UnexistingCall if forms.blank?
     categories = forms[:artist].keys
-    raise Pard::Invalid::Params unless categories.include? form_category.to_sym
-    forms[:artist][form_category.to_sym]
+    raise Pard::Invalid::Params unless categories.include? form_category 
+    forms[:artist][form_category]
   end
 
   def correct_entry? value, type
@@ -107,7 +108,7 @@ class ArtistProposal
     true
   end
 
-  def correct_category? category
+  def correct_category?
     [
       'music', 
       'arts', 
@@ -118,7 +119,7 @@ class ArtistProposal
       'workshop', 
       'gastronomy', 
       'other'
-    ].include? category
+    ].include? params[:category]
   end
 
   def on_time?
@@ -129,7 +130,7 @@ class ArtistProposal
   def modify_artist
     [:address, :phone].each{ |field| artist[field] = params[field] unless params[field].blank?}
     proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == params[:proposal_id]}
-    proposal.each{ |field| proposal[field] = params[field] unless params[field].blank?}
+    proposal.each{ |field, value| proposal[field] = params[field] unless params[field].blank?}
     artist[:proposals] = [proposal]
   end
 

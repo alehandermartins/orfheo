@@ -40,15 +40,10 @@ class CallsController < BaseController
   end
 
   post '/users/amend_space_proposal' do
-    scopify :event_id, :call_id, :proposal_id, :amend
-    check_event_exists! event_id
-    check_call_exists! call_id
-    check_proposal_exists! proposal_id
-    old_proposal = Repos::Events.get_space_proposal(proposal_id)
+    scopify :event_id
 
-    check_proposal_ownership! old_proposal[:user_id]
-    proposal = SpaceProposal.new(session[:identity], event_id, call_id, old_proposal)
-    proposal.amend amend
+    proposal = SpaceProposal.new(params)
+    proposal.amend session[:identity]
 
     Repos::Events.modify_space proposal.to_h
     success
@@ -58,7 +53,7 @@ class CallsController < BaseController
     scopify :event_id
 
     proposal = ArtistProposal.new(params)
-    proposal = ArtistOwnProposal.new(params) if proposal.own
+    proposal = ArtistOwnProposal.new(params) if proposal.own == true
     proposal.modify session[:identity]
     Repos::Events.modify_artist proposal.to_h
 
@@ -117,11 +112,10 @@ class CallsController < BaseController
   end
 
   post '/users/send_artist_own_proposal' do
-    scopify :event_id, :call_id
-    check_event_ownership! event_id
-    check_call_exists! call_id
+    scopify :event_id
 
-    proposal = ArtistOwnProposal.new(session[:identity], call_id, params)
+    proposal = ArtistOwnProposal.new(params)
+    proposal.create session[:identity]
     Repos::Events.add_artist event_id, proposal.to_h
     
     message = success({event: 'addArtist', model: proposal.to_h})

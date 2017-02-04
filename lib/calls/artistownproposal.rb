@@ -1,34 +1,49 @@
 class ArtistOwnProposal
 
-  def initialize user_id, call_id, params
-    @form = get_artist_form call_id, params[:form_category]
-
-    check_fields! params, user_id
-    @artist_proposal = new_artist params, user_id
+  def initialize params
+    @params = params
+    @event = Repos::Events.get_event params[:event_id]
+    raise Pard::Invalid::UnexistingEvent if event.blank?
+    @artist = event[:artists].detect{|ev_artist| ev_artist[:proposals].any?{ |proposal| proposal[:proposal_id] == params[:proposal_id]}}
   end
 
-  def check_fields! params, user_id
-    raise Pard::Invalid::Params unless form.all?{ |field, entry|
-      correct_entry? params[field], entry[:type], field
-    }
-    raise Pard::Invalid::Params if params[:name].blank? || params[:email].blank?
-    raise Pard::Invalid::ExistingName unless Repos::Profiles.name_available?(user_id, params[:name])
-    raise Pard::Invalid::Category unless correct_category? params[:category]
+  def create user_id
+    @user_id = user_id
+    @form = get_artist_form
+    check_fields!
+    @artist = new_artist
+  end
+
+  def modify user_id
+    @user_id = user_id
+    @form = get_artist_form
+    check_fields!
+    modify_artist
   end
 
   def [] key
-    artist_proposal[key]
+    artist[key]
   end
 
   def to_h
-    artist_proposal.to_h
+    artist.to_h
   end
 
   private
-  attr_reader :artist_proposal, :form
-  def new_artist params, user_id
-    proposal = new_proposal params
-    artist_proposal = {
+  attr_reader :artist, :params, :event, :user_id, :form
+  def check_fields!
+    raise Pard::Invalid::EventOwnership unless event[:user_id] == user_id
+    raise Pard::Invalid::Params if params[:name].blank? || params[:email].blank?
+    raise Pard::Invalid::Category unless correct_category?
+    raise Pard::Invalid::Params unless form.all?{ |field, entry|
+      correct_entry? params[field], entry[:type], field
+    }
+    raise Pard::Invalid::ExistingName unless Repos::Profiles.name_available?(user_id, params[:name])
+  end
+
+  def new_artist
+    proposal = new_proposal
+    artist = {
       user_id: user_id,
       profile_id: params[:profile_id] || (SecureRandom.uuid),
       email: params[:email],
@@ -39,7 +54,7 @@ class ArtistOwnProposal
     }
   end
 
-  def new_proposal params
+  def new_proposal
     proposal = {
       proposal_id: params[:proposal_id] || (SecureRandom.uuid),
       category: params[:category],
@@ -56,14 +71,16 @@ class ArtistOwnProposal
     true
   end
 
-  def get_artist_form call_id, form_category
-    forms = Repos::Calls.get_forms call_id
+  def get_artist_form
+    form_category = params[:form_category].to_sym
+    forms = Repos::Calls.get_forms params[:call_id]
+    raise Pard::Invalid::UnexistingCall if forms.blank?
     categories = forms[:artist].keys
-    raise Pard::Invalid::Params unless categories.include? form_category.to_sym
-    forms[:artist][form_category.to_sym]
+    raise Pard::Invalid::Params unless categories.include? form_category 
+    forms[:artist][form_category]
   end
 
-  def correct_category? category
+  def correct_category?
     [
       'music', 
       'arts', 
@@ -74,6 +91,13 @@ class ArtistOwnProposal
       'workshop', 
       'gastronomy', 
       'other'
-    ].include? category
+    ].include? params[:category]
+  end
+
+  def modify_artist
+    [:address, :phone].each{ |field| artist[field] = params[field] unless params[field].blank?}
+    proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == params[:proposal_id]}
+    proposal.each{ |field, value| proposal[field] = params[field] unless params[field].blank?}
+    artist[:proposals] = [proposal]
   end
 end
