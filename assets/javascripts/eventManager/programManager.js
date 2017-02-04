@@ -2030,18 +2030,7 @@
         var _performancesToModify = [];
         var artistProgram = the_event.artists[artist.profile_id].program;
         Object.keys(artistProgram).forEach(function(performance_id){
-          var performance = {
-            performance_id: performance_id,
-            participant_name: artist.name
-          }
-          if(artistProgram[performance_id].show.participant_proposal_id == artist.proposals[0].proposal_id){
-            performance.title = artist.proposals[0].title;
-            performance.short_description = artist.proposals[0].short_description;
-            performance.participant_category = artist.proposals[0].category;
-            performance.participant_subcategory = artist.proposals[0].subcategory;
-            performance.availability = artist.proposals[0].availability;
-          }
-          modify(performance, null ,true);
+          modify(artistProgram[performance_id].show, true);
           _performancesToModify.push(performance_id);
         });
         var _id = _artistSelector.val();
@@ -2054,14 +2043,7 @@
         var _performancesToModify = [];
         var spaceProgram = the_event.spaces[space.profile_id].program;
         Object.keys(spaceProgram).forEach(function(performance_id){
-          var performance = {
-            performance_id: performance_id,
-            host_category: space.category,
-            host_subcategory: space.subcategory,
-            host_name: space.name,
-            address: space.address
-          } 
-          modify(performance,performance, null ,true);
+          modify(spaceProgram[performance_id].show, true);
           _performancesToModify.push(performance_id);
         });
         var _id = _spaceSelector.val();
