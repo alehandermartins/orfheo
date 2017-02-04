@@ -143,7 +143,6 @@
 
 
   ns.Widgets.PrintProposal = function(proposal, form){
-
     var form = $.extend(true, {}, form);  
 
     var _createdWidget = $('<div>');
@@ -198,8 +197,11 @@
         }
         else if (form[field]['input'] == 'CheckBox'){
           var _text;
-          if (proposal[field]) _text = ' Sí';
-          else _text = ' No';
+          var dictionaryCheckBox = {
+            false:' No',
+            true:' Sí'
+          }
+          _text = dictionaryCheckBox[proposal[field]];
           _fieldFormText.append(_text);
         }
         else _fieldFormText.text(' '+proposal[field]);  
