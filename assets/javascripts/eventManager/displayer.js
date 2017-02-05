@@ -121,7 +121,7 @@
 
       var deleteCallback = function(data){
         if (data['status'] == 'success'){
-          Pard.Widgets.TimeOutAlert('', 'Propuesta eliminada correctamente.');
+          Pard.Widgets.TimeOutAlert('', 'Propuesta eliminada correctamente');
         }
         else{
           var _dataReason = Pard.Widgets.Dictionary(data.reason).render();

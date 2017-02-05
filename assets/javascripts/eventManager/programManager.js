@@ -1810,8 +1810,7 @@
         publish: function(data){
           if(data['status'] == 'success') {
             var _mex = $('<div>').html('El programa se ha publicado correctamente en la página de tu evento');
-            var _fullMex = $('<div>').append(_mex)
-            Pard.Widgets.TimeOutAlert(_ok,_fullMex);
+            Pard.Widgets.TimeOutAlert('',_mex);
           }
           else{
             console.log('error');
@@ -1820,7 +1819,7 @@
         },
         unpublish: function(data){
           if(data['status'] == 'success') {
-            var _mex = 'El programa se ha retirado de la página de tu evento';
+            var _mex = $('<div>').html('El programa se ha retirado de la página de tu evento');
             Pard.Widgets.TimeOutAlert('',_mex);
           }
           else{
