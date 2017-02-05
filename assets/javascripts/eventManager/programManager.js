@@ -1364,6 +1364,7 @@
 
       var _outOfprogramBtn = $('<li>').text('Propuestas sin programación');
       _outOfprogramBtn.on('click', function(){
+        _btn.trigger('click');
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
         $('body').append(_content);
@@ -1381,6 +1382,7 @@
 
       var _spaceOutOfprogramBtn = $('<li>').text('Espacios sin programación');
       _spaceOutOfprogramBtn.on('click', function(){
+        _btn.trigger('click');
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
         $('body').append(_content);
@@ -1399,6 +1401,7 @@
       
       var _orderSpaceBtn = $('<li>').text('Ordena Espacios');
       _orderSpaceBtn.on('click', function(){
+        _btn.trigger('click');
         var _content = $('<div>').addClass('very-fast reveal full');
         _content.empty();
         $('body').append(_content);
@@ -1804,8 +1807,9 @@
       var _publishProgramCallback =  {
         publish: function(data){
           if(data['status'] == 'success') {
-            var _mex = 'El programa se ha publicado correctamente en la página de tu evento';
-            Pard.Widgets.Alert('',_mex);
+            var _mex = $('<div>').html('El programa se ha publicado correctamente en la página de tu evento');
+            var _fullMex = $('<div>').append(_mex)
+            Pard.Widgets.TimeOutAlert(_ok,_fullMex);
           }
           else{
             console.log('error');
@@ -1815,7 +1819,7 @@
         unpublish: function(data){
           if(data['status'] == 'success') {
             var _mex = 'El programa se ha retirado de la página de tu evento';
-            Pard.Widgets.Alert('',_mex);
+            Pard.Widgets.TimeOutAlert('',_mex);
           }
           else{
             console.log('error');
@@ -1850,15 +1854,19 @@
       });
 
       _publishedBtn.on('click', function(){
+        _btn.trigger('click');
         Pard.Backend.publish(the_event.event_id, _publishProgramCallback[_publishStatus]);
       });
 
       _menu.append(_outOfprogramBtn, _spaceOutOfprogramBtn, _orderSpaceBtn, _publishedBtn);
       var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
-      var _iconDropdownMenu = $('<li>').append(
-        $('<button>').attr({'type':'button', 'title':'Menu de herramientas'}).append(
+      var _btn = $('<button>')
+        .attr({'type':'button', 'title':'Menu de herramientas'})
+        .append(
           Pard.Widgets.IconManager('tools').render()
-          )
+        );
+      var _iconDropdownMenu = $('<li>').append(
+        _btn
         ,_menu
       );
       _menuContainer.append(_iconDropdownMenu);
