@@ -11,10 +11,6 @@ module Repos
         @@events_collection.count(event_id: event_id) > 0
       end
 
-      def proposal_exists? proposal_id
-        @@events_collection.count({"$or": [{"artists.proposals.proposal_id": proposal_id},{"spaces.proposal_id": proposal_id}]}) > 0
-      end
-
       def add_artist event_id, artist
         if @@events_collection.count(event_id: event_id, "artists.profile_id": artist[:profile_id]) == 0
           @@events_collection.update_one({event_id: event_id},{
@@ -159,28 +155,10 @@ module Repos
 
       def publish event_id
         event = grab({event_id: event_id}).first
-        if event[:published] == 'false'
-          event[:published] = 'true'
-        else 
-          event[:published] = 'false'
-        end
         @@events_collection.update_one({event_id: event_id},{
-          "$set": {published: event[:published]}
+          "$set": {published: !event[:published]}
         })
-        event[:published]
-      end
-
-      def get_artist_proposal proposal_id
-        event = grab({"artists.proposals.proposal_id": proposal_id}).first
-        artist = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}
-        proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == proposal_id}
-        artist.delete(:proposals)
-        artist.merge proposal
-      end
-
-      def get_space_proposal proposal_id
-        event = grab({'spaces.proposal_id': proposal_id}).first
-        event[:spaces].detect{|space| space[:proposal_id] == proposal_id}
+        !event[:published]
       end
 
       def get_all

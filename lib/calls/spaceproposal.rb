@@ -1,44 +1,73 @@
 class SpaceProposal
 
-  def initialize user_id, event_id, call_id, params, req = nil
-    @event = Repos::Events.get_event event_id
+  def initialize user_id, params
+    @params = params
     @user = Repos::Users.grab({user_id: user_id})
+    @event = Repos::Events.get_event params[:event_id]
+    raise Pard::Invalid::UnexistingEvent if event.blank?
+    @space = event[:spaces].detect{|ev_space| ev_space[:proposal_id] == params[:proposal_id]}
+  end
+
+  def create
     @profile = Repos::Profiles.get_profile params[:profile_id]
-    @form = get_space_form call_id, params[:form_category]
+    @form = get_space_form
+    check_fields!
 
-    check_fields! params
-    check_deadline! if req.blank?
-    @space_proposal = new_space params
-  end
-
-  def check_fields! params
-    raise Pard::Invalid::Params unless form.all?{ |field, entry|
-      correct_entry? params[field], entry[:type]
-    }
-    raise Pard::Invalid::Category unless correct_category? params[:category]
     raise Pard::Invalid::UnexistingProfile if profile.blank?
+    raise Pard::Invalid::ProfileOwnership unless profile[:user_id] == user[:user_id]
+    raise Pard::Invalid::Deadline unless on_time?
+    @space = new_space
   end
 
-  def check_deadline! 
+  def amend
+    raise Pard::Invalid::UnexistingProposal if space.blank?
+    raise Pard::Invalid::ProposalOwnership unless space[:user_id] == user[:user_id]
     raise Pard::Invalid::Deadline unless on_time?
+    amend_space
+  end
+
+  def modify
+    @form = get_space_form
+    check_fields!
+    raise Pard::Invalid::EventOwnership unless event[:user_id] == user[:user_id]
+    modify_space
+  end
+
+  def own
+    raise Pard::Invalid::UnexistingProposal if space.blank?
+    return true unless space[:own].blank?
+  end
+
+  def delete
+    raise Pard::Invalid::UnexistingProposal if space.blank?
+    raise Pard::Invalid::ProposalOwnership unless event[:user_id] == user[:user_id] || space[:user_id] == user[:user_id]
+    raise Pard::Invalid::Deadline unless on_time? || event[:user_id] == user[:user_id]
+    send_rejection_mail if user[:user_id] == event[:user_id] && user[:user_id] != space[:user_id]
+  end
+
+  def proposal_id
+    space[:proposal_id]
   end
 
   def [] key
-    space_proposal[key]
-  end
-
-  def amend amendment
-    space_proposal[:amend] = amendment
+    space[key]
   end
 
   def to_h
-    space_proposal.to_h
+    space.to_h
   end
 
   private
-  attr_reader :space_proposal, :event, :user, :profile, :form
-  def new_space params
-    space_proposal = {
+  attr_reader :space, :event, :user, :profile, :form, :params
+  def check_fields!
+    raise Pard::Invalid::Category unless correct_category?
+    raise Pard::Invalid::Params unless form.all?{ |field, entry|
+      correct_entry? params[field], entry[:type]
+    }
+  end
+
+  def new_space
+    space = {
       user_id: user[:user_id],
       profile_id: profile[:profile_id],
       email: user[:email],
@@ -52,15 +81,17 @@ class SpaceProposal
       form_category: params[:form_category],
       amend: params[:amend]
     }
-    form.each{ |field, content| space_proposal[field] = params[field]} 
-    space_proposal
+    form.each{ |field, content| space[field] = params[field]} 
+    space
   end
 
-  def get_space_form call_id, form_category
-    forms = Repos::Calls.get_forms call_id
+  def get_space_form
+    form_category = params[:form_category].to_sym
+    forms = Repos::Calls.get_forms params[:call_id]
+    raise Pard::Invalid::UnexistingCall if forms.blank?
     categories = forms[:space].keys
-    raise Pard::Invalid::Params unless categories.include? form_category.to_sym
-    forms[:space][form_category.to_sym]
+    raise Pard::Invalid::Params unless categories.include? form_category
+    forms[:space][form_category]
   end
 
   def correct_entry? value, type
@@ -68,17 +99,32 @@ class SpaceProposal
     true
   end
 
-  def correct_category? category
+  def correct_category?
     [
       'cultural_ass',
       'home',
       'commercial',
       'open_air'
-    ].include? category
+    ].include? params[:category]
   end
 
   def on_time?
     return true if event[:user_id] == user[:user_id] || event[:whitelist].any?{ |whitelisted| whitelisted[:email] == user[:email] }
     event[:start].to_i/1000 < Time.now.to_i && event[:deadline].to_i/1000 > Time.now.to_i
+  end
+
+  def modify_space
+    [:address, :phone].each{ |field| space[field] = params[field] unless params[field].blank?}
+    form.each{ |field, content| space[field] = params[field] unless params[field].blank?}
+  end
+
+  def amend_space
+    space[:amend] = params[:amend]
+  end
+
+  def send_rejection_mail
+    receiver = {email: space[:email]}
+    payload = {organizer: event[:organizer], event_name: event[:name], title: space[:name]}
+    Services::Mails.deliver_mail_to receiver, :rejected, payload
   end
 end

@@ -24,7 +24,7 @@ describe Repos::Calls do
   describe 'Get forms' do
 
     it 'returns the specified calls' do
-      expect(Repos::Calls.get_forms call_id).to eq({call_id: call_id})
+      expect(Repos::Calls.get_forms call_id).to eq(call)
     end
   end
 end

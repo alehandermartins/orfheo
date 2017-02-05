@@ -12,7 +12,6 @@ require './controllers/events'
 require './controllers/calls'
 require './controllers/search'
 require './controllers/forms'
-require './controllers/services'
 require './services/websocket'
 
 # require 'rack-livereload' if ENV['RACK_ENV'] == 'development'
@@ -42,8 +41,4 @@ end
 
 map '/forms' do
 	run FormsController
-end
-
-map '/services' do
-	run ServicesController
 end
