@@ -1842,6 +1842,11 @@
       }
       _setPublishStatus();
 
+      if(the_event.published == true || the_event.published == 'true'){$(window).load(function(){
+          $('main').css({'background': _backColor})
+        });
+      }
+        
       Pard.Bus.on('publishEvent', function(status){
         if(the_event.published != status){
           the_event.published = status;

@@ -16,15 +16,16 @@
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
 
     if (Pard.CachedEvent.program.length){
-      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true' || Pard.CachedEvent.published == true){
-        var _rgb = Pard.Widgets.IconColor(Pard.CachedEvent.color).rgb();
-        var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+      var _rgb = Pard.Widgets.IconColor(Pard.CachedEvent.color).rgb();
+      var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
+      if (Pard.CachedEvent.published == 'true' || Pard.CachedEvent.published == true){
         $(document).ready(function(){
           $('main').css('background', _backColor);
         });
+      }
+      if (Pard.UserStatus['status'] == 'owner'){
         var _program = $('<div>').addClass('aside-event-nav-btn');
         _program.text('Programa');
-
         _program.click(function(){
           if(_participants) _participants.deactivate();
           _contentShowHide('program-event-page');
@@ -120,6 +121,56 @@
       var _innerContNav =  $('<div>').addClass('navigation-innerCont-event-page');
       _toCallPageBtnContainer.append(_innerContNav.append(_toCallPageBtn));
       _createdWidget.append(_toCallPageBtnContainer);
+
+      var _publishBtnCont =  $('<div>').addClass('navigation-innerCont-event-page');
+      var _publishedBtn = $('<button>')
+        .attr('type','button')
+        .addClass('publish_unpublish_btn-eventPage');
+      _toCallPageBtnContainer.append(_publishBtnCont.append(_publishedBtn));
+      var _publishStatus;
+      var _setPublishStatus = function(){
+        if(Pard.CachedEvent.published == true || Pard.CachedEvent.published == 'true'){
+          _publishStatus = 'unpublish';
+          _publishedBtn.text('Retira el programa');
+          $('main').css({'background': _backColor});
+        }
+        else{         
+          _publishStatus = 'publish';
+          _publishedBtn.text('Publica el programa');
+          $('main').css('background','#f6f6f6');
+        }
+      }
+      _setPublishStatus();
+      _publishedBtn.on('click', function(){
+        Pard.Backend.publish(Pard.CachedEvent.event_id, _publishProgramCallback[_publishStatus]);
+      });
+      var _publishProgramCallback =  {
+        publish: function(data){
+          if(data['status'] == 'success') {
+            var _mex = $('<div>').html('El programa se ha publicado correctamente');
+            Pard.Widgets.TimeOutAlert('',_mex);
+            Pard.CachedEvent.published = true;
+            _setPublishStatus();
+          }
+          else{
+            console.log('error');
+            Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+          }
+        },
+        unpublish: function(data){
+          if(data['status'] == 'success') {
+            var _mex = $('<div>').html('Solo tú ahora puedes ver el programa de tu evento');
+            Pard.Widgets.TimeOutAlert('',_mex);
+            Pard.CachedEvent.published = false;
+            _setPublishStatus();
+          }
+          else{
+            console.log('error');
+            Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+          }
+        }
+      }
+
     }
 
     return{
@@ -262,7 +313,7 @@
     var _eventTimeKeys = Object.keys(the_event.eventTime);
     var _eventEndTime = parseInt(the_event.eventTime[_eventTimeKeys[_eventTimeKeys.length-2]][1][1]);
     var _eventStartTime = parseInt(the_event.eventTime[_eventTimeKeys[0]][0][0]);
-    if(_now.getTime() >_eventEndTime || _eventStartTime < _now.getTime()) _programNow.attr('disabled',true).addClass('disabled-button');
+    if(_now.getTime() >_eventEndTime + 3600000*4 || _eventStartTime > _now.getTime() + 3600000*4) _programNow.attr('disabled',true).addClass('disabled-button');
 
     var extraDate;
     _programNow.on('click', function(){
