@@ -160,7 +160,7 @@
           },
           unpublish: function(data){
             if(data['status'] == 'success') {
-              var _mex = $('<div>').html('Solo tú ahora puedes ver el programa de tu evento');
+              var _mex = $('<div>').html('Ahora sólo tú puedes ver el programa de tu evento');
               Pard.Widgets.TimeOutAlert('',_mex);
               Pard.CachedEvent.published = false;
               _setPublishStatus();
