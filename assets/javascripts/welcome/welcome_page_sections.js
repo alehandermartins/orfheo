@@ -503,26 +503,27 @@ ns.Widgets = ns.Widgets || {};
     _info1.append($('<div>').addClass('innerCont1').append(_img1, _text1));
     _info2.append(_img2, _text2);
     _info3.append($('<div>').addClass('innerCont3').append(_img3, _text3));
-    // var _longTextDiv = $('<div>').addClass('littleTextDiv');
-    // var _longTextContainer = $('<div>').addClass('welcomeSection-container'); 
+
     var _titleLongText = $('<h4>').html('Une a las personas,</br> crea red con tu comunidad cultural').addClass('title-welcome');
     var _callLongText = $('<a>').attr('href','/services')
       .text('Explora las ventajas de lanzar tu convocatoria en orfheo')
-      // .text('Lanza y gestiona tu convocatoria en orfheo')
       .append(Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
       .click(function(){
         console.log('open popup')
       })
       .addClass('callText-WelcomePage');
-    // _longTextDiv.append(_longTextContainer.append(_titleLongText, _callLongText));
+
     var _titleContainer = $('<div>').append(_titleLongText).css('margin-bottom','4.5rem');
     var _infoContainer = $('<div>').append(_info1, _info2, _info3)
-    _actionDiv.append(_actionContainer.append(_titleContainer, _infoContainer, _callLongText.css('margin-top','2.5rem')));
+    _actionDiv.append(_actionContainer.append(
+      _titleContainer, 
+      _infoContainer
+      // , _callLongText.css('margin-top','2.5rem')
+    ));
 
     var _titleLittleText = $('<h4>').html('El futuro está aquí:<br>eres tú junto con los demás').addClass('title-welcome').css('margin-bottom','1rem');
-    // .text('Nuevas posibilidades culturales creadas por conexiones y enlaces');
-    // var _littleText = $('<p>').html('Algunas veces lo has imaginado pero ahora es realidad...').css('margin-top','1.5rem')
+ 
     var _callLittleText = $('<button>').attr('type','button')
       .text('Déjate inspirar')
       .append(Pard.Widgets.IconManager('navigation_right').render()
@@ -563,24 +564,34 @@ ns.Widgets = ns.Widgets || {};
 
     var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().addClass('navigationIcon-findOutMore');
     var _findOutMore = $('<div>')
-      .append($('<a>').text('Descubre más').attr('href','/services')  
-        .click(function(){
-          $('#toServicesPage').trigger('click');
-        })
-        .append(_findOutMoreIcon)
-      )
+      // .append(
+      //   $('<a>')
+      //     .text('Descubre más')
+      //     .attr('href','/services')  
+      //     .click(function(){
+      //       $('#toServicesPage').trigger('click');
+      //     })
+      //     .append(_findOutMoreIcon)
+      // )
       .css({
         'text-align':'center',
         'margin':'2.5rem'
       })
-    _servicesInfoContainer.append(_callService,_consulingService,_apiService, _findOutMore); 
+    _servicesInfoContainer.append(
+      _callService,
+      _consulingService,
+      _apiService, 
+      _findOutMore
+    ); 
     var _textLogo = $('<div>').text('S e r v i c i o s').addClass('textLogo');
     _servicesDiv.append(_logoServices, _textLogo, _servicesInfoContainer);
 
     _section.append(
-      _entryDiv  
-      // ,_longTextDiv, 
-      ,_profilesDiv,_actionDiv,  _littleTextDiv, _servicesDiv
+      _entryDiv,
+      _profilesDiv,
+      _actionDiv,  
+      _littleTextDiv, 
+      _servicesDiv
     );
 
     return _section;
