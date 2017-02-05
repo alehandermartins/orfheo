@@ -1151,7 +1151,7 @@
           }
         });
         var _artistShows = [performance];
-        if (multiple){
+        if (multiple && artistShows().length > 1){
           performancesBox.css({'margin-top':'1.5rem'});
           performancesBox.append(_all);
          _artistShows = Pard.Widgets.ReorderProgramCrono(artistShows());
