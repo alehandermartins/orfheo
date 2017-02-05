@@ -26,10 +26,10 @@ class WelcomeController < BaseController
 	end
 
 	post '/business' do
-		scopify :email, :name, :subject, :contactPhone, :contactHangout, :phone, :dayAvailability, :periodAvailability, :message
+		scopify :email, :name, :subject, :contactPhone, :contactHangout, :phone, :dayAvailabilty, :periodAvailabilty, :links, :message
 		check_business_params! params
 		check_invalid_email email
-		deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailability, periodAvailability, message
+		deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailabilty, periodAvailabilty, links, message
 		success
 	end
 
@@ -54,9 +54,9 @@ class WelcomeController < BaseController
 		Services::Mails.deliver_mail_to user, :techSupport, payload
 	end
 
-	def deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailability, periodAvailability, message
+	def deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailability, periodAvailability, links, message
 		user = {email: 'info@orfheo.org'}
-		payload = {from: email, name: name, subject: subject, contactPhone: contactPhone, contactHangout: contactHangout, phone: phone, dayAvailability: dayAvailability, periodAvailability: periodAvailability, message: message}
+		payload = {from: email, name: name, subject: subject, contactPhone: contactPhone, contactHangout: contactHangout, phone: phone, dayAvailability: dayAvailability, periodAvailability: periodAvailability, links: links, message: message}
 		Services::Mails.deliver_mail_to user, :business, payload
 	end
 end
