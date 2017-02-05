@@ -16,7 +16,7 @@ class SearchController < BaseController
     shown_profiles = check_params shown
     not_shown = not_shown_profiles get_profiles(event_id), shown_profiles
     matched_profiles = query_profiles not_shown, tags
-    success({profiles: matched_profiles.take(12)})
+    success({profiles: matched_profiles.take(15)})
   end
 
   post '/suggest_program' do
