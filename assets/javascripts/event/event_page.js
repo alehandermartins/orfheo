@@ -122,55 +122,56 @@
       _toCallPageBtnContainer.append(_innerContNav.append(_toCallPageBtn));
       _createdWidget.append(_toCallPageBtnContainer);
 
-      var _publishBtnCont =  $('<div>').addClass('navigation-innerCont-event-page');
-      var _publishedBtn = $('<button>')
-        .attr('type','button')
-        .addClass('publish_unpublish_btn-eventPage');
-      _toCallPageBtnContainer.append(_publishBtnCont.append(_publishedBtn));
-      var _publishStatus;
-      var _setPublishStatus = function(){
-        if(Pard.CachedEvent.published == true || Pard.CachedEvent.published == 'true'){
-          _publishStatus = 'unpublish';
-          _publishedBtn.text('Retira el programa');
-          $('main').css({'background': _backColor});
-        }
-        else{         
-          _publishStatus = 'publish';
-          _publishedBtn.text('Publica el programa');
-          $('main').css('background','#f6f6f6');
-        }
-      }
-      _setPublishStatus();
-      _publishedBtn.on('click', function(){
-        Pard.Backend.publish(Pard.CachedEvent.event_id, _publishProgramCallback[_publishStatus]);
-      });
-      var _publishProgramCallback =  {
-        publish: function(data){
-          if(data['status'] == 'success') {
-            var _mex = $('<div>').html('El programa se ha publicado correctamente');
-            Pard.Widgets.TimeOutAlert('',_mex);
-            Pard.CachedEvent.published = true;
-            _setPublishStatus();
+      if (Pard.CachedEvent.program.length){
+        var _publishBtnCont =  $('<div>').addClass('navigation-innerCont-event-page');
+        var _publishedBtn = $('<button>')
+          .attr('type','button')
+          .addClass('publish_unpublish_btn-eventPage');
+        _toCallPageBtnContainer.append(_publishBtnCont.append(_publishedBtn));
+        var _publishStatus;
+        var _setPublishStatus = function(){
+          if(Pard.CachedEvent.published == true || Pard.CachedEvent.published == 'true'){
+            _publishStatus = 'unpublish';
+            _publishedBtn.text('Retira el programa');
+            $('main').css({'background': _backColor});
           }
-          else{
-            console.log('error');
-            Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
-          }
-        },
-        unpublish: function(data){
-          if(data['status'] == 'success') {
-            var _mex = $('<div>').html('Solo tú ahora puedes ver el programa de tu evento');
-            Pard.Widgets.TimeOutAlert('',_mex);
-            Pard.CachedEvent.published = false;
-            _setPublishStatus();
-          }
-          else{
-            console.log('error');
-            Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+          else{         
+            _publishStatus = 'publish';
+            _publishedBtn.text('Publica el programa');
+            $('main').css('background','#f6f6f6');
           }
         }
-      }
-
+        _setPublishStatus();
+        _publishedBtn.on('click', function(){
+          Pard.Backend.publish(Pard.CachedEvent.event_id, _publishProgramCallback[_publishStatus]);
+        });
+        var _publishProgramCallback =  {
+          publish: function(data){
+            if(data['status'] == 'success') {
+              var _mex = $('<div>').html('El programa se ha publicado correctamente');
+              Pard.Widgets.TimeOutAlert('',_mex);
+              Pard.CachedEvent.published = true;
+              _setPublishStatus();
+            }
+            else{
+              console.log('error');
+              Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+            }
+          },
+          unpublish: function(data){
+            if(data['status'] == 'success') {
+              var _mex = $('<div>').html('Solo tú ahora puedes ver el programa de tu evento');
+              Pard.Widgets.TimeOutAlert('',_mex);
+              Pard.CachedEvent.published = false;
+              _setPublishStatus();
+            }
+            else{
+              console.log('error');
+              Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+            }
+          }
+        }
+      }  
     }
 
     return{
