@@ -160,7 +160,7 @@
       }
       Pard.ColumnWidth = 176;
       _linesLength = 885;
-      if(_shownSpaces.length < 4){
+      if(_shownSpaces.length <= 4){
         Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
         _linesLength = Pard.ColumnWidth * _shownSpaces.length + 6;
       }
@@ -253,13 +253,10 @@
     });
 
     _spaceSelector.on("select2:unselecting", function(e){
-      _shownSpaces = [];
-      Object.keys(the_event.spaces).forEach(function(space_id){
-        _shownSpaces.push(space_id);
-      });
+      _shownSpaces = order;
       Pard.ColumnWidth = 176;
       _linesLength = 885;
-      if(_shownSpaces.length < 4){
+      if(_shownSpaces.length <= 4){
         Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
         _linesLength = Pard.ColumnWidth * _shownSpaces.length + 6;
       }
@@ -1921,7 +1918,7 @@
       _tables[day].append(_emptySpaces[day]);
     });
     
-    if(_shownSpaces.length > 0 && _shownSpaces.length < 4){
+    if(_shownSpaces.length > 0 && _shownSpaces.length <= 4){
         Pard.ColumnWidth = Pard.ColumnWidth * 4 / _shownSpaces.length;
         _linesLength = Pard.ColumnWidth * _shownSpaces.length + 6;
       }
