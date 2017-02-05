@@ -5,6 +5,10 @@ class WelcomeController < BaseController
     erb :welcome
   end
 
+  get '/services' do
+    erb :services
+  end
+
   post '/feedback' do
 		scopify :email, :name, :message 
 		check_params! params

@@ -7,6 +7,7 @@ describe CallsController do
   let(:send_artist_proposal_route){'/users/send_artist_proposal'}
   let(:send_artist_own_proposal_route){'/users/send_artist_own_proposal'}
   let(:send_space_proposal_route){'/users/send_space_proposal'}
+  let(:send_space_own_proposal_route){'/users/send_space_own_proposal'}
   let(:amend_artist_proposal_route){'/users/amend_artist_proposal'}
   let(:amend_space_proposal_route){'/users/amend_space_proposal'}
   let(:modify_artist_proposal_route){'/users/modify_artist_proposal'}
@@ -187,7 +188,8 @@ describe CallsController do
       '1': nil,
       '2': 'mandatory',
       form_category: 'home',
-      subcategory: 'home'
+      subcategory: 'home',
+      amend: 'amend'
     }
   }  
 
@@ -215,7 +217,8 @@ describe CallsController do
       category: 'home',
       form_category: 'home',
       subcategory: 'home',
-      '2': 'mandatory'
+      '2': 'mandatory',
+      amend: 'amend'
     }
   }
 
@@ -429,21 +432,13 @@ describe CallsController do
     end
   end
 
-  xdescribe 'Send_space_proposal' do
+  describe 'Send_space_proposal' do
 
     before(:each){
       allow(SecureRandom).to receive(:uuid).and_return(space_profile_id)
       post create_profile_route, space_profile
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
-
-    it 'fails if wrong category' do
-      space_proposal[:category] = 'otter'
-      post send_space_proposal_route, space_proposal
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_category')
-    end
 
     it 'fails if the event does not exist' do
       space_proposal[:event_id] = 'otter'
@@ -486,97 +481,123 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('invalid_category')
     end
 
+    it 'fails if the call does not include the form category' do
+      space_proposal[:form_category] = 'otter'
+      post send_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
     it 'fails if out of deadline' do
-      space_proposal[:event_id] = otter_event_id
-      post send_space__proposal_route, space_proposal
+      post send_space_proposal_route, space_proposal
 
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
     it 'does not fail out of deadline if event owner' do
+      space_proposal[:event_id] = event_id
+      expect(Repos::Events).to receive(:add_space).with(event_id, space)
       post send_space_proposal_route, space_proposal
-
       expect(parsed_response['status']).to eq('success')
-      expect(parsed_response['reason']).to eq('out_of_time_range')
-    end
-
-    it 'fails if the call does not include the form category' do
-      proposal[:form_category] = 'arts'
-      post send_space_proposal_route, space_proposal
-
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_parameters')
+      expect(parsed_response['model']).to eq(Util.stringify_hash(space))
     end
 
     it 'sends the proposal' do
-      expect(Repos::Events).to receive(:add_space).with(event_id, space)
+      expect(Repos::Events).to receive(:add_space).with(otter_event_id, space)
+      allow(Time).to receive(:now).and_return(1462054)
       post send_space_proposal_route, space_proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['model']).to eq(Util.stringify_hash(space))
     end
   end
 
-  xdescribe 'Sends own space proposal' do
+  describe 'Sends own space proposal' do
 
     before(:each){
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
     let(:space_own){
-    {
-      user_id: user_id,
-      profile_id: space_profile_id,
-      proposal_id: proposal_id,
-      email: 'email@test.com',
-      name: 'space_name',
-      address: 'address',
-      category: 'home',
-      phone: 'phone',
-      description: nil,
-      '1': nil,
-      '2': nil,
-      form_category: 'home',
-      subcategory: 'home',
-      own: true
+      {
+        user_id: user_id,
+        profile_id: space_profile_id,
+        proposal_id: proposal_id,
+        email: 'email@test.com',
+        name: 'space_name',
+        address: 'address',
+        category: 'home',
+        phone: 'phone',
+        description: nil,
+        '1': nil,
+        '2': nil,
+        form_category: 'home',
+        subcategory: 'home',
+        own: true
+      }
     }
-  }
 
-  let(:space_own_proposal){
-    {
-      user_id: user_id,
-      profile_id: space_profile_id,
-      event_id: event_id,
-      call_id: call_id,
-      email: 'email@test.com',
-      name: 'space_name',
-      address: 'address',
-      phone: 'phone',
-      category: 'home',
-      form_category: 'home',
-      subcategory: 'home'
+    let(:space_own_proposal){
+      {
+        user_id: user_id,
+        profile_id: space_profile_id,
+        event_id: event_id,
+        call_id: call_id,
+        email: 'email@test.com',
+        name: 'space_name',
+        address: 'address',
+        phone: 'phone',
+        category: 'home',
+        form_category: 'home',
+        subcategory: 'home'
+      }
     }
-  }
+
+    it 'fails if the event does not exist' do
+      space_own_proposal[:event_id] = 'otter'
+      post send_space_own_proposal_route, space_own_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_event')
+    end
+
+    it 'fails if the call does not exist' do
+      space_own_proposal[:call_id] = 'otter'
+      post send_space_own_proposal_route, space_own_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_call')
+    end
+
+    it 'fails if not the event owner' do
+      post logout_route
+      post login_route, otter_user_hash
+      post send_space_own_proposal_route, space_own_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
 
     it 'fails if it does not include mandatory orfheo fields' do
-      space_own_proposal.delete(:phone)
-      post '/users/send_space_own_proposal', space_own_proposal
+      space_own_proposal.delete(:title)
+      post send_space_own_proposal_route, space_own_proposal
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_parameters')
     end
 
     it 'fails if it does not include profile mandatory orfheo fields' do
-      space_own_proposal.delete(:address)
-      post '/users/send_space_own_proposal', space_own_proposal
+      space_own_proposal.delete(:name)
+      post send_space_own_proposal_route, space_own_proposal
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_parameters')
     end
 
     it 'sends own proposal' do
-      expect(Repos::Events).to receive(:add_space).with(event_id, space_own)
-      post '/users/send_space_own_proposal', space_own_proposal
+      expect(Repos::Events).to receive(:add_artist).with(event_id, artist_own)
+      post send_space_own_proposal_route, space_own_proposal
       expect(parsed_response['status']).to eq('success')
-       expect(parsed_response['model']).to eq(Util.stringify_hash(space_own))
+       expect(parsed_response['model']).to eq(Util.stringify_hash(artist_own))
     end
   end
 
