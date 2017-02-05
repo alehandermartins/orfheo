@@ -120,6 +120,7 @@
     _inputContainer.append(_inputNameEmail),_outerListContainer.append(_inputAddedContainer);
 
     _inputNameEmail.select2({
+      dropdownCssClass:'orfheoTableSelector',
       placeholder:'Email o Nombre de perfil',
       data: _emailsNames,
       allowClear: true,

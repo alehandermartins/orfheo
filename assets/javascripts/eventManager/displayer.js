@@ -121,7 +121,7 @@
 
       var deleteCallback = function(data){
         if (data['status'] == 'success'){
-          Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.');
+          Pard.Widgets.TimeOutAlert('', 'Propuesta eliminada correctamente.');
         }
         else{
           var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
@@ -243,7 +243,8 @@
 
       var _callbackCreatedProposal = function(data, callback){
         if(data['status'] == 'success') {
-          Pard.Widgets.Alert('', 'Propuesta creada correctamente.', _closePopupForm);
+          _closePopupForm();
+          Pard.Widgets.TimeOutAlert('', 'Propuesta creada correctamente');
           callback();
         }
         else{

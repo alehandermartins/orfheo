@@ -158,6 +158,67 @@
 
   };
 
+
+  ns.Widgets.TimeOutAlert = function(title, content, timeout, callback){
+
+    var _createdWidget = $('<div>')
+      .addClass('very-fast reveal full')
+      .css({'background':'transparent'});    
+    var _outerContainer = $('<div>').addClass('vcenter-outer');
+    var _innerContainer = $('<div>').addClass('vcenter-inner');
+    var _popupContent = $('<div>')
+      .addClass('alert-container-full')
+      .css({
+        'border':'1px solid',
+        'padding':'1.5rem',
+        'text-align':'center',
+        'box-shadow': '3px 3px 8px rgba(0, 0, 0, 0.3)'
+      });
+    var _sectionContainer = $('<section>')
+      .addClass('popup-content')
+      .css({
+        'font-size':'18px',
+        'margin':'0'
+      });
+    var _ok = $('<div>').append(Pard.Widgets.IconManager('done').render(), $('<span>').text('OK')).addClass('OKalertTimeout');
+    var _header = $('<div>').addClass('row');
+    var _title = $('<h4>').addClass('small-11 popup-title')
+    if (title) _title.append(title);
+    else _title.append(_ok);
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
+
+    _popupContent.append(_header.append(_title));
+    _sectionContainer.append(content);
+    _popupContent.append(_sectionContainer);
+    _innerContainer.append(_popupContent);
+    _createdWidget.append(_outerContainer.append(_innerContainer));
+
+    $('body').append(_createdWidget);
+
+    _popup.open();
+
+    _createdWidget.click(function(){
+      _popup.close();
+      if (callback) callback();
+      setTimeout(function(){
+        _popup.destroy();
+        _createdWidget.remove();
+      }, 500);
+    })
+
+    var _timeout = timeout || 2500;
+
+    setTimeout(function(){
+      _popup.close();
+      if (callback) callback();
+      setTimeout(function(){
+        _popup.destroy();
+        _createdWidget.remove();
+      }, 500);
+    },_timeout)
+
+  };
+
  
   ns.Widgets.PopupContent = function(title, content, contentClass){
     var _createdWidget = $('<div>').addClass('vcenter-outer');
