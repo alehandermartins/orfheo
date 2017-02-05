@@ -276,6 +276,10 @@
       Object.keys(artists).forEach(function(profile_id){
         artists[profile_id].accordion.show();
       });
+      if(lastArtist && lastArtist.hasClass('is-active')){
+        lastArtist.slideToggle();
+        lastArtist.removeClass('is-active');
+      }
       $(this).val("");
       $(this).trigger('change');
       e.preventDefault();
@@ -288,6 +292,7 @@
     });
 
     _artistSelector.on('reload', function(e, _id){
+      console.log(_id);
       if(!_id) return $(this).trigger('select2:unselecting');
       $(this).val(_id);
       $(this).trigger('select2:select');
