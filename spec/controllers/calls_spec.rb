@@ -362,6 +362,14 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
+    it 'fails if it does not include mandatory form fields' do
+      allow(Time).to receive(:now).and_return(1462054)
+      proposal.delete(:'2')
+      post send_artist_proposal_route, proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
     it 'does not fail out of deadline if event owner' do
       proposal[:event_id] = event_id
       expect(Repos::Events).to receive(:add_artist).with(event_id, artist)
@@ -496,6 +504,14 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('out_of_time_range')
     end
 
+    it 'fails if it does not include mandatory form fields' do
+      allow(Time).to receive(:now).and_return(1462054)
+      space_proposal.delete(:'2')
+      post send_space_proposal_route, space_proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_parameters')
+    end
+
     it 'does not fail out of deadline if event owner' do
       space_proposal[:event_id] = event_id
       expect(Repos::Events).to receive(:add_space).with(event_id, space)
@@ -579,13 +595,6 @@ describe CallsController do
       expect(parsed_response['reason']).to eq('you_dont_have_permission')
     end
 
-    it 'fails if it does not include mandatory orfheo fields' do
-      space_own_proposal.delete(:title)
-      post send_space_own_proposal_route, space_own_proposal
-      expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_parameters')
-    end
-
     it 'fails if it does not include profile mandatory orfheo fields' do
       space_own_proposal.delete(:name)
       post send_space_own_proposal_route, space_own_proposal
@@ -594,14 +603,14 @@ describe CallsController do
     end
 
     it 'sends own proposal' do
-      expect(Repos::Events).to receive(:add_artist).with(event_id, artist_own)
+      expect(Repos::Events).to receive(:add_space).with(event_id, space_own)
       post send_space_own_proposal_route, space_own_proposal
       expect(parsed_response['status']).to eq('success')
-       expect(parsed_response['model']).to eq(Util.stringify_hash(artist_own))
+       expect(parsed_response['model']).to eq(Util.stringify_hash(space_own))
     end
   end
 
-  describe 'Amend_proposal' do
+  describe 'Amend_artist_proposal' do
 
     before(:each){
       post create_profile_route, profile
@@ -653,6 +662,63 @@ describe CallsController do
 
       expect(Repos::Events).to receive(:modify_artist).with(artist)
       post amend_artist_proposal_route, amend
+      expect(parsed_response['status']).to eq('success')
+    end
+  end
+
+  describe 'Amend_space_proposal' do
+
+    before(:each){
+      allow(SecureRandom).to receive(:uuid).and_return(space_profile_id)
+      post create_profile_route, space_profile
+      space[:amend] = 'new_amend'
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+    }
+
+    let(:amend){
+      {
+        event_id: otter_event_id,
+        call_id: call_id,
+        proposal_id: proposal_id,
+        amend: 'new_amend'
+      }
+    }
+
+    it 'fails if the proposal does not exist' do
+      post amend_space_proposal_route, amend
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
+    end
+
+    it 'fails if the user is out of time' do
+      allow(Time).to receive(:now).and_return(1462054)
+      post send_space_proposal_route, space_proposal
+      allow(Time).to receive(:now).and_return(0)
+      post amend_space_proposal_route, amend
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('out_of_time_range')
+    end
+
+    it 'fails if the user does not own the proposal' do
+      allow(Time).to receive(:now).and_return(1462054)
+      post send_space_proposal_route, space_proposal
+      post logout_route
+      post login_route, otter_user
+      post amend_space_proposal_route, amend
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'amends the proposal' do
+      allow(Time).to receive(:now).and_return(1462054)
+      post send_space_proposal_route, space_proposal
+      space[:address] = {
+        'locality' => 'locality',
+        'postal_code' => 'postal_code'
+      }
+      expect(Repos::Events).to receive(:modify_space).with(space)
+      post amend_space_proposal_route, amend
       expect(parsed_response['status']).to eq('success')
     end
   end

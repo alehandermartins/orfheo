@@ -5,7 +5,7 @@ class SpaceProposal
     @user = Repos::Users.grab({user_id: user_id})
     @event = Repos::Events.get_event params[:event_id]
     raise Pard::Invalid::UnexistingEvent if event.blank?
-    @space = event[:spaces].detect{|ev_space| ev_space[:profile_id] == params[:profile_id]}
+    @space = event[:spaces].detect{|ev_space| ev_space[:proposal_id] == params[:proposal_id]}
   end
 
   def create
@@ -24,6 +24,18 @@ class SpaceProposal
     raise Pard::Invalid::ProposalOwnership unless space[:user_id] == user[:user_id]
     raise Pard::Invalid::Deadline unless on_time?
     amend_space
+  end
+
+  def own
+    raise Pard::Invalid::UnexistingProposal if space.blank?
+    return true unless space[:own].blank?
+  end
+
+  def delete
+    raise Pard::Invalid::UnexistingProposal if space.blank?
+    raise Pard::Invalid::ProposalOwnership unless event[:user_id] == user[:user_id] || artist[:user_id] == user[:user_id]
+    raise Pard::Invalid::Deadline unless on_time? || event[:user_id] == user[:user_id]
+    send_rejection_mail if user[:user_id] == event[:user_id] && user[:user_id] != space[:user_id]
   end
 
   def [] key
@@ -88,5 +100,15 @@ class SpaceProposal
   def on_time?
     return true if event[:user_id] == user[:user_id] || event[:whitelist].any?{ |whitelisted| whitelisted[:email] == user[:email] }
     event[:start].to_i/1000 < Time.now.to_i && event[:deadline].to_i/1000 > Time.now.to_i
+  end
+
+  def amend_space
+    space[:amend] = params[:amend]
+  end
+
+  def send_rejection_mail
+    receiver = {email: space[:email]}
+    payload = {organizer: event[:organizer], event_name: event[:name], title: artist[:proposals].first[:title]}
+    Services::Mails.deliver_mail_to receiver, :rejected, payload
   end
 end
