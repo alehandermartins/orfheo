@@ -837,10 +837,9 @@ describe CallsController do
     end
   end
 
-  describe 'Delete_proposal' do
+  describe 'Delete_artist_proposal' do
 
     before(:each){
-      allow(SecureRandom).to receive(:uuid).and_return(profile_id)
       post create_profile_route, profile
       allow(Time).to receive(:now).and_return(1462054)
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
@@ -875,6 +874,48 @@ describe CallsController do
       expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
       expect(Services::Mails).not_to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
       post delete_artist_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
+      expect(parsed_response['status']).to eq('success')
+    end
+  end
+
+  describe 'Delete_space_proposal' do
+
+    before(:each){
+      allow(SecureRandom).to receive(:uuid).and_return(space_profile_id)
+      post create_profile_route, space_profile
+      allow(Time).to receive(:now).and_return(1462054)
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+      post send_space_proposal_route, space_proposal
+    }
+
+    it 'fails if the proposal does not exist' do
+      post delete_space_proposal_route, {event_id: otter_event_id, proposal_id: 'otter'}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
+    end
+
+    it 'fails if the user is out of time' do
+      allow(Time).to receive(:now).and_return(0)
+      post delete_space_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('out_of_time_range')
+    end
+
+    it 'allows event owner to delete and delivers rejection mail' do
+      allow(Time).to receive(:now).and_return(0)
+      post logout_route
+      post login_route, otter_user_hash
+      expect(Repos::Events).to receive(:delete_space_proposal).with(proposal_id)
+      expect(Services::Mails).to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'space_name'})
+      post delete_space_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
+      expect(parsed_response['status']).to eq('success')
+    end
+
+    it 'allows proposal owner to delete and does not deliver rejection mail' do
+      allow(Time).to receive(:now).and_return(1462054)
+      expect(Repos::Events).to receive(:delete_space_proposal).with(proposal_id)
+      expect(Services::Mails).not_to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'space_name'})
+      post delete_space_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
     end
   end

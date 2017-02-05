@@ -40,9 +40,13 @@ class SpaceProposal
 
   def delete
     raise Pard::Invalid::UnexistingProposal if space.blank?
-    raise Pard::Invalid::ProposalOwnership unless event[:user_id] == user[:user_id] || artist[:user_id] == user[:user_id]
+    raise Pard::Invalid::ProposalOwnership unless event[:user_id] == user[:user_id] || space[:user_id] == user[:user_id]
     raise Pard::Invalid::Deadline unless on_time? || event[:user_id] == user[:user_id]
     send_rejection_mail if user[:user_id] == event[:user_id] && user[:user_id] != space[:user_id]
+  end
+
+  def proposal_id
+    space[:proposal_id]
   end
 
   def [] key
@@ -120,7 +124,7 @@ class SpaceProposal
 
   def send_rejection_mail
     receiver = {email: space[:email]}
-    payload = {organizer: event[:organizer], event_name: event[:name], title: artist[:proposals].first[:title]}
+    payload = {organizer: event[:organizer], event_name: event[:name], title: space[:name]}
     Services::Mails.deliver_mail_to receiver, :rejected, payload
   end
 end
