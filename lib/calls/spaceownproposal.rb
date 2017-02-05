@@ -81,4 +81,9 @@ class SpaceOwnProposal
       'open_air'
     ].include? params[:category]
   end
+
+  def modify_space
+    [:email, :name, :address, :phone, :category].each{ |field| space[field] = params[field] unless params[field].blank?}
+    form.each{ |field, content| space[field] = params[field]} 
+  end  
 end

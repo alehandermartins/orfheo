@@ -222,6 +222,41 @@ describe CallsController do
     }
   }
 
+  let(:space_own){
+    {
+      user_id: user_id,
+      profile_id: space_profile_id,
+      proposal_id: proposal_id,
+      email: 'email@test.com',
+      name: 'space_name',
+      address: 'address',
+      category: 'home',
+      phone: 'phone',
+      description: nil,
+      '1': nil,
+      '2': nil,
+      form_category: 'home',
+      subcategory: 'home',
+      own: true
+    }
+  }
+
+  let(:space_own_proposal){
+    {
+      user_id: user_id,
+      profile_id: space_profile_id,
+      event_id: event_id,
+      call_id: call_id,
+      email: 'email@test.com',
+      name: 'space_name',
+      address: 'address',
+      phone: 'phone',
+      category: 'home',
+      form_category: 'home',
+      subcategory: 'home'
+    }
+  }
+
   let(:event){
     {
       user_id: user_id,
@@ -535,40 +570,7 @@ describe CallsController do
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
-    let(:space_own){
-      {
-        user_id: user_id,
-        profile_id: space_profile_id,
-        proposal_id: proposal_id,
-        email: 'email@test.com',
-        name: 'space_name',
-        address: 'address',
-        category: 'home',
-        phone: 'phone',
-        description: nil,
-        '1': nil,
-        '2': nil,
-        form_category: 'home',
-        subcategory: 'home',
-        own: true
-      }
-    }
-
-    let(:space_own_proposal){
-      {
-        user_id: user_id,
-        profile_id: space_profile_id,
-        event_id: event_id,
-        call_id: call_id,
-        email: 'email@test.com',
-        name: 'space_name',
-        address: 'address',
-        phone: 'phone',
-        category: 'home',
-        form_category: 'home',
-        subcategory: 'home'
-      }
-    }
+   
 
     it 'fails if the event does not exist' do
       space_own_proposal[:event_id] = 'otter'
@@ -723,13 +725,14 @@ describe CallsController do
     end
   end
 
-  describe 'Modify_proposal' do
+  describe 'Modify_artist_proposal' do
 
     before(:each){
       post create_profile_route, profile
       proposal[:proposal_id] = proposal_id
       artist_own_proposal[:proposal_id] = proposal_id
       artist[:proposals].first[:proposal_id] = proposal_id
+      artist[:proposals].first[:production_id] = proposal_id
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
@@ -757,7 +760,6 @@ describe CallsController do
       post logout_route
       post login_route, otter_user_hash
       expect(Repos::Events).to receive(:modify_artist).with(artist)
-      proposal[:production_id] = production_id
       proposal[:title] = 'otter_title'
       artist[:proposals].first[:title] = 'otter_title'
       post modify_artist_proposal_route, proposal
@@ -774,6 +776,64 @@ describe CallsController do
       post modify_artist_proposal_route, artist_own_proposal
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['model']).to eq(Util.stringify_hash(artist_own))
+    end
+  end
+
+  describe 'Modify_space_proposal' do
+
+    before(:each){
+      allow(SecureRandom).to receive(:uuid).and_return(space_profile_id)
+      post create_profile_route, space_profile
+      space_proposal[:proposal_id] = proposal_id
+      space[:address] = {
+        'locality' => 'locality',
+        'postal_code' => 'postal_code'
+      }
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+    }
+
+    it 'fails if the user does not own the event' do
+      allow(Time).to receive(:now).and_return(1462054)
+      post send_space_proposal_route, space_proposal
+      post modify_space_proposal_route, space_proposal
+
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('you_dont_have_permission')
+    end
+
+    it 'fails if the proposal does not exist' do
+      post logout_route
+      post login_route, otter_user_hash
+      space_proposal[:proposal_id] = 'otter'
+      post modify_space_proposal_route, space_proposal
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('non_existing_proposal')
+    end
+
+    it 'modifies the proposal' do
+      allow(Time).to receive(:now).and_return(1462054)
+      post send_space_proposal_route, space_proposal
+      post logout_route
+      post login_route, otter_user_hash
+      expect(Repos::Events).to receive(:modify_space).with(space)
+      proposal[:production_id] = production_id
+      space_proposal[:'2'] = 'otter'
+      space[:'2'] = 'otter'
+      post modify_space_proposal_route, space_proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['model']).to eq(Util.stringify_hash(space))
+    end
+
+    it 'modifies own proposal' do
+      allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
+      post send_space_own_proposal_route, space_own_proposal
+      space_own[:name] = 'otter'
+      space_own_proposal[:name] = 'otter'
+      space_own_proposal[:proposal_id] = proposal_id
+      expect(Repos::Events).to receive(:modify_space).with(space_own)
+      post modify_space_proposal_route, space_own_proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['model']).to eq(Util.stringify_hash(space_own))
     end
   end
 

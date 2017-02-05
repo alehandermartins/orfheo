@@ -94,7 +94,7 @@ class ArtistOwnProposal
   end
 
   def modify_artist
-    [:address, :phone].each{ |field| artist[field] = params[field] unless params[field].blank?}
+    [:email, :name, :address, :phone].each{ |field| artist[field] = params[field] unless params[field].blank?}
     proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == params[:proposal_id]}
     proposal.each{ |field, value| proposal[field] = params[field] unless params[field].blank?}
     artist[:proposals] = [proposal]

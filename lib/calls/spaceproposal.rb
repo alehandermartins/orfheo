@@ -26,6 +26,13 @@ class SpaceProposal
     amend_space
   end
 
+  def modify
+    @form = get_space_form
+    check_fields!
+    raise Pard::Invalid::EventOwnership unless event[:user_id] == user[:user_id]
+    modify_space
+  end
+
   def own
     raise Pard::Invalid::UnexistingProposal if space.blank?
     return true unless space[:own].blank?
@@ -100,6 +107,11 @@ class SpaceProposal
   def on_time?
     return true if event[:user_id] == user[:user_id] || event[:whitelist].any?{ |whitelisted| whitelisted[:email] == user[:email] }
     event[:start].to_i/1000 < Time.now.to_i && event[:deadline].to_i/1000 > Time.now.to_i
+  end
+
+  def modify_space
+    [:address, :phone].each{ |field| space[field] = params[field] unless params[field].blank?}
+    form.each{ |field, content| space[field] = params[field] unless params[field].blank?}
   end
 
   def amend_space
