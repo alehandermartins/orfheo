@@ -71,16 +71,16 @@ module Services
         def techSupport user, payload
           Pony.options = {
             from: payload[:from],
-            subject: 'techSupport',
-            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Asunto:</b> #{payload[:subject]}</p><p><b>Perfil:</b> #{payload[:profile]}</p><p><b>Navegador:</b> #{payload[:browser]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
+            subject: 'techSupport: ' + payload[:subject],
+            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Perfil:</b> #{payload[:profile]}</p><p><b>Navegador:</b> #{payload[:browser]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
           }
         end
 
         def business user, payload
           Pony.options = {
             from: payload[:from],
-            subject: 'business',
-            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Asunto:</b> #{payload[:subject]}</p><p><b>Teléfono:</b> #{payload[:phone]}</p><p>Contacto teléfono: #{payload[:contactPhone]}</p><p>Contacto Hangout: #{payload[:contactHangout]}</p><p><b>Disponibilidad:</b> #{payload[:dayAvailability]}</p><p><b>Disponibilidad horaria:</b> #{payload[:periodAvailability]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
+            subject: 'services: ' + payload[:subject],
+            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Teléfono:</b> #{payload[:phone]}</p><p>Contacto teléfono: #{payload[:contactPhone]}</p><p>Contacto Hangout: #{payload[:contactHangout]}</p><p><b>Disponibilidad:</b> #{payload[:dayAvailability]}</p><p><b>Disponibilidad horaria:</b> #{payload[:periodAvailability]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
           }
         end
       end

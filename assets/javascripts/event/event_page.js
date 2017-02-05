@@ -16,7 +16,7 @@
     // else  Pard.Widgets.Sticker(_createdWidget, 60, 24);
 
     if (Pard.CachedEvent.program.length){
-      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true'){
+      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true' || Pard.CachedEvent.published == true){
         var _rgb = Pard.Widgets.IconColor(Pard.CachedEvent.color).rgb();
         var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
         $(document).ready(function(){
