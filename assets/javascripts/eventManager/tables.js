@@ -635,6 +635,7 @@
             customize: function(doc) {
               doc.content[1].table.body[0].forEach(function(colTitle){
                 if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
+                else if (colTitle.text.indexOf('Día')>-1) colTitle.text = 'Día';
                 colTitle.alignment = 'left';
                 colTitle.margin = [2,2,2,2];
               }) 
