@@ -575,6 +575,11 @@ SEARCH ENGINE
 }
 
 
+.searchTagBox-containerEventPage{
+  margin-top: .75rem;
+  padding: 0 3.8rem;  
+}
+
 
 /*===============================================
 USER PAGE
@@ -1878,7 +1883,7 @@ div.dataTables_wrapper div.dataTables_filter{
 }
 
 .whiteListedContainer-call-page{
-  margin-top: 2.2rem;
+  margin-top: 1.2rem;
   overflow-x: hidden;
   direction: rtl;
   overflow-y: auto;
@@ -1949,6 +1954,8 @@ div.dataTables_wrapper div.dataTables_filter{
   width: 92%;
   font-size: 12px;
   margin-bottom: 0.2rem;
+  display: inline-block;
+  height: 2rem;
 }
 
 .new-input-selected-whitelist{
