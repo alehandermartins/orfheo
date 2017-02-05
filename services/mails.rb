@@ -80,7 +80,7 @@ module Services
           Pony.options = {
             from: payload[:from],
             subject: 'services: ' + payload[:subject],
-            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Teléfono:</b> #{payload[:phone]}</p><p>Contacto teléfono: #{payload[:contactPhone]}</p><p>Contacto Hangout: #{payload[:contactHangout]}</p><p><b>Disponibilidad:</b> #{payload[:dayAvailability]}</p><p><b>Disponibilidad horaria:</b> #{payload[:periodAvailability]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
+            body: "<p><b>Nombre:</b> #{payload[:name]}</p><p><b>Teléfono:</b> #{payload[:phone]}</p><p>Contacto teléfono: #{payload[:contactPhone]}</p><p>Contacto Hangout: #{payload[:contactHangout]}</p><p><b>Disponibilidad:</b> #{payload[:dayAvailability]}</p><p><b>Disponibilidad horaria:</b> #{payload[:periodAvailability]}</p><p><b>Links:</b> #{payload[:links]}</p><p><b>Mensaje:</b> #{payload[:message]}</p>"
           }
         end
       end

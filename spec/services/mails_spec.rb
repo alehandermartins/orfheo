@@ -1,4 +1,4 @@
-xdescribe Services::Mails do
+describe Services::Mails do
 
   let(:user_id){'5c41cf77-32b0-4df2-9376-0960e64a654a'}
   let(:validation_code){'3c61cf77-32b0-4df2-9376-0960e64a654a'}
@@ -59,6 +59,7 @@ xdescribe Services::Mails do
       phone: '123456789',
       dayAvailability: 'dayAvailability',
       periodAvailability: 'periodAvailability',
+      links: 'links',
       message: 'message'
     }
   }
@@ -150,7 +151,7 @@ xdescribe Services::Mails do
     end
 
     it 'assigns the message to the body' do
-      expect(feedback_mail.body).to include('<p>Mensaje de contacter</p><p>message</p>')
+      expect(feedback_mail.body).to include("<p><b>Nombre:</b> contacter</p><p><b>Mensaje:</b> message</p>")
     end
   end
 
@@ -159,7 +160,7 @@ xdescribe Services::Mails do
     let(:tech_mail){ Services::Mails.deliver_mail_to user, :techSupport, techSupport}
 
     it 'renders the subject' do
-      expect(tech_mail.subject).to eq('techSupport')
+      expect(tech_mail.subject).to eq('techSupport: need_help')
     end
 
     it 'renders the sender' do
@@ -167,7 +168,7 @@ xdescribe Services::Mails do
     end
 
     it 'assigns the message to the body' do
-      expect(tech_mail.body).to include('<p>Mensaje de contacter</p><p>Asunto: need_help</p><p>Perfil: my_profile</p><p>Navegador: firefox</p><p>help</p>')
+      expect(tech_mail.body).to include("<p><b>Nombre:</b> contacter</p><p><b>Perfil:</b> my_profile</p><p><b>Navegador:</b> firefox</p><p><b>Mensaje:</b> help</p>")
     end
   end
 
@@ -176,7 +177,7 @@ xdescribe Services::Mails do
     let(:business_mail){ Services::Mails.deliver_mail_to user, :business, business}
 
     it 'renders the subject' do
-      expect(business_mail.subject).to eq('services')
+      expect(business_mail.subject).to eq('services: business')
     end
 
     it 'renders the sender' do
@@ -184,7 +185,7 @@ xdescribe Services::Mails do
     end
 
     it 'assigns the message to the body' do
-      expect(business_mail.body).to include('<p>Mensaje de contacter</p><p>Asunto: business</p><p>Tipo de contacto: phone</p><p>Teléfono: 123456789</p><p>Disponibilidad: dayAvailability</p><p>Disponibilidad horaria: periodAvailability</p><p>message</p>')
+      expect(business_mail.body).to include('<p><b>Nombre:</b> contacter</p><p><b>Teléfono:</b> 123456789</p><p>Contacto teléfono: </p><p>Contacto Hangout: </p><p><b>Disponibilidad:</b> dayAvailability</p><p><b>Disponibilidad horaria:</b> periodAvailability</p><p><b>Links:</b> links</p><p><b>Mensaje:</b> message</p>')
     end
   end
 end
