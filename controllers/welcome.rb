@@ -27,7 +27,7 @@ class WelcomeController < BaseController
 
 	post '/business' do
 		scopify :email, :name, :subject, :contactPhone, :contactHangout, :phone, :dayAvailability, :periodAvailability, :message
-		check_params! params
+		check_business_params! params
 		check_invalid_email email
 		deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailability, periodAvailability, message
 		success
@@ -36,6 +36,10 @@ class WelcomeController < BaseController
 	private
 	def check_params! params
 		raise Pard::Invalid::Params if [:email, :name, :message].any?{|field| params[field].blank?}	
+	end
+
+	def check_business_params! params
+		raise Pard::Invalid::Params if [:email, :name, :message, :subject].any?{|field| params[field].blank?}
 	end
 
 	def deliver_feedback_email email, name, message

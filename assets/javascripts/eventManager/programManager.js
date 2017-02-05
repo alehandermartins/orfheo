@@ -1829,7 +1829,7 @@
       var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
       var _publishStatus;
       var _setPublishStatus = function(){
-        if(the_event.published == 'true'){
+        if(the_event.published == true || the_event.published == 'true'){
           _publishStatus = 'unpublish';
           _publishedBtn.text('Retira el programa');
           $('main').css({'background': _backColor});
