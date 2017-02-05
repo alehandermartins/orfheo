@@ -197,14 +197,14 @@
 
     _popup.open();
 
-    _createdWidget.click(function(){
-      _popup.close();
-      if (callback) callback();
-      setTimeout(function(){
-        _popup.destroy();
-        _createdWidget.remove();
-      }, 500);
-    })
+    // _createdWidget.click(function(){
+    //   _popup.close();
+    //   if (callback) callback();
+    //   setTimeout(function(){
+    //     _popup.destroy();
+    //     _createdWidget.remove();
+    //   }, 500);
+    // })
 
     var _timeout = timeout || 2500;
 
@@ -215,9 +215,9 @@
         _popup.destroy();
         _createdWidget.remove();
       }, 500);
-    },_timeout)
+    },_timeout);
 
-  };
+  }
 
  
   ns.Widgets.PopupContent = function(title, content, contentClass){

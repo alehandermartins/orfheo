@@ -359,7 +359,7 @@
     }
     else{
       console.log(data.reason);
-      Pard.Widgets.Alert('', _dataReason);
+      //Pard.Widgets.Alert('', _dataReason);
     }
   }
 
