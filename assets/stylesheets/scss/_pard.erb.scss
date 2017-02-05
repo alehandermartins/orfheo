@@ -801,7 +801,12 @@ a.navigation-btn-callPage{
   font-size: 1.1rem;
 }
 
-
+.publish_unpublish_btn-eventPage{
+  @extend .pard-btn;
+  font-size: $almostNormalSize;
+  width: 100%;
+  padding: .4rem 0;
+}
 
 /*===============================================
 COMPONENTS
