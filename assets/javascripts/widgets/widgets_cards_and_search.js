@@ -91,7 +91,8 @@
     var _searchInput = $('<div>').addClass('search-input');
     _searchInput.append(_searchWidget);
 
-    var _searchTagsBox = $('<div>').addClass('search-input search-tag-box');
+    var _searchTagsBoxContainer = $('<div>').addClass('searchTagBox-containerEventPage')
+    var _searchTagsBox = $('<div>').addClass('search-tag-box');
 
     var _artisticCatObj = {
       'arts':{},
@@ -160,7 +161,7 @@
 
     _printTags(_typeObj);
 
-    _createdWidget.append(_searchInput, _searchTagsBox, _searchResult);
+    _createdWidget.append(_searchInput, _searchTagsBoxContainer.append(_searchTagsBox), _searchResult);
 
     _searchWidget.select2({
       placeholder: 'Busca por tags',

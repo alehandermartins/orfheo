@@ -81,9 +81,9 @@
     var _addInput = function(item){
       _whiteEmails.push(item.email);
       var _container = $('<div>'); 
-      var _newInput = Pard.Widgets.Selector([item['name_email']],[item['email']]);      
+      var _newInput = Pard.Widgets.Input('','text');
+      _newInput.setVal([item['name_email']]);      
       _newInput.setClass('add-whiteList-input-field');
-
       _newInput.disable();      
       var _removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
 
