@@ -26,10 +26,10 @@ class WelcomeController < BaseController
 	end
 
 	post '/business' do
-		scopify :email, :name, :subject, :contactPhone, :contactHangout, :phone, :dayAvailability, :periodAvailability, :message
+		scopify :email, :name, :subject, :contactPhone, :contactHangout, :phone, :dayAvailabilty, :periodAvailabilty, :message
 		check_business_params! params
 		check_invalid_email email
-		deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailability, periodAvailability, message
+		deliver_business_email email, name, subject, contactPhone, contactHangout, phone, dayAvailabilty, periodAvailabilty, message
 		success
 	end
 

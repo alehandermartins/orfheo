@@ -103,20 +103,6 @@ class BaseController < Sinatra::Base
     }
   }
 
-  # options = {
-  #   :headers => { 'Content-Type' => 'text/html' },
-  #   :via => :smtp,
-  #   :via_options => {
-  #     :address => 'smtp.sendgrid.net',
-  #     :port => '587',
-  #     :domain => 'heroku.com',
-  #     :user_name => 'app47085092@heroku.com',
-  #     :password => 'a9awf3mj5410',
-  #     :authentication => :plain,
-  #     :enable_starttls_auto => true
-  #   }
-  # }
-
   Mongo::Logger.logger.level = ::Logger::FATAL
 
   configure :development, :test do
