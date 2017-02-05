@@ -355,7 +355,7 @@
 
   ns.Events.AmendProposal = function(data){
     if (data['status'] == 'success'){
-      Pard.Widgets.Alert('', 'Enmienda enviada correctamente.', function(){ location.reload(); });
+      Pard.Widgets.TimeOutAlert('', 'Enmienda enviada correctamente','', function(){ location.reload(); });
     }
     else{
       console.log(data.reason);
