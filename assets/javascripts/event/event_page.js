@@ -23,7 +23,7 @@
           $('main').css('background', _backColor);
         });
       }
-      if (Pard.UserStatus['status'] == 'owner'){
+      if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true' || Pard.CachedEvent.published == true){
         var _program = $('<div>').addClass('aside-event-nav-btn');
         _program.text('Programa');
         _program.click(function(){

@@ -72,7 +72,10 @@
       });
       var _emptyColumn = $('<div>').css({
         'display': 'inline-block',
-        'width': '11rem'
+        'width': '11rem',
+        'height': '100%',
+        'vertical-align': 'top',
+        'background': 'white'
       });
       _tables[day] = _table;
       _emptySpaces[day] = _emptyColumn;

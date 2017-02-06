@@ -314,7 +314,7 @@
             var _externalPerformancesBox = $('<div>').css('padding', 0).addClass('noselect');
             var _performancesPopup = Pard.Widgets.Popup();
             _performancesPopup.setContent(show.title +' (' + show.participant_name + ')', _externalPerformancesBox);
-            var _content = _program[show.performance_id].permanentManager(false);
+            var _content = _program[show.performance_id].permanentManager(false, true);
             _content.setCallback(function(){
               _performancesPopup.close();
               setTimeout(function(){

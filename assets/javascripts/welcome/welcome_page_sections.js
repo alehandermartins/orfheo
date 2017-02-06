@@ -504,7 +504,7 @@ ns.Widgets = ns.Widgets || {};
     _info2.append(_img2, _text2);
     _info3.append($('<div>').addClass('innerCont3').append(_img3, _text3));
 
-    var _titleLongText = $('<h4>').html('Une a las personas,</br> crea red con tu comunidad cultural').addClass('title-welcome');
+    var _titleLongText = $('<h4>').html('Une a las personas,</br> crea en red con tu comunidad cultural').addClass('title-welcome');
     var _callLongText = $('<a>').attr('href','/services')
       .text('Explora las ventajas de lanzar tu convocatoria en orfheo')
       .append(Pard.Widgets.IconManager('navigation_right').render()
@@ -522,8 +522,8 @@ ns.Widgets = ns.Widgets || {};
       // , _callLongText.css('margin-top','2.5rem')
     ));
 
-    var _titleLittleText = $('<h4>').html('El futuro está aquí:<br>eres tú junto con los demás').addClass('title-welcome').css('margin-bottom','1rem');
- 
+    var _titleLittleText = $('<h4>').html('El futuro está aquí, frente a ti').addClass('title-welcome').css('margin-bottom','1rem');
+    var _littleText = $('<div>').html('Alguna vez lo has imaginado, pero ahora es realidad. <br> Tienes a tu alcance un universo de nuevas, <br>grandes posibilidades culturales.')
     var _callLittleText = $('<button>').attr('type','button')
       .text('Déjate inspirar')
       .append(Pard.Widgets.IconManager('navigation_right').render()
@@ -531,12 +531,13 @@ ns.Widgets = ns.Widgets || {};
       .click(function(){
         $('#projectPopupBtn').trigger('click');
       })
+      .css('margin-top','2rem')
       .addClass('callText-WelcomePage');
     var _littleTextDiv= $('<div>').addClass('littleTextDiv')
       .append(
         $('<div>').append(
           _titleLittleText, 
-          // _littleText, 
+          _littleText, 
           _callLittleText)
         .addClass('welcomeSection-container')
       );

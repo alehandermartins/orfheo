@@ -266,7 +266,7 @@
           else if (index == _typeFormsCatArray.length-2) _okProfiles += ' y';
         }
       });
-      _createdWidget.append($('<p>').text('ATENCIÓN, NO PUEDES CONTINUAR'), $('<p>').html('Esta convocatoría es solo para perfiles de<strong>'+_okProfiles+'</strong>. Selecciona o crea uno de de los tipos aceptados para seguir.').css({'font-size':'1rem'}));
+      _createdWidget.append($('<p>').text('ATENCIÓN, NO PUEDES CONTINUAR'), $('<p>').html('Esta convocatoría es solo para perfiles de<strong>'+_okProfiles+'</strong>. Selecciona o crea uno de los tipos aceptados para seguir.').css({'font-size':'1rem'}));
     }
     else{
       closeListProfilePopup();
