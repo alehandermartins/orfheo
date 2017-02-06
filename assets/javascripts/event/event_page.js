@@ -115,7 +115,7 @@
     _createdWidget.append(_buttonContainer);
 
     if (Pard.UserStatus['status'] == 'owner'){
-      var _toCallPageBtn = $('<a>').attr('href','/event_manager?id='+Pard.CachedEvent.event_id).text('Gestiona convocatoria');
+      var _toCallPageBtn = $('<a>').attr('href','/event_manager?id='+Pard.CachedEvent.event_id).text('Manager del evento');
       _toCallPageBtn.addClass('navigation-btn-callPage');
       var _toCallPageBtnContainer = $('<div>').addClass('navigation-outside-event-page');
       var _innerContNav =  $('<div>').addClass('navigation-innerCont-event-page');

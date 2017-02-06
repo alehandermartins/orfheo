@@ -523,7 +523,9 @@ ns.Widgets = ns.Widgets || {};
     ));
 
     var _titleLittleText = $('<h4>').html('El futuro está aquí, frente a ti').addClass('title-welcome').css('margin-bottom','1rem');
-    var _littleText = $('<div>').html('Alguna vez lo has imaginado, pero ahora es realidad. <br> Tienes a tu alcance un universo de nuevas, <br>grandes posibilidades culturales.')
+    var _littleText = $('<h6>')
+      .html('Alguna vez lo has imaginado, pero ahora es realidad. <br> Tienes a tu alcance un universo de nuevas, <br>grandes posibilidades culturales.')
+      .css('margin-bottom','0')
     var _callLittleText = $('<button>').attr('type','button')
       .text('Déjate inspirar')
       .append(Pard.Widgets.IconManager('navigation_right').render()

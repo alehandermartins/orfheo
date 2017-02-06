@@ -60,8 +60,6 @@
       var lastDate;
       var lastType = 'false';
 
-      console.log(program);
-
       myPerformances.forEach(function(performance){
         if(performance.date != lastDate){
           lastType = 'false';
@@ -317,15 +315,15 @@
             var _content = _program[show.performance_id].permanentManager(false, true);
             _content.setCallback(function(){
               _performancesPopup.close();
-              setTimeout(function(){
-                _printArtistProgram(artist);
-                _performancesPopup.destroy();
+              _printSpaceProgram(space);
+              setTimeout(function(){                
+                _performancesPopup.destroy();                
               },500)
             });
             _externalPerformancesBox.append(_content.render());
             _performancesPopup.setCallback(function(){
+              _printSpaceProgram(space);
               setTimeout(function(){
-                _printSpaceProgram(space, program, _program);
                 _performancesPopup.destroy();
               },500)
             });
@@ -334,29 +332,23 @@
           else  {
             var _popupContent = _program[show.performance_id].manager(false);
             var _performancePopup = Pard.Widgets.Popup();
+            _performancePopup.setCallback(function(){
+              _printSpaceProgram(space);
+              setTimeout(function(){
+                _performancePopup.destroy();
+              },500)
+            });
             _popupContent.setCallback(function(){
               _performancePopup.close();
+              _printSpaceProgram(space);
               setTimeout(
                 function(){
-                  _printSpaceProgram(space, program, _program);
                   _performancePopup.destroy();
                 },500)
             });
             _performancePopup.setContent(show.title +' (' + show.participant_name + ')', _popupContent.render())
             _performancePopup.open();
           }
-        // var _content = $('<div>').addClass('very-fast reveal full');
-        // _content.empty();
-        // $('body').append(_content);
-        // var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        // var _message = Pard.Widgets.PopupContent(show.title + ' (' + show.participant_name + ')', _program[show.performance_id].manager(false));
-        // _message.setCallback(function(){
-        //   _printSpaceProgram(space, program, _program);
-        //   _content.remove();
-        //   _popup.close();
-        // });
-        // _content.append(_message.render());
-        // _popup.open();
       });
 
       _row.append(_timeCol,  _nameCol, _categoryCol, _titleCol,_shortDCol, _phoneCol, _emailCol);

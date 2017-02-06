@@ -281,18 +281,18 @@
             var _externalPerformancesBox = $('<div>').css('padding', 0).addClass('noselect');
             var _performancesPopup = Pard.Widgets.Popup();
             _performancesPopup.setContent(show.title +' (' + show.participant_name + ')', _externalPerformancesBox);
-            var _content = _program[show.performance_id].permanentManager(false);
+            var _content = _program[show.performance_id].permanentManager(false, true);
             _content.setCallback(function(){
               _performancesPopup.close();
+              _printArtistProgram(artist);
               setTimeout(function(){
-                _printArtistProgram(artist);
                 _performancesPopup.destroy();
               },500);
             });
             _externalPerformancesBox.append(_content.render());
             _performancesPopup.setCallback(function(){
+              _printArtistProgram(artist);
               setTimeout(function(){
-                _printArtistProgram(artist);
                 _performancesPopup.destroy();
               },500);
             });
@@ -301,11 +301,17 @@
           else  {
             var _popupContent = _program[show.performance_id].manager(false);
             var _performancePopup = Pard.Widgets.Popup();
+            _performancePopup.setCallback(function(){
+              _printArtistProgram(artist);
+              setTimeout(function(){
+                _performancePopup.destroy();
+              },500);
+            });
             _popupContent.setCallback(function(){
               _performancePopup.close();
+              _printArtistProgram(artist);
               setTimeout(
                 function(){
-                  _printArtistProgram(artist);
                   _performancePopup.destroy();
                 },500);
             });

@@ -453,7 +453,7 @@
           'background': event.color
         }).addClass('circle-eventOrganizer')
     );
-    var _organizerText = $('<div>').append($('<span>').text('Organiza '), $('<a>').text(event.organizer).attr('href', '/profile?id='+event.profile_id)).addClass('text-container');
+    var _organizerText = $('<div>').append($('<span>').text('Organiza: '), $('<a>').text(event.organizer).attr('href', '/profile?id='+event.profile_id)).addClass('text-container');
     var _organizer = $('<div>').append(_organzerIcon, _organizerText).addClass('info-element-eventCard');
    
     var _placeIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('location').render());
@@ -526,7 +526,7 @@
     if (owner){
       var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
       var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
-      var _manageCallIcon = $('<div>').append(_callIcon, _toolIcon).addClass('manageCallIcon').attr('title','Gestiona convocatoria');
+      var _manageCallIcon = $('<div>').append(_callIcon, _toolIcon).addClass('manageCallIcon').attr('title','Manager del evento');
       var _toCallPage = $('<div>').append($('<a>').append(_manageCallIcon).attr('href','/event_manager?id='+event.event_id)).addClass('btn-container');
      _card.append(_toCallPage);
     }

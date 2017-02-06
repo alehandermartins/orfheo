@@ -161,7 +161,7 @@
         var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
         _closeBtn.append($('<span>').html('&times;'));
 
-        var _popup = new Foundation.Reveal(_createdWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
+        var _popup = new Foundation.Reveal(_createdWidget, {animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
 
         _closeBtn.click(function(){
           _popup.close();
