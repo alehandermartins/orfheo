@@ -58,7 +58,7 @@
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio');  
     if(profile['bio']){     
-      _bio.append($('<div>').html(profile['bio']));
+      _bio.append($('<div>').html(profile['bio']).addClass('information-info'));
     }
     else{
       _bio.append('');
@@ -146,7 +146,7 @@
     _info.append(_shortDescription)
  
     if(production['description']){     
-      var _description = $('<div>').html(production['description']);
+      var _description = $('<div>').html(production['description']).addClass('information-info');
       _info.append(_description);
     }
 

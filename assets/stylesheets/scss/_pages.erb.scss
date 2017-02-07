@@ -963,8 +963,17 @@ Profile Section
     width: 100%; 
     padding: 0;
   }
-  p{
-    font-size: $almostNormalSize;
+}
+
+.information-info{
+  p, li, ul, h1, h2, h3, h4, h5, h6, span, div{
+    font-size: $almostNormalSize !important;
+    font-family: Arial, "Helvetica Neue", Helvetica, Roboto !important;
+    color:  black !important;
+  }
+  a{
+    font-size: $almostNormalSize !important;
+    font-family: Arial, "Helvetica Neue", Helvetica, Roboto !important;
   }
 }
 
@@ -1722,6 +1731,8 @@ th.column-call-manager-table.column-type{
     color: #444 !important;
   }
 }
+
+
 
 .ownReceivedFilters-call-page{
   position: absolute;

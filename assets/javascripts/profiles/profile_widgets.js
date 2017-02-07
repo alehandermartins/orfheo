@@ -151,9 +151,17 @@
 
   ns.Widgets.ProgramProfile = function(program, type){
     var _programBoxContainer = $('<div>').addClass('section-box-container');
-    var _toEventPageBtn = $('<a>').text('Programación general').attr('href','/event?id='+program.event_id).addClass('toEventPageBtn-profile-page');
+    // var _toEventPageBtn = $('<a>').text('Programación general').attr('href','/event?id='+program.event_id).addClass('toEventPageBtn-profile-page');
     var _titleContainer = $('<div>').addClass('title-box-container');
-    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Programación'+program.event_name), _toEventPageBtn));
+    var _eventName = $('<a>').text(program.event_name).attr('href','/event?id='+program.event_id);
+    // if (_eventName.length >40) _eventName = _eventName.substring(0, 37)+'...' 
+    _titleContainer.append(
+      $('<div>').append($('<span>').addClass('icon-in-box').append(
+        Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), 
+        $('<span>').append('Programación ', _eventName)
+      // , _toEventPageBtn
+      )
+    );
     _programBoxContainer.append(_titleContainer);
     var _programContent = $('<div>').addClass('box-content');
     var _day;

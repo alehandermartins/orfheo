@@ -33,7 +33,7 @@
     var _contact = $('<div>').addClass('information-contact');
     var _bio = $('<div>').addClass('information-bio')  
     if(profile['bio']){     
-      _bio.append($('<div>').html(profile['bio']));
+      _bio.append($('<div>').html(profile['bio']).addClass('information-info'));
     }
     else if(profile.proposals && profile.proposals[0] && profile.proposals[0]['description']){
         _bio.append($('<div>').html(profile.proposals[0]['description']));
