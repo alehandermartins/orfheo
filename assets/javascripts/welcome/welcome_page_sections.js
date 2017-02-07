@@ -519,7 +519,7 @@ ns.Widgets = ns.Widgets || {};
     _actionDiv.append(_actionContainer.append(
       _titleContainer, 
       _infoContainer
-      , _callLongText.css('margin-top','2.5rem')
+      // , _callLongText.css('margin-top','2.5rem')
     ));
 
     var _titleLittleText = $('<h4>').html('El futuro está aquí, frente a ti').addClass('title-welcome').css('margin-bottom','1rem');
@@ -567,15 +567,15 @@ ns.Widgets = ns.Widgets || {};
 
     var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().addClass('navigationIcon-findOutMore');
     var _findOutMore = $('<div>')
-      .append(
-        $('<a>')
-          .text('Descubre más')
-          .attr('href','/services')  
-          .click(function(){
-            $('#toServicesPage').trigger('click');
-          })
-          .append(_findOutMoreIcon)
-      )
+      // .append(
+      //   $('<a>')
+      //     .text('Descubre más')
+      //     .attr('href','/services')  
+      //     .click(function(){
+      //       $('#toServicesPage').trigger('click');
+      //     })
+      //     .append(_findOutMoreIcon)
+      // )
       .css({
         'text-align':'center',
         'margin':'2.5rem'
