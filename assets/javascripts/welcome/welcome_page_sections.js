@@ -462,25 +462,25 @@ ns.Widgets = ns.Widgets || {};
     _entryDiv.append(_entryContentContainer.append(_entryContent));
     
     var _profilesDiv = $('<div>').addClass('actionDiv');
-    var _titleProfiles = $('<h4>').html('Tu comunidad cultural te llama<br>Entra en ofheo como:').addClass('title-welcome');
+    var _titleProfiles = $('<h4>').html(Pard.t.text('welcome.profilesSection.title')).addClass('title-welcome');
     var _profilesContainer = $('<div>').addClass('welcomeSection-container');
     var _artist = $('<div>').addClass('i-container');
     var _iconArtist = $('<div>').append(Pard.Widgets.IconManager('artist').render());
-    var _artistTitle = $('<h4>').text('Artista');
-    var _artistTxt = $('<p>').html('Comparte tu arte,<br> apúntate en convocatorias, <br>genera red, descubre, crea...');
+    var _artistTitle = $('<h4>').text(Pard.t.text('type.artist'));
+    var _artistTxt = $('<p>').html(Pard.t.text('welcome.profilesSection.artist'));
     _artist.append($('<div>').append(_iconArtist, _artistTitle,_artistTxt).addClass('callServices-innerCont'));
     var _space = $('<div>').addClass('i-container');
     var _iconSpace = $('<div>').append(Pard.Widgets.IconManager('space').render());
-    var _spaceTitle = $('<h4>').text('Espacio');
-    var _spaceTxt = $('<p>').html('Saca el máximo partido a tu espacio: alberga eventos artísticos:<br> abre las puertas a la cultura');
+    var _spaceTitle = $('<h4>').text(Pard.t.text('type.space'));
+    var _spaceTxt = $('<p>').html(Pard.t.text('welcome.profilesSection.space'));
     _space.append($('<div>').append(_iconSpace, _spaceTitle, _spaceTxt).addClass('consulingService-innerCont'));
     var _organization = $('<div>').addClass('i-container');
     var _iconOrganization = $('<div>').append(Pard.Widgets.IconManager('organization').render());
-    var _organizationTitle = $('<h4>').text('Organización');
-    var _organizationTxt = $('<p>').html('Da a conocer tu proyecto, <br>lanza convocatorias, <br> expande tu comunidad');
+    var _organizationTitle = $('<h4>').text(Pard.t.text('type.organization'));
+    var _organizationTxt = $('<p>').html(Pard.t.text('welcome.profilesSection.organization'));
     _organization.append($('<div>').append(_iconOrganization, _organizationTitle, _organizationTxt).addClass('apiService-innerCont'));
     var _profilesBtn = Pard.Widgets.SignUpButton().render()
-      .text('Crea un perfil')
+      .text(Pard.t.text('welcome.profilesSection.create'))
       .addClass('profilesBtn-welcomePage');
     var _profilesBtnContainer = $('<div>').append(_profilesBtn);
     var _profileTypeBox = $('<div>').append(_artist,_space,_organization).addClass('profileTypeBox-welcomePage');;

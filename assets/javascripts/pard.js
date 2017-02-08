@@ -1,8 +1,7 @@
 $.cloudinary.config({ cloud_name: 'hxgvncv7u', api_key: '844974134959653'});
 
-var Pard = {};
-
-Pard.UserInfo = {}; // browser // profiles
+var Pard = {}
+Pard.UserInfo = {}
 
 var DetectBrowser = function(){
 	var _compatibleBrowsers = {
@@ -54,29 +53,57 @@ var DetectTrackingProtection = function(){
   );
 }
 
+var Options = function(){
+  var localStorageKey = 'orfheo'
+
+  if (!localStorage[localStorageKey])
+    localStorage[localStorageKey] = JSON.stringify({language: 'es', cookies: false})
+
+  var orfheoStorage = JSON.parse(localStorage[localStorageKey])
+
+  return {
+    language: function(){
+      return orfheoStorage.language
+    },
+    setLanguage: function(lang){
+      orfheoStorage.language = lang
+      localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
+      location.reload()
+    },
+    cookies: function(){
+    	return orfheoStorage.cookies
+    },
+    setCookies: function(){
+    	orfheoStorage.cookies = true
+      localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
+    }
+  }
+}
+
+Pard.Options = Options();
+
 var CookieAlert = function(){
-  var _alertContainer = $('<div>');
-  $('body').prepend(_alertContainer);
+
+  var _alertContainer = $('<div>')
+  $('body').prepend(_alertContainer)
+  
   $(window).load(function(){
-    //Descomentar la siguiente linea para borrar localStorage y poder hacer pruebas
-    localStorage['orfheo'] =  localStorage['orfheo'] || JSON.stringify('');
-    var orfheoStorage = JSON.parse(localStorage['orfheo']);
-    if(!orfheoStorage) {
-      orfheoStorage = {}
-      var _closeButton = $('<button>').addClass('close-button closeBtn-coockies-callout').attr({'type':'button','data-close':''}).append($('<span>').html('Acepta').attr('aria-hidden','true'));
+
+  	var cookies = Pard.Options.cookies()
+  	if(cookies == false){
+  		var _closeButton = $('<button>').addClass('close-button closeBtn-coockies-callout').attr({'type':'button','data-close':''}).append($('<span>').html('Acepta').attr('aria-hidden','true'))
       _closeButton.on('click', function(){
-        orfheoStorage['cookies'] = true;
-        localStorage['orfheo'] = JSON.stringify(orfheoStorage);
-      });
+      	Pard.Options.setCookies()
+      })
       var _coockiesPolicy = $('<a>').attr('href','#/')
       	.text('política de cookies')
       	.click(function(){
-      		Pard.Widgets.BigAlert('Política de cookies', Pard.Widgets.CoockiesPolicy());
-      	});
-      var _alertText = $('<p>').append('Para mejorar tu experiencia de navegación, orfheo almacena información en tu navegador en forma de pequeños elementos de texto llamados cookies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más información puedes leer nuestra ', _coockiesPolicy,'.').addClass('text-browser-alert');
-      _alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('coockies-callout').attr('data-closable','');
-    }
-  });
+      	Pard.Widgets.BigAlert('Política de cookies', Pard.Widgets.CoockiesPolicy())
+      })
+      var _alertText = $('<p>').append('Para mejorar tu experiencia de navegación, orfheo almacena información en tu navegador en forma de pequeños elementos de texto llamados cookies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más información puedes leer nuestra ', _coockiesPolicy,'.').addClass('text-browser-alert')
+      _alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('coockies-callout').attr('data-closable','')
+  	}
+  })
 }
 DetectTrackingProtection();
 CookieAlert();
