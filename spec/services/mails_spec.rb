@@ -41,7 +41,6 @@ describe Services::Mails do
     {
       from: 'contacter@contact',
       name: 'contacter',
-      message: 'message',
       subject: 'need_help',
       profile: 'my_profile',
       browser: 'firefox',
@@ -53,7 +52,6 @@ describe Services::Mails do
     {
       from: 'contacter@contact',
       name: 'contacter',
-      message: 'message',
       subject: 'business',
       contact: 'phone',
       phone: '123456789',
