@@ -1,4 +1,4 @@
-xdescribe Repos::Events do
+describe Repos::Events do
 
   let(:user_id){'45825599-b8cf-499c-825c-a7134a3f1ff0'}
   let(:profile_id){'fce01c94-4a2b-49ff-b6b6-dfd53e45bb83'}
@@ -53,6 +53,22 @@ xdescribe Repos::Events do
     }
   }
 
+  let(:otter_space){
+    {
+      user_id: user_id,
+      profile_id: 'otter_space_id',
+      proposal_id: 'otter_space_proposal_id',
+      email: 'email',
+      name: 'otter_space_name',
+      address: {
+        'locality' => 'locality',
+        'postal_code' => 'postal_code'
+      },
+      phone: 'phone',
+      category: 'category'
+    }
+  }
+
   let(:performance){
     {
       performance_id: performance_id,
@@ -66,6 +82,25 @@ xdescribe Repos::Events do
       comments: 'comments',
       confirmed: false
     }
+  }
+
+  let(:otter_performance){
+    {
+      performance_id: 'otter_performance',
+      participant_id: profile_id,
+      participant_proposal_id: 'otter_proposal_id',
+      host_id: 'otter_space_id',
+      host_proposal_id: 'otter_space_proposal_id',
+      date: 'date',
+      time: 'time',
+      permanent: 'false',
+      comments: 'comments',
+      confirmed: true
+    }
+  }
+
+  let(:program){
+    [performance, otter_performance]
   }
 
   let(:event){
@@ -87,12 +122,36 @@ xdescribe Repos::Events do
       whitelist: [],
       start: '1462053600',
       deadline: '1466028000',
-      published: 'true'
+      published: false
+    }
+  }
+
+  let(:otter_event){
+    {
+      user_id: user_id,
+      profile_id: profile_id,
+      event_id: 'otter_event_id',
+      call_id: call_id,
+      name: 'event_name',
+      eventTime:{
+        '2017-03-30': [],
+        '2017-04-29': [],
+        '2017-05-29': [],
+        'permanent': []
+      },
+      artists: [],
+      spaces: [],
+      program: [],
+      whitelist: [],
+      start: '1462053600',
+      deadline: '1466028000',
+      published: false
     }
   }
 
   before(:each){
     @db['events'].insert_one(event)
+    @db['events'].insert_one(otter_event)
     event.delete(:_id)
   }
 
@@ -102,8 +161,8 @@ xdescribe Repos::Events do
       expect(Repos::Events.get_event_owner(event_id)).to eq(user_id)
     end
 
-    it 'retrieves all the events' do
-      expect((Repos::Events.get_events).first).to include({
+    it 'retrieves the event' do
+      expect(Repos::Events.get_event event_id).to include({
         user_id: user_id,
         event_id: event_id,
       })
@@ -162,57 +221,42 @@ xdescribe Repos::Events do
       })
     end
 
-    it 'retrieves my artist proposals' do
-      Repos::Events.add_artist event_id, artist
-      artist_proposal[:event_id] = event_id
-      artist_proposal[:event_name] = 'event_name'
-      artist_proposal[:call_id] = call_id
-      artist_proposal[:deadline] = event[:deadline]
-      expect(Repos::Events.my_artist_proposals profile_id).to eq([artist_proposal])
-    end
+    # it 'retrieves my artist proposals' do
+    #   Repos::Events.add_artist event_id, artist
+    #   artist_proposal[:event_id] = event_id
+    #   artist_proposal[:event_name] = 'event_name'
+    #   artist_proposal[:call_id] = call_id
+    #   artist_proposal[:deadline] = event[:deadline]
+    #   expect(Repos::Events.my_artist_proposals profile_id).to eq([artist_proposal])
+    # end
 
-    it 'retrieves my space proposals' do
-      Repos::Events.add_space event_id, space
-      space[:event_id] = event_id
-      space[:event_name] = 'event_name'
-      space[:call_id] = call_id
-      space[:deadline] = event[:deadline]
-      expect(Repos::Events.my_space_proposals space_profile_id).to eq([space])
-    end
+    # it 'retrieves my space proposals' do
+    #   Repos::Events.add_space event_id, space
+    #   space[:event_id] = event_id
+    #   space[:event_name] = 'event_name'
+    #   space[:call_id] = call_id
+    #   space[:deadline] = event[:deadline]
+    #   expect(Repos::Events.my_space_proposals space_profile_id).to eq([space])
+    # end
 
-    it 'retrieves my program' do
-      Repos::Events.add_artist event_id, artist
-      Repos::Events.add_space event_id, space
-      Repos::Events.add_performance event_id, performance
-      expect(Repos::Events.my_program(profile_id).first).to include({
-        event_id: event_id,
-        event_name: 'event_name',
-        date: '2017-05-29',
-        })
-    end
+    # it 'retrieves my program' do
+    #   Repos::Events.add_artist event_id, artist
+    #   Repos::Events.add_space event_id, space
+    #   Repos::Events.add_performance event_id, performance
+    #   expect(Repos::Events.my_program(profile_id).first).to include({
+    #     event_id: event_id,
+    #     event_name: 'event_name',
+    #     date: '2017-05-29',
+    #     })
+    # end
   end
 
-  describe 'Performaces' do
+  describe 'Program' do
 
-    it 'adds a performance' do
-      Repos::Events.add_performance event_id, performance
+    it 'saves a program' do
+      Repos::Events.save_program event_id,program
       saved_entry = @db['events'].find({}).first
-      expect(saved_entry['program'].first).to include(Util.stringify_hash(performance))
-    end
-
-    it 'modifies a performance' do
-      Repos::Events.add_performance event_id, performance
-      performance[:date] = 'otter_date'
-      Repos::Events.modify_performance event_id, performance
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['program'].first).to include(Util.stringify_hash(performance))
-    end
-
-    it 'deletes a performance' do
-      Repos::Events.add_performance event_id, performance
-      Repos::Events.delete_performance event_id, performance_id
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['program']).to eq([])
+      expect(saved_entry['program']).to eq(Util.stringify_array(program))
     end
   end
 
@@ -220,14 +264,21 @@ xdescribe Repos::Events do
 
     before(:each){
       Repos::Events.add_artist event_id, artist
+      Repos::Events.add_artist 'otter_event_id', artist
       Repos::Events.add_space event_id, space
+      Repos::Events.add_space 'otter_event_id', space
     }
 
     it 'updates an artist' do
       artist[:name] = 'otter_name'
       Repos::Events.update_artist artist
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['artists'].first).to include({
+      saved_entry = @db['events'].find({}).map{|event| event}
+      expect(saved_entry[0]['artists'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => profile_id,
+        'name' => 'otter_name'
+      })
+      expect(saved_entry[1]['artists'].first).to include({
         'user_id' => user_id,
         'profile_id' => profile_id,
         'name' => 'otter_name'
@@ -237,8 +288,13 @@ xdescribe Repos::Events do
     it 'updates an space' do
       space[:description] = 'otter_description'
       Repos::Events.update_space space
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['spaces'].first).to include({
+      saved_entry = @db['events'].find({}).map{|event| event}
+      expect(saved_entry[0]['spaces'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'description' => 'otter_description'
+      })
+      expect(saved_entry[1]['spaces'].first).to include({
         'user_id' => user_id,
         'profile_id' => space_profile_id,
         'description' => 'otter_description'
@@ -268,30 +324,18 @@ xdescribe Repos::Events do
     end
   end
 
-  describe 'Whitelist' do
-    it 'Stores the whitelist' do
-      expect(Repos::Events.get_event(event_id)[:whitelist]).to eq([])
-      Repos::Events.add_whitelist event_id, ['walter@white']
-      expect(Repos::Events.get_event(event_id)[:whitelist]).to eq(['walter@white'])
-    end
-
-    it 'allows whitelisted or owner' do
-      expect(Repos::Events.proposal_on_time? event_id, 'otter').to eq(false)
-      expect(Repos::Events.proposal_on_time? event_id, user_id).to eq(true)
-      Repos::Events.add_whitelist event_id, ['walter@white']
-      allow(Repos::Users).to receive(:grab).with({user_id: 'otter_user'}).and_return({email: 'walter@white'})
-      expect(Repos::Events.proposal_on_time? event_id, 'otter_user').to eq(true)
-    end
-  end
-
   describe 'Delete' do
     before(:each){
       Repos::Events.add_artist event_id, artist
+      Repos::Events.add_artist 'otter_event_id', artist
       Repos::Events.add_space event_id, space
+      Repos::Events.add_space 'otter_event_id', space
+      Repos::Events.add_space event_id, otter_space
+      Repos::Events.save_program event_id, program
     }
 
     it 'deletes an artist proposal' do
-      artist_proposal[:proposal_id] = 'otter'
+      artist_proposal[:proposal_id] = 'otter_proposal_id'
       Repos::Events.add_artist event_id, artist
       Repos::Events.delete_artist_proposal proposal_id
       saved_entry = @db['events'].find({}).first
@@ -311,19 +355,62 @@ xdescribe Repos::Events do
     it 'deletes a space proposal' do
       Repos::Events.delete_space_proposal space_proposal_id
       saved_entry = @db['events'].find({}).first
-      expect(saved_entry['spaces']).to eq([])
+      expect(saved_entry['spaces']).to eq([Util.stringify_hash(otter_space)])
     end
 
     it 'removes the artist_proposal from programs' do
-      Repos::Events.add_performance event_id, performance
       Repos::Events.delete_artist_proposal proposal_id
-      expect(Repos::Events.get_program(event_id)).to eq([])
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['program']).to eq([Util.stringify_hash(otter_performance)])
+      Repos::Events.delete_space_proposal 'otter_space_proposal_id'
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['program']).to eq([])
     end
 
     it 'removes the space_proposal from programs' do
-      Repos::Events.add_performance event_id, performance
+      artist_proposal[:proposal_id] = 'otter_proposal_id'
+      Repos::Events.add_artist event_id, artist
       Repos::Events.delete_space_proposal space_proposal_id
-      expect(Repos::Events.get_program(event_id)).to eq([])
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['program']).to eq([Util.stringify_hash(otter_performance)])
+      Repos::Events.delete_artist_proposal 'otter_proposal_id'
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['program']).to eq([])
+    end
+
+    it 'turns artist profiles into own if profile is deleted' do
+      Repos::Events.delete_artist_profile profile_id
+      saved_entry = @db['events'].find({}).map{|event| event}
+      expect(saved_entry[0]['artists'].first).to include({"own"=> "true"})
+      expect(saved_entry[1]['artists'].first).to include({"own"=> "true"})
+    end
+
+    it 'turns space profiles into own if profile is deleted' do
+      Repos::Events.delete_space_profile space_profile_id
+      saved_entry = @db['events'].find({}).map{|event| event}
+      expect(saved_entry[0]['spaces'].first).to include({"own"=> "true"})
+      expect(saved_entry[1]['spaces'].first).to include({"own"=> "true"})
+    end
+  end
+
+  describe 'Whitelist' do
+    it 'Stores the whitelist' do
+      expect(Repos::Events.get_event(event_id)[:whitelist]).to eq([])
+      Repos::Events.add_whitelist event_id, ['walter@white']
+      expect(Repos::Events.get_event(event_id)[:whitelist]).to eq(['walter@white'])
+    end
+  end
+
+  describe 'Publish' do
+    it 'publishes an event' do
+      Repos::Events.publish event_id
+      expect(Repos::Events.get_event(event_id)[:published]).to eq(true)
+    end
+
+    it 'unpublishes an event' do
+      Repos::Events.publish event_id
+      Repos::Events.publish event_id
+      expect(Repos::Events.get_event(event_id)[:published]).to eq(false)
     end
   end
 end
