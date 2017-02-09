@@ -1779,6 +1779,11 @@ a.makeCallBtn:hover{
     border-bottom: 1px solid $grey-1;
     margin: 0 auto;
   }
+  .separatorBold{
+    width: 95%;
+    border-bottom: 1px solid $grey-1;
+    margin: 0 auto;
+  }
   .circleProfile-MenuHeader{
     @include border-radius(50%);
     width: .6rem;

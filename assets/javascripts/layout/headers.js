@@ -334,16 +334,16 @@ ns.Widgets = ns.Widgets || {};
     var _menuProfiles = $('<ul>').addClass('dropdownMenu menuProfiles');
     var _menuEvents = $('<ul>').addClass('dropdownMenu menuEvents');
     var _menuSettings = $('<ul>').addClass('dropdownMenu menuSettings')
- 
-    var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#/'));
+    var _liProfiles = $('<li>');
+    var _liEvents = $('<li>');
 
+    var _logout = $('<li>').append(Pard.Widgets.Logout().render().attr('href','#/'));
     var _modifyCaller = Pard.Widgets.ModifyPassword().render()
       .attr('href','#/')
       .click(function(){
         _menuContainer.foundation('close');
       });
     var _modifyPassword = $('<li>').append(_modifyCaller);
-
     var _contact = $('<li>').append(
       $('<a>')
         .attr('href','#/')
@@ -435,7 +435,10 @@ ns.Widgets = ns.Widgets || {};
           });
           _profileList = _profileList.substring(0, _profileList.length - 2);
           Pard.UserInfo['userProfiles'] = _profileList;
-          _menuProfiles.append($('<li>').addClass('separator'));
+          var _profilesSeparator = $('<li>').addClass('separatorBold');
+          _menuProfiles.append(_profilesSeparator);
+          if(data.profiles.length>0) _liProfiles.show();
+          else _liProfiles.hide();
           data.events.forEach(function(event){
             // console.log(event)
             // var _img = $.cloudinary.image(event['img'], { format: 'jpg', width: 15, height: 20, crop: 'fill', effect: 'saturation:50' });
@@ -500,7 +503,13 @@ ns.Widgets = ns.Widgets || {};
                 )  
             )
           });
-          _menuEvents.append($('<li>').addClass('separator'));
+          
+          if(data.events.length>0){
+            _profilesSeparator.removeClass('separatorBold').addClass('separator')
+            _menuEvents.append($('<li>').addClass('separatorBold'));
+            _liEvents.show();
+          }
+          else _liEvents.hide();
         }
         else{
           console.log('error')
@@ -511,8 +520,8 @@ ns.Widgets = ns.Widgets || {};
     _loadProfielsEvents();
 
     _menuContainer.append(_menu.append(
-      $('<li>').append(_menuProfiles),
-      $('<li>').append(_menuEvents),
+      _liProfiles.append(_menuProfiles),
+      _liEvents.append(_menuEvents),
       $('<li>').append(_menuSettings)
     ));
 
