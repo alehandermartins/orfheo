@@ -54,21 +54,36 @@ var DetectTrackingProtection = function(){
 }
 
 var Options = function(){
-  var localStorageKey = 'orfheo'
+  var localStorageKey = 'orfheo';
 
-  if (!localStorage[localStorageKey])
-    localStorage[localStorageKey] = JSON.stringify({language: 'es', cookies: false})
+  var defaultLang = navigator.language || navigator.userLanguage;
+  defaultLang = defaultLang.substring(0,2);
+  if (!($.inArray(defaultLang, ['es','cat','it','en']))) defaultLang = 'es';
 
-  var orfheoStorage = JSON.parse(localStorage[localStorageKey])
+  if (!localStorage[localStorageKey]) 
+    localStorage[localStorageKey] = JSON.stringify({
+      language: defaultLang, 
+      cookies: false, 
+      register: {}
+    });
+  var orfheoStorage = JSON.parse(localStorage[localStorageKey]); 
+  Pard.UserInfo['lang'] = orfheoStorage.language;
 
   return {
+    register: function(){
+      return orfheoStorage.register;
+    },
+    setRegister: function(info){
+      orfheoStorage.register = info;
+      localStorage[localStorageKey] = JSON.stringify(orfheoStorage);
+    },
     language: function(){
-      return orfheoStorage.language
+      return orfheoStorage.language;
     },
     setLanguage: function(lang){
-      orfheoStorage.language = lang
-      localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
-      location.reload()
+      orfheoStorage.language = lang;
+      localStorage[localStorageKey] = JSON.stringify(orfheoStorage);
+      location.reload();
     },
     cookies: function(){
     	return orfheoStorage.cookies

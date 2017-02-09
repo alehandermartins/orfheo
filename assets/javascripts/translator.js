@@ -31,5 +31,14 @@
       text:_text
     }
   }
+
+  if(! Pard.Options.language()){
+    var defaultLang = navigator.language || navigator.userLanguage;
+    defaultLang = defaultLang.substring(0,2);
+    if (!($.inArray(defaultLang, ['es','cat','it','en']))) defaultLang = 'es';
+    Pard.Options.setLanguage(defaultLang)
+  } 
+
   Pard.t = ns.Translator(ns.langs[Pard.Options.language()])
+
 }(Pard || {}));

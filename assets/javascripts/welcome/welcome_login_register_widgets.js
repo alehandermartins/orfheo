@@ -296,12 +296,13 @@
     var _label = $('<label>').text('Recuérdame');
     var _createdWidget = $('<span>').append(_ckb,_label);
     _createdWidget.addClass('rememberMe-ckb');
+    var registerInfoStoraged = Pard.Options.register() || {};
 
     $(function() {
-      if (localStorage.chkbx && localStorage.chkbx != '') {
+      if (registerInfoStoraged.chkbx && registerInfoStoraged.chkbx != '') {
           _ckb.attr('checked', 'checked');
-          emailField.setVal(localStorage.usrname);
-          passwdField.setVal(localStorage.pass);
+          emailField.setVal(registerInfoStoraged.usrname);
+          passwdField.setVal(registerInfoStoraged.pass);
           button.enable();
       } else {
           _ckb.removeAttr('checked');
@@ -314,13 +315,15 @@
     var _rememberMe = function(){
       if (_ckb.is(':checked')) {
             // save username and password
-            localStorage.usrname = emailField.getVal();
-            localStorage.pass = passwdField.getVal();
-            localStorage.chkbx = _ckb.val();
+            registerInfoStoraged.usrname = emailField.getVal();
+            registerInfoStoraged.pass = passwdField.getVal();
+            registerInfoStoraged.chkbx = _ckb.val();
+            Pard.Options.setRegister(registerInfoStoraged);
         } else {
-            localStorage.usrname = '';
-            localStorage.pass = '';
-            localStorage.chkbx = '';
+            registerInfoStoraged.usrname = '';
+            registerInfoStoraged.pass = '';
+            registerInfoStoraged.chkbx = '';
+            Pard.Options.setRegister(registerInfoStoraged);
         }
     }
 

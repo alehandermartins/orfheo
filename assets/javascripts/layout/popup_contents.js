@@ -263,6 +263,12 @@ ns.Widgets = ns.Widgets || {};
 
 	ns.Widgets.LanguagesMessage = function (){
     var _createdWidget = $('<div>');
+
+    var _es = $('<p>').append($('<div>').addClass(), 'Español castellano');
+    _es.css('cursor', 'pointer');
+    _es.on('click', function(){
+      Pard.Options.setLanguage('es');
+    });
     
     var _val = $('<p>').append($('<div>').addClass('valencian-flag'), 'Valencià - Català');
     _val.css('cursor', 'pointer');
@@ -281,7 +287,7 @@ ns.Widgets = ns.Widgets || {};
       Pard.Options.setLanguage('it');
     });
 
-    _createdWidget.append(_val, _en, _ita);
+    _createdWidget.append(_es, _val, _en, _ita);
 
     return {
       render: function(){ 
