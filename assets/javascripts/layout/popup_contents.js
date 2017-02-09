@@ -264,9 +264,22 @@ ns.Widgets = ns.Widgets || {};
 	ns.Widgets.LanguagesMessage = function (){
     var _createdWidget = $('<div>');
     
-    var _val = $('<p>').append($('<div>').addClass('valencian-flag'), 'Ho sentim, però per falta de temps i mitjans, esta web està disponible només en castellà. Esperem poder-la prompte traduir a més idiomes.');
-    var _en = $('<p>').append($('<div>').addClass('english-flag'), 'We are sorry about this web being available only in Spanish. We hope to be able to extend it to other langages soon.');
-    var _ita = $('<p>').append($('<div>').addClass('italian-flag'), 'Ci dispiace peró finora, per mancanza di tempo e mezzi, questa web é disponibile sólo in castellano. Speriamo poterla presto estendere a piú lingue.');
+    var _val = $('<p>').append($('<div>').addClass('valencian-flag'), 'Valencià - Català');
+    _val.css('cursor', 'pointer');
+    _val.on('click', function(){
+      Pard.Options.setLanguage('cat');
+    });
+    var _en = $('<p>').append($('<div>').addClass('english-flag'), 'English');
+    _en.css('cursor', 'pointer');
+    _en.on('click', function(){
+      Pard.Options.setLanguage('en');
+    });
+
+    var _ita = $('<p>').append($('<div>').addClass('italian-flag'), 'Italiano');
+    _ita.css('cursor', 'pointer');
+    _ita.on('click', function(){
+      Pard.Options.setLanguage('it');
+    });
 
     _createdWidget.append(_val, _en, _ita);
 

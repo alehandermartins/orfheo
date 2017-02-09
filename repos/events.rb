@@ -46,24 +46,21 @@ module Repos
       end
 
       def modify_space space
-        proposal_id = space[:proposal_id]
-        @@events_collection.update_one({ "spaces.proposal_id": proposal_id },
+        @@events_collection.update_one({"spaces.proposal_id": space[:proposal_id]},
           {
             "$set": {"spaces.$": space}
           })
       end
 
       def update_artist artist
-        profile_id = artist[:profile_id]
-        @@events_collection.update_many({"artists.profile_id": profile_id},
+        @@events_collection.update_many({"artists.profile_id": artist[:profile_id]},
           {
             "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address]}
           })
       end
 
       def update_space space
-        profile_id = space[:profile_id]
-        @@events_collection.update_many({"spaces.profile_id": profile_id},
+        @@events_collection.update_many({"spaces.profile_id": space[:profile_id]},
           {
             "$set": {'spaces.$.name': space[:name], 'spaces.$.address': space[:address], 'spaces.$.category': space[:category], 'spaces.$.description': space[:description]}
           })
@@ -98,30 +95,17 @@ module Repos
       end
 
       def delete_artist_profile profile_id
-        events = grab({"artists.profile_id": profile_id})
-        events.each{ |event|
-          artist = event[:artists].detect{|artist| artist[:profile_id] == profile_id}
-          proposals = artist[:proposals]
-          modified_proposals = proposals.map {|proposal|
-            proposal[:own] = true
-            proposal
-          }
-          @@events_collection.update_one({event_id: event[:event_id], 'artists.profile_id': profile_id},
+        @@events_collection.update_many({"artists.profile_id": profile_id},
           {
-            "$set": {'artists.$.own': 'true', 'artists.$.proposals': modified_proposals}
+            "$set": {'artists.$.own': 'true'}
           })
-        }
       end
 
       def delete_space_profile profile_id
-        events = grab({"spaces.profile_id": profile_id})
-        events.each{ |event|
-          space = event[:spaces].detect{|space| space[:profile_id] == profile_id}
-          @@events_collection.update_one({event_id: event[:event_id], 'spaces.profile_id': profile_id},
+        @@events_collection.update_many({"spaces.profile_id": profile_id},
           {
             "$set": {'spaces.$.own': 'true'}
           })
-        }
       end
 
       def save_program event_id, program
@@ -165,12 +149,12 @@ module Repos
         grab({})
       end
 
-      def get_user_events user_id
-        grab({user_id: user_id})
-      end
-
       def get_event event_id
         grab({event_id: event_id}).first
+      end
+
+      def get_user_events user_id
+        grab({user_id: user_id})
       end
 
       def get_event_owner event_id
