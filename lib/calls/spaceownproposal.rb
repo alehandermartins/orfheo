@@ -33,6 +33,7 @@ class SpaceOwnProposal
   def check_fields!
     raise Pard::Invalid::EventOwnership unless event[:user_id] == user_id
     raise Pard::Invalid::Params if params[:name].blank? || params[:email].blank?
+    raise Pard::Invalid::Params if params[:phone].blank?
     raise Pard::Invalid::Category unless correct_category?
     raise Pard::Invalid::Params unless form.all?{ |field, entry|
       correct_entry? params[field], entry[:type], field

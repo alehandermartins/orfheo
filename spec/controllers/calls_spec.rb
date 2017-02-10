@@ -111,7 +111,8 @@ describe CallsController do
       form_category: 'music',
       subcategory: 'music',
       '2': 'mandatory',
-      amend: 'amend'
+      amend: 'amend',
+      conditions: 'true'
     }
   }
 
@@ -218,7 +219,8 @@ describe CallsController do
       form_category: 'home',
       subcategory: 'home',
       '2': 'mandatory',
-      amend: 'amend'
+      amend: 'amend',
+      conditions: 'true'
     }
   }
 
