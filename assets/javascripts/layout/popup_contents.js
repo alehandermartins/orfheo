@@ -86,7 +86,7 @@ ns.Widgets = ns.Widgets || {};
         $('<h6>').append('Asesoría creativa:'),
         $('<p>').text('El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.'),
         $('<h6>').append('Conexión API:'),
-        $('<p>').text('El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sito web. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en todas las plataformas conectadas. Podrás disponer de toda tu información siempre actualizada, donde y cuando tú quieras.')
+        $('<p>').text('El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sitio web. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en todas las plataformas conectadas. Podrás disponer de toda tu información siempre actualizada, donde y cuando tú quieras.')
           // .css({'margin-bottom':'2rem'}),
       )
       .addClass('half-col');
@@ -227,7 +227,7 @@ ns.Widgets = ns.Widgets || {};
     var _part5 = $('<div>').append(_subtitle5, _mex5).addClass('conditions-par');
 
     var _subtitle5_5 = $('<h5>').text('Sostenibilidad del proyecto:').addClass('subtitle-conditions');
-    var _mex5_5  = '<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida de las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos después de haber analizado el tipo de evento que se quiere organizar.</p>'
+    var _mex5_5  = '<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida de las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos, a partir de una base mínima, según el tipo de evento que se quiere organizar.</p>'
     var _part5_5 = $('<div>').append(_subtitle5_5, _mex5_5).addClass('conditions-par');
 
     var _subtitle_coockies = $('<h5>').text('Política de cookies:').addClass('subtitle-conditions');
@@ -273,7 +273,7 @@ ns.Widgets = ns.Widgets || {};
     var _val = $('<p>').append($('<div>').addClass('valencian-flag'), 'Valencià - Català');
     _val.css('cursor', 'pointer');
     _val.on('click', function(){
-      Pard.Options.setLanguage('cat');
+      Pard.Options.setLanguage('ca');
     });
     var _en = $('<p>').append($('<div>').addClass('english-flag'), 'English');
     _en.css('cursor', 'pointer');
