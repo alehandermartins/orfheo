@@ -10,6 +10,7 @@ describe Repos::Profiles do
       profile_id: profile_id,
       type: 'artist',
       name: 'artist_name',
+      phone: 'phone',
       address: 'address',
       profile_picture: ['profile.jpg'],
       bio: 'bio',
@@ -129,7 +130,8 @@ describe Repos::Profiles do
         user_id: user_id,
         profile_id: 'my_otter_profile_id',
         type: 'artist',
-        name: 'otter_artist_name'
+        name: 'otter_artist_name',
+        phone: 'otter_phone'
       }
     }
 
@@ -138,7 +140,8 @@ describe Repos::Profiles do
         user_id: 'otter_user',
         profile_id: 'otter_user_profile_id',
         type: 'space',
-        name: 'otter_user_name'
+        name: 'otter_user_name',
+        phone: nil
       }
     }
 
@@ -160,14 +163,6 @@ describe Repos::Profiles do
 
     it 'returns a specific profile' do
       result = Repos::Profiles.get_profile profile_id
-      expect(result).to eq(profile)
-    end
-
-    it 'returns an arranged profile' do
-      result = Repos::Profiles.get_arranged_profile profile_id
-      profile.merge! events: []
-      profile.merge! proposals: []
-      profile.merge! program: []
       expect(result).to eq(profile)
     end
 
@@ -195,6 +190,9 @@ describe Repos::Profiles do
 
     it 'returns all the profiles' do
       result = Repos::Profiles.get_all
+      profile.delete(:phone)
+      my_otter_profile.delete(:phone)
+      otter_user_profile.delete(:phone)
       expect(result.include? profile).to eq(true)
       expect(result.include? my_otter_profile).to eq(true)
       expect(result.include? otter_user_profile).to eq(true)
@@ -215,8 +213,10 @@ describe Repos::Profiles do
     it 'returns all profiles for a visitor' do
       profile.merge! events: []
       profile.merge! program: []
+      profile.delete(:phone)
       my_otter_profile.merge! events: []
       my_otter_profile.merge! program: []
+      my_otter_profile.delete(:phone)
       result = Repos::Profiles.get_visitor_profiles user_id, 'my_otter_profile_id'
       expect(result).to eq([my_otter_profile, profile])
     end
@@ -224,6 +224,8 @@ describe Repos::Profiles do
     it 'returns all profiles for an event' do
       allow(Repos::Events).to receive(:get_event).with('event_id').and_return(event)
       result = Repos::Profiles.get_event_profiles 'event_id'
+      profile.delete(:phone)
+      otter_user_profile.delete(:phone)
       expect(result).to include(profile, otter_user_profile)
     end
   end
