@@ -16,6 +16,8 @@ class SpaceProposal
     raise Pard::Invalid::UnexistingProfile if profile.blank?
     raise Pard::Invalid::ProfileOwnership unless profile[:user_id] == user[:user_id]
     raise Pard::Invalid::Deadline unless on_time?
+
+    add_phone if profile[:phone].blank?
     @space = new_space
   end
 
@@ -76,7 +78,7 @@ class SpaceProposal
       name: profile[:name],
       address: params[:address] || profile[:address],
       description: profile[:bio],
-      phone: params[:phone] || profile[:phone],
+      phone: profile[:phone],
       subcategory: params[:subcategory],
       form_category: params[:form_category],
       amend: params[:amend]
@@ -114,7 +116,7 @@ class SpaceProposal
   end
 
   def modify_space
-    [:address, :phone].each{ |field| space[field] = params[field] unless params[field].blank?}
+    [:address].each{ |field| space[field] = params[field] unless params[field].blank?}
     form.each{ |field, content| space[field] = params[field] unless params[field].blank?}
   end
 
@@ -126,5 +128,10 @@ class SpaceProposal
     receiver = {email: space[:email]}
     payload = {organizer: event[:organizer], event_name: event[:name], title: space[:name]}
     Services::Mails.deliver_mail_to receiver, :rejected, payload
+  end
+
+  def add_phone
+    profile[:phone] = params[:phone]
+    Repos::Profiles.update profile
   end
 end

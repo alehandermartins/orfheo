@@ -59,6 +59,7 @@ describe ProfilesController do
       user_id: user_id,
       profile_id: profile_id,
       type: 'artist',
+      phone: 'phone',
       name: 'artist_name',
       address: 'address',
       personal_web: nil,
@@ -72,6 +73,7 @@ describe ProfilesController do
     {
       profile_id: otter_profile_id,
       type: 'artist',
+      phone: 'phone',
       name: 'otter_artist_name',
       address: 'address',
       color: 'color'

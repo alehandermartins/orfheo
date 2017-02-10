@@ -16,6 +16,8 @@ class ArtistProposal
     raise Pard::Invalid::UnexistingProfile if profile.blank?
     raise Pard::Invalid::ProfileOwnership unless profile[:user_id] == user[:user_id]
     raise Pard::Invalid::Deadline unless on_time?
+    
+    add_phone if profile[:phone].blank?
     @artist = new_artist
   end
 
@@ -74,7 +76,7 @@ class ArtistProposal
       email: user[:email],
       name: profile[:name],
       address: params[:address] || profile[:address],
-      phone: params[:phone] || profile[:phone],
+      phone: profile[:phone],
       proposals: [new_proposal]
     }
   end
@@ -126,7 +128,7 @@ class ArtistProposal
   end
 
   def modify_artist
-    [:address, :phone].each{ |field| artist[field] = params[field] unless params[field].blank?}
+    [:address].each{ |field| artist[field] = params[field] unless params[field].blank?}
     proposal = artist[:proposals].detect{ |proposal| proposal[:proposal_id] == params[:proposal_id]}
     form.each{ |field, content| proposal[field] = params[field] unless params[field].blank?}
     artist[:proposals] = [proposal]
@@ -142,5 +144,10 @@ class ArtistProposal
     receiver = {email: artist[:email]}
     payload = {organizer: event[:organizer], event_name: event[:name], title: artist[:proposals].first[:title]}
     Services::Mails.deliver_mail_to receiver, :rejected, payload
+  end
+
+  def add_phone
+    profile[:phone] = params[:phone]
+    Repos::Profiles.update profile
   end
 end

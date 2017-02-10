@@ -15,7 +15,7 @@ describe CallsController do
   let(:delete_artist_proposal_route){'/users/delete_artist_proposal'}
   let(:delete_space_proposal_route){'/users/delete_space_proposal'}
 
-   let(:user_hash){
+  let(:user_hash){
     {
       email: 'email@test.com',
       password: 'password'
@@ -420,6 +420,15 @@ describe CallsController do
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
     end
+
+    it 'adds phone to profile if it has not' do
+      profile[:phone] = 'phone'
+      expect(Repos::Profiles).to receive(:update).with(hash_including(profile))
+      allow(Time).to receive(:now).and_return(1462054)
+      post send_artist_proposal_route, proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['model']).to eq(Util.stringify_hash(artist))
+    end
   end
 
   describe 'Sends own artist proposal' do
@@ -471,7 +480,7 @@ describe CallsController do
       expect(Repos::Events).to receive(:add_artist).with(event_id, artist_own)
       post send_artist_own_proposal_route, artist_own_proposal
       expect(parsed_response['status']).to eq('success')
-       expect(parsed_response['model']).to eq(Util.stringify_hash(artist_own))
+      expect(parsed_response['model']).to eq(Util.stringify_hash(artist_own))
     end
   end
 
@@ -562,6 +571,19 @@ describe CallsController do
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['model']).to eq(Util.stringify_hash(space))
     end
+
+    it 'adds phone to profile if it has not' do
+      space_profile[:phone] = 'phone'
+      space_profile[:address] = {
+        locality: 'locality',
+        postal_code: 'postal_code'
+      }
+      expect(Repos::Profiles).to receive(:update).with(hash_including(space_profile))
+      allow(Time).to receive(:now).and_return(1462054)
+      post send_space_proposal_route, space_proposal
+      expect(parsed_response['status']).to eq('success')
+      expect(parsed_response['model']).to eq(Util.stringify_hash(space))
+    end
   end
 
   describe 'Sends own space proposal' do
@@ -569,8 +591,6 @@ describe CallsController do
     before(:each){
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
-
-   
 
     it 'fails if the event does not exist' do
       space_own_proposal[:event_id] = 'otter'
