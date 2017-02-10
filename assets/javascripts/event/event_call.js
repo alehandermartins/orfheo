@@ -493,7 +493,7 @@
         "type" : "optional",
         "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
         "input" : "UploadPhotos",
-        "args" : [ 
+        "args" : [
             "/photos", 
             4
         ],
@@ -509,8 +509,10 @@
           "", 
           "yes"
       ],
-      "helptext" : "https://distrito008.es/condiciones-participacion-vii-distrito-008/"
+      "helptext" : Pard.CachedEvent.conditions
     }
+
+    //Availability should get the dates from the event
 
     var _tempForm = {};
     if(profile.type == 'space'){
