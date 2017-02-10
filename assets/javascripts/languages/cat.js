@@ -3,7 +3,7 @@
 (function(ns){
   ns.langs = ns.langs || {}
 
-  ns.langs.cat = {
+  ns.langs.ca = {
     type: {
       artist: "Artista",
       space: "Espai",

@@ -58,7 +58,7 @@ var Options = function(){
 
   var defaultLang = navigator.language || navigator.userLanguage;
   defaultLang = defaultLang.substring(0,2);
-  if (!($.inArray(defaultLang, ['es','cat','it','en']))) defaultLang = 'es';
+  if (!($.inArray(defaultLang, ['es','ca','it','en']))) defaultLang = 'es';
 
   if (!localStorage[localStorageKey]) 
     localStorage[localStorageKey] = JSON.stringify({
