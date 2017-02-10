@@ -4,6 +4,23 @@ module Repos
 
       def for db
         @@events_collection = db['events']
+        events = Repos::Events.get_all
+        profiles = Repos::Profiles.get_all
+        events.each{ |event|
+          event[:artists].each{ |artist|
+            prof = profiles.detect{|profile| profile[:profile_id] == artist[:profile_id]}
+            next if prof.blank?
+            prof[:phone] = artist[:phone]
+            Repos::Profiles.update prof
+          }
+
+          event[:spaces].each{ |space|
+            prof = profiles.detect{|profile| profile[:profile_id] == space[:profile_id]}
+            next if prof.blank?
+            prof[:phone] = space[:phone]
+            Repos::Profiles.update prof
+          }
+        }
       end
 
       def exists? event_id
