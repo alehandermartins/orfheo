@@ -126,7 +126,7 @@
 
 
   ns.Widgets.OwnProposalForm = function(form, participantType, formTypeSelected, received){
-    var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability', 'children','cache'];
+    var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability', 'children'];
     var _additionalForm = Pard.Forms.Proposal[participantType];
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
@@ -316,6 +316,8 @@
       },
       setVal: function(proposal){
         for(var field in proposal){
+          console.log(field)
+          console.log(proposal[field])
           if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
       },

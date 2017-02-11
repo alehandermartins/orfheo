@@ -194,7 +194,6 @@
         return { value: _inputTel.getVal(), visible: _showTel.getVal()}
       },
       setVal: function(phone){
-        console.log(phone)
          _inputTel.setVal(phone.value);
          _showTel.setVal(phone.visible);
       },
@@ -251,7 +250,6 @@
         return { value: _inputTel.getVal(), visible: _showTel.getVal()}
       },
       setVal: function(phone){
-        console.log(phone)
          _inputTel.setVal(phone.value);
          _showTel.setVal(phone.visible);
       },
@@ -284,11 +282,22 @@
         return _cacheInput;
       },
       getVal: function(){
-        return { value: _inputCache.getVal(), visible: _showCache.getVal()}
+        if (showCache == true) {
+          return { value: _inputCache.getVal(), visible: _showCache.getVal()}
+        }
+        else{
+          return _inputCache.getVal();
+        }
       },
-      setVal: function(phone){
-         _inputCache.setVal(phone.value);
-         _showCache.setVal(phone.visible);
+      setVal: function(cache){
+        console.log(cache)
+        if (showCache == true) {
+          _inputCache.setVal(cache.value);
+          _showCache.setVal(cache.visible);
+        }
+        else{
+          _inputCache.setVal(cache);
+        }
       },
       addWarning: function(){
         _inputCache.addWarning();
@@ -311,13 +320,9 @@
       'young', 
       'adults'
     ] ;
-    var _labels = [ 
-      "Todos los públicos", 
-      "Infantil", 
-      "Familiar", 
-      "Juvenil", 
-      "Adultos"
-    ]
+    var _labels = _values.map(function(val){
+      return Pard.Widgets.Dictionary(val).render();
+    }); 
 
     var _createdWidget = Pard.Widgets.Selector(_labels, _values);
 

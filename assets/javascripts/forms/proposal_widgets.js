@@ -93,7 +93,6 @@
 
           _sendButton.click(function(){
             if (_textArea.val()) { 
-              console.log(proposal.call_id);
               _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
               closepopup();
             }
@@ -144,11 +143,10 @@
 
   ns.Widgets.PrintProposal = function(proposal, form){
     var form = $.extend(true, {}, form);  
-
+    console.log(proposal)
     var _createdWidget = $('<div>');
     var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children', 'cache'];
     var sentProposalField = Pard.Widgets.sentProposalField(proposal);
-
     _orfheoFields.forEach(function(field){
       if (proposal[field]){
         var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
@@ -181,7 +179,6 @@
     for(var field in proposal){
       if ($.isNumeric(field)){
         var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
-        console.log(field)
         var _fieldFormText = $('<span>').addClass('proposalText-'+form[field]['input']);
         var _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
@@ -255,7 +252,8 @@
         text: $('<a>').attr('href','mailto:'+proposal['email']).text(proposal['email'])
       },
       'phone':{
-        label: 'Teléfono'
+        label: 'Teléfono',
+        text: proposal.phone.value
       },
       'address': {
         label: 'Dirección',

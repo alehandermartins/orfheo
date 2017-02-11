@@ -154,6 +154,12 @@
       interprise:'Empresa', 
       institution:'Institución',
       federation: 'Federación',
+      foundation:'Fundación',
+      all_public:'Todos los públicos',
+      baby:'Infantil', 
+      family:"Familiar", 
+      young: "Juvenil",  
+      adults: "Adultos",
       
       already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},

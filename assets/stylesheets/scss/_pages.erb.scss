@@ -1684,7 +1684,7 @@ th.column-call-manager-table{
   width: 12.5rem !important;
 }
 
-.column-call-manager-table.column-Inputtext{
+.column-call-manager-table.column-Inputtext, .column-call-manager-table.column-InputCache{
   min-width: 12.5rem !important;
   width: 12.5rem !important;
 }
@@ -1710,7 +1710,7 @@ th.column-call-manager-table.column-type{
 }
 
 
-.column-call-manager-table.column-Selector, .column-call-manager-table.column-MultipleSelector, .column-call-manager-table.column-MultipleDaysSelector{
+.column-call-manager-table.column-Selector, .column-call-manager-table.column-MultipleSelector, .column-call-manager-table.column-MultipleDaysSelector, .column-call-manager-table.column-InputChildren{
   min-width: 7.2rem !important;
   width: 7.2rem !important;
 }

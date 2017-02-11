@@ -24,13 +24,13 @@
     var _titleRowFoot = $('<tr>');
     // All non numeric field used by orfheo --> vector needed for ordering
     var _orfheoFields = {
-      artist: ['profile_id','proposalNumber','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','phone','email','amend'],
+      artist: ['profile_id','proposalNumber','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','cache','phone','email','amend'],
       space: ['profile_id','proposalNumber', 'type','name', 'subcategory','address', 'description','availability','phone','email','amend']
     }
     //Mandatory fields that are not asked in forms
     var _mandatoryFields = {
-     artist: ['profile_id','proposalNumber', 'type', 'name', 'email', 'subcategory','amend'],
-     space: ['profile_id','proposalNumber', 'type', 'name', 'email', 'address', 'description', 'subcategory','amend']
+     artist: ['profile_id','proposalNumber', 'type', 'name','phone', 'email', 'subcategory','amend'],
+     space: ['profile_id','proposalNumber', 'type', 'name', 'phone','email', 'address', 'description', 'subcategory','amend']
     }
     // The columns I want to see in table as default
     var _shownColumns = {
@@ -171,11 +171,6 @@
 
     var _form = {}
 
-    _form.phone ={
-      "label": "Teléfono",
-      "input" : "InputTel"
-    }
-
     var _subcategoryColumn;
     var _emailColumn;
     var _tableFields = [];
@@ -268,6 +263,13 @@
       label: 'Nombre',
       input:'Inputtext'
     },
+    phone:{
+      info: function(proposal){
+        return proposal.phone.value;
+      },
+      label: "Teléfono",
+      input : "InputTel"
+    },
     address:{ 
       info: function(proposal){
         var _address = ' ';
@@ -340,6 +342,13 @@
     },
     label:'proposalNumber',
     input:'Selector'
+  },
+  children:{
+    info: function(proposal){
+      return Pard.Widgets.Dictionary(proposal.children).render();
+    },
+    label:'Edades público',
+    input:'InputChildren'
   }
   }
 
