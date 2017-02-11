@@ -10,14 +10,14 @@ module Repos
           event[:artists].each{ |artist|
             prof = profiles.detect{|profile| profile[:profile_id] == artist[:profile_id]}
             next if prof.blank?
-            prof[:phone] = artist[:phone]
+            prof[:phone] = { value: artist[:phone], visible: false}
             Repos::Profiles.update prof
           }
 
           event[:spaces].each{ |space|
             prof = profiles.detect{|profile| profile[:profile_id] == space[:profile_id]}
             next if prof.blank?
-            prof[:phone] = space[:phone]
+            prof[:phone] = { value: space[:phone], visible: false}
             Repos::Profiles.update prof
           }
         }
