@@ -13,7 +13,6 @@ module Repos
               new_form[:cache][:label] = 'Caché / Gastos Producción' if field == :cache
               new_form[:cache][:input] = 'InputCache' if field == :cache
               new_form[:cache][:args][1] = false if field == :cache
-              new_form[:children] = subcategory if field == :'1'
               if field == :'7' && [:'Música', :'Artes Escénicas', :'Poesía'].include?(category)
                 new_form[:cache] = subcategory
                 new_form[:cache][:label] = 'Caché / Gastos Producción'
@@ -42,8 +41,15 @@ module Repos
                 new_form[:cache][:args][1] = false
                 new_form.delete(:'11')
               end
+              
             }
-
+            new_form[:children] = {
+              type: "mandatory",
+              label: "Edades público",
+              input: "InputChildren",
+              args: nil,
+              helptext: "Indica a qué tipo de público está dirigida tu propuesta."
+            }
             call[:artist][category] = new_form
           }
           update call
