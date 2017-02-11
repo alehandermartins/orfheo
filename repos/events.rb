@@ -6,20 +6,34 @@ module Repos
         @@events_collection = db['events']
         events = Repos::Events.get_all
         profiles = Repos::Profiles.get_all
+        profiles.each{ |profile|
+          profile[:phone] = { value: nil, visible: false}
+          Repos::Profiles.update profile
+        }
+
         events.each{ |event|
-          event[:artists].each{ |artist|
+          artists = event[:artists].map{ |artist|
             prof = profiles.detect{|profile| profile[:profile_id] == artist[:profile_id]}
-            next if prof.blank?
+            next artist if prof.blank?
+            next artist if artist[:phone].is_a? Hash
             prof[:phone] = { value: artist[:phone], visible: false}
+            artist[:phone] = prof[:phone]
             Repos::Profiles.update prof
+            artist
           }
 
-          event[:spaces].each{ |space|
+          spaces = event[:spaces].map{ |space|
             prof = profiles.detect{|profile| profile[:profile_id] == space[:profile_id]}
-            next if prof.blank?
+            next space if prof.blank?
+            next space if space[:phone].is_a? Hash
             prof[:phone] = { value: space[:phone], visible: false}
+            space[:phone] = prof[:phone]
             Repos::Profiles.update prof
+            space
           }
+          @@events_collection.update_one({event_id: event[:event_id]},{
+          "$set": {spaces: spaces, artists: artists}
+          })
         }
       end
 
