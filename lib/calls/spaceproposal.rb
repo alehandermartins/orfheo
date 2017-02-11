@@ -81,6 +81,8 @@ class SpaceProposal
       address: params[:address] || profile[:address],
       description: profile[:bio],
       phone: profile[:phone],
+      links: profile[:links],
+      photos: profile[:photos],
       subcategory: params[:subcategory],
       form_category: params[:form_category],
       amend: params[:amend]

@@ -481,64 +481,25 @@
       "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
     }
 
-    var _nonProposalFields = {
-      links : {
-        "type" : "optional",
-        "label" : "Materiales online",
-        "input" : "InputMultimedia",
-        "args" : null,
-        "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
-      },
-      photos : {
-        "type" : "optional",
-        "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
-        "input" : "UploadPhotos",
-        "args" : [
-            "/photos", 
-            4
-        ],
-        "helptext" : ""
-      }
-    }
-
-    var _conditionsField = {
-      "type" : "mandatory",
-      "label" : "Acepto las condiciones de participación asociadas a este evento",
-      "input" : "CheckBox",
-      "args" : [ 
-          "", 
-          "yes"
-      ],
-      "helptext" : Pard.CachedEvent.conditions
-    }
-
     //Availability should get the dates from the event
 
     var _tempForm = {};
     if(profile.type == 'space'){
-      _nonProposalFields = {phone: _phoneField};
       Object.keys(form).forEach(function(field){
         _tempForm[field] = form[field];
         if(field == 'subcategory') _tempForm['phone'] = _phoneField;
       });
     }
     if(profile.type == 'artist'){
-      _nonProposalFields.phone =  _phoneField;
       Object.keys(form).forEach(function(field){
         _tempForm[field] = form[field];
-        if(field == 'short_description'){
-          Object.keys(_nonProposalFields).forEach(function(nonField){
-            _tempForm[nonField] = _nonProposalFields[nonField];
-          });
-        }
+        if(field == 'short_description') _tempForm['phone'] = _phoneField;
       });
     }
 
     form = _tempForm;
-    form['conditions'] = _conditionsField;
 
     Object.keys(form).forEach(function(field){
-      console.log(form[field]);
       _form[field] = {};
       _form[field]['type'] = form[field].type;
       if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
