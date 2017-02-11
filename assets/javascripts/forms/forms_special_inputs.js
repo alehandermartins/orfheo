@@ -214,9 +214,9 @@
     return{
       render: function(){
         _cacheInput.append(
-          _inputCache.render().addClass('InputCache-InputCache'),
+          _inputCache.render().addClass('InputCache-InputCache')
         );
-        if (showCache) _cacheInput.append(_showCache.render().addClass('InputCache-showCache'));
+        if (showCache == true) _cacheInput.append(_showCache.render().addClass('InputCache-showCache'));
         return _cacheInput;
       },
       getVal: function(){
@@ -237,6 +237,54 @@
       }
     }
   } 
+
+  ns.Widgets.InputChildren = function(){
+
+    var _values = [ 
+      'all_public', 
+      'baby', 
+      'family', 
+      'young', 
+      'adults'
+    ] ;
+    var _labels = [ 
+      "Todos los públicos", 
+      "Infantil", 
+      "Familiar", 
+      "Juvenil", 
+      "Adultos"
+    ]
+
+    var _createdWidget = Pard.Widgets.Selector(_labels, _values);
+
+    return {
+      render: function(){
+        return _createdWidget.render();
+      },
+      getVal: function(){
+        return _createdWidget.getVal();
+      },
+      addWarning: function(){
+        _createdWidget.addWarning();
+      },
+      removeWarning: function(){
+        _createdWidget.removeWarning();
+      },
+      setVal: function(value){
+        _createdWidget.setVal(value);
+      },
+      setClass: function(_class){
+        _createdWidget.setClass(_class);
+      },
+      enable: function(){
+        _createdWidget.enable();
+      },
+      disable: function(){
+        _createdWidget.disable();
+      }
+    }
+
+  }
 
 
 
