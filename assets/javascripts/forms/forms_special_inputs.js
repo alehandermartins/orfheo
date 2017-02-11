@@ -159,6 +159,85 @@
     }
   } 
 
+  ns.Widgets.InputPhone = function(placeholder){
+
+    var _phoneInput = $('<div>');
+
+    var checkPhone = function(){
+      var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
+      if(_inputTel.getVal()){
+        var notPattern = new RegExp (/[a-z]/);
+          if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
+        return _inputTel.getVal();
+      }
+    }
+
+    var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
+    var _showTel = Pard.Widgets.CheckBox('Mostra en mi página de perfil') 
+
+
+    return{
+      render: function(){
+        _phoneInput.append(
+          _inputTel.render().addClass('InputPhone-InputTel'),
+          _showTel.render().addClass('InputPhone-showTel')
+        );
+        return _phoneInput;
+      },
+      getVal: function(){
+        return { value: _inputTel.getVal(), visible: _showTel.getVal()}
+      },
+      setVal: function(phone){
+         _inputTel.setVal(phone.value);
+         _showTel.setVal(phone.visible);
+      },
+      addWarning: function(){
+        _inputTel.addWarning();
+      },
+      removeWarning: function(){
+        _inputTel.removeWarning();
+      },
+      setClass: function(_class){
+        _inputTel.setClass(_class);
+      }
+    }
+  } 
+
+  ns.Widgets.InputCache = function(placeholder){
+
+    var _cacheInput = $('<div>');
+
+    var _inputCache = Pard.Widgets.Input(placeholder, 'text', function(){_inputCache.removeWarning()});
+    var _showCache = Pard.Widgets.CheckBox('Mostra esta información en mi página') 
+
+
+    return{
+      render: function(){
+        _cacheInput.append(
+          _inputCache.render().addClass('InputCache-InputCache'),
+          _showCache.render().addClass('InputCache-showCache')
+        );
+        return _cacheInput;
+      },
+      getVal: function(){
+        return { value: _inputCache.getVal(), visible: _showCache.getVal()}
+      },
+      setVal: function(phone){
+         _inputCache.setVal(phone.value);
+         _showCache.setVal(phone.visible);
+      },
+      addWarning: function(){
+        _inputCache.addWarning();
+      },
+      removeWarning: function(){
+        _inputCache.removeWarning();
+      },
+      setClass: function(_class){
+        _inputCache.setClass(_class);
+      }
+    }
+  } 
+
 
 
   ns.Widgets.InputDate = function(placeholder,eventTime){

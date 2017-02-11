@@ -2637,6 +2637,24 @@ select:-moz-focusring { color: transparent;
   }
 }
 
+.InputPhone-InputTel{
+  @include breakpoint(large){
+    width: 40%;
+    display: inline-block;
+    margin-right: 3rem !important;
+  }
+}
+
+.InputPhone-showTel{
+  @include breakpoint(large){
+    width: 50%;
+    display: inline-block;
+  }
+}
+
+.InputCache-InputCache{
+  margin-bottom: .5rem !important;
+}
 
 /*==============================================
 POPUP
