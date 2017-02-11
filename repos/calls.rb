@@ -10,23 +10,31 @@ module Repos
             new_form = {}
             form.each{ |field, subcategory|
               new_form[field] = subcategory unless field == :'1'
+              new_form[:cache][:label] = 'Caché / Gastos Producción' if field == :cache
+              new_form[:cache][:input] = 'InputCache' if field == :cache
               new_form[:children] = subcategory if field == :'1'
               if field == :'7' && [:'Música', :'Artes Escénicas', :'Poesía'].include?(category)
                 new_form[:cache] = subcategory
+                new_form[:cache][:label] = 'Caché / Gastos Producción'
+                new_form[:cache][:input] = 'InputCache'
                 new_form.delete(:'7')
               end
               if field == :'10' && [:'Taller', :'Gastronomía'].include?(category)
                 new_form[:cache] = subcategory
+                new_form[:cache][:label] = 'Caché / Gastos Producción'
+                new_form[:cache][:input] = 'InputCache'
                 new_form.delete(:'10')
               end
-
               if field == :'8' && [:'Street Art', :'Audiovisual'].include?(category)
                 new_form[:cache] = subcategory
+                new_form[:cache][:label] = 'Caché / Gastos Producción'
+                new_form[:cache][:input] = 'InputCache'
                 new_form.delete(:'8')
               end
-
               if field == :'11' && [:'Otros'].include?(category)
                 new_form[:cache] = subcategory
+                new_form[:cache][:label] = 'Caché / Gastos Producción'
+                new_form[:cache][:input] = 'InputCache'
                 new_form.delete(:'11')
               end
             }
