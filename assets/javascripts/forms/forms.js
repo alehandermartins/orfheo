@@ -40,6 +40,13 @@
         "args" : null,
         "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
       },
+      phone: {
+        "type" : "optional",
+        "label" : "Numero de teléfono",
+        "input" : "InputPhone",
+        "args" : null,
+        "helptext" : ""
+      },
       personal_web:{
         "type" : "optional",
         "label" : "Web personal y enlaces a redes sociales",
@@ -93,6 +100,13 @@
                   4
                 ],
         "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
+      },
+      phone: {
+        "type" : "optional",
+        "label" : "Numero de teléfono",
+        "input" : "InputPhone",
+        "args" : null,
+        "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
@@ -176,6 +190,13 @@
                 ],
         "helptext" : "Cualquier cosa que quieras compartir sobre la organización."
       },
+      phone: {
+        "type" : "optional",
+        "label" : "Numero de teléfono",
+        "input" : "InputPhone",
+        "args" : null,
+        "helptext" : ""
+      },
       personal_web:{
         "type" : "optional",
         "label" : "Web personal y enlaces a redes sociales",
@@ -247,6 +268,13 @@
         "args" : null,
         "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizarte para un posible contacto."
       },
+      phone: {
+        "type" : "optional",
+        "label" : "Numero de teléfono",
+        "input" : "InputPhone",
+        "args" : null,
+        "helptext" : ""
+      },
       personal_web:{
         "type" : "optional",
         "label" : "Web personal y enlaces a redes sociales",
@@ -308,6 +336,13 @@
                   4
                 ],
         "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
+      },
+      phone: {
+        "type" : "optional",
+        "label" : "Numero de teléfono",
+        "input" : "InputPhone",
+        "args" : null,
+        "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
@@ -371,6 +406,13 @@
                   4
                 ],
         "helptext" : "Cualquier cosa que quieras compartir sobre la organización."
+      },
+      phone: {
+        "type" : "optional",
+        "label" : "Numero de teléfono",
+        "input" : "InputPhone",
+        "args" : null,
+        "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
@@ -532,15 +574,22 @@
             4
         ],
         "helptext" : ""
+    },
+    cache:{
+      "type" : "optional",
+      "label" : "Caché / Gastos Producción",
+      "input" : "InputCache",
+      "args" : null,
+      "helptext" : ""
     }
   }
 
 
   ns.Forms.FieldsForms = function(categorySelected){
 
-    var _createExpoFields = ['title', 'short_description', 'description','links','photos'];
-    var _createShowFields = ['title', 'short_description', 'description', 'duration', 'children','links','photos'];
-    var _createStreetArtFields = ['title', 'short_description', 'description','links','photos'];
+    var _createExpoFields = ['title', 'short_description', 'description','links','photos', 'cache'];
+    var _createShowFields = ['title', 'short_description', 'description', 'duration', 'children','links','photos', 'cache'];
+    var _createStreetArtFields = ['title', 'short_description', 'description','links','photos', 'cache'];
     var _createProductionFields = {
       'expo': _createExpoFields,
       'music': _createShowFields,
