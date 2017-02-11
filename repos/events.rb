@@ -8,6 +8,11 @@ module Repos
         profiles = Repos::Profiles.get_all
         profiles.each{ |profile|
           profile[:phone] = { value: nil, visible: false}
+          unless profile[:productions].blank?
+            profile[:productions].each{ |production|
+              production[:cache] = { value: nil, visible: false}
+            }
+          end
           Repos::Profiles.update profile
         }
 
