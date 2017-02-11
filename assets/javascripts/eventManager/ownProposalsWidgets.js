@@ -126,7 +126,7 @@
 
 
   ns.Widgets.OwnProposalForm = function(form, participantType, formTypeSelected, received){
-    var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability'];
+    var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability', 'children','cache'];
     var _additionalForm = Pard.Forms.Proposal[participantType];
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 

@@ -203,7 +203,7 @@
     }
   } 
 
-  ns.Widgets.InputCache = function(placeholder){
+  ns.Widgets.InputCache = function(placeholder, showCache){
 
     var _cacheInput = $('<div>');
 
@@ -215,8 +215,8 @@
       render: function(){
         _cacheInput.append(
           _inputCache.render().addClass('InputCache-InputCache'),
-          _showCache.render().addClass('InputCache-showCache')
         );
+        if (showCache) _cacheInput.append(_showCache.render().addClass('InputCache-showCache'));
         return _cacheInput;
       },
       getVal: function(){
