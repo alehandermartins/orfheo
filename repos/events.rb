@@ -7,6 +7,7 @@ module Repos
         events = Repos::Events.get_all
         profiles = Repos::Profiles.get_all
         profiles.each{ |profile|
+          next if profile[:phone].is_a? Hash
           profile[:phone] = { value: nil, visible: false}
           unless profile[:productions].blank?
             productions = profile[:productions].map{ |production|
@@ -27,29 +28,30 @@ module Repos
             phone = { value: artist[:phone], visible: false}
             artist[:phone] = phone
             artist[:proposals].each{|proposal|
-              children = 'all_public' if proposal[:'1'] == 'Todos los públicos'
+              children = 'all_public'
               children = 'baby' if proposal[:'1'] == 'Infantil'
               children = 'family' if proposal[:'1'] == 'Familiar'
               children = 'young' if proposal[:'1'] == 'Juvenil'
               children = 'adults' if proposal[:'1'] == 'Adultos'
               proposal[:children] = children
               proposal.delete(:'1')
-              if ['music', 'arts' 'poetry'].include?(proposal[:category])
-                proposal[:cache] = proposal[:'7']
+              if ['music', 'arts', 'poetry'].include?(proposal[:category])
+                proposal[:cache] = { value: proposal[:'7'], visible: false}
                 proposal.delete(:'7')
               end
               if ['workshop', 'gastronomy'].include?(proposal[:category])
-                proposal[:cache] = proposal[:'10']
+                proposal[:cache] = { value: proposal[:'10'], visible: false}
                 proposal.delete(:'10')
               end
-              if ['treet_art', 'audiovisual'].include?(proposal[:category])
-                proposal[:cache] = proposal[:'8']
+              if ['street_art', 'audiovisual'].include?(proposal[:category])
+                proposal[:cache] = { value: proposal[:'8'], visible: false}
                 proposal.delete(:'8')
               end
               if ['other'].include?(proposal[:category])
-                proposal[:cache] = proposal[:'11']
+                proposal[:cache] = { value: proposal[:'11'], visible: false}
                 proposal.delete(:'11')
               end
+              proposal.delete(:phone)
             }
             next artist if prof.blank?
             unless prof[:productions].blank?
@@ -57,6 +59,7 @@ module Repos
                 production = prof[:productions].detect{|production| production[:production_id] == proposal[:production_id]}
                 next if production.blank?
                 production[:children] = proposal[:children]
+                production[:cache] = proposal[:cache] unless proposal[:cache].blank?
               }
             end
             prof[:phone] = phone

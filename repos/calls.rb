@@ -50,6 +50,7 @@ module Repos
               args: nil,
               helptext: "Indica a qué tipo de público está dirigida tu propuesta."
             }
+            new_form.delete(:phone)
             call[:artist][category] = new_form
           }
           update call
