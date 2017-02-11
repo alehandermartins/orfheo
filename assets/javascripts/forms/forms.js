@@ -550,13 +550,10 @@
     },
     children : {
       "type" : "optional",
-      "label" : "Para niños",
-      "input" : "CheckBox",
-      "args" : [ 
-          "", 
-          "yes_children"
-      ],
-      "helptext" : "Eligir si la actividad está orientada a un publico infantil."
+      "label" : "Edades público",
+      "input" : "InputChildren",
+      "args" : null,
+      "helptext" : "Indicar a qué tipo de público está dirigida la propuesta."
     }, 
     links : {
         "type" : "optional",
@@ -579,7 +576,7 @@
       "type" : "optional",
       "label" : "Caché / Gastos Producción",
       "input" : "InputCache",
-      "args" : ['',true]
+      "args" : ['',true],
       "helptext" : ""
     }
   }
