@@ -579,7 +579,7 @@
       "type" : "optional",
       "label" : "Caché / Gastos Producción",
       "input" : "InputCache",
-      "args" : null,
+      "args" : ['',true]
       "helptext" : ""
     }
   }
