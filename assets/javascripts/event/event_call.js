@@ -544,6 +544,18 @@
           }
         }
       }
+      else if (field == 'phone'){
+        var _helpText = _form[field].helptext.render();
+        if(profile.phone.value){
+          _form[field].input.setVal(profile.phone);
+          _form[field].input.disable();
+        }
+        var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+            _form[field].label.render(),
+            _form[field].input.render()
+         )
+        if (form[field]['helptext'].length) _formField.append(_helpText);
+      }
       else{
         if (form[field].input == 'TextAreaCounter'){
           var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(

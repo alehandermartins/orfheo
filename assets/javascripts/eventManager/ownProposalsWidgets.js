@@ -322,10 +322,12 @@
       disableFields: function(){
         _form['email'].input.disable();
         _form['name'].input.disable();
+        _form['phone'].input.disable();
        },
       enableFields: function(){
         _form['email'].input.enable();
         _form['name'].input.enable();
+        _form['phone'].input.enable();
       },
       showAll: function(){
         _displayAllBtn.trigger('click');

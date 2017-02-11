@@ -44,7 +44,7 @@
         "type" : "optional",
         "label" : "Numero de teléfono",
         "input" : "InputPhone",
-        "args" : null,
+        "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
@@ -105,7 +105,7 @@
         "type" : "optional",
         "label" : "Numero de teléfono",
         "input" : "InputPhone",
-        "args" : null,
+        "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
@@ -194,7 +194,7 @@
         "type" : "optional",
         "label" : "Numero de teléfono",
         "input" : "InputPhone",
-        "args" : null,
+        "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
@@ -272,7 +272,7 @@
         "type" : "optional",
         "label" : "Numero de teléfono",
         "input" : "InputPhone",
-        "args" : null,
+        "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
@@ -341,7 +341,7 @@
         "type" : "optional",
         "label" : "Numero de teléfono",
         "input" : "InputPhone",
-        "args" : null,
+        "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
@@ -411,7 +411,7 @@
         "type" : "optional",
         "label" : "Numero de teléfono",
         "input" : "InputPhone",
-        "args" : null,
+        "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{

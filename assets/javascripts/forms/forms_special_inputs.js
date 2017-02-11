@@ -90,38 +90,38 @@
   
   }
 
-  ns.Widgets.InputTel = function(placeholder){
+  // ns.Widgets.InputTel = function(placeholder){
 
-  	var checkPhone = function(){
-  		var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
-      var notPattern = new RegExp (/[a-z]/);
-        if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
-        return _inputTel.getVal();
-    }
+  // 	var checkPhone = function(){
+  // 		var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
+  //     var notPattern = new RegExp (/[a-z]/);
+  //       if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
+  //       return _inputTel.getVal();
+  //   }
 
-  	var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
+  // 	var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
 
-  	return{
-      render: function(){
-        return _inputTel.render();
-      },
-      getVal: function(){
-        return checkPhone();
-      },
-      setVal: function(value){
-        _inputTel.setVal(value);
-      },
-      addWarning: function(){
-        _inputTel.addWarning();
-      },
-      removeWarning: function(){
-        _inputTel.removeWarning();
-      },
-      setClass: function(_class){
-        _inputTel.setClass(_class);
-      }
-    }
-  } 
+  // 	return{
+  //     render: function(){
+  //       return _inputTel.render();
+  //     },
+  //     getVal: function(){
+  //       return checkPhone();
+  //     },
+  //     setVal: function(value){
+  //       _inputTel.setVal(value);
+  //     },
+  //     addWarning: function(){
+  //       _inputTel.addWarning();
+  //     },
+  //     removeWarning: function(){
+  //       _inputTel.removeWarning();
+  //     },
+  //     setClass: function(_class){
+  //       _inputTel.setClass(_class);
+  //     }
+  //   }
+  // } 
 
 
   ns.Widgets.InputTelContactForm = function(placeholder){
@@ -159,7 +159,7 @@
     }
   } 
 
-  ns.Widgets.InputPhone = function(placeholder){
+  ns.Widgets.InputTel = function(placeholder, showTel){
 
     var _phoneInput = $('<div>');
 
@@ -168,7 +168,7 @@
       if(_inputTel.getVal()){
         var notPattern = new RegExp (/[a-z]/);
           if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
-        return _inputTel.getVal();
+        return {value: _inputTel.getVal(), visible: 'false' };
       }
     }
 
@@ -178,16 +178,80 @@
 
     return{
       render: function(){
+        var _inputTelRendered = _inputTel.render();
         _phoneInput.append(
-          _inputTel.render().addClass('InputPhone-InputTel'),
-          _showTel.render().addClass('InputPhone-showTel')
+          _inputTelRendered
         );
+
+        if (showTel === true){
+          _phoneInput.append(_showTel.render().addClass('InputPhone-showTel'));
+          _inputTelRendered.addClass('InputPhone-InputTel')
+        }  
         return _phoneInput;
       },
       getVal: function(){
+        if(!showTel) return checkPhone;
         return { value: _inputTel.getVal(), visible: _showTel.getVal()}
       },
       setVal: function(phone){
+        console.log(phone)
+         _inputTel.setVal(phone.value);
+         _showTel.setVal(phone.visible);
+      },
+      addWarning: function(){
+        _inputTel.addWarning();
+      },
+      removeWarning: function(){
+        _inputTel.removeWarning();
+      },
+      setClass: function(_class){
+        _inputTel.setClass(_class);
+      },
+      disable: function(){
+        _inputTel.disable();
+      },
+      enable: function(){
+        _inputTel.enable();
+      }
+    }
+  } 
+
+  ns.Widgets.InputPhone = function(placeholder, showTel){
+
+    var _phoneInput = $('<div>');
+
+    var checkPhone = function(){
+      var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
+      if(_inputTel.getVal()){
+        var notPattern = new RegExp (/[a-z]/);
+          if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
+        return {value: _inputTel.getVal(), visible: 'false' };
+      }
+    }
+
+    var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
+    var _showTel = Pard.Widgets.CheckBox('Mostra en mi página de perfil') 
+
+
+    return{
+      render: function(){
+        var _inputTelRendered = _inputTel.render();
+        _phoneInput.append(
+          _inputTelRendered
+        );
+
+        if (showTel === true){
+          _phoneInput.append(_showTel.render().addClass('InputPhone-showTel'));
+          _inputTelRendered.addClass('InputPhone-InputTel')
+        }  
+        return _phoneInput;
+      },
+      getVal: function(){
+        if(!showTel) return checkPhone;
+        return { value: _inputTel.getVal(), visible: _showTel.getVal()}
+      },
+      setVal: function(phone){
+        console.log(phone)
          _inputTel.setVal(phone.value);
          _showTel.setVal(phone.visible);
       },

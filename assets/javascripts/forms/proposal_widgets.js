@@ -146,7 +146,7 @@
     var form = $.extend(true, {}, form);  
 
     var _createdWidget = $('<div>');
-    var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children'];
+    var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children', 'cache'];
     var sentProposalField = Pard.Widgets.sentProposalField(proposal);
 
     _orfheoFields.forEach(function(field){
@@ -181,6 +181,7 @@
     for(var field in proposal){
       if ($.isNumeric(field)){
         var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
+        console.log(field)
         var _fieldFormText = $('<span>').addClass('proposalText-'+form[field]['input']);
         var _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
