@@ -6,6 +6,11 @@ module Repos
         @@events_collection = db['events']
         events = Repos::Events.get_all
         profiles = Repos::Profiles.get_all
+        profiles.each{ |profile|
+          profile[:phone] = { value: nil, visible: false}
+          Repos::Profiles.update profile
+        }
+
         events.each{ |event|
           event[:artists].each{ |artist|
             prof = profiles.detect{|profile| profile[:profile_id] == artist[:profile_id]}
