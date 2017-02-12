@@ -53,6 +53,9 @@ module Repos
             new_form.delete(:phone)
             call[:artist][category] = new_form
           }
+          call[:space].each{ |category, form|
+            form.delete(:phone)
+          }
           update call
         }
       end
