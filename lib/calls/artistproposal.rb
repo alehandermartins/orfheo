@@ -79,6 +79,7 @@ class ArtistProposal
       name: profile[:name],
       address: params[:address] || profile[:address],
       phone: profile[:phone],
+      type: 'artist',
       proposals: [new_proposal]
     }
   end

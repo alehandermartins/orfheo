@@ -49,6 +49,7 @@ class ArtistOwnProposal
       email: params[:email],
       name: params[:name],
       phone: params[:phone],
+      type: 'artist',
       own: true,
       proposals: [proposal],
     }

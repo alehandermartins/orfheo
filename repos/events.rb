@@ -27,6 +27,7 @@ module Repos
             next artist if artist[:phone].is_a? Hash
             phone = { value: artist[:phone], visible: false}
             artist[:phone] = phone
+            artist[:type] = 'artist'
             artist[:proposals].each{|proposal|
               children = 'all_public'
               children = 'baby' if proposal[:'1'] == 'Infantil'
