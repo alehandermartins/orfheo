@@ -72,9 +72,9 @@ module Repos
             next space if space[:phone].is_a? Hash
             phone = { value: space[:phone], visible: false}
             space[:phone] = phone
+            next space if prof.blank?
             space[:links] = prof[:links]
             space[:photos] = prof[:photos]
-            next space if prof.blank?
             prof[:phone] = phone
             Repos::Profiles.update prof
             space
