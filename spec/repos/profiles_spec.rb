@@ -10,7 +10,7 @@ describe Repos::Profiles do
       profile_id: profile_id,
       type: 'artist',
       name: 'artist_name',
-      phone: 'phone',
+      phone: {value: 'phone', visible: false},
       address: 'address',
       profile_picture: ['profile.jpg'],
       bio: 'bio',
@@ -28,7 +28,8 @@ describe Repos::Profiles do
       photos: ['picture.jpg', 'otter_picture.jpg'],
       links: [{link: 'web', web_title: 'web_name'},{link: 'otter_web', web_title: 'otter_web_name'}],
       duration: 'duration',
-      children: 'children'
+      children: 'children',
+      cache: {value: 'cache', visible: true}
     }
   }
 
@@ -131,7 +132,7 @@ describe Repos::Profiles do
         profile_id: 'my_otter_profile_id',
         type: 'artist',
         name: 'otter_artist_name',
-        phone: 'otter_phone'
+        phone: {value: 'otter_phone', visible: true}
       }
     }
 
@@ -141,7 +142,7 @@ describe Repos::Profiles do
         profile_id: 'otter_user_profile_id',
         type: 'space',
         name: 'otter_user_name',
-        phone: nil
+        phone: {value: nil, visible: false}
       }
     }
 
@@ -191,7 +192,6 @@ describe Repos::Profiles do
     it 'returns all the profiles' do
       result = Repos::Profiles.get_all
       profile.delete(:phone)
-      my_otter_profile.delete(:phone)
       otter_user_profile.delete(:phone)
       expect(result.include? profile).to eq(true)
       expect(result.include? my_otter_profile).to eq(true)
@@ -216,7 +216,6 @@ describe Repos::Profiles do
       profile.delete(:phone)
       my_otter_profile.merge! events: []
       my_otter_profile.merge! program: []
-      my_otter_profile.delete(:phone)
       result = Repos::Profiles.get_visitor_profiles user_id, 'my_otter_profile_id'
       expect(result).to eq([my_otter_profile, profile])
     end

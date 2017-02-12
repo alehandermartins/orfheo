@@ -56,7 +56,7 @@ module Repos
       end
 
       def get_all
-        grab({}, {phone: 0}).shuffle
+        grab({}, true).shuffle
       end
 
       def get_profile profile_id
@@ -81,9 +81,10 @@ module Repos
       end
 
       def get_visitor_profiles user_id, profile_id = nil
-        profiles = get_user_profiles user_id, profile_id
+        profiles = grab({user_id: user_id}, true)
+        sort_profiles(profiles, profile_id) unless profile_id.nil?
         profiles.each{ |profile|
-          profile.delete(:phone)
+          profile.merge! (Services::Events.get_my_info(profile[:profile_id], profile[:type]))
           profile.delete(:proposals)
         }
       end
@@ -93,7 +94,7 @@ module Repos
         participant_ids = event[:program].map{ |performance|
           [performance[:participant_id], performance[:host_id]]
         }.flatten.compact.uniq
-        grab({profile_id: {"$in": participant_ids}}, {phone: 0}).shuffle
+        grab({profile_id: {"$in": participant_ids}}, true).shuffle
       end
 
       def get_production production_id
@@ -115,13 +116,21 @@ module Repos
       end
 
       private
-      def grab query, projection = {}
+      def grab query, filter = false
         results = @@profiles_collection.find(query)
         return [] unless results.count > 0
 
         results.map { |profile|
-          projection.each{|field, value| profile.delete(field) if value == 0}
+          filtered profile if filter == true
           Util.string_keyed_hash_to_symbolized profile
+        }
+      end
+
+      def filtered profile
+        profile.delete(:phone) if profile[:phone][:visible] == false
+        return if profile[:productions].blank?
+        profile[:productions].each { |production|
+          production.delete(:cache) if production[:cache][:visible] == false
         }
       end
 

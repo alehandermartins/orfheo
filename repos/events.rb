@@ -4,86 +4,86 @@ module Repos
 
       def for db
         @@events_collection = db['events']
-        events = Repos::Events.get_all
-        profiles = Repos::Profiles.get_all
-        profiles.each{ |profile|
-          next if profile[:phone].is_a? Hash
-          profile[:phone] = { value: nil, visible: false}
-          unless profile[:productions].blank?
-            productions = profile[:productions].map{ |production|
-              next production if production[:cache].is_a? Hash
-              production[:cache] = { value: nil, visible: false}
-              production[:children] = 'all_public'
-              production
-            }
-            profile[:productions] = productions
-          end
-          Repos::Profiles.update profile
-        }
+        # events = Repos::Events.get_all
+        # profiles = Repos::Profiles.get_all
+        # profiles.each{ |profile|
+        #   next if profile[:phone].is_a? Hash
+        #   profile[:phone] = { value: nil, visible: false}
+        #   unless profile[:productions].blank?
+        #     productions = profile[:productions].map{ |production|
+        #       next production if production[:cache].is_a? Hash
+        #       production[:cache] = { value: nil, visible: false}
+        #       production[:children] = 'all_public'
+        #       production
+        #     }
+        #     profile[:productions] = productions
+        #   end
+        #   Repos::Profiles.update profile
+        # }
 
-        events.each{ |event|
-          artists = event[:artists].map{ |artist|
-            prof = profiles.detect{|profile| profile[:profile_id] == artist[:profile_id]}
-            next artist if artist[:phone].is_a? Hash
-            phone = { value: artist[:phone], visible: false}
-            artist[:phone] = phone
-            artist[:type] = 'artist'
-            artist[:proposals].each{|proposal|
-              children = 'all_public'
-              children = 'baby' if proposal[:'1'] == 'Infantil'
-              children = 'family' if proposal[:'1'] == 'Familiar'
-              children = 'young' if proposal[:'1'] == 'Juvenil'
-              children = 'adults' if proposal[:'1'] == 'Adultos'
-              proposal[:children] = children
-              proposal.delete(:'1')
-              if ['music', 'arts', 'poetry'].include?(proposal[:category])
-                proposal[:cache] = { value: proposal[:'7'], visible: false}
-                proposal.delete(:'7')
-              end
-              if ['workshop', 'gastronomy'].include?(proposal[:category])
-                proposal[:cache] = { value: proposal[:'10'], visible: false}
-                proposal.delete(:'10')
-              end
-              if ['street_art', 'audiovisual'].include?(proposal[:category])
-                proposal[:cache] = { value: proposal[:'8'], visible: false}
-                proposal.delete(:'8')
-              end
-              if ['other'].include?(proposal[:category])
-                proposal[:cache] = { value: proposal[:'11'], visible: false}
-                proposal.delete(:'11')
-              end
-              proposal.delete(:phone)
-            }
-            next artist if prof.blank?
-            unless prof[:productions].blank?
-              artist[:proposals].each{|proposal|
-                production = prof[:productions].detect{|production| production[:production_id] == proposal[:production_id]}
-                next if production.blank?
-                production[:children] = proposal[:children]
-                production[:cache] = proposal[:cache] unless proposal[:cache].blank?
-              }
-            end
-            prof[:phone] = phone
-            Repos::Profiles.update prof
-            artist
-          }
+        # events.each{ |event|
+        #   artists = event[:artists].map{ |artist|
+        #     prof = profiles.detect{|profile| profile[:profile_id] == artist[:profile_id]}
+        #     next artist if artist[:phone].is_a? Hash
+        #     phone = { value: artist[:phone], visible: false}
+        #     artist[:phone] = phone
+        #     artist[:type] = 'artist'
+        #     artist[:proposals].each{|proposal|
+        #       children = 'all_public'
+        #       children = 'baby' if proposal[:'1'] == 'Infantil'
+        #       children = 'family' if proposal[:'1'] == 'Familiar'
+        #       children = 'young' if proposal[:'1'] == 'Juvenil'
+        #       children = 'adults' if proposal[:'1'] == 'Adultos'
+        #       proposal[:children] = children
+        #       proposal.delete(:'1')
+        #       if ['music', 'arts', 'poetry'].include?(proposal[:category])
+        #         proposal[:cache] = { value: proposal[:'7'], visible: false}
+        #         proposal.delete(:'7')
+        #       end
+        #       if ['workshop', 'gastronomy'].include?(proposal[:category])
+        #         proposal[:cache] = { value: proposal[:'10'], visible: false}
+        #         proposal.delete(:'10')
+        #       end
+        #       if ['street_art', 'audiovisual'].include?(proposal[:category])
+        #         proposal[:cache] = { value: proposal[:'8'], visible: false}
+        #         proposal.delete(:'8')
+        #       end
+        #       if ['other'].include?(proposal[:category])
+        #         proposal[:cache] = { value: proposal[:'11'], visible: false}
+        #         proposal.delete(:'11')
+        #       end
+        #       proposal.delete(:phone)
+        #     }
+        #     next artist if prof.blank?
+        #     unless prof[:productions].blank?
+        #       artist[:proposals].each{|proposal|
+        #         production = prof[:productions].detect{|production| production[:production_id] == proposal[:production_id]}
+        #         next if production.blank?
+        #         production[:children] = proposal[:children]
+        #         production[:cache] = proposal[:cache] unless proposal[:cache].blank?
+        #       }
+        #     end
+        #     prof[:phone] = phone
+        #     Repos::Profiles.update prof
+        #     artist
+        #   }
 
-          spaces = event[:spaces].map{ |space|
-            prof = profiles.detect{|profile| profile[:profile_id] == space[:profile_id]}
-            next space if space[:phone].is_a? Hash
-            phone = { value: space[:phone], visible: false}
-            space[:phone] = phone
-            next space if prof.blank?
-            space[:links] = prof[:links]
-            space[:photos] = prof[:photos]
-            prof[:phone] = phone
-            Repos::Profiles.update prof
-            space
-          }
-          @@events_collection.update_one({event_id: event[:event_id]},{
-          "$set": {spaces: spaces, artists: artists}
-          })
-        }
+        #   spaces = event[:spaces].map{ |space|
+        #     prof = profiles.detect{|profile| profile[:profile_id] == space[:profile_id]}
+        #     next space if space[:phone].is_a? Hash
+        #     phone = { value: space[:phone], visible: false}
+        #     space[:phone] = phone
+        #     next space if prof.blank?
+        #     space[:links] = prof[:links]
+        #     space[:photos] = prof[:photos]
+        #     prof[:phone] = phone
+        #     Repos::Profiles.update prof
+        #     space
+        #   }
+        #   @@events_collection.update_one({event_id: event[:event_id]},{
+        #   "$set": {spaces: spaces, artists: artists}
+        #   })
+        # }
       end
 
       def exists? event_id

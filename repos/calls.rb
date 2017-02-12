@@ -4,60 +4,60 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
-        calls = grab({})
-        calls.each{ |call|
-          call[:artist].each{ |category, form|
-            new_form = {}
-            form.each{ |field, subcategory|
-              new_form[field] = subcategory unless field == :'1'
-              new_form[:cache][:label] = 'Caché / Gastos Producción' if field == :cache
-              new_form[:cache][:input] = 'InputCache' if field == :cache
-              new_form[:cache][:args][1] = false if field == :cache
-              if field == :'7' && [:'Música', :'Artes Escénicas', :'Poesía'].include?(category)
-                new_form[:cache] = subcategory
-                new_form[:cache][:label] = 'Caché / Gastos Producción'
-                new_form[:cache][:input] = 'InputCache'
-                new_form[:cache][:args][1] = false
-                new_form.delete(:'7')
-              end
-              if field == :'10' && [:'Taller', :'Gastronomía'].include?(category)
-                new_form[:cache] = subcategory
-                new_form[:cache][:label] = 'Caché / Gastos Producción'
-                new_form[:cache][:input] = 'InputCache'
-                new_form[:cache][:args][1] = false
-                new_form.delete(:'10')
-              end
-              if field == :'8' && [:'Street Art', :'Audiovisual'].include?(category)
-                new_form[:cache] = subcategory
-                new_form[:cache][:label] = 'Caché / Gastos Producción'
-                new_form[:cache][:input] = 'InputCache'
-                new_form[:cache][:args][1] = false
-                new_form.delete(:'8')
-              end
-              if field == :'11' && [:'Otros'].include?(category)
-                new_form[:cache] = subcategory
-                new_form[:cache][:label] = 'Caché / Gastos Producción'
-                new_form[:cache][:input] = 'InputCache'
-                new_form[:cache][:args][1] = false
-                new_form.delete(:'11')
-              end
+        # calls = grab({})
+        # calls.each{ |call|
+        #   call[:artist].each{ |category, form|
+        #     new_form = {}
+        #     form.each{ |field, subcategory|
+        #       new_form[field] = subcategory unless field == :'1'
+        #       new_form[:cache][:label] = 'Caché / Gastos Producción' if field == :cache
+        #       new_form[:cache][:input] = 'InputCache' if field == :cache
+        #       new_form[:cache][:args][1] = false if field == :cache
+        #       if field == :'7' && [:'Música', :'Artes Escénicas', :'Poesía'].include?(category)
+        #         new_form[:cache] = subcategory
+        #         new_form[:cache][:label] = 'Caché / Gastos Producción'
+        #         new_form[:cache][:input] = 'InputCache'
+        #         new_form[:cache][:args][1] = false
+        #         new_form.delete(:'7')
+        #       end
+        #       if field == :'10' && [:'Taller', :'Gastronomía'].include?(category)
+        #         new_form[:cache] = subcategory
+        #         new_form[:cache][:label] = 'Caché / Gastos Producción'
+        #         new_form[:cache][:input] = 'InputCache'
+        #         new_form[:cache][:args][1] = false
+        #         new_form.delete(:'10')
+        #       end
+        #       if field == :'8' && [:'Street Art', :'Audiovisual'].include?(category)
+        #         new_form[:cache] = subcategory
+        #         new_form[:cache][:label] = 'Caché / Gastos Producción'
+        #         new_form[:cache][:input] = 'InputCache'
+        #         new_form[:cache][:args][1] = false
+        #         new_form.delete(:'8')
+        #       end
+        #       if field == :'11' && [:'Otros'].include?(category)
+        #         new_form[:cache] = subcategory
+        #         new_form[:cache][:label] = 'Caché / Gastos Producción'
+        #         new_form[:cache][:input] = 'InputCache'
+        #         new_form[:cache][:args][1] = false
+        #         new_form.delete(:'11')
+        #       end
               
-            }
-            new_form[:children] = {
-              type: "mandatory",
-              label: "Edades público",
-              input: "InputChildren",
-              args: nil,
-              helptext: "Indica a qué tipo de público está dirigida tu propuesta."
-            }
-            new_form.delete(:phone)
-            call[:artist][category] = new_form
-          }
-          call[:space].each{ |category, form|
-            form.delete(:phone)
-          }
-          update call
-        }
+        #     }
+        #     new_form[:children] = {
+        #       type: "mandatory",
+        #       label: "Edades público",
+        #       input: "InputChildren",
+        #       args: nil,
+        #       helptext: "Indica a qué tipo de público está dirigida tu propuesta."
+        #     }
+        #     new_form.delete(:phone)
+        #     call[:artist][category] = new_form
+        #   }
+        #   call[:space].each{ |category, form|
+        #     form.delete(:phone)
+        #   }
+        #   update call
+        # }
       end
 
       def update call

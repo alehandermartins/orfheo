@@ -11,13 +11,11 @@ module Util
     end
 
     def symbolize_array array
-      return array unless array.all?{ |element| element.is_a? Hash}
-      array.map{ |proposal|
-        proposal.map{ |k, v|
-          next [k.to_sym, symbolize_array(v)] if v.is_a? Array
-          [k.to_sym, v]
-        }.to_h
-      }
+      array.map do |v|
+        next string_keyed_hash_to_symbolized v if v.is_a? Hash
+        next symbolize_array v if v.is_a? Array
+        v
+      end
     end
 
     def stringify_hash hash
