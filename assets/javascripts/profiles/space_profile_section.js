@@ -60,6 +60,13 @@
     if(profile.personal_web){
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     }
+
+    if(profile.phone && profile.phone.visible == 'true' && profile.phone.value){
+      var _phone = $('<div>');
+      var _phoneIcon = Pard.Widgets.IconManager('phone').render().addClass('information-contact-icon-column');
+      var _phoneText = $('<p>').addClass('information-contact-text-column type-text-info-box').append(profile.phone.value).css('vertical-align','-0.2rem');
+      _contact.append(_phone.append(_phoneIcon, _phoneText));
+    }
   
     $('body').append(_contact);
     _infoContentBox.css('min-height',_contact.height()+24)

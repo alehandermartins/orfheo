@@ -43,7 +43,7 @@
       phone: {
         "type" : "optional",
         "label" : "Numero de teléfono",
-        "input" : "InputPhone",
+        "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
@@ -104,7 +104,7 @@
       phone: {
         "type" : "optional",
         "label" : "Numero de teléfono",
-        "input" : "InputPhone",
+        "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
@@ -193,7 +193,7 @@
       phone: {
         "type" : "optional",
         "label" : "Numero de teléfono",
-        "input" : "InputPhone",
+        "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
@@ -271,7 +271,7 @@
       phone: {
         "type" : "optional",
         "label" : "Numero de teléfono",
-        "input" : "InputPhone",
+        "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
@@ -340,7 +340,7 @@
       phone: {
         "type" : "optional",
         "label" : "Numero de teléfono",
-        "input" : "InputPhone",
+        "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
@@ -410,7 +410,7 @@
       phone: {
         "type" : "optional",
         "label" : "Numero de teléfono",
-        "input" : "InputPhone",
+        "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
@@ -599,9 +599,9 @@
       'other': _createShowFields
     };
 
-    var _modifyExpoFields = ['title', 'short_description', 'description'];
-    var _modifyShowFields = ['title', 'short_description', 'description', 'duration', 'children'];
-    var _modifyStreetArtFields = ['title', 'short_description', 'description'];
+    var _modifyExpoFields = ['title', 'short_description', 'description', 'cache'];
+    var _modifyShowFields = ['title', 'short_description', 'description', 'duration', 'children', 'cache'];
+    var _modifyStreetArtFields = ['title', 'short_description', 'description', 'cache'];
     var _modifyProductionFields = {
       'expo': _modifyExpoFields,
       'music': _modifyShowFields,
