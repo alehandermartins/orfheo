@@ -137,7 +137,7 @@
       "args" : [ 
           ""
       ],
-      "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
+      "helptext" : ""
     }
 
     form['phone'] = _phoneField;
@@ -171,6 +171,8 @@
     for (var field in _additionalForm){
       form[field] = _additionalForm[field];
     }
+
+    var _note = $('<span>');
 
     var _printField = function(field){
       _form[field] = {};
@@ -244,6 +246,10 @@
                   })
               _helptext.css('margin-top', 5);
               _prepareFormField();
+              break;
+            case 'InputTel':
+              _helptext.append(_note); 
+              _formField.append(_label,_input.render(), _helptext);
               break;
             default:
               _prepareFormField();
@@ -335,6 +341,7 @@
         _form['email'].input.disable();
         _form['name'].input.disable();
         _form['phone'].input.disable();
+        _note.html('Esta información, así como en nombre, puede ser modificada sólo por el propietario desde la página de su perfil.').css('font-weight','bold');
        },
       enableFields: function(){
         _form['email'].input.enable();

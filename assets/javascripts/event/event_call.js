@@ -549,6 +549,7 @@
         if(profile.phone.value){
           _form[field].input.setVal(profile.phone);
           _form[field].input.disable();
+          _helpText.append($('<span>').html('<br>Puedes cambiar tu número desde la pagína de tu perfil.').css('font-weight','bold'))
         }
         var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
             _form[field].label.render(),
