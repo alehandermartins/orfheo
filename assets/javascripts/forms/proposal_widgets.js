@@ -169,10 +169,34 @@
       _fieldFormText = $('<span>').append(_linkPhoto);
       _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
       _createdWidget.append(_fieldForm);
-      Pard.Widgets.MultimediaScripts(function(){});       
-      _linkPhoto.click(function(){        
-        if (!(_multimediaContainer.html())) Pard.Widgets.MultimediaDisplay(proposal, function(multimedia){Pard.Widgets.AddMultimediaContent(_multimediaContainer, multimedia)});
-          Pard.Widgets.BigAlert('',_multimediaContainer,'multimedia-popup-bigalert');
+      var _multimediaScript = function(callback){
+        var pinterestScript = $('<script>').attr({'src': '//assets.pinterest.com/js/pinit.js', 'type': 'text/javascript', 'data-pin-build': 'doBuild'});
+        $('body').append(pinterestScript);
+        $.getScript('//connect.facebook.net/en_US/all.js').done(function(){
+          $.getScript('//platform.instagram.com/en_US/embeds.js').done(function(){
+            FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
+            //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
+            callback();
+          })
+        })
+      }
+      
+      _linkPhoto.click(function(){
+        if (!(_multimediaContainer.html())){ 
+          var _spinner = new Spinner();
+           _spinner.spin();
+          $('body').append(_spinner.el); 
+          _multimediaScript(function(){
+            Pard.Widgets.MultimediaDisplay(
+              proposal, 
+              function(multimedia){
+                Pard.Widgets.AddMultimediaContent(_multimediaContainer, multimedia);
+                _spinner.stop();
+              }
+            );
+          });
+        }       
+        Pard.Widgets.BigAlert('',_multimediaContainer,'multimedia-popup-bigalert');
       })
     }
 

@@ -2771,10 +2771,10 @@ body.is-reveal-open{
   }
   .single-video-container iframe{
     width: 640px !important;
-    height: 360px !important;
+    min-height: 360px !important;
     @include breakpoint (medium down){
       width: 100% !important;
-      height: auto !important;
+      /* height: auto !important; */
     }
   }
 }

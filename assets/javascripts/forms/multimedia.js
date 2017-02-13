@@ -96,6 +96,7 @@
         _outerImagescontainer.append(_imageTitle, _imageContainer);
       }
       $(document).ready(function(){
+        console.log('here')
         FB.XFBML.parse();
         window.instgrm.Embeds.process();
         doBuild();
@@ -113,7 +114,6 @@
       var spinner = new Spinner();
       spinner.spin();
       $('body').append(spinner.el);
-     
       var multimedia = {};
       ['image', 'video', 'audio'].forEach(function(type){
         multimedia[type] = [];
@@ -138,6 +138,8 @@
           _links.push(production.links[index]);
         });
       }
+
+      console.log(_links)
 
       var _cloudinary = function(link){
 
@@ -335,11 +337,11 @@
         $.wait(
         '', 
         function(){
-          callback(multimedia);
-          },
-          function(){
-            spinner.stop();
-          }
+        callback(multimedia);
+        },
+        function(){
+          spinner.stop();
+        }
         );
       }
     }
