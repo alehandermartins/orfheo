@@ -83,6 +83,13 @@
       _contact.append(Pard.Widgets.PrintWebsList(profile['personal_web']).render());
     };
 
+    if(profile.phone && profile.phone.visible == 'true' && profile.phone.value){
+      var _phone = $('<div>');
+      var _phoneIcon = Pard.Widgets.IconManager('phone').render().addClass('information-contact-icon-column');
+      var _phoneText = $('<p>').addClass('information-contact-text-column type-text-info-box').append(profile.phone.value).css('vertical-align','-0.2rem');
+      _contact.append(_phone.append(_phoneIcon, _phoneText));
+    }
+
     $('body').append(_contact);
     _infoContentBox.css('min-height',_contact.height()+24)
     _infoContentBox.append(_bio.prepend(_contact));
@@ -159,16 +166,25 @@
     if (production['duration'] != 'false' && production['duration']){
       var _durationText;
       if ($.isNumeric(production['duration'])) _durationText = production['duration']+' min';
+      else if (production['duration'] == 'none') _durationText = 'No tiene duración definida'
       else _durationText = production['duration'];
       var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(_durationText));
       var _durationIcon = Pard.Widgets.IconManager('duration').render().addClass('information-contact-icon-column');
       _addtionalInfo.append($('<div>').append(_durationIcon, _duration));
     }
 
-    if (production['children'] != 'false' && production['children']){       
-      var _children = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Para niños'));
+    if (production['children']){       
+      var _children = $('<p>').addClass('information-contact-text-column');
+      if(production['children'] == 'all_public') _children.append($('<span>').text(Pard.Widgets.Dictionary(production.children).render()));
+      else _children.append($('<span>').text('Público '+Pard.Widgets.Dictionary(production.children).render().toLowerCase()));
       var _childrenIcon = Pard.Widgets.IconManager('children').render().addClass('information-contact-icon-column');
       _addtionalInfo.append(_childrenIcon, _children);
+    }
+
+    if(production['cache'] && production['cache'].visible && production['cache'].value){
+      var _cache = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Caché: '+production.cache.value));
+      var _cacheIcon = Pard.Widgets.IconManager('cache').render().addClass('information-contact-icon-column');
+      _addtionalInfo.append(_cacheIcon, _cache);
     }
     
     $('body').append(_addtionalInfo);

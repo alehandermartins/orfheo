@@ -2637,7 +2637,7 @@ select:-moz-focusring { color: transparent;
   }
 }
 
-.InputPhone-InputTel{
+/* .InputPhone-InputTel{
   @include breakpoint(large){
     width: 40%;
     display: inline-block;
@@ -2650,9 +2650,9 @@ select:-moz-focusring { color: transparent;
     width: 50%;
     display: inline-block;
   }
-}
+} */
 
-.InputCache-showCache{
+.InputCache-showCache, .InputPhone-showTel{
   margin-top: .5rem !important;
 }
 

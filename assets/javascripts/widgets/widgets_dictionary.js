@@ -32,7 +32,7 @@
       mailinglist: {icon: '&#xE0D0', className: 'material-icons'},
       search: {icon: '&#xE8B6', className: 'material-icons'},
       current_event: {icon: '&#xE3AF;', className: 'material-icons'},  
-      children: {icon: '&#xEB41;', className: 'material-icons'},
+      children: {icon: '&#xE903;', className: 'material-icons'},
       duration: {icon: '&#xE425;', className: 'material-icons'},
       multimedia: {icon: '&#xE6C4;', className: 'material-icons'},
       flag: {icon: '&#xE153;', className: 'material-icons'},
@@ -63,6 +63,8 @@
       unpublish: {icon:'&#xE92A;', className:'material-icons'},
       tags:{icon: '&#xE54E;', className:'material-icons'},
       attention:{icon:'&#xE645;', className:'material-icons'},
+      phone:{icon:'&#xE0CD;', className:'material-icons'},
+      cache:{icon:'&#xE227;', className:'material-icons'},
       // calendar: {icon:'&#8250;', className:'fa fa-calendar'}, &#xE53B
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},

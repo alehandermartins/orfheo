@@ -215,56 +215,7 @@
     }
   } 
 
-  ns.Widgets.InputPhone = function(placeholder, showTel){
-
-    var _phoneInput = $('<div>');
-
-    var checkPhone = function(){
-      var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
-      if(_inputTel.getVal()){
-        var notPattern = new RegExp (/[a-z]/);
-          if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
-        return {value: _inputTel.getVal(), visible: 'false' };
-      }
-    }
-
-    var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
-    var _showTel = Pard.Widgets.CheckBox('Mostra en mi página de perfil') 
-
-
-    return{
-      render: function(){
-        var _inputTelRendered = _inputTel.render();
-        _phoneInput.append(
-          _inputTelRendered
-        );
-
-        if (showTel === true){
-          _phoneInput.append(_showTel.render().addClass('InputPhone-showTel'));
-          _inputTelRendered.addClass('InputPhone-InputTel')
-        }  
-        return _phoneInput;
-      },
-      getVal: function(){
-        if(!showTel) return checkPhone;
-        return { value: _inputTel.getVal(), visible: _showTel.getVal()}
-      },
-      setVal: function(phone){
-         _inputTel.setVal(phone.value);
-         _showTel.setVal(phone.visible);
-      },
-      addWarning: function(){
-        _inputTel.addWarning();
-      },
-      removeWarning: function(){
-        _inputTel.removeWarning();
-      },
-      setClass: function(_class){
-        _inputTel.setClass(_class);
-      }
-    }
-  } 
-
+ 
   ns.Widgets.InputCache = function(placeholder, showCache){
 
     var _cacheInput = $('<div>');
@@ -290,13 +241,14 @@
         }
       },
       setVal: function(cache){
-        console.log(cache)
-        if (showCache == true) {
-          _inputCache.setVal(cache.value);
-          _showCache.setVal(cache.visible);
-        }
-        else{
-          _inputCache.setVal(cache);
+        if (cache){
+          if (showCache == true) {
+            _inputCache.setVal(cache.value);
+            _showCache.setVal(cache.visible);
+          }
+          else{
+            _inputCache.setVal(cache);
+          }
         }
       },
       addWarning: function(){

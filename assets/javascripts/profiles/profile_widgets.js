@@ -9,8 +9,6 @@
 
     var _photoContainer = $('<div>');
 
-    console.log(profile['profile_picture']);
-
     // if (profile.photos && profile.profile_picture == null){
     //   profile.profile_picture = [profile.photos[0]];
     //   profile.photos.shift();
