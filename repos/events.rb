@@ -5,7 +5,7 @@ module Repos
       def for db
         @@events_collection = db['events']
         events = Repos::Events.get_all
-        profiles = Repos::Profiles.get_all
+        profiles = Repos::Profiles.get_update
         profiles.each{ |profile|
           next if profile[:phone].is_a? Hash
           profile[:phone] = { value: nil, visible: false}

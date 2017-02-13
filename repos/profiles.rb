@@ -59,6 +59,10 @@ module Repos
         grab({}, true).shuffle
       end
 
+      def get_update
+        grab({})
+      end
+
       def get_profile profile_id
         grab({profile_id: profile_id}).first
       end
