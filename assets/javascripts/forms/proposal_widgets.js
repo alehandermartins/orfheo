@@ -148,6 +148,7 @@
     var sentProposalField = Pard.Widgets.sentProposalField(proposal);
     _orfheoFields.forEach(function(field){
       if (proposal[field]){
+        console.log(field)
         var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
         var _fieldFormText = $('<span>');
         var _proposalField = sentProposalField[field] || form[field];

@@ -207,8 +207,10 @@
         }
       },
       setVal: function(phone){
-         _inputTel.setVal(phone.value);
-         _showTel.setVal(phone.visible);
+        if(phone){
+          _inputTel.setVal(phone.value);
+          _showTel.setVal(phone.visible);
+        }
       },
       addWarning: function(){
         _inputTel.addWarning();
@@ -254,8 +256,10 @@
         }
       },
       setVal: function(cache){
-        _inputCache.setVal(cache.value);
-        _showCache.setVal(cache.visible);
+        if (cache){
+          _inputCache.setVal(cache.value);
+          _showCache.setVal(cache.visible);
+        }
       },
       addWarning: function(){
         _inputCache.addWarning();
