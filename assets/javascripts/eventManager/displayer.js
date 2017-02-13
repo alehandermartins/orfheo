@@ -181,6 +181,7 @@
                   _modifiedProposal.name = _artist.name;
                   _modifiedProposal.email = _artist.email;
                   _modifiedProposal.profile_id = _artist.profile_id;
+                  _modifiedProposal.phone = _artist.phone;
                 }
                 _modifiedProposal.form_category = _modifiedProposal.form_category || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
                 _modifiedProposal.subcategory = _modifiedProposal.subcategory || Pard.Widgets.Dictionary(_modifiedProposal.category).render();

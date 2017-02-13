@@ -130,6 +130,18 @@
     var _additionalForm = Pard.Forms.Proposal[participantType];
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
+    var _phoneField = {
+      "type" : "mandatory",
+      "label" : "Teléfono de contacto",
+      "input" : "InputTel",
+      "args" : [ 
+          ""
+      ],
+      "helptext" : "Esta información es necesaria para un eventual contacto por parte de la organización."
+    }
+
+    form['phone'] = _phoneField;
+
     var _send = function(){};
 
     var _submitForm = {};
@@ -178,7 +190,7 @@
         case 'photos':
         case 'links':
         case 'bio':
-          break;  
+          break;
         case 'category':
           if (form[field].args[1].length>1){
             _containerMandatoryFields.append(
@@ -316,8 +328,6 @@
       },
       setVal: function(proposal){
         for(var field in proposal){
-          console.log(field)
-          console.log(proposal[field])
           if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
       },

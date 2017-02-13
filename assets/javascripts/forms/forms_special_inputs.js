@@ -167,9 +167,13 @@
       var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
       if(_inputTel.getVal()){
         var notPattern = new RegExp (/[a-z]/);
-          if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
+          if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {
+            _inputTel.addWarning(); 
+            return ''
+          }
         return {value: _inputTel.getVal(), visible: 'false' };
       }
+      return '';
     }
 
     var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
@@ -190,8 +194,17 @@
         return _phoneInput;
       },
       getVal: function(){
-        if(!showTel) return checkPhone;
-        return { value: _inputTel.getVal(), visible: _showTel.getVal()}
+        if(!showTel){
+          if(checkPhone()) {
+            return { value: _inputTel.getVal(), visible: 'false'};
+          }
+          else {
+            return false;
+          }
+        }
+        else {
+          return { value: _inputTel.getVal(), visible: _showTel.getVal()}
+        }
       },
       setVal: function(phone){
          _inputTel.setVal(phone.value);
@@ -237,19 +250,12 @@
           return { value: _inputCache.getVal(), visible: _showCache.getVal()}
         }
         else{
-          return _inputCache.getVal();
+          return {value: _inputCache.getVal(), visible: 'false'}
         }
       },
       setVal: function(cache){
-        if (cache){
-          if (showCache == true) {
-            _inputCache.setVal(cache.value);
-            _showCache.setVal(cache.visible);
-          }
-          else{
-            _inputCache.setVal(cache);
-          }
-        }
+        _inputCache.setVal(cache.value);
+        _showCache.setVal(cache.visible);
       },
       addWarning: function(){
         _inputCache.addWarning();

@@ -555,6 +555,7 @@
             _form[field].input.render()
          )
         if (form[field]['helptext'].length) _formField.append(_helpText);
+        _containerOrfheoFields.append(_formField);
       }
       else{
         if (form[field].input == 'TextAreaCounter'){
@@ -629,6 +630,7 @@
       _submitForm['form_category'] = formTypeSelected;
       if (production_id) _submitForm['production_id'] = production_id; 
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
+      console.log(_submitForm)
       return _submitForm;
     }
 

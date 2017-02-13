@@ -143,7 +143,6 @@
 
   ns.Widgets.PrintProposal = function(proposal, form){
     var form = $.extend(true, {}, form);  
-    console.log(proposal)
     var _createdWidget = $('<div>');
     var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children', 'cache'];
     var sentProposalField = Pard.Widgets.sentProposalField(proposal);
@@ -266,6 +265,10 @@
       if (proposal['duration'] && $.isNumeric(proposal['duration'])) return  proposal['duration']+' min';
     }
 
+    var _cache = function(){
+      if (proposal.cache) return proposal.cache.value;
+    }
+
     return {
       'name': {
         label: 'Propuesta enviada por',
@@ -299,6 +302,12 @@
       },
       'duration': {
         text: _duration()
+      },
+      'cache': {
+        text: _cache()
+      },
+      'children':{
+        text: Pard.Widgets.Dictionary(proposal.children).render()
       }
     }
   }
