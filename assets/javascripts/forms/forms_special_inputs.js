@@ -177,7 +177,7 @@
     }
 
     var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
-    var _showTel = Pard.Widgets.CheckBox('Mostra en mi página de perfil') 
+    var _showTel = Pard.Widgets.CheckBox('Muestra en mi página de perfil') 
 
 
     return{
@@ -236,7 +236,7 @@
     var _cacheInput = $('<div>');
 
     var _inputCache = Pard.Widgets.Input(placeholder, 'text', function(){_inputCache.removeWarning()});
-    var _showCache = Pard.Widgets.CheckBox('Mostra esta información en mi página') 
+    var _showCache = Pard.Widgets.CheckBox('Muestra esta información en mi página') 
 
 
     return{

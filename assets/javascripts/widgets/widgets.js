@@ -210,11 +210,11 @@
     // })
 
     var _timeout = timeout || 2500;
+    var _check = true;
 
     setTimeout(function(){
-      if (_popup) {
+      if (_check) {
         _popup.close();
-        if (callback) callback();
         if (callback) callback();
         setTimeout(function(){
           _popup.destroy();
@@ -226,6 +226,7 @@
     _createdWidget.click(
       function(){
         _popup.close();
+        _check = false;
         if (callback) callback();
         setTimeout(function(){
           _popup.destroy();
