@@ -119,7 +119,8 @@
       'institution':{},
       'ngo':{},
       'collective':{},
-      'interprise':{}
+      'interprise':{},
+      'foundation':{}
     }
 
     var _typeObj = {

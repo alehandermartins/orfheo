@@ -155,7 +155,7 @@
         'input': 'Selector',
         'args': [
                 ['Festival', 'Asociación', 'ONG', 'Federación','Colectivo', 'Empresa', 'Institución'],
-                ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution'],
+                ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution', 'foundation'],
                 null,
                 'Selecciona'
               ] ,
@@ -384,7 +384,7 @@
         'input': 'Selector',
         'args': [
                 ['Festival', 'Asociación', 'ONG', 'Federación', 'Colectivo', 'Empresa', 'Institución'],
-                ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution']
+                ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution', 'foundation']
               ] ,
         'helptext':''
       },
