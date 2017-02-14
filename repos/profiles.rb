@@ -135,7 +135,7 @@ module Repos
         profile.delete(:phone) if profile[:phone][:visible] == false
         return if profile[:productions].blank?
         profile[:productions].each { |production|
-          production.delete(:cache) if production[:cache][:visible] == false
+          production.delete(:cache) if production.has_key? :cache && production[:cache][:visible] == false
         }
       end
 

@@ -36,21 +36,23 @@ module Repos
               children = 'adults' if proposal[:'1'] == 'Adultos'
               proposal[:children] = children
               proposal.delete(:'1')
-              if ['music', 'arts', 'poetry'].include?(proposal[:category])
-                proposal[:cache] = { value: proposal[:'7'], visible: false}
-                proposal.delete(:'7')
-              end
-              if ['workshop', 'gastronomy'].include?(proposal[:category])
-                proposal[:cache] = { value: proposal[:'10'], visible: false}
-                proposal.delete(:'10')
-              end
-              if ['street_art', 'audiovisual'].include?(proposal[:category])
-                proposal[:cache] = { value: proposal[:'8'], visible: false}
-                proposal.delete(:'8')
-              end
-              if ['other'].include?(proposal[:category])
-                proposal[:cache] = { value: proposal[:'11'], visible: false}
-                proposal.delete(:'11')
+              if event[:event_id] != "a5bc4203-9379-4de0-856a-55e1e5f3fac6"
+                if ['music', 'arts', 'poetry'].include?(proposal[:category])
+                  proposal[:cache] = { value: proposal[:'7'], visible: false}
+                  proposal.delete(:'7')
+                end
+                if ['workshop', 'gastronomy'].include?(proposal[:category])
+                  proposal[:cache] = { value: proposal[:'10'], visible: false}
+                  proposal.delete(:'10')
+                end
+                if ['street_art', 'audiovisual'].include?(proposal[:category])
+                  proposal[:cache] = { value: proposal[:'8'], visible: false}
+                  proposal.delete(:'8')
+                end
+                if ['other'].include?(proposal[:category])
+                  proposal[:cache] = { value: proposal[:'11'], visible: false}
+                  proposal.delete(:'11')
+                end
               end
               proposal.delete(:phone)
             }
@@ -135,14 +137,14 @@ module Repos
       def update_artist artist
         @@events_collection.update_many({"artists.profile_id": artist[:profile_id]},
           {
-            "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address]}
+            "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address], 'artists.$.phone': artist[:phone]}
           })
       end
 
       def update_space space
         @@events_collection.update_many({"spaces.profile_id": space[:profile_id]},
           {
-            "$set": {'spaces.$.name': space[:name], 'spaces.$.address': space[:address], 'spaces.$.category': space[:category], 'spaces.$.description': space[:description]}
+            "$set": {'spaces.$.name': space[:name], 'spaces.$.address': space[:address], 'spaces.$.phone': space[:phone], 'spaces.$.category': space[:category], 'spaces.$.description': space[:description]}
           })
       end
 

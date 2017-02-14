@@ -16,10 +16,10 @@ class ArtistProposal
     raise Pard::Invalid::UnexistingProfile if profile.blank?
     raise Pard::Invalid::ProfileOwnership unless profile[:user_id] == user[:user_id]
     raise Pard::Invalid::Deadline unless on_time?
-    raise Pard::Invalid::Params if params[:phone].blank?
+    raise Pard::Invalid::Params if params[:phone][:value].blank?
     raise Pard::Invalid::Params if params[:conditions] != 'true'
     
-    add_phone if profile[:phone].blank?
+    add_phone if profile[:phone][:value].blank?
     @artist = new_artist
   end
 
