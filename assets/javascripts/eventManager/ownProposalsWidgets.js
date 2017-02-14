@@ -341,7 +341,7 @@
         _form['email'].input.disable();
         _form['name'].input.disable();
         _form['phone'].input.disable();
-        _note.html('Esta información, así como en nombre, puede ser modificada sólo por el propietario desde la página de su perfil.').css('font-weight','bold');
+        _note.html('Esta información, así como el nombre, puede ser modificada sólo por el propietario desde la página de su perfil.').css('font-weight','bold');
        },
       enableFields: function(){
         _form['email'].input.enable();

@@ -856,7 +856,7 @@
       confirmed:{
         label: 'Confirmado',
         info: function(show){
-          return  show['confirmed'] ? 'Sí' : 'No'
+          return  show['confirmed'] == 'true' ? 'Sí' : 'No'
         }
       },
       title: {

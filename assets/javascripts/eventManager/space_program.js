@@ -19,7 +19,7 @@
       email: 'Email'
     };
 
-    var _infoSpace = space.address.route+ ' ' + space.address.street_number + ' - tel. ' + space.phone +' - email: '+ space.email;
+    var _infoSpace = space.address.route+ ' ' + space.address.street_number + ' - tel. ' + space.phone.value +' - email: '+ space.email;
     var _spaceName = space.name + ' (' + space.subcategory + ')';
     var _infoSpaceBox = $('<div>').addClass('info-box-popup-program');
     _infoSpaceBox.append($('<p>').append(_infoSpace));
@@ -301,7 +301,7 @@
       _nameCol.html(show.participant_name);
       _categoryCol.html(Pard.Widgets.Dictionary(show.participant_category).render());
       _shortDCol.html(show.short_description);
-      _phoneCol.html(_artists[show.participant_id].artist.phone);
+      _phoneCol.html(_artists[show.participant_id].artist.phone.value);
       _emailCol.html(_artists[show.participant_id].artist.email);
 
       _namePopupCaller.on('click', function(){

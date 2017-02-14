@@ -16,6 +16,7 @@
 
     _callProposals.forEach(function(proposal){
       proposal.name = profile.name;
+      proposal.phone = profile.phone;
       
       //necesary for conFusión proposal that do not have form category
       if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();

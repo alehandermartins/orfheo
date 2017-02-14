@@ -269,7 +269,7 @@
       _titleCol.append(_namePopupCaller);
       _nameCol.html(show.host_name);
       _addressCol.html(show.address.route + ' ' + show.address.street_number);
-      _phoneCol.html(_spaces[show.host_id].space.phone);
+      _phoneCol.html(_spaces[show.host_id].space.phone.value);
       _emailCol.html(_spaces[show.host_id].space.email);
 
       _namePopupCaller

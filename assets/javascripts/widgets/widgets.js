@@ -180,7 +180,10 @@
         'font-size':'18px',
         'margin':'0'
       });
-    var _ok = $('<div>').append(Pard.Widgets.IconManager('done').render(), $('<span>').text('OK')).addClass('OKalertTimeout');
+    var _ok = $('<div>').append(
+      Pard.Widgets.IconManager('done').render(), 
+      $('<span>').text('OK')
+    ).addClass('OKalertTimeout');
     var _header = $('<div>').addClass('row');
     var _title = $('<h4>').addClass('small-11 popup-title')
     if (title) _title.append(title);
@@ -209,13 +212,26 @@
     var _timeout = timeout || 2500;
 
     setTimeout(function(){
-      _popup.close();
-      if (callback) callback();
-      setTimeout(function(){
-        _popup.destroy();
-        _createdWidget.remove();
-      }, 500);
+      if (_popup) {
+        _popup.close();
+        if (callback) callback();
+        if (callback) callback();
+        setTimeout(function(){
+          _popup.destroy();
+          _createdWidget.remove();
+        }, 500);
+      }
     },_timeout);
+
+    _createdWidget.click(
+      function(){
+        _popup.close();
+        if (callback) callback();
+        setTimeout(function(){
+          _popup.destroy();
+          _createdWidget.remove();
+      }, 500);
+    })
 
   }
 
