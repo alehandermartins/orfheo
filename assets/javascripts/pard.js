@@ -60,7 +60,7 @@ var Options = function(){
   // defaultLang = defaultLang.substring(0,2)
   // if (!($.inArray(defaultLang, ['es','ca','it','en']))) defaultLang = 'es'
 
-  var defaultLang = 'es';
+  var defaultLang = 'es'
 
   if (!localStorage[localStorageKey]){
     localStorage[localStorageKey] = JSON.stringify({
