@@ -64,7 +64,7 @@ ns.Widgets = ns.Widgets || {};
       _leftMenu.append(
         $('<li>').append(_information), 
         $('<li>').append(_termsAndConditions)
-        // , $('<li>').append(_languages)
+        , $('<li>').append(_languages)
       )
     );
 
