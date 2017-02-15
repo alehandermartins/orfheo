@@ -181,7 +181,7 @@
       _addtionalInfo.append(_childrenIcon, _children);
     }
 
-    if(production['cache'] && production['cache'].visible && production['cache'].value){
+    if(production['cache'] && production['cache'].visible == 'true' && production['cache'].value){
       var _cache = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Caché: '+production.cache.value));
       var _cacheIcon = Pard.Widgets.IconManager('cache').render().addClass('information-contact-icon-column');
       _addtionalInfo.append(_cacheIcon, _cache);

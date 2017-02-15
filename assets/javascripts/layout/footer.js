@@ -60,7 +60,13 @@ ns.Widgets = ns.Widgets || {};
         _infoPopup.open();
       });
 
-    _leftContent.append(_leftMenu.append($('<li>').append(_information), $('<li>').append(_termsAndConditions), $('<li>').append(_languages)));
+    _leftContent.append(
+      _leftMenu.append(
+        $('<li>').append(_information), 
+        $('<li>').append(_termsAndConditions)
+        // , $('<li>').append(_languages)
+      )
+    );
 
     // var _project = $('<span>').text('orfheo proyecto comunitario');
     // var _place = $('<span>').text('Benimaclet, Valencia 2016');
