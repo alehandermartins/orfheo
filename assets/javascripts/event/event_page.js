@@ -5,7 +5,7 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.EventAside = function(sectionContainer) {
-
+console.log(Pard.CachedEvent);
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
     var _buttonContainer = $('<div>').addClass('create-profile-container');
 
@@ -25,7 +25,7 @@
       }
       if (Pard.UserStatus['status'] == 'owner' || Pard.CachedEvent.published == 'true' || Pard.CachedEvent.published == true){
         var _program = $('<div>').addClass('aside-event-nav-btn');
-        _program.text('Programa');
+        _program.text(Pard.t.text('event_page.eventAside.program'));
         _program.click(function(){
           if(_participants) _participants.deactivate();
           _contentShowHide('program-event-page');
@@ -39,7 +39,7 @@
 
 
         var _explore = $('<div>').addClass('aside-event-nav-btn');
-        _explore.text('Comunidad');
+        _explore.text(Pard.t.text('event_page.eventAside.community'));
         var _exploreContent = $('<div>').attr('id', 'participants-event-page');
         _exploreContent.hide();
         _explore.click(function(){
@@ -64,7 +64,7 @@
     }
 
     var _info = $('<div>').addClass('aside-event-nav-btn');
-    _info.text('Informaciones');
+    _info.text(Pard.t.text('event_page.eventAside.info'));
     var _infoContent = $('<div>').attr('id', 'info-event-page');
     _info.click(function(){
       if(_participants) _participants.deactivate();
@@ -84,7 +84,7 @@
 
     if (Pard.CachedEvent.partners.length || Pard.UserStatus['status'] == 'owner'){
       var _partner = $('<div>').addClass('aside-event-nav-btn');
-      _partner.text('Colaboradores');
+      _partner.text(Pard.t.text('event_page.eventAside.partners'));
       _partner.click(function(){
         if(_participants) _participants.deactivate();
         _contentShowHide('partner-event-page');
@@ -115,7 +115,7 @@
     _createdWidget.append(_buttonContainer);
 
     if (Pard.UserStatus['status'] == 'owner'){
-      var _toCallPageBtn = $('<a>').attr('href','/event_manager?id='+Pard.CachedEvent.event_id).text('Manager del evento');
+      var _toCallPageBtn = $('<a>').attr('href','/event_manager?id='+Pard.CachedEvent.event_id).text(Pard.t.text('event_page.eventAside.managerbtn'));
       _toCallPageBtn.addClass('navigation-btn-callPage');
       var _toCallPageBtnContainer = $('<div>').addClass('navigation-outside-event-page');
       var _innerContNav =  $('<div>').addClass('navigation-innerCont-event-page');
@@ -132,12 +132,12 @@
         var _setPublishStatus = function(){
           if(Pard.CachedEvent.published == true || Pard.CachedEvent.published == 'true'){
             _publishStatus = 'unpublish';
-            _publishedBtn.text('Retira el programa');
+            _publishedBtn.text(Pard.t.text('event_page.eventAside.withdrawprog'));
             $('main').css({'background': _backColor});
           }
           else{         
             _publishStatus = 'publish';
-            _publishedBtn.text('Publica el programa');
+            _publishedBtn.text(Pard.t.text('event_page.eventAside.publishprog'));
             $('main').css('background','#f6f6f6');
           }
         }
@@ -148,26 +148,26 @@
         var _publishProgramCallback =  {
           publish: function(data){
             if(data['status'] == 'success') {
-              var _mex = $('<div>').html('El programa se ha publicado correctamente');
+              var _mex = $('<div>').html(Pard.t.text('event_page.eventAside.publishMex'));
               Pard.Widgets.TimeOutAlert('',_mex);
               Pard.CachedEvent.published = true;
               _setPublishStatus();
             }
             else{
               console.log('error');
-              Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+              Pard.Widgets.Alert(Pard.t.text('popup_alert.error'),Pard.t.text('popup_alert.noAction') , function(){location.reload();});
             }
           },
           unpublish: function(data){
             if(data['status'] == 'success') {
-              var _mex = $('<div>').html('Ahora sólo tú puedes ver el programa de tu evento');
+              var _mex = $('<div>').html(Pard.t.text('event_page.eventAside.withdrawMex'));
               Pard.Widgets.TimeOutAlert('',_mex);
               Pard.CachedEvent.published = false;
               _setPublishStatus();
             }
             else{
               console.log('error');
-              Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+              Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), Pard.t.text('popup_alert.noAction'), function(){location.reload();});
             }
           }
         }
@@ -187,9 +187,9 @@
     var the_event = Pard.CachedEvent;
 
     var _labels = {
-      'participants': 'Categorias Artísticas',
-      'hosts': 'Categorias Espacios'
-      //'other': 'Otros'
+      'participants': Pard.t.text('event_page.eventAside.filters.participants'),
+      'hosts': Pard.t.text('event_page.eventAside.filters.hosts')
+      //,'other': Pard.t.text('event_page.eventAside.filters.other')
     }
 
     Object.keys(filters).forEach(function(key){
@@ -308,7 +308,7 @@
 
     _daySelectorContainer.append(_daySelector);
 
-    var _programNow = $('<button>').html('Ahora').addClass('interaction-btn-event-page').attr('type','button');
+    var _programNow = $('<button>').html(Pard.t.text('event_page.eventAside.nowbtn')).addClass('interaction-btn-event-page').attr('type','button');
 
     var _now = new Date(); 
     var _eventTimeKeys = Object.keys(the_event.eventTime);
@@ -323,7 +323,7 @@
 
       if(_programNow.hasClass('active')){
         _programNow.removeClass('active');
-        _programNow.html('Ahora');
+        _programNow.html(Pard.t.text('event_page.eventAside.nowbtn'));
         _search();
       }
       else{
@@ -348,12 +348,12 @@
       else{
         if(extraDate) extraDate.remove();
         _programNow.removeClass('active');
-        _programNow.html('Ahora');
+        _programNow.html(Pard.t.text('event_page.eventAside.nowbtn'));
         _search();
       }
     });
 
-    var _filtersButton = $('<button>').html('Filtros').addClass('pard-btn interaction-btn-event-page').attr('type','button');
+    var _filtersButton = $('<button>').html(Pard.t.text('event_page.eventAside.filtersbtn')).addClass('pard-btn interaction-btn-event-page').attr('type','button');
 
     _filtersButton.on('click', function(){
       var _content = $('<div>').addClass('very-fast reveal full');
@@ -362,7 +362,7 @@
 
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
       var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
-      var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
+      var _message = Pard.Widgets.PopupContent(Pard.t.text('event_page.eventAside.titleText'), _filtersWidgets);
 
       _message.setCallback(function(){
         if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
@@ -391,7 +391,7 @@
 
 
     if ($(window).width()<640){
-      Pard.Widgets.StickAndKickHeader(_searchWidgetsContainer, 399, 0);
+      Pard.Widgets.Sticker(_searchWidgetsContainer, 399, 0);
     }
     else {
       Pard.Widgets.Sticker(_searchWidgetsContainer, 399, 0);
@@ -635,7 +635,7 @@
         $('body').append(_contentP);
         var _popup = new Foundation.Reveal(_contentP, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
         var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
-        var _message = Pard.Widgets.PopupContent('Selecciona lo que quieres ver', _filtersWidgets);
+        var _message = Pard.Widgets.PopupContent(Pard.t.text('event_page.eventAside.titleText'), _filtersWidgets);
         _message.setCallback(function(){
           if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
           else _filtersButton.removeClass('active');

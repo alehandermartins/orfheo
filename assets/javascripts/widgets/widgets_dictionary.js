@@ -33,6 +33,7 @@
       search: {icon: '&#xE8B6', className: 'material-icons'},
       current_event: {icon: '&#xE3AF;', className: 'material-icons'},  
       children: {icon: '&#xE903;', className: 'material-icons'},
+      baby:{icon: '&#xEB41;', className: 'material-icons'},
       duration: {icon: '&#xE425;', className: 'material-icons'},
       multimedia: {icon: '&#xE6C4;', className: 'material-icons'},
       flag: {icon: '&#xE153;', className: 'material-icons'},

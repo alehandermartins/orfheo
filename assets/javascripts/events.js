@@ -374,7 +374,7 @@
     else{
       var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
       if (typeof _dataReason == 'object'){
-        Pard.Widgets.Alert('¡Error!', 'No se ha podido guardar los datos', location.reload());
+        Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), 'No se ha podido guardar los datos', location.reload());
       }
       else{
         console.log(data.reason);

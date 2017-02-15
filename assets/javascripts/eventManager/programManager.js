@@ -1817,7 +1817,7 @@
           }
           else{
             console.log('error');
-            Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), 'No se ha podido ejecutar la acción', function(){location.reload();});
           }
         },
         unpublish: function(data){
@@ -1827,7 +1827,7 @@
           }
           else{
             console.log('error');
-            Pard.Widgets.Alert('¡Error!', 'No se ha podido ejecutar la acción', function(){location.reload();});
+            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), 'No se ha podido ejecutar la acción', function(){location.reload();});
           }
         }
       }

@@ -17,6 +17,17 @@
         organization: "Dóna a conèixer el teu projecte,<br>llança convocatòries,<br>expandeix la teva comunitat",
         create: "Crea un perfil"
       } 
+    },
+    event_page:{
+      eventAside:{
+        program: 'Programa',
+        community: 'Comunidad',
+        info:'Informaciones',
+        partners:'Partners',
+        managerbtn:'Manager del evento',
+        withdrawprog:'Retira el programa',
+        publishprog: 'Publica el programa'
+      }
     }
   }
 }(Pard || {}))

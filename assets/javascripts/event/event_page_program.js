@@ -61,15 +61,15 @@
     var _space = '';
     var _spaceCatCheck = {};
 
-    var _spaceCatDictionary = {
-      home: 'Espacios Particulares',
-      commercial: 'Locales Comerciales',
-      cultural_ass: 'Asociaciones Culturales',
-      open_air: 'Espacios Exteriores'
-    }
+    // var _spaceCatDictionary = {
+    //   home: 'Espacios Particulares',
+    //   commercial: 'Locales Comerciales',
+    //   cultural_ass: 'Asociaciones Culturales',
+    //   open_air: 'Espacios Exteriores'
+    // }
 
     var _catBlockObj = {};
-    ['home','cultural_ass','commercial','open_air'].forEach(function(cat){
+    Object.keys(Pard.CachedEvent.categories.space).forEach(function(cat){
       var _block = $('<div>').addClass('category-block-program');
       _catBlockObj[cat] = _block;
       _blocksContainer.append(_block);
@@ -85,11 +85,12 @@
       var _showBlock = $('<div>');
       var _permanentBlock = $('<div>');
       Pard.Widgets.ReorderProgramCrono(_programObj[hostSpace]).forEach(function(performance){
+        console.log(performance)
         if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
-          if (_spaceCatCheck[performance.host_category]){
-            var _spaceCat =  performance.host_category;
-            _catBlockObj[performance.host_category].append($('<div>').append($('<h4>').append(Pard.Widgets.Dictionary(_spaceCat).render())).addClass('title-program-event-page'));
-            _spaceCatCheck[performance.host_category] = false;
+          if (_spaceCatCheck[performance.host_subcategory]){
+            var _spaceCat =  performance.host_subcategory;
+            _catBlockObj[performance.host_subcategory].append($('<div>').append($('<h4>').append(_spaceCat)).addClass('title-program-event-page'));
+            _spaceCatCheck[performance.host_subcategory] = false;
           }
           if (performance.host_name != _space || !_space){
             _space =  performance.host_name;
@@ -138,7 +139,7 @@
       }
       });
 
-      _catBlockObj[_programObj[hostSpace][0].host_category].append(_spaceBlock);
+      _catBlockObj[_programObj[hostSpace][0].host_subcategory].append(_spaceBlock);
       _spaceBlock.append(_showBlock, _permanentBlock);
     }
 
@@ -174,7 +175,7 @@
     else _participant.addClass('participant-program-card-own').attr({'href': '#/'});
    
     var _children = '';
-    if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- category-icon icon-children-program'); 
+    if (performance.children == 'baby') _children = Pard.Widgets.IconManager('baby').render().addClass('participant- category-icon icon-children-program'); 
     var _shortDescription = performance.short_description;
   
     if (size == 'big'){    
@@ -227,7 +228,7 @@
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id, 'target':'_blank'});
     else _host.addClass('host-program-card-own').attr({'href': '#/'});
     var _children = $('<span>');
-    if (performance.children == 'true') _children = Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'); 
+    if (performance.children == 'baby') _children = Pard.Widgets.IconManager('baby').render().addClass('participant- catagory-icon icon-children-program'); 
     var _shortDescription = performance.short_description;
 
     if(size == 'big'){
