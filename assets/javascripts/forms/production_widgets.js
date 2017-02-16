@@ -146,7 +146,7 @@
     var _deleteProduction = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina este proyecto artístico').addClass('deleteProfile-caller')
       .one('click', function(){
         _confirmationPopup = Pard.Widgets.Popup();
-        _confirmationPopup.setContent('¿Estás seguro/a?', _deleteProductionMessage.render());
+        _confirmationPopup.setContent(Pard.t.text('popup.delete.title'), _deleteProductionMessage.render());
       })
       .click(function(){
         _confirmationPopup.open();

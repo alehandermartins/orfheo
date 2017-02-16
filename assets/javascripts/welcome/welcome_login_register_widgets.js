@@ -9,13 +9,13 @@
     var _signUpPopup; 
     var _signUpPopupMessage;   
     var _signUpButton = $('<button>')
-      .attr({type:'button'}).html('Únete')
+      .attr({type:'button'}).html(Pard.t.text('signUp.btn'))
       .one('click',function(){
         _signUpPopup = Pard.Widgets.Popup();
         _signUpPopupMessage = Pard.Widgets.Registration();
         _signUpPopupMessage.setCallback(function(){
           _signUpPopup.close()});
-        _signUpPopup.setContent('Empieza creando una cuenta...', _signUpPopupMessage.render())
+        _signUpPopup.setContent(Pard.t.text('signUp.popup.title'), _signUpPopupMessage.render())
       })
       .click(function(){
         _signUpPopupMessage.empty();
@@ -36,12 +36,12 @@
 
     var _fields = {};
 
-    var _emailLabel = Pard.Widgets.InputLabel('Email').render();
+    var _emailLabel = Pard.Widgets.InputLabel(Pard.t.text('signUp.popup.email')).render();
     var _confEmailLabel = $('<label>');
-    var _passwdLabel = Pard.Widgets.InputLabel('Contraseña').render();    
+    var _passwdLabel = Pard.Widgets.InputLabel(Pard.t.text('signUp.popup.passwd')).render();    
 
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-    var _labels = ['Tu correo', 'Confirma tu correo', 'Mínimo 8 caracteres'];
+    var _labels = [Pard.t.text('signUp.popup.insertEmail'), Pard.t.text('signUp.popup.confirmEmail'), Pard.t.text('signUp.popup.length')];
     var _types = ['text', 'text', 'password'];
 
     ['email', 'emailConf', 'password'].forEach(function(id, index){
@@ -56,7 +56,7 @@
    var _checkPassword = function(){
         if(_fields['password'].getVal().length < 8){
           _fields['password'].addWarning();
-          _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
+          _invalidInput.text(Pard.t.text('signUp.popup.tooshort'));
         }
         else{
           _fields['password'].removeWarning();
@@ -67,7 +67,7 @@
     var _checkEqual = function(){ 
         if (_fields['email'].getVal() != _fields['emailConf'].getVal()){
           _fields['emailConf'].addWarning();
-          _invalidInput.text('Los campos de correo no coinciden.');
+          _invalidInput.text(Pard.t.text('signUp.popup.notequal'));
         }
         else{
           _fields['emailConf'].removeWarning();
@@ -78,7 +78,7 @@
     var _checkInput = function(){
       if(!regEx.test(_fields['email'].getVal())){
         _fields['email'].addWarning();
-        _invalidInput.text('El correo debe tener un formato válido.');
+        _invalidInput.text(Pard.t.text('signUp.popup.format'));
       }else{
         _fields['email'].removeWarning();
         _invalidInput.text('');
@@ -86,7 +86,7 @@
       }
     }
 
-    _fields['button'] = Pard.Widgets.Button('Crea una cuenta');
+    _fields['button'] = Pard.Widgets.Button(Pard.t.text('signUp.popup.submit'));
     _fields['button'].setClass('signup-form-btn');
 
     Object.keys(_fields).map(function(field){
@@ -97,12 +97,12 @@
     _confEmailLabel.append(_fields['emailConf'].render())
     _passwdLabel.append(_fields['password'].render());
 
-    var _initMex = $('<div>').append($('<p>').html('...hacerlo,  por supuesto,  <strong>es libre y gratuito :) </strong>')).addClass('register-form-init-mex');
+    var _initMex = $('<div>').append($('<p>').html(Pard.t.text('signUp.popup.mex'))).addClass('register-form-init-mex');
 
     var _termsAndCondtionsPopup;
     var _termsAndCondtions = $('<a>')
       .attr('href','#/')
-      .text('condiciones generales')
+      .text(Pard.t.text('signUp.popup.conditions'))
       .one('click', function(){
         _termsAndCondtionsPopup = Pard.Widgets.Popup();
         _termsAndCondtionsPopup.setContent('', Pard.Widgets.TermsAndConditionsMessage().render())
@@ -111,7 +111,7 @@
         _termsAndCondtionsPopup.open();
       });
 
-    var _finalMex = $('<div>').append($('<p>').append('Al crear una cuenta, confirmas que estás de acuerdo con nuestras ', _termsAndCondtions, '.')).addClass('register-form-final-mex');
+    var _finalMex = $('<div>').append($('<p>').append(Pard.t.text('signUp.popup.conditionText'), _termsAndCondtions, '.')).addClass('register-form-final-mex');
 
     _createdWidget.append(_initMex, _emailLabel, _confEmailLabel, _passwdLabel, _invalidInput, _fields['button'].render(), _finalMex);
 
@@ -158,7 +158,7 @@
     var _emailLabel = Pard.Widgets.InputLabel('Email').render();
     var _email = Pard.Widgets.Input('', 'email');
     var _result = $('<div>').addClass('error-text');
-    var _sendButton = Pard.Widgets.Button('Enviar');
+    var _sendButton = Pard.Widgets.Button(Pard.t.text('popup.recover.submit'));
     _sendButton.setClass('recoveryPasswd-popup-button');
 
     _emailLabel.append(_email.render());         
@@ -198,14 +198,14 @@
     var _createdWidget = $('<form>').addClass('input-login').attr({autocomplete:'on'});
     var _emailRecovery = $('<span>').addClass('passwdRecovery');
     var _popup;
-    var _caller = $('<a>').attr('href','#/').text('¿Has olvidado la contraseña?')
+    var _caller = $('<a>').attr('href','#/').text(Pard.t.text('login.dropdown.recover'))
       .one('click',function(){
         _popup = Pard.Widgets.Popup();
       })
       .click(function(){
         var _recoveryMex = Pard.Widgets.RecoveryMessage();
         _recoveryMex.setCallback(function(){_popup.close()});
-        _popup.setContent('Recupera tu cuenta', _recoveryMex.render());
+        _popup.setContent(Pard.t.text('popup.recover.title'), _recoveryMex.render());
         _popup.open();
         $('#loginDropDown').foundation('close');
       });
@@ -214,7 +214,7 @@
     var _fields = {};
 
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-    var _labels = ['Tu email', 'Contraseña'];
+    var _labels = [Pard.t.text('login.dropdown.email'), Pard.t.text('login.dropdown.passwd')];
     var _types = ['email', 'password'];
 
 
@@ -237,7 +237,7 @@
       });
     });
 
-    _fields['button'] = Pard.Widgets.Button('Entra', function(){
+    _fields['button'] = Pard.Widgets.Button(Pard.t.text('login.dropdown.gobtn'), function(){
       _rememberMe.rememberMe();
       Pard.Backend.login(
         _fields['email'].getVal(),
@@ -293,7 +293,7 @@
   ns.Widgets.RememberMe = function(emailField, passwdField, button){
 
     var _ckb = $('<input>').attr({type:'checkbox', value:'remember-me'}); 
-    var _label = $('<label>').text('Recuérdame');
+    var _label = $('<label>').text(Pard.t.text('login.dropdown.rememberme'));
     var _createdWidget = $('<span>').append(_ckb,_label);
     _createdWidget.addClass('rememberMe-ckb');
     var registerInfoStoraged = Pard.Options.register() || {};
@@ -348,14 +348,14 @@
     var _emailRecovery = $('<div>').addClass('passwdRecovery-eventLogin');
 
     var _popup;
-    var _caller = $('<a>').attr('href','#/').text('¿Has olvidado la contraseña?')
+    var _caller = $('<a>').attr('href','#/').text(Pard.t.text('login.dropdown.forgot'))
       .one('click',function(){
         _popup = Pard.Widgets.Popup();
       })
       .click(function(){
         var _recoveryMex = Pard.Widgets.RecoveryMessage();
         _recoveryMex.setCallback(function(){_popup.close()});
-        _popup.setContent('Recupera tu cuenta', _recoveryMex.render());
+        _popup.setContent(Pard.t.text('popup.recover.title'), _recoveryMex.render());
         _popup.open();
       });
     _emailRecovery.append(_caller);
@@ -363,7 +363,7 @@
     var _fields = {};
 
     var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
-    var _labels = ['Tu email', 'Contraseña'];
+    var _labels = [Pard.t.text('login.dropdown.email'), Pard.t.text('login.dropdown.passwd')];
     var _types = ['email', 'password'];
 
 
@@ -388,7 +388,7 @@
 
 
 
-    _fields['button'] = Pard.Widgets.Button('Entra', function(){
+    _fields['button'] = Pard.Widgets.Button(Pard.t.text('login.btn'), function(){
       _rememberMe.rememberMe();
       Pard.Backend.login(
         _fields['email'].getVal(),
@@ -413,18 +413,18 @@
     _createdWidget.append(_emailRecovery);
 
     var _signUpContainer = $('<div>').addClass('signUpCont-eventLogin');
-    var _signUpText = $('<h5>').text('Si no tienes una cuenta:').addClass('signUpText-eventLogin');
+    var _signUpText = $('<h5>').text(Pard.t.text('login.eventPage.nouser')).addClass('signUpText-eventLogin');
     var _signUpPopup;
     var _signUpPopupMessage;
     var _signUpButton = $('<button>')
       .attr({type:'button'})
-      .html('Crea una cuenta')
+      .html(Pard.t.text('login.eventPage.signUp'))
       .addClass('signupButton-eventLogin')
       one('click', function(){
         _signUpPopup = Pard.Widgets.Popup();
         _signUpPopupMessage = Pard.Widgets.Registration(event_id);
         _signUpPopupMessage.setCallback(_signUpPopup.close());
-        _signUpPopup.setContent('Crea una cuenta...', _signUpPopupMessage.render())
+        _signUpPopup.setContent(Pard.t.text('login.eventPage.signUpTitle'), _signUpPopupMessage.render())
       })
       .click(function(){
         _signUpPopupMessage.empty();

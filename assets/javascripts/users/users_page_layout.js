@@ -93,9 +93,9 @@
   ns.Widgets.DeleteUserMessage = function(){  
     
     var _createdWidget = $('<div>');
-    var _message = $('<p>').text('Confirmando, todos tus datos serán eliminados de orfheo: se cancelarán todos tus perfiles y sus contenidos. Con ello, todas tus inscripciones en convocatorias serán borradas.');
-    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
-    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+    var _message = $('<p>').text(Pard.t.text('popup.delete.mex'));
+    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text(Pard.t.text('popup.delete.confirm'));
+    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text(Pard.t.text('popup.delete.cancel'));
 
     _yesBtn.click(function(){
       Pard.Backend.deleteUser(Pard.Events.DeleteUser);

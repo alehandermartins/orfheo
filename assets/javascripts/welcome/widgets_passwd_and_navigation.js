@@ -7,14 +7,14 @@
   ns.Widgets.ModifyPassword = function(){
 
     var _popup;
-    var _createdButton = $('<a>').attr('href','#/').text('Modifica contraseña')
+    var _createdButton = $('<a>').attr('href','#/').text(Pard.t.text('header.insideDropdown.modifypasswd'))
       .one('click', function(){
         _popup = Pard.Widgets.Popup();
       })
       .click(function(){
         var _modifyPasswMex = Pard.Widgets.ModifyPasswordMessage();
         _modifyPasswMex.setCallback(function(){_popup.close()});
-        _popup.setContent('Introduce una nueva contraseña',_modifyPasswMex.render());
+        _popup.setContent(Pard.t.text('popup.modifypasswd.title'),_modifyPasswMex.render());
         _popup.open();
       });
   
@@ -33,7 +33,7 @@
 
     var _fields = {};
 
-    var _labels = ['Contraseña', 'Confirma tu contraseña'];
+    var _labels = [Pard.t.text('popup.modifypasswd.password'),Pard.t.text('popup.modifypasswd.passwordConf')];
     var _types = ['password', 'passwordConf'];
 
     _types.forEach(function(id, index){
@@ -43,7 +43,7 @@
           if (_fields['passwordConf'].getVal()){
             if(_fields['password'].getVal() != _fields['passwordConf'].getVal()){
               _fields['passwordConf'].addWarning();
-              _invalidInput.text('Las contraseñas no coinciden.');
+              _invalidInput.text(Pard.t.text('popup.modifypasswd.notequal'));
             }
             else{
               _fields['passwordConf'].removeWarning();
@@ -56,7 +56,7 @@
         var _checkInput = function(){
           if(_fields['password'].getVal().length < 8){
             _fields['password'].addWarning();
-            _invalidInput.text('La contraseña debe tener al menos 8 caracteres.');
+            _invalidInput.text(Pard.t.text('popup.modifypasswd.tooshort'));
           }
           else{
             _fields['password'].removeWarning();
@@ -92,7 +92,7 @@
           if((_fields['password'].getVal() == _fields['passwordConf'].getVal()) && _fields['password'].getVal().length >= 8){
             Pard.Backend.modifyPassword(_fields['password'].getVal(), function(data){
               if (data['status'] == 'success'){
-                Pard.Widgets.Alert('', 'Contraseña cambiada.');
+                Pard.Widgets.TimeOutAlert('', Pard.t.text('popup.modifypasswd.success'));
                 callback();
               }
               else {
@@ -101,7 +101,7 @@
             });
           }
           else{
-            _invalidInput.text('Comprueba bien que las contraseñas sean iguales y tengan minímo 8 caracteres');
+            _invalidInput.text(Pard.t.text('popup.modifypasswd.check'));
           }
         });
       }
@@ -111,7 +111,7 @@
 
   ns.Widgets.Logout = function(){
 
-    var _logout = $('<a>').attr('href','#/').text('Cierra sesión').click(function(){
+    var _logout = $('<a>').attr('href','#/').text(Pard.t.text('header.insideDropdown.logout')).click(function(){
       Pard.Backend.logout(
         Pard.Events.Logout
       );
@@ -126,20 +126,6 @@
     }
   }
 
-  
-  ns.Widgets.ToUserPageLink = function(){
-
-      var _createdButton = $('<a>').attr('href','/users/').text('Pagina de usuario');
-
-    return {
-      render: function(){
-        return _createdButton;
-      }
-    }
-  }
-
-
- 
 
   
   

@@ -81,7 +81,7 @@ ns.Widgets = ns.Widgets || {};
       .addClass('selected');
     var _profilesSection;
     var _profilesBtn = $('<li>')
-      .append($('<button>').text('Perfiles').attr('type','button'))
+      .append($('<button>').text(Pard.t.text('header.profiles')).attr('type','button'))
       .one('click', function(){
         _profilesSection = Pard.Widgets.ProfilesWelcomeSection();
         $('#profilesSection').append(_profilesSection.render());
@@ -95,7 +95,7 @@ ns.Widgets = ns.Widgets || {};
       });
       // .css('width','52px');
     var _eventsBtn = $('<li>')
-      .append($('<button>').text('Eventos').attr('type','button'))
+      .append($('<button>').text(Pard.t.text('header.events')).attr('type','button'))
       .one('click', function(){
         $('#eventsSection').append(Pard.Widgets.EventsWelcomeSection().render());
       })
@@ -108,7 +108,7 @@ ns.Widgets = ns.Widgets || {};
       });
       // .css('width','58px');
     var _newsBtn = $('<li>')
-      .append($('<button>').text('Novedades').attr('type','button'))
+      .append($('<button>').text(Pard.t.text('header.news')).attr('type','button'))
      .one('click', function(){
         $('#newsSection').append(Pard.Widgets.NewsWelcomeSection().render());
       })
@@ -123,7 +123,7 @@ ns.Widgets = ns.Widgets || {};
     _navMenuContainer.append(_navMenu.append(_welcomeBtn, _profilesBtn, _eventsBtn, _newsBtn));
 
     var _callBtn = $('<div>')
-      .append($('<a>').attr('href','/services').text('Lanza tu convocatoria'))
+      .append($('<a>').attr('href','/services').text(Pard.t.text('header.callToAction')))
       .addClass('makeCallBtn');
 
     var _semicircleBottomContainer =  $('<div>').addClass('semiCircleHeaderBottom-container');
@@ -166,7 +166,7 @@ ns.Widgets = ns.Widgets || {};
       var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
       var _init = $('<li>')
         .append($('<a>').attr('href','/')
-          .text('Inicio')
+          .text(Pard.t.text('header.home'))
         )
         .addClass('initText');
       var _settingsDropdown = $('<li>')
@@ -281,7 +281,7 @@ ns.Widgets = ns.Widgets || {};
     var _rightMenu = $('<ul>').addClass('rightMenu-navHeader');
     var _init = $('<li>')
       .append($('<a>').attr('href','/')
-        .text('Inicio')
+        .text(Pard.t.text('header.home'))
       )
       .addClass('initText');
     var _menuDropdown = Pard.Widgets.InsideDropdownMenu();
@@ -347,7 +347,7 @@ ns.Widgets = ns.Widgets || {};
     var _contact = $('<li>').append(
       $('<a>')
         .attr('href','#/')
-        .append('Contacta orfheo')
+        .append(Pard.t.text('header.insideDropdown.contact'))
         .hover(
           function(){
             _contactChoice.addClass('showEventManagerChoice');
@@ -403,11 +403,11 @@ ns.Widgets = ns.Widgets || {};
     if (user){
       var _deleteUserPopup;
       var _deleteUserMex = Pard.Widgets.DeleteUserMessage();
-      var _deleteCaller = $('<a>').attr('href','#/').text('Elimina mi cuenta')
+      var _deleteCaller = $('<a>').attr('href','#/').text(Pard.t.text('header.insideDropdown.delete'))
         .one('click', function(){
           _deleteUserPopup = Pard.Widgets.Popup();
           _deleteUserMex.setCallback(function(){_deleteUserPopup.close()});
-          _deleteUserPopup.setContent('¿Estás seguro/a?',_deleteUserMex.render());
+          _deleteUserPopup.setContent(Pard.t.text('popup.delete.title'),_deleteUserMex.render());
         })
         .click(function(){
           _menuContainer.foundation('close');
@@ -456,7 +456,7 @@ ns.Widgets = ns.Widgets || {};
               .addClass('eventMananagerChoice')
               .append(
                 $('<ul>').append(
-                $('<li>').append($('<a>').append(Pard.Widgets.IconManager('proposals').render().addClass('eventIcon'), 'Evento').attr('href','/event?id='+event.event_id))
+                $('<li>').append($('<a>').append(Pard.Widgets.IconManager('proposals').render().addClass('eventIcon'), Pard.t.text('header.insideDropdown.event')).attr('href','/event?id='+event.event_id))
                 .click( function(){
                     _eventManagerChoice.removeClass('showEventManagerChoice');
                     _menuContainer.foundation('close');

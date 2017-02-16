@@ -22,7 +22,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _langPopup;
     var _languages = $('<button>').attr({'type':'button'})
-      .html('Idiomas')
+      .html(Pard.t.text('footer.languages'))
       .addClass('footer-text-link')
       .one('click',function(){
         var _langMessage = Pard.Widgets.LanguagesMessage().render();
@@ -35,7 +35,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _termsAndConditionsPopup;
     var _termsAndConditions = $('<button>').attr({'type':'button'})
-      .html('Condiciones')
+      .html(Pard.t.text('footer.conditions'))
       .addClass('footer-text-link')
       .one('click',function(){
         var _termsAndConditionsMessage = Pard.Widgets.TermsAndConditionsMessage().render();
@@ -49,7 +49,7 @@ ns.Widgets = ns.Widgets || {};
        
     var _infoPopup;
     var _information = $('<button>').attr({'type':'button', 'id':'projectPopupBtn'})
-      .html('Proyecto')
+      .html(Pard.t.text('footer.project'))
       .addClass('footer-text-link')
       .one('click',function(){
         var _infoMessage =  Pard.Widgets.ProjectInfoMessage().render();
@@ -64,7 +64,7 @@ ns.Widgets = ns.Widgets || {};
       _leftMenu.append(
         $('<li>').append(_information), 
         $('<li>').append(_termsAndConditions)
-        // , $('<li>').append(_languages)
+        , $('<li>').append(_languages)
       )
     );
 
@@ -80,7 +80,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _contactPopup;
     var _contactaOrfheo = $('<li>')
-      .append($('<button>').text('Contacta')
+      .append($('<button>').text(Pard.t.text('footer.contact'))
         .attr({'type':'button','id':'contactPopupBtn'})
         .one('click',function(){
           _contactPopup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
@@ -93,7 +93,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _servicesPopup;
     var _servicesInfo;
-    var _servicesOrfheo = $('<li>').append($('<a>').text('Servicios')
+    var _servicesOrfheo = $('<li>').append($('<a>').text(Pard.t.text('footer.services'))
       .attr({
         'href':'/services',
         'id':'toServicesPage'

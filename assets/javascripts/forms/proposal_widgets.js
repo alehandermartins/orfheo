@@ -122,7 +122,7 @@
       var _deleteProposal = $('<a>').attr('href','#/').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller')
         .one('click', function(){
         _confirmPopup = Pard.Widgets.Popup();
-        _confirmPopup.setContent('¿Estás seguro/a?', Pard.Widgets.DeleteMyProposalMessage(proposal, profileType, closepopup, function(){_confirmPopup.close();}).render());
+        _confirmPopup.setContent(Pard.t.text('popup.delete.title'), Pard.Widgets.DeleteMyProposalMessage(proposal, profileType, closepopup, function(){_confirmPopup.close();}).render());
         })
         .click(function(){
           _confirmPopup.open();
