@@ -13,7 +13,7 @@
     var _closing = new Date(parseInt(Pard.CachedEvent.deadline));
     var _now = new Date();
     if((_opening.getTime()<_now.getTime() && _now.getTime()<_closing.getTime()) || Pard.UserStatus['status']=='owner' || Pard.CachedEvent.whitelisted){
-    var _callToAction = $('<button>').attr({'type':'button', 'id':'callToActio-eventHeader'}).html('¡Apúntate!').addClass('signUp-button-welcome-section button-event-header');
+    var _callToAction = $('<button>').attr({'type':'button', 'id':'callToActio-eventHeader'}).html(Pard.t.text('event_page.infoTab.signupCall')).addClass('signUp-button-welcome-section button-event-header');
     _callToAction.on('click',function(){
       if (Pard.UserStatus['status'] == 'outsider'){
         var _popupContent = $('<div>').addClass('very-fast reveal full');
@@ -54,17 +54,17 @@
     var _closing = new Date(parseInt(_eventInfo.deadline));
     var _now = new Date();
     if(_now.getTime()<_opening.getTime()){
-      _callText.append($('<p>').html('Apertura convocatoria '+moment(_opening).locale('es').format('dddd DD MMMM')));
+      _callText.append($('<p>').html(Pard.t.text('event_page.infoTab.callOpening')+moment(_opening).locale(Pard.UserInfo['lang']).format('dddd DD MMMM')));
     }
     else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
-      var _callopened = $('<a>').text('Convocatoria abierta');
+      var _callopened = $('<a>').text(Pard.t.text('event_page.infoTab.callOpened'));
       _callopened.click(function(){
           $('#callToActio-eventHeader').trigger('click');
       });
-      _callText.append($('<p>').append(_callopened,' hasta ',moment(_closing).locale('es').format('dddd DD/MM') ));
+      _callText.append($('<p>').append(_callopened,Pard.t.text('event_page.infoTab.till'),moment(_closing).locale(Pard.UserInfo['lang']).format('dddd DD/MM') ));
     }
     else if(_now.getTime()>_closing.getTime()){
-      _callText.append($('<p>').html('Convocatoria cerrada (desde el '+ moment(_closing).locale('es').format('DD MMM YYYY')+')' ));
+      _callText.append($('<p>').html(Pard.t.text('event_page.infoTab.callClosed')+ moment(_closing).locale(Pard.UserInfo['lang']).format('DD MMM YYYY')+')' ));
     }
     var _callStatus = $('<div>').append(_callIcon, _callText).addClass('element-headerTitle-infoTab-event');
 
@@ -93,7 +93,7 @@
       href: '/profile?id=' + _eventInfo.profile_id,
       target: '_blank'
     });
-    var _whoText = $('<div>').addClass('info-text-header-infoTab-event').append($('<p>').append('Organiza ', _organizer));
+    var _whoText = $('<div>').addClass('info-text-header-infoTab-event').append($('<p>').append(Pard.t.text('event_page.infoTab.organize'), _organizer));
     var _organzerIcon = $('<div>').addClass('icon-container')
       .append($('<span>').css({
           'background': _eventInfo.color,
@@ -109,8 +109,8 @@
     var _h1 = $('<div>').append(_who, _where, _callStatus);
 
     var _conditionsText = $('<div>').addClass('info-text-header-infoTab-event');
-    if (_eventInfo.conditions) _conditionsText.append($('<a>').attr({'href':_eventInfo.conditions,'target':'_blank'}).append('Bases de participación'));
-    else _conditionsText.append($('<p>').text('Sin condiciones de participación'));
+    if (_eventInfo.conditions) _conditionsText.append($('<a>').attr({'href':_eventInfo.conditions,'target':'_blank'}).append(Pard.t.text('event_page.infoTab.conditions')));
+    else _conditionsText.append($('<p>').text(Pard.t.text('event_page.infoTab.noConditions')));
     var _callConditions = $('<div>').append($('<div>').append(Pard.Widgets.IconManager('conditions').render()).addClass('iconContainer-infoHeader-event-page'), _conditionsText).addClass('callConditions-infoTab-event');
 
     var _timeContent= $('<div>').addClass('timeContent-infoTab-event');
@@ -125,7 +125,7 @@
         if(day != 'permanent'){
           _count += 1;
           if (_count>3 && !_printAll){
-            var _seeAll = $('<a>').attr('href','#/').text('ver todos');
+            var _seeAll = $('<a>').attr('href','#/').text(Pard.t.text('event_page.infoTab.seeAll'));
             var _seeAllContainer = $('<div>').append('... ',_seeAll).css('margin','-0.4rem 0 -0.2rem 0').addClass('see-all-event-page');
             _timeContent.append(_seeAllContainer);
             _seeAll.click(function(){
@@ -137,10 +137,10 @@
           }
           else{
             var _dateCont = $('<div>').addClass('single-date-container-event-page');
-            var _dayCont = $('<div>').append(moment(day).locale('es').format('D MMM YYYY')).addClass('date-calendar-box');
+            var _dayCont = $('<div>').append(moment(day).locale(Pard.UserInfo['lang']).format('D MMM YYYY')).addClass('date-calendar-box');
             var _daydateI = new Date(parseInt(_eventInfo.eventTime[day][0]));
             var _daydateF = new Date(parseInt(_eventInfo.eventTime[day][1]));
-            var _timeCont = $('<div>').append($('<p>').text('de '+moment(_daydateI).locale('es').format('HH:mm')),$('<p>').text('a '+moment(_daydateF).locale('es').format('HH:mm')+' h')).addClass('time-calendar-box');
+            var _timeCont = $('<div>').append($('<p>').text(moment(_daydateI).locale(Pard.UserInfo['lang']).format('HH:mm')+' -'),$('<p>').text('- '+moment(_daydateF).locale(Pard.UserInfo['lang']).format('HH:mm')+' h')).addClass('time-calendar-box');
             _dateCont.append(_dayCont,_timeCont);
             _timeContent.append(_dateCont);
           }

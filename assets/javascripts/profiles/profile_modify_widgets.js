@@ -41,7 +41,7 @@
 
     var _confirmPopup = Pard.Widgets.Popup();
     var _deleteMessage = Pard.Widgets.DeleteProfileMessage(profile.profile_id, function(){_confirmPopup.close();});
-    _confirmPopup.setContent('¿Estás seguro/a?', _deleteMessage.render());
+    _confirmPopup.setContent(Pard.t.text('popup.delete.title'), _deleteMessage.render());
     var _deleteProfile = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina el perfil').addClass('deleteProfile-caller')
       .click(function(){
         _confirmPopup.open();

@@ -66,7 +66,7 @@
         _deleteContent.empty();
         $('body').append(_deleteContent);
         var _confirmPopup = new Foundation.Reveal(_deleteContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        var _message = Pard.Widgets.PopupContent('¿Estás seguro/a?',  confirmPopupContent(), 'alert-container-full');
+        var _message = Pard.Widgets.PopupContent(Pard.t.text('popup.delete.title'),  confirmPopupContent(), 'alert-container-full');
         _message.setCallback(function(){
           _confirmPopup.close();
           setTimeout(

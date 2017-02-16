@@ -187,9 +187,9 @@ console.log(Pard.CachedEvent);
     var the_event = Pard.CachedEvent;
 
     var _labels = {
-      'participants': Pard.t.text('event_page.eventAside.filters.participants'),
-      'hosts': Pard.t.text('event_page.eventAside.filters.hosts')
-      //,'other': Pard.t.text('event_page.eventAside.filters.other')
+      'participants': Pard.t.text('event_page.program.filters.participants'),
+      'hosts': Pard.t.text('event_page.program.filters.hosts')
+      //,'other': Pard.t.text('event_page.program.filters.other')
     }
 
     Object.keys(filters).forEach(function(key){
@@ -272,17 +272,17 @@ console.log(Pard.CachedEvent);
 
     var _chooseOrder = $('<select>');
     var _chooseOrderSelect = $('<div>').append(_chooseOrder).addClass('choose-order-select');
-    var _chooseText = $('<span>').text('Ordena por');
+    var _chooseText = $('<span>').text(Pard.t.text('event_page.program.orderby'));
     _chooseOrderBox.append($('<div>').append(_chooseText, _chooseOrderSelect).css('float','right'));
 
-    var _types = ['Horario', 'Espacio'];
+    var _types = ['event_page.program.hs', 'event_page.program.sp'];
     var _tagsTypes = [];
     _types.forEach(function(type){
-      _tagsTypes.push({id: type, text:type});
+      _tagsTypes.push({id: type, text:Pard.t.text(type)});
     });
     var _printProgramDictionary = {
-      'Horario': Pard.PrintProgram,
-      'Espacio': Pard.PrintProgramSpaces
+      'event_page.program.hs': Pard.PrintProgram,
+      'event_page.program.sp': Pard.PrintProgramSpaces
     }
     var _printProgram = Pard.PrintProgram;
     _chooseOrder.select2({
@@ -299,8 +299,8 @@ console.log(Pard.CachedEvent);
 
     eventDates.forEach(function(day){
       var _dayText = '';
-      if ($(window).width()>640) _dayText = moment(day).locale('es').format('dddd, DD-MMM-YYYY');
-      else _dayText = moment(day).locale('es').format(' DD-MMM-YYYY');
+      if ($(window).width()>640) _dayText = moment(day).locale(Pard.UserInfo['lang']).format('dddd, DD-MMM-YYYY');
+      else _dayText = moment(day).locale(Pard.UserInfo['lang']).format(' DD-MMM-YYYY');
 
       var _date = $('<option>').val(day).text(_dayText);
       _daySelector.append(_date);
@@ -308,7 +308,7 @@ console.log(Pard.CachedEvent);
 
     _daySelectorContainer.append(_daySelector);
 
-    var _programNow = $('<button>').html(Pard.t.text('event_page.eventAside.nowbtn')).addClass('interaction-btn-event-page').attr('type','button');
+    var _programNow = $('<button>').html(Pard.t.text('event_page.program.nowbtn')).addClass('interaction-btn-event-page').attr('type','button');
 
     var _now = new Date(); 
     var _eventTimeKeys = Object.keys(the_event.eventTime);
@@ -330,10 +330,10 @@ console.log(Pard.CachedEvent);
         _programNow.addClass('active fired');
         if($.inArray(_day, eventDates) < 0){
           _daySelector.empty();
-          extraDate = $('<option>').val(_day).text(moment(_day).locale('es').format('DD-MMM-YYYY'));
+          extraDate = $('<option>').val(_day).text(moment(_day).locale(Pard.UserInfo['lang']).format('DD-MMM-YYYY'));
           _daySelector.append(extraDate);
           eventDates.forEach(function(day){
-            var _dateOption = $('<option>').val(day).text(moment(day).locale('es').format('DD-MMM-YYYY'));
+            var _dateOption = $('<option>').val(day).text(moment(day).locale(Pard.UserInfo['lang']).format('DD-MMM-YYYY'));
             _daySelector.append(_dateOption);
           });
         }
@@ -353,7 +353,7 @@ console.log(Pard.CachedEvent);
       }
     });
 
-    var _filtersButton = $('<button>').html(Pard.t.text('event_page.eventAside.filtersbtn')).addClass('pard-btn interaction-btn-event-page').attr('type','button');
+    var _filtersButton = $('<button>').html(Pard.t.text('event_page.program.filtersbtn')).addClass('pard-btn interaction-btn-event-page').attr('type','button');
 
     _filtersButton.on('click', function(){
       var _content = $('<div>').addClass('very-fast reveal full');
@@ -362,7 +362,7 @@ console.log(Pard.CachedEvent);
 
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
       var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
-      var _message = Pard.Widgets.PopupContent(Pard.t.text('event_page.eventAside.titleText'), _filtersWidgets);
+      var _message = Pard.Widgets.PopupContent(Pard.t.text('event_page.program.titleText'), _filtersWidgets);
 
       _message.setCallback(function(){
         if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
@@ -445,7 +445,7 @@ console.log(Pard.CachedEvent);
 
 
     _searchWidget.select2({
-      placeholder: 'Busca por tags',
+      placeholder: Pard.t.text('searchWidget.placeholder'),
       minimumInputLength: 1,
       minimumResultsForSearch: 1,
       // allowClear: true,

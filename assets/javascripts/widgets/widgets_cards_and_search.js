@@ -165,7 +165,7 @@
     _createdWidget.append(_searchInput, _searchTagsBoxContainer.append(_searchTagsBox), _searchResult);
 
     _searchWidget.select2({
-      placeholder: 'Busca por tags',
+      placeholder: Pard.t.text('searchWidget.placeholder'),
       ajax: {
         url: '/search/suggest',
         type: 'POST',

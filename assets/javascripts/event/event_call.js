@@ -11,7 +11,7 @@
           var _popup = Pard.Widgets.Popup();
           var _choosePorfileMex = Pard.Widgets.ChooseProfileMessage(data.profiles, eventInfo, button);
           _choosePorfileMex.setCallback(function(){_popup.close()});
-          _popup.setContent('Inscribe un perfil ya creado', _choosePorfileMex.render());
+          _popup.setContent(Pard.t.text('call.chooseProfile'), _choosePorfileMex.render());
           _popup.setCallback(function(){
             setTimeout(function(){
               _popup.destroy();
@@ -20,7 +20,7 @@
           _popup.open();
         }
         else{
-          Pard.Widgets.Alert('Problema en el servidor', _dataReason).render();
+          Pard.Widgets.Alert(Pard.t.text('popup_alert.serverProblem.title'), _dataReason).render();
         }
       }
     }
@@ -120,7 +120,7 @@
       _createdWidget.append(_cardContainer.append(_card));
     });
 
-    var _secondTitle = $('<h4>').text('...o crea e inscribe uno nuevo');
+    var _secondTitle = $('<h4>').text(Pard.t.text('call.newProfile'));
     _secondTitle.css({
       'margin-top': '2rem'
     });
@@ -161,7 +161,7 @@
     Pard.Backend.getCallForms(event_info.call_id, function(data){
       _forms = data.forms;
       _createProfileCard = Pard.Widgets.CreateProfileCard(
-        'Crea un perfil y apúntate como:',
+        Pard.t.text('call.createProfile.title'),
         Pard.Widgets.CreateProfilePopupEvent(_createAndInscribeProfile,
         Object.keys(_forms))
       ).render();
