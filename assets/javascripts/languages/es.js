@@ -338,7 +338,23 @@
       successTitle: '¡Genial!',
       succesMex:'Te has inscrito correctamente.',
       sendOther: 'Envía otra propuesta',
-      toProfile: 'Ve a pagína de perfil'
+      toProfile: 'Ve a pagína de perfil',
+      alreadyInscribed: {
+        title: 'Este perfil no puede enviar más propuestas', 
+        mex: 'Este espacio ya está apuntado en ',
+      },
+      stop:{
+        title: 'ATENCIÓN, NO PUEDES CONTINUAR',
+        mex1:'Esta convocatoría es solo para perfiles de<strong>',
+        mex2:'</strong>. Selecciona o crea uno de los tipos aceptados para seguir.'
+      },
+      form:{
+        initMex1:'Éste es el <strong>formulario</strong> para inscribir tu perfil ',
+        initMex2: ' en la convocatoria de <strong>',
+        portfolio:'apúntate con una propuesta de tu portfolio',
+        catPlaceholder: 'Selecciona como quieres apuntarte',
+        newProposal: '...o propón algo nuevo'
+      }
     },  
     footer:{
       languages:'Idiomas',
