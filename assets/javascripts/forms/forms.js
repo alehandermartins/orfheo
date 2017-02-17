@@ -430,14 +430,14 @@
     space:{
       name: {
         "type" : "mandatory",
-        "label" : "Nombre",
+        "label" : Pard.t.text('proposal.form.nameL'),
         "input" : "InputName",
         "args" : [],
         "helptext" : ""
       },
       email: {
         "type" : "mandatory",
-        "label" : "Correo",
+        "label" : Pard.t.text('proposal.form.emailL'),
         "input" : "Input",
         "args" : [ 
                   "", 
@@ -447,19 +447,19 @@
       },
       address:{
         "type" : "mandatory",
-        "label" : "Dirección",
+        "label" : Pard.t.text('proposal.form.addressL'),
         "input" : "InputAddressSpace",
         "args" : [
-                  'Ej: Carrer de la Murta 13, Valencia'
+                  Pard.t.text('createProfile.spaceForm.addressPlaceholder')
                 ],
         "helptext" : ""
       },
       bio:{
         "type" : "mandatory",
-        "label" : "Descripción / Información",
+        "label" : Pard.t.text('proposal.form.bioL'),
         "input" : "TextAreaEnriched",
         "args" : [ 
-                  'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
+                  Pard.t.text('createProfile.spaceForm.bioPlaceholder'), 
                   4
                 ],
         "helptext" : ""
@@ -468,14 +468,14 @@
     artist: {
       name: {
         "type" : "mandatory",
-        "label" : "Nombre",
+        "label" : Pard.t.text('proposal.form.nameL'),
         "input" : "InputName",
         "args" : [],
         "helptext" : ""
       },
       email: {
         "type" : "mandatory",
-        "label" : "Correo",
+        "label" : Pard.t.text('proposal.form.emailL'),
         "input" : "Input",
         "args" : [ 
                   "", 
@@ -489,32 +489,32 @@
   ns.Forms.Production ={
     title:{
         "type" : "mandatory",
-        "label" : "Título de la propuesta artística",
+        "label" : Pard.t.text('production.form.titleL'),
         "input" : "Input",
         "args" : ['', 'text'],
         "helptext" : ""
       },
     description: {
       'type':'mandatory',
-      'label':'Descripción',
+      'label':Pard.t.text('production.form.descriptionL'),
       'input':'TextAreaEnriched',
       'args':['',4],
-      'helptext': 'Decribe con más detalles tu propuesta artística.'
+      'helptext': Pard.t.text('production.form.descriptionH')
     },
     short_description: { 
       'type':'mandatory',
-      'label':'Descripción (muy) breve',
+      'label': Pard.t.text('production.form.short_descriptionL'),
       'input': 'TextAreaCounter',
-      'args':['',80,'Resume tu propuesta artística en máximo 80 caracteres. Quedan:'],
+      'args':['',80,Pard.t.text('production.form.short_descriptionH')],
       'helptext': ''
     },
     duration : {
       "type" : "optional",
-      "label" : "Duración *",
+      "label" : Pard.t.text('production.form.durationL'),
       "input" : "Selector",
       "args" : [ 
           [   
-              "No tiene duración definida",
+              Pard.t.text('production.form.noDefinedDuration'),
               "15 min", 
               "30 min", 
               "45 min", 
@@ -544,21 +544,21 @@
     },
     children : {
       "type" : "optional",
-      "label" : "Edades público",
+      "label" : Pard.t.text('production.form.childrenL'),
       "input" : "InputChildren",
       "args" : null,
-      "helptext" : "Indicar a qué tipo de público está dirigida la propuesta."
+      "helptext" : Pard.t.text('production.form.childrenH')
     }, 
     links : {
         "type" : "optional",
-        "label" : "Materiales online",
+        "label" : Pard.t.text('production.form.linksL'),
         "input" : "InputMultimedia",
         "args" : null,
-        "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+        "helptext" : Pard.t.text('production.form.linksH')
     },
     photos : {
         "type" : "optional",
-        "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+        "label" : Pard.t.text('production.form.photoL'),
         "input" : "UploadPhotos",
         "args" : [ 
             "/photos", 
@@ -568,7 +568,7 @@
     },
     cache:{
       "type" : "optional",
-      "label" : "Caché / Gastos Producción",
+      "label" : Pard.t.text('production.form.cacheL'),
       "input" : "InputCache",
       "args" : ['',true],
       "helptext" : ""

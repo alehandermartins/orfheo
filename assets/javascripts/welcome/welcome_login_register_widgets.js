@@ -173,17 +173,17 @@
         _sendButton.render().on('click', function(){
           _result.empty();
           if(!regEx.test(_email.getVal())) {
-            _result.text('El email no es válido');
+            _result.text(Pard.t.text('login.popup.notValidEmail'));
             _email.addWarning();
           }
           else {
             Pard.Backend.passwordRecovery(_email.getVal(), function(data){
               if (data['status'] == 'success'){
-                Pard.Widgets.Alert('', 'Te hemos enviado un correo con las instrucciones para acceder a tu cuenta.');
+                Pard.Widgets.Alert('', Pard.t.text('login.popup.sent'));
                 callback();
               }
               else {
-                _result.text('El usuario no existe.');
+                _result.text(Pard.t.text('login.popup.nouser'));
               }
             });
           }
@@ -348,7 +348,7 @@
     var _emailRecovery = $('<div>').addClass('passwdRecovery-eventLogin');
 
     var _popup;
-    var _caller = $('<a>').attr('href','#/').text(Pard.t.text('login.dropdown.forgot'))
+    var _caller = $('<a>').attr('href','#/').text(Pard.t.text('login.dropdown.recover'))
       .one('click',function(){
         _popup = Pard.Widgets.Popup();
       })

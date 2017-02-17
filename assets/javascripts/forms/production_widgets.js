@@ -18,7 +18,7 @@
       _fieldsForm.forEach(function(field){
         _form[field] = _genericForm[field];
       });
-      var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+      var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html(Pard.t.text('production.form.submit'));
       var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton);
       var _send = function(stopSpinner){
         var _submittForm;
@@ -51,7 +51,7 @@
       _printForm(_catSelected);
     };
     var _categorySelector = Pard.Widgets.OrfheoArtCatSelect(categorySelectCallback);
-    var _categoryLabel = $('<label>').text('Selecciona una categoría *');
+    var _categoryLabel = $('<label>').text(Pard.t.text('production.form.catSel'));
     var _category = $('<div>').append(_categoryLabel.append(_categorySelector.render()));
 
     _createdWidget.append(_category, _content);
@@ -81,7 +81,7 @@
       .click(function(){
         var _content = Pard.Widgets.ModifyProductionMessage(production);
         _content.setCallback(function(){_popup.close()});
-        _popup.setContent('Modifica tu proyecto artístico',_content.render());
+        _popup.setContent(Pard.t.text('production.modify.title'),_content.render());
         _popup.open();
       });
    
@@ -129,13 +129,12 @@
       }
       _formWidget.setSend(_send);
       _formWidget.setVal(production); 
-      var _categoryLabel = $('<label>').text('Categoría');
+      var _categoryLabel = $('<label>').text(Pard.t.text('production.modify.cat'));
       var _category = $('<div>').append(_categoryLabel.append(_catSelector.render()));   
       _content.append(_category, _formWidget.render());
     }
 
-    var _initMex = $('<div>').append($('<p>').html(
-        'Con este formularo puedes modificar el contenido de la página de tu proyecto artistico. Los cambios que hagas no afectarán los datos enviados a convocatorias.'
+    var _initMex = $('<div>').append($('<p>').html(Pard.t.text('production.modify.initMex')
       )).addClass('init-message-form');
 
     _printForm(production.category);
@@ -143,7 +142,7 @@
     var _confirmationPopup; 
     var _deleteProductionMessage = Pard.Widgets.DeleteProductionMessage(production.production_id, _closepopup);
     _deleteProductionMessage.setCallback(function(){_confirmationPopup.close()});
-    var _deleteProduction = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina este proyecto artístico').addClass('deleteProfile-caller')
+    var _deleteProduction = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), Pard.t.text('production.modify.delete')).addClass('deleteProfile-caller')
       .one('click', function(){
         _confirmationPopup = Pard.Widgets.Popup();
         _confirmationPopup.setContent(Pard.t.text('popup.delete.title'), _deleteProductionMessage.render());
@@ -168,9 +167,9 @@
     var _closeConfirmationPopup = function(){}
     
     var _createdWidget = $('<div>');
-    var _message = $('<p>').text('Confirmando, tu proyecto artístico se eliminará de tu portfolio. Esa acción no afectará a tu inscripción en convocatorias. ');
-    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
-    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+    var _message = $('<p>').text(Pard.t.text('popup.delete.production'));
+    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text(Pard.t.text('popup.delete.confirm'));
+    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text(Pard.t.text('popup.delete.cancel'));
 
     _yesBtn.click(function(){
       Pard.Backend.deleteProduction(production_id, Pard.Events.DeleteProduction);

@@ -22,7 +22,7 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.organizationInfo'), Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
     
     
@@ -67,13 +67,13 @@
     _infoContentBox.append(_bio.prepend(_contact));
     _infoBoxContainer.append(_infoContentBox);
     _createdWidget.append(_infoBoxContainer);
-    var _eventBoxContainer = Pard.Widgets.SectionBoxContainer('Eventos', Pard.Widgets.IconManager('proposals').render()).render();
+    var _eventBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.events'), Pard.Widgets.IconManager('proposals').render()).render();
     var _eventBoxContent = $('<div>').addClass('box-content').css('min-height','2rem');
     var _createEventBtn = Pard.Widgets.Button(
-      'Crea un evento y lanza una convocatoria', 
+      Pard.t.text('profile_page.createEventBtn'), 
       function(){
          var _contactPopup = Pard.Widgets.Popup();
-        _contactPopup.setContent('Tus eventos en orfheo', Pard.Widgets.EventContact(profile.name));
+        _contactPopup.setContent(Pard.t.text('profile_page.createEventTitle'), Pard.Widgets.EventContact(profile.name));
         _contactPopup.setCallback(function(){
           setTimeout(function(){
             _contactPopup.destroy();
@@ -96,7 +96,7 @@
 
     var _programBoxContainer = $('<div>').addClass('section-box-container');
     var _titleContainer = $('<div>').addClass('title-box-container');
-    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Participación en eventos')));
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text(Pard.t.text('profile_page.participation'))));
     var _programContent = $('<div>').addClass('box-content');
     _programBoxContainer.append(_titleContainer,_programContent)
 
@@ -118,7 +118,7 @@
 
 
     if (userStatus == 'owner'){
-      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('open_call').render()).render();
+      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.call'), Pard.Widgets.IconManager('open_call').render()).render();
       if('proposals' in profile && profile.proposals != false){
         var _callsBoxContent = $('<div>').addClass('box-content');
         var _myCallProposals = Pard.Widgets.MyCallProposals(profile);
@@ -126,7 +126,7 @@
       }
       else{
           var _callsBoxContent = $('<div>').addClass('box-content');
-          var _callName = $('<p>').append('No estás inscrito en ninguna convocatoria activa en este periodo.').addClass('activities-box-call-name');
+          var _callName = $('<p>').append(Pard.t.text('profile_page.callMex')).addClass('activities-box-call-name');
           _callsBoxContent.append(_callName);
       }     
       _callsBoxContainer.append(_callsBoxContent);

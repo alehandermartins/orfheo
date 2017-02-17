@@ -167,11 +167,11 @@
     var _showBlock;
 
     Pard.Widgets.ReorderProgramCrono(program.shows).forEach(function(performance){
-      if (!(_day) || _day != moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM')) {
+      if (!(_day) || _day != moment(performance.time[0], 'x').locale(Pard.UserInfo['lang']).format('dddd DD MMMM')) {
         _dayBlock = $('<div>');
         _showBlock = $('<div>');
         _permanentBlock = $('<div>');
-        _day = moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM');
+        _day = moment(performance.time[0], 'x').locale(Pard.UserInfo['lang']).format('dddd DD MMMM');
         var _dayTitle = $('<h6>').append(_day).addClass('title-day-profile-programCard').css({'text-transform': 'capitalize'});
         _dayBlock.append(_dayTitle);
         _dayBlock.append(_showBlock,_permanentBlock)
@@ -241,7 +241,7 @@
         else _permanentShows[show.participant_proposal_id] = [show];
       }
       else if (index < 1 || show.participant_proposal_id != participation.shows[index-1].participant_proposal_id || show.date != participation.shows[index-1].date){
-        var _date = moment(new Date(show.date)).locale('es').format('DD MMMM YYYY');
+        var _date = moment(new Date(show.date)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
         var _day = $('<span>').text(_date+':');
         var _title = $('<span>').text(show.title).addClass('title-pastEventBlock');
         var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
@@ -258,10 +258,10 @@
         var _host;
         if (show.host_id.indexOf('own') >-1) _host = $('<span>').text(show.host_name).css('text-decoration','underline');
         else _host = $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name);
-        var _init_date = moment(new Date(_showArray[0].date)).locale('es').format('DD MMMM YYYY');
+        var _init_date = moment(new Date(_showArray[0].date)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
         var _day = $('<span>').append(_init_date);
         if (_showArray.length>1) {
-          var _final_date = moment(new Date(_showArray[_showArray.length -1].date)).locale('es').format('DD MMMM YYYY');
+          var _final_date = moment(new Date(_showArray[_showArray.length -1].date)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
           _day.text(_init_date+' - '+_final_date+':');
         }
         else{
@@ -301,7 +301,7 @@
     if (!($.isEmptyObject(_artistByDay))){
       for (var day in _artistByDay){
         var _artists = $('<span>').append(Pard.Widgets.IconManager('artist').render().addClass('iconProfile-pastEventBlock'));
-        var _date = moment(new Date(day)).locale('es').format('DD MMMM YYYY');
+        var _date = moment(new Date(day)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
         var _day = $('<span>').text(_date+':');
         var _proposal = $('<li>').append(_day,' ',_artists).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
@@ -343,8 +343,8 @@
           _participantsArray.push(show.participant_id);
         }
       })
-      if (_id.getTime() == _fd.getTime()) _day.append(moment(_id).locale('es').format('DD MMMM YYYY'),':')
-      else _day.append(moment(_id).locale('es').format('DD MMMM YYYY'),' - ',moment(_fd).locale('es').format('DD MMMM YYYY'),':');
+      if (_id.getTime() == _fd.getTime()) _day.append(moment(_id).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY'),':')
+      else _day.append(moment(_id).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY'),' - ',moment(_fd).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY'),':');
     }
 
     var _event = $('<div>').append(_eventName,_eventProposals);
@@ -356,7 +356,7 @@
   ns.Widgets.ProgramCardProfile = function(performance, type){
 
     var _progCard = $('<div>').addClass('program-card-container-profile');
-    var _time = $('<div>').append(moment(performance.time[0], 'x').locale('es').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm')).css('text-transform','capitalize');
+    var _time = $('<div>').append(moment(performance.time[0], 'x').locale(Pard.UserInfo['lang']).format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm')).css('text-transform','capitalize');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
 

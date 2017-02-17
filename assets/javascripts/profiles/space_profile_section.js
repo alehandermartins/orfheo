@@ -27,7 +27,7 @@
     var _createdWidget = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.spaceInfo'), Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
        
     var _contact = $('<div>').addClass('information-contact');
@@ -76,7 +76,7 @@
 
     var _programBoxContainer = $('<div>').addClass('section-box-container');
     var _titleContainer = $('<div>').addClass('title-box-container');
-    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Participación en eventos')));
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text(Pard.t.text('profile_page.participation'))));
     var _programContent = $('<div>').addClass('box-content');
     _programBoxContainer.append(_titleContainer,_programContent)
 
@@ -97,7 +97,7 @@
     if (_programContent.html()) _createdWidget.append(_programBoxContainer);
 
     if (userStatus == 'owner'){
-      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('open_call').render()).render();
+      var _callsBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.call'), Pard.Widgets.IconManager('open_call').render()).render();
       if('proposals' in profile && profile.proposals != false){
         var _callsBoxContent = $('<div>').addClass('box-content');
         var _mySpaceCallProposals = Pard.Widgets.MyCallProposals(profile);
@@ -105,7 +105,7 @@
       }
       else{
           var _callsBoxContent = $('<div>').addClass('box-content');
-          var _callName = $('<p>').append('No estás inscrito en ninguna convocatoria activa en este periodo.').addClass('activities-box-call-name');
+          var _callName = $('<p>').append(Pard.t.text('profile_page.callMex')).addClass('activities-box-call-name');
           _callsBoxContent.append(_callName);
       }     
       _callsBoxContainer.append(_callsBoxContent);

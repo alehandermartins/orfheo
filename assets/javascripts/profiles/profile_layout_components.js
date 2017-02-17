@@ -10,22 +10,6 @@
     var _buttonContainer = $('<div>');
     var userStatus = Pard.UserStatus['status'];
 
-    // if (userStatus == 'outsider'){
-    //   var _signUpButton = Pard.Widgets.SignUpButton().render();
-    //   _signUpButton.addClass('signupButton-Outsider');
-    //   var _innerContainer = $('<div>');
-    //   _innerContainer.append(_signUpButton);
-    //   _innerContainer.addClass('signupButton-container-Outsider');
-    //   _buttonContainer.append(_innerContainer).addClass('outer-signupButton-container-Outsider');
-    // }
-    // else{      
-    //   var _toUserPageBtn = Pard.Widgets.Button('Página de usuario', function(){
-    //   location.href = /users/});      
-    //   _toUserPageBtn.setClass('toUserPage-btn');
-    //   _buttonContainer.append(_toUserPageBtn.render());
-    //   _buttonContainer.addClass('toUserPage-btn-container');
-    // }
-
     var _asideNavContent  = $('<div>');
     asideContent.append(_buttonContainer, Pard.Widgets.ProfileAsideBar(sectionHeader, sectionContent, _asideNavContent).render());
   }
@@ -67,9 +51,9 @@
     asideNavContent.append(_profileNav);
     var _messageOther = $('<p>').addClass('message-otherProfile-asideBar');
     if (userStatus == 'owner'){
-      _messageOther.text('tus otros perfiles');
+      _messageOther.text(Pard.t.text('profile_page.aside.yourOther'));
     }else{
-      _messageOther.text('Otros perfiles del mismo usuario');
+      _messageOther.text(Pard.t.text('profile_page.aside.other'));
     }
 
     if  (_myOtherProfiles.html()) asideNavContent.append(_myOtherProfiles.prepend(_messageOther));
@@ -188,7 +172,7 @@
 
     if ((userStatus == 'owner' && profile.type == 'artist') || (profile.productions && profile.productions.length)) {
       productionContent.addClass('nav-list-container');
-      productionContent.append($('<p>').addClass('message-productions-asideBar').text('Portfolio'));
+      productionContent.append($('<p>').addClass('message-productions-asideBar').text(Pard.t.text('profile_page.aside.portfolio')));
     }
     else{
       productionContent.removeClass('nav-list-container');
@@ -246,7 +230,7 @@
       var _createProductionItem = $('<div>').addClass('production-nav-element-container');
       var _iconPlusColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager('add_circle').render().css({'text-align': 'center', display:'block'}))));
       var _textColumn = $('<div>').addClass('name-column name-column-production-nav');
-      var _text = $('<p>').text('Crea un contenido artístico').addClass('profile-nav-production-name');
+      var _text = $('<p>').text(Pard.t.text('production.createTitle')).addClass('profile-nav-production-name');
       _createProductionItem.append(_iconPlusColumn, _textColumn.append(_text));
 
       var _createProdPopup;
@@ -255,7 +239,7 @@
         .click(function(){
           var _createProdMessage = Pard.Widgets.CreateNewProductionMessage(profile);
           _createProdMessage.setCallback(function(){_createProdPopup.close()});
-          _createProdPopup.setContent('Crea un contenido artístico', _createProdMessage.render());
+          _createProdPopup.setContent(Pard.t.text('production.createTitle'), _createProdMessage.render());
           _createProdPopup.open();
         });
 

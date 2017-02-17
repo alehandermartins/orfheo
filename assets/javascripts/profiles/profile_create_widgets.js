@@ -179,7 +179,7 @@
     _createdWidget.append(_message);
 
     var _form = Pard.Forms.CreateProfile[type];
-    var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Crea');
+    var _submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html(Pard.t.text('createProfile.submit'));
     var _formWidget = Pard.Widgets.PrintForm(_form, _submitButton, type);
 
     var _closepopup = function(){};

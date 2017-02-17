@@ -34,7 +34,7 @@
     var _programBoxContainer = $('<div>').addClass('section-box-container');
     // var _toEventPageBtn = $('<a>').text('Programación general').attr('href','/event?id='+program.event_id).addClass('toEventPageBtn-profile-page');
     var _titleContainer = $('<div>').addClass('title-box-container');
-    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text('Participación en eventos')));
+    _titleContainer.append($('<div>').append($('<span>').addClass('icon-in-box').append(Pard.Widgets.IconManager('current_event').render().css({'font-size':'1.3rem'})), $('<span>').text(Pard.t.text('profile_page.participation'))));
     var _programContent = $('<div>').addClass('box-content');
     _programBoxContainer.append(_titleContainer,_programContent)
 
@@ -52,7 +52,7 @@
       })
     }
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Biografía', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.artistBio'), Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
     var _infoContentBox = $('<div>').addClass('box-content');
     
     var _contact = $('<div>').addClass('information-contact');
@@ -99,14 +99,14 @@
 
 
     if (userStatus == 'owner'){
-      var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer('Participación en convocatorias', Pard.Widgets.IconManager('open_call').render()).render();    
+      var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.call'), Pard.Widgets.IconManager('open_call').render()).render();    
       var _proposalsBoxContent = $('<div>').addClass('box-content');
     if(profile.proposals && profile.proposals.length){
         var _myCallProposals = Pard.Widgets.MyCallProposals(profile);
         _proposalsBoxContent.append(_myCallProposals.render()); 
       }
       else{
-          var _callName = $('<p>').append('No estás inscrito en ninguna convocatoria activa en este periodo.').addClass('activities-box-call-name');
+          var _callName = $('<p>').append(Pard.t.text('profile_page.callMex')).addClass('activities-box-call-name');
           _proposalsBoxContent.append(_callName);
       }     
       _proposalsBoxContainer.append(_proposalsBoxContent);
@@ -142,7 +142,7 @@
 
     _createdWidget.append(_title);
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer('Información', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.production.noDuration'), Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
 
     var _infoContentBox = $('<div>').addClass('box-content');  
    
@@ -166,7 +166,7 @@
     if (production['duration'] != 'false' && production['duration']){
       var _durationText;
       if ($.isNumeric(production['duration'])) _durationText = production['duration']+' min';
-      else if (production['duration'] == 'none') _durationText = 'No tiene duración definida'
+      else if (production['duration'] == 'none') _durationText = Pard.t.text('profile_page.production.noDuration')
       else _durationText = production['duration'];
       var _duration = $('<p>').addClass('information-contact-text-column').append($('<span>').text(_durationText));
       var _durationIcon = Pard.Widgets.IconManager('duration').render().addClass('information-contact-icon-column');
@@ -176,13 +176,13 @@
     if (production['children']){       
       var _children = $('<p>').addClass('information-contact-text-column');
       if(production['children'] == 'all_public') _children.append($('<span>').text(Pard.Widgets.Dictionary(production.children).render()));
-      else _children.append($('<span>').text('Público '+Pard.Widgets.Dictionary(production.children).render().toLowerCase()));
+      else _children.append($('<span>').text(Pard.t.text('profile_page.production.public')+Pard.Widgets.Dictionary(production.children).render().toLowerCase()));
       var _childrenIcon = Pard.Widgets.IconManager('children').render().addClass('information-contact-icon-column');
       _addtionalInfo.append(_childrenIcon, _children);
     }
 
     if(production['cache'] && production['cache'].visible == 'true' && production['cache'].value){
-      var _cache = $('<p>').addClass('information-contact-text-column').append($('<span>').text('Caché: '+production.cache.value));
+      var _cache = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.t.text('profile_page.production.cache')+production.cache.value));
       var _cacheIcon = Pard.Widgets.IconManager('cache').render().addClass('information-contact-icon-column');
       _addtionalInfo.append(_cacheIcon, _cache);
     }

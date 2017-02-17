@@ -44,7 +44,7 @@
 
   ns.Widgets.MultimediaContent = function(production, callback){
 
-    var _multimediaContainer = Pard.Widgets.SectionBoxContainer('Contenidos multimedia', Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
+    var _multimediaContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.multimedia'), Pard.Widgets.IconManager('multimedia').render().addClass('multimedia-icon-title-box')).render();
     _multimediaContainer.addClass('multimedia-container section-box-container'); 
     var userStatus = Pard.UserStatus['status'];
 
@@ -58,7 +58,7 @@
         var _outerVideocontainer = $('<div>');
         var _videoContainer = $('<div>').addClass('video-production-container')
 
-        var _videoTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Vídeos')));
+        var _videoTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text(Pard.t.text('profile_page.video'))));
         
         // var _videoTitle = $('<div>').append($('<div>').addClass('video-title-box').append($('<h6>').text('Vídeos')));
 
@@ -74,7 +74,7 @@
 
         var _outerAudiocontainer = $('<div>');
         var _audioContainer = $('<div>').addClass('image-production-container');
-        var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Audio')));
+        var _audioTitle = $('<div>').addClass('single-image-container ').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text(Pard.t.text('profile_page.audio'))));
         _multimediaContainer.append(_outerAudiocontainer);
         multimedia.audio.forEach(function(audio){
           _audioContainer.prepend($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(audio)));
@@ -84,11 +84,9 @@
       }
 
       if(multimedia.image != false){
-                        console.log('multimedia.image')
-
         var _outerImagescontainer = $('<div>');
         var _imageContainer = $('<div>').addClass('image-production-container');
-        var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text('Imágenes')));      
+        var _imageTitle = $('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content images-title-box').append($('<h6>').text(Pard.t.text('profile_page.images'))));      
         _multimediaContainer.append(_outerImagescontainer);
         multimedia.image.forEach(function(image){
           _imageContainer.append($('<div>').addClass('single-image-container').append($('<div>').addClass('single-image-content').append(image)));

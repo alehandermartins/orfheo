@@ -88,7 +88,7 @@
       for(var field in _form){
         if(_form[field].type == 'mandatory' && !(_form[field].input.getVal())){
           _form[field].input.addWarning();
-          _invalidInput.text('Por favor, revisa los campos obligatorios.');
+          _invalidInput.text(Pard.t.text('form.incomplete'));
           _check = false;
         }
       } 

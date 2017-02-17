@@ -15,7 +15,7 @@
       .click(function(){
         _modifyMessage = Pard.Widgets.ModifyProfileMessage(profile, _submitBtn);
         _modifyMessage.setCallback(_modifyProfilePopup.close());
-        _modifyProfilePopup.setContent('Modifica tu perfil', _modifyMessage.render());
+        _modifyProfilePopup.setContent(Pard.t.text('modifyProfile.title'), _modifyMessage.render());
         _modifyProfilePopup.open();
       });
 
@@ -42,7 +42,7 @@
     var _confirmPopup = Pard.Widgets.Popup();
     var _deleteMessage = Pard.Widgets.DeleteProfileMessage(profile.profile_id, function(){_confirmPopup.close();});
     _confirmPopup.setContent(Pard.t.text('popup.delete.title'), _deleteMessage.render());
-    var _deleteProfile = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), 'Elimina el perfil').addClass('deleteProfile-caller')
+    var _deleteProfile = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), Pard.t.text('modifyProfile.delete')).addClass('deleteProfile-caller')
       .click(function(){
         _confirmPopup.open();
       });
@@ -68,7 +68,7 @@
         var _closepopup2 = function(){
           _popup.close();
         }
-        var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup2, function(){
+        var _message = Pard.Widgets.PopupContent(Pard.t.text('popup.noMapLocation.title'), Pard.Widgets.AlertNoMapLocation(_formVal, _closepopup2, function(){
            Pard.Backend.modifyProfile(_formVal, Pard.Events.CreateProfile);
           _closepopup();
         }));
@@ -99,9 +99,9 @@
   ns.Widgets.DeleteProfileMessage = function(profile_id, closePopup){  
     
     var _createdWidget = $('<div>');
-    var _message = $('<p>').text('Confirmando, tu perfil será eliminado y con ello todos sus contenidos. Sin embargo, no se cancelarán las propuestas enviadas a convocatorias.');
-    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
-    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+    var _message = $('<p>').text(Pard.t.text('popup.delete.profile'));
+    var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text(Pard.t.text('popup.delete.confirm'));
+    var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text(Pard.t.text('popup.delete.cancel'));
 
     _yesBtn.click(function(){
       Pard.Backend.deleteProfile(profile_id, Pard.Events.DeleteProfile);

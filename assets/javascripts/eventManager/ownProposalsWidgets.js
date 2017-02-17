@@ -272,13 +272,13 @@
         if (received){
            if ($.isNumeric(field) && _form[field].type == 'mandatory' && !(_form[field].input.getVal())){
             _form[field].input.addWarning();
-            _invalidInput.text('Por favor, revisa los campos obligatorios.');
+            _invalidInput.text(Pard.t.text('form.incomplete'));
             _check = false;
           }
         }
         if($.inArray(field, _mandatoryFields)>-1 && !(_form[field].input.getVal()) && field != 'category'){
           _form[field].input.addWarning();
-          _invalidInput.text('Por favor, revisa los campos obligatorios.');
+          _invalidInput.text(Pard.t.text('form.incomplete'));
           _check = false;
         }
       }

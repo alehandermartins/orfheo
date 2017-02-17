@@ -23,6 +23,18 @@
       institution:'Institución',
       federation: 'Federación',
       foundation:'Fundación',
+      music:'Música',
+      arts: 'Artes Escénicas',
+      expo: 'Exposición',
+      poetry: 'Poesía',
+      audiovisual: 'Audiovisual',
+      street_art: 'Street Art',
+      workshop: 'Taller',
+      other: 'Otros',
+      gastronomy: 'Gastronomía'
+    },
+    form:{
+      incomplete: 'Por favor, revisa los campos obligatorios.'
     },
     popup_alert:{
       error: '¡Error!',
@@ -35,9 +47,11 @@
     popup:{
       delete:{
         title:'¿Estás seguro/a?',
-        mex: 'Confirmando, todos tus datos serán eliminados de orfheo: se cancelarán todos tus perfiles y sus contenidos. Con ello, todas tus inscripciones en convocatorias serán borradas.',
+        user: 'Confirmando, todos tus datos serán eliminados de orfheo: se cancelarán todos tus perfiles y sus contenidos. Con ello, todas tus inscripciones en convocatorias serán borradas.',
+        profile: 'Confirmando, tu perfil será eliminado y con ello todos sus contenidos. Sin embargo, no se cancelarán las propuestas enviadas a convocatorias.',
         confirm:'Confirma',
-        cancel: 'Anula'
+        cancel: 'Anula',
+        production:'Confirmando, tu proyecto artístico se eliminará de tu portfolio. Esa acción no afectará a tu inscripción en convocatorias.'
       },
       modifypasswd:{
         title:'Introduce una nueva contraseña',
@@ -186,6 +200,7 @@
       introA: 'Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.',
       introS: 'Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla.',
       introO: 'Esta información se mostrará en la página de perfil y podrás modificarla.',
+      submit: 'Crea',
       artistForm:{
         nameL: "Nombre artistico",
         nameH: "Es el nombre de tu perfil de artista.",
@@ -230,6 +245,44 @@
         bioH: "Cualquier cosa que quieras contar sobre la organización."
       }
     },
+    modifyProfile:{
+      title: 'Modifica tu perfil',
+      delete: 'Elimina el perfil',
+    },
+    proposal:{
+      form:{
+        nameL:"Nombre",
+        emailL:"Correo",
+        addressL:"Dirección",
+        bioL:"Descripción / Información",
+      }
+    },
+    production:{
+      createTitle: 'Crea un contenido artístico',
+      form:{
+        titleL: "Título de la propuesta artística",
+        descriptionL: 'Descripción',
+        descriptionH: 'Decribe con más detalles tu propuesta artística.',
+        short_descriptionL:'Descripción (muy) breve',
+        short_descriptionH:'Resume tu propuesta artística en máximo 80 caracteres. Quedan:',
+        durationL: "Duración *",
+        childrenL:"Edades público",
+        childrenH: "Indicar a qué tipo de público está dirigida la propuesta.",
+        linksL:"Materiales online",
+        linksH: "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor.",
+        photoL: "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+        cacheL:"Caché / Gastos Producción",
+        noDefinedDuration:"No tiene duración definida",
+        catSel:'Selecciona una categoría *',
+        submit: 'Crea'
+      },
+      modify:{
+        title: 'Modifica tu proyecto artístico',
+        cat:'Categoría',
+        initMex: 'Con este formularo puedes modificar el contenido de la página de tu proyecto artistico. Los cambios que hagas no afectarán los datos enviados a convocatorias.',
+        delete: 'Elimina este proyecto artístico'
+      }
+    },
     signUp:{
       btn:'Únete',
       popup:{
@@ -255,7 +308,17 @@
         passwd:'Contraseña',
         gobtn:'Entra',
         rememberme:'Recuérdame',
-        forgot: '¿Has olvidado la contraseña?'
+        popup:{
+          notValidated: '<h4 style="margin-top:-1.2rem;">Usuario no validado</h4> <p>Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam...</p>',
+          sendOther:'...o vuelve a escribir aquí tu correo, y te enviamos otro.',
+          okbtn:'Enviar',
+          notValidEmail:'El email no es valido',
+          sent: 'Te hemos enviado un correo con las instrucciones para acceder a tu cuenta.',
+          nouser:'El usuario no existe.',
+          notExisting: '¡No existe ningún usuario asociado con este correo!',
+          registerbtn:'Regístrate',
+          registerTitle: 'Regístrate para continuar'
+        }
       },
       eventPage:{
         nouser: 'Si no tienes una cuenta:',
@@ -302,6 +365,33 @@
         space: "Saca el máximo partido a tu espacio,<br>alberga eventos artísticos,<br>abre las puertas a la cultura",
         organization: "Da a conocer tu proyecto,<br>lanza convocatorias,<br>expande tu comunidad",
         create: "Crea un perfil"
+      }
+    },
+    profile_page:{
+      aside:{
+        yourOther: 'tus otros perfiles',
+        other:'Otros perfiles del mismo usuario',
+        portfolio:'Portfolio'
+      },
+      artistBio: 'Biografía',
+      call:'Participación en convocatorias',
+      callMex:'No estás inscrito en ninguna convocatoria activa en este periodo.',
+      multimedia:'Contenidos multimedia',
+      video: 'Vídeos',
+      images: 'Imágenes',
+      audio:'Audio',
+      spaceInfo: 'Información',
+      events: 'Eventos',
+      organizationInfo:'Información',
+      createEventBtn:'Crea un evento y lanza una convocatoria',
+      createEventTitle: 'Tus eventos en orfheo',
+      participation:'Participación en eventos',
+      
+      production:{
+        cache:'Caché: ',
+        public: 'Público ',
+        noDuration: 'No tiene duración definida',
+        info: 'Información'
       }
     },
     event_page:{

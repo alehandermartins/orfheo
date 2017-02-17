@@ -110,59 +110,28 @@
       commercial: Pard.t.text('categories.commercial'),
       home: Pard.t.text('categories.home'),
       open_air: Pard.t.text('categories.open_air'),
-      music: 'Música',
-      arts: 'Artes Escénicas',
-      expo: 'Exposición',
-      poetry: 'Poesía',
-      audiovisual: 'Audiovisual',
-      street_art: 'Street Art',
-      workshop: 'Taller',
-      other: 'Otros',
-      gastronomy: 'Gastronomía',
-      festival: 'Festival',
-      name: 'Nombre',
-      category:'Categoría',
-      email:'Email',
-      phone: 'Teléfono',
-      title: 'Título',
-      short_description: 'Descripción breve',
-      description: 'Descripción',
-      duration: 'Duración (minutos)',
-      components: 'Integrantes',
-      meters: 'Espacio necesario',
-      children: 'Para niños',
-      repeat: 'Repite',
-      waiting_list:'Lista de espera',
-      needs: 'Necesidades',
-      sharing:'Material compartido',
-      availability: 'Disponibilidad',
-      amend: 'Enmienda',
-      responsible: 'Responsable',
-      address: 'Dirección',
-      own: 'Programación propria',
-      un_wanted: 'Preferencias',
-      program: 'Programa',
-      link_orfheo: 'Enlace a perfil',
-      comments: 'Comentarios',
-      confirmed: 'Confirmado',
-      time: 'Horario',
-      day: 'Día',
-      space_category:'Categoría espacio',
-      artist_categories: 'Categorías artisticas',
-      space_number: 'Numero espacio',
-      festival:'Festival',
-      association:'Asociación', 
-      ngo:'ONG', 
-      collective:'Colectivo', 
-      interprise:'Empresa', 
-      institution:'Institución',
-      federation: 'Federación',
-      foundation:'Fundación',
-      all_public:'Todos los públicos',
-      baby:'Infantil', 
-      family:"Familiar", 
-      young: "Juvenil",  
-      adults: "Adultos",
+      music: Pard.t.text('categories.music'),
+      arts: Pard.t.text('categories.arts'),
+      expo: Pard.t.text('categories.expo'),
+      poetry: Pard.t.text('categories.poetry'),
+      audiovisual: Pard.t.text('categories.audiovisual'),
+      street_art: Pard.t.text('categories.street_art'),
+      workshop: Pard.t.text('categories.workshop'),
+      other: Pard.t.text('categories.other'),
+      gastronomy: Pard.t.text('categories.gastronomy'),
+      festival: Pard.t.text('categories.festival'),
+      association: Pard.t.text('categories.association'), 
+      ngo: Pard.t.text('categories.ngo'), 
+      collective: Pard.t.text('categories.collective'),
+      interprise: Pard.t.text('categories.interprise'), 
+      institution: Pard.t.text('categories.institution'),
+      federation: Pard.t.text('categories.federation'),
+      foundation: Pard.t.text('categories.foundation'),
+      all_public:Pard.t.text('widget.inputChildren.all_public'),
+      baby: Pard.t.text('widget.inputChildren.baby'), 
+      family:Pard.t.text('widget.inputChildren.family'), 
+      young: Pard.t.text('widget.inputChildren.young'),  
+      adults: Pard.t.text('widget.inputChildren.adults'),
       
       already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},
@@ -217,7 +186,7 @@
       });
       
       var _emailRecovery = $('<div>');
-      var _caller = $('<a>').attr('href','#/').text('¿Has olvidado la contraseña?');
+      var _caller = $('<a>').attr('href','#/').text(Pard.t.text('login.dropdown.recover'));
 
       var _popup;
       _caller
@@ -227,7 +196,7 @@
         .click(function(){
           var _recoveryMessage = Pard.Widgets.RecoveryMessage();
           _recoveryMessage.setCallback(function(){_popup.close()});
-          _popup.setContent('Recupera tu cuenta', _recoveryMessage.render());
+          _popup.setContent(Pard.t.text('popup.recover.title'), _recoveryMessage.render());
           _popup.open();
         });
       
@@ -247,31 +216,31 @@
 
     ns.Widgets.NotValidatedUserMessage = function(){
       var _messageContainer = $('<div>'); 
-      var _message = $('<div>').append($('<p>').html('<h4 style="margin-top:-1.2rem;">Usuario no validado</h4> <p>Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam...</p>'));
+      var _message = $('<div>').append($('<p>').html(Pard.t.text('login.popup.notValidated')));
 
-      var _userRecovery = $('<div>').append($('<span>').html('...o vuelve a escribir aquí tu correo, y te enviamos otro.'));
+      var _userRecovery = $('<div>').append($('<span>').html(Pard.t.text('login.popup.sendOther')));
 
       var _recoveryWidget = $('<div>');
       var regEx = /[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]/i;
 
       var _email = Pard.Widgets.Input('', 'email');
       var _result = $('<div>').addClass('error-text');
-      var _sendButton = Pard.Widgets.Button('Enviar').render();
+      var _sendButton = Pard.Widgets.Button(Pard.t.text('login.popup.okbtn')).render();
       _sendButton.addClass('recoveryPasswd-popup-button');
 
       _sendButton.on('click', function(){
           _result.empty();
           if(!regEx.test(_email.getVal())) {
-            _result.text('El email no es valido');
+            _result.text(Pard.t.text('login.popup.notValidEmail'));
             _email.addWarning();
           }
           else {
             Pard.Backend.passwordRecovery(_email.getVal(), function(data){
               if (data['status'] == 'success'){
-                Pard.Widgets.Alert('', 'Te hemos enviado un correo con las instrucciones para acceder a tu cuenta.');
+                Pard.Widgets.Alert('', Pard.t.text('login.popup.sent'));
               }
               else {
-                _result.text('El usuario no existe.');
+                _result.text(Pard.t.text('login.popup.nouser'));
               }
             });
           }
@@ -299,21 +268,21 @@
 
   ns.Widgets.NoExistingUserMessage = function(){
       var _messageContainer = $('<div>');
-      var _message  = $('<div>').text('¡No existe ningún usuario asociado con este correo!').css({
+      var _message  = $('<div>').text(Pard.t.text('login.popup.notExisting')).css({
         'font-size': '18px',
         'margin-bottom':'1rem'
       });
       
       var _register = $('<div>');
       var _registrationPopup;
-      var _signUpButton = $('<button>').attr({type:'button'}).html('Regístrate')
+      var _signUpButton = $('<button>').attr({type:'button'}).html(Pard.t.text('login.popup.registerbtn'))
         .one('click',function(){
           _registrationPopup = Pard.Widgets.Popup();
         })
         .click(function(){
           var _registrationMex = Pard.Widgets.Registration();
           _registrationMex.setCallback(function(){_registrationPopup.close()});
-          _registrationPopup.setContent('Regístrate para continuar', _registrationMex.render());
+          _registrationPopup.setContent(Pard.t.text('login.popup.registerTitle'), _registrationMex.render());
           _registrationPopup.open();
         })
         .addClass('signupButton-alert');
@@ -334,15 +303,12 @@
 
 
   ns.Widgets.AvailabilityDictionary = function(day){ 
-    var _date = moment(new Date(day)).locale("es").format('dddd D MMMM');
+    var _date = moment(new Date(day)).locale(Pard.UserInfo['lang']).format('dddd D MMMM');
     var _dateCapitalized = '';
     _date.split(' ').forEach(function(word){
       _dateCapitalized = _dateCapitalized + word.charAt(0).toUpperCase() + word.slice(1) + ' ';
     });
     return _dateCapitalized;
-    
-    // if (day.toString() == 'Sat Oct 15 2016 12:00:00 GMT+0200 (CEST)') return 'Sabado 15 de Octubre';
-    // if (day.toString() == 'Sun Oct 16 2016 12:00:00 GMT+0200 (CEST)') return 'Domingo 16 de Octubre';
   }
 
 }(Pard || {}));

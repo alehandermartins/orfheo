@@ -93,7 +93,7 @@
   ns.Widgets.DeleteUserMessage = function(){  
     
     var _createdWidget = $('<div>');
-    var _message = $('<p>').text(Pard.t.text('popup.delete.mex'));
+    var _message = $('<p>').text(Pard.t.text('popup.delete.user'));
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text(Pard.t.text('popup.delete.confirm'));
     var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text(Pard.t.text('popup.delete.cancel'));
 
