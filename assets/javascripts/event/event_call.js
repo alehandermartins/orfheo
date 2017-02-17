@@ -74,14 +74,14 @@
     var _popupMessageSentProposal = function(data){
       var _container = $('<div>');
       var _closepopup = function(){};
-      var _message = $('<div>').append($('<h4>').text('¡Genial!').addClass('success-inscription-title'),$('<h5>').text('Te has inscrito correctamente.').css({
+      var _message = $('<div>').append($('<h4>').text(Pard.t.text('call.successTitle')).addClass('success-inscription-title'),$('<h5>').text(Pard.t.text('call.succesMex')).css({
         'text-align':'center',
         'margin-bottom': '2rem'
       }));
-      var _toProfilePageBtn = Pard.Widgets.Button('Ve a pagína de perfil', function(){
+      var _toProfilePageBtn = Pard.Widgets.Button(Pard.t.text('call.toProfile'), function(){
           location.href = '/profile?id=' + data.model['profile_id'];  
       }).render().addClass('success-inscription-btn');
-      var _sendOtherProposal = Pard.Widgets.Button('Envía otra propuesta', function(){
+      var _sendOtherProposal = Pard.Widgets.Button(Pard.t.text('call.sendOther'), function(){
           _closepopup();
           _button.trigger('click');
       }).render().addClass('success-inscription-btn');
@@ -99,7 +99,6 @@
     profiles.forEach(function(profile){
       var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
       var _card = Pard.Widgets.CreateCard(profile).render();
-      // var _card = $('<button>').text(profile.name);
       _card.removeAttr('href');
       _card.attr('href','#/');
       _card.click(function(){

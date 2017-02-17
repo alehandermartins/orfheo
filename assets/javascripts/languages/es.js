@@ -334,8 +334,11 @@
         artistText: 'Enseña tu arte',
         spaceText: 'Alberga actividades',
         organizationText: 'Envía tu propuesta'
-
-      }
+      },
+      successTitle: '¡Genial!',
+      succesMex:'Te has inscrito correctamente.',
+      sendOther: 'Envía otra propuesta',
+      toProfile: 'Ve a pagína de perfil'
     },  
     footer:{
       languages:'Idiomas',
@@ -386,7 +389,7 @@
       createEventBtn:'Crea un evento y lanza una convocatoria',
       createEventTitle: 'Tus eventos en orfheo',
       participation:'Participación en eventos',
-      
+
       production:{
         cache:'Caché: ',
         public: 'Público ',

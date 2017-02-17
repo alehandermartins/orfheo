@@ -121,17 +121,17 @@
       if (elem['provider'] == 'my_web'){
         var _iconLink = Pard.Widgets.IconManager('my_web').render();
         var _url = elem['url'];
-        var _link = $('<a>').attr({
-          href: elem['url'],
-          target: '_blank'
-        }).css({
-          'word-wrap': 'break-word',
-        });
         ['http://', 'https://', 'www.'].forEach(function(string){
           if(_url.indexOf(string) > -1) {
             _url  = _url.substring(string.length);
           }
         })
+        var _link = $('<a>').attr({
+          href: '//'+_url,
+          target: '_blank'
+        }).css({
+          'word-wrap': 'break-word',
+        });
         _link.text(_url);
        _personalWebs.append($('<div>').append(_iconLink.addClass('information-contact-icon-column'), $('<p>').addClass('information-contact-text-column').append(_link)));
       }
