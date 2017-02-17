@@ -276,7 +276,7 @@ ns.Widgets = ns.Widgets || {};
     _cards.append(_searchResult);
 
     _searchWidget.select2({
-      placeholder: Pard.t.text('searchWidget.placeholder'),
+      placeholder: Pard.t.text('widget.search.placeholder'),
       ajax: {
         url: '/search/suggest',
         type: 'POST',

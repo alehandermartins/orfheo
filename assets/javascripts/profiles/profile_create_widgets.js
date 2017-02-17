@@ -76,15 +76,15 @@
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist').render().addClass('create-artist-btn-popup');
     var _organizationButton = Pard.Widgets.CreateTypeProfile('organization').render().addClass('create-organization-btn-popup');
 
-    _spaceButton.append($('<p>').html('Alberga arte y posiciónate en el mapa cultural').css({
+    _spaceButton.append($('<p>').html(Pard.t.text('createProfile.spaceText')).css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));
-    _artistButton.append($('<p>').html('Muestra tu portfolio <br> y participa en grandes eventos').css({
+    _artistButton.append($('<p>').html(Pard.t.text('createProfile.artistText')).css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));
-    _organizationButton.append($('<p>').html('Da a conocer tu proyecto y lanza convocatorias').css({
+    _organizationButton.append($('<p>').html(Pard.t.text('createProfile.organizationText')).css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));
@@ -122,9 +122,9 @@
     var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
     var _organizationIcon = Pard.Widgets.IconManager('organization').render().addClass('create-profile-btn-icon');
 
-    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text('Artista').addClass('create-profile-btn-text'));
-    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text('Espacio').addClass('create-profile-btn-text'));
-    var _organizationButtonHtml = $('<div>').append(_organizationIcon, $('<span>').text('Organización').addClass('create-profile-btn-text'));
+    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text(Pard.t.text('type.artist')).addClass('create-profile-btn-text'));
+    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text(Pard.t.text('type.space')).addClass('create-profile-btn-text'));
+    var _organizationButtonHtml = $('<div>').append(_organizationIcon, $('<span>').text(Pard.t.text('type.organization')).addClass('create-profile-btn-text'));
 
     var _buttonDesign = {
       artist: _artistButtonHtml,
@@ -133,9 +133,9 @@
     }
 
     var _popupTitle = {
-      artist: 'Artista',
-      space: 'Espacio',
-      organization: 'Organización'
+      artist: Pard.t.text('type.artist'),
+      space: Pard.t.text('type.space'),
+      organization: Pard.t.text('type.organization')
     }
 
     // var _createTypeProfilePopup;
@@ -169,12 +169,10 @@
   ns.Widgets.CreateTypeProfileMessage = function(type, callbackEvent){
     var _createdWidget = $('<div>').addClass('createProfilePopup createProfilePopup-'+type);
 
-    var _message = $('<div>').text('Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.');
-
     var _initialMessages = {
-      artist: 'Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.',
-      space: 'Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla.',
-      organization: 'Esta información se mostrará en la página de perfil y podrás modificarla.'
+      artist: Pard.t.text('createProfile.introA'),
+      space: Pard.t.text('createProfile.introS'),
+      organization: Pard.t.text('createProfile.introO')
     }
 
     var _message = $('<div>').text(_initialMessages[type]);
@@ -220,7 +218,7 @@
         var _closepopupAlert = function(){
           _popup.close();
         }
-        var _message = Pard.Widgets.PopupContent('¡Atencion!', Pard.Widgets.AlertNoMapLocation(_submittedForm, _closepopupAlert, function(){
+        var _message = Pard.Widgets.PopupContent(Pard.t.text('popup.noMapLocation.title'), Pard.Widgets.AlertNoMapLocation(_submittedForm, _closepopupAlert, function(){
             if (callbackEvent)  Pard.Backend.createProfile(_submittedForm, function(data){
                 callbackEvent(data);
                 _closepopup();

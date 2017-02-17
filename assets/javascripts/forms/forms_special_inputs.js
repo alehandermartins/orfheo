@@ -90,39 +90,6 @@
   
   }
 
-  // ns.Widgets.InputTel = function(placeholder){
-
-  // 	var checkPhone = function(){
-  // 		var okPattern = new RegExp (/\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*/);
-  //     var notPattern = new RegExp (/[a-z]/);
-  //       if ((notPattern.test(_inputTel.getVal())) || !(okPattern.test(_inputTel.getVal()))) {_inputTel.addWarning(); return ''}
-  //       return _inputTel.getVal();
-  //   }
-
-  // 	var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
-
-  // 	return{
-  //     render: function(){
-  //       return _inputTel.render();
-  //     },
-  //     getVal: function(){
-  //       return checkPhone();
-  //     },
-  //     setVal: function(value){
-  //       _inputTel.setVal(value);
-  //     },
-  //     addWarning: function(){
-  //       _inputTel.addWarning();
-  //     },
-  //     removeWarning: function(){
-  //       _inputTel.removeWarning();
-  //     },
-  //     setClass: function(_class){
-  //       _inputTel.setClass(_class);
-  //     }
-  //   }
-  // } 
-
 
   ns.Widgets.InputTelContactForm = function(placeholder){
 
@@ -177,7 +144,7 @@
     }
 
     var _inputTel = Pard.Widgets.Input(placeholder, 'tel', function(){_inputTel.removeWarning()}, checkPhone);
-    var _showTel = Pard.Widgets.CheckBox('Muestra en mi página de perfil') 
+    var _showTel = Pard.Widgets.CheckBox(Pard.t.text('widget.inputTel.show')) 
 
 
     return{
@@ -236,7 +203,7 @@
     var _cacheInput = $('<div>');
 
     var _inputCache = Pard.Widgets.Input(placeholder, 'text', function(){_inputCache.removeWarning()});
-    var _showCache = Pard.Widgets.CheckBox('Muestra esta información en mi página') 
+    var _showCache = Pard.Widgets.CheckBox(Pard.t.text('widget.inputCache.show')) 
 
 
     return{
@@ -283,7 +250,7 @@
       'adults'
     ] ;
     var _labels = _values.map(function(val){
-      return Pard.Widgets.Dictionary(val).render();
+      return Pard.t.text('widget.inputChildren.'+val);
     }); 
 
     var _createdWidget = Pard.Widgets.Selector(_labels, _values);
@@ -437,9 +404,9 @@
     var _arrayDays = [];
     millisecValues.forEach(function(value){
       var _newDate = new Date(parseInt(value));
-      var _day = moment(_newDate).locale('es').format('dddd DD/MM/YYYY');
+      var _day = moment(_newDate).locale(Pard.UserInfo['lang']).format('dddd DD/MM/YYYY');
       _select.append($('<option>').text(_day).val(value));
-      _arrayDays.push(moment(_newDate).locale('es').format('YYYY-MM-DD'));
+      _arrayDays.push(moment(_newDate).locale(Pard.UserInfo['lang']).format('YYYY-MM-DD'));
     });
     _createdWidget.append(_select);
     _select.on('change',function(){
@@ -463,7 +430,7 @@
         if(_select.val()) {
           var _daysArray = [];
           _select.val().forEach(function(val){
-            _daysArray.push(moment(new Date(parseInt(val))).locale('es').format('YYYY-MM-DD'));
+            _daysArray.push(moment(new Date(parseInt(val))).locale(Pard.UserInfo['lang']).format('YYYY-MM-DD'));
           });
           return _daysArray;
         }
@@ -544,9 +511,9 @@
   ns.Widgets.InputAddressArtist = function(){
 
     var _inputForm = {
-      locality: Pard.Widgets.Input('Ciudad*','text', function(){_inputForm.locality.removeWarning(); addressValue();}),
-      postal_code: Pard.Widgets.Input('Código postal*','text', function(){_inputForm.postal_code.removeWarning(); addressValue();}),
-      neighborhood: Pard.Widgets.Input('Barrio (opcional)', 'text', function(){
+      locality: Pard.Widgets.Input(Pard.t.text('widget.inputAddressArtist.city'),'text', function(){_inputForm.locality.removeWarning(); addressValue();}),
+      postal_code: Pard.Widgets.Input(Pard.t.text('widget.inputAddressArtist.postalCode'),'text', function(){_inputForm.postal_code.removeWarning(); addressValue();}),
+      neighborhood: Pard.Widgets.Input(Pard.t.text('widget.inputAddressArtist.neighborhood'), 'text', function(){
         addressValue();
       })
     }
@@ -624,12 +591,12 @@
     };
 
     var _inputForm = {
-      route: Pard.Widgets.Input('Calle','text', function(){_inputForm.route.removeWarning();}, function(){_checkLocation();}),
-      street_number: Pard.Widgets.Input('Numero', 'text', function(){_inputForm.street_number.removeWarning();}, function(){_checkLocation();}),
-      door: Pard.Widgets.Input('Piso / Puerta', 'text', function(){_inputForm.door.removeWarning();}, function(){_checkLocation();}),
-      locality: Pard.Widgets.Input('Ciudad','text', function(){_inputForm.locality.removeWarning();}, function(){_checkLocation();}),
-      country: Pard.Widgets.Input('País','text', function(){_inputForm.country.removeWarning();}, function(){_checkLocation();}),
-      postal_code: Pard.Widgets.Input('Código postal','text', function(){_inputForm.postal_code.removeWarning();}, function(){_checkLocation();} )
+      route: Pard.Widgets.Input(Pard.t.text('widget.inputAddressSpace.street'),'text', function(){_inputForm.route.removeWarning();}, function(){_checkLocation();}),
+      street_number: Pard.Widgets.Input(Pard.t.text('widget.inputAddressSpace.number'), 'text', function(){_inputForm.street_number.removeWarning();}, function(){_checkLocation();}),
+      door: Pard.Widgets.Input(Pard.t.text('widget.inputAddressSpace.door'), 'text', function(){_inputForm.door.removeWarning();}, function(){_checkLocation();}),
+      locality: Pard.Widgets.Input(Pard.t.text('widget.inputAddressSpace.city'),'text', function(){_inputForm.locality.removeWarning();}, function(){_checkLocation();}),
+      country: Pard.Widgets.Input(Pard.t.text('widget.inputAddressSpace.state'),'text', function(){_inputForm.country.removeWarning();}, function(){_checkLocation();}),
+      postal_code: Pard.Widgets.Input(Pard.t.text('widget.inputAddressSpace.postalCode'),'text', function(){_inputForm.postal_code.removeWarning();}, function(){_checkLocation();} )
     }
 
     for (var field in _inputForm) _inputForm[field].setClass(field+'-addressForm');
@@ -713,7 +680,7 @@
     var _check = true;
     var _latField = Pard.Widgets.Input('','text');
     var _lonField = Pard.Widgets.Input('','text');
-    var _hereBtn = $('<a>').text('aquí').attr('href','#/');
+    var _hereBtn = $('<a>').text(Pard.t.text('widget.inputAddressSpace.insertGeoBtn')).attr('href','#/');
 
     var _checkLocation = function(location){
       _errorBox.empty()
@@ -730,7 +697,7 @@
             _displayMap(_geocod);
           }
           else{
-            _errorBox.append($('<p>').text('¡Atención! Google no reconoce la dirección insertada: corrígela, si quieres que sea localizada correctamente.').css({
+            _errorBox.append($('<p>').text(Pard.t.text('widget.inputAddressSpace.warning')).css({
               'color':'red',
               'margin-bottom':'0'
             }));
@@ -780,7 +747,7 @@
           var _geocodField = $('<div>');
           var _latLabel = $('<label>').text('Latitud').append(_latField.render());
           var _lonLabel = $('<label>').text('Longitud').append(_lonField.render());
-          var _geoCodText = $('<p>').append('Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ', _hereBtn,'.').css({'font-size':'0.875rem','margin-top':'0.4rem'});
+          var _geoCodText = $('<p>').append(Pard.t.text('widget.inputAddressSpace.insertGeo'), _hereBtn,'.').css({'font-size':'0.875rem','margin-top':'0.4rem'});
           _hereBtn.click(function(){
             _geocod = {lat: _latField.getVal(), lng: _lonField.getVal()};
             _location = [{lat: _geocod.lat, lon: _geocod.lng, zoom:17}];
@@ -795,7 +762,7 @@
         geomap.SetLocations(_location, true);
       }
       else{
-        _errorBox.append($('<p>').text('¡Atención! Google no reconoce la dirección insertada: corrígela, si quieres que sea localizada correctamente.').css({
+        _errorBox.append($('<p>').text(Pard.t.text('widget.inputAddressSpace.warning')).css({
           'color':'red',
           'margin-bottom':'0'
         }));
@@ -842,7 +809,7 @@
     var _createdWidget = $('<div>');    
     var _results = [];
     var _inputs = [];
-    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url',function(){
+    var _input = Pard.Widgets.Input(Pard.t.text('widget.inputWeb.placeholder'),'url',function(){
       _addInputButton.addClass('add-input-button-enlighted')
     });
     _input.setClass('add-multimedia-input-field');
@@ -850,7 +817,7 @@
 
     var _addnewInput = function(url){
       var _container = $('<div>');
-      var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace correspondiente y dale al botón para validar','url');
+      var _newInput = Pard.Widgets.Input(Pard.t.text('widget.inputWeb.placeholder'),'url');
       _newInput.setClass('add-multimedia-input-field');
       _newInput.setVal(url);
       _newInput.setAttr('disabled', true);
@@ -953,7 +920,7 @@
     var _createdWidget = $('<div>'); 
     var _results = [];
     var _inputs = [];
-    var _input = Pard.Widgets.Input('Copia y pega aquí el enlace/código correspondiente y dale al botón para validar','url', function(){
+    var _input = Pard.Widgets.Input(Pard.t.text('widget.inputMultimedia.placeholder'),'url', function(){
       _addInputButton.addClass('add-input-button-enlighted');
       _invalidInput.empty();
     });
@@ -962,7 +929,7 @@
 
     var _addnewInput = function(url){
       var _container = $('<div>');
-      var _newInput = Pard.Widgets.Input('Copia y pega aquí el enlace/código correspondiente y dale al botón para validar','url');
+      var _newInput = Pard.Widgets.Input(Pard.t.text('widget.inputMultimedia.placeholder'),'url');
       _newInput.setClass('add-multimedia-input-field');
       _newInput.setVal(url);
       _newInput.setAttr('disabled', true);
@@ -1061,7 +1028,7 @@
       if(url.match(sc_url)) return _callProvider('soundcloud', 'audio');
       
       input.addWarning();
-      _invalidInput.append($('<p>').text('Entrada no valida').addClass('error-multimedia-text'));
+      _invalidInput.append($('<p>').text(Pard.t.text('widget.inputMultimedia.invalid')).addClass('error-multimedia-text'));
       return false;
     }
 
@@ -1090,7 +1057,7 @@
 
     var _createdWidget = $('<div>');
     var _input = $('<input>').attr({'type': 'text'});
-    var _error = $('<div>').append($('<p>').text('Este nombre de perfil ya existe. Escoge otro para poder proceder.')
+    var _error = $('<div>').append($('<p>').text(Pard.t.text('widget.inputName.unavailable'))
         .css({
         'color':'red',
         'font-size':'12px',
@@ -1103,6 +1070,7 @@
 
     _input.on('input', function(){
       Pard.Backend.checkName(_input.val(), function(data){
+        console.log(data)
         _input.removeClass('warning');
         _input.removeClass('available');
         _error.hide();

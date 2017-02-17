@@ -445,7 +445,7 @@ console.log(Pard.CachedEvent);
 
 
     _searchWidget.select2({
-      placeholder: Pard.t.text('searchWidget.placeholder'),
+      placeholder: Pard.t.text('widget.search.placeholder'),
       minimumInputLength: 1,
       minimumResultsForSearch: 1,
       // allowClear: true,

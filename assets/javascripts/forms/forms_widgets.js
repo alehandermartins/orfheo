@@ -155,12 +155,12 @@
   
   ns.Widgets.AlertNoMapLocation = function(formVal,closepopup,callback){
     var _createdWidget = $('<div>');
-    var _text = $('<p>').text('Google no reconoce la dirección que has insertado y por lo tanto no puede ser localizada en ningún mapa.')
-    var _goAnywayBtn = Pard.Widgets.Button('Continua igualmente', function(){
+    var _text = $('<p>').text(Pard.t.text('popup.noMapLocation.mex'))
+    var _goAnywayBtn = Pard.Widgets.Button(Pard.t.text('popup.noMapLocation.ok'), function(){
       closepopup();
       callback();
     });
-    var _tryAgainBtn = Pard.Widgets.Button('Corrige la dirección', function(){
+    var _tryAgainBtn = Pard.Widgets.Button(Pard.t.text('popup.noMapLocation.fix'), function(){
       closepopup();
     });
 

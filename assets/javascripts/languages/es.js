@@ -60,13 +60,90 @@
         mex6: 'Nos reservamos el derecho de modificar, si necesario, las condiciones generales para adaptarlas a futuras novedades y asumimos el deber y el compromiso de informar de los cambios a todos los ciudadanos  de orfheo, previamente y con tiempo, para que puedan conocer las actualizaciones de antemano.',
         subtitle7: '¡Muchas gracias!',
         finalMex: '<p> Si tienes preguntas o sugerencias  envía un correo electrónico a <a href="mailto:info@orfheo.org"> info@orfheo.org</a>.</p> <p> Gracias por leer hasta aquí. Esperamos que disfrutes dentro y fuera orfheo. </br> Tu participación al crear, mantener y mejorar este lugar es imprescindible. </p> <p> Apreciamos que te hayas tomado tu tiempo para informarte sobre el proyecto, y te agradecemos que contribuyas. Mediante lo que haces, estás ayudando a construir algo realmente importante, no sólamente una conexión de proyectos compartidos de manera colaborativa, sino también una vibrante comunidad enfocada en una muy noble meta. </p>'
+      },
+      noMapLocation:{
+        title: '¡Atencion!',
+        mex: 'Google no reconoce la dirección que has insertado y por lo tanto no puede ser localizada en ningún mapa.',
+        fix:'Corrige la dirección',
+        ok:'Continua igualmente'
       }
     },
-    searchWidget:{
-      placeholder:'Busca por tags'
+    widget:{
+      search:{
+        placeholder:'Busca por tags'
+      },
+      uploadPhoto:{
+        btn: 'Sube una imagen',
+        tooBigError: 'El tamaño de las imágenes no puede ser superior a 500Kb. Puedes reducirlo en un momento utilizando, entre muchas otras,  <a href = "http://optimizilla.com/es/"  target="_blank">esta web</a>.',
+        max5: 'Máximo cinco imagenes.',
+        max1:'Máximo una imagen.',
+        max4: 'Máximo cuatro imagenes.',
+        acceptedFormat: 'Formatos aceptados: .gif, .jpeg, .jpg, .png'
+      },
+      inputName:{
+        unavailable: 'Este nombre de perfil ya existe. Escoge otro para poder proceder.'
+      },
+      inputTel:{
+        show:'Muestra en mi página de perfil'
+      },
+      inputCache:{
+        show: 'Muestra esta información en mi página'
+      },
+      inputWeb:{
+        placeholder: 'Copia y pega aquí el enlace correspondiente y dale al botón para validar'
+      },
+      inputAddressArtist:{
+        city:'Ciudad*',
+        postalCode:'Código postal*',
+        neighborhood:'Barrio (opcional)'
+      },
+      inputChildren:{
+        all_public:'Todos los públicos',
+        baby:'Infantil', 
+        family:"Familiar", 
+        young: "Juvenil",  
+        adults: "Adultos"
+      },
+      inputAddressSpace:{
+        street: 'Calle',
+        number: 'Numero',
+        city:'Ciudad',
+        postalCode:'Código postal',
+        door:'Piso / Puerta',
+        state: 'País',
+        warning:'¡Atención! Google no reconoce la dirección insertada: corrígela, si quieres que sea localizada correctamente.',
+        insertGeo:'Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ',
+        insertGeoBtn:'aquí'
+      },
+      inputMultimedia:{
+        placeholder:'Copia y pega aquí el enlace/código correspondiente y dale al botón para validar',
+        invalid:'Entrada no valida'
+      }
     },
     createProfileCard:{
       text: 'Crea un perfil'
+    },
+    createProfile:{
+      artistText:'Muestra tu portfolio <br> y participa en grandes eventos',
+      spaceText: 'Alberga arte y posiciónate en el mapa cultural',
+      organizationText: 'Da a conocer tu proyecto y lanza convocatorias',
+      introA: 'Esta información se mostrará en tu página de perfil, podrás modificarla y te permitirá darte a conocer.',
+      introS: 'Esta información se mostrará en la página de perfil de tu espacio y podrás modificarla.',
+      introO: 'Esta información se mostrará en la página de perfil y podrás modificarla.',
+      artistForm:{
+        nameL: "Nombre artistico",
+        nameH: "Es el nombre de tu perfil de artista.",
+        photoL:"Foto de perfil (máximo 500kb)",
+        bioL: "Biografía / Información",
+        bioH: "Cualquier cosa que quieras compartir sobre tu vida artística-cultural.",
+        addressL: "Ciudad y Código postal",
+        addressH: "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto.",
+        phoneL:"Numero de teléfono",
+        webL:"Web personal y enlaces a redes sociales",
+        webH: "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística).",
+        colorL: "Escoge un color",
+        colorH:"Es el color personal de tu perfil!"
+      }
     },
     signUp:{
       btn:'Únete',
@@ -105,7 +182,11 @@
       chooseProfile: 'Inscribe un perfil ya creado',
       newProfile: '...o crea e inscribe uno nuevo',
       createProfile:{
-        title:'Crea un perfil y apúntate como:'
+        title:'Crea un perfil y apúntate como:',
+        artistText: 'Enseña tu arte',
+        spaceText: 'Alberga actividades',
+        organizationText: 'Envía tu propuesta'
+
       }
     },  
     footer:{

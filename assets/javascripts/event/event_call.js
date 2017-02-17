@@ -189,15 +189,15 @@
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
     var _organizationButton = Pard.Widgets.CreateTypeProfile('organization', callbackEvent).render().addClass('create-organization-btn-popup');
 
-    _spaceButton.append($('<p>').html('Alberga actividades').css({
+    _spaceButton.append($('<p>').html(Pard.t.text('call.createProfile.spaceText')).css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));
-    _artistButton.append($('<p>').html('Enseña tu arte').css({
+    _artistButton.append($('<p>').html(Pard.t.text('call.createProfile.artistText')).css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));
-    _organizationButton.append($('<p>').html('Envía tu propuesta').css({
+    _organizationButton.append($('<p>').html(Pard.t.text('call.createProfile.organizationText')).css({
       'margin-top':'0.5rem',
       'margin-bottom': '0'
     }));

@@ -8,14 +8,14 @@
     artist: {
       name: {
         "type" : "mandatory",
-        "label" : "Nombre artistico",
+        "label" : Pard.t.text('createProfile.artistForm.nameL'),
         "input" : "InputName",
         "args" : [], 
-        "helptext" : "Es el nombre de tu perfil de artista."
+        "helptext" : Pard.t.text('createProfile.artistForm.nameH')
       },
       profile_picture:{
         "type" : "optional",
-        "label" : "Foto de perfil (máximo 500kb)",
+        "label" : Pard.t.text('createProfile.artistForm.photoL'),
         "input" : "UploadPhotos",
         "args" : [ 
                   "/profile_picture", 
@@ -25,41 +25,41 @@
             },
       bio:{
         "type" : "optional",
-        "label" : "Biografía / Información",
+        "label" : Pard.t.text('createProfile.artistForm.bioL'),
         "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
                   4
                 ],
-        "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        "helptext" : Pard.t.text('createProfile.artistForm.bioH')
       },
       address:{
         "type" : "mandatory",
-        "label" : "Ciudad y Código postal",
+        "label" : Pard.t.text('createProfile.artistForm.addressL'),
         "input" : "InputAddressArtist",
         "args" : null,
-        "helptext" : "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto."
+        "helptext" : Pard.t.text('createProfile.artistForm.addressH')
       },
       phone: {
         "type" : "optional",
-        "label" : "Numero de teléfono",
+        "label" : Pard.t.text('createProfile.artistForm.phoneL'),
         "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
-        "label" : "Web personal y enlaces a redes sociales",
+        "label" : Pard.t.text('createProfile.artistForm.webL'),
         "input" : "InputPersonalWeb",
         "args" : null,
-        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        "helptext" : Pard.t.text('createProfile.artistForm.webH')
       },
       color:{
         "type" : "optional",
-        "label" : "Escoge un color",
+        "label" : Pard.t.text('createProfile.artistForm.colorL'),
         "input" : "InputColor",
         "args" : null,
-        "helptext" : "Es el color personal de tu perfil!"
+        "helptext" : Pard.t.text('createProfile.artistForm.colorH')
       }
     },
     space:{

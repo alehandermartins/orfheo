@@ -387,24 +387,24 @@
 
         if (_data.length + _url.length >= maxAmount){
           if(maxAmount == 5){ 
-            Pard.Widgets.Alert('','Máximo cinco imagenes.');
+            Pard.Widgets.Alert('',Pard.t.text('widget.uploadPhoto.max5'));
             uploadErrors.push('cuatro img');
           }
           if(maxAmount == 4){ 
-            Pard.Widgets.Alert('','Máximo cuatro imagenes.');
+            Pard.Widgets.Alert('',Pard.t.text('widget.uploadPhoto.max4'));
             uploadErrors.push('cuatro img');
           }
           if(maxAmount == 1) {
-            Pard.Widgets.Alert('', 'Máximo una imagen.');
+            Pard.Widgets.Alert('', Pard.t.text('widget.uploadPhoto.max1'));
             uploadErrors.push('una img');
           }
         }
         if(data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
-          Pard.Widgets.Alert('', 'Formatos aceptados: .gif, .jpeg, .jpg, .png');
+          Pard.Widgets.Alert('', Pard.t.text('widget.uploadPhoto.acceptedFormat'));
           uploadErrors.push('no accepted');
         }
         if(data.originalFiles[0]['size'] > 500000) {
-          Pard.Widgets.Alert('', 'El tamaño de las imágenes no puede ser superior a 500Kb. Puedes reducirlo en un momento utilizando, entre muchas otras,  <a href = "http://optimizilla.com/es/"  target="_blank">esta web</a>.');
+          Pard.Widgets.Alert('', Pard.t.text('widget.uploadPhoto.tooBigError'));
           uploadErrors.push('tamaño max');
         }
         if(uploadErrors.length == 0){
@@ -433,7 +433,7 @@
       }
     });
 
-    var _fakeButton = $('<button>').addClass('browse-btn').attr({type:'button'}).html('Sube una imagen');
+    var _fakeButton = $('<button>').addClass('browse-btn').attr({type:'button'}).html(Pard.t.text('widget.uploadPhoto.btn'));
     _fakeButton.on('click', function(){
       _photo.click();
     });
