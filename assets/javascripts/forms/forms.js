@@ -65,168 +65,158 @@
     space:{
       name: {
         "type" : "mandatory",
-        "label" : "Nombre del espacio",
+        "label" :  Pard.t.text('createProfile.spaceForm.nameL'),
         "input" : "InputName",
         "args" : [],
-        "helptext" : "Es el nombre de tu perfil de espacio."
+        "helptext" : Pard.t.text('createProfile.spaceForm.nameH')
       },
       address:{
         "type" : "mandatory",
-        "label" : "Dirección",
+        "label" : Pard.t.text('createProfile.spaceForm.addressL'),
         "input" : "InputAddressSpace",
         "args" : [
-                  'Ej: Carrer de la Murta 13, Valencia'
+                  Pard.t.text('createProfile.spaceForm.addressPlaceholder')
                 ],
         "helptext" : ""
       },
       category: {
         'type': 'mandatory',
-        'label': "Tipo de espacio",
+        'label': Pard.t.text('createProfile.spaceForm.catL'),
         'input': 'Selector',
         'args': [
-                ['Asociación Cultural', 'Local Comercial', 'Espacio Particular', 'Espacio Exterior'],
+                [Pard.t.text('categories.cultural_ass'), Pard.t.text('categories.commercial'), Pard.t.text('categories.home'), Pard.t.text('categories.open_air')],
                 ['cultural_ass', 'commercial', 'home', 'open_air'],
                 null,
-                'Selecciona'
+                Pard.t.text('createProfile.spaceForm.catPlaceholder')
               ] ,
         'helptext':''
       },
       bio:{
         "type" : "mandatory",
-        "label" : "Descripción / Información",
+        "label" : Pard.t.text('createProfile.spaceForm.bioL'),
         "input" : "TextAreaEnriched",
         "args" : [ 
-                  'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
+                  Pard.t.text('createProfile.spaceForm.bioPlaceholder'), 
                   4
                 ],
-        "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
+        "helptext" : Pard.t.text('createProfile.spaceForm.bioH')
       },
       phone: {
         "type" : "optional",
-        "label" : "Numero de teléfono",
+        "label" : Pard.t.text('createProfile.spaceForm.phoneL'),
         "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
-        "label" : "Web personal y enlaces a redes sociales",
+        "label" : Pard.t.text('createProfile.spaceForm.webL'),
         "input" : "InputPersonalWeb",
         "args" : null,
-        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
+        "helptext" : Pard.t.text('createProfile.spaceForm.webH')
       },
       links : {
         "type": "optional",
-        "label": 'Materiales online',
+        "label": Pard.t.text('createProfile.spaceForm.linksL'),
         "input": "InputMultimedia",
         "args": null,
-        "helptext": 'Añade vídeos, fotos y audios desde tus redes sociales.'
+        "helptext": Pard.t.text('createProfile.spaceForm.linksH')
       },
       photos:{
         "type" : "optional",
-        "label" : "Fotos del espacio (máximo 5, tamaño inferior a 500kb)",
+        "label" : Pard.t.text('createProfile.spaceForm.photoL'),
         "input" : "UploadPhotos",
         "args" : [ 
                   "/photos", 
                   5
                 ],
-        "helptext" : "La primera foto será tu foto de perfil."
+        "helptext" : Pard.t.text('createProfile.spaceForm.photoH')
       },
       color:{
         "type" : "optional",
-        "label" : "Escoge un color",
+        "label" : Pard.t.text('createProfile.artistForm.colorL'),
         "input" : "InputColor",
         "args" : null,
-        "helptext" : "Es el color personal de tu perfil!"
+        "helptext" : Pard.t.text('createProfile.artistForm.colorH')
       }
     },
     organization:{
       name: {
         "type" : "mandatory",
-        "label" : "Nombre de la organización",
+        "label" : Pard.t.text('createProfile.organizationForm.nameL'),
         "input" : "Input",
         "input" : "InputName",
         "args" : [],
-        "helptext" : "Es el nombre de tu perfil organización."
+        "helptext" : Pard.t.text('createProfile.organizationForm.nameH')
       },
       category: {
         'type': 'mandatory',
-        'label': "Tipo de organización",
+        'label': Pard.t.text('createProfile.organizationForm.catL'),
         'input': 'Selector',
         'args': [
-                ['Festival', 'Asociación', 'ONG', 'Federación','Colectivo', 'Empresa', 'Institución'],
+                [Pard.t.text('categories.festival'), Pard.t.text('categories.association'), Pard.t.text('categories.ngo'), Pard.t.text('categories.federation'), Pard.t.text('categories.collective'), Pard.t.text('categories.interprise'), Pard.t.text('categories.institution'), Pard.t.text('categories.foundation')],
                 ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution', 'foundation'],
                 null,
-                'Selecciona'
+                Pard.t.text('createProfile.spaceForm.catPlaceholder')
               ] ,
         'helptext':''
       },
-      // profile_picture:{
-      //   "type" : "optional",
-      //   "label" : "Foto de perfil (máximo 500kb)",
-      //   "input" : "UploadPhotos",
-      //   "args" : [ 
-      //             "/profile_picture", 
-      //             1
-      //           ],
-      //   "helptext" : ""
-      // },
       address:{
         "type" : "mandatory",
-        "label" : "Dirección de la sede de la organización",
+        "label" : Pard.t.text('createProfile.organizationForm.addressL'),
         "input" : "InputAddressSpace",
         "args" : [
-                  'Ej: Carrer de la Murta 13, Valencia'
+                  Pard.t.text('createProfile.spaceForm.addressPlaceholder')
                 ],
         "helptext" : ""
       },
       bio:{
         "type" : "optional",
-        "label" : "Información / Proyecto",
+        "label" : Pard.t.text('createProfile.organizationForm.bioL'),
         "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
                   4
                 ],
-        "helptext" : "Cualquier cosa que quieras compartir sobre la organización."
+        "helptext" : Pard.t.text('createProfile.organizationForm.bioH')
       },
       phone: {
         "type" : "optional",
-        "label" : "Numero de teléfono",
+        "label" : Pard.t.text('createProfile.spaceForm.phoneL'),
         "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
-        "label" : "Web personal y enlaces a redes sociales",
+        "label" : Pard.t.text('createProfile.spaceForm.webL'),
         "input" : "InputPersonalWeb",
         "args" : null,
-        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
+        "helptext" : Pard.t.text('createProfile.spaceForm.webH')
       },
       links : {
         "type": "optional",
-        "label": 'Materiales online',
+        "label": Pard.t.text('createProfile.spaceForm.linksL'),
         "input": "InputMultimedia",
         "args": null,
-        "helptext": 'Añade vídeos, fotos y audios desde tus redes sociales.'
+        "helptext": Pard.t.text('createProfile.spaceForm.linksH')
       },
       photos:{
         "type" : "optional",
-        "label" : "Fotos (máximo 5, tamaño inferior a 500kb)",
+        "label" : Pard.t.text('createProfile.spaceForm.photoL'),
         "input" : "UploadPhotos",
         "args" : [ 
                   "/photos", 
                   5
                 ],
-        "helptext" : "La primera foto será tu foto de perfil."
+        "helptext" : Pard.t.text('createProfile.spaceForm.photoH')
       },
       color:{
         "type" : "optional",
-        "label" : "Escoge un color",
+        "label" : Pard.t.text('createProfile.artistForm.colorL'),
         "input" : "InputColor",
         "args" : null,
-        "helptext" : "Es el color personal de tu perfil!"
+        "helptext" : Pard.t.text('createProfile.artistForm.colorH')
       }
     }
   }
@@ -236,71 +226,71 @@
     artist: {
       name: {
         "type" : "mandatory",
-        "label" : "Nombre artistico",
+        "label" : Pard.t.text('createProfile.artistForm.nameL'),
         "input" : "InputName",
         "args" : [],
-        "helptext" : "Es el nombre de tu perfil de artista."
+        "helptext" : Pard.t.text('createProfile.artistForm.nameH')
       },
       profile_picture:{
         "type" : "optional",
-        "label" : "Foto de perfil (máximo 500kb)",
+        "label" : Pard.t.text('createProfile.artistForm.photoL'),
         "input" : "UploadPhotos",
         "args" : [ 
                   "/profile_picture", 
                   1
                 ],
         "helptext" : ""
-            },
+      },
       bio:{
         "type" : "optional",
-        "label" : "Biografía / Información",
+        "label" : Pard.t.text('createProfile.artistForm.bioL'),
         "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
                   4
                 ],
-        "helptext" : "Cualquier cosa que quieras compartir sobre tu vida artística-cultural."
+        "helptext" : Pard.t.text('createProfile.artistForm.bioH')
       },
       address:{
         "type" : "mandatory",
-        "label" : "Ciudad, Código postal y Barrio",
+        "label" : Pard.t.text('createProfile.artistForm.addressL'),
         "input" : "InputAddressArtist",
         "args" : null,
-        "helptext" : "Indicar tu ciudad, barrio y código postal hará más facil localizarte para un posible contacto."
+        "helptext" : Pard.t.text('createProfile.artistForm.addressH')
       },
       phone: {
         "type" : "optional",
-        "label" : "Numero de teléfono",
+        "label" : Pard.t.text('createProfile.artistForm.phoneL'),
         "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
-        "label" : "Web personal y enlaces a redes sociales",
+        "label" : Pard.t.text('createProfile.artistForm.webL'),
         "input" : "InputPersonalWeb",
         "args" : null,
-        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística)."
+        "helptext" : Pard.t.text('createProfile.artistForm.webH')
       },
       color:{
         "type" : "optional",
-        "label" : "Escoge un color",
+        "label" : Pard.t.text('createProfile.artistForm.colorL'),
         "input" : "InputColor",
         "args" : null,
-        "helptext" : "Es el color personal de tu perfil!"
+        "helptext" : Pard.t.text('createProfile.artistForm.colorH')
       }
     },
     space:{
       name: {
         "type" : "mandatory",
-        "label" : "Nombre del espacio",
+        "label" :  Pard.t.text('createProfile.spaceForm.nameL'),
         "input" : "InputName",
         "args" : [],
-        "helptext" : "Es el nombre de tu perfil de espacio."
+        "helptext" : Pard.t.text('createProfile.spaceForm.nameH')
       },
       profile_picture:{
         "type" : "optional",
-        "label" : "Foto de perfil (máximo 500kb)",
+        "label" : Pard.t.text('createProfile.artistForm.photoL'),
         "input" : "UploadPhotos",
         "args" : [ 
                   "/profile_picture", 
@@ -310,67 +300,69 @@
       },
       address:{
         "type" : "mandatory",
-        "label" : "Dirección",
+        "label" : Pard.t.text('createProfile.spaceForm.addressL'),
         "input" : "InputAddressSpace",
         "args" : [
-                  'Ej: Carrer de la Murta 13, Valencia'
+                  Pard.t.text('createProfile.spaceForm.addressPlaceholder')
                 ],
         "helptext" : ""
       },
       category: {
         'type': 'mandatory',
-        'label': "Tipo de espacio",
+        'label': Pard.t.text('createProfile.spaceForm.catL'),
         'input': 'Selector',
         'args': [
-                ['Asociacion Cultural', 'Local Comercial', 'Espacio Particular', 'Espacio Exterior'],
-                ['cultural_ass', 'commercial', 'home', 'open_air']
+                [Pard.t.text('categories.cultural_ass'), Pard.t.text('categories.commercial'), Pard.t.text('categories.home'), Pard.t.text('categories.open_air')],
+                ['cultural_ass', 'commercial', 'home', 'open_air'],
+                null,
+                Pard.t.text('createProfile.spaceForm.catPlaceholder')
               ] ,
         'helptext':''
       },
       bio:{
         "type" : "mandatory",
-        "label" : "Descripción / Información",
+        "label" : Pard.t.text('createProfile.spaceForm.bioL'),
         "input" : "TextAreaEnriched",
         "args" : [ 
-                  'Dimensiones, caracteristicas, actividades que suele hospedar, etc.', 
+                  Pard.t.text('createProfile.spaceForm.bioPlaceholder'), 
                   4
                 ],
-        "helptext" : "Cualquier cosa que quieras compartir sobre tu espacio."
+        "helptext" : Pard.t.text('createProfile.spaceForm.bioH')
       },
       phone: {
         "type" : "optional",
-        "label" : "Numero de teléfono",
+        "label" : Pard.t.text('createProfile.spaceForm.phoneL'),
         "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
-        "label" : "Web personal y enlaces a redes sociales",
+        "label" : Pard.t.text('createProfile.spaceForm.webL'),
         "input" : "InputPersonalWeb",
         "args" : null,
-        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
+        "helptext" : Pard.t.text('createProfile.spaceForm.webH')
       },
       color:{
         "type" : "optional",
-        "label" : "Escoge un color",
+        "label" : Pard.t.text('createProfile.artistForm.colorL'),
         "input" : "InputColor",
         "args" : null,
-        "helptext" : "Es el color personal de tu perfil!"
+        "helptext" : Pard.t.text('createProfile.artistForm.colorH')
       }
     },
     organization:{
       name: {
         "type" : "mandatory",
-        "label" : "Nombre de la organización",
+        "label" : Pard.t.text('createProfile.organizationForm.nameL'),
         "input" : "Input",
         "input" : "InputName",
         "args" : [],
-        "helptext" : "Es el nombre de tu perfil organización."
+        "helptext" : Pard.t.text('createProfile.organizationForm.nameH')
       },
       profile_picture:{
         "type" : "optional",
-        "label" : "Foto de perfil (máximo 500kb)",
+        "label" : Pard.t.text('createProfile.artistForm.photoL'),
         "input" : "UploadPhotos",
         "args" : [ 
                   "/profile_picture", 
@@ -380,53 +372,55 @@
       },
       category: {
         'type': 'mandatory',
-        'label': "Tipo de organización",
+        'label': Pard.t.text('createProfile.organizationForm.catL'),
         'input': 'Selector',
         'args': [
-                ['Festival', 'Asociación', 'ONG', 'Federación', 'Colectivo', 'Empresa', 'Institución'],
-                ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution', 'foundation']
+                [Pard.t.text('categories.festival'), Pard.t.text('categories.association'), Pard.t.text('categories.ngo'), Pard.t.text('categories.federation'), Pard.t.text('categories.collective'), Pard.t.text('categories.interprise'), Pard.t.text('categories.institution'), Pard.t.text('categories.foundation')],
+                ['festival', 'association', 'ngo', 'federation','collective', 'interprise', 'institution', 'foundation'],
+                null,
+                Pard.t.text('createProfile.spaceForm.catPlaceholder')
               ] ,
         'helptext':''
       },
       address:{
         "type" : "mandatory",
-        "label" : "Dirección de la sede de la organización",
+        "label" : Pard.t.text('createProfile.organizationForm.addressL'),
         "input" : "InputAddressSpace",
         "args" : [
-                  'Ej: Carrer de la Murta 13, Valencia'
+                  Pard.t.text('createProfile.spaceForm.addressPlaceholder')
                 ],
         "helptext" : ""
       },
       bio:{
         "type" : "optional",
-        "label" : "Información / Proyecto",
+        "label" : Pard.t.text('createProfile.organizationForm.bioL'),
         "input" : "TextAreaEnriched",
         "args" : [ 
                   "", 
                   4
                 ],
-        "helptext" : "Cualquier cosa que quieras compartir sobre la organización."
+        "helptext" : Pard.t.text('createProfile.organizationForm.bioH')
       },
       phone: {
         "type" : "optional",
-        "label" : "Numero de teléfono",
+        "label" : Pard.t.text('createProfile.spaceForm.phoneL'),
         "input" : "InputTel",
         "args" : ['',true],
         "helptext" : ""
       },
       personal_web:{
         "type" : "optional",
-        "label" : "Web personal y enlaces a redes sociales",
+        "label" : Pard.t.text('createProfile.spaceForm.webL'),
         "input" : "InputPersonalWeb",
         "args" : null,
-        "helptext" : "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales."
+        "helptext" : Pard.t.text('createProfile.spaceForm.webH')
       },
       color:{
         "type" : "optional",
-        "label" : "Escoge un color",
+        "label" : Pard.t.text('createProfile.artistForm.colorL'),
         "input" : "InputColor",
         "args" : null,
-        "helptext" : "Es el color personal de tu perfil!"
+        "helptext" : Pard.t.text('createProfile.artistForm.colorH')
       }
     }
   }

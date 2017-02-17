@@ -357,14 +357,14 @@
 
   ns.Widgets.MultimediaManager = function(production){
     var _popup;
-    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html('Modifica o crea uno nuevo')
+    var _caller = $('<button>').addClass('pard-btn').attr({type: 'button'}).html(Pard.t.text('widget.multimediaManager.btn'))
       .one('click', function(){
         _popup = Pard.Widgets.Popup();
       })
       .click(function(){
         var _multiMediaManagerPopupMex = Pard.Widgets.MultimediaManagerMessage(production);
         _multiMediaManagerPopupMex.setCallback(function(){_popup.close()});
-        _popup.setContent('Gestiona tus contenidos multimedia', _multiMediaManagerPopupMex.render());
+        _popup.setContent(Pard.t.text('widget.multimediaManager.title'), _multiMediaManagerPopupMex.render());
         _popup.open();
       });
 
@@ -386,15 +386,15 @@
     var _formContainer = $('<form>').addClass('popup-form');
 
     var _videoList = $('<ul>').addClass('clearfix');
-    _videoList.append($('<li>').html('<strong>vídeos</strong> desde:  youtube, vimeo, vine, facebook'));
+    _videoList.append($('<li>').html(Pard.t.text('widget.multimediaManager.videoList')));
 
     var _imageList = $('<ul>').addClass('clearfix');
-    _imageList.append($('<li>').html('<strong>imágenes</strong> desde: tu ordenador, instagram, flickr, pinterest, twitter, facebook'));
+    _imageList.append($('<li>').html(Pard.t.text('widget.multimediaManager.imageList')));
 
     var _audioList = $('<ul>').addClass('clearfix');
-    _audioList.append($('<li>').html('<strong>audios</strong> desde: soundcloud, bandcamp, spotify'));
+    _audioList.append($('<li>').html(Pard.t.text('widget.multimediaManager.audioList')));
     
-    var _message = $('<div>').append($('<p>').text('Puedes añadir:'),_videoList, _imageList, _audioList).addClass('message-form multimedia-manager-message');
+    var _message = $('<div>').append($('<p>').text(Pard.t.text('widget.multimediaManager.mex')),_videoList, _imageList, _audioList).addClass('message-form multimedia-manager-message');
 
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
     var _submitForm = {};
@@ -449,7 +449,7 @@
 
     var _folder = 'photos';
     var _photos = Pard.Widgets.Cloudinary(_folder, _thumbnail, _url, 4);
-    var _photosLabel = $('<label>').addClass('multimedia-manager-input-label').text('Sube imágenes desde tu ordenador (máximo 4, tamaño inferior a 500kb)');
+    var _photosLabel = $('<label>').addClass('multimedia-manager-input-label').text(Pard.t.text('widget.multimediaManager.photoL'));
 
      var _photosContainer = $('<div>').append(_photosLabel,_photos.render(), _thumbnail)
      _photosContainer.addClass('multimedia-manager-photos-container');
@@ -508,9 +508,9 @@
   }
 
   ns.Widgets.MultimediaAccepted = function(){
-    var _caller = $('<a>').text('Entradas aceptadas')
+    var _caller = $('<a>').text(Pard.t.text('widget.inputMultimedia.acepted'))
       .click(function(){
-        Pard.Widgets.BigAlert('Como añadir...', Pard.Widgets.MultimediaAcceptedMessage().render());
+        Pard.Widgets.BigAlert(Pard.t.text('widget.inputMultimedia.popup.title'), Pard.Widgets.MultimediaAcceptedMessage().render());
       });
  
     return {
@@ -525,58 +525,58 @@
 
      var _list = $('<ul>').addClass('multimedia-accepted-list');
 
-     var _item1 = $('<li>').html('...una imagen desde <strong>flickr, instagram, pinterest</strong> (un pin) o un vídeo desde <strong>youtube, vimeo, vine</strong> o un audio desde <strong>soundcloud</strong>:')
+     var _item1 = $('<li>').html(Pard.t.text('widget.inputMultimedia.popup.item1'))
 
      var _sublist1 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-     	$('<li>').text('abre la imagen, vídeo o audio en el sitio web correspondiente'),
-     	$('<li>').text('copia su enlace directamete desde el navegador o desde la opción "compartir" (o "copiar enlace")'),
-     	$('<li>').text('pégalo en el campo del formulario de orfheo'),
-     	$('<li>').text('dale al botón para validar')
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist1_1')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist1_2')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist1_3')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist1_4'))
      	);
 
-     var _item1_5 = $('<li>').html('...una imagen desde <strong>twitter</strong> (un tweet):')
+     var _itemTwitter = $('<li>').html(Pard.t.text('widget.inputMultimedia.popup.itemTwitter'))
 
-     var _sublist1_5 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-      $('<li>').text('pincha el tweet que quieres compartir'),
-      $('<li>').text('en el popup que se te abre, pincha el icono con los tres puntitos'),
-      $('<li>').text('selecciona "Copiar enlace del tweeet"'),
-      $('<li>').text('copia el enlace y pégalo en el campo del formulario de orfheo'),
-      $('<li>').text('dale al botón para validar')
+     var _sublistTwitter = $('<ol>').addClass('multimedia-accepted-sublist').append(
+      $('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublistTwitter_1')),
+      $('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublistTwitter_2')),
+      $('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublistTwitter_3')),
+      $('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublistTwitter_4')),
+      $('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublistTwitter_5'))
       );
 
       
 
-      var _item2 = $('<li>').html('...una imagen, un post o un vídeo publicado en <strong>facebook</strong>:')
+      var _item2 = $('<li>').html(Pard.t.text('widget.inputMultimedia.popup.item2'))
 
       var _sublist2 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-     	$('<li>').text('pincha la fecha con la hora de publicación que aparece en la parte superior del post'),
-     	$('<li>').text('copia desde el navegador el enlace de la página que se abre'),
-     	$('<li>').text('pégalo en el campo del formulario de orfheo'),
-     	$('<li>').text('dale al botón para validar')
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist2_1')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist2_2')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist2_3')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist2_4'))
      	);
 
-     	var _item3 = $('<li>').html('...un audio desde <strong>bandcamp</strong>:')
+     	var _item3 = $('<li>').html(Pard.t.text('widget.inputMultimedia.popup.item3'))
 
       var _sublist3 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-     	$('<li>').text('en la página de la canción pincha en "Share/Embed" (bajo la foto principal) y entonces en "Embed this album"'),
-     	$('<li>').text('selecciona un estilo del lector musical'),
-     	$('<li>').text('copia el código html desde el campo Embed que aparece en la esquina izquierda superior'),
-     	$('<li>').text('pégalo en el campo del formulario de orfheo'),
-     	$('<li>').text('dale al botón para validar')
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist3_1')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist3_2')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist3_3')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist3_4')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist3_5'))
      	);
 
-     	var _item4 = $('<li>').html('...un audio desde <strong>spotify</strong>:')
+     	var _item4 = $('<li>').html(Pard.t.text('widget.inputMultimedia.popup.item4'))
 
       var _sublist4 = $('<ol>').addClass('multimedia-accepted-sublist').append(
-     	$('<li>').text('selecciona una canción de una playlist con el botón derecho del ratón'),
-     	$('<li>').text('pincha en "Copy Song Link"'),
-     	$('<li>').text('pega el contenido copiado en el formulario de orfheo'),
-     	$('<li>').text('dale al botón para validar')
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist4_1')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist4_2')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist4_3')),
+     	$('<li>').text(Pard.t.text('widget.inputMultimedia.popup.sublist4_4'))
      	);
 
-      var _finalMessage = $('<p>').text('Finalmente, considera que se pueden importar en orfheo sólo contenidos multimedia declarados públicos en la web donde se han subido.').css({'margin-top':'1rem'});
+      var _finalMessage = $('<p>').text(Pard.t.text('widget.inputMultimedia.popup.finalMex')).css({'margin-top':'1rem'});
 
-     _list.append(_item1.append(_sublist1), _item1_5.append(_sublist1_5), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4));
+     _list.append(_item1.append(_sublist1), _itemTwitter.append(_sublistTwitter), _item2.append(_sublist2), _item3.append(_sublist3), _item4.append(_sublist4));
 
      _createdWidget.append(_list,_finalMessage);
 

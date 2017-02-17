@@ -7,7 +7,22 @@
     type: {
       artist: "Artista",
       space: "Espacio",
-      organization: "Organización"
+      organization: "Organización",
+      spaces:'Espacios'
+    },
+    categories:{
+      cultural_ass: 'Espacio Cultural',
+      commercial: 'Local Comercial',
+      home: 'Espacio Particular',
+      open_air: 'Espacio Exterior',
+      festival:'Festival',
+      association:'Asociación', 
+      ngo:'ONG', 
+      collective:'Colectivo', 
+      interprise:'Empresa', 
+      institution:'Institución',
+      federation: 'Federación',
+      foundation:'Fundación',
     },
     popup_alert:{
       error: '¡Error!',
@@ -115,9 +130,50 @@
         insertGeo:'Si la localización no está correcta, inserta manualmente tus coordenadas geográficas y guardala pinchando ',
         insertGeoBtn:'aquí'
       },
+      multimediaManager:{
+        btn: 'Modifica o crea uno nuevo',
+        title: 'Gestiona tus contenidos multimedia',
+        mex:'Puedes añadir:',
+        videoList:'<strong>vídeos</strong> desde:  youtube, vimeo, vine, facebook',
+        imageList:'<strong>imágenes</strong> desde: tu ordenador, instagram, flickr, pinterest, twitter, facebook',
+        audioList: '<strong>audios</strong> desde: soundcloud, bandcamp, spotify',
+        photoL:'Sube imágenes desde tu ordenador (máximo 4, tamaño inferior a 500kb)'
+      },
       inputMultimedia:{
         placeholder:'Copia y pega aquí el enlace/código correspondiente y dale al botón para validar',
-        invalid:'Entrada no valida'
+        invalid:'Entrada no valida',
+        acepted:'Entradas aceptadas',
+        popup:{
+          title:'Como añadir...',
+          item1:'...una imagen desde <strong>flickr, instagram, pinterest</strong> (un pin) o un vídeo desde <strong>youtube, vimeo, vine</strong> o un audio desde <strong>soundcloud</strong>:',
+          sublist1_1:'abre la imagen, vídeo o audio en el sitio web correspondiente',
+          sublist1_2:'copia su enlace directamete desde el navegador o desde la opción "compartir" (o "copiar enlace")',
+          sublist1_3:'pégalo en el campo del formulario de orfheo',
+          sublist1_4:'dale al botón para validar',
+          itemTwitter:'...una imagen desde <strong>twitter</strong> (un tweet):',
+          sublistTwitter_1:'pincha el tweet que quieres compartir',
+          sublistTwitter_2:'en el popup que se te abre, pincha el icono con los tres puntitos',
+          sublistTwitter_3:'selecciona "Copiar enlace del tweeet"',
+          sublistTwitter_4:'copia el enlace y pégalo en el campo del formulario de orfheo',
+          sublistTwitter_5:'dale al botón para validar',
+          item2:'...una imagen, un post o un vídeo publicado en <strong>facebook</strong>:',
+          sublist2_1:'pincha la fecha con la hora de publicación que aparece en la parte superior del post',
+          sublist2_2:'copia desde el navegador el enlace de la página que se abre',
+          sublist2_3:'pégalo en el campo del formulario de orfheo',
+          sublist2_4:'dale al botón para validar',
+          item3: '...un audio desde <strong>bandcamp</strong>:',
+          sublist3_1:'en la página de la canción pincha en "Share/Embed" (bajo la foto principal) y entonces en "Embed this album"',
+          sublist3_2:'selecciona un estilo del lector musical',
+          sublist3_3:'copia el código html desde el campo Embed que aparece en la esquina izquierda superior',
+          sublist3_4: 'pégalo en el campo del formulario de orfheo',
+          sublist3_5: 'dale al botón para validar',
+          item4: '...un audio desde <strong>spotify</strong>:',
+          sublist4_1: 'selecciona una canción de una playlist con el botón derecho del ratón',
+          sublist4_2: 'pincha en "Copy Song Link"',
+          sublist4_3:'pega el contenido copiado en el formulario de orfheo',
+          sublist4_4:'dale al botón para validar',
+          finalMex: 'Finalmente, considera que se pueden importar en orfheo sólo contenidos multimedia declarados públicos en la web donde se han subido.'
+        }
       }
     },
     createProfileCard:{
@@ -143,6 +199,35 @@
         webH: "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística).",
         colorL: "Escoge un color",
         colorH:"Es el color personal de tu perfil!"
+      },
+      spaceForm:{
+        nameL:"Nombre del espacio",
+        nameH:"Es el nombre de tu perfil de espacio.",
+        addressL:"Dirección",
+        addressPlaceholder: 'Ej: Carrer de la Murta 13, Valencia',
+        catL: "Tipo de espacio",
+        catPlaceholder:'Selecciona',
+        bioL:"Descripción / Información",
+        bioPlaceholder:'Dimensiones, caracteristicas, actividades que suele hospedar, etc.',
+        bioH: "Cualquier cosa que quieras compartir sobre tu espacio.",
+        phoneL: "Numero de teléfono",
+        webL: "Web personal y enlaces a redes sociales",
+        webH: "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales.",
+        linksL: 'Materiales online',
+        linksH:'Añade vídeos, fotos y audios desde tus redes sociales.',
+        photoL:"Fotos del espacio (máximo 5, tamaño inferior a 500kb)",
+        photoH: "La primera foto será tu foto de perfil.",
+        colorL: "Escoge un color",
+        colorH: "Es el color personal de tu perfil!"
+      },
+      organizationForm:{
+        nameL: "Nombre de la organización",
+        nameH: "Es el nombre de tu perfil organización.",
+        catL: "Tipo de organización",
+        catPlaceholder:'Selecciona',
+        addressL:"Dirección de la sede de la organización",
+        bioL: "Información / Proyecto",
+        bioH: "Cualquier cosa que quieras contar sobre la organización."
       }
     },
     signUp:{

@@ -102,14 +102,14 @@
   ns.Widgets.Dictionary = function(voice){
 
     var _dictionary = {
-      artist: 'Artista',
-      space: 'Espacio',
-      spaces: 'Espacios',
-      organization: 'Organización',
-      cultural_ass: 'Asociación Cultural',
-      commercial: 'Local Comercial',
-      home: 'Espacio Particular',
-      open_air: 'Espacio Exterior',
+      artist: Pard.t.text('type.artist'),
+      space: Pard.t.text('type.space'),
+      spaces: Pard.t.text('type.spaces'),
+      organization: Pard.t.text('type.organization'),
+      cultural_ass: Pard.t.text('categories.cultural_ass'),
+      commercial: Pard.t.text('categories.commercial'),
+      home: Pard.t.text('categories.home'),
+      open_air: Pard.t.text('categories.open_air'),
       music: 'Música',
       arts: 'Artes Escénicas',
       expo: 'Exposición',
