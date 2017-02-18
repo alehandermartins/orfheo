@@ -12,8 +12,8 @@ module Services
 
 			def get_program_results event_id, tags, filters, date, time
 				program = Services::Events.get_program event_id
-				date_program = program.select{|performance| performance[:date] == date}
-				results = query_program date_program, tags, filters
+				program = program.select{|performance| performance[:date] == date} unless date.blank?
+				results = query_program program, tags, filters
 				results = select_now results, time unless time.blank?
 				order_results results
 			end
@@ -203,10 +203,7 @@ module Services
 			end
 
 			def order_results results
-				ordered_program = []
-				ordered_program.push(results.select{ |performance| performance[:permanent] == 'false'}.sort_by{ |performance| [performance[:time].first, performance[:time].last] })
-				ordered_program.push(results.select{ |performance| performance[:permanent] == 'true'}.sort_by{ |performance| [performance[:time].first, performance[:time].last] })
-				ordered_program.flatten
+				results.sort_by{ |performance| [performance[:date], performance[:permanent] == 'false' ? 0 : 1, performance[:time].first, performance[:time].last] }
 			end
 		end
 	end

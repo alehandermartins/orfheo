@@ -444,6 +444,7 @@
           other:'Edades',
           titleText:'Selecciona lo que quieres ver'
         },
+        all_dates: 'Todas las fechas',
         nowbtn:'Ahora',
         hs:'Horario',
         sp:'Espacio',

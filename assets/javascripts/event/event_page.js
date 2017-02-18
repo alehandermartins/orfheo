@@ -296,6 +296,8 @@
 
     var _daySelectorContainer = $('<div>').addClass('day-selector-container-event-page');
     var _daySelector = $('<select>');
+    var _allDates = $('<option>').val([]).text(Pard.t.text('event_page.program.all_dates'));
+    _daySelector.append(_allDates);
 
     eventDates.forEach(function(day){
       var _dayText = '';
@@ -323,13 +325,13 @@
 
       if(_programNow.hasClass('active')){
         _programNow.removeClass('active');
-        _programNow.html(Pard.t.text('event_page.eventAside.nowbtn'));
         _search();
       }
       else{
         _programNow.addClass('active fired');
         if($.inArray(_day, eventDates) < 0){
           _daySelector.empty();
+          _daySelector.append(_allDates);
           extraDate = $('<option>').val(_day).text(moment(_day).locale(Pard.UserInfo['lang']).format('DD-MMM-YYYY'));
           _daySelector.append(extraDate);
           eventDates.forEach(function(day){
@@ -348,7 +350,6 @@
       else{
         if(extraDate) extraDate.remove();
         _programNow.removeClass('active');
-        _programNow.html(Pard.t.text('event_page.eventAside.nowbtn'));
         _search();
       }
     });
