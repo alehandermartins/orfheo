@@ -74,14 +74,14 @@
     var _popupMessageSentProposal = function(data){
       var _container = $('<div>');
       var _closepopup = function(){};
-      var _message = $('<div>').append($('<h4>').text('¡Genial!').addClass('success-inscription-title'),$('<h5>').text('Te has inscrito correctamente.').css({
+      var _message = $('<div>').append($('<h4>').text(Pard.t.text('call.successTitle')).addClass('success-inscription-title'),$('<h5>').text(Pard.t.text('call.succesMex')).css({
         'text-align':'center',
         'margin-bottom': '2rem'
       }));
-      var _toProfilePageBtn = Pard.Widgets.Button('Ve a pagína de perfil', function(){
+      var _toProfilePageBtn = Pard.Widgets.Button(Pard.t.text('call.toProfile'), function(){
           location.href = '/profile?id=' + data.model['profile_id'];  
       }).render().addClass('success-inscription-btn');
-      var _sendOtherProposal = Pard.Widgets.Button('Envía otra propuesta', function(){
+      var _sendOtherProposal = Pard.Widgets.Button(Pard.t.text('call.sendOther'), function(){
           _closepopup();
           _button.trigger('click');
       }).render().addClass('success-inscription-btn');
@@ -99,7 +99,6 @@
     profiles.forEach(function(profile){
       var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
       var _card = Pard.Widgets.CreateCard(profile).render();
-      // var _card = $('<button>').text(profile.name);
       _card.removeAttr('href');
       _card.attr('href','#/');
       _card.click(function(){
@@ -107,7 +106,7 @@
         if (profile.type == 'space' && profile.proposals && profile.proposals[0]){
           profile.proposals.some(function(proposal){
             if (proposal.event_id == Pard.CachedEvent.event_id) {
-              Pard.Widgets.Alert('Este perfil no puede enviar más propuestas', 'Este espacio ya está apuntado en '+ Pard.CachedEvent.name);
+              Pard.Widgets.Alert(Pard.t.text('call.alreadyInscribed.title'), Pard.t.text('call.alreadyInscribed.mex')+ Pard.CachedEvent.name);
               _check = false;
               return true;
             }
@@ -266,12 +265,12 @@
           else if (index == _typeFormsCatArray.length-2) _okProfiles += ' y';
         }
       });
-      _createdWidget.append($('<p>').text('ATENCIÓN, NO PUEDES CONTINUAR'), $('<p>').html('Esta convocatoría es solo para perfiles de<strong>'+_okProfiles+'</strong>. Selecciona o crea uno de los tipos aceptados para seguir.').css({'font-size':'1rem'}));
+      _createdWidget.append($('<p>').text(Pard.t.text('call.stop.title')), $('<p>').html(Pard.t.text('call.stop.mex1')+_okProfiles+Pard.t.text('call.stop.mex2')).css({'font-size':'1rem'}));
     }
     else{
       closeListProfilePopup();
 
-      var _initialMexText = 'Éste es el <strong>formulario</strong> para inscribir tu perfil <a href="/profile?id='+profile.profile_id+'", target="_blank">'+profile.name+'</a> en la convocatoria <strong> para '+Pard.Widgets.Dictionary(profile.type).render().toLowerCase()+ 's de '+Pard.CachedEvent.organizer+'</strong>:';
+      var _initialMexText = Pard.t.text('call.form.initMex1')+'<a href="/profile?id='+profile.profile_id+'", target="_blank">'+profile.name+'</a>'+Pard.t.text('call.form.initMex2')+Pard.CachedEvent.organizer+'</strong>:';
       var _initialMex = $('<h6>').html(_initialMexText).css('margin-bottom','1.5rem');
       _createdWidget.append(_initialMex);
       var _closepopup = {};
@@ -286,7 +285,7 @@
       var _formTypes = [];
       var _acceptedCategories = [];
       var _formTypeSelector = $('<select>');
-      var _emptyOption = $('<option>').text('Selecciona como quieres apuntarte').val('');
+      var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
       _formTypeSelector.append(_emptyOption);
       
       for (var typeForm in forms[profile.type]){
@@ -302,16 +301,16 @@
       _formTypeSelector.select2({
         minimumResultsForSearch: Infinity,
         dropdownCssClass: 'orfheoTypeFormSelector',
-        placeholder: "Selecciona como quieres apuntarte"
+        placeholder: Pard.t.text('call.form.catPlaceholder')
         // allowClear: true
       });
 
       if(profile.productions && profile.productions.length){
-        var _t1 = $('<div>').append($('<h5>').text('apúntate con una propuesta de tu portfolio')).css({
+        var _t1 = $('<div>').append($('<h5>').text(Pard.t.text('call.form.portfolio'))).css({
           'margin-top':'1.5rem',
           'margin-bottom':'1rem'
         });
-        var _t2 = $('<div>').append($('<h5>').text('...o propón algo nuevo')).css({
+        var _t2 = $('<div>').append($('<h5>').text(Pard.t.text('call.form.newProposal'))).css({
           'margin-bottom':'1rem'
         });
         var _prodContainer = $('<div>').addClass('prodContainer-event-page');
@@ -369,7 +368,7 @@
                   var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
                   _prodBtn.append(_xbtn);
                   var _formTypeOptionsSelector = $('<select>');
-                  var _emptyOpt = $('<option>').text('Selecciona como quieres apuntarte').val('');
+                  var _emptyOpt = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
                   _formTypeOptionsSelector.append(_emptyOpt);
                   for (var typeForm in forms[profile.type]){
                     if( $.inArray(production.category, forms[profile.type][typeForm].category) > -1){ 
@@ -385,7 +384,7 @@
                   _formTypeOptionsSelector.select2({
                     minimumResultsForSearch: Infinity,
                     dropdownCssClass: 'orfheoTypeFormSelector',
-                    placeholder: "Selecciona como quieres apuntarte"
+                    placeholder: Pard.t.text('call.form.catPlaceholder')
                     // allowClear: true
                   });
 
