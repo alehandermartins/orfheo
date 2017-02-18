@@ -441,7 +441,7 @@
         filters:{
           participants:'Categorias Artísticas',
           hosts: 'Categorias Espacios',
-          other:'Otros',
+          other:'Edades',
           titleText:'Selecciona lo que quieres ver'
         },
         nowbtn:'Ahora',

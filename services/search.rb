@@ -48,12 +48,9 @@ module Services
 			end
 
 			def filter_other program, filters
-				filters.each{ |filter|
-					program.select!{ |performance|
-						performance[filter.to_sym] == 'true'
-					}
+				program.select{ |performance|
+					filters.include? performance[:children]
 				}
-				program
 			end
 
 			def query_performance performance, tags

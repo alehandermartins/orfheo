@@ -5,7 +5,6 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.EventAside = function(sectionContainer) {
-console.log(Pard.CachedEvent);
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
     var _buttonContainer = $('<div>').addClass('create-profile-container');
 
@@ -188,8 +187,8 @@ console.log(Pard.CachedEvent);
 
     var _labels = {
       'participants': Pard.t.text('event_page.program.filters.participants'),
-      'hosts': Pard.t.text('event_page.program.filters.hosts')
-      //,'other': Pard.t.text('event_page.program.filters.other')
+      'hosts': Pard.t.text('event_page.program.filters.hosts'),
+      'other': Pard.t.text('event_page.program.filters.other')
     }
 
     Object.keys(filters).forEach(function(key){
@@ -202,7 +201,7 @@ console.log(Pard.CachedEvent);
         var _input = $('<input />').attr({ type: 'checkbox'});
         _input.prop('checked', filters[key][filter]);
         _input.on('click',function(event){
-              event.stopPropagation();
+          event.stopPropagation();
         });
         _input.on('change', function(){
           filters[key][filter] = _input.is(":checked");
@@ -210,6 +209,7 @@ console.log(Pard.CachedEvent);
         });
         var _label = $('<label>');
         if(key == 'participants') _label.append(filter,' ',Pard.Widgets.IconManager(the_event.categories.artist[filter].icon).render().addClass('participant-category-icon'));
+        if(key == 'other') _label.append(Pard.t.text('widget.inputChildren.' + filter));
         else _label.append(filter); 
         _label.css('display','inline');
         var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');
@@ -249,8 +249,8 @@ console.log(Pard.CachedEvent);
     });
     var eventCategories = {
       participants: Object.keys(the_event.categories.artist),
-      hosts: Object.keys(the_event.categories.space)
-      //other: ['Infantil']
+      hosts: Object.keys(the_event.categories.space),
+      other: ['all_public', 'baby', 'family', 'young', 'adults']
     }
     var _filters = {};
 
