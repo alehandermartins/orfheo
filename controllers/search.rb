@@ -219,7 +219,15 @@ class SearchController < BaseController
       'taller',
       'gastronomia',
       'otros',
-      'festival'].include? text
+      'festival',
+      'asociacion', 
+      'ong', 
+      'colectivo', 
+      'empresa', 
+      'institucion',
+      'federacion',
+      'fundacion'
+      ].include? text
   end
 
   def translate text
@@ -240,6 +248,14 @@ class SearchController < BaseController
       workshop: 'taller',
       gastronomy: 'gastronomia',
       other: 'otros',
+      festival: 'festival',
+      association:'asociacion', 
+      ngo:'ong', 
+      collective:'colectivo', 
+      interprise:'empresa', 
+      institution:'institucion',
+      federation: 'federacion',
+      foundation:'fundacion'
     }
     return dictionary[text.to_sym] if dictionary.has_key? text.to_sym
     text
