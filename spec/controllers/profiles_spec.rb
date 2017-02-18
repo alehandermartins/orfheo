@@ -91,7 +91,8 @@ describe ProfilesController do
       photos: ['picture.jpg', 'otter_picture.jpg'],
       links: [{'link'=> 'web', 'web_title'=> 'web_name'},{'link'=> 'otter_web', 'web_title'=> 'otter_web_name'}],
       duration: 'duration',
-      children: 'children'
+      children: 'children',
+      cache: 'cache'
     }
   }
 
@@ -188,7 +189,7 @@ describe ProfilesController do
 
     it 'updates events repo' do
       post create_profile_route, profile
-      expect(Repos::Events).to receive(:update_artist).with(profile)
+      expect(Repos::Events).to receive(:update).with(profile)
       post modify_profile_route, profile
     end
   end
@@ -356,7 +357,7 @@ describe ProfilesController do
       post create_profile_route, profile
       post '/users/list_profiles'
       profile[:events] = []
-      profile[:proposals] = []
+      profile[:proposals] = {artist: [], space: []}
       profile[:program] = []
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(profile)])

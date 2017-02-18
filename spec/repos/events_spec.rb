@@ -69,6 +69,29 @@ describe Repos::Events do
     }
   }
 
+  let(:space_artist){
+    {
+      user_id: user_id,
+      profile_id: space_profile_id,
+      email: 'email',
+      name: 'space_name',
+      address: {
+        locality: 'locality',
+        postal_code: 'postal_code'
+      },
+      phone: 'phone',
+      proposals: [{
+      proposal_id: 'space_artist_proposal_id',
+      category: 'music',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      duration: 'duration',
+      children: 'true'
+    }]
+    }
+  }
+
   let(:performance){
     {
       performance_id: performance_id,
@@ -267,11 +290,13 @@ describe Repos::Events do
       Repos::Events.add_artist 'otter_event_id', artist
       Repos::Events.add_space event_id, space
       Repos::Events.add_space 'otter_event_id', space
+      Repos::Events.add_artist event_id, space_artist
+      Repos::Events.add_artist 'otter_event_id', space_artist
     }
 
     it 'updates an artist' do
       artist[:name] = 'otter_name'
-      Repos::Events.update_artist artist
+      Repos::Events.update artist
       saved_entry = @db['events'].find({}).map{|event| event}
       expect(saved_entry[0]['artists'].first).to include({
         'user_id' => user_id,
@@ -286,18 +311,28 @@ describe Repos::Events do
     end
 
     it 'updates an space' do
-      space[:description] = 'otter_description'
-      Repos::Events.update_space space
+      space[:name] = 'otter_name'
+      Repos::Events.update space
       saved_entry = @db['events'].find({}).map{|event| event}
       expect(saved_entry[0]['spaces'].first).to include({
         'user_id' => user_id,
         'profile_id' => space_profile_id,
-        'description' => 'otter_description'
+        'name' => 'otter_name'
+      })
+      expect(saved_entry[0]['artists'][1]).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'name' => 'otter_name'
       })
       expect(saved_entry[1]['spaces'].first).to include({
         'user_id' => user_id,
         'profile_id' => space_profile_id,
-        'description' => 'otter_description'
+        'name' => 'otter_name'
+      })
+      expect(saved_entry[1]['artists'][1]).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'name' => 'otter_name'
       })
     end
 
@@ -317,6 +352,27 @@ describe Repos::Events do
       Repos::Events.modify_space space
       saved_entry = @db['events'].find({}).first
       expect(saved_entry['spaces'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'phone' => 'otter_phone'
+      })
+      expect(saved_entry['artists'][1]).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'phone' => 'otter_phone'
+      })
+    end
+
+    it 'modifies an artist_space proposal' do
+      space_artist[:phone] = 'otter_phone'
+      Repos::Events.modify_artist space_artist
+      saved_entry = @db['events'].find({}).first
+      expect(saved_entry['spaces'].first).to include({
+        'user_id' => user_id,
+        'profile_id' => space_profile_id,
+        'phone' => 'otter_phone'
+      })
+      expect(saved_entry['artists'][1]).to include({
         'user_id' => user_id,
         'profile_id' => space_profile_id,
         'phone' => 'otter_phone'
@@ -379,16 +435,18 @@ describe Repos::Events do
     end
 
     it 'turns artist profiles into own if profile is deleted' do
-      Repos::Events.delete_artist_profile profile_id
+      Repos::Events.delete_profile profile_id
       saved_entry = @db['events'].find({}).map{|event| event}
       expect(saved_entry[0]['artists'].first).to include({"own"=> "true"})
       expect(saved_entry[1]['artists'].first).to include({"own"=> "true"})
     end
 
     it 'turns space profiles into own if profile is deleted' do
-      Repos::Events.delete_space_profile space_profile_id
+      Repos::Events.add_artist event_id, space_artist
+      Repos::Events.delete_profile space_profile_id
       saved_entry = @db['events'].find({}).map{|event| event}
       expect(saved_entry[0]['spaces'].first).to include({"own"=> "true"})
+      expect(saved_entry[0]['artists'][1]).to include({"own"=> "true"})
       expect(saved_entry[1]['spaces'].first).to include({"own"=> "true"})
     end
   end

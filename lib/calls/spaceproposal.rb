@@ -81,6 +81,7 @@ class SpaceProposal
       address: params[:address] || profile[:address],
       description: profile[:bio],
       phone: profile[:phone],
+      type: profile[:type],
       links: profile[:links],
       photos: profile[:photos],
       subcategory: params[:subcategory],

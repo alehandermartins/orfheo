@@ -201,10 +201,10 @@ describe Repos::Profiles do
 
     it 'returns all profiles and those of the user (sorted)' do
       profile.merge! events: []
-      profile.merge! proposals: []
+      profile.merge! proposals: {artist: [], space: []}
       profile.merge! program: []
       my_otter_profile.merge! events: []
-      my_otter_profile.merge! proposals: []
+      my_otter_profile.merge! proposals: {artist: [], space: []}
       my_otter_profile.merge! program: []
       result = Repos::Profiles.get_user_profiles user_id, 'my_otter_profile_id'
       expect(result).to eq([my_otter_profile, profile])

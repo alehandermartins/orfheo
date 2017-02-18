@@ -43,6 +43,10 @@ module Repos
           {
             "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address], 'artists.$.phone': artist[:phone], 'artists.$.email': artist[:email], 'artists.$.proposals': modified_proposals}
           })
+        @@events_collection.update_one({event_id: event[:event_id], "spaces.profile_id": artist[:profile_id]},
+          {
+            "$set": {'spaces.$.name': artist[:name], 'spaces.$.address': artist[:address], 'spaces.$.phone': artist[:phone]}
+          })
       end
 
       def modify_space space
@@ -50,19 +54,20 @@ module Repos
           {
             "$set": {"spaces.$": space}
           })
-      end
-
-      def update_artist artist
-        @@events_collection.update_many({"artists.profile_id": artist[:profile_id]},
+        @@events_collection.update_one({"artists.profile_id": space[:profile_id]},
           {
-            "$set": {'artists.$.name': artist[:name], 'artists.$.address': artist[:address], 'artists.$.phone': artist[:phone]}
+            "$set": {'artists.$.name': space[:name], 'artists.$.address': space[:address], 'artists.$.phone': space[:phone]}
           })
       end
 
-      def update_space space
-        @@events_collection.update_many({"spaces.profile_id": space[:profile_id]},
+      def update participant
+        @@events_collection.update_many({"artists.profile_id": participant[:profile_id]},
           {
-            "$set": {'spaces.$.name': space[:name], 'spaces.$.address': space[:address], 'spaces.$.phone': space[:phone], 'spaces.$.category': space[:category], 'spaces.$.description': space[:description]}
+            "$set": {'artists.$.name': participant[:name], 'artists.$.address': participant[:address], 'artists.$.phone': participant[:phone]}
+          })
+        @@events_collection.update_many({"spaces.profile_id": participant[:profile_id]},
+          {
+            "$set": {'spaces.$.name': participant[:name], 'spaces.$.address': participant[:address], 'spaces.$.phone': participant[:phone], 'spaces.$.category': participant[:category], 'spaces.$.description': participant[:description]}
           })
       end
 
@@ -94,14 +99,11 @@ module Repos
           })
       end
 
-      def delete_artist_profile profile_id
+      def delete_profile profile_id
         @@events_collection.update_many({"artists.profile_id": profile_id},
           {
             "$set": {'artists.$.own': 'true'}
           })
-      end
-
-      def delete_space_profile profile_id
         @@events_collection.update_many({"spaces.profile_id": profile_id},
           {
             "$set": {'spaces.$.own': 'true'}

@@ -63,12 +63,23 @@ describe CallsController do
   let(:otter_event_id){'a5bc4203-9379-4de0-856a-56e1e5f3fac6'}
   let(:call_id){'b5bc4203-9379-4de0-856a-55e1e5f3fac6'}
 
+  let(:phone){
+    {
+      'value' => 'phone',
+      'visible' => 'false'
+    }
+  }
+
   let(:profile){
     {
       type: 'artist',
       name: 'artist_name',
       address: 'address',
-      color: 'color'
+      color: 'color',
+      phone: {
+        'value' => nil,
+        'visible' => false
+      }
     }
   }
 
@@ -79,7 +90,8 @@ describe CallsController do
       email: 'email@test.com',
       name: 'artist_name',
       address: 'address',
-      phone: 'phone',
+      phone: phone,
+      type: 'artist',
       proposals: [{
         production_id: production_id,
         proposal_id: production_id,
@@ -107,7 +119,7 @@ describe CallsController do
       description: 'description',
       short_description: 'short_description',
       duration: 'duration',
-      phone: 'phone',
+      phone: phone,
       form_category: 'music',
       subcategory: 'music',
       '2': 'mandatory',
@@ -126,7 +138,8 @@ describe CallsController do
       duration: 'duration',
       photos: nil,
       links: nil,
-      children: nil
+      children: nil,
+      cache: nil
     }
   }
 
@@ -136,7 +149,8 @@ describe CallsController do
       profile_id: profile_id,
       email: 'email@test.com',
       name: 'artist_name',
-      phone: 'phone',
+      phone: phone,
+      type: 'artist',
       own: true,
       proposals: [{
         proposal_id: proposal_id,
@@ -166,7 +180,7 @@ describe CallsController do
       description: 'description',
       short_description: 'short_description',
       duration: 'duration',
-      phone: 'phone',
+      phone: phone,
       form_category: 'music',
       subcategory: 'music'
     }
@@ -184,7 +198,10 @@ describe CallsController do
         postal_code: 'postal_code'
       },
       category: 'home',
-      phone: 'phone',
+      phone: phone,
+      type: 'space',
+      links: nil,
+      photos: nil,
       description: nil,
       '1': nil,
       '2': 'mandatory',
@@ -200,8 +217,12 @@ describe CallsController do
       profile_id: space_profile_id,
       name: 'space_name',
       address: {
-        'locality' => 'locality',
-        'postal_code' => 'postal_code'
+        :locality => 'locality',
+        :postal_code => 'postal_code'
+      },
+      phone: {
+        'value' => nil,
+        'visible' => false
       },
       category: 'home',
       color: 'color'
@@ -214,7 +235,7 @@ describe CallsController do
       profile_id: space_profile_id,
       event_id: otter_event_id,
       call_id: call_id,
-      phone: 'phone',
+      phone: phone,
       category: 'home',
       form_category: 'home',
       subcategory: 'home',
@@ -233,7 +254,7 @@ describe CallsController do
       name: 'space_name',
       address: 'address',
       category: 'home',
-      phone: 'phone',
+      phone: phone,
       description: nil,
       '1': nil,
       '2': nil,
@@ -252,7 +273,7 @@ describe CallsController do
       email: 'email@test.com',
       name: 'space_name',
       address: 'address',
-      phone: 'phone',
+      phone: phone,
       category: 'home',
       form_category: 'home',
       subcategory: 'home'
@@ -309,7 +330,6 @@ describe CallsController do
       },
       space: {
         home: {
-          phone: {type: "mandatory"},
           '1': {type: "optional"},
           '2': {type: "mandatory"}
         }
@@ -424,7 +444,7 @@ describe CallsController do
     end
 
     it 'adds phone to profile if it has not' do
-      profile[:phone] = 'phone'
+      profile[:phone] = phone
       expect(Repos::Profiles).to receive(:update).with(hash_including(profile))
       allow(Time).to receive(:now).and_return(1462054)
       post send_artist_proposal_route, proposal
@@ -575,11 +595,7 @@ describe CallsController do
     end
 
     it 'adds phone to profile if it has not' do
-      space_profile[:phone] = 'phone'
-      space_profile[:address] = {
-        locality: 'locality',
-        postal_code: 'postal_code'
-      }
+      space_profile[:phone] = phone
       expect(Repos::Profiles).to receive(:update).with(hash_including(space_profile))
       allow(Time).to receive(:now).and_return(1462054)
       post send_space_proposal_route, space_proposal
@@ -683,6 +699,7 @@ describe CallsController do
     it 'amends the proposal' do
       allow(Time).to receive(:now).and_return(1462054)
       post send_artist_proposal_route, proposal
+      artist[:phone] = {value: 'phone', visible: 'false'}
 
       expect(Repos::Events).to receive(:modify_artist).with(artist)
       post amend_artist_proposal_route, amend
@@ -737,10 +754,8 @@ describe CallsController do
     it 'amends the proposal' do
       allow(Time).to receive(:now).and_return(1462054)
       post send_space_proposal_route, space_proposal
-      space[:address] = {
-        'locality' => 'locality',
-        'postal_code' => 'postal_code'
-      }
+      space[:phone] = {value: 'phone', visible: 'false'}
+
       expect(Repos::Events).to receive(:modify_space).with(space)
       post amend_space_proposal_route, amend
       expect(parsed_response['status']).to eq('success')
@@ -755,6 +770,7 @@ describe CallsController do
       artist_own_proposal[:proposal_id] = proposal_id
       artist[:proposals].first[:proposal_id] = proposal_id
       artist[:proposals].first[:production_id] = proposal_id
+      artist[:phone] = {value: 'phone', visible: 'false'}
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
@@ -781,6 +797,7 @@ describe CallsController do
       post send_artist_proposal_route, proposal
       post logout_route
       post login_route, otter_user_hash
+
       expect(Repos::Events).to receive(:modify_artist).with(artist)
       proposal[:title] = 'otter_title'
       artist[:proposals].first[:title] = 'otter_title'
@@ -807,10 +824,7 @@ describe CallsController do
       allow(SecureRandom).to receive(:uuid).and_return(space_profile_id)
       post create_profile_route, space_profile
       space_proposal[:proposal_id] = proposal_id
-      space[:address] = {
-        'locality' => 'locality',
-        'postal_code' => 'postal_code'
-      }
+      space[:phone] = {value: 'phone', visible: 'false'}
       allow(SecureRandom).to receive(:uuid).and_return(proposal_id)
     }
 
@@ -838,7 +852,6 @@ describe CallsController do
       post logout_route
       post login_route, otter_user_hash
       expect(Repos::Events).to receive(:modify_space).with(space)
-      proposal[:production_id] = production_id
       space_proposal[:'2'] = 'otter'
       space[:'2'] = 'otter'
       post modify_space_proposal_route, space_proposal

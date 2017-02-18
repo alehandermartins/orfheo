@@ -28,10 +28,9 @@ class ProfilesController < BaseController
     profile = OrganizationProfile.new(params, session[:identity]) if type == 'organization'
     old_pictures = Services::Profiles.profile_old_pictures profile_id
     Repos::Profiles.update profile.to_h
+    Repos::Events.update profile.to_h
+    
     Services::Profiles.destroy_old_pictures old_pictures, profile.to_h
-
-    Repos::Events.update_artist profile.to_h if type == 'artist'
-    Repos::Events.update_space profile.to_h if type == 'space'
     
     success({profile_id: profile_id})
   end

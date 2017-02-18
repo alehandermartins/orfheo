@@ -28,9 +28,10 @@ module Util
     end
 
     def stringify_array array
-      return array unless array.all?{ |element| element.is_a? Hash}
       array.map do |v|
-        stringify_hash(v)
+        next stringify_hash v if v.is_a? Hash
+        next stringify_array v if v.is_a? Array 
+        v
       end
     end
 
