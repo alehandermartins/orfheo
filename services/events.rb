@@ -73,13 +73,12 @@ module Services
         }
       end
 
-      def get_my_info profile_id
+      def get_my_info profile_id, type
         info = {}
         proposals = {}
         events = get_all
-        proposals[:artist] = my_artist_proposals(events, profile_id)
-        proposals[:space] = my_space_proposals(events, profile_id)
-        info[:proposals] = proposals
+        info[:proposals] = my_artist_proposals(events, profile_id) if type == 'artist'
+        info[:proposals] = my_space_proposals(events, profile_id) if type == 'space'
         info[:program] = my_program(events, profile_id)
         info[:events] = my_events(events, profile_id)
         info
