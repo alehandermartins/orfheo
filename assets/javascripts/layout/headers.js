@@ -314,7 +314,7 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.InsideDropdownMenu = function(user){   
 
-    var _eventManagerChoice = $('<div>');
+    var _eventManagerChoice = {};
     var _contactChoice = $('<div>');
 
     $(document).on('show.zf.dropdown', function() {
@@ -322,7 +322,9 @@ ns.Widgets = ns.Widgets || {};
     });
     $(document).on('hide.zf.dropdown', function(){
       _iconDropdownMenu.removeClass('iconDropdown-clicked');
-      _eventManagerChoice.removeClass('showEventManagerChoice');
+      for(var id in _eventManagerChoice){
+        _eventManagerChoice[id].removeClass('showEventManagerChoice');
+      }
       _contactChoice.removeClass('showEventManagerChoice');
     });
 
@@ -452,29 +454,29 @@ ns.Widgets = ns.Widgets || {};
             var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
             var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
             var _manageCallIcon = $('<span>').append(_callIcon, _toolIcon).addClass('manageCallIcon');
-            _eventManagerChoice
+            _eventManagerChoice[event.event_id] = $('<div>')
               .addClass('eventMananagerChoice')
               .append(
                 $('<ul>').append(
                 $('<li>').append($('<a>').append(Pard.Widgets.IconManager('proposals').render().addClass('eventIcon'), Pard.t.text('header.insideDropdown.event')).attr('href','/event?id='+event.event_id))
                 .click( function(){
-                    _eventManagerChoice.removeClass('showEventManagerChoice');
+                    _eventManagerChoice[event.event_id].removeClass('showEventManagerChoice');
                     _menuContainer.foundation('close');
                   }
                 ),
                 $('<li>').append($('<a>').append(_manageCallIcon, 'Manager').attr('href','/event_manager?id='+event.event_id))
                 .click( function(){
-                    _eventManagerChoice.removeClass('showEventManagerChoice');
+                    _eventManagerChoice[event.event_id].removeClass('showEventManagerChoice');
                     _menuContainer.foundation('close');
                   }
                 )
               ))
               .hover(
                 function(){
-                  _eventManagerChoice.addClass('isOver');
+                  _eventManagerChoice[event.event_id].addClass('isOver');
                 },
                 function () {
-                  _eventManagerChoice.removeClass('isOver showEventManagerChoice')
+                  _eventManagerChoice[event.event_id].removeClass('isOver showEventManagerChoice')
                 }
               );
             _menuEvents.append(
@@ -485,21 +487,21 @@ ns.Widgets = ns.Widgets || {};
                     .append(_eventName)
                     .hover(
                       function(){
-                        _eventManagerChoice.addClass('showEventManagerChoice');
+                        _eventManagerChoice[event.event_id].addClass('showEventManagerChoice');
                       },
                       function(){
                         setTimeout(function(){
-                          if (!(_eventManagerChoice.hasClass('isOver'))) _eventManagerChoice.removeClass('showEventManagerChoice');
-                        },200)
+                          if (!(_eventManagerChoice[event.event_id].hasClass('isOver'))) _eventManagerChoice[event.event_id].removeClass('showEventManagerChoice');
+                        },50)
                         
                       }
                     )
                     .click(function(){
-                       if (!(_eventManagerChoice.hasClass('showEventManagerChoice'))) _eventManagerChoice.addClass('showEventManagerChoice');
-                       else _eventManagerChoice.removeClass('showEventManagerChoice');
+                       if (!(_eventManagerChoice[event.event_id].hasClass('showEventManagerChoice'))) _eventManagerChoice[event.event_id].addClass('showEventManagerChoice');
+                       else _eventManagerChoice[event.event_id].removeClass('showEventManagerChoice');
                     })
                     .css('cursor','default'),
-                  _eventManagerChoice
+                  _eventManagerChoice[event.event_id]
                 )  
             )
           });
