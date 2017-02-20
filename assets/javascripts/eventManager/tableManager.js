@@ -12,22 +12,25 @@
     var _ownArtists = {};
 
     // OWN PROPOSALS
-
+    var _dictionary = {
+      'artist':'performer',
+      'space':'stage'
+    }
     var _createProposals = {
       artist: function(){
-          var _artistIcon = Pard.Widgets.IconManager('artist').render().addClass('createOwnprofile-btn-icon');
+          var _artistIcon = Pard.Widgets.IconManager(_dictionary['artist']).render().addClass('createOwnprofile-btn-icon');
           var _plusA = Pard.Widgets.IconManager('add_circle').render().addClass('plusSymbol-CreateOwnProfile');
           return $('<div>').append(_artistIcon, _plusA).addClass('create-artist-proposal-call-page-btn')
-          .attr('title','Crea y añade una propuesta artista')
+          .attr('title','Crea y añade una propuesta de tipo artista')
           .click(function(){
             _openPopupForm('artist', _ownArtists);
           });
         },
       space: function(){
-          var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('createOwnprofile-btn-icon');
+          var _spaceIcon = Pard.Widgets.IconManager(_dictionary['space']).render().addClass('createOwnprofile-btn-icon');
           var _plusS = Pard.Widgets.IconManager('add_circle').render().addClass('plusSymbol-CreateOwnProfile');
           return $('<div>').append(_spaceIcon, _plusS).addClass('create-space-proposal-call-page-btn')
-          .attr('title','Crea y añade una propuesta espacio')
+          .attr('title','Crea y añade una propuesta de tipo espacio')
           .click(function(){
             _openPopupForm('space', []);
           });
@@ -100,6 +103,7 @@
     
     Object.keys(spaces).forEach(function(profile_id){
       var proposal = spaces[profile_id].space;
+      if (proposal.own) _ownArtists[profile_id] = spaces[profile_id].space;
       // necesary for proposals conFusion withput form cat
       proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
       proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
@@ -564,6 +568,7 @@
         _dataTables[space.form_category].DataTable.row.add(_dataTables[space.form_category].proposalRow(space)).draw();
         _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('space', space)).draw();
         _proposalsNumber[space.form_category] += 1;
+        if (space.own) _addOwnArtist(space);
         _selectCatReload();
       },
       deleteArtist: function(artist){
@@ -585,6 +590,7 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
+        if (_ownArtists[space.profile_id]) _deleteOwnArtist(space); 
         _selectCatReload();
       },
       modifySpace: function(space){

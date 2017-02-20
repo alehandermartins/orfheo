@@ -248,8 +248,20 @@
     },
     type: {
       info: function(proposal){
-        if (proposal.own) return Pard.Widgets.IconManager(proposal.type).render(); 
-        else return $('<a>').append(Pard.Widgets.IconManager(proposal.type).render()).attr({'href':'/profile?id='+proposal.profile_id, 'target':'_blank'});
+        var _dictionary = {
+          'artist':'performer',
+          'space':'stage'
+        }
+        if (proposal.own) return Pard.Widgets.IconManager(_dictionary[proposal.type]).render(); 
+        else return $('<a>').append(Pard.Widgets.IconManager(_dictionary[proposal.type]).render()).attr({'href':'/profile?id='+proposal.profile_id, 'target':'_blank'});
+      },
+      label: 'Tipo',
+      input: 'type'
+    },
+    profile_type:{
+      info: function(proposal){
+        if (proposal.own) return '';
+        else return Pard.t.text(proposal.profile_type);
       },
       label: 'Perfil',
       input: 'type'

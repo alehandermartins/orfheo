@@ -63,6 +63,7 @@
       _timeTable.append(_time, _line);
     });
     _timeTableContainer.append(_timeTable);
+    console.log(spaces)
 
     Object.keys(eventTime).forEach(function(day, index){
       var _table = $('<div>').css({
@@ -79,7 +80,7 @@
       });
       _tables[day] = _table;
       _emptySpaces[day] = _emptyColumn;
-      if(index == 0) _tableContainer.append(_tables[day]);
+      if(index == 0 && !$.isEmptyObject(spaces)) _tableContainer.append(_tables[day]);
       else _tableContainer.append(_tables[day].hide());
     });
 
