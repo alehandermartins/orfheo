@@ -272,14 +272,14 @@
       var _type;
       var _performerBtn = $('<button>')
         .attr('type','button')
-        .text('Performer')
+        .append(Pard.Widgets.IconManager('performer').render(),$('<span>').text('Performer'))
         .click(function(){
           _type = 'artist';
           loadFormSelector();
         });
       var _stageBtn = $('<button>')
         .attr('type','button')
-        .text('Stage')
+        .append(Pard.Widgets.IconManager('stage').render(),$('<span>').text('Stage'))
         .click(function(){
           _type = 'space';
           loadFormSelector();
