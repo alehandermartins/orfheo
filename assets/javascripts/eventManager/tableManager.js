@@ -626,7 +626,7 @@
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
     _closeBtn.append($('<span>').html('&times;'));
 
-    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', close_on_background_click: true});
+    var _popup = new Foundation.Reveal(_createdWidget, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', close_on_background_click: true, multipleOpened:true});
 
     // _sectionContainer.append(_title, content);
     _popupContent.append(_title, content);

@@ -21,7 +21,12 @@
   ns.Widgets.FormatResource = function(resource) {
     var _label = $('<span>').text(resource.text);
     if(resource.icon){
-      var _icon = Pard.Widgets.IconManager(resource.icon).render();
+      var _icon = $('<span>')
+      if ($.isArray(resource.icon)) 
+        resource.icon.forEach(function(icon){
+          _icon.append(Pard.Widgets.IconManager(icon).render())
+        })
+      else _icon = Pard.Widgets.IconManager(resource.icon).render();
       _label.append(_icon);
       _icon.css({
         position: 'relative',

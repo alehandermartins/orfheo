@@ -52,6 +52,7 @@
     }
 
     var _displayProposal = function(proposal, type){
+      console.log(proposal)
 
       var _proposal = $.extend(true, {}, proposal);
 

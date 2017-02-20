@@ -541,7 +541,7 @@ ns.Widgets = ns.Widgets || {};
       reload: function(){
         _menuProfiles.empty();
         _menuEvents.empty();
-        _eventManagerChoice.empty();
+        _eventManagerChoice = {};
         _loadProfielsEvents();
       }
     }

@@ -224,20 +224,43 @@
 
     var _loadArtistSelector = function(){
       artistProposals = [];
-      Object.keys(the_event.categories.artist).forEach(function(category){
+      var artistCatObj = {};
+      Object.keys(the_event.categories.artist).forEach(function(orfheocat){
+        var subcats = the_event.categories.artist[orfheocat]['subcategories'];
+        for (var key in subcats){
+          artistCatObj[key] = subcats[key];
+        }
+      })
+      
+      for (var category in artistCatObj){
         artistProposals.push({
           type: 'category',
           id: category,
-          icon: the_event.categories.artist[category].icon,
+          icon: artistCatObj[category].icon,
           text: category
         });
-      });
+      }
       Object.keys(the_event.artists).forEach(function(profile_id){
         artistProposals.push({
           id: profile_id,
           text: the_event.artists[profile_id].artist.name
         });
       });
+      // Object.keys(the_event.categories.artist).forEach(function(category){
+      //   artistProposals.push({
+      //     type: 'category',
+      //     id: category,
+      //     icon: the_event.categories.artist[category].icon,
+      //     text: category
+      //   });
+      // });
+      // Object.keys(the_event.artists).forEach(function(profile_id){
+      //   artistProposals.push({
+      //     id: profile_id,
+      //     text: the_event.artists[profile_id].artist.name
+      //   });
+      // });
+      console.log(artistProposals)
       _artistSelector.select2({
         placeholder: 'Artistas',
         data: artistProposals,

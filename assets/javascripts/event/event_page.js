@@ -5,6 +5,7 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.EventAside = function(sectionContainer) {
+    console.log(Pard.CachedEvent);
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
     var _buttonContainer = $('<div>').addClass('create-profile-container');
 
@@ -191,11 +192,18 @@
       'other': Pard.t.text('event_page.program.filters.other')
     }
 
+    var artistCatObj = {};
+    Object.keys(the_event.categories.artist).forEach(function(orfheocat){
+      var subcats = the_event.categories.artist[orfheocat]['subcategories'];
+      for (var key in subcats){
+        artistCatObj[key] = subcats[key];
+      }
+    })
+
     Object.keys(filters).forEach(function(key){
 
       var _categoriesLabel = $('<div>').text(_labels[key]).addClass('categories-labels-popup-event-page');
       _createdWidget.append(_categoriesLabel);
-
       Object.keys(filters[key]).forEach(function(filter){
         // var _filterContainer = $('<div>');
         var _input = $('<input />').attr({ type: 'checkbox'});
@@ -208,8 +216,14 @@
           callback(filters);
         });
         var _label = $('<label>');
-        if(key == 'participants') _label.append(filter,' ',Pard.Widgets.IconManager(the_event.categories.artist[filter].icon).render().addClass('participant-category-icon'));
-        if(key == 'other') _label.append(Pard.t.text('widget.inputChildren.' + filter));
+        if(key == 'participants') {
+          var _icons = $('<span>');
+          artistCatObj[filter].icon.forEach(function(icon){
+            _icons.append(Pard.Widgets.IconManager(icon).render().addClass('participant-category-icon'))
+          }) 
+          _label.append(filter,' ',_icons);
+        }
+        else if(key == 'other') _label.append(Pard.t.text('widget.inputChildren.' + filter));
         else _label.append(filter); 
         _label.css('display','inline');
         var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');
@@ -247,13 +261,24 @@
       if(date == 'permanent') return;
       eventDates.push(date);
     });
+    var artistCatObj = {};
+    Object.keys(the_event.categories.artist).forEach(function(orfheocat){
+        var subcats = the_event.categories.artist[orfheocat]['subcategories'];
+        for (var key in subcats){
+          artistCatObj[key] = subcats[key];
+        }
+      })
     var eventCategories = {
-      participants: Object.keys(the_event.categories.artist),
+      participants: Object.keys(artistCatObj),
       hosts: Object.keys(the_event.categories.space),
       other: ['all_public', 'baby', 'family', 'young', 'adults']
     }
+    // var eventCategories = {
+    //   participants: Object.keys(the_event.categories.artist),
+    //   hosts: Object.keys(the_event.categories.space),
+    //   other: ['all_public', 'baby', 'family', 'young', 'adults']
+    // }
     var _filters = {};
-
     Object.keys(eventCategories).forEach(function(key){
       if(eventCategories[key]) _filters[key] = {};
       eventCategories[key].forEach(function(category){

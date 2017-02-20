@@ -505,12 +505,16 @@
        _callText.append('Convocatoria cerrada');
     }
     var _call = $('<div>').append(_callIcon, _callText).addClass('info-element-eventCard');
-
-    var _cats = '';
-    for (var cat in event.categories.artist){
-      _cats += cat + ', ';
-    };
-    _cats = _cats.substring(0,_cats.length-2);
+    var artistCat = Object.keys(event.categories.artist).map(function(orfheocat){
+      return Object.keys(event.categories.artist[orfheocat]['subcategories'])
+    })
+    artistCat = [].concat.apply([],artistCat);
+    artistCat = Pard.Widgets.UniqueArray(artistCat);
+    // var _cats = '';
+    // for (var cat in event.categories.artist){
+    //   _cats += cat + ', ';
+    // };
+    _cats = artistCat.join(', ');
     var _catText = $('<div>').text(_cats).addClass('text-container'); 
     var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('tags').render().css('font-size','1.3rem'));
     var _categories = $('<div>').append(_catIcon, _catText).addClass('info-element-eventCard');

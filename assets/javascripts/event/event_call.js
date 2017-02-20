@@ -103,7 +103,7 @@
       _card.attr('href','#/');
       _card.click(function(){
         var _check = true;
-        if (profile.type == 'space' && profile.proposals && profile.proposals[0]){
+        if ((profile.type == 'space' || profile.type=='organization') && profile.proposals && profile.proposals.space){
           profile.proposals.some(function(proposal){
             if (proposal.event_id == Pard.CachedEvent.event_id) {
               Pard.Widgets.Alert(Pard.t.text('call.alreadyInscribed.title'), Pard.t.text('call.alreadyInscribed.mex')+ Pard.CachedEvent.name);
@@ -161,8 +161,7 @@
       _forms = data.forms;
       _createProfileCard = Pard.Widgets.CreateProfileCard(
         Pard.t.text('call.createProfile.title'),
-        Pard.Widgets.CreateProfilePopupEvent(_createAndInscribeProfile,
-        Object.keys(_forms))
+        Pard.Widgets.CreateProfilePopupEvent(_createAndInscribeProfile)
       ).render();
       var _createProfileCardContainer = $('<div>').append(_createProfileCard).addClass('card-container-popup');
       _createdWidget.append(_secondTitle, _createProfileCardContainer);
@@ -178,11 +177,12 @@
     } 
   }
 
-  ns.Widgets.CreateProfilePopupEvent = function(callbackEvent, allowedProfile){
+  ns.Widgets.CreateProfilePopupEvent = function(callbackEvent){
     var _createdWidget = $('<div>').css({
       'margin-top': '1.5rem',
       'text-align': 'center'
     });
+    var allowedProfile = Pard.CachedEvent['target'];
 
     var _spaceButton = Pard.Widgets.CreateTypeProfile('space', callbackEvent).render().addClass('create-space-btn-popup');
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
@@ -237,7 +237,7 @@
     var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
     _content.empty();
     $('body').append(_content);
-    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
+    var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
     var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(forms, profile, closeListProfilePopup, callbackSendProposal));
     _message.setCallback(function(){
       _popup.close();
@@ -254,7 +254,7 @@
   ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     
     var _createdWidget = $('<div>');
-    var _typeFormsCatArray = Object.keys(forms);
+    var _typeFormsCatArray = Pard.CachedEvent.target;
     
     if($.inArray(profile.type, _typeFormsCatArray) < 0){
       var _okProfiles = '';
@@ -269,10 +269,26 @@
     }
     else{
       closeListProfilePopup();
-
+      var _type;
+      var _performerBtn = $('<button>')
+        .attr('type','button')
+        .text('Performer')
+        .click(function(){
+          _type = 'artist';
+          loadFormSelector();
+        });
+      var _stageBtn = $('<button>')
+        .attr('type','button')
+        .text('Stage')
+        .click(function(){
+          _type = 'space';
+          loadFormSelector();
+        });  
+      var _typeButtons = $('<div>').append(_performerBtn, _stageBtn);
+      var _chooseType = $('<div>').append($('<p>').text('Decide como apuntarte:'),_typeButtons);
       var _initialMexText = Pard.t.text('call.form.initMex1')+'<a href="/profile?id='+profile.profile_id+'", target="_blank">'+profile.name+'</a>'+Pard.t.text('call.form.initMex2')+Pard.CachedEvent.organizer+'</strong>:';
       var _initialMex = $('<h6>').html(_initialMexText).css('margin-bottom','1.5rem');
-      _createdWidget.append(_initialMex);
+
       var _closepopup = {};
       var _production_id;
 
@@ -284,134 +300,175 @@
       var _contentSel = $('<div>');
       var _formTypes = [];
       var _acceptedCategories = [];
-      var _formTypeSelector = $('<select>');
-      var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
-      _formTypeSelector.append(_emptyOption);
+      var _formTypeSelector = $('<select>');     
       
-      for (var typeForm in forms[profile.type]){
-        _formTypes.push(typeForm);
-        _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
-        forms[profile.type][typeForm].category.args[1].forEach(function(cat){
-          if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
-        });
-      };  
-
-      _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector),_formTypeOptionsCont);
-
-      _formTypeSelector.select2({
-        minimumResultsForSearch: Infinity,
-        dropdownCssClass: 'orfheoTypeFormSelector',
-        placeholder: Pard.t.text('call.form.catPlaceholder')
-        // allowClear: true
-      });
-
-      if(profile.productions && profile.productions.length){
-        var _t1 = $('<div>').append($('<h5>').text(Pard.t.text('call.form.portfolio'))).css({
-          'margin-top':'1.5rem',
-          'margin-bottom':'1rem'
-        });
-        var _t2 = $('<div>').append($('<h5>').text(Pard.t.text('call.form.newProposal'))).css({
-          'margin-bottom':'1rem'
-        });
-        var _prodContainer = $('<div>').addClass('prodContainer-event-page');
-        _prodContainer.append(_t1);
-        var _compatibleProductions = false;
-        profile.productions.forEach(function(production){
-          if ($.inArray(production.category, _acceptedCategories)>-1){
-            var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
-            var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
-            _iconColumn.css({
-              'padding':'0.2rem'
-            });
-            var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
-            var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
-            _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
-            _prodContainer.append(_prodBtn);
-            _compatibleProductions = true;
-            _prodBtn.click(function(){
-              if (_prodBtn.hasClass('content-form-selected')){
-                $('#popupForm').addClass('top-position');
-                _formTypeSelector.show();
-                _formTypeSelector.attr('disabled',false);
-                _production_id = false;
-                _prodBtn.removeClass('content-form-selected');
-                $('.xbtn-production-event-page').remove();
-                _formTypeSelector.val('').trigger('change');
-                _contentSel.empty();
-                _t2.show();
-                _formTypeOptionsCont.empty();
-              }
-              else{
-                $('#popupForm').removeClass('top-position');
-                _production_id = production.production_id;
-                var _catProduction = Pard.Widgets.Dictionary(production.category).render();
-                if (forms[profile.type][_catProduction]){
-                  var _form = _formTypeConstructor(forms[profile.type][_catProduction], profile, _catProduction, _production_id, callbackSendProposal);
-                  _formTypeSelector.val(_catProduction).trigger('change');
-                  _formTypeSelector.attr('disabled',true);
-                  _t2.hide();
-                  _form.setVal(production);
-                  _form.setCallback(function(){
-                    _closepopup();
-                  });
-                  $('.content-form-selected').removeClass('content-form-selected');
-                  _prodBtn.addClass('content-form-selected');
-                  var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
-                  _prodBtn.append(_xbtn);
-                  _contentSel.empty();
-                  _contentSel.append(_form.render());
-                }
-                else{
-                  if (_t2) _t2.hide();
-                  $('.content-form-selected').removeClass('content-form-selected');
-                  _prodBtn.addClass('content-form-selected');
-                  var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
-                  _prodBtn.append(_xbtn);
-                  var _formTypeOptionsSelector = $('<select>');
-                  var _emptyOpt = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
-                  _formTypeOptionsSelector.append(_emptyOpt);
-                  for (var typeForm in forms[profile.type]){
-                    if( $.inArray(production.category, forms[profile.type][typeForm].category) > -1){ 
-                      _formTypeOptionsSelector.append($('<option>').text(typeForm).val(typeForm));
-                    }
-                  }
-                  _formTypeSelector.hide();
-                  _contentSel.empty();
-                  _formTypeOptionsSelector.on('change', function(){
-                    _printForm(_formTypeOptionsSelector, production);
-                  });
-                  _formTypeOptionsCont.append(_formTypeOptionsSelector);
-                  _formTypeOptionsSelector.select2({
-                    minimumResultsForSearch: Infinity,
-                    dropdownCssClass: 'orfheoTypeFormSelector',
-                    placeholder: Pard.t.text('call.form.catPlaceholder')
-                    // allowClear: true
-                  });
-
-                }
-              }
-            })
+      var loadFormSelector = function(){
+        _contentSel.empty();
+        _formTypeSelectorCont.empty();
+        $('#popupForm').addClass('top-position');
+        _formTypeSelector = $('<select>');
+        var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
+        _formTypeSelector.append(_emptyOption);
+        for (var typeForm in forms[_type]){
+          _formTypes.push(typeForm);
+          _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
+          forms[_type][typeForm].category.args[1].forEach(function(cat){
+            if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
+          });
+          _formTypeSelectorCont.append(_formTypeSelector);
+          _formTypeSelector.select2({
+            minimumResultsForSearch: Infinity,
+            dropdownCssClass: 'orfheoTypeFormSelector',
+            placeholder: Pard.t.text('call.form.catPlaceholder')
+            // allowClear: true
+          });
+        };
+        _formTypeSelector.on('change',function(){
+          if (_formTypeSelector.val()){
+            $('.xbtn-production-event-page').remove();
+            $('#popupForm').removeClass('top-position');
+            $('.content-form-selected').removeClass('content-form-selected');
+            _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+            // if (_t2) _t2.show();
+            _printForm(_formTypeSelector);
           }
         });
-        if (_compatibleProductions) _createdWidget.append(_prodContainer, _t2 );
+        showProductions();
       }
 
-      _formTypeSelector.on('change',function(){
-        if (_formTypeSelector.val()){
-          $('.xbtn-production-event-page').remove();
-          $('#popupForm').removeClass('top-position');
-          $('.content-form-selected').removeClass('content-form-selected');
-          _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-          if (_t2) _t2.show();
-          _printForm(_formTypeSelector);
+      var _prodContainer = $('<div>')
+
+      _outerFormBox.append(_prodContainer, _formTypeSelectorCont,_formTypeOptionsCont);
+
+      var showProductions = function(){
+        _prodContainer.empty();
+        if(_type == 'artist' && profile.productions && profile.productions.length){
+          var _t1 = $('<div>').append($('<h5>').text(Pard.t.text('call.form.portfolio'))).css({
+            'margin-top':'1.5rem',
+            'margin-bottom':'1rem'
+          });
+          var _t2 = $('<div>').append($('<h5>').text(Pard.t.text('call.form.newProposal'))).css({
+            'margin-bottom':'1rem'
+          });
+          _prodContainer.addClass('prodContainer-event-page');
+          _prodContainer.append(_t1);
+          var _compatibleProductions = false;
+          profile.productions.forEach(function(production){
+            if ($.inArray(production.category, _acceptedCategories)>-1){
+              var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
+              var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
+              _iconColumn.css({
+                'padding':'0.2rem'
+              });
+              var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
+              var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
+              _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
+              _prodContainer.append(_prodBtn);
+              _compatibleProductions = true;
+              _prodBtn.click(function(){
+                $('.xbtn-production-event-page').remove();
+                var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
+                _prodBtn.append(_xbtn);
+                _contentSel.empty();
+                if (_prodBtn.hasClass('content-form-selected')){
+                  $('.content-form-selected').removeClass('content-form-selected');
+                  $('.xbtn-production-event-page').remove();
+                  $('#popupForm').addClass('top-position');
+                  _formTypeSelector.show();
+                  _formTypeSelector.attr('disabled',false);
+                  _production_id = false;
+                  _formTypeSelector.val('').trigger('change');
+                  _t2.show();
+                  loadFormSelector();
+                }
+                else{
+                  $('#popupForm').addClass('top-position');
+                  $('.content-form-selected').removeClass('content-form-selected');
+                  _prodBtn.addClass('content-form-selected');
+                  _production_id = production.production_id;
+                  var _catProduction = production.category;
+                  var formsKey = Pard.CachedEvent.categories.artist[_catProduction]['forms'];
+                  _prodBtn.append(_xbtn);
+                  if (formsKey.length == 1){
+                    var _form = _formTypeConstructor(_type, forms[_type][formsKey[0]], profile, formsKey[0], _production_id, callbackSendProposal);
+                    _formTypeSelector.val(_catProduction).trigger('change');
+                    _formTypeSelector.attr('disabled',true);
+                    _t2.hide();
+                    _form.setVal(production);
+                    _form.setCallback(function(){
+                      _closepopup();
+                    });
+                    _contentSel.append(_form.render());
+                    $('#popupForm').removeClass('top-position');
+                  }
+                  else if(formsKey.length>1){
+                    _t2.hide();
+                    $('.content-form-selected').removeClass(' content-form-selected');
+                    _prodBtn.addClass('content-form-selected');  
+                    _formTypeSelectorCont.empty();
+                    _formTypeSelector = $('<select>');
+                    var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
+                    _formTypeSelector.append(_emptyOption);
+                    formsKey.forEach(function(typeForm){
+                      _formTypes.push(typeForm);
+                      _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
+                      _formTypeSelectorCont.append(_formTypeSelector);
+                      _formTypeSelector.select2({
+                        minimumResultsForSearch: Infinity,
+                        dropdownCssClass: 'orfheoTypeFormSelector',
+                        placeholder: Pard.t.text('call.form.catPlaceholder')
+                        // allowClear: true
+                      });
+                    });
+                    _formTypeSelector.on('change',function(){
+                      if (_formTypeSelector.val()){
+                        // $('.xbtn-production-event-page').remove();
+                        $('#popupForm').removeClass('top-position');
+                        // $('.content-form-selected').removeClass('content-form-selected');
+                        _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+                        if (_t2) _t2.show();
+                        _printForm(_formTypeSelector, production);
+                      }
+                    });
+                  }
+                  else{
+                    if (_t2) _t2.hide();
+                    var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
+                    _prodBtn.append(_xbtn);
+                    var _formTypeOptionsSelector = $('<select>');
+                    var _emptyOpt = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
+                    _formTypeOptionsSelector.append(_emptyOpt);
+                    for (var typeForm in forms[profile.type]){
+                      if( $.inArray(production.category, forms[profile.type][typeForm].category) > -1){ 
+                        _formTypeOptionsSelector.append($('<option>').text(typeForm).val(typeForm));
+                      }
+                    }
+                    _formTypeSelector.hide();
+                    _formTypeOptionsSelector.on('change', function(){
+                      _printForm(_formTypeOptionsSelector, production);
+                    });
+                    _formTypeOptionsCont.append(_formTypeOptionsSelector);
+                    _formTypeOptionsSelector.select2({
+                      minimumResultsForSearch: Infinity,
+                      dropdownCssClass: 'orfheoTypeFormSelector',
+                      placeholder: Pard.t.text('call.form.catPlaceholder')
+                      // allowClear: true
+                    });
+
+                  }
+                }
+              })
+            }
+          });
+          if (_compatibleProductions) _prodContainer.append(_t2) ;
         }
-      });
+      }
 
       var _printForm = function(formTypeSelector, production){
         _contentSel.empty();
         _production_id = false;
         var _typeFormSelected = formTypeSelector.val();
-        var _form = _formTypeConstructor(forms[profile.type][_typeFormSelected], profile, _typeFormSelected, _production_id, callbackSendProposal);
+        var _form = _formTypeConstructor(_type, forms[_type][_typeFormSelected], profile, _typeFormSelected, _production_id, callbackSendProposal);
         _form.setCallback(function(){
           _closepopup();
         });
@@ -427,7 +484,14 @@
           _formTypeSelector.attr('disabled',true);
         }
       }
-
+      _createdWidget.append(_initialMex)
+      if (profile.type == 'organization' || profile.type == 'space') {
+        _createdWidget.append(_chooseType)
+      }
+      else {
+        _type = 'artist';
+        loadFormSelector();
+      };
       _createdWidget.append(_outerFormBox.append(_contentSel));
     }
 
@@ -441,7 +505,7 @@
     }
   }
 
-  ns.Widgets.CallForm = function(form, profile, formTypeSelected, production_id, callbackSendProposal){
+  ns.Widgets.CallForm = function(type, form, profile, form_category, production_id, callbackSendProposal){
 
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
@@ -454,7 +518,7 @@
       artist: _initial_message_art,
       space: _initial_message_spa
     }
-    var _message_1 = _messageDictionary[profile.type]; 
+    var _message_1 = _messageDictionary[type]; 
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _containerOrfheoFields = $('<div>').append(_message_1);
@@ -483,13 +547,13 @@
     //Availability should get the dates from the event
 
     var _tempForm = {};
-    if(profile.type == 'space'){
+    if(type == 'space'){
       Object.keys(form).forEach(function(field){
         _tempForm[field] = form[field];
         if(field == 'subcategory') _tempForm['phone'] = _phoneField;
       });
     }
-    if(profile.type == 'artist'){
+    if(type == 'artist'){
       Object.keys(form).forEach(function(field){
         _tempForm[field] = form[field];
         if(field == 'short_description') _tempForm['phone'] = _phoneField;
@@ -525,7 +589,7 @@
       _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','3rem'));
       }
       else if (field == 'category'){
-        if (profile.category){
+        if (type == 'space' && profile.category){
           _orfheoCategory = profile.category;
         }
         else{ 
@@ -625,11 +689,12 @@
       _submitForm['call_id'] = Pard.CachedEvent.call_id;
       _submitForm['event_id'] = Pard.CachedEvent.event_id;
       _submitForm['profile_id'] = profile.profile_id;
-      _submitForm['type'] = profile.type;
+      _submitForm['type'] = type;
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
-      _submitForm['form_category'] = formTypeSelected;
+      _submitForm['form_category'] = form_category;
       if (production_id) _submitForm['production_id'] = production_id; 
-      if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
+      if (!(form['subcategory'])) _submitForm['subcategory'] = form_category;
+      _submitForm['profile_type'] = profile.type; 
       console.log(_submitForm)
       return _submitForm;
     }
@@ -645,7 +710,7 @@
 
     var _send = function(){
       var _submitForm = _getVal();
-      _backEndDictionary[profile.type](_submitForm,function(data){
+      _backEndDictionary[type](_submitForm,function(data){
         callbackSendProposal(data); 
         _closepopup();
         spinner.stop();
