@@ -4,18 +4,29 @@
 
 
   ns.PrintProgram = function(program, host, gmap, dataSpaces){
-
+    console.log(program)
     var _searchResult = $('#searchResult');
     _searchResult.empty();
-    var _checkPermanent = true;
-    var _checkShow = true;
 
     var _windowSize; 
     if ($(window).width() > 1024) _windowSize = 'big';
     else _windowSize = 'small';
+    var _dayBlock = {};
+    var _checkPermanent = {};
 
     program.forEach(function(performance){      
       if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
+        if (!_dayBlock[performance.date]) {
+          _dayBlock[performance.date] = $('<div>');
+          var _day = $('<h4>')
+            .text(moment(new Date(parseInt(performance.time))).locale(Pard.UserInfo['lang']).format('dddd D'))
+            .css({
+              'textTransform':'capitalize',
+              'color':'#6f6f6f'
+            });
+          _dayBlock[performance.date].append(_day);
+          _checkPermanent[performance.date] = true;
+        }
         var _performanceCard = Pard.Widgets.ProgramCard(performance, host, _windowSize);
         _performanceCard.setNumberClickCallback(
           function(){
@@ -35,19 +46,23 @@
             gmap.CloseInfoWindow();
             Pard.PrintProgram(program, '', gmap, dataSpaces);
           });
-        if (performance.permanent == 'true' && _checkPermanent) {
-          // var _day = $('<span>').text(moment(new Date(parseInt(performance.time))).locale('es').format('dddd DD')).css('textTransform','capitalize')
-          var _permanentTitle = $('<div>').append($('<h4>').append('Permanentes a lo largo del día ')).addClass('title-program-event-page').css('margin-bottom','1.5rem');
-          _checkPermanent = false;
-          _searchResult.append(_permanentTitle);
+        if (performance.permanent == 'true' && _checkPermanent[performance.date]) {
+          var _permanentTitle = $('<div>').append($('<h5>').append('Permanentes a lo largo del día ')).addClass('title-program-event-page').css('margin-bottom','1.5rem');
+          _checkPermanent[performance.date] = false;
+          _dayBlock[performance.date].append(_permanentTitle);
         }
-        _searchResult.append(_performanceCard.render());
+        _dayBlock[performance.date].append(_performanceCard.render());
       }
     });
 
     if(program.length == 0) {
       var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
       _searchResult.append(_message);
+    }
+    else{
+      for (var day in _dayBlock){
+        _searchResult.append(_dayBlock[day]);
+      }
     }
   }
 
@@ -71,6 +86,8 @@
     var _catBlockObj = {};
     Object.keys(Pard.CachedEvent.categories.space).forEach(function(cat){
       var _block = $('<div>').addClass('category-block-program');
+      // _catBlockObj[cat] = {}
+      // _catBlockObj[cat]['main'] = _block;
       _catBlockObj[cat] = _block;
       _blocksContainer.append(_block);
       _spaceCatCheck[cat] = true;
@@ -84,8 +101,8 @@
       var _spaceBlock = $('<div>');
       var _showBlock = $('<div>');
       var _permanentBlock = $('<div>');
+      var _permanentObj={};
       Pard.Widgets.ReorderProgramCrono(_programObj[hostSpace]).forEach(function(performance){
-        console.log(performance)
         if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
           if (_spaceCatCheck[performance.host_subcategory]){
             var _spaceCat =  performance.host_subcategory;
@@ -133,13 +150,23 @@
             else _spaceName.attr('href','#/').css({'color':'black', 'text-decoration':'underline','cursor':'default'});
             _spaceBlock.append(_nameNumCont.append(_spaceName));
           }
-          var _performanceCard = Pard.Widgets.ProgramBySpaceCard(performance, host);
-          if (performance.permanent == 'true') _permanentBlock.append(_performanceCard.render());
-          else _showBlock.append(_performanceCard.render());
+          if (performance.permanent == 'true'){
+            if (!_permanentObj[performance.participant_proposal_id]){
+              _permanentObj[performance.participant_proposal_id] = Pard.Widgets.ProgramBySpaceCardPerm(performance, host, _windowSize)
+              _permanentObj[performance.participant_proposal_id].addDay(performance)
+            }
+            else{
+              _permanentObj[performance.participant_proposal_id].addDay(performance);
+            }
+          }
+          else _showBlock.append(Pard.Widgets.ProgramBySpaceCard(performance, host, _windowSize).render());
       }
       });
 
       _catBlockObj[_programObj[hostSpace][0].host_subcategory].append(_spaceBlock);
+      for (var permanent in _permanentObj){
+        _permanentBlock.append(_permanentObj[permanent].render())
+      }
       _spaceBlock.append(_showBlock, _permanentBlock);
     }
 
@@ -163,9 +190,49 @@
     // return program;
   }
 
+  ns.Widgets.ProgramBySpaceCardPerm = function(performance, host, size){
+    console.log(performance)
+    var _progCard = $('<div>').addClass('programBySpace-card-container');
+    var _time = $('<span>');
+    var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
+   
+    var _title = $('<span>').text(performance.title).addClass('title-program-card');
+    var _participant = $('<a>').text(performance.participant_name);
+    if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id, 'target':'_blank'});
+    else _participant.addClass('participant-program-card-own').attr({'href': '#/'});
+   
+    var _children = '';
+    if (performance.children == 'baby') _children = Pard.Widgets.IconManager('baby').render().addClass('participant- category-icon icon-children-program'); 
+    var _shortDescription = performance.short_description;
+  
+    if (size == 'big'){    
+      var _row1 = $('<p>');
+      var _row2 = $('<p>');
+      var _iconContainer = $('<span>').append(_participantCatIcon,  _children).css('margin','0 1rem');
+      _row1.append(_time, _iconContainer, '<br>', _title, _participant);
+      _row2.append(_shortDescription);
+      _progCard.append(_row1, _row2);
+    }
+    else{
+      var _timePlaceContainer = $('<div>').append(_time.addClass('time-smallScreen-program'), $('<div>').append(_participantCatIcon, _children).addClass('icons-smallScreen-program'));
+      var _titleHostContainer = $('<div>').append(_title, ' ',_participant);
+      _progCard.append(_timePlaceContainer,_titleHostContainer , _shortDescription);
+    }
+
+    return {
+      render: function(){
+        return _progCard;
+      },
+      addDay:function(performance){
+        if (_time.html()) _time.append(' / ');
+        _time.append(moment(new Date(parseInt(performance.time))).locale(Pard.UserInfo['lang']).format('dddd D').capitalize()+', '+moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
+      }
+    }
+  }
+
   ns.Widgets.ProgramBySpaceCard = function(performance, host, size){
     var _progCard = $('<div>').addClass('programBySpace-card-container');
-    var _time = $('<span>').append(moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
+    var _time = $('<span>').append(moment(new Date(parseInt(performance.time))).locale(Pard.UserInfo['lang']).format('dddd D').capitalize()+', '+moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
 
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
    
@@ -182,7 +249,7 @@
       var _row1 = $('<p>');
       var _row2 = $('<p>');
       var _iconContainer = $('<span>').append(_participantCatIcon,  _children).css('margin','0 1rem');
-      _row1.append(_time, _iconContainer, _title, _participant);
+      _row1.append(_time, _iconContainer, '<br>', _title, _participant);
       _row2.append(_shortDescription);
       _progCard.append(_row1, _row2);
     }
