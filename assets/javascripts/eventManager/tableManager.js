@@ -9,7 +9,10 @@
     var artists = the_event.artists;
     var spaces = the_event.spaces;
     var _createdWidget = $('<div>');
-    var _ownArtists = {};
+    var _own = {
+      artists:{},
+      spaces:{}
+    };
 
     // OWN PROPOSALS
     var _dictionary = {
@@ -23,7 +26,7 @@
           return $('<div>').append(_artistIcon, _plusA).addClass('create-artist-proposal-call-page-btn')
           .attr('title','Crea y añade una propuesta de tipo artista')
           .click(function(){
-            _openPopupForm('artist', _ownArtists);
+            _openPopupForm('artist', _own);
           });
         },
       space: function(){
@@ -41,13 +44,26 @@
     var _createProposalsCont = $('<div>').append(_createProposalsInnerCont).addClass('createProposalsContainer-call-page');
     var _openPopupForm = displayer.createOwnProposal;
     var _deleteOwnArtist = function(artist){
-      if (_ownArtists[artist.profile_id] && _ownArtists[artist.profile_id].proposals.length == 0){
-        delete _ownArtists[artist.profile_id];
+      if (_own['artists'][artist.profile_id] && _own['artists'][artist.profile_id].proposals.length == 0){
+        delete _own['artists'][artist.profile_id];
+                    console.log(_own);
+
       } 
     }
     var _addOwnArtist = function(artist){
-      if (_ownArtists[artist.profile_id]) _ownArtists[artist.profile_id].proposals.push(artist.proposals[0]);
-      else _ownArtists[artist.profile_id] = artist;
+      if (_own['artists'][artist.profile_id] && _own['artists'][artist.profile_id].proposals) _own['artists'][artist.profile_id].proposals.push(artist.proposals[0]);
+      else _own['artists'][artist.profile_id] = artist;
+    }
+    var _addOwnSpace = function(space){
+      _own['spaces'][space.profile_id] = space;
+          console.log(_own)
+
+    }
+    var _deleteOwnSpace = function(space){
+      console.log(space)
+      delete _own['spaces'][space.profile_id];
+            console.log(_own);
+
     }
     _createdWidget.append(_createProposalsCont);
 
@@ -103,7 +119,7 @@
     
     Object.keys(spaces).forEach(function(profile_id){
       var proposal = spaces[profile_id].space;
-      if (proposal.own) _ownArtists[profile_id] = spaces[profile_id].space;
+      if (proposal.own) _own['spaces'][profile_id] = spaces[profile_id].space;
       // necesary for proposals conFusion withput form cat
       proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
       proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
@@ -114,7 +130,7 @@
     Object.keys(artists).forEach(function(profile_id){
      
       var profile = artists[profile_id].artist;
-      if (profile.own) _ownArtists[profile_id] = the_event.artists[profile_id].artist;
+      if (profile.own) _own['artists'][profile_id] = the_event.artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
         proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
         proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
@@ -124,6 +140,7 @@
       });
     });
 
+    console.log(_own)
 
     //SELECT2 SELECTOR TABLES
 
@@ -568,7 +585,7 @@
         _dataTables[space.form_category].DataTable.row.add(_dataTables[space.form_category].proposalRow(space)).draw();
         _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('space', space)).draw();
         _proposalsNumber[space.form_category] += 1;
-        if (space.own) _addOwnArtist(space);
+        if (space.own) _addOwnSpace(space);
         _selectCatReload();
       },
       deleteArtist: function(artist){
@@ -579,7 +596,7 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
-        if (_ownArtists[artist.profile_id]) _deleteOwnArtist(artist); 
+        if (_own['artists'][artist.profile_id]) _deleteOwnArtist(artist); 
         _selectCatReload(); 
       },
       deleteSpace: function(space){
@@ -590,7 +607,7 @@
             if (_proposalsNumber[categoryTable]) _proposalsNumber[categoryTable] = _proposalsNumber[categoryTable] - 1;
           }
         }
-        if (_ownArtists[space.profile_id]) _deleteOwnArtist(space); 
+        if (_own['spaces'][space.profile_id]) _deleteOwnSpace(space); 
         _selectCatReload();
       },
       modifySpace: function(space){

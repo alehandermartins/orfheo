@@ -30,14 +30,20 @@
       phone:''
     };
     var _dataParticipants = [{id:'',text:'', participant: _emptyOptionParticpant}];
-    Object.keys(participants).forEach(function(key){
-      var participant = participants[key];
-      _dataParticipants.push({
-        id: participant.profile_id,
-        text: participant.name,
-        participant: participant
-      })
-    });
+    var _ownIds = [];
+    for (var type in participants){
+      Object.keys(participants[type]).forEach(function(key){
+        var participant = participants[type][key];
+        if($.inArray(participant.profile_id,_ownIds)<0){
+          _ownIds.push(participant.profile_id)
+          _dataParticipants.push({
+            id: participant.profile_id,
+            text: participant.name,
+            participant: participant
+          })
+        }
+      });
+    }
 
     var _placeholderParticipantSelector = "Selecciona el "+Pard.Widgets.Dictionary(participantType).render();
 
@@ -90,8 +96,17 @@
       });
       _formWidget.setSend(_send);
       if (_profile_own){
-        _formWidget.setVal(_profile_own);
-        _formWidget.disableFields();
+        if (_profile_own.type == 'artist'){
+          _formWidget.setVal(_profile_own)
+        }
+        else{
+          var _spaceProfile_own = {};
+          ['email','name','phone','profile_id'].forEach(function(field){
+            _spaceProfile_own[field] = _profile_own[field]
+          })
+          _formWidget.setVal(_spaceProfile_own)
+        };
+        _formWidget.disableFields('own');
       }
       _contentSel.append(_formWidget.render());
     };
@@ -112,6 +127,7 @@
       getVal: function(){
         var _submitForm =  _formWidget.getVal();
         if (_profile_own && _profile_own.profile_id)  _submitForm['profile_id'] = _profile_own.profile_id;
+        console.log(_submitForm)
         return _submitForm;
       },
       setVal: function(proposal){
@@ -126,7 +142,7 @@
 
 
   ns.Widgets.OwnProposalForm = function(form, participantType, formTypeSelected, received){
-    var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'duration', 'availability', 'children'];
+    var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'category', 'subcategory', 'duration', 'availability', 'children'];
     var _additionalForm = Pard.Forms.Proposal[participantType];
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
@@ -337,11 +353,12 @@
           if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
       },
-      disableFields: function(){
+      disableFields: function(own){
         _form['email'].input.disable();
         _form['name'].input.disable();
         _form['phone'].input.disable();
-        _note.html('Esta información, así como el nombre, puede ser modificada sólo por el propietario desde la página de su perfil.').css('font-weight','bold');
+        if(!own ) _note.html('Esta información, así como el nombre, puede ser modificada sólo por el propietario desde la página de su perfil.').css('font-weight','bold');
+        else _note.html('Esta información, así como el nombre y el email, se puede cambiar modificando una cualquier propuesta  de este artista que has crado').css('font-weight','bold');
        },
       enableFields: function(){
         _form['email'].input.enable();
