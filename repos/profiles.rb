@@ -76,7 +76,7 @@ module Repos
         profiles = grab({user_id: user_id})
         sort_profiles(profiles, profile_id) unless profile_id.nil?
         profiles.each{ |profile|
-          profile.merge! (Services::Events.get_my_info(profile[:profile_id], profile[:type]))
+          profile.merge! (Services::Events.get_my_info(profile[:profile_id]))
         }
       end
 
@@ -84,7 +84,7 @@ module Repos
         profiles = grab({user_id: user_id}, true)
         sort_profiles(profiles, profile_id) unless profile_id.nil?
         profiles.each{ |profile|
-          profile.merge! (Services::Events.get_my_info(profile[:profile_id], profile[:type]))
+          profile.merge! (Services::Events.get_my_info(profile[:profile_id]))
           profile.delete(:proposals)
         }
       end

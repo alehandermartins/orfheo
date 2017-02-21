@@ -4,6 +4,56 @@ module Repos
 
       def for db
         @@events_collection = db['events']
+        events = grab({})
+
+        events.each{ |event|
+          next unless event[:event_id] == "a6bc4203-9379-4de0-856a-55e1e5f3fad7"
+          event[:texts] = {
+            'es'=> {
+              description: event[:description],
+              baseline: event[:baseline],
+              form_categories: {
+                artist: {
+                  '1': 'Música',
+                  '2': 'Artes Escénicas',
+                  '3': 'Taller',
+                  '4': 'Gastronomía',
+                  '5': 'Exposición',
+                  '6': 'Street Art',
+                  '7': 'Poesía',
+                  '8': 'Audiovisual',
+                  '9': 'Otros'
+                },
+                space: {
+                  '1': 'Espacio sin actividad programada',
+                  '2': 'Espacio con actividad programada'
+                }
+              },
+              subcategories: {
+               artist: {
+                  '1': 'Música',
+                  '2': 'Artes Escénicas',
+                  '3': 'Taller',
+                  '4': 'Gastronomía',
+                  '5': 'Exposición',
+                  '6': 'Street Art',
+                  '7': 'Poesía',
+                  '8': 'Audiovisual',
+                  '9': 'Otros'
+                },
+                space: {
+                  '1': 'Restauración y Clubs', 
+                  '2': 'Arte, Cultura y Diseño', 
+                  '3': 'Espacio Particular', 
+                  '4': 'Tiendas y Servicios'
+                }
+              }
+            }
+          }
+          @@events_collection.update_one({event_id: event[:event_id]},{
+            "$set": {texts: event[:texts]}
+          })
+        }
       end
 
       def exists? event_id
