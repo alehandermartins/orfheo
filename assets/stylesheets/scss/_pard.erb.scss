@@ -2631,7 +2631,7 @@ select:-moz-focusring { color: transparent;
   font-size: $smallSize;
 }
 
-.Selector-FormField{
+.Selector-FormField, .CategorySelector-FormField{
   select{
     height: 34px;
   }

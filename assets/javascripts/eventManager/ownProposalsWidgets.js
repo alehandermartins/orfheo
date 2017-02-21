@@ -3,7 +3,7 @@
 (function(ns){
     ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.CreateOwnProposal = function(forms, participantType, participants){
+  ns.Widgets.CreateOwnProposal = function(forms, type, participants){
 
     var _createdWidget = $('<div>').addClass('popupOwnProposal');
 
@@ -45,7 +45,7 @@
       });
     }
 
-    var _placeholderParticipantSelector = "Selecciona el "+Pard.Widgets.Dictionary(participantType).render();
+    var _placeholderParticipantSelector = "Selecciona el "+Pard.Widgets.Dictionary(type).render();
 
     _participantsSelector.select2({
       data: _dataParticipants,
@@ -90,7 +90,7 @@
       _contentSel.empty();
       _production_id = false;
       var _typeFormSelected = formTypeSelector.val();
-      _formWidget = Pard.Widgets.OwnProposalForm(forms[_typeFormSelected], participantType, _typeFormSelected);
+      _formWidget = Pard.Widgets.OwnProposalForm(forms[_typeFormSelected], type, _typeFormSelected);
       _formWidget.setCallback(function(){
         _closepopup();
       });
@@ -141,9 +141,9 @@
   }
 
 
-  ns.Widgets.OwnProposalForm = function(form, participantType, formTypeSelected, received){
+  ns.Widgets.OwnProposalForm = function(form, type, formTypeSelected, received){
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'category', 'subcategory', 'duration', 'availability', 'children'];
-    var _additionalForm = Pard.Forms.Proposal[participantType];
+    var _additionalForm = Pard.Forms.Proposal[type];
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
     var _phoneField = {
@@ -171,6 +171,7 @@
     var spinner =  new Spinner();
     // var _photos;
     var _orfheoCategory;
+    if (type == 'space') _orfheoCategory = 'cultural_ass'; 
 
     var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
     var _containerMandatoryFields = $('<div>');
@@ -203,24 +204,26 @@
       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
 
       var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
-     
+
       switch(field){
         case 'photos':
         case 'links':
         case 'bio':
           break;
         case 'category':
-          if (form[field].args[1].length>1){
-            _containerMandatoryFields.append(
-              _formField.append(
-                _form[field].label.render(),
-                _form[field].input.render()
-              )
-            )
-            if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
-          }
-          else{
-            _orfheoCategory = form[field].args[1][0];
+          if (type == 'artist'){
+            if (form[field].args[0].length>1){
+              _containerMandatoryFields.append(
+                _formField.append(
+                  _form[field].label.render(),
+                  _form[field].input.render()
+                )
+              );
+              if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
+            }
+            else{
+              _orfheoCategory = form[field].args[0][0];
+            }
           }
           break;
         case 'conditions': 
@@ -305,11 +308,12 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['type'] = participantType;
+      _submitForm['type'] = type;
       if (!(_submitForm['description']))_submitForm['description'] = '_';
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = formTypeSelected;
       if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
+      console.log(_submitForm);
       return _submitForm;
     }
 
@@ -352,6 +356,7 @@
         for(var field in proposal){
           if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
+        if(proposal.type == 'space') _orfheoCategory = proposal.category;
       },
       disableFields: function(own){
         _form['email'].input.disable();

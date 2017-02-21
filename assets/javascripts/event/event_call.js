@@ -299,7 +299,9 @@
       var _formTypeOptionsCont = $('<div>');
       var _contentSel = $('<div>');
       var _formTypes = [];
-      var _acceptedCategories = [];
+      var _acceptedCategories = {
+        'artist': Object.keys(Pard.CachedEvent.categories['artist'])
+      };
       var _formTypeSelector = $('<select>');     
       
       var loadFormSelector = function(){
@@ -312,15 +314,14 @@
         for (var typeForm in forms[_type]){
           _formTypes.push(typeForm);
           _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
-          forms[_type][typeForm].category.args[1].forEach(function(cat){
-            if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
-          });
+          // forms[_type][typeForm].category.args[1].forEach(function(cat){
+          //   if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
+          // });
           _formTypeSelectorCont.append(_formTypeSelector);
           _formTypeSelector.select2({
             minimumResultsForSearch: Infinity,
             dropdownCssClass: 'orfheoTypeFormSelector',
             placeholder: Pard.t.text('call.form.catPlaceholder')
-            // allowClear: true
           });
         };
         _formTypeSelector.on('change',function(){
@@ -354,7 +355,7 @@
           _prodContainer.append(_t1);
           var _compatibleProductions = false;
           profile.productions.forEach(function(production){
-            if ($.inArray(production.category, _acceptedCategories)>-1){
+            if ($.inArray(production.category, _acceptedCategories.artist)>-1){
               var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
               var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
               _iconColumn.css({
@@ -526,6 +527,7 @@
     _formContainer.append(_containerOrfheoFields, _containerCustomFields);
 
     var _orfheoCategory;
+    if (type == 'space' && profile.category) _orfheoCategory = profile.category; 
     var _photos;
     var _conditions;
 
@@ -589,22 +591,17 @@
       _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','3rem'));
       }
       else if (field == 'category'){
-        if (type == 'space' && profile.category){
-          _orfheoCategory = profile.category;
+        if (form[field].args[0].length>1){
+          var _formField = $('<div>');
+          _containerOrfheoFields.append(
+          _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
+            _form[field].label.render(),
+            _form[field].input.render())
+          )
+          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
         }
-        else{ 
-          if (form[field].args[1].length>1){
-            var _formField = $('<div>');
-            _containerOrfheoFields.append(
-            _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
-              _form[field].label.render(),
-              _form[field].input.render())
-            )
-            if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
-          }
-          else{
-            _orfheoCategory = form[field].args[1][0]; 
-          }
+        else{
+          _orfheoCategory = form[field].args[0][0]; 
         }
       }
       else if (field == 'phone'){
@@ -669,7 +666,6 @@
 
     _containerCustomFields.append(_conditions);
 
-
     var _filled = function(){
       var _check = true;
       for(var field in _form){
@@ -696,6 +692,7 @@
       if (!(form['subcategory'])) _submitForm['subcategory'] = form_category;
       _submitForm['profile_type'] = profile.type; 
       console.log(_submitForm)
+      console.log(_orfheoCategory)
       return _submitForm;
     }
 
