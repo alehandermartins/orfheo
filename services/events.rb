@@ -18,7 +18,6 @@ module Services
       def get_manager_event event_id
         event = Repos::Events.get_event event_id
         event[:program] = arrange_program event, event[:program]
-        event[:artists].sort_by!{ |artist| artist[:name].downcase }
         event
       end
 
@@ -73,12 +72,13 @@ module Services
         }
       end
 
-      def get_my_info profile_id, type
+      def get_my_info profile_id
         info = {}
         proposals = {}
         events = get_all
-        info[:proposals] = my_artist_proposals(events, profile_id) if type == 'artist'
-        info[:proposals] = my_space_proposals(events, profile_id) if type == 'space'
+        proposals[:artist] = my_artist_proposals(events, profile_id)
+        proposals[:space] = my_space_proposals(events, profile_id)
+        info[:proposals] = proposals
         info[:program] = my_program(events, profile_id)
         info[:events] = my_events(events, profile_id)
         info

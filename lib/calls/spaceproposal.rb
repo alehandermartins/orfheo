@@ -111,7 +111,15 @@ class SpaceProposal
       'cultural_ass',
       'home',
       'commercial',
-      'open_air'
+      'open_air',
+      'festival',
+      'association', 
+      'ngo', 
+      'collective', 
+      'interprise', 
+      'institution',
+      'federation',
+      'foundation'
     ].include? params[:category]
   end
 
