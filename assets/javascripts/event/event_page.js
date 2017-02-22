@@ -223,7 +223,10 @@
           }) 
           _label.append(filter,' ',_icons);
         }
-        else if(key == 'other') _label.append(Pard.t.text('widget.inputChildren.' + filter));
+        else if(key == 'other') {
+          _label.append(Pard.t.text('widget.inputChildren.' + filter));
+          if (filter == 'baby') _label.append(Pard.Widgets.IconManager('baby').render().addClass('participant-category-icon').css('margin-left','.4rem'))
+        }
         else _label.append(filter); 
         _label.css('display','inline');
         var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');

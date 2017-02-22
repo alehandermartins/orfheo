@@ -101,13 +101,13 @@
     if (userStatus == 'owner'){
       var _proposalsBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.call'), Pard.Widgets.IconManager('open_call').render()).render();    
       var _proposalsBoxContent = $('<div>').addClass('box-content');
-    if(profile.proposals && profile.proposals.length){
+    if(profile.proposals && profile.proposals.artist.length){
         var _myCallProposals = Pard.Widgets.MyCallProposals(profile);
         _proposalsBoxContent.append(_myCallProposals.render()); 
       }
       else{
-          var _callName = $('<p>').append(Pard.t.text('profile_page.callMex')).addClass('activities-box-call-name');
-          _proposalsBoxContent.append(_callName);
+        var _callName = $('<p>').append(Pard.t.text('profile_page.callMex')).addClass('activities-box-call-name');
+        _proposalsBoxContent.append(_callName);
       }     
       _proposalsBoxContainer.append(_proposalsBoxContent);
       _createdWidget.append(_proposalsBoxContainer);

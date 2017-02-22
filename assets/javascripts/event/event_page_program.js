@@ -4,7 +4,6 @@
 
 
   ns.PrintProgram = function(program, host, gmap, dataSpaces){
-    console.log(program)
     var _searchResult = $('#searchResult');
     _searchResult.empty();
 

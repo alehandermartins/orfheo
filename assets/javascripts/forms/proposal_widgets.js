@@ -40,8 +40,6 @@
             _proposalPopup = Pard.Widgets.Popup();
           })
           .on('click', function(){
-            console.log(_proposalType)
-            console.log(proposal.proposal_id)
             if (!(_forms[proposal.call_id])) {
               Pard.Backend.getCallForms(proposal.call_id, function(data){
                 _forms[proposal.call_id] = data.forms;
@@ -112,10 +110,6 @@
           _textArea.on('input', function(){$(this).removeClass('warning')});
 
           _sendButton.click(function(){
-                        console.log(proposalType)
-
-                console.log(proposal.proposal_id)
-
             if (_textArea.val()) { 
               _backendAmendProposal[proposalType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
               closepopup();
@@ -132,10 +126,6 @@
         var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
         _textArea.on('input', function(){$(this).removeClass('warning')});
         _sendButton.click(function(){
-                      console.log(proposalType)
-
-                          console.log(proposal.proposal_id)
-
           if (_textArea.val()) {
            _backendAmendProposal[proposalType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
            closepopup();
