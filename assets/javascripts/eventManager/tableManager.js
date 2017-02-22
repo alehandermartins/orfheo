@@ -46,8 +46,6 @@
     var _deleteOwnArtist = function(artist){
       if (_own['artists'][artist.profile_id] && _own['artists'][artist.profile_id].proposals.length == 0){
         delete _own['artists'][artist.profile_id];
-                    console.log(_own);
-
       } 
     }
     var _addOwnArtist = function(artist){
@@ -56,14 +54,9 @@
     }
     var _addOwnSpace = function(space){
       _own['spaces'][space.profile_id] = space;
-          console.log(_own)
-
     }
     var _deleteOwnSpace = function(space){
-      console.log(space)
       delete _own['spaces'][space.profile_id];
-            console.log(_own);
-
     }
     _createdWidget.append(_createProposalsCont);
 
@@ -139,8 +132,6 @@
         _dataTables['allProposals'].addRow('artist', proposal, profile);
       });
     });
-
-    console.log(_own)
 
     //SELECT2 SELECTOR TABLES
 

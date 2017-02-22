@@ -285,10 +285,12 @@
     address:{ 
       info: function(proposal){
         var _address = ' ';
-        if (proposal['address']['route']) _address +=  proposal['address']['route']+ ' ';
-        if (proposal['address']['street_number']) _address += ' '+proposal['address']['street_number']+',  ';
-        if (proposal['address']['door']) _address += ', puerta/piso '+proposal['address']['door']+',  ';
-        _address += proposal['address']['postal_code']+', '+proposal['address']['locality'];
+        if (proposal['address']){
+          if (proposal['address']['route']) _address +=  proposal['address']['route']+ ' ';
+          if (proposal['address']['street_number']) _address += ' '+proposal['address']['street_number']+',  ';
+          if (proposal['address']['door']) _address += ', puerta/piso '+proposal['address']['door']+',  ';
+          _address += proposal['address']['postal_code']+', '+proposal['address']['locality'];
+        }
         return $('<a>').attr({
           'href':'http://maps.google.com/maps?q='+_address,
           target: '_blank'}).append(_address);

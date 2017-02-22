@@ -116,6 +116,7 @@
   ns.Widgets.Selector = function(labels, values, callback, placeholder){
     var _createdWidget = $('<select>');
     var _emptyOption = $('<option>');
+    if(!values) var  values = labels;
     if(placeholder) {
       _emptyOption.attr({'value':'', 'disabled':'', 'selected':''}).text(placeholder).css('color','grey');
       _createdWidget.append(_emptyOption).addClass('placeholderSelect');

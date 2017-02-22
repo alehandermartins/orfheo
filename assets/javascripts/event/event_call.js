@@ -394,7 +394,8 @@
                   _prodBtn.append(_xbtn);
                   if (formsKey.length == 1){
                     var _form = _formTypeConstructor(_type, forms[_type][formsKey[0]], profile, formsKey[0], _production_id, callbackSendProposal);
-                    _formTypeSelector.val(_catProduction).trigger('change');
+                    _formTypeSelector.val(formsKey[0]);
+                    _formTypeSelector.trigger('change');
                     _formTypeSelector.attr('disabled',true);
                     _t2.hide();
                     _form.setVal(production);
@@ -406,6 +407,7 @@
                   }
                   else if(formsKey.length>1){
                     _t2.hide();
+                    _production_id = production.production_id;
                     $('.content-form-selected').removeClass(' content-form-selected');
                     _prodBtn.addClass('content-form-selected');  
                     _formTypeSelectorCont.empty();
@@ -425,12 +427,10 @@
                     });
                     _formTypeSelector.on('change',function(){
                       if (_formTypeSelector.val()){
-                        // $('.xbtn-production-event-page').remove();
                         $('#popupForm').removeClass('top-position');
-                        // $('.content-form-selected').removeClass('content-form-selected');
                         _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
                         if (_t2) _t2.show();
-                        _printForm(_formTypeSelector, production);
+                        _printForm(_formTypeSelector, production, _production_id);
                       }
                     });
                   }
@@ -467,9 +467,10 @@
         }
       }
 
-      var _printForm = function(formTypeSelector, production){
+      var _printForm = function(formTypeSelector, production, production_id){
         _contentSel.empty();
-        _production_id = false;
+        if (production_id) _production_id = production_id;
+        else _production_id = false;
         var _typeFormSelected = formTypeSelector.val();
         var _form = _formTypeConstructor(_type, forms[_type][_typeFormSelected], profile, _typeFormSelected, _production_id, callbackSendProposal);
         _form.setCallback(function(){

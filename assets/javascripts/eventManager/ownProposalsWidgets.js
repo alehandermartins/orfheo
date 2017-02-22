@@ -4,7 +4,7 @@
     ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.CreateOwnProposal = function(forms, type, participants){
-
+    console.log(type)
     var _createdWidget = $('<div>').addClass('popupOwnProposal');
 
     var _typeFormsCatArray = Object.keys(forms);
@@ -31,9 +31,9 @@
     };
     var _dataParticipants = [{id:'',text:'', participant: _emptyOptionParticpant}];
     var _ownIds = [];
-    for (var type in participants){
-      Object.keys(participants[type]).forEach(function(key){
-        var participant = participants[type][key];
+    for (var _type in participants){
+      Object.keys(participants[_type]).forEach(function(key){
+        var participant = participants[_type][key];
         if($.inArray(participant.profile_id,_ownIds)<0){
           _ownIds.push(participant.profile_id)
           _dataParticipants.push({
@@ -46,6 +46,7 @@
     }
 
     var _placeholderParticipantSelector = "Selecciona el "+Pard.Widgets.Dictionary(type).render();
+    console.log(type)
 
     _participantsSelector.select2({
       data: _dataParticipants,
@@ -142,8 +143,10 @@
 
 
   ns.Widgets.OwnProposalForm = function(form, type, formTypeSelected, received){
+    console.log(form)
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'category', 'subcategory', 'duration', 'availability', 'children'];
     var _additionalForm = Pard.Forms.Proposal[type];
+    console.log(type)
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
     var _phoneField = {
@@ -193,7 +196,7 @@
 
     var _printField = function(field){
       _form[field] = {};
-      _form[field]['type'] = form[field].type;
+      _form[field]['type'] = form[field][type];
       if($.inArray(field, _mandatoryFields)>-1 || (received && _form[field].type == 'mandatory')) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
       else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
       if (form[field]['input']=='CheckBox') {

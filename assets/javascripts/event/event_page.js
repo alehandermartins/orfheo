@@ -574,7 +574,8 @@
               var _iconNum = performance.order +1;
               if($.inArray(performance.host_proposal_id, hosts) < 0){
                 if(performance.host_name == _host) _hostIndex = _data.length + 1;
-                if(!(performance.address.location)){
+                if(!(performance.address) || !(performance.address.location)){
+                  performance.address = performance.address || {};
                   performance.address.location = {
                     lat:'',
                     lng:''

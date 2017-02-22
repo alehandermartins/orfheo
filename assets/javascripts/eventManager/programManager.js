@@ -63,7 +63,6 @@
       _timeTable.append(_time, _line);
     });
     _timeTableContainer.append(_timeTable);
-    console.log(spaces)
 
     Object.keys(eventTime).forEach(function(day, index){
       var _table = $('<div>').css({
@@ -261,7 +260,6 @@
       //     text: the_event.artists[profile_id].artist.name
       //   });
       // });
-      console.log(artistProposals)
       _artistSelector.select2({
         placeholder: 'Artistas',
         data: artistProposals,
