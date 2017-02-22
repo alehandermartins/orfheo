@@ -14,10 +14,9 @@
     
     var _listProposals = $('<ul>');
 
-    console.log(profile)
-
-    for(var type in _callProposals){
-      _callProposals[type].forEach(function(proposal){
+    for(var proposalType in _callProposals){
+      _callProposals[proposalType].forEach(function(proposal){
+        var _proposalType = proposalType;
         proposal.name = profile.name;
         proposal.phone = profile.phone;
         
@@ -31,7 +30,7 @@
         }
         _eventNames.push(proposal.event_name);
         var _caller = $('<a>').attr({href:'#/'})
-        if (proposal.title) _caller.text(proposal.title);
+        if (_proposalType == 'artist') _caller.text(proposal.title);
         else _caller.text('Formulario enviado');
         var _proposalItem = $('<li>').append( _caller);
         _listProposals.append(_proposalItem); 
@@ -41,18 +40,35 @@
             _proposalPopup = Pard.Widgets.Popup();
           })
           .on('click', function(){
+            console.log(_proposalType)
+            console.log(proposal.proposal_id)
             if (!(_forms[proposal.call_id])) {
               Pard.Backend.getCallForms(proposal.call_id, function(data){
                 _forms[proposal.call_id] = data.forms;
-                _proposalPopup.setContent(proposal.event_name, Pard.Widgets.PrintMyProposal(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], profile.type, function(){_proposalPopup.close()}).render());
+                _proposalPopup.setContent(
+                  proposal.event_name, 
+                  Pard.Widgets.PrintMyProposal(
+                    proposal, 
+                    _forms[proposal.call_id][_proposalType][proposal.form_category], 
+                    _proposalType, 
+                    function(){
+                      _proposalPopup.close()
+                    }).render());
                 _proposalPopup.open();
                 
               });
             }
             else{
-              _proposalPopup.setContent(proposal.event_name, Pard.Widgets.PrintMyProposal(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], profile.type, function(){_proposalPopup.close()}).render());
+              _proposalPopup.setContent(
+                proposal.event_name, 
+                Pard.Widgets.PrintMyProposal(
+                  proposal, 
+                  _forms[proposal.call_id][_proposalType][proposal.form_category], 
+                  _proposalType, 
+                  function(){
+                    _proposalPopup.close()
+                  }).render());
               _proposalPopup.open();
-              
             }       
           })
       });
@@ -66,8 +82,7 @@
   }
 
 
-  ns.Widgets.PrintMyProposal = function(proposal, form, profileType, closepopup){
-
+  ns.Widgets.PrintMyProposal = function(proposal, form, proposalType, closepopup){
     var _createdWidget = $('<div>');
     _createdWidget.append(Pard.Widgets.PrintProposal(proposal, form).render());
     if (form['conditions'] && form['conditions']['helptext']){
@@ -97,8 +112,12 @@
           _textArea.on('input', function(){$(this).removeClass('warning')});
 
           _sendButton.click(function(){
+                        console.log(proposalType)
+
+                console.log(proposal.proposal_id)
+
             if (_textArea.val()) { 
-              _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
+              _backendAmendProposal[proposalType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
               closepopup();
             }
             else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
@@ -113,8 +132,12 @@
         var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
         _textArea.on('input', function(){$(this).removeClass('warning')});
         _sendButton.click(function(){
+                      console.log(proposalType)
+
+                          console.log(proposal.proposal_id)
+
           if (_textArea.val()) {
-           _backendAmendProposal[profileType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
+           _backendAmendProposal[proposalType](proposal.proposal_id, proposal.event_id, proposal.call_id, _textArea.val(), Pard.Events.AmendProposal);
            closepopup();
           }
           else _textArea.attr({placeholder: 'Escribe aquí el mensaje que quieres enviar'}).addClass('warning');
@@ -126,7 +149,7 @@
       var _deleteProposal = $('<a>').attr('href','#/').text('Retira y elimina esta propuesta').addClass('deleteProfile-caller')
         .one('click', function(){
         _confirmPopup = Pard.Widgets.Popup();
-        _confirmPopup.setContent(Pard.t.text('popup.delete.title'), Pard.Widgets.DeleteMyProposalMessage(proposal, profileType, closepopup, function(){_confirmPopup.close();}).render());
+        _confirmPopup.setContent(Pard.t.text('popup.delete.title'), Pard.Widgets.DeleteMyProposalMessage(proposal, proposalType, closepopup, function(){_confirmPopup.close();}).render());
         })
         .click(function(){
           _confirmPopup.open();
@@ -367,7 +390,7 @@
 
   
 
-  ns.Widgets.DeleteMyProposalMessage = function(proposal, profileType, closepopup, closeConfirmPopup){  
+  ns.Widgets.DeleteMyProposalMessage = function(proposal, proposalType, closepopup, closeConfirmPopup){  
     var _createdWidget = $('<div>');
     var _message = $('<p>').text('Confirmando, tu propuesta será retirada de la convocatoria de '+proposal.event_name+ ' y por lo tanto no podrá ser seleccionada.');
     var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
@@ -379,7 +402,7 @@
     }    
 
     _yesBtn.click(function(){
-      _deleteProposalBackend[profileType](proposal.proposal_id, proposal.event_id, Pard.Events.DeleteProposal);
+      _deleteProposalBackend[proposalType](proposal.proposal_id, proposal.event_id, Pard.Events.DeleteProposal);
       closepopup();
       closeConfirmPopup();
     });

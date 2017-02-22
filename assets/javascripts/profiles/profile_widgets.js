@@ -390,7 +390,6 @@
     _col1.append(_titleRow);
     _col2.append(_descriptionRow);
     _progCard.append(_col1, _col2);
-    console.log(profile_id)
     // if(profile_id == performance.host_id) _progCard.append(_participantRow);
     // else if(profile_id == performance.participant_id) _progCard.append(_hostRow);
     _progCard.append(_hostRow);
