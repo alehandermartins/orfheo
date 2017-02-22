@@ -67,8 +67,8 @@
       attention:{icon:'&#xE645;', className:'material-icons'},
       phone:{icon:'&#xE0CD;', className:'material-icons'},
       cache:{icon:'&#xE227;', className:'material-icons'},
-      stage:{icon:'&#xE435;', className:'material-icons'},
-      performer:{icon:'&#xE3E4;', className:'material-icons'},
+      stage:{icon:'&#xE0C8;', className:'material-icons'},
+      performer:{icon:'&#xE029;', className:'material-icons'},
       // calendar: {icon:'&#8250;', className:'fa fa-calendar'}, &#xE53B
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},

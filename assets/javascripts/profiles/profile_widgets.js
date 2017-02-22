@@ -147,7 +147,7 @@
     }
   }
 
-  ns.Widgets.ProgramProfile = function(program, type){
+  ns.Widgets.ProgramProfile = function(program, profile_id){
     var _programBoxContainer = $('<div>').addClass('section-box-container');
     // var _toEventPageBtn = $('<a>').text('Programación general').attr('href','/event?id='+program.event_id).addClass('toEventPageBtn-profile-page');
     var _titleContainer = $('<div>').addClass('title-box-container');
@@ -176,8 +176,8 @@
         _dayBlock.append(_dayTitle);
         _dayBlock.append(_showBlock,_permanentBlock)
       }
-      if (performance.permanent == 'false') _showBlock.append(Pard.Widgets.ProgramCardProfile(performance,type).render());
-      else if (performance.permanent == 'true') _permanentBlock.append(Pard.Widgets.ProgramCardProfile(performance,type).render());
+      if (performance.permanent == 'false') _showBlock.append(Pard.Widgets.ProgramCardProfile(performance,profile_id).render());
+      else if (performance.permanent == 'true') _permanentBlock.append(Pard.Widgets.ProgramCardProfile(performance,profile_id).render());
       _programContent.append(_dayBlock);
     });
     _programBoxContainer.append(_programContent);
@@ -227,7 +227,7 @@
 
   }
 
-  ns.Widgets.PastEventArtist = function(participation, type){
+  ns.Widgets.PastEventArtist = function(participation){
 
     var _eventName = $('<a>').attr('href','/event?id='+participation.event_id).text(participation.event_name).addClass('eventName-pastEventBlock');
     var _eventProposals = $('<ul>').css({'list-style-type':'none','margin-left':'0.5rem'});
@@ -353,22 +353,28 @@
 
   }
 
-  ns.Widgets.ProgramCardProfile = function(performance, type){
+  ns.Widgets.ProgramCardProfile = function(performance, profile_id){
 
     var _progCard = $('<div>').addClass('program-card-container-profile');
     var _time = $('<div>').append(moment(performance.time[0], 'x').locale(Pard.UserInfo['lang']).format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm')).css('text-transform','capitalize');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
 
-    var _title = $('<span>').text(performance.title).addClass('title-program-card');
+    var _title = $('<span>')
+      .text(performance.title)
+      .addClass('title-program-card')
+      .css({
+        'margin-right': '.6rem'
+      });
     var _host = $('<a>').text(performance.host_name);
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id});
     else _host.addClass('host-program-card-own').attr({'href': '#/'});
-    var _participant = $('<a>').text(performance.participant_name);
+    var _participant = $('<a>')
+      .text(performance.participant_name);
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id});
     else _participant.addClass('participant-program-card-own').attr({'href': '#/'});
     var _children = '';
-    if (performance.children == 'true') _children = $('<div>').append(Pard.Widgets.IconManager('children').render().addClass('participant- catagory-icon icon-children-program'), 'Infantil');
+    if (performance.children == 'baby') _children = $('<div>').append(Pard.Widgets.IconManager('baby').render().addClass('participant- catagory-icon icon-children-program'), 'Infantil');
     var _shortDescription = performance.short_description;
 
     var _titleRow = $('<div>');
@@ -376,17 +382,19 @@
     var _hostRow = $('<div>');
     var _participantRow = $('<div>');
     _titleRow.append(_time, _participantCatIcon, Pard.Widgets.Dictionary(performance.participant_category).render(), _children);
-    _descriptionRow.append($('<p>').append( _title), $('<p>').append(_shortDescription).addClass('short-description-program-card'));
-    _hostRow.append($('<p>').append(Pard.Widgets.IconManager('space').render().addClass('participant-category-icon'), _host));
-    _participantRow.append($('<p>').append(Pard.Widgets.IconManager('artist').render().addClass('participant-category-icon'), _participant));
+    _descriptionRow.append($('<p>').append(_title, _participant), $('<p>').append(_shortDescription).addClass('short-description-program-card'));
+    _hostRow.append($('<p>').append(Pard.Widgets.IconManager('location').render().addClass('participant-category-icon'), _host));
+    // _participantRow.append($('<p>').append(Pard.Widgets.IconManager('performer').render().addClass('participant-category-icon'), _participant));
     var _col1 = $('<div>').addClass('col1-program-card-profile');
     var _col2 = $('<div>').addClass('col2-program-card-profile');
     _col1.append(_titleRow);
     _col2.append(_descriptionRow);
     _progCard.append(_col1, _col2);
-    if(type == 'artist') _progCard.append(_hostRow);
-    else if(type == 'space') _progCard.append(_participantRow);
-
+    console.log(profile_id)
+    // if(profile_id == performance.host_id) _progCard.append(_participantRow);
+    // else if(profile_id == performance.participant_id) _progCard.append(_hostRow);
+    _progCard.append(_hostRow);
+    
 
     return {
       render: function(){

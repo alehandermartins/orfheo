@@ -70,7 +70,6 @@
       };
 
       if(multimedia.audio != false){
-                console.log('multimedia.audio')
 
         var _outerAudiocontainer = $('<div>');
         var _audioContainer = $('<div>').addClass('image-production-container');
@@ -94,7 +93,6 @@
         _outerImagescontainer.append(_imageTitle, _imageContainer);
       }
       $(document).ready(function(){
-        console.log('here')
         FB.XFBML.parse();
         window.instgrm.Embeds.process();
         doBuild();
@@ -136,8 +134,6 @@
           _links.push(production.links[index]);
         });
       }
-
-      console.log(_links)
 
       var _cloudinary = function(link){
 
@@ -207,7 +203,6 @@
               _display();
             }
             else{
-              console.log(link);
                _linksTriedToBeDone +=1;
                _display();
             }

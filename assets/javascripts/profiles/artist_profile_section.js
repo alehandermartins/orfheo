@@ -44,7 +44,7 @@
         var _dayShow = new Date(eventProgram.date);
         // si ha pasado menos de una semana
         if(_now.getTime() < (_dayShow.getTime()+604800000)){
-          _createdWidget.append(Pard.Widgets.ProgramProfile(eventProgram,profile.type));
+          _createdWidget.append(Pard.Widgets.ProgramProfile(eventProgram,profile.profile_id));
         }
         else{
           _programContent.append(Pard.Widgets.PastEventArtist(eventProgram));

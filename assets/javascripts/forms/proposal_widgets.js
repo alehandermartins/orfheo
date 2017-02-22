@@ -14,45 +14,49 @@
     
     var _listProposals = $('<ul>');
 
-    _callProposals.forEach(function(proposal){
-      proposal.name = profile.name;
-      proposal.phone = profile.phone;
-      
-      //necesary for conFusión proposal that do not have form category
-      if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
+    console.log(profile)
 
-      if ($.inArray(proposal.event_name, _eventNames)<0) {
-        var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
-        _listProposals = $('<ul>');
-        _createdWidget.append(_callName, _listProposals);
-      }
-      _eventNames.push(proposal.event_name);
-      var _caller = $('<a>').attr({href:'#/'})
-      if (proposal.title) _caller.text(proposal.title);
-      else _caller.text('Formulario enviado');
-      var _proposalItem = $('<li>').append( _caller);
-      _listProposals.append(_proposalItem); 
-      var _proposalPopup;
-      _caller
-        .one('click', function(){
-          _proposalPopup = Pard.Widgets.Popup();
-        })
-        .on('click', function(){
-          if (!(_forms[proposal.call_id])) {
-            Pard.Backend.getCallForms(proposal.call_id, function(data){
-              _forms[proposal.call_id] = data.forms;
+    for(var type in _callProposals){
+      _callProposals[type].forEach(function(proposal){
+        proposal.name = profile.name;
+        proposal.phone = profile.phone;
+        
+        //necesary for conFusión proposal that do not have form category
+        // if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
+
+        if ($.inArray(proposal.event_name, _eventNames)<0) {
+          var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
+          _listProposals = $('<ul>');
+          _createdWidget.append(_callName, _listProposals);
+        }
+        _eventNames.push(proposal.event_name);
+        var _caller = $('<a>').attr({href:'#/'})
+        if (proposal.title) _caller.text(proposal.title);
+        else _caller.text('Formulario enviado');
+        var _proposalItem = $('<li>').append( _caller);
+        _listProposals.append(_proposalItem); 
+        var _proposalPopup;
+        _caller
+          .one('click', function(){
+            _proposalPopup = Pard.Widgets.Popup();
+          })
+          .on('click', function(){
+            if (!(_forms[proposal.call_id])) {
+              Pard.Backend.getCallForms(proposal.call_id, function(data){
+                _forms[proposal.call_id] = data.forms;
+                _proposalPopup.setContent(proposal.event_name, Pard.Widgets.PrintMyProposal(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], profile.type, function(){_proposalPopup.close()}).render());
+                _proposalPopup.open();
+                
+              });
+            }
+            else{
               _proposalPopup.setContent(proposal.event_name, Pard.Widgets.PrintMyProposal(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], profile.type, function(){_proposalPopup.close()}).render());
               _proposalPopup.open();
               
-            });
-          }
-          else{
-            _proposalPopup.setContent(proposal.event_name, Pard.Widgets.PrintMyProposal(proposal, _forms[proposal.call_id][profile.type][proposal.form_category], profile.type, function(){_proposalPopup.close()}).render());
-            _proposalPopup.open();
-            
-          }       
-        })
-    });
+            }       
+          })
+      });
+    }
   
     return {
       render: function(){
