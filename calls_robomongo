@@ -1,3 +1,4 @@
+/* 1 */
 {
     "_id" : ObjectId("5816591e00ab034417c47d57"),
     "user_id" : "45825599-b8cf-499c-825c-a7134a3f1ff0",
@@ -3517,16 +3518,12 @@
     "user_id" : "bbeba06b-1f30-408d-a1bc-14c9f98efe2j",
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fad7",
     "artist" : {
-        "Música de calle" : {
+        "1" : {
             "category" : {
                 "type" : "mandatory",
                 "label" : "Selecciona una categoría artistica de orfheo",
-                "input" : "Selector",
+                "input" : "CategorySelector",
                 "args" : [ 
-                    [ 
-                        "Música", 
-                        "Otros"
-                    ], 
                     [ 
                         "music", 
                         "other"
@@ -3537,18 +3534,14 @@
             "subcategory" : {
                 "type" : "mandatory",
                 "label" : "Categoría de la propuesta en el evento",
-                "input" : "Selector",
+                "input" : "SubcategorySelector",
                 "args" : [ 
                     [ 
-                        "Rock", 
-                        "Jazz", 
-                        "Pop"
+                        "1", 
+                        "2", 
+                        "3"
                     ], 
-                    [ 
-                        "Rock", 
-                        "Jazz", 
-                        "Pop"
-                    ]
+                    "artist"
                 ],
                 "helptext" : ""
             },
@@ -3637,11 +3630,8 @@
                 "input" : "MultipleDaysSelector",
                 "args" : [ 
                     [ 
-                        "1490911200000", 
-                        "1490997600000", 
-                        "1491084000000", 
-                        "1491516000000", 
-                        "1491602400000"
+                        "1487718060000", 
+                        "1487804460000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
@@ -3752,16 +3742,12 @@
                 "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             }
         },
-        "Música de interior" : {
+        "2" : {
             "category" : {
                 "type" : "mandatory",
                 "label" : "Selecciona una categoría artistica de orfheo",
-                "input" : "Selector",
+                "input" : "CategorySelector",
                 "args" : [ 
-                    [ 
-                        "Música", 
-                        "Otros"
-                    ], 
                     [ 
                         "music", 
                         "other"
@@ -3772,18 +3758,14 @@
             "subcategory" : {
                 "type" : "mandatory",
                 "label" : "Categoría de la propuesta en el evento",
-                "input" : "Selector",
+                "input" : "SubcategorySelector",
                 "args" : [ 
                     [ 
-                        "Rock", 
-                        "Jazz", 
-                        "Pop"
+                        "1", 
+                        "2", 
+                        "3"
                     ], 
-                    [ 
-                        "Rock", 
-                        "Jazz", 
-                        "Pop"
-                    ]
+                    "artist"
                 ],
                 "helptext" : ""
             },
@@ -3872,11 +3854,8 @@
                 "input" : "MultipleDaysSelector",
                 "args" : [ 
                     [ 
-                        "1490911200000", 
-                        "1490997600000", 
-                        "1491084000000", 
-                        "1491516000000", 
-                        "1491602400000"
+                        "1487718060000", 
+                        "1487804460000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
@@ -3987,16 +3966,12 @@
                 "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             }
         },
-        "Artes Escénicas" : {
+        "3" : {
             "category" : {
                 "type" : "mandatory",
                 "label" : "Selecciona una categoría artistica de orfheo",
-                "input" : "Selector",
+                "input" : "CategorySelector",
                 "args" : [ 
-                    [ 
-                        "Artes Escenicas", 
-                        "Otros"
-                    ], 
                     [ 
                         "arts", 
                         "other"
@@ -4089,11 +4064,8 @@
                 "input" : "MultipleDaysSelector",
                 "args" : [ 
                     [ 
-                        "1490911200000", 
-                        "1490997600000", 
-                        "1491084000000", 
-                        "1491516000000", 
-                        "1491602400000"
+                        "1487718060000", 
+                        "1487804460000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
@@ -4204,15 +4176,12 @@
                 "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
             }
         },
-        "Exposición" : {
+        "4" : {
             "category" : {
                 "type" : "mandatory",
                 "label" : "Selecciona una categoría artistica de orfheo",
-                "input" : "Selector",
+                "input" : "CategorySelector",
                 "args" : [ 
-                    [ 
-                        "Exposicion"
-                    ], 
                     [ 
                         "expo"
                     ]
@@ -4222,16 +4191,13 @@
             "subcategory" : {
                 "type" : "mandatory",
                 "label" : "Categoría de la propuesta en el evento",
-                "input" : "Selector",
+                "input" : "SubcategorySelector",
                 "args" : [ 
                     [ 
-                        "Pintura", 
-                        "Escultura"
+                        "5", 
+                        "6"
                     ], 
-                    [ 
-                        "Pintura", 
-                        "Escultura"
-                    ]
+                    "artist"
                 ],
                 "helptext" : ""
             },
@@ -4320,11 +4286,230 @@
                 "input" : "MultipleDaysSelector",
                 "args" : [ 
                     [ 
-                        "1490911200000", 
-                        "1490997600000", 
-                        "1491084000000", 
-                        "1491516000000", 
-                        "1491602400000"
+                        "1487718060000", 
+                        "1487804460000"
+                    ]
+                ],
+                "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+            },
+            "2" : {
+                "type" : "mandatory",
+                "label" : "Tipo de espacio",
+                "input" : "MultipleSelector",
+                "args" : [ 
+                    [ 
+                        "salas de actuaciones", 
+                        "locales de restauración", 
+                        "comercios", 
+                        "espacio urbano"
+                    ]
+                ],
+                "helptext" : "Selecciona el tipo de espacios en el que te gustaría exponer tus obras. Puedes elegir una o varias opciones."
+            },
+            "3" : {
+                "type" : "optional",
+                "label" : "Necesidades técnicas",
+                "input" : "TextArea",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Indícanos qué necesidades técnicas requiere mostrar tu trabajo, para que podamos valorar si podemos ayudarte a desarrollar tu propuesta.. Ej.: equipo de sonido, proyector, tarima, sillas, etc."
+            },
+            "4" : {
+                "type" : "optional",
+                "label" : "Montaje escenografía",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Eligir si se quiere montar escenografía."
+            },
+            "5" : {
+                "type" : "optional",
+                "label" : "Ensayo / prueba de sonido",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Eligir si previamente se quiere hacer un ensayo / prueba de sonido."
+            },
+            "6" : {
+                "type" : "mandatory",
+                "label" : "Acuerdo económico",
+                "input" : "MultipleSelector",
+                "args" : [ 
+                    [ 
+                        "Caché", 
+                        "Taquilla", 
+                        "Gorra", 
+                        "Gastos Producción", 
+                        "Sin caché"
+                    ]
+                ],
+                "helptext" : "Selecciona el/los tipo/s de condiciones en las que actuarías dentro del Festival, puedes elegir una o varias."
+            },
+            "cache" : {
+                "type" : "optional",
+                "label" : "Caché / Gastos Producción",
+                "input" : "InputCache",
+                "args" : [ 
+                    "", 
+                    false
+                ],
+                "helptext" : "Indícanos cuál sería el caché deseado o gastos para producción necesarios para participar con tu proyecto en el Festival. "
+            },
+            "8" : {
+                "type" : "optional",
+                "label" : "Entrada anticipada",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Elegir si deseas que haya venta de entrada anticipada a la actividad."
+            },
+            "9" : {
+                "type" : "optional",
+                "label" : "Sólo con entrada anticipada",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "Elegir si quieres que la actividad sea con entrada anticipada únicamente."
+            },
+            "conditions" : {
+                "type" : "mandatory",
+                "label" : "Acepto las condiciones de participación asociadas a este evento",
+                "input" : "CheckBox",
+                "args" : [ 
+                    "", 
+                    "yes"
+                ],
+                "helptext" : "https://distrito008.es/condiciones-participacion-vii-distrito-008/"
+            },
+            "children" : {
+                "type" : "mandatory",
+                "label" : "Edades público",
+                "input" : "InputChildren",
+                "args" : null,
+                "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+            }
+        },
+        "5" : {
+            "category" : {
+                "type" : "mandatory",
+                "label" : "Selecciona una categoría artistica de orfheo",
+                "input" : "CategorySelector",
+                "args" : [ 
+                    [ 
+                        "other"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "subcategory" : {
+                "type" : "mandatory",
+                "label" : "Categoría de la propuesta en el evento",
+                "input" : "SubcategorySelector",
+                "args" : [ 
+                    [ 
+                        "7", 
+                        "3"
+                    ], 
+                    "artist"
+                ],
+                "helptext" : ""
+            },
+            "title" : {
+                "type" : "mandatory",
+                "label" : "Título de la propuesta artística",
+                "input" : "Input",
+                "args" : [ 
+                    "", 
+                    "text"
+                ],
+                "helptext" : ""
+            },
+            "description" : {
+                "type" : "mandatory",
+                "label" : "Descripción",
+                "input" : "TextAreaEnriched",
+                "args" : [ 
+                    ""
+                ],
+                "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+            },
+            "short_description" : {
+                "type" : "mandatory",
+                "label" : "Descripción (muy) breve",
+                "input" : "TextAreaCounter",
+                "args" : [ 
+                    "", 
+                    80, 
+                    "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                ],
+                "helptext" : ""
+            },
+            "duration" : {
+                "type" : "mandatory",
+                "label" : "Duración del espectáculo",
+                "input" : "Selector",
+                "args" : [ 
+                    [ 
+                        "15 min", 
+                        "30 min", 
+                        "45 min", 
+                        "1 h", 
+                        "1h 15min", 
+                        "1h 30min", 
+                        "1h 45min", 
+                        "2 h", 
+                        "2h 15min", 
+                        "2h 30min"
+                    ], 
+                    [ 
+                        "15", 
+                        "30", 
+                        "45", 
+                        "60", 
+                        "75", 
+                        "90", 
+                        "105", 
+                        "120", 
+                        "135", 
+                        "150"
+                    ]
+                ],
+                "helptext" : ""
+            },
+            "links" : {
+                "type" : "optional",
+                "label" : "Materiales online",
+                "input" : "InputMultimedia",
+                "args" : null,
+                "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+            },
+            "photos" : {
+                "type" : "optional",
+                "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                "input" : "UploadPhotos",
+                "args" : [ 
+                    "/photos", 
+                    4
+                ],
+                "helptext" : ""
+            },
+            "availability" : {
+                "type" : "mandatory",
+                "label" : "Disponibilidad",
+                "input" : "MultipleDaysSelector",
+                "args" : [ 
+                    [ 
+                        "1487718060000", 
+                        "1487804460000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
@@ -4437,42 +4622,20 @@
         }
     },
     "space" : {
-        "Espacio sin actividad programada" : {
-            "category" : {
-                "type" : "mandatory",
-                "label" : "Selecciona tu tipo de espacio",
-                "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "Asociación Cultural", 
-                        "Espacio Particular", 
-                        "Local Comercial"
-                    ], 
-                    [ 
-                        "cultural_ass", 
-                        "home", 
-                        "commercial"
-                    ]
-                ],
-                "helptext" : ""
-            },
+        "6" : {
             "subcategory" : {
                 "type" : "mandatory",
                 "label" : "Categoría del espacio en el evento",
-                "input" : "Selector",
+                "input" : "SubcategorySelector",
                 "args" : [ 
                     [ 
-                        "Restauración y Clubs", 
-                        "Arte, Cultura y Diseño", 
-                        "Espacio Particular", 
-                        "Tiendas y Servicios"
+                        "1", 
+                        "2", 
+                        "3", 
+                        "4", 
+                        "5"
                     ], 
-                    [ 
-                        "Restauración y Clubs", 
-                        "Arte, Cultura y Diseño", 
-                        "Espacio Particular", 
-                        "Tiendas y Servicios"
-                    ]
+                    "space"
                 ],
                 "helptext" : ""
             },
@@ -4492,11 +4655,8 @@
                 "input" : "MultipleDaysSelector",
                 "args" : [ 
                     [ 
-                        "1490911200000", 
-                        "1490997600000", 
-                        "1491084000000", 
-                        "1491516000000", 
-                        "1491602400000"
+                        "1487718060000", 
+                        "1487804460000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
@@ -4512,42 +4672,20 @@
                 "helptext" : "https://distrito008.es/condiciones-participacion-vii-distrito-008/"
             }
         },
-        "Espacio con actividad programada" : {
-            "category" : {
-                "type" : "mandatory",
-                "label" : "Selecciona tu tipo de espacio",
-                "input" : "Selector",
-                "args" : [ 
-                    [ 
-                        "Asociación Cultural", 
-                        "Espacio Particular", 
-                        "Local Comercial"
-                    ], 
-                    [ 
-                        "cultural_ass", 
-                        "home", 
-                        "commercial"
-                    ]
-                ],
-                "helptext" : ""
-            },
+        "7" : {
             "subcategory" : {
                 "type" : "mandatory",
                 "label" : "Categoría del espacio en el evento",
-                "input" : "Selector",
+                "input" : "SubcategorySelector",
                 "args" : [ 
                     [ 
-                        "Restauración y Clubs", 
-                        "Arte, Cultura y Diseño", 
-                        "Espacio Particular", 
-                        "Tiendas y Servicios"
+                        "1", 
+                        "2", 
+                        "3", 
+                        "4", 
+                        "5"
                     ], 
-                    [ 
-                        "Restauración y Clubs", 
-                        "Arte, Cultura y Diseño", 
-                        "Espacio Particular", 
-                        "Tiendas y Servicios"
-                    ]
+                    "space"
                 ],
                 "helptext" : ""
             },
@@ -4567,11 +4705,8 @@
                 "input" : "MultipleDaysSelector",
                 "args" : [ 
                     [ 
-                        "1490911200000", 
-                        "1490997600000", 
-                        "1491084000000", 
-                        "1491516000000", 
-                        "1491602400000"
+                        "1487718060000", 
+                        "1487804460000"
                     ]
                 ],
                 "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."

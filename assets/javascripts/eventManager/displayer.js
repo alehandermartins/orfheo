@@ -7,6 +7,8 @@
     var event_id = the_event.event_id;
     var call_id = the_event.call_id;
     var eventName = the_event.name;
+    var _translatorFC = Pard.UserInfo['texts']['form_categories'];
+    var _translatorSubC = Pard.UserInfo['texts']['subcategories'];
 
     var _content = $('<div>').addClass('very-fast reveal full');
     var _popup =  new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
@@ -42,7 +44,7 @@
       var space = the_event.spaces[profile_id].space;
       var myprogram = the_event.spaces[profile_id].program;
 
-      var _message = Pard.Widgets.PopupContent(space.name + ' ('+space.subcategory+')', Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program), 'space-program-popup-call-manager');
+      var _message = Pard.Widgets.PopupContent(space.name + ' ('+Pard.UserInfo['texts'].subcategories['space'][space.subcategory]+')', Pard.Widgets.SpaceProgram(space, myprogram, the_event.artists, the_event.program), 'space-program-popup-call-manager');
       _message.setCallback(function(){
         _popup.close();
         _content.empty();
@@ -182,8 +184,8 @@
                   _modifiedProposal.profile_id = _artist.profile_id;
                   _modifiedProposal.phone = _artist.phone;
                 }
-                _modifiedProposal.form_category = _modifiedProposal.form_category || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
-                _modifiedProposal.subcategory = _modifiedProposal.subcategory || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
+                // _modifiedProposal.form_category = _modifiedProposal.form_category || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
+                // _modifiedProposal.subcategory = _modifiedProposal.subcategory || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
                 _displayProposal(_modifiedProposal, type);
                 stopSpinner();
               }
@@ -191,7 +193,7 @@
           );
         });
         var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
-        _modifyMessage.prependToContent($('<p>').text('Formulario: '+_proposal.form_category).css('margin-bottom','-0.5rem'));
+        _modifyMessage.prependToContent($('<p>').text('Formulario: '+ _translatorFC[type][_proposal.form_category]).css('margin-bottom','-0.5rem'));
         _modifyMessage.appendToContent(Pard.Widgets.Button(
           'Anula',
           function(){

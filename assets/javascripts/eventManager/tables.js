@@ -196,7 +196,7 @@
     _table.append(_tfoot.append(_titleRowFoot));
     _table.append(_tbody);
 
-    var proposalRow = function(profileType, proposal, profile){
+    var proposalRow = function(proposalType, proposal, profile){
       proposalNumber += 1;
       var _proposal = $.extend(true, {}, proposal);
       if (profile){
@@ -205,11 +205,12 @@
         _proposal.email =  profile.email;
         _proposal.profile_id =  profile.profile_id;
       }
-      _proposal.type = profileType;
+      _proposal.type = proposalType;
+      
       // necesary for proposals conFusion withput form cat
       var _row = $('<tr>');
-      if (profileType == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
-      if (profileType == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
+      if (proposalType == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
+      if (proposalType == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
       _orfheoFields.forEach(function(field){
         var _info = '';
         if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber);
@@ -226,8 +227,8 @@
 
     return {
       table: _table,
-      addRow: function(profileType, proposal, profile){
-        _tbody.prepend(proposalRow(profileType, proposal, profile))
+      addRow: function(proposalType, proposal, profile){
+        _tbody.prepend(proposalRow(proposalType, proposal, profile))
       },
       proposalRow: proposalRow,
       emailColumn: _emailColumn,
@@ -325,6 +326,9 @@
       input : "TextAreaEnriched"
     },
     subcategory : {
+      info: function(proposal){
+        return Pard.UserInfo['texts']['subcategories'][proposal.type][proposal.subcategory];
+      },
       label : "Categoría en el evento",
       input : "Selector"
     },
@@ -824,9 +828,15 @@
         label: 'Día'
       },
       participant_subcategory:{
+        info: function(show){
+          return Pard.UserInfo['texts']['subcategories']['artist'][show.participant_subcategory];
+        },
         label: 'Categoría art.'
       },
       host_subcategory:{
+        info: function(show){
+          return Pard.UserInfo['texts']['subcategories']['space'][show.host_subcategory];
+        },
         label: 'Categoría esp.'
       },
       time:{

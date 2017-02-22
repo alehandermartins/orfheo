@@ -498,6 +498,41 @@
     }
   }
 
+  ns.Widgets.SubcategorySelector = function(catArray, type){
+    var _translator = Pard.UserInfo['texts'].subcategories[type];
+    var catArrayTranslated = catArray.map(function(subcat){
+      return _translator[subcat];
+    })
+    var _createdWidget = Pard.Widgets.Selector(catArrayTranslated, catArray)
+
+    return {
+      render: function(){
+        return _createdWidget.render();
+      },
+      getVal: function(){
+        return _createdWidget.getVal();
+      },
+      addWarning: function(){
+        _createdWidget.addWarning();
+      },
+      removeWarning: function(){
+        _createdWidget.removeWarning();
+      },
+      setVal: function(value){
+        _createdWidget.setVal(value);
+      },
+      setClass: function(_class){
+        _createdWidget.setClass(_class);
+      },
+      enable: function(){
+        _createdWidget.enable();
+      },
+      disable: function(){
+        _createdWidget.disable();
+      }
+    }
+  }
+
 
   ns.Widgets.InputColor = function(){
 

@@ -259,6 +259,17 @@
 
   ns.Widgets.sentProposalField = function(proposal){
 
+    var _translatorFCT = Pard.UserInfo['texts']['form_categories'];
+    var _translatorSubCT = Pard.UserInfo['texts']['subcategories'];
+    if (proposal.title) {
+      _translatorFCT = _translatorFCT['artist'];
+      _translatorSubCT = _translatorSubCT['artist'];
+    }
+    else {
+      _translatorFCT = _translatorFCT['space'];
+      _translatorSubCT = _translatorSubCT['space'];
+    }
+
     var _address = function(){
       var _address = ' ';
       if (proposal['address']){
@@ -290,7 +301,7 @@
     return {
       'name': {
         label: 'Propuesta enviada por',
-        text: $('<span>').append($('<strong>').append(proposal['name']), $('<div>').append(' (formulario: ',proposal['form_category'],')').css('font-size','0.875rem'))
+        text: $('<span>').append($('<strong>').append(proposal['name']), $('<div>').append(' (formulario: ',_translatorFCT[proposal['form_category']],')').css('font-size','0.875rem'))
       },
       'email': {
         label: 'Correo',
@@ -312,7 +323,8 @@
         input: 'TextAreaEnriched'
       },
       'subcategory': {
-        label: 'Categoría en el evento'
+        label: 'Categoría en el evento',
+        text: _translatorSubCT[proposal.subcategory]
       },
       'availability': {
         label: 'Disponibilidad',

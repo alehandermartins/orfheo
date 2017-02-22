@@ -20,7 +20,7 @@
     };
 
     var _infoSpace = space.address.route+ ' ' + space.address.street_number + ' - tel. ' + space.phone.value +' - email: '+ space.email;
-    var _spaceName = space.name + ' (' + space.subcategory + ')';
+    var _spaceName = space.name + ' (' + Pard.UserInfo['texts'].subcategories['space'][space.subcategory] + ')';
     var _infoSpaceBox = $('<div>').addClass('info-box-popup-program');
     _infoSpaceBox.append($('<p>').append(_infoSpace));
 
@@ -299,7 +299,7 @@
       _timeCol.append(_schedule);
       _titleCol.append(_namePopupCaller);
       _nameCol.html(show.participant_name);
-      _categoryCol.html(Pard.Widgets.Dictionary(show.participant_category).render());
+      _categoryCol.html(Pard.UserInfo['texts'].subcategories['artist'][show.participant_subcategory]);
       _shortDCol.html(show.short_description);
       _phoneCol.html(_artists[show.participant_id].artist.phone.value);
       _emailCol.html(_artists[show.participant_id].artist.email);

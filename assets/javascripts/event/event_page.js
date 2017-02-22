@@ -185,6 +185,8 @@
     var _createdWidget = $('<div>');
     var _closepopup;
     var the_event = Pard.CachedEvent;
+    var _translator = Pard.UserInfo['texts'].subcategories;
+    console.log(_translator)
 
     var _labels = {
       'participants': Pard.t.text('event_page.program.filters.participants'),
@@ -221,13 +223,13 @@
           artistCatObj[filter].icon.forEach(function(icon){
             _icons.append(Pard.Widgets.IconManager(icon).render().addClass('participant-category-icon'))
           }) 
-          _label.append(filter,' ',_icons);
+          _label.append(_translator.artist[filter],' ',_icons);
         }
         else if(key == 'other') {
           _label.append(Pard.t.text('widget.inputChildren.' + filter));
           if (filter == 'baby') _label.append(Pard.Widgets.IconManager('baby').render().addClass('participant-category-icon').css('margin-left','.4rem'))
         }
-        else _label.append(filter); 
+        else _label.append(_translator.space[filter]); 
         _label.css('display','inline');
         var _filter = $('<div>').append(_input,_label).addClass('filter-checkbox-event-page');
         _filter.on('click',function(){

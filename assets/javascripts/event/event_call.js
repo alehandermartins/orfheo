@@ -102,16 +102,7 @@
       _card.removeAttr('href');
       _card.attr('href','#/');
       _card.click(function(){
-        var _alreadyStage = false;
-        if ((profile.type == 'space' || profile.type =='organization') && profile.proposals && profile.proposals.space){
-          profile.proposals.space.some(function(proposal){
-            if (proposal.event_id == Pard.CachedEvent.event_id) {
-              _alreadyStage = true;
-              return true;
-            }
-          }); 
-        }
-        Pard.Widgets.GetCallForms(_forms, profile, _closeListProfilePopup, _callbackSendProposal, _alreadyStage);
+        Pard.Widgets.GetCallForms(_forms, profile, _closeListProfilePopup, _callbackSendProposal);
       });
       _createdWidget.append(_cardContainer.append(_card));
     });
@@ -229,13 +220,13 @@
     }
   }
 
-  ns.Widgets.GetCallForms = function(forms, profile, closeListProfilePopup, callbackSendProposal, alreadyStage){
+  ns.Widgets.GetCallForms = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     var eventInfo = Pard.CachedEvent;
     var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
     _content.empty();
     $('body').append(_content);
     var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-    var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(forms, profile, closeListProfilePopup, callbackSendProposal, alreadyStage));
+    var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(forms, profile, closeListProfilePopup, callbackSendProposal));
     _message.setCallback(function(){
       _popup.close();
       setTimeout(function(){
@@ -248,10 +239,11 @@
   };
  
 
-  ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal, alreadyStage){
+  ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     
     var _createdWidget = $('<div>');
     var _typeFormsCatArray = Pard.CachedEvent.target;
+    var _translator = Pard.UserInfo['texts'].form_categories;
     
     if($.inArray(profile.type, _typeFormsCatArray) < 0){
       var _okProfiles = '';
@@ -278,13 +270,16 @@
         .attr('type','button')
         .append(Pard.Widgets.IconManager('stage').render(),$('<span>').text('Stage'))
         .click(function(){
-          if(alreadyStage) {
-            Pard.Widgets.Alert(Pard.t.text('call.alreadyInscribed.title'), Pard.t.text('call.alreadyInscribed.mex')+ Pard.CachedEvent.name);
+          if (profile.proposals && profile.proposals.space && profile.proposals.space.length){
+            if (profile.proposals.space.some(function(proposal){
+              if (proposal.event_id == Pard.CachedEvent.event_id) {
+                Pard.Widgets.Alert(Pard.t.text('call.alreadyInscribed.title'), Pard.t.text('call.alreadyInscribed.mex')+ Pard.CachedEvent.name);
+                return true;
+              }
+            })) return false; 
           }
-          else{
-            _type = 'space';
-            loadFormSelector();
-          }
+          _type = 'space';
+          loadFormSelector();
         });  
       var _typeButtons = $('<div>').append(_performerBtn, _stageBtn);
       var _chooseType = $('<div>').append($('<p>').text('Decide como apuntarte:'),_typeButtons);
@@ -315,7 +310,7 @@
         _formTypeSelector.append(_emptyOption);
         for (var typeForm in forms[_type]){
           _formTypes.push(typeForm);
-          _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
+          _formTypeSelector.append($('<option>').text(_translator[_type][typeForm]).val(typeForm));
           // forms[_type][typeForm].category.args[1].forEach(function(cat){
           //   if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
           // });

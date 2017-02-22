@@ -170,6 +170,11 @@ Pard.Profile = function(profiles, status){
 };
 
 Pard.EventManager = function(the_event, forms){
+  var _texts = the_event.texts[Pard.UserInfo['lang']]; 
+  if(!_texts) {
+    _texts = the_event.texts[Object.keys(the_event.texts)[0]];
+  }
+  Pard.UserInfo['texts'] = _texts;
   var spinner = new Spinner();
   spinner.spin();
   $('body').append(spinner.el);
@@ -202,9 +207,14 @@ Pard.EventManager = function(the_event, forms){
 
 Pard.Event = function(the_event, status){
   Pard.UserStatus['status'] = status;
-
   Pard.CachedProgram = the_event.program;
   Pard.CachedEvent = the_event;
+  var _texts = the_event.texts[Pard.UserInfo['lang']]; 
+  if(!_texts) {
+    _texts = the_event.texts[Object.keys(the_event.texts)[0]];
+  }
+  Pard.UserInfo['texts'] = _texts;
+
   var _whole = $('<div>').addClass('whole-container');
 
   var _footer = Pard.Widgets.Footer();

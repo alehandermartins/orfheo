@@ -80,13 +80,19 @@
     });
 
     var _typesDictionary = {
-      artist: 'Artistas',
-      space: 'Espacios' 
+      artist: 'Propuestas artísticas',
+      space: 'Propuestas de espacios' 
     }
 
     _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(displayer);
     _tablesContainer['allProposals'] = $('<div>').append(_dataTables['allProposals'].table);
     _subcategorySelector['allProposals'] = $('<select>');
+
+    var _iconDictionary = {
+      'artist':'performer',
+      'space':'stage'
+    }
+    var _translatorFC = Pard.UserInfo['texts'].form_categories; 
 
     _formTypes.forEach(function(type){
       if (forms[type]){
@@ -94,14 +100,14 @@
         for (var formcat in forms[type]){
           _tablesContainer[formcat] = $('<div>');
           _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat], displayer);
-          _selectorOptions[type].push({id:formcat, text:formcat})
+          _selectorOptions[type].push({id:formcat, text:_translatorFC[type][formcat]})
           _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
           _proposalsNumber[formcat] = 0;
           _subcategorySelector[formcat] = $('<select>');
         }
         _tags.push({
           text: _typesDictionary[type],
-          icon: type,
+          icon: _iconDictionary[type],
           children: _selectorOptions[type]
         });
         _createProposalsInnerCont.append(_createProposals[type]());
@@ -109,13 +115,13 @@
     });  
 
     //FILL THE TABLES
-    
+
     Object.keys(spaces).forEach(function(profile_id){
       var proposal = spaces[profile_id].space;
       if (proposal.own) _own['spaces'][profile_id] = spaces[profile_id].space;
       // necesary for proposals conFusion withput form cat
-      proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
-      proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
+      // proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
+      // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
       _proposalsNumber[proposal.form_category] = _proposalsNumber[proposal.form_category] + 1 || 1;
       _dataTables[proposal.form_category].addRow(proposal);
       _dataTables['allProposals'].addRow('space', proposal);
@@ -125,8 +131,8 @@
       var profile = artists[profile_id].artist;
       if (profile.own) _own['artists'][profile_id] = the_event.artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
-        proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
-        proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
+        // proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
+        // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
         _proposalsNumber[proposal.form_category] = _proposalsNumber[proposal.form_category] + 1;
         _dataTables[proposal.form_category].addRow(proposal, profile);
         _dataTables['allProposals'].addRow('artist', proposal, profile);
@@ -617,8 +623,8 @@
       modifyArtist: function(artist){
         var profile = the_event.artists[artist.profile_id].artist;
         profile.proposals.forEach(function(proposal){
-          proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
-          proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render(); 
+          // proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
+          // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render(); 
           _dataTables['allProposals'].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();
           _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, profile)).order([2,'desc']).draw();
           _dataTables[proposal.form_category].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();

@@ -202,7 +202,7 @@
         spaceProposals.push({
           type: 'category',
           id: category,
-          text: category
+          text: Pard.UserInfo['texts']['subcategories']['space'][category]
         });
       });
       Object.keys(the_event.spaces).forEach(function(profile_id){
@@ -237,7 +237,7 @@
           type: 'category',
           id: category,
           icon: artistCatObj[category].icon,
-          text: category
+          text: Pard.UserInfo['texts']['subcategories']['artist'][category]
         });
       }
       Object.keys(the_event.artists).forEach(function(profile_id){
@@ -1500,7 +1500,7 @@
           });
           noSelected.forEach(function(proposal){
             proposal.type = 'artist';
-            proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
+            // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');
             columns.forEach(function(field){
               var _info;
@@ -1634,7 +1634,7 @@
             
           noSelected.forEach(function(proposal){
             proposal.type = 'space';
-            proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
+            // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');
             columns.forEach(function(field){
               var _info;
