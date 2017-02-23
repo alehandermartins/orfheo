@@ -247,31 +247,63 @@ Pard.Event = function(the_event, status){
   });
 }
 
-Pard.Services = function(){
-  var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
-  var _main = $('<div>').append(
-    $('<div>').append(
-      _logo,
-      $('<p>').text('S E R V I C I O S')
-        .css({
-          'font-size':'12px',
-          'margin-top':'-1.3rem'
-        }),
-      $('<h5>').html('Coming soon...')
-    )
-    .css({
-        'text-align':'center',
-        'top':'35%',
-        'color':'white',
-        'position':'absolute',
-        'width':'100%'
-      })
-    ).css({
-      'background':'black',
-      'position':'relative',
-      'height':'100vh',
-      'width':'100%',
-      'top':'0'
+Pard.Services = function(status){
+  
+  // Pard.UserStatus['status'] = status;
+  // if(status == 'outsider'){ 
+  //   var _header = Pard.Widgets.LoginHeader();
+  // }
+  // else{
+  //   var _header = Pard.Widgets.InsideHeader();
+  // }
+
+  var _header = Pard.Widgets.LoginHeader();
+  
+  var _main = Pard.Widgets.MainServicesPage();
+  var _footer = Pard.Widgets.Footer();
+
+  var _whole = $('<div>').addClass('whole-container');
+
+  _whole.append(_header.render(), _main, _footer.render());
+
+  $('body').append(_whole);
+
+  $(document).ready(function(){
+    $(document).foundation();
+    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+      if (!($('.reveal[aria-hidden="false"]').length)){
+        $('html').removeClass('overflowHidden');
+      }
     });
-  $('body').append(_main);
+    $(document).on('open.zf.reveal', function(){
+      $('html').addClass('overflowHidden');
+    });
+  });
+
+  // var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
+  // var _main = $('<div>').append(
+  //   $('<div>').append(
+  //     _logo,
+  //     $('<p>').text('S E R V I C I O S')
+  //       .css({
+  //         'font-size':'12px',
+  //         'margin-top':'-1.3rem'
+  //       }),
+  //     $('<h5>').html('Coming soon...')
+  //   )
+  //   .css({
+  //       'text-align':'center',
+  //       'top':'35%',
+  //       'color':'white',
+  //       'position':'absolute',
+  //       'width':'100%'
+  //     })
+  //   ).css({
+  //     'background':'black',
+  //     'position':'relative',
+  //     'height':'100vh',
+  //     'width':'100%',
+  //     'top':'0'
+  //   });
+  // $('body').append(_main);
 }

@@ -82,7 +82,7 @@
     _buttonContainer.append(_info);
 
 
-    if (Pard.CachedEvent.partners.length || Pard.UserStatus['status'] == 'owner'){
+    if (!$.isEmptyObject(Pard.CachedEvent.partners) || Pard.UserStatus['status'] == 'owner'){
       var _partner = $('<div>').addClass('aside-event-nav-btn');
       _partner.text(Pard.t.text('event_page.eventAside.partners'));
       _partner.click(function(){

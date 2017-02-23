@@ -10,6 +10,10 @@
       organization: "Organización",
       spaces:'Espacios'
     },
+    partners:{
+      collaborators:'Colaboradores',
+      sponsors:'Patrocinadores'
+    },
     categories:{
       cultural_ass: 'Espacio Cultural',
       commercial: 'Local Comercial',

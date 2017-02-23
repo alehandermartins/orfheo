@@ -14,5 +14,6 @@
 // = require profiles
 // = require users
 // = require welcome
+// = require services
 
 

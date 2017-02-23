@@ -510,9 +510,6 @@ ns.Widgets = ns.Widgets || {};
       .text('Explora las ventajas de lanzar tu convocatoria en orfheo')
       .append(Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
-      .click(function(){
-        console.log('open popup')
-      })
       .addClass('callText-WelcomePage');
 
     var _titleContainer = $('<div>').append(_titleLongText).css('margin-bottom','4.5rem');
@@ -520,7 +517,7 @@ ns.Widgets = ns.Widgets || {};
     _actionDiv.append(_actionContainer.append(
       _titleContainer, 
       _infoContainer
-      // , _callLongText.css('margin-top','2.5rem')
+      , _callLongText.css('margin-top','2.5rem')
     ));
 
     var _titleLittleText = $('<h4>').html('El futuro está aquí, frente a ti').addClass('title-welcome').css('margin-bottom','1rem');
