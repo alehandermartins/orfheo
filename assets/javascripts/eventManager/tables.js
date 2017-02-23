@@ -4,7 +4,7 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.PrintTable = function(type, form, displayer) {
+  ns.Widgets.PrintTable = function(proposalType, form, displayer) {
 
     var _form = $.extend(true, {}, form);
 
@@ -24,18 +24,18 @@
     var _titleRowFoot = $('<tr>');
     // All non numeric field used by orfheo --> vector needed for ordering
     var _orfheoFields = {
-      artist: ['profile_id','proposalNumber','type','name', 'subcategory', 'title','short_description','description','duration','availability','children','cache','phone','email','amend'],
-      space: ['profile_id','proposalNumber', 'type','name', 'subcategory','address', 'description','availability','phone','email','amend']
+      artist: ['profile_id','proposalNumber','proposal_type','name', 'subcategory', 'title','short_description','description','duration','availability','children','cache','phone','email','amend'],
+      space: ['profile_id','proposalNumber', 'proposal_type','name', 'subcategory','address', 'description','availability','phone','email','amend']
     }
     //Mandatory fields that are not asked in forms
     var _mandatoryFields = {
-     artist: ['profile_id','proposalNumber', 'type', 'name','phone', 'email', 'subcategory','amend'],
-     space: ['profile_id','proposalNumber', 'type', 'name', 'phone','email', 'address', 'description', 'subcategory','amend']
+     artist: ['profile_id','proposalNumber', 'proposal_type', 'name','phone', 'email', 'subcategory','amend'],
+     space: ['profile_id','proposalNumber', 'proposal_type', 'name', 'phone','email', 'address', 'description', 'subcategory','amend']
     }
     // The columns I want to see in table as default
     var _shownColumns = {
-      artist: ['type','name', 'title','short_description','duration','availability','phone','email'],
-      space: ['type','name', 'subcategory','address','availability', 'phone','email']
+      artist: ['proposal_type','name', 'title','short_description','duration','availability','phone','email'],
+      space: ['proposal_type','name', 'subcategory','address','availability', 'phone','email']
     }
 
     var _colPosition = 0;
@@ -61,9 +61,9 @@
       _tableFields.push(field);
     }
 
-    _orfheoFields[type].forEach(function(field){
-      if (_form[field] || $.inArray(field, _mandatoryFields[type])>-1){
-        if ($.inArray(field, _shownColumns[type])<0) _hiddenColumns.push(_colPosition);
+    _orfheoFields[proposalType].forEach(function(field){
+      if (_form[field] || $.inArray(field, _mandatoryFields[proposalType])>-1){
+        if ($.inArray(field, _shownColumns[proposalType])<0) _hiddenColumns.push(_colPosition);
         _colPosition += 1;
         if (field == 'email') _emailColumn = _emailIndex;
         _emailIndex += 1;
@@ -90,17 +90,19 @@
       proposalNumber += 1;
       var _proposal = $.extend(true, {}, proposal);
       if(profile){
+        console.log(profile)
         _proposal.name = profile.name;
         _proposal.phone = profile.phone;
         _proposal.email =  profile.email;
         _proposal.profile_id = profile.profile_id;
+        _proposal.type =  profile.type;
       }
-      _proposal.type = type;
+      _proposal.proposal_type = proposalType;
       var _row = $('<tr>');
-      if (type == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
-      if (type == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
-      _orfheoFields[type].forEach(function(field){
-        if (_form[field] || $.inArray(field, _mandatoryFields[type])>-1){
+      if (proposalType == 'artist') _row.attr('id', 'proposalRow-'+proposal.proposal_id);
+      if (proposalType == 'space') _row.attr('id', 'proposalRow-'+proposal.profile_id);
+      _orfheoFields[proposalType].forEach(function(field){
+        if (_form[field] || $.inArray(field, _mandatoryFields[proposalType])>-1){
           var _info = '';
           if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber);
           else _info = _proposal[field];
@@ -167,7 +169,7 @@
     var _tfoot = $('<tfoot>');
     var _titleRowFoot = $('<tr>');
 
-    var _orfheoFields = ['profile_id','hiddenType','proposalNumber','type','name', 'subcategory', 'titleAddress', 'phone','email'];
+    var _orfheoFields = ['profile_id','hiddenType','proposalNumber','proposal_type','name', 'subcategory', 'titleAddress', 'phone','email'];
 
     var _form = {}
 
@@ -204,8 +206,9 @@
         _proposal.phone = profile.phone;
         _proposal.email =  profile.email;
         _proposal.profile_id =  profile.profile_id;
+        _proposal.type = profile.type;
       }
-      _proposal.type = proposalType;
+      _proposal.proposal_type = proposalType;
       
       // necesary for proposals conFusion withput form cat
       var _row = $('<tr>');
@@ -247,22 +250,26 @@
       label: 'Enmienda',
       input: 'TextAreaEnriched'
     },
-    type: {
+    proposal_type: {
       info: function(proposal){
         var _dictionary = {
           'artist':'performer',
           'space':'stage'
         }
-        if (proposal.own) return Pard.Widgets.IconManager(_dictionary[proposal.type]).render(); 
-        else return $('<a>').append(Pard.Widgets.IconManager(_dictionary[proposal.type]).render()).attr({'href':'/profile?id='+proposal.profile_id, 'target':'_blank'});
+        if (proposal.own) return Pard.Widgets.IconManager(_dictionary[proposal.proposal_type]).render(); 
+        else return $('<a>').append(
+          Pard.Widgets.IconManager(_dictionary[proposal.proposal_type]).render().css({'margin-right': '-0.5rem'}),
+          Pard.Widgets.IconManager(proposal.type).render().css({'font-size':'.8rem'})
+          )
+          .attr({'href':'/profile?id='+proposal.profile_id, 'target':'_blank'});
       },
       label: 'Tipo',
-      input: 'type'
+      input: 'proposal_type'
     },
-    profile_type:{
+    type:{
       info: function(proposal){
         if (proposal.own) return '';
-        else return Pard.t.text(proposal.profile_type);
+        else return Pard.t.text('type.'+proposal.type);
       },
       label: 'Perfil',
       input: 'type'
@@ -270,7 +277,7 @@
     name:{ 
       info: function(proposal, displayer) { 
         return $('<a>').attr({'href':'#/'}).append(proposal.name).on('click', function(){
-           displayer.displayProposal(proposal, proposal.type);
+           displayer.displayProposal(proposal, proposal.proposal_type);
         });
       },
       label: 'Nombre',
@@ -327,7 +334,7 @@
     },
     subcategory : {
       info: function(proposal){
-        return Pard.UserInfo['texts']['subcategories'][proposal.type][proposal.subcategory];
+        return Pard.UserInfo['texts']['subcategories'][proposal.proposal_type][proposal.subcategory];
       },
       label : "Categoría en el evento",
       input : "Selector"
@@ -342,7 +349,7 @@
     },
     hiddenType:{
       info: function(proposal){
-        return proposal.type; 
+        return proposal.proposal_type; 
       },
       label:'hiddenType',
       input: 'Inputtex'

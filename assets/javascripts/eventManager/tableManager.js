@@ -540,9 +540,9 @@
                 var _selectContainer = $('<div>').addClass('select-container-datatableColumn rfh-selector');
                 var selectType = $('<select>').append($('<option>').attr('value','').text('')).appendTo(_selectContainer.appendTo($(rfhCol.header())));
                 var types = {
-                  artist: 'Artistas',
-                  space: 'Espacios',
-                  organization: 'Organizaciones'
+                  artist: 'Artista',
+                  space: 'Espacio',
+                  // organization: 'Organizaciones'
                 }  
                 for(var _formType in forms){
                   if (types[_formType])  selectType.append($('<option>').attr('value', _formType).text(types[_formType]));

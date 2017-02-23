@@ -1499,7 +1499,7 @@
             });
           });
           noSelected.forEach(function(proposal){
-            proposal.type = 'artist';
+            proposal.proposal_type = 'artist';
             // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');
             columns.forEach(function(field){
@@ -1633,7 +1633,7 @@
           if(Object.keys(spaceProgram).length == 0) noSelected.push(spaces[profile_id].space);
             
           noSelected.forEach(function(proposal){
-            proposal.type = 'space';
+            proposal.proposal_type = 'space';
             // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');
             columns.forEach(function(field){

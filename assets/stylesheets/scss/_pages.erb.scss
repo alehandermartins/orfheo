@@ -1697,12 +1697,12 @@ th.column-call-manager-table{
   width: 11.5rem !important;
 }
 
-.column-call-manager-table.column-type{
+.column-call-manager-table.column-proposal_type, .column-call-manager-table.column-type{
   min-width: 2.3rem;
   width: 2.3rem !important;
 }
 
-th.column-call-manager-table.column-type{
+th.column-call-manager-table.column-proposal_type, th.column-call-manager-table.column-type{
   padding-left: .25rem !important;
   padding-right: .75rem !important;
 }

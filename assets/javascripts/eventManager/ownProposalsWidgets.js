@@ -3,9 +3,9 @@
 (function(ns){
     ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.CreateOwnProposal = function(forms, type, participants){
+  ns.Widgets.CreateOwnProposal = function(forms, proposalType, participants){
     var _createdWidget = $('<div>').addClass('popupOwnProposal');
-    var _translator = Pard.UserInfo['texts'].form_categories[type];
+    var _translator = Pard.UserInfo['texts'].form_categories[proposalType];
     var _typeFormsCatArray = Object.keys(forms);
     var _formWidget;
     var _profile_own;
@@ -45,7 +45,6 @@
     }
 
     var _placeholderParticipantSelector = "Selecciona por nombre";
-    console.log(type)
 
     _participantsSelector.select2({
       data: _dataParticipants,
@@ -57,12 +56,17 @@
 
     _participantsSelector.on('change',function(){
       _profile_own = _participantsSelector.select2('data')[0].participant;
+      var _valToSet = {
+        name:_profile_own.name,
+        email:_profile_own.email,
+        phone:_profile_own.phone
+      }
       if(_profile_own.profile_id) _t2.text('');
       else {
         _t2.text('...o crea algo nuevo');
         if (_formWidget) _formWidget.enableFields();
       }
-      if (_formWidget) _formWidget.setVal(_profile_own);
+      if (_formWidget) _formWidget.setVal(_valToSet);
     });
 
 
@@ -90,7 +94,7 @@
       _contentSel.empty();
       _production_id = false;
       var _typeFormSelected = formTypeSelector.val();
-      _formWidget = Pard.Widgets.OwnProposalForm(forms[_typeFormSelected], type, _typeFormSelected);
+      _formWidget = Pard.Widgets.OwnProposalForm(forms[_typeFormSelected], proposalType, _typeFormSelected);
       _formWidget.setCallback(function(){
         _closepopup();
       });
@@ -142,10 +146,8 @@
 
 
   ns.Widgets.OwnProposalForm = function(form, type, formTypeSelected, received){
-    console.log(form)
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'category', 'subcategory', 'duration', 'availability', 'children'];
     var _additionalForm = Pard.Forms.Proposal[type];
-    console.log(type)
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
     var _phoneField = {
@@ -289,7 +291,6 @@
     var _filled = function(){
       var _check = true;
       for(var field in _form){
-        // if (field == 'address') console.log(_form[field].input.getVal());
         if (received){
            if ($.isNumeric(field) && _form[field].type == 'mandatory' && !(_form[field].input.getVal())){
             _form[field].input.addWarning();
@@ -355,10 +356,11 @@
         return _getVal();
       },
       setVal: function(proposal){
+        console.log(proposal)
         for(var field in proposal){
           if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
-        if(proposal.type == 'space') _orfheoCategory = proposal.category;
+        if(proposal.proposal_type == 'space') _orfheoCategory = proposal.category;
       },
       disableFields: function(own){
         _form['email'].input.disable();

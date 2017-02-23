@@ -170,6 +170,7 @@ Pard.Profile = function(profiles, status){
 };
 
 Pard.EventManager = function(the_event, forms){
+  console.log(the_event)
   var _texts = the_event.texts[Pard.UserInfo['lang']]; 
   if(!_texts) {
     _texts = the_event.texts[Object.keys(the_event.texts)[0]];
@@ -206,6 +207,7 @@ Pard.EventManager = function(the_event, forms){
 
 
 Pard.Event = function(the_event, status){
+
   Pard.UserStatus['status'] = status;
   Pard.CachedProgram = the_event.program;
   Pard.CachedEvent = the_event;
