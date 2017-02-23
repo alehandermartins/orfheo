@@ -251,18 +251,24 @@ Pard.Event = function(the_event, status){
 
 Pard.Services = function(status){
   
+
+
+  
+  var _main = Pard.Widgets.MainServicesPage();
+  var _footer = Pard.Widgets.Footer();
+
   // Pard.UserStatus['status'] = status;
   // if(status == 'outsider'){ 
   //   var _header = Pard.Widgets.LoginHeader();
+  // _main.addClass('outsider-main')
   // }
   // else{
   //   var _header = Pard.Widgets.InsideHeader();
   // }
 
   var _header = Pard.Widgets.LoginHeader();
-  
-  var _main = Pard.Widgets.MainServicesPage();
-  var _footer = Pard.Widgets.Footer();
+  _main.addClass('outsider-main');
+
 
   var _whole = $('<div>').addClass('whole-container');
 
