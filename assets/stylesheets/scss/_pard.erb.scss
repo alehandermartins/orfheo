@@ -808,6 +808,26 @@ a.navigation-btn-callPage{
   padding: .4rem 0;
 }
 
+
+.choose-type-btn-callEvent{
+  @extend .pard-btn;
+  font-size: $almostNormalSize;
+  margin: 0 2rem;
+  width: 12rem;
+  padding: 0.4rem 0;
+  .material-icons{
+    font-size: 22px;
+    margin-right: .5rem;
+  }
+  @include breakpoint(small down){
+    margin: 0 0 1rem 0;
+    @include horizontal-center;
+    display: block;
+    position: relative;
+  }
+}
+
+
 /*===============================================
 COMPONENTS
 ================================================*/

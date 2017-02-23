@@ -176,18 +176,33 @@
     var _artistButton = Pard.Widgets.CreateTypeProfile('artist', callbackEvent).render().addClass('create-artist-btn-popup');
     var _organizationButton = Pard.Widgets.CreateTypeProfile('organization', callbackEvent).render().addClass('create-organization-btn-popup');
 
-    _spaceButton.append($('<p>').html(Pard.t.text('call.createProfile.spaceText')).css({
-      'margin-top':'0.5rem',
-      'margin-bottom': '0'
-    }));
-    _artistButton.append($('<p>').html(Pard.t.text('call.createProfile.artistText')).css({
-      'margin-top':'0.5rem',
-      'margin-bottom': '0'
-    }));
-    _organizationButton.append($('<p>').html(Pard.t.text('call.createProfile.organizationText')).css({
-      'margin-top':'0.5rem',
-      'margin-bottom': '0'
-    }));
+    _spaceButton.append(
+      $('<p>')
+      .html('Alberga y propón actividades: posiciónate el mapa cultural')
+      // .html(Pard.t.text('call.createProfile.spaceText'))
+      .css({
+        'margin-top':'0.5rem',
+        'margin-bottom': '0'
+      })
+    );
+    _artistButton.append(
+      $('<p>')
+        .html('Enseña tu arte y construye tu portfolio: sé protagonista en grandes eventos')
+        // .html(Pard.t.text('call.createProfile.artistText'))
+        .css({
+          'margin-top':'0.5rem',
+          'margin-bottom': '0'
+        })
+      );
+    _organizationButton.append(
+      $('<p>')
+      .html('Ofrece tu espacio y envía propuestas: crea red dando a conocer tu proyecto')
+      // .html(Pard.t.text('call.createProfile.organizationText'))
+      .css({
+        'margin-top':'0.5rem',
+        'margin-bottom': '0'
+      })
+    );
 
     var _btnObj = {
       artist: _artistButton,
@@ -243,7 +258,7 @@
     
     var _createdWidget = $('<div>');
     var _typeFormsCatArray = Pard.CachedEvent.target;
-    var _translator = Pard.UserInfo['texts'].form_categories;
+    var _translatorFC = Pard.UserInfo['texts'].form_categories;
     
     if($.inArray(profile.type, _typeFormsCatArray) < 0){
       var _okProfiles = '';
@@ -260,15 +275,21 @@
       closeListProfilePopup();
       var _type;
       var _performerBtn = $('<button>')
+        .addClass('choose-type-btn-callEvent')
         .attr('type','button')
-        .append(Pard.Widgets.IconManager('performer').render(),$('<span>').text('Performer'))
+        .append(
+          Pard.Widgets.IconManager('performer').render().css('vertical-align','middle'),
+          $('<span>').text('Propón tu arte').css('vertical-align','middle'))
         .click(function(){
           _type = 'artist';
           loadFormSelector();
         });
       var _stageBtn = $('<button>')
+        .addClass('choose-type-btn-callEvent')
         .attr('type','button')
-        .append(Pard.Widgets.IconManager('stage').render(),$('<span>').text('Stage'))
+        .append(
+          Pard.Widgets.IconManager('stage').render().css('vertical-align','middle'),
+          $('<span>').text('Ofrece tu espacio').css('vertical-align','middle'))
         .click(function(){
           if (profile.proposals && profile.proposals.space && profile.proposals.space.length){
             if (profile.proposals.space.some(function(proposal){
@@ -281,10 +302,13 @@
           _type = 'space';
           loadFormSelector();
         });  
-      var _typeButtons = $('<div>').append(_performerBtn, _stageBtn);
-      var _chooseType = $('<div>').append($('<p>').text('Decide como apuntarte:'),_typeButtons);
+      var _typeButtons = $('<div>').append(_stageBtn, _performerBtn);
+      var _chooseType = $('<div>').append(
+        $('<p>')
+          .text('Puedes participar tanto hospedando como proponiendo actividades: ').css('font-size','1rem'),
+        _typeButtons);
       var _initialMexText = Pard.t.text('call.form.initMex1')+'<a href="/profile?id='+profile.profile_id+'", target="_blank">'+profile.name+'</a>'+Pard.t.text('call.form.initMex2')+Pard.CachedEvent.organizer+'</strong>:';
-      var _initialMex = $('<h6>').html(_initialMexText).css('margin-bottom','1.5rem');
+      var _initialMex = $('<p>').html(_initialMexText).css('margin-bottom','1.5rem');
 
       var _closepopup = {};
       var _production_id;
@@ -310,7 +334,7 @@
         _formTypeSelector.append(_emptyOption);
         for (var typeForm in forms[_type]){
           _formTypes.push(typeForm);
-          _formTypeSelector.append($('<option>').text(_translator[_type][typeForm]).val(typeForm));
+          _formTypeSelector.append($('<option>').text(_translatorFC[_type][typeForm]).val(typeForm));
           // forms[_type][typeForm].category.args[1].forEach(function(cat){
           //   if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
           // });
@@ -341,34 +365,51 @@
       var showProductions = function(){
         _prodContainer.empty();
         if(_type == 'artist' && profile.productions && profile.productions.length){
-          var _t1 = $('<div>').append($('<h5>').text(Pard.t.text('call.form.portfolio'))).css({
-            'margin-top':'1.5rem',
-            'margin-bottom':'1rem'
-          });
-          var _t2 = $('<div>').append($('<h5>').text(Pard.t.text('call.form.newProposal'))).css({
-            'margin-bottom':'1rem'
-          });
+          var _t1 = $('<div>')
+            .append(
+              $('<h6>').text(Pard.t.text('call.form.portfolio'))
+            )
+            .css({
+              'margin-top':'1.5rem',
+              'margin-bottom':'1rem'
+            });
+          var _t2 = $('<div>')
+            .append(
+              $('<h6>').text(Pard.t.text('call.form.newProposal'))
+            )
+            .css({
+              'margin-bottom':'1rem'
+            });
           _prodContainer.addClass('prodContainer-event-page');
           _prodContainer.append(_t1);
           var _compatibleProductions = false;
           profile.productions.forEach(function(production){
             if ($.inArray(production.category, _acceptedCategories.artist)>-1){
               var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
-              var _iconColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'}))));
+              var _iconColumn = $('<div>')
+                .addClass(' icon-column')
+                .append(
+                  $('<div>').addClass('nav-icon-production-container')
+                    .append($('<div>').addClass('production-icon-container')
+                      .append(Pard.Widgets.IconManager(production['category']).render().css({'text-align': 'center', display:'block'})
+                      )
+                    )
+                );
               _iconColumn.css({
                 'padding':'0.2rem'
               });
               var _nameColumn = $('<div>').addClass('name-column name-column-production-nav').css('margin-top', '-0.4rem');
               var _name = $('<p>').text(production['title']).addClass('profile-nav-production-name');
-              _prodBtn.append(_iconColumn, _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render()));
+              _prodBtn.append(
+                _iconColumn, 
+                _nameColumn.append(Pard.Widgets.FitInBox(_name,125,45).render())
+              );
               _prodContainer.append(_prodBtn);
               _compatibleProductions = true;
               _prodBtn.click(function(){
-                $('.xbtn-production-event-page').remove();
-                var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
-                _prodBtn.append(_xbtn);
                 _contentSel.empty();
                 if (_prodBtn.hasClass('content-form-selected')){
+                  console.log('deselect')
                   $('.content-form-selected').removeClass('content-form-selected');
                   $('.xbtn-production-event-page').remove();
                   $('#popupForm').addClass('top-position');
@@ -380,15 +421,43 @@
                   loadFormSelector();
                 }
                 else{
+                  var _xbtn = $('<span>').addClass('material-icons xbtn-production-event-page').html('&#xE888');
+                  $('.xbtn-production-event-page').remove();                 
                   $('#popupForm').addClass('top-position');
                   $('.content-form-selected').removeClass('content-form-selected');
-                  _prodBtn.addClass('content-form-selected');
+                  _prodBtn.append(_xbtn);
+                    _prodBtn.addClass('content-form-selected');
                   _production_id = production.production_id;
                   var _catProduction = production.category;
                   var formsKey = Pard.CachedEvent.categories.artist[_catProduction]['forms'];
-                  _prodBtn.append(_xbtn);
-                  if (formsKey.length == 1){
+                  if (formsKey.length == 1){            
                     var _form = _formTypeConstructor(_type, forms[_type][formsKey[0]], profile, formsKey[0], _production_id, callbackSendProposal);
+                    console.log(formsKey[0])
+                    _formTypeSelectorCont.empty();
+                    _formTypeSelector = $('<select>');
+                    var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
+                    _formTypeSelector.append(_emptyOption);
+                    formsKey.forEach(function(typeForm){
+                      _formTypes.push(typeForm);
+                      _formTypeSelector.append($('<option>').val(typeForm).text(_translatorFC['artist'][typeForm]));
+                      _formTypeSelectorCont.append(_formTypeSelector);
+                      
+                    });
+                    _formTypeSelector
+                      .select2({
+                        minimumResultsForSearch: Infinity,
+                        dropdownCssClass: 'orfheoTypeFormSelector',
+                        placeholder: Pard.t.text('call.form.catPlaceholder')
+                        // allowClear: true
+                      })
+                      .on('change',function(){
+                        if (_formTypeSelector.val()){
+                          $('#popupForm').removeClass('top-position');
+                          _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+                          if (_t2) _t2.show();
+                          _printForm(_formTypeSelector, production, _production_id);
+                        }
+                      });
                     _formTypeSelector.val(formsKey[0]);
                     _formTypeSelector.trigger('change');
                     _formTypeSelector.attr('disabled',true);
@@ -399,35 +468,39 @@
                     });
                     _contentSel.append(_form.render());
                     $('#popupForm').removeClass('top-position');
+                    console.log('formsKey==1')
+
                   }
                   else if(formsKey.length>1){
+                    console.log('formsKey>1')
                     _t2.hide();
-                    _production_id = production.production_id;
-                    $('.content-form-selected').removeClass(' content-form-selected');
-                    _prodBtn.addClass('content-form-selected');  
+                    // _production_id = production.production_id;
+                    // $('.content-form-selected').removeClass(' content-form-selected');
+                    // _prodBtn.addClass('content-form-selected');  
                     _formTypeSelectorCont.empty();
                     _formTypeSelector = $('<select>');
                     var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
                     _formTypeSelector.append(_emptyOption);
                     formsKey.forEach(function(typeForm){
                       _formTypes.push(typeForm);
-                      _formTypeSelector.append($('<option>').text(typeForm).val(typeForm));
+                      _formTypeSelector.append($('<option>').text(_translatorFC['artist'][typeForm]).val(typeForm));
                       _formTypeSelectorCont.append(_formTypeSelector);
-                      _formTypeSelector.select2({
+                    });
+                    _formTypeSelector
+                      .select2({
                         minimumResultsForSearch: Infinity,
                         dropdownCssClass: 'orfheoTypeFormSelector',
                         placeholder: Pard.t.text('call.form.catPlaceholder')
                         // allowClear: true
+                      })
+                      .on('change',function(){
+                        if (_formTypeSelector.val()){
+                          $('#popupForm').removeClass('top-position');
+                          _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+                          if (_t2) _t2.show();
+                          _printForm(_formTypeSelector, production, _production_id);
+                        }
                       });
-                    });
-                    _formTypeSelector.on('change',function(){
-                      if (_formTypeSelector.val()){
-                        $('#popupForm').removeClass('top-position');
-                        _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-                        if (_t2) _t2.show();
-                        _printForm(_formTypeSelector, production, _production_id);
-                      }
-                    });
                   }
                   else{
                     if (_t2) _t2.hide();

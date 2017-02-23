@@ -351,7 +351,7 @@
       form:{
         initMex1:'Éste es el <strong>formulario</strong> para inscribir tu perfil ',
         initMex2: ' en la convocatoria de <strong>',
-        portfolio:'apúntate con una propuesta de tu portfolio',
+        portfolio:'Apúntate con una propuesta de tu portfolio',
         catPlaceholder: 'Selecciona como quieres apuntarte',
         newProposal: '...o propón algo nuevo'
       }

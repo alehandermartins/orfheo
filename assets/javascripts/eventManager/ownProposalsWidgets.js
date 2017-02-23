@@ -19,7 +19,7 @@
     var _formTypeSelector = $('<select>');
     var _emptyOption = $('<option>').text('').val('');
     _formTypeSelector.append(_emptyOption);
-    var _t1 = $('<p>').text('Añade otra propuesta a un artista que ya has creado').addClass('t-popupOwn');
+    var _t1 = $('<p>').text('Añade otra propuesta a un participante que ya has creado').addClass('t-popupOwn');
     var _t2 = $('<p>').text('...o crea algo nuevo').addClass('t-popupOwn');
 
     _participantsSelectorCont.append(_t1, _participantsSelector, _t2);
@@ -44,7 +44,7 @@
       });
     }
 
-    var _placeholderParticipantSelector = "Selecciona el "+Pard.Widgets.Dictionary(type).render();
+    var _placeholderParticipantSelector = "Selecciona por nombre";
     console.log(type)
 
     _participantsSelector.select2({
