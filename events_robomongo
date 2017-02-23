@@ -8,41 +8,43 @@
     "qr" : "distrito008qr_ea9oxe",
     "call_id" : "b6bc4203-9379-4de0-856a-55e1e5f3fad7",
     "name" : "orfheo fest",
-    "baseline" : "Somos Barrio / Som Barri",
     "img" : "imagen_convocatoria_def-03-min_uvkkvr",
     "place" : "Extramurs - Valencia",
     "address" : {
         "locality" : "Extramurs - Valencia",
         "postal_code" : "46008"
     },
-    "description" : "Distrito 008 es un evento anual con formato de festival urbano, de barrio, que nace en 2013 con la intención de dinamizar y promocionar cultural y comercialmente la zona 008 del barrio Extramurs de Valencia. </p> Distrito 008 nace como una plataforma que pretende aglutinar a todos esos comercios, restaurantes y locales que convierten a este Distrito en lo que es: una de las zonas con más actividad cultural y más oferta de ocio, cultura y restauración de la ciudad, los vecinos residentes y a los visitantes de otros barrios con propóstio doble: vivir el barrio desde dentro y darlo a conocer fuera de él. Distrito 008 es un escaparate, un muestrario, una cata del barrio y una celebración. <br>    Es el momento en que locales y calles de Extramurs se llenan de arte, música, danza, teatro, circo, gastronomía, poesía, moda, actividades infantiles... </p> Lema VII Edición: Somos Barrio / Som Barri. </p> Somos el primer barrio construido fuera de las murallas de la ciudad, somos modernidad en la historia con La Finca Roja, el antiguo matadero reconvertido en La Petxina o Abastos, hemos sido zona de ocio, hemos sido el ensanche modesto, somos una zona gas- tronómica, hemos sido el Salvem con éxito (Salven el Botànic), pero hoy, somos barrio con Distrito 008.",
-    "partners" : [ 
-        {
-            "name" : "PICUV",
-            "link" : "https://www.facebook.com/picuv/?fref=ts",
-            "img" : "Logo_PICUV_qptegh"
-        }, 
-        {
-            "name" : "Acomex. Asociación de Comerciantes de Extramuros",
-            "link" : "http://www.acomexvalencia.com",
-            "img" : "Acomex_xikclr"
-        }, 
-        {
-            "name" : "Barreira. Arte + Diseño",
-            "link" : "http://barreira.edu.es",
-            "img" : "logo_barreira_sin_fondo_h9owz3"
-        }, 
-        {
-            "name" : "el Botànic es mou",
-            "link" : "http://elbotanicesmou.valencia.es/ca/",
-            "img" : "logo_el_botanic_es_mou_wmuq3m"
-        }, 
-        {
-            "name" : "Jardí Botànic Universitat de València",
-            "link" : "http://www.jardibotanic.org",
-            "img" : "botanico_ki5fsb"
-        }
-    ],
+    "partners" : {
+        "sponsors" : [ 
+            {
+                "name" : "PICUV",
+                "link" : "https://www.facebook.com/picuv/?fref=ts",
+                "img" : "Logo_PICUV_qptegh"
+            }
+        ],
+        "collaborators" : [ 
+            {
+                "name" : "Acomex. Asociación de Comerciantes de Extramuros",
+                "link" : "http://www.acomexvalencia.com",
+                "img" : "Acomex_xikclr"
+            }, 
+            {
+                "name" : "Barreira. Arte + Diseño",
+                "link" : "http://barreira.edu.es",
+                "img" : "logo_barreira_sin_fondo_h9owz3"
+            }, 
+            {
+                "name" : "el Botànic es mou",
+                "link" : "http://elbotanicesmou.valencia.es/ca/",
+                "img" : "logo_el_botanic_es_mou_wmuq3m"
+            }, 
+            {
+                "name" : "Jardí Botànic Universitat de València",
+                "link" : "http://www.jardibotanic.org",
+                "img" : "botanico_ki5fsb"
+            }
+        ]
+    },
     "eventTime" : {
         "2017-02-22" : [ 
             [ 

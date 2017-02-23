@@ -284,6 +284,15 @@
           _type = 'artist';
           loadFormSelector();
         });
+      var _alreadyInscribed = false;
+      if (profile.proposals && profile.proposals.space && profile.proposals.space.length){
+        profile.proposals.space.some(function(proposal){
+          if (proposal.event_id == Pard.CachedEvent.event_id) {
+            _alreadyInscribed = true;
+            return true;
+          }
+        })
+      }
       var _stageBtn = $('<button>')
         .addClass('choose-type-btn-callEvent')
         .attr('type','button')
@@ -291,17 +300,15 @@
           Pard.Widgets.IconManager('stage').render().css('vertical-align','middle'),
           $('<span>').text('Ofrece tu espacio').css('vertical-align','middle'))
         .click(function(){
-          if (profile.proposals && profile.proposals.space && profile.proposals.space.length){
-            if (profile.proposals.space.some(function(proposal){
-              if (proposal.event_id == Pard.CachedEvent.event_id) {
-                Pard.Widgets.Alert(Pard.t.text('call.alreadyInscribed.title'), Pard.t.text('call.alreadyInscribed.mex')+ Pard.CachedEvent.name);
-                return true;
-              }
-            })) return false; 
+          if (_alreadyInscribed) {
+              Pard.Widgets.Alert(Pard.t.text('call.alreadyInscribed.title'), Pard.t.text('call.alreadyInscribed.mex'));
           }
-          _type = 'space';
-          loadFormSelector();
-        });  
+          else{
+            _type = 'space';
+            loadFormSelector();
+          }
+        });
+      if (_alreadyInscribed) _stageBtn.addClass('disabled-button');  
       var _typeButtons = $('<div>').append(_stageBtn, _performerBtn);
       var _chooseType = $('<div>').append(
         $('<p>')

@@ -178,13 +178,21 @@
   }
 
 
-  ns.Widgets.PartnerTab = function(partnersArray){
+  ns.Widgets.PartnerTab = function(partners){
     var _partnerTab = $('<div>').css('margin-top','2.5rem');
-
-    partnersArray.forEach(function(partner){
-      _partnerTab.append(Pard.Widgets.PartnerCard(partner));
-    });
-
+    for(var partnerType in partners){
+      _partnerTab.append(
+        $('<h4>')
+          .append(Pard.t.text('partners.'+partnerType))
+          .css({
+            'color': 'rgb(111, 111, 111)',
+            'margin-top':'1rem'
+          })
+      );
+      partners[partnerType].forEach(function(partner){
+        _partnerTab.append(Pard.Widgets.PartnerCard(partner));
+      });
+    }
     return _partnerTab;
 
   }

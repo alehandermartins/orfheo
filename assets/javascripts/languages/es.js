@@ -340,8 +340,8 @@
       sendOther: 'Envía otra propuesta',
       toProfile: 'Ve a pagína de perfil',
       alreadyInscribed: {
-        title: '¡Ya te has inscrito como espacio! :)', 
-        mex: 'Este perfil ya está apuntado como espacio en ',
+        title: 'Ya te has inscrito como espacio :)', 
+        mex: 'Si quieres, puedes enviar propuestas para actuar durante el evento.',
       },
       stop:{
         title: 'ATENCIÓN, NO PUEDES CONTINUAR',
