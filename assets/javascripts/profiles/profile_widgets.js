@@ -245,7 +245,7 @@
         var _day = $('<span>').text(_date+':');
         var _title = $('<span>').text(show.title).addClass('title-pastEventBlock');
         var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
-        var _place = $('<span>').append(Pard.Widgets.IconManager('space').render().addClass('iconProfile-pastEventBlock'),_host);
+        var _place = $('<span>').append(Pard.Widgets.IconManager('stage').render().addClass('iconProfile-pastEventBlock'),_host);
         var _proposal = $('<li>').append(_day,' ',_category, _title, ' / ',_place).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
       }
@@ -269,7 +269,7 @@
         }
         var _title = $('<span>').text(show.title).addClass('title-pastEventBlock');
         var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
-        var _place = $('<span>').append(Pard.Widgets.IconManager('space').render().addClass('iconProfile-pastEventBlock'), _host);
+        var _place = $('<span>').append(Pard.Widgets.IconManager('stage').render().addClass('iconProfile-pastEventBlock'), _host);
         var _proposal = $('<li>').append(_day,' ',_category, _title, ' / ',_place).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
       }
@@ -300,7 +300,7 @@
 
     if (!($.isEmptyObject(_artistByDay))){
       for (var day in _artistByDay){
-        var _artists = $('<span>').append(Pard.Widgets.IconManager('artist').render().addClass('iconProfile-pastEventBlock'));
+        var _artists = $('<span>').append(Pard.Widgets.IconManager('performer').render().addClass('iconProfile-pastEventBlock'));
         var _date = moment(new Date(day)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
         var _day = $('<span>').text(_date+':');
         var _proposal = $('<li>').append(_day,' ',_artists).addClass('proposal-pastEventBlock');
@@ -321,7 +321,7 @@
 
     if (_permanentShows.length){
       var _participantsArray = [];
-      var _artists = $('<span>').append(Pard.Widgets.IconManager('artist').render().addClass('iconProfile-pastEventBlock'));
+      var _artists = $('<span>').append(Pard.Widgets.IconManager('performer').render().addClass('iconProfile-pastEventBlock'));
       var _id = new Date(_permanentShows[0].date);
       var _fd = new Date(_permanentShows[_permanentShows.length -1].date);
       var _day = $('<span>');

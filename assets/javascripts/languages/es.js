@@ -120,7 +120,7 @@
         show:'Muestra en mi página de perfil'
       },
       inputCache:{
-        show: 'Muestra esta información en mi página'
+        show: 'Muestra esta información en la página de la propuesta'
       },
       inputWeb:{
         placeholder: 'Copia y pega aquí el enlace correspondiente y dale al botón para validar'
@@ -262,7 +262,7 @@
       }
     },
     production:{
-      createTitle: 'Crea un contenido artístico',
+      createTitle: 'Crea una propuesta artística',
       form:{
         titleL: "Título de la propuesta artística",
         descriptionL: 'Descripción',

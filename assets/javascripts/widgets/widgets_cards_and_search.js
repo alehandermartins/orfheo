@@ -410,7 +410,6 @@
   }
 
   ns.Widgets.EventCard = function(event, owner){
-    console.log(owner);
     var _card = $('<div>').addClass('eventCard')
       .css({
         'border-left-color': event.color
