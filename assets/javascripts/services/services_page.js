@@ -13,7 +13,7 @@ ns.Widgets = ns.Widgets || {};
 		var _managerSection = Pard.Widgets.ServiceSection();
 		var _programSection = Pard.Widgets.ServiceSection();
 		var _publishSection = Pard.Widgets.ServiceSection();
-		var _publicSection = $('<section>').addClass('serviceSection publicSectionServicePage');
+		var _mobileSection = $('<section>').addClass('serviceSection mobileSectionServicePage');
 		var _otherSection = Pard.Widgets.ServiceSection();
 		var _priceSection = $('<section>').addClass('serviceSection priceSectionServicePage');
 		var _finalSection = $('<section>').addClass('finalSectionServicePage');
@@ -88,14 +88,63 @@ ns.Widgets = ns.Widgets || {};
 		_publishSection.appendRight(_pshImage);
 		_publishSection.appendLeft(serviceText(5, _pshTitle, _pshText));
 
-		var _oLTitle = 'API - Integra en tiempo real lo que quieras donde quieras';
-		var _oLText = 'El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu sito web o aplicación para móviles . Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea. Podrás disponer de toda tu información siempre actualizada como, donde y cuando tú quieras.'
-		var _oLeft = $('<div>').append();
+		var _mobileImg = $('<div>').addClass('mobileImage');
+		var _mobileImg2 = $('<div>').addClass('mobileImage2');
+		var _mobileImg_d = $('<div>').addClass('mobileImage_d');
+		var _mobileImg_f = $('<div>').addClass('mobileImage_f');
+		var _mobileTitle = 'Sorprede tu público más que nunca!';
+		var _mobileText = 'Orfheo se adapta perfectamente al tamaño móvil, funcionando para ti y para tu público como la guía perfecta durante tu evento. Se pueden ordenar y encontrar contenidos por el mapa, por horas, días, por tags o filtrando por categorías, o todo, a la vez.';
+		var _mobileText = serviceText(6, _mobileTitle, _mobileText).addClass('mobileText');
+		_mobileSection 
+			.append(
+				$('<div>').addClass('pard-grid')
+					.append(
+						_mobileImg,
+						_mobileImg2,
+						_mobileImg_d,
+						_mobileImg_f,
+						_mobileText
+					)
+			);
+
+
+		var _oLSign = $('<h3>').html('>').addClass('sign');
+		var _oLTitle = $('<h3>').html('API - Integra en tiempo real lo que quieras donde quieras');
+		var _oLText = $('<p>').html('El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu sito web o aplicación para móviles . Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea. Podrás disponer de toda tu información siempre actualizada como, donde y cuando tú quieras.');
+		var _oLeft = $('<div>').append(_oLSign, _oLTitle, _oLText).addClass('otherTextContainer');
 		_otherSection.appendLeft(_oLeft);
-		var _oRTitle
-		var _oRText
-		var _oRight = $('<div>').append();
+		var _oRSign = $('<h3>').html('+').addClass('sign');
+		var _oRTitle = $('<h3>').html('Servicio de Asesoria Creativa para tu proyecto');
+		var _oRText = $('<p>').html('Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.');
+		var _oRight = $('<div>').append(_oRSign, _oRTitle, _oRText).addClass('otherTextContainer');
 		_otherSection.appendRight(_oRight);
+
+
+		var _contactPriceBtn = $('<button>')
+			.attr('type','button')
+			.text('Contáctanos')
+			.click(function(){
+         var _contactPopup = Pard.Widgets.Popup();
+        _contactPopup.setContent(Pard.t.text('profile_page.createEventTitle'), Pard.Widgets.EventContact());
+        _contactPopup.setCallback(function(){
+          setTimeout(function(){
+            _contactPopup.destroy();
+          }, 500);
+        });
+        _contactPopup.open();
+			});
+		var _priceText = $('<div>')
+			.addClass('text-initialSection')
+			.append(
+				$('<h3>').text('El precio? no es un limite'),
+				$('<p>').html('Mediante lo que haces, estas ayudando a construir algo realmente importante,<br>no solamente una grande plataforma de conexión de proyectos,<br>sino también una vibrante comunidad enfocada en una muy noble meta.<br>Ahora imagina si todos hicieran lo mismo...'),
+				_contactPriceBtn
+			);
+		_priceSection
+			.append(
+				$('<div>').addClass('pard-grid')
+					.append(_priceText)
+			);
 
 
 		_main.append(
@@ -105,7 +154,7 @@ ns.Widgets = ns.Widgets || {};
 			_managerSection.render().addClass('managerSectionServicePage'),
 			_programSection.render().addClass('programSectionServicePage'),
 			_publishSection.render().addClass('publishSectionServicePage'),
-			_publicSection,
+			_mobileSection,
 			_otherSection.render().addClass('otherSectionServicePage'),
 			_priceSection,
 			_finalSection
