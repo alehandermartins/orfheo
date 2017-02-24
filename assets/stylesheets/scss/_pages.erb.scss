@@ -3344,7 +3344,7 @@ SERVICES PAGE
 }
 
 .rightServiceSection{
-  .textContainer{
+  .textContainer, .managerImageServicePage{
     float: right;
   }
 }
@@ -3397,6 +3397,30 @@ SERVICES PAGE
   background-size: 100% 100%;
 }
 
+.managerImageServicePage{
+  background-image: url(<%= image_path 'prop.png' %>);
+  width: 28rem;
+  height: 18.8rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.programImageServicePage{
+  background-image: url(<%= image_path 'prog.jpg' %>);
+  width: 28rem;
+  height: 17.7rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.publishImageServicePage{
+  background-image: url(<%= image_path 'program_published.png' %>);
+  width: 17rem;
+  height: 25rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
 .eventSectionServicePage{
   background: #fef4e7;
   .rightServiceSection{
@@ -3413,14 +3437,23 @@ SERVICES PAGE
 
 .managerSectionServicePage{
   background: #e3fad9;
+  .rightServiceSection{
+    padding: 7.2rem 0;
+  }
 }
 
 .programSectionServicePage{
   background: #d6faf4;
+  .leftServiceSection{
+    padding: 7.5rem 0;
+  }
 }
 
 .publishSectionServicePage{
   background: #d8f0fa;
+  .rightServiceSection{
+    padding: 4rem 7rem;
+  }
 }
 
 .publicSectionServicePage{
