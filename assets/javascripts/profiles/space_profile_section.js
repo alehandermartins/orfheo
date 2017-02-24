@@ -97,7 +97,6 @@
             if (show.host_id == profile.profile_id) _hostedShows['shows'].push(show);
             else _givenShow['shows'].push(show);
           })
-          console.log(_hostedShows['shows'])  
           if (_hostedShows['shows'].length) _programContent.append(Pard.Widgets.PastEventSpace(eventProgram));
           if (_givenShow['shows'].length) _programContent.append(Pard.Widgets.PastEventArtist(eventProgram));
         }
