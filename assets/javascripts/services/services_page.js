@@ -138,6 +138,7 @@ ns.Widgets = ns.Widgets || {};
 			.append(
 				$('<h3>').text('El precio? no es un limite'),
 				$('<p>').html('Mediante lo que haces, estas ayudando a construir algo realmente importante,<br>no solamente una grande plataforma de conexión de proyectos,<br>sino también una vibrante comunidad enfocada en una muy noble meta.<br>Ahora imagina si todos hicieran lo mismo...'),
+				$('<h5>').text('Precio de lanzamiento a partir de 	30€/mes').addClass('pricingText'),
 				_contactPriceBtn
 			);
 		_priceSection
