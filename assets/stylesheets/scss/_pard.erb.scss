@@ -244,9 +244,10 @@ Grid and Bar
   /* cursor: pointer; */
   background-image: url(<%= image_path 'lettering_white_s.png' %>);
   width: 42px;
-  height: 14px;
+  height: 15.5px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  vertical-align: -1.5px;
 }
 
 
@@ -1679,6 +1680,7 @@ HEADER
     }
     a, button{
       color: white;
+      padding: .3rem 0;
     }
     a:hover, button:hover{
       color: $grey-2;
@@ -2413,7 +2415,7 @@ select:-moz-focusring { color: transparent;
     font-size: $almostNormalSize;
     min-height: 11rem;
     padding: .5rem;
-    p, li, ul, h1, h2, h3, h4, h5, h6, span, div{
+    p, li, ul, h1, h2, h3, h4, h5, h6, span, div, strong, span{
       line-height: 1.2rem !important;
       margin-bottom: 0.6rem;
       font-size: $almostNormalSize !important;

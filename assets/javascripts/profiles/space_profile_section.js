@@ -85,11 +85,20 @@
       profile.program.forEach(function(eventProgram){
         var _dayShow = new Date(eventProgram.date);
         // si ha pasado menos de una semana
-        if(_now.getTime() < (_dayShow.getTime()+604800000)){
+        if(_now.getTime() < (_dayShow.getTime()+86400000)){
           _createdWidget.prepend(Pard.Widgets.ProgramProfile(eventProgram,profile.profile_id));
         }
         else{
-          _programContent.append(Pard.Widgets.PastEventSpace(eventProgram));
+          var _hostedShows = $.extend(true, {}, eventProgram);
+          _hostedShows['shows'] = [];
+          var _givenShow = $.extend(true, {}, eventProgram);
+          _givenShow['shows'] = [];
+          eventProgram['shows'].forEach(function(show){
+            if (show.host_id == profile.profile_id) _hostedShows['shows'].push(show);
+            else _givenShow['shows'].push(show);
+          })
+          if (_hostedShows['shows'].length) _programContent.append(Pard.Widgets.PastEventSpace(eventProgram));
+          if (_givenShow['shows'].length) _programContent.append(Pard.Widgets.PastEventArtist(eventProgram));
         }
       })
     }

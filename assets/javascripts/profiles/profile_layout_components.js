@@ -170,7 +170,7 @@
     var _productions = [];
     var _shown = [];
 
-    if ((userStatus == 'owner' && profile.type == 'artist') || (profile.productions && profile.productions.length)) {
+    if ((userStatus == 'owner') || (profile.productions && profile.productions.length)) {
       productionContent.addClass('nav-list-container');
       productionContent.append($('<p>').addClass('message-productions-asideBar').text(Pard.t.text('profile_page.aside.portfolio')));
     }
@@ -226,7 +226,7 @@
       });
     }
 
-    if (userStatus == 'owner' && profile.type == 'artist') {
+    if (userStatus == 'owner') {
       var _createProductionItem = $('<div>').addClass('production-nav-element-container');
       var _iconPlusColumn = $('<div>').addClass(' icon-column').append($('<div>').addClass('nav-icon-production-container').append($('<div>').addClass('production-icon-container').append(Pard.Widgets.IconManager('add_circle').render().css({'text-align': 'center', display:'block'}))));
       var _textColumn = $('<div>').addClass('name-column name-column-production-nav');

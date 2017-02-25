@@ -43,7 +43,7 @@
       profile.program.forEach(function(eventProgram){
         var _dayShow = new Date(eventProgram.date);
         // si ha pasado menos de una semana
-        if(_now.getTime() < (_dayShow.getTime()+604800000)){
+        if(_now.getTime() < (_dayShow.getTime()+86400000)){
           _createdWidget.append(Pard.Widgets.ProgramProfile(eventProgram,profile.profile_id));
         }
         else{

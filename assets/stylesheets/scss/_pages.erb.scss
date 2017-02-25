@@ -3333,18 +3333,28 @@ SERVICES PAGE
   .textContainer{
     width: 22rem;
   }
+  .sign{
+    font-size: 4.5rem;
+  }
+  .otherTextContainer{
+      width: 24rem;
+  }
 }
 
 .leftServiceSection, .rightServiceSection{
   display: inline-block;
   width: 50%;
-/*   height: 100%;
- */  vertical-align: middle;
+  vertical-align: middle;
   position: relative;
 }
 
+.serviceSection .mobileText{
+  float: right;
+  width: 18.5rem;
+}
+
 .rightServiceSection{
-  .textContainer{
+  .textContainer, .managerImageServicePage, .otherTextContainer{
     float: right;
   }
 }
@@ -3397,6 +3407,66 @@ SERVICES PAGE
   background-size: 100% 100%;
 }
 
+.managerImageServicePage{
+  background-image: url(<%= image_path 'prop.png' %>);
+  width: 28rem;
+  height: 18.8rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.programImageServicePage{
+  background-image: url(<%= image_path 'prog.jpg' %>);
+  width: 28rem;
+  height: 17.7rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.publishImageServicePage{
+  background-image: url(<%= image_path 'program_published.png' %>);
+  width: 17rem;
+  height: 25rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.mobileImage, .mobileImage2, .mobileImage_d, .mobileImage_f{
+  width: 11rem;
+  height: 19.6rem;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: absolute;
+}
+
+.mobileImage{
+  background-image: url(<%= image_path 'cell.png' %>);
+  left: -1.5rem;
+}
+
+.mobileImage2{
+  background-image: url(<%= image_path 'cell2.png' %>);
+  left: 8.2rem;
+}
+
+.mobileImage_d{
+  background-image: url(<%= image_path 'celld.png' %>);
+  left: 17.9rem;
+}
+
+.mobileImage_f{
+  background-image: url(<%= image_path 'cellf.png' %>);
+  left: 27.6rem;
+}
+
+.mobileImage, .mobileImage_d{
+  top: 3rem;
+}
+
+.mobileImage2, .mobileImage_f{
+  top: -3rem;
+}
+
 .eventSectionServicePage{
   background: #fef4e7;
   .rightServiceSection{
@@ -3413,26 +3483,54 @@ SERVICES PAGE
 
 .managerSectionServicePage{
   background: #e3fad9;
+  .rightServiceSection{
+    padding: 7.2rem 0;
+  }
 }
 
 .programSectionServicePage{
   background: #d6faf4;
+  .leftServiceSection{
+    padding: 7.5rem 0;
+  }
 }
 
 .publishSectionServicePage{
   background: #d8f0fa;
+  .rightServiceSection{
+    padding: 4rem 7rem;
+  }
 }
 
-.publicSectionServicePage{
+.mobileSectionServicePage{
   background: #e8e4f3;
+  padding: 6.5rem 0;
+  .pard-grid{
+    position: relative;
+  }
 }
 
 .otherSectionServicePage{
   background: #fceaf8;
+  .leftServiceSection, .rightServiceSection{
+    vertical-align: top;
+  }
+  padding:4.5rem 0;
 }
 
 .priceSectionServicePage{
   background: #fce1e1;
+  .pard-grid{
+    position: relative;
+  }
+  .text-initialSection{
+    top: 8rem;
+  }
+  .pricingText{
+    text-decoration: underline;
+    color:  #DE5021;
+    margin-bottom: 2rem;
+  }
 }
 
 .finalSectionServicePage{
