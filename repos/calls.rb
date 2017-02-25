@@ -4,6 +4,62 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
+        calls = grab({})
+        calls.each{ |call|
+          es = {}
+          call[:artist].each{ |field, value|
+            new_artist = {}
+            new_field = proposals_form call_id.to_sym, :artist, field.to_sym
+            new_artist[new_field] = value
+          }
+          call[:es] = {
+            artist: new_artist
+          }
+          puts call[:es]
+        }
+      end
+
+      def proposals_form event_id, type, category
+        categories = {
+          "b6bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'Música': '1',
+              'Artes Escénicas': '2',
+              'Taller': '3',
+              'Gastronomía': '4',
+              'Exposición': '5',
+              'Street Art': '6',
+              'Poesía': '7',
+              'Audiovisual': '8',
+              'Otros': '9'
+            },
+            space: {
+              'Espacio sin actividad programada': '10',
+              'Espacio con actividad programada': '11'
+            }
+          },
+          "b5bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'Música': '1',
+              'Artes Escénicas': '2',
+              'Taller': '3',
+              'Gastronomía': '4',
+              'Exposición': '5',
+              'Street Art': '6',
+              'Poesía': '7',
+              'Audiovisual': '8',
+              'Otros': '9'
+            },
+            space: {
+              'Asociación Cultural': '10',
+              'Local Comercial': '11',
+              'Espacio Particular': '12',
+              'Espacio Exterior': '13'
+            }
+          }
+        }
+        return categories[event_id][type][category] if categories[event_id][type].has_key? category
+        category
       end
 
       def update call

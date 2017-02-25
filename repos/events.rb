@@ -7,53 +7,257 @@ module Repos
         events = grab({})
 
         events.each{ |event|
-          next unless event[:event_id] == "a6bc4203-9379-4de0-856a-55e1e5f3fad7"
+          next if event[:description].blank?
           event[:texts] = {
             'es'=> {
               description: event[:description],
               baseline: event[:baseline],
-              form_categories: {
-                artist: {
-                  '1': 'Música',
-                  '2': 'Artes Escénicas',
-                  '3': 'Taller',
-                  '4': 'Gastronomía',
-                  '5': 'Exposición',
-                  '6': 'Street Art',
-                  '7': 'Poesía',
-                  '8': 'Audiovisual',
-                  '9': 'Otros'
-                },
-                space: {
-                  '1': 'Espacio sin actividad programada',
-                  '2': 'Espacio con actividad programada'
-                }
+              form_categories: form_categories(event[:event_id]),
+              subcategories: subcategories(event[:event_id])
+            }
+          }
+
+          ev_subcategories = {
+            artist: {
+              '1': {
+                icon: 'music'
               },
-              subcategories: {
-               artist: {
-                  '1': 'Música',
-                  '2': 'Artes Escénicas',
-                  '3': 'Taller',
-                  '4': 'Gastronomía',
-                  '5': 'Exposición',
-                  '6': 'Street Art',
-                  '7': 'Poesía',
-                  '8': 'Audiovisual',
-                  '9': 'Otros'
-                },
-                space: {
-                  '1': 'Restauración y Clubs', 
-                  '2': 'Arte, Cultura y Diseño', 
-                  '3': 'Espacio Particular', 
-                  '4': 'Tiendas y Servicios'
-                }
+              '2': {
+                icon: 'arts'
+              },
+              '3': {
+                icon: 'workshop'
+              },
+              '4': {
+                icon: 'gastronomy'
+              },
+              '5': {
+                icon: 'expo'
+              },
+              '6': {
+                icon: 'street_art'
+              },
+              '7': {
+                icon: 'poetry'
+              },
+              '8': {
+                icon: 'audiovisual'
+              },
+              '9': {
+                icon: 'other'
+              }
+            },
+            space: {
+              '1': {
+                icon: ''
+              },
+              '2': {
+                icon: ''
+              },
+              '3': {
+                icon: ''
+              },
+              '4': {
+                icon: ''
               }
             }
           }
+          target = ["organization", "space", "artist"]
+          categories = {
+            artist: ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other']
+          }
+
+          artists = event[:artists].map{ |artist|
+            artist[:proposals].each{|proposal|
+              proposal[:form_category] = proposals_form event[:event_id].to_sym, :artist, proposal[:form_category].to_sym
+              proposal[:subcategory] = proposals_sub event[:event_id].to_sym, :artist, proposal[:subcategory].to_sym
+            }
+            artist
+          }
+          spaces = event[:spaces].map{ |space|
+            space[:form_category] = proposals_form event[:event_id].to_sym, :space, space[:form_category].to_sym
+            space[:subcategory] = proposals_sub event[:event_id].to_sym, :space, space[:subcategory].to_sym
+            space
+          }
           @@events_collection.update_one({event_id: event[:event_id]},{
-            "$set": {texts: event[:texts]}
+            "$set": {texts: event[:texts], artists: artists, spaces: spaces, categories: categories, subcategories: ev_subcategories, target: target},
+            "$unset": {description: 1, baseline: 1}
           })
         }
+      end
+
+      def form_categories event_id
+        categories = {
+          "a6bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              '1': 'Música',
+              '2': 'Artes Escénicas',
+              '3': 'Taller',
+              '4': 'Gastronomía',
+              '5': 'Exposición',
+              '6': 'Street Art',
+              '7': 'Poesía',
+              '8': 'Audiovisual',
+              '9': 'Otros'
+            },
+            space: {
+              '10': 'Espacio sin actividad programada',
+              '11': 'Espacio con actividad programada'
+            }
+          },
+          "a5bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              '1': 'Música',
+              '2': 'Artes Escénicas',
+              '3': 'Taller',
+              '4': 'Gastronomía',
+              '5': 'Exposición',
+              '6': 'Street Art',
+              '7': 'Poesía',
+              '8': 'Audiovisual',
+              '9': 'Otros'
+            },
+            space: {
+              '10': 'Asociación Cultural',
+              '11': 'Local Comercial',
+              '12': 'Espacio Particular',
+              '13': 'Espacio Exterior'
+            }
+          }
+        }
+        return categories[event_id.to_sym]
+      end
+
+      def subcategories event_id
+        categories = {
+          "a6bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              '1': 'Música',
+              '2': 'Artes Escénicas',
+              '3': 'Taller',
+              '4': 'Gastronomía',
+              '5': 'Exposición',
+              '6': 'Street Art',
+              '7': 'Poesía',
+              '8': 'Audiovisual',
+              '9': 'Otros'
+            },
+            space: {
+              '1': 'Restauración y Clubs', 
+              '2': 'Arte, Cultura y Diseño', 
+              '3': 'Espacio Particular', 
+              '4': 'Tiendas y Servicios'
+            }
+          },
+          "a5bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              '1': 'Música',
+              '2': 'Artes Escénicas',
+              '3': 'Taller',
+              '4': 'Gastronomía',
+              '5': 'Exposición',
+              '6': 'Street Art',
+              '7': 'Poesía',
+              '8': 'Audiovisual',
+              '9': 'Otros'
+            },
+            space: {
+              '1': 'Asociación Cultural',
+              '2': 'Local Comercial',
+              '3': 'Espacio Particular',
+              '4': 'Espacio Exterior'
+            }
+          }
+        }
+        return categories[event_id.to_sym]
+      end
+
+      def proposals_form event_id, type, category
+        categories = {
+          "a6bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'Música': '1',
+              'Artes Escénicas': '2',
+              'Taller': '3',
+              'Gastronomía': '4',
+              'Exposición': '5',
+              'Street Art': '6',
+              'Poesía': '7',
+              'Audiovisual': '8',
+              'Otros': '9'
+            },
+            space: {
+              'Espacio sin actividad programada': '10',
+              'Espacio con actividad programada': '11'
+            }
+          },
+          "a5bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'Música': '1',
+              'Artes Escénicas': '2',
+              'Taller': '3',
+              'Gastronomía': '4',
+              'Exposición': '5',
+              'Street Art': '6',
+              'Poesía': '7',
+              'Audiovisual': '8',
+              'Otros': '9'
+            },
+            space: {
+              'Asociación Cultural': '10',
+              'Local Comercial': '11',
+              'Espacio Particular': '12',
+              'Espacio Exterior': '13'
+            }
+          }
+        }
+        return categories[event_id][type][category] if categories[event_id][type].has_key? category
+        category
+      end
+
+      def proposals_sub event_id, type, category
+        categories = {
+          "a6bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'Música': '1',
+              'Artes Escénicas': '2',
+              'Taller': '3',
+              'Gastronomía': '4',
+              'Exposición': '5',
+              'Street Art': '6',
+              'Poesía': '7',
+              'Audiovisual': '8',
+              'Otros': '9'
+            },
+            space: {
+              'Restauración y Clubs': '1', 
+              'Arte, Cultura y Diseño': '2', 
+              'Espacio Particular': '3', 
+              'Tiendas y Servicios': '4'
+            }
+          },
+          "a5bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'Música': '1',
+              'Artes Escénicas': '2',
+              'Taller': '3',
+              'Gastronomía': '4',
+              'Exposición': '5',
+              'Street Art': '6',
+              'Poesía': '7',
+              'Audiovisual': '8',
+              'Otros': '9'
+            },
+            space: {
+              'Asociación Cultural': '1',
+              'Local Comercial': '2',
+              'Espacio Particular': '3',
+              'Espacio Exterior': '4'
+            }
+          }
+        }
+        return categories[event_id][type][category] if categories[event_id][type].has_key? category
+        category
       end
 
       def exists? event_id

@@ -37,13 +37,14 @@ module Services
 
 			def filter_participants program, filters
 				program.select{ |performance|
-					filters.include? performance[:participant_subcategory]
+					filters.include? performance[:participant_subcategory].to_s
 				}
 			end
 
 			def filter_hosts program, filters
 				program.select{ |performance|
-					filters.include? performance[:host_subcategory]
+					puts performance[:host_subcategory].to_s
+					filters.include? performance[:host_subcategory].to_s
 				}
 			end
 
