@@ -331,6 +331,8 @@
       }
     },
     call:{
+      initText:'Esta convocatoria es para perfiles de tipo ',
+      conjunction:' y ',
       chooseProfile: 'Inscribe un perfil ya creado',
       newProfile: '...o crea e inscribe uno nuevo',
       createProfile:{
@@ -349,7 +351,7 @@
       },
       stop:{
         title: 'ATENCIÓN, NO PUEDES CONTINUAR',
-        mex1:'Esta convocatoría es solo para perfiles de<strong>',
+        mex1:'Esta convocatoría es sólo para perfiles de<strong>',
         mex2:'</strong>. Selecciona o crea uno de los tipos aceptados para seguir.'
       },
       form:{

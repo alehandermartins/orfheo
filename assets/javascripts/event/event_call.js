@@ -11,7 +11,7 @@
           var _popup = Pard.Widgets.Popup();
           var _choosePorfileMex = Pard.Widgets.ChooseProfileMessage(data.profiles, eventInfo, button);
           _choosePorfileMex.setCallback(function(){_popup.close()});
-          _popup.setContent(Pard.t.text('call.chooseProfile'), _choosePorfileMex.render());
+          _popup.setContent('', _choosePorfileMex.render());
           _popup.setCallback(function(){
             setTimeout(function(){
               _popup.destroy();
@@ -31,6 +31,16 @@
     var _call_id = event_info.call_id;
     var _createdWidget = $('<div>');
     var _closeListProfilePopup = function(){};
+    allowedProfile = ''
+    event_info.target.forEach(function(type, index){
+      if (index > 0 && index == event_info.target.length-1) allowedProfile += ' '+Pard.t.text('call.conjunction')
+      else if (index > 0) allowedProfile += ', '
+      allowedProfile += Pard.t.text('type.'+type);
+    });
+    _createdWidget.append(
+      $('<p>').append(Pard.t.text('call.initText'),$('<strong>').append(allowedProfile)),
+      $('<h4>').append(Pard.t.text('call.chooseProfile'))
+    );
 
     var _callbackSendProposal = function(data){
       if (data['status'] == 'success'){
@@ -99,6 +109,7 @@
     profiles.forEach(function(profile){
       var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
       var _card = Pard.Widgets.CreateCard(profile).render();
+      if (event_info.target.indexOf(profile.type)<0) _card.addClass('notAllowedProfile')
       _card.removeAttr('href');
       _card.attr('href','#/');
       _card.click(function(){

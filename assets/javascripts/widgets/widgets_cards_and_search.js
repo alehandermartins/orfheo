@@ -321,34 +321,18 @@
     var _card =$('<a>').attr({
       href: '/profile?id=' + profile['profile_id']
     }).addClass('profileCard');
-    // var _rgb = Pard.Widgets.IconColor(profile['color']).rgb();
-    // var _backColor = 'rgba('+_rgb[0]+','+_rgb[1]+','+_rgb[2]+','+0.2+')';
-    // var _cardCover = $('<div>').css({
-    //   'width':'100%',
-    //   'height':'100%',
-    //   'position':'absolute',
-    //   'top':'0',
-    //   'z-index':'100'
-    // });
     _card.hover(
       function(){
         _card.css({
           'border': '1px solid'+profile.color,
           'box-shadow': '0 1px 2px 1px '+ profile.color
-          // 'box-shadow': '0px 0px 5px 1px '+ profile.color
         });
-        // _cardCover.css({
-        //   'background-color': _backColor
-        // });
       },
       function(){
         _card.css({
           'box-shadow': '0px 1px 3px 0px rgba(10, 10, 10, 0.2)',
           'border': '1px solid rgba(10, 10, 10, 0.2)'
         });
-        // _cardCover.css({
-        //   'background-color': ''
-        // });
       }
     );
     
@@ -383,7 +367,7 @@
     var _categories = ''; 
     var _keys = Object.keys(profile);
 
-    if ('productions' in profile){
+    if (profile.type == 'artist' && 'productions' in profile){
       var _catArray = [];
       profile.productions.forEach(function(production){
         if (production.category && $.inArray(production.category, _catArray)<0){
@@ -392,7 +376,7 @@
         }
       })
     }
-    else if (profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render()+ ', ';;}
+    else if(profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render()+ ', ';;}
 
     if (_categories.length>28)  _categories = _categories.substring(0,25)+'...';
     else{
@@ -410,6 +394,12 @@
   }
 
   ns.Widgets.EventCard = function(event, owner){
+    var _texts = event.texts[Pard.UserInfo['lang']]; 
+    if(!_texts) {
+      _texts = event.texts[Object.keys(the_event.texts)[0]];
+    }
+    var _translatorSubC = _texts['subcategories'];
+
     var _card = $('<div>').addClass('eventCard')
       .css({
         'border-left-color': event.color
@@ -508,12 +498,9 @@
       return Object.keys(event.categories.artist[orfheocat]['subcategories'])
     })
     artistCat = [].concat.apply([],artistCat);
-    artistCat = Pard.Widgets.UniqueArray(artistCat);
-    // var _cats = '';
-    // for (var cat in event.categories.artist){
-    //   _cats += cat + ', ';
-    // };
-    _cats = artistCat.join(', ');
+    _cats = Pard.Widgets.UniqueArray(artistCat).map(function(cat){
+      return _translatorSubC['artist'][cat];
+    }).join(', ');
     var _catText = $('<div>').text(_cats).addClass('text-container'); 
     var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('tags').render().css('font-size','1.3rem'));
     var _categories = $('<div>').append(_catIcon, _catText).addClass('info-element-eventCard');
