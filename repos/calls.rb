@@ -6,17 +6,65 @@ module Repos
         @@calls_collection = db['calls']
         calls = grab({})
         calls.each{ |call|
+          next if call[:artist].blank?
           es = {}
+          new_artist = {}
+          new_space = {}
           call[:artist].each{ |field, value|
-            new_artist = {}
-            new_field = proposals_form call_id.to_sym, :artist, field.to_sym
-            new_artist[new_field] = value
+            new_field = proposals_form call[:call_id].to_sym, :artist, field.to_sym
+            new_value = {}
+            value.each { |fie, val|
+              new_value[fie] = val
+              if fie == :category
+                new_value[:category][:args] = val[:args].pop
+                new_value[:category][:input] = 'CategorySelector'
+                new_value[:subcategory] = subcategory new_field
+              end
+            }
+            new_artist[new_field] = new_value
+          }
+          call[:space].each{ |field, value|
+            new_field = proposals_form call[:call_id].to_sym, :space, field.to_sym
+            value.delete(:category)
+            new_value = {}
+            new_value[:subcategory] = space_sub
+            value.each { |fie, val| new_value[fie] = val}
+            new_space[new_field] = new_value
           }
           call[:es] = {
-            artist: new_artist
+            artist: new_artist,
+            space: new_space
           }
-          puts call[:es]
+          @@calls_collection.update_one({call_id: call[:call_id]},{
+          "$set": {es: call[:es]},
+          "$unset": {artist: 1, space: 1}
+          })
         }
+      end
+
+      def subcategory number
+        args = []
+        args.push(number)
+        field = {
+          "type" => "mandatory",
+          "label" => "Categoría de la propuesta en el evento",
+          "input" => "SubcategorySelector",
+          "args" => [args, "artist"],
+          "helptext" => ""
+        }
+        field
+      end
+
+      def space_sub
+        args = ['1', '2', '3', '4']
+        field = {
+          "type" => "mandatory",
+          "label" => "Categoría del espacio en el evento",
+          "input" => "SubcategorySelector",
+          "args" => [args, "space"],
+          "helptext" => ""
+        }
+        field
       end
 
       def proposals_form event_id, type, category
