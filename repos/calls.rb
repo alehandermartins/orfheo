@@ -4,6 +4,110 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
+        calls = grab({})
+        calls.each{ |call|
+          next if call[:artist].blank?
+          es = {}
+          new_artist = {}
+          new_space = {}
+          call[:artist].each{ |field, value|
+            new_field = proposals_form call[:call_id].to_sym, :artist, field.to_sym
+            new_value = {}
+            value.each { |fie, val|
+              new_value[fie] = val
+              if fie == :category
+                new_value[:category][:args] = val[:args].pop
+                new_value[:category][:input] = 'CategorySelector'
+                new_value[:subcategory] = subcategory new_field
+              end
+            }
+            new_artist[new_field] = new_value
+          }
+          call[:space].each{ |field, value|
+            new_field = proposals_form call[:call_id].to_sym, :space, field.to_sym
+            value.delete(:category)
+            new_value = {}
+            new_value[:subcategory] = space_sub
+            value.each { |fie, val| new_value[fie] = val}
+            new_space[new_field] = new_value
+          }
+          call[:es] = {
+            artist: new_artist,
+            space: new_space
+          }
+          @@calls_collection.update_one({call_id: call[:call_id]},{
+          "$set": {es: call[:es]},
+          "$unset": {artist: 1, space: 1}
+          })
+        }
+      end
+
+      def subcategory number
+        args = []
+        args.push(number)
+        field = {
+          "type" => "mandatory",
+          "label" => "Categoría de la propuesta en el evento",
+          "input" => "SubcategorySelector",
+          "args" => [args, "artist"],
+          "helptext" => ""
+        }
+        field
+      end
+
+      def space_sub
+        args = ['1', '2', '3', '4']
+        field = {
+          "type" => "mandatory",
+          "label" => "Categoría del espacio en el evento",
+          "input" => "SubcategorySelector",
+          "args" => [args, "space"],
+          "helptext" => ""
+        }
+        field
+      end
+
+      def proposals_form event_id, type, category
+        categories = {
+          "b6bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'Música': '1',
+              'Artes Escénicas': '2',
+              'Taller': '3',
+              'Gastronomía': '4',
+              'Exposición': '5',
+              'Street Art': '6',
+              'Poesía': '7',
+              'Audiovisual': '8',
+              'Otros': '9'
+            },
+            space: {
+              'Espacio sin actividad programada': '10',
+              'Espacio con actividad programada': '11'
+            }
+          },
+          "b5bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'Música': '1',
+              'Artes Escénicas': '2',
+              'Taller': '3',
+              'Gastronomía': '4',
+              'Exposición': '5',
+              'Street Art': '6',
+              'Poesía': '7',
+              'Audiovisual': '8',
+              'Otros': '9'
+            },
+            space: {
+              'Asociación Cultural': '10',
+              'Local Comercial': '11',
+              'Espacio Particular': '12',
+              'Espacio Exterior': '13'
+            }
+          }
+        }
+        return categories[event_id][type][category] if categories[event_id][type].has_key? category
+        category
       end
 
       def update call

@@ -186,21 +186,12 @@
     var _closepopup;
     var the_event = Pard.CachedEvent;
     var _translator = Pard.UserInfo['texts'].subcategories;
-    console.log(_translator)
 
     var _labels = {
       'participants': Pard.t.text('event_page.program.filters.participants'),
       'hosts': Pard.t.text('event_page.program.filters.hosts'),
       'other': Pard.t.text('event_page.program.filters.other')
     }
-
-    var artistCatObj = {};
-    Object.keys(the_event.categories.artist).forEach(function(orfheocat){
-      var subcats = the_event.categories.artist[orfheocat]['subcategories'];
-      for (var key in subcats){
-        artistCatObj[key] = subcats[key];
-      }
-    })
 
     Object.keys(filters).forEach(function(key){
 
@@ -219,11 +210,9 @@
         });
         var _label = $('<label>');
         if(key == 'participants') {
-          var _icons = $('<span>');
-          artistCatObj[filter].icon.forEach(function(icon){
-            _icons.append(Pard.Widgets.IconManager(icon).render().addClass('participant-category-icon'))
-          }) 
-          _label.append(_translator.artist[filter],' ',_icons);
+          var _icon = $('<span>');
+          _icon.append(Pard.Widgets.IconManager(the_event.subcategories.artist[filter].icon).render().addClass('participant-category-icon'));
+          _label.append(_translator.artist[filter],' ',_icon);
         }
         else if(key == 'other') {
           _label.append(Pard.t.text('widget.inputChildren.' + filter));
@@ -266,23 +255,13 @@
       if(date == 'permanent') return;
       eventDates.push(date);
     });
-    var artistCatObj = {};
-    Object.keys(the_event.categories.artist).forEach(function(orfheocat){
-        var subcats = the_event.categories.artist[orfheocat]['subcategories'];
-        for (var key in subcats){
-          artistCatObj[key] = subcats[key];
-        }
-      })
+
     var eventCategories = {
-      participants: Object.keys(artistCatObj),
-      hosts: Object.keys(the_event.categories.space),
+      participants: Object.keys(the_event.subcategories.artist),
+      hosts: Object.keys(the_event.subcategories.space),
       other: ['all_public', 'baby', 'family', 'young', 'adults']
     }
-    // var eventCategories = {
-    //   participants: Object.keys(the_event.categories.artist),
-    //   hosts: Object.keys(the_event.categories.space),
-    //   other: ['all_public', 'baby', 'family', 'young', 'adults']
-    // }
+   
     var _filters = {};
     Object.keys(eventCategories).forEach(function(key){
       if(eventCategories[key]) _filters[key] = {};

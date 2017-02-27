@@ -278,7 +278,6 @@
     }
   }
 
-
   ns.Widgets.Sticker = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
     var _diffI = 1;
     $(document).ready(function(){

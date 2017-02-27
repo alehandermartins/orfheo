@@ -470,14 +470,14 @@
       organization: 'organizaciones'
     }
     var _participants = '';
-    Object.keys(event.categories).forEach(function(profileType, i){
+    event.target.forEach(function(profileType, i){
       _participants += _profileTypes[profileType];
-      if (i == Object.keys(event.categories).length-2) _participants += 'y ';
+      if (i == event.target.length - 2) _participants += 'y ';
       else _participants += ', '
     })
-    _participants = _participants.substring(0, _participants.length-2);
+    _participants = _participants.substring(0, _participants.length - 2);
     var _now = new Date();
-    if (_now.getTime()>_endDate.getTime()+ 86400000) {
+    if (_now.getTime()>_endDate.getTime() + 86400000) {
         _callText.append('Evento terminado')
     }
     else if (event.published){
@@ -494,8 +494,8 @@
        _callText.append('Convocatoria cerrada');
     }
     var _call = $('<div>').append(_callIcon, _callText).addClass('info-element-eventCard');
-    var artistCat = Object.keys(event.categories.artist).map(function(orfheocat){
-      return Object.keys(event.categories.artist[orfheocat]['subcategories'])
+    var artistCat = Object.keys(event.texts['es'].subcategories.artist).map(function(cat){
+      return event.texts['es'].subcategories.artist[cat]
     })
     artistCat = [].concat.apply([],artistCat);
     _cats = Pard.Widgets.UniqueArray(artistCat).map(function(cat){
