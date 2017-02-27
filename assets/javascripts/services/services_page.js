@@ -67,8 +67,14 @@ ns.Widgets = ns.Widgets || {};
 		var _cTitle =  'Lanza con fuerza, <br>tu convocatoria';
 		var _cText = 'Empieza bien, desde le principio. Pasa a digital tu formulario personalizado. Este es más que un formulario. Es el principio de algo grande. Un momento mágico en el cual las propuestas pueden empezar a transformar el mundo. Todos pueden apuntarse fácilmente a tu convocatoria directamente en la pagina de tu evento. Pregunta todo lo quieras: lo recibirás ya ordenado y organizado automáticamente.'
 		var _callImage = $('<div>').addClass('callImageServicePage');
-		_callSection.appendLeft(_callImage);
-		_callSection.appendRight(serviceText(2, _cTitle, _cText));
+		if($(window).width()<1024){
+			_callSection.appendRight(_callImage);
+			_callSection.appendLeft(serviceText(2, _cTitle, _cText));
+		} 
+		else{
+			_callSection.appendLeft(_callImage);
+			_callSection.appendRight(serviceText(2, _cTitle, _cText));
+		}
 
 		var _mTitle = 'Visualiza y gestiona los datos recibidos';
 		var _mText = 'Todo ya esta organizado y ordenado automáticamente. Gestiona las propuestas recibidas de tu evento y contacta las personas. Visualiza, filtra y explora de forma facil y rápida. Navega entre los perfiles y selecciona los participantes. Exporta listados y haz lo que te haga falta en tan solo un click. Toda la potencia de tus informaciones. Aprovecha a lo mejor tu tiempo, todo es mas sencillo, todo bajo control.'
@@ -79,8 +85,14 @@ ns.Widgets = ns.Widgets || {};
 		var _pTitle = 'Crea el programa, nunca ha sido igual';
 		var _pText = 'L﻿o que heces es especial y merece una atención especial. Crear la programación de tu evento es tan fácil como arrastrar una tarjeta. Organiza junto con tu equipo y  desde cualquier lugar. Todo esta sincronizado en tiempo real, reactivo, eficaz. Sacar el programa en tablas para cada categoría, propuesta o espacio particularmente tan solo un "click". Y otras útiles funciones.'
 		var _pImage = $('<div>').addClass('programImageServicePage');
-		_programSection.appendLeft(_pImage);
-		_programSection.appendRight(serviceText(4, _pTitle, _pText));
+		if($(window).width()<1024){
+			_programSection.appendRight(_pImage);
+			_programSection.appendLeft(serviceText(4, _pTitle, _pText));
+		} 
+		else{
+			_programSection.appendLeft(_pImage);
+			_programSection.appendRight(serviceText(4, _pTitle, _pText));
+		}
 
 		var _pshTitle = 'Listo? Publica el programa interactivo';
 		var _pshText = 'Publica con un click tu programa interactivo. No lo compartas solo tu, envíalo a todos. En orfheo todos publicitan todos. Haz que sea un éxito. El programa es totalmente interactivo y permite explorar o encontrar lo que quieras y navegar entre los perfiles de los participantes'

@@ -565,15 +565,15 @@ ns.Widgets = ns.Widgets || {};
 
     var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().addClass('navigationIcon-findOutMore');
     var _findOutMore = $('<div>')
-      // .append(
-      //   $('<a>')
-      //     .text('Descubre más')
-      //     .attr('href','/services')  
-      //     .click(function(){
-      //       $('#toServicesPage').trigger('click');
-      //     })
-      //     .append(_findOutMoreIcon)
-      // )
+      .append(
+        $('<a>')
+          .text('Descubre más')
+          .attr('href','/services')  
+          .click(function(){
+            $('#toServicesPage').trigger('click');
+          })
+          .append(_findOutMoreIcon)
+      )
       .css({
         'text-align':'center',
         'margin':'2.5rem'

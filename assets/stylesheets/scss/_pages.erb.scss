@@ -165,7 +165,7 @@ main.mainWelcomePage, main.mainUserPage{
     margin: 0;
   }
   .welcomeSection-container{
-    padding: 4rem .5rem;
+    padding: 4rem 1rem;
   }
 }
 
@@ -179,6 +179,10 @@ main.mainWelcomePage, main.mainUserPage{
   background: $grey-1;
   .welcomeSection-container{
     padding: 4rem 0;
+    @include breakpoint (medium down){
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
   .innerCont1, .innerCont3{
     position: absolute;
@@ -3341,12 +3345,18 @@ SERVICES PAGE
   }
   .textContainer{
     width: 22rem;
+    @include breakpoint (medium down){
+      width: 100%;
+    }
   }
   .sign{
     font-size: 4.5rem;
   }
   .otherTextContainer{
       width: 24rem;
+  }
+  @include breakpoint (medium down){
+    height: auto;
   }
 }
 
@@ -3355,6 +3365,12 @@ SERVICES PAGE
   width: 50%;
   vertical-align: middle;
   position: relative;
+  @include breakpoint (medium down){
+    display: block;
+    width: 100%;
+    padding: 0 1rem;
+    height: auto;
+  }
 }
 
 .serviceSection .mobileText{
@@ -3375,15 +3391,27 @@ SERVICES PAGE
     height: 100%;
     padding: 3rem 0;
   }
+  position: relative;
+  @include breakpoint (medium down){
+    height: 30rem;
+    .isContainer {
+      padding: 0;
+    }
+  }
 }
 
 .background-initialSection{
   background-image: url(<%= image_path 'connectingcircles.png' %>);
-  width: 100%;
-  height: 28rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: relative;
+  width: 61.5rem;
+  height: 28rem;
+  margin: 0 auto;
+  @include breakpoint (medium down){
+    @include horizontal-center; 
+    position: relative;
+  }
 }
 
 .text-initialSection{
@@ -3396,6 +3424,12 @@ SERVICES PAGE
   }
   p{
     line-height: 1.4rem;
+  }
+  @include breakpoint (small down){
+    padding: 0 1rem;
+    width: 100vw;
+    @include horizontal-center; 
+    top: 35vw;
   }
 }
 

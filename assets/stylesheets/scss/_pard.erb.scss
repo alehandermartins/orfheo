@@ -1774,7 +1774,6 @@ HEADER
   @include border-radius($element-border-radius);
   padding: .3rem .8rem;
   color: white;
-  font-weight: bold;
   vertical-align: middle;
   left: 0rem;
   top: .8rem;
@@ -1783,7 +1782,18 @@ HEADER
   top: 1.15rem;
   position: absolute;
   display: inline-block;
-  /* color:  white; */
+  font-weight: bold;
+  a{
+    color:  white;
+    text-decoration: underline;
+    padding: .3rem 0.8rem;
+  }
+  a:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  @include breakpoint(small down){
+    display: none;
+  }
 }
 
 a.makeCallBtn:hover{
