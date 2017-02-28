@@ -6,7 +6,9 @@ class WelcomeController < BaseController
   end
 
   get '/services' do
-    erb :services
+  	status = :visitor if session[:identity]
+    status = :outsider if session[:identity].blank?
+    erb :services, :locals => {status: status.to_json}
   end
 
   post '/feedback' do
