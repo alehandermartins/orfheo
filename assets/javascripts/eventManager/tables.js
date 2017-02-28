@@ -90,7 +90,6 @@
       proposalNumber += 1;
       var _proposal = $.extend(true, {}, proposal);
       if(profile){
-        console.log(profile)
         _proposal.name = profile.name;
         _proposal.phone = profile.phone;
         _proposal.email =  profile.email;

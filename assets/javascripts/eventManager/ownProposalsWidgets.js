@@ -174,7 +174,7 @@
     var _closepopup = {};
     var spinner =  new Spinner();
     // var _photos;
-    var _orfheoCategory;
+    var _orfheoCategory, _subcategory;
     if (type == 'space') _orfheoCategory = 'cultural_ass'; 
 
     var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
@@ -216,7 +216,7 @@
           break;
         case 'category':
           if (type == 'artist'){
-            if (form[field].args[0].length>1){
+            if ($.isArray(form[field].args[0]) && form[field].args[0].length>1){
               _containerMandatoryFields.append(
                 _formField.append(
                   _form[field].label.render(),
@@ -226,8 +226,24 @@
               if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
             }
             else{
-              _orfheoCategory = form[field].args[0][0];
+              if ($.isArray(form[field].args[0])) _orfheoCategory = form[field].args[0][0];
+              else _orfheoCategory = form[field].args[0];
             }
+          }
+          break;
+        case 'subcategory':
+          if ($.isArray(form[field].args[0]) && form[field].args[0].length>1){
+            _containerMandatoryFields.append(
+              _formField.append(
+                _form[field].label.render(),
+                _form[field].input.render()
+              )
+            );
+            if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
+          }
+          else{
+            if ($.isArray(form[field].args[0])) _subcategory = form[field].args[0][0];
+            else _subcategory = form[field].args[0];
           }
           break;
         case 'conditions': 
@@ -314,8 +330,9 @@
       _submitForm['type'] = type;
       if (!(_submitForm['description']))_submitForm['description'] = '_';
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
+      if (_subcategory) _submitForm['subcategory'] = _subcategory;
       _submitForm['form_category'] = formTypeSelected;
-      if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
+      // if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
       console.log(_submitForm);
       return _submitForm;
     }

@@ -181,7 +181,7 @@
   ns.Widgets.PartnerTab = function(partners){
     var _partnerTab = $('<div>').css('margin-top','2.5rem');
     for(var partnerType in partners){
-      _partnerTab.append(
+      if (partners[partnerType].length) _partnerTab.append(
         $('<h4>')
           .append(Pard.t.text('partners.'+partnerType))
           .css({

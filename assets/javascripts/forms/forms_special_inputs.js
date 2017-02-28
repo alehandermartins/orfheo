@@ -506,12 +506,12 @@
   }
 
   ns.Widgets.SubcategorySelector = function(catArray, type){
+    console.log(catArray)
     var _translator = Pard.UserInfo['texts'].subcategories[type];
     var catArrayTranslated = catArray.map(function(subcat){
       return _translator[subcat];
     })
     var _createdWidget = Pard.Widgets.Selector(catArrayTranslated, catArray)
-
     return {
       render: function(){
         return _createdWidget.render();
@@ -1146,7 +1146,6 @@
 
     _input.on('input', function(){
       Pard.Backend.checkName(_input.val(), function(data){
-        console.log(data)
         _input.removeClass('warning');
         _input.removeClass('available');
         _error.hide();
