@@ -252,7 +252,7 @@ Pard.Event = function(the_event, status){
 Pard.Services = function(status){
   
 
-
+  console.log(status);
   
   var _main = Pard.Widgets.MainServicesPage();
   var _footer = Pard.Widgets.Footer();

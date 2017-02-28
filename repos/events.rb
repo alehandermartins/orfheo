@@ -66,6 +66,9 @@ module Repos
           categories = {
             artist: ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other']
           }
+          partners = {sponsors: []}
+          partners[:collaborators] = event[:partners]
+
 
           artists = event[:artists].map{ |artist|
             artist[:proposals].each{|proposal|
@@ -80,7 +83,7 @@ module Repos
             space
           }
           @@events_collection.update_one({event_id: event[:event_id]},{
-            "$set": {texts: event[:texts], artists: artists, spaces: spaces, categories: categories, subcategories: ev_subcategories, target: target},
+            "$set": {texts: event[:texts], artists: artists, spaces: spaces, categories: categories, subcategories: ev_subcategories, target: target, partners: partners},
             "$unset": {description: 1, baseline: 1}
           })
         }

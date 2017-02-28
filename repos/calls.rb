@@ -10,6 +10,46 @@ module Repos
           es = {}
           new_artist = {}
           new_space = {}
+          categories = {
+            artist: {
+              'music': {
+                forms: ['1'],
+                subcategories: ['1']
+              },
+              'arts': {
+                forms: ['2'],
+                subcategories: ['2']
+              },
+              'workshop': {
+                forms: ['3'],
+                subcategories: ['3']
+              },
+              'gastronomy': {
+                forms: ['4'],
+                subcategories: ['4']
+              },
+              'expo': {
+                forms: ['5'],
+                subcategories: ['5']
+              },
+              'street_art': {
+                forms: ['6'],
+                subcategories: ['6']
+              },
+              'poetry': {
+                forms: ['7'],
+                subcategories: ['7']
+              },
+              'audiovisual': {
+                forms: ['8'],
+                subcategories: ['8']
+              },
+              'other': {
+                forms: ['9'],
+                subcategories: ['9']
+              }
+            }
+          }
           call[:artist].each{ |field, value|
             new_field = proposals_form call[:call_id].to_sym, :artist, field.to_sym
             new_value = {}
@@ -36,9 +76,54 @@ module Repos
             space: new_space
           }
           @@calls_collection.update_one({call_id: call[:call_id]},{
-          "$set": {es: call[:es]},
+          "$set": {categories: categories, es: call[:es]},
           "$unset": {artist: 1, space: 1}
           })
+        }
+      end
+
+      def cat call_id
+        categories = {
+          "b6bc4203-9379-4de0-856a-55e1e5f3fac6": {
+            artist: {
+              'music': {
+                forms: ['1'],
+                subcategories: ['1']
+              },
+              'arts': {
+                forms: ['2'],
+                subcategories: ['2']
+              },
+              'workshop': {
+                forms: ['3'],
+                subcategories: ['3']
+              },
+              'gastronomy': {
+                forms: ['4'],
+                subcategories: ['4']
+              },
+              'expo': {
+                forms: ['5'],
+                subcategories: ['5']
+              },
+              'street_art': {
+                forms: ['6'],
+                subcategories: ['6']
+              },
+              'poetry': {
+                forms: ['7'],
+                subcategories: ['7']
+              },
+              'audiovisual': {
+                forms: ['8'],
+                subcategories: ['8']
+              },
+              'other': {
+                forms: ['9'],
+                subcategories: ['9']
+              }
+            }
+          }
         }
       end
 
