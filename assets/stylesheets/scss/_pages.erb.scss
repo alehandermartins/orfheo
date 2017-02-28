@@ -3330,8 +3330,10 @@ SERVICES PAGE
   height: 33rem;
   h3 {
     font-weight: bold;
-    line-height: 2.5rem;
     margin-bottom: 2rem;
+    @include breakpoint(small down){
+      line-height: 2rem;
+    }
   }
   p{
     line-height: 1.4rem;
@@ -3353,10 +3355,32 @@ SERVICES PAGE
     font-size: 4.5rem;
   }
   .otherTextContainer{
-      width: 24rem;
+    width: 24rem;
+    @include breakpoint (medium down){
+      width: 100%;
+    }
+  }
+  .quotePhoneImg {
+    font-size: 10px;
+    color: $grey-3;
+    bottom: -4rem;
+    position: absolute;
+    @include breakpoint (medium down){
+      bottom: 0;
+      right: 0;
+    }
+  }
+  .quoteComputerImg{
+    font-size: 10px;
+    color: $grey-3;
+    bottom: 0;
+    position: absolute;
+    right: 0;
   }
   @include breakpoint (medium down){
     height: auto;
+    padding: 3rem 1rem;
+    text-align: center;
   }
 }
 
@@ -3368,23 +3392,32 @@ SERVICES PAGE
   @include breakpoint (medium down){
     display: block;
     width: 100%;
-    padding: 0 1rem;
     height: auto;
   }
 }
 
-.serviceSection .mobileText{
-  float: right;
-  width: 18.5rem;
-}
-
-.rightServiceSection{
-  .textContainer, .managerImageServicePage, .otherTextContainer{
-    float: right;
+.leftServiceSection{
+  @include breakpoint (medium down){
+    margin-bottom: 3rem;
   }
 }
 
-.initialSectionServicePage{
+.serviceSection .mobileText{
+  @include breakpoint (large){
+    float: right;
+    width: 18.5rem;
+  }
+}
+
+.rightServiceSection{
+  @include breakpoint (large){
+    .textContainer, .managerImageServicePage, .otherTextContainer{
+      float: right;
+    }
+  }
+}
+
+.initialSectionServicePage, .finalSectionServicePage{
   height: 35rem;
   background: white;
   .isContainer {
@@ -3433,13 +3466,38 @@ SERVICES PAGE
   }
 }
 
+.text-pricingSection{
+  width: 100%;
+  text-align: center;
+  padding-top: 8rem;
+  h3 {
+    font-weight: bold;
+  }
+  p{
+    line-height: 1.4rem;
+  }
+  @include breakpoint (medium down){
+    padding: 0;
+  }
+}
+
 .eventImageServicePage{
   background-image: url(<%= image_path 'imagen_evento_servicios.png' %>);
   width: 36rem;
   height: 19rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  margin-left: -5rem;
+  @include breakpoint (large){
+    margin-left: -5rem;
+  }
+  @include breakpoint(medium down){
+    @include horizontal-center;
+    position: relative;
+  }
+  @include breakpoint (small down){
+    width: 115vw;
+    height: 60.7vw;
+  }
 }
 
 .callImageServicePage{
@@ -3448,6 +3506,16 @@ SERVICES PAGE
   height: 19rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  @include breakpoint(medium down){
+    @include horizontal-center;
+    position: relative;
+  }
+  @include breakpoint(small down){
+    width: 90vw;
+    height: 65.7vw;
+    @include horizontal-center;
+    position: relative;
+  }
 }
 
 .managerImageServicePage{
@@ -3456,6 +3524,10 @@ SERVICES PAGE
   height: 18.8rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  @include breakpoint(medium down){
+    @include horizontal-center;
+    position: relative;
+  }
 }
 
 .programImageServicePage{
@@ -3464,6 +3536,14 @@ SERVICES PAGE
   height: 17.7rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  @include breakpoint(medium down){
+    @include horizontal-center;
+    position: relative;
+  }
+  @include breakpoint(small down){
+    width: 90vw;
+    height: 56vw;
+  }
 }
 
 .publishImageServicePage{
@@ -3472,6 +3552,12 @@ SERVICES PAGE
   height: 25rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+   margin: 0 auto;
+  @include breakpoint (small down){
+    width: 60vw;
+    height: 88vw;
+   
+  }
 }
 
 .mobileImage, .mobileImage2, .mobileImage_d, .mobileImage_f{
@@ -3479,7 +3565,16 @@ SERVICES PAGE
   height: 19.6rem;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  position: absolute;
+  @include breakpoint (large){
+    position: absolute;
+  }
+  @include breakpoint (medium down){
+    display: inline-block;
+  }
+  @include breakpoint (small down){
+    width: 7rem;
+    height: 12.5rem;
+  }
 }
 
 .mobileImage{
@@ -3513,35 +3608,45 @@ SERVICES PAGE
 .eventSectionServicePage{
   background: #fef4e7;
   .rightServiceSection{
-    padding: 7rem 0;
+    @include breakpoint(large){
+      padding: 7rem 0;
+    }
   }
 }
 
 .callSectionServicePage{
   background:#fefce5;
   .leftServiceSection{
-    padding: 7rem 0;
+    @include breakpoint(large){
+      padding: 7rem 0;
+    }
   }
 }
 
 .managerSectionServicePage{
   background: #e3fad9;
   .rightServiceSection{
-    padding: 7.2rem 0;
+    @include breakpoint(large){
+      padding: 7.2rem 0;
+    }
   }
 }
 
 .programSectionServicePage{
   background: #d6faf4;
   .leftServiceSection{
-    padding: 7.5rem 0;
-  }
+    @include breakpoint(large){
+      padding: 7.5rem 0;
+    }
+  } 
 }
 
 .publishSectionServicePage{
   background: #d8f0fa;
   .rightServiceSection{
-    padding: 4rem 7rem;
+    @include breakpoint (large){
+      padding: 4rem 7rem;
+    }
   }
 }
 
@@ -3551,6 +3656,9 @@ SERVICES PAGE
   .pard-grid{
     position: relative;
   }
+  @include breakpoint (medium down){
+    padding: 3rem 1rem;
+  }
 }
 
 .otherSectionServicePage{
@@ -3559,6 +3667,9 @@ SERVICES PAGE
     vertical-align: top;
   }
   padding:4.5rem 0;
+  @include breakpoint (medium down){
+    padding: 4rem 1rem;
+  }
 }
 
 .priceSectionServicePage{
@@ -3578,7 +3689,6 @@ SERVICES PAGE
 
 .finalSectionServicePage{
   background: black;
-  height: 35rem;
 }
 
 

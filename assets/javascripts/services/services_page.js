@@ -96,26 +96,48 @@ ns.Widgets = ns.Widgets || {};
 
 		var _pshTitle = 'Listo? Publica el programa interactivo';
 		var _pshText = 'Publica con un click tu programa interactivo. No lo compartas solo tu, envíalo a todos. En orfheo todos publicitan todos. Haz que sea un éxito. El programa es totalmente interactivo y permite explorar o encontrar lo que quieras y navegar entre los perfiles de los participantes'
-		var _pshImage = $('<div>').addClass('publishImageServicePage');
+		var _pshImage = $('<div>').addClass('publishImageServicePage').append(
+				$('<a>')
+					.attr({'href':"http://www.freepik.com", 'target':'_blank'})
+					.text('Designed by Qeaql-studio/Freepik')
+					.addClass('quoteComputerImg')
+				);
 		_publishSection.appendRight(_pshImage);
 		_publishSection.appendLeft(serviceText(5, _pshTitle, _pshText));
 
-		var _mobileImg = $('<div>').addClass('mobileImage');
+			var _mobileImg = $('<div>').addClass('mobileImage').append(
+				$('<a>')
+					.attr({'href':"http://www.freepik.com", 'target':'_blank'})
+					.text('Designed by Ydlabs/Freepik')
+					.addClass('quotePhoneImg')
+				);
 		var _mobileImg2 = $('<div>').addClass('mobileImage2');
 		var _mobileImg_d = $('<div>').addClass('mobileImage_d');
 		var _mobileImg_f = $('<div>').addClass('mobileImage_f');
 		var _mobileTitle = 'Sorprede tu público más que nunca!';
 		var _mobileText = 'Orfheo se adapta perfectamente al tamaño móvil, funcionando para ti y para tu público como la guía perfecta durante tu evento. Se pueden ordenar y encontrar contenidos por el mapa, por horas, días, por tags o filtrando por categorías, o todo, a la vez.';
 		var _mobileText = serviceText(6, _mobileTitle, _mobileText).addClass('mobileText');
-		_mobileSection 
+		var _phonesImgs = $('<div>').append(
+			_mobileImg,
+			_mobileImg2,
+			_mobileImg_d,
+			_mobileImg_f
+		) 
+		if ($(window).width()>1023) 
+			_mobileSection 
 			.append(
 				$('<div>').addClass('pard-grid')
 					.append(
-						_mobileImg,
-						_mobileImg2,
-						_mobileImg_d,
-						_mobileImg_f,
+						_phonesImgs,
 						_mobileText
+					)
+			);
+		else _mobileSection 
+			.append(
+				$('<div>').addClass('pard-grid')
+					.append(
+						_mobileText,
+						_phonesImgs.css('text-align','center')
 					)
 			);
 
@@ -146,7 +168,7 @@ ns.Widgets = ns.Widgets || {};
         _contactPopup.open();
 			});
 		var _priceText = $('<div>')
-			.addClass('text-initialSection')
+			.addClass('text-pricingSection')
 			.append(
 				$('<h3>').text('El precio? no es un limite'),
 				$('<p>').html('Mediante lo que haces, estas ayudando a construir algo realmente importante,<br>no solamente una grande plataforma de conexión de proyectos,<br>sino también una vibrante comunidad enfocada en una muy noble meta.<br>Ahora imagina si todos hicieran lo mismo...'),
