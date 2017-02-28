@@ -250,25 +250,18 @@ Pard.Event = function(the_event, status){
 }
 
 Pard.Services = function(status){
-  
-
-  console.log(status);
-  
+   
   var _main = Pard.Widgets.MainServicesPage();
   var _footer = Pard.Widgets.Footer();
 
-  // Pard.UserStatus['status'] = status;
-  // if(status == 'outsider'){ 
-  //   var _header = Pard.Widgets.LoginHeader();
-  // _main.addClass('outsider-main')
-  // }
-  // else{
-  //   var _header = Pard.Widgets.InsideHeader();
-  // }
-
-  var _header = Pard.Widgets.LoginHeader();
-  _main.addClass('outsider-main');
-
+  Pard.UserStatus['status'] = status;
+  if(status == 'outsider'){ 
+    var _header = Pard.Widgets.LoginHeader();
+  _main.addClass('outsider-main')
+  }
+  else{
+    var _header = Pard.Widgets.InsideHeader();
+  }
 
   var _whole = $('<div>').addClass('whole-container');
 
@@ -288,30 +281,4 @@ Pard.Services = function(status){
     });
   });
 
-  // var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
-  // var _main = $('<div>').append(
-  //   $('<div>').append(
-  //     _logo,
-  //     $('<p>').text('S E R V I C I O S')
-  //       .css({
-  //         'font-size':'12px',
-  //         'margin-top':'-1.3rem'
-  //       }),
-  //     $('<h5>').html('Coming soon...')
-  //   )
-  //   .css({
-  //       'text-align':'center',
-  //       'top':'35%',
-  //       'color':'white',
-  //       'position':'absolute',
-  //       'width':'100%'
-  //     })
-  //   ).css({
-  //     'background':'black',
-  //     'position':'relative',
-  //     'height':'100vh',
-  //     'width':'100%',
-  //     'top':'0'
-  //   });
-  // $('body').append(_main);
 }

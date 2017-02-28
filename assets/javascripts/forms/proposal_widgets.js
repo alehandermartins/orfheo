@@ -40,6 +40,7 @@
             _proposalPopup = Pard.Widgets.Popup();
           })
           .on('click', function(){
+            Pard.UserInfo['texts'] = proposal['texts'][Pard.UserInfo['lang']];
             if (!(_forms[proposal.call_id])) {
               Pard.Backend.getCallForms(proposal.call_id, function(data){
                 _forms[proposal.call_id] = data.forms;
@@ -47,7 +48,7 @@
                   proposal.event_name, 
                   Pard.Widgets.PrintMyProposal(
                     proposal, 
-                    _forms[proposal.call_id][_proposalType][proposal.form_category], 
+                    _forms[proposal.call_id][Pard.UserInfo['lang']][_proposalType][proposal.form_category], 
                     _proposalType, 
                     function(){
                       _proposalPopup.close()

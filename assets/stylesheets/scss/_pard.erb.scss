@@ -692,6 +692,7 @@ button{
 
 .disabled-button{
   background-color: $grey-3 !important;
+  cursor: default;
 }
 
 .buttons-noMapPopup button{

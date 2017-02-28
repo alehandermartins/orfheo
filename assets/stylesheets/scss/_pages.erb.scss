@@ -3008,6 +3008,11 @@ a.participant-program-card-own {
   background: $green-pard
 }
 
+.active:hover{
+  font-weight: bold;
+  background: rgba(76,182,50,.8);
+}
+
 .filter-checkbox-event-page{
   cursor: pointer;
   margin-bottom: -0.2rem;

@@ -48,7 +48,6 @@
       $(window).scroll(function(){
 
         if ($('.search-engine-container').height() - _initialDistanceFromTop - $(window).height() - $(window).scrollTop() <= 50 ){
-          console.log('call')
           if(!_searchWidget.hasClass('active')){
             _searchWidget.addClass('active');
             var spinner =  new Spinner({top: _searchResult.height()}).spin();
@@ -399,7 +398,6 @@
       _texts = event.texts[Object.keys(the_event.texts)[0]];
     }
     var _translatorSubC = _texts['subcategories'];
-
     var _card = $('<div>').addClass('eventCard')
       .css({
         'border-left-color': event.color
@@ -494,12 +492,8 @@
        _callText.append('Convocatoria cerrada');
     }
     var _call = $('<div>').append(_callIcon, _callText).addClass('info-element-eventCard');
-    var artistCat = Object.keys(event.texts['es'].subcategories.artist).map(function(cat){
-      return event.texts['es'].subcategories.artist[cat]
-    })
-    artistCat = [].concat.apply([],artistCat);
-    _cats = Pard.Widgets.UniqueArray(artistCat).map(function(cat){
-      return _translatorSubC['artist'][cat];
+    var _cats = Object.keys(event.subcategories['artist']).map(function(cat){
+      return _translatorSubC['artist'][cat]
     }).join(', ');
     var _catText = $('<div>').text(_cats).addClass('text-container'); 
     var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('tags').render().css('font-size','1.3rem'));

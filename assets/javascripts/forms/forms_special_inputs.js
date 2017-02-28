@@ -464,11 +464,18 @@
     }
   }
 
-  ns.Widgets.CategorySelector = function(catArray){
-    var catArrayTranslated = catArray.map(function(cat){
-      return Pard.t.text('categories.'+cat);
-    })
-    var _createdWidget = Pard.Widgets.Selector(catArrayTranslated, catArray)
+  ns.Widgets.CategorySelector = function(categories){
+    var catArrayTranslated;
+    if ($.isArray(categories)){ 
+      catArrayTranslated = categories.map(function(cat){
+        return Pard.t.text('categories.'+cat);
+      })
+    }
+    else{
+      catArrayTranslated = [Pard.t.text('categories.'+categories)];
+      categories = [categories];
+    }
+    var _createdWidget = Pard.Widgets.Selector(catArrayTranslated, categories)
 
     return {
       render: function(){

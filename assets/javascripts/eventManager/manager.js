@@ -3,10 +3,11 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.Manager = function(the_event, forms){
+  ns.Widgets.Manager = function(the_event, callForms){
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;
+    var forms = callForms[Pard.UserInfo['lang']];
 
     var _main = $('<main>').addClass('main-call-page');
     var _rgb = Pard.Widgets.IconColor(the_event.color).rgb();

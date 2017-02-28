@@ -113,7 +113,7 @@
       _card.removeAttr('href');
       _card.attr('href','#/');
       _card.click(function(){
-        Pard.Widgets.GetCallForms(_forms, profile, _closeListProfilePopup, _callbackSendProposal);
+        Pard.Widgets.GetCallForms(_callForms, profile, _closeListProfilePopup, _callbackSendProposal);
       });
       _createdWidget.append(_cardContainer.append(_card));
     });
@@ -125,7 +125,7 @@
     var _createAndInscribeProfile = function(data){
       if (data['status'] == 'success'){
         var _profile = data.profile;
-        Pard.Widgets.GetCallForms(_forms, _profile, _closeListProfilePopup, _callbackSendProposal); 
+        Pard.Widgets.GetCallForms(_callForms, _profile, _closeListProfilePopup, _callbackSendProposal); 
         Pard.Bus.trigger('reloadMenuHeaderDropdown');
       }
       else{
@@ -155,9 +155,9 @@
     }
 
     var _createProfileCard;
-    var _forms;
+    var _callForms;
     Pard.Backend.getCallForms(event_info.call_id, function(data){
-      _forms = data.forms;
+      _callForms = data.forms;
       _createProfileCard = Pard.Widgets.CreateProfileCard(
         Pard.t.text('call.createProfile.title'),
         Pard.Widgets.CreateProfilePopupEvent(_createAndInscribeProfile)
@@ -246,13 +246,13 @@
     }
   }
 
-  ns.Widgets.GetCallForms = function(forms, profile, closeListProfilePopup, callbackSendProposal){
+  ns.Widgets.GetCallForms = function(callForms, profile, closeListProfilePopup, callbackSendProposal){
     var eventInfo = Pard.CachedEvent;
     var _content = $('<div>').addClass('very-fast reveal full top-position').attr('id','popupForm');
     _content.empty();
     $('body').append(_content);
     var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-    var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(forms, profile, closeListProfilePopup, callbackSendProposal));
+    var _message = Pard.Widgets.PopupContent(eventInfo.name, Pard.Widgets.FormManager(callForms, profile, closeListProfilePopup, callbackSendProposal));
     _message.setCallback(function(){
       _popup.close();
       setTimeout(function(){
@@ -265,8 +265,11 @@
   };
  
 
-  ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal){
-    
+  ns.Widgets.FormManager = function(callForms, profile, closeListProfilePopup, callbackSendProposal){
+
+    var forms;
+    if (callForms[Pard.UserInfo['lang']]) forms = callForms[Pard.UserInfo['lang']];
+    // else Pard.Widgets.BigAlert()
     var _createdWidget = $('<div>');
     var _typeFormsCatArray = Pard.CachedEvent.target;
     var _translatorFC = Pard.UserInfo['texts'].form_categories;
@@ -292,6 +295,8 @@
           Pard.Widgets.IconManager('performer').render().css('vertical-align','middle'),
           $('<span>').text('Propón tu arte').css('vertical-align','middle'))
         .click(function(){
+          $('.active').removeClass('active');
+          _performerBtn.addClass('active');
           _type = 'artist';
           loadFormSelector();
         });
@@ -315,12 +320,14 @@
               Pard.Widgets.Alert(Pard.t.text('call.alreadyInscribed.title'), Pard.t.text('call.alreadyInscribed.mex'));
           }
           else{
+            $('.active').removeClass('active');
+            _stageBtn.addClass('active');
             _type = 'space';
             loadFormSelector();
           }
         });
       if (_alreadyInscribed) _stageBtn.addClass('disabled-button');  
-      var _typeButtons = $('<div>').append(_stageBtn, _performerBtn);
+      var _typeButtons = $('<div>').append(_stageBtn, _performerBtn).css('margin-bottom','2rem');
       var _chooseType = $('<div>').append(
         $('<p>')
           .text('Puedes participar tanto hospedando como proponiendo actividades: ').css('font-size','1rem'),
@@ -339,7 +346,7 @@
       var _contentSel = $('<div>');
       var _formTypes = [];
       var _acceptedCategories = {
-        'artist': Object.keys(Pard.CachedEvent.categories['artist'])
+        'artist': Pard.CachedEvent.categories['artist']
       };
       var _formTypeSelector = $('<select>');     
       
@@ -353,9 +360,6 @@
         for (var typeForm in forms[_type]){
           _formTypes.push(typeForm);
           _formTypeSelector.append($('<option>').text(_translatorFC[_type][typeForm]).val(typeForm));
-          // forms[_type][typeForm].category.args[1].forEach(function(cat){
-          //   if ($.inArray(cat, _acceptedCategories) == -1) _acceptedCategories.push(cat);
-          // });
           _formTypeSelectorCont.append(_formTypeSelector);
           _formTypeSelector.select2({
             minimumResultsForSearch: Infinity,
@@ -369,7 +373,6 @@
             $('#popupForm').removeClass('top-position');
             $('.content-form-selected').removeClass('content-form-selected');
             _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-            // if (_t2) _t2.show();
             _printForm(_formTypeSelector);
           }
         });
@@ -427,7 +430,6 @@
               _prodBtn.click(function(){
                 _contentSel.empty();
                 if (_prodBtn.hasClass('content-form-selected')){
-                  console.log('deselect')
                   $('.content-form-selected').removeClass('content-form-selected');
                   $('.xbtn-production-event-page').remove();
                   $('#popupForm').addClass('top-position');
@@ -447,10 +449,9 @@
                     _prodBtn.addClass('content-form-selected');
                   _production_id = production.production_id;
                   var _catProduction = production.category;
-                  var formsKey = Pard.CachedEvent.categories.artist[_catProduction]['forms'];
+                  var formsKey = callForms.categories.artist[_catProduction]['forms'];
                   if (formsKey.length == 1){            
                     var _form = _formTypeConstructor(_type, forms[_type][formsKey[0]], profile, formsKey[0], _production_id, callbackSendProposal);
-                    console.log(formsKey[0])
                     _formTypeSelectorCont.empty();
                     _formTypeSelector = $('<select>');
                     var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
@@ -466,16 +467,7 @@
                         minimumResultsForSearch: Infinity,
                         dropdownCssClass: 'orfheoTypeFormSelector',
                         placeholder: Pard.t.text('call.form.catPlaceholder')
-                        // allowClear: true
                       })
-                      .on('change',function(){
-                        if (_formTypeSelector.val()){
-                          $('#popupForm').removeClass('top-position');
-                          _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-                          if (_t2) _t2.show();
-                          _printForm(_formTypeSelector, production, _production_id);
-                        }
-                      });
                     _formTypeSelector.val(formsKey[0]);
                     _formTypeSelector.trigger('change');
                     _formTypeSelector.attr('disabled',true);
@@ -486,15 +478,9 @@
                     });
                     _contentSel.append(_form.render());
                     $('#popupForm').removeClass('top-position');
-                    console.log('formsKey==1')
-
                   }
                   else if(formsKey.length>1){
-                    console.log('formsKey>1')
-                    _t2.hide();
-                    // _production_id = production.production_id;
-                    // $('.content-form-selected').removeClass(' content-form-selected');
-                    // _prodBtn.addClass('content-form-selected');  
+                    _t2.hide(); 
                     _formTypeSelectorCont.empty();
                     _formTypeSelector = $('<select>');
                     var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
@@ -615,7 +601,7 @@
     var _containerCustomFields = $('<div>');
     _formContainer.append(_containerOrfheoFields, _containerCustomFields);
 
-    var _orfheoCategory;
+    var _orfheoCategory, _subcategory;
     if (type == 'space' && profile.category) _orfheoCategory = profile.category; 
     var _photos;
     var _conditions;
@@ -680,7 +666,7 @@
       _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','3rem'));
       }
       else if (field == 'category'){
-        if (form[field].args[0].length>1){
+        if ($.isArray(form[field].args[0]) && form[field].args[0].length>1){
           var _formField = $('<div>');
           _containerOrfheoFields.append(
           _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
@@ -690,7 +676,23 @@
           if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
         }
         else{
-          _orfheoCategory = form[field].args[0][0]; 
+          if ($.isArray(form[field].args[0])) _orfheoCategory = form[field].args[0][0]
+          else
+          _orfheoCategory = form[field].args[0]; 
+        }
+      }
+      else if (field == 'subcategory'){
+        if ($.isArray(form[field].args[0]) && form[field].args[0].length>1){
+          var _formField = $('<div>');
+          _containerOrfheoFields.append(
+          _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
+            _form[field].label.render(),
+            _form[field].input.render())
+          )
+          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
+        }
+        else{
+          _subcategory = form[field].args[0][0] || form[field].args; 
         }
       }
       else if (field == 'phone'){
@@ -778,10 +780,8 @@
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       _submitForm['form_category'] = form_category;
       if (production_id) _submitForm['production_id'] = production_id; 
-      if (!(form['subcategory'])) _submitForm['subcategory'] = form_category;
+      // if (!(form['subcategory'])) _submitForm['subcategory'] = form_category;
       _submitForm['profile_type'] = profile.type; 
-      console.log(_submitForm)
-      console.log(_orfheoCategory)
       return _submitForm;
     }
 

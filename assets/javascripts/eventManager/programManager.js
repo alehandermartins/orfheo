@@ -198,7 +198,7 @@
 
     var _loadSpaceSelector = function(){
       spaceProposals = [];
-      Object.keys(the_event.categories.space).forEach(function(category){
+      Object.keys(the_event.subcategories.space).forEach(function(category){
         spaceProposals.push({
           type: 'category',
           id: category,
@@ -225,21 +225,14 @@
     var _loadArtistSelector = function(){
       artistProposals = [];
       var artistCatObj = {};
-      Object.keys(the_event.categories.artist).forEach(function(orfheocat){
-        var subcats = the_event.categories.artist[orfheocat]['subcategories'];
-        for (var key in subcats){
-          artistCatObj[key] = subcats[key];
-        }
-      })
-      
-      for (var category in artistCatObj){
+      Object.keys(the_event.subcategories.artist).forEach(function(subcat){
         artistProposals.push({
           type: 'category',
-          id: category,
-          icon: artistCatObj[category].icon,
-          text: Pard.UserInfo['texts']['subcategories']['artist'][category]
+          id: subcat,
+          icon: the_event.subcategories.artist[subcat].icon,
+          text: Pard.UserInfo['texts']['subcategories']['artist'][subcat]
         });
-      }
+      });
       Object.keys(the_event.artists).forEach(function(profile_id){
         artistProposals.push({
           id: profile_id,
