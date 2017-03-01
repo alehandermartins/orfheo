@@ -829,6 +829,17 @@ a.navigation-btn-callPage{
   }
 }
 
+.contactButton-ServicesPage{
+  background: rgb(56, 133, 255);
+  color: white;
+  font-weight: bold;
+  padding: 0.4rem 1rem;
+  @include border-radius($element-border-radius);
+}
+
+.contactButton-ServicesPage:hover{
+  background: rgba(56, 133, 255, 0.8);
+}
 
 /*===============================================
 COMPONENTS

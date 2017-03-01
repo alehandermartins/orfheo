@@ -83,6 +83,7 @@ class BaseController < Sinatra::Base
     prog.jpg
     program_published.png
     prop.png
+    culturaluniverse.png
   )
 
   set :assets_prefix, %w(assets vendor/assets)
