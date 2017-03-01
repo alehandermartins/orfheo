@@ -86,7 +86,8 @@ class SpaceOwnProposal
       'interprise', 
       'institution',
       'federation',
-      'foundation'
+      'foundation',
+      'own'
     ].include? params[:category]
   end
 
