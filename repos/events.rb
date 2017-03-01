@@ -302,7 +302,7 @@ module Repos
           })
         @@events_collection.update_one({event_id: event[:event_id], "spaces.profile_id": artist[:profile_id]},
           {
-            "$set": {'spaces.$.name': artist[:name], 'spaces.$.address': artist[:address], 'spaces.$.phone': artist[:phone]}
+            "$set": {'spaces.$.name': artist[:name], 'spaces.$.address': artist[:address], 'spaces.$.phone': artist[:phone], 'spaces.$.email': artist[:email]}
           })
       end
 
@@ -313,7 +313,7 @@ module Repos
           })
         @@events_collection.update_one({"artists.profile_id": space[:profile_id]},
           {
-            "$set": {'artists.$.name': space[:name], 'artists.$.address': space[:address], 'artists.$.phone': space[:phone]}
+            "$set": {'artists.$.name': space[:name], 'artists.$.address': space[:address], 'artists.$.phone': space[:phone], 'artists.$.email': space[:email]}
           })
       end
 
