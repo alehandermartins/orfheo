@@ -90,7 +90,8 @@ class ArtistOwnProposal
       'street_art', 
       'workshop', 
       'gastronomy', 
-      'other'
+      'other',
+      'own'
     ].include? params[:category]
   end
 
