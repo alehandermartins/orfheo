@@ -196,13 +196,6 @@ module Repos
         category
       end
 
-      def update call
-        @@calls_collection.update_one({call_id: call[:call_id]},{
-          "$set": call,
-        },
-        {upsert: true})
-      end
-
       def exists? call_id
         return false unless UUID.validate(call_id)
         @@calls_collection.count(call_id: call_id) > 0
