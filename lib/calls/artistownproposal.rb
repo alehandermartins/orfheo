@@ -47,8 +47,9 @@ class ArtistOwnProposal
       profile_id: params[:profile_id] || (SecureRandom.uuid),
       email: params[:email],
       name: params[:name],
+      address: params[:address],
       phone: params[:phone],
-      type: 'artist',
+      type: params[:type],
       own: true,
       proposals: [proposal],
     }

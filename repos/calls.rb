@@ -66,6 +66,7 @@ module Repos
           call[:space].each{ |field, value|
             new_field = proposals_form call[:call_id].to_sym, :space, field.to_sym
             value.delete(:category)
+            value.delete(:subcategory)
             new_value = {}
             new_value[:subcategory] = space_sub
             value.each { |fie, val| new_value[fie] = val}

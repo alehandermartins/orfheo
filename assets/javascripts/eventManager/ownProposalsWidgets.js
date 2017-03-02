@@ -26,7 +26,8 @@
     var _emptyOptionParticpant = {
       name: '',
       email:'',
-      phone:''
+      phone:'',
+      address: ''
     };
     var _dataParticipants = [{id:'',text:'', participant: _emptyOptionParticpant}];
     var _ownIds = [];
@@ -175,7 +176,7 @@
     var spinner =  new Spinner();
     // var _photos;
     var _orfheoCategory, _subcategory;
-    if (type == 'space') _orfheoCategory = 'cultural_ass'; 
+    if (type == 'space') _orfheoCategory = 'cultural_ass';
 
     var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
     var _containerMandatoryFields = $('<div>');

@@ -126,6 +126,18 @@
       if(the_event.artists[artist.profile_id]) the_event.artists[artist.profile_id].modify(artist);
       _programManager.modifyArtist(artist);
       _tableManager.modifyArtist(artist);
+      if(the_event.spaces[artist.profile_id]){
+        var modifiable = {
+          email: artist.email,
+          name: artist.name,
+          phone: artist.phone,
+          address: artist.address,
+        }
+        the_event.spaces[artist.profile_id].modify(modifiable);
+        var space = the_event.spaces[artist.profile_id].space;
+        _programManager.modifySpace(space);
+        _tableManager.modifySpace(space);
+      }
     });
 
     Pard.Bus.on('modifySpace', function(space){
