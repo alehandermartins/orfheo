@@ -224,7 +224,6 @@
 
     var _loadArtistSelector = function(){
       artistProposals = [];
-      var artistCatObj = {};
       Object.keys(the_event.subcategories.artist).forEach(function(subcat){
         artistProposals.push({
           type: 'category',
@@ -239,20 +238,6 @@
           text: the_event.artists[profile_id].artist.name
         });
       });
-      // Object.keys(the_event.categories.artist).forEach(function(category){
-      //   artistProposals.push({
-      //     type: 'category',
-      //     id: category,
-      //     icon: the_event.categories.artist[category].icon,
-      //     text: category
-      //   });
-      // });
-      // Object.keys(the_event.artists).forEach(function(profile_id){
-      //   artistProposals.push({
-      //     id: profile_id,
-      //     text: the_event.artists[profile_id].artist.name
-      //   });
-      // });
       _artistSelector.select2({
         placeholder: 'Artistas',
         data: artistProposals,

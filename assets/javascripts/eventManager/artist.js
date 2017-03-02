@@ -128,10 +128,12 @@
         proposal.email = new_artist.email;
         proposal.profile_id = new_artist.profile_id;
         
-        var new_proposal = new_artist.proposals[0];
-        if(new_proposal.proposal_id == proposal.proposal_id){
-          for(var key in new_proposal) proposal[key] = new_proposal[key];
-          _fillCard(proposal);
+        if(new_artist.proposals){
+          var new_proposal = new_artist.proposals[0];
+          if(new_proposal.proposal_id == proposal.proposal_id){
+            for(var key in new_proposal) proposal[key] = new_proposal[key];
+            _fillCard(proposal);
+          }
         }
       }
 
@@ -246,10 +248,12 @@
         for(var key in new_artist){
           if (key != 'proposals') artist[key] = new_artist[key];
         }
-        artist.proposals = artist.proposals.filter(function(proposal){
-          return proposal.proposal_id != new_artist.proposals[0].proposal_id;
-        });
-        artist.proposals.push(new_artist.proposals[0]);
+        if(new_artist.proposals){
+          artist.proposals = artist.proposals.filter(function(proposal){
+            return proposal.proposal_id != new_artist.proposals[0].proposal_id;
+          });
+          artist.proposals.push(new_artist.proposals[0]);
+        }
         _accordion.modify(new_artist);
       }
     }

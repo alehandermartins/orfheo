@@ -77,7 +77,7 @@ class ArtistProposal
       profile_id: profile[:profile_id],
       email: user[:email],
       name: profile[:name],
-      address: params[:address] || profile[:address],
+      address: profile[:address],
       phone: profile[:phone],
       type: profile[:type],
       proposals: [new_proposal]

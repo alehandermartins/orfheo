@@ -78,7 +78,7 @@ class SpaceProposal
       proposal_id: params[:proposal_id] || SecureRandom.uuid,
       category: profile[:category],
       name: profile[:name],
-      address: params[:address] || profile[:address],
+      address: profile[:address],
       description: profile[:bio],
       phone: profile[:phone],
       type: profile[:type],
