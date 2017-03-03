@@ -372,7 +372,7 @@
 
       var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
       var _filtersWidgets = Pard.Widgets.Filters(_filters, function(filters){_filters = filters;});
-      var _message = Pard.Widgets.PopupContent(Pard.t.text('event_page.program.titleText'), _filtersWidgets);
+      var _message = Pard.Widgets.PopupContent(Pard.t.text('event_page.program.filters.titleText'), _filtersWidgets);
 
       _message.setCallback(function(){
         if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');

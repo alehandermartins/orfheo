@@ -271,21 +271,21 @@
 
   ns.Widgets.NoExistingUserMessage = function(){
       var _messageContainer = $('<div>');
-      var _message  = $('<div>').text(Pard.t.text('login.popup.notExisting')).css({
+      var _message  = $('<div>').text(Pard.t.text('login.dropdown.popup.notExisting')).css({
         'font-size': '18px',
         'margin-bottom':'1rem'
       });
       
       var _register = $('<div>');
       var _registrationPopup;
-      var _signUpButton = $('<button>').attr({type:'button'}).html(Pard.t.text('login.popup.registerbtn'))
+      var _signUpButton = $('<button>').attr({type:'button'}).html(Pard.t.text('login.dropdown.popup.registerbtn'))
         .one('click',function(){
           _registrationPopup = Pard.Widgets.Popup();
         })
         .click(function(){
           var _registrationMex = Pard.Widgets.Registration();
           _registrationMex.setCallback(function(){_registrationPopup.close()});
-          _registrationPopup.setContent(Pard.t.text('login.popup.registerTitle'), _registrationMex.render());
+          _registrationPopup.setContent(Pard.t.text('signUp.popup.title'), _registrationMex.render());
           _registrationPopup.open();
         })
         .addClass('signupButton-alert');

@@ -127,7 +127,6 @@
       _dataTables['allProposals'].addRow('space', proposal);
     });
     Object.keys(artists).forEach(function(profile_id){
-     
       var profile = artists[profile_id].artist;
       if (profile.own) _own['artists'][profile_id] = the_event.artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){

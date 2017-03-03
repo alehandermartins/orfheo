@@ -65,7 +65,7 @@
     }
   }
 
-  Pard.PrintProgramSpaces = function(program, host, gmap, dataSpaces){
+  ns.PrintProgramSpaces = function(program, host, gmap, dataSpaces){
     var _searchResult = $('#searchResult');
     _searchResult.empty();
     var _blocksContainer = $('<div>').addClass('blocks-container-prograByspace');
@@ -75,18 +75,9 @@
     var _space = '';
     var _spaceCatCheck = {};
 
-    // var _spaceCatDictionary = {
-    //   home: 'Espacios Particulares',
-    //   commercial: 'Locales Comerciales',
-    //   cultural_ass: 'Asociaciones Culturales',
-    //   open_air: 'Espacios Exteriores'
-    // }
-
     var _catBlockObj = {};
-    Object.keys(Pard.CachedEvent.categories.space).forEach(function(cat){
+    Object.keys(Pard.CachedEvent.subcategories.space).forEach(function(cat){
       var _block = $('<div>').addClass('category-block-program');
-      // _catBlockObj[cat] = {}
-      // _catBlockObj[cat]['main'] = _block;
       _catBlockObj[cat] = _block;
       _blocksContainer.append(_block);
       _spaceCatCheck[cat] = true;
@@ -105,7 +96,7 @@
         if((host &&  (Pard.Widgets.RemoveAccents(performance.host_name) == host || performance.host_name == host)) || !host){
           if (_spaceCatCheck[performance.host_subcategory]){
             var _spaceCat =  performance.host_subcategory;
-            _catBlockObj[performance.host_subcategory].append($('<div>').append($('<h4>').append(_spaceCat)).addClass('title-program-event-page'));
+            _catBlockObj[performance.host_subcategory].append($('<div>').append($('<h4>').append(Pard.UserInfo['texts']['subcategories']['space'][_spaceCat])).addClass('title-program-event-page'));
             _spaceCatCheck[performance.host_subcategory] = false;
           }
           if (performance.host_name != _space || !_space){

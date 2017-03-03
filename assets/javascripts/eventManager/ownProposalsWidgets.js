@@ -174,7 +174,7 @@
     var _closepopup = {};
     var spinner =  new Spinner();
     // var _photos;
-    var _orfheoCategory, _subcategory, _address;
+    var _orfheoCategory, _subcategory, _address, _profileType;
     if (proposalType == 'space') _orfheoCategory = 'own';
 
     var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
