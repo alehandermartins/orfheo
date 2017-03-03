@@ -200,12 +200,16 @@
     var proposalRow = function(proposalType, proposal, profile){
       proposalNumber += 1;
       var _proposal = $.extend(true, {}, proposal);
+      
       if (profile){
         _proposal.name =  profile.name;
         _proposal.phone = profile.phone;
         _proposal.email =  profile.email;
         _proposal.profile_id =  profile.profile_id;
         _proposal.type = profile.type;
+      }
+      else if (proposal.own){
+        _proposal.type = 'space'
       }
       _proposal.proposal_type = proposalType;
       
@@ -255,7 +259,12 @@
           'artist':'performer',
           'space':'stage'
         }
-        if (proposal.own) return Pard.Widgets.IconManager(_dictionary[proposal.proposal_type]).render(); 
+        if (proposal.own) {
+          return $('<span>').append(
+          Pard.Widgets.IconManager(_dictionary[proposal.proposal_type]).render().css({'margin-right': '-0.5rem'}),
+          Pard.Widgets.IconManager(proposal.type).render().css({'font-size':'.8rem'})
+          )
+        }
         else return $('<a>').append(
           Pard.Widgets.IconManager(_dictionary[proposal.proposal_type]).render().css({'margin-right': '-0.5rem'}),
           Pard.Widgets.IconManager(proposal.type).render().css({'font-size':'.8rem'})

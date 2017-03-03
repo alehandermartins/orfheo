@@ -170,7 +170,6 @@ Pard.Profile = function(profiles, status){
 };
 
 Pard.EventManager = function(the_event, forms){
-  console.log(the_event)
   var _texts = the_event.texts[Pard.UserInfo['lang']]; 
   if(!_texts) {
     _texts = the_event.texts[Object.keys(the_event.texts)[0]];
