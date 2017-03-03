@@ -262,7 +262,6 @@
         if (type == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
         else if (type == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
       };
-      console.log(forms)
       _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(forms[type], type, participants);
       _createOwnProposalWidget.setSend(_sendProposal);
       var _message = Pard.Widgets.PopupContent('Crea y enscribe una propuesta de tipo '+Pard.Widgets.Dictionary(type).render().toLowerCase(), _createOwnProposalWidget);

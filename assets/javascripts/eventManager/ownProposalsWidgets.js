@@ -59,8 +59,11 @@
       var _valToSet = {
         name:_profile_own.name,
         email:_profile_own.email,
-        phone:_profile_own.phone
+        phone:_profile_own.phone,
+        address: _profile_own.address || {},
+        type: _profile_own.type || 'space'
       }
+      console.log(_valToSet)
       if(_profile_own.profile_id) _t2.text('');
       else {
         _t2.text('...o crea algo nuevo');
@@ -100,16 +103,14 @@
       });
       _formWidget.setSend(_send);
       if (_profile_own){
-        if (_profile_own.type == 'artist'){
-          _formWidget.setVal(_profile_own)
+        var _valToSet = {
+          name:_profile_own.name,
+          email:_profile_own.email,
+          phone:_profile_own.phone,
+          address: _profile_own.address || {},
+          type: _profile_own.type || 'space'
         }
-        else{
-          var _spaceProfile_own = {};
-          ['email','name','phone','profile_id'].forEach(function(field){
-            _spaceProfile_own[field] = _profile_own[field]
-          })
-          _formWidget.setVal(_spaceProfile_own)
-        };
+        _formWidget.setVal(_valToSet);
         _formWidget.disableFields('own');
       }
       _contentSel.append(_formWidget.render());
@@ -131,7 +132,6 @@
       getVal: function(){
         var _submitForm =  _formWidget.getVal();
         if (_profile_own && _profile_own.profile_id)  _submitForm['profile_id'] = _profile_own.profile_id;
-        console.log(_submitForm)
         return _submitForm;
       },
       setVal: function(proposal){
@@ -145,9 +145,9 @@
   }
 
 
-  ns.Widgets.OwnProposalForm = function(form, type, formTypeSelected, received){
+  ns.Widgets.OwnProposalForm = function(form, proposalType, formTypeSelected, received){
     var _mandatoryFields = ['name', 'email', 'phone', 'address', 'title', 'short_description', 'category', 'subcategory', 'duration', 'availability', 'children'];
-    var _additionalForm = Pard.Forms.Proposal[type];
+    var _additionalForm = Pard.Forms.Proposal[proposalType];
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
     var _phoneField = {
@@ -174,8 +174,8 @@
     var _closepopup = {};
     var spinner =  new Spinner();
     // var _photos;
-    var _orfheoCategory, _subcategory;
-    if (type == 'space') _orfheoCategory = 'own';
+    var _orfheoCategory, _subcategory, _address;
+    if (proposalType == 'space') _orfheoCategory = 'own';
 
     var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
     var _containerMandatoryFields = $('<div>');
@@ -197,8 +197,8 @@
 
     var _printField = function(field){
       _form[field] = {};
-      _form[field]['type'] = form[field][type];
-      if($.inArray(field, _mandatoryFields)>-1 || (received && _form[field].type == 'mandatory')) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
+      _form[field]['type'] = form[field]['type'];
+      if($.inArray(field, _mandatoryFields)>-1 || (received && form[field].type == 'mandatory')) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
       else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
       if (form[field]['input']=='CheckBox') {
         form[field].args[0] = form[field].label;
@@ -215,7 +215,7 @@
         case 'bio':
           break;
         case 'category':
-          if (type == 'artist'){
+          if (proposalType == 'artist'){
             if ($.isArray(form[field].args[0]) && form[field].args[0].length>1){
               _containerMandatoryFields.append(
                 _formField.append(
@@ -327,13 +327,15 @@
       for(var field in _form){
          _submitForm[field] = _form[field].input.getVal();
       };
-      _submitForm['type'] = type;
+      if (_profileType)  _submitForm['type'] = _profileType;
+      else _submitForm['type'] = proposalType;
       if (!(_submitForm['description']))_submitForm['description'] = '_';
       if (_orfheoCategory) _submitForm['category'] = _orfheoCategory;
       if (_subcategory) _submitForm['subcategory'] = _subcategory;
       _submitForm['form_category'] = formTypeSelected;
       // if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
-      console.log(_submitForm);
+      if (_address) _submitForm['address'] = _address;
+      console.log(_submitForm)
       return _submitForm;
     }
 
@@ -373,11 +375,12 @@
         return _getVal();
       },
       setVal: function(proposal){
-        console.log(proposal)
         for(var field in proposal){
           if (_form[field]) _form[field].input.setVal(proposal[field]);
         }
         if(proposal.proposal_type == 'space') _orfheoCategory = proposal.category;
+        if (proposal.address && !form.address) _address = proposal.address;
+        if (proposal.type) _profileType = proposal.type;
       },
       disableFields: function(own){
         _form['email'].input.disable();

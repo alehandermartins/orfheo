@@ -506,7 +506,6 @@
   }
 
   ns.Widgets.SubcategorySelector = function(catArray, type){
-    console.log(catArray)
     var _translator = Pard.UserInfo['texts'].subcategories[type];
     var catArrayTranslated = catArray.map(function(subcat){
       return _translator[subcat];
