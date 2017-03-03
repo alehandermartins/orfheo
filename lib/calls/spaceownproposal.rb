@@ -53,6 +53,7 @@ class SpaceOwnProposal
       phone: params[:phone],
       subcategory: params[:subcategory],
       form_category: params[:form_category],
+      type: params[:type],
       own: true
     }
     form.each{ |field, content| space[field] = params[field]} 
