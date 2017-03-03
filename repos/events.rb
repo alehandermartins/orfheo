@@ -80,6 +80,7 @@ module Repos
           spaces = event[:spaces].map{ |space|
             space[:form_category] = proposals_form event[:event_id].to_sym, :space, space[:form_category].to_sym
             space[:subcategory] = proposals_sub event[:event_id].to_sym, :space, space[:subcategory].to_sym
+            space[:type] = 'space'
             space
           }
           @@events_collection.update_one({event_id: event[:event_id]},{
