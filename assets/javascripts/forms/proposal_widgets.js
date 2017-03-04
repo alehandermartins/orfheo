@@ -20,9 +20,6 @@
         proposal.name = profile.name;
         proposal.phone = profile.phone;
         
-        //necesary for conFusión proposal that do not have form category
-        // if (!(proposal.form_category)) proposal.form_category = Pard.Widgets.Dictionary(proposal.category).render();
-
         if ($.inArray(proposal.event_name, _eventNames)<0) {
           var _callName = $('<p>').append('Inscrito en ',$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
           _listProposals = $('<ul>');
@@ -40,7 +37,10 @@
             _proposalPopup = Pard.Widgets.Popup();
           })
           .on('click', function(){
-            Pard.UserInfo['texts'] = proposal['texts'][Pard.UserInfo['lang']];
+            var langs = Object.keys(proposal['texts']);
+            var lang = Pard.UserInfo['lang'];
+            if($.inArray(lang, langs) < 0) lang = langs[0];
+            Pard.UserInfo['texts'] = proposal['texts'][lang];
             if (!(_forms[proposal.call_id])) {
               Pard.Backend.getCallForms(proposal.call_id, function(data){
                 _forms[proposal.call_id] = data.forms;
@@ -48,13 +48,12 @@
                   proposal.event_name, 
                   Pard.Widgets.PrintMyProposal(
                     proposal, 
-                    _forms[proposal.call_id][Pard.UserInfo['lang']][_proposalType][proposal.form_category], 
+                    _forms[proposal.call_id][lang][_proposalType][proposal.form_category], 
                     _proposalType, 
                     function(){
                       _proposalPopup.close()
                     }).render());
                 _proposalPopup.open();
-                
               });
             }
             else{
@@ -62,7 +61,7 @@
                 proposal.event_name, 
                 Pard.Widgets.PrintMyProposal(
                   proposal, 
-                  _forms[proposal.call_id][_proposalType][proposal.form_category], 
+                  _forms[proposal.call_id][lang][_proposalType][proposal.form_category], 
                   _proposalType, 
                   function(){
                     _proposalPopup.close()

@@ -7,7 +7,7 @@
 
     var artists = the_event.artists;
     var spaces = the_event.spaces;
-    var forms = callForms[Pard.UserInfo['lang']];
+    var forms = callForms[Pard.UserInfo['lang']] || callForms['es'];
 
     var _main = $('<main>').addClass('main-call-page');
     var _rgb = Pard.Widgets.IconColor(the_event.color).rgb();

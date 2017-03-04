@@ -267,8 +267,7 @@
 
   ns.Widgets.FormManager = function(callForms, profile, closeListProfilePopup, callbackSendProposal){
 
-    var forms;
-    if (callForms[Pard.UserInfo['lang']]) forms = callForms[Pard.UserInfo['lang']];
+    var forms = callForms[Pard.UserInfo['lang']] || callForms['es'];
     // else Pard.Widgets.BigAlert()
     var _createdWidget = $('<div>');
     var _typeFormsCatArray = Pard.CachedEvent.target;
