@@ -219,7 +219,7 @@
 
     ns.Widgets.NotValidatedUserMessage = function(){
       var _messageContainer = $('<div>'); 
-      var _message = $('<div>').append($('<p>').html(Pard.t.text('login.popup.notValidated')));
+      var _message = $('<div>').append($('<p>').html('<h4 style="margin-top:-1.2rem;">' + Pard.t.text('login.popup.notValidated') + '</h4><p>' + Pard.t.text('login.popup.notValidatedmex') + '</p>'));
 
       var _userRecovery = $('<div>').append($('<span>').html(Pard.t.text('login.popup.sendOther')));
 
