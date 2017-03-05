@@ -332,35 +332,34 @@
       }
     },
     call:{
-      initText:'Esta convocatoria es para perfiles de tipo ',
-      conjunction:' y ',
-      chooseProfile: 'Inscribe un perfil ya creado',
-      newProfile: '...o crea e inscribe uno nuevo',
+      initText:'This call is for profiles of the type ',
+      conjunction:' and ',
+      chooseProfile: 'Apply with an existing profile',
+      newProfile: '...or create and apply with a new one',
       createProfile:{
-        title:'Crea un perfil y apúntate como:',
-        artistText: 'Enseña tu arte',
-        spaceText: 'Alberga actividades',
-        organizationText: 'Envía tu propuesta'
+        title:'Create a profile and apply as:',
+        artistText: 'Show your art',
+        spaceText: 'Host activities',
+        organizationText: 'Send your proposal'
       },
-      successTitle: '¡Genial!',
-      succesMex:'Te has inscrito correctamente.',
-      sendOther: 'Envía otra propuesta',
-      toProfile: 'Ve a pagína de perfil',
+      successTitle: '¡Awesome!',
+      succesMex:'You have successfully applied.',
+      sendOther: 'Send another proposal',
+      toProfile: 'Go to your profile page',
       alreadyInscribed: {
-        title: 'Ya te has inscrito como espacio :)', 
-        mex: 'Si quieres, puedes enviar propuestas para actuar durante el evento.',
+        title: 'You have already applied as this space :)', 
+        mex: 'If you want, you can send proposals to perform during the event.',
       },
       stop:{
-        title: 'ATENCIÓN, NO PUEDES CONTINUAR',
-        mex1:'Esta convocatoría es sólo para perfiles de<strong>',
-        mex2:'</strong>. Selecciona o crea uno de los tipos aceptados para seguir.'
+        title: 'ATTENTION, YOU SHALL NOT PASS',
+        mex1:'This call is for profiles whith type<strong>',
+        mex2:'</strong>. Select or create one of the accepted types to proceed.'
       },
       form:{
-        initMex1:'Éste es el <strong>formulario</strong> para inscribir tu perfil ',
-        initMex2: ' en la convocatoria de <strong>',
-        portfolio:'Apúntate con una propuesta de tu portfolio',
-        catPlaceholder: 'Selecciona como quieres apuntarte',
-        newProposal: '...o propón algo nuevo'
+        initMex:"Fill in this <strong>form</strong> in order to apply with %{link} to <strong>%{organizer}</strong>'s call",
+        portfolio:'Apply with a portfolio proposal',
+        catPlaceholder: 'select how you want to apply',
+        newProposal: '...or propose something new'
       }
     },  
     footer:{

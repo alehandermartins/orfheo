@@ -334,7 +334,7 @@
     call:{
       initText:'Esta convocatoria es para perfiles de tipo ',
       conjunction:' y ',
-      chooseProfile: 'Inscribe un perfil ya creado',
+      chooseProfile: 'Inscribe un perfil existente',
       newProfile: '...o crea e inscribe uno nuevo',
       createProfile:{
         title:'Crea un perfil y apúntate como:',
@@ -356,8 +356,7 @@
         mex2:'</strong>. Selecciona o crea uno de los tipos aceptados para seguir.'
       },
       form:{
-        initMex1:'Éste es el <strong>formulario</strong> para inscribir tu perfil ',
-        initMex2: ' en la convocatoria de <strong>',
+        initMex:'Rellena este <strong>formulario</strong> para inscribir tu perfil %{link} en la convocatoria de <strong>%{organizer}</strong>',
         portfolio:'Apúntate con una propuesta de tu portfolio',
         catPlaceholder: 'Selecciona como quieres apuntarte',
         newProposal: '...o propón algo nuevo'
