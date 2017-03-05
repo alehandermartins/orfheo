@@ -136,7 +136,7 @@
       _lastSelected = _daySelector.val();
     });
   
-    var _loadSpaceSelector = function(_deletedSpaceId){
+    var _loadSpaceSelector = function(_id, _deletedSpaceId){
       _spaceSelectorContainer.empty();
       _spaceSelector = $('<select>');
       _spaceSelectorContainer.append(_spaceSelector);
@@ -188,13 +188,12 @@
           $(this).val("");
           $(this).trigger('change');
           e.preventDefault();
-        })
-        .on('reload',function(e,_id, _deletedSpaceId){
-          if (!_id || _id == _deletedSpaceId) return _spaceSelector.trigger('select2:unselecting');
-          _spaceSelector.val(_id);
-          _spaceSelector.trigger('change');
-          _spaceSelector.trigger('select2:select');
-        })
+        });
+      
+      if (!_id || _id == _deletedSpaceId) return _spaceSelector.trigger('select2:unselecting');
+      _spaceSelector.val(_id);
+      _spaceSelector.trigger('change');
+      _spaceSelector.trigger('select2:select');
     }
     var selectSpaces = function(){
         var _data = _spaceSelector.select2('data')[0];
@@ -241,7 +240,7 @@
         });
       }
 
-    var _loadArtistSelector = function(_deletedArtistId){
+    var _loadArtistSelector = function(_id, _deletedArtistId){
       _artistSelectorContainer.empty();
       _artistSelector = $('<select>');
       _artistSelectorContainer.append(_artistSelector);
@@ -286,12 +285,6 @@
           $(this).trigger('change');
           e.preventDefault();
         })
-        .on('reload',function(e,_id, _deletedArtistId){
-          if(!_id || _id == _deletedArtistId) return _artistSelector.trigger('select2:unselecting');
-          _artistSelector.val(_id);
-          _artistSelector.trigger('change');
-          _artistSelector.trigger('select2:select');
-        })
       var selectArtists = function(){
         var _data = _artistSelector.select2('data')[0];
         if(_data['type'] == 'category'){
@@ -311,7 +304,11 @@
             else{artists[profile_id].accordion.hide();}
           });
         }
-      } 
+      }
+      // if(!_id || _id == _deletedArtistId) return _artistSelector.trigger('select2:unselecting');
+      // _artistSelector.val(_id);
+      // _artistSelector.trigger('change');
+      // _artistSelector.trigger('select2:select'); 
     }  
 
     _loadSpaceSelector();
@@ -1932,7 +1929,6 @@
         _tables[day].append(the_event.spaces[profile_id].columns[day]);
       });
       order.push(profile_id);
-      _shownSpaces.push(profile_id);
     });
 
     Object.keys(_tables).forEach(function(day){
@@ -2007,8 +2003,7 @@
           artists[artist.profile_id].accordion.foundation();
         }
         var _id = _artistSelector.val();
-        _loadArtistSelector();
-        _artistSelector.trigger('reload',[_id]);
+        _loadArtistSelector(_id);
         the_event.artists[artist.profile_id].setDay(_daySelector.val());
       },
       addSpace: function(space){
@@ -2020,8 +2015,7 @@
         });
         order.push(space.profile_id);
         var _id = _spaceSelector.val();
-        _loadSpaceSelector();
-        _spaceSelector.trigger('reload',[_id]);
+        _loadSpaceSelector(_id);
       },
       deleteArtist: function(artist){
         var _performancesToDelete = [];
@@ -2034,8 +2028,7 @@
         });
         var _id = _artistSelector.val();
         _programTable.deleteArtist(_performancesToDelete);
-        _loadArtistSelector(artist.profile_id);
-        _artistSelector.trigger('reload',[_id, artist.profile_id]);
+        _loadArtistSelector(_id, artist.profile_id);
       },
       deleteSpace: function(space){
         var _performancesToDelete = [];
@@ -2049,8 +2042,7 @@
         order.splice(order.indexOf(space.profile_id), 1);
         var _id = _spaceSelector.val();
         _programTable.deleteSpace(_performancesToDelete);
-        _loadSpaceSelector(space.profile_id);
-        _spaceSelector.trigger('reload',[_id, space.profile_id]);
+        _loadSpaceSelector(_id, space.profile_id);
       },
       modifyArtist: function(artist){
         var _performancesToModify = [];
@@ -2062,8 +2054,7 @@
         var _id = _artistSelector.val();
         the_event.artists[artist.profile_id].setDay(_daySelector.val());
         _programTable.modifyArtist(_performancesToModify);
-        _loadArtistSelector();
-        _artistSelector.trigger('reload',[_id]);
+        _loadArtistSelector(_id);
       },
       modifySpace: function(space){
         var _performancesToModify = [];
@@ -2074,8 +2065,7 @@
         });
         var _id = _spaceSelector.val();
         _programTable.modifySpace(_performancesToModify);
-        _loadSpaceSelector();
-        _spaceSelector.trigger('reload',[_id]);
+        _loadSpaceSelector(_id);
       }
     }
   }

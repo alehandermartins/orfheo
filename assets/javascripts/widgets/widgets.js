@@ -200,14 +200,6 @@
 
     _popup.open();
 
-    // _createdWidget.click(function(){
-    //   _popup.close();
-    //   if (callback) callback();
-    //   setTimeout(function(){
-    //     _popup.destroy();
-    //     _createdWidget.remove();
-    //   }, 500);
-    // })
 
     var _timeout = timeout || 2500;
     var _check = true;
@@ -217,8 +209,10 @@
         _popup.close();
         if (callback) callback();
         setTimeout(function(){
-          _popup.destroy();
-          _createdWidget.remove();
+          if (_popup){
+            _popup.destroy();
+            _createdWidget.remove();
+          }
         }, 500);
       }
     },_timeout);

@@ -63,7 +63,6 @@
         address: _profile_own.address || {},
         type: _profile_own.type || 'space'
       }
-      console.log(_valToSet)
       if(_profile_own.profile_id) _t2.text('');
       else {
         _t2.text('...o crea algo nuevo');
@@ -175,7 +174,9 @@
     var spinner =  new Spinner();
     // var _photos;
     var _orfheoCategory, _subcategory, _address, _profileType;
-    if (proposalType == 'space') _orfheoCategory = 'own';
+    if (proposalType == 'space' && !received){
+      _orfheoCategory = 'own';
+    }
 
     var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
     var _containerMandatoryFields = $('<div>');
@@ -335,7 +336,6 @@
       _submitForm['form_category'] = formTypeSelected;
       // if (!(form['subcategory'])) _submitForm['subcategory'] = formTypeSelected;
       if (_address) _submitForm['address'] = _address;
-      console.log(_submitForm)
       return _submitForm;
     }
 

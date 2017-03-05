@@ -535,16 +535,20 @@
 
               var colType = this.api().column(1, { search:'applied' });
               var rfhCol = this.api().column(3);
-              if (Object.keys(forms).length>2){
+              if (Object.keys(forms).length>1){
                 var _selectContainer = $('<div>').addClass('select-container-datatableColumn rfh-selector');
-                var selectType = $('<select>').append($('<option>').attr('value','').text('')).appendTo(_selectContainer.appendTo($(rfhCol.header())));
+                var selectType = $('<select>')
+                  .append(
+                    $('<option>').attr('value','').text(''))
+                  .appendTo(_selectContainer.appendTo($(rfhCol.header())))
+                  .addClass('material-icons');
                 var types = {
-                  artist: 'Artista',
-                  space: 'Espacio',
+                  artist: '<span style="font-size:16px" class="material-icons">&#xE029;</span>',
+                  space: '<span style="font-size:16px" class="material-icons">&#xE0C8;</span>',
                   // organization: 'Organizaciones'
                 }  
                 for(var _formType in forms){
-                  if (types[_formType])  selectType.append($('<option>').attr('value', _formType).text(types[_formType]));
+                  if (types[_formType])  selectType.append($('<option>').attr('value', _formType).html(types[_formType]));
                 };
                 selectType.on( 'change', function () {
                   var val =  selectType.val();

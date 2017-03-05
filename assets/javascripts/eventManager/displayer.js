@@ -26,7 +26,7 @@
         _popupTitle += ' (';
         var _artistCategories = [];
         for (var performanceId in myprogram){
-          _artistCategories.push(myprogram[performanceId]['show']['participant_subcategory']);    
+          _artistCategories.push(_translatorSubC['artist'][myprogram[performanceId]['show']['participant_subcategory']]);    
         }
         _popupTitle += Pard.Widgets.UniqueArray(_artistCategories).join(', ')+ ')';
       }
@@ -54,6 +54,7 @@
     }
 
     var _displayProposal = function(proposal, type){
+      proposal.proposal_type = type;
       var _proposal = $.extend(true, {}, proposal);
 
       var form = forms[type][_proposal.form_category];
