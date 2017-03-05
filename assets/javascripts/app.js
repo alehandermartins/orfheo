@@ -169,40 +169,44 @@ Pard.Profile = function(profiles, status){
   $('body').append(_whole);
 };
 
-Pard.EventManager = function(the_event, forms){
-
-  var _texts = the_event.texts[Pard.UserInfo['lang']]; 
-  if(!_texts) {
-    _texts = the_event.texts[Object.keys(the_event.texts)[0]];
-  }
-  Pard.UserInfo['texts'] = _texts;
+Pard.EventManager = function(event_id){
   var spinner = new Spinner();
-  spinner.spin();
-  $('body').append(spinner.el);
-  $(window).load(function(){
-    spinner.stop();
-  });
-  var _whole = $('<div>').addClass('whole-container');
-  var _header = Pard.Widgets.InsideHeader();
-  var _main = Pard.Widgets.Manager(the_event, forms);
-  var _footer = Pard.Widgets.Footer();
-
-  $(_whole).append(_header.render(), _main.render(), _footer.render());
-
-  $(window).ready(function(){
-    $('body').append(_whole);
-    $(document).foundation();
-    $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
-    $(document).on('closed.zf.reveal', '[data-reveal]', function() {
-      if (!($('.reveal[aria-hidden="false"]').length)){
-        $('html').removeClass('overflowHidden');
-      }
-    });
-    $(document).on('open.zf.reveal', function(){
-      $('html').addClass('overflowHidden');
-    });
+    spinner.spin();
+    $('body').append(spinner.el);
+    $(window).load(function(){
+      spinner.stop();
   });
 
+  Pard.Backend.eventManager(event_id, function(data){
+    var the_event = data.the_event;
+    var forms = data.forms;
+
+    var _texts = the_event.texts[Pard.UserInfo['lang']]; 
+    if(!_texts) {
+      _texts = the_event.texts[Object.keys(the_event.texts)[0]];
+    }
+    Pard.UserInfo['texts'] = _texts;
+    var _whole = $('<div>').addClass('whole-container');
+    var _header = Pard.Widgets.InsideHeader();
+    var _main = Pard.Widgets.Manager(the_event, forms);
+    var _footer = Pard.Widgets.Footer();
+
+    $(_whole).append(_header.render(), _main.render(), _footer.render());
+
+    $(window).ready(function(){
+      $('body').append(_whole);
+      $(document).foundation();
+      $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
+      $(document).on('closed.zf.reveal', '[data-reveal]', function() {
+        if (!($('.reveal[aria-hidden="false"]').length)){
+          $('html').removeClass('overflowHidden');
+        }
+      });
+      $(document).on('open.zf.reveal', function(){
+        $('html').addClass('overflowHidden');
+      });
+    });
+  });
 }
 
 
