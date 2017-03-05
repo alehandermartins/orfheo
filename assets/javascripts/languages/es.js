@@ -434,7 +434,7 @@
       eventAside:{
         program: 'Programa',
         community: 'Comunidad',
-        info:'Informaciones',
+        info:'Info',
         partners:'Partners',
         managerbtn:'Manager del evento',
         withdrawprog:'Retira el programa',

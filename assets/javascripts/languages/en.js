@@ -334,20 +334,20 @@
     call:{
       initText:'This call is for profiles of the type ',
       conjunction:' and ',
-      chooseProfile: 'Apply with an existing profile',
-      newProfile: '...or create and apply with a new one',
+      chooseProfile: 'Sign up with an existing profile',
+      newProfile: '...or create and sign up with a new one',
       createProfile:{
-        title:'Create a profile and apply as:',
+        title:'Create a profile and sign up as:',
         artistText: 'Show your art',
         spaceText: 'Host activities',
         organizationText: 'Send your proposal'
       },
       successTitle: '¡Awesome!',
-      succesMex:'You have successfully applied.',
+      succesMex:'You have successfully signed up.',
       sendOther: 'Send another proposal',
       toProfile: 'Go to your profile page',
       alreadyInscribed: {
-        title: 'You have already applied as this space :)', 
+        title: 'You have already sign up as this space :)', 
         mex: 'If you want, you can send proposals to perform during the event.',
       },
       stop:{
@@ -356,9 +356,9 @@
         mex2:'</strong>. Select or create one of the accepted types to proceed.'
       },
       form:{
-        initMex:"Fill in this <strong>form</strong> in order to apply with %{link} to <strong>%{organizer}</strong>'s call",
+        initMex:"Fill in this <strong>form</strong> in order to sign up with %{link} to <strong>%{organizer}</strong>'s call",
         portfolio:'Apply with a portfolio proposal',
-        catPlaceholder: 'select how you want to apply',
+        catPlaceholder: 'select how you want to sign up',
         newProposal: '...or propose something new'
       }
     },  
@@ -394,67 +394,67 @@
     },
     profile_page:{
       aside:{
-        yourOther: 'tus otros perfiles',
-        other:'Otros perfiles del mismo usuario',
+        yourOther: 'your other profiles',
+        other:'Other profiles form same user',
         portfolio:'Portfolio'
       },
-      artistBio: 'Biografía',
-      call:'Participación en convocatorias',
-      callMex:'No estás inscrito en ninguna convocatoria activa en este periodo.',
-      multimedia:'Contenidos multimedia',
-      video: 'Vídeos',
-      images: 'Imágenes',
+      artistBio: 'Biografy',
+      call:'Participation in calls',
+      callMex:'You are not registered in any active call in this period.',
+      multimedia:'Multimedia contents',
+      video: 'Videos',
+      images: 'Images',
       audio:'Audio',
-      spaceInfo: 'Información',
-      events: 'Eventos',
-      organizationInfo:'Información',
-      createEventBtn:'Crea un evento y lanza una convocatoria',
-      createEventTitle: 'Tus eventos en orfheo',
-      participation:'Participación en eventos',
+      spaceInfo: 'Information',
+      events: 'Events',
+      organizationInfo:'Information',
+      createEventBtn:'Create an event and launch a call',
+      createEventTitle: 'Your events in orfheo',
+      participation:'Participation in events',
 
       production:{
-        cache:'Caché: ',
-        public: 'Público ',
-        noDuration: 'No tiene duración definida',
-        info: 'Información'
+        cache:'Cache: ',
+        public: 'Public ',
+        noDuration: "It has no defined duration",
+        info: 'Information'
       }
     },
     event_page:{
       infoTab: {
-        signupCall:'¡Apúntate!',
-        callOpening:'Apertura convocatoria ',
-        callOpened:'Convocatoria abierta',
-        till: ' hasta ',
-        callClosed:'Convocatoria cerrada (desde el ',
-        organize:'Organiza ',
-        noConditions: 'Sin condiciones de participación',
-        seeAll: 'ver todos',
-        conditions:'Bases de participación'
+        signupCall:'¡Sign up!',
+        callOpening:'Call opening ',
+        callOpened:'Open call',
+        till: ' untill ',
+        callClosed:'Closed cadd (since ',
+        organize:'Organizes ',
+        noConditions: 'No terms of participation',
+        seeAll: 'see all',
+        conditions:'Participación terms'
       },
       eventAside:{
-        program: 'Programa',
-        community: 'Comunidad',
-        info:'Informaciones',
+        program: 'Program',
+        community: 'Community',
+        info:'Info',
         partners:'Partners',
-        managerbtn:'Manager del evento',
-        withdrawprog:'Retira el programa',
-        publishprog: 'Publica el programa',
-        withdrawMex:'Ahora sólo tú puedes ver el programa de tu evento',
+        managerbtn:'Event manager',
+        withdrawprog:'Withdraw the program',
+        publishprog: 'Publish the program',
+        withdrawMex:'Now only you can see the program of your event',
         publishMex:'El programa se ha publicado correctamente',
       },
       program:{
-        filtersbtn: 'Filtros',
+        filtersbtn: 'Filters',
         filters:{
-          participants:'Categorias Artísticas',
-          hosts: 'Categorias Espacios',
-          other:'Edades',
-          titleText:'Selecciona lo que quieres ver'
+          participants:'Artistic Categories',
+          hosts: 'Space Categories',
+          other:'Public',
+          titleText:'Select what you want to see'
         },
-        all_dates: 'Todas las fechas',
-        nowbtn:'Ahora',
-        hs:'Horario',
-        sp:'Espacio',
-        orderby:'Ordena por'
+        all_dates: 'All dates',
+        nowbtn:'Now',
+        hs:'Schedule',
+        sp:'Space',
+        orderby:'Order by'
       }
     }
   }
