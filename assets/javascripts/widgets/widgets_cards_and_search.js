@@ -179,7 +179,8 @@
           return {
             query: _query,
             page: params.page,
-            event_id: event_id
+            event_id: event_id,
+            lang: Pard.Options.language()
           };
         },
         processResults: function (data, params) {
@@ -393,9 +394,9 @@
   }
 
   ns.Widgets.EventCard = function(event, owner){
-    var _texts = event.texts[Pard.UserInfo['lang']]; 
+    var _texts = event.texts[Pard.UserInfo['lang']];
     if(!_texts) {
-      _texts = event.texts[Object.keys(the_event.texts)[0]];
+      _texts = event.texts[Object.keys(event.texts)[0]];
     }
     var _translatorSubC = _texts['subcategories'];
     var _card = $('<div>').addClass('eventCard')

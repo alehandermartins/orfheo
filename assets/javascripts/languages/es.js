@@ -4,6 +4,10 @@
   ns.langs = ns.langs || {}
 
   ns.langs.es = {
+    search: {
+      artista: 'artist',
+      espacio: 'space',
+    },
     type: {
       artist: "Artista",
       space: "Espacio",
@@ -45,13 +49,13 @@
       noAction: 'No se ha podido ejecutar la acción',
       serverProblem:{
         title: 'Error en el servidor',
-        mex: '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste no olvides que estamos a tu disposición para ayudarte.  Escríbenos a  <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org</a> o contactános a la chat de nuestra <a href="https://www.facebook.com/orfheo.org", target="_blank">página facebook.</a></p>'
+        mex: '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste no olvides que estamos a tu disposición para ayudarte. Escríbenos a <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org</a> o contactános en el chat de nuestra <a href="https://www.facebook.com/orfheo.org", target="_blank">página facebook.</a></p>'
       }
     },
     popup:{
       delete:{
         title:'¿Estás seguro/a?',
-        user: 'Confirmando, todos tus datos serán eliminados de orfheo: se cancelarán todos tus perfiles y sus contenidos. Con ello, todas tus inscripciones en convocatorias serán borradas.',
+        user: 'Confirmando, todos tus datos serán eliminados de orfheo: se cancelarán todos tus perfiles y sus contenidos.',
         profile: 'Confirmando, tu perfil será eliminado y con ello todos sus contenidos. Sin embargo, no se cancelarán las propuestas enviadas a convocatorias.',
         confirm:'Confirma',
         cancel: 'Anula',
@@ -190,7 +194,7 @@
           sublist4_2: 'pincha en "Copy Song Link"',
           sublist4_3:'pega el contenido copiado en el formulario de orfheo',
           sublist4_4:'dale al botón para validar',
-          finalMex: 'Finalmente, considera que se pueden importar en orfheo sólo contenidos multimedia declarados públicos en la web donde se han subido.'
+          finalMex: 'Finalmente, considera que sólo se pueden importar a orfheo contenidos multimedia declarados públicos en la web donde se han subido.'
         }
       }
     },
@@ -283,7 +287,7 @@
       modify:{
         title: 'Modifica tu proyecto artístico',
         cat:'Categoría',
-        initMex: 'Con este formularo puedes modificar el contenido de la página de tu proyecto artistico. Los cambios que hagas no afectarán los datos enviados a convocatorias.',
+        initMex: 'Con este formularo puedes modificar los contenidos de tu proyecto artistico. Los cambios que hagas no afectarán los datos enviados a convocatorias.',
         delete: 'Elimina este proyecto artístico'
       }
     },
@@ -313,7 +317,8 @@
         gobtn:'Entra',
         rememberme:'Recuérdame',
         popup:{
-          notValidated: '<h4 style="margin-top:-1.2rem;">Usuario no validado</h4> <p>Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam...</p>',
+          notValidated: 'Usuario no validado',
+          notValidatedmex: 'Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam...',
           sendOther:'...o vuelve a escribir aquí tu correo, y te enviamos otro.',
           okbtn:'Enviar',
           notValidEmail:'El email no es valido',
@@ -333,7 +338,7 @@
     call:{
       initText:'Esta convocatoria es para perfiles de tipo ',
       conjunction:' y ',
-      chooseProfile: 'Inscribe un perfil ya creado',
+      chooseProfile: 'Inscribe un perfil existente',
       newProfile: '...o crea e inscribe uno nuevo',
       createProfile:{
         title:'Crea un perfil y apúntate como:',
@@ -355,8 +360,7 @@
         mex2:'</strong>. Selecciona o crea uno de los tipos aceptados para seguir.'
       },
       form:{
-        initMex1:'Éste es el <strong>formulario</strong> para inscribir tu perfil ',
-        initMex2: ' en la convocatoria de <strong>',
+        initMex:'Rellena este <strong>formulario</strong> para inscribir tu perfil %{link} en la convocatoria de <strong>%{organizer}</strong>',
         portfolio:'Apúntate con una propuesta de tu portfolio',
         catPlaceholder: 'Selecciona como quieres apuntarte',
         newProposal: '...o propón algo nuevo'
@@ -434,7 +438,7 @@
       eventAside:{
         program: 'Programa',
         community: 'Comunidad',
-        info:'Informaciones',
+        info:'Info',
         partners:'Partners',
         managerbtn:'Manager del evento',
         withdrawprog:'Retira el programa',

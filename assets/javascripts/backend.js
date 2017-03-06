@@ -173,7 +173,8 @@
         {
           query: tags,
           shown: shown,
-          event_id: event_id
+          event_id: event_id,
+          lang: Pard.Options.language()
         },
         callback
       );
@@ -187,7 +188,8 @@
           query: tags,
           filters: filters,
           date: date,
-          time: time
+          time: time,
+          lang: Pard.Options.language()
         },
         callback
       );
@@ -420,6 +422,16 @@
       ); 
     }
 
+    var _eventManager = function(event_id, callback){
+     _send(
+        '/users/event_manager',
+        {
+          event_id: event_id
+        },
+        callback
+      ); 
+    }
+
     var _checkName = function(name, callback){
       _send(
         '/users/check_name',
@@ -462,6 +474,7 @@
       deleteWhitelist: _deleteWhitelist,
       saveOrder: _saveOrder,
       publish: _publish,
+      eventManager: _eventManager,
       getCallForms: _getCallForms,
       listProfiles: _listProfiles,
       events: _events,

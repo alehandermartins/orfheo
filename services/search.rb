@@ -2,7 +2,9 @@ module Services
 	class Search
 		class << self
 
-			def get_program_suggestions event_id, queriable_tags, filters
+			@lang = :es
+			def get_program_suggestions lang, event_id, queriable_tags, filters
+				check_lang! lang
 				tags = queriable_tags[0...-1]
 				program = Services::Events.get_program event_id
 				matched_performances = query_program program, tags, filters
@@ -10,13 +12,20 @@ module Services
 				sort_results results
 			end
 
-			def get_program_results event_id, tags, filters, date, time
+			def get_program_results lang, event_id, tags, filters, date, time
+				check_lang! lang
 				program = Services::Events.get_program event_id
 				program = program.select{|performance| performance[:date] == date} unless date.blank?
 				results = query_program program, tags, filters
 				results = select_now results, time unless time.blank?
 				order_results results
 			end
+
+			private
+			def check_lang! lang
+		    raise Pard::Invalid::Language unless [:es, :en].include? lang.to_sym
+		    @lang = lang.to_sym
+		  end
 
 			def select_now results, time
 				results.select{|performance|
@@ -105,36 +114,67 @@ module Services
 			end
 
 			def artist_category? text
-				[
-					'musica', 
-					'artes escenicas', 
-					'exposicion', 
-					'poesia',
-					'audiovisual',
-					'street art',
-					'taller',
-					'gastronomia',
-					'otros'
-				].include? text
-			end
+		    dictionary = {
+		      es:[
+		        'musica', 
+		        'artes escenicas', 
+		        'exposicion', 
+		        'poesia',
+		        'audiovisual',
+		        'street art',
+		        'taller',
+		        'gastronomia',
+		        'otros'
+		      ],
+		      en: [
+		        'music', 
+		        'performing arts', 
+		        'exposition', 
+		        'poetry',
+		        'audiovisual',
+		        'street art',
+		        'workshop',
+		        'gastronomy',
+		        'other'
+		      ]
+		    }
+		    dictionary[@lang].include? text
+		  end
 
-			def space_category? text
-				[
-					'espacio exterior',
-					'asociacion cultural',
-					'local comercial', 
-					'espacio particular',
-					'festival',
-		      'asociacion', 
-		      'ong', 
-		      'colectivo', 
-		      'empresa', 
-		      'institucion',
-		      'federacion',
-		      'fundacion'
-				].include? text
-			end
-
+		  def space_category? text
+		    dictionary = {
+		      es:[
+		        'espacio exterior',
+		        'espacio cultural',
+		        'local comercial', 
+		        'espacio particular',
+		        'festival',
+		        'asociacion', 
+		        'ong', 
+		        'colectivo', 
+		        'empresa', 
+		        'institucion',
+		        'federacion',
+		        'fundacion'
+		      ],
+		      en: [
+		        'open air',
+		        'cultural space',
+		        'business', 
+		        'private home',
+		        'festival',
+		        'association', 
+		        'ngo', 
+		        'collective', 
+		        'enterprise', 
+		        'institution',
+		        'federation',
+		        'foundation'
+		      ]
+		    }
+		    dictionary[@lang].include? text
+		  end
+			
 			def get_suggestions_for matched_performances, query
 				suggestions = []
 				return suggestions if query.last.blank?
@@ -165,34 +205,63 @@ module Services
 			end
 
 			def translate text
-				dictionary = {
-					artist: 'artista',
-					space: 'espacio',
-					open_air: 'espacio exterior',
-					cultural_ass: 'asociacion cultural',
-					commercial: 'local comercial',
-					home: 'espacio particular',
-					music: 'musica',
-					arts: 'artes escenicas',
-					expo: 'exposicion',
-					poetry: 'poesia',
-					audiovisual: 'audiovisual',
-					street_art: 'street art',
-					workshop: 'taller',
-					gastronomy: 'gastronomia',
-					other: 'otros',
-					festival: 'festival',
-		      association:'asociacion', 
-		      ngo:'ong', 
-		      collective:'colectivo', 
-		      interprise:'empresa', 
-		      institution:'institucion',
-		      federation: 'federacion',
-		      foundation:'fundacion'
-				}
-				return dictionary[text.to_sym] if dictionary.has_key? text.to_sym
-				text
-			end
+		    dictionary = {
+		      es: {
+		        artist: 'artista',
+		        space: 'espacio',
+		        organization: 'organizacion',
+		        open_air: 'espacio exterior',
+		        cultural_ass: 'espacio cultural',
+		        commercial: 'local comercial',
+		        home: 'espacio particular',
+		        music: 'musica',
+		        arts: 'artes escenicas',
+		        expo: 'exposicion',
+		        poetry: 'poesia',
+		        audiovisual: 'audiovisual',
+		        street_art: 'street art',
+		        workshop: 'taller',
+		        gastronomy: 'gastronomia',
+		        other: 'otros',
+		        festival: 'festival',
+		        association:'asociacion', 
+		        ngo:'ong', 
+		        collective:'colectivo', 
+		        interprise:'empresa', 
+		        institution:'institucion',
+		        federation: 'federacion',
+		        foundation:'fundacion'
+		      },
+		      en:{
+		        artist: 'artist',
+		        space: 'space',
+		        organization: 'organization',
+		        open_air: 'open air',
+		        cultural_ass: 'cultural space',
+		        commercial: 'business',
+		        home: 'private home',
+		        music: 'music',
+		        arts: 'performing arts',
+		        expo: 'exposition',
+		        poetry: 'poetry',
+		        audiovisual: 'audiovisual',
+		        street_art: 'street art',
+		        workshop: 'workshop',
+		        gastronomy: 'gastronomy',
+		        other: 'other',
+		        festival: 'festival',
+		        association:'association', 
+		        ngo:'ngo', 
+		        collective:'collective', 
+		        interprise:'enterprise', 
+		        institution:'institution',
+		        federation: 'federation',
+		        foundation:'foundation'
+		      }
+		    }
+		    return dictionary[@lang][text.to_sym] if dictionary[@lang].has_key? text.to_sym
+		    text
+		  end
 
 			def sort_results results
 				sorted_results = []

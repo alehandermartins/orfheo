@@ -77,8 +77,16 @@ class EventsController < BaseController
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
     event = Services::Events.get_manager_event params[:id]
     halt erb(:not_found) unless event[:user_id] == session[:identity]
+    erb :event_manager, :locals => {:event_id => event[:event_id].to_json}
+  end
+
+  post '/users/event_manager' do
+    scopify :event_id
+    raise Pard::Invalid::UnexistingEvent unless Repos::Events.exists? event_id
+    event = Services::Events.get_manager_event event_id
+    raise Pard::Invalid::EventOwnership unless event[:user_id] == session[:identity]
     forms = Repos::Calls.get_forms event[:call_id]
-    erb :event_manager, :locals => {:the_event => event.to_json, :forms => forms.to_json}
+    success({the_event: event, forms: forms})
   end
 
   get '/conFusion' do

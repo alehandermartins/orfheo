@@ -157,6 +157,12 @@ module Pard
       'out_of_time_range'
     end
   end
+
+  class Invalid::Language < Invalid
+    def message
+      'invalid_language'
+    end
+  end
 end
 
 
