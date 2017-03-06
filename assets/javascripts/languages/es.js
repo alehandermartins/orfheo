@@ -4,6 +4,10 @@
   ns.langs = ns.langs || {}
 
   ns.langs.es = {
+    search: {
+      artista: 'artist',
+      espacio: 'space',
+    },
     type: {
       artist: "Artista",
       space: "Espacio",

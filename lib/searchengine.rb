@@ -1,9 +1,13 @@
-class SearchController < BaseController
-  @lang = :es
+class SearchEngine
 
+  def initialize params, user_id
+    check_fields params, user_id
+    @profile = new_profile params, user_id
+  end
+
+end
   post '/suggest' do
-    scopify :query, :event_id, :lang
-    check_lang! lang
+    scopify :query, :event_id
     queriable_tags = get_query query
     tags = queriable_tags[0...-1]
     matched_profiles = query_profiles get_profiles(event_id), tags
@@ -13,8 +17,7 @@ class SearchController < BaseController
   end
 
   post '/results' do
-    scopify :query, :shown, :event_id, :lang
-    check_lang! lang
+    scopify :query, :shown, :event_id
     tags = get_query query
     shown_profiles = check_params shown
     not_shown = not_shown_profiles get_profiles(event_id), shown_profiles
@@ -23,27 +26,22 @@ class SearchController < BaseController
   end
 
   post '/suggest_program' do
-    scopify :query, :event_id, :filters, :lang
+    scopify :query, :event_id, :filters
     queriable_tags = get_query query
     queriable_filters = get_filters filters
-    results = Services::Search.get_program_suggestions lang, event_id, queriable_tags, queriable_filters
+    results = Services::Search.get_program_suggestions event_id, queriable_tags, queriable_filters
     success({items: results})
   end
 
   post '/results_program' do
-    scopify :query, :event_id, :filters, :date, :time, :lang
+    scopify :query, :event_id, :filters, :date, :time
     tags = get_query query
     queriable_filters = get_filters filters
-    results = Services::Search.get_program_results lang, event_id, tags, queriable_filters, date, time
+    results = Services::Search.get_program_results event_id, tags, queriable_filters, date, time
     success({program: results})
   end
 
   private
-  def check_lang! lang
-    raise Pard::Invalid::Language unless [:es, :en].include? lang.to_sym
-    @lang = lang.to_sym
-  end
-
   def get_query params
     return [] if params.blank?
     check_params params
@@ -209,121 +207,63 @@ class SearchController < BaseController
   end
 
   def type? text
-    dictionary = {
-      es: ['artista', 'espacio', 'organizacion'],
-      en: ['artist', 'space', 'organization']
-    }
-    dictionary[@lang].include? text
+    ['artista', 'espacio', 'organizacion'].include? text
   end
 
   def category? text
-    dictionary = {
-      es:[
-        'espacio exterior',
-        'espacio cultural',
-        'local comercial', 
-        'espacio particular',
-        'musica', 
-        'artes escenicas', 
-        'exposicion', 
-        'poesia',
-        'audiovisual',
-        'street art',
-        'taller',
-        'gastronomia',
-        'otros',
-        'festival',
-        'asociacion', 
-        'ong', 
-        'colectivo', 
-        'empresa', 
-        'institucion',
-        'federacion',
-        'fundacion'
-      ],
-      en: [
-        'open air',
-        'cultural space',
-        'business', 
-        'private home',
-        'music', 
-        'performing arts', 
-        'exposition', 
-        'poetry',
-        'audiovisual',
-        'street art',
-        'workshop',
-        'gastronomy',
-        'other',
-        'festival',
-        'association', 
-        'ngo', 
-        'collective', 
-        'enterprise', 
-        'institution',
-        'federation',
-        'foundation'
-      ]
-    }
-    dictionary[@lang].include? text
+    [
+      'espacio exterior',
+      'asociacion cultural',
+      'local comercial', 
+      'espacio particular',
+      'musica', 
+      'artes escenicas', 
+      'exposicion', 
+      'poesia',
+      'audiovisual',
+      'street art',
+      'taller',
+      'gastronomia',
+      'otros',
+      'festival',
+      'asociacion', 
+      'ong', 
+      'colectivo', 
+      'empresa', 
+      'institucion',
+      'federacion',
+      'fundacion'
+      ].include? text
   end
 
   def translate text
     dictionary = {
-      es: {
-        artist: 'artista',
-        space: 'espacio',
-        organization: 'organizacion',
-        open_air: 'espacio exterior',
-        cultural_ass: 'espacio cultural',
-        commercial: 'local comercial',
-        home: 'espacio particular',
-        music: 'musica',
-        arts: 'artes escenicas',
-        expo: 'exposicion',
-        poetry: 'poesia',
-        audiovisual: 'audiovisual',
-        street_art: 'street art',
-        workshop: 'taller',
-        gastronomy: 'gastronomia',
-        other: 'otros',
-        festival: 'festival',
-        association:'asociacion', 
-        ngo:'ong', 
-        collective:'colectivo', 
-        interprise:'empresa', 
-        institution:'institucion',
-        federation: 'federacion',
-        foundation:'fundacion'
-      },
-      en:{
-        artist: 'artist',
-        space: 'space',
-        organization: 'organization',
-        open_air: 'open air',
-        cultural_ass: 'cultural space',
-        commercial: 'business',
-        home: 'private home',
-        music: 'music',
-        arts: 'performing arts',
-        expo: 'exposition',
-        poetry: 'poetry',
-        audiovisual: 'audiovisual',
-        street_art: 'street art',
-        workshop: 'workshop',
-        gastronomy: 'gastronomy',
-        other: 'other',
-        festival: 'festival',
-        association:'association', 
-        ngo:'ngo', 
-        collective:'collective', 
-        interprise:'enterprise', 
-        institution:'institution',
-        federation: 'federation',
-        foundation:'foundation'
-      }
+      artist: 'artista',
+      space: 'espacio',
+      organization: 'organizacion',
+      open_air: 'espacio exterior',
+      cultural_ass: 'asociacion cultural',
+      commercial: 'local comercial',
+      home: 'espacio particular',
+      music: 'musica',
+      arts: 'artes escenicas',
+      expo: 'exposicion',
+      poetry: 'poesia',
+      audiovisual: 'audiovisual',
+      street_art: 'street art',
+      workshop: 'taller',
+      gastronomy: 'gastronomia',
+      other: 'otros',
+      festival: 'festival',
+      association:'asociacion', 
+      ngo:'ong', 
+      collective:'colectivo', 
+      interprise:'empresa', 
+      institution:'institucion',
+      federation: 'federacion',
+      foundation:'fundacion'
     }
-    return dictionary[@lang][text.to_sym] if dictionary[@lang].has_key? text.to_sym
+    return dictionary[text.to_sym] if dictionary.has_key? text.to_sym
     text
   end
 end

@@ -488,7 +488,8 @@
             query: _query,
             page: params.page,
             event_id: the_event.event_id,
-            filters: filters
+            filters: filters,
+            lang: Pard.Options.language()
           };
         },
         processResults: function (data, params) {

@@ -179,7 +179,8 @@
           return {
             query: _query,
             page: params.page,
-            event_id: event_id
+            event_id: event_id,
+            lang: Pard.Options.language()
           };
         },
         processResults: function (data, params) {

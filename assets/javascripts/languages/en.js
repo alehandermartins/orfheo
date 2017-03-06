@@ -16,8 +16,8 @@
     },
     categories:{
       cultural_ass: "Cultural Space",
-      commercial: "Shop",
-      home: "Private Space",
+      commercial: "Business",
+      home: "Private Home",
       open_air: "Open Air",
       festival:"Festival",
       association:'Association',

@@ -173,7 +173,8 @@
         {
           query: tags,
           shown: shown,
-          event_id: event_id
+          event_id: event_id,
+          lang: Pard.Options.language()
         },
         callback
       );
@@ -187,7 +188,8 @@
           query: tags,
           filters: filters,
           date: date,
-          time: time
+          time: time,
+          lang: Pard.Options.language()
         },
         callback
       );
