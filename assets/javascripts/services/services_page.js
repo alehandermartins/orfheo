@@ -4,7 +4,7 @@
      
 ns.Widgets = ns.Widgets || {};
 
-	ns.Widgets.MainServicesPage = function(){
+	ns.Widgets.MainServicesPage = function(videoLink){
 
 		var _main = $('<main>').addClass('mainServicesPage');
 		var _initialSection = $('<section>');
@@ -15,6 +15,7 @@ ns.Widgets = ns.Widgets || {};
 		var _publishSection = Pard.Widgets.ServiceSection();
 		var _mobileSection = $('<section>').addClass('serviceSection mobileSectionServicePage');
 		var _otherSection = Pard.Widgets.ServiceSection();
+		var _videoSection = $('<section>').addClass('serviceSection videoSectionServicePage');
 		var _priceSection = $('<section>').addClass('serviceSection priceSectionServicePage');
 		var _finalSection = $('<section>').addClass('finalSectionServicePage');
 
@@ -162,6 +163,23 @@ ns.Widgets = ns.Widgets || {};
 		var _oRight = $('<div>').append(_oRSign, _oRTitle, _oRText).addClass('otherTextContainer');
 		_otherSection.appendRight(_oRight);
 
+		var _video = $('<video>')
+			.attr({
+				'width':400,
+				'controls':'',
+				// 'autoplay':''
+			})
+			.append(
+				$('<source>')
+					.attr({
+						'src':videoLink,
+						'type':'video/mp4'
+					})
+			)
+		_videoSection.append(
+			_video
+		)
+
 
 		var _contactPriceBtn = $('<button>')
 			.attr('type','button')
@@ -214,6 +232,7 @@ ns.Widgets = ns.Widgets || {};
 			_publishSection.render().addClass('publishSectionServicePage'),
 			_mobileSection,
 			_otherSection.render().addClass('otherSectionServicePage'),
+			_videoSection,
 			_priceSection,
 			_finalSection
 		)
