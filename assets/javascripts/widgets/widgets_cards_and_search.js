@@ -394,9 +394,9 @@
   }
 
   ns.Widgets.EventCard = function(event, owner){
-    var _texts = event.texts[Pard.UserInfo['lang']]; 
+    var _texts = event.texts[Pard.UserInfo['lang']];
     if(!_texts) {
-      _texts = event.texts[Object.keys(the_event.texts)[0]];
+      _texts = event.texts[Object.keys(event.texts)[0]];
     }
     var _translatorSubC = _texts['subcategories'];
     var _card = $('<div>').addClass('eventCard')
