@@ -16,14 +16,11 @@
     var _callToAction = $('<button>').attr({'type':'button', 'id':'callToActio-eventHeader'}).html(Pard.t.text('event_page.infoTab.signupCall')).addClass('signUp-button-welcome-section button-event-header');
     _callToAction.on('click',function(){
       if (Pard.UserStatus['status'] == 'outsider'){
-        var _popupContent = $('<div>').addClass('very-fast reveal full');
-        _popupContent.empty();
-        $('body').append(_popupContent);
-        var _popup = new Foundation.Reveal(_popupContent, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out'});
-        var _signUpEventMessage =  Pard.Widgets.PopupContent('Para apuntarte necesitas hacer antes el login', Pard.Widgets.LoginEvent(Pard.CachedEvent.event_id));
-        _signUpEventMessage.setCallback(function(){});
-        _popupContent.append(_signUpEventMessage.render());
-        _popup.open();
+        var _loginPopup = Pard.Widgets.Popup();
+        var _loginMex = Pard.Widgets.LoginEvent(Pard.CachedEvent.event_id);
+        _loginMex.setCallback(function(){_loginPopup.close();});
+        _loginPopup.setContent(Pard.t.text('login.eventPage.loginTitle'), _loginMex.render());
+        _loginPopup.open();
       }
       else{
        Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, _callToAction).render);

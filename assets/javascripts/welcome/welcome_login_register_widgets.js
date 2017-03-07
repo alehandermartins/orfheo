@@ -388,7 +388,7 @@
 
 
 
-    _fields['button'] = Pard.Widgets.Button(Pard.t.text('login.btn'), function(){
+    _fields['button'] = Pard.Widgets.Button(Pard.t.text('login.dropdown.gobtn'), function(){
       _rememberMe.rememberMe();
       Pard.Backend.login(
         _fields['email'].getVal(),
@@ -420,21 +420,16 @@
       .attr({type:'button'})
       .html(Pard.t.text('login.eventPage.signUp'))
       .addClass('signupButton-eventLogin')
-      one('click', function(){
+      .one('click', function(){
         _signUpPopup = Pard.Widgets.Popup();
         _signUpPopupMessage = Pard.Widgets.Registration(event_id);
-        _signUpPopupMessage.setCallback(_signUpPopup.close());
+        _signUpPopupMessage.setCallback(function(){_signUpPopup.close()});
         _signUpPopup.setContent(Pard.t.text('login.eventPage.signUpTitle'), _signUpPopupMessage.render())
       })
       .click(function(){
         _signUpPopupMessage.empty();
         _signUpPopup.open();
-      });
-    // _caller.click(function(){
-    //   _signUpContainer.append(_signUpMessage.render().addClass('popup-form').css('margin-top', '1rem'));
-    //   _caller.remove();
-    // });
-    
+      });   
 
     _signUpContainer.append(_signUpText,_signUpButton);
     _createdWidget.append(_signUpContainer);

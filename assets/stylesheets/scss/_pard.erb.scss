@@ -829,6 +829,14 @@ a.navigation-btn-callPage{
   }
 }
 
+.choose-type-btn-callEvent.active{
+  cursor: default;
+}
+
+.choose-type-btn-callEvent.active:hover{
+  background: $green-pard;
+}
+
 .contactButton-ServicesPage{
   background: rgb(56, 133, 255);
   color: white;
@@ -2782,9 +2790,10 @@ body.is-reveal-open{
 
 .vcenter-outer{
   display: table;
-    position: absolute;
-    height: 90%;
-    width: 100%;
+  position: absolute;
+  height: 90%;
+  width: 100%;
+  left: 0;
 }
 
 .vcenter-inner{
