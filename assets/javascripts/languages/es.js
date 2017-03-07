@@ -394,6 +394,30 @@
         space: "Saca el máximo partido a tu espacio,<br>alberga eventos artísticos,<br>abre las puertas a la cultura",
         organization: "Da a conocer tu proyecto,<br>lanza convocatorias,<br>expande tu comunidad",
         create: "Crea un perfil"
+      },
+      networkSection: {
+        title: 'Une a las personas,</br> crea en red con tu comunidad cultural',
+        subtitle1: 'Aquí y ahora',
+        subtitle2: 'Toma el control',
+        subtitle3: 'Hazlo',
+        section1: 'Descubre proyectos y déjate </br> conocer por lo que haces',
+        section2: 'Involucra a la comunidad, </br> lanza tu convocatoria',
+        section3: 'Crea experiencias inolvidables junto con los demás',
+        link: 'Explora las ventajas de lanzar tu convocatoria en orfheo'
+      },
+      inspireSection: {
+        title: 'El futuro está aquí, frente a ti',
+        section: 'Alguna vez lo has imaginado, pero ahora es realidad. <br> Tienes a tu alcance un universo de nuevas, <br>grandes posibilidades culturales.',
+        link: 'Déjate inspirar'
+      },
+      servicesSection: {
+        subtitle1: 'Plataforma de gestión',
+        subtitle2: 'Asesoría creativa',
+        subtitle3: 'Conexión API',
+        section1: 'Crea un evento,</br> lanza una convocatoria, </br>utiliza la potente herramienta de gestión </br>y publica una programación interactiva',
+        section2: 'Saca lo mejor de tu proyecto,</br> alimenta tu comunidad </br>y explora nuevas estrategias creativas durante el proceso',
+        section3: 'Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga',
+        link: 'Descubre más'
       }
     },
     profile_page:{

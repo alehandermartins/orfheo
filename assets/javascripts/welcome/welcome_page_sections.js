@@ -499,16 +499,16 @@ ns.Widgets = ns.Widgets || {};
     var _img1 = $('<div>').addClass('img1Box');
     var _img2 = $('<div>').addClass('img2Box');
     var _img3 = $('<div>').addClass('img3Box');
-    var _text1 = $('<div>').addClass('txtBox').append($('<h4>').text('Aquí y ahora'), $('<p>').html('Descubre proyectos y déjate </br> conocer por lo que haces').addClass('txt_grey'));
-    var _text2 = $('<div>').addClass('txtBox').append($('<h4>').text('Toma el control'), $('<p>').html('Involucra a la comunidad, </br> lanza tu convocatoria').addClass('txt_grey'));
-    var _text3 = $('<div>').addClass('txtBox').append($('<h4>').text('Hazlo'), $('<p>').html('Crea experiencias inolvidables junto con los demás').addClass('txt_grey'));
+    var _text1 = $('<div>').addClass('txtBox').append($('<h4>').text(Pard.t.text('welcome.networkSection.subtitle1')), $('<p>').html(Pard.t.text('welcome.networkSection.section1')).addClass('txt_grey'));
+    var _text2 = $('<div>').addClass('txtBox').append($('<h4>').text(Pard.t.text('welcome.networkSection.subtitle2')), $('<p>').html(Pard.t.text('welcome.networkSection.section2')).addClass('txt_grey'));
+    var _text3 = $('<div>').addClass('txtBox').append($('<h4>').text(Pard.t.text('welcome.networkSection.subtitle3')), $('<p>').html(Pard.t.text('welcome.networkSection.section3')).addClass('txt_grey'));
     _info1.append($('<div>').addClass('innerCont1').append(_img1, _text1));
     _info2.append(_img2, _text2);
     _info3.append($('<div>').addClass('innerCont3').append(_img3, _text3));
 
-    var _titleLongText = $('<h4>').html('Une a las personas,</br> crea en red con tu comunidad cultural').addClass('title-welcome');
+    var _titleLongText = $('<h4>').html(Pard.t.text('welcome.networkSection.title')).addClass('title-welcome');
     var _callLongText = $('<a>').attr('href','/services')
-      .text('Explora las ventajas de lanzar tu convocatoria en orfheo')
+      .text(Pard.t.text('welcome.networkSection.link'))
       .append(Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
       .addClass('callText-WelcomePage');
@@ -521,12 +521,12 @@ ns.Widgets = ns.Widgets || {};
       , _callLongText.css('margin-top','2.5rem')
     ));
 
-    var _titleLittleText = $('<h4>').html('El futuro está aquí, frente a ti').addClass('title-welcome').css('margin-bottom','1rem');
+    var _titleLittleText = $('<h4>').html(Pard.t.text('welcome.inspireSection.title')).addClass('title-welcome').css('margin-bottom','1rem');
     var _littleText = $('<h6>')
-      .html('Alguna vez lo has imaginado, pero ahora es realidad. <br> Tienes a tu alcance un universo de nuevas, <br>grandes posibilidades culturales.')
+      .html(Pard.t.text('welcome.inspireSection.section'))
       .css('margin-bottom','0')
     var _callLittleText = $('<button>').attr('type','button')
-      .text('Déjate inspirar')
+      .text(Pard.t.text('welcome.inspireSection.link'))
       .append(Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
       .click(function(){
@@ -550,25 +550,25 @@ ns.Widgets = ns.Widgets || {};
     var _servicesInfoContainer = $('<div>').addClass('welcomeSection-container');
     var _callService = $('<div>').addClass('i-container');
     var _iconCallService = $('<div>').append(Pard.Widgets.IconManager('proposals').render().addClass('servicesWelcome-icon'));
-    var _callTitle = $('<h4>').text('Plataforma de gestión');
-    var _callTxt = $('<p>').html('Crea un evento,</br> lanza una convocatoria, </br>utiliza la potente herramienta de gestión </br>y publica una programación interactiva');
+    var _callTitle = $('<h4>').text(Pard.t.text('welcome.servicesSection.subtitle1'));
+    var _callTxt = $('<p>').html(Pard.t.text('welcome.servicesSection.section1'));
     _callService.append($('<div>').append(_iconCallService, _callTitle, _callTxt).addClass('callServices-innerCont'));
     var _consulingService = $('<div>').addClass('i-container');
     var _iconConsulingService = $('<div>').append(Pard.Widgets.IconManager('chat_bubble').render().addClass('servicesWelcome-icon'));
-    var _consulingTitle = $('<h4>').text('Asesoría creativa');
-    var _consulingTxt = $('<p>').html('Saca lo mejor de tu proyecto,</br> alimenta tu comunidad </br>y explora nuevas estrategias creativas durante el proceso');
+    var _consulingTitle = $('<h4>').text(Pard.t.text('welcome.servicesSection.subtitle2'));
+    var _consulingTxt = $('<p>').html(Pard.t.text('welcome.servicesSection.section2'));
     _consulingService.append($('<div>').append(_iconConsulingService, _consulingTitle, _consulingTxt).addClass('consulingService-innerCont'));
     var _apiService = $('<div>').addClass('i-container');
     var _iconApiService = $('<div>').append(Pard.Widgets.IconManager('sincro').render().addClass('servicesWelcome-icon'));
-    var _apiTitle = $('<h4>').text('Conexión API');
-    var _apiTxt = $('<p>').text('Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga');
+    var _apiTitle = $('<h4>').text(Pard.t.text('welcome.servicesSection.subtitle3'));
+    var _apiTxt = $('<p>').text(Pard.t.text('welcome.servicesSection.section3'));
     _apiService.append($('<div>').append(_iconApiService, _apiTitle, _apiTxt).addClass('apiService-innerCont'));
 
     var _findOutMoreIcon = Pard.Widgets.IconManager('navigation_right').render().addClass('navigationIcon-findOutMore');
     var _findOutMore = $('<div>')
       .append(
         $('<a>')
-          .text('Descubre más')
+          .text(Pard.t.text('welcome.servicesSection.link'))
           .attr('href','/services')  
           .click(function(){
             $('#toServicesPage').trigger('click');
