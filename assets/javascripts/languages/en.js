@@ -79,20 +79,20 @@
         subtitle3: "We commit to:",
         mex3: "<p><ul><li>Describe how your information can be used or shared in these general conditions.</li> <li>Use reasonable measures to keep your sensitive information safe.</li> <li>Let the information that you decide to share flow in the community.</li> <li>Promote values ​​such as solidarity, a sense of community, meritocracy, equity, respect and harmony with the environment.</li> <li>Respect and defend the community of orfheo.</li> <li>Listen and welcome any kind of suggestion and constructive criticism.</li></ul></p>",
         subtitle4: "Terms of use and privacy:",
-        mex4: '<p>Aquí te explicamos cómo recolectamos y compartimos tu información personal/datos/contenidos.<ul><li>Recolectamos muy poca información personal acerca de ti. </li> <li> No alquilamos ni vendemos tu información a terceros, es decir que no compartimos tus datos con terceras partes para propósitos de mercadeo.  </li> <li>  Cabe la posibilidad de que la información recogida en orfheo se comparta con terceros de acuerdo con nuestra ideología, cumpliendo con la ley y con la intención de traer beneficio a toda la comunidad.  </li> <li>Eres responsable de los contenidos que compartes y de sus medidas de privacidad.  </li> <li> Ocasionalmente te mandaremos correos electrónicos con respecto a información importante. </li> <li>  La calidad de los datos que nos proporcionas es útil para ti, para que podamos mejorar tu experiencia como usuario y poder desarrollar nuevas funciones, para que tu experiencia sea inolvidable. </li> <li> Todo lo que publicas en orfheo es público, puede ser visto y eventualmente usado por todo observador externo. </li> <li> Es posible que te pidamos nos proporciones información a través de una encuesta o retro-alimentación, pero nunca estarás obligado a participar en éstas. </li> <li> No necesitas crear una cuenta para explorar y visualizar cualquiera de los contenidos. </li> <li> Si creas una cuenta,  necesitas darnos sólo tu dirección de correo electrónico. </li> <li> Nadie es mas importante que nadie.  El orden de los resultados de búsqueda y los perfiles no se manipulan en ningún momento para que nadie ocupe una posición aventajada. </li> <li> Cualquier persona puede unirse y abandonar orfheo en cualquier momento.  Cancelando una cuenta, toda la información relacionada será borrada permanentemente.</li> </ul></p>',
-        subtitle5:'Publicidad:',
-        mex5: '<p>Ahora mismo no hay ninguna forma de publicidad dentro de orfheo. En un futuro, no se excluye la presencia de publicidad no molesta, relacionada con el mundo artístico-cultural, que pueda proporcionar información útil y valiosa para los ciudadanos. Consideramos que la publicidad puede ser eficaz sin ser molesta. Excluimos la presencia de publicidad en forma de ventanas emergentes que pueden interferir con la visualización de los contenidos de orfheo. </p>',
-        subtitle5_5:'Sostenibilidad del proyecto:',
-        mex5_5:'<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida de las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos, a partir de una base mínima, según el tipo de evento que se quiere organizar.</p>',
-        cookies: 'Política de cookies:',
-        cookiesMex1: 'Las cookies son un elemento informático, ampliamente usado en internet, que una página web instala en el navegador de quien la visita. Es decir, que cuando uno accede a una página web, esta envía información a Chrome, Firefox, Internet Explorer, Opera... y esta información se almacena en la memoria del mismo. La idea es que la página web pueda comprobar esa información en el futuro y utilizarla.',
-        cookiesMex2: 'Orfheo utiliza coockies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guarda localmente informaciones para permitir un login más rápido y continuado, evitar la desconexión del sitio en caso de reinicio del servidor, recordar preferencias o elecciones durante todo el proceso de navegación.',
+        mex4: '<p>Here we explain how we collect and share your personal information / data / contents.<ul><li>We collect very little personal information about you.</li> <li>We do not rent or sell your information to third parties, ie: we do not share your data with third parties for marketing purposes.</li> <li>It is possible for the information collected in orfheo to be shared with third parties according to our ideology, complying with the law and with the intention of bringing benefit to the whole community.</li> <li>You are responsible for the contents you share and their privacy measures.</li> <li>We will occasionally send you emails regarding important information.</li> <li>The quality of the data you provide is useful for you, so that we can improve your experience as a user, letting us develop new functions, so that your experience is unforgettable.</li> <li>Everything you publish in orfheo is public, can be seen and eventually used by an external observer.</li> <li>We may sometimes launch feedback surveys, but you will never be required to participate in these surveys.</li> <li>You do not need to create an account to explore and visualize any of the contents.</li> <li>In order to create an account, you only need to give us your email address.</li><li>Anyone can join and leave orfheo at any time.</li> </ul></p>',
+        subtitle5:'Advertising:',
+        mex5: "<p>Right now there is no form of advertising within orfheo. In the future, we do not exclude the possibility of the presence of non-intrusive advertising related to the artistic-cultural world, which can provide useful and valuable information for the citizens. We believe that advertising can be effective without being annoying. We do not approve the presence of advertising in the form of pop-ups that may interfere with the display of orfheo contents. </p>",
+        subtitle5_5:'Project sustainability:',
+        mex5_5:'<p>As promised, being part of orfheo does not have and will never have no cost to any user. However, the maintenance of a web with this complexity has a cost, as well as the sustainability of the lives of the people who work on it on a daily basis. Therefore, launching a call and being able to access the relative management tool has a price, which is decided together, based on a minimum basis, depending on the type of event that you want to organize.</p>',
+        cookies: 'Cookies policy:',
+        cookiesMex1: 'Cookies are a computer element widely used in the internet. When you access a web page, some information is stored in your browser memory so the website can quickly access that information in the future.',
+        cookiesMex2: 'Orfheo uses cookies for the sole purpose of improving the browsing experience of its users. For example, we store information to allow a faster and continuous login, avoid disconnexions from the site in the case of server restarts, and remembering preferences or choices throughout the browsing process.',
         cookiesMex3:'En general, por como se estructura internet hoy en día, las coockies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar sus usuarios para que sepan lo que está ocurriendo.',
-        cookiesMex4: 'La misma información de este popup está también en el apartado de condiciones de uso de la web. En caso de modificación se avisará a los ciudadanos de orfheo con suficiente antelación.',
-        subtitle6: 'Actualizaciones:',
-        mex6: 'Nos reservamos el derecho de modificar, si necesario, las condiciones generales para adaptarlas a futuras novedades y asumimos el deber y el compromiso de informar de los cambios a todos los ciudadanos  de orfheo, previamente y con tiempo, para que puedan conocer las actualizaciones de antemano.',
-        subtitle7: '¡Muchas gracias!',
-        finalMex: '<p> Si tienes preguntas o sugerencias  envía un correo electrónico a <a href="mailto:info@orfheo.org"> info@orfheo.org</a>.</p> <p> Gracias por leer hasta aquí. Esperamos que disfrutes dentro y fuera orfheo. </br> Tu participación al crear, mantener y mejorar este lugar es imprescindible. </p> <p> Apreciamos que te hayas tomado tu tiempo para informarte sobre el proyecto, y te agradecemos que contribuyas. Mediante lo que haces, estás ayudando a construir algo realmente importante, no sólamente una conexión de proyectos compartidos de manera colaborativa, sino también una vibrante comunidad enfocada en una muy noble meta. </p>'
+        cookiesMex4: 'The same information displayed here is also available in the terms and conditions section. In case of modification, the citizens of orfheo will be notified well in advance.',
+        subtitle6: 'Updates:',
+        mex6: 'We reserve the right to modify, if necessary, the general conditions and adapt them to future developments. We assume the duty and the commitment to inform of the changes to all citizens of orfheo, so that they can know the updates in advance.',
+        subtitle7: '¡Thanks a lot!',
+        finalMex: '<p> If you have questions or suggestions, please send an email to <a href="mailto:info@orfheo.org"> info@orfheo.org </a>. </ P> <p> Thanks for reading until here. We hope you enjoy in and out of orfheo. </ Br> Your participation in creating, maintaining and improving this place is a must. </ P> <p> We appreciate you taking the time to read about the project, and we thank you for contributing. By what you do, you are helping to build something really important, not only a collaborative project, but also a vibrant community focused on a very noble goal.</p>'
       },
       noMapLocation:{
         title: "¡Attention!",
@@ -174,10 +174,10 @@
           sublistTwitter_3:'select "Copy link to Tweet"',
           sublistTwitter_4:'copy the link and paste it in the orfheo formulary field',
           sublistTwitter_5:'click on the validation button',
-          item2:'...una imagen, un post o un vídeo publicado en <strong>facebook</strong>:',
-          sublist2_1:'pincha la fecha con la hora de publicación que aparece en la parte superior del post',
-          sublist2_2:'copia desde el navegador el enlace de la página que se abre',
-          sublist2_3:'copy the link and paste it in the orfheo formulary field',
+          item2:'...an image, a post or video published on <strong>facebook</strong>:',
+          sublist2_1:'click on the publication date located on the upper part of the post',
+          sublist2_2:'copy the address of the page that opens up',
+          sublist2_3:'paste the address in the orfheo formulary field',
           sublist2_4:'click on the validation button',
           item3: '...an audio from <strong>bandcamp</strong>:',
           sublist3_1:'in the song page click on "Share/Embed" (under the main picture) and then click on "Embed this album"',
@@ -398,7 +398,32 @@
         space: "Make the best out of your space,<br>host artistic events,<br>open the doors to culture",
         organization: "Announce your project,<br>launch calls,<br>expand your community",
         create: "Create a profile"
-      } 
+      },
+      networkSection: {
+        title: 'Unite people, </ br> create through networking with your cultural community',
+        subtitle1: 'Here and now',
+        subtitle2: 'Take control',
+        subtitle3: 'Do it',
+        section1: 'Discover projects and let yourself be known </ br> for what you do',
+        section2: 'Involve the community, </ br> launch your call',
+        section3: 'Create unforgettable experiences together',
+        link: 'Explore the advantages of launching your call in orfheo'
+      },
+      inspireSection: {
+        title: 'The future is here, in front of you',
+        section: "You have imagined it, but now it is real. <br> You have at your disposal a universe of new, great cultural possibilities.",
+        link: 'Let yourself be inspired'
+      },
+      servicesSection: {
+        logo: 'S e r v i c e s',
+        subtitle1: 'Management platform',
+        subtitle2: 'Creative consultancy',
+        subtitle3: 'API connection',
+        section1: 'Create an event,</br> launch a call, </br>utiliza la potente herramienta de gestión </br>Use the powerful management tool </br>and publish an interactive program',
+        section2: 'Make the best out of your project, </ br> feed your community </ br> and explore new creative strategies during the process',
+        section3: 'Forward all your event data to your web page or mobile application, using it as it suits you and keeping everything updated',
+        link: 'Discover more'
+      }
     },
     profile_page:{
       aside:{

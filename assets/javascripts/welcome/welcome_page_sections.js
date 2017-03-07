@@ -585,7 +585,7 @@ ns.Widgets = ns.Widgets || {};
       _apiService, 
       _findOutMore
     ); 
-    var _textLogo = $('<div>').text('S e r v i c i o s').addClass('textLogo');
+    var _textLogo = $('<div>').text(Pard.t.text('welcome.servicesSection.logo')).addClass('textLogo');
     _servicesDiv.append(_logoServices, _textLogo, _servicesInfoContainer);
 
     _section.append(

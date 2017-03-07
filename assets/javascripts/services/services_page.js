@@ -5,6 +5,7 @@
 ns.Widgets = ns.Widgets || {};
 
 	ns.Widgets.MainServicesPage = function(videoLink){
+		console.log(videoLink);
 
 		var _main = $('<main>').addClass('mainServicesPage');
 		var _initialSection = $('<section>');
@@ -124,7 +125,7 @@ ns.Widgets = ns.Widgets || {};
 		var _mobileImg2 = $('<div>').addClass('mobileImage2');
 		var _mobileImg_d = $('<div>').addClass('mobileImage_d');
 		var _mobileImg_f = $('<div>').addClass('mobileImage_f');
-		var _mobileTitle = 'Sorprede a tu público <br> más que nunca!';
+		var _mobileTitle = 'Sorprende a tu público <br> más que nunca!';
 		var _mobileText = 'Orfheo se adapta perfectamente al tamaño móvil, funcionando para ti y para tu público como la guía perfecta durante tu evento. Se pueden filtrar, ordenar y encontrar contenidos por ubicación en el mapa, por horas y días, por tags o por categorías...o todo a la vez.';
 		var _mobileText = serviceText(6, _mobileTitle, _mobileText).addClass('mobileText');
 		var _phonesImgs = $('<div>').append(
