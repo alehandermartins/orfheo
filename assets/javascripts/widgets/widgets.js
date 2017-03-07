@@ -75,8 +75,11 @@
         _popup.close()
       },
       destroy: function(){
-        _popup.destroy();
-        _createdWidget.remove();
+        if (_popup) {
+          _popup.destroy();
+          _createdWidget.remove();
+          _popup = null;
+        }
       },
       setContent: function(title, cont){
         _title.html(title);

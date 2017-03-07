@@ -315,24 +315,25 @@
         email:'Tu email',
         passwd:'Contraseña',
         gobtn:'Entra',
-        rememberme:'Recuérdame',
-        popup:{
-          notValidated: 'Usuario no validado',
-          notValidatedmex: 'Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam...',
-          sendOther:'...o vuelve a escribir aquí tu correo, y te enviamos otro.',
-          okbtn:'Enviar',
-          notValidEmail:'El email no es valido',
-          sent: 'Te hemos enviado un correo con las instrucciones para acceder a tu cuenta.',
-          nouser:'El usuario no existe.',
-          notExisting: '¡No existe ningún usuario asociado con este correo!',
-          registerbtn:'Regístrate',
-          registerTitle: 'Regístrate para continuar'
-        }
+        rememberme:'Recuérdame'
+      },
+      popup:{
+        notValidated: 'Usuario no validado',
+        notValidatedmex: 'Al registrate, te enviamos un correo electrónico con un enlace para activar tu cuenta. Controla también en la carpeta de spam...',
+        sendOther:'...o vuelve a escribir aquí tu correo, y te enviamos otro.',
+        okbtn:'Enviar',
+        notValidEmail:'El email no es valido',
+        sent: 'Te hemos enviado un correo con las instrucciones para acceder a tu cuenta.',
+        nouser:'El usuario no existe.',
+        notExisting: '¡No existe ningún usuario asociado con este correo!',
+        registerbtn:'Regístrate',
+        registerTitle: 'Regístrate para continuar'
       },
       eventPage:{
         nouser: 'Si no tienes una cuenta:',
         signUp: 'Crea una cuenta',
-        signUpTitle:  'Crea una cuenta...' 
+        signUpTitle:  'Crea una cuenta...',
+        loginTitle: 'Para apuntarte necesitas hacer antes el login'
       }
     },
     call:{
@@ -342,9 +343,9 @@
       newProfile: '...o crea e inscribe uno nuevo',
       createProfile:{
         title:'Crea un perfil y apúntate como:',
-        artistText: 'Enseña tu arte',
-        spaceText: 'Alberga actividades',
-        organizationText: 'Envía tu propuesta'
+        artistText: 'Enseña tu arte y construye tu portfolio: sé protagonista en grandes eventos',
+        spaceText: 'Alberga y propón actividades: posiciónate el mapa cultural',
+        organizationText: 'Ofrece tu espacio y envía propuestas: crea red dando a conocer tu proyecto'
       },
       successTitle: '¡Genial!',
       succesMex:'Te has inscrito correctamente.',
@@ -363,7 +364,15 @@
         initMex:'Rellena este <strong>formulario</strong> para inscribir tu perfil %{link} en la convocatoria de <strong>%{organizer}</strong>',
         portfolio:'Apúntate con una propuesta de tu portfolio',
         catPlaceholder: 'Selecciona como quieres apuntarte',
-        newProposal: '...o propón algo nuevo'
+        newProposal: '...o propón algo nuevo',
+        chooseHow: 'Puedes participar tanto hospedando como proponiendo actividades:',
+        stagebtn:'Ofrece tu espacio',
+        perfomerbtn: 'Propón tu arte',
+        partI:'PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil',
+        partII: 'PARTE II: Sólo los organizadores tendrán acceso a los siguientes datos',
+        initSpace: 'Sólo los organizadores tendrán acceso a los siguientes datos',
+        finalMex: 'ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario, sino sólo de enmendarlo. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".',
+        sendbtn:'Envía'
       }
     },  
     footer:{
@@ -482,7 +491,9 @@
         nowbtn:'Ahora',
         hs:'Horario',
         sp:'Espacio',
-        orderby:'Ordena por'
+        orderby:'Ordena por',
+        permanents: 'Permanentes a lo largo del día',
+        noResults:'Ningún resultado para esta fecha'  
       }
     }
   }

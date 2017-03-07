@@ -253,9 +253,9 @@ Pard.Event = function(the_event, status){
   });
 }
 
-Pard.Services = function(status){
-   
-  var _main = Pard.Widgets.MainServicesPage();
+Pard.Services = function(status, videoLink){
+
+  var _main = Pard.Widgets.MainServicesPage(videoLink);
   var _footer = Pard.Widgets.Footer();
 
   Pard.UserStatus['status'] = status;

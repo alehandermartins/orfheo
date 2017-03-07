@@ -189,8 +189,7 @@
 
     _spaceButton.append(
       $('<p>')
-      .html('Alberga y propón actividades: posiciónate el mapa cultural')
-      // .html(Pard.t.text('call.createProfile.spaceText'))
+      .html(Pard.t.text('call.createProfile.spaceText'))
       .css({
         'margin-top':'0.5rem',
         'margin-bottom': '0'
@@ -198,8 +197,7 @@
     );
     _artistButton.append(
       $('<p>')
-        .html('Enseña tu arte y construye tu portfolio: sé protagonista en grandes eventos')
-        // .html(Pard.t.text('call.createProfile.artistText'))
+        .html(Pard.t.text('call.createProfile.artistText'))
         .css({
           'margin-top':'0.5rem',
           'margin-bottom': '0'
@@ -207,8 +205,7 @@
       );
     _organizationButton.append(
       $('<p>')
-      .html('Ofrece tu espacio y envía propuestas: crea red dando a conocer tu proyecto')
-      // .html(Pard.t.text('call.createProfile.organizationText'))
+      .html(Pard.t.text('call.createProfile.organizationText'))
       .css({
         'margin-top':'0.5rem',
         'margin-bottom': '0'
@@ -292,7 +289,7 @@
         .attr('type','button')
         .append(
           Pard.Widgets.IconManager('performer').render().css('vertical-align','middle'),
-          $('<span>').text('Propón tu arte').css('vertical-align','middle'))
+          $('<span>').text(Pard.t.text('call.form.perfomerbtn')).css('vertical-align','middle'))
         .click(function(){
           $('.active').removeClass('active');
           _performerBtn.addClass('active');
@@ -313,7 +310,7 @@
         .attr('type','button')
         .append(
           Pard.Widgets.IconManager('stage').render().css('vertical-align','middle'),
-          $('<span>').text('Ofrece tu espacio').css('vertical-align','middle'))
+          $('<span>').text(Pard.t.text('call.form.stagebtn')).css('vertical-align','middle'))
         .click(function(){
           if (_alreadyInscribed) {
               Pard.Widgets.Alert(Pard.t.text('call.alreadyInscribed.title'), Pard.t.text('call.alreadyInscribed.mex'));
@@ -329,7 +326,7 @@
       var _typeButtons = $('<div>').append(_stageBtn, _performerBtn).css('margin-bottom','2rem');
       var _chooseType = $('<div>').append(
         $('<p>')
-          .text('Puedes participar tanto hospedando como proponiendo actividades: ').css('font-size','1rem'),
+          .text(Pard.t.text('call.form.chooseHow')).css('font-size','1rem'),
         _typeButtons);
       var _initialMexText = Pard.t.text('call.form.initMex', {link: '<a href="/profile?id='+profile.profile_id + ', target="_blank">'+ profile.name +'</a>', organizer: Pard.CachedEvent.organizer});
       var _initialMex = $('<p>').html(_initialMexText).css('margin-bottom','1.5rem');
@@ -585,10 +582,10 @@
     var _createdWidget = $('<div>');
     var _formContainer = $('<form>').addClass('popup-form');
 
-    var _initial_message_spa = $('<div>').append($('<p>').text('Sólo los organizadores tendrán acceso a los siguientes datos').addClass('m-artistCall')).addClass('message-call');
-    var _initial_message_art = $('<div>').append($('<p>').html('PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil').addClass('m-artistCall')).addClass('message-call');
-    var _message_2 = $('<div>').append($('<p>').text('PARTE II: Sólo los organizadores tendrán acceso a los siguientes datos').addClass('m-artistCall')).addClass('message-call');
-    var _finalMessage =  $('<p>').html('ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario, sino sólo de enmendarlo. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".').css({'margin-top':'1rem','margin-bottom':'2rem'});
+    var _initial_message_spa = $('<div>').append($('<p>').text(Pard.t.text('call.form.initSpace')).addClass('m-artistCall')).addClass('message-call');
+    var _initial_message_art = $('<div>').append($('<p>').html(Pard.t.text('call.form.partI')).addClass('m-artistCall')).addClass('message-call');
+    var _message_2 = $('<div>').append($('<p>').text(Pard.t.text('call.form.partII')).addClass('m-artistCall')).addClass('message-call');
+    var _finalMessage =  $('<p>').html(Pard.t.text('call.form.finalMex')).css({'margin-top':'1rem','margin-bottom':'2rem'});
     var _messageDictionary = {
       artist: _initial_message_art,
       space: _initial_message_spa

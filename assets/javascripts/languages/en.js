@@ -311,19 +311,19 @@
         email:'Email',
         passwd:'Password',
         gobtn:'Login',
-        rememberme:'Remember me',
-        popup:{
-          notValidated: 'User not validated',
-          notValidatedmex: 'When registering, we send you an email with a link to activate your account. Check in the spam folder...',
-          sendOther:"...or re-type your email here, and we'll send you another one.",
-          okbtn:'Send',
-          notValidEmail:'The email is not valid',
-          sent: 'We have sent you an email with the instructions to access your account.',
-          nouser:'This user does not exist.',
-          notExisting: '¡There is no user associated with this email!',
-          registerbtn:'Register',
-          registerTitle: 'Register to proceed'
-        }
+        rememberme:'Remember me'
+      },
+      popup:{
+        notValidated: 'User not validated',
+        notValidatedmex: 'When registering, we send you an email with a link to activate your account. Check in the spam folder...',
+        sendOther:"...or re-type your email here, and we'll send you another one.",
+        okbtn:'Send',
+        notValidEmail:'The email is not valid',
+        sent: 'We have sent you an email with the instructions to access your account.',
+        nouser:'This user does not exist.',
+        notExisting: '¡There is no user associated with this email!',
+        registerbtn:'Register',
+        registerTitle: 'Register to proceed'
       },
       eventPage:{
         nouser: "If you don't have an account:",
@@ -338,9 +338,9 @@
       newProfile: '...or create and sign up with a new one',
       createProfile:{
         title:'Create a profile and sign up as:',
-        artistText: 'Show your art',
-        spaceText: 'Host activities',
-        organizationText: 'Send your proposal'
+        artistText: 'Show your art and build your portfolio',
+        spaceText: 'Host and propose activities',
+        organizationText: 'Offer your space and send proposals'
       },
       successTitle: '¡Awesome!',
       succesMex:'You have successfully signed up.',
@@ -359,7 +359,15 @@
         initMex:"Fill in this <strong>form</strong> in order to sign up with %{link} to <strong>%{organizer}</strong>'s call",
         portfolio:'Apply with a portfolio proposal',
         catPlaceholder: 'select how you want to sign up',
-        newProposal: '...or propose something new'
+        newProposal: '...or propose something new',
+        chooseHow: 'You can participate hosting or proposing art:',
+        stagebtn:'Offer your space',
+        perfomerbtn: 'Propose your art',
+        partI:'PART I: This information will be stored in your <strong>portfolio</strong> and shown in your profile',
+        partII: 'PART II: Only you and the organizers of the event will see this information',
+        initSpace: 'Only you and the organizers of the event will see this information',
+        finalMex: 'ATTENTION: After submiting, you can amend but <strong>not modify</strong> the content of this form. For this reason, please, review carefully all the fields before clicking the submit button.',
+        sendbtn: 'Submit'
       }
     },  
     footer:{
@@ -454,7 +462,9 @@
         nowbtn:'Now',
         hs:'Schedule',
         sp:'Space',
-        orderby:'Order by'
+        orderby:'Order by',
+        permanents: 'Along all day',
+        noResults:'No results'
       }
     }
   }

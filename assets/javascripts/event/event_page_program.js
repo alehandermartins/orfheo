@@ -46,7 +46,7 @@
             Pard.PrintProgram(program, '', gmap, dataSpaces);
           });
         if (performance.permanent == 'true' && _checkPermanent[performance.date]) {
-          var _permanentTitle = $('<div>').append($('<h5>').append('Permanentes a lo largo del día ')).addClass('title-program-event-page').css('margin-bottom','1.5rem');
+          var _permanentTitle = $('<div>').append($('<h5>').append(Pard.t.text('event_page.program.permanents'))).addClass('title-program-event-page').css('margin-bottom','1.5rem');
           _checkPermanent[performance.date] = false;
           _dayBlock[performance.date].append(_permanentTitle);
         }
@@ -55,7 +55,7 @@
     });
 
     if(program.length == 0) {
-      var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
+      var _message = $('<h6>').text(Pard.t.text('event_page.program.noResults')).css('color','#6f6f6f');
       _searchResult.append(_message);
     }
     else{
@@ -161,7 +161,7 @@
     }
 
     if(program.length == 0) {
-      var _message = $('<h6>').text('Ningún resultado para esta fecha').css('color','#6f6f6f');
+      var _message = $('<h6>').text(Pard.t.text('event_page.program.noResults')).css('color','#6f6f6f');
       _searchResult.append(_message);
     }
 
@@ -174,10 +174,6 @@
       else _prObj[performance.order].push(performance);
     });
     return _prObj;
-    // program.sort(function(show1, show2){
-    //   return show1.order - show2.order;
-    // });
-    // return program;
   }
 
   ns.Widgets.ProgramBySpaceCardPerm = function(performance, host, size){
@@ -297,14 +293,11 @@
       _descriptionRow.append($('<p>').append(_shortDescription));
       var _col1 = $('<div>').addClass('col1-program-card');
       var _col2 = $('<div>').addClass('col2-program-card').css('width','38.5rem');
-      //var _col3 = $('<div>').addClass('col3-program-card');
       _col1.append(_time,  _iconContainer);
-      _X.addClass('x-host-number-simbol');
-       // _participantCatIcon.css({'float':'right', 'margin-right':'0.7rem'})      
+      _X.addClass('x-host-number-simbol');   
       if (host) _col1.append($('<div>').append(_hostNumX.css({'float':'right','margin-right':'0.8rem'})).css('height','1.6rem'));
       else _col1.append($('<div>').append(_hostNum.css({'float':'right','margin-right':'0.6rem'})).css('height','1.6rem'));
       _spaceRow.append(_host);
-      // _col3.append(_titleRow, _descriptionRow);
       _col2.append( _titleRow, _descriptionRow, _spaceRow);
       _progCard.append(_col1, _col2);
     }
