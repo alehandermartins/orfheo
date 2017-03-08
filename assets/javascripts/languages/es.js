@@ -454,6 +454,12 @@
         mex5: 'Para más información, consulta nuestra %{link} y contáctanos a través del siguiente formulario:',
         servicesPage: 'página de servicios'
       },
+      techTab:{
+        tab: 'Soporte técnico',
+        title: '¿Cómo podemos ayudarte?',
+        mex1: 'Estamos aquí para proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.',
+        mex2: 'Te contestaremos enseguida.'
+      },
       forms: {
         name: 'Nombre*',
         email: 'Email*',

@@ -30,7 +30,7 @@ ns.Widgets = ns.Widgets || {};
       $('.shown').hide();
       _servicesCont.show().addClass('shown');
     }).addClass('selected');
-    var _tecnicalSupport = $('<li>').text('Soporte técnico')
+    var _tecnicalSupport = $('<li>').text(Pard.t.text('contact.techTab.tab'))
     .click(function(){
       $('.selected').removeClass('selected');
       _tecnicalSupport.addClass('selected');
@@ -97,9 +97,9 @@ ns.Widgets = ns.Widgets || {};
     _formColumn.append(_textFormCol, _contactForm);
     _servicesCont.append(_textColumn, _formColumn);
 
-    var _titleTecn = $('<h5>').text('¿Cómo podemos ayudarte?');  
+    var _titleTecn = $('<h5>').text(Pard.t.text('contact.techTab.title'));  
     _tecnicalSupportCont.append(_titleTecn);
-    var _textColumn = $('<div>').append($('<p>').text('Estamos aquí para proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.'), $('<p>').text('Te contestaremos enseguida.'), $('<p>').text(':)')).addClass('half-col');
+    var _textColumn = $('<div>').append($('<p>').text(Pard.t.text('contact.techTab.mex1')), $('<p>').text(Pard.t.text('contact.techTab.mex2')), $('<p>').text(':)')).addClass('half-col');
     var _formColumn = $('<div>').append(Pard.Widgets.TecnicalSupportForm()).addClass('half-col');
     _tecnicalSupportCont.append(_textColumn, _formColumn);
 
