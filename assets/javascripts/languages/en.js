@@ -438,6 +438,45 @@
       onlineProgram: '¡Online program!',
       contact: 'Create an event, contact us'
     },
+    contact: {
+      logo: 'C o n t a c t',
+      servicesTab: {
+        tab: 'Services',
+        title: 'What does orfheo offer you?',
+        mex1: 'Orfheo aims to create and give value to cultural communities and the encounters that already exist or can be generated in real life. Therefore, the possibilities we offer are mainly focused on supporting, promoting and facilitating the creation, diffusion and above all <strong> on the management of large participative events </strong>. Specifically, with orfheo you can take advantage of the following services:',
+        subtitle2: 'Management platform:',
+        mex2: 'A powerful innovative web tool that allows you to launch your call and manage all relative data with extreme ease and simplicity. You can consult, organize, filter and modify received proposals as well as create new ones to insert into your programming. Making the program of your event will be as easy as dragging cards inside a calendar and taking out mailing lists to contact artists and spaces will cost you a single click. You can publish online an interactive program, updateable at any time, that perfectly adapts to any mobile device, functioning as the perfect guide for your audience.',
+        subtitle3: 'Creative counseling:',
+        mex3: 'The orfheo team has professionals with the expertise of organizing and managing large participatory events. You will be able to take advantage of a constant monitoring throughout the process of preparation of your event and discover new creative strategies focused on making the best out of your cultural community.',
+        subtitle4: 'API Connection:',
+        mex4: 'The API service allows you to receive and use data related to your events and calls in your mobile application or website. Any changes you make in orfheo will automatically update all your connected platforms. You can have all your information always updated, where and when you want.',
+        mex5: 'For more information, check our %{link} and contact us through the following form:',
+        servicesPage: 'services page'
+      },
+      forms: {
+        name: 'Name*',
+        email: 'Email*',
+        phone: 'Phone number',
+        subject: 'Subject*',
+        links: 'Links to webs/social networks of your project',
+        call_me: 'I want to be contacted by phone',
+        hangout_me: 'I want a Hangout/Skype appointment',
+        mex: 'Message*',
+        days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        daysPlaceholder: "Select your availability during the week",
+        everyday: "Everyday",
+        always: "Available every day",
+        periods: ['Morning', 'Afternoon'],
+        periodsPlaceholder: "Select your availability during the day",
+        everyperiod: "Morning and afternoon",
+        anytime: "Available morning and afternoon",
+      },
+      send: 'Send',
+      correct: 'Message sent successfully. ',
+      thanks: '<br>Thank you for contacting us. <br> We will reply as soon as possible :)',
+      noSend: 'Message not sent:',
+      checkFields: 'Please check the required fields'
+    },
     profile_page:{
       aside:{
         yourOther: 'your other profiles',

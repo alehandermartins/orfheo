@@ -13,8 +13,8 @@
         return prev[curr]
       }, language)
 
-      if ('string' != typeof translatedKey)
-        translatedKey = key
+      // if ('string' != typeof translatedKey)
+      //   translatedKey = key
 
       if (!interpolations)
         return translatedKey

@@ -24,7 +24,7 @@ ns.Widgets = ns.Widgets || {};
     var _logo = $('<div>').addClass('logoOrfheo-contactInfo');
     var _menuContainer = $('<div>').addClass('menu-centered');
     var _menu = $('<ul>').addClass('menu');
-    var _services = $('<li>').text('Servicios').click(function(){
+    var _services = $('<li>').text(Pard.t.text('contact.servicesTab.tab')).click(function(){
       $('.selected').removeClass('selected');
       _services.addClass('selected');
       $('.shown').hide();
@@ -58,7 +58,7 @@ ns.Widgets = ns.Widgets || {};
     _menuContainer.append(_menu.append(
       _services, _tecnicalSupport, _feedback, _colaboration, 
       _contact));
-    var _text = $('<div>').text('C o n t a c t a').addClass('textHeader-contactPopup');
+    var _text = $('<div>').text(Pard.t.text('contact.logo')).addClass('textHeader-contactPopup');
     _header.append(_logo, _text, _menuContainer, _closeBtn);
 
     var _servicesCont = $('<div>')
@@ -76,24 +76,23 @@ ns.Widgets = ns.Widgets || {};
       .hide()
       .addClass('feedback-contactInfo');
 
-    var _titleServ = $('<h5>').text('¿Qué te ofrece orfheo?');  
+    var _titleServ = $('<h5>').text(Pard.t.text('contact.servicesTab.title'));  
     _servicesCont.append(_titleServ);
      var _textColumn = $('<div>')
       .append(
-        $('<p>').html('Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, las posibilidades que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> la gestión de procesos y grandes eventos participativos</strong>. En específico, con orfheo puedes aprovechar los siguientes servicios:'),
-        $('<h6>').append('Plataforma de gestión:'),
-        $('<p>').text('Una potente herramienta web innovativa que te permite lanzar tu convocatoria y gestionar todos los datos relativos con extrema facilidad y simplicidad. Podrás consultar, organizar, filtrar y modificar las propuestas recibidas así como podrás crear nuevas para insertarlas en tu programación. Hacer el programa de tu evento será tan facil como arrastrar tarjetas dentro de un calendario y sacar listados de correo para contactar con artistas y espacios te costará un solo click. Podrás publicar online un programa interactivo, actualizable en cada momento, que perfectamente se adapta a cualquier dispositivo móvil funcionando como la guía perfecta para tu público.'),
-        $('<h6>').append('Asesoría creativa:'),
-        $('<p>').text('El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.'),
-        $('<h6>').append('Conexión API:'),
-        $('<p>').text('El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sitio web. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en todas las plataformas conectadas. Podrás disponer de toda tu información siempre actualizada, donde y cuando tú quieras.')
-          // .css({'margin-bottom':'2rem'}),
+        $('<p>').html(Pard.t.text('contact.servicesTab.mex1')),
+        $('<h6>').append(Pard.t.text('contact.servicesTab.subtitle2')),
+        $('<p>').text(Pard.t.text('contact.servicesTab.mex2')),
+        $('<h6>').append(Pard.t.text('contact.servicesTab.subtitle3')),
+        $('<p>').text(Pard.t.text('contact.servicesTab.mex3')),
+        $('<h6>').append(Pard.t.text('contact.servicesTab.subtitle4')),
+        $('<p>').text(Pard.t.text('contact.servicesTab.mex4'))
       )
       .addClass('half-col');
     var _formColumn = $('<div>').addClass('half-col');
     var _contactForm = Pard.Widgets.BusinessForm();
     var _textFormCol = $('<div>').append(
-      $('<p>').html('Para más información, consulta nuestra <a href="/services", target="_blank"> página de servicios </a> y contáctanos a través del siguiente formulario:').css({'margin-bottom':'1.5rem'})
+      $('<p>').html(Pard.t.text('contact.servicesTab.mex5', {link: '<a href="/services", target="_blank">' +  Pard.t.text('contact.servicesTab.servicesPage') + '</a>'})).css({'margin-bottom':'1.5rem'})
     );
     _formColumn.append(_textFormCol, _contactForm);
     _servicesCont.append(_textColumn, _formColumn);

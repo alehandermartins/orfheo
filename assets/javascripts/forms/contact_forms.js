@@ -262,24 +262,25 @@
     var _form = $('<form>');
     var _errorBox = $('<p>');
     var _errorBoxCont = $('<div>').append(_errorBox);
-    var _nameInput = Pard.Widgets.Input('Nombre*','text');
-    var _emailInput = Pard.Widgets.InputEmail('Email*');
-    var _phoneInput = Pard.Widgets.InputTelContactForm('Numero de teléfono','text');
+    var _nameInput = Pard.Widgets.Input(Pard.t.text('contact.forms.name'),'text');
+    var _emailInput = Pard.Widgets.InputEmail(Pard.t.text('contact.forms.email'));
+    var _phoneInput = Pard.Widgets.InputTelContactForm(Pard.t.text('contact.forms.phone'),'text');
     var _phoneDayAvailabilty = Pard.Widgets.MultipleSelector(
-      ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']);
+      Pard.t.text('contact.forms.days')
+      );
       _phoneDayAvailabilty.setOptions({
-        placeholder: "Selecciona tu disponibilidad durante la semana",
-        selectAllText: "Todos los días",
+        placeholder:  Pard.t.text('contact.forms.daysPlaceholder'),
+        selectAllText: Pard.t.text('contact.forms.everyday'),
         countSelected: false,
-        allSelected: "Disponible todos los días"
+        allSelected: Pard.t.text('contact.forms.always')
       });
     var _phonePeriodAvailabilty = Pard.Widgets.MultipleSelector(
-      [' Mañana', 'Tarde']);
+      Pard.t.text('contact.forms.periods'));
     _phonePeriodAvailabilty.setOptions({
-        placeholder: "Selecciona tu disponibilidad durante el día",
-        selectAllText: "Mañana y tarde",
+        placeholder: Pard.t.text('contact.forms.periodsPlaceholder'),
+        selectAllText: Pard.t.text('contact.forms.everyperiod'),
         countSelected: false,
-        allSelected: "Disponible mañana y tarde"
+        allSelected: Pard.t.text('contact.sforms.anytime')
       });
     var _phoneDayAvailabilityCont  = $('<div>').append(_phoneDayAvailabilty.render()).hide().addClass('availabilityContainer');
     var _phonePeriodAvailabiltyCont = $('<div>').append(_phonePeriodAvailabilty.render()).hide().addClass('availabilityContainer');
@@ -294,24 +295,23 @@
         _phonePeriodAvailabiltyCont.hide();
       }
     }
-    // var _projectWebInput = Pard.Widgets.InputPersonalWeb();
-    var _projectWebInput = Pard.Widgets.Input('Enlace a web/redes sociales de tu proyecto','text');
-    var _subjectInput = Pard.Widgets.Input('Asunto*','text');
+    var _projectWebInput = Pard.Widgets.Input(Pard.t.text('contact.forms.links'),'text');
+    var _subjectInput = Pard.Widgets.Input(Pard.t.text('contact.forms.subject'),'text');
     var _checkPhone = Pard.Widgets.CheckBox(
-      'Quiero ser contactado por teléfono',
+      Pard.t.text('contact.forms.call_me'),
       'call_me_please', 
       function(){
       _showHideAvailability();
       }
     );
     var _checkHangout = Pard.Widgets.CheckBox(
-      'Quiero una cita por Hangout/Skype',
+      Pard.t.text('contact.forms.hangout_me'),
       'hangout_me_please',
       function(){
         _showHideAvailability();
       }
     );
-    var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
+    var _mexInput = Pard.Widgets.TextArea(Pard.t.text('contact.forms.mex'),6);
     var businessInputs = {
       'name': _nameInput,
       'email': _emailInput,
@@ -324,7 +324,7 @@
       'message': _mexInput,
       'links': _projectWebInput
     }
-    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+    var _submitBtn = Pard.Widgets.Button(Pard.t.text('contact.send'), function(){
       _submitBtn.disable();
       _submitBtn.setClass('disabled-button');
       _errorBox.empty();
@@ -358,8 +358,8 @@
               .css('text-align','right')
               .append(
                 Pard.Widgets.IconManager('done').render().addClass('success-icon-check-messageSent'),
-                $('<span>').text('Mensaje enviado correctamente. ').css('color','#4cb632'),
-                $('<span>').html('<br>Gracias por contactar con nosotros.<br> Te contestaremos cuanto antes :)')
+                $('<span>').text(Pard.t.text('contact.correct')).css('color','#4cb632'),
+                $('<span>').html(Pard.t.text('contact.thanks'))
                   .css({
                     'color':'black',
                     'margin-bottom':'1.5rem'
@@ -374,7 +374,7 @@
               .empty()
               .append(
                 Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-                $('<span>').html('Mensaje no enviado: <br>'+data.reason)  
+                $('<span>').html(Pard.t.text('contact.noSend')+ '<br>' + data.reason)  
               ).addClass('error-text')
           }
         });
@@ -387,7 +387,7 @@
         .empty()
         .append(
           Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-          $('<span>').html('Mensaje no enviado:<br> por favor, revisa los campos obligatorios')
+          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('contact.checkFields'))
         ).addClass('error-text');
       }
     });
