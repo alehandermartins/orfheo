@@ -59,7 +59,6 @@ ns.Widgets = ns.Widgets || {};
         Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
       .on('click', function(){
-        // $('#contactPopupBtn').trigger('click');
         var _contactPopup = Pard.Widgets.Popup();
         _contactPopup.setContent('Tus eventos en orfheo', Pard.Widgets.EventContact());
         _contactPopup.setCallback(function(){
@@ -518,7 +517,7 @@ ns.Widgets = ns.Widgets || {};
     _actionDiv.append(_actionContainer.append(
       _titleContainer, 
       _infoContainer
-      // , _callLongText.css('margin-top','2.5rem')
+      , _callLongText.css('margin-top','2.5rem')
     ));
 
     var _titleLittleText = $('<h4>').html(Pard.t.text('welcome.inspireSection.title')).addClass('title-welcome').css('margin-bottom','1rem');
@@ -583,7 +582,7 @@ ns.Widgets = ns.Widgets || {};
       _callService,
       _consulingService,
       _apiService
-      // , _findOutMore
+      , _findOutMore
     ); 
     var _textLogo = $('<div>').text(Pard.t.text('welcome.servicesSection.logo')).addClass('textLogo');
     _servicesDiv.append(_logoServices, _textLogo, _servicesInfoContainer);

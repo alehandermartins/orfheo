@@ -5,7 +5,6 @@
 ns.Widgets = ns.Widgets || {};
 
 	ns.Widgets.MainServicesPage = function(videoLink){
-		console.log(videoLink);
 
 		var _main = $('<main>').addClass('mainServicesPage');
 		var _initialSection = $('<section>');
@@ -233,7 +232,7 @@ ns.Widgets = ns.Widgets || {};
 			_publishSection.render().addClass('publishSectionServicePage'),
 			_mobileSection,
 			_otherSection.render().addClass('otherSectionServicePage'),
-			_videoSection,
+			// _videoSection,
 			_priceSection,
 			_finalSection
 		)
