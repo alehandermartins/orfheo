@@ -62,7 +62,7 @@ module Repos
               }
             }
           }
-          target = ["organization", "space", "artist"]
+          target = ["artist", "space", "organization"]
           categories = {
             artist: ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other']
           }

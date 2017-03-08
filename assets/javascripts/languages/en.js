@@ -6,9 +6,11 @@
   ns.langs.en = {
     type: {
       artist: "Artist",
+      artists: "Artists",
       space: "Space",
+      spaces:"Spaces",
       organization: "Organization",
-      spaces:"Spaces"
+      organizations: "Organizations",
     },
     partners:{
       collaborators:"Collaborators",
@@ -87,7 +89,7 @@
         cookies: 'Cookies policy:',
         cookiesMex1: 'Cookies are a computer element widely used in the internet. When you access a web page, some information is stored in your browser memory so the website can quickly access that information in the future.',
         cookiesMex2: 'Orfheo uses cookies for the sole purpose of improving the browsing experience of its users. For example, we store information to allow a faster and continuous login, avoid disconnexions from the site in the case of server restarts, and remembering preferences or choices throughout the browsing process.',
-        cookiesMex3:'En general, por como se estructura internet hoy en día, las coockies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar sus usuarios para que sepan lo que está ocurriendo.',
+        cookiesMex3:'In general, because of the structure of the internet today, cookies are an essential element. By law, every web that uses them, is obliged to warn its users so that they know what is happening.',
         cookiesMex4: 'The same information displayed here is also available in the terms and conditions section. In case of modification, the citizens of orfheo will be notified well in advance.',
         subtitle6: 'Updates:',
         mex6: 'We reserve the right to modify, if necessary, the general conditions and adapt them to future developments. We assume the duty and the commitment to inform of the changes to all citizens of orfheo, so that they can know the updates in advance.',
@@ -419,11 +421,22 @@
         subtitle1: 'Management platform',
         subtitle2: 'Creative consultancy',
         subtitle3: 'API connection',
-        section1: 'Create an event,</br> launch a call, </br>utiliza la potente herramienta de gestión </br>Use the powerful management tool </br>and publish an interactive program',
+        section1: 'Create an event,</br> launch a call, </br>use the powerful management tool </br>and publish an interactive program',
         section2: 'Make the best out of your project, </ br> feed your community </ br> and explore new creative strategies during the process',
         section3: 'Forward all your event data to your web page or mobile application, using it as it suits you and keeping everything updated',
         link: 'Discover more'
       }
+    },
+    eventsTab:{
+      organizer: 'Organizer: ',
+      announcing: 'Call opens on: ',
+      opened: 'Open call',
+      closed: 'Closed call',
+      finished: 'Finished',
+      for: 'for %{participants}',
+      until: ' until %{date}',
+      onlineProgram: '¡Online program!',
+      contact: 'Create an event, contact us'
     },
     profile_page:{
       aside:{

@@ -4,15 +4,13 @@
   ns.langs = ns.langs || {}
 
   ns.langs.es = {
-    search: {
-      artista: 'artist',
-      espacio: 'space',
-    },
     type: {
       artist: "Artista",
+      artists: "Artistas",
       space: "Espacio",
+      spaces:'Espacios',
       organization: "Organización",
-      spaces:'Espacios'
+      organizations: "Organizaciones"
     },
     partners:{
       collaborators:'Colaboradores',
@@ -91,7 +89,7 @@
         cookies: 'Política de cookies:',
         cookiesMex1: 'Las cookies son un elemento informático ampliamente usado en internet. Cuando uno accede a una página web, alguna información se almacena en la memoria del navegador para que la página web pueda acceder rápidamente a esa información en el futuro.',
         cookiesMex2: 'Orfheo utiliza cookies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guardamos información para permitir un login más rápido y continuado, evitar la desconexión de la web en caso de reinicio del servidor, y recordar preferencias o elecciones durante todo el proceso de navegación.',
-        cookiesMex3:'En general, por como se estructura internet hoy en día, las coockies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar sus usuarios para que sepan lo que está ocurriendo.',
+        cookiesMex3:'En general, por como se estructura internet hoy en día, las cookies son un elemento imprescindible. Por ley, toda web que las utiliza, está obligada a avisar sus usuarios para que sepan lo que está ocurriendo.',
         cookiesMex4: 'La misma información aquí mostrada se encuentra también disponible en el apartado de condiciones de uso. En caso de modificación se avisará a los ciudadanos de orfheo con suficiente antelación.',
         subtitle6: 'Actualizaciones:',
         mex6: 'Nos reservamos el derecho de modificar, si necesario, las condiciones generales para adaptarlas a futuras novedades y asumimos el deber y el compromiso de informar de los cambios a todos los ciudadanos de orfheo, para que puedan conocer las actualizaciones de antemano.',
@@ -429,6 +427,17 @@
         section3: 'Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga',
         link: 'Descubre más'
       }
+    },
+    eventsTab:{
+      organizer: 'Organiza: ',
+      announcing: 'Apertura convocatoria: ',
+      opened: 'Convocatoria abierta',
+      closed: 'Convocatoria cerrada',
+      finished: 'Evento terminado',
+      for: 'para %{participants}',
+      until: ' hasta el %{date}',
+      onlineProgram: '¡Programación online!',
+      contact: 'Contáctanos para crear tu evento'
     },
     profile_page:{
       aside:{

@@ -48,7 +48,7 @@ ns.Widgets = ns.Widgets || {};
     }); 
 
     var _titleEventText = $('<h5>')
-      .text('Contáctanos para crear tu evento')
+      .text(Pard.t.text('eventsTab.contact'))
       .css({
         'display':'inline-block',
         'margin-bottom':0
@@ -59,15 +59,15 @@ ns.Widgets = ns.Widgets || {};
         Pard.Widgets.IconManager('navigation_right').render()
         .addClass('navigationIcon-findOutMore'))
       .on('click', function(){
-        // $('#contactPopupBtn').trigger('click');
-        var _contactPopup = Pard.Widgets.Popup();
-        _contactPopup.setContent('Tus eventos en orfheo', Pard.Widgets.EventContact());
-        _contactPopup.setCallback(function(){
-          setTimeout(function(){
-            _contactPopup.destroy();
-          }, 500);
-        });
-        _contactPopup.open();
+        $('#contactPopupBtn').trigger('click');
+        // var _contactPopup = Pard.Widgets.Popup();
+        // _contactPopup.setContent('Tus eventos en orfheo', Pard.Widgets.EventContact());
+        // _contactPopup.setCallback(function(){
+        //   setTimeout(function(){
+        //     _contactPopup.destroy();
+        //   }, 500);
+        // });
+        // _contactPopup.open();
       })
       .addClass('callText-WelcomePage').css('margin-top','0');
     var _textDiv = $('<div>')

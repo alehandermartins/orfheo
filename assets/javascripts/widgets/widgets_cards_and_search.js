@@ -394,17 +394,12 @@
   }
 
   ns.Widgets.EventCard = function(event, owner){
-    var _texts = event.texts[Pard.UserInfo['lang']];
-    if(!_texts) {
-      _texts = event.texts[Object.keys(event.texts)[0]];
-    }
-    var _translatorSubC = _texts['subcategories'];
+    var lang = Pard.Options.language();
     var _card = $('<div>').addClass('eventCard')
       .css({
         'border-left-color': event.color
       });
     var _header = $('<div>').addClass('header-eventCard');
-
     var _eventName = $('<h6>').text(event.name).addClass('name-eventCard');
     var _eName =  Pard.Widgets.FitInBox(_eventName, 480, 40).render();
     var _name = $('<a>').addClass('name-eventCard').append($('<h6>').append(_eName.text())).attr({'href':'/event?id='+ event.event_id});
@@ -442,7 +437,7 @@
           'background': event.color
         }).addClass('circle-eventOrganizer')
     );
-    var _organizerText = $('<div>').append($('<span>').text('Organiza: '), $('<a>').text(event.organizer).attr('href', '/profile?id='+event.profile_id)).addClass('text-container');
+    var _organizerText = $('<div>').append($('<span>').text(Pard.t.text('eventsTab.organizer')), $('<a>').text(event.organizer).attr('href', '/profile?id='+event.profile_id)).addClass('text-container');
     var _organizer = $('<div>').append(_organzerIcon, _organizerText).addClass('info-element-eventCard');
    
     var _placeIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('location').render());
@@ -458,48 +453,45 @@
     var _dateIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('calendar').render());
     var _startDate = new Date(Object.keys(event.eventTime)[0]);
     var _endDate = new Date(Object.keys(event.eventTime)[Object.keys(event.eventTime).length-2]);
-    var _dateText = $('<div>').append($('<span>').text(moment(_startDate).locale('es').format('DD')+'-'+moment(_endDate).locale('es').format('DD MMMM YYYY'))).addClass('text-container'); 
+    var _dateText = $('<div>').append($('<span>').text(moment(_startDate).locale(lang).format('DD')+'-'+moment(_endDate).locale(lang).format('DD MMMM YYYY'))).addClass('text-container'); 
     var _date = $('<div>').append(_dateIcon, _dateText).addClass('info-element-eventCard');
-    
+  
     var _callIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('open_call').render());
     var _callText = $('<div>').addClass('text-container'); 
     var _profileTypes = {
-      artist: 'artistas',
-      space: 'espacios',
-      organization: 'organizaciones'
+      artist: Pard.t.text('type.artists'),
+      space: Pard.t.text('type.spaces'),
+      organization: Pard.t.text('type.organizations')
     }
-    var _participants = '';
-    event.target.forEach(function(profileType, i){
-      _participants += _profileTypes[profileType];
-      if (i == event.target.length - 2) _participants += 'y ';
-      else _participants += ', '
-    })
-    _participants = _participants.substring(0, _participants.length - 2);
+    var _participants = event.target.map(function(profileType){
+      return _profileTypes[profileType];
+    });
+    _participants = _participants.join(', ');
+    console.log(_participants);
     var _now = new Date();
     if (_now.getTime()>_endDate.getTime() + 86400000) {
-        _callText.append('Evento terminado')
+        _callText.append(Pard.t.text('eventsTab.finished'))
     }
     else if (event.published){
-      var _toEventPageBtn = $('<a>').text('¡Programación online!').attr('href','/event?id='+event.event_id);
+      var _toEventPageBtn = $('<a>').text(Pard.t.text('eventsTab.onlineProgram')).attr('href','/event?id='+event.event_id);
       _callText.append(_toEventPageBtn);
     }
     else if (_now.getTime() < parseInt(event.start)){
-      _callText.append($('<p>').text('Apertura convocatoria: ',moment(parseInt(parseInt(event.start))).locale('es').format('DD MMMM YYYY')), $('<p>').text('para '+_participants));
+      _callText.append($('<p>').text(Pard.t.text('eventsTab.announcing'),moment(parseInt(parseInt(event.start))).locale(lang).format('DD MMMM YYYY')), $('<p>').text(Pard.t.text('eventsTab.for', {participants:participants})));
     }
     else if (_now.getTime() < parseInt(event.deadline)){
-      _callText.append($('<p>').append($('<a>').text('Convocatoria abierta').attr({'href':'/event?id='+ event.event_id}),$('<span>').text(' hasta el '+ moment(parseInt(event.deadline)).locale('es').format('DD-MM-YYYY'))),$('<p>').text('para '+_participants));
+      _callText.append($('<p>').append($('<a>').text(Pard.t.text('eventsTab.opened')).attr({'href':'/event?id='+ event.event_id}),$('<span>').text(Pard.t.text('eventsTab.for', {date: moment(parseInt(event.deadline)).locale(lang).format('DD-MM-YYYY')})),$('<p>').text(Pard.t.text('eventsTab.for', {participants:participants}))));
     }
     else{
-       _callText.append('Convocatoria cerrada');
+       _callText.append(Pard.t.text('eventsTab.closed'));
     }
     var _call = $('<div>').append(_callIcon, _callText).addClass('info-element-eventCard');
-    var _cats = Object.keys(event.subcategories['artist']).map(function(cat){
-      return _translatorSubC['artist'][cat]
+    var _cats = event.categories['artist'].map(function(cat){
+      return Pard.t.text('categories.' + cat)
     }).join(', ');
     var _catText = $('<div>').text(_cats).addClass('text-container'); 
     var _catIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('tags').render().css('font-size','1.3rem'));
     var _categories = $('<div>').append(_catIcon, _catText).addClass('info-element-eventCard');
-
 
     _infoContainer.append(_organizer, _place, _date, _call, _categories);
 
