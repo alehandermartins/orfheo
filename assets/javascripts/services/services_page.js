@@ -4,7 +4,7 @@
      
 ns.Widgets = ns.Widgets || {};
 
-	ns.Widgets.MainServicesPage = function(videoLink){
+	ns.Widgets.MainServicesPage = function(){
 
 		var _main = $('<main>').addClass('mainServicesPage');
 		var _initialSection = $('<section>');
@@ -162,24 +162,6 @@ ns.Widgets = ns.Widgets || {};
 		var _oRText = $('<p>').html('Podrás disfrutar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr lo máximo de tu proyecto.');
 		var _oRight = $('<div>').append(_oRSign, _oRTitle, _oRText).addClass('otherTextContainer');
 		_otherSection.appendRight(_oRight);
-
-		var _video = $('<video>')
-			.attr({
-				'width':400,
-				'controls':'',
-				// 'autoplay':''
-			})
-			.append(
-				$('<source>')
-					.attr({
-						'src':videoLink,
-						'type':'video/mp4'
-					})
-			)
-		_videoSection.append(
-			_video
-		)
-
 
 		var _contactPriceBtn = $('<button>')
 			.attr('type','button')
