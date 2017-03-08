@@ -87,12 +87,12 @@
   }
 
   ns.Widgets.FeedbackForm = function(){
-    var _nameInput = Pard.Widgets.Input('Nombre*','text');
-    var _emailInput = Pard.Widgets.InputEmail('Email*');
-    var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
+    var _nameInput = Pard.Widgets.Input(Pard.t.text('contact.forms.name'),'text');
+    var _emailInput = Pard.Widgets.InputEmail(Pard.t.text('contact.forms.email'));
+    var _mexInput = Pard.Widgets.TextArea(Pard.t.text('contact.forms.mex'),6);
     var _feedbackErrorBox = $('<p>');
     var _feedbackSubmitBtnContainer= $('<div>');
-    var _feedBackSubmitBtn = Pard.Widgets.Button('Envía', function(){
+    var _feedBackSubmitBtn = Pard.Widgets.Button(Pard.t.text('contact.send'), function(){
       _feedBackSubmitBtn.disable();
       _feedBackSubmitBtn.setClass('disabled-button');
       _feedbackErrorBox.empty();
@@ -116,8 +116,8 @@
               .css('text-align','right')
               .append(
                 Pard.Widgets.IconManager('done').render().addClass('success-icon-check-messageSent'),
-                $('<span>').text('Mensaje enviado correctamente. ').css('color','#4cb632'),
-                $('<span>').html('<br>Gracias por tu opinión :)')
+                $('<span>').text(Pard.t.text('contact.correct')).css('color','#4cb632'),
+                $('<span>').html('<br>' + Pard.t.text('contact.thankFeedback'))
                   .css({
                     'color':'black',
                     'margin-bottom':'1.5rem'
@@ -132,7 +132,7 @@
               .empty()
               .append(
                 Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-                $('<span>').html('Mensaje no enviado: <br>'+data.reason)  
+                $('<span>').html(Pard.t.text('contact.noSend') + '<br>' + data.reason) 
               ).addClass('error-text')
           }
         });
@@ -145,7 +145,7 @@
         .empty()
         .append(
           Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-          $('<span>').html('Mensaje no enviado:<br> por favor, revisa los campos obligatorios')
+          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('contact.checkFields'))
         ).addClass('error-text');
       }
     });
@@ -172,13 +172,13 @@
 
   ns.Widgets.TecnicalSupportForm = function(){
     var _errorBox = $('<p>');
-    var _nameInput = Pard.Widgets.Input('Nombre*','text');
-    var _emailInput = Pard.Widgets.InputEmail('Email*');
-    var _subjectInput = Pard.Widgets.Input('Asunto','text');
-    var _profileInput = Pard.Widgets.Input('Nombre de tu perfil en orfheo', 'text');
+    var _nameInput = Pard.Widgets.Input(Pard.t.text('contact.forms.name'),'text');
+    var _emailInput = Pard.Widgets.InputEmail(Pard.t.text('contact.forms.email'));
+    var _subjectInput = Pard.Widgets.Input(Pard.t.text('contact.forms.subject'),'text');
+    var _profileInput = Pard.Widgets.Input(Pard.t.text('contact.forms.profileName'), 'text');
     // var _browserInput = Pard.Widgets.Input('Navegador que utilizas', 'text');
-    var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
-    var _submitBtn = Pard.Widgets.Button('Envía', function(){
+    var _mexInput = Pard.Widgets.TextArea(Pard.t.text('contact.forms.mex'),6);
+    var _submitBtn = Pard.Widgets.Button(Pard.t.text('contact.send'), function(){
       _submitBtn.disable();
       _submitBtn.setClass('disabled-button');
       _errorBox.empty();
@@ -203,8 +203,8 @@
               .css('text-align','right')
               .append(
                 Pard.Widgets.IconManager('done').render().addClass('success-icon-check-messageSent'),
-                $('<span>').text('Mensaje enviado correctamente. ').css('color','#4cb632'),
-                $('<span>').html('<br>Gracias por contactar con nosotros.<br> Te contestaremos cuanto antes :)')
+                $('<span>').text(Pard.t.text('contact.correct')).css('color','#4cb632'),
+                $('<span>').html(Pard.t.text('contact.thanks'))
                   .css({
                     'color':'black',
                     'margin-bottom':'1.5rem'
@@ -219,7 +219,7 @@
               .empty()
               .append(
                 Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-                $('<span>').html('Mensaje no enviado: <br>'+data.reason)  
+                $('<span>').html(Pard.t.text('contact.noSend') + '<br>' + data.reason)
               ).addClass('error-text')
           }
         });
@@ -232,7 +232,7 @@
         .empty()
         .append(
           Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-          $('<span>').html('Mensaje no enviado:<br> por favor, revisa los campos obligatorios')
+          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('contact.checkFields'))
         ).addClass('error-text');
       }
     });
@@ -296,7 +296,7 @@
       }
     }
     var _projectWebInput = Pard.Widgets.Input(Pard.t.text('contact.forms.links'),'text');
-    var _subjectInput = Pard.Widgets.Input(Pard.t.text('contact.forms.subject'),'text');
+    var _subjectInput = Pard.Widgets.Input(Pard.t.text('contact.forms.subject') + '*','text');
     var _checkPhone = Pard.Widgets.CheckBox(
       Pard.t.text('contact.forms.call_me'),
       'call_me_please', 
@@ -374,7 +374,7 @@
               .empty()
               .append(
                 Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-                $('<span>').html(Pard.t.text('contact.noSend')+ '<br>' + data.reason)  
+                $('<span>').html(Pard.t.text('contact.noSend') + '<br>' + data.reason)
               ).addClass('error-text')
           }
         });

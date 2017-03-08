@@ -453,11 +453,24 @@
         mex5: 'For more information, check our %{link} and contact us through the following form:',
         servicesPage: 'services page'
       },
+      techTab:{
+        tab: 'Tech support',
+        title: '¿How can we help you?',
+        mex1: 'We are here to provide technical support, advice, answer your questions or give you useful information when you need it most.',
+        mex2: "We'll get back to you right away."
+      },
+      feedBackTab:{
+        tab: 'Feedback',
+        title: 'What do you think of orfheo?',
+        mex1: 'For being able to improve it is necessary to put ourselves into play and be questioned. We would be happy to know what you think of orfheo, what features you are missing and would like to have at your fingertips, what would you change, remove or add...',
+        mex2: 'Any constructive criticism is welcomed, it will help us provide a better service.',
+        mex3: '¡Your opinion is important!'
+      },
       forms: {
         name: 'Name*',
         email: 'Email*',
         phone: 'Phone number',
-        subject: 'Subject*',
+        subject: 'Subject',
         links: 'Links to webs/social networks of your project',
         call_me: 'I want to be contacted by phone',
         hangout_me: 'I want a Hangout/Skype appointment',
@@ -470,6 +483,7 @@
         periodsPlaceholder: "Select your availability during the day",
         everyperiod: "Morning and afternoon",
         anytime: "Available morning and afternoon",
+        profileName: 'Name of your orfheo profile'
       },
       send: 'Send',
       correct: 'Message sent successfully. ',

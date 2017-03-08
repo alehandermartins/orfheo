@@ -37,7 +37,7 @@ ns.Widgets = ns.Widgets || {};
       $('.shown').hide();
       _tecnicalSupportCont.show().addClass('shown');
     });
-    var _feedback = $('<li>').text('Feedback').click(function(){
+    var _feedback = $('<li>').text(Pard.t.text('contact.feedBackTab.tab')).click(function(){
       $('.selected').removeClass('selected');
       _feedback.addClass('selected');
       $('.shown').hide();
@@ -109,13 +109,13 @@ ns.Widgets = ns.Widgets || {};
 
     _contactCont.append(_textContact);
 
-    var _titleFeed = $('<h5>').text('¿Qué te parece orfheo?');
+    var _titleFeed = $('<h5>').text(Pard.t.text('contact.feedBackTab.title'));
     _feedbackCont.append(_titleFeed);
     var _textFeedColumn = $('<div>')
       .append(
-        $('<p>').text('Para poder mejorar es necesario ponerse en juego y ser cuestionados. Estaríamos encantados de saber que piensas de orfheo, qué funcionalidades le faltan y te gustaría tener a tu alcance, qué cambiarías, quitarías o añadirías... '), 
-        $('<p>').text('Cualquier crítica constructiva es bienvenida, nos ayudará a proporcionarte un servicio mejor.'), 
-        $('<p>').text('¡Tu opinión es importante!')
+        $('<p>').text(Pard.t.text('contact.feedBackTab.mex1')), 
+        $('<p>').text(Pard.t.text('contact.feedBackTab.mex2')), 
+        $('<p>').text(Pard.t.text('contact.feedBackTab.mex3'))
       ).addClass('half-col');
 
     var _formFeedColumn = $('<div>').append(Pard.Widgets.FeedbackForm()).addClass('half-col');

@@ -460,11 +460,18 @@
         mex1: 'Estamos aquí para proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.',
         mex2: 'Te contestaremos enseguida.'
       },
+      feedBackTab:{
+        tab: 'Feedback',
+        title: '¿Qué te parece orfheo?',
+        mex1: 'Para poder mejorar es necesario ponerse en juego y ser cuestionados. Estaríamos encantados de saber que piensas de orfheo, qué funcionalidades le faltan y te gustaría tener a tu alcance, qué cambiarías, quitarías o añadirías...',
+        mex2: 'Cualquier crítica constructiva es bienvenida, nos ayudará a proporcionarte un servicio mejor.',
+        mex3: '¡Tu opinión es importante!'
+      },
       forms: {
         name: 'Nombre*',
         email: 'Email*',
         phone: 'Número de teléfono',
-        subject: 'Asunto*',
+        subject: 'Asunto',
         links: 'Enlace a web/redes sociales de tu proyecto',
         call_me: 'Quiero ser contactado por teléfono',
         hangout_me: 'Quiero una cita por Hangout/Skype',
@@ -477,10 +484,12 @@
         periodsPlaceholder: "Selecciona tu disponibilidad durante el día",
         everyperiod: "Mañana y tarde",
         anytime: "Disponible mañana y tarde",
+        profileName: 'Nombre de tu perfil en orfheo'
       },
       send: 'Envía',
       correct: 'Mensaje enviado correctamente. ',
       thanks: '<br>Gracias por contactar con nosotros.<br> Te contestaremos cuanto antes :)',
+      thankFeedback: 'Gracias por tu opinión :)',
       noSend: 'Mensaje no enviado:',
       checkFields: 'Por favor, revisa los campos obligatorios'
     },
