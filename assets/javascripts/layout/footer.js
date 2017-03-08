@@ -64,7 +64,7 @@ ns.Widgets = ns.Widgets || {};
       _leftMenu.append(
         $('<li>').append(_information), 
         $('<li>').append(_termsAndConditions)
-        , $('<li>').append(_languages)
+        // , $('<li>').append(_languages)
       )
     );
 
@@ -102,7 +102,7 @@ ns.Widgets = ns.Widgets || {};
     var _logoFooter = $('<div>').addClass('logoFooter');
     _rightContent.append(
       _rightMenu.append(
-        _servicesOrfheo,
+        // _servicesOrfheo,
         _contactaOrfheo
       )
     );
