@@ -142,7 +142,7 @@
 
     _createdWidget.append(_title);
 
-    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.production.noDuration'), Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
+    var _infoBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.production.info'), Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
 
     var _infoContentBox = $('<div>').addClass('box-content');  
    
