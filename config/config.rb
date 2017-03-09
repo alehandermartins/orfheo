@@ -53,9 +53,6 @@ class BaseController < Sinatra::Base
     ours.css
     ours.js
     jquery.js
-    italian_flag.jpeg
-    valencian_flag.png
-    english_flag.png
     logo_favicon.ico
     logo_black_m.png
     logo_white_m.png

@@ -250,10 +250,16 @@ ns.Widgets = ns.Widgets || {};
 	ns.Widgets.LanguagesMessage = function (){
     var _createdWidget = $('<div>');
 
-    var _es = $('<p>').append($('<div>').addClass(), 'Español castellano');
+    var _es = $('<p>').append($('<div>'), 'Español');
     _es.css('cursor', 'pointer');
     _es.on('click', function(){
       Pard.Options.setLanguage('es');
+    });
+
+    var _en = $('<p>').append($('<div>'), 'English');
+    _en.css('cursor', 'pointer');
+    _en.on('click', function(){
+      Pard.Options.setLanguage('en');
     });
     
     var _val = $('<p>').append($('<div>').addClass('valencian-flag'), 'Valencià - Català');
@@ -261,11 +267,7 @@ ns.Widgets = ns.Widgets || {};
     _val.on('click', function(){
       Pard.Options.setLanguage('ca');
     });
-    var _en = $('<p>').append($('<div>').addClass('english-flag'), 'English');
-    _en.css('cursor', 'pointer');
-    _en.on('click', function(){
-      Pard.Options.setLanguage('en');
-    });
+    
 
     var _ita = $('<p>').append($('<div>').addClass('italian-flag'), 'Italiano');
     _ita.css('cursor', 'pointer');
@@ -273,7 +275,7 @@ ns.Widgets = ns.Widgets || {};
       Pard.Options.setLanguage('it');
     });
 
-    _createdWidget.append(_es, _val, _en, _ita);
+    _createdWidget.append(_es, _en);
 
     return {
       render: function(){ 
@@ -287,36 +289,23 @@ ns.Widgets = ns.Widgets || {};
 
     var _image = $('<div>').addClass('orfheo-symbol-popup');
     var _web = $('<p>').text('orfheo.org').addClass('orfheo-web-popup');
-
-    var _baseline = $('<h6>').html('Se pueden hacer más cosas juntos que por separado<br> ').addClass('orfheo-baseline-popup');
-
-    var _message = $('<div>').html('<p> Bienvenido a orfheo, </p> <p> una sitio especial, que llega a ser realidad, y entonces comunidad, gracias a todos sus ciudadanos. Orfheo es una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro. </p> <p> Estás en tu comunidad artistica online, donde lanzar tu convocatoria es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Tienes a tu alcance una herramienta, un mecanismo de gestión cultural con el cual crear y organzar eventos, descubrir a través de perfiles, enlaces y conexiones, llevar a la realidad sueños y ideas. </p> <p> Orfheo es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Creemos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio donde una cosa expone a otra con la misma idea con la cual se ha creado. </p> <p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen,  y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental  para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Te dejamos a ti imaginar un poco más lo necesario y el compartir con los demás experiencias inolvidables.</p>');
-
+    var _baseline = $('<h6>').html(Pard.t.text('project.baseline') + '<br>').addClass('orfheo-baseline-popup');
+    var _message = $('<div>').html(Pard.t.text('project.mex1'));
     var _part1 = $('<div>').append(_message);
-
-    var _subtitle = $('<h5>').text('Los pilares').addClass('subtitle-project-info');
-
+    var _subtitle = $('<h5>').text(Pard.t.text('project.subtitle')).addClass('subtitle-project-info');
     var _part2 = $('<div>').append(_subtitle).addClass('part2-message-project-info');
-
-    var _list1 = $('<div>').html('<p>COMPARTIR <ul><li>Saber más el uno del otro significa aprender unos de otros. </li> <li> Compartimos nuestro valor donde valor = (experiencias + conocimientos) x actitud. </li> <li> Compartimos nuestras ideas e inspiraciones creativas con el fin de crear/inspirar experiencias enriquecedoras. </li> <li> Piensa en la comunidad y la comunidad pensará en ti. </li> </ul></p>');
-
-    var _list2 = $('<div>').html('<p>IDENTIDAD <ul><li>Defendemos el individuo como algo único, auténtico, un punto en el espacio. Valoramos el grupo, como en el círculo cromático,  en el cual se une y se define la identidad personal, un rasgo cultural, un matiz, un color. </li> <li> Desempeñamos un papel activo en el desarrollo de un mundo libre, que se innova gracias al pequeño esfuerzo colectivo de muchas personas. </li> </ul></p>');
-
-    var _list3 = $('<div>').html('<p>INFORMACIÓN <ul><li>La necesidad de información es más fuerte que todas las fronteras. Nos gustaría facilitar el acceso en tantos más idiomas posibles.  </li> <li> Queremos que tengas acceso a la información en cualquier lugar y en cualquier momento. </li> <li> No queremos que busques sino que encuentres en orfheo lo que esperabas encontrar. </li> </ul></p>');
-
-    var _list4 = $('<div>').html('<p>EXPERIENCIA <ul><li>Sal de la red: queremos dar la mejor experiencia posible a los usuarios por encima de nuestros proprios beneficios y objetivos internos, para que los procesos sean cada vez más rápidos, para que se pueda vivir en orfheo sólo el tiempo necesario y utilizar su información en la vida cotidiana. </li> <li> Pretendemos evolucionar hacia una interfaz y una estética limpia, clara y sencilla, utilizable por todos. </li> </ul></p>');
-
-    var _list5 = $('<div>').html('<p>ECONOMÍA <ul><li>Se puede ganar dinero siendo honestos y cuidando y defendiendo la comunidad. Con esta intención queremos hacer sostenible económicamente este proyecto y las vidas de quienes trabajan en ello. </li> </ul></p>');
-
-    var _list6  = $('<div>').html('<p>VISIÓN <ul><li>Creemos que afrontar un proyecto debería ser divertido y apasionante. Creemos que una cultura de trabajo adecuada promueve el talento y la creatividad.  Los logros del equipo, y los éxitos individuales contribuyen al éxito global. Tenemos  una visión creativa del trabajo, del ocio y de la vida. </li> <li> Todas las ideas interesantes que surgen en los más diferentes contextos se comentan, se analizan en profundidad y si hace falta se ponen en práctica con calidad.  </li> <li> Elegimos y construimos colaborativamente. Nuestra meta es la unidad, no la unanimidad. Tomamos decisiones con método, de forma genuina y utilizando el consenso. Tenemos discusiones abiertas, animadas por un procesos que llevan a acuerdos en un tiempo razonable. </li> <li> Nos fijamos objetivos que sabemos tal vez no poder alcanzar, porque estamos convencidos de que a lo largo del camino, los esfuerzos, por cumplirlos, nos llevarán a obtener resultados, quizás diferentes de los esperados, pero igualmente valiosos. </li> </ul></p>');
-
-    var _list7 = $('<div>').html('<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>');
-
-     // var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
+    var _list1 = $('<div>').html(Pard.t.text('project.list1'));
+    var _list2 = $('<div>').html(Pard.t.text('project.list2'));
+    var _list3 = $('<div>').html(Pard.t.text('project.list3'));
+    var _list4 = $('<div>').html(Pard.t.text('project.list4'));
+    var _list5 = $('<div>').html(Pard.t.text('project.list5'));
+    var _list6 = $('<div>').html(Pard.t.text('project.list6'));
+    var _list7 = $('<div>').html(Pard.t.text('project.list7'));
+    // var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
 
     _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7).hide();
 
-    var _readMore = $('<a>').text('Leer más...')
+    var _readMore = $('<a>').text(Pard.t.text('project.more'))
       .css({
         'text-align':'right',
         'font-size':'14px'
