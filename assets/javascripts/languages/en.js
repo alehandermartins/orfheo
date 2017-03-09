@@ -21,6 +21,7 @@
       permanent: 'permanent',
       confirmed: 'confirmed',
       comments: 'comments',
+      accept: 'accept'
     },
     type: {
       artist: "Artist",
@@ -656,6 +657,10 @@
         permanents: 'Along all day',
         noResults:'No results'
       }
+    },
+    cookiesPolicy:{
+      title: 'Cookies policy',
+      mex: 'In order to improve your browsing experience, orfheo stores information in your browser in the form of small text elements called cookies. </br> If you accept or continue browsing you will be agreeing with this notification. For more information you can read our '
     }
   }
 }(Pard || {}))

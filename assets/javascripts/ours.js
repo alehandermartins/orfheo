@@ -1,10 +1,9 @@
 // = require pard
+// = require languages
+// = require translator
 // = require app
 // = require backend
 // = require events
-
-// = require languages
-// = require translator
 
 // = require layout
 // = require eventManager

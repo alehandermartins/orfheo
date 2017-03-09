@@ -20,7 +20,8 @@
       program: 'programa',
       permanent: 'permanent',
       confirmed: 'confirmado',
-      comments: 'comentarios'
+      comments: 'comentarios',
+      accept: 'acepta'
     },
     type: {
       artist: "Artista",
@@ -658,6 +659,10 @@
         permanents: 'Permanentes a lo largo del día',
         noResults:'Ningún resultado para esta fecha'  
       }
-    }
+    },
+    cookiesPolicy:{
+      title: 'Política de cookies',
+      mex: 'Para mejorar tu experiencia de navegación, orfheo almacena información en tu navegador en forma de pequeños elementos de texto llamados cookies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más información puedes leer nuestra '
+    },
   }
 }(Pard || {}))
