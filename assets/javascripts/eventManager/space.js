@@ -283,10 +283,10 @@
       var _profileCaller = $('<a>').attr({
         target: 'blank',
         href: '/profile?id=' + space.profile_id
-      }).text('Perfil');
+      }).text(Pard.t.text('dictionary.profile').capitalize());
 
       var _programLink = $('<li>');
-      var _programCaller = $('<a>').attr('href','#/').text('Programa');
+      var _programCaller = $('<a>').attr('href','#/').text(Pard.t.text('dictionary.program').capitalize());
       _programCaller.on('click', function(){
         displayer.displaySpaceProgram(space.profile_id);
       });

@@ -4,6 +4,21 @@
   ns.langs = ns.langs || {}
 
   ns.langs.en = {
+    dictionary: {
+      artist: 'artist',
+      category: 'category',
+      short_description: 'short description',
+      search: 'search',
+      schedule: 'schedule',
+      title: 'title',
+      space: 'space',
+      address: 'address',
+      phone: 'phone',
+      email: 'email',
+      profile: 'profile',
+      program: 'program',
+      permanent: 'permanent'
+    },
     type: {
       artist: "Artist",
       artists: "Artists",
@@ -535,6 +550,17 @@
     manager:{
       title: 'Manage',
       toEvent: 'Event page',
+      export: 'Export table',
+      zeroRecords: "No results",
+      infoEmpty: "No information available",
+      copy:{
+        helper: 'Create and copy a mailing list',
+        artistEmails: 'artists emails',
+        allEmails: 'all emails',
+        title: 'Copy emails',
+        mex1: '<strong>%{amount} emails copied</strong> to the clipboard',
+        mex2: '(<strong><i>Ctrl+V</i></strong> to paste)'
+      },
       program:{
         tab: 'Program',
         permanent: 'Permanent',

@@ -6,6 +6,10 @@
   ns.ColumnWidth = 176;
   ns.PermanentCardHeight = 42;
 
+  String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  };
+
   ns.Widgets.GenerateUUID = function() {
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

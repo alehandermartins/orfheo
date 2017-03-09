@@ -7,17 +7,7 @@
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
-    var _columnsHeaders = ['time','name','category','title','short_description', 'phone', 'email']
-
-    var _columnsHeadersDictionary = {
-      time: 'Horario',
-      name:'Artista',
-      category: 'Categoría',         
-      title: 'Título',
-      short_description:'Descripción breve',
-      phone: 'Teléfono',
-      email: 'Email'
-    };
+    var _columnsHeaders = ['schedule','artist','category','title','short_description', 'phone', 'email']
 
     var _infoSpace = space.address.route+ ' ' + space.address.street_number + ' - tel. ' + space.phone.value +' - email: '+ space.email;
     var _spaceName = space.name + ' (' + Pard.UserInfo['texts'].subcategories['space'][space.subcategory] + ')';
@@ -45,7 +35,7 @@
       var _footRow = $('<tr>');
 
       _columnsHeaders.forEach(function(field){
-        var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
+        var _titleCol = $('<th>').text(Pard.t.text('dictionary.' + field).capitalize());
         var _footCol = $('<th>');
         if (field == 'email') _footCol.text('Powered by Orfheo');
         else{_footCol.text('');}
@@ -72,8 +62,8 @@
           var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
           var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
-          _timeCol.append(moment(performance.date).locale('es').format('dddd').toUpperCase());
-          _nameCol.append(moment(performance.date).locale('es').format('DD-MM-YYYY'));
+          _timeCol.append(moment(performance.date).locale(Pard.Options.language()).format('dddd').toUpperCase());
+          _nameCol.append(moment(performance.date).format('DD-MM-YYYY'));
           _titleCol.html('');
           _categoryCol.html('');
           _shortDCol.html('');
@@ -96,8 +86,8 @@
           var _shortDCol = $('<td>').addClass('column-artist-program-call-manager column-short_description');
           var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
           var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
-          _timeCol.append('Permanente');
-          _nameCol.append(moment(performance.date).locale('es').format('dddd'));
+          _timeCol.append(Pard.t.text('dictionary.permanent').capitalize());
+          _nameCol.append(moment(performance.date).locale(Pard.Options.language()).format('dddd'));
           _titleCol.html('');
           _categoryCol.html('');
           _shortDCol.html('');
@@ -121,15 +111,14 @@
       _createdWidget.append(_infoSpaceBox, _tableBox.append(_spaceTable));
 
       _spaceTable.DataTable({
-        rowReorder: false,
         "language":{
-          "zeroRecords": "Ningún resultado",
+          "zeroRecords": Pard.t.text('manager.zeroRecords'),
           "info": "",
-          "infoEmpty": "Ningúna información disponible",
+          "infoEmpty": Pard.t.text('manager.infoEmpty'),
           "infoFiltered": "(filtered from _MAX_ total records)",
-          "search": "Busca",
+          "search": Pard.t.text('dictionary.search').capitalize(),
           "search": "_INPUT_",
-          "searchPlaceholder": "Busca"
+          "searchPlaceholder": Pard.t.text('dictionary.search').capitalize()
         },
         fixedHeader: { 
           header: true
@@ -142,7 +131,7 @@
         "bSort": false,
         buttons: [
         {
-          text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
+          text: Pard.Widgets.IconManager('mailinglist').render().attr('title',Pard.t.text('manager.copy.helper')),
           className: 'mailinglistBtn',
           extend: 'collection',
           collectionLayout: 'button-list',
@@ -150,7 +139,7 @@
           fade: 200,
           buttons: [
             {
-              text: 'Email artistas',
+              text: Pard.t.text('manager.copy.artistEmails'),
               action: function(){
                 var columnData = Object.keys(program).map(function(performance_id){
                     return program[performance_id].show.participant_email;
@@ -162,12 +151,12 @@
                 });
                 _emailList = _emailList.substring(0,_emailList.length-2)
                 Pard.Widgets.CopyToClipboard(_emailList);
-                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+                var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+                Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
               }
             },
             {
-              text: 'Email artist. y esp.',
+              text: Pard.t.text('manager.copy.allEmails'),
               action: function(){
                 var columnData = Object.keys(program).map(function(performance_id){
                     return program[performance_id].show.participant_email;
@@ -179,15 +168,15 @@
                 });
                 _emailList = _emailList.substring(0,_emailList.length-2)
                 Pard.Widgets.CopyToClipboard(_emailList);
-                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+                var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+                Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
               }
             }
           ]
         },
         {
           extend: 'collection',
-          text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
+          text:  Pard.Widgets.IconManager('export').render().attr('title', Pard.t.text('manager.export')),
           className: 'ExportCollectionBtn',
           collectionLayout: 'button-list',
           // backgroundClassName: 'ExportCollection-background',
@@ -200,7 +189,7 @@
               exportOptions: {
                   columns: ':visible'
               },
-              filename: 'programa '+space.name
+              filename: Pard.t.text('dictionary.program') + ' ' + space.name
             },
             {
               extend: 'pdf',
@@ -209,7 +198,7 @@
               },
               // download: 'open',
               orientation: 'landscape',
-              filename: 'programa '+space.name,
+              filename: Pard.t.text('dictionary.program') + ' ' + space.name,
               title: _spaceName,
               message: '__MESSAGE__',
               footer: true,
@@ -275,11 +264,11 @@
                     });
                   }
                 });
-              }  
+              }
             }
           ]
         }
-      ]      
+      ]
       });
     }
 
@@ -287,7 +276,7 @@
       var _row = $('<tr>');
 
       var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
-      var _schedule = moment(parseInt(show.time[0])).locale("es").format('HH:mm') + '-' + moment(parseInt(show.time[1])).locale("es").format('HH:mm');
+      var _schedule = moment(parseInt(show.time[0])).format('HH:mm') + '-' + moment(parseInt(show.time[1])).format('HH:mm');
       var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
       var _categoryCol = $('<td>').addClass('column-artist-program-call-manager column-category');
       var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');

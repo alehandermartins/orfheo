@@ -8,16 +8,7 @@
     var _closepopup = {};
     var _createdWidget = $('<div>');
 
-    var _columnsHeaders = ['time','title','name','address', 'phone', 'email'];
-
-    var _columnsHeadersDictionary = {
-      time: 'Horario',
-      title: 'Título',
-      name:'Espacio',
-      address:'Dirección',
-      phone: 'Teléfono',
-      email: 'Email'
-    };
+    var _columnsHeaders = ['schedule','title','space','address', 'phone', 'email'];
 
     var _infoArtistBox = $('<div>').addClass('info-box-popup-program');
     var _conflictPerformances;
@@ -67,7 +58,7 @@
       var _footRow = $('<tr>');
 
       _columnsHeaders.forEach(function(field){
-        var _titleCol = $('<th>').text(_columnsHeadersDictionary[field]);
+        var _titleCol = $('<th>').text(Pard.t.text('dictionary.' + field).capitalize());
         var _footCol = $('<th>');
         if (field == 'email') _footCol.text('Powered by Orfheo');
         else{_footCol.text('');}
@@ -93,7 +84,7 @@
           var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
           var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
-          _timeCol.append(moment(performance.date).locale('es').format('dddd').toUpperCase());
+          _timeCol.append(moment(performance.date).locale(Pard.Options.language()).format('dddd').toUpperCase());
           _titleCol.append(moment(performance.date).locale('es').format('DD-MM-YYYY'));
           _nameCol.html('');
           _addressCol.html('');
@@ -116,8 +107,8 @@
           var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
           var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
-          _timeCol.append('Permanente');
-          _titleCol.append(moment(performance.date).locale('es').format('dddd'));
+          _timeCol.append(Pard.t.text('dictionary.permanent').capitalize());
+          _titleCol.append(moment(performance.date).locale(Pard.Options.language()).format('dddd'));
           _nameCol.html('');
           _addressCol.html('');
           _phoneCol.html('');
@@ -142,13 +133,13 @@
       _artistTable.DataTable({
         rowReorder: false,
         "language":{
-          "zeroRecords": "Ningún resultado",
+          "zeroRecords": Pard.t.text('manager.zeroRecords'),
           "info": "",
-          "infoEmpty": "Ningúna información disponible",
+          "infoEmpty": Pard.t.text('manager.infoEmpty'),
           "infoFiltered": "(filtered from _MAX_ total records)",
-          "search": "Busca",
+          "search": Pard.t.text('dictionary.search').capitalize(),
           "search": "_INPUT_",
-          "searchPlaceholder": "Busca"
+          "searchPlaceholder": Pard.t.text('dictionary.search').capitalize()
         },
         fixedHeader: {
           header: true
@@ -163,7 +154,7 @@
         buttons: [
          {
           extend: 'collection',
-          text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
+          text:  Pard.Widgets.IconManager('export').render().attr('title',Pard.t.text('manager.export')),
           className: 'ExportCollectionBtn',
           collectionLayout: 'button-list',
           // backgroundClassName: 'ExportCollection-background',
@@ -176,7 +167,7 @@
                 exportOptions: {
                     columns: ':visible'
                 },
-                filename: 'programa '+ artist.name
+                filename: Pard.t.text('dictionary.program') + ' ' + artist.name
               },
               {
                 extend: 'pdf',
@@ -185,7 +176,7 @@
                 },
                 // download: 'open',
                 orientation: 'landscape',
-                filename: 'programa '+ artist.name,
+                filename: Pard.t.text('dictionary.program') + ' ' + artist.name,
                 title: artist.name,
                 footer: true,
                 customize: function ( doc ) {
@@ -257,7 +248,7 @@
       }
 
       var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
-      var _schedule = moment(parseInt(show.time[0])).locale("es").format('HH:mm') + '-' + moment(parseInt(show.time[1])).locale("es").format('HH:mm');
+      var _schedule = moment(parseInt(show.time[0])).format('HH:mm') + '-' + moment(parseInt(show.time[1])).format('HH:mm');
       var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
       var _namePopupCaller = $('<a>').attr({'href':'#/'}).text(show.title);
       var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');

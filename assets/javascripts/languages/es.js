@@ -4,6 +4,21 @@
   ns.langs = ns.langs || {}
 
   ns.langs.es = {
+    dictionary: {
+      artist: 'artista',
+      category: 'categoría',
+      short_description: 'descripción breve',
+      search: 'busca',
+      schedule: 'horario',
+      title: 'título',
+      space: 'espacio',
+      address: 'dirección',
+      phone: 'teléfono',
+      email: 'email',
+      profile: 'perfil',
+      program: 'programa',
+      permanent: 'permanent'
+    },
     type: {
       artist: "Artista",
       artists: "Artistas",
@@ -537,6 +552,17 @@
     manager:{
       title: 'Gestiona',
       toEvent: 'Página evento',
+      export: 'Exporta tabla',
+      zeroRecords: "Ningún resultado",
+      infoEmpty: "Ningúna información disponible",
+      copy:{
+        helper: 'Crea y copia lista de correos',
+        artistEmails: 'Email artistas',
+        allEmails: 'Email artist. y esp.',
+        title: 'Copia correos',
+        mex1: '<strong>Copiados %{amount} contactos </strong> de correo al portapapeles',
+        mex2: '(<strong><i>Ctrl+V</i></strong> para pegar)'
+      },
       program:{
         tab: 'Programa',
         permanent: 'Permanente',
