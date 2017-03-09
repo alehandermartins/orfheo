@@ -396,7 +396,7 @@
     },
     welcome: {
       profilesSection: {
-        title: "Tu comunidad cultural te llama<br>Entra en ofheo como:",
+        title: "Tu comunidad cultural te llama<br>Entra en orfheo como:",
         artist: "Comparte tu arte,<br>apúntate en convocatorias,<br>genera red, descubre, crea...",
         space: "Saca el máximo partido a tu espacio,<br>alberga eventos artísticos,<br>abre las puertas a la cultura",
         organization: "Da a conocer tu proyecto,<br>lanza convocatorias,<br>expande tu comunidad",
@@ -465,20 +465,25 @@
         title: '¿Qué te parece orfheo?',
         mex1: 'Para poder mejorar es necesario ponerse en juego y ser cuestionados. Estaríamos encantados de saber que piensas de orfheo, qué funcionalidades le faltan y te gustaría tener a tu alcance, qué cambiarías, quitarías o añadirías...',
         mex2: 'Cualquier crítica constructiva es bienvenida, nos ayudará a proporcionarte un servicio mejor.',
-        mex3: '¡Tu opinión es importante!',
-        mex4: 'Hay muchas formas de colaborar en orfheo:',
-        mex5: 'como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separado, no dudes en enviarnos tu propuesta de alianza.',
-        mex6: 'como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través de publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.',
-        mex7: 'como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envíanos información sobre ti.',
-        mex8: 'como mecenas: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.',
-        mex9: 'como voluntario: </br>contáctanos si quieres aprender a través del desarrollo de orfheo o si ya tienes conocimientos y te estimula ofrecer tu tiempo a una noble causa.'
+        mex3: '¡Tu opinión es importante!'
       },
       collaborateTab:{
         tab: 'Colabora',
         title: '¿Quieres ser parte?',
         mex1: 'Nos gustaría compartir conocimientos y seguir desarrollando este proyecto para que todos los ciudadanos de orfheo puedan siempre disfrutar de la comunidad y para dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen.',
         mex2: 'Creemos que la inclusión inspira la innovación y por lo tanto siempre estamos abiertos a escuchar ideas para colaborar.',
-        mex3: 'Contáctanos a '
+        mex3: 'Contáctanos a ',
+        mex4: 'Hay muchas formas de colaborar en orfheo:',
+        mex5: 'como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separado, no dudes en enviarnos tu propuesta de alianza.',
+        mex6: 'como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través de publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.',
+        mex7: 'como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envíanos información sobre ti.',
+        mex8: 'como mecenas: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.',
+        mex9: 'como voluntario: </br>contáctanos si quieres aprender a través del desarrollo de orfheo o, si ya tienes conocimientos, te estimula ofrecer tu tiempo a una noble causa.'
+      },
+      contactTab:{
+        tab: 'Contacto',
+        title: '¡Aquí estamos!',
+        country: 'España'
       },
       forms: {
         name: 'Nombre*',

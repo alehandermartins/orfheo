@@ -49,7 +49,7 @@ ns.Widgets = ns.Widgets || {};
       $('.shown').hide();
       _colaborationCont.show().addClass('shown');
     });
-    var _contact = $('<li>').text('Contacto').click(function(){
+    var _contact = $('<li>').text(Pard.t.text('contact.contactTab.tab')).click(function(){
       $('.selected').removeClass('selected');
       _contact.addClass('selected');
       $('.shown').hide();
@@ -103,9 +103,9 @@ ns.Widgets = ns.Widgets || {};
     var _formColumn = $('<div>').append(Pard.Widgets.TecnicalSupportForm()).addClass('half-col');
     _tecnicalSupportCont.append(_textColumn, _formColumn);
 
-    var _titleContact = $('<h5>').text('¡Aquí estamos!');  
+    var _titleContact = $('<h5>').text(Pard.t.text('contact.contactTab.title'));  
     _contactCont.append(_titleContact);
-    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (España) 46020</br> (0034) 633 753 471</br> <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>').css({'text-align':'center'});
+    var _textContact = $('<p>').html('<strong> orfheo </strong></br>Calle nuestra señora de la asunción, 4b</br>Valencia (' +  (Pard.t.text('contact.contactTab.country')) + ') 46020</br> (0034) 633 753 471</br> <a href="mailto:info@orfheo.org">info@orfheo.org</a></br><a href="https://www.facebook.com/orfheo.org", target="_blank">Facebook</a>').css({'text-align':'center'});
 
     _contactCont.append(_textContact);
 

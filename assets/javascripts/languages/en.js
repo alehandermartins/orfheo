@@ -466,6 +466,24 @@
         mex2: 'Any constructive criticism is welcomed, it will help us provide a better service.',
         mex3: '¡Your opinion is important!'
       },
+      collaborateTab:{
+        tab: 'Collaborate',
+        title: 'Do you want to be a part?',
+        mex1: 'We would like to share knowledge and continue to develop this project so that all citizens of orfheo can always enjoy the community. We would also like to give the possibility of using this tool to all those who wish it.',
+        mex2: 'We believe that inclusion inspires innovation and therefore we are always open to hear ideas and collaborate.',
+        mex3: 'Contact us at ',
+        mex4: 'There are many ways to collaborate in orfheo:',
+        mex5: 'as a partner: </br> If you have a business and as we believe that we can do more things together than separately, do not hesitate to send us your proposal of alliance.',
+        mex6: 'as a sponsor: </br> Thanks to you, who wants to invest and/or collaborate through publicity and sponsorship, we can offer the possibility of financially help the projects of the orfheo community.',
+        mex7: 'as a worker: </br> work in orfheo as a creative, artist, designer, programmer, community manager, administrative or commercial manager. Send us information about yourself.',
+        mex8: 'as a patron: </br> generously support a reality, because you believe in it. Supporting orfheo means being part of a project with the potential to improve our world.',
+        mex9: 'as a volunteer: </br> contact us if you want to learn through the development of orfheo or, if you already have the knowledge, to offer your time to a noble cause.'
+      },
+      contactTab:{
+        tab: 'Contact',
+        title: '¡Here we are!',
+        country: 'Spain'
+      },
       forms: {
         name: 'Name*',
         email: 'Email*',
