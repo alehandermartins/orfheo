@@ -40,7 +40,7 @@ ns.Widgets = ns.Widgets || {};
 			.append(
 				$('<h3>').text('Together is better'),
 				// $('<p>').html('Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento.<br> Gestiona con una potente herramienta todos los datos, nunca ha sido igual.'),
-				$('<p>').html('Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br> y gestiona todos tus datos con una nueva y potente herramienta a partir de 29€ al mes.'),
+				$('<p>').html('Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br> y gestiona todos tus datos con una nueva y potente herramienta.'),
 				_contactBtn
 			);
 		_ibackground.append(_iText);
@@ -182,11 +182,11 @@ ns.Widgets = ns.Widgets || {};
 			.append(
 				$('<h3>').text('El precio no es un limite'),
 				$('<p>').html('Mediante lo que haces, estás ayudando a construir algo realmente importante,<br>no solamente un gran proyecto, sino también una vibrante comunidad enfocada a una muy noble meta.<br> Queremos que siempre puedas hacerlo y como tú, todos.'),
-				$('<h4>')
-					.append(
-					"A partir de 29 €",
-					$('<span>').text(' /mes').addClass('month'))
-					.addClass('pricingText'),
+				// $('<h4>')
+				// 	.append(
+				// 	"A partir de 29 €",
+				// 	$('<span>').text(' /mes').addClass('month'))
+				// 	.addClass('pricingText'),
 				_contactPriceBtn
 			);
 		_priceSection
