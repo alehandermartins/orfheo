@@ -489,6 +489,11 @@
         mex1: 'In order to create an event or for more information, contact us through the following form:',
         mex2: 'Creating an event in orfheo will allow you to launch <strong>your call</strong> in the community and access the <strong> management tool </strong> that will accompany you until the publishing of<strong> your interactive program </strong> (more information on our %{link}).'
       },
+      contactUs: {
+        title: 'Contact orfheo',
+        mex1: 'We are always available to provide technical assistance, advice, answer your questions or give you useful information when you need it most.',
+        mex2: 'Send us a message, we will answer you right away :)'
+      },
       forms: {
         name: 'Name*',
         email: 'Email*',

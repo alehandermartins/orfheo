@@ -490,6 +490,11 @@
         mex1: 'Para crear un evento o para más información, contáctanos a través del siguiente formulario:',
         mex2: 'Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong> (más información en nuestra %{link}).'
       },
+      contactUs: {
+        title: 'Contacta orfheo',
+        mex1: 'Estamos siempre disponibles para proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.',
+        mex2: 'Envíanos un mensaje, te contestaremos enseguida :)'
+      },
       forms: {
         name: 'Nombre*',
         email: 'Email*',

@@ -174,7 +174,7 @@ ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.ContactOrfheo = function(){
     var _createdWidget = $('<div>').addClass('eventContactPopup');
-    var _textColumn = $('<div>').append($('<p>').text('Estamos siempre disponibles para proporcionarte ayuda técnica, consejos, responder a tus preguntas o darte información útil cuando más lo necesites.'), $('<p>').text('Envíanos un mensaje, te contestaremos enseguida :)'));
+    var _textColumn = $('<div>').append($('<p>').text(Pard.t.text('contact.contactUs.mex1')), $('<p>').text(Pard.t.text('contact.contactUs.mex2')));
     var _form = Pard.Widgets.TecnicalSupportForm();
     var _formContainer = $('<div>').append(_form);
     _createdWidget.append(_textColumn, _formContainer);

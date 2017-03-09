@@ -382,7 +382,7 @@ ns.Widgets = ns.Widgets || {};
         $('<a>').text('Email').attr('href','#/'))
         .click( function(){
           var _contactPopup = Pard.Widgets.Popup();
-          _contactPopup.setContent('Contacta orfheo', Pard.Widgets.ContactOrfheo());
+          _contactPopup.setContent(Pard.t.text('contact.contactUs.title'), Pard.Widgets.ContactOrfheo());
           _contactPopup.setCallback(function(){
             setTimeout(function(){
               _contactPopup.destroy();
