@@ -485,6 +485,11 @@
         title: '¡Aquí estamos!',
         country: 'España'
       },
+      eventContact:{
+        title: 'Tus eventos en orfheo',
+        mex1: 'Para crear un evento o para más información, contáctanos a través del siguiente formulario:',
+        mex2: 'Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong> (más información en nuestra %{link}).'
+      },
       forms: {
         name: 'Nombre*',
         email: 'Email*',

@@ -160,10 +160,10 @@ ns.Widgets = ns.Widgets || {};
   ns.Widgets.EventContact = function(profileName){
     var _createdWidget = $('<div>').addClass('eventContactPopup');
     var _itext = $('<div>').append(
-      $('<p>').html('Para crear un evento o para más informaciones, contáctanos a través del siguiente formulario:')
+      $('<p>').html(Pard.t.text('contact.eventContact.mex1'))
     );
     var _ftext = $('<div>').append(
-      $('<p>').html('Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong> (más información en nuestra <a href="/services", target="_blank"> página de servicios </a>).'))
+      $('<p>').html(Pard.t.text('contact.eventContact.mex2', { link: '<a href="/services", target="_blank">' +  Pard.t.text('contact.servicesTab.servicesPage')+ '</a>'})))
         .css('margin-top','.5rem');
     var _contactForm = Pard.Widgets.BusinessForm(profileName);
     _createdWidget.append(_itext, _contactForm, _ftext);
@@ -196,30 +196,22 @@ ns.Widgets = ns.Widgets || {};
     var _createdWidget = $('<div>');
 
     var _image = $('<div>').addClass('orfheo-symbol-popup');
-
     var _web = $('<p>').text('orfheo.org').addClass('orfheo-web-popup');
-
     var _title = $('<h4>').text(Pard.t.text('popup.termsAndConditions.title')).addClass('title-project-info');
-
     var _lastModify = $('<div>').append($('<p>').text(Pard.t.text('popup.termsAndConditions.date')).addClass('conditions-lastModify')).addClass('conditions-par');
-    
     var _part1 = $('<div>').html(Pard.t.text('popup.termsAndConditions.part1')).addClass('conditions-par');
-
 
     var _subtitle2 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle2')).addClass('subtitle-conditions');
     var _mex2  = Pard.t.text('popup.termsAndConditions.subtitle2');
     var _part2 = $('<div>').append(_subtitle2, _mex2).addClass('conditions-par');
 
-
     var _subtitle3 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle3')).addClass('subtitle-conditions');
     var _mex3  = Pard.t.text('popup.termsAndConditions.mex3');
     var _part3 = $('<div>').append(_subtitle3, _mex3).addClass('conditions-par');
 
-
     var _subtitle4 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle4')).addClass('subtitle-conditions');
     var _mex4  = Pard.t.text('popup.termsAndConditions.mex4') 
     var _part4 = $('<div>').append(_subtitle4, _mex4).addClass('conditions-par');
-
 
     var _subtitle5 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle5')).addClass('subtitle-conditions');
     var _mex5  = Pard.t.text('popup.termsAndConditions.mex5')
@@ -235,16 +227,11 @@ ns.Widgets = ns.Widgets || {};
 
 
     var _subtitle6 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle6')).addClass('subtitle-conditions');
-
     var _mex6  = $('<p>').append(Pard.t.text('popup.termsAndConditions.mex6'));
-
     var _part6 = $('<div>').append(_subtitle6, _mex6).addClass('conditions-par');
 
-
     var _subtitle7 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle7')).addClass('subtitle-conditions');
-
     var _finalMex = $('<div>').html(Pard.t.text('popup.termsAndConditions.finalMex'))
-
 
     _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part5_5, _part_coockies, _part6, _subtitle7, _finalMex);
 
@@ -299,7 +286,6 @@ ns.Widgets = ns.Widgets || {};
     var _createdWidget = $('<div>');
 
     var _image = $('<div>').addClass('orfheo-symbol-popup');
-
     var _web = $('<p>').text('orfheo.org').addClass('orfheo-web-popup');
 
     var _baseline = $('<h6>').html('Se pueden hacer más cosas juntos que por separado<br> ').addClass('orfheo-baseline-popup');
@@ -324,7 +310,7 @@ ns.Widgets = ns.Widgets || {};
 
     var _list6  = $('<div>').html('<p>VISIÓN <ul><li>Creemos que afrontar un proyecto debería ser divertido y apasionante. Creemos que una cultura de trabajo adecuada promueve el talento y la creatividad.  Los logros del equipo, y los éxitos individuales contribuyen al éxito global. Tenemos  una visión creativa del trabajo, del ocio y de la vida. </li> <li> Todas las ideas interesantes que surgen en los más diferentes contextos se comentan, se analizan en profundidad y si hace falta se ponen en práctica con calidad.  </li> <li> Elegimos y construimos colaborativamente. Nuestra meta es la unidad, no la unanimidad. Tomamos decisiones con método, de forma genuina y utilizando el consenso. Tenemos discusiones abiertas, animadas por un procesos que llevan a acuerdos en un tiempo razonable. </li> <li> Nos fijamos objetivos que sabemos tal vez no poder alcanzar, porque estamos convencidos de que a lo largo del camino, los esfuerzos, por cumplirlos, nos llevarán a obtener resultados, quizás diferentes de los esperados, pero igualmente valiosos. </li> </ul></p>');
 
-     var _list7 = $('<div>').html('<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>');
+    var _list7 = $('<div>').html('<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>');
 
      // var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
 

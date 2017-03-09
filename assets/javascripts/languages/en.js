@@ -484,6 +484,11 @@
         title: '¡Here we are!',
         country: 'Spain'
       },
+      eventContact:{
+        title: 'Your events in orfheo',
+        mex1: 'In order to create an event or for more information, contact us through the following form:',
+        mex2: 'Creating an event in orfheo will allow you to launch <strong>your call</strong> in the community and access the <strong> management tool </strong> that will accompany you until the publishing of<strong> your interactive program </strong> (more information on our %{link}).'
+      },
       forms: {
         name: 'Name*',
         email: 'Email*',

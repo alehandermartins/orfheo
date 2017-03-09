@@ -60,7 +60,7 @@ ns.Widgets = ns.Widgets || {};
         .addClass('navigationIcon-findOutMore'))
       .on('click', function(){
         var _contactPopup = Pard.Widgets.Popup();
-        _contactPopup.setContent('Tus eventos en orfheo', Pard.Widgets.EventContact());
+        _contactPopup.setContent(Pard.t.text('contact.eventContact.title'), Pard.Widgets.EventContact());
         _contactPopup.setCallback(function(){
           setTimeout(function(){
             _contactPopup.destroy();
