@@ -9,7 +9,7 @@ ns.Widgets = ns.Widgets || {};
     var _cards = $('<div>').addClass('welcomeSection-container');
     var _searchResult = $('<div>').addClass('search-results-WelcomePage');
 
-    Pard.NewsArray.forEach(function(news){
+    Pard.NewsArray[Pard.Options.language()].forEach(function(news){
       var _nwcard = Pard.Widgets.NewsCard(news);
       _searchResult.append(
         $('<div>').append(_nwcard)

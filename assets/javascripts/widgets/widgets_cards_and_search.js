@@ -528,7 +528,7 @@
     var _cutTitle = Pard.Widgets.FitInBox($('<span>').append(news.title), 220, 48).render();
     var _title = $('<div>').append(_cutTitle).addClass('title-newsCard');
     var _text = $('<div>').append(news.text).addClass('text-newsCard');
-    var _date = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale('es').format('DD MMM YYYY'))).addClass('date-newsCard');
+    var _date = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale(Pard.Options.language()).format('DD MMM YYYY'))).addClass('date-newsCard');
     _info.append(_title, _text);
     
     _newsCard.append(_image, _info);
@@ -618,7 +618,7 @@
       var _sectionContainer = $('<section>').addClass('popup-content');
       var _popupTitle = $('<h4>').html(news.title).addClass('title-popup-cardNews');
       var _popupText = $('<div>').html(news.text);
-      var _popupDate = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale('es').format('DD MMM YYYY'))).addClass('popupDate-newsCard');
+      var _popupDate = $('<div>').append($('<p>').html(moment(new Date(parseInt(news.date))).locale(Pard.Options.language()).format('DD MMM YYYY'))).addClass('popupDate-newsCard');
 
       var _pupopPublisherName = $('<span>')
         .text(news.publisher)
