@@ -6,6 +6,7 @@
   ns.langs.en = {
     dictionary: {
       artist: 'artist',
+      name: 'name',
       category: 'category',
       short_description: 'short description',
       search: 'search',
@@ -17,7 +18,9 @@
       email: 'email',
       profile: 'profile',
       program: 'program',
-      permanent: 'permanent'
+      permanent: 'permanent',
+      confirmed: 'confirmed',
+      comments: 'comments',
     },
     type: {
       artist: "Artist",
@@ -563,11 +566,13 @@
       },
       program:{
         tab: 'Program',
-        permanent: 'Permanent',
-        confirmed: 'Confirmed',
-        comments: 'Comments:',
         chain: 'Link the changes',
-        unchain: 'Unlink the changes'
+        unchain: 'Unlink the changes',
+        menu: {
+          artistsnoProgram: 'Proposals out of program',
+          spacesnoProgram: 'Spaces out of program',
+          orderSpaces: 'Order Spaces'
+        }
       },
       proposals: {
         tab: 'Proposals'

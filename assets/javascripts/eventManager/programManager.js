@@ -108,7 +108,7 @@
     _artistSelectorContainer.append(_artistSelector);
 
     Object.keys(eventTime).forEach(function(day, day_number){
-      if (day == 'permanent') _daySelector.append($('<option>').val(day).text(Pard.t.text('manager.program.permanent')));
+      if (day == 'permanent') _daySelector.append($('<option>').val(day).text(Pard.t.text('dictionary.permanent').capitalize()));
       else{
         var date = $('<option>').val(day).text(moment(day).format('DD-MM-YYYY'));
         _daySelector.append(date);
@@ -569,11 +569,11 @@
         var endTime = $('<select>');
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var commentsContainer = $('<div>');
-        var comments = $('<textarea>').attr({placeholder: Pard.t.text('manager.program.comments')});
+        var comments = $('<textarea>').attr({placeholder: Pard.t.text('dictionary.comments').capitalize() + ':'});
 
         var confirmedContainer = $('<div>').css('height', 20);
         var input = $('<input />').attr({type: 'checkbox'});
-        var label = $('<label>').html(Pard.t.text('manager.program.confirmed'));
+        var label = $('<label>').html(Pard.t.text('dictionary.confirmed').capitalize());
         var confirmed = $('<div>').append(input, label);
 
         var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).append(daySelector).addClass('noselect');
@@ -590,7 +590,7 @@
 
         Object.keys(eventTime).forEach(function(day){
           if(day == 'permanent') return false;
-          var _textDay = moment(new Date(day)).locale('es').format('DD-MM-YYYY');
+          var _textDay = moment(new Date(day)).format('DD-MM-YYYY');
           var date = $('<option>').val(day).text(_textDay);
           daySelector.append(date);
         });
@@ -899,11 +899,11 @@
         var endTime;
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var commentsContainer = $('<div>');
-        var comments = $('<textarea>').attr({placeholder: Pard.t.text('manager.program.comments')});
+        var comments = $('<textarea>').attr({placeholder: Pard.t.text('dictionary.comments').capitalize() + ':'});
 
         var confirmedContainer = $('<div>').css('height', 20);
         var input = $('<input />').attr({type: 'checkbox'});
-        var label = $('<label>').html(Pard.t.text('manager.program.confirmed'));
+        var label = $('<label>').html(Pard.t.text('dictionary.confirmed').capitalize());
         var confirmed = $('<div>').append(input, label);
 
         var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector).addClass('noselect');
@@ -1378,14 +1378,14 @@
     var ToolsDropdownMenu = function(){
       var _menu = $('<ul>').addClass('menu').css({'min-width': '13rem'});
 
-      var _outOfprogramBtn = $('<li>').text('Propuestas sin programación');
+      var _outOfprogramBtn = $('<li>').text(Pard.t.text('manager.program.menu.artistsnoProgram'));
       _outOfprogramBtn.on('click', function(){
         _btn.trigger('click');
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        var _message = Pard.Widgets.PopupContent('Propuestas fuera del programa', ArtistOutOfProgram());
+        var _message = Pard.Widgets.PopupContent(Pard.t.text('manager.program.menu.artistsnoProgram'), ArtistOutOfProgram());
         _message.setCallback(function(){
           _popup.close();
           setTimeout(function(){
@@ -1396,14 +1396,14 @@
         _popup.open();
       });
 
-      var _spaceOutOfprogramBtn = $('<li>').text('Espacios sin programación');
+      var _spaceOutOfprogramBtn = $('<li>').text(Pard.t.text('manager.program.menu.spacesnoProgram'));
       _spaceOutOfprogramBtn.on('click', function(){
         _btn.trigger('click');
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','100');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        var _message = Pard.Widgets.PopupContent('Espacios fuera del programa', SpaceOutOfProgram());
+        var _message = Pard.Widgets.PopupContent(Pard.t.text('manager.program.menu.spacesnoProgram'), SpaceOutOfProgram());
         _message.setCallback(function(){
           _popup.close();
           setTimeout(function(){
@@ -1413,9 +1413,8 @@
         _content.append(_message.render());
         _popup.open();
       });
-
       
-      var _orderSpaceBtn = $('<li>').text('Ordena Espacios');
+      var _orderSpaceBtn = $('<li>').text(Pard.t.text('manager.program.menu.orderSpaces'));
       _orderSpaceBtn.on('click', function(){
         _btn.trigger('click');
         var _content = $('<div>').addClass('very-fast reveal full');
@@ -1423,7 +1422,7 @@
         $('body').append(_content);
         var OrderSpaceWidget = OrderSpace();
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
-        var _message = Pard.Widgets.PopupContent('Ordena Espacios', OrderSpaceWidget);
+        var _message = Pard.Widgets.PopupContent(Pard.t.text('manager.program.menu.orderSpaces'), OrderSpaceWidget);
         _message.setCallback(function(){
           var _orderSpaceSpinner = new Spinner().spin();
           $('body').append(_orderSpaceSpinner.el);
@@ -1453,7 +1452,7 @@
 
       var ArtistOutOfProgram = function(){
         var _createdWidget = $('<div>').addClass('artist-out-of-program-popup-content');
-        var columns = ['name', 'title', 'subcategory', 'email'];
+        var columns = ['name', 'title', 'category', 'email'];
         var _tableCreated = $('<table>').addClass('table-proposal stripe row-border artist-out-of-program-table').attr({'cellspacing':"0"}).css({
           'margin': '0 auto',
           'width': '100%',
@@ -1467,8 +1466,9 @@
         var _tfoot = $('<tfoot>');
         var _titleRowFoot = $('<tr>');
         columns.forEach(function(field){
-          var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
-          var _titleFoot = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+          var _text = Pard.t.text('dictionary.' + field).capitalize();
+          var _titleCol = $('<th>').text(_text);
+          var _titleFoot = $('<th>').text(_text);
           _titleRow.append(_titleCol);
           _titleRowFoot.append(_titleFoot);
         });
@@ -1494,7 +1494,8 @@
             columns.forEach(function(field){
               var _info;
               if (field == 'name') _info = Pard.Widgets.InfoTab[field].info(proposal, displayer);
-              else  _info= proposal[field];
+              else if (field == 'category') _info = the_event.texts['es']['subcategories']['artist'][proposal.subcategory];
+              else  _info = proposal[field];
               var _col = $('<td>').append(_info);
               _row.append(_col);
               _tbody.append(_row);
@@ -1560,7 +1561,7 @@
             if (_colCategry.data().unique().length>1){
               var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
               var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
-                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text(Pard.t.text('dictionary.category').capitalize())));  
               _colCategry.data().unique().sort().each( function ( d, j ) {
                   _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
               } );
@@ -1592,7 +1593,7 @@
 
       var SpaceOutOfProgram = function(){
         var _createdWidget = $('<div>').addClass('artist-out-of-program-popup-content');
-        var columns = ['name', 'address', 'subcategory', 'email'];
+        var columns = ['name', 'address', 'category', 'email'];
         var _tableCreated = $('<table>').addClass('table-proposal stripe row-border artist-out-of-program-table').attr({'cellspacing':"0"}).css({
           'margin': '0 auto',
           'width': '100%',
@@ -1606,8 +1607,9 @@
         var _tfoot = $('<tfoot>');
         var _titleRowFoot = $('<tr>');
         columns.forEach(function(field){
-          var _titleCol = $('<th>').text(Pard.Widgets.Dictionary(field).render());
-          var _titleFoot = $('<th>').text(Pard.Widgets.Dictionary(field).render());
+          var _text = Pard.t.text('dictionary.' + field).capitalize();
+          var _titleCol = $('<th>').text(_text);
+          var _titleFoot = $('<th>').text(_text);
           _titleRow.append(_titleCol);
           _titleRowFoot.append(_titleFoot);
         });
@@ -1627,6 +1629,7 @@
             columns.forEach(function(field){
               var _info;
               if (field == 'name' || field == 'address') _info = Pard.Widgets.InfoTab[field].info(proposal, displayer);
+              else if (field == 'category') _info = the_event.texts['es']['subcategories']['space'][proposal.subcategory];
               else  _info= proposal[field];
               var _col = $('<td>').append(_info);
               _row.append(_col);
@@ -1693,7 +1696,7 @@
             if (_colCategry.data().unique().length>1){
               var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
               var _selectCat = $('<select>').append($('<option>').attr('value','').text(''))
-                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+                  .appendTo(_selectContainer.appendTo($(_colCategry.header()).text(Pard.t.text('dictionary.category').capitalize())));  
               _colCategry.data().unique().sort().each( function ( d, j ) {
                   _selectCat.append( '<option value="'+d+'">'+d+'</option>' )
               } );
@@ -1790,7 +1793,7 @@
           });
         });
 
-        var _catOrderBtn = Pard.Widgets.Button('Categoría', function(){
+        var _catOrderBtn = Pard.Widgets.Button(Pard.t.text('dictionary.category').capitalize(), function(){
           _listSortable.empty();
           spaces = [];
           for (var cat in _catArrays){

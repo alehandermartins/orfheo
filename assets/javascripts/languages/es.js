@@ -6,6 +6,7 @@
   ns.langs.es = {
     dictionary: {
       artist: 'artista',
+      name: 'nombre',
       category: 'categoría',
       short_description: 'descripción breve',
       search: 'busca',
@@ -17,7 +18,9 @@
       email: 'email',
       profile: 'perfil',
       program: 'programa',
-      permanent: 'permanent'
+      permanent: 'permanent',
+      confirmed: 'confirmado',
+      comments: 'comentarios'
     },
     type: {
       artist: "Artista",
@@ -565,11 +568,13 @@
       },
       program:{
         tab: 'Programa',
-        permanent: 'Permanente',
-        confirmed: 'Confirmado',
-        comments: 'Comentarios:',
         chain: 'Encadena los cambios',
-        unchain: 'Desencadena los cambios'
+        unchain: 'Desencadena los cambios',
+        menu: {
+          artistsnoProgram: 'Propuestas sin programa',
+          spacesnoProgram: 'Espacios sin programa',
+          orderSpaces: 'Ordena Espacios'
+        }
       },
       proposals: {
         tab: 'Propuestas'
