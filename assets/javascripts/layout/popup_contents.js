@@ -43,7 +43,7 @@ ns.Widgets = ns.Widgets || {};
       $('.shown').hide();
       _feedbackCont.show().addClass('shown');
     });
-    var _colaboration = $('<li>').text('Colabora').click(function(){
+    var _colaboration = $('<li>').text(Pard.t.text('contact.collaborateTab.tab')).click(function(){
       $('.selected').removeClass('selected');
       _colaboration.addClass('selected');
       $('.shown').hide();
@@ -122,24 +122,24 @@ ns.Widgets = ns.Widgets || {};
     _feedbackCont.append(_textFeedColumn, _formFeedColumn);
 
     var _colaborationCont = $('<div>').addClass('colaboration-contactInfo').hide();
-    var _titleColab = $('<h5>').text('¿Quieres ser parte?');  
+    var _titleColab = $('<h5>').text(Pard.t.text('contact.collaborateTab.title'));  
     _colaborationCont.append(_titleColab);
     var _textColumnColab = $('<div>')
       .append(
-        $('<p>').text('Nos gustaría compartir conocimientos y seguir desarrollando este proyecto para que todos los ciudadanos de orfheo puedan siempre disfrutar de la comunidad y para dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen.'), 
-        $('<p>').text('Creemos que la inclusión inspira la innovación y por lo tanto siempre estamos abiertos a escuchar ideas para colaborar.'), 
-        $('<p>').append('Contáctanos a ', $('<a>').attr('href','mailto:info@orfheo.org').text('info@orfheo.org'))
+        $('<p>').text(Pard.t.text('contact.collaborateTab.mex1')), 
+        $('<p>').text(Pard.t.text('contact.collaborateTab.mex2')), 
+        $('<p>').append(Pard.t.text('contact.collaborateTab.mex3'), $('<a>').attr('href','mailto:info@orfheo.org').text('info@orfheo.org'))
       )
       .addClass('half-col');
      var _listColumnCol = $('<div>')
        .append(
-          $('<p>').text('Hay muchas formas de colaborar en orfheo:').css('margin-bottom','0.5rem'),
+          $('<p>').text(Pard.t.text('contact.collaborateTab.mex4')).css('margin-bottom','0.5rem'),
           $('<ul>').append(
-            $('<li>').html('como partner: </br>si tienes un negocio y como nosotros crees que podemos hacer más cosas juntos que por separado, no dudes en enviarnos tu propuesta de alianza.'),
-            $('<li>').html('como patrocinador: </br>gracias a ti, que quieres invertir y/o colaborar a través de publicidad y patrocinio, podemos ofrecer la posibilidad de ayudar económicamente a los proyectos de la comunidad orfheo.'),
-            $('<li>').html('como trabajador:</br>trabaja en orfheo como creativo, artista, diseñador, programador, community manager, gestor administrativo o comercial. Envíanos información sobre ti.'),
-            $('<li>').html('como mecenas: </br>apoya de forma generosa una realidad, porque crees en ella. Apoyar orfheo significa ser parte de un proyecto con el potencial de mejorar nuestro mundo.'),
-            $('<li>').html('como voluntario: </br>contáctanos si quieres aprender a través del desarrollo de orfheo o si ya tienes conocimientos y te estimula ofrecer tu tiempo a una noble causa.')
+            $('<li>').html(Pard.t.text('contact.collaborateTab.mex5')),
+            $('<li>').html(Pard.t.text('contact.collaborateTab.mex6')),
+            $('<li>').html(Pard.t.text('contact.collaborateTab.mex7')),
+            $('<li>').html(Pard.t.text('contact.collaborateTab.mex8')),
+            $('<li>').html(Pard.t.text('contact.collaborateTab.mex9'))
           )
         )
        .addClass('half-col list-col');
