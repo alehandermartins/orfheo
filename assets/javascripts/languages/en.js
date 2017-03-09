@@ -532,6 +532,33 @@
       list6: '<p>VISION <ul><li> We believe that tackling a project should be fun and exciting. We believe that a proper work culture promotes talent and creativity. Team achievements, and individual success contribute to overall success. We have a creative vision of work, leisure and life. </li><li> All the interesting ideas that arise in the most different contexts are discussed, analyzed in depth and if necessary implemented with quality. </li><li> We choose and build collaboratively. Our goal is unity, not unanimity. We make decisions with method, in a genuine way and using consensus. We have open discussions, animated by a process that leads to agreements in a reasonable time. </li><li> We set goals that we know we may not be able to achieve, because we are convinced that along the way, efforts to fulfill them will lead to results, perhaps different from those expected, but equally valuable . </li></ul></p>',
       list7: '<p>MISSION <ul><li> Our mission is to stimulate new cultural possibilities created by connections. </li></ul></p>'
     },
+    manager:{
+      title: 'Manage',
+      toEvent: 'Event page',
+      program:{
+        tab: 'Program',
+        permanent: 'Permanent',
+        confirmed: 'Confirmed',
+        comments: 'Comments:',
+        chain: 'Link the changes',
+        unchain: 'Unlink the changes'
+      },
+      proposals: {
+        tab: 'Proposals'
+      },
+      tools: {
+        tab: 'Tools',
+        whitelist: {
+          title: 'Enable users to submit a proposal at any time',
+          placeholder: 'Email or Profile name',
+          ontheList: 'This user is already listed.'
+        },
+        qr: {
+          title: 'Download and distribute the QR code of your event page in orfheo',
+          download: 'Download'
+        }
+      }
+    },
     profile_page:{
       aside:{
         yourOther: 'your other profiles',

@@ -108,7 +108,7 @@
     _artistSelectorContainer.append(_artistSelector);
 
     Object.keys(eventTime).forEach(function(day, day_number){
-      if (day == 'permanent') _daySelector.append($('<option>').val(day).text('Permanente'));
+      if (day == 'permanent') _daySelector.append($('<option>').val(day).text(Pard.t.text('manager.program.permanent')));
       else{
         var date = $('<option>').val(day).text(moment(day).format('DD-MM-YYYY'));
         _daySelector.append(date);
@@ -160,7 +160,7 @@
         }
       });
       _spaceSelector.select2({
-        placeholder: 'Espacios',
+        placeholder: Pard.t.text('type.spaces'),
         allowClear: true,
         data: spaceProposals,
         templateResult: Pard.Widgets.FormatResource,
@@ -264,7 +264,7 @@
         });
       });
       _artistSelector.select2({
-        placeholder: 'Artistas',
+        placeholder: Pard.t.text('type.artists'),
         data: artistProposals,
         allowClear: true,
         templateResult: Pard.Widgets.FormatResource,
@@ -569,11 +569,11 @@
         var endTime = $('<select>');
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var commentsContainer = $('<div>');
-        var comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+        var comments = $('<textarea>').attr({placeholder: Pard.t.text('manager.program.comments')});
 
         var confirmedContainer = $('<div>').css('height', 20);
         var input = $('<input />').attr({type: 'checkbox'});
-        var label = $('<label>').html('Confirmado');
+        var label = $('<label>').html(Pard.t.text('manager.program.confirmed'));
         var confirmed = $('<div>').append(input, label);
 
         var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).append(daySelector).addClass('noselect');
@@ -899,11 +899,11 @@
         var endTime;
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var commentsContainer = $('<div>');
-        var comments = $('<textarea>').attr({placeholder: 'Comentarios:'});
+        var comments = $('<textarea>').attr({placeholder: Pard.t.text('manager.program.comments')});
 
         var confirmedContainer = $('<div>').css('height', 20);
         var input = $('<input />').attr({type: 'checkbox'});
-        var label = $('<label>').html('Confirmado');
+        var label = $('<label>').html(Pard.t.text('manager.program.confirmed'));
         var confirmed = $('<div>').append(input, label);
 
         var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector).addClass('noselect');
@@ -1138,7 +1138,7 @@
         var performancesBox = $('<div>').css({'padding': '0'}).addClass('noselect');
         var _all = $('<button>')
           .append(Pard.Widgets.IconManager('chained').render())
-          .attr({'type':'button', 'title':'Encadena los cambios'})
+          .attr({'type':'button', 'title':Pard.t.text('manager.program.chain')})
           .addClass('chain-unchain-button')
           .tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
         var _managers = {};
@@ -1150,7 +1150,7 @@
             _all.empty()
               .append(Pard.Widgets.IconManager('chained').render())  
               .tooltip('destroy')
-              .attr({'title':'Encadena los cambios'})
+              .attr({'title':Pard.t.text('manager.program.chain')})
               .tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
             $('.chain').hide();
           }
@@ -1159,7 +1159,7 @@
             _all.empty()
               .append(Pard.Widgets.IconManager('unchained').render())
               .tooltip('destroy')
-              .attr({'title':'Desencadena los cambios'})
+              .attr({'title':Pard.t.text('manager.program.unchain')})
               .tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});
             $('.chain').show();
           }

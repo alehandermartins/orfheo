@@ -7,18 +7,18 @@
     
     var _whiteListBox = $('<div>').addClass('white-list-box');
     var _whiteList = Pard.Widgets.WhiteList(the_event).render();
-    var _whiteListText = $('<p>').text('Habilita usuarios para que puedan enviar una propuesta en cualquier momento').addClass('initial-text-proposalPanel');
+    var _whiteListText = $('<p>').text(Pard.t.text('manager.tools.whitelist.title'));
     _whiteListBox.append(_whiteListText, _whiteList);
     _createdWidget.append(_whiteListBox);
 
     var _qrimg = $.cloudinary.image(the_event.qr,{ format: 'png', width: 80 , effect: 'saturation:50' });
-    var _qrText = $('<p>').text('Descarga y difunde el codigo QR de la página de tu evento en orfheo').addClass('initial-text-proposalPanel');
+    var _qrText = $('<p>').text(Pard.t.text('manager.tools.qr.title')).addClass('initial-text-proposalPanel');
     var _downloadBtn = $('<a>').append(Pard.Widgets.IconManager('export').render())
     .attr({
       'href': _qrimg[0].src,
       'download':'qrCode.png',
       'target':'_blank',
-      'title':'Descarga'
+      'title':Pard.t.text('manager.tools.qr.download')
     })
     .addClass('iconButton-CallPage dowloadQR-btn');
     var _qrBox = $('<div>').addClass('qr-box');
@@ -106,7 +106,7 @@
         var name_email = _data[0].text;
         var email = _data[0].id;
         if ($.inArray(email, _whiteEmails) >= 0 ){
-          Pard.Widgets.Alert('','Este usuario ya está en la lista.');
+          Pard.Widgets.Alert('',Pard.t.text('manager.tools.whitelist.ontheList'));
           return false;
         }
         Pard.Backend.addWhitelist(the_event.event_id, name_email, email, function(){
@@ -121,7 +121,7 @@
 
     _inputNameEmail.select2({
       dropdownCssClass:'orfheoTableSelector',
-      placeholder:'Email o Nombre de perfil',
+      placeholder: Pard.t.text('manager.tools.whitelist.placeholder'),
       data: _emailsNames,
       allowClear: true,
       tags: true

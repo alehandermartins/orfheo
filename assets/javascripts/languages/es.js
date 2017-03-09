@@ -534,6 +534,33 @@
       list6: '<p>VISIÓN <ul><li>Creemos que afrontar un proyecto debería ser divertido y apasionante. Creemos que una cultura de trabajo adecuada promueve el talento y la creatividad.  Los logros del equipo, y los éxitos individuales contribuyen al éxito global. Tenemos  una visión creativa del trabajo, del ocio y de la vida. </li> <li> Todas las ideas interesantes que surgen en los más diferentes contextos se comentan, se analizan en profundidad y si hace falta se ponen en práctica con calidad.  </li> <li> Elegimos y construimos colaborativamente. Nuestra meta es la unidad, no la unanimidad. Tomamos decisiones con método, de forma genuina y utilizando el consenso. Tenemos discusiones abiertas, animadas por un procesos que llevan a acuerdos en un tiempo razonable. </li> <li> Nos fijamos objetivos que sabemos tal vez no poder alcanzar, porque estamos convencidos de que a lo largo del camino, los esfuerzos, por cumplirlos, nos llevarán a obtener resultados, quizás diferentes de los esperados, pero igualmente valiosos. </li> </ul></p>',
       list7: '<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>'  
     },
+    manager:{
+      title: 'Gestiona',
+      toEvent: 'Página evento',
+      program:{
+        tab: 'Programa',
+        permanent: 'Permanente',
+        confirmed: 'Confirmado',
+        comments: 'Comentarios:',
+        chain: 'Encadena los cambios',
+        unchain: 'Desencadena los cambios'
+      },
+      proposals: {
+        tab: 'Propuestas'
+      },
+      tools: {
+        tab: 'Útiles',
+        whitelist: {
+          title: 'Habilita usuarios para que puedan enviar una propuesta en cualquier momento',
+          placeholder: 'Email o Nombre de perfil',
+          ontheList: 'Este usuario ya está en la lista.'
+        },
+        qr: {
+          title: 'Descarga y difunde el codigo QR de la página de tu evento en orfheo',
+          download: 'Descarga'
+        }
+      }
+    },
     profile_page:{
       aside:{
         yourOther: 'tus otros perfiles',

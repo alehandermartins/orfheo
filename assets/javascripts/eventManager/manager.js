@@ -16,15 +16,15 @@
     var _innerMainContainer = $('<div>').css('width','100vw');
     var _mainLarge = $('<section>').addClass('pard-grid call-section');
     var _navigationContainer = $('<div>').addClass('navigation-container-call-page');
-    var _goToEventBtn = $('<a>').attr('href','/event?id='+ the_event.event_id).text('Página evento');
+    var _goToEventBtn = $('<a>').attr('href','/event?id='+ the_event.event_id).text(Pard.t.text('manager.toEvent'));
     _goToEventBtn.addClass('toEventPage-btn-callPage');
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
-    var _title = $('<span>').text('Gestiona').addClass('title-call-page');
+    var _title = $('<span>').text(Pard.t.text('manager.title')).addClass('title-call-page');
     var _panels = $('<div>').css('padding', 0);
 
-    var _programTabTitle =  $('<a>').attr({href: "#"}).text('Programa');
-    var _tableTabTitle =  $('<a>').attr({href: "#"}).text('Propuestas');
-    var _utilsTabTitle =  $('<a>').attr({href: "#"}).text('Utiles');
+    var _programTabTitle =  $('<a>').attr({href: "#"}).text(Pard.t.text('manager.program.tab'));
+    var _tableTabTitle =  $('<a>').attr({href: "#"}).text(Pard.t.text('manager.proposals.tab'));
+    var _utilsTabTitle =  $('<a>').attr({href: "#"}).text(Pard.t.text('manager.tools.tab'));
 
     var _programTab = $('<li>').append(_programTabTitle);
     var _tableTab = $('<li>').append(_tableTabTitle);
