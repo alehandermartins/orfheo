@@ -112,8 +112,8 @@
         }
       });
       var dictionaryCheckBox = {
-        false:'No',
-        true:'Sí'
+        false: Pard.t.text('dictionary.no').capitalize(),
+        true: Pard.t.text('dictionary.yes').capitalize()
       }
       for (var field in _form){
         if ($.isNumeric(field)){
@@ -250,7 +250,7 @@
         if (proposal.amend) return proposal.amend; 
         else return '';
       },
-      label: 'Enmienda',
+      label: Pard.t.text('dictionary.amend').capitalize(),
       input: 'TextAreaEnriched'
     },
     proposal_type: {
@@ -271,7 +271,7 @@
           )
           .attr({'href':'/profile?id='+proposal.profile_id, 'target':'_blank'});
       },
-      label: 'Tipo',
+      label: Pard.t.text('dictionary.type').capitalize(),
       input: 'proposal_type'
     },
     type:{
@@ -279,7 +279,7 @@
         if (proposal.own) return '';
         else return Pard.t.text('type.'+proposal.type);
       },
-      label: 'Perfil',
+      label: Pard.t.text('dictionary.profile').capitalize(),
       input: 'type'
     },
     name:{ 
@@ -288,14 +288,14 @@
            displayer.displayProposal(proposal, proposal.proposal_type);
         });
       },
-      label: 'Nombre',
+      label: Pard.t.text('dictionary.name').capitalize(),
       input:'Inputtext'
     },
     phone:{
       info: function(proposal){
         return proposal.phone.value;
       },
-      label: "Teléfono",
+      label: Pard.t.text('dictionary.phone').capitalize(),
       input : "InputTel"
     },
     address:{ 
@@ -311,40 +311,40 @@
           'href':'http://maps.google.com/maps?q='+_address,
           target: '_blank'}).append(_address);
       },
-      label: 'Dirección',
+      label: Pard.t.text('dictionary.address').capitalize(),
       input: 'InputAddress'
     },
     duration: {
       info: function(proposal){
-        return proposal['duration']+' min';
+        return proposal['duration'] + ' min';
       },
-      label: 'Duración',
+      label: Pard.t.text('dictionary.duration').capitalize(),
       input: 'Selector'
     },
     availability:{  
       info: function(proposal) {
         var _info = '';
         proposal['availability'].forEach(function(day){
-          _info += moment(new Date(day)).locale('es').format('DD MMMM, ');
+          _info += moment(new Date(day)).locale(Pard.Options.language()).format('DD MMMM, ');
         });
         return _info.substring(0, _info.length-2);
       },
-      label: 'Disponibilidad',
+      label: Pard.t.text('dictionary.availability').capitalize(),
       input: 'MultipleDaysSelector'
     },
     email: {
-      label : "Email",
+      label : Pard.t.text('dictionary.email').capitalize(),
       input : "EmailInput",
     },
     description : {
-      label: "Descripción",
+      label: Pard.t.text('dictionary.description').capitalize(),
       input : "TextAreaEnriched"
     },
     subcategory : {
       info: function(proposal){
         return Pard.UserInfo['texts']['subcategories'][proposal.proposal_type][proposal.subcategory];
       },
-      label : "Categoría en el evento",
+      label : Pard.t.text('dictionary.category').capitalize(),
       input : "Selector"
     },
     titleAddress:{
@@ -352,7 +352,7 @@
         if (proposal.title) return proposal['title'];
         else if (proposal.address) return Pard.Widgets.InfoTab['address'].info(proposal, displayer);
       },
-      label : "Título / Dirección",
+      label : Pard.t.text('dictionary.title').capitalize() + ' / ' + Pard.t.text('dictionary.address').capitalize(),
       input : "Inputtext"
     },
     hiddenType:{
@@ -380,12 +380,10 @@
     info: function(proposal){
       return Pard.Widgets.Dictionary(proposal.children).render();
     },
-    label:'Edades público',
+    label: Pard.t.text('dictionary.ages').capitalize(),
     input:'InputChildren'
   }
   }
-
-
 
   ns.Widgets.ProgramTable = function(infoProgram, the_event){
 
@@ -529,73 +527,73 @@
 
     var _dataTable = _table.DataTable({
       "language":{
-      buttons: {
-          copyTitle: 'Copia tabla',
-          copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
-          copySuccess: {
-              _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-              1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
-          }
+        buttons: {
+            copyTitle: Pard.t.text('manager.copy.table'),
+            copyKeys: Pard.t.text('manager.copy.keys'),
+            copySuccess: {
+                _: Pard.t.text('manager.copy.success'),
+                1: Pard.t.text('manager.copy.success1')
+            }
+        },
+        "lengthMenu": Pard.t.text('manager.copy.results'),
+        "zeroRecords": Pard.t.text('manager.zeroRecords'),
+        "info": "",
+        "infoEmpty": Pard.t.text('manager.infoEmpty'),
+        "infoFiltered": "(filtered from _MAX_ total records)",
+        "search": Pard.t.text('dictionary.search').capitalize(),
+        "search": "_INPUT_",
+        "searchPlaceholder": Pard.t.text('dictionary.search').capitalize(),
+        "paginate": {
+          "first": Pard.t.text('dictionary.first').capitalize(),
+          "last": Pard.t.text('dictionary.last').capitalize(),
+          "next": Pard.t.text('dictionary.next').capitalize(),
+          "previous": Pard.t.text('dictionary.previous').capitalize()
+        }
       },
-      "lengthMenu": " Resultados por página _MENU_",
-      "zeroRecords": "Ningún resultado",
-      "info": "",
-      "infoEmpty": "Ningúna información disponible",
-      "infoFiltered": "(filtered from _MAX_ total records)",
-      "search": "Busca",
-      "paginate": {
-        "first":      "Primera",
-        "last":       "Última",
-        "next":       "Siguiente",
-        "previous":   "Anterior"
+      fixedHeader: {
+        header: true
       },
-     "search": "_INPUT_",
-      "searchPlaceholder": "Busca"
-    },
-    fixedHeader: {
-      header: true
-    },
-    "autoWidth": false,
-    "bAutoWidth": false,
-    "scrollX": true,
-    "scrollY": "85vh",
-    "paging": false,
-    "scrollCollapse": true,
-    // 'responsive': true,
-    // 'colReorder': true,
-    "columnDefs": [
-      { "visible": false, "targets": _hiddenColumns},
-      {'orderable':false, 'targets':[1,2,4,5,7,10,11,13]}
-    ],
-    "order": [0,'asc'],
-    // keys: true,
-    dom: 'Bfrtip',
-    buttons: [
+      "autoWidth": false,
+      "bAutoWidth": false,
+      "scrollX": true,
+      "scrollY": "85vh",
+      "paging": false,
+      "scrollCollapse": true,
+      // 'responsive': true,
+      // 'colReorder': true,
+      "columnDefs": [
+        { "visible": false, "targets": _hiddenColumns},
+        {'orderable':false, 'targets':[1,2,4,5,7,10,11,13]}
+      ],
+      "order": [0,'asc'],
+      // keys: true,
+      dom: 'Bfrtip',
+      buttons: [
       {
         extend: 'colvis',
         columns: ':gt(0)',
-        text: Pard.Widgets.IconManager('visibility').render().attr('title','Muestra/Esconde columnas'),
+        text: Pard.Widgets.IconManager('visibility').render().attr('title', Pard.t.text('manager.proposals.hideShowCol.helper')),
         className: 'changeColumnsBtn',
         collectionLayout: 'fixed big_layout',
         fade: 200,
         prefixButtons: [{
           extend: 'colvisGroup',
-          text: 'Selecciona todo',
-          show: ':gt(0):hidden'
+          text: Pard.t.text('manager.proposals.hideShowCol.selectAll'),
+          show: ':gt(1):hidden'
         },
         {
           extend: 'colvisGroup',
-          text: 'Desmarca todo',
+          text: Pard.t.text('manager.proposals.hideShowCol.unselect'),
           hide: ':visible'
         },
         {
           extend: 'colvisRestore',
-          text: 'Configuración incial',
+          text: Pard.t.text('manager.proposals.hideShowCol.initial'),
           show: ':hidden'
         }]
       },
       {
-        text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
+        text: Pard.Widgets.IconManager('mailinglist').render().attr('title', Pard.t.text('manager.copy.helper')),
         className: 'mailinglistBtn',
         extend: 'collection',
         collectionLayout: 'button-list',
@@ -603,7 +601,7 @@
         fade: 200,
         buttons: [
           {
-            text: 'Email artistas',
+            text: Pard.t.text('manager.copy.artistEmails'),
             action: function(){
               var columnData = _dataTable.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
               var _emailList = '';
@@ -612,12 +610,12 @@
               });
               _emailList = _emailList.substring(0,_emailList.length-2)
               Pard.Widgets.CopyToClipboard(_emailList);
-              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+              Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
             }
           },
           {
-            text: 'Email espacios',
+            text: Pard.t.text('manager.copy.spaceEmails'),
             action: function(){
               var columnData = _dataTable.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
               var _emailList = '';
@@ -626,12 +624,12 @@
               });
               _emailList = _emailList.substring(0,_emailList.length-2)
               Pard.Widgets.CopyToClipboard(_emailList);
-              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+              Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
             }
           },
           {
-            text: 'Email artist. y esp.',
+            text: Pard.t.text('manager.copy.allEmails'),
             action: function(){
               var columnArtData = _dataTable.column(_columns.indexOf('participant_email'), { search:'applied' }).data().unique();
               var columnEspData = _dataTable.column(_columns.indexOf('host_email'), { search:'applied' }).data().unique();
@@ -642,15 +640,15 @@
               });
               _emailList = _emailList.substring(0,_emailList.length-2)
               Pard.Widgets.CopyToClipboard(_emailList);
-              var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-              Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+              var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+              Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
             }
           }
         ]
       },
       {
         extend: 'collection',
-        text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
+        text:  Pard.Widgets.IconManager('export').render().attr('title', Pard.t.text('manager.export')),
         className: 'ExportCollectionBtn',
         collectionLayout: 'button-list',
         // backgroundClassName: 'ExportCollection-background',
@@ -663,21 +661,21 @@
             text:'Excel',
             customizeData: function(doc) {
               doc.header.forEach(function(t, i){
-                if (t.indexOf('Categoría')>-1) doc.header[i] = 'Categoría'
+                if (t.indexOf(Pard.t.text('dictionary.category').capitalize())>-1) doc.header[i] = Pard.t.text('dictionary.category').capitalize()
               });
             },
             exportOptions: {
                 columns: ':visible'
             },
-            filename: 'Programa'
+            filename: Pard.t.text('dictionary.program').capitalize()
           },
           {
             extend: 'pdf',
             text:'PDF',
             customize: function(doc) {
               doc.content[1].table.body[0].forEach(function(colTitle){
-                if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
-                else if (colTitle.text.indexOf('Día')>-1) colTitle.text = 'Día';
+                if (colTitle.text.indexOf(Pard.t.text('dictionary.category').capitalize())>-1) colTitle.text = Pard.t.text('dictionary.category').capitalize();
+                else if (colTitle.text.indexOf(Pard.t.text('dictionary.day').capitalize())>-1) colTitle.text = Pard.t.text('dictionary.day').capitalize();
                 colTitle.alignment = 'left';
                 colTitle.margin = [2,2,2,2];
               }) 
@@ -686,11 +684,11 @@
               columns: ':visible',
             },
             orientation: 'landscape',
-            filename: 'Programa'
+            filename: Pard.t.text('dictionary.program').capitalize()
           },
           {
             extend: 'copy',
-            text: 'Copia',
+            text: Pard.t.text('dictionary.copy').capitalize(),
             header: false,
             exportOptions: {
               columns:  ':visible',

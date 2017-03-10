@@ -7,11 +7,18 @@
     dictionary: {
       accept: 'accept',
       address: 'address',
+      ages: 'ages',
+      amend: 'amend',
       artist: "artist",
       artists: "artists",
+      availability: 'availability',
       category: 'category',
       comments: 'comments',
       confirmed: 'confirmed',
+      copy: 'copy',
+      day: 'day',
+      description: 'description',
+      duration: 'duration',
       email: 'email',
       first: "first",
       latitude: 'latitude',
@@ -19,6 +26,7 @@
       longitude: 'longitude',
       name: 'name',
       next: "next",
+      no: 'no',
       organization: "organization",
       organizations: "organizations",
       permanent: 'permanent',
@@ -32,7 +40,9 @@
       space: "space",
       spaces:'spaces',
       table: 'table',
-      title: 'title'
+      title: 'title',
+      type: 'type',
+      yes: 'yes'
     },
     partners:{
       collaborators:"Collaborators",
@@ -574,6 +584,7 @@
         success1: '<strong>1 data row</strong> copied to the clipboard',
         results: ' Results per page _MENU_',
         artistEmails: 'artists emails',
+        spaceEmails: 'spaces emails',
         allEmails: 'all emails',
         title: 'Copy emails',
         mex1: '<strong>%{amount} emails copied</strong> to the clipboard',
@@ -617,6 +628,10 @@
           selectAll: "Select everything",
           unselect: 'Unselect everything',
           initial: 'Initial settings'
+        },
+        table:{
+          titleAddress: "Title / Address",
+          ages: ''
         }
       },
       tools: {

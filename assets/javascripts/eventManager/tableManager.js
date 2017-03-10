@@ -347,20 +347,20 @@
                     text:'Excel',
                     customizeData: function(doc) {
                       doc.header.forEach(function(t, i){
-                        if (t.indexOf('Categoría')>-1) doc.header[i] = 'Categoría'
+                        if (t.indexOf(Pard.t.text('dictionary.category').capitalize())>-1) doc.header[i] = Pard.t.text('dictionary.category').capitalize()
                       });
                     },
                     exportOptions: {
                         columns: ':visible'
                     },
-                    filename: 'Tabla-' + typeTable
+                    filename: Pard.t.text('dictionary.table').capitalize() + '-' + typeTable
                   },
                   {
                     extend: 'pdf',
                     text:'PDF',
                     customize: function(doc) {
                       doc.content[1].table.body[0].forEach(function(colTitle){
-                        if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
+                        if (colTitle.text.indexOf(Pard.t.text('dictionary.category').capitalize())>-1) colTitle.text = Pard.t.text('dictionary.category').capitalize();
                         colTitle.alignment = 'left';
                         colTitle.margin = [2,2,2,2];
                       }) 
@@ -369,11 +369,11 @@
                       columns: ':visible',
                     },
                     orientation: 'landscape',
-                    filename: 'Tabla-' + typeTable
+                    filename: Pard.t.text('dictionary.table').capitalize() + '-' + typeTable
                   },
                   {
                     extend: 'copy',
-                    text: 'Copia',
+                    text: Pard.t.text('dictionary.copy').capitalize(),
                     header: false,
                     exportOptions: {
                       columns:  ':visible',
@@ -388,7 +388,7 @@
               if (_colCategry.data().unique().length>1){
                 var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
                 _subcategorySelector[typeTable].append($('<option>').attr('value','').text(''))
-                    .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+                    .appendTo(_selectContainer.appendTo($(_colCategry.header()).text(Pard.t.text('dictionary.category').capitalize())));  
                 _colCategry.data().unique().sort().each( function ( d, j ) {
                     _subcategorySelector[typeTable].append( '<option value="'+d+'">'+d+'</option>' )
                 } );
@@ -463,7 +463,7 @@
               },
               {
                 extend: 'collection',
-                text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
+                text:  Pard.Widgets.IconManager('export').render().attr('title', Pard.t.text('manager.export')),
                 className: 'ExportCollectionBtn',
                 autoClose: true,
                 fade: 200,
@@ -475,20 +475,20 @@
                     text:'Excel',
                     customizeData: function(doc) {
                       doc.header.forEach(function(t, i){
-                        if (t.indexOf('Categoría')>-1) doc.header[i] = 'Categoría'
+                        if (t.indexOf(Pard.t.text('dictionary.category').capitalize())>-1) doc.header[i] = Pard.t.text('dictionary.category').capitalize()
                       });
                     },
                     exportOptions: {
                         columns: ':visible :gt(0)'
                     },
-                    filename: 'Tabla-'+typeTable
+                    filename: Pard.t.text('dictionary.table').capitalize() + '-' + typeTable
                   },
                   {
                     extend: 'pdf',
                     text:'PDF',
                     customize: function(doc) {
                       doc.content[1].table.body[0].forEach(function(colTitle){
-                        if (colTitle.text.indexOf('Categoría')>-1) colTitle.text = 'Categoría';
+                        if (colTitle.text.indexOf(Pard.t.text('dictionary.category').capitalize())>-1) colTitle.text = Pard.t.text('dictionary.category').capitalize();
                         colTitle.alignment = 'left';
                         colTitle.margin = [2,2,2,2];
                       }) 
@@ -497,11 +497,11 @@
                       columns: ':visible :gt(0)',
                     },
                     orientation: 'landscape',
-                    filename: 'Tabla-'+typeTable
+                    filename: Pard.t.text('dictionary.table').capitalize() + '-' + typeTable
                   },
                   {
                     extend: 'copy',
-                    text: 'Copia',
+                    text: Pard.t.text('dictionary.copy').capitalize(),
                     header: false,
                     exportOptions: {
                       columns:  ':visible :gt(0)',
@@ -515,7 +515,7 @@
               if (_colCategry.data().unique().length>1){
                 var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
                 _subcategorySelector[typeTable].append($('<option>').attr('value','').text(''))
-                    .appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría')));  
+                    .appendTo(_selectContainer.appendTo($(_colCategry.header()).text(Pard.t.text('dictionary.category').capitalize())));  
                 _colCategry.data().unique().each( function ( d, j ) {
                     _subcategorySelector[typeTable].append( '<option value="'+d+'">'+d+'</option>' )
                 } );
@@ -562,9 +562,6 @@
           });
         }
       });
-      $('.ExportCollectionBtn').attr('title','Exporta los dato de la tabla')
-      $('.mailinglistBtn').attr('title','Copia lista de correos') 
-      $('.changeColumnsBtn').attr('title','Muestra/Esconde columnas')
     });
 
     return {
