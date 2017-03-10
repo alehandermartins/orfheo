@@ -2793,7 +2793,9 @@ body.is-reveal-open{
   position: absolute;
   height: 90%;
   width: 100%;
-  left: 0;
+  @include breakpoint(large){
+    left: 0;
+  }
 }
 
 .vcenter-inner{
