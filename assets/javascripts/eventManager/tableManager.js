@@ -199,7 +199,7 @@
             if(_ownCheckbox.is(":checked")) val = 'own';
            colTosearch.search(val).draw(); 
           });
-          var _labelOwn = $('<label>').html('creadas').css({'display':'inline', 'cursor':'pointer'}).on('click', function(){
+          var _labelOwn = $('<label>').html(Pard.t.text('manager.proposals.created')).css({'display':'inline', 'cursor':'pointer'}).on('click', function(){
               _ownCheckbox.prop("checked", !_ownCheckbox.prop("checked"));
               _ownCheckbox.trigger('change');
             });
@@ -209,7 +209,7 @@
             if(_receivedCheckbox.is(':checked')) val = 'received';
             colTosearch.search(val).draw();
           });
-          var _labelReceived = $('<label>').html('recibidas').css({'display':'inline', 'cursor':'pointer'}).on('click', function(){
+          var _labelReceived = $('<label>').html(Pard.t.text('manager.proposals.received')).css({'display':'inline', 'cursor':'pointer'}).on('click', function(){
               _receivedCheckbox.prop("checked", !_receivedCheckbox.prop("checked"));
               _receivedCheckbox.trigger('change');
             });

@@ -607,7 +607,15 @@
         publishmex: 'El programa se ha publicado correctamente en la página de tu evento',
         unpublish: 'Retira el programa',
         unpublishmex: 'El programa se ha retirado de la página de tu evento',
-        manageTool: 'Herramienta de gestión'
+        manageTool: 'Herramienta de gestión',
+        chronoOrder: 'Ordena cronológicamente',
+        artistCat: 'Categoría art.',
+        spaceCat: 'Categoría esp.',
+        spaceNum: 'Núm. esp.',
+        artistEmail: 'Email artista',
+        spaceEmail: 'Email espacio',
+        punctuals: 'puntuales',
+        permanents: 'permanentes'
       },
       proposals: {
         tab: 'Propuestas',
@@ -630,7 +638,9 @@
           selectAll: "Selecciona todo",
           unselect: 'Desmarca todo',
           initial: 'Configuración incial'
-        }
+        },
+        created: 'creadas',
+        received: 'recibidas'
       },
       tools: {
         tab: 'Útiles',

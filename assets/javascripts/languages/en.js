@@ -599,13 +599,21 @@
           artistsnoProgram: 'Proposals out of program',
           spacesnoProgram: 'Spaces out of program',
           orderSpaces: 'Order Spaces',
-          orderby: 'Order by:'
+          orderby: 'Sort by:'
         },
         publish: 'Publish the program',
         publishmex: 'The program has been successfully published in your event page',
         unpublish: 'Withdraw the program',
         unpublishmex: 'The program has been withdrawn from your event page',
-        manageTool: 'Management tool'
+        manageTool: 'Management tool',
+        chronoOrder: 'Sort chronologically',
+        artistCat: 'Art. category',
+        spaceCat: 'Spa. category',
+        spaceNum: 'Spa. num',
+        artistEmail: 'Artist email',
+        spaceEmail: 'Space email',
+        punctuals: 'punctuals',
+        permanents: 'permanents'
       },
       proposals: {
         tab: 'Proposals',
@@ -629,10 +637,8 @@
           unselect: 'Unselect everything',
           initial: 'Initial settings'
         },
-        table:{
-          titleAddress: "Title / Address",
-          ages: ''
-        }
+        created: 'created',
+        received: 'received'
       },
       tools: {
         tab: 'Tools',
@@ -709,7 +715,7 @@
         nowbtn:'Now',
         hs:'Schedule',
         sp:'Space',
-        orderby:'Order by',
+        orderby:'Sort by',
         permanents: 'Along all day',
         noResults:'No results'
       }

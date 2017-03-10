@@ -501,7 +501,7 @@
           if(_showCheckbox.is(":checked")) val = 'false';
          colTosearch.search(val).draw(); 
         });
-      var _labelShow = $('<label>').html('puntuales').css({'display':'inline', 'cursor':'pointer'})
+      var _labelShow = $('<label>').html(Pard.t.text('manager.program.punctuals')).css({'display':'inline', 'cursor':'pointer'})
         .on('click', function(){
           _showCheckbox.prop("checked", !_showCheckbox.prop("checked"));
           _showCheckbox.trigger('change');
@@ -513,7 +513,7 @@
           if(_permanentCheckbox.is(':checked')) val = 'true';
           colTosearch.search(val).draw();
         });
-      var _labelPermanent = $('<label>').html('permanentes').css({'display':'inline', 'cursor':'pointer'})
+      var _labelPermanent = $('<label>').html(Pard.t.text('manager.program.permanents')).css({'display':'inline', 'cursor':'pointer'})
         .on('click', function(){
           _permanentCheckbox.prop("checked", !_permanentCheckbox.prop("checked"));
           _permanentCheckbox.trigger('change');
@@ -734,7 +734,7 @@
     var _reorderIcon = $('<span>').append(_timeIcon, _sortIcon).addClass('reorderIcon');
     var orderBtn = $('<button>').attr({
       'type':'button',
-      'title':'Ordena cronológicamente'
+      'title': Pard.t.text('manager.program.chronoOrder')
       })
       .append(_reorderIcon)
       .click(function(){
@@ -836,53 +836,53 @@
     return{
       date: {
         info: function(show){
-          return moment(new Date(show['date'])).locale('es').format('DD-MM-YYYY');
+          return moment(new Date(show['date'])).format('DD-MM-YYYY');
         },
-        label: 'Día'
+        label: Pard.t.text('dictionary.day').capitalize()
       },
       participant_subcategory:{
         info: function(show){
           return Pard.UserInfo['texts']['subcategories']['artist'][show.participant_subcategory];
         },
-        label: 'Categoría art.'
+        label: Pard.t.text('manager.program.artistCat')
       },
       host_subcategory:{
         info: function(show){
           return Pard.UserInfo['texts']['subcategories']['space'][show.host_subcategory];
         },
-        label: 'Categoría esp.'
+        label: Pard.t.text('manager.program.spaceCat')
       },
       time:{
         info: function(show){
-          var start = moment(new Date(show.time[0])).locale('es').format('HH:mm');
-          var end = moment(new Date(show.time[1])).locale('es').format('HH:mm');
+          var start = moment(new Date(show.time[0])).format('HH:mm');
+          var end = moment(new Date(show.time[1])).format('HH:mm');
           return start+'-'+end;
         },
-        label:'Horario'
+        label: Pard.t.text('dictionary.schedule').capitalize()
       },
       participant_name:{
         info: function(show){
           return $('<a>').attr('href','#/').text(show.participant_name).click(function(){displayer.displayArtistProgram(show.participant_id)});
         },
-        label: 'Artista'
+        label: Pard.t.text('dictionary.artist').capitalize()
       },
       host_name: {
         info: function(show){
           return $('<a>').attr('href','#/').text(show.host_name).click(function(){displayer.displaySpaceProgram(show.host_id)});
         },
-        label:'Espacio'
+        label: Pard.t.text('dictionary.space').capitalize()
       },
       order:{
         info: function(show){
           return parseInt(show['order']) + 1;
         },
-        label: 'Num. esp.'
+        label: Pard.t.text('manager.program.spaceNum')
       },
       participant_email:{
-        label: 'Email artista'
+        label: Pard.t.text('manager.program.artistEmail')
       },
       host_email:{
-        label: 'Email espacio'
+        label: Pard.t.text('manager.program.spaceEmail')
       },
       cronoOrder:{
         label:'',
@@ -891,13 +891,13 @@
         }
       },
       confirmed:{
-        label: 'Confirmado',
+        label: Pard.t.text('dictionary.confirmed').capitalize(),
         info: function(show){
-          return  show['confirmed'] == 'true' ? 'Sí' : 'No'
+          return  show['confirmed'] == 'true' ? Pard.t.text('dictionary.yes').capitalize() : Pard.t.text('dictionary.no').capitalize()
         }
       },
       title: {
-        label: 'Título',
+        label: Pard.t.text('dictionary.title').capitalize(),
         info: function(show){
           var _info = $('<a>').attr('href','#/')
           .text(show['title'])
