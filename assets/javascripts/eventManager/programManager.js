@@ -264,7 +264,7 @@
         });
       });
       _artistSelector.select2({
-        placeholder: Pard.t.text('type.artists'),
+        placeholder: Pard.t.text('dictionary.artists').capitalize(),
         data: artistProposals,
         allowClear: true,
         templateResult: Pard.Widgets.FormatResource,
@@ -1489,7 +1489,6 @@
           });
           noSelected.forEach(function(proposal){
             proposal.proposal_type = 'artist';
-            // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');
             columns.forEach(function(field){
               var _info;
@@ -1510,21 +1509,21 @@
         _dataTable = _tableCreated.DataTable({
           "language":{
             buttons: {
-                copyTitle: 'Copia tabla',
-                copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                copyTitle: Pard.t.text('manager.copy.table'),
+                copyKeys: Pard.t.text('manager.copy.keys'),
                 copySuccess: {
-                    _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-                    1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+                    _: Pard.t.text('manager.copy.success'),
+                    1: Pard.t.text('manager.copy.success1')
                 }
             },
-            "lengthMenu": " Resultados por página _MENU_",
-            "zeroRecords": "Ningún resultado",
+            "lengthMenu": Pard.t.text('manager.copy.results'),
+            "zeroRecords": Pard.t.text('manager.zeroRecords'),
             "info": "",
-            "infoEmpty": "Ningúna información disponible",
+            "infoEmpty": Pard.t.text('manager.infoEmpty'),
             "infoFiltered": "(filtered from _MAX_ total records)",
-            "search": "Busca",
+            "search": Pard.t.text('dictionary.search').capitalize(),
             "search": "_INPUT_",
-            "searchPlaceholder": "Busca"
+            "searchPlaceholder": Pard.t.text('dictionary.search').capitalize()
           },
           fixedHeader: {
             header: true
@@ -1541,7 +1540,7 @@
           dom: 'Bfrtip',
           buttons: [
             {
-              text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
+              text: Pard.Widgets.IconManager('mailinglist').render().attr('title', Pard.t.text('manager.copy.helper')),
               className: 'mailinglistBtn mailNoProgram',
               action: function(){
                 var columnData = _dataTable.column(3, { search:'applied' }).data().unique();
@@ -1551,8 +1550,8 @@
                 });
                 _emailList = _emailList.substring(0,_emailList.length-2)
                 Pard.Widgets.CopyToClipboard(_emailList);
-                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+                var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+                Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
               }
             }
           ],
@@ -1581,7 +1580,7 @@
         return {
           render: function(){
             setTimeout(function(){
-              $('.mailNoProgram').attr('title','Crea y copia lista de correos'); 
+              $('.mailNoProgram').attr('title', Pard.t.text('manager.copy.helper')); 
             },500)
             return _createdWidget;
           },
@@ -1624,7 +1623,6 @@
             
           noSelected.forEach(function(proposal){
             proposal.proposal_type = 'space';
-            // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
             var _row = $('<tr>');
             columns.forEach(function(field){
               var _info;
@@ -1645,21 +1643,21 @@
         _dataTable = _tableCreated.DataTable({
           "language":{
             buttons: {
-                copyTitle: 'Copia tabla',
-                copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                copyTitle: Pard.t.text('manager.copy.table'),
+                copyKeys: Pard.t.text('manager.copy.keys'),
                 copySuccess: {
-                    _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-                    1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+                    _: Pard.t.text('manager.copy.success'),
+                    1: Pard.t.text('manager.copy.success1')
                 }
             },
-            "lengthMenu": " Resultados por página _MENU_",
-            "zeroRecords": "Ningún resultado",
+            "lengthMenu": Pard.t.text('manager.copy.results'),
+            "zeroRecords": Pard.t.text('manager.zeroRecords'),
             "info": "",
-            "infoEmpty": "Ningúna información disponible",
+            "infoEmpty": Pard.t.text('manager.infoEmpty'),
             "infoFiltered": "(filtered from _MAX_ total records)",
-            "search": "Busca",
+            "search": Pard.t.text('dictionary.search').capitalize(),
             "search": "_INPUT_",
-            "searchPlaceholder": "Busca"
+            "searchPlaceholder": Pard.t.text('dictionary.search').capitalize()
           },
           fixedHeader: {
             header: true
@@ -1686,8 +1684,8 @@
                 });
                 _emailList = _emailList.substring(0,_emailList.length-2)
                 Pard.Widgets.CopyToClipboard(_emailList);
-                var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-                Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+                var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+                Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
               }
             }
           ],
@@ -1716,7 +1714,7 @@
         return {
           render: function(){
             setTimeout(function(){
-              $('.mailNoProgram').attr('title','Crea y copia lista de correos'); 
+              $('.mailNoProgram').attr('title', Pard.t.text('manager.copy.helper')); 
             },500)
             return _createdWidget;
           },

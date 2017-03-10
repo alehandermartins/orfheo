@@ -122,9 +122,9 @@
     var _spaceIcon = Pard.Widgets.IconManager('space').render().addClass('create-profile-btn-icon');
     var _organizationIcon = Pard.Widgets.IconManager('organization').render().addClass('create-profile-btn-icon');
 
-    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text(Pard.t.text('type.artist')).addClass('create-profile-btn-text'));
-    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text(Pard.t.text('type.space')).addClass('create-profile-btn-text'));
-    var _organizationButtonHtml = $('<div>').append(_organizationIcon, $('<span>').text(Pard.t.text('type.organization')).addClass('create-profile-btn-text'));
+    var _artistButtonHtml = $('<div>').append(_artistIcon, $('<span>').text(Pard.t.text('dictionary.artist').capitalize()).addClass('create-profile-btn-text'));
+    var _spaceButtonHtml = $('<div>').append(_spaceIcon, $('<span>').text(Pard.t.text('dictionary.space').capitalize()).addClass('create-profile-btn-text'));
+    var _organizationButtonHtml = $('<div>').append(_organizationIcon, $('<span>').text(Pard.t.text('dictionary.organization').capitalize()).addClass('create-profile-btn-text'));
 
     var _buttonDesign = {
       artist: _artistButtonHtml,
@@ -133,9 +133,9 @@
     }
 
     var _popupTitle = {
-      artist: Pard.t.text('type.artist'),
-      space: Pard.t.text('type.space'),
-      organization: Pard.t.text('type.organization')
+      artist: Pard.t.text('dictionary.artist').capitalize(),
+      space: Pard.t.text('dictionary.space').capitalize(),
+      organization: Pard.t.text('dictionary.organization').capitalize()
     }
 
     // var _createTypeProfilePopup;

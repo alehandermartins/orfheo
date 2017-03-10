@@ -820,8 +820,8 @@
             }
           }).Load();
           var _geocodField = $('<div>');
-          var _latLabel = $('<label>').text('Latitud').append(_latField.render());
-          var _lonLabel = $('<label>').text('Longitud').append(_lonField.render());
+          var _latLabel = $('<label>').text(Pard.t.text('dictionary.latitude').capitalize()).append(_latField.render());
+          var _lonLabel = $('<label>').text(Pard.t.text('dictionary.longitude').capitalize()).append(_lonField.render());
           var _geoCodText = $('<p>').append(Pard.t.text('widget.inputAddressSpace.insertGeo'), _hereBtn,'.').css({'font-size':'0.875rem','margin-top':'0.4rem'});
           _hereBtn.click(function(){
             _geocod = {lat: _latField.getVal(), lng: _lonField.getVal()};

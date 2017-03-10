@@ -404,8 +404,7 @@
 
     var _inputMultimedia = Pard.Widgets.InputMultimedia();
     _inputMultimedia.setVal(production['links']);
-    var _inputMultimediaLabel = $('<label>').addClass('multimedia-manager-input-label').text('Materiales online');
-
+    var _inputMultimediaLabel = $('<label>').addClass('multimedia-manager-input-label').text(Pard.t.text('createProfile.spaceForm.linksL'));
 
     _formContainer.append($('<div>').addClass('links-MultimediaManager').append(_inputMultimediaLabel,_inputMultimedia.render()));
 

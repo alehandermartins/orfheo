@@ -459,9 +459,9 @@
     var _callIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('open_call').render());
     var _callText = $('<div>').addClass('text-container'); 
     var _profileTypes = {
-      artist: Pard.t.text('type.artists'),
-      space: Pard.t.text('type.spaces'),
-      organization: Pard.t.text('type.organizations')
+      artist: Pard.t.text('dictionary.artists').capitalize(),
+      space: Pard.t.text('dictionary.spaces').capitalize(),
+      organization: Pard.t.text('dictionary.organizations').capitalize()
     }
     var _participants = event.target.map(function(profileType){
       return _profileTypes[profileType];

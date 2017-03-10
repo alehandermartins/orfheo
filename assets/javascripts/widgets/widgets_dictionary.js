@@ -105,10 +105,10 @@
   ns.Widgets.Dictionary = function(voice){
 
     var _dictionary = {
-      artist: Pard.t.text('type.artist'),
-      space: Pard.t.text('type.space'),
-      spaces: Pard.t.text('type.spaces'),
-      organization: Pard.t.text('type.organization'),
+      artist: Pard.t.text('dictionary.artist').capitalize(),
+      space: Pard.t.text('dictionary.space').capitalize(),
+      spaces: Pard.t.text('dictionary.spaces').capitalize(),
+      organization: Pard.t.text('dictionary.organization').capitalize(),
       cultural_ass: Pard.t.text('categories.cultural_ass'),
       commercial: Pard.t.text('categories.commercial'),
       home: Pard.t.text('categories.home'),
