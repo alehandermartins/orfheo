@@ -13,13 +13,17 @@
       comments: 'comments',
       confirmed: 'confirmed',
       email: 'email',
+      first: "first",
       latitude: 'latitude',
+      last: "last",
       longitude: 'longitude',
       name: 'name',
+      next: "next",
       organization: "organization",
       organizations: "organizations",
       permanent: 'permanent',
       phone: 'phone',
+      previous: "previous",
       profile: 'profile',
       program: 'program',
       schedule: 'schedule',
@@ -27,6 +31,7 @@
       short_description: 'short description',
       space: "space",
       spaces:'spaces',
+      table: 'table',
       title: 'title'
     },
     partners:{
@@ -175,6 +180,11 @@
         imageList:"<strong>images</strong> from: your computer, instagram, flickr, pinterest, twitter, facebook",
         audioList:"<strong>audios</strong> from: soundcloud, bandcamp, spotify",
         photoL:"Upload images from your computer (4 max, size must not exceed 500kb each)"
+      },
+      multipleDaysSelector:{
+        placeholder: "Select one or more options",
+        selectAll: "Select all",
+        alwaysAv: "Available every day"
       },
       inputMultimedia:{
         placeholder:"Copy and paste the corresponding link/code here and click the validation button",
@@ -555,6 +565,7 @@
       export: 'Export table',
       zeroRecords: "No results",
       infoEmpty: "No information available",
+      export: 'Export table',
       copy:{
         helper: 'Create and copy a mailing list',
         table: 'Copy table',
@@ -573,13 +584,40 @@
         chain: 'Link the changes',
         unchain: 'Unlink the changes',
         menu: {
+          helper: 'Tools menu',
           artistsnoProgram: 'Proposals out of program',
           spacesnoProgram: 'Spaces out of program',
-          orderSpaces: 'Order Spaces'
-        }
+          orderSpaces: 'Order Spaces',
+          orderby: 'Order by:'
+        },
+        publish: 'Publish the program',
+        publishmex: 'The program has been successfully published in your event page',
+        unpublish: 'Withdraw the program',
+        unpublishmex: 'The program has been withdrawn from your event page',
+        manageTool: 'Management tool'
       },
       proposals: {
-        tab: 'Proposals'
+        tab: 'Proposals',
+        addAnother: "Add another proposal to a participant you've already created",
+        addArtist: 'Create and add an artistic proposal',
+        addSpace: 'Create and add a space proposal',
+        orNew: '...o create something new',
+        byName: "Select by name",
+        selectCat: "Select the proposal category",
+        phoneL: "Contact phone",
+        showFields: 'Show all fields',
+        modifyNote1: 'This information, as well as the name, can only be modified by the owner, from the profile page.',
+        modifyNote2: 'This information, as well as the name and email, can be changed by modifying any proposal of this artist that you have created.',
+        allProposals: 'All proposals',
+        artistProposals:'Artistic proposals',
+        spaceProposals: 'Space proposals',
+        eventCat: 'Category in the event',
+        hideShowCol: {
+          helper: 'Show/Hide columns', 
+          selectAll: "Select everything",
+          unselect: 'Unselect everything',
+          initial: 'Initial settings'
+        }
       },
       tools: {
         tab: 'Tools',
@@ -642,7 +680,7 @@
         withdrawprog:'Withdraw the program',
         publishprog: 'Publish the program',
         withdrawMex:'Now only you can see the program of your event',
-        publishMex:'El programa se ha publicado correctamente',
+        publishMex:'The program has been successfully published',
       },
       program:{
         filtersbtn: 'Filters',
@@ -664,6 +702,9 @@
     cookiesPolicy:{
       title: 'Cookies policy',
       mex: 'In order to improve your browsing experience, orfheo stores information in your browser in the form of small text elements called cookies. </br> If you accept or continue browsing you will be agreeing with this notification. For more information you can read our '
+    },
+    error: {
+      nonExecuted: 'The action could not be executed'
     }
   }
 }(Pard || {}))

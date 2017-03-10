@@ -19,8 +19,8 @@
     var _formTypeSelector = $('<select>');
     var _emptyOption = $('<option>').text('').val('');
     _formTypeSelector.append(_emptyOption);
-    var _t1 = $('<p>').text('Añade otra propuesta a un participante que ya has creado').addClass('t-popupOwn');
-    var _t2 = $('<p>').text('...o crea algo nuevo').addClass('t-popupOwn');
+    var _t1 = $('<p>').text(Pard.t.text('manager.proposals.addAnother')).addClass('t-popupOwn');
+    var _t2 = $('<p>').text(Pard.t.text('manager.proposals.orNew')).addClass('t-popupOwn');
 
     _participantsSelectorCont.append(_t1, _participantsSelector, _t2);
     var _emptyOptionParticpant = {
@@ -44,7 +44,7 @@
       });
     }
 
-    var _placeholderParticipantSelector = "Selecciona por nombre";
+    var _placeholderParticipantSelector = Pard.t.text('manager.proposals.byName');
 
     _participantsSelector.select2({
       data: _dataParticipants,
@@ -65,7 +65,7 @@
       }
       if(_profile_own.profile_id) _t2.text('');
       else {
-        _t2.text('...o crea algo nuevo');
+        _t2.text(Pard.t.text('manager.proposals.orNew'));
         if (_formWidget) _formWidget.enableFields();
       }
       if (_formWidget) _formWidget.setVal(_valToSet);
@@ -81,7 +81,7 @@
     _formTypeSelector.select2({
       minimumResultsForSearch: Infinity,
       dropdownCssClass: 'orfheoTypeFormSelector',
-      placeholder: "Selecciona la categoría de la propuesta"
+      placeholder: Pard.t.text('manager.proposals.selectCat')
     });
 
     _formTypeSelector.on('change',function(){
@@ -151,7 +151,7 @@
 
     var _phoneField = {
       "type" : "mandatory",
-      "label" : "Teléfono de contacto",
+      "label" : Pard.t.text('manager.proposals.phoneL'),
       "input" : "InputTel",
       "args" : [ 
           ""
@@ -178,7 +178,7 @@
       _orfheoCategory = 'own';
     }
 
-    var _displayAllBtn = $('<a>').attr('href','#/').text('Muestra todos los campos').css('font-size','0.75rem');
+    var _displayAllBtn = $('<a>').attr('href','#/').text(Pard.t.text('manager.proposals.showFields')).css('font-size','0.75rem');
     var _containerMandatoryFields = $('<div>');
     var _containerOptionalFields = $('<div>');
     var _optionalFields = $('<div>').hide();
@@ -279,10 +279,10 @@
             case 'MultipleSelector':
             case 'MultipleDaysSelector':
               if (field == 'availability') _input.setOptions({
-                    placeholder: "Selecciona una o más opciones",
-                    selectAllText: "Selecciona todo",
+                    placeholder: Pard.t.text('widget.multipleDaysSelector.placeholder'),
+                    selectAllText: Pard.t.text('widget.multipleDaysSelector.selectAll'),
                     countSelected: false,
-                    allSelected: "Disponible todos los días"
+                    allSelected: Pard.t.text('widget.multipleDaysSelector.alwaysAv')
                   })
               _helptext.css('margin-top', 5);
               _prepareFormField();
@@ -386,8 +386,8 @@
         _form['email'].input.disable();
         _form['name'].input.disable();
         _form['phone'].input.disable();
-        if(!own ) _note.html('Esta información, así como el nombre, puede ser modificada sólo por el propietario desde la página de su perfil.').css('font-weight','bold');
-        else _note.html('Esta información, así como el nombre y el email, se puede cambiar modificando una cualquier propuesta  de este artista que has crado').css('font-weight','bold');
+        if(!own ) _note.html(Pard.t.text('manager.proposals.modifyNote1')).css('font-weight','bold');
+        else _note.html(Pard.t.text('manager.proposals.modifyNote2')).css('font-weight','bold');
        },
       enableFields: function(){
         _form['email'].input.enable();

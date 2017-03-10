@@ -4,7 +4,6 @@
 
   ns.Widgets = ns.Widgets || {};
 
-
   ns.Widgets.TableManager = function(the_event, forms, displayer){
     var artists = the_event.artists;
     var spaces = the_event.spaces;
@@ -24,7 +23,7 @@
           var _artistIcon = Pard.Widgets.IconManager(_dictionary['artist']).render().addClass('createOwnprofile-btn-icon');
           var _plusA = Pard.Widgets.IconManager('add_circle').render().addClass('plusSymbol-CreateOwnProfile');
           return $('<div>').append(_artistIcon, _plusA).addClass('create-artist-proposal-call-page-btn')
-          .attr('title','Crea y añade una propuesta de tipo artista')
+          .attr('title', Pard.t.text('manager.proposals.addArtist'))
           .click(function(){
             _openPopupForm('artist', _own);
           });
@@ -33,7 +32,7 @@
           var _spaceIcon = Pard.Widgets.IconManager(_dictionary['space']).render().addClass('createOwnprofile-btn-icon');
           var _plusS = Pard.Widgets.IconManager('add_circle').render().addClass('plusSymbol-CreateOwnProfile');
           return $('<div>').append(_spaceIcon, _plusS).addClass('create-space-proposal-call-page-btn')
-          .attr('title','Crea y añade una propuesta de tipo espacio')
+          .attr('title', Pard.t.text('manager.proposals.addSpace'))
           .click(function(){
             _openPopupForm('space', []);
           });
@@ -76,12 +75,12 @@
 
     _tags.push({
       id: 'allProposals',
-      text: 'Todas las propuestas'
+      text: Pard.t.text('manager.proposals.allProposals')
     });
 
     var _typesDictionary = {
-      artist: 'Propuestas artísticas',
-      space: 'Propuestas de espacios' 
+      artist: Pard.t.text('manager.proposals.artistProposals'),
+      space: Pard.t.text('manager.proposals.spaceProposals')
     }
 
     _dataTables['allProposals'] = Pard.Widgets.PrintTableAllProposal(displayer);
@@ -167,7 +166,7 @@
       allowClear: true,
        placeholder: {
         id: 'allProposals',
-        text: 'Todas las propuestas'
+        text: Pard.t.text('manager.proposals.allProposals')
       },
       dropdownCssClass: 'orfheoTableSelector'
     });
@@ -225,7 +224,7 @@
         var _ival = _subcategorySelector[typeTable].val();
         _subcategorySelector[typeTable] = $('<select>').append($('<option>').attr('value','').text(''));
         var _colCategry = _dataTables[typeTable].DataTable.column(_dataTables[typeTable].subcategoryColumn);
-        $(_colCategry.header()).empty().text('Categoría en el evento');
+        $(_colCategry.header()).empty().text(Pard.t.text('manager.proposals.eventCat'));
         _subcategorySelector[typeTable].on( 'change', function () {
           var val = $.fn.dataTable.util.escapeRegex(
               _subcategorySelector[typeTable].val()
@@ -234,7 +233,7 @@
         });
         if (_colCategry.data().unique().length>1){
           var _selectContainer = $('<div>').addClass('select-container-datatableColumn');
-          _subcategorySelector[typeTable].appendTo(_selectContainer.appendTo($(_colCategry.header()).text('Categoría'))); 
+          _subcategorySelector[typeTable].appendTo(_selectContainer.appendTo($(_colCategry.header()).text(Pard.t.text('dictionary.category').capitalize()))); 
           _colCategry.data().unique().each( function ( d, j ) {
               _subcategorySelector[typeTable].append( '<option value="'+d+'">'+d+'</option>' )
               if (d == _ival) _subcategorySelector[typeTable].val(d);
@@ -255,27 +254,27 @@
           _dataTables[typeTable].DataTable = _dataTables[typeTable].table.DataTable({
             "language":{
               buttons: {
-                  copyTitle: 'Copia tabla',
-                  copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                  copyTitle: Pard.t.text('manager.copy.table'),
+                  copyKeys: Pard.t.text('manager.copy.keys'),
                   copySuccess: {
-                      _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-                      1: '<strong>Copiada 1 file</strong> de datos al portapapeles'
+                      _: Pard.t.text('manager.copy.success'),
+                      1: Pard.t.text('manager.copy.success1')
                   }
               },
-              "lengthMenu": " Resultados por página _MENU_",
-              "zeroRecords": "Ningún resultado",
+              "lengthMenu": Pard.t.text('manager.copy.results'),
+              "zeroRecords": Pard.t.text('manager.zeroRecords'),
               "info": "",
-              "infoEmpty": "Ningúna información disponible",
+              "infoEmpty": Pard.t.text('manager.infoEmpty'),
               "infoFiltered": "(filtered from _MAX_ total records)",
-              "search": "Busca",
+              "search": Pard.t.text('dictionary.search').capitalize(),
+              "search": "_INPUT_",
+              "searchPlaceholder": Pard.t.text('dictionary.search').capitalize(),
               "paginate": {
-                "first":      "Primera",
-                "last":       "Última",
-                "next":       "Siguiente",
-                "previous":   "Anterior"
-              },
-             "search": "_INPUT_",
-              "searchPlaceholder": "Busca"
+                "first": Pard.t.text('dictionary.first').capitalize(),
+                "last": Pard.t.text('dictionary.last').capitalize(),
+                "next": Pard.t.text('dictionary.next').capitalize(),
+                "previous": Pard.t.text('dictionary.previous').capitalize()
+              }
             },
             fixedHeader: {
               header: true
@@ -298,28 +297,28 @@
               {
                 extend: 'colvis',
                 columns: ':gt(1)',
-                text: Pard.Widgets.IconManager('visibility').render().attr('title','Muestra/Esconde columnas'),
+                text: Pard.Widgets.IconManager('visibility').render().attr('title', Pard.t.text('manager.proposals.hideShowCol.helper')),
                 className: 'changeColumnsBtn',
                 collectionLayout: 'fixed big_layout',
                 fade: 200,
                 prefixButtons: [{
                   extend: 'colvisGroup',
-                  text: 'Selecciona todo',
+                  text: Pard.t.text('manager.proposals.hideShowCol.selectAll'),
                   show: ':gt(1):hidden'
                 },
                 {
                   extend: 'colvisGroup',
-                  text: 'Desmarca todo',
+                  text: Pard.t.text('manager.proposals.hideShowCol.unselect'),
                   hide: ':visible'
                 },
                 {
                   extend: 'colvisRestore',
-                  text: 'Configuración incial',
+                  text: Pard.t.text('manager.proposals.hideShowCol.initial'),
                   show: ':hidden'
                 }]
               },
               {
-                text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
+                text: Pard.Widgets.IconManager('mailinglist').render().attr('title', Pard.t.text('manager.copy.helper')),
                 className: 'mailinglistBtn',
                 action: function(){
                   var columnData = _dataTables[typeTable].DataTable.column(_dataTables[typeTable].emailColumn, { search:'applied' }).data().unique();
@@ -329,13 +328,13 @@
                   });
                   _emailList = _emailList.substring(0,_emailList.length-2)
                   Pard.Widgets.CopyToClipboard(_emailList);
-                  var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-                  Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+                  var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+                  Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
                 }
               },
               {
                 extend: 'collection',
-                text:  Pard.Widgets.IconManager('export').render().attr('title','Exporta tabla'),
+                text:  Pard.Widgets.IconManager('export').render().attr('title', Pard.t.text('manager.export')),
                 className: 'ExportCollectionBtn',
                 collectionLayout: 'button-list',
                 // backgroundClassName: 'ExportCollection-background',
@@ -354,7 +353,7 @@
                     exportOptions: {
                         columns: ':visible'
                     },
-                    filename: 'Tabla-'+typeTable
+                    filename: 'Tabla-' + typeTable
                   },
                   {
                     extend: 'pdf',
@@ -370,7 +369,7 @@
                       columns: ':visible',
                     },
                     orientation: 'landscape',
-                    filename: 'Tabla-'+typeTable
+                    filename: 'Tabla-' + typeTable
                   },
                   {
                     extend: 'copy',
@@ -410,27 +409,27 @@
           _dataTables[typeTable].DataTable = _dataTables[typeTable].table.DataTable({
             "language":{
               buttons: {
-                  copyTitle: 'Copia tabla',
-                  copyKeys: '<i>ctrl</i> o <i>\u2318</i> + <i>C</i> para copiar los datos de la tabla a tu portapapeles. <br><br>Para anular, haz click en este mensaje o pulsa Esc.',
+                  copyTitle: Pard.t.text('manager.copy.table'),
+                  copyKeys: Pard.t.text('manager.copy.keys'),
                   copySuccess: {
-                      _: '<strong>Copiadas %d filas</strong> de datos al portapapeles',
-                      1: '<strong>Copiada una fila</strong> de datos al portapapeles'
+                      _: Pard.t.text('manager.copy.success'),
+                      1: Pard.t.text('manager.copy.success1')
                   }
               },
-              "lengthMenu": " Resultados por página _MENU_",
-              "zeroRecords": "Ningún resultado",
+              "lengthMenu": Pard.t.text('manager.copy.results'),
+              "zeroRecords": Pard.t.text('manager.zeroRecords'),
               "info": "",
-              "infoEmpty": "Ningúna información disponible",
+              "infoEmpty": Pard.t.text('manager.infoEmpty'),
               "infoFiltered": "(filtered from _MAX_ total records)",
-              "search": "Busca",
+              "search": Pard.t.text('dictionary.search').capitalize(),
+              "search": "_INPUT_",
+              "searchPlaceholder": Pard.t.text('dictionary.search').capitalize(),
               "paginate": {
-                "first":      "Primera",
-                "last":       "Última",
-                "next":       "Siguiente",
-                "previous":   "Anterior"
-              },
-             "search": "_INPUT_",
-              "searchPlaceholder": "Busca"
+                "first": Pard.t.text('dictionary.first').capitalize(),
+                "last": Pard.t.text('dictionary.last').capitalize(),
+                "next": Pard.t.text('dictionary.next').capitalize(),
+                "previous": Pard.t.text('dictionary.previous').capitalize()
+              }
             },
             fixedHeader: {
               header: true
@@ -448,7 +447,7 @@
             dom: 'Bfrtip',
             buttons: [
               {
-                text: Pard.Widgets.IconManager('mailinglist').render().attr('title','Crea y copia lista de correos'),
+                text: Pard.Widgets.IconManager('mailinglist').render().attr('title', Pard.t.text('manager.copy.helper')),
                 className: 'mailinglistBtn',
                 action: function(){
                   var columnData = _dataTables['allProposals'].DataTable.column(_dataTables['allProposals'].emailColumn, { search:'applied' }).data().unique();
@@ -458,8 +457,8 @@
                   });
                   _emailList = _emailList.substring(0,_emailList.length-2)
                   Pard.Widgets.CopyToClipboard(_emailList);
-                  var _copyPopupContent = $('<div>').append($('<div>').html('<strong>Copiados '+columnData.length+' contactos </strong> de correo al portapapeles'), $('<div>').html('(<strong><i>Ctrl+V</i></strong> para pegar)'));
-                  Pard.Widgets.CopyPopup('Copia correos', _copyPopupContent);
+                  var _copyPopupContent = $('<div>').append($('<div>').html(Pard.t.text('manager.copy.mex1', {amount: columnData.length})), $('<div>').html(Pard.t.text('manager.copy.mex2')));
+                  Pard.Widgets.CopyPopup(Pard.t.text('manager.copy.title'), _copyPopupContent);
                 }
               },
               {
@@ -567,7 +566,6 @@
       $('.mailinglistBtn').attr('title','Copia lista de correos') 
       $('.changeColumnsBtn').attr('title','Muestra/Esconde columnas')
     });
-    
 
     return {
       render: function(){
@@ -626,8 +624,6 @@
       modifyArtist: function(artist){
         var profile = the_event.artists[artist.profile_id].artist;
         profile.proposals.forEach(function(proposal){
-          // proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
-          // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render(); 
           _dataTables['allProposals'].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();
           _dataTables['allProposals'].DataTable.row.add(_dataTables['allProposals'].proposalRow('artist', proposal, profile)).order([2,'desc']).draw();
           _dataTables[proposal.form_category].DataTable.row('#proposalRow-' + proposal.proposal_id).remove();
@@ -662,11 +658,7 @@
 
     _popup.open();
     setTimeout(function(){_popup.close()},2500);
-
   };
-
-
-
 
 }(Pard || {}));
 

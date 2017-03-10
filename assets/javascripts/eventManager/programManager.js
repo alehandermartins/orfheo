@@ -160,7 +160,7 @@
         }
       });
       _spaceSelector.select2({
-        placeholder: Pard.t.text('type.spaces'),
+        placeholder: Pard.t.text('dictionary.spaces').capitalize(),
         allowClear: true,
         data: spaceProposals,
         templateResult: Pard.Widgets.FormatResource,
@@ -1729,7 +1729,7 @@
 
         var _listSortable = $('<ul>');
         var _orderButtonsContainer = $('<div>').addClass('order-buttons-container');
-        var _orderText = $('<span>').text('Ordena por:');
+        var _orderText = $('<span>').text(Pard.t.text('manager.program.menu.orderby'));
 
         _listSortable.sortable({
           cursor: "move",
@@ -1822,22 +1822,22 @@
       var _publishProgramCallback =  {
         publish: function(data){
           if(data['status'] == 'success') {
-            var _mex = $('<div>').html('El programa se ha publicado correctamente en la página de tu evento');
+            var _mex = $('<div>').html(Pard.t.text('manager.program.publishmex'));
             Pard.Widgets.TimeOutAlert('',_mex);
           }
           else{
             console.log('error');
-            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), 'No se ha podido ejecutar la acción', function(){location.reload();});
+            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), Pard.t.text('error.nonExecuted'), function(){location.reload();});
           }
         },
         unpublish: function(data){
           if(data['status'] == 'success') {
-            var _mex = $('<div>').html('El programa se ha retirado de la página de tu evento');
+            var _mex = $('<div>').html(Pard.t.text('manager.program.unpublishmex'));
             Pard.Widgets.TimeOutAlert('',_mex);
           }
           else{
             console.log('error');
-            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), 'No se ha podido ejecutar la acción', function(){location.reload();});
+            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), Pard.t.text('error.nonExecuted'), function(){location.reload();});
           }
         }
       }
@@ -1849,12 +1849,12 @@
       var _setPublishStatus = function(){
         if(the_event.published == true || the_event.published == 'true'){
           _publishStatus = 'unpublish';
-          _publishedBtn.text('Retira el programa');
+          _publishedBtn.text(Pard.t.text('manager.program.unpublish'));
           $('main').css({'background': _backColor});
         }
         else{         
           _publishStatus = 'publish';
-          _publishedBtn.text('Publica el programa');
+          _publishedBtn.text(Pard.t.text('manager.program.publish'));
           $('main').css('background','#f6f6f6');
         }
       }
@@ -1880,7 +1880,7 @@
       _menu.append(_outOfprogramBtn, _spaceOutOfprogramBtn, _orderSpaceBtn, _publishedBtn);
       var _menuContainer = $('<ul>').addClass('dropdown menu tools-btn').attr({'data-dropdown-menu':true, 'data-disable-hover':true,'data-click-open':true});
       var _btn = $('<button>')
-        .attr({'type':'button', 'title':'Menu de herramientas'})
+        .attr({'type':'button', 'title':Pard.t.text('manager.program.menu.helper')})
         .append(
           Pard.Widgets.IconManager('tools').render()
         );
@@ -1978,7 +1978,7 @@
     var _viewSelector = $('<select>');
     var _viewSelectorContainer = $('<div>').addClass('switcherContainer-callPage noselect').append(_viewSelector);
     _switcher.append(_viewSelectorContainer).css('margin-bottom', '0.5rem');
-    var _viewTags = [{id:'manager', text:'Herramienta de gestión', view:_managerView},{id:'table',text:'Tabla', view:_tableView}];
+    var _viewTags = [{id:'manager', text: Pard.t.text('manager.program.manageTool'), view:_managerView},{id:'table',text: Pard.t.text('dictionary.table').capitalize(), view:_tableView}];
     _viewSelector.select2({
       data: _viewTags,
       minimumResultsForSearch: Infinity,

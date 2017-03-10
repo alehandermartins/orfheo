@@ -13,13 +13,17 @@
       comments: 'comentarios',
       confirmed: 'confirmado',
       email: 'email',
+      first: "primera",
       latitude: 'latitud',
+      last: "última",
       longitude: 'longitud',
       name: 'nombre',
+      next: "siguiente",
       organization: "organización",
       organizations: "organizaciones",
       permanent: 'permanente',
       phone: 'teléfono',
+      previous: "anterior",
       profile: 'perfil',
       program: 'programa',
       schedule: 'horario',
@@ -27,6 +31,7 @@
       short_description: 'descripción breve',
       space: "espacio",
       spaces:'espacios',
+      table: 'tabla',
       title: 'título'
     },
     partners:{
@@ -175,6 +180,11 @@
         imageList:'<strong>imágenes</strong> desde: tu ordenador, instagram, flickr, pinterest, twitter, facebook',
         audioList: '<strong>audios</strong> desde: soundcloud, bandcamp, spotify',
         photoL:'Sube imágenes desde tu ordenador (máximo 4, tamaño inferior a 500kb)'
+      },
+      multipleDaysSelector:{
+        placeholder: "Selecciona una o más opciones",
+        selectAll: "Selecciona todo",
+        alwaysAv: "Disponible todos los días"
       },
       inputMultimedia:{
         placeholder:'Copia y pega aquí el enlace/código correspondiente y dale al botón para validar',
@@ -557,6 +567,7 @@
       export: 'Exporta tabla',
       zeroRecords: "Ningún resultado",
       infoEmpty: "Ningúna información disponible",
+      export: 'Exporta tabla',
       copy:{
         helper: 'Crea y copia lista de correos',
         table: 'Copia tabla',
@@ -575,13 +586,40 @@
         chain: 'Encadena los cambios',
         unchain: 'Desencadena los cambios',
         menu: {
+          helper: 'Menu de herramientas',
           artistsnoProgram: 'Propuestas sin programa',
           spacesnoProgram: 'Espacios sin programa',
-          orderSpaces: 'Ordena Espacios'
-        }
+          orderSpaces: 'Ordena Espacios',
+          orderby: 'Ordena por:'
+        },
+        publish: 'Publica el programa',
+        publishmex: 'El programa se ha publicado correctamente en la página de tu evento',
+        unpublish: 'Retira el programa',
+        unpublishmex: 'El programa se ha retirado de la página de tu evento',
+        manageTool: 'Herramienta de gestión'
       },
       proposals: {
-        tab: 'Propuestas'
+        tab: 'Propuestas',
+        addAnother: 'Añade otra propuesta a un participante que ya has creado',
+        addArtist: 'Crea y añade una propuesta de tipo artista',
+        addSpace: 'Crea y añade una propuesta de tipo espacio',
+        orNew: '...o crea algo nuevo',
+        byName: "Selecciona por nombre",
+        selectCat: "Selecciona la categoría de la propuesta",
+        phoneL: "Teléfono de contacto",
+        showFields: 'Muestra todos los campos',
+        modifyNote1: 'Esta información, así como el nombre, puede ser modificada sólo por su propietario, desde la página de perfil.',
+        modifyNote2: 'Esta información, así como el nombre y el email, se puede cambiar modificando cualquier propuesta de este artista que has creado.',
+        allProposals: 'Todas las propuestas',
+        artistProposals: 'Propuestas artísticas',
+        spaceProposals: 'Propuestas de espacios',
+        eventCat: 'Categoría en el evento',
+        hideShowCol: {
+          helper: 'Muestra/Esconde columnas', 
+          selectAll: "Selecciona todo",
+          unselect: 'Desmarca todo',
+          initial: 'Configuración incial'
+        }
       },
       tools: {
         tab: 'Útiles',
@@ -667,5 +705,8 @@
       title: 'Política de cookies',
       mex: 'Para mejorar tu experiencia de navegación, orfheo almacena información en tu navegador en forma de pequeños elementos de texto llamados cookies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más información puedes leer nuestra '
     },
+    error: {
+      nonExecuted: 'No se ha podido ejecutar la acción'
+    }
   }
 }(Pard || {}))
