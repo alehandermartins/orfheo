@@ -12,18 +12,24 @@
       artist: "artista",
       artists: "artistas",
       availability: 'disponibilidad',
+      cache: 'caché',
+      cancel: 'cancela',
       category: 'categoría',
+      collaborators:'colaboradores',
       comments: 'comentarios',
+      confirm: 'confirma',
       confirmed: 'confirmado',
       copy: 'copia',
       day: 'día',
       description: 'descripción',
+      delete: 'elimina',
       duration: 'duración',
       email: 'email',
       first: "primera",
       latitude: 'latitud',
       last: "última",
       longitude: 'longitud',
+      modify: 'modifica',
       name: 'nombre',
       next: "siguiente",
       no: 'no',
@@ -39,14 +45,11 @@
       short_description: 'descripción breve',
       space: "espacio",
       spaces:'espacios',
+      sponsors:'patrocinadores',
       table: 'tabla',
       title: 'título',
       type: 'tipo',
       yes: 'sí'
-    },
-    partners:{
-      collaborators:'Colaboradores',
-      sponsors:'Patrocinadores'
     },
     categories:{
       cultural_ass: 'Espacio Cultural',
@@ -70,17 +73,6 @@
       workshop: 'Taller',
       other: 'Otros',
       gastronomy: 'Gastronomía'
-    },
-    form:{
-      incomplete: 'Por favor, revisa los campos obligatorios.'
-    },
-    popup_alert:{
-      error: '¡Error!',
-      noAction: 'No se ha podido ejecutar la acción',
-      serverProblem:{
-        title: 'Error en el servidor',
-        mex: '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste no olvides que estamos a tu disposición para ayudarte. Escríbenos a <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org</a> o contactános en el chat de nuestra <a href="https://www.facebook.com/orfheo.org", target="_blank">página facebook.</a></p>'
-      }
     },
     popup:{
       delete:{
@@ -233,10 +225,8 @@
         }
       }
     },
-    createProfileCard:{
-      text: 'Crea un perfil'
-    },
     createProfile:{
+      text: 'Crea un perfil',
       artistText:'Muestra tu portfolio <br> y participa en grandes eventos',
       spaceText: 'Alberga arte y posiciónate en el mapa cultural',
       organizationText: 'Da a conocer tu proyecto y lanza convocatorias',
@@ -328,6 +318,7 @@
     },
     signUp:{
       btn:'Únete',
+      success: 'Te hemos enviado por correo un enlace para activar tu cuenta.',
       popup:{
         title: 'Empieza creando una cuenta...',
         email:'Email',
@@ -555,8 +546,7 @@
       correct: 'Mensaje enviado correctamente. ',
       thanks: '<br>Gracias por contactar con nosotros.<br> Te contestaremos cuanto antes :)',
       thankFeedback: 'Gracias por tu opinión :)',
-      noSend: 'Mensaje no enviado:',
-      checkFields: 'Por favor, revisa los campos obligatorios'
+      noSend: 'Mensaje no enviado:'
     },
     project:{
       baseline: 'Se pueden hacer más cosas juntos que por separado',
@@ -640,7 +630,13 @@
           initial: 'Configuración incial'
         },
         created: 'creadas',
-        received: 'recibidas'
+        received: 'recibidas',
+        createOk: 'Propuesta creada correctamente',
+        createTitle: 'Crea una propuesta (%{type})',
+        deleteNote: 'Al eliminar la propuesta, se enviará de forma automatica una notifica por email a %{name}',
+        deleteOk: 'Propuesta eliminada correctamente',
+        modifymex: 'Formulario: %{type}',
+        organizerProposal: 'Propuesta creada por los organizadores del evento'
       },
       tools: {
         tab: 'Útiles',
@@ -727,7 +723,14 @@
       mex: 'Para mejorar tu experiencia de navegación, orfheo almacena información en tu navegador en forma de pequeños elementos de texto llamados cookies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más información puedes leer nuestra '
     },
     error: {
-      nonExecuted: 'No se ha podido ejecutar la acción'
+      alert: '¡Error!',
+      incomplete: 'Por favor, revisa los campos obligatorios.',
+      nonExecuted: 'No se ha podido ejecutar la acción',
+      unsaved: 'No se han podido guardar los datos',
+      serverProblem:{
+        title: 'Error en el servidor',
+        mex: '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste no olvides que estamos a tu disposición para ayudarte. Escríbenos a <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org</a> o contactános en el chat de nuestra <a href="https://www.facebook.com/orfheo.org", target="_blank">página facebook.</a></p>'
+      }
     }
   }
 }(Pard || {}))

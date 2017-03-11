@@ -130,16 +130,16 @@
     
     var _objDictionary = function(data, obj){
       for (var field in obj) {
-        if (data.toUpperCase() == Pard.Widgets.Dictionary(field).render().toUpperCase()) {return obj[field];}
-        else _objDictionary(Pard.Widgets.Dictionary(field).render(), obj[field]);
+        var translation = Pard.t.text('dictionary.' + field) || Pard.t.text('categories.' + field);
+        if (data.toUpperCase() == translation.toUpperCase()) {return obj[field];}
+        else _objDictionary(translation, obj[field]);
       }
     }
 
-
     var _printTagFromObj = function(obj, field){
       var _typeTag = $('<div>').addClass('suggested-tag-search-engine');
+      var _text = Pard.t.text('dictionary.' + field) || Pard.t.text('categories.' + field);
       _typeTag.click(function(){
-        var _text = Pard.Widgets.Dictionary(field).render();
         var option = new Option(_text, _text, true, true);
         _searchWidget.append(option);
         _searchWidget.trigger('change');
@@ -148,7 +148,7 @@
       var _icon = Pard.Widgets.IconManager(field).render();
       _icon.addClass('search-tag-icon');
       var _tagSpan = $('<span>').css('vertical-align','middle');
-      _typeTag.append(_tagSpan.append(_icon, Pard.Widgets.Dictionary(field).render()));
+      _typeTag.append(_tagSpan.append(_icon, _text));
       _searchTagsBox.append(_typeTag);
     };
     
@@ -372,11 +372,11 @@
       profile.productions.forEach(function(production){
         if (production.category && $.inArray(production.category, _catArray)<0){
           _catArray.push(production.category);
-          _categories += Pard.Widgets.Dictionary(production.category).render() + ', ';
+          _categories += Pard.t.text('categories.' + production.category) + ', ';
         }
       })
     }
-    else if(profile.category) {_categories += Pard.Widgets.Dictionary(profile.category).render()+ ', ';;}
+    else if(profile.category) {_categories += Pard.t.text('categories.' + profile.category) + ', ';}
 
     if (_categories.length>28)  _categories = _categories.substring(0,25)+'...';
     else{

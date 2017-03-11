@@ -235,21 +235,20 @@ ns.Widgets = ns.Widgets || {};
       'organization': _organizationCatObj
     };
     
-    
     var _organizationObj = {};
 
     var _objDictionary = function(data, obj){
       for (var field in obj) {
-        if (data.toUpperCase() == Pard.Widgets.Dictionary(field).render().toUpperCase()) {return obj[field];}
-        else _objDictionary(Pard.Widgets.Dictionary(field).render(), obj[field]);
+        var translation = Pard.t.text('dictionary.' + field) || Pard.t.text('categories.' + field);
+        if (data.toUpperCase() == translation.toUpperCase()) {return obj[field];}
+        else _objDictionary(translation, obj[field]);
       }
     }
 
-
     var _printTagFromObj = function(obj, field){
       var _typeTag = $('<div>').addClass('suggested-tag-search-engine');
+      var _text = Pard.t.text('dictionary.' + field) || Pard.t.text('categories.' + field);
       _typeTag.click(function(){
-        var _text = Pard.Widgets.Dictionary(field).render();
         var option = new Option(_text, _text, true, true);
         _searchWidget.append(option);
         _searchWidget.trigger('change');
@@ -258,7 +257,7 @@ ns.Widgets = ns.Widgets || {};
       var _icon = Pard.Widgets.IconManager(field).render();
       _icon.addClass('search-tag-icon');
       var _tagSpan = $('<span>').css('vertical-align','middle');
-      _typeTag.append(_tagSpan.append(_icon, Pard.Widgets.Dictionary(field).render()));
+      _typeTag.append(_tagSpan.append(_icon, _text));
       _searchTagsBox.append(_typeTag);
     };
     

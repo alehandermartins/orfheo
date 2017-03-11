@@ -64,7 +64,7 @@
       _bio.append('');
     }
 
-    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile['type']).render()));
+    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.t.text('dictionary.' + profile['type']).capitalize()));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
 
     _contact.append($('<div>').append(_typeIcon, _type));
@@ -157,7 +157,7 @@
       _info.append(_description);
     }
 
-    var _category = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.Widgets.Dictionary(production['category']).render()));
+    var _category = $('<p>').addClass('information-contact-text-column').append($('<span>').text(Pard.t.text('categories.' + production['category']).capitalize()));
     var _categoryIcon = Pard.Widgets.IconManager(production.category).render().addClass('information-contact-icon-column');
 
     _addtionalInfo.append($('<div>').append(_categoryIcon, _category));
@@ -175,8 +175,8 @@
 
     if (production['children']){       
       var _children = $('<p>').addClass('information-contact-text-column');
-      if(production['children'] == 'all_public') _children.append($('<span>').text(Pard.Widgets.Dictionary(production.children).render()));
-      else _children.append($('<span>').text(Pard.t.text('profile_page.production.public')+Pard.Widgets.Dictionary(production.children).render().toLowerCase()));
+      if(production['children'] == 'all_public') _children.append($('<span>').text(Pard.t.text('widget.inputChildren.' + production.children)));
+      else _children.append($('<span>').text(Pard.t.text('profile_page.production.public') + Pard.t.text('widget.inputChildren.' + production.children)));
       var _childrenIcon = Pard.Widgets.IconManager('children').render().addClass('information-contact-icon-column');
       _addtionalInfo.append(_childrenIcon, _children);
     }

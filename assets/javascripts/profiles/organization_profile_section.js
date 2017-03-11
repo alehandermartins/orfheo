@@ -35,7 +35,7 @@
       _bio.append('');
     }
 
-    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.Widgets.Dictionary(profile.category).render()));
+    var _type = $('<p>').addClass('information-contact-text-column type-text-info-box').append($('<span>').text(Pard.t.text('categories.' + profile.category)));
     var _typeIcon = Pard.Widgets.IconManager(profile['type']).render().addClass('information-contact-icon-column type-icon-info-box');
 
     _contact.append($('<div>').append(_typeIcon, _type));

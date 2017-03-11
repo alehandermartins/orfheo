@@ -12,11 +12,16 @@
       artist: "artist",
       artists: "artists",
       availability: 'availability',
+      cache: 'cache',
+      cancel: 'cancel',
       category: 'category',
+      collaborators:"collaborators",
       comments: 'comments',
+      confirm: 'confirm',
       confirmed: 'confirmed',
       copy: 'copy',
       day: 'day',
+      delete: 'delete',
       description: 'description',
       duration: 'duration',
       email: 'email',
@@ -24,6 +29,7 @@
       latitude: 'latitude',
       last: "last",
       longitude: 'longitude',
+      modify: 'modify',
       name: 'name',
       next: "next",
       no: 'no',
@@ -39,14 +45,11 @@
       short_description: 'short description',
       space: "space",
       spaces:'spaces',
+      sponsors:"sponsors",
       table: 'table',
       title: 'title',
       type: 'type',
       yes: 'yes'
-    },
-    partners:{
-      collaborators:"Collaborators",
-      sponsors:"Sponsors"
     },
     categories:{
       cultural_ass: "Cultural Space",
@@ -70,17 +73,6 @@
       workshop: "Workshop",
       other: "Other",
       gastronomy: "Gastronomy"
-    },
-    form:{
-      incomplete: "Please check the required fields."
-    },
-    popup_alert:{
-      error: "¡Error!",
-      noAction: "Unable to execute action",
-      serverProblem:{
-        title: "Server Error",
-        mex: "<p>Operation not executed. Please try again. </p> <p>If the error persists do not forget that we are at your disposal to help you. Write to us at <a href='mailto:info@orfheo.org' target='_top'> info@orfheo.org</a> o contact us at the chat of our <a href='https://www.facebook.com/orfheo.org', target='_blank'>facebook page.</a></p>"
-      }
     },
     popup:{
       delete:{
@@ -233,10 +225,8 @@
         }
       }
     },
-    createProfileCard:{
-      text: 'Create a profile'
-    },
     createProfile:{
+      text: 'Create a profile',
       artistText:'Show your portfolio <br> and participate in big events',
       spaceText: 'Host artistic events and position yourself in the cultural map',
       organizationText: 'Announce your project and launch calls',
@@ -328,6 +318,7 @@
     },
     signUp:{
       btn:'Join',
+      success: "We've sent you a link to activate your account.",
       popup:{
         title: 'Start by creating an account...',
         email:'Email',
@@ -553,8 +544,7 @@
       send: 'Send',
       correct: 'Message sent successfully. ',
       thanks: '<br>Thank you for contacting us. <br> We will reply as soon as possible :)',
-      noSend: 'Message not sent:',
-      checkFields: 'Please check the required fields'
+      noSend: 'Message not sent:'
     },
     project:{
       baseline: 'More things can be done together than separately',
@@ -638,7 +628,13 @@
           initial: 'Initial settings'
         },
         created: 'created',
-        received: 'received'
+        received: 'received',
+        createOk: 'Proposal correctly created',
+        createTitle: 'Create a proposal (%{type})',
+        deleteNote: 'When you delete the proposal, a notification email will automatically be sent to %{name}',
+        deleteOk: 'Proposal successfully deleted',
+        modifymex: 'Form: %{type}',
+        organizerProposal: 'Proposal created by the organizers of the event'
       },
       tools: {
         tab: 'Tools',
@@ -725,7 +721,13 @@
       mex: 'In order to improve your browsing experience, orfheo stores information in your browser in the form of small text elements called cookies. </br> If you accept or continue browsing you will be agreeing with this notification. For more information you can read our '
     },
     error: {
-      nonExecuted: 'The action could not be executed'
+      nonExecuted: 'The action could not be executed',
+      incomplete: "Please check the required fields.",
+      unsaved: 'Could not save data',
+      serverProblem:{
+        title: "Server Error",
+        mex: "<p>Operation not executed. Please try again. </p> <p>If the error persists do not forget that we are at your disposal to help you. Write to us at <a href='mailto:info@orfheo.org' target='_top'> info@orfheo.org</a> o contact us at the chat of our <a href='https://www.facebook.com/orfheo.org', target='_blank'>facebook page.</a></p>"
+      }
     }
   }
 }(Pard || {}))

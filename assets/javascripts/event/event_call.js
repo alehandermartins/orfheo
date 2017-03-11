@@ -20,7 +20,7 @@
           _popup.open();
         }
         else{
-          Pard.Widgets.Alert(Pard.t.text('popup_alert.serverProblem.title'), _dataReason).render();
+          Pard.Widgets.Alert(Pard.t.text('error.serverProblem.title'), _dataReason).render();
         }
       }
     }
@@ -56,7 +56,7 @@
         _popup.open();
       }
       else{
-        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+        var _dataReason = Pard.ErrorHandler(data.reason);
         if (typeof  _dataReason == 'object'){
           var _popup = Pard.Widgets.Popup();
           _dataReason.setCallback(function(){
@@ -75,7 +75,7 @@
           _popup.open();
         }
         else{
-          var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+          var _dataReason = Pard.ErrorHandler(data.reason);
           Pard.Widgets.Alert('', _dataReason);
         }
       }
@@ -129,7 +129,7 @@
         Pard.Bus.trigger('reloadMenuHeaderDropdown');
       }
       else{
-        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+        var _dataReason = Pard.ErrorHandler(data.reason);
         if (typeof _dataReason == 'object'){
           var _popup = Pard.Widgets.Popup();
           _dataReason.setCallback(function(){
@@ -274,7 +274,7 @@
       var _okProfiles = '';
       _typeFormsCatArray.forEach(function(type,index){
         if(type != 'call_id') {
-          _okProfiles += ' '+Pard.Widgets.Dictionary(type).render().toLowerCase();
+          _okProfiles += ' ' + Pard.t.text('dictionary.' + type);
           if (index<_typeFormsCatArray.length-2) _okProfiles += ','; 
           else if (index == _typeFormsCatArray.length-2) _okProfiles += ' y';
         }
@@ -549,7 +549,7 @@
       };
 
       if (profile.category){
-        var _profileCategory = Pard.Widgets.Dictionary(profile.category).render();
+        var _profileCategory = Pard.t.text('categories.' + profile.category);
         if ($.inArray(_profileCategory, _formTypes)>-1){
           _formTypeSelector.val(_profileCategory);
           _formTypeSelector.trigger('change');
@@ -758,7 +758,7 @@
       for(var field in _form){
         if(_form[field].type == 'mandatory' && !(_form[field].input.getVal()) && field != 'category'){
           _form[field].input.addWarning();
-          _invalidInput.text(Pard.t.text('form.incomplete'));
+          _invalidInput.text(Pard.t.text('error.incomplete'));
           _check = false;
         }
       } 

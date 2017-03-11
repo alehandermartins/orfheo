@@ -155,7 +155,7 @@
             }
             else{
               console.log('error');
-              Pard.Widgets.Alert(Pard.t.text('popup_alert.error'),Pard.t.text('popup_alert.noAction') , function(){location.reload();});
+              Pard.Widgets.Alert(Pard.t.text('error.alert'),Pard.t.text('error.nonExecuted') , function(){location.reload();});
             }
           },
           unpublish: function(data){
@@ -167,7 +167,7 @@
             }
             else{
               console.log('error');
-              Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), Pard.t.text('popup_alert.noAction'), function(){location.reload();});
+              Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.t.text('error.nonExecuted'), function(){location.reload();});
             }
           }
         }
@@ -571,7 +571,7 @@
                   zoom: 16,
                   icon:'http://www.googlemapsmarkers.com/v1/'+_iconNum+'/FE7569/',
                   // icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|FE7569|000000',
-                  html: "<div><b>" + performance.host_name + "</b> ("+Pard.Widgets.Dictionary(performance.host_category).render()+")</div> <div>"+ performance.address.route+" "+performance.address.street_number+"</div>",
+                  html: "<div><b>" + performance.host_name + "</b> ("+ Pard.t.text('categories.' + performance.host_category) +")</div> <div>"+ performance.address.route+" "+performance.address.street_number+"</div>",
                   order: performance.order
                 });
                 hosts.push(performance.host_proposal_id);

@@ -102,40 +102,9 @@
     }
   }
 
-  ns.Widgets.Dictionary = function(voice){
-
+  ns.ErrorHandler = function(error){
+    
     var _dictionary = {
-      artist: Pard.t.text('dictionary.artist').capitalize(),
-      space: Pard.t.text('dictionary.space').capitalize(),
-      spaces: Pard.t.text('dictionary.spaces').capitalize(),
-      organization: Pard.t.text('dictionary.organization').capitalize(),
-      cultural_ass: Pard.t.text('categories.cultural_ass'),
-      commercial: Pard.t.text('categories.commercial'),
-      home: Pard.t.text('categories.home'),
-      open_air: Pard.t.text('categories.open_air'),
-      music: Pard.t.text('categories.music'),
-      arts: Pard.t.text('categories.arts'),
-      expo: Pard.t.text('categories.expo'),
-      poetry: Pard.t.text('categories.poetry'),
-      audiovisual: Pard.t.text('categories.audiovisual'),
-      street_art: Pard.t.text('categories.street_art'),
-      workshop: Pard.t.text('categories.workshop'),
-      other: Pard.t.text('categories.other'),
-      gastronomy: Pard.t.text('categories.gastronomy'),
-      festival: Pard.t.text('categories.festival'),
-      association: Pard.t.text('categories.association'), 
-      ngo: Pard.t.text('categories.ngo'), 
-      collective: Pard.t.text('categories.collective'),
-      interprise: Pard.t.text('categories.interprise'), 
-      institution: Pard.t.text('categories.institution'),
-      federation: Pard.t.text('categories.federation'),
-      foundation: Pard.t.text('categories.foundation'),
-      all_public:Pard.t.text('widget.inputChildren.all_public'),
-      baby: Pard.t.text('widget.inputChildren.baby'), 
-      family:Pard.t.text('widget.inputChildren.family'), 
-      young: Pard.t.text('widget.inputChildren.young'),  
-      adults: Pard.t.text('widget.inputChildren.adults'),
-      
       already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},
       invalid_parameters: '<div>Los parámetros insertados no son validos!<br/> Por favor, revísalos.</div>',
@@ -148,7 +117,7 @@
       existing_profile: 'Ya existe un perfil con este nombre. Escoge otro.',
       non_existing_profile: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Perfil no existente!</div>',
       non_existing_proposal: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Propuesta no existente!</div>',
-       non_existing_production: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Producción artística no existente!</div>',
+      non_existing_production: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Producción artística no existente!</div>',
       invalid_category:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Categoría no valida!</div>',
       existing_call: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Convocatoria ya exitente.</div>',
       non_existing_call:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe esta convocatoria.</div>',
@@ -156,30 +125,14 @@
       invalid_query: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Acción no valida.</div>',
       non_existing_event:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe este evento.</div>',
       existing_name: '<div>El nombre de perfil que has decidido ya existe. Por favor, escoge otro.</div>',
-      
-      'Artes Escénicas': 'arts',
-      'Audiovisual': 'audiovisual',
-      'Exposición':'expo',
-      'Música': 'music',
-      'Poesía': 'poetry',
-      'Street Art': 'street_art',
-      'Taller':'workshop',
-      'Otros': 'other',
-      'Gastronomía':'gastronomy',
-      'Infantil':'children'
     }
 
-    return {
-      render: function(){
-        if (_dictionary[voice]){
-          if (typeof _dictionary[voice] == 'function') return _dictionary[voice]();
-          return _dictionary[voice];
-        }
-        else{return voice;}
-      }
+    if (_dictionary[error]){
+      if (typeof _dictionary[error] == 'function') return _dictionary[error]();
+      return _dictionary[error];
     }
+    return error;
   }
-
 
   ns.Widgets.RecoverPasswdMessage = function(text){
       var _messageContainer = $('<div>');

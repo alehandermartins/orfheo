@@ -118,9 +118,6 @@
     Object.keys(spaces).forEach(function(profile_id){
       var proposal = spaces[profile_id].space;
       if (proposal.own) _own['spaces'][profile_id] = spaces[profile_id].space;
-      // necesary for proposals conFusion withput form cat
-      // proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
-      // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
       _proposalsNumber[proposal.form_category] = _proposalsNumber[proposal.form_category] + 1 || 1;
       _dataTables[proposal.form_category].addRow(proposal);
       _dataTables['allProposals'].addRow('space', proposal);
@@ -129,8 +126,6 @@
       var profile = artists[profile_id].artist;
       if (profile.own) _own['artists'][profile_id] = the_event.artists[profile_id].artist;
       profile.proposals.forEach(function(proposal){
-        // proposal.form_category = proposal.form_category || Pard.Widgets.Dictionary(proposal.category).render();
-        // proposal.subcategory = proposal.subcategory || Pard.Widgets.Dictionary(proposal.category).render();
         _proposalsNumber[proposal.form_category] = _proposalsNumber[proposal.form_category] + 1;
         _dataTables[proposal.form_category].addRow(proposal, profile);
         _dataTables['allProposals'].addRow('artist', proposal, profile);

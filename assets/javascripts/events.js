@@ -5,10 +5,10 @@
 
   ns.Events.Register = function(data){
     if (data['status'] == 'success'){
-      Pard.Widgets.Alert('','Te hemos enviado por correo un enlace para activar tu cuenta.');
+      Pard.Widgets.Alert('', Pard.t.text('signUp.success'));
     }
     else {
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -39,7 +39,7 @@
       location.reload();
     }
     else {
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof  _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         $('body').off('click.zf.dropdown');
@@ -76,7 +76,7 @@
       document.location = '/';
     }
     else {
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -109,7 +109,7 @@
     }
     else{
       $('.spinner').remove();
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -144,7 +144,7 @@
       );
     }
     else{
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof  _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -163,7 +163,7 @@
         _popup.open();
       }
       else{
-        var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+        var _dataReason = Pard.ErrorHandler(data.reason);
         Pard.Widgets.Alert('', _dataReason);
       }
     }
@@ -176,7 +176,7 @@
       Pard.Widgets.ProductionsNavigation(_profile_id, $('#_profileNav'), $('#_sectionContent'), data.production.production_id);
     }
     else{
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof  _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -207,7 +207,7 @@
       document.location = '/profile?id=' + profile_id + '&sel=' + data.production.production_id;
     }
     else{
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -238,7 +238,7 @@
       Pard.Widgets.Alert('', 'Tu solicitud de participación en el festival ha sido cancelada correctamente.', function(){location.reload();})
     }
     else{
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -268,7 +268,7 @@
       location.reload();
     }
     else{
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -298,7 +298,7 @@
       location.href = '/users/';
     }
     else{
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -328,7 +328,7 @@
       location.href = '/';
     }
     else{
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
         var _popup = Pard.Widgets.Popup();
         _dataReason.setCallback(function(){
@@ -363,7 +363,6 @@
     }
   }
 
-
   ns.Events.DeleteOwnProposal = function(data){
     console.log(data);
     if (data['status'] == 'success'){
@@ -372,9 +371,9 @@
       });
     }
     else{
-      var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+      var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
-        Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), 'No se ha podido guardar los datos', location.reload());
+        Pard.Widgets.Alert(Pard.t.text('error.alert'), 'No se ha podido guardar los datos', location.reload());
       }
       else{
         console.log(data.reason);
@@ -382,8 +381,6 @@
       }
     }
   }
-
-
 
   ns.Events.CreateProduction = function(data){
     if(data['status'] == 'success') {
@@ -393,8 +390,6 @@
       Pard.Widgets.Alert('',data.reason);
     }  
   }
-
-
 
 }(Pard || {}));
   

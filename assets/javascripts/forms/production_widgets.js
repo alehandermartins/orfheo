@@ -68,9 +68,6 @@
     }
   }
 
-
-
-
   ns.Widgets.ModifyProduction = function(production){
 
     var _popup;
@@ -194,9 +191,5 @@
       }
     }
   }
-
-
-
- 
 
 }(Pard || {}));

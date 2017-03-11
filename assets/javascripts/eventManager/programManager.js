@@ -1827,7 +1827,7 @@
           }
           else{
             console.log('error');
-            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), Pard.t.text('error.nonExecuted'), function(){location.reload();});
+            Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.t.text('error.nonExecuted'), function(){location.reload();});
           }
         },
         unpublish: function(data){
@@ -1837,7 +1837,7 @@
           }
           else{
             console.log('error');
-            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), Pard.t.text('error.nonExecuted'), function(){location.reload();});
+            Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.t.text('error.nonExecuted'), function(){location.reload();});
           }
         }
       }

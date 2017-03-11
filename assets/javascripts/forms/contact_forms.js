@@ -3,89 +3,6 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.ContactOrfheoForm = function(){
-   
-    var _errorBox = $('<p>');
-    var _nameInput = Pard.Widgets.Input('Nombre*','text');
-    var _emailInput = Pard.Widgets.InputEmail('Email*');
-    var _subjectInput = Pard.Widgets.Input('Asunto','text');
-    var _profileInput = Pard.Widgets.Input('Nombre de tu perfil en orfheo', 'text');
-    var _mexInput = Pard.Widgets.TextArea('Mensaje*',6);
-    var _submitBtn = Pard.Widgets.Button('Envía', function(){
-      _submitBtn.disable();
-      _submitBtn.setClass('disabled-button');
-      _errorBox.empty();
-      var spinner = new Spinner();
-      spinner.spin();
-      $('body').append(spinner.el);
-      var filled = true;
-      [_nameInput, _emailInput,_mexInput].forEach(function(input){
-        if (!(input.getVal())){
-          input.addWarning();
-          filled = false;
-        }
-      });
-      if (filled){
-        Pard.Backend.techSupport(_nameInput.getVal(), _emailInput.getVal(), _subjectInput.getVal(), _profileInput.getVal(), '', _mexInput.getVal(), function(data){
-          spinner.stop();
-          if (data['status'] == 'success'){
-            _submitBtnContainer.remove();
-            _errorBox
-              .empty()
-              .css('text-align','right')
-              .append(
-                Pard.Widgets.IconManager('done').render().addClass('success-icon-check-messageSent'),
-                $('<span>').text('Mensaje enviado correctamente. ').css('color','#4cb632'),
-                $('<span>').html('<br>Gracias por contactar con nosotros.<br> Te contestaremos cuanto antes :)')
-                  .css({
-                    'color':'black',
-                    'margin-bottom':'1.5rem'
-                  })
-              )
-              .removeClass('error-text');
-          }
-          else{
-            _submitBtn.enable();
-            _submitBtn.deleteClass('disabled-button');
-            _errorBox
-              .empty()
-              .append(
-                Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-                $('<span>').html('Mensaje no enviado: <br>'+data.reason)  
-              ).addClass('error-text')
-          }
-        });
-      }
-      else{
-        _submitBtn.enable();
-        _submitBtn.deleteClass('disabled-button');
-        spinner.stop()
-        _errorBox
-        .empty()
-        .append(
-          Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-          $('<span>').html('Mensaje no enviado:<br> por favor, revisa los campos obligatorios')
-        ).addClass('error-text');
-      }
-    });
-    var _submitBtnContainer = $('<span>')
-      .append(
-        _submitBtn.render().addClass('submit-button')
-      )
-    var _submitContainer = $('<div>')
-      .css({
-        'min-height':'3.2rem',
-        'position':'relative'
-      });
-    var _formSupport = $('<div>').addClass('contactForm-container').append(
-      $('<form>').append(_nameInput.render(), _emailInput.render(), _subjectInput.render(), _profileInput.render(), _mexInput.render()),
-      _submitContainer.append(_errorBox, _submitBtnContainer) 
-    )
-
-    return _formSupport;
-
-  }
-
   ns.Widgets.FeedbackForm = function(){
     var _nameInput = Pard.Widgets.Input(Pard.t.text('contact.forms.name'),'text');
     var _emailInput = Pard.Widgets.InputEmail(Pard.t.text('contact.forms.email'));
@@ -145,7 +62,7 @@
         .empty()
         .append(
           Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('contact.checkFields'))
+          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('error.incomplete'))
         ).addClass('error-text');
       }
     });
@@ -232,7 +149,7 @@
         .empty()
         .append(
           Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('contact.checkFields'))
+          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('error.incomplete'))
         ).addClass('error-text');
       }
     });
@@ -387,7 +304,7 @@
         .empty()
         .append(
           Pard.Widgets.IconManager('attention').render().css({'font-size':'22px','vertical-align':'-.1rem'}),
-          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('contact.checkFields'))
+          $('<span>').html(Pard.t.text('contact.noSend') + '<br>' +  Pard.t.text('error.incomplete'))
         ).addClass('error-text');
       }
     });

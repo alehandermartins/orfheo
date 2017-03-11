@@ -60,8 +60,8 @@
       var form = forms[type][_proposal.form_category];
 
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
-      var _deleteProposalCaller = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), $('<span>').text('Elimina')).addClass('deleteProfile-caller');
-      var _modifyProposal = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'), $('<span>').text('Modifica')).addClass('deleteProfile-caller');
+      var _deleteProposalCaller = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), $('<span>').text(Pard.t.text('dictionary.delete').capitalize())).addClass('deleteProfile-caller');
+      var _modifyProposal = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().addClass('trash-icon-delete'), $('<span>').text(Pard.t.text('dictionary.modify').capitalize())).addClass('deleteProfile-caller');
 
       _deleteProposalCaller.on('click', function(){
         var _deleteContent = $('<div>').addClass('very-fast reveal full');
@@ -83,9 +83,9 @@
       var confirmPopupContent = function(){
         var _createdWidget = $('<div>');
         var _name = _proposal.name;
-        var _mex = $('<p>').text('Al eliminar la propuesta, se enviará de forma automatica una notifica por email a '+_name);
-        var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text('Confirma');
-        var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text('Anula');
+        var _mex = $('<p>').text(Pard.t.text('manager.proposals.deleteNote', {name: _name}));
+        var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text(Pard.t.text('dictionary.confirm').capitalize());
+        var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text(Pard.t.text('dictionary.cancel').capitalize());
 
         var spinnerDeleteProposal =  new Spinner().spin();
         var _deleteProposalBackend = {
@@ -123,12 +123,12 @@
 
       var deleteCallback = function(data){
         if (data['status'] == 'success'){
-          Pard.Widgets.TimeOutAlert('', 'Propuesta eliminada correctamente');
+          Pard.Widgets.TimeOutAlert('', Pard.t.text('manager.proposals.deleteOk'));
         }
         else{
-          var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+          var _dataReason = Pard.ErrorHelper(data.reason);
           if (typeof _dataReason == 'object')
-            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), 'No se ha podido guardar los datos', location.reload());
+            Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.t.text('error.unsaved'), location.reload());
           else{
             console.log(data.reason);
             Pard.Widgets.Alert('', _dataReason, location.reload());
@@ -138,9 +138,9 @@
 
       var modifyCallback = function(data){
         if (data['status'] != 'success'){
-          var _dataReason = Pard.Widgets.Dictionary(data.reason).render();
+          var _dataReason = Pard.ErrorHelper(data.reason);
           if (typeof _dataReason == 'object')
-            Pard.Widgets.Alert(Pard.t.text('popup_alert.error'), 'No se ha podido guardar los datos', location.reload());
+            Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.t.text('error.unsaved'), location.reload());
           else{
             console.log(data.reason);
             Pard.Widgets.Alert('', _dataReason);
@@ -185,8 +185,6 @@
                   _modifiedProposal.profile_id = _artist.profile_id;
                   _modifiedProposal.phone = _artist.phone;
                 }
-                // _modifiedProposal.form_category = _modifiedProposal.form_category || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
-                // _modifiedProposal.subcategory = _modifiedProposal.subcategory || Pard.Widgets.Dictionary(_modifiedProposal.category).render();
                 _displayProposal(_modifiedProposal, type);
                 stopSpinner();
               }
@@ -194,9 +192,9 @@
           );
         });
         var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
-        _modifyMessage.prependToContent($('<p>').text('Formulario: '+ _translatorFC[type][_proposal.form_category]).css('margin-bottom','-0.5rem'));
+        _modifyMessage.prependToContent($('<p>').text(Pard.t.text('manager.proposals.modifymex',{type: _translatorFC[type][_proposal.form_category]})).css('margin-bottom','-0.5rem'));
         _modifyMessage.appendToContent(Pard.Widgets.Button(
-          'Anula',
+          Pard.t.text('dictionary.cancel').capitalize(),
           function(){
             _modifyMessageRendered.remove();
             _messageProposalPrintedRendered.show();
@@ -218,7 +216,7 @@
       });
 
       if (_proposal.amend){
-        var _label = $('<span>').addClass('myProposals-field-label').text('Enmienda:').css('display', 'block');
+        var _label = $('<span>').addClass('myProposals-field-label').text(Pard.t.text('dictionary.amend').capitalize() + ':').css('display', 'block');
         var _text = $('<span>').text(' ' + _proposal.amend);
         var _element = $('<div>').append($('<p>').append(_label, _text));
         _messageProposalPrinted.appendToContent(_element);
@@ -230,7 +228,7 @@
   
       _messageProposalPrinted.prependToContent(_actionBtnContainer);
       if (_proposal.own) {
-        var _warningOwnText = $('<p>').text('Propuesta creada por los organizadores de la convocatoria');
+        var _warningOwnText = $('<p>').text(Pard.t.text('manager.proposals.organizerProposal'));
         _messageProposalPrinted.prependToContent(_warningOwnText);
       }
       var _messageProposalPrintedRendered = _messageProposalPrinted.render();
@@ -247,11 +245,11 @@
       var _callbackCreatedProposal = function(data, callback){
         if(data['status'] == 'success') {
           _closePopupForm();
-          Pard.Widgets.TimeOutAlert('', 'Propuesta creada correctamente');
+          Pard.Widgets.TimeOutAlert('', Pard.t.text('manager.proposals.createOk'));
           callback();
         }
         else{
-          Pard.Widgets.Alert('',Pard.Widgets.Dictionary(data.reason).render());
+          Pard.Widgets.Alert('', Pard.ErrorHelper(data.reason));
           callback();
         }
       }
@@ -265,7 +263,7 @@
       };
       _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(forms[type], type, participants);
       _createOwnProposalWidget.setSend(_sendProposal);
-      var _message = Pard.Widgets.PopupContent('Crea y enscribe una propuesta de tipo '+Pard.Widgets.Dictionary(type).render().toLowerCase(), _createOwnProposalWidget);
+      var _message = Pard.Widgets.PopupContent(Pard.t.text('manager.proposals.createTitle', {type: Pard.t.text('dictionary.' + type).capitalize()}), _createOwnProposalWidget);
       _message.setCallback(function(){
         _popup.close();
         setTimeout(

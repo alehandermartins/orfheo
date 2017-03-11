@@ -337,7 +337,7 @@
         text: _cache()
       },
       'children':{
-        text: Pard.Widgets.Dictionary(proposal.children).render()
+        text: Pard.t.text('widget.inputChildren.' + proposal.children)
       }
     }
   }

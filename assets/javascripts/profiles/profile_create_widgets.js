@@ -41,7 +41,7 @@
     );
 
     var _addCircle = Pard.Widgets.IconManager('add_circle').render().addClass('addCircle-create-profile-card');
-    var _text = $('<p>').text(Pard.t.text('createProfileCard.text')).addClass('create-profile-card-text');
+    var _text = $('<p>').text(Pard.t.text('createProfile.text')).addClass('create-profile-card-text');
     _createProfileCard.append(_upperBox.append(_addCircle), _downBox.append(_text));
 
     var _createProfilePopup;

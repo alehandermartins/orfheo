@@ -3,6 +3,10 @@ $.cloudinary.config({ cloud_name: 'hxgvncv7u', api_key: '844974134959653'});
 var Pard = {}
 Pard.UserInfo = {}
 
+String.prototype.capitalize = function() {
+  return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+}
+
 var DetectBrowser = function(){
 	var _compatibleBrowsers = {
 		'Firefox': 38,
@@ -124,7 +128,3 @@ var CookieAlert = function(){
 }
 DetectTrackingProtection();
 CookieAlert();
-
-String.prototype.capitalize = function() {
-  return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-};

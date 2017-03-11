@@ -180,7 +180,7 @@
     for(var partnerType in partners){
       if (partners[partnerType].length) _partnerTab.append(
         $('<h4>')
-          .append(Pard.t.text('partners.'+partnerType))
+          .append(Pard.t.text('dictionary.' + partnerType).capitalize())
           .css({
             'color': 'rgb(111, 111, 111)',
             'margin-top':'1rem'

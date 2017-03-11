@@ -505,7 +505,7 @@
     var _searchTags = [];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other'];
     _valuesCategories.forEach(function(cat){
-      _searchTags.push({id:cat, text:Pard.Widgets.Dictionary(cat).render()});
+      _searchTags.push({id:cat, text: Pard.t.text('categories.' + cat)});
     });
 
     function formatResource (resource) {
@@ -556,7 +556,7 @@
 
 
   ns.Widgets.ErrorMessage = function(){
-    Pard.Widgets.Alert(Pard.t.text('popup_alert.serverProblem.title'),Pard.t.text('popup_alert.serverProblem.mex'), function(){
+    Pard.Widgets.Alert(Pard.t.text('error.serverProblem.title'),Pard.t.text('popup_alert.serverProblem.mex'), function(){
       // location.reload();
     });
   }

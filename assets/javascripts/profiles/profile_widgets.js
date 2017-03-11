@@ -381,7 +381,7 @@
     var _descriptionRow = $('<div>').addClass('descriptionRow-profile-programCard');
     var _hostRow = $('<div>');
     var _participantRow = $('<div>');
-    _titleRow.append(_time, _participantCatIcon, Pard.Widgets.Dictionary(performance.participant_category).render(), _children);
+    _titleRow.append(_time, _participantCatIcon, Pard.t.text('categories.' + performance.participant_category), _children);
     _descriptionRow.append($('<p>').append(_title, _participant), $('<p>').append(_shortDescription).addClass('short-description-program-card'));
     _hostRow.append($('<p>').append(Pard.Widgets.IconManager('location').render().addClass('participant-category-icon'), _host));
     // _participantRow.append($('<p>').append(Pard.Widgets.IconManager('performer').render().addClass('participant-category-icon'), _participant));

@@ -243,7 +243,6 @@
     }
   }
 
-
   ns.Widgets.InfoTab = {
     amend:{
       info: function(proposal){
@@ -369,20 +368,41 @@
       label:'profile_id',
       input: 'Inputtex'
     },
-  proposalNumber:{
-    info: function(p, d, proposalNumber){
-      return proposalNumber;
+    proposalNumber:{
+      info: function(p, d, proposalNumber){
+        return proposalNumber;
+      },
+      label:'proposalNumber',
+      input:'Selector'
     },
-    label:'proposalNumber',
-    input:'Selector'
-  },
-  children:{
-    info: function(proposal){
-      return Pard.Widgets.Dictionary(proposal.children).render();
+    children:{
+      info: function(proposal){
+        return Pard.t.text('widget.inputChildren.' + proposal.children);
+      },
+      label: Pard.t.text('dictionary.ages').capitalize(),
+      input:'InputChildren'
     },
-    label: Pard.t.text('dictionary.ages').capitalize(),
-    input:'InputChildren'
-  }
+    title: {
+      info: function(proposal){
+        return proposal.title; 
+      },
+      label: Pard.t.text('dictionary.title').capitalize(),
+      input: 'Inputtext'
+    },
+    short_description: {
+      info: function(proposal){
+        return proposal.short_description; 
+      },
+      label: Pard.t.text('dictionary.short_description').capitalize(),
+      input: 'Inputtext'
+    },
+    cache: {
+      info: function(proposal){
+        return proposal.cache.value; 
+      },
+      label: Pard.t.text('dictionary.cache').capitalize(),
+      input: 'Inputtext'
+    }
   }
 
   ns.Widgets.ProgramTable = function(infoProgram, the_event){
@@ -417,14 +437,8 @@
       if ($.inArray(field, _shownColumns) == -1) _hiddenColumns.push(index);
       var _titleCol = $('<th>').addClass('column-call-manager-table column-'+field);
       var _footCol = $('<th>') .addClass('column-call-manager-table column-'+field);
-      if (infoProgram[field]) {
-        _titleCol.text(infoProgram[field].label);
-        _footCol.text(infoProgram[field].label);
-      }
-      else {
-        _titleCol.text(Pard.Widgets.Dictionary(field).render());
-        _footCol.text(Pard.Widgets.Dictionary(field).render());
-      }
+      _titleCol.text(infoProgram[field].label);
+      _footCol.text(infoProgram[field].label);
       _titleRow.append(_titleCol);     
       _titleRowFoot.append(_footCol);
     });
@@ -834,23 +848,17 @@
       return Object.keys(the_event.eventTime).indexOf(show.date)+show.permanent+show.time[0]+show.time[1];
     } 
     return{
+      cronoOrder:{
+        label:'',
+        info: function(show){
+          return _cronoOrder(show);
+        }
+      },
       date: {
         info: function(show){
           return moment(new Date(show['date'])).format('DD-MM-YYYY');
         },
         label: Pard.t.text('dictionary.day').capitalize()
-      },
-      participant_subcategory:{
-        info: function(show){
-          return Pard.UserInfo['texts']['subcategories']['artist'][show.participant_subcategory];
-        },
-        label: Pard.t.text('manager.program.artistCat')
-      },
-      host_subcategory:{
-        info: function(show){
-          return Pard.UserInfo['texts']['subcategories']['space'][show.host_subcategory];
-        },
-        label: Pard.t.text('manager.program.spaceCat')
       },
       time:{
         info: function(show){
@@ -866,35 +874,14 @@
         },
         label: Pard.t.text('dictionary.artist').capitalize()
       },
-      host_name: {
-        info: function(show){
-          return $('<a>').attr('href','#/').text(show.host_name).click(function(){displayer.displaySpaceProgram(show.host_id)});
-        },
-        label: Pard.t.text('dictionary.space').capitalize()
-      },
-      order:{
-        info: function(show){
-          return parseInt(show['order']) + 1;
-        },
-        label: Pard.t.text('manager.program.spaceNum')
-      },
       participant_email:{
         label: Pard.t.text('manager.program.artistEmail')
       },
-      host_email:{
-        label: Pard.t.text('manager.program.spaceEmail')
-      },
-      cronoOrder:{
-        label:'',
+      participant_subcategory:{
         info: function(show){
-          return _cronoOrder(show);
-        }
-      },
-      confirmed:{
-        label: Pard.t.text('dictionary.confirmed').capitalize(),
-        info: function(show){
-          return  show['confirmed'] == 'true' ? Pard.t.text('dictionary.yes').capitalize() : Pard.t.text('dictionary.no').capitalize()
-        }
+          return Pard.UserInfo['texts']['subcategories']['artist'][show.participant_subcategory];
+        },
+        label: Pard.t.text('manager.program.artistCat')
       },
       title: {
         label: Pard.t.text('dictionary.title').capitalize(),
@@ -932,6 +919,39 @@
             }
           })
           return _info;
+        }
+      },
+      short_description:{
+        label: Pard.t.text('dictionary.short_description').capitalize()
+      },
+      order:{
+        info: function(show){
+          return parseInt(show['order']) + 1;
+        },
+        label: Pard.t.text('manager.program.spaceNum')
+      },
+      host_name: {
+        info: function(show){
+          return $('<a>').attr('href','#/').text(show.host_name).click(function(){displayer.displaySpaceProgram(show.host_id)});
+        },
+        label: Pard.t.text('dictionary.space').capitalize()
+      },
+      host_email:{
+        label: Pard.t.text('manager.program.spaceEmail')
+      },
+      host_subcategory:{
+        info: function(show){
+          return Pard.UserInfo['texts']['subcategories']['space'][show.host_subcategory];
+        },
+        label: Pard.t.text('manager.program.spaceCat')
+      },
+      comments:{
+        label: Pard.t.text('dictionary.comments').capitalize()
+      },
+      confirmed:{
+        label: Pard.t.text('dictionary.confirmed').capitalize(),
+        info: function(show){
+          return  show['confirmed'] == 'true' ? Pard.t.text('dictionary.yes').capitalize() : Pard.t.text('dictionary.no').capitalize()
         }
       }
     }
