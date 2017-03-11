@@ -104,27 +104,28 @@
 
   ns.ErrorHandler = function(error){
     
+    var _text = Pard.t.text('error.' + error);
     var _dictionary = {
-      already_registered: function(){return Pard.Widgets.RecoverPasswdMessage('¡Usuario ya registrado!')},
+      already_registered: function(){return Pard.Widgets.RecoverPasswdMessage(_text)},
       non_existing_user: function(){return Pard.Widgets.NoExistingUserMessage()},
-      invalid_parameters: '<div>Los parámetros insertados no son validos!<br/> Por favor, revísalos.</div>',
-      invalid_email: '<div>¡El correo no es correcto!<br/> Por favor, vuelve a intentar.</div>',
-      incorrect_password: function(){return Pard.Widgets.RecoverPasswdMessage('¡Contraseña equivocada!')},
-      invalid_password: '<div>¡Password no valida!</div>',
+      invalid_parameters: '<div>' + _text + '</div>',
+      invalid_email: '<div>' + _text + '</div>',
+      incorrect_password: function(){return Pard.Widgets.RecoverPasswdMessage(_text)},
+      invalid_password: '<div>' + _text + '</div>',
       not_validated_user:function(){return Pard.Widgets.NotValidatedUserMessage()},
-      out_of_time_range: '<h4 style="margin-top:-1.2rem;">Convocatoria Cerrada</h4> <div>Tu propuesta no ha sido enviada.</div>',
-      invalid_type: 'Tipo de perfil no valido.',
-      existing_profile: 'Ya existe un perfil con este nombre. Escoge otro.',
-      non_existing_profile: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Perfil no existente!</div>',
-      non_existing_proposal: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Propuesta no existente!</div>',
-      non_existing_production: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Producción artística no existente!</div>',
-      invalid_category:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>¡Categoría no valida!</div>',
-      existing_call: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Convocatoria ya exitente.</div>',
-      non_existing_call:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe esta convocatoria.</div>',
-      you_dont_have_permission: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Perdiste la conexión...vuelve a logearte e inténtalo de nuevo.</div>',
-      invalid_query: '<h4 style="margin-top:-1.2rem;">Error</h4> <div>Acción no valida.</div>',
-      non_existing_event:'<h4 style="margin-top:-1.2rem;">Error</h4> <div>No existe este evento.</div>',
-      existing_name: '<div>El nombre de perfil que has decidido ya existe. Por favor, escoge otro.</div>',
+      out_of_time_range: '<h4 style="margin-to +p:-1.2rem;">' + Pard.t.text('error.closedCall') + '</h4> <div>' + _text + '</div>',
+      invalid_type: _text,
+      existing_profile: _text,
+      non_existing_profile: '<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      non_existing_proposal: '<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      non_existing_production: '<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      invalid_category: '<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      existing_call: '<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      non_existing_call: '<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      you_dont_have_permission: '<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      invalid_query: '<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      non_existing_event:'<h4 style="margin-top:-1.2rem;">' + Pard.t.text('error.alert') + '</h4> <div>' + _text + '</div>',
+      existing_name: '<div>' + _text + '</div>',
     }
 
     if (_dictionary[error]){

@@ -8,7 +8,7 @@
       accept: 'accept',
       address: 'address',
       ages: 'ages',
-      amend: 'amend',
+      amend: 'amendment',
       artist: "artist",
       artists: "artists",
       availability: 'availability',
@@ -68,7 +68,7 @@
       arts: "Performing Arts",
       expo: "Exposition",
       poetry: "Poetry",
-      audiovisual: "Adiovisual",
+      audiovisual: "Audiovisual",
       street_art: "Street Art",
       workshop: "Workshop",
       other: "Other",
@@ -283,6 +283,8 @@
       delete: 'Delete the profile',
     },
     proposal:{
+      delete: 'Your request to participate has been successfully canceled',
+      amend: 'Amendment correctly submitted', 
       form:{
         nameL:"Name",
         emailL:"Email",
@@ -292,6 +294,7 @@
     },
     production:{
       createTitle: 'Create an artistic proposal',
+      createOk: 'Content successfully created',
       form:{
         titleL: "Title for the artistic proposal",
         descriptionL: 'Desripction',
@@ -716,14 +719,38 @@
         noResults:'No results'
       }
     },
+    browserTests:{
+      version: 'It has been detected that you are using a version of% {browser} with which orfheo has not been tested. Problems of incompatibility are not excluded. </ Br> For a better experience, we recommend using a recent version of Google Chrome or alternatively Mozilla Firefox.',
+      tracking: 'All contents on this page can not be loaded correctly. It is very likely that the browser tracking function is enabled. For a better experience, it is recommended to deactivate it.'
+    },
     cookiesPolicy:{
       title: 'Cookies policy',
       mex: 'In order to improve your browsing experience, orfheo stores information in your browser in the form of small text elements called cookies. </br> If you accept or continue browsing you will be agreeing with this notification. For more information you can read our '
     },
     error: {
+      alert: 'Error!',
       nonExecuted: 'The action could not be executed',
       incomplete: "Please check the required fields.",
       unsaved: 'Could not save data',
+      already_registered: 'User already registered!',
+      invalid_parameters: 'The inserted parameters are not valid! <br/> Please check them out.',
+      invalid_email: 'The email is not correct! <br/> Please try again.',
+      incorrect_password: 'Wrong password!',
+      invalid_password: 'Invalid password!',
+      closedCall: 'Closed call',
+      out_of_time_range: 'Your proposal has not been sent.',
+      invalid_type: 'Invalid profile type.',
+      existing_profile: 'A profile with this name already exists. Choose another.',
+      non_existing_profile: 'The profile does not exist!',
+      non_existing_proposal: 'The proposal does not exist!',
+      non_existing_production: 'The artistic production does not exist!',
+      invalid_category:'¡Invalid category!',
+      existing_call: 'Already existing call.',
+      non_existing_call:'There is no such call.',
+      you_dont_have_permission: 'You lost the connection... log in and try again.',
+      invalid_query: 'Invalid action',
+      non_existing_event:'There is no such event',
+      existing_name: 'The profile name you have chosen already exists. Please choose another.',
       serverProblem:{
         title: "Server Error",
         mex: "<p>Operation not executed. Please try again. </p> <p>If the error persists do not forget that we are at your disposal to help you. Write to us at <a href='mailto:info@orfheo.org' target='_top'> info@orfheo.org</a> o contact us at the chat of our <a href='https://www.facebook.com/orfheo.org', target='_blank'>facebook page.</a></p>"

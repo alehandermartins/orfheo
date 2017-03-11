@@ -283,6 +283,8 @@
       delete: 'Elimina el perfil',
     },
     proposal:{
+      delete: 'Tu solicitud de participación ha sido cancelada correctamente',
+      amend: 'Enmienda enviada correctamente',
       form:{
         nameL:"Nombre",
         emailL:"Correo",
@@ -292,6 +294,7 @@
     },
     production:{
       createTitle: 'Crea una propuesta artística',
+      createOk: 'Contenido creado correctamente',
       form:{
         titleL: "Título de la propuesta artística",
         descriptionL: 'Descripción',
@@ -718,6 +721,10 @@
         noResults:'Ningún resultado para esta fecha'  
       }
     },
+    browserTests:{
+      version: 'Se ha detectado que estás utilizando una versión de %{browser} con la cual orfheo no ha sido testado. No se excluyen problemas de incompatibilidad. </br>Para una mejor experiencia, se recomienda utilizar una versión reciente de Google Chrome o en alternativa de Mozilla Firefox.',
+      tracking: 'No se pueden cargar correctamente todos los contenidos de esta  página. Es muy probable que sea por tener habilitada la función de "tracking protection" del navegador. Para una mejor experiencia, se recomienda desactivarla.'
+    },
     cookiesPolicy:{
       title: 'Política de cookies',
       mex: 'Para mejorar tu experiencia de navegación, orfheo almacena información en tu navegador en forma de pequeños elementos de texto llamados cookies. </br>Si aceptas o sigues navegando significa que estás de acuerdo con este aviso. Para más información puedes leer nuestra '
@@ -727,6 +734,25 @@
       incomplete: 'Por favor, revisa los campos obligatorios.',
       nonExecuted: 'No se ha podido ejecutar la acción',
       unsaved: 'No se han podido guardar los datos',
+      already_registered: '¡Usuario ya registrado!',
+      invalid_parameters: 'Los parámetros insertados no son validos!<br/> Por favor, revísalos.',
+      invalid_email: '¡El correo no es correcto!<br/> Por favor, vuelve a intentar.',
+      incorrect_password: '¡Contraseña equivocada!',
+      invalid_password: '¡Contraseña no válida!',
+      closedCall: 'Convocatoria cerrada',
+      out_of_time_range: 'Tu propuesta no ha sido enviada.',
+      invalid_type: 'Tipo de perfil no valido.',
+      existing_profile: 'Ya existe un perfil con este nombre. Escoge otro.',
+      non_existing_profile: '¡Perfil no existente!',
+      non_existing_proposal: '¡Propuesta no existente!',
+      non_existing_production: '¡Producción artística no existente!',
+      invalid_category:'¡Categoría no valida!',
+      existing_call: 'Convocatoria ya existente.',
+      non_existing_call:'No existe esta convocatoria.',
+      you_dont_have_permission: 'Perdiste la conexión...vuelve a logearte e inténtalo de nuevo.',
+      invalid_query: 'Acción no valida.',
+      non_existing_event:'No existe este evento',
+      existing_name: 'El nombre de perfil que has decidido ya existe. Por favor, escoge otro.',
       serverProblem:{
         title: 'Error en el servidor',
         mex: '<p>Operación no ejecutada. Por favor, vuelve a intentar. </p> <p>Si el error persiste no olvides que estamos a tu disposición para ayudarte. Escríbenos a <a href="mailto:info@orfheo.org" target="_top"> info@orfheo.org</a> o contactános en el chat de nuestra <a href="https://www.facebook.com/orfheo.org", target="_blank">página facebook.</a></p>'

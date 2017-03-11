@@ -134,41 +134,6 @@
     }
   };
 
-
-  ns.Events.SendProposal = function(data){
-    if (data['status'] == 'success'){
-      Pard.Widgets.Alert('', '<h4 style = "color: rgb(76, 182, 50); margin-top: -1rem; text-align: center; font-weight: bold;">¡Genial!</h4><p style = "text-align:center">Te has inscrito correctamente</p> <p style="font-size: 14px; margin-top:1rem; text-align: center;"> Puedes enviar otra propuesta desde el mismo perfil (si eres artista) o crear e inscribir otros perfiles</p><p style="font-size: 14px; text-align: center; font-weight:bold">conFusión festival 2016</p>',
-        function(){
-         document.location = '/profile?id=' + data['profile_id'];
-        }
-      );
-    }
-    else{
-      var _dataReason = Pard.ErrorHandler(data.reason);
-      if (typeof  _dataReason == 'object'){
-        var _popup = Pard.Widgets.Popup();
-        _dataReason.setCallback(function(){
-          _popup.close();
-          setTimeout(function(){
-            _popup.destroy()
-           },500);
-        });
-        _popup.setContent('', _dataReason.render());
-        _popup.setContentClass('alert-container-full');
-        _popup.setCallback(function(){
-          setTimeout(function(){
-          _popup.destroy()
-        },500);
-        });
-        _popup.open();
-      }
-      else{
-        var _dataReason = Pard.ErrorHandler(data.reason);
-        Pard.Widgets.Alert('', _dataReason);
-      }
-    }
-  };
-
   ns.Events.ModifyProduction = function(data){
     if (data['status'] == 'success'){
       Pard.ProfileManager.modifyProduction(data.production);
@@ -235,7 +200,7 @@
   ns.Events.DeleteProposal = function(data){
     if (data['status'] == 'success'){
       // console.log(data);
-      Pard.Widgets.Alert('', 'Tu solicitud de participación en el festival ha sido cancelada correctamente.', function(){location.reload();})
+      Pard.Widgets.Alert('', Pard.t.text('proposal.delete'), function(){location.reload();})
     }
     else{
       var _dataReason = Pard.ErrorHandler(data.reason);
@@ -355,7 +320,7 @@
 
   ns.Events.AmendProposal = function(data){
     if (data['status'] == 'success'){
-      Pard.Widgets.TimeOutAlert('', 'Enmienda enviada correctamente','', function(){ location.reload(); });
+      Pard.Widgets.TimeOutAlert('', Pard.t.text('proposal.amend'),'', function(){ location.reload(); });
     }
     else{
       console.log(data.reason);
@@ -366,14 +331,14 @@
   ns.Events.DeleteOwnProposal = function(data){
     console.log(data);
     if (data['status'] == 'success'){
-      Pard.Widgets.Alert('', 'Propuesta eliminada correctamente.', function(){
+      Pard.Widgets.Alert('', Pard.t.text('manager.proposals.deleteOk'), function(){
         location.reload();
       });
     }
     else{
       var _dataReason = Pard.ErrorHandler(data.reason);
       if (typeof _dataReason == 'object'){
-        Pard.Widgets.Alert(Pard.t.text('error.alert'), 'No se ha podido guardar los datos', location.reload());
+        Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.t.text('error.unsaved'), location.reload());
       }
       else{
         console.log(data.reason);
@@ -385,7 +350,7 @@
   ns.Events.CreateProduction = function(data){
     if(data['status'] == 'success') {
       console.log(data);
-      Pard.Widgets.Alert('','Contenido creado correctamente');
+      Pard.Widgets.Alert('', Pard.t.text('production.createOk'));
     }else{
       Pard.Widgets.Alert('',data.reason);
     }  

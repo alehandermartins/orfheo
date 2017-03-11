@@ -20,7 +20,7 @@ var DetectBrowser = function(){
 	Pard.UserInfo['browser'] = bowser.name + ' ' + bowser.version;
 	if($(window).width()>640 && (!(_compatibleBrowsers[bowser.name]) || bowser.version < _compatibleBrowsers[bowser.name])){
 		var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
-		var _alertText = $('<p>').html('Se ha detectado que estás utilizando una versión de '+bowser.name+' con la cual orfheo no ha sido testado. No se excluyen problemas de incompatibilidad. </br>Para una mejor experiencia, se recomienda utilizar una versión reciente de Google Chrome o en alternativa de Mozilla Firefox.').addClass('text-browser-alert');
+		var _alertText = $('<p>').html(Pard.t.text('browserTests.version', {browser: bowser.name})).addClass('text-browser-alert');
 		var _alertContainer = $('<div>').append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('browser-alert callout').attr('data-closable','');
 		$('body').prepend(_alertContainer);
 	}
@@ -48,7 +48,7 @@ var DetectTrackingProtection = function(){
         setTimeout(function(){
         	if (!(canreach)) {
 					var _closeButton = $('<button>').addClass('close-button closeBtn-browser-alert').attr({'type':'button','data-close':''}).append($('<span>').html('&times;').attr('aria-hidden','true'));
-					var _alertText = $('<p>').html('No se pueden cargar correctamente todos los contenidos de esta  página. Es muy probable que sea por tener habilitada la función de "tracking protection" del navegador. Para una mejor experiencia, se recomienda desactivarla.').addClass('text-browser-alert');
+					var _alertText = $('<p>').html(Pard.t.text('browserTests.tracking')).addClass('text-browser-alert');
 					_alertContainer.append($('<div>').append(_closeButton,_alertText).addClass('text-button-container-browser-alert')).addClass('browser-alert callout').attr('data-closable','');
 				}
 				},1000)
