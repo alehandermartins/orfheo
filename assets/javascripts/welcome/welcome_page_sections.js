@@ -361,7 +361,7 @@ ns.Widgets = ns.Widgets || {};
               });
             }
             else {
-              var _message = $('<h6>').text('Ningún resultado').css('color','#6f6f6f');
+              var _message = $('<h6>').text(Pard.t.text('widget.search.noResults')).css('color','#6f6f6f');
               _searchResult.append(_message);
               _noMoreResults = true;
             }

@@ -379,7 +379,7 @@
       info: function(proposal){
         return Pard.t.text('widget.inputChildren.' + proposal.children);
       },
-      label: Pard.t.text('dictionary.ages').capitalize(),
+      label: Pard.t.text('dictionary.audience').capitalize(),
       input:'InputChildren'
     },
     title: {

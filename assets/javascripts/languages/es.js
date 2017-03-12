@@ -7,10 +7,11 @@
     dictionary: {
       accept: 'acepta',
       address: 'dirección',
-      ages: 'edades',
       amend: 'enmienda',
       artist: "artista",
       artists: "artistas",
+      audience: 'audience',
+      audios: 'audios',
       availability: 'disponibilidad',
       cache: 'caché',
       cancel: 'cancela',
@@ -26,6 +27,7 @@
       duration: 'duración',
       email: 'email',
       first: "primera",
+      images: 'imágenes',
       latitude: 'latitud',
       last: "última",
       longitude: 'longitud',
@@ -49,6 +51,7 @@
       table: 'tabla',
       title: 'título',
       type: 'tipo',
+      videos: 'vídeos',
       yes: 'sí'
     },
     categories:{
@@ -129,7 +132,8 @@
     },
     widget:{
       search:{
-        placeholder:'Busca por tags'
+        placeholder:'Busca por tags',
+        noResults: 'Ningún resultado'
       },
       uploadPhoto:{
         btn: 'Sube una imagen',
@@ -283,9 +287,28 @@
       delete: 'Elimina el perfil',
     },
     proposal:{
-      delete: 'Tu solicitud de participación ha sido cancelada correctamente',
+      delete: 'Elimina esta propuesta',
+      deleteAlert: 'Confirmando, tu propuesta será retirada de la convocatoria del %{event}.',
+      deleteOk: 'Tu solicitud de participación ha sido cancelada correctamente',
       amend: 'Enmienda enviada correctamente',
+      signedUp: 'Inscrito en ',
+      sentForm: 'Formulario enviado',
+      sentBy: 'Propuesta enviada por',
+      terms: 'bases de participación',
+      termsOk: 'Has aceptado las %{link} del %{event}', 
+      amend:{
+        title: 'Enmienda enviada:',
+        helper: 'No se permite modificar el formulario enviado, pero, en caso lo necesites, puedes enviar una enmienda antes del cierre de la convocatoria',
+        placeholder: 'Escribe aquí el mensaje que quieres enviar',
+        modify: 'Modifica Enmienda'
+      },
       form:{
+        category: '(formulario: %{category})',
+        door: 'puerta/piso',
+        multimedia: 'Multimedia:',
+        seeContents: ' ver contenidos enviados',
+        duration: 'Duración (si aplica)',
+        cache: 'Caché / Gastos producción',
         nameL:"Nombre",
         emailL:"Correo",
         addressL:"Dirección",
@@ -302,7 +325,7 @@
         short_descriptionL:'Descripción (muy) breve',
         short_descriptionH:'Resume tu propuesta artística en máximo 80 caracteres. Quedan:',
         durationL: "Duración *",
-        childrenL:"Edades público",
+        childrenL:"Audiencia",
         childrenH: "Indicar a qué tipo de público está dirigida la propuesta.",
         linksL:"Materiales online",
         linksH: "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor.",
@@ -676,7 +699,7 @@
 
       production:{
         cache:'Caché: ',
-        public: 'Público ',
+        public: 'Audiencia ',
         noDuration: 'No tiene duración definida',
         info: 'Información'
       }
@@ -709,7 +732,7 @@
         filters:{
           participants:'Categorias Artísticas',
           hosts: 'Categorias Espacios',
-          other:'Edades',
+          other:'Audiencia',
           titleText:'Selecciona lo que quieres ver'
         },
         all_dates: 'Todas las fechas',

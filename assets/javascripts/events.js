@@ -200,7 +200,7 @@
   ns.Events.DeleteProposal = function(data){
     if (data['status'] == 'success'){
       // console.log(data);
-      Pard.Widgets.Alert('', Pard.t.text('proposal.delete'), function(){location.reload();})
+      Pard.Widgets.Alert('', Pard.t.text('proposal.deleteOk'), function(){location.reload();})
     }
     else{
       var _dataReason = Pard.ErrorHandler(data.reason);

@@ -7,10 +7,11 @@
     dictionary: {
       accept: 'accept',
       address: 'address',
-      ages: 'ages',
       amend: 'amendment',
       artist: "artist",
       artists: "artists",
+      audience: 'audience',
+      audios: 'audios',
       availability: 'availability',
       cache: 'cache',
       cancel: 'cancel',
@@ -26,6 +27,7 @@
       duration: 'duration',
       email: 'email',
       first: "first",
+      images: 'images',
       latitude: 'latitude',
       last: "last",
       longitude: 'longitude',
@@ -49,6 +51,7 @@
       table: 'table',
       title: 'title',
       type: 'type',
+      videos: 'videos',
       yes: 'yes'
     },
     categories:{
@@ -129,7 +132,8 @@
     },
     widget:{
       search:{
-        placeholder:"Search by tags"
+        placeholder:"Search by tags",
+        noResults: 'No results'
       },
       uploadPhoto:{
         btn: "Upload an image",
@@ -283,9 +287,28 @@
       delete: 'Delete the profile',
     },
     proposal:{
-      delete: 'Your request to participate has been successfully canceled',
-      amend: 'Amendment correctly submitted', 
+      delete: 'Delete this proposal',
+      deleteAlert: 'Confirming, your proposal will be removed from the %{event} call.',
+      deleteOk: 'Your request to participate has been successfully canceled',
+      amend: 'Amendment correctly submitted',
+      signedUp: 'Signed up for ',
+      sentForm: 'Submitted form',
+      sentBy: 'Proposal submitted by',
+      terms: 'participation terms',
+      termsOk: 'You have accepted the %{link} of %{event}', 
+      amend:{
+        title: 'Amendment sent:',
+        helper: 'It is not allowed to modify the submitted form, but, if you need it, you can send an amendment before the call closes',
+        placeholder: 'Type here the message you want to send',
+        modify: 'Modify amendment'
+      },
       form:{
+        category: '(form: %{category})',
+        door: 'door/floor',
+        multimedia: 'Multimedia:',
+        seeContents: ' view submitted content',
+        duration: 'Duration (if applicable)',
+        cache: 'Cache / Production expenses',
         nameL:"Name",
         emailL:"Email",
         addressL:"Address",
@@ -302,7 +325,7 @@
         short_descriptionL:'Brief description',
         short_descriptionH:'Summarize your artistic proposal in a maximum of 80 characters. Remaining:',
         durationL: "Duration *",
-        childrenL:"Public addressed",
+        childrenL:"Audience",
         childrenH: "Indicate to which type of audience the proposal is addressed.",
         linksL:"Online materials",
         linksH: "Add videos, pictures and audios from your social networks. This material will let others better know your art.",
@@ -674,7 +697,7 @@
 
       production:{
         cache:'Cache: ',
-        public: 'Public ',
+        public: 'Audience ',
         noDuration: "It has no defined duration",
         info: 'Information'
       }
@@ -707,7 +730,7 @@
         filters:{
           participants:'Artistic Categories',
           hosts: 'Space Categories',
-          other:'Public',
+          other:'Audience',
           titleText:'Select what you want to see'
         },
         all_dates: 'All dates',
