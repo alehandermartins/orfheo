@@ -4,11 +4,6 @@ module Repos
 
       def for db
         @@users_collection = db['users']
-        users = @@users_collection.find({})
-        users.each{ |user|
-          next unless user[:lang].blank?
-          modify({user_id: user[:user_id]}, {lang: 'es'})  
-        }
       end
 
       def add user
