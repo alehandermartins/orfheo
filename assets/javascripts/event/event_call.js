@@ -605,7 +605,7 @@
     var _form = {};
     var _submitForm = {};
     var _submitBtnContainer = $('<div>').addClass('submit-btn-container');
-    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('Envía');
+    var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html(Pard.t.text('dictionary.send').capitalize());
 
     var _phoneField = {
       "type" : "mandatory",

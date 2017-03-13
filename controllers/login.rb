@@ -1,8 +1,9 @@
 class LoginController < BaseController
 
-  post '/register_attempt' do
-    scopify :email, :password
+  post '/register' do
+    scopify :email, :password, :lang
     check_params email, password
+    check_lang! lang
     check_non_existing_user email
     register_user params
     success
@@ -16,13 +17,13 @@ class LoginController < BaseController
     redirect "http://www.orfheo.org/users/"
   end
 
-  post '/login_attempt' do
+  post '/login' do
     scopify :email, :password
     check_params email, password
     check_existing_user email
-    user_id = user_id_for email, password
-    session[:identity] = user_id
-    success
+    user = user_for email, password
+    session[:identity] = user[:user_id]
+    success({lang: user[:lang]})
   end
 
   post '/logout' do
@@ -64,8 +65,8 @@ class LoginController < BaseController
     Services::Users.validated_user code
   end
 
-  def user_id_for email, password
-    Services::Users.user_id_for email, password
+  def user_for email, password
+    Services::Users.user_for email, password
   end
 
   def send_new_validation_code_to email

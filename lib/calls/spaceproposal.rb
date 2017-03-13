@@ -138,7 +138,7 @@ class SpaceProposal
   end
 
   def send_rejection_mail
-    receiver = {email: space[:email]}
+    receiver = Repos::Users.grab({email: space[:email]})
     payload = {organizer: event[:organizer], event_name: event[:name], title: space[:name]}
     Services::Mails.deliver_mail_to receiver, :rejected, payload
   end

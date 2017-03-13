@@ -144,7 +144,7 @@ class ArtistProposal
   end
 
   def send_rejection_mail
-    receiver = {email: artist[:email]}
+    receiver = Repos::Users.grab({email: artist[:email]})
     payload = {organizer: event[:organizer], event_name: event[:name], title: artist[:proposals].first[:title]}
     Services::Mails.deliver_mail_to receiver, :rejected, payload
   end

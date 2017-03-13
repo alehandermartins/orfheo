@@ -29,10 +29,11 @@
 
     var _register = function(email, password, event_id, callback){
       _send(
-        '/login/register_attempt',
+        '/login/register',
         {
           email: email,
           password: password,
+          lang: Pard.Options.language(),
           event_id: event_id
         },
         callback
@@ -41,7 +42,7 @@
 
     var _login = function(email, password, callback){
       _send(
-        '/login/login_attempt',
+        '/login/login',
         {
           email: email,
           password: password
@@ -73,6 +74,16 @@
         '/users/modify_password',
         {
           password: password
+        },
+        callback
+      );
+    };
+
+    var _modifyLang = function(lang, callback){
+      _send(
+        '/modify_lang',
+        {
+          lang: lang
         },
         callback
       );
@@ -448,6 +459,7 @@
       passwordRecovery: _passwordRecovery,
       logout: _logout,
       modifyPassword: _modifyPassword,
+      modifyLang: _modifyLang,
       createProfile: _createProfile,
       modifyProfile: _modifyProfile,
       sendArtistProposal: _sendArtistProposal,

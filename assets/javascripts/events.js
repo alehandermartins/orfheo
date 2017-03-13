@@ -34,8 +34,8 @@
   };
 
   ns.Events.Login = function(data){
-    console.log(data);
     if (data['status'] == 'success'){
+      Pard.Options.storeLanguage(data.lang);
       location.reload();
     }
     else {

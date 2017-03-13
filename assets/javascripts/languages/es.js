@@ -44,6 +44,7 @@
       program: 'programa',
       schedule: 'horario',
       search: 'busca',
+      send: 'envía',
       short_description: 'descripción breve',
       space: "espacio",
       spaces:'espacios',

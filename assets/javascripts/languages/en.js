@@ -44,6 +44,7 @@
       program: 'program',
       schedule: 'schedule',
       search: 'search',
+      send: 'send',
       short_description: 'short description',
       space: "space",
       spaces:'spaces',
@@ -320,8 +321,8 @@
       createOk: 'Content successfully created',
       form:{
         titleL: "Title for the artistic proposal",
-        descriptionL: 'Desripction',
-        descriptionH: 'Describe in more detail your artistic proposal.',
+        descriptionL: 'Description',
+        descriptionH: 'Describe your artistic proposal in more detail.',
         short_descriptionL:'Brief description',
         short_descriptionH:'Summarize your artistic proposal in a maximum of 80 characters. Remaining:',
         durationL: "Duration *",

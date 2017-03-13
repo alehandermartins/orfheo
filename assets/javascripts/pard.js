@@ -86,9 +86,15 @@ var Options = function(){
       return orfheoStorage.language
     },
     setLanguage: function(lang){
+      Pard.Backend.modifyLang(lang, function(){
+        orfheoStorage.language = lang
+        localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
+        location.reload()
+      })
+    },
+    storeLanguage: function(lang){
       orfheoStorage.language = lang
       localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
-      location.reload()
     },
     cookies: function(){
     	return orfheoStorage.cookies

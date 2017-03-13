@@ -1,7 +1,7 @@
 class User
 
   def initialize user
-    @user = new_user user[:email], user[:password]
+    @user = new_user user
   end
 
   def [] key
@@ -13,11 +13,12 @@ class User
   end
 
   private
-  def new_user email, password
+  def new_user user
     {
       user_id: SecureRandom.uuid,
-      email: email,
-      password: password,
+      email: user[:email],
+      password: user[:password],
+      lang: user[:lang],
       validation: false,
       validation_code: SecureRandom.uuid
     }

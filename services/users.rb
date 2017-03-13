@@ -29,11 +29,11 @@ module Services
         Repos::Users.validate code
       end
 
-      def user_id_for email, password
+      def user_for email, password
         user = Repos::Users.grab({email: email})
         raise Pard::Invalid::Password unless (user[:email].downcase == email.downcase && user[:password] == password)
         raise Pard::Invalid::Unvalidated unless user[:validation] == true
-        user[:user_id]
+        user
       end
 
       def forgotten_password email

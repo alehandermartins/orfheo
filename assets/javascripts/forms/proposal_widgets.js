@@ -105,9 +105,10 @@
         _modifyAmendButton.click(function(){
           _postData.empty();
           var _textArea = $('<textarea>').attr('rows', 4).val(proposal['amend']);
-          var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
+          var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text(Pard.t.text('dictionary.send').capitalize());
 
           _textArea.on('input', function(){$(this).removeClass('warning')});
+          
 
           _sendButton.click(function(){
             if (_textArea.val()) { 
@@ -123,7 +124,7 @@
       }
       else{
         var _textArea = $('<textarea>').attr('rows', 4);
-        var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text('Envía');
+        var _sendButton = $('<button>').attr({type: 'button'}).addClass('send-post-data-btn').text(Pard.t.text('dictionary.send').capitalize());
         _textArea.on('input', function(){$(this).removeClass('warning')});
         _sendButton.click(function(){
           if (_textArea.val()) {

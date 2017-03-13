@@ -17,6 +17,13 @@ class UsersController < BaseController
     success
   end
 
+  post '/modify_lang' do
+    scopify :lang
+    check_lang! lang
+    Repos::Users.modify({user_id: session[:identity]}, {lang: lang}) unless session[:identity].blank?
+    success
+  end
+
   post '/users/delete_user' do
     Services::Users.delete_user session[:identity]
     session.delete(:identity)

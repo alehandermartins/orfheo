@@ -28,6 +28,10 @@ class BaseController < Sinatra::Base
       raise Pard::Invalid.new 'invalid_password' if invalid_password? password
     end
 
+    def check_lang! lang
+      raise Pard::Invalid.new 'invalid_language' unless ['en', 'es'].include? lang
+    end
+
     def check_profile_ownership profile_id
       raise Pard::Invalid::UnexistingProfile unless Repos::Profiles.exists? profile_id
       raise Pard::Invalid::ProfileOwnership unless Repos::Profiles.get_profile_owner(profile_id) == session[:identity]
