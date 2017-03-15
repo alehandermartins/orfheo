@@ -259,7 +259,7 @@
 
 
   ns.Widgets.AvailabilityDictionary = function(day){ 
-    var _date = moment(new Date(day)).locale(Pard.UserInfo['lang']).format('dddd D MMMM');
+    var _date = moment(new Date(day)).locale(Pard.Options.language()).format('dddd D MMMM');
     var _dateCapitalized = '';
     _date.split(' ').forEach(function(word){
       _dateCapitalized = _dateCapitalized + word.charAt(0).toUpperCase() + word.slice(1) + ' ';

@@ -85,7 +85,7 @@
           var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
           _timeCol.append(moment(performance.date).locale(Pard.Options.language()).format('dddd').toUpperCase());
-          _titleCol.append(moment(performance.date).locale('es').format('DD-MM-YYYY'));
+          _titleCol.append(moment(performance.date).locale(Pard.Options.language()).format('DD-MM-YYYY'));
           _nameCol.html('');
           _addressCol.html('');
           _phoneCol.html('');

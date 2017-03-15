@@ -52,17 +52,17 @@
     var _closing = new Date(parseInt(_eventInfo.deadline));
     var _now = new Date();
     if(_now.getTime()<_opening.getTime()){
-      _callText.append($('<p>').html(Pard.t.text('event_page.infoTab.callOpening')+moment(_opening).locale(Pard.UserInfo['lang']).format('dddd DD MMMM')));
+      _callText.append($('<p>').html(Pard.t.text('event_page.infoTab.callOpening')+moment(_opening).locale(Pard.Options.language()).format('dddd DD MMMM')));
     }
     else if(_opening.getTime()<_now.getTime()&& _now.getTime()<_closing.getTime()){
       var _callopened = $('<a>').text(Pard.t.text('event_page.infoTab.callOpened'));
       _callopened.click(function(){
           $('#callToActio-eventHeader').trigger('click');
       });
-      _callText.append($('<p>').append(_callopened,Pard.t.text('event_page.infoTab.till'),moment(_closing).locale(Pard.UserInfo['lang']).format('dddd DD/MM') ));
+      _callText.append($('<p>').append(_callopened,Pard.t.text('event_page.infoTab.till'),moment(_closing).locale(Pard.Options.language()).format('dddd DD/MM') ));
     }
     else if(_now.getTime()>_closing.getTime()){
-      _callText.append($('<p>').html(Pard.t.text('event_page.infoTab.callClosed')+ moment(_closing).locale(Pard.UserInfo['lang']).format('DD MMM YYYY')+')' ));
+      _callText.append($('<p>').html(Pard.t.text('event_page.infoTab.callClosed')+ moment(_closing).locale(Pard.Options.language()).format('DD MMM YYYY')+')' ));
     }
     var _callStatus = $('<div>').append(_callIcon, _callText).addClass('element-headerTitle-infoTab-event');
 
@@ -135,10 +135,10 @@
           }
           else{
             var _dateCont = $('<div>').addClass('single-date-container-event-page');
-            var _dayCont = $('<div>').append(moment(day).locale(Pard.UserInfo['lang']).format('D MMM YYYY')).addClass('date-calendar-box');
+            var _dayCont = $('<div>').append(moment(day).locale(Pard.Options.language()).format('D MMM YYYY')).addClass('date-calendar-box');
             var _daydateI = new Date(parseInt(_eventInfo.eventTime[day][0]));
             var _daydateF = new Date(parseInt(_eventInfo.eventTime[day][1]));
-            var _timeCont = $('<div>').append($('<p>').text(moment(_daydateI).locale(Pard.UserInfo['lang']).format('HH:mm')+' -'),$('<p>').text('- '+moment(_daydateF).locale(Pard.UserInfo['lang']).format('HH:mm')+' h')).addClass('time-calendar-box');
+            var _timeCont = $('<div>').append($('<p>').text(moment(_daydateI).locale(Pard.Options.language()).format('HH:mm')+' -'),$('<p>').text('- '+moment(_daydateF).locale(Pard.Options.language()).format('HH:mm')+' h')).addClass('time-calendar-box');
             _dateCont.append(_dayCont,_timeCont);
             _timeContent.append(_dateCont);
           }

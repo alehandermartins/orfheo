@@ -167,11 +167,11 @@
     var _showBlock;
 
     Pard.Widgets.ReorderProgramCrono(program.shows).forEach(function(performance){
-      if (!(_day) || _day != moment(performance.time[0], 'x').locale(Pard.UserInfo['lang']).format('dddd DD MMMM')) {
+      if (!(_day) || _day != moment(performance.time[0], 'x').locale(Pard.Options.language()).format('dddd DD MMMM')) {
         _dayBlock = $('<div>');
         _showBlock = $('<div>');
         _permanentBlock = $('<div>');
-        _day = moment(performance.time[0], 'x').locale(Pard.UserInfo['lang']).format('dddd DD MMMM');
+        _day = moment(performance.time[0], 'x').locale(Pard.Options.language()).format('dddd DD MMMM');
         var _dayTitle = $('<h6>').append(_day).addClass('title-day-profile-programCard').css({'text-transform': 'capitalize'});
         _dayBlock.append(_dayTitle);
         _dayBlock.append(_showBlock,_permanentBlock)
@@ -183,47 +183,6 @@
     _programBoxContainer.append(_programContent);
 
     return _programBoxContainer;
-
-      // VERSION WITH PERMANENT BLOCK SEPARETED
-     // var _programBoxContainer = Pard.Widgets.SectionBoxContainer('Programación Benimaclet conFusión festival 2016', Pard.Widgets.IconManager('information').render().addClass('info-icon-title-box')).render();
-     //  var _programContent = $('<div>').addClass('box-content');
-     //  var _day;
-     //  var _permanetDay;
-     //  var _showBlock = $('<div>');
-     //  var _permanentBlock = $('<div>');
-     //  var _permanentObj = {};
-     //  var _permanentByDay = {};
-     //  Pard.Widgets.ReorderProgramCrono(profile.program).forEach(function(performance){
-     //    if( performance.permanent == 'false'){
-     //      if (!(_day) || _day != moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM')) {
-     //        _day = moment(performance.time[0], 'x').locale('es').format('dddd DD MMMM');
-     //        var _dayTitle = $('<h6>').append(_day).addClass('title-day-profile-programCard').css({'text-transform': 'capitalize'});
-     //        _showBlock.append(_dayTitle);
-     //      }
-     //      _showBlock.append(Pard.Widgets.ProgramCardProfile(performance, type).render());
-     //    }
-     //    else if (performance.permanent == 'true'){
-     //      if (_permanentObj[performance.participant_proposal_id]) _permanentObj[performance.participant_proposal_id].push(performance);
-     //      else _permanentObj[performance.participant_proposal_id] = [performance];
-     //    }
-     //  });
-     //  for (var proposal in _permanentObj){
-     //    var _days = '';
-     //    _permanentObj[proposal].forEach(function(expo, index){
-     //      if (index == _permanentObj[proposal].length -1 ) _days = _days +'y '+ moment(expo.time[0], 'x').locale('es').format('dddd DD MMMM');
-     //      else _days = _days + moment(expo.time[0], 'x').locale('es').format('dddd DD')+' ' ;
-     //    })
-     //    if (_permanentByDay[_days])  _permanentByDay[_days].push(_permanentObj[proposal][0])
-     //    else _permanentByDay[_days] = [(_permanentObj[proposal][0])];
-     //  }
-     //  for (var days in _permanentByDay){
-     //    _permanentBlock.append($('<h6>').append('Permanentes ', days).addClass('title-day-profile-programCard'));
-     //    _permanentByDay[days].forEach(function(permanentShow){
-     //      _permanentBlock.append(Pard.Widgets.ProgramCardProfile(permanentShow).render());
-     //    })
-     //  }
-     //  _programContent.append(_showBlock,_permanentBlock);
-     //  _programBoxContainer.append(_programContent);
 
   }
 
@@ -241,7 +200,7 @@
         else _permanentShows[show.participant_proposal_id] = [show];
       }
       else if (index < 1 || show.participant_proposal_id != participation.shows[index-1].participant_proposal_id || show.date != participation.shows[index-1].date){
-        var _date = moment(new Date(show.date)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
+        var _date = moment(new Date(show.date)).locale(Pard.Options.language()).format('DD MMMM YYYY');
         var _day = $('<span>').text(_date+':');
         var _title = $('<span>').text(show.title).addClass('title-pastEventBlock');
         var _category = Pard.Widgets.IconManager(show.participant_category).render().addClass('iconCat-pastEventBlock');
@@ -258,10 +217,10 @@
         var _host;
         if (show.host_id.indexOf('own') >-1) _host = $('<span>').text(show.host_name).css('text-decoration','underline');
         else _host = $('<a>').attr('href','/profile?id='+show.host_id).text(show.host_name);
-        var _init_date = moment(new Date(_showArray[0].date)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
+        var _init_date = moment(new Date(_showArray[0].date)).locale(Pard.Options.language()).format('DD MMMM YYYY');
         var _day = $('<span>').append(_init_date);
         if (_showArray.length>1) {
-          var _final_date = moment(new Date(_showArray[_showArray.length -1].date)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
+          var _final_date = moment(new Date(_showArray[_showArray.length -1].date)).locale(Pard.Options.language()).format('DD MMMM YYYY');
           _day.text(_init_date+' - '+_final_date+':');
         }
         else{
@@ -301,7 +260,7 @@
     if (!($.isEmptyObject(_artistByDay))){
       for (var day in _artistByDay){
         var _artists = $('<span>').append(Pard.Widgets.IconManager('performer').render().addClass('iconProfile-pastEventBlock'));
-        var _date = moment(new Date(day)).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY');
+        var _date = moment(new Date(day)).locale(Pard.Options.language()).format('DD MMMM YYYY');
         var _day = $('<span>').text(_date+':');
         var _proposal = $('<li>').append(_day,' ',_artists).addClass('proposal-pastEventBlock');
         _eventProposals.append(_proposal);
@@ -343,8 +302,8 @@
           _participantsArray.push(show.participant_id);
         }
       })
-      if (_id.getTime() == _fd.getTime()) _day.append(moment(_id).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY'),':')
-      else _day.append(moment(_id).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY'),' - ',moment(_fd).locale(Pard.UserInfo['lang']).format('DD MMMM YYYY'),':');
+      if (_id.getTime() == _fd.getTime()) _day.append(moment(_id).locale(Pard.Options.language()).format('DD MMMM YYYY'),':')
+      else _day.append(moment(_id).locale(Pard.Options.language()).format('DD MMMM YYYY'),' - ',moment(_fd).locale(Pard.Options.language()).format('DD MMMM YYYY'),':');
     }
 
     var _event = $('<div>').append(_eventName,_eventProposals);
@@ -356,7 +315,7 @@
   ns.Widgets.ProgramCardProfile = function(performance, profile_id){
 
     var _progCard = $('<div>').addClass('program-card-container-profile');
-    var _time = $('<div>').append(moment(performance.time[0], 'x').locale(Pard.UserInfo['lang']).format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm')).css('text-transform','capitalize');
+    var _time = $('<div>').append(moment(performance.time[0], 'x').locale(Pard.Options.language()).format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm')).css('text-transform','capitalize');
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
     var _orderNum = performance.order +1;
 

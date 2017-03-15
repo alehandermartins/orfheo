@@ -310,8 +310,8 @@
 
     eventDates.forEach(function(day){
       var _dayText = '';
-      if ($(window).width()>640) _dayText = moment(day).locale(Pard.UserInfo['lang']).format('dddd, DD-MMM-YYYY');
-      else _dayText = moment(day).locale(Pard.UserInfo['lang']).format(' DD-MMM-YYYY');
+      if ($(window).width()>640) _dayText = moment(day).locale(Pard.Options.language()).format('dddd, DD-MMM-YYYY');
+      else _dayText = moment(day).locale(Pard.Options.language()).format(' DD-MMM-YYYY');
 
       var _date = $('<option>').val(day).text(_dayText);
       _daySelector.append(_date);
@@ -341,10 +341,10 @@
         if($.inArray(_day, eventDates) < 0){
           _daySelector.empty();
           _daySelector.append(_allDates);
-          extraDate = $('<option>').val(_day).text(moment(_day).locale(Pard.UserInfo['lang']).format('DD-MMM-YYYY'));
+          extraDate = $('<option>').val(_day).text(moment(_day).locale(Pard.Options.language()).format('DD-MMM-YYYY'));
           _daySelector.append(extraDate);
           eventDates.forEach(function(day){
-            var _dateOption = $('<option>').val(day).text(moment(day).locale(Pard.UserInfo['lang']).format('DD-MMM-YYYY'));
+            var _dateOption = $('<option>').val(day).text(moment(day).locale(Pard.Options.language()).format('DD-MMM-YYYY'));
             _daySelector.append(_dateOption);
           });
         }
@@ -638,7 +638,6 @@
       if($.inArray(_firstDate, eventDates) >= 0){
         _daySelector.val(_firstDate);
         _daySelector.trigger('change');
-        //_daySelector.text(moment(new Date()).locale('es').format(' DD-MMM-YYYY'));
       }
       // ATT!! do not change this part! It is necessary so that searchWidgets (imputText, day selector, order selector) works in mobile phone quickly - This part reproduce the action of opening and closing filters popup
       if ($(window).width() < 640 ) {

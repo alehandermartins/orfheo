@@ -404,9 +404,9 @@
     var _arrayDays = [];
     millisecValues.forEach(function(value){
       var _newDate = new Date(parseInt(value));
-      var _day = moment(_newDate).locale(Pard.UserInfo['lang']).format('dddd DD/MM/YYYY');
+      var _day = moment(_newDate).locale(Pard.Options.language()).format('dddd DD/MM/YYYY');
       _select.append($('<option>').text(_day).val(value));
-      _arrayDays.push(moment(_newDate).locale(Pard.UserInfo['lang']).format('YYYY-MM-DD'));
+      _arrayDays.push(moment(_newDate).locale(Pard.Options.language()).format('YYYY-MM-DD'));
     });
     _createdWidget.append(_select);
     _select.on('change',function(){
@@ -430,7 +430,7 @@
         if(_select.val()) {
           var _daysArray = [];
           _select.val().forEach(function(val){
-            _daysArray.push(moment(new Date(parseInt(val))).locale(Pard.UserInfo['lang']).format('YYYY-MM-DD'));
+            _daysArray.push(moment(new Date(parseInt(val))).locale(Pard.Options.language()).format('YYYY-MM-DD'));
           });
           return _daysArray;
         }
