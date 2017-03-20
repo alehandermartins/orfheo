@@ -7,6 +7,42 @@ describe Repos::Calls do
     {
       user_id: user_id,
       call_id: call_id,
+      texts: {
+        en: {
+          form_categories:{
+            "1" => 'music_form',
+            "3" => 'arts_form'
+          },
+          blocks: {
+            "1" => 'first_block',
+            "2" => 'second_block',
+            "3" => 'third_block'
+          }
+        },
+        es: {
+          form_categories:{
+            "1" => 'formulario_musica',
+            "3" => 'formulario_artes'
+          },
+          blocks: {
+            "1" => 'primer_block',
+            "2" => 'segundo_block',
+            "3" => 'tercer_block'
+          }
+        } 
+      },
+      forms: {
+        artist: {
+          "1" => {
+            categories: 'music',
+            blocks: ["1","2"]
+          },
+          "3" => {
+            categories: 'arts',
+            blocks: ["3"]
+          }
+        }
+      }
     }
   }
 
@@ -24,7 +60,7 @@ describe Repos::Calls do
   describe 'Get forms' do
 
     it 'returns the specified calls' do
-      expect(Repos::Calls.get_forms call_id).to eq(call)
+      expect(Repos::Calls.get_forms call_id, :es).to eq(call)
     end
   end
 end

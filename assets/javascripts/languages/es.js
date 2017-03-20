@@ -102,7 +102,7 @@
       },
       termsAndConditions:{
         title: 'Condiciones generales',
-        date:'Última actualización: 1 de Mayo 2016',
+        date:'Última actualización: Febrero 2017',
         part1:'<p> <strong>Te damos la bienvenida!</strong></p><p> <strong>Orfheo se basa en un principio potente: podemos hacer más cosas juntos que por separado.</strong></p><p>Son las personas como tú las que hacen posible que este lugar no solo exista, sino que también crezca y prospere. </br> Estas condiciones generales de uso explican el servicio y la relación entre los usuarios, los derechos y las responsabilidades recíprocas. </br> <strong> Ser parte de orfheo es gratuito </strong> y al hacerlo estás aceptando estas condiciones generales.</p>',
         subtitle2: 'Principios generales:',
         mex2: '<p>Orfheo no tiene normas firmes más allá de los principios generales enunciados aquí: <ul><li>Respeta a los ciudadanos de orfheo incluso cuando no estés de acuerdo con ellos. </li> <li> Comparte contenidos civilizadamente, evita los ataques personales y las generalizaciones asi como la publicación de enlaces o textos que puedan ser en sus contenidos ofensivos para la comunidad, racistas, sexistas, homófobos o que incitan a la violencia de cualquier tipo. </li> <li>  Actúa con buena fe, se abierto, acogedor e inclusivo.  </li> <li> Si no respetaras estos principios nos pondremos en contacto contigo para que nos puedas dar una explicación y juntos poder encontrar una solución. </li> </ul></p>',
@@ -744,6 +744,47 @@
         permanents: 'Permanentes a lo largo del día',
         noResults:'Ningún resultado para esta fecha'  
       }
+    },
+    services: {
+      mex: 'Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br> y gestiona todos tus datos con una nueva y potente herramienta.',
+      contact: 'Contáctanos',
+      section1: {
+        title: 'Expande tu evento <br>más allá de un evento',
+        mex: 'Abrir tu evento en orfheo significa alimentar y dar valor a tu comunidad más allá de un solo encuentro. Tendrás una página enteramente dedicada. Entrarás en un mundo lleno de nuevas posibilidades cuturales creadas por conexiones, un universo en expansión construido para fomentar al máximo la participación, compartir recursos y llegar a nuevos públicos...'
+      },
+      section2: {
+        title: 'Lanza con fuerza <br>tu convocatoria',
+        mex: 'Empieza bien con tu formulario personalizado, es el principio de algo grande. Cualquiera puede apuntarse fácilmente a tu convocatoria desde la página de tu evento. Pregunta todo lo quieras. Recibirás todo ya ordenado y organizado automáticamente.'
+      },
+      section3:{
+        title: 'Visualiza y gestiona <br> los datos recibidos',
+        mex: 'Visualiza, filtra y explora de forma fácil y rápida todas las propuestas recibidas. Navega entre los perfiles y selecciona los participantes. Exporta datos, listados de correo y todo lo que te haga falta con tan solo un "click". Ahorra tiempo, aprovecha la potencia de la información bien organizada, mantén todo bajo control.'
+      },
+      section4: {
+        title: 'Crea el programa,<br> nunca ha sido igual',
+        mex: 'Construir la programación de tu evento es tan fácil como arrastrar las propuestas en un tablón. Organiza junto a tu equipo y desde cualquier lugar. Todo está sincronizado en tiempo real y rápidamente modificable. Confirma, comenta y descarga el programa en tablas ordenadas.'
+      },
+      section5: {
+        title: '¿Listo? Publica el programa interactivo',
+        mex: 'Publica tu programa interactivo en la página del evento. Permite a tu público encontrar lo que quiera y navegar entre los perfiles de los participantes. Comparte el evento con un link y haz que sea un éxito.'
+      },
+      section6: {
+        title: '¡Sorprende a tu público <br> más que nunca!',
+        mex: 'Orfheo se adapta perfectamente al tamaño móvil, funcionando para ti y para tu público como la guía perfecta durante tu evento. Se pueden filtrar, ordenar y encontrar contenidos por ubicación en el mapa, por horas, por días, por tags o por categorías...o todo a la vez.'
+      },
+      api:{
+        title: 'API - Integra en tiempo real lo que quieras, donde quieras',
+        mex: 'El servicio API permite recibir y utilizar los datos relativos a tus eventos y convocatorias en todas tus aplicaciones. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en tu web y app para móviles. Podrás disponer de toda tu información siempre actualizada, dónde y cuándo tú quieras.'
+      },
+      counseling: {
+        title: 'Servicio de Asesoría Creativa para tu proyecto',
+        mex: 'Podrás disfrutar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr lo máximo de tu proyecto.'
+      },
+      price: {
+        title: 'El precio no es un límite',
+        mex: 'Mediante lo que haces, estás ayudando a construir algo realmente importante,<br>no solamente un gran proyecto, sino también una vibrante comunidad enfocada a una muy noble meta.<br> Queremos que siempre puedas hacerlo, y como tú, todos.'
+      },
+      endMex: 'Creemos en universos de creatividad, inclusivos, estimulantes, innovadores, tecnológicos, de integración social y de unión. Creemos en una nueva era, donde el centro sea compartir. Creemos en la interacción y la participación de las personas. Necesitamos acciones colectivas y verdaderos motores para crear una realidad cultural más humana, accesible y cercana. Necesitamos potenciar proyectos, trabajar en red y crecer en comunidad. Soñamos con construir nuevos horizontes sin barreras, un lugar en constante expansión que permita el fácil intercambio de experiencias e información. Hagámoslo posible juntos... ahora...'
     },
     browserTests:{
       version: 'Se ha detectado que estás utilizando una versión de %{browser} con la cual orfheo no ha sido testado. No se excluyen problemas de incompatibilidad. </br>Para una mejor experiencia, se recomienda utilizar una versión reciente de Google Chrome o en alternativa de Mozilla Firefox.',

@@ -102,7 +102,7 @@
       },
       termsAndConditions:{
         title: "General conditions",
-        date:"Last update: 2016 May 1",
+        date:"Last updated: February 2017",
         part1:'<p> <strong>Welcome!</strong></p><p> <strong>Orfheo is based on a powerful principle: we can do more things together than separately.</strong></p><p>It is people like you who make it possible for this place not only to exist, but also to grow and thrive.</br>These general conditions explain the service and the relationship between users, rights and reciprocal responsibilities.</br> <strong>Being part of orfheo is free</strong> and by doing so you are accepting these general conditions.</p>',
         subtitle2: "General principles:",
         mex2: "<p>Orfheo has no firm norms beyond the general principles enunciated here:<ul><li>Respect the orfheo citizens even when you disagree with them.</li> <li>Share contents civilly, avoid personal attacks and generalizations as well as the publication of links or texts that may be offensive for the community, racist, sexist, homophobic or incite violence of any kind.</li> <li>Act in good faith, be open, welcoming and inclusive.</li> <li>If you do not respect these principles we will contact you so you can give us an explanation. Together we will find a solution.</li> </ul></p>",
@@ -122,7 +122,7 @@
         subtitle6: 'Updates:',
         mex6: 'We reserve the right to modify, if necessary, the general conditions and adapt them to future developments. We assume the duty and the commitment to inform of the changes to all citizens of orfheo, so that they can know the updates in advance.',
         subtitle7: '¡Thanks a lot!',
-        finalMex: '<p> If you have questions or suggestions, please send an email to <a href="mailto:info@orfheo.org"> info@orfheo.org </a>. </ P> <p> Thanks for reading until here. We hope you enjoy in and out of orfheo. </ Br> Your participation in creating, maintaining and improving this place is a must. </ P> <p> We appreciate you taking the time to read about the project, and we thank you for contributing. By what you do, you are helping to build something really important, not only a collaborative project, but also a vibrant community focused on a very noble goal.</p>'
+        finalMex: '<p> If you have questions or suggestions, please send an email to <a href="mailto:info@orfheo.org"> info@orfheo.org </a>. </ P> <p> Thanks for reading until here. We hope you enjoy in and out of orfheo. </br> Your participation in creating, maintaining and improving this place is a must. </ P> <p> We appreciate you taking the time to read about the project, and we thank you for contributing. By what you do, you are helping to build something really important, not only a collaborative project, but also a vibrant community focused on a very noble goal.</p>'
       },
       noMapLocation:{
         title: "¡Attention!",
@@ -457,12 +457,12 @@
         create: "Create a profile"
       },
       networkSection: {
-        title: 'Unite people, </ br> create through networking with your cultural community',
+        title: 'Unite people, </br> create through networking with your cultural community',
         subtitle1: 'Here and now',
         subtitle2: 'Take control',
         subtitle3: 'Do it',
-        section1: 'Discover projects and let yourself be known </ br> for what you do',
-        section2: 'Involve the community, </ br> launch your call',
+        section1: 'Discover projects and let yourself be known </br> for what you do',
+        section2: 'Involve the community, </br> launch your call',
         section3: 'Create unforgettable experiences together',
         link: 'Explore the advantages of launching your call in orfheo'
       },
@@ -477,7 +477,7 @@
         subtitle2: 'Creative consultancy',
         subtitle3: 'API connection',
         section1: 'Create an event,</br> launch a call, </br>use the powerful management tool </br>and publish an interactive program',
-        section2: 'Make the best out of your project, </ br> feed your community </ br> and explore new creative strategies during the process',
+        section2: 'Make the best out of your project, </br> feed your community </br> and explore new creative strategies during the process',
         section3: 'Forward all your event data to your web page or mobile application, using it as it suits you and keeping everything updated',
         link: 'Discover more'
       }
@@ -679,7 +679,7 @@
     profile_page:{
       aside:{
         yourOther: 'your other profiles',
-        other:'Other profiles form same user',
+        other:'Other profiles from same user',
         portfolio:'Portfolio'
       },
       artistBio: 'Biografy',
@@ -743,8 +743,49 @@
         noResults:'No results'
       }
     },
+    services: {
+      mex: 'Unite people, create a network with your cultural community and connect with others. <br> Launch the call of your artistic-cultural event through orfheo and <br> manage all your data with a new and powerful tool.',
+      contact: 'Contact us',
+      section1: {
+        title: 'Expand your event <br>beyond an event',
+        mex: 'Opening your event in orfheo means feeding and giving value to your community beyond a single encounter. You will have an entirely dedicated page. You will enter a world full of new cutural possibilities created by connections, an expanding universe built to maximize participation, share resources and reach new audiences...'
+      },
+      section2: {
+        title: 'Throw your call<br> loudly',
+        mex: "Get ready for the beginning of something great. Start with your customized form. Anyone can easily sign up in your call from your event page. Ask anything you want. You will receive everything sorted and organized."
+      },
+      section3:{
+        title: 'View and manage<br> the received data',
+        mex: 'View, filter and explore all received proposals. Navigate between profiles and select participants. Export data, mailing lists and everything you need with just a "click". Save time, harness the power of well-organized information, keep everything under control.'
+      },
+      section4: {
+        title: 'Create a program, <br> never been the same',
+        mex: 'Building the program of your event is as easy as dragging the proposals on a board. Organize side by side with your team and from anywhere. Everything is synchronized in real time and quickly modifiable. Confirm, comment and download the program in ordered tables.'
+      },
+      section5: {
+        title: 'Ready? Publish the interactive program',
+        mex: 'Publish your interactive program on the event page. It allows your audience to find what they want and navigate between the profiles of the participants. Share the event with a link and make it a success.'
+      },
+      section6: {
+        title: 'Surprise your audience more than ever!',
+        mex: 'Orfheo fits perfectly in mobile size, working for you and your audience as the perfect guide during your event. You can filter, sort and find content by location on the map, by hours, by days, by tags or by categories... or by all at once.'
+      },
+      api:{
+        title: 'API - Integrate in real time what you want, wherever you want',
+        mex: 'The API service allows you to receive your events related data in all your applications. Any changes you make in orfheo will update your web and mobile app automatically. You will be able to have all your information always updated, where and when you want.'
+      },
+      counseling: {
+        title: 'Creative Counseling Service for your project',
+        mex: 'You will be able to enjoy constant monitoring throughout the process of preparation of your event and discover new creative strategies focused on getting the most out of your project.'
+      },
+      price: {
+        title: 'Price is not a limit',
+        mex: 'Through what you do, you are helping to build something really important, not only a great project, but also a vibrant community focused on a very noble goal. We want you to always be able to do it, and like you, everyone.'
+      },
+      endMex: "We believe in universes full of creativity, inclusiveness, stimulation, innovation, technology, social integration and union. We believe in a new era, where sharing is the motion force. We believe in the interaction and participation of people. We need collective actions and real engines to create a more human, accessible and close cultural reality. We need to empower projects, network and grow in community. We dream of building new horizons without barriers, a place in constant expansion that allows the easy exchange of experiences and information. Let's make it possible together... now..."
+    },
     browserTests:{
-      version: 'It has been detected that you are using a version of% {browser} with which orfheo has not been tested. Problems of incompatibility are not excluded. </ Br> For a better experience, we recommend using a recent version of Google Chrome or alternatively Mozilla Firefox.',
+      version: 'It has been detected that you are using a version of% {browser} with which orfheo has not been tested. Problems of incompatibility are not excluded. </br> For a better experience, we recommend using a recent version of Google Chrome or alternatively Mozilla Firefox.',
       tracking: 'All contents on this page can not be loaded correctly. It is very likely that the browser tracking function is enabled. For a better experience, it is recommended to deactivate it.'
     },
     cookiesPolicy:{
