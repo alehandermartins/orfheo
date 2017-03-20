@@ -18,7 +18,7 @@
         if (!_dayBlock[performance.date]) {
           _dayBlock[performance.date] = $('<div>');
           var _day = $('<h4>')
-            .text(moment(new Date(parseInt(performance.time))).locale(Pard.UserInfo['lang']).format('dddd D'))
+            .text(moment(new Date(parseInt(performance.time))).locale(Pard.Options.language()).format('dddd D'))
             .css({
               'textTransform':'capitalize',
               'color':'#6f6f6f'
@@ -211,14 +211,14 @@
       },
       addDay:function(performance){
         if (_time.html()) _time.append(' / ');
-        _time.append(moment(new Date(parseInt(performance.time))).locale(Pard.UserInfo['lang']).format('dddd D').capitalize()+', '+moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
+        _time.append(moment(new Date(parseInt(performance.time))).locale(Pard.Options.language()).format('dddd D').capitalize()+', '+moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
       }
     }
   }
 
   ns.Widgets.ProgramBySpaceCard = function(performance, host, size){
     var _progCard = $('<div>').addClass('programBySpace-card-container');
-    var _time = $('<span>').append(moment(new Date(parseInt(performance.time))).locale(Pard.UserInfo['lang']).format('dddd D').capitalize()+', '+moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
+    var _time = $('<span>').append(moment(new Date(parseInt(performance.time))).locale(Pard.Options.language()).format('dddd D').capitalize()+', '+moment(performance.time[0], 'x').format('HH:mm') + ' - ' + moment(performance.time[1], 'x').format('HH:mm'));
 
     var _participantCatIcon = Pard.Widgets.IconManager(performance.participant_category).render().addClass('participant-category-icon');
    

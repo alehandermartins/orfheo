@@ -38,7 +38,7 @@
           })
           .on('click', function(){
             var langs = Object.keys(proposal['texts']);
-            var lang = Pard.UserInfo['lang'];
+            var lang = Pard.Options.language();
             if($.inArray(lang, langs) < 0) lang = langs[0];
             Pard.UserInfo['texts'] = proposal['texts'][lang];
             if (!(_forms[proposal.call_id])) {

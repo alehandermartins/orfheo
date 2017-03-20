@@ -975,7 +975,7 @@
           Object.keys(eventTime).forEach(function(day){
             if(day == 'permanent') return false;
             if($.inArray(day, dates) < 0 || day == performance.date){
-              var _textDay = moment(new Date(day)).locale('es').format('DD-MM-YYYY');
+              var _textDay = moment(new Date(day)).locale(Pard.Options.language()).format('DD-MM-YYYY');
               var date = $('<option>').val(day).text(_textDay);
               daySelector.append(date);
             }
@@ -1009,8 +1009,8 @@
           var _startOptions = [];
           while(dayStart <= maxStart){
             _startOptions.push({
-              id: moment(dayStart).locale('es').format('HH:mm'), 
-              text: moment(dayStart).locale('es').format('HH:mm'),
+              id: moment(dayStart).locale(Pard.Options.language()).format('HH:mm'), 
+              text: moment(dayStart).locale(Pard.Options.language()).format('HH:mm'),
               time:  dayStart.getTime()
             })
             dayStart.setMinutes(dayStart.getMinutes() + 15);
@@ -1023,21 +1023,21 @@
               performance.time[0] = parseInt(startTime.select2('data')[0].time);
               if (performance.time[0] >= performance.time[1]) {
                 performance.time[1] = performance.time[0] + 15 * 60000;
-                endTime.val(moment(parseInt(performance.time[1])).locale('es').format('HH:mm'))
+                endTime.val(moment(parseInt(performance.time[1])).locale(Pard.Options.language()).format('HH:mm'))
                   .trigger('change');
               }
             });
 
           startTime.on('reload', function(){
             performance.time[0] = parseInt(startTime.select2('data')[0].time);
-            startTime.val(moment(performance.time[0]).locale('es').format('HH:mm')).trigger('change');
+            startTime.val(moment(performance.time[0]).locale(Pard.Options.language()).format('HH:mm')).trigger('change');
             if (performance.time[0] >= performance.time[1]) {
               performance.time[1] = performance.time[0] + 15 * 60000;
-              endTime.val(moment(parseInt(performance.time[1])).locale('es').format('HH:mm'))
+              endTime.val(moment(parseInt(performance.time[1])).locale(Pard.Options.language()).format('HH:mm'))
                 .trigger('change');
             }
           });
-          startTime.val(moment(performance.time[0]).locale('es').format('HH:mm')).trigger('change');
+          startTime.val(moment(performance.time[0]).locale(Pard.Options.language()).format('HH:mm')).trigger('change');
         }
 
         var setEndTimes = function(){
@@ -1063,21 +1063,21 @@
               performance.time[1] = parseInt(endTime.select2('data')[0].time);
               if (performance.time[1] <= performance.time[0]) {
                 performance.time[0] = performance.time[1] - 15 * 60000;
-                startTime.val(moment(parseInt(performance.time[0])).locale('es').format('HH:mm'))
+                startTime.val(moment(parseInt(performance.time[0])).locale(Pard.Options.language()).format('HH:mm'))
                   .trigger('change');
               }
             });
 
           endTime.on('reload', function(){
             performance.time[1] = parseInt(endTime.select2('data')[0].time);
-            endTime.val(moment(performance.time[1]).locale('es').format('HH:mm')).trigger('change');
+            endTime.val(moment(performance.time[1]).locale(Pard.Options.language()).format('HH:mm')).trigger('change');
             if (performance.time[1] <= performance.time[0]) {
               performance.time[0] = performance.time[1] - 15 * 60000;
-              startTime.val(moment(parseInt(performance.time[0])).locale('es').format('HH:mm'))
+              startTime.val(moment(parseInt(performance.time[0])).locale(Pard.Options.language()).format('HH:mm'))
                 .trigger('change');
             }
           });
-          endTime.val(moment(parseInt(performance.time[1])).locale('es').format('HH:mm')).trigger('change');
+          endTime.val(moment(parseInt(performance.time[1])).locale(Pard.Options.language()).format('HH:mm')).trigger('change');
         }
 
         removeInputButton.on('click', function(){

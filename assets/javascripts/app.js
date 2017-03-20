@@ -181,7 +181,7 @@ Pard.EventManager = function(event_id){
     var the_event = data.the_event;
     var forms = data.forms;
 
-    var _texts = the_event.texts[Pard.UserInfo['lang']]; 
+    var _texts = the_event.texts[Pard.Options.language()]; 
     if(!_texts) {
       _texts = the_event.texts[Object.keys(the_event.texts)[0]];
     }
@@ -215,7 +215,7 @@ Pard.Event = function(the_event, status){
   Pard.UserStatus['status'] = status;
   Pard.CachedProgram = the_event.program;
   Pard.CachedEvent = the_event;
-  var _texts = the_event.texts[Pard.UserInfo['lang']]; 
+  var _texts = the_event.texts[Pard.Options.language()]; 
   if(!_texts) {
     _texts = the_event.texts[Object.keys(the_event.texts)[0]];
   }
