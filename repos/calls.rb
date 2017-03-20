@@ -54,16 +54,20 @@ module Repos
         @@calls_collection.count(call_id: call_id) > 0
       end
 
-      def get_forms call_id, lang
-        call = grab({call_id: call_id}).first
-        call[:forms].each{ |type, forms|
-          call[:forms][type].each{ |key, form|
-            form[:blocks].each{ |block|
-              call[:texts][lang][:blocks][block]
-            }
-          }
-        }
-        ap call[:forms]
+      # def get_forms call_id, lang
+      #   call = grab({call_id: call_id}).first
+      #   call[:forms].each{ |type, forms|
+      #     call[:forms][type].each{ |key, form|
+      #       form[:blocks].each{ |block|
+      #         call[:texts][lang][:blocks][block]
+      #       }
+      #     }
+      #   }
+      #   ap call[:forms]
+      # end
+
+      def get_forms call_id
+        grab({call_id: call_id}).first
       end
 
       def categoryField categories
