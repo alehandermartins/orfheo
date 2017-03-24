@@ -7,43 +7,31 @@ module Repos
         # calls = grab({})
         # calls.each{ |call|
         #   next unless call[:forms].blank?
-        #   cont = 1
-        #   texts = {
+        #   forms = {
         #     es: {
-        #       form_categories: form_category(call[:call_id]),
-        #       blocks: {}
+        #       form_categories: form_category(call[:call_id])
+        #       artist: {},
+        #       space:{}
         #     }
         #   }
-        #   forms = {artist: {}, space:{}}
         #   call[:es][:artist].each{ |key, form|
-        #     forms[:artist][key] = {}
-        #     forms[:artist][key][:categories] = [category(key)]
-        #     array = []
+        #     forms[:es][:artist][key] = {}
+        #     forms[:es][:artist][key][:categories] = [category(key)]
+        #     forms[:es][:artist][key][:label] = {}
+        #     forms[:es][:artist][key][:blocks] = {}
         #     form.each{ |field, block|
         #       next if field == :category
-        #       block[:field] = field if field.to_s.to_i == 0
-        #       block[:field] = 'custom' unless field.to_s.to_i == 0
-        #       texts[:es][:blocks][cont] = block
-        #       array.push(cont)
-        #       cont += 1
+        #       forms[:es][:artist][key][:blocks][field] = block
         #     }
-        #     forms[:artist][key][:blocks] = array
         #   }
         #   call[:es][:space].each{ |key, form|
-        #     array = []
-        #     forms[:space][key] = {}
-        #     form.each{ |field, block|
-        #       block[:field] = field if field.to_s.to_i == 0
-        #       block[:field] = 'custom' unless field.to_s.to_i == 0
-        #       texts[:es][:blocks][cont] = block
-        #       array.push(cont)
-        #       cont += 1
+        #     forms[:es][:space][key] = {}
+        #       forms[:es][:space][field][:blocks] = block
         #     }
-        #     forms[:space][key][:blocks] = array
         #   }
         #   @@calls_collection.update_one({call_id: call[:call_id]},
         #   {
-        #     "$set": {'texts': texts, 'forms': forms},
+        #     "$set": {'forms': forms},
         #     "$unset": {'es': 1, 'categories': 1}
         #   })
         # }

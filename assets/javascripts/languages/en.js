@@ -484,7 +484,7 @@
     },
     eventsTab:{
       organizer: 'Organizer: ',
-      announcing: 'Call opens on: ',
+      announcing: 'Call opens on: %{date}',
       opened: 'Open call',
       closed: 'Closed call',
       finished: 'Finished',

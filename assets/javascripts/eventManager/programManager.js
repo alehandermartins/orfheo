@@ -21,7 +21,7 @@
     var _tableContainer = $('<div>').addClass('tableContainer table-container-call-manager');
     var _artistsList = $('<ul>').addClass('accordion').attr({'data-accordion':'', 'role': 'tablist'}).attr({'id':'artistAccordeon'});
     var _artistsListContainer =  $('<div>').addClass('artist-list-container-call-manager').css({
-      'height':(hours.length -1) * 40
+      'height':(hours.length -1) * Pard.HourHeight
     });
     _artistsListContainer.append(_artistsList);
     var _artistsBlock = $('<div>').addClass('artist-accordeon-call-manager is-active');
@@ -56,9 +56,9 @@
     hours.forEach(function(hour, hourIndex){
       if(hour < 10) hour = '0' + hour;
       var _time = $('<div>').html(hour + ':00').addClass('time-timeTable-call-manager');
-      _time.css({top: 28 + hourIndex * 40 + "px"});
+      _time.css({top: 28 + hourIndex * Pard.HourHeight + "px"});
       var _line = $('<hr>').addClass('line-timeTable-call-manager');
-      _line.css({top: 20 + hourIndex * 40 + "px"});
+      _line.css({top: 20 + hourIndex * Pard.HourHeight + "px"});
       _lines.push(_line);
       _timeTable.append(_time, _line);
     });
@@ -67,9 +67,10 @@
     Object.keys(eventTime).forEach(function(day, index){
       var _table = $('<div>').css({
         'width': '100%',
-        'height': hours.length * 40 + 2,
+        'height': (hours.length - 1) * Pard.HourHeight + 44,
         'white-space':'nowrap'
       });
+      
       var _emptyColumn = $('<div>').css({
         'display': 'inline-block',
         'width': '11rem',
@@ -362,7 +363,6 @@
         _shownSpaces.splice(index - 1, 0, _shownSpaces.splice(index, 1)[0]);
       }
     });
-    
 
     Pard.Bus.on('drag', function(performance){
       if(_artistsBlock.hasClass('is-active')){
@@ -485,7 +485,7 @@
       card.draggable({
         revert: false,
         helper: 'clone',
-        grid: [ 10, 10 ],
+        grid: [ 15, 15 ],
         start: function(event, ui){
           card.removeClass('cursor_grab').addClass('cursor_move');
           card.css({'opacity': '0.4'});
@@ -512,8 +512,8 @@
         performance.time[0] = parseInt(performance.time[0]);
         performance.time[1] = parseInt(performance.time[1]);
         //10 pixels = 15 min
-        var start = (performance.time[0] - dayStart) / 90000;
-        var end = (performance.time[1] - dayStart) / 90000;
+        var start = (performance.time[0] - dayStart) / (Pard.HourHeight * 1000);
+        var end = (performance.time[1] - dayStart) / (Pard.HourHeight * 1000);
         performance.position = start + 41;
         performance.duration = (end - start);
         performance.maxHeight = height - performance.position + 41;
@@ -543,10 +543,10 @@
             ui.size.width = ui.originalSize.width;
           },
           maxHeight: performance.maxHeight,
-          grid: 10,
+          grid: 15,
           stop: function(event, ui){
             var duration = new Date(performance.time[0]);
-            duration.setMinutes(duration.getMinutes() + ui.size.height * 1.5);
+            duration.setMinutes(duration.getMinutes() + ui.size.height);
             performance.time[1] = duration.getTime();
             Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
               Pard.Bus.trigger(data.event, data.model);

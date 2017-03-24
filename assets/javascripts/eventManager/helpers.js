@@ -6,7 +6,7 @@
 
   ns.Widgets.CardHelper = function(proposal){
     var color = Pard.Widgets.CategoryColor(proposal.category);
-    var duration = ((parseInt(proposal.duration)/60 * 40) + 2) || Pard.PermanentCardHeight;
+    var duration = ((parseInt(proposal.duration)/60 * Pard.HourHeight) + 2) || Pard.PermanentCardHeight;
     var _width = Pard.ColumnWidth;
     if(_width > 176 * 2) _width = 176 * 2; 
 

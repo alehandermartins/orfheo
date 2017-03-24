@@ -463,6 +463,8 @@
       space: Pard.t.text('dictionary.spaces').capitalize(),
       organization: Pard.t.text('dictionary.organizations').capitalize()
     }
+
+    console.log(event.target);
     var _participants = event.target.map(function(profileType){
       return _profileTypes[profileType];
     });
@@ -477,10 +479,10 @@
       _callText.append(_toEventPageBtn);
     }
     else if (_now.getTime() < parseInt(event.start)){
-      _callText.append($('<p>').text(Pard.t.text('eventsTab.announcing'),moment(parseInt(parseInt(event.start))).locale(lang).format('DD MMMM YYYY')), $('<p>').text(Pard.t.text('eventsTab.for', {participants:participants})));
+      _callText.append($('<p>').text(Pard.t.text('eventsTab.announcing', {date: moment(parseInt(parseInt(event.start))).locale(lang).format('DD MMMM YYYY')})), $('<p>').text(Pard.t.text('eventsTab.for', {participants: _participants})));
     }
     else if (_now.getTime() < parseInt(event.deadline)){
-      _callText.append($('<p>').append($('<a>').text(Pard.t.text('eventsTab.opened')).attr({'href':'/event?id='+ event.event_id}),$('<span>').text(Pard.t.text('eventsTab.for', {date: moment(parseInt(event.deadline)).locale(lang).format('DD-MM-YYYY')})),$('<p>').text(Pard.t.text('eventsTab.for', {participants:participants}))));
+      _callText.append($('<p>').append($('<a>').text(Pard.t.text('eventsTab.opened')).attr({'href':'/event?id='+ event.event_id}),$('<span>').text(Pard.t.text('eventsTab.for', {date: moment(parseInt(event.deadline)).locale(lang).format('DD-MM-YYYY')})),$('<p>').text(Pard.t.text('eventsTab.for', {participants: _participants}))));
     }
     else{
        _callText.append(Pard.t.text('eventsTab.closed'));

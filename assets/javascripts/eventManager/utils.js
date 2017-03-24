@@ -4,7 +4,8 @@
   ns.Widgets = ns.Widgets || {};  
 
   ns.ColumnWidth = 176;
-  ns.PermanentCardHeight = 42;
+  ns.HourHeight = 60;
+  ns.PermanentCardHeight = 62;
 
   String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);

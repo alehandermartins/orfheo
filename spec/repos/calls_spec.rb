@@ -52,6 +52,7 @@ describe Repos::Calls do
 
   describe 'Exists?' do
     it 'checks if matched element is already in any document' do
+      puts SecureRandom.uuid
       expect(Repos::Calls.exists? call_id).to eq(true)
       expect(Repos::Calls.exists? 'otter').to eq(false)
     end

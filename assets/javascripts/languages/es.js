@@ -485,7 +485,7 @@
     },
     eventsTab:{
       organizer: 'Organiza: ',
-      announcing: 'Apertura convocatoria: ',
+      announcing: 'Apertura convocatoria: %{date}',
       opened: 'Convocatoria abierta',
       closed: 'Convocatoria cerrada',
       finished: 'Evento terminado',

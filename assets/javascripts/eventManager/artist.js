@@ -73,7 +73,7 @@
         snap: '.spaceTime',
         snapMode: 'inner',
         snapTolerance: 5,
-        grid: [ 10, 10 ],
+        grid: [ 15, 15 ],
         cursor: 'move',
         start: function(event, ui){
           var _performance =  {

@@ -58,7 +58,7 @@
       });
 
       var _time = $('<div>').addClass('spaceTime').html('&nbsp').css({
-        'height': height
+        'height': height - 2
       });
 
       //Giving background to space if not availabe
@@ -78,9 +78,9 @@
           if(position < colPosition) position = colPosition;
 
           //Adjusting to time line
-          var _offset = (position - colPosition) % 10;
-          if(_offset >= 5) position += 10 - _offset;
-          if(_offset < 5) position -= _offset;
+          var _offset = (position - colPosition) % 15;
+          if(_offset >= 8) position += 15 - _offset;
+          if(_offset < 8) position -= _offset;
 
           //If the card is below the drop zone it adjustes to the low end
           var duration = ui.helper.height();
@@ -207,9 +207,9 @@
             _performance.permanent = 'false';
             _performance.date = day;
             var start = new Date(parseInt(dayTime[0]));
-            start.setMinutes(start.getMinutes() + (position - 41) * 1.5);
+            start.setMinutes(start.getMinutes() + (position - 41));
             var end = new Date(start.getTime());
-            end.setMinutes(start.getMinutes() + duration * 1.5);
+            end.setMinutes(start.getMinutes() + duration);
             _performance.time = [start.getTime(), end.getTime()];
             if(_performance.performance_id) return modify(_performance);
             create(_performance);
