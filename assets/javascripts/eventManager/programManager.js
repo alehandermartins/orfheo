@@ -70,7 +70,7 @@
         'height': (hours.length - 1) * Pard.HourHeight + 44,
         'white-space':'nowrap'
       });
-      
+
       var _emptyColumn = $('<div>').css({
         'display': 'inline-block',
         'width': '11rem',
@@ -619,7 +619,7 @@
             if(minutes < 10) minutes = '0' + minutes;
             var startOption = $('<option>').val(dayStart.getTime()).text(hours + ':' + minutes);
             startTime.append(startOption);
-            dayStart.setMinutes(dayStart.getMinutes() + 15);
+            dayStart.setMinutes(dayStart.getMinutes() + 5);
           };
           startTime.val(performance.time[0]).trigger('change');
         };
@@ -630,17 +630,17 @@
           var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
           var start = new Date(performance['time'][0]);
           //The minimum end is the start plus 15 minutes
-          var minEnd = new Date(start.getTime() + 15 * 60000);
+          var minEnd = new Date(start.getTime() + 5 * 60000);
 
           while(minEnd <= dayEnd){
             var hours = minEnd.getHours();
-            var minutes = minEnd.getMinutes();4
+            var minutes = minEnd.getMinutes();
             if(hours < 10) hours = '0' + hours;
             if(minutes < 10) minutes = '0' + minutes;
             var endOption = $('<option>').val(minEnd.getTime()).text(hours + ':' + minutes);
             endTime.append(endOption);
 
-            minEnd.setMinutes(minEnd.getMinutes() + 15);
+            minEnd.setMinutes(minEnd.getMinutes() + 5);
           };
           endTime.val(performance['time'][1]).trigger('change');
         };
@@ -698,7 +698,7 @@
         startTime.on('select2:select', function(){
           var oldStart = performance['time'][0];
           var newStart = parseInt(startTime.val());
-          card.css({'top': '+=' + (newStart - oldStart) / 90000});
+          card.css({'top': '+=' + (newStart - oldStart) / (Pard.HourHeight * 1000)});
           performance['time'][0] = newStart;
           performance['time'][1] = performance['time'][1] + (newStart - oldStart);
           setEndTimes();
@@ -711,7 +711,7 @@
         endTime.on('select2:select', function(){
           var oldEnd = performance['time'][1];
           var newEnd = parseInt(endTime.val());
-          card.css({'height': '+=' + (newEnd - oldEnd) / 90000});
+          card.css({'height': '+=' + (newEnd - oldEnd) / (Pard.HourHeight * 1000)});
           performance['time'][1] = newEnd;
           setStartTimes();
           Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
@@ -1005,7 +1005,7 @@
           startTimeContainer.append(startTime);
           var dayStart = new Date(parseInt(eventTime[performance.date][0]));
           var maxStart = new Date(parseInt(eventTime[performance.date][1]));
-          maxStart.setMinutes(maxStart.getMinutes() - 15);
+          maxStart.setMinutes(maxStart.getMinutes() - 5);
           var _startOptions = [];
           while(dayStart <= maxStart){
             _startOptions.push({
@@ -1013,7 +1013,7 @@
               text: moment(dayStart).locale(Pard.Options.language()).format('HH:mm'),
               time:  dayStart.getTime()
             })
-            dayStart.setMinutes(dayStart.getMinutes() + 15);
+            dayStart.setMinutes(dayStart.getMinutes() + 5);
           };
           startTime.select2({
             data: _startOptions,
@@ -1022,7 +1022,7 @@
             .on('select2:select', function(){
               performance.time[0] = parseInt(startTime.select2('data')[0].time);
               if (performance.time[0] >= performance.time[1]) {
-                performance.time[1] = performance.time[0] + 15 * 60000;
+                performance.time[1] = performance.time[0] + 5 * (Pard.HourHeight * 1000);
                 endTime.val(moment(parseInt(performance.time[1])).locale(Pard.Options.language()).format('HH:mm'))
                   .trigger('change');
               }
@@ -1032,7 +1032,7 @@
             performance.time[0] = parseInt(startTime.select2('data')[0].time);
             startTime.val(moment(performance.time[0]).locale(Pard.Options.language()).format('HH:mm')).trigger('change');
             if (performance.time[0] >= performance.time[1]) {
-              performance.time[1] = performance.time[0] + 15 * 60000;
+              performance.time[1] = performance.time[0] + 5 * (Pard.HourHeight * 1000);
               endTime.val(moment(parseInt(performance.time[1])).locale(Pard.Options.language()).format('HH:mm'))
                 .trigger('change');
             }
@@ -1045,7 +1045,7 @@
           endTime = $('<select>');
           endTimeContainer.append(endTime);
           var dayEnd = new Date(parseInt(eventTime[performance.date][1]));
-          var minEnd = new Date(parseInt(eventTime[performance.date][0] + 15 * 60000));
+          var minEnd = new Date(parseInt(eventTime[performance.date][0] + 5 * (Pard.HourHeight * 1000)));
           var _endOptions = [];
           while(minEnd <= dayEnd){
             _endOptions.push({
@@ -1053,7 +1053,7 @@
               id: moment(minEnd).locale('ese').format('HH:mm'),
               text: moment(minEnd).locale('ese').format('HH:mm')
             });
-            minEnd.setMinutes(minEnd.getMinutes() + 15);
+            minEnd.setMinutes(minEnd.getMinutes() + 5);
           };
           endTime.select2({
             data: _endOptions,
@@ -1062,7 +1062,7 @@
             .on('select2:select', function(){
               performance.time[1] = parseInt(endTime.select2('data')[0].time);
               if (performance.time[1] <= performance.time[0]) {
-                performance.time[0] = performance.time[1] - 15 * 60000;
+                performance.time[0] = performance.time[1] - 5 * (Pard.HourHeight * 1000);
                 startTime.val(moment(parseInt(performance.time[0])).locale(Pard.Options.language()).format('HH:mm'))
                   .trigger('change');
               }
@@ -1072,7 +1072,7 @@
             performance.time[1] = parseInt(endTime.select2('data')[0].time);
             endTime.val(moment(performance.time[1]).locale(Pard.Options.language()).format('HH:mm')).trigger('change');
             if (performance.time[1] <= performance.time[0]) {
-              performance.time[0] = performance.time[1] - 15 * 60000;
+              performance.time[0] = performance.time[1] - 5 * (Pard.HourHeight * 1000);
               startTime.val(moment(parseInt(performance.time[0])).locale(Pard.Options.language()).format('HH:mm'))
                 .trigger('change');
             }
