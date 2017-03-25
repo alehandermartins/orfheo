@@ -389,8 +389,7 @@
       }
     },
     call:{
-      initText:'This call is for profiles of the type ',
-      conjunction:' and ',
+      initText:'This call is for profiles of the type <strong>%{types}</strong>',
       chooseProfile: 'Sign up with an existing profile',
       newProfile: '...or create and sign up with a new one',
       createProfile:{

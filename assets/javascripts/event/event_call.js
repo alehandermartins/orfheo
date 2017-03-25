@@ -31,14 +31,11 @@
     var _call_id = event_info.call_id;
     var _createdWidget = $('<div>');
     var _closeListProfilePopup = function(){};
-    allowedProfile = ''
-    event_info.target.forEach(function(type, index){
-      if (index > 0 && index == event_info.target.length-1) allowedProfile += ' '+Pard.t.text('call.conjunction')
-      else if (index > 0) allowedProfile += ', '
-      allowedProfile += Pard.t.text('type.'+type);
+    var _allowed = event_info.target.map(function(type){
+      return Pard.t.text('dictionary.' + type)
     });
     _createdWidget.append(
-      $('<p>').append(Pard.t.text('call.initText'),$('<strong>').append(allowedProfile)),
+      $('<p>').append(Pard.t.text('call.initText', {types: _allowed.join(', ')})),
       $('<h4>').append(Pard.t.text('call.chooseProfile'))
     );
 
@@ -264,7 +261,7 @@
 
   ns.Widgets.FormManager = function(callForms, profile, closeListProfilePopup, callbackSendProposal){
     var forms = callForms[Pard.Options.language()] || callForms['es'];
-    // else Pard.Widgets.BigAlert()
+
     var _createdWidget = $('<div>');
     var _typeFormsCatArray = Pard.CachedEvent.target;
     var _translatorFC = Pard.UserInfo['texts'].form_categories;
@@ -343,34 +340,46 @@
       var _acceptedCategories = {
         'artist': Pard.CachedEvent.categories['artist']
       };
-      var _formTypeSelector = $('<select>');     
-      
+      var _formTypeSelector = $('<select>');
+
       var loadFormSelector = function(){
+        _formTypes = [];
         _contentSel.empty();
         _formTypeSelectorCont.empty();
         $('#popupForm').addClass('top-position');
         _formTypeSelector = $('<select>');
         var _emptyOption = $('<option>').text(Pard.t.text('call.form.catPlaceholder')).val('');
         _formTypeSelector.append(_emptyOption);
+        var _typeData = [];
         for (var typeForm in forms[_type]){
           _formTypes.push(typeForm);
-          _formTypeSelector.append($('<option>').text(_translatorFC[_type][typeForm]).val(typeForm));
+          var _icon;
+          if(_type == 'artist') _icon = forms[_type][typeForm].category.args;
+          _typeData.push({
+            id: typeForm,
+            icon: _icon,
+            text: _translatorFC[_type][typeForm]
+          });
+        };
+        if(_formTypes.length == 1) _printForm(_formTypes[0]);
+        else{
           _formTypeSelectorCont.append(_formTypeSelector);
           _formTypeSelector.select2({
             minimumResultsForSearch: Infinity,
-            dropdownCssClass: 'orfheoTypeFormSelector',
+            data: _typeData,
+            templateResult: Pard.Widgets.FormatResource,
             placeholder: Pard.t.text('call.form.catPlaceholder')
           });
-        };
-        _formTypeSelector.on('change',function(){
-          if (_formTypeSelector.val()){
-            $('.xbtn-production-event-page').remove();
-            $('#popupForm').removeClass('top-position');
-            $('.content-form-selected').removeClass('content-form-selected');
-            _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-            _printForm(_formTypeSelector);
-          }
-        });
+          _formTypeSelector.on('change',function(){
+            if (_formTypeSelector.val()){
+              $('.xbtn-production-event-page').remove();
+              $('#popupForm').removeClass('top-position');
+              $('.content-form-selected').removeClass('content-form-selected');
+              _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+              _printForm(_formTypeSelector.val());
+            }
+          });
+        }
         showProductions();
       }
 
@@ -497,7 +506,7 @@
                           $('#popupForm').removeClass('top-position');
                           _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
                           if (_t2) _t2.show();
-                          _printForm(_formTypeSelector, production, _production_id);
+                          _printForm(_formTypeSelector.val(), production, _production_id);
                         }
                       });
                   }
@@ -515,7 +524,7 @@
                     }
                     _formTypeSelector.hide();
                     _formTypeOptionsSelector.on('change', function(){
-                      _printForm(_formTypeOptionsSelector, production);
+                      _printForm(_formTypeOptionsSelector.val(), production);
                     });
                     _formTypeOptionsCont.append(_formTypeOptionsSelector);
                     _formTypeOptionsSelector.select2({
@@ -534,11 +543,10 @@
         }
       }
 
-      var _printForm = function(formTypeSelector, production, production_id){
+      var _printForm = function(_typeFormSelected, production, production_id){
         _contentSel.empty();
         if (production_id) _production_id = production_id;
         else _production_id = false;
-        var _typeFormSelected = formTypeSelector.val();
         var _form = _formTypeConstructor(_type, forms[_type][_typeFormSelected], profile, _typeFormSelected, _production_id, callbackSendProposal);
         _form.setCallback(function(){
           _closepopup();
@@ -547,14 +555,6 @@
         _contentSel.append(_form.render());
       };
 
-      if (profile.category){
-        var _profileCategory = Pard.t.text('categories.' + profile.category);
-        if ($.inArray(_profileCategory, _formTypes)>-1){
-          _formTypeSelector.val(_profileCategory);
-          _formTypeSelector.trigger('change');
-          _formTypeSelector.attr('disabled',true);
-        }
-      }
       _createdWidget.append(_initialMex)
       if (profile.type == 'organization' || profile.type == 'space') {
         _createdWidget.append(_chooseType)

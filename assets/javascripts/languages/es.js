@@ -10,7 +10,7 @@
       amend: 'enmienda',
       artist: "artista",
       artists: "artistas",
-      audience: 'audience',
+      audience: 'audiencia',
       audios: 'audios',
       availability: 'disponibilidad',
       cache: 'caché',
@@ -390,8 +390,7 @@
       }
     },
     call:{
-      initText:'Esta convocatoria es para perfiles de tipo ',
-      conjunction:' y ',
+      initText:'Esta convocatoria es para perfiles de tipo <strong>%{types}</strong>',
       chooseProfile: 'Inscribe un perfil existente',
       newProfile: '...o crea e inscribe uno nuevo',
       createProfile:{
