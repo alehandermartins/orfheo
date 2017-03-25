@@ -79,8 +79,12 @@
 
           //Adjusting to time line
           var _offset = (position - colPosition) % 15;
+          console.log(position);
+          console.log(colPosition);
+          console.log(_offset);
           if(_offset >= 8) position += 15 - _offset;
           if(_offset < 8) position -= _offset;
+          console.log(position);
 
           //If the card is below the drop zone it adjustes to the low end
           var duration = ui.helper.height();
@@ -207,7 +211,7 @@
             _performance.permanent = 'false';
             _performance.date = day;
             var start = new Date(parseInt(dayTime[0]));
-            start.setMinutes(start.getMinutes() + (position - 41));
+            start.setMinutes(start.getMinutes() + (position - colPosition));
             var end = new Date(start.getTime());
             end.setMinutes(start.getMinutes() + duration);
             _performance.time = [start.getTime(), end.getTime()];
