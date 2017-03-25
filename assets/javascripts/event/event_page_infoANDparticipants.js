@@ -12,23 +12,23 @@
     var _opening = new Date(parseInt(Pard.CachedEvent.start));
     var _closing = new Date(parseInt(Pard.CachedEvent.deadline));
     var _now = new Date();
-    if((_opening.getTime()<_now.getTime() && _now.getTime()<_closing.getTime()) || Pard.UserStatus['status']=='owner' || Pard.CachedEvent.whitelisted){
-    var _callToAction = $('<button>').attr({'type':'button', 'id':'callToActio-eventHeader'}).html(Pard.t.text('event_page.infoTab.signupCall')).addClass('signUp-button-welcome-section button-event-header');
-    _callToAction.on('click',function(){
-      if (Pard.UserStatus['status'] == 'outsider'){
-        var _loginPopup = Pard.Widgets.Popup();
-        var _loginMex = Pard.Widgets.LoginEvent(Pard.CachedEvent.event_id);
-        _loginMex.setCallback(function(){_loginPopup.close();});
-        _loginPopup.setContent(Pard.t.text('login.eventPage.loginTitle'), _loginMex.render());
-        _loginPopup.open();
-      }
-      else{
-       Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, _callToAction).render);
-      }
-    });
-    var _btnContainer = $('<div>').append(_callToAction).addClass('btn-container-header-event');
-    var _titleContainer = $('<div>').append(_title).addClass('title-container-header-event');
-    _createdWidget.append(_titleContainer, _btnContainer);
+    if(Pard.CachedEvent.call_id && ((_opening.getTime()<_now.getTime() && _now.getTime()<_closing.getTime()) || Pard.UserStatus['status']=='owner' || Pard.CachedEvent.whitelisted)){
+      var _callToAction = $('<button>').attr({'type':'button', 'id':'callToActio-eventHeader'}).html(Pard.t.text('event_page.infoTab.signupCall')).addClass('signUp-button-welcome-section button-event-header');
+      _callToAction.on('click',function(){
+        if (Pard.UserStatus['status'] == 'outsider'){
+          var _loginPopup = Pard.Widgets.Popup();
+          var _loginMex = Pard.Widgets.LoginEvent(Pard.CachedEvent.event_id);
+          _loginMex.setCallback(function(){_loginPopup.close();});
+          _loginPopup.setContent(Pard.t.text('login.eventPage.loginTitle'), _loginMex.render());
+          _loginPopup.open();
+        }
+        else{
+         Pard.Backend.listProfiles(Pard.Widgets.ListProfiles(Pard.CachedEvent, _callToAction).render);
+        }
+      });
+      var _btnContainer = $('<div>').append(_callToAction).addClass('btn-container-header-event');
+      var _titleContainer = $('<div>').append(_title).addClass('title-container-header-event');
+      _createdWidget.append(_titleContainer, _btnContainer);
     }
     else{
       _createdWidget.append(_title);

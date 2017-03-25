@@ -503,7 +503,7 @@
       });
     _card.append(_triangle);
     
-    if (owner){
+    if (owner && event.call_id){
       var _callIcon = Pard.Widgets.IconManager('open_call').render().addClass('callIcon');
       var _toolIcon = Pard.Widgets.IconManager('tools').render().addClass('toolsIcon');  
       var _manageCallIcon = $('<div>').append(_callIcon, _toolIcon).addClass('manageCallIcon').attr('title','Manager del evento');

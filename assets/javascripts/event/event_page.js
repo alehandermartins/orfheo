@@ -5,7 +5,6 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.EventAside = function(sectionContainer) {
-    console.log(Pard.CachedEvent);
     var _createdWidget = $('<div>').addClass('aside-container event-page-aside');
     var _buttonContainer = $('<div>').addClass('create-profile-container');
 
@@ -114,8 +113,8 @@
 
     _createdWidget.append(_buttonContainer);
 
-    if (Pard.UserStatus['status'] == 'owner'){
-      var _toCallPageBtn = $('<a>').attr('href','/event_manager?id='+Pard.CachedEvent.event_id).text(Pard.t.text('event_page.eventAside.managerbtn'));
+    if (Pard.UserStatus['status'] == 'owner' && Pard.CachedEvent.call_id){
+      var _toCallPageBtn = $('<a>').attr('href','/event_manager?id=' + Pard.CachedEvent.event_id).text(Pard.t.text('event_page.eventAside.managerbtn'));
       _toCallPageBtn.addClass('navigation-btn-callPage');
       var _toCallPageBtnContainer = $('<div>').addClass('navigation-outside-event-page');
       var _innerContNav =  $('<div>').addClass('navigation-innerCont-event-page');
