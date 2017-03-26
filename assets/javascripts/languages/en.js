@@ -144,6 +144,17 @@
         max4: "Four images maximum.",
         acceptedFormat: "Accepted formats: .gif, .jpeg, .jpg, .png"
       },
+      uploadPDF:{
+        btn: 'Upload a document',
+        tooBigError: 'Document size can not exceed 1Mb. You can reduce it in a moment using, among many others <a href = "http://optimizilla.com/en/"  target="_blank">this web</a>.',
+        max1:'One document maximum.',
+        acceptedFormat: 'Accepted formats:: .pdf'
+      },
+      availability:{
+        placeholder: "Select one or more options",
+        selectAllText: "Select all",
+        allSelected: "Available every day"
+      },
       inputName:{
         unavailable: "This profile name already exists. Choose another in order to proceed."
       },

@@ -424,6 +424,7 @@
 
             _container.append(_img, _icon);
             thumbnail.append(_container);
+            _fakeButton.removeClass('warning');
           }
         }
       }
@@ -434,7 +435,6 @@
       _photo.click();
     });
 
-    // _fakeButton.css('margin-bottom', '15px');
 
     return {
       render: function(){
@@ -453,6 +453,12 @@
       },
       dataLength: function(){
         return _data.length;
+      },
+      addWarning: function(){
+        _fakeButton.addClass('warning');
+      },
+      removeWarning: function(){
+        _fakeButton.removeClass('warning');
       }
     }
   }

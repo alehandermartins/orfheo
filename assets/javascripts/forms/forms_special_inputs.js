@@ -16,6 +16,143 @@
         return _photosContainer;
       },
       getVal: function(){
+        return _photos.dataLength();
+      },
+      setVal: function(photos){
+        if (photos && photos != null){
+          photos.forEach(function(photo){
+            _url.push(photo);
+            var _container = $('<span>');
+            var _previousPhoto = $.cloudinary.image(photo,
+              { format: 'jpg', width: 50, height: 50,
+                crop: 'thumb', gravity: 'face', effect: 'saturation:50' });
+            _photosContainer.append(_previousPhoto);
+            var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+              'position': 'relative',
+              'bottom': '20px',
+              'cursor': 'pointer'
+            });
+
+            _icon.on('click', function(){
+              _url.splice(_url.indexOf(photo), 1);
+              _photos.setUrl(_url);
+              _container.empty();
+            });
+
+            _container.append(_previousPhoto, _icon);
+            _thumbnail.append(_container);
+          });
+        }
+      },
+      getPhotos: function(){
+        return _photos;
+      },
+      addWarning: function(){
+        _photos.addWarning();
+      },
+      removeWarning: function(){
+        _photos.removeWarning();
+      }
+    }
+  }
+
+  ns.Widgets.UploadPDF = function(owner){
+    var maxAmount = 1;
+    var _thumbnail = $('<div>');
+    var _url = [];
+
+    var cloudinaryPDF = function(){
+      var _data = [];
+      var _photo = $.cloudinary.unsigned_upload_tag(
+        "kqtqeksl",
+        {
+          cloud_name: 'hxgvncv7u',
+          folder: owner
+        }
+      );
+
+      _photo.fileupload({
+        multiple: true,
+        replaceFileInput: false,
+        add: function(e, data) {
+          var uploadErrors = [];
+          var acceptFileTypes = /^(pdf)$/i;
+          _photo.val(null);
+
+          if (_data.length + _url.length >= maxAmount){
+            Pard.Widgets.Alert('', Pard.t.text('widget.uploadPDF.max1'));
+            uploadErrors.push('un archivo');
+          }
+          if(data.originalFiles[0]['type'].length && !data.originalFiles[0]['type'].endsWith('pdf')) {
+            console.log(data.originalFiles[0]['type']);
+            Pard.Widgets.Alert('', Pard.t.text('widget.uploadPDF.acceptedFormat'));
+            uploadErrors.push('no accepted');
+          }
+          if(data.originalFiles[0]['size'] > 1000000) {
+            Pard.Widgets.Alert('', Pard.t.text('widget.uploadPDF.tooBigError'));
+            uploadErrors.push('tamaño max');
+          }
+          if(uploadErrors.length == 0){
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(data.originalFiles[0]); // read the local file
+
+            _data.push(data);
+            reader.onloadend = function(){ // set image data as background of div
+              var _container = $('<span>');
+              var _img = $('<p>').addClass('pdfIcon');
+              var _icon = $('<span>').addClass('material-icons').html('&#xE888').css({
+                  position: 'relative',
+                  bottom: '80px',
+                  left: '40px',
+                  cursor: 'pointer'
+              });
+
+              _icon.on('click', function(){
+                _data.splice(_data.indexOf(data), 1);
+                _container.empty();
+              });
+
+              _container.append(_img, _icon);
+              _thumbnail.append(_container);
+            }
+          }
+        }
+      });
+
+      var _fakeButton = $('<button>').addClass('browse-btn').attr({type:'button'}).html(Pard.t.text('widget.uploadPDF.btn'));
+      _fakeButton.on('click', function(){
+        _photo.click();
+      });
+
+      return {
+        render: function(){
+          return _fakeButton;
+        },
+        cloudinary: function(){
+          return _photo;
+        },
+        setUrl: function(url){
+          _url = url;
+        },
+        submit: function(){
+          _data.forEach(function(photo){
+            photo.submit();
+          });
+        },
+        dataLength: function(){
+          return _data.length;
+        }
+      }
+    }
+
+    var _photos = cloudinaryPDF();
+    var _photosContainer = $('<div>').append(_photos.render(), _thumbnail);
+
+    return{
+       render: function(){
+        return _photosContainer;
+      },
+      getVal: function(){
         return _url;
       },
       setVal: function(photos){
@@ -466,16 +603,11 @@
 
   ns.Widgets.CategorySelector = function(categories){
     var catArrayTranslated;
-    if ($.isArray(categories)){ 
-      catArrayTranslated = categories.map(function(cat){
-        return Pard.t.text('categories.'+cat);
-      })
-    }
-    else{
-      catArrayTranslated = [Pard.t.text('categories.'+categories)];
-      categories = [categories];
-    }
-    var _createdWidget = Pard.Widgets.Selector(catArrayTranslated, categories)
+    catArrayTranslated = Object.keys(categories).map(function(cat){
+      return Pard.t.text('categories.'+ cat);
+    })
+
+    var _createdWidget = Pard.Widgets.Selector(catArrayTranslated, Object.keys(categories))
 
     return {
       render: function(){

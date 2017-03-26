@@ -144,6 +144,17 @@
         max4: 'Máximo cuatro imagenes.',
         acceptedFormat: 'Formatos aceptados: .gif, .jpeg, .jpg, .png'
       },
+      uploadPDF:{
+        btn: 'Sube un documento',
+        tooBigError: 'El tamaño del documento no puede ser superior a 1Mb. Puedes reducirlo en un momento utilizando, entre muchas otras,  <a href = "http://optimizilla.com/es/"  target="_blank">esta web</a>.',
+        max1:'Máximo un documento.',
+        acceptedFormat: 'Formatos aceptados: .pdf'
+      },
+      availability:{
+        placeholder: "Selecciona una o más opciones",
+        selectAllText: "Selecciona todo",
+        allSelected: "Disponible todos los días"
+      },
       inputName:{
         unavailable: 'Este nombre de perfil ya existe. Escoge otro para poder proceder.'
       },
@@ -423,7 +434,7 @@
         partI:'PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil',
         partII: 'PARTE II: Sólo los organizadores tendrán acceso a los siguientes datos',
         initSpace: 'Sólo los organizadores tendrán acceso a los siguientes datos',
-        finalMex: 'ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario, sino sólo de enmendarlo. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".',
+        finalMex: 'ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario, únicamente enviar una enmienda. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".',
         sendbtn:'Envía'
       }
     },  

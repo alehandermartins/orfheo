@@ -354,7 +354,7 @@
         for (var typeForm in forms[_type]){
           _formTypes.push(typeForm);
           var _icon;
-          if(_type == 'artist') _icon = forms[_type][typeForm].category.args;
+          if(_type == 'artist') _icon = Object.keys(forms[_type][typeForm].category.args[0]);
           _typeData.push({
             id: typeForm,
             icon: _icon,
@@ -593,12 +593,14 @@
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _containerOrfheoFields = $('<div>').append(_message_1);
-    var _containerCustomFields = $('<div>');
+    var _containerCustomFields = $('<div>').append(_message_2.css('margin-top','3rem'));
     _formContainer.append(_containerOrfheoFields, _containerCustomFields);
 
     var _orfheoCategory, _subcategory;
     if (type == 'space' && profile.category) _orfheoCategory = profile.category; 
     var _photos;
+    var _availability;
+    var _children;
     var _conditions;
 
     var _form = {};
@@ -643,6 +645,7 @@
         form[field].args[0] = form[field].label;
         if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
       }
+
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
 
@@ -658,10 +661,10 @@
           _url.push(data['result']['public_id']);
           if(_url.length >= _photos.dataLength()) _send();
         });
-      _containerOrfheoFields.append(_photosContainer, _message_2.css('margin-top','3rem'));
+      _containerOrfheoFields.append(_photosContainer);
       }
       else if (field == 'category'){
-        if ($.isArray(form[field].args[0]) && form[field].args[0].length>1){
+        if (Object.keys(form[field].args[0]).length > 1 && production_id == false){
           var _formField = $('<div>');
           _containerOrfheoFields.append(
           _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
@@ -671,9 +674,7 @@
           if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
         }
         else{
-          if ($.isArray(form[field].args[0])) _orfheoCategory = form[field].args[0][0]
-          else
-          _orfheoCategory = form[field].args[0]; 
+          _orfheoCategory = Object.keys(form[field].args[0])[0]; 
         }
       }
       else if (field == 'subcategory'){
@@ -711,16 +712,18 @@
         }
         else if (form[field].input == 'CheckBox'){
           var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
-          if (form[field]['helptext'].length) {
-            if (field == 'conditions') {
-              var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href':form[field]['helptext'], 'target':'_blank'})).addClass('help-text');
-            }
-            else {
-              var _helptextfield = _form[field].helptext.render();
-            }
+          if (field == 'conditions'){
+            var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href': Pard.CachedEvent.conditions, 'target':'_blank'})).addClass('help-text');
             _helptextfield.css({'margin-top':'0'});
             _formField.append(_helptextfield);
-          }  
+          }
+          else {
+            if (form[field]['helptext'].length){
+              var _helptextfield = _form[field].helptext.render();
+              _helptextfield.css({'margin-top':'0'});
+              _formField.append(_helptextfield);
+            }
+          }
         }
         else{
           var _helpText = _form[field].helptext.render();
@@ -728,10 +731,10 @@
            if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
             if (field == 'availability'){
               _form[field].input.setOptions({      
-                placeholder: "Selecciona una o más opciones",
-                selectAllText: "Selecciona todo",
+                placeholder: Pard.t.text('widget.availability.placeholder'),
+                selectAllText: Pard.t.text('widget.availability.selectAllText'),
                 countSelected: false,
-                allSelected: "Disponible todos los días"
+                allSelected: Pard.t.text('widget.availability.allSelected')
               });
             }
             _helpText.css('margin-top', 5);
@@ -743,19 +746,21 @@
           if (form[field]['helptext'].length) _formField.append(_helpText);
         }
         if($.isNumeric(field)) _containerCustomFields.append(_formField);
-        else if (field != 'conditions')_containerOrfheoFields.append(_formField);
-        else{
-          _conditions = _formField;
-        }
+        else if (field != 'availability' && field != 'children' && field != 'conditions')_containerOrfheoFields.append(_formField);
+        if (field == 'availability') _availability = _formField;
+        if (field == 'children') _children = _formField;
+        if (field == 'conditions') _conditions = _formField;
+        
       }
     });
 
-    _containerCustomFields.append(_conditions);
+    _containerCustomFields.append(_availability, _children, _conditions);
 
     var _filled = function(){
       var _check = true;
       for(var field in _form){
         if(_form[field].type == 'mandatory' && !(_form[field].input.getVal()) && field != 'category'){
+          console.log(field);
           _form[field].input.addWarning();
           _invalidInput.text(Pard.t.text('error.incomplete'));
           _check = false;

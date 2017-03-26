@@ -3581,6 +3581,14 @@ SERVICES PAGE
   }
 }
 
+.pdfIcon{
+  background-image: url(<%= image_path 'pdf_icon.png' %>);
+  width: 50px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
 .mobileImage, .mobileImage2, .mobileImage_d, .mobileImage_f{
   width: 11rem;
   height: 19.6rem;
