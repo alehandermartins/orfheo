@@ -12,11 +12,14 @@
     var _photosContainer = $('<div>').append(_photos.render(), _thumbnail);
 
     return{
-       render: function(){
+      render: function(){
         return _photosContainer;
       },
-      getVal: function(){
+      checkVal: function(){
         return _photos.dataLength();
+      },
+      getVal: function(){
+        return _url;
       },
       setVal: function(photos){
         if (photos && photos != null){

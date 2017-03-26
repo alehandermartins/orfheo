@@ -634,6 +634,115 @@
       });
     }
 
+    var CategorySelector = function(categories){
+      var catArrayTranslated;
+      catArrayTranslated = Object.keys(categories).map(function(cat){
+        return Pard.t.text('categories.'+ cat);
+      });
+
+      var _createdWidget = $('<select>');
+      var _emptyOption = $('<option>');
+      Object.keys(categories).forEach(function(value, index){
+        _createdWidget.append($('<option>').append(catArrayTranslated[index]).val(value));
+      });
+      _createdWidget.on('change',function(){
+        _emptyOption.remove();
+        _createdWidget.removeClass('warning');
+        if(categories[_createdWidget.val()] && categories[_createdWidget.val()].activateOptions){
+          Object.keys(categories[_createdWidget.val()].activateOptions).forEach(function(field){
+            _form[field].input.reload(categories[_createdWidget.val()].activateOptions[field]);
+          });
+        }
+      })
+      .one('click',function(){
+        _createdWidget.removeClass('placeholderSelect');
+        _emptyOption.empty();
+      });
+
+      if(categories[_createdWidget.val()] && categories[_createdWidget.val()].activateOptions){
+        Object.keys(categories[_createdWidget.val()].activateOptions).forEach(function(field){
+          _form[field].input.reload(categories[_createdWidget.val()].activateOptions[field]);
+        });
+      }
+
+      return {
+        render: function(){
+          return _createdWidget;
+        },
+        getVal: function(){
+          return _createdWidget.val();
+        },
+        addWarning: function(){
+          _createdWidget.addClass('warning');
+        },
+        removeWarning: function(){
+          _createdWidget.removeClass('warning');
+        },
+        setVal: function(value){
+          _createdWidget.val(value);
+        },
+        setClass: function(_class){
+          _createdWidget.addClass(_class);
+        },
+        enable: function(){
+          _createdWidget.attr('disabled',false);
+        },
+        disable: function(){
+          _createdWidget.attr('disabled',true);
+        }
+      }
+    }
+
+    var ActivateSelector = function(choices){
+
+      var _createdWidget = $('<select>');
+      var _emptyOption = $('<option>');
+      Object.keys(choices).forEach(function(value){
+        _createdWidget.append($('<option>').append(choices[value]).val(value));
+      });
+      _createdWidget.on('change',function(){
+        _emptyOption.remove();
+        _createdWidget.removeClass('warning');
+      })
+      .one('click',function(){
+        _createdWidget.removeClass('placeholderSelect');
+        _emptyOption.empty();
+      });
+
+      return {
+        render: function(){
+          return _createdWidget;
+        },
+        getVal: function(){
+          return _createdWidget.val();
+        },
+        addWarning: function(){
+          _createdWidget.addClass('warning');
+        },
+        removeWarning: function(){
+          _createdWidget.removeClass('warning');
+        },
+        setVal: function(value){
+          _createdWidget.val(value);
+        },
+        setClass: function(_class){
+          _createdWidget.addClass(_class);
+        },
+        enable: function(){
+          _createdWidget.attr('disabled',false);
+        },
+        disable: function(){
+          _createdWidget.attr('disabled',true);
+        },
+        reload: function(new_choices){
+          _createdWidget.empty();
+          new_choices.forEach(function(value){
+            _createdWidget.append($('<option>').append(choices[value]).val(value));
+          });
+        }
+      }
+    }
+
     form = _tempForm;
 
     Object.keys(form).forEach(function(field){
@@ -646,7 +755,13 @@
         if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
       }
 
+      if(form[field].input == 'CategorySelector' || form[field].input == 'ActivateSelector'){
+        if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args[0])
+        if(form[field].input == 'ActivateSelector') _form[field]['input'] = ActivateSelector(form[field].args[0])
+      }
+      else{
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+      }
       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
 
       if (field == 'photos') {
@@ -759,8 +874,13 @@
     var _filled = function(){
       var _check = true;
       for(var field in _form){
+        if(_form[field].type == 'mandatory' && field == 'photos' && !(_form[field].input.checkVal())){
+          _form[field].input.addWarning();
+          _invalidInput.text(Pard.t.text('error.incomplete'));
+          _check = false;
+        }
+
         if(_form[field].type == 'mandatory' && !(_form[field].input.getVal()) && field != 'category'){
-          console.log(field);
           _form[field].input.addWarning();
           _invalidInput.text(Pard.t.text('error.incomplete'));
           _check = false;
