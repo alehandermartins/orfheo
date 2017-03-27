@@ -57,7 +57,7 @@
       proposal.proposal_type = type;
       var _proposal = $.extend(true, {}, proposal);
 
-      var form = forms[type][_proposal.form_category];
+      var form = forms[type][_proposal.form_category].blocks;
 
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
       var _deleteProposalCaller = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), $('<span>').text(Pard.t.text('dictionary.delete').capitalize())).addClass('deleteProfile-caller');

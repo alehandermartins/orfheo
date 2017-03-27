@@ -78,7 +78,7 @@ class ArtistOwnProposal
     raise Pard::Invalid::UnexistingCall if forms.blank?
     categories = forms[:es][:artist].keys
     raise Pard::Invalid::Params unless categories.include? form_category 
-    forms[:es][:artist][form_category]
+    forms[:es][:artist][form_category][:blocks]
   end
 
   def correct_category?

@@ -66,7 +66,7 @@ class SpaceOwnProposal
     raise Pard::Invalid::UnexistingCall if forms.blank?
     categories = forms[:es][:space].keys
     raise Pard::Invalid::Params unless categories.include? form_category
-    forms[:es][:space][form_category]
+    forms[:es][:space][form_category][:blocks]
   end
 
   def correct_entry? value, type, field
