@@ -354,7 +354,7 @@
         for (var typeForm in forms[_type]){
           _formTypes.push(typeForm);
           var _icon;
-          if(_type == 'artist') _icon = Object.keys(forms[_type][typeForm].category.args);
+          if(_type == 'artist') _icon = Object.keys(forms[_type][typeForm].blocks.category.args);
           _typeData.push({
             id: typeForm,
             icon: _icon,
@@ -589,10 +589,12 @@
       artist: _initial_message_art,
       space: _initial_message_spa
     }
+
+    console.log(form);
     var _message_1 = _messageDictionary[type]; 
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
-    var _containerOrfheoFields = $('<div>').append(_message_1);
+    var _containerOrfheoFields = $('<div>').append(form.helptext, _message_1);
     var _containerCustomFields = $('<div>').append(_message_2.css('margin-top','3rem'));
     _formContainer.append(_containerOrfheoFields, _containerCustomFields);
 
@@ -622,14 +624,14 @@
 
     var _tempForm = {};
     if(type == 'space'){
-      Object.keys(form).forEach(function(field){
-        _tempForm[field] = form[field];
+      Object.keys(form.blocks).forEach(function(field){
+        _tempForm[field] = form.blocks[field];
         if(field == 'subcategory') _tempForm['phone'] = _phoneField;
       });
     }
     if(type == 'artist'){
-      Object.keys(form).forEach(function(field){
-        _tempForm[field] = form[field];
+      Object.keys(form.blocks).forEach(function(field){
+        _tempForm[field] = form.blocks[field];
         if(field == 'short_description') _tempForm['phone'] = _phoneField;
       });
     }
@@ -806,39 +808,39 @@
       }
     }
 
-    form = _tempForm;
+    var _blocks = _tempForm;
     var _submitItems = [];
 
-    Object.keys(form).forEach(function(field){
+    Object.keys(_blocks).forEach(function(field){
       _form[field] = {};
-      _form[field]['type'] = form[field].type;
-      if(form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
-      else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
-      if (form[field]['input']=='CheckBox') {
-        form[field].args[0] = form[field].label;
-        if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
+      _form[field]['type'] = _blocks[field].type;
+      if(_form[field]['type'] == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(_blocks[field].label+' *');
+      else _form[field]['label'] = Pard.Widgets.InputLabel(_blocks[field].label);
+      if (_blocks[field]['input']=='CheckBox') {
+        _blocks[field].args[0] = _blocks[field].label;
+        if (_blocks[field]['type'] == 'mandatory') _blocks[field].args[0] += ' *';
       }
 
-      if(form[field].input == 'CategorySelector' || form[field].input == 'ActivateSelector' || form[field].input == 'Duration'){
-        if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args)
-        if(form[field].input == 'ActivateSelector') _form[field]['input'] = ActivateSelector(form[field].args)
-        if(form[field].input == 'Duration') _form[field]['input'] = Duration(form[field].args)
+      if(_blocks[field].input == 'CategorySelector' || _blocks[field].input == 'ActivateSelector' || _blocks[field].input == 'Duration'){
+        if(_blocks[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(_blocks[field].args)
+        if(_blocks[field].input == 'ActivateSelector') _form[field]['input'] = ActivateSelector(_blocks[field].args)
+        if(_blocks[field].input == 'Duration') _form[field]['input'] = Duration(_blocks[field].args)
       }
       else{
-      _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+      _form[field]['input'] = window['Pard']['Widgets'][_blocks[field].input].apply(this, _blocks[field].args);
       }
-      _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
-      if(form[field].input == 'UploadPhotos' || form[field].input == 'UploadPDF'){
+      _form[field]['helptext'] = Pard.Widgets.HelpText(_blocks[field].helptext);
+      if(_blocks[field].input == 'UploadPhotos' || _blocks[field].input == 'UploadPDF'){
         _submitItems.push(_form[field].input.getPhotos());
       }
 
       if (field == 'photos') {
         var _thumbnail = $('<div>');
-        var _photosLabel = $('<label>').text(form[field].label);
+        var _photosLabel = $('<label>').text(_blocks[field].label);
         var _photoWidget = _form[field].input;
         //_photos = _photoWidget.getPhotos();
         var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
-        if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
+        if (_blocks[field].helptext) _photosContainer.append(_form[field].helptext.render());
         // _photos.cloudinary().bind('cloudinarydone', function(e, data){
         //   var _url = _photoWidget.getVal();
         //   _url.push(data['result']['public_id']);
@@ -847,31 +849,31 @@
       _containerOrfheoFields.append(_photosContainer);
       }
       else if (field == 'category'){
-        if (Object.keys(form[field].args).length > 1 && production_id == false){
+        if (Object.keys(_blocks[field].args).length > 1 && production_id == false){
           var _formField = $('<div>');
           _containerOrfheoFields.append(
-          _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
+          _formField.addClass(_blocks[field].input + '-FormField' + ' call-form-field').append(
             _form[field].label.render(),
             _form[field].input.render())
           )
-          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
+          if (_blocks[field]['helptext'].length) _formField.append(_form[field].helptext.render());
         }
         else{
-          _orfheoCategory = Object.keys(form[field].args)[0]; 
+          _orfheoCategory = Object.keys(_blocks[field].args)[0]; 
         }
       }
       else if (field == 'subcategory'){
-        if ($.isArray(form[field].args[0]) && form[field].args[0].length>1){
+        if ($.isArray(_blocks[field].args[0]) && _blocks[field].args[0].length>1){
           var _formField = $('<div>');
           _containerOrfheoFields.append(
-          _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
+          _formField.addClass(_blocks[field].input + '-FormField' + ' call-form-field').append(
             _form[field].label.render(),
             _form[field].input.render())
           )
-          if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
+          if (_blocks[field]['helptext'].length) _formField.append(_form[field].helptext.render());
         }
         else{
-          _subcategory = form[field].args[0][0] || form[field].args; 
+          _subcategory = _blocks[field].args[0][0] || _blocks[field].args; 
         }
       }
       else if (field == 'phone'){
@@ -881,27 +883,27 @@
           _form[field].input.disable();
           _helpText.append($('<span>').html('<br>Puedes cambiar tu número desde la pagína de tu perfil.').css('font-weight','bold'))
         }
-        var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
-            _form[field].label.render(),
-            _form[field].input.render()
-         )
-        if (form[field]['helptext'].length) _formField.append(_helpText);
+        var _formField = $('<div>').addClass(_blocks[field].input + '-FormField' + ' call-form-field').append(
+          _form[field].label.render(),
+          _form[field].input.render()
+        )
+        if (_blocks[field]['helptext'].length) _formField.append(_helpText);
         _containerOrfheoFields.append(_formField);
       }
       else{
-        if (form[field].input == 'TextAreaCounter'){
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+        if (_blocks[field].input == 'TextAreaCounter'){
+          var _formField = $('<div>').addClass(_blocks[field].input + '-FormField' + ' call-form-field').append(
             _form[field].label.render(),_form[field].input.render());
         }
-        else if (form[field].input == 'CheckBox'){
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
+        else if (_blocks[field].input == 'CheckBox'){
+          var _formField = $('<div>').addClass(_blocks[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
           if (field == 'conditions'){
             var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href': Pard.CachedEvent.conditions, 'target':'_blank'})).addClass('help-text');
             _helptextfield.css({'margin-top':'0'});
             _formField.append(_helptextfield);
           }
           else {
-            if (form[field]['helptext'].length){
+            if (_blocks[field]['helptext'].length){
               var _helptextfield = _form[field].helptext.render();
               _helptextfield.css({'margin-top':'0'});
               _formField.append(_helptextfield);
@@ -910,8 +912,8 @@
         }
         else{
           var _helpText = _form[field].helptext.render();
-          if (form[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
-           if(form[field]['input'] == 'MultipleSelector' || form[field]['input'] == 'MultipleDaysSelector'){
+          if (_blocks[field]['input'] == 'TextArea') _form[field]['input'].setAttr('rows', 4);
+           if(_blocks[field]['input'] == 'MultipleSelector' || _blocks[field]['input'] == 'MultipleDaysSelector'){
             if (field == 'availability'){
               _form[field].input.setOptions({      
                 placeholder: Pard.t.text('widget.availability.placeholder'),
@@ -922,11 +924,11 @@
             }
             _helpText.css('margin-top', 5);
           }
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field').append(
+          var _formField = $('<div>').addClass(_blocks[field].input + '-FormField' + ' call-form-field').append(
             _form[field].label.render(),
             _form[field].input.render()
           )
-          if (form[field]['helptext'].length) _formField.append(_helpText);
+          if (_blocks[field]['helptext'].length) _formField.append(_helpText);
         }
         if($.isNumeric(field)) _containerCustomFields.append(_formField);
         else if (field != 'availability' && field != 'children' && field != 'conditions')_containerOrfheoFields.append(_formField);
