@@ -354,7 +354,7 @@
         for (var typeForm in forms[_type]){
           _formTypes.push(typeForm);
           var _icon;
-          if(_type == 'artist') _icon = Object.keys(forms[_type][typeForm].category.args[0]);
+          if(_type == 'artist') _icon = Object.keys(forms[_type][typeForm].category.args);
           _typeData.push({
             id: typeForm,
             icon: _icon,
@@ -744,6 +744,7 @@
     }
 
     form = _tempForm;
+    var _submitItems = [];
 
     Object.keys(form).forEach(function(field){
       _form[field] = {};
@@ -756,30 +757,33 @@
       }
 
       if(form[field].input == 'CategorySelector' || form[field].input == 'ActivateSelector'){
-        if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args[0])
-        if(form[field].input == 'ActivateSelector') _form[field]['input'] = ActivateSelector(form[field].args[0])
+        if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args)
+        if(form[field].input == 'ActivateSelector') _form[field]['input'] = ActivateSelector(form[field].args)
       }
       else{
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
       }
       _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
+      if(form[field].input == 'UploadPhotos' || form[field].input == 'UploadPDF'){
+        _submitItems.push(_form[field].input.getPhotos());
+      }
 
       if (field == 'photos') {
         var _thumbnail = $('<div>');
         var _photosLabel = $('<label>').text(form[field].label);
         var _photoWidget = _form[field].input;
-        _photos = _photoWidget.getPhotos();
+        //_photos = _photoWidget.getPhotos();
         var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
         if (form[field].helptext) _photosContainer.append(_form[field].helptext.render());
-        _photos.cloudinary().bind('cloudinarydone', function(e, data){
-          var _url = _photoWidget.getVal();
-          _url.push(data['result']['public_id']);
-          if(_url.length >= _photos.dataLength()) _send();
-        });
+        // _photos.cloudinary().bind('cloudinarydone', function(e, data){
+        //   var _url = _photoWidget.getVal();
+        //   _url.push(data['result']['public_id']);
+        //   if(_url.length >= _photos.dataLength()) _send();
+        // });
       _containerOrfheoFields.append(_photosContainer);
       }
       else if (field == 'category'){
-        if (Object.keys(form[field].args[0]).length > 1 && production_id == false){
+        if (Object.keys(form[field].args).length > 1 && production_id == false){
           var _formField = $('<div>');
           _containerOrfheoFields.append(
           _formField.addClass(form[field].input + '-FormField' + ' call-form-field').append(
@@ -789,7 +793,7 @@
           if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
         }
         else{
-          _orfheoCategory = Object.keys(form[field].args[0])[0]; 
+          _orfheoCategory = Object.keys(form[field].args)[0]; 
         }
       }
       else if (field == 'subcategory'){
@@ -930,11 +934,18 @@
       $('body').append(spinner.el);
       submitButton.attr('disabled',true);
       if(_filled() == true){
-        if(_photos){
-          if(_photos.dataLength() == false) _send();
-          else{
-            _photos.submit();
-          }
+        _submitItems = _submitItems.filter(function(item){
+          return (item.dataLength() != false)
+        });
+        if (_submitItems.length > 0){
+          _submitItems.forEach(function(item, index){
+            if (index == _submitItems.length - 1){
+              item.cloudinary().bind('cloudinarydone', function(e, data){
+                _send();
+              });
+            }
+            item.submit();
+          });
         }
         else{
           _send();

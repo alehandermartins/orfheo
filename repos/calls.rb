@@ -4,6 +4,25 @@ module Repos
 
       def for db
         @@calls_collection = db['calls']
+        calls = grab({})
+        calls.each{ |call|
+          next if call[:es][:artist]["1".to_sym][:category][:args].is_a? Hash
+          artist_forms = {}
+          call[:es][:artist].each{ |key, form|
+            artist_forms[key] = form
+            args = {}
+            form[:category][:args].each{|cat|
+              args[cat] = nil
+            }
+            artist_forms[key][:category][:args] = args
+          }
+          @@calls_collection.update_one({call_id: call[:call_id]},
+          {
+            "$set": {'es.artist': artist_forms}
+          })
+        }
+
+
         # calls = grab({})
         # calls.each{ |call|
         #   next unless call[:forms].blank?

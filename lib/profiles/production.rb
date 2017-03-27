@@ -33,7 +33,7 @@ class Production
       photos: params[:photos],
       links: params[:links],
       children: params[:children],
-      cache: params[:cache]
+      cache: params[:cache] || {value: nil, visible: false}
     }
   end
 

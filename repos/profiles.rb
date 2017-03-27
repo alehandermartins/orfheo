@@ -127,8 +127,7 @@ module Repos
       end
 
       def filtered profile
-        return if profile[:phone].blank?
-        profile.delete(:phone) if profile[:phone][:visible] == false
+        profile.delete(:phone) if !profile[:phone].blank? && profile[:phone][:visible] == false
         return if profile[:productions].blank?
         profile[:productions].each { |production|
           production.delete(:cache) if production.has_key? :cache && production[:cache][:visible] == false
