@@ -15,8 +15,10 @@ var Options = function(){
   }
 
   var orfheoStorage = JSON.parse(localStorage[localStorageKey])
-  if(!orfheoStorage.language) 
-    orfheoStorage.setLanguage('es')
+  if(!orfheoStorage.language){
+    orfheoStorage.language = 'es'
+    localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
+  }
 
   return {
     register: function(){
@@ -83,14 +85,6 @@ Pard.Options = Options();
       text:_text
     }
   }
-
-  if(! Pard.Options.language()){
-    // var defaultLang = navigator.language || navigator.userLanguage
-    // defaultLang = defaultLang.substring(0,2)
-    // if (!($.inArray(defaultLang, ['es','en']))) defaultLang = 'es'
-    var defaultLang = 'es';
-    Pard.Options.setLanguage(defaultLang)
-  } 
 
   Pard.t = ns.Translator(ns.langs[Pard.Options.language()])
 
