@@ -59,9 +59,9 @@ var DetectTrackingProtection = function(){
 
 var Options = function(){
   var localStorageKey = 'orfheo'
-  var defaultLang = navigator.language || navigator.userLanguage
-  defaultLang = defaultLang.substring(0,2)
-  if (!($.inArray(defaultLang, ['es','en']))) defaultLang = 'es'
+  // var defaultLang = navigator.language || navigator.userLanguage
+  // if (!($.inArray(defaultLang, ['es','en']))) defaultLang = 'es'
+  var defaultLang = 'es'
 
   if (!localStorage[localStorageKey]){
     localStorage[localStorageKey] = JSON.stringify({
