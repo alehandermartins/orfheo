@@ -834,7 +834,7 @@
         var _thumbnail = $('<div>');
         var _photosLabel = $('<label>').text(_blocks[field].label);
         var _photoWidget = _form[field].input;
-        //_photos = _photoWidget.getPhotos();
+        _photos = _photoWidget.getPhotos();
         var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
         if (_blocks[field].helptext) _photosContainer.append(_form[field].helptext.render());
         _photos.cloudinary().bind('cloudinarydone', function(e, data){
@@ -997,18 +997,11 @@
       $('body').append(spinner.el);
       submitButton.attr('disabled',true);
       if(_filled() == true){
-        _submitItems = _submitItems.filter(function(item){
-          return (item.dataLength() != false)
-        });
-        if (_submitItems.length > 0){
-          _submitItems.forEach(function(item, index){
-            if (index == _submitItems.length - 1){
-              item.cloudinary().bind('cloudinarydone', function(e, data){
-                _send();
-              });
-            }
-            item.submit();
-          });
+        if(_photos){
+          if(_photos.dataLength() == false) _send();
+          else{
+            _photos.submit();
+          }
         }
         else{
           _send();
