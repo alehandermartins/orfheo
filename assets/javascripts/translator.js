@@ -85,10 +85,10 @@ Pard.Options = Options();
   }
 
   if(! Pard.Options.language()){
-    var defaultLang = navigator.language || navigator.userLanguage
-    defaultLang = defaultLang.substring(0,2)
-    if (!($.inArray(defaultLang, ['es','en']))) defaultLang = 'es'
-    // var defaultLang = 'es';
+    // var defaultLang = navigator.language || navigator.userLanguage
+    // defaultLang = defaultLang.substring(0,2)
+    // if (!($.inArray(defaultLang, ['es','en']))) defaultLang = 'es'
+    var defaultLang = 'es';
     Pard.Options.setLanguage(defaultLang)
   } 
 
