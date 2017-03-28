@@ -126,7 +126,7 @@
           Pard.Widgets.TimeOutAlert('', Pard.t.text('manager.proposals.deleteOk'));
         }
         else{
-          var _dataReason = Pard.ErrorHelper(data.reason);
+          var _dataReason = Pard.ErrorHandler(data.reason);
           if (typeof _dataReason == 'object')
             Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.t.text('error.unsaved'), location.reload());
           else{
@@ -138,7 +138,7 @@
 
       var modifyCallback = function(data){
         if (data['status'] != 'success'){
-          var _dataReason = Pard.ErrorHelper(data.reason);
+          var _dataReason = Pard.ErrorHandler(data.reason);
           if (typeof _dataReason == 'object')
             Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.t.text('error.unsaved'), location.reload());
           else{
@@ -249,7 +249,7 @@
           callback();
         }
         else{
-          Pard.Widgets.Alert('', Pard.ErrorHelper(data.reason));
+          Pard.Widgets.Alert('', Pard.ErrorHandler(data.reason));
           callback();
         }
       }

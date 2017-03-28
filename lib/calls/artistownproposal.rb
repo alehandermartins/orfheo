@@ -68,7 +68,8 @@ class ArtistOwnProposal
   end
 
   def correct_entry? value, type, field
-    return !value.blank? if type == 'mandatory' && field.to_s.to_i == 0 
+    return true if field == :photos
+    return !value.blank? if type == 'mandatory' && field.to_s.to_i == 0
     true
   end
 

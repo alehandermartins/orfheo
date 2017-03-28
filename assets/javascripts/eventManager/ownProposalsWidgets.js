@@ -412,7 +412,7 @@
               if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
             }
             else{
-              _orfheoCategory = Object.keys(form[field])[0];
+              _orfheoCategory = Object.keys(form[field].args)[0];
             }
           }
           break;

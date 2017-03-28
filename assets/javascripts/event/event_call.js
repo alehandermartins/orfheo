@@ -809,7 +809,6 @@
     }
 
     var _blocks = _tempForm;
-    var _submitItems = [];
 
     Object.keys(_blocks).forEach(function(field){
       _form[field] = {};
@@ -830,9 +829,6 @@
       _form[field]['input'] = window['Pard']['Widgets'][_blocks[field].input].apply(this, _blocks[field].args);
       }
       _form[field]['helptext'] = Pard.Widgets.HelpText(_blocks[field].helptext);
-      if(_blocks[field].input == 'UploadPhotos' || _blocks[field].input == 'UploadPDF'){
-        _submitItems.push(_form[field].input.getPhotos());
-      }
 
       if (field == 'photos') {
         var _thumbnail = $('<div>');
@@ -841,11 +837,11 @@
         //_photos = _photoWidget.getPhotos();
         var _photosContainer = _photoWidget.render().prepend(_photosLabel).css({'margin-bottom':'-1rem'}).addClass('photoContainer');
         if (_blocks[field].helptext) _photosContainer.append(_form[field].helptext.render());
-        // _photos.cloudinary().bind('cloudinarydone', function(e, data){
-        //   var _url = _photoWidget.getVal();
-        //   _url.push(data['result']['public_id']);
-        //   if(_url.length >= _photos.dataLength()) _send();
-        // });
+        _photos.cloudinary().bind('cloudinarydone', function(e, data){
+          var _url = _photoWidget.getVal();
+          _url.push(data['result']['public_id']);
+          if(_url.length >= _photos.dataLength()) _send();
+        });
       _containerOrfheoFields.append(_photosContainer);
       }
       else if (field == 'category'){
@@ -939,7 +935,8 @@
     });
 
     _containerCustomFields.append(_availability, _children, _conditions);
-    _form['category']['input'].activate();
+    if(_form['category'])
+      _form['category']['input'].activate();
 
     var _filled = function(){
       var _check = true;
