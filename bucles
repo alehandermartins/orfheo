@@ -1,0 +1,1476 @@
+{
+    "_id" : ObjectId("58d69c62acdff4011e7d1961"),
+    "user_id" : "0763659b-dc13-4c76-9bc2-75156ab10842",
+    "call_id" : "9068d4f8-ed2a-4faf-8a26-df87e000e33c",
+    "categories" : {
+        "artist" : {
+            "music" : {
+                "forms" : [ 
+                    "7"
+                ],
+                "subcategories" : [ 
+                    "7"
+                ]
+            },
+            "arts" : {
+                "forms" : [ 
+                    "1", 
+                    "2", 
+                    "3", 
+                    "4", 
+                    "5", 
+                    "6", 
+                    "7"
+                ],
+                "subcategories" : [ 
+                    "1", 
+                    "2", 
+                    "3", 
+                    "4", 
+                    "5", 
+                    "6", 
+                    "7"
+                ]
+            },
+            "workshop" : {
+                "forms" : [ 
+                    "5", 
+                    "7"
+                ],
+                "subcategories" : [ 
+                    "5", 
+                    "7"
+                ]
+            },
+            "gastronomy" : {
+                "forms" : [ 
+                    "7"
+                ],
+                "subcategories" : [ 
+                    "7"
+                ]
+            },
+            "street_art" : {
+                "forms" : [ 
+                    "7"
+                ],
+                "subcategories" : [ 
+                    "7"
+                ]
+            },
+            "audiovisual" : {
+                "forms" : [ 
+                    "7"
+                ],
+                "subcategories" : [ 
+                    "7"
+                ]
+            },
+            "other" : {
+                "forms" : [ 
+                    "7"
+                ],
+                "subcategories" : [ 
+                    "7"
+                ]
+            }
+        }
+    },
+    "es" : {
+        "artist" : {
+            "1" : {
+                "helptext" : "Piezas de corto formato de 20 a 30 minutos destinadas a ser representadas en un espacio urbano. Realizarán únicamente 1 pase durante uno de los siguientes días 27, 28, o 29 de Octubre 2017.",
+                "blocks" : {
+                    "category" : {
+                        "type" : "mandatory",
+                        "label" : "Selecciona una categoría artistica",
+                        "input" : "CategorySelector",
+                        "args" : {
+                            "arts" : null
+                        },
+                        "helptext" : ""
+                    },
+                    "subcategory" : {
+                        "type" : "mandatory",
+                        "label" : "Categoría de la propuesta en el evento",
+                        "input" : "SubcategorySelector",
+                        "args" : [ 
+                            [ 
+                                "1"
+                            ], 
+                            "artist"
+                        ],
+                        "helptext" : ""
+                    },
+                    "title" : {
+                        "type" : "mandatory",
+                        "label" : "Título de la propuesta artística",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+                    },
+                    "short_description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción (muy) breve",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "duration" : {
+                        "type" : "mandatory",
+                        "label" : "Duración del espectáculo",
+                        "input" : "Selector",
+                        "args" : [ 
+                            [ 
+                                "20 min", 
+                                "25 min", 
+                                "30 min"
+                            ], 
+                            [ 
+                                "20", 
+                                "25", 
+                                "30"
+                            ]
+                        ],
+                        "helptext" : ""
+                    },
+                    "photos" : {
+                        "type" : "mandatory",
+                        "label" : "De 1 a 4 fotografías buena resolución de la propuesta 72 pp (tamaño inferior a 500kb)",
+                        "input" : "UploadPhotos",
+                        "args" : [ 
+                            "/photos", 
+                            4
+                        ],
+                        "helptext" : ""
+                    },
+                    "links" : {
+                        "type" : "optional",
+                        "label" : "Links a vídeos",
+                        "input" : "InputMultimedia",
+                        "args" : null,
+                        "helptext" : "Añade el link a un vídeo promocional y a un vídeo más completo."
+                    },
+                    "availability" : {
+                        "type" : "mandatory",
+                        "label" : "Disponibilidad",
+                        "input" : "MultipleDaysSelector",
+                        "args" : [ 
+                            [ 
+                                "1508623200000", 
+                                "1509055200000", 
+                                "1509141600000", 
+                                "1509228000000"
+                            ]
+                        ],
+                        "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                    },
+                    "conditions" : {
+                        "type" : "mandatory",
+                        "label" : "Acepto las condiciones de participación asociadas a este evento",
+                        "input" : "CheckBox",
+                        "args" : [ 
+                            "", 
+                            "yes"
+                        ],
+                        "helptext" : ""
+                    },
+                    "children" : {
+                        "type" : "mandatory",
+                        "label" : "Edades público",
+                        "input" : "InputChildren",
+                        "args" : null,
+                        "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                    },
+                    "1" : {
+                        "type" : "mandatory",
+                        "label" : "Breve resumen de la compañía",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "2" : {
+                        "type" : "optional",
+                        "label" : "Link al Dossier completo de la propuesta (PDF)",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : "Dropbox, Google Drive, Mega... (recuerda hacer público el documento para que sea accesible por la organización.)"
+                    },
+                    "3" : {
+                        "type" : "mandatory",
+                        "label" : "Ficha artística de la propuesta",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : ""
+                    },
+                    "4" : {
+                        "type" : "optional",
+                        "label" : "Necesidades técnicas básicas",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            "Nos adaptamos a las necesidades que ofrezca la organización y el espacio"
+                        ],
+                        "helptext" : ""
+                    },
+                    "5" : {
+                        "type" : "mandatory",
+                        "label" : "Nombre de la persona de contacto",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    }
+                }
+            },
+            "2" : {
+                "helptext" : "Piezas de corto formato de 20 a 30 minutos destinadas a ser representadas en espacios no convencionales. Realizarán 3 pases en el espacio asignado durante uno de los días del festival: 27, 28 o 29 de Octubre 2017. Esta modalidad acogerá tanto a compañías de la comunidad valenciana como a compañías procedentes de otras comunidades autónomas.",
+                "blocks" : {
+                    "category" : {
+                        "type" : "mandatory",
+                        "label" : "Selecciona una categoría artistica",
+                        "input" : "CategorySelector",
+                        "args" : {
+                            "arts" : null
+                        },
+                        "helptext" : ""
+                    },
+                    "subcategory" : {
+                        "type" : "mandatory",
+                        "label" : "Categoría de la propuesta en el evento",
+                        "input" : "SubcategorySelector",
+                        "args" : [ 
+                            [ 
+                                "2"
+                            ], 
+                            "artist"
+                        ],
+                        "helptext" : ""
+                    },
+                    "title" : {
+                        "type" : "mandatory",
+                        "label" : "Título de la propuesta artística",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+                    },
+                    "short_description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción (muy) breve",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "duration" : {
+                        "type" : "mandatory",
+                        "label" : "Duración del espectáculo",
+                        "input" : "Selector",
+                        "args" : [ 
+                            [ 
+                                "20 min", 
+                                "25 min", 
+                                "30 min"
+                            ], 
+                            [ 
+                                "20", 
+                                "25", 
+                                "30"
+                            ]
+                        ],
+                        "helptext" : ""
+                    },
+                    "photos" : {
+                        "type" : "mandatory",
+                        "label" : "De 1 a 4 fotografías buena resolución de la propuesta 72 pp (tamaño inferior a 500kb)",
+                        "input" : "UploadPhotos",
+                        "args" : [ 
+                            "/photos", 
+                            4
+                        ],
+                        "helptext" : ""
+                    },
+                    "links" : {
+                        "type" : "optional",
+                        "label" : "Links a vídeos",
+                        "input" : "InputMultimedia",
+                        "args" : null,
+                        "helptext" : "Añade el link a un vídeo promocional y a un vídeo más completo."
+                    },
+                    "availability" : {
+                        "type" : "mandatory",
+                        "label" : "Disponibilidad",
+                        "input" : "MultipleDaysSelector",
+                        "args" : [ 
+                            [ 
+                                "1508623200000", 
+                                "1509055200000", 
+                                "1509141600000", 
+                                "1509228000000"
+                            ]
+                        ],
+                        "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                    },
+                    "conditions" : {
+                        "type" : "mandatory",
+                        "label" : "Acepto las condiciones de participación asociadas a este evento",
+                        "input" : "CheckBox",
+                        "args" : [ 
+                            "", 
+                            "yes"
+                        ],
+                        "helptext" : ""
+                    },
+                    "children" : {
+                        "type" : "mandatory",
+                        "label" : "Edades público",
+                        "input" : "InputChildren",
+                        "args" : null,
+                        "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                    },
+                    "1" : {
+                        "type" : "mandatory",
+                        "label" : "Breve resumen de la compañía",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "2" : {
+                        "type" : "optional",
+                        "label" : "Link al Dossier completo de la propuesta (PDF)",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : "Dropbox, Google Drive, Mega... (recuerda hacer público el documento para que sea accesible por la organización.)"
+                    },
+                    "3" : {
+                        "type" : "mandatory",
+                        "label" : "Ficha artística de la propuesta",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : ""
+                    },
+                    "4" : {
+                        "type" : "optional",
+                        "label" : "Necesidades técnicas básicas",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            "Nos adaptamos a las necesidades que ofrezca la organización y el espacio"
+                        ],
+                        "helptext" : ""
+                    },
+                    "5" : {
+                        "type" : "mandatory",
+                        "label" : "Nombre de la persona de contacto",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    }
+                }
+            },
+            "3" : {
+                "helptext" : "Piezas de corto formato de jóvenes artistas emergentes valencianos que serán representadas los días 28 o 29 de octubre 2017. Tendrán una duración de 15 a 20 minutos máximo. Se mostrarán en un mismo espacio junto con otros Minibucle.",
+                "blocks" : {
+                    "category" : {
+                        "type" : "mandatory",
+                        "label" : "Selecciona una categoría artistica",
+                        "input" : "CategorySelector",
+                        "args" : {
+                            "arts" : null
+                        },
+                        "helptext" : ""
+                    },
+                    "subcategory" : {
+                        "type" : "mandatory",
+                        "label" : "Categoría de la propuesta en el evento",
+                        "input" : "SubcategorySelector",
+                        "args" : [ 
+                            [ 
+                                "3"
+                            ], 
+                            "artist"
+                        ],
+                        "helptext" : ""
+                    },
+                    "title" : {
+                        "type" : "mandatory",
+                        "label" : "Título de la propuesta artística",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+                    },
+                    "short_description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción (muy) breve",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "duration" : {
+                        "type" : "mandatory",
+                        "label" : "Duración del espectáculo",
+                        "input" : "Selector",
+                        "args" : [ 
+                            [ 
+                                "15 min", 
+                                "20 min"
+                            ], 
+                            [ 
+                                "15", 
+                                "20"
+                            ]
+                        ],
+                        "helptext" : ""
+                    },
+                    "photos" : {
+                        "type" : "mandatory",
+                        "label" : "De 1 a 4 fotografías buena resolución de la propuesta 72 pp (tamaño inferior a 500kb)",
+                        "input" : "UploadPhotos",
+                        "args" : [ 
+                            "/photos", 
+                            4
+                        ],
+                        "helptext" : ""
+                    },
+                    "links" : {
+                        "type" : "optional",
+                        "label" : "Links a vídeos",
+                        "input" : "InputMultimedia",
+                        "args" : null,
+                        "helptext" : "Añade el link a un vídeo promocional y a un vídeo más completo."
+                    },
+                    "availability" : {
+                        "type" : "mandatory",
+                        "label" : "Disponibilidad",
+                        "input" : "MultipleDaysSelector",
+                        "args" : [ 
+                            [ 
+                                "1508623200000", 
+                                "1509055200000", 
+                                "1509141600000", 
+                                "1509228000000"
+                            ]
+                        ],
+                        "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                    },
+                    "conditions" : {
+                        "type" : "mandatory",
+                        "label" : "Acepto las condiciones de participación asociadas a este evento",
+                        "input" : "CheckBox",
+                        "args" : [ 
+                            "", 
+                            "yes"
+                        ],
+                        "helptext" : ""
+                    },
+                    "children" : {
+                        "type" : "mandatory",
+                        "label" : "Edades público",
+                        "input" : "InputChildren",
+                        "args" : null,
+                        "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                    },
+                    "1" : {
+                        "type" : "mandatory",
+                        "label" : "Breve resumen de la compañía",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "2" : {
+                        "type" : "optional",
+                        "label" : "Link al Dossier completo de la propuesta (PDF)",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : "Dropbox, Google Drive, Mega... (recuerda hacer público el documento para que sea accesible por la organización.)"
+                    },
+                    "3" : {
+                        "type" : "mandatory",
+                        "label" : "Ficha artística de la propuesta",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : ""
+                    },
+                    "4" : {
+                        "type" : "optional",
+                        "label" : "Necesidades técnicas básicas",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            "Nos adaptamos a las necesidades que ofrezca la organización y el espacio"
+                        ],
+                        "helptext" : ""
+                    },
+                    "5" : {
+                        "type" : "mandatory",
+                        "label" : "Nombre de la persona de contacto",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    }
+                }
+            },
+            "4" : {
+                "helptext" : "Piezas de danza española o flamenco de corto formato de 20 a 30 minutos que serán representados en espacios no convencionales. Se realizarán 3 pases en el espacio asignado durante uno de los días del festival: 22, 27, 28 o 29 de octubre.",
+                "blocks" : {
+                    "category" : {
+                        "type" : "mandatory",
+                        "label" : "Selecciona una categoría artistica",
+                        "input" : "CategorySelector",
+                        "args" : {
+                            "arts" : null
+                        },
+                        "helptext" : ""
+                    },
+                    "subcategory" : {
+                        "type" : "mandatory",
+                        "label" : "Categoría de la propuesta en el evento",
+                        "input" : "SubcategorySelector",
+                        "args" : [ 
+                            [ 
+                                "4"
+                            ], 
+                            "artist"
+                        ],
+                        "helptext" : ""
+                    },
+                    "title" : {
+                        "type" : "mandatory",
+                        "label" : "Título de la propuesta artística",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+                    },
+                    "short_description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción (muy) breve",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "duration" : {
+                        "type" : "optional",
+                        "label" : "Duración del espectáculo",
+                        "input" : "Selector",
+                        "args" : [ 
+                            [ 
+                                "20 min", 
+                                "25 min", 
+                                "30 min"
+                            ], 
+                            [ 
+                                "20", 
+                                "25", 
+                                "30"
+                            ]
+                        ],
+                        "helptext" : ""
+                    },
+                    "photos" : {
+                        "type" : "mandatory",
+                        "label" : "De 1 a 4 fotografías buena resolución de la propuesta 72 pp (tamaño inferior a 500kb)",
+                        "input" : "UploadPhotos",
+                        "args" : [ 
+                            "/photos", 
+                            4
+                        ],
+                        "helptext" : ""
+                    },
+                    "links" : {
+                        "type" : "optional",
+                        "label" : "Links a vídeos",
+                        "input" : "InputMultimedia",
+                        "args" : null,
+                        "helptext" : "Añade el link a un vídeo promocional y a un vídeo más completo."
+                    },
+                    "availability" : {
+                        "type" : "mandatory",
+                        "label" : "Disponibilidad",
+                        "input" : "MultipleDaysSelector",
+                        "args" : [ 
+                            [ 
+                                "1508623200000", 
+                                "1509055200000", 
+                                "1509141600000", 
+                                "1509228000000"
+                            ]
+                        ],
+                        "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                    },
+                    "conditions" : {
+                        "type" : "mandatory",
+                        "label" : "Acepto las condiciones de participación asociadas a este evento",
+                        "input" : "CheckBox",
+                        "args" : [ 
+                            "", 
+                            "yes"
+                        ],
+                        "helptext" : ""
+                    },
+                    "children" : {
+                        "type" : "mandatory",
+                        "label" : "Edades público",
+                        "input" : "InputChildren",
+                        "args" : null,
+                        "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                    },
+                    "1" : {
+                        "type" : "mandatory",
+                        "label" : "Breve resumen de la compañía",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "2" : {
+                        "type" : "optional",
+                        "label" : "Link al Dossier completo de la propuesta (PDF)",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : "Dropbox, Google Drive, Mega... (recuerda hacer público el documento para que sea accesible por la organización.)"
+                    },
+                    "3" : {
+                        "type" : "mandatory",
+                        "label" : "Ficha artística de la propuesta",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : ""
+                    },
+                    "4" : {
+                        "type" : "optional",
+                        "label" : "Necesidades técnicas básicas",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            "Nos adaptamos a las necesidades que ofrezca la organización y el espacio"
+                        ],
+                        "helptext" : ""
+                    },
+                    "5" : {
+                        "type" : "mandatory",
+                        "label" : "Nombre de la persona de contacto",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    }
+                }
+            },
+            "5" : {
+                "helptext" : "¿Tienes alguna propuesta para niños? Si tienes preparado algún taller didáctico, háznoslo llegar. Si no es de danza, no te preocupes, estamos abiertos a más propuestas: manualidades, títeres, pintura, collage, expresión corporal, ballet, danza en familia etc. Los talleres se realizarán por la mañana y por la tarde los días 28 y 29 de octubre. Y si tienes algún espectáculo de danza, teatro y danza o teatro gestual de pequeño formato de 20 a 30 minutos, dirigido tanto a público infantil como familiar, envíanos tu propuesta. Se realizarán 2 pases en el espacio asignado durante los días del festival: 28 y 29 de octubre por la mañana y por la tarde.",
+                "blocks" : {
+                    "category" : {
+                        "type" : "mandatory",
+                        "label" : "Selecciona una categoría artistica",
+                        "input" : "CategorySelector",
+                        "args" : {
+                            "arts" : {
+                                "activateOptions" : {
+                                    "6" : [ 
+                                        "8", 
+                                        "9", 
+                                        "10"
+                                    ],
+                                    "duration" : [ 
+                                        "20", 
+                                        "25", 
+                                        "30"
+                                    ]
+                                }
+                            },
+                            "workshop" : {
+                                "activateOptions" : {
+                                    "6" : [ 
+                                        "1", 
+                                        "2", 
+                                        "3", 
+                                        "4", 
+                                        "5", 
+                                        "6", 
+                                        "7"
+                                    ],
+                                    "duration" : "all"
+                                }
+                            }
+                        },
+                        "helptext" : ""
+                    },
+                    "subcategory" : {
+                        "type" : "mandatory",
+                        "label" : "Categoría de la propuesta en el evento",
+                        "input" : "SubcategorySelector",
+                        "args" : [ 
+                            [ 
+                                "5"
+                            ], 
+                            "artist"
+                        ],
+                        "helptext" : ""
+                    },
+                    "title" : {
+                        "type" : "mandatory",
+                        "label" : "Título de la propuesta artística",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+                    },
+                    "short_description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción (muy) breve",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "duration" : {
+                        "type" : "mandatory",
+                        "label" : "Duración del espectáculo",
+                        "input" : "Duration",
+                        "args" : {
+                            "5" : "5 min",
+                            "10" : "10 min",
+                            "15" : "15 min",
+                            "20" : "20 min",
+                            "25" : "25 min",
+                            "30" : "30 min",
+                            "35" : "35 min",
+                            "40" : "40 min",
+                            "45" : "45 min",
+                            "50" : "50 min",
+                            "55" : "55 min",
+                            "60" : "1 h",
+                            "75" : "1h 15min",
+                            "90" : "1h 30min",
+                            "105" : "1h 45min",
+                            "120" : "2 h",
+                            "135" : "2h 15min",
+                            "150" : "2h 30min"
+                        },
+                        "helptext" : ""
+                    },
+                    "photos" : {
+                        "type" : "mandatory",
+                        "label" : "De 1 a 4 fotografías buena resolución de la propuesta 72 pp (tamaño inferior a 500kb)",
+                        "input" : "UploadPhotos",
+                        "args" : [ 
+                            "/photos", 
+                            4
+                        ],
+                        "helptext" : ""
+                    },
+                    "links" : {
+                        "type" : "optional",
+                        "label" : "Links a vídeos",
+                        "input" : "InputMultimedia",
+                        "args" : null,
+                        "helptext" : "Añade el link a un vídeo promocional y a un vídeo más completo."
+                    },
+                    "availability" : {
+                        "type" : "mandatory",
+                        "label" : "Disponibilidad",
+                        "input" : "MultipleDaysSelector",
+                        "args" : [ 
+                            [ 
+                                "1508623200000", 
+                                "1509055200000", 
+                                "1509141600000", 
+                                "1509228000000"
+                            ]
+                        ],
+                        "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                    },
+                    "conditions" : {
+                        "type" : "mandatory",
+                        "label" : "Acepto las condiciones de participación asociadas a este evento",
+                        "input" : "CheckBox",
+                        "args" : [ 
+                            "", 
+                            "yes"
+                        ],
+                        "helptext" : ""
+                    },
+                    "children" : {
+                        "type" : "mandatory",
+                        "label" : "Edades público",
+                        "input" : "InputChildren",
+                        "args" : null,
+                        "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                    },
+                    "1" : {
+                        "type" : "mandatory",
+                        "label" : "Breve resumen de la compañía",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "2" : {
+                        "type" : "optional",
+                        "label" : "Link al Dossier completo de la propuesta (PDF)",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : "Dropbox, Google Drive, Mega... (recuerda hacer público el documento para que sea accesible por la organización.)"
+                    },
+                    "3" : {
+                        "type" : "mandatory",
+                        "label" : "Ficha artística de la propuesta",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : ""
+                    },
+                    "4" : {
+                        "type" : "optional",
+                        "label" : "Necesidades técnicas básicas",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            "Nos adaptamos a las necesidades que ofrezca la organización y el espacio"
+                        ],
+                        "helptext" : ""
+                    },
+                    "5" : {
+                        "type" : "mandatory",
+                        "label" : "Nombre de la persona de contacto",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "6" : {
+                        "type" : "mandatory",
+                        "label" : "Tipo de propuesta",
+                        "input" : "ActivateSelector",
+                        "args" : [ 
+                            {
+                                "1" : "Taller - Danza",
+                                "2" : "Manualidades",
+                                "3" : "Títeres",
+                                "4" : "Collage",
+                                "5" : "Expresión corporal",
+                                "6" : "Taller - ballet",
+                                "7" : "Danza en familia",
+                                "8" : "Espectáculo - Danza",
+                                "9" : "Teatro y Danza",
+                                "10" : "Teatro gestual"
+                            }
+                        ],
+                        "helptext" : ""
+                    }
+                }
+            },
+            "6" : {
+                "helptext" : "Se podrán presentar piezas de mayor formato, de cualquier estilo de danza, con una duración superior a 35 minutos que puedan realizarse en espacios aproximados de 6 x 6 metros.",
+                "blocks" : {
+                    "category" : {
+                        "type" : "mandatory",
+                        "label" : "Selecciona una categoría artistica",
+                        "input" : "CategorySelector",
+                        "args" : {
+                            "arts" : null
+                        },
+                        "helptext" : ""
+                    },
+                    "subcategory" : {
+                        "type" : "mandatory",
+                        "label" : "Categoría de la propuesta en el evento",
+                        "input" : "SubcategorySelector",
+                        "args" : [ 
+                            [ 
+                                "6"
+                            ], 
+                            "artist"
+                        ],
+                        "helptext" : ""
+                    },
+                    "title" : {
+                        "type" : "mandatory",
+                        "label" : "Título de la propuesta artística",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+                    },
+                    "short_description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción (muy) breve",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "duration" : {
+                        "type" : "mandatory",
+                        "label" : "Duración del espectáculo",
+                        "input" : "Selector",
+                        "args" : [ 
+                            [ 
+                                "35 min", 
+                                "40 min", 
+                                "45 min", 
+                                "50 min", 
+                                "55 min", 
+                                "1 h", 
+                                "1h 15min", 
+                                "1h 30min", 
+                                "1h 45min", 
+                                "2 h", 
+                                "2h 15min", 
+                                "2h 30min"
+                            ], 
+                            [ 
+                                "35", 
+                                "40", 
+                                "45", 
+                                "50", 
+                                "55", 
+                                "60", 
+                                "75", 
+                                "90", 
+                                "105", 
+                                "120", 
+                                "135", 
+                                "150"
+                            ]
+                        ],
+                        "helptext" : ""
+                    },
+                    "links" : {
+                        "type" : "optional",
+                        "label" : "Materiales online",
+                        "input" : "InputMultimedia",
+                        "args" : null,
+                        "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                    },
+                    "photos" : {
+                        "type" : "mandatory",
+                        "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                        "input" : "UploadPhotos",
+                        "args" : [ 
+                            "/photos", 
+                            4
+                        ],
+                        "helptext" : ""
+                    },
+                    "availability" : {
+                        "type" : "mandatory",
+                        "label" : "Disponibilidad",
+                        "input" : "MultipleDaysSelector",
+                        "args" : [ 
+                            [ 
+                                "1508623200000", 
+                                "1509055200000", 
+                                "1509141600000", 
+                                "1509228000000"
+                            ]
+                        ],
+                        "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                    },
+                    "conditions" : {
+                        "type" : "mandatory",
+                        "label" : "Acepto las condiciones de participación asociadas a este evento",
+                        "input" : "CheckBox",
+                        "args" : [ 
+                            "", 
+                            "yes"
+                        ],
+                        "helptext" : ""
+                    },
+                    "children" : {
+                        "type" : "mandatory",
+                        "label" : "Edades público",
+                        "input" : "InputChildren",
+                        "args" : null,
+                        "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                    },
+                    "1" : {
+                        "type" : "mandatory",
+                        "label" : "Breve resumen de la compañía",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "2" : {
+                        "type" : "optional",
+                        "label" : "Link al Dossier completo de la propuesta (PDF)",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : "Dropbox, Google Drive, Mega... (recuerda hacer público el documento para que sea accesible por la organización.)"
+                    },
+                    "3" : {
+                        "type" : "mandatory",
+                        "label" : "Ficha artística de la propuesta",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : ""
+                    },
+                    "4" : {
+                        "type" : "optional",
+                        "label" : "Necesidades técnicas básicas",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            "Nos adaptamos a las necesidades que ofrezca la organización y el espacio"
+                        ],
+                        "helptext" : ""
+                    },
+                    "5" : {
+                        "type" : "mandatory",
+                        "label" : "Nombre de la persona de contacto",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    }
+                }
+            },
+            "7" : {
+                "helptext" : "Sección de actividades paralelas en la que aceptamos propuestas de todo tipo. Haznos llegar tu iniciativa de danza - movimiento relacionada con algún taller, jam, charla, intervención urbana, video, artes plásticas, performance etc. para insertarla en nuestra programación.",
+                "blocks" : {
+                    "category" : {
+                        "type" : "mandatory",
+                        "label" : "Selecciona una categoría artistica",
+                        "input" : "CategorySelector",
+                        "args" : {
+                            "arts" : null,
+                            "workshop" : null,
+                            "audiovisual" : null,
+                            "street_art" : null,
+                            "gastronomy" : null,
+                            "music" : null,
+                            "other" : null
+                        },
+                        "helptext" : ""
+                    },
+                    "subcategory" : {
+                        "type" : "mandatory",
+                        "label" : "Categoría de la propuesta en el evento",
+                        "input" : "SubcategorySelector",
+                        "args" : [ 
+                            [ 
+                                "7"
+                            ], 
+                            "artist"
+                        ],
+                        "helptext" : ""
+                    },
+                    "title" : {
+                        "type" : "mandatory",
+                        "label" : "Título de la propuesta artística",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            ""
+                        ],
+                        "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta."
+                    },
+                    "short_description" : {
+                        "type" : "mandatory",
+                        "label" : "Descripción (muy) breve",
+                        "input" : "TextAreaCounter",
+                        "args" : [ 
+                            "", 
+                            80, 
+                            "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        ],
+                        "helptext" : ""
+                    },
+                    "duration" : {
+                        "type" : "mandatory",
+                        "label" : "Duración del espectáculo",
+                        "input" : "Selector",
+                        "args" : [ 
+                            [ 
+                                "5 min", 
+                                "10 min", 
+                                "15 min", 
+                                "20 min", 
+                                "25 min", 
+                                "30 min", 
+                                "35 min", 
+                                "40 min", 
+                                "45 min", 
+                                "50 min", 
+                                "55 min", 
+                                "1 h", 
+                                "1h 15min", 
+                                "1h 30min", 
+                                "1h 45min", 
+                                "2 h", 
+                                "2h 15min", 
+                                "2h 30min"
+                            ], 
+                            [ 
+                                "5", 
+                                "10", 
+                                "15", 
+                                "20", 
+                                "25", 
+                                "30", 
+                                "35", 
+                                "40", 
+                                "45", 
+                                "50", 
+                                "55", 
+                                "60", 
+                                "75", 
+                                "90", 
+                                "105", 
+                                "120", 
+                                "135", 
+                                "150"
+                            ]
+                        ],
+                        "helptext" : ""
+                    },
+                    "photos" : {
+                        "type" : "mandatory",
+                        "label" : "De 1 a 4 fotografías buena resolución de la propuesta 72 pp (tamaño inferior a 500kb)",
+                        "input" : "UploadPhotos",
+                        "args" : [ 
+                            "/photos", 
+                            4
+                        ],
+                        "helptext" : ""
+                    },
+                    "links" : {
+                        "type" : "optional",
+                        "label" : "Links a vídeos",
+                        "input" : "InputMultimedia",
+                        "args" : null,
+                        "helptext" : "Añade el link a un vídeo promocional y a un vídeo más completo."
+                    },
+                    "availability" : {
+                        "type" : "mandatory",
+                        "label" : "Disponibilidad",
+                        "input" : "MultipleDaysSelector",
+                        "args" : [ 
+                            [ 
+                                "1508623200000", 
+                                "1509055200000", 
+                                "1509141600000", 
+                                "1509228000000"
+                            ]
+                        ],
+                        "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                    },
+                    "conditions" : {
+                        "type" : "mandatory",
+                        "label" : "Acepto las condiciones de participación asociadas a este evento",
+                        "input" : "CheckBox",
+                        "args" : [ 
+                            "", 
+                            "yes"
+                        ],
+                        "helptext" : ""
+                    },
+                    "children" : {
+                        "type" : "mandatory",
+                        "label" : "Edades público",
+                        "input" : "InputChildren",
+                        "args" : null,
+                        "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                    },
+                    "1" : {
+                        "type" : "optional",
+                        "label" : "Tipo de propuesta",
+                        "input" : "Selector",
+                        "args" : [ 
+                            [ 
+                                "taller", 
+                                "jam", 
+                                "charla", 
+                                "intervención urbana", 
+                                "video", 
+                                "artes plásticas", 
+                                "performance"
+                            ], 
+                            [ 
+                                "taller", 
+                                "jam", 
+                                "charla", 
+                                "intervención urbana", 
+                                "video", 
+                                "artes plásticas", 
+                                "performance"
+                            ]
+                        ],
+                        "helptext" : ""
+                    },
+                    "2" : {
+                        "type" : "optional",
+                        "label" : "Link al Dossier completo de la propuesta (PDF)",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : "Dropbox, Google Drive, Mega... (recuerda hacer público el documento para que sea accesible por la organización.)"
+                    },
+                    "4" : {
+                        "type" : "optional",
+                        "label" : "Necesidades técnicas básicas",
+                        "input" : "TextAreaEnriched",
+                        "args" : [ 
+                            "Nos adaptamos a las necesidades que ofrezca la organización y el espacio"
+                        ],
+                        "helptext" : ""
+                    },
+                    "5" : {
+                        "type" : "mandatory",
+                        "label" : "Nombre de la persona de contacto",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    }
+                }
+            }
+        },
+        "space" : {
+            "10" : {
+                "helptext" : null,
+                "blocks" : {
+                    "subcategory" : {
+                        "type" : "mandatory",
+                        "label" : "Categoría del espacio en el evento",
+                        "input" : "SubcategorySelector",
+                        "args" : [ 
+                            [ 
+                                "1"
+                            ], 
+                            "space"
+                        ],
+                        "helptext" : ""
+                    },
+                    "availability" : {
+                        "type" : "mandatory",
+                        "label" : "Disponibilidad",
+                        "input" : "MultipleDaysSelector",
+                        "args" : [ 
+                            [ 
+                                "1508623200000", 
+                                "1509055200000", 
+                                "1509141600000", 
+                                "1509228000000"
+                            ]
+                        ],
+                        "helptext" : "Selecciona los días que estás disponible para tu participación en el evento."
+                    },
+                    "conditions" : {
+                        "type" : "mandatory",
+                        "label" : "Acepto las condiciones de participación asociadas a este evento",
+                        "input" : "CheckBox",
+                        "args" : [ 
+                            "", 
+                            "yes"
+                        ],
+                        "helptext" : ""
+                    },
+                    "1" : {
+                        "type" : "mandatory",
+                        "label" : "Medidas del espacio de representación",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "2" : {
+                        "type" : "mandatory",
+                        "label" : "Tipo de suelo",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "3" : {
+                        "type" : "mandatory",
+                        "label" : "Altura de suelo a techo",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    },
+                    "4" : {
+                        "type" : "mandatory",
+                        "label" : "Aforo máximo",
+                        "input" : "Input",
+                        "args" : [ 
+                            "", 
+                            "text"
+                        ],
+                        "helptext" : ""
+                    }
+                }
+            }
+        }
+    }
+}
