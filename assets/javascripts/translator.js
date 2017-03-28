@@ -1,5 +1,57 @@
 'use strict';
 
+var Options = function(){
+  var localStorageKey = 'orfheo'
+  // var defaultLang = navigator.language || navigator.userLanguage
+  // if (!($.inArray(defaultLang, ['es','en']))) defaultLang = 'es'
+  var defaultLang = 'es'
+
+  if (!localStorage[localStorageKey]){
+    localStorage[localStorageKey] = JSON.stringify({
+      language: defaultLang, 
+      cookies: false, 
+      register: {}
+    })
+  }
+
+  var orfheoStorage = JSON.parse(localStorage[localStorageKey])
+  if(!orfheoStorage.language) 
+    orfheoStorage.setLanguage('es')
+
+  return {
+    register: function(){
+      return orfheoStorage.register
+    },
+    setRegister: function(info){
+      orfheoStorage.register = info
+      localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
+    },
+    language: function(){
+      return orfheoStorage.language
+    },
+    setLanguage: function(lang){
+      Pard.Backend.modifyLang(lang, function(){
+        orfheoStorage.language = lang
+        localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
+        location.reload()
+      })
+    },
+    storeLanguage: function(lang){
+      orfheoStorage.language = lang
+      localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
+    },
+    cookies: function(){
+      return orfheoStorage.cookies
+    },
+    setCookies: function(){
+      orfheoStorage.cookies = true
+      localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
+    }
+  }
+}
+
+Pard.Options = Options();
+
 (function(ns){
 
   ns.Translator = function(language){

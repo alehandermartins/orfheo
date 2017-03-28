@@ -1,6 +1,8 @@
 // = require pard
 // = require languages
 // = require translator
+// = require browser
+
 // = require app
 // = require backend
 // = require events
@@ -14,5 +16,3 @@
 // = require users
 // = require welcome
 // = require services
-
-
