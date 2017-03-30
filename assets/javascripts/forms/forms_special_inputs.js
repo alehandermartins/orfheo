@@ -16,7 +16,7 @@
         return _photosContainer;
       },
       checkVal: function(){
-        return _photos.dataLength();
+        return _photos.dataLength() + _url.length;
       },
       getVal: function(){
         return _url;
