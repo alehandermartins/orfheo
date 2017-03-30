@@ -147,8 +147,6 @@
       }
     });
 
-    console.log(endHour);
-    
     //Amount of hours in our day
     var hourSpan = endHour - startHour;
     if(endHour < startHour) hourSpan = 24 - startHour + endHour;
