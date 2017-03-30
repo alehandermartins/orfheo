@@ -719,11 +719,11 @@
         callOpening:'Call opening ',
         callOpened:'Open call',
         till: ' untill ',
-        callClosed:'Closed cadd (since ',
+        callClosed:'Closed call (since ',
         organize:'Organizes ',
         noConditions: 'No terms of participation',
         seeAll: 'see all',
-        conditions:'Participación terms'
+        conditions:'Participation terms'
       },
       eventAside:{
         program: 'Program',
