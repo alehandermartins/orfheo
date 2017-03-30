@@ -69,7 +69,6 @@
       cache:{icon:'&#xE227;', className:'material-icons'},
       stage:{icon:'&#xE0C8;', className:'material-icons'},
       performer:{icon:'&#xE029;', className:'material-icons'},
-      // calendar: {icon:'&#8250;', className:'fa fa-calendar'}, &#xE53B
       hide_right_list: {icon:'&#8250;', className:'fa fa-bars'},      
       hide_left_list: {icon:'&#8249;', className:'fa fa-bars'},
       circle_arrow_up: {icon:'', className:'fa fa-arrow-circle-up'},

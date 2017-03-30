@@ -2072,7 +2072,7 @@ Program Manager Tab
   right: 0;
   top:0;
   width: 13rem;
-  border: 1px solid;
+  border: 2px solid $grey-4;
   z-index: 1;
   .accordion-item{
     height: 3rem;
@@ -2126,6 +2126,8 @@ Program Manager Tab
   position: absolute;
   left: -0.2rem;
   top: -1rem;
+  z-index: 1;
+  background: white;
 }
 
 .navigation-btn-icon{
@@ -2173,7 +2175,13 @@ Program Manager Tab
 }
 
 
-.space-not-available-call-manager,.artist-not-available-call-manager{
+/* .space-not-available-call-manager, */
+.artist-not-available-call-manager{
+  opacity:0.4;
+  background-color: $grey-2;
+}
+
+.space-not-available-call-manager .spaceTime{
   opacity:0.4;
   background-color: $grey-2;
 }
@@ -2198,6 +2206,14 @@ Program Manager Tab
   a:hover{
    text-decoration: underline;
   }
+}
+
+.performanceManagerTitle{
+  cursor: pointer;
+}
+
+.performanceManagerTitle:hover{
+  text-decoration: underline;;
 }
 
 .dragging-card-call-manager{
@@ -2253,7 +2269,17 @@ Program Manager Tab
   text-align: center;
   width: 174px;
   z-index: 1;
+  position: absolute;
 }
+
+.position-absolute{
+  position: absolute !important;
+}
+
+.spaceTime.ui-droppable {
+  margin-top: 40px;
+}
+
 
 .space-column-header .menu> li > a{
   padding: 0.4rem;
@@ -2401,7 +2427,7 @@ tr.permanent-row-program-table-call-manager td{
 
 .artists-dropdown-icon-call-manager{
   display: inline-block;
-  width: 1.5rem;
+  width: 1.4rem;
   vertical-align: middle;
 }
 

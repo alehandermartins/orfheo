@@ -655,16 +655,30 @@ button{
 
 .show-hide-btn-call-manager{
   position: absolute;
-  right: -3px;
-  bottom: -1rem;
+  right: -13px;
   span{
     font-size: 1.4rem;
-  }  
+  } 
+    .hide-artistBlock{
+      background: black;
+      height: 42px;
+      color: white;
+      padding-top: 10px;
+      display: block;
+    }
+    .hide-artistBlock:hover{
+      color: rgba(255,255,255,0.9);
+    }
+    .show-artistBlock{
+      height: 42px;
+      padding-top: 10px;
+      display: block;
+    }
+    .show-artistBlock:hover{
+       color: rgba(0,0,0,0.8);
+    }
 }
 
-.show-hide-btn-call-manager:hover{
-  color: rgba(0,0,0,0.8);
-}
 
 .submit-program-btn-call-manager{
   vertical-align: middle;
@@ -2938,6 +2952,10 @@ span.select2-container--default .select2-selection--single{
 
 .select2-container--default .select2-selection--single .select2-selection__arrow{
   height: 2.1rem;
+}
+
+span .select2-dropdown{
+  @include border-radius($element-border-radius);
 }
 
 

@@ -29,15 +29,15 @@
       var _icon = $('<span>')
       if ($.isArray(resource.icon)) 
         resource.icon.forEach(function(icon){
-          _icon.append(Pard.Widgets.IconManager(icon).render())
+          _icon.append(Pard.Widgets.IconManager(icon).render().addClass('iconCategory-select2'))
         })
       else _icon = Pard.Widgets.IconManager(resource.icon).render();
       _label.append(_icon);
-      _icon.css({
-        position: 'relative',
-        left: '5px',
-        top: '5px',
-      });
+      // _icon.css({
+      //   position: 'relative',
+      //   left: '5px',
+      //   top: '5px',
+      // });
     }
     return _label;
   }

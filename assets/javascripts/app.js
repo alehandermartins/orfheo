@@ -202,6 +202,7 @@ Pard.EventManager = function(event_id){
       $(document).on('open.zf.reveal', function(){
         $('html').addClass('overflowHidden');
       });
+      Pard.Bus.trigger('setPublishStatus');
       spinner.stop();
     });
   });
