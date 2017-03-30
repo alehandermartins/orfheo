@@ -499,7 +499,6 @@
       opened: 'Convocatoria abierta',
       closed: 'Convocatoria cerrada',
       finished: 'Evento terminado',
-      for: 'para %{participants}',
       until: ' hasta el %{date}',
       onlineProgram: '¡Programación online!',
       contact: 'Contáctanos para crear tu evento'

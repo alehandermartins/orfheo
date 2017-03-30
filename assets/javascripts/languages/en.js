@@ -498,7 +498,6 @@
       opened: 'Open call',
       closed: 'Closed call',
       finished: 'Finished',
-      for: 'for %{participants}',
       until: ' until %{date}',
       onlineProgram: '¡Online program!',
       contact: 'Create an event, contact us'
