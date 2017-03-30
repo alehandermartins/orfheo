@@ -7,7 +7,8 @@ var DetectBrowser = function(){
 		'Chromium': 42,
 		'Internet Explorer': 11,
 		'Safari': 9,
-		'Opera': 39
+		'Opera': 39, 
+		'Microsoft Edge': 14
 	}
 	console.log(bowser.name + ' ' + bowser.version);
 	Pard.UserInfo['browser'] = bowser.name + ' ' + bowser.version;

@@ -275,6 +275,7 @@
     }
   }
 
+
   ns.Widgets.Sticker = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
     var _diffI = 1;
     $(document).ready(function(){
@@ -295,6 +296,33 @@
       });
     })
   }
+
+  // ns.Widgets.StickTableHeader = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
+  //   var _diffI = 1;
+  //   $(document).ready(function(){
+  //     $(window).scroll(function(){
+  //         var _elDistanceFromTop = $(elem).offset().top;
+  //         var _elDistanceFromLeft = $(elem).offset().left;
+  //         var _windowScroll = $(window).scrollTop();
+  //         var _distanceFromWindow = _elDistanceFromTop -_windowScroll;
+
+  //         if (_distanceFromWindow * _diffI < stickyDistanceTop && !($(elem).hasClass('position-fixed')))   {
+  //           $(elem).addClass('position-fixed')
+  //             .css({
+  //               'top':stickyDistanceTop+'px',
+  //               // 'left':_elDistanceFromLeft+'px'
+  //             });
+  //           _diffI = - 1;
+  //         }
+  //         if (_windowScroll - initialDistanceFromHeader < stickyDistanceTop && $(elem).hasClass('position-fixed')){
+  //             $(elem).removeClass('position-fixed').css({'top':'','left':''});
+  //             _diffI = 1;
+  //         }
+    
+  //     });
+  //   })
+  // }
+
 
   // ns.Widgets.StickAndKickHeader = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
 

@@ -173,9 +173,6 @@ Pard.EventManager = function(event_id){
   var spinner = new Spinner();
     spinner.spin();
     $('body').append(spinner.el);
-    $(window).load(function(){
-      spinner.stop();
-  });
 
   Pard.Backend.eventManager(event_id, function(data){
     var the_event = data.the_event;
@@ -205,6 +202,7 @@ Pard.EventManager = function(event_id){
       $(document).on('open.zf.reveal', function(){
         $('html').addClass('overflowHidden');
       });
+      spinner.stop();
     });
   });
 }

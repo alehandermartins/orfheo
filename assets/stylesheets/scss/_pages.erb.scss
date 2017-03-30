@@ -2247,6 +2247,14 @@ Program Manager Tab
   padding: 0.2rem;
 }
 
+.spaceHeaderContainer{
+  background-color: #dedede;
+  height: 2.5rem;
+  text-align: center;
+  width: 174px;
+  z-index: 1;
+}
+
 .space-column-header .menu> li > a{
   padding: 0.4rem;
 }
