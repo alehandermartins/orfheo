@@ -28,6 +28,8 @@
         'border-color': 'black'
       });
 
+      var _spaceHeaderContainer = $('<div>').addClass('spaceHeaderContainer');
+      Pard.Widgets.StickTableHeader(_spaceHeaderContainer,_spaceCol, 220,0);
       var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header cursor_grab');
       var _icon = SpaceDropdownMenu().render();
       var _menuIcon = $('<div>').append(_icon);
@@ -43,7 +45,7 @@
       _titleText.text(Pard.Widgets.CutString((space.index + 1) + '. ' + space.name, 35));
       _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
       _spaceHeader.append(_spacename, _menuIcon);
-      _spaceCol.append(_spaceHeader);
+      _spaceCol.append(_spaceHeaderContainer.append(_spaceHeader));
 
       _spaceHeader.mousedown(function(){
         _spaceHeader.removeClass('cursor_grab').addClass('cursor_move');
@@ -70,8 +72,10 @@
           if(card.hasClass('proposalCard') || card.hasClass('programHelper')) return true;
         },
         drop: function(event, ui) {
+          // Pard.Bus.trigger('stop');
+          console.log('drop')
           ui.helper.data('dropped', true);
-          var position = ui.helper.position().top;
+          var position = ui.helper.position().top -40;
           var colPosition = _time.position().top;
 
           //If the element is higher, its height is adjusted to the top of the _time zone
@@ -79,12 +83,8 @@
 
           //Adjusting to time line
           var _offset = (position - colPosition) % 15;
-          console.log(position);
-          console.log(colPosition);
-          console.log(_offset);
           if(_offset >= 8) position += 15 - _offset;
           if(_offset < 8) position -= _offset;
-          console.log(position);
 
           //If the card is below the drop zone it adjustes to the low end
           var duration = ui.helper.height();

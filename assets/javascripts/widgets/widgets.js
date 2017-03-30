@@ -242,8 +242,8 @@
     else{_popupContent.addClass('popup-container-full');}
     var _sectionContainer = $('<section>').addClass('popup-content');
     var _header = $('<div>').addClass('row popup-header');
-    var _title = $('<h4>').addClass('small-11 popup-title').text(title);
-
+    var _title = $('<h4>').addClass('small-11 popup-title').append(title);
+    console.log(title)
     var _callback = function(){};
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'})
       .append($('<span>').html('&times;'))
@@ -297,31 +297,27 @@
     })
   }
 
-  // ns.Widgets.StickTableHeader = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
-  //   var _diffI = 1;
-  //   $(document).ready(function(){
-  //     $(window).scroll(function(){
-  //         var _elDistanceFromTop = $(elem).offset().top;
-  //         var _elDistanceFromLeft = $(elem).offset().left;
-  //         var _windowScroll = $(window).scrollTop();
-  //         var _distanceFromWindow = _elDistanceFromTop -_windowScroll;
-
-  //         if (_distanceFromWindow * _diffI < stickyDistanceTop && !($(elem).hasClass('position-fixed')))   {
-  //           $(elem).addClass('position-fixed')
-  //             .css({
-  //               'top':stickyDistanceTop+'px',
-  //               // 'left':_elDistanceFromLeft+'px'
-  //             });
-  //           _diffI = - 1;
-  //         }
-  //         if (_windowScroll - initialDistanceFromHeader < stickyDistanceTop && $(elem).hasClass('position-fixed')){
-  //             $(elem).removeClass('position-fixed').css({'top':'','left':''});
-  //             _diffI = 1;
-  //         }
+  ns.Widgets.StickTableHeader = function (elem, parent, initialDistanceFromHeader, stickyDistanceTop) {
+    $(document).ready(function(){
+      $(window).scroll(function(){
+          var _elDistanceFromTop = $(elem).offset().top;
+          var _windowScroll = $(window).scrollTop();
+          var _parentDistanceFromWindow = $(parent).offset().top -_windowScroll;
+          if (_parentDistanceFromWindow < stickyDistanceTop )   {
+            var _distanceElementFromParent = stickyDistanceTop-_parentDistanceFromWindow
+            if(! $(elem).hasClass('position-absolute')) $(elem).addClass('position-absolute')
+            $(elem)
+              .css({
+                'top':_distanceElementFromParent+'px',
+              });
+          }
+          if (_windowScroll - initialDistanceFromHeader < stickyDistanceTop && $(elem).hasClass('position-absolute')){
+              $(elem).removeClass('position-absolute').css({'top':'','left':''});
+          }
     
-  //     });
-  //   })
-  // }
+      });
+    })
+  }
 
 
   // ns.Widgets.StickAndKickHeader = function (elem, initialDistanceFromHeader, stickyDistanceTop) {

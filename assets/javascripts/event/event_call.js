@@ -368,7 +368,8 @@
             minimumResultsForSearch: Infinity,
             data: _typeData,
             templateResult: Pard.Widgets.FormatResource,
-            placeholder: Pard.t.text('call.form.catPlaceholder')
+            placeholder: Pard.t.text('call.form.catPlaceholder'),
+            dropdownCssClass: 'orfheoTypeFormSelector'
           });
           _formTypeSelector.on('change',function(){
             if (_formTypeSelector.val()){

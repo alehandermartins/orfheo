@@ -20,11 +20,18 @@
     var _timeTableContainer = $('<div>').addClass('time-table-call-manager');
     var _tableContainer = $('<div>').addClass('tableContainer table-container-call-manager');
     var _artistsList = $('<ul>').addClass('accordion').attr({'data-accordion':'', 'role': 'tablist'}).attr({'id':'artistAccordeon'});
-    var _artistsListContainer =  $('<div>').addClass('artist-list-container-call-manager').css({
-      'height':(hours.length -1) * Pard.HourHeight
-    });
+    var _artistsListContainer =  $('<div>')
+      .addClass('artist-list-container-call-manager')
+      .css({
+        'height': '80vh',
+        'max-height':(hours.length -1) * Pard.HourHeight
+      });
     _artistsListContainer.append(_artistsList);
     var _artistsBlock = $('<div>').addClass('artist-accordeon-call-manager is-active');
+
+    Pard.Widgets.StickTableHeader(_artistsBlock, _tableBox, 220,0)
+
+
 
     var _scrollLeftBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_left').render().addClass('navigation-btn-icon'));
     var _scrollRightBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_right').render().addClass('navigation-btn-icon'));
@@ -45,6 +52,7 @@
 
     var _scrollers = $('<div>').append( _scrollLeftBtn, _scrollRightBtn).addClass('scrollers-call-managers');
     _timeTableContainer.append(_scrollers);
+    Pard.Widgets.StickTableHeader(_scrollers,_tableBox,220,0)
 
     var _tables = {};
     var _lines = [];
@@ -76,8 +84,9 @@
         'width': '11rem',
         'height': '100%',
         'vertical-align': 'top',
-        'background': 'white'
+        'background':'white'
       });
+      if($.isEmptyObject(spaces)) _emptyColumn.css({'background':'transparent'});
       _tables[day] = _table;
       _emptySpaces[day] = _emptyColumn;
       if(index == 0 && !$.isEmptyObject(spaces)) _tableContainer.append(_tables[day]);
@@ -100,9 +109,21 @@
     var _artistSelector = $('<select>');
 
     var _showArtists = $('<button>').attr('type','button').addClass('show-hide-btn-call-manager');
-    var _showIcon = Pard.Widgets.IconManager('hide_left_list').render().css('color','#6f6f6f');
-    var _hideIcon = Pard.Widgets.IconManager('hide_right_list').render();
+    var _showIcon = $('<span>').append(
+       Pard.Widgets.IconManager('performer').render()
+          .css({
+            'font-size': '1.3rem',
+            'margin-right':'-0.5rem',
+            'vertical-align':'.1rem'
+          }),
+        Pard.Widgets.IconManager('navigation_left').render()
+      )
+      .addClass('show-artistBlock');
+    // var _showIcon = Pard.Widgets.IconManager('hide_left_list').render()
+    var _hideIcon = Pard.Widgets.IconManager('navigation_right').render()
+      .addClass('hide-artistBlock');
     _showArtists.append(_hideIcon);
+    Pard.Widgets.StickTableHeader(_showArtists,_tableBox,220,0);
 
     _daySelectorContainer.append(_daySelector);
     _spaceSelectorContainer.append(_spaceSelector);
@@ -367,13 +388,15 @@
     Pard.Bus.on('drag', function(performance){
       if(_artistsBlock.hasClass('is-active')){
         _artistsBlock.toggle('slide', {direction: 'right'}, 500);
-        _artistsBlock.removeClass('is-active');
+        // _artistsBlock.removeClass('is-active');
       }
     });
 
     Pard.Bus.on('stop', function(performance){
-      _artistsBlock.toggle('slide', {direction: 'right'}, 500);
-      _artistsBlock.addClass('is-active');
+      if(_artistsBlock.hasClass('is-active')){
+        _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+      }
+        // _artistsBlock.addClass('is-active');
     });
 
     Pard.Bus.on('detachPerformance', function(performance){
@@ -458,12 +481,26 @@
       _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
       
       _titleText.on('click', function(){
-        var _content = $('<div>').addClass('very-fast reveal full');
+        var _content = $('<div>').addClass('very-fast reveal full').css('z-index','99');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
-        var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', manager(true));
+        var _performaceTitlePopup = $('<span>')
+          .text(performance.title +' (' + performance.participant_name + ')')
+          .click(function(){
+            var _proposal; 
+            artists[performance.participant_id]['artist']['proposals'].some(function(proposal){
+              if (proposal.proposal_id == performance.participant_proposal_id){
+                _proposal = proposal;
+                return true;
+              }
+              return false;
+            });
+            displayer.displayProposal(_proposal, 'artist');
+          })
+          .addClass('performanceManagerTitle');
+        var _message = Pard.Widgets.PopupContent(_performaceTitlePopup, manager(true));
         _message.setCallback(function(){
           _popup.close();          
           setTimeout(function(){
@@ -495,6 +532,7 @@
         stop:function(event, ui){
           card.removeClass('cursor_move').addClass('cursor_grab');
           card.css({'opacity': '1'});
+          Pard.Bus.trigger('stop');
           if(ui.helper.data('dropped') == false){
             Pard.Backend.deletePerformances(_sendForm([performance]), function(data){
               Pard.Bus.trigger(data.event, data.model);
@@ -1858,12 +1896,10 @@
           $('main').css('background','#f6f6f6');
         }
       }
-      _setPublishStatus();
 
-      if(the_event.published == true || the_event.published == 'true'){$(window).load(function(){
-          $('main').css({'background': _backColor})
-        });
-      }
+      Pard.Bus.on('setPublishStatus', function(){
+        _setPublishStatus();
+      });
         
       Pard.Bus.on('publishEvent', function(status){
         if(the_event.published != status){
@@ -1990,8 +2026,8 @@
     });
 
     _toolsContainer.append(ToolsDropdownMenu().render());
-    _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock);
-    _managerView.append( _selectors.append(_daySelectorContainer, _spaceSelectorContainer,  _showArtists));
+    _tableBox.append(_timeTableContainer, _tableContainer, _artistsBlock,  _showArtists);
+    _managerView.append( _selectors.append(_daySelectorContainer, _spaceSelectorContainer));
     _managerView.append(_tableBox);
     var _innerBtnContainer = $('<div>').append(_toolsContainer,_submitBtnContainer).addClass('innerBtnContainer-programManager');
     _buttonsContainer.append(_innerBtnContainer);
