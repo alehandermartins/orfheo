@@ -133,19 +133,20 @@
       var minHour = start.getHours();
       var maxHour = end.getHours();
       if(end.getMinutes() > 0) maxHour += 1;
+
       if(minHour < startHour) startHour = minHour;
       if(endDate == false){
         if(start.getDate() != end.getDate()){
-          endDate == true;
+          endDate = true;
           endHour = maxHour;
         }
         else{if(maxHour > endHour) endHour = maxHour;}
       }
-      if(endDate == true){
+      if(endDate == true && start.getDate() != end.getDate()){
         if(maxHour > endHour) endHour = maxHour; 
       }
     });
-    
+
     //Amount of hours in our day
     var hourSpan = endHour - startHour;
     if(endHour < startHour) hourSpan = 24 - startHour + endHour;
