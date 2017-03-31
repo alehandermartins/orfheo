@@ -44,6 +44,26 @@
     return succeed;
   }
 
+  ns.Widgets.goUpBtn = function(){
+    var _goUpBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('circle_arrow_up').render()).addClass('goUpBtn-program-event-page');
+    _goUpBtn.addClass('hide-goUpBtn');
+    $('body').append(_goUpBtn);
+    _goUpBtn.on('click',function(){
+      $(window).scrollTop(0);
+    })
+    $(window).scroll(function(){
+      console.log($(window).scrollTop())
+      if ($(window).scrollTop() == 0) _goUpBtn.addClass('hide-goUpBtn');
+      else if (_goUpBtn.hasClass('hide-goUpBtn')) _goUpBtn.removeClass('hide-goUpBtn');
+    });
+
+    return {
+      render:function(){
+        return _goUpBtn;
+      }
+    }
+  }
+
   ns.Widgets.Popup = function(){
     var _createdWidget = $('<div>').addClass('very-fast reveal full');
     var _outerContainer = $('<div>').addClass('vcenter-outer');

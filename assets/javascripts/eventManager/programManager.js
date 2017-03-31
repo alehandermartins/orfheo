@@ -2033,7 +2033,10 @@
     _managerView.append(_tableBox);
     var _innerBtnContainer = $('<div>').append(_toolsContainer,_submitBtnContainer).addClass('innerBtnContainer-programManager');
     _buttonsContainer.append(_innerBtnContainer);
-    _createdWidget.append(_switcher,_buttonsContainer, _managerView, _tableView)
+
+    var _gotUpBtn = Pard.Widgets.goUpBtn().render();
+
+    _createdWidget.append(_switcher,_buttonsContainer, _managerView, _tableView, _gotUpBtn);
 
 
   	return {

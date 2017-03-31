@@ -95,7 +95,6 @@ ns.Widgets = ns.Widgets || {};
     var _searchResult = $('<div>').addClass('search-results-WelcomePage');
     var _searchWidget = $('<select>');
 
-
     function formatResource (resource) {
       if(!resource.id) return resource.text;
       var _label = $('<span>').text(resource.text);
@@ -379,7 +378,9 @@ ns.Widgets = ns.Widgets || {};
       _search();
     });
 
-    _createdWidget.append(_searchInputContainer, _cards);
+    var _goUpBtn = Pard.Widgets.goUpBtn().render();
+
+    _createdWidget.append(_searchInputContainer, _cards, _goUpBtn);
 
     return{
       render: function(){

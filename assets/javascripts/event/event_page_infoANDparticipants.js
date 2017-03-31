@@ -216,7 +216,10 @@
 
     var _createdWidget = $('<div>');
     var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', event_id);
-    _createdWidget.append( _searchEngine.render());
+
+    var _goUpBtn = Pard.Widgets.goUpBtn();
+
+    _createdWidget.append( _searchEngine.render(), _goUpBtn.render());
 
     return{
       render: function(){
