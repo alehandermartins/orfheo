@@ -203,7 +203,7 @@
       },
       photos:{
         "type" : "optional",
-        "label" : Pard.t.text('createProfile.spaceForm.photoL'),
+        "label" : Pard.t.text('createProfile.organizationForm.photoL'),
         "input" : "UploadPhotos",
         "args" : [ 
                   "/photos", 

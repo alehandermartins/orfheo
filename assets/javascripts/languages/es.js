@@ -291,7 +291,8 @@
         catPlaceholder:'Selecciona',
         addressL:"Dirección de la sede de la organización",
         bioL: "Información / Proyecto",
-        bioH: "Cualquier cosa que quieras contar sobre la organización."
+        bioH: "Cualquier cosa que quieras contar sobre la organización.",
+        photoL: 'Fotos de la organización / sede (máximo 5, tamaño inferior a 500kb)'
       }
     },
     modifyProfile:{

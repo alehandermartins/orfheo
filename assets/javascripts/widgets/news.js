@@ -6,9 +6,23 @@ ns.Widgets = ns.Widgets || {};
 
 	ns.NewsArray = {
 		'en': [
+		{
+				'title':'Circuito Bucles calls artists ans spaces',
+				'text':"<p> <a href='/event?id=e468f805-e481-4092-8134-066edb6ed018', target='_blank'> Circuito Bucles call </a> is open till the 21st of June.</p>",
+				'img': 'bucles_orfheo_nrcdkp',
+				'date': '1490956666434',
+				'publisher': 'orfheo Team'
+			},
+			{
+				'title':"Distrito 008 festival' s program online",
+				'text':"<p> <a href='/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6', target='_blank'> Check it out </a> and enjoy the event.</p>",
+				'img': 'extramurs_program_online_orfheo_drq5zf',
+				'date': '1490738400000',
+				'publisher': 'orfheo Team'
+			},
 			{
 				'title':'Join and create an organization profile',
-				'text':'<p>The organization profile includes festivals, associations, collectives, NGOs, federations, institutions and enterprises. It allows you to participate in calls as well as <a href="/services", "target"="_blank"> create and manage events </a>.</p>',
+				'text':'<p>The organization profile includes festivals, associations, collectives, NGOs, federations, institutions and enterprises. It allows you to participate in calls as well as <a href="/services", target="_blank"> create and manage events </a>.</p>',
 				'img': 'create_profile_alzvnj',
 				'date': '1485860400000',
 				'publisher': 'orfheo Team'
@@ -64,6 +78,20 @@ ns.Widgets = ns.Widgets || {};
 			}
 		],
 		'es': [
+		{
+				'title':'Circuito Bucles abre convocatoria',
+				'text':"<p> <a href='/event?id=e468f805-e481-4092-8134-066edb6ed018', target='_blank'> Convocatoria abierta </a> para artistas y espacios hasta el 21 de Junio de 2017.</p>",
+				'img': 'bucles_orfheo_nrcdkp',
+				'date': '1490956666434',
+				'publisher': 'orfheo Team'
+			},
+			{
+				'title':"Distrito 008: programación online",
+				'text':"<p> <a href='/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6', target='_blank'> Hechale un vistazo </a> y disfruta del evento.</p>",
+				'img': 'extramurs_program_online_orfheo_drq5zf',
+				'date': '1490738400000',
+				'publisher': 'orfheo Team'
+			},
 			{
 				'title':'Únete y crea un perfil organización',
 				'text':'<p>El perfil organización incluye festivales, asociaciones, colectivos, ONG, federaciones, instituciones y empresas. Permite tanto participar en convocatorias como <a href="/services", "target"="_blank">crear y gestionar eventos</a>. </p>	',

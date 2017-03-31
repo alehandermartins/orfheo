@@ -291,7 +291,8 @@
         catPlaceholder:'Select',
         addressL:"Address of the organization's headquarters",
         bioL: "Information / Project",
-        bioH: "Anything you want to share about the organization."
+        bioH: "Anything you want to share about the organization.",
+        photoL: 'Organization pictures (5 maximum, size must not exceed 500kb each)'
       }
     },
     modifyProfile:{
