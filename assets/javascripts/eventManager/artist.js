@@ -105,6 +105,7 @@
         titleText.text(Pard.Widgets.CutString(proposal.title, 35));
 
         _icon = Pard.Widgets.IconManager(proposal.category).render().addClass('profile-nav-element-icon');
+        icon.empty();
         icon.append(_icon);
         colorIcon = Pard.Widgets.IconColor(color).render();
         icon.css({color: colorIcon});

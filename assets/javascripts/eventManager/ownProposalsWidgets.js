@@ -71,6 +71,27 @@
       if (_formWidget) _formWidget.setVal(_valToSet);
     });
 
+    var _printForm = function(formType){
+      _contentSel.empty();
+      _production_id = false;
+      _formWidget = Pard.Widgets.OwnProposalForm(forms[formType].blocks, proposalType, formType);
+      _formWidget.setCallback(function(){
+        _closepopup();
+      });
+      _formWidget.setSend(_send);
+      if (_profile_own){
+        var _valToSet = {
+          name:_profile_own.name,
+          email:_profile_own.email,
+          phone:_profile_own.phone,
+          address: _profile_own.address || {},
+          type: _profile_own.type || 'space'
+        }
+        _formWidget.setVal(_valToSet);
+        _formWidget.disableFields('own');
+      }
+      _contentSel.append(_formWidget.render());
+    }
 
     for (var typeForm in forms){
       _formTypeSelector.append($('<option>').text(_translator[typeForm]).val(typeForm));
@@ -88,32 +109,9 @@
       if (_formTypeSelector.val()){
         $('#popupForm').removeClass('top-position');
         _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-        _printForm(_formTypeSelector);
+        _printForm(_formTypeSelector.val());
       }
     });
-
-    var _printForm = function(formTypeSelector){
-      _contentSel.empty();
-      _production_id = false;
-      var _typeFormSelected = formTypeSelector.val();
-      _formWidget = Pard.Widgets.OwnProposalForm(forms[_typeFormSelected].blocks, proposalType, _typeFormSelected);
-      _formWidget.setCallback(function(){
-        _closepopup();
-      });
-      _formWidget.setSend(_send);
-      if (_profile_own){
-        var _valToSet = {
-          name:_profile_own.name,
-          email:_profile_own.email,
-          phone:_profile_own.phone,
-          address: _profile_own.address || {},
-          type: _profile_own.type || 'space'
-        }
-        _formWidget.setVal(_valToSet);
-        _formWidget.disableFields('own');
-      }
-      _contentSel.append(_formWidget.render());
-    };
 
     if (Object.keys(participants).length) {
       _createdWidget.append(_participantsSelectorCont);
@@ -140,7 +138,6 @@
         _send = send;
       }
     }
-
   }
 
 

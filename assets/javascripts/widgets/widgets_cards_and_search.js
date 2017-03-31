@@ -468,7 +468,6 @@
       return _profileTypes[profileType];
     });
     _participants = _participants.join(', ');
-    console.log(_participants);
     var _now = new Date();
     if (_now.getTime()>_endDate.getTime() + 86400000) {
         _callText.append(Pard.t.text('eventsTab.finished'))
@@ -481,7 +480,7 @@
       _callText.append($('<p>').text(Pard.t.text('eventsTab.announcing', {date: moment(parseInt(parseInt(event.start))).locale(lang).format('DD MMMM YYYY')})));
     }
     else if (_now.getTime() < parseInt(event.deadline)){
-      _callText.append($('<p>').append($('<a>').text(Pard.t.text('eventsTab.opened')).attr({'href':'/event?id='+ event.event_id}),$('<span>').text(Pard.t.text('eventsTab.for', {date: moment(parseInt(event.deadline)).locale(lang).format('DD-MM-YYYY')}))));
+      _callText.append($('<p>').append($('<a>').text(Pard.t.text('eventsTab.opened')).attr({'href':'/event?id='+ event.event_id})));
     }
     else{
        _callText.append(Pard.t.text('eventsTab.closed'));

@@ -31,8 +31,6 @@
 
     Pard.Widgets.StickTableHeader(_artistsBlock, _tableBox, 220,0)
 
-
-
     var _scrollLeftBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_left').render().addClass('navigation-btn-icon'));
     var _scrollRightBtn = $('<button>').attr('type','button').append(Pard.Widgets.IconManager('navigation_right').render().addClass('navigation-btn-icon'));
 
@@ -89,7 +87,7 @@
       if($.isEmptyObject(spaces)) _emptyColumn.css({'background':'transparent'});
       _tables[day] = _table;
       _emptySpaces[day] = _emptyColumn;
-      if(index == 0 && !$.isEmptyObject(spaces)) _tableContainer.append(_tables[day]);
+      if(index == 0) _tableContainer.append(_tables[day]);
       else _tableContainer.append(_tables[day].hide());
     });
 
@@ -165,13 +163,15 @@
        var _emptySpace = $('<option>');
       _spaceSelector.append(_emptySpace);
       spaceProposals = [];
-      Object.keys(the_event.subcategories.space).forEach(function(category){
-        spaceProposals.push({
-          type: 'category',
-          id: category,
-          text: Pard.UserInfo['texts']['subcategories']['space'][category]
+      if(Object.keys(the_event.subcategories.space).length > 1){
+        Object.keys(the_event.subcategories.space).forEach(function(category){
+          spaceProposals.push({
+            type: 'category',
+            id: category,
+            text: Pard.UserInfo['texts']['subcategories']['space'][category]
+          });
         });
-      });
+      }
       Object.keys(the_event.spaces).forEach(function(profile_id){
         if (profile_id != _deletedSpaceId){
           spaceProposals.push({
@@ -270,14 +270,16 @@
       var _emptyArtist = $('<option>');
       _artistSelector.append(_emptyArtist);
       artistProposals = [];
-      Object.keys(the_event.subcategories.artist).forEach(function(subcat){
-        artistProposals.push({
-          type: 'category',
-          id: subcat,
-          icon: the_event.subcategories.artist[subcat].icon,
-          text: Pard.UserInfo['texts']['subcategories']['artist'][subcat]
+      if(Object.keys(the_event.subcategories.artist).length > 1){
+        Object.keys(the_event.subcategories.artist).forEach(function(subcat){
+          artistProposals.push({
+            type: 'category',
+            id: subcat,
+            icon: the_event.subcategories.artist[subcat].icon,
+            text: Pard.UserInfo['texts']['subcategories']['artist'][subcat]
+          });
         });
-      });
+      }
       Object.keys(the_event.artists).forEach(function(profile_id){
         if (profile_id == _deletedArtistId) return false;
         artistProposals.push({
@@ -581,7 +583,7 @@
             ui.size.width = ui.originalSize.width;
           },
           maxHeight: performance.maxHeight,
-          grid: 15,
+          grid: 5,
           stop: function(event, ui){
             var duration = new Date(performance.time[0]);
             duration.setMinutes(duration.getMinutes() + ui.size.height);

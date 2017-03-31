@@ -498,7 +498,6 @@
       opened: 'Open call',
       closed: 'Closed call',
       finished: 'Finished',
-      for: 'for %{participants}',
       until: ' until %{date}',
       onlineProgram: '¡Online program!',
       contact: 'Create an event, contact us'
@@ -719,11 +718,11 @@
         callOpening:'Call opening ',
         callOpened:'Open call',
         till: ' untill ',
-        callClosed:'Closed cadd (since ',
+        callClosed:'Closed call (since ',
         organize:'Organizes ',
         noConditions: 'No terms of participation',
         seeAll: 'see all',
-        conditions:'Participación terms'
+        conditions:'Participation terms'
       },
       eventAside:{
         program: 'Program',
