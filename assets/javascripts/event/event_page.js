@@ -615,6 +615,7 @@
         locations: _data,
         map_options: {
           mapTypeControl: false,
+          fullscreenControl:true       
         },
         afterShow: function(index, location, marker){
           _host = Pard.Widgets.RemoveAccents(_data[index].title);
