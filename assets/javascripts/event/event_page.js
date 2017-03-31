@@ -553,6 +553,7 @@
             var _hostIndex;
             data.program.forEach(function(performance, index){
               var _iconNum = performance.order +1;
+              var latlog_geocod = performance.address.location.lat+','+performance.address.location.lng
               if($.inArray(performance.host_proposal_id, hosts) < 0){
                 if(performance.host_name == _host) _hostIndex = _data.length + 1;
                 if(!(performance.address) || !(performance.address.location)){
@@ -570,7 +571,7 @@
                   zoom: 16,
                   icon:'http://www.googlemapsmarkers.com/v1/'+_iconNum+'/FE7569/',
                   // icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|FE7569|000000',
-                  html: "<div><b>" + performance.host_name + "</b> ("+ Pard.t.text('categories.' + performance.host_category) +")</div> <div>"+ performance.address.route+" "+performance.address.street_number+"</div>",
+                  html: "<div><b>" + performance.host_name + "</b> ("+ Pard.t.text('categories.' + performance.host_category) +")</div> <div>"+ performance.address.route+" "+performance.address.street_number+"</div>"+"<div><a href='http://maps.google.com/?q="+latlog_geocod+"', target='_blank'>"+Pard.t.text('widget.gmap.viewOnGoogle')+"</a></div>",
                   order: performance.order
                 });
                 hosts.push(performance.host_proposal_id);

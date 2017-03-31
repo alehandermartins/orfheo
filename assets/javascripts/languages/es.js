@@ -132,6 +132,9 @@
       }
     },
     widget:{
+      gmap:{
+        viewOnGoogle:'Ver en Google Maps'
+      },
       search:{
         placeholder:'Busca por tags',
         noResults: 'Ningún resultado'
