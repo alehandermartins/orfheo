@@ -19,7 +19,8 @@
     var _goToEventBtn = $('<a>').attr('href','/event?id='+ the_event.event_id).text(Pard.t.text('manager.toEvent'));
     _goToEventBtn.addClass('toEventPage-btn-callPage');
     var _tabs = $('<ul>').addClass('menu simple tabs-menu switcher-menu-call-page');
-    var _title = $('<span>').text(Pard.t.text('manager.title')).addClass('title-call-page');
+    var _title = $('<span>');
+    if ($(window).width()>640) _title.text(Pard.t.text('manager.title')).addClass('title-call-page');
     var _panels = $('<div>').css('padding', 0);
 
     var _programTabTitle =  $('<a>').attr({href: "#"}).text(Pard.t.text('manager.program.tab'));

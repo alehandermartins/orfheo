@@ -251,7 +251,7 @@ ns.Widgets = ns.Widgets || {};
     }
   }
 
-  ns.Widgets.InsideHeader = function(){
+  ns.Widgets.InsideHeader = function(elementOffCanvas){
     $(document).on('show.zf.dropdown', function() {
       _settingsDropdown.addClass('iconDropdown-clicked');
       $('header').css('overflow','visible');
@@ -294,11 +294,10 @@ ns.Widgets = ns.Widgets || {};
     
     var _semicircleTopContainer =  $('<div>').addClass('semiCircleHeaderTop-container semicirclePositionRelative');
 
-    _upperContent.append(
-      _logoContainer, 
-      _responsiveMenu, 
-      _rightContainer
-    );
+    _upperContent.append(_logoContainer);
+    if (elementOffCanvas)  _upperContent.append(_responsiveMenu)
+    _upperContent.append(_rightContainer);
+  
     _innerHeaderContainer.append(
       _upperContainer.append(_upperContent),
       _semicircleTopContainer.append(_semicircleTop)

@@ -145,7 +145,7 @@ Pard.Profile = function(profiles, status){
     var _footer = Pard.Widgets.Footer();
 
     if(status == 'visitor' || status == 'owner')
-      var _header = Pard.Widgets.InsideHeader();
+      var _header = Pard.Widgets.InsideHeader(true);
     else
       var _header = Pard.Widgets.LoginHeader();
 
@@ -184,7 +184,7 @@ Pard.EventManager = function(event_id){
     }
     Pard.UserInfo['texts'] = _texts;
     var _whole = $('<div>').addClass('whole-container');
-    var _header = Pard.Widgets.InsideHeader();
+    var _header = Pard.Widgets.InsideHeader(false);
     var _main = Pard.Widgets.Manager(the_event, forms);
     var _footer = Pard.Widgets.Footer();
 
@@ -224,7 +224,7 @@ Pard.Event = function(the_event, status){
 
   var _footer = Pard.Widgets.Footer();
   if(status == 'visitor' || status == 'owner')
-    var _header = Pard.Widgets.InsideHeader();
+    var _header = Pard.Widgets.InsideHeader(true);
   else{
     var _header = Pard.Widgets.LoginHeader();
     _header.positionRelative();
@@ -263,7 +263,7 @@ Pard.Services = function(status){
   _main.addClass('outsider-main')
   }
   else{
-    var _header = Pard.Widgets.InsideHeader();
+    var _header = Pard.Widgets.InsideHeader(false);
   }
 
   var _whole = $('<div>').addClass('whole-container');

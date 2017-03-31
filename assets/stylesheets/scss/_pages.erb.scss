@@ -1576,6 +1576,11 @@ div.dt-button-collection.big_layout{
   max-height: 70%;
   overflow-y: auto;
   width: 32rem;
+  @include breakpoint (small down){
+    width: 95%;
+    margin-left: 0;
+    left: 2.5%;
+  }
  
   @include border-radius($element-border-radius); 
   .dt-button.buttons-colvisGroup, .dt-button.buttons-colvisRestore{
@@ -1737,6 +1742,10 @@ th.column-call-manager-table.column-proposal_type, th.column-call-manager-table.
   .select2-selection__placeholder{
     color: #444 !important;
   }
+  @include breakpoint (small down){
+    width: 18rem;
+    margin-bottom: .5rem;
+  }
 }
 
 
@@ -1745,6 +1754,9 @@ th.column-call-manager-table.column-proposal_type, th.column-call-manager-table.
   position: absolute;
   top: 0.7rem;
   z-index: 9;
+   @include breakpoint (small down){
+    position: relative;
+  }
 }
 
 .orfheoTableSelector{
@@ -1881,15 +1893,27 @@ div.dataTables_wrapper div.dataTables_filter{
   position: relative;
   margin-bottom: 1rem;
   height: 2rem;
+  @include breakpoint(medium down){
+      height: 4rem;
+    }
   label{
     position: absolute;
     right: 11rem;
+    @include breakpoint(medium down){
+      position: relative;
+      right: 0;
+    }
   }
   input{
     width: 18rem !important;
     height: 2rem;
     font-size: $almostNormalSize;
     padding: 0.2rem 0.5rem;
+    @include breakpoint(medium down){
+      display: block !important;
+      margin-top: 4rem;
+      margin-bottom: 1rem;
+    }
     }
 }
 
@@ -1958,6 +1982,11 @@ div.dataTables_wrapper div.dataTables_filter{
   width: 60%;
   padding-left: 2rem;
   vertical-align: top;
+  @include breakpoint (small down){
+    width: 100%;
+    padding: 0;
+    margin: 1rem 0;
+  }
 }
 
 .white-list-box{
@@ -1965,6 +1994,12 @@ div.dataTables_wrapper div.dataTables_filter{
   padding-right: 2rem;
   border-right: 1px solid $grey-3;
   vertical-align: top;
+  @include breakpoint (small down){
+    width: 100%;
+    border-right: none;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
 }
 
 .input-whiteList-container{
@@ -1983,6 +2018,9 @@ div.dataTables_wrapper div.dataTables_filter{
   margin-bottom: 0.2rem;
   display: inline-block;
   height: 2rem;
+  @include breakpoint (small down){
+    width: 90%;
+  }
 }
 
 .new-input-selected-whitelist{
@@ -2008,9 +2046,13 @@ p.initial-text-proposalPanel{
 
 .innerCreateProposals-Cont{
   position: absolute;
-  right: 0;
   top: 0.2rem;
   left: 24rem;
+  @include breakpoint(small down){
+    position: relative;
+    left:  0;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .createProposalsContainer-call-page{
@@ -2060,6 +2102,9 @@ Program Manager Tab
   position: relative;
   display: inline-block;
   width: 55rem;
+  @include breakpoint (medium down){
+    width: 100vw;
+  }
 }
 
 
@@ -2154,12 +2199,20 @@ Program Manager Tab
   display: inline-block;
   width: 9rem;
   margin-left: 17rem;
+  @include breakpoint(medium down){
+    width: 10rem;
+    display: block;
+    margin: 1rem 0 0 0;
+  }
 }
 
 .space-selector-container-call-manager{
   display: inline-block;
   width: 18rem;
   margin-left: 3rem;
+  @include breakpoint(small down){
+    margin: 1rem 0;
+  }
 }
 
 .time-timeTable-call-manager{
@@ -2563,6 +2616,12 @@ tr.permanent-row-program-table-call-manager td{
   /* border-left: 1px solid $grey-4; */
   input{
     margin-bottom: 0;
+  }
+  @include breakpoint (small down){
+    position: relative;
+    padding-left: 0;
+    left: 3.5rem;
+    margin-bottom: 1.5rem;
   }
 }
 
