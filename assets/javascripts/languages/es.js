@@ -16,6 +16,7 @@
       cache: 'caché',
       cancel: 'cancela',
       category: 'categoría',
+      close: 'cierra',
       collaborators:'colaboradores',
       comments: 'comentarios',
       confirm: 'confirma',

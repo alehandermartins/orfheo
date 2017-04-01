@@ -255,6 +255,8 @@
       eventDates.push(date);
     });
 
+    var _translator = Pard.UserInfo['texts'].subcategories;
+
     var eventCategories = {
       participants: Object.keys(the_event.subcategories.artist),
       hosts: Object.keys(the_event.subcategories.space),
@@ -571,7 +573,7 @@
                   zoom: 16,
                   icon:'http://www.googlemapsmarkers.com/v1/'+_iconNum+'/FE7569/',
                   // icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + _iconNum + '|FE7569|000000',
-                  html: "<div><b>" + performance.host_name + "</b> ("+ Pard.t.text('categories.' + performance.host_category) +")</div> <div>"+ performance.address.route+" "+performance.address.street_number+"</div>"+"<div><a href='http://maps.google.com/?q="+latlog_geocod+"', target='_blank'>"+Pard.t.text('widget.gmap.viewOnGoogle')+"</a></div>",
+                  html: "<div><b>" + performance.host_name + "</b> ("+  _translator.space[performance.host_subcategory] +")</div> <div>"+ performance.address.route+" "+performance.address.street_number+"</div>"+"<div><a href='http://maps.google.com/?q="+latlog_geocod+"', target='_blank'>"+Pard.t.text('widget.gmap.viewOnGoogle')+"</a></div>",
                   order: performance.order
                 });
                 hosts.push(performance.host_proposal_id);

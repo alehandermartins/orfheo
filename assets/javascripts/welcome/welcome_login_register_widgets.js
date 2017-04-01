@@ -105,7 +105,7 @@
       .text(Pard.t.text('signUp.popup.conditions'))
       .one('click', function(){
         _termsAndCondtionsPopup = Pard.Widgets.Popup();
-        _termsAndCondtionsPopup.setContent('', Pard.Widgets.TermsAndConditionsMessage().render())
+        _termsAndCondtionsPopup.setContent('', Pard.Widgets.TermsAndConditionsMessage(_termsAndCondtionsPopup).render())
       })
       .click(function(){
         _termsAndCondtionsPopup.open();

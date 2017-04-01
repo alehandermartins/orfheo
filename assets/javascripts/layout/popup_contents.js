@@ -192,7 +192,7 @@ ns.Widgets = ns.Widgets || {};
 		return _createdWidget;
 	}
 
-	ns.Widgets.TermsAndConditionsMessage = function(){
+	ns.Widgets.TermsAndConditionsMessage = function(popup){
     var _createdWidget = $('<div>');
 
     var _image = $('<div>').addClass('orfheo-symbol-popup');
@@ -233,7 +233,12 @@ ns.Widgets = ns.Widgets || {};
     var _subtitle7 = $('<h5>').text(Pard.t.text('popup.termsAndConditions.subtitle7')).addClass('subtitle-conditions');
     var _finalMex = $('<div>').html(Pard.t.text('popup.termsAndConditions.finalMex'))
 
-    _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part5_5, _part_coockies, _part6, _subtitle7, _finalMex);
+    var _closeBtn = Pard.Widgets.Button(Pard.t.text('dictionary.close'), function(){popup.close()})
+    var _closeBtnContainer = $('<div>')
+      .addClass('close-button-bottom-popup')
+      .append(_closeBtn.render());
+
+    _createdWidget.append(_image, _web, _title, _lastModify, _part1,_part2, _part3, _part4, _part5, _part5_5, _part_coockies, _part6, _subtitle7, _finalMex, _closeBtnContainer);
 
     return{
       render: function(){
@@ -284,7 +289,7 @@ ns.Widgets = ns.Widgets || {};
     }
   }
 
-  ns.Widgets.ProjectInfoMessage = function (){
+  ns.Widgets.ProjectInfoMessage = function (popup){
     var _createdWidget = $('<div>');
 
     var _image = $('<div>').addClass('orfheo-symbol-popup');
@@ -302,6 +307,10 @@ ns.Widgets = ns.Widgets || {};
     var _list6 = $('<div>').html(Pard.t.text('project.list6'));
     var _list7 = $('<div>').html(Pard.t.text('project.list7'));
     // var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
+    var _closeBtn = Pard.Widgets.Button('Close', function(){popup.close()})
+    var _closeBtnContainer = $('<div>')
+      .addClass('close-button-bottom-popup')
+      .append(_closeBtn.render());
 
     _part2.append(_list1, _list2, _list3, _list4, _list5, _list6, _list7).hide();
 
@@ -315,7 +324,7 @@ ns.Widgets = ns.Widgets || {};
         _part2.show();
       })
 
-    _createdWidget.append(_image, _web, _baseline, _part1, _readMore,_part2);
+    _createdWidget.append(_image, _web, _baseline, _part1, _readMore,_part2, _closeBtnContainer);
 
     return {
       render: function(){ 

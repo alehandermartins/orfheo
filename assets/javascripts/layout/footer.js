@@ -38,8 +38,8 @@ ns.Widgets = ns.Widgets || {};
       .html(Pard.t.text('footer.conditions'))
       .addClass('footer-text-link')
       .one('click',function(){
-        var _termsAndConditionsMessage = Pard.Widgets.TermsAndConditionsMessage().render();
         _termsAndConditionsPopup = Pard.Widgets.Popup();
+        var _termsAndConditionsMessage = Pard.Widgets.TermsAndConditionsMessage(_termsAndConditionsPopup).render();
         _termsAndConditionsPopup.setContent('', _termsAndConditionsMessage);
       })
       .on('click',function(){
@@ -52,8 +52,8 @@ ns.Widgets = ns.Widgets || {};
       .html(Pard.t.text('footer.project'))
       .addClass('footer-text-link')
       .one('click',function(){
-        var _infoMessage =  Pard.Widgets.ProjectInfoMessage().render();
         _infoPopup = Pard.Widgets.Popup();
+        var _infoMessage =  Pard.Widgets.ProjectInfoMessage(_infoPopup).render();
         _infoPopup.setContent('', _infoMessage);
       })
       .on('click',function(){

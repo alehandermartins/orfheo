@@ -329,7 +329,8 @@
     if(performance.host_id.search('own')<0) _host.addClass('host-program-card').attr({'href': '/profile?id=' + performance.host_id});
     else _host.addClass('host-program-card-own').attr({'href': '#/'});
     var _participant = $('<a>')
-      .text(performance.participant_name);
+      .text(performance.participant_name)
+      .css('margin-right','0.6rem');
     if (performance.participant_id.search('own')<0) _participant.addClass('participant-program-card').attr({'href': '/profile?id=' + performance.participant_id});
     else _participant.addClass('participant-program-card-own').attr({'href': '#/'});
     var _children = '';
