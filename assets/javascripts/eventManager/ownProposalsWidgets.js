@@ -93,25 +93,31 @@
       _contentSel.append(_formWidget.render());
     }
 
-    for (var typeForm in forms){
-      _formTypeSelector.append($('<option>').text(_translator[typeForm]).val(typeForm));
-    };
+    if (Object.keys(forms).length > 1){
+      for (var typeForm in forms){
+        _formTypeSelector.append($('<option>').text(_translator[typeForm]).val(typeForm));
+      };
 
-    _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector));
+      _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector));
 
-    _formTypeSelector.select2({
-      minimumResultsForSearch: Infinity,
-      dropdownCssClass: 'orfheoTypeFormSelector',
-      placeholder: Pard.t.text('manager.proposals.selectCat')
-    });
+      _formTypeSelector.select2({
+        minimumResultsForSearch: Infinity,
+        dropdownCssClass: 'orfheoTypeFormSelector',
+        placeholder: Pard.t.text('manager.proposals.selectCat')
+      });
 
-    _formTypeSelector.on('change',function(){
-      if (_formTypeSelector.val()){
-        $('#popupForm').removeClass('top-position');
-        _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
-        _printForm(_formTypeSelector.val());
-      }
-    });
+      _formTypeSelector.on('change',function(){
+        if (_formTypeSelector.val()){
+          $('#popupForm').removeClass('top-position');
+          _formTypeSelector.addClass('content-form-selected').css('font-weight','normal');
+          _printForm(_formTypeSelector.val());
+        }
+      });
+    }
+    else{
+      _printForm(Object.keys(forms)[0]);
+    }
+
 
     if (Object.keys(participants).length) {
       _createdWidget.append(_participantsSelectorCont);

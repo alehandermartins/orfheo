@@ -52,7 +52,6 @@
       $(window).scrollTop(0);
     })
     $(window).scroll(function(){
-      console.log($(window).scrollTop())
       if ($(window).scrollTop() == 0) _goUpBtn.addClass('hide-goUpBtn');
       else if (_goUpBtn.hasClass('hide-goUpBtn')) _goUpBtn.removeClass('hide-goUpBtn');
     });
@@ -263,7 +262,6 @@
     var _sectionContainer = $('<section>').addClass('popup-content');
     var _header = $('<div>').addClass('row popup-header');
     var _title = $('<h4>').addClass('small-11 popup-title').append(title);
-    console.log(title)
     var _callback = function(){};
     var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'})
       .append($('<span>').html('&times;'))
