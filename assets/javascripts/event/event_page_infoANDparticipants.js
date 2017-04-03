@@ -197,7 +197,9 @@
   ns.Widgets.PartnerCard = function(partner){
     var _partnerCard = $('<div>').addClass('partnerCard-event-page');
     var _image = $('<div>').addClass('partnerImage-event-page');
-    var _logo = $('<a>').append($.cloudinary.image(partner.img,{ format: 'png', width: 170 , effect: 'saturation:50' }));
+    var _logo = $('<a>');
+    if (partner.img) _logo.append($.cloudinary.image(partner.img,{ format: 'png', width: 170 , effect: 'saturation:50' }));
+    // else _logo = 
     _image.append(_logo);
     if (partner.link) {
       var _name = $('<div>').append($('<p>').append($('<a>').text(partner.name).attr({'href': partner.link, 'target':'_blank'})).addClass('partnerName-event-page'));

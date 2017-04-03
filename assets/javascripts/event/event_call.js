@@ -596,7 +596,8 @@
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
     var _containerOrfheoFields = $('<div>').append(form.helptext, _message_1);
-    var _containerCustomFields = $('<div>').append(_message_2.css('margin-top','3rem'));
+    var _containerCustomFields = $('<div>');
+    if (type == 'artist' ) _containerCustomFields.append(_message_2.css('margin-top','3rem'));
     _formContainer.append(_containerOrfheoFields, _containerCustomFields);
 
     var _orfheoCategory, _subcategory;
@@ -885,7 +886,7 @@
           _form[field].input.render()
         )
         if (_blocks[field]['helptext'].length) _formField.append(_helpText);
-        _containerOrfheoFields.append(_formField);
+        _containerCustomFields.append(_formField);
       }
       else{
         if (_blocks[field].input == 'TextAreaCounter'){
@@ -893,7 +894,7 @@
             _form[field].label.render(),_form[field].input.render());
         }
         else if (_blocks[field].input == 'CheckBox'){
-          var _formField = $('<div>').addClass(_blocks[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render());
+          var _formField = $('<div>').addClass(_blocks[field].input + '-FormField' + ' call-form-field').append(_form[field].input.render()); 
           if (field == 'conditions'){
             var _helptextfield = $('<p>').append($('<a>').text('(Ver condiciones)').attr({'href': Pard.CachedEvent.conditions, 'target':'_blank'})).addClass('help-text');
             _helptextfield.css({'margin-top':'0'});
@@ -928,14 +929,15 @@
           if (_blocks[field]['helptext'].length) _formField.append(_helpText);
         }
         if($.isNumeric(field)) _containerCustomFields.append(_formField);
-        else if (field != 'availability' && field != 'children' && field != 'conditions')_containerOrfheoFields.append(_formField);
+        else if (field != 'availability' && field != 'children' && field != 'conditions') _containerOrfheoFields.append(_formField);
         if (field == 'availability') _availability = _formField;
         if (field == 'children') _children = _formField;
         if (field == 'conditions') _conditions = _formField;
       }
     });
-
-    _containerCustomFields.append(_availability, _children, _conditions);
+  
+    _containerOrfheoFields.append(_children);
+    _containerCustomFields.append(_availability, _conditions);
     if(_form['category'])
       _form['category']['input'].activate();
 
@@ -970,6 +972,7 @@
       if (production_id) _submitForm['production_id'] = production_id; 
       // if (!(form['subcategory'])) _submitForm['subcategory'] = form_category;
       _submitForm['profile_type'] = profile.type; 
+      _submitForm['conditions'] = _submitForm['conditions'] || true; 
       return _submitForm;
     }
 
