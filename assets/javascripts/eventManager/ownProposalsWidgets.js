@@ -226,6 +226,7 @@
     }
 
     var ActivateSelector = function(choices){
+      console.log(choices);
 
       var _createdWidget = $('<select>');
       var _emptyOption = $('<option>');
@@ -282,7 +283,6 @@
     }
 
     var Duration = function(choices){
-
       var _createdWidget = $('<select>');
       var _emptyOption = $('<option>');
       Object.keys(choices).forEach(function(value){
@@ -384,9 +384,9 @@
       }
 
       if(form[field].input == 'CategorySelector' || form[field].input == 'ActivateSelector' || form[field].input == 'Duration'){
-        if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args)
-        if(form[field].input == 'ActivateSelector') _form[field]['input'] = ActivateSelector(form[field].args)
-        if(form[field].input == 'Duration') _form[field]['input'] = Duration(form[field].args)
+        if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args);
+        if(form[field].input == 'ActivateSelector')_form[field]['input'] = ActivateSelector(form[field].args);
+        if(form[field].input == 'Duration') _form[field]['input'] = Duration(form[field].args);
       }
       else{
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);

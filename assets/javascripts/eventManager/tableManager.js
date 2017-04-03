@@ -98,7 +98,7 @@
         _selectorOptions[type] = [];
         for (var formcat in forms[type]){
           _tablesContainer[formcat] = $('<div>');
-          _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat].block, displayer);
+          _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat].blocks, displayer);
           _selectorOptions[type].push({id:formcat, text:_translatorFC[type][formcat]})
           _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
           _proposalsNumber[formcat] = 0;
