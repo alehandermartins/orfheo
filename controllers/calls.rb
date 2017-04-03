@@ -77,25 +77,25 @@ class CallsController < BaseController
   end
 
   post '/users/delete_artist_proposal' do
-    scopify :event_id
+    scopify :proposal_id, :event_id
 
     proposal = ArtistProposal.new(session[:identity], params)
     proposal.delete
 
-    Repos::Events.delete_artist_proposal proposal.proposal_id
+    Repos::Events.delete_artist_proposal proposal_id
 
-    message = success({event: 'deleteArtist', model: {profile_id: proposal[:profile_id], proposal_id: proposal.proposal_id}})
+    message = success({event: 'deleteArtist', model: {profile_id: proposal[:profile_id], proposal_id: proposal_id}})
     Services::Clients.send_message(event_id, message)
     message
   end
 
   post '/users/delete_space_proposal' do
-    scopify :event_id
+    scopify :proposal_id, :event_id
 
     proposal = SpaceProposal.new(session[:identity], params)
     proposal.delete
 
-    Repos::Events.delete_space_proposal proposal.proposal_id
+    Repos::Events.delete_space_proposal proposal_id
 
     message = success({event: 'deleteSpace', model: {profile_id: proposal[:profile_id]}})
     Services::Clients.send_message(event_id, message)

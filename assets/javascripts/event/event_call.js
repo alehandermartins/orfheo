@@ -591,7 +591,6 @@
       space: _initial_message_spa
     }
 
-    console.log(form);
     var _message_1 = _messageDictionary[type]; 
     var _invalidInput = $('<div>').addClass('not-filled-text');
 
