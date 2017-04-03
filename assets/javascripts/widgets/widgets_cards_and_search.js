@@ -453,7 +453,10 @@
     var _dateIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('calendar').render());
     var _startDate = new Date(Object.keys(event.eventTime)[0]);
     var _endDate = new Date(Object.keys(event.eventTime)[Object.keys(event.eventTime).length-2]);
-    var _dateText = $('<div>').append($('<span>').text(moment(_startDate).locale(lang).format('DD')+'-'+moment(_endDate).locale(lang).format('DD MMMM YYYY'))).addClass('text-container'); 
+    var _eventDate = moment(_startDate).locale(lang).format('DD');
+    if (_startDate.getMonth() != _endDate.getMonth()) _eventDate += ' ' + moment(_startDate).locale(lang).format('MMMM');
+    _eventDate += ' - '+moment(_endDate).locale(lang).format('DD MMMM YYYY');
+    var _dateText =  $('<div>').append($('<span>').text(_eventDate)).addClass('text-container');
     var _date = $('<div>').append(_dateIcon, _dateText).addClass('info-element-eventCard');
   
     var _callIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('open_call').render());

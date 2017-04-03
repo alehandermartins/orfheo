@@ -28,7 +28,12 @@
         'border-color': 'black'
       });
 
-      var _spaceHeaderContainer = $('<div>').addClass('spaceHeaderContainer');
+      var _spaceHeaderOuterContainer = $('<div>').css({
+        'height':0,
+        position:'relative'
+      });
+      var _spaceHeaderContainer = $('<div>')
+        .addClass('spaceHeaderContainer');
       Pard.Widgets.StickTableHeader(_spaceHeaderContainer,_spaceCol, 220,0);
       var _spaceHeader = $('<div>').addClass('spaceHeader space-column-header cursor_grab');
       var _icon = SpaceDropdownMenu().render();
@@ -45,7 +50,7 @@
       _titleText.text(Pard.Widgets.CutString((space.index + 1) + '. ' + space.name, 35));
       _spacename.append($('<p>').addClass('space-name-headerTable-call-manager').append(_titleText));
       _spaceHeader.append(_spacename, _menuIcon);
-      _spaceCol.append(_spaceHeaderContainer.append(_spaceHeader));
+      _spaceCol.append(_spaceHeaderOuterContainer.append( _spaceHeaderContainer.append(_spaceHeader)));
 
       _spaceHeader.mousedown(function(){
         _spaceHeader.removeClass('cursor_grab').addClass('cursor_move');
