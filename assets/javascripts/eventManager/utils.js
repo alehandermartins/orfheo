@@ -25,19 +25,15 @@
 
   ns.Widgets.FormatResource = function(resource) {
     var _label = $('<span>').text(resource.text);
+
     if(resource.icon){
       var _icon = $('<span>')
       if ($.isArray(resource.icon)) 
         resource.icon.forEach(function(icon){
           _icon.append(Pard.Widgets.IconManager(icon).render().addClass('iconCategory-select2'))
         })
-      else _icon = Pard.Widgets.IconManager(resource.icon).render();
+      else _icon = Pard.Widgets.IconManager(resource.icon).render().addClass('iconCategory-select2');
       _label.append(_icon);
-      // _icon.css({
-      //   position: 'relative',
-      //   left: '5px',
-      //   top: '5px',
-      // });
     }
     return _label;
   }

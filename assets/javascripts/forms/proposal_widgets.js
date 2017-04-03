@@ -411,8 +411,10 @@
       artist: Pard.Backend.deleteArtistProposal,
       space: Pard.Backend.deleteSpaceProposal
     }    
-
+    console.log(proposal.title);
+    console.log(proposal.proposal_id);
     _yesBtn.click(function(){
+      console.log(proposal.proposal_id);
       _deleteProposalBackend[proposalType](proposal.proposal_id, proposal.event_id, Pard.Events.DeleteProposal);
       closepopup();
       closeConfirmPopup();

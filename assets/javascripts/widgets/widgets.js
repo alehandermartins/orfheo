@@ -553,23 +553,30 @@
     var _searchTags = [];
     var _valuesCategories = ['music', 'arts', 'expo', 'poetry', 'audiovisual', 'street_art', 'workshop', 'gastronomy', 'other'];
     _valuesCategories.forEach(function(cat){
-      _searchTags.push({id:cat, text: Pard.t.text('categories.' + cat)});
+      _searchTags.push({
+        id:cat, 
+        text: Pard.t.text('categories.' + cat),
+        icon: cat
+      });
     });
 
-    function formatResource (resource) {
-      var _label = $('<span>').text(resource.text);
-        var _icon = Pard.Widgets.IconManager(resource.id).render();
-        _label.prepend(_icon);
-        _icon.addClass('iconCategory-select2');
-      return _label;
-    };
+    // function formatResource (resource) {
+    //   var _label = $('<span>').text(resource.text);
+    //     var _icon = Pard.Widgets.IconManager(resource.id).render().css({
+    //       'width':'2rem',
+    //       'margin-right':'0.3rem'
+    //     });
+    //     _label.prepend(_icon);
+    //     _icon.addClass('iconCategory-select2');
+    //   return _label;
+    // };
 
     _createdWidget.append(_selector);
     _selector.select2({
       data: _searchTags,
-      templateResult: formatResource
+      templateResult: Pard.Widgets.FormatResource
       ,minimumResultsForSearch: Infinity
-      ,templateSelection: formatResource
+      ,templateSelection: Pard.Widgets.FormatResource
       ,dropdownCssClass: 'orfheoArtCatSelector'
     });
 
