@@ -89,8 +89,7 @@
     }
     var _deadline = new Date(parseInt(proposal.deadline));
     var _now = new Date();
-    // if(_now.getTime() < _deadline.getTime()){
-      if(true){
+    if(_now.getTime() < proposal.deadline){
       var _backendAmendProposal = {
         space: Pard.Backend.amendSpaceProposal,
         artist: Pard.Backend.amendArtistProposal
