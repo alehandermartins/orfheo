@@ -78,7 +78,6 @@
         },
         drop: function(event, ui) {
           // Pard.Bus.trigger('stop');
-          console.log('drop')
           ui.helper.data('dropped', true);
           var position = ui.helper.position().top -40;
           var colPosition = _time.position().top;

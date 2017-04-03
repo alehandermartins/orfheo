@@ -210,12 +210,19 @@
         var _label = $('<label>');
         if(key == 'participants') {
           var _icon = $('<span>');
-          _icon.append(Pard.Widgets.IconManager(the_event.subcategories.artist[filter].icon).render().addClass('participant-category-icon'));
+          if ($.isArray(the_event.subcategories.artist[filter].icon)){ 
+            the_event.subcategories.artist[filter].icon.forEach(function(icon){
+              _icon.append(Pard.Widgets.IconManager(icon).render().addClass('participant-category-icon'))
+            })
+          } 
+          else { 
+            _icon.append(Pard.Widgets.IconManager(the_event.subcategories.artist[filter].icon).render().addClass('participant-category-icon'))
+          }
           _label.append(_translator.artist[filter],' ',_icon);
         }
         else if(key == 'other') {
           _label.append(Pard.t.text('widget.inputChildren.' + filter));
-          if (filter == 'baby') _label.append(Pard.Widgets.IconManager('baby').render().addClass('participant-category-icon').css('margin-left','.4rem'))
+          if (filter == 'baby') _label.append(Pard.Widgets.IconManager('baby').render().addClass('participant-category-icon').css('margin-left','.5rem'))
         }
         else _label.append(_translator.space[filter]); 
         _label.css('display','inline');
@@ -443,8 +450,12 @@
     function formatResource (resource) {
       if(!resource.id) return resource.text;
       var _label = $('<span>').text(resource.text);
-      if(resource.type == 'city') var _icon = Pard.Widgets.IconManager('city_artist').render();
-      else { var _icon = Pard.Widgets.IconManager(resource.icon).render();}
+      if(resource.type == 'city') {
+        var _icon = Pard.Widgets.IconManager('city_artist').render();
+      }
+      else { 
+        var _icon = Pard.Widgets.IconManager(resource.icon).render();
+      }
       _label.append(_icon);
       _icon.css({
         position: 'relative',
