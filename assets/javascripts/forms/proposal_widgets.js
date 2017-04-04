@@ -227,14 +227,7 @@
         if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
         _textLabel += ':';
         _fieldFormLabel.append(_textLabel);
-        if ($.isArray(proposal[field])){
-          var _list = $('<ul>');
-          proposal[field].forEach(function(val){
-          _list.append($('<li>').text(val));
-          });  
-          _fieldFormText.append(_list);
-        }
-        else if (form[field]['input'] == 'CheckBox'){
+        if (form[field]['input'] == 'CheckBox'){
           var _text;
           var dictionaryCheckBox = {
             false: Pard.t.text('dictionary.no').capitalize(),
@@ -250,8 +243,15 @@
         else if(form[field]['input'] == 'TextAreaEnriched'){
           _fieldFormText.append(proposal[field]);
         }
-        else if (form[field]['input'] == 'ActivateSelector'){
+        else if (form[field]['input'] == 'Selector'){
           _fieldFormText.append(' ' + form[field].args[proposal[field]]);
+        }
+        else if (form[field]['input'] == 'MultipleSelector' && proposal[field]){
+          var _list = $('<ul>');
+          proposal[field].forEach(function(val){
+          _list.append($('<li>').text(form[field].args[val]));
+          });  
+          _fieldFormText.append(_list);
         }
         else _fieldFormText.text(' ' + proposal[field]);  
       }

@@ -697,7 +697,7 @@
       }
     }
 
-    var ActivateSelector = function(choices){
+    var Selector = function(choices){
 
       var _createdWidget = $('<select>');
       var _emptyOption = $('<option>');
@@ -749,6 +749,59 @@
             _createdWidget.val(old_val);
             _createdWidget.trigger('change');
           }
+        }
+      }
+    }
+
+    var MultipleSelector = function(choices){
+      var _createdWidget = $('<div>');
+      var _select = $('<select>').attr("multiple", "multiple");
+      Object.keys(choices).forEach(function(value){
+        _select.append($('<option>').text(choices[value]).val(value));
+      });
+      _createdWidget.append(_select);
+      _select.on('change',function(){
+        _select.next().find('.ms-choice').removeClass('warning');
+      });
+      var _options = {      
+        placeholder: "Selecciona una o más opciones",
+        selectAll: false,
+        countSelected: false,
+        allSelected: false
+      };
+      
+      return {
+        render: function(){
+          _select.multipleSelect(_options);
+          return _createdWidget;
+        },
+        setOptions: function(options){
+          _options = options;
+        },
+        getVal: function(){
+          return _select.val();
+        },
+        setVal: function(values){
+          _select.multipleSelect('setSelects', values);
+        },
+        addWarning: function(){
+          console.log('warning')
+          _select.next().find('.ms-choice').addClass('warning');
+        },
+        removeWarning: function(){
+          _select.next().find('.ms-choice').removeClass('warning');
+        },
+        setClass: function(_class){
+          _createdWidget.addClass(_class);
+        },
+        deselectAll: function(){
+          _select.multipleSelect("uncheckAll")
+        },
+        enable: function(){
+          _select.attr('disabled',false);
+        },
+        disable: function(){
+          _select.attr('disabled',true);
         }
       }
     }
@@ -860,9 +913,10 @@
         if (_blocks[field]['type'] == 'mandatory') _blocks[field].args[0] += ' *';
       }
 
-      if(_blocks[field].input == 'CategorySelector' || _blocks[field].input == 'ActivateSelector' || _blocks[field].input == 'Duration' || _blocks[field].input == 'Links'){
+      if(_blocks[field].input == 'CategorySelector' || _blocks[field].input == 'Duration' || _blocks[field].input == 'Links' || _blocks[field].input == 'Selector' || _blocks[field].input == 'MultipleSelector'){
         if(_blocks[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(_blocks[field].args)
-        if(_blocks[field].input == 'ActivateSelector') _form[field]['input'] = ActivateSelector(_blocks[field].args)
+        if(_blocks[field].input == 'Selector') _form[field]['input'] = Selector(_blocks[field].args)
+        if(_blocks[field].input == 'MultipleSelector') _form[field]['input'] = MultipleSelector(_blocks[field].args)
         if(_blocks[field].input == 'Duration') _form[field]['input'] = Duration(_blocks[field].args)
         if(_blocks[field].input == 'Links') _form[field]['input'] = Links();
       }
