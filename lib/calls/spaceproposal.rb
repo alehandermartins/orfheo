@@ -49,10 +49,6 @@ class SpaceProposal
     send_rejection_mail if user[:user_id] == event[:user_id] && user[:user_id] != space[:user_id]
   end
 
-  def proposal_id
-    space[:proposal_id]
-  end
-
   def [] key
     space[key]
   end

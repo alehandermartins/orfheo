@@ -50,10 +50,6 @@ class ArtistProposal
     send_rejection_mail if user[:user_id] == event[:user_id] && user[:user_id] != artist[:user_id]
   end
 
-  def proposal_id
-    artist[:proposals].first[:proposal_id]
-  end
- 
   def [] key
     artist[key]
   end

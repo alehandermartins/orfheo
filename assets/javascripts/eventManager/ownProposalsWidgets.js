@@ -337,6 +337,45 @@
       }
     }
 
+    var Links = function(){
+
+      var _input = $('<input>').attr({'type': 'text'});
+
+      _input.on('input',function(){
+        _input.removeClass('warning');
+      });
+
+      _input.on('focus', function(){
+        if($(window).width()<1024){
+          if ($('.reveal[aria-hidden="false"]').html()){
+            var _distanceInputTop = _input.offset().top;
+            var _popupOpened = _input.closest('.reveal[aria-hidden="false"]');
+            var _scroolTop = _popupOpened.scrollTop();
+            var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+            _popupOpened.scrollTop(_distanceToDo);
+          }
+        }
+      });
+
+      return{
+        render: function(){
+          return _input;
+        },
+        getVal: function(){
+          return _input.val();
+        },
+        setVal: function(value){
+          _input.val(value);
+        },
+        addWarning: function(){
+          _input.addClass('warning');
+        },
+        removeWarning: function(){
+          _input.removeClass('warning');
+        }
+      }
+    }
+
     var _send = function(){};
 
     var _submitForm = {};
@@ -383,10 +422,11 @@
         if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
       }
 
-      if(form[field].input == 'CategorySelector' || form[field].input == 'ActivateSelector' || form[field].input == 'Duration'){
+      if(form[field].input == 'CategorySelector' || form[field].input == 'ActivateSelector' || form[field].input == 'Duration' || form[field].input == 'Links'){
         if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args);
         if(form[field].input == 'ActivateSelector')_form[field]['input'] = ActivateSelector(form[field].args);
         if(form[field].input == 'Duration') _form[field]['input'] = Duration(form[field].args);
+        if(form[field].input == 'Links') _form[field]['input'] = Links(form[field].args);
       }
       else{
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
