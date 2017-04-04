@@ -4,48 +4,6 @@ module Repos
 
       def for db
         @@events_collection = db['events']
-        event = grab({event_id: "a6bc4203-9379-4de0-856a-55e1e5f3fac6"}).first
-        call = Repos::Calls.get_forms "b6bc4203-9379-4de0-856a-55e1e5f3fac6"
-        if event[:updated].blank?
-          event[:artists].each{|artist|
-            artist[:proposals].each{|proposal|
-              call[:es][:artist][proposal[:form_category].to_sym][:blocks].each{|field, block|
-                if (block[:input] == "MultipleSelector" || block[:input] == "Selector") && field != :duration
-                  if block[:input] == "MultipleSelector" && !proposal[field].blank?
-                    array = block[:args].values
-                    proposal[field].map!{|value|
-                      array.index(value) + 1
-                    }
-                  end
-                  if block[:input] == "Selector" 
-                    array = block[:args].values
-                    proposal[field] = array.index(proposal[field]) + 1
-                  end
-                end
-              }
-            }
-          }
-          event[:spaces].each{|proposal|
-            call[:es][:space][proposal[:form_category].to_sym][:blocks].each{|field, block|
-              if (block[:input] == "MultipleSelector" || block[:input] == "Selector") && field != :duration
-                if block[:input] == "MultipleSelector" && !proposal[field].blank?
-                  array = block[:args].values
-                  proposal[field].map!{|value|
-                    array.index(value) + 1
-                  }
-                end
-                if block[:input] == "Selector"
-                  array = block[:args].values
-                  proposal[field] = array.index(proposal[field]) + 1
-                end
-              end
-            }
-          }
-          @@events_collection.update_one({event_id: event[:event_id]},
-            {
-              "$set": {'artists': event[:artists], 'spaces': event[:spaces], 'updated': true}
-            })
-        end
       end
 
       def exists? event_id
