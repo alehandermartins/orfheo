@@ -856,7 +856,17 @@
           if (_blocks[field]['helptext'].length) _formField.append(_form[field].helptext.render());
         }
         else{
-          _orfheoCategory = Object.keys(_blocks[field].args)[0]; 
+          if(production_id != false){
+            profile.productions.forEach(function(production){
+              if(production.production_id == production_id){
+                _orfheoCategory = production.category;
+                _form['category'].input.setVal(_orfheoCategory);
+              }
+            });
+          }
+          else{
+            _orfheoCategory = Object.keys(_blocks[field].args)[0];
+          } 
         }
       }
       else if (field == 'subcategory'){
