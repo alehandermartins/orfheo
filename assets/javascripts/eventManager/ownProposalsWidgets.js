@@ -383,10 +383,11 @@
         if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
       }
 
-      if(form[field].input == 'CategorySelector' || form[field].input == 'ActivateSelector' || form[field].input == 'Duration'){
+      if(form[field].input == 'CategorySelector' || form[field].input == 'ActivateSelector' || form[field].input == 'Duration' || form[field].input == 'Links'){
         if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args);
         if(form[field].input == 'ActivateSelector')_form[field]['input'] = ActivateSelector(form[field].args);
         if(form[field].input == 'Duration') _form[field]['input'] = Duration(form[field].args);
+        if(form[field].input == 'Links') _form[field]['input'] = Links(form[field].args);
       }
       else{
       _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);

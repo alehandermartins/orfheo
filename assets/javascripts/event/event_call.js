@@ -809,6 +809,45 @@
       }
     }
 
+    var Links = function(){
+
+      var _input = $('<input>').attr({'type': 'text'});
+
+      _input.on('input',function(){
+        _input.removeClass('warning');
+      });
+
+      _input.on('focus', function(){
+        if($(window).width()<1024){
+          if ($('.reveal[aria-hidden="false"]').html()){
+            var _distanceInputTop = _input.offset().top;
+            var _popupOpened = _input.closest('.reveal[aria-hidden="false"]');
+            var _scroolTop = _popupOpened.scrollTop();
+            var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
+            _popupOpened.scrollTop(_distanceToDo);
+          }
+        }
+      });
+
+      return{
+        render: function(){
+          return _input;
+        },
+        getVal: function(){
+          return _input.val();
+        },
+        setVal: function(value){
+          _input.val(value);
+        },
+        addWarning: function(){
+          _input.addClass('warning');
+        },
+        removeWarning: function(){
+          _input.removeClass('warning');
+        }
+      }
+    }
+
     var _blocks = _tempForm;
 
     Object.keys(_blocks).forEach(function(field){
@@ -821,10 +860,11 @@
         if (_blocks[field]['type'] == 'mandatory') _blocks[field].args[0] += ' *';
       }
 
-      if(_blocks[field].input == 'CategorySelector' || _blocks[field].input == 'ActivateSelector' || _blocks[field].input == 'Duration'){
+      if(_blocks[field].input == 'CategorySelector' || _blocks[field].input == 'ActivateSelector' || _blocks[field].input == 'Duration' || _blocks[field].input == 'Links'){
         if(_blocks[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(_blocks[field].args)
         if(_blocks[field].input == 'ActivateSelector') _form[field]['input'] = ActivateSelector(_blocks[field].args)
         if(_blocks[field].input == 'Duration') _form[field]['input'] = Duration(_blocks[field].args)
+        if(_blocks[field].input == 'Links') _form[field]['input'] = Links();
       }
       else{
       _form[field]['input'] = window['Pard']['Widgets'][_blocks[field].input].apply(this, _blocks[field].args);
