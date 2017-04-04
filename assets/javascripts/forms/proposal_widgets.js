@@ -244,9 +244,11 @@
           _fieldFormText.append(_text);
         }
         else if(form[field]['input'] == 'Links'){
-          console.log(proposal[field]);
           var _text = $('<div>').append($('<a>').text(proposal[field]).attr({'href': 'http://' + proposal[field], 'target': '_blank'}));
           _fieldFormText.append(_text);
+        }
+        else if(form[field]['input'] == 'TextAreaEnriched'){
+          _fieldFormText.append(proposal[field]);
         }
         else _fieldFormText.text(' '+proposal[field]);  
       }

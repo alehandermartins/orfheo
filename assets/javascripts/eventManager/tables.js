@@ -51,14 +51,9 @@
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
       var _label = _form[field]['label'];
       var _colTitle = $('<th>').append(_label).addClass('column-call-manager-table');
-      if (_form[field]['input'] == 'Input'){
-        _colTitle.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
-        console.log('column-'+_form[field]['input']+_form[field]['args'][1]);
-      }else if(_form[field]['input'] == 'ActivateSelector') _colTitle.addClass('column-Selector');
-      else if(_form[field]['input'] == 'Links'){
-        _colTitle.addClass('column-Inputtext');
-        console.log('maiu');
-      }
+      if (_form[field]['input'] == 'Input') _colTitle.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
+      else if(_form[field]['input'] == 'ActivateSelector') _colTitle.addClass('column-Selector');
+      else if(_form[field]['input'] == 'Links') _colTitle.addClass('column-Inputtext');
       else _colTitle.addClass('column-'+_form[field]['input']);
       _titleRow.append(_colTitle);
       var _colFoot = $('<th>').addClass('column-call-manager-table').append(_label);
@@ -117,7 +112,6 @@
           var _col = $('<td>').addClass('column-call-manager-table');
           if (_form[field]['input'] == 'Input') _col.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
           else if(_form[field]['input'] == 'ActivateSelector') _col.addClass('column-Selector');
-          else if(_form[field]['input'] == 'Links') _col.addClass('column-Inputtext');
           else _col.addClass('column-'+_form[field]['input']);
           _row.append(_col.append(_info));
         }
@@ -133,9 +127,10 @@
           else if(_form[field]['input'] == 'ActivateSelector') _col.addClass('column-Selector');
           else if(_form[field]['input'] == 'Links') _col.addClass('column-Inputtext');
           else _col.addClass('column-'+_form[field]['input']);
-          if (proposal[field]){ 
+          if (proposal[field]){
             if(form[field].input == 'CheckBox') _col.append( dictionaryCheckBox[proposal[field]]);
             else if (Array.isArray(proposal[field])) _col.append(proposal[field].join(', '));
+            else if (_form[field]['input'] == 'Links') _col.append($('<div>').append($('<a>').text(proposal[field]).attr({'href': 'http://' + proposal[field], 'target': '_blank'})));
             else _col.append(proposal[field]);
           }
           _row.append(_col);
