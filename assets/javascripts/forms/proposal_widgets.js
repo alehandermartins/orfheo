@@ -250,7 +250,10 @@
         else if(form[field]['input'] == 'TextAreaEnriched'){
           _fieldFormText.append(proposal[field]);
         }
-        else _fieldFormText.text(' '+proposal[field]);  
+        else if (form[field]['input'] == 'ActivateSelector'){
+          _fieldFormText.append(' ' + form[field].args[proposal[field]]);
+        }
+        else _fieldFormText.text(' ' + proposal[field]);  
       }
     }
 

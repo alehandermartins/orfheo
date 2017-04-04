@@ -130,6 +130,7 @@
           if (proposal[field]){
             if(form[field].input == 'CheckBox') _col.append( dictionaryCheckBox[proposal[field]]);
             else if (Array.isArray(proposal[field])) _col.append(proposal[field].join(', '));
+            else if (_form[field]['input'] == 'ActivateSelector') _col.append(form[field].args[proposal[field]]);
             else if (_form[field]['input'] == 'Links') _col.append($('<div>').append($('<a>').text(proposal[field]).attr({'href': 'http://' + proposal[field], 'target': '_blank'})));
             else _col.append(proposal[field]);
           }
