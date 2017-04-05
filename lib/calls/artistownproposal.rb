@@ -77,9 +77,9 @@ class ArtistOwnProposal
     form_category = params[:form_category].to_sym
     forms = Repos::Calls.get_forms params[:call_id]
     raise Pard::Invalid::UnexistingCall if forms.blank?
-    categories = forms[:es][:artist].keys
+    categories = forms[:artist].keys
     raise Pard::Invalid::Params unless categories.include? form_category 
-    forms[:es][:artist][form_category][:blocks]
+    forms[:artist][form_category][:blocks]
   end
 
   def correct_category?

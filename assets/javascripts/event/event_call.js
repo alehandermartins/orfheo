@@ -259,9 +259,7 @@
   };
  
 
-  ns.Widgets.FormManager = function(callForms, profile, closeListProfilePopup, callbackSendProposal){
-    var forms = callForms[Pard.Options.language()] || callForms['es'];
-
+  ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     var _createdWidget = $('<div>');
     var _typeFormsCatArray = Pard.CachedEvent.target;
     var _translatorFC = Pard.UserInfo['texts'].form_categories;
@@ -410,7 +408,7 @@
           _prodContainer.append(_t1);
           var _compatibleProductions = false;
           profile.productions.forEach(function(production){
-            if ($.inArray(production.category, _acceptedCategories.artist)>-1){
+            if ($.inArray(production.category, _acceptedCategories.artist) >- 1){
               var _prodBtn = $('<div>').addClass('production-nav-element-container production-btn-event-page');
               var _iconColumn = $('<div>')
                 .addClass(' icon-column')
@@ -454,7 +452,9 @@
                     _prodBtn.addClass('content-form-selected');
                   _production_id = production.production_id;
                   var _catProduction = production.category;
-                  var formsKey = callForms.categories.artist[_catProduction]['forms'];
+                  var formsKey = Object.keys(forms.artist).filter(function(formcat){
+                    return $.inArray( _catProduction, Object.keys(forms.artist[formcat].blocks.category.args)) >= 0;
+                  });
                   if (formsKey.length == 1){            
                     var _form = _formTypeConstructor(_type, forms[_type][formsKey[0]], profile, formsKey[0], _production_id, callbackSendProposal);
                     _formTypeSelectorCont.empty();

@@ -81,11 +81,11 @@ class EventsController < BaseController
   end
 
   post '/users/event_manager' do
-    scopify :event_id
+    scopify :event_id, :lang
     raise Pard::Invalid::UnexistingEvent unless Repos::Events.exists? event_id
     event = Services::Events.get_manager_event event_id
     raise Pard::Invalid::EventOwnership unless event[:user_id] == session[:identity]
-    forms = Repos::Calls.get_forms event[:call_id]
+    forms = Repos::Calls.get_forms event[:call_id], lang
     success({the_event: event, forms: forms})
   end
 

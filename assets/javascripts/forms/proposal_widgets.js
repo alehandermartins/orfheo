@@ -47,8 +47,8 @@
                 _proposalPopup.setContent(
                   proposal.event_name, 
                   Pard.Widgets.PrintMyProposal(
-                    proposal, 
-                    _forms[proposal.call_id][lang][_proposalType][proposal.form_category].blocks, 
+                    proposal,
+                    _forms[proposal.call_id][_proposalType][proposal.form_category].blocks, 
                     _proposalType, 
                     function(){
                       _proposalPopup.close()
@@ -61,7 +61,7 @@
                 proposal.event_name, 
                 Pard.Widgets.PrintMyProposal(
                   proposal, 
-                  _forms[proposal.call_id][lang][_proposalType][proposal.form_category].blocks, 
+                  _forms[proposal.call_id][_proposalType][proposal.form_category].blocks, 
                   _proposalType, 
                   function(){
                     _proposalPopup.close()

@@ -347,7 +347,8 @@
       _send(
         '/forms',
         {
-          call_id: call_id
+          call_id: call_id,
+          lang: Pard.Options.language()
         },
         callback
       );
@@ -437,7 +438,8 @@
      _send(
         '/users/event_manager',
         {
-          event_id: event_id
+          event_id: event_id,
+          lang: Pard.Options.language()
         },
         callback
       ); 
