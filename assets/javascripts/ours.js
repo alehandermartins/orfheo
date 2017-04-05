@@ -3,10 +3,10 @@
 // = require translator
 // = require browser
 
-// = require app
 // = require backend
 // = require events
 
+// = require app
 // = require layout
 // = require eventManager
 // = require event

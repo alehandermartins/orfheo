@@ -61,7 +61,7 @@ var CookieAlert = function(){
   $(window).load(function(){
 
   	var cookies = Pard.Options.cookies()
-    console.log(Pard.Options.language());
+    console.log(Pard.Options.language())
   	if(cookies == false){
   		var _closeButton = $('<button>').addClass('close-button closeBtn-coockies-callout').attr({'type':'button','data-close':''}).append($('<span>').html(Pard.t.text('dictionary.accept').capitalize()).attr('aria-hidden','true'))
       _closeButton.on('click', function(){

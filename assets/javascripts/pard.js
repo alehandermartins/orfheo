@@ -7,3 +7,5 @@ Pard.UserInfo = {}
 String.prototype.capitalize = function() {
   return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 }
+
+console.log('pard.js')
