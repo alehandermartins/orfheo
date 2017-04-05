@@ -8,23 +8,20 @@ var Options = function(){
   defaultLang = defaultLang.substring(0,2)
   if ($.inArray(defaultLang, orfheoLangs) < 0) defaultLang = 'es'
   // var defaultLang = 'es'
+ console.log('localStorage[localStorageKey]='+localStorage[localStorageKey])
 
-  if (!localStorage[localStorageKey]){
+  var orfheoStorage
+  if (localStorage[localStorageKey]) orfheoStorage = JSON.parse(localStorage[localStorageKey])
+  if (!orfheoStorage || !orfheoStorage.language || $.inArray(orfheoStorage.language, orfheoLangs) < 0){
     localStorage[localStorageKey] = JSON.stringify({
       language: defaultLang, 
       cookies: false, 
       register: {}
     })
-  }
-  else{
-    console.log('localStorage[localStorageKey]='+localStorage[localStorageKey])
+    orfheoStorage = JSON.parse(localStorage[localStorageKey])
   }
 
-  var orfheoStorage = JSON.parse(localStorage[localStorageKey])
-  if(!orfheoStorage.language || $.inArray(orfheoStorage.language, orfheoLangs) < 0){
-    orfheoStorage.language = defaultLang
-    localStorage[localStorageKey] = JSON.stringify(orfheoStorage)
-  }
+  console.log('localStorage[localStorageKey]='+localStorage[localStorageKey])
 
   return {
     register: function(){
