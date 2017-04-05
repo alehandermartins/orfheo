@@ -259,9 +259,7 @@
   };
  
 
-  ns.Widgets.FormManager = function(callForms, profile, closeListProfilePopup, callbackSendProposal){
-    var forms = callForms[Pard.Options.language()] || callForms['es'];
-
+  ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     var _createdWidget = $('<div>');
     var _typeFormsCatArray = Pard.CachedEvent.target;
     var _translatorFC = Pard.UserInfo['texts'].form_categories;

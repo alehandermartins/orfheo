@@ -92,9 +92,9 @@ class SpaceProposal
     form_category = params[:form_category].to_sym
     forms = Repos::Calls.get_forms params[:call_id]
     raise Pard::Invalid::UnexistingCall if forms.blank?
-    categories = forms[:es][:space].keys
+    categories = forms[:space].keys
     raise Pard::Invalid::Params unless categories.include? form_category
-    forms[:es][:space][form_category][:blocks]
+    forms[:space][form_category][:blocks]
   end
 
   def correct_entry? value, type
