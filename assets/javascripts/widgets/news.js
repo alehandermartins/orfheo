@@ -87,7 +87,7 @@ ns.Widgets = ns.Widgets || {};
 			},
 			{
 				'title':"Distrito 008: programación online",
-				'text':"<p> <a href='/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6', target='_blank'> Hechale un vistazo </a> y disfruta del evento.</p>",
+				'text':"<p> <a href='/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6', target='_blank'> Echale un vistazo </a> y disfruta del evento.</p>",
 				'img': 'extramurs_program_online_orfheo_drq5zf',
 				'date': '1490738400000',
 				'publisher': 'orfheo Team'
@@ -111,7 +111,7 @@ ns.Widgets = ns.Widgets || {};
 				'text':'<p><a href ="/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6", target = "_blank">Convocatoria abierta</a> para artistas y espacios hasta el 26 de diciembre.</p>',
 				'img': 'news_6_ndapua',
 				'date': '1479726000000',
-	 			'publisher': 'orfheo Team'
+	 		'publisher': 'orfheo Team'
 			},
 			{
 				'title':'¡Bienvenido Distrito 008!',

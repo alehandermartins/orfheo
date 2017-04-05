@@ -467,7 +467,7 @@
     },
     welcome: {
       profilesSection: {
-        title: "Tu comunidad cultural te llama<br>Entra en orfheo como:",
+        title: "Tu comunidad cultural te llama.<br>Entra en orfheo como:",
         artist: "Comparte tu arte,<br>apúntate en convocatorias,<br>genera red, descubre, crea...",
         space: "Saca el máximo partido a tu espacio,<br>alberga eventos artísticos,<br>abre las puertas a la cultura",
         organization: "Da a conocer tu proyecto,<br>lanza convocatorias,<br>expande tu comunidad",
@@ -485,7 +485,7 @@
       },
       inspireSection: {
         title: 'El futuro está aquí, frente a ti',
-        section: 'Alguna vez lo has imaginado, pero ahora es realidad. <br> Tienes a tu alcance un universo de nuevas, <br>grandes posibilidades culturales.',
+        section: 'Alguna vez lo has imaginado, pero ahora es realidad: <br> tienes a tu alcance un universo de nuevas <br> y grandes posibilidades culturales.',
         link: 'Déjate inspirar'
       },
       servicesSection: {

@@ -483,7 +483,7 @@
       },
       inspireSection: {
         title: 'The future is here, in front of you',
-        section: "You have imagined it, but now it is real. <br> You have at your disposal a universe of new, great cultural possibilities.",
+        section: "You have imagined it, but now it is real: <br> you have at your disposal a universe of new, great cultural possibilities.",
         link: 'Let yourself be inspired'
       },
       servicesSection: {
