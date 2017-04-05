@@ -1,7 +1,7 @@
 'use strict';
 
 (function(ns){
-  console.log('languages.js')
+
   ns.langs = ns.langs || {}
 
   ns.langs.es = {

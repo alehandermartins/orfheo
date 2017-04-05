@@ -4,11 +4,8 @@ var Options = function(){
   var localStorageKey = 'orfheo'
   var orfheoLangs =   ['es','en'];
   var defaultLang = navigator.language || navigator.userLanguage
-  console.log('navigator.language='+defaultLang)
   defaultLang = defaultLang.substring(0,2)
   if ($.inArray(defaultLang, orfheoLangs) < 0) defaultLang = 'es'
-  // var defaultLang = 'es'
- console.log('localStorage[localStorageKey]='+localStorage[localStorageKey])
 
   var orfheoStorage
   if (localStorage[localStorageKey]) orfheoStorage = JSON.parse(localStorage[localStorageKey])
@@ -20,8 +17,6 @@ var Options = function(){
     })
     orfheoStorage = JSON.parse(localStorage[localStorageKey])
   }
-
-  console.log('localStorage[localStorageKey]='+localStorage[localStorageKey])
 
   return {
     register: function(){
