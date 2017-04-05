@@ -6,12 +6,9 @@ module Repos
         @@calls_collection = db['calls']
         calls = grab({})
         calls.each{|call|
-          next unless call[:forms].blank?
-          forms = {}
-          forms[:es] = call[:es]
+          next if call[:categories].blank?
           @@calls_collection.update_one({call_id: call[:call_id]},{
-            "$set": {forms: forms},
-            "$unset": {es: 1}
+            "$unset": {categories: 1}
           })
         }
       end
