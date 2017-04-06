@@ -521,7 +521,7 @@
         mex3: 'El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.',
         subtitle4: 'Conexión API:',
         mex4: 'El servicio API te permite recibir y utilizar los datos relativos a tus eventos y convocatorias en tu aplicación para móviles o sitio web. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en todas las plataformas conectadas. Podrás disponer de toda tu información siempre actualizada, donde y cuando tú quieras.',
-        mex5: 'Para más información, consulta nuestra %{link} y contáctanos a través del siguiente formulario:',
+        mex5: 'Para más información, consulta nuestra %{link} y contáctanos, sin compromiso, a través del siguiente formulario:',
         servicesPage: 'página de servicios'
       },
       techTab:{
@@ -557,8 +557,8 @@
       },
       eventContact:{
         title: 'Tus eventos en orfheo',
-        mex1: 'Para crear un evento o para más información, contáctanos a través del siguiente formulario:',
-        mex2: 'Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong> (más información en nuestra %{link}).'
+        mex1: 'Para crear un evento o para más información, contáctanos sin compromiso a través del siguiente formulario:',
+        mex2: 'Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong>(más información en nuestra %{link}). El precio no es un límite, lo decidimos juntos.'
       },
       contactUs: {
         title: 'Contacta orfheo',
@@ -761,7 +761,7 @@
       }
     },
     services: {
-      mex: 'Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br> y gestiona todos tus datos con una nueva y potente herramienta.',
+      mex: 'Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta. <br> <b>El precio no es un límite: lo decidimos juntos</b>. ',
       contact: 'Contáctanos',
       section1: {
         title: 'Expande tu evento <br>más allá de un evento',
@@ -797,7 +797,7 @@
       },
       price: {
         title: 'El precio no es un límite',
-        mex: 'Mediante lo que haces, estás ayudando a construir algo realmente importante,<br>no solamente un gran proyecto, sino también una vibrante comunidad enfocada a una muy noble meta.<br> Queremos que siempre puedas hacerlo, y como tú, todos.'
+        mex: '<span style = "color:black; margin: -0.5rem 0px -1.5rem 0; display: block;"><b>Contáctanos para decidir juntos cuánto y cómo intercambiar con orfheo.</b></span><br><br> Mediante lo que haces, estás ayudando a construir algo realmente importante,<br>no solamente un gran proyecto, sino también una vibrante comunidad enfocada a una muy noble meta.<br> Queremos que siempre puedas hacerlo, y como tú, todos.'
       },
       endMex: 'Creemos en universos de creatividad, inclusivos, estimulantes, innovadores, tecnológicos, de integración social y de unión. Creemos en una nueva era, donde el centro sea compartir. Creemos en la interacción y la participación de las personas. Necesitamos acciones colectivas y verdaderos motores para crear una realidad cultural más humana, accesible y cercana. Necesitamos potenciar proyectos, trabajar en red y crecer en comunidad. Soñamos con construir nuevos horizontes sin barreras, un lugar en constante expansión que permita el fácil intercambio de experiencias e información. Hagámoslo posible juntos... ahora...'
     },

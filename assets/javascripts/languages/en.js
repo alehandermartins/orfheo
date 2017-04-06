@@ -519,7 +519,7 @@
         mex3: 'The orfheo team has professionals with the expertise of organizing and managing large participatory events. You will be able to take advantage of a constant monitoring throughout the process of preparation of your event and discover new creative strategies focused on making the best out of your cultural community.',
         subtitle4: 'API Connection:',
         mex4: 'The API service allows you to receive and use data related to your events and calls in your mobile application or website. Any changes you make in orfheo will automatically update all your connected platforms. You can have all your information always updated, where and when you want.',
-        mex5: 'For more information, check our %{link} and contact us through the following form:',
+        mex5: 'For more information, check our %{link} and contact us without compromise through the following form:',
         servicesPage: 'services page'
       },
       techTab:{
@@ -758,7 +758,7 @@
       }
     },
     services: {
-      mex: 'Unite people, create a network with your cultural community and connect with others. <br> Launch the call of your artistic-cultural event through orfheo and <br> manage all your data with a new and powerful tool.',
+      mex: 'Unite people, create a network with your cultural community and connect with others. <br> Launch the call of your artistic-cultural event through orfheo and <br> manage all your data with a new and powerful tool.<b><br>The price is not a limit: we decide it together.</b>',
       contact: 'Contact us',
       section1: {
         title: 'Expand your event <br>beyond an event',
@@ -794,7 +794,7 @@
       },
       price: {
         title: 'Price is not a limit',
-        mex: 'Through what you do, you are helping to build something really important, not only a great project, but also a vibrant community focused on a very noble goal. We want you to always be able to do it, and like you, everyone.'
+        mex: '<span style = "color:black; margin: -0.5rem 0px -1.5rem 0; display: block;"><b>Let us get in touch to decide together what and how to interchange with orfheo.</b></span><br><br>Through what you do, you are helping to build something really important, not only a great project, <br>but also a vibrant community focused on a very noble goal.<br> We want you to always be able to do it, and like you, everyone.'
       },
       endMex: "We believe in universes full of creativity, inclusiveness, stimulation, innovation, technology, social integration and union. We believe in a new era, where sharing is the motion force. We believe in the interaction and participation of people. We need collective actions and real engines to create a more human, accessible and close cultural reality. We need to empower projects, network and grow in community. We dream of building new horizons without barriers, a place in constant expansion that allows the easy exchange of experiences and information. Let's make it possible together... now..."
     },
