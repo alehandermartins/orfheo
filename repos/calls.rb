@@ -6,9 +6,39 @@ module Repos
         @@calls_collection = db['calls']
         calls = grab({})
         calls.each{|call|
-          next if call[:categories].blank?
+          event = Repos::Events.get_by_call call[:call_id]
+          form_categories = event[:texts][:es][:form_categories] 
+          subcategories = event[:texts][:es][:subcategories]
+          call[:forms][:es].each{|type, forms|
+            forms.each{|key, form|
+              next unless form[:label].blank?
+              call[:forms][:es][type][key][:label] = form_categories[type][key.to_sym]
+              form[:blocks].each{|field, block|
+                if field == :subcategory
+                  keys = block[:args].first
+                  values = keys.map{|key| subcategories[type][key.to_sym]}
+                  call[:forms][:es][type][key][:blocks][:subcategory][:args] = keys.zip(values).to_h
+                end
+                call[:forms][:es][type][key][:blocks][field][:args] = nil if block[:input] == 'CheckBox'
+                call[:forms][:es][type][key][:blocks][field][:args] = nil if block[:input] == 'Input'
+                call[:forms][:es][type][key][:blocks][field][:input] = 'Text' if block[:input] == 'Input'
+                call[:forms][:es][type][key][:blocks][field][:args] = block[:args][0] if block[:input] == 'MultipleDaysSelector'
+                call[:forms][:es][type][key][:blocks][field][:helptext] = nil if block[:helptext].blank?
+                call[:forms][:es][type][key][:blocks][field][:helptext] = nil if field == :conditions
+                if block[:input] == 'TextArea' || block[:input] == 'TextAreaEnriched'
+                  call[:forms][:es][type][key][:blocks][field][:placeholder] = nil
+                  call[:forms][:es][type][key][:blocks][field][:placeholder] = block[:args].first unless block[:args].first.blank?
+                  call[:forms][:es][type][key][:blocks][field][:args] = nil
+                end
+                if block[:input] == 'TextAreaCounter'
+                  call[:forms][:es][type][key][:blocks][field][:helptext] = block[:args].last unless block[:args].last.blank?
+                  call[:forms][:es][type][key][:blocks][field][:args] = 80
+                end
+              }
+            }
+          }
           @@calls_collection.update_one({call_id: call[:call_id]},{
-            "$unset": {categories: 1}
+            "$set": {forms: call[:forms]}
           })
         }
       end

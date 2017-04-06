@@ -159,6 +159,10 @@ module Repos
         grab({user_id: user_id})
       end
 
+      def get_by_call call_id
+        grab({call_id: call_id}).first
+      end
+
       def get_event_owner event_id
         event = grab({event_id: event_id}).first
         event[:user_id]

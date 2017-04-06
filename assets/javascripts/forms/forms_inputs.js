@@ -235,6 +235,7 @@
       },
       setVal: function(value){
         _textarea.val(value);
+        _remainingCar.text(max - _textarea.val().length);
       }, 
       setAttr: function(attribute, value){
         _textarea.attr(attribute,value);

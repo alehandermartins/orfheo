@@ -8,7 +8,7 @@
 
     var _createdWidget = $('<div>');
 
-    var _eventNames = [];
+    var _eventIDs = [];
     var _forms = {};
     var _callProposals = profile.proposals;
     
@@ -20,12 +20,12 @@
         proposal.name = profile.name;
         proposal.phone = profile.phone;
         
-        if ($.inArray(proposal.event_name, _eventNames)<0) {
+        if ($.inArray(proposal.event_id, _eventIDs) < 0) {
           var _callName = $('<p>').append(Pard.t.text('proposal.signedUp'),$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
           _listProposals = $('<ul>');
           _createdWidget.append(_callName, _listProposals);
         }
-        _eventNames.push(proposal.event_name);
+        _eventIDs.push(proposal.event_id);
         var _caller = $('<a>').attr({href:'#/'})
         if (_proposalType == 'artist') _caller.text(proposal.title);
         else _caller.text(Pard.t.text('proposal.sentForm'));
@@ -37,10 +37,6 @@
             _proposalPopup = Pard.Widgets.Popup();
           })
           .on('click', function(){
-            var langs = Object.keys(proposal['texts']);
-            var lang = Pard.Options.language();
-            if($.inArray(lang, langs) < 0) lang = langs[0];
-            Pard.UserInfo['texts'] = proposal['texts'][lang];
             if (!(_forms[proposal.call_id])) {
               Pard.Backend.getCallForms(proposal.call_id, function(data){
                 _forms[proposal.call_id] = data.forms;
@@ -48,7 +44,7 @@
                   proposal.event_name, 
                   Pard.Widgets.PrintMyProposal(
                     proposal,
-                    _forms[proposal.call_id][_proposalType][proposal.form_category].blocks, 
+                    _forms[proposal.call_id][_proposalType][proposal.form_category], 
                     _proposalType, 
                     function(){
                       _proposalPopup.close()
@@ -61,7 +57,7 @@
                 proposal.event_name, 
                 Pard.Widgets.PrintMyProposal(
                   proposal, 
-                  _forms[proposal.call_id][_proposalType][proposal.form_category].blocks, 
+                  _forms[proposal.call_id][_proposalType][proposal.form_category],
                   _proposalType, 
                   function(){
                     _proposalPopup.close()
@@ -83,8 +79,8 @@
   ns.Widgets.PrintMyProposal = function(proposal, form, proposalType, closepopup){
     var _createdWidget = $('<div>');
     _createdWidget.append(Pard.Widgets.PrintProposal(proposal, form).render());
-    if (form['conditions'] && form['conditions']['helptext']){
-      var _conditionsLink = '<a href="' + form['conditions']['helptext'] + ' target="_blank">' + Pard.t.text('proposal.terms') + '</a>';
+    if (form.blocks['conditions'] && form.blocks['conditions']['helptext']){
+      var _conditionsLink = '<a href="' + form.blocks['conditions']['helptext'] + '" target="_blank">' + Pard.t.text('proposal.terms') + '</a>';
       _createdWidget.append($('<p>').append(Pard.t.text('proposal.termsOk', {link: _conditionsLink, event: proposal.event_name}))); 
     }
     var _deadline = new Date(parseInt(proposal.deadline));
@@ -163,14 +159,14 @@
     var form = $.extend(true, {}, form);  
     var _createdWidget = $('<div>');
     var _orfheoFields = ['name', 'subcategory','phone','email','address', 'title','description','short_description','duration','availability', 'children', 'cache'];
-    var sentProposalField = Pard.Widgets.sentProposalField(proposal);
+    var sentProposalField = Pard.Widgets.sentProposalField(proposal, form);
     _orfheoFields.forEach(function(field){
       if (proposal[field]){
         var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
         var _fieldFormText = $('<span>');
-        var _proposalField = sentProposalField[field] || form[field];
+        var _proposalField = sentProposalField[field] || form.blocks[field];
         _proposalField['text'] = _proposalField['text'] || proposal[field];
-        _proposalField['label'] = _proposalField['label'] || form[field]['label'];
+        _proposalField['label'] = _proposalField['label'] || form.blocks[field]['label'];
         _proposalField['input'] = _proposalField['input'] || '';
         _fieldFormLabel.append(_proposalField['label'],':');
         _fieldFormText.append(' ',_proposalField['text']).addClass('proposalText-'+_proposalField['input']);
@@ -220,14 +216,14 @@
     for(var field in proposal){
       if ($.isNumeric(field)){
         var _fieldFormLabel = $('<span>').addClass('myProposals-field-label');
-        var _fieldFormText = $('<span>').addClass('proposalText-'+form[field]['input']);
+        var _fieldFormText = $('<span>').addClass('proposalText-'+ form.blocks[field]['input']);
         var _fieldForm = $('<div>').append($('<p>').append(_fieldFormLabel, _fieldFormText)).addClass('proposalFieldPrinted');
         _createdWidget.append(_fieldForm);
-        _textLabel = form[field]['label'];          
+        _textLabel = form.blocks[field]['label'];          
         if (_textLabel.indexOf('*')>0) _textLabel = _textLabel.replace(' *','');
         _textLabel += ':';
         _fieldFormLabel.append(_textLabel);
-        if (form[field]['input'] == 'CheckBox'){
+        if (form.blocks[field]['input'] == 'CheckBox'){
           var _text;
           var dictionaryCheckBox = {
             false: Pard.t.text('dictionary.no').capitalize(),
@@ -236,20 +232,20 @@
           _text = ' ' + dictionaryCheckBox[proposal[field]];
           _fieldFormText.append(_text);
         }
-        else if(form[field]['input'] == 'Links'){
+        else if(form.blocks[field]['input'] == 'Links'){
           var _text = $('<div>').append($('<a>').text(proposal[field]).attr({'href': 'http://' + proposal[field], 'target': '_blank'}));
           _fieldFormText.append(_text);
         }
-        else if(form[field]['input'] == 'TextAreaEnriched'){
+        else if(form.blocks[field]['input'] == 'TextAreaEnriched'){
           _fieldFormText.append(proposal[field]);
         }
-        else if (form[field]['input'] == 'Selector'){
-          _fieldFormText.append(' ' + form[field].args[proposal[field]]);
+        else if (form.blocks[field]['input'] == 'Selector'){
+          _fieldFormText.append(' ' + form.blocks[field].args[proposal[field]]);
         }
-        else if (form[field]['input'] == 'MultipleSelector' && proposal[field]){
+        else if (form.blocks[field]['input'] == 'MultipleSelector' && proposal[field]){
           var _list = $('<ul>');
           proposal[field].forEach(function(val){
-          _list.append($('<li>').text(form[field].args[val]));
+          _list.append($('<li>').text(form.blocks[field].args[val]));
           });  
           _fieldFormText.append(_list);
         }
@@ -267,18 +263,7 @@
   }
 
 
-  ns.Widgets.sentProposalField = function(proposal){
-
-    var _translatorFCT = Pard.UserInfo['texts']['form_categories'];
-    var _translatorSubCT = Pard.UserInfo['texts']['subcategories'];
-    if (proposal.title) {
-      _translatorFCT = _translatorFCT['artist'];
-      _translatorSubCT = _translatorSubCT['artist'];
-    }
-    else {
-      _translatorFCT = _translatorFCT['space'];
-      _translatorSubCT = _translatorSubCT['space'];
-    }
+  ns.Widgets.sentProposalField = function(proposal, form){
 
     var _address = function(){
       var _address = ' ';
@@ -311,7 +296,7 @@
     return {
       'name': {
         label: Pard.t.text('proposal.sentBy'),
-        text: $('<span>').append($('<strong>').append(proposal['name']), $('<div>').append(Pard.t.text('proposal.form.category', {category: _translatorFCT[proposal['form_category']]})).css('font-size','0.875rem'))
+        text: $('<span>').append($('<strong>').append(proposal['name']), $('<div>').append(Pard.t.text('proposal.form.category', {category: form.label})).css('font-size','0.875rem'))
       },
       'email': {
         label: Pard.t.text('dictionary.email').capitalize(),
@@ -342,7 +327,7 @@
       },
       'subcategory': {
         label: Pard.t.text('dictionary.category').capitalize(),
-        text: _translatorSubCT[proposal.subcategory]
+        text: form.blocks.subcategory.args[proposal.subcategory]
       },
       'availability': {
         label: Pard.t.text('dictionary.availability').capitalize(),

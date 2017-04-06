@@ -158,266 +158,566 @@
 
     form['phone'] = _phoneField;
 
+    var CategorySelector = function(block){
+      var _formField = $('<div>').addClass('CategorySelector-FormField call-form-field')
+      var _input = $('<select>')
+      var _label = $('<label>').text(block.label)
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
-    var CategorySelector = function(categories){
-      var catArrayTranslated;
-      catArrayTranslated = Object.keys(categories).map(function(cat){
-        return Pard.t.text('categories.'+ cat);
-      });
+      var catArrayTranslated = Object.keys(block.args).map(function(cat){
+        return Pard.t.text('categories.'+ cat)
+      })
 
-      var _createdWidget = $('<select>');
-      var _emptyOption = $('<option>');
-      Object.keys(categories).forEach(function(value, index){
-        _createdWidget.append($('<option>').append(catArrayTranslated[index]).val(value));
-      });
-      _createdWidget.on('change',function(){
-        _emptyOption.remove();
-        _createdWidget.removeClass('warning');
-        if(categories[_createdWidget.val()] && categories[_createdWidget.val()].activateOptions){
-          Object.keys(categories[_createdWidget.val()].activateOptions).forEach(function(field){
-            _form[field].input.reload(categories[_createdWidget.val()].activateOptions[field]);
-          });
+      Object.keys(block.args).forEach(function(value, index){
+        _input.append($('<option>').append(catArrayTranslated[index]).val(value))
+      })
+      _input.on('change',function(){
+        _input.removeClass('warning')
+        if(block.args[_input.val()] && block.args[_input.val()].activateOptions){
+          Object.keys(block.args[_input.val()].activateOptions).forEach(function(field){
+            _form[field].input.reload(block.args[_input.val()].activateOptions[field])
+          })
         }
       })
       .one('click',function(){
-        _createdWidget.removeClass('placeholderSelect');
-        _emptyOption.empty();
-      });
+        _input.removeClass('placeholderSelect')
+      })
+      
+      _formField.append(_label, _input, _helptext)
+    
+      if(Object.keys(block.args).length == 1)
+        _orfheoCategory = Object.keys(block.args)[0]
 
       return {
         render: function(){
-          return _createdWidget;
+          if (Object.keys(block.args).length > 1)
+            return _formField
         },
         getVal: function(){
-          return _createdWidget.val();
+          return _input.val()
         },
         addWarning: function(){
-          _createdWidget.addClass('warning');
+          _input.addClass('warning')
         },
         removeWarning: function(){
-          _createdWidget.removeClass('warning');
+          _input.removeClass('warning')
         },
         setVal: function(value){
-          _createdWidget.val(value);
-        },
-        setClass: function(_class){
-          _createdWidget.addClass(_class);
-        },
-        enable: function(){
-          _createdWidget.attr('disabled',false);
-        },
-        disable: function(){
-          _createdWidget.attr('disabled',true);
+          _input.val(value)
         },
         activate: function(){
-          if(categories[_createdWidget.val()] && categories[_createdWidget.val()].activateOptions){
-            Object.keys(categories[_createdWidget.val()].activateOptions).forEach(function(field){
-              _form[field].input.reload(categories[_createdWidget.val()].activateOptions[field]);
+          if(block.args[_input.val()] && block.args[_input.val()].activateOptions){
+            Object.keys(block.args[_input.val()].activateOptions).forEach(function(field){
+              _form[field].input.reload(block.args[_input.val()].activateOptions[field])
             });
           }
         }
       }
     }
 
-    var Selector = function(choices){
+    var SubcategorySelector = function(block){
+      var _formField = $('<div>').addClass('SubcategorySelector-FormField call-form-field')
+      var _input = $('<select>')
+      var _label = $('<label>').text(block.label)
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
-      var _createdWidget = $('<select>');
-      var _emptyOption = $('<option>');
-      Object.keys(choices).forEach(function(value){
-        _createdWidget.append($('<option>').append(choices[value]).val(value));
-      });
-      _createdWidget.on('change',function(){
-        _emptyOption.remove();
-        _createdWidget.removeClass('warning');
+      Object.keys(block.args).forEach(function(value){
+        _input.append($('<option>').append(block.args[value]).val(value))
+      })
+
+      _input.on('change',function(){
+        _input.removeClass('warning')
       })
       .one('click',function(){
-        _createdWidget.removeClass('placeholderSelect');
-        _emptyOption.empty();
-      });
+        _input.removeClass('placeholderSelect')
+      })
+      
+      _formField.append(_label, _input, _helptext)
+
+      if (Object.keys(block.args).length == 1)
+        _subcategory = Object.keys(block.args)[0]
 
       return {
         render: function(){
-          return _createdWidget;
+          if (Object.keys(block.args).length > 1)
+            return _formField
         },
         getVal: function(){
-          return _createdWidget.val();
+          return _input.val()
         },
         addWarning: function(){
-          _createdWidget.addClass('warning');
+          _input.addClass('warning')
         },
         removeWarning: function(){
-          _createdWidget.removeClass('warning');
+          _input.removeClass('warning')
         },
         setVal: function(value){
-          _createdWidget.val(value);
+          _input.val(value)
+        }
+      }
+    }
+
+    var Selector = function(block){
+      var _formField = $('<div>').addClass('Selector-FormField call-form-field')
+      var _input = $('<select>')
+      var _label = $('<label>').text(block.label)
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
+      Object.keys(block.args).forEach(function(value){
+        _input.append($('<option>').append(block.args[value]).val(value))
+      })
+      _input.on('change',function(){
+        _input.removeClass('warning')
+      })
+      .one('click',function(){
+        _input.removeClass('placeholderSelect')
+      })
+
+      _formField.append(_label, _input, _helptext)
+
+      return {
+        render: function(){
+          return _formField
         },
-        setClass: function(_class){
-          _createdWidget.addClass(_class);
+        getVal: function(){
+          return _input.val()
         },
-        enable: function(){
-          _createdWidget.attr('disabled',false);
+        addWarning: function(){
+          _input.addClass('warning')
         },
-        disable: function(){
-          _createdWidget.attr('disabled',true);
+        removeWarning: function(){
+          _input.removeClass('warning')
+        },
+        setVal: function(value){
+          _input.val(value)
         },
         reload: function(new_choices){
-          var old_val = _createdWidget.val();
-          if (new_choices == 'all') new_choices = Object.keys(choices);
-          _createdWidget.empty();
+          var old_val = _input.val()
+          if (new_choices == 'all') new_choices = Object.keys(block.args)
+          _input.empty()
           new_choices.forEach(function(value){
-            _createdWidget.append($('<option>').append(choices[value]).val(value));
-          });
+            _input.append($('<option>').append(block.args[value]).val(value))
+          })
           if($.inArray(old_val, new_choices)){
-            _createdWidget.val(old_val);
-            _createdWidget.trigger('change');
+            _input.val(old_val)
+            _input.trigger('change')
           }
         }
       }
     }
 
-    var MultipleSelector = function(choices){
-      var _createdWidget = $('<div>');
-      var _select = $('<select>').attr("multiple", "multiple");
-      Object.keys(choices).forEach(function(value){
-        _select.append($('<option>').text(choices[value]).val(value));
-      });
-      _createdWidget.append(_select);
-      _select.on('change',function(){
-        _select.next().find('.ms-choice').removeClass('warning');
-      });
+    var MultipleSelector = function(block){
+      var _formField = $('<div>').addClass('MultipleSelector-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<select>').attr("multiple", "multiple")
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
+      Object.keys(block.args).forEach(function(value){
+        _input.append($('<option>').append(block.args[value]).val(value))
+      })
+
+      _input.on('change',function(){
+        _input.next().find('.ms-choice').removeClass('warning')
+      })
       var _options = {      
         placeholder: "Selecciona una o más opciones",
         selectAll: false,
         countSelected: false,
         allSelected: false
-      };
-      
+      }
+
+      _formField.append(_label, _input, _helptext)
+      _helptext.css('margin-top', 5)
+
       return {
         render: function(){
-          _select.multipleSelect(_options);
-          return _createdWidget;
-        },
-        setOptions: function(options){
-          _options = options;
+          _input.multipleSelect(_options)
+          return _formField
         },
         getVal: function(){
-          return _select.val();
+          return _input.val()
         },
         setVal: function(values){
-          _select.multipleSelect('setSelects', values);
+          _input.multipleSelect('setSelects', values)
         },
         addWarning: function(){
-          console.log('warning')
-          _select.next().find('.ms-choice').addClass('warning');
+          _input.next().find('.ms-choice').addClass('warning')
         },
         removeWarning: function(){
-          _select.next().find('.ms-choice').removeClass('warning');
-        },
-        setClass: function(_class){
-          _createdWidget.addClass(_class);
+          _input.next().find('.ms-choice').removeClass('warning')
         },
         deselectAll: function(){
-          _select.multipleSelect("uncheckAll")
-        },
-        enable: function(){
-          _select.attr('disabled',false);
-        },
-        disable: function(){
-          _select.attr('disabled',true);
+          _input.multipleSelect("uncheckAll")
         }
       }
     }
 
-    var Duration = function(choices){
-      var _createdWidget = $('<select>');
-      var _emptyOption = $('<option>');
-      Object.keys(choices).forEach(function(value){
-        _createdWidget.append($('<option>').append(choices[value]).val(value));
-      });
-      _createdWidget.on('change',function(){
-        _emptyOption.remove();
-        _createdWidget.removeClass('warning');
+    var MultipleDaysSelector = function(block){
+      var _formField = $('<div>').addClass('MultipleDaysSelector-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<select>').attr("multiple", "multiple")
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
+      var _arrayDays = []
+      block.args.forEach(function(value){
+        var _newDate = new Date(parseInt(value));
+        var _day = moment(_newDate).locale(Pard.Options.language()).format('dddd DD/MM/YYYY')
+        _input.append($('<option>').text(_day).val(value))
+        _arrayDays.push(moment(_newDate).locale(Pard.Options.language()).format('YYYY-MM-DD'))
       })
-      .one('click',function(){
-        _createdWidget.removeClass('placeholderSelect');
-        _emptyOption.empty();
-      });
+      _input.on('change',function(){
+        _input.next().find('.ms-choice').removeClass('warning')
+      })
+
+      var _options = {
+        placeholder: Pard.t.text('widget.availability.placeholder'),
+        selectAllText: Pard.t.text('widget.availability.selectAllText'),
+        countSelected: false,
+        allSelected: Pard.t.text('widget.availability.allSelected')
+      }
+
+      _formField.append(_label, _input, _helptext)
+      _helptext.css('margin-top', 5)
 
       return {
         render: function(){
-          return _createdWidget;
+          _input.multipleSelect(_options)
+          return _formField
         },
         getVal: function(){
-          return _createdWidget.val();
+          if(_input.val()){
+            return _input.val().map(function(val){
+              return moment(new Date(parseInt(val))).locale(Pard.Options.language()).format('YYYY-MM-DD')
+            })
+          }
+        },
+        setVal: function(values){
+          var _values = []
+          values.forEach(function(value){
+            var _index = _arrayDays.indexOf(value)
+            if (_index>-1) _values.push(block.args[_index])
+          })
+          _input.multipleSelect("setSelects", _values)
         },
         addWarning: function(){
-          _createdWidget.addClass('warning');
+          _input.next().find('.ms-choice').addClass('warning')
         },
         removeWarning: function(){
-          _createdWidget.removeClass('warning');
+          _input.next().find('.ms-choice').removeClass('warning')
+        }
+      }
+    }
+
+    var Duration = function(block){
+      var _formField = $('<div>').addClass('Selector-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<select>')
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
+
+      Object.keys(block.args).forEach(function(value){
+        _input.append($('<option>').append(block.args[value]).val(value))
+      })
+      _input.on('change',function(){
+        _input.removeClass('warning')
+      })
+      .one('click',function(){
+        _input.removeClass('placeholderSelect')
+      })
+
+      _formField.append(_label, _input, _helptext)
+
+      return {
+        render: function(){
+          return _formField
+        },
+        getVal: function(){
+          return _input.val()
+        },
+        addWarning: function(){
+          _input.addClass('warning')
+        },
+        removeWarning: function(){
+          _input.removeClass('warning')
         },
         setVal: function(value){
-          _createdWidget.val(value);
-        },
-        setClass: function(_class){
-          _createdWidget.addClass(_class);
-        },
-        enable: function(){
-          _createdWidget.attr('disabled',false);
-        },
-        disable: function(){
-          _createdWidget.attr('disabled',true);
+          _input.val(value)
         },
         reload: function(new_choices){
-          var old_val = _createdWidget.val();
-          if (new_choices == 'all') new_choices = Object.keys(choices);
-          _createdWidget.empty();
+          var old_val = _input.val()
+          if (new_choices == 'all') new_choices = Object.keys(block.args)
+          _input.empty()
           new_choices.forEach(function(value){
-            _createdWidget.append($('<option>').append(choices[value]).val(value));
-          });
+            _input.append($('<option>').append(block.args[value]).val(value))
+          })
           if($.inArray(old_val, new_choices)){
-            _createdWidget.val(old_val);
-            _createdWidget.trigger('change');
+            _input.val(old_val)
+            _input.trigger('change')
           }
         }
       }
     }
 
-    var Links = function(){
-
-      var _input = $('<input>').attr({'type': 'text'});
+    var Links = function(block){
+      var _formField = $('<div>').addClass('Input-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<input>').attr({'type': 'text'})
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
       _input.on('input',function(){
-        _input.removeClass('warning');
+        _input.removeClass('warning')
       });
 
       _input.on('focus', function(){
         if($(window).width()<1024){
           if ($('.reveal[aria-hidden="false"]').html()){
-            var _distanceInputTop = _input.offset().top;
-            var _popupOpened = _input.closest('.reveal[aria-hidden="false"]');
-            var _scroolTop = _popupOpened.scrollTop();
-            var _distanceToDo = _distanceInputTop + _scroolTop - 120; 
-            _popupOpened.scrollTop(_distanceToDo);
+            var _distanceInputTop = _input.offset().top
+            var _popupOpened = _input.closest('.reveal[aria-hidden="false"]')
+            var _scroolTop = _popupOpened.scrollTop()
+            var _distanceToDo = _distanceInputTop + _scroolTop - 120 
+            _popupOpened.scrollTop(_distanceToDo)
           }
         }
-      });
+      })
+
+      _formField.append(_label, _input, _helptext)
 
       return{
         render: function(){
-          return _input;
+          return _formField
+        },
+        getVal: function(){
+          return _input.val()
+        },
+        setVal: function(value){
+          _input.val(value)
+        },
+        addWarning: function(){
+          _input.addClass('warning')
+        },
+        removeWarning: function(){
+          _input.removeClass('warning')
+        }
+      }
+    }
+
+    var CheckBox = function(block){
+      var _formField = $('<div>').addClass('CheckBox-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<input>').attr({type: 'checkbox'})
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
+
+      _input.on('change', function(){
+        _input.removeClass('checkBox-warning')
+      })
+
+      _formField.append(_input, _label, _helptext)
+      _label.css('display','inline')
+      _helptext.css({'margin-top':'0'})
+
+      return {
+        render: function(){
+          return _formField
+        },
+        getVal: function(){
+          return _input.is(":checked")
+        },
+        setVal: function(val){
+          if (val && val != 'false'){ _input.attr('checked', val)}
+          if (val === false){_input.attr('checked', false)}
+        },
+        addWarning: function(){
+          _input.addClass('checkBox-warning')
+        },
+        removeWarning: function(){
+          _input.removeClass('checkBox-warning')
+        },
+        conditions:function(){
+          _helptext.html($('<a>').text('(Ver condiciones)').attr({'href': Pard.CachedEvent.conditions, 'target':'_blank'}))
+        }
+      }
+    }
+
+    var Text = function(block){
+      var _formField = $('<div>').addClass('Input-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<input>').attr({'type': 'text'})
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
+
+      _input.on('input',function(){
+        _input.removeClass('warning')
+      });
+
+      _input.on('focus', function(){
+        if($(window).width()<1024){
+          if ($('.reveal[aria-hidden="false"]').html()){
+            var _distanceInputTop = _input.offset().top
+            var _popupOpened = _input.closest('.reveal[aria-hidden="false"]')
+            var _scroolTop = _popupOpened.scrollTop()
+            var _distanceToDo = _distanceInputTop + _scroolTop - 120 
+            _popupOpened.scrollTop(_distanceToDo)
+          }
+        }
+      })
+
+      _formField.append(_label, _input, _helptext)
+      _label.css('display','inline')
+
+      return{
+        render: function(){
+          return _formField
+        },
+        getVal: function(){
+          return _input.val()
+        },
+        setVal: function(value){
+          _input.val(value)
+        },
+        addWarning: function(){
+          _input.addClass('warning')
+        },
+        removeWarning: function(){
+          _input.removeClass('warning')
+        }
+      }
+    }
+
+    var TextArea = function(block){
+      var _formField = $('<div>').addClass('TextArea-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<textarea>').attr({'type': 'text', 'rows': 4})
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
+
+      if(block.placeholder)
+        _input.attr('placeholder', block.placeholder)
+
+      _input.on('input',function(){
+        _input.removeClass('warning')
+      });
+
+      _input.on('focus', function(){
+        if($(window).width()<1024){
+          if ($('.reveal[aria-hidden="false"]').html()){
+            var _distanceInputTop = _input.offset().top
+            var _popupOpened = _input.closest('.reveal[aria-hidden="false"]')
+            var _scroolTop = _popupOpened.scrollTop()
+            var _distanceToDo = _distanceInputTop + _scroolTop - 120 
+            _popupOpened.scrollTop(_distanceToDo)
+          }
+        }
+      })
+
+      _formField.append(_label, _input, _helptext)
+      _label.css('display','inline')
+
+      return{
+        render: function(){
+          return _formField
+        },
+        getVal: function(){
+          return _input.val()
+        },
+        setVal: function(value){
+          _input.val(value)
+        },
+        addWarning: function(){
+          _input.addClass('warning')
+        },
+        removeWarning: function(){
+          _input.removeClass('warning')
+        }
+      }
+    }
+
+    var TextAreaEnriched = function(block){
+      var _formField = $('<div>').addClass('TextArea-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<textarea>').attr({'type': 'text', 'rows': 4})
+      var _helptext = $('<p>').addClass('help-text').html(block.helptext)
+      var _textAreaContainer = $('<div>')
+
+      _input.on('focus', function(){
+        if($(window).width()<1024){
+          if ($('.reveal[aria-hidden="false"]').html()){
+            var _distanceInputTop = _textarea.offset().top
+            var _popupOpened = _textarea.closest('.reveal[aria-hidden="false"]')
+            var _scroolTop = _popupOpened.scrollTop()
+            var _distanceToDo = _distanceInputTop + _scroolTop - 120 
+            _popupOpened.scrollTop(_distanceToDo)
+          }
+        }
+      })
+
+      _textAreaContainer.append(_input).addClass('TextAreaEnrichedContainer');
+
+      if ($('#trumbowyg-icons').html()){}
+      else{
+        $('body').append($('<div>').css('display','none').attr('id','trumbowyg-icons')
+          .append('<svg xmlns="http://www.w3.org/2000/svg"><symbol id="trumbowyg-strong" viewBox="0 0 72 72"><path d="M51.1 37.8c-1.1-1.4-2.5-2.5-4.2-3.3 1.2-.8 2.1-1.8 2.8-3 1-1.6 1.5-3.5 1.5-5.3 0-2-.6-4-1.7-5.8-1.1-1.8-2.8-3.2-4.8-4.1-2-.9-4.6-1.3-7.8-1.3h-16v42h16.3c2.6 0 4.8-.2 6.7-.7 1.9-.5 3.4-1.2 4.7-2.1 1.3-1 2.4-2.4 3.2-4.1.9-1.7 1.3-3.6 1.3-5.7.2-2.5-.5-4.7-2-6.6zM40.8 50.2c-.6.1-1.8.2-3.4.2h-9V38.5h8.3c2.5 0 4.4.2 5.6.6 1.2.4 2 1 2.7 2 .6.9 1 2 1 3.3 0 1.1-.2 2.1-.7 2.9-.5.9-1 1.5-1.7 1.9-.8.4-1.7.8-2.8 1zm2.6-20.4c-.5.7-1.3 1.3-2.5 1.6-.8.3-2.5.4-4.8.4h-7.7V21.6h7.1c1.4 0 2.6 0 3.6.1s1.7.2 2.2.4c1 .3 1.7.8 2.2 1.7.5.9.8 1.8.8 3-.1 1.3-.4 2.2-.9 3z"/></symbol><symbol id="trumbowyg-em" viewBox="0 0 72 72"><path d="M26 57l10.1-42h7.2L33.2 57H26z"/></symbol><symbol id="trumbowyg-fullscreen" viewBox="0 0 72 72"><path d="M25.2 7.1H7.1v17.7l6.7-6.5 10.5 10.5 4.5-4.5-10.4-10.5zM47.2 7.1l6.5 6.7-10.5 10.5 4.5 4.5 10.5-10.4 6.7 6.8V7.1zM47.7 43.2l-4.5 4.5 10.4 10.5-6.8 6.7h18.1V47.2l-6.7 6.5zM24.3 43.2L13.8 53.6l-6.7-6.8v18.1h17.7l-6.5-6.7 10.5-10.5z"/><path fill="currentColor" d="M10.7 28.8h18.1V11.2l-6.6 6.4L11.6 7.1l-4.5 4.5 10.5 10.5zM60.8 28.8l-6.4-6.6 10.5-10.6-4.5-4.5-10.5 10.5-6.7-6.9v18.1zM60.4 64.9l4.5-4.5-10.5-10.5 6.9-6.7H43.2v17.6l6.6-6.4zM11.6 64.9l10.5-10.5 6.7 6.9V43.2H11.1l6.5 6.6L7.1 60.4z"/></symbol><symbol id="trumbowyg-link" viewBox="0 0 72 72"><path d="M30.9 49.1l-6.7 6.7c-.8.8-1.6.9-2.1.9s-1.4-.1-2.1-.9l-5.2-5.2c-1.1-1.1-1.1-3.1 0-4.2l6.1-6.1.2-.2 6.5-6.5c-1.2-.6-2.5-.9-3.8-.9-2.3 0-4.6.9-6.3 2.6L10.8 42c-3.5 3.5-3.5 9.2 0 12.7l5.2 5.2c1.7 1.7 4 2.6 6.3 2.6s4.6-.9 6.3-2.6l6.7-6.7C38 50.5 38.6 46.3 37 43l-6.1 6.1zM38.5 22.7l6.7-6.7c.8-.8 1.6-.9 2.1-.9s1.4.1 2.1.9l5.2 5.2c1.1 1.1 1.1 3.1 0 4.2l-6.1 6.1-.2.2-6.5 6.5c1.2.6 2.5.9 3.8.9 2.3 0 4.6-.9 6.3-2.6l6.7-6.7c3.5-3.5 3.5-9.2 0-12.7l-5.2-5.2c-1.7-1.7-4-2.6-6.3-2.6s-4.6.9-6.3 2.6l-6.7 6.7c-2.7 2.7-3.3 6.9-1.7 10.2l6.1-6.1z"/><path d="M44.1 30.7c.2-.2.4-.6.4-.9 0-.3-.1-.6-.4-.9l-2.3-2.3c-.2-.2-.6-.4-.9-.4-.3 0-.6.1-.9.4L25.8 40.8c-.2.2-.4.6-.4.9 0 .3.1.6.4.9l2.3 2.3c.2.2.6.4.9.4.3 0 .6-.1.9-.4l14.2-14.2z"/></symbol><symbol id="trumbowyg-ordered-list" viewBox="0 0 72 72"><path d="M27 14h36v8H27zM27 50h36v8H27zM27 32h36v8H27zM11.8 15.8V22h1.8v-7.8h-1.5l-2.1 1 .3 1.3zM12.1 38.5l.7-.6c1.1-1 2.1-2.1 2.1-3.4 0-1.4-1-2.4-2.7-2.4-1.1 0-2 .4-2.6.8l.5 1.3c.4-.3 1-.6 1.7-.6.9 0 1.3.5 1.3 1.1 0 .9-.9 1.8-2.6 3.3l-1 .9V40H15v-1.5h-2.9zM13.3 53.9c1-.4 1.4-1 1.4-1.8 0-1.1-.9-1.9-2.6-1.9-1 0-1.9.3-2.4.6l.4 1.3c.3-.2 1-.5 1.6-.5.8 0 1.2.3 1.2.8 0 .7-.8.9-1.4.9h-.7v1.3h.7c.8 0 1.6.3 1.6 1.1 0 .6-.5 1-1.4 1-.7 0-1.5-.3-1.8-.5l-.4 1.4c.5.3 1.3.6 2.3.6 2 0 3.2-1 3.2-2.4 0-1.1-.8-1.8-1.7-1.9z"/></symbol><symbol id="trumbowyg-unordered-list" viewBox="0 0 72 72"><path d="M27 14h36v8H27zM27 50h36v8H27zM9 50h9v8H9zM9 32h9v8H9zM9 14h9v8H9zM27 32h36v8H27z"/></symbol><symbol id="trumbowyg-view-html" viewBox="0 0 72 72"><path fill="none" stroke="currentColor" stroke-width="8" stroke-miterlimit="10" d="M26.9 17.9L9 36.2 26.9 54M45 54l17.9-18.3L45 17.9"/></symbol><symbol id="trumbowyg-base64" viewBox="0 0 72 72"><path d="M64 17v38H8V17h56m8-8H0v54h72V9z"/><path d="M29.9 28.9c-.5-.5-1.1-.8-1.8-.8s-1.4.2-1.9.7c-.5.4-.9 1-1.2 1.6-.3.6-.5 1.3-.6 2.1-.1.7-.2 1.4-.2 1.9l.1.1c.6-.8 1.2-1.4 2-1.8.8-.4 1.7-.5 2.7-.5.9 0 1.8.2 2.6.6.8.4 1.6.9 2.2 1.5.6.6 1 1.3 1.2 2.2.3.8.4 1.6.4 2.5 0 1.1-.2 2.1-.5 3-.3.9-.8 1.7-1.5 2.4-.6.7-1.4 1.2-2.3 1.6-.9.4-1.9.6-3 .6-1.6 0-2.8-.3-3.9-.9-1-.6-1.8-1.4-2.5-2.4-.6-1-1-2.1-1.3-3.4-.2-1.3-.4-2.6-.4-3.9 0-1.3.1-2.6.4-3.8.3-1.3.8-2.4 1.4-3.5.7-1 1.5-1.9 2.5-2.5 1-.6 2.3-1 3.8-1 .9 0 1.7.1 2.5.4.8.3 1.4.6 2 1.1.6.5 1.1 1.1 1.4 1.8.4.7.6 1.5.7 2.5h-4c0-1-.3-1.6-.8-2.1zm-3.5 6.8c-.4.2-.8.5-1 .8-.3.4-.5.8-.6 1.2-.1.5-.2 1-.2 1.5s.1.9.2 1.4c.1.5.4.9.6 1.2.3.4.6.7 1 .9.4.2.9.3 1.4.3.5 0 1-.1 1.3-.3.4-.2.7-.5 1-.9.3-.4.5-.8.6-1.2.1-.5.2-.9.2-1.4 0-.5-.1-1-.2-1.4-.1-.5-.3-.9-.6-1.2-.3-.4-.6-.7-1-.9-.4-.2-.9-.3-1.4-.3-.4 0-.9.1-1.3.3zM36.3 41.3v-3.8l9-12.1H49v12.4h2.7v3.5H49v4.8h-4v-4.8h-8.7zM45 30.7l-5.3 7.2h5.4l-.1-7.2z"/></symbol><symbol id="trumbowyg-create-link" viewBox="0 0 72 72"><path d="M31.1 48.9l-6.7 6.7c-.8.8-1.6.9-2.1.9s-1.4-.1-2.1-.9L15 50.4c-1.1-1.1-1.1-3.1 0-4.2l6.1-6.1.2-.2 6.5-6.5c-1.2-.6-2.5-.9-3.8-.9-2.3 0-4.6.9-6.3 2.6L11 41.8c-3.5 3.5-3.5 9.2 0 12.7l5.2 5.2c1.7 1.7 4 2.6 6.3 2.6s4.6-.9 6.3-2.6l6.7-6.7c2.5-2.6 3.1-6.7 1.5-10l-5.9 5.9zM38.7 22.5l6.7-6.7c.8-.8 1.6-.9 2.1-.9s1.4.1 2.1.9l5.2 5.2c1.1 1.1 1.1 3.1 0 4.2l-6.1 6.1-.2.2L42 38c1.2.6 2.5.9 3.8.9 2.3 0 4.6-.9 6.3-2.6l6.7-6.7c3.5-3.5 3.5-9.2 0-12.7l-5.2-5.2c-1.7-1.7-4-2.6-6.3-2.6s-4.6.9-6.3 2.6l-6.7 6.7c-2.7 2.7-3.3 6.9-1.7 10.2l6.1-6.1c0 .1 0 .1 0 0z"/><path d="M44.2 30.5c.2-.2.4-.6.4-.9 0-.3-.1-.6-.4-.9l-2.3-2.3c-.3-.2-.6-.4-.9-.4-.3 0-.6.1-.9.4L25.9 40.6c-.2.2-.4.6-.4.9 0 .3.1.6.4.9l2.3 2.3c.2.2.6.4.9.4.3 0 .6-.1.9-.4l14.2-14.2zM49.9 55.4h-8.5v-5h8.5v-8.9h5.2v8.9h8.5v5h-8.5v8.9h-5.2v-8.9z"/></symbol><symbol id="trumbowyg-del" viewBox="0 0 72 72"><path d="M45.8 45c0 1-.3 1.9-.9 2.8-.6.9-1.6 1.6-3 2.1s-3.1.8-5 .8c-2.1 0-4-.4-5.7-1.1-1.7-.7-2.9-1.7-3.6-2.7-.8-1.1-1.3-2.6-1.5-4.5l-.1-.8-6.7.6v.9c.1 2.8.9 5.4 2.3 7.6 1.5 2.3 3.5 4 6.1 5.1 2.6 1.1 5.7 1.6 9.4 1.6 2.9 0 5.6-.5 8-1.6 2.4-1.1 4.3-2.7 5.6-4.7 1.3-2 2-4.2 2-6.5 0-1.6-.3-3.1-.9-4.5l-.2-.6H44c0 .1 1.8 2.3 1.8 5.5zM29 28.9c-.8-.8-1.2-1.7-1.2-2.9 0-.7.1-1.3.4-1.9.3-.6.7-1.1 1.4-1.6.6-.5 1.4-.9 2.5-1.1 1.1-.3 2.4-.4 3.9-.4 2.9 0 5 .6 6.3 1.7 1.3 1.1 2.1 2.7 2.4 5.1l.1.9 6.8-.5v-.9c-.1-2.5-.8-4.7-2.1-6.7s-3.2-3.5-5.6-4.5c-2.4-1-5.1-1.5-8.1-1.5-2.8 0-5.3.5-7.6 1.4-2.3 1-4.2 2.4-5.4 4.3-1.2 1.9-1.9 3.9-1.9 6.1 0 1.7.4 3.4 1.2 4.9l.3.5h11.8c-2.3-.9-3.9-1.7-5.2-2.9zm13.3-6.2zM22.7 20.3zM13 34.1h46.1v3.4H13z"/></symbol><symbol id="trumbowyg-unlink" viewBox="0 0 72 72"><path d="M30.9 49.1l-6.7 6.7c-.8.8-1.6.9-2.1.9s-1.4-.1-2.1-.9l-5.2-5.2c-1.1-1.1-1.1-3.1 0-4.2l6.1-6.1.2-.2 6.5-6.5c-1.2-.6-2.5-.9-3.8-.9-2.3 0-4.6.9-6.3 2.6L10.8 42c-3.5 3.5-3.5 9.2 0 12.7l5.2 5.2c1.7 1.7 4 2.6 6.3 2.6s4.6-.9 6.3-2.6l6.7-6.7C38 50.5 38.6 46.3 37 43l-6.1 6.1zM38.5 22.7l6.7-6.7c.8-.8 1.6-.9 2.1-.9s1.4.1 2.1.9l5.2 5.2c1.1 1.1 1.1 3.1 0 4.2l-6.1 6.1-.2.2-6.5 6.5c1.2.6 2.5.9 3.8.9 2.3 0 4.6-.9 6.3-2.6l6.7-6.7c3.5-3.5 3.5-9.2 0-12.7l-5.2-5.2c-1.7-1.7-4-2.6-6.3-2.6s-4.6.9-6.3 2.6l-6.7 6.7c-2.7 2.7-3.3 6.9-1.7 10.2l6.1-6.1z"/><path d="M44.1 30.7c.2-.2.4-.6.4-.9 0-.3-.1-.6-.4-.9l-2.3-2.3c-.2-.2-.6-.4-.9-.4-.3 0-.6.1-.9.4L25.8 40.8c-.2.2-.4.6-.4.9 0 .3.1.6.4.9l2.3 2.3c.2.2.6.4.9.4.3 0 .6-.1.9-.4l14.2-14.2zM41.3 55.8v-5h22.2v5H41.3z"/></symbol><symbol id="trumbowyg-back-color" viewBox="0 0 72 72"><path d="M36.5 22.3l-6.3 18.1H43l-6.3-18.1z"/><path d="M9 8.9v54.2h54.1V8.9H9zm39.9 48.2L45 46H28.2l-3.9 11.1h-7.6L32.8 15h7.8l16.2 42.1h-7.9z"/></symbol></svg>'
+          )
+        )
+      }
+
+      _input.trumbowyg({
+        btns: [
+          ['strong', 'em'],
+          ['link'],
+          'btnGrp-lists'
+        ],
+        autogrow: true
+      })
+      
+      _input.on('tbwchange', function(){
+        _createdWidget.removeClass('warning')
+      })
+
+      _formField.append(_label, _textAreaContainer, _helptext)
+
+      return {
+        render: function(){
+          return _formField;
+        },
+        getVal: function(){
+          return _input.trumbowyg('html')
+        },
+        setVal: function(value){
+          _input.trumbowyg('html', value)
+        },
+        addWarning: function(){
+          _textAreaContainer.addClass('warning')
+        },
+        removeWarning: function(){
+          _textAreaContainer.removeClass('warning')
+        }
+      }
+    }
+
+    var TextAreaCounter = function(block){
+      var _formField = $('<div>').addClass('TextAreaCounter-FormField call-form-field')
+      var _label = $('<label>').text(block.label)
+      var _input = $('<textarea>').attr({type: 'text', rows: 1, maxlength: block.args}).addClass('short_description-input')
+      var _remainingCar = $('<span>').text(block.args).css({display: 'inline', 'font-weight': 600})
+      var _helptext = $('<p>').append(block.helptext, _remainingCar,'.').addClass('help-text')
+      
+      _input.on('input',(function(){
+        _input.removeClass('warning')
+        _remainingCar.text(block.args - _input.val().length)
+      }));
+
+      _formField.append(_label, _input, _helptext)
+
+      return {
+        render: function(){
+          return _formField
         },
         getVal: function(){
           return _input.val();
         },
         setVal: function(value){
-          _input.val(value);
+          _input.val(value)
+          _remainingCar.text(block.args - _input.val().length)
         },
         addWarning: function(){
-          _input.addClass('warning');
+          _input.addClass('warning')
         },
         removeWarning: function(){
-          _input.removeClass('warning');
+          _input.removeClass('warning')
         }
       }
     }
@@ -456,34 +756,45 @@
     }
 
     var _note = $('<span>');
-    var _submitItems = [];
 
     var _printField = function(field){
+      console.log(field);
       _form[field] = {};
       _form[field]['type'] = form[field]['type'];
-      if($.inArray(field, _mandatoryFields)>-1 || (received && form[field].type == 'mandatory')) _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label+' *');
-      else _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
-      if (form[field]['input']=='CheckBox') {
-        form[field].args[0] = form[field].label;
-        if (form[field]['type'] == 'mandatory') form[field].args[0] += ' *';
-      }
+      if($.inArray(field, _mandatoryFields) > -1 || (received && form[field].type == 'mandatory')) form[field].label += ' *';
 
-      if(form[field].input == 'CategorySelector' || form[field].input == 'Duration' || form[field].input == 'Links' || form[field].input == 'Selector' || form[field].input == 'MultipleSelector'){
-        if(form[field].input == 'CategorySelector') _form[field]['input'] = CategorySelector(form[field].args);
-        if(form[field].input == 'Selector')_form[field]['input'] = Selector(form[field].args);
-        if(form[field].input == 'MultipleSelector')_form[field]['input'] = MultipleSelector(form[field].args);
-        if(form[field].input == 'Duration') _form[field]['input'] = Duration(form[field].args);
-        if(form[field].input == 'Links') _form[field]['input'] = Links(form[field].args);
+      var _inputs = {
+        'CategorySelector': CategorySelector,
+        'SubcategorySelector': SubcategorySelector,
+        'Selector': Selector,
+        'MultipleSelector': MultipleSelector,
+        'MultipleDaysSelector': MultipleDaysSelector,
+        'Duration': Duration,
+        'Links': Links,
+        'CheckBox': CheckBox,
+        'Text': Text,
+        'TextArea': TextArea,
+        'TextAreaEnriched': TextAreaEnriched,
+        'TextAreaCounter': TextAreaCounter
       }
+      if (_inputs[form[field].input])
+        _form[field].input = _inputs[form[field].input](form[field]);
       else{
-      _form[field]['input'] = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+        _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
+        _form[field].input = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
+        _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
       }
-      _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
-      if(form[field].input == 'UploadPhotos' || form[field].input == 'UploadPDF'){
-        _submitItems.push(_form[field].input.getPhotos());
-      }
-
       var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
+
+      // var _prepareFormField = function(){
+      //   if (_inputs[_blocks[field].input])
+      //   _form[field].input = _inputs[_blocks[field].input](_blocks[field])
+      //   else{
+      //     _form[field]['label'] = Pard.Widgets.InputLabel(_blocks[field].label)
+      //     _form[field].input = window['Pard']['Widgets'][_blocks[field].input].apply(this, _blocks[field].args)
+      //     _form[field]['helptext'] = Pard.Widgets.HelpText(_blocks[field].helptext)
+      //   }
+      // }
 
       switch(field){
         case 'photos':
@@ -491,83 +802,65 @@
         case 'bio':
           break;
         case 'category':
-          if (proposalType == 'artist'){
-            if (Object.keys(form[field].args).length > 1){
-              _containerMandatoryFields.append(
-                _formField.append(
-                  _form[field].label.render(),
-                  _form[field].input.render()
-                )
-              );
-              if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
-            }
-            else{
-              _orfheoCategory = Object.keys(form[field].args)[0];
-            }
-          }
+          var _formField = _form[field].input.render();
+          _containerMandatoryFields.append(_formField);
           break;
         case 'subcategory':
-          if ($.isArray(form[field].args[0]) && form[field].args[0].length>1){
-            _containerMandatoryFields.append(
-              _formField.append(
-                _form[field].label.render(),
-                _form[field].input.render()
-              )
-            );
-            if (form[field]['helptext'].length) _formField.append(_form[field].helptext.render());
-          }
-          else{
-            if ($.isArray(form[field].args[0])) _subcategory = form[field].args[0][0];
-            else _subcategory = form[field].args[0];
-          }
+          var _formField = _form[field].input.render();
+          _containerMandatoryFields.append(_formField);
           break;
         case 'conditions': 
           return false;
           break;
+        case 'phone':
+          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
+          _form[field].helptext.append(_note); 
+          _formField.append( _form[field].label, _form[field].input.render(), _form[field].helptext);
+        break;
         default:
-          var _input = _form[field].input;
-          var _label = _form[field].label.render();
-          var _helptext = _form[field].helptext.render();
-          if($.isNumeric(field)) _optionalFields.append(_formField);
-          else if ($.inArray(field, _mandatoryFields)<0)_optionalFields.prepend(_formField);
-          else _containerMandatoryFields.append(_formField);
+          if (_inputs[form[field].input]){
+            var _formField = _form[field].input.render();
+            if($.isNumeric(field)) _optionalFields.append(_formField);
+            else if ($.inArray(field, _mandatoryFields) <0 ) _optionalFields.prepend(_formField);
+            else _containerMandatoryFields.append(_formField);
+          }
           var _prepareFormField = function(){
             _formField.append(_label,_input.render());
             if (form[field]['helptext'].length) _formField.append(_helptext);
           }
-          switch(form[field].input){
-            case 'TextAreaCounter':
-              _formField.append(_label,_input.render());
-              break;
-            case 'CheckBox':
-              _formField.append(_input.render());
-              if (form[field]['helptext'].length) {
-                _helptext.css({'margin-top':'0'});
-                _formField.append(_helptext);
-              }
-              break;
-            case 'TextArea':
-              _input.setAttr('rows', 4);
-              _prepareFormField();
-              break;
-            case 'MultipleSelector':
-            case 'MultipleDaysSelector':
-              if (field == 'availability') _input.setOptions({
-                    placeholder: Pard.t.text('widget.multipleDaysSelector.placeholder'),
-                    selectAllText: Pard.t.text('widget.multipleDaysSelector.selectAll'),
-                    countSelected: false,
-                    allSelected: Pard.t.text('widget.multipleDaysSelector.alwaysAv')
-                  })
-              _helptext.css('margin-top', 5);
-              _prepareFormField();
-              break;
-            case 'InputTel':
-              _helptext.append(_note); 
-              _formField.append(_label,_input.render(), _helptext);
-              break;
-            default:
-              _prepareFormField();
-          }
+          // switch(form[field].input){
+            // case 'TextAreaCounter':
+            //   _formField.append(_label,_input.render());
+            //   break;
+            // case 'CheckBox':
+            //   _formField.append(_input.render());
+            //   if (form[field]['helptext'].length) {
+            //     _helptext.css({'margin-top':'0'});
+            //     _formField.append(_helptext);
+            //   }
+            //   break;
+            // case 'TextArea':
+            //   _input.setAttr('rows', 4);
+            //   _prepareFormField();
+            //   break;
+            // case 'MultipleSelector':
+            // case 'MultipleDaysSelector':
+            //   if (field == 'availability') _input.setOptions({
+            //         placeholder: Pard.t.text('widget.multipleDaysSelector.placeholder'),
+            //         selectAllText: Pard.t.text('widget.multipleDaysSelector.selectAll'),
+            //         countSelected: false,
+            //         allSelected: Pard.t.text('widget.multipleDaysSelector.alwaysAv')
+            //       })
+            //   _helptext.css('margin-top', 5);
+            //   _prepareFormField();
+            //   break;
+            // case 'InputTel':
+            //   _helptext.append(_note); 
+            //   _formField.append(_label,_input.render(), _helptext);
+            //   break;
+          //   default:
+          //     _prepareFormField();
+          // }
       }
     } 
 

@@ -57,7 +57,7 @@
       proposal.proposal_type = type;
       var _proposal = $.extend(true, {}, proposal);
 
-      var form = forms[type][_proposal.form_category].blocks;
+      var form = forms[type][_proposal.form_category];
 
       var _proposalPrinted = Pard.Widgets.PrintProposal(proposal, form);
       var _deleteProposalCaller = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('delete').render().addClass('trash-icon-delete'), $('<span>').text(Pard.t.text('dictionary.delete').capitalize())).addClass('deleteProfile-caller');
@@ -154,7 +154,7 @@
       }
       _modifyProposal.click(function(){
         _messageProposalPrintedRendered.hide();
-        var _formWidget = Pard.Widgets.OwnProposalForm(form, type, _proposal.form_category, (!proposal.own));
+        var _formWidget = Pard.Widgets.OwnProposalForm(form.blocks, type, _proposal.form_category, (!proposal.own));
         _formWidget.setVal(_proposal);
         if (!proposal.own) _formWidget.disableFields();
       

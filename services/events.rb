@@ -112,7 +112,6 @@ module Services
             proposal[:event_name] = event[:name]
             proposal[:call_id] = event[:call_id]
             proposal[:deadline] = event[:deadline]
-            proposal[:texts] = event[:texts]
           }
         }.compact.flatten
       end
@@ -125,7 +124,6 @@ module Services
           proposal[:event_name] = event[:name]
           proposal[:call_id] = event[:call_id]
           proposal[:deadline] = event[:deadline]
-          proposal[:texts] = event[:texts]
           proposal
         }.compact.flatten
       end
