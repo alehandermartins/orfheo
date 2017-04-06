@@ -146,6 +146,7 @@
     var _additionalForm = Pard.Forms.Proposal[proposalType];
     var submitButton = $('<button>').addClass('submit-button').attr({type: 'button'}).html('OK');
 
+    var _note = $('<span>');
     var _phoneField = {
       "type" : "mandatory",
       "label" : Pard.t.text('manager.proposals.phoneL'),
@@ -153,7 +154,7 @@
       "args" : [ 
           ""
       ],
-      "helptext" : ""
+      "helptext" : _note
     }
 
     form['phone'] = _phoneField;
@@ -162,6 +163,8 @@
       var _formField = $('<div>').addClass('CategorySelector-FormField call-form-field')
       var _input = $('<select>')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
       var catArrayTranslated = Object.keys(block.args).map(function(cat){
@@ -219,6 +222,8 @@
       var _formField = $('<div>').addClass('SubcategorySelector-FormField call-form-field')
       var _input = $('<select>')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
       Object.keys(block.args).forEach(function(value){
@@ -261,6 +266,8 @@
       var _formField = $('<div>').addClass('Selector-FormField call-form-field')
       var _input = $('<select>')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
       Object.keys(block.args).forEach(function(value){
         _input.append($('<option>').append(block.args[value]).val(value))
@@ -308,6 +315,8 @@
     var MultipleSelector = function(block){
       var _formField = $('<div>').addClass('MultipleSelector-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<select>').attr("multiple", "multiple")
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
       Object.keys(block.args).forEach(function(value){
@@ -318,10 +327,10 @@
         _input.next().find('.ms-choice').removeClass('warning')
       })
       var _options = {      
-        placeholder: "Selecciona una o más opciones",
-        selectAll: false,
+        placeholder: Pard.t.text('widget.multipleSelector.placeholder'),
+        selectAll: Pard.t.text('widget.multipleSelector.selectAllText'),
         countSelected: false,
-        allSelected: false
+        allSelected: Pard.t.text('widget.multipleSelector.allSelected')
       }
 
       _formField.append(_label, _input, _helptext)
@@ -353,6 +362,8 @@
     var MultipleDaysSelector = function(block){
       var _formField = $('<div>').addClass('MultipleDaysSelector-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<select>').attr("multiple", "multiple")
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
       var _arrayDays = []
@@ -408,6 +419,8 @@
     var Duration = function(block){
       var _formField = $('<div>').addClass('Selector-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<select>')
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
@@ -457,6 +470,8 @@
     var Links = function(block){
       var _formField = $('<div>').addClass('Input-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<input>').attr({'type': 'text'})
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
@@ -500,6 +515,8 @@
     var CheckBox = function(block){
       var _formField = $('<div>').addClass('CheckBox-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<input>').attr({type: 'checkbox'})
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
@@ -537,6 +554,8 @@
     var Text = function(block){
       var _formField = $('<div>').addClass('Input-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<input>').attr({'type': 'text'})
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
@@ -581,6 +600,8 @@
     var TextArea = function(block){
       var _formField = $('<div>').addClass('TextArea-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<textarea>').attr({'type': 'text', 'rows': 4})
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
 
@@ -628,6 +649,8 @@
     var TextAreaEnriched = function(block){
       var _formField = $('<div>').addClass('TextArea-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<textarea>').attr({'type': 'text', 'rows': 4})
       var _helptext = $('<p>').addClass('help-text').html(block.helptext)
       var _textAreaContainer = $('<div>')
@@ -691,6 +714,8 @@
     var TextAreaCounter = function(block){
       var _formField = $('<div>').addClass('TextAreaCounter-FormField call-form-field')
       var _label = $('<label>').text(block.label)
+      if(block.type == 'mandatory')
+        _label.text(block.label + ' *')
       var _input = $('<textarea>').attr({type: 'text', rows: 1, maxlength: block.args}).addClass('short_description-input')
       var _remainingCar = $('<span>').text(block.args).css({display: 'inline', 'font-weight': 600})
       var _helptext = $('<p>').append(block.helptext, _remainingCar,'.').addClass('help-text')
@@ -755,13 +780,11 @@
       form[field] = _additionalForm[field];
     }
 
-    var _note = $('<span>');
 
     var _printField = function(field){
       console.log(field);
       _form[field] = {};
       _form[field]['type'] = form[field]['type'];
-      if($.inArray(field, _mandatoryFields) > -1 || (received && form[field].type == 'mandatory')) form[field].label += ' *';
 
       var _inputs = {
         'CategorySelector': CategorySelector,
@@ -781,86 +804,28 @@
         _form[field].input = _inputs[form[field].input](form[field]);
       else{
         _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label);
+        if(form[field].type == 'mandatory') _form[field]['label'] = Pard.Widgets.InputLabel(form[field].label + ' *');
         _form[field].input = window['Pard']['Widgets'][form[field].input].apply(this, form[field].args);
         _form[field]['helptext'] = Pard.Widgets.HelpText(form[field].helptext);
-      }
+      } 
       var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
-
-      // var _prepareFormField = function(){
-      //   if (_inputs[_blocks[field].input])
-      //   _form[field].input = _inputs[_blocks[field].input](_blocks[field])
-      //   else{
-      //     _form[field]['label'] = Pard.Widgets.InputLabel(_blocks[field].label)
-      //     _form[field].input = window['Pard']['Widgets'][_blocks[field].input].apply(this, _blocks[field].args)
-      //     _form[field]['helptext'] = Pard.Widgets.HelpText(_blocks[field].helptext)
-      //   }
-      // }
 
       switch(field){
         case 'photos':
         case 'links':
         case 'bio':
-          break;
-        case 'category':
-          var _formField = _form[field].input.render();
-          _containerMandatoryFields.append(_formField);
-          break;
-        case 'subcategory':
-          var _formField = _form[field].input.render();
-          _containerMandatoryFields.append(_formField);
-          break;
         case 'conditions': 
-          return false;
           break;
-        case 'phone':
-          var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
-          _form[field].helptext.append(_note); 
-          _formField.append( _form[field].label, _form[field].input.render(), _form[field].helptext);
-        break;
         default:
-          if (_inputs[form[field].input]){
+          if (_inputs[form[field].input])
             var _formField = _form[field].input.render();
-            if($.isNumeric(field)) _optionalFields.append(_formField);
-            else if ($.inArray(field, _mandatoryFields) <0 ) _optionalFields.prepend(_formField);
-            else _containerMandatoryFields.append(_formField);
+          else{
+            var _formField = $('<div>').addClass(form[field].input + '-FormField' + ' call-form-field');
+            _formField.append( _form[field].label.render(), _form[field].input.render(), _form[field].helptext.render());
           }
-          var _prepareFormField = function(){
-            _formField.append(_label,_input.render());
-            if (form[field]['helptext'].length) _formField.append(_helptext);
-          }
-          // switch(form[field].input){
-            // case 'TextAreaCounter':
-            //   _formField.append(_label,_input.render());
-            //   break;
-            // case 'CheckBox':
-            //   _formField.append(_input.render());
-            //   if (form[field]['helptext'].length) {
-            //     _helptext.css({'margin-top':'0'});
-            //     _formField.append(_helptext);
-            //   }
-            //   break;
-            // case 'TextArea':
-            //   _input.setAttr('rows', 4);
-            //   _prepareFormField();
-            //   break;
-            // case 'MultipleSelector':
-            // case 'MultipleDaysSelector':
-            //   if (field == 'availability') _input.setOptions({
-            //         placeholder: Pard.t.text('widget.multipleDaysSelector.placeholder'),
-            //         selectAllText: Pard.t.text('widget.multipleDaysSelector.selectAll'),
-            //         countSelected: false,
-            //         allSelected: Pard.t.text('widget.multipleDaysSelector.alwaysAv')
-            //       })
-            //   _helptext.css('margin-top', 5);
-            //   _prepareFormField();
-            //   break;
-            // case 'InputTel':
-            //   _helptext.append(_note); 
-            //   _formField.append(_label,_input.render(), _helptext);
-            //   break;
-          //   default:
-          //     _prepareFormField();
-          // }
+          if($.isNumeric(field)) _optionalFields.append(_formField);
+          else if ($.inArray(field, _mandatoryFields) < 0) _optionalFields.prepend(_formField);
+          else _containerMandatoryFields.append(_formField);
       }
     } 
 

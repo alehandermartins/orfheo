@@ -51,13 +51,11 @@
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
       var _label = _form[field]['label'];
       var _colTitle = $('<th>').append(_label).addClass('column-call-manager-table');
-      if (_form[field]['input'] == 'Input') _colTitle.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
-      else if(_form[field]['input'] == 'Links') _colTitle.addClass('column-Inputtext');
+      if (_form[field].input == 'Text' || _form[field].input == 'Links') _colTitle.addClass('column-Inputtext');
       else _colTitle.addClass('column-'+_form[field]['input']);
       _titleRow.append(_colTitle);
       var _colFoot = $('<th>').addClass('column-call-manager-table').append(_label);
-      if (_form[field]['input'] == 'Input') _colFoot.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
-      else if(_form[field]['input'] == 'Links') _colFoot.addClass('column-Inputtext');
+      if (_form[field].input == 'Text' || _form[field].input == 'Links') _colFoot.addClass('column-Inputtext');
       else _colFoot.addClass('column-'+_form[field]['input']);
       _titleRowFoot.append(_colFoot);
       _tableFields.push(field);
@@ -108,7 +106,7 @@
           if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber);
           else _info = _proposal[field];
           var _col = $('<td>').addClass('column-call-manager-table');
-          if (_form[field]['input'] == 'Input') _col.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
+          if (_form[field].input == 'Text' || _form[field].input == 'Links') _col.addClass('column-Inputtext');
           else _col.addClass('column-'+_form[field]['input']);
           _row.append(_col.append(_info));
         }
@@ -120,8 +118,7 @@
       for (var field in _form){
         if ($.isNumeric(field)){
           var _col = $('<td>').addClass('column-call-manager-table');
-          if (_form[field]['input'] == 'Input') _col.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
-          else if(_form[field]['input'] == 'Links') _col.addClass('column-Inputtext');
+          if (_form[field].input == 'Text' || _form[field].input == 'Links') _col.addClass('column-Inputtext');
           else _col.addClass('column-'+_form[field]['input']);
           if (proposal[field]){
             if(form[field].input == 'CheckBox') _col.append( dictionaryCheckBox[proposal[field]]);
@@ -193,11 +190,11 @@
       _form[field] = Pard.Widgets.InfoTab[field] || _form[field];
       var _label = _form[field]['label'];
       var _colTitle = $('<th>').append(_label).addClass('column-call-manager-table');
-      if (_form[field]['input'] == 'Input') _colTitle.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
+      if (_form[field].input == 'Text' || _form[field].input == 'Links') _colTitle.addClass('column-Inputtext');
       else _colTitle.addClass('column-'+_form[field]['input']);
       _titleRow.append(_colTitle);
       var _colFoot = $('<th>').addClass('column-call-manager-table').append(_label);
-      if (_form[field]['input'] == 'Input') _colFoot.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
+      if (_form[field].input == 'Text' || _form[field].input == 'Links') _colFoot.addClass('column-Inputtext');
       else _colFoot.addClass('column-'+_form[field]['input']);
       _titleRowFoot.append(_colFoot);
       _tableFields.push(field);
@@ -232,7 +229,7 @@
         if(_form[field].info) _info = _form[field].info(_proposal, displayer, proposalNumber);
         else _info = _proposal[field];
         var _col = $('<td>').addClass('column-call-manager-table');
-        if (_form[field]['input'] == 'Input') _col.addClass('column-'+_form[field]['input']+_form[field]['args'][1]);
+        if (_form[field].input == 'Text' || _form[field].input == 'Links') _col.addClass('column-Inputtext');
         else _col.addClass('column-'+_form[field]['input']);
         _row.append(_col);
         _col.append(_info);

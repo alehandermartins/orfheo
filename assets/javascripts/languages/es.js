@@ -164,7 +164,10 @@
         unavailable: 'Este nombre de perfil ya existe. Escoge otro para poder proceder.'
       },
       inputTel:{
-        show:'Muestra en mi página de perfil'
+        show:'Muestra en mi página de perfil',
+        label: "Teléfono de contacto",
+        helptext: "Esta información es necesaria para un eventual contacto por parte de la organización.",
+        modify: 'Puedes cambiar el número desde tu página de perfil'
       },
       inputCache:{
         show: 'Muestra esta información en la página de la propuesta'
@@ -204,10 +207,10 @@
         audioList: '<strong>audios</strong> desde: soundcloud, bandcamp, spotify',
         photoL:'Sube imágenes desde tu ordenador (máximo 4, tamaño inferior a 500kb)'
       },
-      multipleDaysSelector:{
+      multipleSelector:{
         placeholder: "Selecciona una o más opciones",
         selectAll: "Selecciona todo",
-        alwaysAv: "Disponible todos los días"
+        allSelected: "Todo seleccionado"
       },
       inputMultimedia:{
         placeholder:'Copia y pega aquí el enlace/código correspondiente y dale al botón para validar',

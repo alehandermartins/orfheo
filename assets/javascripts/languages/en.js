@@ -163,7 +163,10 @@
         unavailable: "This profile name already exists. Choose another in order to proceed."
       },
       inputTel:{
-        show:"Show in my profile page"
+        show:"Show in my profile page",
+        label: "Phone number",
+        helptext: "This information is necessary for possible contact by the organization.",
+        modify: "You can change the number from your profile page"
       },
       inputCache:{
         show: "Show in my portfolio"
@@ -203,10 +206,10 @@
         audioList:"<strong>audios</strong> from: soundcloud, bandcamp, spotify",
         photoL:"Upload images from your computer (4 max, size must not exceed 500kb each)"
       },
-      multipleDaysSelector:{
+      multipleSelector:{
         placeholder: "Select one or more options",
         selectAll: "Select all",
-        alwaysAv: "Available every day"
+        allSelected: "All selected"
       },
       inputMultimedia:{
         placeholder:"Copy and paste the corresponding link/code here and click the validation button",
