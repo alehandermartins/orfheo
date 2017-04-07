@@ -262,7 +262,6 @@
   ns.Widgets.FormManager = function(forms, profile, closeListProfilePopup, callbackSendProposal){
     var _createdWidget = $('<div>');
     var _typeFormsCatArray = Pard.CachedEvent.target;
-    var _translatorFC = Pard.UserInfo['texts'].form_categories;
     
     if($.inArray(profile.type, _typeFormsCatArray) < 0){
       var _okProfiles = '';
@@ -356,7 +355,7 @@
           _typeData.push({
             id: typeForm,
             icon: _icon,
-            text: _translatorFC[_type][typeForm]
+            text: forms[_type][typeForm].label
           });
         };
         if(_formTypes.length == 1) _printForm(_formTypes[0]);
@@ -463,7 +462,7 @@
                     _formTypeSelector.append(_emptyOption);
                     formsKey.forEach(function(typeForm){
                       _formTypes.push(typeForm);
-                      _formTypeSelector.append($('<option>').val(typeForm).text(_translatorFC['artist'][typeForm]));
+                      _formTypeSelector.append($('<option>').val(typeForm).text(forms.artist[typeForm].label));
                       _formTypeSelectorCont.append(_formTypeSelector);
                       
                     });
@@ -492,7 +491,7 @@
                     _formTypeSelector.append(_emptyOption);
                     formsKey.forEach(function(typeForm){
                       _formTypes.push(typeForm);
-                      _formTypeSelector.append($('<option>').text(_translatorFC['artist'][typeForm]).val(typeForm));
+                      _formTypeSelector.append($('<option>').text(forms.artist[typeForm].label).val(typeForm));
                       _formTypeSelectorCont.append(_formTypeSelector);
                     });
                     _formTypeSelector

@@ -4,6 +4,13 @@ module Repos
 
       def for db
         @@events_collection = db['events']
+        events = grab({})
+        events.each{ |event|
+          event[:texts][:es].delete(:form_categories)
+          @@events_collection.update_one({event_id: event[:event_id]},{
+            "$set": {texts: event[:texts]}
+          })
+        }
       end
 
       def exists? event_id

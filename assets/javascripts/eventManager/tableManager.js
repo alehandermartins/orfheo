@@ -91,7 +91,6 @@
       'artist':'performer',
       'space':'stage'
     }
-    var _translatorFC = Pard.UserInfo['texts'].form_categories; 
 
     _formTypes.forEach(function(type){
       if (forms[type]){
@@ -99,7 +98,7 @@
         for (var formcat in forms[type]){
           _tablesContainer[formcat] = $('<div>');
           _dataTables[formcat] = Pard.Widgets.PrintTable(type, forms[type][formcat].blocks, displayer);
-          _selectorOptions[type].push({id:formcat, text:_translatorFC[type][formcat]})
+          _selectorOptions[type].push({id:formcat, text: forms[type][formcat].label})
           _tablesContainer[formcat].append(_dataTables[formcat].table).hide();
           _proposalsNumber[formcat] = 0;
           _subcategorySelector[formcat] = $('<select>');

@@ -5,7 +5,6 @@
 
   ns.Widgets.CreateOwnProposal = function(forms, proposalType, participants){
     var _createdWidget = $('<div>').addClass('popupOwnProposal');
-    var _translator = Pard.UserInfo['texts'].form_categories[proposalType];
     var _typeFormsCatArray = Object.keys(forms);
     var _formWidget;
     var _profile_own;
@@ -94,7 +93,7 @@
     }
 
     for (var typeForm in forms){
-      _formTypeSelector.append($('<option>').text(_translator[typeForm]).val(typeForm));
+      _formTypeSelector.append($('<option>').text(forms[typeForm].label).val(typeForm));
     };
 
     _outerFormBox.append(_formTypeSelectorCont.append(_formTypeSelector));

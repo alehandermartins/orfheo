@@ -7,7 +7,6 @@
     var event_id = the_event.event_id;
     var call_id = the_event.call_id;
     var eventName = the_event.name;
-    var _translatorFC = Pard.UserInfo['texts']['form_categories'];
     var _translatorSubC = Pard.UserInfo['texts']['subcategories'];
 
     var _content = $('<div>').addClass('very-fast reveal full');
@@ -192,7 +191,7 @@
           );
         });
         var _modifyMessage = Pard.Widgets.PopupContent(eventName, _formWidget);
-        _modifyMessage.prependToContent($('<p>').text(Pard.t.text('manager.proposals.modifymex',{type: _translatorFC[type][_proposal.form_category]})).css('margin-bottom','-0.5rem'));
+        _modifyMessage.prependToContent($('<p>').text(Pard.t.text('manager.proposals.modifymex',{type: form.label})).css('margin-bottom','-0.5rem'));
         _modifyMessage.appendToContent(Pard.Widgets.Button(
           Pard.t.text('dictionary.cancel').capitalize(),
           function(){
