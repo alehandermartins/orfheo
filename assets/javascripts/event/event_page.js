@@ -331,8 +331,8 @@
 
     var _now = new Date(); 
     var _eventTimeKeys = Object.keys(the_event.eventTime);
-    var _eventEndTime = parseInt(the_event.eventTime[_eventTimeKeys[_eventTimeKeys.length-2]][1][1]);
-    var _eventStartTime = parseInt(the_event.eventTime[_eventTimeKeys[0]][0][0]);
+    var _eventEndTime = parseInt(the_event.eventTime[_eventTimeKeys[_eventTimeKeys.length-2]][1]);
+    var _eventStartTime = parseInt(the_event.eventTime[_eventTimeKeys[0]][0]);
     if(_now.getTime() >_eventEndTime + 3600000*4 || _eventStartTime > _now.getTime() + 3600000*4) _programNow.attr('disabled',true).addClass('disabled-button');
 
     var extraDate;

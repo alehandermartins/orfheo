@@ -121,11 +121,11 @@
     Object.keys(eventTime).forEach(function(day, index){
       if(day == 'permanent') return;
       if(index == 0){
-        startHour = new Date(parseInt(eventTime[day][0][0])).getHours();
-        endHour = new Date(parseInt(eventTime[day][1][1])).getHours();
+        startHour = new Date(parseInt(eventTime[day][0])).getHours();
+        endHour = new Date(parseInt(eventTime[day][1])).getHours();
       }
-      var start = new Date(parseInt(eventTime[day][0][0]));
-      var end = new Date(parseInt(eventTime[day][1][1]));
+      var start = new Date(parseInt(eventTime[day][0]));
+      var end = new Date(parseInt(eventTime[day][1]));
       var minHour = start.getHours();
       var maxHour = end.getHours();
       if(end.getMinutes() > 0) maxHour += 1;
@@ -158,11 +158,11 @@
     Object.keys(eventTime).forEach(function(day, index){
       if(day == 'permanent') return;
       var tempTime = [];
-      tempTime[0] = new Date(parseInt(eventTime[day][0][0]));
+      tempTime[0] = new Date(parseInt(eventTime[day][0]));
       tempTime[0].setHours(startHour);
       tempTime[0].setMinutes(0);
       tempTime[0] = tempTime[0].getTime();
-      tempTime[1] = new Date(parseInt(eventTime[day][0][0]));
+      tempTime[1] = new Date(parseInt(eventTime[day][0]));
       tempTime[1].setHours(startHour + hourSpan);
       tempTime[1].setMinutes(0);
       tempTime[1] = tempTime[1].getTime();
