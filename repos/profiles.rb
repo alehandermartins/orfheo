@@ -1,10 +1,22 @@
 module Repos
   class Profiles
     class << self
-
+      
       def for db
         @@profiles_collection = db['profiles']
+        # profiles = grab({})
+        # users = profiles.map{ |profile|
+        #   next if profile[:productions].blank? 
+        #   profile[:user_id] if profile[:productions].any?{ |production|
+        #     production[:category] == 'music'
+        #   }
+        # }.compact.uniq
       end
+
+      # def send_mail user_id
+      #   user = Repos::Users.grab({user_id: user_id})
+      #   Services::Mails.deliver_mail_to user, :new_event
+      # end
 
       def exists? profile_id
         return false unless UUID.validate(profile_id)

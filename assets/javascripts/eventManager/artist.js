@@ -230,7 +230,6 @@
         delete program[performance.performance_id];
       },
       addProposal: function(proposal){
-        // proposals.push(proposal);
         _proposals[proposal.proposal_id] = new ProposalCard(proposal);
         _accordion.addProposal(_proposals[proposal.proposal_id]);
       },

@@ -88,11 +88,11 @@ module Services
           options = {
             es: {
               from: "no.reply.orfheo@gmail.com",
-              subject: 'Convocatoria VII Festival Extramurs Abierta!',
-              body: "<p> Orfheo te invita a inscribirte como participante en el VII Distrito 008 Festival Urbano de Extramurs!!!</p><p>Envía tu propuesta antes del 26 de diciembre, te lo ponemos muy fácil.</p><p>Puedes acceder a la convocatoria a través del siguiente link:</p><p><a href=\"http://www.orfheo.org/event?id=a6bc4203-9379-4de0-856a-55e1e5f3fac6\">Orfheo/Extramurs</a></p>"
+              subject: "Convocatoria Festival FAP (Factoria d'Arts de Patraix) Abierta!",
+              body: "<p> Festival FAP (Factoria d'Arts de Patraix) - II Edició abre su convocatoria en orfheo!</p><p>Envía tu propuesta antes del 28 de abril.</p><p>Puedes acceder a la convocatoria a través del siguiente link:</p><p><a href=\"http://www.orfheo.org/event?id=e468f805-e481-4092-8134-066edb6ed000\">Orfheo/FAP</a></p>"
             }
           }
-          Pony.options = options[user[:lang].to_sym]
+          Pony.options = options[:es]
         end
 
         def feedback user, payload
