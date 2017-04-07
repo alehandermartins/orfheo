@@ -4,18 +4,6 @@ module Repos
 
       def for db
         @@events_collection = db['events']
-        events = grab({})
-        events.each{ |event|
-          next if event[:texts][:es][:form_categories].blank? 
-          event[:texts][:es].delete(:form_categories)
-          event[:eventTime].each{|date, array|
-            next if date == :permanent
-            event[:eventTime][date] = [array.first.first, array.last.last]
-          }
-          @@events_collection.update_one({event_id: event[:event_id]},{
-            "$set": {texts: event[:texts], eventTime: event[:eventTime]}
-          })
-        }
       end
 
       def exists? event_id
