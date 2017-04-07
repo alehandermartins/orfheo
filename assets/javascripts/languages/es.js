@@ -312,7 +312,6 @@
       deleteAlert: 'Confirmando, tu propuesta será retirada de la convocatoria del %{event}.',
       deleteOk: 'Tu solicitud de participación ha sido cancelada correctamente',
       amend: 'Enmienda enviada correctamente',
-      signedUp: 'Inscrito en ',
       sentForm: 'Formulario enviado',
       sentBy: 'Propuesta enviada por',
       terms: 'bases de participación',

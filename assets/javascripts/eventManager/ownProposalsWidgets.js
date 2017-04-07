@@ -782,7 +782,6 @@
 
 
     var _printField = function(field){
-      console.log(field);
       _form[field] = {};
       _form[field]['type'] = form[field]['type'];
 

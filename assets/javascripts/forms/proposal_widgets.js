@@ -21,7 +21,7 @@
         proposal.phone = profile.phone;
         
         if ($.inArray(proposal.event_id, _eventIDs) < 0) {
-          var _callName = $('<p>').append(Pard.t.text('proposal.signedUp'),$('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
+          var _callName = $('<p>').append($('<span>').text(proposal.event_name).css({'font-weight': 'bold'})).addClass('activities-box-call-name');
           _listProposals = $('<ul>');
           _createdWidget.append(_callName, _listProposals);
         }

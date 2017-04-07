@@ -68,8 +68,6 @@
 
   ns.Widgets.ProfilesNavigationSelected = function(profile, callback){
 
-    console.log(profile);
-
     var _createdWidget = $('<div>').addClass('profile-selected-container  selected-element');
     var _circleColumn = $('<div>').addClass('icon-column');
 

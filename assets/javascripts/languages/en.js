@@ -311,7 +311,6 @@
       deleteAlert: 'Confirming, your proposal will be removed from the %{event} call.',
       deleteOk: 'Your request to participate has been successfully canceled',
       amend: 'Amendment correctly submitted',
-      signedUp: 'Signed up for ',
       sentForm: 'Submitted form',
       sentBy: 'Proposal submitted by',
       terms: 'participation terms',

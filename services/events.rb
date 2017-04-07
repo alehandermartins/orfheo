@@ -104,6 +104,9 @@ module Services
 
       def my_artist_proposals events, profile_id
         events.map{ |event|
+          event[:eventTime].delete(:permanent)
+          date = event[:eventTime].keys.max.to_s
+          next if Time.now > Time.parse(date) + 30 * 60* 60
           artist = event[:artists].detect{ |proposal| proposal[:profile_id] == profile_id}
           next if artist.blank?
           proposals = artist[:proposals]
@@ -118,6 +121,9 @@ module Services
 
       def my_space_proposals events, profile_id
         events.map{ |event|
+          event[:eventTime].delete(:permanent)
+          date = event[:eventTime].keys.max.to_s
+          next if Time.now > Time.parse(date) + 30 * 60* 60
           proposal = event[:spaces].detect{ |proposal| proposal[:profile_id] == profile_id}
           next if proposal.blank?
           proposal[:event_id] = event[:event_id]
