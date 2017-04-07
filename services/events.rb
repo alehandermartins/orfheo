@@ -16,9 +16,7 @@ module Services
       end
 
       def get_manager_event event_id
-        event = Repos::Events.get_event event_id
-        event[:program] = arrange_program event, event[:program]
-        event
+        Repos::Events.get_event event_id
       end
 
       def get_app_event event_id

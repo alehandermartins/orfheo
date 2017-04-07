@@ -240,6 +240,10 @@
     }
 
     var _printRow = function(show){
+      var _proposal = artist.proposals[show.participant_proposal_id].proposal;
+      var _title = show.title || _proposal.title;
+      
+
       var _row = $('<tr>');
       if($.inArray(show, _conflictPerformances) >= 0){
         _row.css({
@@ -250,7 +254,7 @@
       var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
       var _schedule = moment(parseInt(show.time[0])).format('HH:mm') + '-' + moment(parseInt(show.time[1])).format('HH:mm');
       var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
-      var _namePopupCaller = $('<a>').attr({'href':'#/'}).text(show.title);
+      var _namePopupCaller = $('<a>').attr({'href':'#/'}).text(_title);
       var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
       var _addressCol = $('<td>').addClass('column-artist-program-call-manager column-address');
       var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
@@ -258,8 +262,8 @@
 
       _timeCol.append(_schedule);
       _titleCol.append(_namePopupCaller);
-      _nameCol.html(show.host_name);
-      _addressCol.html(show.address.route + ' ' + show.address.street_number);
+      _nameCol.html(_spaces[show.host_id].space.name);
+      _addressCol.html(_spaces[show.host_id].space.address.route + ' ' + _spaces[show.host_id].space.address.street_number);
       _phoneCol.html(_spaces[show.host_id].space.phone.value);
       _emailCol.html(_spaces[show.host_id].space.email);
 
@@ -271,7 +275,7 @@
             });
             var _externalPerformancesBox = $('<div>').css('padding', 0).addClass('noselect');
             var _performancesPopup = Pard.Widgets.Popup();
-            _performancesPopup.setContent(show.title +' (' + show.participant_name + ')', _externalPerformancesBox);
+            _performancesPopup.setContent(_title +' (' + artist.name + ')', _externalPerformancesBox);
             var _content = _program[show.performance_id].permanentManager(false, true);
             _content.setCallback(function(){
               _performancesPopup.close();
@@ -306,7 +310,7 @@
                   _performancePopup.destroy();
                 },500);
             });
-            _performancePopup.setContent(show.title +' (' + show.participant_name + ')', _popupContent.render());
+            _performancePopup.setContent(_title +' (' + artist.name + ')', _popupContent.render());
             _performancePopup.open();
           }
         })

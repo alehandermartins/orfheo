@@ -140,6 +140,7 @@
       _fillCard(proposal);
 
       return {
+        proposal: proposal,
         render: function(){
           return card;
         },
@@ -204,8 +205,10 @@
 
     return{
       artist: artist,
-      accordion: _accordion.render(),
+      name: artist.name,
+      proposals: _proposals,
       program: program,
+      accordion: _accordion.render(),
       setDay: function(day){
         Object.keys(_proposals).forEach(function(proposal_id){
           _proposals[proposal_id].setDay(day);

@@ -16,16 +16,16 @@
     })
 
     var _displayArtistProgram = function(profile_id){
-      var artist = the_event.artists[profile_id].artist;
+      var artist = the_event.artists[profile_id];
       var myprogram = the_event.artists[profile_id].program;
 
       var _popupTitle = '';
-      _popupTitle += artist.name; 
+      _popupTitle += the_event.artists[profile_id].artist.name; 
       if (!($.isEmptyObject(myprogram))){
         _popupTitle += ' (';
         var _artistCategories = [];
         for (var performanceId in myprogram){
-          _artistCategories.push(_translatorSubC['artist'][myprogram[performanceId]['show']['participant_subcategory']]);    
+          _artistCategories.push(_translatorSubC['artist'][artist.proposals[myprogram[performanceId].show.participant_proposal_id].proposal.subcategory]);
         }
         _popupTitle += Pard.Widgets.UniqueArray(_artistCategories).join(', ')+ ')';
       }

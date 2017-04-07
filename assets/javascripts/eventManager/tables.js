@@ -452,10 +452,20 @@
 
      var showRow = function(show){
       var _show = $.extend(true, {}, show);
-      var _row = $('<tr>').attr('id', 'programTable-'+show.performance_id);
+      var _proposal = the_event.artists[show.participant_id].proposals[show.participant_proposal_id].proposal;
+      var _space = the_event.spaces[show.host_id].space;
+      _show.participant_name = the_event.artists[show.participant_id].name;
+      _show.title = show.title || _proposal.title;
+      _show.short_description = show.short_description || _proposal.short_description;
+      _show.participant_subcategory = _proposal.subcategory;
+      _show.host_name = _space.name;
+      _show.host_subcategory = _space.subcategory;
+      _show.host_name = _space.index + 1;
+
+      var _row = $('<tr>').attr('id', 'programTable-' + show.performance_id);
       _columns.forEach(function(field){
         var _info = '';
-        if(infoProgram[field] && infoProgram[field].info) _info = infoProgram[field].info(show);
+        if(infoProgram[field] && infoProgram[field].info) _info = infoProgram[field].info(_show);
         else _info = _show[field];
         var _col = $('<td>').addClass('column-call-manager-table');
         _col.addClass('column-'+field);
@@ -894,7 +904,7 @@
         label: Pard.t.text('dictionary.title').capitalize(),
         info: function(show){
           var _info = $('<a>').attr('href','#/')
-          .text(show['title'])
+          .text(show.title)
           .click(function(){
             if (show.permanent == 'true') {
               var artistProgram = the_event.artists[show.participant_id].program;

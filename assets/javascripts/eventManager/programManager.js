@@ -472,6 +472,10 @@
 
     var Performance = function(performance){
 
+      var _proposal = artists[performance.participant_id].proposals[performance.participant_proposal_id].proposal;
+      var _name = artists[performance.participant_id].name;
+      var _performanceTitle = performance.title || _proposal.title;
+
       var card =$('<div>').addClass('programHelper');
       card.addClass(performance.performance_id);
       var _title = $('<p>').addClass('proposal-title-card-call-manager');
@@ -489,16 +493,8 @@
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
         var _performaceTitlePopup = $('<span>')
-          .text(performance.title +' (' + performance.participant_name + ')')
+          .text(_performanceTitle +' (' + _name + ')')
           .click(function(){
-            var _proposal; 
-            artists[performance.participant_id]['artist']['proposals'].some(function(proposal){
-              if (proposal.proposal_id == performance.participant_proposal_id){
-                _proposal = proposal;
-                return true;
-              }
-              return false;
-            });
             displayer.displayProposal(_proposal, 'artist');
           })
           .addClass('performanceManagerTitle');
@@ -545,7 +541,7 @@
 
       var fillCard = function(performance){
 
-        var color = Pard.Widgets.CategoryColor(performance.participant_category);
+        var color = Pard.Widgets.CategoryColor(_proposal.category);
 
         var dayStart = parseInt(eventTime[performance.date][0]);
         var height = _tables[performance.date].height() - 42;
@@ -571,7 +567,7 @@
           'box-shadow': 'inset 0 0 1px '
         });
 
-        _titleTextLong = performance.participant_name + ' - ' + performance.title;
+        _titleTextLong = _name + ' - ' + _performanceTitle;
         _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
         _commentIconContainer.empty();
         _confirmationCheckContainer.empty();
