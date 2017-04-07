@@ -3,7 +3,8 @@ describe Services::Users do
   let(:user_hash){
     {
       email: 'email@test.com',
-      password: 'password'
+      password: 'password',
+      lang: 'en'
     }
   }
 
@@ -15,6 +16,7 @@ describe Services::Users do
       user_id: user_id,
       email: 'email@test.com',
       password: 'password',
+      lang: 'en',
       validation: false,
       validation_code: validation_code
     }
@@ -80,23 +82,25 @@ describe Services::Users do
     end
   end
 
-  describe 'User_id_for' do
+  describe 'User_for' do
 
     before(:each){
       Repos::Users.add(user)
     }
 
     it 'checks if the user and password match' do
-      expect{Services::Users.user_id_for 'email@test.com', 'otterpassword'}.to raise_error(Pard::Invalid::Password)
+      expect{Services::Users.user_for 'email@test.com', 'otterpassword'}.to raise_error(Pard::Invalid::Password)
     end
 
     it 'checks if a user is validated' do
-      expect{Services::Users.user_id_for user[:email], user[:password]}.to raise_error(Pard::Invalid::Unvalidated)
+      expect{Services::Users.user_for user[:email], user[:password]}.to raise_error(Pard::Invalid::Unvalidated)
     end
 
     it 'returns the uuid of the user' do
       Services::Users.validated_user user[:validation_code]
-      expect(Services::Users.user_id_for user[:email], user[:password]).to eq(user[:user_id])
+      user.delete(:validation_code)
+      user[:validation] = true
+      expect(Services::Users.user_for user[:email], user[:password]).to eq(user)
     end
   end
 

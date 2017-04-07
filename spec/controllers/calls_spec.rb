@@ -1,6 +1,6 @@
 describe CallsController do
 
-  let(:login_route){'/login/login_attempt'}
+  let(:login_route){'/login/login'}
   let(:logout_route){'/login/logout'}
   let(:create_call_route){'/users/create_call'}
   let(:create_profile_route){'/users/create_profile'}
@@ -39,8 +39,19 @@ describe CallsController do
       user_id: user_id,
       email: 'email@test.com',
       password: 'password',
+      lang: 'es',
       validation: false,
       validation_code: validation_code
+    }
+  }
+
+  let(:validated_user){
+    {
+      user_id: user_id,
+      email: 'email@test.com',
+      password: 'password',
+      lang: 'es',
+      validation: true
     }
   }
 
@@ -139,7 +150,7 @@ describe CallsController do
       photos: nil,
       links: nil,
       children: nil,
-      cache: nil
+      cache: {value: nil, visible: false}
     }
   }
 
@@ -149,6 +160,7 @@ describe CallsController do
       profile_id: profile_id,
       email: 'email@test.com',
       name: 'artist_name',
+      address: "address",
       phone: phone,
       type: 'artist',
       own: true,
@@ -175,6 +187,7 @@ describe CallsController do
       call_id: call_id,
       email: 'email@test.com',
       name: 'artist_name',
+      address: "address",
       category: 'music',
       title: 'title',
       description: 'description',
@@ -182,7 +195,8 @@ describe CallsController do
       duration: 'duration',
       phone: phone,
       form_category: 'music',
-      subcategory: 'music'
+      subcategory: 'music',
+      type: 'artist'
     }
   }
   
@@ -260,7 +274,8 @@ describe CallsController do
       '2': nil,
       form_category: 'home',
       subcategory: 'home',
-      own: true
+      own: true,
+      type: 'space'
     }
   }
 
@@ -276,7 +291,8 @@ describe CallsController do
       phone: phone,
       category: 'home',
       form_category: 'home',
-      subcategory: 'home'
+      subcategory: 'home',
+      type: 'space'
     }
   }
 
@@ -318,20 +334,28 @@ describe CallsController do
     {
       user_id: user_id,
       call_id: call_id,
-      artist: {
-        music: {
-          title: {type: "mandatory"},
-          description: {type: "mandatory"},
-          short_description: {type: "mandatory"},
-          duration: {type: "mandatory"},
-          '1': {type: "optional"},
-          '2': {type: "mandatory"}
-        }
-      },
-      space: {
-        home: {
-          '1': {type: "optional"},
-          '2': {type: "mandatory"}
+      forms: {
+        es:{
+          artist: {
+            music: {
+              blocks: {
+                title: {type: "mandatory"},
+                description: {type: "mandatory"},
+                short_description: {type: "mandatory"},
+                duration: {type: "mandatory"},
+                '1': {type: "optional"},
+                '2': {type: "mandatory"}  
+              }
+            }
+          },
+          space: {
+            home: {
+              blocks: {
+                '1': {type: "optional"},
+                '2': {type: "mandatory"}
+              }
+            }
+          }
         }
       }
     }
@@ -347,6 +371,7 @@ describe CallsController do
     @db['calls'].insert_one(call)
     post login_route, user_hash
     allow(SecureRandom).to receive(:uuid).and_return(profile_id)
+    allow(Services::Clients).to receive(:send_message).and_return(true)
   }
 
   describe 'Send_artist_proposal' do
@@ -899,7 +924,7 @@ describe CallsController do
       post logout_route
       post login_route, otter_user_hash
       expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
-      expect(Services::Mails).to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
+      expect(Services::Mails).to receive(:deliver_mail_to).with(validated_user, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
       post delete_artist_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
     end
@@ -907,7 +932,7 @@ describe CallsController do
     it 'allows proposal owner to delete and does not deliver rejection mail' do
       allow(Time).to receive(:now).and_return(1462054)
       expect(Repos::Events).to receive(:delete_artist_proposal).with(proposal_id)
-      expect(Services::Mails).not_to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
+      expect(Services::Mails).not_to receive(:deliver_mail_to).with(validated_user, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'title'})
       post delete_artist_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
     end
@@ -941,7 +966,7 @@ describe CallsController do
       post logout_route
       post login_route, otter_user_hash
       expect(Repos::Events).to receive(:delete_space_proposal).with(proposal_id)
-      expect(Services::Mails).to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'space_name'})
+      expect(Services::Mails).to receive(:deliver_mail_to).with(validated_user, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'space_name'})
       post delete_space_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
     end
@@ -949,7 +974,7 @@ describe CallsController do
     it 'allows proposal owner to delete and does not deliver rejection mail' do
       allow(Time).to receive(:now).and_return(1462054)
       expect(Repos::Events).to receive(:delete_space_proposal).with(proposal_id)
-      expect(Services::Mails).not_to receive(:deliver_mail_to).with({email: 'email@test.com'}, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'space_name'})
+      expect(Services::Mails).not_to receive(:deliver_mail_to).with(validated_user, :rejected, {organizer: 'organizer', event_name: 'event_name', title: 'space_name'})
       post delete_space_proposal_route, {event_id: otter_event_id, proposal_id: proposal_id}
       expect(parsed_response['status']).to eq('success')
     end

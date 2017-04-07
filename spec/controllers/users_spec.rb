@@ -1,6 +1,6 @@
 describe UsersController do
 
-  let(:login_route){'/login/login_attempt'}
+  let(:login_route){'/login/login'}
   let(:create_profile_route){'/users/create_profile'}
   let(:delete_user_route){'/users/delete_user'}
 

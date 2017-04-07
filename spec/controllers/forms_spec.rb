@@ -18,7 +18,7 @@ describe FormsController do
     end
 
     it 'retrieves the forms' do
-      expect(Repos::Calls).to receive(:get_forms).with(call_id).and_return('forms')
+      expect(Repos::Calls).to receive(:get_forms).with(call_id, nil).and_return('forms')
       post forms_route, {call_id: call_id}
       expect(parsed_response['status']).to eq('success')
     end

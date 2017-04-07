@@ -75,9 +75,9 @@ class EventsController < BaseController
 
   get '/event_manager' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
-    event = Services::Events.get_manager_event params[:id]
-    halt erb(:not_found) unless event[:user_id] == session[:identity]
-    erb :event_manager, :locals => {:event_id => event[:event_id].to_json}
+    owner = Repos::Events.get_event_owner params[:id]
+    halt erb(:not_found) unless owner == session[:identity]
+    erb :event_manager, :locals => {:event_id => params[:id].to_json}
   end
 
   post '/users/event_manager' do

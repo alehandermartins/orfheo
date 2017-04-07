@@ -1,6 +1,6 @@
 describe EventsController do
 
-  let(:login_route){'/login/login_attempt'}
+  let(:login_route){'/login/login'}
   let(:logout_route){'/login/logout'}
   let(:create_performance_route){'/users/create_performances'}
   let(:modify_performance_route){'/users/modify_performances'}
@@ -30,6 +30,7 @@ describe EventsController do
       user_id: user_id,
       email: 'email@test.com',
       password: 'password',
+      lang: 'es',
       validation: false,
       validation_code: validation_code
     }
@@ -261,6 +262,7 @@ describe EventsController do
   describe 'Event Manager' do
 
     let(:manager_route){'/event_manager?id=' + event_id}
+    let(:event_manager){'/users/event_manager'}
 
     it 'redirects user to not found page if event does not exist' do
       get '/event_manager?id=otter'
@@ -274,11 +276,18 @@ describe EventsController do
       expect(last_response.body).to include('Not Found')
     end
 
-    it 'gets the call of the user' do
-      expect(Services::Events).to receive(:get_manager_event).with(event_id).and_return({user_id: user_id, call_id: 'call_id'})
-      expect(Repos::Calls).to receive(:get_forms).with('call_id').and_return(true)  
+    it 'grants access to the owner' do
+      expect(Repos::Events).to receive(:get_event_owner).with(event_id).and_return(user_id)
       get manager_route
       expect(last_response.body).to include('Pard.EventManager')
+    end
+
+    it 'gets the event_manager info' do
+      expect(Services::Events).to receive(:get_manager_event).with(event_id).and_return({user_id: user_id, call_id: 'call_id'})
+      expect(Repos::Calls).to receive(:get_forms).with('call_id', 'es').and_return(true)  
+      post event_manager, {event_id: event_id, lang: 'es'}
+      expect(parsed_response['the_event']).to eq({'user_id' => user_id, 'call_id' => 'call_id'})
+      expect(parsed_response['forms']).to eq(true)
     end
   end
 end

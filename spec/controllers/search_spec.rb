@@ -1,6 +1,6 @@
 describe SearchController do
 
-  let(:login_route){'/login/login_attempt'}
+  let(:login_route){'/login/login'}
   let(:logout_route){'/login/logout'}
   let(:suggest_route){'/search/suggest'}
   let(:results_route){'/search/results'}
@@ -20,6 +20,7 @@ describe SearchController do
       user_id: user_id,
       email: 'email@test.com',
       password: 'password',
+      lang: 'es',
       validation: false,
       validation_code: validation_code
     }
@@ -109,19 +110,19 @@ describe SearchController do
   describe 'Suggest' do
 
     it 'returns empty array if last query is empty' do
-      post suggest_route, {query: ['valencia', '']}
+      post suggest_route, {query: ['valencia', ''], lang: 'es'}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([])
     end
 
     it 'fails if a non-empty query is not an array of strings' do
-      post suggest_route, {query: [{id: 'id'}]}
+      post suggest_route, {query: [{id: 'id'}], lang: 'es'}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_query')
     end
 
     it 'suggests names, categories... of profiles' do
-      post suggest_route, {query: ['valencia', 'm']}
+      post suggest_route, {query: ['valencia', 'm'], lang: 'es'}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([
         {
@@ -140,7 +141,7 @@ describe SearchController do
     end
 
     it 'allows query from production fields' do
-      post suggest_route, {query: ['music', 'tit']}
+      post suggest_route, {query: ['music', 'tit'], lang: 'es'}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([
         {
@@ -153,7 +154,7 @@ describe SearchController do
     end
 
     it 'does not suggest already queried elements' do
-      post suggest_route, {query: ['musica', 'mus']}
+      post suggest_route, {query: ['musica', 'mus'], lang: 'es'}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['items']).to eq([{
         "id"=>"music_title", 
@@ -167,25 +168,25 @@ describe SearchController do
   describe 'Results' do
 
     it 'fails if the query is not an array of strings' do
-      post results_route, {query: {id: 'id'}}
+      post results_route, {query: {id: 'id'}, lang: 'es'}
       expect(parsed_response['status']).to eq('fail')
       expect(parsed_response['reason']).to eq('invalid_query')
     end
 
     it 'returns random profiles if query is empty' do
-      post results_route, {query: [], shown: []}
+      post results_route, {query: [], shown: [], lang: 'es'}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(artist_profile), Util.stringify_hash(space_profile)])
     end
 
     it 'returns matching profiles' do
-      post results_route, {query: ['music'], shown: []}
+      post results_route, {query: ['music'], shown: [], lang: 'es'}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(artist_profile)])
     end
 
     it 'excludes already shown profiles' do
-      post results_route, {query: ['valencia'], shown: [profile_id]}
+      post results_route, {query: ['valencia'], shown: [profile_id], lang: 'es'}
       expect(parsed_response['status']).to eq('success')
       expect(parsed_response['profiles']).to eq([Util.stringify_hash(space_profile)])
     end

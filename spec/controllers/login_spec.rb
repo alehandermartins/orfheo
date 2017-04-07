@@ -1,11 +1,12 @@
 describe LoginController do
 
-  let(:register_route){'/login/register_attempt'}
-  let(:login_route){'/login/login_attempt'}
+  let(:register_route){'/login/register'}
+  let(:login_route){'/login/login'}
   let(:user_hash){
     {
       email: 'email@test.com',
-      password: 'password'
+      password: 'password',
+      lang: 'es'
     }
   }
 
@@ -18,6 +19,7 @@ describe LoginController do
       user_id: user_id,
       email: 'email@test.com',
       password: 'password',
+      lang: 'es',
       validation: false,
       validation_code: validation_code
     }

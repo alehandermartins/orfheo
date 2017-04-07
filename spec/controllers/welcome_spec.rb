@@ -1,6 +1,6 @@
 describe WelcomeController do
 
-  let(:login_route){'/login/login_attempt'}
+  let(:login_route){'/login/login'}
 
   let(:user_hash){
     {
@@ -17,6 +17,7 @@ describe WelcomeController do
       user_id: user_id,
       email: 'email@test.com',
       password: 'password',
+      lang: 'es',
       validation: false,
       validation_code: validation_code
     }

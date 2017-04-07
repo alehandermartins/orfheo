@@ -1,6 +1,6 @@
 describe ProfilesController do
 
-  let(:login_route){'/login/login_attempt'}
+  let(:login_route){'/login/login'}
   let(:logout_route){'/login/logout'}
   let(:create_profile_route){'/users/create_profile'}
   let(:create_production_route){'/users/create_production'}
