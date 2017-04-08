@@ -608,8 +608,8 @@
         var endTime = $('<select>');
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var modifyIcon = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().css({'font-size': '1.2rem'}));
-        var shortDescriptionContainer = $('<div>').css('height', 58);
-        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description);
+        var shortDescriptionContainer = $('<div>').css('height', 60);
+        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description).css('height', 60);
         var _remainingCar = $('<span>').text(140).css({'display': ' inline-block', 'font-weight': 600});
         _remainingCar.text(140 - shortDescription.val().length);
         var _helptext = $('<p>').append('Quedan: ', _remainingCar,'.').addClass('help-text');
@@ -627,7 +627,7 @@
         var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector).addClass('noselect');
         var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime).addClass('noselect');
         var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime).addClass('noselect');
-        modifyIcon.css('margin-left', 425);
+        modifyIcon.css('margin-left', 414);
         confirmed.css('margin-left', 5);
         label.css('display','inline');
         titleBox.css('width', 530);
@@ -1006,8 +1006,8 @@
         var endTime;
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var modifyIcon = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().css({'font-size': '1.2rem'}));
-        var shortDescriptionContainer = $('<div>').css('height', 52);
-        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description);
+        var shortDescriptionContainer = $('<div>').css('height', 60);
+        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description).css('height', 60);
         var _remainingCar = $('<span>').text(140).css({'display': ' inline-block', 'font-weight': 600});
         _remainingCar.text(140 - shortDescription.val().length);
         var _helptext = $('<p>').append('Quedan: ', _remainingCar,'.').addClass('help-text');
@@ -1025,7 +1025,7 @@
         var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector).addClass('noselect');
         var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime).addClass('noselect');
         var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime).addClass('noselect');
-        modifyIcon.css('margin-left', 425);
+        modifyIcon.css('margin-left', 414);
         confirmed.css('margin-left', 5);
         label.css('display','inline');
         titleBox.css('width', 530);
