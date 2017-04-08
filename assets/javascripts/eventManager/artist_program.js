@@ -242,7 +242,6 @@
     var _printRow = function(show){
       var _proposal = artist.proposals[show.participant_proposal_id].proposal;
       var _title = show.title || _proposal.title;
-      
 
       var _row = $('<tr>');
       if($.inArray(show, _conflictPerformances) >= 0){

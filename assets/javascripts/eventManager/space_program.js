@@ -273,6 +273,9 @@
     }
 
     var _printRow = function(show){
+      var _proposal = _artists[show.participant_id].proposals[show.participant_proposal_id].proposal;
+      var _title = show.title || _proposal.title;
+      var _short_description = show.short_description || _proposal.short_description;
       var _row = $('<tr>');
 
       var _timeCol = $('<td>').addClass('column-artist-program-call-manager column-time');
@@ -280,16 +283,16 @@
       var _nameCol = $('<td>').addClass('column-artist-program-call-manager column-name');
       var _categoryCol = $('<td>').addClass('column-artist-program-call-manager column-category');
       var _titleCol = $('<td>').addClass('column-artist-program-call-manager column-title');
-      var _namePopupCaller = $('<a>').attr({'href':'#/'}).text(show.title);
+      var _namePopupCaller = $('<a>').attr({'href':'#/'}).text(_title);
       var _shortDCol = $('<td>').addClass('column-artist-program-call-manager column-short_description');
       var _phoneCol = $('<td>').addClass('column-artist-program-call-manager column-phone');
       var _emailCol = $('<td>').addClass('column-artist-program-call-manager column-email');
 
       _timeCol.append(_schedule);
       _titleCol.append(_namePopupCaller);
-      _nameCol.html(show.participant_name);
-      _categoryCol.html(Pard.UserInfo['texts'].subcategories['artist'][show.participant_subcategory]);
-      _shortDCol.html(show.short_description);
+      _nameCol.html(_artists[show.participant_id].name);
+      _categoryCol.html(Pard.UserInfo['texts'].subcategories['artist'][_proposal.subcategory]);
+      _shortDCol.html(_short_description);
       _phoneCol.html(_artists[show.participant_id].artist.phone.value);
       _emailCol.html(_artists[show.participant_id].artist.email);
 
@@ -300,7 +303,7 @@
             });
             var _externalPerformancesBox = $('<div>').css('padding', 0).addClass('noselect');
             var _performancesPopup = Pard.Widgets.Popup();
-            _performancesPopup.setContent(show.title +' (' + show.participant_name + ')', _externalPerformancesBox);
+            _performancesPopup.setContent(_title +' (' + _artists[show.participant_id].name + ')', _externalPerformancesBox);
             var _content = _program[show.performance_id].permanentManager(false, true);
             _content.setCallback(function(){
               _performancesPopup.close();
@@ -335,7 +338,7 @@
                   _performancePopup.destroy();
                 },500)
             });
-            _performancePopup.setContent(show.title +' (' + show.participant_name + ')', _popupContent.render())
+            _performancePopup.setContent(_title +' (' + _artists[show.participant_id].name + ')', _popupContent.render())
             _performancePopup.open();
           }
       });

@@ -444,15 +444,6 @@
         
         AlignPerformances();
       },
-      addSpaceInfo: function(performance){
-        performance.event_id = space.event_id;
-        performance.host_email = space.email;
-        performance.host_name = space.name;
-        performance.address = space.address;
-        performance.host_category = space.category;
-        performance.host_subcategory = space.subcategory;
-        performance.order = space.index;
-      },
       addPerformance: function(performance){
         _loadPerformance(performance);
         AlignPerformances();

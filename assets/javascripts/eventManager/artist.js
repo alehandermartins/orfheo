@@ -214,18 +214,6 @@
           _proposals[proposal_id].setDay(day);
         });
       },
-      addArtistInfo: function(performance){
-        var _proposal = artist.proposals.filter(function(proposal){
-          return proposal.proposal_id == performance.participant_proposal_id;
-        })[0];
-        performance.title = _proposal.title;
-        performance.short_description = _proposal.short_description;
-        performance.participant_category = _proposal.category;
-        performance.participant_subcategory = _proposal.subcategory;
-        performance.availability = _proposal.availability;
-        performance.participant_name = artist.name;
-        performance.participant_email = artist.email;
-      },
       addPerformance: function(performance){
         program[performance.show.performance_id] = performance;
       },

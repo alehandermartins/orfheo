@@ -442,8 +442,6 @@
     }
     
     var create = function(performance){
-      the_event.spaces[performance.host_id].addSpaceInfo(performance);
-      the_event.artists[performance.participant_id].addArtistInfo(performance);
       if(performance.permanent == 'true') the_event.program[performance.performance_id] = new PermanentPerformance(performance);
       else{the_event.program[performance.performance_id] = new Performance(performance);}
       if (performance.permanent == 'true') var multipleChanges = true;
@@ -453,8 +451,6 @@
     var modify = function(performance, multipleChanges){
       var show = the_event.program[performance.performance_id].show;
       the_event.spaces[show.host_id].deletePerformance(show);
-      the_event.spaces[performance.host_id].addSpaceInfo(performance);
-      the_event.artists[performance.participant_id].addArtistInfo(performance);
       the_event.program[performance.performance_id].modify(performance);
       if (performance.permanent == 'true') multipleChanges = true;
       save(the_event.program[performance.performance_id].show, multipleChanges);      
@@ -542,12 +538,13 @@
       var fillCard = function(performance){
 
         var color = Pard.Widgets.CategoryColor(_proposal.category);
+        _performanceTitle = performance.title || _proposal.title;
 
         var dayStart = parseInt(eventTime[performance.date][0]);
         var height = _tables[performance.date].height() - 42;
         performance.time[0] = parseInt(performance.time[0]);
         performance.time[1] = parseInt(performance.time[1]);
-        //10 pixels = 15 min
+        //10 pixels = 10 min
         var start = (performance.time[0] - dayStart) / (Pard.HourHeight * 1000);
         var end = (performance.time[1] - dayStart) / (Pard.HourHeight * 1000);
         performance.position = start + 41;
@@ -566,6 +563,11 @@
           'white-space': 'normal',
           'box-shadow': 'inset 0 0 1px '
         });
+        
+        if($.inArray(performance.date, _proposal.availability) < 0)
+          card.addClass('artist-not-available-call-manager');
+        else
+          card.removeClass('artist-not-available-call-manager');
 
         _titleTextLong = _name + ' - ' + _performanceTitle;
         _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
@@ -724,7 +726,6 @@
         spaceSelector.on('select2:select', function(){
           the_event.spaces[performance.host_id].deletePerformance(performance);
           performance.host_id = spaceSelector.val();
-          the_event.spaces[performance.host_id].addSpaceInfo(performance);
           Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
             Pard.Bus.trigger(data.event, data.model);
             if(check) checkConflicts(performance);
@@ -1025,15 +1026,14 @@
         var _spaceSelect = function(host_id){
           the_event.spaces[performance.host_id].deletePerformance(performance);
           performance.host_id = host_id;
-          the_event.spaces[host_id].addSpaceInfo(performance);
         }
 
         spaceSelector.select2({
           dropdownCssClass: 'orfheoTableSelector'
         })
-          .on('select2:select', function(){
-            _spaceSelect(spaceSelector.val());
-          });
+        .on('select2:select', function(){
+          _spaceSelect(spaceSelector.val());
+        });
 
         var setStartTimes = function(){
           startTimeContainer.empty();
@@ -1987,8 +1987,6 @@
    
     if(the_event.program){
       the_event.program.forEach(function(performance){
-        if (performance.participant_id.indexOf('-own') > 0) performance.participant_id = performance.participant_id.substring(0 , performance.participant_id.indexOf('-own'));
-        if (performance.host_id.indexOf('-own') > 0) performance.host_id = performance.host_id.substring(0 , performance.host_id.indexOf('-own'));
         if(performance.permanent == 'true') _program[performance.performance_id] = new PermanentPerformance(performance);
         else _program[performance.performance_id] = new Performance(performance);
       });

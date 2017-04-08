@@ -460,7 +460,7 @@
       _show.participant_subcategory = _proposal.subcategory;
       _show.host_name = _space.name;
       _show.host_subcategory = _space.subcategory;
-      _show.host_name = _space.index + 1;
+      _show.order = _space.index + 1;
 
       var _row = $('<tr>').attr('id', 'programTable-' + show.performance_id);
       _columns.forEach(function(field){
