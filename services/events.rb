@@ -160,8 +160,8 @@ module Services
           performance.merge! host_category: space[:category]
           performance.merge! host_subcategory: space[:subcategory]
           performance.merge! participant_name: artist[:name]
-          performance.merge! title: artist_proposal[:title]
-          performance.merge! short_description: artist_proposal[:short_description]
+          performance.merge! title: artist_proposal[:title] if performance[:title].blank?
+          performance.merge! short_description: artist_proposal[:short_description] if performance[:short_description].blank?
           performance.merge! children: artist_proposal[:children]
           performance.merge! participant_category: artist_proposal[:category]
           performance.merge! participant_subcategory: artist_proposal[:subcategory]

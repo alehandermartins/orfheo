@@ -40,7 +40,7 @@ class Performances
   private
   attr_reader :performances, :event
   def new_performance performance
-    {
+    show = {
       performance_id: performance[:performance_id] || SecureRandom.uuid,
       date: performance[:date],
       permanent: performance[:permanent],
@@ -52,6 +52,9 @@ class Performances
       comments: performance[:comments],
       confirmed: performance[:confirmed]
     }
+    show[:title] = performance[:title] unless performance[:title].blank?
+    show[:short_description] = performance[:short_description] unless performance[:short_description].blank?
+    show
   end
 
   def mandatory

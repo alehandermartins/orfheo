@@ -471,6 +471,7 @@
       var _proposal = artists[performance.participant_id].proposals[performance.participant_proposal_id].proposal;
       var _name = artists[performance.participant_id].name;
       var _performanceTitle = performance.title || _proposal.title;
+      var _short_description = performance.short_description || _proposal.short_description;
 
       var card =$('<div>').addClass('programHelper');
       card.addClass(performance.performance_id);
@@ -491,7 +492,7 @@
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
-        _performaceTitlePopup.text(_performanceTitle +' (' + _name + ')').click(function(){
+        _performaceTitlePopup.text(_name).click(function(){
           displayer.displayProposal(_proposal, 'artist');
         }).addClass('performanceManagerTitle');
         var _message = Pard.Widgets.PopupContent(_performaceTitlePopup, manager(true));
@@ -539,7 +540,8 @@
 
         var color = Pard.Widgets.CategoryColor(_proposal.category);
         _performanceTitle = performance.title || _proposal.title;
-        _performaceTitlePopup.text(_performanceTitle +' (' + _name + ')');
+        _short_description = performance.short_description || _proposal.short_description;
+        _performaceTitlePopup.text(_name);
 
         var dayStart = parseInt(eventTime[performance.date][0]);
         var height = _tables[performance.date].height() - 42;
@@ -605,25 +607,33 @@
         var startTime = $('<select>');
         var endTime = $('<select>');
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
-        var commentsContainer = $('<div>');
+        var modifyIcon = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().css({'font-size': '1.2rem'}));
+        var shortDescriptionContainer = $('<div>').css('height', 52);
+        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true}).val(_short_description);
+
         var comments = $('<textarea>').attr({placeholder: Pard.t.text('dictionary.comments').capitalize() + ':'});
 
+        var titleContainer = $('<div>').css('height', 42);
+        var titleBox = $('<input>').attr({type: 'text', disabled: true}).val(_performanceTitle);
         var confirmedContainer = $('<div>').css('height', 20);
-        var input = $('<input />').attr({type: 'checkbox'});
+        var input = $('<input>').attr({type: 'checkbox'});
         var label = $('<label>').html(Pard.t.text('dictionary.confirmed').capitalize());
-        var confirmed = $('<div>').append(input, label);
+        var confirmed = $('<span>').append(input, label);
 
         var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).append(daySelector).addClass('noselect');
         var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector).addClass('noselect');
         var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime).addClass('noselect');
         var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime).addClass('noselect');
-        confirmed.css('margin-left', 430);
+        modifyIcon.css('margin-left', 425);
+        confirmed.css('margin-left', 5);
         label.css('display','inline');
-        comments.css('width', 530);
-        confirmedContainer.append(confirmed);
-        commentsContainer.append(comments);
+        titleBox.css('width', 530);
+        shortDescription.css('width', 530);
+        confirmedContainer.append(modifyIcon, confirmed);
+        titleContainer.append(titleBox);
+        shortDescriptionContainer.append(shortDescription);
         performanceContainer.append(daySelectorContainer, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
-        performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
+        performanceBox.append(confirmedContainer, performanceContainer, titleContainer, shortDescriptionContainer);
 
         Object.keys(eventTime).forEach(function(day){
           if(day == 'permanent') return false;
@@ -772,10 +782,47 @@
           });
         });
 
-        comments.on('input', function(){
-          performance.comments = comments.val();
-          card.find('.commentIcon').empty();
-          if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+        // comments.on('input', function(){
+        //   performance.comments = comments.val();
+        //   card.find('.commentIcon').empty();
+        //   if (performance.comments) card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+        //   Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+        //     Pard.Bus.trigger(data.event, data.model);
+        //   });
+        // });
+
+        modifyIcon.click(function(){
+          if(modifyIcon.hasClass('activated')){
+            modifyIcon.removeClass('activated');
+            titleBox.attr('disabled', true);
+            shortDescription.attr('disabled', true);
+          }
+          else{
+            modifyIcon.addClass('activated');
+            titleBox.attr('disabled', false);
+            shortDescription.attr('disabled', false) 
+          }
+        });
+
+        titleBox.on('change', function(){
+          titleBox.attr('disabled', true);
+          performance.title = titleBox.val();
+          if(_performanceTitle != _proposal.title){
+            if(titleBox.val() == _proposal.title)
+              performance.title = null;
+          }
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
+          });
+        });
+
+        shortDescription.on('change', function(){
+          shortDescription.attr('disabled', true);
+          performance.short_description = shortDescription.val();
+          if(_short_description != _proposal.short_description){
+            if(shortDescription.val() == _proposal.short_description)
+              performance.short_description = null;
+          }
           Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
             Pard.Bus.trigger(data.event, data.model);
           });
@@ -785,7 +832,6 @@
         setEndTimes();
         daySelector.val(performance.date).trigger('change');
         spaceSelector.val(performance.host_id).trigger('change');
-        comments.val(performance.comments);
 
         if (performance.confirmed == 'true') performance.confirmed = true;
         if (performance.confirmed == 'false') performance.confirmed = false;
@@ -833,6 +879,7 @@
       var _proposal = artists[performance.participant_id].proposals[performance.participant_proposal_id].proposal;
       var _name = artists[performance.participant_id].name;
       var _performanceTitle = performance.title || _proposal.title;
+      var _short_description = performance.short_description || _proposal.short_description;
 
       performance.time[0] = parseInt(performance.time[0]);
       performance.time[1] = parseInt(performance.time[1]);
@@ -855,7 +902,7 @@
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
-        _performaceTitlePopup.text(_performanceTitle + '(' + _name + ')').
+        _performaceTitlePopup.text(_name).
           click(function(){
             displayer.displayProposal(_proposal, 'artist');
           }).addClass('performanceManagerTitle');
@@ -906,7 +953,8 @@
       var fillCard = function(performance){
         var color = Pard.Widgets.CategoryColor(_proposal.category);
         _performanceTitle = performance.title || _proposal.title;
-        _performaceTitlePopup.text(_performanceTitle + '(' + _name + ')');
+        _performaceTitlePopup.text(_name);
+        _short_description = performance.short_description || _proposal.short_description;
 
         _card.css({
           'position': 'absolute',
@@ -939,7 +987,7 @@
       }
 
       var managerBox = function(check){
-        var performanceBox = $('<div>').addClass('noselect');
+        var performanceBox = $('<div>').addClass('noselect').css({'margin-bottom': 15});
         var performanceContainer = $('<div>').css('height', 40);
         var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).addClass('noselect');
         var daySelector;
@@ -947,25 +995,33 @@
         var startTime;
         var endTime;
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
-        var commentsContainer = $('<div>');
+        var modifyIcon = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().css({'font-size': '1.2rem'}));
+        var shortDescriptionContainer = $('<div>').css('height', 52);
+        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true}).val(_short_description);
+
         var comments = $('<textarea>').attr({placeholder: Pard.t.text('dictionary.comments').capitalize() + ':'});
 
+        var titleContainer = $('<div>').css('height', 42);
+        var titleBox = $('<input>').attr({type: 'text', disabled: true}).val(_performanceTitle);
         var confirmedContainer = $('<div>').css('height', 20);
-        var input = $('<input />').attr({type: 'checkbox'});
+        var input = $('<input>').attr({type: 'checkbox'});
         var label = $('<label>').html(Pard.t.text('dictionary.confirmed').capitalize());
-        var confirmed = $('<div>').append(input, label);
+        var confirmed = $('<span>').append(input, label);
 
+        var daySelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '120'}).append(daySelector).addClass('noselect');
         var spaceSelectorContainer = $('<div>').css({'display': ' inline-block', 'width': '250'}).append(spaceSelector).addClass('noselect');
-        var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).addClass('noselect');
-        var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).addClass('noselect');
-        confirmed.css('margin-left', 430);
+        var startTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(startTime).addClass('noselect');
+        var endTimeContainer = $('<div>').css({'display': ' inline-block', 'width': '80'}).append(endTime).addClass('noselect');
+        modifyIcon.css('margin-left', 425);
+        confirmed.css('margin-left', 5);
         label.css('display','inline');
-        comments.css('width', 530);
-
-        confirmedContainer.append(confirmed);
-        commentsContainer.append(comments);
+        titleBox.css('width', 530);
+        shortDescription.css('width', 530);
+        confirmedContainer.append(modifyIcon, confirmed);
+        titleContainer.append(titleBox);
+        shortDescriptionContainer.append(shortDescription);
         performanceContainer.append(daySelectorContainer, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
-        performanceBox.append(confirmedContainer, performanceContainer, commentsContainer);
+        performanceBox.append(confirmedContainer, performanceContainer, titleContainer, shortDescriptionContainer);
 
         Object.keys(the_event.spaces).forEach(function(profile_id){
           var space = the_event.spaces[profile_id].space;
@@ -1138,10 +1194,47 @@
           else _card.find('.checker').empty();
         });
 
-        comments.on('change', function(){
-          performance.comments = comments.val();
-          _card.find('.commentIcon').empty();
-          if (performance.comments) _card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+        // comments.on('change', function(){
+        //   performance.comments = comments.val();
+        //   _card.find('.commentIcon').empty();
+        //   if (performance.comments) _card.find('.commentIcon').append(Pard.Widgets.IconManager('comments').render());
+        //   Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+        //     Pard.Bus.trigger(data.event, data.model);
+        //   });
+        // });
+
+        modifyIcon.click(function(){
+          if(modifyIcon.hasClass('activated')){
+            modifyIcon.removeClass('activated');
+            titleBox.attr('disabled', true);
+            shortDescription.attr('disabled', true);
+          }
+          else{
+            modifyIcon.addClass('activated');
+            titleBox.attr('disabled', false);
+            shortDescription.attr('disabled', false) 
+          }
+        });
+
+        titleBox.on('change', function(){
+          titleBox.attr('disabled', true);
+          performance.title = titleBox.val();
+          if(_performanceTitle != _proposal.title){
+            if(titleBox.val() == _proposal.title)
+              performance.title = null;
+          }
+          Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
+            Pard.Bus.trigger(data.event, data.model);
+          });
+        });
+
+        shortDescription.on('change', function(){
+          shortDescription.attr('disabled', true);
+          performance.short_description = shortDescription.val();
+          if(_short_description != _proposal.short_description){
+            if(shortDescription.val() == _proposal.short_description)
+              performance.short_description = null;
+          }
           Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
             Pard.Bus.trigger(data.event, data.model);
           });
