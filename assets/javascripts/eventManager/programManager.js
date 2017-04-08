@@ -608,8 +608,11 @@
         var endTime = $('<select>');
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var modifyIcon = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().css({'font-size': '1.2rem'}));
-        var shortDescriptionContainer = $('<div>').css('height', 52);
-        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true}).val(_short_description);
+        var shortDescriptionContainer = $('<div>').css('height', 58);
+        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description);
+        var _remainingCar = $('<span>').text(140).css({'display': ' inline-block', 'font-weight': 600});
+        _remainingCar.text(140 - shortDescription.val().length);
+        var _helptext = $('<p>').append('Quedan: ', _remainingCar,'.').addClass('help-text');
 
         var comments = $('<textarea>').attr({placeholder: Pard.t.text('dictionary.comments').capitalize() + ':'});
 
@@ -628,10 +631,10 @@
         confirmed.css('margin-left', 5);
         label.css('display','inline');
         titleBox.css('width', 530);
-        shortDescription.css('width', 530);
+        shortDescription.css({'width': 530, 'margin-bottom': 0});
         confirmedContainer.append(modifyIcon, confirmed);
         titleContainer.append(titleBox);
-        shortDescriptionContainer.append(shortDescription);
+        shortDescriptionContainer.append(shortDescription, _helptext.hide());
         performanceContainer.append(daySelectorContainer, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
         performanceBox.append(confirmedContainer, performanceContainer, titleContainer, shortDescriptionContainer);
 
@@ -796,11 +799,13 @@
             modifyIcon.removeClass('activated');
             titleBox.attr('disabled', true);
             shortDescription.attr('disabled', true);
+            _helptext.hide()
           }
           else{
             modifyIcon.addClass('activated');
             titleBox.attr('disabled', false);
-            shortDescription.attr('disabled', false) 
+            shortDescription.attr('disabled', false)
+            _helptext.show()
           }
         });
 
@@ -816,8 +821,13 @@
           });
         });
 
+        shortDescription.on('input', function(){
+          _remainingCar.text(140 - shortDescription.val().length);
+        });
+
         shortDescription.on('change', function(){
           shortDescription.attr('disabled', true);
+          _helptext.hide()
           performance.short_description = shortDescription.val();
           if(_short_description != _proposal.short_description){
             if(shortDescription.val() == _proposal.short_description)
@@ -953,8 +963,8 @@
       var fillCard = function(performance){
         var color = Pard.Widgets.CategoryColor(_proposal.category);
         _performanceTitle = performance.title || _proposal.title;
-        _performaceTitlePopup.text(_name);
         _short_description = performance.short_description || _proposal.short_description;
+        _performaceTitlePopup.text(_name);
 
         _card.css({
           'position': 'absolute',
@@ -997,7 +1007,10 @@
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var modifyIcon = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().css({'font-size': '1.2rem'}));
         var shortDescriptionContainer = $('<div>').css('height', 52);
-        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true}).val(_short_description);
+        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description);
+        var _remainingCar = $('<span>').text(140).css({'display': ' inline-block', 'font-weight': 600});
+        _remainingCar.text(140 - shortDescription.val().length);
+        var _helptext = $('<p>').append('Quedan: ', _remainingCar,'.').addClass('help-text');
 
         var comments = $('<textarea>').attr({placeholder: Pard.t.text('dictionary.comments').capitalize() + ':'});
 
@@ -1016,10 +1029,10 @@
         confirmed.css('margin-left', 5);
         label.css('display','inline');
         titleBox.css('width', 530);
-        shortDescription.css('width', 530);
+        shortDescription.css({'width': 530, 'margin-bottom': 0});
         confirmedContainer.append(modifyIcon, confirmed);
         titleContainer.append(titleBox);
-        shortDescriptionContainer.append(shortDescription);
+        shortDescriptionContainer.append(shortDescription, _helptext.hide());
         performanceContainer.append(daySelectorContainer, spaceSelectorContainer, startTimeContainer, endTimeContainer, removeInputButton);
         performanceBox.append(confirmedContainer, performanceContainer, titleContainer, shortDescriptionContainer);
 
@@ -1208,11 +1221,13 @@
             modifyIcon.removeClass('activated');
             titleBox.attr('disabled', true);
             shortDescription.attr('disabled', true);
+            _helptext.hide()
           }
           else{
             modifyIcon.addClass('activated');
             titleBox.attr('disabled', false);
-            shortDescription.attr('disabled', false) 
+            shortDescription.attr('disabled', false)
+            _helptext.show()
           }
         });
 
@@ -1228,8 +1243,13 @@
           });
         });
 
+        shortDescription.on('input', function(){
+          _remainingCar.text(140 - shortDescription.val().length);
+        });
+
         shortDescription.on('change', function(){
           shortDescription.attr('disabled', true);
+          _helptext.hide()
           performance.short_description = shortDescription.val();
           if(_short_description != _proposal.short_description){
             if(shortDescription.val() == _proposal.short_description)

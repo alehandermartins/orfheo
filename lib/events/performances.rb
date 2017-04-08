@@ -53,7 +53,7 @@ class Performances
       confirmed: performance[:confirmed]
     }
     show[:title] = performance[:title] unless performance[:title].blank?
-    show[:short_description] = performance[:short_description] unless performance[:short_description].blank?
+    show[:short_description] = performance[:short_description] unless performance[:short_description].blank? || performance[:short_description].size > 140
     show
   end
 
