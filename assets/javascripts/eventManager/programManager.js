@@ -481,19 +481,16 @@
       var _titleTextLong;
 
       _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
-      
+      var _performaceTitlePopup = $('<span>').click(function(){
+        displayer.displayProposal(_proposal, 'artist');
+      }).addClass('performanceManagerTitle');
+
       _titleText.on('click', function(){
         var _content = $('<div>').addClass('very-fast reveal full').css('z-index','99');
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
-        var _performaceTitlePopup = $('<span>')
-          .text(_performanceTitle +' (' + _name + ')')
-          .click(function(){
-            displayer.displayProposal(_proposal, 'artist');
-          })
-          .addClass('performanceManagerTitle');
         var _message = Pard.Widgets.PopupContent(_performaceTitlePopup, manager(true));
         _message.setCallback(function(){
           _popup.close();          
@@ -539,6 +536,7 @@
 
         var color = Pard.Widgets.CategoryColor(_proposal.category);
         _performanceTitle = performance.title || _proposal.title;
+        _performaceTitlePopup.text(_performanceTitle +' (' + _name + ')');
 
         var dayStart = parseInt(eventTime[performance.date][0]);
         var height = _tables[performance.date].height() - 42;
@@ -550,8 +548,6 @@
         performance.position = start + 41;
         performance.duration = (end - start);
         performance.maxHeight = height - performance.position + 41;
-        performance.participant_email = the_event.artists[performance.participant_id].artist.email;
-        performance.host_email = the_event.spaces[performance.host_id].space.email;
 
         card.css({
           'position': 'absolute',
@@ -831,10 +827,12 @@
 
     var PermanentPerformance = function(performance){
 
+      var _proposal = artists[performance.participant_id].proposals[performance.participant_proposal_id].proposal;
+      var _name = artists[performance.participant_id].name;
+      var _performanceTitle = performance.title || _proposal.title;
+
       performance.time[0] = parseInt(performance.time[0]);
       performance.time[1] = parseInt(performance.time[1]);
-      performance.participant_email = the_event.artists[performance.participant_id].artist.email;
-      performance.host_email = the_event.spaces[performance.host_id].space.email;
       
       var _title = $('<p>').addClass('proposal-title-card-call-manager');
       var _confirmationCheckContainer = $('<span>').addClass('checker');
@@ -843,14 +841,17 @@
       var _titleTextLong;
 
       _title.append(_confirmationCheckContainer, _commentIconContainer, _titleText);
+      var _performaceTitlePopup = $('<span>').click(function(){
+        displayer.displayProposal(_proposal, 'artist');
+      }).addClass('performanceManagerTitle');
 
       _titleText.on('click', function(){
-        var _content = $('<div>').addClass('very-fast reveal full');
+        var _content = $('<div>').addClass('very-fast reveal full').css('z-index','99');;
         _content.empty();
         $('body').append(_content);
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         _popup.open();
-        var _message = Pard.Widgets.PopupContent(performance.title +' (' + performance.participant_name + ')', PermanentManager(true, true));
+        var _message = Pard.Widgets.PopupContent(_performaceTitlePopup, PermanentManager(true, true));
         _message.setCallback(function(){
           _popup.close();
           setTimeout(function(){
@@ -895,7 +896,10 @@
       });
         
       var fillCard = function(performance){
-        var color = Pard.Widgets.CategoryColor(performance.participant_category);
+        var color = Pard.Widgets.CategoryColor(_proposal.category);
+        _performanceTitle = performance.title || _proposal.title;
+        _performaceTitlePopup.text(_performanceTitle + '(' + _name + ')');
+
         _card.css({
           'position': 'absolute',
           'display': 'inline-block',
@@ -906,7 +910,7 @@
           'box-shadow': 'inset 0 0 1px '
         });
         
-        var _titleTextLong = performance.participant_name + ' - ' + performance.title;
+        var _titleTextLong = _name + ' - ' + _performanceTitle;
         _titleText.text(Pard.Widgets.CutString(_titleTextLong, 35));
         _commentIconContainer.empty();
         _confirmationCheckContainer.empty();

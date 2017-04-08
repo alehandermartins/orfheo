@@ -451,14 +451,16 @@
     });
 
      var showRow = function(show){
+      var _space = the_event.spaces[show.host_id].space;
       var _show = $.extend(true, {}, show);
       var _proposal = the_event.artists[show.participant_id].proposals[show.participant_proposal_id].proposal;
-      var _space = the_event.spaces[show.host_id].space;
       _show.participant_name = the_event.artists[show.participant_id].name;
+      _show.participant_email = the_event.artists[show.participant_id].artist.email;
       _show.title = show.title || _proposal.title;
       _show.short_description = show.short_description || _proposal.short_description;
       _show.participant_subcategory = _proposal.subcategory;
       _show.host_name = _space.name;
+      _show.host_email = _space.email;
       _show.host_subcategory = _space.subcategory;
       _show.order = _space.index + 1;
 
