@@ -472,6 +472,7 @@
       var _name = artists[performance.participant_id].name;
       var _performanceTitle = performance.title || _proposal.title;
       var _short_description = performance.short_description || _proposal.short_description;
+      var titleBox, shortDescription;
 
       var card =$('<div>').addClass('programHelper');
       card.addClass(performance.performance_id);
@@ -542,6 +543,11 @@
         _performanceTitle = performance.title || _proposal.title;
         _short_description = performance.short_description || _proposal.short_description;
         _performaceTitlePopup.text(_name);
+        if(typeof(titleBox) != 'undefined')
+          titleBox.val(_performanceTitle);
+
+        if(typeof(shortDescription) != 'undefined')
+          shortDescription.val(_short_description);
 
         var dayStart = parseInt(eventTime[performance.date][0]);
         var height = _tables[performance.date].height() - 42;
@@ -609,7 +615,7 @@
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var modifyIcon = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().css({'font-size': '1.2rem'}));
         var shortDescriptionContainer = $('<div>').css('height', 60);
-        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description).css('height', 60);
+        shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description).css('height', 60);
         var _remainingCar = $('<span>').text(140).css({'display': ' inline-block', 'font-weight': 600});
         _remainingCar.text(140 - shortDescription.val().length);
         var _helptext = $('<p>').append('Quedan: ', _remainingCar,'.').addClass('help-text');
@@ -617,7 +623,7 @@
         var comments = $('<textarea>').attr({placeholder: Pard.t.text('dictionary.comments').capitalize() + ':'});
 
         var titleContainer = $('<div>').css('height', 42);
-        var titleBox = $('<input>').attr({type: 'text', disabled: true}).val(_performanceTitle);
+        titleBox = $('<input>').attr({type: 'text', disabled: true}).val(_performanceTitle);
         var confirmedContainer = $('<div>').css('height', 20);
         var input = $('<input>').attr({type: 'checkbox'});
         var label = $('<label>').html(Pard.t.text('dictionary.confirmed').capitalize());
@@ -890,6 +896,7 @@
       var _name = artists[performance.participant_id].name;
       var _performanceTitle = performance.title || _proposal.title;
       var _short_description = performance.short_description || _proposal.short_description;
+      var titleBox, shortDescription;
 
       performance.time[0] = parseInt(performance.time[0]);
       performance.time[1] = parseInt(performance.time[1]);
@@ -965,6 +972,11 @@
         _performanceTitle = performance.title || _proposal.title;
         _short_description = performance.short_description || _proposal.short_description;
         _performaceTitlePopup.text(_name);
+        if(typeof(titleBox) != 'undefined')
+          titleBox.val(_performanceTitle);
+
+        if(typeof(shortDescription) != 'undefined')
+          shortDescription.val(_short_description);
 
         _card.css({
           'position': 'absolute',
@@ -1007,7 +1019,7 @@
         var removeInputButton = $('<span>').addClass('material-icons add-multimedia-input-button-delete').html('&#xE888');
         var modifyIcon = $('<a>').attr('href','#/').append(Pard.Widgets.IconManager('modify').render().css({'font-size': '1.2rem'}));
         var shortDescriptionContainer = $('<div>').css('height', 60);
-        var shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description).css('height', 60);
+        shortDescription = $('<textarea>').attr({rows: 2, disabled: true, maxlength: 140}).val(_short_description).css('height', 60);
         var _remainingCar = $('<span>').text(140).css({'display': ' inline-block', 'font-weight': 600});
         _remainingCar.text(140 - shortDescription.val().length);
         var _helptext = $('<p>').append('Quedan: ', _remainingCar,'.').addClass('help-text');
@@ -1015,7 +1027,7 @@
         var comments = $('<textarea>').attr({placeholder: Pard.t.text('dictionary.comments').capitalize() + ':'});
 
         var titleContainer = $('<div>').css('height', 42);
-        var titleBox = $('<input>').attr({type: 'text', disabled: true}).val(_performanceTitle);
+        titleBox = $('<input>').attr({type: 'text', disabled: true}).val(_performanceTitle);
         var confirmedContainer = $('<div>').css('height', 20);
         var input = $('<input>').attr({type: 'checkbox'});
         var label = $('<label>').html(Pard.t.text('dictionary.confirmed').capitalize());

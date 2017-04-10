@@ -15,10 +15,6 @@ module Services
         event
       end
 
-      def get_manager_event event_id
-        Repos::Events.get_event event_id
-      end
-
       def get_app_event event_id
         event = get_manager_event event_id
         event[:program].map!{|performance|
