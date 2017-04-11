@@ -873,6 +873,24 @@ a.navigation-btn-callPage{
   }
 }
 
+
+
+.saveBtn-orderSpaces  {
+  color: white;
+  background: black;
+  padding: 0 !important;
+  height: 22px;
+  width: 35px;
+  text-align: center;
+  display: inline-block;
+  position: absolute;
+  right: 2rem;
+  top: 6rem;
+  .material-icons{
+    font-size: 1.3rem;
+  }
+}
+
 /*===============================================
 COMPONENTS
 ================================================*/

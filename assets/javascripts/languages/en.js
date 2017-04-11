@@ -632,7 +632,8 @@
           artistsnoProgram: 'Proposals out of program',
           spacesnoProgram: 'Spaces out of program',
           orderSpaces: 'Order Spaces',
-          orderby: 'Sort by:'
+          orderby: 'Sort by:',
+          save: 'Save changes'
         },
         publish: 'Publish the program',
         publishmex: 'The program has been successfully published in your event page',

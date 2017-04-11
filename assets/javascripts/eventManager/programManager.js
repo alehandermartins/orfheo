@@ -1597,27 +1597,10 @@
         var _popup = new Foundation.Reveal(_content, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true});
         var _message = Pard.Widgets.PopupContent(Pard.t.text('manager.program.menu.orderSpaces'), OrderSpaceWidget);
         _message.setCallback(function(){
-          var _orderSpaceSpinner = new Spinner().spin();
-          $('body').append(_orderSpaceSpinner.el);
-          order = OrderSpaceWidget.getList();
-          Pard.Backend.saveOrder(the_event.event_id, order, function(){
-            _spaceSelector.trigger('select2:unselecting');
-            _shownSpaces = order;
-            _shownSpaces.forEach(function(profile_id, index){
-              if(index == _shownSpaces.length - 1) return;
-              Object.keys(eventTime).forEach(function(date){
-                the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index + 1]].columns[date]);
-              });
-            });
-            _shownSpaces.forEach(function(profile_id, index){
-              the_event.spaces[profile_id].alignPerformances(index);
-            });
-            _popup.close();
+          _popup.close();
             setTimeout(function(){
-              _content.remove();
-              _orderSpaceSpinner.stop();
+              _content.remove()            
             },500);
-          });
         });
         _content.append(_message.render());
         _popup.open();
@@ -1907,8 +1890,7 @@
         _listSortable.sortable({
           cursor: "move",
           update: function(){
-            order = _listSortable.sortable('toArray');
-            order.forEach(function(space_id, index){
+            _listSortable.sortable('toArray').forEach(function(space_id, index){
               _spaceCards[space_id].index(index);
             });
           }
@@ -1976,16 +1958,42 @@
           });
         });
 
+        var _saveBtn = Pard.Widgets.Button(Pard.Widgets.IconManager('save').render(),function(){
+          var _orderSpaceSpinner = new Spinner().spin();
+          $('body').append(_orderSpaceSpinner.el);
+          order = _listSortable.sortable('toArray');
+          Pard.Backend.saveOrder(the_event.event_id, order, function(){
+            _spaceSelector.trigger('select2:unselecting');
+            _shownSpaces = order;
+            _shownSpaces.forEach(function(profile_id, index){
+              if(index == _shownSpaces.length - 1) return;
+              Object.keys(eventTime).forEach(function(date){
+                the_event.spaces[_shownSpaces[index]].columns[date].after(the_event.spaces[_shownSpaces[index + 1]].columns[date]);
+              });
+            });
+            _shownSpaces.forEach(function(profile_id, index){
+              the_event.spaces[profile_id].alignPerformances(index);
+            });
+            _orderSpaceSpinner.stop();
+          });
+        }) 
+
+        var _saveBtnRendered = _saveBtn.render()
+          .addClass('saveBtn-orderSpaces')
+          .attr({
+            'title': Pard.t.text('manager.program.menu.save')
+          });
+
         _orderButtonsContainer.append(_orderText, _alphaBtn.render(), _catOrderBtn.render());
-        _createdWidget.append(_orderButtonsContainer, _listSortable);
+        _createdWidget.append(_orderButtonsContainer, _saveBtnRendered, _listSortable);
 
         return {
           render: function(){
             return _createdWidget;
           },
-          getList: function(){
-            return _listSortable.sortable('toArray');
-          },
+          // getList: function(){
+          //   return _listSortable.sortable('toArray');
+          // },
           setCallback: function(callback){
             _closePopup = callback
           }

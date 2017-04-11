@@ -635,7 +635,8 @@
           artistsnoProgram: 'Propuestas sin programa',
           spacesnoProgram: 'Espacios sin programa',
           orderSpaces: 'Ordena Espacios',
-          orderby: 'Ordena por:'
+          orderby: 'Ordena por:',
+          save: 'Guarda los cambios'
         },
         publish: 'Publica el programa',
         publishmex: 'El programa se ha publicado correctamente en la página de tu evento',
