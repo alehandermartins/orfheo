@@ -1653,7 +1653,7 @@
           var proposals = artists[profile_id].artist.proposals;
           var artistProgram = artists[profile_id].program;
           var program = Object.keys(artistProgram).map(function(performance_id){
-            return artistProgram[performance_id];
+            return artistProgram[performance_id].show;
           });
           var noSelected = proposals.filter(function(proposal){
             return program.every(function(show){
