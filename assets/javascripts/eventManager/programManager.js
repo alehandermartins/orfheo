@@ -1643,12 +1643,16 @@
               return show.participant_proposal_id != proposal.proposal_id;
             });
           });
-          noSelected.forEach(function(proposal){
+          noSelected.forEach(function(proposal, index){
             proposal.proposal_type = 'artist';
             var _row = $('<tr>');
             columns.forEach(function(field){
-              var _info;
-              if (field == 'name') _info = Pard.Widgets.InfoTab[field].info(proposal, displayer);
+              if (field == 'name'){
+                _info = Pard.Widgets.InfoTab[field].info(proposal, displayer);
+                if(proposal.proposal_id == "ff213ea7-bb74-42ff-8102-c4a37d84532f"){
+                  console.log(proposal);
+                }
+              }
               else if (field == 'category') _info = the_event.texts['es']['subcategories']['artist'][proposal.subcategory];
               else  _info = proposal[field];
               var _col = $('<td>').append(_info);

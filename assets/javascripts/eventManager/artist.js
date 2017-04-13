@@ -238,6 +238,12 @@
         for(var key in new_artist){
           if (key != 'proposals') artist[key] = new_artist[key];
         }
+
+        new_artist.proposals[0].name = artist.name;
+        new_artist.proposals[0].phone = artist.phone;
+        new_artist.proposals[0].email = artist.email;
+        new_artist.proposals[0].profile_id = artist.profile_id;
+
         if(new_artist.proposals){
           artist.proposals = artist.proposals.filter(function(proposal){
             return proposal.proposal_id != new_artist.proposals[0].proposal_id;
