@@ -69,7 +69,7 @@
       }
       if (_formWidget) _formWidget.setVal(_valToSet);
     });
-
+    
     var _printForm = function(formType){
       _contentSel.empty();
       _production_id = false;
@@ -117,10 +117,10 @@
     }
 
     _createdWidget.append(_outerFormBox.append(_contentSel));
-
+    
     return {
       render: function(){
-        return _createdWidget;
+        return _createdWidget; 
       },
       setCallback: function(callback){
         _closepopup = callback;
