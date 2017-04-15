@@ -118,6 +118,8 @@
         _submitForm['production_id'] = production.production_id;
         _submitForm['profile_id'] = profile_id;
         _submitForm['category'] = catSelected;
+        _submitForm['links'] = production.links;
+        _submitForm['photos'] = production.photos;
         Pard.Backend.modifyProduction(_submitForm, function(data){
           Pard.Events.ModifyProduction(data);
           _closepopup();
