@@ -321,7 +321,7 @@ ns.Widgets = ns.Widgets || {};
         }
       }
     })
-    .on('change',function(e){
+    .on('change',function(){
       if(_searchWidget.select2('data').length==0){
         // This line is necesary to avoid duplicated tags!!
         _searchWidget.empty();

@@ -287,6 +287,17 @@
     var _createdWidget = $('<div>');
     var _searchWidget = $('<select>').attr('id', 'searchEngine');
 
+    var _cleanIcon = $('<div>')
+      .append($('<button>')
+        .attr('type','button')
+        .addClass('cleanIcon-searchWidget')
+        .html('&times;'))
+        .click(function(){
+          //ATT! Very important to reset the select2 to empty by this method -->problem with duplicated tag if .val('') in place of .empty()
+          if (_searchWidget.val()) _searchWidget.empty().trigger('change');
+        })  
+      .addClass('cleanIcon-searchWidget-container');
+    
     var _chooseOrder = $('<select>');
     var _chooseOrderSelect = $('<div>').append(_chooseOrder).addClass('choose-order-select');
     var _chooseText = $('<span>').text(Pard.t.text('event_page.program.orderby'));
@@ -431,9 +442,9 @@
       });
     });
 
-    var _sCont = $('<div>');
+    var _sCont = $('<div>').css('position', 'relative');
 
-    _searchWidgetsContainer.append(_sCont.append(_searchWidget),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
+    _searchWidgetsContainer.append(_sCont.append(_searchWidget, _cleanIcon),$('<div>').append(_daySelectorContainer, _programNow, _filtersButton));
     _createdWidget.append(
       map, 
      _searchWidgetsContainer, 
@@ -525,7 +536,13 @@
         }
       }
       // $(':focus').blur();
-    });
+    })
+    .on('change',function(){
+      if(_searchWidget.select2('data').length==0){
+        // This line is necesary to avoid duplicated tags!!
+        _searchWidget.empty();
+      }
+    });;
 
     var _search = function(){
       var spinner =  new Spinner().spin();
