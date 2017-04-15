@@ -16,10 +16,11 @@ module Services
       end
 
       def get_app_event event_id
-        event = get_manager_event event_id
-        event[:program].map!{|performance|
-          performance[:participant_category] = performance[:participant_subcategory]
-          performance[:host_category] = performance[:host_subcategory]
+        event = Repos::Events.get_event event_id
+        program = arrange_program event, event[:program]
+        program.map!{|performance|
+          performance[:participant_category] = performance[:participant_category]
+          performance[:host_category] = performance[:host_category]
           performance.delete(:participant_subcategory)
           performance.delete(:host_subcategory) 
           performance.delete(:comments)
