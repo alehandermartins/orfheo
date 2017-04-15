@@ -190,7 +190,8 @@ ns.Widgets = ns.Widgets || {};
         .addClass('cleanIcon-searchWidget')
         .html('&times;'))
         .click(function(){
-          if (_searchWidget.val()) _searchWidget.val('').trigger('change');
+          //ATT! Very important to reset the select2 to empty by this method -->problem with duplicated tag if .val('') in place of .empty()
+          if (_searchWidget.val()) _searchWidget.empty().trigger('change');
         })  
       .addClass('cleanIcon-searchWidget-container');
     var _searchInput = $('<div>').append(_searchWidget, _searchIcon, _cleanIcon).addClass('search-input-WelcomePage');
@@ -248,9 +249,11 @@ ns.Widgets = ns.Widgets || {};
       var _typeTag = $('<div>').addClass('suggested-tag-search-engine');
       var _text = Pard.t.text('dictionary.' + field) || Pard.t.text('categories.' + field);
       _typeTag.click(function(){
-        var option = new Option(_text, _text, true, true);
+        var option = new Option(_text, _text, false, true);
         _searchWidget.append(option);
-        _searchWidget.trigger('change');
+        _noMoreResults = false;
+        _search();
+        // _searchWidget.trigger('change');
         _printTags(obj[field]);
       });
       var _icon = Pard.Widgets.IconManager(field).render();
@@ -305,19 +308,23 @@ ns.Widgets = ns.Widgets || {};
       multiple: true,
       tags: true,
       tokenSeparators: [',', ' '],   
-      // createTag: function (tag) {
-      //   return {
-      //       id: tag.term,
-      //       text: tag.term,
-      //       isNew : true
-      //   };
-      // },
       templateResult: formatResource,
-    }).on("select2:select", function(e) {
+      templateSelection: function(resource){
+        console.log(resource)
+        return resource.text;
+      }
+    })
+    .on("select2:select", function(e) {
       if(_searchWidget.select2('data') != false){
         if(e.params.data.isNew){
           $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
         }
+      }
+    })
+    .on('change',function(e){
+      if(_searchWidget.select2('data').length==0){
+        // This line is necesary to avoid duplicated tags!!
+        _searchWidget.empty();
       }
     });
 
@@ -334,7 +341,6 @@ ns.Widgets = ns.Widgets || {};
         function(){
           _shown = [];
           tags = [];
-
           var _dataArray = _searchWidget.select2('data'); 
           _dataArray.forEach(function(tag){
             tags.push(tag.text);
