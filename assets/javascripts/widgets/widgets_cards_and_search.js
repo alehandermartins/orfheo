@@ -4,10 +4,10 @@
 
   ns.Widgets = ns.Widgets || {};
 
-  ns.Widgets.SearchEngine = function(main_id, event_id) {
+  ns.Widgets.SearchEngine = function(event_id) {
 
     var _createdWidget = $('<div>').addClass('search-engine-container');
-    var _main_id = '#' + main_id;
+    // var _main_id = '#' + main_id;
     var _searchResult = $('<div>').addClass('search-results');
     var _searchWidget = $('<select>');
 
@@ -87,8 +87,19 @@
       });
     });
 
+    var _cleanIcon = $('<div>')
+      .append($('<button>')
+        .attr('type','button')
+        .addClass('cleanIcon-searchWidget')
+        .html('&times;'))
+        .click(function(){
+          //ATT! Very important to reset the select2 to empty by this method -->problem with duplicated tag if .val('') in place of .empty()
+          if (_searchWidget.val()) _searchWidget.empty().trigger('change');
+        })  
+      .addClass('cleanIcon-searchWidget-container');
+
     var _searchInput = $('<div>').addClass('search-input');
-    _searchInput.append(_searchWidget);
+    _searchInput.append(_searchWidget, _cleanIcon);
 
     var _searchTagsBoxContainer = $('<div>').addClass('searchTagBox-containerEventPage')
     var _searchTagsBox = $('<div>').addClass('search-tag-box');
@@ -209,6 +220,12 @@
         if(e.params.data.isNew){
           $(this).find('[value="'+e.params.data.id+'"]').replaceWith('<option selected value="'+e.params.data.id+'">'+e.params.data.text+'</option>');
         }
+      }
+    })
+    .on('change',function(){
+      if(_searchWidget.select2('data').length==0){
+        // This line is necesary to avoid duplicated tags!!
+        _searchWidget.empty();
       }
     });
 

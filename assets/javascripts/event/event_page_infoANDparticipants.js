@@ -217,7 +217,7 @@
   ns.Widgets.ParticipantEventPage = function(event_id){
 
     var _createdWidget = $('<div>');
-    var _searchEngine = Pard.Widgets.SearchEngine('main-welcome-page', event_id);
+    var _searchEngine = Pard.Widgets.SearchEngine(event_id);
 
     var _goUpBtn = Pard.Widgets.goUpBtn();
 
