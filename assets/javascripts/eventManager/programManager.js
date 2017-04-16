@@ -744,6 +744,7 @@
         spaceSelector.on('select2:select', function(){
           the_event.spaces[performance.host_id].deletePerformance(performance);
           performance.host_id = spaceSelector.val();
+          performance.host_proposal_id = the_event.spaces[spaceSelector.val()].space.proposal_id;
           Pard.Backend.modifyPerformances(_sendForm([performance]), function(data){
             Pard.Bus.trigger(data.event, data.model);
             if(check) checkConflicts(performance);
@@ -1119,6 +1120,7 @@
         var _spaceSelect = function(host_id){
           the_event.spaces[performance.host_id].deletePerformance(performance);
           performance.host_id = host_id;
+          performance.host_proposal_id = the_event.spaces[host_id].space.proposal_id;
         }
 
         spaceSelector.select2({
