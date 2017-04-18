@@ -739,7 +739,7 @@
           _inputForm[field].addWarning();
           _check = '';
         }
-      })
+      });
       if (_check){
         var uri = "https://maps.googleapis.com/maps/api/geocode/json?address="  + _addressValues.locality + '+' + _addressValues.postal_code + "&key=AIzaSyCimmihWSDJV09dkGVYeD60faKAebhYJXg";
         $.get(uri, function(data){
@@ -825,6 +825,9 @@
     _inputPlace.one('input', function(){  
       for (var component in _inputForm) {
         _inputForm[component].setVal('');
+        _latField.setVal('');
+        _lonField.setVal('');
+        _geocod = null;
         _inputForm[component].setAttr('disabled', false);
       }
       _inputPlace.on('focusout', function(){
@@ -837,6 +840,9 @@
 
       for (var component in _inputForm) {
         _inputForm[component].setVal('');
+        _latField.setVal('');
+        _lonField.setVal('');
+        _geocod = null;
         _inputForm[component].setAttr('disabled', false);
       }  
 
@@ -904,6 +910,7 @@
         $.post(uri, function(data){
           if(data.status == "OK" && data.results.length > 0){
             _geocod = data.results[0].geometry.location;
+            console.log(_geocod);
             _displayMap(_geocod);
           }
           else{
@@ -989,7 +996,6 @@
         return _placeForm;
       },
       getVal: function(){
-        // if (!(_geocod)) var _addressSubmitted = _checkLocation();
         var _addressSubmitted = addressValue();
         return _addressSubmitted;
       },
