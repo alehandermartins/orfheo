@@ -255,32 +255,51 @@ ns.Widgets = ns.Widgets || {};
 	ns.Widgets.LanguagesMessage = function (){
     var _createdWidget = $('<div>');
 
-    var _es = $('<p>').append($('<div>'), 'Español');
-    _es.css('cursor', 'pointer');
-    _es.on('click', function(){
-      Pard.Options.setLanguage('es');
+    var _availableLangs = $('<ul>').css({'list-style-type': 'none' });
+    _createdWidget.append(_availableLangs);
+
+     Pard.Options.availableLangs().forEach(function(lang){
+      var _langItem = $('<li>')
+          .append(Pard.t.text('footer.languages.'+lang))
+          .click(function(){
+             Pard.Options.setLanguage(lang);
+          })
+          .css({
+            display:'block',
+            padding: '0.5rem 0',
+            cursor:'pointer'
+          });
+      if (lang == Pard.Options.language()) _langItem.css({'font-weight':'bold'})
+      _availableLangs
+        .append(_langItem);
     });
 
-    var _en = $('<p>').append($('<div>'), 'English');
-    _en.css('cursor', 'pointer');
-    _en.on('click', function(){
-      Pard.Options.setLanguage('en');
-    });
+    // var _es = $('<p>').append($('<div>'), 'Español');
+    // _es.css('cursor', 'pointer');
+    // _es.on('click', function(){
+    //   Pard.Options.setLanguage('es');
+    // });
+
+    // var _en = $('<p>').append($('<div>'), 'English');
+    // _en.css('cursor', 'pointer');
+    // _en.on('click', function(){
+    //   Pard.Options.setLanguage('en');
+    // });
     
-    var _val = $('<p>').append('Valencià - Català');
-    _val.css('cursor', 'pointer');
-    _val.on('click', function(){
-      Pard.Options.setLanguage('ca');
-    });
+    // var _val = $('<p>').append('Valencià - Català');
+    // _val.css('cursor', 'pointer');
+    // _val.on('click', function(){
+    //   Pard.Options.setLanguage('ca');
+    // });
     
 
-    var _ita = $('<p>').append('Italiano');
-    _ita.css('cursor', 'pointer');
-    _ita.on('click', function(){
-      Pard.Options.setLanguage('it');
-    });
+    // var _ita = $('<p>').append('Italiano');
+    // _ita.css('cursor', 'pointer');
+    // _ita.on('click', function(){
+    //   Pard.Options.setLanguage('it');
+    // });
 
-    _createdWidget.append(_es, _val, _en);
+    // _createdWidget.append(_es, _val, _en);
 
     return {
       render: function(){ 

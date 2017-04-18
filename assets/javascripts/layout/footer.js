@@ -34,16 +34,8 @@ ns.Widgets = ns.Widgets || {};
     //   });
     var _languages = $('<button>').attr({'type':'button'})
       .html(Pard.t.text('footer.languages.'+Pard.Options.language()))
-      .addClass('footer-languages-btn')
-      .one('click',function(){
-        var _langMessage = Pard.Widgets.LanguagesMessage().render();
-        _langPopup = Pard.Widgets.Popup();
-        _langPopup.setContent('', _langMessage);
-      })
-      .on('click', function(){
-        _langPopup.open();
-      });
-
+      .addClass('footer-languages-btn');
+      
     if($(window).width()>1024) _languages
       .hover(
         function(){
@@ -57,7 +49,17 @@ ns.Widgets = ns.Widgets || {};
               _languagesList.removeClass('showLangMenu');
             },500)
         }
-      );
+      )
+    else _languages
+      .one('click',function(){
+        var _langMessage = Pard.Widgets.LanguagesMessage().render();
+        _langPopup = Pard.Widgets.Popup();
+        _langPopup.setContent('', _langMessage);
+      })
+      .on('click', function(){
+        _langPopup.open();
+      });
+
 
     // var _languages = $('<li>')
     //   .append(
