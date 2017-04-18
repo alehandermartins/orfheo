@@ -249,7 +249,10 @@ Grid and Bar
   background-size: 100% 100%;
   vertical-align: -1.5px;
   @include breakpoint (small down){
-    margin-bottom: .2rem;
+    margin-bottom: .3rem;
+    display: block;
+    height: 16px;
+
   }
 }
 
@@ -2206,6 +2209,9 @@ FOOTER
     text-align: left;
     position: relative;
     vertical-align: top;
+    ul{
+      display: block;
+    }
     .leftFooter-menu{
       li{
         display: block;
