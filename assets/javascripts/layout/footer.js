@@ -21,9 +21,20 @@ ns.Widgets = ns.Widgets || {};
     var _leftMenu = $('<ul>').addClass('leftFooter-menu');
 
     var _langPopup;
+    // var _languages = $('<button>').attr({'type':'button'})
+    //   .html(Pard.t.text('footer.languages.'+Pard.Options.language()))
+    //   .addClass('footer-text-link')
+    //   .one('click',function(){
+    //     var _langMessage = Pard.Widgets.LanguagesMessage().render();
+    //     _langPopup = Pard.Widgets.Popup();
+    //     _langPopup.setContent('', _langMessage);
+    //   })
+    //   .on('click', function(){
+    //     _langPopup.open();
+    //   });
     var _languages = $('<button>').attr({'type':'button'})
-      .html(Pard.t.text('footer.languages'))
-      .addClass('footer-text-link')
+      .html(Pard.t.text('footer.languages.'+Pard.Options.language()))
+      .addClass('footer-languages-btn')
       .one('click',function(){
         var _langMessage = Pard.Widgets.LanguagesMessage().render();
         _langPopup = Pard.Widgets.Popup();
@@ -32,6 +43,65 @@ ns.Widgets = ns.Widgets || {};
       .on('click', function(){
         _langPopup.open();
       });
+
+    if($(window).width()>1024) _languages
+      .hover(
+        function(){
+          _languagesList.addClass('showLangMenu');
+          setTimeout(function(){
+            if (!_languagesList.hasClass('showLangMenu'))_languagesList.addClass('showLangMenu');
+          },500)
+        },
+        function(){
+           setTimeout(function(){
+              _languagesList.removeClass('showLangMenu');
+            },500)
+        }
+      );
+
+    // var _languages = $('<li>')
+    //   .append(
+    //     $('<span>').append(Pard.t.text('footer.languages.'+Pard.Options.language()))
+    //     // ,Pard.Widgets.IconManager('arrowDropDown').render()
+    //   )
+    //   .addClass('footer-languages-btn is-dropdown-submenu-parent')
+    
+    var _languagesList = $('<div>')
+      .addClass('languagesList-footer')
+      .hover(
+        function(){
+          _languagesList.addClass('isOverMenu');
+        },
+        function(){
+           setTimeout(function(){
+              _languagesList.removeClass('isOverMenu');
+            },500)
+        }
+      );
+
+    var _availableLangs = $('<ul>').addClass('menu');
+    _languagesList.append(_availableLangs);
+
+    Pard.Options.availableLangs().forEach(function(lang){
+      var _langItem = $('<li>').append(Pard.t.text('footer.languages.'+lang))
+          .click(function(){
+             Pard.Options.setLanguage(lang);
+          });
+      if (lang == Pard.Options.language()) _langItem.css({'font-weight':'bold'})
+      _availableLangs
+        .append(_langItem);
+    });
+    
+    var _languagesWidget = $('<ul>')
+        .append(_languages
+        )
+        .addClass('dropdown menu')
+        .attr({
+          'data-dropdown-menu':true,
+          // 'data-disable-hover':true,
+          'data-click-open':true
+        });
+
 
     var _termsAndConditionsPopup;
     var _termsAndConditions = $('<button>').attr({'type':'button'})
@@ -62,9 +132,9 @@ ns.Widgets = ns.Widgets || {};
 
     _leftContent.append(
       _leftMenu.append(
+        $('<li>').append(_languages),
         $('<li>').append(_information), 
         $('<li>').append(_termsAndConditions)
-        , $('<li>').append(_languages)
       )
     );
 
@@ -107,7 +177,7 @@ ns.Widgets = ns.Widgets || {};
       )
     );
 
-    _container.append(_leftContent.prepend(_logoFooter), _rightContent);
+    _container.append(_leftContent.prepend(_languagesList, _logoFooter), _rightContent);
     _grid.append(_container);
     _createdWidget.append(_innerFooterContainer.append(_grid));
 

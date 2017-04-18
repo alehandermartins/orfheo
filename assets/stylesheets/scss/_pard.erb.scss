@@ -239,7 +239,7 @@ Grid and Bar
 
 
 .logoFooter{
-  margin-right: 2rem;
+  margin-right: 1.5rem;
   display: inline-block;
   /* cursor: pointer; */
   background-image: url(<%= image_path 'lettering_white_s.png' %>);
@@ -248,6 +248,9 @@ Grid and Bar
   background-repeat: no-repeat;
   background-size: 100% 100%;
   vertical-align: -1.5px;
+  @include breakpoint (small down){
+    margin-bottom: .2rem;
+  }
 }
 
 
@@ -441,22 +444,6 @@ button{
   vertical-align: 0.1rem;
   padding: 0.4rem 0.8rem;
 }
-
-/* .signUpButtonForSmall{
-  color: $element-color;
-  font-weight: bold;
-  background: $blue-pard;
-  @include border-radius($element-border-radius);
-  position: absolute;
-  right: $inner-spacing;
-  top: $inner-spacing;
-  font-size: $almostNormalSize;
-  padding: 0.25rem 0.5rem;
-  @include breakpoint(medium){
-    display: none;
-  }
-
-} */
 
 #register-outsider-header-button{
   color: $element-color;
@@ -889,6 +876,34 @@ a.navigation-btn-callPage{
   .material-icons{
     font-size: 1.3rem;
   }
+}
+
+.footer-languages-btn{
+  color: white;
+  /* padding: 0 1.45rem 0rem 0.8rem  !important;; */
+  padding: 0 1rem;
+  height: 100%;
+  border-right: 1px solid $grey-4;
+  border-left: 1px solid $grey-4;
+  position: relative;
+  cursor: pointer;
+  margin-right: 0 !important;
+ /*  .material-icons{
+    font-size: 1.1rem;
+    position: absolute;
+    top: -1px;
+  } */
+  @include breakpoint(small down){
+    position: absolute;
+    height: 1rem;
+    top: 1px;
+    left: 4rem;
+    border-right: none;
+  }
+}
+
+.footer-languages-btn:hover {
+  color: $grey-3;
 }
 
 /*===============================================
@@ -2174,9 +2189,10 @@ FOOTER
   @include breakpoint(medium) {  
     height:1.8rem;
   }
-  padding-top:0.3rem;
+  padding-top:0.3rem;  
   @include breakpoint(small down){
     min-height: 5.5rem;
+    padding-top: 1rem;
   }
 }
 
@@ -2184,13 +2200,14 @@ FOOTER
   left:0;
   display: inline-block;
   position: absolute;
-  ul{
+  .leftFooter-menu{
     display: inline-block;
   }
   @include breakpoint(small down){
-    bottom: 1px;
     width: 45%;
     text-align: left;
+    position: relative;
+    vertical-align: top;
     .leftFooter-menu{
       li{
         display: block;
@@ -2203,10 +2220,11 @@ FOOTER
   position: absolute;
   right:0;
   @include breakpoint(small down){
-    top: 5px;
     padding-bottom: 2px;
     width: 45%;
     text-align: right;
+    position: relative;
+    vertical-align: top;
     .rightFooter-menu{
       font-size: $smallSize;
       li{
@@ -2214,6 +2232,43 @@ FOOTER
       }
     }
   }
+}
+
+#contactPopupBtn{
+  @include breakpoint (small down){
+    margin-top: .4rem;
+  }
+}
+
+.languagesList-footer{
+  position: fixed;
+  bottom: 2rem;
+  margin-left: 4.4rem;
+  background: white;
+  padding: .2rem 0;
+  width: 4.4rem;
+  display: none;
+  @include border-radius($element-border-radius);
+  li{
+    display: block;
+    color: black;
+    padding: .2rem 0.4rem;
+    cursor: pointer;
+  }
+  li:hover{
+    background: $grey-1;
+  }
+}
+
+.languagesList-footer:hover{
+  display: block;
+}
+
+.showLangMenu{
+  display: block !important; 
+}
+.isOverMenu{
+  display: block !important; 
 }
 
 .rightFooter-menu{
@@ -2234,7 +2289,21 @@ FOOTER
   margin: 0;
   li{
     display: inline-block;
-    margin-right: 2rem;
+    margin-right: 1.5rem;
+  }
+}
+
+.container-languagesList{
+  width: 81px !important;
+  padding: 0;
+  a{
+    color:  white;
+  } 
+  ul{
+    list-style-type: none;
+  };
+  li{
+    font-size: $smallSize;
   }
 }
 

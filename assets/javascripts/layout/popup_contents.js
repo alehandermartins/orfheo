@@ -267,20 +267,20 @@ ns.Widgets = ns.Widgets || {};
       Pard.Options.setLanguage('en');
     });
     
-    var _val = $('<p>').append($('<div>').addClass('valencian-flag'), 'Valencià - Català');
+    var _val = $('<p>').append('Valencià - Català');
     _val.css('cursor', 'pointer');
     _val.on('click', function(){
       Pard.Options.setLanguage('ca');
     });
     
 
-    var _ita = $('<p>').append($('<div>').addClass('italian-flag'), 'Italiano');
+    var _ita = $('<p>').append('Italiano');
     _ita.css('cursor', 'pointer');
     _ita.on('click', function(){
       Pard.Options.setLanguage('it');
     });
 
-    _createdWidget.append(_es, _en);
+    _createdWidget.append(_es, _val, _en);
 
     return {
       render: function(){ 

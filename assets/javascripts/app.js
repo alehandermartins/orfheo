@@ -233,7 +233,7 @@ Pard.Event = function(the_event, status){
   _whole.append(
     _header.render(), 
     _main.render().removeClass('outsider-main').addClass('inside-main').css('background','#f6f6f6'),
-    _footer.render().removeClass('footer-outsider')
+    _footer.render()
   );
 
   $('body').append(_whole);

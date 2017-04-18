@@ -109,9 +109,9 @@
         subtitle2: 'Principios generales:',
         mex2: '<p>Orfheo no tiene normas firmes más allá de los principios generales enunciados aquí: <ul><li>Respeta a los ciudadanos de orfheo incluso cuando no estés de acuerdo con ellos. </li> <li> Comparte contenidos civilizadamente, evita los ataques personales y las generalizaciones asi como la publicación de enlaces o textos que puedan ser en sus contenidos ofensivos para la comunidad, racistas, sexistas, homófobos o que incitan a la violencia de cualquier tipo. </li> <li>  Actúa con buena fe, se abierto, acogedor e inclusivo.  </li> <li> Si no respetaras estos principios nos pondremos en contacto contigo para que nos puedas dar una explicación y juntos poder encontrar una solución. </li> </ul></p>',
         subtitle3:'Nos comprometemos a:',
-        mex3: '<p><ul><li>Describir cómo puede usarse o compartirse tu información en estas condiciones generales. </li> <li> Usar las medidas razonables para mantener tu información sensible segura.  </li> <li>  Hacer disponible y dejar fluir en la comunidad la información que decidas compartir.  </li> <li> Impulsar valores tales como la solidaridad, el sentido de comunidad, la meritocracia, la equidad, el respeto y la armonía con el entorno.  </li> <li> Respetar y defender la comunidad de orfheo. </li> <li> Escuchar y acoger cualquier tipo de sugerencia y crítica constructiva. </li></ul></p>',
+        mex3: '<p><ul><li>Describir como puede usarse o compartirse tu información en estas condiciones generales. </li> <li> Usar las medidas razonables para mantener tu información sensible segura.  </li> <li>  Hacer disponible y dejar fluir en la comunidad la información que decidas compartir.  </li> <li> Impulsar valores tales como la solidaridad, el sentido de comunidad, la meritocracia, la equidad, el respeto y la armonía con el entorno.  </li> <li> Respetar y defender la comunidad de orfheo. </li> <li> Escuchar y acoger cualquier tipo de sugerencia y crítica constructiva. </li></ul></p>',
         subtitle4: 'Términos de uso y Privacidad:',
-        mex4: '<p>Aquí te explicamos cómo recolectamos y compartimos tu información personal/datos/contenidos.<ul><li>Recolectamos muy poca información personal acerca de ti. </li> <li> No alquilamos ni vendemos tu información a terceros, es decir que no compartimos tus datos con terceras partes para propósitos de mercadeo.  </li> <li>  Cabe la posibilidad de que la información recogida en orfheo se comparta con terceros de acuerdo con nuestra ideología, cumpliendo con la ley y con la intención de traer beneficio a toda la comunidad.  </li> <li>Eres responsable de los contenidos que compartes y de sus medidas de privacidad.  </li> <li> Ocasionalmente te mandaremos correos electrónicos con respecto a información importante. </li> <li>  La calidad de los datos que nos proporcionas es útil para ti, para que podamos mejorar tu experiencia como usuario y poder desarrollar nuevas funciones, para que tu experiencia sea inolvidable. </li> <li> Todo lo que publicas en orfheo es público, puede ser visto y eventualmente usado por todo observador externo. </li> <li> Es posible que te pidamos nos proporciones información a través de una encuesta o retro-alimentación, pero nunca estarás obligado a participar en éstas. </li> <li> No necesitas crear una cuenta para explorar y visualizar cualquiera de los contenidos. </li> <li> Para crear una cuenta, necesitas darnos sólo tu dirección de correo electrónico. </li><li> Cualquier persona puede unirse y abandonar orfheo en cualquier momento.</li> </ul></p>',
+        mex4: '<p>Aquí te explicamos como recolectamos y compartimos tu información personal/datos/contenidos.<ul><li>Recolectamos muy poca información personal acerca de ti. </li> <li> No alquilamos ni vendemos tu información a terceros, es decir que no compartimos tus datos con terceras partes para propósitos de mercadeo.  </li> <li>  Cabe la posibilidad de que la información recogida en orfheo se comparta con terceros de acuerdo con nuestra ideología, cumpliendo con la ley y con la intención de traer beneficio a toda la comunidad.  </li> <li>Eres responsable de los contenidos que compartes y de sus medidas de privacidad.  </li> <li> Ocasionalmente te mandaremos correos electrónicos con respecto a información importante. </li> <li>  La calidad de los datos que nos proporcionas es útil para ti, para que podamos mejorar tu experiencia como usuario y poder desarrollar nuevas funciones, para que tu experiencia sea inolvidable. </li> <li> Todo lo que publicas en orfheo es público, puede ser visto y eventualmente usado por todo observador externo. </li> <li> Es posible que te pidamos nos proporciones información a través de una encuesta o retro-alimentación, pero nunca estarás obligado a participar en éstas. </li> <li> No necesitas crear una cuenta para explorar y visualizar cualquiera de los contenidos. </li> <li> Para crear una cuenta, necesitas darnos sólo tu dirección de correo electrónico. </li><li> Cualquier persona puede unirse y abandonar orfheo en cualquier momento.</li> </ul></p>',
         subtitle5:'Publicidad:',
         mex5: '<p>Ahora mismo no hay ninguna forma de publicidad dentro de orfheo. En un futuro, no se excluye la presencia de publicidad no molesta, relacionada con el mundo artístico-cultural, que pueda proporcionar información útil y valiosa para los ciudadanos. Consideramos que la publicidad puede ser eficaz sin ser molesta. Excluimos la presencia de publicidad en forma de ventanas emergentes que pueden interferir con la visualización de los contenidos de orfheo. </p>',
         subtitle5_5:'Sostenibilidad del proyecto:',
@@ -127,7 +127,7 @@
         finalMex: '<p> Si tienes preguntas o sugerencias  envía un correo electrónico a <a href="mailto:info@orfheo.org"> info@orfheo.org</a>.</p> <p> Gracias por leer hasta aquí. Esperamos que disfrutes dentro y fuera orfheo. </br> Tu participación al crear, mantener y mejorar este lugar es imprescindible. </p> <p> Apreciamos que te hayas tomado tu tiempo para informarte sobre el proyecto, y te agradecemos que contribuyas. Mediante lo que haces, estás ayudando a construir algo realmente importante, no sólamente una conexión de proyectos compartidos de manera colaborativa, sino también una vibrante comunidad enfocada en una muy noble meta. </p>'
       },
       noMapLocation:{
-        title: '¡Atencion!',
+        title: '¡Atención!',
         mex: 'Google no reconoce la dirección que has insertado y por lo tanto no puede ser localizada en ningún mapa.',
         fix:'Corrige la dirección',
         ok:'Continua igualmente'
@@ -214,7 +214,7 @@
       },
       inputMultimedia:{
         placeholder:'Copia y pega aquí el enlace/código correspondiente y dale al botón para validar',
-        invalid:'Entrada no valida',
+        invalid:'Entrada no válida',
         acepted:'Entradas aceptadas',
         popup:{
           title:'Como añadir...',
@@ -265,7 +265,7 @@
         bioL: "Biografía / Información",
         bioH: "Cualquier cosa que quieras compartir sobre tu vida artística-cultural.",
         addressL: "Ciudad y Código postal",
-        addressH: "Indicar tu ciudad y código postal hará más facil localizarte para un posible contacto.",
+        addressH: "Indicar tu ciudad y código postal hará más fácil localizarte para un posible contacto.",
         phoneL:"Numero de teléfono",
         webL:"Web personal y enlaces a redes sociales",
         webH: "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales (las fotos y vídeos se gestionan junto con tu propuesta artística).",
@@ -280,9 +280,9 @@
         catL: "Tipo de espacio",
         catPlaceholder:'Selecciona',
         bioL:"Descripción / Información",
-        bioPlaceholder:'Dimensiones, caracteristicas, actividades que suele hospedar, etc.',
+        bioPlaceholder:'Dimensiones, características, actividades que suele hospedar, etc.',
         bioH: "Cualquier cosa que quieras compartir sobre tu espacio.",
-        phoneL: "Numero de teléfono",
+        phoneL: "Número de teléfono",
         webL: "Web personal y enlaces a redes sociales",
         webH: "Puedes añadir enlaces tanto a tus webs o blogs personales como a tus perfiles en redes sociales.",
         linksL: 'Materiales online',
@@ -421,14 +421,14 @@
       successTitle: '¡Genial!',
       succesMex:'Te has inscrito correctamente.',
       sendOther: 'Envía otra propuesta',
-      toProfile: 'Ve a pagína de perfil',
+      toProfile: 'Ve a página de perfil',
       alreadyInscribed: {
         title: 'Ya te has inscrito como espacio :)', 
         mex: 'Si quieres, puedes enviar propuestas para actuar durante el evento.',
       },
       stop:{
         title: 'ATENCIÓN, NO PUEDES CONTINUAR',
-        mex1:'Esta convocatoría es sólo para perfiles de<strong>',
+        mex1:'Esta convocatoria es sólo para perfiles de<strong>',
         mex2:'</strong>. Selecciona o crea uno de los tipos aceptados para seguir.'
       },
       form:{
@@ -442,12 +442,17 @@
         partI:'PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil',
         partII: 'PARTE II: Sólo los organizadores tendrán acceso a los siguientes datos',
         initSpace: 'Sólo los organizadores tendrán acceso a los siguientes datos',
-        finalMex: 'ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario, únicamente enviar una enmienda. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".',
+        finalMex: 'ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario, sino podrás únicamente enviar una enmienda. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".',
         sendbtn:'Envía'
       }
     },  
     footer:{
-      languages:'Idiomas',
+      // languages:'Idiomas',
+      languages:{
+        es: 'Español',
+        ca: 'Valencià',
+        en: 'English'
+      },
       project: 'Proyecto',
       contact: 'Contacta',
       services:'Servicios',
@@ -518,7 +523,7 @@
         title: '¿Qué te ofrece orfheo?',
         mex1: 'Orfheo pretende crear y dar valor a las comunidades culturales y los encuentros que realmente existen o pueden generarse en la vida real. Por eso, las posibilidades que ofrecemos se centran principalmente en apoyar, impulsar y facilitar la creación, difusión y sobretodo <strong> en la gestión de procesos y grandes eventos participativos</strong>. En específico, con orfheo puedes aprovechar los siguientes servicios:',
         subtitle2: 'Plataforma de gestión:',
-        mex2: 'Una potente herramienta web innovativa que te permite lanzar tu convocatoria y gestionar todos los datos relativos con extrema facilidad y simplicidad. Podrás consultar, organizar, filtrar y modificar las propuestas recibidas así como podrás crear nuevas para insertarlas en tu programación. Hacer el programa de tu evento será tan facil como arrastrar tarjetas dentro de un calendario y sacar listados de correo para contactar con artistas y espacios te costará un solo click. Podrás publicar online un programa interactivo, actualizable en cada momento, que perfectamente se adapta a cualquier dispositivo móvil, funcionando como la guía perfecta para tu público.',
+        mex2: 'Una potente herramienta web innovativa que te permite lanzar tu convocatoria y gestionar todos los datos relativos con extrema facilidad y simplicidad. Podrás consultar, organizar, filtrar y modificar las propuestas recibidas así como podrás crear nuevas para insertarlas en tu programación. Hacer el programa de tu evento será tan fácil como arrastrar tarjetas dentro de un calendario y sacar listados de correo para contactar con artistas y espacios te costará un solo click. Podrás publicar online un programa interactivo, actualizable en cada momento, que perfectamente se adapta a cualquier dispositivo móvil, funcionando como la guía perfecta para tu público.',
         subtitle3: 'Asesoría creativa:',
         mex3: 'El equipo de orfheo cuenta con profesionales con mucha experiencia en la organización y gestión de grandes eventos participativos. Podrás aprovechar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr el máximo de tu comunidad cultural.',
         subtitle4: 'Conexión API:',
@@ -594,13 +599,13 @@
     },
     project:{
       baseline: 'Se pueden hacer más cosas juntos que por separado',
-      mex1: '<p> Bienvenido a orfheo, </p> <p> un sitio especial, que llega a ser realidad, y entonces comunidad, gracias a todos sus ciudadanos. Orfheo es una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro. </p> <p> Estás en tu comunidad artistica online, donde lanzar tu convocatoria es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Tienes a tu alcance una herramienta, un mecanismo de gestión cultural con el cual crear y organzar eventos, descubrir a través de perfiles, enlaces y conexiones, llevar a la realidad sueños y ideas. </p> <p> Orfheo es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Esperamos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio de ideas. </p><p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen, y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Te dejamos a ti imaginar un poco más lo necesario y el compartir con los demás experiencias inolvidables.</p>',
+      mex1: '<p> Bienvenido a orfheo, </p> <p> un sitio especial, que llega a ser realidad, y entonces comunidad, gracias a todos sus ciudadanos. Orfheo es una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro. </p> <p> Estás en tu comunidad artística online, donde lanzar tu convocatoria es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Tienes a tu alcance una herramienta, un mecanismo de gestión cultural con el cual crear y organzar eventos, descubrir a través de perfiles, enlaces y conexiones, llevar a la realidad sueños y ideas. </p> <p> Orfheo es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Esperamos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio de ideas. </p><p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen, y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Te dejamos a ti imaginar un poco más lo necesario y el compartir con los demás experiencias inolvidables.</p>',
       more: 'Leer más...',
       subtitle: 'Los pilares',
       list1: '<p>COMPARTIR <ul><li>Saber más el uno del otro significa aprender unos de otros. </li> <li> Compartimos nuestro valor donde valor = (experiencias + conocimientos) x actitud. </li> <li> Compartimos nuestras ideas e inspiraciones creativas con el fin de crear/inspirar experiencias enriquecedoras. </li> <li> Piensa en la comunidad y la comunidad pensará en ti. </li> </ul></p>',
       list2: '<p>IDENTIDAD <ul><li>Defendemos el individuo como algo único, auténtico, un punto en el espacio. Valoramos el grupo, como en el círculo cromático, en el cual se une y se define la identidad personal, un rasgo cultural, un matiz, un color. </li> <li> Desempeñamos un papel activo en el desarrollo de un mundo libre, que se innova gracias al pequeño esfuerzo colectivo de muchas personas. </li> </ul></p>',
       list3: '<p>INFORMACIÓN <ul><li>La necesidad de información es más fuerte que todas las fronteras. Nos gustaría facilitar el acceso en tantos más idiomas posibles.  </li> <li> Queremos que tengas acceso a la información en cualquier lugar y en cualquier momento. </li> <li> No queremos que busques sino que encuentres en orfheo lo que esperabas encontrar. </li> </ul></p>',
-      list4: '<p>EXPERIENCIA <ul><li>Sal de la red: queremos dar la mejor experiencia posible a los usuarios por encima de nuestros proprios beneficios y objetivos internos, para que los procesos sean cada vez más rápidos, para que se pueda vivir en orfheo sólo el tiempo necesario y utilizar su información en la vida cotidiana. </li> <li> Pretendemos evolucionar hacia una interfaz y una estética limpia, clara y sencilla, utilizable por todos. </li> </ul></p>',
+      list4: '<p>EXPERIENCIA <ul><li>Sal de la red: queremos dar la mejor experiencia posible a los usuarios por encima de nuestros própios beneficios y objetivos internos, para que los procesos sean cada vez más rápidos, para que se pueda vivir en orfheo sólo el tiempo necesario y utilizar su información en la vida cotidiana. </li> <li> Pretendemos evolucionar hacia una interfaz y una estética limpia, clara y sencilla, utilizable por todos. </li> </ul></p>',
       list5: '<p>ECONOMÍA <ul><li>Se puede ganar dinero siendo honestos y cuidando y defendiendo la comunidad. Con esta intención queremos hacer sostenible económicamente este proyecto y las vidas de quienes trabajan en ello. </li> </ul></p>',
       list6: '<p>VISIÓN <ul><li>Creemos que afrontar un proyecto debería ser divertido y apasionante. Creemos que una cultura de trabajo adecuada promueve el talento y la creatividad.  Los logros del equipo, y los éxitos individuales contribuyen al éxito global. Tenemos  una visión creativa del trabajo, del ocio y de la vida. </li> <li> Todas las ideas interesantes que surgen en los más diferentes contextos se comentan, se analizan en profundidad y si hace falta se ponen en práctica con calidad.  </li> <li> Elegimos y construimos colaborativamente. Nuestra meta es la unidad, no la unanimidad. Tomamos decisiones con método, de forma genuina y utilizando el consenso. Tenemos discusiones abiertas, animadas por un procesos que llevan a acuerdos en un tiempo razonable. </li> <li> Nos fijamos objetivos que sabemos tal vez no poder alcanzar, porque estamos convencidos de que a lo largo del camino, los esfuerzos, por cumplirlos, nos llevarán a obtener resultados, quizás diferentes de los esperados, pero igualmente valiosos. </li> </ul></p>',
       list7: '<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>'  
@@ -631,7 +636,7 @@
         chain: 'Encadena los cambios',
         unchain: 'Desencadena los cambios',
         menu: {
-          helper: 'Menu de herramientas',
+          helper: 'Menú de herramientas',
           artistsnoProgram: 'Propuestas sin programa',
           spacesnoProgram: 'Espacios sin programa',
           orderSpaces: 'Ordena Espacios',
@@ -678,7 +683,7 @@
         received: 'recibidas',
         createOk: 'Propuesta creada correctamente',
         createTitle: 'Crea una propuesta (%{type})',
-        deleteNote: 'Al eliminar la propuesta, se enviará de forma automatica una notifica por email a %{name}',
+        deleteNote: 'Al eliminar la propuesta, se enviará de forma automática una notificación por email a %{name}',
         deleteOk: 'Propuesta eliminada correctamente',
         modifymex: 'Formulario: %{type}',
         organizerProposal: 'Propuesta creada por los organizadores del evento'
@@ -829,11 +834,11 @@
       non_existing_profile: '¡Perfil no existente!',
       non_existing_proposal: '¡Propuesta no existente!',
       non_existing_production: '¡Producción artística no existente!',
-      invalid_category:'¡Categoría no valida!',
+      invalid_category:'¡Categoría no válida!',
       existing_call: 'Convocatoria ya existente.',
       non_existing_call:'No existe esta convocatoria.',
       you_dont_have_permission: 'Perdiste la conexión...vuelve a logearte e inténtalo de nuevo.',
-      invalid_query: 'Acción no valida.',
+      invalid_query: 'Acción no válida.',
       non_existing_event:'No existe este evento',
       existing_name: 'El nombre de perfil que has decidido ya existe. Por favor, escoge otro.',
       serverProblem:{

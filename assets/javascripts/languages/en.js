@@ -445,7 +445,12 @@
       }
     },  
     footer:{
-      languages:'Languages',
+      // languages:'Languages',
+      languages:{
+        es: 'Español',
+        ca: 'Valencià',
+        en: 'English'
+      },
       project: 'Project',
       contact: 'Contact',
       services:'Services',

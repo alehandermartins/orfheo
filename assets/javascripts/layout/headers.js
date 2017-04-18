@@ -148,10 +148,18 @@ ns.Widgets = ns.Widgets || {};
     if (Pard.UserStatus['status'] == 'outsider'){
       _welcomeBtnText.text('Welcome');
       _rightContainer.addClass('loginContainer');
-      var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
-      var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login').addClass('loginText')
+      var _loginInputs = $('<div>')
+        .append(Pard.Widgets.Login().render().addClass('login-container'))
+        .css({'width':'100%', 'height':'100%'});
+      var _loginText = $('<button>')
+        .attr({'type': 'button', 'data-toggle':'loginDropDown'})
+        .text('Login')
+        .addClass('loginText')
         .append(Pard.Widgets.IconManager('arrowDropDown').render().addClass('arrowLoginDropdown'));
-      var _loginWidget = $('<div>').append(_loginInputs).addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':'', 'data-close-on-click':true});
+      var _loginWidget = $('<div>')
+        .append(_loginInputs)
+        .addClass('dropdown-pane container-loginNavHeader')
+        .attr({'id':'loginDropDown', 'data-dropdown':'', 'data-close-on-click':true});
       _rightContainer.append(_loginText, _loginWidget, Pard.Widgets.SignUpButton().render().addClass('signUpHeader-welcomePage')); 
       _upperContent.append( _callBtn)
       $(document).on('show.zf.dropdown', function() {
@@ -217,8 +225,12 @@ ns.Widgets = ns.Widgets || {};
     var _rightContainer = $('<div>');
     _rightContainer.addClass('loginContainer');
     var _loginInputs = $('<div>').append(Pard.Widgets.Login().render().addClass('login-container')).css({'width':'100%', 'height':'100%'});
-    var _loginText = $('<button>').attr({'type': 'button', 'data-toggle':'loginDropDown'}).text('Login').addClass('loginText')
-      .append(Pard.Widgets.IconManager('arrowDropDown').render().addClass('arrowLoginDropdown'));
+    var _loginText = $('<button>')
+      .attr({'type': 'button', 'data-toggle':'loginDropDown'})
+      .text('Login').addClass('loginText')
+      .append(
+        Pard.Widgets.IconManager('arrowDropDown').render().addClass('arrowLoginDropdown')
+      );
     var _loginWidget = $('<div>').append(_loginInputs)
       .addClass('dropdown-pane container-loginNavHeader').attr({'id':'loginDropDown', 'data-dropdown':'', 'data-close-on-click':true});
     _rightContainer.append(

@@ -2,7 +2,7 @@
 
 var Options = function(){
   var localStorageKey = 'orfheo'
-  var orfheoLangs = ['es','en']
+  var orfheoLangs = ['es','ca','en']
   var defaultLang = navigator.language || navigator.userLanguage
 
   defaultLang = defaultLang.substring(0,2)
@@ -29,6 +29,9 @@ var Options = function(){
     },
     language: function(){
       return orfheoStorage.language
+    },
+    availableLangs: function(){
+      return orfheoLangs;
     },
     setLanguage: function(lang){
       Pard.Backend.modifyLang(lang, function(){
