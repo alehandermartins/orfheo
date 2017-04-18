@@ -29,7 +29,7 @@ class BaseController < Sinatra::Base
     end
 
     def check_lang! lang
-      raise Pard::Invalid.new 'invalid_language' unless ['en', 'es'].include? lang
+      raise Pard::Invalid.new 'invalid_language' unless ['en', 'es', 'ca'].include? lang
     end
 
     def check_profile_ownership profile_id

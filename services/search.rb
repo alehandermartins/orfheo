@@ -23,7 +23,7 @@ module Services
 
 			private
 			def check_lang! lang
-		    raise Pard::Invalid::Language unless [:es, :en].include? lang.to_sym
+		    raise Pard::Invalid.new 'invalid_language' unless ['en', 'es', 'ca'].include? lang
 		    @lang = lang.to_sym
 		  end
 
@@ -136,6 +136,17 @@ module Services
 		        'workshop',
 		        'gastronomy',
 		        'other'
+		      ],
+		      ca: [
+		      	'musica', 
+		        'arts esceniques', 
+		        'exposicio', 
+		        'poesia',
+		        'audiovisual',
+		        'art de carrer',
+		        'taller',
+		        'gastronomia',
+		        'altres',
 		      ]
 		    }
 		    dictionary[@lang].include? text
@@ -170,6 +181,20 @@ module Services
 		        'institution',
 		        'federation',
 		        'foundation'
+		      ],
+		      ca:[
+		      	'espai exterior',
+		        'espai cultural',
+		        'local comercial', 
+		        'espai particular',
+		        'festival',
+		        'associacio', 
+		        'ong', 
+		        'col·lectiu', 
+		        'enterprise', 
+		        'institucio',
+		        'federacio',
+		        'fundacio'
 		      ]
 		    }
 		    dictionary[@lang].include? text
@@ -257,6 +282,32 @@ module Services
 		        institution:'institution',
 		        federation: 'federation',
 		        foundation:'foundation'
+		      },
+		      ca:{
+		        artist: 'artista',
+		        space: 'espai',
+		        organization: 'organitzacio',
+		        open_air: 'espai exterior',
+		        cultural_ass: 'espai cultural',
+		        commercial: 'local comercial',
+		        home: 'espai particular',
+		        music: 'musica',
+		        arts: 'arts esceniques',
+		        expo: 'exposicio',
+		        poetry: 'poesia',
+		        audiovisual: 'audiovisual',
+		        street_art: 'art de carrer',
+		        workshop: 'taller',
+		        gastronomy: 'gastronomia',
+		        other: 'altres',
+		        festival: 'festival',
+		        association:'associacio', 
+		        ngo:'ong', 
+		        collective:'col·lectiu', 
+		        interprise:'enterprise', 
+		        institution:'institucio',
+		        federation: 'federacio',
+		        foundation:'fundacio' 
 		      }
 		    }
 		    return dictionary[@lang][text.to_sym] if dictionary[@lang].has_key? text.to_sym

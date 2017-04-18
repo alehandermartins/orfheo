@@ -31,6 +31,11 @@ module Services
               from: "no.reply.orfheo@gmail.com",
               subject: 'Welcome to Orfheo',
               body: "<p> Welcome to Orfheo. Activate your account with the following link</p> <p><a href=\"http://www.orfheo.org/login/validate?id=#{user[:validation_code]}\">Activate your account</a> </p>"
+            },
+            ca: {
+              from: "no.reply.orfheo@gmail.com",
+              subject: 'Benvingut/da a Orfheo',
+              body: "<p> Benvingut/da a Orfheo. Activa el teu compte amb el següent enllaç</p> <p><a href=\"http://www.orfheo.org/login/validate?id=#{user[:validation_code]}\">Activa el teu compte</a> </p>"
             }
           }
           Pony.options = options[user[:lang].to_sym]
@@ -47,6 +52,11 @@ module Services
               from: "no.reply.orfheo@gmail.com",
               subject: 'Welcome to Orfheo',
               body: "<p> Welcome to Orfheo. In order to continue with the registration in the #{event[:event_name]} activate your account with the following link</p> <p><a href=\"http://www.orfheo.org/login/validate?id=#{user[:validation_code]}&event_id=#{event[:event_id]}\">Activate your account</a> </p>"
+            },
+            ca: {
+              from: "no.reply.orfheo@gmail.com",
+              subject: 'Benvingut/da a Orfheo',
+              body: "<p> Benvingut/da a Orfheo. Per continuar amb la inscripció en el #{event[:event_name]} activa el teu compte amb el següent enllaç</p> <p><a href=\"http://www.orfheo.org/login/validate?id=#{user[:validation_code]}&event_id=#{event[:event_id]}\">Activa el teu compte</a> </p>"
             }
           }
           Pony.options = options[user[:lang].to_sym]
@@ -63,7 +73,12 @@ module Services
               from: "no.reply.orfheo@gmail.com",
               subject: 'Recover your account',
               body: "<p> You can access your user page through the following link </p> <p> <a href=\"http://www.orfheo.org/login/validate?id=#{user[:validation_code]}\">Access your page</a></p> <p> This link is only valid once. If you do not remember your password, do not forget to define a new one once inside. </p>"
-            }
+            },
+            ca: {
+              from: "no.reply.orfheo@gmail.com",
+              subject: 'Recupera el teu compte',
+              body: "<p> Pots accedir a la teva pàgina d'usuari mitjançant el següent enllaç </p> <p> <a href=\"http://www.orfheo.org/login/validate?id=#{user[:validation_code]}\">Accedeix a la teva pàgina</a></p> <p> Aquest enllaç només és vàlid un cop. Si no recordes la contrasenya, no oblidis definir una nova un cop dins. </p>"
+            },
           }
           Pony.options = options[user[:lang].to_sym]
         end
@@ -79,6 +94,11 @@ module Services
               from: "no.reply.orfheo@gmail.com",
               subject: 'Proposal rejected',
               body: "<p> Unfortunately, #{payload[:organizer]} has rejected your proposal \"#{payload[:title]}\" for the #{payload[:event_name]}</p> <p><a href=\"http://www.orfheo.org/\">Orfheo</a></p>"
+            },
+            ca: {
+              from: "no.reply.orfheo@gmail.com",
+              subject: 'Proposta rebutjada',
+              body: "<p> Lamentablement, #{payload[:organizer]} ha rebutjat la teva proposta \"#{payload[:title]}\" per al #{payload[:event_name]}</p> <p><a href=\"http://www.orfheo.org/\">Orfheo</a></p>"
             }
           }
           Pony.options = options[user[:lang].to_sym]

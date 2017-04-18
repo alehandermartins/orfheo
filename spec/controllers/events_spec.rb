@@ -283,7 +283,7 @@ describe EventsController do
     end
 
     it 'gets the event_manager info' do
-      expect(Services::Events).to receive(:get_manager_event).with(event_id).and_return({user_id: user_id, call_id: 'call_id'})
+      expect(Repos::Events).to receive(:get_event).with(event_id).and_return({user_id: user_id, call_id: 'call_id'})
       expect(Repos::Calls).to receive(:get_forms).with('call_id', 'es').and_return(true)  
       post event_manager, {event_id: event_id, lang: 'es'}
       expect(parsed_response['the_event']).to eq({'user_id' => user_id, 'call_id' => 'call_id'})

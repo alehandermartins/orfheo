@@ -122,7 +122,7 @@
         cookiesMex3:"En general, per com s'estructura internet hui en dia, les cookies són un element imprescindible. Por ley, toda web que les utiliza, está obligada a avisar els seus usuaris perquè sàpiguen el que està passant.",
         cookiesMex4: "La mateixa informació ací mostrada es troba també disponible en l'apartat de condicions d'us. En cas de modificació s'avisarà a els ciudatans d'Orfheo amb prou d'antelació.",
         subtitle6: 'Actualitzacions:',
-        mex6: "Ens reservem el dret de modificar, si fora necessari, les condicions generals per adaptar-les a futures novetats i assumim el deure i el compromís d'informar dels canvis a tots els ciudatans d'Orfheo, per tal que pugen conéixer les actualitzacions de bestreta.",
+        mex6: "Ens reservem el dret de modificar, si fora necessari, les condicions generals per adaptar-les a futures novetats i assumim el deure i el compromís d'informar dels canvis a tots els ciudatans d'Orfheo, per tal que puguen conèixer les actualitzacions de bestreta.",
         subtitle7: 'Moltes gràcies!',
         finalMex: "<p> Si tens preguntes o sugerències envia un correu electrònic a <a href='mailto:info@Orfheo.org'> info@Orfheo.org</a>.</p> <p> Gràcies per llegir fins ací. Esperem que gaudixques dins i fora Orfheo. </br> La teua participació al crear, mantindre i millorar aquest lloc és imprescindible. </p> <p> Apreciem que hages pres el teu temps per informar-te sobre el projecte, i t'agraïm que dones suport. Mitjançant el que fas, estàs ajudant a construir una cosa realment important, no només una connexió de projectes compartits de manera col·laborativa, sinó també una vibrant comunitat enfocada en una molt noble meta. </p>"
       },
@@ -250,8 +250,8 @@
       text: 'Crea un perfil',
       artistText:'Mostra el teu portfolio <br> i participa en grans events',
       spaceText: "Allotja art i posiciona't en el mapa cultural",
-      organizationText: 'Dóna a conéixer el teu projecte i llança convocatòries',
-      introA: 'Aquesta informació es mostrarà en la teua pàgina de perfil, podràs modificar-la i et permetrà donar-te a conéixer.',
+      organizationText: 'Dóna a conèixer el teu projecte i llança convocatòries',
+      introA: 'Aquesta informació es mostrarà en la teua pàgina de perfil, podràs modificar-la i et permetrà donar-te a conèixer.',
       introS: 'Aquesta informació es mostrarà en la pàgina de perfil del teu espai i podràs modificar-la.',
       introO: 'Aquesta informació es mostrarà en la pàgina de perfil i podràs modificar-la.',
       submit: 'Crea',
@@ -346,7 +346,7 @@
         childrenL:"Audiència",
         childrenH: "Indicar a quin tipus de públic està dirigida la proposta.",
         linksL:"Materials online",
-        linksH: "Afegeix videos, fotos o audios des de les teues xarxes socials. Aquest material permitirà donar a conéixer el teu art millor.",
+        linksH: "Afegeix videos, fotos o audios des de les teues xarxes socials. Aquest material permitirà donar a conèixer el teu art millor.",
         photoL: "Fotos del teu art (màxim 4, tamany inferior a 500kb)",
         cacheL:"Caché / Despeses Producció",
         noDefinedDuration:"No té duració definida",
@@ -415,7 +415,7 @@
         title:"Crea un perfil i apunta't como a:",
         artistText: 'Mostra el teu art i construeix el teu portfoli: sigues protagonista en grans events',
         spaceText: "Allotja i proposa activitats: posicióna't en el mapa cultural",
-        organizationText: 'Ofereix el teu espai i envia propostes: crea xarxa donant a conéixer el teu projecte'
+        organizationText: 'Ofereix el teu espai i envia propostes: crea xarxa donant a conèixer el teu projecte'
       },
       successTitle: 'Genial!',
       succesMex:"T'has inscrit correctament.",
@@ -460,7 +460,7 @@
       events:'Events',
       profiles:'Perfils',
       news:'Novetats',
-      callToAction: 'Lança la teua convocatòria',
+      callToAction: 'Llança la teua convocatòria',
       home: 'Inici',
       insideDropdown:{
         delete: 'Esborra el meu compte',
@@ -472,10 +472,10 @@
     },
      welcome: {
       profilesSection: {
-        title: "Tu comunitat cultural et crida<br>Entra en Orfheo com:",
+        title: "La teua comunitat cultural et crida<br>Entra en Orfheo com:",
         artist: "Comparteix el teu art,<br>apunta't en convocatòries,<br>genera xarxa, descobreix, crea...",
         space: "Trau el màxim partit al teu espai,<br>allotja events artístics,<br>obri les portes a la cultura",
-        organization: "Dóna a conéixer el teu projecte,<br>llança convocatòries,<br>expandeix la teua comunitat",
+        organization: "Dóna a conèixer el teu projecte,<br>llança convocatòries,<br>expandeix la teua comunitat",
         create: "Crea un perfil"
       },
       networkSection: {
@@ -483,7 +483,7 @@
         subtitle1: 'Ací i ara',
         subtitle2: 'Pren el control',
         subtitle3: 'Fes-ho',
-        section1: "Descobreix projectes i deixa't </br> conéixer per el que fas",
+        section1: "Descobreix projectes i deixa't </br> conèixer per el que fas",
         section2: 'Involucra a la comunitat, </br> llança la teua convocatòria',
         section3: 'Crea experiències inoblidables conjuntament amb els demés',
         link: 'Explora les avantatges de llançar la teua convocatòria en Orfheo'
@@ -598,7 +598,7 @@
     },
     project:{
       baseline: 'Podem fer més coses junts que per separat',
-      mex1: "<p> Benvingut a Orfheo, </p> <p> un lloc especial, que arriba a ser realitat, i aleshores comunitat, gràcies a tots els seus ciutadans. Orfheo és una plataforma per artistes, actors culturals, desenvolupadors, makers, creatius, traballadors socials... persones lliures de estrictes categories i esquemes. </p> <p> Hem creat un món ùnic, una web no només capaç de facilitar el treball d'organització i gestió de una convocatòria, sinó de donar valor a les propostes dels creadores més enllà d'una mera trobada. </p> <p> Estàs en la teua comunitat artística online, a on  lançar la teua convocatòria és fàcil, i des d'on pots mostrar els teus projectes i trobar altres, ùtils tant per a tu com per altres festivals i events. </p> <p> Tens al teu abast una eina, un mecanisme de gestió cultural amb el qual crear i organitzar events, descobrir mitjançant de perfils, enllaços i connexions, dur a la realitat somnis i idees. </p> <p> Orfheo és un lloc on colors diferentes troben la seua unitat en la comú saturació, on tot color és llum i la única forma de veure-ho és observant-ho en relació amb el seu entorn. </p> <p> Creiem en el poder de compartir i lluitem per a que noves fronteras meritocràtiques de vida siguen possibles en el ecosistema del treball</p> <p> Esperam que aquest xicotet món puga servir per estimular creacions i com a espai d'intercanvi de idees. </p><p> Volem donar la possibilitat d'utilizar aquesta eina a totes les persones que ho desitgen, i que respecten unes mínimes condicions generals.</p> <p> Ens agradaria compartir nostres coneixemente i seguir desenvolupant aquest projecte que acaba de començar, per a que tots els ciudatans d'Orfheo puguen seguir gaudint de la comunitat. </p> <p> Saber escoltar és fonamental per poder seguir avant, ets liure d'expresar-te i comunicar-nos els teu punto de vista en qualsevol moment. </p> <p> Et deixem imaginar a tu un poco més i compartir amb els demés experiències inoblidables.</p>",
+      mex1: "<p> Benvingut a Orfheo, </p> <p> un lloc especial, que arriba a ser realitat, i aleshores comunitat, gràcies a tots els seus ciutadans. Orfheo és una plataforma per artistes, actors culturals, desenvolupadors, makers, creatius, traballadors socials... persones lliures de estrictes categories i esquemes. </p> <p> Hem creat un món ùnic, una web no només capaç de facilitar el treball d'organització i gestió de una convocatòria, sinó de donar valor a les propostes dels creadores més enllà d'una mera trobada. </p> <p> Estàs en la teua comunitat artística online, a on llançar la teua convocatòria és fàcil, i des d'on pots mostrar els teus projectes i trobar altres, ùtils tant per a tu com per altres festivals i events. </p> <p> Tens al teu abast una eina, un mecanisme de gestió cultural amb el qual crear i organitzar events, descobrir mitjançant de perfils, enllaços i connexions, dur a la realitat somnis i idees. </p> <p> Orfheo és un lloc on colors diferentes troben la seua unitat en la comú saturació, on tot color és llum i la única forma de veure-ho és observant-ho en relació amb el seu entorn. </p> <p> Creiem en el poder de compartir i lluitem per a que noves fronteras meritocràtiques de vida siguen possibles en el ecosistema del treball</p> <p> Esperam que aquest xicotet món puga servir per estimular creacions i com a espai d'intercanvi de idees. </p><p> Volem donar la possibilitat d'utilizar aquesta eina a totes les persones que ho desitgen, i que respecten unes mínimes condicions generals.</p> <p> Ens agradaria compartir nostres coneixemente i seguir desenvolupant aquest projecte que acaba de començar, per a que tots els ciudatans d'Orfheo puguen seguir gaudint de la comunitat. </p> <p> Saber escoltar és fonamental per poder seguir avant, ets liure d'expresar-te i comunicar-nos els teu punto de vista en qualsevol moment. </p> <p> Et deixem imaginar a tu un poco més i compartir amb els demés experiències inoblidables.</p>",
       more: 'Llegir més...',
       subtitle: 'Els pilars',
       list1: "<p>COMPARTIR <ul><li>Saber més l'un de l'atre significa aprendre uns dels altres. </li> <li> Compartim nostre valor a on valor = (experiències + coneixements) x actitud. </li> <li> Compartim les nostres idees i inspiracions creatives amb el fi de crear/inspirar experiències enriquidores. </li> <li> Pensa en la comunitat i la comunitat pensarà en tu. </li> </ul></p>",
@@ -774,7 +774,7 @@
         mex: "Obrir el teu event en Orfheo significa alimentar i donar valor a la teua comunitat més enllà d'una trobada només. Tindràs una pàgina completament dedicada. Entraràs en un món ple de noves possibilitats cuturals creades per connexions, un univers en expansió construït per fomentar al màxim la participació, compartir recursos i arribar a nous públics..."
       },
       section2: {
-        title: 'LLança amb força <br>la teua convocatòria',
+        title: 'Llança amb força <br>la teua convocatòria',
         mex: "Comença bé amb el teu formulari personalitzat, és el principi d'una cosa gran. Qualsevol pot apuntarse fàcilment a la teua convocatòria des de la pàgina del teu event. Pregunta tot el que vulgues. Rebreràs tot ja ordenat i organizat automàticament."
       },
       section3:{

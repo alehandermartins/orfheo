@@ -4,6 +4,7 @@ class SearchController < BaseController
   post '/suggest' do
     scopify :query, :event_id, :lang
     check_lang! lang
+    @lang = lang.to_sym
     queriable_tags = get_query query
     tags = queriable_tags[0...-1]
     matched_profiles = query_profiles get_profiles(event_id), tags
@@ -15,6 +16,7 @@ class SearchController < BaseController
   post '/results' do
     scopify :query, :shown, :event_id, :lang
     check_lang! lang
+    @lang = lang.to_sym
     tags = get_query query
     shown_profiles = check_params shown
     not_shown = not_shown_profiles get_profiles(event_id), shown_profiles
@@ -39,11 +41,6 @@ class SearchController < BaseController
   end
 
   private
-  def check_lang! lang
-    raise Pard::Invalid::Language unless [:es, :en].include? lang.to_sym
-    @lang = lang.to_sym
-  end
-
   def get_query params
     return [] if params.blank?
     check_params params
@@ -211,7 +208,8 @@ class SearchController < BaseController
   def type? text
     dictionary = {
       es: ['artista', 'espacio', 'organizacion'],
-      en: ['artist', 'space', 'organization']
+      en: ['artist', 'space', 'organization'],
+      ca: ['artista', 'espai', 'organitzacio']
     }
     dictionary[@lang].include? text
   end
@@ -263,6 +261,29 @@ class SearchController < BaseController
         'institution',
         'federation',
         'foundation'
+      ],
+      ca: [
+        'espai exterior',
+        'espai cultural',
+        'local comercial', 
+        'espai particular',
+        'musica', 
+        'arts esceniques', 
+        'exposicio', 
+        'poesia',
+        'audiovisual',
+        'art de carrer',
+        'taller',
+        'gastronomia',
+        'altres',
+        'festival',
+        'associacio', 
+        'ong', 
+        'col·lectiu', 
+        'enterprise', 
+        'institucio',
+        'federacio',
+        'fundacio'
       ]
     }
     dictionary[@lang].include? text
@@ -321,6 +342,32 @@ class SearchController < BaseController
         institution:'institution',
         federation: 'federation',
         foundation:'foundation'
+      },
+      ca:{
+        artist: 'artista',
+        space: 'espai',
+        organization: 'organitzacio',
+        open_air: 'espai exterior',
+        cultural_ass: 'espai cultural',
+        commercial: 'local comercial',
+        home: 'espai particular',
+        music: 'musica',
+        arts: 'arts esceniques',
+        expo: 'exposicio',
+        poetry: 'poesia',
+        audiovisual: 'audiovisual',
+        street_art: 'art de carrer',
+        workshop: 'taller',
+        gastronomy: 'gastronomia',
+        other: 'altres',
+        festival: 'festival',
+        association:'associacio', 
+        ngo:'ong', 
+        collective:'col·lectiu', 
+        interprise:'enterprise', 
+        institution:'institucio',
+        federation: 'federacio',
+        foundation:'fundacio' 
       }
     }
     return dictionary[@lang][text.to_sym] if dictionary[@lang].has_key? text.to_sym
