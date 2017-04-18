@@ -33,8 +33,7 @@ ns.Widgets = ns.Widgets || {};
     //     _langPopup.open();
     //   });
     var _languages = $('<button>').attr({'type':'button'})
-      .html(Pard.t.text('footer.languages.'+Pard.Options.language()))
-      .addClass('footer-languages-btn');
+      .html(Pard.t.text('footer.languages.'+Pard.Options.language()));
       
     if($(window).width()>1024) _languages
       .hover(
@@ -60,13 +59,6 @@ ns.Widgets = ns.Widgets || {};
         _langPopup.open();
       });
 
-
-    // var _languages = $('<li>')
-    //   .append(
-    //     $('<span>').append(Pard.t.text('footer.languages.'+Pard.Options.language()))
-    //     // ,Pard.Widgets.IconManager('arrowDropDown').render()
-    //   )
-    //   .addClass('footer-languages-btn is-dropdown-submenu-parent')
     
     var _languagesList = $('<div>')
       .addClass('languagesList-footer')
@@ -134,7 +126,7 @@ ns.Widgets = ns.Widgets || {};
 
     _leftContent.append(
       _leftMenu.append(
-        $('<li>').append(_languages),
+        $('<li>').append(_languages) .addClass('footer-languages-btn'),
         $('<li>').append(_information), 
         $('<li>').append(_termsAndConditions)
       )
