@@ -164,7 +164,10 @@
         unavailable: 'Aquest nom de perfil ja existeix. Tria una altre per poder continuar.'
       },
       inputTel:{
-        show:'Mostra en la meua pàgina de perfil'
+        show:'Mostra en la meua pàgina de perfil',
+        label: "Telèfon de contacte",
+        helptext: "Aquesta informació és necessària per a un eventual contacte per part de l'organització.",
+        modify: 'Pots canviar el nombre des de la pàgina de perfil'
       },
       inputCache:{
         show: 'Mostra aquesta informació en la pàgina de la proposta'
@@ -204,7 +207,7 @@
         audioList: '<strong>audios</strong> des de: soundcloud, bandcamp, spotify',
         photoL:'Puja imatges des del teu ordinador (màxim 4, tamany inferior a 500kb)'
       },
-      multipleDaysSelector:{
+      multipleSelector:{
         placeholder: "Selecciona una o més opcions",
         selectAll: "Selecciona tot",
         alwaysAv: "Disponible tots els dies"
@@ -406,7 +409,6 @@
         loginTitle: 'Per a apuntar-te necessites fer abans el login'
       }
     },
-    
     call:{
       initText:'Aquesta convocatòria és per a perfils de tipus <strong>%{types}</strong>',
       chooseProfile: 'Inscriu un perfil existent',
@@ -636,7 +638,7 @@
         unchain: 'Desencadena els canvis',
         menu: {
           helper: 'Menú de eines',
-          artistsnoProgram: 'Propotes sense programa',
+          artistsnoProgram: 'Propostes sense programa',
           spacesnoProgram: 'Espais sense programa',
           orderSpaces: 'Ordena espais',
           orderby: 'Ordena per:'
@@ -656,7 +658,7 @@
         permanents: 'permanents'
       },
       proposals: {
-        tab: 'Propotes',
+        tab: 'Propostes',
         addAnother: 'Afegeix una altra proposta a un participant que ja has creat',
         addArtist: 'Crea i afegeix una proposta de tipus artista',
         addSpace: 'Crea i afegeix una proposta de tipus espai',
@@ -844,32 +846,5 @@
         mex: "<p>Operació no executada. Per favor, torna a intentar-ho. </p> <p>Si el error persisteix no oblides que estem a la teua disposició per ajudar-te. Escriu-nos a <a href='mailto:info@Orfheo.org' target='_top'> info@Orfheo.org</a> o contacta'ns en el xat de nostra <a href='https://www.facebook.com/Orfheo.org', target='_blank'>pàgina facebook.</a></p>"
       }
     }
-
-      //   type: {
-      //     artist: "Artista",
-      //     space: "Espai",
-      //     organization: "Organització"
-      //   },
-      //   welcome: {
-      //     profilesSection: {
-      //       title: "La teva comunitat cultural et crida<br>Entra en ofheo com:",
-      //       artist: "Comparteix el teu art,<br>apunta't en convocatòries,<br>genera xarxa, descobreix, crea...",
-      //       space: "Treu el màxim partit al teu espai,<br>alberga esdeveniments artístics,<br>obre les portes a la cultura",
-      //       organization: "Dóna a conèixer el teu projecte,<br>llança convocatòries,<br>expandeix la teva comunitat",
-      //       create: "Crea un perfil"
-      //     } 
-      //   },
-      //   event_page:{
-      //     eventAside:{
-      //       program: 'Programa',
-      //       community: 'Comunidad',
-      //       info:'Informaciones',
-      //       partners:'Partners',
-      //       managerbtn:'Manager del evento',
-      //       withdrawprog:'Retira el programa',
-      //       publishprog: 'Publica el programa'
-      //     }
-      //   }
-      // }
-    }
-    }(Pard || {}))
+  }
+}(Pard || {}))
