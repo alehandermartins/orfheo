@@ -320,9 +320,9 @@
           .addClass('card-container')
           .append(Pard.Widgets.CreateCard(profile).render()
             .addClass('position-profileCard-login')
-            // .attr({
-            //   target: '_blank'
-            // })
+            .attr({
+              target: '_blank'
+            })
           )
         );
     });
@@ -419,7 +419,13 @@
     var _header = $('<div>').addClass('header-eventCard');
     var _eventName = $('<h6>').text(event.name).addClass('name-eventCard');
     var _eName =  Pard.Widgets.FitInBox(_eventName, 480, 40).render();
-    var _name = $('<a>').addClass('name-eventCard').append($('<h6>').append(_eName.text())).attr({'href':'/event?id='+ event.event_id});
+    var _name = $('<a>')
+      .addClass('name-eventCard')
+      .append($('<h6>').append(_eName.text()))
+      .attr({
+        'href':'/event?id='+ event.event_id,
+        target: '_blank'
+      });
     
     var _imgContainer = $('<div>').addClass('imgContainer-eventCard');
     var _img = $.cloudinary.image(event['img'],

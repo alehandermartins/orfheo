@@ -125,11 +125,13 @@ ns.Widgets = ns.Widgets || {};
       _toBeShown.forEach(function(profile){
         _searchResult.append(
           $('<div>').addClass('card-container-WelcomePage')
-            .append(Pard.Widgets.CreateCard(profile).render().addClass('position-profileCard-login')
-            // .attr({
-            //   target: '_blank'
-            // })
-          )
+            .append(
+              Pard.Widgets.CreateCard(profile).render()
+                .addClass('position-profileCard-login')
+                .attr({
+                  target: '_blank'
+                })
+            )
         );
       });
 
@@ -444,7 +446,12 @@ ns.Widgets = ns.Widgets || {};
         var _cardCont = $('<div>').addClass('cardCont-cardSlider')
           .append(_profileCard);
         if (index) _profileCard.attr('href','#/');
-        if (index == 0) _cardCont.addClass('cardSelected slick-center');
+        if (index == 0){
+          _cardCont.addClass('cardSelected slick-center')
+          _profileCard.attr({
+              target: '_blank'
+            });
+        }
         else if (index == 1 || index == 11) _cardCont.addClass('slick-active');
         else _cardCont.addClass('slick-slide');
         _cardSlider.append(_cardCont);

@@ -883,10 +883,7 @@ a.navigation-btn-callPage{
 
 .footer-languages-btn{
   color: white;
-  padding: 0 1rem;
   height: 100%;
-  border-right: 1px solid $grey-4;
-  border-left: 1px solid $grey-4;
   position: relative;
   cursor: pointer;
  /*  .material-icons{
@@ -894,6 +891,12 @@ a.navigation-btn-callPage{
     position: absolute;
     top: -1px;
   } */
+  button{
+    padding: 0 1rem;
+    height: 1rem;
+    border-right: 1px solid $grey-4;
+    border-left: 1px solid $grey-4;
+  }
   @include breakpoint(small down){
     position: absolute;
     height: 1rem;

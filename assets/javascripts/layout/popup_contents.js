@@ -326,7 +326,7 @@ ns.Widgets = ns.Widgets || {};
     var _list6 = $('<div>').html(Pard.t.text('project.list6'));
     var _list7 = $('<div>').html(Pard.t.text('project.list7'));
     // var _thanks = $('<div>').html('<p> <strong>Gracias</strong> a Xavi para alumbrar el camino y a la gente de la Cova y la Devscola por su fundamental ayuda en el proceso.</p> ').css('margin-top','2rem');
-    var _closeBtn = Pard.Widgets.Button('Close', function(){popup.close()})
+    var _closeBtn = Pard.Widgets.Button(Pard.t.text('dictionary.close'), function(){popup.close()})
     var _closeBtnContainer = $('<div>')
       .addClass('close-button-bottom-popup')
       .append(_closeBtn.render());
