@@ -638,17 +638,6 @@
       });
     }
 
-    document.addEventListener("paste", function(e) {
-    // cancel paste
-        e.preventDefault();
-
-        // get text representation of clipboard
-        // var text = e.clipboardData.getData("text/plain");
-
-        // // insert text manually
-        // document.execCommand("insertHTML", false, text);
-    });
-
     var CategorySelector = function(block){
       var _formField = $('<div>').addClass('CategorySelector-FormField call-form-field')
       var _input = $('<select>')
