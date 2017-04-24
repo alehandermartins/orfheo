@@ -2252,13 +2252,13 @@ FOOTER
 }
 
 .languagesList-footer{
-  bottom: -2rem;
+  bottom: 2rem;
   margin-left: 4.4rem;
   background: white;
   padding: .2rem 0;
   width: 4.4rem;
   display: none;
-  position: absolute;
+  position: fixed;
   @include border-radius($element-border-radius);
   li{
     display: block;
