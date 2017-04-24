@@ -403,12 +403,13 @@
       eventPage:{
         nouser: "If you don't have an account:",
         signUp: 'Create an account',
-        signUpTitle: 'Create an account...' 
+        signUpTitle: 'Create an account...',
+        loginTitle: 'To sign up you need to login'
       }
     },
     call:{
       initText:'This call is for profiles of the type <strong>%{types}</strong>',
-      chooseProfile: 'Sign up with an existing profile',
+      chooseProfile: 'Sign up with an existing profile...',
       newProfile: '...or create and sign up with a new one',
       createProfile:{
         title:'Create a profile and sign up as:',

@@ -102,7 +102,7 @@
         }
       }
     }
-              
+
     profiles.forEach(function(profile){
       var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
       var _card = Pard.Widgets.CreateCard(profile).render();
@@ -117,7 +117,8 @@
 
     var _secondTitle = $('<h4>').text(Pard.t.text('call.newProfile'));
     _secondTitle.css({
-      'margin-top': '2rem'
+      'margin-top': '2rem',
+      'text-align': 'right'
     });
     var _createAndInscribeProfile = function(data){
       if (data['status'] == 'success'){
@@ -159,8 +160,11 @@
         Pard.t.text('call.createProfile.title'),
         Pard.Widgets.CreateProfilePopupEvent(_createAndInscribeProfile)
       ).render();
-      var _createProfileCardContainer = $('<div>').append(_createProfileCard).addClass('card-container-popup');
-      _createdWidget.append(_secondTitle, _createProfileCardContainer);
+      var _cardContainer = $('<div>').addClass('card-container-popup position-profileCard-login');
+      //var _createProfileCardContainer = $('<div>').append(_createProfileCard).addClass('card-container-popup');
+      _cardContainer.append(_createProfileCard);
+      _createdWidget.append(_cardContainer.append(_createProfileCard), _secondTitle);
+      //_createdWidget.append(_secondTitle, _createProfileCardContainer);
     });
 
     return {
@@ -633,6 +637,17 @@
         if(field == 'short_description') _tempForm['phone'] = _phoneField;
       });
     }
+
+    document.addEventListener("paste", function(e) {
+    // cancel paste
+        e.preventDefault();
+
+        // get text representation of clipboard
+        // var text = e.clipboardData.getData("text/plain");
+
+        // // insert text manually
+        // document.execCommand("insertHTML", false, text);
+    });
 
     var CategorySelector = function(block){
       var _formField = $('<div>').addClass('CategorySelector-FormField call-form-field')

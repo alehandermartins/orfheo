@@ -406,12 +406,12 @@
         nouser: 'Si no tens un compte:',
         signUp: 'Crea un compte',
         signUpTitle:  'Crea un compte...',
-        loginTitle: 'Per a apuntar-te necessites fer abans el login'
+        loginTitle: 'Per a apuntar-te necessites fer login'
       }
     },
     call:{
       initText:'Aquesta convocatòria és per a perfils de tipus <strong>%{types}</strong>',
-      chooseProfile: 'Inscriu un perfil existent',
+      chooseProfile: 'Inscriu un perfil existent...',
       newProfile: '...o crea i inscriu de nou',
       createProfile:{
         title:"Crea un perfil i apunta't como a:",

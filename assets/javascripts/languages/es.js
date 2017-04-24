@@ -405,12 +405,12 @@
         nouser: 'Si no tienes una cuenta:',
         signUp: 'Crea una cuenta',
         signUpTitle:  'Crea una cuenta...',
-        loginTitle: 'Para apuntarte necesitas hacer antes el login'
+        loginTitle: 'Para apuntarte necesitas hacer login'
       }
     },
     call:{
       initText:'Esta convocatoria es para perfiles de tipo <strong>%{types}</strong>',
-      chooseProfile: 'Inscribe un perfil existente',
+      chooseProfile: 'Inscribe un perfil existente...',
       newProfile: '...o crea e inscribe uno nuevo',
       createProfile:{
         title:'Crea un perfil y apúntate como:',
