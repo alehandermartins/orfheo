@@ -6,8 +6,8 @@
 ns.Widgets = ns.Widgets || {};  
 
   ns.Widgets.Footer = function(){
-
-    var _createdWidget = $('<footer>').addClass('footer-bar');
+    var _createdWidget = $('<footer>');
+    var _footer = $('<div>').addClass('footer-bar');
     var userStatus = Pard.UserStatus['status'];
     var _innerFooterContainer = $('<div>').addClass('innerWrapperDiv');
 
@@ -62,10 +62,11 @@ ns.Widgets = ns.Widgets || {};
     
     var _languagesList = $('<div>')
       .addClass('languagesList-footer')
-      .hover(
+      .mouseover(
         function(){
           _languagesList.addClass('isOverMenu');
-        },
+        })
+      .mouseleave(
         function(){
            setTimeout(function(){
               _languagesList.removeClass('isOverMenu');
@@ -171,9 +172,15 @@ ns.Widgets = ns.Widgets || {};
       )
     );
 
-    _container.append(_leftContent.prepend(_languagesList, _logoFooter), _rightContent);
+    var _langWidget = $('<div>')
+      .append(
+        $('<div>').addClass('pard-grid').append(_languagesList)
+      )
+
+    _container.append(_leftContent.prepend(_logoFooter), _rightContent);
     _grid.append(_container);
-    _createdWidget.append(_innerFooterContainer.append(_grid));
+    _footer.append(_innerFooterContainer.append(_grid));
+    _createdWidget.append(_langWidget, _footer);
 
     return{
       render: function(){

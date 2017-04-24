@@ -2248,7 +2248,6 @@ FOOTER
 }
 
 .languagesList-footer{
-  position: fixed;
   bottom: 2rem;
   margin-left: 4.4rem;
   background: white;
@@ -2261,6 +2260,7 @@ FOOTER
     color: black;
     padding: .2rem 0.4rem;
     cursor: pointer;
+    font-size:$smallSize;
   }
   li:hover{
     background: $grey-1;
@@ -2331,6 +2331,7 @@ button.footer-text-link:hover{
 
 .footer-outsider{
   position:fixed;
+  bottom: 0;
 }
 
 }
