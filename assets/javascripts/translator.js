@@ -5,15 +5,15 @@ var Options = function(){
   var orfheoLangs = ['es','ca','en']
   var defaultLang = navigator.language || navigator.userLanguage
 
-  defaultLang = defaultLang.substring(0,2)
+  if(defaultLang) defaultLang = defaultLang.substring(0,2)
   if ($.inArray(defaultLang, orfheoLangs) < 0) defaultLang = 'es'
 
   var orfheoStorage
   if (localStorage[localStorageKey]) orfheoStorage = JSON.parse(localStorage[localStorageKey])
   if (!orfheoStorage || !orfheoStorage.language || $.inArray(orfheoStorage.language, orfheoLangs) < 0){
     localStorage[localStorageKey] = JSON.stringify({
-      language: defaultLang, 
-      cookies: false, 
+      language: defaultLang,
+      cookies: false,
       register: {}
     })
     orfheoStorage = JSON.parse(localStorage[localStorageKey])
