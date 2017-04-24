@@ -176,6 +176,9 @@ ns.Widgets = ns.Widgets || {};
       .append(
         $('<div>').addClass('pard-grid').append(_languagesList)
       )
+      .css({
+        'width':'100vw'
+      });
 
     _container.append(_leftContent.prepend(_logoFooter), _rightContent);
     _grid.append(_container);
