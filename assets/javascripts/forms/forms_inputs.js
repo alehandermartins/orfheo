@@ -291,7 +291,8 @@
         ['link'],
         'btnGrp-lists'
       ],
-      autogrow: true
+      autogrow: true,
+      removeformatPasted: true
       // svgPath : '/assets/icons_trumbowyg.svg'
       // "#{asset_path('/assets/font/icons_trumbowyg.svg')}"
     });
