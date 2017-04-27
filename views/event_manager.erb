@@ -1,3 +1,10 @@
 <script>
-  Pard.EventManager(<%= event_id %>);
+	function runScript() {
+	  if( window.$ )
+  		Pard.EventManager(<%= event_id %>)
+	  else {
+	    window.setTimeout( runScript, 50 )
+	  }
+	}
+	runScript()
 </script>

@@ -1,3 +1,10 @@
 <script>
-  Pard.Welcome();
+	function runScript() {
+	  if( window.$ )
+	    Pard.Welcome()
+	  else {
+	    window.setTimeout( runScript, 50 )
+	  }
+	}
+	runScript()
 </script>

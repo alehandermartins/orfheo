@@ -1,3 +1,10 @@
 <script>
-  Pard.Event(<%= the_event %>, <%= status %>);
+	function runScript() {
+	  if( window.$ )
+  		Pard.Event(<%= the_event %>, <%= status %>)
+	  else {
+	    window.setTimeout( runScript, 50 )
+	  }
+	}
+	runScript()
 </script>
