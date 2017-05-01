@@ -1,10 +1,3 @@
 <script>
-	function runScript() {
-	  if( window.$ )
-  		Pard.Profile(<%= profiles %>, <%= status %>)
-	  else {
-	    window.setTimeout( runScript, 50 )
-	  }
-	}
-	runScript()
+  Pard.Profile(<%= profiles %>, <%= status %>)
 </script>
