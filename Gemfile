@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
-#ruby-gemsegemt=cg
+#ruby-gemset=orfheo
 
 gem 'bundle'
 gem 'thin'
