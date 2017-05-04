@@ -1,5 +1,17 @@
 class ProfilesController < BaseController
 
+  helpers do
+    def build_profie role, params, identity
+      profiles_map = {
+        'artist' => ArtistProfile,
+        'space' => SpaceProfile,
+        'organization' => OrganizationProfile
+      }
+
+      profiles_map[role].new(params, identity)
+    end
+  end
+
   post '/users/check_name' do
     scopify :name
     status = Repos::Profiles.name_available?(session[:identity], name)
@@ -10,9 +22,7 @@ class ProfilesController < BaseController
     scopify :type
     check_type! type
 
-    profile = ArtistProfile.new(params, session[:identity]) if type == 'artist'
-    profile = SpaceProfile.new(params, session[:identity]) if type == 'space'
-    profile = OrganizationProfile.new(params, session[:identity]) if type == 'organization'
+    profile = build_profie type, params, session[:identity]
 
     Repos::Profiles.update profile.to_h
     success({profile: profile.to_h})
@@ -23,15 +33,14 @@ class ProfilesController < BaseController
     check_type! type
     check_profile_ownership profile_id
 
-    profile = ArtistProfile.new(params, session[:identity]) if type == 'artist'
-    profile = SpaceProfile.new(params, session[:identity]) if type == 'space'
-    profile = OrganizationProfile.new(params, session[:identity]) if type == 'organization'
+    profile = build_profie type, params, session[:identity]
+
     old_pictures = Services::Profiles.profile_old_pictures profile_id
     Repos::Profiles.update profile.to_h
     Repos::Events.update profile.to_h
-    
+
     Services::Profiles.destroy_old_pictures old_pictures, profile.to_h
-    
+
     success({profile_id: profile_id})
   end
 
@@ -62,7 +71,7 @@ class ProfilesController < BaseController
     old_pictures = Services::Profiles.production_old_pictures production_id
     Repos::Profiles.modify_production production.to_h
     Services::Profiles.destroy_old_pictures old_pictures, production
-    
+
     success({production: production.to_h})
   end
 
@@ -93,7 +102,7 @@ class ProfilesController < BaseController
 end
 
  #kit = IMGKit.new('https://www.pinterest.com/pinterest/',{width: 1366, height: 768})
-    
+
     #image = kit.to_img
     #file = kit.to_file('thumbnail.jpg')
     #Cloudinary::Uploader.upload(File.open('thumbnail.jpg'), width: 200, height: 200, crop: 'scale')
