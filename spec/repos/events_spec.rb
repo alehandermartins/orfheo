@@ -20,6 +20,18 @@ describe Repos::Events do
       duration: 'duration',
       children: 'true'
     }
+
+  }
+  let(:otter_proposal){
+    {
+      proposal_id: 'otter_proposal_id',
+      category: 'arts',
+      title: 'title',
+      description: 'description',
+      short_description: 'short_description',
+      duration: 'duration',
+      children: 'true'
+    }
   }
 
   let(:artist){
@@ -203,7 +215,7 @@ describe Repos::Events do
 
     it 'adds an artist' do
       Repos::Events.add_artist event_id, artist
-      saved_entry = @db['events'].find({}).first
+      saved_entry = @db['events'].find(event_id: event_id).first
       expect(saved_entry['artists'].first).to include({
         'user_id' => user_id,
         'profile_id' => profile_id,
@@ -214,7 +226,7 @@ describe Repos::Events do
     it 'adds a proposal to an exisiting artist' do
       Repos::Events.add_artist event_id, artist
       Repos::Events.add_artist event_id, artist
-      saved_entry = @db['events'].find({}).first
+      saved_entry = @db['events'].find(event_id: event_id).first
       expect(saved_entry['artists'].first).to include({
         'user_id' => user_id,
         'profile_id' => profile_id,
@@ -224,7 +236,7 @@ describe Repos::Events do
 
     it 'adds a space' do
       Repos::Events.add_space event_id, space
-      saved_entry = @db['events'].find({}).first
+      saved_entry = @db['events'].find(event_id: event_id).first
       expect(saved_entry['spaces'].first).to include({
         'user_id' => user_id,
         'profile_id' => space_profile_id,
@@ -236,7 +248,7 @@ describe Repos::Events do
       Repos::Events.add_space event_id, space
       space[:category] == 'otter'
       Repos::Events.add_space event_id, space
-      saved_entry = @db['events'].find({}).first
+      saved_entry = @db['events'].find(event_id: event_id).first
       expect(saved_entry['spaces'].first).to include({
         'user_id' => user_id,
         'profile_id' => space_profile_id,
@@ -278,7 +290,7 @@ describe Repos::Events do
 
     it 'saves a program' do
       Repos::Events.save_program event_id,program
-      saved_entry = @db['events'].find({}).first
+      saved_entry = @db['events'].find(event_id: event_id).first
       expect(saved_entry['program']).to eq(Util.stringify_array(program))
     end
   end
@@ -383,71 +395,82 @@ describe Repos::Events do
   describe 'Delete' do
     before(:each){
       Repos::Events.add_artist event_id, artist
+
+      artist[:proposals] = [otter_proposal]
       Repos::Events.add_artist 'otter_event_id', artist
+
       Repos::Events.add_space event_id, space
+      space[:proposal_id] = 'cacalavaca'
       Repos::Events.add_space 'otter_event_id', space
+
       Repos::Events.add_space event_id, otter_space
       Repos::Events.save_program event_id, program
     }
 
     it 'deletes an artist proposal' do
-      artist_proposal[:proposal_id] = 'otter_proposal_id'
+      artist[:proposals] = [{
+        proposal_id: 'zumbabaloomba',
+        category: 'arts',
+        title: 'title',
+        description: 'description',
+        short_description: 'short_description',
+        duration: 'duration',
+        children: 'true'
+      }]
+
       Repos::Events.add_artist event_id, artist
-      Repos::Events.delete_artist_proposal proposal_id
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['artists'].first).to include({
-        'user_id' => user_id,
-        'profile_id' => profile_id,
-        'proposals' => [Util.stringify_hash(artist_proposal)]
-      })
+      Repos::Events.delete_artist_proposal 'zumbabaloomba'
+
+      artist_proposals = @db['events'].find(
+        {event_id: event_id}
+      ).first[:artists].first[:proposals]
+
+      expect(artist_proposals.length).to eq(1)
+      expect(artist_proposals.first).to eq(Util.stringify_hash(artist_proposal))
     end
 
     it 'deletes an artist if last proposal' do
       Repos::Events.delete_artist_proposal proposal_id
-      saved_entry = @db['events'].find({}).first
+      saved_entry = @db['events'].find(event_id: event_id).first
       expect(saved_entry['artists']).to eq([])
     end
 
     it 'deletes a space proposal' do
       Repos::Events.delete_space_proposal space_proposal_id
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['spaces']).to eq([Util.stringify_hash(otter_space)])
+
+      space_events = @db['events'].find(event_id: event_id)
+      only_entry = space_events.first
+
+      expect(space_events.count).to eq(1)
+      expect(only_entry['spaces']).to eq([Util.stringify_hash(otter_space)])
     end
 
     it 'removes the artist_proposal from programs' do
       Repos::Events.delete_artist_proposal proposal_id
-      saved_entry = @db['events'].find({}).first
+      saved_entry = @db['events'].find(event_id: event_id).first
       expect(saved_entry['program']).to eq([Util.stringify_hash(otter_performance)])
-      Repos::Events.delete_space_proposal 'otter_space_proposal_id'
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['program']).to eq([])
+
     end
 
     it 'removes the space_proposal from programs' do
-      artist_proposal[:proposal_id] = 'otter_proposal_id'
-      Repos::Events.add_artist event_id, artist
-      Repos::Events.delete_space_proposal space_proposal_id
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['program']).to eq([Util.stringify_hash(otter_performance)])
-      Repos::Events.delete_artist_proposal 'otter_proposal_id'
-      saved_entry = @db['events'].find({}).first
-      expect(saved_entry['program']).to eq([])
+      Repos::Events.delete_space_proposal 'otter_space_proposal_id'
+      saved_entry = @db['events'].find(event_id: event_id).first
+      expect(saved_entry['program'].length).to eq(1)
+      expect(saved_entry['program']).to eq([Util.stringify_hash(performance)])
     end
 
     it 'turns artist profiles into own if profile is deleted' do
       Repos::Events.delete_profile profile_id
-      saved_entry = @db['events'].find({}).map{|event| event}
+      saved_entry = @db['events'].find(event_id: event_id).map{|event| event}
       expect(saved_entry[0]['artists'].first).to include({"own"=> "true"})
-      expect(saved_entry[1]['artists'].first).to include({"own"=> "true"})
     end
 
     it 'turns space profiles into own if profile is deleted' do
       Repos::Events.add_artist event_id, space_artist
       Repos::Events.delete_profile space_profile_id
-      saved_entry = @db['events'].find({}).map{|event| event}
+      saved_entry = @db['events'].find(event_id: event_id).map{|event| event}
       expect(saved_entry[0]['spaces'].first).to include({"own"=> "true"})
       expect(saved_entry[0]['artists'][1]).to include({"own"=> "true"})
-      expect(saved_entry[1]['spaces'].first).to include({"own"=> "true"})
     end
   end
 

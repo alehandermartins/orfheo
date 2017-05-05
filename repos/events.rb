@@ -12,12 +12,14 @@ module Repos
       end
 
       def add_artist event_id, artist
-        if @@events_collection.count(event_id: event_id, "artists.profile_id": artist[:profile_id]) == 0
+        current_artist_criteria =  {event_id: event_id, "artists.profile_id": artist[:profile_id]}
+
+        if @@events_collection.count(current_artist_criteria) == 0
           @@events_collection.update_one({event_id: event_id},{
             "$push": {artists: artist}
           })
         else
-          @@events_collection.update_one({event_id: event_id, "artists.profile_id": artist[:profile_id]},
+          @@events_collection.update_one(current_artist_criteria,
           {
             "$push": {"artists.$.proposals": artist[:proposals].first}
           },
@@ -82,9 +84,18 @@ module Repos
       def delete_artist_proposal proposal_id
         delete_performances proposal_id
         event = grab({"artists.proposals.proposal_id": proposal_id}).first
-        artist = event[:artists].detect{|artist| artist[:proposals].any?{ |proposal| proposal[:proposal_id] == proposal_id}}
+
+        artist = event[:artists].detect{ |artist|
+          artist[:proposals].any?{ |proposal|
+            proposal[:proposal_id] == proposal_id
+          }
+        }
+
         proposals = artist[:proposals]
-        proposals.select!{|proposal| proposal[:proposal_id] != proposal_id}
+        proposals.reject!{ |proposal|
+          proposal[:proposal_id] == proposal_id
+        }
+
         return delete_artist(event[:event_id], artist[:profile_id]) if proposals.blank?
         @@events_collection.update_one({"artists.proposals.proposal_id": proposal_id},
           {

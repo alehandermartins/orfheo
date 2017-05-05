@@ -38,6 +38,7 @@ RSpec.configure do |config|
   config.include Pard::Test::DbTools
 
   config.before(:all){
+    mongo_uri
     prepare_db
   }
 

@@ -115,32 +115,18 @@ class BaseController < Sinatra::Base
   Mongo::Logger.logger.level = ::Logger::FATAL
 
   configure :development, :test do
-    @@db = Mongo::Client.new('mongodb://localhost:27017/Orfheo/cg_dev')
     Pony.override_options = {:via => :test}
-    Cloudinary.config do |config|
-      config.cloud_name = 'hxgvncv7u'
-      config.api_key = '844974134959653'
-      config.api_secret = '2scRx2fF3Vuw1qS6tu0FGli69Po'
-      config.cdn_subdomain = true
-      CLOUDINARY_URL = 'cloudinary://844974134959653:2scRx2fF3Vuw1qS6tu0FGli69Po@hxgvncv7u'
-    end
     puts 'configured for dt'
   end
 
   configure :production, :deployment do
-    @@db = Mongo::Client.new('mongodb://heroku_1qqrwjjv:6j1mh19jfgfn4up520imdbh3g8@ds055535.mongolab.com:55535/heroku_1qqrwjjv')
     Pony.override_options = options
-    Cloudinary.config do |config|
-      config.cloud_name = 'hxgvncv7u'
-      config.api_key = '844974134959653'
-      config.api_secret = '2scRx2fF3Vuw1qS6tu0FGli69Po'
-      config.cdn_subdomain = true
-      CLOUDINARY_URL = 'cloudinary://844974134959653:2scRx2fF3Vuw1qS6tu0FGli69Po@hxgvncv7u'
-    end
     puts 'configured for pdd'
   end
 
   configure do
+    Cloudinary.config(settings.cloudinary)
+    @@db = Mongo::Client.new settings.mongo_uri
     Repos::Users.for @@db
     Repos::Profiles.for @@db
     Repos::Events.for @@db
