@@ -4,13 +4,14 @@ module Repos
       
       def for db
         @@profiles_collection = db['profiles']
-        # profiles = grab({})
-        # users = profiles.map{ |profile|
-        #   next if profile[:productions].blank? 
-        #   profile[:user_id] if profile[:productions].any?{ |production|
-        #     production[:category] == 'music'
-        #   }
-        # }.compact.uniq
+      #   profiles = grab({})
+      #   users = profiles.map{ |profile|
+      #     #next if profile[:productions].blank? 46020
+      #     profile[:user_id] if profile[:type] == 'artist' || profile[:address][:postal_code] == '46020'
+      #   }.compact.uniq
+      #   users.each{|user|
+      #     send_mail user
+      #   }
       end
 
       # def send_mail user_id
