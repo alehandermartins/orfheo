@@ -115,7 +115,7 @@ class BaseController < Sinatra::Base
   Mongo::Logger.logger.level = ::Logger::FATAL
 
   configure :development, :test do
-    @@db = Mongo::Client.new('mongodb://localhost:27017/cg_test')
+    @@db = Mongo::Client.new('mongodb://localhost:27017/cg_dev')
     Pony.override_options = {:via => :test}
     Cloudinary.config do |config|
       config.cloud_name = 'hxgvncv7u'

@@ -108,8 +108,8 @@ module Services
           options = {
             es: {
               from: "no.reply.orfheo@gmail.com",
-              subject: "Convocatoria Festival FAP (Factoria d'Arts de Patraix) Abierta!",
-              body: "<p> Festival FAP (Factoria d'Arts de Patraix) - II Edició abre su convocatoria en orfheo!</p><p>Envía tu propuesta antes del 28 de abril.</p><p>Puedes acceder a la convocatoria a través del siguiente link:</p><p><a href=\"http://www.orfheo.org/event?id=e468f805-e481-4092-8134-066edb6ed000\">Orfheo/FAP</a></p>"
+              subject: "Convocatoria Circuito Bucles Abierta!",
+              body: "<p> Circuito Bucles - V Edición abre su convocatoria en orfheo!</p><p>Envía tu propuesta antes del 21 de junio.</p><p>Puedes acceder a la convocatoria a través del siguiente link:</p><p><a href=\"http://www.orfheo.org/event?id=e468f805-e481-4092-8134-066edb6ed018\">Orfheo/CircuitoBucles</a></p>"
             }
           }
           Pony.options = options[:es]
