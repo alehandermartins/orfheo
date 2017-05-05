@@ -156,13 +156,19 @@
     // var _textTitle = $('<h4>').text('Características básicas:').addClass('title-program-event-page');
     var _text = $('<div>').append(
       $('<p>').html(_texts.description).addClass('text-event-page-info'));
-    var _image = $('<div>').append($.cloudinary.image(_eventInfo.img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p')).addClass('image-evet-page-info');
-      if ($(window).width() < 640) {
-        var _infoContent = $('<div>').append(_text.prepend(_baseline), _image);
-      }
-      else{
-        var _infoContent = $('<div>').append( _image, _text.prepend(_baseline));
-      }
+    var _image = $('<div>').addClass('image-evet-page-info');
+    if (_eventInfo.img) _image.append($.cloudinary.image(_eventInfo.img,{ format: 'png', width: 330,  effect: 'saturation:50' }).addClass('img-event-info-p'));
+    else _image.append($('<div>').addClass('img-event-info-p').css({
+      'background':_eventInfo.color,
+      'width':330,
+      'height':450
+    }))
+    if ($(window).width() < 640) {
+      var _infoContent = $('<div>').append(_text.prepend(_baseline), _image);
+    }
+    else{
+      var _infoContent = $('<div>').append( _image, _text.prepend(_baseline));
+    }
     _content.append(_textContainer.append(_infoContent));
 
     _createdWidget.append(_header, _content);

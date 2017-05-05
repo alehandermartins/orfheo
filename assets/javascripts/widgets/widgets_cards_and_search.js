@@ -428,30 +428,38 @@
       });
     
     var _imgContainer = $('<div>').addClass('imgContainer-eventCard');
-    var _img = $.cloudinary.image(event['img'],
-        { format: 'jpg', width: 152, height: 200,
-          crop: 'fit', effect: 'saturation:50' });
-    var _popup;
-    _img.one('mouseover', function(){
-      var _popupImg = $.cloudinary.image(event.img,{format: 'jpg',  width: 450, effect: 'saturation:50' });
-      var _popupWidget = $('<div>').addClass('very-fast reveal full');
-      var _outerContainer = $('<div>').addClass('vcenter-outer');
-      var _innerContainer = $('<div>').addClass('vcenter-inner');
-      var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
-      _closeBtn.append($('<span>').html('&times;'));
-      _popup = new Foundation.Reveal(_popupWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
-      _closeBtn.click(function(){
-        _popup.close();
+    var _img;
+    if (event.img){  
+      _img = $.cloudinary.image(event['img'],
+          { format: 'jpg', width: 152, height: 200,
+            crop: 'fit', effect: 'saturation:50' });
+      var _popup;
+      _img.one('mouseover', function(){
+        var _popupImg = $.cloudinary.image(event.img,{format: 'jpg',  width: 450, effect: 'saturation:50' });
+        var _popupWidget = $('<div>').addClass('very-fast reveal full');
+        var _outerContainer = $('<div>').addClass('vcenter-outer');
+        var _innerContainer = $('<div>').addClass('vcenter-inner');
+        var _closeBtn = $('<button>').addClass('close-button small-1 popup-close-btn').attr({type: 'button'});
+        _closeBtn.append($('<span>').html('&times;'));
+        _popup = new Foundation.Reveal(_popupWidget, {animationIn: 'fade-in', animationOut: 'fade-out'});
+        _closeBtn.click(function(){
+          _popup.close();
+        });
+        var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn).css('max-width','450px');
+        _innerContainer.append(_popupContent);
+        _popupWidget.append(_outerContainer.append(_innerContainer));
+        $('body').append(_popupWidget);
       });
-      var _popupContent = $('<div>').addClass('popup-photo-container').append(_popupImg,_closeBtn).css('max-width','450px');
-      _innerContainer.append(_popupContent);
-      _popupWidget.append(_outerContainer.append(_innerContainer));
-      $('body').append(_popupWidget);
-    });
-    _img.click(function(){
-      _popup.open();
-    });
-    _imgContainer.append(_img);
+      _img.click(function(){
+        _popup.open();
+      });
+      _imgContainer.append(_img);
+    }
+    else {
+      _imgContainer.css({
+        'background':event.color
+      })
+    }
     
     var _infoContainer = $('<div>').addClass('info-eventCard');
    

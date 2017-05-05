@@ -7,6 +7,13 @@ ns.Widgets = ns.Widgets || {};
 	ns.NewsArray = {
 		'en': [
 		{
+				'title':'FAP published its program',
+				'text':"<p>  <a href='/event?id=e468f805-e481-4092-8134-066edb6ed000', target='_blank'> Discover  </a>  the second edition of the participatory festival of Patraix.</p>",
+				'img': 'fap_program_kykkq8',
+				'date': '1493330400000',
+				'publisher': 'orfheo Team'
+			},
+		{
 				'title':'Circuito Bucles calls for artists and spaces',
 				'text':"<p> <a href='/event?id=e468f805-e481-4092-8134-066edb6ed018', target='_blank'> Circuito Bucles call </a> is open till the 21st of June.</p>",
 				'img': 'bucles_orfheo_nrcdkp',
@@ -79,6 +86,13 @@ ns.Widgets = ns.Widgets || {};
 		],
 		'es': [
 		{
+				'title':'La FAP publica su programación',
+				'text':"<p>  <a href='/event?id=e468f805-e481-4092-8134-066edb6ed000', target='_blank'> Descubre  </a>  la segunda edición del festival participativo de Patraix.</p>",
+				'img': 'fap_program_kykkq8',
+				'date': '1493330400000',
+				'publisher': 'orfheo Team'
+			},
+		{
 				'title':'Circuito Bucles abre convocatoria',
 				'text':"<p> <a href='/event?id=e468f805-e481-4092-8134-066edb6ed018', target='_blank'> Convocatoria abierta </a> para artistas y espacios hasta el 21 de Junio de 2017.</p>",
 				'img': 'bucles_orfheo_nrcdkp',
@@ -150,6 +164,13 @@ ns.Widgets = ns.Widgets || {};
 			}
 		],
 		'ca': [
+		{
+				'title':'La FAP publica la seua programació',
+				'text':"<p>  <a href='/event?id=e468f805-e481-4092-8134-066edb6ed000', target='_blank'> Descobreix  </a>  la segona edició del festival participatiu de Patraix.</p>",
+				'img': 'fap_program_kykkq8',
+				'date': '1493330400000',
+				'publisher': 'orfheo Team'
+			},
 		{
 				'title':'Circuit Bucles obre convocatòria',
 				'text':"<p> <a href='/event?id=e468f805-e481-4092-8134-066edb6ed018', target='_blank'> Convocatòria oberta </a> per a artistes i espais fins el 21 de Juny de 2017.</p>",
