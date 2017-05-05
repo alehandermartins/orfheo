@@ -539,25 +539,28 @@
 
  
   ns.Widgets.MultipleDaysSelector = function(millisecValues, callback){
-    var _createdWidget = $('<div>');
+    var _createdWidget;
     var _select = $('<select>').attr("multiple", "multiple");
     var _arrayDays = [];
-    millisecValues.forEach(function(value){
-      var _newDate = new Date(parseInt(value));
-      var _day = moment(_newDate).locale(Pard.Options.language()).format('dddd DD/MM/YYYY');
-      _select.append($('<option>').text(_day).val(value));
-      _arrayDays.push(moment(_newDate).locale(Pard.Options.language()).format('YYYY-MM-DD'));
-    });
-    _createdWidget.append(_select);
-    _select.on('change',function(){
-        _select.next().find('.ms-choice').removeClass('warning');
-      if(callback) {
-        var boundCallback = callback.bind(_select);
-        boundCallback();
-      };
-    });
+    // If one can choose just one day or the event organizer does not allow participants to choose, orfheo does not ask for availability. In the second case, millisecValues[0] must be the Array of the default days. 
+    if (millisecValues.length>1){
+      _createdWidget = $('<div>');
+      millisecValues.forEach(function(value){
+        var _newDate = new Date(parseInt(value));
+        var _day = moment(_newDate).locale(Pard.Options.language()).format('dddd DD/MM/YYYY');
+        _select.append($('<option>').text(_day).val(value));
+        _arrayDays.push(moment(_newDate).locale(Pard.Options.language()).format('YYYY-MM-DD'));
+      });
+      _createdWidget.append(_select);
+      _select.on('change',function(){
+          _select.next().find('.ms-choice').removeClass('warning');
+        if(callback) {
+          var boundCallback = callback.bind(_select);
+          boundCallback();
+        };
+      });
+    }
     var _options={};
-
     return {
       render: function(){
         _select.multipleSelect(_options);
@@ -567,6 +570,8 @@
         _options = options;
       },
       getVal: function(){
+        if ($.isArray(millisecValues[0])) return millisecValues[0].map(function(day){return moment(new Date(parseInt(day))).locale(Pard.Options.language()).format('YYYY-MM-DD')});  
+        if (millisecValues[0].length == 1) return millisecValues;
         if(_select.val()) {
           var _daysArray = [];
           _select.val().forEach(function(val){
@@ -574,9 +579,7 @@
           });
           return _daysArray;
         }
-        else{
-          return false;
-        }
+        return false;
       },
       setVal: function(values){
         var _values = [];

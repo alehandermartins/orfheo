@@ -286,7 +286,10 @@
     }  
 
     var _duration = function(){
-      if (proposal['duration'] && $.isNumeric(proposal['duration'])) return  proposal['duration'] + ' min';
+      if (proposal['duration']){
+        if ($.isNumeric(proposal['duration'])) return  proposal['duration'] + ' min';
+      else return Pard.t.text('profile_page.production.noDuration');
+      }
     }
 
     var _cache = function(){
