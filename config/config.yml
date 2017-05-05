@@ -1,13 +1,14 @@
-development:
-  expiration: 30
-  dbname: cg_dev
+---
+development: &default
+  mongo_uri: mongodb://localhost:27017/cg_dev
+  cloudinary:
+    cloud_name: hxgvncv7u
+    api_key: 844974134959653
+    api_secret: 2scRx2fF3Vuw1qS6tu0FGli69Po
+    cdn_subdomain: true
 test:
-  expiration: 30
-  dbname: cg_test
+  <<: *default
+  mongo_uri: mongodb://localhost:27017/cg_test
 production:
-  expiration: 15
-  dbname: heroku_1qqrwjjv
-  dbhost: ds055535.mongolab.com
-  dbport: 55535
-  dbuser: heroku_1qqrwjjv
-  dbpass: 6j1mh19jfgfn4up520imdbh3g8
+  <<: *default
+  mongo_uri: mongodb://heroku_1qqrwjjv:6j1mh19jfgfn4up520imdbh3g8@ds055535.mongolab.com:55535/heroku_1qqrwjjv
