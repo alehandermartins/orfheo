@@ -90,7 +90,7 @@
       if(profile.events) profile.events.forEach(function(_event){
         var _eventCard = Pard.Widgets.EventCard(_event, (userStatus === 'owner'));
         var _eventCardContainer = $('<div>').append($('<div>').append(_eventCard).addClass('eventCard-container-userPage')).addClass('outer-eventCard-container-userPage');
-        _eventBoxContent.append(_eventCardContainer).css('margin-bottom','-1.5rem');
+        _eventBoxContent.prepend(_eventCardContainer).css('margin-bottom','-1.5rem');
       });
     }
 

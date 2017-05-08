@@ -51,6 +51,7 @@
       space: "espacio",
       spaces:'espacios',
       sponsors:'patrocinadores',
+      promotors: 'promotores',
       table: 'tabla',
       title: 'título',
       type: 'tipo',
@@ -166,7 +167,7 @@
       inputTel:{
         show:'Muestra en mi página de perfil',
         label: "Teléfono de contacto",
-        helptext: "Esta información es necesaria para un eventual contacto por parte de la organización.",
+        helptext: "Esta información es necesaria para un posible contacto por parte de la organización.",
         modify: 'Puedes cambiar el número desde tu página de perfil'
       },
       inputCache:{
@@ -442,7 +443,7 @@
         partI:'PARTE I: Esta información se quedará en tu <strong>portfolio</strong> y se mostrará en tu perfil',
         partII: 'PARTE II: Sólo los organizadores tendrán acceso a los siguientes datos',
         initSpace: 'Sólo los organizadores tendrán acceso a los siguientes datos',
-        finalMex: 'ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario, sino podrás únicamente enviar una enmienda. Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".',
+        finalMex: 'ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario (podrás únicamente enviar una enmienda desde tu página de perfil). Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".',
         sendbtn:'Envía'
       }
     },  

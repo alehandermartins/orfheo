@@ -50,6 +50,7 @@
       space: "space",
       spaces:'spaces',
       sponsors:"sponsors",
+      promotors: 'promoters',
       table: 'table',
       title: 'title',
       type: 'type',

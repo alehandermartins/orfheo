@@ -411,6 +411,7 @@
   }
 
   ns.Widgets.EventCard = function(event, owner){
+    console.log(event)
     var lang = Pard.Options.language();
     var _card = $('<div>').addClass('eventCard')
       .css({
@@ -482,8 +483,11 @@
     var _place = $('<div>').append(_placeIcon, _placeText).addClass('info-element-eventCard');
    
     var _dateIcon = $('<div>').addClass('icon-container').append(Pard.Widgets.IconManager('calendar').render());
-    var _startDate = new Date(Object.keys(event.eventTime)[0]);
-    var _endDate = new Date(Object.keys(event.eventTime)[Object.keys(event.eventTime).length-2]);
+    var eventTime = Object.keys(event.eventTime)
+    var _startDate = new Date(eventTime[0]);
+    var _endDate;
+    if (eventTime[eventTime.length-1] != 'permanent') _endDate = new Date(eventTime[eventTime.length-1]);
+    else _endDate = new Date(eventTime[eventTime.length-2]);
     var _eventDate = moment(_startDate).locale(lang).format('DD');
     if (_startDate.getMonth() != _endDate.getMonth()) _eventDate += ' ' + moment(_startDate).locale(lang).format('MMMM');
     _eventDate += ' - '+moment(_endDate).locale(lang).format('DD MMMM YYYY');
