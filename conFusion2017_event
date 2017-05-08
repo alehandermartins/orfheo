@@ -1,0 +1,266 @@
+{
+    "_id" : ObjectId("5909b7e480b67225a14f2f7b"),
+    "user_id" : "45825599-b8cf-499c-825c-a7134a3f1ff0",
+    "profile_id" : "fce01c94-4a2b-49ff-b6b6-dfd53e45bb83",
+    "organizer" : "conFusión",
+    "event_id" : "a5bc4203-9379-5ee0-856a-55e1e5f3fac6",
+    "qr" : "qr_h3ujck",
+    "call_id" : "b5bc4203-9379-5ee0-856a-55e1e5f3fac6",
+    "name" : "Benimaclet conFusión - IV Edición",
+    "conditions" : "http://beniconfusionfest.es/es/bases",
+    "place" : "Benimaclet - Valencia",
+    "address" : {
+        "locality" : "Benimaclet - Valencia",
+        "postal_code" : "46020"
+    },
+    "img" : "",
+    "partners" : {
+        "promotors" : [ 
+            {
+                "name" : "Associació Possibilitats",
+                "link" : "http://www.orfheo.org/profile?id=48144fa8-37e1-45d3-84e1-ba0e5de6f8d9",
+                "img" : "possibility_r6rayj"
+            }
+        ],
+        "sponsors" : [ 
+            {
+                "name" : "Ajuntament de València",
+                "link" : "https://www.valencia.es",
+                "img" : "logo_ayuntamiento_iktbge"
+            }, 
+            {
+                "name" : "Generalitat Valenciana",
+                "link" : "http://www.ceice.gva.es/web/conselleria-de-educacion-cultura-y-deporte",
+                "img" : "logo_conselleria_sbfvj9"
+            }
+        ],
+        "collaborators" : [ 
+            {
+                "name" : "orfheo",
+                "link" : "http://www.orfheo.org/",
+                "img" : "lettering_black_l_lsw7tg"
+            }, 
+            {
+                "name" : "Caixa Fosca",
+                "link" : "http://www.caixafosca.com/",
+                "img" : "caixa_fosca_logo_ww7haj"
+            }, 
+            {
+                "name" : "Benimaclet Entra",
+                "link" : "http://benimacletentra.org/",
+                "img" : "BE_bouuxi"
+            }, 
+            {
+                "name" : "Al Berro Producciones",
+                "link" : "http://www.alberroproducciones.com/",
+                "img" : "Logo_AlBerroProducciones_seqhyq"
+            }, 
+            {
+                "name" : "La Rebel",
+                "link" : "https://www.facebook.com/LaRebelValencia/",
+                "img" : "la_rebel_s3kndt"
+            }, 
+            {
+                "name" : "Associació de Veïns i Veïnes de Benimaclet",
+                "link" : "https://avvbenimaclet.wordpress.com/",
+                "img" : "Asociacion_vecinos_squareLogo_vqxp2t"
+            }, 
+            {
+                "name" : "4b",
+                "link" : "https://www.facebook.com/benimaclet4b/?fref=ts",
+                "img" : "logo_4b_f57juv"
+            }, 
+            {
+                "name" : "Goatxa",
+                "link" : "http://www.goatxa.es/",
+                "img" : "Goatxa_logotipo_bfkksr"
+            }, 
+            {
+                "name" : "Chernoville",
+                "link" : "https://www.facebook.com/ChernovilleStudios/?hc_ref=SEARCH&fref=nf",
+                "img" : "LOGO_Chernoville_gonlbe"
+            }, 
+            {
+                "name" : "Laboratorio de Fabricación",
+                "link" : "http://laboratoriodefabricacion.com/",
+                "img" : "laboratorio_de_fabricacion_oxx5cp"
+            }, 
+            {
+                "name" : "La Cova",
+                "link" : "https://www.facebook.com/lacuevadebenimaclet/?fref=ts",
+                "img" : "logo-la-cueva_txluc0"
+            }, 
+            {
+                "name" : "Talk! English Association",
+                "link" : "http://talkasocia.wixsite.com/valencia",
+                "img" : "logo_talk_qbvdoe"
+            }, 
+            {
+                "name" : "Escuela Meme",
+                "link" : "https://www.facebook.com/escuelameme.benimaclet/?fref=ts",
+                "img" : "logo-meme_xap33x"
+            }, 
+            {
+                "name" : "Asociación de Imagen Experimental",
+                "link" : "",
+                "img" : "logo_AIE_zw3srs"
+            }, 
+            {
+                "name" : "PICUV",
+                "link" : "https://www.facebook.com/picuv/?fref=ts",
+                "img" : "Logo_PICUV_qptegh"
+            }
+        ]
+    },
+    "eventTime" : {
+        "2017-10-07" : [ 
+            "1507363200000", 
+            "1507413600000"
+        ],
+        "2017-10-08" : [ 
+            "1507449600000", 
+            "1507500000000"
+        ],
+        "permanent" : [ 
+            "11:00", 
+            "21:00"
+        ]
+    },
+    "start" : "1494799201000",
+    "deadline" : "1498859999000",
+    "whitelist" : [],
+    "published" : false,
+    "artists" : [],
+    "spaces" : [],
+    "program" : [],
+    "categories" : {
+        "artist" : [ 
+            "music", 
+            "arts", 
+            "expo", 
+            "poetry", 
+            "audiovisual", 
+            "street_art", 
+            "workshop", 
+            "gastronomy", 
+            "other"
+        ]
+    },
+    "color" : "#22F5DB",
+    "texts" : {
+        "es" : {
+            "description" : "conFusión es la celebración de lo común a través del arte; es un espacio de encuentro entre personas que quieren formar parte de algo auténtico; algo que nace de lo que cada uno tiene, dándolo con solidaridad e ilusión, y recibiéndolo con curiosidad y respeto; todo, con mucha alegría. </p> El festival no tiene ánimo de lucro, cada persona aporta lo que desea: su arte, su tiempo, su sentimiento, su mirada, su casa, su patio… </p> A través de una convocatoria abierta, tanto los artistas y creadores de cualquier disciplina, como las personas que queráis ceder un espacio para albergar estas expresiones, podéis apuntaros y hacer posible esta celebración. </p> El resto, venid, participad, abrid bien los ojos, abrazad lo desconocido y dejaos sorprender. Es el momento de perderse y dejar que los adoquines del barrio dibujen tu camino.",
+            "baseline" : "",
+            "subcategories" : {
+                "artist" : {
+                    "1" : "Música",
+                    "2" : "Artes Escénicas",
+                    "3" : "Taller",
+                    "5" : "Exposición",
+                    "6" : "Arte Urbano",
+                    "7" : "Poesía",
+                    "8" : "Audiovisual",
+                    "9" : "Otros"
+                },
+                "space" : {
+                    "1" : "Espacio Cultural",
+                    "2" : "Local Comercial",
+                    "3" : "Espacio Particular",
+                    "4" : "Espacio Exterior"
+                }
+            }
+        },
+        "en" : {
+            "description" : "conFusión is the celebration of the common through art; it is a space of encounter for people who want to be part of something authentic; something that is born from what everyone has, shared with solidarity and excitement and received with curiosity and respect; everything with a lot of joy. </p> The festival is non-profit and each person contributes according to what he/she can gift: art, time, feelings, hosting... </p> By an open call, all creators of any discipline and all the people who want to share their space and host activities, can sign up and make possible this amazing event. </p> The public can enjoy the dazzling celebration of human free expression and get lost in the extraordinary experience of the unknown.",
+            "subcategories" : {
+                "artist" : {
+                    "1" : "Music",
+                    "2" : "Performing arts",
+                    "3" : "Workshop",
+                    "5" : "Exhibition",
+                    "6" : "Street Art",
+                    "7" : "Poetry",
+                    "8" : "Audiovisual",
+                    "9" : "Other"
+                },
+                "space" : {
+                    "1" : "Cultural Space",
+                    "2" : "Business Space",
+                    "3" : "Private Space",
+                    "4" : "Open Air"
+                }
+            }
+        },
+        "ca" : {
+            "description" : "Valenciano",
+            "subcategories" : {
+                "artist" : {
+                    "1" : "Música",
+                    "2" : "Arts Escèniques",
+                    "3" : "Taller",
+                    "5" : "Exposició",
+                    "6" : "Art de carrer",
+                    "7" : "Poesia",
+                    "8" : "Audiovisual",
+                    "9" : "Altres"
+                },
+                "space" : {
+                    "1" : "Espai Cultural",
+                    "2" : "Local Comercial",
+                    "3" : "Espai Particular",
+                    "4" : "Espai Exterior"
+                }
+            }
+        }
+    },
+    "subcategories" : {
+        "artist" : {
+            "1" : {
+                "icon" : "music"
+            },
+            "2" : {
+                "icon" : "arts"
+            },
+            "3" : {
+                "icon" : "workshop"
+            },
+            "5" : {
+                "icon" : "expo"
+            },
+            "6" : {
+                "icon" : "street_art"
+            },
+            "7" : {
+                "icon" : "poetry"
+            },
+            "8" : {
+                "icon" : "audiovisual"
+            },
+            "9" : {
+                "icon" : [ 
+                    "other", 
+                    "gastronomy"
+                ]
+            }
+        },
+        "space" : {
+            "1" : {
+                "icon" : ""
+            },
+            "2" : {
+                "icon" : ""
+            },
+            "3" : {
+                "icon" : ""
+            },
+            "4" : {
+                "icon" : ""
+            }
+        }
+    },
+    "target" : [ 
+        "artist", 
+        "space", 
+        "organization"
+    ]
+}
