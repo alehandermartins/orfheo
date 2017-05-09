@@ -262,7 +262,7 @@
         nameL: "Artistic name",
         nameH: "The name for your artist profile",
         photoL:"Profile picture (500kb maximum)",
-        bioL: "Biografy / Information",
+        bioL: "Biography / Information",
         bioH: "Anything you want to share about your artistic-cultural life.",
         addressL: "City and Postal code",
         addressH: "Indicating your city and postal code will make it easier to locate you for a possible contact.",
@@ -706,7 +706,7 @@
         other:'Other profiles from same user',
         portfolio:'Portfolio'
       },
-      artistBio: 'Biografy',
+      artistBio: 'Biography',
       call:'Participation in calls',
       callMex:'You are not registered in any active call in this period.',
       multimedia:'Multimedia contents',
