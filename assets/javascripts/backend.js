@@ -455,6 +455,17 @@
       ); 
     }
 
+    var _createSlug = function(slug, event_id, callback){
+      _send(
+        '/users/create_slug',
+        {
+          slug: slug,
+          event_id: event_id
+        },
+        callback
+      ); 
+    }
+
     return {
       register: _register,
       login: _login,
@@ -496,7 +507,8 @@
       checkName: _checkName,
       feedback: _feedback,
       techSupport: _techSupport,
-      business: _business
+      business: _business,
+      createSlug: _createSlug
     };
   }());
 

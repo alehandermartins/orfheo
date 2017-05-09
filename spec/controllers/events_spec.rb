@@ -290,4 +290,41 @@ describe EventsController do
       expect(parsed_response['forms']).to eq(true)
     end
   end
+
+  describe 'Slug' do
+    let(:slug_route){'/users/create_slug'}
+    let(:otter_event){
+      {
+        event_id: 'otter_event_id',
+        user_id: user_id,
+        name: 'event_name',
+        artists: [{profile_id: profile_id}],
+        spaces: [{profile_id: host_profile_id}],
+        program: []
+      }
+    }
+    before(:each){
+      @db['events'].insert_one(otter_event)
+    }
+
+    it 'adds a slug to the event' do
+      post slug_route, {event_id: event_id, slug: 'slug'}
+      expect(parsed_response['status']).to eq('success')
+    end
+
+    it 'rejects if replacing slug' do
+      post slug_route, {event_id: event_id, slug: 'slug'}
+      expect(parsed_response['status']).to eq('success')
+      post slug_route, {event_id: event_id, slug: 'slug'}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_slug')
+    end
+
+    it 'rejects if repeated slug' do
+      post slug_route, {event_id: event_id, slug: 'slug'}
+      post slug_route, {event_id: 'otter_event_id', slug: 'slug'}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('existing_slug')
+    end
+  end
 end

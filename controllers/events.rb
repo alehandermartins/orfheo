@@ -66,6 +66,13 @@ class EventsController < BaseController
     success ({events: events})
   end
 
+  get '/event/:slug' do
+    event = Services::Events.get_event_by_slug params[:slug], session[:identity]
+    redirect '/' unless event
+    status = status_for event[:user_id]
+    erb :event, :locals => {:the_event => event.to_json, :status => status.to_json}
+  end
+
   get '/event' do
     halt erb(:not_found) unless Repos::Events.exists? params[:id]
     event = Services::Events.get_event params[:id], session[:identity]
@@ -87,6 +94,17 @@ class EventsController < BaseController
     raise Pard::Invalid::EventOwnership unless event[:user_id] == session[:identity]
     forms = Repos::Calls.get_forms event[:call_id], lang
     success({the_event: event, forms: forms})
+  end
+
+  post '/users/create_slug' do
+    scopify :event_id, :slug
+    event = Repos::Events.get_event event_id
+    raise Pard::Invalid::UnexistingEvent unless event
+    raise Pard::Invalid::EventOwnership unless event[:user_id] == session[:identity]
+    raise Pard::Invalid.new 'invalid_slug' if event[:slug]
+    raise Pard::Invalid.new 'existing_slug' unless Repos::Events.available_slug? slug
+    Repos::Events.add_slug event_id, slug
+    success
   end
 
   get '/conFusion' do

@@ -1,4 +1,3 @@
-'use strict';
 
 (function(ns){
 
@@ -25,6 +24,10 @@
     _qrBox.append(_qrText, _qrimg, _downloadBtn);
     _createdWidget.append(_qrBox);
 
+
+    //var _slug = Pard.Widgets.Slug(the_event.event_id);
+    //_createdWidget.append(_slug.render());
+
    Pard.Bus.on('addWhitelist', function(whitelist){
     the_event.whitelist = whitelist;
     _whiteList.remove();
@@ -35,6 +38,32 @@
     return {
       render: function(){
         return _createdWidget;
+      }
+    }
+  }
+
+  ns.Widgets.Slug = function(event_id){
+    var _createdWidget = $('<div>')
+    var _message = $('<div>').text('Slug creator')
+    var _warning = $('<div>').text('Warning')
+    var _slugInput = $('<input>').attr({type: 'text'})
+    var _sendButton = Pard.Widgets.Button(Pard.t.text('dictionary.accept').capitalize(), function(){
+      Pard.Backend.createSlug(_slugInput.val(), event_id, function(data){
+        if(data.status == 'success'){
+          Pard.Widgets.TimeOutAlert('', 'Dirección cambiada');
+        }
+        else{
+          Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.ErrorHandler(data.reason), function(){
+          });
+        }
+      });  
+    })
+
+    _createdWidget.append(_message, _slugInput, _warning, _sendButton.render())
+
+    return {
+      render: function(){
+        return _createdWidget
       }
     }
   }

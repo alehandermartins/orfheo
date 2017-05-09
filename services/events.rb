@@ -6,8 +6,21 @@ module Services
         user = Repos::Users.grab({user_id: user_id})
         event = Repos::Events.get_event event_id
         event[:program] = arrange_program event, event[:program]
-        event[:whitelisted] = false
-        event[:whitelisted] = true if(user_id == event[:user_id] || event[:whitelist].any?{|whitelisted| whitelisted[:email] == user[:email]})
+        whitelisted_query = (user_id == event[:user_id] || event[:whitelist].any?{|whitelisted| whitelisted[:email] == user[:email]})
+        event[:whitelisted] = whitelisted_query
+        event.delete(:artists)
+        event.delete(:whitelist)
+        event.delete(:spaces)
+        event.delete(:qr)
+        event
+      end
+
+      def get_event_by_slug slug, user_id
+        user = Repos::Users.grab({user_id: user_id})
+        event = Repos::Events.get_event_by_slug slug
+        event[:program] = arrange_program event, event[:program]
+        whitelisted_query = (user_id == event[:user_id] || event[:whitelist].any?{|whitelisted| whitelisted[:email] == user[:email]})
+        event[:whitelisted] = whitelisted_query
         event.delete(:artists)
         event.delete(:whitelist)
         event.delete(:spaces)

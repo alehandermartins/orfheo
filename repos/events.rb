@@ -158,12 +158,28 @@ module Repos
         !event[:published]
       end
 
+      def add_slug event_id, slug
+        @@events_collection.update_one({event_id: event_id},{
+          "$set": {slug: slug}
+        })
+      end
+
+      def available_slug? slug
+        events = grab({})
+        slugs = events.map{|event| event[:slug].downcase if event[:slug]}.compact
+        !(slugs.include? slug)
+      end
+
       def get_all
         grab({})
       end
 
       def get_event event_id
         grab({event_id: event_id}).first
+      end
+
+      def get_event_by_slug slug
+        grab({slug: slug}).first
       end
 
       def get_user_events user_id

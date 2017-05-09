@@ -494,4 +494,18 @@ describe Repos::Events do
       expect(Repos::Events.get_event(event_id)[:published]).to eq(false)
     end
   end
+
+  describe 'Slug' do
+    it 'adds a slug to event' do
+      Repos::Events.add_slug event_id, 'slug'
+      saved_entry = @db['events'].find({event_id: event_id}).first
+      expect(saved_entry[:slug]).to eq('slug')
+    end
+
+    it 'checks if existing slug' do
+      expect(Repos::Events.available_slug? 'slug').to eq(true)
+      Repos::Events.add_slug event_id, 'slug'
+      expect(Repos::Events.available_slug? 'slug').to eq(false)
+    end
+  end
 end
