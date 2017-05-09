@@ -66,8 +66,8 @@ main.mainWelcomePage, main.mainUserPage{
   width: 217px;
   height: 72px;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
-  @include breakpoint(small down){ 
+  background-size: contain;
+  @include breakpoint(small down){
     width: 150px;
     height: 50px;
   }
@@ -138,10 +138,10 @@ main.mainWelcomePage, main.mainUserPage{
       cursor: pointer;
     }
     .icon-profileCircle .material-icons{
-      font-size: 24px; 
+      font-size: 24px;
     }
   }
-  
+
 }
 
 .cardsContainerWelcomeDiv{
@@ -151,7 +151,7 @@ main.mainWelcomePage, main.mainUserPage{
   @include breakpoint(medium down){
     display: none;
   }
- 
+
 }
 
 
@@ -200,7 +200,7 @@ main.mainWelcomePage, main.mainUserPage{
   .img1Box, .img2Box, .img3Box{
     width: 6rem;
     height: 6rem;
-    @include horizontal-center; 
+    @include horizontal-center;
     top: 0;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -255,7 +255,7 @@ main.mainWelcomePage, main.mainUserPage{
     height: 48px;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-     @include breakpoint(small down){ 
+     @include breakpoint(small down){
       width: 100px;
       height: 32px;
     }
@@ -458,7 +458,7 @@ main.mainWelcomePage, main.mainUserPage{
 
 
 /*===============================================
-REGISTER 
+REGISTER
 ================================================*/
 
 
@@ -558,7 +558,7 @@ SEARCH ENGINE
 }
 
 .search-tag-box{
-  text-align: center;  
+  text-align: center;
   overflow-x: auto;
   height: 100%;
   overflow-y: hidden;
@@ -568,7 +568,7 @@ SEARCH ENGINE
 .search-tag-box-container{
   margin-top: $inner-spacing;
   width: 984px;
-  @include horizontal-center; 
+  @include horizontal-center;
   overflow-x: auto;
   height: 2.8rem;
   overflow-y: hidden;
@@ -581,7 +581,7 @@ SEARCH ENGINE
 
 .searchTagBox-containerEventPage{
   margin-top: .75rem;
-  padding: 0 3.8rem;  
+  padding: 0 3.8rem;
 }
 
 
@@ -611,8 +611,8 @@ Aside content User page
 
 .aside-user-nav-btn {
   cursor: pointer;
-  width: 100%;  
-  padding: 0.4rem $inner-spacing; 
+  width: 100%;
+  padding: 0.4rem $inner-spacing;
   border-left: 4px solid transparent;
   margin-bottom: 0.3rem;
   text-transform: uppercase;
@@ -651,11 +651,11 @@ User Section
 .outerContainer-UserPage{
   margin: 0 auto;
   @include breakpoint(large){
-    width: 1014px; 
+    width: 1014px;
   }
   position: relative;
 }
-  
+
 
 .myProfilesContainer{
   /* text-align: center; */
@@ -688,7 +688,7 @@ User Section
   margin-bottom:2.2rem;
   margin-top: 1rem;
   text-align: center;
-} 
+}
 
 .addCircle-create-profile-card{
   color: black;
@@ -749,7 +749,7 @@ Aside
 
 .name-column, .icon-column{
   display: inline-block;
-  vertical-align: middle; 
+  vertical-align: middle;
 }
 
 .name-column{
@@ -772,18 +772,18 @@ Aside
 }
 
 .production-icon-container{
-  margin-top: 0.1rem;  
+  margin-top: 0.1rem;
 }
 
 .production-icon-container .fa-cubes{
-    padding-top: 0.3rem;  
+    padding-top: 0.3rem;
 }
 
 .other-profiles-nav-container{
-  display: block;  
+  display: block;
   margin-top: $pard-grid-spacing;
   background: $content-background;
-  @include border-radius($layout-border-radius); 
+  @include border-radius($layout-border-radius);
   padding: 0.2rem;
 }
 
@@ -964,7 +964,7 @@ Profile Section
 
 .information-bio{
   @include breakpoint(large){
-    width: 100%; 
+    width: 100%;
     padding: 0;
   }
 }
@@ -996,7 +996,7 @@ Profile Section
 
 .information-contact-icon-column, .information-contact-text-cotextContainer-infoTablumn{
   display: inline-block;
-  vertical-align: top; 
+  vertical-align: top;
 }
 
 .information-contact-text-column{
@@ -1176,14 +1176,14 @@ Production Section
 .video-title-box{
   border-bottom: 1px solid $grey-2;
   padding-top:0.8rem;
-  padding-bottom:0.8rem; 
+  padding-bottom:0.8rem;
   width: 100%;
   margin-top: 2rem;
 }
 
 .video-production-container .fb-post iframe, .video-production-container .fb-post span{
   max-height: 25.5rem;
-}  
+}
 
 
 .noembed-meta-info{
@@ -1208,10 +1208,10 @@ Production Section
 .single-image-content{
   width: 350px;
   position: relative;
-  display: inline-block;  
+  display: inline-block;
   margin:0 auto;
   margin-top: 2rem;
-} 
+}
 
 .multimedia-container{
   padding-bottom: 2rem;
@@ -1230,7 +1230,7 @@ Production Section
 
 .images-title-box{
   border-bottom: 1px solid $grey-2;
-  padding-bottom:0.6rem; 
+  padding-bottom:0.6rem;
   width: 96%;
 }
 
@@ -1247,7 +1247,7 @@ Production Section
 }
 
 .image-production-container{
-  @include breakpoint(large){  
+  @include breakpoint(large){
   -webkit-column-count: 2; /* Chrome, Safari, Opera */
    -moz-column-count: 2; /* Firefox */
    column-count: 2;}
@@ -1319,7 +1319,7 @@ Production Section
   margin-top: 2rem;
   .submit-btn-container{
     margin: 0;
-  } 
+  }
   .not-filled-text{
     margin-top: 2rem;
   }
@@ -1347,7 +1347,7 @@ Production Section
 
 .orfheoArtCatSelector{
   li.select2-results__option{
-      padding: 0;  
+      padding: 0;
       max-height: 22px;
       font-size: $almostNormalSize;
   }
@@ -1358,7 +1358,7 @@ Production Section
 
 .orfheoTypeFormSelector{
   li.select2-results__option{
-      padding: 0 6px;  
+      padding: 0 6px;
       max-height: 22px;
       font-size: $almostNormalSize;
   }
@@ -1422,7 +1422,7 @@ SMALL!!!
     width: 100%;
     max-height: -moz-calc(98vw*1.35);
     max-height: -webkit-calc(98vw*1.35);
-    max-height: calc(98vw*1.35); 
+    max-height: calc(98vw*1.35);
  }
 }
 
@@ -1495,7 +1495,7 @@ CALL PAGE
   /* border-bottom: 1px solid $grey-3; */
   border-left: 1px solid $grey-3;
   @include border-radius($element-border-radius);
-  padding: 0.25rem 0.4rem; 
+  padding: 0.25rem 0.4rem;
   font-size: $smallSize;
 }
 
@@ -1563,12 +1563,12 @@ table.table-proposal.dataTable thead th, table.table-proposal.dataTable tfoot th
 }
 
 div.dt-button-collection.button-list{
-  @include border-radius($element-border-radius); 
+  @include border-radius($element-border-radius);
   max-height: 70%;
   overflow-y: auto;
   padding: 0.1rem 0.3rem;
   .dt-button{
-    margin: 0.2rem 0rem;  
+    margin: 0.2rem 0rem;
   }
 }
 
@@ -1581,16 +1581,16 @@ div.dt-button-collection.big_layout{
     margin-left: 0;
     left: 2.5%;
   }
- 
-  @include border-radius($element-border-radius); 
+
+  @include border-radius($element-border-radius);
   .dt-button.buttons-colvisGroup, .dt-button.buttons-colvisRestore{
     /* width: 47.6%; */
-    margin: 0.15rem 0.4rem 0.5rem;  
+    margin: 0.15rem 0.4rem 0.5rem;
     display: inline-block;
   }
   a.dt-button.buttons-columnVisibility:not(.disabled){
     width: 31%;
-    margin: 0.15rem 0.35rem;  
+    margin: 0.15rem 0.35rem;
     display: inline-block;
     color:  black;
     font-weight: normal;
@@ -1598,7 +1598,7 @@ div.dt-button-collection.big_layout{
     background-color: white;
     background-image: none;
     box-shadow: none;
-    border: 1px solid $grey-2;    
+    border: 1px solid $grey-2;
   }
   a.dt-button.buttons-columnVisibility.active:not(.disabled){
     color: black;
@@ -1761,7 +1761,7 @@ th.column-call-manager-table.column-proposal_type, th.column-call-manager-table.
 
 .orfheoTableSelector{
   li.select2-results__option{
-    padding: 0 6px;  
+    padding: 0 6px;
     /* max-height: 22px; */
     font-size: $almostNormalSize;
   }
@@ -1773,10 +1773,10 @@ th.column-call-manager-table.column-proposal_type, th.column-call-manager-table.
 
 .columnFilterSelector{
     li.select2-results__option{
-    padding: 0 6px;  
+    padding: 0 6px;
     /* max-height: 22px; */
     /* font-size: $almostNormalSize; */
-  } 
+  }
 }
 
 .select-container-datatableColumn{
@@ -1805,7 +1805,7 @@ th.column-call-manager-table.column-proposal_type, th.column-call-manager-table.
 
 .select-category-container-call-manager{
   width: 17rem;
-  display: inline-block;  
+  display: inline-block;
   position: absolute;
   top: 0rem;
   left: 22.5rem;
@@ -1842,7 +1842,7 @@ a.dt-button{
   @extend .pard-btn;
   padding: 0.1rem 0.4rem;
   font-size: $smallSize;
-  border: none;  
+  border: none;
   margin-left: 0.2rem;
   margin-top: 0.5rem;
 }
@@ -1852,7 +1852,7 @@ a.dt-button{
     padding: 0;
     color:  white;
     background: black;
-    padding: 0 !important;  
+    padding: 0 !important;
     height: 22px;
     width: 35px;
     text-align: center;
@@ -1931,7 +1931,7 @@ div.dataTables_wrapper div.dataTables_filter{
   overflow-y: auto;
   max-height: 55vh;
   .innerWhitelistedCont{
-    direction: ltr; 
+    direction: ltr;
     padding: 3px;
   }
 }
@@ -1944,7 +1944,7 @@ div.dataTables_wrapper div.dataTables_filter{
 }
 
 .notAllowedProfile{
-  opacity: .5;  
+  opacity: .5;
 }
 
 .notAllowedProfile:hover{
@@ -2059,7 +2059,7 @@ p.initial-text-proposalPanel{
   position: relative;
 }
 
- 
+
 /*---------------------------
 Program Manager Tab
 --------------------------- */
@@ -2109,7 +2109,7 @@ Program Manager Tab
 
 
 .selected-accordionItem{
-  background-color: $grey-1;  
+  background-color: $grey-1;
 }
 
 .artist-accordeon-call-manager{
@@ -2243,7 +2243,7 @@ Program Manager Tab
   padding: 0.1rem 0.1rem;
   position: relative;
   width: 100%;
-  cursor: grab; 
+  cursor: grab;
   min-height: 3rem;
   display: block;
 }
@@ -2340,7 +2340,7 @@ Program Manager Tab
 
 .table-space-program{
   max-width: 100%;
-  overflow: auto; 
+  overflow: auto;
   table{
     margin-top: 2.5rem !important;
   }
@@ -2513,8 +2513,8 @@ tr.permanent-row-program-table-call-manager td{
   width: 110px;
   height: 80px;
   font-size:  12px;
-  margin: 3px 3px 3px 0; 
-  padding: 1px; 
+  margin: 3px 3px 3px 0;
+  padding: 1px;
   vertical-align: top;
   text-align: center;
   color: black;
@@ -2562,7 +2562,7 @@ tr.permanent-row-program-table-call-manager td{
     padding: 0;
     color:  white;
     background: black;
-    padding: 0 !important;  
+    padding: 0 !important;
     height: 22px;
     width: 35px;
     text-align: center;
@@ -2677,9 +2677,9 @@ ORGANIZATION PAGE
 }
 
 .success-inscription-title{
-  color: rgb(76, 182, 50); 
-  margin-top: -1rem; 
-  text-align: center; 
+  color: rgb(76, 182, 50);
+  margin-top: -1rem;
+  text-align: center;
   font-weight: bold;
 }
 
@@ -2725,7 +2725,7 @@ ORGANIZATION PAGE
 .status-eventCard{
   margin-bottom:0;
   font-size:1rem;
-  @include breakpoint(large){ 
+  @include breakpoint(large){
     width:32rem;
   }
 }
@@ -2760,8 +2760,8 @@ EVENT PAGE
 
 .aside-event-nav-btn {
   cursor: pointer;
-  width: 100%;  
-  padding: 0.4rem $inner-spacing; 
+  width: 100%;
+  padding: 0.4rem $inner-spacing;
   border-left: 4px solid transparent;
   margin-bottom: 0.3rem;
   text-transform: uppercase;
@@ -2797,7 +2797,7 @@ EVENT PAGE
   position: relative;
 }
 
-.borderTop-eventInfoTitle{ 
+.borderTop-eventInfoTitle{
   border-top: 1px solid $grey-3;
 }
 
@@ -2989,7 +2989,7 @@ EVENT PAGE
   color:  #4389f8;
 }
 
-a.host-program-card-own {  
+a.host-program-card-own {
   text-decoration: underline;
   color: black;
 }
@@ -3058,7 +3058,7 @@ a.participant-program-card-own {
     padding-top: 1.5rem;
   }
   margin-bottom: 1.5rem;
-  
+
 }
 
 .searchWidgetsContainer-event-page .select2-selection.select2-selection--multiple{
@@ -3192,7 +3192,7 @@ a.participant-program-card-own {
   height: 2rem;
 }
 
-@media only screen and #{breakpoint(large)} { 
+@media only screen and #{breakpoint(large)} {
   .col2-program-card-profile, .col1-program-card-profile{
     display: inline-block;
     vertical-align: top;
@@ -3288,7 +3288,7 @@ a.participant-program-card-own {
   display: inline-block;
   float: left;
   width: 50%;
-  } 
+  }
   @include breakpoint(medium down){
     margin-right: 1rem;
   }
@@ -3302,7 +3302,7 @@ a.participant-program-card-own {
 .img-event-info-p{
   border: 1px solid $grey-2;
   @include breakpoint(small down){
-    @include horizontal-center; 
+    @include horizontal-center;
     position: relative;
   }
 }
@@ -3551,7 +3551,7 @@ SERVICES PAGE
   height: 28rem;
   margin: 0 auto;
   @include breakpoint (medium down){
-    @include horizontal-center; 
+    @include horizontal-center;
     position: relative;
   }
 }
@@ -3570,7 +3570,7 @@ SERVICES PAGE
   @include breakpoint (small down){
     padding: 0 1rem;
     width: 100vw;
-    @include horizontal-center; 
+    @include horizontal-center;
     top: 35vw;
   }
 }
@@ -3670,7 +3670,7 @@ SERVICES PAGE
   @include breakpoint (small down){
     width: 60vw;
     height: 88vw;
-   
+
   }
 }
 
@@ -3760,7 +3760,7 @@ SERVICES PAGE
     @include breakpoint(large){
       padding: 7.5rem 0;
     }
-  } 
+  }
 }
 
 .publishSectionServicePage{
@@ -3849,7 +3849,7 @@ CROWDFUNDING
     margin-left: 1rem;
   }
   @include breakpoint(small down){
-    @include horizontal-center; 
+    @include horizontal-center;
   }
 }
 
