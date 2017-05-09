@@ -325,7 +325,7 @@
         $('<p>')
           .text(Pard.t.text('call.form.chooseHow')).css('font-size','1rem'),
         _typeButtons);
-      var _initialMexText = Pard.t.text('call.form.initMex', {link: '<a href="/profile?id='+profile.profile_id + ', target="_blank">'+ profile.name +'</a>', organizer: Pard.CachedEvent.organizer});
+      var _initialMexText = Pard.t.text('call.form.initMex', {link: '<a href="/profile?id='+profile.profile_id + '", target=_blank">'+ profile.name +'</a>', organizer: Pard.CachedEvent.organizer});
       var _initialMex = $('<p>').html(_initialMexText).css('margin-bottom','1.5rem');
 
       var _closepopup = {};

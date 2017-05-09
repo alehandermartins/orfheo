@@ -195,7 +195,7 @@ ns.Widgets = ns.Widgets || {};
   }
 
   
-  ns.Widgets.LoginHeader = function(){
+  ns.Widgets.LoginHeader = function(elementOffCanvas){
 
     $(document).on('show.zf.dropdown', function() {
       _loginText.addClass('iconDropdown-clicked');
@@ -241,11 +241,9 @@ ns.Widgets = ns.Widgets || {};
     
     var _semicircleTopContainer =  $('<div>').addClass('semiCircleHeaderTop-container fixed');
 
-    _upperContent.append(
-      _logoContainer, 
-      _responsiveMenu, 
-      _rightContainer
-    );
+    _upperContent.append( _logoContainer );
+     if (elementOffCanvas)  _upperContent.append(_responsiveMenu);
+     _upperContent.append(_rightContainer);
     _innerHeaderContainer.append(
       _upperContainer.append(_upperContent),
       _semicircleTopContainer.append(_semicircleTop)

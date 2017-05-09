@@ -1,0 +1,2262 @@
+{
+    "_id" : ObjectId("5909c00380b67225a14f2f7c"),
+    "user_id" : "45825599-b8cf-499c-825c-a7134a3f1ff0",
+    "call_id" : "b5bc4203-9379-5ee0-856a-55e1e5f3fac6",
+    "forms" : {
+        "es" : {
+            "artist" : {
+                "1" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Selecciona una categoría artistica",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "music" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría de la propuesta en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "1" : "Música"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Título de la propuesta artística",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción (muy) breve",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duración",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para tu participación en el evento."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Edades público",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Número de integrantes",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Número de personas que llevan la actividad/espectáculo."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repetir",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Materiales online",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: partes del equipo de sonido, iluminación, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad.",
+                            "placeholder" : null
+                        },
+                        "4" : {
+                            "type" : "optional",
+                            "label" : "Jam session final",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Eligir si se quiere, eventualmente, participar en la jam session de clausura del conFusión"
+                        },
+                        "5" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Música"
+                },
+                "2" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Selecciona una categoría artistica",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "arts" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría de la propuesta en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "2" : "Artes Escénicas"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Título de la propuesta artística",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción (muy) breve",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duración",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para tu participación en el evento."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Edades público",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Número de integrantes",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Número de personas que llevan la actividad/espectáculo."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repetir",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Materiales online",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: partes del equipo de sonido, iluminación, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Artes Escénicas"
+                },
+                "3" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Selecciona una categoría artistica",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "workshop" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría de la propuesta en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "3" : "Taller"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Título de la propuesta artística",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción (muy) breve",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duración",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para tu participación en el evento."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Edades público",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                        },
+                        "1" : {
+                            "type" : "optional",
+                            "label" : "Repetir",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Máximo de participantes",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Indica el numero máximo de personas que pueden participar en el taller."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Materiales online",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Características del espacio",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "placeholder" : null,
+                            "helptext" : "Describe qué características debería tener el espacio ideal para el desarrollo del taller."
+                        },
+                        "4" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: partes del equipo de sonido, iluminación, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Taller"
+                },
+                "5" : {
+                    "helptext" : "Las exposiciones serán permanentes a lo largo de los dos días desde las 11:00h hasta las 21:00h. Es responsabilidad del artista ponerse de acuerdo con las personas dueñas del espacio expositivo para que siempre haya algún responsable durante los horarios de apertura al publico.",
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Selecciona una categoría artistica",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "expo" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría de la propuesta en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "5" : "Exposición"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Título de la propuesta artística",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción (muy) breve",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        },
+                        "7" : {
+                            "type" : "mandatory",
+                            "label" : "Espacio necesario para la exposición",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Indica cuantos metros cuadrados (y precisar si verticales o horizontales) se piensan necesitar para exponer."
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Numero y medidas de las piezas",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Indica cuantas piezas piensas exponer y precisa sus medidas."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Materiales online",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                [ 
+                                    "1507327200000", 
+                                    "1507413600000"
+                                ]
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para tu participación en el evento."
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: partes del equipo de sonido, iluminación, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad.",
+                            "placeholder" : null
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Edades público",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                        },
+                        "9" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Exposición"
+                },
+                "6" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Selecciona una categoría artistica",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "street_art" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría de la propuesta en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "6" : "Arte Urbano"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Título de la propuesta artística",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción (muy) breve",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para tu participación en el evento."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Materiales online",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: escalera, pintura de fondeo, pértigas para rodillos, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad.",
+                            "placeholder" : null
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Edades público",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Arte Urbano"
+                },
+                "7" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Selecciona una categoría artistica",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "poetry" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría de la propuesta en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "7" : "Poesía"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Título de la propuesta artística",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción (muy) breve",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duración",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para tu participación en el evento."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Edades público",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repetir",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Materiales online",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: partes del equipo de sonido, iluminación, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Poesía"
+                },
+                "8" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Selecciona una categoría artistica",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "audiovisual" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría de la propuesta en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "8" : "Audiovisual"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Título de la propuesta artística",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción (muy) breve",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duración",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para tu participación en el evento."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Edades público",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repetir",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Materiales online",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: partes del equipo de sonido, iluminación, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Audiovisual"
+                },
+                "9" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Selecciona una categoría artistica",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "gastronomy" : null,
+                                "other" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría de la propuesta en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "9" : "Otros"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Título de la propuesta artística",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en detalle en qué consiste tu propuesta.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Descripción (muy) breve",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "Es la descripción que aparecerá en el programa del evento en orfheo. Máximo 80 caracteres. Quedan: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duración",
+                            "input" : "Duration",
+                            "args" : {
+                                "none" : "No tiene duración definida",
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : "Si no aplica, escoger \"No tiene duración definida\"."
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para tu participación en el evento."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Edades público",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : "Indica a qué tipo de público está dirigida tu propuesta."
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Número de integrantes",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Número de personas que llevan la actividad/espectáculo."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repetir",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Eligir si se quiere, posiblemente, repetir la actuacción."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Materiales online",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Añade vídeos, fotos o audios desde tus redes sociales. Este material permitirá dar a conocer tu arte mejor."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Fotos de tu arte (máximo 4, tamaño inferior a 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: partes del equipo de sonido, iluminación, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Otros"
+                }
+            },
+            "space" : {
+                "10" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Categoría del espacio en el evento",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "1" : "Espacio Cultural",
+                                "2" : "Local Comercial",
+                                "3" : "Espacio Particular",
+                                "4" : "Espacio Exterior"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Disponibilidad",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Selecciona los días en los que estás disponible para compartir tu espacio durante el evento."
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Nombre del responsable del espacio",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Indica la persona que se compromete con el festival para la programación y gestión del espacio."
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Materiales a compartir",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material que puedes compartir durante el festival, como: partes del equipo de sonido, iluminación, etc. Recuerda que conFusión no dispone de material propio y las solicitudes que sigan la filosofía de compartir tendrán prioridad.",
+                            "placeholder" : null
+                        },
+                        "4" : {
+                            "type" : "optional",
+                            "label" : "Programación propia",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Indica, si se da el caso, el nombre y los horarios de actuación de los artistas ya programados. IMPORTANTE: Los artistas también tendrán que apuntarse en la convocatoria y comunicar a través de la misma el espacio donde actuarán.",
+                            "placeholder" : null
+                        },
+                        "6" : {
+                            "type" : "mandatory",
+                            "label" : "Preferencias de actividades",
+                            "input" : "MultipleSelector",
+                            "args" : {
+                                "1" : "Música",
+                                "2" : "Artes Escénicas",
+                                "3" : "Taller",
+                                "5" : "Exposición",
+                                "6" : "Arte Urbano",
+                                "7" : "Poesía",
+                                "8" : "Audiovisual",
+                                "9" : "Otros"
+                            },
+                            "helptext" : "Selecciona la categoría de actividades que te gustaría hospedar. Puedes elegir una o varias opciones."
+                        },
+                        "7" : {
+                            "type" : "optional",
+                            "label" : "Actividades incompatibles con tu espacio",
+                            "input" : "MultipleSelector",
+                            "args" : {
+                                "1" : "Música",
+                                "2" : "Artes Escénicas",
+                                "3" : "Taller",
+                                "5" : "Exposición",
+                                "6" : "Arte Urbano",
+                                "7" : "Poesía",
+                                "8" : "Audiovisual",
+                                "9" : "Otros"
+                            },
+                            "helptext" : "Selecciona la categoría de actividades que NO pueden ser hospedada en tu espacio. Puedes elegir una o varias opciones."
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivación e ilusión",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Cuéntanos en pocas lineas qué es el conFusión para ti y por qué quieres participar.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Todas"
+                }
+            }
+        },
+        "en" : {
+            "artist" : {
+                "1" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Select an artistic category",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "music" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the proposal in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "1" : "Music"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Title",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Description",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Tell us in details about your proposal",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Short description",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "It is the description that will appear in the program in orfheo. Maximum 80 characters; available: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duration",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Select the days you are available for participating in the festival."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Age of the audience",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Number of components",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Number of people which will carry out the activity / show."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repeat",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Check the box if you would like to repeat your proposal in the festival."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Multimedia",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Add videos, photos or audios from your social networks."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Photos of your art (maximum 4, size < 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "4" : {
+                            "type" : "optional",
+                            "label" : "Jam session",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Check the box if you want to play in of the closing jam session of the festival"
+                        },
+                        "5" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Music"
+                },
+                "2" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Select an artistic category",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "arts" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the proposal in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "2" : "Performing Arts"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Title",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Description",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Tell us in details about your proposal.",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Short description",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "It is the description that will appear in the program in orfheo. Maximum 80 characters; available: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duration",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Select the days you are available for participating in the festival."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Age of the audience",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Number of components",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Number of people which will carry out the activity / show."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repeat",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Check the box if you would like to repeat your proposal in the festival."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Multimedia",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Add videos, photos or audios from your social networks."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Photos of your art (maximum 4, size < 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Performing Arts"
+                },
+                "3" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Select an artistic category",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "workshop" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the proposal in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "3" : "Workshop"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Title",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Description",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Tell us in details about your proposal",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Short description",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "It is the description that will appear in the program in orfheo. Maximum 80 characters; available: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duration",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Select the days you are available for participating in the festival."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Age of the audience",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "1" : {
+                            "type" : "optional",
+                            "label" : "Repeat",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Check the box if you would like to repeat your proposal in the festival."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Maximum number of participants",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Indicate the maximum number of people who can participate to the workshop."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Multimedia",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Add videos, photos or audios from your social networks."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Photos of your art (maximum 4, size < 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Type of space",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "placeholder" : null,
+                            "helptext" : "Describe the space you need to carry out the workshop."
+                        },
+                        "4" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Workshop"
+                },
+                "5" : {
+                    "helptext" : "Expositions are going to be permanent along both days and will be open to public from 11:00 am to 9:00 pm. The artist must get in touch with the owner of the assigned space and help him/her during the festival.",
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Select an artistic category",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "expo" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the proposal in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "5" : "Exposition"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Title",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Description",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Tell us in details about your proposal",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Short description",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "It is the description that will appear in the program in orfheo. Maximum 80 characters; available: "
+                        },
+                        "7" : {
+                            "type" : "mandatory",
+                            "label" : "Necessary space",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Indicate how many square meters (and specify if vertical or horizontal) you need for your exposition."
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Number and dimensions of the pieces of the exposition",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Indicate how many pieces you want to expose and the dimension of each one."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Multimedia",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Add videos, photos or audios from your social networks."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Photos of your art (maximum 4, size < 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                [ 
+                                    "1507327200000", 
+                                    "1507413600000"
+                                ]
+                            ],
+                            "helptext" : "Select the days you are available for participating in the festival."
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Age of the audience",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "9" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Exposition"
+                },
+                "6" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Select an artistic category",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "street_art" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the proposal in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "6" : "Street Art"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Title",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Description",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Tell us in details about your proposal",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Short description",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "It is the description that will appear in the program in orfheo. Maximum 80 characters; available: "
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Select the days you are available for participating in the festival."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Multimedia",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Add videos, photos or audios from your social networks."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Photos of your art (maximum 4, size < 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Age of the audience",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Street Art"
+                },
+                "7" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Select an artistic category",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "poetry" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the proposal in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "7" : "Poetry"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Title",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Description",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Tell us in details about your proposal",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Short description",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "It is the description that will appear in the program in orfheo. Maximum 80 characters; available: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duration",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Select the days you are available for participating in the festival."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Age of the audience",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repeat",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Check the box if you would like to repeat your proposal in the festival."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Multimedia",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Add videos, photos or audios from your social networks."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Photos of your art (maximum 4, size < 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Poetry"
+                },
+                "8" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Select an artistic category",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "audiovisual" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the proposal in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "8" : "Audiovisual"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Title",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Description",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Tell us in details about your proposal",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Short description",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "It is the description that will appear in the program in orfheo. Maximum 80 characters; available: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duration",
+                            "input" : "Duration",
+                            "args" : {
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Select the days you are available for participating in the festival."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Age of the audience",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Number of components",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Number of people which will carry out the activity / show"
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repeat",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Check the box if you would like to repeat your proposal in the festival."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Multimedia",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Add videos, photos or audios from your social networks."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Photos of your art (maximum 4, size < 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Audiovisual"
+                },
+                "9" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "category" : {
+                            "type" : "mandatory",
+                            "label" : "Select an artistic category",
+                            "input" : "CategorySelector",
+                            "args" : {
+                                "gastronomy" : null,
+                                "other" : null
+                            },
+                            "helptext" : null
+                        },
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the proposal in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "9" : "Other"
+                            },
+                            "helptext" : null
+                        },
+                        "title" : {
+                            "type" : "mandatory",
+                            "label" : "Title",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : null
+                        },
+                        "description" : {
+                            "type" : "mandatory",
+                            "label" : "Description",
+                            "input" : "TextAreaEnriched",
+                            "args" : null,
+                            "helptext" : "Tell us in details about your proposal",
+                            "placeholder" : null
+                        },
+                        "short_description" : {
+                            "type" : "mandatory",
+                            "label" : "Short description",
+                            "input" : "TextAreaCounter",
+                            "args" : 80,
+                            "helptext" : "It is the description that will appear in the program in orfheo. Maximum 80 characters; available: "
+                        },
+                        "duration" : {
+                            "type" : "mandatory",
+                            "label" : "Duration",
+                            "input" : "Duration",
+                            "args" : {
+                                "none" : "No tiene duración definida",
+                                "5" : "5 min",
+                                "10" : "10 min",
+                                "15" : "15 min",
+                                "20" : "20 min",
+                                "25" : "25 min",
+                                "30" : "30 min",
+                                "35" : "35 min",
+                                "40" : "40 min",
+                                "45" : "45 min",
+                                "50" : "50 min",
+                                "55" : "55 min",
+                                "60" : "1 h",
+                                "75" : "1h 15min",
+                                "90" : "1h 30min",
+                                "105" : "1h 45min",
+                                "120" : "2 h",
+                                "135" : "2h 15min",
+                                "150" : "2h 30min"
+                            },
+                            "helptext" : "Si no aplica, escoger \"No tiene duración definida\"."
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Select the days you are available for participating in the festival."
+                        },
+                        "children" : {
+                            "type" : "mandatory",
+                            "label" : "Age of the audience",
+                            "input" : "InputChildren",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Number of components",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : "Number of people which will carry out the activity / show."
+                        },
+                        "2" : {
+                            "type" : "optional",
+                            "label" : "Repeat",
+                            "input" : "CheckBox",
+                            "args" : null,
+                            "helptext" : "Check the box if you would like to repeat your proposal in the festival."
+                        },
+                        "links" : {
+                            "type" : "optional",
+                            "label" : "Multimedia",
+                            "input" : "InputMultimedia",
+                            "args" : null,
+                            "helptext" : "Add videos, photos or audios from your social networks."
+                        },
+                        "photos" : {
+                            "type" : "optional",
+                            "label" : "Photos of your art (maximum 4, size < 500kb)",
+                            "input" : "UploadPhotos",
+                            "args" : [ 
+                                "/photos", 
+                                4
+                            ],
+                            "helptext" : null
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "Other"
+                }
+            },
+            "space" : {
+                "10" : {
+                    "helptext" : null,
+                    "blocks" : {
+                        "subcategory" : {
+                            "type" : "mandatory",
+                            "label" : "Category of the space in the event",
+                            "input" : "SubcategorySelector",
+                            "args" : {
+                                "1" : "Cultural Space",
+                                "2" : "Commercial Space",
+                                "3" : "Private Space",
+                                "4" : "Open air"
+                            },
+                            "helptext" : null
+                        },
+                        "availability" : {
+                            "type" : "mandatory",
+                            "label" : "Availability",
+                            "input" : "MultipleDaysSelector",
+                            "args" : [ 
+                                "1507327200000", 
+                                "1507413600000"
+                            ],
+                            "helptext" : "Select the days your are available for sharing your space during the event."
+                        },
+                        "1" : {
+                            "type" : "mandatory",
+                            "label" : "Name of the space reference person",
+                            "input" : "Text",
+                            "args" : null,
+                            "helptext" : ""
+                        },
+                        "3" : {
+                            "type" : "optional",
+                            "label" : "Material to share",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Material you can share during the festival with the other participants.",
+                            "placeholder" : null
+                        },
+                        "4" : {
+                            "type" : "optional",
+                            "label" : "Own program",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Indicate the name of the artists and the schedule of your own program. IMPORTANT: The artists of your program have to apply for their participation and during the process specify the name of your space.",
+                            "placeholder" : null
+                        },
+                        "6" : {
+                            "type" : "mandatory",
+                            "label" : "Preferred activities",
+                            "input" : "MultipleSelector",
+                            "args" : {
+                                "1" : "Music",
+                                "2" : "Performing Arts",
+                                "3" : "Workshop",
+                                "5" : "Exposition",
+                                "6" : "Street Art",
+                                "7" : "Poetry",
+                                "8" : "Audiovisual",
+                                "9" : "Other"
+                            },
+                            "helptext" : "Select the categories of the activities you would like to host."
+                        },
+                        "7" : {
+                            "type" : "optional",
+                            "label" : "Incompatible activities",
+                            "input" : "MultipleSelector",
+                            "args" : {
+                                "1" : "Music",
+                                "2" : "Performing Arts",
+                                "3" : "Workshop",
+                                "5" : "Exposition",
+                                "6" : "Street Art",
+                                "7" : "Poetry",
+                                "8" : "Audiovisual",
+                                "9" : "Other"
+                            },
+                            "helptext" : "Select the categories of the activities you cannot host. "
+                        },
+                        "8" : {
+                            "type" : "mandatory",
+                            "label" : "Motivation",
+                            "input" : "TextArea",
+                            "args" : null,
+                            "helptext" : "Tell us about what conFusión is for you and why you want to be part.",
+                            "placeholder" : null
+                        }
+                    },
+                    "label" : "All"
+                }
+            }
+        }
+    }
+}

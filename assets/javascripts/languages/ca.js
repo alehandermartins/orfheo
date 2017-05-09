@@ -51,6 +51,7 @@
       space: "espai",
       spaces:'espais',
       sponsors:'patrocinadors',
+      promotors: 'promotors',
       table: 'taula',
       title: 'títol',
       type: 'tipus',
@@ -83,7 +84,7 @@
     popup:{
       delete:{
         title:'Estàs segur/a?',
-        user: "Confirmat, totes les teus dades seran eliminades d'Orfheo: es cancel·laran tots els teus perfils i els seus contiguts.",
+        user: "Confirmat, totes les teus dades seran eliminades d'orfheo: es cancel·laran tots els teus perfils i els seus contiguts.",
         profile: 'Confirmant, el teu perfil serà eliminat i tots els continguts corresponents. Tot i això, no es cancel·laran les propostes enviades a convocatòries.',
         confirm:'Confirma',
         cancel: 'Anul·la',
@@ -105,26 +106,26 @@
       termsAndConditions:{
         title: 'Condicions generals',
         date:'Última actualització: Febrer 2017',
-        part1:"<p> <strong>Et donem la benvinguda!</strong></p><p> <strong>Orfheo es basa en un principi potent: podem fer més coses junts que per separat.</strong></p><p>Són les persones com tu les que fan possible que aquest lloc no només existisca, sinó que també creixca i prospere. </br> Aquestes condicions generals d'us expliquen el servei i la relació entre els usuaris, els drets i les responsabilitats recíproques. </br> <strong> Ser part d'Orfheo és gratuït </strong> i al fer-ho estàs acceptant aquestes condicions generals.</p>",
+        part1:"<p> <strong>Et donem la benvinguda!</strong></p><p> <strong>Orfheo es basa en un principi potent: podem fer més coses junts que per separat.</strong></p><p>Són les persones com tu les que fan possible que aquest lloc no només existisca, sinó que també creixca i prospere. </br> Aquestes condicions generals d'us expliquen el servei i la relació entre els usuaris, els drets i les responsabilitats recíproques. </br> <strong> Ser part d'orfheo és gratuït </strong> i al fer-ho estàs acceptant aquestes condicions generals.</p>",
         subtitle2: 'Principis generals:',
-        mex2: "<p>Orfheo no té normes fermes més enllá dels principis generals enunciats ací: <ul><li>Respecta els ciutadans d'Orfheo inclús quan no estigues d'acord amb ells. </li> <li> Comparte continguts civilitzadament, evita els atacs personals i les generalitzacions així com la publicació d'enllaços o textos que puguen ser ofensius per a la comunitat pel seus continguts: racistes, sexistes, homofobs o que incitan a la violència de qualsevol tipus. </li> <li>  Actúa amb bona fe, sigues obert, acogidor i inclusiu.  </li> <li> Si no respectares aquestos principis ens posariem en contacte amb tu per que ens ponar donar una explicació i junts poder trobar una solució. </li> </ul></p>",
+        mex2: "<p>Orfheo no té normes fermes més enllá dels principis generals enunciats ací: <ul><li>Respecta els ciutadans d'orfheo inclús quan no estigues d'acord amb ells. </li> <li> Comparte continguts civilitzadament, evita els atacs personals i les generalitzacions així com la publicació d'enllaços o textos que puguen ser ofensius per a la comunitat pel seus continguts: racistes, sexistes, homofobs o que incitan a la violència de qualsevol tipus. </li> <li>  Actúa amb bona fe, sigues obert, acogidor i inclusiu.  </li> <li> Si no respectares aquestos principis ens posariem en contacte amb tu per que ens ponar donar una explicació i junts poder trobar una solució. </li> </ul></p>",
         subtitle3:"Ens compromete'm a:",
-        mex3: "<p><ul><li>Describir com pot usar-se o compartir-se la teua informació en aquestes condicions generals. </li> <li> Usar les medidas raonables per tal de mantidre la teua informació sensible segura.  </li> <li>  Fer disponible i deixar fluir en la comunitat la informació que decideixques compartir.  </li> <li> Impulsar valors com la solidaritat, el sentit de comunitat, la meritocràcia, la equidat, el respecte i la harmonia amb l'entorno.  </li> <li> Respectar i defendre la comunitat d'Orfheo. </li> <li> Escoltar i acollir qualsevol tipus de sugerència i crítica constructiva. </li></ul></p>",
+        mex3: "<p><ul><li>Describir com pot usar-se o compartir-se la teua informació en aquestes condicions generals. </li> <li> Usar les medidas raonables per tal de mantidre la teua informació sensible segura.  </li> <li>  Fer disponible i deixar fluir en la comunitat la informació que decideixques compartir.  </li> <li> Impulsar valors com la solidaritat, el sentit de comunitat, la meritocràcia, la equidat, el respecte i la harmonia amb l'entorno.  </li> <li> Respectar i defendre la comunitat d'orfheo. </li> <li> Escoltar i acollir qualsevol tipus de sugerència i crítica constructiva. </li></ul></p>",
         subtitle4: "Termes d'us i Privacitat:",
-        mex4: "<p>Ací t'expliquem com recolectem i compartim la teua informació personal/dades/continguts.<ul><li>Recolectem molt poca informació personal de tu. </li> <li> No lloguem ni venem la teua informació a tercers, es a dir que no compartim les teues dades amb terceres parts per motius comercials.  </li> <li>  Cap la possibilitat que la informació recollida en Orfheo es compartixca amb tercers d'acuerd amb la nostra ideologia, complint amb la ley i amb la intenció de portar benefici a tota la comunitat.  </li> <li>Ets responsable dels continguts que comparteixes i de les seus mesures de privacitat.  </li> <li> Ocasionalment t'enviarem correus electrònics sobre informació important. </li> <li>  La qualitat de les dades que ens proporciones és útil per a tú, per a que pugam millorar la teua experiència com a usuari i poder desenvolupar noves funcions, per a que la teua experiència siga inoblidable. </li> <li> Tot allò que publiques en Orfheo és públic, pot ser vist i de fet utilitzat per tot observador extern. </li> <li> És possible que et demanem que ens proporciones informació mitjançant enquestes o retro-alimentació, però de forma sempre voluntaria. </li> <li> No necessites crear una compte per explorar i visualitzar qualsevol dels continguts. </li> <li> Per crear una compte, necessites donar-nos només la teua adreça de correu electrònic. </li><li> Quasevol persona pot unir-se i abandonar Orfheo en qualsevol moment.</li> </ul></p>",
+        mex4: "<p>Ací t'expliquem com recolectem i compartim la teua informació personal/dades/continguts.<ul><li>Recolectem molt poca informació personal de tu. </li> <li> No lloguem ni venem la teua informació a tercers, es a dir que no compartim les teues dades amb terceres parts per motius comercials.  </li> <li>  Cap la possibilitat que la informació recollida en orfheo es compartixca amb tercers d'acuerd amb la nostra ideologia, complint amb la ley i amb la intenció de portar benefici a tota la comunitat.  </li> <li>Ets responsable dels continguts que comparteixes i de les seus mesures de privacitat.  </li> <li> Ocasionalment t'enviarem correus electrònics sobre informació important. </li> <li>  La qualitat de les dades que ens proporciones és útil per a tú, per a que pugam millorar la teua experiència com a usuari i poder desenvolupar noves funcions, per a que la teua experiència siga inoblidable. </li> <li> Tot allò que publiques en orfheo és públic, pot ser vist i de fet utilitzat per tot observador extern. </li> <li> És possible que et demanem que ens proporciones informació mitjançant enquestes o retro-alimentació, però de forma sempre voluntaria. </li> <li> No necessites crear una compte per explorar i visualitzar qualsevol dels continguts. </li> <li> Per crear una compte, necessites donar-nos només la teua adreça de correu electrònic. </li><li> Quasevol persona pot unir-se i abandonar orfheo en qualsevol moment.</li> </ul></p>",
         subtitle5:'Publicitat:',
-        mex5: "<p>A hores d'ara no hi ha cap forma de publicitat dins d'Orfheo. En un futur, no es descarta la presència de publicitat no molesta, relacionada amb el món artístic-cultural, que puga proporcionar informació útil i valuosa per a els ciudatans. Considerem que la publicitat pot ser eficaz sense ser molesta. Excluim la presència de publicitat en forma de finestres emergentes que puguen interferir amb la visualització dels continguts d'Orfheo. </p>",
+        mex5: "<p>A hores d'ara no hi ha cap forma de publicitat dins d'orfheo. En un futur, no es descarta la presència de publicitat no molesta, relacionada amb el món artístic-cultural, que puga proporcionar informació útil i valuosa per a els ciudatans. Considerem que la publicitat pot ser eficaz sense ser molesta. Excluim la presència de publicitat en forma de finestres emergentes que puguen interferir amb la visualització dels continguts d'orfheo. </p>",
         subtitle5_5:'Sostenibilitat del projecte:',
-        mex5_5:"<p>Com hem promés, ser part d'Orfheo no té i no tindrá cap cost per cap usuari. Malgrat això, el mantenimient online d'una web d'aquest tipus té un cost, axí com la sostenibilitat de la vida de les persones que treballen diariament en ell. Per tant, llançar una convocatòria i poder accedir la corresponent eina de gestió té un preu, que es decideix de forma conjunta, a partir d'una base mínima, segons el tipus d'event que es vol organitzar.</p>",
+        mex5_5:"<p>Com hem promés, ser part d'orfheo no té i no tindrá cap cost per cap usuari. Malgrat això, el mantenimient online d'una web d'aquest tipus té un cost, axí com la sostenibilitat de la vida de les persones que treballen diariament en ell. Per tant, llançar una convocatòria i poder accedir la corresponent eina de gestió té un preu, que es decideix de forma conjunta, a partir d'una base mínima, segons el tipus d'event que es vol organitzar.</p>",
         cookies: 'Política de cookies:',
         cookiesMex1: "Les cookies són un element informàtic ampliament usat en internet. En accedir a una pàgina web, alguna informació s'emmagatzema en la memòria del navegador per que la pàgina web puga accedir ràpidament a ixa informació en el futur.",
-        cookiesMex2: "Orfheo utilitza cookies amb l'únic fi de millorar la experiència de navegació de sus usuaris. Por ejemplo, guardamos informació para permitir un login més rápido i continuado, evitar la desconnexió de la web en caso de reinici del servidor, i recordar preferències o eleccions durant tot el proceso de navegació.",
+        cookiesMex2: "orfheo utilitza cookies amb l'únic fi de millorar la experiència de navegació de sus usuaris. Por ejemplo, guardamos informació para permitir un login més rápido i continuado, evitar la desconnexió de la web en caso de reinici del servidor, i recordar preferències o eleccions durant tot el proceso de navegació.",
         cookiesMex3:"En general, per com s'estructura internet hui en dia, les cookies són un element imprescindible. Por ley, toda web que les utiliza, está obligada a avisar els seus usuaris perquè sàpiguen el que està passant.",
-        cookiesMex4: "La mateixa informació ací mostrada es troba també disponible en l'apartat de condicions d'us. En cas de modificació s'avisarà a els ciudatans d'Orfheo amb prou d'antelació.",
+        cookiesMex4: "La mateixa informació ací mostrada es troba també disponible en l'apartat de condicions d'us. En cas de modificació s'avisarà a els ciudatans d'orfheo amb prou d'antelació.",
         subtitle6: 'Actualitzacions:',
-        mex6: "Ens reservem el dret de modificar, si fora necessari, les condicions generals per adaptar-les a futures novetats i assumim el deure i el compromís d'informar dels canvis a tots els ciudatans d'Orfheo, per tal que puguen conèixer les actualitzacions de bestreta.",
+        mex6: "Ens reservem el dret de modificar, si fora necessari, les condicions generals per adaptar-les a futures novetats i assumim el deure i el compromís d'informar dels canvis a tots els ciudatans d'orfheo, per tal que puguen conèixer les actualitzacions de bestreta.",
         subtitle7: 'Moltes gràcies!',
-        finalMex: "<p> Si tens preguntes o sugerències envia un correu electrònic a <a href='mailto:info@Orfheo.org'> info@Orfheo.org</a>.</p> <p> Gràcies per llegir fins ací. Esperem que gaudixques dins i fora Orfheo. </br> La teua participació al crear, mantindre i millorar aquest lloc és imprescindible. </p> <p> Apreciem que hages pres el teu temps per informar-te sobre el projecte, i t'agraïm que dones suport. Mitjançant el que fas, estàs ajudant a construir una cosa realment important, no només una connexió de projectes compartits de manera col·laborativa, sinó també una vibrant comunitat enfocada en una molt noble meta. </p>"
+        finalMex: "<p> Si tens preguntes o sugerències envia un correu electrònic a <a href='mailto:info@orfheo.org'> info@orfheo.org</a>.</p> <p> Gràcies per llegir fins ací. Esperem que gaudixques dins i fora orfheo. </br> La teua participació al crear, mantindre i millorar aquest lloc és imprescindible. </p> <p> Apreciem que hages pres el teu temps per informar-te sobre el projecte, i t'agraïm que dones suport. Mitjançant el que fas, estàs ajudant a construir una cosa realment important, no només una connexió de projectes compartits de manera col·laborativa, sinó també una vibrant comunitat enfocada en una molt noble meta. </p>"
       },
       noMapLocation:{
         title: 'Atenció!',
@@ -221,31 +222,31 @@
           item1:'...una imatge des de <strong>flickr, instagram, pinterest</strong> (un pin) o un video des de <strong>youtube, vimeo, vine</strong> o un audio des de <strong>soundcloud</strong>:',
           sublist1_1:'obri la imatge, video o audio en el lloc web corresponent',
           sublist1_2:'còpia el seu enllaç directamet des del navegador o des de la opció "compartir" (o "copiar enllaç")',
-          sublist1_3:"enganxa en el camp del formulari d'Orfheo",
+          sublist1_3:"enganxa en el camp del formulari d'orfheo",
           sublist1_4:'punja al botó per validar',
           itemTwitter:'...una imatge des de <strong>twitter</strong> (un tweet):',
           sublistTwitter_1:'punja el tweet que quieres compartir',
           sublistTwitter_2:"en el popup que s'obri, punja la icona amb els tres puntets",
           sublistTwitter_3:'selecciona "Copiar enllaç del tweeet"',
-          sublistTwitter_4:"còpia l'enllaç i enganxa'l en el camp del formulari d'Orfheo",
+          sublistTwitter_4:"còpia l'enllaç i enganxa'l en el camp del formulari d'orfheo",
           sublistTwitter_5:'punja al botó per validar',
           item2:'...una imatge, un post o un video publicat en <strong>facebook</strong>:',
           sublist2_1:"punja la data amb l'hora de publicació que apareix en la part superior del post",
           sublist2_2:"còpia des del navegador l'enllaç de la pàgina que s'obri",
-          sublist2_3:"enganxa'l en el camp del formulari d'Orfheo",
+          sublist2_3:"enganxa'l en el camp del formulari d'orfheo",
           sublist2_4:'punja al botó per validar',
           item3: '...un audio des de <strong>bandcamp</strong>:',
           sublist3_1:'en la pàgina de la cançó punja en "Share/Embed" (baix la foto principal) i aleshores en "Embed this album"',
           sublist3_2:'selecciona un estil del lector musical',
           sublist3_3:'còpia el codi html des del camp Embed que apareix en el cantó superior esquerre',
-          sublist3_4: "enganxa en el camp del formulari d'Orfheo",
+          sublist3_4: "enganxa en el camp del formulari d'orfheo",
           sublist3_5: 'punja en el botó per validar',
           item4: '...un audio des de <strong>spotify</strong>:',
           sublist4_1: "selecciona una cançó d'una playlist amb el botó dret del ratolí",
           sublist4_2: 'punja en "Copy Song Link"',
-          sublist4_3:"enganxa el contingut copiat en el formulari d'Orfheo",
+          sublist4_3:"enganxa el contingut copiat en el formulari d'orfheo",
           sublist4_4:'punja al botó per validar',
-          finalMex: "Finalment, considera que només es poden importar a Orfheo continguts multimèdia declarats públics en la web a on s'han pujat."
+          finalMex: "Finalment, considera que només es poden importar a orfheo continguts multimèdia declarats públics en la web a on s'han pujat."
         }
       }
     },
@@ -468,13 +469,13 @@
         delete: 'Esborra el meu compte',
         modifypasswd:'Modifica contrasenya',
         logout:'Tanca sessió',
-        contact:'Contacta Orfheo',
+        contact:'Contacta orfheo',
         event:'Event'
       }
     },
      welcome: {
       profilesSection: {
-        title: "La teua comunitat cultural et crida<br>Entra en Orfheo com:",
+        title: "La teua comunitat cultural et crida<br>Entra en orfheo com:",
         artist: "Comparteix el teu art,<br>apunta't en convocatòries,<br>genera xarxa, descobreix, crea...",
         space: "Trau el màxim partit al teu espai,<br>allotja events artístics,<br>obri les portes a la cultura",
         organization: "Dóna a conèixer el teu projecte,<br>llança convocatòries,<br>expandeix la teua comunitat",
@@ -488,7 +489,7 @@
         section1: "Descobreix projectes i deixa't </br> conèixer per el que fas",
         section2: 'Involucra a la comunitat, </br> llança la teua convocatòria',
         section3: 'Crea experiències inoblidables conjuntament amb els demés',
-        link: 'Explora les avantatges de llançar la teua convocatòria en Orfheo'
+        link: 'Explora les avantatges de llançar la teua convocatòria en orfheo'
       },
       inspireSection: {
         title: 'El futur està ací, enfront teu',
@@ -521,14 +522,14 @@
       logo: 'C o n t a c t a',
       servicesTab: {
         tab: 'Serveis',
-        title: "Què t'ofereix Orfheo?",
-        mex1: 'Orfheo preten crear i donar valor a les comunitats culturals i les trobades que realment existeixen o poden generar-se en la vida real. És per això que les posibilitats que oferim es centren principalment en recolçar, impulsar i facilitar la creació, difusió i sobretot <strong> la gestió de processos i grans events participatius</strong>. Específicament, amb Orfheo pots aprofitar els següents serveis:',
+        title: "Què t'ofereix orfheo?",
+        mex1: 'orfheo preten crear i donar valor a les comunitats culturals i les trobades que realment existeixen o poden generar-se en la vida real. És per això que les posibilitats que oferim es centren principalment en recolçar, impulsar i facilitar la creació, difusió i sobretot <strong> la gestió de processos i grans events participatius</strong>. Específicament, amb orfheo pots aprofitar els següents serveis:',
         subtitle2: 'Plataforma de gestió:',
         mex2: "Una potent eina web innovativa que et permet llançar la teua convocatòria i gestionar totes les dades relatives amb extrema facilitat i simplicitat. Podràs consultar, organitzar, filtrar i modificar les propostes rebudes, i a més a més, crear noves per inserir-les a la teua programació. Fer el programa del teu event serà tan fàcil com arrossegar tarjetes dins d'un calendari i treure llistats de correu per tal de contactar amb artistes i espais et costarà només un click. Podràs publicar online un programa interactiu, actualitzable a cada moment, que perfectament s'adapte a qualsevol dispositiu mòbil, funcionant com la guia perfecta per al teu públic.",
         subtitle3: 'Assessoria creativa:',
-        mex3: "L'equip d'Orfheo compta amb professionals amb molta experiència en la organització i gestió de grans events participatius. Podràs aprofitar d'un seguiment constant durant tot el procés de preparació del teu event i descobrir noves estratègies creatives focalitzades en traure i aconseguir el màxim de la teua comunitat cultural.",
+        mex3: "L'equip d'orfheo compta amb professionals amb molta experiència en la organització i gestió de grans events participatius. Podràs aprofitar d'un seguiment constant durant tot el procés de preparació del teu event i descobrir noves estratègies creatives focalitzades en traure i aconseguir el màxim de la teua comunitat cultural.",
         subtitle4: 'Connexió API:',
-        mex4: "El servei API et permet rebre i utiliztar les dades relatives als teus events i convocatòries en la teua aplicació per a mòbils o espai web. Qualsevol canvi que fages en Orfheo s'actualizarà de forma automàtica i simultànea en totes les plataformas conectades. Podràs disposar de toda la teua informació sempre actualitzada, on i quan tu vulgues.",
+        mex4: "El servei API et permet rebre i utiliztar les dades relatives als teus events i convocatòries en la teua aplicació per a mòbils o espai web. Qualsevol canvi que fages en orfheo s'actualizarà de forma automàtica i simultànea en totes les plataformas conectades. Podràs disposar de toda la teua informació sempre actualitzada, on i quan tu vulgues.",
         mex5: "Per més informació, consulta nostra %{link} i contacta'ns mitjançant el següent formulari:",
         servicesPage: 'pàgina de serveis'
       },
@@ -540,23 +541,23 @@
       },
       feedBackTab:{
         tab: 'Feedback',
-        title: 'Què et sembla Orfheo?',
-        mex1: "Per millorar és necessari posar-se en joc i ser questionats. Estariem encantats de saber que penses d'Orfheo, quines funcionalitats li manquen i t'agradaria tindre al teu abast, quines coses cambiaries, llevaries o afegiries...",
+        title: 'Què et sembla orfheo?',
+        mex1: "Per millorar és necessari posar-se en joc i ser questionats. Estariem encantats de saber que penses d'orfheo, quines funcionalitats li manquen i t'agradaria tindre al teu abast, quines coses cambiaries, llevaries o afegiries...",
         mex2: 'Qualsevol crítica constructiva és benvinguda, ens ajudarà a proporcionar-te un servei millor.',
         mex3: 'La teua opinió és important!'
       },
       collaborateTab:{
         tab: 'Col·labora',
         title: 'Vols formar part?',
-        mex1: "Ens agradaria compartir coneixements i seguir desenvolupant aquest projecte perquè tots els ciudatans d'Orfheo puguen sempre gaudir de la comunitat i para donar la posibilitat de utilizar esta herramienta a totes les persones que lo deseen.",
+        mex1: "Ens agradaria compartir coneixements i seguir desenvolupant aquest projecte perquè tots els ciudatans d'orfheo puguen sempre gaudir de la comunitat i para donar la posibilitat de utilizar esta herramienta a totes les persones que lo deseen.",
         mex2: 'Pensem que la inclusió inspira la innovació i per tant sempre estem oberts a escoltar idees per col·laborar.',
         mex3: "Contacta'ns a ",
-        mex4: 'Hi ha moltes formes de col·laborar en Orfheo:',
+        mex4: 'Hi ha moltes formes de col·laborar en orfheo:',
         mex5: 'com a partner: </br>si tens un negoci i com nosaltres creus que podem fer més coses junts que per separat, no dubtes a enviar-nos la teua proposta de aliança.',
-        mex6: 'com a a patrocinador: </br>gràcies a tu, que vols invertir i/o col·laborar mitjançant publicitat i patrocini, podem oferir la posibilitat de ajudar econòmicament els projectes de la comunitat Orfheo.',
-        mex7: "com a treballador:</br>traballa en Orfheo com a creatiu, artista, disenyador, programador, community manager, gestor administratiu o comercial. Envía'ns informació sobre tu.",
-        mex8: "com a mecenas: </br>recolça de forma generosa una realitat, perquè creus en ella. Recolçar Orfheo significa ser part d'un projecte amb el potencial de millorar nostre món.",
-        mex9: "com a voluntari: </br>contacta'ns si vols aprender mitjançant el desenvolupament d'Orfheo o, si ja tens coneixements, t'estimula oferir el teu temps a una noble causa."
+        mex6: 'com a a patrocinador: </br>gràcies a tu, que vols invertir i/o col·laborar mitjançant publicitat i patrocini, podem oferir la posibilitat de ajudar econòmicament els projectes de la comunitat orfheo.',
+        mex7: "com a treballador:</br>traballa en orfheo com a creatiu, artista, disenyador, programador, community manager, gestor administratiu o comercial. Envía'ns informació sobre tu.",
+        mex8: "com a mecenas: </br>recolça de forma generosa una realitat, perquè creus en ella. Recolçar orfheo significa ser part d'un projecte amb el potencial de millorar nostre món.",
+        mex9: "com a voluntari: </br>contacta'ns si vols aprender mitjançant el desenvolupament d'orfheo o, si ja tens coneixements, t'estimula oferir el teu temps a una noble causa."
       },
       contactTab:{
         tab: 'Contacte',
@@ -564,12 +565,12 @@
         country: 'Espanya'
       },
       eventContact:{
-        title: 'Els teus events en Orfheo',
+        title: 'Els teus events en orfheo',
         mex1: "Per crear un event o per més informació, contacta'ns mitjançant el següent formulari:",
-        mex2: "Crear un event en Orfheo et permetrà llançar <strong>la teua convocatòria</strong> en la comunitat i accedir a la corresponent <strong>eina de gestió</strong> que t'acompanyarà fins la publicació de <strong>el teu programa interactiu</strong> (més informació en nostra %{link})."
+        mex2: "Crear un event en orfheo et permetrà llançar <strong>la teua convocatòria</strong> en la comunitat i accedir a la corresponent <strong>eina de gestió</strong> que t'acompanyarà fins la publicació de <strong>el teu programa interactiu</strong> (més informació en nostra %{link})."
       },
       contactUs: {
-        title: 'Contacta Orfheo',
+        title: 'Contacta orfheo',
         mex1: 'Estem sempre disponibles per proporcionar-te ajuda tècnica, consells, respondre a les teues preguntes o donar-te informació útil quan més ho necessites.',
         mex2: "Envia'ns un missatge, te contestarem de seguida :)"
       },
@@ -590,7 +591,7 @@
         periodsPlaceholder: "Selecciona la teua disponibilitat durant el dia",
         everyperiod: "Matí i vesprada",
         anytime: "Disponible matí i vesprada",
-        profileName: 'Nom del teu perfil en Orfheo'
+        profileName: 'Nom del teu perfil en orfheo'
       },
       send: 'Envia',
       correct: 'Missatge enviat correctament. ',
@@ -600,13 +601,13 @@
     },
     project:{
       baseline: 'Podem fer més coses junts que per separat',
-      mex1: "<p> Benvingut a Orfheo, </p> <p> un lloc especial, que arriba a ser realitat, i aleshores comunitat, gràcies a tots els seus ciutadans. Orfheo és una plataforma per artistes, actors culturals, desenvolupadors, makers, creatius, traballadors socials... persones lliures de estrictes categories i esquemes. </p> <p> Hem creat un món ùnic, una web no només capaç de facilitar el treball d'organització i gestió de una convocatòria, sinó de donar valor a les propostes dels creadores més enllà d'una mera trobada. </p> <p> Estàs en la teua comunitat artística online, a on llançar la teua convocatòria és fàcil, i des d'on pots mostrar els teus projectes i trobar altres, ùtils tant per a tu com per altres festivals i events. </p> <p> Tens al teu abast una eina, un mecanisme de gestió cultural amb el qual crear i organitzar events, descobrir mitjançant de perfils, enllaços i connexions, dur a la realitat somnis i idees. </p> <p> Orfheo és un lloc on colors diferentes troben la seua unitat en la comú saturació, on tot color és llum i la única forma de veure-ho és observant-ho en relació amb el seu entorn. </p> <p> Creiem en el poder de compartir i lluitem per a que noves fronteras meritocràtiques de vida siguen possibles en el ecosistema del treball</p> <p> Esperam que aquest xicotet món puga servir per estimular creacions i com a espai d'intercanvi de idees. </p><p> Volem donar la possibilitat d'utilizar aquesta eina a totes les persones que ho desitgen, i que respecten unes mínimes condicions generals.</p> <p> Ens agradaria compartir nostres coneixemente i seguir desenvolupant aquest projecte que acaba de començar, per a que tots els ciudatans d'Orfheo puguen seguir gaudint de la comunitat. </p> <p> Saber escoltar és fonamental per poder seguir avant, ets liure d'expresar-te i comunicar-nos els teu punto de vista en qualsevol moment. </p> <p> Et deixem imaginar a tu un poco més i compartir amb els demés experiències inoblidables.</p>",
+      mex1: "<p> Benvingut a orfheo, </p> <p> un lloc especial, que arriba a ser realitat, i aleshores comunitat, gràcies a tots els seus ciutadans. Orfheo és una plataforma per artistes, actors culturals, desenvolupadors, makers, creatius, traballadors socials... persones lliures de estrictes categories i esquemes. </p> <p> Hem creat un món ùnic, una web no només capaç de facilitar el treball d'organització i gestió de una convocatòria, sinó de donar valor a les propostes dels creadores més enllà d'una mera trobada. </p> <p> Estàs en la teua comunitat artística online, a on llançar la teua convocatòria és fàcil, i des d'on pots mostrar els teus projectes i trobar altres, ùtils tant per a tu com per altres festivals i events. </p> <p> Tens al teu abast una eina, un mecanisme de gestió cultural amb el qual crear i organitzar events, descobrir mitjançant de perfils, enllaços i connexions, dur a la realitat somnis i idees. </p> <p> Orfheo és un lloc on colors diferentes troben la seua unitat en la comú saturació, on tot color és llum i la única forma de veure-ho és observant-ho en relació amb el seu entorn. </p> <p> Creiem en el poder de compartir i lluitem per a que noves fronteras meritocràtiques de vida siguen possibles en el ecosistema del treball</p> <p> Esperam que aquest xicotet món puga servir per estimular creacions i com a espai d'intercanvi de idees. </p><p> Volem donar la possibilitat d'utilizar aquesta eina a totes les persones que ho desitgen, i que respecten unes mínimes condicions generals.</p> <p> Ens agradaria compartir nostres coneixemente i seguir desenvolupant aquest projecte que acaba de començar, per a que tots els ciudatans d'orfheo puguen seguir gaudint de la comunitat. </p> <p> Saber escoltar és fonamental per poder seguir avant, ets liure d'expresar-te i comunicar-nos els teu punto de vista en qualsevol moment. </p> <p> Et deixem imaginar a tu un poco més i compartir amb els demés experiències inoblidables.</p>",
       more: 'Llegir més...',
       subtitle: 'Els pilars',
       list1: "<p>COMPARTIR <ul><li>Saber més l'un de l'atre significa aprendre uns dels altres. </li> <li> Compartim nostre valor a on valor = (experiències + coneixements) x actitud. </li> <li> Compartim les nostres idees i inspiracions creatives amb el fi de crear/inspirar experiències enriquidores. </li> <li> Pensa en la comunitat i la comunitat pensarà en tu. </li> </ul></p>",
       list2: "<p>IDENTITAT <ul><li>Defenem l'individuo com una cosa única, autèntica, un punto en l'espai. Valorem el grup, como el cercle cromàtic, en el qual s'uneix i es defineix la identitat personal, un tret cultural, un matís, un color. </li> <li> Exercim un paper actiu en el desenvolupament d'un món liure, a on s'innova gràcies al xicotet esforç colectiu de moltes persones. </li> </ul></p>",
-      list3: "<p>INFORMACIÓ <ul><li>La necessitat d'informació és més forta que totes les fronteras. Ens agradaria facilitar l'accés en els més idiomes possibles.  </li> <li> Volem que tingues accés a la informació en qualsevol lloc i en qualsevol moment. </li> <li> No volem que busques sinó que trobes en Orfheo allò que esperabes trobar. </li> </ul></p>",
-      list4: '<p>EXPERIÈNCIA <ul><li>Ix de la xarxa: volem donar la millor experiència possible els usuaris per damunt dels nostres propis beneficis i objectius interns, per tal que els processos siguen cada vegada més ràpids, perquè es puga viure en Orfheo només el temps necessari i utilitzar la seua informació en la vida quotidiana. </li> <li> Pretenem evolucionar cap a una interfie i una estètica neta, clara i senzilla, utilitzable per tots. </li> </ul></p>',
+      list3: "<p>INFORMACIÓ <ul><li>La necessitat d'informació és més forta que totes les fronteras. Ens agradaria facilitar l'accés en els més idiomes possibles.  </li> <li> Volem que tingues accés a la informació en qualsevol lloc i en qualsevol moment. </li> <li> No volem que busques sinó que trobes en orfheo allò que esperabes trobar. </li> </ul></p>",
+      list4: '<p>EXPERIÈNCIA <ul><li>Ix de la xarxa: volem donar la millor experiència possible els usuaris per damunt dels nostres propis beneficis i objectius interns, per tal que els processos siguen cada vegada més ràpids, perquè es puga viure en orfheo només el temps necessari i utilitzar la seua informació en la vida quotidiana. </li> <li> Pretenem evolucionar cap a una interfie i una estètica neta, clara i senzilla, utilitzable per tots. </li> </ul></p>',
       list5: '<p>ECONOMIA <ul><li>Es poden guanyar diners sent honestos i cuidant i defenen la comunitat. Amb aquesta intenció volem fer sostenible econòmicament aquest projecte i les vides de qui treballen en ell. </li> </ul></p>',
       list6: "<p>VISIÓ <ul><li>Pensem que encarar un projecte ha de ser divertit i apassionant. Pensem que una cultura de treball adequada promou el talent i la creativitat.  Els èxits de l'equip i els individuals contribueixen al èxit global. Tenim una visió creativa del treball, de l'oci i de la vida. </li> <li> Totes les ideas interessants que surgeixen en els més diferents contextos es comenten, s'analitzen en profonditat i si fa falta es posen en pràctica amb qualitat.  </li> <li> Triem i construïm col·laborativament. Nostra meta és la unitat, no la unanimitat. Prenem decisions amb mètode, de forma genuina i utilitzant el consens. Tenim discusions obertes, animades amb processos que porten a acords en un temps raonable. </li> <li> Ens posem objectius que sabem tal vegada no podem abastar, perquè estem convençuts que al llarg del camí, els esforços, per complir-los, ens portaran a obtindre resultats, potser diferents dels esperats, però igualment valuosos. </li> </ul></p>",
       list7: '<p>MISSIÓ <ul><li>La nostra missió és estimular noves possibilitats culturals creades a partir de connexions. </li> </ul></p>'  
@@ -696,7 +697,7 @@
           ontheList: 'Aquest usuari ja està en la llista.'
         },
         qr: {
-          title: 'Descarrega i difón el codi QR de la pàgina del teu event en Orfheo',
+          title: 'Descarrega i difón el codi QR de la pàgina del teu event en orfheo',
           download: 'Descarrega'
         }
       }
@@ -718,7 +719,7 @@
       events: 'Events',
       organizationInfo:'Informació',
       createEventBtn:'Crea un event i llança una convocatòria',
-      createEventTitle: 'Els teus events en Orfheo',
+      createEventTitle: 'Els teus events en orfheo',
       participation:'Participació en events',
 
       production:{
@@ -769,11 +770,11 @@
       }
     },
     services: {
-      mex: "Uneix a les persones, crea en xarxa amb la teua comunitat cultural i conecta't amb altres.<br> ​Llança en Orfheo la convocatòria artístico-cultural del teu event <br> i gestiona totes les teues dades amb una nova i potent eina.",
+      mex: "Uneix a les persones, crea en xarxa amb la teua comunitat cultural i conecta't amb altres.<br> ​Llança en orfheo la convocatòria artístico-cultural del teu event <br> i gestiona totes les teues dades amb una nova i potent eina.",
       contact: "Contacta'ns",
       section1: {
         title: "Expandeix el teu event <br>més enllà d'un event",
-        mex: "Obrir el teu event en Orfheo significa alimentar i donar valor a la teua comunitat més enllà d'una trobada només. Tindràs una pàgina completament dedicada. Entraràs en un món ple de noves possibilitats cuturals creades per connexions, un univers en expansió construït per fomentar al màxim la participació, compartir recursos i arribar a nous públics..."
+        mex: "Obrir el teu event en orfheo significa alimentar i donar valor a la teua comunitat més enllà d'una trobada només. Tindràs una pàgina completament dedicada. Entraràs en un món ple de noves possibilitats cuturals creades per connexions, un univers en expansió construït per fomentar al màxim la participació, compartir recursos i arribar a nous públics..."
       },
       section2: {
         title: 'Llança amb força <br>la teua convocatòria',
@@ -793,11 +794,11 @@
       },
       section6: {
         title: 'Sorpren al teu públic <br> més que mai!',
-        mex: "Orfheo s'adapta perfectament al tamany mòbil, funcionant per tu i per al teu públic como la guia perfecta durant el teu event. Es poden filtrar, ordenar i trobar continguts per ubicació en el mapa, per horas, per dies, per tags o per categories...o tot a la vegada."
+        mex: "orfheo s'adapta perfectament al tamany mòbil, funcionant per tu i per al teu públic como la guia perfecta durant el teu event. Es poden filtrar, ordenar i trobar continguts per ubicació en el mapa, per horas, per dies, per tags o per categories...o tot a la vegada."
       },
       api:{
         title: 'API - Integra en temps real el que vulgues, on vulgues',
-        mex: "El servei API permet rebre i utilitzar les dades relatives als teus events i convocatòries en totes les teus aplicacions. Qualsevol canvi que fages en Orfheo s'actualizarà de forma automàtica i simultànea en la teua web i app per a mòbils. Podràs disposar de tota la teua informació sempre actualitzada, on i quan vulgues."
+        mex: "El servei API permet rebre i utilitzar les dades relatives als teus events i convocatòries en totes les teus aplicacions. Qualsevol canvi que fages en orfheo s'actualizarà de forma automàtica i simultànea en la teua web i app per a mòbils. Podràs disposar de tota la teua informació sempre actualitzada, on i quan vulgues."
       },
       counseling: {
         title: "Servei d'Assessoria Creativa per al teu projecte",
@@ -810,12 +811,12 @@
       endMex: "Creiem en univers de creativitat, inclusius, estimulants, innovadors, tecnològics, d'integració social i de unió. Creiem en una nova era, on el centre siga compartir. Creiem en la interacció i la participació de les persones. Necessitem accions colectivas i veritables motors per crear una realitat cultural més humana, accesible i properta. Necessitem potenciar projectes, treballs en xarxa i créixer en comunitat. Somiem amb construir nous horitzons sense barreres, un lloc en constant expansió que permeta el fàcil intercanvi d'experièncias i informació. Fem-ho possible junts... ara..."
     },   
     browserTests:{
-      version: "S'ha detectat que estàs utilitzant una versió de %{browser} amb la qual Orfheo no ha sigut provat. Poden aparèixer problemes de incompatibilitat. </br>Es recomana utilitzar una versió recent de Google Chrome o com a alternativa de Mozilla Firefox.",
+      version: "S'ha detectat que estàs utilitzant una versió de %{browser} amb la qual orfheo no ha sigut provat. Poden aparèixer problemes de incompatibilitat. </br>Es recomana utilitzar una versió recent de Google Chrome o com a alternativa de Mozilla Firefox.",
       tracking: "No es poden cargar correctament tots els continguts d'aquesta pàgina. És molt probable que siga per tindre habilitada la funció de 'tracking protection' del navegador. Es recomana desactivar-la."
     },
     cookiesPolicy:{
       title: 'Política de cookies',
-      mex: "Per millorar la teua experiència de navegació, Orfheo emmagatzema informació en el teu navegador en forma de xicotets elements de text nomenats cookies. </br>Si acceptes o continues navegant significa que estàs d'acord amb aquest avís. Per més informació pots llegir la nostra web "
+      mex: "Per millorar la teua experiència de navegació, orfheo emmagatzema informació en el teu navegador en forma de xicotets elements de text nomenats cookies. </br>Si acceptes o continues navegant significa que estàs d'acord amb aquest avís. Per més informació pots llegir la nostra web "
     },
     error: {
       alert: 'Error!',
@@ -843,7 +844,7 @@
       existing_name: 'El nom de perfil que has triat ja existeix. Per favor, tria un altre.',
       serverProblem:{
         title: 'Error en el servidor',
-        mex: "<p>Operació no executada. Per favor, torna a intentar-ho. </p> <p>Si el error persisteix no oblides que estem a la teua disposició per ajudar-te. Escriu-nos a <a href='mailto:info@Orfheo.org' target='_top'> info@Orfheo.org</a> o contacta'ns en el xat de nostra <a href='https://www.facebook.com/Orfheo.org', target='_blank'>pàgina facebook.</a></p>"
+        mex: "<p>Operació no executada. Per favor, torna a intentar-ho. </p> <p>Si el error persisteix no oblides que estem a la teua disposició per ajudar-te. Escriu-nos a <a href='mailto:info@orfheo.org' target='_top'> info@orfheo.org</a> o contacta'ns en el xat de nostra <a href='https://www.facebook.com/orfheo.org', target='_blank'>pàgina facebook.</a></p>"
       }
     }
   }
