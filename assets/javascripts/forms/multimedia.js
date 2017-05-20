@@ -92,7 +92,7 @@
         });
         _outerImagescontainer.append(_imageTitle, _imageContainer);
       }
-      $(document).ready(function(){
+      $(document).load(function(){
         FB.XFBML.parse();
         window.instgrm.Embeds.process();
         doBuild();
