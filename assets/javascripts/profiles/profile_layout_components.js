@@ -150,7 +150,7 @@
     if(selected) {
       _profileSection.hide();
     }else if(profile['type'] == 'space'){
-      $(document).ready(function(){
+      $(document).load(function(){
         FB.XFBML.parse();
         window.instgrm.Embeds.process();
         doBuild();
@@ -193,7 +193,7 @@
           sectionContent.append(_myProduction);
           _shown[production_id] = _myProduction;
           _lastselected = _shown[production_id];
-          $(document).ready(function(){
+          $(document).load(function(){
             FB.XFBML.parse();
             window.instgrm.Embeds.process();
             doBuild();
@@ -210,7 +210,7 @@
             _myProduction.append(Pard.Widgets.MyArtistProductionsContent(production_id, profile).render());
             sectionContent.append(_myProduction);
             _shown[production_id] = _myProduction;
-            $(document).ready(function(){
+            $(document).load(function(){
               FB.XFBML.parse();
               window.instgrm.Embeds.process();
               doBuild();

@@ -444,7 +444,7 @@
         partI:'PART I: Aquesta informació es quedarà en el teu <strong>portfolio</strong> i es mostrarà en el teu perfil',
         partII: 'PART II: Només els organitzadors tindran accés a les següents dades',
         initSpace: 'Només els organitzadors tindran accés a les següents dades',
-        finalMex: "ATENCIÓ: Una vegada enviat, <strong>no et serà permés modificar</strong> el contingut d'aquest formulari, únicament enviar una correcció. Per tant, per favor, repassa bé tots els camps abans de punjar el botó 'Envia'.",
+        finalMex: "ATENCIÓ: Una vegada enviat, <strong>no et serà permés modificar</strong> el contingut d'aquest formulari, únicament podràs enviar una correcció. Per tant, per favor, repassa bé tots els camps abans de punjar el botó 'Envia'.",
         sendbtn:'Envia'
       }
     },
