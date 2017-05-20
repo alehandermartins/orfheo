@@ -70,7 +70,7 @@ module Services
           Pony.options = {
             from: "no.reply.orfheo@gmail.com",
             subject: options[user[:lang].to_sym][:subject],
-            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + footer(user[:lang].to_sym) + "</div>"
+            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + "</div>"
           }
         end
 
@@ -92,7 +92,7 @@ module Services
           Pony.options = {
             from: "no.reply.orfheo@gmail.com",
             subject: options[user[:lang].to_sym][:subject],
-            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + footer(user[:lang].to_sym) + "</div>"
+            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + "</div>"
           }
         end
 
@@ -114,7 +114,7 @@ module Services
           Pony.options = {
             from: "no.reply.orfheo@gmail.com",
             subject: options[user[:lang].to_sym][:subject],
-            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + footer(user[:lang].to_sym) + "</div>"
+            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + "</div>"
           }
         end
 
@@ -136,7 +136,7 @@ module Services
           Pony.options = {
             from: "no.reply.orfheo@gmail.com",
             subject: options[user[:lang].to_sym][:subject],
-            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + footer(user[:lang].to_sym) + "</div>"
+            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + "</div>"
           }
         end
 
@@ -158,7 +158,7 @@ module Services
           Pony.options = {
             from: "no.reply.orfheo@gmail.com",
             subject: options[user[:lang].to_sym][:subject],
-            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + footer(user[:lang].to_sym) + "</div>"
+            body: "<div style = \"color:#000000\">" + options[user[:lang].to_sym][:body] + "</div>"
           }
         end
 
