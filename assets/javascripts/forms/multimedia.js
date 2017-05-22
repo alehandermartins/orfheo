@@ -12,7 +12,7 @@
         $(document).ready(function(){
           FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
           //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
-          callback();
+          if (callback) callback();
         });
       });
     });
