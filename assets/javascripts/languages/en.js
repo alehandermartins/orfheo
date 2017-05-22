@@ -64,9 +64,9 @@
       open_air: "Open Air",
       festival:"Festival",
       association:'Association',
-      ngo:"NGO", 
-      collective:"Collective", 
-      interprise:"Enterprise", 
+      ngo:"NGO",
+      collective:"Collective",
+      interprise:"Enterprise",
       institution:"Institution",
       federation: "Federation",
       foundation:"Foundation",
@@ -182,9 +182,9 @@
       },
       inputChildren:{
         all_public:'All public',
-        baby:"Kids", 
-        family:"Family", 
-        young: "Youth",  
+        baby:"Kids",
+        family:"Family",
+        young: "Youth",
         adults: "Adults"
       },
       inputAddressSpace:{
@@ -315,7 +315,7 @@
       sentForm: 'Submitted form',
       sentBy: 'Proposal submitted by',
       terms: 'participation terms',
-      termsOk: 'You have accepted the %{link} of %{event}', 
+      termsOk: 'You have accepted the %{link} of %{event}',
       amend:{
         title: 'Amendment sent:',
         helper: 'It is not allowed to modify the submitted form, but, if you need it, you can send an amendment before the call closes',
@@ -423,7 +423,7 @@
       sendOther: 'Send another proposal',
       toProfile: 'Go to your profile page',
       alreadyInscribed: {
-        title: 'You have already sign up as this space :)', 
+        title: 'You have already sign up as this space :)',
         mex: 'If you want, you can send proposals to perform during the event.',
       },
       stop:{
@@ -445,7 +445,7 @@
         finalMex: 'ATTENTION: After submiting, you can amend but <strong>not modify</strong> the content of this form. For this reason, please, review carefully all the fields before clicking the submit button.',
         sendbtn: 'Submit'
       }
-    },  
+    },
     footer:{
       // languages:'Languages',
       languages:{
@@ -475,23 +475,23 @@
     welcome: {
       profilesSection: {
         title: "Your cultural community is calling you<br>Join orfheo as:",
-        artist: "Share your art,<br>join a call,<br>hatch a network, discover, create...",
-        space: "Make the best out of your space,<br>host artistic events,<br>open the doors to culture",
-        organization: "Announce your project,<br>launch calls,<br>expand your community",
+        artist: "Share your art,<br>join a call,<br>hatch a network, discover, create.",
+        space: "Make the best out of your space,<br>host artistic events,<br>open the doors to culture.",
+        organization: "Announce your project,<br>launch calls,<br>expand your community.",
         create: "Create a profile"
       },
       networkSection: {
-        title: 'Unite people, </br> create through networking with your cultural community',
+        title: 'Create through networking with your cultural community',
         subtitle1: 'Here and now',
         subtitle2: 'Take control',
         subtitle3: 'Do it',
-        section1: 'Discover projects and let yourself be known </br> for what you do',
-        section2: 'Involve the community, </br> launch your call',
-        section3: 'Create unforgettable experiences together',
+        section1: 'Discover projects and let yourself be known </br> for what you do.',
+        section2: 'Involve the community, </br> launch your call.',
+        section3: 'Create unforgettable experiences together.',
         link: 'Explore the advantages of launching your call in orfheo'
       },
       inspireSection: {
-        title: 'The future is here, in front of you',
+        title: 'The future we want is here',
         section: "You have imagined it, but now it is real: <br> you have at your disposal a universe of new, great cultural possibilities.",
         link: 'Let yourself be inspired'
       },
@@ -500,9 +500,9 @@
         subtitle1: 'Management platform',
         subtitle2: 'Creative consultancy',
         subtitle3: 'API connection',
-        section1: 'Create an event,</br> launch a call, </br>use the powerful management tool </br>and publish an interactive program',
-        section2: 'Make the best out of your project, </br> feed your community </br> and explore new creative strategies during the process',
-        section3: 'Forward all your event data to your web page or mobile application, using it as it suits you and keeping everything updated',
+        section1: 'Create an event,</br> launch a call, </br>use the management tool </br>and publish an interactive program.',
+        section2: 'Make the best out of your project, </br> feed your community </br> and explore new creative strategies during the process.',
+        section3: 'Forward all your event data to your web page or mobile application, using it as it suits you and keeping everything updated.',
         link: 'Discover more'
       }
     },
@@ -598,7 +598,7 @@
     },
     project:{
       baseline: 'More things can be done together than separately',
-      mex1: '<p> Welcome to orfheo, </p><p> a special site, which becomes a reality, and then a community thanks to all its citizens. Orfheo is a platform for artists, cultural actors, developers, creators, social workers... people free from strict categories and schemes.</p><p> We have created a unique world, a web not only able to facilitate the work of the organization and the management of a call, but to give value to the proposals of the creators beyond a mere encounter. </p><p> You are in your online artistic community, where you can see your conventions, and from where you can show your projects and find others. </p><p> You have a tool, a mechanism for cultural management with which to create and organize events, discover through profiles links and connections, bring to reality dreams and ideas. Orfheo is a place where different colors are found in the saturation unit, where all color is light and the only way to see it is through observation of its relationship to the surroundings. </p><p> We believe in the power of sharing and we strive for new meritocratic frontiers to be possible in the working ecosystem </p><p> We hope that this small world can serve to stimulate creations together and become a place for exchanging ideas.</p><p> We want to give the possibility of using this tool to all people who want it, and who respect the minimum general conditions. </p><p> We would like to share our knowledge and continue to develop this project that has just begun, so that all citizens of orfeo are able to enjoy the community. </p><p> Knowing how to listen is fundamental in being able to move on, you are free to express and communicate your points of view at any time. </p><p> We encourage you to imagine a little more and to share with other people unforgettable experiences. </p>',
+      mex1: '<p> Welcome to orfheo, </p><p>a special site, which will become a reality and the reflection of an organized community, thanks to all its citizens. Orfheo is a platform for artists, cultural actors, developers, creative and culture workers free of strict categories and schemes.</p><p> We have created a unique world, a web not only able to facilitate the work of the organization and the management of a call, but to give value to the proposals of the creators beyond a mere encounter, through a common path of action. </p><p>You are in your artistic online community, where launching your call is easy, where you can show your artistic productions, your projects and find others, that can be useful for you, as well as for other festivals and events. </p><p>You have a tool, a mechanism for cultural management with which to create and organize events, discover through profiles links and connections, that will allow you to bring to reality your dreams and ideas. </p><p> We believe in the power of sharing and we strive for life forms based on collaborative relationships to be possible in the ecosystem of cultural work. </p><p> We hope that this small world can serve to stimulate the sharing creations and the exchange of ideas. </p><p> We want to give the possibility of using this tool to everybody, respecting some minimum general conditions. </p><p> We would like to share our knowledge and continue to develop this project that has just begun, so that all citizens of orfeo are able to enjoy the community. </p><p> Knowing how to listen is fundamental in being able to move on, you are free to express and communicate your points of view at any time. </p><p> We want you to be the one to imagine and share with others unforgettable experiences.</p>',
       more: 'Read more...',
       subtitle: 'The pillars',
       list1: '<p>SHARING <ul><li> Knowing more about each other means learning from each other. </li><li> We share our value where value = (experiences + knowledge) x attitude. </li><li> We share our ideas and creative inspirations in order to create/inspire enriching experiences. </li><li> Think about the community and the community will think about you.</li></ul></p>',
@@ -673,7 +673,7 @@
         spaceProposals: 'Space proposals',
         eventCat: 'Category in the event',
         hideShowCol: {
-          helper: 'Show/Hide columns', 
+          helper: 'Show/Hide columns',
           selectAll: "Select everything",
           unselect: 'Unselect everything',
           initial: 'Initial settings'
@@ -771,19 +771,19 @@
       mex: 'Unite people, create a network with your cultural community and connect with others. <br> Launch the call of your artistic-cultural event through orfheo and <br> manage all your data with a new and powerful tool.<b><br>The price is not a limit: we decide it together.</b>',
       contact: 'Contact us',
       section1: {
-        title: 'Expand your event <br>beyond an event',
-        mex: 'Opening your event in orfheo means feeding and giving value to your community beyond a single encounter. You will have an entirely dedicated page. You will enter a world full of new cutural possibilities created by connections, an expanding universe built to maximize participation, share resources and reach new audiences...'
+        title: 'Expand your event beyond an event',
+        mex: 'Opening your event in orfheo means feeding and giving value to your community beyond a single encounter. You will have an entirely dedicated page. You will enter a world full of new cutural possibilities created by connections, an expanding universe built to maximize participation, share resources and reach new audiences.'
       },
       section2: {
-        title: 'Throw your call<br> loudly',
+        title: 'Throw your call loudly',
         mex: "Get ready for the beginning of something great. Start with your customized form. Anyone can easily sign up in your call from your event page. Ask anything you want. You will receive everything sorted and organized."
       },
       section3:{
-        title: 'View and manage<br> the received data',
+        title: 'View and manage the received data',
         mex: 'View, filter and explore all received proposals. Navigate between profiles and select participants. Export data, mailing lists and everything you need with just a "click". Save time, harness the power of well-organized information, keep everything under control.'
       },
       section4: {
-        title: 'Create a program, <br> never been the same',
+        title: 'Creating a program has never been the same',
         mex: 'Building the program of your event is as easy as dragging the proposals on a board. Organize side by side with your team and from anywhere. Everything is synchronized in real time and quickly modifiable. Confirm, comment and download the program in ordered tables.'
       },
       section5: {
@@ -792,21 +792,21 @@
       },
       section6: {
         title: 'Surprise your audience more than ever!',
-        mex: 'Orfheo fits perfectly in mobile size, working for you and your audience as the perfect guide during your event. You can filter, sort and find content by location on the map, by hours, by days, by tags or by categories... or by all at once.'
+        mex: 'Orfheo fits perfectly in mobile size, working for you and your audience as the perfect guide during your event. You can filter, sort and find content by location on the map, by hours, by days, by tags or by categories, or by all at once.'
       },
       api:{
-        title: 'API - Integrate in real time what you want, wherever you want',
+        title: 'API - Integrate in real time what you want and wherever you want',
         mex: 'The API service allows you to receive your events related data in all your applications. Any changes you make in orfheo will update your web and mobile app automatically. You will be able to have all your information always updated, where and when you want.'
       },
       counseling: {
         title: 'Creative Counseling Service for your project',
-        mex: 'You will be able to enjoy constant monitoring throughout the process of preparation of your event and discover new creative strategies focused on getting the most out of your project.'
+        mex: 'You will be able to enjoy constant monitoring throughout the process of preparation of your event and discover new creative strategies focused on getting the best out of your project.'
       },
       price: {
         title: 'Price is not a limit',
         mex: '<span style = "color:black; margin: -0.5rem 0px -1.5rem 0; display: block;"><b>Let us get in touch to decide together what and how to interchange with orfheo.</b></span><br><br>Through what you do, you are helping to build something really important, not only a great project, <br>but also a vibrant community focused on a very noble goal.<br> We want you to always be able to do it, and like you, everyone.'
       },
-      endMex: "We believe in universes full of creativity, inclusiveness, stimulation, innovation, technology, social integration and union. We believe in a new era, where sharing is the motion force. We believe in the interaction and participation of people. We need collective actions and real engines to create a more human, accessible and close cultural reality. We need to empower projects, network and grow in community. We dream of building new horizons without barriers, a place in constant expansion that allows the easy exchange of experiences and information. Let's make it possible together... now..."
+      endMex: "We believe in universes full of creativity, inclusiveness, stimulation, innovation, technology, social integration and union. We believe in a new era, where sharing is the motion force. We believe in the interaction and participation of people. We need collective actions and real engines to create a more human, accessible and close cultural reality. We need to empower projects, network and grow in community. We dream of building new horizons without barriers, a place in constant expansion that allows the easy exchange of experiences and information. Let's make it possible together, now."
     },
     browserTests:{
       version: 'It has been detected that you are using a version of% {browser} with which orfheo has not been tested. Problems of incompatibility are not excluded. </br> For a better experience, we recommend using a recent version of Google Chrome or alternatively Mozilla Firefox.',

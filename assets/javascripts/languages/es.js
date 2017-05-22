@@ -64,10 +64,10 @@
       home: 'Espacio Particular',
       open_air: 'Espacio Exterior',
       festival:'Festival',
-      association:'Asociación', 
-      ngo:'ONG', 
-      collective:'Colectivo', 
-      interprise:'Empresa', 
+      association:'Asociación',
+      ngo:'ONG',
+      collective:'Colectivo',
+      interprise:'Empresa',
       institution:'Institución',
       federation: 'Federación',
       foundation:'Fundación',
@@ -183,9 +183,9 @@
       },
       inputChildren:{
         all_public:'Todos los públicos',
-        baby:'Infantil', 
-        family:"Familiar", 
-        young: "Juvenil",  
+        baby:'Infantil',
+        family:"Familiar",
+        young: "Juvenil",
         adults: "Adultos"
       },
       inputAddressSpace:{
@@ -316,7 +316,7 @@
       sentForm: 'Formulario enviado',
       sentBy: 'Propuesta enviada por',
       terms: 'bases de participación',
-      termsOk: 'Has aceptado las %{link} del %{event}', 
+      termsOk: 'Has aceptado las %{link} del %{event}',
       amend:{
         title: 'Enmienda enviada:',
         helper: 'No se permite modificar el formulario enviado, pero, en caso lo necesites, puedes enviar una enmienda antes del cierre de la convocatoria',
@@ -424,7 +424,7 @@
       sendOther: 'Envía otra propuesta',
       toProfile: 'Ve a página de perfil',
       alreadyInscribed: {
-        title: 'Ya te has inscrito como espacio :)', 
+        title: 'Ya te has inscrito como espacio :)',
         mex: 'Si quieres, puedes enviar propuestas para actuar durante el evento.',
       },
       stop:{
@@ -446,7 +446,7 @@
         finalMex: 'ATENCIÓN: Una vez enviado, <strong>no te será permitido modificar</strong> el contenido de este formulario (podrás únicamente enviar una enmienda desde tu página de perfil). Por lo tanto, por favor, repasa bien todos sus campos antes de pinchar el boton "Envía".',
         sendbtn:'Envía'
       }
-    },  
+    },
     footer:{
       // languages:'Idiomas',
       languages:{
@@ -475,35 +475,35 @@
     },
     welcome: {
       profilesSection: {
-        title: "Tu comunidad cultural te llama.<br>Entra en orfheo como:",
-        artist: "Comparte tu arte,<br>apúntate en convocatorias,<br>genera red, descubre, crea...",
-        space: "Saca el máximo partido a tu espacio,<br>alberga eventos artísticos,<br>abre las puertas a la cultura",
-        organization: "Da a conocer tu proyecto,<br>lanza convocatorias,<br>expande tu comunidad",
+        title: "Tu comunidad cultural te llama<br>Entra en orfheo como:",
+        artist: "Comparte tu arte,<br>apúntate en convocatorias,<br>genera red, descubre, crea.",
+        space: "Saca el máximo partido a tu espacio,<br>alberga eventos artísticos,<br>abre las puertas a la cultura.",
+        organization: "Da a conocer tu proyecto,<br>lanza convocatorias,<br>expande tu comunidad.",
         create: "Crea un perfil"
       },
       networkSection: {
-        title: 'Une a las personas,</br> crea en red con tu comunidad cultural',
+        title: 'Crea en red con tu comunidad cultural',
         subtitle1: 'Aquí y ahora',
         subtitle2: 'Toma el control',
         subtitle3: 'Hazlo',
-        section1: 'Descubre proyectos y déjate </br> conocer por lo que haces',
-        section2: 'Involucra a la comunidad, </br> lanza tu convocatoria',
-        section3: 'Crea experiencias inolvidables junto con los demás',
+        section1: 'Descubre proyectos y déjate </br> conocer por lo que haces.',
+        section2: 'Involucra a la comunidad, </br> lanza tu convocatoria.',
+        section3: 'Crea experiencias inolvidables junto con los demás.',
         link: 'Explora las ventajas de lanzar tu convocatoria en orfheo'
       },
       inspireSection: {
-        title: 'El futuro está aquí, frente a ti',
+        title: 'El futuro que queremos está aquí',
         section: 'Alguna vez lo has imaginado, pero ahora es realidad: <br> tienes a tu alcance un universo de nuevas <br> y grandes posibilidades culturales.',
         link: 'Déjate inspirar'
       },
       servicesSection: {
-        logo: 'S e r v i c i o s',
+        logo: 'R e c u r s o s',
         subtitle1: 'Plataforma de gestión',
         subtitle2: 'Asesoría creativa',
         subtitle3: 'Conexión API',
-        section1: 'Crea un evento,</br> lanza una convocatoria, </br>utiliza la potente herramienta de gestión </br>y publica una programación interactiva',
-        section2: 'Saca lo mejor de tu proyecto,</br> alimenta tu comunidad </br>y explora nuevas estrategias creativas durante el proceso',
-        section3: 'Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga',
+        section1: 'Crea un evento,</br> lanza una convocatoria, </br>utiliza la herramienta de gestión </br>y publica una programación interactiva.',
+        section2: 'Saca lo mejor de tu proyecto,</br> alimenta tu comunidad </br>y explora nuevas estrategias creativas durante el proceso.',
+        section3: 'Reenvía los datos de tu evento a tu página web o aplicación móvil y utilízalos siempre actualizados como mejor te convenga.',
         link: 'Descubre más'
       }
     },
@@ -600,7 +600,7 @@
     },
     project:{
       baseline: 'Se pueden hacer más cosas juntos que por separado',
-      mex1: '<p> Bienvenido a orfheo, </p> <p> un sitio especial, que llega a ser realidad, y entonces comunidad, gracias a todos sus ciudadanos. Orfheo es una plataforma para artistas, actores culturales, desarrolladores, makers, creativos, trabajadores sociales... personas libres de estrictas categorías y esquemas. </p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro. </p> <p> Estás en tu comunidad artística online, donde lanzar tu convocatoria es fácil, y desde donde puedes mostrar tus proyectos y encontrar otros, útiles tanto para ti como para otros festivales y eventos. </p> <p> Tienes a tu alcance una herramienta, un mecanismo de gestión cultural con el cual crear y organzar eventos, descubrir a través de perfiles, enlaces y conexiones, llevar a la realidad sueños y ideas. </p> <p> Orfheo es un lugar donde colores diferentes encuentran su unidad en la común saturación, donde todo color es luz y la única forma de verlo es observándolo en relación con su entorno. </p> <p> Creemos en el poder del compartir y luchamos para que nuevas fronteras meritocráticas de vida sean posibles en el ecosistema del trabajo</p> <p> Esperamos que este pequeño mundo pueda servir para estimular creaciones juntos y como espacio de intercambio de ideas. </p><p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas que lo deseen, y que respeten unas mínimas condiciones generales.</p> <p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p> <p> Te dejamos a ti imaginar un poco más lo necesario y el compartir con los demás experiencias inolvidables.</p>',
+      mex1: '<p> Bienvenido/a orfheo, </p><p>un sitio especial, que será realidad y el reflejo de una comunidad organizada, gracias a todos sus ciudadanos. Orfheo es una plataforma para artistas, actores culturales, desarrolladores, creativos y trabajadores de la cultura libres de estrictas categorías y esquemas.</p> <p> Hemos creado un mundo único, una web no sólo capaz de facilitar el trabajo de organización y gestión de una convocatoria, sino de dar valor a las propuestas de los creadores mas allá de un mero encuentro, a través de un campo común de acción.</p><p> Estás en tu comunidad artística online, donde lanzar tu convocatoria es fácil, y desde donde puedes mostrar tus producciones artísticas, tus proyectos y encontrar otros, que pueden ser útiles tanto para ti, como para otros festivales y eventos. </p><p>Tienes a tu alcance una herramienta, un mecanismo de gestión cultural con el cual crear y organizar eventos, descubrir a través de perfiles, enlaces y conexiones, que te permitirán llevar a la realidad tus sueños e ideas. </p><p> Creemos en el poder del compartir y luchamos para que las formas de vida basadas en relaciones de colaboración, sean posibles en el ecosistema del trabajo cultural. </p><p> Esperamos que este pequeño mundo pueda servir para estimular las creaciones compartidas y el intercambio de ideas. </p><p> Queremos dar la posibilidad de utilizar esta herramienta a todas las personas, respetando unas mínimas condiciones generales. </p><p> Nos gustaría compartir nuestros conocimientos y seguir desarrollando este proyecto que acaba de empezar, para que todos los ciudadanos de orfheo puedan seguir disfrutando de la comunidad. </p> <p> Saber escuchar es fundamental para poder seguir adelante, eres libre de expresarte y comunicarnos tu punto de vista en cualquier momento. </p><p> Queremos que seas tú el que imagine y comparta con los demás experiencias inolvidables.</p>',
       more: 'Leer más...',
       subtitle: 'Los pilares',
       list1: '<p>COMPARTIR <ul><li>Saber más el uno del otro significa aprender unos de otros. </li> <li> Compartimos nuestro valor donde valor = (experiencias + conocimientos) x actitud. </li> <li> Compartimos nuestras ideas e inspiraciones creativas con el fin de crear/inspirar experiencias enriquecedoras. </li> <li> Piensa en la comunidad y la comunidad pensará en ti. </li> </ul></p>',
@@ -609,7 +609,7 @@
       list4: '<p>EXPERIENCIA <ul><li>Sal de la red: queremos dar la mejor experiencia posible a los usuarios por encima de nuestros própios beneficios y objetivos internos, para que los procesos sean cada vez más rápidos, para que se pueda vivir en orfheo sólo el tiempo necesario y utilizar su información en la vida cotidiana. </li> <li> Pretendemos evolucionar hacia una interfaz y una estética limpia, clara y sencilla, utilizable por todos. </li> </ul></p>',
       list5: '<p>ECONOMÍA <ul><li>Se puede ganar dinero siendo honestos y cuidando y defendiendo la comunidad. Con esta intención queremos hacer sostenible económicamente este proyecto y las vidas de quienes trabajan en ello. </li> </ul></p>',
       list6: '<p>VISIÓN <ul><li>Creemos que afrontar un proyecto debería ser divertido y apasionante. Creemos que una cultura de trabajo adecuada promueve el talento y la creatividad.  Los logros del equipo, y los éxitos individuales contribuyen al éxito global. Tenemos  una visión creativa del trabajo, del ocio y de la vida. </li> <li> Todas las ideas interesantes que surgen en los más diferentes contextos se comentan, se analizan en profundidad y si hace falta se ponen en práctica con calidad.  </li> <li> Elegimos y construimos colaborativamente. Nuestra meta es la unidad, no la unanimidad. Tomamos decisiones con método, de forma genuina y utilizando el consenso. Tenemos discusiones abiertas, animadas por un procesos que llevan a acuerdos en un tiempo razonable. </li> <li> Nos fijamos objetivos que sabemos tal vez no poder alcanzar, porque estamos convencidos de que a lo largo del camino, los esfuerzos, por cumplirlos, nos llevarán a obtener resultados, quizás diferentes de los esperados, pero igualmente valiosos. </li> </ul></p>',
-      list7: '<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>'  
+      list7: '<p>MISIÓN <ul><li>Nuestra misión es estimular nuevas posibilidades culturales creadas por conexiones. </li> </ul></p>'
     },
     manager:{
       title: 'Gestiona',
@@ -675,7 +675,7 @@
         spaceProposals: 'Propuestas de espacios',
         eventCat: 'Categoría en el evento',
         hideShowCol: {
-          helper: 'Muestra/Esconde columnas', 
+          helper: 'Muestra/Esconde columnas',
           selectAll: "Selecciona todo",
           unselect: 'Desmarca todo',
           initial: 'Configuración incial'
@@ -766,26 +766,26 @@
         sp:'Espacio',
         orderby:'Ordena por',
         permanents: 'Permanentes a lo largo del día',
-        noResults:'Ningún resultado para esta fecha'  
+        noResults:'Ningún resultado para esta fecha'
       }
     },
     services: {
       mex: 'Une a las personas, crea en red con tu comunidad cultural y conéctate con otras.<br> ​Lanza en orfheo la convocatoria artístico-cultural de tu evento <br>y gestiona todos tus datos con una nueva y potente herramienta. <br> <b>El precio no es un límite: lo decidimos juntos</b>. ',
       contact: 'Contáctanos',
       section1: {
-        title: 'Expande tu evento <br>más allá de un evento',
-        mex: 'Abrir tu evento en orfheo significa alimentar y dar valor a tu comunidad más allá de un solo encuentro. Tendrás una página enteramente dedicada. Entrarás en un mundo lleno de nuevas posibilidades cuturales creadas por conexiones, un universo en expansión construido para fomentar al máximo la participación, compartir recursos y llegar a nuevos públicos...'
+        title: 'Expande tu evento más allá de un evento',
+        mex: 'Abrir tu evento en orfheo significa alimentar y dar valor a tu comunidad más allá de un solo encuentro. Tendrás una página enteramente dedicada. Entrarás en un mundo lleno de nuevas posibilidades cuturales creadas por conexiones, un universo en expansión construido para fomentar al máximo la participación, compartir recursos y llegar a nuevos públicos.'
       },
       section2: {
-        title: 'Lanza con fuerza <br>tu convocatoria',
-        mex: 'Empieza bien con tu formulario personalizado, es el principio de algo grande. Cualquiera puede apuntarse fácilmente a tu convocatoria desde la página de tu evento. Pregunta todo lo quieras. Recibirás todo ya ordenado y organizado automáticamente.'
+        title: 'Lanza con fuerza tu convocatoria',
+        mex: 'Empieza bien con tu formulario personalizado, es el principio de algo grande. Cualquiera puede apuntarse fácilmente a tu convocatoria desde la página de tu evento. Pregunta todo lo que quieras. Recibirás todo ya ordenado y organizado automáticamente.'
       },
       section3:{
-        title: 'Visualiza y gestiona <br> los datos recibidos',
+        title: 'Visualiza y gestiona los datos recibidos',
         mex: 'Visualiza, filtra y explora de forma fácil y rápida todas las propuestas recibidas. Navega entre los perfiles y selecciona los participantes. Exporta datos, listados de correo y todo lo que te haga falta con tan solo un "click". Ahorra tiempo, aprovecha la potencia de la información bien organizada, mantén todo bajo control.'
       },
       section4: {
-        title: 'Crea el programa,<br> nunca ha sido igual',
+        title: 'Crear el programa nunca ha sido igual',
         mex: 'Construir la programación de tu evento es tan fácil como arrastrar las propuestas en un tablón. Organiza junto a tu equipo y desde cualquier lugar. Todo está sincronizado en tiempo real y rápidamente modificable. Confirma, comenta y descarga el programa en tablas ordenadas.'
       },
       section5: {
@@ -793,22 +793,22 @@
         mex: 'Publica tu programa interactivo en la página del evento. Permite a tu público encontrar lo que quiera y navegar entre los perfiles de los participantes. Comparte el evento con un link y haz que sea un éxito.'
       },
       section6: {
-        title: '¡Sorprende a tu público <br> más que nunca!',
-        mex: 'Orfheo se adapta perfectamente al tamaño móvil, funcionando para ti y para tu público como la guía perfecta durante tu evento. Se pueden filtrar, ordenar y encontrar contenidos por ubicación en el mapa, por horas, por días, por tags o por categorías...o todo a la vez.'
+        title: '¡Sorprende a tu público más que nunca!',
+        mex: 'Orfheo se adapta perfectamente al tamaño móvil, funcionando para ti y para tu público como la guía perfecta durante tu evento. Se pueden filtrar, ordenar y encontrar contenidos por ubicación en el mapa, por horas, por días, por tags o por categorías, o todo a la vez.'
       },
       api:{
-        title: 'API - Integra en tiempo real lo que quieras, donde quieras',
+        title: 'API - Integra en tiempo real lo que quieras y donde quieras',
         mex: 'El servicio API permite recibir y utilizar los datos relativos a tus eventos y convocatorias en todas tus aplicaciones. Cualquier cambio que hagas en orfheo se actualizará de forma automática y simultánea en tu web y app para móviles. Podrás disponer de toda tu información siempre actualizada, dónde y cuándo tú quieras.'
       },
       counseling: {
         title: 'Servicio de Asesoría Creativa para tu proyecto',
-        mex: 'Podrás disfrutar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en sacar y lograr lo máximo de tu proyecto.'
+        mex: 'Podrás disfrutar de un seguimiento constante durante todo el proceso de preparación de tu evento y descubrir nuevas estrategias creativas focalizadas en lograr lo mejor de tu proyecto.'
       },
       price: {
         title: 'El precio no es un límite',
         mex: '<span style = "color:black; margin: -0.5rem 0px -1.5rem 0; display: block;"><b>Contáctanos para decidir juntos cuánto y cómo intercambiar con orfheo.</b></span><br><br> Mediante lo que haces, estás ayudando a construir algo realmente importante,<br>no solamente un gran proyecto, sino también una vibrante comunidad enfocada a una muy noble meta.<br> Queremos que siempre puedas hacerlo, y como tú, todos.'
       },
-      endMex: 'Creemos en universos de creatividad, inclusivos, estimulantes, innovadores, tecnológicos, de integración social y de unión. Creemos en una nueva era, donde el centro sea compartir. Creemos en la interacción y la participación de las personas. Necesitamos acciones colectivas y verdaderos motores para crear una realidad cultural más humana, accesible y cercana. Necesitamos potenciar proyectos, trabajar en red y crecer en comunidad. Soñamos con construir nuevos horizontes sin barreras, un lugar en constante expansión que permita el fácil intercambio de experiencias e información. Hagámoslo posible juntos... ahora...'
+      endMex: 'Creemos en universos de creatividad, inclusivos, estimulantes, innovadores, tecnológicos, de integración social y de unión. Creemos en una nueva era, donde el centro sea compartir. Creemos en la interacción y la participación de las personas. Necesitamos acciones colectivas y verdaderos motores para crear una realidad cultural más humana, accesible y cercana. Necesitamos potenciar proyectos, trabajar en red y crecer en comunidad. Soñamos con construir nuevos horizontes sin barreras, un lugar en constante expansión que permita el fácil intercambio de experiencias e información. Hagámoslo posible juntos, ahora.'
     },
     browserTests:{
       version: 'Se ha detectado que estás utilizando una versión de %{browser} con la cual orfheo no ha sido testado. No se excluyen problemas de incompatibilidad. </br>Para una mejor experiencia, se recomienda utilizar una versión reciente de Google Chrome o en alternativa de Mozilla Firefox.',
