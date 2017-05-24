@@ -116,7 +116,7 @@
         subtitle5:'Publicidad:',
         mex5: '<p>Ahora mismo no hay ninguna forma de publicidad dentro de orfheo. En un futuro, no se excluye la presencia de publicidad no molesta, relacionada con el mundo artístico-cultural, que pueda proporcionar información útil y valiosa para los ciudadanos. Consideramos que la publicidad puede ser eficaz sin ser molesta. Excluimos la presencia de publicidad en forma de ventanas emergentes que pueden interferir con la visualización de los contenidos de orfheo. </p>',
         subtitle5_5:'Sostenibilidad del proyecto:',
-        mex5_5:'<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida de las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a la relativa herramienta de gestión tiene un precio, que se decide juntos, a partir de una base mínima, según el tipo de evento que se quiere organizar.</p>',
+        mex5_5:'<p>Como prometido, ser parte de orfheo no tiene y no tendrá ningún coste para ningún usuario. Sin embargo, el mantenimiento online de una web de este tipo tiene un coste, así como la sostenibilidad de la vida de las personas que trabajan diariamente en ello. Por lo tanto, lanzar una convocatoria y poder acceder a su herramienta de gestión tiene un precio, que se decide juntos, a partir de una base mínima, según el tipo de evento que se quiere organizar.</p>',
         cookies: 'Política de cookies:',
         cookiesMex1: 'Las cookies son un elemento informático ampliamente usado en internet. Cuando uno accede a una página web, alguna información se almacena en la memoria del navegador para que la página web pueda acceder rápidamente a esa información en el futuro.',
         cookiesMex2: 'Orfheo utiliza cookies con el único fin de mejorar la experiencia de navegación de sus usuarios. Por ejemplo, guardamos información para permitir un login más rápido y continuado, evitar la desconexión de la web en caso de reinicio del servidor, y recordar preferencias o elecciones durante todo el proceso de navegación.',
@@ -566,7 +566,7 @@
       eventContact:{
         title: 'Tus eventos en orfheo',
         mex1: 'Para crear un evento o para más información, contáctanos sin compromiso a través del siguiente formulario:',
-        mex2: 'Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a la relativa <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong>(más información en nuestra %{link}). El precio no es un límite, lo decidimos juntos.'
+        mex2: 'Crear un evento en orfheo te permitirá lanzar <strong>tu convocatoria</strong> en la comunidad y acceder a su <strong>herramienta de gestión</strong> que te acompañará hasta la publicación de <strong>tu programa interactivo</strong>(más información en nuestra %{link}). El precio no es un límite, lo decidimos juntos.'
       },
       contactUs: {
         title: 'Contacta orfheo',
