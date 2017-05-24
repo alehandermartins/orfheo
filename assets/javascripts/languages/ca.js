@@ -3,7 +3,7 @@
 (function(ns){
 
   ns.langs = ns.langs || {}
-    
+
   ns.langs.ca = {
     ﻿dictionary: {
       accept: 'accepta',
@@ -64,10 +64,10 @@
       home: 'Espai Particular',
       open_air: 'Espai Exterior',
       festival:'Festival',
-      association:'Associació', 
-      ngo:'ONG', 
-      collective:'Col·lectiu', 
-      interprise:'Empresa', 
+      association:'Associació',
+      ngo:'ONG',
+      collective:'Col·lectiu',
+      interprise:'Empresa',
       institution:'Institució',
       federation: 'Federació',
       foundation:'Fundació',
@@ -183,9 +183,9 @@
       },
       inputChildren:{
         all_public:'Tots els públics',
-        baby:'Infantil', 
-        family:"Familiar", 
-        young: "Juvenil",  
+        baby:'Infantil',
+        family:"Familiar",
+        young: "Juvenil",
         adults: "Adults"
       },
       inputAddressSpace:{
@@ -317,7 +317,7 @@
       sentForm: 'Formulari enviat',
       sentBy: 'Proposta enviada per',
       terms: 'bases de participació',
-      termsOk: 'Has acceptat les %{link} del %{event}', 
+      termsOk: 'Has acceptat les %{link} del %{event}',
       amend:{
         title: 'Esmena enviada:',
         helper: 'No es permiteix modificar el formulari enviat, però, en cas de que ho necessites, pots enviar una modificació abans del tancamente de la convocatòria',
@@ -363,7 +363,7 @@
         initMex: 'Amb aquest formulari pots modificar els continguts del teu projecte artístic. Els canvis que fages no afectaran les dades enviades a convocatòries.',
         delete: 'Elimina aquest projecte artístic'
       }
-    }, 
+    },
     signUp:{
       btn:'Uneix-te',
       success: 'Hem enviat per correu un enllaç per activar el teu compte.',
@@ -425,7 +425,7 @@
       sendOther: 'Envia una altra proposta',
       toProfile: 'Vés a la pàgina de perfil',
       alreadyInscribed: {
-        title: "Ja t'has inscrit com a espai :)", 
+        title: "Ja t'has inscrit com a espai :)",
         mex: "Si vols, pots enviar propostes per actuar durant l'event.",
       },
       stop:{
@@ -444,7 +444,7 @@
         partI:'PART I: Aquesta informació es quedarà en el teu <strong>portfolio</strong> i es mostrarà en el teu perfil',
         partII: 'PART II: Només els organitzadors tindran accés a les següents dades',
         initSpace: 'Només els organitzadors tindran accés a les següents dades',
-        finalMex: "ATENCIÓ: Una vegada enviat, <strong>no et serà permés modificar</strong> el contingut d'aquest formulari, únicament enviar una correcció. Per tant, per favor, repassa bé tots els camps abans de punjar el botó 'Envia'.",
+        finalMex: "ATENCIÓ: Una vegada enviat, <strong>no et serà permés modificar</strong> el contingut d'aquest formulari, únicament podràs enviar una correcció. Per tant, per favor, repassa bé tots els camps abans de punjar el botó 'Envia'.",
         sendbtn:'Envia'
       }
     },
@@ -476,34 +476,34 @@
      welcome: {
       profilesSection: {
         title: "La teua comunitat cultural et crida<br>Entra en orfheo com:",
-        artist: "Comparteix el teu art,<br>apunta't en convocatòries,<br>genera xarxa, descobreix, crea...",
-        space: "Trau el màxim partit al teu espai,<br>allotja events artístics,<br>obri les portes a la cultura",
-        organization: "Dóna a conèixer el teu projecte,<br>llança convocatòries,<br>expandeix la teua comunitat",
+        artist: "Comparteix el teu art,<br>apunta't en convocatòries,<br>genera xarxa, descobreix, crea.",
+        space: "Trau el màxim partit al teu espai,<br>allotja events artístics,<br>obri les portes a la cultura.",
+        organization: "Dóna a conèixer el teu projecte,<br>llança convocatòries,<br>expandeix la teua comunitat.",
         create: "Crea un perfil"
       },
       networkSection: {
-        title: 'Uneix a les persones,</br> crea en xarxa amb la teua comunitat cultural',
+        title: 'Crea en xarxa amb la teua comunitat cultural',
         subtitle1: 'Ací i ara',
         subtitle2: 'Pren el control',
         subtitle3: 'Fes-ho',
-        section1: "Descobreix projectes i deixa't </br> conèixer per el que fas",
-        section2: 'Involucra a la comunitat, </br> llança la teua convocatòria',
-        section3: 'Crea experiències inoblidables conjuntament amb els demés',
+        section1: "Descobreix projectes i deixa't </br> conèixer per el que fas.",
+        section2: 'Involucra a la comunitat, </br> llança la teua convocatòria.',
+        section3: 'Crea experiències inoblidables conjuntament amb els demés.',
         link: 'Explora les avantatges de llançar la teua convocatòria en orfheo'
       },
       inspireSection: {
-        title: 'El futur està ací, enfront teu',
+        title: 'El futur que volem està ací',
         section: 'Alguna vegada ho has imaginat, però ara és realitat. <br> Tens al teu abast un univers de noves, <br>grans posibilitats culturals.',
         link: "Deixa't inspirar"
       },
       servicesSection: {
-        logo: 'S e r v e i s',
+        logo: 'R e c u r s o s',
         subtitle1: 'Plataforma de gestió',
         subtitle2: 'Assessoria creativa',
         subtitle3: 'Connexió API',
-        section1: 'Crea un event,</br> llança una convocatòria, </br>utilitza la potent eina de gestió </br>i publica una programació interactiva',
-        section2: 'Trau el millor del teu projecte,</br> alimenta la teua comunitat </br>i explora noves estratègies creatives durant el procés',
-        section3: 'Reenvia les dades del teu event a la teua pàgina web o aplicació mòbil i utilitza-los sempre actualizats com millor et convinga',
+        section1: 'Crea un event,</br> llança una convocatòria, </br>utilitza l\'eina de gestió </br>i publica una programació interactiva.',
+        section2: 'Trau el millor del teu projecte,</br> alimenta la teua comunitat </br>i explora noves estratègies creatives durant el procés.',
+        section3: 'Reenvia les dades del teu event a la teua pàgina web o aplicació mòbil i utilitza-los sempre actualizats com millor et convinga.',
         link: 'Descobreix més'
       }
     },
@@ -601,7 +601,7 @@
     },
     project:{
       baseline: 'Podem fer més coses junts que per separat',
-      mex1: "<p> Benvingut a orfheo, </p> <p> un lloc especial, que arriba a ser realitat, i aleshores comunitat, gràcies a tots els seus ciutadans. Orfheo és una plataforma per artistes, actors culturals, desenvolupadors, makers, creatius, traballadors socials... persones lliures de estrictes categories i esquemes. </p> <p> Hem creat un món ùnic, una web no només capaç de facilitar el treball d'organització i gestió de una convocatòria, sinó de donar valor a les propostes dels creadores més enllà d'una mera trobada. </p> <p> Estàs en la teua comunitat artística online, a on llançar la teua convocatòria és fàcil, i des d'on pots mostrar els teus projectes i trobar altres, ùtils tant per a tu com per altres festivals i events. </p> <p> Tens al teu abast una eina, un mecanisme de gestió cultural amb el qual crear i organitzar events, descobrir mitjançant de perfils, enllaços i connexions, dur a la realitat somnis i idees. </p> <p> Orfheo és un lloc on colors diferentes troben la seua unitat en la comú saturació, on tot color és llum i la única forma de veure-ho és observant-ho en relació amb el seu entorn. </p> <p> Creiem en el poder de compartir i lluitem per a que noves fronteras meritocràtiques de vida siguen possibles en el ecosistema del treball</p> <p> Esperam que aquest xicotet món puga servir per estimular creacions i com a espai d'intercanvi de idees. </p><p> Volem donar la possibilitat d'utilizar aquesta eina a totes les persones que ho desitgen, i que respecten unes mínimes condicions generals.</p> <p> Ens agradaria compartir nostres coneixemente i seguir desenvolupant aquest projecte que acaba de començar, per a que tots els ciudatans d'orfheo puguen seguir gaudint de la comunitat. </p> <p> Saber escoltar és fonamental per poder seguir avant, ets liure d'expresar-te i comunicar-nos els teu punto de vista en qualsevol moment. </p> <p> Et deixem imaginar a tu un poco més i compartir amb els demés experiències inoblidables.</p>",
+      mex1: "<p> Benvingut/da a orfheo, </p> <p>un lloc especial, que serà realitat i el reflex d'una comunitat organitzada, gràcies a tots els seus ciutadans. Orfheo és una plataforma per a artistes, actors culturals, desenvolupadors, creatius i treballadors de la cultura lliures d'estrictes categories i esquemes.</p><p> Hem creat un món ùnic, una web no només capaç de facilitar el treball d'organització i gestió de una convocatòria, sinó de donar valor a les propostes dels creadores més enllà d'una mera trobada, a través d\'un camp comú d\'acció.</p> <p> Estàs en la teua comunitat artística online, a on llançar la teua convocatòria és fàcil, i des d'on pots mostrar les teves produccions artístiques, els teus projectes i trobar altres, que poden ser útils tant per a tu, com per a altres festivals i esdeveniments. </p><p>Tens al teu abast una eina, un mecanisme de gestió cultural amb el qual crear i organitzar events, descobrir mitjançant perfils, enllaços i connexions, que et permetran portar a la realitat els teus somnis i idees. </p><p> Creiem en el poder de compartir i lluitem per a que les formes de vida basades en relacions de col·laboració, siguin possibles en l'ecosistema del treball cultural. </p><p> Esperem que aquest petit món pugui servir per estimular les creacions compartides i l'intercanvi d'idees. </p><p> Volem donar la possibilitat d'utilitzar aquesta eina a totes les persones, respectant unes mínimes condicions generals. </p><p> Ens agradaria compartir nostres coneixemente i seguir desenvolupant aquest projecte que acaba de començar, per a que tots els ciudatans d'orfheo puguen seguir gaudint de la comunitat. </p> <p> Saber escoltar és fonamental per poder seguir avant, ets liure d'expresar-te i comunicar-nos els teu punto de vista en qualsevol moment. </p><p> Volem que siguis tu el que imagini i comparteixi amb els altres experiències inoblidables. </p>",
       more: 'Llegir més...',
       subtitle: 'Els pilars',
       list1: "<p>COMPARTIR <ul><li>Saber més dels altres significa aprendre els uns dels altres. </li> <li> Compartim nostre valor a on: valor = (experiències + coneixements) x actitud. </li> <li> Compartim les nostres idees i inspiracions creatives amb el fi de crear i inspirar experiències enriquidores. </li> <li> Pensa en la comunitat i la comunitat pensarà en tu. </li> </ul></p>",
@@ -675,7 +675,7 @@
         spaceProposals: "Propostes d'espais",
         eventCat: "Categoria en l'event",
         hideShowCol: {
-          helper: 'Mostra/Amaga columnas', 
+          helper: 'Mostra/Amaga columnas',
           selectAll: "Selecciona tot",
           unselect: 'Desmarca tot',
           initial: 'Configuració incial'
@@ -766,26 +766,26 @@
         sp:'Espai',
         orderby:'Ordena per',
         permanents: 'Permanents al llarg del dia',
-        noResults:'Cap resultat per a aquesta data'  
+        noResults:'Cap resultat per a aquesta data'
       }
     },
     services: {
       mex: "Uneix a les persones, crea en xarxa amb la teua comunitat cultural i conecta't amb altres.<br> ​Llança en orfheo la convocatòria artístico-cultural del teu event <br> i gestiona totes les teues dades amb una nova i potent eina.",
       contact: "Contacta'ns",
       section1: {
-        title: "Expandeix el teu event <br>més enllà d'un event",
-        mex: "Obrir el teu event en orfheo significa alimentar i donar valor a la teua comunitat més enllà d'una trobada només. Tindràs una pàgina completament dedicada. Entraràs en un món ple de noves possibilitats cuturals creades per connexions, un univers en expansió construït per fomentar al màxim la participació, compartir recursos i arribar a nous públics..."
+        title: "Expandeix el teu event més enllà d'un event",
+        mex: "Obrir el teu event en orfheo significa alimentar i donar valor a la teua comunitat més enllà d'una trobada només. Tindràs una pàgina completament dedicada. Entraràs en un món ple de noves possibilitats cuturals creades per connexions, un univers en expansió construït per fomentar al màxim la participació, compartir recursos i arribar a nous públics."
       },
       section2: {
-        title: 'Llança amb força <br>la teua convocatòria',
+        title: 'Llança amb força la teua convocatòria',
         mex: "Comença bé amb el teu formulari personalitzat, és el principi d'una cosa gran. Qualsevol pot apuntarse fàcilment a la teua convocatòria des de la pàgina del teu event. Pregunta tot el que vulgues. Rebreràs tot ja ordenat i organizat automàticament."
       },
       section3:{
-        title: 'Visualitza i gestiona <br> les dades rebudes',
+        title: 'Visualitza i gestiona les dades rebudes',
         mex: 'Visualitza, filtra i explora de forma fàcil i ràpida totes les propostes rebudes. Navega entre els perfils i selecciona els participants. Exporta dades, llistats de correu i tot el que et faja falta amb tan sols un "click". Estalvia temps, aprofita la potència de la informació ben organitzada, mantén tot baix control.'
       },
       section4: {
-        title: 'Crea el programa,<br> mai ha sigut igual',
+        title: 'Crear el programa mai ha sigut igual',
         mex: 'Construir la programació del teu event és tan fàcil com arrossegar les propostes en una taula. Organitza amb el teu equip i des de qualsevol lloc. Tot está sincronitzat en temps real i ràpidament modificable. Confirma, comenta i descarrega el programa en taules ordenades.'
       },
       section5: {
@@ -793,23 +793,23 @@
         mex: "Publica el teu programa interactiu en la pàgina de l'event. Permiteix al teu públic trobar el que vulga i navegar entre els perfils dels participants. Comparteix l'event amb un link i fes que sea un èxit."
       },
       section6: {
-        title: 'Sorpren al teu públic <br> més que mai!',
-        mex: "orfheo s'adapta perfectament al tamany mòbil, funcionant per tu i per al teu públic como la guia perfecta durant el teu event. Es poden filtrar, ordenar i trobar continguts per ubicació en el mapa, per horas, per dies, per tags o per categories...o tot a la vegada."
+        title: 'Sorpren al teu públic més que mai!',
+        mex: "orfheo s'adapta perfectament al tamany mòbil, funcionant per tu i per al teu públic como la guia perfecta durant el teu event. Es poden filtrar, ordenar i trobar continguts per ubicació en el mapa, per horas, per dies, per tags o per categories, o tot a la vegada."
       },
       api:{
-        title: 'API - Integra en temps real el que vulgues, on vulgues',
+        title: 'API - Integra en temps real el que vulgues i on vulgues',
         mex: "El servei API permet rebre i utilitzar les dades relatives als teus events i convocatòries en totes les teus aplicacions. Qualsevol canvi que fages en orfheo s'actualizarà de forma automàtica i simultànea en la teua web i app per a mòbils. Podràs disposar de tota la teua informació sempre actualitzada, on i quan vulgues."
       },
       counseling: {
         title: "Servei d'Assessoria Creativa per al teu projecte",
-        mex: "Podràs gaudir d'un seguiment constant durant tot el procés de preparació del teu event i descobrir noves estratègies creatives focalitzades en traure i aconseguir el màxim del teu projecte."
+        mex: "Podràs gaudir d'un seguiment constant durant tot el procés de preparació del teu event i descobrir noves estratègies creatives focalitzades en traure el millor del teu projecte."
       },
       price: {
         title: 'El preu no és un límit',
         mex: 'Mitjançant el que fas, estàs ajudant a construir algo realment important,<br>no només un gran projecte, sinó també una vibrant comunitat encarada a una molt noble meta.<br> Volem que sempre pugues fer-ho, i como tu, tots.'
       },
-      endMex: "Creiem en univers de creativitat, inclusius, estimulants, innovadors, tecnològics, d'integració social i de unió. Creiem en una nova era, on el centre siga compartir. Creiem en la interacció i la participació de les persones. Necessitem accions colectivas i veritables motors per crear una realitat cultural més humana, accesible i properta. Necessitem potenciar projectes, treballs en xarxa i créixer en comunitat. Somiem amb construir nous horitzons sense barreres, un lloc en constant expansió que permeta el fàcil intercanvi d'experièncias i informació. Fem-ho possible junts... ara..."
-    },   
+      endMex: "Creiem en univers de creativitat, inclusius, estimulants, innovadors, tecnològics, d'integració social i de unió. Creiem en una nova era, on el centre siga compartir. Creiem en la interacció i la participació de les persones. Necessitem accions colectivas i veritables motors per crear una realitat cultural més humana, accesible i properta. Necessitem potenciar projectes, treballs en xarxa i créixer en comunitat. Somiem amb construir nous horitzons sense barreres, un lloc en constant expansió que permeta el fàcil intercanvi d'experièncias i informació. Fem-ho possible junts, ara."
+    },
     browserTests:{
       version: "S'ha detectat que estàs utilitzant una versió de %{browser} amb la qual orfheo no ha sigut provat. Poden aparèixer problemes de incompatibilitat. </br>Es recomana utilitzar una versió recent de Google Chrome o com a alternativa de Mozilla Firefox.",
       tracking: "No es poden cargar correctament tots els continguts d'aquesta pàgina. És molt probable que siga per tindre habilitada la funció de 'tracking protection' del navegador. Es recomana desactivar-la."

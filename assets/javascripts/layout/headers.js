@@ -436,7 +436,9 @@ ns.Widgets = ns.Widgets || {};
           data.profiles.forEach(function(profile){
             _profileList += profile.name+', '
             var _circle = $('<div>').addClass('circleProfile-MenuHeader').css('background',profile.color);
-            var _profileName = $('<span>').text(profile.name);
+            var _profileNameTetx =  profile.name
+            if (_profileNameTetx.length >28) _profileNameTetx = _profileNameTetx.substring(0,26) + '...'
+            var _profileName = $('<span>').text(_profileNameTetx);
             _menuProfiles.append(
               $('<li>').append($('<a>').append(_circle, _profileName).attr('href','/profile?id='+profile.profile_id)))
               .click( function(){

@@ -80,6 +80,15 @@
         _popup.close();
         if (_callback) _callback();
       });
+
+    // _popupContent.click(function(e){
+    //   e.stopImmediatePropagation()
+    // });
+    // _createdWidget.click(function(){
+    //     _popup.close();
+    //     if (_callback) _callback();
+    //   });
+    
     _header.append(_title, _closeBtn);
     _popupContent.append(_header, _sectionContainer);
     _outerContainer.append(_container.append(_popupContent));
@@ -134,6 +143,18 @@
           _createdWidget.remove();
         }, 500);
       });
+
+    // _popupContent.click(function(e){
+    //   e.stopImmediatePropagation()
+    // });
+    // _createdWidget.click(function(){
+    //     _popup.close();
+    //     setTimeout(function(){
+    //       _popup.destroy();
+    //       _createdWidget.remove();
+    //     }, 500);
+    //   });
+    
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);
     _popupContent.append(_header, _sectionContainer);
@@ -167,6 +188,17 @@
           _createdWidget.remove();
         }, 500);
       });
+
+    // _popupContent.click(function(e){
+    //   e.stopImmediatePropagation()
+    // });
+    // _createdWidget.click(function(){
+    //     _popup.close();
+    //     setTimeout(function(){
+    //       _popup.destroy();
+    //       _createdWidget.remove();
+    //     }, 500);
+    //   });
  
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);

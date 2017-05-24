@@ -4,6 +4,10 @@ module Repos
 
       def for db
         @@users_collection = db['users']
+        # users = @@users_collection.find({})
+        # users.map{|user|
+        #   Services::Mails.deliver_mail_to(user, :new_event)
+        # }
       end
 
       def add user
@@ -45,7 +49,7 @@ module Repos
       def delete_user user_id
         @@users_collection.delete_one({user_id: user_id})
       end
-      
+
       private
       def delete_field query, field
         @@users_collection.update_one(query,{

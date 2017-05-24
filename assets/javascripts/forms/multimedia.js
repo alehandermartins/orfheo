@@ -12,7 +12,7 @@
         $(document).ready(function(){
           FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
           //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
-          callback();
+          if (callback) callback();
         });
       });
     });
@@ -92,7 +92,7 @@
         });
         _outerImagescontainer.append(_imageTitle, _imageContainer);
       }
-      $(document).ready(function(){
+      $(document).load(function(){
         FB.XFBML.parse();
         window.instgrm.Embeds.process();
         doBuild();
