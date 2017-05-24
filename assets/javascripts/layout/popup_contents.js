@@ -166,7 +166,7 @@ ns.Widgets = ns.Widgets || {};
       $('<p>').html(Pard.t.text('contact.eventContact.mex2', { link: '<a href="/services", target="_blank">' +  Pard.t.text('contact.servicesTab.servicesPage')+ '</a>'})))
         .css('margin-top','.5rem');
     var _contactForm = Pard.Widgets.BusinessForm(profileName);
-    _createdWidget.append(_itext, _contactForm, _ftext);
+    _createdWidget.append(_ftext, _itext, _contactForm);
 
     return _createdWidget;
   }
