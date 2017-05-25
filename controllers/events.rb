@@ -98,12 +98,13 @@ class EventsController < BaseController
 
   post '/users/check_slug' do
     scopify :slug
-    status = Repos::Events.available_slug? slug
+    status = slug.size >= 3 && !(slug =~ /^[a-z0-9_-]*$/).nil? && Repos::Events.available_slug?(slug)
     success({available: status})
   end
 
   post '/users/create_slug' do
     scopify :event_id, :slug
+    puts slug
     event = Repos::Events.get_event event_id
     raise Pard::Invalid::UnexistingEvent unless event
     raise Pard::Invalid::EventOwnership unless event[:user_id] == session[:identity]
