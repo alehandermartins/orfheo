@@ -24,16 +24,15 @@
     _qrBox.append(_qrText, _qrimg, _downloadBtn);
     _createdWidget.append(_qrBox);
 
+    var _slug = Pard.Widgets.Slug(the_event.event_id, the_event.slug);
+    //_qrBox.append(_slug.render());
 
-    //var _slug = Pard.Widgets.Slug(the_event.event_id);
-    //_createdWidget.append(_slug.render());
-
-   Pard.Bus.on('addWhitelist', function(whitelist){
-    the_event.whitelist = whitelist;
-    _whiteList.remove();
-    _whiteList = Pard.Widgets.WhiteList(the_event).render();
-    _whiteListBox.append(_whiteList);
-   });
+     Pard.Bus.on('addWhitelist', function(whitelist){
+      the_event.whitelist = whitelist;
+      _whiteList.remove();
+      _whiteList = Pard.Widgets.WhiteList(the_event).render();
+      _whiteListBox.append(_whiteList);
+     });
 
     return {
       render: function(){
@@ -42,24 +41,113 @@
     }
   }
 
-  ns.Widgets.Slug = function(event_id){
-    var _createdWidget = $('<div>')
-    var _message = $('<div>').text('Slug creator')
-    var _warning = $('<div>').text('Warning')
-    var _slugInput = $('<input>').attr({type: 'text'})
-    var _sendButton = Pard.Widgets.Button(Pard.t.text('dictionary.accept').capitalize(), function(){
-      Pard.Backend.createSlug(_slugInput.val(), event_id, function(data){
-        if(data.status == 'success'){
-          Pard.Widgets.TimeOutAlert('', 'Dirección cambiada');
+  ns.Widgets.Slug = function(event_id, slug){
+    var _createdWidget = $('<div>').css({'margin-top': 30})
+    var _message = $('<div>').text('Añade una dirección personalizada a tu evento')
+    
+    var _slugInput = $('<div>')
+    var _domain = $('<span>').text('www.orfheo.org/event/')
+    var _slug = $('<input>').attr({type: 'text', placeholder: event_id}).css({'display': 'inline-block', 'width': 320})
+    var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C').css({'position': 'relative'})
+
+    var _error = $('<div>').append($('<p>').text(Pard.t.text('widget.inputName.unavailable'))
+        .css({
+        'color':'red',
+        'font-size':'12px',
+        'line-height':'.9rem'
+      }))
+      .css({
+        'margin-bottom':'-.8rem',
+      })
+      .hide();
+
+    _slug.on('input', function(){
+      Pard.Backend.checkSlug(_slug.val(), function(data){
+        _slug.removeClass('warning');
+        _slug.removeClass('available');
+        _error.hide();
+        if(data.available == false) {
+          _slug.addClass('warning');
+          _error.show();
+        };
+        if(data.available == true) {
+          _slug.addClass('available');
+          _error.hide();
         }
-        else{
-          Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.ErrorHandler(data.reason), function(){
-          });
-        }
-      });  
+      })
     })
 
-    _createdWidget.append(_message, _slugInput, _warning, _sendButton.render())
+    _addInputButton.on('click', function(){
+      var _confirmation = $('<div>').addClass('very-fast reveal full')
+      _confirmation.empty()
+      $('body').append(_confirmation)
+      var _confirmPopup = new Foundation.Reveal(_confirmation, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true})
+      var _message = Pard.Widgets.PopupContent(Pard.t.text('popup.delete.title'),  confirmPopupContent(), 'alert-container-full')
+      _message.setCallback(function(){
+        _confirmPopup.close()
+        setTimeout(
+          function(){
+            _confirmation.remove()
+          },500)
+      })
+        _confirmation.append(_message.render())
+        _confirmPopup.open()
+
+      // Pard.Backend.createSlug(_slugInput.val(), event_id, function(data){
+      //   if(data.status == 'success'){
+      //     Pard.Widgets.TimeOutAlert('', 'Dirección cambiada');
+      //   }
+      //   else{
+      //     Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.ErrorHandler(data.reason), function(){
+      //     });
+      //   }
+      // }); 
+    })
+
+    _slugInput.append(_domain, _slug, _addInputButton)
+    _createdWidget.append(_message, _slugInput, _error)
+
+    var confirmPopupContent = function(){
+        var _createdWidget = $('<div>')
+        var _mex = $('<p>').text('La nueva dirección será: www.orfheo.org/event/' + _slug.val()) 
+        var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text(Pard.t.text('dictionary.confirm').capitalize())
+        var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text(Pard.t.text('dictionary.cancel').capitalize())
+
+        var _warning = $('<div>').text('Esta nueva dirección funcionará paralelamente a la ya existente y no podrá ser eliminada o modificada una vez creada').css(
+          {'margin-top': 20, 'color': 'red'}
+        )
+        var spinnerDeleteProposal =  new Spinner().spin()
+        var _deleteProposalBackend = {
+          artist: Pard.Backend.deleteArtistProposal,
+          space: Pard.Backend.deleteSpaceProposal
+        }
+
+        var _buttonsContainer = $('<div>').addClass('yes-no-button-container')
+
+        _createdWidget.append(_mex)
+        _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn), _warning)
+
+        return {
+          render: function(){
+            return _createdWidget
+          },
+          setCallback: function(callback){
+            _noBtn.click(function(){
+              callback()
+            })
+            _yesBtn.click(function(){
+              // $('body').append(spinnerDeleteProposal.el);
+              // _deleteProposalBackend[type](_proposal.proposal_id, event_id, function(data){
+              //   deleteCallback(data);
+              //   spinnerDeleteProposal.stop();
+              //   _popup.close();
+              //   _content.empty();
+              //   callback();
+              // });
+            })
+          }
+        }
+      }
 
     return {
       render: function(){

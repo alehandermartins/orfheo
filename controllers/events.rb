@@ -96,6 +96,12 @@ class EventsController < BaseController
     success({the_event: event, forms: forms})
   end
 
+  post '/users/check_slug' do
+    scopify :slug
+    status = Repos::Events.available_slug? slug
+    success({available: status})
+  end
+
   post '/users/create_slug' do
     scopify :event_id, :slug
     event = Repos::Events.get_event event_id
