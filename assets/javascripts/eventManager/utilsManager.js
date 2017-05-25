@@ -50,7 +50,7 @@
     
     var _slugInput = $('<div>')
     var _domain = $('<span>').text('www.orfheo.org/event/')
-    var _slug = $('<input>').attr({type: 'text', placeholder: event_id}).css({'display': 'inline-block', 'width': 320})
+    var _slug = $('<input>').attr({type: 'text', placeholder: event_id}).css({'display': 'inline-block', 'width': 320, 'height': 30})
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C').css({'position': 'relative'})
     var _errorText = $('<p>')
