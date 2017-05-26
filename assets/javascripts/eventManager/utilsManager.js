@@ -4,28 +4,58 @@
   ns.utilsManager = function(the_event) {
     var _createdWidget = $('<div>');
     
-    var _whiteListBox = $('<div>').addClass('white-list-box');
+    var _whiteListBox = $('<div>').addClass('white-list-box utilBox');
     var _whiteList = Pard.Widgets.WhiteList(the_event).render();
-    var _whiteListText = $('<p>').text(Pard.t.text('manager.tools.whitelist.title'));
-    _whiteListBox.append(_whiteListText, _whiteList);
+    var _whiteListText = $('<p>').text(Pard.t.text('manager.tools.whitelist.title')).addClass('utilText');
+    var _whiteListTitle = $('<p>').text('White List').addClass('utilTitle');
+    _whiteListBox.append(_whiteListTitle, _whiteListText, _whiteList);
     _createdWidget.append(_whiteListBox);
 
-    var _qrimg = $.cloudinary.image(the_event.qr,{ format: 'png', width: 80 , effect: 'saturation:50' });
-    var _qrText = $('<p>').text(Pard.t.text('manager.tools.qr.title')).addClass('initial-text-proposalPanel');
+    var _qrimg = $('<div>')
+      .append(
+        $.cloudinary.image(the_event.qr,{ format: 'png', width: 70 , effect: 'saturation:50' })
+      )
+      .css({
+        'display':'inline-block',
+        'width':'19%',
+        'vertical-align':'top',
+        'margin': '0 0 -.2rem -.2rem'
+      });
+
     var _downloadBtn = $('<a>').append(Pard.Widgets.IconManager('export').render())
-    .attr({
-      'href': _qrimg[0].src,
-      'download':'qrCode.png',
-      'target':'_blank',
-      'title':Pard.t.text('manager.tools.qr.download')
-    })
-    .addClass('iconButton-CallPage dowloadQR-btn');
-    var _qrBox = $('<div>').addClass('qr-box');
-    _qrBox.append(_qrText, _qrimg, _downloadBtn);
-    _createdWidget.append(_qrBox);
+      .attr({
+        'href': _qrimg[0].src,
+        'download':'qrCode.png',
+        'target':'_blank',
+        'title':Pard.t.text('manager.tools.qr.download')
+      })
+      .addClass('iconButton-CallPage dowloadQR-btn');
+
+    var _qrText = $('<div>')
+      .append(
+        $('<p>').text(Pard.t.text('manager.tools.qr.title')).addClass('utilText'),
+        _downloadBtn
+      )
+      .css({
+        'display':'inline-block',
+        'width':'81%',
+        'vertical-align':'top'
+      });
+
+    var _qrBox = $('<div>').addClass('qr-box utilBox');
+    var _qrTitle = $('<p>').text('QR code').addClass('utilTitle');
+    _qrBox.append(_qrTitle, _qrimg, _qrText);
+
+    var _utilLeft = $('<div>').addClass('utilLeft');
+    var _utilRight = $('<div>').addClass('utilRight');
+
+    _utilLeft.append(_whiteListBox);
 
     var _slug = Pard.Widgets.Slug(the_event.event_id, the_event.slug);
-    _qrBox.append(_slug.render());
+    
+    _utilRight.append(_qrBox, _slug.render());
+
+    _createdWidget.append(_utilLeft, _utilRight);
 
      Pard.Bus.on('addWhitelist', function(whitelist){
       the_event.whitelist = whitelist;
@@ -42,15 +72,17 @@
   }
 
   ns.Widgets.Slug = function(event_id, slug){
-    var _createdWidget = $('<div>').css({'margin-top': 30})
+    var _createdWidget = $('<div>').addClass('utilBox slug-box');
+
+    var _slugTitle = $('<p>').text('URL corta').addClass('utilTitle');
 
     var _messageYesSlug = 'Dirección personalizada a tu evento'
     var _messageNoSlug = 'Añade una dirección personalizada a tu evento'
-    var _message = $('<div>').text(_messageNoSlug)
+    var _message = $('<p>').text(_messageNoSlug).addClass('utilText');  
     
     var _slugInput = $('<div>')
     var _domain = $('<span>').text('www.orfheo.org/event/')
-    var _slug = $('<input>').attr({type: 'text', placeholder: event_id}).css({'display': 'inline-block', 'width': 320, 'height': 30})
+    var _slug = $('<input>').attr({type: 'text', placeholder: event_id}).css({'display': 'inline-block', 'height': 30})
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C').css({'position': 'relative'})
     var _errorText = $('<p>')
@@ -122,7 +154,7 @@
     })
 
     _slugInput.append(_domain, _slug)
-    _createdWidget.append(_message, _slugInput)
+    _createdWidget.append(_slugTitle, _message, _slugInput)
 
     if(slug){
       _slug.val(slug)

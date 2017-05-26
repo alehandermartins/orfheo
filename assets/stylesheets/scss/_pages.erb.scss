@@ -1936,6 +1936,7 @@ div.dataTables_wrapper div.dataTables_filter{
   }
 }
 
+
 .submit-btn-outer-container-call-manager{
   position:relative;
   display: block;
@@ -1972,16 +1973,51 @@ div.dataTables_wrapper div.dataTables_filter{
   display: inline-block;
   font-size: $almostNormalSize;
 }
+/* 
+.utilTab{
+  -webkit-column-count: 3; 
+    -moz-column-count: 3; 
+    column-count: 3;
 
+    -webkit-column-gap: 1rem; 
+    -moz-column-gap: 1rem; 
+    column-gap: 1rem;
+}
+ */
 
-.qr-box, .white-list-box{
+.utilLeft{
+  width: 24.5rem;
   display: inline-block;
+  margin-right: 1rem;
+  vertical-align: top;
+
 }
 
-.qr-box{
-  width: 60%;
-  padding-left: 2rem;
+.utilRight{
+  width: 34.5rem;
+  display: inline-block;
   vertical-align: top;
+
+}
+
+.utilBox{
+  border: 1px solid;
+  @include border-radius($element-border-radius);
+  position: relative;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.utilTitle{
+  font-weight: bold;
+}
+
+.utilText{
+  font-size: $almostNormalSize;
+}
+
+.qr-box, .slug-box{
+  /* padding-left: 2rem; */
   @include breakpoint (small down){
     width: 100%;
     padding: 0;
@@ -1990,10 +2026,7 @@ div.dataTables_wrapper div.dataTables_filter{
 }
 
 .white-list-box{
-  width: 40%;
-  padding-right: 2rem;
-  border-right: 1px solid $grey-3;
-  vertical-align: top;
+  /* padding-right: 2rem; */
   @include breakpoint (small down){
     width: 100%;
     border-right: none;
