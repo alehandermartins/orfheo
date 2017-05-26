@@ -312,12 +312,32 @@ describe EventsController do
       expect(parsed_response['status']).to eq('success')
     end
 
+    it 'checks if valid slug' do
+      post '/users/check_slug', {event_id: event_id, slug: 'sl'}
+      expect(parsed_response['available']).to eq(false)
+      post '/users/check_slug', {event_id: event_id, slug: 'sluG'}
+      expect(parsed_response['available']).to eq(false)
+      post '/users/check_slug', {event_id: event_id, slug: 'slug'}
+      expect(parsed_response['available']).to eq(true)
+    end
+
+    it 'rejects if invalid slug' do
+      post slug_route, {event_id: event_id, slug: 'sl'}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_slug')
+      post slug_route, {event_id: event_id, slug: 'slug/'}
+      expect(parsed_response['status']).to eq('fail')
+      expect(parsed_response['reason']).to eq('invalid_slug')
+      post slug_route, {event_id: event_id, slug: 'slug'}
+      expect(parsed_response['status']).to eq('success')
+    end
+
     it 'rejects if replacing slug' do
       post slug_route, {event_id: event_id, slug: 'slug'}
       expect(parsed_response['status']).to eq('success')
       post slug_route, {event_id: event_id, slug: 'slug'}
       expect(parsed_response['status']).to eq('fail')
-      expect(parsed_response['reason']).to eq('invalid_slug')
+      expect(parsed_response['reason']).to eq('slug_in_use')
     end
 
     it 'rejects if repeated slug' do

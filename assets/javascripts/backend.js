@@ -455,6 +455,16 @@
       ); 
     }
 
+    var _checkSlug = function(slug, callback){
+      _send(
+        '/users/check_slug',
+        {
+          slug: slug
+        },
+        callback
+      ); 
+    }
+
     var _createSlug = function(slug, event_id, callback){
       _send(
         '/users/create_slug',
@@ -508,6 +518,7 @@
       feedback: _feedback,
       techSupport: _techSupport,
       business: _business,
+      checkSlug: _checkSlug,
       createSlug: _createSlug
     };
   }());
