@@ -72,17 +72,20 @@
   }
 
   ns.Widgets.Slug = function(event_id, slug){
-    var _createdWidget = $('<div>').addClass('utilBox slug-box');
+    var _createdWidget = $('<div>').addClass('utilBox slug-box')
 
-    var _slugTitle = $('<p>').text('URL corta').addClass('utilTitle');
+    var _slugTitle = $('<p>').text('URL corta').addClass('utilTitle')
 
-    var _messageYesSlug = 'Dirección personalizada a tu evento'
-    var _messageNoSlug = 'Añade una dirección personalizada a tu evento'
-    var _message = $('<p>').text(_messageNoSlug).addClass('utilText');  
+    var _messageYesSlug = 'Dirección personalizada a tu evento:'
+    var _messageNoSlug = 'Crea la dirección personalizada de la página de tu evento:'
+    var _content = $('<div>').append(
+      $('<p>').text(_messageNoSlug).addClass('utilText')
+    )
     
     var _slugInput = $('<div>')
     var _domain = $('<span>').text('www.orfheo.org/event/')
     var _slug = $('<input>').attr({type: 'text', placeholder: event_id}).css({'display': 'inline-block', 'height': 30})
+
 
     var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C').css({'position': 'relative'})
     var _errorText = $('<p>')
@@ -154,12 +157,23 @@
     })
 
     _slugInput.append(_domain, _slug)
-    _createdWidget.append(_slugTitle, _message, _slugInput)
+    _createdWidget.append(_slugTitle, _content.append(_slugInput))
 
     if(slug){
       _slug.val(slug)
       _slug.attr('disabled', true)
-      _message.text(_messageYesSlug)
+      _content.empty();
+      var _personalLink = 'www.orfheo.org/event/' + _slug.val()
+      _content.append(
+        $('<p>').text(_messageYesSlug).addClass('utilText'),
+        $('<p>').append(
+          $('<a>')
+            .text(_personalLink)
+              .attr({
+                'href': '/event/'+_slug.val(), 
+                'target':'_blank'})
+            )
+      )
     }
     else{
       _slugInput.append(_addInputButton)

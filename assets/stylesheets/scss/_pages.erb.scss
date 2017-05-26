@@ -1986,9 +1986,9 @@ div.dataTables_wrapper div.dataTables_filter{
  */
 
 .utilLeft{
-  width: 24.5rem;
+  width: 24.75rem;
   display: inline-block;
-  margin-right: 1rem;
+  margin-right: .75rem;
   vertical-align: top;
 
 }
@@ -2005,7 +2005,7 @@ div.dataTables_wrapper div.dataTables_filter{
   @include border-radius($element-border-radius);
   position: relative;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: .75rem;
 }
 
 .utilTitle{
