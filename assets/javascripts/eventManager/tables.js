@@ -678,7 +678,7 @@
             }
           }
         ]
-      },
+      },    
       {
         extend: 'collection',
         text:  Pard.Widgets.IconManager('export').render().attr('title', Pard.t.text('manager.export')),
@@ -698,7 +698,7 @@
               });
             },
             exportOptions: {
-                columns: ':visible'
+                columns: [':visible :lt(1)',':visible :gt(0)']
             },
             filename: Pard.t.text('dictionary.program').capitalize()
           },
@@ -714,7 +714,7 @@
               }) 
             },
             exportOptions: {
-              columns: ':visible',
+              columns:  [':visible :lt(1)',':visible :gt(0)'],
             },
             orientation: 'landscape',
             filename: Pard.t.text('dictionary.program').capitalize()
@@ -724,7 +724,7 @@
             text: Pard.t.text('dictionary.copy').capitalize(),
             header: false,
             exportOptions: {
-              columns:  ':visible',
+              columns:   [':visible :lt(1)',':visible :gt(0)'],
             }
           }
         ]

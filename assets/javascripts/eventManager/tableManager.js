@@ -243,6 +243,7 @@
 
     $(document).ready(function() {
       Object.keys(_dataTables).forEach(function(typeTable){
+        // console.log(_dataTables[typeTable].hiddenColumns);
         
         if (typeTable != 'allProposals'){
           _dataTables[typeTable].DataTable = _dataTables[typeTable].table.DataTable({
@@ -282,7 +283,10 @@
             // 'responsive': true,
             // 'colReorder': true,
             "columnDefs": [
-              { "visible": false, "targets": _dataTables[typeTable].hiddenColumns}
+              { 
+                "visible": false, 
+                "targets": _dataTables[typeTable].hiddenColumns
+              }
             ],
             "order": [1, 'desc'],
             // keys: true,
@@ -290,7 +294,7 @@
             buttons: [
               {
                 extend: 'colvis',
-                columns: ':gt(1)',
+                columns: ':gt(2)',
                 text: Pard.Widgets.IconManager('visibility').render().attr('title', Pard.t.text('manager.proposals.hideShowCol.helper')),
                 className: 'changeColumnsBtn',
                 collectionLayout: 'fixed big_layout',
@@ -298,12 +302,12 @@
                 prefixButtons: [{
                   extend: 'colvisGroup',
                   text: Pard.t.text('manager.proposals.hideShowCol.selectAll'),
-                  show: ':gt(1):hidden'
+                  show: ':gt(2)'
                 },
                 {
                   extend: 'colvisGroup',
                   text: Pard.t.text('manager.proposals.hideShowCol.unselect'),
-                  hide: ':visible'
+                  hide: ':visible :gt(0)'
                 },
                 {
                   extend: 'colvisRestore',
@@ -336,6 +340,7 @@
                 fade: 200,
                 // background: false,
                 buttons: [
+                // tablas propuestas por categoria
                   {
                     extend: 'excel',
                     text:'Excel',
@@ -345,7 +350,7 @@
                       });
                     },
                     exportOptions: {
-                        columns: ':visible'
+                      columns: ':visible :gt(0)'
                     },
                     filename: Pard.t.text('dictionary.table').capitalize() + '-' + typeTable
                   },
@@ -360,7 +365,7 @@
                       }) 
                     },
                     exportOptions: {
-                      columns: ':visible',
+                      columns: ':visible :gt(0)',
                     },
                     orientation: 'landscape',
                     filename: Pard.t.text('dictionary.table').capitalize() + '-' + typeTable
@@ -370,7 +375,7 @@
                     text: Pard.t.text('dictionary.copy').capitalize(),
                     header: false,
                     exportOptions: {
-                      columns:  ':visible',
+                      columns:  ':visible :gt(0)',
                     }
                   }
                 ]
@@ -464,6 +469,7 @@
                 collectionLayout: 'button-list',
                 // background: false,
                 buttons: [
+                //para exportar tabla con todas las propuestas
                   {
                     extend: 'excel',
                     text:'Excel',
