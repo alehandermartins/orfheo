@@ -515,6 +515,7 @@
         card.removeClass('cursor_move').addClass('cursor_grab');
       });
 
+
       card.draggable({
         revert: false,
         helper: 'clone',
@@ -528,7 +529,6 @@
         stop:function(event, ui){
           card.removeClass('cursor_move').addClass('cursor_grab');
           card.css({'opacity': '1'});
-          Pard.Bus.trigger('stop');
           if(ui.helper.data('dropped') == false){
             Pard.Backend.deletePerformances(_sendForm([performance]), function(data){
               Pard.Bus.trigger(data.event, data.model);
@@ -959,7 +959,6 @@
         stop:function(event, ui){
           _card.removeClass('cursor_move').addClass('cursor_grab');
           _card.css({'opacity': '1'});
-          Pard.Bus.trigger('stop');
           if(ui.helper.data('dropped') == false){
             Pard.Backend.deletePerformances(_sendForm(artistShows()), function(data){
               Pard.Bus.trigger(data.event, data.model);

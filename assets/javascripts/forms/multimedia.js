@@ -5,10 +5,13 @@
   ns.Widgets = ns.Widgets || {};
 
   ns.Widgets.MultimediaScripts = function(callback){
-    var pinterestScript = $('<script>').attr({'src': '//assets.pinterest.com/js/pinit.js', 'type': 'text/javascript', 'data-pin-build': 'doBuild'});
+    var pinterestScript = $('<script>').attr({'src': 'http://assets.pinterest.com/js/pinit_main.js', 'type': 'text/javascript'});
     $('body').append(pinterestScript);
     $.getScript('//connect.facebook.net/en_US/all.js').done(function(){
       $.getScript('//platform.instagram.com/en_US/embeds.js').done(function(){
+        $.getScript("//assets.pinterest.com/js/pinit.js").done(function(data){
+          console.log(data);
+        });
         $(document).ready(function(){
           FB.init({appId: '196330040742409', status: true, cookie: true, xfbml: true});
           //FB.init({appId: '282340465430456', status: true, cookie: true, xfbml: true});
@@ -265,10 +268,10 @@
       var _pinterest = function(link, id, elementClass, profiles){
         var _createdWidget = $('<div>');
         if ($(window).width() > 290) {
-          var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'medium'});
+          var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin", 'href': link['url'], 'data-pin-width': 'medium'});
         }
         else{
-          var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin" ,'href': link['url'], 'data-pin-width': 'small'});
+          var _pinterestMedia = $('<a>').attr({'data-pin-do':"embedPin",'href': link['url'], 'data-pin-width': 'small'});
         }
         _createdWidget.append(_pinterestMedia);
         multimedia[link['type']].push(_pinterestMedia);

@@ -77,7 +77,6 @@
           if(card.hasClass('proposalCard') || card.hasClass('programHelper')) return true;
         },
         drop: function(event, ui) {
-          // Pard.Bus.trigger('stop');
           ui.helper.data('dropped', true);
           var position = ui.helper.position().top -40;
           var colPosition = _time.position().top;
