@@ -190,7 +190,7 @@ Pard.EventManager = function(event_id){
 
     $(_whole).append(_header.render(), _main.render(), _footer.render());
 
-    $(window).ready(function(){
+    $(window).ready(function(){      
       $('body').append(_whole);
       $(document).foundation();
       $(document).tooltip({tooltipClass: 'orfheo-tooltip', show:{delay:800}, position:{collision:'fit', my: 'left top+5px'}});

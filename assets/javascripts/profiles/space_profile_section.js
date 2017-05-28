@@ -104,7 +104,7 @@
     }
 
     if (_programContent.html()) _createdWidget.append(_programBoxContainer);
-
+    Pard.Widgets.MultimediaScripts();
     if (userStatus == 'owner'){
       var _callsBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.call'), Pard.Widgets.IconManager('open_call').render()).render();
       if('proposals' in profile && profile.proposals != false){
@@ -113,9 +113,9 @@
             _callsBoxContent.append(_mySpaceCallProposals.render()); 
       }
       else{
-          var _callsBoxContent = $('<div>').addClass('box-content');
-          var _callName = $('<p>').append(Pard.t.text('profile_page.callMex')).addClass('activities-box-call-name');
-          _callsBoxContent.append(_callName);
+        var _callsBoxContent = $('<div>').addClass('box-content');
+        var _callName = $('<p>').append(Pard.t.text('profile_page.callMex')).addClass('activities-box-call-name');
+        _callsBoxContent.append(_callName);
       }     
       _callsBoxContainer.append(_callsBoxContent);
       _createdWidget.append(_callsBoxContainer);  
@@ -125,7 +125,7 @@
       var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
       _createdWidget.append(_multimediaContainer.render());
      }else{
-      if (profile['photos'] || profile['links']){        
+      if (profile['photos'] || profile['links']){       
         var _multimediaContainer = Pard.Widgets.MultimediaContent(profile);
         _createdWidget.append(_multimediaContainer.render());
       }

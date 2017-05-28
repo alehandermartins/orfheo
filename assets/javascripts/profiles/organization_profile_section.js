@@ -124,7 +124,7 @@
     }
 
     if (_programContent.html()) _createdWidget.append(_programBoxContainer);
-
+    Pard.Widgets.MultimediaScripts();
 
     if (userStatus == 'owner'){
       var _callsBoxContainer = Pard.Widgets.SectionBoxContainer(Pard.t.text('profile_page.call'), Pard.Widgets.IconManager('open_call').render()).render();
@@ -151,8 +151,6 @@
         _createdWidget.append(_multimediaContainer.render());
       }
     }
-  
-
 
     return {
       render: function(){
