@@ -83,55 +83,74 @@
     )
     
     var _slugInput = $('<div>')
-    var _domain = $('<span>').text('www.orfheo.org/event/')
-    var _slug = $('<input>').attr({type: 'text', placeholder: event_id}).css({'display': 'inline-block', 'height': 30})
+    var _domain = $('<p>').text('www.orfheo.org/event/')
+      .css({
+        'margin-bottom':'0',
+        'margin-left':'.5rem',
+        'display': 'inline'
+      })
+    var _slug = $('<input>')
+      .attr({type: 'text'})
+      .addClass('slug-input')
 
 
-    var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C').css({'position': 'relative'})
+    var _addInputButton = $('<button>')
+      .attr('type','button')
+      .addClass('material-icons add-multimedia-input-button')
+      .html('&#xE86C')
+
     var _errorText = $('<p>')
+    var _initTxt = 'Usa letras minúsculas, números y/o los caracteres _ -'
     var _unavailabletext = 'Esta dirección ya está siendo empleada'
     var _regExError = 'La dirección sólo puede incluir letras minúsculas, números y/o los caracteres _ -'
-    var _lengthError = 'La dirección debe conener al menos tres caracteres'
+    var _lengthError = 'La dirección debe contener al menos tres caracteres'
+    var _availableTxt = 'Dirección disponible'
 
     var regEx = /^[a-z0-9_-]*$/
-    var _error = $('<div>').append(_errorText
+    var _error = $('<div>')
+        .append(_errorText
+          .text(_initTxt)
+          .css({
+          'font-size':'12px',
+          'line-height':'.9rem'
+        }))
         .css({
-        'color':'red',
-        'font-size':'12px',
-        'line-height':'.9rem'
-      }))
-      .css({
-        'margin-bottom':'-.8rem',
-      })
-      .hide()
+          'margin-bottom':'-.8rem',
+        })
 
     _slug.on('input', function(){
       _slug.removeClass('warning')
-      _slug.removeClass('available')
-      _error.hide()
-      if(_slug.val().length < 3){
-        _slug.addClass('warning')
+      if(_slug.val().length<1){
+        _cancelBtn.trigger('click')
+      }
+      else if(_slug.val().length < 3){
+        _slug.addClass('warning').removeClass('available')
         _addInputButton.removeClass('add-input-button-enlighted')
-        _errorText.text(_lengthError)
-        _error.show()
+        _errorText.text(_lengthError).addClass('warningText')
       }
       else if(!regEx.test(_slug.val())){
-        _slug.addClass('warning')
+        _slug.addClass('warning').removeClass('available')
         _addInputButton.removeClass('add-input-button-enlighted')
-        _errorText.text(_regExError)
-        _error.show()
+        _errorText.text(_regExError).addClass('warningText')
+        // _error.show()
       }
       else{
+        _cancelBtn.addClass('add-input-button-enlighted')
         Pard.Backend.checkSlug(_slug.val(), function(data){
           if(data.available == false) {
-            _slug.addClass('warning')
+            _slug.addClass('warning').removeClass('available')
             _addInputButton.removeClass('add-input-button-enlighted')
-            _errorText.text(_unavailabletext)
-            _error.show()
+            _errorText.text(_unavailabletext).addClass('warningText')
           };
           if(data.available == true) {
-            _slug.addClass('available')
-            _addInputButton.addClass('add-input-button-enlighted')
+            if(_slug.val().length<1){
+              _cancelBtn.trigger('click')
+            }
+            else{
+              _slug.removeClass('warning').addClass('available')
+              _addInputButton.addClass('add-input-button-enlighted')
+              _errorText.text(_availableTxt).removeClass('warningText')
+            }
           }
         })
       }
@@ -143,7 +162,7 @@
         _confirmation.empty()
         $('body').append(_confirmation)
         var _confirmPopup = new Foundation.Reveal(_confirmation, {closeOnClick: true, animationIn: 'fade-in', animationOut: 'fade-out', multipleOpened:true})
-        var _message = Pard.Widgets.PopupContent(Pard.t.text('popup.delete.title'),  confirmPopupContent(), 'alert-container-full')
+        var _message = Pard.Widgets.PopupContent(Pard.t.text('popup.delete.title'),  confirmPopupContent())
         _message.setCallback(function(){
           _confirmPopup.close()
           setTimeout(
@@ -156,10 +175,30 @@
       }
     })
 
+    var _cancelBtn = $('<button>')
+      .attr('type','button')
+      .click(
+        function(){
+          _addInputButton.removeClass('add-input-button-enlighted')
+          _cancelBtn.removeClass('add-input-button-enlighted')
+          _slug
+            .val('')
+            .removeClass('warning available')
+          _errorText
+            .text(_initTxt)
+            .removeClass('warningText')
+      })
+      // $('<span>')
+      .addClass('material-icons add-multimedia-input-button')
+      .html('&#xE5C9')
+      .css({
+        'margin-left':'0.1rem'
+      })
+
     _slugInput.append(_domain, _slug)
     _createdWidget.append(_slugTitle, _content.append(_slugInput))
 
-    if(slug){
+    var _slugSucces = function(){
       _slug.val(slug)
       _slug.attr('disabled', true)
       _content.empty();
@@ -174,26 +213,58 @@
                 'target':'_blank'})
             )
       )
+      _error.remove()
+      _copyBtn = $('<button>')
+        .attr({
+          'type':'button',
+          'title':'Copia dirección'
+        })
+        .append(
+          Pard.Widgets.IconManager('copy').render()
+          )
+        .addClass('iconButton-CallPage copyBtn')
+      _createdWidget.append(
+        $('<div>')
+          .append(_copyBtn)
+          .css({
+            'position':'relative',
+            'height':'1.5rem',
+            'margin-top':'-1rem'
+          })
+      )
+    }
+
+    if(slug){
+      _slugSucces()
     }
     else{
-      _slugInput.append(_addInputButton)
+      _slugInput.append(_addInputButton, _cancelBtn)
       _createdWidget.append(_error)
     }
 
     var confirmPopupContent = function(){
       var _createdWidget = $('<div>')
-      var _mex = $('<p>').text('La nueva dirección será: www.orfheo.org/event/' + _slug.val()) 
+      var _mex = $('<p>')
+        .append(
+          'La nueva dirección será:'
+        ) 
+      var _link = $('<p>')
+        .text('www.orfheo.org/event/'+ _slug.val())
+        .addClass('newLinkTxt')
+
       var _yesBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn confirm-delete-btn').text(Pard.t.text('dictionary.confirm').capitalize())
       var _noBtn = $('<button>').attr({'type':'button'}).addClass('pard-btn cancel-delete-btn').text(Pard.t.text('dictionary.cancel').capitalize())
 
-      var _warning = $('<div>').text('Esta nueva dirección funcionará paralelamente a la ya existente y no podrá ser eliminada o modificada una vez creada').css(
-        {'margin-top': 20, 'color': 'red'}
-      )
+      var _warning = $('<p>')
+        .text('Funcionará paralelamente a la ya existente y no podrá ser eliminada o modificada una vez creada.')
+
+      // 'Esta nueva dirección funcionará paralelamente a la ya existente y no podrá ser eliminada o modificada una vez creada'
+
       var spinnerSlug =  new Spinner().spin()
       var _buttonsContainer = $('<div>').addClass('yes-no-button-container')
 
-      _createdWidget.append(_mex)
-      _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn), _warning)
+      _createdWidget.append(_mex, _link, _warning)
+      _createdWidget.append(_buttonsContainer.append(_noBtn, _yesBtn))
 
       return {
         render: function(){
@@ -209,12 +280,8 @@
               spinnerSlug.stop()
               callback()
               if(data.status == 'success'){
-                Pard.Widgets.TimeOutAlert('', 'Dirección cambiada')
-                _slug.attr('disabled', true)
-                _slug.removeClass('available')
-                _message.text(_messageYesSlug)
-                _addInputButton.remove()
-                _error.remove()
+                slug = _slug.val()
+                _slugSucces()
               }
               else{
                 Pard.Widgets.Alert(Pard.t.text('error.alert'), Pard.ErrorHandler(data.reason), function(){
@@ -265,11 +332,15 @@
     var _inputNameEmail = $('<select>');
     var _inputContainer = $('<div>').addClass('input-whiteList-container');
 
-    var _addInputButton = $('<span>').addClass('material-icons add-multimedia-input-button').html('&#xE86C');
+    var _addInputButton = $('<span>')
+      .addClass('material-icons add-multimedia-input-button')
+      .html('&#xE86C');
     _addInputButton.addClass('add-input-button-enlighted');
 
-    var _outerListContainer = $('<div>').addClass('whiteListedContainer-call-page');
-    var _inputAddedContainer = $('<div>').addClass('innerWhitelistedCont');
+    var _outerListContainer = $('<div>')
+      .addClass('whiteListedContainer-call-page');
+    var _inputAddedContainer = $('<div>')
+      .addClass('innerWhitelistedCont');
 
 
     var _whiteEmails = [];

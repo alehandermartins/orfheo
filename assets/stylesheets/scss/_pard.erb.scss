@@ -139,8 +139,16 @@ a.profileCard:hover{
   border:1px solid red !important;
 }
 
+.warningText{
+  color: red;  
+}
+
 .available{
   border:1px solid lime !important;
+}
+
+.availableText{
+  /* color:  lime; */
 }
 
 .checkBox-warning{
@@ -547,6 +555,17 @@ button{
   color: black;
 }
 
+/* .call-manager-icon-btn{
+  color: white;
+    background: black;
+    padding: 0 !important;
+    height: 22px;
+    width: 35px;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+} */
+
 .links-accepted-caller{
   position: absolute;
   right: 2rem;
@@ -577,7 +596,7 @@ button{
 .confirm-delete-btn, .cancel-delete-btn{
   font-size: $almostNormalSize;
   float: right;
-  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .yes-no-button-container{
@@ -628,8 +647,17 @@ button{
   color: white !important;
   text-align: center;
   .material-icons{
-    font-size: 22px;
+    font-size: 1.1rem;
+    padding: .2rem;
   }
+  /* .copyBtn{
+    font-weight: bold;
+  } */
+}
+
+.copyBtn{
+  position: absolute;
+  right: 0rem;
 }
 
 .dowloadQR-btn{

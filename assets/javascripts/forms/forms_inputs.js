@@ -4,9 +4,9 @@
 (function(ns){
   ns.Widgets = ns.Widgets || {};
 
-   ns.Widgets.Input = function(label, type, oninputcallback, onchangecallback){
+   ns.Widgets.Input = function(placeholder, type, oninputcallback, onchangecallback){
 
-    var _input = $('<input>').attr({'type':type, 'placeholder': label});
+    var _input = $('<input>').attr({'type':type, 'placeholder': placeholder});
 
     _input.on('input',function(){
       _input.removeClass('warning');
