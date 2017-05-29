@@ -11,9 +11,10 @@
     _whiteListBox.append(_whiteListTitle, _whiteListText, _whiteList);
     _createdWidget.append(_whiteListBox);
 
+    var _qr = $.cloudinary.image(the_event.qr,{ format: 'png', width: 70 , effect: 'saturation:50' })
     var _qrimg = $('<div>')
       .append(
-        $.cloudinary.image(the_event.qr,{ format: 'png', width: 70 , effect: 'saturation:50' })
+        _qr
       )
       .css({
         'display':'inline-block',
@@ -24,7 +25,7 @@
 
     var _downloadBtn = $('<a>').append(Pard.Widgets.IconManager('export').render())
       .attr({
-        'href': _qrimg[0].src,
+        'href':_qr[0].src,
         'download':'qrCode.png',
         'target':'_blank',
         'title':Pard.t.text('manager.tools.qr.download')
@@ -223,6 +224,43 @@
           Pard.Widgets.IconManager('copy').render()
           )
         .addClass('iconButton-CallPage copyBtn')
+        .tooltip({
+          tooltipClass: 'orfheo-tooltip', 
+          show:{delay:800}, 
+          position:{collision:'fit', my: 'left top+5px'},
+        })
+        .click(function(){
+          Pard.Widgets.CopyToClipboard(_personalLink)
+            _copyBtn.tooltip('destroy')
+            _copyBtn
+            .attr({
+              'type':'button',
+              'title':'Dirección copiada'
+            })
+            .tooltip({
+              tooltipClass: 'orfheo-tooltip-success', 
+              show:{delay:1}, 
+              position:{collision:'fit', 
+              my: 'left top+5px'
+            }})
+            .tooltip('open')
+
+            _copyBtn.one('mouseleave',function(){
+              setTimeout(function(){
+                _copyBtn.tooltip('destroy')
+                  _copyBtn
+                    .attr({
+                      'type':'button',
+                      'title':'Copia dirección'
+                    })
+                    .tooltip({
+                      tooltipClass: 'orfheo-tooltip', 
+                      show:{delay:800}, 
+                      position:{collision:'fit', my: 'left top+5px'}
+                    })
+                }, 500)
+            })         
+        })
       _createdWidget.append(
         $('<div>')
           .append(_copyBtn)

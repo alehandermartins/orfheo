@@ -3192,6 +3192,18 @@ TOOLTIP
   z-index: 9999;
 }
 
+.orfheo-tooltip-success{
+  @include border-radius($element-border-radius);
+  background: $grey-4;
+  color:  white;
+  border: none;
+  font-size: $smallSize;
+  padding: 0.2rem 0.5rem;
+  margin-top: 0;
+  position: fixed;
+  z-index: 9999;
+}
+
 /*====================================== 
 Cockies
 ========================================*/
