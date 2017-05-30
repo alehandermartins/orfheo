@@ -503,6 +503,16 @@
             _content.remove();
           },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
       });
 
@@ -931,6 +941,16 @@
             _content.remove();
           },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
       });
 
@@ -1566,6 +1586,16 @@
             _content.remove();
           },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
         _popup.open();
       });
@@ -1584,6 +1614,16 @@
             _content.remove();
           },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
         _popup.open();
       });
@@ -1603,6 +1643,16 @@
               _content.remove()            
             },500);
         });
+
+        _content.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _popup.close();
+            setTimeout(function(){
+              _content.remove()            
+            },500);
+          }
+        })
+
         _content.append(_message.render());
         _popup.open();
       });

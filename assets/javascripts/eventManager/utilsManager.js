@@ -4,7 +4,9 @@
   ns.utilsManager = function(the_event) {
     var _createdWidget = $('<div>');
     
-    var _whiteListBox = $('<div>').addClass('white-list-box utilBox');
+    var _whiteListBox = $('<div>')
+      .addClass('white-list-box utilBox')
+      .append(Pard.Widgets.IconManager('play_arrow').render().addClass('arrow-util-box'));
     var _whiteList = Pard.Widgets.WhiteList(the_event).render();
     var _whiteListText = $('<p>').text(Pard.t.text('manager.tools.whitelist.title')).addClass('utilText');
     var _whiteListTitle = $('<p>').text('White List').addClass('utilTitle');
@@ -43,7 +45,7 @@
         'vertical-align':'top'
       });
 
-    var _qrBox = $('<div>').addClass('qr-box utilBox');
+    var _qrBox = $('<div>').addClass('qr-box utilBox').append(Pard.Widgets.IconManager('play_arrow').render().addClass('arrow-util-box'));
     var _qrTitle = $('<p>').text('QR code').addClass('utilTitle');
     _qrBox.append(_qrTitle, _qrimg, _qrText);
 
@@ -73,7 +75,7 @@
   }
 
   ns.Widgets.Slug = function(event_id, slug){
-    var _createdWidget = $('<div>').addClass('utilBox slug-box')
+    var _createdWidget = $('<div>').addClass('utilBox slug-box').append(Pard.Widgets.IconManager('play_arrow').render().addClass('arrow-util-box'));
 
     var _slugTitle = $('<p>').text('URL corta').addClass('utilTitle')
 
@@ -171,6 +173,17 @@
               _confirmation.remove()
             },500)
         })
+
+        _confirmation.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _confirmPopup.close()
+            setTimeout(
+              function(){
+                _confirmation.remove()
+              },500)
+          }
+        })
+
         _confirmation.append(_message.render())
         _confirmPopup.open()
       }

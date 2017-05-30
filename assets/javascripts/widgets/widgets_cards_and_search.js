@@ -411,7 +411,6 @@
   }
 
   ns.Widgets.EventCard = function(event, owner){
-    console.log(event)
     var lang = Pard.Options.language();
     var _card = $('<div>').addClass('eventCard')
       .css({

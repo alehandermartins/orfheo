@@ -210,7 +210,6 @@ Pard.EventManager = function(event_id){
 
 
 Pard.Event = function(the_event, status){
-  console.log(the_event)
   if (the_event.slug){
     var _dir = /event/+the_event.slug;
     window.history.replaceState( {} , the_event.slug, _dir );

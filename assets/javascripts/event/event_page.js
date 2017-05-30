@@ -401,6 +401,16 @@
         setTimeout(function(){_content.remove();},500)
       });
 
+      _content.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
+          else _filtersButton.removeClass('active');
+          _popup.close();
+          _search();
+          setTimeout(function(){_content.remove();},500)
+        }
+      });
+
       _content.append(_message.render());
       _popup.open();
     });
@@ -688,6 +698,20 @@
           },500);
           _search();
         });
+
+        _contentP.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            if(_filtersWidgets.checkFilterOn()) _filtersButton.addClass('active');
+            else _filtersButton.removeClass('active');
+            _popup.close();
+           setTimeout(function(){
+              _contentP.remove();
+              _popup.destroy();
+            },500);
+            _search();
+          }
+        });
+
         _contentP.append(_message.render());
         _popup.open();
         _popup.close();

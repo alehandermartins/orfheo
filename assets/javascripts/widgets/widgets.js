@@ -81,13 +81,12 @@
         if (_callback) _callback();
       });
 
-    // _popupContent.click(function(e){
-    //   e.stopImmediatePropagation()
-    // });
-    // _createdWidget.click(function(){
-    //     _popup.close();
-    //     if (_callback) _callback();
-    //   });
+    _createdWidget.click(function(e){
+      if ($(e.target).hasClass('vcenter-inner')) {
+        _popup.close();
+        if (_callback) _callback();
+      }
+    });
     
     _header.append(_title, _closeBtn);
     _popupContent.append(_header, _sectionContainer);
@@ -144,17 +143,17 @@
         }, 500);
       });
 
-    // _popupContent.click(function(e){
-    //   e.stopImmediatePropagation()
-    // });
-    // _createdWidget.click(function(){
-    //     _popup.close();
-    //     setTimeout(function(){
-    //       _popup.destroy();
-    //       _createdWidget.remove();
-    //     }, 500);
-    //   });
-    
+    _createdWidget.click(function(e){
+      if ($(e.target).hasClass('vcenter-inner')) {
+         if (callback) callback();
+        _popup.close();
+        setTimeout(function(){
+          _popup.destroy();
+          _createdWidget.remove();
+        }, 500);
+      }
+    });
+   
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);
     _popupContent.append(_header, _sectionContainer);
@@ -199,6 +198,17 @@
     //       _createdWidget.remove();
     //     }, 500);
     //   });
+
+    _createdWidget.click(function(e){
+      if ($(e.target).hasClass('vcenter-inner')) {
+        if (callback) callback();
+        _popup.close();
+        setTimeout(function(){
+          _popup.destroy();
+          _createdWidget.remove();
+        }, 500);
+      }
+    });
  
     _header.append(_title, _closeBtn);
     _sectionContainer.append(content);
@@ -307,6 +317,8 @@
 
     _popupContent.append(_header, _sectionContainer);
     _createdWidget.append(_container.append(_popupContent));
+
+        
     
     return {
       render: function(){
@@ -368,30 +380,6 @@
       });
     })
   }
-
-
-  // ns.Widgets.StickAndKickHeader = function (elem, initialDistanceFromHeader, stickyDistanceTop) {
-
-  //   var _diffI = 1;
-
-  //   $(document).ready(function(){
-  //     $(window).scroll(function(){
-  //       var _elDistanceFromTop = $(elem).offset().top;
-  //       var _windowScroll = $(window).scrollTop();
-  //       var _distanceFromWindow = _elDistanceFromTop - $('header').height() -_windowScroll;
-  //       if (_distanceFromWindow*_diffI<0 && !($(elem).hasClass('position-fixed'))){
-  //         $('.orfheoHeader').hide();
-  //         $(elem).addClass('position-fixed').css({'top':stickyDistanceTop+'px'});
-  //         _diffI = -1;
-  //       }
-  //       if (_windowScroll - initialDistanceFromHeader - stickyDistanceTop < 0 && $(elem).hasClass('position-fixed')){
-  //         $(elem).removeClass('position-fixed').css({'top':''});
-  //         _diffI = +1;
-  //         $('.orfheoHeader').show();  
-  //       }
-  //     });
-  //   })
-  // }
 
 
   ns.Widgets.IconColor = function(hex){

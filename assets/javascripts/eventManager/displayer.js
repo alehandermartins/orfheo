@@ -34,6 +34,14 @@
         _popup.close();
         _content.empty();
       });
+
+      _content.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _popup.close();
+          _content.empty();
+        }
+      });
+      
       _content.append(_message.render());
       _popup.open();
     }
@@ -48,6 +56,14 @@
         _popup.close();
         _content.empty();
       });
+
+      _content.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _popup.close();
+          _content.empty();
+        }
+      });
+
       _content.append(_message.render());
       _popup.open();
     }
@@ -75,6 +91,17 @@
               _deleteContent.remove();
             },500);         
         });
+
+        _deleteContent.click(function(e){
+          if ($(e.target).hasClass('vcenter-inner')) {
+            _confirmPopup.close();
+            setTimeout(
+              function(){
+                _deleteContent.remove();
+              },500);
+          }
+        });
+
         _deleteContent.append(_message.render());
         _confirmPopup.open();
       });
@@ -214,6 +241,13 @@
         _popup.close();
       });
 
+      _content.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _content.empty();
+          _popup.close();
+        }
+      });   
+
       if (_proposal.amend){
         var _label = $('<span>').addClass('myProposals-field-label').text(Pard.t.text('dictionary.amend').capitalize() + ':').css('display', 'block');
         var _text = $('<span>').text(' ' + _proposal.amend);
@@ -260,6 +294,7 @@
         if (type == 'artist') Pard.Backend.sendArtistOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
         else if (type == 'space') Pard.Backend.sendSpaceOwnProposal(_submitForm, function(data){_callbackCreatedProposal(data, callback)});
       };
+
       _createOwnProposalWidget = Pard.Widgets.CreateOwnProposal(forms[type], type, participants);
       _createOwnProposalWidget.setSend(_sendProposal);
       var _message = Pard.Widgets.PopupContent(Pard.t.text('manager.proposals.createTitle', {type: Pard.t.text('dictionary.' + type).capitalize()}), _createOwnProposalWidget);
@@ -270,6 +305,17 @@
              _contentCreateOwn.remove();
           },500);
       });
+
+      _contentCreateOwn.click(function(e){
+        if ($(e.target).hasClass('vcenter-inner')) {
+          _popup.close();
+          setTimeout(
+            function(){
+               _contentCreateOwn.remove();
+            },500);
+          }
+      });   
+
       _contentCreateOwn.append(_message.render());
       _closePopupForm = function(){
         _popup.close();
