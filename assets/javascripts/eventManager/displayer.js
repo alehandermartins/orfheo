@@ -199,6 +199,8 @@
                 deleteCallback(data);
                 spinnerDeleteProposal.stop();
                 _popup.close();
+                _sectionContainer.empty();
+                _container.empty().append(_popupContent);
                 _content.empty();
                 callback();
               });

@@ -387,19 +387,18 @@
       }
     });
 
-    Pard.Bus.on('drag', function(performance){
-      if(_artistsBlock.hasClass('is-active')){
-        _artistsBlock.toggle('slide', {direction: 'right'}, 500);
-        // _artistsBlock.removeClass('is-active');
-      }
-    });
+    // Pard.Bus.on('drag', function(performance){
+    //   if(_artistsBlock.hasClass('is-active')){
+    //     _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+    //   }
+    // });
 
-    Pard.Bus.on('stop', function(performance){
-      if(_artistsBlock.hasClass('is-active')){
-        _artistsBlock.toggle('slide', {direction: 'right'}, 500);
-      }
-        // _artistsBlock.addClass('is-active');
-    });
+    // Pard.Bus.on('stop', function(performance){
+    //   console.log('stop')
+    //   if(_artistsBlock.hasClass('is-active')){
+    //     _artistsBlock.toggle('slide', {direction: 'right'}, 500);
+    //   }
+    // });
 
     Pard.Bus.on('detachPerformance', function(performance){
       the_event.spaces[performance.host_id].deletePerformance(performance);
@@ -544,6 +543,7 @@
               Pard.Bus.trigger(data.event, data.model);
             });
           }
+          Pard.Bus.trigger('stop', performance);
         }
       });
 
@@ -984,6 +984,7 @@
               Pard.Bus.trigger(data.event, data.model);
             });
           }
+          Pard.Bus.trigger('stop', performance);
         }
       });
         
