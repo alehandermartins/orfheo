@@ -294,7 +294,7 @@
                 'height':'1rem'
               }),
             $('<p>')
-              .text(Pard.t.text('manager.proposals.modifymex',{type: form.label})),
+              .text(Pard.t.text('manager.proposals.modifymex',{type: form.label}))
           )
          .css('margin-bottom','-.5rem')
         );
